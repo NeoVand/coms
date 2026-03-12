@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Protocol, Category } from '$lib/data/types';
+	import CategoryIcon from '$lib/components/icons/CategoryIcon.svelte';
 
 	let { proto, cat }: { proto: Protocol; cat: Category | undefined } = $props();
 </script>
@@ -38,8 +39,10 @@
 				class="rounded-md px-2 py-0.5 text-[10px] font-medium"
 				style="background-color: {cat.color}15; color: {cat.color}"
 			>
-				{cat.icon}
-				{cat.name}
+				<span class="inline-flex items-center gap-1">
+					<CategoryIcon icon={cat.icon} size={12} />
+					{cat.name}
+				</span>
 			</span>
 		{/if}
 	</div>

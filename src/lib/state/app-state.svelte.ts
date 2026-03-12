@@ -1,17 +1,13 @@
 import type { GraphNode, Viewport } from '$lib/data/types';
-import { SvelteSet } from 'svelte/reactivity';
 
 export class AppState {
 	selectedNode: GraphNode | null = $state(null);
 	hoveredNode: GraphNode | null = $state(null);
-	searchQuery: string = $state('');
 	isMobile: boolean = $state(false);
 	reducedMotion: boolean = $state(false);
 	showDetailPanel: boolean = $state(false);
 
 	viewport: Viewport = $state({ x: 0, y: 0, scale: 1 });
-
-	dimmedNodeIds: Set<string> = $state(new SvelteSet());
 
 	selectNode = (node: GraphNode | null) => {
 		if (node?.type === 'hub') return;
@@ -26,10 +22,6 @@ export class AppState {
 	clearSelection = () => {
 		this.selectedNode = null;
 		this.showDetailPanel = false;
-	};
-
-	setSearch = (query: string) => {
-		this.searchQuery = query;
 	};
 
 	pan = (dx: number, dy: number) => {

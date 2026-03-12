@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { getAppState } from '$lib/state/context';
 	import { getProtocolById, getCategoryById } from '$lib/data/index';
+	import CategoryIcon from '$lib/components/icons/CategoryIcon.svelte';
 
 	const appState = getAppState();
 
@@ -52,7 +53,9 @@
 	>
 		<div class="flex items-center gap-2">
 			{#if hoveredInfo.icon}
-				<span class="text-base">{hoveredInfo.icon}</span>
+				<span style="color: {hoveredInfo.color}">
+					<CategoryIcon icon={hoveredInfo.icon} size={16} />
+				</span>
 			{/if}
 			<span class="text-sm font-semibold" style="color: {hoveredInfo.color}">
 				{hoveredInfo.name}

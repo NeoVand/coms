@@ -1,7 +1,6 @@
 <script lang="ts">
 	import GraphCanvas from './GraphCanvas.svelte';
 	import NodeTooltip from './NodeTooltip.svelte';
-	import SearchBar from './SearchBar.svelte';
 	import ZoomControls from './ZoomControls.svelte';
 	import DetailPanel from '$lib/components/detail/DetailPanel.svelte';
 	import AccessibleGraph from '$lib/components/a11y/AccessibleGraph.svelte';
@@ -16,7 +15,6 @@
 
 	<!-- HTML overlay layer -->
 	<NodeTooltip />
-	<SearchBar />
 	<ZoomControls />
 
 	<!-- Detail panel -->

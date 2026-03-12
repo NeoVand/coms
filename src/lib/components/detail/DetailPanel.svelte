@@ -2,10 +2,12 @@
 	import { getAppState } from '$lib/state/context';
 	import { getProtocolById, getCategoryById, getProtocolsForCategory } from '$lib/data/index';
 	import ProtocolHeader from './ProtocolHeader.svelte';
+	import ProtocolDiagram from './ProtocolDiagram.svelte';
 	import HowItWorksSteps from './HowItWorksSteps.svelte';
 	import CodeExample from './CodeExample.svelte';
 	import PerformanceStats from './PerformanceStats.svelte';
 	import RelatedProtocols from './RelatedProtocols.svelte';
+	import CategoryIcon from '$lib/components/icons/CategoryIcon.svelte';
 
 	const appState = getAppState();
 
@@ -28,7 +30,7 @@
 </script>
 
 <div
-	class="custom-scrollbar absolute top-0 right-0 z-50 flex h-full w-full max-w-md flex-col overflow-y-auto border-l border-white/10 bg-bg-deep/95 shadow-2xl backdrop-blur-xl sm:w-[420px]"
+	class="custom-scrollbar absolute top-0 right-0 z-50 flex h-full w-full max-w-xl flex-col overflow-y-auto border-l border-white/10 bg-bg-deep/95 shadow-2xl backdrop-blur-xl sm:w-[520px]"
 >
 	<!-- Close button -->
 	<button
@@ -62,6 +64,8 @@
 					{/each}
 				</div>
 			</section>
+
+			<ProtocolDiagram protocolId={proto.id} color={cat?.color ?? '#FFFFFF'} />
 
 			<HowItWorksSteps steps={proto.howItWorks} color={cat?.color ?? '#FFFFFF'} />
 
@@ -99,7 +103,9 @@
 			<!-- Category header -->
 			<div>
 				<div class="flex items-center gap-3">
-					<span class="text-2xl">{cat.icon}</span>
+					<span class="flex h-10 w-10 items-center justify-center" style="color: {cat.color}">
+						<CategoryIcon icon={cat.icon} size={28} />
+					</span>
 					<div>
 						<h2 class="text-lg font-bold" style="color: {cat.color}">{cat.name}</h2>
 					</div>

@@ -1,6 +1,7 @@
 import type { GraphNode, GraphEdge, Viewport } from '$lib/data/types';
 import { COLORS } from '$lib/utils/colors';
 import { hexToRgba } from '$lib/utils/colors';
+import { getProtocolById } from '$lib/data/index';
 
 interface RenderOptions {
 	width: number;
@@ -10,7 +11,6 @@ interface RenderOptions {
 	edges: GraphEdge[];
 	hoveredNode: GraphNode | null;
 	selectedNode: GraphNode | null;
-	searchQuery: string;
 	time: number;
 	dpr: number;
 }
@@ -22,19 +22,7 @@ function buildNodeMap(nodes: GraphNode[]) {
 	for (const n of nodes) NODE_MAP.set(n.id, n);
 }
 
-function isNodeDimmed(
-	node: GraphNode,
-	searchQuery: string,
-	selectedNode: GraphNode | null
-): boolean {
-	if (searchQuery) {
-		const q = searchQuery.toLowerCase();
-		const matchesSearch =
-			node.label.toLowerCase().includes(q) ||
-			(node.abbreviation?.toLowerCase().includes(q) ?? false) ||
-			node.id.toLowerCase().includes(q);
-		if (!matchesSearch && node.type !== 'hub') return true;
-	}
+function isNodeDimmed(node: GraphNode, selectedNode: GraphNode | null): boolean {
 	if (selectedNode && selectedNode.id !== node.id) {
 		if (selectedNode.type === 'category') {
 			if (node.type === 'hub') return false;
@@ -50,18 +38,7 @@ function isNodeDimmed(
 }
 
 export function render(ctx: CanvasRenderingContext2D, options: RenderOptions): void {
-	const {
-		width,
-		height,
-		viewport,
-		nodes,
-		edges,
-		hoveredNode,
-		selectedNode,
-		searchQuery,
-		time,
-		dpr
-	} = options;
+	const { width, height, viewport, nodes, edges, hoveredNode, selectedNode, time, dpr } = options;
 
 	buildNodeMap(nodes);
 
@@ -90,11 +67,16 @@ export function render(ctx: CanvasRenderingContext2D, options: RenderOptions): v
 		);
 		if (!source || !target) continue;
 
-		const dimSource = isNodeDimmed(source, searchQuery, selectedNode);
-		const dimTarget = isNodeDimmed(target, searchQuery, selectedNode);
+		const dimSource = isNodeDimmed(source, selectedNode);
+		const dimTarget = isNodeDimmed(target, selectedNode);
 		const dimmed = dimSource || dimTarget;
 
 		drawEdge(ctx, source, target, edge.color, dimmed, time);
+	}
+
+	// Draw related protocol edges (dashed)
+	if (selectedNode && selectedNode.type === 'protocol') {
+		drawRelatedEdges(ctx, selectedNode, time);
 	}
 
 	// Draw nodes (hub last so it's on top)
@@ -106,7 +88,7 @@ export function render(ctx: CanvasRenderingContext2D, options: RenderOptions): v
 	for (const node of sortedNodes) {
 		const isHovered = hoveredNode?.id === node.id;
 		const isSelected = selectedNode?.id === node.id;
-		const dimmed = isNodeDimmed(node, searchQuery, selectedNode);
+		const dimmed = isNodeDimmed(node, selectedNode);
 		drawNode(ctx, node, isHovered, isSelected, dimmed, time, viewport.scale);
 	}
 
@@ -115,6 +97,42 @@ export function render(ctx: CanvasRenderingContext2D, options: RenderOptions): v
 	// Draw status bar
 	drawStatusBar(ctx, width, height);
 
+	ctx.restore();
+}
+
+function drawRelatedEdges(
+	ctx: CanvasRenderingContext2D,
+	selectedNode: GraphNode,
+	time: number
+): void {
+	const proto = getProtocolById(selectedNode.id);
+	if (!proto || !proto.connections.length) return;
+
+	ctx.save();
+	ctx.setLineDash([6, 4]);
+
+	for (const connId of proto.connections) {
+		const targetNode = NODE_MAP.get(connId);
+		if (!targetNode) continue;
+
+		const dx = targetNode.x - selectedNode.x;
+		const dy = targetNode.y - selectedNode.y;
+		const dist = Math.sqrt(dx * dx + dy * dy);
+		const midX = (selectedNode.x + targetNode.x) / 2;
+		const midY = (selectedNode.y + targetNode.y) / 2;
+		const offset = dist * 0.15;
+		const cpx = midX - dy * 0.15 + Math.sin(time * 0.001) * offset * 0.2;
+		const cpy = midY + dx * 0.15 + Math.cos(time * 0.001) * offset * 0.2;
+
+		ctx.beginPath();
+		ctx.moveTo(selectedNode.x, selectedNode.y);
+		ctx.quadraticCurveTo(cpx, cpy, targetNode.x, targetNode.y);
+		ctx.strokeStyle = hexToRgba(selectedNode.color, 0.4);
+		ctx.lineWidth = 1.5;
+		ctx.stroke();
+	}
+
+	ctx.setLineDash([]);
 	ctx.restore();
 }
 
@@ -285,11 +303,7 @@ function drawStatusBar(ctx: CanvasRenderingContext2D, width: number, height: num
 	ctx.textAlign = 'left';
 	ctx.textBaseline = 'bottom';
 	ctx.fillStyle = 'rgba(148, 163, 184, 0.4)';
-	ctx.fillText(
-		'WebGL Rendering | 60 FPS Target | Prefers-Reduced-Motion: Inactive (Standard Mode)',
-		16,
-		height - 12
-	);
+	ctx.fillText('Canvas 2D | 60 FPS Target', 16, height - 12);
 }
 
 export function findNodeAtPosition(

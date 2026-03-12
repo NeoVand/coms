@@ -8,7 +8,7 @@ export const categories: Category[] = [
 		glowColor: 'rgba(57, 255, 20, 0.4)',
 		description:
 			'The foundation of network communication. These protocols handle how raw data moves reliably (or quickly) between two points on a network.',
-		icon: '🔄'
+		icon: 'transport'
 	},
 	{
 		id: 'web-api',
@@ -17,7 +17,7 @@ export const categories: Category[] = [
 		glowColor: 'rgba(0, 212, 255, 0.4)',
 		description:
 			'The protocols that power the web. From loading pages to real-time chat, these define how applications talk to servers and each other.',
-		icon: '🌐'
+		icon: 'web-api'
 	},
 	{
 		id: 'async-iot',
@@ -26,7 +26,7 @@ export const categories: Category[] = [
 		glowColor: 'rgba(168, 85, 247, 0.4)',
 		description:
 			'Message-oriented protocols designed for decoupled, asynchronous communication. Essential for IoT devices, microservices, and event-driven architectures.',
-		icon: '📡'
+		icon: 'async-iot'
 	},
 	{
 		id: 'realtime-av',
@@ -35,7 +35,7 @@ export const categories: Category[] = [
 		glowColor: 'rgba(255, 107, 53, 0.4)',
 		description:
 			'Protocols optimized for streaming audio and video in real-time. They prioritize low latency over perfect delivery — a dropped frame beats a frozen screen.',
-		icon: '🎥'
+		icon: 'realtime-av'
 	},
 	{
 		id: 'utilities',
@@ -44,7 +44,7 @@ export const categories: Category[] = [
 		glowColor: 'rgba(20, 184, 166, 0.4)',
 		description:
 			'The invisible infrastructure. DNS translates names to addresses, TLS encrypts everything, and NTP keeps the world synchronized.',
-		icon: '🔒'
+		icon: 'utilities'
 	}
 ];
 

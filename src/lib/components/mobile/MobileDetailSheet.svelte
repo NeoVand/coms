@@ -2,6 +2,7 @@
 	import { getAppState } from '$lib/state/context';
 	import { getProtocolById, getCategoryById } from '$lib/data/index';
 	import HowItWorksSteps from '$lib/components/detail/HowItWorksSteps.svelte';
+	import ProtocolDiagram from '$lib/components/detail/ProtocolDiagram.svelte';
 	import CodeExample from '$lib/components/detail/CodeExample.svelte';
 	import PerformanceStats from '$lib/components/detail/PerformanceStats.svelte';
 
@@ -73,6 +74,8 @@
 					<p>{paragraph}</p>
 				{/each}
 			</div>
+
+			<ProtocolDiagram protocolId={proto.id} color={cat.color} />
 
 			<HowItWorksSteps steps={proto.howItWorks} color={cat.color} />
 

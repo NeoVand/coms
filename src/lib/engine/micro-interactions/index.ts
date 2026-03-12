@@ -5,6 +5,12 @@ import { udpScatter } from './udp-scatter';
 import { websocketTube } from './websocket-tube';
 import { httpBlocking } from './http-blocking';
 import { tlsShield } from './tls-shield';
+import { multiplex } from './multiplex';
+import { queryResponse } from './query-response';
+import { publishSubscribe } from './publish-subscribe';
+import { streaming } from './streaming';
+import { peerToPeer } from './peer-to-peer';
+import { defaultPulse } from './default-pulse';
 
 export interface MicroInteractionContext {
 	node: GraphNode;
@@ -22,7 +28,13 @@ const interactionRegistry: Record<string, MicroInteractionFn> = {
 	scatter: udpScatter,
 	tube: websocketTube,
 	blocking: httpBlocking,
-	shield: tlsShield
+	shield: tlsShield,
+	multiplex: multiplex,
+	'query-response': queryResponse,
+	'publish-subscribe': publishSubscribe,
+	streaming: streaming,
+	'peer-to-peer': peerToPeer,
+	default: defaultPulse
 };
 
 export function runMicroInteraction(type: string, context: MicroInteractionContext): void {

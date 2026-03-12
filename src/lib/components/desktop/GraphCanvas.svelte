@@ -25,6 +25,8 @@
 	let isPanning = $state(false);
 	let lastMouseX = 0;
 	let lastMouseY = 0;
+	let panStartX = 0;
+	let panStartY = 0;
 
 	function screenToWorld(screenX: number, screenY: number): { x: number; y: number } {
 		return {
@@ -57,18 +59,24 @@
 			isPanning = true;
 			lastMouseX = e.clientX;
 			lastMouseY = e.clientY;
+			panStartX = e.clientX;
+			panStartY = e.clientY;
 			canvas.style.cursor = 'grabbing';
 		}
 	}
 
-	function handleMouseUp(_e: MouseEvent) {
+	function handleMouseUp(e: MouseEvent) {
 		if (isPanning) {
 			isPanning = false;
 			canvas.style.cursor = 'grab';
+			const dist = Math.hypot(e.clientX - panStartX, e.clientY - panStartY);
+			if (dist < 5) {
+				appState.clearSelection();
+			}
 			return;
 		}
 
-		const world = screenToWorld(_e.clientX, _e.clientY);
+		const world = screenToWorld(e.clientX, e.clientY);
 		const node = findNodeAtPosition(nodes, world.x, world.y, appState.viewport.scale);
 
 		if (node) {
@@ -200,7 +208,6 @@
 				edges,
 				hoveredNode: appState.hoveredNode,
 				selectedNode: appState.selectedNode,
-				searchQuery: appState.searchQuery,
 				time,
 				dpr
 			});
