@@ -80,12 +80,7 @@
 		const node = findNodeAtPosition(nodes, world.x, world.y, appState.viewport.scale);
 
 		if (node) {
-			if (node.type === 'hub') {
-				appState.clearSelection();
-				appState.resetViewport();
-			} else {
-				appState.selectNode(node);
-			}
+			appState.selectNode(node);
 		} else {
 			appState.clearSelection();
 		}

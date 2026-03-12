@@ -10,7 +10,6 @@ export class AppState {
 	viewport: Viewport = $state({ x: 0, y: 0, scale: 1 });
 
 	selectNode = (node: GraphNode | null) => {
-		if (node?.type === 'hub') return;
 		this.selectedNode = node;
 		this.showDetailPanel = node !== null;
 	};

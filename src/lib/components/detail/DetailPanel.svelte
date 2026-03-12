@@ -1,6 +1,13 @@
 <script lang="ts">
 	import { getAppState } from '$lib/state/context';
-	import { getProtocolById, getCategoryById, getProtocolsForCategory } from '$lib/data/index';
+	import {
+		getProtocolById,
+		getCategoryById,
+		getProtocolsForCategory,
+		allProtocols
+	} from '$lib/data/index';
+	import { categories } from '$lib/data/categories';
+	import { buildGraphNodes } from '$lib/data/index';
 	import ProtocolHeader from './ProtocolHeader.svelte';
 	import ProtocolDiagram from './ProtocolDiagram.svelte';
 	import HowItWorksSteps from './HowItWorksSteps.svelte';
@@ -10,10 +17,15 @@
 	import CategoryIcon from '$lib/components/icons/CategoryIcon.svelte';
 
 	const appState = getAppState();
+	const allNodes = buildGraphNodes();
 
 	const selectedData = $derived.by(() => {
 		const node = appState.selectedNode;
 		if (!node) return null;
+
+		if (node.type === 'hub') {
+			return { type: 'hub' as const };
+		}
 
 		if (node.type === 'category') {
 			const cat = getCategoryById(node.id);
@@ -48,7 +60,98 @@
 <div
 	class="custom-scrollbar flex h-full w-full flex-col overflow-y-auto bg-bg-deep/95 shadow-2xl backdrop-blur-xl"
 >
-	{#if selectedData?.type === 'protocol' && selectedData.protocol}
+	{#if selectedData?.type === 'hub'}
+		<div class="flex flex-col gap-6 p-6">
+			<!-- Welcome header -->
+			<div>
+				<h2 class="text-lg font-bold text-slate-100">The Protocol Universe</h2>
+				<p class="mt-1 text-xs text-slate-400">An interactive guide to network protocols</p>
+			</div>
+
+			<p class="text-sm leading-relaxed text-slate-300">
+				Welcome to an interactive exploration of the protocols that power the internet. From the TCP handshake that starts every web connection to the real-time streams that carry your video calls — every protocol here plays a role in modern networking.
+			</p>
+
+			<!-- How to use -->
+			<section>
+				<h3 class="mb-3 text-xs font-semibold tracking-wider text-slate-500 uppercase">
+					How to Navigate
+				</h3>
+				<div class="space-y-3 text-sm text-slate-300">
+					<div class="flex items-start gap-3">
+						<span class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-white/5 text-[10px] text-slate-400">1</span>
+						<p><span class="font-medium text-slate-200">Click any node</span> to explore a protocol or category in detail — its purpose, how it works, code examples, and performance characteristics.</p>
+					</div>
+					<div class="flex items-start gap-3">
+						<span class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-white/5 text-[10px] text-slate-400">2</span>
+						<p><span class="font-medium text-slate-200">Hover over nodes</span> for a quick summary. When a protocol is selected, related protocols stay highlighted so you can see the connections.</p>
+					</div>
+					<div class="flex items-start gap-3">
+						<span class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-white/5 text-[10px] text-slate-400">3</span>
+						<p><span class="font-medium text-slate-200">Scroll to zoom</span> and drag to pan around the network graph. Click empty space to deselect.</p>
+					</div>
+				</div>
+			</section>
+
+			<!-- Categories -->
+			<section>
+				<h3 class="mb-3 text-xs font-semibold tracking-wider text-slate-500 uppercase">
+					Explore by Category
+				</h3>
+				<div class="space-y-2">
+					{#each categories as cat (cat.id)}
+						{@const count = allProtocols.filter((p) => p.categoryId === cat.id).length}
+						<button
+							class="flex w-full items-start gap-3 rounded-xl border border-white/5 bg-white/[0.02] p-3 text-left transition-all hover:border-white/10 hover:bg-white/[0.05]"
+							onclick={() => {
+								const node = allNodes.find((n) => n.id === cat.id);
+								if (node) appState.selectNode(node);
+							}}
+						>
+							<span
+								class="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg"
+								style="background-color: {cat.color}20; color: {cat.color}"
+							>
+								<CategoryIcon icon={cat.icon} size={18} />
+							</span>
+							<div>
+								<div class="text-sm font-medium text-slate-200">
+									{cat.name}
+									<span class="ml-1 text-[10px] text-slate-500">{count} protocols</span>
+								</div>
+								<div class="mt-0.5 text-xs text-slate-400">{cat.description}</div>
+							</div>
+						</button>
+					{/each}
+				</div>
+			</section>
+
+			<!-- Stats -->
+			<section>
+				<h3 class="mb-3 text-xs font-semibold tracking-wider text-slate-500 uppercase">
+					At a Glance
+				</h3>
+				<div class="grid grid-cols-3 gap-3">
+					<div class="rounded-lg border border-white/5 bg-white/[0.02] p-3 text-center">
+						<div class="text-lg font-bold text-slate-100">{allProtocols.length}</div>
+						<div class="text-[10px] text-slate-500">Protocols</div>
+					</div>
+					<div class="rounded-lg border border-white/5 bg-white/[0.02] p-3 text-center">
+						<div class="text-lg font-bold text-slate-100">{categories.length}</div>
+						<div class="text-[10px] text-slate-500">Categories</div>
+					</div>
+					<div class="rounded-lg border border-white/5 bg-white/[0.02] p-3 text-center">
+						<div class="text-lg font-bold text-slate-100">50+</div>
+						<div class="text-[10px] text-slate-500">Years of History</div>
+					</div>
+				</div>
+			</section>
+
+			<p class="text-[10px] leading-relaxed text-slate-500">
+				Each protocol includes animated diagrams, code examples in multiple languages, performance stats, and links to official specifications. Click any colored node on the graph to begin.
+			</p>
+		</div>
+	{:else if selectedData?.type === 'protocol' && selectedData.protocol}
 		{@const proto = selectedData.protocol}
 		{@const cat = selectedData.category}
 
