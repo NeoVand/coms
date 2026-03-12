@@ -22,6 +22,19 @@ function buildNodeMap(nodes: GraphNode[]) {
 	for (const n of nodes) NODE_MAP.set(n.id, n);
 }
 
+// Cache connected node IDs for the currently selected protocol
+const connectedIds: Set<string> = new Set();
+
+function updateConnectedIds(selectedNode: GraphNode | null): void {
+	connectedIds.clear();
+	if (selectedNode?.type === 'protocol') {
+		const proto = getProtocolById(selectedNode.id);
+		if (proto) {
+			for (const id of proto.connections) connectedIds.add(id);
+		}
+	}
+}
+
 function isNodeDimmed(node: GraphNode, selectedNode: GraphNode | null): boolean {
 	if (selectedNode && selectedNode.id !== node.id) {
 		if (selectedNode.type === 'category') {
@@ -29,6 +42,8 @@ function isNodeDimmed(node: GraphNode, selectedNode: GraphNode | null): boolean 
 			return node.type === 'protocol' && node.categoryId !== selectedNode.id;
 		}
 		if (selectedNode.type === 'protocol') {
+			// Don't dim connected/related nodes
+			if (connectedIds.has(node.id)) return false;
 			return (
 				node.id !== selectedNode.categoryId && node.type !== 'hub' && node.id !== selectedNode.id
 			);
@@ -41,6 +56,7 @@ export function render(ctx: CanvasRenderingContext2D, options: RenderOptions): v
 	const { width, height, viewport, nodes, edges, hoveredNode, selectedNode, time, dpr } = options;
 
 	buildNodeMap(nodes);
+	updateConnectedIds(selectedNode);
 
 	ctx.save();
 	ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -89,7 +105,8 @@ export function render(ctx: CanvasRenderingContext2D, options: RenderOptions): v
 		const isHovered = hoveredNode?.id === node.id;
 		const isSelected = selectedNode?.id === node.id;
 		const dimmed = isNodeDimmed(node, selectedNode);
-		drawNode(ctx, node, isHovered, isSelected, dimmed, time, viewport.scale);
+		const isConnected = connectedIds.has(node.id);
+		drawNode(ctx, node, isHovered, isSelected, dimmed, isConnected, time, viewport.scale);
 	}
 
 	ctx.restore();
@@ -127,8 +144,8 @@ function drawRelatedEdges(
 		ctx.beginPath();
 		ctx.moveTo(selectedNode.x, selectedNode.y);
 		ctx.quadraticCurveTo(cpx, cpy, targetNode.x, targetNode.y);
-		ctx.strokeStyle = hexToRgba(selectedNode.color, 0.4);
-		ctx.lineWidth = 1.5;
+		ctx.strokeStyle = hexToRgba(selectedNode.color, 0.25);
+		ctx.lineWidth = 1.0;
 		ctx.stroke();
 	}
 
@@ -189,7 +206,7 @@ function drawEdge(
 	ctx.quadraticCurveTo(cpx, cpy, target.x, target.y);
 
 	ctx.strokeStyle = hexToRgba(color.startsWith('#') ? color : '#FFFFFF', alpha);
-	ctx.lineWidth = dimmed ? 0.5 : 1.2;
+	ctx.lineWidth = dimmed ? 0.5 : 1.8;
 	ctx.stroke();
 }
 
@@ -199,6 +216,7 @@ function drawNode(
 	isHovered: boolean,
 	isSelected: boolean,
 	dimmed: boolean,
+	isConnected: boolean,
 	time: number,
 	scale: number
 ): void {
@@ -218,10 +236,13 @@ function drawNode(
 	}
 
 	// Outer glow
-	if (!dimmed && (isHovered || isSelected || type === 'hub' || type === 'category')) {
+	if (
+		(!dimmed || isConnected) &&
+		(isHovered || isSelected || isConnected || type === 'hub' || type === 'category')
+	) {
 		const glowRadius = r * (type === 'hub' ? 3 : 2.2);
 		const glow = ctx.createRadialGradient(x, y, r * 0.5, x, y, glowRadius);
-		const glowAlpha = isHovered || isSelected ? 0.35 : type === 'hub' ? 0.15 : 0.1;
+		const glowAlpha = isHovered || isSelected ? 0.35 : isConnected ? 0.2 : type === 'hub' ? 0.15 : 0.1;
 		glow.addColorStop(0, hexToRgba(color, glowAlpha));
 		glow.addColorStop(1, hexToRgba(color, 0));
 		ctx.beginPath();
@@ -267,26 +288,32 @@ function drawNode(
 		ctx.fill();
 	}
 
-	// Label
-	if (!dimmed) {
+	// Label — show for non-dimmed nodes and connected nodes
+	if (!dimmed || isConnected) {
 		const fontSize = type === 'hub' ? 11 : type === 'category' ? 10 : 9;
 		const showLabel = scale > 0.5 || type === 'hub' || type === 'category';
 		const showAbbrev = scale <= 0.5 && scale > 0.3 && type === 'protocol';
 
-		if (showLabel || showAbbrev) {
-			const label = showLabel
-				? type === 'hub'
-					? '< / > PROTOCOLS'
-					: type === 'category'
-						? node.label
-						: node.abbreviation || node.label
-				: node.abbreviation || '';
+		if (showLabel || showAbbrev || isConnected) {
+			const label =
+				isConnected && !showLabel
+					? node.abbreviation || node.label
+					: showLabel
+						? type === 'hub'
+							? '< / > PROTOCOLS'
+							: type === 'category'
+								? node.label
+								: node.abbreviation || node.label
+						: node.abbreviation || '';
 
+			const labelAlpha = isConnected && dimmed ? 0.7 : alpha;
 			ctx.font = `${type === 'hub' ? '600' : '500'} ${fontSize}px Inter, system-ui, sans-serif`;
 			ctx.textAlign = 'center';
 			ctx.textBaseline = 'top';
 			ctx.fillStyle =
-				type === 'hub' ? `rgba(255, 255, 255, ${alpha})` : hexToRgba(color, alpha * 0.9);
+				type === 'hub'
+					? `rgba(255, 255, 255, ${labelAlpha})`
+					: hexToRgba(color, labelAlpha * 0.9);
 
 			// Text shadow
 			ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';

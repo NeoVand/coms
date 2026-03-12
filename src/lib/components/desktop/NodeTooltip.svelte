@@ -7,17 +7,37 @@
 
 	let tooltipX = $state(0);
 	let tooltipY = $state(0);
+	let windowWidth = $state(typeof window !== 'undefined' ? window.innerWidth : 1920);
 
 	$effect(() => {
-		if (!appState.hoveredNode || appState.showDetailPanel) return;
+		if (!appState.hoveredNode) return;
 
 		function onMouseMove(e: MouseEvent) {
 			tooltipX = e.clientX;
 			tooltipY = e.clientY;
 		}
 
+		function onResize() {
+			windowWidth = window.innerWidth;
+		}
+
 		window.addEventListener('mousemove', onMouseMove);
-		return () => window.removeEventListener('mousemove', onMouseMove);
+		window.addEventListener('resize', onResize);
+		return () => {
+			window.removeEventListener('mousemove', onMouseMove);
+			window.removeEventListener('resize', onResize);
+		};
+	});
+
+	const tooltipLeft = $derived.by(() => {
+		const TOOLTIP_WIDTH = 280;
+		const PANEL_WIDTH = 520;
+		const OFFSET = 16;
+
+		if (appState.showDetailPanel && tooltipX + OFFSET + TOOLTIP_WIDTH > windowWidth - PANEL_WIDTH) {
+			return tooltipX - TOOLTIP_WIDTH - OFFSET;
+		}
+		return tooltipX + OFFSET;
 	});
 
 	const hoveredInfo = $derived.by(() => {
@@ -45,10 +65,10 @@
 	});
 </script>
 
-{#if hoveredInfo && appState.hoveredNode && !appState.showDetailPanel}
+{#if hoveredInfo && appState.hoveredNode}
 	<div
 		class="pointer-events-none fixed z-50 max-w-xs rounded-xl border border-white/10 bg-bg-deep/90 px-4 py-3 shadow-2xl backdrop-blur-xl"
-		style="left: {tooltipX + 16}px; top: {tooltipY -
+		style="left: {tooltipLeft}px; top: {tooltipY -
 			8}px; border-left: 3px solid {hoveredInfo.color};"
 	>
 		<div class="flex items-center gap-2">

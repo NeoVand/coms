@@ -75,7 +75,11 @@ conn.close()  # FIN sequence`,
 			overhead: '20-byte header minimum + options; ~40 bytes typical with timestamps'
 		},
 		microInteraction: 'handshake',
-		connections: ['udp', 'tls', 'http1', 'websockets']
+		connections: ['udp', 'tls', 'http1', 'websockets', 'smtp', 'ftp'],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/Transmission_Control_Protocol',
+			rfc: 'https://datatracker.ietf.org/doc/html/rfc793'
+		}
 	},
 	{
 		id: 'udp',
@@ -142,7 +146,11 @@ print(f"Got {data} from {addr}")`,
 			overhead: '8-byte header only — the minimum possible for transport'
 		},
 		microInteraction: 'scatter',
-		connections: ['tcp', 'dns', 'quic', 'webrtc']
+		connections: ['tcp', 'dns', 'quic', 'webrtc'],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/User_Datagram_Protocol',
+			rfc: 'https://datatracker.ietf.org/doc/html/rfc768'
+		}
 	},
 	{
 		id: 'quic',
@@ -214,7 +222,12 @@ req.on('stream', (stream) => {
 			overhead: 'Higher per-packet than TCP due to encryption, but fewer round trips overall'
 		},
 		microInteraction: 'multiplex',
-		connections: ['tcp', 'udp', 'tls', 'http3']
+		connections: ['tcp', 'udp', 'tls', 'http3'],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/QUIC',
+			rfc: 'https://datatracker.ietf.org/doc/html/rfc9000',
+			official: 'https://quicwg.org/'
+		}
 	},
 	{
 		id: 'sctp',
@@ -260,6 +273,40 @@ SCTP provides the reliability of TCP, the message-oriented nature of UDP, and se
 			'High-availability systems requiring multi-homing',
 			'Financial trading systems'
 		],
+		codeExample: {
+			language: 'python',
+			code: `import socket
+import sctp
+
+# Create an SCTP one-to-one style socket
+sock = sctp.sctpsocket_tcp(socket.AF_INET)
+sock.bind(('0.0.0.0', 3868))
+sock.listen(5)
+
+print("SCTP server listening on port 3868...")
+conn, addr = sock.accept()
+print(f"Association from {addr}")
+
+# SCTP preserves message boundaries (unlike TCP)
+data = conn.recv(4096)
+conn.send(b"SCTP response with multi-streaming support")
+conn.close()`,
+			caption:
+				'SCTP in Python using pysctp — message boundaries are preserved unlike TCP byte streams',
+			alternatives: [
+				{
+					language: 'bash',
+					code: `# Test SCTP connectivity with ncat
+ncat --sctp -l 3868  # Listen on SCTP port
+
+# From another terminal, connect:
+ncat --sctp localhost 3868
+
+# Check SCTP associations
+cat /proc/net/sctp/assocs`
+				}
+			]
+		},
 		performance: {
 			latency: '2 RTT for connection setup (4-way handshake) — slightly slower than TCP',
 			throughput:
@@ -267,6 +314,10 @@ SCTP provides the reliability of TCP, the message-oriented nature of UDP, and se
 			overhead: '12-byte common header + chunk headers; slightly more than TCP'
 		},
 		microInteraction: 'multiplex',
-		connections: ['tcp', 'udp', 'webrtc']
+		connections: ['tcp', 'udp', 'webrtc'],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/Stream_Control_Transmission_Protocol',
+			rfc: 'https://datatracker.ietf.org/doc/html/rfc4960'
+		}
 	}
 ];

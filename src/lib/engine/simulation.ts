@@ -53,7 +53,7 @@ export function createSimulation(
 				.strength((d) => {
 					if (d.type === 'hub') return -800;
 					if (d.type === 'category') return -400;
-					return -150;
+					return -170;
 				})
 				.distanceMax(500)
 		)
@@ -74,7 +74,7 @@ export function createSimulation(
 		)
 		.force(
 			'radial-categories',
-			forceRadial<SimNode>(180, 0, 0).strength((d) => (d.type === 'category' ? 0.3 : 0))
+			forceRadial<SimNode>(200, 0, 0).strength((d) => (d.type === 'category' ? 0.3 : 0))
 		)
 		.force(
 			'collide',

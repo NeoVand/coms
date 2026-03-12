@@ -65,7 +65,11 @@ openssl s_client -connect example.com:443 2>/dev/null \\
 			overhead: '~5 bytes per TLS record header + 16 bytes for GCM authentication tag'
 		},
 		microInteraction: 'shield',
-		connections: ['tcp', 'http1', 'http2', 'quic']
+		connections: ['tcp', 'http1', 'http2', 'quic', 'smtp'],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/Transport_Layer_Security',
+			rfc: 'https://datatracker.ietf.org/doc/html/rfc8446'
+		}
 	},
 	{
 		id: 'ssh',
@@ -132,7 +136,11 @@ scp file.txt user@example.com:/home/user/`,
 			overhead: 'Per-packet: ~28 bytes (4 length + 1 padding length + padding + 16 MAC)'
 		},
 		microInteraction: 'shield',
-		connections: ['tcp', 'tls']
+		connections: ['tcp', 'tls', 'ftp'],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/Secure_Shell',
+			rfc: 'https://datatracker.ietf.org/doc/html/rfc4253'
+		}
 	},
 	{
 		id: 'dns',
@@ -199,7 +207,11 @@ dig example.com +trace`,
 			overhead: '12-byte header + question + answer. Typical query: 40-60 bytes. UDP-based.'
 		},
 		microInteraction: 'query-response',
-		connections: ['udp', 'tcp', 'tls']
+		connections: ['udp', 'tcp', 'tls', 'smtp'],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/Domain_Name_System',
+			rfc: 'https://datatracker.ietf.org/doc/html/rfc1035'
+		}
 	},
 	{
 		id: 'dhcp',
@@ -244,13 +256,58 @@ DHCP leases are temporary — typically 1-24 hours. When a lease expires, the de
 			'Container/VM orchestration',
 			'Hotel and public Wi-Fi networks'
 		],
+		codeExample: {
+			language: 'python',
+			code: `from scapy.all import *
+
+# Construct a DHCP Discover packet
+dhcp_discover = (
+    Ether(dst="ff:ff:ff:ff:ff:ff") /
+    IP(src="0.0.0.0", dst="255.255.255.255") /
+    UDP(sport=68, dport=67) /
+    BOOTP(chaddr=get_if_hwaddr(conf.iface)) /
+    DHCP(options=[
+        ("message-type", "discover"),
+        ("hostname", "my-device"),
+        "end"
+    ])
+)
+
+# Send and wait for DHCP Offer
+ans = srp1(dhcp_discover, timeout=5, verbose=0)
+if ans:
+    offered_ip = ans[BOOTP].yiaddr
+    print(f"Offered IP: {offered_ip}")`,
+			caption:
+				'Scapy lets you construct and send raw DHCP packets — see the DORA process in action',
+			alternatives: [
+				{
+					language: 'bash',
+					code: `# Request a new DHCP lease
+sudo dhclient -v eth0
+
+# Release the current lease
+sudo dhclient -r eth0
+
+# View current DHCP lease details
+cat /var/lib/dhcp/dhclient.leases
+
+# Monitor DHCP traffic on the network
+sudo tcpdump -i eth0 port 67 or port 68 -v`
+				}
+			]
+		},
 		performance: {
 			latency: 'Full DORA cycle: ~100-500ms. Renewal: single RTT.',
 			throughput: 'Not applicable — DHCP is one-time configuration, not data transfer',
 			overhead: 'Minimum 236-byte message. UDP-based, broadcast-heavy.'
 		},
 		microInteraction: 'query-response',
-		connections: ['udp']
+		connections: ['udp'],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/Dynamic_Host_Configuration_Protocol',
+			rfc: 'https://datatracker.ietf.org/doc/html/rfc2131'
+		}
 	},
 	{
 		id: 'ntp',
@@ -295,6 +352,43 @@ The clever part is how NTP accounts for network delay. It measures the round-tri
 			'Financial trading (regulatory time requirements)',
 			'Certificate validity and expiration checking'
 		],
+		codeExample: {
+			language: 'python',
+			code: `import ntplib
+from datetime import datetime
+
+# Query an NTP server
+client = ntplib.NTPClient()
+response = client.request('pool.ntp.org', version=3)
+
+# The response contains timing data for offset calculation
+print(f"NTP time: {datetime.fromtimestamp(response.tx_time)}")
+print(f"Offset:   {response.offset:.6f} seconds")
+print(f"Delay:    {response.delay:.6f} seconds")
+print(f"Stratum:  {response.stratum}")
+
+# Offset tells you how far your clock is off
+# Positive = your clock is behind, Negative = ahead`,
+			caption:
+				'ntplib queries an NTP server and calculates the clock offset using the four-timestamp algorithm',
+			alternatives: [
+				{
+					language: 'bash',
+					code: `# Query an NTP server manually
+ntpdate -q pool.ntp.org
+
+# Check NTP synchronization status (systemd)
+timedatectl timesync-status
+
+# Use chrony for modern NTP management
+chronyc tracking     # Show current sync status
+chronyc sources -v   # Show NTP servers and quality
+
+# One-shot time sync (requires root)
+sudo ntpdate pool.ntp.org`
+				}
+			]
+		},
 		performance: {
 			latency:
 				'Single UDP round trip. Synchronization accuracy: 1-50ms over internet, <1ms on LAN.',
@@ -302,6 +396,193 @@ The clever part is how NTP accounts for network delay. It measures the round-tri
 			overhead: '48-byte packets. One of the lightest protocols in existence.'
 		},
 		microInteraction: 'query-response',
-		connections: ['udp']
+		connections: ['udp'],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/Network_Time_Protocol',
+			rfc: 'https://datatracker.ietf.org/doc/html/rfc5905',
+			official: 'https://www.ntp.org/'
+		}
+	},
+	{
+		id: 'smtp',
+		name: 'Simple Mail Transfer Protocol',
+		abbreviation: 'SMTP',
+		categoryId: 'utilities',
+		port: 587,
+		year: 1982,
+		rfc: 'RFC 5321',
+		oneLiner: 'The protocol that delivers email across the internet — store and forward, hop by hop.',
+		overview: `SMTP is the backbone of email. Every email you've ever sent was delivered via SMTP — from your mail client to your provider's server, then relayed across the internet to the recipient's mail server. It's a "store and forward" protocol: each server along the path accepts responsibility for the message and forwards it to the next hop.
+
+SMTP is a text-based protocol with a simple command vocabulary: HELO/EHLO to greet, MAIL FROM to specify the sender, RCPT TO for recipients, DATA to send the message body, and QUIT to disconnect. Modern SMTP uses STARTTLS to upgrade plain connections to encrypted ones, and authentication (SMTP AUTH) to prevent unauthorized sending.
+
+Despite being over 40 years old, SMTP remains the universal standard for email delivery. It's been extended with SPF, DKIM, and DMARC to fight spam and phishing. While newer protocols handle retrieval (IMAP, POP3), SMTP still handles every email's journey from sender to destination.`,
+		howItWorks: [
+			{
+				title: 'Connection & greeting',
+				description:
+					'Client connects to the mail server on port 587 (submission) or 25 (relay) and sends EHLO with its hostname. Server responds with supported extensions like STARTTLS and AUTH.'
+			},
+			{
+				title: 'TLS & authentication',
+				description:
+					'Client issues STARTTLS to upgrade to an encrypted connection, then authenticates with username/password via AUTH LOGIN or AUTH PLAIN.'
+			},
+			{
+				title: 'Envelope & message',
+				description:
+					'Client specifies sender (MAIL FROM), recipients (RCPT TO), then sends the message body after DATA command. The message includes headers (From, To, Subject) and the body text.'
+			},
+			{
+				title: 'Relay & delivery',
+				description:
+					"The server accepts the message (250 OK) and relays it to the recipient's mail server by looking up MX records in DNS. Each hop stores and forwards until the message reaches the destination mailbox."
+			}
+		],
+		useCases: [
+			'Email delivery between mail servers',
+			'Transactional emails (receipts, password resets, notifications)',
+			'Newsletter and marketing email campaigns',
+			'Automated alerts and monitoring notifications',
+			'Application-generated email via SMTP relay services'
+		],
+		codeExample: {
+			language: 'Python',
+			code: `import smtplib
+from email.mime.text import MIMEText
+
+msg = MIMEText("Hello from SMTP!")
+msg["Subject"] = "Test Email"
+msg["From"] = "sender@example.com"
+msg["To"] = "recipient@example.com"
+
+with smtplib.SMTP("smtp.example.com", 587) as server:
+    server.starttls()
+    server.login("sender@example.com", "password")
+    server.send_message(msg)`,
+			caption:
+				"Python's smtplib provides a straightforward interface for sending email via SMTP.",
+			alternatives: [
+				{
+					language: 'TypeScript',
+					code: `import nodemailer from 'nodemailer';
+
+const transporter = nodemailer.createTransport({
+  host: 'smtp.example.com',
+  port: 587,
+  secure: false,
+  auth: { user: 'sender@example.com', pass: 'password' }
+});
+
+await transporter.sendMail({
+  from: 'sender@example.com',
+  to: 'recipient@example.com',
+  subject: 'Test Email',
+  text: 'Hello from SMTP!'
+});`
+				}
+			]
+		},
+		performance: {
+			latency: 'Seconds to minutes (store and forward)',
+			throughput: 'Millions of messages/day at scale',
+			overhead: 'Moderate — DNS lookups, TLS, multi-hop relay'
+		},
+		microInteraction: 'query-response' as const,
+		connections: ['tcp', 'tls', 'dns'],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/Simple_Mail_Transfer_Protocol',
+			rfc: 'https://datatracker.ietf.org/doc/html/rfc5321'
+		}
+	},
+	{
+		id: 'ftp',
+		name: 'File Transfer Protocol',
+		abbreviation: 'FTP',
+		categoryId: 'utilities',
+		port: 21,
+		year: 1971,
+		rfc: 'RFC 959',
+		oneLiner: 'One of the oldest internet protocols — built for transferring files between machines.',
+		overview: `FTP is one of the original internet protocols, predating even TCP/IP itself. It was designed for one purpose: moving files between computers. FTP uses a unique dual-connection architecture — a control connection for commands and a separate data connection for file transfers.
+
+The control channel (port 21) carries text commands like USER, PASS, LIST, RETR (download), and STOR (upload). When a file transfer begins, a separate data connection opens on a different port. In "active" mode, the server connects back to the client; in "passive" mode (PASV), the client initiates both connections, which works better with firewalls and NAT.
+
+While FTP's plain-text design makes it insecure by modern standards, FTPS (FTP over TLS) adds encryption. SFTP (SSH File Transfer Protocol) is a completely different protocol that runs over SSH. Despite being largely superseded by SFTP, SCP, and HTTP-based file transfer, FTP remains in use for legacy systems, firmware updates, and bulk file hosting.`,
+		howItWorks: [
+			{
+				title: 'Control connection',
+				description:
+					'Client connects to server port 21 and authenticates with USER and PASS commands. This connection stays open for the entire session, carrying all commands and responses.'
+			},
+			{
+				title: 'Directory navigation',
+				description:
+					'Client browses the remote filesystem with CWD (change directory), PWD (print working directory), and LIST (directory listing). All commands are human-readable text.'
+			},
+			{
+				title: 'Data connection',
+				description:
+					'For file transfers, a separate TCP connection opens. In passive mode (PASV), the server tells the client which port to connect to. This separates control flow from data flow.'
+			},
+			{
+				title: 'File transfer',
+				description:
+					'Client issues RETR (download) or STOR (upload). Data flows on the data connection in binary or ASCII mode. After transfer completes, the data connection closes while control stays open.'
+			}
+		],
+		useCases: [
+			'Legacy system file transfers and mainframe integration',
+			'Bulk file hosting and public archives',
+			'Firmware and software distribution',
+			'Automated batch file uploads/downloads',
+			'Web hosting file management (traditional hosting providers)'
+		],
+		codeExample: {
+			language: 'Python',
+			code: `from ftplib import FTP
+
+ftp = FTP('ftp.example.com')
+ftp.login('username', 'password')
+
+# List directory
+ftp.retrlines('LIST')
+
+# Download a file
+with open('local_file.txt', 'wb') as f:
+    ftp.retrbinary('RETR remote_file.txt', f.write)
+
+# Upload a file
+with open('upload.txt', 'rb') as f:
+    ftp.storbinary('STOR upload.txt', f)
+
+ftp.quit()`,
+			caption: "Python's ftplib provides a simple interface for FTP operations.",
+			alternatives: [
+				{
+					language: 'Bash',
+					code: `# Command-line FTP operations
+# Download a file
+curl -u user:pass ftp://ftp.example.com/file.txt -o file.txt
+
+# Upload a file
+curl -u user:pass -T upload.txt ftp://ftp.example.com/
+
+# List directory
+curl -u user:pass ftp://ftp.example.com/`
+				}
+			]
+		},
+		performance: {
+			latency: 'Connection setup + transfer time',
+			throughput: 'Line-speed for data channel',
+			overhead: 'Dual connection (control + data channels)'
+		},
+		microInteraction: 'default' as const,
+		connections: ['tcp', 'tls', 'ssh'],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/File_Transfer_Protocol',
+			rfc: 'https://datatracker.ietf.org/doc/html/rfc959'
+		}
 	}
 ];

@@ -70,7 +70,12 @@ signalingServer.send(JSON.stringify(offer));`,
 			overhead: 'SRTP adds ~12 bytes per packet. DTLS handshake is one-time cost.'
 		},
 		microInteraction: 'peer-to-peer',
-		connections: ['udp', 'tls', 'sip', 'sctp']
+		connections: ['udp', 'tls', 'sip', 'sctp'],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/WebRTC',
+			rfc: 'https://datatracker.ietf.org/doc/html/rfc8825',
+			official: 'https://webrtc.org/'
+		}
 	},
 	{
 		id: 'rtp',
@@ -115,6 +120,49 @@ Think of RTP as the envelope for media packets and RTCP as the feedback channel.
 			'Surveillance camera systems',
 			'Online gaming voice chat'
 		],
+		codeExample: {
+			language: 'python',
+			code: `import struct
+import socket
+import time
+
+# Construct a minimal RTP packet
+def make_rtp_packet(seq, timestamp, payload):
+    # V=2, P=0, X=0, CC=0, M=0, PT=111 (Opus audio)
+    header = struct.pack('!BBHII',
+        0x80,        # Version 2, no padding/extension
+        111,         # Payload type (Opus)
+        seq,         # Sequence number
+        timestamp,   # RTP timestamp
+        0x12345678   # SSRC (synchronization source)
+    )
+    return header + payload
+
+# Send RTP packets over UDP
+sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+for seq in range(100):
+    packet = make_rtp_packet(seq, seq * 960, b'\\x00' * 160)
+    sock.sendto(packet, ('127.0.0.1', 5004))
+    time.sleep(0.02)  # 20ms intervals (50 packets/sec)`,
+			caption:
+				'Raw RTP packet construction — 12-byte header with sequence number and timestamp for media ordering',
+			alternatives: [
+				{
+					language: 'bash',
+					code: `# Send a test RTP stream with ffmpeg
+ffmpeg -re -i input.mp4 \\
+  -c:v libx264 -preset ultrafast \\
+  -c:a libopus \\
+  -f rtp rtp://192.168.1.100:5004
+
+# Receive and play an RTP stream
+ffplay rtp://0.0.0.0:5004 -protocol_whitelist rtp,udp
+
+# Capture RTP packets for analysis
+tcpdump -i eth0 udp port 5004 -w rtp_capture.pcap`
+				}
+			]
+		},
 		performance: {
 			latency:
 				'No connection setup (UDP). End-to-end typically 50-300ms including jitter buffering.',
@@ -123,7 +171,11 @@ Think of RTP as the envelope for media packets and RTCP as the feedback channel.
 			overhead: '12-byte RTP header per packet. RTCP reports are periodic and small.'
 		},
 		microInteraction: 'streaming',
-		connections: ['udp', 'webrtc', 'sip']
+		connections: ['udp', 'webrtc', 'sip'],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/Real-time_Transport_Protocol',
+			rfc: 'https://datatracker.ietf.org/doc/html/rfc3550'
+		}
 	},
 	{
 		id: 'sip',
@@ -168,13 +220,65 @@ SIP is the backbone of virtually every modern phone system: enterprise PBX syste
 			'Instant messaging (SIP SIMPLE)',
 			'Emergency call routing (E911)'
 		],
+		codeExample: {
+			language: 'python',
+			code: `import pjsua2 as pj
+
+# Initialize PJSIP endpoint
+ep = pj.Endpoint()
+ep.libCreate()
+
+cfg = pj.EpConfig()
+ep.libInit(cfg)
+
+# Add a SIP transport
+tcfg = pj.TransportConfig()
+tcfg.port = 5060
+ep.transportCreate(pj.PJSIP_TRANSPORT_UDP, tcfg)
+ep.libStart()
+
+# Register with a SIP server
+acfg = pj.AccountConfig()
+acfg.idUri = "sip:alice@example.com"
+acfg.regConfig.registrarUri = "sip:example.com"
+acfg.sipConfig.authCreds.append(
+    pj.AuthCredInfo("digest", "*", "alice", 0, "secret"))
+
+account = pj.Account()
+account.create(acfg)  # Sends SIP REGISTER`,
+			caption:
+				'PJSIP registers with a SIP server — the INVITE/200 OK/ACK flow handles call setup',
+			alternatives: [
+				{
+					language: 'http',
+					code: `INVITE sip:bob@example.com SIP/2.0
+Via: SIP/2.0/UDP 10.0.0.1:5060;branch=z9hG4bK776
+From: "Alice" <sip:alice@example.com>;tag=1928301774
+To: "Bob" <sip:bob@example.com>
+Call-ID: a84b4c76e66710@10.0.0.1
+CSeq: 314159 INVITE
+Contact: <sip:alice@10.0.0.1:5060>
+Content-Type: application/sdp
+Content-Length: 142
+
+v=0
+o=alice 53655765 2353687637 IN IP4 10.0.0.1
+m=audio 49170 RTP/AVP 0
+a=rtpmap:0 PCMU/8000`
+				}
+			]
+		},
 		performance: {
 			latency: 'Call setup: 1-3 seconds (INVITE → 200 OK → ACK + RTP establishment)',
 			throughput: 'SIP messages are small text; the media (RTP) carries the bandwidth load',
 			overhead: 'Text-based headers like HTTP; typically 500-1000 bytes per SIP message'
 		},
 		microInteraction: 'query-response',
-		connections: ['udp', 'tcp', 'rtp', 'webrtc']
+		connections: ['udp', 'tcp', 'rtp', 'webrtc'],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/Session_Initiation_Protocol',
+			rfc: 'https://datatracker.ietf.org/doc/html/rfc3261'
+		}
 	},
 	{
 		id: 'hls',
@@ -219,6 +323,54 @@ The tradeoff is latency: buffering several segments means HLS typically has 6-30
 			'E-learning platforms',
 			'Security camera recording playback'
 		],
+		codeExample: {
+			language: 'bash',
+			code: `# Create HLS segments and playlist from a video file
+ffmpeg -i input.mp4 \\
+  -c:v libx264 -preset fast -crf 22 \\
+  -c:a aac -b:a 128k \\
+  -hls_time 6 \\
+  -hls_list_size 0 \\
+  -hls_segment_filename 'segment_%03d.ts' \\
+  -f hls playlist.m3u8
+
+# Create multi-bitrate HLS for adaptive streaming
+ffmpeg -i input.mp4 \\
+  -map 0:v -map 0:a -map 0:v -map 0:a \\
+  -c:v libx264 -c:a aac \\
+  -b:v:0 1500k -s:v:0 1280x720 \\
+  -b:v:1 500k -s:v:1 640x360 \\
+  -var_stream_map "v:0,a:0 v:1,a:1" \\
+  -hls_time 6 -master_pl_name master.m3u8 \\
+  -f hls stream_%v/playlist.m3u8`,
+			caption:
+				'ffmpeg creates HLS segments and playlists — CDNs serve these as ordinary HTTP files',
+			alternatives: [
+				{
+					language: 'javascript',
+					code: `import Hls from 'hls.js';
+
+// HLS.js — play HLS in any browser
+const video = document.querySelector('video');
+
+if (Hls.isSupported()) {
+  const hls = new Hls();
+  hls.loadSource('https://cdn.example.com/master.m3u8');
+  hls.attachMedia(video);
+
+  hls.on(Hls.Events.MANIFEST_PARSED, () => {
+    // Adaptive bitrate is automatic
+    console.log('Quality levels:', hls.levels.length);
+    video.play();
+  });
+
+  hls.on(Hls.Events.LEVEL_SWITCHED, (_, data) => {
+    console.log('Switched to quality:', data.level);
+  });
+}`
+				}
+			]
+		},
 		performance: {
 			latency:
 				'Standard: 10-30 seconds. Low-Latency HLS: 2-4 seconds. Not suitable for real-time interaction.',
@@ -227,6 +379,11 @@ The tradeoff is latency: buffering several segments means HLS typically has 6-30
 			overhead: 'HTTP headers per segment. Manifest polling adds small periodic requests.'
 		},
 		microInteraction: 'streaming',
-		connections: ['http1', 'http2', 'tls']
+		connections: ['http1', 'http2', 'tls'],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/HTTP_Live_Streaming',
+			rfc: 'https://datatracker.ietf.org/doc/html/rfc8216',
+			official: 'https://developer.apple.com/streaming/'
+		}
 	}
 ];

@@ -29,9 +29,7 @@
 	});
 </script>
 
-<div
-	class="custom-scrollbar absolute top-0 right-0 z-50 flex h-full w-full max-w-xl flex-col overflow-y-auto border-l border-white/10 bg-bg-deep/95 shadow-2xl backdrop-blur-xl sm:w-[520px]"
->
+<div class="detail-panel absolute top-0 right-0 z-50 h-full w-full max-w-xl sm:w-130">
 	<!-- Close button -->
 	<button
 		class="absolute top-3 right-3 z-10 flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-white/5 hover:text-slate-200"
@@ -47,7 +45,9 @@
 			/>
 		</svg>
 	</button>
-
+<div
+	class="custom-scrollbar flex h-full w-full flex-col overflow-y-auto bg-bg-deep/95 shadow-2xl backdrop-blur-xl"
+>
 	{#if selectedData?.type === 'protocol' && selectedData.protocol}
 		{@const proto = selectedData.protocol}
 		{@const cat = selectedData.category}
@@ -157,3 +157,22 @@
 		</div>
 	{/if}
 </div>
+</div>
+
+<style>
+	.detail-panel {
+		position: relative;
+	}
+
+	.detail-panel::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: -60px;
+		width: 60px;
+		height: 100%;
+		background: linear-gradient(to right, transparent, rgb(15 23 42 / 0.97));
+		pointer-events: none;
+		z-index: 1;
+	}
+</style>

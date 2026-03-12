@@ -68,7 +68,11 @@ client.loop_forever()`,
 			overhead: '2-byte fixed header minimum — one of the lightest protocols in existence'
 		},
 		microInteraction: 'publish-subscribe',
-		connections: ['tcp', 'websockets', 'amqp']
+		connections: ['tcp', 'websockets', 'amqp'],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/MQTT',
+			official: 'https://mqtt.org/'
+		}
 	},
 	{
 		id: 'amqp',
@@ -113,6 +117,62 @@ RabbitMQ, the most popular AMQP broker, powers message-driven architectures at c
 			'Background job processing',
 			'Log aggregation and monitoring'
 		],
+		codeExample: {
+			language: 'python',
+			code: `import pika
+
+# Connect to RabbitMQ broker
+connection = pika.BlockingConnection(
+    pika.ConnectionParameters('localhost'))
+channel = connection.channel()
+
+# Declare a queue (idempotent)
+channel.queue_declare(queue='tasks', durable=True)
+
+# Publish a message
+channel.basic_publish(
+    exchange='',
+    routing_key='tasks',
+    body='Process order #1234',
+    properties=pika.BasicProperties(delivery_mode=2)  # persistent
+)
+print("Message sent!")
+
+# Consume messages
+def callback(ch, method, properties, body):
+    print(f"Received: {body.decode()}")
+    ch.basic_ack(delivery_tag=method.delivery_tag)
+
+channel.basic_consume(queue='tasks', on_message_callback=callback)
+channel.start_consuming()`,
+			caption:
+				'RabbitMQ with pika — publish durable messages and consume with acknowledgments',
+			alternatives: [
+				{
+					language: 'typescript',
+					code: `import amqplib from 'amqplib';
+
+const conn = await amqplib.connect('amqp://localhost');
+const channel = await conn.createChannel();
+
+await channel.assertQueue('tasks', { durable: true });
+
+// Publish
+channel.sendToQueue('tasks',
+  Buffer.from('Process order #1234'),
+  { persistent: true }
+);
+
+// Consume
+channel.consume('tasks', (msg) => {
+  if (msg) {
+    console.log('Received:', msg.content.toString());
+    channel.ack(msg);
+  }
+});`
+				}
+			]
+		},
 		performance: {
 			latency:
 				'Connection setup is heavier than MQTT; message delivery is near-instant once connected',
@@ -121,7 +181,11 @@ RabbitMQ, the most popular AMQP broker, powers message-driven architectures at c
 				'Richer framing than MQTT (exchange routing, properties, headers). 8-byte frame header.'
 		},
 		microInteraction: 'publish-subscribe',
-		connections: ['tcp', 'tls', 'mqtt']
+		connections: ['tcp', 'tls', 'mqtt'],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/Advanced_Message_Queuing_Protocol',
+			official: 'https://www.amqp.org/'
+		}
 	},
 	{
 		id: 'coap',
@@ -166,13 +230,67 @@ CoAP is widely used in smart buildings, industrial automation, and city infrastr
 			'Wearable health devices',
 			'Agricultural monitoring systems'
 		],
+		codeExample: {
+			language: 'python',
+			code: `import asyncio
+from aiocoap import Context, Message, GET, PUT
+
+async def main():
+    context = await Context.create_client_context()
+
+    # GET request — like HTTP but over UDP
+    request = Message(code=GET,
+        uri='coap://sensor.local/temperature')
+    response = await context.request(request).response
+    print(f"Temperature: {response.payload.decode()} C")
+
+    # PUT request — update a resource
+    request = Message(code=PUT,
+        uri='coap://light.local/brightness',
+        payload=b'75')
+    response = await context.request(request).response
+    print(f"Set brightness: {response.code}")
+
+asyncio.run(main())`,
+			caption:
+				'CoAP uses REST-like methods (GET, PUT) over UDP — designed for constrained IoT devices',
+			alternatives: [
+				{
+					language: 'javascript',
+					code: `const coap = require('coap');
+
+// GET request to a CoAP sensor
+const req = coap.request('coap://sensor.local/temperature');
+
+req.on('response', (res) => {
+  console.log('Temperature:', res.payload.toString());
+
+  // Observe — get notified of changes
+  const observe = coap.request({
+    hostname: 'sensor.local',
+    pathname: '/temperature',
+    observe: true
+  });
+  observe.on('response', (res) => {
+    res.on('data', (d) => console.log('Update:', d.toString()));
+  });
+  observe.end();
+});
+req.end();`
+				}
+			]
+		},
 		performance: {
 			latency: 'No connection setup (UDP) — single RTT for confirmable, zero for non-confirmable',
 			throughput: 'Low throughput by design — optimized for small, infrequent messages',
 			overhead: '4-byte base header. Total message often under 100 bytes.'
 		},
 		microInteraction: 'query-response',
-		connections: ['udp', 'mqtt']
+		connections: ['udp', 'mqtt'],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/Constrained_Application_Protocol',
+			rfc: 'https://datatracker.ietf.org/doc/html/rfc7252'
+		}
 	},
 	{
 		id: 'stomp',
@@ -217,12 +335,66 @@ STOMP is commonly used in web applications via WebSocket bridges — the Spring 
 			'Debug-friendly messaging (text-based)',
 			'Cross-language microservice communication'
 		],
+		codeExample: {
+			language: 'javascript',
+			code: `import { Client } from '@stomp/stompjs';
+
+const client = new Client({
+  brokerURL: 'ws://localhost:15674/ws',
+  onConnect: () => {
+    // Subscribe to a destination
+    client.subscribe('/topic/notifications', (message) => {
+      console.log('Received:', message.body);
+      message.ack();  // Acknowledge receipt
+    });
+
+    // Send a message — plain text, human-readable
+    client.publish({
+      destination: '/queue/tasks',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ task: 'process-order', id: 42 })
+    });
+  }
+});
+
+client.activate();`,
+			caption:
+				'STOMP over WebSockets — text-based messaging that you could debug with browser DevTools',
+			alternatives: [
+				{
+					language: 'python',
+					code: `import stomp
+
+class MyListener(stomp.ConnectionListener):
+    def on_message(self, frame):
+        print(f"Received: {frame.body}")
+
+conn = stomp.Connection([('localhost', 61613)])
+conn.set_listener('', MyListener())
+conn.connect('admin', 'admin', wait=True)
+
+# Subscribe to a topic
+conn.subscribe(destination='/topic/notifications', id=1, ack='auto')
+
+# Send a message
+conn.send(
+    destination='/queue/tasks',
+    body='{"task": "process-order", "id": 42}',
+    content_type='application/json'
+)`
+				}
+			]
+		},
 		performance: {
 			latency: 'Similar to the underlying broker; STOMP itself adds minimal latency',
 			throughput: 'Text encoding is less efficient than binary protocols like AMQP',
 			overhead: 'Text framing is verbose compared to MQTT/AMQP, but very readable'
 		},
 		microInteraction: 'publish-subscribe',
-		connections: ['tcp', 'websockets', 'amqp']
+		connections: ['tcp', 'websockets', 'amqp'],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/Streaming_Text_Oriented_Messaging_Protocol',
+			official: 'https://stomp.github.io/'
+		}
 	}
 ];

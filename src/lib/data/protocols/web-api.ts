@@ -66,7 +66,11 @@ Content-Length: 82
 				'Text headers are uncompressed and often repeated — 500-800 bytes typical per request'
 		},
 		microInteraction: 'blocking',
-		connections: ['tcp', 'tls', 'http2', 'rest']
+		connections: ['tcp', 'tls', 'http2', 'rest'],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/HTTP',
+			rfc: 'https://datatracker.ietf.org/doc/html/rfc2616'
+		}
 	},
 	{
 		id: 'http2',
@@ -111,6 +115,46 @@ However, HTTP/2 still runs on TCP, which means TCP-level head-of-line blocking p
 			'Mobile applications (single connection saves battery)',
 			'Microservice-to-microservice communication'
 		],
+		codeExample: {
+			language: 'javascript',
+			code: `const http2 = require('node:http2');
+
+// Connect to an HTTP/2 server
+const client = http2.connect('https://example.com');
+
+// Multiplexed: multiple requests on one connection
+const req = client.request({ ':path': '/api/data' });
+
+req.on('response', (headers) => {
+  console.log('Status:', headers[':status']);
+});
+
+let data = '';
+req.on('data', (chunk) => { data += chunk; });
+req.on('end', () => {
+  console.log('Response:', data);
+  client.close();
+});
+req.end();`,
+			caption:
+				'Node.js http2 module — multiple requests share a single connection with binary framing',
+			alternatives: [
+				{
+					language: 'python',
+					code: `import httpx
+
+# httpx supports HTTP/2 natively
+client = httpx.Client(http2=True)
+
+response = client.get("https://example.com/api/data")
+print(f"HTTP version: {response.http_version}")  # HTTP/2
+print(f"Status: {response.status_code}")
+print(f"Body: {response.text}")
+
+client.close()`
+				}
+			]
+		},
 		performance: {
 			latency:
 				'Same connection setup as HTTP/1.1 + TLS, but much lower latency for concurrent requests',
@@ -118,7 +162,11 @@ However, HTTP/2 still runs on TCP, which means TCP-level head-of-line blocking p
 			overhead: 'HPACK compresses headers by 85-88% compared to HTTP/1.1'
 		},
 		microInteraction: 'multiplex',
-		connections: ['http1', 'http3', 'tcp', 'tls', 'grpc']
+		connections: ['http1', 'http3', 'tcp', 'tls', 'grpc', 'sse'],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/HTTP/2',
+			rfc: 'https://datatracker.ietf.org/doc/html/rfc7540'
+		}
 	},
 	{
 		id: 'http3',
@@ -163,6 +211,36 @@ Adoption is accelerating: Google, Cloudflare, Facebook, and most CDNs support it
 			'CDN and edge computing',
 			'Real-time collaboration tools'
 		],
+		codeExample: {
+			language: 'python',
+			code: `import httpx
+
+# httpx can use HTTP/3 with the h3 transport
+async def fetch_h3():
+    async with httpx.AsyncClient(http2=True) as client:
+        # Server advertises HTTP/3 via Alt-Svc header
+        response = await client.get("https://cloudflare-quic.com")
+        print(f"Protocol: {response.http_version}")
+        print(f"Status: {response.status_code}")
+        print(f"Alt-Svc: {response.headers.get('alt-svc')}")
+
+import asyncio
+asyncio.run(fetch_h3())`,
+			caption:
+				'HTTP/3 uses QUIC transport — clients discover it via the Alt-Svc header from HTTP/2 responses',
+			alternatives: [
+				{
+					language: 'bash',
+					code: `# curl supports HTTP/3 with the --http3 flag
+curl --http3 https://cloudflare-quic.com -v
+
+# Check if a server supports HTTP/3
+curl -sI https://cloudflare-quic.com \\
+  | grep -i alt-svc
+# alt-svc: h3=":443"; ma=86400`
+				}
+			]
+		},
 		performance: {
 			latency: '1 RTT to first data (vs 2-3 for HTTP/2+TLS). 0 RTT on reconnection.',
 			throughput: 'Better than HTTP/2 on lossy networks; comparable on clean networks',
@@ -170,7 +248,11 @@ Adoption is accelerating: Google, Cloudflare, Facebook, and most CDNs support it
 				'Slightly higher per-packet than TCP due to QUIC encryption, offset by fewer round trips'
 		},
 		microInteraction: 'multiplex',
-		connections: ['http2', 'quic', 'tls']
+		connections: ['http2', 'quic', 'tls'],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/HTTP/3',
+			rfc: 'https://datatracker.ietf.org/doc/html/rfc9114'
+		}
 	},
 	{
 		id: 'websockets',
@@ -240,7 +322,11 @@ ws.onmessage = (event) => {
 			overhead: '2-14 bytes per frame (vs 200-800 bytes per HTTP request)'
 		},
 		microInteraction: 'tube',
-		connections: ['http1', 'tcp', 'tls']
+		connections: ['http1', 'tcp', 'tls', 'sse'],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/WebSocket',
+			rfc: 'https://datatracker.ietf.org/doc/html/rfc6455'
+		}
 	},
 	{
 		id: 'grpc',
@@ -311,7 +397,11 @@ message User {
 			overhead: 'HTTP/2 framing + protobuf encoding. Very efficient for structured data.'
 		},
 		microInteraction: 'multiplex',
-		connections: ['http2', 'tls']
+		connections: ['http2', 'tls', 'rest'],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/GRPC',
+			official: 'https://grpc.io/'
+		}
 	},
 	{
 		id: 'graphql',
@@ -356,6 +446,59 @@ It shines for complex frontends (mobile apps, SPAs) that need flexible data fetc
 			'Content management systems',
 			'E-commerce product pages with relationships'
 		],
+		codeExample: {
+			language: 'javascript',
+			code: `const query = \`
+  query GetUser($id: ID!) {
+    user(id: $id) {
+      name
+      email
+      posts(limit: 5) {
+        title
+        createdAt
+      }
+    }
+  }
+\`;
+
+const response = await fetch('https://api.example.com/graphql', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    query,
+    variables: { id: '42' }
+  })
+});
+
+const { data } = await response.json();
+console.log(data.user.name, data.user.posts);`,
+			caption:
+				'One GraphQL query replaces multiple REST calls — ask for exactly the data you need',
+			alternatives: [
+				{
+					language: 'python',
+					code: `import requests
+
+query = """
+  query GetUser($id: ID!) {
+    user(id: $id) {
+      name
+      email
+      posts(limit: 5) { title }
+    }
+  }
+"""
+
+response = requests.post(
+    "https://api.example.com/graphql",
+    json={"query": query, "variables": {"id": "42"}}
+)
+
+data = response.json()["data"]
+print(data["user"]["name"], data["user"]["posts"])`
+				}
+			]
+		},
 		performance: {
 			latency: 'Single HTTP round trip for complex data needs (vs multiple REST calls)',
 			throughput:
@@ -363,6 +506,193 @@ It shines for complex frontends (mobile apps, SPAs) that need flexible data fetc
 			overhead: 'Query parsing + validation adds server-side cost. Caching is harder than REST.'
 		},
 		microInteraction: 'default',
-		connections: ['http1', 'http2', 'websockets']
+		connections: ['http1', 'http2', 'websockets', 'rest'],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/GraphQL',
+			official: 'https://graphql.org/'
+		}
+	},
+	{
+		id: 'sse',
+		name: 'Server-Sent Events',
+		abbreviation: 'SSE',
+		categoryId: 'web-api',
+		port: 443,
+		year: 2015,
+		rfc: 'W3C Spec',
+		oneLiner: 'One-way real-time streaming from server to browser over plain HTTP.',
+		overview: `Server-Sent Events (SSE) provide a simple, standardized way for servers to push updates to web clients over a single HTTP connection. Unlike WebSockets, SSE is unidirectional — the server sends events, and the client listens. This simplicity is its strength.
+
+SSE uses plain HTTP, which means it works through proxies, load balancers, and firewalls without any special configuration. The browser's EventSource API automatically handles reconnection, event IDs for resuming after disconnects, and content type negotiation.
+
+Each event is a text block with optional fields: event type, data payload, ID, and retry interval. The format is deliberately simple — just UTF-8 text with newline separators. This makes SSE ideal for live feeds, notifications, and streaming AI responses where the server needs to push data but doesn't need to receive a stream back.`,
+		howItWorks: [
+			{
+				title: 'HTTP connection',
+				description:
+					'Client opens a standard HTTP request with Accept: text/event-stream. The server responds with Content-Type: text/event-stream and keeps the connection open.'
+			},
+			{
+				title: 'Event stream',
+				description:
+					'Server sends events as text blocks separated by blank lines. Each event has optional fields: "event:" (type), "data:" (payload), "id:" (last event ID), and "retry:" (reconnection interval in ms).'
+			},
+			{
+				title: 'Auto-reconnection',
+				description:
+					'If the connection drops, the browser automatically reconnects and sends the last event ID in a Last-Event-ID header, allowing the server to resume from where it left off.'
+			},
+			{
+				title: 'Client processing',
+				description:
+					'The EventSource API fires message events (or named events) that JavaScript handlers process. No polling, no complexity — just native browser event handling.'
+			}
+		],
+		useCases: [
+			'Live notification feeds and activity streams',
+			'Real-time dashboards and monitoring displays',
+			'Streaming AI/LLM responses token-by-token',
+			'Stock tickers and sports score updates',
+			'Server-side progress updates for long-running tasks'
+		],
+		codeExample: {
+			language: 'JavaScript',
+			code: `// Browser — listen for server-sent events
+const source = new EventSource('/api/notifications');
+
+source.onmessage = (event) => {
+  console.log('New message:', event.data);
+};
+
+source.addEventListener('update', (event) => {
+  const data = JSON.parse(event.data);
+  console.log('Update:', data);
+});
+
+source.onerror = () => {
+  console.log('Connection lost, auto-reconnecting...');
+};`,
+			caption:
+				'The EventSource API handles connection management, reconnection, and event parsing automatically.',
+			alternatives: [
+				{
+					language: 'Python',
+					code: `# Server — Flask SSE endpoint
+from flask import Flask, Response
+import time, json
+
+app = Flask(__name__)
+
+@app.route('/api/notifications')
+def stream():
+    def generate():
+        while True:
+            data = json.dumps({"time": time.time()})
+            yield f"event: update\\ndata: {data}\\n\\n"
+            time.sleep(1)
+    return Response(generate(),
+                    mimetype='text/event-stream')`
+				}
+			]
+		},
+		performance: {
+			latency: 'Sub-second (persistent connection)',
+			throughput: 'Lightweight text streaming',
+			overhead: 'Minimal — plain HTTP, no upgrade'
+		},
+		microInteraction: 'streaming' as const,
+		connections: ['http1', 'http2', 'websockets'],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/Server-sent_events',
+			official: 'https://html.spec.whatwg.org/multipage/server-sent-events.html'
+		}
+	},
+	{
+		id: 'rest',
+		name: 'Representational State Transfer',
+		abbreviation: 'REST',
+		categoryId: 'web-api',
+		year: 2000,
+		oneLiner:
+			'An architectural style for web APIs — not a protocol, but the dominant pattern for HTTP services.',
+		overview: `REST is not a protocol — it's an architectural style defined by Roy Fielding in his 2000 doctoral dissertation. It describes how to build scalable web services using the existing mechanics of HTTP: URLs as resource identifiers, HTTP methods as operations, status codes as outcomes, and hypermedia as the engine of application state.
+
+A RESTful API models everything as resources (nouns, not verbs). You GET a user, POST a new order, PUT an updated profile, DELETE a session. Each request is stateless — the server doesn't remember previous requests, so every call carries all the context it needs. This makes REST APIs easy to cache, scale horizontally, and reason about.
+
+REST's ubiquity comes from its simplicity: any HTTP client in any language can call a REST API. No special tooling, no code generation, no binary protocols. JSON became the de facto format, though REST itself is format-agnostic. The trade-off is that REST can be chatty — fetching a complex resource might require multiple round trips, which is exactly the problem GraphQL was designed to solve.`,
+		howItWorks: [
+			{
+				title: 'Resource identification',
+				description:
+					'Every resource has a unique URL (e.g., /api/users/42). The URL structure creates a logical hierarchy that maps to your data model.'
+			},
+			{
+				title: 'HTTP methods as verbs',
+				description:
+					'GET (read), POST (create), PUT (replace), PATCH (partial update), DELETE (remove). Each method has defined semantics — GET is safe and idempotent, DELETE is idempotent but not safe.'
+			},
+			{
+				title: 'Stateless requests',
+				description:
+					'Each request contains all information needed to process it — authentication tokens, content type, requested format. The server maintains no session state between requests.'
+			},
+			{
+				title: 'Response with status',
+				description:
+					'Server returns an HTTP status code (200 OK, 201 Created, 404 Not Found, etc.) along with the resource representation, typically as JSON.'
+			}
+		],
+		useCases: [
+			'Public APIs for third-party integrations',
+			'CRUD operations on database resources',
+			'Microservice-to-microservice communication',
+			'Mobile app backends',
+			'Any HTTP-based service where simplicity and broad compatibility matter'
+		],
+		codeExample: {
+			language: 'JavaScript',
+			code: `// Fetch API — RESTful CRUD operations
+// GET — read a resource
+const user = await fetch('/api/users/42').then(r => r.json());
+
+// POST — create a resource
+const newUser = await fetch('/api/users', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ name: 'Alice', role: 'admin' })
+}).then(r => r.json());
+
+// DELETE — remove a resource
+await fetch('/api/users/42', { method: 'DELETE' });`,
+			caption:
+				'REST uses standard HTTP — any language with an HTTP client can interact with a REST API.',
+			alternatives: [
+				{
+					language: 'Python',
+					code: `import requests
+
+# GET
+user = requests.get('https://api.example.com/users/42').json()
+
+# POST
+new_user = requests.post('https://api.example.com/users',
+    json={'name': 'Alice', 'role': 'admin'}).json()
+
+# DELETE
+requests.delete('https://api.example.com/users/42')`
+				}
+			]
+		},
+		performance: {
+			latency: 'Per-request (no persistent state)',
+			throughput: 'Depends on HTTP version used',
+			overhead: 'Minimal — uses standard HTTP semantics'
+		},
+		microInteraction: 'query-response' as const,
+		connections: ['http1', 'http2', 'graphql', 'grpc'],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/REST',
+			official: 'https://ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm'
+		}
 	}
 ];

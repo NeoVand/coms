@@ -43,6 +43,7 @@
 	},
 	"dependencies": {
 		"d3-force": "^3.0.0",
-		"d3-quadtree": "^3.0.1"
+		"d3-quadtree": "^3.0.1",
+		"highlight.js": "^11.11.1"
 	}
 }
