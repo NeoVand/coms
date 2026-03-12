@@ -24,31 +24,117 @@
 	</text>
 
 	<!-- Divider -->
-	<line x1="198" y1="8" x2="198" y2="195" stroke="#334155" stroke-width="1" stroke-dasharray="4 3" />
+	<line
+		x1="198"
+		y1="8"
+		x2="198"
+		y2="195"
+		stroke="#334155"
+		stroke-width="1"
+		stroke-dasharray="4 3"
+	/>
 
 	<!-- === LEFT: REST === -->
 	<text x="25" y="34" font-size="9" fill="#94a3b8">Client</text>
 	<text x="140" y="34" font-size="9" fill="#94a3b8">Server</text>
 
 	<!-- Request 1 -->
-	<line x1="40" y1="46" x2="135" y2="46" stroke="#64748b" stroke-width="1" marker-end="url(#gql-arrow-muted)" />
+	<line
+		x1="40"
+		y1="46"
+		x2="135"
+		y2="46"
+		stroke="#64748b"
+		stroke-width="1"
+		marker-end="url(#gql-arrow-muted)"
+	/>
 	<text x="88" y="42" font-size="7" fill="#64748b" text-anchor="middle">GET /user</text>
-	<line x1="155" y1="54" x2="60" y2="54" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3 2" marker-end="url(#gql-arrow-back)" />
-	<rect x="140" y="40" width="48" height="20" rx="3" fill="#334155" stroke="#334155" stroke-width="0.5" />
-	<text x="164" y="53" font-size="7" fill="#94a3b8" text-anchor="middle">user{"{}"}</text>
+	<line
+		x1="155"
+		y1="54"
+		x2="60"
+		y2="54"
+		stroke="#94a3b8"
+		stroke-width="1"
+		stroke-dasharray="3 2"
+		marker-end="url(#gql-arrow-back)"
+	/>
+	<rect
+		x="140"
+		y="40"
+		width="48"
+		height="20"
+		rx="3"
+		fill="#334155"
+		stroke="#334155"
+		stroke-width="0.5"
+	/>
+	<text x="164" y="53" font-size="7" fill="#94a3b8" text-anchor="middle">user{'{}'}</text>
 
 	<!-- Request 2 -->
-	<line x1="40" y1="76" x2="135" y2="76" stroke="#64748b" stroke-width="1" marker-end="url(#gql-arrow-muted)" />
+	<line
+		x1="40"
+		y1="76"
+		x2="135"
+		y2="76"
+		stroke="#64748b"
+		stroke-width="1"
+		marker-end="url(#gql-arrow-muted)"
+	/>
 	<text x="88" y="72" font-size="7" fill="#64748b" text-anchor="middle">GET /posts</text>
-	<line x1="155" y1="84" x2="60" y2="84" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3 2" marker-end="url(#gql-arrow-back)" />
-	<rect x="140" y="70" width="48" height="20" rx="3" fill="#334155" stroke="#334155" stroke-width="0.5" />
+	<line
+		x1="155"
+		y1="84"
+		x2="60"
+		y2="84"
+		stroke="#94a3b8"
+		stroke-width="1"
+		stroke-dasharray="3 2"
+		marker-end="url(#gql-arrow-back)"
+	/>
+	<rect
+		x="140"
+		y="70"
+		width="48"
+		height="20"
+		rx="3"
+		fill="#334155"
+		stroke="#334155"
+		stroke-width="0.5"
+	/>
 	<text x="164" y="83" font-size="7" fill="#94a3b8" text-anchor="middle">posts[]</text>
 
 	<!-- Request 3 -->
-	<line x1="40" y1="106" x2="135" y2="106" stroke="#64748b" stroke-width="1" marker-end="url(#gql-arrow-muted)" />
+	<line
+		x1="40"
+		y1="106"
+		x2="135"
+		y2="106"
+		stroke="#64748b"
+		stroke-width="1"
+		marker-end="url(#gql-arrow-muted)"
+	/>
 	<text x="88" y="102" font-size="7" fill="#64748b" text-anchor="middle">GET /comments</text>
-	<line x1="155" y1="114" x2="60" y2="114" stroke="#94a3b8" stroke-width="1" stroke-dasharray="3 2" marker-end="url(#gql-arrow-back)" />
-	<rect x="140" y="100" width="48" height="20" rx="3" fill="#334155" stroke="#334155" stroke-width="0.5" />
+	<line
+		x1="155"
+		y1="114"
+		x2="60"
+		y2="114"
+		stroke="#94a3b8"
+		stroke-width="1"
+		stroke-dasharray="3 2"
+		marker-end="url(#gql-arrow-back)"
+	/>
+	<rect
+		x="140"
+		y="100"
+		width="48"
+		height="20"
+		rx="3"
+		fill="#334155"
+		stroke="#334155"
+		stroke-width="0.5"
+	/>
 	<text x="164" y="113" font-size="7" fill="#94a3b8" text-anchor="middle">cmts[]</text>
 
 	<!-- Over-fetching warning -->
@@ -69,7 +155,17 @@
 	<text x="370" y="34" font-size="9" fill="#94a3b8">Server</text>
 
 	<!-- Single query box -->
-	<rect x="222" y="42" width="90" height="66" rx="4" fill={color} opacity="0.08" stroke={color} stroke-width="0.5" />
+	<rect
+		x="222"
+		y="42"
+		width="90"
+		height="66"
+		rx="4"
+		fill={color}
+		opacity="0.08"
+		stroke={color}
+		stroke-width="0.5"
+	/>
 	<text x="232" y="55" font-size="7" fill={color} font-weight="600">query &lbrace;</text>
 	<text x="240" y="66" font-size="7" fill="#94a3b8">user &lbrace; name &rbrace;</text>
 	<text x="240" y="77" font-size="7" fill="#94a3b8">posts &lbrace; title &rbrace;</text>
@@ -77,12 +173,34 @@
 	<text x="232" y="103" font-size="7" fill={color} font-weight="600">&rbrace;</text>
 
 	<!-- Single arrow out -->
-	<line x1="314" y1="72" x2="352" y2="72" stroke={color} stroke-width="1.5" marker-end="url(#gql-arrow)">
-		<animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="2.5s" repeatCount="indefinite" />
+	<line
+		x1="314"
+		y1="72"
+		x2="352"
+		y2="72"
+		stroke={color}
+		stroke-width="1.5"
+		marker-end="url(#gql-arrow)"
+	>
+		<animate
+			attributeName="stroke-opacity"
+			values="0.4;1;0.4"
+			dur="2.5s"
+			repeatCount="indefinite"
+		/>
 	</line>
 
 	<!-- Server resolves -->
-	<rect x="354" y="46" width="38" height="58" rx="4" fill="#334155" stroke={color} stroke-width="0.5" />
+	<rect
+		x="354"
+		y="46"
+		width="38"
+		height="58"
+		rx="4"
+		fill="#334155"
+		stroke={color}
+		stroke-width="0.5"
+	/>
 	<text
 		x="373"
 		y="78"
@@ -95,12 +213,37 @@
 	</text>
 
 	<!-- Single response -->
-	<line x1="353" y1="115" x2="260" y2="115" stroke={color} stroke-width="1.5" stroke-dasharray="5 3" marker-end="url(#gql-arrow)">
-		<animate attributeName="stroke-opacity" values="0.3;0.9;0.3" dur="2.5s" begin="0.5s" repeatCount="indefinite" />
+	<line
+		x1="353"
+		y1="115"
+		x2="260"
+		y2="115"
+		stroke={color}
+		stroke-width="1.5"
+		stroke-dasharray="5 3"
+		marker-end="url(#gql-arrow)"
+	>
+		<animate
+			attributeName="stroke-opacity"
+			values="0.3;0.9;0.3"
+			dur="2.5s"
+			begin="0.5s"
+			repeatCount="indefinite"
+		/>
 	</line>
 
 	<!-- Response data box -->
-	<rect x="222" y="122" width="130" height="40" rx="4" fill={color} opacity="0.08" stroke={color} stroke-width="0.5" />
+	<rect
+		x="222"
+		y="122"
+		width="130"
+		height="40"
+		rx="4"
+		fill={color}
+		opacity="0.08"
+		stroke={color}
+		stroke-width="0.5"
+	/>
 	<text x="232" y="135" font-size="7" fill={color} font-weight="600">&lbrace; data:</text>
 	<text x="240" y="146" font-size="7" fill="#94a3b8">user, posts, comments</text>
 	<text x="232" y="157" font-size="7" fill={color} font-weight="600">&rbrace;</text>

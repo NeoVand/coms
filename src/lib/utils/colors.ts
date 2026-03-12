@@ -12,12 +12,12 @@ export const COLORS = {
 	transportGlow: 'rgba(57, 255, 20, 0.4)',
 	'web-api': '#00D4FF',
 	'web-apiGlow': 'rgba(0, 212, 255, 0.4)',
-	'async-iot': '#A855F7',
-	'async-iotGlow': 'rgba(168, 85, 247, 0.4)',
-	'realtime-av': '#FF6B35',
-	'realtime-avGlow': 'rgba(255, 107, 53, 0.4)',
-	utilities: '#14B8A6',
-	utilitiesGlow: 'rgba(20, 184, 166, 0.4)'
+	'async-iot': '#C084FC',
+	'async-iotGlow': 'rgba(192, 132, 252, 0.4)',
+	'realtime-av': '#FF9F67',
+	'realtime-avGlow': 'rgba(255, 159, 103, 0.4)',
+	utilities: '#2DD4BF',
+	utilitiesGlow: 'rgba(45, 212, 191, 0.4)'
 } as const;
 
 export const CATEGORY_COLORS: Record<string, { color: string; glow: string }> = {

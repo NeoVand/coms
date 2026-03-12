@@ -29,12 +29,7 @@
 		/>
 	</line>
 	<polygon points="148,97 140,92 140,102" fill={color}>
-		<animate
-			attributeName="fill-opacity"
-			values="0.4;1;0.4"
-			dur="2.5s"
-			repeatCount="indefinite"
-		/>
+		<animate attributeName="fill-opacity" values="0.4;1;0.4" dur="2.5s" repeatCount="indefinite" />
 	</polygon>
 
 	<!-- Topic label on publish arrow -->

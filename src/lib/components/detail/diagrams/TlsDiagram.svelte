@@ -21,20 +21,10 @@
 
 	<!-- Arrow: plaintext to encryption -->
 	<line x1="115" y1="95" x2="148" y2="95" stroke={color} stroke-width="1.5">
-		<animate
-			attributeName="stroke-opacity"
-			values="0.4;1;0.4"
-			dur="3s"
-			repeatCount="indefinite"
-		/>
+		<animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="3s" repeatCount="indefinite" />
 	</line>
 	<polygon points="148,95 140,90 140,100" fill={color}>
-		<animate
-			attributeName="fill-opacity"
-			values="0.4;1;0.4"
-			dur="3s"
-			repeatCount="indefinite"
-		/>
+		<animate attributeName="fill-opacity" values="0.4;1;0.4" dur="3s" repeatCount="indefinite" />
 	</polygon>
 
 	<!-- Encryption box -->
@@ -105,14 +95,7 @@
 		stroke-width="1.5"
 	/>
 	<text x="335" y="50" font-size="10" fill="#94a3b8" text-anchor="middle">Ciphertext</text>
-	<text
-		x="335"
-		y="85"
-		font-size="14"
-		text-anchor="middle"
-		fill="#94a3b8"
-		font-family="monospace"
-	>
+	<text x="335" y="85" font-size="14" text-anchor="middle" fill="#94a3b8" font-family="monospace">
 		%#@!
 	</text>
 	<text x="335" y="110" font-size="8" fill="#64748b" text-anchor="middle"> x9Fk2..mQ7 </text>

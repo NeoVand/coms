@@ -28,13 +28,16 @@
 	<line x1="340" y1="28" x2="340" y2="210" stroke="#334155" stroke-width="1.5" />
 
 	<!-- SYN arrow -->
-	<line x1="60" y1="55" x2="330" y2="85" stroke={color} stroke-width="2" marker-end="url(#tcp-arrow-full)">
-		<animate
-			attributeName="stroke-opacity"
-			values="0.4;1;0.4"
-			dur="3s"
-			repeatCount="indefinite"
-		/>
+	<line
+		x1="60"
+		y1="55"
+		x2="330"
+		y2="85"
+		stroke={color}
+		stroke-width="2"
+		marker-end="url(#tcp-arrow-full)"
+	>
+		<animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="3s" repeatCount="indefinite" />
 	</line>
 	<text x="200" y="62" font-size="11" fill="#94a3b8" text-anchor="middle">SYN</text>
 

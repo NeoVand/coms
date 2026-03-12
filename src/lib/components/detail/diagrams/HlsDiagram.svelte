@@ -4,155 +4,229 @@
 
 <svg viewBox="0 0 400 240" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full">
 	<defs>
-		<marker id="hls-arrow" markerWidth="10" markerHeight="8" refX="10" refY="4" orient="auto">
-			<path d="M0,0 L10,4 L0,8 Z" fill={color} />
+		<marker id="hls-arrow" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+			<path d="M0,0 L8,3 L0,6 Z" fill={color} />
 		</marker>
-		<marker
-			id="hls-arrow-muted"
-			markerWidth="10"
-			markerHeight="8"
-			refX="10"
-			refY="4"
-			orient="auto"
-		>
-			<path d="M0,0 L10,4 L0,8 Z" fill="#94a3b8" />
+		<marker id="hls-arrow-muted" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+			<path d="M0,0 L8,3 L0,6 Z" fill="#94a3b8" />
 		</marker>
 	</defs>
 
-	<!-- Pipeline title -->
-	<text x="200" y="14" font-size="9" fill="#64748b" text-anchor="middle">
-		Server-Side Pipeline
-	</text>
+	<!-- Server Pipeline title -->
+	<text x="200" y="14" font-size="9" fill="#64748b" text-anchor="middle">Server-Side Pipeline</text>
 
 	<!-- Video Source -->
-	<rect x="8" y="22" width="52" height="32" rx="4" fill="#334155" />
-	<text x="34" y="36" font-size="8" font-weight="600" fill="#e2e8f0" text-anchor="middle">
-		Video
-	</text>
-	<text x="34" y="47" font-size="7" fill="#64748b" text-anchor="middle">source</text>
+	<rect x="10" y="24" width="56" height="30" rx="4" fill="#334155" />
+	<text x="38" y="37" font-size="8" font-weight="600" fill="#e2e8f0" text-anchor="middle"
+		>Video</text
+	>
+	<text x="38" y="47" font-size="7" fill="#64748b" text-anchor="middle">source</text>
 
-	<!-- Arrow to Encoder -->
-	<line x1="62" y1="38" x2="78" y2="38" stroke={color} stroke-width="1" marker-end="url(#hls-arrow)">
+	<!-- Arrow: Source → Encoder -->
+	<line
+		x1="66"
+		y1="39"
+		x2="88"
+		y2="39"
+		stroke={color}
+		stroke-width="1.2"
+		marker-end="url(#hls-arrow)"
+	>
 		<animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="3s" repeatCount="indefinite" />
 	</line>
 
 	<!-- Encoder -->
-	<rect x="82" y="22" width="58" height="32" rx="4" fill="#334155" />
-	<text x="111" y="36" font-size="8" font-weight="600" fill="#e2e8f0" text-anchor="middle">
-		Encoder
-	</text>
-	<text x="111" y="47" font-size="7" fill="#64748b" text-anchor="middle">H.264/HEVC</text>
+	<rect x="96" y="24" width="60" height="30" rx="4" fill="#334155" />
+	<text x="126" y="37" font-size="8" font-weight="600" fill="#e2e8f0" text-anchor="middle"
+		>Encoder</text
+	>
+	<text x="126" y="47" font-size="7" fill="#64748b" text-anchor="middle">H.264/HEVC</text>
 
-	<!-- Quality level outputs -->
-	<line x1="140" y1="30" x2="165" y2="68" stroke={color} stroke-width="1" opacity="0.6" />
-	<line x1="140" y1="38" x2="165" y2="82" stroke={color} stroke-width="1" opacity="0.8" />
-	<line x1="140" y1="46" x2="165" y2="96" stroke={color} stroke-width="1" />
+	<!-- Fan-out lines: Encoder → Quality levels -->
+	<line
+		x1="156"
+		y1="32"
+		x2="178"
+		y2="32"
+		stroke={color}
+		stroke-width="1"
+		opacity="0.6"
+		marker-end="url(#hls-arrow)"
+	/>
+	<line
+		x1="156"
+		y1="39"
+		x2="178"
+		y2="46"
+		stroke={color}
+		stroke-width="1"
+		opacity="0.8"
+		marker-end="url(#hls-arrow)"
+	/>
+	<line
+		x1="156"
+		y1="46"
+		x2="178"
+		y2="60"
+		stroke={color}
+		stroke-width="1"
+		marker-end="url(#hls-arrow)"
+	/>
 
 	<!-- Quality levels -->
-	<rect x="165" y="60" width="50" height="14" rx="2" fill="#334155" stroke={color} stroke-width="0.5" />
-	<text x="190" y="70" font-size="7" font-family="monospace" fill={color} text-anchor="middle">
-		1080p
-	</text>
+	<rect
+		x="186"
+		y="24"
+		width="48"
+		height="15"
+		rx="2"
+		fill="#334155"
+		stroke={color}
+		stroke-width="0.5"
+	/>
+	<text x="210" y="34" font-size="7" font-family="monospace" fill={color} text-anchor="middle"
+		>1080p</text
+	>
 
-	<rect x="165" y="76" width="50" height="14" rx="2" fill="#334155" stroke={color} stroke-width="0.5" opacity="0.8" />
-	<text x="190" y="86" font-size="7" font-family="monospace" fill="#94a3b8" text-anchor="middle">
-		720p
-	</text>
+	<rect
+		x="186"
+		y="41"
+		width="48"
+		height="15"
+		rx="2"
+		fill="#334155"
+		stroke={color}
+		stroke-width="0.5"
+		opacity="0.8"
+	/>
+	<text x="210" y="51" font-size="7" font-family="monospace" fill="#94a3b8" text-anchor="middle"
+		>720p</text
+	>
 
-	<rect x="165" y="92" width="50" height="14" rx="2" fill="#334155" stroke={color} stroke-width="0.5" opacity="0.6" />
-	<text x="190" y="102" font-size="7" font-family="monospace" fill="#64748b" text-anchor="middle">
-		360p
-	</text>
+	<rect
+		x="186"
+		y="58"
+		width="48"
+		height="15"
+		rx="2"
+		fill="#334155"
+		stroke={color}
+		stroke-width="0.5"
+		opacity="0.6"
+	/>
+	<text x="210" y="68" font-size="7" font-family="monospace" fill="#64748b" text-anchor="middle"
+		>360p</text
+	>
+
+	<!-- Arrow: Quality → Segmenter -->
+	<line
+		x1="234"
+		y1="48"
+		x2="256"
+		y2="48"
+		stroke={color}
+		stroke-width="1.2"
+		marker-end="url(#hls-arrow)"
+	/>
 
 	<!-- Segmenter -->
-	<line x1="215" y1="82" x2="232" y2="82" stroke={color} stroke-width="1" marker-end="url(#hls-arrow)" />
-	<rect x="236" y="62" width="54" height="42" rx="4" fill="#334155" />
-	<text x="263" y="78" font-size="8" font-weight="600" fill="#e2e8f0" text-anchor="middle">
-		Segment
-	</text>
-	<text x="263" y="90" font-size="7" fill="#64748b" text-anchor="middle">.ts chunks</text>
+	<rect x="264" y="28" width="56" height="40" rx="4" fill="#334155" />
+	<text x="292" y="45" font-size="8" font-weight="600" fill="#e2e8f0" text-anchor="middle"
+		>Segment</text
+	>
+	<text x="292" y="56" font-size="7" fill="#64748b" text-anchor="middle">.ts chunks</text>
 
-	<!-- Segments visual -->
-	{#each [0, 1, 2, 3] as i (i)}
-		<rect
-			x={298 + i * 12}
-			y="68"
-			width="10"
-			height="10"
-			rx="1"
-			fill={color}
-			opacity={0.3 + i * 0.2}
-		>
-			<animate
-				attributeName="opacity"
-				values="{0.2 + i * 0.15};{0.5 + i * 0.15};{0.2 + i * 0.15}"
-				dur="2s"
-				begin="{i * 0.3}s"
-				repeatCount="indefinite"
-			/>
-		</rect>
-	{/each}
+	<!-- Arrow: Segmenter → CDN -->
+	<line
+		x1="320"
+		y1="48"
+		x2="342"
+		y2="48"
+		stroke={color}
+		stroke-width="1.2"
+		marker-end="url(#hls-arrow)"
+	/>
 
 	<!-- CDN -->
-	<rect x="298" y="84" width="52" height="24" rx="4" fill="#334155" />
-	<text x="324" y="99" font-size="8" font-weight="600" fill="#e2e8f0" text-anchor="middle">
-		CDN
-	</text>
-
-	<!-- Arrow from Segmenter to CDN -->
-	<line x1="290" y1="96" x2="296" y2="96" stroke={color} stroke-width="1" marker-end="url(#hls-arrow)" />
+	<rect x="350" y="30" width="42" height="36" rx="4" fill="#334155" />
+	<text x="371" y="48" font-size="8" font-weight="600" fill="#e2e8f0" text-anchor="middle">CDN</text
+	>
+	<text x="371" y="58" font-size="6" fill="#64748b" text-anchor="middle">origin</text>
 
 	<!-- Divider -->
 	<line
 		x1="20"
-		y1="118"
+		y1="86"
 		x2="380"
-		y2="118"
+		y2="86"
 		stroke="#334155"
 		stroke-width="0.5"
 		stroke-dasharray="4 3"
 	/>
-
-	<!-- Player side title -->
-	<text x="200" y="132" font-size="9" fill="#64748b" text-anchor="middle">
-		Client-Side Playback
-	</text>
+	<text x="200" y="100" font-size="9" fill="#64748b" text-anchor="middle">Client-Side Playback</text
+	>
 
 	<!-- Player -->
-	<rect x="15" y="140" width="55" height="30" rx="4" fill="#334155" />
-	<text x="42" y="154" font-size="8" font-weight="600" fill="#e2e8f0" text-anchor="middle">
-		Player
-	</text>
-	<text x="42" y="165" font-size="7" fill="#64748b" text-anchor="middle">HLS.js</text>
+	<rect x="15" y="110" width="55" height="30" rx="4" fill="#334155" />
+	<text x="42" y="123" font-size="8" font-weight="600" fill="#e2e8f0" text-anchor="middle"
+		>Player</text
+	>
+	<text x="42" y="134" font-size="7" fill="#64748b" text-anchor="middle">HLS.js</text>
 
-	<!-- Step 1: Download manifest -->
-	<line x1="70" y1="148" x2="140" y2="148" stroke={color} stroke-width="1.5" marker-end="url(#hls-arrow)">
+	<!-- Step 1: Fetch manifest -->
+	<text x="118" y="108" font-size="7" fill="#64748b" text-anchor="middle">1. fetch manifest</text>
+	<line
+		x1="70"
+		y1="118"
+		x2="145"
+		y2="118"
+		stroke={color}
+		stroke-width="1.5"
+		marker-end="url(#hls-arrow)"
+	>
 		<animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="3s" repeatCount="indefinite" />
 	</line>
 
-	<!-- Manifest file -->
-	<rect x="144" y="138" width="80" height="22" rx="3" fill="#334155" stroke={color} stroke-width="0.5" />
-	<text
-		x="184"
-		y="152"
-		font-size="8"
-		font-family="monospace"
-		fill={color}
-		text-anchor="middle"
+	<!-- Manifest -->
+	<rect
+		x="153"
+		y="108"
+		width="82"
+		height="22"
+		rx="3"
+		fill="#334155"
+		stroke={color}
+		stroke-width="0.5"
+	/>
+	<text x="194" y="122" font-size="8" font-family="monospace" fill={color} text-anchor="middle"
+		>master.m3u8</text
 	>
-		master.m3u8
-	</text>
 
-	<!-- Step 2: Choose quality and download segments -->
-	<line x1="224" y1="149" x2="258" y2="149" stroke={color} stroke-width="1" marker-end="url(#hls-arrow)">
-		<animate attributeName="stroke-opacity" values="0.3;0.8;0.3" dur="3s" begin="0.5s" repeatCount="indefinite" />
+	<!-- Step 2: Choose quality & download -->
+	<text x="290" y="108" font-size="7" fill="#64748b" text-anchor="middle">2. request segments</text>
+	<line
+		x1="235"
+		y1="119"
+		x2="257"
+		y2="119"
+		stroke={color}
+		stroke-width="1"
+		marker-end="url(#hls-arrow)"
+	>
+		<animate
+			attributeName="stroke-opacity"
+			values="0.3;0.8;0.3"
+			dur="3s"
+			begin="0.5s"
+			repeatCount="indefinite"
+		/>
 	</line>
 
-	<!-- Segment downloads -->
+	<!-- Segments -->
 	{#each [0, 1, 2, 3] as i (i)}
 		<rect
-			x={262 + i * 28}
-			y="140"
+			x={265 + i * 28}
+			y="110"
 			width="24"
 			height="18"
 			rx="2"
@@ -169,8 +243,8 @@
 			/>
 		</rect>
 		<text
-			x={274 + i * 28}
-			y="152"
+			x={277 + i * 28}
+			y="122"
 			font-size="6"
 			font-family="monospace"
 			fill="#94a3b8"
@@ -180,41 +254,68 @@
 		</text>
 	{/each}
 
-	<!-- Adaptive quality switching -->
-	<path
-		d="M200,170 C200,185 160,185 160,180 C160,175 280,175 280,185 C280,195 240,195 240,190"
+	<!-- Adaptive bitrate section -->
+	<rect
+		x="50"
+		y="148"
+		width="300"
+		height="52"
+		rx="6"
+		fill={color}
+		opacity="0.04"
 		stroke={color}
-		stroke-width="1"
-		stroke-dasharray="4 2"
+		stroke-width="0.5"
+		stroke-opacity="0.15"
+	/>
+	<text
+		x="200"
+		y="161"
+		font-size="8"
+		font-weight="600"
+		fill={color}
+		text-anchor="middle"
+		opacity="0.9">Adaptive Bitrate Switching</text
+	>
+
+	<!-- Bandwidth graph line -->
+	<polyline
+		points="70,185 110,175 150,180 190,170 230,188 270,172 310,178 330,185"
+		stroke={color}
+		stroke-width="1.5"
 		fill="none"
-		marker-end="url(#hls-arrow)"
+		opacity="0.6"
 	>
 		<animate
 			attributeName="stroke-opacity"
 			values="0.3;0.7;0.3"
-			dur="3s"
-			begin="1s"
+			dur="4s"
 			repeatCount="indefinite"
 		/>
-	</path>
-	<text x="200" y="196" font-size="8" fill={color} text-anchor="middle">
-		↕ quality switches with bandwidth
-	</text>
+	</polyline>
+
+	<!-- Quality level indicators along the line -->
+	<text x="110" y="172" font-size="6" fill={color} text-anchor="middle" opacity="0.8">1080p</text>
+	<text x="190" y="167" font-size="6" fill={color} text-anchor="middle" opacity="0.8">1080p</text>
+	<text x="235" y="194" font-size="6" fill="#94a3b8" text-anchor="middle">720p</text>
+	<text x="310" y="175" font-size="6" fill={color} text-anchor="middle" opacity="0.7">1080p</text>
+
+	<text x="80" y="194" font-size="6" fill="#64748b" text-anchor="middle">bandwidth</text>
+	<line x1="105" y1="192" x2="335" y2="192" stroke="#475569" stroke-width="0.5" />
 
 	<!-- Separator -->
 	<line
 		x1="20"
-		y1="208"
+		y1="210"
 		x2="380"
-		y2="208"
+		y2="210"
 		stroke="#334155"
 		stroke-width="0.5"
 		stroke-dasharray="4 3"
 	/>
 
 	<!-- Label -->
-	<text x="200" y="225" font-size="10" fill="#64748b" text-anchor="middle" font-style="italic">
-		Adaptive streaming — quality adapts to bandwidth
+	<text x="200" y="228" font-size="10" fill="#64748b" text-anchor="middle" font-style="italic">
+		Adaptive streaming — quality adapts to available bandwidth
 	</text>
 </svg>
 

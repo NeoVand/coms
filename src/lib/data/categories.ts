@@ -22,8 +22,8 @@ export const categories: Category[] = [
 	{
 		id: 'async-iot',
 		name: 'Async / IoT',
-		color: '#A855F7',
-		glowColor: 'rgba(168, 85, 247, 0.4)',
+		color: '#C084FC',
+		glowColor: 'rgba(192, 132, 252, 0.4)',
 		description:
 			'Message-oriented protocols designed for decoupled, asynchronous communication. Essential for IoT devices, microservices, and event-driven architectures.',
 		icon: 'async-iot'
@@ -31,8 +31,8 @@ export const categories: Category[] = [
 	{
 		id: 'realtime-av',
 		name: 'Real-Time A/V',
-		color: '#FF6B35',
-		glowColor: 'rgba(255, 107, 53, 0.4)',
+		color: '#FF9F67',
+		glowColor: 'rgba(255, 159, 103, 0.4)',
 		description:
 			'Protocols optimized for streaming audio and video in real-time. They prioritize low latency over perfect delivery — a dropped frame beats a frozen screen.',
 		icon: 'realtime-av'
@@ -40,8 +40,8 @@ export const categories: Category[] = [
 	{
 		id: 'utilities',
 		name: 'Utilities / Security',
-		color: '#14B8A6',
-		glowColor: 'rgba(20, 184, 166, 0.4)',
+		color: '#2DD4BF',
+		glowColor: 'rgba(45, 212, 191, 0.4)',
 		description:
 			'The invisible infrastructure. DNS translates names to addresses, TLS encrypts everything, and NTP keeps the world synchronized.',
 		icon: 'utilities'

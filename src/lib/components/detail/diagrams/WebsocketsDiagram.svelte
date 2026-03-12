@@ -30,9 +30,7 @@
 	<!-- Upgrade request -->
 	<line x1="60" y1="42" x2="340" y2="42" stroke="#94a3b8" stroke-width="1.5" />
 	<polygon points="340,42 330,37 330,47" fill="#94a3b8" />
-	<text x="200" y="38" font-size="9" fill="#94a3b8" text-anchor="middle">
-		Upgrade: websocket
-	</text>
+	<text x="200" y="38" font-size="9" fill="#94a3b8" text-anchor="middle"> Upgrade: websocket </text>
 
 	<!-- 101 Switching -->
 	<line x1="340" y1="62" x2="60" y2="62" stroke="#94a3b8" stroke-width="1.5" />

@@ -145,8 +145,7 @@ def callback(ch, method, properties, body):
 
 channel.basic_consume(queue='tasks', on_message_callback=callback)
 channel.start_consuming()`,
-			caption:
-				'RabbitMQ with pika — publish durable messages and consume with acknowledgments',
+			caption: 'RabbitMQ with pika — publish durable messages and consume with acknowledgments',
 			alternatives: [
 				{
 					language: 'typescript',

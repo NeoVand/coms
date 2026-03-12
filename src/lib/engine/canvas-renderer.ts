@@ -2,6 +2,7 @@ import type { GraphNode, GraphEdge, Viewport } from '$lib/data/types';
 import { COLORS } from '$lib/utils/colors';
 import { hexToRgba } from '$lib/utils/colors';
 import { getProtocolById } from '$lib/data/index';
+import { categoryMap } from '$lib/data/categories';
 
 interface RenderOptions {
 	width: number;
@@ -242,7 +243,8 @@ function drawNode(
 	) {
 		const glowRadius = r * (type === 'hub' ? 3 : 2.2);
 		const glow = ctx.createRadialGradient(x, y, r * 0.5, x, y, glowRadius);
-		const glowAlpha = isHovered || isSelected ? 0.35 : isConnected ? 0.2 : type === 'hub' ? 0.15 : 0.1;
+		const glowAlpha =
+			isHovered || isSelected ? 0.35 : isConnected ? 0.2 : type === 'hub' ? 0.15 : 0.1;
 		glow.addColorStop(0, hexToRgba(color, glowAlpha));
 		glow.addColorStop(1, hexToRgba(color, 0));
 		ctx.beginPath();
@@ -260,15 +262,27 @@ function drawNode(
 		ctx.stroke();
 	}
 
+	// Opaque base to prevent edge bleed-through
+	if (!dimmed) {
+		ctx.beginPath();
+		ctx.arc(x, y, r, 0, Math.PI * 2);
+		ctx.fillStyle = '#0f172a';
+		ctx.fill();
+	}
+
 	// Node body
 	const gradient = ctx.createRadialGradient(x - r * 0.3, y - r * 0.3, 0, x, y, r);
 	if (type === 'hub') {
 		gradient.addColorStop(0, `rgba(255, 255, 255, ${alpha})`);
 		gradient.addColorStop(1, `rgba(200, 210, 230, ${alpha * 0.8})`);
-	} else {
+	} else if (dimmed) {
 		gradient.addColorStop(0, hexToRgba(color, alpha * 0.9));
 		gradient.addColorStop(0.7, hexToRgba(color, alpha * 0.6));
 		gradient.addColorStop(1, hexToRgba(color, alpha * 0.3));
+	} else {
+		gradient.addColorStop(0, hexToRgba(color, 1));
+		gradient.addColorStop(0.7, hexToRgba(color, 0.7));
+		gradient.addColorStop(1, hexToRgba(color, 0.4));
 	}
 
 	ctx.beginPath();
@@ -286,6 +300,15 @@ function drawNode(
 		ctx.arc(x, y, r, 0, Math.PI * 2);
 		ctx.fillStyle = highlight;
 		ctx.fill();
+	}
+
+	// Category icon inside category nodes only
+	if (type === 'category') {
+		const cat = categoryMap.get(node.id);
+		if (cat) {
+			const iconSize = r * 1.1;
+			drawCategoryIcon(ctx, x, y, iconSize, cat.icon, dimmed);
+		}
 	}
 
 	// Label — show for non-dimmed nodes and connected nodes
@@ -311,9 +334,7 @@ function drawNode(
 			ctx.textAlign = 'center';
 			ctx.textBaseline = 'top';
 			ctx.fillStyle =
-				type === 'hub'
-					? `rgba(255, 255, 255, ${labelAlpha})`
-					: hexToRgba(color, labelAlpha * 0.9);
+				type === 'hub' ? `rgba(255, 255, 255, ${labelAlpha})` : hexToRgba(color, labelAlpha * 0.9);
 
 			// Text shadow
 			ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
@@ -323,6 +344,157 @@ function drawNode(
 			ctx.shadowBlur = 0;
 		}
 	}
+}
+
+// --- Category icon drawing functions (all in 24×24 coordinate space) ---
+
+function drawTransportIcon(ctx: CanvasRenderingContext2D): void {
+	// Up arrow (left side)
+	ctx.beginPath();
+	ctx.moveTo(7, 16);
+	ctx.lineTo(7, 5);
+	ctx.stroke();
+	ctx.beginPath();
+	ctx.moveTo(3, 9);
+	ctx.lineTo(7, 5);
+	ctx.lineTo(11, 9);
+	ctx.stroke();
+
+	// Down arrow (right side)
+	ctx.beginPath();
+	ctx.moveTo(17, 8);
+	ctx.lineTo(17, 19);
+	ctx.stroke();
+	ctx.beginPath();
+	ctx.moveTo(13, 15);
+	ctx.lineTo(17, 19);
+	ctx.lineTo(21, 15);
+	ctx.stroke();
+}
+
+function drawWebApiIcon(ctx: CanvasRenderingContext2D): void {
+	// Outer circle (globe)
+	ctx.beginPath();
+	ctx.arc(12, 12, 9, 0, Math.PI * 2);
+	ctx.stroke();
+
+	// Vertical ellipse (meridian)
+	ctx.beginPath();
+	ctx.ellipse(12, 12, 3.5, 9, 0, 0, Math.PI * 2);
+	ctx.stroke();
+
+	// Horizontal line (equator)
+	ctx.beginPath();
+	ctx.moveTo(3, 12);
+	ctx.lineTo(21, 12);
+	ctx.stroke();
+}
+
+function drawAsyncIotIcon(ctx: CanvasRenderingContext2D): void {
+	// Antenna stem
+	ctx.beginPath();
+	ctx.moveTo(12, 19);
+	ctx.lineTo(12, 11);
+	ctx.stroke();
+
+	// Arrow tip
+	ctx.beginPath();
+	ctx.moveTo(9, 14);
+	ctx.lineTo(12, 11);
+	ctx.lineTo(15, 14);
+	ctx.stroke();
+
+	// Inner signal arcs
+	ctx.beginPath();
+	ctx.arc(12, 12, 5, Math.PI * 0.75, Math.PI * 1.25);
+	ctx.stroke();
+	ctx.beginPath();
+	ctx.arc(12, 12, 5, -Math.PI * 0.25, Math.PI * 0.25);
+	ctx.stroke();
+
+	// Outer signal arcs
+	ctx.beginPath();
+	ctx.arc(12, 12, 8, Math.PI * 0.72, Math.PI * 1.28);
+	ctx.stroke();
+	ctx.beginPath();
+	ctx.arc(12, 12, 8, -Math.PI * 0.28, Math.PI * 0.28);
+	ctx.stroke();
+}
+
+function drawRealtimeAvIcon(ctx: CanvasRenderingContext2D): void {
+	// Play triangle
+	ctx.beginPath();
+	ctx.moveTo(7, 4);
+	ctx.lineTo(19, 12);
+	ctx.lineTo(7, 20);
+	ctx.closePath();
+	const prevFill = ctx.fillStyle;
+	ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
+	ctx.fill();
+	ctx.fillStyle = prevFill;
+	ctx.stroke();
+}
+
+function drawUtilitiesIcon(ctx: CanvasRenderingContext2D): void {
+	// Lock body
+	ctx.beginPath();
+	ctx.rect(4, 12, 16, 9);
+	ctx.stroke();
+
+	// Shackle
+	ctx.beginPath();
+	ctx.moveTo(8, 12);
+	ctx.lineTo(8, 8);
+	ctx.arc(12, 8, 4, Math.PI, 0, false);
+	ctx.lineTo(16, 12);
+	ctx.stroke();
+
+	// Keyhole
+	ctx.beginPath();
+	ctx.arc(12, 16.5, 1.5, 0, Math.PI * 2);
+	ctx.fill();
+}
+
+function drawCategoryIcon(
+	ctx: CanvasRenderingContext2D,
+	x: number,
+	y: number,
+	size: number,
+	icon: string,
+	dimmed: boolean
+): void {
+	ctx.save();
+	ctx.translate(x, y);
+	const s = size / 24;
+	ctx.scale(s, s);
+	ctx.translate(-12, -12);
+
+	ctx.globalAlpha = dimmed ? 0.15 : 1;
+	ctx.strokeStyle = '#ffffff';
+	ctx.fillStyle = '#ffffff';
+	ctx.lineWidth = 1.2;
+	ctx.lineCap = 'round';
+	ctx.lineJoin = 'round';
+
+	switch (icon) {
+		case 'transport':
+			drawTransportIcon(ctx);
+			break;
+		case 'web-api':
+			drawWebApiIcon(ctx);
+			break;
+		case 'async-iot':
+			drawAsyncIotIcon(ctx);
+			break;
+		case 'realtime-av':
+			drawRealtimeAvIcon(ctx);
+			break;
+		case 'utilities':
+			drawUtilitiesIcon(ctx);
+			break;
+	}
+
+	ctx.restore();
 }
 
 function drawStatusBar(ctx: CanvasRenderingContext2D, width: number, height: number): void {

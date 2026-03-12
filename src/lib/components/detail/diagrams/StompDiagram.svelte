@@ -32,7 +32,15 @@
 	<line x1="345" y1="25" x2="345" y2="210" stroke="#334155" stroke-width="1.5" />
 
 	<!-- CONNECT frame -->
-	<line x1="55" y1="42" x2="335" y2="42" stroke={color} stroke-width="1.5" marker-end="url(#stomp-arrow)">
+	<line
+		x1="55"
+		y1="42"
+		x2="335"
+		y2="42"
+		stroke={color}
+		stroke-width="1.5"
+		marker-end="url(#stomp-arrow)"
+	>
 		<animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="4s" repeatCount="indefinite" />
 	</line>
 	<rect x="120" y="30" width="100" height="16" rx="3" fill="#334155" />
@@ -109,14 +117,7 @@
 	<text x="172" y="115" font-size="9" font-family="monospace" fill={color} text-anchor="middle">
 		SEND /queue/orders
 	</text>
-	<text
-		x="172"
-		y="127"
-		font-size="8"
-		font-family="monospace"
-		fill="#64748b"
-		text-anchor="middle"
-	>
+	<text x="172" y="127" font-size="8" font-family="monospace" fill="#64748b" text-anchor="middle">
 		body: {`{"item":"widget"}`}
 	</text>
 
@@ -143,14 +144,7 @@
 	<text x="172" y="148" font-size="9" font-family="monospace" fill={color} text-anchor="middle">
 		MESSAGE /queue/orders
 	</text>
-	<text
-		x="172"
-		y="160"
-		font-size="8"
-		font-family="monospace"
-		fill="#64748b"
-		text-anchor="middle"
-	>
+	<text x="172" y="160" font-size="8" font-family="monospace" fill="#64748b" text-anchor="middle">
 		body: {`{"item":"widget"}`}
 	</text>
 

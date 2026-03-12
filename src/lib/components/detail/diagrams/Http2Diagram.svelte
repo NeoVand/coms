@@ -75,13 +75,7 @@
 			begin="1s"
 			repeatCount="indefinite"
 		/>
-		<animate
-			attributeName="x"
-			values="70;70;330"
-			dur="2.8s"
-			begin="1s"
-			repeatCount="indefinite"
-		/>
+		<animate attributeName="x" values="70;70;330" dur="2.8s" begin="1s" repeatCount="indefinite" />
 	</rect>
 	<text x="42" y="132" font-size="9" fill="#94a3b8" text-anchor="end">S4</text>
 

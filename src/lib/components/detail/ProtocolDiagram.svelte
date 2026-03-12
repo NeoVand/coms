@@ -65,9 +65,7 @@
 
 {#if DiagramComponent}
 	<section>
-		<h3 class="mb-2 text-xs font-semibold tracking-wider text-slate-500 uppercase">
-			How It Works
-		</h3>
+		<h3 class="mb-2 text-xs font-semibold tracking-wider text-slate-500 uppercase">How It Works</h3>
 		<DiagramComponent {color} />
 	</section>
 {/if}

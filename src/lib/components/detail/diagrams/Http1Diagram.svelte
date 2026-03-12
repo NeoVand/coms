@@ -22,15 +22,7 @@
 	<text x="270" y="45" font-size="9" fill="#94a3b8" text-anchor="middle">Response 1</text>
 
 	<!-- Blocking indicator -->
-	<line
-		x1="70"
-		y1="56"
-		x2="70"
-		y2="72"
-		stroke="#475569"
-		stroke-width="1"
-		stroke-dasharray="2 2"
-	/>
+	<line x1="70" y1="56" x2="70" y2="72" stroke="#475569" stroke-width="1" stroke-dasharray="2 2" />
 	<text x="75" y="67" font-size="8" fill="#ef4444" opacity="0.7">blocked</text>
 
 	<!-- Request/Response pair 2 -->
@@ -50,15 +42,7 @@
 	<text x="270" y="88" font-size="9" fill="#94a3b8" text-anchor="middle">Response 2</text>
 
 	<!-- Blocking indicator -->
-	<line
-		x1="70"
-		y1="99"
-		x2="70"
-		y2="115"
-		stroke="#475569"
-		stroke-width="1"
-		stroke-dasharray="2 2"
-	/>
+	<line x1="70" y1="99" x2="70" y2="115" stroke="#475569" stroke-width="1" stroke-dasharray="2 2" />
 	<text x="75" y="110" font-size="8" fill="#ef4444" opacity="0.7">blocked</text>
 
 	<!-- Request/Response pair 3 -->

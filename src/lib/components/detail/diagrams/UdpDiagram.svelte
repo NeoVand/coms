@@ -30,7 +30,15 @@
 	</text>
 
 	<!-- Datagram 1 -->
-	<line x1="60" y1="55" x2="330" y2="60" stroke={color} stroke-width="1.5" marker-end="url(#udp-arrow)">
+	<line
+		x1="60"
+		y1="55"
+		x2="330"
+		y2="60"
+		stroke={color}
+		stroke-width="1.5"
+		marker-end="url(#udp-arrow)"
+	>
 		<animate
 			attributeName="stroke-opacity"
 			values="0.5;1;0.5"
@@ -41,7 +49,15 @@
 	<text x="200" y="50" font-size="10" fill="#94a3b8" text-anchor="middle">Datagram 1</text>
 
 	<!-- Datagram 2 -->
-	<line x1="60" y1="80" x2="330" y2="85" stroke={color} stroke-width="1.5" marker-end="url(#udp-arrow)">
+	<line
+		x1="60"
+		y1="80"
+		x2="330"
+		y2="85"
+		stroke={color}
+		stroke-width="1.5"
+		marker-end="url(#udp-arrow)"
+	>
 		<animate
 			attributeName="stroke-opacity"
 			values="0.5;1;0.5"
@@ -68,7 +84,15 @@
 	<text x="280" y="120" font-size="8" fill="#ef4444" text-anchor="middle">might be lost</text>
 
 	<!-- Datagram 4 -->
-	<line x1="60" y1="135" x2="330" y2="140" stroke={color} stroke-width="1.5" marker-end="url(#udp-arrow)">
+	<line
+		x1="60"
+		y1="135"
+		x2="330"
+		y2="140"
+		stroke={color}
+		stroke-width="1.5"
+		marker-end="url(#udp-arrow)"
+	>
 		<animate
 			attributeName="stroke-opacity"
 			values="0.5;1;0.5"

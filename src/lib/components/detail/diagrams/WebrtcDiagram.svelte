@@ -128,12 +128,7 @@
 
 	<!-- Direct P2P connection -->
 	<line x1="130" y1="170" x2="270" y2="170" stroke={color} stroke-width="2.5">
-		<animate
-			attributeName="stroke-opacity"
-			values="0.5;1;0.5"
-			dur="2s"
-			repeatCount="indefinite"
-		/>
+		<animate attributeName="stroke-opacity" values="0.5;1;0.5" dur="2s" repeatCount="indefinite" />
 	</line>
 
 	<!-- Bidirectional arrows on P2P line -->
@@ -146,13 +141,7 @@
 		<animate attributeName="opacity" values="1;0.3" dur="1.5s" repeatCount="indefinite" />
 	</circle>
 	<circle cx="0" cy="170" r="3.5" fill={color} opacity="0.7">
-		<animate
-			attributeName="cx"
-			values="260;140"
-			dur="1.8s"
-			begin="0.3s"
-			repeatCount="indefinite"
-		/>
+		<animate attributeName="cx" values="260;140" dur="1.8s" begin="0.3s" repeatCount="indefinite" />
 		<animate
 			attributeName="opacity"
 			values="0.7;0.2"

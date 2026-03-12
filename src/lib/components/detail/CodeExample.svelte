@@ -56,10 +56,7 @@
 			}
 			return hljs.highlightAuto(code).value;
 		} catch {
-			return code
-				.replace(/&/g, '&amp;')
-				.replace(/</g, '&lt;')
-				.replace(/>/g, '&gt;');
+			return code.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 		}
 	});
 
@@ -135,8 +132,9 @@
 				{/if}
 			</button>
 		</div>
-		<pre
-			class="custom-scrollbar overflow-x-auto p-3 text-[11px] leading-5 text-slate-300"><code class="hljs">{@html highlightedCode}</code></pre>
+		<pre class="custom-scrollbar overflow-x-auto p-3 text-[11px] leading-5 text-slate-300"><code
+				class="hljs">{@html highlightedCode}</code
+			></pre>
 	</div>
 	{#if example.caption}
 		<p class="mt-2 text-[10px] leading-relaxed text-slate-500">{example.caption}</p>

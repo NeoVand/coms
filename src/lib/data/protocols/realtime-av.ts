@@ -246,8 +246,7 @@ acfg.sipConfig.authCreds.append(
 
 account = pj.Account()
 account.create(acfg)  # Sends SIP REGISTER`,
-			caption:
-				'PJSIP registers with a SIP server — the INVITE/200 OK/ACK flow handles call setup',
+			caption: 'PJSIP registers with a SIP server — the INVITE/200 OK/ACK flow handles call setup',
 			alternatives: [
 				{
 					language: 'http',

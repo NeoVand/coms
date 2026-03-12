@@ -7,7 +7,14 @@
 		<marker id="h3-arrow" markerWidth="10" markerHeight="8" refX="10" refY="4" orient="auto">
 			<path d="M0,0 L10,4 L0,8 Z" fill={color} />
 		</marker>
-		<marker id="h3-arrow-blocked" markerWidth="10" markerHeight="8" refX="10" refY="4" orient="auto">
+		<marker
+			id="h3-arrow-blocked"
+			markerWidth="10"
+			markerHeight="8"
+			refX="10"
+			refY="4"
+			orient="auto"
+		>
 			<path d="M0,0 L10,4 L0,8 Z" fill="#ef4444" />
 		</marker>
 	</defs>
@@ -21,17 +28,44 @@
 	</text>
 
 	<!-- Divider -->
-	<line x1="200" y1="8" x2="200" y2="195" stroke="#334155" stroke-width="1" stroke-dasharray="4 3" />
+	<line
+		x1="200"
+		y1="8"
+		x2="200"
+		y2="195"
+		stroke="#334155"
+		stroke-width="1"
+		stroke-dasharray="4 3"
+	/>
 
 	<!-- === LEFT: HTTP/2 — shared TCP connection === -->
 	<!-- Single TCP pipe -->
-	<rect x="20" y="28" width="170" height="120" rx="4" fill="#334155" opacity="0.3" stroke="#334155" stroke-width="1" />
-	<text x="105" y="42" font-size="8" fill="#94a3b8" text-anchor="middle">Single TCP Connection</text>
+	<rect
+		x="20"
+		y="28"
+		width="170"
+		height="120"
+		rx="4"
+		fill="#334155"
+		opacity="0.3"
+		stroke="#334155"
+		stroke-width="1"
+	/>
+	<text x="105" y="42" font-size="8" fill="#94a3b8" text-anchor="middle">Single TCP Connection</text
+	>
 
 	<!-- Stream 1 -->
 	<rect x="30" y="50" width="150" height="14" rx="2" fill={color} opacity="0.15" />
 	<text x="40" y="60" font-size="8" fill="#94a3b8">Stream 1</text>
-	<line x1="90" y1="57" x2="170" y2="57" stroke={color} stroke-width="1.5" marker-end="url(#h3-arrow)">
+	<line
+		x1="90"
+		y1="57"
+		x2="170"
+		y2="57"
+		stroke={color}
+		stroke-width="1.5"
+		marker-end="url(#h3-arrow)"
+	>
 		<animate attributeName="stroke-opacity" values="0.4;0.8;0" dur="3s" repeatCount="indefinite" />
 	</line>
 
@@ -50,7 +84,16 @@
 	<text x="105" y="118" font-size="9" fill="#ef4444" text-anchor="middle" font-weight="600">
 		ALL STREAMS BLOCKED
 	</text>
-	<line x1="30" y1="122" x2="180" y2="122" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="3 2" opacity="0.6" />
+	<line
+		x1="30"
+		y1="122"
+		x2="180"
+		y2="122"
+		stroke="#ef4444"
+		stroke-width="1.5"
+		stroke-dasharray="3 2"
+		opacity="0.6"
+	/>
 
 	<!-- Waiting arrows -->
 	<text x="60" y="138" font-size="7" fill="#ef4444" opacity="0.7">⏸ Waiting...</text>
@@ -58,25 +101,77 @@
 
 	<!-- === RIGHT: HTTP/3 — independent QUIC streams === -->
 	<!-- Stream 1 -->
-	<rect x="215" y="28" width="170" height="30" rx="4" fill={color} opacity="0.08" stroke={color} stroke-width="0.5" />
+	<rect
+		x="215"
+		y="28"
+		width="170"
+		height="30"
+		rx="4"
+		fill={color}
+		opacity="0.08"
+		stroke={color}
+		stroke-width="0.5"
+	/>
 	<text x="225" y="42" font-size="8" fill="#94a3b8">Stream 1</text>
-	<line x1="280" y1="42" x2="370" y2="42" stroke={color} stroke-width="1.5" marker-end="url(#h3-arrow)">
+	<line
+		x1="280"
+		y1="42"
+		x2="370"
+		y2="42"
+		stroke={color}
+		stroke-width="1.5"
+		marker-end="url(#h3-arrow)"
+	>
 		<animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="2s" repeatCount="indefinite" />
 	</line>
 	<text x="375" y="45" font-size="7" fill={color}>OK</text>
 
 	<!-- Stream 2 — packet loss, only this stream affected -->
-	<rect x="215" y="64" width="170" height="30" rx="4" fill="#ef4444" opacity="0.08" stroke="#ef4444" stroke-width="0.5" />
+	<rect
+		x="215"
+		y="64"
+		width="170"
+		height="30"
+		rx="4"
+		fill="#ef4444"
+		opacity="0.08"
+		stroke="#ef4444"
+		stroke-width="0.5"
+	/>
 	<text x="225" y="78" font-size="8" fill="#94a3b8">Stream 2</text>
 	<line x1="280" y1="78" x2="330" y2="78" stroke="#ef4444" stroke-width="1.5" />
 	<text x="338" y="82" font-size="12" fill="#ef4444" font-weight="700">X</text>
 	<text x="360" y="80" font-size="7" fill="#ef4444">retransmit</text>
 
 	<!-- Stream 3 — unaffected -->
-	<rect x="215" y="100" width="170" height="30" rx="4" fill={color} opacity="0.08" stroke={color} stroke-width="0.5" />
+	<rect
+		x="215"
+		y="100"
+		width="170"
+		height="30"
+		rx="4"
+		fill={color}
+		opacity="0.08"
+		stroke={color}
+		stroke-width="0.5"
+	/>
 	<text x="225" y="114" font-size="8" fill="#94a3b8">Stream 3</text>
-	<line x1="280" y1="114" x2="370" y2="114" stroke={color} stroke-width="1.5" marker-end="url(#h3-arrow)">
-		<animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="2s" begin="0.5s" repeatCount="indefinite" />
+	<line
+		x1="280"
+		y1="114"
+		x2="370"
+		y2="114"
+		stroke={color}
+		stroke-width="1.5"
+		marker-end="url(#h3-arrow)"
+	>
+		<animate
+			attributeName="stroke-opacity"
+			values="0.4;1;0.4"
+			dur="2s"
+			begin="0.5s"
+			repeatCount="indefinite"
+		/>
 	</line>
 	<text x="375" y="117" font-size="7" fill={color}>OK</text>
 

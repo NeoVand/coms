@@ -18,15 +18,45 @@
 	</text>
 
 	<!-- Endpoint A -->
-	<rect x="15" y="26" width="60" height="80" rx="4" fill="#334155" stroke="#94a3b8" stroke-width="0.5" />
-	<text x="45" y="42" font-size="9" fill="#e2e8f0" text-anchor="middle" font-weight="600">Host A</text>
+	<rect
+		x="15"
+		y="26"
+		width="60"
+		height="80"
+		rx="4"
+		fill="#334155"
+		stroke="#94a3b8"
+		stroke-width="0.5"
+	/>
+	<text x="45" y="42" font-size="9" fill="#e2e8f0" text-anchor="middle" font-weight="600"
+		>Host A</text
+	>
 
 	<!-- Endpoint B -->
-	<rect x="325" y="26" width="60" height="80" rx="4" fill="#334155" stroke="#94a3b8" stroke-width="0.5" />
-	<text x="355" y="42" font-size="9" fill="#e2e8f0" text-anchor="middle" font-weight="600">Host B</text>
+	<rect
+		x="325"
+		y="26"
+		width="60"
+		height="80"
+		rx="4"
+		fill="#334155"
+		stroke="#94a3b8"
+		stroke-width="0.5"
+	/>
+	<text x="355" y="42" font-size="9" fill="#e2e8f0" text-anchor="middle" font-weight="600"
+		>Host B</text
+	>
 
 	<!-- Stream 1 — flowing -->
-	<line x1="77" y1="45" x2="318" y2="45" stroke={color} stroke-width="1.5" marker-end="url(#sctp-arrow)">
+	<line
+		x1="77"
+		y1="45"
+		x2="318"
+		y2="45"
+		stroke={color}
+		stroke-width="1.5"
+		marker-end="url(#sctp-arrow)"
+	>
 		<animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="2s" repeatCount="indefinite" />
 	</line>
 	<text x="200" y="41" font-size="8" fill="#94a3b8" text-anchor="middle">Stream 1 (control)</text>
@@ -38,8 +68,22 @@
 	<text x="230" y="74" font-size="7" fill="#ef4444">blocked</text>
 
 	<!-- Stream 3 — still flowing -->
-	<line x1="77" y1="91" x2="318" y2="91" stroke={color} stroke-width="1.5" marker-end="url(#sctp-arrow)">
-		<animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="2s" begin="0.3s" repeatCount="indefinite" />
+	<line
+		x1="77"
+		y1="91"
+		x2="318"
+		y2="91"
+		stroke={color}
+		stroke-width="1.5"
+		marker-end="url(#sctp-arrow)"
+	>
+		<animate
+			attributeName="stroke-opacity"
+			values="0.4;1;0.4"
+			dur="2s"
+			begin="0.3s"
+			repeatCount="indefinite"
+		/>
 	</line>
 	<text x="200" y="87" font-size="8" fill="#94a3b8" text-anchor="middle">Stream 3 (voice)</text>
 
@@ -48,7 +92,15 @@
 	<text x="280" y="96" font-size="7" fill={color}>unaffected</text>
 
 	<!-- Divider -->
-	<line x1="10" y1="118" x2="390" y2="118" stroke="#334155" stroke-width="0.5" stroke-dasharray="4 3" />
+	<line
+		x1="10"
+		y1="118"
+		x2="390"
+		y2="118"
+		stroke="#334155"
+		stroke-width="0.5"
+		stroke-dasharray="4 3"
+	/>
 
 	<!-- Bottom half: Multi-homing -->
 	<text x="200" y="134" font-size="11" font-weight="600" fill="#e2e8f0" text-anchor="middle">
@@ -56,19 +108,49 @@
 	</text>
 
 	<!-- Host with 2 IPs -->
-	<rect x="15" y="142" width="80" height="55" rx="4" fill="#334155" stroke="#94a3b8" stroke-width="0.5" />
-	<text x="55" y="158" font-size="9" fill="#e2e8f0" text-anchor="middle" font-weight="600">Host A</text>
+	<rect
+		x="15"
+		y="142"
+		width="80"
+		height="55"
+		rx="4"
+		fill="#334155"
+		stroke="#94a3b8"
+		stroke-width="0.5"
+	/>
+	<text x="55" y="158" font-size="9" fill="#e2e8f0" text-anchor="middle" font-weight="600"
+		>Host A</text
+	>
 	<text x="55" y="172" font-size="7" fill="#94a3b8" text-anchor="middle">IP: 10.0.0.1</text>
 	<text x="55" y="184" font-size="7" fill="#94a3b8" text-anchor="middle">IP: 10.0.0.2</text>
 
 	<!-- Remote host -->
-	<rect x="305" y="142" width="80" height="55" rx="4" fill="#334155" stroke="#94a3b8" stroke-width="0.5" />
-	<text x="345" y="158" font-size="9" fill="#e2e8f0" text-anchor="middle" font-weight="600">Host B</text>
+	<rect
+		x="305"
+		y="142"
+		width="80"
+		height="55"
+		rx="4"
+		fill="#334155"
+		stroke="#94a3b8"
+		stroke-width="0.5"
+	/>
+	<text x="345" y="158" font-size="9" fill="#e2e8f0" text-anchor="middle" font-weight="600"
+		>Host B</text
+	>
 	<text x="345" y="172" font-size="7" fill="#94a3b8" text-anchor="middle">IP: 10.1.0.1</text>
 	<text x="345" y="184" font-size="7" fill="#94a3b8" text-anchor="middle">IP: 10.1.0.2</text>
 
 	<!-- Primary path -->
-	<line x1="97" y1="163" x2="298" y2="163" stroke={color} stroke-width="1.5" marker-end="url(#sctp-arrow)">
+	<line
+		x1="97"
+		y1="163"
+		x2="298"
+		y2="163"
+		stroke={color}
+		stroke-width="1.5"
+		marker-end="url(#sctp-arrow)"
+	>
 		<animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="2s" repeatCount="indefinite" />
 	</line>
 	<text x="200" y="158" font-size="8" fill={color} text-anchor="middle" font-weight="600">
@@ -81,8 +163,23 @@
 	</text>
 
 	<!-- Failover path -->
-	<line x1="97" y1="185" x2="298" y2="185" stroke="#22c55e" stroke-width="1.5" stroke-dasharray="5 3" marker-end="url(#sctp-arrow-ok)">
-		<animate attributeName="stroke-opacity" values="0.3;0.9;0.3" dur="2s" begin="0.5s" repeatCount="indefinite" />
+	<line
+		x1="97"
+		y1="185"
+		x2="298"
+		y2="185"
+		stroke="#22c55e"
+		stroke-width="1.5"
+		stroke-dasharray="5 3"
+		marker-end="url(#sctp-arrow-ok)"
+	>
+		<animate
+			attributeName="stroke-opacity"
+			values="0.3;0.9;0.3"
+			dur="2s"
+			begin="0.5s"
+			repeatCount="indefinite"
+		/>
 	</line>
 	<text x="200" y="195" font-size="8" fill="#22c55e" text-anchor="middle" font-weight="600">
 		Failover Path (automatic)

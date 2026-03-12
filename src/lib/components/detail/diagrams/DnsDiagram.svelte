@@ -83,12 +83,7 @@
 
 	<!-- Query: Browser to Resolver -->
 	<line x1="70" y1="108" x2="98" y2="108" stroke={color} stroke-width="1.5">
-		<animate
-			attributeName="stroke-opacity"
-			values="0.4;1;0.4"
-			dur="4s"
-			repeatCount="indefinite"
-		/>
+		<animate attributeName="stroke-opacity" values="0.4;1;0.4" dur="4s" repeatCount="indefinite" />
 	</line>
 	<polygon points="98,108 90,104 90,112" fill={color} />
 	<text x="84" y="100" font-size="7" fill="#94a3b8" text-anchor="middle">?</text>

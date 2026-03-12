@@ -411,7 +411,8 @@ sudo ntpdate pool.ntp.org`
 		port: 587,
 		year: 1982,
 		rfc: 'RFC 5321',
-		oneLiner: 'The protocol that delivers email across the internet — store and forward, hop by hop.',
+		oneLiner:
+			'The protocol that delivers email across the internet — store and forward, hop by hop.',
 		overview: `SMTP is the backbone of email. Every email you've ever sent was delivered via SMTP — from your mail client to your provider's server, then relayed across the internet to the recipient's mail server. It's a "store and forward" protocol: each server along the path accepts responsibility for the message and forwards it to the next hop.
 
 SMTP is a text-based protocol with a simple command vocabulary: HELO/EHLO to greet, MAIL FROM to specify the sender, RCPT TO for recipients, DATA to send the message body, and QUIT to disconnect. Modern SMTP uses STARTTLS to upgrade plain connections to encrypted ones, and authentication (SMTP AUTH) to prevent unauthorized sending.
@@ -460,8 +461,7 @@ with smtplib.SMTP("smtp.example.com", 587) as server:
     server.starttls()
     server.login("sender@example.com", "password")
     server.send_message(msg)`,
-			caption:
-				"Python's smtplib provides a straightforward interface for sending email via SMTP.",
+			caption: "Python's smtplib provides a straightforward interface for sending email via SMTP.",
 			alternatives: [
 				{
 					language: 'TypeScript',
@@ -503,7 +503,8 @@ await transporter.sendMail({
 		port: 21,
 		year: 1971,
 		rfc: 'RFC 959',
-		oneLiner: 'One of the oldest internet protocols — built for transferring files between machines.',
+		oneLiner:
+			'One of the oldest internet protocols — built for transferring files between machines.',
 		overview: `FTP is one of the original internet protocols, predating even TCP/IP itself. It was designed for one purpose: moving files between computers. FTP uses a unique dual-connection architecture — a control connection for commands and a separate data connection for file transfers.
 
 The control channel (port 21) carries text commands like USER, PASS, LIST, RETR (download), and STOR (upload). When a file transfer begins, a separate data connection opens on a different port. In "active" mode, the server connects back to the client; in "passive" mode (PASV), the client initiates both connections, which works better with firewalls and NAT.

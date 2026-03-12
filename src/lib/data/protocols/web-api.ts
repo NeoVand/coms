@@ -472,8 +472,7 @@ const response = await fetch('https://api.example.com/graphql', {
 
 const { data } = await response.json();
 console.log(data.user.name, data.user.posts);`,
-			caption:
-				'One GraphQL query replaces multiple REST calls — ask for exactly the data you need',
+			caption: 'One GraphQL query replaces multiple REST calls — ask for exactly the data you need',
 			alternatives: [
 				{
 					language: 'python',
