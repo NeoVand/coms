@@ -11,6 +11,14 @@ import { grpcCall } from './grpc-call';
 import { sshConnection } from './ssh-connection';
 import { restApi } from './rest-api';
 import { webrtcPeer } from './webrtc-peer';
+import { mqttPubSub } from './mqtt-pubsub';
+import { smtpDelivery } from './smtp-delivery';
+import { ftpTransfer } from './ftp-transfer';
+import { dhcpDora } from './dhcp-dora';
+import { graphqlOperation } from './graphql-operation';
+import { sseStream } from './sse-stream';
+import { ntpSync } from './ntp-sync';
+import { amqpMessaging } from './amqp-messaging';
 
 const simulations = new Map<string, SimulationConfig>([
 	['tcp', tcpHandshake],
@@ -24,7 +32,15 @@ const simulations = new Map<string, SimulationConfig>([
 	['grpc', grpcCall],
 	['ssh', sshConnection],
 	['rest', restApi],
-	['webrtc', webrtcPeer]
+	['webrtc', webrtcPeer],
+	['mqtt', mqttPubSub],
+	['smtp', smtpDelivery],
+	['ftp', ftpTransfer],
+	['dhcp', dhcpDora],
+	['graphql', graphqlOperation],
+	['sse', sseStream],
+	['ntp', ntpSync],
+	['amqp', amqpMessaging]
 ]);
 
 export function getSimulation(protocolId: string): SimulationConfig | undefined {
