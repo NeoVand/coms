@@ -9,7 +9,7 @@
 	const appState = getAppState();
 </script>
 
-<div class="relative flex border-b border-white/5">
+<div class="relative flex border-b border-white/5" data-tour="simulator-tabs">
 	<button
 		class="relative z-10 px-4 py-2.5 text-sm font-medium transition-colors"
 		class:text-slate-200={appState.detailViewMode === 'learn'}

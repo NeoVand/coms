@@ -19,6 +19,7 @@
 	import { getCategoryStory } from '$lib/data/category-stories/index';
 	import SimulatorTabs from '$lib/simulator/components/SimulatorTabs.svelte';
 	import SimulatorView from '$lib/simulator/components/SimulatorView.svelte';
+	import { hasSimulation } from '$lib/simulator/simulations/index';
 
 	const appState = getAppState();
 	const allNodes = buildGraphNodes();
@@ -116,54 +117,72 @@
 		class="relative custom-scrollbar flex h-full w-full flex-col overflow-y-auto"
 	>
 		{#if selectedData?.type === 'hub'}
+			{@const simCount = allProtocols.filter((p) => hasSimulation(p.id)).length}
 			<div class="flex flex-col gap-6 p-6">
-				<!-- Welcome header -->
+				<!-- Hero -->
 				<div>
-					<h2 class="text-lg font-bold text-slate-100">Protocol Lab</h2>
-					<p class="mt-1 text-xs text-slate-400">Learn, explore, and simulate network protocols</p>
+					<h2 class="text-2xl font-bold tracking-tight text-slate-100">Protocol Lab</h2>
+					<p class="mt-2 text-sm leading-relaxed text-slate-300">
+						An interactive atlas of <span class="font-semibold text-slate-100">{allProtocols.length} network protocols</span>
+						— from the foundational TCP handshake to modern QUIC streams. Watch them come alive through
+						step-by-step simulations, trace their packets on the wire, and explore five decades of networking history.
+					</p>
 				</div>
 
-				<p class="text-sm leading-relaxed text-slate-300">
-					Welcome to an interactive exploration of the protocols that power the internet. From the
-					TCP handshake that starts every web connection to the real-time streams that carry your
-					video calls — every protocol here plays a role in modern networking.
-				</p>
+				<!-- Feature showcase -->
+				<section class="space-y-2">
+					<div class="rounded-xl border border-cyan-500/10 bg-cyan-500/[0.04] p-3">
+						<div class="flex items-start gap-3">
+							<span class="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-cyan-400/10 text-cyan-400">
+								<svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+							</span>
+							<div>
+								<div class="text-sm font-medium text-slate-200">{simCount} Interactive Simulations</div>
+								<p class="mt-0.5 text-xs text-slate-400">Step through real protocol exchanges — watch TCP three-way handshakes, DNS resolution, TLS negotiations, and more unfold message by message with play, pause, and step controls.</p>
+							</div>
+						</div>
+					</div>
 
-				<!-- How to use -->
-				<section>
-					<h3 class="mb-3 text-xs font-semibold tracking-wider text-slate-500 uppercase">
-						How to Navigate
-					</h3>
-					<div class="space-y-3 text-sm text-slate-300">
+					<div class="rounded-xl border border-purple-500/10 bg-purple-500/[0.04] p-3">
 						<div class="flex items-start gap-3">
-							<span
-								class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-white/5 text-[10px] text-slate-400"
-								>1</span
-							>
-							<p>
-								<span class="font-medium text-slate-200">Click any node</span> to explore a protocol or
-								category in detail — its purpose, how it works, code examples, and performance characteristics.
-							</p>
+							<span class="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-purple-400/10 text-purple-400">
+								<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+								</svg>
+							</span>
+							<div>
+								<div class="text-sm font-medium text-slate-200">Diagrams, Code & Wire Formats</div>
+								<p class="mt-0.5 text-xs text-slate-400">Every protocol comes with sequence diagrams, working code in multiple languages, and "On the Wire" views showing actual packet structure and byte layouts.</p>
+							</div>
 						</div>
+					</div>
+
+					<div class="rounded-xl border border-emerald-500/10 bg-emerald-500/[0.04] p-3">
 						<div class="flex items-start gap-3">
-							<span
-								class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-white/5 text-[10px] text-slate-400"
-								>2</span
-							>
-							<p>
-								<span class="font-medium text-slate-200">Hover over nodes</span> for a quick summary.
-								When a protocol is selected, related protocols stay highlighted so you can see the connections.
-							</p>
+							<span class="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-emerald-400/10 text-emerald-400">
+								<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<circle cx="12" cy="5" r="2" stroke-width="2"/><circle cx="5" cy="19" r="2" stroke-width="2"/><circle cx="19" cy="19" r="2" stroke-width="2"/>
+									<path stroke-width="2" d="M12 7v4M10 13l-3 4M14 13l3 4"/>
+								</svg>
+							</span>
+							<div>
+								<div class="text-sm font-medium text-slate-200">Three Graph Views</div>
+								<p class="mt-0.5 text-xs text-slate-400">Switch between Force (physics-based clustering), Radial (concentric rings), and Timeline (chronological from 1969 to today) using the layout picker in the top bar.</p>
+							</div>
 						</div>
+					</div>
+
+					<div class="rounded-xl border border-amber-500/10 bg-amber-500/[0.04] p-3">
 						<div class="flex items-start gap-3">
-							<span
-								class="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-white/5 text-[10px] text-slate-400"
-								>3</span
-							>
-							<p>
-								<span class="font-medium text-slate-200">Scroll to zoom</span> and drag to pan around
-								the network graph. Click empty space to deselect.
-							</p>
+							<span class="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-amber-400/10 text-amber-400">
+								<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+								</svg>
+							</span>
+							<div>
+								<div class="text-sm font-medium text-slate-200">Stories Behind the Protocols</div>
+								<p class="mt-0.5 text-xs text-slate-400">Each category tells the full history — the pioneers who invented TCP/IP, the design battles between reliability and speed, timelines, portraits, and conceptual diagrams.</p>
+							</div>
 						</div>
 					</div>
 				</section>
@@ -201,19 +220,41 @@
 					</div>
 				</section>
 
-				<!-- Stats -->
+				<!-- Quick start -->
 				<section>
 					<h3 class="mb-3 text-xs font-semibold tracking-wider text-slate-500 uppercase">
-						At a Glance
+						Quick Start
 					</h3>
+					<div class="space-y-2 text-xs text-slate-400">
+						<div class="flex items-start gap-2">
+							<span class="mt-px text-slate-600">&rsaquo;</span>
+							<p><span class="text-slate-300">Click any node</span> to open its deep-dive — overview, sequence diagram, how-it-works steps, code examples, and performance data.</p>
+						</div>
+						<div class="flex items-start gap-2">
+							<span class="mt-px text-slate-600">&rsaquo;</span>
+							<p><span class="text-slate-300">Switch to Simulate</span> on any protocol to watch its exchange play out step by step.</p>
+						</div>
+						<div class="flex items-start gap-2">
+							<span class="mt-px text-slate-600">&rsaquo;</span>
+							<p><span class="text-slate-300">Click a category</span> to read its history, meet the pioneers, and explore conceptual diagrams.</p>
+						</div>
+						<div class="flex items-start gap-2">
+							<span class="mt-px text-slate-600">&rsaquo;</span>
+							<p><span class="text-slate-300">Scroll to zoom</span>, drag to pan, and hover for quick summaries. Related protocols stay highlighted.</p>
+						</div>
+					</div>
+				</section>
+
+				<!-- Stats -->
+				<section>
 					<div class="grid grid-cols-3 gap-3">
 						<div class="rounded-lg border border-white/5 bg-white/[0.02] p-3 text-center">
 							<div class="text-lg font-bold text-slate-100">{allProtocols.length}</div>
 							<div class="text-[10px] text-slate-500">Protocols</div>
 						</div>
 						<div class="rounded-lg border border-white/5 bg-white/[0.02] p-3 text-center">
-							<div class="text-lg font-bold text-slate-100">{categories.length}</div>
-							<div class="text-[10px] text-slate-500">Categories</div>
+							<div class="text-lg font-bold text-slate-100">{simCount}</div>
+							<div class="text-[10px] text-slate-500">Simulations</div>
 						</div>
 						<div class="rounded-lg border border-white/5 bg-white/[0.02] p-3 text-center">
 							<div class="text-lg font-bold text-slate-100">50+</div>
@@ -221,11 +262,6 @@
 						</div>
 					</div>
 				</section>
-
-				<p class="text-[10px] leading-relaxed text-slate-500">
-					Each protocol includes animated diagrams, code examples in multiple languages, performance
-					stats, and links to official specifications. Click any colored node on the graph to begin.
-				</p>
 
 				<!-- Attribution -->
 				<div class="border-t border-white/[0.06] pt-4">

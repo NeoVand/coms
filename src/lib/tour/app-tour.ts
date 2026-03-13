@@ -6,12 +6,18 @@ function scrollTourElement(selector: string) {
 	if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
 }
 
+function scrollPanelToTop() {
+	const panel = document.querySelector('[data-tour="detail-panel"] .custom-scrollbar');
+	if (panel) panel.scrollTop = 0;
+}
+
 export async function startTour(appState: AppState, allNodes: GraphNode[]): Promise<void> {
 	const { driver } = await import('driver.js');
 
 	// Snapshot current state for restoration after tour
 	const savedSelectedNode = appState.selectedNode;
 	const savedShowDetailPanel = appState.showDetailPanel;
+	const savedViewMode = appState.detailViewMode;
 
 	let tourDriver: ReturnType<typeof driver>;
 
@@ -30,31 +36,27 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 		prevBtnText: 'Back',
 		doneBtnText: 'Done',
 		steps: [
-			// Step 1: Welcome (floating)
+			// ── Step 1: Welcome ──
 			{
 				popover: {
 					title: 'Welcome to Protocol Lab',
 					description:
 						'An interactive explorer for the protocols that power the internet. ' +
-						'This quick tour will show you what you can discover here.' +
-						'<br><br><span class="tour-hint">Takes about 30 seconds</span>' +
-					'<br><br><a href="https://github.com/NeoVand/coms" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:5px;color:#475569;font-size:11px;text-decoration:none;" onmouseover="this.style.color=\'#94a3b8\'" onmouseout="this.style.color=\'#475569\'"><svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>Built by Neo Mohsenvand</a>'
+						'Learn how they work, read real code, and <strong>run step-by-step simulations</strong> — all in one place.' +
+						'<br><br><span class="tour-hint">Takes about 60 seconds &middot; 10 stops</span>'
 				},
 				onHighlighted: () => {
 					appState.clearSelection();
 				}
 			},
-			// Step 2: Graph canvas — block interaction so clicks don't dismiss tour
+			// ── Step 2: The Protocol Graph ──
 			{
 				element: 'canvas',
 				popover: {
 					title: 'The Protocol Graph',
 					description:
-						'<strong>Click any node</strong> to explore a protocol in depth. ' +
-						'<strong>Hover</strong> for a quick summary.' +
-						'<br><br>Drag to pan, scroll to zoom. Related protocols stay highlighted when one is selected.',
-					side: 'right' as const,
-					align: 'center' as const
+						'Every circle is a protocol. <strong>Click</strong> one to dive deep, or <strong>hover</strong> for a quick summary.' +
+						'<br><br>Drag to pan, scroll to zoom. When you select a node, related protocols stay highlighted so you can trace connections.'
 				},
 				disableActiveInteraction: true,
 				onHighlighted: () => {
@@ -63,33 +65,45 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 					if (tcpNode) appState.selectNode(tcpNode);
 				}
 			},
-			// Step 3: Detail panel (now open with TCP)
+			// ── Step 3: Graph Layouts ──
+			{
+				element: '[data-tour="layout-picker"]',
+				popover: {
+					title: 'Multiple Views',
+					description:
+						'Switch how the graph is arranged:' +
+						'<br><br><strong>Force</strong> &mdash; physics-based clustering by connections' +
+						'<br><strong>Radial</strong> &mdash; concentric rings grouped by category' +
+						'<br><strong>Timeline</strong> &mdash; protocols plotted by year, from 1969 to today'
+				},
+				disableActiveInteraction: true
+			},
+			// ── Step 4: Detail Panel Overview ──
 			{
 				element: '[data-tour="detail-panel"]',
 				popover: {
 					title: 'Protocol Deep-Dives',
 					description:
-						'Each protocol gets a full breakdown — overview, how-it-works steps, ' +
-						'interactive diagrams, code examples, and performance stats.' +
-						'<br><br><span class="tour-hint">Drag the left edge to resize this panel</span>',
+						'Select any protocol and this panel opens with everything you need — ' +
+						'an overview, sequence diagrams, step-by-step breakdowns, code examples, performance stats, and links to related protocols.' +
+						'<br><br><span class="tour-hint">Drag the left edge to resize</span>',
 					side: 'left' as const,
 					align: 'start' as const
 				},
 				onHighlighted: () => {
-					// Scroll panel to top to show header + overview
-					const panel = document.querySelector('[data-tour="detail-panel"] .custom-scrollbar');
-					if (panel) panel.scrollTop = 0;
+					appState.detailViewMode = 'learn';
+					scrollPanelToTop();
 				}
 			},
-			// Step 4: Interactive diagram
+			// ── Step 5: Sequence Diagram ──
 			{
 				element: '[data-tour="protocol-diagram"]',
 				popover: {
-					title: 'Interactive Diagrams',
+					title: 'Sequence Diagrams',
 					description:
-						'Sequence diagrams show exactly how each protocol works — ' +
-						'solid arrows for requests, dashed for responses. ' +
-						'Every protocol has its own animated diagram.',
+						'See exactly how protocols communicate. ' +
+						'Solid arrows show requests, dashed arrows show responses.' +
+						'<br><br>Click the <strong>expand icon</strong> to view the diagram full-screen.',
 					side: 'left' as const,
 					align: 'center' as const
 				},
@@ -98,15 +112,31 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 					setTimeout(() => tourDriver.refresh(), 350);
 				}
 			},
-			// Step 5: Code examples
+			// ── Step 6: How It Works ──
+			{
+				element: '[data-tour="how-it-works"]',
+				popover: {
+					title: 'How It Works',
+					description:
+						'Every protocol is broken into numbered steps so you can follow the process from start to finish — ' +
+						'like tracing a packet through a TCP handshake, one step at a time.',
+					side: 'left' as const,
+					align: 'center' as const
+				},
+				onHighlighted: () => {
+					scrollTourElement('[data-tour="how-it-works"]');
+					setTimeout(() => tourDriver.refresh(), 350);
+				}
+			},
+			// ── Step 7: Code Examples ──
 			{
 				element: '[data-tour="code-example"]',
 				popover: {
 					title: 'Code Examples',
 					description:
 						'Real, copyable code snippets in multiple languages. ' +
-						'Switch between tabs to see different implementations, ' +
-						'and hit the copy button to grab the code instantly.',
+						'Switch between <strong>JavaScript, Python, Bash</strong>, and more — ' +
+						'then hit the copy button to grab the code instantly.',
 					side: 'left' as const,
 					align: 'center' as const
 				},
@@ -115,21 +145,63 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 					setTimeout(() => tourDriver.refresh(), 350);
 				}
 			},
-			// Step 6: Farewell (floating)
+			// ── Step 8: Learn / Simulate Tabs ──
+			{
+				element: '[data-tour="simulator-tabs"]',
+				popover: {
+					title: 'Learn & Simulate',
+					description:
+						'Every protocol has two modes. <strong>Learn</strong> gives you documentation, diagrams, and code. ' +
+						'<strong>Simulate</strong> lets you run an interactive, step-by-step walkthrough of the protocol in action.' +
+						'<br><br><span class="tour-hint">Let\'s switch to Simulate now &rarr;</span>',
+					side: 'left' as const,
+					align: 'center' as const
+				},
+				onHighlighted: () => {
+					scrollPanelToTop();
+					setTimeout(() => tourDriver.refresh(), 200);
+				}
+			},
+			// ── Step 9: Simulation View ──
+			{
+				element: '[data-tour="simulator-view"]',
+				popover: {
+					title: 'Interactive Simulations',
+					description:
+						'Watch protocols come to life. ' +
+						'Use <strong>Play</strong> to animate the full exchange, or <strong>Step</strong> to advance one message at a time.' +
+						'<br><br>Adjust the speed, inspect packet headers, and see every field explained as data flows between actors.',
+					side: 'left' as const,
+					align: 'start' as const
+				},
+				onHighlighted: () => {
+					appState.detailViewMode = 'simulate';
+					scrollPanelToTop();
+					setTimeout(() => tourDriver.refresh(), 350);
+				}
+			},
+			// ── Step 10: Farewell ──
 			{
 				popover: {
 					title: "You're Ready to Explore!",
 					description:
-						'Click any node on the graph to dive in. Try ' +
+						'Start with a classic like ' +
 						'<strong style="color: #39ff14">TCP</strong>, ' +
-						'<strong style="color: #00d4ff">HTTP</strong>, or ' +
-						'<strong style="color: #c084fc">MQTT</strong> to start.' +
-						'<br><br>Hit the <strong>?</strong> button anytime to replay this tour.'
+						'peek at modern protocols like ' +
+						'<strong style="color: #00d4ff">HTTP/3</strong>, or ' +
+						'see pub/sub in action with ' +
+						'<strong style="color: #c084fc">MQTT</strong>.' +
+						'<br><br>Try different <strong>graph layouts</strong> to spot patterns, and don\'t forget to <strong>run the simulations</strong>!' +
+						'<br><br><span class="tour-hint">Hit <strong>?</strong> anytime to replay this tour</span>'
+				},
+				onHighlighted: () => {
+					appState.detailViewMode = 'learn';
 				}
 			}
 		],
 		onDestroyed: () => {
 			// Restore pre-tour state
+			appState.detailViewMode = savedViewMode;
 			if (savedSelectedNode && savedShowDetailPanel) {
 				appState.selectNode(savedSelectedNode);
 			} else {

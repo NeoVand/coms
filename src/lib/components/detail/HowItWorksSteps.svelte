@@ -4,7 +4,7 @@
 	let { steps, color }: { steps: HowItWorksStep[]; color: string } = $props();
 </script>
 
-<section>
+<section data-tour="how-it-works">
 	<h3 class="mb-3 text-xs font-semibold tracking-wider text-slate-500 uppercase">How It Works</h3>
 	<div class="relative space-y-0">
 		{#each steps as step, i (i)}

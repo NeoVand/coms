@@ -20,7 +20,7 @@
 </script>
 
 {#if config}
-	<div class="flex flex-col gap-4">
+	<div class="flex flex-col gap-4" data-tour="simulator-view">
 		<!-- Title -->
 		<div>
 			<h3 class="text-sm font-semibold text-slate-200">{config.title}</h3>

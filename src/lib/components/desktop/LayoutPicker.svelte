@@ -34,7 +34,7 @@
 	></button>
 {/if}
 
-<div class="absolute bottom-4 left-4 z-40">
+<div class="absolute bottom-4 left-4 z-40" data-tour="layout-picker">
 	<!-- Floating menu — opens upward -->
 	{#if open}
 		<div
