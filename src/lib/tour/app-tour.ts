@@ -1,9 +1,10 @@
 import type { AppState } from '$lib/state/app-state.svelte';
 import type { GraphNode } from '$lib/data/types';
 
-function scrollTourElement(selector: string) {
+/** Instantly scroll an element inside the detail-panel scroller into view. */
+function scrollInPanel(selector: string) {
 	const el = document.querySelector(selector);
-	if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+	if (el) el.scrollIntoView({ behavior: 'instant', block: 'center' });
 }
 
 function scrollPanelToTop() {
@@ -30,7 +31,7 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 		stageRadius: 12,
 		popoverClass: 'protocol-tour-popover',
 		allowClose: true,
-		smoothScroll: true,
+		smoothScroll: false,
 		progressText: '{{current}} / {{total}}',
 		nextBtnText: 'Next',
 		prevBtnText: 'Back',
@@ -60,7 +61,6 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 				},
 				disableActiveInteraction: true,
 				onHighlighted: () => {
-					// Pre-select TCP so the detail panel is ready for the next step
 					const tcpNode = allNodes.find((n) => n.id === 'tcp');
 					if (tcpNode) appState.selectNode(tcpNode);
 				}
@@ -90,7 +90,7 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 					side: 'left' as const,
 					align: 'start' as const
 				},
-				onHighlighted: () => {
+				onHighlightStarted: () => {
 					appState.detailViewMode = 'learn';
 					scrollPanelToTop();
 				}
@@ -107,9 +107,12 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 					side: 'left' as const,
 					align: 'center' as const
 				},
+				onHighlightStarted: () => {
+					appState.detailViewMode = 'learn';
+					scrollInPanel('[data-tour="protocol-diagram"]');
+				},
 				onHighlighted: () => {
-					scrollTourElement('[data-tour="protocol-diagram"]');
-					setTimeout(() => tourDriver.refresh(), 350);
+					requestAnimationFrame(() => tourDriver.refresh());
 				}
 			},
 			// ── Step 6: How It Works ──
@@ -123,9 +126,11 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 					side: 'left' as const,
 					align: 'center' as const
 				},
+				onHighlightStarted: () => {
+					scrollInPanel('[data-tour="how-it-works"]');
+				},
 				onHighlighted: () => {
-					scrollTourElement('[data-tour="how-it-works"]');
-					setTimeout(() => tourDriver.refresh(), 350);
+					requestAnimationFrame(() => tourDriver.refresh());
 				}
 			},
 			// ── Step 7: Code Examples ──
@@ -140,9 +145,12 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 					side: 'left' as const,
 					align: 'center' as const
 				},
+				onHighlightStarted: () => {
+					appState.detailViewMode = 'learn';
+					scrollInPanel('[data-tour="code-example"]');
+				},
 				onHighlighted: () => {
-					scrollTourElement('[data-tour="code-example"]');
-					setTimeout(() => tourDriver.refresh(), 350);
+					requestAnimationFrame(() => tourDriver.refresh());
 				}
 			},
 			// ── Step 8: Learn / Simulate Tabs ──
@@ -152,14 +160,17 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 					title: 'Learn & Simulate',
 					description:
 						'Every protocol has two modes. <strong>Learn</strong> gives you documentation, diagrams, and code. ' +
-						'<strong>Simulate</strong> lets you run an interactive, step-by-step walkthrough of the protocol in action.' +
-						'<br><br><span class="tour-hint">Let\'s switch to Simulate now &rarr;</span>',
+						'<strong>Simulate</strong> lets you run an interactive, step-by-step walkthrough of the protocol in action.',
 					side: 'left' as const,
 					align: 'center' as const
 				},
-				onHighlighted: () => {
+				onHighlightStarted: () => {
 					scrollPanelToTop();
-					setTimeout(() => tourDriver.refresh(), 200);
+				},
+				onHighlighted: () => {
+					// Switch to simulate now so the element exists when step 9 activates
+					appState.detailViewMode = 'simulate';
+					requestAnimationFrame(() => tourDriver.refresh());
 				}
 			},
 			// ── Step 9: Simulation View ──
@@ -174,10 +185,12 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 					side: 'left' as const,
 					align: 'start' as const
 				},
-				onHighlighted: () => {
+				onHighlightStarted: () => {
 					appState.detailViewMode = 'simulate';
 					scrollPanelToTop();
-					setTimeout(() => tourDriver.refresh(), 350);
+				},
+				onHighlighted: () => {
+					requestAnimationFrame(() => tourDriver.refresh());
 				}
 			},
 			// ── Step 10: Farewell ──
@@ -200,7 +213,6 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 			}
 		],
 		onDestroyed: () => {
-			// Restore pre-tour state
 			appState.detailViewMode = savedViewMode;
 			if (savedSelectedNode && savedShowDetailPanel) {
 				appState.selectNode(savedSelectedNode);
