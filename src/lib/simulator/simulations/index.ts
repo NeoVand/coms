@@ -19,6 +19,11 @@ import { graphqlOperation } from './graphql-operation';
 import { sseStream } from './sse-stream';
 import { ntpSync } from './ntp-sync';
 import { amqpMessaging } from './amqp-messaging';
+import { quicConnection } from './quic-connection';
+import { kafkaEvents } from './kafka-events';
+import { coapRequest } from './coap-request';
+import { xmppMessaging } from './xmpp-messaging';
+import { stompSubscription } from './stomp-subscription';
 
 const simulations = new Map<string, SimulationConfig>([
 	['tcp', tcpHandshake],
@@ -40,7 +45,12 @@ const simulations = new Map<string, SimulationConfig>([
 	['graphql', graphqlOperation],
 	['sse', sseStream],
 	['ntp', ntpSync],
-	['amqp', amqpMessaging]
+	['amqp', amqpMessaging],
+	['quic', quicConnection],
+	['kafka', kafkaEvents],
+	['coap', coapRequest],
+	['xmpp', xmppMessaging],
+	['stomp', stompSubscription]
 ]);
 
 export function getSimulation(protocolId: string): SimulationConfig | undefined {
