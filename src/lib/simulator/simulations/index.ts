@@ -24,6 +24,14 @@ import { kafkaEvents } from './kafka-events';
 import { coapRequest } from './coap-request';
 import { xmppMessaging } from './xmpp-messaging';
 import { stompSubscription } from './stomp-subscription';
+import { rtpMedia } from './rtp-media';
+import { sipCall } from './sip-call';
+import { hlsStreaming } from './hls-streaming';
+import { rtmpPublish } from './rtmp-publish';
+import { sdpNegotiation } from './sdp-negotiation';
+import { dashStreaming } from './dash-streaming';
+import { sctpAssociation } from './sctp-association';
+import { mptcpMultipath } from './mptcp-multipath';
 
 const simulations = new Map<string, SimulationConfig>([
 	['tcp', tcpHandshake],
@@ -50,7 +58,15 @@ const simulations = new Map<string, SimulationConfig>([
 	['kafka', kafkaEvents],
 	['coap', coapRequest],
 	['xmpp', xmppMessaging],
-	['stomp', stompSubscription]
+	['stomp', stompSubscription],
+	['rtp', rtpMedia],
+	['sip', sipCall],
+	['hls', hlsStreaming],
+	['rtmp', rtmpPublish],
+	['sdp', sdpNegotiation],
+	['dash', dashStreaming],
+	['sctp', sctpAssociation],
+	['mptcp', mptcpMultipath]
 ]);
 
 export function getSimulation(protocolId: string): SimulationConfig | undefined {
