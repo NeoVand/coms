@@ -51,14 +51,13 @@ function updateConnectedIds(selectedNode: GraphNode | null): void {
 function isNodeDimmed(node: GraphNode, selectedNode: GraphNode | null): boolean {
 	if (selectedNode && selectedNode.id !== node.id) {
 		if (selectedNode.type === 'category') {
-			if (node.type === 'hub') return false;
-			return node.type === 'protocol' && node.categoryId !== selectedNode.id;
+			return (node.type === 'protocol' && node.categoryId !== selectedNode.id) || node.type === 'hub';
 		}
 		if (selectedNode.type === 'protocol') {
 			// Don't dim connected/related nodes
 			if (connectedIds.has(node.id)) return false;
 			return (
-				node.id !== selectedNode.categoryId && node.type !== 'hub' && node.id !== selectedNode.id
+				node.id !== selectedNode.categoryId && node.id !== selectedNode.id
 			);
 		}
 	}
@@ -327,7 +326,7 @@ function drawNode(
 	// Animated radius — smooth hover scale
 	let r = radius;
 	if (type === 'hub') {
-		r += Math.sin(time * 0.003) * 2;
+		r += Math.sin(time * 0.003) * 0.5;
 	}
 	r *= 1 + 0.15 * eased;
 	if (isSelected) {
@@ -341,10 +340,10 @@ function drawNode(
 		(hoverT > 0.01 || isSelected || isConnected || type === 'hub' || type === 'category');
 	if (hasGlow) {
 		const glowScale = 1 + 0.3 * eased; // glow grows out with hover
-		const glowRadius = r * (type === 'hub' ? 3 : 2.2) * glowScale;
+		const glowRadius = r * (type === 'hub' ? 2.2 : 2.2) * glowScale;
 		const glow = ctx.createRadialGradient(x, y, r * 0.5, x, y, glowRadius);
 		const baseGlowAlpha =
-			isSelected ? 0.35 : isConnected ? 0.2 : type === 'hub' ? 0.15 : 0.1;
+			isSelected ? 0.35 : isConnected ? 0.2 : type === 'hub' ? 0.08 : 0.1;
 		const glowAlpha = (baseGlowAlpha + 0.25 * eased) * glowVisibility;
 		glow.addColorStop(0, hexToRgba(color, glowAlpha));
 		glow.addColorStop(1, hexToRgba(color, 0));

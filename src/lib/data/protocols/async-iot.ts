@@ -3,7 +3,7 @@ import type { Protocol } from '../types';
 export const asyncIotProtocols: Protocol[] = [
 	{
 		id: 'mqtt',
-		name: 'MQTT',
+		name: 'Message Queuing Telemetry Transport',
 		abbreviation: 'MQTT',
 		categoryId: 'async-iot',
 		port: 1883,
@@ -60,7 +60,96 @@ client.on_message = on_message
 # client.publish("home/kitchen/temperature", "22.5")
 
 client.loop_forever()`,
-			caption: 'Subscribe to temperature readings from any room — the broker handles routing'
+			caption: 'Subscribe to temperature readings from any room — the broker handles routing',
+			alternatives: [
+				{
+					language: 'javascript',
+					code: `import mqtt from 'mqtt';
+
+const client = mqtt.connect('mqtt://broker.hivemq.com:1883');
+
+client.on('connect', () => {
+  // Subscribe to all room temperatures
+  client.subscribe('home/+/temperature');
+
+  // Publish a reading
+  client.publish('home/kitchen/temperature', '22.5');
+});
+
+client.on('message', (topic, message) => {
+  console.log(\`\${topic}: \${message.toString()}\`);
+});`
+				},
+				{
+					language: 'cli',
+					code: `# Subscribe to a topic (mosquitto CLI)
+mosquitto_sub -h broker.hivemq.com \\
+  -t "home/+/temperature" -v
+
+# Publish a message
+mosquitto_pub -h broker.hivemq.com \\
+  -t "home/kitchen/temperature" \\
+  -m "22.5"
+
+# Subscribe with QoS 1 (at-least-once)
+mosquitto_sub -h broker.hivemq.com \\
+  -t "home/#" -q 1 -v`
+				},
+				{
+					language: 'wire',
+					code: '',
+					sections: [
+						{
+							title: 'CONNECT Packet',
+							code: `Fixed Header:
+  Packet Type: CONNECT (1)
+  Remaining Length: 39
+
+Variable Header:
+  Protocol Name: MQTT
+  Protocol Level: 5 (v5.0)
+  Connect Flags: 0xC2
+    Username: 1, Password: 1
+    Clean Start: 1
+  Keep Alive: 60s
+
+Payload:
+  Client ID: "sensor-A7B2"
+  Username: "device01"
+  Password: "••••••••"`
+						},
+						{
+							title: 'PUBLISH Packet',
+							code: `Fixed Header:
+  Packet Type: PUBLISH (3)
+  DUP: 0, QoS: 1, RETAIN: 0
+  Remaining Length: 47
+
+Variable Header:
+  Topic: "home/living-room/temp"
+  Packet ID: 1042
+
+Payload:
+  {"value": 22.5, "unit": "°C", "ts": 1710350400}`
+						},
+						{
+							title: 'SUBSCRIBE Packet',
+							code: `Fixed Header:
+  Packet Type: SUBSCRIBE (8)
+  Remaining Length: 31
+
+Variable Header:
+  Packet ID: 1043
+
+Payload:
+  Topic Filter: "home/+/temp"
+    QoS: 1
+  Topic Filter: "home/+/humidity"
+    QoS: 0`
+						}
+					]
+				}
+			]
 		},
 		performance: {
 			latency: 'Sub-second for QoS 0; 1-2 RTTs for QoS 1; 2 RTTs for QoS 2',
@@ -147,7 +236,7 @@ channel.start_consuming()`,
 			caption: 'RabbitMQ with pika — publish durable messages and consume with acknowledgments',
 			alternatives: [
 				{
-					language: 'typescript',
+					language: 'javascript',
 					code: `import amqplib from 'amqplib';
 
 const conn = await amqplib.connect('amqp://localhost');
@@ -168,6 +257,62 @@ channel.consume('tasks', (msg) => {
     channel.ack(msg);
   }
 });`
+				},
+				{
+					language: 'cli',
+					code: `# List queues and message counts
+rabbitmqctl list_queues name messages
+
+# Publish a message via the management API
+rabbitmqadmin publish exchange=amq.default \\
+  routing_key=tasks \\
+  payload="Process order #1234"
+
+# Consume a message
+rabbitmqadmin get queue=tasks ackmode=ack_requeue_false
+
+# List exchanges and bindings
+rabbitmqadmin list exchanges
+rabbitmqadmin list bindings`
+				},
+				{
+					language: 'wire',
+					code: '',
+					sections: [
+						{
+							title: 'Protocol Header',
+							code: `AMQP Protocol Handshake:
+  Client → Server:
+    "AMQP" 0x00 0x00 0x09 0x01
+    (Protocol: AMQP, Major: 0, Minor: 9, Revision: 1)
+
+  Server → Client:
+    Connection.Start
+      Version: 0-9-1
+      Mechanisms: PLAIN AMQPLAIN
+      Locales: en_US`
+						},
+						{
+							title: 'Basic.Publish',
+							code: `Method: Basic.Publish
+  Channel: 1
+  Exchange: "notifications"
+  Routing Key: "user.signup"
+  Mandatory: false
+
+Content Header:
+  Class: Basic (60)
+  Body Size: 86
+  Properties:
+    Content-Type: application/json
+    Delivery-Mode: 2 (persistent)
+    Message-ID: "msg-2f4a8b"
+    Timestamp: 1710350400
+
+Content Body:
+  {"event": "signup", "user": "alice@example.com"}`
+						}
+					]
 				}
 			]
 		},
@@ -274,6 +419,66 @@ req.on('response', (res) => {
   observe.end();
 });
 req.end();`
+				},
+				{
+					language: 'cli',
+					code: `# GET a resource from a CoAP server
+coap-client -m get coap://sensor.local/temperature
+
+# PUT — update a resource
+coap-client -m put -e "75" \\
+  coap://light.local/brightness
+
+# Observe a resource (get push notifications)
+coap-client -m get -s 60 -B 60 \\
+  coap://sensor.local/temperature
+
+# Discover resources on a device
+coap-client -m get coap://sensor.local/.well-known/core`
+				},
+				{
+					language: 'wire',
+					code: '',
+					sections: [
+						{
+							title: 'GET Request',
+							code: `CoAP Message (UDP):
+  Version: 1
+  Type: Confirmable (CON)
+  Token Length: 4
+  Code: 0.01 (GET)
+  Message ID: 0x7D34
+  Token: 0xFA4B2C01
+
+  Options:
+    Uri-Host: "sensor.local"
+    Uri-Path: "temperature"
+    Accept: application/json (50)
+
+  Wire bytes:
+    44 01 7d 34 fa 4b 2c 01
+    39 73 65 6e 73 6f 72 2e
+    6c 6f 63 61 6c ...`
+						},
+						{
+							title: '2.05 Content Response',
+							code: `CoAP Message (UDP):
+  Version: 1
+  Type: Acknowledgement (ACK)
+  Token Length: 4
+  Code: 2.05 (Content)
+  Message ID: 0x7D34
+  Token: 0xFA4B2C01
+
+  Options:
+    Content-Format: application/json (50)
+    Max-Age: 30
+
+  Payload Marker: 0xFF
+  Payload:
+    {"temp": 22.5, "unit": "C"}`
+						}
+					]
 				}
 			]
 		},
@@ -332,8 +537,31 @@ STOMP is commonly used in web applications via WebSocket bridges — the Spring 
 			'Cross-language microservice communication'
 		],
 		codeExample: {
-			language: 'javascript',
-			code: `import { Client } from '@stomp/stompjs';
+			language: 'python',
+			code: `import stomp
+
+class MyListener(stomp.ConnectionListener):
+    def on_message(self, frame):
+        print(f"Received: {frame.body}")
+
+conn = stomp.Connection([('localhost', 61613)])
+conn.set_listener('', MyListener())
+conn.connect('admin', 'admin', wait=True)
+
+# Subscribe to a topic
+conn.subscribe(destination='/topic/notifications', id=1, ack='auto')
+
+# Send a message
+conn.send(
+    destination='/queue/tasks',
+    body='{"task": "process-order", "id": 42}',
+    content_type='application/json')`,
+			caption:
+				'STOMP — text-based messaging that you could debug with browser DevTools',
+			alternatives: [
+				{
+					language: 'javascript',
+					code: `import { Client } from '@stomp/stompjs';
 
 const client = new Client({
   brokerURL: 'ws://localhost:15674/ws',
@@ -353,31 +581,85 @@ const client = new Client({
   }
 });
 
-client.activate();`,
-			caption:
-				'STOMP over WebSockets — text-based messaging that you could debug with browser DevTools',
-			alternatives: [
+client.activate();`
+				},
 				{
-					language: 'python',
-					code: `import stomp
+					language: 'cli',
+					code: `# Connect and subscribe using raw STOMP over TCP
+# (you can literally type STOMP frames by hand)
+telnet localhost 61613
 
-class MyListener(stomp.ConnectionListener):
-    def on_message(self, frame):
-        print(f"Received: {frame.body}")
+# Or use socat for a quick test
+echo -e "CONNECT\\naccept-version:1.2\\n\\n\\x00" \\
+  | socat - TCP:localhost:61613
 
-conn = stomp.Connection([('localhost', 61613)])
-conn.set_listener('', MyListener())
-conn.connect('admin', 'admin', wait=True)
+# ActiveMQ/RabbitMQ admin CLI
+activemq-admin send --destination queue://tasks \\
+  --body '{"task": "process-order", "id": 42}'`
+				},
+				{
+					language: 'wire',
+					code: '',
+					sections: [
+						{
+							title: 'CONNECT Frame',
+							code: `CONNECT
+accept-version:1.2
+host:broker.example.com
+login:admin
+passcode:••••••••
+heart-beat:10000,10000
 
-# Subscribe to a topic
-conn.subscribe(destination='/topic/notifications', id=1, ack='auto')
+\u0000
 
-# Send a message
-conn.send(
-    destination='/queue/tasks',
-    body='{"task": "process-order", "id": 42}',
-    content_type='application/json'
-)`
+--- Server Response ---
+
+CONNECTED
+version:1.2
+server:ActiveMQ/5.16.0
+heart-beat:10000,10000
+session:session-12345
+
+\u0000`
+						},
+						{
+							title: 'SUBSCRIBE Frame',
+							code: `SUBSCRIBE
+id:sub-0
+destination:/topic/notifications
+ack:client
+
+\u0000
+
+--- Message Received ---
+
+MESSAGE
+subscription:sub-0
+message-id:msg-42
+destination:/topic/notifications
+content-type:application/json
+
+{"event": "order.placed", "id": 1042}
+\u0000`
+						},
+						{
+							title: 'SEND Frame',
+							code: `SEND
+destination:/queue/orders
+content-type:application/json
+receipt:msg-receipt-1
+
+{"action": "create", "product": "Widget", "qty": 5}
+\u0000
+
+--- Server Receipt ---
+
+RECEIPT
+receipt-id:msg-receipt-1
+
+\u0000`
+						}
+					]
 				}
 			]
 		},
@@ -442,8 +724,33 @@ Google Talk, the early versions of WhatsApp, Facebook Messenger (originally), an
 			'Gaming chat and notification infrastructure'
 		],
 		codeExample: {
-			language: 'javascript',
-			code: `const { client, xml } = require('@xmpp/client');
+			language: 'python',
+			code: `import slixmpp
+
+class ChatBot(slixmpp.ClientXMPP):
+    def __init__(self, jid, password):
+        super().__init__(jid, password)
+        self.add_event_handler("session_start", self.start)
+        self.add_event_handler("message", self.on_message)
+
+    async def start(self, event):
+        self.send_presence()  # I'm online
+        self.send_message(
+            mto="bob@example.com",
+            mbody="Hey Bob, XMPP still rocks!")
+
+    def on_message(self, msg):
+        if msg["type"] == "chat":
+            print(f"{msg['from']}: {msg['body']}")
+
+bot = ChatBot("alice@example.com", "secret")
+bot.connect()
+bot.process()`,
+			caption: 'XMPP client — connect, announce presence, and send messages as XML stanzas',
+			alternatives: [
+				{
+					language: 'javascript',
+					code: `const { client, xml } = require('@xmpp/client');
 
 const xmpp = client({
   service: 'xmpp://chat.example.com:5222',
@@ -470,8 +777,93 @@ xmpp.on('stanza', (stanza) => {
   }
 });
 
-xmpp.start().catch(console.error);`,
-			caption: 'XMPP client in Node.js — connect, announce presence, and send messages as XML stanzas'
+xmpp.start().catch(console.error);`
+				},
+				{
+					language: 'cli',
+					code: `# Send a message using sendxmpp
+echo "Hello Bob!" | sendxmpp -t bob@example.com
+
+# Connect interactively with profanity
+profanity -a alice@example.com
+
+# Test XMPP server connectivity
+nmap -sV -p 5222 chat.example.com
+
+# Check SRV DNS records for XMPP
+dig _xmpp-client._tcp.example.com SRV +short`
+				},
+				{
+					language: 'wire',
+					code: '',
+					sections: [
+						{
+							title: 'Stream Open',
+							code: `Client → Server:
+  <?xml version='1.0'?>
+  <stream:stream
+    to='example.com'
+    xmlns='jabber:client'
+    xmlns:stream='http://etherx.jabber.org/streams'
+    version='1.0'>
+
+Server → Client:
+  <?xml version='1.0'?>
+  <stream:stream
+    from='example.com'
+    id='session_42'
+    xmlns='jabber:client'
+    xmlns:stream='http://etherx.jabber.org/streams'
+    version='1.0'>
+
+  <stream:features>
+    <mechanisms xmlns='urn:ietf:params:xml:ns:xmpp-sasl'>
+      <mechanism>PLAIN</mechanism>
+      <mechanism>SCRAM-SHA-1</mechanism>
+    </mechanisms>
+  </stream:features>`
+						},
+						{
+							title: 'Message Stanza',
+							code: `Client → Server:
+  <message
+    to='bob@example.com'
+    from='alice@example.com/laptop'
+    type='chat'
+    id='msg-001'>
+    <body>Hey Bob, are you there?</body>
+    <active xmlns='http://jabber.org/protocol/chatstates'/>
+  </message>
+
+Server → Recipient:
+  <message
+    to='bob@example.com/phone'
+    from='alice@example.com/laptop'
+    type='chat'
+    id='msg-001'>
+    <body>Hey Bob, are you there?</body>
+  </message>`
+						},
+						{
+							title: 'Presence Stanza',
+							code: `Client → Server (go online):
+  <presence>
+    <show>chat</show>
+    <status>Available for messages</status>
+    <priority>10</priority>
+  </presence>
+
+Server → Contacts (broadcast):
+  <presence
+    from='alice@example.com/laptop'
+    to='bob@example.com'>
+    <show>chat</show>
+    <status>Available for messages</status>
+  </presence>`
+						}
+					]
+				}
+			]
 		},
 		performance: {
 			latency:
@@ -490,7 +882,7 @@ xmpp.start().catch(console.error);`,
 	},
 	{
 		id: 'kafka',
-		name: 'Apache Kafka Protocol',
+		name: 'Apache Kafka Wire Protocol',
 		abbreviation: 'Kafka',
 		categoryId: 'async-iot',
 		port: 9092,
@@ -537,8 +929,34 @@ The protocol handles producer requests, fetch requests, metadata discovery, offs
 			'Stream processing with Kafka Streams or Flink'
 		],
 		codeExample: {
-			language: 'typescript',
-			code: `import { Kafka } from 'kafkajs';
+			language: 'python',
+			code: `from kafka import KafkaProducer, KafkaConsumer
+import json
+
+# Producer — send events
+producer = KafkaProducer(
+    bootstrap_servers='localhost:9092',
+    value_serializer=lambda v: json.dumps(v).encode())
+
+producer.send('user-events',
+    key=b'user-123',
+    value={'event': 'page_view', 'url': '/products'})
+producer.flush()
+
+# Consumer — read events
+consumer = KafkaConsumer(
+    'user-events',
+    bootstrap_servers='localhost:9092',
+    group_id='analytics',
+    value_deserializer=lambda m: json.loads(m))
+
+for message in consumer:
+    print(f"[{message.partition}] {message.key}: {message.value}")`,
+			caption: 'Kafka producer and consumer — event streaming with consumer groups',
+			alternatives: [
+				{
+					language: 'javascript',
+					code: `import { Kafka } from 'kafkajs';
 
 const kafka = new Kafka({
   clientId: 'my-app',
@@ -566,8 +984,82 @@ await consumer.run({
     console.log('[' + partition + '] ' +
       message.key + ': ' + message.value);
   }
-});`,
-			caption: 'KafkaJS producer and consumer — event streaming with consumer groups'
+});`
+				},
+				{
+					language: 'cli',
+					code: `# Create a topic
+kafka-topics.sh --create --topic user-events \\
+  --bootstrap-server localhost:9092 \\
+  --partitions 3 --replication-factor 1
+
+# Produce messages from command line
+echo '{"event":"page_view"}' | \\
+  kafka-console-producer.sh \\
+  --broker-list localhost:9092 \\
+  --topic user-events
+
+# Consume messages from the beginning
+kafka-console-consumer.sh \\
+  --bootstrap-server localhost:9092 \\
+  --topic user-events --from-beginning
+
+# List consumer groups and lag
+kafka-consumer-groups.sh \\
+  --bootstrap-server localhost:9092 \\
+  --describe --group analytics`
+				},
+				{
+					language: 'wire',
+					code: '',
+					sections: [
+						{
+							title: 'Produce Request',
+							code: `Kafka Produce Request (API Key: 0):
+  Correlation ID: 7
+  Client ID: "producer-1"
+
+  Topic: "user-events"
+  Partition: 0
+  Record Batch:
+    Base Offset: 0
+    Partition Leader Epoch: 5
+    Magic: 2 (v2 format)
+    Compression: snappy
+    Timestamp Type: CreateTime
+
+    Record 0:
+      Key: "user-42"
+      Value: {"event": "page_view", "url": "/home"}
+      Headers:
+        trace-id: "abc-123"`
+						},
+						{
+							title: 'Fetch Response',
+							code: `Kafka Fetch Response (API Key: 1):
+  Correlation ID: 12
+  Throttle Time: 0ms
+
+  Topic: "user-events"
+  Partition: 0
+    Error: NONE (0)
+    High Watermark: 1547
+    Last Stable Offset: 1547
+
+    Record Batch:
+      Base Offset: 1542
+      Records: 3
+
+      Record 0: Key="user-42"
+        {"event": "page_view", "url": "/home"}
+      Record 1: Key="user-17"
+        {"event": "click", "button": "signup"}
+      Record 2: Key="user-42"
+        {"event": "page_view", "url": "/pricing"}`
+						}
+					]
+				}
+			]
 		},
 		performance: {
 			latency:

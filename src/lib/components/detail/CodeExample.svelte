@@ -24,7 +24,9 @@
 	let activeTab = $state(0);
 
 	const tabs = $derived.by(() => {
-		const list = [{ language: example.language, code: example.code }];
+		const list: { language: string; code: string; sections?: { title: string; code: string }[] }[] = [
+			{ language: example.language, code: example.code }
+		];
 		if (example.alternatives) {
 			for (const alt of example.alternatives) {
 				list.push(alt);
@@ -35,21 +37,25 @@
 
 	const activeCode = $derived(tabs[activeTab]);
 
-	const highlightedCode = $derived.by(() => {
-		const { language, code } = activeCode;
+	function resolveHljsLang(language: string): string {
 		const lang = language.toLowerCase();
-		const hljsLang =
-			lang === 'js'
-				? 'javascript'
-				: lang === 'ts'
-					? 'typescript'
-					: lang === 'py'
-						? 'python'
-						: lang === 'sh' || lang === 'shell'
-							? 'bash'
-							: lang === 'proto'
-								? 'protobuf'
+		return lang === 'js'
+			? 'javascript'
+			: lang === 'ts'
+				? 'typescript'
+				: lang === 'py'
+					? 'python'
+					: lang === 'sh' || lang === 'shell' || lang === 'cli'
+						? 'bash'
+						: lang === 'proto'
+							? 'protobuf'
+							: lang === 'wire'
+								? 'http'
 								: lang;
+	}
+
+	function highlightCode(code: string, language: string): string {
+		const hljsLang = resolveHljsLang(language);
 		try {
 			if (hljs.getLanguage(hljsLang)) {
 				return hljs.highlight(code, { language: hljsLang }).value;
@@ -58,10 +64,30 @@
 		} catch {
 			return code.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 		}
+	}
+
+	const highlightedCode = $derived(highlightCode(activeCode.code, activeCode.language));
+
+	const highlightedSections = $derived.by(() => {
+		const active = activeCode;
+		if (active.sections && active.sections.length > 0) {
+			return active.sections.map((s) => ({
+				title: s.title,
+				html: highlightCode(s.code, active.language)
+			}));
+		}
+		return null;
 	});
 
 	async function copyCode() {
-		await navigator.clipboard.writeText(activeCode.code);
+		const active = activeCode;
+		let text: string;
+		if (active.sections && active.sections.length > 0) {
+			text = active.sections.map((s) => `--- ${s.title} ---\n${s.code}`).join('\n\n');
+		} else {
+			text = active.code;
+		}
+		await navigator.clipboard.writeText(text);
 		copied = true;
 		setTimeout(() => (copied = false), 2000);
 	}
@@ -72,11 +98,12 @@
 			typescript: 'TypeScript',
 			python: 'Python',
 			bash: 'Bash',
+			cli: 'CLI',
+			wire: 'On the Wire',
 			http: 'HTTP',
 			protobuf: 'Protobuf',
 			graphql: 'GraphQL',
-			json: 'JSON',
-			sip: 'SIP'
+			json: 'JSON'
 		};
 		return map[lang.toLowerCase()] ?? lang;
 	}
@@ -135,9 +162,28 @@
 				{/if}
 			</button>
 		</div>
-		<pre class="custom-scrollbar overflow-x-auto p-3 text-[11px] leading-5 text-slate-300"><code
-				class="hljs">{@html highlightedCode}</code
-			></pre>
+		{#if highlightedSections}
+			<div class="custom-scrollbar overflow-y-auto" style="max-height: 400px;">
+				{#each highlightedSections as section, i (section.title)}
+					<div>
+						<div
+							class="sticky top-0 z-10 px-3 py-1.5 text-[10px] font-semibold tracking-wider uppercase"
+							style="color: {color}; background: #0b1120; border-bottom: 1px solid {color}20;"
+						>
+							{section.title}
+						</div>
+						<pre class="custom-scrollbar overflow-x-auto px-3 py-2 text-[11px] leading-5 text-slate-300"><code class="hljs">{@html section.html}</code></pre>
+					</div>
+					{#if i < highlightedSections.length - 1}
+						<div style="border-bottom: 1px solid {color}12;"></div>
+					{/if}
+				{/each}
+			</div>
+		{:else}
+			<pre class="custom-scrollbar overflow-x-auto p-3 text-[11px] leading-5 text-slate-300"><code
+					class="hljs">{@html highlightedCode}</code
+				></pre>
+		{/if}
 	</div>
 	{#if example.caption}
 		<p class="mt-2 text-[10px] leading-relaxed text-slate-500">{example.caption}</p>

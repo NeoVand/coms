@@ -45,18 +45,125 @@ When you see the lock icon in your browser, TLS is at work. It sits between the 
 			'Database connection encryption'
 		],
 		codeExample: {
-			language: 'bash',
-			code: `# View a site's TLS certificate
+			language: 'python',
+			code: `import ssl
+import socket
+
+# Create a TLS-wrapped connection
+context = ssl.create_default_context()
+with socket.create_connection(('example.com', 443)) as sock:
+    with context.wrap_socket(sock,
+                             server_hostname='example.com') as tls:
+        print(f"Version: {tls.version()}")  # TLSv1.3
+        print(f"Cipher: {tls.cipher()[0]}")
+
+        cert = tls.getpeercert()
+        print(f"Subject: {cert['subject']}")
+        print(f"Expires: {cert['notAfter']}")
+
+        tls.sendall(b"GET / HTTP/1.1\\r\\n"
+                     b"Host: example.com\\r\\n\\r\\n")
+        print(tls.recv(1024).decode())`,
+			caption:
+				'Every HTTPS connection starts with a TLS handshake — you can inspect certificates with openssl',
+			alternatives: [
+				{
+					language: 'javascript',
+					code: `const tls = require('node:tls');
+
+const socket = tls.connect(443, 'example.com', () => {
+  console.log('Connected:', socket.authorized);
+  console.log('Protocol:', socket.getProtocol()); // TLSv1.3
+  console.log('Cipher:', socket.getCipher().name);
+
+  const cert = socket.getPeerCertificate();
+  console.log('Subject:', cert.subject.CN);
+  console.log('Issuer:', cert.issuer.CN);
+  console.log('Valid until:', cert.valid_to);
+
+  socket.write('GET / HTTP/1.1\\r\\n' +
+               'Host: example.com\\r\\n\\r\\n');
+});
+
+socket.on('data', (data) => {
+  console.log(data.toString());
+  socket.end();
+});`
+				},
+				{
+					language: 'cli',
+					code: `# View a site's TLS certificate
 openssl s_client -connect example.com:443 2>/dev/null \\
   | openssl x509 -noout -text \\
   | grep -E "(Subject:|Issuer:|Not After)"
 
-# Output:
-# Subject: CN = example.com
-# Issuer: CN = DigiCert SHA2 Secure Server CA
-# Not After : Dec 15 23:59:59 2025 GMT`,
-			caption:
-				'Every HTTPS connection starts with a TLS handshake — you can inspect certificates with openssl'
+# Check TLS version and cipher suite
+openssl s_client -connect example.com:443 \\
+  -tls1_3 2>/dev/null | grep -E "(Protocol|Cipher)"
+
+# Test for specific TLS versions
+nmap --script ssl-enum-ciphers -p 443 example.com
+
+# Generate a self-signed certificate
+openssl req -x509 -newkey rsa:2048 -nodes \\
+  -keyout key.pem -out cert.pem -days 365`
+				},
+				{
+					language: 'wire',
+					code: '',
+					sections: [
+						{
+							title: 'ClientHello',
+							code: `TLS Record:
+  Content Type: Handshake (22)
+  Version: TLS 1.0 (0x0301)
+  Length: 512
+
+  Handshake: ClientHello
+    Version: TLS 1.2 (0x0303)
+    Random: 5f4dcc3b5aa765d6...
+    Session ID Length: 32
+    Cipher Suites (5):
+      TLS_AES_256_GCM_SHA384 (0x1302)
+      TLS_AES_128_GCM_SHA256 (0x1301)
+      TLS_CHACHA20_POLY1305_SHA256 (0x1303)
+      TLS_ECDHE_RSA_WITH_AES_128_GCM (0xC02F)
+      TLS_ECDHE_RSA_WITH_AES_256_GCM (0xC030)
+    Extensions:
+      server_name: example.com
+      supported_versions: TLS 1.3, TLS 1.2
+      key_share: x25519 (32 bytes)
+      signature_algorithms: ecdsa_secp256r1_sha256, rsa_pss_rsae_sha256`
+						},
+						{
+							title: 'ServerHello',
+							code: `TLS Record:
+  Content Type: Handshake (22)
+  Version: TLS 1.2 (0x0303)
+  Length: 122
+
+  Handshake: ServerHello
+    Version: TLS 1.2 (0x0303)
+    Random: 8f2a9d3b7c1e5f4a...
+    Cipher Suite: TLS_AES_256_GCM_SHA384
+    Extensions:
+      supported_versions: TLS 1.3
+      key_share: x25519 (32 bytes)
+
+  [ChangeCipherSpec]
+
+  Handshake: EncryptedExtensions
+  Handshake: Certificate
+    cert[0]: CN=example.com
+      Issuer: Let's Encrypt R3
+      Valid: 2024-01-15 to 2024-04-15
+  Handshake: CertificateVerify
+  Handshake: Finished
+    Verify Data: [32 bytes]`
+						}
+					]
+				}
+			]
 		},
 		performance: {
 			latency: 'TLS 1.3: 1 RTT for new connections, 0 RTT for resumption. TLS 1.2: 2 RTTs.',
@@ -114,8 +221,61 @@ Beyond shell access, SSH's port forwarding capability is remarkably powerful. Yo
 			'Automated deployment scripts'
 		],
 		codeExample: {
-			language: 'bash',
-			code: `# Generate an SSH key pair
+			language: 'python',
+			code: `import paramiko
+
+# Connect to a remote server
+client = paramiko.SSHClient()
+client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+client.connect('example.com',
+               username='user', key_filename='~/.ssh/id_ed25519')
+
+# Execute a command
+stdin, stdout, stderr = client.exec_command('ls -la')
+print(stdout.read().decode())
+
+# SFTP file transfer
+sftp = client.open_sftp()
+sftp.put('local_file.txt', '/home/user/remote_file.txt')
+sftp.get('/var/log/app.log', 'local_app.log')
+sftp.close()
+
+client.close()`,
+			caption:
+				'SSH is a Swiss Army knife: shell access, file transfer, tunneling, and Git — all encrypted',
+			alternatives: [
+				{
+					language: 'javascript',
+					code: `const { Client } = require('ssh2');
+
+const conn = new Client();
+conn.on('ready', () => {
+  console.log('Connected!');
+
+  // Execute a command
+  conn.exec('ls -la', (err, stream) => {
+    stream.on('data', (data) => {
+      console.log('Output:', data.toString());
+    });
+    stream.on('close', () => {
+      // SFTP file transfer
+      conn.sftp((err, sftp) => {
+        sftp.fastPut('local.txt', '/home/user/remote.txt',
+          () => conn.end());
+      });
+    });
+  });
+});
+
+conn.connect({
+  host: 'example.com',
+  username: 'user',
+  privateKey: require('fs').readFileSync('~/.ssh/id_ed25519')
+});`
+				},
+				{
+					language: 'cli',
+					code: `# Generate an SSH key pair
 ssh-keygen -t ed25519 -C "you@example.com"
 
 # Connect to a remote server
@@ -125,9 +285,66 @@ ssh user@example.com
 ssh -L 5432:localhost:5432 user@db-server.com
 
 # Copy files securely
-scp file.txt user@example.com:/home/user/`,
-			caption:
-				'SSH is a Swiss Army knife: shell access, file transfer, tunneling, and Git — all encrypted'
+scp file.txt user@example.com:/home/user/
+
+# SSH tunnel (SOCKS proxy)
+ssh -D 8080 user@example.com`
+				},
+				{
+					language: 'wire',
+					code: '',
+					sections: [
+						{
+							title: 'Banner Exchange',
+							code: `Server → Client:
+  SSH-2.0-OpenSSH_9.6
+
+Client → Server:
+  SSH-2.0-OpenSSH_9.6p1 Ubuntu-3
+
+Server → Client (Key Exchange Init):
+  Packet Length: 1508
+  Padding Length: 6
+  Message Code: SSH_MSG_KEXINIT (20)
+
+  Cookie: 8f2a9d3b7c1e5f4a...
+  KEX Algorithms:
+    curve25519-sha256
+    ecdh-sha2-nistp256
+    diffie-hellman-group16-sha512
+  Host Key Algorithms:
+    ssh-ed25519
+    ecdsa-sha2-nistp256
+    rsa-sha2-512
+  Encryption (client→server):
+    chacha20-poly1305@openssh.com
+    aes256-gcm@openssh.com
+    aes128-gcm@openssh.com`
+						},
+						{
+							title: 'Authentication',
+							code: `Client → Server:
+  SSH_MSG_USERAUTH_REQUEST (50)
+    Username: "alice"
+    Service: "ssh-connection"
+    Method: "publickey"
+    Algorithm: "ssh-ed25519"
+    Public Key: AAAAC3NzaC1lZDI1NTE5...
+    Signature: [64 bytes Ed25519]
+
+Server → Client:
+  SSH_MSG_USERAUTH_SUCCESS (52)
+
+Client → Server:
+  SSH_MSG_CHANNEL_OPEN (90)
+    Channel Type: "session"
+    Sender Channel: 0
+    Initial Window: 2097152
+    Max Packet: 32768`
+						}
+					]
+				}
+			]
 		},
 		performance: {
 			latency: '1-2 RTTs for connection + key exchange + authentication',
@@ -184,8 +401,53 @@ A typical DNS lookup takes 10-50ms and involves your device's stub resolver → 
 			'Service discovery in microservices'
 		],
 		codeExample: {
-			language: 'bash',
-			code: `# Look up A record (IPv4 address)
+			language: 'python',
+			code: `import dns.resolver
+
+# Look up A record (IPv4 address)
+answers = dns.resolver.resolve('example.com', 'A')
+for rdata in answers:
+    print(f"IP: {rdata.address}")  # 93.184.216.34
+
+# Look up MX records (mail servers)
+mx_records = dns.resolver.resolve('example.com', 'MX')
+for mx in mx_records:
+    print(f"Mail: {mx.preference} {mx.exchange}")
+
+# Look up TXT records (SPF, DKIM, etc.)
+txt_records = dns.resolver.resolve('example.com', 'TXT')
+for txt in txt_records:
+    print(f"TXT: {txt.to_text()}")`,
+			caption:
+				'The dig command shows exactly how DNS resolves a name — from root servers down to the answer',
+			alternatives: [
+				{
+					language: 'javascript',
+					code: `const dns = require('node:dns');
+const { Resolver } = dns.promises;
+const resolver = new Resolver();
+
+// Look up A record
+const addresses = await resolver.resolve4('example.com');
+console.log('IP:', addresses);  // ['93.184.216.34']
+
+// Look up MX records
+const mx = await resolver.resolveMx('example.com');
+mx.forEach((r) => {
+  console.log(\`Mail: \${r.priority} \${r.exchange}\`);
+});
+
+// Look up TXT records
+const txt = await resolver.resolveTxt('example.com');
+txt.forEach((r) => console.log('TXT:', r.join('')));
+
+// Reverse DNS lookup
+const hosts = await resolver.reverse('93.184.216.34');
+console.log('Reverse:', hosts);`
+				},
+				{
+					language: 'cli',
+					code: `# Look up A record (IPv4 address)
 dig example.com A +short
 # 93.184.216.34
 
@@ -194,9 +456,67 @@ dig example.com MX +short
 # 10 mail.example.com
 
 # Trace the full resolution path
-dig example.com +trace`,
-			caption:
-				'The dig command shows exactly how DNS resolves a name — from root servers down to the answer'
+dig example.com +trace
+
+# Query a specific DNS server
+dig @8.8.8.8 example.com
+
+# DNS-over-HTTPS query
+curl -sH 'accept: application/dns-json' \\
+  'https://1.1.1.1/dns-query?name=example.com' | jq`
+				},
+				{
+					language: 'wire',
+					code: '',
+					sections: [
+						{
+							title: 'Query',
+							code: `DNS Query (UDP):
+  Transaction ID: 0xA1B2
+  Flags: 0x0100
+    QR: 0 (Query)
+    Opcode: 0 (Standard)
+    RD: 1 (Recursion Desired)
+  Questions: 1
+  Answer RRs: 0
+
+  Query Section:
+    Name: example.com
+    Type: A (1)
+    Class: IN (1)
+
+  Wire bytes:
+    a1 b2 01 00 00 01 00 00  |  ........
+    00 00 00 00 07 65 78 61  |  .....exa
+    6d 70 6c 65 03 63 6f 6d  |  mple.com
+    00 00 01 00 01           |  .....`
+						},
+						{
+							title: 'Response',
+							code: `DNS Response (UDP):
+  Transaction ID: 0xA1B2
+  Flags: 0x8180
+    QR: 1 (Response)
+    AA: 0 (Not Authoritative)
+    RD: 1, RA: 1
+    RCODE: 0 (No Error)
+  Questions: 1
+  Answer RRs: 2
+
+  Answer Section:
+    example.com  300  IN  A  93.184.216.34
+    example.com  300  IN  A  93.184.216.35
+
+  Authority Section:
+    example.com  86400  IN  NS  ns1.example.com
+    example.com  86400  IN  NS  ns2.example.com
+
+  Additional Section:
+    ns1.example.com  86400  IN  A  198.51.100.1`
+						}
+					]
+				}
+			]
 		},
 		performance: {
 			latency:
@@ -279,7 +599,28 @@ if ans:
 				'Scapy lets you construct and send raw DHCP packets — see the DORA process in action',
 			alternatives: [
 				{
-					language: 'bash',
+					language: 'javascript',
+					code: `const dhcp = require('dhcp');
+
+// Create a DHCP server
+const server = dhcp.createServer({
+  range: ['192.168.1.100', '192.168.1.200'],
+  netmask: '255.255.255.0',
+  router: ['192.168.1.1'],
+  dns: ['8.8.8.8', '1.1.1.1'],
+  server: '192.168.1.1',
+  leaseTime: 3600  // 1 hour
+});
+
+server.on('bound', (state) => {
+  console.log('Assigned:', state.address,
+              'to', state.mac);
+});
+
+server.listen();`
+				},
+				{
+					language: 'cli',
 					code: `# Request a new DHCP lease
 sudo dhclient -v eth0
 
@@ -290,7 +631,78 @@ sudo dhclient -r eth0
 cat /var/lib/dhcp/dhclient.leases
 
 # Monitor DHCP traffic on the network
-sudo tcpdump -i eth0 port 67 or port 68 -v`
+sudo tcpdump -i eth0 port 67 or port 68 -v
+
+# Show current IP configuration (from DHCP)
+ip addr show eth0`
+				},
+				{
+					language: 'wire',
+					code: '',
+					sections: [
+						{
+							title: 'DISCOVER + OFFER',
+							code: `DHCP DISCOVER:
+  Op: BOOTREQUEST (1)
+  HType: Ethernet (1)
+  Transaction ID: 0x3903F326
+  Client MAC: 00:1A:2B:3C:4D:5E
+  Client IP: 0.0.0.0
+  Your IP: 0.0.0.0
+  Broadcast: 255.255.255.255
+
+  Options:
+    (53) Message Type: DISCOVER
+    (55) Parameter Request:
+      Subnet Mask, Router, DNS, Domain Name
+    (61) Client Identifier: 00:1A:2B:3C:4D:5E
+
+---
+
+DHCP OFFER:
+  Op: BOOTREPLY (2)
+  Transaction ID: 0x3903F326
+  Your IP: 192.168.1.100
+  Server IP: 192.168.1.1
+
+  Options:
+    (53) Message Type: OFFER
+    (1)  Subnet Mask: 255.255.255.0
+    (3)  Router: 192.168.1.1
+    (6)  DNS: 8.8.8.8, 8.8.4.4
+    (51) Lease Time: 86400 (24 hours)
+    (54) Server Identifier: 192.168.1.1`
+						},
+						{
+							title: 'REQUEST + ACK',
+							code: `DHCP REQUEST:
+  Op: BOOTREQUEST (1)
+  Transaction ID: 0x3903F326
+  Client MAC: 00:1A:2B:3C:4D:5E
+  Client IP: 0.0.0.0
+
+  Options:
+    (53) Message Type: REQUEST
+    (50) Requested IP: 192.168.1.100
+    (54) Server Identifier: 192.168.1.1
+
+---
+
+DHCP ACK:
+  Op: BOOTREPLY (2)
+  Transaction ID: 0x3903F326
+  Your IP: 192.168.1.100
+
+  Options:
+    (53) Message Type: ACK
+    (1)  Subnet Mask: 255.255.255.0
+    (3)  Router: 192.168.1.1
+    (6)  DNS: 8.8.8.8, 8.8.4.4
+    (51) Lease Time: 86400
+    (58) Renewal Time: 43200
+    (59) Rebinding Time: 75600`
+						}
+					]
 				}
 			]
 		},
@@ -369,7 +781,25 @@ print(f"Stratum:  {response.stratum}")
 				'ntplib queries an NTP server and calculates the clock offset using the four-timestamp algorithm',
 			alternatives: [
 				{
-					language: 'bash',
+					language: 'javascript',
+					code: `const NtpClient = require('ntp-client');
+
+// Query an NTP server
+NtpClient.getNetworkTime(
+  'pool.ntp.org', 123, (err, date) => {
+    const now = new Date();
+    const offset = date.getTime() - now.getTime();
+
+    console.log('NTP time:', date.toISOString());
+    console.log('Local time:', now.toISOString());
+    console.log('Offset:', offset, 'ms');
+    console.log('Your clock is',
+      offset > 0 ? 'behind' : 'ahead');
+  }
+);`
+				},
+				{
+					language: 'cli',
 					code: `# Query an NTP server manually
 ntpdate -q pool.ntp.org
 
@@ -382,6 +812,55 @@ chronyc sources -v   # Show NTP servers and quality
 
 # One-shot time sync (requires root)
 sudo ntpdate pool.ntp.org`
+				},
+				{
+					language: 'wire',
+					code: '',
+					sections: [
+						{
+							title: 'Client Request',
+							code: `NTP Packet (UDP port 123):
+  Flags: 0x23
+    LI: 0 (no warning)
+    Version: 4
+    Mode: 3 (Client)
+  Stratum: 0 (unspecified)
+  Poll Interval: 6 (64 seconds)
+  Precision: -20 (≈1μs)
+
+  Root Delay: 0.000000
+  Root Dispersion: 0.000000
+  Reference ID: (none)
+
+  Reference Timestamp:  0
+  Origin Timestamp:     0
+  Receive Timestamp:    0
+  Transmit Timestamp:   2024-03-13 14:30:00.123456 UTC`
+						},
+						{
+							title: 'Server Response',
+							code: `NTP Packet (UDP port 123):
+  Flags: 0x24
+    LI: 0 (no warning)
+    Version: 4
+    Mode: 4 (Server)
+  Stratum: 1 (primary reference)
+  Poll Interval: 6
+  Precision: -24 (≈60ns)
+
+  Root Delay: 0.000000
+  Root Dispersion: 0.000122
+  Reference ID: "GPS\\0"
+
+  Reference Timestamp:  2024-03-13 14:29:55.000000
+  Origin Timestamp:     2024-03-13 14:30:00.123456
+  Receive Timestamp:    2024-03-13 14:30:00.123478
+  Transmit Timestamp:   2024-03-13 14:30:00.123502
+
+  Round-trip delay: 0.000044s
+  Clock offset: +0.000022s`
+						}
+					]
 				}
 			]
 		},
@@ -443,7 +922,7 @@ Despite being over 40 years old, SMTP remains the universal standard for email d
 			'Application-generated email via SMTP relay services'
 		],
 		codeExample: {
-			language: 'Python',
+			language: 'python',
 			code: `import smtplib
 from email.mime.text import MIMEText
 
@@ -456,10 +935,10 @@ with smtplib.SMTP("smtp.example.com", 587) as server:
     server.starttls()
     server.login("sender@example.com", "password")
     server.send_message(msg)`,
-			caption: "Python's smtplib provides a straightforward interface for sending email via SMTP.",
+			caption: "SMTP delivers email hop by hop — STARTTLS encrypts the connection.",
 			alternatives: [
 				{
-					language: 'TypeScript',
+					language: 'javascript',
 					code: `import nodemailer from 'nodemailer';
 
 const transporter = nodemailer.createTransport({
@@ -475,6 +954,69 @@ await transporter.sendMail({
   subject: 'Test Email',
   text: 'Hello from SMTP!'
 });`
+				},
+				{
+					language: 'cli',
+					code: `# Send a test email with swaks
+swaks --to recipient@example.com \\
+  --from sender@example.com \\
+  --server smtp.example.com:587 \\
+  --tls --auth-user sender@example.com
+
+# Send email with curl
+curl --url 'smtp://smtp.example.com:587' \\
+  --ssl-reqd \\
+  --mail-from 'sender@example.com' \\
+  --mail-rcpt 'recipient@example.com' \\
+  --upload-file email.txt \\
+  --user 'sender@example.com:password'
+
+# Test SMTP server connectivity
+openssl s_client -starttls smtp \\
+  -connect smtp.example.com:587`
+				},
+				{
+					language: 'wire',
+					code: '',
+					sections: [
+						{
+							title: 'Session Transcript',
+							code: `Server: 220 mail.example.com ESMTP Postfix
+Client: EHLO client.example.com
+Server: 250-mail.example.com
+        250-PIPELINING
+        250-SIZE 52428800
+        250-STARTTLS
+        250-AUTH PLAIN LOGIN
+        250 8BITMIME
+Client: STARTTLS
+Server: 220 2.0.0 Ready to start TLS
+
+  [TLS handshake occurs]
+
+Client: EHLO client.example.com
+Client: AUTH PLAIN AGFsaWNlAHNlY3JldA==
+Server: 235 2.7.0 Authentication successful
+Client: MAIL FROM:<alice@example.com>
+Server: 250 2.1.0 Ok
+Client: RCPT TO:<bob@example.com>
+Server: 250 2.1.5 Ok
+Client: DATA
+Server: 354 End data with <CR><LF>.<CR><LF>
+Client: From: alice@example.com
+        To: bob@example.com
+        Subject: Meeting Tomorrow
+        Date: Wed, 13 Mar 2024 10:30:00 -0700
+        MIME-Version: 1.0
+        Content-Type: text/plain; charset=UTF-8
+
+        Hi Bob, are we still on for 3pm?
+        .
+Server: 250 2.0.0 Ok: queued as ABC123
+Client: QUIT
+Server: 221 2.0.0 Bye`
+						}
+					]
 				}
 			]
 		},
@@ -534,7 +1076,7 @@ While FTP's plain-text design makes it insecure by modern standards, FTPS (FTP o
 			'Web hosting file management (traditional hosting providers)'
 		],
 		codeExample: {
-			language: 'Python',
+			language: 'python',
 			code: `from ftplib import FTP
 
 ftp = FTP('ftp.example.com')
@@ -552,19 +1094,84 @@ with open('upload.txt', 'rb') as f:
     ftp.storbinary('STOR upload.txt', f)
 
 ftp.quit()`,
-			caption: "Python's ftplib provides a simple interface for FTP operations.",
+			caption: "FTP uses dual connections — control channel for commands, data channel for transfers.",
 			alternatives: [
 				{
-					language: 'Bash',
-					code: `# Command-line FTP operations
-# Download a file
+					language: 'javascript',
+					code: `import ftp from 'basic-ftp';
+
+const client = new ftp.Client();
+await client.access({
+  host: 'ftp.example.com',
+  user: 'username',
+  password: 'password',
+  secure: true  // FTPS
+});
+
+// List directory
+const files = await client.list();
+files.forEach(f => console.log(f.name, f.size));
+
+// Download a file
+await client.downloadTo('local_file.txt', 'remote_file.txt');
+
+// Upload a file
+await client.uploadFrom('upload.txt', 'upload.txt');
+
+client.close();`
+				},
+				{
+					language: 'cli',
+					code: `# Download a file
 curl -u user:pass ftp://ftp.example.com/file.txt -o file.txt
 
 # Upload a file
 curl -u user:pass -T upload.txt ftp://ftp.example.com/
 
 # List directory
-curl -u user:pass ftp://ftp.example.com/`
+curl -u user:pass ftp://ftp.example.com/
+
+# FTPS (FTP over TLS)
+curl --ftp-ssl -u user:pass ftp://ftp.example.com/
+
+# Interactive FTP session
+lftp -u user,pass ftp.example.com`
+				},
+				{
+					language: 'wire',
+					code: '',
+					sections: [
+						{
+							title: 'Session Transcript',
+							code: `Server: 220 ftp.example.com FTP server ready
+Client: USER alice
+Server: 331 Password required for alice
+Client: PASS ••••••••
+Server: 230 User alice logged in
+Client: SYST
+Server: 215 UNIX Type: L8
+Client: PWD
+Server: 257 "/" is the current directory
+Client: TYPE I
+Server: 200 Type set to I (binary)
+Client: PASV
+Server: 227 Entering Passive Mode (93,184,216,34,195,149)
+  → Data connection: 93.184.216.34:50069
+Client: LIST
+Server: 150 Opening data connection for file list
+  (data connection):
+    drwxr-xr-x  2 alice users  4096 Mar 13 docs/
+    -rw-r--r--  1 alice users 15234 Mar 12 report.pdf
+    -rw-r--r--  1 alice users  8192 Mar 11 data.csv
+Server: 226 Transfer complete
+Client: RETR report.pdf
+Server: 150 Opening BINARY mode data connection
+  (data connection): [15234 bytes transferred]
+Server: 226 Transfer complete
+Client: QUIT
+Server: 221 Goodbye`
+						}
+					]
 				}
 			]
 		},

@@ -12,7 +12,7 @@
 <div
 	class="sr-only"
 	role="tree"
-	aria-label="Protocol Universe — Interactive communication protocols visualization"
+	aria-label="Protocol Lab — Interactive communication protocols visualization"
 >
 	{#each categories as cat (cat.id)}
 		{@const protocols = getProtocolsForCategory(cat.id)}

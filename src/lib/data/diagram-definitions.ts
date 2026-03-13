@@ -76,6 +76,28 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
 		caption: 'Multi-streaming with independent delivery + IP failover (RFC 4960)'
 	},
 
+	mptcp: {
+		definition: `sequenceDiagram
+    participant C as Client
+    participant S as Server
+    Note over C,S: Initial subflow (WiFi)
+    C->>S: SYN + MP_CAPABLE (key_A)
+    S->>C: SYN-ACK + MP_CAPABLE (key_B)
+    C->>S: ACK + MP_CAPABLE
+    Note over C,S: Connection established on path 1
+    C->>S: Data (subflow 1 — WiFi)
+    Note over C,S: Add second subflow (cellular)
+    C->>S: SYN + MP_JOIN (token, nonce)
+    S->>C: SYN-ACK + MP_JOIN (HMAC)
+    C->>S: ACK + MP_JOIN (HMAC)
+    Note over C,S: Two paths active simultaneously
+    C->>S: Data (subflow 1 — WiFi)
+    C->>S: Data (subflow 2 — cellular)
+    Note over C,S: WiFi drops — seamless failover
+    C->>S: Data (subflow 2 only — no interruption)`,
+		caption: 'TCP over multiple paths — seamless failover between WiFi and cellular (RFC 8684)'
+	},
+
 	// ═══════════════════════════════════════════════════
 	// WEB / API
 	// ═══════════════════════════════════════════════════
@@ -295,6 +317,47 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
 		caption: 'REST-like protocol for constrained IoT devices over UDP (RFC 7252)'
 	},
 
+	xmpp: {
+		definition: `sequenceDiagram
+    participant C as Client
+    participant S as Server A
+    participant R as Server B
+    C->>S: TCP connect + XML stream open
+    S->>C: Stream features (STARTTLS, SASL)
+    C->>S: STARTTLS → TLS negotiation
+    C->>S: SASL auth (SCRAM-SHA-1)
+    S->>C: Auth success
+    C->>S: Bind resource (alice/phone)
+    Note over C,S: Authenticated session ready
+    C->>S: <presence/> (I'm online)
+    C->>S: <message to="bob@serverb.com">Hi!</message>
+    Note over S,R: Server-to-server federation (port 5269)
+    S->>R: Route message to Server B
+    R->>R: Deliver to bob's connected client
+    Note over C,R: Federated messaging — like email routing`,
+		caption: 'XML stream with federated server-to-server routing (RFC 6120)'
+	},
+
+	kafka: {
+		definition: `sequenceDiagram
+    participant P as Producer
+    participant B as Broker (Leader)
+    participant C as Consumer
+    P->>B: Metadata request
+    B->>P: Cluster map (brokers, topics, partitions)
+    P->>B: Produce (topic, partition, batch)
+    Note over B: Append to partition log + replicate
+    B->>P: ACK (offset=42)
+    C->>B: Fetch (topic, partition, offset=0)
+    B->>C: Records (offsets 0–42)
+    C->>B: OffsetCommit (offset=42, group=analytics)
+    Note over B: Consumer group tracks position
+    C->>B: Fetch (offset=43)
+    B->>C: Records (offsets 43–50)
+    Note over P,C: Log is immutable — consumers replay at any offset`,
+		caption: 'Append-only log with consumer group offset tracking (Apache Kafka Protocol)'
+	},
+
 	// ═══════════════════════════════════════════════════
 	// REAL-TIME A/V
 	// ═══════════════════════════════════════════════════
@@ -371,6 +434,70 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     S->>P: Segment data (smaller)
     Note over S,P: Quality adapts to available bandwidth`,
 		caption: 'Adaptive bitrate streaming — quality switches seamlessly with bandwidth (RFC 8216)'
+	},
+
+	rtmp: {
+		definition: `sequenceDiagram
+    participant E as Encoder (OBS)
+    participant S as RTMP Server
+    Note over E,S: TCP + RTMP handshake
+    E->>S: C0/C1 (version + timestamp)
+    S->>E: S0/S1/S2 (version + timestamp)
+    E->>S: C2 (echo)
+    Note over E,S: Connection established
+    E->>S: connect("live")
+    S->>E: _result (connected)
+    E->>S: createStream
+    S->>E: _result (stream ID=1)
+    E->>S: publish("stream-key")
+    Note over E,S: Live stream begins
+    E->>S: Audio chunks (AAC)
+    E->>S: Video chunks (H.264)
+    E->>S: Audio + Video interleaved
+    Note over E,S: Server transcodes → HLS/DASH for viewers`,
+		caption: 'Live stream ingest — encoder to server via chunked multiplexing (RTMP spec)'
+	},
+
+	sdp: {
+		definition: `sequenceDiagram
+    participant A as Peer A
+    participant Sig as Signaling
+    participant B as Peer B
+    A->>A: Create SDP offer
+    Note over A: v=0, m=audio/video, codecs, ICE
+    A->>Sig: Send SDP offer
+    Sig->>B: Forward SDP offer
+    B->>B: Parse offer, select codecs
+    B->>B: Create SDP answer
+    Note over B: Matching codecs, own ICE candidates
+    B->>Sig: Send SDP answer
+    Sig->>A: Forward SDP answer
+    Note over A,B: Both sides agree on parameters
+    A->>B: Media streams (RTP) begin
+    B->>A: Media streams (RTP) begin
+    Note over A,B: SDP negotiated codecs, ports, encryption`,
+		caption: 'Offer/answer exchange — negotiate media parameters before streaming (RFC 8866)'
+	},
+
+	dash: {
+		definition: `sequenceDiagram
+    participant S as Server (CDN)
+    participant P as Player
+    P->>S: GET manifest.mpd
+    S->>P: MPD (XML: periods, adaptations, representations)
+    Note over P: Parse quality levels (1080p, 720p, 360p)
+    P->>S: GET segment_001.m4s (1080p)
+    S->>P: Segment data (fMP4)
+    P->>S: GET segment_002.m4s (1080p)
+    S->>P: Segment data
+    Note over P: Bandwidth drops...
+    P->>S: GET segment_003.m4s (720p)
+    S->>P: Segment data (smaller)
+    Note over P: Bandwidth recovers
+    P->>S: GET segment_004.m4s (1080p)
+    S->>P: Segment data
+    Note over S,P: Adaptive bitrate — seamless quality switching`,
+		caption: 'MPEG-DASH adaptive streaming — codec-agnostic alternative to HLS (ISO 23009-1)'
 	},
 
 	// ═══════════════════════════════════════════════════

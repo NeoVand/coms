@@ -66,7 +66,94 @@ data = conn.recv(1024)  # Reliable, ordered delivery
 conn.sendall(b"Hello back!")
 conn.close()  # FIN sequence`,
 			caption:
-				'A minimal TCP server in Python — the 3-way handshake happens automatically inside accept()'
+				'A minimal TCP server — the 3-way handshake happens automatically inside accept()',
+			alternatives: [
+				{
+					language: 'javascript',
+					code: `const net = require('node:net');
+
+// Create a TCP server
+const server = net.createServer((socket) => {
+  console.log('Client connected:', socket.remoteAddress);
+
+  socket.on('data', (data) => {
+    console.log('Received:', data.toString());
+    socket.write('Hello back!');
+  });
+
+  socket.on('end', () => console.log('Client disconnected'));
+});
+
+server.listen(8080, () => {
+  console.log('Listening on port 8080');
+});`
+				},
+				{
+					language: 'cli',
+					code: `# Listen on a TCP port
+nc -l 8080
+
+# Connect to a TCP server
+nc localhost 8080
+
+# Send data through a TCP connection
+echo "Hello" | nc localhost 8080
+
+# Check if a TCP port is open
+nc -zv example.com 80
+
+# Monitor TCP connections
+ss -tn  # or: netstat -tn`
+				},
+				{
+					language: 'wire',
+					code: '',
+					sections: [
+						{
+							title: 'Three-Way Handshake',
+							code: `Client → Server  [SYN]
+  Seq=0, Win=65535, MSS=1460
+  Flags: 0x002 (SYN)
+
+Server → Client  [SYN, ACK]
+  Seq=0, Ack=1, Win=65535, MSS=1460
+  Flags: 0x012 (SYN, ACK)
+
+Client → Server  [ACK]
+  Seq=1, Ack=1, Win=65535
+  Flags: 0x010 (ACK)`
+						},
+						{
+							title: 'Data Segment',
+							code: `TCP Segment:
+  Src Port: 52431 → Dst Port: 443
+  Seq: 1, Ack: 1, Len: 347
+  Flags: 0x018 (PSH, ACK)
+  Window: 65535
+  Checksum: 0xa3f1 [valid]
+  Options: [Timestamps: TSval=123456, TSecr=654321]
+  Payload (347 bytes):
+    47 45 54 20 2f 61 70 69  GET /api
+    2f 75 73 65 72 73 20 48  /users H
+    54 54 50 2f 31 2e 31 0d  TTP/1.1.`
+						},
+						{
+							title: 'Connection Close',
+							code: `Client → Server  [FIN, ACK]
+  Seq=348, Ack=892, Flags: 0x011
+
+Server → Client  [ACK]
+  Seq=892, Ack=349, Flags: 0x010
+
+Server → Client  [FIN, ACK]
+  Seq=892, Ack=349, Flags: 0x011
+
+Client → Server  [ACK]
+  Seq=349, Ack=893, Flags: 0x010`
+						}
+					]
+				}
+			]
 		},
 		performance: {
 			latency: '1-3 RTT for connection setup (handshake), then ~0.5 RTT per data exchange',
@@ -137,7 +224,85 @@ sock.sendto(b"Ping!", ('localhost', 8888))
 # Receive — might never arrive
 data, addr = sock.recvfrom(1024)
 print(f"Got {data} from {addr}")`,
-			caption: 'UDP is connectionless — just bind, send, and hope for the best'
+			caption: 'UDP is connectionless — just bind, send, and hope for the best',
+			alternatives: [
+				{
+					language: 'javascript',
+					code: `const dgram = require('node:dgram');
+
+// Create a UDP socket
+const server = dgram.createSocket('udp4');
+
+server.on('message', (msg, rinfo) => {
+  console.log(\`Got \${msg} from \${rinfo.address}:\${rinfo.port}\`);
+  // Send a reply — no connection, just fire
+  server.send('Pong!', rinfo.port, rinfo.address);
+});
+
+server.bind(9999, () => {
+  console.log('Listening on UDP port 9999');
+  // Send a datagram — no handshake needed
+  server.send('Ping!', 8888, 'localhost');
+});`
+				},
+				{
+					language: 'cli',
+					code: `# Listen on a UDP port
+nc -u -l 9999
+
+# Send a UDP datagram
+echo "Ping!" | nc -u localhost 9999
+
+# Send UDP packets with socat
+echo "Hello" | socat - UDP:localhost:9999
+
+# Monitor UDP traffic
+sudo tcpdump -i lo0 udp port 9999
+
+# Check UDP port statistics
+ss -un  # or: netstat -un`
+				},
+				{
+					language: 'wire',
+					code: '',
+					sections: [
+						{
+							title: 'Datagram Format',
+							code: `UDP Datagram:
+  Src Port: 52431
+  Dst Port: 53
+  Length: 42 bytes
+  Checksum: 0xfe37
+
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  |     Src Port    |   Dst Port    |
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  |     Length      |   Checksum    |
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  |            Payload ...          |
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+`
+						},
+						{
+							title: 'DNS Query over UDP',
+							code: `UDP Payload (DNS Query):
+  Transaction ID: 0xA1B2
+  Flags: 0x0100 (Standard query)
+  Questions: 1
+
+  Query:
+    Name: example.com
+    Type: A (1)
+    Class: IN (1)
+
+  Wire bytes:
+    a1 b2 01 00 00 01 00 00
+    00 00 00 00 07 65 78 61
+    6d 70 6c 65 03 63 6f 6d
+    00 00 01 00 01`
+						}
+					]
+				}
+			]
 		},
 		performance: {
 			latency: 'Zero connection setup; single RTT for request-response',
@@ -152,7 +317,7 @@ print(f"Got {data} from {addr}")`,
 	},
 	{
 		id: 'quic',
-		name: 'QUIC',
+		name: 'Quick UDP Internet Connections',
 		abbreviation: 'QUIC',
 		categoryId: 'transport',
 		port: 443,
@@ -195,8 +360,32 @@ QUIC powers HTTP/3, which is the latest version of HTTP. Major browsers and serv
 			'API communication over unstable networks'
 		],
 		codeExample: {
-			language: 'javascript',
-			code: `// HTTP/3 uses QUIC automatically
+			language: 'python',
+			code: `import asyncio
+from aioquic.asyncio import connect
+from aioquic.quic.configuration import QuicConfiguration
+
+async def main():
+    config = QuicConfiguration(is_client=True)
+    config.verify_mode = False  # for testing
+
+    async with connect(
+        'example.com', 443, configuration=config
+    ) as protocol:
+        # QUIC streams are independent
+        reader, writer = await protocol.create_stream()
+        writer.write(b"Hello over QUIC!")
+        writer.write_eof()
+
+        response = await reader.read()
+        print(f"Response: {response}")
+
+asyncio.run(main())`,
+			caption: 'QUIC combines transport + encryption in one step, enabling faster connections',
+			alternatives: [
+				{
+					language: 'javascript',
+					code: `// HTTP/3 uses QUIC automatically
 // In Node.js (experimental):
 const { createQuicSocket } = require('net');
 
@@ -210,8 +399,66 @@ const req = socket.connect({
 // 0-RTT: data can flow immediately on reconnection
 req.on('stream', (stream) => {
   stream.on('data', (chunk) => console.log(chunk));
-});`,
-			caption: 'QUIC combines transport + encryption in one step, enabling faster connections'
+});`
+				},
+				{
+					language: 'cli',
+					code: `# Test QUIC connectivity with curl
+curl --http3 -v https://cloudflare-quic.com
+
+# Check QUIC support via Alt-Svc header
+curl -sI https://google.com | grep -i alt-svc
+
+# Use quiche-client for raw QUIC testing
+quiche-client https://example.com:443
+
+# Monitor QUIC traffic with tcpdump
+sudo tcpdump -i any udp port 443`
+				},
+				{
+					language: 'wire',
+					code: '',
+					sections: [
+						{
+							title: 'Initial Handshake',
+							code: `QUIC Initial Packet:
+  Header Form: Long (1)
+  Type: Initial (0x00)
+  Version: 0x00000001
+  DCID Len: 8  DCID: 0x8394c8f03e515708
+  SCID Len: 0
+  Token Length: 0
+  Length: 1200
+  Packet Number: 0
+
+  Payload (CRYPTO frame):
+    TLS ClientHello
+      Version: TLS 1.3
+      Cipher Suites: TLS_AES_128_GCM_SHA256
+      ALPN: h3
+      SNI: example.com`
+						},
+						{
+							title: 'Short Header Data Packet',
+							code: `QUIC Short Header Packet:
+  Header Form: Short (0)
+  DCID: 0x8394c8f03e515708
+  Packet Number: 42
+
+  STREAM Frame:
+    Stream ID: 0 (client bidi)
+    Offset: 0
+    Length: 89
+    Data: [HTTP/3 HEADERS frame]
+
+  ACK Frame:
+    Largest Acked: 41
+    ACK Delay: 512µs
+    ACK Ranges: [38-41]`
+						}
+					]
+				}
+			]
 		},
 		performance: {
 			latency: '1 RTT for new connections, 0 RTT for resumption — 2-3x faster than TCP+TLS',
@@ -289,18 +536,85 @@ data = conn.recv(4096)
 conn.send(b"SCTP response with multi-streaming support")
 conn.close()`,
 			caption:
-				'SCTP in Python using pysctp — message boundaries are preserved unlike TCP byte streams',
+				'SCTP preserves message boundaries unlike TCP byte streams',
 			alternatives: [
 				{
-					language: 'bash',
+					language: 'javascript',
+					code: `// SCTP is used internally by WebRTC data channels
+const pc = new RTCPeerConnection();
+
+// Data channels use SCTP under the hood
+const channel = pc.createDataChannel('chat', {
+  ordered: true,      // SCTP ordered delivery
+  maxRetransmits: 3   // SCTP partial reliability
+});
+
+channel.onopen = () => {
+  // SCTP preserves message boundaries
+  channel.send('Hello via SCTP data channel!');
+};
+
+channel.onmessage = (event) => {
+  console.log('Received:', event.data);
+};`
+				},
+				{
+					language: 'cli',
 					code: `# Test SCTP connectivity with ncat
 ncat --sctp -l 3868  # Listen on SCTP port
 
 # From another terminal, connect:
 ncat --sctp localhost 3868
 
-# Check SCTP associations
-cat /proc/net/sctp/assocs`
+# Check SCTP associations (Linux)
+cat /proc/net/sctp/assocs
+
+# Monitor SCTP traffic
+sudo tcpdump -i any sctp`
+				},
+				{
+					language: 'wire',
+					code: '',
+					sections: [
+						{
+							title: 'INIT Handshake',
+							code: `SCTP INIT Chunk:
+  Src Port: 36412 → Dst Port: 36412
+  Verification Tag: 0x00000000
+
+  Chunk Type: INIT (1)
+    Initiate Tag: 0xA1B2C3D4
+    A-RWND: 65535
+    Outbound Streams: 10
+    Inbound Streams: 10
+    Initial TSN: 1
+
+SCTP INIT-ACK Chunk:
+  Verification Tag: 0xA1B2C3D4
+
+  Chunk Type: INIT-ACK (2)
+    Initiate Tag: 0xE5F6A7B8
+    A-RWND: 65535
+    State Cookie: [248 bytes]`
+						},
+						{
+							title: 'DATA Chunk',
+							code: `SCTP DATA Chunk:
+  Verification Tag: 0xE5F6A7B8
+
+  Chunk Type: DATA (0)
+    Flags: 0x03 (Begin + End)
+    TSN: 1
+    Stream ID: 0
+    Stream Seq: 0
+    Protocol ID: 0x00000042
+    Payload (86 bytes):
+      7b 22 74 79 70 65 22 3a  {"type":
+      22 6d 65 73 73 61 67 65  "message
+      22 2c 22 64 61 74 61 22  ","data"
+      3a 22 48 65 6c 6c 6f 22  :"Hello"`
+						}
+					]
 				}
 			]
 		},
@@ -318,7 +632,7 @@ cat /proc/net/sctp/assocs`
 	},
 	{
 		id: 'mptcp',
-		name: 'Multipath TCP',
+		name: 'Multipath Transmission Control Protocol',
 		abbreviation: 'MPTCP',
 		categoryId: 'transport',
 		year: 2013,
@@ -376,14 +690,93 @@ sock.connect(('example.com', 443))
 sock.sendall(b'GET / HTTP/1.1\\r\\nHost: example.com\\r\\n\\r\\n')
 response = sock.recv(4096)
 print(response.decode())
-sock.close()
-
-# The kernel handles multiple subflows transparently
-# Check active subflows:
-# ss -M  (shows MPTCP subflow info)
-# ip mptcp endpoint show  (configured endpoints)`,
+sock.close()`,
 			caption:
-				'MPTCP in Python on Linux — same API as regular TCP, but the kernel routes data over multiple paths'
+				'MPTCP in Python — same API as TCP, but the kernel routes data over multiple paths',
+			alternatives: [
+				{
+					language: 'javascript',
+					code: `// MPTCP is transparent at the kernel level
+// Node.js TCP sockets use MPTCP when the OS supports it
+const net = require('node:net');
+
+const socket = net.createConnection({
+  host: 'example.com',
+  port: 443
+  // On Linux 5.6+ with MPTCP enabled,
+  // the kernel can add subflows automatically
+});
+
+socket.on('connect', () => {
+  console.log('Connected (MPTCP if kernel supports it)');
+  socket.write('GET / HTTP/1.1\\r\\nHost: example.com\\r\\n\\r\\n');
+});
+
+socket.on('data', (data) => {
+  console.log(data.toString());
+});`
+				},
+				{
+					language: 'cli',
+					code: `# Check if MPTCP is enabled (Linux)
+sysctl net.mptcp.enabled
+
+# Show MPTCP subflow info
+ss -M
+
+# List configured MPTCP endpoints
+ip mptcp endpoint show
+
+# Add a new MPTCP endpoint (use WiFi + cellular)
+sudo ip mptcp endpoint add 192.168.1.100 dev wlan0 subflow
+sudo ip mptcp endpoint add 10.0.0.100 dev wwan0 subflow
+
+# Monitor MPTCP connections
+ip mptcp monitor`
+				},
+				{
+					language: 'wire',
+					code: '',
+					sections: [
+						{
+							title: 'MP_CAPABLE Handshake',
+							code: `TCP SYN + MP_CAPABLE:
+  Src: 10.0.0.1:45200 → Dst: 93.184.216.34:443
+  Flags: [SYN]
+  Options:
+    MP_CAPABLE (Kind=30, Length=12)
+      Version: 1
+      Sender Key: 0xABCDEF0123456789
+
+TCP SYN-ACK + MP_CAPABLE:
+  Src: 93.184.216.34:443 → Dst: 10.0.0.1:45200
+  Flags: [SYN, ACK]
+  Options:
+    MP_CAPABLE (Kind=30, Length=12)
+      Version: 1
+      Sender Key: 0x9876543210FEDCBA`
+						},
+						{
+							title: 'Subflow Join (MP_JOIN)',
+							code: `TCP SYN + MP_JOIN (new path):
+  Src: 10.0.1.1:52300 → Dst: 93.184.216.34:443
+  Flags: [SYN]
+  Options:
+    MP_JOIN (Kind=30, Length=12)
+      Receiver Token: 0x1A2B3C4D
+      Sender HMAC: 0xE5F6...
+      Sender Nonce: 0x00000001
+
+TCP SYN-ACK + MP_JOIN:
+  Flags: [SYN, ACK]
+  Options:
+    MP_JOIN (Kind=30, Length=16)
+      Sender HMAC: 0xA7B8...
+      Sender Nonce: 0x00000002`
+						}
+					]
+				}
+			]
 		},
 		performance: {
 			latency:

@@ -11,7 +11,7 @@
 	<!-- Header -->
 	<header class="border-b border-white/10 bg-bg-deep/90 px-4 py-4 backdrop-blur-xl">
 		<h1 class="text-center text-lg font-bold text-slate-100">
-			<span class="font-mono text-slate-400">&lt;/&gt;</span> Protocol Universe
+			<span class="font-mono text-slate-400">&lt;/&gt;</span> Protocol Lab
 		</h1>
 		<p class="mt-1 text-center text-xs text-slate-500">Tap a protocol to learn more</p>
 	</header>

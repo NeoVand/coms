@@ -1,8 +1,11 @@
 <script lang="ts">
 	import type { Protocol, Category } from '$lib/data/types';
 	import CategoryIcon from '$lib/components/icons/CategoryIcon.svelte';
+	import { getHighlightedName } from '$lib/data/name-highlights';
 
 	let { proto, cat }: { proto: Protocol; cat: Category | undefined } = $props();
+
+	const nameSegments = $derived(getHighlightedName(proto.id, proto.name));
 </script>
 
 <div>
@@ -19,7 +22,9 @@
 					</span>
 				{/if}
 			</div>
-			<p class="mt-0.5 text-xs text-slate-400">{proto.name}</p>
+			<p class="mt-0.5 text-xs text-slate-400">
+				{#each nameSegments as seg}{#if seg.highlight}<span class="font-bold" style="color: {cat?.color ?? '#94a3b8'}">{seg.text}</span>{:else}{seg.text}{/if}{/each}
+			</p>
 		</div>
 	</div>
 

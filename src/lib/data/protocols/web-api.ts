@@ -3,7 +3,7 @@ import type { Protocol } from '../types';
 export const webApiProtocols: Protocol[] = [
 	{
 		id: 'http1',
-		name: 'HTTP/1.1',
+		name: 'HyperText Transfer Protocol',
 		abbreviation: 'HTTP/1.1',
 		categoryId: 'web-api',
 		port: 80,
@@ -45,18 +45,65 @@ To work around this, browsers open 6-8 parallel TCP connections per domain. This
 			'Simple microservice communication'
 		],
 		codeExample: {
-			language: 'http',
-			code: `GET /api/users/42 HTTP/1.1
-Host: example.com
-Accept: application/json
-Authorization: Bearer eyJhbGc...
+			language: 'python',
+			code: `import requests
 
-HTTP/1.1 200 OK
-Content-Type: application/json
-Content-Length: 82
+# GET request
+response = requests.get('https://example.com/api/users/42',
+    headers={'Authorization': 'Bearer eyJhbGc...'})
+print(response.json())  # {"id": 42, "name": "Alice"}
 
-{"id": 42, "name": "Alice", "role": "admin"}`,
-			caption: 'A raw HTTP/1.1 request and response — plain text, human-readable'
+# POST request
+new_user = requests.post('https://example.com/api/users',
+    json={'name': 'Alice', 'role': 'admin'})
+print(new_user.status_code)  # 201`,
+			caption: 'A raw HTTP/1.1 request and response — plain text, human-readable',
+			alternatives: [
+				{
+					language: 'javascript',
+					code: `// GET request
+const response = await fetch('https://example.com/api/users/42', {
+  headers: { 'Authorization': 'Bearer eyJhbGc...' }
+});
+const user = await response.json();
+console.log(user);  // {id: 42, name: "Alice"}
+
+// POST request
+const newUser = await fetch('https://example.com/api/users', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({ name: 'Alice', role: 'admin' })
+});`
+				},
+				{
+					language: 'cli',
+					code: `# GET request
+curl -H "Authorization: Bearer eyJhbGc..." \\
+  https://example.com/api/users/42
+
+# POST request
+curl -X POST https://example.com/api/users \\
+  -H "Content-Type: application/json" \\
+  -d '{"name": "Alice", "role": "admin"}'
+
+# See full request/response headers
+curl -v https://example.com/api/users/42`
+				},
+				{
+					language: 'wire',
+					code: '',
+					sections: [
+						{
+							title: 'Request',
+							code: `GET /api/users/42 HTTP/1.1\nHost: api.example.com\nAccept: application/json\nAuthorization: Bearer eyJhbGciOiJIUzI1NiJ9...\nConnection: keep-alive`
+						},
+						{
+							title: 'Response',
+							code: `HTTP/1.1 200 OK\nContent-Type: application/json; charset=utf-8\nContent-Length: 127\nCache-Control: max-age=60\nETag: "a1b2c3d4"\n\n{\n  "id": 42,\n  "name": "Alice Chen",\n  "email": "alice@example.com",\n  "role": "admin"\n}`
+						}
+					]
+				}
+			]
 		},
 		performance: {
 			latency:
@@ -73,7 +120,7 @@ Content-Length: 82
 	},
 	{
 		id: 'http2',
-		name: 'HTTP/2',
+		name: 'HyperText Transfer Protocol 2',
 		abbreviation: 'HTTP/2',
 		categoryId: 'web-api',
 		port: 443,
@@ -115,8 +162,24 @@ However, HTTP/2 still runs on TCP, which means TCP-level head-of-line blocking p
 			'Microservice-to-microservice communication'
 		],
 		codeExample: {
-			language: 'javascript',
-			code: `const http2 = require('node:http2');
+			language: 'python',
+			code: `import httpx
+
+# httpx supports HTTP/2 natively
+client = httpx.Client(http2=True)
+
+response = client.get("https://example.com/api/data")
+print(f"HTTP version: {response.http_version}")  # HTTP/2
+print(f"Status: {response.status_code}")
+print(f"Body: {response.text}")
+
+client.close()`,
+			caption:
+				'HTTP/2 multiplexes requests over a single connection with binary framing',
+			alternatives: [
+				{
+					language: 'javascript',
+					code: `const http2 = require('node:http2');
 
 // Connect to an HTTP/2 server
 const client = http2.connect('https://example.com');
@@ -134,23 +197,32 @@ req.on('end', () => {
   console.log('Response:', data);
   client.close();
 });
-req.end();`,
-			caption:
-				'Node.js http2 module — multiple requests share a single connection with binary framing',
-			alternatives: [
+req.end();`
+				},
 				{
-					language: 'python',
-					code: `import httpx
+					language: 'cli',
+					code: `# Force HTTP/2 with curl
+curl --http2 -v https://example.com/api/data
 
-# httpx supports HTTP/2 natively
-client = httpx.Client(http2=True)
+# Check if a server supports HTTP/2
+curl -sI --http2 https://example.com | grep -i "http/2"
 
-response = client.get("https://example.com/api/data")
-print(f"HTTP version: {response.http_version}")  # HTTP/2
-print(f"Status: {response.status_code}")
-print(f"Body: {response.text}")
-
-client.close()`
+# HTTP/2 with verbose protocol details
+curl --http2 -v https://example.com 2>&1 | grep "< HTTP"`
+				},
+				{
+					language: 'wire',
+					code: '',
+					sections: [
+						{
+							title: 'SETTINGS Frame',
+							code: `Frame: SETTINGS (type=0x04)\nLength: 18  |  Flags: 0x00  |  Stream: 0\n  HEADER_TABLE_SIZE: 4096\n  MAX_CONCURRENT_STREAMS: 100\n  INITIAL_WINDOW_SIZE: 65535`
+						},
+						{
+							title: 'HEADERS + DATA',
+							code: `Frame: HEADERS (type=0x01)\nLength: 43  |  Flags: END_HEADERS  |  Stream: 1\n  :method: GET\n  :path: /api/users/42\n  :scheme: https\n  :authority: api.example.com\n\nFrame: DATA (type=0x00)\nLength: 127  |  Flags: END_STREAM  |  Stream: 1\n  {"id": 42, "name": "Alice Chen", ...}`
+						}
+					]
 				}
 			]
 		},
@@ -168,7 +240,7 @@ client.close()`
 	},
 	{
 		id: 'http3',
-		name: 'HTTP/3',
+		name: 'HyperText Transfer Protocol 3',
 		abbreviation: 'HTTP/3',
 		categoryId: 'web-api',
 		port: 443,
@@ -225,17 +297,54 @@ async def fetch_h3():
 import asyncio
 asyncio.run(fetch_h3())`,
 			caption:
-				'HTTP/3 uses QUIC transport — clients discover it via the Alt-Svc header from HTTP/2 responses',
+				'HTTP/3 uses QUIC transport — clients discover it via the Alt-Svc header',
 			alternatives: [
 				{
-					language: 'bash',
+					language: 'javascript',
+					code: `// Browsers auto-negotiate HTTP/3 when available
+const response = await fetch('https://cloudflare-quic.com');
+console.log('Status:', response.status);
+
+// Check Alt-Svc header for HTTP/3 support
+const altSvc = response.headers.get('alt-svc');
+console.log('Alt-Svc:', altSvc);
+// h3=":443"; ma=86400
+
+// Performance observer can detect protocol version
+const observer = new PerformanceObserver((list) => {
+  for (const entry of list.getEntries()) {
+    console.log('Protocol:', entry.nextHopProtocol);
+    // "h3" for HTTP/3, "h2" for HTTP/2
+  }
+});
+observer.observe({ type: 'resource' });`
+				},
+				{
+					language: 'cli',
 					code: `# curl supports HTTP/3 with the --http3 flag
 curl --http3 https://cloudflare-quic.com -v
 
 # Check if a server supports HTTP/3
 curl -sI https://cloudflare-quic.com \\
   | grep -i alt-svc
-# alt-svc: h3=":443"; ma=86400`
+# alt-svc: h3=":443"; ma=86400
+
+# Force HTTP/3 only (fail if not supported)
+curl --http3-only https://cloudflare-quic.com`
+				},
+				{
+					language: 'wire',
+					code: '',
+					sections: [
+						{
+							title: 'SETTINGS Frame',
+							code: `QUIC Stream: 0x00 (Control)\nFrame: SETTINGS (type=0x04)\n  QPACK_MAX_TABLE_CAPACITY: 4096\n  MAX_FIELD_SECTION_SIZE: 8192`
+						},
+						{
+							title: 'Request Stream',
+							code: `QUIC Stream: 0x04 (Bidirectional)\nFrame: HEADERS (type=0x01)\n  :method = GET\n  :path = /api/users/42\n  :scheme = https\n  :authority = api.example.com\n  accept = application/json\n\nFrame: DATA (type=0x00)\n  (empty body — GET request)\n\n--- Server Response ---\nFrame: HEADERS (type=0x01)\n  :status = 200\n  content-type = application/json\n\nFrame: DATA (type=0x00)\n  {"id": 42, "name": "Alice Chen"}`
+						}
+					]
 				}
 			]
 		},
@@ -253,7 +362,7 @@ curl -sI https://cloudflare-quic.com \\
 	},
 	{
 		id: 'websockets',
-		name: 'WebSockets',
+		name: 'WebSocket Protocol',
 		abbreviation: 'WS',
 		categoryId: 'web-api',
 		port: 80,
@@ -295,8 +404,24 @@ The connection starts as a normal HTTP request with an "Upgrade: websocket" head
 			'IoT device dashboards'
 		],
 		codeExample: {
-			language: 'javascript',
-			code: `// Browser — connect and listen
+			language: 'python',
+			code: `import asyncio
+import websockets
+
+async def chat():
+    async with websockets.connect('wss://example.com/chat') as ws:
+        await ws.send('{"type": "join", "room": "general"}')
+
+        async for message in ws:
+            print(f"Received: {message}")
+            await ws.send('{"type": "msg", "text": "Hello!"}')
+
+asyncio.run(chat())`,
+			caption: 'WebSocket API is dead simple — connect, send, receive. Both sides can initiate.',
+			alternatives: [
+				{
+					language: 'javascript',
+					code: `// Browser — connect and listen
 const ws = new WebSocket('wss://example.com/chat');
 
 ws.onopen = () => {
@@ -309,8 +434,39 @@ ws.onmessage = (event) => {
 };
 
 // Server can push messages at any time
-// No polling, no long-polling, no SSE — just push`,
-			caption: 'WebSocket API is dead simple — connect, send, receive. Both sides can initiate.'
+// No polling, no long-polling, no SSE — just push`
+				},
+				{
+					language: 'cli',
+					code: `# Connect to a WebSocket server with websocat
+websocat wss://echo.websocket.org
+
+# Send a message and see the echo
+echo '{"type": "join"}' | websocat wss://example.com/chat
+
+# curl can do the WebSocket upgrade handshake
+curl -i -N \\
+  -H "Connection: Upgrade" \\
+  -H "Upgrade: websocket" \\
+  -H "Sec-WebSocket-Version: 13" \\
+  -H "Sec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==" \\
+  https://example.com/chat`
+				},
+				{
+					language: 'wire',
+					code: '',
+					sections: [
+						{
+							title: 'Upgrade Handshake',
+							code: `GET /chat HTTP/1.1\nHost: ws.example.com\nUpgrade: websocket\nConnection: Upgrade\nSec-WebSocket-Key: dGhlIHNhbXBsZSBub25jZQ==\nSec-WebSocket-Version: 13\nSec-WebSocket-Protocol: chat\n\nHTTP/1.1 101 Switching Protocols\nUpgrade: websocket\nConnection: Upgrade\nSec-WebSocket-Accept: s3pPLMBiTxaQ9kYGzzhZRbK+xOo=\nSec-WebSocket-Protocol: chat`
+						},
+						{
+							title: 'Text Frame',
+							code: `WebSocket Frame:\n  FIN: 1  (final fragment)\n  Opcode: 0x1  (text)\n  MASK: 1  (client → server)\n  Payload Length: 27\n  Masking Key: 0x37fa213d\n  Payload: {"msg": "Hello, World!"}`
+						}
+					]
+				}
+			]
 		},
 		performance: {
 			latency:
@@ -326,7 +482,7 @@ ws.onmessage = (event) => {
 	},
 	{
 		id: 'grpc',
-		name: 'gRPC',
+		name: 'gRPC Remote Procedure Calls',
 		abbreviation: 'gRPC',
 		categoryId: 'web-api',
 		port: 443,
@@ -368,24 +524,76 @@ gRPC dominates in microservice architectures where services are internal and per
 			'Kubernetes service mesh communication'
 		],
 		codeExample: {
-			language: 'protobuf',
-			code: `// user.proto — define once, generate everywhere
-service UserService {
-  rpc GetUser (GetUserRequest) returns (User);
-  rpc ListUsers (ListUsersRequest) returns (stream User);
-}
+			language: 'python',
+			code: `import grpc
+import user_pb2, user_pb2_grpc
 
-message GetUserRequest {
-  int32 id = 1;
-}
+# Connect to gRPC server
+channel = grpc.insecure_channel('localhost:50051')
+stub = user_pb2_grpc.UserServiceStub(channel)
 
-message User {
-  int32 id = 1;
-  string name = 2;
-  string email = 3;
-}`,
+# Unary call — like a function call
+user = stub.GetUser(user_pb2.GetUserRequest(id=42))
+print(f"{user.name} ({user.email})")
+
+# Server streaming — receive multiple responses
+for user in stub.ListUsers(user_pb2.ListUsersRequest()):
+    print(f"User: {user.name}")`,
 			caption:
-				'One .proto file generates type-safe clients in Go, Python, Java, TypeScript, and more'
+				'One .proto file generates type-safe clients in Go, Python, Java, TypeScript, and more',
+			alternatives: [
+				{
+					language: 'javascript',
+					code: `const grpc = require('@grpc/grpc-js');
+const protoLoader = require('@grpc/proto-loader');
+
+const packageDef = protoLoader.loadSync('user.proto');
+const proto = grpc.loadPackageDefinition(packageDef);
+
+const client = new proto.UserService(
+  'localhost:50051',
+  grpc.credentials.createInsecure()
+);
+
+// Unary call
+client.GetUser({ id: 42 }, (err, user) => {
+  console.log(\`\${user.name} (\${user.email})\`);
+});
+
+// Server streaming
+const stream = client.ListUsers({});
+stream.on('data', (user) => console.log('User:', user.name));`
+				},
+				{
+					language: 'cli',
+					code: `# List available services
+grpcurl -plaintext localhost:50051 list
+
+# Describe a service
+grpcurl -plaintext localhost:50051 describe UserService
+
+# Call a unary method
+grpcurl -plaintext -d '{"id": 42}' \\
+  localhost:50051 UserService/GetUser
+
+# Server streaming call
+grpcurl -plaintext localhost:50051 UserService/ListUsers`
+				},
+				{
+					language: 'wire',
+					code: '',
+					sections: [
+						{
+							title: '.proto Service Definition',
+							code: `syntax = "proto3";\npackage users;\n\nservice UserService {\n  rpc GetUser (GetUserRequest) returns (User);\n  rpc ListUsers (ListUsersRequest) returns (stream User);\n}\n\nmessage GetUserRequest {\n  int32 id = 1;\n}\n\nmessage User {\n  int32 id = 1;\n  string name = 2;\n  string email = 3;\n}`
+						},
+						{
+							title: 'gRPC Wire Frame (HTTP/2)',
+							code: `HEADERS frame:\n  :method: POST\n  :path: /users.UserService/GetUser\n  :scheme: https\n  content-type: application/grpc\n  grpc-encoding: identity\n  te: trailers\n\nDATA frame:\n  Compressed: 0\n  Length: 5 bytes\n  Message: 0x08 0x2a  (field 1, varint 42)\n\nHEADERS frame (trailers):\n  grpc-status: 0\n  grpc-message: OK`
+						}
+					]
+				}
+			]
 		},
 		performance: {
 			latency: 'HTTP/2 connection reuse + binary serialization = very low latency per call',
@@ -400,7 +608,7 @@ message User {
 	},
 	{
 		id: 'graphql',
-		name: 'GraphQL',
+		name: 'Graph Query Language',
 		abbreviation: 'GraphQL',
 		categoryId: 'web-api',
 		port: 443,
@@ -442,8 +650,31 @@ It shines for complex frontends (mobile apps, SPAs) that need flexible data fetc
 			'E-commerce product pages with relationships'
 		],
 		codeExample: {
-			language: 'javascript',
-			code: `const query = \`
+			language: 'python',
+			code: `import requests
+
+query = """
+  query GetUser($id: ID!) {
+    user(id: $id) {
+      name
+      email
+      posts(limit: 5) { title }
+    }
+  }
+"""
+
+response = requests.post(
+    "https://api.example.com/graphql",
+    json={"query": query, "variables": {"id": "42"}}
+)
+
+data = response.json()["data"]
+print(data["user"]["name"], data["user"]["posts"])`,
+			caption: 'One GraphQL query replaces multiple REST calls — ask for exactly the data you need',
+			alternatives: [
+				{
+					language: 'javascript',
+					code: `const query = \`
   query GetUser($id: ID!) {
     user(id: $id) {
       name
@@ -466,30 +697,41 @@ const response = await fetch('https://api.example.com/graphql', {
 });
 
 const { data } = await response.json();
-console.log(data.user.name, data.user.posts);`,
-			caption: 'One GraphQL query replaces multiple REST calls — ask for exactly the data you need',
-			alternatives: [
+console.log(data.user.name, data.user.posts);`
+				},
 				{
-					language: 'python',
-					code: `import requests
+					language: 'cli',
+					code: `# GraphQL query via curl
+curl -X POST https://api.example.com/graphql \\
+  -H "Content-Type: application/json" \\
+  -d '{"query": "{ user(id: 42) { name email } }"}'
 
-query = """
-  query GetUser($id: ID!) {
-    user(id: $id) {
-      name
-      email
-      posts(limit: 5) { title }
-    }
-  }
-"""
+# With variables
+curl -X POST https://api.example.com/graphql \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "query": "query($id: ID!) { user(id: $id) { name } }",
+    "variables": {"id": "42"}
+  }'
 
-response = requests.post(
-    "https://api.example.com/graphql",
-    json={"query": query, "variables": {"id": "42"}}
-)
-
-data = response.json()["data"]
-print(data["user"]["name"], data["user"]["posts"])`
+# Introspection — discover the schema
+curl -X POST https://api.example.com/graphql \\
+  -H "Content-Type: application/json" \\
+  -d '{"query": "{ __schema { types { name } } }"}'`
+				},
+				{
+					language: 'wire',
+					code: '',
+					sections: [
+						{
+							title: 'Query Request',
+							code: `POST /graphql HTTP/1.1\nHost: api.example.com\nContent-Type: application/json\nAuthorization: Bearer eyJhbGci...\n\n{\n  "query": "query GetUser($id: ID!) { user(id: $id) { name email posts { title } } }",\n  "variables": { "id": "42" }\n}`
+						},
+						{
+							title: 'Response',
+							code: `HTTP/1.1 200 OK\nContent-Type: application/json\n\n{\n  "data": {\n    "user": {\n      "name": "Alice Chen",\n      "email": "alice@example.com",\n      "posts": [\n        { "title": "Getting Started with GraphQL" },\n        { "title": "Advanced Query Patterns" }\n      ]\n    }\n  }\n}`
+						}
+					]
 				}
 			]
 		},
@@ -549,28 +791,8 @@ Each event is a text block with optional fields: event type, data payload, ID, a
 			'Server-side progress updates for long-running tasks'
 		],
 		codeExample: {
-			language: 'JavaScript',
-			code: `// Browser — listen for server-sent events
-const source = new EventSource('/api/notifications');
-
-source.onmessage = (event) => {
-  console.log('New message:', event.data);
-};
-
-source.addEventListener('update', (event) => {
-  const data = JSON.parse(event.data);
-  console.log('Update:', data);
-});
-
-source.onerror = () => {
-  console.log('Connection lost, auto-reconnecting...');
-};`,
-			caption:
-				'The EventSource API handles connection management, reconnection, and event parsing automatically.',
-			alternatives: [
-				{
-					language: 'Python',
-					code: `# Server — Flask SSE endpoint
+			language: 'python',
+			code: `# Server — Flask SSE endpoint
 from flask import Flask, Response
 import time, json
 
@@ -584,7 +806,57 @@ def stream():
             yield f"event: update\\ndata: {data}\\n\\n"
             time.sleep(1)
     return Response(generate(),
-                    mimetype='text/event-stream')`
+                    mimetype='text/event-stream')`,
+			caption:
+				'The EventSource API handles connection management, reconnection, and event parsing automatically.',
+			alternatives: [
+				{
+					language: 'javascript',
+					code: `// Browser — listen for server-sent events
+const source = new EventSource('/api/notifications');
+
+source.onmessage = (event) => {
+  console.log('New message:', event.data);
+};
+
+source.addEventListener('update', (event) => {
+  const data = JSON.parse(event.data);
+  console.log('Update:', data);
+});
+
+source.onerror = () => {
+  console.log('Connection lost, auto-reconnecting...');
+};`
+				},
+				{
+					language: 'cli',
+					code: `# Stream SSE events with curl
+curl -N -H "Accept: text/event-stream" \\
+  https://example.com/api/notifications
+
+# With reconnection (Last-Event-ID header)
+curl -N \\
+  -H "Accept: text/event-stream" \\
+  -H "Last-Event-ID: 42" \\
+  https://example.com/api/notifications
+
+# Watch raw SSE event stream
+curl -sN https://example.com/api/notifications \\
+  | while read line; do echo "$line"; done`
+				},
+				{
+					language: 'wire',
+					code: '',
+					sections: [
+						{
+							title: 'Connection',
+							code: `GET /events HTTP/1.1\nHost: api.example.com\nAccept: text/event-stream\nCache-Control: no-cache\nConnection: keep-alive\n\nHTTP/1.1 200 OK\nContent-Type: text/event-stream\nCache-Control: no-cache\nConnection: keep-alive`
+						},
+						{
+							title: 'Event Stream',
+							code: `: heartbeat\n\nevent: user.login\nid: evt-001\ndata: {"user": "Alice", "time": "14:32:01"}\n\nevent: message\nid: evt-002\ndata: {"from": "Alice", "text": "Hello!"}\ndata: {"continued": true}\n\n: 30s keepalive\nretry: 5000\n\nevent: user.logout\nid: evt-003\ndata: {"user": "Alice", "time": "14:45:12"}`
+						}
+					]
 				}
 			]
 		},
@@ -642,9 +914,28 @@ REST's ubiquity comes from its simplicity: any HTTP client in any language can c
 			'Any HTTP-based service where simplicity and broad compatibility matter'
 		],
 		codeExample: {
-			language: 'JavaScript',
-			code: `// Fetch API — RESTful CRUD operations
-// GET — read a resource
+			language: 'python',
+			code: `import requests
+
+# GET — read a resource
+user = requests.get('https://api.example.com/users/42').json()
+
+# POST — create a resource
+new_user = requests.post('https://api.example.com/users',
+    json={'name': 'Alice', 'role': 'admin'}).json()
+
+# PUT — replace a resource
+requests.put('https://api.example.com/users/42',
+    json={'name': 'Alice', 'role': 'superadmin'})
+
+# DELETE — remove a resource
+requests.delete('https://api.example.com/users/42')`,
+			caption:
+				'REST uses standard HTTP — any language with an HTTP client can interact with a REST API.',
+			alternatives: [
+				{
+					language: 'javascript',
+					code: `// GET — read a resource
 const user = await fetch('/api/users/42').then(r => r.json());
 
 // POST — create a resource
@@ -655,23 +946,39 @@ const newUser = await fetch('/api/users', {
 }).then(r => r.json());
 
 // DELETE — remove a resource
-await fetch('/api/users/42', { method: 'DELETE' });`,
-			caption:
-				'REST uses standard HTTP — any language with an HTTP client can interact with a REST API.',
-			alternatives: [
+await fetch('/api/users/42', { method: 'DELETE' });`
+				},
 				{
-					language: 'Python',
-					code: `import requests
+					language: 'cli',
+					code: `# GET — read a resource
+curl https://api.example.com/users/42 | jq
 
-# GET
-user = requests.get('https://api.example.com/users/42').json()
+# POST — create a resource
+curl -X POST https://api.example.com/users \\
+  -H "Content-Type: application/json" \\
+  -d '{"name": "Alice", "role": "admin"}'
 
-# POST
-new_user = requests.post('https://api.example.com/users',
-    json={'name': 'Alice', 'role': 'admin'}).json()
+# PUT — replace a resource
+curl -X PUT https://api.example.com/users/42 \\
+  -H "Content-Type: application/json" \\
+  -d '{"name": "Alice", "role": "superadmin"}'
 
-# DELETE
-requests.delete('https://api.example.com/users/42')`
+# DELETE — remove a resource
+curl -X DELETE https://api.example.com/users/42`
+				},
+				{
+					language: 'wire',
+					code: '',
+					sections: [
+						{
+							title: 'GET Request + Response',
+							code: `GET /api/v2/users/42 HTTP/1.1\nHost: api.example.com\nAccept: application/json\nAuthorization: Bearer token123\n\nHTTP/1.1 200 OK\nContent-Type: application/json\nLink: </api/v2/users/42>; rel="self"\n\n{\n  "id": 42,\n  "name": "Alice Chen",\n  "email": "alice@example.com",\n  "_links": {\n    "self": "/api/v2/users/42",\n    "posts": "/api/v2/users/42/posts"\n  }\n}`
+						},
+						{
+							title: 'POST Request + Response',
+							code: `POST /api/v2/users HTTP/1.1\nHost: api.example.com\nContent-Type: application/json\nAuthorization: Bearer token123\n\n{"name": "Bob Smith", "email": "bob@example.com"}\n\nHTTP/1.1 201 Created\nLocation: /api/v2/users/43\nContent-Type: application/json\n\n{\n  "id": 43,\n  "name": "Bob Smith",\n  "email": "bob@example.com",\n  "_links": { "self": "/api/v2/users/43" }\n}`
+						}
+					]
 				}
 			]
 		},

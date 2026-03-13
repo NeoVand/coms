@@ -7,7 +7,7 @@ export interface CodeExample {
 	language: string;
 	code: string;
 	caption: string;
-	alternatives?: { language: string; code: string }[];
+	alternatives?: { language: string; code: string; sections?: { title: string; code: string }[] }[];
 }
 
 export interface PerformanceInfo {

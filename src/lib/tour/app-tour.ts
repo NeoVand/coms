@@ -33,7 +33,7 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 			// Step 1: Welcome (floating)
 			{
 				popover: {
-					title: 'Welcome to The Protocol Universe',
+					title: 'Welcome to Protocol Lab',
 					description:
 						'An interactive explorer for the protocols that power the internet. ' +
 						'This quick tour will show you what you can discover here.' +
@@ -48,7 +48,7 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 			{
 				element: 'canvas',
 				popover: {
-					title: 'The Protocol Universe',
+					title: 'The Protocol Graph',
 					description:
 						'<strong>Click any node</strong> to explore a protocol in depth. ' +
 						'<strong>Hover</strong> for a quick summary.' +

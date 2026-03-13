@@ -5,6 +5,9 @@
 	import ProtocolDiagram from '$lib/components/detail/ProtocolDiagram.svelte';
 	import CodeExample from '$lib/components/detail/CodeExample.svelte';
 	import PerformanceStats from '$lib/components/detail/PerformanceStats.svelte';
+	import SimulatorTabs from '$lib/simulator/components/SimulatorTabs.svelte';
+	import SimulatorView from '$lib/simulator/components/SimulatorView.svelte';
+	import { getHighlightedName } from '$lib/data/name-highlights';
 
 	const appState = getAppState();
 
@@ -59,7 +62,9 @@
 						</span>
 					{/if}
 				</div>
-				<p class="text-xs text-slate-400">{proto.name}</p>
+				<p class="text-xs text-slate-400">
+					{#each getHighlightedName(proto.id, proto.name) as seg}{#if seg.highlight}<span class="font-bold" style="color: {cat.color}">{seg.text}</span>{:else}{seg.text}{/if}{/each}
+				</p>
 				<p
 					class="mt-2 rounded-lg border-l-2 py-2 pl-3 text-sm text-slate-300"
 					style="border-color: {cat.color}; background-color: {cat.color}08"
@@ -68,40 +73,48 @@
 				</p>
 			</div>
 
-			<!-- Overview -->
-			<div class="space-y-2 text-sm leading-relaxed text-slate-300">
-				{#each proto.overview.split('\n\n') as paragraph, i (i)}
-					<p>{paragraph}</p>
-				{/each}
-			</div>
+			<SimulatorTabs color={cat.color} />
 
-			<ProtocolDiagram protocolId={proto.id} color={cat.color} />
-
-			<HowItWorksSteps steps={proto.howItWorks} color={cat.color} />
-
-			<!-- Use cases -->
-			<section>
-				<h3 class="mb-2 text-xs font-semibold tracking-wider text-slate-500 uppercase">
-					Use Cases
-				</h3>
-				<ul class="space-y-1">
-					{#each proto.useCases as useCase, i (i)}
-						<li class="flex items-start gap-2 text-xs text-slate-300">
-							<span
-								class="mt-1.5 h-1 w-1 shrink-0 rounded-full"
-								style="background-color: {cat.color}"
-							></span>
-							{useCase}
-						</li>
+			{#if appState.detailViewMode === 'learn'}
+				<!-- Overview -->
+				<div class="space-y-2 text-sm leading-relaxed text-slate-300">
+					{#each proto.overview.split('\n\n') as paragraph, i (i)}
+						<p>{paragraph}</p>
 					{/each}
-				</ul>
-			</section>
+				</div>
 
-			{#if proto.codeExample}
-				<CodeExample example={proto.codeExample} />
+				<ProtocolDiagram protocolId={proto.id} color={cat.color} />
+
+				<HowItWorksSteps steps={proto.howItWorks} color={cat.color} />
+
+				<!-- Use cases -->
+				<section>
+					<h3 class="mb-2 text-xs font-semibold tracking-wider text-slate-500 uppercase">
+						Use Cases
+					</h3>
+					<ul class="space-y-1">
+						{#each proto.useCases as useCase, i (i)}
+							<li class="flex items-start gap-2 text-xs text-slate-300">
+								<span
+									class="mt-1.5 h-1 w-1 shrink-0 rounded-full"
+									style="background-color: {cat.color}"
+								></span>
+								{useCase}
+							</li>
+						{/each}
+					</ul>
+				</section>
+
+				{#if proto.codeExample}
+					<CodeExample example={proto.codeExample} />
+				{/if}
+
+				<PerformanceStats performance={proto.performance} color={cat.color} />
+			{:else}
+				{#key proto.id}
+					<SimulatorView protocolId={proto.id} color={cat.color} />
+				{/key}
 			{/if}
-
-			<PerformanceStats performance={proto.performance} color={cat.color} />
 		</div>
 	</div>
 {/if}

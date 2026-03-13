@@ -121,6 +121,10 @@
 		canvas.style.cursor = node ? 'pointer' : 'grab';
 	}
 
+	function handleMouseLeave() {
+		appState.hoverNode(null);
+	}
+
 	function handleMouseDown(e: MouseEvent) {
 		if (e.button !== 0) return;
 		const world = screenToWorld(e.clientX, e.clientY);
@@ -293,6 +297,7 @@
 	onmousemove={handleMouseMove}
 	onmousedown={handleMouseDown}
 	onmouseup={handleMouseUp}
+	onmouseleave={handleMouseLeave}
 	onwheel={handleWheel}
 	ontouchstart={handleTouchStart}
 	ontouchmove={handleTouchMove}

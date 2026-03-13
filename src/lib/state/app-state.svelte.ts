@@ -9,6 +9,7 @@ export class AppState {
 	reducedMotion: boolean = $state(false);
 	showDetailPanel: boolean = $state(false);
 	detailPanelWidth: number = $state(520);
+	detailViewMode: 'learn' | 'simulate' = $state('learn');
 
 	// Diagram modal state (rendered at root level to escape stacking contexts)
 	diagramModal: { protocolId: string; color: string } | null = $state(null);
@@ -45,6 +46,7 @@ export class AppState {
 	selectNode = (node: GraphNode | null) => {
 		this.selectedNode = node;
 		this.showDetailPanel = node !== null;
+		this.detailViewMode = 'learn';
 	};
 
 	hoverNode = (node: GraphNode | null) => {

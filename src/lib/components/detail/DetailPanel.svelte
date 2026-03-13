@@ -17,6 +17,8 @@
 	import CategoryIcon from '$lib/components/icons/CategoryIcon.svelte';
 	import CategoryStoryView from './category-story/CategoryStoryView.svelte';
 	import { getCategoryStory } from '$lib/data/category-stories/index';
+	import SimulatorTabs from '$lib/simulator/components/SimulatorTabs.svelte';
+	import SimulatorView from '$lib/simulator/components/SimulatorView.svelte';
 
 	const appState = getAppState();
 	const allNodes = buildGraphNodes();
@@ -117,8 +119,8 @@
 			<div class="flex flex-col gap-6 p-6">
 				<!-- Welcome header -->
 				<div>
-					<h2 class="text-lg font-bold text-slate-100">The Protocol Universe</h2>
-					<p class="mt-1 text-xs text-slate-400">An interactive guide to network protocols</p>
+					<h2 class="text-lg font-bold text-slate-100">Protocol Lab</h2>
+					<p class="mt-1 text-xs text-slate-400">Learn, explore, and simulate network protocols</p>
 				</div>
 
 				<p class="text-sm leading-relaxed text-slate-300">
@@ -244,50 +246,66 @@
 			{@const proto = selectedData.protocol}
 			{@const cat = selectedData.category}
 
-			<div class="flex flex-col gap-6 p-6">
-				<ProtocolHeader {proto} {cat} />
+			<div class="flex flex-col gap-0">
+				<div class="p-6 pb-3">
+					<ProtocolHeader {proto} {cat} />
+				</div>
 
-				<!-- Overview -->
-				<section>
-					<h3 class="mb-2 text-xs font-semibold tracking-wider text-slate-500 uppercase">
-						Overview
-					</h3>
-					<div class="space-y-3 text-sm leading-relaxed text-slate-300">
-						{#each proto.overview.split('\n\n') as paragraph, i (i)}
-							<p>{paragraph}</p>
-						{/each}
+				<div class="px-6">
+					<SimulatorTabs color={cat?.color ?? '#FFFFFF'} />
+				</div>
+
+				{#if appState.detailViewMode === 'learn'}
+					<div class="flex flex-col gap-6 p-6">
+						<!-- Overview -->
+						<section>
+							<h3 class="mb-2 text-xs font-semibold tracking-wider text-slate-500 uppercase">
+								Overview
+							</h3>
+							<div class="space-y-3 text-sm leading-relaxed text-slate-300">
+								{#each proto.overview.split('\n\n') as paragraph, i (i)}
+									<p>{paragraph}</p>
+								{/each}
+							</div>
+						</section>
+
+						<ProtocolDiagram protocolId={proto.id} color={cat?.color ?? '#FFFFFF'} />
+
+						<HowItWorksSteps steps={proto.howItWorks} color={cat?.color ?? '#FFFFFF'} />
+
+						<!-- Use cases -->
+						<section>
+							<h3 class="mb-2 text-xs font-semibold tracking-wider text-slate-500 uppercase">
+								Use Cases
+							</h3>
+							<ul class="space-y-1.5">
+								{#each proto.useCases as useCase, i (i)}
+									<li class="flex items-start gap-2 text-sm text-slate-300">
+										<span
+											class="mt-1.5 h-1 w-1 shrink-0 rounded-full"
+											style="background-color: {cat?.color ?? '#FFFFFF'}"
+										></span>
+										{useCase}
+									</li>
+								{/each}
+							</ul>
+						</section>
+
+						{#if proto.codeExample}
+							<CodeExample example={proto.codeExample} color={cat?.color ?? '#FFFFFF'} />
+						{/if}
+
+						<PerformanceStats performance={proto.performance} color={cat?.color ?? '#FFFFFF'} />
+
+						<RelatedProtocols connections={proto.connections} />
 					</div>
-				</section>
-
-				<ProtocolDiagram protocolId={proto.id} color={cat?.color ?? '#FFFFFF'} />
-
-				<HowItWorksSteps steps={proto.howItWorks} color={cat?.color ?? '#FFFFFF'} />
-
-				<!-- Use cases -->
-				<section>
-					<h3 class="mb-2 text-xs font-semibold tracking-wider text-slate-500 uppercase">
-						Use Cases
-					</h3>
-					<ul class="space-y-1.5">
-						{#each proto.useCases as useCase, i (i)}
-							<li class="flex items-start gap-2 text-sm text-slate-300">
-								<span
-									class="mt-1.5 h-1 w-1 shrink-0 rounded-full"
-									style="background-color: {cat?.color ?? '#FFFFFF'}"
-								></span>
-								{useCase}
-							</li>
-						{/each}
-					</ul>
-				</section>
-
-				{#if proto.codeExample}
-					<CodeExample example={proto.codeExample} color={cat?.color ?? '#FFFFFF'} />
+				{:else}
+					<div class="p-6">
+						{#key proto.id}
+							<SimulatorView protocolId={proto.id} color={cat?.color ?? '#FFFFFF'} />
+						{/key}
+					</div>
 				{/if}
-
-				<PerformanceStats performance={proto.performance} color={cat?.color ?? '#FFFFFF'} />
-
-				<RelatedProtocols connections={proto.connections} />
 			</div>
 		{:else if selectedData?.type === 'category' && selectedData.category}
 			{@const cat = selectedData.category}
