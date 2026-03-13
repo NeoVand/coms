@@ -1,4 +1,5 @@
 @import 'tailwindcss';
+@import 'driver.js/dist/driver.css';
 @plugin '@tailwindcss/typography';
 
 @theme {
@@ -65,4 +66,103 @@ body {
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
 	background: rgba(255, 255, 255, 0.2);
+}
+
+/* ── driver.js Tour Theme ── */
+.protocol-tour-popover.driver-popover {
+	background: rgba(15, 23, 42, 0.95);
+	backdrop-filter: blur(24px);
+	-webkit-backdrop-filter: blur(24px);
+	border: 1px solid rgba(255, 255, 255, 0.1);
+	border-radius: 16px;
+	box-shadow:
+		0 0 0 1px rgba(255, 255, 255, 0.05),
+		0 25px 50px -12px rgba(0, 0, 0, 0.5);
+	color: #cbd5e1;
+	max-width: 360px;
+	padding: 0;
+}
+
+.protocol-tour-popover .driver-popover-title {
+	font-size: 15px;
+	font-weight: 700;
+	color: #f1f5f9;
+	padding: 16px 20px 0;
+}
+
+.protocol-tour-popover .driver-popover-description {
+	font-size: 13px;
+	line-height: 1.6;
+	color: #94a3b8;
+	padding: 8px 20px 0;
+}
+
+.protocol-tour-popover .driver-popover-description strong {
+	color: #e2e8f0;
+	font-weight: 600;
+}
+
+.protocol-tour-popover .driver-popover-description .tour-hint {
+	color: #475569;
+	font-size: 11px;
+}
+
+.protocol-tour-popover .driver-popover-footer {
+	padding: 12px 20px;
+	margin-top: 12px;
+	border-top: none;
+}
+
+.protocol-tour-popover .driver-popover-progress-text {
+	font-size: 11px;
+	color: #475569;
+}
+
+.protocol-tour-popover .driver-popover-prev-btn,
+.protocol-tour-popover .driver-popover-next-btn {
+	font-size: 12px;
+	font-weight: 500;
+	padding: 6px 16px;
+	border-radius: 8px;
+	border: none;
+	cursor: pointer;
+	transition: all 0.15s ease;
+	text-shadow: none;
+}
+
+.protocol-tour-popover .driver-popover-prev-btn {
+	background: rgba(255, 255, 255, 0.05);
+	color: #94a3b8;
+}
+
+.protocol-tour-popover .driver-popover-prev-btn:hover {
+	background: rgba(255, 255, 255, 0.1);
+	color: #e2e8f0;
+}
+
+.protocol-tour-popover .driver-popover-next-btn {
+	background: rgba(255, 255, 255, 0.1);
+	color: #f1f5f9;
+}
+
+.protocol-tour-popover .driver-popover-next-btn:hover {
+	background: rgba(255, 255, 255, 0.15);
+}
+
+.protocol-tour-popover .driver-popover-close-btn {
+	color: #475569;
+	width: 28px;
+	height: 28px;
+	border-radius: 8px;
+	top: 12px;
+	right: 12px;
+}
+
+.protocol-tour-popover .driver-popover-close-btn:hover {
+	background: rgba(255, 255, 255, 0.05);
+	color: #94a3b8;
+}
+
+.protocol-tour-popover .driver-popover-arrow {
+	border-color: rgba(15, 23, 42, 0.95) !important;
 }

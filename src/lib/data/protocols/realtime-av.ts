@@ -69,7 +69,6 @@ signalingServer.send(JSON.stringify(offer));`,
 				'Adaptive bitrate: 100kbps (audio) to 4+ Mbps (HD video). Adjusts to network conditions.',
 			overhead: 'SRTP adds ~12 bytes per packet. DTLS handshake is one-time cost.'
 		},
-		microInteraction: 'peer-to-peer',
 		connections: ['udp', 'tls', 'sip', 'sctp'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/WebRTC',
@@ -170,7 +169,6 @@ tcpdump -i eth0 udp port 5004 -w rtp_capture.pcap`
 				'Adaptive: codec and bitrate adjust based on RTCP feedback. Audio: 8-128kbps. Video: 100kbps-10+Mbps.',
 			overhead: '12-byte RTP header per packet. RTCP reports are periodic and small.'
 		},
-		microInteraction: 'streaming',
 		connections: ['udp', 'webrtc', 'sip'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Real-time_Transport_Protocol',
@@ -272,7 +270,6 @@ a=rtpmap:0 PCMU/8000`
 			throughput: 'SIP messages are small text; the media (RTP) carries the bandwidth load',
 			overhead: 'Text-based headers like HTTP; typically 500-1000 bytes per SIP message'
 		},
-		microInteraction: 'query-response',
 		connections: ['udp', 'tcp', 'rtp', 'webrtc'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Session_Initiation_Protocol',
@@ -377,12 +374,266 @@ if (Hls.isSupported()) {
 				'Adaptive: typically 1-15 Mbps for video. CDN-backed = essentially unlimited scale.',
 			overhead: 'HTTP headers per segment. Manifest polling adds small periodic requests.'
 		},
-		microInteraction: 'streaming',
 		connections: ['http1', 'http2', 'tls'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/HTTP_Live_Streaming',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc8216',
 			official: 'https://developer.apple.com/streaming/'
+		}
+	},
+	{
+		id: 'rtmp',
+		name: 'Real-Time Messaging Protocol',
+		abbreviation: 'RTMP',
+		categoryId: 'realtime-av',
+		port: 1935,
+		year: 2002,
+		oneLiner: 'The Flash-era streaming protocol that refused to die — still the king of live stream ingest.',
+		overview: `RTMP was born in 2002 when Macromedia released Flash Communication Server 1.0, giving the web its first real taste of live streaming. Adobe later acquired Macromedia and eventually released an incomplete specification of the protocol. Despite Flash Player's demise in 2020, RTMP survived — because nothing else matched its simplicity for getting a live video feed from a camera to a server.
+
+The protocol works by multiplexing audio, video, and data streams over a single TCP connection, chunking large messages into smaller fragments for interleaved delivery. It maintains persistent connections with low-overhead handshakes, making it ideal for the "ingest" side of live streaming — the path from encoder (OBS, Wirecast) to the first server.
+
+Today, RTMP is the de facto standard for live stream ingest. Twitch, YouTube Live, Facebook Live, and virtually every streaming platform accept RTMP input. The stream typically gets transcoded on the server side and delivered to viewers via HLS or DASH. RTMP handles the first mile; HTTP streaming handles the last mile.`,
+		howItWorks: [
+			{
+				title: 'TCP handshake + RTMP handshake',
+				description:
+					'Client establishes a TCP connection on port 1935, then performs a 3-phase RTMP handshake (C0/S0, C1/S1, C2/S2) exchanging timestamps and random bytes to verify connectivity.'
+			},
+			{
+				title: 'Connect and create stream',
+				description:
+					'Client sends a "connect" command to the application (e.g., /live). Server responds with connection acknowledgment. Client then sends "createStream" to get a stream ID.'
+			},
+			{
+				title: 'Chunk and multiplex',
+				description:
+					'Audio, video, and data are split into chunks (default 128 bytes, negotiable). Chunks from different streams are interleaved over the single TCP connection.'
+			},
+			{
+				title: 'Publish or play',
+				description:
+					'For ingest, the encoder sends "publish" and begins streaming audio/video chunks. For playback, the client sends "play" and receives chunks.'
+			},
+			{
+				title: 'Teardown',
+				description:
+					'Either side sends "deleteStream" followed by closing the TCP connection. The server can also disconnect idle clients or reject unauthorized publishers.'
+			}
+		],
+		useCases: [
+			'Live stream ingest to platforms (Twitch, YouTube Live, Facebook Live)',
+			'OBS Studio and encoder-to-server transmission',
+			'Low-latency live broadcasts and gaming streams',
+			'Surveillance and IP camera feeds',
+			'Interactive live events with real-time chat integration'
+		],
+		codeExample: {
+			language: 'javascript',
+			code: `const NodeMediaServer = require('node-media-server');
+
+const config = {
+  rtmp: {
+    port: 1935,
+    chunk_size: 60000,
+    gop_cache: true,
+    ping: 30,
+    ping_timeout: 60
+  },
+  http: { port: 8000, allow_origin: '*' }
+};
+
+const nms = new NodeMediaServer(config);
+nms.on('prePublish', (id, StreamPath, args) => {
+  console.log('[Publish]', id, StreamPath);
+});
+nms.run();
+// OBS -> rtmp://localhost:1935/live/stream-key`,
+			caption: 'Node-Media-Server accepts RTMP ingest from OBS — the standard first hop for live streaming'
+		},
+		performance: {
+			latency: '1-3 seconds end-to-end for live streaming. Sub-second possible with tuned settings.',
+			throughput: 'Single TCP connection handles up to 10+ Mbps easily. Chunking keeps interleaving smooth.',
+			overhead: 'Chunk headers are 1-12 bytes depending on type. Handshake is 1+1536+1536 bytes per side.'
+		},
+		connections: ['tcp', 'tls', 'hls'],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/Real-Time_Messaging_Protocol',
+			official: 'https://rtmp.veriskope.com/docs/spec/'
+		}
+	},
+	{
+		id: 'sdp',
+		name: 'Session Description Protocol',
+		abbreviation: 'SDP',
+		categoryId: 'realtime-av',
+		year: 1998,
+		rfc: 'RFC 8866',
+		oneLiner:
+			'The universal format for describing multimedia sessions — the matchmaker behind every WebRTC and VoIP call.',
+		overview: `SDP doesn't carry a single byte of audio or video. Instead, it's the language that endpoints use to describe what they can do — codecs they support, IP addresses they're reachable at, bandwidth they expect, and encryption keys they'll use. Think of it as a dating profile for media sessions.
+
+Originally published in 1998 as RFC 2327 for the Mbone (multicast backbone) conferencing community, SDP found its true calling as the session description format for SIP and later WebRTC. Every time you join a video call in your browser, an SDP "offer" and "answer" are exchanged behind the scenes to negotiate what media will flow and how.
+
+The format is deceptively simple — plain text with single-letter field identifiers (v= for version, o= for origin, m= for media, a= for attributes). But this simplicity hides enormous complexity: SDP extensions handle ICE candidates, DTLS fingerprints, simulcast layers, codec parameters, and dozens of other modern requirements.`,
+		howItWorks: [
+			{
+				title: 'Session description created',
+				description:
+					'The initiator generates an SDP document describing the session: version, originator, session name, timing, and one or more media descriptions.'
+			},
+			{
+				title: 'Media lines define streams',
+				description:
+					'Each "m=" line declares a media type (audio, video), transport protocol (RTP/SAVPF), port number, and list of supported codec payload types.'
+			},
+			{
+				title: 'Attributes add detail',
+				description:
+					'Attribute lines (a=) specify codec parameters, ICE credentials, DTLS fingerprints, bandwidth limits, and direction (sendrecv, recvonly).'
+			},
+			{
+				title: 'Offer/answer exchange',
+				description:
+					'One peer sends an SDP "offer" and the other responds with an SDP "answer." Each side picks compatible codecs and transport parameters.'
+			},
+			{
+				title: 'Session established',
+				description:
+					'Once both sides have exchanged and accepted SDP, media streams (RTP) and data channels (SCTP) begin flowing according to the negotiated parameters.'
+			}
+		],
+		useCases: [
+			'WebRTC peer connection negotiation (offer/answer)',
+			'SIP call setup (INVITE body)',
+			'Video conferencing session initialization',
+			'Multicast session announcements (SAP)',
+			'Streaming media session descriptions (RTSP)'
+		],
+		codeExample: {
+			language: 'javascript',
+			code: `// WebRTC: create and exchange SDP
+const pc = new RTCPeerConnection();
+
+// Add media tracks
+const stream = await navigator.mediaDevices
+  .getUserMedia({ video: true, audio: true });
+stream.getTracks().forEach(t => pc.addTrack(t, stream));
+
+// Create SDP offer
+const offer = await pc.createOffer();
+await pc.setLocalDescription(offer);
+
+// Send offer.sdp to remote peer via signaling
+console.log('SDP Offer:', offer.sdp);
+// v=0
+// m=audio 9 UDP/TLS/RTP/SAVPF 111
+// a=rtpmap:111 opus/48000/2
+// m=video 9 UDP/TLS/RTP/SAVPF 96
+// a=rtpmap:96 VP8/90000
+
+// Receive answer from remote peer
+const answer = await signalingChannel.receiveAnswer();
+await pc.setRemoteDescription(answer);`,
+			caption:
+				'WebRTC SDP offer/answer — the browser generates SDP automatically from your media tracks'
+		},
+		performance: {
+			latency: 'SDP itself adds no latency — exchanged during signaling, before media flows.',
+			throughput: 'Text documents typically 1-5 KB. Negligible compared to the media it describes.',
+			overhead: 'Plain text format is verbose but human-readable. Binary alternatives exist but are rare.'
+		},
+		connections: ['webrtc', 'sip', 'rtp'],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/Session_Description_Protocol',
+			rfc: 'https://datatracker.ietf.org/doc/html/rfc8866'
+		}
+	},
+	{
+		id: 'dash',
+		name: 'Dynamic Adaptive Streaming over HTTP',
+		abbreviation: 'DASH',
+		categoryId: 'realtime-av',
+		port: 443,
+		year: 2012,
+		oneLiner:
+			'The open standard for adaptive video streaming — MPEG-DASH powers Netflix, YouTube, and the open web.',
+		overview: `MPEG-DASH is the vendor-neutral answer to Apple's proprietary HLS. Ratified as an ISO standard in 2012, DASH uses the same fundamental approach — chop video into segments, serve them over plain HTTP, and let the client adapt quality based on bandwidth — but with an open, extensible XML manifest format called the Media Presentation Description (MPD).
+
+Where HLS uses Apple's M3U8 playlists, DASH uses MPD files with a rich hierarchy: Periods (time spans), Adaptation Sets (different languages or camera angles), Representations (quality levels), and Segments (the actual media chunks). This gives DASH more flexibility for complex use cases like ad insertion, multiple audio tracks, and subtitle streams.
+
+Netflix, YouTube, Disney+, and most major streaming services use DASH (often alongside HLS for Apple compatibility). The protocol supports both on-demand and live streaming, and works with any codec.`,
+		howItWorks: [
+			{
+				title: 'Encode and segment',
+				description:
+					'Video is encoded at multiple quality levels and split into small segments (2-10 seconds). Each quality level has its own set of segment files in fMP4 or WebM format.'
+			},
+			{
+				title: 'MPD manifest generation',
+				description:
+					'An XML manifest (MPD) describes the content hierarchy: Periods, Adaptation Sets, Representations (bitrates/resolutions), and segment URLs or templates.'
+			},
+			{
+				title: 'Client fetches MPD',
+				description:
+					'The DASH player downloads the MPD, parses the available options, and selects an initial quality level based on estimated bandwidth.'
+			},
+			{
+				title: 'Adaptive segment fetching',
+				description:
+					'The player downloads segments via HTTP GET. After each download, it measures throughput and may switch quality for the next segment — seamless adaptation.'
+			},
+			{
+				title: 'Live streaming with MPD updates',
+				description:
+					'For live content, the MPD includes a minimumUpdatePeriod. The player periodically re-fetches the MPD to discover new segments.'
+			}
+		],
+		useCases: [
+			'Video on demand (Netflix, Disney+, Amazon Prime Video)',
+			'YouTube adaptive video playback',
+			'Live streaming with adaptive bitrate',
+			'DRM-protected content delivery (Widevine, PlayReady)',
+			'Multi-language and multi-angle video experiences'
+		],
+		codeExample: {
+			language: 'javascript',
+			code: `import dashjs from 'dashjs';
+
+// Initialize DASH player
+const video = document.querySelector('video');
+const player = dashjs.MediaPlayer().create();
+player.initialize(video,
+  'https://cdn.example.com/video/manifest.mpd', true);
+
+// Monitor quality switches
+player.on('qualityChangeRendered', (e) => {
+  console.log('Quality:', e.mediaType, '-> level', e.newQuality);
+});
+
+// Configure adaptive bitrate settings
+player.updateSettings({
+  streaming: {
+    abr: {
+      autoSwitchBitrate: { video: true, audio: true },
+      maxBitrate: { video: 8000 },  // kbps cap
+    },
+    buffer: { stableBufferTime: 12, bufferTimeAtTopQuality: 30 }
+  }
+});`,
+			caption: 'dash.js plays MPEG-DASH content with automatic adaptive bitrate'
+		},
+		performance: {
+			latency:
+				'Standard: 10-30 seconds. Low-Latency DASH: 2-5 seconds with chunked transfer encoding.',
+			throughput: 'Adaptive: typically 1-20 Mbps for video. CDN-backed for unlimited viewer scale.',
+			overhead: 'HTTP headers per segment. MPD manifest is XML (typically 5-50 KB).'
+		},
+		connections: ['http1', 'http2', 'tls', 'hls'],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/Dynamic_Adaptive_Streaming_over_HTTP',
+			official: 'https://dashif.org/'
 		}
 	}
 ];

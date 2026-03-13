@@ -64,7 +64,6 @@ openssl s_client -connect example.com:443 2>/dev/null \\
 				'AES-GCM encryption is hardware-accelerated on modern CPUs — negligible throughput impact',
 			overhead: '~5 bytes per TLS record header + 16 bytes for GCM authentication tag'
 		},
-		microInteraction: 'shield',
 		connections: ['tcp', 'http1', 'http2', 'quic', 'smtp'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Transport_Layer_Security',
@@ -135,7 +134,6 @@ scp file.txt user@example.com:/home/user/`,
 			throughput: 'Hardware AES encryption; limited mainly by the network and remote system speed',
 			overhead: 'Per-packet: ~28 bytes (4 length + 1 padding length + padding + 16 MAC)'
 		},
-		microInteraction: 'shield',
 		connections: ['tcp', 'tls', 'ftp'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Secure_Shell',
@@ -206,7 +204,6 @@ dig example.com +trace`,
 			throughput: 'Not applicable — DNS is query/response, not streaming',
 			overhead: '12-byte header + question + answer. Typical query: 40-60 bytes. UDP-based.'
 		},
-		microInteraction: 'query-response',
 		connections: ['udp', 'tcp', 'tls', 'smtp'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Domain_Name_System',
@@ -302,7 +299,6 @@ sudo tcpdump -i eth0 port 67 or port 68 -v`
 			throughput: 'Not applicable — DHCP is one-time configuration, not data transfer',
 			overhead: 'Minimum 236-byte message. UDP-based, broadcast-heavy.'
 		},
-		microInteraction: 'query-response',
 		connections: ['udp'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Dynamic_Host_Configuration_Protocol',
@@ -395,7 +391,6 @@ sudo ntpdate pool.ntp.org`
 			throughput: 'Polling interval: 64-1024 seconds. Negligible bandwidth.',
 			overhead: '48-byte packets. One of the lightest protocols in existence.'
 		},
-		microInteraction: 'query-response',
 		connections: ['udp'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Network_Time_Protocol',
@@ -488,7 +483,6 @@ await transporter.sendMail({
 			throughput: 'Millions of messages/day at scale',
 			overhead: 'Moderate — DNS lookups, TLS, multi-hop relay'
 		},
-		microInteraction: 'query-response' as const,
 		connections: ['tcp', 'tls', 'dns'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Simple_Mail_Transfer_Protocol',
@@ -579,7 +573,6 @@ curl -u user:pass ftp://ftp.example.com/`
 			throughput: 'Line-speed for data channel',
 			overhead: 'Dual connection (control + data channels)'
 		},
-		microInteraction: 'default' as const,
 		connections: ['tcp', 'tls', 'ssh'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/File_Transfer_Protocol',

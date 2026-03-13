@@ -20,7 +20,7 @@
 </script>
 
 {#if related.length > 0}
-	<section>
+	<section data-tour="related-protocols">
 		<h3 class="mb-2 text-xs font-semibold tracking-wider text-slate-500 uppercase">
 			Related Protocols
 		</h3>

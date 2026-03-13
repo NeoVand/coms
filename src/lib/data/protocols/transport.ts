@@ -74,7 +74,6 @@ conn.close()  # FIN sequence`,
 				'Limited by congestion window; typically reaches line speed on stable connections',
 			overhead: '20-byte header minimum + options; ~40 bytes typical with timestamps'
 		},
-		microInteraction: 'handshake',
 		connections: ['udp', 'tls', 'http1', 'websockets', 'smtp', 'ftp'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Transmission_Control_Protocol',
@@ -145,7 +144,6 @@ print(f"Got {data} from {addr}")`,
 			throughput: 'No congestion control — can send as fast as the network allows (or can handle)',
 			overhead: '8-byte header only — the minimum possible for transport'
 		},
-		microInteraction: 'scatter',
 		connections: ['tcp', 'dns', 'quic', 'webrtc'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/User_Datagram_Protocol',
@@ -221,7 +219,6 @@ req.on('stream', (stream) => {
 				'Comparable to TCP with better behavior on lossy networks due to independent streams',
 			overhead: 'Higher per-packet than TCP due to encryption, but fewer round trips overall'
 		},
-		microInteraction: 'multiplex',
 		connections: ['tcp', 'udp', 'tls', 'http3'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/QUIC',
@@ -313,11 +310,94 @@ cat /proc/net/sctp/assocs`
 				'Comparable to TCP; multi-streaming can improve effective throughput for mixed traffic',
 			overhead: '12-byte common header + chunk headers; slightly more than TCP'
 		},
-		microInteraction: 'multiplex',
 		connections: ['tcp', 'udp', 'webrtc'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Stream_Control_Transmission_Protocol',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc4960'
+		}
+	},
+	{
+		id: 'mptcp',
+		name: 'Multipath TCP',
+		abbreviation: 'MPTCP',
+		categoryId: 'transport',
+		year: 2013,
+		rfc: 'RFC 8684',
+		oneLiner: 'TCP that uses multiple network paths simultaneously — WiFi and cellular at the same time.',
+		overview: `Multipath TCP solves a fundamental limitation of regular TCP: a connection is locked to a single pair of IP addresses. If your phone is connected to both WiFi and cellular, standard TCP can only use one at a time. MPTCP allows a single connection to spread across multiple network interfaces simultaneously, combining their bandwidth and seamlessly failing over when one path drops.
+
+The protocol works by establishing "subflows" — each subflow is a regular TCP connection on a different network path. A shim layer sits between the application and these subflows, distributing data across paths and reassembling it on the other end. The application sees a single, normal TCP socket; the magic happens entirely at the transport layer.
+
+Apple was the first major adopter, shipping MPTCP in iOS 7 (2013) for Siri — so your voice command wouldn't drop when walking from WiFi to cellular range. Since then, Apple has extended it to Maps, Music, and third-party apps. Linux has native MPTCP support since kernel 5.6 (2020).`,
+		howItWorks: [
+			{
+				title: 'Initial handshake with MP_CAPABLE',
+				description:
+					'The first subflow is established like a normal TCP handshake, but SYN packets carry the MP_CAPABLE option. Both sides exchange keys that identify this MPTCP connection.'
+			},
+			{
+				title: 'Additional subflows via MP_JOIN',
+				description:
+					'Either endpoint can open additional TCP subflows over different network paths (e.g., WiFi + cellular). The SYN carries an MP_JOIN option linking it to the existing connection.'
+			},
+			{
+				title: 'Data-level sequencing',
+				description:
+					'Each subflow has its own TCP sequence numbers. A separate Data Sequence Number (DSN) ensures correct ordering across all subflows before delivering to the application.'
+			},
+			{
+				title: 'Scheduler distributes data',
+				description:
+					'The MPTCP scheduler decides which subflow carries each chunk — round-robin, lowest-latency-first, or redundant. This is transparent to the application.'
+			},
+			{
+				title: 'Seamless failover',
+				description:
+					'If a subflow fails (WiFi drops), data is automatically redirected to remaining subflows. New subflows can be added on-the-fly. The application never sees a disconnection.'
+			}
+		],
+		useCases: [
+			'Mobile connectivity resilience (WiFi to cellular handover)',
+			'Apple Siri, Maps, and Music on iOS devices',
+			'Bandwidth aggregation across multiple ISP links',
+			'High-availability server connections',
+			'Hybrid access networks (DSL + LTE bonding)'
+		],
+		codeExample: {
+			language: 'python',
+			code: `import socket
+
+# Create an MPTCP socket (Linux 5.6+)
+# IPPROTO_MPTCP = 262
+sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM, 262)
+
+# From here, it's just like regular TCP
+sock.connect(('example.com', 443))
+sock.sendall(b'GET / HTTP/1.1\\r\\nHost: example.com\\r\\n\\r\\n')
+response = sock.recv(4096)
+print(response.decode())
+sock.close()
+
+# The kernel handles multiple subflows transparently
+# Check active subflows:
+# ss -M  (shows MPTCP subflow info)
+# ip mptcp endpoint show  (configured endpoints)`,
+			caption:
+				'MPTCP in Python on Linux — same API as regular TCP, but the kernel routes data over multiple paths'
+		},
+		performance: {
+			latency:
+				'Initial: same as TCP (1 RTT + MP_CAPABLE). Additional subflows: 1 RTT each for MP_JOIN.',
+			throughput:
+				'Aggregated bandwidth of all subflows. Two 100Mbps links can yield ~200Mbps combined.',
+			overhead:
+				'TCP options add 12-16 bytes per segment for DSN mapping. Subflow management adds modest CPU cost.'
+		},
+		connections: ['tcp', 'tls'],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/Multipath_TCP',
+			rfc: 'https://datatracker.ietf.org/doc/html/rfc8684',
+			official: 'https://www.mptcp.dev/'
 		}
 	}
 ];

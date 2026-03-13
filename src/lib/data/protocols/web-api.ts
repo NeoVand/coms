@@ -65,7 +65,6 @@ Content-Length: 82
 			overhead:
 				'Text headers are uncompressed and often repeated — 500-800 bytes typical per request'
 		},
-		microInteraction: 'blocking',
 		connections: ['tcp', 'tls', 'http2', 'rest'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/HTTP',
@@ -161,7 +160,6 @@ client.close()`
 			throughput: 'Single connection carries all requests — no connection overhead waste',
 			overhead: 'HPACK compresses headers by 85-88% compared to HTTP/1.1'
 		},
-		microInteraction: 'multiplex',
 		connections: ['http1', 'http3', 'tcp', 'tls', 'grpc', 'sse'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/HTTP/2',
@@ -247,7 +245,6 @@ curl -sI https://cloudflare-quic.com \\
 			overhead:
 				'Slightly higher per-packet than TCP due to QUIC encryption, offset by fewer round trips'
 		},
-		microInteraction: 'multiplex',
 		connections: ['http2', 'quic', 'tls'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/HTTP/3',
@@ -321,7 +318,6 @@ ws.onmessage = (event) => {
 			throughput: 'Near wire-speed for small messages; minimal framing overhead',
 			overhead: '2-14 bytes per frame (vs 200-800 bytes per HTTP request)'
 		},
-		microInteraction: 'tube',
 		connections: ['http1', 'tcp', 'tls', 'sse'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/WebSocket',
@@ -396,7 +392,6 @@ message User {
 			throughput: 'Protobuf is 3-10x smaller than JSON; 20-100x faster to serialize/deserialize',
 			overhead: 'HTTP/2 framing + protobuf encoding. Very efficient for structured data.'
 		},
-		microInteraction: 'multiplex',
 		connections: ['http2', 'tls', 'rest'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/GRPC',
@@ -504,7 +499,6 @@ print(data["user"]["name"], data["user"]["posts"])`
 				'No over-fetching reduces payload size; but complex queries can stress the server',
 			overhead: 'Query parsing + validation adds server-side cost. Caching is harder than REST.'
 		},
-		microInteraction: 'default',
 		connections: ['http1', 'http2', 'websockets', 'rest'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/GraphQL',
@@ -599,7 +593,6 @@ def stream():
 			throughput: 'Lightweight text streaming',
 			overhead: 'Minimal — plain HTTP, no upgrade'
 		},
-		microInteraction: 'streaming' as const,
 		connections: ['http1', 'http2', 'websockets'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Server-sent_events',
@@ -687,7 +680,6 @@ requests.delete('https://api.example.com/users/42')`
 			throughput: 'Depends on HTTP version used',
 			overhead: 'Minimal — uses standard HTTP semantics'
 		},
-		microInteraction: 'query-response' as const,
 		connections: ['http1', 'http2', 'graphql', 'grpc'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/REST',

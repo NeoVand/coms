@@ -29,16 +29,17 @@
 		};
 	});
 
-	const tooltipLeft = $derived.by(() => {
-		const TOOLTIP_WIDTH = 280;
-		const PANEL_WIDTH = 520;
-		const OFFSET = 16;
+	const TOOLTIP_WIDTH = 280;
+	const PANEL_WIDTH = 520;
+	const OFFSET = 16;
 
-		if (appState.showDetailPanel && tooltipX + OFFSET + TOOLTIP_WIDTH > windowWidth - PANEL_WIDTH) {
-			return tooltipX - TOOLTIP_WIDTH - OFFSET;
-		}
-		return tooltipX + OFFSET;
-	});
+	const flipped = $derived(
+		appState.showDetailPanel && tooltipX + OFFSET + TOOLTIP_WIDTH > windowWidth - PANEL_WIDTH
+	);
+
+	const tooltipLeft = $derived(
+		flipped ? tooltipX - TOOLTIP_WIDTH - OFFSET : tooltipX + OFFSET
+	);
 
 	const hoveredInfo = $derived.by(() => {
 		const node = appState.hoveredNode;
@@ -66,29 +67,48 @@
 </script>
 
 {#if hoveredInfo && appState.hoveredNode}
-	<div
-		class="pointer-events-none fixed z-50 max-w-xs rounded-xl border border-white/10 bg-bg-deep/90 px-4 py-3 shadow-2xl backdrop-blur-xl"
-		style="left: {tooltipLeft}px; top: {tooltipY -
-			8}px; border-left: 3px solid {hoveredInfo.color};"
-	>
-		<div class="flex items-center gap-2">
-			{#if hoveredInfo.icon}
-				<span style="color: {hoveredInfo.color}">
-					<CategoryIcon icon={hoveredInfo.icon} size={16} />
+	{#key appState.hoveredNode.id}
+		<div
+			class="tooltip-pop pointer-events-none fixed z-50 max-w-xs rounded-xl border bg-bg-deep/90 px-4 py-3 shadow-2xl backdrop-blur-xl"
+			style="left: {tooltipLeft}px; top: {tooltipY -
+				8}px; border-color: {hoveredInfo.color}40; transform-origin: {flipped ? 'right' : 'left'} top;"
+		>
+			<div class="flex items-center gap-2">
+				{#if hoveredInfo.icon}
+					<span style="color: {hoveredInfo.color}">
+						<CategoryIcon icon={hoveredInfo.icon} size={16} />
+					</span>
+				{/if}
+				<span class="text-sm font-semibold" style="color: {hoveredInfo.color}">
+					{hoveredInfo.name}
 				</span>
-			{/if}
-			<span class="text-sm font-semibold" style="color: {hoveredInfo.color}">
-				{hoveredInfo.name}
-			</span>
-			{#if hoveredInfo.port}
-				<span class="rounded bg-white/5 px-1.5 py-0.5 text-[10px] text-slate-400">
-					Port {hoveredInfo.port}
-				</span>
+				{#if hoveredInfo.port}
+					<span class="rounded bg-white/5 px-1.5 py-0.5 text-[10px] text-slate-400">
+						Port {hoveredInfo.port}
+					</span>
+				{/if}
+			</div>
+			<p class="mt-1 text-xs leading-relaxed text-slate-300">{hoveredInfo.description}</p>
+			{#if hoveredInfo.year}
+				<p class="mt-1 text-[10px] text-slate-500">Since {hoveredInfo.year}</p>
 			{/if}
 		</div>
-		<p class="mt-1 text-xs leading-relaxed text-slate-300">{hoveredInfo.description}</p>
-		{#if hoveredInfo.year}
-			<p class="mt-1 text-[10px] text-slate-500">Since {hoveredInfo.year}</p>
-		{/if}
-	</div>
+	{/key}
 {/if}
+
+<style>
+	@keyframes tooltip-pop {
+		from {
+			opacity: 0;
+			transform: scale(0.85) translateY(4px);
+		}
+		to {
+			opacity: 1;
+			transform: scale(1) translateY(0);
+		}
+	}
+
+	.tooltip-pop {
+		animation: tooltip-pop 0.2s cubic-bezier(0.34, 1.4, 0.64, 1) both;
+	}
+</style>

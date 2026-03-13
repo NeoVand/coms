@@ -23,6 +23,8 @@
 		// Keyboard handler
 		function handleKeydown(e: KeyboardEvent) {
 			if (e.key === 'Escape') {
+				// If diagram modal is open, close that first (handled by DiagramModal)
+				if (appState.diagramModal || appState.storyDiagramModal) return;
 				appState.clearSelection();
 			}
 		}

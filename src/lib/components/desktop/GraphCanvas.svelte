@@ -1,14 +1,15 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
+	import { onMount, untrack } from 'svelte';
 	import { prefersReducedMotion } from 'svelte/motion';
 	import { buildGraphNodes, buildGraphEdges, getProtocolById } from '$lib/data/index';
+	import type { GraphNode } from '$lib/data/types';
 
 	import { createSimulation, warmUpSimulation, syncPositions } from '$lib/engine/simulation';
 	import { render, findNodeAtPosition } from '$lib/engine/canvas-renderer';
 	import { RenderLoop } from '$lib/engine/render-loop.svelte';
-	import { ParticleSystem } from '$lib/engine/particle-system';
-	import { runMicroInteraction } from '$lib/engine/micro-interactions/index';
 	import { getAppState } from '$lib/state/context';
+	import { computeRadialPositions, computeTimelinePositions } from '$lib/engine/layouts';
+	import type { LayoutMode } from '$lib/engine/layouts';
 
 	const appState = getAppState();
 
@@ -20,7 +21,10 @@
 	const edges = buildGraphEdges();
 	const simulation = createSimulation(nodes, edges);
 	const renderLoop = new RenderLoop();
-	const particles = new ParticleSystem();
+
+	// Layout transition state — null means no animation in progress
+	let layoutTargets: Map<string, { x: number; y: number }> | null = null;
+	let prevLayout: LayoutMode | null = null;
 
 	let isPanning = $state(false);
 	let lastMouseX = 0;
@@ -34,6 +38,73 @@
 			y: (screenY - height / 2 - appState.viewport.y) / appState.viewport.scale
 		};
 	}
+
+	/** Collect the non-dimmed nodes for a given selection (mirrors isNodeDimmed in canvas-renderer). */
+	function getHighlightedNodes(selected: GraphNode): GraphNode[] {
+		if (selected.type === 'hub') {
+			return nodes; // fit the entire graph
+		}
+		if (selected.type === 'category') {
+			return nodes.filter(
+				(n) => n.id === selected.id || (n.type === 'protocol' && n.categoryId === selected.id)
+			);
+		}
+		// protocol — include self, parent category, and connected protocols
+		const proto = getProtocolById(selected.id);
+		const connected = new Set(proto?.connections ?? []);
+		return nodes.filter(
+			(n) =>
+				n.id === selected.id ||
+				n.id === selected.categoryId ||
+				connected.has(n.id)
+		);
+	}
+
+	// React to ANY selection change (canvas click, book icon, category buttons, etc.)
+	let prevSelected: GraphNode | null = null;
+
+	$effect(() => {
+		const selected = appState.selectedNode;
+		if (selected) {
+			untrack(() => {
+				appState.focusOnSubgraph(getHighlightedNodes(selected), width, height);
+			});
+		} else if (prevSelected) {
+			// Was focused, now deselected — zoom out to fit all nodes (no panel offset)
+			untrack(() => {
+				appState.focusOnSubgraph(nodes, width, height, 0);
+			});
+		}
+		prevSelected = selected;
+	});
+
+	// React to layout mode changes — animate nodes to new positions
+	$effect(() => {
+		const mode = appState.layoutMode;
+		if (mode === 'force') {
+			if (prevLayout !== null && prevLayout !== 'force') {
+				// Switching back to force — restart simulation
+				layoutTargets = null;
+				if (!prefersReducedMotion.current) {
+					simulation.alpha(0.5).restart();
+				}
+			}
+		} else {
+			simulation.stop();
+			untrack(() => {
+				const positions =
+					mode === 'radial' ? computeRadialPositions(nodes) : computeTimelinePositions(nodes);
+				layoutTargets = positions;
+				// Zoom to fit the target layout (use target positions, not current)
+				const targetNodes = nodes.map((n) => {
+					const t = positions.get(n.id);
+					return t ? { ...n, x: t.x, y: t.y } : n;
+				});
+				appState.focusOnSubgraph(targetNodes, width, height, 0);
+			});
+		}
+		prevLayout = mode;
+	});
 
 	function handleMouseMove(e: MouseEvent) {
 		if (isPanning) {
@@ -160,39 +231,37 @@
 		});
 		resizeObserver.observe(canvas.parentElement!);
 
-		renderLoop.start((time, dt) => {
+		renderLoop.start((time, _dt) => {
 			if (width === 0 || height === 0) return;
 
-			// Tick simulation
-			if (!prefersReducedMotion.current) {
-				syncPositions(simulation, nodes);
-			}
-
-			// Update particles and micro-interactions
-			if (!prefersReducedMotion.current) {
-				particles.update();
-
-				// Run micro-interactions for selected node
-				if (appState.selectedNode) {
-					const selectedProto = appState.selectedNode;
-					const parentNode = selectedProto.categoryId
-						? nodes.find((n) => n.id === selectedProto.categoryId)
-						: nodes.find((n) => n.id === 'hub');
-
-					const protocolData = getProtocolById(selectedProto.id);
-
-					if (protocolData && parentNode) {
-						runMicroInteraction(protocolData.microInteraction, {
-							node: selectedProto,
-							parentNode,
-							particles,
-							time,
-							dt,
-							ctx
-						});
+			// Update node positions based on layout mode
+			if (appState.layoutMode === 'force') {
+				if (!prefersReducedMotion.current) {
+					syncPositions(simulation, nodes);
+				}
+			} else if (layoutTargets) {
+				// Lerp nodes toward their layout targets
+				const LERP = 0.08;
+				let allSettled = true;
+				for (const node of nodes) {
+					const t = layoutTargets.get(node.id);
+					if (!t) continue;
+					const dx = t.x - node.x;
+					const dy = t.y - node.y;
+					if (Math.abs(dx) + Math.abs(dy) > 0.3) {
+						allSettled = false;
+						node.x += dx * LERP;
+						node.y += dy * LERP;
+					} else {
+						node.x = t.x;
+						node.y = t.y;
 					}
 				}
+				if (allSettled) layoutTargets = null;
 			}
+
+			// Animate viewport toward focus target
+			appState.tickViewport();
 
 			// Render
 			render(ctx, {
@@ -204,18 +273,9 @@
 				hoveredNode: appState.hoveredNode,
 				selectedNode: appState.selectedNode,
 				time,
-				dpr
+				dpr,
+				layoutMode: appState.layoutMode
 			});
-
-			// Draw particles on top
-			if (!prefersReducedMotion.current) {
-				ctx.save();
-				ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-				ctx.translate(width / 2 + appState.viewport.x, height / 2 + appState.viewport.y);
-				ctx.scale(appState.viewport.scale, appState.viewport.scale);
-				particles.draw(ctx);
-				ctx.restore();
-			}
 		});
 
 		return () => {

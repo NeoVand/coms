@@ -128,8 +128,8 @@
 	{/if}
 
 	<p
-		class="mt-3 rounded-lg border-l-2 py-2 pl-3 text-sm leading-relaxed text-slate-200"
-		style="border-color: {cat?.color ?? '#fff'}; background-color: {cat?.color ?? '#fff'}08"
+		class="mt-3 rounded-lg border py-2 px-3 text-sm leading-relaxed text-slate-200"
+		style="border-color: {cat?.color ?? '#fff'}30; background-color: {cat?.color ?? '#fff'}08"
 	>
 		{proto.oneLiner}
 	</p>

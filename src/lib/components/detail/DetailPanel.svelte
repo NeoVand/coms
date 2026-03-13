@@ -15,9 +15,39 @@
 	import PerformanceStats from './PerformanceStats.svelte';
 	import RelatedProtocols from './RelatedProtocols.svelte';
 	import CategoryIcon from '$lib/components/icons/CategoryIcon.svelte';
+	import CategoryStoryView from './category-story/CategoryStoryView.svelte';
+	import { getCategoryStory } from '$lib/data/category-stories/index';
 
 	const appState = getAppState();
 	const allNodes = buildGraphNodes();
+
+	let panelWidth = $state(520);
+	let isResizing = $state(false);
+
+	// Keep appState in sync so focusOnNode uses the current panel width
+	$effect(() => {
+		appState.detailPanelWidth = panelWidth;
+	});
+
+	const MIN_WIDTH = 360;
+	const MAX_WIDTH = 900;
+
+	function onResizeStart(e: PointerEvent) {
+		e.preventDefault();
+		isResizing = true;
+		const target = e.currentTarget as HTMLElement;
+		target.setPointerCapture(e.pointerId);
+	}
+
+	function onResizeMove(e: PointerEvent) {
+		if (!isResizing) return;
+		const newWidth = window.innerWidth - e.clientX;
+		panelWidth = Math.max(MIN_WIDTH, Math.min(MAX_WIDTH, newWidth));
+	}
+
+	function onResizeEnd() {
+		isResizing = false;
+	}
 
 	const selectedData = $derived.by(() => {
 		const node = appState.selectedNode;
@@ -41,7 +71,27 @@
 	});
 </script>
 
-<div class="detail-panel absolute top-0 right-0 z-50 h-full w-full max-w-xl sm:w-130">
+<div
+	class="detail-panel absolute top-0 right-0 z-50 h-full"
+	data-tour="detail-panel"
+	style="width: {panelWidth}px;"
+	class:panel-enter={true}
+>
+	<!-- Resize handle -->
+	<div
+		class="resize-handle absolute top-0 left-0 z-20 h-full w-2 cursor-col-resize"
+		onpointerdown={onResizeStart}
+		onpointermove={onResizeMove}
+		onpointerup={onResizeEnd}
+		onpointercancel={onResizeEnd}
+		role="separator"
+		aria-orientation="vertical"
+		aria-label="Resize panel"
+	>
+		<div class="absolute top-1/2 left-0.5 h-8 w-1 -translate-y-1/2 rounded-full bg-slate-600 opacity-0 transition-opacity"
+			class:opacity-100={isResizing}
+		></div>
+	</div>
 	<!-- Close button -->
 	<button
 		class="absolute top-3 right-3 z-10 flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-white/5 hover:text-slate-200"
@@ -57,8 +107,11 @@
 			/>
 		</svg>
 	</button>
+	<!-- Background layer: masked so blur + bg fade seamlessly into canvas -->
+	<div class="panel-bg pointer-events-none absolute inset-0 shadow-2xl backdrop-blur-xl"></div>
+	<!-- Content layer: unmasked so text stays fully opaque -->
 	<div
-		class="custom-scrollbar flex h-full w-full flex-col overflow-y-auto bg-bg-deep/95 shadow-2xl backdrop-blur-xl"
+		class="relative custom-scrollbar flex h-full w-full flex-col overflow-y-auto"
 	>
 		{#if selectedData?.type === 'hub'}
 			<div class="flex flex-col gap-6 p-6">
@@ -171,6 +224,21 @@
 					Each protocol includes animated diagrams, code examples in multiple languages, performance
 					stats, and links to official specifications. Click any colored node on the graph to begin.
 				</p>
+
+				<!-- Attribution -->
+				<div class="border-t border-white/[0.06] pt-4">
+					<a
+						href="https://github.com/NeoVand/coms"
+						target="_blank"
+						rel="external noopener noreferrer"
+						class="flex items-center justify-center gap-2 text-[11px] text-slate-600 transition-colors hover:text-slate-400"
+					>
+						<svg class="h-3.5 w-3.5 shrink-0" fill="currentColor" viewBox="0 0 24 24">
+							<path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/>
+						</svg>
+						<span>Developed by Neo Mohsenvand</span>
+					</a>
+				</div>
 			</div>
 		{:else if selectedData?.type === 'protocol' && selectedData.protocol}
 			{@const proto = selectedData.protocol}
@@ -214,7 +282,7 @@
 				</section>
 
 				{#if proto.codeExample}
-					<CodeExample example={proto.codeExample} />
+					<CodeExample example={proto.codeExample} color={cat?.color ?? '#FFFFFF'} />
 				{/if}
 
 				<PerformanceStats performance={proto.performance} color={cat?.color ?? '#FFFFFF'} />
@@ -224,6 +292,7 @@
 		{:else if selectedData?.type === 'category' && selectedData.category}
 			{@const cat = selectedData.category}
 			{@const protocols = selectedData.protocols}
+			{@const story = getCategoryStory(cat.id)}
 
 			<div class="flex flex-col gap-6 p-6">
 				<!-- Category header -->
@@ -234,10 +303,17 @@
 						</span>
 						<div>
 							<h2 class="text-lg font-bold" style="color: {cat.color}">{cat.name}</h2>
+							{#if story}
+								<p class="mt-0.5 text-xs text-slate-400">{story.tagline}</p>
+							{/if}
 						</div>
 					</div>
-					<p class="mt-3 text-sm leading-relaxed text-slate-300">{cat.description}</p>
 				</div>
+
+				<!-- Story content -->
+				{#if story}
+					<CategoryStoryView {story} {cat} />
+				{/if}
 
 				<!-- Protocols in category -->
 				<section>
@@ -245,7 +321,7 @@
 						Protocols ({protocols.length})
 					</h3>
 					<div class="space-y-2">
-						{#each protocols as proto (proto.id)}
+						{#each protocols.toSorted((a, b) => a.year - b.year) as proto (proto.id)}
 							<button
 								class="flex w-full items-start gap-3 rounded-xl border border-white/5 bg-white/[0.02] p-3 text-left transition-all hover:border-white/10 hover:bg-white/[0.05]"
 								onclick={() => {
@@ -272,8 +348,11 @@
 								>
 									{proto.abbreviation.slice(0, 3)}
 								</div>
-								<div>
-									<div class="text-sm font-medium text-slate-200">{proto.abbreviation}</div>
+								<div class="min-w-0 flex-1">
+									<div class="flex items-baseline gap-2">
+										<span class="text-sm font-medium text-slate-200">{proto.abbreviation}</span>
+										<span class="text-[10px] text-slate-600">{proto.year}</span>
+									</div>
 									<div class="mt-0.5 text-xs text-slate-400">{proto.oneLiner}</div>
 								</div>
 							</button>
@@ -287,18 +366,32 @@
 
 <style>
 	.detail-panel {
-		position: relative;
+		max-width: 90vw;
+		min-width: 360px;
 	}
 
-	.detail-panel::before {
-		content: '';
-		position: absolute;
-		top: 0;
-		left: -60px;
-		width: 60px;
-		height: 100%;
-		background: linear-gradient(to right, transparent, rgb(15 23 42 / 0.97));
-		pointer-events: none;
-		z-index: 1;
+	.panel-bg {
+		background: linear-gradient(to right, rgb(15 23 42 / 0.75), rgb(15 23 42 / 0.92) 30%, rgb(15 23 42 / 0.97));
+		-webkit-mask-image: linear-gradient(to right, transparent, black 80px);
+		mask-image: linear-gradient(to right, transparent, black 80px);
+	}
+
+	.resize-handle:hover > div {
+		opacity: 1 !important;
+	}
+
+	.panel-enter {
+		animation: slideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+	}
+
+	@keyframes slideIn {
+		from {
+			transform: translateX(60px);
+			opacity: 0;
+		}
+		to {
+			transform: translateX(0);
+			opacity: 1;
+		}
 	}
 </style>

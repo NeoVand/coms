@@ -1,16 +1,3 @@
-export type MicroInteractionType =
-	| 'handshake'
-	| 'scatter'
-	| 'tube'
-	| 'blocking'
-	| 'shield'
-	| 'multiplex'
-	| 'query-response'
-	| 'publish-subscribe'
-	| 'streaming'
-	| 'peer-to-peer'
-	| 'default';
-
 export interface HowItWorksStep {
 	title: string;
 	description: string;
@@ -43,7 +30,6 @@ export interface Protocol {
 	useCases: string[];
 	codeExample?: CodeExample;
 	performance: PerformanceInfo;
-	microInteraction: MicroInteractionType;
 	connections: string[];
 	links?: {
 		wikipedia?: string;

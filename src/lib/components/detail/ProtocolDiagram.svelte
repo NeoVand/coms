@@ -1,72 +1,30 @@
 <script lang="ts">
-	import TcpDiagram from './diagrams/TcpDiagram.svelte';
-	import Http1Diagram from './diagrams/Http1Diagram.svelte';
-	import Http2Diagram from './diagrams/Http2Diagram.svelte';
-	import UdpDiagram from './diagrams/UdpDiagram.svelte';
-	import WebsocketsDiagram from './diagrams/WebsocketsDiagram.svelte';
-	import TlsDiagram from './diagrams/TlsDiagram.svelte';
-	import DnsDiagram from './diagrams/DnsDiagram.svelte';
-	import MqttDiagram from './diagrams/MqttDiagram.svelte';
-	import WebrtcDiagram from './diagrams/WebrtcDiagram.svelte';
-	import QuicDiagram from './diagrams/QuicDiagram.svelte';
-	import Http3Diagram from './diagrams/Http3Diagram.svelte';
-	import GrpcDiagram from './diagrams/GrpcDiagram.svelte';
-	import GraphqlDiagram from './diagrams/GraphqlDiagram.svelte';
-	import SctpDiagram from './diagrams/SctpDiagram.svelte';
-	import AmqpDiagram from './diagrams/AmqpDiagram.svelte';
-	import StompDiagram from './diagrams/StompDiagram.svelte';
-	import RtpDiagram from './diagrams/RtpDiagram.svelte';
-	import SipDiagram from './diagrams/SipDiagram.svelte';
-	import HlsDiagram from './diagrams/HlsDiagram.svelte';
-	import SshDiagram from './diagrams/SshDiagram.svelte';
-	import SseDiagram from './diagrams/SseDiagram.svelte';
-	import RestDiagram from './diagrams/RestDiagram.svelte';
-	import SmtpDiagram from './diagrams/SmtpDiagram.svelte';
-	import FtpDiagram from './diagrams/FtpDiagram.svelte';
-	import CoapDiagram from './diagrams/CoapDiagram.svelte';
-	import DhcpDiagram from './diagrams/DhcpDiagram.svelte';
-	import NtpDiagram from './diagrams/NtpDiagram.svelte';
-	import type { Component } from 'svelte';
+	import MermaidDiagram from './MermaidDiagram.svelte';
+	import { diagramDefinitions } from '$lib/data/diagram-definitions';
+	import { getAppState } from '$lib/state/context';
 
 	let { protocolId, color }: { protocolId: string; color: string } = $props();
 
-	const diagrams: Record<string, Component<{ color: string }>> = {
-		tcp: TcpDiagram,
-		udp: UdpDiagram,
-		quic: QuicDiagram,
-		sctp: SctpDiagram,
-		http1: Http1Diagram,
-		http2: Http2Diagram,
-		http3: Http3Diagram,
-		websockets: WebsocketsDiagram,
-		grpc: GrpcDiagram,
-		graphql: GraphqlDiagram,
-		sse: SseDiagram,
-		rest: RestDiagram,
-		mqtt: MqttDiagram,
-		amqp: AmqpDiagram,
-		stomp: StompDiagram,
-		webrtc: WebrtcDiagram,
-		rtp: RtpDiagram,
-		sip: SipDiagram,
-		hls: HlsDiagram,
-		tls: TlsDiagram,
-		ssh: SshDiagram,
-		dns: DnsDiagram,
-		dhcp: DhcpDiagram,
-		ntp: NtpDiagram,
-		smtp: SmtpDiagram,
-		ftp: FtpDiagram,
-		coap: CoapDiagram
-	};
-
-	const DiagramComponent = $derived(diagrams[protocolId]);
+	const appState = getAppState();
+	const hasDiagram = $derived(protocolId in diagramDefinitions);
 </script>
 
-{#if DiagramComponent}
-	<section>
-		<h3 class="mb-2 text-xs font-semibold tracking-wider text-slate-500 uppercase">How It Works</h3>
-		<DiagramComponent {color} />
+{#if hasDiagram}
+	<section data-tour="protocol-diagram">
+		<div class="mb-2 flex items-center justify-between">
+			<h3 class="text-xs font-semibold tracking-wider text-slate-500 uppercase">How It Works</h3>
+			<button
+				class="flex h-6 w-6 items-center justify-center rounded-md text-slate-500 transition-colors hover:bg-white/5 hover:text-slate-200"
+				onclick={() => appState.openDiagramModal(protocolId, color)}
+				aria-label="Expand diagram"
+				title="View larger"
+			>
+				<svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2">
+					<path stroke-linecap="round" stroke-linejoin="round" d="M3.75 3.75v4.5m0-4.5h4.5m-4.5 0L9 9M3.75 20.25v-4.5m0 4.5h4.5m-4.5 0L9 15M20.25 3.75h-4.5m4.5 0v4.5m0-4.5L15 9m5.25 11.25h-4.5m4.5 0v-4.5m0 4.5L15 15" />
+				</svg>
+			</button>
+		</div>
+		<MermaidDiagram {protocolId} {color} />
 	</section>
 {/if}
 

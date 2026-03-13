@@ -19,7 +19,7 @@
 	hljs.registerLanguage('xml', xml);
 	hljs.registerLanguage('json', json);
 
-	let { example }: { example: CodeExampleType } = $props();
+	let { example, color = '#FFFFFF' }: { example: CodeExampleType; color?: string } = $props();
 	let copied = $state(false);
 	let activeTab = $state(0);
 
@@ -82,18 +82,21 @@
 	}
 </script>
 
-<section>
+<section data-tour="code-example">
 	<h3 class="mb-2 text-xs font-semibold tracking-wider text-slate-500 uppercase">Code Example</h3>
-	<div class="overflow-hidden rounded-xl border border-white/5 bg-[#0d1117]">
-		<div class="flex items-center justify-between border-b border-white/5 px-3 py-2">
+	<div
+		class="code-block overflow-hidden rounded-xl border bg-[#0b1120]"
+		style="border-color: {color}25;"
+	>
+		<div class="flex items-center justify-between border-b px-3 py-2" style="border-color: {color}20;">
 			{#if tabs.length > 1}
 				<div class="flex gap-1">
 					{#each tabs as tab, i (tab.language)}
 						<button
-							class="rounded-md px-2.5 py-1 text-[10px] font-medium tracking-wider uppercase transition-colors {activeTab ===
-							i
-								? 'bg-white/10 text-slate-200'
-								: 'text-slate-500 hover:bg-white/5 hover:text-slate-300'}"
+							class="rounded-md px-2.5 py-1 text-[10px] font-medium tracking-wider uppercase transition-colors {activeTab !== i ? 'text-slate-500 hover:bg-white/5 hover:text-slate-300' : ''}"
+							style={activeTab === i
+								? `background-color: ${color}18; color: ${color}`
+								: ''}
 							onclick={() => (activeTab = i)}
 						>
 							{displayLang(tab.language)}
@@ -101,7 +104,7 @@
 					{/each}
 				</div>
 			{:else}
-				<span class="text-[10px] font-medium tracking-wider text-slate-500 uppercase">
+				<span class="text-[10px] font-medium tracking-wider uppercase" style="color: {color}90;">
 					{displayLang(example.language)}
 				</span>
 			{/if}

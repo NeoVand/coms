@@ -2,7 +2,8 @@ import type { GraphNode, GraphEdge, Viewport } from '$lib/data/types';
 import { COLORS } from '$lib/utils/colors';
 import { hexToRgba } from '$lib/utils/colors';
 import { getProtocolById } from '$lib/data/index';
-import { categoryMap } from '$lib/data/categories';
+import { categoryMap, categories } from '$lib/data/categories';
+import { TIMELINE_PARAMS, type LayoutMode } from '$lib/engine/layouts';
 
 interface RenderOptions {
 	width: number;
@@ -14,9 +15,20 @@ interface RenderOptions {
 	selectedNode: GraphNode | null;
 	time: number;
 	dpr: number;
+	layoutMode?: LayoutMode;
 }
 
 const NODE_MAP = new Map<string, GraphNode>();
+
+// Smooth hover animation state per node (0 = idle, 1 = fully hovered)
+const hoverAnim = new Map<string, number>();
+const HOVER_EASE_IN = 0.14; // snappy grow-out
+const HOVER_EASE_OUT = 0.08; // gentler fade-back
+
+// Smooth dim animation state per node (0 = visible, 1 = fully dimmed)
+const dimAnim = new Map<string, number>();
+const DIM_EASE_IN = 0.1; // fade to dimmed
+const DIM_EASE_OUT = 0.065; // fade back to visible (slower for cinematic reveal)
 
 function buildNodeMap(nodes: GraphNode[]) {
 	NODE_MAP.clear();
@@ -54,7 +66,8 @@ function isNodeDimmed(node: GraphNode, selectedNode: GraphNode | null): boolean 
 }
 
 export function render(ctx: CanvasRenderingContext2D, options: RenderOptions): void {
-	const { width, height, viewport, nodes, edges, hoveredNode, selectedNode, time, dpr } = options;
+	const { width, height, viewport, nodes, edges, hoveredNode, selectedNode, time, dpr, layoutMode } =
+		options;
 
 	buildNodeMap(nodes);
 	updateConnectedIds(selectedNode);
@@ -74,6 +87,11 @@ export function render(ctx: CanvasRenderingContext2D, options: RenderOptions): v
 	ctx.translate(width / 2 + viewport.x, height / 2 + viewport.y);
 	ctx.scale(viewport.scale, viewport.scale);
 
+	// Underlays drawn before edges/nodes
+	if (layoutMode === 'timeline') {
+		drawTimelineUnderlay(ctx);
+	}
+
 	// Draw edges
 	for (const edge of edges) {
 		const source = NODE_MAP.get(
@@ -84,16 +102,44 @@ export function render(ctx: CanvasRenderingContext2D, options: RenderOptions): v
 		);
 		if (!source || !target) continue;
 
-		const dimSource = isNodeDimmed(source, selectedNode);
-		const dimTarget = isNodeDimmed(target, selectedNode);
-		const dimmed = dimSource || dimTarget;
+		const dimSource = dimAnim.get(source.id) ?? 0;
+		const dimTarget = dimAnim.get(target.id) ?? 0;
+		const edgeDimT = Math.max(dimSource, dimTarget);
 
-		drawEdge(ctx, source, target, edge.color, dimmed, time);
+		drawEdge(ctx, source, target, edge.color, edgeDimT, time);
 	}
 
 	// Draw related protocol edges (dashed)
 	if (selectedNode && selectedNode.type === 'protocol') {
 		drawRelatedEdges(ctx, selectedNode, time);
+	}
+
+	// Update hover animations (smooth interpolation each frame)
+	for (const node of nodes) {
+		const target = hoveredNode?.id === node.id ? 1 : 0;
+		const current = hoverAnim.get(node.id) ?? 0;
+		const speed = target > current ? HOVER_EASE_IN : HOVER_EASE_OUT;
+		const next = current + (target - current) * speed;
+		if (Math.abs(next - target) < 0.005) {
+			if (target === 0) hoverAnim.delete(node.id);
+			else hoverAnim.set(node.id, 1);
+		} else {
+			hoverAnim.set(node.id, next);
+		}
+	}
+
+	// Update dim animations (smooth fade in/out)
+	for (const node of nodes) {
+		const targetDim = isNodeDimmed(node, selectedNode) ? 1 : 0;
+		const current = dimAnim.get(node.id) ?? 0;
+		const speed = targetDim > current ? DIM_EASE_IN : DIM_EASE_OUT;
+		const next = current + (targetDim - current) * speed;
+		if (Math.abs(next - targetDim) < 0.005) {
+			if (targetDim === 0) dimAnim.delete(node.id);
+			else dimAnim.set(node.id, 1);
+		} else {
+			dimAnim.set(node.id, next);
+		}
 	}
 
 	// Draw nodes (hub last so it's on top)
@@ -103,17 +149,14 @@ export function render(ctx: CanvasRenderingContext2D, options: RenderOptions): v
 	});
 
 	for (const node of sortedNodes) {
-		const isHovered = hoveredNode?.id === node.id;
+		const hoverT = hoverAnim.get(node.id) ?? 0;
 		const isSelected = selectedNode?.id === node.id;
-		const dimmed = isNodeDimmed(node, selectedNode);
+		const dimT = dimAnim.get(node.id) ?? 0;
 		const isConnected = connectedIds.has(node.id);
-		drawNode(ctx, node, isHovered, isSelected, dimmed, isConnected, time, viewport.scale);
+		drawNode(ctx, node, hoverT, isSelected, dimT, isConnected, time, viewport.scale);
 	}
 
 	ctx.restore();
-
-	// Draw status bar
-	drawStatusBar(ctx, width, height);
 
 	ctx.restore();
 }
@@ -126,6 +169,9 @@ function drawRelatedEdges(
 	const proto = getProtocolById(selectedNode.id);
 	if (!proto || !proto.connections.length) return;
 
+	// Use the live position from NODE_MAP so the edges animate during layout transitions
+	const liveNode = NODE_MAP.get(selectedNode.id) ?? selectedNode;
+
 	ctx.save();
 	ctx.setLineDash([6, 4]);
 
@@ -133,17 +179,17 @@ function drawRelatedEdges(
 		const targetNode = NODE_MAP.get(connId);
 		if (!targetNode) continue;
 
-		const dx = targetNode.x - selectedNode.x;
-		const dy = targetNode.y - selectedNode.y;
+		const dx = targetNode.x - liveNode.x;
+		const dy = targetNode.y - liveNode.y;
 		const dist = Math.sqrt(dx * dx + dy * dy);
-		const midX = (selectedNode.x + targetNode.x) / 2;
-		const midY = (selectedNode.y + targetNode.y) / 2;
+		const midX = (liveNode.x + targetNode.x) / 2;
+		const midY = (liveNode.y + targetNode.y) / 2;
 		const offset = dist * 0.15;
 		const cpx = midX - dy * 0.15 + Math.sin(time * 0.001) * offset * 0.2;
 		const cpy = midY + dx * 0.15 + Math.cos(time * 0.001) * offset * 0.2;
 
 		ctx.beginPath();
-		ctx.moveTo(selectedNode.x, selectedNode.y);
+		ctx.moveTo(liveNode.x, liveNode.y);
 		ctx.quadraticCurveTo(cpx, cpy, targetNode.x, targetNode.y);
 		ctx.strokeStyle = hexToRgba(selectedNode.color, 0.25);
 		ctx.lineWidth = 1.0;
@@ -153,6 +199,56 @@ function drawRelatedEdges(
 	ctx.setLineDash([]);
 	ctx.restore();
 }
+
+function drawTimelineUnderlay(ctx: CanvasRenderingContext2D): void {
+	const { MIN_YEAR, MAX_YEAR, X_LEFT, X_RIGHT, LANE_SPACING } = TIMELINE_PARAMS;
+	const catOrder = categories.map((c) => c.id);
+	const numCats = catOrder.length;
+	const laneYs = catOrder.map((_, i) => (i - Math.floor(numCats / 2)) * LANE_SPACING);
+	const topY = laneYs[0] - LANE_SPACING / 2;
+	const bottomY = laneYs[numCats - 1] + LANE_SPACING / 2;
+	const totalWidth = X_RIGHT - X_LEFT;
+
+	const yearToX = (year: number) =>
+		X_LEFT + ((year - MIN_YEAR) / (MAX_YEAR - MIN_YEAR)) * totalWidth;
+
+	// 1. Lane bands: subtle colored horizontal stripes per category
+	catOrder.forEach((catId, i) => {
+		const cat = categoryMap.get(catId);
+		if (!cat) return;
+		const laneY = laneYs[i];
+		ctx.fillStyle = hexToRgba(cat.color, 0.035);
+		ctx.fillRect(X_LEFT - 180, laneY - LANE_SPACING / 2, totalWidth + 230, LANE_SPACING);
+	});
+
+	// 2. Vertical year lines
+	ctx.save();
+	const startYear = Math.ceil(MIN_YEAR / 5) * 5;
+	for (let year = startYear; year <= MAX_YEAR; year += 5) {
+		const x = yearToX(year);
+		const isDecade = year % 10 === 0;
+
+		ctx.strokeStyle = `rgba(148, 163, 184, ${isDecade ? 0.14 : 0.055})`;
+		ctx.lineWidth = isDecade ? 0.8 : 0.5;
+		ctx.setLineDash(isDecade ? [] : [3, 5]);
+		ctx.beginPath();
+		ctx.moveTo(x, topY);
+		ctx.lineTo(x, bottomY);
+		ctx.stroke();
+
+		if (isDecade) {
+			ctx.setLineDash([]);
+			ctx.font = '500 10px Inter, system-ui, sans-serif';
+			ctx.textAlign = 'center';
+			ctx.textBaseline = 'top';
+			ctx.fillStyle = 'rgba(148, 163, 184, 0.45)';
+			ctx.fillText(String(year), x, bottomY + 10);
+		}
+	}
+	ctx.setLineDash([]);
+	ctx.restore();
+}
+
 
 function drawGrid(
 	ctx: CanvasRenderingContext2D,
@@ -187,10 +283,11 @@ function drawEdge(
 	source: GraphNode,
 	target: GraphNode,
 	color: string,
-	dimmed: boolean,
+	dimT: number,
 	time: number
 ): void {
-	const alpha = dimmed ? 0.05 : 0.2 + 0.05 * Math.sin(time * 0.002);
+	const baseAlpha = 0.2 + 0.05 * Math.sin(time * 0.002);
+	const alpha = baseAlpha + (0.05 - baseAlpha) * dimT;
 
 	ctx.beginPath();
 
@@ -207,44 +304,48 @@ function drawEdge(
 	ctx.quadraticCurveTo(cpx, cpy, target.x, target.y);
 
 	ctx.strokeStyle = hexToRgba(color.startsWith('#') ? color : '#FFFFFF', alpha);
-	ctx.lineWidth = dimmed ? 0.5 : 1.8;
+	ctx.lineWidth = 1.8 - 1.3 * dimT;
 	ctx.stroke();
 }
 
 function drawNode(
 	ctx: CanvasRenderingContext2D,
 	node: GraphNode,
-	isHovered: boolean,
+	hoverT: number,
 	isSelected: boolean,
-	dimmed: boolean,
+	dimT: number,
 	isConnected: boolean,
 	time: number,
 	scale: number
 ): void {
 	const { x, y, radius, color, type } = node;
-	const alpha = dimmed ? 0.1 : 1;
+	const alpha = 1 - 0.9 * dimT;
 
-	// Animated radius
+	// Ease-out curve for organic "grow out" feel
+	const eased = 1 - (1 - hoverT) * (1 - hoverT);
+
+	// Animated radius — smooth hover scale
 	let r = radius;
 	if (type === 'hub') {
 		r += Math.sin(time * 0.003) * 2;
 	}
-	if (isHovered) {
-		r *= 1.15;
-	}
+	r *= 1 + 0.15 * eased;
 	if (isSelected) {
 		r *= 1.1;
 	}
 
-	// Outer glow
-	if (
-		(!dimmed || isConnected) &&
-		(isHovered || isSelected || isConnected || type === 'hub' || type === 'category')
-	) {
-		const glowRadius = r * (type === 'hub' ? 3 : 2.2);
+	// Outer glow — smoothly interpolated for hover
+	const glowVisibility = isConnected ? 1 : 1 - dimT;
+	const hasGlow =
+		glowVisibility > 0.01 &&
+		(hoverT > 0.01 || isSelected || isConnected || type === 'hub' || type === 'category');
+	if (hasGlow) {
+		const glowScale = 1 + 0.3 * eased; // glow grows out with hover
+		const glowRadius = r * (type === 'hub' ? 3 : 2.2) * glowScale;
 		const glow = ctx.createRadialGradient(x, y, r * 0.5, x, y, glowRadius);
-		const glowAlpha =
-			isHovered || isSelected ? 0.35 : isConnected ? 0.2 : type === 'hub' ? 0.15 : 0.1;
+		const baseGlowAlpha =
+			isSelected ? 0.35 : isConnected ? 0.2 : type === 'hub' ? 0.15 : 0.1;
+		const glowAlpha = (baseGlowAlpha + 0.25 * eased) * glowVisibility;
 		glow.addColorStop(0, hexToRgba(color, glowAlpha));
 		glow.addColorStop(1, hexToRgba(color, 0));
 		ctx.beginPath();
@@ -254,19 +355,19 @@ function drawNode(
 	}
 
 	// Ring for selected
-	if (isSelected && !dimmed) {
+	if (isSelected && dimT < 0.5) {
 		ctx.beginPath();
 		ctx.arc(x, y, r + 4, 0, Math.PI * 2);
-		ctx.strokeStyle = hexToRgba(color, 0.6);
+		ctx.strokeStyle = hexToRgba(color, 0.6 * (1 - dimT));
 		ctx.lineWidth = 2;
 		ctx.stroke();
 	}
 
 	// Opaque base to prevent edge bleed-through
-	if (!dimmed) {
+	if (dimT < 0.99) {
 		ctx.beginPath();
 		ctx.arc(x, y, r, 0, Math.PI * 2);
-		ctx.fillStyle = '#0f172a';
+		ctx.fillStyle = `rgba(15, 23, 42, ${1 - dimT})`;
 		ctx.fill();
 	}
 
@@ -275,14 +376,10 @@ function drawNode(
 	if (type === 'hub') {
 		gradient.addColorStop(0, `rgba(255, 255, 255, ${alpha})`);
 		gradient.addColorStop(1, `rgba(200, 210, 230, ${alpha * 0.8})`);
-	} else if (dimmed) {
-		gradient.addColorStop(0, hexToRgba(color, alpha * 0.9));
-		gradient.addColorStop(0.7, hexToRgba(color, alpha * 0.6));
-		gradient.addColorStop(1, hexToRgba(color, alpha * 0.3));
 	} else {
-		gradient.addColorStop(0, hexToRgba(color, 1));
-		gradient.addColorStop(0.7, hexToRgba(color, 0.7));
-		gradient.addColorStop(1, hexToRgba(color, 0.4));
+		gradient.addColorStop(0, hexToRgba(color, alpha * (1 - 0.1 * dimT)));
+		gradient.addColorStop(0.7, hexToRgba(color, alpha * (0.7 - 0.1 * dimT)));
+		gradient.addColorStop(1, hexToRgba(color, alpha * (0.4 - 0.1 * dimT)));
 	}
 
 	ctx.beginPath();
@@ -291,9 +388,10 @@ function drawNode(
 	ctx.fill();
 
 	// Inner highlight
-	if (!dimmed) {
+	if (dimT < 0.99) {
 		const highlight = ctx.createRadialGradient(x - r * 0.25, y - r * 0.3, 0, x, y, r);
-		highlight.addColorStop(0, `rgba(255, 255, 255, ${type === 'hub' ? 0.4 : 0.25})`);
+		const hlAlpha = 1 - dimT;
+		highlight.addColorStop(0, `rgba(255, 255, 255, ${(type === 'hub' ? 0.4 : 0.25) * hlAlpha})`);
 		highlight.addColorStop(0.5, 'rgba(255, 255, 255, 0)');
 		highlight.addColorStop(1, 'rgba(255, 255, 255, 0)');
 		ctx.beginPath();
@@ -307,12 +405,12 @@ function drawNode(
 		const cat = categoryMap.get(node.id);
 		if (cat) {
 			const iconSize = r * 1.1;
-			drawCategoryIcon(ctx, x, y, iconSize, cat.icon, dimmed);
+			drawCategoryIcon(ctx, x, y, iconSize, cat.icon, dimT);
 		}
 	}
 
 	// Label — show for non-dimmed nodes and connected nodes
-	if (!dimmed || isConnected) {
+	if (dimT < 0.95 || isConnected) {
 		const fontSize = type === 'hub' ? 11 : type === 'category' ? 10 : 9;
 		const showLabel = scale > 0.5 || type === 'hub' || type === 'category';
 		const showAbbrev = scale <= 0.5 && scale > 0.3 && type === 'protocol';
@@ -329,7 +427,7 @@ function drawNode(
 								: node.abbreviation || node.label
 						: node.abbreviation || '';
 
-			const labelAlpha = isConnected && dimmed ? 0.7 : alpha;
+			const labelAlpha = isConnected && dimT > 0.5 ? 0.7 : alpha;
 			ctx.font = `${type === 'hub' ? '600' : '500'} ${fontSize}px Inter, system-ui, sans-serif`;
 			ctx.textAlign = 'center';
 			ctx.textBaseline = 'top';
@@ -461,7 +559,7 @@ function drawCategoryIcon(
 	y: number,
 	size: number,
 	icon: string,
-	dimmed: boolean
+	dimT: number
 ): void {
 	ctx.save();
 	ctx.translate(x, y);
@@ -469,7 +567,7 @@ function drawCategoryIcon(
 	ctx.scale(s, s);
 	ctx.translate(-12, -12);
 
-	ctx.globalAlpha = dimmed ? 0.15 : 1;
+	ctx.globalAlpha = 1 - 0.85 * dimT;
 	ctx.strokeStyle = '#ffffff';
 	ctx.fillStyle = '#ffffff';
 	ctx.lineWidth = 1.2;
@@ -495,14 +593,6 @@ function drawCategoryIcon(
 	}
 
 	ctx.restore();
-}
-
-function drawStatusBar(ctx: CanvasRenderingContext2D, width: number, height: number): void {
-	ctx.font = '11px Inter, system-ui, sans-serif';
-	ctx.textAlign = 'left';
-	ctx.textBaseline = 'bottom';
-	ctx.fillStyle = 'rgba(148, 163, 184, 0.4)';
-	ctx.fillText('Canvas 2D | 60 FPS Target', 16, height - 12);
 }
 
 export function findNodeAtPosition(
