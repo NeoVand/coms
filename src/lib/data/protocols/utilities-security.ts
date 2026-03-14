@@ -175,6 +175,13 @@ openssl req -x509 -newkey rsa:2048 -nodes \\
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Transport_Layer_Security',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc8446'
+		},
+		image: {
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Netscape_Navigator_2_Screenshot.png/600px-Netscape_Navigator_2_Screenshot.png',
+			alt: 'Netscape Navigator 2 browser window, the first commercial browser to support SSL encryption',
+			caption:
+				'Netscape Navigator 2 (1995) — the browser that introduced SSL to the world. Netscape engineers created SSL to enable secure e-commerce, giving us the padlock icon that still means "encrypted connection" today.',
+			credit: 'Image: Netscape / Public Domain, via Wikimedia Commons'
 		}
 	},
 	{
@@ -355,6 +362,13 @@ Client → Server:
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Secure_Shell',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc4253'
+		},
+		image: {
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/DEC_VT100_terminal_transparent.png/600px-DEC_VT100_terminal_transparent.png',
+			alt: 'DEC VT100 terminal, the classic text terminal that SSH was designed to replace with encrypted remote access',
+			caption:
+				'The DEC VT100 terminal (1978) — the icon of remote access. SSH was created in 1995 to replace insecure protocols like Telnet that sent passwords in plain text over networks like these terminals connected to.',
+			credit: 'Photo: Jason Scott / CC BY 2.0, via Wikimedia Commons'
 		}
 	},
 	{
@@ -528,6 +542,13 @@ curl -sH 'accept: application/dns-json' \\
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Domain_Name_System',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc1035'
+		},
+		image: {
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Paul_Mockapetris.JPG/600px-Paul_Mockapetris.JPG',
+			alt: 'Paul Mockapetris, inventor of the Domain Name System (DNS)',
+			caption:
+				"Paul Mockapetris invented DNS in 1983, replacing the single HOSTS.TXT file that had mapped every computer name on the ARPANET. His hierarchical, distributed naming system now handles trillions of queries per day.",
+			credit: 'Photo: Wikimedia Commons / CC BY-SA 3.0'
 		}
 	},
 	{
@@ -715,6 +736,13 @@ DHCP ACK:
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Dynamic_Host_Configuration_Protocol',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc2131'
+		},
+		image: {
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/19-inch_rackmount_Ethernet_switches_and_patch_panels.jpg/600px-19-inch_rackmount_Ethernet_switches_and_patch_panels.jpg',
+			alt: '19-inch rack with managed D-Link Gigabit Ethernet switches and Panduit patch panels connected with Category 6 cables',
+			caption:
+				'A network rack with managed Ethernet switches and patch panels — the kind of infrastructure where DHCP does its work, automatically assigning IP addresses to every connected device without manual configuration.',
+			credit: 'Photo: Dsimic / CC BY-SA 4.0, via Wikimedia Commons'
 		}
 	},
 	{
@@ -875,6 +903,13 @@ sudo ntpdate pool.ntp.org`
 			wikipedia: 'https://en.wikipedia.org/wiki/Network_Time_Protocol',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc5905',
 			official: 'https://www.ntp.org/'
+		},
+		image: {
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Nist-f1.jpg/600px-Nist-f1.jpg',
+			alt: 'NIST-F1 cesium fountain atomic clock at the National Institute of Standards and Technology',
+			caption:
+				'The NIST-F1 cesium fountain atomic clock — accurate to one second in 100 million years. Atomic clocks like this are the ultimate time source (Stratum 0) that NTP distributes to every device on the internet.',
+			credit: 'Photo: NIST / Public Domain, via Wikimedia Commons'
 		}
 	},
 	{
@@ -1029,6 +1064,13 @@ Server: 221 2.0.0 Bye`
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Simple_Mail_Transfer_Protocol',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc5321'
+		},
+		image: {
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Jon_Postel.jpg/600px-Jon_Postel.jpg',
+			alt: 'Jon Postel, internet pioneer and author of the original SMTP specification (RFC 821)',
+			caption:
+				"Jon Postel wrote RFC 821 (SMTP) in 1982, defining how email moves across the internet. Known as the \"god of the internet,\" he also managed IANA and authored or co-authored over 200 RFCs.",
+			credit: 'Photo: Irene Fertik / USC News Service / CC BY-SA 3.0, via Wikimedia Commons'
 		}
 	},
 	{
@@ -1184,6 +1226,13 @@ Server: 221 Goodbye`
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/File_Transfer_Protocol',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc959'
+		},
+		image: {
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Teletype-IMG_7287.jpg/600px-Teletype-IMG_7287.jpg',
+			alt: 'Vintage Teletype terminal used for early computer communication and file transfer',
+			caption:
+				'A Teletype terminal — FTP\'s ancestor. The first FTP specification (RFC 114) was written in 1971 for the ARPANET, making it one of the oldest internet protocols still in use. File transfer predates the web by over two decades.',
+			credit: 'Photo: Wikimedia Commons / CC BY-SA 3.0'
 		}
 	}
 ];

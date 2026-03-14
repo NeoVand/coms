@@ -13,6 +13,7 @@ interface RenderOptions {
 	edges: GraphEdge[];
 	hoveredNode: GraphNode | null;
 	selectedNode: GraphNode | null;
+	compareTargetId?: string | null;
 	time: number;
 	dpr: number;
 	layoutMode?: LayoutMode;
@@ -38,17 +39,26 @@ function buildNodeMap(nodes: GraphNode[]) {
 // Cache connected node IDs for the currently selected protocol
 const connectedIds: Set<string> = new Set();
 
-function updateConnectedIds(selectedNode: GraphNode | null): void {
+function updateConnectedIds(selectedNode: GraphNode | null, compareTargetId?: string | null): void {
 	connectedIds.clear();
 	if (selectedNode?.type === 'protocol') {
-		const proto = getProtocolById(selectedNode.id);
-		if (proto) {
-			for (const id of proto.connections) connectedIds.add(id);
+		if (compareTargetId) {
+			// Comparison mode: only the compare target is "connected"
+			connectedIds.add(compareTargetId);
+		} else {
+			const proto = getProtocolById(selectedNode.id);
+			if (proto) {
+				for (const id of proto.connections) connectedIds.add(id);
+			}
 		}
 	}
 }
 
-function isNodeDimmed(node: GraphNode, selectedNode: GraphNode | null): boolean {
+function isNodeDimmed(node: GraphNode, selectedNode: GraphNode | null, compareTargetId?: string | null): boolean {
+	// Comparison mode: only the two compared nodes stay bright
+	if (compareTargetId && selectedNode) {
+		return node.id !== selectedNode.id && node.id !== compareTargetId;
+	}
 	if (selectedNode && selectedNode.id !== node.id) {
 		if (selectedNode.type === 'category') {
 			return (node.type === 'protocol' && node.categoryId !== selectedNode.id) || node.type === 'hub';
@@ -65,11 +75,11 @@ function isNodeDimmed(node: GraphNode, selectedNode: GraphNode | null): boolean 
 }
 
 export function render(ctx: CanvasRenderingContext2D, options: RenderOptions): void {
-	const { width, height, viewport, nodes, edges, hoveredNode, selectedNode, time, dpr, layoutMode } =
+	const { width, height, viewport, nodes, edges, hoveredNode, selectedNode, compareTargetId, time, dpr, layoutMode } =
 		options;
 
 	buildNodeMap(nodes);
-	updateConnectedIds(selectedNode);
+	updateConnectedIds(selectedNode, compareTargetId);
 
 	ctx.save();
 	ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -110,7 +120,7 @@ export function render(ctx: CanvasRenderingContext2D, options: RenderOptions): v
 
 	// Draw related protocol edges (dashed)
 	if (selectedNode && selectedNode.type === 'protocol') {
-		drawRelatedEdges(ctx, selectedNode, time);
+		drawRelatedEdges(ctx, selectedNode, time, compareTargetId);
 	}
 
 	// Update hover animations (smooth interpolation each frame)
@@ -129,7 +139,7 @@ export function render(ctx: CanvasRenderingContext2D, options: RenderOptions): v
 
 	// Update dim animations (smooth fade in/out)
 	for (const node of nodes) {
-		const targetDim = isNodeDimmed(node, selectedNode) ? 1 : 0;
+		const targetDim = isNodeDimmed(node, selectedNode, compareTargetId) ? 1 : 0;
 		const current = dimAnim.get(node.id) ?? 0;
 		const speed = targetDim > current ? DIM_EASE_IN : DIM_EASE_OUT;
 		const next = current + (targetDim - current) * speed;
@@ -163,18 +173,24 @@ export function render(ctx: CanvasRenderingContext2D, options: RenderOptions): v
 function drawRelatedEdges(
 	ctx: CanvasRenderingContext2D,
 	selectedNode: GraphNode,
-	time: number
+	time: number,
+	compareTargetId?: string | null
 ): void {
-	const proto = getProtocolById(selectedNode.id);
-	if (!proto || !proto.connections.length) return;
-
 	// Use the live position from NODE_MAP so the edges animate during layout transitions
 	const liveNode = NODE_MAP.get(selectedNode.id) ?? selectedNode;
+
+	// In comparison mode, only show edge to comparison target
+	// In normal mode, show all connected protocol edges
+	const connectionIds = compareTargetId
+		? [compareTargetId]
+		: (getProtocolById(selectedNode.id)?.connections ?? []);
+
+	if (connectionIds.length === 0) return;
 
 	ctx.save();
 	ctx.setLineDash([6, 4]);
 
-	for (const connId of proto.connections) {
+	for (const connId of connectionIds) {
 		const targetNode = NODE_MAP.get(connId);
 		if (!targetNode) continue;
 
@@ -190,8 +206,8 @@ function drawRelatedEdges(
 		ctx.beginPath();
 		ctx.moveTo(liveNode.x, liveNode.y);
 		ctx.quadraticCurveTo(cpx, cpy, targetNode.x, targetNode.y);
-		ctx.strokeStyle = hexToRgba(selectedNode.color, 0.25);
-		ctx.lineWidth = 1.0;
+		ctx.strokeStyle = hexToRgba(selectedNode.color, compareTargetId ? 0.4 : 0.25);
+		ctx.lineWidth = compareTargetId ? 1.5 : 1.0;
 		ctx.stroke();
 	}
 
@@ -432,6 +448,12 @@ function drawNode(
 		}
 	}
 
+	// Hub icon inside hub node
+	if (type === 'hub') {
+		const iconSize = r * 1.1;
+		drawHubIcon(ctx, x, y, iconSize, dimT);
+	}
+
 	// Label — show for non-dimmed nodes and connected nodes
 	if (dimT < 0.95 || isConnected) {
 		const fontSize = type === 'hub' ? 11 : type === 'category' ? 10 : 9;
@@ -444,7 +466,7 @@ function drawNode(
 					? node.abbreviation || node.label
 					: showLabel
 						? type === 'hub'
-							? '< / > PROTOCOLS'
+							? 'PROTOCOLS'
 							: type === 'category'
 								? node.label
 								: node.abbreviation || node.label
@@ -508,6 +530,79 @@ function drawRealtimeAvIcon(ctx: CanvasRenderingContext2D): void {
 function drawUtilitiesIcon(ctx: CanvasRenderingContext2D): void {
 	ctx.stroke(new Path2D('M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z'));
 	ctx.stroke(new Path2D('M9 12l2 2 4-4'));
+}
+
+function drawHubIcon(
+	ctx: CanvasRenderingContext2D,
+	x: number,
+	y: number,
+	size: number,
+	dimT: number
+): void {
+	ctx.save();
+	ctx.translate(x, y);
+	const s = size / 24;
+	ctx.scale(s, s);
+	ctx.translate(-12, -12);
+
+	const alpha = 1 - 0.85 * dimT;
+	ctx.globalAlpha = alpha;
+	ctx.lineCap = 'round';
+
+	// Network constellation — matches app header icon
+	// Positions mapped from 20x20 viewBox to 24x24 coordinate space (×1.2)
+	const top = { x: 12, y: 3.6 };
+	const bl = { x: 4.8, y: 16.2 };
+	const br = { x: 19.2, y: 16.2 };
+	const center = { x: 12, y: 12 };
+
+	// Drop shadow behind all icon elements for contrast on white node
+	ctx.shadowColor = 'rgba(0, 0, 0, 0.35)';
+	ctx.shadowBlur = 3;
+
+	// Connecting lines from center to outer nodes
+	ctx.lineWidth = 1.4;
+	ctx.strokeStyle = `rgba(110, 231, 183, ${0.6 * alpha})`;
+	ctx.beginPath();
+	ctx.moveTo(center.x, 10.2);
+	ctx.lineTo(top.x, 6);
+	ctx.stroke();
+	ctx.strokeStyle = `rgba(196, 181, 253, ${0.6 * alpha})`;
+	ctx.beginPath();
+	ctx.moveTo(10.6, 13);
+	ctx.lineTo(6.7, 14.8);
+	ctx.stroke();
+	ctx.strokeStyle = `rgba(125, 211, 252, ${0.6 * alpha})`;
+	ctx.beginPath();
+	ctx.moveTo(13.4, 13);
+	ctx.lineTo(17.3, 14.8);
+	ctx.stroke();
+
+	// Outer nodes
+	ctx.globalAlpha = alpha;
+	const n1 = new Path2D();
+	n1.arc(top.x, top.y, 2.4, 0, Math.PI * 2);
+	ctx.fillStyle = '#6ee7b7';
+	ctx.fill(n1);
+	const n2 = new Path2D();
+	n2.arc(bl.x, bl.y, 2.4, 0, Math.PI * 2);
+	ctx.fillStyle = '#c4b5fd';
+	ctx.fill(n2);
+	const n3 = new Path2D();
+	n3.arc(br.x, br.y, 2.4, 0, Math.PI * 2);
+	ctx.fillStyle = '#7dd3fc';
+	ctx.fill(n3);
+
+	// Center hub
+	const ch = new Path2D();
+	ch.arc(center.x, center.y, 1.8, 0, Math.PI * 2);
+	ctx.fillStyle = '#e2e8f0';
+	ctx.fill(ch);
+
+	ctx.shadowColor = 'transparent';
+	ctx.shadowBlur = 0;
+
+	ctx.restore();
 }
 
 function drawCategoryIcon(

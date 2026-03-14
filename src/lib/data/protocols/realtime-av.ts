@@ -164,6 +164,13 @@ STUN Response:
 			wikipedia: 'https://en.wikipedia.org/wiki/WebRTC',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc8825',
 			official: 'https://webrtc.org/'
+		},
+		image: {
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Video_Conference_Using_Laptop.jpg/600px-Video_Conference_Using_Laptop.jpg',
+			alt: 'Person participating in a video conference on a laptop, demonstrating WebRTC-powered real-time communication',
+			caption:
+				'WebRTC made this possible directly in the browser — no plugins, no downloads. Peer-to-peer video calls, screen sharing, and data channels all run natively in Chrome, Firefox, and Safari.',
+			credit: 'Photo: Visuals / CC BY 2.0, via Wikimedia Commons'
 		}
 	},
 	{
@@ -328,6 +335,13 @@ tcpdump -i eth0 udp port 5004 -w rtp_capture.pcap`
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Real-time_Transport_Protocol',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc3550'
+		},
+		image: {
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/SIPNOC_2012_-_FCC_CTO_Henning_Schulzrinne_%287838924022%29.jpg/600px-SIPNOC_2012_-_FCC_CTO_Henning_Schulzrinne_%287838924022%29.jpg',
+			alt: 'Henning Schulzrinne, co-creator of RTP, speaking at SIPNOC 2012',
+			caption:
+				'Henning Schulzrinne co-authored RTP (RFC 3550) and SIP — two protocols that underpin modern VoIP and video conferencing. He later served as CTO of the FCC.',
+			credit: 'Photo: SIPNOC / CC BY 2.0, via Wikimedia Commons'
 		}
 	},
 	{
@@ -501,6 +515,13 @@ a=rtpmap:97 opus/48000/2`
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Session_Initiation_Protocol',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc3261'
+		},
+		image: {
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Cisco_IP_Phone_7965.jpeg/600px-Cisco_IP_Phone_7965.jpeg',
+			alt: 'Cisco IP Phone 7965, a SIP-based VoIP telephone used in enterprise environments',
+			caption:
+				'The Cisco IP Phone 7965 — a SIP workhorse found in millions of offices worldwide. SIP handles the signaling (ringing, connecting, hanging up) while RTP carries the actual voice data.',
+			credit: 'Photo: Wikimedia Commons / CC BY-SA 3.0'
 		}
 	},
 	{
@@ -665,6 +686,13 @@ https://cdn.example.com/stream_720p/seg_2683.ts
 			wikipedia: 'https://en.wikipedia.org/wiki/HTTP_Live_Streaming',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc8216',
 			official: 'https://developer.apple.com/streaming/'
+		},
+		image: {
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Original_iPhone_docked.jpg/600px-Original_iPhone_docked.jpg',
+			alt: 'The original iPhone (2007) docked in its charging cradle',
+			caption:
+				'The original iPhone — Apple created HLS in 2009 specifically to stream video to iPhones over unreliable cellular networks. Its adaptive bitrate approach dynamically adjusts quality based on bandwidth.',
+			credit: 'Photo: Carl Berkeley / CC BY 2.0, via Wikimedia Commons'
 		}
 	},
 	{
@@ -843,6 +871,13 @@ Client → Server (C2):
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Real-Time_Messaging_Protocol',
 			official: 'https://rtmp.veriskope.com/docs/spec/'
+		},
+		image: {
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Macromedia_6_media.jpg/600px-Macromedia_6_media.jpg',
+			alt: 'Macromedia product packaging including Flash MX and other multimedia tools',
+			caption:
+				'Macromedia (later acquired by Adobe) created RTMP for Flash Player in 2002. For over a decade, RTMP was the dominant protocol for live streaming on the web, powering everything from YouTube to Twitch.',
+			credit: 'Photo: Wikimedia Commons / CC BY-SA 3.0'
 		}
 	},
 	{
@@ -1024,6 +1059,13 @@ a=rtcp-fb:96 nack pli`
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Session_Description_Protocol',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc8866'
+		},
+		image: {
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Early_CTS-3000_Prototype.jpg/600px-Early_CTS-3000_Prototype.jpg',
+			alt: 'Early Cisco TelePresence CTS-3000 prototype, a high-end video conferencing system',
+			caption:
+				'The Cisco TelePresence CTS-3000 prototype — the kind of immersive video conferencing system that relies on SDP to negotiate media capabilities. SDP describes codecs, network addresses, and media types so endpoints can agree on how to communicate.',
+			credit: 'Photo: Cisco Systems / CC BY 2.0, via Wikimedia Commons'
 		}
 	},
 	{

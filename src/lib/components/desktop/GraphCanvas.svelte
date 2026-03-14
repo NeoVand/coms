@@ -78,6 +78,31 @@
 		prevSelected = selected;
 	});
 
+	// React to comparison target changes — focus on just the two compared nodes
+	let prevCompareTargetId: string | null = null;
+
+	$effect(() => {
+		const compareId = appState.compareTargetId;
+		const selected = appState.selectedNode;
+
+		if (compareId && selected) {
+			// Focus viewport on the two compared nodes
+			untrack(() => {
+				const targetNode = nodes.find((n) => n.id === compareId);
+				if (targetNode) {
+					appState.focusOnSubgraph([selected, targetNode], width, height);
+				}
+			});
+		} else if (prevCompareTargetId && !compareId && selected) {
+			// Comparison cleared — refocus on full connected subgraph
+			untrack(() => {
+				appState.focusOnSubgraph(getHighlightedNodes(selected), width, height);
+			});
+		}
+
+		prevCompareTargetId = compareId;
+	});
+
 	// React to layout mode changes — animate nodes to new positions
 	$effect(() => {
 		const mode = appState.layoutMode;
@@ -276,6 +301,7 @@
 				edges,
 				hoveredNode: appState.hoveredNode,
 				selectedNode: appState.selectedNode,
+				compareTargetId: appState.detailViewMode === 'compare' ? appState.compareTargetId : null,
 				time,
 				dpr,
 				layoutMode: appState.layoutMode

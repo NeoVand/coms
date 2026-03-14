@@ -116,6 +116,13 @@ curl -v https://example.com/api/users/42`
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/HTTP',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc9112'
+		},
+		image: {
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/NCSA_Mosaic_Browser_Screenshot.png/600px-NCSA_Mosaic_Browser_Screenshot.png',
+			alt: 'Screenshot of NCSA Mosaic web browser from 1993, one of the first graphical web browsers',
+			caption:
+				'NCSA Mosaic (1993) — the browser that brought HTTP to the masses. Before Mosaic, the web was text-only. Its ability to display images inline alongside text sparked the web revolution.',
+			credit: 'Image: NCSA / Public Domain, via Wikimedia Commons'
 		}
 	},
 	{
@@ -236,6 +243,13 @@ curl --http2 -v https://example.com 2>&1 | grep "< HTTP"`
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/HTTP/2',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc9113'
+		},
+		image: {
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Wikimedia_Foundation_Servers-8055_35.jpg/600px-Wikimedia_Foundation_Servers-8055_35.jpg',
+			alt: 'Wikimedia Foundation server racks in a data center, representing modern web infrastructure',
+			caption:
+				'Modern web servers like these at the Wikimedia Foundation serve billions of requests over HTTP/2. Its binary framing and multiplexing made the single-connection model practical at massive scale.',
+			credit: 'Photo: Wikimedia Foundation / CC BY-SA 3.0, via Wikimedia Commons'
 		}
 	},
 	{
@@ -358,6 +372,13 @@ curl --http3-only https://cloudflare-quic.com`
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/HTTP/3',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc9114'
+		},
+		image: {
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Googleplex-Patio-Aug-2014.JPG/600px-Googleplex-Patio-Aug-2014.JPG',
+			alt: 'The Googleplex campus in Mountain View, California, where QUIC and HTTP/3 were developed',
+			caption:
+				'The Googleplex in Mountain View — birthplace of QUIC and HTTP/3. Google engineers designed these protocols to eliminate TCP\'s head-of-line blocking and speed up the web for billions of users.',
+			credit: 'Photo: The Pancake of Heaven! / CC BY-SA 4.0, via Wikimedia Commons'
 		}
 	},
 	{
@@ -604,6 +625,13 @@ grpcurl -plaintext localhost:50051 UserService/ListUsers`
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/GRPC',
 			official: 'https://grpc.io/'
+		},
+		image: {
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Google_Corkboard_Server_Rack.jpg/600px-Google_Corkboard_Server_Rack.jpg',
+			alt: "Google's original corkboard server rack from 1999, now at the Computer History Museum",
+			caption:
+				"Google's original 1999 server rack — built from corkboard and spare parts. Google later created gRPC to handle the massive scale of inter-service communication across its data centers, using Protocol Buffers and HTTP/2.",
+			credit: 'Photo: Wikimedia Commons / CC BY 2.0'
 		}
 	},
 	{
@@ -745,6 +773,13 @@ curl -X POST https://api.example.com/graphql \\
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/GraphQL',
 			official: 'https://graphql.org/'
+		},
+		image: {
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Facebook_Headquarters_Menlo_Park.jpg/600px-Facebook_Headquarters_Menlo_Park.jpg',
+			alt: 'Facebook headquarters in Menlo Park, California, where GraphQL was created',
+			caption:
+				'Facebook\'s headquarters in Menlo Park — where GraphQL was created in 2012 to power the News Feed on mobile. The query language solved the over-fetching problem that REST APIs couldn\'t.',
+			credit: 'Photo: Marcin Wichary / CC BY 2.0, via Wikimedia Commons'
 		}
 	},
 	{
@@ -991,6 +1026,13 @@ curl -X DELETE https://api.example.com/users/42`
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/REST',
 			official: 'https://ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm'
+		},
+		image: {
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Roy_Fielding_%28cropped%29.jpg/600px-Roy_Fielding_%28cropped%29.jpg',
+			alt: 'Roy Fielding, the computer scientist who defined REST in his doctoral dissertation',
+			caption:
+				'Roy Fielding defined REST in his 2000 doctoral dissertation at UC Irvine. His architectural style — resources, stateless requests, standard HTTP methods — became the dominant pattern for web APIs worldwide.',
+			credit: 'Photo: Darin Briskman / CC BY 2.0, via Wikimedia Commons'
 		}
 	}
 ];

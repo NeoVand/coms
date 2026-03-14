@@ -165,6 +165,13 @@ Client → Server  [ACK]
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Transmission_Control_Protocol',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc9293'
+		},
+		image: {
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Vint_Cerf_-_2010.jpg/600px-Vint_Cerf_-_2010.jpg',
+			alt: 'Vint Cerf, co-inventor of TCP/IP, in 2010',
+			caption:
+				"Vint Cerf co-designed TCP with Bob Kahn in 1974 — the protocol that guarantees every byte arrives in order, enabling reliable communication across the internet.",
+			credit: 'Photo: Joi Ito / CC BY 2.0, via Wikimedia Commons'
 		}
 	},
 	{
@@ -313,6 +320,13 @@ ss -un  # or: netstat -un`
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/User_Datagram_Protocol',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc768'
+		},
+		image: {
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Arpanet_1974.svg/600px-Arpanet_1974.svg.png',
+			alt: 'Map of the ARPANET in 1974, showing interconnected nodes across the United States',
+			caption:
+				'The ARPANET in 1974 — the network where UDP was born. While TCP guaranteed delivery, UDP offered raw speed for the applications that needed it most.',
+			credit: 'Image: ARPANET / Public Domain, via Wikimedia Commons'
 		}
 	},
 	{
@@ -471,6 +485,13 @@ sudo tcpdump -i any udp port 443`
 			wikipedia: 'https://en.wikipedia.org/wiki/QUIC',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc9000',
 			official: 'https://quicwg.org/'
+		},
+		image: {
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Google_Data_Center%2C_The_Dalles.jpg/600px-Google_Data_Center%2C_The_Dalles.jpg',
+			alt: 'Google data center in The Dalles, Oregon, with rows of colorful server racks',
+			caption:
+				'Google\'s data center in The Dalles, Oregon — where QUIC was born. Google developed QUIC internally starting in 2012 to replace TCP+TLS, deploying it across Chrome and YouTube before standardizing it as RFC 9000.',
+			credit: 'Photo: Google / CC BY 2.0, via Wikimedia Commons'
 		}
 	},
 	{
@@ -628,6 +649,13 @@ SCTP INIT-ACK Chunk:
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Stream_Control_Transmission_Protocol',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc9260'
+		},
+		image: {
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Cellular_5G_Equipment_-_Cell_Tower_Antennas.jpg/600px-Cellular_5G_Equipment_-_Cell_Tower_Antennas.jpg',
+			alt: '5G cellular antennas on a cell tower, representing the telecom infrastructure that relies heavily on SCTP',
+			caption:
+				'5G cellular antennas — SCTP is the transport backbone of modern mobile networks. Every 4G and 5G base station uses SCTP for signaling between the radio equipment and the core network.',
+			credit: 'Photo: Wikimedia Commons / CC BY-SA 4.0'
 		}
 	},
 	{
@@ -791,6 +819,13 @@ TCP SYN-ACK + MP_JOIN:
 			wikipedia: 'https://en.wikipedia.org/wiki/Multipath_TCP',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc8684',
 			official: 'https://www.mptcp.dev/'
+		},
+		image: {
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Network_switches.jpg/600px-Network_switches.jpg',
+			alt: 'Multiple network switches stacked together with Ethernet cables, illustrating multipath networking',
+			caption:
+				'Multiple network paths in action — MPTCP bonds connections across separate interfaces (WiFi + cellular, multiple Ethernet links) to boost throughput and resilience.',
+			credit: 'Photo: Wikimedia Commons / CC BY-SA 3.0'
 		}
 	}
 ];

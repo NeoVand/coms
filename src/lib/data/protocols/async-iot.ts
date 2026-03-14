@@ -160,6 +160,13 @@ Payload:
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/MQTT',
 			official: 'https://mqtt.org/'
+		},
+		image: {
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Andy_Stanford-Clark_%284995549809%29.jpg/600px-Andy_Stanford-Clark_%284995549809%29.jpg',
+			alt: 'Andy Stanford-Clark, co-inventor of MQTT, speaking at an event',
+			caption:
+				'Andy Stanford-Clark co-invented MQTT at IBM in 1999 for monitoring oil pipelines via satellite. His lightweight protocol — with a 2-byte minimum header — became the lingua franca of IoT.',
+			credit: 'Photo: Karora / Public Domain, via Wikimedia Commons'
 		}
 	},
 	{
@@ -327,6 +334,13 @@ Content Body:
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Advanced_Message_Queuing_Protocol',
 			official: 'https://www.amqp.org/'
+		},
+		image: {
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Pieter_Hintjens_at_EuroPython2014_%28cropped%29.jpg/600px-Pieter_Hintjens_at_EuroPython2014_%28cropped%29.jpg',
+			alt: 'Pieter Hintjens, CEO of iMatix and key AMQP contributor, speaking at EuroPython 2014',
+			caption:
+				'Pieter Hintjens, CEO of iMatix, was a driving force behind AMQP and the creator of ZeroMQ. His work on open messaging standards helped shape enterprise message queuing as we know it.',
+			credit: 'Photo: EuroPython / CC BY 2.0, via Wikimedia Commons'
 		}
 	},
 	{
@@ -491,6 +505,13 @@ coap-client -m get coap://sensor.local/.well-known/core`
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Constrained_Application_Protocol',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc7252'
+		},
+		image: {
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Arduino_Uno_-_R3.jpg/600px-Arduino_Uno_-_R3.jpg',
+			alt: 'Arduino Uno microcontroller board, representative of the constrained IoT devices CoAP was designed for',
+			caption:
+				'An Arduino Uno — the kind of constrained device CoAP was designed for. With limited RAM and processing power, these microcontrollers need a protocol lighter than HTTP. CoAP delivers REST semantics in as little as 4 bytes of header.',
+			credit: 'Photo: SparkFun Electronics / CC BY 2.0, via Wikimedia Commons'
 		}
 	},
 	{
@@ -878,6 +899,13 @@ Server → Contacts (broadcast):
 			wikipedia: 'https://en.wikipedia.org/wiki/XMPP',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc6120',
 			official: 'https://xmpp.org/'
+		},
+		image: {
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Jeremie_Miller_at_SXSW_2011_%28cropped%29.jpg/600px-Jeremie_Miller_at_SXSW_2011_%28cropped%29.jpg',
+			alt: 'Jeremie Miller, creator of Jabber/XMPP, at SXSW 2011',
+			caption:
+				'Jeremie Miller created Jabber (later XMPP) in 1999 because he was tired of juggling four different instant messaging clients. His federated, open protocol went on to power Google Talk, early WhatsApp, and Facebook Messenger.',
+			credit: 'Photo: SXSW / CC BY 2.0, via Wikimedia Commons'
 		}
 	},
 	{
@@ -1073,6 +1101,13 @@ kafka-consumer-groups.sh \\
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Apache_Kafka',
 			official: 'https://kafka.apache.org/protocol/'
+		},
+		image: {
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Jay_Kreps.jpg/600px-Jay_Kreps.jpg',
+			alt: 'Jay Kreps, co-creator of Apache Kafka and CEO of Confluent',
+			caption:
+				'Jay Kreps co-created Apache Kafka at LinkedIn in 2011 to handle the firehose of real-time activity data. He later founded Confluent to commercialize Kafka, which now processes trillions of events daily across thousands of organizations.',
+			credit: 'Photo: Wikimedia Commons / CC BY-SA 4.0'
 		}
 	}
 ];

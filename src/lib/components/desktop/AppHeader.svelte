@@ -9,12 +9,16 @@
 	<div class="flex items-center gap-2.5 px-1">
 		<!-- Network constellation icon -->
 		<svg viewBox="0 0 20 20" class="h-5 w-5 shrink-0" fill="none">
-			<circle cx="4" cy="5" r="2" fill="#6ee7b7" />
-			<circle cx="16" cy="5" r="2" fill="#7dd3fc" />
-			<circle cx="10" cy="16" r="2" fill="#c4b5fd" />
-			<line x1="5.7" y1="6.2" x2="8.8" y2="14.5" stroke="#6ee7b780" stroke-width="1.2" />
-			<line x1="14.3" y1="6.2" x2="11.2" y2="14.5" stroke="#7dd3fc80" stroke-width="1.2" />
-			<line x1="6" y1="5" x2="14" y2="5" stroke="#a5b4fc60" stroke-width="1.2" />
+			<!-- Connecting lines (behind nodes) -->
+			<line x1="10" y1="8.5" x2="10" y2="5" stroke="#6ee7b7" stroke-width="1.2" opacity="0.5" />
+			<line x1="8.8" y1="10.8" x2="5.6" y2="12.3" stroke="#c4b5fd" stroke-width="1.2" opacity="0.5" />
+			<line x1="11.2" y1="10.8" x2="14.4" y2="12.3" stroke="#7dd3fc" stroke-width="1.2" opacity="0.5" />
+			<!-- Outer nodes — equilateral triangle -->
+			<circle cx="10" cy="3" r="2" fill="#6ee7b7" />
+			<circle cx="4" cy="13.5" r="2" fill="#c4b5fd" />
+			<circle cx="16" cy="13.5" r="2" fill="#7dd3fc" />
+			<!-- Center hub -->
+			<circle cx="10" cy="10" r="1.5" fill="#e2e8f0" />
 		</svg>
 		<span class="text-sm font-semibold tracking-wide text-slate-200">Protocol Lab</span>
 	</div>

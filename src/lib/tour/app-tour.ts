@@ -19,6 +19,7 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 	const savedSelectedNode = appState.selectedNode;
 	const savedShowDetailPanel = appState.showDetailPanel;
 	const savedViewMode = appState.detailViewMode;
+	const savedCompareTarget = appState.compareTargetId;
 
 	let tourDriver: ReturnType<typeof driver>;
 
@@ -43,8 +44,8 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 					title: 'Welcome to Protocol Lab',
 					description:
 						'An interactive explorer for the protocols that power the internet. ' +
-						'Learn how they work, read real code, and <strong>run step-by-step simulations</strong> — all in one place.' +
-						'<br><br><span class="tour-hint">Takes about 60 seconds &middot; 10 stops</span>'
+						'Learn how they work, read real code, <strong>run step-by-step simulations</strong>, and compare protocols side by side.' +
+						'<br><br><span class="tour-hint">Takes about 60 seconds &middot; 11 stops</span>'
 				},
 				onHighlighted: () => {
 					appState.clearSelection();
@@ -65,14 +66,15 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 					if (tcpNode) appState.selectNode(tcpNode);
 				}
 			},
-			// ── Step 3: Graph Layouts ──
+			// ── Step 3: Zoom & Graph Layouts ──
 			{
 				element: '[data-tour="layout-picker"]',
 				popover: {
-					title: 'Multiple Views',
+					title: 'Zoom & Layout',
 					description:
-						'Switch how the graph is arranged:' +
-						'<br><br><strong>Force</strong> &mdash; physics-based clustering by connections' +
+						'Use <strong>+/&minus;</strong> to zoom, or click the percentage to reset.' +
+						'<br><br>Switch how the graph is arranged:' +
+						'<br><strong>Force</strong> &mdash; physics-based clustering by connections' +
 						'<br><strong>Radial</strong> &mdash; concentric rings grouped by category' +
 						'<br><strong>Timeline</strong> &mdash; protocols plotted by year, from 1969 to today'
 				},
@@ -85,7 +87,7 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 					title: 'Protocol Deep-Dives',
 					description:
 						'Select any protocol and this panel opens with everything you need — ' +
-						'an overview, sequence diagrams, step-by-step breakdowns, code examples, performance stats, and links to related protocols.' +
+						'an overview, sequence diagrams, step-by-step breakdowns, code examples, performance stats, and protocol comparisons.' +
 						'<br><br><span class="tour-hint">Drag the left edge to resize</span>',
 					side: 'left' as const,
 					align: 'start' as const
@@ -153,14 +155,16 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 					requestAnimationFrame(() => tourDriver.refresh());
 				}
 			},
-			// ── Step 8: Learn / Simulate Tabs ──
+			// ── Step 8: Three Modes ──
 			{
 				element: '[data-tour="simulator-tabs"]',
 				popover: {
-					title: 'Learn & Simulate',
+					title: 'Learn, Simulate & Compare',
 					description:
-						'Every protocol has two modes. <strong>Learn</strong> gives you documentation, diagrams, and code. ' +
-						'<strong>Simulate</strong> lets you run an interactive, step-by-step walkthrough of the protocol in action.',
+						'Every protocol has three modes. ' +
+						'<strong>Learn</strong> gives you documentation, diagrams, and code. ' +
+						'<strong>Simulate</strong> runs an interactive step-by-step walkthrough. ' +
+						'<strong>Compare</strong> shows side-by-side differences with related protocols.',
 					side: 'left' as const,
 					align: 'center' as const
 				},
@@ -168,7 +172,7 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 					scrollPanelToTop();
 				},
 				onHighlighted: () => {
-					// Switch to simulate now so the element exists when step 9 activates
+					// Switch to simulate so the element exists when step 9 activates
 					appState.detailViewMode = 'simulate';
 					requestAnimationFrame(() => tourDriver.refresh());
 				}
@@ -193,7 +197,27 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 					requestAnimationFrame(() => tourDriver.refresh());
 				}
 			},
-			// ── Step 10: Farewell ──
+			// ── Step 10: Compare View ──
+			{
+				element: '[data-tour="compare-view"]',
+				popover: {
+					title: 'Protocol Comparisons',
+					description:
+						'See how protocols stack up. Pick a pair to compare key differences, ' +
+						'learn when to use each, or explore how two protocols work together — like TCP and TLS.',
+					side: 'left' as const,
+					align: 'start' as const
+				},
+				onHighlightStarted: () => {
+					appState.detailViewMode = 'compare';
+					appState.compareTargetId = null;
+					scrollPanelToTop();
+				},
+				onHighlighted: () => {
+					requestAnimationFrame(() => tourDriver.refresh());
+				}
+			},
+			// ── Step 11: Farewell ──
 			{
 				popover: {
 					title: "You're Ready to Explore!",
@@ -204,7 +228,8 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 						'<strong style="color: #00d4ff">HTTP/3</strong>, or ' +
 						'see pub/sub in action with ' +
 						'<strong style="color: #c084fc">MQTT</strong>.' +
-						'<br><br>Try different <strong>graph layouts</strong> to spot patterns, and don\'t forget to <strong>run the simulations</strong>!' +
+						'<br><br>Try different <strong>graph layouts</strong>, <strong>run the simulations</strong>, ' +
+						'and <strong>compare protocols</strong> to see how they differ!' +
 						'<br><br><span class="tour-hint">Hit <strong>?</strong> anytime to replay this tour</span>'
 				},
 				onHighlighted: () => {
@@ -214,6 +239,7 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 		],
 		onDestroyed: () => {
 			appState.detailViewMode = savedViewMode;
+			appState.compareTargetId = savedCompareTarget;
 			if (savedSelectedNode && savedShowDetailPanel) {
 				appState.selectNode(savedSelectedNode);
 			} else {

@@ -18,6 +18,7 @@
 	import CategoryStoryView from './category-story/CategoryStoryView.svelte';
 	import { getCategoryStory } from '$lib/data/category-stories/index';
 	import StoryNarrative from './category-story/StoryNarrative.svelte';
+	import StoryImage from './category-story/StoryImage.svelte';
 	import SimulatorTabs from '$lib/simulator/components/SimulatorTabs.svelte';
 	import SimulatorView from '$lib/simulator/components/SimulatorView.svelte';
 	import { hasSimulation } from '$lib/simulator/simulations/index';
@@ -166,7 +167,7 @@
 							</span>
 							<div>
 								<div class="text-sm font-medium text-slate-200">Three Graph Views</div>
-								<p class="mt-0.5 text-xs text-slate-400">Switch between Force (physics-based clustering), Radial (concentric rings), and Timeline (chronological from 1969 to today) using the layout picker in the top bar.</p>
+								<p class="mt-0.5 text-xs text-slate-400">Switch between Force (physics-based clustering), Radial (concentric rings), and Timeline (chronological from 1969 to today) using the layout picker at the bottom left.</p>
 							</div>
 						</div>
 					</div>
@@ -181,6 +182,20 @@
 							<div>
 								<div class="text-sm font-medium text-slate-200">Stories Behind the Protocols</div>
 								<p class="mt-0.5 text-xs text-slate-400">Each category tells the full history — the pioneers who invented TCP/IP, the design battles between reliability and speed, timelines, portraits, and conceptual diagrams.</p>
+							</div>
+						</div>
+					</div>
+
+					<div class="rounded-xl border border-rose-500/10 bg-rose-500/[0.04] p-3">
+						<div class="flex items-start gap-3">
+							<span class="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-rose-400/10 text-rose-400">
+								<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+									<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"/>
+								</svg>
+							</span>
+							<div>
+								<div class="text-sm font-medium text-slate-200">Protocol Comparisons</div>
+								<p class="mt-0.5 text-xs text-slate-400">Compare protocols side by side — see key differences, when to use each, and how they relate. Switch to the Compare tab on any protocol to explore.</p>
 							</div>
 						</div>
 					</div>
@@ -232,6 +247,10 @@
 						<div class="flex items-start gap-2">
 							<span class="mt-px text-slate-600">&rsaquo;</span>
 							<p><span class="text-slate-300">Switch to Simulate</span> on any protocol to watch its exchange play out step by step.</p>
+						</div>
+						<div class="flex items-start gap-2">
+							<span class="mt-px text-slate-600">&rsaquo;</span>
+							<p><span class="text-slate-300">Use Compare</span> to see side-by-side differences between protocols — like TCP vs UDP, or how TLS works with HTTP.</p>
 						</div>
 						<div class="flex items-start gap-2">
 							<span class="mt-px text-slate-600">&rsaquo;</span>
@@ -295,6 +314,16 @@
 						<!-- Overview -->
 						<StoryNarrative text={proto.overview} color={cat?.color ?? '#FFFFFF'} title="Overview" />
 
+						{#if proto.image}
+							<StoryImage
+								src={proto.image.src}
+								alt={proto.image.alt}
+								caption={proto.image.caption}
+								credit={proto.image.credit}
+								color={cat?.color ?? '#FFFFFF'}
+							/>
+						{/if}
+
 						<ProtocolDiagram protocolId={proto.id} color={cat?.color ?? '#FFFFFF'} />
 
 						<HowItWorksSteps steps={proto.howItWorks} color={cat?.color ?? '#FFFFFF'} />
@@ -332,7 +361,7 @@
 						{/key}
 					</div>
 				{:else if appState.detailViewMode === 'compare'}
-					<div class="p-6">
+					<div class="p-6" data-tour="compare-view">
 						{#if appState.compareTargetId}
 							{@const targetProto = getProtocolById(appState.compareTargetId)}
 							{@const pair = getPair(proto.id, appState.compareTargetId)}

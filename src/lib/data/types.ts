@@ -36,6 +36,12 @@ export interface Protocol {
 		rfc?: string;
 		official?: string;
 	};
+	image?: {
+		src: string;
+		alt: string;
+		caption?: string;
+		credit?: string;
+	};
 }
 
 export interface Category {
