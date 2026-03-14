@@ -351,7 +351,7 @@ Client → Server:
 			throughput: 'Hardware AES encryption; limited mainly by the network and remote system speed',
 			overhead: 'Per-packet: ~28 bytes (4 length + 1 padding length + padding + 16 MAC)'
 		},
-		connections: ['tcp', 'tls', 'ftp'],
+		connections: ['tcp'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Secure_Shell',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc4253'
@@ -711,7 +711,7 @@ DHCP ACK:
 			throughput: 'Not applicable — DHCP is one-time configuration, not data transfer',
 			overhead: 'Minimum 236-byte message. UDP-based, broadcast-heavy.'
 		},
-		connections: ['udp'],
+		connections: ['udp', 'dns'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Dynamic_Host_Configuration_Protocol',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc2131'
@@ -1180,7 +1180,7 @@ Server: 221 Goodbye`
 			throughput: 'Line-speed for data channel',
 			overhead: 'Dual connection (control + data channels)'
 		},
-		connections: ['tcp', 'tls', 'ssh'],
+		connections: ['tcp', 'tls'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/File_Transfer_Protocol',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc959'

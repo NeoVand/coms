@@ -156,7 +156,7 @@ Payload:
 			throughput: 'Brokers handle millions of messages/sec; protocol overhead is minimal',
 			overhead: '2-byte fixed header minimum — one of the lightest protocols in existence'
 		},
-		connections: ['tcp', 'websockets', 'amqp'],
+		connections: ['tcp', 'websockets', 'tls'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/MQTT',
 			official: 'https://mqtt.org/'
@@ -323,7 +323,7 @@ Content Body:
 			overhead:
 				'Richer framing than MQTT (exchange routing, properties, headers). 8-byte frame header.'
 		},
-		connections: ['tcp', 'tls', 'mqtt'],
+		connections: ['tcp', 'tls', 'websockets'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Advanced_Message_Queuing_Protocol',
 			official: 'https://www.amqp.org/'
@@ -487,7 +487,7 @@ coap-client -m get coap://sensor.local/.well-known/core`
 			throughput: 'Low throughput by design — optimized for small, infrequent messages',
 			overhead: '4-byte base header. Total message often under 100 bytes.'
 		},
-		connections: ['udp', 'mqtt'],
+		connections: ['udp'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Constrained_Application_Protocol',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc7252'
@@ -499,7 +499,7 @@ coap-client -m get coap://sensor.local/.well-known/core`
 		abbreviation: 'STOMP',
 		categoryId: 'async-iot',
 		port: 61613,
-		year: 2009,
+		year: 2003,
 		rfc: undefined,
 		oneLiner: 'A dead-simple text protocol for message brokers — the HTTP of messaging.',
 		overview: `STOMP is to message queuing what HTTP is to the web — a simple, text-based protocol that any language can implement easily. While AMQP has complex binary framing and MQTT has its binary headers, STOMP uses plain text commands like CONNECT, SUBSCRIBE, SEND, and ACK.
@@ -668,7 +668,7 @@ receipt-id:msg-receipt-1
 			throughput: 'Text encoding is less efficient than binary protocols like AMQP',
 			overhead: 'Text framing is verbose compared to MQTT/AMQP, but very readable'
 		},
-		connections: ['tcp', 'websockets', 'amqp'],
+		connections: ['tcp', 'websockets'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Streaming_Text_Oriented_Messaging_Protocol',
 			official: 'https://stomp.github.io/'

@@ -35,14 +35,14 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     participant C as Client
     participant S as Server
     Note over C,S: No handshake — just send
-    C->>S: Datagram 1 (seq=1)
-    C->>S: Datagram 2 (seq=2)
-    C->>S: Datagram 3 (seq=3)
+    C->>S: Datagram 1 (42 bytes)
+    C->>S: Datagram 2 (38 bytes)
+    C->>S: Datagram 3 (45 bytes)
     C-xS: Datagram 4 (lost!)
-    C->>S: Datagram 5 (seq=5)
-    Note over S: Receives 1, 3, 2, 5 — no ordering
-    Note over C,S: No ACKs, no retransmits, no guarantees`,
-		caption: 'Fire-and-forget datagrams — minimal overhead, no guarantees (RFC 768)'
+    C->>S: Datagram 5 (40 bytes)
+    Note over S: Received 1, 2, 3, 5 — no retransmit for #4
+    Note over C,S: No ACKs, no sequence numbers, no guarantees`,
+		caption: 'Fire-and-forget datagrams — minimal 8-byte header, no guarantees (RFC 768)'
 	},
 
 	quic: {
@@ -78,7 +78,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     A-xB: Stream 2 — packet lost
     A->>B: Stream 3 — voice (unaffected!)
     Note over A,B: Streams independent + multi-homing for failover`,
-		caption: 'Multi-streaming with independent delivery + IP failover (RFC 4960)'
+		caption: 'Multi-streaming with independent delivery + IP failover (RFC 4960 / RFC 9260)'
 	},
 
 	mptcp: {

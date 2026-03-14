@@ -317,10 +317,10 @@ ss -un  # or: netstat -un`
 	},
 	{
 		id: 'quic',
-		name: 'Quick UDP Internet Connections',
+		name: 'QUIC',
 		abbreviation: 'QUIC',
 		categoryId: 'transport',
-		port: 443,
+		port: undefined,
 		year: 2021,
 		rfc: 'RFC 9000',
 		oneLiner:
@@ -480,7 +480,7 @@ sudo tcpdump -i any udp port 443`
 		categoryId: 'transport',
 		port: undefined,
 		year: 2000,
-		rfc: 'RFC 4960',
+		rfc: 'RFC 9260',
 		oneLiner:
 			"Multi-streaming, multi-homing transport — TCP's more capable but less popular cousin.",
 		overview: `SCTP was designed for telecom signaling but offers features that both TCP and UDP lack. It supports multiple independent streams within a single connection (like QUIC, but decades earlier), multi-homing (a connection can span multiple network interfaces for redundancy), and message boundaries (unlike TCP's byte stream).
@@ -627,12 +627,12 @@ SCTP INIT-ACK Chunk:
 		connections: ['tcp', 'udp', 'webrtc'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Stream_Control_Transmission_Protocol',
-			rfc: 'https://datatracker.ietf.org/doc/html/rfc4960'
+			rfc: 'https://datatracker.ietf.org/doc/html/rfc9260'
 		}
 	},
 	{
 		id: 'mptcp',
-		name: 'Multipath Transmission Control Protocol',
+		name: 'Multipath TCP',
 		abbreviation: 'MPTCP',
 		categoryId: 'transport',
 		year: 2013,

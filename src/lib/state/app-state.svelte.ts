@@ -47,6 +47,7 @@ export class AppState {
 		this.selectedNode = node;
 		this.showDetailPanel = node !== null;
 		this.detailViewMode = 'learn';
+		this.hoveredNode = null;
 	};
 
 	hoverNode = (node: GraphNode | null) => {
@@ -56,6 +57,7 @@ export class AppState {
 	clearSelection = () => {
 		this.selectedNode = null;
 		this.showDetailPanel = false;
+		this.hoveredNode = null;
 		this._viewportTarget = null;
 	};
 

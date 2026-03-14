@@ -4,6 +4,8 @@
 
 	const appState = getAppState();
 
+	const zoomPercent = $derived(Math.round(appState.viewport.scale * 100));
+
 	let open = $state(false);
 
 	const layouts: { id: LayoutMode; label: string }[] = [
@@ -34,7 +36,40 @@
 	></button>
 {/if}
 
-<div class="absolute bottom-4 left-4 z-40" data-tour="layout-picker">
+<div class="absolute bottom-4 left-4 z-40 flex items-center gap-2" data-tour="layout-picker">
+	<!-- Compact zoom controls -->
+	<div
+		class="flex items-center gap-0.5 rounded-full border border-white/10 bg-slate-900/80 p-0.5 shadow-lg backdrop-blur-md"
+	>
+		<button
+			class="flex h-6 w-6 items-center justify-center rounded-full text-slate-400 transition-colors hover:bg-white/5 hover:text-slate-200"
+			onclick={() => appState.zoom(appState.viewport.scale * 0.8, 0, 0)}
+			aria-label="Zoom out"
+		>
+			<svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
+			</svg>
+		</button>
+
+		<button
+			class="min-w-[34px] px-0.5 text-center text-[10px] font-medium text-slate-400 transition-colors hover:text-slate-200"
+			onclick={() => appState.resetViewport()}
+			aria-label="Reset zoom"
+		>
+			{zoomPercent}%
+		</button>
+
+		<button
+			class="flex h-6 w-6 items-center justify-center rounded-full text-slate-400 transition-colors hover:bg-white/5 hover:text-slate-200"
+			onclick={() => appState.zoom(appState.viewport.scale * 1.25, 0, 0)}
+			aria-label="Zoom in"
+		>
+			<svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+			</svg>
+		</button>
+	</div>
+
 	<!-- Floating menu — opens upward -->
 	{#if open}
 		<div

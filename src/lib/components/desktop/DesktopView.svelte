@@ -1,7 +1,7 @@
 <script lang="ts">
 	import GraphCanvas from './GraphCanvas.svelte';
 	import NodeTooltip from './NodeTooltip.svelte';
-	import ZoomControls from './ZoomControls.svelte';
+	import AppHeader from './AppHeader.svelte';
 	import LayoutPicker from './LayoutPicker.svelte';
 	import DetailPanel from '$lib/components/detail/DetailPanel.svelte';
 	import DiagramModal from '$lib/components/detail/DiagramModal.svelte';
@@ -32,7 +32,7 @@
 
 	<!-- HTML overlay layer -->
 	<NodeTooltip />
-	<ZoomControls
+	<AppHeader
 		onguide={toggleGuide}
 		panelOpen={appState.showDetailPanel}
 		onhelp={() => startTour(appState, allNodes)}

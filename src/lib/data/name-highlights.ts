@@ -8,9 +8,9 @@ const highlightedNames: Record<string, string> = {
 	// Transport
 	tcp: '[T]ransmission [C]ontrol [P]rotocol',
 	udp: '[U]ser [D]atagram [P]rotocol',
-	quic: '[Q]uick [U]DP [I]nternet [C]onnections',
+	quic: '[QUIC]',
 	sctp: '[S]tream [C]ontrol [T]ransmission [P]rotocol',
-	mptcp: '[M]ulti[p]ath [T]ransmission [C]ontrol [P]rotocol',
+	mptcp: '[M]ulti[p]ath [TCP]',
 
 	// Web / API
 	http1: '[H]yper[T]ext [T]ransfer [P]rotocol',

@@ -354,7 +354,7 @@ curl --http3-only https://cloudflare-quic.com`
 			overhead:
 				'Slightly higher per-packet than TCP due to QUIC encryption, offset by fewer round trips'
 		},
-		connections: ['http2', 'quic', 'tls'],
+		connections: ['http2', 'quic', 'tls', 'udp'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/HTTP/3',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc9114'
@@ -474,7 +474,7 @@ curl -i -N \\
 			throughput: 'Near wire-speed for small messages; minimal framing overhead',
 			overhead: '2-14 bytes per frame (vs 200-800 bytes per HTTP request)'
 		},
-		connections: ['http1', 'tcp', 'tls', 'sse'],
+		connections: ['http1', 'http2', 'tcp', 'tls', 'sse', 'graphql'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/WebSocket',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc6455'
@@ -486,10 +486,10 @@ curl -i -N \\
 		abbreviation: 'gRPC',
 		categoryId: 'web-api',
 		port: 443,
-		year: 2016,
+		year: 2015,
 		rfc: undefined,
 		oneLiner: 'High-performance RPC framework using Protocol Buffers over HTTP/2.',
-		overview: `gRPC is Google's open-source framework for remote procedure calls. Instead of designing REST endpoints and manually serializing JSON, you define your service and messages in Protocol Buffers (.proto files), and gRPC generates strongly-typed client and server code in 11+ languages.
+		overview: `gRPC is Google's open-source framework for remote procedure calls. Instead of designing REST endpoints and manually serializing JSON, you define your service and messages in Protocol Buffers (.proto files), and gRPC generates strongly-typed client and server code in 12+ languages.
 
 It uses HTTP/2 for transport, gaining multiplexing and header compression for free. Messages are serialized as Protocol Buffers — a binary format that's 3-10x smaller and 20-100x faster to parse than JSON. gRPC also natively supports streaming: server-streaming, client-streaming, and bidirectional streaming.
 
@@ -615,9 +615,9 @@ grpcurl -plaintext localhost:50051 UserService/ListUsers`
 		year: 2015,
 		rfc: undefined,
 		oneLiner: 'Ask for exactly the data you need — no more, no less. A query language for APIs.',
-		overview: `GraphQL is Facebook's alternative to REST. Instead of the server deciding what data each endpoint returns, the client sends a query describing exactly what it wants. The server responds with precisely that shape of data — no over-fetching (getting fields you don't need) and no under-fetching (needing 5 REST calls for one screen).
+		overview: `GraphQL was created at Facebook in 2012 and open-sourced in 2015. It's now maintained by the GraphQL Foundation under the Linux Foundation. Instead of the server deciding what data each endpoint returns, the client sends a query describing exactly what it wants. The server responds with precisely that shape of data — no over-fetching (getting fields you don't need) and no under-fetching (needing 5 REST calls for one screen).
 
-GraphQL operates over HTTP (typically POST to a single /graphql endpoint). The query language lets you traverse relationships, request nested data, and combine what would be multiple REST requests into a single query. It also has a strong type system — the schema defines every type, field, and relationship.
+GraphQL operates over HTTP (typically a single /graphql endpoint accepting both GET and POST requests). The query language lets you traverse relationships, request nested data, and combine what would be multiple REST requests into a single query. It also has a strong type system — the schema defines every type, field, and relationship.
 
 It shines for complex frontends (mobile apps, SPAs) that need flexible data fetching. It's less ideal for simple CRUD operations where REST's simplicity wins.`,
 		howItWorks: [
@@ -741,7 +741,7 @@ curl -X POST https://api.example.com/graphql \\
 				'No over-fetching reduces payload size; but complex queries can stress the server',
 			overhead: 'Query parsing + validation adds server-side cost. Caching is harder than REST.'
 		},
-		connections: ['http1', 'http2', 'websockets', 'rest'],
+		connections: ['http1', 'http2', 'websockets', 'rest', 'sse'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/GraphQL',
 			official: 'https://graphql.org/'
@@ -753,8 +753,8 @@ curl -X POST https://api.example.com/graphql \\
 		abbreviation: 'SSE',
 		categoryId: 'web-api',
 		port: 443,
-		year: 2015,
-		rfc: 'W3C Spec',
+		year: 2006,
+		rfc: 'WHATWG Living Standard',
 		oneLiner: 'One-way real-time streaming from server to browser over plain HTTP.',
 		overview: `Server-Sent Events (SSE) provide a simple, standardized way for servers to push updates to web clients over a single HTTP connection. Unlike WebSockets, SSE is unidirectional — the server sends events, and the client listens. This simplicity is its strength.
 
@@ -987,7 +987,7 @@ curl -X DELETE https://api.example.com/users/42`
 			throughput: 'Depends on HTTP version used',
 			overhead: 'Minimal — uses standard HTTP semantics'
 		},
-		connections: ['http1', 'http2', 'graphql', 'grpc'],
+		connections: ['http1', 'http2', 'http3', 'graphql', 'grpc', 'sse', 'websockets'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/REST',
 			official: 'https://ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm'

@@ -159,7 +159,7 @@ STUN Response:
 				'Adaptive bitrate: 100kbps (audio) to 4+ Mbps (HD video). Adjusts to network conditions.',
 			overhead: 'SRTP adds ~12 bytes per packet. DTLS handshake is one-time cost.'
 		},
-		connections: ['udp', 'tls', 'sip', 'sctp'],
+		connections: ['udp', 'tls', 'sip', 'sctp', 'rtp', 'sdp'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/WebRTC',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc8825',
@@ -324,7 +324,7 @@ tcpdump -i eth0 udp port 5004 -w rtp_capture.pcap`
 				'Adaptive: codec and bitrate adjust based on RTCP feedback. Audio: 8-128kbps. Video: 100kbps-10+Mbps.',
 			overhead: '12-byte RTP header per packet. RTCP reports are periodic and small.'
 		},
-		connections: ['udp', 'webrtc', 'sip'],
+		connections: ['udp', 'webrtc', 'sip', 'sdp'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Real-time_Transport_Protocol',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc3550'
@@ -343,7 +343,7 @@ tcpdump -i eth0 udp port 5004 -w rtp_capture.pcap`
 
 SIP's design was inspired by HTTP — it uses text-based request/response messages with methods like INVITE, ACK, BYE, and REGISTER. URIs identify users (sip:alice@example.com). This HTTP-like design made it easier to implement and debug compared to the ITU's H.323 alternative.
 
-SIP is the backbone of virtually every modern phone system: enterprise PBX systems, VoIP carriers (like Twilio), and telecom infrastructure. When you make a phone call in 2024, SIP is almost certainly involved somewhere in the chain.`,
+SIP is the backbone of virtually every modern phone system: enterprise PBX systems, VoIP carriers (like Twilio), and telecom infrastructure. When you make a phone call today, SIP is almost certainly involved somewhere in the chain.`,
 		howItWorks: [
 			{
 				title: 'REGISTER',
@@ -497,7 +497,7 @@ a=rtpmap:97 opus/48000/2`
 			throughput: 'SIP messages are small text; the media (RTP) carries the bandwidth load',
 			overhead: 'Text-based headers like HTTP; typically 500-1000 bytes per SIP message'
 		},
-		connections: ['udp', 'tcp', 'rtp', 'webrtc'],
+		connections: ['udp', 'tcp', 'tls', 'rtp', 'webrtc', 'sdp'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Session_Initiation_Protocol',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc3261'
@@ -660,7 +660,7 @@ https://cdn.example.com/stream_720p/seg_2683.ts
 				'Adaptive: typically 1-15 Mbps for video. CDN-backed = essentially unlimited scale.',
 			overhead: 'HTTP headers per segment. Manifest polling adds small periodic requests.'
 		},
-		connections: ['http1', 'http2', 'tls'],
+		connections: ['http1', 'http2', 'tls', 'dash'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/HTTP_Live_Streaming',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc8216',

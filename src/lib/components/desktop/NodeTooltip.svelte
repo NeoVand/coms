@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { getAppState } from '$lib/state/context';
 	import { getProtocolById, getCategoryById } from '$lib/data/index';
+	import { getHighlightedName } from '$lib/data/name-highlights';
 	import CategoryIcon from '$lib/components/icons/CategoryIcon.svelte';
 
 	const appState = getAppState();
@@ -60,7 +61,8 @@
 					color: node.color,
 					icon: undefined,
 					port: proto.port,
-					year: proto.year
+					year: proto.year,
+					nameSegments: getHighlightedName(proto.id, proto.name)
 				}
 			: null;
 	});
@@ -88,6 +90,11 @@
 					</span>
 				{/if}
 			</div>
+			{#if hoveredInfo.nameSegments}
+				<p class="mt-0.5 text-[11px] text-slate-400">
+					{#each hoveredInfo.nameSegments as seg}{#if seg.highlight}<span class="font-bold" style="color: {hoveredInfo.color}">{seg.text}</span>{:else}{seg.text}{/if}{/each}
+				</p>
+			{/if}
 			<p class="mt-1 text-xs leading-relaxed text-slate-300">{hoveredInfo.description}</p>
 			{#if hoveredInfo.year}
 				<p class="mt-1 text-[10px] text-slate-500">Since {hoveredInfo.year}</p>
