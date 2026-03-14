@@ -161,7 +161,7 @@ Client → Server  [ACK]
 				'Limited by congestion window; typically reaches line speed on stable connections',
 			overhead: '20-byte header minimum + options; ~40 bytes typical with timestamps'
 		},
-		connections: ['udp', 'tls', 'http1', 'http2', 'websockets', 'ssh', 'smtp', 'ftp'],
+		connections: ['udp', 'tls', 'http1', 'http2', 'websockets', 'ssh', 'smtp', 'ftp', 'bgp', 'imap'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Transmission_Control_Protocol',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc9293'

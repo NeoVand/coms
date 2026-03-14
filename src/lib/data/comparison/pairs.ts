@@ -668,6 +668,54 @@ const vsPairs: ProtocolPair[] = [
 			'Your application needs transparent encryption without changing its protocol',
 			'Certificate-based trust via public CAs (Let\'s Encrypt) is preferred'
 		]
+	},
+
+	// ── Email: send vs receive ──────────────────────────────────
+
+	{
+		ids: ['imap', 'smtp'],
+		type: 'vs',
+		summary:
+			'[[smtp|SMTP]] sends email from sender to destination servers; [[imap|IMAP]] retrieves and manages email that has already been delivered. Together they form the complete email system.',
+		keyDifferences: [
+			{
+				aspect: 'Direction',
+				left: 'Retrieves mail from server to client',
+				right: 'Sends mail from client to server/relay'
+			},
+			{
+				aspect: 'Connection model',
+				left: 'Persistent stateful session (SELECT, FETCH, IDLE)',
+				right: 'Transactional (MAIL FROM, DATA, QUIT)'
+			},
+			{
+				aspect: 'Mail storage',
+				left: 'Mail stays on server, synced across all devices',
+				right: 'Mail handed off — sender retains no role after delivery'
+			},
+			{
+				aspect: 'Command format',
+				left: 'Tagged commands (A001 SELECT INBOX) — enables pipelining',
+				right: 'Sequential commands (EHLO → MAIL FROM → DATA)'
+			},
+			{
+				aspect: 'Default port',
+				left: '993 (IMAPS with TLS)',
+				right: '587 (submission with STARTTLS)'
+			}
+		],
+		useLeftWhen: [
+			'You need to read, search, or organize email on the server',
+			'Multiple devices must see the same mailbox state (read/unread, folders)',
+			'Server-side search and filtering is important for your workflow',
+			'You want push notifications for new email via IDLE'
+		],
+		useRightWhen: [
+			'You need to send or relay email to recipients',
+			'Your application generates transactional emails (receipts, alerts, notifications)',
+			'You are building an email relay or forwarding service',
+			'You need store-and-forward delivery across mail servers via MX records'
+		]
 	}
 ];
 
@@ -1405,6 +1453,87 @@ const relationshipPairs: ProtocolPair[] = [
 			'A [[rest|REST]] API exposes an [[sse|SSE]] endpoint (e.g., GET /events) that returns a text/event-stream response. The client connects using the EventSource API and receives server-pushed events as they occur, while continuing to use regular [[rest|REST]] endpoints for queries and mutations. [[sse|SSE]] complements [[rest|REST]]\'s request-response model by adding unidirectional real-time updates.',
 		leftRole: '[[rest|REST]] provides the request-response API structure that [[sse|SSE]] endpoints are integrated into.',
 		rightRole: '[[sse|SSE]] provides the server-push streaming mechanism that extends [[rest|REST]] with real-time event delivery.'
+	},
+
+	// ── BGP relationships ───────────────────────────────────────
+
+	{
+		ids: ['bgp', 'tcp'],
+		type: 'relationship',
+		summary:
+			'[[bgp|BGP]] runs over [[tcp|TCP]] port 179, relying on [[tcp|TCP]]\'s reliable delivery to guarantee that routing updates are never lost, duplicated, or reordered between autonomous systems.',
+		howTheyWork:
+			'[[bgp|BGP]] peers establish a [[tcp|TCP]] connection on port 179 before exchanging OPEN messages. All subsequent UPDATE, KEEPALIVE, and NOTIFICATION messages flow over this persistent [[tcp|TCP]] connection. [[tcp|TCP]]\'s reliability is critical because a lost route announcement could create routing loops or black holes in the internet.',
+		leftRole:
+			'[[bgp|BGP]] provides the routing logic — path selection, AS path attributes, and network reachability advertisements between autonomous systems.',
+		rightRole:
+			'[[tcp|TCP]] provides the reliable, ordered transport that ensures routing information is delivered without loss or corruption.'
+	},
+	{
+		ids: ['bgp', 'dns'],
+		type: 'relationship',
+		summary:
+			'[[bgp|BGP]] determines how IP packets are routed between networks, while [[dns|DNS]] translates domain names to the IP addresses that [[bgp|BGP]] routes. Together they form the internet\'s addressing and reachability system.',
+		howTheyWork:
+			'[[dns|DNS]] resolves domain names to IP addresses, and [[bgp|BGP]] determines how to reach those IP addresses across autonomous system boundaries. When a DNS query returns an IP, the packets follow BGP-established routes to reach it. DNS anycast relies on [[bgp|BGP]] to advertise the same IP prefix from multiple geographic locations.',
+		leftRole:
+			'[[bgp|BGP]] provides the routing fabric that determines how packets reach their destination IP addresses across autonomous systems.',
+		rightRole:
+			'[[dns|DNS]] provides the name-to-IP translation that gives human-readable meaning to the addresses [[bgp|BGP]] routes.'
+	},
+
+	// ── ICMP relationships ──────────────────────────────────────
+
+	{
+		ids: ['dns', 'icmp'],
+		type: 'relationship',
+		summary:
+			'[[icmp|ICMP]] and [[dns|DNS]] are both fundamental diagnostic tools: [[dns|DNS]] answers "what is this name?" while [[icmp|ICMP]] answers "can I reach it?" Network troubleshooting typically starts with DNS then verifies with ping.',
+		howTheyWork:
+			'When diagnosing connectivity, administrators first use [[dns|DNS]] to resolve a hostname to an IP address, then [[icmp|ICMP]] ping to test reachability. If [[dns|DNS]] succeeds but [[icmp|ICMP]] fails, the problem is routing or firewall-related. If [[dns|DNS]] fails, the issue is name resolution. [[icmp|ICMP]] Destination Unreachable messages can also indicate a [[dns|DNS]] server is unreachable.',
+		leftRole:
+			'[[dns|DNS]] provides name-to-address resolution — the first step in any network diagnostic workflow.',
+		rightRole:
+			'[[icmp|ICMP]] provides reachability testing and error reporting — verifying that resolved addresses are actually reachable.'
+	},
+	{
+		ids: ['icmp', 'tcp'],
+		type: 'relationship',
+		summary:
+			'[[icmp|ICMP]] reports network-level errors for [[tcp|TCP]] connections — when a [[tcp|TCP]] segment cannot be delivered, an [[icmp|ICMP]] Destination Unreachable message tells the sender why.',
+		howTheyWork:
+			'When a [[tcp|TCP]] SYN reaches a host with no listening service, the host sends back [[icmp|ICMP]] Port Unreachable (Type 3, Code 3). When a router can\'t forward a [[tcp|TCP]] packet, it sends [[icmp|ICMP]] Network Unreachable. [[tcp|TCP]] Path MTU Discovery relies on [[icmp|ICMP]] Packet Too Big messages to determine the maximum segment size without fragmentation.',
+		leftRole:
+			'[[icmp|ICMP]] provides error reporting and diagnostics — notifying [[tcp|TCP]] of unreachable destinations, TTL expiry, and MTU constraints.',
+		rightRole:
+			'[[tcp|TCP]] provides the reliable transport connections whose delivery failures [[icmp|ICMP]] reports back to senders.'
+	},
+
+	// ── IMAP relationships ──────────────────────────────────────
+
+	{
+		ids: ['imap', 'tcp'],
+		type: 'relationship',
+		summary:
+			'[[imap|IMAP]] uses [[tcp|TCP]] for reliable delivery of email commands, message data, and mailbox state synchronization between clients and servers.',
+		howTheyWork:
+			'An [[imap|IMAP]] client opens a [[tcp|TCP]] connection to the mail server on port 993 (with [[tls|TLS]]) or 143 (plaintext). The tagged command-response protocol requires [[tcp|TCP]]\'s reliable, ordered delivery to ensure command tags match responses correctly. IMAP\'s IDLE mode keeps the [[tcp|TCP]] connection open for real-time server-push notifications.',
+		leftRole:
+			'[[imap|IMAP]] provides the email retrieval protocol — mailbox selection, message fetching, searching, and flag management.',
+		rightRole:
+			'[[tcp|TCP]] provides the reliable, persistent connection that [[imap|IMAP]]\'s stateful, tagged command-response dialogue requires.'
+	},
+	{
+		ids: ['imap', 'tls'],
+		type: 'relationship',
+		summary:
+			'[[tls|TLS]] encrypts [[imap|IMAP]] connections (IMAPS on port 993), protecting email credentials and message content from eavesdropping.',
+		howTheyWork:
+			'[[imap|IMAP]] connects to port 993 where [[tls|TLS]] is required from the start (implicit TLS), or connects to port 143 and upgrades via STARTTLS. Once [[tls|TLS]] is established, all [[imap|IMAP]] commands — including LOGIN credentials, FETCH message bodies, and SEARCH queries — flow through the encrypted channel.',
+		leftRole:
+			'[[imap|IMAP]] provides the email retrieval and management protocol that carries sensitive credentials and message content.',
+		rightRole:
+			'[[tls|TLS]] provides confidentiality, integrity, and authentication for all [[imap|IMAP]] traffic, protecting credentials and email content in transit.'
 	}
 ];
 

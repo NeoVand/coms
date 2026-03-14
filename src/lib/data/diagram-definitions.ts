@@ -628,5 +628,66 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     S->>C: 226 Transfer complete
     Note over C,S: Dual-channel: commands on 21, data on separate port`,
 		caption: 'Dual-channel architecture — control commands + separate data connections (RFC 959)'
+	},
+
+	imap: {
+		definition: `sequenceDiagram
+    participant C as Mail Client
+    participant S as IMAP Server
+    C->>S: Connect (TLS on port 993)
+    S->>C: * OK IMAP4rev2 ready
+    C->>S: A001 LOGIN user@example.com ****
+    S->>C: A001 OK LOGIN completed
+    C->>S: A002 SELECT INBOX
+    S->>C: * 47 EXISTS, * 2 RECENT
+    S->>C: A002 OK [READ-WRITE] SELECT done
+    C->>S: A003 FETCH 47 (ENVELOPE BODY[TEXT])
+    S->>C: * 47 FETCH (subject, from, body...)
+    S->>C: A003 OK FETCH completed
+    C->>S: A004 IDLE
+    S->>C: + idling
+    Note over S,C: Server pushes * 48 EXISTS on new mail`,
+		caption:
+			'Tagged command-response protocol — each command gets a unique tag (A001, A002...) matched in the response (RFC 9051)'
+	},
+
+	bgp: {
+		definition: `sequenceDiagram
+    participant A as Router A (AS 65001)
+    participant B as Router B (AS 65002)
+    Note over A,B: TCP connection on port 179
+    A->>B: OPEN (AS 65001, Hold=90)
+    B->>A: OPEN (AS 65002, Hold=90)
+    A->>B: KEEPALIVE
+    B->>A: KEEPALIVE
+    Note over A,B: Session Established
+    A->>B: UPDATE (announce 192.168.0.0/16)
+    B->>A: UPDATE (announce 172.16.0.0/12)
+    Note over A,B: Routing tables updated
+    A->>B: KEEPALIVE (every ~30s)
+    A->>B: UPDATE (withdraw 192.168.100.0/24)
+    Note over A,B: Route removed from B's table`,
+		caption:
+			'Route exchange between autonomous systems — OPEN, UPDATE, KEEPALIVE over TCP port 179 (RFC 4271)'
+	},
+
+	icmp: {
+		definition: `sequenceDiagram
+    participant S as Source
+    participant R as Router (hop 1)
+    participant T as Target
+    Note over S,T: Ping — Echo Request/Reply
+    S->>T: Echo Request (Type 8, seq=1)
+    T->>S: Echo Reply (Type 0, seq=1) — 12ms
+    S->>T: Echo Request (Type 8, seq=2)
+    T->>S: Echo Reply (Type 0, seq=2) — 11ms
+    Note over S,T: Traceroute — incrementing TTL
+    S->>R: Echo Request (TTL=1)
+    R->>S: Time Exceeded (Type 11, TTL expired)
+    S->>T: Echo Request (TTL=2)
+    T->>S: Echo Reply — destination reached
+    Note over S,T: Each hop revealed by TTL expiry`,
+		caption:
+			'Network diagnostics — ping measures round-trip time, traceroute reveals each hop via TTL expiry (RFC 792)'
 	}
 };

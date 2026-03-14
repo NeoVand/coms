@@ -171,7 +171,7 @@ openssl req -x509 -newkey rsa:2048 -nodes \\
 				'AES-GCM encryption is hardware-accelerated on modern CPUs — negligible throughput impact',
 			overhead: '~5 bytes per TLS record header + 16 bytes for GCM authentication tag'
 		},
-		connections: ['tcp', 'http1', 'http2', 'quic', 'websockets', 'smtp', 'ftp', 'dns'],
+		connections: ['tcp', 'http1', 'http2', 'quic', 'websockets', 'smtp', 'ftp', 'dns', 'imap'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Transport_Layer_Security',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc8446'
@@ -538,7 +538,7 @@ curl -sH 'accept: application/dns-json' \\
 			throughput: 'Not applicable — DNS is query/response, not streaming',
 			overhead: '12-byte header + question + answer. Typical query: 40-60 bytes. UDP-based.'
 		},
-		connections: ['udp', 'tcp', 'tls', 'smtp', 'dhcp'],
+		connections: ['udp', 'tcp', 'tls', 'smtp', 'dhcp', 'bgp', 'icmp'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Domain_Name_System',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc1035'
@@ -1060,7 +1060,7 @@ Server: 221 2.0.0 Bye`
 			throughput: 'Millions of messages/day at scale',
 			overhead: 'Moderate — DNS lookups, TLS, multi-hop relay'
 		},
-		connections: ['tcp', 'tls', 'dns'],
+		connections: ['tcp', 'tls', 'dns', 'imap'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Simple_Mail_Transfer_Protocol',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc5321'
@@ -1233,6 +1233,519 @@ Server: 221 Goodbye`
 			caption:
 				'A Teletype terminal — FTP\'s ancestor. The first FTP specification (RFC 114) was written in 1971 for the ARPANET, making it one of the oldest internet protocols still in use. File transfer predates the web by over two decades.',
 			credit: 'Photo: Wikimedia Commons / CC BY-SA 3.0'
+		}
+	},
+	{
+		id: 'imap',
+		name: 'Internet Message Access Protocol',
+		abbreviation: 'IMAP',
+		categoryId: 'utilities',
+		port: 993,
+		year: 2003,
+		rfc: 'RFC 9051',
+		oneLiner:
+			'Access and manage email on the server — read, search, and organize without downloading.',
+		overview: `IMAP is how your email client reads messages from the server while keeping them stored remotely. Unlike POP3 (which downloads and deletes), IMAP keeps all mail on the server — so your phone, laptop, and webmail all see the same inbox, the same folders, and the same read/unread state.
+
+The key insight is IMAP's tagged command-response protocol. Every command gets a unique tag (A001, A002...) and the server's response includes the same tag. This means you can pipeline commands — send A002 before A001's response arrives — because tags match responses to commands unambiguously.
+
+IMAP's FETCH command is remarkably flexible: you can request just message headers, just the text body, or individual MIME attachments — without downloading the entire message. Server-side SEARCH lets you find messages by sender, date, subject, or full-text content without transferring anything. The IDLE command keeps a persistent connection open for push notifications when new mail arrives.
+
+[[smtp|SMTP]] sends email, IMAP receives it — together they form the complete email system. IMAP connections are encrypted with [[tls|TLS]] (IMAPS on port 993) and ride over [[tcp|TCP]] for reliable delivery of the tagged command-response dialogue.`,
+		howItWorks: [
+			{
+				title: 'Connect & authenticate',
+				description:
+					'Client connects to port 993 (IMAPS with TLS) and authenticates with LOGIN or a SASL mechanism like OAUTH2. The server grants access to the user\'s mailboxes.'
+			},
+			{
+				title: 'SELECT mailbox',
+				description:
+					'Client selects a mailbox (INBOX, Drafts, Sent, etc.). Server reports message count, recent messages, available flags, and UIDVALIDITY for cache validation.'
+			},
+			{
+				title: 'FETCH messages',
+				description:
+					'Client requests message envelopes, headers, or full bodies. IMAP can fetch parts of messages — just headers, just text, or individual attachments — without downloading everything.'
+			},
+			{
+				title: 'SEARCH & STORE',
+				description:
+					'Client searches server-side (SEARCH FROM "alice" SINCE 1-Mar-2024) and modifies flags (\\Seen, \\Flagged, \\Deleted) without transferring message content.'
+			},
+			{
+				title: 'IDLE for push',
+				description:
+					'Client enters IDLE mode — server pushes notifications when new mail arrives or flags change. This is how "push email" works on IMAP, keeping the connection open for real-time updates.'
+			}
+		],
+		useCases: [
+			'Email clients syncing across multiple devices (phone, laptop, tablet)',
+			'Webmail interfaces (Gmail, Outlook.com, Yahoo Mail)',
+			'Server-side email search and filtering',
+			'Corporate email with shared mailboxes and folders',
+			'Automated email processing and monitoring scripts'
+		],
+		codeExample: {
+			language: 'python',
+			code: `import imaplib
+
+# Connect to IMAP server over TLS
+with imaplib.IMAP4_SSL('imap.example.com') as mail:
+    mail.login('user@example.com', 'password')
+    mail.select('INBOX')
+
+    # Search for unread messages
+    _, nums = mail.search(None, 'UNSEEN')
+    for num in nums[0].split():
+        _, data = mail.fetch(num, '(ENVELOPE)')
+        print(data[0][1])
+
+    mail.logout()`,
+			caption:
+				'IMAP lets you search and fetch email on the server — no need to download everything',
+			alternatives: [
+				{
+					language: 'javascript',
+					code: `import Imap from 'imap';
+
+const imap = new Imap({
+  user: 'user@example.com',
+  password: 'password',
+  host: 'imap.example.com',
+  port: 993, tls: true
+});
+
+imap.once('ready', () => {
+  imap.openBox('INBOX', true, (err, box) => {
+    console.log(box.messages.total + ' messages');
+    const f = imap.seq.fetch('1:3', {
+      bodies: 'HEADER.FIELDS (FROM SUBJECT DATE)'
+    });
+    f.on('message', msg => {
+      msg.on('body', stream =>
+        stream.pipe(process.stdout));
+    });
+  });
+});
+imap.connect();`
+				},
+				{
+					language: 'cli',
+					code: `# Connect to IMAP server with openssl
+openssl s_client -connect imap.example.com:993
+
+# Manual IMAP session (type these commands):
+A001 LOGIN user@example.com password
+A002 SELECT INBOX
+A003 FETCH 1:5 (FLAGS ENVELOPE)
+A004 SEARCH UNSEEN FROM "alice"
+A005 FETCH 3 (BODY[TEXT])
+A006 STORE 3 +FLAGS (\\Seen)
+A007 LOGOUT`
+				},
+				{
+					language: 'wire',
+					code: '',
+					sections: [
+						{
+							title: 'Tagged Commands',
+							code: `Client: A001 LOGIN user@example.com ****
+Server: A001 OK LOGIN completed
+
+Client: A002 SELECT INBOX
+Server: * 47 EXISTS
+Server: * 2 RECENT
+Server: * FLAGS (\\Seen \\Answered \\Flagged \\Deleted \\Draft)
+Server: * OK [UIDVALIDITY 1234567890]
+Server: A002 OK [READ-WRITE] SELECT completed`
+						},
+						{
+							title: 'Fetch & IDLE',
+							code: `Client: A003 FETCH 47 (ENVELOPE BODY[TEXT])
+Server: * 47 FETCH (ENVELOPE ("14-Mar-2026"
+  "Meeting Tomorrow"
+  (("Alice" NIL "alice" "example.com"))
+  (("Bob" NIL "bob" "example.com")))
+  BODY[TEXT] {42}
+  Hi Bob, see you at 10am tomorrow.
+  )
+Server: A003 OK FETCH completed
+
+Client: A004 IDLE
+Server: + idling
+  ... server pushes: * 48 EXISTS`
+						}
+					]
+				}
+			]
+		},
+		performance: {
+			latency:
+				'LOGIN + SELECT: ~200ms. FETCH single message: ~50-100ms. IDLE: persistent connection with instant push.',
+			throughput:
+				'Designed for interactive use, not bulk transfer. Partial FETCH avoids downloading large attachments.',
+			overhead:
+				'Text-based tagged protocol. Each command/response pair includes tag and status. Minimal framing overhead.'
+		},
+		connections: ['tcp', 'tls', 'smtp', 'dns'],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/Internet_Message_Access_Protocol',
+			rfc: 'https://datatracker.ietf.org/doc/html/rfc9051'
+		},
+		image: {
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Alpine_email_client.png/600px-Alpine_email_client.png',
+			alt: 'Screenshot of the Alpine email client showing threaded message view in a terminal interface',
+			caption:
+				"Alpine email client (2009) — the successor to Pine, developed at the University of Washington by Mark Crispin's team. Pine was the reference implementation for the IMAP protocol, proving that server-side mail access could work across any device.",
+			credit: 'Image: University of Washington / Apache License 2.0, via Wikimedia Commons'
+		}
+	},
+	{
+		id: 'bgp',
+		name: 'Border Gateway Protocol',
+		abbreviation: 'BGP',
+		categoryId: 'utilities',
+		port: 179,
+		year: 1995,
+		rfc: 'RFC 4271',
+		oneLiner:
+			'The routing protocol of the internet — how autonomous systems find paths to each other.',
+		overview: `BGP is the protocol that holds the internet together. The internet isn't a single network — it's a network of networks, each called an Autonomous System (AS). Your ISP is an AS. Google is an AS. Amazon, universities, governments — each is an AS with its own number. BGP is how they learn to reach each other.
+
+When you visit a website, your packets may cross 5-10 different autonomous systems. BGP is the protocol that calculated that path. Each BGP router maintains a table of every reachable IP prefix on the internet (~1 million entries) along with the AS_PATH — the sequence of autonomous systems to traverse. BGP is a path-vector protocol: it doesn't just know the next hop, it knows the entire AS-level path.
+
+BGP runs over [[tcp|TCP]] port 179, relying on TCP's reliable delivery because routing information must never be lost or corrupted. Two BGP routers ("peers") establish a session by exchanging OPEN messages, then continuously exchange UPDATE messages as routes are announced or withdrawn. KEEPALIVE messages every ~30 seconds prove the peer is still alive.
+
+The consequences of BGP mistakes are enormous. The Facebook outage of October 2021 — which took down Facebook, Instagram, and WhatsApp for six hours — was caused by a BGP misconfiguration that withdrew all of Facebook's routes from the internet. BGP route hijacks, where an AS announces routes it doesn't own, can redirect traffic through malicious networks.`,
+		howItWorks: [
+			{
+				title: 'TCP session establishment',
+				description:
+					'BGP peers open a TCP connection on port 179. Unlike most protocols, BGP uses TCP for reliability — routing information must never be lost, duplicated, or reordered.'
+			},
+			{
+				title: 'OPEN exchange',
+				description:
+					'Both routers exchange OPEN messages containing their AS number, BGP identifier (router IP), proposed hold time, and supported capabilities like 4-byte AS numbers.'
+			},
+			{
+				title: 'KEEPALIVE confirmation',
+				description:
+					'Each router confirms the session with a KEEPALIVE (the smallest BGP message — just 19 bytes). The session enters the Established state and route exchange begins.'
+			},
+			{
+				title: 'UPDATE announcements',
+				description:
+					'Routers exchange UPDATE messages containing reachable prefixes (NLRI) with path attributes: AS_PATH, NEXT_HOP, LOCAL_PREF, MED. Each UPDATE can announce new routes or withdraw old ones.'
+			},
+			{
+				title: 'Ongoing operation',
+				description:
+					'Routers send KEEPALIVEs every ~30 seconds to prove liveness. UPDATEs flow whenever routes change. NOTIFICATION messages signal fatal errors and close the session.'
+			}
+		],
+		useCases: [
+			'Internet backbone routing between ISPs and content providers',
+			'Enterprise multi-homing (connecting to multiple ISPs for redundancy)',
+			'Cloud provider network peering (AWS, Google, Azure edge networks)',
+			'Internet Exchange Point (IXP) route exchange',
+			'Content delivery network (CDN) anycast routing'
+		],
+		codeExample: {
+			language: 'python',
+			code: `# ExaBGP — programmatic BGP route announcements
+# exabgp.conf:
+neighbor 10.0.0.2 {
+    router-id 10.0.0.1;
+    local-as 65001;
+    peer-as 65002;
+
+    static {
+        route 192.168.0.0/16 next-hop self;
+        route 10.10.0.0/24 next-hop self
+            community 65001:100;
+    }
+}`,
+			caption:
+				'BGP is typically configured on routers — ExaBGP allows programmatic control from Python',
+			alternatives: [
+				{
+					language: 'cli',
+					code: `# Cisco IOS BGP configuration
+router bgp 65001
+  neighbor 10.0.0.2 remote-as 65002
+  network 192.168.0.0 mask 255.255.0.0
+
+# Show BGP routing table
+show ip bgp
+
+# Show BGP neighbor status
+show ip bgp summary
+
+# View path to specific prefix
+show ip bgp 172.16.0.0/12
+
+# Debug BGP updates
+debug ip bgp updates`
+				},
+				{
+					language: 'javascript',
+					code: `// Parse BGP MRT dump data with bgpkit
+import { BgpkitParser } from 'bgpkit-parser';
+
+const parser = new BgpkitParser(
+  'rib.20240101.0000.bz2'
+);
+
+for await (const elem of parser) {
+  console.log(
+    elem.prefix,
+    'via AS path:', elem.as_path,
+    'from peer:', elem.peer_asn
+  );
+}`
+				},
+				{
+					language: 'wire',
+					code: '',
+					sections: [
+						{
+							title: 'OPEN Message',
+							code: `BGP OPEN:
+  Marker: FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF FF
+  Length: 41
+  Type: OPEN (1)
+  Version: 4
+  My AS: 65001
+  Hold Time: 90
+  BGP Identifier: 10.0.0.1
+  Optional Parameters:
+    Capability: 4-byte ASN support
+    Capability: Route Refresh`
+						},
+						{
+							title: 'UPDATE Message',
+							code: `BGP UPDATE:
+  Marker: FF FF FF FF (16 bytes)
+  Length: 52
+  Type: UPDATE (2)
+  Withdrawn Routes Length: 0
+  Path Attributes:
+    ORIGIN: IGP
+    AS_PATH: 65001
+    NEXT_HOP: 10.0.0.1
+    LOCAL_PREF: 100
+  NLRI (reachable):
+    192.168.0.0/16`
+						}
+					]
+				}
+			]
+		},
+		performance: {
+			latency:
+				'Session setup: seconds (TCP handshake + OPEN exchange). Convergence after change: seconds to minutes depending on network size and policy.',
+			throughput:
+				'Full internet routing table: ~1M IPv4 prefixes. Initial table transfer can take 30-60 seconds between peers.',
+			overhead:
+				'19-byte minimum header (16-byte marker + 2-byte length + 1-byte type). UPDATE messages vary by prefix count and path attributes.'
+		},
+		connections: ['tcp', 'dns'],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/Border_Gateway_Protocol',
+			rfc: 'https://datatracker.ietf.org/doc/html/rfc4271'
+		},
+		image: {
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/ARPA_Network%2C_Logical_Map%2C_September_1973.jpg/600px-ARPA_Network%2C_Logical_Map%2C_September_1973.jpg',
+			alt: 'ARPA Network logical map from September 1973 showing network nodes and satellite links',
+			caption:
+				'ARPANET logical map, September 1973 — showing the early internet backbone topology including satellite links to Hawaii and London. BGP was created in 1989 to replace the original routing protocols that managed networks like this one.',
+			credit: 'Image: Bolt Beranek and Newman Inc. / Public Domain, via Wikimedia Commons'
+		}
+	},
+	{
+		id: 'icmp',
+		name: 'Internet Control Message Protocol',
+		abbreviation: 'ICMP',
+		categoryId: 'utilities',
+		port: undefined,
+		year: 1981,
+		rfc: 'RFC 792',
+		oneLiner:
+			'The diagnostic protocol behind ping and traceroute — how the network reports errors.',
+		overview: `ICMP is the internet's error-reporting and diagnostic protocol. When you type \`ping google.com\`, ICMP Echo Request and Reply messages measure whether the target is reachable and how long the round trip takes. When you run \`traceroute\`, ICMP Time Exceeded messages reveal each hop along the path. ICMP is arguably the most universally used protocol in network troubleshooting.
+
+Unlike [[tcp|TCP]] or UDP, ICMP doesn't use ports. It's encapsulated directly in IP packets with protocol number 1 — sitting at the network layer, not the transport layer. This means ICMP can report problems that TCP and UDP can't even see: unreachable networks, expired TTLs, fragmentation issues, and routing redirects.
+
+Every router on the internet speaks ICMP. When a router can't deliver a packet, it sends an ICMP Destination Unreachable (Type 3) back to the sender, with codes specifying why: network unreachable, host unreachable, port unreachable, or "fragmentation needed but don't-fragment flag is set" (which is essential for Path MTU Discovery).
+
+ICMP is also controversial. Many firewalls block ICMP to prevent reconnaissance, but this breaks legitimate diagnostics and can cause subtle problems like Path MTU Discovery failures. The debate over whether to filter ICMP has been going on for decades — and ICMP's designers would argue it should never be blocked.`,
+		howItWorks: [
+			{
+				title: 'Echo Request (ping)',
+				description:
+					'Source sends an ICMP Type 8 packet to the target with an Identifier (session ID), Sequence number, and optional data payload. No TCP or UDP — just IP + ICMP.'
+			},
+			{
+				title: 'Echo Reply',
+				description:
+					'If reachable, the target replies with ICMP Type 0 containing the same Identifier, Sequence, and data. Round-trip time is measured from send to receive.'
+			},
+			{
+				title: 'Destination Unreachable',
+				description:
+					'When a router cannot deliver a packet, it sends Type 3 back to the sender. Code values specify why: 0=network, 1=host, 3=port unreachable, 4=fragmentation needed.'
+			},
+			{
+				title: 'Time Exceeded (traceroute)',
+				description:
+					'When a packet\'s TTL reaches zero, the router sends Type 11 back. Traceroute exploits this by sending packets with incrementing TTL values (1, 2, 3...) to discover each hop.'
+			},
+			{
+				title: 'Redirect',
+				description:
+					'Type 5 tells a host to use a better next-hop router. If a router receives a packet and knows a more direct path, it sends a Redirect to optimize future traffic.'
+			}
+		],
+		useCases: [
+			'Network reachability testing (ping)',
+			'Path discovery and latency measurement (traceroute/tracert)',
+			'Network troubleshooting and diagnostics',
+			'Path MTU Discovery (Packet Too Big messages)',
+			'Router signaling and redirect optimization'
+		],
+		codeExample: {
+			language: 'python',
+			code: `import socket
+import struct
+import time
+
+def ping(host):
+    sock = socket.socket(
+        socket.AF_INET,
+        socket.SOCK_RAW,
+        socket.IPPROTO_ICMP
+    )
+    # Build ICMP Echo Request (Type 8)
+    icmp_type, code = 8, 0
+    ident, seq = 0x1234, 1
+    header = struct.pack(
+        '!BBHHH', icmp_type, code, 0, ident, seq
+    )
+    data = b'ping payload'
+    # Calculate checksum and rebuild
+    cksum = checksum(header + data)
+    header = struct.pack(
+        '!BBHHH', icmp_type, code, cksum, ident, seq
+    )
+    sock.sendto(header + data, (host, 0))
+    start = time.time()
+    reply = sock.recv(1024)
+    rtt = (time.time() - start) * 1000
+    print(f"Reply from {host}: time={rtt:.1f}ms")`,
+			caption:
+				'ICMP requires raw sockets — it operates at the network layer, below TCP/UDP',
+			alternatives: [
+				{
+					language: 'cli',
+					code: `# Ping — ICMP Echo Request/Reply
+ping -c 4 example.com
+# PING example.com: 64 bytes, seq=1, ttl=56, time=12.3ms
+
+# Traceroute — ICMP Time Exceeded
+traceroute example.com
+#  1  router.local (192.168.1.1)  1.2ms
+#  2  isp-gw.net (10.0.0.1)      5.4ms
+#  3  example.com (93.184.216.34) 12.1ms
+
+# MTU Path Discovery
+ping -M do -s 1472 example.com
+
+# Continuous ping with timestamps
+ping -D example.com`
+				},
+				{
+					language: 'javascript',
+					code: `import { exec } from 'child_process';
+import { promisify } from 'util';
+const run = promisify(exec);
+
+// Node.js can't send raw ICMP without
+// native modules — use system ping
+const { stdout } = await run(
+  'ping -c 4 example.com'
+);
+const times = stdout
+  .match(/time=([\\d.]+)/g)
+  ?.map(t => parseFloat(
+    t.replace('time=', '')
+  ));
+console.log('RTTs:', times, 'ms');
+console.log('Avg:', (times.reduce(
+  (a, b) => a + b) / times.length
+).toFixed(1), 'ms');`
+				},
+				{
+					language: 'wire',
+					code: '',
+					sections: [
+						{
+							title: 'Echo Request / Reply',
+							code: `ICMP Echo Request:
+  Type: 8 (Echo Request)
+  Code: 0
+  Checksum: 0x4D2A
+  Identifier: 0x1234
+  Sequence: 1
+  Data: 48 65 6C 6C 6F ("Hello")
+
+ICMP Echo Reply:
+  Type: 0 (Echo Reply)
+  Code: 0
+  Checksum: 0x552A
+  Identifier: 0x1234  (echoed)
+  Sequence: 1         (echoed)
+  Data: 48 65 6C 6C 6F ("Hello" echoed back)`
+						},
+						{
+							title: 'Time Exceeded (Traceroute)',
+							code: `ICMP Time Exceeded:
+  Type: 11 (Time Exceeded)
+  Code: 0 (TTL expired in transit)
+  Checksum: 0x3B1F
+  Unused: 0x00000000
+  --- Original IP Header ---
+  Src: 192.168.1.100
+  Dst: 93.184.216.34
+  Protocol: 1 (ICMP)
+  TTL: 1 (was 1, decremented to 0)
+  --- First 8 bytes of original ICMP ---
+  Type: 8, Code: 0, ID: 0x1234, Seq: 1`
+						}
+					]
+				}
+			]
+		},
+		performance: {
+			latency:
+				'Ping RTT depends on network distance: <1ms LAN, 1-20ms continental, 100-300ms intercontinental. Processing overhead is negligible.',
+			throughput:
+				'Not applicable — ICMP is for diagnostics, not data transfer. Most routers rate-limit ICMP to prevent abuse.',
+			overhead:
+				'8-byte ICMP header (Type, Code, Checksum, Id, Seq) encapsulated in IP. Minimal by design — diagnostics should be lightweight.'
+		},
+		connections: ['dns', 'tcp'],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/Internet_Control_Message_Protocol',
+			rfc: 'https://datatracker.ietf.org/doc/html/rfc792'
+		},
+		image: {
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/DEC_VT100_terminal.jpg/600px-DEC_VT100_terminal.jpg',
+			alt: 'DEC VT100 terminal at the Living Computer Museum, connected to a DEC PDP-11/70',
+			caption:
+				"A DEC VT100 terminal — the type of terminal where early network administrators ran ping and traceroute, the quintessential ICMP diagnostic tools. ICMP was defined in 1981, and these terminals were the window into the network.",
+			credit: 'Photo: Jason Scott / CC BY 2.0, via Wikimedia Commons'
 		}
 	}
 ];

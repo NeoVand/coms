@@ -32,6 +32,9 @@ import { sdpNegotiation } from './sdp-negotiation';
 import { dashStreaming } from './dash-streaming';
 import { sctpAssociation } from './sctp-association';
 import { mptcpMultipath } from './mptcp-multipath';
+import { imapSession } from './imap-session';
+import { bgpPeering } from './bgp-peering';
+import { icmpPing } from './icmp-ping';
 
 const simulations = new Map<string, SimulationConfig>([
 	['tcp', tcpHandshake],
@@ -66,7 +69,10 @@ const simulations = new Map<string, SimulationConfig>([
 	['sdp', sdpNegotiation],
 	['dash', dashStreaming],
 	['sctp', sctpAssociation],
-	['mptcp', mptcpMultipath]
+	['mptcp', mptcpMultipath],
+	['imap', imapSession],
+	['bgp', bgpPeering],
+	['icmp', icmpPing]
 ]);
 
 export function getSimulation(protocolId: string): SimulationConfig | undefined {
