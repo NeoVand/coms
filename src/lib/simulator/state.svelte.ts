@@ -3,7 +3,7 @@ import type { SimulationStatus, SimulationConfig } from './types';
 export class SimulatorState {
 	status: SimulationStatus = $state('idle');
 	currentStep: number = $state(-1);
-	speed: number = $state(1);
+	speed: number = $state(0.5);
 	config: SimulationConfig | null = $state(null);
 	userValues: Record<string, string> = $state({});
 

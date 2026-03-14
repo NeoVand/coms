@@ -6,6 +6,7 @@
 	import PioneerGrid from './PioneerGrid.svelte';
 	import StoryCallout from './StoryCallout.svelte';
 	import StoryDiagram from './StoryDiagram.svelte';
+	import StoryImage from './StoryImage.svelte';
 
 	let { story, cat }: { story: CategoryStory; cat: Category } = $props();
 </script>
@@ -24,6 +25,15 @@
 			<StoryDiagram
 				definition={section.definition}
 				caption={section.caption}
+				color={cat.color}
+				title={section.title}
+			/>
+		{:else if section.type === 'image'}
+			<StoryImage
+				src={section.src}
+				alt={section.alt}
+				caption={section.caption}
+				credit={section.credit}
 				color={cat.color}
 				title={section.title}
 			/>

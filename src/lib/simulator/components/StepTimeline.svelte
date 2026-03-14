@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { slide } from 'svelte/transition';
+	import { fly } from 'svelte/transition';
 	import type { SimulationConfig } from '../types';
 	import { SimulatorState } from '../state.svelte';
 	import ActorStage from './ActorStage.svelte';
@@ -113,6 +113,7 @@
 							class="mt-1 text-xs leading-relaxed transition-colors duration-300"
 							class:text-slate-300={isCurrent}
 							class:text-slate-500={isPast}
+							in:fly={{ y: 4, duration: 250 }}
 						>
 							{step.description}
 						</p>
@@ -120,21 +121,25 @@
 
 					<!-- Current step: full actor stage + packet inspector -->
 					{#if isCurrent}
-						<div class="mt-3 space-y-3" transition:slide={{ duration: 200 }}>
-							<ActorStage
-								actors={config.actors}
-								currentStep={step}
-								stepIndex={i}
-								{color}
-								compact={true}
-							/>
+						<div class="mt-3 space-y-3">
+							<div in:fly={{ y: 8, duration: 300, delay: 60 }}>
+								<ActorStage
+									actors={config.actors}
+									currentStep={step}
+									stepIndex={i}
+									{color}
+									compact={true}
+								/>
+							</div>
 
 							{#if step.layers && step.layers.length > 0}
-								<PacketInspector
-									layers={step.layers}
-									activeLayerIndex={step.layers.length - 1}
-									highlightFields={step.highlight ?? []}
-								/>
+								<div in:fly={{ y: 8, duration: 300, delay: 140 }}>
+									<PacketInspector
+										layers={step.layers}
+										activeLayerIndex={step.layers.length - 1}
+										highlightFields={step.highlight ?? []}
+									/>
+								</div>
 							{/if}
 						</div>
 					{/if}

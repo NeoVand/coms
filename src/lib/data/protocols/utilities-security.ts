@@ -14,7 +14,7 @@ export const utilitiesProtocols: Protocol[] = [
 
 TLS provides three guarantees: confidentiality (data is encrypted, so eavesdroppers see gibberish), integrity (data can't be modified without detection), and authentication (you're actually talking to who you think you are, verified by certificates). TLS 1.3 (2018) dramatically simplified the handshake, reducing it from 2 round trips to 1, and removed support for legacy insecure algorithms.
 
-When you see the lock icon in your browser, TLS is at work. It sits between the application layer (HTTP) and the transport layer (TCP), transparently encrypting everything. Application code doesn't need to change — "http://" becomes "https://" and TLS handles the rest.`,
+When you see the lock icon in your browser, TLS is at work. It sits between the application layer ([[http1|HTTP]]) and the transport layer ([[tcp|TCP]]), transparently encrypting everything. Application code doesn't need to change — "http://" becomes "https://" and TLS handles the rest.`,
 		howItWorks: [
 			{
 				title: 'ClientHello',
@@ -541,7 +541,7 @@ curl -sH 'accept: application/dns-json' \\
 		oneLiner: "Automatically assigns IP addresses — plug in and you're on the network.",
 		overview: `DHCP is the reason you can connect to a Wi-Fi network and immediately start browsing. Without it, you'd have to manually configure your IP address, subnet mask, gateway, and DNS servers — for every network you join.
 
-When your device connects to a network, it broadcasts a DHCP Discover message ("I need an IP address!"). A DHCP server responds with an offer, which the client accepts. The server then confirms and assigns the IP, along with all the configuration your device needs: subnet mask, default gateway, DNS servers, and the lease duration.
+When your device connects to a network, it broadcasts a DHCP Discover message ("I need an IP address!"). A DHCP server responds with an offer, which the client accepts. The server then confirms and assigns the IP, along with all the configuration your device needs: subnet mask, default gateway, [[dns|DNS]] servers, and the lease duration.
 
 DHCP leases are temporary — typically 1-24 hours. When a lease expires, the device must renew it. This dynamic allocation means IP addresses can be reused efficiently. DHCP is simple, ubiquitous, and works transparently — one of those "invisible" protocols that makes networking just work.`,
 		howItWorks: [
@@ -726,7 +726,7 @@ DHCP ACK:
 		year: 1985,
 		rfc: 'RFC 5905',
 		oneLiner: 'Keeps every device on Earth synchronized to the same clock.',
-		overview: `NTP is one of the oldest protocols still in active use, and one of the most underappreciated. It synchronizes clocks across the internet to within milliseconds — a critical requirement for everything from log correlation to financial trading to TLS certificate validation.
+		overview: `NTP is one of the oldest protocols still in active use, and one of the most underappreciated. It synchronizes clocks across the internet to within milliseconds — a critical requirement for everything from log correlation to financial trading to [[tls|TLS]] certificate validation.
 
 NTP uses a hierarchical system of time sources. Stratum 0 are atomic clocks and GPS receivers. Stratum 1 servers connect directly to these. Stratum 2 servers sync from Stratum 1, and so on. Your computer typically syncs from Stratum 2 or 3 servers (like pool.ntp.org).
 
@@ -889,7 +889,7 @@ sudo ntpdate pool.ntp.org`
 			'The protocol that delivers email across the internet — store and forward, hop by hop.',
 		overview: `SMTP is the backbone of email. Every email you've ever sent was delivered via SMTP — from your mail client to your provider's server, then relayed across the internet to the recipient's mail server. It's a "store and forward" protocol: each server along the path accepts responsibility for the message and forwards it to the next hop.
 
-SMTP is a text-based protocol with a simple command vocabulary: HELO/EHLO to greet, MAIL FROM to specify the sender, RCPT TO for recipients, DATA to send the message body, and QUIT to disconnect. Modern SMTP uses STARTTLS to upgrade plain connections to encrypted ones, and authentication (SMTP AUTH) to prevent unauthorized sending.
+SMTP is a text-based protocol with a simple command vocabulary: HELO/EHLO to greet, MAIL FROM to specify the sender, RCPT TO for recipients, DATA to send the message body, and QUIT to disconnect. Modern SMTP uses STARTTLS to upgrade plain connections to [[tls|TLS]]-encrypted ones, and authentication (SMTP AUTH) to prevent unauthorized sending.
 
 Despite being over 40 years old, SMTP remains the universal standard for email delivery. It's been extended with SPF, DKIM, and DMARC to fight spam and phishing. While newer protocols handle retrieval (IMAP, POP3), SMTP still handles every email's journey from sender to destination.`,
 		howItWorks: [
@@ -1045,7 +1045,7 @@ Server: 221 2.0.0 Bye`
 
 The control channel (port 21) carries text commands like USER, PASS, LIST, RETR (download), and STOR (upload). When a file transfer begins, a separate data connection opens on a different port. In "active" mode, the server connects back to the client; in "passive" mode (PASV), the client initiates both connections, which works better with firewalls and NAT.
 
-While FTP's plain-text design makes it insecure by modern standards, FTPS (FTP over TLS) adds encryption. SFTP (SSH File Transfer Protocol) is a completely different protocol that runs over SSH. Despite being largely superseded by SFTP, SCP, and HTTP-based file transfer, FTP remains in use for legacy systems, firmware updates, and bulk file hosting.`,
+While FTP's plain-text design makes it insecure by modern standards, FTPS (FTP over [[tls|TLS]]) adds encryption. SFTP ([[ssh|SSH]] File Transfer Protocol) is a completely different protocol that runs over [[ssh|SSH]]. Despite being largely superseded by SFTP, SCP, and [[http1|HTTP]]-based file transfer, FTP remains in use for legacy systems, firmware updates, and bulk file hosting.`,
 		howItWorks: [
 			{
 				title: 'Control connection',

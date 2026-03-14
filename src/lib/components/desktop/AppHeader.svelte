@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { BookMarked, BookOpen, CircleHelp } from 'lucide-svelte';
+
 	let { onhelp, onguide, panelOpen = false }: { onhelp?: () => void; onguide?: () => void; panelOpen?: boolean } = $props();
 </script>
 
@@ -18,34 +20,33 @@
 	</div>
 
 	<button
-		class="flex h-9 w-9 items-center justify-center rounded-xl border border-white/10 bg-bg-deep/80 text-slate-400 shadow-lg backdrop-blur-xl transition-colors hover:bg-white/5 hover:text-slate-200"
+		class="icon-btn flex h-9 w-9 items-center justify-center rounded-xl border border-white/10 bg-bg-deep/80 text-slate-400 shadow-lg backdrop-blur-xl transition-colors hover:bg-white/5 hover:text-slate-200"
 		onclick={() => onguide?.()}
 		aria-label={panelOpen ? 'Close guide' : 'Open guide'}
 		data-tour="guide-button"
 	>
 		{#if panelOpen}
-			<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-				<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
-				<path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
-			</svg>
+			<BookOpen size={16} strokeWidth={1.8} />
 		{:else}
-			<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-				<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
-				<path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
-			</svg>
+			<BookMarked size={16} strokeWidth={1.8} />
 		{/if}
 	</button>
 
 	<button
-		class="flex h-9 w-9 items-center justify-center rounded-xl border border-white/10 bg-bg-deep/80 text-slate-400 shadow-lg backdrop-blur-xl transition-colors hover:bg-white/5 hover:text-slate-200"
+		class="icon-btn flex h-9 w-9 items-center justify-center rounded-xl border border-white/10 bg-bg-deep/80 text-slate-400 shadow-lg backdrop-blur-xl transition-colors hover:bg-white/5 hover:text-slate-200"
 		onclick={() => onhelp?.()}
 		aria-label="Help"
 		data-tour="help-button"
 	>
-		<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-			<circle cx="12" cy="12" r="10" />
-			<path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
-			<line x1="12" y1="17" x2="12.01" y2="17" />
-		</svg>
+		<CircleHelp size={16} />
 	</button>
 </div>
+
+<style>
+	.icon-btn :global(svg) {
+		transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+	}
+	.icon-btn:hover :global(svg) {
+		transform: scale(1.15) rotate(-5deg);
+	}
+</style>

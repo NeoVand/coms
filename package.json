@@ -42,10 +42,12 @@
 		"vite": "^7.3.1"
 	},
 	"dependencies": {
+		"@jis3r/icons": "^2.7.0",
 		"d3-force": "^3.0.0",
 		"d3-quadtree": "^3.0.1",
 		"driver.js": "^1.4.0",
 		"highlight.js": "^11.11.1",
+		"lucide-svelte": "^0.577.0",
 		"mermaid": "^11.13.0"
 	}
 }

@@ -19,7 +19,8 @@ export type StorySection =
 	| { type: 'timeline'; entries: TimelineEntry[] }
 	| { type: 'pioneers'; title?: string; people: Pioneer[] }
 	| { type: 'callout'; title: string; text: string }
-	| { type: 'diagram'; title?: string; definition: string; caption: string };
+	| { type: 'diagram'; title?: string; definition: string; caption: string }
+	| { type: 'image'; src: string; alt: string; caption?: string; credit?: string; title?: string };
 
 export interface CategoryStory {
 	categoryId: string;

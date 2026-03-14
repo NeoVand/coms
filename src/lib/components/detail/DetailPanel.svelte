@@ -21,6 +21,11 @@
 	import SimulatorTabs from '$lib/simulator/components/SimulatorTabs.svelte';
 	import SimulatorView from '$lib/simulator/components/SimulatorView.svelte';
 	import { hasSimulation } from '$lib/simulator/simulations/index';
+	import ComparisonPicker from '$lib/components/comparison/ComparisonPicker.svelte';
+	import ComparisonCard from '$lib/components/comparison/ComparisonCard.svelte';
+	import RelationshipCard from '$lib/components/comparison/RelationshipCard.svelte';
+	import { getPair } from '$lib/data/comparison/pairs';
+	import { X } from 'lucide-svelte';
 
 	const appState = getAppState();
 	const allNodes = buildGraphNodes();
@@ -98,18 +103,11 @@
 	</div>
 	<!-- Close button -->
 	<button
-		class="absolute top-3 right-3 z-10 flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-white/5 hover:text-slate-200"
+		class="close-btn absolute top-3 right-3 z-10 flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-white/5 hover:text-slate-200"
 		onclick={() => appState.clearSelection()}
 		aria-label="Close panel"
 	>
-		<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-			<path
-				stroke-linecap="round"
-				stroke-linejoin="round"
-				stroke-width="2"
-				d="M6 18L18 6M6 6l12 12"
-			/>
-		</svg>
+		<X size={16} />
 	</button>
 	<!-- Background layer: masked so blur + bg fade seamlessly into canvas -->
 	<div class="panel-bg pointer-events-none absolute inset-0 shadow-2xl backdrop-blur-xl"></div>
@@ -327,11 +325,27 @@
 
 						<RelatedProtocols connections={proto.connections} />
 					</div>
-				{:else}
+				{:else if appState.detailViewMode === 'simulate'}
 					<div class="p-6">
 						{#key proto.id}
 							<SimulatorView protocolId={proto.id} color={cat?.color ?? '#FFFFFF'} />
 						{/key}
+					</div>
+				{:else if appState.detailViewMode === 'compare'}
+					<div class="p-6">
+						{#if appState.compareTargetId}
+							{@const targetProto = getProtocolById(appState.compareTargetId)}
+							{@const pair = getPair(proto.id, appState.compareTargetId)}
+							{#if targetProto}
+								{#if pair?.type === 'relationship'}
+									<RelationshipCard {pair} leftProto={proto} rightProto={targetProto} color={cat?.color ?? '#FFFFFF'} />
+								{:else}
+									<ComparisonCard {pair} leftProto={proto} rightProto={targetProto} color={cat?.color ?? '#FFFFFF'} />
+								{/if}
+							{/if}
+						{:else}
+							<ComparisonPicker protocolId={proto.id} color={cat?.color ?? '#FFFFFF'} />
+						{/if}
 					</div>
 				{/if}
 			</div>
@@ -439,5 +453,12 @@
 			transform: translateX(0);
 			opacity: 1;
 		}
+	}
+
+	.close-btn :global(svg) {
+		transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+	}
+	.close-btn:hover :global(svg) {
+		transform: rotate(90deg);
 	}
 </style>

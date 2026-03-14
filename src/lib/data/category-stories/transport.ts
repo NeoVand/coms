@@ -10,6 +10,14 @@ export const transportStory: CategoryStory = {
 			text: `The year was 1973, and the ARPANET had a problem. The network worked \u2014 mostly \u2014 but its underlying protocol, the Network Control Program (NCP), was welded to the ARPANET hardware. Every node had to be an ARPANET node. There was no way to bridge to a satellite network, a packet radio network, or any future network that hadn't been invented yet.\n\nVint Cerf and Bob Kahn saw what others didn't: the real challenge wasn't building one network, it was connecting all of them. They needed a protocol that made no assumptions about the underlying network \u2014 one that could ride on top of anything. That insight became [[tcp]], and later, when guaranteed delivery proved too heavy for every use case, its lighter sibling [[udp]]. Together, they formed the transport layer that would carry every email, every web page, and every video call the world would ever make.`
 		},
 		{
+			type: 'image',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/ARPANET_first_router.jpg/600px-ARPANET_first_router.jpg',
+			alt: 'The BBN Interface Message Processor (IMP) at UCLA, one of the first ARPANET nodes',
+			caption:
+				'The IMP at UCLA, 1969 — this refrigerator-sized Honeywell minicomputer processed the first ARPANET message. It arrived a month before the first successful "LO" transmission to Stanford.',
+			credit: 'Photo: Steve Jurvetson / CC BY 2.0, via Wikimedia Commons'
+		},
+		{
 			type: 'pioneers',
 			title: 'The Founding Architects',
 			people: [
@@ -96,6 +104,14 @@ export const transportStory: CategoryStory = {
 			type: 'narrative',
 			title: 'The Great Split',
 			text: `The original TCP was a monolith. It handled routing, reliability, and ordering all in one protocol. But Danny Cohen made a compelling case: real-time voice traffic couldn't tolerate TCP's insistence on retransmitting every lost packet. A dropped voice sample is gone \u2014 by the time a retransmission arrives, the conversation has moved on.\n\nThis argument led to one of the most consequential design decisions in computing history. TCP was split into two layers: IP for routing packets across networks, and TCP for providing reliable, ordered byte streams on top of IP. Alongside TCP came [[udp]] \u2014 a minimal transport that offered little more than port numbers and a checksum. No connections, no retransmissions, no ordering guarantees.\n\nThe separation was a stroke of genius. It meant that new transport protocols could be built on top of IP without changing a single router. [[tcp]] became the workhorse of the internet, carrying [[http1]], [[ssh]], [[ftp]], and [[smtp]]. [[udp]] became the foundation for real-time applications where speed matters more than perfection. And the door was left open for protocols yet to come.`
+		},
+		{
+			type: 'image',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Arpanet_logical_map%2C_march_1977.png/600px-Arpanet_logical_map%2C_march_1977.png',
+			alt: 'Logical map of the ARPANET, showing the network topology in March 1977',
+			caption:
+				'The ARPANET logical map, March 1977 — the network that would become the internet. Within six years, this entire network would cut over from NCP to TCP/IP on Flag Day.',
+			credit: 'ARPANET / Public Domain, via Wikimedia Commons'
 		},
 		{
 			type: 'callout',

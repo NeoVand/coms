@@ -10,6 +10,14 @@ export const asyncIotStory: CategoryStory = {
 			text: `Somewhere in a remote oil field, a sensor measures pipeline pressure. The data needs to reach a monitoring station hundreds of miles away, over a satellite link that drops packets and costs per byte. It's 1999, and Andy Stanford-Clark at IBM has a problem: [[http1]] is too heavy, [[tcp]] connections are too chatty, and bandwidth is precious. Together with Arlen Nipper of Arcom, he designs a protocol so lightweight it can run on the most constrained devices imaginable. They call it MQTT — a publish-subscribe protocol with a tiny 2-byte header overhead. A sensor publishes data to a topic; any number of subscribers can listen. The broker handles all the routing. It was designed for a world that didn't exist yet — the Internet of Things.`
 		},
 		{
+			type: 'image',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/IBM_system_360.JPG/600px-IBM_system_360.JPG',
+			alt: 'An IBM System/360 mainframe computer, representing the enterprise computing environment that drove message queuing development',
+			caption:
+				"Enterprise mainframes like the IBM System/360 drove the need for reliable message queuing — connecting business systems that couldn't afford to lose a single transaction.",
+			credit: 'Photo: Waelder / CC BY-SA 2.5, via Wikimedia Commons'
+		},
+		{
 			type: 'pioneers',
 			title: 'The Messaging Pioneers',
 			people: [
@@ -188,6 +196,14 @@ export const asyncIotStory: CategoryStory = {
 			type: 'narrative',
 			title: 'The IoT Explosion',
 			text: `The Internet of Things turned MQTT from a niche protocol into a global standard. Smart homes, industrial sensors, connected cars, agricultural monitors — billions of devices needed to send small messages reliably over constrained networks. [[mqtt]] was built for exactly this.\n\nBut some devices are even more constrained — 8-bit microcontrollers with kilobytes of RAM, running on coin-cell batteries. For these, even [[mqtt]] over [[tcp]] was too heavy. [[coap|CoAP]] was designed as the HTTP of the constrained world: it uses [[udp]] instead of TCP, supports GET/PUT/POST/DELETE like REST, but with a compact binary format. A CoAP message can be as small as 4 bytes. It even supports observe — a lightweight subscription mechanism — and can be proxied to HTTP, bridging the constrained and web worlds.`
+		},
+		{
+			type: 'image',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Raspberry_Pi_3_Model_B.JPG/600px-Raspberry_Pi_3_Model_B.JPG',
+			alt: 'A Raspberry Pi 3 Model B single-board computer, one of the devices powering the IoT revolution',
+			caption:
+				'Devices like the Raspberry Pi brought MQTT from oil pipelines to maker workshops — running Mosquitto brokers on $35 hardware and connecting billions of IoT sensors.',
+			credit: 'Photo: Jose.gil / CC BY-SA 4.0, via Wikimedia Commons'
 		},
 		{
 			type: 'narrative',

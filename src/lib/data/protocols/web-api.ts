@@ -247,9 +247,9 @@ curl --http2 -v https://example.com 2>&1 | grep "< HTTP"`
 		year: 2022,
 		rfc: 'RFC 9114',
 		oneLiner: 'HTTP over QUIC — faster connections, no head-of-line blocking, built-in encryption.',
-		overview: `HTTP/3 is the latest evolution of HTTP, replacing TCP with QUIC as its transport layer. This seemingly simple swap has profound implications: connections establish faster (1 RTT vs 2-3), lost packets don't block unrelated streams, and connections survive network changes (Wi-Fi to cellular).
+		overview: `HTTP/3 is the latest evolution of HTTP, replacing [[tcp|TCP]] with [[quic|QUIC]] as its transport layer. This seemingly simple swap has profound implications: connections establish faster (1 RTT vs 2-3), lost packets don't block unrelated streams, and connections survive network changes (Wi-Fi to cellular).
 
-The API for developers is identical — same methods, headers, and status codes. The difference is entirely at the transport level. HTTP/3 uses QUIC's independent streams to solve the head-of-line blocking that plagued HTTP/2 over TCP. Each HTTP request maps to a QUIC stream; if one packet is lost, only that stream waits for retransmission.
+The API for developers is identical — same methods, headers, and status codes. The difference is entirely at the transport level. HTTP/3 uses [[quic|QUIC]]'s independent streams to solve the head-of-line blocking that plagued [[http2|HTTP/2]] over [[tcp|TCP]]. Each HTTP request maps to a [[quic|QUIC]] stream; if one packet is lost, only that stream waits for retransmission.
 
 Adoption is accelerating: Google, Cloudflare, Facebook, and most CDNs support it. By 2025, roughly 30% of web traffic uses HTTP/3.`,
 		howItWorks: [
@@ -369,11 +369,11 @@ curl --http3-only https://cloudflare-quic.com`
 		year: 2011,
 		rfc: 'RFC 6455',
 		oneLiner: 'Full-duplex, persistent connection — server and client talk freely in real time.',
-		overview: `WebSockets solve a fundamental limitation of HTTP: the server can't initiate communication. In HTTP, the client always asks and the server always responds. WebSockets upgrade an HTTP connection into a persistent, full-duplex channel where either side can send messages at any time.
+		overview: `WebSockets solve a fundamental limitation of [[http1|HTTP]]: the server can't initiate communication. In [[http1|HTTP]], the client always asks and the server always responds. WebSockets upgrade an [[http1|HTTP]] connection into a persistent, full-duplex channel where either side can send messages at any time.
 
 This is perfect for real-time applications: chat, live sports scores, collaborative editing, multiplayer games, financial tickers. Instead of the client repeatedly polling "any updates?" (wasteful), the server simply pushes data when it's available.
 
-The connection starts as a normal HTTP request with an "Upgrade: websocket" header. If the server agrees, the connection switches protocols. From that point on, both sides exchange lightweight binary or text frames with just 2-14 bytes of overhead per message (vs hundreds of bytes for HTTP headers).`,
+The connection starts as a normal [[http1|HTTP]] request with an "Upgrade: websocket" header. If the server agrees, the connection switches protocols. From that point on, both sides exchange lightweight binary or text frames with just 2-14 bytes of overhead per message (vs hundreds of bytes for [[http1|HTTP]] headers).`,
 		howItWorks: [
 			{
 				title: 'HTTP upgrade request',
@@ -489,9 +489,9 @@ curl -i -N \\
 		year: 2015,
 		rfc: undefined,
 		oneLiner: 'High-performance RPC framework using Protocol Buffers over HTTP/2.',
-		overview: `gRPC is Google's open-source framework for remote procedure calls. Instead of designing REST endpoints and manually serializing JSON, you define your service and messages in Protocol Buffers (.proto files), and gRPC generates strongly-typed client and server code in 12+ languages.
+		overview: `gRPC is Google's open-source framework for remote procedure calls. Instead of designing [[rest|REST]] endpoints and manually serializing JSON, you define your service and messages in Protocol Buffers (.proto files), and gRPC generates strongly-typed client and server code in 12+ languages.
 
-It uses HTTP/2 for transport, gaining multiplexing and header compression for free. Messages are serialized as Protocol Buffers — a binary format that's 3-10x smaller and 20-100x faster to parse than JSON. gRPC also natively supports streaming: server-streaming, client-streaming, and bidirectional streaming.
+It uses [[http2|HTTP/2]] for transport, gaining multiplexing and header compression for free. Messages are serialized as Protocol Buffers — a binary format that's 3-10x smaller and 20-100x faster to parse than JSON. gRPC also natively supports streaming: server-streaming, client-streaming, and bidirectional streaming.
 
 gRPC dominates in microservice architectures where services are internal and performance matters. It's less common for public APIs (browsers can't easily use it), though gRPC-Web bridges that gap.`,
 		howItWorks: [
@@ -615,11 +615,11 @@ grpcurl -plaintext localhost:50051 UserService/ListUsers`
 		year: 2015,
 		rfc: undefined,
 		oneLiner: 'Ask for exactly the data you need — no more, no less. A query language for APIs.',
-		overview: `GraphQL was created at Facebook in 2012 and open-sourced in 2015. It's now maintained by the GraphQL Foundation under the Linux Foundation. Instead of the server deciding what data each endpoint returns, the client sends a query describing exactly what it wants. The server responds with precisely that shape of data — no over-fetching (getting fields you don't need) and no under-fetching (needing 5 REST calls for one screen).
+		overview: `GraphQL was created at Facebook in 2012 and open-sourced in 2015. It's now maintained by the GraphQL Foundation under the Linux Foundation. Instead of the server deciding what data each endpoint returns, the client sends a query describing exactly what it wants. The server responds with precisely that shape of data — no over-fetching (getting fields you don't need) and no under-fetching (needing 5 [[rest|REST]] calls for one screen).
 
-GraphQL operates over HTTP (typically a single /graphql endpoint accepting both GET and POST requests). The query language lets you traverse relationships, request nested data, and combine what would be multiple REST requests into a single query. It also has a strong type system — the schema defines every type, field, and relationship.
+GraphQL operates over [[http1|HTTP]] (typically a single /graphql endpoint accepting both GET and POST requests). The query language lets you traverse relationships, request nested data, and combine what would be multiple [[rest|REST]] requests into a single query. It also has a strong type system — the schema defines every type, field, and relationship.
 
-It shines for complex frontends (mobile apps, SPAs) that need flexible data fetching. It's less ideal for simple CRUD operations where REST's simplicity wins.`,
+It shines for complex frontends (mobile apps, SPAs) that need flexible data fetching. It's less ideal for simple CRUD operations where [[rest|REST]]'s simplicity wins.`,
 		howItWorks: [
 			{
 				title: 'Define schema',
@@ -756,9 +756,9 @@ curl -X POST https://api.example.com/graphql \\
 		year: 2006,
 		rfc: 'WHATWG Living Standard',
 		oneLiner: 'One-way real-time streaming from server to browser over plain HTTP.',
-		overview: `Server-Sent Events (SSE) provide a simple, standardized way for servers to push updates to web clients over a single HTTP connection. Unlike WebSockets, SSE is unidirectional — the server sends events, and the client listens. This simplicity is its strength.
+		overview: `Server-Sent Events (SSE) provide a simple, standardized way for servers to push updates to web clients over a single [[http1|HTTP]] connection. Unlike [[websockets|WebSockets]], SSE is unidirectional — the server sends events, and the client listens. This simplicity is its strength.
 
-SSE uses plain HTTP, which means it works through proxies, load balancers, and firewalls without any special configuration. The browser's EventSource API automatically handles reconnection, event IDs for resuming after disconnects, and content type negotiation.
+SSE uses plain [[http1|HTTP]], which means it works through proxies, load balancers, and firewalls without any special configuration. The browser's EventSource API automatically handles reconnection, event IDs for resuming after disconnects, and content type negotiation.
 
 Each event is a text block with optional fields: event type, data payload, ID, and retry interval. The format is deliberately simple — just UTF-8 text with newline separators. This makes SSE ideal for live feeds, notifications, and streaming AI responses where the server needs to push data but doesn't need to receive a stream back.`,
 		howItWorks: [
@@ -879,11 +879,11 @@ curl -sN https://example.com/api/notifications \\
 		year: 2000,
 		oneLiner:
 			'An architectural style for web APIs — not a protocol, but the dominant pattern for HTTP services.',
-		overview: `REST is not a protocol — it's an architectural style defined by Roy Fielding in his 2000 doctoral dissertation. It describes how to build scalable web services using the existing mechanics of HTTP: URLs as resource identifiers, HTTP methods as operations, status codes as outcomes, and hypermedia as the engine of application state.
+		overview: `REST is not a protocol — it's an architectural style defined by Roy Fielding in his 2000 doctoral dissertation. It describes how to build scalable web services using the existing mechanics of [[http1|HTTP]]: URLs as resource identifiers, [[http1|HTTP]] methods as operations, status codes as outcomes, and hypermedia as the engine of application state.
 
 A RESTful API models everything as resources (nouns, not verbs). You GET a user, POST a new order, PUT an updated profile, DELETE a session. Each request is stateless — the server doesn't remember previous requests, so every call carries all the context it needs. This makes REST APIs easy to cache, scale horizontally, and reason about.
 
-REST's ubiquity comes from its simplicity: any HTTP client in any language can call a REST API. No special tooling, no code generation, no binary protocols. JSON became the de facto format, though REST itself is format-agnostic. The trade-off is that REST can be chatty — fetching a complex resource might require multiple round trips, which is exactly the problem GraphQL was designed to solve.`,
+REST's ubiquity comes from its simplicity: any [[http1|HTTP]] client in any language can call a REST API. No special tooling, no code generation, no binary protocols. JSON became the de facto format, though REST itself is format-agnostic. The trade-off is that REST can be chatty — fetching a complex resource might require multiple round trips, which is exactly the problem [[graphql|GraphQL]] was designed to solve.`,
 		howItWorks: [
 			{
 				title: 'Resource identification',

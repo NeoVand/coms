@@ -6,6 +6,7 @@
 	import DetailPanel from '$lib/components/detail/DetailPanel.svelte';
 	import DiagramModal from '$lib/components/detail/DiagramModal.svelte';
 	import StoryDiagramModal from '$lib/components/detail/StoryDiagramModal.svelte';
+	import StoryImageModal from '$lib/components/detail/StoryImageModal.svelte';
 	import AccessibleGraph from '$lib/components/a11y/AccessibleGraph.svelte';
 	import { getAppState } from '$lib/state/context';
 	import { buildGraphNodes } from '$lib/data/index';
@@ -69,5 +70,19 @@
 		color={appState.storyDiagramModal.color}
 		title={appState.storyDiagramModal.title}
 		onclose={() => appState.closeStoryDiagramModal()}
+	/>
+{/if}
+
+<!-- Story image modal -->
+{#if appState.storyImageModal}
+	<StoryImageModal
+		open={true}
+		src={appState.storyImageModal.src}
+		alt={appState.storyImageModal.alt}
+		caption={appState.storyImageModal.caption}
+		credit={appState.storyImageModal.credit}
+		color={appState.storyImageModal.color}
+		title={appState.storyImageModal.title}
+		onclose={() => appState.closeStoryImageModal()}
 	/>
 {/if}

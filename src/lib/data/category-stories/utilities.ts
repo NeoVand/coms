@@ -93,6 +93,14 @@ export const utilitiesStory: CategoryStory = {
 			text: `In the early internet, every computer on the network maintained a file called HOSTS.TXT — a simple list mapping hostnames to IP addresses. The Stanford Research Institute maintained the master copy, and everyone downloaded updates periodically. This worked when there were a hundred hosts. By 1983, with thousands of hosts joining, it was falling apart.\n\nPaul Mockapetris solved this with [[dns]], the Domain Name System. Instead of one file, DNS distributed the naming across a hierarchical system of servers. Ask for 'google.com' and your query cascades: root servers direct you to .com servers, which direct you to Google's name servers, which return the IP address. This hierarchy handles billions of queries per day and translates every URL you type into the numbers the network actually uses.\n\nDavid Mills tackled an equally fundamental problem: time. How do you keep clocks synchronized across thousands of computers separated by unpredictable network delays? [[ntp]], the Network Time Protocol, uses a hierarchical system of time sources (stratum 0 from atomic clocks, cascading down) and sophisticated algorithms to compensate for network jitter. Mills maintained NTP for over 30 years — one person, one protocol, keeping the world's computers in sync.`
 		},
 		{
+			type: 'image',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/PDP-11-70.JPG/600px-PDP-11-70.JPG',
+			alt: 'A DEC PDP-11/70 minicomputer, representative of the machines that ran the early internet infrastructure',
+			caption:
+				"The DEC PDP-11 — machines like these ran early DNS servers, NTP clocks, and mail relays. The internet's invisible backbone started on hardware you could fill a room with.",
+			credit: 'Photo: Kozan / Public Domain, via Wikimedia Commons'
+		},
+		{
 			type: 'diagram',
 			definition: `graph TD
   A[Your Browser] -->|"who is example.com?"| B[DNS Resolver]
@@ -205,6 +213,14 @@ export const utilitiesStory: CategoryStory = {
 			type: 'narrative',
 			title: 'The Security Imperative',
 			text: `The internet was built on trust. Early protocols sent everything in plaintext — passwords, emails, file transfers — because the network was small and its users were known. As the internet grew from hundreds to millions of hosts, this trust model shattered.\n\nIn 1994, Netscape needed to enable secure credit card transactions on the web. Taher Elgamal led the creation of SSL (Secure Sockets Layer), wrapping [[tcp]] connections in encryption. SSL 2.0 shipped with Netscape Navigator, and suddenly e-commerce was possible. The IETF later standardized it as [[tls]], which now encrypts the vast majority of web traffic.\n\nMeanwhile in Finland, Tatu Ylönen had a more personal motivation. In 1995, a password-sniffing attack compromised accounts at his university. He wrote [[ssh]] — Secure Shell — essentially in a weekend, replacing the completely unencrypted telnet and rlogin. SSH didn't just encrypt remote access; it provided a secure tunnel for anything: file transfers (replacing [[ftp]] with SFTP), port forwarding, and eventually even Git transport.`
+		},
+		{
+			type: 'image',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Netscape_Navigator_2_Screenshot.png/600px-Netscape_Navigator_2_Screenshot.png',
+			alt: 'A screenshot of Netscape Navigator 2, the browser that introduced SSL encryption to the web',
+			caption:
+				"Netscape Navigator — the browser that introduced SSL and the padlock icon, making encrypted web communication possible. This UI convention persists in every browser today.",
+			credit: 'Screenshot: Indolering / CC0, via Wikimedia Commons'
 		},
 		{
 			type: 'pioneers',

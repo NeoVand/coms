@@ -12,6 +12,14 @@ export const webApiStory: CategoryStory = {
 The first version, HTTP/0.9, supported just one command: GET. No headers, no content types, no status codes. Just 'give me this document.' It was beautifully simple, and it was enough to start a revolution. [[http1]]`
 		},
 		{
+			type: 'image',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/First_Web_Server.jpg/600px-First_Web_Server.jpg',
+			alt: 'The NeXT computer used by Tim Berners-Lee at CERN, the world\'s first web server',
+			caption:
+				'The NeXT cube at CERN — the first web server and web browser, built by Tim Berners-Lee in 1990. The handwritten label reads "This machine is a server. DO NOT POWER IT DOWN!!"',
+			credit: 'Photo: Coolcaesar / CC BY-SA 3.0, via Wikimedia Commons'
+		},
+		{
 			type: 'pioneers',
 			title: "The Web's Creators",
 			people: [
@@ -82,6 +90,14 @@ The first version, HTTP/0.9, supported just one command: GET. No headers, no con
 The API economy exploded. Every startup, every tech giant began exposing [[rest]] APIs. But REST had limitations: over-fetching (getting more data than you need) and under-fetching (needing multiple requests). Facebook's mobile team felt this acutely \u2014 their News Feed required dozens of endpoints per page load. In 2012, Lee Byron, Dan Schafer, and Nick Schrock began building [[graphql]], a query language that let clients ask for exactly the data they needed.
 
 Meanwhile, Google's internal RPC system 'Stubby' was handling billions of requests per day. When they open-sourced it as [[grpc]] in 2016, it brought efficient binary serialization (Protocol Buffers), streaming, and HTTP/2 multiplexing to the microservices world.`
+		},
+		{
+			type: 'image',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Ginevra%2C_centro_visitatori_del_cern%2C_primo_server_della_storia_%281989%29%2C_02.JPG/600px-Ginevra%2C_centro_visitatori_del_cern%2C_primo_server_della_storia_%281989%29%2C_02.JPG',
+			alt: "Tim Berners-Lee's 1989 proposal 'Information Management: A Proposal' displayed at the CERN visitors center",
+			caption:
+				"Berners-Lee's 1989 proposal on display at CERN — the document his supervisor Mike Sendall marked \"Vague, but exciting.\" It described HTTP, HTML, and URLs before any of them existed.",
+			credit: 'Photo: Sailko / CC BY 3.0, via Wikimedia Commons'
 		},
 		{
 			type: 'diagram',

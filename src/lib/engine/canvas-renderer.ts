@@ -469,111 +469,45 @@ function drawNode(
 
 // --- Category icon drawing functions (all in 24×24 coordinate space) ---
 
+// Exact Lucide SVG paths rendered via Path2D for pixel-perfect icons
 function drawTransportIcon(ctx: CanvasRenderingContext2D): void {
-	// Up arrow (left side)
-	ctx.beginPath();
-	ctx.moveTo(7, 16);
-	ctx.lineTo(7, 5);
-	ctx.stroke();
-	ctx.beginPath();
-	ctx.moveTo(3, 9);
-	ctx.lineTo(7, 5);
-	ctx.lineTo(11, 9);
-	ctx.stroke();
-
-	// Down arrow (right side)
-	ctx.beginPath();
-	ctx.moveTo(17, 8);
-	ctx.lineTo(17, 19);
-	ctx.stroke();
-	ctx.beginPath();
-	ctx.moveTo(13, 15);
-	ctx.lineTo(17, 19);
-	ctx.lineTo(21, 15);
-	ctx.stroke();
+	ctx.stroke(new Path2D('M8 3 4 7l4 4'));
+	ctx.stroke(new Path2D('M4 7h16'));
+	ctx.stroke(new Path2D('M16 21l4-4-4-4'));
+	ctx.stroke(new Path2D('M20 17H4'));
 }
 
 function drawWebApiIcon(ctx: CanvasRenderingContext2D): void {
-	// Outer circle (globe)
-	ctx.beginPath();
-	ctx.arc(12, 12, 9, 0, Math.PI * 2);
-	ctx.stroke();
-
-	// Vertical ellipse (meridian)
-	ctx.beginPath();
-	ctx.ellipse(12, 12, 3.5, 9, 0, 0, Math.PI * 2);
-	ctx.stroke();
-
-	// Horizontal line (equator)
-	ctx.beginPath();
-	ctx.moveTo(3, 12);
-	ctx.lineTo(21, 12);
-	ctx.stroke();
+	ctx.stroke(new Path2D('M20.341 6.484A10 10 0 0 1 10.266 21.85'));
+	ctx.stroke(new Path2D('M3.659 17.516A10 10 0 0 1 13.74 2.152'));
+	const center = new Path2D();
+	center.arc(12, 12, 3, 0, Math.PI * 2);
+	ctx.stroke(center);
+	const sat1 = new Path2D();
+	sat1.arc(19, 5, 2, 0, Math.PI * 2);
+	ctx.stroke(sat1);
+	const sat2 = new Path2D();
+	sat2.arc(5, 19, 2, 0, Math.PI * 2);
+	ctx.stroke(sat2);
 }
 
 function drawAsyncIotIcon(ctx: CanvasRenderingContext2D): void {
-	// Antenna stem
-	ctx.beginPath();
-	ctx.moveTo(12, 19);
-	ctx.lineTo(12, 11);
-	ctx.stroke();
-
-	// Arrow tip
-	ctx.beginPath();
-	ctx.moveTo(9, 14);
-	ctx.lineTo(12, 11);
-	ctx.lineTo(15, 14);
-	ctx.stroke();
-
-	// Inner signal arcs
-	ctx.beginPath();
-	ctx.arc(12, 12, 5, Math.PI * 0.75, Math.PI * 1.25);
-	ctx.stroke();
-	ctx.beginPath();
-	ctx.arc(12, 12, 5, -Math.PI * 0.25, Math.PI * 0.25);
-	ctx.stroke();
-
-	// Outer signal arcs
-	ctx.beginPath();
-	ctx.arc(12, 12, 8, Math.PI * 0.72, Math.PI * 1.28);
-	ctx.stroke();
-	ctx.beginPath();
-	ctx.arc(12, 12, 8, -Math.PI * 0.28, Math.PI * 0.28);
-	ctx.stroke();
+	ctx.stroke(new Path2D('M16.247 7.761a6 6 0 0 1 0 8.478'));
+	ctx.stroke(new Path2D('M19.075 4.933a10 10 0 0 1 0 14.134'));
+	ctx.stroke(new Path2D('M4.925 19.067a10 10 0 0 1 0-14.134'));
+	ctx.stroke(new Path2D('M7.753 16.239a6 6 0 0 1 0-8.478'));
+	const dot = new Path2D();
+	dot.arc(12, 12, 2, 0, Math.PI * 2);
+	ctx.stroke(dot);
 }
 
 function drawRealtimeAvIcon(ctx: CanvasRenderingContext2D): void {
-	// Play triangle
-	ctx.beginPath();
-	ctx.moveTo(7, 4);
-	ctx.lineTo(19, 12);
-	ctx.lineTo(7, 20);
-	ctx.closePath();
-	const prevFill = ctx.fillStyle;
-	ctx.fillStyle = 'rgba(255, 255, 255, 0.15)';
-	ctx.fill();
-	ctx.fillStyle = prevFill;
-	ctx.stroke();
+	ctx.stroke(new Path2D('M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z'));
 }
 
 function drawUtilitiesIcon(ctx: CanvasRenderingContext2D): void {
-	// Lock body
-	ctx.beginPath();
-	ctx.rect(4, 12, 16, 9);
-	ctx.stroke();
-
-	// Shackle
-	ctx.beginPath();
-	ctx.moveTo(8, 12);
-	ctx.lineTo(8, 8);
-	ctx.arc(12, 8, 4, Math.PI, 0, false);
-	ctx.lineTo(16, 12);
-	ctx.stroke();
-
-	// Keyhole
-	ctx.beginPath();
-	ctx.arc(12, 16.5, 1.5, 0, Math.PI * 2);
-	ctx.fill();
+	ctx.stroke(new Path2D('M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z'));
+	ctx.stroke(new Path2D('M9 12l2 2 4-4'));
 }
 
 function drawCategoryIcon(

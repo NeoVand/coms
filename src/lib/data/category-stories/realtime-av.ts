@@ -10,6 +10,14 @@ export const realtimeAvStory: CategoryStory = {
 			text: `In 1973, on the ARPANET \u2014 the same network that would become the internet \u2014 researchers at the Lincoln Laboratory transmitted real-time voice using the Network Voice Protocol. The audio was choppy, the latency unpredictable, but it proved something: the packet-switched network could carry more than just data. The dream of real-time communication over the internet had begun.\n\nThe challenge was fundamental: voice and video tolerate delay very poorly but tolerate loss surprisingly well. A dropped video frame is invisible; a 200ms delay makes conversation awkward. This is the opposite of file transfer, where every byte matters but timing doesn't. The real-time protocols in this category all solve the same problem: deliver media fast, even if some of it doesn't make it. [[rtp]] and [[udp]] are the foundation of this approach.`
 		},
 		{
+			type: 'image',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/AT%26T_Picturephone_%2812721549765%29.jpg/600px-AT%26T_Picturephone_%2812721549765%29.jpg',
+			alt: 'The AT&T Picturephone, an early commercial videophone system from the 1960s-70s',
+			caption:
+				"AT&T's Picturephone — decades before WebRTC, the dream of seeing the person you're talking to drove decades of protocol innovation, from analog circuits to packet-switched networks.",
+			credit: 'Photo: Mike Mozart / CC BY 2.0, via Wikimedia Commons'
+		},
+		{
 			type: 'pioneers',
 			title: 'The Real-Time Pioneers',
 			people: [
@@ -183,6 +191,14 @@ export const realtimeAvStory: CategoryStory = {
 			type: 'narrative',
 			title: 'WebRTC \u2014 The Browser Revolution',
 			text: `In 2010, Google made a $68.2 million bet on real-time communication. They acquired Global IP Solutions (GIPS), a Swedish company whose audio and video codecs powered Skype and dozens of other VoIP applications. Then they did something remarkable: they open-sourced everything and began building it into Chrome.\n\n[[webrtc]] didn't invent new protocols \u2014 it combined existing ones. [[rtp]] for media transport, SRTP for encryption, ICE/STUN/TURN for NAT traversal, [[sdp]] for session negotiation, and [[sctp]] for data channels. The genius was packaging all of this into a browser API that any web developer could use. No plugins, no installs, no special servers. Just JavaScript.\n\nJustin Uberti and Harald Alvestrand led the effort, navigating both the W3C (for the browser API) and the IETF (for the underlying protocols). The result was a platform that powers everything from Google Meet to telehealth appointments.`
+		},
+		{
+			type: 'image',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Polycom_VSX_7000_with_2_video_conferencing_screens.JPG/600px-Polycom_VSX_7000_with_2_video_conferencing_screens.JPG',
+			alt: 'A Polycom VSX 7000 video conferencing system with dual screens, representing dedicated video conferencing hardware',
+			caption:
+				'Dedicated video conferencing hardware like the Polycom VSX 7000 — expensive, specialized equipment that WebRTC would eventually replace with a browser tab and a webcam.',
+			credit: 'Photo: BrokenSphere / CC BY-SA 3.0, via Wikimedia Commons'
 		},
 		{
 			type: 'diagram',

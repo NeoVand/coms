@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { getAppState } from '$lib/state/context';
 	import type { LayoutMode } from '$lib/engine/layouts';
+	import { Minus, Plus, ChevronUp } from 'lucide-svelte';
 
 	const appState = getAppState();
 
@@ -46,9 +47,7 @@
 			onclick={() => appState.zoom(appState.viewport.scale * 0.8, 0, 0)}
 			aria-label="Zoom out"
 		>
-			<svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 12H4" />
-			</svg>
+			<Minus size={12} strokeWidth={2} />
 		</button>
 
 		<button
@@ -64,9 +63,7 @@
 			onclick={() => appState.zoom(appState.viewport.scale * 1.25, 0, 0)}
 			aria-label="Zoom in"
 		>
-			<svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-				<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-			</svg>
+			<Plus size={12} strokeWidth={2} />
 		</button>
 	</div>
 
@@ -90,7 +87,6 @@
 					<!-- Icon -->
 					<span class="flex h-5 w-5 shrink-0 items-center justify-center opacity-70">
 						{#if layout.id === 'force'}
-							<!-- Three dots with edges -->
 							<svg viewBox="0 0 20 20" fill="none" class="h-4 w-4" stroke="currentColor" stroke-width="1.5">
 								<circle cx="10" cy="4" r="2" fill="currentColor" stroke="none"/>
 								<circle cx="4" cy="15" r="2" fill="currentColor" stroke="none"/>
@@ -100,14 +96,12 @@
 								<line x1="6" y1="15" x2="14" y2="15"/>
 							</svg>
 						{:else if layout.id === 'radial'}
-							<!-- Concentric rings -->
 							<svg viewBox="0 0 20 20" fill="none" class="h-4 w-4" stroke="currentColor" stroke-width="1.5">
 								<circle cx="10" cy="10" r="1.5" fill="currentColor" stroke="none"/>
 								<circle cx="10" cy="10" r="5" />
 								<circle cx="10" cy="10" r="8.5" />
 							</svg>
 						{:else if layout.id === 'timeline'}
-							<!-- Horizontal lines with dots (timeline) -->
 							<svg viewBox="0 0 20 20" fill="none" class="h-4 w-4" stroke="currentColor" stroke-width="1.5">
 								<line x1="1" y1="5.5" x2="19" y2="5.5"/>
 								<line x1="1" y1="10" x2="19" y2="10"/>
@@ -143,14 +137,9 @@
 			<circle cx="8" cy="8" r="7"/>
 		</svg>
 		<span>{layouts.find((l) => l.id === appState.layoutMode)?.label ?? 'Layout'}</span>
-		<svg
-			viewBox="0 0 16 16"
-			class="h-3 w-3 shrink-0 opacity-50 transition-transform"
-			class:rotate-180={open}
-			fill="currentColor"
-		>
-			<path d="M8 3.293L1.146 10.146a.5.5 0 0 0 .708.708L8 4.707l6.146 6.147a.5.5 0 0 0 .708-.708L8 3.293z"/>
-		</svg>
+		<span class="opacity-50 transition-transform" class:rotate-180={open}>
+			<ChevronUp size={12} strokeWidth={2} />
+		</span>
 	</button>
 	</div>
 </div>

@@ -171,7 +171,7 @@ Payload:
 		year: 2006,
 		rfc: undefined,
 		oneLiner: 'Enterprise message queuing with routing, persistence, and guaranteed delivery.',
-		overview: `AMQP is the heavyweight champion of message queuing protocols. While MQTT is designed for constrained IoT devices, AMQP is designed for enterprise backends where reliability and sophisticated routing matter more than minimal overhead.
+		overview: `AMQP is the heavyweight champion of message queuing protocols. While [[mqtt|MQTT]] is designed for constrained IoT devices, AMQP is designed for enterprise backends where reliability and sophisticated routing matter more than minimal overhead.
 
 The protocol separates concerns beautifully: producers send messages to "exchanges," exchanges route messages to "queues" based on rules (direct, topic, fanout, headers), and consumers read from queues. This decoupling means you can change routing logic without touching producers or consumers.
 
@@ -338,9 +338,9 @@ Content Body:
 		year: 2014,
 		rfc: 'RFC 7252',
 		oneLiner: 'HTTP for tiny devices — REST semantics over UDP for constrained IoT.',
-		overview: `CoAP brings the familiar REST model (GET, POST, PUT, DELETE) to the world of constrained IoT devices — think microcontrollers with 10KB of RAM on lossy, low-power wireless networks. It runs over UDP instead of TCP, uses a compact binary format, and adds built-in support for resource observation (subscribe to changes).
+		overview: `CoAP brings the familiar [[rest|REST]] model (GET, POST, PUT, DELETE) to the world of constrained IoT devices — think microcontrollers with 10KB of RAM on lossy, low-power wireless networks. It runs over [[udp|UDP]] instead of [[tcp|TCP]], uses a compact binary format, and adds built-in support for resource observation (subscribe to changes).
 
-The design mirrors HTTP closely enough that translating between CoAP and HTTP is straightforward, enabling IoT devices to integrate with web infrastructure through simple proxies. But unlike HTTP, CoAP supports multicast (discover all devices on a network), observation (get notified when a sensor value changes), and block-wise transfer (for large payloads on constrained links).
+The design mirrors [[http1|HTTP]] closely enough that translating between CoAP and [[http1|HTTP]] is straightforward, enabling IoT devices to integrate with web infrastructure through simple proxies. But unlike [[http1|HTTP]], CoAP supports multicast (discover all devices on a network), observation (get notified when a sensor value changes), and block-wise transfer (for large payloads on constrained links).
 
 CoAP is widely used in smart buildings, industrial automation, and city infrastructure where devices have extreme resource constraints but still need web-like interaction patterns.`,
 		howItWorks: [
@@ -502,11 +502,11 @@ coap-client -m get coap://sensor.local/.well-known/core`
 		year: 2003,
 		rfc: undefined,
 		oneLiner: 'A dead-simple text protocol for message brokers — the HTTP of messaging.',
-		overview: `STOMP is to message queuing what HTTP is to the web — a simple, text-based protocol that any language can implement easily. While AMQP has complex binary framing and MQTT has its binary headers, STOMP uses plain text commands like CONNECT, SUBSCRIBE, SEND, and ACK.
+		overview: `STOMP is to message queuing what [[http1|HTTP]] is to the web — a simple, text-based protocol that any language can implement easily. While [[amqp|AMQP]] has complex binary framing and [[mqtt|MQTT]] has its binary headers, STOMP uses plain text commands like CONNECT, SUBSCRIBE, SEND, and ACK.
 
 This simplicity is STOMP's superpower. You can literally telnet to a STOMP broker and type messages by hand. It's supported by most major message brokers (RabbitMQ, ActiveMQ, Apollo) as an alternative to their native protocols, making it a great choice when you need messaging but don't want to learn a complex protocol.
 
-STOMP is commonly used in web applications via WebSocket bridges — the Spring Framework's messaging support, for example, uses STOMP over WebSockets for real-time server-to-browser communication.`,
+STOMP is commonly used in web applications via [[websockets|WebSocket]] bridges — the Spring Framework's messaging support, for example, uses STOMP over [[websockets|WebSockets]] for real-time server-to-browser communication.`,
 		howItWorks: [
 			{
 				title: 'CONNECT',
@@ -686,7 +686,7 @@ receipt-id:msg-receipt-1
 			'The open, XML-based messaging protocol born as Jabber — federated chat before it was cool.',
 		overview: `In January 1999, Jeremie Miller was tired of juggling four different instant messaging clients for four different walled-garden services. So he built Jabber — an open, federated messaging system where anyone could run a server and talk to anyone on any other server. That system became XMPP, and its ideas about federation and open standards shaped the future of messaging.
 
-XMPP uses persistent XML streams between clients and servers. Messages, presence updates ("Alice is online"), and IQ (info/query) stanzas flow as XML fragments over these streams. The protocol is designed to be extensible — hundreds of XEPs (XMPP Extension Protocols) add capabilities from file transfer and multi-user chat to IoT device management.
+XMPP uses persistent XML streams between clients and servers over [[tcp|TCP]]. Messages, presence updates ("Alice is online"), and IQ (info/query) stanzas flow as XML fragments over these streams. The protocol is designed to be extensible — hundreds of XEPs (XMPP Extension Protocols) add capabilities from file transfer and multi-user chat to IoT device management.
 
 Google Talk, the early versions of WhatsApp, Facebook Messenger (originally), and Apple's iMessage push notifications all used XMPP at some point. While many moved to proprietary protocols for scale, XMPP remains the backbone of countless enterprise chat systems, IoT platforms, and the federated messaging movement.`,
 		howItWorks: [

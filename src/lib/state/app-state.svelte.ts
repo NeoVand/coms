@@ -9,7 +9,8 @@ export class AppState {
 	reducedMotion: boolean = $state(false);
 	showDetailPanel: boolean = $state(false);
 	detailPanelWidth: number = $state(520);
-	detailViewMode: 'learn' | 'simulate' = $state('learn');
+	detailViewMode: 'learn' | 'simulate' | 'compare' = $state('learn');
+	compareTargetId: string | null = $state(null);
 
 	// Diagram modal state (rendered at root level to escape stacking contexts)
 	diagramModal: { protocolId: string; color: string } | null = $state(null);
@@ -38,6 +39,31 @@ export class AppState {
 		this.storyDiagramModal = null;
 	};
 
+	// Story image modal state
+	storyImageModal: {
+		src: string;
+		alt: string;
+		caption?: string;
+		credit?: string;
+		color: string;
+		title?: string;
+	} | null = $state(null);
+
+	openStoryImageModal = (
+		src: string,
+		alt: string,
+		color: string,
+		caption?: string,
+		credit?: string,
+		title?: string
+	) => {
+		this.storyImageModal = { src, alt, caption, credit, color, title };
+	};
+
+	closeStoryImageModal = () => {
+		this.storyImageModal = null;
+	};
+
 	viewport: Viewport = $state({ x: 0, y: 0, scale: 1 });
 
 	// Smooth viewport animation (not reactive — only read by tickViewport)
@@ -47,6 +73,7 @@ export class AppState {
 		this.selectedNode = node;
 		this.showDetailPanel = node !== null;
 		this.detailViewMode = 'learn';
+		this.compareTargetId = null;
 		this.hoveredNode = null;
 	};
 
