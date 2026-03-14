@@ -497,6 +497,16 @@
 		border-radius: 1rem 1rem 0 0;
 		border-top: 1px solid rgba(255, 255, 255, 0.1);
 		animation: slideInUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+		display: flex;
+		flex-direction: column;
+		overflow: hidden;
+	}
+
+	/* Let the scrollable content area fill remaining space in the mobile flex container */
+	.detail-panel--mobile :global(.custom-scrollbar) {
+		flex: 1;
+		min-height: 0;
+		height: auto;
 	}
 
 	.detail-panel--desktop .panel-bg {

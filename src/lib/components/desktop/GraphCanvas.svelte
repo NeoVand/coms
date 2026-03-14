@@ -203,6 +203,7 @@
 	let touchStartY = 0;
 
 	function handleTouchStart(e: TouchEvent) {
+		e.preventDefault();
 		if (e.touches.length === 1) {
 			isPanning = true;
 			lastMouseX = e.touches[0].clientX;
@@ -274,12 +275,27 @@
 			simulation.alpha(0.3).restart();
 		}
 
+		// Register touch/wheel handlers as non-passive so preventDefault() works
+		// (Svelte adds inline handlers as passive by default for touch/wheel)
+		canvas.addEventListener('touchstart', handleTouchStart, { passive: false });
+		canvas.addEventListener('touchmove', handleTouchMove, { passive: false });
+		canvas.addEventListener('touchend', handleTouchEnd, { passive: false });
+		canvas.addEventListener('wheel', handleWheel, { passive: false });
+
+		let hasInitialFit = false;
+
 		const resizeObserver = new ResizeObserver((entries) => {
 			const entry = entries[0];
 			width = entry.contentRect.width;
 			height = entry.contentRect.height;
 			canvas.width = width * dpr;
 			canvas.height = height * dpr;
+
+			// Fit graph to screen on first layout
+			if (!hasInitialFit && width > 0 && height > 0) {
+				hasInitialFit = true;
+				appState.focusOnSubgraph(nodes, width, height, 0);
+			}
 		});
 		resizeObserver.observe(canvas.parentElement!);
 
@@ -335,20 +351,20 @@
 			renderLoop.destroy();
 			simulation.stop();
 			resizeObserver.disconnect();
+			canvas.removeEventListener('touchstart', handleTouchStart);
+			canvas.removeEventListener('touchmove', handleTouchMove);
+			canvas.removeEventListener('touchend', handleTouchEnd);
+			canvas.removeEventListener('wheel', handleWheel);
 		};
 	});
 </script>
 
 <canvas
 	bind:this={canvas}
-	class="absolute inset-0 h-full w-full"
+	class="absolute inset-0 h-full w-full touch-none"
 	style="cursor: grab"
 	onmousemove={handleMouseMove}
 	onmousedown={handleMouseDown}
 	onmouseup={handleMouseUp}
 	onmouseleave={handleMouseLeave}
-	onwheel={handleWheel}
-	ontouchstart={handleTouchStart}
-	ontouchmove={handleTouchMove}
-	ontouchend={handleTouchEnd}
 ></canvas>
