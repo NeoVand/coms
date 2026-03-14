@@ -6,7 +6,6 @@
 	import { setAppState } from '$lib/state/context';
 	import { buildGraphNodes } from '$lib/data';
 	import DesktopView from './desktop/DesktopView.svelte';
-	import MobileView from './mobile/MobileView.svelte';
 
 	const appState = new AppState();
 	setAppState(appState);
@@ -81,9 +80,5 @@
 </script>
 
 <div class="h-screen w-screen overflow-hidden bg-bg-deep">
-	{#if appState.isMobile}
-		<MobileView />
-	{:else}
-		<DesktopView />
-	{/if}
+	<DesktopView />
 </div>

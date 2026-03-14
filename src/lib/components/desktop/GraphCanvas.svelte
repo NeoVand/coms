@@ -199,12 +199,16 @@
 	// Touch support
 	let touchStartDist = 0;
 	let touchStartScale = 1;
+	let touchStartX = 0;
+	let touchStartY = 0;
 
 	function handleTouchStart(e: TouchEvent) {
 		if (e.touches.length === 1) {
 			isPanning = true;
 			lastMouseX = e.touches[0].clientX;
 			lastMouseY = e.touches[0].clientY;
+			touchStartX = e.touches[0].clientX;
+			touchStartY = e.touches[0].clientY;
 		} else if (e.touches.length === 2) {
 			isPanning = false;
 			touchStartDist = Math.hypot(
@@ -234,6 +238,25 @@
 
 	function handleTouchEnd(e: TouchEvent) {
 		if (e.touches.length === 0) {
+			if (isPanning && e.changedTouches.length > 0) {
+				const dist = Math.hypot(
+					e.changedTouches[0].clientX - touchStartX,
+					e.changedTouches[0].clientY - touchStartY
+				);
+				if (dist < 10) {
+					// Tap — select node or clear selection
+					const world = screenToWorld(
+						e.changedTouches[0].clientX,
+						e.changedTouches[0].clientY
+					);
+					const node = findNodeAtPosition(nodes, world.x, world.y, appState.viewport.scale);
+					if (node) {
+						appState.selectNode(node);
+					} else {
+						appState.clearSelection();
+					}
+				}
+			}
 			isPanning = false;
 		}
 	}

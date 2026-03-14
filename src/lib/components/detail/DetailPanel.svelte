@@ -31,12 +31,15 @@
 	const appState = getAppState();
 	const allNodes = buildGraphNodes();
 
+	const isMobile = $derived(appState.isMobile);
+
 	let panelWidth = $state(520);
 	let isResizing = $state(false);
 
 	// Keep appState in sync so focusOnNode uses the current panel width
+	// On mobile (bottom sheet), panel doesn't consume horizontal space
 	$effect(() => {
-		appState.detailPanelWidth = panelWidth;
+		appState.detailPanelWidth = isMobile ? 0 : panelWidth;
 	});
 
 	const MIN_WIDTH = 360;
@@ -81,27 +84,47 @@
 	});
 </script>
 
+{#if isMobile}
+	<!-- Mobile backdrop -->
+	<button
+		class="fixed inset-0 z-40 bg-black/60"
+		onclick={() => appState.clearSelection()}
+		aria-label="Close panel"
+	></button>
+{/if}
+
 <div
-	class="detail-panel absolute top-0 right-0 z-50 h-full"
+	class="detail-panel z-50"
+	class:detail-panel--desktop={!isMobile}
+	class:detail-panel--mobile={isMobile}
 	data-tour="detail-panel"
-	style="width: {panelWidth}px;"
-	class:panel-enter={true}
+	style={isMobile ? '' : `width: ${panelWidth}px;`}
 >
-	<!-- Resize handle -->
-	<div
-		class="resize-handle absolute top-0 left-0 z-20 h-full w-2 cursor-col-resize"
-		onpointerdown={onResizeStart}
-		onpointermove={onResizeMove}
-		onpointerup={onResizeEnd}
-		onpointercancel={onResizeEnd}
-		role="separator"
-		aria-orientation="vertical"
-		aria-label="Resize panel"
-	>
-		<div class="absolute top-1/2 left-0.5 h-8 w-1 -translate-y-1/2 rounded-full bg-slate-600 opacity-0 transition-opacity"
-			class:opacity-100={isResizing}
-		></div>
-	</div>
+	{#if !isMobile}
+		<!-- Resize handle (desktop only) -->
+		<div
+			class="resize-handle absolute top-0 left-0 z-20 h-full w-2 cursor-col-resize"
+			onpointerdown={onResizeStart}
+			onpointermove={onResizeMove}
+			onpointerup={onResizeEnd}
+			onpointercancel={onResizeEnd}
+			role="separator"
+			aria-orientation="vertical"
+			aria-label="Resize panel"
+		>
+			<div class="absolute top-1/2 left-0.5 h-8 w-1 -translate-y-1/2 rounded-full bg-slate-600 opacity-0 transition-opacity"
+				class:opacity-100={isResizing}
+			></div>
+		</div>
+	{/if}
+
+	{#if isMobile}
+		<!-- Drag handle (mobile only) -->
+		<div class="flex justify-center pt-3">
+			<div class="h-1 w-8 rounded-full bg-white/20"></div>
+		</div>
+	{/if}
+
 	<!-- Close button -->
 	<button
 		class="close-btn absolute top-3 right-3 z-10 flex h-8 w-8 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-white/5 hover:text-slate-200"
@@ -110,9 +133,9 @@
 	>
 		<X size={16} />
 	</button>
-	<!-- Background layer: masked so blur + bg fade seamlessly into canvas -->
+	<!-- Background layer -->
 	<div class="panel-bg pointer-events-none absolute inset-0 shadow-2xl backdrop-blur-xl"></div>
-	<!-- Content layer: unmasked so text stays fully opaque -->
+	<!-- Content layer -->
 	<div
 		class="relative custom-scrollbar flex h-full w-full flex-col overflow-y-auto"
 	>
@@ -454,26 +477,43 @@
 </div>
 
 <style>
-	.detail-panel {
+	/* Desktop: right sidebar */
+	.detail-panel--desktop {
+		position: absolute;
+		top: 0;
+		right: 0;
+		height: 100%;
 		max-width: 90vw;
 		min-width: 360px;
+		animation: slideInRight 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
 	}
 
-	.panel-bg {
+	/* Mobile: bottom sheet */
+	.detail-panel--mobile {
+		position: fixed;
+		inset-inline: 0;
+		bottom: 0;
+		max-height: 85vh;
+		border-radius: 1rem 1rem 0 0;
+		border-top: 1px solid rgba(255, 255, 255, 0.1);
+		animation: slideInUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+	}
+
+	.detail-panel--desktop .panel-bg {
 		background: linear-gradient(to right, rgb(9 14 26 / 0.6), rgb(9 14 26 / 0.88) 25%, rgb(7 10 20 / 0.98) 70%, rgb(5 8 16 / 1));
 		-webkit-mask-image: linear-gradient(to right, transparent, black 80px);
 		mask-image: linear-gradient(to right, transparent, black 80px);
+	}
+
+	.detail-panel--mobile .panel-bg {
+		background: rgb(5 8 16 / 0.98);
 	}
 
 	.resize-handle:hover > div {
 		opacity: 1 !important;
 	}
 
-	.panel-enter {
-		animation: slideIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
-	}
-
-	@keyframes slideIn {
+	@keyframes slideInRight {
 		from {
 			transform: translateX(60px);
 			opacity: 0;
@@ -481,6 +521,15 @@
 		to {
 			transform: translateX(0);
 			opacity: 1;
+		}
+	}
+
+	@keyframes slideInUp {
+		from {
+			transform: translateY(100%);
+		}
+		to {
+			transform: translateY(0);
 		}
 	}
 

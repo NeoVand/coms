@@ -32,7 +32,9 @@
 	<GraphCanvas />
 
 	<!-- HTML overlay layer -->
-	<NodeTooltip />
+	{#if !appState.isMobile}
+		<NodeTooltip />
+	{/if}
 	<AppHeader
 		onguide={toggleGuide}
 		panelOpen={appState.showDetailPanel}

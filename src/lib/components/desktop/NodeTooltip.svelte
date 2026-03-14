@@ -68,7 +68,7 @@
 	});
 </script>
 
-{#if hoveredInfo && appState.hoveredNode}
+{#if hoveredInfo && appState.hoveredNode && !appState.isMobile}
 	{#key appState.hoveredNode.id}
 		<div
 			class="tooltip-pop pointer-events-none fixed z-50 max-w-xs rounded-xl border bg-bg-deep/90 px-4 py-3 shadow-2xl backdrop-blur-xl"

@@ -37,7 +37,7 @@
 	></button>
 {/if}
 
-<div class="absolute bottom-4 left-4 z-40 flex items-center gap-2" data-tour="layout-picker">
+<div class="absolute bottom-3 left-3 z-40 flex items-center gap-1.5 md:bottom-4 md:left-4 md:gap-2" data-tour="layout-picker">
 	<!-- Compact zoom controls -->
 	<div
 		class="flex items-center gap-0.5 rounded-full border border-white/10 bg-bg-deep/80 p-0.5 shadow-lg backdrop-blur-xl"
