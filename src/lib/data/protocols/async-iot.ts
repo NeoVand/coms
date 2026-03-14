@@ -156,7 +156,7 @@ Payload:
 			throughput: 'Brokers handle millions of messages/sec; protocol overhead is minimal',
 			overhead: '2-byte fixed header minimum — one of the lightest protocols in existence'
 		},
-		connections: ['tcp', 'websockets', 'tls'],
+		connections: ['tcp', 'websockets', 'tls', 'amqp'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/MQTT',
 			official: 'https://mqtt.org/'
@@ -323,7 +323,7 @@ Content Body:
 			overhead:
 				'Richer framing than MQTT (exchange routing, properties, headers). 8-byte frame header.'
 		},
-		connections: ['tcp', 'tls', 'websockets'],
+		connections: ['tcp', 'tls', 'websockets', 'mqtt', 'stomp', 'kafka'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Advanced_Message_Queuing_Protocol',
 			official: 'https://www.amqp.org/'
@@ -668,7 +668,7 @@ receipt-id:msg-receipt-1
 			throughput: 'Text encoding is less efficient than binary protocols like AMQP',
 			overhead: 'Text framing is verbose compared to MQTT/AMQP, but very readable'
 		},
-		connections: ['tcp', 'websockets'],
+		connections: ['tcp', 'websockets', 'amqp'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Streaming_Text_Oriented_Messaging_Protocol',
 			official: 'https://stomp.github.io/'
@@ -1069,7 +1069,7 @@ kafka-consumer-groups.sh \\
 			overhead:
 				'Binary protocol with batching and compression. Zero-copy optimization for reads.'
 		},
-		connections: ['tcp', 'tls'],
+		connections: ['tcp', 'tls', 'amqp'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Apache_Kafka',
 			official: 'https://kafka.apache.org/protocol/'

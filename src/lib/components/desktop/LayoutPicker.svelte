@@ -39,7 +39,7 @@
 <div class="absolute bottom-4 left-4 z-40 flex items-center gap-2" data-tour="layout-picker">
 	<!-- Compact zoom controls -->
 	<div
-		class="flex items-center gap-0.5 rounded-full border border-white/10 bg-slate-900/80 p-0.5 shadow-lg backdrop-blur-md"
+		class="flex items-center gap-0.5 rounded-full border border-white/10 bg-bg-deep/80 p-0.5 shadow-lg backdrop-blur-xl"
 	>
 		<button
 			class="flex h-6 w-6 items-center justify-center rounded-full text-slate-400 transition-colors hover:bg-white/5 hover:text-slate-200"
@@ -70,10 +70,12 @@
 		</button>
 	</div>
 
+	<!-- Layout selector wrapper (relative for dropdown positioning) -->
+	<div class="relative">
 	<!-- Floating menu — opens upward -->
 	{#if open}
 		<div
-			class="absolute bottom-full left-0 mb-2 overflow-hidden rounded-xl border border-white/10 bg-slate-900/95 shadow-2xl backdrop-blur-md"
+			class="absolute bottom-full left-0 mb-2 overflow-hidden rounded-xl border border-white/10 bg-bg-deep/95 shadow-2xl backdrop-blur-xl"
 			role="menu"
 		>
 			{#each layouts as layout (layout.id)}
@@ -130,7 +132,7 @@
 
 	<!-- Trigger pill -->
 	<button
-		class="flex items-center gap-2 rounded-full border border-white/10 bg-slate-900/80 px-3.5 py-1.5 text-xs font-medium text-slate-300 shadow-lg backdrop-blur-md transition-colors hover:border-white/20 hover:text-slate-100"
+		class="flex items-center gap-2 rounded-full border border-white/10 bg-bg-deep/80 px-3.5 py-1.5 text-xs font-medium text-slate-300 shadow-lg backdrop-blur-xl transition-colors hover:border-white/20 hover:text-slate-100"
 		onclick={() => (open = !open)}
 		aria-haspopup="true"
 		aria-expanded={open}
@@ -150,4 +152,5 @@
 			<path d="M8 3.293L1.146 10.146a.5.5 0 0 0 .708.708L8 4.707l6.146 6.147a.5.5 0 0 0 .708-.708L8 3.293z"/>
 		</svg>
 	</button>
+	</div>
 </div>

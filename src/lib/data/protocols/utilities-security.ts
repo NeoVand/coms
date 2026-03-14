@@ -351,7 +351,7 @@ Client → Server:
 			throughput: 'Hardware AES encryption; limited mainly by the network and remote system speed',
 			overhead: 'Per-packet: ~28 bytes (4 length + 1 padding length + padding + 16 MAC)'
 		},
-		connections: ['tcp'],
+		connections: ['tcp', 'ftp'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Secure_Shell',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc4253'
@@ -524,7 +524,7 @@ curl -sH 'accept: application/dns-json' \\
 			throughput: 'Not applicable — DNS is query/response, not streaming',
 			overhead: '12-byte header + question + answer. Typical query: 40-60 bytes. UDP-based.'
 		},
-		connections: ['udp', 'tcp', 'tls', 'smtp'],
+		connections: ['udp', 'tcp', 'tls', 'smtp', 'dhcp'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Domain_Name_System',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc1035'
@@ -1180,7 +1180,7 @@ Server: 221 Goodbye`
 			throughput: 'Line-speed for data channel',
 			overhead: 'Dual connection (control + data channels)'
 		},
-		connections: ['tcp', 'tls'],
+		connections: ['tcp', 'tls', 'ssh'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/File_Transfer_Protocol',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc959'

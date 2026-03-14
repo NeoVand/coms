@@ -1,5 +1,5 @@
 export const COLORS = {
-	bg: '#0F172A',
+	bg: '#090E1A',
 	bgPanel: 'rgba(15, 23, 42, 0.8)',
 	glassBorder: 'rgba(255, 255, 255, 0.1)',
 	glassBg: 'rgba(255, 255, 255, 0.05)',

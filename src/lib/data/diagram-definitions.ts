@@ -230,7 +230,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
         S->>C: event: update (data: {"id":3})
     end
     Note over C,S: Auto-reconnects on disconnect (Last-Event-ID)`,
-		caption: 'Server pushes events over persistent HTTP — unidirectional (HTML5 spec)'
+		caption: 'Server pushes events over persistent HTTP — unidirectional (WHATWG Living Standard)'
 	},
 
 	rest: {

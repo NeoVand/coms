@@ -14,7 +14,7 @@ export const webApiProtocols: Protocol[] = [
 
 HTTP/1.1 improved on HTTP/1.0 by adding persistent connections (keep-alive), chunked transfer encoding, and host headers (allowing multiple websites on one IP). But it has a fundamental limitation: requests on a single connection are serialized. The browser must wait for each response before sending the next request — called "head-of-line blocking."
 
-To work around this, browsers open 6-8 parallel TCP connections per domain. This works but is wasteful. HTTP/2 and HTTP/3 solve this properly with multiplexing. Despite being "old," HTTP/1.1 is still the most widely understood protocol in web development and the foundation for REST APIs.`,
+To work around this, browsers open 6-8 parallel [[tcp|TCP]] connections per domain. This works but is wasteful. [[http2|HTTP/2]] and [[http3|HTTP/3]] solve this properly with multiplexing. Despite being "old," HTTP/1.1 is still the most widely understood protocol in web development and the foundation for [[rest|REST]] APIs.`,
 		howItWorks: [
 			{
 				title: 'TCP connection',
@@ -127,11 +127,11 @@ curl -v https://example.com/api/users/42`
 		year: 2015,
 		rfc: 'RFC 9113',
 		oneLiner: 'Multiplexed, binary HTTP — many requests flying over one connection simultaneously.',
-		overview: `HTTP/2 was designed to fix HTTP/1.1's biggest pain points without changing the semantics developers know and love. You still use GET, POST, headers, and status codes — but under the hood, everything is different. The protocol is binary (not text), multiplexed (many requests share one connection), and supports header compression (HPACK) and server push.
+		overview: `HTTP/2 was designed to fix [[http1|HTTP/1.1]]'s biggest pain points without changing the semantics developers know and love. You still use GET, POST, headers, and status codes — but under the hood, everything is different. The protocol is binary (not text), multiplexed (many requests share one connection), and supports header compression (HPACK) and server push.
 
-Multiplexing is the killer feature: instead of waiting for each response before sending the next request, HTTP/2 interleaves multiple request-response pairs as "streams" on a single TCP connection. This eliminates the need for multiple connections and dramatically improves page load times for resource-heavy sites.
+Multiplexing is the killer feature: instead of waiting for each response before sending the next request, HTTP/2 interleaves multiple request-response pairs as "streams" on a single [[tcp|TCP]] connection. This eliminates the need for multiple connections and dramatically improves page load times for resource-heavy sites.
 
-However, HTTP/2 still runs on TCP, which means TCP-level head-of-line blocking persists — a single lost TCP packet blocks all streams. This is what motivated HTTP/3 and QUIC.`,
+However, HTTP/2 still runs on [[tcp|TCP]], which means [[tcp|TCP]]-level head-of-line blocking persists — a single lost [[tcp|TCP]] packet blocks all streams. This is what motivated [[http3|HTTP/3]] and [[quic|QUIC]].`,
 		howItWorks: [
 			{
 				title: 'Connection & settings',
@@ -354,7 +354,7 @@ curl --http3-only https://cloudflare-quic.com`
 			overhead:
 				'Slightly higher per-packet than TCP due to QUIC encryption, offset by fewer round trips'
 		},
-		connections: ['http2', 'quic', 'tls', 'udp'],
+		connections: ['http2', 'quic', 'tls', 'udp', 'rest'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/HTTP/3',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc9114'
@@ -474,7 +474,7 @@ curl -i -N \\
 			throughput: 'Near wire-speed for small messages; minimal framing overhead',
 			overhead: '2-14 bytes per frame (vs 200-800 bytes per HTTP request)'
 		},
-		connections: ['http1', 'http2', 'tcp', 'tls', 'sse', 'graphql'],
+		connections: ['http1', 'http2', 'tcp', 'tls', 'sse', 'graphql', 'rest'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/WebSocket',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc6455'
@@ -865,7 +865,7 @@ curl -sN https://example.com/api/notifications \\
 			throughput: 'Lightweight text streaming',
 			overhead: 'Minimal — plain HTTP, no upgrade'
 		},
-		connections: ['http1', 'http2', 'websockets'],
+		connections: ['http1', 'http2', 'websockets', 'graphql', 'rest'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Server-sent_events',
 			official: 'https://html.spec.whatwg.org/multipage/server-sent-events.html'

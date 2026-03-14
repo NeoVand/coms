@@ -3,7 +3,7 @@
 @plugin '@tailwindcss/typography';
 
 @theme {
-	--color-bg-deep: #0f172a;
+	--color-bg-deep: #090e1a;
 	--color-bg-surface: #1e293b;
 	--color-bg-panel: rgba(15, 23, 42, 0.85);
 	--color-transport: #39ff14;

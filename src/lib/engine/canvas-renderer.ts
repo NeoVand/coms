@@ -78,8 +78,8 @@ export function render(ctx: CanvasRenderingContext2D, options: RenderOptions): v
 	ctx.fillStyle = COLORS.bg;
 	ctx.fillRect(0, 0, width, height);
 
-	// Draw subtle grid
-	drawGrid(ctx, width, height, viewport, time);
+	// Subtle ambient glow + vignette
+	drawAmbient(ctx, width, height, time);
 
 	// Transform to world space
 	ctx.save();
@@ -249,32 +249,56 @@ function drawTimelineUnderlay(ctx: CanvasRenderingContext2D): void {
 }
 
 
-function drawGrid(
+// Seeded star field — generated once, reused every frame
+let starCache: { x: number; y: number; r: number; a: number }[] | null = null;
+let starCacheKey = '';
+
+function ensureStars(width: number, height: number): typeof starCache {
+	const key = `${width}x${height}`;
+	if (starCache && starCacheKey === key) return starCache;
+
+	// Simple seeded PRNG for deterministic placement
+	let seed = 42;
+	const rand = () => {
+		seed = (seed * 16807 + 0) % 2147483647;
+		return (seed - 1) / 2147483646;
+	};
+
+	const count = Math.floor((width * height) / 3500);
+	starCache = [];
+	for (let i = 0; i < count; i++) {
+		starCache.push({
+			x: rand() * width,
+			y: rand() * height,
+			r: 0.3 + rand() * 0.7,
+			a: 0.1 + rand() * 0.25
+		});
+	}
+	starCacheKey = key;
+	return starCache;
+}
+
+function drawAmbient(
 	ctx: CanvasRenderingContext2D,
 	width: number,
 	height: number,
-	viewport: Viewport,
 	time: number
 ): void {
-	const gridSize = 80 * viewport.scale;
-	const offsetX = (viewport.x + width / 2) % gridSize;
-	const offsetY = (viewport.y + height / 2) % gridSize;
+	const cx = width / 2;
+	const cy = height / 2;
 
-	ctx.strokeStyle = `rgba(148, 163, 184, ${0.03 + 0.005 * Math.sin(time * 0.001)})`;
-	ctx.lineWidth = 0.5;
-
-	for (let x = offsetX; x < width; x += gridSize) {
+	// Scattered star dots — subtle static texture
+	const stars = ensureStars(width, height)!;
+	for (const s of stars) {
+		// Gentle twinkle per star
+		const twinkle = s.a * (0.7 + 0.3 * Math.sin(time * 0.001 + s.x * 0.1 + s.y * 0.1));
+		ctx.globalAlpha = twinkle;
+		ctx.fillStyle = '#94a3b8';
 		ctx.beginPath();
-		ctx.moveTo(x, 0);
-		ctx.lineTo(x, height);
-		ctx.stroke();
+		ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+		ctx.fill();
 	}
-	for (let y = offsetY; y < height; y += gridSize) {
-		ctx.beginPath();
-		ctx.moveTo(0, y);
-		ctx.lineTo(width, y);
-		ctx.stroke();
-	}
+	ctx.globalAlpha = 1;
 }
 
 function drawEdge(

@@ -17,6 +17,7 @@
 	import CategoryIcon from '$lib/components/icons/CategoryIcon.svelte';
 	import CategoryStoryView from './category-story/CategoryStoryView.svelte';
 	import { getCategoryStory } from '$lib/data/category-stories/index';
+	import StoryNarrative from './category-story/StoryNarrative.svelte';
 	import SimulatorTabs from '$lib/simulator/components/SimulatorTabs.svelte';
 	import SimulatorView from '$lib/simulator/components/SimulatorView.svelte';
 	import { hasSimulation } from '$lib/simulator/simulations/index';
@@ -294,16 +295,7 @@
 				{#if appState.detailViewMode === 'learn'}
 					<div class="flex flex-col gap-6 p-6">
 						<!-- Overview -->
-						<section>
-							<h3 class="mb-2 text-xs font-semibold tracking-wider text-slate-500 uppercase">
-								Overview
-							</h3>
-							<div class="space-y-3 text-sm leading-relaxed text-slate-300">
-								{#each proto.overview.split('\n\n') as paragraph, i (i)}
-									<p>{paragraph}</p>
-								{/each}
-							</div>
-						</section>
+						<StoryNarrative text={proto.overview} color={cat?.color ?? '#FFFFFF'} title="Overview" />
 
 						<ProtocolDiagram protocolId={proto.id} color={cat?.color ?? '#FFFFFF'} />
 
@@ -425,7 +417,7 @@
 	}
 
 	.panel-bg {
-		background: linear-gradient(to right, rgb(15 23 42 / 0.75), rgb(15 23 42 / 0.92) 30%, rgb(15 23 42 / 0.97));
+		background: linear-gradient(to right, rgb(9 14 26 / 0.6), rgb(9 14 26 / 0.88) 25%, rgb(7 10 20 / 0.98) 70%, rgb(5 8 16 / 1));
 		-webkit-mask-image: linear-gradient(to right, transparent, black 80px);
 		mask-image: linear-gradient(to right, transparent, black 80px);
 	}

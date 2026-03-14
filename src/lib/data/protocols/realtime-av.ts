@@ -660,7 +660,7 @@ https://cdn.example.com/stream_720p/seg_2683.ts
 				'Adaptive: typically 1-15 Mbps for video. CDN-backed = essentially unlimited scale.',
 			overhead: 'HTTP headers per segment. Manifest polling adds small periodic requests.'
 		},
-		connections: ['http1', 'http2', 'tls', 'dash'],
+		connections: ['http1', 'http2', 'tls', 'dash', 'rtmp'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/HTTP_Live_Streaming',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc8216',
@@ -839,7 +839,7 @@ Client → Server (C2):
 			throughput: 'Single TCP connection handles up to 10+ Mbps easily. Chunking keeps interleaving smooth.',
 			overhead: 'Chunk headers are 1-12 bytes depending on type. Handshake is 1+1536+1536 bytes per side.'
 		},
-		connections: ['tcp', 'tls', 'hls'],
+		connections: ['tcp', 'tls', 'hls', 'dash'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Real-Time_Messaging_Protocol',
 			official: 'https://rtmp.veriskope.com/docs/spec/'
@@ -1033,6 +1033,7 @@ a=rtcp-fb:96 nack pli`
 		categoryId: 'realtime-av',
 		port: 443,
 		year: 2012,
+		rfc: 'ISO 23009-1',
 		oneLiner:
 			'The open standard for adaptive video streaming — MPEG-DASH powers Netflix, YouTube, and the open web.',
 		overview: `MPEG-DASH is the vendor-neutral answer to Apple's proprietary HLS. Ratified as an ISO standard in 2012, DASH uses the same fundamental approach — chop video into segments, serve them over plain HTTP, and let the client adapt quality based on bandwidth — but with an open, extensible XML manifest format called the Media Presentation Description (MPD).
@@ -1205,7 +1206,7 @@ Content-Length: 1802400
 			throughput: 'Adaptive: typically 1-20 Mbps for video. CDN-backed for unlimited viewer scale.',
 			overhead: 'HTTP headers per segment. MPD manifest is XML (typically 5-50 KB).'
 		},
-		connections: ['http1', 'http2', 'tls', 'hls'],
+		connections: ['http1', 'http2', 'tls', 'hls', 'rtmp'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Dynamic_Adaptive_Streaming_over_HTTP',
 			official: 'https://dashif.org/'
