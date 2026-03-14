@@ -294,6 +294,101 @@ function ensureStars(width: number, height: number): typeof starCache {
 	return starCache;
 }
 
+// Shooting star system — rare streaks across the sky
+interface ShootingStar {
+	x: number;
+	y: number;
+	vx: number;
+	vy: number;
+	born: number;
+	duration: number;
+	length: number;
+	opacity: number;
+}
+
+const shootingStars: ShootingStar[] = [];
+let nextShootingStarTime = 0;
+
+function spawnShootingStar(width: number, height: number, time: number): void {
+	const startX = width * 0.2 + Math.random() * width * 0.6;
+	const startY = Math.random() * height * 0.35;
+	const angle = Math.PI * (0.55 + Math.random() * 0.35);
+	const speed = 4 + Math.random() * 3;
+
+	shootingStars.push({
+		x: startX,
+		y: startY,
+		vx: Math.cos(angle) * speed,
+		vy: Math.sin(angle) * speed,
+		born: time,
+		duration: 800 + Math.random() * 600,
+		length: 50 + Math.random() * 40,
+		opacity: 0.35 + Math.random() * 0.25
+	});
+}
+
+function drawShootingStars(
+	ctx: CanvasRenderingContext2D,
+	width: number,
+	height: number,
+	time: number
+): void {
+	// Spawn rarely — every 8–18 seconds
+	if (time > nextShootingStarTime && shootingStars.length < 2) {
+		spawnShootingStar(width, height, time);
+		nextShootingStarTime = time + 8000 + Math.random() * 10000;
+	}
+
+	for (let i = shootingStars.length - 1; i >= 0; i--) {
+		const s = shootingStars[i];
+		const elapsed = time - s.born;
+		const t = elapsed / s.duration;
+
+		if (t >= 1) {
+			shootingStars.splice(i, 1);
+			continue;
+		}
+
+		// Move
+		s.x += s.vx;
+		s.y += s.vy;
+
+		// Fade in quickly, fade out slowly
+		const fade = t < 0.15 ? t / 0.15 : 1 - (t - 0.15) / 0.85;
+		const alpha = s.opacity * fade;
+
+		// Tail direction (opposite of velocity)
+		const mag = Math.sqrt(s.vx * s.vx + s.vy * s.vy);
+		const tx = -s.vx / mag;
+		const ty = -s.vy / mag;
+
+		// Draw streak with gradient tail
+		const tailX = s.x + tx * s.length;
+		const tailY = s.y + ty * s.length;
+
+		const grad = ctx.createLinearGradient(s.x, s.y, tailX, tailY);
+		grad.addColorStop(0, `rgba(220, 230, 255, ${alpha})`);
+		grad.addColorStop(0.3, `rgba(180, 200, 240, ${alpha * 0.4})`);
+		grad.addColorStop(1, 'rgba(180, 200, 240, 0)');
+
+		ctx.beginPath();
+		ctx.moveTo(s.x, s.y);
+		ctx.lineTo(tailX, tailY);
+		ctx.strokeStyle = grad;
+		ctx.lineWidth = 1.2;
+		ctx.lineCap = 'round';
+		ctx.globalAlpha = 1;
+		ctx.stroke();
+
+		// Bright head dot
+		ctx.globalAlpha = alpha;
+		ctx.fillStyle = '#e8eeff';
+		ctx.beginPath();
+		ctx.arc(s.x, s.y, 1, 0, Math.PI * 2);
+		ctx.fill();
+	}
+}
+
 function drawAmbient(
 	ctx: CanvasRenderingContext2D,
 	width: number,
@@ -314,6 +409,10 @@ function drawAmbient(
 		ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
 		ctx.fill();
 	}
+
+	// Rare shooting stars
+	drawShootingStars(ctx, width, height, time);
+
 	ctx.globalAlpha = 1;
 }
 

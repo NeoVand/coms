@@ -499,6 +499,13 @@ curl -i -N \\
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/WebSocket',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc6455'
+		},
+		image: {
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Jersey_Telecom_switchboard_and_operator.jpg/600px-Jersey_Telecom_switchboard_and_operator.jpg',
+			alt: 'A telephone operator at a Jersey Telecom switchboard in 1975, managing multiple persistent connections simultaneously',
+			caption:
+				'A telephone switchboard operator managing live, persistent connections (1975). WebSockets brought this same paradigm to the browser — upgrading HTTP\'s request-response model into full-duplex, always-on communication channels.',
+			credit: 'Photo: Joseph A. Carr / Attribution, via Wikimedia Commons'
 		}
 	},
 	{
@@ -904,6 +911,13 @@ curl -sN https://example.com/api/notifications \\
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Server-sent_events',
 			official: 'https://html.spec.whatwg.org/multipage/server-sent-events.html'
+		},
+		image: {
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Ian_Hickson_at_CSS_Working_Group_Meeting_Day_Three.jpeg/600px-Ian_Hickson_at_CSS_Working_Group_Meeting_Day_Three.jpeg',
+			alt: 'Ian Hickson at a CSS Working Group meeting, the author of the Server-Sent Events specification',
+			caption:
+				'Ian Hickson at a W3C Working Group meeting. As editor of the HTML5 specification, Hickson authored the Server-Sent Events spec — giving browsers a native, lightweight way to receive real-time server pushes over plain HTTP.',
+			credit: 'Photo: Molly Holzschlag / CC BY-SA 2.0, via Wikimedia Commons'
 		}
 	},
 	{

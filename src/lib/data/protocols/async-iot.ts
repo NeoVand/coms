@@ -693,6 +693,13 @@ receipt-id:msg-receipt-1
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Streaming_Text_Oriented_Messaging_Protocol',
 			official: 'https://stomp.github.io/'
+		},
+		image: {
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/RabbitMQ_%2848853375337%29.jpg/600px-RabbitMQ_%2848853375337%29.jpg',
+			alt: 'RabbitMQ message broker presentation at a developer conference',
+			caption:
+				'A RabbitMQ conference talk — RabbitMQ is one of the most popular message brokers supporting STOMP. The protocol\'s text-based simplicity made it a natural bridge for web developers entering the messaging world.',
+			credit: 'Photo: Exey Panteleev / CC BY 2.0, via Wikimedia Commons'
 		}
 	},
 	{

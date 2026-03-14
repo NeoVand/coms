@@ -3,7 +3,7 @@
 	import type { ProtocolPair } from '$lib/data/comparison/types';
 	import { getAppState } from '$lib/state/context';
 	import { getCategoryById } from '$lib/data/index';
-	import { buildGraphNodes } from '$lib/data/index';
+	import LinkedText from './LinkedText.svelte';
 
 	interface Props {
 		pair: ProtocolPair;
@@ -14,7 +14,6 @@
 
 	let { pair, leftProto, rightProto, color }: Props = $props();
 	const appState = getAppState();
-	const allNodes = buildGraphNodes();
 
 	const leftCat = $derived(getCategoryById(leftProto.categoryId));
 	const rightCat = $derived(getCategoryById(rightProto.categoryId));
@@ -25,11 +24,6 @@
 	const flipped = $derived(pair.ids[0] !== leftProto.id);
 	const leftRoleText = $derived(flipped ? pair.rightRole : pair.leftRole);
 	const rightRoleText = $derived(flipped ? pair.leftRole : pair.rightRole);
-
-	function goToProtocol(proto: Protocol) {
-		const node = allNodes.find((n) => n.id === proto.id);
-		if (node) appState.selectNode(node);
-	}
 </script>
 
 <div class="flex flex-col gap-5">
@@ -55,7 +49,7 @@
 
 	<!-- Summary -->
 	{#if pair.summary}
-		<p class="text-sm leading-relaxed text-slate-300">{pair.summary}</p>
+		<p class="text-sm leading-relaxed text-slate-300"><LinkedText text={pair.summary} {color} /></p>
 	{/if}
 
 	<!-- How They Work Together -->
@@ -64,7 +58,7 @@
 			<h3 class="mb-2 text-xs font-semibold tracking-wider text-slate-500 uppercase">
 				How They Work Together
 			</h3>
-			<p class="text-xs leading-relaxed text-slate-400">{pair.howTheyWork}</p>
+			<p class="text-xs leading-relaxed text-slate-400"><LinkedText text={pair.howTheyWork} {color} /></p>
 		</section>
 	{/if}
 
@@ -80,7 +74,7 @@
 						<div class="mb-1 text-xs font-medium" style="color: {leftColor}">
 							{leftProto.abbreviation}
 						</div>
-						<p class="text-xs leading-relaxed text-slate-300">{leftRoleText}</p>
+						<p class="text-xs leading-relaxed text-slate-300"><LinkedText text={leftRoleText} {color} /></p>
 					</div>
 				{/if}
 				{#if rightRoleText}
@@ -88,7 +82,7 @@
 						<div class="mb-1 text-xs font-medium" style="color: {rightColor}">
 							{rightProto.abbreviation}
 						</div>
-						<p class="text-xs leading-relaxed text-slate-300">{rightRoleText}</p>
+						<p class="text-xs leading-relaxed text-slate-300"><LinkedText text={rightRoleText} {color} /></p>
 					</div>
 				{/if}
 			</div>
@@ -125,19 +119,4 @@
 		</div>
 	</section>
 
-	<!-- View Protocol Links -->
-	<div class="flex gap-2">
-		<button
-			class="flex-1 rounded-lg border border-white/5 bg-white/[0.03] px-3 py-2 text-xs font-medium text-slate-300 transition-all hover:border-white/10 hover:bg-white/[0.06]"
-			onclick={() => goToProtocol(leftProto)}
-		>
-			Learn about {leftProto.abbreviation}
-		</button>
-		<button
-			class="flex-1 rounded-lg border border-white/5 bg-white/[0.03] px-3 py-2 text-xs font-medium text-slate-300 transition-all hover:border-white/10 hover:bg-white/[0.06]"
-			onclick={() => goToProtocol(rightProto)}
-		>
-			Learn about {rightProto.abbreviation}
-		</button>
-	</div>
 </div>

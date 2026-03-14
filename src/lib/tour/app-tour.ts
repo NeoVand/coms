@@ -21,6 +21,21 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 	const savedViewMode = appState.detailViewMode;
 	const savedCompareTarget = appState.compareTargetId;
 
+	const tcpNode = allNodes.find((n) => n.id === 'tcp');
+
+	/**
+	 * Re-select TCP if a stray click changed the selected node.
+	 * Unlike `appState.selectNode()`, this does NOT reset detailViewMode
+	 * so the tour can keep its current mode across steps.
+	 */
+	function ensureTcp() {
+		if (tcpNode && appState.selectedNode?.id !== 'tcp') {
+			appState.selectedNode = tcpNode;
+			appState.showDetailPanel = true;
+			appState.hoveredNode = null;
+		}
+	}
+
 	let tourDriver: ReturnType<typeof driver>;
 
 	tourDriver = driver({
@@ -62,7 +77,6 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 				},
 				disableActiveInteraction: true,
 				onHighlighted: () => {
-					const tcpNode = allNodes.find((n) => n.id === 'tcp');
 					if (tcpNode) appState.selectNode(tcpNode);
 				}
 			},
@@ -78,7 +92,10 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 						'<br><strong>Radial</strong> &mdash; concentric rings grouped by category' +
 						'<br><strong>Timeline</strong> &mdash; protocols plotted by year, from 1969 to today'
 				},
-				disableActiveInteraction: true
+				disableActiveInteraction: true,
+				onHighlightStarted: () => {
+					ensureTcp();
+				}
 			},
 			// ── Step 4: Detail Panel Overview ──
 			{
@@ -93,6 +110,7 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 					align: 'start' as const
 				},
 				onHighlightStarted: () => {
+					ensureTcp();
 					appState.detailViewMode = 'learn';
 					scrollPanelToTop();
 				}
@@ -110,6 +128,7 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 					align: 'center' as const
 				},
 				onHighlightStarted: () => {
+					ensureTcp();
 					appState.detailViewMode = 'learn';
 					scrollInPanel('[data-tour="protocol-diagram"]');
 				},
@@ -129,6 +148,7 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 					align: 'center' as const
 				},
 				onHighlightStarted: () => {
+					ensureTcp();
 					scrollInPanel('[data-tour="how-it-works"]');
 				},
 				onHighlighted: () => {
@@ -148,6 +168,7 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 					align: 'center' as const
 				},
 				onHighlightStarted: () => {
+					ensureTcp();
 					appState.detailViewMode = 'learn';
 					scrollInPanel('[data-tour="code-example"]');
 				},
@@ -169,10 +190,11 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 					align: 'center' as const
 				},
 				onHighlightStarted: () => {
+					ensureTcp();
 					scrollPanelToTop();
 				},
 				onHighlighted: () => {
-					// Switch to simulate so the element exists when step 9 activates
+					// Pre-switch to simulate so [data-tour="simulator-view"] exists for step 9
 					appState.detailViewMode = 'simulate';
 					requestAnimationFrame(() => tourDriver.refresh());
 				}
@@ -190,16 +212,20 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 					align: 'start' as const
 				},
 				onHighlightStarted: () => {
+					ensureTcp();
 					appState.detailViewMode = 'simulate';
 					scrollPanelToTop();
 				},
 				onHighlighted: () => {
+					// Stay in simulate mode — do NOT switch away while this step is visible
 					requestAnimationFrame(() => tourDriver.refresh());
 				}
 			},
 			// ── Step 10: Compare View ──
+			// Target the whole panel because we switch to compare mode here;
+			// the compare-view element doesn't exist until the mode changes.
 			{
-				element: '[data-tour="compare-view"]',
+				element: '[data-tour="detail-panel"]',
 				popover: {
 					title: 'Protocol Comparisons',
 					description:
@@ -209,6 +235,7 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 					align: 'start' as const
 				},
 				onHighlightStarted: () => {
+					ensureTcp();
 					appState.detailViewMode = 'compare';
 					appState.compareTargetId = null;
 					scrollPanelToTop();
@@ -247,6 +274,11 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 			}
 		}
 	});
+
+	// Expose for dev testing (tree-shaken in prod via __dev check)
+	if (typeof window !== 'undefined' && (window as any).__dev) {
+		(window as any).__tourDriver = tourDriver;
+	}
 
 	tourDriver.drive();
 }

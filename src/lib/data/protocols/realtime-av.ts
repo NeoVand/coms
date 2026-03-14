@@ -1252,6 +1252,13 @@ Content-Length: 1802400
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Dynamic_Adaptive_Streaming_over_HTTP',
 			official: 'https://dashif.org/'
+		},
+		image: {
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/100_Winchester_Circle.jpg/600px-100_Winchester_Circle.jpg',
+			alt: 'Netflix headquarters building at 100 Winchester Circle in Los Gatos, California',
+			caption:
+				'Netflix headquarters in Los Gatos, California. Netflix was instrumental in driving the adoption of MPEG-DASH (2012), the open-standard adaptive bitrate streaming protocol that dynamically adjusts video quality based on network conditions.',
+			credit: 'Photo: Coolcaesar / CC BY-SA 4.0, via Wikimedia Commons'
 		}
 	}
 ];

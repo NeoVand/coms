@@ -3,7 +3,7 @@
 	import type { ProtocolPair } from '$lib/data/comparison/types';
 	import { getAppState } from '$lib/state/context';
 	import { getCategoryById } from '$lib/data/index';
-	import { buildGraphNodes } from '$lib/data/index';
+	import LinkedText from './LinkedText.svelte';
 
 	interface Props {
 		pair: ProtocolPair | null;
@@ -14,7 +14,6 @@
 
 	let { pair, leftProto, rightProto, color }: Props = $props();
 	const appState = getAppState();
-	const allNodes = buildGraphNodes();
 
 	const leftCat = $derived(getCategoryById(leftProto.categoryId));
 	const rightCat = $derived(getCategoryById(rightProto.categoryId));
@@ -31,11 +30,6 @@
 			flipped ? { aspect: d.aspect, left: d.right, right: d.left } : d
 		)
 	);
-
-	function goToProtocol(proto: Protocol) {
-		const node = allNodes.find((n) => n.id === proto.id);
-		if (node) appState.selectNode(node);
-	}
 </script>
 
 <div class="flex flex-col gap-5">
@@ -59,7 +53,7 @@
 
 	<!-- Summary -->
 	{#if pair?.summary}
-		<p class="text-sm leading-relaxed text-slate-300">{pair.summary}</p>
+		<p class="text-sm leading-relaxed text-slate-300"><LinkedText text={pair.summary} {color} /></p>
 	{/if}
 
 	<!-- Key Differences -->
@@ -75,10 +69,10 @@
 							{diff.aspect}
 						</div>
 						<div class="w-[35%] border-r border-white/5 px-3 py-2 text-slate-300" style="border-left-color: {leftColor}30">
-							{diff.left}
+							<LinkedText text={diff.left} {color} />
 						</div>
 						<div class="w-[35%] px-3 py-2 text-slate-300">
-							{diff.right}
+							<LinkedText text={diff.right} {color} />
 						</div>
 					</div>
 				{/each}
@@ -137,7 +131,7 @@
 						{#each useLeftWhen as bullet, i (i)}
 							<li class="flex items-start gap-2 text-xs leading-relaxed text-slate-300">
 								<span class="mt-1.5 h-1 w-1 shrink-0 rounded-full" style="background-color: {leftColor}"></span>
-								{bullet}
+								<LinkedText text={bullet} {color} />
 							</li>
 						{/each}
 					</ul>
@@ -150,7 +144,7 @@
 						{#each useRightWhen as bullet, i (i)}
 							<li class="flex items-start gap-2 text-xs leading-relaxed text-slate-300">
 								<span class="mt-1.5 h-1 w-1 shrink-0 rounded-full" style="background-color: {rightColor}"></span>
-								{bullet}
+								<LinkedText text={bullet} {color} />
 							</li>
 						{/each}
 					</ul>
@@ -159,19 +153,4 @@
 		</section>
 	{/if}
 
-	<!-- View Protocol Links -->
-	<div class="flex gap-2">
-		<button
-			class="flex-1 rounded-lg border border-white/5 bg-white/[0.03] px-3 py-2 text-xs font-medium text-slate-300 transition-all hover:border-white/10 hover:bg-white/[0.06]"
-			onclick={() => goToProtocol(leftProto)}
-		>
-			Learn about {leftProto.abbreviation}
-		</button>
-		<button
-			class="flex-1 rounded-lg border border-white/5 bg-white/[0.03] px-3 py-2 text-xs font-medium text-slate-300 transition-all hover:border-white/10 hover:bg-white/[0.06]"
-			onclick={() => goToProtocol(rightProto)}
-		>
-			Learn about {rightProto.abbreviation}
-		</button>
-	</div>
 </div>
