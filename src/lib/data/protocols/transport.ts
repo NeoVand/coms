@@ -6,13 +6,13 @@ export const transportProtocols: Protocol[] = [
 		name: 'Transmission Control Protocol',
 		abbreviation: 'TCP',
 		categoryId: 'transport',
-		port: 80,
+		port: undefined,
 		year: 1981,
-		rfc: 'RFC 793',
+		rfc: 'RFC 9293',
 		oneLiner: 'Guarantees ordered, reliable delivery of data between applications.',
 		overview: `TCP is the backbone of the internet. When you load a webpage, send an email, or download a file, TCP ensures every single byte arrives correctly and in order. It does this by establishing a connection between sender and receiver before any data flows — like a phone call where both sides confirm they can hear each other.
 
-Unlike UDP, TCP will detect lost packets and retransmit them. It also implements flow control (so a fast sender doesn't overwhelm a slow receiver) and congestion control (so the network itself doesn't get overloaded). This reliability comes at a cost: extra round trips and overhead, which is why latency-sensitive applications sometimes prefer UDP.
+Unlike UDP, TCP will detect lost packets and retransmit them. It also implements flow control (so a fast sender doesn't overwhelm a slow receiver) and congestion control (so the network itself doesn't get overloaded). TCP's congestion control has evolved significantly over the decades — from the original Tahoe and Reno algorithms through CUBIC (the Linux default for years) to Google's BBR, which optimizes for throughput rather than loss detection. This reliability comes at a cost: extra round trips and overhead, which is why latency-sensitive applications sometimes prefer UDP.
 
 TCP operates at Layer 4 (Transport) of the OSI model and is identified by protocol number 6 in the IP header. Nearly every major internet application — HTTP, SSH, FTP, SMTP — runs on top of TCP.`,
 		howItWorks: [
@@ -34,7 +34,7 @@ TCP operates at Layer 4 (Transport) of the OSI model and is identified by protoc
 			{
 				title: 'Data transfer',
 				description:
-					'Data flows in ordered segments. Each segment is acknowledged. Lost segments are retransmitted. Flow control prevents overwhelming the receiver.'
+					'Data flows in ordered segments. Each segment is acknowledged; lost segments trigger retransmission after a timeout or duplicate ACKs. A sliding window controls how much data can be in flight, and congestion control algorithms (slow start, congestion avoidance) dynamically adjust the sending rate to avoid overwhelming the network.'
 			},
 			{
 				title: 'FIN — Graceful close',
@@ -161,10 +161,10 @@ Client → Server  [ACK]
 				'Limited by congestion window; typically reaches line speed on stable connections',
 			overhead: '20-byte header minimum + options; ~40 bytes typical with timestamps'
 		},
-		connections: ['udp', 'tls', 'http1', 'websockets', 'smtp', 'ftp'],
+		connections: ['udp', 'tls', 'http1', 'http2', 'websockets', 'ssh', 'smtp', 'ftp'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Transmission_Control_Protocol',
-			rfc: 'https://datatracker.ietf.org/doc/html/rfc793'
+			rfc: 'https://datatracker.ietf.org/doc/html/rfc9293'
 		}
 	},
 	{
@@ -172,7 +172,7 @@ Client → Server  [ACK]
 		name: 'User Datagram Protocol',
 		abbreviation: 'UDP',
 		categoryId: 'transport',
-		port: 53,
+		port: undefined,
 		year: 1980,
 		rfc: 'RFC 768',
 		oneLiner: 'Fire-and-forget delivery — fast but with no guarantees.',
@@ -309,7 +309,7 @@ ss -un  # or: netstat -un`
 			throughput: 'No congestion control — can send as fast as the network allows (or can handle)',
 			overhead: '8-byte header only — the minimum possible for transport'
 		},
-		connections: ['tcp', 'dns', 'quic', 'webrtc'],
+		connections: ['tcp', 'dns', 'quic', 'webrtc', 'dhcp', 'ntp', 'rtp', 'coap', 'sip'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/User_Datagram_Protocol',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc768'

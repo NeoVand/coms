@@ -21,8 +21,13 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     S->>C: ACK (ack=151)
     C->>S: Data (seq=151, 80 bytes)
     S->>C: ACK (ack=231) + Data
-    Note over C,S: Every byte is tracked by sequence numbers`,
-		caption: 'Reliable, ordered delivery with sequence numbers and acknowledgments (RFC 793)'
+    Note over C,S: Every byte is tracked by sequence numbers
+    Note over C,S: Connection teardown
+    C->>S: FIN (seq=231)
+    S->>C: ACK + FIN (ack=232)
+    C->>S: ACK (ack=302)
+    Note over C: TIME_WAIT (~60s)`,
+		caption: 'Reliable, ordered delivery with sequence numbers and acknowledgments (RFC 793 / RFC 9293)'
 	},
 
 	udp: {
@@ -114,7 +119,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     C->>S: GET /app.js
     S->>C: 200 OK (JS)
     Note over C,S: Head-of-line blocking: each request waits for previous response`,
-		caption: 'Sequential request/response — one at a time per connection (RFC 2616)'
+		caption: 'Sequential request/response — one at a time per connection (RFC 2616 / RFC 9112)'
 	},
 
 	http2: {
@@ -135,7 +140,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     S->>C: HEADERS + DATA (stream 2)
     S->>C: HEADERS + DATA (stream 3)
     Note over C,S: Header compression (HPACK) + server push`,
-		caption: 'Multiplexed streams over a single TCP connection (RFC 7540)'
+		caption: 'Multiplexed streams over a single TCP connection (RFC 7540 / RFC 9113)'
 	},
 
 	http3: {

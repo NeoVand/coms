@@ -8,7 +8,7 @@ export const webApiProtocols: Protocol[] = [
 		categoryId: 'web-api',
 		port: 80,
 		year: 1997,
-		rfc: 'RFC 2616',
+		rfc: 'RFC 9112',
 		oneLiner: 'The original language of the web — one request at a time, in plain text.',
 		overview: `HTTP/1.1 is the protocol that built the web as we know it. Every time you click a link, submit a form, or load an image, your browser speaks HTTP to a server. It's a request-response protocol: the client asks for something, the server responds.
 
@@ -112,10 +112,10 @@ curl -v https://example.com/api/users/42`
 			overhead:
 				'Text headers are uncompressed and often repeated — 500-800 bytes typical per request'
 		},
-		connections: ['tcp', 'tls', 'http2', 'rest'],
+		connections: ['tcp', 'tls', 'http2', 'websockets', 'rest'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/HTTP',
-			rfc: 'https://datatracker.ietf.org/doc/html/rfc2616'
+			rfc: 'https://datatracker.ietf.org/doc/html/rfc9112'
 		}
 	},
 	{
@@ -125,7 +125,7 @@ curl -v https://example.com/api/users/42`
 		categoryId: 'web-api',
 		port: 443,
 		year: 2015,
-		rfc: 'RFC 7540',
+		rfc: 'RFC 9113',
 		oneLiner: 'Multiplexed, binary HTTP — many requests flying over one connection simultaneously.',
 		overview: `HTTP/2 was designed to fix HTTP/1.1's biggest pain points without changing the semantics developers know and love. You still use GET, POST, headers, and status codes — but under the hood, everything is different. The protocol is binary (not text), multiplexed (many requests share one connection), and supports header compression (HPACK) and server push.
 
@@ -235,7 +235,7 @@ curl --http2 -v https://example.com 2>&1 | grep "< HTTP"`
 		connections: ['http1', 'http3', 'tcp', 'tls', 'grpc', 'sse'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/HTTP/2',
-			rfc: 'https://datatracker.ietf.org/doc/html/rfc7540'
+			rfc: 'https://datatracker.ietf.org/doc/html/rfc9113'
 		}
 	},
 	{

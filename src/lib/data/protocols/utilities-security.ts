@@ -6,7 +6,7 @@ export const utilitiesProtocols: Protocol[] = [
 		name: 'Transport Layer Security',
 		abbreviation: 'TLS',
 		categoryId: 'utilities',
-		port: 443,
+		port: undefined,
 		year: 1999,
 		rfc: 'RFC 8446',
 		oneLiner: 'Encrypts everything between client and server — the lock icon in your browser.',
@@ -171,7 +171,7 @@ openssl req -x509 -newkey rsa:2048 -nodes \\
 				'AES-GCM encryption is hardware-accelerated on modern CPUs — negligible throughput impact',
 			overhead: '~5 bytes per TLS record header + 16 bytes for GCM authentication tag'
 		},
-		connections: ['tcp', 'http1', 'http2', 'quic', 'smtp'],
+		connections: ['tcp', 'http1', 'http2', 'quic', 'websockets', 'smtp', 'ftp', 'dns'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Transport_Layer_Security',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc8446'

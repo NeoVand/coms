@@ -43,11 +43,18 @@ export function createTCPLayer(overrides?: Partial<Record<string, string | numbe
 				description: 'Data offset — number of 32-bit words in the header (5 = 20 bytes)'
 			},
 			{
+				name: 'Reserved',
+				bits: 4,
+				value: 0,
+				editable: false,
+				description: 'Reserved for future use — must be zero'
+			},
+			{
 				name: 'Flags',
-				bits: 6,
+				bits: 8,
 				value: overrides?.flags ?? 'SYN',
 				editable: false,
-				description: 'Control flags — SYN, ACK, FIN, RST, PSH, URG',
+				description: 'Control flags — CWR, ECE, URG, ACK, PSH, RST, SYN, FIN',
 				color: '#39FF14'
 			},
 			{
@@ -63,6 +70,13 @@ export function createTCPLayer(overrides?: Partial<Record<string, string | numbe
 				value: '0xA1B2',
 				editable: false,
 				description: 'Checksum — covers header + data + pseudo-header for integrity'
+			},
+			{
+				name: 'Urgent Ptr',
+				bits: 16,
+				value: 0,
+				editable: false,
+				description: 'Urgent pointer — offset to the end of urgent data (only valid when URG flag is set)'
 			}
 		]
 	};

@@ -81,7 +81,7 @@ export const transportStory: CategoryStory = {
 					year: 1981,
 					title: 'TCP Published \u2014 RFC 793',
 					description:
-						'The reliable transport protocol specification. Every byte acknowledged, every packet ordered.',
+						'The reliable transport protocol specification. Every byte acknowledged, every packet ordered. Later consolidated and updated as RFC 9293 (2022).',
 					protocolId: 'tcp'
 				},
 				{

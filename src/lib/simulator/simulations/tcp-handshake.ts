@@ -5,9 +5,9 @@ import { createEthernetLayer } from '../layers/ethernet';
 
 export const tcpHandshake: SimulationConfig = {
 	protocolId: 'tcp',
-	title: 'TCP 3-Way Handshake',
+	title: 'TCP Connection Lifecycle',
 	description:
-		'Watch how TCP establishes a reliable connection before any data is sent. ' +
+		'Watch how TCP establishes a reliable connection, transfers data, and closes gracefully. ' +
 		'Each step builds the packet from application data down through every network layer.',
 	tier: 'client',
 	actors: [
@@ -206,6 +206,27 @@ export const tcpHandshake: SimulationConfig = {
 					seq: 5001,
 					ack: 1016,
 					flags: 'FIN,ACK'
+				})
+			]
+		},
+		{
+			id: 'final-ack',
+			label: 'ACK',
+			description:
+				'Client sends the final ACK, completing the 4-way close. The client then enters TIME_WAIT state — holding the port for ~60 seconds (2x maximum segment lifetime) to handle any delayed packets still in the network before fully releasing the connection.',
+			fromActor: 'client',
+			toActor: 'server',
+			duration: 1000,
+			highlight: ['Flags', 'Ack #'],
+			layers: [
+				createEthernetLayer(),
+				createIPv4Layer({ protocol: 6 }),
+				createTCPLayer({
+					srcPort: 49152,
+					dstPort: 80,
+					seq: 1016,
+					ack: 5002,
+					flags: 'ACK'
 				})
 			]
 		}
