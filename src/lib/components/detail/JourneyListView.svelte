@@ -3,6 +3,7 @@
 	import { getProtocolById, getCategoryById, buildGraphNodes } from '$lib/data/index';
 	import { getAppState } from '$lib/state/context';
 	import { ChevronLeft, ChevronRight } from 'lucide-svelte';
+	import { themedDomColor } from '$lib/utils/colors';
 
 	let { scope, color = '#FFFFFF' }: { scope: string; color?: string } = $props();
 
@@ -42,7 +43,7 @@
 		<!-- Header: back + title + nav -->
 		<div class="mb-4">
 			<button
-				class="mb-3 flex items-center gap-1 text-[11px] text-slate-500 transition-colors hover:text-slate-300"
+				class="mb-3 flex items-center gap-1 text-[11px] text-t-muted transition-colors hover:text-t-primary"
 				onclick={() => appState.exitJourney()}
 			>
 				<svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -58,8 +59,8 @@
 
 			<div class="flex items-start justify-between gap-3">
 				<div class="flex-1 min-w-0">
-					<h3 class="text-sm font-bold text-slate-100">{journey.title}</h3>
-					<p class="mt-0.5 text-[11px] leading-relaxed text-slate-500">
+					<h3 class="text-sm font-bold text-t-primary">{journey.title}</h3>
+					<p class="mt-0.5 text-[11px] leading-relaxed text-t-muted">
 						{journey.description}
 					</p>
 				</div>
@@ -74,7 +75,7 @@
 					>
 						<ChevronLeft size={16} />
 					</button>
-					<span class="min-w-[3ch] text-center text-[11px] tabular-nums text-slate-500">
+					<span class="min-w-[3ch] text-center text-[11px] tabular-nums text-t-muted">
 						{stepIndex + 1}/{journey.steps.length}
 					</span>
 					<button
@@ -95,7 +96,7 @@
 			{#each journey.steps as step, i (i)}
 				{@const proto = getProtocolById(step.protocolId)}
 				{@const cat = proto ? getCategoryById(proto.categoryId) : null}
-				{@const catColor = cat?.color ?? journey.color}
+				{@const catColor = themedDomColor(cat?.color ?? journey.color, appState.theme)}
 				{@const isActive = i === stepIndex}
 				{@const isPast = i < stepIndex}
 				{@const isFuture = i > stepIndex}
@@ -134,22 +135,21 @@
 							<span
 								class="text-[13px] font-semibold transition-colors"
 								style={isActive || isPast ? `color: ${catColor};` : ''}
-								class:text-slate-600={isFuture}
+								class:text-t-muted={isFuture}
 							>
 								{proto?.abbreviation ?? step.protocolId}
 							</span>
 							<span
 								class="text-[11px] transition-colors"
-								class:text-slate-300={isActive}
-								class:text-slate-500={isPast}
-								class:text-slate-600={isFuture}
+								class:text-t-primary={isActive}
+								class:text-t-muted={isPast || isFuture}
 							>
 								{step.title}
 							</span>
 						</div>
 
 						{#if isActive}
-							<p class="mt-1.5 text-xs leading-relaxed text-slate-300">
+							<p class="mt-1.5 text-xs leading-relaxed text-t-primary">
 								{step.description}
 							</p>
 							{#if step.transition && i < journey.steps.length - 1}
@@ -167,18 +167,18 @@
 		</div>
 	</div>
 {:else if journeys.length === 0}
-	<div class="rounded-xl border border-white/5 bg-white/[0.02] p-6 text-center">
-		<p class="text-sm text-slate-500">No journeys available yet.</p>
+	<div class="rounded-xl border border-s-border bg-s-glass p-6 text-center">
+		<p class="text-sm text-t-muted">No journeys available yet.</p>
 	</div>
 {:else}
 	<div class="flex flex-col gap-3">
 		{#each journeys as j (j.id)}
 			<button
-				class="w-full rounded-xl border border-white/5 bg-white/[0.02] p-4 text-left transition-all hover:border-white/10 hover:bg-white/[0.04]"
+				class="w-full rounded-xl border border-s-border bg-s-glass p-4 text-left transition-all hover:border-s-border hover:bg-s-glass-hover"
 				onclick={() => startJourney(j)}
 			>
-				<h4 class="text-sm font-semibold text-slate-200">{j.title}</h4>
-				<p class="mt-1 text-xs leading-relaxed text-slate-400">{j.description}</p>
+				<h4 class="text-sm font-semibold text-t-primary">{j.title}</h4>
+				<p class="mt-1 text-xs leading-relaxed text-t-secondary">{j.description}</p>
 				<div class="mt-3 flex flex-wrap gap-1.5">
 					{#each j.steps as step, i (i)}
 						{@const proto = getProtocolById(step.protocolId)}

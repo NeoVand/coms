@@ -37,7 +37,7 @@
 </script>
 
 <section>
-	<h3 class="mb-3 text-xs font-semibold tracking-wider text-slate-500 uppercase">
+	<h3 class="mb-3 text-xs font-semibold tracking-wider text-t-muted uppercase">
 		Simulation Steps
 	</h3>
 	<div class="relative space-y-0">
@@ -91,16 +91,14 @@
 						>
 							<h4
 								class="text-sm font-medium"
-								class:text-slate-200={isCurrent}
-								class:text-slate-400={isPast}
-								class:text-slate-500={isFuture}
+								class:text-t-primary={isCurrent}
+								class:text-t-secondary={isPast}
+								class:text-t-muted={isFuture}
 							>
 								{step.label}
 							</h4>
 							<span
-								class="text-[10px]"
-								class:text-slate-500={isCurrent || isPast}
-								class:text-slate-600={isFuture}
+								class="text-[10px] text-t-muted"
 							>
 								{getActorLabel(step.fromActor)} → {getActorLabel(step.toActor)}
 							</span>
@@ -111,8 +109,8 @@
 					{#if isCurrent || isPast}
 						<p
 							class="mt-1 text-xs leading-relaxed transition-colors duration-300"
-							class:text-slate-300={isCurrent}
-							class:text-slate-500={isPast}
+							class:text-t-primary={isCurrent}
+							class:text-t-muted={isPast}
 							in:fly={{ y: 4, duration: 250 }}
 						>
 							{step.description}

@@ -2,6 +2,7 @@
 	import { getAppState } from '$lib/state/context';
 	import type { LayoutMode } from '$lib/engine/layouts';
 	import { Minus, Plus, ChevronUp } from 'lucide-svelte';
+	import ThemeToggle from './ThemeToggle.svelte';
 
 	const appState = getAppState();
 
@@ -40,10 +41,10 @@
 <div class="absolute bottom-3 left-3 z-40 flex items-center gap-1.5 md:bottom-4 md:left-4 md:gap-2" data-tour="layout-picker">
 	<!-- Compact zoom controls -->
 	<div
-		class="flex items-center gap-0.5 rounded-full border border-white/10 bg-bg-deep/80 p-0.5 shadow-lg backdrop-blur-xl"
+		class="flex items-center gap-0.5 rounded-full border border-s-border bg-bg-deep/80 p-0.5 shadow-lg backdrop-blur-xl"
 	>
 		<button
-			class="flex h-6 w-6 items-center justify-center rounded-full text-slate-400 transition-colors hover:bg-white/5 hover:text-slate-200"
+			class="flex h-6 w-6 items-center justify-center rounded-full text-t-secondary transition-colors hover:bg-s-glass-hover hover:text-t-primary"
 			onclick={() => appState.zoom(appState.viewport.scale * 0.8, 0, 0)}
 			aria-label="Zoom out"
 		>
@@ -51,7 +52,7 @@
 		</button>
 
 		<button
-			class="min-w-[34px] px-0.5 text-center text-[10px] font-medium text-slate-400 transition-colors hover:text-slate-200"
+			class="min-w-[34px] px-0.5 text-center text-[10px] font-medium text-t-secondary transition-colors hover:text-t-primary"
 			onclick={() => appState.resetViewport()}
 			aria-label="Reset zoom"
 		>
@@ -59,7 +60,7 @@
 		</button>
 
 		<button
-			class="flex h-6 w-6 items-center justify-center rounded-full text-slate-400 transition-colors hover:bg-white/5 hover:text-slate-200"
+			class="flex h-6 w-6 items-center justify-center rounded-full text-t-secondary transition-colors hover:bg-s-glass-hover hover:text-t-primary"
 			onclick={() => appState.zoom(appState.viewport.scale * 1.25, 0, 0)}
 			aria-label="Zoom in"
 		>
@@ -72,15 +73,15 @@
 	<!-- Floating menu — opens upward -->
 	{#if open}
 		<div
-			class="absolute bottom-full left-0 mb-2 overflow-hidden rounded-xl border border-white/10 bg-bg-deep/95 shadow-2xl backdrop-blur-xl"
+			class="absolute bottom-full left-0 mb-2 overflow-hidden rounded-xl border border-s-border bg-bg-deep/95 shadow-2xl backdrop-blur-xl"
 			role="menu"
 		>
 			{#each layouts as layout (layout.id)}
 				{@const isActive = appState.layoutMode === layout.id}
 				<button
 					class="flex w-full items-center gap-2.5 px-4 py-2.5 text-left text-xs transition-colors {isActive
-						? 'bg-white/5 text-slate-100'
-						: 'text-slate-400 hover:bg-white/[0.03] hover:text-slate-300'}"
+						? 'bg-s-glass text-t-primary'
+						: 'text-t-secondary hover:bg-s-glass-hover hover:text-t-primary'}"
 					onclick={() => select(layout.id)}
 					role="menuitem"
 				>
@@ -115,7 +116,7 @@
 					</span>
 					<span class="w-16 font-medium tracking-wide">{layout.label}</span>
 					{#if isActive}
-						<svg viewBox="0 0 16 16" class="ml-auto h-3 w-3 shrink-0 text-slate-300" fill="currentColor">
+						<svg viewBox="0 0 16 16" class="ml-auto h-3 w-3 shrink-0 text-t-primary" fill="currentColor">
 							<path d="M13.78 4.22a.75.75 0 0 1 0 1.06l-7.25 7.25a.75.75 0 0 1-1.06 0L2.22 9.28a.75.75 0 0 1 1.06-1.06L6 10.94l6.72-6.72a.75.75 0 0 1 1.06 0z"/>
 						</svg>
 					{/if}
@@ -126,7 +127,7 @@
 
 	<!-- Trigger pill -->
 	<button
-		class="flex items-center gap-2 rounded-full border border-white/10 bg-bg-deep/80 px-3.5 py-1.5 text-xs font-medium text-slate-300 shadow-lg backdrop-blur-xl transition-colors hover:border-white/20 hover:text-slate-100"
+		class="flex items-center gap-2 rounded-full border border-s-border bg-bg-deep/80 px-3.5 py-1.5 text-xs font-medium text-t-primary shadow-lg backdrop-blur-xl transition-colors hover:border-s-border hover:text-t-primary"
 		onclick={() => (open = !open)}
 		aria-haspopup="true"
 		aria-expanded={open}
@@ -142,4 +143,7 @@
 		</span>
 	</button>
 	</div>
+
+	<!-- Theme toggle -->
+	<ThemeToggle />
 </div>

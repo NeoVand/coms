@@ -9,6 +9,11 @@ export class AppState {
 	hoveredNode: GraphNode | null = $state(null);
 	isMobile: boolean = $state(false);
 	reducedMotion: boolean = $state(false);
+	theme: 'dark' | 'light' = $state('dark');
+
+	toggleTheme = () => {
+		this.theme = this.theme === 'dark' ? 'light' : 'dark';
+	};
 	showDetailPanel: boolean = $state(false);
 	detailPanelWidth: number = $state(520);
 	detailViewMode: 'learn' | 'simulate' | 'compare' = $state('learn');

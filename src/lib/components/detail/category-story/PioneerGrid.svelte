@@ -11,7 +11,7 @@
 
 <section>
 	{#if title}
-		<h3 class="mb-3 text-xs font-semibold tracking-wider text-slate-500 uppercase">{title}</h3>
+		<h3 class="mb-3 text-xs font-semibold tracking-wider text-t-muted uppercase">{title}</h3>
 	{/if}
 	<div class="space-y-2">
 		{#each people as pioneer (pioneer.name)}

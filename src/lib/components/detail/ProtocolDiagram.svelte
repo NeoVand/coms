@@ -12,9 +12,9 @@
 {#if hasDiagram}
 	<section data-tour="protocol-diagram">
 		<div class="mb-2 flex items-center justify-between">
-			<h3 class="text-xs font-semibold tracking-wider text-slate-500 uppercase">Sequence Diagram</h3>
+			<h3 class="text-xs font-semibold tracking-wider text-t-muted uppercase">Sequence Diagram</h3>
 			<button
-				class="flex h-6 w-6 items-center justify-center rounded-md text-slate-500 transition-colors hover:bg-white/5 hover:text-slate-200"
+				class="flex h-6 w-6 items-center justify-center rounded-md text-t-muted transition-colors hover:bg-s-glass-hover hover:text-t-primary"
 				onclick={() => appState.openDiagramModal(protocolId, color)}
 				aria-label="Expand diagram"
 				title="View larger"

@@ -21,14 +21,14 @@
 
 {#if related.length > 0}
 	<section data-tour="related-protocols">
-		<h3 class="mb-2 text-xs font-semibold tracking-wider text-slate-500 uppercase">
+		<h3 class="mb-2 text-xs font-semibold tracking-wider text-t-muted uppercase">
 			Related Protocols
 		</h3>
 		<div class="flex flex-wrap gap-2">
 			{#each related as proto (proto?.id)}
 				{#if proto}
 					<button
-						class="rounded-lg border border-white/5 bg-white/[0.02] px-3 py-1.5 text-xs font-medium text-slate-300 transition-all hover:border-white/10 hover:bg-white/[0.05]"
+						class="rounded-lg border border-s-border bg-s-glass px-3 py-1.5 text-xs font-medium text-t-primary transition-all hover:border-s-border hover:bg-s-glass-hover"
 						onclick={() => {
 							const node = allNodes.find((n) => n.id === proto.id);
 							if (node) appState.selectNode(node);

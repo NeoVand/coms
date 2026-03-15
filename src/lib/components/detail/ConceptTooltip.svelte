@@ -59,7 +59,7 @@
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <div
-	class="concept-tooltip-pop pointer-events-auto fixed z-[60] rounded-xl border border-white/10 bg-bg-deep/95 shadow-2xl backdrop-blur-xl"
+	class="concept-tooltip-pop pointer-events-auto fixed z-[60] rounded-xl border border-s-border bg-bg-deep/95 shadow-2xl backdrop-blur-xl"
 	style="left: {left}px; top: {top}px; width: {TOOLTIP_WIDTH}px; transform-origin: {flippedY
 		? 'bottom'
 		: 'top'} {flippedX ? 'right' : 'left'};"
@@ -68,15 +68,15 @@
 >
 	<div class="p-3.5">
 		<!-- Term -->
-		<h4 class="text-sm font-semibold text-slate-100">{concept.term}</h4>
+		<h4 class="text-sm font-semibold text-t-primary">{concept.term}</h4>
 
 		<!-- Definition with rich text -->
-		<p class="mt-1.5 text-xs leading-relaxed text-slate-300">
+		<p class="mt-1.5 text-xs leading-relaxed text-t-primary">
 			{#each definitionSegments as seg, j (j)}
 				{#if seg.type === 'text'}
 					{seg.value}
 				{:else if seg.type === 'bold'}
-					<strong class="font-semibold text-slate-200">{seg.value}</strong>
+					<strong class="font-semibold text-t-primary">{seg.value}</strong>
 				{:else if seg.type === 'protocol-link' || seg.type === 'bold-protocol-link'}
 					<button
 						class="inline font-medium text-sky-400 transition-colors hover:text-sky-300 hover:underline"
@@ -85,21 +85,21 @@
 						{seg.label}
 					</button>
 				{:else if seg.type === 'concept' || seg.type === 'bold-concept'}
-					<span class="font-medium text-slate-200">{seg.label}</span>
+					<span class="font-medium text-t-primary">{seg.label}</span>
 				{/if}
 			{/each}
 		</p>
 
 		<!-- Analogy with rich text -->
 		{#if concept.analogy}
-			<div class="mt-2 rounded-lg bg-white/[0.04] px-2.5 py-2">
-				<p class="text-[11px] leading-relaxed text-slate-400">
-					<span class="font-medium text-slate-300">Analogy:</span>
+			<div class="mt-2 rounded-lg bg-s-glass px-2.5 py-2">
+				<p class="text-[11px] leading-relaxed text-t-secondary">
+					<span class="font-medium text-t-primary">Analogy:</span>
 					{#each analogySegments as seg, j (j)}
 						{#if seg.type === 'text'}
 							{seg.value}
 						{:else if seg.type === 'bold'}
-							<strong class="font-semibold text-slate-300">{seg.value}</strong>
+							<strong class="font-semibold text-t-primary">{seg.value}</strong>
 						{:else if seg.type === 'protocol-link' || seg.type === 'bold-protocol-link'}
 							<button
 								class="inline font-medium text-sky-400 transition-colors hover:text-sky-300 hover:underline"
@@ -108,7 +108,7 @@
 								{seg.label}
 							</button>
 						{:else if seg.type === 'concept' || seg.type === 'bold-concept'}
-							<span class="font-medium text-slate-300">{seg.label}</span>
+							<span class="font-medium text-t-primary">{seg.label}</span>
 						{/if}
 					{/each}
 				</p>
@@ -121,7 +121,7 @@
 				href={concept.wikiUrl}
 				target="_blank"
 				rel="noopener noreferrer"
-				class="mt-2 inline-flex items-center gap-1 text-[11px] text-slate-500 transition-colors hover:text-slate-300"
+				class="mt-2 inline-flex items-center gap-1 text-[11px] text-t-muted transition-colors hover:text-t-primary"
 			>
 				<ExternalLink size={10} />
 				Wikipedia

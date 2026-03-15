@@ -3,6 +3,7 @@
 	import { getProtocolById, getCategoryById } from '$lib/data/index';
 	import { getPairsForProtocol, getOtherProtocol } from '$lib/data/comparison/pairs';
 	import LinkedText from './LinkedText.svelte';
+	import { themedDomColor } from '$lib/utils/colors';
 
 	interface Props {
 		protocolId: string;
@@ -30,24 +31,24 @@
 	{#each allPairs as { pair, proto, cat } (proto?.id)}
 		{#if proto}
 			<button
-				class="flex w-full flex-col gap-1.5 rounded-xl border border-white/5 bg-white/[0.02] p-3 text-left transition-all hover:border-white/10 hover:bg-white/[0.05]"
+				class="flex w-full flex-col gap-1.5 rounded-xl border border-s-border bg-s-glass p-3 text-left transition-all hover:border-s-border hover:bg-s-glass-hover"
 				onclick={() => (appState.compareTargetId = proto.id)}
 			>
 				<div class="flex items-baseline gap-2">
-					<span class="text-sm font-medium" style="color: {cat?.color ?? '#FFFFFF'}">{proto.abbreviation}</span>
-					<span class="text-[10px] text-slate-600">{proto.year}</span>
+					<span class="text-sm font-medium" style="color: {themedDomColor(cat?.color ?? '#FFFFFF', appState.theme)}">{proto.abbreviation}</span>
+					<span class="text-[10px] text-t-muted">{proto.year}</span>
 					<span class="rounded-full px-1.5 py-0.5 text-[9px] font-medium" style="background-color: {pair.type === 'vs' ? color + '15' : 'rgb(255 255 255 / 0.04)'}; color: {pair.type === 'vs' ? color : 'rgb(148 163 184)'}">
 						{pair.type === 'vs' ? 'vs' : 'works with'}
 					</span>
 				</div>
-				<p class="text-xs leading-relaxed text-slate-400">
-					<LinkedText text={pair.summary} color={cat?.color ?? color} />
+				<p class="text-xs leading-relaxed text-t-secondary">
+					<LinkedText text={pair.summary} color={themedDomColor(cat?.color ?? color, appState.theme)} />
 				</p>
 			</button>
 		{/if}
 	{/each}
 
 	{#if allPairs.length === 0}
-		<p class="text-center text-sm text-slate-500">No comparisons available for this protocol.</p>
+		<p class="text-center text-sm text-t-muted">No comparisons available for this protocol.</p>
 	{/if}
 </div>

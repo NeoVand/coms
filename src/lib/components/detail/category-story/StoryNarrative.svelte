@@ -19,16 +19,16 @@
 
 <section>
 	{#if title}
-		<h3 class="mb-2 text-xs font-semibold tracking-wider text-slate-500 uppercase">{title}</h3>
+		<h3 class="mb-2 text-xs font-semibold tracking-wider text-t-muted uppercase">{title}</h3>
 	{/if}
-	<div class="space-y-3 text-sm leading-relaxed text-slate-300">
+	<div class="space-y-3 text-sm leading-relaxed text-t-primary">
 		{#each paragraphs as segments, i (i)}
 			<p>
 				{#each segments as seg, j (j)}
 					{#if seg.type === 'text'}
 						{seg.value}
 					{:else if seg.type === 'bold'}
-						<strong class="font-semibold text-slate-200">{seg.value}</strong>
+						<strong class="font-semibold text-t-primary">{seg.value}</strong>
 					{:else if seg.type === 'protocol-link'}
 						<button
 							class="inline font-medium transition-colors hover:underline"

@@ -2,6 +2,8 @@
 	import type { SimulationActor, SimulationStep } from '../types';
 	import ActorIcon from './actors/ActorIcon.svelte';
 	import MessageArrow from './actors/MessageArrow.svelte';
+	import { getAppState } from '$lib/state/context';
+	import { themedDomColor } from '$lib/utils/colors';
 
 	interface Props {
 		actors: SimulationActor[];
@@ -12,6 +14,9 @@
 	}
 
 	let { actors, currentStep, stepIndex, color, compact = false }: Props = $props();
+	const appState = getAppState();
+	const isLight = $derived(appState.theme === 'light');
+	const themedColor = $derived(themedDomColor(color, appState.theme));
 
 	const WIDTH = 400;
 	const HEIGHT = compact ? 70 : 110;
@@ -34,7 +39,7 @@
 	const ARROW_Y = ICON_Y + 1;
 </script>
 
-<div class="rounded-lg border border-white/5 bg-white/[0.02] p-1.5">
+<div class="rounded-lg border border-s-border bg-s-glass p-1.5">
 	<svg viewBox="0 0 {WIDTH} {HEIGHT}" class="w-full">
 		<!-- Arrow (drawn first, behind actors) -->
 		{#if currentStep}
@@ -48,7 +53,7 @@
 					fromX={fromCx + dir * ICON_GAP}
 					toX={toCx - dir * ICON_GAP}
 					y={ARROW_Y}
-					{color}
+					color={themedColor}
 					label={currentStep.label}
 					active={true}
 				/>
@@ -65,7 +70,7 @@
 				x={x}
 				y={LABEL_Y}
 				text-anchor="middle"
-				fill={isActive ? '#e2e8f0' : '#64748b'}
+				fill={isActive ? (isLight ? '#1e293b' : '#e2e8f0') : (isLight ? '#64748b' : '#64748b')}
 				font-size="10"
 				font-weight="600"
 			>
@@ -78,7 +83,7 @@
 					<circle
 						r={ICON_HALF + 6}
 						fill="none"
-						stroke={color}
+						stroke={themedColor}
 						stroke-width="1"
 						opacity="0.25"
 						class="animate-pulse-glow"
@@ -88,8 +93,8 @@
 				<!-- Background circle -->
 				<circle
 					r={ICON_HALF + 3}
-					fill="rgba(15, 23, 42, 0.8)"
-					stroke={isActive ? color + '40' : 'rgba(255,255,255,0.08)'}
+					fill="var(--theme-tooltip-bg)"
+					stroke={isActive ? themedColor + '40' : 'var(--theme-glass-border)'}
 					stroke-width="1"
 				/>
 
@@ -97,7 +102,7 @@
 				<g transform="translate({-ICON_HALF}, {-ICON_HALF})">
 					<ActorIcon
 						icon={actor.icon}
-						color={isActive ? color : '#64748b'}
+						color={isActive ? themedColor : (isLight ? '#475569' : '#64748b')}
 						size={ICON_SIZE}
 					/>
 				</g>
@@ -110,7 +115,7 @@
 				x={WIDTH / 2}
 				y={HEIGHT - 10}
 				text-anchor="middle"
-				fill="#475569"
+				fill={isLight ? '#94a3b8' : '#475569'}
 				font-size="10"
 			>
 				Press Play to start the simulation

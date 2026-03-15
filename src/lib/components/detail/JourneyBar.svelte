@@ -26,7 +26,7 @@
 
 {#if journey}
 	<div
-		class="relative overflow-hidden rounded-xl border border-white/[0.08]"
+		class="relative overflow-hidden rounded-xl border border-s-border"
 		style="background: linear-gradient(135deg, {journey.color}08, {journey.color}04);"
 	>
 		<!-- Color accent line -->
@@ -40,8 +40,8 @@
 			<div class="flex items-center gap-2">
 				<div class="min-w-0 flex-1">
 					<div class="flex items-baseline gap-2">
-						<h4 class="truncate text-xs font-semibold text-slate-200">{journey.title}</h4>
-						<span class="shrink-0 text-[10px] tabular-nums text-slate-500">
+						<h4 class="truncate text-xs font-semibold text-t-primary">{journey.title}</h4>
+						<span class="shrink-0 text-[10px] tabular-nums text-t-muted">
 							{stepIndex + 1}/{journey.steps.length}
 						</span>
 					</div>
@@ -50,7 +50,7 @@
 				<!-- Prev/Next -->
 				<div class="flex shrink-0 items-center gap-0.5">
 					<button
-						class="flex h-6 w-6 items-center justify-center rounded-md transition-all hover:bg-white/5 disabled:opacity-20"
+						class="flex h-6 w-6 items-center justify-center rounded-md transition-all hover:bg-s-glass-hover disabled:opacity-20"
 						style="color: {journey.color};"
 						disabled={isFirst}
 						onclick={() => navigateToStep(stepIndex - 1)}
@@ -59,7 +59,7 @@
 						<ChevronLeft size={14} />
 					</button>
 					<button
-						class="flex h-6 w-6 items-center justify-center rounded-md transition-all hover:bg-white/5 disabled:opacity-20"
+						class="flex h-6 w-6 items-center justify-center rounded-md transition-all hover:bg-s-glass-hover disabled:opacity-20"
 						style="color: {journey.color};"
 						disabled={isLast}
 						onclick={() => navigateToStep(stepIndex + 1)}
@@ -71,7 +71,7 @@
 
 				<!-- Exit -->
 				<button
-					class="flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-slate-500 transition-colors hover:bg-white/5 hover:text-slate-300"
+					class="flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-t-muted transition-colors hover:bg-s-glass-hover hover:text-t-primary"
 					onclick={() => appState.exitJourney()}
 					aria-label="Exit journey"
 				>
@@ -103,7 +103,7 @@
 						></span>
 						<!-- Tooltip on hover -->
 						<span
-							class="pointer-events-none absolute -top-7 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-slate-900 px-1.5 py-0.5 text-[9px] text-slate-300 opacity-0 shadow-lg transition-opacity group-hover:opacity-100"
+							class="pointer-events-none absolute -top-7 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-slate-900 px-1.5 py-0.5 text-[9px] text-t-primary opacity-0 shadow-lg transition-opacity group-hover:opacity-100"
 						>
 							{proto?.abbreviation ?? step.protocolId}
 						</span>
@@ -117,7 +117,7 @@
 					<span class="text-[11px] font-medium" style="color: {currentCat?.color ?? journey.color};">
 						{currentProto?.abbreviation ?? currentStep.protocolId}
 					</span>
-					<span class="text-[11px] text-slate-400">{currentStep.title}</span>
+					<span class="text-[11px] text-t-secondary">{currentStep.title}</span>
 				</div>
 
 				{#if currentStep.transition && !isLast}

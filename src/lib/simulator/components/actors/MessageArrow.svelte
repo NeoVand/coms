@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { getAppState } from '$lib/state/context';
+
 	interface Props {
 		fromX: number;
 		toX: number;
@@ -10,6 +12,8 @@
 	}
 
 	let { fromX, toX, y, color, label = '', active = false, lost = false }: Props = $props();
+	const appState = getAppState();
+	const isLight = $derived(appState.theme === 'light');
 
 	const direction = $derived(toX > fromX ? 1 : -1);
 	const arrowSize = 7;
@@ -45,7 +49,7 @@
 			width={labelW}
 			height={16}
 			rx="4"
-			fill="rgba(15, 23, 42, 0.95)"
+			fill={isLight ? 'rgba(255, 255, 255, 0.95)' : 'rgba(15, 23, 42, 0.95)'}
 			stroke={lineColor}
 			stroke-width="0.75"
 		/>

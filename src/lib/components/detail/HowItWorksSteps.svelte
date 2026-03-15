@@ -17,7 +17,7 @@
 </script>
 
 <section data-tour="how-it-works">
-	<h3 class="mb-3 text-xs font-semibold tracking-wider text-slate-500 uppercase">How It Works</h3>
+	<h3 class="mb-3 text-xs font-semibold tracking-wider text-t-muted uppercase">How It Works</h3>
 	<div class="relative space-y-0">
 		{#each steps as step, i (i)}
 			{@const segments = parseRichText(step.description)}
@@ -39,13 +39,13 @@
 				</div>
 
 				<div>
-					<h4 class="text-sm font-medium text-slate-200">{step.title}</h4>
-					<p class="mt-0.5 text-xs leading-relaxed text-slate-400">
+					<h4 class="text-sm font-medium text-t-primary">{step.title}</h4>
+					<p class="mt-0.5 text-xs leading-relaxed text-t-secondary">
 						{#each segments as seg, j (j)}
 							{#if seg.type === 'text'}
 								{seg.value}
 							{:else if seg.type === 'bold'}
-								<strong class="font-semibold text-slate-300">{seg.value}</strong>
+								<strong class="font-semibold text-t-primary">{seg.value}</strong>
 							{:else if seg.type === 'protocol-link'}
 								<button
 									class="inline font-medium transition-colors hover:underline"

@@ -32,13 +32,13 @@
 	});
 </script>
 
-<div class="relative flex border-b border-white/5">
+<div class="relative flex border-b border-s-border">
 	{#each tabs as tab, i (tab.id)}
 		<button
 			bind:this={tabEls[i]}
 			class="relative z-10 flex items-center gap-1.5 px-4 py-2.5 text-sm font-medium transition-colors"
-			class:text-slate-200={activeId === tab.id}
-			class:text-slate-500={activeId !== tab.id}
+			class:text-t-primary={activeId === tab.id}
+			class:text-t-muted={activeId !== tab.id}
 			onclick={() => onchange(tab.id)}
 		>
 			{#if tab.icon}

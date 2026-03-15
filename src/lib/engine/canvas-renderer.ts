@@ -1,6 +1,5 @@
 import type { GraphNode, GraphEdge, Viewport } from '$lib/data/types';
-import { COLORS } from '$lib/utils/colors';
-import { hexToRgba } from '$lib/utils/colors';
+import { hexToRgba, themedColor, themedDomColor, type ThemeColors } from '$lib/utils/colors';
 import { getProtocolById } from '$lib/data/index';
 import { categoryMap, categories } from '$lib/data/categories';
 import { TIMELINE_PARAMS, type LayoutMode } from '$lib/engine/layouts';
@@ -21,6 +20,7 @@ interface RenderOptions {
 	time: number;
 	dpr: number;
 	layoutMode?: LayoutMode;
+	theme: ThemeColors;
 }
 
 const NODE_MAP = new Map<string, GraphNode>();
@@ -111,9 +111,14 @@ function isNodeDimmed(node: GraphNode, selectedNode: GraphNode | null, compareTa
 	return false;
 }
 
+// Track current theme for color remapping
+let currentTheme: ThemeColors;
+
 export function render(ctx: CanvasRenderingContext2D, options: RenderOptions): void {
-	const { width, height, viewport, nodes, edges, hoveredNode, selectedNode, compareTargetId, activeJourney, activeJourneyStepIndex, searchHighlightIds, time, dpr, layoutMode } =
+	const { width, height, viewport, nodes, edges, hoveredNode, selectedNode, compareTargetId, activeJourney, activeJourneyStepIndex, searchHighlightIds, time, dpr, layoutMode, theme } =
 		options;
+
+	currentTheme = theme;
 
 	buildNodeMap(nodes);
 	updateConnectedIds(selectedNode, compareTargetId);
@@ -123,11 +128,11 @@ export function render(ctx: CanvasRenderingContext2D, options: RenderOptions): v
 	ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
 	// Clear
-	ctx.fillStyle = COLORS.bg;
+	ctx.fillStyle = theme.bg;
 	ctx.fillRect(0, 0, width, height);
 
 	// Subtle ambient glow + vignette
-	drawAmbient(ctx, width, height, time);
+	drawAmbient(ctx, width, height, time, theme);
 
 	// Transform to world space
 	ctx.save();
@@ -136,7 +141,7 @@ export function render(ctx: CanvasRenderingContext2D, options: RenderOptions): v
 
 	// Underlays drawn before edges/nodes
 	if (layoutMode === 'timeline') {
-		drawTimelineUnderlay(ctx);
+		drawTimelineUnderlay(ctx, theme);
 	}
 
 	// Draw edges
@@ -153,7 +158,7 @@ export function render(ctx: CanvasRenderingContext2D, options: RenderOptions): v
 		const dimTarget = dimAnim.get(target.id) ?? 0;
 		const edgeDimT = Math.max(dimSource, dimTarget);
 
-		drawEdge(ctx, source, target, edge.color, edgeDimT, time);
+		drawEdge(ctx, source, target, edge.color, edgeDimT, time, theme);
 	}
 
 	// Draw related protocol edges (dashed)
@@ -205,7 +210,7 @@ export function render(ctx: CanvasRenderingContext2D, options: RenderOptions): v
 		const isSelected = selectedNode?.id === node.id;
 		const dimT = dimAnim.get(node.id) ?? 0;
 		const isConnected = connectedIds.has(node.id);
-		drawNode(ctx, node, hoverT, isSelected, dimT, isConnected, time, viewport.scale);
+		drawNode(ctx, node, hoverT, isSelected, dimT, isConnected, time, viewport.scale, theme);
 	}
 
 	ctx.restore();
@@ -230,6 +235,9 @@ function drawRelatedEdges(
 
 	if (connectionIds.length === 0) return;
 
+	const tc = currentTheme;
+	const nodeColor = themedColor(selectedNode.color, tc.showStars ? 'dark' : 'light');
+
 	ctx.save();
 	ctx.setLineDash([6, 4]);
 
@@ -249,8 +257,9 @@ function drawRelatedEdges(
 		ctx.beginPath();
 		ctx.moveTo(liveNode.x, liveNode.y);
 		ctx.quadraticCurveTo(cpx, cpy, targetNode.x, targetNode.y);
-		ctx.strokeStyle = hexToRgba(selectedNode.color, compareTargetId ? 0.4 : 0.25);
-		ctx.lineWidth = compareTargetId ? 1.5 : 1.0;
+		const isLight = !tc.showStars;
+		ctx.strokeStyle = hexToRgba(nodeColor, compareTargetId ? (isLight ? 0.6 : 0.4) : (isLight ? 0.5 : 0.25));
+		ctx.lineWidth = compareTargetId ? 1.5 : (isLight ? 1.4 : 1.0);
 		ctx.stroke();
 	}
 
@@ -272,6 +281,9 @@ function drawJourneyPath(
 
 	if (stepNodes.length < 2) return;
 
+	const tc = currentTheme;
+	const jColor = themedColor(journey.color, tc.showStars ? 'dark' : 'light');
+
 	ctx.save();
 
 	// Draw connecting curves between sequential steps
@@ -283,7 +295,6 @@ function drawJourneyPath(
 
 		const dx = to.x - from.x;
 		const dy = to.y - from.y;
-		const dist = Math.sqrt(dx * dx + dy * dy);
 		const midX = (from.x + to.x) / 2;
 		const midY = (from.y + to.y) / 2;
 		const cpx = midX - dy * 0.15;
@@ -294,11 +305,11 @@ function drawJourneyPath(
 		ctx.quadraticCurveTo(cpx, cpy, to.x, to.y);
 
 		if (isVisited || isCurrent) {
-			ctx.strokeStyle = hexToRgba(journey.color, 0.5);
+			ctx.strokeStyle = hexToRgba(jColor, 0.5);
 			ctx.lineWidth = 2;
 			ctx.setLineDash([]);
 		} else {
-			ctx.strokeStyle = hexToRgba(journey.color, 0.2);
+			ctx.strokeStyle = hexToRgba(jColor, 0.2);
 			ctx.lineWidth = 1.5;
 			ctx.setLineDash([6, 4]);
 		}
@@ -325,11 +336,11 @@ function drawJourneyPath(
 		ctx.beginPath();
 		ctx.arc(badgeX, badgeY, badgeR, 0, Math.PI * 2);
 		if (isCurrent) {
-			ctx.fillStyle = journey.color;
+			ctx.fillStyle = jColor;
 		} else if (isVisited) {
-			ctx.fillStyle = hexToRgba(journey.color, 0.7);
+			ctx.fillStyle = hexToRgba(jColor, 0.7);
 		} else {
-			ctx.fillStyle = hexToRgba(journey.color, 0.25);
+			ctx.fillStyle = hexToRgba(jColor, 0.25);
 		}
 		ctx.fill();
 
@@ -337,7 +348,9 @@ function drawJourneyPath(
 		ctx.font = `600 ${9 * pulseScale}px Inter, system-ui, sans-serif`;
 		ctx.textAlign = 'center';
 		ctx.textBaseline = 'middle';
-		ctx.fillStyle = isCurrent || isVisited ? '#000000' : hexToRgba(journey.color, 0.8);
+		ctx.fillStyle = isCurrent || isVisited
+			? (tc.showStars ? '#000000' : '#FFFFFF')
+			: hexToRgba(jColor, 0.8);
 		ctx.fillText(String(i + 1), badgeX, badgeY + 0.5);
 	}
 
@@ -355,7 +368,12 @@ const TIMELINE_LANDMARKS: { year: number; label: string }[] = [
 	{ year: 2017, label: 'Cloud Era' }
 ];
 
-function drawTimelineUnderlay(ctx: CanvasRenderingContext2D): void {
+function tlColor(theme: ThemeColors, alpha: number): string {
+	const [r, g, b] = theme.timelineLineBase;
+	return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
+function drawTimelineUnderlay(ctx: CanvasRenderingContext2D, theme: ThemeColors): void {
 	const { MIN_YEAR, MAX_YEAR, X_LEFT, X_RIGHT, LANE_SPACING } = TIMELINE_PARAMS;
 	const catOrder = categories.map((c) => c.id);
 	const numCats = catOrder.length;
@@ -372,7 +390,8 @@ function drawTimelineUnderlay(ctx: CanvasRenderingContext2D): void {
 		const cat = categoryMap.get(catId);
 		if (!cat) return;
 		const laneY = laneYs[i];
-		ctx.fillStyle = hexToRgba(cat.color, 0.035);
+		const catColor = themedColor(cat.color, theme.showStars ? 'dark' : 'light');
+		ctx.fillStyle = hexToRgba(catColor, theme.showStars ? 0.035 : 0.06);
 		ctx.fillRect(X_LEFT - 180, laneY - LANE_SPACING / 2, totalWidth + 230, LANE_SPACING);
 	});
 
@@ -383,7 +402,7 @@ function drawTimelineUnderlay(ctx: CanvasRenderingContext2D): void {
 		const x = yearToX(year);
 		const isDecade = year % 10 === 0;
 
-		ctx.strokeStyle = `rgba(148, 163, 184, ${isDecade ? 0.14 : 0.055})`;
+		ctx.strokeStyle = tlColor(theme, isDecade ? 0.14 : 0.055);
 		ctx.lineWidth = isDecade ? 0.8 : 0.5;
 		ctx.setLineDash(isDecade ? [] : [3, 5]);
 		ctx.beginPath();
@@ -396,7 +415,7 @@ function drawTimelineUnderlay(ctx: CanvasRenderingContext2D): void {
 			ctx.font = '600 14px Inter, system-ui, sans-serif';
 			ctx.textAlign = 'center';
 			ctx.textBaseline = 'top';
-			ctx.fillStyle = 'rgba(148, 163, 184, 0.55)';
+			ctx.fillStyle = tlColor(theme, 0.55);
 			ctx.fillText(String(year), x, bottomY + 14);
 		}
 	}
@@ -410,7 +429,7 @@ function drawTimelineUnderlay(ctx: CanvasRenderingContext2D): void {
 		const x = yearToX(landmark.year);
 
 		// Dashed vertical line spanning the full timeline
-		ctx.strokeStyle = 'rgba(148, 163, 184, 0.13)';
+		ctx.strokeStyle = tlColor(theme, 0.13);
 		ctx.lineWidth = 0.7;
 		ctx.setLineDash([4, 5]);
 		ctx.beginPath();
@@ -420,7 +439,7 @@ function drawTimelineUnderlay(ctx: CanvasRenderingContext2D): void {
 
 		// Small dot at the top edge of the timeline
 		ctx.setLineDash([]);
-		ctx.fillStyle = 'rgba(148, 163, 184, 0.4)';
+		ctx.fillStyle = tlColor(theme, 0.4);
 		ctx.beginPath();
 		ctx.arc(x, dotY, 2.5, 0, Math.PI * 2);
 		ctx.fill();
@@ -429,12 +448,12 @@ function drawTimelineUnderlay(ctx: CanvasRenderingContext2D): void {
 		ctx.font = '600 12px Inter, system-ui, sans-serif';
 		ctx.textAlign = 'right';
 		ctx.textBaseline = 'bottom';
-		ctx.fillStyle = 'rgba(148, 163, 184, 0.55)';
+		ctx.fillStyle = tlColor(theme, 0.55);
 		ctx.fillText(landmark.label, x - 7, dotY - 4);
 
 		// Year — right-aligned above the name
 		ctx.font = '400 10px Inter, system-ui, sans-serif';
-		ctx.fillStyle = 'rgba(148, 163, 184, 0.35)';
+		ctx.fillStyle = tlColor(theme, 0.35);
 		ctx.fillText(String(landmark.year), x - 7, dotY - 18);
 	}
 	ctx.setLineDash([]);
@@ -570,12 +589,22 @@ function drawAmbient(
 	ctx: CanvasRenderingContext2D,
 	width: number,
 	height: number,
-	time: number
+	time: number,
+	theme: ThemeColors
 ): void {
-	const cx = width / 2;
-	const cy = height / 2;
+	if (!theme.showStars) {
+		// Light mode: soft gradient sky
+		const skyGrad = ctx.createLinearGradient(0, 0, 0, height);
+		skyGrad.addColorStop(0, '#DBEAFE');
+		skyGrad.addColorStop(0.5, '#E8EEF6');
+		skyGrad.addColorStop(1, '#F1F5F9');
+		ctx.fillStyle = skyGrad;
+		ctx.fillRect(0, 0, width, height);
+		ctx.globalAlpha = 1;
+		return;
+	}
 
-	// Scattered star dots — subtle static texture
+	// Dark mode: scattered star dots — subtle static texture
 	const stars = ensureStars(width, height)!;
 	for (const s of stars) {
 		// Gentle twinkle per star
@@ -599,9 +628,10 @@ function drawEdge(
 	target: GraphNode,
 	color: string,
 	dimT: number,
-	time: number
+	time: number,
+	theme: ThemeColors
 ): void {
-	const baseAlpha = 0.2 + 0.05 * Math.sin(time * 0.002);
+	const baseAlpha = theme.edgeAlpha + 0.05 * Math.sin(time * 0.002);
 	const alpha = baseAlpha + (0.05 - baseAlpha) * dimT;
 
 	ctx.beginPath();
@@ -618,7 +648,8 @@ function drawEdge(
 	ctx.moveTo(source.x, source.y);
 	ctx.quadraticCurveTo(cpx, cpy, target.x, target.y);
 
-	ctx.strokeStyle = hexToRgba(color.startsWith('#') ? color : '#FFFFFF', alpha);
+	const edgeC = color.startsWith('#') ? color : theme.edgeColor;
+	ctx.strokeStyle = hexToRgba(themedColor(edgeC, theme.showStars ? 'dark' : 'light'), alpha);
 	ctx.lineWidth = 1.8 - 1.3 * dimT;
 	ctx.stroke();
 }
@@ -631,9 +662,11 @@ function drawNode(
 	dimT: number,
 	isConnected: boolean,
 	time: number,
-	scale: number
+	scale: number,
+	theme: ThemeColors
 ): void {
-	const { x, y, radius, color, type } = node;
+	const { x, y, radius, type } = node;
+	const color = themedColor(node.color, theme.showStars ? 'dark' : 'light');
 	const alpha = 1 - 0.9 * dimT;
 
 	// Ease-out curve for organic "grow out" feel
@@ -656,7 +689,7 @@ function drawNode(
 		(hoverT > 0.01 || isSelected || isConnected || type === 'hub' || type === 'category');
 	if (hasGlow) {
 		const glowScale = 1 + 0.3 * eased; // glow grows out with hover
-		const glowRadius = r * (type === 'hub' ? 2.2 : 2.2) * glowScale;
+		const glowRadius = r * 2.2 * glowScale;
 		const glow = ctx.createRadialGradient(x, y, r * 0.5, x, y, glowRadius);
 		const baseGlowAlpha =
 			isSelected ? 0.35 : isConnected ? 0.2 : type === 'hub' ? 0.08 : 0.1;
@@ -682,15 +715,37 @@ function drawNode(
 	if (dimT < 0.99) {
 		ctx.beginPath();
 		ctx.arc(x, y, r, 0, Math.PI * 2);
-		ctx.fillStyle = `rgba(15, 23, 42, ${1 - dimT})`;
+		const baseBg = theme.nodeBaseBg;
+		// Extract the rgb and replace alpha with (1 - dimT)
+		const match = baseBg.match(/rgba?\(([^)]+)\)/);
+		if (match) {
+			const parts = match[1].split(',').map(s => s.trim());
+			ctx.fillStyle = `rgba(${parts[0]}, ${parts[1]}, ${parts[2]}, ${1 - dimT})`;
+		} else {
+			ctx.fillStyle = baseBg;
+		}
 		ctx.fill();
 	}
 
 	// Node body
 	const gradient = ctx.createRadialGradient(x - r * 0.3, y - r * 0.3, 0, x, y, r);
 	if (type === 'hub') {
-		gradient.addColorStop(0, `rgba(255, 255, 255, ${alpha})`);
-		gradient.addColorStop(1, `rgba(200, 210, 230, ${alpha * 0.8})`);
+		if (theme.showStars) {
+			// Dark mode: two-color gradient (white center → gray edge)
+			gradient.addColorStop(0, hexToRgba(theme.hub, alpha));
+			const endMatch = theme.hubGradientEnd.match(/rgba?\(([^)]+)\)/);
+			if (endMatch) {
+				const parts = endMatch[1].split(',').map(s => s.trim());
+				gradient.addColorStop(1, `rgba(${parts[0]}, ${parts[1]}, ${parts[2]}, ${alpha * 0.8})`);
+			} else {
+				gradient.addColorStop(1, hexToRgba(theme.hub, alpha * 0.8));
+			}
+		} else {
+			// Light mode: gentle alpha-fade for smooth sphere (subtler than protocol nodes)
+			gradient.addColorStop(0, hexToRgba(theme.hub, alpha));
+			gradient.addColorStop(0.6, hexToRgba(theme.hub, alpha * 0.88));
+			gradient.addColorStop(1, hexToRgba(theme.hub, alpha * 0.65));
+		}
 	} else {
 		gradient.addColorStop(0, hexToRgba(color, alpha * (1 - 0.1 * dimT)));
 		gradient.addColorStop(0.7, hexToRgba(color, alpha * (0.7 - 0.1 * dimT)));
@@ -706,7 +761,8 @@ function drawNode(
 	if (dimT < 0.99) {
 		const highlight = ctx.createRadialGradient(x - r * 0.25, y - r * 0.3, 0, x, y, r);
 		const hlAlpha = 1 - dimT;
-		highlight.addColorStop(0, `rgba(255, 255, 255, ${(type === 'hub' ? 0.4 : 0.25) * hlAlpha})`);
+		const hubHighlight = theme.showStars ? 0.4 : 0.15; // subtler in light mode
+		highlight.addColorStop(0, `rgba(255, 255, 255, ${(type === 'hub' ? hubHighlight : theme.innerHighlightAlpha) * hlAlpha})`);
 		highlight.addColorStop(0.5, 'rgba(255, 255, 255, 0)');
 		highlight.addColorStop(1, 'rgba(255, 255, 255, 0)');
 		ctx.beginPath();
@@ -720,14 +776,14 @@ function drawNode(
 		const cat = categoryMap.get(node.id);
 		if (cat) {
 			const iconSize = r * 1.1;
-			drawCategoryIcon(ctx, x, y, iconSize, cat.icon, dimT);
+			drawCategoryIcon(ctx, x, y, iconSize, cat.icon, dimT, theme);
 		}
 	}
 
 	// Hub icon inside hub node
 	if (type === 'hub') {
 		const iconSize = r * 1.1;
-		drawHubIcon(ctx, x, y, iconSize, dimT);
+		drawHubIcon(ctx, x, y, iconSize, dimT, theme);
 	}
 
 	// Label — show for non-dimmed nodes and connected nodes
@@ -752,12 +808,17 @@ function drawNode(
 			ctx.font = `${type === 'hub' ? '600' : '500'} ${fontSize}px Inter, system-ui, sans-serif`;
 			ctx.textAlign = 'center';
 			ctx.textBaseline = 'top';
-			ctx.fillStyle =
-				type === 'hub' ? `rgba(255, 255, 255, ${labelAlpha})` : hexToRgba(color, labelAlpha * 0.9);
+			// In light mode, use muted DOM colors for labels so they're readable on the light bg
+		const labelColor = type === 'hub'
+			? theme.hub
+			: theme.showStars
+				? color
+				: themedDomColor(node.color, 'light');
+		ctx.fillStyle = hexToRgba(labelColor, type === 'hub' ? labelAlpha : labelAlpha * 0.9);
 
 			// Text shadow
-			ctx.shadowColor = 'rgba(0, 0, 0, 0.8)';
-			ctx.shadowBlur = 4;
+			ctx.shadowColor = theme.labelShadowColor;
+			ctx.shadowBlur = theme.labelShadowBlur;
 			ctx.fillText(label, x, y + r + 6);
 			ctx.shadowColor = 'transparent';
 			ctx.shadowBlur = 0;
@@ -834,7 +895,8 @@ function drawHubIcon(
 	x: number,
 	y: number,
 	size: number,
-	dimT: number
+	dimT: number,
+	theme: ThemeColors
 ): void {
 	ctx.save();
 	ctx.translate(x, y);
@@ -853,23 +915,23 @@ function drawHubIcon(
 	const br = { x: 19.2, y: 16.2 };
 	const center = { x: 12, y: 12 };
 
-	// Drop shadow behind all icon elements for contrast on white node
-	ctx.shadowColor = 'rgba(0, 0, 0, 0.35)';
+	// Drop shadow behind all icon elements for contrast
+	ctx.shadowColor = theme.hubIconShadow;
 	ctx.shadowBlur = 3;
 
 	// Connecting lines from center to outer nodes
 	ctx.lineWidth = 1.4;
-	ctx.strokeStyle = `rgba(110, 231, 183, ${0.6 * alpha})`;
+	ctx.strokeStyle = hexToRgba(theme.hubIconGreen, 0.6 * alpha);
 	ctx.beginPath();
 	ctx.moveTo(center.x, 10.2);
 	ctx.lineTo(top.x, 6);
 	ctx.stroke();
-	ctx.strokeStyle = `rgba(196, 181, 253, ${0.6 * alpha})`;
+	ctx.strokeStyle = hexToRgba(theme.hubIconPurple, 0.6 * alpha);
 	ctx.beginPath();
 	ctx.moveTo(10.6, 13);
 	ctx.lineTo(6.7, 14.8);
 	ctx.stroke();
-	ctx.strokeStyle = `rgba(125, 211, 252, ${0.6 * alpha})`;
+	ctx.strokeStyle = hexToRgba(theme.hubIconBlue, 0.6 * alpha);
 	ctx.beginPath();
 	ctx.moveTo(13.4, 13);
 	ctx.lineTo(17.3, 14.8);
@@ -879,21 +941,21 @@ function drawHubIcon(
 	ctx.globalAlpha = alpha;
 	const n1 = new Path2D();
 	n1.arc(top.x, top.y, 2.4, 0, Math.PI * 2);
-	ctx.fillStyle = '#6ee7b7';
+	ctx.fillStyle = theme.hubIconGreen;
 	ctx.fill(n1);
 	const n2 = new Path2D();
 	n2.arc(bl.x, bl.y, 2.4, 0, Math.PI * 2);
-	ctx.fillStyle = '#c4b5fd';
+	ctx.fillStyle = theme.hubIconPurple;
 	ctx.fill(n2);
 	const n3 = new Path2D();
 	n3.arc(br.x, br.y, 2.4, 0, Math.PI * 2);
-	ctx.fillStyle = '#7dd3fc';
+	ctx.fillStyle = theme.hubIconBlue;
 	ctx.fill(n3);
 
 	// Center hub
 	const ch = new Path2D();
 	ch.arc(center.x, center.y, 1.8, 0, Math.PI * 2);
-	ctx.fillStyle = '#e2e8f0';
+	ctx.fillStyle = theme.hubIconCenter;
 	ctx.fill(ch);
 
 	ctx.shadowColor = 'transparent';
@@ -908,7 +970,8 @@ function drawCategoryIcon(
 	y: number,
 	size: number,
 	icon: string,
-	dimT: number
+	dimT: number,
+	theme: ThemeColors
 ): void {
 	ctx.save();
 	ctx.translate(x, y);
@@ -917,8 +980,8 @@ function drawCategoryIcon(
 	ctx.translate(-12, -12);
 
 	ctx.globalAlpha = 1 - 0.85 * dimT;
-	ctx.strokeStyle = '#ffffff';
-	ctx.fillStyle = '#ffffff';
+	ctx.strokeStyle = theme.categoryIconColor;
+	ctx.fillStyle = theme.categoryIconColor;
 	ctx.lineWidth = 1.2;
 	ctx.lineCap = 'round';
 	ctx.lineJoin = 'round';

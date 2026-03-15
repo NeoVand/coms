@@ -15,7 +15,7 @@
 </script>
 
 <section>
-	<div class="relative ml-3 border-l border-white/5 pl-5">
+	<div class="relative ml-3 border-l border-s-border pl-5">
 		{#each entries as entry, i (i)}
 			<div class="relative pb-5 last:pb-0">
 				<!-- Dot on the line -->
@@ -30,7 +30,7 @@
 				</div>
 
 				<!-- Title -->
-				<div class="text-sm font-medium text-slate-200">
+				<div class="text-sm font-medium text-t-primary">
 					{#if entry.protocolId}
 						<button
 							class="hover:underline"
@@ -45,7 +45,7 @@
 				</div>
 
 				<!-- Description -->
-				<p class="mt-0.5 text-xs leading-relaxed text-slate-500">
+				<p class="mt-0.5 text-xs leading-relaxed text-t-muted">
 					{entry.description}
 				</p>
 			</div>

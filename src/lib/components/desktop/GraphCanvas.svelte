@@ -10,6 +10,7 @@
 	import { getAppState } from '$lib/state/context';
 	import { computeRadialPositions, computeTimelinePositions } from '$lib/engine/layouts';
 	import type { LayoutMode } from '$lib/engine/layouts';
+	import { getThemeColors } from '$lib/utils/colors';
 
 	const appState = getAppState();
 
@@ -398,7 +399,8 @@
 				searchHighlightIds: appState.searchHighlightIds,
 				time,
 				dpr,
-				layoutMode: appState.layoutMode
+				layoutMode: appState.layoutMode,
+				theme: getThemeColors(appState.theme)
 			});
 		});
 

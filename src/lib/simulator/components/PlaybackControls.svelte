@@ -15,7 +15,7 @@
 	<div class="flex items-center gap-0.5">
 		<!-- Reset -->
 		<button
-			class="flex h-7 w-7 items-center justify-center rounded-md text-slate-400 transition-colors hover:bg-white/5 hover:text-slate-200 disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-slate-400"
+			class="flex h-7 w-7 items-center justify-center rounded-md text-t-secondary transition-colors hover:bg-s-glass-hover hover:text-t-primary disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-t-secondary"
 			onclick={state.reset}
 			disabled={state.status === 'idle' && state.currentStep < 0}
 			aria-label="Reset"
@@ -25,7 +25,7 @@
 
 		<!-- Play / Pause -->
 		<button
-			class="flex h-8 w-8 items-center justify-center rounded-lg transition-all hover:bg-white/5"
+			class="flex h-8 w-8 items-center justify-center rounded-lg transition-all hover:bg-s-glass-hover"
 			style="color: {color}"
 			onclick={() => (state.status === 'running' ? state.pause() : state.play())}
 			aria-label={state.status === 'running' ? 'Pause' : 'Play'}
@@ -42,7 +42,7 @@
 
 		<!-- Step forward -->
 		<button
-			class="flex h-7 w-7 items-center justify-center rounded-md text-slate-400 transition-colors hover:bg-white/5 hover:text-slate-200 disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-slate-400"
+			class="flex h-7 w-7 items-center justify-center rounded-md text-t-secondary transition-colors hover:bg-s-glass-hover hover:text-t-primary disabled:opacity-30 disabled:hover:bg-transparent disabled:hover:text-t-secondary"
 			onclick={state.step}
 			disabled={state.isLastStep && state.status !== 'complete'}
 			aria-label="Step forward"
@@ -82,7 +82,7 @@
 	{/if}
 
 	<!-- Step indicator -->
-	<span class="shrink-0 text-[10px] tabular-nums text-slate-500">
+	<span class="shrink-0 text-[10px] tabular-nums text-t-muted">
 		{#if state.currentStep >= 0}
 			{state.currentStep + 1}/{state.totalSteps}
 		{:else if state.status === 'complete'}

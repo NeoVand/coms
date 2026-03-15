@@ -45,7 +45,8 @@
 	$effect(() => {
 		if (!mermaidApi || !definition || !containerEl) return;
 
-		const fullDef = buildThemedDefinition(definition, color, false);
+		const theme = appState.theme;
+		const fullDef = buildThemedDefinition(definition, color, false, theme);
 		const id = `mmd-story-${instanceId}-${++localCounter}`;
 
 		mermaidApi
@@ -56,7 +57,7 @@
 			.catch((err) => {
 				console.error('Story diagram render error:', err);
 				containerEl.innerHTML =
-					'<p class="text-xs text-slate-500 py-4 text-center">Diagram unavailable</p>';
+					'<p class="text-xs text-t-muted py-4 text-center">Diagram unavailable</p>';
 			});
 	});
 </script>
@@ -64,12 +65,12 @@
 <section>
 	<div class="mb-2 flex items-center justify-between">
 		{#if title}
-			<h3 class="text-xs font-semibold tracking-wider text-slate-500 uppercase">{title}</h3>
+			<h3 class="text-xs font-semibold tracking-wider text-t-muted uppercase">{title}</h3>
 		{:else}
 			<span></span>
 		{/if}
 		<button
-			class="flex h-6 w-6 items-center justify-center rounded-md text-slate-500 transition-colors hover:bg-white/5 hover:text-slate-200"
+			class="flex h-6 w-6 items-center justify-center rounded-md text-t-muted transition-colors hover:bg-s-glass-hover hover:text-t-primary"
 			onclick={() => appState.openStoryDiagramModal(definition, caption, color, title)}
 			aria-label="Expand diagram"
 			title="View larger"
@@ -89,7 +90,7 @@
 			</svg>
 		</button>
 	</div>
-	<div class="overflow-hidden rounded-xl border border-white/5 bg-white/[0.02]">
+	<div class="overflow-hidden rounded-xl border border-s-border bg-s-glass">
 		<div
 			bind:this={containerEl}
 			class="mermaid-container w-full overflow-x-auto px-4 py-4"
@@ -97,10 +98,10 @@
 			aria-label={caption}
 		>
 			<div class="flex h-24 items-center justify-center">
-				<span class="text-xs text-slate-600">Loading diagram...</span>
+				<span class="text-xs text-t-muted">Loading diagram...</span>
 			</div>
 		</div>
-		<p class="border-t border-white/5 px-4 py-2.5 text-center text-[11px] text-slate-500 italic">
+		<p class="border-t border-s-border px-4 py-2.5 text-center text-[11px] text-t-muted italic">
 			{caption}
 		</p>
 	</div>

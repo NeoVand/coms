@@ -28,7 +28,7 @@
 		onclick={goToFoundations}
 	>
 		<span class="mt-0.5 text-sm text-pink-400">→</span>
-		<p class="text-xs text-slate-400">
+		<p class="text-xs text-t-secondary">
 			Looking for specific protocols like Ethernet, IP, or ARP?
 			<span class="font-medium text-pink-400">See Network Foundations</span>
 		</p>
@@ -36,18 +36,18 @@
 
 	<!-- Concept sections accordion -->
 	{#each foundationSections as section (section.id)}
-		<div class="rounded-xl border border-white/5 bg-white/[0.02] transition-colors hover:border-white/10">
+		<div class="rounded-xl border border-s-border bg-s-glass transition-colors hover:border-s-border">
 			<button
 				class="flex w-full items-center gap-3 p-3.5 text-left"
 				onclick={() => toggle(section.id)}
 			>
 				<span
-					class="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-white/5 text-xs font-bold text-slate-400"
+					class="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-s-glass text-xs font-bold text-t-secondary"
 				>
 					{foundationSections.indexOf(section) + 1}
 				</span>
-				<span class="flex-1 text-sm font-medium text-slate-200">{section.title}</span>
-				<span class="text-slate-500 transition-transform" class:rotate-180={expandedId === section.id}>
+				<span class="flex-1 text-sm font-medium text-t-primary">{section.title}</span>
+				<span class="text-t-muted transition-transform" class:rotate-180={expandedId === section.id}>
 					<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
 						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
 					</svg>
@@ -55,7 +55,7 @@
 			</button>
 
 			{#if expandedId === section.id}
-				<div class="border-t border-white/5 px-3.5 pb-4 pt-3">
+				<div class="border-t border-s-border px-3.5 pb-4 pt-3">
 					<div class="flex flex-col gap-4">
 						{#each section.sections as storySection (storySection.type + (storySection.title ?? ''))}
 							{#if storySection.type === 'narrative'}

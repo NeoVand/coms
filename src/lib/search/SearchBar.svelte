@@ -18,9 +18,15 @@
 	import { getAppState } from '$lib/state/context';
 	import { buildGraphNodes } from '$lib/data/index';
 	import { journeys } from '$lib/data/journeys';
+	import { themedDomColor } from '$lib/utils/colors';
 
 	const appState = getAppState();
 	const allNodes = buildGraphNodes();
+
+	/** Theme-aware color for search result items */
+	function dc(c: string | undefined): string {
+		return themedDomColor(c ?? '#94a3b8', appState.theme);
+	}
 
 	let query = $state('');
 	let open = $state(false);
@@ -193,7 +199,7 @@
 	{#if !open}
 		<!-- Collapsed: search icon button -->
 		<button
-			class="icon-btn flex h-8 w-8 items-center justify-center rounded-xl border border-white/10 bg-bg-deep/80 text-slate-400 shadow-lg backdrop-blur-xl transition-colors hover:bg-white/5 hover:text-slate-200 md:h-9 md:w-9"
+			class="icon-btn flex h-8 w-8 items-center justify-center rounded-xl border border-s-border bg-bg-deep/80 text-t-secondary shadow-lg backdrop-blur-xl transition-colors hover:bg-s-glass-hover hover:text-t-primary md:h-9 md:w-9"
 			onclick={openSearch}
 			aria-label="Search"
 		>
@@ -203,21 +209,21 @@
 		<!-- Expanded: input field -->
 		<div class="relative flex items-center gap-2">
 			<div
-				class="flex h-8 w-52 items-center gap-2 rounded-xl border border-white/15 bg-bg-deep/90 px-3 shadow-lg backdrop-blur-xl md:h-9 md:w-56"
+				class="flex h-8 w-52 items-center gap-2 rounded-xl border border-s-border bg-bg-deep/90 px-3 shadow-lg backdrop-blur-xl md:h-9 md:w-56"
 			>
-				<Search size={14} class="shrink-0 text-slate-500" />
+				<Search size={14} class="shrink-0 text-t-muted" />
 				<input
 					bind:this={inputEl}
 					bind:value={query}
 					onkeydown={handleInputKeydown}
-					class="w-full bg-transparent text-sm text-slate-200 placeholder:text-slate-500 focus:outline-none"
+					class="w-full bg-transparent text-sm text-t-primary placeholder:text-t-muted focus:outline-none"
 					placeholder="Search protocols..."
 					spellcheck="false"
 					autocomplete="off"
 				/>
 				{#if query}
 					<button
-						class="shrink-0 text-slate-500 transition-colors hover:text-slate-300"
+						class="shrink-0 text-t-muted transition-colors hover:text-t-primary"
 						onclick={() => {
 							query = '';
 							inputEl?.focus();
@@ -229,7 +235,7 @@
 				{/if}
 			</div>
 			<button
-				class="icon-btn flex h-8 w-8 items-center justify-center rounded-xl border border-white/10 bg-bg-deep/80 text-slate-400 shadow-lg backdrop-blur-xl transition-colors hover:bg-white/5 hover:text-slate-200 md:h-9 md:w-9"
+				class="icon-btn flex h-8 w-8 items-center justify-center rounded-xl border border-s-border bg-bg-deep/80 text-t-secondary shadow-lg backdrop-blur-xl transition-colors hover:bg-s-glass-hover hover:text-t-primary md:h-9 md:w-9"
 				onclick={close}
 				aria-label="Close search"
 			>
@@ -240,7 +246,7 @@
 		<!-- Dropdown -->
 		{#if results.length > 0}
 			<div
-				class="absolute left-0 top-full mt-2 w-80 overflow-hidden rounded-xl border border-white/10 bg-bg-deep/95 shadow-2xl backdrop-blur-xl"
+				class="absolute left-0 top-full mt-2 w-80 overflow-hidden rounded-xl border border-s-border bg-bg-deep/95 shadow-2xl backdrop-blur-xl"
 			>
 				<div class="relative">
 			<div
@@ -256,10 +262,10 @@
 						{@const GroupIcon = meta.icon}
 						<!-- Section header -->
 						<div
-							class="sticky top-0 z-10 flex items-center gap-2 border-b border-white/5 bg-bg-deep/95 px-3 py-1.5 backdrop-blur-xl"
+							class="sticky top-0 z-10 flex items-center gap-2 border-b border-s-border bg-bg-deep/95 px-3 py-1.5 backdrop-blur-xl"
 						>
-							<GroupIcon size={12} class="text-slate-500" />
-							<span class="text-[10px] font-semibold tracking-wider text-slate-500 uppercase">
+							<GroupIcon size={12} class="text-t-muted" />
+							<span class="text-[10px] font-semibold tracking-wider text-t-muted uppercase">
 								{meta.label}
 							</span>
 						</div>
@@ -269,31 +275,31 @@
 							{@const flatIdx = getFlatIndex(entry)}
 							{@const EntryIcon = meta.icon}
 							<button
-								class="flex w-full items-start gap-3 px-3 py-2 text-left transition-colors {flatIdx === selectedIndex ? 'bg-white/5' : 'hover:bg-white/5'}"
+								class="flex w-full items-start gap-3 px-3 py-2 text-left transition-colors {flatIdx === selectedIndex ? 'bg-s-glass' : 'hover:bg-s-glass-hover'}"
 								onclick={() => navigate(entry)}
 								onmouseenter={() => (selectedIndex = flatIdx)}
 								role="option"
 								aria-selected={flatIdx === selectedIndex}
 							>
 								<!-- Type icon -->
-								<span class="mt-0.5 shrink-0" style:color={entry.color ?? '#94a3b8'}>
+								<span class="mt-0.5 shrink-0" style:color={dc(entry.color)}>
 									<EntryIcon size={14} strokeWidth={1.5} />
 								</span>
 								<div class="min-w-0 flex-1">
-									<div class="truncate text-sm font-medium text-slate-200">
+									<div class="truncate text-sm font-medium text-t-primary">
 										{#if entry.protocolMeta}
-											<span class="font-semibold" style:color={entry.color}>{entry.protocolMeta.abbreviation}</span>
-											<span class="text-slate-500"> — </span>
+											<span class="font-semibold" style:color={dc(entry.color)}>{entry.protocolMeta.abbreviation}</span>
+											<span class="text-t-muted"> — </span>
 											<span>{entry.protocolMeta.name}</span>
 										{:else if entry.comparisonMeta}
-											<span class="font-semibold" style:color={entry.comparisonMeta.leftColor}>{entry.comparisonMeta.leftAbbr}</span>
-											<span class="text-slate-500"> {entry.comparisonMeta.connector} </span>
-											<span class="font-semibold" style:color={entry.comparisonMeta.rightColor}>{entry.comparisonMeta.rightAbbr}</span>
+											<span class="font-semibold" style:color={dc(entry.comparisonMeta.leftColor)}>{entry.comparisonMeta.leftAbbr}</span>
+											<span class="text-t-muted"> {entry.comparisonMeta.connector} </span>
+											<span class="font-semibold" style:color={dc(entry.comparisonMeta.rightColor)}>{entry.comparisonMeta.rightAbbr}</span>
 										{:else}
 											{entry.label}
 										{/if}
 									</div>
-									<div class="truncate text-[11px] text-slate-500">
+									<div class="truncate text-[11px] text-t-muted">
 										{entry.description}
 									</div>
 								</div>
@@ -309,29 +315,29 @@
 
 				<!-- Footer hint -->
 				<div
-					class="flex items-center justify-between border-t border-white/5 px-3 py-1.5"
+					class="flex items-center justify-between border-t border-s-border px-3 py-1.5"
 				>
-					<span class="text-[10px] text-slate-600">
-						<kbd class="rounded bg-white/10 px-1 py-0.5 text-[9px] text-slate-500"
+					<span class="text-[10px] text-t-muted">
+						<kbd class="rounded bg-s-glass px-1 py-0.5 text-[9px] text-t-muted"
 							>&uarr;&darr;</kbd
 						>
 						navigate
-						<kbd class="ml-1 rounded bg-white/10 px-1 py-0.5 text-[9px] text-slate-500"
+						<kbd class="ml-1 rounded bg-s-glass px-1 py-0.5 text-[9px] text-t-muted"
 							>&crarr;</kbd
 						>
 						select
 					</span>
-					<span class="text-[10px] text-slate-600">
-						<kbd class="rounded bg-white/10 px-1 py-0.5 text-[9px] text-slate-500">esc</kbd>
+					<span class="text-[10px] text-t-muted">
+						<kbd class="rounded bg-s-glass px-1 py-0.5 text-[9px] text-t-muted">esc</kbd>
 						close
 					</span>
 				</div>
 			</div>
 		{:else if query.trim()}
 			<div
-				class="absolute left-0 top-full mt-2 w-80 rounded-xl border border-white/10 bg-bg-deep/95 p-6 text-center shadow-2xl backdrop-blur-xl"
+				class="absolute left-0 top-full mt-2 w-80 rounded-xl border border-s-border bg-bg-deep/95 p-6 text-center shadow-2xl backdrop-blur-xl"
 			>
-				<p class="text-sm text-slate-500">No results for "{query}"</p>
+				<p class="text-sm text-t-muted">No results for "{query}"</p>
 			</div>
 		{/if}
 	{/if}
@@ -346,7 +352,7 @@
 	}
 	.search-results {
 		scrollbar-width: thin;
-		scrollbar-color: rgba(255, 255, 255, 0.15) transparent;
+		scrollbar-color: var(--theme-scrollbar-thumb) transparent;
 	}
 	.search-results::-webkit-scrollbar {
 		width: 4px;
@@ -355,10 +361,10 @@
 		background: transparent;
 	}
 	.search-results::-webkit-scrollbar-thumb {
-		background: rgba(255, 255, 255, 0.15);
+		background: var(--theme-scrollbar-thumb);
 		border-radius: 2px;
 	}
 	.search-results::-webkit-scrollbar-thumb:hover {
-		background: rgba(255, 255, 255, 0.25);
+		background: var(--theme-scrollbar-thumb-hover);
 	}
 </style>

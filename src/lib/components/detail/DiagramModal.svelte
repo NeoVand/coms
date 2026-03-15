@@ -46,24 +46,24 @@
 		onclick={handleBackdropClick}
 	>
 		<!-- Backdrop -->
-		<div class="pointer-events-none absolute inset-0 bg-black/70 backdrop-blur-md"></div>
+		<div class="pointer-events-none absolute inset-0 bg-[var(--theme-overlay)] backdrop-blur-md"></div>
 
 		<!-- Modal card -->
-		<div class="modal-card relative z-10 flex max-h-[90vh] w-full max-w-4xl flex-col overflow-hidden rounded-2xl border border-white/10 bg-bg-deep shadow-2xl">
+		<div class="modal-card relative z-10 flex max-h-[90vh] w-full max-w-4xl flex-col overflow-hidden rounded-2xl border border-s-border bg-bg-deep shadow-2xl">
 			<!-- Header -->
-			<div class="flex items-center justify-between border-b border-white/5 px-6 py-4">
+			<div class="flex items-center justify-between border-b border-s-border px-6 py-4">
 				<div class="flex items-center gap-3">
 					<div
 						class="h-2 w-2 rounded-full"
 						style="background-color: {color}"
 					></div>
-					<h3 class="text-sm font-semibold text-slate-200">
+					<h3 class="text-sm font-semibold text-t-primary">
 						{protocol?.abbreviation ?? protocolId.toUpperCase()}
 					</h3>
-					<span class="text-xs text-slate-500">How It Works</span>
+					<span class="text-xs text-t-muted">How It Works</span>
 				</div>
 				<button
-					class="flex h-7 w-7 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-white/5 hover:text-slate-200"
+					class="flex h-7 w-7 items-center justify-center rounded-lg text-t-secondary transition-colors hover:bg-s-glass-hover hover:text-t-primary"
 					onclick={onclose}
 					aria-label="Close"
 				>
@@ -82,8 +82,8 @@
 
 			<!-- Footer with caption -->
 			{#if caption}
-				<div class="border-t border-white/5 px-6 py-3">
-					<p class="text-center text-xs text-slate-500">{caption}</p>
+				<div class="border-t border-s-border px-6 py-3">
+					<p class="text-center text-xs text-t-muted">{caption}</p>
 				</div>
 			{/if}
 		</div>

@@ -25,13 +25,13 @@
 <section>
 	<div class="mb-2 flex items-center justify-between">
 		{#if title}
-			<h3 class="text-xs font-semibold tracking-wider text-slate-500 uppercase">{title}</h3>
+			<h3 class="text-xs font-semibold tracking-wider text-t-muted uppercase">{title}</h3>
 		{:else}
 			<span></span>
 		{/if}
 		{#if !imgFailed}
 			<button
-				class="flex h-6 w-6 items-center justify-center rounded-md text-slate-500 transition-colors hover:bg-white/5 hover:text-slate-200"
+				class="flex h-6 w-6 items-center justify-center rounded-md text-t-muted transition-colors hover:bg-s-glass-hover hover:text-t-primary"
 				onclick={() => appState.openStoryImageModal(src, alt, color, caption, credit, title)}
 				aria-label="Expand image"
 				title="View larger"
@@ -52,16 +52,16 @@
 			</button>
 		{/if}
 	</div>
-	<div class="overflow-hidden rounded-xl border border-white/5 bg-white/[0.02]">
+	<div class="overflow-hidden rounded-xl border border-s-border bg-s-glass">
 		{#if imgFailed}
 			<div class="flex h-24 items-center justify-center">
-				<span class="text-xs text-slate-600">Image unavailable</span>
+				<span class="text-xs text-t-muted">Image unavailable</span>
 			</div>
 		{:else}
 			<div class="bg-white">
 				{#if !imgLoaded}
 					<div class="flex h-32 items-center justify-center bg-slate-100">
-						<span class="text-xs text-slate-400">Loading image...</span>
+						<span class="text-xs text-t-secondary">Loading image...</span>
 					</div>
 				{/if}
 				<img
@@ -75,12 +75,12 @@
 			</div>
 		{/if}
 		{#if (caption || credit) && !imgFailed}
-			<div class="border-t border-white/5 px-4 py-2.5 text-center">
+			<div class="border-t border-s-border px-4 py-2.5 text-center">
 				{#if caption}
-					<p class="text-[11px] text-slate-500 italic">{caption}</p>
+					<p class="text-[11px] text-t-muted italic">{caption}</p>
 				{/if}
 				{#if credit}
-					<p class="mt-0.5 text-[10px] text-slate-600">{credit}</p>
+					<p class="mt-0.5 text-[10px] text-t-muted">{credit}</p>
 				{/if}
 			</div>
 		{/if}

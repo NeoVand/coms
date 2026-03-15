@@ -11,6 +11,22 @@
 	const appState = new AppState();
 	setAppState(appState);
 
+	// Restore theme from localStorage
+	if (typeof window !== 'undefined') {
+		const saved = localStorage.getItem('protocol-lab-theme');
+		if (saved === 'light' || saved === 'dark') {
+			appState.theme = saved;
+		}
+	}
+
+	// Persist theme and apply class to <html>
+	$effect(() => {
+		const t = appState.theme;
+		document.documentElement.classList.toggle('light', t === 'light');
+		document.documentElement.classList.toggle('dark', t === 'dark');
+		localStorage.setItem('protocol-lab-theme', t);
+	});
+
 	onMount(() => {
 		// Dev helper: exposes window.__dev for agent/testing navigation
 		if (dev) {

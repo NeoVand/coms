@@ -17,7 +17,7 @@
 	const segments = $derived(parseRichText(text));
 </script>
 
-{#each segments as seg, j (j)}{#if seg.type === 'text'}{seg.value}{:else if seg.type === 'bold'}<strong class="font-semibold text-slate-200">{seg.value}</strong>{:else if seg.type === 'protocol-link'}<button
+{#each segments as seg, j (j)}{#if seg.type === 'text'}{seg.value}{:else if seg.type === 'bold'}<strong class="font-semibold text-t-primary">{seg.value}</strong>{:else if seg.type === 'protocol-link'}<button
 		class="inline font-medium transition-colors hover:underline"
 		style="color: {color}"
 		onclick={() => navigateToProtocol(seg.protocolId)}

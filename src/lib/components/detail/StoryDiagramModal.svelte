@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { buildThemedDefinition } from '$lib/utils/mermaid-helpers';
+	import { getAppState } from '$lib/state/context';
 
 	let {
 		open = false,
@@ -18,6 +19,7 @@
 		onclose?: () => void;
 	} = $props();
 
+	const appState = getAppState();
 	let containerEl: HTMLDivElement;
 	let mermaidApi: typeof import('mermaid').default | null = $state(null);
 	let renderCounter = 0;
@@ -42,7 +44,8 @@
 	$effect(() => {
 		if (!open || !mermaidApi || !definition || !containerEl) return;
 
-		const fullDef = buildThemedDefinition(definition, color, true);
+		const theme = appState.theme;
+		const fullDef = buildThemedDefinition(definition, color, true, theme);
 		const id = `mmd-story-modal-${++renderCounter}`;
 
 		mermaidApi
@@ -53,7 +56,7 @@
 			.catch((err) => {
 				console.error('Story diagram modal render error:', err);
 				containerEl.innerHTML =
-					'<p class="text-xs text-slate-500 py-4 text-center">Diagram unavailable</p>';
+					'<p class="text-xs text-t-muted py-4 text-center">Diagram unavailable</p>';
 			});
 	});
 
@@ -85,22 +88,22 @@
 		onclick={handleBackdropClick}
 	>
 		<!-- Backdrop -->
-		<div class="pointer-events-none absolute inset-0 bg-black/70 backdrop-blur-md"></div>
+		<div class="pointer-events-none absolute inset-0 bg-[var(--theme-overlay)] backdrop-blur-md"></div>
 
 		<!-- Modal card -->
 		<div
-			class="modal-card relative z-10 flex max-h-[90vh] w-full max-w-4xl flex-col overflow-hidden rounded-2xl border border-white/10 bg-bg-deep shadow-2xl"
+			class="modal-card relative z-10 flex max-h-[90vh] w-full max-w-4xl flex-col overflow-hidden rounded-2xl border border-s-border bg-bg-deep shadow-2xl"
 		>
 			<!-- Header -->
-			<div class="flex items-center justify-between border-b border-white/5 px-6 py-4">
+			<div class="flex items-center justify-between border-b border-s-border px-6 py-4">
 				<div class="flex items-center gap-3">
 					<div class="h-2 w-2 rounded-full" style="background-color: {color}"></div>
-					<h3 class="text-sm font-semibold text-slate-200">
+					<h3 class="text-sm font-semibold text-t-primary">
 						{title ?? 'Diagram'}
 					</h3>
 				</div>
 				<button
-					class="flex h-7 w-7 items-center justify-center rounded-lg text-slate-400 transition-colors hover:bg-white/5 hover:text-slate-200"
+					class="flex h-7 w-7 items-center justify-center rounded-lg text-t-secondary transition-colors hover:bg-s-glass-hover hover:text-t-primary"
 					onclick={onclose}
 					aria-label="Close"
 				>
@@ -121,14 +124,14 @@
 			>
 				<div class="diagram-container w-full" bind:this={containerEl}>
 					<div class="flex h-24 items-center justify-center">
-						<span class="text-xs text-slate-600">Loading diagram...</span>
+						<span class="text-xs text-t-muted">Loading diagram...</span>
 					</div>
 				</div>
 			</div>
 
 			<!-- Footer with caption -->
-			<div class="border-t border-white/5 px-6 py-3">
-				<p class="text-center text-xs text-slate-500">{caption}</p>
+			<div class="border-t border-s-border px-6 py-3">
+				<p class="text-center text-xs text-t-muted">{caption}</p>
 			</div>
 		</div>
 	</div>

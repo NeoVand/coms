@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import { diagramDefinitions } from '$lib/data/diagram-definitions';
 	import { buildThemedDefinition, styleCrossArrows } from '$lib/utils/mermaid-helpers';
+	import { getAppState } from '$lib/state/context';
 
 	let {
 		protocolId,
@@ -10,6 +11,7 @@
 		hideCaption = false
 	}: { protocolId: string; color: string; expanded?: boolean; hideCaption?: boolean } = $props();
 
+	const appState = getAppState();
 	let containerEl: HTMLDivElement;
 	let mermaidApi: typeof import('mermaid').default | null = $state(null);
 	let renderCounter = 0;
@@ -50,7 +52,8 @@
 	$effect(() => {
 		if (!mermaidApi || !definition || !containerEl) return;
 
-		const fullDef = buildThemedDefinition(definition.definition, color, expanded);
+		const theme = appState.theme;
+		const fullDef = buildThemedDefinition(definition.definition, color, expanded, theme);
 		const id = `mmd-${protocolId}-${expanded ? 'exp' : 'inl'}-${++renderCounter}`;
 
 		mermaidApi
@@ -62,7 +65,7 @@
 			.catch((err) => {
 				console.error(`Mermaid render error [${protocolId}]:`, err);
 				containerEl.innerHTML =
-					'<p class="text-xs text-slate-500 py-4">Diagram unavailable</p>';
+					'<p class="text-xs text-t-muted py-4">Diagram unavailable</p>';
 			});
 	});
 </script>
@@ -75,11 +78,11 @@
 		aria-label="Protocol diagram for {protocolId}"
 	>
 		<div class="flex h-40 items-center justify-center">
-			<span class="text-xs text-slate-600">Loading diagram...</span>
+			<span class="text-xs text-t-muted">Loading diagram...</span>
 		</div>
 	</div>
 	{#if definition?.caption && !hideCaption}
-		<p class="mt-3 text-center text-[11px] italic text-slate-500">{definition.caption}</p>
+		<p class="mt-3 text-center text-[11px] italic text-t-muted">{definition.caption}</p>
 	{/if}
 </div>
 
@@ -92,7 +95,7 @@
 
 	.mermaid-container :global(.messageText) {
 		font-size: 12px !important;
-		fill: #94a3b8 !important;
+		fill: var(--theme-text-secondary) !important;
 	}
 
 	.mermaid-container :global(.actor) {
@@ -111,7 +114,7 @@
 	}
 
 	.mermaid-container :global(.loopText tspan) {
-		fill: #94a3b8 !important;
+		fill: var(--theme-text-secondary) !important;
 		font-size: 11px !important;
 	}
 

@@ -23,8 +23,8 @@
 	<div class="flex flex-col gap-4" data-tour="simulator-view">
 		<!-- Title -->
 		<div>
-			<h3 class="text-sm font-semibold text-slate-200">{config.title}</h3>
-			<p class="mt-0.5 text-xs text-slate-400">{config.description}</p>
+			<h3 class="text-sm font-semibold text-t-primary">{config.title}</h3>
+			<p class="mt-0.5 text-xs text-t-secondary">{config.description}</p>
 		</div>
 
 		<!-- User inputs -->
@@ -50,8 +50,8 @@
 			</svg>
 		</div>
 		<div>
-			<p class="text-sm font-medium text-slate-300">Simulation Coming Soon</p>
-			<p class="mt-1 text-xs text-slate-500">
+			<p class="text-sm font-medium text-t-primary">Simulation Coming Soon</p>
+			<p class="mt-1 text-xs text-t-muted">
 				An interactive simulation for this protocol is being developed.
 				Switch to the Learn tab to explore its documentation.
 			</p>

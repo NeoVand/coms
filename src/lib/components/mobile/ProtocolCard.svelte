@@ -10,7 +10,7 @@
 </script>
 
 <button
-	class="flex w-full items-start gap-3 rounded-lg border border-white/5 bg-white/[0.02] p-3 text-left transition-all hover:bg-white/[0.04]"
+	class="flex w-full items-start gap-3 rounded-lg border border-s-border bg-s-glass p-3 text-left transition-all hover:bg-s-glass-hover"
 	onclick={() => {
 		const node = allNodes.find((n) => n.id === proto.id);
 		if (node) appState.selectNode(node);
@@ -24,11 +24,11 @@
 	</div>
 	<div class="min-w-0 flex-1">
 		<div class="flex items-center gap-2">
-			<span class="text-sm font-medium text-slate-200">{proto.abbreviation}</span>
+			<span class="text-sm font-medium text-t-primary">{proto.abbreviation}</span>
 			{#if proto.port}
-				<span class="text-[10px] text-slate-500">:{proto.port}</span>
+				<span class="text-[10px] text-t-muted">:{proto.port}</span>
 			{/if}
 		</div>
-		<p class="mt-0.5 text-xs leading-relaxed text-slate-400">{proto.oneLiner}</p>
+		<p class="mt-0.5 text-xs leading-relaxed text-t-secondary">{proto.oneLiner}</p>
 	</div>
 </button>

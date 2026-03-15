@@ -110,9 +110,9 @@
 </script>
 
 <section data-tour="code-example">
-	<h3 class="mb-2 text-xs font-semibold tracking-wider text-slate-500 uppercase">Code Example</h3>
+	<h3 class="mb-2 text-xs font-semibold tracking-wider text-t-muted uppercase">Code Example</h3>
 	<div
-		class="code-block overflow-hidden rounded-xl border bg-[#0b1120]"
+		class="code-block overflow-hidden rounded-xl border bg-[var(--theme-code-bg)]"
 		style="border-color: {color}25;"
 	>
 		<div class="flex items-center justify-between border-b px-3 py-2" style="border-color: {color}20;">
@@ -120,7 +120,7 @@
 				<div class="flex gap-1">
 					{#each tabs as tab, i (tab.language)}
 						<button
-							class="rounded-md px-2.5 py-1 text-[10px] font-medium tracking-wider uppercase transition-colors {activeTab !== i ? 'text-slate-500 hover:bg-white/5 hover:text-slate-300' : ''}"
+							class="rounded-md px-2.5 py-1 text-[10px] font-medium tracking-wider uppercase transition-colors {activeTab !== i ? 'text-t-muted hover:bg-s-glass-hover hover:text-t-primary' : ''}"
 							style={activeTab === i
 								? `background-color: ${color}18; color: ${color}`
 								: ''}
@@ -136,7 +136,7 @@
 				</span>
 			{/if}
 			<button
-				class="flex items-center gap-1 rounded px-2 py-0.5 text-[10px] text-slate-400 transition-colors hover:bg-white/5 hover:text-slate-200"
+				class="flex items-center gap-1 rounded px-2 py-0.5 text-[10px] text-t-secondary transition-colors hover:bg-s-glass-hover hover:text-t-primary"
 				onclick={copyCode}
 			>
 				{#if copied}
@@ -168,11 +168,11 @@
 					<div>
 						<div
 							class="sticky top-0 z-10 px-3 py-1.5 text-[10px] font-semibold tracking-wider uppercase"
-							style="color: {color}; background: #0b1120; border-bottom: 1px solid {color}20;"
+							style="color: {color}; background: var(--theme-code-bg); border-bottom: 1px solid {color}20;"
 						>
 							{section.title}
 						</div>
-						<pre class="custom-scrollbar overflow-x-auto px-3 py-2 text-[11px] leading-5 text-slate-300"><code class="hljs">{@html section.html}</code></pre>
+						<pre class="custom-scrollbar overflow-x-auto px-3 py-2 text-[11px] leading-5 text-t-primary"><code class="hljs">{@html section.html}</code></pre>
 					</div>
 					{#if i < highlightedSections.length - 1}
 						<div style="border-bottom: 1px solid {color}12;"></div>
@@ -180,13 +180,13 @@
 				{/each}
 			</div>
 		{:else}
-			<pre class="custom-scrollbar overflow-x-auto p-3 text-[11px] leading-5 text-slate-300"><code
+			<pre class="custom-scrollbar overflow-x-auto p-3 text-[11px] leading-5 text-t-primary"><code
 					class="hljs">{@html highlightedCode}</code
 				></pre>
 		{/if}
 	</div>
 	{#if example.caption}
-		<p class="mt-2 text-[10px] leading-relaxed text-slate-500">{example.caption}</p>
+		<p class="mt-2 text-[10px] leading-relaxed text-t-muted">{example.caption}</p>
 	{/if}
 </section>
 
@@ -246,6 +246,60 @@
 	}
 	:global(.hljs-section) {
 		color: #1f6feb;
+		font-weight: bold;
+	}
+
+	/* Light theme overrides */
+	:global(html.light) :global(.hljs) {
+		color: #24292e;
+	}
+	:global(html.light) :global(.hljs-keyword),
+	:global(html.light) :global(.hljs-selector-tag) {
+		color: #d73a49;
+	}
+	:global(html.light) :global(.hljs-string),
+	:global(html.light) :global(.hljs-attr) {
+		color: #032f62;
+	}
+	:global(html.light) :global(.hljs-number),
+	:global(html.light) :global(.hljs-literal) {
+		color: #005cc5;
+	}
+	:global(html.light) :global(.hljs-built_in) {
+		color: #e36209;
+	}
+	:global(html.light) :global(.hljs-function),
+	:global(html.light) :global(.hljs-title),
+	:global(html.light) :global(.hljs-title.function_) {
+		color: #6f42c1;
+	}
+	:global(html.light) :global(.hljs-params) {
+		color: #24292e;
+	}
+	:global(html.light) :global(.hljs-comment) {
+		color: #6a737d;
+		font-style: italic;
+	}
+	:global(html.light) :global(.hljs-punctuation),
+	:global(html.light) :global(.hljs-operator) {
+		color: #24292e;
+	}
+	:global(html.light) :global(.hljs-property) {
+		color: #005cc5;
+	}
+	:global(html.light) :global(.hljs-type),
+	:global(html.light) :global(.hljs-class .hljs-title) {
+		color: #e36209;
+	}
+	:global(html.light) :global(.hljs-variable) {
+		color: #e36209;
+	}
+	:global(html.light) :global(.hljs-meta),
+	:global(html.light) :global(.hljs-attribute) {
+		color: #005cc5;
+	}
+	:global(html.light) :global(.hljs-section) {
+		color: #005cc5;
 		font-weight: bold;
 	}
 </style>

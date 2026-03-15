@@ -17,16 +17,16 @@
 	const paragraphs = $derived(parseParagraphs(text));
 </script>
 
-<div class="rounded-xl border border-white/5 bg-white/[0.02] p-3">
+<div class="rounded-xl border border-s-border bg-s-glass p-3">
 	<div class="text-xs font-semibold" style="color: {color}">{title}</div>
-	<div class="mt-1.5 space-y-2 text-xs leading-relaxed text-slate-400">
+	<div class="mt-1.5 space-y-2 text-xs leading-relaxed text-t-secondary">
 		{#each paragraphs as segments, i (i)}
 			<p>
 				{#each segments as seg, j (j)}
 					{#if seg.type === 'text'}
 						{seg.value}
 					{:else if seg.type === 'bold'}
-						<strong class="font-semibold text-slate-300">{seg.value}</strong>
+						<strong class="font-semibold text-t-primary">{seg.value}</strong>
 					{:else if seg.type === 'protocol-link'}
 						<button
 							class="inline font-medium transition-colors hover:underline"

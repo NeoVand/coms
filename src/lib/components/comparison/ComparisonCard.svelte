@@ -4,6 +4,7 @@
 	import { getAppState } from '$lib/state/context';
 	import { getCategoryById } from '$lib/data/index';
 	import LinkedText from './LinkedText.svelte';
+	import { themedDomColor } from '$lib/utils/colors';
 
 	interface Props {
 		pair: ProtocolPair | null;
@@ -17,8 +18,8 @@
 
 	const leftCat = $derived(getCategoryById(leftProto.categoryId));
 	const rightCat = $derived(getCategoryById(rightProto.categoryId));
-	const leftColor = $derived(leftCat?.color ?? color);
-	const rightColor = $derived(rightCat?.color ?? color);
+	const leftColor = $derived(themedDomColor(leftCat?.color ?? color, appState.theme));
+	const rightColor = $derived(themedDomColor(rightCat?.color ?? color, appState.theme));
 
 	// For "vs" pairs, ids[0] is alphabetically first.
 	// Determine which side is "left" and which is "right" in the pair data.
@@ -36,7 +37,7 @@
 	<!-- Header -->
 	<div>
 		<button
-			class="mb-3 flex items-center gap-1 text-[11px] text-slate-500 transition-colors hover:text-slate-300"
+			class="mb-3 flex items-center gap-1 text-[11px] text-t-muted transition-colors hover:text-t-primary"
 			onclick={() => (appState.compareTargetId = null)}
 		>
 			<svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -46,39 +47,39 @@
 		</button>
 		<div class="flex items-center gap-3">
 			<span class="text-lg font-bold" style="color: {leftColor}">{leftProto.abbreviation}</span>
-			<span class="text-xs font-medium text-slate-600">vs</span>
+			<span class="text-xs font-medium text-t-muted">vs</span>
 			<span class="text-lg font-bold" style="color: {rightColor}">{rightProto.abbreviation}</span>
 		</div>
 	</div>
 
 	<!-- Summary -->
 	{#if pair?.summary}
-		<p class="text-sm leading-relaxed text-slate-300"><LinkedText text={pair.summary} {color} /></p>
+		<p class="text-sm leading-relaxed text-t-primary"><LinkedText text={pair.summary} {color} /></p>
 	{/if}
 
 	<!-- Key Differences -->
 	{#if diffs && diffs.length > 0}
 		<section>
-			<h3 class="mb-2 text-xs font-semibold tracking-wider text-slate-500 uppercase">
+			<h3 class="mb-2 text-xs font-semibold tracking-wider text-t-muted uppercase">
 				Key Differences
 			</h3>
-			<div class="overflow-hidden rounded-lg border border-white/5">
+			<div class="overflow-hidden rounded-lg border border-s-border">
 				{#each diffs as diff, i (diff.aspect)}
-					<div class="flex text-xs {i % 2 === 0 ? 'bg-white/[0.02]' : 'bg-transparent'}">
-						<div class="w-[30%] shrink-0 border-r border-white/5 px-3 py-2 font-medium text-slate-400">
+					<div class="flex text-xs {i % 2 === 0 ? 'bg-s-glass' : 'bg-transparent'}">
+						<div class="w-[30%] shrink-0 border-r border-s-border px-3 py-2 font-medium text-t-secondary">
 							{diff.aspect}
 						</div>
-						<div class="w-[35%] border-r border-white/5 px-3 py-2 text-slate-300" style="border-left-color: {leftColor}30">
+						<div class="w-[35%] border-r border-s-border px-3 py-2 text-t-primary" style="border-left-color: {leftColor}30">
 							<LinkedText text={diff.left} {color} />
 						</div>
-						<div class="w-[35%] px-3 py-2 text-slate-300">
+						<div class="w-[35%] px-3 py-2 text-t-primary">
 							<LinkedText text={diff.right} {color} />
 						</div>
 					</div>
 				{/each}
 			</div>
 			<!-- Column labels -->
-			<div class="mt-1 flex text-[10px] text-slate-600">
+			<div class="mt-1 flex text-[10px] text-t-muted">
 				<div class="w-[30%]"></div>
 				<div class="w-[35%] px-3" style="color: {leftColor}90">{leftProto.abbreviation}</div>
 				<div class="w-[35%] px-3" style="color: {rightColor}90">{rightProto.abbreviation}</div>
@@ -88,7 +89,7 @@
 
 	<!-- Performance Comparison -->
 	<section>
-		<h3 class="mb-2 text-xs font-semibold tracking-wider text-slate-500 uppercase">
+		<h3 class="mb-2 text-xs font-semibold tracking-wider text-t-muted uppercase">
 			Performance
 		</h3>
 		<div class="space-y-2">
@@ -97,18 +98,18 @@
 				{ label: 'Throughput', left: leftProto.performance.throughput, right: rightProto.performance.throughput },
 				{ label: 'Overhead', left: leftProto.performance.overhead, right: rightProto.performance.overhead }
 			] as stat (stat.label)}
-				<div class="rounded-lg border border-white/5 bg-white/[0.02] p-3">
-					<div class="mb-1.5 text-center text-[10px] font-semibold tracking-wider text-slate-500 uppercase">
+				<div class="rounded-lg border border-s-border bg-s-glass p-3">
+					<div class="mb-1.5 text-center text-[10px] font-semibold tracking-wider text-t-muted uppercase">
 						{stat.label}
 					</div>
 					<div class="flex gap-3">
-						<div class="flex-1 rounded border border-white/5 bg-white/[0.02] px-2.5 py-1.5">
+						<div class="flex-1 rounded border border-s-border bg-s-glass px-2.5 py-1.5">
 							<div class="mb-0.5 text-[10px] font-medium" style="color: {leftColor}">{leftProto.abbreviation}</div>
-							<div class="text-[11px] leading-relaxed text-slate-400">{stat.left}</div>
+							<div class="text-[11px] leading-relaxed text-t-secondary">{stat.left}</div>
 						</div>
-						<div class="flex-1 rounded border border-white/5 bg-white/[0.02] px-2.5 py-1.5">
+						<div class="flex-1 rounded border border-s-border bg-s-glass px-2.5 py-1.5">
 							<div class="mb-0.5 text-[10px] font-medium" style="color: {rightColor}">{rightProto.abbreviation}</div>
-							<div class="text-[11px] leading-relaxed text-slate-400">{stat.right}</div>
+							<div class="text-[11px] leading-relaxed text-t-secondary">{stat.right}</div>
 						</div>
 					</div>
 				</div>
@@ -119,7 +120,7 @@
 	<!-- When to Use -->
 	{#if useLeftWhen && useRightWhen}
 		<section>
-			<h3 class="mb-2 text-xs font-semibold tracking-wider text-slate-500 uppercase">
+			<h3 class="mb-2 text-xs font-semibold tracking-wider text-t-muted uppercase">
 				When to Use
 			</h3>
 			<div class="space-y-3">
@@ -129,7 +130,7 @@
 					</div>
 					<ul class="space-y-1">
 						{#each useLeftWhen as bullet, i (i)}
-							<li class="flex items-start gap-2 text-xs leading-relaxed text-slate-300">
+							<li class="flex items-start gap-2 text-xs leading-relaxed text-t-primary">
 								<span class="mt-1.5 h-1 w-1 shrink-0 rounded-full" style="background-color: {leftColor}"></span>
 								<LinkedText text={bullet} {color} />
 							</li>
@@ -142,7 +143,7 @@
 					</div>
 					<ul class="space-y-1">
 						{#each useRightWhen as bullet, i (i)}
-							<li class="flex items-start gap-2 text-xs leading-relaxed text-slate-300">
+							<li class="flex items-start gap-2 text-xs leading-relaxed text-t-primary">
 								<span class="mt-1.5 h-1 w-1 shrink-0 rounded-full" style="background-color: {rightColor}"></span>
 								<LinkedText text={bullet} {color} />
 							</li>

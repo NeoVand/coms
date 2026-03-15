@@ -36,7 +36,7 @@
 
 <button
 	bind:this={triggerEl}
-	class="concept-trigger inline cursor-help border-b-[1.5px] border-dotted border-sky-400/70 text-slate-200 transition-all hover:border-sky-300 hover:text-sky-100 {bold ? 'font-semibold' : ''}"
+	class="concept-trigger inline cursor-help border-b-[1.5px] border-dotted border-sky-400/70 text-t-primary transition-all hover:border-sky-300 hover:text-sky-100 {bold ? 'font-semibold' : ''}"
 	onmouseenter={showTooltip}
 	onmouseleave={scheduleHide}
 	onclick={handleClick}

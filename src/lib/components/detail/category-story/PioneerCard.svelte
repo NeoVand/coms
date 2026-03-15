@@ -14,7 +14,7 @@
 	let imgFailed = $state(false);
 </script>
 
-<div class="flex gap-3 rounded-xl border border-white/5 bg-white/[0.02] p-3">
+<div class="flex gap-3 rounded-xl border border-s-border bg-s-glass p-3">
 	<!-- Photo / Initials fallback -->
 	<div class="shrink-0">
 		{#if pioneer.imagePath && !imgFailed}
@@ -37,13 +37,13 @@
 	<!-- Info -->
 	<div class="min-w-0">
 		<div class="flex items-baseline gap-2">
-			<span class="text-sm font-medium text-slate-200">{pioneer.name}</span>
+			<span class="text-sm font-medium text-t-primary">{pioneer.name}</span>
 			{#if pioneer.years}
-				<span class="text-[10px] text-slate-600">{pioneer.years}</span>
+				<span class="text-[10px] text-t-muted">{pioneer.years}</span>
 			{/if}
 		</div>
-		<div class="text-xs text-slate-400">{pioneer.title}</div>
-		<div class="mt-0.5 text-[10px] text-slate-500">{pioneer.org}</div>
-		<p class="mt-1.5 text-xs leading-relaxed text-slate-500">{pioneer.contribution}</p>
+		<div class="text-xs text-t-secondary">{pioneer.title}</div>
+		<div class="mt-0.5 text-[10px] text-t-muted">{pioneer.org}</div>
+		<p class="mt-1.5 text-xs leading-relaxed text-t-muted">{pioneer.contribution}</p>
 	</div>
 </div>

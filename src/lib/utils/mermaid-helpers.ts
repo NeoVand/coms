@@ -5,7 +5,8 @@
 export function buildThemedDefinition(
 	rawDef: string,
 	color: string,
-	expanded = false
+	expanded = false,
+	appTheme: 'dark' | 'light' = 'dark'
 ): string {
 	const fontSize = expanded ? '15px' : '13px';
 	const actorFontSize = expanded ? 15 : 13;
@@ -15,38 +16,46 @@ export function buildThemedDefinition(
 	const messageMargin = expanded ? 35 : 25;
 
 	const c = color;
+	const isLight = appTheme === 'light';
+	const mermaidTheme = isLight ? 'default' : 'dark';
+	const textPrimary = isLight ? '#1e293b' : '#e2e8f0';
+	const textSecondary = isLight ? '#475569' : '#94a3b8';
+	const bgSecondary = isLight ? '#e2e8f0' : '#334155';
+	const bgTertiary = isLight ? '#f1f5f9' : '#1e293b';
+	const actorLine = isLight ? '#cbd5e1' : '#334155';
+
 	return `%%{init: {
-  'theme': 'dark',
+  'theme': '${mermaidTheme}',
   'themeVariables': {
     'background': 'transparent',
     'primaryColor': '${c}1a',
     'primaryBorderColor': '${c}',
-    'primaryTextColor': '#e2e8f0',
-    'secondaryColor': '#334155',
-    'tertiaryColor': '#1e293b',
+    'primaryTextColor': '${textPrimary}',
+    'secondaryColor': '${bgSecondary}',
+    'tertiaryColor': '${bgTertiary}',
     'lineColor': '${c}',
-    'textColor': '#e2e8f0',
+    'textColor': '${textPrimary}',
     'actorBkg': '${c}1a',
     'actorBorder': '${c}80',
-    'actorTextColor': '#e2e8f0',
-    'actorLineColor': '#334155',
+    'actorTextColor': '${textPrimary}',
+    'actorLineColor': '${actorLine}',
     'signalColor': '${c}',
-    'signalTextColor': '#94a3b8',
+    'signalTextColor': '${textSecondary}',
     'noteBkgColor': '${c}15',
-    'noteTextColor': '#e2e8f0',
+    'noteTextColor': '${textPrimary}',
     'noteBorderColor': '${c}30',
     'activationBkgColor': '${c}1a',
     'activationBorderColor': '${c}',
-    'labelBoxBkgColor': '#1e293b',
-    'labelBoxBorderColor': '#334155',
-    'labelTextColor': '#94a3b8',
-    'loopTextColor': '#94a3b8',
-    'nodeBkg': '#334155',
-    'nodeTextColor': '#e2e8f0',
+    'labelBoxBkgColor': '${bgTertiary}',
+    'labelBoxBorderColor': '${bgSecondary}',
+    'labelTextColor': '${textSecondary}',
+    'loopTextColor': '${textSecondary}',
+    'nodeBkg': '${bgSecondary}',
+    'nodeTextColor': '${textPrimary}',
     'mainBkg': '${c}1a',
     'clusterBkg': '${c}08',
     'clusterBorder': '${c}40',
-    'edgeLabelBackground': '#1e293b',
+    'edgeLabelBackground': '${bgTertiary}',
     'fontSize': '${fontSize}'
   },
   'sequence': {

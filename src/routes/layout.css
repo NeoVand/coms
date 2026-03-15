@@ -2,18 +2,64 @@
 @import 'driver.js/dist/driver.css';
 @plugin '@tailwindcss/typography';
 
+/* ── Semantic theme variables ── */
+:root {
+	--theme-bg: #090e1a;
+	--theme-surface: rgba(15, 23, 42, 0.85);
+	--theme-glass-border: rgba(255, 255, 255, 0.1);
+	--theme-glass-bg: rgba(255, 255, 255, 0.05);
+	--theme-glass-bg-hover: rgba(255, 255, 255, 0.08);
+	--theme-text-primary: #f8fafc;
+	--theme-text-secondary: #94a3b8;
+	--theme-text-muted: #475569;
+	--theme-code-bg: #0b1120;
+	--theme-scrollbar: rgba(255, 255, 255, 0.12);
+	--theme-scrollbar-thumb: rgba(255, 255, 255, 0.1);
+	--theme-scrollbar-thumb-hover: rgba(255, 255, 255, 0.2);
+	--theme-panel-desktop: linear-gradient(to right, rgb(9 14 26 / 0.6), rgb(9 14 26 / 0.88) 25%, rgb(7 10 20 / 0.98) 70%, rgb(5 8 16 / 1));
+	--theme-panel-mobile: rgb(5 8 16 / 0.98);
+	--theme-tooltip-bg: rgba(15, 23, 42, 0.92);
+	--theme-shadow-color: rgba(0, 0, 0, 0.3);
+	--theme-overlay: rgba(0, 0, 0, 0.6);
+	--theme-border-subtle: rgba(255, 255, 255, 0.05);
+}
+
+.light {
+	--theme-bg: #e8eef6;
+	--theme-surface: rgba(255, 255, 255, 0.88);
+	--theme-glass-border: rgba(0, 0, 0, 0.08);
+	--theme-glass-bg: rgba(0, 0, 0, 0.03);
+	--theme-glass-bg-hover: rgba(0, 0, 0, 0.06);
+	--theme-text-primary: #1e293b;
+	--theme-text-secondary: #475569;
+	--theme-text-muted: #94a3b8;
+	--theme-code-bg: #f1f5f9;
+	--theme-scrollbar: rgba(0, 0, 0, 0.08);
+	--theme-scrollbar-thumb: rgba(0, 0, 0, 0.12);
+	--theme-scrollbar-thumb-hover: rgba(0, 0, 0, 0.2);
+	--theme-panel-desktop: linear-gradient(to right, rgb(232 238 246 / 0.6), rgb(245 248 252 / 0.92) 25%, rgb(250 252 255 / 0.98) 70%, rgb(255 255 255 / 1));
+	--theme-panel-mobile: rgb(250 252 255 / 0.98);
+	--theme-tooltip-bg: rgba(255, 255, 255, 0.95);
+	--theme-shadow-color: rgba(0, 0, 0, 0.08);
+	--theme-overlay: rgba(0, 0, 0, 0.3);
+	--theme-border-subtle: rgba(0, 0, 0, 0.06);
+}
+
 @theme {
-	--color-bg-deep: #090e1a;
-	--color-bg-surface: #1e293b;
-	--color-bg-panel: rgba(15, 23, 42, 0.85);
+	--color-bg-deep: var(--theme-bg);
+	--color-bg-surface: var(--theme-surface);
+	--color-bg-panel: var(--theme-surface);
+	--color-s-border: var(--theme-glass-border);
+	--color-s-glass: var(--theme-glass-bg);
+	--color-s-glass-hover: var(--theme-glass-bg-hover);
+	--color-t-primary: var(--theme-text-primary);
+	--color-t-secondary: var(--theme-text-secondary);
+	--color-t-muted: var(--theme-text-muted);
 	--color-transport: #39ff14;
 	--color-web-api: #00d4ff;
 	--color-async-iot: #a855f7;
 	--color-realtime: #ff6b35;
 	--color-utilities: #14b8a6;
-	--color-glass-border: rgba(255, 255, 255, 0.1);
-	--color-glass-bg: rgba(255, 255, 255, 0.05);
-	--color-glass-bg-hover: rgba(255, 255, 255, 0.08);
 	--font-sans: 'Inter', ui-sans-serif, system-ui, -apple-system, sans-serif;
 }
 
@@ -27,8 +73,13 @@
 }
 
 html {
-	background-color: #0f172a;
+	background-color: var(--theme-bg);
 	color-scheme: dark;
+	transition: background-color 0.3s ease;
+}
+
+html.light {
+	color-scheme: light;
 }
 
 body {
@@ -47,7 +98,7 @@ body {
 /* Scrollbar styling for detail panel */
 .custom-scrollbar {
 	scrollbar-width: thin;
-	scrollbar-color: rgba(255, 255, 255, 0.12) transparent;
+	scrollbar-color: var(--theme-scrollbar-thumb) transparent;
 	overflow-y: overlay;
 }
 
@@ -60,25 +111,25 @@ body {
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-	background: rgba(255, 255, 255, 0.1);
+	background: var(--theme-scrollbar-thumb);
 	border-radius: 2px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-	background: rgba(255, 255, 255, 0.2);
+	background: var(--theme-scrollbar-thumb-hover);
 }
 
 /* ── driver.js Tour Theme ── */
 .protocol-tour-popover.driver-popover {
-	background: rgba(15, 23, 42, 0.95);
+	background: var(--theme-tooltip-bg);
 	backdrop-filter: blur(24px);
 	-webkit-backdrop-filter: blur(24px);
-	border: 1px solid rgba(255, 255, 255, 0.1);
+	border: 1px solid var(--theme-glass-border);
 	border-radius: 16px;
 	box-shadow:
-		0 0 0 1px rgba(255, 255, 255, 0.05),
-		0 25px 50px -12px rgba(0, 0, 0, 0.5);
-	color: #cbd5e1;
+		0 0 0 1px var(--theme-border-subtle),
+		0 25px 50px -12px var(--theme-shadow-color);
+	color: var(--theme-text-secondary);
 	max-width: 360px;
 	padding: 0;
 }
@@ -86,24 +137,24 @@ body {
 .protocol-tour-popover .driver-popover-title {
 	font-size: 15px;
 	font-weight: 700;
-	color: #f1f5f9;
+	color: var(--theme-text-primary);
 	padding: 16px 20px 0;
 }
 
 .protocol-tour-popover .driver-popover-description {
 	font-size: 13px;
 	line-height: 1.6;
-	color: #94a3b8;
+	color: var(--theme-text-secondary);
 	padding: 8px 20px 0;
 }
 
 .protocol-tour-popover .driver-popover-description strong {
-	color: #e2e8f0;
+	color: var(--theme-text-primary);
 	font-weight: 600;
 }
 
 .protocol-tour-popover .driver-popover-description .tour-hint {
-	color: #475569;
+	color: var(--theme-text-muted);
 	font-size: 11px;
 }
 
@@ -115,7 +166,7 @@ body {
 
 .protocol-tour-popover .driver-popover-progress-text {
 	font-size: 11px;
-	color: #475569;
+	color: var(--theme-text-muted);
 }
 
 .protocol-tour-popover .driver-popover-prev-btn,
@@ -131,26 +182,26 @@ body {
 }
 
 .protocol-tour-popover .driver-popover-prev-btn {
-	background: rgba(255, 255, 255, 0.05);
-	color: #94a3b8;
+	background: var(--theme-glass-bg);
+	color: var(--theme-text-secondary);
 }
 
 .protocol-tour-popover .driver-popover-prev-btn:hover {
-	background: rgba(255, 255, 255, 0.1);
-	color: #e2e8f0;
+	background: var(--theme-glass-bg-hover);
+	color: var(--theme-text-primary);
 }
 
 .protocol-tour-popover .driver-popover-next-btn {
-	background: rgba(255, 255, 255, 0.1);
-	color: #f1f5f9;
+	background: var(--theme-glass-bg-hover);
+	color: var(--theme-text-primary);
 }
 
 .protocol-tour-popover .driver-popover-next-btn:hover {
-	background: rgba(255, 255, 255, 0.15);
+	background: var(--theme-glass-bg-hover);
 }
 
 .protocol-tour-popover .driver-popover-close-btn {
-	color: #475569;
+	color: var(--theme-text-muted);
 	width: 28px;
 	height: 28px;
 	border-radius: 8px;
@@ -159,10 +210,10 @@ body {
 }
 
 .protocol-tour-popover .driver-popover-close-btn:hover {
-	background: rgba(255, 255, 255, 0.05);
-	color: #94a3b8;
+	background: var(--theme-glass-bg);
+	color: var(--theme-text-secondary);
 }
 
 .protocol-tour-popover .driver-popover-arrow {
-	border-color: rgba(15, 23, 42, 0.95) !important;
+	border-color: var(--theme-tooltip-bg) !important;
 }

@@ -3,8 +3,14 @@
 	import { getProtocolById, getCategoryById } from '$lib/data/index';
 	import { getHighlightedName } from '$lib/data/name-highlights';
 	import CategoryIcon from '$lib/components/icons/CategoryIcon.svelte';
+	import { themedDomColor } from '$lib/utils/colors';
 
 	const appState = getAppState();
+
+	/** Theme-aware color for tooltip elements */
+	function tc(c: string): string {
+		return themedDomColor(c, appState.theme);
+	}
 
 	let tooltipX = $state(0);
 	let tooltipY = $state(0);
@@ -73,31 +79,31 @@
 		<div
 			class="tooltip-pop pointer-events-none fixed z-50 max-w-xs rounded-xl border bg-bg-deep/90 px-4 py-3 shadow-2xl backdrop-blur-xl"
 			style="left: {tooltipLeft}px; top: {tooltipY -
-				8}px; border-color: {hoveredInfo.color}40; transform-origin: {flipped ? 'right' : 'left'} top;"
+				8}px; border-color: {tc(hoveredInfo.color)}40; transform-origin: {flipped ? 'right' : 'left'} top;"
 		>
 			<div class="flex items-center gap-2">
 				{#if hoveredInfo.icon}
-					<span style="color: {hoveredInfo.color}">
+					<span style="color: {tc(hoveredInfo.color)}">
 						<CategoryIcon icon={hoveredInfo.icon} size={16} />
 					</span>
 				{/if}
-				<span class="text-sm font-semibold" style="color: {hoveredInfo.color}">
+				<span class="text-sm font-semibold" style="color: {tc(hoveredInfo.color)}">
 					{hoveredInfo.name}
 				</span>
 				{#if hoveredInfo.port}
-					<span class="rounded bg-white/5 px-1.5 py-0.5 text-[10px] text-slate-400">
+					<span class="rounded bg-s-glass px-1.5 py-0.5 text-[10px] text-t-secondary">
 						Port {hoveredInfo.port}
 					</span>
 				{/if}
 			</div>
 			{#if hoveredInfo.nameSegments}
-				<p class="mt-0.5 text-[11px] text-slate-400">
-					{#each hoveredInfo.nameSegments as seg}{#if seg.highlight}<span class="font-bold" style="color: {hoveredInfo.color}">{seg.text}</span>{:else}{seg.text}{/if}{/each}
+				<p class="mt-0.5 text-[11px] text-t-secondary">
+					{#each hoveredInfo.nameSegments as seg}{#if seg.highlight}<span class="font-bold" style="color: {tc(hoveredInfo.color)}">{seg.text}</span>{:else}{seg.text}{/if}{/each}
 				</p>
 			{/if}
-			<p class="mt-1 text-xs leading-relaxed text-slate-300">{hoveredInfo.description}</p>
+			<p class="mt-1 text-xs leading-relaxed text-t-primary">{hoveredInfo.description}</p>
 			{#if hoveredInfo.year}
-				<p class="mt-1 text-[10px] text-slate-500">Since {hoveredInfo.year}</p>
+				<p class="mt-1 text-[10px] text-t-muted">Since {hoveredInfo.year}</p>
 			{/if}
 		</div>
 	{/key}

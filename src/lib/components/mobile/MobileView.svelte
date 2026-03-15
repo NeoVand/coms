@@ -9,8 +9,8 @@
 
 <div class="flex min-h-screen flex-col bg-bg-deep">
 	<!-- Header -->
-	<header class="border-b border-white/10 bg-bg-deep/90 px-4 py-4 backdrop-blur-xl">
-		<h1 class="flex items-center justify-center gap-2 text-lg font-bold text-slate-100">
+	<header class="border-b border-s-border bg-bg-deep/90 px-4 py-4 backdrop-blur-xl">
+		<h1 class="flex items-center justify-center gap-2 text-lg font-bold text-t-primary">
 			<svg viewBox="0 0 20 20" class="h-5 w-5 shrink-0" fill="none">
 				<line x1="10" y1="8.5" x2="10" y2="5" stroke="#6ee7b7" stroke-width="1.2" opacity="0.5" />
 				<line x1="8.8" y1="10.8" x2="5.6" y2="12.3" stroke="#c4b5fd" stroke-width="1.2" opacity="0.5" />
@@ -22,7 +22,7 @@
 			</svg>
 			Protocol Lab
 		</h1>
-		<p class="mt-1 text-center text-xs text-slate-500">Tap a protocol to learn more</p>
+		<p class="mt-1 text-center text-xs text-t-muted">Tap a protocol to learn more</p>
 	</header>
 
 	<!-- Category accordions -->
