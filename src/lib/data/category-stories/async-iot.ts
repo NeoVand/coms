@@ -23,11 +23,11 @@ export const asyncIotStory: CategoryStory = {
 			people: [
 				{
 					name: 'Andy Stanford-Clark',
-					years: '1962–',
+					years: '1966–',
 					title: 'Co-inventor of MQTT',
 					org: 'IBM',
 					contribution:
-						'Co-created MQTT for IoT telemetry over unreliable networks. An IBM Distinguished Engineer, he helped open-source the protocol and shepherd it through OASIS standardization.',
+						'Co-created MQTT with Arlen Nipper (then at Arcom) for IoT telemetry over unreliable networks. An IBM Distinguished Engineer, he helped open-source the protocol and shepherd it through OASIS standardization.',
 					imagePath:
 						'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Andy_Stanford-Clark_%284995549809%29.jpg/330px-Andy_Stanford-Clark_%284995549809%29.jpg'
 				},
@@ -122,7 +122,7 @@ export const asyncIotStory: CategoryStory = {
 					title: 'Messaging Visionary',
 					org: 'iMatix',
 					contribution:
-						'Early AMQP contributor who later created ZeroMQ, a brokerless messaging library. A passionate open-source advocate who influenced the entire messaging ecosystem.',
+						'Built the first open-source AMQP broker (OpenAMQ) at iMatix and later created ZeroMQ, a brokerless messaging library. A passionate open-source advocate, though he grew critical of AMQP\'s complexity and eventually left the workgroup.',
 					imagePath:
 						'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Pieter_Hintjens_at_EuroPython2014_%28cropped%29.jpg/330px-Pieter_Hintjens_at_EuroPython2014_%28cropped%29.jpg'
 				},

@@ -23,10 +23,10 @@ const highlightedNames: Record<string, string> = {
 	rest: '[RE]presentational [S]tate [T]ransfer',
 
 	// Async / IoT
-	mqtt: '[M]essage [Q]ueuing [T]elemetry [T]ransport',
+	mqtt: '[MQTT]',
 	amqp: '[A]dvanced [M]essage [Q]ueuing [P]rotocol',
 	coap: '[Co]nstrained [A]pplication [P]rotocol',
-	stomp: '[S]imple [T]ext [O]riented [M]essaging [P]rotocol',
+	stomp: '[S]imple [T]ext [O]rientated [M]essaging [P]rotocol',
 	xmpp: 'e[X]tensible [M]essaging and [P]resence [P]rotocol',
 	kafka: 'Apache [Kafka] Wire Protocol',
 

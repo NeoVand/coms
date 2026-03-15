@@ -82,7 +82,7 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
 				},
 				{
 					name: 'David Plummer',
-					years: '1956–',
+					years: 'c. 1956–',
 					title: 'Author of ARP',
 					org: 'MIT',
 					contribution:
@@ -98,7 +98,7 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
 				},
 				{
 					name: 'Yakov Rekhter',
-					years: '1950–',
+					years: 'c. 1950–',
 					title: 'Co-creator of BGP',
 					org: 'IBM / Juniper Networks',
 					contribution:
@@ -106,7 +106,7 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
 				},
 				{
 					name: 'Steve Deering',
-					years: '1960–',
+					years: '1951–',
 					title: 'Creator of IPv6',
 					org: 'Xerox PARC / Cisco',
 					contribution:
@@ -173,17 +173,17 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
 					protocolId: 'wifi'
 				},
 				{
-					year: 1999,
-					title: 'Wi-Fi Alliance Formed',
-					description:
-						'The Wi-Fi Alliance is created to certify interoperability. 802.11b brings 11 Mbps, making wireless affordable for consumers.'
-				},
-				{
 					year: 1998,
 					title: 'IPv6 Specified — RFC 2460',
 					description:
 						'Steve Deering and Rob Hinden publish IPv6 with 128-bit addresses, a simplified header, and no more broadcast. The long transition from IPv4 begins.',
 					protocolId: 'ipv6'
+				},
+				{
+					year: 1999,
+					title: 'Wi-Fi Alliance Formed',
+					description:
+						'The Wi-Fi Alliance is created to certify interoperability. 802.11b brings 11 Mbps, making wireless affordable for consumers.'
 				},
 				{
 					year: 2009,

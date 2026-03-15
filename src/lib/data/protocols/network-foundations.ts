@@ -14,7 +14,7 @@ export const networkFoundationsProtocols: Protocol[] = [
 
 Ethernet was invented by Bob Metcalfe at Xerox PARC in 1973, inspired by the ALOHAnet wireless network in Hawaii. The original design used a shared coaxial cable (a "bus") where all devices listened to all traffic and used CSMA/CD (Carrier Sense Multiple Access with Collision Detection) to manage access. DEC, Intel, and Xerox published the DIX standard in 1980, and the IEEE ratified 802.3 in 1983, giving Ethernet its formal identity.
 
-The evolution from shared media to switched networks was transformative. Hubs gave way to switches, which learn MAC addresses and forward frames only to the correct port — eliminating collisions entirely. Full-duplex links doubled effective {{bandwidth|bandwidth}}. Today, Ethernet spans from 10 Mbps to 400 Gbps and beyond, powering everything from home networks to hyperscale data centers. [[arp|ARP]] resolves [[ip|IP]] addresses to Ethernet MAC addresses, and [[wifi|Wi-Fi]] extends Ethernet's reach wirelessly by bridging 802.11 frames to 802.3 frames at the access point.`,
+The evolution from shared media to switched networks was transformative. Hubs gave way to switches, which learn MAC addresses and forward frames only to the correct port — eliminating collisions entirely. Full-duplex links doubled effective {{bandwidth|bandwidth}}. Today, Ethernet spans from 10 Mbps to 800 Gbps (IEEE 802.3df, ratified 2024) and beyond, powering everything from home networks to hyperscale data centers. [[arp|ARP]] resolves [[ip|IP]] addresses to Ethernet MAC addresses, and [[wifi|Wi-Fi]] extends Ethernet's reach wirelessly by bridging 802.11 frames to 802.3 frames at the access point.`,
 		howItWorks: [
 			{
 				title: 'Frame construction',
@@ -142,8 +142,8 @@ ethtool -S eth0 | head -20`
 			]
 		},
 		performance: {
-			latency: 'Sub-microsecond store-and-forward on modern switches; ~5 \u00b5s for cut-through switching',
-			throughput: '10 Mbps to 400 Gbps depending on standard; 1 Gbps and 10 Gbps most common today',
+			latency: 'Sub-microsecond latency requires cut-through switching at high speeds (25+ Gbps); store-and-forward at 1 Gbps takes ~12 \u00b5s for a full-size frame. Cut-through at lower speeds: ~5 \u00b5s.',
+			throughput: '10 Mbps to 800 Gbps depending on standard (IEEE 802.3df ratified 2024); 1 Gbps and 10 Gbps most common today',
 			overhead: '18-byte header (14 header + 4 FCS) + 8-byte preamble/SFD; ~26 bytes per frame minimum'
 		},
 		connections: ['wifi', 'arp', 'ip', 'ipv6'],
@@ -168,7 +168,7 @@ ethtool -S eth0 | head -20`
 		rfc: undefined,
 		oneLiner:
 			'Wireless local networking — Ethernet without the cable, plus encryption and airtime management.',
-		overview: `Wi-Fi brings [[ethernet|Ethernet]]-style networking to the airwaves. Instead of transmitting {{frame|frames}} over copper or fiber, 802.11 uses radio frequencies (2.4 GHz, 5 GHz, and now 6 GHz) to send data wirelessly. But air is a shared medium — everyone within range can hear everything — so Wi-Fi adds {{encryption|encryption}} (WPA2/WPA3), collision avoidance (CSMA/CA instead of Ethernet's CSMA/CD), and a more complex frame format with three MAC addresses: the receiver address (RA), transmitter address (TA), and destination address (DA).
+		overview: `Wi-Fi brings [[ethernet|Ethernet]]-style networking to the airwaves. Instead of transmitting {{frame|frames}} over copper or fiber, 802.11 uses radio frequencies (2.4 GHz, 5 GHz, and now 6 GHz) to send data wirelessly. But air is a shared medium — everyone within range can hear everything — so Wi-Fi adds {{encryption|encryption}} (WPA2/WPA3), collision avoidance (CSMA/CA instead of Ethernet's CSMA/CD), and a more complex frame format with up to four MAC addresses (three typically used): the receiver address (RA), transmitter address (TA), and destination address (DA) — plus an optional fourth address used in wireless bridging (WDS) mode.
 
 The differences from [[ethernet|Ethernet]] are deeper than just "no cable." Because wireless stations can't detect collisions while transmitting (the "hidden node" problem), Wi-Fi uses RTS/CTS {{handshake|handshakes}} and carrier sensing to avoid them. Every frame must be {{ack|acknowledged}} — if the sender doesn't get an ACK, it {{retransmission|retransmits}}. The access point bridges wireless and wired worlds, translating between 802.11 and 802.3 frames so that [[arp|ARP]], [[ip|IP]], and everything above works seamlessly across both.
 
@@ -192,7 +192,7 @@ Wi-Fi has evolved dramatically since the original 802.11 standard in 1997 (2 Mbp
 			{
 				title: 'Data frames with CSMA/CA',
 				description:
-					'Before transmitting, the sender listens for a clear channel (carrier sense) and waits a random backoff time (collision avoidance). Data frames carry three MAC addresses — RA, TA, and DA — and are encrypted with the session keys. Every unicast frame must be acknowledged by the receiver.'
+					'Before transmitting, the sender listens for a clear channel (carrier sense) and waits a random backoff time (collision avoidance). Data frames carry up to four MAC addresses (three typically used) — RA, TA, and DA — and are encrypted with the session keys. Every unicast frame must be acknowledged by the receiver.'
 			},
 			{
 				title: 'Bridge to Ethernet',
@@ -216,7 +216,7 @@ def handle_beacon(pkt):
     if pkt.haslayer(Dot11Beacon):
         ssid = pkt[Dot11Elt].info.decode(errors='ignore')
         bssid = pkt[Dot11].addr2
-        channel = int(ord(pkt[Dot11Elt:3].info))
+        channel = pkt[Dot11Elt:3].info[0]
         print(f"SSID: {ssid:20s}  BSSID: {bssid}  Ch: {channel}")
 
 # Put interface in monitor mode first:
@@ -228,7 +228,7 @@ sniff(iface="wlan0mon", prn=handle_beacon,
 			alternatives: [
 				{
 					language: 'javascript',
-					code: `// Node.js — scanning for Wi-Fi networks using node-wifi
+					code: `// Node.js — scanning for Wi-Fi networks using node-wifi (note: unmaintained, consider native OS commands)
 const wifi = require('node-wifi');
 
 wifi.init({ iface: null }); // auto-detect interface
@@ -321,7 +321,7 @@ iw dev wlan0 station dump`
 			throughput:
 				'Wi-Fi 5: ~800 Mbps real-world; Wi-Fi 6: ~1.2 Gbps; Wi-Fi 7: up to ~5 Gbps in ideal conditions',
 			overhead:
-				'36-byte MAC header (vs 14 for Ethernet) + encryption overhead (CCMP adds 16 bytes); acknowledgment frames add airtime cost'
+				'24-36 byte MAC header depending on frame type and flags (vs 14 for Ethernet) + encryption overhead (CCMP adds 16 bytes); acknowledgment frames add airtime cost'
 		},
 		connections: ['ethernet', 'arp', 'ip', 'ipv6'],
 		links: {
@@ -348,7 +348,7 @@ iw dev wlan0 station dump`
 			'Translates IP addresses to MAC addresses — the bridge between Layer 3 and Layer 2.',
 		overview: `ARP is the glue between [[ip|IP]] addresses and [[ethernet|Ethernet]] {{mac-address|MAC addresses}}. When your computer wants to send a {{packet|packet}} to 192.168.1.1, it knows the IP but not the MAC address of the destination. ARP broadcasts a question to the entire local network: "Who has 192.168.1.1? Tell me your MAC address." The owner responds with a unicast reply containing its MAC, and the sender caches this mapping for future use.
 
-Under the hood, ARP uses EtherType 0x0806 and operates directly on [[ethernet|Ethernet]] — it has no IP header. The request is broadcast to \`FF:FF:FF:FF:FF:FF\`, so every device on the segment receives it, but only the target replies. That reply is unicast directly back to the requester. The resulting IP-to-MAC mapping is stored in the ARP cache (also called the ARP table) with a {{ttl|time-to-live}} — typically 60 seconds on Linux, 20 minutes on Windows — after which the entry expires and must be re-resolved.
+Under the hood, ARP uses EtherType 0x0806 and operates directly on [[ethernet|Ethernet]] — it has no IP header. The request is broadcast to \`FF:FF:FF:FF:FF:FF\`, so every device on the segment receives it, but only the target replies. That reply is unicast directly back to the requester. The resulting IP-to-MAC mapping is stored in the ARP cache (also called the ARP table) with a {{ttl|time-to-live}} — typically 15-45 seconds on modern systems (randomized per RFC 4861) — after which the entry expires and must be re-resolved.
 
 ARP's simplicity is both its strength and its weakness. There is zero authentication — any device can claim to own any {{ip-address|IP address}}. This makes ARP spoofing (or ARP poisoning) trivial: an attacker sends fake ARP replies to redirect traffic through their machine, enabling man-in-the-middle attacks. Countermeasures include Dynamic ARP Inspection (DAI) on managed switches, static ARP entries for critical hosts, and protocols like [[dhcp|DHCP]] snooping. Gratuitous ARP — where a host announces its own IP/MAC mapping without being asked — is used for duplicate IP detection and for updating caches after a MAC address change (e.g., during failover). On [[wifi|Wi-Fi]] networks, ARP works the same way but traverses the wireless medium, with the access point bridging requests between wired and wireless segments.`,
 		howItWorks: [
@@ -505,7 +505,7 @@ ARP Reply:
 		performance: {
 			latency: 'Single broadcast + unicast reply: typically < 1 ms on a local LAN; cache hits are instant',
 			throughput: 'N/A — ARP is a control-plane protocol, not a data-transfer protocol',
-			overhead: '28-byte ARP payload inside a 42-byte Ethernet frame (no IP header involved)'
+			overhead: '28-byte ARP payload inside a 42-byte Ethernet header+payload (14-byte header + 28-byte ARP); minimum Ethernet frame on wire is 64 bytes (18 bytes of padding added for short frames like ARP). No IP header involved.'
 		},
 		connections: ['ethernet', 'ip', 'wifi', 'dhcp'],
 		links: {
@@ -726,6 +726,8 @@ But IPv6 isn't just "bigger addresses." The protocol was redesigned from scratch
 
 IPv6 eliminates broadcast entirely, replacing it with multicast and anycast. Instead of [[arp|ARP]] broadcasts to resolve addresses, IPv6 uses Neighbor Discovery Protocol (NDP), which runs over ICMPv6 and uses solicited-node multicast — far more efficient than flooding every device on the network. NDP also handles {{stateless|stateless}} address autoconfiguration (SLAAC), where a device can configure its own globally unique address without a [[dhcp|DHCP]] server.
 
+The primary IPv4-to-IPv6 transition mechanism is dual-stack operation, where hosts and routers run both protocols simultaneously and prefer IPv6 when available. This avoids a hard cutover and allows gradual migration.
+
 By 2026, IPv6 carries over 45% of Google's traffic, and major mobile networks, cloud providers, and CDNs run IPv6-primary. The transition from IPv4 is happening — just slower than anyone predicted.`,
 		howItWorks: [
 			{
@@ -741,7 +743,7 @@ By 2026, IPv6 carries over 45% of Google's traffic, and major mobile networks, c
 			{
 				title: 'Extension headers',
 				description:
-					'Optional features (routing, fragmentation, security, mobility) are chained via Next Header fields. Each extension points to the next, creating a flexible chain processed only by the destination — not by every router.'
+					'Optional features (routing, fragmentation, security, mobility) are chained via Next Header fields. Each extension points to the next, creating a flexible chain processed only by the destination — not by every router. The one exception is the Hop-by-Hop Options header (Next Header = 0), which must be examined by every router along the path.'
 			},
 			{
 				title: 'Neighbor Discovery (NDP)',
@@ -751,7 +753,7 @@ By 2026, IPv6 carries over 45% of Google's traffic, and major mobile networks, c
 			{
 				title: 'Stateless autoconfiguration (SLAAC)',
 				description:
-					'Hosts generate their own global address from the network prefix (learned via Router Advertisement) and their interface identifier. No DHCP server needed — plug in and go.'
+					'Hosts generate their own global address from the network prefix (learned via Router Advertisement) and their interface identifier. No DHCP server needed — plug in and go. Note: by default SLAAC embeds the MAC address in the IPv6 address, which is a privacy concern — Privacy Extensions (RFC 8981) replace this with randomized, temporary interface identifiers that rotate periodically.'
 			}
 		],
 		useCases: [
@@ -881,7 +883,7 @@ ICMPv6 Neighbor Advertisement:
 			overhead:
 				'Fixed 40-byte header (vs IPv4\'s variable 20-60 bytes). Extension headers add overhead only when used. No per-hop checksum computation saves router CPU.'
 		},
-		connections: ['ip', 'tcp', 'udp', 'ethernet', 'wifi', 'dns'],
+		connections: ['ip', 'tcp', 'udp', 'ethernet', 'wifi', 'dns', 'dhcp'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/IPv6',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc8200'

@@ -180,7 +180,7 @@ openssl req -x509 -newkey rsa:2048 -nodes \\
 			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Netscape_Navigator_2_Screenshot.png/600px-Netscape_Navigator_2_Screenshot.png',
 			alt: 'Netscape Navigator 2 browser window, the first commercial browser to support SSL encryption',
 			caption:
-				'Netscape Navigator 2 (1995) — the browser that introduced SSL to the world. Netscape engineers created SSL to enable secure e-commerce, giving us the padlock icon that still means "encrypted connection" today.',
+				'Netscape Navigator 1.1 (early 1995) — the first browser to ship SSL 2.0. Netscape engineers created SSL to enable secure e-commerce, giving us the padlock icon that still means "encrypted connection" today.',
 			credit: 'Image: Netscape / Public Domain, via Wikimedia Commons'
 		}
 	},
@@ -277,7 +277,9 @@ conn.on('ready', () => {
 conn.connect({
   host: 'example.com',
   username: 'user',
-  privateKey: require('fs').readFileSync('~/.ssh/id_ed25519')
+  privateKey: require('fs').readFileSync(
+    require('path').join(require('os').homedir(), '.ssh', 'id_ed25519')
+  )
 });`
 				},
 				{
@@ -356,9 +358,9 @@ Client → Server:
 		performance: {
 			latency: '1-2 RTTs for connection + key exchange + authentication',
 			throughput: 'Hardware AES encryption; limited mainly by the network and remote system speed',
-			overhead: 'Per-packet: ~28 bytes (4 length + 1 padding length + padding + 16 MAC)'
+			overhead: 'Per-packet: ~28+ bytes (4 length + 1 padding length + padding + MAC). MAC size varies: HMAC-SHA1 = 20 bytes, HMAC-SHA2-256 = 32 bytes. AEAD ciphers (AES-GCM, ChaCha20-Poly1305) use a 16-byte authentication tag instead.'
 		},
-		connections: ['tcp', 'ftp'],
+		connections: ['tcp', 'tls', 'ftp'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Secure_Shell',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc4253'
@@ -384,7 +386,9 @@ Client → Server:
 
 DNS is a distributed, hierarchical database. At the top are 13 root server clusters. Below them are TLD servers (.com, .org, .net). Below those are authoritative servers for individual domains. Your query cascades down this tree, with aggressive caching at every level to keep things fast.
 
-A typical {{dns-resolution|DNS lookup}} takes 10-50ms and involves your device's stub resolver → your ISP's recursive resolver → root servers → TLD servers → authoritative servers. But caching means most lookups are answered in under 1ms from a nearby cache. DNS also carries more than just IP addresses: MX records for email, TXT records for verification, CNAME records for aliases, and many more.`,
+A typical {{dns-resolution|DNS lookup}} takes 10-50ms and involves your device's stub resolver → your ISP's recursive resolver → root servers → TLD servers → authoritative servers. But caching means most lookups are answered in under 1ms from a nearby cache. DNS also carries more than just IP addresses: MX records for email, TXT records for verification, CNAME records for aliases, and many more.
+
+Security is a growing concern: DNSSEC (DNS Security Extensions) adds cryptographic signatures to DNS responses, authenticating their origin and preventing cache poisoning attacks where an attacker injects forged records. For privacy, DNS over TLS (DoT, port 853) and DNS over HTTPS (DoH) encrypt DNS queries so eavesdroppers can't see which domains you're resolving.`,
 		howItWorks: [
 			{
 				title: 'Query sent',
@@ -564,7 +568,9 @@ curl -sH 'accept: application/dns-json' \\
 
 When your device connects to a network, it broadcasts a DHCP Discover message ("I need an IP address!"). A DHCP server responds with an offer, which the client accepts. The server then confirms and assigns the IP, along with all the configuration your device needs: subnet mask, default gateway, [[dns|DNS]] servers, and the lease duration.
 
-DHCP leases are temporary — typically 1-24 hours. When a lease expires, the device must renew it. This dynamic allocation means IP addresses can be reused efficiently. DHCP is simple, ubiquitous, and works transparently — one of those "invisible" {{protocol|protocols}} that makes networking just work.`,
+DHCP leases are temporary — typically 1-24 hours. When a lease expires, the device must renew it. This dynamic allocation means IP addresses can be reused efficiently. DHCP is simple, ubiquitous, and works transparently — one of those "invisible" {{protocol|protocols}} that makes networking just work.
+
+For IPv6 networks, DHCPv6 (RFC 8415) provides similar functionality but with a different message flow: Solicit/Advertise replaces Discover/Offer, and Request/Reply replaces Request/ACK. DHCPv6 also supports a stateless configuration mode (via SLAAC — Stateless Address Autoconfiguration) where hosts generate their own addresses and only use DHCPv6 for additional options like DNS server addresses.`,
 		howItWorks: [
 			{
 				title: 'DISCOVER (broadcast)',
@@ -730,7 +736,7 @@ DHCP ACK:
 		performance: {
 			latency: 'Full DORA cycle: ~100-500ms. Renewal: single RTT.',
 			throughput: 'Not applicable — DHCP is one-time configuration, not data transfer',
-			overhead: 'Minimum 236-byte message. UDP-based, broadcast-heavy.'
+			overhead: 'Fixed BOOTP header is 236 bytes, but minimum on-wire DHCP frame is larger (300+ bytes with required options and Ethernet/IP/UDP headers). UDP-based, broadcast-heavy.'
 		},
 		connections: ['udp', 'dns', 'arp'],
 		links: {
@@ -758,7 +764,9 @@ DHCP ACK:
 
 NTP uses a hierarchical system of time sources. Stratum 0 are atomic clocks and GPS receivers. Stratum 1 servers connect directly to these. Stratum 2 servers sync from Stratum 1, and so on. Your computer typically syncs from Stratum 2 or 3 servers (like pool.ntp.org).
 
-The clever part is how NTP accounts for network {{latency|delay}}. It measures the {{rtt|round-trip time}} of its packets and mathematically compensates for the delay, achieving accuracy far beyond what simple "what time is it?" queries could provide.`,
+The clever part is how NTP accounts for network {{latency|delay}}. It measures the {{rtt|round-trip time}} of its packets and mathematically compensates for the delay, achieving accuracy far beyond what simple "what time is it?" queries could provide.
+
+NTP has been exploited for DDoS amplification attacks: the legacy \`monlist\` command could return a large list of recent clients in response to a small spoofed request, amplifying traffic by a factor of 500x or more. Modern NTP implementations disable \`monlist\` by default, and rate-limiting helps mitigate remaining abuse.`,
 		howItWorks: [
 			{
 				title: 'Client sends request',
@@ -1241,11 +1249,11 @@ Server: 221 Goodbye`
 		abbreviation: 'IMAP',
 		categoryId: 'utilities',
 		port: 993,
-		year: 2003,
+		year: 1986,
 		rfc: 'RFC 9051',
 		oneLiner:
 			'Access and manage email on the server — read, search, and organize without downloading.',
-		overview: `IMAP is how your email client reads messages from the server while keeping them stored remotely. Unlike POP3 (which downloads and deletes), IMAP keeps all mail on the server — so your phone, laptop, and webmail all see the same inbox, the same folders, and the same read/unread state.
+		overview: `IMAP is how your email client reads messages from the server while keeping them stored remotely. Unlike POP3 (which downloads and deletes), IMAP keeps all mail on the server — so your phone, laptop, and webmail all see the same inbox, the same folders, and the same read/unread state. IMAP uses port 143 for plaintext connections (with optional STARTTLS upgrade) or port 993 for IMAPS (implicit TLS).
 
 The key insight is IMAP's tagged command-response {{protocol|protocol}}. Every command gets a unique tag (A001, A002...) and the server's response includes the same tag. This means you can pipeline commands — send A002 before A001's response arrives — because tags match responses to commands unambiguously.
 
@@ -1407,7 +1415,7 @@ Server: + idling
 		abbreviation: 'BGP',
 		categoryId: 'network-foundations',
 		port: 179,
-		year: 1995,
+		year: 1989,
 		rfc: 'RFC 4271',
 		oneLiner:
 			'The routing protocol of the internet — how autonomous systems find paths to each other.',
@@ -1416,6 +1424,8 @@ Server: + idling
 When you visit a website, your {{packet|packets}} may cross 5-10 different autonomous systems. BGP is the protocol that calculated that path. Each BGP router maintains a {{routing-table|table}} of every reachable IP prefix on the internet (~1 million entries) along with the AS_PATH — the sequence of autonomous systems to traverse. BGP is a path-vector protocol: it doesn't just know the next hop, it knows the entire AS-level path.
 
 BGP runs over [[tcp|TCP]] port 179, relying on TCP's reliable delivery because routing information must never be lost or corrupted. Two BGP routers ("peers") establish a session by exchanging OPEN messages, then continuously exchange UPDATE messages as routes are announced or withdrawn. {{keep-alive|KEEPALIVE}} messages every ~30 seconds prove the peer is still alive.
+
+A fundamental distinction in BGP is between eBGP (External BGP) and iBGP (Internal BGP). eBGP runs between routers in different autonomous systems — this is the inter-domain routing that connects the internet. iBGP runs between routers within the same AS, distributing externally learned routes internally. The two behave differently: eBGP modifies the AS_PATH on each hop, while iBGP does not, requiring either a full mesh of iBGP peers or route reflectors to prevent loops.
 
 The consequences of BGP mistakes are enormous. The Facebook outage of October 2021 — which took down Facebook, Instagram, and WhatsApp for six hours — was caused by a BGP misconfiguration that withdrew all of Facebook's routes from the internet. BGP route hijacks, where an AS announces routes it doesn't own, can redirect traffic through malicious networks.`,
 		howItWorks: [
@@ -1580,7 +1590,9 @@ Unlike [[tcp|TCP]] or UDP, ICMP doesn't use {{port|ports}}. It's {{encapsulation
 
 Every router on the internet speaks ICMP. When a router can't deliver a packet, it sends an ICMP Destination Unreachable (Type 3) back to the sender, with codes specifying why: network unreachable, host unreachable, port unreachable, or "fragmentation needed but don't-fragment flag is set" (which is essential for Path MTU Discovery).
 
-ICMP is also controversial. Many {{firewall|firewalls}} block ICMP to prevent reconnaissance, but this breaks legitimate diagnostics and can cause subtle problems like Path MTU Discovery failures. The debate over whether to filter ICMP has been going on for decades — and ICMP's designers would argue it should never be blocked.`,
+ICMP is also controversial. Many {{firewall|firewalls}} block ICMP to prevent reconnaissance, but this breaks legitimate diagnostics and can cause subtle problems like Path MTU Discovery failures. The debate over whether to filter ICMP has been going on for decades — and ICMP's designers would argue it should never be blocked.
+
+IPv6 uses a separate specification called ICMPv6 (RFC 4443) with different type numbers and additional functionality. ICMPv6 is more critical than its IPv4 counterpart because it incorporates Neighbor Discovery Protocol (NDP), which replaces ARP for address resolution and handles router discovery, address autoconfiguration, and duplicate address detection.`,
 		howItWorks: [
 			{
 				title: 'Echo Request (ping)',
@@ -1595,7 +1607,7 @@ ICMP is also controversial. Many {{firewall|firewalls}} block ICMP to prevent re
 			{
 				title: 'Destination Unreachable',
 				description:
-					'When a router cannot deliver a packet, it sends Type 3 back to the sender. Code values specify why: 0=network, 1=host, 3=port unreachable, 4=fragmentation needed.'
+					'When a router cannot deliver a packet, it sends Type 3 back to the sender. Code values specify why: 0=Network Unreachable, 1=Host Unreachable, 2=Protocol Unreachable, 3=Port Unreachable, 4=Fragmentation Needed.'
 			},
 			{
 				title: 'Time Exceeded (traceroute)',
@@ -1620,6 +1632,15 @@ ICMP is also controversial. Many {{firewall|firewalls}} block ICMP to prevent re
 			code: `import socket
 import struct
 import time
+
+def checksum(data):
+    s = 0
+    for i in range(0, len(data), 2):
+        w = data[i] + (data[i+1] << 8)
+        s = s + w
+    s = (s >> 16) + (s & 0xffff)
+    s = s + (s >> 16)
+    return ~s & 0xffff
 
 def ping(host):
     sock = socket.socket(
@@ -1800,6 +1821,7 @@ A critical distinction: OAuth is an authorization {{protocol|protocol}} (what yo
 		codeExample: {
 			language: 'python',
 			code: `from authlib.integrations.requests_client import OAuth2Session
+from authlib.oauth2.rfc7636 import create_s256_code_challenge
 
 # Configure the OAuth 2.0 client
 client = OAuth2Session(
@@ -1810,9 +1832,13 @@ client = OAuth2Session(
 )
 
 # Step 1: Generate authorization URL with PKCE
+code_verifier = client.create_s256_code_verifier()
+code_challenge = create_s256_code_challenge(code_verifier)
 uri, state = client.create_authorization_url(
     'https://github.com/login/oauth/authorize',
-    code_verifier=client.create_s256_code_challenge()
+    code_verifier=code_verifier,
+    code_challenge=code_challenge,
+    code_challenge_method='S256'
 )
 print(f"Visit: {uri}")
 

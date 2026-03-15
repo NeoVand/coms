@@ -12,9 +12,9 @@ export const realtimeAvProtocols: Protocol[] = [
 		oneLiner: 'Peer-to-peer audio, video, and data — directly between browsers, no plugins needed.',
 		overview: `WebRTC is the technology that makes browser-based video calls possible. Before WebRTC, real-time communication required plugins (Flash, Java applets) or native apps. Now, two browsers can establish a direct, encrypted, {{peer-to-peer|peer-to-peer}} connection for audio, video, and arbitrary data.
 
-The key insight is "peer-to-peer" — once the connection is established, data flows directly between users without passing through a server. This reduces {{latency|latency}} and server costs. However, establishing that connection requires a signaling server (to exchange connection offers) and often STUN/TURN servers (to navigate {{nat|NATs}} and {{firewall|firewalls}}).
+The key insight is "peer-to-peer" — once the connection is established, data flows directly between users without passing through a server. This reduces {{latency|latency}} and server costs. However, establishing that connection requires a signaling server (to exchange connection offers) and often STUN/TURN servers to navigate {{nat|NATs}} and {{firewall|firewalls}}. STUN (Session Traversal Utilities for NAT) discovers the peer's public IP address. TURN (Traversal Using Relays around NAT) relays media through a server when a direct connection fails (about 10-15% of cases). ICE (Interactive Connectivity Establishment) coordinates both STUN and TURN to find the best available path between peers.
 
-Under the hood, WebRTC is actually a bundle of protocols: ICE for connectivity establishment, [[tls|DTLS]] for encryption, [[rtp|SRTP]] for media, and [[sctp|SCTP]] for data channels. The browser API abstracts all of this into a relatively simple JavaScript interface.`,
+Under the hood, WebRTC is actually a bundle of protocols: ICE for connectivity establishment, DTLS (based on [[tls|TLS]]) for encryption, SRTP (secured [[rtp|RTP]]) for media, and [[sctp|SCTP]] for data channels. The browser API abstracts all of this into a relatively simple JavaScript interface.`,
 		howItWorks: [
 			{
 				title: 'Signaling',
@@ -157,7 +157,7 @@ STUN Response:
 			latency: 'Connection setup: 2-5 seconds (ICE + DTLS). Media latency: 50-150ms peer-to-peer.',
 			throughput:
 				'Adaptive bitrate: 100kbps (audio) to 4+ Mbps (HD video). Adjusts to network conditions.',
-			overhead: 'SRTP adds ~12 bytes per packet. DTLS handshake is one-time cost.'
+			overhead: 'SRTP adds ~10 bytes authentication tag per packet (80-bit default). DTLS handshake is one-time cost.'
 		},
 		connections: ['udp', 'tls', 'sip', 'sctp', 'rtp', 'sdp'],
 		links: {
@@ -535,9 +535,9 @@ a=rtpmap:97 opus/48000/2`
 		oneLiner: "Apple's adaptive streaming protocol — video delivered as small HTTP file downloads.",
 		overview: `HLS takes a clever approach to streaming: instead of a continuous real-time stream, it chops video into small files (typically 2-10 second segments) and serves them as ordinary [[http1|HTTP]] downloads. A manifest file (.m3u8) lists the available segments and quality levels.
 
-This design is brilliant for several reasons: it works through any {{firewall|firewall}} (it's just [[http1|HTTP]]), it scales trivially with CDNs (segments are cacheable files), and it enables adaptive bitrate — the player switches between quality levels based on {{bandwidth|bandwidth}}, providing smooth playback even on unstable connections.
+This design is brilliant for several reasons: it works through any {{firewall|firewall}} (it's just [[http1|HTTP]]), it scales trivially with CDNs (segments are cacheable files), and it enables adaptive bitrate — the player switches between quality levels based on {{bandwidth|bandwidth}}, providing smooth playback even on unstable connections. Increasingly, HLS and [[dash|DASH]] are converging on CMAF (Common Media Application Format), which defines a unified segment format (fragmented MP4) so content providers can encode once and serve both HLS and DASH from the same segments.
 
-The tradeoff is {{latency|latency}}: buffering several segments means HLS typically has 6-30 seconds of delay. Low-Latency HLS (LL-HLS) reduces this to 2-4 seconds by using partial segments and server push. HLS dominates the streaming landscape — Netflix, Disney+, YouTube, and virtually every major streaming platform use it (or the similar [[dash|DASH]] format).`,
+The tradeoff is {{latency|latency}}: buffering several segments means HLS typically has 6-30 seconds of delay. Low-Latency HLS (LL-HLS) reduces this to 2-4 seconds by using partial segments and preload hints (\`EXT-X-PRELOAD-HINT\`). HLS is widely used across the streaming landscape — Disney+ relies on it as a primary format, while services like Netflix and YouTube primarily use [[dash|DASH]] but fall back to HLS for Apple device compatibility.`,
 		howItWorks: [
 			{
 				title: 'Encode and segment',
@@ -561,7 +561,7 @@ The tradeoff is {{latency|latency}}: buffering several segments means HLS typica
 			}
 		],
 		useCases: [
-			'Video on demand (Netflix, Disney+, YouTube)',
+			'Video on demand (Disney+, Apple TV+, and as fallback on Netflix/YouTube)',
 			'Live event streaming (sports, concerts)',
 			'News and social media video',
 			'E-learning platforms',
@@ -707,7 +707,7 @@ https://cdn.example.com/stream_720p/seg_2683.ts
 
 The protocol works by {{multiplexing|multiplexing}} audio, video, and data streams over a single [[tcp|TCP]] connection, chunking large messages into smaller fragments for interleaved delivery. It maintains persistent {{keep-alive|connections}} with low-overhead {{handshake|handshakes}}, making it ideal for the "ingest" side of live streaming — the path from encoder (OBS, Wirecast) to the first server.
 
-Today, RTMP is the de facto standard for live stream ingest. Twitch, YouTube Live, Facebook Live, and virtually every streaming platform accept RTMP input. The stream typically gets transcoded on the server side and delivered to viewers via [[hls|HLS]] or [[dash|DASH]]. RTMP handles the first mile; [[http1|HTTP]] streaming handles the last mile.`,
+Today, RTMP is the de facto standard for live stream ingest. Twitch, YouTube Live, Facebook Live, and virtually every streaming platform accept RTMP input. The stream typically gets transcoded on the server side and delivered to viewers via [[hls|HLS]] or [[dash|DASH]]. RTMP handles the first mile; [[http1|HTTP]] streaming handles the last mile. For security, the RTMPS variant wraps RTMP in a [[tls|TLS]] connection — Facebook/Meta has required RTMPS for all live streaming ingest since 2019, and most major platforms now prefer or mandate it.`,
 		howItWorks: [
 			{
 				title: 'TCP handshake + RTMP handshake',
@@ -757,12 +757,9 @@ subprocess.run([
     'rtmp://localhost:1935/live/stream-key'
 ])
 
-# Or use python-librtmp for low-level control
-import librtmp
-conn = librtmp.RTMP('rtmp://localhost:1935/live', live=True)
-conn.connect()
-stream = conn.create_stream()
-# stream.write(flv_data)`,
+# ffmpeg is the standard tool for RTMP ingest
+# For RTMPS (TLS-wrapped RTMP, required by Meta since 2019):
+# rtmps://live-api-s.facebook.com:443/rtmp/stream-key`,
 			caption: 'RTMP is the standard first hop for live streaming — from encoder to server',
 			alternatives: [
 				{
@@ -893,7 +890,7 @@ Client → Server (C2):
 
 Originally published in 1998 as RFC 2327 for the Mbone (multicast backbone) conferencing community, SDP found its true calling as the session description format for [[sip|SIP]] and later [[webrtc|WebRTC]]. Every time you join a video call in your browser, an SDP "offer" and "answer" are exchanged behind the scenes to {{content-negotiation|negotiate}} what media will flow and how.
 
-The format is deceptively simple — plain text with single-letter field identifiers (v= for version, o= for origin, m= for media, a= for attributes). But this simplicity hides enormous complexity: SDP extensions handle ICE candidates, [[tls|DTLS]] fingerprints, simulcast layers, codec parameters, and dozens of other modern requirements.`,
+The format is deceptively simple — plain text with single-letter field identifiers (v= for version, o= for origin, m= for media, a= for attributes). But this simplicity hides enormous complexity: SDP extensions handle ICE candidates, DTLS (based on [[tls|TLS]]) fingerprints, simulcast layers, codec parameters, and dozens of other modern requirements.`,
 		howItWorks: [
 			{
 				title: 'Session description created',
@@ -930,26 +927,30 @@ The format is deceptively simple — plain text with single-letter field identif
 		],
 		codeExample: {
 			language: 'python',
-			code: `from aiortc import RTCPeerConnection, RTCSessionDescription
+			code: `import asyncio
+from aiortc import RTCPeerConnection, RTCSessionDescription
 
-pc = RTCPeerConnection()
+async def main():
+    pc = RTCPeerConnection()
 
-# Create and inspect an SDP offer
-offer = await pc.createOffer()
-await pc.setLocalDescription(offer)
+    # Create and inspect an SDP offer
+    offer = await pc.createOffer()
+    await pc.setLocalDescription(offer)
 
-# Parse the SDP fields
-for line in pc.localDescription.sdp.split('\\n'):
-    if line.startswith('m='):
-        print(f"Media: {line}")      # m=audio, m=video
-    elif line.startswith('a=rtpmap'):
-        print(f"Codec: {line}")      # codec details
-    elif line.startswith('a=candidate'):
-        print(f"ICE: {line}")        # network candidates
+    # Parse the SDP fields
+    for line in pc.localDescription.sdp.split('\\n'):
+        if line.startswith('m='):
+            print(f"Media: {line}")      # m=audio, m=video
+        elif line.startswith('a=rtpmap'):
+            print(f"Codec: {line}")      # codec details
+        elif line.startswith('a=candidate'):
+            print(f"ICE: {line}")        # network candidates
 
-# Set the remote answer
-answer = RTCSessionDescription(sdp=remote_sdp, type='answer')
-await pc.setRemoteDescription(answer)`,
+    # Set the remote answer
+    answer = RTCSessionDescription(sdp=remote_sdp, type='answer')
+    await pc.setRemoteDescription(answer)
+
+asyncio.run(main())`,
 			caption:
 				'WebRTC SDP offer/answer — SDP is generated automatically from your media tracks',
 			alternatives: [
@@ -1119,12 +1120,12 @@ Netflix, YouTube, Disney+, and most major streaming services use DASH (often alo
 		],
 		codeExample: {
 			language: 'python',
-			code: `import mpd_parser
+			code: `from mpegdash.parser import MPEGDASHParser
 import requests
 
-# Parse a DASH MPD manifest
+# Parse a DASH MPD manifest (using mpegdash library)
 mpd_url = 'https://cdn.example.com/video/manifest.mpd'
-mpd = mpd_parser.parse(requests.get(mpd_url).text)
+mpd = MPEGDASHParser.parse(requests.get(mpd_url).text)
 
 # List available quality levels
 for period in mpd.periods:
@@ -1134,8 +1135,8 @@ for period in mpd.periods:
             print(f"  {rep.width}x{rep.height} "
                   f"@ {rep.bandwidth // 1000}kbps")
             # Download segments via HTTP GET
-            # for seg_url in rep.segment_urls:
-            #     data = requests.get(seg_url).content`,
+            # for seg_url in rep.base_urls:
+            #     data = requests.get(seg_url.base_url_value).content`,
 			caption: 'dash.js plays MPEG-DASH content with automatic adaptive bitrate',
 			alternatives: [
 				{

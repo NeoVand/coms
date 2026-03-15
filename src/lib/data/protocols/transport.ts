@@ -10,7 +10,7 @@ export const transportProtocols: Protocol[] = [
 		year: 1981,
 		rfc: 'RFC 9293',
 		oneLiner: 'Guarantees ordered, reliable delivery of data between applications.',
-		overview: `TCP is the backbone of the internet. When you load a webpage, send an email, or download a file, TCP ensures every single byte arrives correctly and in order. It does this by {{connection-oriented|establishing a connection}} between sender and receiver before any data flows — like a phone call where both sides confirm they can hear each other.
+		overview: `TCP is the backbone of the internet. When you load a webpage, send an email, or download a file, TCP ensures every single byte arrives correctly and in order. It does this by {{connection-oriented|establishing a connection}} between sender and receiver before any data flows — like a phone call where both sides confirm they can hear each other. TCP is inherently {{stateful|stateful}}: each connection tracks sequence numbers, acknowledgments, window sizes, and retransmission timers throughout its lifetime.
 
 Unlike [[udp|UDP]], TCP will detect lost {{packet|packets}} and {{retransmission|retransmit}} them. It also implements {{flow-control|flow control}} (so a fast sender doesn't overwhelm a slow receiver) and {{congestion-control|congestion control}} (so the network itself doesn't get overloaded). TCP's congestion control has evolved significantly over the decades — from the original Tahoe and Reno algorithms through CUBIC (the Linux default for years) to Google's BBR, which optimizes for throughput rather than loss detection. This reliability comes at a cost: extra round trips and overhead, which is why {{latency|latency}}-sensitive applications sometimes prefer [[udp|UDP]].
 
@@ -156,10 +156,10 @@ Client → Server  [ACK]
 			]
 		},
 		performance: {
-			latency: '1-3 RTT for connection setup (handshake), then ~0.5 RTT per data exchange',
+			latency: '1 RTT for TCP handshake (additional RTTs come from TLS, not TCP itself), then ~0.5 RTT per data exchange',
 			throughput:
 				'Limited by congestion window; typically reaches line speed on stable connections',
-			overhead: '20-byte header minimum + options; ~40 bytes typical with timestamps'
+			overhead: '20-byte header minimum + options; 32 bytes with timestamps (20-byte header + 12-byte timestamp option)'
 		},
 		connections: ['udp', 'ip', 'ipv6', 'tls', 'http1', 'http2', 'websockets', 'ssh', 'smtp', 'ftp', 'bgp', 'imap'],
 		links: {
@@ -341,7 +341,7 @@ ss -un  # or: netstat -un`
 			'UDP-based transport with built-in encryption and multiplexing — the future of the web.',
 		overview: `QUIC is what happens when Google looks at [[tcp|TCP]]+[[tls|TLS]] and says "we can do better." It runs on top of [[udp|UDP]] but provides [[tcp|TCP]]-like reliability, [[tls|TLS 1.3]] {{encryption|encryption}}, and [[http2|HTTP/2]]-style {{multiplexing|multiplexing}} — all in a single protocol. The result: faster connections, no {{head-of-line-blocking|head-of-line blocking}}, and seamless connection migration.
 
-The key insight is combining the transport {{handshake|handshake}} with the [[tls|TLS]] handshake. [[tcp|TCP]]+[[tls|TLS]] requires 2-3 round trips before data flows; QUIC does it in 1 {{rtt|RTT}} (or 0 RTT for repeat connections). It also solves [[tcp|TCP]]'s head-of-line blocking problem: in [[http2|HTTP/2]] over [[tcp|TCP]], a single lost packet blocks ALL streams. In QUIC, streams are independent — a lost packet only affects its own stream.
+The key insight is combining the transport {{handshake|handshake}} with the [[tls|TLS]] handshake. [[tcp|TCP]]+[[tls|TLS 1.3]] requires 2 round trips before data flows (1 RTT for TCP handshake + 1 RTT for TLS); QUIC does it in 1 {{rtt|RTT}} (or 0 RTT for repeat connections). It also solves [[tcp|TCP]]'s head-of-line blocking problem: in [[http2|HTTP/2]] over [[tcp|TCP]], a single lost packet blocks ALL streams. In QUIC, streams are independent — a lost packet only affects its own stream.
 
 QUIC powers [[http3|HTTP/3]], which is the latest version of HTTP. Major browsers and services (Google, Facebook, Cloudflare) already use it heavily. It's the most significant transport protocol innovation in decades.`,
 		howItWorks: [
@@ -399,21 +399,22 @@ asyncio.run(main())`,
 			alternatives: [
 				{
 					language: 'javascript',
-					code: `// HTTP/3 uses QUIC automatically
-// In Node.js (experimental):
-const { createQuicSocket } = require('net');
+					code: `// QUIC has no stable native API in Node.js.
+// Use fetch() — when the server supports HTTP/3,
+// modern runtimes negotiate QUIC automatically.
 
-const socket = createQuicSocket({ client: {} });
-const req = socket.connect({
-  address: 'example.com',
-  port: 443,
-  alpn: 'h3'  // HTTP/3 over QUIC
+const response = await fetch('https://cloudflare-quic.com', {
+  method: 'GET',
+  headers: { 'Accept': 'text/html' }
 });
 
-// 0-RTT: data can flow immediately on reconnection
-req.on('stream', (stream) => {
-  stream.on('data', (chunk) => console.log(chunk));
-});`
+console.log('Status:', response.status);
+console.log('Protocol:', response.headers.get('alt-svc'));
+const body = await response.text();
+console.log('Body length:', body.length);
+
+// To explicitly request HTTP/3 from the CLI:
+// curl --http3 https://cloudflare-quic.com`
 				},
 				{
 					language: 'cli',
@@ -475,12 +476,12 @@ sudo tcpdump -i any udp port 443`
 			]
 		},
 		performance: {
-			latency: '1 RTT for new connections, 0 RTT for resumption — 2-3x faster than TCP+TLS',
+			latency: '1 RTT for new connections, 0 RTT for resumption — up to 2x faster connection setup (1-RTT vs 2-RTT for TCP+TLS 1.3)',
 			throughput:
 				'Comparable to TCP with better behavior on lossy networks due to independent streams',
 			overhead: 'Higher per-packet than TCP due to encryption, but fewer round trips overall'
 		},
-		connections: ['tcp', 'udp', 'tls', 'http3'],
+		connections: ['tcp', 'udp', 'tls', 'http2', 'http3'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/QUIC',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc9000',
@@ -506,7 +507,7 @@ sudo tcpdump -i any udp port 443`
 			"Multi-streaming, multi-homing transport — TCP's more capable but less popular cousin.",
 		overview: `SCTP was designed for telecom signaling but offers features that both [[tcp|TCP]] and [[udp|UDP]] lack. It supports {{multiplexing|multiple independent streams}} within a single connection (like [[quic|QUIC]], but decades earlier), multi-homing (a connection can span multiple network interfaces for redundancy), and message boundaries (unlike [[tcp|TCP]]'s byte stream).
 
-Despite its technical superiority in many aspects, SCTP never gained widespread adoption on the public internet because {{nat|NATs}} and {{firewall|firewalls}} typically don't understand it. However, it's widely used in telecom infrastructure (4G/5G networks use it extensively) and is the underlying transport for [[webrtc|WebRTC]]'s data channels.
+Despite its technical superiority in many aspects, SCTP never gained widespread adoption on the public internet because {{nat|NATs}} and {{firewall|firewalls}} typically don't understand it. However, it's widely used in telecom infrastructure (4G/5G networks use it extensively) and is used by [[webrtc|WebRTC]]'s data channels — though in WebRTC, SCTP doesn't run as a raw OS-level transport; instead it runs over DTLS over [[udp|UDP]], with the SCTP implementation in userspace.
 
 SCTP provides the reliability of [[tcp|TCP]], the message-oriented nature of [[udp|UDP]], and several features that neither has — making it an interesting study in {{protocol|protocol}} design trade-offs and the power of network effects.`,
 		howItWorks: [
@@ -724,24 +725,33 @@ sock.close()`,
 			alternatives: [
 				{
 					language: 'javascript',
-					code: `// MPTCP is transparent at the kernel level
-// Node.js TCP sockets use MPTCP when the OS supports it
-const net = require('node:net');
+					code: `// Node.js does NOT natively support MPTCP.
+// The net module creates sockets with IPPROTO_TCP (6),
+// but MPTCP requires IPPROTO_MPTCP (262) at socket
+// creation — there is no option to specify this.
+//
+// To use MPTCP programmatically, use C or Python:
+//
+// C:  socket(AF_INET, SOCK_STREAM, 262 /* IPPROTO_MPTCP */)
+// Python: socket.socket(AF_INET, SOCK_STREAM, 262)
+//
+// Or force MPTCP for all TCP on Linux via sysctl:
+//   sysctl net.mptcp.enabled=1
+//   ip mptcp endpoint add <addr> dev <iface> subflow
+//
+// Then any TCP connection (including Node.js) may be
+// upgraded to MPTCP by the kernel's path manager,
+// but the application cannot control subflows.
 
+const net = require('node:net');
 const socket = net.createConnection({
   host: 'example.com',
-  port: 443
-  // On Linux 5.6+ with MPTCP enabled,
-  // the kernel can add subflows automatically
+  port: 80
 });
-
 socket.on('connect', () => {
-  console.log('Connected (MPTCP if kernel supports it)');
+  // This uses plain TCP (IPPROTO_TCP = 6)
+  console.log('Connected via regular TCP');
   socket.write('GET / HTTP/1.1\\r\\nHost: example.com\\r\\n\\r\\n');
-});
-
-socket.on('data', (data) => {
-  console.log(data.toString());
 });`
 				},
 				{

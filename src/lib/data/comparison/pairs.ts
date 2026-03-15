@@ -364,7 +364,7 @@ const vsPairs: ProtocolPair[] = [
 		ids: ['http2', 'rest'],
 		type: 'vs',
 		summary:
-			'[[rest|REST]] is an architectural style defining how to structure APIs; [[http2|HTTP/2]] is a transport protocol that improves how HTTP requests are delivered — they operate at different levels but their features overlap in practice.',
+			'[[rest|REST]] is an architectural style defining how to structure APIs; [[http2|HTTP/2]] is a transport protocol that improves how HTTP requests are delivered — they operate at different levels and are not direct alternatives. They are complementary: REST APIs can (and commonly do) run over HTTP/2, gaining multiplexing, header compression, and server push without any changes to API design.',
 		keyDifferences: [
 			{ aspect: 'Multiplexing', left: 'Multiple concurrent streams natively', right: 'One request per connection (uses multiple connections)' },
 			{ aspect: 'Direction', left: 'Server push for proactive delivery', right: 'Client-initiated requests only' },

@@ -73,7 +73,7 @@ export const utilitiesStory: CategoryStory = {
 				},
 				{
 					year: 1985,
-					title: 'NTP v1 — RFC 958',
+					title: 'NTP v0 — RFC 958',
 					description:
 						"David Mills creates the Network Time Protocol. Synchronizing clocks across a network turns out to be one of computing's hardest problems.",
 					protocolId: 'ntp'
@@ -86,7 +86,7 @@ export const utilitiesStory: CategoryStory = {
 					protocolId: 'dns'
 				},
 				{
-					year: 1986,
+					year: 1988,
 					title: 'IMAP Created — RFC 1064',
 					description:
 						"Mark Crispin at Stanford invents the Internet Message Access Protocol. Unlike POP, mail stays on the server — a radical idea that enables multi-device access.",
@@ -160,7 +160,7 @@ export const utilitiesStory: CategoryStory = {
 		{
 			type: 'narrative',
 			title: 'The Complete Email System',
-			text: `While DNS and NTP solved naming and timing, another protocol was quietly filling a critical gap in the internet's infrastructure.\n\nIn 1986, Mark Crispin at Stanford created [[imap]], solving a problem [[smtp]] never could: accessing your email from multiple devices. SMTP delivers mail, but it's a one-way push. IMAP lets you browse, search, and organize messages that stay on the server. When you read an email on your phone and see it marked as read on your laptop — that's IMAP's stateful, server-side model at work. Crispin maintained IMAP for over 25 years, evolving it from RFC 1064 to RFC 9051.`
+			text: `While DNS and NTP solved naming and timing, another protocol was quietly filling a critical gap in the internet's infrastructure.\n\nIn 1988, Mark Crispin at Stanford created [[imap]], solving a problem [[smtp]] never could: accessing your email from multiple devices. SMTP delivers mail, but it's a one-way push. IMAP lets you browse, search, and organize messages that stay on the server. When you read an email on your phone and see it marked as read on your laptop — that's IMAP's stateful, server-side model at work. Crispin maintained IMAP for over 25 years, evolving it from RFC 1064 to RFC 9051.`
 		},
 		{
 			type: 'pioneers',
@@ -172,7 +172,7 @@ export const utilitiesStory: CategoryStory = {
 					title: 'Creator of IMAP',
 					org: 'Stanford University / University of Washington',
 					contribution:
-						"Invented the Internet Message Access Protocol (RFC 1064, 1986) and maintained it for over 25 years through multiple revisions. IMAP's server-side mail model enabled the multi-device email access we take for granted today."
+						"Invented the Internet Message Access Protocol (RFC 1064, 1988) and maintained it for over 25 years through multiple revisions. IMAP's server-side mail model enabled the multi-device email access we take for granted today."
 				}
 			]
 		},
@@ -300,7 +300,7 @@ export const utilitiesStory: CategoryStory = {
 		{
 			type: 'callout',
 			title: "Jon Postel — The Internet's Most Important Person You've Never Heard Of",
-			text: "Jon Postel edited the RFC series for 28 years, wrote or co-wrote over 200 RFCs, administered IANA (the organization that allocates internet numbers), and co-created TCP, SMTP, DNS, and FTP. When he died in 1998 at age 55, Vint Cerf wrote RFC 2468 as a memorial. His robustness principle — 'Be conservative in what you send, be liberal in what you accept' — remains one of the internet's guiding philosophies."
+			text: "Jon Postel edited the RFC series for 28 years, wrote or co-wrote over 200 RFCs, edited foundational RFCs for TCP, SMTP, and other core protocols, served as IANA administrator. When he died in 1998 at age 55, Vint Cerf wrote RFC 2468 as a memorial. His robustness principle — 'Be conservative in what you send, be liberal in what you accept' — remains one of the internet's guiding philosophies."
 		}
 	]
 };

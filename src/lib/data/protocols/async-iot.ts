@@ -3,14 +3,14 @@ import type { Protocol } from '../types';
 export const asyncIotProtocols: Protocol[] = [
 	{
 		id: 'mqtt',
-		name: 'Message Queuing Telemetry Transport',
+		name: 'MQTT',
 		abbreviation: 'MQTT',
 		categoryId: 'async-iot',
 		port: 1883,
 		year: 1999,
 		rfc: undefined,
 		oneLiner: 'Lightweight publish/subscribe messaging — the lingua franca of IoT.',
-		overview: `MQTT (Message Queuing Telemetry Transport) was invented at IBM for monitoring oil pipelines over unreliable satellite links. Its design goals — minimal bandwidth, tiny code footprint, and unreliable network tolerance — make it perfect for IoT devices with limited resources.
+		overview: `MQTT was invented at IBM in 1999 for monitoring oil pipelines over unreliable satellite links. Originally called "MQ Telemetry Transport," the name was dropped as a formal acronym when MQTT became an OASIS standard in 2014 — it's now just "MQTT." Its design goals — minimal bandwidth, tiny code footprint, and unreliable network tolerance — make it perfect for IoT devices with limited resources.
 
 The pattern is {{pub-sub|publish/subscribe}}: devices publish messages to named "{{topic|topics}}," and other devices subscribe to topics they care about. A central {{broker|broker}} handles routing. A temperature sensor publishes to "home/kitchen/temperature," and any interested dashboard or automation system subscribes to that topic.
 
@@ -51,7 +51,7 @@ MQTT's fixed header is just 2 bytes. It supports three {{qos|quality-of-service}
 def on_message(client, userdata, msg):
     print(f"{msg.topic}: {msg.payload.decode()}")
 
-client = mqtt.Client()
+client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
 client.connect("broker.hivemq.com", 1883)
 client.subscribe("home/+/temperature")
 client.on_message = on_message
@@ -180,7 +180,7 @@ Payload:
 		oneLiner: 'Enterprise message queuing with routing, persistence, and guaranteed delivery.',
 		overview: `AMQP is the heavyweight champion of message queuing protocols. While [[mqtt|MQTT]] is designed for constrained IoT devices, AMQP is designed for enterprise backends where reliability and sophisticated routing matter more than minimal overhead.
 
-The protocol separates concerns beautifully: producers send messages to "exchanges," exchanges route messages to "queues" based on rules (direct, {{topic|topic}}, fanout, headers), and consumers read from queues. This decoupling means you can change routing logic without touching producers or consumers.
+The protocol separates concerns beautifully: producers send messages to "exchanges," exchanges route messages to "queues" based on rules, and consumers read from queues. This decoupling means you can change routing logic without touching producers or consumers. AMQP defines four exchange types: **direct** (routes by exact routing key match), **{{topic|topic}}** (routes by wildcard pattern matching on routing keys), **fanout** (broadcasts to all bound queues regardless of routing key), and **headers** (routes based on message header attributes instead of routing keys).
 
 RabbitMQ, the most popular AMQP {{broker|broker}}, powers message-driven architectures at companies like Bloomberg, Instagram, and NASA. AMQP guarantees delivery, supports transactions, and provides fine-grained {{flow-control|flow control}} — making it ideal for financial systems, order processing, and any workflow where losing a message is unacceptable.`,
 		howItWorks: [
@@ -328,9 +328,9 @@ Content Body:
 				'Connection setup is heavier than MQTT; message delivery is near-instant once connected',
 			throughput: 'RabbitMQ handles ~30,000-50,000 msg/sec per queue; can scale with clustering',
 			overhead:
-				'Richer framing than MQTT (exchange routing, properties, headers). 8-byte frame header.'
+				'Richer framing than MQTT (exchange routing, properties, headers). 7-byte frame header in AMQP 0-9-1 (1 type + 2 channel + 4 size); AMQP 1.0 uses 8 bytes.'
 		},
-		connections: ['tcp', 'tls', 'websockets', 'mqtt', 'stomp', 'kafka'],
+		connections: ['tcp', 'tls', 'websockets', 'mqtt', 'stomp'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Advanced_Message_Queuing_Protocol',
 			official: 'https://www.amqp.org/'
@@ -354,7 +354,9 @@ Content Body:
 		oneLiner: 'HTTP for tiny devices — REST semantics over UDP for constrained IoT.',
 		overview: `CoAP brings the familiar [[rest|REST]] model (GET, POST, PUT, DELETE) to the world of constrained IoT devices — think microcontrollers with 10KB of RAM on lossy, low-power wireless networks. It runs over [[udp|UDP]] instead of [[tcp|TCP]], uses a compact binary format, and adds built-in support for resource observation (subscribe to changes).
 
-The design mirrors [[http1|HTTP]] closely enough that translating between CoAP and [[http1|HTTP]] is straightforward, enabling IoT devices to integrate with web infrastructure through simple {{gateway|proxies}}. But unlike [[http1|HTTP]], CoAP supports multicast (discover all devices on a network), {{pub-sub|observation}} (get notified when a sensor value changes), and block-wise transfer (for large payloads on constrained links).
+The design mirrors [[http1|HTTP]] closely enough that translating between CoAP and [[http1|HTTP]] is straightforward, enabling IoT devices to integrate with web infrastructure through simple {{gateway|proxies}}. But unlike [[http1|HTTP]], CoAP supports multicast (discover all devices on a network), observation (a GET with an Observe option that lets clients receive push notifications when a resource changes), and block-wise transfer (for large payloads on constrained links).
+
+For security, CoAP relies on DTLS (Datagram TLS) — the UDP equivalent of TLS — to provide encryption, authentication, and integrity. DTLS is defined as CoAP's primary security mechanism in the specification (RFC 7252), with the secure port being 5684.
 
 CoAP is widely used in smart buildings, industrial automation, and city infrastructure where devices have extreme resource constraints but still need web-like interaction patterns.`,
 		howItWorks: [
@@ -501,7 +503,7 @@ coap-client -m get coap://sensor.local/.well-known/core`
 			throughput: 'Low throughput by design — optimized for small, infrequent messages',
 			overhead: '4-byte base header. Total message often under 100 bytes.'
 		},
-		connections: ['udp'],
+		connections: ['udp', 'tls'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Constrained_Application_Protocol',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc7252'
@@ -516,7 +518,7 @@ coap-client -m get coap://sensor.local/.well-known/core`
 	},
 	{
 		id: 'stomp',
-		name: 'Simple Text Oriented Messaging Protocol',
+		name: 'Simple Text Orientated Messaging Protocol',
 		abbreviation: 'STOMP',
 		categoryId: 'async-iot',
 		port: 61613,
@@ -716,7 +718,7 @@ receipt-id:msg-receipt-1
 
 XMPP uses persistent XML streams between {{client-server|clients and servers}} over [[tcp|TCP]]. Messages, presence updates ("Alice is online"), and IQ (info/query) stanzas flow as XML fragments over these streams. The {{protocol|protocol}} is designed to be extensible — hundreds of XEPs (XMPP Extension Protocols) add capabilities from file transfer and multi-user chat to IoT device management.
 
-Google Talk, the early versions of WhatsApp, Facebook Messenger (originally), and Apple's iMessage push notifications all used XMPP at some point. While many moved to proprietary protocols for scale, XMPP remains the backbone of countless enterprise chat systems, IoT platforms, and the federated messaging movement.`,
+Google Talk, the early versions of WhatsApp, Facebook Messenger (originally), and Apple's iChat (their desktop chat client) all used XMPP at some point. iChat supported XMPP federation briefly, though Apple's later iMessage system uses a completely proprietary push notification service (APNs). While many moved to proprietary protocols for scale, XMPP remains the backbone of countless enterprise chat systems, IoT platforms, and the federated messaging movement.`,
 		howItWorks: [
 			{
 				title: 'TCP connection + stream negotiation',
@@ -922,11 +924,12 @@ Server → Contacts (broadcast):
 		categoryId: 'async-iot',
 		port: 9092,
 		year: 2011,
+		rfc: undefined,
 		oneLiner:
 			"The distributed event streaming wire protocol — LinkedIn's answer to real-time data at massive scale.",
 		overview: `Apache Kafka started as LinkedIn's internal project to handle the firehose of activity data — page views, searches, metrics — that their existing message queues couldn't keep up with. Jay Kreps, Neha Narkhede, and Jun Rao open-sourced it in 2011, and it quickly became the de facto platform for event streaming at scale.
 
-Unlike traditional message queues where messages are pushed to consumers and deleted after delivery, Kafka uses an append-only log model: producers append records to {{topic|topic}} partitions, and consumers read at their own pace using offsets. Multiple consumers can independently read the same data, and messages persist for a configurable retention period.
+Unlike traditional message queues where messages are pushed to consumers and deleted after delivery, Kafka uses an append-only log model: producers append records to {{topic|topic}} partitions, and consumers read at their own pace using offsets. Multiple consumers can independently read the same data, and messages persist for a configurable retention period. Because consumers control their own read rate, {{backpressure|backpressure}} is handled naturally — slow consumers simply fall behind in the log without affecting producers or other consumer groups.
 
 The protocol handles producer requests, fetch requests, metadata discovery, offset management, and consumer group coordination. Its efficiency comes from batching, zero-copy transfers, and sequential disk I/O. Kafka clusters routinely handle millions of messages per second with sub-10ms {{latency|latency}}.`,
 		howItWorks: [
@@ -1104,7 +1107,7 @@ kafka-consumer-groups.sh \\
 			overhead:
 				'Binary protocol with batching and compression. Zero-copy optimization for reads.'
 		},
-		connections: ['tcp', 'tls', 'amqp'],
+		connections: ['tcp', 'tls'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Apache_Kafka',
 			official: 'https://kafka.apache.org/protocol/'

@@ -33,7 +33,7 @@ export const concepts: Concept[] = [
 		definition:
 			'A hardware identifier burned into every network interface card (NIC). Used at Layer 2 to deliver frames within a local network. 48 bits, written as six hex pairs (e.g., AA:BB:CC:DD:EE:FF).',
 		analogy:
-			'Like a serial number stamped on your network card at the factory — it never changes and uniquely identifies the hardware.',
+			'Like a serial number stamped on your network card at the factory — it uniquely identifies the hardware, though modern systems can randomize it for privacy.',
 		wikiUrl: 'https://en.wikipedia.org/wiki/MAC_address',
 		category: 'networking-basics'
 	},
@@ -579,6 +579,122 @@ export const concepts: Concept[] = [
 			'A counter in IP packets that is decremented by 1 at each router hop. When it reaches 0, the packet is dropped and an ICMP error is sent back. Prevents packets from looping forever. Also used in DNS caching.',
 		wikiUrl: 'https://en.wikipedia.org/wiki/Time_to_live',
 		category: 'infrastructure'
+	},
+	{
+		id: 'mtu',
+		term: 'MTU (Maximum Transmission Unit)',
+		definition:
+			'The largest packet size (in bytes) that a network link can carry. Ethernet defaults to 1500 bytes. Packets larger than the MTU must be fragmented or dropped (if the Don\'t Fragment flag is set). Path MTU Discovery finds the smallest MTU along a route.',
+		analogy:
+			'Like the maximum box size a conveyor belt can handle — anything bigger must be split into smaller boxes.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Maximum_transmission_unit',
+		category: 'networking-basics'
+	},
+	{
+		id: 'checksum',
+		term: 'Checksum',
+		definition:
+			'A small value computed from a block of data to detect transmission errors. TCP, UDP, and IP each include checksums in their headers. The receiver recomputes the checksum and drops the packet if it doesn\'t match.',
+		analogy:
+			'Like a check digit on a credit card number — a quick math test that catches accidental typos.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Checksum',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'proxy',
+		term: 'Proxy / Reverse Proxy',
+		definition:
+			'A proxy sits between client and server, forwarding requests on the client\'s behalf (hiding the client). A reverse proxy sits in front of servers, distributing incoming requests (hiding the servers). Used for caching, load balancing, and security.',
+		analogy:
+			'A forward proxy is like a personal assistant making calls for you. A reverse proxy is like a receptionist directing visitors to the right office.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Reverse_proxy',
+		category: 'infrastructure'
+	},
+	{
+		id: 'cdn',
+		term: 'CDN (Content Delivery Network)',
+		definition:
+			'A geographically distributed network of servers that cache and deliver content from locations close to the user. Reduces latency and offloads traffic from the origin server. Cloudflare, Akamai, and AWS CloudFront are major CDNs.',
+		analogy:
+			'Like a chain of local warehouses — instead of shipping every order from one central factory, stock is pre-positioned near customers for faster delivery.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Content_delivery_network',
+		category: 'infrastructure'
+	},
+	{
+		id: 'cidr',
+		term: 'CIDR (Classless Inter-Domain Routing)',
+		definition:
+			'A method of allocating IP addresses using variable-length subnet masks (e.g., 192.168.1.0/24 means the first 24 bits are the network, leaving 8 bits for hosts). Replaced the old Class A/B/C system, enabling more efficient address allocation.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing',
+		category: 'networking-basics'
+	},
+	{
+		id: 'autonomous-system',
+		term: 'Autonomous System (AS)',
+		definition:
+			'A large network or group of networks under a single administrative entity (like an ISP or corporation) that presents a unified routing policy to the internet. Each AS has a unique number (ASN). BGP routes traffic between autonomous systems.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Autonomous_system_(Internet)',
+		category: 'infrastructure'
+	},
+	{
+		id: 'forward-secrecy',
+		term: 'Forward Secrecy',
+		definition:
+			'A property of key exchange protocols (like ECDHE) where compromising the server\'s long-term private key does not compromise past session keys. Each session generates unique ephemeral keys that are discarded after use.',
+		analogy:
+			'Like using a different lock combination for every package — even if someone learns today\'s code, they cannot open yesterday\'s packages.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Forward_secrecy',
+		category: 'security'
+	},
+	{
+		id: 'dtls',
+		term: 'DTLS (Datagram TLS)',
+		definition:
+			'A variant of TLS designed for datagram protocols like UDP. Provides the same encryption, authentication, and integrity guarantees as TLS, but handles packet loss and reordering that UDP doesn\'t prevent. Used by WebRTC and CoAP.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Datagram_Transport_Layer_Security',
+		category: 'security'
+	},
+	{
+		id: 'stun-turn-ice',
+		term: 'STUN/TURN/ICE',
+		definition:
+			'Three protocols that work together for NAT traversal in WebRTC. STUN (Session Traversal Utilities for NAT) discovers the public IP. TURN (Traversal Using Relays around NAT) relays media when direct connection fails. ICE (Interactive Connectivity Establishment) coordinates both to find the best path.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Interactive_Connectivity_Establishment',
+		category: 'networking-basics'
+	},
+	{
+		id: 'codec',
+		term: 'Codec',
+		definition:
+			'An algorithm that compresses (encodes) and decompresses (decodes) audio or video data. Video codecs include H.264, VP9, and AV1. Audio codecs include Opus and AAC. The choice of codec affects quality, bandwidth, and CPU usage.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Codec',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'serialization',
+		term: 'Serialization',
+		definition:
+			'Converting structured data (objects, structs) into a byte stream for transmission or storage, and deserializing it back. Formats include JSON (human-readable), Protocol Buffers (compact binary), and MessagePack.',
+		analogy:
+			'Like flat-packing furniture for shipping — you disassemble it into a compact form, ship it, and reassemble at the destination.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Serialization',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'consumer-group',
+		term: 'Consumer Group',
+		definition:
+			'A set of consumers that cooperatively read from a topic, with each partition assigned to exactly one consumer in the group. Enables parallel processing and horizontal scaling. If a consumer fails, its partitions are redistributed to the remaining members.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Apache_Kafka#Consumer_group',
+		category: 'messaging'
+	},
+	{
+		id: 'dns-record-types',
+		term: 'DNS Record Types',
+		definition:
+			'The different kinds of records stored in DNS. A records map names to IPv4 addresses, AAAA to IPv6, CNAME creates aliases, MX directs email, NS delegates to nameservers, TXT stores arbitrary text (used for SPF, DKIM), and SRV locates services.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/List_of_DNS_record_types',
+		category: 'networking-basics'
 	}
 ];
 

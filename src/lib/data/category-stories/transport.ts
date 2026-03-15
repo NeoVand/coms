@@ -14,7 +14,7 @@ export const transportStory: CategoryStory = {
 			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/ARPANET_first_router.jpg/600px-ARPANET_first_router.jpg',
 			alt: 'The BBN Interface Message Processor (IMP) at UCLA, one of the first ARPANET nodes',
 			caption:
-				'The IMP at UCLA, 1969 — this refrigerator-sized Honeywell minicomputer processed the first ARPANET message. It arrived a month before the first successful "LO" transmission to Stanford.',
+				'The IMP at UCLA, 1969 — this refrigerator-sized Honeywell minicomputer processed the first ARPANET message. It arrived nearly two months before the first successful "LO" transmission to SRI.',
 			credit: 'Photo: Steve Jurvetson / CC BY 2.0, via Wikimedia Commons'
 		},
 		{

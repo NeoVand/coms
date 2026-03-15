@@ -199,7 +199,7 @@ The {{peer-to-peer|peer-to-peer (P2P)}} model is fundamentally different. Every 
 
 P2P is harder to build (you need to solve discovery, {{nat|NAT}} traversal, and trust) but has advantages: no single point of failure, no central server costs, and data stays between participants. [[webrtc|WebRTC]] uses STUN/TURN servers to punch through NATs, then establishes direct peer-to-peer media streams.
 
-Many real systems are hybrids: Zoom uses a central server for group calls but P2P for one-on-one. Discord uses servers for chat but P2P for screen sharing. The choice depends on scale, privacy needs, and complexity tolerance.`
+Many real systems are hybrids: Zoom uses a central server for group calls but P2P for one-on-one. Discord uses a server-based SFU (Selective Forwarding Unit) architecture for all voice, video, and screen sharing — routing media through servers to protect users' IP addresses and handle groups efficiently. The choice depends on scale, privacy needs, and complexity tolerance.`
 			},
 			{
 				type: 'diagram',

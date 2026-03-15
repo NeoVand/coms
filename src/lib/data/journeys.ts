@@ -221,14 +221,14 @@ export const journeys: Journey[] = [
 				protocolId: 'ipv6',
 				title: 'IPv6: The Next Generation',
 				description:
-					'IPv6 expands the address space from 32 bits to 128 bits — enough for 340 undecillion addresses (3.4 x 10^38), roughly 100 addresses per atom on Earth\'s surface. But IPv6 is not just bigger addresses: it simplifies the packet header (no more header checksums or fragmentation at intermediate routers), introduces SLAAC (Stateless Address Auto-Configuration) so devices can generate their own addresses without DHCP, and replaces ARP with NDP (Neighbor Discovery Protocol). Most importantly, it restores true end-to-end connectivity — every device gets a globally routable address, eliminating the need for NAT. The dual-stack transition (running IPv4 and IPv6 simultaneously) is well underway, with major networks now carrying over 40% IPv6 traffic.',
+					'IPv6 expands the address space from 32 bits to 128 bits — enough for 340 undecillion addresses (3.4 x 10^38), roughly 100 addresses per atom on Earth\'s surface. But IPv6 is not just bigger addresses: it simplifies the packet header (no more header checksums or fragmentation at intermediate routers), introduces SLAAC (Stateless Address Auto-Configuration) so devices can generate their own addresses without DHCP, and replaces ARP with NDP (Neighbor Discovery Protocol). Most importantly, it restores true end-to-end connectivity — every device gets a globally routable address, eliminating the need for NAT. The dual-stack transition (running IPv4 and IPv6 simultaneously) is well underway, with major networks now carrying ~45% IPv6 traffic.',
 				transition: 'Individual devices now have addresses, but the internet is composed of over 70,000 autonomous systems (AS) — independent networks run by ISPs, cloud providers, universities, and enterprises. These networks need a way to discover each other and calculate paths across this vast interconnected mesh...'
 			},
 			{
 				protocolId: 'bgp',
 				title: 'BGP: The Internet\'s Routing Protocol',
 				description:
-					'BGP (Border Gateway Protocol) is the protocol that literally holds the internet together. Each autonomous system uses BGP to announce which IP prefixes it owns and which paths it can reach. BGP routers at network borders exchange these announcements with their peers, building a global map of reachability. Path selection is policy-driven — an ISP might prefer cheaper transit providers, avoid routes through certain countries, or favor shorter AS paths. When a BGP misconfiguration happens (like Pakistan accidentally hijacking YouTube\'s prefix in 2008), large portions of the internet can go dark. Despite carrying the routing table for the entire internet (over 900,000 IPv4 prefixes), BGP runs on surprisingly modest hardware and converges within minutes after topology changes.'
+					'BGP (Border Gateway Protocol) is the protocol that literally holds the internet together. Each autonomous system uses BGP to announce which IP prefixes it owns and which paths it can reach. BGP routers at network borders exchange these announcements with their peers, building a global map of reachability. Path selection is policy-driven — an ISP might prefer cheaper transit providers, avoid routes through certain countries, or favor shorter AS paths. When a BGP misconfiguration happens (like Pakistan accidentally hijacking YouTube\'s prefix in 2008), large portions of the internet can go dark. Despite carrying the routing table for the entire internet (nearly 1 million IPv4 prefixes), BGP runs on surprisingly modest hardware and converges within minutes after topology changes.'
 			}
 		]
 	},
@@ -267,7 +267,7 @@ export const journeys: Journey[] = [
 				protocolId: 'quic',
 				title: 'QUIC: The Modern Synthesis',
 				description:
-					'QUIC represents the culmination of everything learned from TCP, SCTP, and MPTCP. Built on UDP to bypass ossified middleboxes, it implements its own reliability and congestion control in userspace (making it updatable without OS kernel changes). From SCTP it borrows independent streams without head-of-line blocking. It integrates TLS 1.3 directly into the handshake, achieving a secure connection in just one round trip (or zero for repeat visits). QUIC connections are identified by a 64-bit Connection ID rather than the IP/port tuple, enabling connection migration — switch from WiFi to cellular and the connection survives. Google developed it, the IETF standardized it, and it now powers HTTP/3 for billions of users.'
+					'QUIC represents the culmination of everything learned from TCP, SCTP, and MPTCP. Built on UDP to bypass ossified middleboxes, it implements its own reliability and congestion control in userspace (making it updatable without OS kernel changes). From SCTP it borrows independent streams without head-of-line blocking. It integrates TLS 1.3 directly into the handshake, achieving a secure connection in just one round trip (or zero for repeat visits). QUIC connections are identified by a variable-length Connection ID rather than the IP/port tuple, enabling connection migration — switch from WiFi to cellular and the connection survives. Google developed it, the IETF standardized it, and it now powers HTTP/3 for billions of users.'
 			}
 		]
 	},
@@ -298,7 +298,7 @@ export const journeys: Journey[] = [
 				protocolId: 'quic',
 				title: 'QUIC: The Synthesis',
 				description:
-					'QUIC merges transport and security into a single protocol. Its handshake combines the connection setup and TLS 1.3 key exchange into one round trip — the client sends its cryptographic parameters in the very first packet, and the server\'s first response is already encrypted. Independent streams within a single QUIC connection mean a lost packet only blocks the stream it belongs to, not all traffic. Connections are identified by a 64-bit Connection ID rather than the IP/port 4-tuple, so when you switch from WiFi to cellular, the connection migrates seamlessly. And because QUIC runs in userspace, it can be iterated on monthly rather than waiting years for kernel updates.',
+					'QUIC merges transport and security into a single protocol. Its handshake combines the connection setup and TLS 1.3 key exchange into one round trip — the client sends its cryptographic parameters in the very first packet, and the server\'s first response is already encrypted. Independent streams within a single QUIC connection mean a lost packet only blocks the stream it belongs to, not all traffic. Connections are identified by a variable-length Connection ID rather than the IP/port 4-tuple, so when you switch from WiFi to cellular, the connection migrates seamlessly. And because QUIC runs in userspace, it can be iterated on monthly rather than waiting years for kernel updates.',
 				transition: 'With QUIC providing fast, encrypted, multiplexed transport, the final piece was adapting HTTP to take advantage of it. HTTP/3 is not just "HTTP/2 on QUIC" — it had to be redesigned because QUIC\'s streams replaced the stream multiplexing that HTTP/2 implemented over TCP...'
 			},
 			{
@@ -492,7 +492,7 @@ export const journeys: Journey[] = [
 				protocolId: 'rtmp',
 				title: 'RTMP: Legacy Streaming',
 				description:
-					'RTMP (Real-Time Messaging Protocol) was developed by Macromedia for Flash Player and became the dominant live streaming protocol for over a decade. It maintains a persistent TCP connection and multiplexes audio, video, and data messages into interleaved chunks, achieving low latency (1-3 seconds) for live broadcasts. RTMP powered early YouTube live, Twitch, and Facebook Live. However, it required specialized streaming servers (like Adobe Media Server or Wowza), could not pass through many firewalls and proxies, and died with Flash in 2020. Despite this, RTMP survives today as an ingest protocol — streamers still use RTMP to send video from OBS to platforms like Twitch, which then transcode and redistribute via modern protocols.',
+					'RTMP (Real-Time Messaging Protocol) was developed by Macromedia for Flash Player and became the dominant live streaming protocol for over a decade. It maintains a persistent TCP connection and multiplexes audio, video, and data messages into interleaved chunks, achieving low latency (1-3 seconds) for live broadcasts. RTMP powered early YouTube live, Twitch, and Facebook Live. However, it required specialized streaming servers (like Adobe Media Server or Wowza), could not pass through many firewalls and proxies, and while Flash Player\'s end-of-life in 2020 ended RTMP\'s use for playback, the protocol survives as a widely-used ingest format — streamers still use RTMP to send video from OBS to platforms like Twitch, which then transcode and redistribute via modern protocols.',
 				transition:
 					'RTMP\'s dependence on Flash and specialized servers was its downfall. The insight that changed everything was simple: what if you broke video into small files and served them over plain HTTP? Suddenly any web server, any CDN, and any HTTP cache in the world could deliver video without special software...'
 			},
@@ -502,13 +502,13 @@ export const journeys: Journey[] = [
 				description:
 					'HLS (HTTP Live Streaming), created by Apple in 2009, broke video streaming wide open. The encoder splits the video into small segments (typically 6-10 seconds each), encodes each segment at multiple quality levels (360p, 720p, 1080p, 4K), and generates a playlist file (.m3u8) listing the available segments and qualities. The player downloads the playlist, starts fetching segments, and continuously monitors download speed — if bandwidth drops, it seamlessly switches to a lower quality; when bandwidth recovers, it ramps back up. Because everything is plain HTTP, it works through any CDN, proxy, or cache, making it massively scalable. HLS is natively supported in Safari and iOS, and nearly every streaming platform uses it as their primary delivery format.',
 				transition:
-					'HLS transformed video delivery but is an Apple-proprietary technology. The internet standards community wanted an open, vendor-neutral alternative that could offer the same adaptive streaming benefits while supporting a wider range of codecs and DRM systems without patent encumbrances...'
+					'HLS transformed video delivery but is an Apple-developed technology. The internet standards community wanted an open, vendor-neutral alternative that could offer the same adaptive streaming benefits while supporting a wider range of codecs and DRM systems without patent encumbrances...'
 			},
 			{
 				protocolId: 'dash',
 				title: 'DASH: Open Standard',
 				description:
-					'DASH (Dynamic Adaptive Streaming over HTTP) is the ISO-standardized answer to HLS. Instead of a proprietary playlist format, DASH uses an XML-based Media Presentation Description (MPD) that describes available representations — each with its codec, resolution, bitrate, and segment URLs. Being codec-agnostic, DASH supports H.264, H.265/HEVC, VP9, AV1, and any future codec without protocol changes. It offers more flexible segment addressing (template-based URLs, byte-range requests, timeline-based indexing) and supports features like multi-period presentations (inserting ads as separate periods) and content protection descriptors for DRM integration. Netflix, YouTube, and most major streaming services use DASH for non-Apple devices, often running both DASH and HLS in parallel to cover the entire device ecosystem.'
+					'DASH (Dynamic Adaptive Streaming over HTTP) is the ISO-standardized answer to HLS. Instead of an Apple-specific playlist format, DASH uses an XML-based Media Presentation Description (MPD) that describes available representations — each with its codec, resolution, bitrate, and segment URLs. Being codec-agnostic, DASH supports H.264, H.265/HEVC, VP9, AV1, and any future codec without protocol changes. It offers more flexible segment addressing (template-based URLs, byte-range requests, timeline-based indexing) and supports features like multi-period presentations (inserting ads as separate periods) and content protection descriptors for DRM integration. Netflix, YouTube, and most major streaming services use DASH for non-Apple devices, often running both DASH and HLS in parallel to cover the entire device ecosystem.'
 			}
 		]
 	},
@@ -583,6 +583,126 @@ export const journeys: Journey[] = [
 				title: 'SMTP: First Message',
 				description:
 					'With the full network stack operational, your email client can connect to the mail server and send your first message. SMTP (Simple Mail Transfer Protocol) uses a text-based command dialogue that has barely changed since 1982: EHLO introduces your client, AUTH LOGIN authenticates you, MAIL FROM and RCPT TO specify the envelope addresses, and DATA begins the message body (headers, MIME parts, attachments). Modern SMTP uses STARTTLS to upgrade the connection to encrypted, and SPF/DKIM/DMARC records in DNS authenticate the sender to prevent spoofing. This first successful email is proof that every layer of the network stack — from physical Ethernet to application protocols — is functioning correctly.'
+			}
+		]
+	},
+	{
+		id: 'api-design-patterns',
+		title: 'API Design Patterns',
+		description:
+			'Compare three major approaches to building APIs — from resource-oriented REST to flexible GraphQL to high-performance gRPC.',
+		color: '#818CF8',
+		scope: 'web-api',
+		steps: [
+			{
+				protocolId: 'rest',
+				title: 'REST: Resources and URLs',
+				description:
+					'REST (Representational State Transfer) models every piece of data as a resource with a unique URL. Clients interact using standard HTTP methods: GET to read, POST to create, PUT to replace, DELETE to remove. REST APIs are stateless — every request contains all the information needed to process it, making them easy to cache and scale. The trade-off is rigidity: clients get fixed data structures, often leading to over-fetching (getting fields they do not need) or under-fetching (needing multiple requests to assemble a view). REST dominates the web because of its simplicity, but complex UIs with deeply nested data often outgrow it.',
+				transition: 'REST APIs work well for simple CRUD operations, but mobile and single-page apps often need data from many related resources in a single screen. What if the client could specify exactly the data it needs in one request?'
+			},
+			{
+				protocolId: 'graphql',
+				title: 'GraphQL: Ask for Exactly What You Need',
+				description:
+					'GraphQL lets clients send a query describing exactly the shape of the data they want, and the server returns only that — no more, no less. A single query can traverse relationships (user → posts → comments) that would require multiple REST endpoints. The schema is typed and introspectable, making APIs self-documenting. Mutations handle writes, and subscriptions push real-time updates over WebSockets. The trade-off: the server must resolve arbitrary query shapes, making caching harder (no URL-based caching), rate-limiting more complex (a single query can be expensive), and N+1 database problems common without careful DataLoader usage.',
+				transition: 'GraphQL gives clients flexibility, but its text-based JSON format adds overhead. For internal microservice communication where both sides are controlled by the same team, is there an even more efficient option?'
+			},
+			{
+				protocolId: 'grpc',
+				title: 'gRPC: Binary Speed for Services',
+				description:
+					'gRPC uses Protocol Buffers (protobuf) for compact binary serialization and HTTP/2 for multiplexed transport, making it 3-10x faster to parse than JSON. Services are defined in .proto files that generate strongly-typed client and server code in 11 languages. gRPC supports four communication patterns: unary (request-response), server streaming, client streaming, and bidirectional streaming. This makes it ideal for microservice meshes where low latency and type safety matter more than human readability. The trade-off: browsers cannot call gRPC directly (they need a proxy like gRPC-Web or Envoy), and debugging requires special tooling since the payload is binary.'
+			}
+		]
+	},
+	{
+		id: 'auth-journey',
+		title: 'How Authentication Works',
+		description:
+			'Understand the protocols that prove identity and protect communication — from OAuth tokens to TLS certificates to SSH keys.',
+		color: '#F59E0B',
+		scope: 'global',
+		steps: [
+			{
+				protocolId: 'oauth2',
+				title: 'OAuth 2.0: Delegated Authorization',
+				description:
+					'OAuth 2.0 solves a fundamental problem: how can a third-party app access your data without knowing your password? Instead of sharing credentials, OAuth uses an authorization server as an intermediary. You authenticate directly with the provider (Google, GitHub), approve specific permissions (scopes), and the provider issues a time-limited access token to the app. The Authorization Code flow with PKCE is the standard for web and mobile apps — it uses a code verifier to prevent interception attacks. Refresh tokens allow silent re-authentication without user interaction. OAuth is authorization (what you can access), not authentication (who you are) — OpenID Connect adds the identity layer on top.',
+				transition: 'OAuth tokens travel over the network as Bearer tokens in HTTP headers. But how are those HTTP connections themselves protected from eavesdroppers? The answer is the encryption layer that secures virtually all internet traffic...'
+			},
+			{
+				protocolId: 'tls',
+				title: 'TLS: Encrypted Channels',
+				description:
+					'TLS protects every OAuth token, every API key, and every password in transit. During the handshake, the server proves its identity with a certificate signed by a trusted Certificate Authority, and both sides negotiate encryption parameters. The key exchange (ECDHE) generates ephemeral session keys that provide forward secrecy — even if the server\'s private key is later compromised, past sessions remain secure. TLS 1.3 streamlined this to a single round trip and removed all insecure legacy algorithms. Without TLS, OAuth tokens would be visible to anyone on the network path.',
+				transition: 'TLS secures data in transit over the network. But system administrators need a different kind of secure access — interactive shell sessions, file transfers, and tunnels to remote machines. A purpose-built protocol provides this with a different trust model...'
+			},
+			{
+				protocolId: 'ssh',
+				title: 'SSH: Key-Based Machine Access',
+				description:
+					'SSH replaces the trust model entirely: instead of Certificate Authorities, it uses a "trust on first use" approach where you verify the server\'s host key fingerprint on first connection and your client remembers it for future sessions. Authentication typically uses Ed25519 key pairs — your private key stays on your machine, your public key is placed on every server you need access to. No passwords traverse the network. SSH also provides encrypted tunnels (port forwarding) that can wrap any TCP protocol in encryption, SFTP for secure file transfer, and agent forwarding for chaining through bastion hosts. It is the backbone of DevOps: git pushes, Ansible deployments, and remote debugging all flow through SSH.'
+			}
+		]
+	},
+	{
+		id: 'network-troubleshooting',
+		title: 'Network Troubleshooting',
+		description:
+			'The diagnostic toolkit every engineer reaches for — from pinging hosts to tracing routes to resolving addresses.',
+		color: '#EF4444',
+		scope: 'global',
+		steps: [
+			{
+				protocolId: 'icmp',
+				title: 'ICMP: Is It Alive?',
+				description:
+					'When something goes wrong on a network, ICMP is the first tool you reach for. The ping command sends an ICMP Echo Request to a host and measures the time until the Echo Reply comes back — giving you round-trip time, packet loss percentage, and basic reachability in one command. Traceroute exploits ICMP in a clever way: it sends packets with incrementally increasing TTL (Time to Live) values. Each router along the path decrements the TTL, and when it hits zero, that router sends back an ICMP Time Exceeded message — revealing its identity and distance. This traces the exact path packets take across the internet, exposing where latency spikes or failures occur.',
+				transition: 'ICMP told you whether a host is reachable and traced the network path to get there. But what if the problem is not routing — what if the hostname itself is not resolving to the right IP address? DNS issues are one of the most common causes of "the internet is broken"...'
+			},
+			{
+				protocolId: 'dns',
+				title: 'DNS: Is It Resolving?',
+				description:
+					'DNS problems masquerade as total network failures — everything seems down, but the real issue is name resolution. The dig command queries DNS servers directly, showing you exactly which records are returned, which nameserver answered, the TTL remaining on cached entries, and the full query chain. You can query specific record types (A, AAAA, MX, CNAME, NS) and specific DNS servers to isolate whether the problem is your local resolver, the authoritative server, or caching. Common issues include stale cached records (wait for TTL expiry or flush the cache), misconfigured NS delegations, missing or incorrect A/AAAA records, and DNSSEC validation failures.',
+				transition: 'DNS resolved the hostname to an IP address, and ICMP confirmed the host is reachable at the network layer. But on a local network, there is one more address translation that happens invisibly — if this layer breaks, devices on the same subnet cannot communicate at all...'
+			},
+			{
+				protocolId: 'arp',
+				title: 'ARP: Is Layer 2 Working?',
+				description:
+					'ARP operates at the boundary between IP addresses and physical hardware. When your machine knows the IP of a target on the same subnet, it still needs the target\'s MAC address to build an Ethernet frame. ARP broadcasts a request to the entire LAN, and the target responds with its MAC address. The arp command shows the local ARP cache — mapping IPs to MACs — and can reveal subtle issues: stale entries pointing to decommissioned hardware, duplicate IP addresses (two MACs responding for the same IP), or ARP poisoning attacks where a malicious device claims to be the gateway. On modern networks, ARP issues are rare but devastating when they occur, often causing intermittent connectivity that is maddeningly difficult to diagnose without checking the ARP table directly.'
+			}
+		]
+	},
+	{
+		id: 'mobile-resilience',
+		title: 'Mobile Network Resilience',
+		description:
+			'How transport protocols evolved to handle the reality of mobile networks — where connections drop, IP addresses change, and bandwidth varies.',
+		color: '#10B981',
+		scope: 'transport',
+		steps: [
+			{
+				protocolId: 'tcp',
+				title: 'TCP: The Reliable Foundation',
+				description:
+					'TCP was designed for fixed networks where connections are stable and endpoints do not move. It binds a connection to a 4-tuple: source IP, source port, destination IP, destination port. This works perfectly on desktops and servers, but on mobile devices it creates a fragile assumption — the moment your phone switches from Wi-Fi to cellular (or between cell towers), your IP address changes, and every TCP connection silently breaks. The application must detect the failure, re-establish the TCP handshake, re-negotiate TLS, and re-authenticate. For a video call or file download, this means a visible interruption.',
+				transition: 'TCP ties connections to IP addresses, making them fragile on mobile networks. What if a single connection could span multiple network interfaces simultaneously, surviving handoffs without the application even noticing?'
+			},
+			{
+				protocolId: 'mptcp',
+				title: 'MPTCP: Multiple Paths',
+				description:
+					'Multipath TCP extends TCP to use multiple network paths simultaneously. A phone can send data over both Wi-Fi and cellular at the same time, seamlessly shifting traffic when one path degrades. When you walk out of Wi-Fi range, MPTCP gracefully migrates the connection to cellular without dropping a single byte — the application sees one uninterrupted TCP stream. Apple has used MPTCP in iOS since 2013 (for Siri and Apple Maps) and it is enabled system-wide in iOS 17+. MPTCP is backward-compatible: it falls back to regular TCP when the other endpoint does not support it. The trade-off is complexity — middleboxes (firewalls, NATs) sometimes strip the MPTCP options they do not understand.',
+				transition: 'MPTCP adds resilience to TCP, but it inherits TCP\'s fundamental limitations: head-of-line blocking, ossified middleboxes, and a kernel-level implementation that is slow to deploy. A ground-up redesign built on UDP avoids all of these constraints...'
+			},
+			{
+				protocolId: 'quic',
+				title: 'QUIC: Connection Migration',
+				description:
+					'QUIC was designed from the start for mobile networks. Instead of identifying connections by IP addresses and ports, QUIC uses a variable-length Connection ID — a token that both endpoints recognize regardless of the underlying network path. When your phone switches from Wi-Fi to cellular, the IP address changes but the Connection ID stays the same, so the QUIC connection continues without interruption — no re-handshake, no re-authentication, no lost data. QUIC also eliminates head-of-line blocking (a lost packet only affects its own stream, not all streams), and its 1-RTT handshake integrates transport and encryption setup into a single round trip. Google reports that QUIC reduces video rebuffering by 18% on mobile networks compared to TCP.'
 			}
 		]
 	},

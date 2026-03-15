@@ -23,7 +23,7 @@ export const realtimeAvStory: CategoryStory = {
 			people: [
 				{
 					name: 'Henning Schulzrinne',
-					years: '1962\u2013',
+					years: 'c. 1962\u2013',
 					title: 'Co-creator of RTP and SIP',
 					org: 'Columbia University / AT&T Bell Labs',
 					contribution:
