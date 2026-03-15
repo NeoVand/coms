@@ -103,6 +103,58 @@
 		prevCompareTargetId = compareId;
 	});
 
+	// React to journey changes — focus on all journey protocol nodes
+	let prevJourneyId: string | null = null;
+
+	$effect(() => {
+		const journey = appState.activeJourney;
+		const journeyId = journey?.id ?? null;
+
+		if (journey && journeyId !== prevJourneyId) {
+			untrack(() => {
+				const journeyNodes = journey.steps
+					.map((s) => nodes.find((n) => n.id === s.protocolId))
+					.filter((n): n is GraphNode => n !== undefined);
+				if (journeyNodes.length > 0) {
+					appState.focusOnSubgraph(journeyNodes, width, height);
+				}
+			});
+		} else if (!journey && prevJourneyId) {
+			const selected = appState.selectedNode;
+			untrack(() => {
+				if (selected) {
+					appState.focusOnSubgraph(getHighlightedNodes(selected), width, height);
+				} else {
+					appState.focusOnSubgraph(nodes, width, height, 0);
+				}
+			});
+		}
+
+		prevJourneyId = journeyId;
+	});
+
+	// React to journey step changes — zoom to current step node
+	let prevStepIndex = -1;
+
+	$effect(() => {
+		const journey = appState.activeJourney;
+		const idx = appState.activeJourneyStepIndex;
+
+		if (journey && idx !== prevStepIndex) {
+			const step = journey.steps[idx];
+			if (step) {
+				untrack(() => {
+					const stepNode = nodes.find((n) => n.id === step.protocolId);
+					if (stepNode) {
+						appState.focusOnSubgraph([stepNode], width, height);
+					}
+				});
+			}
+		}
+
+		prevStepIndex = idx;
+	});
+
 	// React to layout mode changes — animate nodes to new positions
 	$effect(() => {
 		const mode = appState.layoutMode;
@@ -341,6 +393,8 @@
 				hoveredNode: appState.hoveredNode,
 				selectedNode: appState.selectedNode,
 				compareTargetId: appState.detailViewMode === 'compare' ? appState.compareTargetId : null,
+				activeJourney: appState.activeJourney,
+				activeJourneyStepIndex: appState.activeJourneyStepIndex,
 				time,
 				dpr,
 				layoutMode: appState.layoutMode

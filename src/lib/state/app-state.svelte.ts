@@ -1,5 +1,7 @@
 import type { GraphNode, Viewport } from '$lib/data/types';
 import type { LayoutMode } from '$lib/engine/layouts';
+import type { Concept } from '$lib/data/concepts';
+import type { Journey } from '$lib/data/journeys';
 
 export class AppState {
 	selectedNode: GraphNode | null = $state(null);
@@ -11,6 +13,10 @@ export class AppState {
 	detailPanelWidth: number = $state(520);
 	detailViewMode: 'learn' | 'simulate' | 'compare' = $state('learn');
 	compareTargetId: string | null = $state(null);
+
+	// Hub and category tab modes
+	hubViewMode: 'home' | 'concepts' | 'journeys' = $state('home');
+	categoryViewMode: 'story' | 'advanced' | 'journeys' = $state('story');
 
 	// Diagram modal state (rendered at root level to escape stacking contexts)
 	diagramModal: { protocolId: string; color: string } | null = $state(null);
@@ -64,6 +70,51 @@ export class AppState {
 		this.storyImageModal = null;
 	};
 
+	// Concept tooltip state
+	conceptTooltip: { concept: Concept; triggerRect: DOMRect } | null = $state(null);
+
+	showConceptTooltip = (concept: Concept, triggerRect: DOMRect) => {
+		this.conceptTooltip = { concept, triggerRect };
+	};
+
+	hideConceptTooltip = () => {
+		this.conceptTooltip = null;
+	};
+
+	// Journey state
+	activeJourney: Journey | null = $state(null);
+	activeJourneyStepIndex: number = $state(0);
+
+	startJourney = (journey: Journey) => {
+		this.activeJourney = journey;
+		this.activeJourneyStepIndex = 0;
+	};
+
+	advanceJourneyStep = () => {
+		if (!this.activeJourney) return;
+		if (this.activeJourneyStepIndex < this.activeJourney.steps.length - 1) {
+			this.activeJourneyStepIndex++;
+		}
+	};
+
+	goBackJourneyStep = () => {
+		if (this.activeJourneyStepIndex > 0) {
+			this.activeJourneyStepIndex--;
+		}
+	};
+
+	goToJourneyStep = (index: number) => {
+		if (!this.activeJourney) return;
+		if (index >= 0 && index < this.activeJourney.steps.length) {
+			this.activeJourneyStepIndex = index;
+		}
+	};
+
+	exitJourney = () => {
+		this.activeJourney = null;
+		this.activeJourneyStepIndex = 0;
+	};
+
 	viewport: Viewport = $state({ x: 0, y: 0, scale: 1 });
 
 	// Smooth viewport animation (not reactive — only read by tickViewport)
@@ -75,6 +126,8 @@ export class AppState {
 		this.detailViewMode = 'learn';
 		this.compareTargetId = null;
 		this.hoveredNode = null;
+		this.hubViewMode = 'home';
+		this.categoryViewMode = 'story';
 	};
 
 	hoverNode = (node: GraphNode | null) => {
@@ -86,6 +139,7 @@ export class AppState {
 		this.showDetailPanel = false;
 		this.hoveredNode = null;
 		this._viewportTarget = null;
+		this.exitJourney();
 	};
 
 	pan = (dx: number, dy: number) => {

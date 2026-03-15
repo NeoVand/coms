@@ -10,9 +10,9 @@ export const utilitiesProtocols: Protocol[] = [
 		year: 1999,
 		rfc: 'RFC 8446',
 		oneLiner: 'Encrypts everything between client and server — the lock icon in your browser.',
-		overview: `TLS (and its predecessor SSL) is the security layer that makes the modern internet possible. Every HTTPS website, every secure API call, every encrypted email — they all rely on TLS to ensure that data can't be read or modified in transit.
+		overview: `TLS (and its predecessor SSL) is the security layer that makes the modern internet possible. Every HTTPS website, every secure API call, every {{encryption|encrypted}} email — they all rely on TLS to ensure that data can't be read or modified in transit.
 
-TLS provides three guarantees: confidentiality (data is encrypted, so eavesdroppers see gibberish), integrity (data can't be modified without detection), and authentication (you're actually talking to who you think you are, verified by certificates). TLS 1.3 (2018) dramatically simplified the handshake, reducing it from 2 round trips to 1, and removed support for legacy insecure algorithms.
+TLS provides three guarantees: confidentiality (data is encrypted, so eavesdroppers see gibberish), integrity (data can't be modified without detection), and authentication (you're actually talking to who you think you are, verified by {{certificate|certificates}}). TLS 1.3 (2018) dramatically simplified the {{tls-handshake|handshake}}, reducing it from 2 {{rtt|round trips}} to 1, and removed support for legacy insecure algorithms.
 
 When you see the lock icon in your browser, TLS is at work. It sits between the application layer ([[http1|HTTP]]) and the transport layer ([[tcp|TCP]]), transparently encrypting everything. Application code doesn't need to change — "http://" becomes "https://" and TLS handles the rest.`,
 		howItWorks: [
@@ -193,11 +193,11 @@ openssl req -x509 -newkey rsa:2048 -nodes \\
 		year: 1995,
 		rfc: 'RFC 4253',
 		oneLiner: 'Encrypted remote access — how developers securely connect to servers.',
-		overview: `SSH replaced the insecure telnet and rlogin protocols by providing encrypted remote shell access. When you connect to a server, push code to GitHub, or tunnel a database connection, you're likely using SSH.
+		overview: `SSH replaced the insecure telnet and rlogin protocols by providing {{encryption|encrypted}} remote shell access. When you connect to a server, push code to GitHub, or tunnel a database connection, you're likely using SSH.
 
-SSH provides an encrypted tunnel between client and server that can carry interactive shell sessions, file transfers (SCP/SFTP), and port forwarding. Authentication can use passwords, but the preferred method is public key authentication: your private key stays on your machine, and the server has your public key — no passwords transmitted over the network.
+SSH provides an encrypted tunnel between {{client-server|client and server}} that can carry interactive shell sessions, file transfers (SCP/SFTP), and port forwarding. Authentication can use passwords, but the preferred method is {{public-key|public key}} authentication: your {{private-key|private key}} stays on your machine, and the server has your public key — no passwords transmitted over the network.
 
-Beyond shell access, SSH's port forwarding capability is remarkably powerful. You can create tunnels that securely expose remote services locally, bypass firewalls, and create ad-hoc VPNs — making SSH one of the most versatile networking tools in a developer's toolkit.`,
+Beyond shell access, SSH's port forwarding capability is remarkably powerful. You can create tunnels that securely expose remote services locally, bypass {{firewall|firewalls}}, and create ad-hoc VPNs — making SSH one of the most versatile networking tools in a developer's toolkit.`,
 		howItWorks: [
 			{
 				title: 'TCP connection + version exchange',
@@ -380,11 +380,11 @@ Client → Server:
 		year: 1983,
 		rfc: 'RFC 1035',
 		oneLiner: "The internet's phone book — translates domain names to IP addresses.",
-		overview: `DNS is arguably the most critical infrastructure protocol on the internet. Every time you type a URL, your device asks DNS "what IP address is google.com?" without this translation, the web as we know it couldn't exist.
+		overview: `DNS is arguably the most critical infrastructure protocol on the internet. Every time you type a URL, your device asks DNS "what {{ip-address|IP address}} is google.com?" without this translation, the web as we know it couldn't exist.
 
 DNS is a distributed, hierarchical database. At the top are 13 root server clusters. Below them are TLD servers (.com, .org, .net). Below those are authoritative servers for individual domains. Your query cascades down this tree, with aggressive caching at every level to keep things fast.
 
-A typical DNS lookup takes 10-50ms and involves your device's stub resolver → your ISP's recursive resolver → root servers → TLD servers → authoritative servers. But caching means most lookups are answered in under 1ms from a nearby cache. DNS also carries more than just IP addresses: MX records for email, TXT records for verification, CNAME records for aliases, and many more.`,
+A typical {{dns-resolution|DNS lookup}} takes 10-50ms and involves your device's stub resolver → your ISP's recursive resolver → root servers → TLD servers → authoritative servers. But caching means most lookups are answered in under 1ms from a nearby cache. DNS also carries more than just IP addresses: MX records for email, TXT records for verification, CNAME records for aliases, and many more.`,
 		howItWorks: [
 			{
 				title: 'Query sent',
@@ -560,11 +560,11 @@ curl -sH 'accept: application/dns-json' \\
 		year: 1993,
 		rfc: 'RFC 2131',
 		oneLiner: "Automatically assigns IP addresses — plug in and you're on the network.",
-		overview: `DHCP is the reason you can connect to a Wi-Fi network and immediately start browsing. Without it, you'd have to manually configure your IP address, subnet mask, gateway, and DNS servers — for every network you join.
+		overview: `DHCP is the reason you can connect to a Wi-Fi network and immediately start browsing. Without it, you'd have to manually configure your {{ip-address|IP address}}, {{subnet|subnet mask}}, {{gateway|gateway}}, and DNS servers — for every network you join.
 
 When your device connects to a network, it broadcasts a DHCP Discover message ("I need an IP address!"). A DHCP server responds with an offer, which the client accepts. The server then confirms and assigns the IP, along with all the configuration your device needs: subnet mask, default gateway, [[dns|DNS]] servers, and the lease duration.
 
-DHCP leases are temporary — typically 1-24 hours. When a lease expires, the device must renew it. This dynamic allocation means IP addresses can be reused efficiently. DHCP is simple, ubiquitous, and works transparently — one of those "invisible" protocols that makes networking just work.`,
+DHCP leases are temporary — typically 1-24 hours. When a lease expires, the device must renew it. This dynamic allocation means IP addresses can be reused efficiently. DHCP is simple, ubiquitous, and works transparently — one of those "invisible" {{protocol|protocols}} that makes networking just work.`,
 		howItWorks: [
 			{
 				title: 'DISCOVER (broadcast)',
@@ -758,7 +758,7 @@ DHCP ACK:
 
 NTP uses a hierarchical system of time sources. Stratum 0 are atomic clocks and GPS receivers. Stratum 1 servers connect directly to these. Stratum 2 servers sync from Stratum 1, and so on. Your computer typically syncs from Stratum 2 or 3 servers (like pool.ntp.org).
 
-The clever part is how NTP accounts for network delay. It measures the round-trip time of its packets and mathematically compensates for the delay, achieving accuracy far beyond what simple "what time is it?" queries could provide.`,
+The clever part is how NTP accounts for network {{latency|delay}}. It measures the {{rtt|round-trip time}} of its packets and mathematically compensates for the delay, achieving accuracy far beyond what simple "what time is it?" queries could provide.`,
 		howItWorks: [
 			{
 				title: 'Client sends request',
@@ -924,7 +924,7 @@ sudo ntpdate pool.ntp.org`
 			'The protocol that delivers email across the internet — store and forward, hop by hop.',
 		overview: `SMTP is the backbone of email. Every email you've ever sent was delivered via SMTP — from your mail client to your provider's server, then relayed across the internet to the recipient's mail server. It's a "store and forward" protocol: each server along the path accepts responsibility for the message and forwards it to the next hop.
 
-SMTP is a text-based protocol with a simple command vocabulary: HELO/EHLO to greet, MAIL FROM to specify the sender, RCPT TO for recipients, DATA to send the message body, and QUIT to disconnect. Modern SMTP uses STARTTLS to upgrade plain connections to [[tls|TLS]]-encrypted ones, and authentication (SMTP AUTH) to prevent unauthorized sending.
+SMTP is a text-based {{protocol|protocol}} with a simple command vocabulary: HELO/EHLO to greet, MAIL FROM to specify the sender, RCPT TO for recipients, DATA to send the message body, and QUIT to disconnect. Modern SMTP uses STARTTLS to upgrade plain connections to [[tls|TLS]]-encrypted ones, and authentication (SMTP AUTH) to prevent unauthorized sending.
 
 Despite being over 40 years old, SMTP remains the universal standard for email delivery. It's been extended with SPF, DKIM, and DMARC to fight spam and phishing. While newer protocols handle retrieval (IMAP, POP3), SMTP still handles every email's journey from sender to destination.`,
 		howItWorks: [
@@ -1085,9 +1085,9 @@ Server: 221 2.0.0 Bye`
 			'One of the oldest internet protocols — built for transferring files between machines.',
 		overview: `FTP is one of the original internet protocols, predating even TCP/IP itself. It was designed for one purpose: moving files between computers. FTP uses a unique dual-connection architecture — a control connection for commands and a separate data connection for file transfers.
 
-The control channel (port 21) carries text commands like USER, PASS, LIST, RETR (download), and STOR (upload). When a file transfer begins, a separate data connection opens on a different port. In "active" mode, the server connects back to the client; in "passive" mode (PASV), the client initiates both connections, which works better with firewalls and NAT.
+The control channel ({{port|port}} 21) carries text commands like USER, PASS, LIST, RETR (download), and STOR (upload). When a file transfer begins, a separate data connection opens on a different port. In "active" mode, the server connects back to the client; in "passive" mode (PASV), the client initiates both connections, which works better with {{firewall|firewalls}} and {{nat|NAT}}.
 
-While FTP's plain-text design makes it insecure by modern standards, FTPS (FTP over [[tls|TLS]]) adds encryption. SFTP ([[ssh|SSH]] File Transfer Protocol) is a completely different protocol that runs over [[ssh|SSH]]. Despite being largely superseded by SFTP, SCP, and [[http1|HTTP]]-based file transfer, FTP remains in use for legacy systems, firmware updates, and bulk file hosting.`,
+While FTP's plain-text design makes it insecure by modern standards, FTPS (FTP over [[tls|TLS]]) adds {{encryption|encryption}}. SFTP ([[ssh|SSH]] File Transfer Protocol) is a completely different protocol that runs over [[ssh|SSH]]. Despite being largely superseded by SFTP, SCP, and [[http1|HTTP]]-based file transfer, FTP remains in use for legacy systems, firmware updates, and bulk file hosting.`,
 		howItWorks: [
 			{
 				title: 'Control connection',
@@ -1247,11 +1247,11 @@ Server: 221 Goodbye`
 			'Access and manage email on the server — read, search, and organize without downloading.',
 		overview: `IMAP is how your email client reads messages from the server while keeping them stored remotely. Unlike POP3 (which downloads and deletes), IMAP keeps all mail on the server — so your phone, laptop, and webmail all see the same inbox, the same folders, and the same read/unread state.
 
-The key insight is IMAP's tagged command-response protocol. Every command gets a unique tag (A001, A002...) and the server's response includes the same tag. This means you can pipeline commands — send A002 before A001's response arrives — because tags match responses to commands unambiguously.
+The key insight is IMAP's tagged command-response {{protocol|protocol}}. Every command gets a unique tag (A001, A002...) and the server's response includes the same tag. This means you can pipeline commands — send A002 before A001's response arrives — because tags match responses to commands unambiguously.
 
-IMAP's FETCH command is remarkably flexible: you can request just message headers, just the text body, or individual MIME attachments — without downloading the entire message. Server-side SEARCH lets you find messages by sender, date, subject, or full-text content without transferring anything. The IDLE command keeps a persistent connection open for push notifications when new mail arrives.
+IMAP's FETCH command is remarkably flexible: you can request just message {{header|headers}}, just the text body, or individual MIME attachments — without downloading the entire message. Server-side SEARCH lets you find messages by sender, date, subject, or full-text content without transferring anything. The IDLE command keeps a persistent connection open for push notifications when new mail arrives.
 
-[[smtp|SMTP]] sends email, IMAP receives it — together they form the complete email system. IMAP connections are encrypted with [[tls|TLS]] (IMAPS on port 993) and ride over [[tcp|TCP]] for reliable delivery of the tagged command-response dialogue.`,
+[[smtp|SMTP]] sends email, IMAP receives it — together they form the complete email system. IMAP connections are {{encryption|encrypted}} with [[tls|TLS]] (IMAPS on {{port|port}} 993) and ride over [[tcp|TCP]] for reliable delivery of the tagged command-response dialogue.`,
 		howItWorks: [
 			{
 				title: 'Connect & authenticate',
@@ -1413,9 +1413,9 @@ Server: + idling
 			'The routing protocol of the internet — how autonomous systems find paths to each other.',
 		overview: `BGP is the protocol that holds the internet together. The internet isn't a single network — it's a network of networks, each called an Autonomous System (AS). Your ISP is an AS. Google is an AS. Amazon, universities, governments — each is an AS with its own number. BGP is how they learn to reach each other.
 
-When you visit a website, your packets may cross 5-10 different autonomous systems. BGP is the protocol that calculated that path. Each BGP router maintains a table of every reachable IP prefix on the internet (~1 million entries) along with the AS_PATH — the sequence of autonomous systems to traverse. BGP is a path-vector protocol: it doesn't just know the next hop, it knows the entire AS-level path.
+When you visit a website, your {{packet|packets}} may cross 5-10 different autonomous systems. BGP is the protocol that calculated that path. Each BGP router maintains a {{routing-table|table}} of every reachable IP prefix on the internet (~1 million entries) along with the AS_PATH — the sequence of autonomous systems to traverse. BGP is a path-vector protocol: it doesn't just know the next hop, it knows the entire AS-level path.
 
-BGP runs over [[tcp|TCP]] port 179, relying on TCP's reliable delivery because routing information must never be lost or corrupted. Two BGP routers ("peers") establish a session by exchanging OPEN messages, then continuously exchange UPDATE messages as routes are announced or withdrawn. KEEPALIVE messages every ~30 seconds prove the peer is still alive.
+BGP runs over [[tcp|TCP]] port 179, relying on TCP's reliable delivery because routing information must never be lost or corrupted. Two BGP routers ("peers") establish a session by exchanging OPEN messages, then continuously exchange UPDATE messages as routes are announced or withdrawn. {{keep-alive|KEEPALIVE}} messages every ~30 seconds prove the peer is still alive.
 
 The consequences of BGP mistakes are enormous. The Facebook outage of October 2021 — which took down Facebook, Instagram, and WhatsApp for six hours — was caused by a BGP misconfiguration that withdrew all of Facebook's routes from the internet. BGP route hijacks, where an AS announces routes it doesn't own, can redirect traffic through malicious networks.`,
 		howItWorks: [
@@ -1574,13 +1574,13 @@ for await (const elem of parser) {
 		rfc: 'RFC 792',
 		oneLiner:
 			'The diagnostic protocol behind ping and traceroute — how the network reports errors.',
-		overview: `ICMP is the internet's error-reporting and diagnostic protocol. When you type \`ping google.com\`, ICMP Echo Request and Reply messages measure whether the target is reachable and how long the round trip takes. When you run \`traceroute\`, ICMP Time Exceeded messages reveal each hop along the path. ICMP is arguably the most universally used protocol in network troubleshooting.
+		overview: `ICMP is the internet's error-reporting and diagnostic protocol. When you type \`ping google.com\`, ICMP Echo Request and Reply messages measure whether the target is reachable and how long the {{rtt|round trip}} takes. When you run \`traceroute\`, ICMP Time Exceeded messages reveal each hop along the path. ICMP is arguably the most universally used protocol in network troubleshooting.
 
-Unlike [[tcp|TCP]] or UDP, ICMP doesn't use ports. It's encapsulated directly in IP packets with protocol number 1 — sitting at the network layer, not the transport layer. This means ICMP can report problems that TCP and UDP can't even see: unreachable networks, expired TTLs, fragmentation issues, and routing redirects.
+Unlike [[tcp|TCP]] or UDP, ICMP doesn't use {{port|ports}}. It's {{encapsulation|encapsulated}} directly in IP {{packet|packets}} with protocol number 1 — sitting at the network layer, not the transport layer. This means ICMP can report problems that TCP and UDP can't even see: unreachable networks, expired {{ttl|TTLs}}, fragmentation issues, and routing redirects.
 
 Every router on the internet speaks ICMP. When a router can't deliver a packet, it sends an ICMP Destination Unreachable (Type 3) back to the sender, with codes specifying why: network unreachable, host unreachable, port unreachable, or "fragmentation needed but don't-fragment flag is set" (which is essential for Path MTU Discovery).
 
-ICMP is also controversial. Many firewalls block ICMP to prevent reconnaissance, but this breaks legitimate diagnostics and can cause subtle problems like Path MTU Discovery failures. The debate over whether to filter ICMP has been going on for decades — and ICMP's designers would argue it should never be blocked.`,
+ICMP is also controversial. Many {{firewall|firewalls}} block ICMP to prevent reconnaissance, but this breaks legitimate diagnostics and can cause subtle problems like Path MTU Discovery failures. The debate over whether to filter ICMP has been going on for decades — and ICMP's designers would argue it should never be blocked.`,
 		howItWorks: [
 			{
 				title: 'Echo Request (ping)',
@@ -1762,7 +1762,7 @@ ICMP Echo Reply:
 
 The core mechanism is the authorization code flow. When you click "Sign in with GitHub," you're redirected to GitHub's authorization server. You authenticate there (not on the app), review what permissions the app is requesting, and consent. GitHub redirects you back to the app with a short-lived authorization code. The app exchanges this code — along with a PKCE (Proof Key for Code Exchange) code verifier to prevent interception — for an access token and a refresh token. Access tokens are short-lived (minutes to hours); when they expire, the app uses the refresh token to silently obtain a new one without bothering the user.
 
-A critical distinction: OAuth is an authorization protocol (what you can access), not an authentication protocol (who you are). Knowing that a token grants read access to someone's repos doesn't tell you who that someone is. OpenID Connect (OIDC) is a thin identity layer built on top of OAuth that adds authentication — it returns an ID token (a JWT) containing the user's identity. Together, OAuth + OIDC secure [[rest|REST]] APIs across the web, all running over [[tls|TLS]] on top of [[http1|HTTP]] and [[tcp|TCP]].`,
+A critical distinction: OAuth is an authorization {{protocol|protocol}} (what you can access), not an authentication protocol (who you are). Knowing that a token grants read access to someone's repos doesn't tell you who that someone is. OpenID Connect (OIDC) is a thin identity layer built on top of OAuth that adds authentication — it returns an ID token (a JWT) containing the user's identity. Together, OAuth + OIDC secure [[rest|REST]] APIs across the web, all running over [[tls|TLS]] on top of [[http1|HTTP]] and [[tcp|TCP]].`,
 		howItWorks: [
 			{
 				title: 'Authorization request',

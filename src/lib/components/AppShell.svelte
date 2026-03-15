@@ -5,6 +5,7 @@
 	import { AppState } from '$lib/state/app-state.svelte';
 	import { setAppState } from '$lib/state/context';
 	import { buildGraphNodes } from '$lib/data';
+	import { getJourneyById } from '$lib/data/journeys';
 	import DesktopView from './desktop/DesktopView.svelte';
 
 	const appState = new AppState();
@@ -48,7 +49,25 @@
 				scrollTo(text: string) {
 					const el = Array.from(document.querySelectorAll('h3, h4')).find((h) => h.textContent?.includes(text));
 					el?.scrollIntoView({ block: 'start', behavior: 'instant' });
-				}
+				},
+				/** Start a journey by ID */
+				journey(id: string) {
+					const j = getJourneyById(id);
+					if (!j) {
+						console.warn(`[dev] No journey with id "${id}".`);
+						return;
+					}
+					appState.startJourney(j);
+					const firstStep = j.steps[0];
+					if (firstStep) {
+						const node = allNodes.find((n) => n.id === firstStep.protocolId);
+						if (node) appState.selectNode(node);
+						appState.startJourney(j);
+					}
+				},
+				journeyNext() { appState.advanceJourneyStep(); },
+				journeyPrev() { appState.goBackJourneyStep(); },
+				journeyExit() { appState.exitJourney(); }
 			};
 		}
 

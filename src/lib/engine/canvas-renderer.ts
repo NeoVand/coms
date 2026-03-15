@@ -4,6 +4,7 @@ import { hexToRgba } from '$lib/utils/colors';
 import { getProtocolById } from '$lib/data/index';
 import { categoryMap, categories } from '$lib/data/categories';
 import { TIMELINE_PARAMS, type LayoutMode } from '$lib/engine/layouts';
+import type { Journey } from '$lib/data/journeys';
 
 interface RenderOptions {
 	width: number;
@@ -14,6 +15,8 @@ interface RenderOptions {
 	hoveredNode: GraphNode | null;
 	selectedNode: GraphNode | null;
 	compareTargetId?: string | null;
+	activeJourney?: Journey | null;
+	activeJourneyStepIndex?: number;
 	time: number;
 	dpr: number;
 	layoutMode?: LayoutMode;
@@ -54,7 +57,29 @@ function updateConnectedIds(selectedNode: GraphNode | null, compareTargetId?: st
 	}
 }
 
-function isNodeDimmed(node: GraphNode, selectedNode: GraphNode | null, compareTargetId?: string | null): boolean {
+// Cache journey protocol IDs for fast lookup
+const journeyProtocolIds: Set<string> = new Set();
+
+function updateJourneyIds(journey: Journey | null | undefined): void {
+	journeyProtocolIds.clear();
+	if (journey) {
+		for (const step of journey.steps) journeyProtocolIds.add(step.protocolId);
+	}
+}
+
+function isNodeDimmed(node: GraphNode, selectedNode: GraphNode | null, compareTargetId?: string | null, activeJourney?: Journey | null): boolean {
+	// Journey mode: only journey protocol nodes + their categories stay bright
+	if (activeJourney) {
+		if (journeyProtocolIds.has(node.id)) return false;
+		if (node.type === 'category') {
+			// Keep category bright if it contains any journey protocol
+			for (const pid of journeyProtocolIds) {
+				const n = NODE_MAP.get(pid);
+				if (n && n.categoryId === node.id) return false;
+			}
+		}
+		return true;
+	}
 	// Comparison mode: only the two compared nodes stay bright
 	if (compareTargetId && selectedNode) {
 		return node.id !== selectedNode.id && node.id !== compareTargetId;
@@ -75,11 +100,12 @@ function isNodeDimmed(node: GraphNode, selectedNode: GraphNode | null, compareTa
 }
 
 export function render(ctx: CanvasRenderingContext2D, options: RenderOptions): void {
-	const { width, height, viewport, nodes, edges, hoveredNode, selectedNode, compareTargetId, time, dpr, layoutMode } =
+	const { width, height, viewport, nodes, edges, hoveredNode, selectedNode, compareTargetId, activeJourney, activeJourneyStepIndex, time, dpr, layoutMode } =
 		options;
 
 	buildNodeMap(nodes);
 	updateConnectedIds(selectedNode, compareTargetId);
+	updateJourneyIds(activeJourney);
 
 	ctx.save();
 	ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
@@ -119,8 +145,13 @@ export function render(ctx: CanvasRenderingContext2D, options: RenderOptions): v
 	}
 
 	// Draw related protocol edges (dashed)
-	if (selectedNode && selectedNode.type === 'protocol') {
+	if (selectedNode && selectedNode.type === 'protocol' && !activeJourney) {
 		drawRelatedEdges(ctx, selectedNode, time, compareTargetId);
+	}
+
+	// Draw journey path
+	if (activeJourney) {
+		drawJourneyPath(ctx, activeJourney, activeJourneyStepIndex ?? 0, time);
 	}
 
 	// Update hover animations (smooth interpolation each frame)
@@ -139,7 +170,7 @@ export function render(ctx: CanvasRenderingContext2D, options: RenderOptions): v
 
 	// Update dim animations (smooth fade in/out)
 	for (const node of nodes) {
-		const targetDim = isNodeDimmed(node, selectedNode, compareTargetId) ? 1 : 0;
+		const targetDim = isNodeDimmed(node, selectedNode, compareTargetId, activeJourney) ? 1 : 0;
 		const current = dimAnim.get(node.id) ?? 0;
 		const speed = targetDim > current ? DIM_EASE_IN : DIM_EASE_OUT;
 		const next = current + (targetDim - current) * speed;
@@ -212,6 +243,92 @@ function drawRelatedEdges(
 	}
 
 	ctx.setLineDash([]);
+	ctx.restore();
+}
+
+function drawJourneyPath(
+	ctx: CanvasRenderingContext2D,
+	journey: Journey,
+	currentStepIndex: number,
+	time: number
+): void {
+	const stepNodes: GraphNode[] = [];
+	for (const step of journey.steps) {
+		const node = NODE_MAP.get(step.protocolId);
+		if (node) stepNodes.push(node);
+	}
+
+	if (stepNodes.length < 2) return;
+
+	ctx.save();
+
+	// Draw connecting curves between sequential steps
+	for (let i = 0; i < stepNodes.length - 1; i++) {
+		const from = stepNodes[i];
+		const to = stepNodes[i + 1];
+		const isVisited = i < currentStepIndex;
+		const isCurrent = i === currentStepIndex;
+
+		const dx = to.x - from.x;
+		const dy = to.y - from.y;
+		const dist = Math.sqrt(dx * dx + dy * dy);
+		const midX = (from.x + to.x) / 2;
+		const midY = (from.y + to.y) / 2;
+		const cpx = midX - dy * 0.15;
+		const cpy = midY + dx * 0.15;
+
+		ctx.beginPath();
+		ctx.moveTo(from.x, from.y);
+		ctx.quadraticCurveTo(cpx, cpy, to.x, to.y);
+
+		if (isVisited || isCurrent) {
+			ctx.strokeStyle = hexToRgba(journey.color, 0.5);
+			ctx.lineWidth = 2;
+			ctx.setLineDash([]);
+		} else {
+			ctx.strokeStyle = hexToRgba(journey.color, 0.2);
+			ctx.lineWidth = 1.5;
+			ctx.setLineDash([6, 4]);
+		}
+		ctx.stroke();
+	}
+
+	ctx.setLineDash([]);
+
+	// Draw numbered badges at each step node
+	for (let i = 0; i < stepNodes.length; i++) {
+		const node = stepNodes[i];
+		const isCurrent = i === currentStepIndex;
+		const isVisited = i < currentStepIndex;
+
+		// Badge position: offset above-right of the node
+		const badgeX = node.x + node.radius + 4;
+		const badgeY = node.y - node.radius - 4;
+
+		// Pulsing scale for current step
+		const pulseScale = isCurrent ? 1 + 0.12 * Math.sin(time * 0.004) : 1;
+		const badgeR = 7 * pulseScale;
+
+		// Badge circle
+		ctx.beginPath();
+		ctx.arc(badgeX, badgeY, badgeR, 0, Math.PI * 2);
+		if (isCurrent) {
+			ctx.fillStyle = journey.color;
+		} else if (isVisited) {
+			ctx.fillStyle = hexToRgba(journey.color, 0.7);
+		} else {
+			ctx.fillStyle = hexToRgba(journey.color, 0.25);
+		}
+		ctx.fill();
+
+		// Step number
+		ctx.font = `600 ${9 * pulseScale}px Inter, system-ui, sans-serif`;
+		ctx.textAlign = 'center';
+		ctx.textBaseline = 'middle';
+		ctx.fillStyle = isCurrent || isVisited ? '#000000' : hexToRgba(journey.color, 0.8);
+		ctx.fillText(String(i + 1), badgeX, badgeY + 0.5);
+	}
+
 	ctx.restore();
 }
 

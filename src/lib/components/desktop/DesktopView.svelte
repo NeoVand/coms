@@ -7,6 +7,7 @@
 	import DiagramModal from '$lib/components/detail/DiagramModal.svelte';
 	import StoryDiagramModal from '$lib/components/detail/StoryDiagramModal.svelte';
 	import StoryImageModal from '$lib/components/detail/StoryImageModal.svelte';
+	import ConceptTooltip from '$lib/components/detail/ConceptTooltip.svelte';
 	import AccessibleGraph from '$lib/components/a11y/AccessibleGraph.svelte';
 	import { getAppState } from '$lib/state/context';
 	import { buildGraphNodes } from '$lib/data/index';
@@ -72,6 +73,14 @@
 		color={appState.storyDiagramModal.color}
 		title={appState.storyDiagramModal.title}
 		onclose={() => appState.closeStoryDiagramModal()}
+	/>
+{/if}
+
+<!-- Concept tooltip -->
+{#if appState.conceptTooltip}
+	<ConceptTooltip
+		concept={appState.conceptTooltip.concept}
+		triggerRect={appState.conceptTooltip.triggerRect}
 	/>
 {/if}
 

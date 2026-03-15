@@ -1,45 +1,20 @@
 <script lang="ts">
 	import { getAppState } from '$lib/state/context';
-	import { buildGraphNodes, getProtocolById } from '$lib/data/index';
+	import { buildGraphNodes } from '$lib/data/index';
+	import { parseParagraphs } from '$lib/utils/text-parser';
+	import ConceptTrigger from '$lib/components/detail/ConceptTrigger.svelte';
 
 	let { text, color, title }: { text: string; color: string; title?: string } = $props();
 
 	const appState = getAppState();
 	const allNodes = buildGraphNodes();
 
-	// Parse [[protocolId]] and [[protocolId|Label]] into segments
-	type Segment = { type: 'text'; value: string } | { type: 'link'; protocolId: string; label: string };
-
-	function parseText(raw: string): Segment[] {
-		const segments: Segment[] = [];
-		const regex = /\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g;
-		let lastIndex = 0;
-		let match: RegExpExecArray | null;
-
-		while ((match = regex.exec(raw)) !== null) {
-			if (match.index > lastIndex) {
-				segments.push({ type: 'text', value: raw.slice(lastIndex, match.index) });
-			}
-			const protocolId = match[1];
-			const proto = getProtocolById(protocolId);
-			const label = match[2] || proto?.abbreviation || protocolId.toUpperCase();
-			segments.push({ type: 'link', protocolId, label });
-			lastIndex = regex.lastIndex;
-		}
-
-		if (lastIndex < raw.length) {
-			segments.push({ type: 'text', value: raw.slice(lastIndex) });
-		}
-
-		return segments;
-	}
-
 	function navigateToProtocol(protocolId: string) {
 		const node = allNodes.find((n) => n.id === protocolId);
 		if (node) appState.selectNode(node);
 	}
 
-	const paragraphs = $derived(text.split('\n\n').map((p) => parseText(p)));
+	const paragraphs = $derived(parseParagraphs(text));
 </script>
 
 <section>
@@ -52,7 +27,9 @@
 				{#each segments as seg, j (j)}
 					{#if seg.type === 'text'}
 						{seg.value}
-					{:else}
+					{:else if seg.type === 'bold'}
+						<strong class="font-semibold text-slate-200">{seg.value}</strong>
+					{:else if seg.type === 'protocol-link'}
 						<button
 							class="inline font-medium transition-colors hover:underline"
 							style="color: {color}"
@@ -60,6 +37,18 @@
 						>
 							{seg.label}
 						</button>
+					{:else if seg.type === 'bold-protocol-link'}
+						<button
+							class="inline font-semibold transition-colors hover:underline"
+							style="color: {color}"
+							onclick={() => navigateToProtocol(seg.protocolId)}
+						>
+							{seg.label}
+						</button>
+					{:else if seg.type === 'concept'}
+						<ConceptTrigger conceptId={seg.conceptId} label={seg.label} />
+					{:else if seg.type === 'bold-concept'}
+						<ConceptTrigger conceptId={seg.conceptId} label={seg.label} bold />
 					{/if}
 				{/each}
 			</p>

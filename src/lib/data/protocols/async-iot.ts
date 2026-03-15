@@ -12,9 +12,9 @@ export const asyncIotProtocols: Protocol[] = [
 		oneLiner: 'Lightweight publish/subscribe messaging — the lingua franca of IoT.',
 		overview: `MQTT (Message Queuing Telemetry Transport) was invented at IBM for monitoring oil pipelines over unreliable satellite links. Its design goals — minimal bandwidth, tiny code footprint, and unreliable network tolerance — make it perfect for IoT devices with limited resources.
 
-The pattern is publish/subscribe: devices publish messages to named "topics," and other devices subscribe to topics they care about. A central broker handles routing. A temperature sensor publishes to "home/kitchen/temperature," and any interested dashboard or automation system subscribes to that topic.
+The pattern is {{pub-sub|publish/subscribe}}: devices publish messages to named "{{topic|topics}}," and other devices subscribe to topics they care about. A central {{broker|broker}} handles routing. A temperature sensor publishes to "home/kitchen/temperature," and any interested dashboard or automation system subscribes to that topic.
 
-MQTT's fixed header is just 2 bytes. It supports three quality-of-service levels (fire-and-forget, at-least-once, exactly-once), retained messages (new subscribers get the last value immediately), and "last will" messages (the broker publishes a message if a device disconnects unexpectedly).`,
+MQTT's fixed header is just 2 bytes. It supports three {{qos|quality-of-service}} levels (fire-and-forget, at-least-once, exactly-once), retained messages (new subscribers get the last value immediately), and "last will" messages (the broker publishes a message if a device disconnects unexpectedly).`,
 		howItWorks: [
 			{
 				title: 'Connect to broker',
@@ -180,9 +180,9 @@ Payload:
 		oneLiner: 'Enterprise message queuing with routing, persistence, and guaranteed delivery.',
 		overview: `AMQP is the heavyweight champion of message queuing protocols. While [[mqtt|MQTT]] is designed for constrained IoT devices, AMQP is designed for enterprise backends where reliability and sophisticated routing matter more than minimal overhead.
 
-The protocol separates concerns beautifully: producers send messages to "exchanges," exchanges route messages to "queues" based on rules (direct, topic, fanout, headers), and consumers read from queues. This decoupling means you can change routing logic without touching producers or consumers.
+The protocol separates concerns beautifully: producers send messages to "exchanges," exchanges route messages to "queues" based on rules (direct, {{topic|topic}}, fanout, headers), and consumers read from queues. This decoupling means you can change routing logic without touching producers or consumers.
 
-RabbitMQ, the most popular AMQP broker, powers message-driven architectures at companies like Bloomberg, Instagram, and NASA. AMQP guarantees delivery, supports transactions, and provides fine-grained flow control — making it ideal for financial systems, order processing, and any workflow where losing a message is unacceptable.`,
+RabbitMQ, the most popular AMQP {{broker|broker}}, powers message-driven architectures at companies like Bloomberg, Instagram, and NASA. AMQP guarantees delivery, supports transactions, and provides fine-grained {{flow-control|flow control}} — making it ideal for financial systems, order processing, and any workflow where losing a message is unacceptable.`,
 		howItWorks: [
 			{
 				title: 'Connection and channels',
@@ -354,7 +354,7 @@ Content Body:
 		oneLiner: 'HTTP for tiny devices — REST semantics over UDP for constrained IoT.',
 		overview: `CoAP brings the familiar [[rest|REST]] model (GET, POST, PUT, DELETE) to the world of constrained IoT devices — think microcontrollers with 10KB of RAM on lossy, low-power wireless networks. It runs over [[udp|UDP]] instead of [[tcp|TCP]], uses a compact binary format, and adds built-in support for resource observation (subscribe to changes).
 
-The design mirrors [[http1|HTTP]] closely enough that translating between CoAP and [[http1|HTTP]] is straightforward, enabling IoT devices to integrate with web infrastructure through simple proxies. But unlike [[http1|HTTP]], CoAP supports multicast (discover all devices on a network), observation (get notified when a sensor value changes), and block-wise transfer (for large payloads on constrained links).
+The design mirrors [[http1|HTTP]] closely enough that translating between CoAP and [[http1|HTTP]] is straightforward, enabling IoT devices to integrate with web infrastructure through simple {{gateway|proxies}}. But unlike [[http1|HTTP]], CoAP supports multicast (discover all devices on a network), {{pub-sub|observation}} (get notified when a sensor value changes), and block-wise transfer (for large payloads on constrained links).
 
 CoAP is widely used in smart buildings, industrial automation, and city infrastructure where devices have extreme resource constraints but still need web-like interaction patterns.`,
 		howItWorks: [
@@ -523,9 +523,9 @@ coap-client -m get coap://sensor.local/.well-known/core`
 		year: 2003,
 		rfc: undefined,
 		oneLiner: 'A dead-simple text protocol for message brokers — the HTTP of messaging.',
-		overview: `STOMP is to message queuing what [[http1|HTTP]] is to the web — a simple, text-based protocol that any language can implement easily. While [[amqp|AMQP]] has complex binary framing and [[mqtt|MQTT]] has its binary headers, STOMP uses plain text commands like CONNECT, SUBSCRIBE, SEND, and ACK.
+		overview: `STOMP is to message queuing what [[http1|HTTP]] is to the web — a simple, text-based protocol that any language can implement easily. While [[amqp|AMQP]] has complex binary framing and [[mqtt|MQTT]] has its binary headers, STOMP uses plain text commands like CONNECT, SUBSCRIBE, SEND, and {{ack|ACK}}.
 
-This simplicity is STOMP's superpower. You can literally telnet to a STOMP broker and type messages by hand. It's supported by most major message brokers (RabbitMQ, ActiveMQ, Apollo) as an alternative to their native protocols, making it a great choice when you need messaging but don't want to learn a complex protocol.
+This simplicity is STOMP's superpower. You can literally telnet to a STOMP {{broker|broker}} and type messages by hand. It's supported by most major message brokers (RabbitMQ, ActiveMQ, Apollo) as an alternative to their native protocols, making it a great choice when you need messaging but don't want to learn a complex protocol.
 
 STOMP is commonly used in web applications via [[websockets|WebSocket]] bridges — the Spring Framework's messaging support, for example, uses STOMP over [[websockets|WebSockets]] for real-time server-to-browser communication.`,
 		howItWorks: [
@@ -714,7 +714,7 @@ receipt-id:msg-receipt-1
 			'The open, XML-based messaging protocol born as Jabber — federated chat before it was cool.',
 		overview: `In January 1999, Jeremie Miller was tired of juggling four different instant messaging clients for four different walled-garden services. So he built Jabber — an open, federated messaging system where anyone could run a server and talk to anyone on any other server. That system became XMPP, and its ideas about federation and open standards shaped the future of messaging.
 
-XMPP uses persistent XML streams between clients and servers over [[tcp|TCP]]. Messages, presence updates ("Alice is online"), and IQ (info/query) stanzas flow as XML fragments over these streams. The protocol is designed to be extensible — hundreds of XEPs (XMPP Extension Protocols) add capabilities from file transfer and multi-user chat to IoT device management.
+XMPP uses persistent XML streams between {{client-server|clients and servers}} over [[tcp|TCP]]. Messages, presence updates ("Alice is online"), and IQ (info/query) stanzas flow as XML fragments over these streams. The {{protocol|protocol}} is designed to be extensible — hundreds of XEPs (XMPP Extension Protocols) add capabilities from file transfer and multi-user chat to IoT device management.
 
 Google Talk, the early versions of WhatsApp, Facebook Messenger (originally), and Apple's iMessage push notifications all used XMPP at some point. While many moved to proprietary protocols for scale, XMPP remains the backbone of countless enterprise chat systems, IoT platforms, and the federated messaging movement.`,
 		howItWorks: [
@@ -926,9 +926,9 @@ Server → Contacts (broadcast):
 			"The distributed event streaming wire protocol — LinkedIn's answer to real-time data at massive scale.",
 		overview: `Apache Kafka started as LinkedIn's internal project to handle the firehose of activity data — page views, searches, metrics — that their existing message queues couldn't keep up with. Jay Kreps, Neha Narkhede, and Jun Rao open-sourced it in 2011, and it quickly became the de facto platform for event streaming at scale.
 
-Unlike traditional message queues where messages are pushed to consumers and deleted after delivery, Kafka uses an append-only log model: producers append records to topic partitions, and consumers read at their own pace using offsets. Multiple consumers can independently read the same data, and messages persist for a configurable retention period.
+Unlike traditional message queues where messages are pushed to consumers and deleted after delivery, Kafka uses an append-only log model: producers append records to {{topic|topic}} partitions, and consumers read at their own pace using offsets. Multiple consumers can independently read the same data, and messages persist for a configurable retention period.
 
-The protocol handles producer requests, fetch requests, metadata discovery, offset management, and consumer group coordination. Its efficiency comes from batching, zero-copy transfers, and sequential disk I/O. Kafka clusters routinely handle millions of messages per second with sub-10ms latency.`,
+The protocol handles producer requests, fetch requests, metadata discovery, offset management, and consumer group coordination. Its efficiency comes from batching, zero-copy transfers, and sequential disk I/O. Kafka clusters routinely handle millions of messages per second with sub-10ms {{latency|latency}}.`,
 		howItWorks: [
 			{
 				title: 'Connect and discover topology',

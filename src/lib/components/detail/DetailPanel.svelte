@@ -27,6 +27,10 @@
 	import RelationshipCard from '$lib/components/comparison/RelationshipCard.svelte';
 	import { getPair } from '$lib/data/comparison/pairs';
 	import { X } from 'lucide-svelte';
+	import ViewTabs from './ViewTabs.svelte';
+	import ConceptsView from './ConceptsView.svelte';
+	import CategoryAdvancedView from './CategoryAdvancedView.svelte';
+	import JourneyListView from './JourneyListView.svelte';
 
 	const appState = getAppState();
 	const allNodes = buildGraphNodes();
@@ -141,17 +145,31 @@
 	>
 		{#if selectedData?.type === 'hub'}
 			{@const simCount = allProtocols.filter((p) => hasSimulation(p.id)).length}
-			<div class="flex flex-col gap-6 p-6">
-				<!-- Hero -->
-				<div>
-					<h2 class="text-2xl font-bold tracking-tight text-slate-100">Protocol Lab</h2>
-					<p class="mt-2 text-sm leading-relaxed text-slate-300">
-						An interactive atlas of <span class="font-semibold text-slate-100">{allProtocols.length} network protocols</span>
-						— from the foundational TCP handshake to modern QUIC streams. Watch them come alive through
-						step-by-step simulations, trace their packets on the wire, and explore five decades of networking history.
-					</p>
-				</div>
+			<!-- Hub hero (always visible) -->
+			<div class="p-6 pb-3">
+				<h2 class="text-2xl font-bold tracking-tight text-slate-100">Protocol Lab</h2>
+				<p class="mt-2 text-sm leading-relaxed text-slate-300">
+					An interactive atlas of <span class="font-semibold text-slate-100">{allProtocols.length} network protocols</span>
+					— from the foundational TCP handshake to modern QUIC streams.
+				</p>
+			</div>
 
+			<!-- Hub tabs -->
+			<div class="px-6">
+				<ViewTabs
+					tabs={[
+						{ id: 'home', label: 'Home' },
+						{ id: 'concepts', label: 'Concepts' },
+						{ id: 'journeys', label: 'Journeys' }
+					]}
+					activeId={appState.hubViewMode}
+					color="#FFFFFF"
+					onchange={(id) => (appState.hubViewMode = id as 'home' | 'concepts' | 'journeys')}
+				/>
+			</div>
+
+			{#if appState.hubViewMode === 'home'}
+			<div class="flex flex-col gap-6 p-6">
 				<!-- Feature showcase -->
 				<section class="space-y-2">
 					<div class="rounded-xl border border-cyan-500/10 bg-cyan-500/[0.04] p-3">
@@ -319,6 +337,15 @@
 					</a>
 				</div>
 			</div>
+			{:else if appState.hubViewMode === 'concepts'}
+				<div class="p-6">
+					<ConceptsView />
+				</div>
+			{:else if appState.hubViewMode === 'journeys'}
+				<div class="p-6">
+					<JourneyListView scope="global" />
+				</div>
+			{/if}
 		{:else if selectedData?.type === 'protocol' && selectedData.protocol}
 			{@const proto = selectedData.protocol}
 			{@const cat = selectedData.category}
@@ -406,64 +433,88 @@
 			{@const protocols = selectedData.protocols}
 			{@const story = getCategoryStory(cat.id)}
 
-			<div class="flex flex-col gap-6 p-6">
-				<!-- Category header -->
-				<div>
-					<div class="flex items-center gap-3">
-						<span class="flex h-10 w-10 items-center justify-center" style="color: {cat.color}">
-							<CategoryIcon icon={cat.icon} size={28} />
-						</span>
-						<div>
-							<h2 class="text-lg font-bold" style="color: {cat.color}">{cat.name}</h2>
-							{#if story}
-								<p class="mt-0.5 text-xs text-slate-400">{story.tagline}</p>
-							{/if}
-						</div>
+			<!-- Category header (always visible) -->
+			<div class="p-6 pb-3">
+				<div class="flex items-center gap-3">
+					<span class="flex h-10 w-10 items-center justify-center" style="color: {cat.color}">
+						<CategoryIcon icon={cat.icon} size={28} />
+					</span>
+					<div>
+						<h2 class="text-lg font-bold" style="color: {cat.color}">{cat.name}</h2>
+						{#if story}
+							<p class="mt-0.5 text-xs text-slate-400">{story.tagline}</p>
+						{/if}
 					</div>
 				</div>
-
-				<!-- Story content -->
-				{#if story}
-					<CategoryStoryView {story} {cat} />
-				{/if}
-
-				<!-- Protocols in category -->
-				<section>
-					<h3 class="mb-3 text-xs font-semibold tracking-wider text-slate-500 uppercase">
-						Protocols ({protocols.length})
-					</h3>
-					<div class="space-y-2">
-						{#each protocols.toSorted((a, b) => a.year - b.year) as proto (proto.id)}
-							<button
-								class="flex w-full flex-col gap-1 rounded-xl border border-white/5 bg-white/[0.02] p-3 text-left transition-all hover:border-white/10 hover:bg-white/[0.05]"
-								onclick={() => {
-									const node = {
-										id: proto.id,
-										type: 'protocol' as const,
-										label: proto.name,
-										abbreviation: proto.abbreviation,
-										color: cat.color,
-										glowColor: cat.glowColor,
-										radius: 16,
-										categoryId: cat.id,
-										x: 0,
-										y: 0,
-										vx: 0,
-										vy: 0
-									};
-									appState.selectNode(node);
-								}}
-							>
-								<div class="flex items-baseline gap-2">
-									<span class="text-sm font-medium" style="color: {cat.color}">{proto.abbreviation}</span>
-									<span class="text-[10px] text-slate-600">{proto.year}</span>
-								</div>
-								<div class="text-xs text-slate-400">{proto.oneLiner}</div>
-							</button>
-						{/each}
-					</div>
-				</section>
 			</div>
+
+			<!-- Category tabs -->
+			<div class="px-6">
+				<ViewTabs
+					tabs={[
+						{ id: 'story', label: 'Story' },
+						{ id: 'advanced', label: 'Advanced' },
+						{ id: 'journeys', label: 'Journeys' }
+					]}
+					activeId={appState.categoryViewMode}
+					color={cat.color}
+					onchange={(id) => (appState.categoryViewMode = id as 'story' | 'advanced' | 'journeys')}
+				/>
+			</div>
+
+			{#if appState.categoryViewMode === 'story'}
+				<div class="flex flex-col gap-6 p-6">
+					<!-- Story content -->
+					{#if story}
+						<CategoryStoryView {story} {cat} />
+					{/if}
+
+					<!-- Protocols in category -->
+					<section>
+						<h3 class="mb-3 text-xs font-semibold tracking-wider text-slate-500 uppercase">
+							Protocols ({protocols.length})
+						</h3>
+						<div class="space-y-2">
+							{#each protocols.toSorted((a, b) => a.year - b.year) as proto (proto.id)}
+								<button
+									class="flex w-full flex-col gap-1 rounded-xl border border-white/5 bg-white/[0.02] p-3 text-left transition-all hover:border-white/10 hover:bg-white/[0.05]"
+									onclick={() => {
+										const node = {
+											id: proto.id,
+											type: 'protocol' as const,
+											label: proto.name,
+											abbreviation: proto.abbreviation,
+											color: cat.color,
+											glowColor: cat.glowColor,
+											radius: 16,
+											categoryId: cat.id,
+											x: 0,
+											y: 0,
+											vx: 0,
+											vy: 0
+										};
+										appState.selectNode(node);
+									}}
+								>
+									<div class="flex items-baseline gap-2">
+										<span class="text-sm font-medium" style="color: {cat.color}">{proto.abbreviation}</span>
+										<span class="text-[10px] text-slate-600">{proto.year}</span>
+									</div>
+									<div class="text-xs text-slate-400">{proto.oneLiner}</div>
+								</button>
+							{/each}
+						</div>
+					</section>
+				</div>
+			{:else if appState.categoryViewMode === 'advanced'}
+				<div class="p-6">
+					<CategoryAdvancedView {cat} />
+				</div>
+			{:else if appState.categoryViewMode === 'journeys'}
+				<div class="p-6">
+					<JourneyListView scope={cat.id} color={cat.color} />
+				</div>
+			{/if}
 		{/if}
 	</div>
 </div>

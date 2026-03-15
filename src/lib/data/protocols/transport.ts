@@ -10,11 +10,11 @@ export const transportProtocols: Protocol[] = [
 		year: 1981,
 		rfc: 'RFC 9293',
 		oneLiner: 'Guarantees ordered, reliable delivery of data between applications.',
-		overview: `TCP is the backbone of the internet. When you load a webpage, send an email, or download a file, TCP ensures every single byte arrives correctly and in order. It does this by establishing a connection between sender and receiver before any data flows — like a phone call where both sides confirm they can hear each other.
+		overview: `TCP is the backbone of the internet. When you load a webpage, send an email, or download a file, TCP ensures every single byte arrives correctly and in order. It does this by {{connection-oriented|establishing a connection}} between sender and receiver before any data flows — like a phone call where both sides confirm they can hear each other.
 
-Unlike [[udp|UDP]], TCP will detect lost packets and retransmit them. It also implements flow control (so a fast sender doesn't overwhelm a slow receiver) and congestion control (so the network itself doesn't get overloaded). TCP's congestion control has evolved significantly over the decades — from the original Tahoe and Reno algorithms through CUBIC (the Linux default for years) to Google's BBR, which optimizes for throughput rather than loss detection. This reliability comes at a cost: extra round trips and overhead, which is why latency-sensitive applications sometimes prefer [[udp|UDP]].
+Unlike [[udp|UDP]], TCP will detect lost {{packet|packets}} and {{retransmission|retransmit}} them. It also implements {{flow-control|flow control}} (so a fast sender doesn't overwhelm a slow receiver) and {{congestion-control|congestion control}} (so the network itself doesn't get overloaded). TCP's congestion control has evolved significantly over the decades — from the original Tahoe and Reno algorithms through CUBIC (the Linux default for years) to Google's BBR, which optimizes for throughput rather than loss detection. This reliability comes at a cost: extra round trips and overhead, which is why {{latency|latency}}-sensitive applications sometimes prefer [[udp|UDP]].
 
-TCP operates at Layer 4 (Transport) of the OSI model and is identified by protocol number 6 in the IP header. Nearly every major internet application — [[http1|HTTP]], [[ssh|SSH]], [[ftp|FTP]], [[smtp|SMTP]] — runs on top of TCP.`,
+TCP operates at Layer 4 (Transport) of the {{osi-model|OSI model}} and is identified by protocol number 6 in the IP header. Nearly every major internet application — [[http1|HTTP]], [[ssh|SSH]], [[ftp|FTP]], [[smtp|SMTP]] — runs on top of TCP.`,
 		howItWorks: [
 			{
 				title: 'SYN — Client initiates',
@@ -183,11 +183,11 @@ Client → Server  [ACK]
 		year: 1980,
 		rfc: 'RFC 768',
 		oneLiner: 'Fire-and-forget delivery — fast but with no guarantees.',
-		overview: `UDP is [[tcp|TCP]]'s carefree sibling. It sends data without establishing a connection, without checking if it arrived, and without caring about order. This sounds unreliable (and it is), but that's exactly why it's useful — sometimes speed matters more than perfection.
+		overview: `UDP is [[tcp|TCP]]'s carefree sibling. It sends data {{connectionless|without establishing a connection}}, without checking if it arrived, and without caring about order. This sounds unreliable (and it is), but that's exactly why it's useful — sometimes speed matters more than perfection.
 
-Think of a live video call: if one frame is lost, it's better to show the next frame than to pause and wait for retransmission. UDP enables this by stripping away all of [[tcp|TCP]]'s reliability mechanisms, leaving a bare-minimum 8-byte header. Applications that use UDP typically implement their own reliability on top (like [[quic|QUIC]] does) or simply tolerate some loss.
+Think of a live video call: if one frame is lost, it's better to show the next frame than to pause and wait for {{retransmission|retransmission}}. UDP enables this by stripping away all of [[tcp|TCP]]'s reliability mechanisms, leaving a bare-minimum 8-byte header. Applications that use UDP typically implement their own reliability on top (like [[quic|QUIC]] does) or simply tolerate some loss.
 
-UDP is essential for [[dns|DNS]] lookups (where speed matters and the payload fits in one packet), online gaming (where stale data is useless), live streaming, and VoIP. It operates at Layer 4 alongside [[tcp|TCP]] and is identified by protocol number 17.`,
+UDP is essential for [[dns|DNS]] lookups (where speed matters and the payload fits in one {{datagram|packet}}), online gaming (where stale data is useless), live streaming, and VoIP. It operates at {{osi-model|Layer 4}} alongside [[tcp|TCP]] and is identified by protocol number 17.`,
 		howItWorks: [
 			{
 				title: 'No handshake',
@@ -339,9 +339,9 @@ ss -un  # or: netstat -un`
 		rfc: 'RFC 9000',
 		oneLiner:
 			'UDP-based transport with built-in encryption and multiplexing — the future of the web.',
-		overview: `QUIC is what happens when Google looks at [[tcp|TCP]]+[[tls|TLS]] and says "we can do better." It runs on top of [[udp|UDP]] but provides [[tcp|TCP]]-like reliability, [[tls|TLS 1.3]] encryption, and [[http2|HTTP/2]]-style multiplexing — all in a single protocol. The result: faster connections, no head-of-line blocking, and seamless connection migration.
+		overview: `QUIC is what happens when Google looks at [[tcp|TCP]]+[[tls|TLS]] and says "we can do better." It runs on top of [[udp|UDP]] but provides [[tcp|TCP]]-like reliability, [[tls|TLS 1.3]] {{encryption|encryption}}, and [[http2|HTTP/2]]-style {{multiplexing|multiplexing}} — all in a single protocol. The result: faster connections, no {{head-of-line-blocking|head-of-line blocking}}, and seamless connection migration.
 
-The key insight is combining the transport handshake with the [[tls|TLS]] handshake. [[tcp|TCP]]+[[tls|TLS]] requires 2-3 round trips before data flows; QUIC does it in 1 RTT (or 0 RTT for repeat connections). It also solves [[tcp|TCP]]'s head-of-line blocking problem: in [[http2|HTTP/2]] over [[tcp|TCP]], a single lost packet blocks ALL streams. In QUIC, streams are independent — a lost packet only affects its own stream.
+The key insight is combining the transport {{handshake|handshake}} with the [[tls|TLS]] handshake. [[tcp|TCP]]+[[tls|TLS]] requires 2-3 round trips before data flows; QUIC does it in 1 {{rtt|RTT}} (or 0 RTT for repeat connections). It also solves [[tcp|TCP]]'s head-of-line blocking problem: in [[http2|HTTP/2]] over [[tcp|TCP]], a single lost packet blocks ALL streams. In QUIC, streams are independent — a lost packet only affects its own stream.
 
 QUIC powers [[http3|HTTP/3]], which is the latest version of HTTP. Major browsers and services (Google, Facebook, Cloudflare) already use it heavily. It's the most significant transport protocol innovation in decades.`,
 		howItWorks: [
@@ -504,11 +504,11 @@ sudo tcpdump -i any udp port 443`
 		rfc: 'RFC 9260',
 		oneLiner:
 			"Multi-streaming, multi-homing transport — TCP's more capable but less popular cousin.",
-		overview: `SCTP was designed for telecom signaling but offers features that both [[tcp|TCP]] and [[udp|UDP]] lack. It supports multiple independent streams within a single connection (like [[quic|QUIC]], but decades earlier), multi-homing (a connection can span multiple network interfaces for redundancy), and message boundaries (unlike [[tcp|TCP]]'s byte stream).
+		overview: `SCTP was designed for telecom signaling but offers features that both [[tcp|TCP]] and [[udp|UDP]] lack. It supports {{multiplexing|multiple independent streams}} within a single connection (like [[quic|QUIC]], but decades earlier), multi-homing (a connection can span multiple network interfaces for redundancy), and message boundaries (unlike [[tcp|TCP]]'s byte stream).
 
-Despite its technical superiority in many aspects, SCTP never gained widespread adoption on the public internet because NATs and firewalls typically don't understand it. However, it's widely used in telecom infrastructure (4G/5G networks use it extensively) and is the underlying transport for [[webrtc|WebRTC]]'s data channels.
+Despite its technical superiority in many aspects, SCTP never gained widespread adoption on the public internet because {{nat|NATs}} and {{firewall|firewalls}} typically don't understand it. However, it's widely used in telecom infrastructure (4G/5G networks use it extensively) and is the underlying transport for [[webrtc|WebRTC]]'s data channels.
 
-SCTP provides the reliability of [[tcp|TCP]], the message-oriented nature of [[udp|UDP]], and several features that neither has — making it an interesting study in protocol design trade-offs and the power of network effects.`,
+SCTP provides the reliability of [[tcp|TCP]], the message-oriented nature of [[udp|UDP]], and several features that neither has — making it an interesting study in {{protocol|protocol}} design trade-offs and the power of network effects.`,
 		howItWorks: [
 			{
 				title: '4-way handshake',
@@ -666,9 +666,9 @@ SCTP INIT-ACK Chunk:
 		year: 2013,
 		rfc: 'RFC 8684',
 		oneLiner: 'TCP that uses multiple network paths simultaneously — WiFi and cellular at the same time.',
-		overview: `Multipath TCP solves a fundamental limitation of regular [[tcp|TCP]]: a connection is locked to a single pair of IP addresses. If your phone is connected to both WiFi and cellular, standard [[tcp|TCP]] can only use one at a time. MPTCP allows a single connection to spread across multiple network interfaces simultaneously, combining their bandwidth and seamlessly failing over when one path drops.
+		overview: `Multipath TCP solves a fundamental limitation of regular [[tcp|TCP]]: a connection is locked to a single pair of {{ip-address|IP addresses}}. If your phone is connected to both WiFi and cellular, standard [[tcp|TCP]] can only use one at a time. MPTCP allows a single connection to spread across multiple network interfaces simultaneously, combining their {{bandwidth|bandwidth}} and seamlessly failing over when one path drops.
 
-The protocol works by establishing "subflows" — each subflow is a regular [[tcp|TCP]] connection on a different network path. A shim layer sits between the application and these subflows, distributing data across paths and reassembling it on the other end. The application sees a single, normal [[tcp|TCP]] socket; the magic happens entirely at the transport layer.
+The protocol works by establishing "subflows" — each subflow is a regular [[tcp|TCP]] connection on a different network path. A shim layer sits between the application and these subflows, distributing data across paths and reassembling it on the other end. The application sees a single, normal [[tcp|TCP]] {{socket|socket}}; the magic happens entirely at the transport layer.
 
 Apple was the first major adopter, shipping MPTCP in iOS 7 (2013) for Siri — so your voice command wouldn't drop when walking from WiFi to cellular range. Since then, Apple has extended it to Maps, Music, and third-party apps. Linux has native MPTCP support since kernel 5.6 (2020).`,
 		howItWorks: [
