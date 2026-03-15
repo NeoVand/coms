@@ -16,6 +16,11 @@
 	const isFirst = $derived(stepIndex === 0);
 	const isLast = $derived(journey ? stepIndex === journey.steps.length - 1 : true);
 
+	/** Theme-aware helper for journey colors */
+	function jc(c: string): string {
+		return themedDomColor(c, appState.theme);
+	}
+
 	function startJourney(j: (typeof journeys)[number]) {
 		appState.startJourney(j);
 		// Navigate to the first protocol
@@ -68,7 +73,7 @@
 				<div class="flex shrink-0 items-center gap-1">
 					<button
 						class="flex h-7 w-7 items-center justify-center rounded-lg transition-all disabled:opacity-20"
-						style="color: {journey.color};"
+						style="color: {jc(journey.color)};"
 						disabled={isFirst}
 						onclick={() => goToStep(stepIndex - 1)}
 						aria-label="Previous step"
@@ -80,7 +85,7 @@
 					</span>
 					<button
 						class="flex h-7 w-7 items-center justify-center rounded-lg transition-all disabled:opacity-20"
-						style="color: {journey.color};"
+						style="color: {jc(journey.color)};"
 						disabled={isLast}
 						onclick={() => goToStep(stepIndex + 1)}
 						aria-label="Next step"
@@ -124,7 +129,7 @@
 						{#if !isLast}
 							<div
 								class="w-px flex-1"
-								style="background-color: {isPast ? journey.color + '40' : journey.color + '15'};"
+								style="background-color: {isPast ? jc(journey.color) + '40' : jc(journey.color) + '15'};"
 							></div>
 						{/if}
 					</div>
@@ -155,7 +160,7 @@
 							{#if step.transition && i < journey.steps.length - 1}
 								<p
 									class="mt-2 border-l-2 pl-2.5 text-[11px] leading-relaxed italic"
-									style="border-color: {journey.color}30; color: {journey.color}80;"
+									style="border-color: {jc(journey.color)}30; color: {jc(journey.color)}80;"
 								>
 									{step.transition}
 								</p>
@@ -185,7 +190,7 @@
 						{#if proto}
 							<span
 								class="rounded-md px-1.5 py-0.5 text-[10px] font-medium"
-								style="background-color: {j.color}15; color: {j.color};"
+								style="background-color: {jc(j.color)}15; color: {jc(j.color)};"
 							>
 								{proto.abbreviation}
 							</span>
