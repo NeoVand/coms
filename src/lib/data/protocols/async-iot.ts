@@ -162,11 +162,11 @@ Payload:
 			official: 'https://mqtt.org/'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Andy_Stanford-Clark_%284995549809%29.jpg/600px-Andy_Stanford-Clark_%284995549809%29.jpg',
-			alt: 'Andy Stanford-Clark, co-inventor of MQTT, speaking at an event',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/MQTT_protocol_example_without_QoS.svg/600px-MQTT_protocol_example_without_QoS.svg.png',
+			alt: 'Diagram showing MQTT publish/subscribe pattern: a temperature sensor publishes to a broker, which routes messages to subscribed clients',
 			caption:
-				'Andy Stanford-Clark co-invented MQTT at IBM in 1999 for monitoring oil pipelines via satellite. His lightweight protocol — with a 2-byte minimum header — became the lingua franca of IoT.',
-			credit: 'Photo: Karora / Public Domain, via Wikimedia Commons'
+				'The MQTT publish/subscribe pattern — a sensor publishes a temperature reading to a topic on the broker, and any subscribed client receives it automatically. The publisher and subscribers never need to know about each other.',
+			credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 		}
 	},
 	{
@@ -910,11 +910,11 @@ Server → Contacts (broadcast):
 			official: 'https://xmpp.org/'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Jeremie_Miller_at_SXSW_2011_%28cropped%29.jpg/600px-Jeremie_Miller_at_SXSW_2011_%28cropped%29.jpg',
-			alt: 'Jeremie Miller, creator of Jabber/XMPP, at SXSW 2011',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/JabberNetwork.svg/600px-JabberNetwork.svg.png',
+			alt: 'Diagram of the XMPP/Jabber federated network showing multiple servers interconnected with clients on each server',
 			caption:
-				'Jeremie Miller created Jabber (later XMPP) in 1999 because he was tired of juggling four different instant messaging clients. His federated, open protocol went on to power Google Talk, early WhatsApp, and Facebook Messenger.',
-			credit: 'Photo: SXSW / CC BY 2.0, via Wikimedia Commons'
+				'XMPP federation — just like email, anyone can run their own XMPP server and communicate with users on any other server. This decentralized architecture means no single company controls the network.',
+			credit: 'Image: Wikimedia Commons / CC BY-SA 3.0'
 		}
 	},
 	{
@@ -1113,11 +1113,11 @@ kafka-consumer-groups.sh \\
 			official: 'https://kafka.apache.org/protocol/'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Jay_Kreps.jpg/600px-Jay_Kreps.jpg',
-			alt: 'Jay Kreps, co-creator of Apache Kafka and CEO of Confluent',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Kafka_Job_Queue_Architecture_diagram.svg/600px-Kafka_Job_Queue_Architecture_diagram.svg.png',
+			alt: 'Architecture diagram showing Kafka producers writing to topic partitions across brokers, with consumer groups reading independently',
 			caption:
-				'Jay Kreps co-created Apache Kafka at LinkedIn in 2011 to handle the firehose of real-time activity data. He later founded Confluent to commercialize Kafka, which now processes trillions of events daily across thousands of organizations.',
-			credit: 'Photo: Wikimedia Commons / CC BY-SA 4.0'
+				'Kafka architecture — producers write records to topic partitions distributed across brokers. Consumer groups read independently at their own pace using offsets, and data persists in the append-only log for replay.',
+			credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 		}
 	}
 ];

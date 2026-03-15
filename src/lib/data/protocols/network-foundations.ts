@@ -151,11 +151,11 @@ ethtool -S eth0 | head -20`
 			wikipedia: 'https://en.wikipedia.org/wiki/Ethernet'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Xerox_Alto_mit_Rechner.JPG/600px-Xerox_Alto_mit_Rechner.JPG',
-			alt: 'Xerox Alto computer, one of the first workstations to use Ethernet networking',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Ethernet_frame.svg/600px-Ethernet_frame.svg.png',
+			alt: 'Diagram showing the structure of an Ethernet II frame with preamble, MAC addresses, EtherType, payload, and FCS fields',
 			caption:
-				'The Xerox Alto (1973) — the workstation where Ethernet was born at Xerox PARC. Bob Metcalfe developed Ethernet to network these machines, connecting them over a shared coaxial cable at 2.94 Mbps.',
-			credit: 'Photo: Joho345 / Public Domain, via Wikimedia Commons'
+				'The Ethernet frame structure — every packet on your local network is wrapped in this format. The 6-byte destination and source MAC addresses identify devices, the EtherType field (0x0800 for IP, 0x0806 for ARP) tells the receiver what\'s inside, and the FCS checksum catches transmission errors.',
+			credit: 'Image: Wikimedia Commons / Public Domain'
 		}
 	},
 	{
@@ -329,11 +329,11 @@ iw dev wlan0 station dump`
 			official: 'https://www.wi-fi.org/'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Linksys_WAP54G.JPG/600px-Linksys_WAP54G.JPG',
-			alt: 'Linksys WAP54G 802.11b/g wireless access point, an early consumer Wi-Fi device',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/802.11_MAC_Frame.svg/600px-802.11_MAC_Frame.svg.png',
+			alt: 'Diagram of an 802.11 Wi-Fi MAC frame showing frame control, duration, four address fields, sequence control, and FCS',
 			caption:
-				'A Linksys WAP54G 802.11b/g wireless access point — representative of the consumer devices that brought Wi-Fi into homes and offices worldwide. These access points bridge wireless 802.11 frames to wired Ethernet.',
-			credit: 'Photo: Macic7 / CC BY-SA 3.0, via Wikimedia Commons'
+				'The 802.11 Wi-Fi MAC frame format — more complex than Ethernet because wireless needs extra fields. Up to four MAC addresses handle the receiver, transmitter, destination, and source, while the Frame Control field encodes the frame type, encryption status, and power management flags.',
+			credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 		}
 	},
 	{
@@ -703,11 +703,11 @@ sudo tcpdump -i eth0 -v -c 5 ip`
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc791'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Internet_map_1024.jpg/600px-Internet_map_1024.jpg',
-			alt: 'Visualization of Internet IP address routes by The Opte Project, showing a partial map of the Internet',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/IPv4_Packet-en.svg/600px-IPv4_Packet-en.svg.png',
+			alt: 'Diagram of the IPv4 packet header showing all fields: version, IHL, DSCP, total length, identification, flags, TTL, protocol, checksum, source and destination addresses',
 			caption:
-				'A partial map of the Internet by The Opte Project (2005). Each line connects two IP addresses; colors represent regional allocations. This is the network that IP\'s addressing and routing makes possible.',
-			credit: 'Image: Barrett Lyon / The Opte Project / CC BY 2.5, via Wikimedia Commons'
+				'The IPv4 packet header — every packet on the internet carries this 20-byte structure. Key fields include TTL (decremented by each router to prevent loops), Protocol (6=TCP, 17=UDP), and the source/destination IP addresses that make global routing possible.',
+			credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 		}
 	},
 	{

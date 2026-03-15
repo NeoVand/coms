@@ -58,19 +58,21 @@
 				<span class="text-xs text-slate-600">Image unavailable</span>
 			</div>
 		{:else}
-			{#if !imgLoaded}
-				<div class="flex h-32 items-center justify-center">
-					<span class="text-xs text-slate-600">Loading image...</span>
-				</div>
-			{/if}
-			<img
-				{src}
-				{alt}
-				class="w-full"
-				class:hidden={!imgLoaded}
-				onload={() => (imgLoaded = true)}
-				onerror={() => (imgFailed = true)}
-			/>
+			<div class="bg-white">
+				{#if !imgLoaded}
+					<div class="flex h-32 items-center justify-center bg-slate-100">
+						<span class="text-xs text-slate-400">Loading image...</span>
+					</div>
+				{/if}
+				<img
+					{src}
+					{alt}
+					class="w-full"
+					class:hidden={!imgLoaded}
+					onload={() => (imgLoaded = true)}
+					onerror={() => (imgFailed = true)}
+				/>
+			</div>
 		{/if}
 		{#if (caption || credit) && !imgFailed}
 			<div class="border-t border-white/5 px-4 py-2.5 text-center">

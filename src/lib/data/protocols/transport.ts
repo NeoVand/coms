@@ -167,11 +167,11 @@ Client → Server  [ACK]
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc9293'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Vint_Cerf_-_2010.jpg/600px-Vint_Cerf_-_2010.jpg',
-			alt: 'Vint Cerf, co-inventor of TCP/IP, in 2010',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Tcp_state_diagram.svg/600px-Tcp_state_diagram.svg.png',
+			alt: 'TCP finite state machine diagram showing all connection states from CLOSED through ESTABLISHED to TIME_WAIT',
 			caption:
-				"Vint Cerf co-designed TCP with Bob Kahn in 1974 — the protocol that guarantees every byte arrives in order, enabling reliable communication across the internet.",
-			credit: 'Photo: Joi Ito / CC BY 2.0, via Wikimedia Commons'
+				'The TCP state machine — every TCP connection transitions through these states. From the three-way handshake (SYN → SYN-ACK → ACK) to graceful teardown (FIN → FIN-ACK), this diagram maps the full lifecycle of a TCP connection.',
+			credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 		}
 	},
 	{
@@ -652,11 +652,11 @@ SCTP INIT-ACK Chunk:
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc9260'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/48/Cellular_5G_Equipment_-_Cell_Tower_Antennas.jpg/600px-Cellular_5G_Equipment_-_Cell_Tower_Antennas.jpg',
-			alt: '5G cellular antennas on a cell tower, representing the telecom infrastructure that relies heavily on SCTP',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/SCTP-Multihoming.png/600px-SCTP-Multihoming.png',
+			alt: 'Diagram showing SCTP multi-homing with a host connected to two different network paths for redundancy',
 			caption:
-				'5G cellular antennas — SCTP is the transport backbone of modern mobile networks. Every 4G and 5G base station uses SCTP for signaling between the radio equipment and the core network.',
-			credit: 'Photo: Wikimedia Commons / CC BY-SA 4.0'
+				'SCTP multi-homing in action — a single SCTP association can span multiple IP addresses and network interfaces. If one path fails, traffic seamlessly shifts to another, making SCTP the backbone of telecom signaling (4G/5G).',
+			credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 		}
 	},
 	{
@@ -831,11 +831,11 @@ TCP SYN-ACK + MP_JOIN:
 			official: 'https://www.mptcp.dev/'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Network_switches.jpg/600px-Network_switches.jpg',
-			alt: 'Multiple network switches stacked together with Ethernet cables, illustrating multipath networking',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/DifferenceTCP_MPTCP-en.png/600px-DifferenceTCP_MPTCP-en.png',
+			alt: 'Comparison diagram showing regular TCP using a single path versus MPTCP using multiple simultaneous paths between two hosts',
 			caption:
-				'Multiple network paths in action — MPTCP bonds connections across separate interfaces (WiFi + cellular, multiple Ethernet links) to boost throughput and resilience.',
-			credit: 'Photo: Wikimedia Commons / CC BY-SA 3.0'
+				'TCP vs Multipath TCP — regular TCP sends data over a single path, while MPTCP splits traffic across multiple interfaces (WiFi + cellular, dual Ethernet) simultaneously, boosting throughput and providing seamless failover.',
+			credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 		}
 	}
 ];

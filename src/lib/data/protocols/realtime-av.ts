@@ -517,11 +517,11 @@ a=rtpmap:97 opus/48000/2`
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc3261'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Cisco_IP_Phone_7965.jpeg/600px-Cisco_IP_Phone_7965.jpeg',
-			alt: 'Cisco IP Phone 7965, a SIP-based VoIP telephone used in enterprise environments',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/SIP_session_setup_example.svg/600px-SIP_session_setup_example.svg.png',
+			alt: 'Sequence diagram of a SIP session setup showing INVITE, 100 Trying, 180 Ringing, 200 OK, and ACK messages between caller, proxy, and callee',
 			caption:
-				'The Cisco IP Phone 7965 — a SIP workhorse found in millions of offices worldwide. SIP handles the signaling (ringing, connecting, hanging up) while RTP carries the actual voice data.',
-			credit: 'Photo: Wikimedia Commons / CC BY-SA 3.0'
+				'A SIP session setup — the INVITE starts a call, proxies route it, the callee rings (180) then answers (200 OK), and the caller acknowledges. After this signaling dance, RTP media flows directly between the endpoints.',
+			credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 		}
 	},
 	{
@@ -688,11 +688,11 @@ https://cdn.example.com/stream_720p/seg_2683.ts
 			official: 'https://developer.apple.com/streaming/'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Original_iPhone_docked.jpg/600px-Original_iPhone_docked.jpg',
-			alt: 'The original iPhone (2007) docked in its charging cradle',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Zpracovani_videa_HTTP_Live_Streaming.png/600px-Zpracovani_videa_HTTP_Live_Streaming.png',
+			alt: 'Diagram of the HLS streaming architecture showing video encoding into multiple bitrate segments served via HTTP to adaptive players',
 			caption:
-				'The original iPhone — Apple created HLS in 2009 specifically to stream video to iPhones over unreliable cellular networks. Its adaptive bitrate approach dynamically adjusts quality based on bandwidth.',
-			credit: 'Photo: Carl Berkeley / CC BY 2.0, via Wikimedia Commons'
+				'The HLS streaming pipeline — video is encoded at multiple bitrates, segmented into small chunks, and served over standard HTTP. The player dynamically switches between quality levels based on network conditions, ensuring smooth playback.',
+			credit: 'Image: Wikimedia Commons / CC0'
 		}
 	},
 	{

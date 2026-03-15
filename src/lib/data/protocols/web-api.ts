@@ -118,11 +118,11 @@ curl -v https://example.com/api/users/42`
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc9112'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/NCSA_Mosaic_Browser_Screenshot.png/600px-NCSA_Mosaic_Browser_Screenshot.png',
-			alt: 'Screenshot of NCSA Mosaic web browser from 1993, one of the first graphical web browsers',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/HTTP_persistent_connection.svg/600px-HTTP_persistent_connection.svg.png',
+			alt: 'Diagram comparing HTTP non-persistent and persistent connections, showing how keep-alive reduces round trips',
 			caption:
-				'NCSA Mosaic (1993) — the browser that brought HTTP to the masses. Before Mosaic, the web was text-only. Its ability to display images inline alongside text sparked the web revolution.',
-			credit: 'Image: NCSA / Public Domain, via Wikimedia Commons'
+				'HTTP persistent connections (keep-alive) vs non-persistent — HTTP/1.0 opened a new TCP connection for every request, while HTTP/1.1\'s keep-alive reuses the same connection, saving the overhead of repeated TCP handshakes.',
+			credit: 'Image: Wikimedia Commons / Public Domain'
 		}
 	},
 	{
@@ -247,11 +247,11 @@ curl --http2 -v https://example.com 2>&1 | grep "< HTTP"`
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc9113'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Wikimedia_Foundation_Servers-8055_35.jpg/600px-Wikimedia_Foundation_Servers-8055_35.jpg',
-			alt: 'Wikimedia Foundation server racks in a data center, representing modern web infrastructure',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/HTTP_pipelining2.svg/600px-HTTP_pipelining2.svg.png',
+			alt: 'Diagram comparing HTTP/1.1 sequential requests, pipelining, and HTTP/2 multiplexing over a single connection',
 			caption:
-				'Modern web servers like these at the Wikimedia Foundation serve billions of requests over HTTP/2. Its binary framing and multiplexing made the single-connection model practical at massive scale.',
-			credit: 'Photo: Wikimedia Foundation / CC BY-SA 3.0, via Wikimedia Commons'
+				'The evolution from HTTP/1.1 to HTTP/2 — sequential requests waste time waiting, pipelining helped but still suffered head-of-line blocking. HTTP/2 multiplexing sends multiple requests and responses simultaneously over a single connection using binary framing.',
+			credit: 'Image: Wikimedia Commons / Public Domain'
 		}
 	},
 	{
@@ -511,11 +511,11 @@ curl -i -N \\
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc6455'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/dc/Jersey_Telecom_switchboard_and_operator.jpg/600px-Jersey_Telecom_switchboard_and_operator.jpg',
-			alt: 'A telephone operator at a Jersey Telecom switchboard in 1975, managing multiple persistent connections simultaneously',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Websocket_connection.png/600px-Websocket_connection.png',
+			alt: 'Diagram showing the WebSocket connection lifecycle: HTTP upgrade handshake followed by full-duplex bidirectional communication',
 			caption:
-				'A telephone switchboard operator managing live, persistent connections (1975). WebSockets brought this same paradigm to the browser — upgrading HTTP\'s request-response model into full-duplex, always-on communication channels.',
-			credit: 'Photo: Joseph A. Carr / Attribution, via Wikimedia Commons'
+				'The WebSocket connection lifecycle — it starts as a normal HTTP request with an Upgrade header, then switches to a persistent, full-duplex channel where both client and server can send messages at any time without the overhead of HTTP headers.',
+			credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 		}
 	},
 	{
@@ -1052,11 +1052,11 @@ curl -X DELETE https://api.example.com/users/42`
 			official: 'https://ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Roy_Fielding_%28cropped%29.jpg/600px-Roy_Fielding_%28cropped%29.jpg',
-			alt: 'Roy Fielding, the computer scientist who defined REST in his doctoral dissertation',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Client-server_model.svg/600px-Client-server_model.svg.png',
+			alt: 'Diagram of the client-server model showing multiple clients communicating with a central server over a network',
 			caption:
-				'Roy Fielding defined REST in his 2000 doctoral dissertation at UC Irvine. His architectural style — resources, stateless requests, standard HTTP methods — became the dominant pattern for web APIs worldwide.',
-			credit: 'Photo: Darin Briskman / CC BY 2.0, via Wikimedia Commons'
+				'The client-server model — the foundation of REST architecture. Clients send stateless HTTP requests to a server, which manages resources and returns representations. This separation of concerns is what makes REST APIs scalable and cacheable.',
+			credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 		}
 	},
 	{

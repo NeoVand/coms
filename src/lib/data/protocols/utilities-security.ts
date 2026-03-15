@@ -177,11 +177,11 @@ openssl req -x509 -newkey rsa:2048 -nodes \\
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc8446'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Netscape_Navigator_2_Screenshot.png/600px-Netscape_Navigator_2_Screenshot.png',
-			alt: 'Netscape Navigator 2 browser window, the first commercial browser to support SSL encryption',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Full_TLS_1.3_Handshake.svg/600px-Full_TLS_1.3_Handshake.svg.png',
+			alt: 'Sequence diagram of the full TLS 1.3 handshake showing ClientHello, ServerHello, certificate exchange, and encrypted data flow',
 			caption:
-				'Netscape Navigator 1.1 (early 1995) — the first browser to ship SSL 2.0. Netscape engineers created SSL to enable secure e-commerce, giving us the padlock icon that still means "encrypted connection" today.',
-			credit: 'Image: Netscape / Public Domain, via Wikimedia Commons'
+				'The TLS 1.3 handshake — reduced from two round trips (TLS 1.2) to just one. The client sends supported cipher suites and key shares in ClientHello; the server responds with its choices, certificate, and finished message — then encrypted data flows immediately.',
+			credit: 'Image: Wikimedia Commons / Public Domain'
 		}
 	},
 	{
@@ -366,11 +366,11 @@ Client → Server:
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc4253'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9f/DEC_VT100_terminal_transparent.png/600px-DEC_VT100_terminal_transparent.png',
-			alt: 'DEC VT100 terminal, the classic text terminal that SSH was designed to replace with encrypted remote access',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Ssh_binary_packet_alt.svg/600px-Ssh_binary_packet_alt.svg.png',
+			alt: 'Diagram of the SSH binary packet structure showing packet length, padding length, payload, padding, and MAC fields',
 			caption:
-				'The DEC VT100 terminal (1978) — the icon of remote access. SSH was created in 1995 to replace insecure protocols like Telnet that sent passwords in plain text over networks like these terminals connected to.',
-			credit: 'Photo: Jason Scott / CC BY 2.0, via Wikimedia Commons'
+				'The SSH binary packet structure — every SSH message is wrapped in this format. The payload is encrypted, random padding prevents traffic analysis, and the MAC (Message Authentication Code) ensures integrity. This is what makes SSH secure where Telnet was not.',
+			credit: 'Image: Wikimedia Commons / CC BY 2.5'
 		}
 	},
 	{
@@ -548,11 +548,11 @@ curl -sH 'accept: application/dns-json' \\
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc1035'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Paul_Mockapetris.JPG/600px-Paul_Mockapetris.JPG',
-			alt: 'Paul Mockapetris, inventor of the Domain Name System (DNS)',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Example_of_an_iterative_DNS_resolver.svg/600px-Example_of_an_iterative_DNS_resolver.svg.png',
+			alt: 'Diagram showing iterative DNS resolution: client queries recursive resolver, which queries root, TLD, and authoritative nameservers in sequence',
 			caption:
-				"Paul Mockapetris invented DNS in 1983, replacing the single HOSTS.TXT file that had mapped every computer name on the ARPANET. His hierarchical, distributed naming system now handles trillions of queries per day.",
-			credit: 'Photo: Wikimedia Commons / CC BY-SA 3.0'
+				'How DNS resolution works — your device asks a recursive resolver, which iteratively queries root servers, TLD servers (.com, .org), and authoritative nameservers to translate a domain name like "example.com" into an IP address.',
+			credit: 'Image: Wikimedia Commons / Public Domain'
 		}
 	},
 	{
@@ -744,11 +744,11 @@ DHCP ACK:
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc2131'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bc/19-inch_rackmount_Ethernet_switches_and_patch_panels.jpg/600px-19-inch_rackmount_Ethernet_switches_and_patch_panels.jpg',
-			alt: '19-inch rack with managed D-Link Gigabit Ethernet switches and Panduit patch panels connected with Category 6 cables',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/DHCP_session.svg/600px-DHCP_session.svg.png',
+			alt: 'Sequence diagram of the DHCP DORA process: Discover, Offer, Request, and Acknowledge messages between client and server',
 			caption:
-				'A network rack with managed Ethernet switches and patch panels — the kind of infrastructure where DHCP does its work, automatically assigning IP addresses to every connected device without manual configuration.',
-			credit: 'Photo: Dsimic / CC BY-SA 4.0, via Wikimedia Commons'
+				'The DHCP DORA process — Discover (client broadcasts "I need an IP"), Offer (server proposes an address), Request (client accepts), Acknowledge (server confirms the lease). This four-step handshake happens every time a device joins a network.',
+			credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 		}
 	},
 	{
@@ -1074,11 +1074,11 @@ Server: 221 2.0.0 Bye`
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc5321'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Jon_Postel.jpg/600px-Jon_Postel.jpg',
-			alt: 'Jon Postel, internet pioneer and author of the original SMTP specification (RFC 821)',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Email.svg/600px-Email.svg.png',
+			alt: 'Diagram showing the flow of email from sender through SMTP servers and DNS MX lookups to the recipient mailbox',
 			caption:
-				"Jon Postel wrote RFC 821 (SMTP) in 1982, defining how email moves across the internet. Known as the \"god of the internet,\" he also managed IANA and authored or co-authored over 200 RFCs.",
-			credit: 'Photo: Irene Fertik / USC News Service / CC BY-SA 3.0, via Wikimedia Commons'
+				'How email flows across the internet — the sender\'s mail client submits to an SMTP server, which looks up the recipient\'s domain via DNS MX records and relays the message hop by hop until it reaches the destination mailbox.',
+			credit: 'Image: Wikimedia Commons / CC BY-SA 3.0'
 		}
 	},
 	{
@@ -1236,11 +1236,11 @@ Server: 221 Goodbye`
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc959'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Teletype-IMG_7287.jpg/600px-Teletype-IMG_7287.jpg',
-			alt: 'Vintage Teletype terminal used for early computer communication and file transfer',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Passive_FTP_Verbindung.svg/600px-Passive_FTP_Verbindung.svg.png',
+			alt: 'Diagram showing FTP passive mode connection flow: client connects to control port 21, then server provides a data port for the client to connect to',
 			caption:
-				'A Teletype terminal — FTP\'s ancestor. The first FTP specification (RFC 114) was written in 1971 for the ARPANET, making it one of the oldest internet protocols still in use. File transfer predates the web by over two decades.',
-			credit: 'Photo: Wikimedia Commons / CC BY-SA 3.0'
+				'FTP passive mode — the client connects to port 21 for commands, then the server tells the client which high port to connect to for data transfer. Passive mode solved the NAT/firewall problems that plagued FTP\'s original active mode.',
+			credit: 'Image: Wikimedia Commons / CC BY-SA 3.0'
 		}
 	},
 	{
