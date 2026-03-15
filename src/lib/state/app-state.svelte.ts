@@ -72,13 +72,31 @@ export class AppState {
 
 	// Concept tooltip state
 	conceptTooltip: { concept: Concept; triggerRect: DOMRect } | null = $state(null);
+	private _conceptHideTimer: ReturnType<typeof setTimeout> | null = null;
 
 	showConceptTooltip = (concept: Concept, triggerRect: DOMRect) => {
+		this.cancelConceptTooltipHide();
 		this.conceptTooltip = { concept, triggerRect };
 	};
 
 	hideConceptTooltip = () => {
+		this.cancelConceptTooltipHide();
 		this.conceptTooltip = null;
+	};
+
+	scheduleConceptTooltipHide = () => {
+		if (this._conceptHideTimer) clearTimeout(this._conceptHideTimer);
+		this._conceptHideTimer = setTimeout(() => {
+			this.conceptTooltip = null;
+			this._conceptHideTimer = null;
+		}, 350);
+	};
+
+	cancelConceptTooltipHide = () => {
+		if (this._conceptHideTimer) {
+			clearTimeout(this._conceptHideTimer);
+			this._conceptHideTimer = null;
+		}
 	};
 
 	// Journey state

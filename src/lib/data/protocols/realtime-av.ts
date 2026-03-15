@@ -12,9 +12,9 @@ export const realtimeAvProtocols: Protocol[] = [
 		oneLiner: 'Peer-to-peer audio, video, and data — directly between browsers, no plugins needed.',
 		overview: `WebRTC is the technology that makes browser-based video calls possible. Before WebRTC, real-time communication required plugins (Flash, Java applets) or native apps. Now, two browsers can establish a direct, encrypted, {{peer-to-peer|peer-to-peer}} connection for audio, video, and arbitrary data.
 
-The key insight is "peer-to-peer" — once the connection is established, data flows directly between users without passing through a server. This reduces {{latency|latency}} and server costs. However, establishing that connection requires a signaling server (to exchange connection offers) and often STUN/TURN servers to navigate {{nat|NATs}} and {{firewall|firewalls}}. STUN (Session Traversal Utilities for NAT) discovers the peer's public IP address. TURN (Traversal Using Relays around NAT) relays media through a server when a direct connection fails (about 10-15% of cases). ICE (Interactive Connectivity Establishment) coordinates both STUN and TURN to find the best available path between peers.
+The key insight is "peer-to-peer" — once the connection is established, data flows directly between users without passing through a server. This reduces {{latency|latency}} and server costs. However, establishing that connection requires a {{signaling|signaling server}} (to exchange connection offers) and often STUN/TURN servers to navigate {{nat|NATs}} and {{firewall|firewalls}}. STUN (Session Traversal Utilities for NAT) discovers the peer's public IP address. TURN (Traversal Using Relays around NAT) relays media through a server when a direct connection fails (about 10-15% of cases). ICE (Interactive Connectivity Establishment) coordinates both STUN and TURN to find the best available path between peers.
 
-Under the hood, WebRTC is actually a bundle of protocols: ICE for connectivity establishment, DTLS (based on [[tls|TLS]]) for encryption, SRTP (secured [[rtp|RTP]]) for media, and [[sctp|SCTP]] for data channels. The browser API abstracts all of this into a relatively simple JavaScript interface.`,
+Under the hood, WebRTC is actually a bundle of protocols: ICE for connectivity establishment, DTLS (based on [[tls|TLS]]) for encryption, {{srtp|SRTP}} (secured [[rtp|RTP]]) for media, and [[sctp|SCTP]] for data channels. The browser API abstracts all of this into a relatively simple JavaScript interface.`,
 		howItWorks: [
 			{
 				title: 'Signaling',
@@ -182,9 +182,9 @@ STUN Response:
 		year: 1996,
 		rfc: 'RFC 3550',
 		oneLiner: 'The standard way to deliver audio and video packets in real-time over UDP.',
-		overview: `RTP is the workhorse behind virtually all real-time audio and video on the internet. [[webrtc|WebRTC]] uses it (as SRTP). VoIP phones use it. Video conferencing systems use it. It provides the essential services that raw [[udp|UDP]] lacks for media: timestamps (for synchronization), {{sequence-number|sequence numbers}} (for reordering and loss detection), and payload type identification.
+		overview: `RTP is the workhorse behind virtually all real-time audio and video on the internet. [[webrtc|WebRTC]] uses it (as {{srtp|SRTP}}). VoIP phones use it. Video conferencing systems use it. It provides the essential services that raw [[udp|UDP]] lacks for media: timestamps (for synchronization), {{sequence-number|sequence numbers}} (for reordering and loss detection), and {{payload|payload}} type identification.
 
-RTP doesn't guarantee delivery — it runs over [[udp|UDP]] intentionally. Instead, it gives the application enough information to handle problems intelligently. The companion protocol RTCP (RTP Control Protocol) runs alongside RTP, carrying statistics about packet loss, {{jitter|jitter}}, and {{rtt|round-trip time}} so endpoints can adapt their encoding in real time.
+RTP doesn't guarantee delivery — it runs over [[udp|UDP]] intentionally. Instead, it gives the application enough information to handle problems intelligently. The companion protocol {{rtcp|RTCP}} (RTP Control Protocol) runs alongside RTP, carrying statistics about packet loss, {{jitter|jitter}}, and {{rtt|round-trip time}} so endpoints can adapt their encoding in real time.
 
 Think of RTP as the envelope for media packets and RTCP as the feedback channel. Together, they enable adaptive, real-time communication that gracefully handles network imperfections.`,
 		howItWorks: [
@@ -353,7 +353,7 @@ tcpdump -i eth0 udp port 5004 -w rtp_capture.pcap`
 		year: 1999,
 		rfc: 'RFC 3261',
 		oneLiner: 'The "dialing" protocol for VoIP — establishes, modifies, and tears down calls.',
-		overview: `SIP is the signaling {{protocol|protocol}} that makes VoIP calls happen. It doesn't carry the actual audio or video (that's [[rtp|RTP]]'s job). Instead, SIP handles the "control plane": inviting someone to a call, ringing, answering, putting on hold, transferring, and hanging up.
+		overview: `SIP is the {{signaling|signaling}} {{protocol|protocol}} that makes VoIP calls happen. It doesn't carry the actual audio or video (that's [[rtp|RTP]]'s job). Instead, SIP handles the "control plane": inviting someone to a call, ringing, answering, putting on hold, transferring, and hanging up.
 
 SIP's design was inspired by [[http1|HTTP]] — it uses text-based {{request-response|request/response}} messages with methods like INVITE, ACK, BYE, and REGISTER. URIs identify users (sip:alice@example.com). This [[http1|HTTP]]-like design made it easier to implement and debug compared to the ITU's H.323 alternative.
 
@@ -535,7 +535,7 @@ a=rtpmap:97 opus/48000/2`
 		oneLiner: "Apple's adaptive streaming protocol — video delivered as small HTTP file downloads.",
 		overview: `HLS takes a clever approach to streaming: instead of a continuous real-time stream, it chops video into small files (typically 2-10 second segments) and serves them as ordinary [[http1|HTTP]] downloads. A manifest file (.m3u8) lists the available segments and quality levels.
 
-This design is brilliant for several reasons: it works through any {{firewall|firewall}} (it's just [[http1|HTTP]]), it scales trivially with CDNs (segments are cacheable files), and it enables adaptive bitrate — the player switches between quality levels based on {{bandwidth|bandwidth}}, providing smooth playback even on unstable connections. Increasingly, HLS and [[dash|DASH]] are converging on CMAF (Common Media Application Format), which defines a unified segment format (fragmented MP4) so content providers can encode once and serve both HLS and DASH from the same segments.
+This design is brilliant for several reasons: it works through any {{firewall|firewall}} (it's just [[http1|HTTP]]), it scales trivially with {{cdn|CDNs}} (segments are cacheable files), and it enables {{adaptive-bitrate|adaptive bitrate}} — the player switches between quality levels based on {{bandwidth|bandwidth}}, providing smooth playback even on unstable connections. Increasingly, HLS and [[dash|DASH]] are converging on CMAF (Common Media Application Format), which defines a unified segment format (fragmented MP4) so content providers can encode once and serve both HLS and DASH from the same segments.
 
 The tradeoff is {{latency|latency}}: buffering several segments means HLS typically has 6-30 seconds of delay. Low-Latency HLS (LL-HLS) reduces this to 2-4 seconds by using partial segments and preload hints (\`EXT-X-PRELOAD-HINT\`). HLS is widely used across the streaming landscape — Disney+ relies on it as a primary format, while services like Netflix and YouTube primarily use [[dash|DASH]] but fall back to HLS for Apple device compatibility.`,
 		howItWorks: [
@@ -886,7 +886,7 @@ Client → Server (C2):
 		rfc: 'RFC 8866',
 		oneLiner:
 			'The universal format for describing multimedia sessions — the matchmaker behind every WebRTC and VoIP call.',
-		overview: `SDP doesn't carry a single byte of audio or video. Instead, it's the language that endpoints use to describe what they can do — codecs they support, IP addresses they're reachable at, {{bandwidth|bandwidth}} they expect, and {{encryption|encryption}} keys they'll use. Think of it as a dating profile for media sessions.
+		overview: `SDP doesn't carry a single byte of audio or video. Instead, it's the language that endpoints use to describe what they can do — {{codec|codecs}} they support, IP addresses they're reachable at, {{bandwidth|bandwidth}} they expect, and {{encryption|encryption}} keys they'll use. Think of it as a dating profile for media sessions.
 
 Originally published in 1998 as RFC 2327 for the Mbone (multicast backbone) conferencing community, SDP found its true calling as the session description format for [[sip|SIP]] and later [[webrtc|WebRTC]]. Every time you join a video call in your browser, an SDP "offer" and "answer" are exchanged behind the scenes to {{content-negotiation|negotiate}} what media will flow and how.
 
@@ -1079,11 +1079,11 @@ a=rtcp-fb:96 nack pli`
 		rfc: 'ISO 23009-1',
 		oneLiner:
 			'The open standard for adaptive video streaming — MPEG-DASH powers Netflix, YouTube, and the open web.',
-		overview: `MPEG-DASH is the vendor-neutral answer to Apple's proprietary [[hls|HLS]]. Ratified as an ISO standard in 2012, DASH uses the same fundamental approach — chop video into segments, serve them over plain [[http1|HTTP]], and let the client adapt quality based on {{bandwidth|bandwidth}} — but with an open, extensible XML manifest format called the Media Presentation Description (MPD).
+		overview: `MPEG-DASH is the vendor-neutral answer to Apple's proprietary [[hls|HLS]]. Ratified as an ISO standard in 2012, DASH uses the same fundamental approach — chop video into segments, serve them over plain [[http1|HTTP]], and let the client adapt quality based on {{bandwidth|bandwidth}} — but with an open, extensible {{xml|XML}} manifest format called the Media Presentation Description (MPD).
 
 Where [[hls|HLS]] uses Apple's M3U8 playlists, DASH uses MPD files with a rich hierarchy: Periods (time spans), Adaptation Sets (different languages or camera angles), Representations (quality levels), and Segments (the actual media chunks). This gives DASH more flexibility for complex use cases like ad insertion, multiple audio tracks, and subtitle streams.
 
-Netflix, YouTube, Disney+, and most major streaming services use DASH (often alongside [[hls|HLS]] for Apple compatibility). The protocol supports both on-demand and live {{stream|streaming}}, and works with any codec.`,
+Netflix, YouTube, Disney+, and most major streaming services use DASH (often alongside [[hls|HLS]] for Apple compatibility). The protocol supports both on-demand and live {{stream|streaming}}, and works with any {{codec|codec}}.`,
 		howItWorks: [
 			{
 				title: 'Encode and segment',

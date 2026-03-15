@@ -31,6 +31,7 @@
 	import ConceptsView from './ConceptsView.svelte';
 	import CategoryAdvancedView from './CategoryAdvancedView.svelte';
 	import JourneyListView from './JourneyListView.svelte';
+	import JourneyBar from './JourneyBar.svelte';
 
 	const appState = getAppState();
 	const allNodes = buildGraphNodes();
@@ -143,6 +144,12 @@
 	<div
 		class="relative custom-scrollbar flex h-full w-full flex-col overflow-y-auto"
 	>
+		{#if appState.activeJourney}
+			<div class="px-6 pt-4 pb-0">
+				<JourneyBar />
+			</div>
+		{/if}
+
 		{#if selectedData?.type === 'hub'}
 			{@const simCount = allProtocols.filter((p) => hasSimulation(p.id)).length}
 			<!-- Hub hero (always visible) -->

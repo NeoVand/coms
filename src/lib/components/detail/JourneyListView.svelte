@@ -17,11 +17,23 @@
 
 	function startJourney(j: (typeof journeys)[number]) {
 		appState.startJourney(j);
+		// Navigate to the first protocol
+		const firstStep = j.steps[0];
+		if (firstStep) {
+			const node = allNodes.find((n) => n.id === firstStep.protocolId);
+			if (node) appState.selectNode(node);
+		}
 	}
 
 	function goToStep(index: number) {
 		if (!journey) return;
 		appState.goToJourneyStep(index);
+		// Navigate to the step's protocol
+		const step = journey.steps[index];
+		if (step) {
+			const node = allNodes.find((n) => n.id === step.protocolId);
+			if (node) appState.selectNode(node);
+		}
 	}
 </script>
 

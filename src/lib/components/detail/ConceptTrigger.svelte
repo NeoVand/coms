@@ -12,13 +12,8 @@
 	const appState = getAppState();
 
 	let triggerEl: HTMLButtonElement;
-	let hideTimer: ReturnType<typeof setTimeout> | null = null;
 
 	function showTooltip() {
-		if (hideTimer) {
-			clearTimeout(hideTimer);
-			hideTimer = null;
-		}
 		const concept = getConceptById(conceptId);
 		if (!concept || !triggerEl) return;
 		const rect = triggerEl.getBoundingClientRect();
@@ -26,10 +21,7 @@
 	}
 
 	function scheduleHide() {
-		hideTimer = setTimeout(() => {
-			appState.hideConceptTooltip();
-			hideTimer = null;
-		}, 200);
+		appState.scheduleConceptTooltipHide();
 	}
 
 	function handleClick() {
@@ -44,7 +36,7 @@
 
 <button
 	bind:this={triggerEl}
-	class="concept-trigger inline border-b border-dashed border-slate-500/50 text-slate-200 transition-colors hover:border-slate-300 hover:text-white {bold ? 'font-semibold' : ''}"
+	class="concept-trigger inline cursor-help border-b-[1.5px] border-dotted border-sky-400/70 text-slate-200 transition-all hover:border-sky-300 hover:text-sky-100 {bold ? 'font-semibold' : ''}"
 	onmouseenter={showTooltip}
 	onmouseleave={scheduleHide}
 	onclick={handleClick}

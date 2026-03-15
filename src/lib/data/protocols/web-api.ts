@@ -134,7 +134,7 @@ curl -v https://example.com/api/users/42`
 		year: 2015,
 		rfc: 'RFC 9113',
 		oneLiner: 'Multiplexed, binary HTTP — many requests flying over one connection simultaneously.',
-		overview: `HTTP/2 was designed to fix [[http1|HTTP/1.1]]'s biggest pain points without changing the semantics developers know and love. You still use GET, POST, headers, and {{status-code|status codes}} — but under the hood, everything is different. The protocol is binary (not text), {{multiplexing|multiplexed}} (many requests share one connection), and supports {{header|header}} compression (HPACK) and server push (now deprecated — Chrome removed support in Chrome 106; 103 Early Hints is the recommended replacement).
+		overview: `HTTP/2 was designed to fix [[http1|HTTP/1.1]]'s biggest pain points without changing the semantics developers know and love. You still use GET, POST, headers, and {{status-code|status codes}} — but under the hood, everything is different. The protocol is {{binary-framing|binary (not text)}}, {{multiplexing|multiplexed}} (many requests share one connection), and supports {{header|header}} compression ({{hpack|HPACK}}) and {{server-push|server push}} (now deprecated — Chrome removed support in Chrome 106; 103 Early Hints is the recommended replacement).
 
 Multiplexing is the killer feature: instead of waiting for each response before sending the next request, HTTP/2 interleaves multiple request-response pairs as "{{stream|streams}}" on a single [[tcp|TCP]] connection. This eliminates the need for multiple connections and dramatically improves page load times for resource-heavy sites.
 
@@ -267,7 +267,7 @@ curl --http2 -v https://example.com 2>&1 | grep "< HTTP"`
 
 The API for developers is identical — same methods, headers, and status codes. The difference is entirely at the transport level. HTTP/3 uses [[quic|QUIC]]'s independent {{stream|streams}} to solve the {{head-of-line-blocking|head-of-line blocking}} that plagued [[http2|HTTP/2]] over [[tcp|TCP]]. Each HTTP request maps to a [[quic|QUIC]] stream; if one packet is lost, only that stream waits for {{retransmission|retransmission}}.
 
-Adoption is accelerating: Google, Cloudflare, Facebook, and most CDNs support it. By 2025, ~35% of web traffic uses HTTP/3.`,
+Adoption is accelerating: Google, Cloudflare, Facebook, and most {{cdn|CDNs}} support it. By 2025, ~35% of web traffic uses HTTP/3.`,
 		howItWorks: [
 			{
 				title: 'QUIC handshake (1 RTT)',
@@ -400,7 +400,7 @@ asyncio.run(fetch_h3())`
 		year: 2011,
 		rfc: 'RFC 6455',
 		oneLiner: 'Full-duplex, persistent connection — server and client talk freely in real time.',
-		overview: `WebSockets solve a fundamental limitation of [[http1|HTTP]]: the server can't initiate communication. In [[http1|HTTP]], the client always asks and the server always responds. WebSockets upgrade an [[http1|HTTP]] connection into a persistent, full-duplex channel where either side can send messages at any time.
+		overview: `WebSockets solve a fundamental limitation of [[http1|HTTP]]: the server can't initiate communication. In [[http1|HTTP]], the client always asks and the server always responds. WebSockets upgrade an [[http1|HTTP]] connection into a persistent, {{full-duplex|full-duplex}} channel where either side can send messages at any time.
 
 This is perfect for real-time applications: chat, live sports scores, collaborative editing, multiplayer games, financial tickers. Instead of the client repeatedly polling "any updates?" (wasteful), the server simply pushes data when it's available. Unlike [[http1|HTTP]]'s request-response model, WebSockets maintain a {{stateful|stateful}} connection where both sides can track context across messages without re-establishing identity on every exchange.
 
@@ -527,7 +527,7 @@ curl -i -N \\
 		year: 2015,
 		rfc: undefined,
 		oneLiner: 'High-performance RPC framework using Protocol Buffers over HTTP/2.',
-		overview: `gRPC is Google's open-source framework for remote procedure calls. Instead of designing [[rest|REST]] endpoints and manually serializing JSON, you define your service and messages in Protocol Buffers (.proto files), and gRPC generates strongly-typed client and server code in 11 languages.
+		overview: `gRPC is Google's open-source framework for remote procedure calls. Instead of designing [[rest|REST]] endpoints and manually serializing {{json|JSON}}, you define your service and messages in {{protocol-buffers|Protocol Buffers}} (.proto files), and gRPC generates strongly-typed client and server code in 11 languages.
 
 It uses [[http2|HTTP/2]] for transport, gaining {{multiplexing|multiplexing}} and {{header|header}} compression for free. Messages are serialized as Protocol Buffers — a binary format that's 3-10x smaller and 3-10x faster to parse than JSON. gRPC also natively supports {{stream|streaming}}: server-streaming, client-streaming, and bidirectional streaming.
 
@@ -810,7 +810,7 @@ curl -X POST https://api.example.com/graphql \\
 		oneLiner: 'One-way real-time streaming from server to browser over plain HTTP.',
 		overview: `Server-Sent Events (SSE) provide a simple, standardized way for servers to push updates to web clients over a single [[http1|HTTP]] connection. Unlike [[websockets|WebSockets]], SSE is unidirectional — the server sends events, and the client listens. This simplicity is its strength.
 
-SSE uses plain [[http1|HTTP]], which means it works through proxies, load balancers, and {{firewall|firewalls}} without any special configuration. The browser's EventSource API automatically handles reconnection, event IDs for resuming after disconnects, and {{content-negotiation|content type negotiation}}.
+SSE uses plain [[http1|HTTP]], which means it works through {{proxy|proxies}}, {{load-balancing|load balancers}}, and {{firewall|firewalls}} without any special configuration. The browser's EventSource API automatically handles reconnection, event IDs for resuming after disconnects, and {{content-negotiation|content type negotiation}}.
 
 Each event is a text block with optional fields: event type, data payload, ID, and retry interval. The format is deliberately simple — just UTF-8 text with newline separators. This makes SSE ideal for live feeds, notifications, and {{stream|streaming}} AI responses where the server needs to push data but doesn't need to receive a stream back.`,
 		howItWorks: [
@@ -942,7 +942,7 @@ curl -sN https://example.com/api/notifications \\
 
 A RESTful API models everything as resources (nouns, not verbs). You GET a user, POST a new order, PUT an updated profile, DELETE a session. Each request is {{stateless|stateless}} — the server doesn't remember previous requests, so every call carries all the context it needs. This makes REST APIs easy to cache, scale horizontally, and reason about.
 
-REST's ubiquity comes from its simplicity: any [[http1|HTTP]] client in any language can call a REST API. No special tooling, no code generation, no binary protocols. JSON became the de facto format, though REST itself is format-agnostic. The trade-off is that REST can be chatty — fetching a complex resource might require multiple round trips, which is exactly the problem [[graphql|GraphQL]] was designed to solve.`,
+REST's ubiquity comes from its simplicity: any [[http1|HTTP]] client in any language can call a REST API. No special tooling, no code generation, no binary protocols. {{json|JSON}} became the de facto format, though REST itself is format-agnostic. The trade-off is that REST can be chatty — fetching a complex resource might require multiple round trips, which is exactly the problem [[graphql|GraphQL]] was designed to solve.`,
 		howItWorks: [
 			{
 				title: 'Resource identification',
@@ -1069,7 +1069,7 @@ curl -X DELETE https://api.example.com/users/42`
 		rfc: undefined, // W3C standard, not RFC
 		oneLiner:
 			'XML-based messaging for enterprise web services — structured envelopes, strict schemas, and built-in error handling.',
-		overview: `SOAP is a messaging protocol that wraps remote procedure calls in structured XML envelopes. Originally "Simple Object Access Protocol," the W3C dropped the acronym expansion in SOAP 1.2 (2003) — it's now just "SOAP." Developed by Dave Winer, Don Box, and others at Microsoft in 1998, it became the backbone of enterprise web services throughout the 2000s. Services describe themselves using WSDL (Web Services Description Language) — a machine-readable XML contract that defines available operations, message formats, and endpoint URLs. Where [[rest|REST]] embraces simplicity and convention, SOAP enforces formality and precision.
+		overview: `SOAP is a messaging protocol that wraps remote procedure calls in structured {{xml|XML}} envelopes. Originally "Simple Object Access Protocol," the W3C dropped the acronym expansion in SOAP 1.2 (2003) — it's now just "SOAP." Developed by Dave Winer, Don Box, and others at Microsoft in 1998, it became the backbone of enterprise web services throughout the 2000s. Services describe themselves using WSDL (Web Services Description Language) — a machine-readable XML contract that defines available operations, message formats, and endpoint URLs. Where [[rest|REST]] embraces simplicity and convention, SOAP enforces formality and precision.
 
 Every SOAP message is an XML Envelope containing an optional {{header|Header}} and a required Body. The Header carries metadata — authentication tokens, routing information, transaction IDs, WS-Addressing headers — while the Body contains the actual operation and its parameters. SOAP messages travel over [[http1|HTTP]] POST (most commonly), though the {{protocol|protocol}} is transport-agnostic and can also run over SMTP, JMS, or raw [[tcp|TCP]]. In SOAP 1.1, the Content-Type is \`text/xml\` and a separate \`SOAPAction\` HTTP header identifies the intended operation. SOAP 1.2 changed this: it uses \`application/soap+xml\` and embeds the action in the Content-Type parameter instead.
 

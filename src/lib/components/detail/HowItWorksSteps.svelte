@@ -1,13 +1,26 @@
 <script lang="ts">
 	import type { HowItWorksStep } from '$lib/data/types';
+	import { getAppState } from '$lib/state/context';
+	import { buildGraphNodes } from '$lib/data/index';
+	import { parseRichText } from '$lib/utils/text-parser';
+	import ConceptTrigger from '$lib/components/detail/ConceptTrigger.svelte';
 
 	let { steps, color }: { steps: HowItWorksStep[]; color: string } = $props();
+
+	const appState = getAppState();
+	const allNodes = buildGraphNodes();
+
+	function navigateToProtocol(protocolId: string) {
+		const node = allNodes.find((n) => n.id === protocolId);
+		if (node) appState.selectNode(node);
+	}
 </script>
 
 <section data-tour="how-it-works">
 	<h3 class="mb-3 text-xs font-semibold tracking-wider text-slate-500 uppercase">How It Works</h3>
 	<div class="relative space-y-0">
 		{#each steps as step, i (i)}
+			{@const segments = parseRichText(step.description)}
 			<div class="relative flex gap-3 pb-4">
 				<!-- Vertical connector line -->
 				{#if i < steps.length - 1}
@@ -27,7 +40,35 @@
 
 				<div>
 					<h4 class="text-sm font-medium text-slate-200">{step.title}</h4>
-					<p class="mt-0.5 text-xs leading-relaxed text-slate-400">{step.description}</p>
+					<p class="mt-0.5 text-xs leading-relaxed text-slate-400">
+						{#each segments as seg, j (j)}
+							{#if seg.type === 'text'}
+								{seg.value}
+							{:else if seg.type === 'bold'}
+								<strong class="font-semibold text-slate-300">{seg.value}</strong>
+							{:else if seg.type === 'protocol-link'}
+								<button
+									class="inline font-medium transition-colors hover:underline"
+									style="color: {color}"
+									onclick={() => navigateToProtocol(seg.protocolId)}
+								>
+									{seg.label}
+								</button>
+							{:else if seg.type === 'bold-protocol-link'}
+								<button
+									class="inline font-semibold transition-colors hover:underline"
+									style="color: {color}"
+									onclick={() => navigateToProtocol(seg.protocolId)}
+								>
+									{seg.label}
+								</button>
+							{:else if seg.type === 'concept'}
+								<ConceptTrigger conceptId={seg.conceptId} label={seg.label} />
+							{:else if seg.type === 'bold-concept'}
+								<ConceptTrigger conceptId={seg.conceptId} label={seg.label} bold />
+							{/if}
+						{/each}
+					</p>
 				</div>
 			</div>
 		{/each}

@@ -695,6 +695,363 @@ export const concepts: Concept[] = [
 			'The different kinds of records stored in DNS. A records map names to IPv4 addresses, AAAA to IPv6, CNAME creates aliases, MX directs email, NS delegates to nameservers, TXT stores arbitrary text (used for SPF, DKIM), and SRV locates services.',
 		wikiUrl: 'https://en.wikipedia.org/wiki/List_of_DNS_record_types',
 		category: 'networking-basics'
+	},
+
+	// ── Addressing Modes ──────────────────────────────────────────────
+	{
+		id: 'unicast',
+		term: 'Unicast',
+		definition:
+			'A one-to-one transmission from a single sender to a single receiver. Most internet traffic is unicast — when you load a webpage, the server sends data specifically to your IP address.',
+		analogy: 'Like a phone call — you dial one person and only they hear you.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Unicast',
+		category: 'networking-basics'
+	},
+	{
+		id: 'multicast',
+		term: 'Multicast',
+		definition:
+			'A one-to-many transmission where data is sent to a group of interested receivers simultaneously. The network handles duplication, so the sender only transmits once. Used for live video streaming, service discovery, and IPv6 neighbor discovery.',
+		analogy:
+			'Like a radio station — one broadcast reaches everyone who tunes in, without sending separate copies.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Multicast',
+		category: 'networking-basics'
+	},
+	{
+		id: 'broadcast',
+		term: 'Broadcast',
+		definition:
+			'A one-to-all transmission sent to every device on a local network segment. ARP uses broadcast to find MAC addresses. IPv6 eliminates broadcast entirely, replacing it with multicast. Excessive broadcast traffic causes "broadcast storms."',
+		analogy:
+			'Like a PA announcement in a building — everyone hears it, whether they care or not.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Broadcasting_(networking)',
+		category: 'networking-basics'
+	},
+	{
+		id: 'anycast',
+		term: 'Anycast',
+		definition:
+			'A one-to-nearest transmission where the same IP address is assigned to multiple servers, and the network routes each request to the closest one. Used by CDNs and DNS root servers to reduce latency.',
+		analogy:
+			'Like calling "nearest pizza place" — you always get connected to the closest location.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Anycast',
+		category: 'networking-basics'
+	},
+	{
+		id: 'full-duplex',
+		term: 'Full-Duplex',
+		definition:
+			'A communication mode where data can flow in both directions simultaneously. Modern Ethernet and WebSockets are full-duplex. Contrast with half-duplex (only one direction at a time, like walkie-talkies) and simplex (one direction only).',
+		analogy:
+			'Like a two-lane road — traffic flows in both directions at the same time without waiting.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Duplex_(telecommunications)',
+		category: 'networking-basics'
+	},
+
+	// ── Data Formats & Serialization ──────────────────────────────────
+	{
+		id: 'json',
+		term: 'JSON (JavaScript Object Notation)',
+		definition:
+			'A lightweight, human-readable text format for structured data using key-value pairs and arrays. The dominant format for web APIs and configuration files. Easy to read and debug, but less compact than binary formats like Protocol Buffers.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/JSON',
+		category: 'web'
+	},
+	{
+		id: 'xml',
+		term: 'XML (Extensible Markup Language)',
+		definition:
+			'A verbose, self-describing markup language using nested tags. Once dominant for web services (SOAP, RSS), largely superseded by JSON for APIs. Still used in XMPP, SVG, Android layouts, and enterprise systems.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/XML',
+		category: 'web'
+	},
+	{
+		id: 'protocol-buffers',
+		term: 'Protocol Buffers (protobuf)',
+		definition:
+			'A binary serialization format developed by Google. You define message schemas in .proto files, and code is generated for any language. 3-10x smaller and faster than JSON. Used by gRPC, Google APIs, and many internal services.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Protocol_Buffers',
+		category: 'web'
+	},
+
+	// ── HTTP Internals ────────────────────────────────────────────────
+	{
+		id: 'hpack',
+		term: 'HPACK',
+		definition:
+			'The header compression algorithm used by HTTP/2. Compresses headers using a static table of common headers, a dynamic table of recently-used headers, and Huffman encoding. Reduces header overhead from ~800 bytes to ~20 bytes on repeat requests.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/HPACK',
+		category: 'web'
+	},
+	{
+		id: 'binary-framing',
+		term: 'Binary Framing',
+		definition:
+			'A way of encoding protocol messages as structured binary data instead of human-readable text. HTTP/2 uses a binary framing layer that divides messages into small frames with type, length, flags, and stream ID fields — enabling efficient multiplexing.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/HTTP/2#Differences_from_HTTP_1.1',
+		category: 'web'
+	},
+	{
+		id: 'server-push',
+		term: 'Server Push',
+		definition:
+			'A feature where the server proactively sends resources to the client before they are requested. Introduced in HTTP/2 to pre-load assets like CSS and JS, but deprecated in most browsers due to complexity and caching issues. SSE and WebSockets offer better alternatives.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/HTTP/2_Server_Push',
+		category: 'web'
+	},
+
+	// ── Transport Internals ───────────────────────────────────────────
+	{
+		id: 'three-way-handshake',
+		term: 'Three-Way Handshake',
+		definition:
+			'The TCP connection setup process: the client sends SYN, the server replies SYN-ACK, and the client sends ACK. This exchange synchronizes sequence numbers and confirms both sides are ready. It takes 1 RTT before data can flow.',
+		analogy:
+			'Like knocking on a door: "Can I come in?" → "Yes, come in!" → "Great, I\'m here!" — then you start talking.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Handshaking#TCP_three-way_handshake',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'congestion-window',
+		term: 'Congestion Window (cwnd)',
+		definition:
+			'A TCP variable that limits how much data can be in flight (sent but not yet acknowledged). Starts small (slow start) and grows as ACKs arrive. When packet loss is detected, the window shrinks dramatically to reduce network load.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/TCP_congestion_control#Congestion_window',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'slow-start',
+		term: 'Slow Start',
+		definition:
+			'The TCP congestion control phase where the congestion window grows exponentially (doubling each RTT) until packet loss occurs or a threshold is reached. Despite the name, it ramps up quickly — it just starts cautiously to probe available bandwidth.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/TCP_congestion_control#Slow_start',
+		category: 'protocol-mechanics'
+	},
+
+	// ── Media & Streaming ─────────────────────────────────────────────
+	{
+		id: 'adaptive-bitrate',
+		term: 'Adaptive Bitrate Streaming',
+		definition:
+			'A technique where the video player dynamically switches between quality levels based on available bandwidth and buffer status. If your connection slows, the player seamlessly drops to a lower resolution instead of buffering. Used by HLS and DASH.',
+		analogy:
+			'Like a TV that automatically adjusts picture quality based on your signal strength — smooth playback over choppy connections.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Adaptive_bitrate_streaming',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'rtcp',
+		term: 'RTCP (RTP Control Protocol)',
+		definition:
+			'A companion protocol to RTP that carries statistics about media quality — packet loss rates, jitter measurements, and round-trip times. Endpoints use this feedback to adapt their encoding (lower bitrate, change codec) in real time.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/RTP_Control_Protocol',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'signaling',
+		term: 'Signaling',
+		definition:
+			'The out-of-band process of exchanging connection metadata (capabilities, addresses, encryption keys) before establishing a real-time media session. WebRTC uses a signaling server to exchange SDP offers/answers. The signaling protocol itself is not standardized — you can use WebSockets, HTTP, or anything.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Signaling_(telecommunications)',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'srtp',
+		term: 'SRTP (Secure RTP)',
+		definition:
+			'An encrypted version of RTP that provides confidentiality, authentication, and replay protection for real-time media streams. WebRTC mandates SRTP — all audio and video is encrypted by default.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Secure_Real-time_Transport_Protocol',
+		category: 'security'
+	},
+
+	// ── Security Additions ────────────────────────────────────────────
+	{
+		id: 'dnssec',
+		term: 'DNSSEC',
+		definition:
+			'DNS Security Extensions that add cryptographic signatures to DNS records. DNSSEC lets resolvers verify that a DNS response was not tampered with, preventing DNS spoofing attacks. It authenticates the data but does not encrypt the query.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Domain_Name_System_Security_Extensions',
+		category: 'security'
+	},
+	{
+		id: 'dns-over-https',
+		term: 'DNS over HTTPS (DoH)',
+		definition:
+			'A protocol that sends DNS queries inside encrypted HTTPS connections (port 443), preventing ISPs and network operators from seeing or modifying your DNS lookups. Supported by major browsers and DNS providers like Cloudflare (1.1.1.1) and Google (8.8.8.8).',
+		wikiUrl: 'https://en.wikipedia.org/wiki/DNS_over_HTTPS',
+		category: 'security'
+	},
+	{
+		id: 'jwt',
+		term: 'JWT (JSON Web Token)',
+		definition:
+			'A compact, URL-safe token format for securely transmitting claims between parties. Contains three Base64-encoded parts: header (algorithm), payload (claims like user ID and expiration), and signature. Widely used for API authentication and OAuth ID tokens.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/JSON_Web_Token',
+		category: 'security'
+	},
+	{
+		id: 'access-token',
+		term: 'Access Token',
+		definition:
+			'A credential that grants limited, scoped access to a protected resource on behalf of a user. OAuth access tokens are typically short-lived (minutes to hours) and carry specific permissions (scopes) rather than full account access.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Access_token',
+		category: 'security'
+	},
+
+	// ── Messaging Additions ───────────────────────────────────────────
+	{
+		id: 'exchange',
+		term: 'Exchange (AMQP)',
+		definition:
+			'An AMQP routing component that receives messages from producers and routes them to queues based on rules. Four types: direct (exact routing key match), topic (wildcard patterns), fanout (broadcast to all queues), and headers (route by message headers).',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Advanced_Message_Queuing_Protocol',
+		category: 'messaging'
+	},
+	{
+		id: 'partition',
+		term: 'Partition (Kafka)',
+		definition:
+			'A Kafka topic is split into partitions — ordered, append-only logs distributed across brokers. Partitions enable parallel processing and horizontal scaling. Each message within a partition gets a sequential offset number. Order is guaranteed within a partition but not across partitions.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Apache_Kafka',
+		category: 'messaging'
+	},
+
+	// ── Layer 2 & Wi-Fi ───────────────────────────────────────────────
+	{
+		id: 'vlan',
+		term: 'VLAN (Virtual LAN)',
+		definition:
+			'A logical partition of a physical network at Layer 2. VLANs isolate broadcast traffic without requiring separate switches. IEEE 802.1Q inserts a 4-byte tag into Ethernet frames with a 12-bit VLAN ID (1-4094). Essential for security, performance, and network organization.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/VLAN',
+		category: 'infrastructure'
+	},
+	{
+		id: 'access-point',
+		term: 'Access Point (AP)',
+		definition:
+			'A device that bridges wireless (802.11) and wired (Ethernet) networks. Access points broadcast beacon frames to advertise their presence, handle client authentication, and translate between wireless and wired frame formats.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Wireless_access_point',
+		category: 'infrastructure'
+	},
+
+	// ── Networking Fundamentals ──────────────────────────────────────
+	{
+		id: 'tunnel',
+		term: 'Tunnel / Tunneling',
+		definition:
+			'Encapsulating one {{protocol|protocol}} inside another to carry traffic across a network that doesn\'t natively support it. For example, [[ssh|SSH]] tunnels wrap TCP traffic inside an encrypted SSH connection, and VPNs tunnel all traffic through an encrypted link. The outer protocol handles delivery; the inner protocol rides along as {{payload|payload}}.',
+		analogy:
+			'Like putting a letter inside a letter — the outer envelope gets it through the postal system, and the inner envelope carries the real message.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Tunneling_protocol',
+		category: 'networking-basics'
+	},
+	{
+		id: 'vpn',
+		term: 'VPN (Virtual Private Network)',
+		definition:
+			'A technology that creates an encrypted {{tunnel|tunnel}} between your device and a VPN server, making all your traffic appear to originate from the server\'s IP address. Used for privacy (hiding traffic from ISPs), security (protecting data on public Wi-Fi), and accessing remote networks (corporate VPNs). Common protocols include WireGuard, OpenVPN, and IPsec.',
+		analogy:
+			'Like a secret underground passage between two buildings — outsiders can\'t see what you\'re carrying or where you\'re really going.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Virtual_private_network',
+		category: 'security'
+	},
+	{
+		id: 'payload',
+		term: 'Payload',
+		definition:
+			'The actual data carried inside a {{packet|packet}}, {{frame|frame}}, or message — as opposed to the {{header|headers}} and metadata used for routing and delivery. When you send a web request, the HTTP content is the payload of the [[tcp|TCP]] segment, which is the payload of the IP packet, which is the payload of the Ethernet frame.',
+		analogy:
+			'Like the contents of a package — the shipping label (header) gets it delivered, but the payload is what you actually ordered.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Payload_(computing)',
+		category: 'networking-basics'
+	},
+	{
+		id: 'hop',
+		term: 'Hop',
+		definition:
+			'A single step in the journey of a {{packet|packet}} from source to destination. Each router the packet passes through counts as one hop. The {{ttl|TTL}} field is decremented at each hop to prevent infinite loops. Traceroute works by sending packets with increasing TTL values to discover each hop along the path.',
+		analogy:
+			'Like stops on a bus route — your packet "hops" from one router to the next until it reaches its destination.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Hop_(networking)',
+		category: 'networking-basics'
+	},
+	{
+		id: 'fragmentation',
+		term: 'Fragmentation',
+		definition:
+			'The process of breaking a {{packet|packet}} into smaller pieces when it exceeds the {{mtu|MTU}} (Maximum Transmission Unit) of a network link. Each fragment carries offset information so the destination can reassemble them. IPv4 allows routers to fragment; IPv6 only allows the source host to fragment. Modern practice avoids fragmentation using Path MTU Discovery.',
+		analogy:
+			'Like cutting a large poster into strips to fit through a mail slot — each strip is labeled so it can be taped back together at the other end.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/IP_fragmentation',
+		category: 'networking-basics'
+	},
+	{
+		id: 'plaintext',
+		term: 'Plaintext / Cleartext',
+		definition:
+			'Data transmitted without {{encryption|encryption}}, readable by anyone who can intercept the traffic. Protocols like [[ftp|FTP]], early [[http1|HTTP]], and Telnet send credentials and data in plaintext. Modern equivalents use [[tls|TLS]] to encrypt data in transit.',
+		analogy:
+			'Like writing a message on a postcard — anyone who handles it along the way can read what it says.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Plaintext',
+		category: 'security'
+	},
+	{
+		id: 'spoofing',
+		term: 'Spoofing',
+		definition:
+			'Forging the source address or identity in a network communication to impersonate another device. IP spoofing forges the source IP; ARP spoofing sends fake ARP replies to redirect traffic; DNS spoofing returns fake DNS records. A common first step in {{man-in-the-middle|man-in-the-middle}} attacks.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Spoofing_attack',
+		category: 'security'
+	},
+	{
+		id: 'man-in-the-middle',
+		term: 'Man-in-the-Middle Attack (MITM)',
+		definition:
+			'An attack where the attacker secretly intercepts and potentially alters communication between two parties who believe they are talking directly to each other. {{spoofing|ARP spoofing}} on a local network is a classic MITM vector. [[tls|TLS]] {{certificate|certificates}} prevent MITM by authenticating the server\'s identity.',
+		analogy:
+			'Like a postal worker secretly opening, reading, and resealing your letters — both you and the recipient think the envelope was never touched.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Man-in-the-middle_attack',
+		category: 'security'
+	},
+	{
+		id: 'port-forwarding',
+		term: 'Port Forwarding',
+		definition:
+			'Redirecting network traffic arriving on a specific {{port|port}} to a different destination address and/or port. Used to make services behind a {{nat|NAT}} accessible from the internet, and by [[ssh|SSH]] tunnels to securely expose remote services locally. Reverse port forwarding works in the opposite direction.',
+		analogy:
+			'Like a receptionist who forwards calls on extension 80 to a specific office — callers dial the main number, but the call reaches the right person.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Port_forwarding',
+		category: 'infrastructure'
+	},
+	{
+		id: 'lease',
+		term: 'Lease (DHCP)',
+		definition:
+			'A temporary assignment of an {{ip-address|IP address}} to a device by a [[dhcp|DHCP]] server. Leases have a duration (typically hours to days); the device must renew before expiry or lose the address. This ensures IP addresses are recycled when devices disconnect.',
+		analogy:
+			'Like renting an apartment — you get an address for a set time, and you can renew or move out when the lease expires.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Dynamic_Host_Configuration_Protocol#Operation',
+		category: 'infrastructure'
+	},
+	{
+		id: 'load-balancing',
+		term: 'Load Balancing',
+		definition:
+			'Distributing incoming network traffic across multiple servers to improve performance, reliability, and availability. Load balancers can operate at Layer 4 (TCP/UDP — routing by IP and {{port|port}}) or Layer 7 (HTTP — routing by URL, {{header|headers}}, or cookies). Common algorithms include round-robin, least connections, and weighted distribution.',
+		analogy:
+			'Like a host at a restaurant directing customers to whichever server has the fewest tables — ensuring no single server is overwhelmed.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Load_balancing_(computing)',
+		category: 'infrastructure'
+	},
+	{
+		id: 'reverse-proxy',
+		term: 'Reverse Proxy',
+		definition:
+			'A server that sits in front of backend servers and forwards client requests to them. Unlike a regular {{proxy|proxy}} (which acts on behalf of clients), a reverse proxy acts on behalf of servers — handling SSL termination, caching, {{load-balancing|load balancing}}, and compression. Nginx, Cloudflare, and AWS ALB are common reverse proxies.',
+		analogy:
+			'Like a receptionist at a large company — visitors talk to the receptionist, who routes them to the right department. Visitors never interact with individual employees directly.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Reverse_proxy',
+		category: 'infrastructure'
 	}
 ];
 

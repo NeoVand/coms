@@ -1,6 +1,8 @@
 <script lang="ts">
 	import type { Concept } from '$lib/data/concepts';
 	import { getAppState } from '$lib/state/context';
+	import { buildGraphNodes } from '$lib/data/index';
+	import { parseRichText } from '$lib/utils/text-parser';
 	import { ExternalLink } from 'lucide-svelte';
 
 	interface Props {
@@ -10,6 +12,7 @@
 
 	let { concept, triggerRect }: Props = $props();
 	const appState = getAppState();
+	const allNodes = buildGraphNodes();
 
 	let windowWidth = $state(typeof window !== 'undefined' ? window.innerWidth : 1920);
 	let windowHeight = $state(typeof window !== 'undefined' ? window.innerHeight : 1080);
@@ -35,20 +38,22 @@
 	const flippedY = $derived(triggerRect.bottom + GAP + APPROX_HEIGHT > windowHeight);
 	const top = $derived(flippedY ? triggerRect.top - GAP - APPROX_HEIGHT : triggerRect.bottom + GAP);
 
-	let hideTimer: ReturnType<typeof setTimeout> | null = null;
+	// Parse definition and analogy for protocol links
+	const definitionSegments = $derived(parseRichText(concept.definition));
+	const analogySegments = $derived(concept.analogy ? parseRichText(concept.analogy) : []);
 
-	function cancelHide() {
-		if (hideTimer) {
-			clearTimeout(hideTimer);
-			hideTimer = null;
-		}
+	function navigateToProtocol(protocolId: string) {
+		appState.hideConceptTooltip();
+		const node = allNodes.find((n) => n.id === protocolId);
+		if (node) appState.selectNode(node);
 	}
 
-	function scheduleHide() {
-		hideTimer = setTimeout(() => {
-			appState.hideConceptTooltip();
-			hideTimer = null;
-		}, 150);
+	function handleMouseEnter() {
+		appState.cancelConceptTooltipHide();
+	}
+
+	function handleMouseLeave() {
+		appState.scheduleConceptTooltipHide();
 	}
 </script>
 
@@ -58,22 +63,54 @@
 	style="left: {left}px; top: {top}px; width: {TOOLTIP_WIDTH}px; transform-origin: {flippedY
 		? 'bottom'
 		: 'top'} {flippedX ? 'right' : 'left'};"
-	onmouseenter={cancelHide}
-	onmouseleave={scheduleHide}
+	onmouseenter={handleMouseEnter}
+	onmouseleave={handleMouseLeave}
 >
 	<div class="p-3.5">
 		<!-- Term -->
 		<h4 class="text-sm font-semibold text-slate-100">{concept.term}</h4>
 
-		<!-- Definition -->
-		<p class="mt-1.5 text-xs leading-relaxed text-slate-300">{concept.definition}</p>
+		<!-- Definition with rich text -->
+		<p class="mt-1.5 text-xs leading-relaxed text-slate-300">
+			{#each definitionSegments as seg, j (j)}
+				{#if seg.type === 'text'}
+					{seg.value}
+				{:else if seg.type === 'bold'}
+					<strong class="font-semibold text-slate-200">{seg.value}</strong>
+				{:else if seg.type === 'protocol-link' || seg.type === 'bold-protocol-link'}
+					<button
+						class="inline font-medium text-sky-400 transition-colors hover:text-sky-300 hover:underline"
+						onclick={() => navigateToProtocol(seg.protocolId)}
+					>
+						{seg.label}
+					</button>
+				{:else if seg.type === 'concept' || seg.type === 'bold-concept'}
+					<span class="font-medium text-slate-200">{seg.label}</span>
+				{/if}
+			{/each}
+		</p>
 
-		<!-- Analogy -->
+		<!-- Analogy with rich text -->
 		{#if concept.analogy}
 			<div class="mt-2 rounded-lg bg-white/[0.04] px-2.5 py-2">
 				<p class="text-[11px] leading-relaxed text-slate-400">
 					<span class="font-medium text-slate-300">Analogy:</span>
-					{concept.analogy}
+					{#each analogySegments as seg, j (j)}
+						{#if seg.type === 'text'}
+							{seg.value}
+						{:else if seg.type === 'bold'}
+							<strong class="font-semibold text-slate-300">{seg.value}</strong>
+						{:else if seg.type === 'protocol-link' || seg.type === 'bold-protocol-link'}
+							<button
+								class="inline font-medium text-sky-400 transition-colors hover:text-sky-300 hover:underline"
+								onclick={() => navigateToProtocol(seg.protocolId)}
+							>
+								{seg.label}
+							</button>
+						{:else if seg.type === 'concept' || seg.type === 'bold-concept'}
+							<span class="font-medium text-slate-300">{seg.label}</span>
+						{/if}
+					{/each}
 				</p>
 			</div>
 		{/if}

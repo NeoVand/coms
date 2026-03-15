@@ -197,7 +197,7 @@ openssl req -x509 -newkey rsa:2048 -nodes \\
 
 SSH provides an encrypted tunnel between {{client-server|client and server}} that can carry interactive shell sessions, file transfers (SCP/SFTP), and port forwarding. Authentication can use passwords, but the preferred method is {{public-key|public key}} authentication: your {{private-key|private key}} stays on your machine, and the server has your public key — no passwords transmitted over the network.
 
-Beyond shell access, SSH's port forwarding capability is remarkably powerful. You can create tunnels that securely expose remote services locally, bypass {{firewall|firewalls}}, and create ad-hoc VPNs — making SSH one of the most versatile networking tools in a developer's toolkit.`,
+Beyond shell access, SSH's {{port-forwarding|port forwarding}} capability is remarkably powerful. You can create {{tunnel|tunnels}} that securely expose remote services locally, bypass {{firewall|firewalls}}, and create ad-hoc {{vpn|VPNs}} — making SSH one of the most versatile networking tools in a developer's toolkit.`,
 		howItWorks: [
 			{
 				title: 'TCP connection + version exchange',
@@ -388,7 +388,7 @@ DNS is a distributed, hierarchical database. At the top are 13 root server clust
 
 A typical {{dns-resolution|DNS lookup}} takes 10-50ms and involves your device's stub resolver → your ISP's recursive resolver → root servers → TLD servers → authoritative servers. But caching means most lookups are answered in under 1ms from a nearby cache. DNS also carries more than just IP addresses: MX records for email, TXT records for verification, CNAME records for aliases, and many more.
 
-Security is a growing concern: DNSSEC (DNS Security Extensions) adds cryptographic signatures to DNS responses, authenticating their origin and preventing cache poisoning attacks where an attacker injects forged records. For privacy, DNS over TLS (DoT, port 853) and DNS over HTTPS (DoH) encrypt DNS queries so eavesdroppers can't see which domains you're resolving.`,
+Security is a growing concern: {{dnssec|DNSSEC}} (DNS Security Extensions) adds cryptographic signatures to DNS responses, authenticating their origin and preventing cache poisoning attacks where an attacker injects forged records. For privacy, DNS over TLS (DoT, port 853) and {{dns-over-https|DNS over HTTPS}} (DoH) encrypt DNS queries so eavesdroppers can't see which domains you're resolving.`,
 		howItWorks: [
 			{
 				title: 'Query sent',
@@ -566,7 +566,7 @@ curl -sH 'accept: application/dns-json' \\
 		oneLiner: "Automatically assigns IP addresses — plug in and you're on the network.",
 		overview: `DHCP is the reason you can connect to a Wi-Fi network and immediately start browsing. Without it, you'd have to manually configure your {{ip-address|IP address}}, {{subnet|subnet mask}}, {{gateway|gateway}}, and DNS servers — for every network you join.
 
-When your device connects to a network, it broadcasts a DHCP Discover message ("I need an IP address!"). A DHCP server responds with an offer, which the client accepts. The server then confirms and assigns the IP, along with all the configuration your device needs: subnet mask, default gateway, [[dns|DNS]] servers, and the lease duration.
+When your device connects to a network, it {{broadcast|broadcasts}} a DHCP Discover message ("I need an IP address!"). A DHCP server responds with an offer, which the client accepts. The server then confirms and assigns the IP, along with all the configuration your device needs: subnet mask, default gateway, [[dns|DNS]] servers, and the {{lease|lease}} duration.
 
 DHCP leases are temporary — typically 1-24 hours. When a lease expires, the device must renew it. This dynamic allocation means IP addresses can be reused efficiently. DHCP is simple, ubiquitous, and works transparently — one of those "invisible" {{protocol|protocols}} that makes networking just work.
 
@@ -760,7 +760,7 @@ DHCP ACK:
 		year: 1985,
 		rfc: 'RFC 5905',
 		oneLiner: 'Keeps every device on Earth synchronized to the same clock.',
-		overview: `NTP is one of the oldest protocols still in active use, and one of the most underappreciated. It synchronizes clocks across the internet to within milliseconds — a critical requirement for everything from log correlation to financial trading to [[tls|TLS]] certificate validation.
+		overview: `NTP is one of the oldest protocols still in active use, and one of the most underappreciated. It synchronizes clocks across the internet to within milliseconds — a critical requirement for everything from log correlation to financial trading to [[tls|TLS]] {{certificate|certificate}} validation.
 
 NTP uses a hierarchical system of time sources. Stratum 0 are atomic clocks and GPS receivers. Stratum 1 servers connect directly to these. Stratum 2 servers sync from Stratum 1, and so on. Your computer typically syncs from Stratum 2 or 3 servers (like pool.ntp.org).
 
@@ -930,7 +930,7 @@ sudo ntpdate pool.ntp.org`
 		rfc: 'RFC 5321',
 		oneLiner:
 			'The protocol that delivers email across the internet — store and forward, hop by hop.',
-		overview: `SMTP is the backbone of email. Every email you've ever sent was delivered via SMTP — from your mail client to your provider's server, then relayed across the internet to the recipient's mail server. It's a "store and forward" protocol: each server along the path accepts responsibility for the message and forwards it to the next hop.
+		overview: `SMTP is the backbone of email. Every email you've ever sent was delivered via SMTP — from your mail client to your provider's server, then relayed across the internet to the recipient's mail server. It's a "store and forward" protocol: each server along the path accepts responsibility for the message and forwards it to the next {{hop|hop}}.
 
 SMTP is a text-based {{protocol|protocol}} with a simple command vocabulary: HELO/EHLO to greet, MAIL FROM to specify the sender, RCPT TO for recipients, DATA to send the message body, and QUIT to disconnect. Modern SMTP uses STARTTLS to upgrade plain connections to [[tls|TLS]]-encrypted ones, and authentication (SMTP AUTH) to prevent unauthorized sending.
 
@@ -1095,7 +1095,7 @@ Server: 221 2.0.0 Bye`
 
 The control channel ({{port|port}} 21) carries text commands like USER, PASS, LIST, RETR (download), and STOR (upload). When a file transfer begins, a separate data connection opens on a different port. In "active" mode, the server connects back to the client; in "passive" mode (PASV), the client initiates both connections, which works better with {{firewall|firewalls}} and {{nat|NAT}}.
 
-While FTP's plain-text design makes it insecure by modern standards, FTPS (FTP over [[tls|TLS]]) adds {{encryption|encryption}}. SFTP ([[ssh|SSH]] File Transfer Protocol) is a completely different protocol that runs over [[ssh|SSH]]. Despite being largely superseded by SFTP, SCP, and [[http1|HTTP]]-based file transfer, FTP remains in use for legacy systems, firmware updates, and bulk file hosting.`,
+While FTP's {{plaintext|plain-text}} design makes it insecure by modern standards, FTPS (FTP over [[tls|TLS]]) adds {{encryption|encryption}}. SFTP ([[ssh|SSH]] File Transfer Protocol) is a completely different protocol that runs over [[ssh|SSH]]. Despite being largely superseded by SFTP, SCP, and [[http1|HTTP]]-based file transfer, FTP remains in use for legacy systems, firmware updates, and bulk file hosting.`,
 		howItWorks: [
 			{
 				title: 'Control connection',
@@ -1584,9 +1584,9 @@ for await (const elem of parser) {
 		rfc: 'RFC 792',
 		oneLiner:
 			'The diagnostic protocol behind ping and traceroute — how the network reports errors.',
-		overview: `ICMP is the internet's error-reporting and diagnostic protocol. When you type \`ping google.com\`, ICMP Echo Request and Reply messages measure whether the target is reachable and how long the {{rtt|round trip}} takes. When you run \`traceroute\`, ICMP Time Exceeded messages reveal each hop along the path. ICMP is arguably the most universally used protocol in network troubleshooting.
+		overview: `ICMP is the internet's error-reporting and diagnostic protocol. When you type \`ping google.com\`, ICMP Echo Request and Reply messages measure whether the target is reachable and how long the {{rtt|round trip}} takes. When you run \`traceroute\`, ICMP Time Exceeded messages reveal each {{hop|hop}} along the path. ICMP is arguably the most universally used protocol in network troubleshooting.
 
-Unlike [[tcp|TCP]] or UDP, ICMP doesn't use {{port|ports}}. It's {{encapsulation|encapsulated}} directly in IP {{packet|packets}} with protocol number 1 — sitting at the network layer, not the transport layer. This means ICMP can report problems that TCP and UDP can't even see: unreachable networks, expired {{ttl|TTLs}}, fragmentation issues, and routing redirects.
+Unlike [[tcp|TCP]] or UDP, ICMP doesn't use {{port|ports}}. It's {{encapsulation|encapsulated}} directly in IP {{packet|packets}} with protocol number 1 — sitting at the network layer, not the transport layer. This means ICMP can report problems that TCP and UDP can't even see: unreachable networks, expired {{ttl|TTLs}}, {{fragmentation|fragmentation}} issues, and routing redirects.
 
 Every router on the internet speaks ICMP. When a router can't deliver a packet, it sends an ICMP Destination Unreachable (Type 3) back to the sender, with codes specifying why: network unreachable, host unreachable, port unreachable, or "fragmentation needed but don't-fragment flag is set" (which is essential for Path MTU Discovery).
 
@@ -1779,11 +1779,11 @@ ICMP Echo Reply:
 		rfc: 'RFC 6749',
 		oneLiner:
 			'Delegated authorization for the modern web — let apps access your data without sharing your password.',
-		overview: `OAuth 2.0 is the authorization framework that powers "Sign in with Google," "Connect your GitHub," and virtually every third-party integration on the modern web. Instead of handing your password to an application, OAuth lets you grant it a scoped, time-limited access token — the app can read your repos but not delete them, view your calendar but not your email. Your credentials never leave the identity provider.
+		overview: `OAuth 2.0 is the authorization framework that powers "Sign in with Google," "Connect your GitHub," and virtually every third-party integration on the modern web. Instead of handing your password to an application, OAuth lets you grant it a scoped, time-limited {{access-token|access token}} — the app can read your repos but not delete them, view your calendar but not your email. Your credentials never leave the identity provider.
 
 The core mechanism is the authorization code flow. When you click "Sign in with GitHub," you're redirected to GitHub's authorization server. You authenticate there (not on the app), review what permissions the app is requesting, and consent. GitHub redirects you back to the app with a short-lived authorization code. The app exchanges this code — along with a PKCE (Proof Key for Code Exchange) code verifier to prevent interception — for an access token and a refresh token. Access tokens are short-lived (minutes to hours); when they expire, the app uses the refresh token to silently obtain a new one without bothering the user.
 
-A critical distinction: OAuth is an authorization {{protocol|protocol}} (what you can access), not an authentication protocol (who you are). Knowing that a token grants read access to someone's repos doesn't tell you who that someone is. OpenID Connect (OIDC) is a thin identity layer built on top of OAuth that adds authentication — it returns an ID token (a JWT) containing the user's identity. Together, OAuth + OIDC secure [[rest|REST]] APIs across the web, all running over [[tls|TLS]] on top of [[http1|HTTP]] and [[tcp|TCP]].`,
+A critical distinction: OAuth is an authorization {{protocol|protocol}} (what you can access), not an authentication protocol (who you are). Knowing that a token grants read access to someone's repos doesn't tell you who that someone is. OpenID Connect (OIDC) is a thin identity layer built on top of OAuth that adds authentication — it returns an ID token (a {{jwt|JWT}}) containing the user's identity. Together, OAuth + OIDC secure [[rest|REST]] APIs across the web, all running over [[tls|TLS]] on top of [[http1|HTTP]] and [[tcp|TCP]].`,
 		howItWorks: [
 			{
 				title: 'Authorization request',
