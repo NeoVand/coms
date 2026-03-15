@@ -21,6 +21,9 @@ const highlightedNames: Record<string, string> = {
 	graphql: '[Graph][Q]uery [L]anguage',
 	sse: '[S]erver-[S]ent [E]vents',
 	rest: '[RE]presentational [S]tate [T]ransfer',
+	'json-rpc': '[JSON]-[R]emote [P]rocedure [C]all',
+	mcp: '[M]odel [C]ontext [P]rotocol',
+	a2a: '[A]gent-to-[A]gent Protocol',
 
 	// Async / IoT
 	mqtt: '[MQTT]',

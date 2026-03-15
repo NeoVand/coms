@@ -42,9 +42,9 @@ window.__dev.play();
 
 **Important:** Always wait ~2s after page reload for the app to mount before using `__dev`. The helper is only available in dev mode — it's tree-shaken out of production builds.
 
-**Protocol IDs with simulations:** `tcp`, `dns`, `http1`, `udp`, `tls`, `http2`, `http3`, `websockets`, `grpc`, `ssh`, `rest`, `webrtc`
+**Protocol IDs with simulations:** `tcp`, `dns`, `http1`, `udp`, `tls`, `http2`, `http3`, `websockets`, `grpc`, `ssh`, `rest`, `webrtc`, `json-rpc`, `mcp`, `a2a`
 
-**All protocol IDs:** `tcp`, `udp`, `quic`, `sctp`, `mptcp`, `http1`, `http2`, `http3`, `websockets`, `grpc`, `graphql`, `sse`, `rest`, `mqtt`, `amqp`, `coap`, `stomp`, `xmpp`, `kafka`, `webrtc`, `rtp`, `sip`, `hls`, `rtmp`, `sdp`, `dash`, `tls`, `ssh`, `dns`, `dhcp`, `ntp`, `smtp`, `ftp`
+**All protocol IDs:** `tcp`, `udp`, `quic`, `sctp`, `mptcp`, `http1`, `http2`, `http3`, `websockets`, `grpc`, `graphql`, `sse`, `rest`, `json-rpc`, `mcp`, `a2a`, `mqtt`, `amqp`, `coap`, `stomp`, `xmpp`, `kafka`, `webrtc`, `rtp`, `sip`, `hls`, `rtmp`, `sdp`, `dash`, `tls`, `ssh`, `dns`, `dhcp`, `ntp`, `smtp`, `ftp`
 
 ---
 

@@ -737,6 +737,89 @@ export const journeys: Journey[] = [
 					'IMAP (Internet Message Access Protocol) is what makes modern multi-device email possible. Unlike its predecessor POP3 (which downloads messages and optionally deletes them from the server), IMAP keeps all messages on the server and synchronizes state across every connected client. When you open your email app, IMAP fetches just the headers first (sender, subject, date) for a fast initial display, then downloads full message bodies on demand. Folders, flags (read, starred, deleted), and search happen server-side, so changes made on your phone instantly appear on your laptop. IMAP IDLE enables push notifications — the server immediately alerts your client when a new message arrives, eliminating the need for periodic polling. This server-centric model is why Gmail, Outlook, and every modern email service can provide a consistent experience across web, desktop, and mobile.'
 			}
 		]
+	},
+
+	// ── Web / API (AI Protocols) ──────────────────────────────────────
+
+	{
+		id: 'ai-agent-communication',
+		title: 'How AI Agents Work Together',
+		description:
+			'Follow an AI agent from tool discovery to multi-agent collaboration — through JSON-RPC, MCP, and A2A.',
+		color: '#00D4FF',
+		scope: 'web-api',
+		steps: [
+			{
+				protocolId: 'json-rpc',
+				title: 'JSON-RPC: The Wire Format',
+				description:
+					'Before AI protocols existed, [[json-rpc|JSON-RPC]] 2.0 was already the wire format of choice for infrastructure — Ethereum nodes, Bitcoin Core, and the Language Server Protocol in VS Code all spoke [[json-rpc|JSON-RPC]]. Its appeal was radical simplicity: send a JSON object with a method name, params, and an ID; get back a result or error with the same ID. No schema files, no code generation, no binary encoding. When Anthropic and Google independently designed their AI protocols, both chose [[json-rpc|JSON-RPC]] 2.0 as the foundation — not because it was trendy, but because it was the simplest thing that could possibly work.',
+				transition: '[[json-rpc|JSON-RPC]] provides the wire framing, but it says nothing about what methods should exist, what parameters they should take, or how AI applications should discover tools. A higher-level protocol was needed to define the semantics of AI tool use...'
+			},
+			{
+				protocolId: 'mcp',
+				title: 'MCP: Connecting Agents to Tools',
+				description:
+					'The Model Context Protocol solves the N×M integration problem. Before [[mcp|MCP]], connecting Claude to your database required custom code — different from connecting it to GitHub, different from Slack. [[mcp|MCP]] provides a universal interface: an MCP server exposes tools (actions the LLM can invoke), resources (data it can read), and prompts (templates it can use). The three-step initialization handshake negotiates capabilities, then the AI host discovers available tools via tools/list and invokes them via tools/call. A single host can connect to dozens of MCP servers simultaneously — one for your database, one for git, one for Slack — all through the same protocol.',
+				transition: '[[mcp|MCP]] beautifully connects a single agent to its tools. But what happens when the task requires multiple specialized agents — a travel agent, a research agent, a booking agent — each with their own tools and expertise? A different protocol handles that layer of coordination...'
+			},
+			{
+				protocolId: 'a2a',
+				title: 'A2A: Connecting Agents to Agents',
+				description:
+					'The Agent-to-Agent Protocol picks up where [[mcp|MCP]] leaves off. While [[mcp|MCP]] is vertical (agent-to-tools), [[a2a|A2A]] is horizontal (agent-to-agent). Each agent publishes an Agent Card at /.well-known/agent.json describing its skills and capabilities. A coordinator agent discovers specialist agents, delegates tasks via message/send, and receives structured results as Artifacts. Tasks have a full lifecycle — submitted, working, input-required, completed — with [[sse|SSE]] streaming for real-time progress. The key design insight is {{opacity|opacity}}: you don\'t see another agent\'s internal reasoning or tool usage, only its skills and outputs. This allows agents from different vendors, built with different frameworks, to collaborate seamlessly.',
+				transition: 'In a production system, [[a2a|A2A]] and [[mcp|MCP]] work together. The coordinator uses [[a2a|A2A]] to delegate to a specialist, and that specialist uses [[mcp|MCP]] internally to access its tools. But both protocols rely on the same real-time streaming mechanism to deliver incremental results...'
+			},
+			{
+				protocolId: 'sse',
+				title: 'SSE: Streaming AI Responses',
+				description:
+					'Server-Sent Events tie everything together at the transport level. When an [[mcp|MCP]] tool takes time to produce results, the server upgrades its [[http1|HTTP]] response to an [[sse|SSE]] stream, pushing progress {{notification|notifications}} and partial results as events. When an [[a2a|A2A]] agent works on a long task, it streams TaskStatusUpdate and TaskArtifactUpdate events via [[sse|SSE]]. Even the token-by-token streaming you see in chat interfaces is [[sse|SSE]] under the hood. The EventSource API\'s auto-reconnection means that if the connection drops mid-stream, the client reconnects and resumes from the last event ID — no data lost, no user intervention needed.'
+			}
+		]
+	},
+	{
+		id: 'api-evolution',
+		title: 'From REST to AI Protocols',
+		description: 'The evolution of web APIs — from resource-oriented REST to AI-native protocols.',
+		color: '#00D4FF',
+		scope: 'global',
+		steps: [
+			{
+				protocolId: 'rest',
+				title: 'REST: The Foundation',
+				description:
+					'Roy Fielding\'s 2000 dissertation defined [[rest|REST]] as an architectural style: use [[http1|HTTP]] verbs for operations, URLs for resources, and make everything stateless. [[rest|REST]] dominated the API landscape for two decades because of its simplicity — any language with an [[http1|HTTP]] client could call a REST API. But REST was designed for human developers building web applications, not for AI systems that need to dynamically discover and invoke capabilities. Over-fetching, under-fetching, and the lack of machine-readable schemas were annoyances for developers but blockers for autonomous agents.',
+				transition: '[[rest|REST]] served the web brilliantly for human-to-machine communication. But as systems grew more complex, developers needed richer patterns — typed contracts, efficient serialization, and flexible data fetching...'
+			},
+			{
+				protocolId: 'grpc',
+				title: 'gRPC: Typed, Efficient RPC',
+				description:
+					'Google\'s internal RPC system, Stubby, handled billions of requests per day. When they open-sourced it as [[grpc|gRPC]] in 2015, it brought protocol buffers (binary serialization 3-10x smaller than JSON), [[http2|HTTP/2]] multiplexing, and streaming to the developer community. For the first time, API contracts were machine-enforced at compile time via .proto files. The tradeoff was complexity — code generation, [[http2|HTTP/2]] requirements, and binary payloads that couldn\'t be debugged with curl. But for service-to-service communication at scale, [[grpc|gRPC]] was a revelation.',
+				transition: '[[grpc|gRPC]] optimized for machine-to-machine efficiency, but it required schema compilation and couldn\'t easily serve browser clients. What if there was something in between — human-readable like [[rest|REST]] but with typed schemas and flexible querying?'
+			},
+			{
+				protocolId: 'json-rpc',
+				title: 'JSON-RPC: The Minimal Wire Format',
+				description:
+					'While [[rest|REST]] and [[grpc|gRPC]] dominated mainstream APIs, a quieter revolution was happening in infrastructure. [[json-rpc|JSON-RPC]] 2.0 — a one-page spec for calling methods by name over JSON — became the backbone of Ethereum\'s blockchain API, Bitcoin Core, and Microsoft\'s Language Server Protocol. Its appeal was radical simplicity: no URL routing, no [[http1|HTTP]] verb semantics, no schema compilation. Just a method name, params, and an ID. The spec was so simple and transport-agnostic ([[http1|HTTP]], [[websockets|WebSocket]], stdio, [[tcp|TCP]]) that it became the natural foundation for the next generation of protocols.',
+				transition: '[[json-rpc|JSON-RPC]] proved that method-oriented RPC over JSON was powerful enough for critical infrastructure. When the AI revolution demanded new protocols for tool use and agent collaboration, [[json-rpc|JSON-RPC]] was the obvious wire format...'
+			},
+			{
+				protocolId: 'mcp',
+				title: 'MCP: AI-Native Tool Access',
+				description:
+					'In November 2024, Anthropic released the Model Context Protocol — the first protocol designed specifically for AI applications. Built on [[json-rpc|JSON-RPC]] 2.0, [[mcp|MCP]] provides dynamic tool discovery (tools/list returns JSON Schema definitions that LLMs can understand), resource access (files, database rows, API responses), and prompt templates. The key insight was that AI applications don\'t just need APIs — they need self-describing APIs that an LLM can discover, understand, and invoke autonomously. Within a year, Claude, ChatGPT, Copilot, Cursor, and VS Code all spoke [[mcp|MCP]], with over 10,000 MCP servers in production.',
+				transition: '[[mcp|MCP]] connected AI agents to tools, solving the integration problem. But the next challenge was bigger: how do you get multiple AI agents — potentially from different vendors, built with different frameworks — to collaborate on complex tasks?'
+			},
+			{
+				protocolId: 'a2a',
+				title: 'A2A: AI-Native Agent Collaboration',
+				description:
+					'Google\'s Agent-to-Agent Protocol, announced in April 2025, completed the picture. Where [[mcp|MCP]] connects agents to tools, [[a2a|A2A]] connects agents to each other. An agent publishes its skills in an Agent Card, and other agents discover it, delegate tasks, and receive structured results — all without knowing anything about the internal implementation. The task lifecycle (submitted → working → completed) with [[sse|SSE]] streaming provides the coordination primitives that multi-agent systems need. Together, [[mcp|MCP]] and [[a2a|A2A]] form the two-protocol foundation of the agentic AI era — donated to the Linux Foundation as open industry standards.'
+			}
+		]
 	}
 ];
 

@@ -112,7 +112,7 @@ curl -v https://example.com/api/users/42`
 			overhead:
 				'Text headers are uncompressed and often repeated — 500-800 bytes typical per request'
 		},
-		connections: ['tcp', 'tls', 'http2', 'websockets', 'rest', 'soap', 'oauth2'],
+		connections: ['a2a', 'json-rpc', 'mcp', 'tcp', 'tls', 'http2', 'websockets', 'rest', 'soap', 'oauth2'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/HTTP',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc9112'
@@ -505,7 +505,7 @@ curl -i -N \\
 			throughput: 'Near wire-speed for small messages; minimal framing overhead',
 			overhead: '2-14 bytes per frame (vs 200-800 bytes per HTTP request)'
 		},
-		connections: ['http1', 'http2', 'tcp', 'tls', 'sse', 'graphql', 'rest'],
+		connections: ['a2a', 'http1', 'http2', 'json-rpc', 'mcp', 'tcp', 'tls', 'sse', 'graphql', 'rest'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/WebSocket',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc6455'
@@ -638,7 +638,7 @@ grpcurl -plaintext localhost:50051 UserService/ListUsers`
 			throughput: 'Protobuf is 3-10x smaller than JSON; 3-10x faster to serialize/deserialize',
 			overhead: 'HTTP/2 framing + protobuf encoding. Very efficient for structured data.'
 		},
-		connections: ['http2', 'tls', 'rest', 'soap'],
+		connections: ['a2a', 'http2', 'json-rpc', 'mcp', 'tls', 'rest', 'soap'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/GRPC',
 			official: 'https://grpc.io/'
@@ -786,7 +786,7 @@ curl -X POST https://api.example.com/graphql \\
 				'No over-fetching reduces payload size; but complex queries can stress the server',
 			overhead: 'Query parsing + validation adds server-side cost. Caching is harder than REST.'
 		},
-		connections: ['http1', 'http2', 'websockets', 'rest', 'sse', 'soap'],
+		connections: ['http1', 'http2', 'json-rpc', 'websockets', 'rest', 'sse', 'soap'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/GraphQL',
 			official: 'https://graphql.org/'
@@ -917,7 +917,7 @@ curl -sN https://example.com/api/notifications \\
 			throughput: 'Lightweight text streaming',
 			overhead: 'Minimal — plain HTTP, no upgrade'
 		},
-		connections: ['http1', 'http2', 'websockets', 'graphql', 'rest'],
+		connections: ['a2a', 'http1', 'http2', 'mcp', 'websockets', 'graphql', 'rest'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Server-sent_events',
 			official: 'https://html.spec.whatwg.org/multipage/server-sent-events.html'
@@ -1046,7 +1046,7 @@ curl -X DELETE https://api.example.com/users/42`
 			throughput: 'Depends on HTTP version used',
 			overhead: 'Minimal — uses standard HTTP semantics'
 		},
-		connections: ['http1', 'http2', 'http3', 'graphql', 'grpc', 'sse', 'websockets', 'soap', 'oauth2'],
+		connections: ['a2a', 'http1', 'http2', 'http3', 'json-rpc', 'mcp', 'graphql', 'grpc', 'sse', 'websockets', 'soap', 'oauth2'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/REST',
 			official: 'https://ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm'
@@ -1057,6 +1057,528 @@ curl -X DELETE https://api.example.com/users/42`
 			caption:
 				'The client-server model — the foundation of REST architecture. Clients send stateless HTTP requests to a server, which manages resources and returns representations. This separation of concerns is what makes REST APIs scalable and cacheable.',
 			credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
+		}
+	},
+	{
+		id: 'mcp',
+		name: 'Model Context Protocol',
+		abbreviation: 'MCP',
+		categoryId: 'web-api',
+		port: undefined,
+		year: 2024,
+		rfc: undefined,
+		oneLiner:
+			'A universal interface that lets AI applications discover and use tools, data, and prompts from any server.',
+		overview: `MCP is the protocol that solved the AI integration problem. Before MCP, every AI application needed custom code for every data source — connecting Claude to your database was a different project than connecting it to GitHub, which was different again from connecting it to Slack. An N-clients × M-tools matrix of bespoke integrations. MCP collapses this to N + M: each AI host implements the MCP client once, each tool implements the MCP server once, and they all interoperate.
+
+Anthropic released MCP in November 2024, and it was quickly adopted across the industry — Claude, ChatGPT, Copilot, Cursor, VS Code, and Replit all speak MCP. The protocol uses [[json-rpc|JSON-RPC]] 2.0 as its wire format, running over two transports: stdio (for local tools spawned as subprocesses) and Streamable HTTP (for remote servers, where responses can upgrade to [[sse|SSE]] streams). A three-step initialization handshake negotiates capabilities: the client declares what it supports ({{sampling|sampling}}, roots, elicitation), the server declares what it offers (tools, resources, prompts), and both sides confirm readiness.
+
+The architecture has three roles: the **Host** (the AI application you interact with), the **Client** (a protocol handler inside the host that manages one session), and the **Server** (a lightweight process exposing tools, resources, and prompts). A single host can connect to many servers simultaneously. In December 2025, Anthropic donated MCP to the Agentic AI Foundation under the Linux Foundation, co-founded with Block and OpenAI. By early 2026, the protocol was processing over 97 million SDK downloads per month. [[a2a|A2A]] complements MCP — where MCP connects an agent to its tools, [[a2a|A2A]] connects agents to each other.`,
+		howItWorks: [
+			{
+				title: 'Transport connection',
+				description:
+					'The host starts the MCP server — either spawning it as a local subprocess (stdio transport) or connecting to a remote HTTP endpoint (Streamable HTTP transport). No protocol messages flow yet.'
+			},
+			{
+				title: 'Initialize handshake',
+				description:
+					'The client sends an "initialize" JSON-RPC request declaring its protocol version and capabilities (sampling, roots, elicitation). The server responds with its own version and capabilities (tools, resources, prompts). The client then sends a "notifications/initialized" notification to confirm readiness.'
+			},
+			{
+				title: 'Discovery',
+				description:
+					'The client calls "tools/list" to discover available tools (with JSON Schema input definitions), "resources/list" to find data sources, and "prompts/list" to find prompt templates. The LLM uses these to decide what to invoke.'
+			},
+			{
+				title: 'Tool invocation',
+				description:
+					'When the LLM decides to use a tool, the client sends "tools/call" with the tool name and arguments. The server executes the tool and returns results as text, images, or structured data. Resources are read with "resources/read."'
+			},
+			{
+				title: 'Session lifecycle',
+				description:
+					'The session stays open for multiple interactions. The server can send notifications (progress updates, resource changes). Either side can close the transport — for stdio, the host terminates the subprocess; for HTTP, the connection is closed.'
+			}
+		],
+		useCases: [
+			'IDE coding assistants accessing file systems, git, and databases (Cursor, VS Code)',
+			'AI chatbots querying enterprise knowledge bases and CRMs',
+			'Automated workflows connecting LLMs to APIs (Slack, GitHub, Jira)',
+			'Multi-tool AI orchestration with dynamic tool discovery',
+			'Local development tools exposing capabilities to AI agents'
+		],
+		codeExample: {
+			language: 'python',
+			code: `from mcp.server.fastmcp import FastMCP
+
+mcp = FastMCP("Demo Server")
+
+@mcp.tool()
+def add(a: int, b: int) -> int:
+    """Add two numbers."""
+    return a + b
+
+@mcp.resource("greeting://{name}")
+def get_greeting(name: str) -> str:
+    """Return a personalized greeting."""
+    return f"Hello, {name}!"
+
+@mcp.prompt()
+def review_code(code: str) -> str:
+    """Generate a code review prompt."""
+    return f"Please review this code:\\n{code}"
+
+# Run with: mcp run server.py
+# Or: mcp dev server.py (for inspector UI)`,
+			caption:
+				'Three lines of decorator code expose a tool, a resource, and a prompt — the MCP SDK handles all the JSON-RPC plumbing.',
+			alternatives: [
+				{
+					language: 'javascript',
+					code: `import { Server } from "@modelcontextprotocol/sdk/server/index.js";
+import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+
+const server = new Server(
+  { name: "demo-server", version: "1.0.0" },
+  { capabilities: { tools: {}, resources: {} } }
+);
+
+// Register a tool
+server.setRequestHandler(ListToolsRequestSchema, async () => ({
+  tools: [{
+    name: "add",
+    description: "Add two numbers",
+    inputSchema: {
+      type: "object",
+      properties: {
+        a: { type: "number" },
+        b: { type: "number" }
+      }
+    }
+  }]
+}));
+
+server.setRequestHandler(CallToolRequestSchema, async (req) => ({
+  content: [{
+    type: "text",
+    text: String(req.params.arguments.a + req.params.arguments.b)
+  }]
+}));
+
+const transport = new StdioServerTransport();
+await server.connect(transport);`
+				},
+				{
+					language: 'cli',
+					code: `# Install the MCP CLI
+pip install mcp
+
+# Run an MCP server
+mcp run server.py
+
+# Open the MCP Inspector (interactive debugging UI)
+mcp dev server.py
+
+# Test with curl (Streamable HTTP transport)
+curl -X POST http://localhost:3000/mcp \\
+  -H "Content-Type: application/json" \\
+  -d '{"jsonrpc":"2.0","method":"tools/list","id":1}'
+
+# Install an MCP server in Claude Desktop
+# Add to ~/Library/Application Support/Claude/claude_desktop_config.json:
+# { "mcpServers": { "demo": { "command": "python", "args": ["server.py"] } } }`
+				},
+				{
+					language: 'wire',
+					code: '',
+					sections: [
+						{
+							title: 'Initialize Handshake',
+							code: `── Client → Server ──\n{"jsonrpc":"2.0","method":"initialize","params":{"protocolVersion":"2025-11-25","capabilities":{"sampling":{},"roots":{"listChanged":true}},"clientInfo":{"name":"claude-desktop","version":"1.0"}},"id":1}\n\n── Server → Client ──\n{"jsonrpc":"2.0","result":{"protocolVersion":"2025-11-25","capabilities":{"tools":{"listChanged":true},"resources":{"subscribe":true},"prompts":{}},"serverInfo":{"name":"demo-server","version":"1.0.0"}},"id":1}\n\n── Client → Server (notification, no id) ──\n{"jsonrpc":"2.0","method":"notifications/initialized"}`
+						},
+						{
+							title: 'Tool Discovery & Invocation',
+							code: `── Client → Server ──\n{"jsonrpc":"2.0","method":"tools/list","id":2}\n\n── Server → Client ──\n{"jsonrpc":"2.0","result":{"tools":[{"name":"add","description":"Add two numbers","inputSchema":{"type":"object","properties":{"a":{"type":"number"},"b":{"type":"number"}}}}]},"id":2}\n\n── Client → Server ──\n{"jsonrpc":"2.0","method":"tools/call","params":{"name":"add","arguments":{"a":42,"b":23}},"id":3}\n\n── Server → Client ──\n{"jsonrpc":"2.0","result":{"content":[{"type":"text","text":"65"}]},"id":3}`
+						}
+					]
+				}
+			]
+		},
+		performance: {
+			latency:
+				'stdio transport has near-zero overhead (IPC, no network). Streamable HTTP adds one HTTP round trip per call. Tool execution time dominates.',
+			throughput:
+				'JSON-RPC 2.0 framing is lightweight. Throughput depends on the tool implementation — a database query tool is limited by the database, not MCP.',
+			overhead:
+				'Minimal protocol overhead — a tools/call request is ~100 bytes of JSON. The initialize handshake adds one round trip at session start.'
+		},
+		connections: ['a2a', 'grpc', 'http1', 'json-rpc', 'rest', 'sse', 'websockets'],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/Model_Context_Protocol',
+			official: 'https://modelcontextprotocol.io/'
+		},
+		image: {
+			src: 'https://upload.wikimedia.org/wikipedia/commons/d/d5/Model_Context_Protocol_Component_diagram.svg',
+			alt: 'Model Context Protocol component diagram showing the Host, Client, and Server architecture with tool, resource, and prompt primitives',
+			caption:
+				'The MCP architecture — a Host (AI application) creates Clients that connect 1:1 to Servers. Each Server exposes tools, resources, and prompts through a standard JSON-RPC interface. Created by Anthropic in 2024 and donated to the Linux Foundation in 2025.',
+			credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
+		}
+	},
+	{
+		id: 'a2a',
+		name: 'Agent-to-Agent Protocol',
+		abbreviation: 'A2A',
+		categoryId: 'web-api',
+		port: undefined,
+		year: 2025,
+		rfc: undefined,
+		oneLiner:
+			'An open protocol that lets AI agents discover each other, delegate tasks, and collaborate — even across different frameworks and vendors.',
+		overview: `A2A solves the problem that [[mcp|MCP]] doesn't: how do AI agents talk to *each other*? MCP connects an agent to its tools and data sources, but modern AI systems increasingly need multiple specialized agents working together — a travel agent delegating to flight, hotel, and car rental agents; an HR agent coordinating with payroll, benefits, and IT provisioning agents. A2A provides the standard protocol for this multi-agent collaboration.
+
+Google announced A2A in April 2025 at Cloud Next, backed by over 100 technology partners including Atlassian, Microsoft, Salesforce, SAP, and LangChain. The protocol uses [[json-rpc|JSON-RPC]] 2.0 over [[http1|HTTP]], with [[sse|SSE]] for streaming and webhooks for push notifications. A key design principle is {{opacity|opacity}}: agents are treated as black boxes. You don't see their internal reasoning, tool usage, or prompt chains — you see their **skills** (what they can do) and their **artifacts** (what they produce). This is fundamentally different from MCP, where the server's tools and resources are fully transparent.
+
+Discovery happens through **Agent Cards** — JSON metadata documents served at \`/.well-known/agent.json\` that describe an agent's identity, capabilities, skills, and authentication requirements. The fundamental unit of work is a **Task**, which progresses through a defined lifecycle: submitted → working → completed (or failed, canceled, or input-required when the agent needs more information). In June 2025, A2A moved to the Linux Foundation, and version 1.0 shipped in early 2026. Together with [[mcp|MCP]], A2A forms the two-protocol foundation of the agentic AI era — MCP for tool use, A2A for agent collaboration.`,
+		howItWorks: [
+			{
+				title: 'Agent discovery',
+				description:
+					'A client agent fetches the remote agent\'s Agent Card from /.well-known/agent.json. The card describes the agent\'s name, skills, supported capabilities (streaming, push notifications), and authentication requirements (API key, OAuth 2.0, OpenID Connect).'
+			},
+			{
+				title: 'Send a message',
+				description:
+					'The client sends a JSON-RPC request to the remote agent\'s endpoint using "message/send" (synchronous) or "message/stream" (streaming via SSE). The message contains Parts — TextPart, FilePart, or DataPart — describing what the client needs.'
+			},
+			{
+				title: 'Task lifecycle',
+				description:
+					'The remote agent creates a Task and begins processing. The task progresses through states: submitted → working → completed. If the agent needs more information, it returns "input-required" and the client sends additional messages to the same task.'
+			},
+			{
+				title: 'Artifacts returned',
+				description:
+					'As the agent works, it produces Artifacts — structured outputs composed of Parts (text, files, data). Artifacts can be streamed incrementally via SSE or returned all at once in the final response.'
+			},
+			{
+				title: 'Async & push',
+				description:
+					'For long-running tasks, the agent can send push notifications to a client-provided webhook URL, allowing the client to disconnect and receive updates later. Tasks can also be canceled or queried for status.'
+			}
+		],
+		useCases: [
+			'Multi-agent travel booking (coordinator delegates to flight, hotel, car agents)',
+			'Enterprise workflow orchestration across departments (HR, IT, payroll)',
+			'Customer service routing to specialized agents (billing, technical, returns)',
+			'Cross-vendor AI collaboration (agents from different companies working together)',
+			'Supply chain negotiation between procurement and supplier agents'
+		],
+		codeExample: {
+			language: 'python',
+			code: `from a2a.server.agent_execution import AgentExecutor
+from a2a.server.events import EventQueue
+from a2a.types import AgentCard, AgentSkill
+
+class TravelAgent(AgentExecutor):
+    async def execute(self, context, event_queue: EventQueue):
+        # Process the user's request
+        request = context.get_user_message()
+        flights = await self.search_flights(request)
+
+        # Return results as an artifact
+        event_queue.enqueue_event(
+            new_artifact_event(parts=[
+                TextPart(text=f"Found {len(flights)} flights"),
+                DataPart(data={"flights": flights})
+            ])
+        )
+
+# Define the Agent Card
+card = AgentCard(
+    name="Travel Agent",
+    url="http://localhost:9000",
+    version="1.0.0",
+    skills=[
+        AgentSkill(id="flights", name="Flight Search",
+                   description="Search and book flights")
+    ],
+    capabilities={"streaming": True}
+)`,
+			caption:
+				'An A2A agent publishes its skills in an Agent Card and handles tasks via an executor — the SDK manages JSON-RPC, streaming, and task lifecycle.',
+			alternatives: [
+				{
+					language: 'javascript',
+					code: `// A2A Client — discover and call a remote agent
+const cardRes = await fetch(
+  'http://travel-agent:9000/.well-known/agent.json'
+);
+const agentCard = await cardRes.json();
+console.log('Skills:', agentCard.skills);
+
+// Send a task to the agent
+const response = await fetch(agentCard.url, {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    jsonrpc: '2.0',
+    method: 'message/send',
+    params: {
+      message: {
+        role: 'user',
+        messageId: 'msg-001',
+        parts: [{
+          kind: 'text',
+          text: 'Find flights from NYC to London next week'
+        }]
+      }
+    },
+    id: 1
+  })
+});
+
+const { result: task } = await response.json();
+console.log('Task status:', task.status.state);
+console.log('Artifacts:', task.artifacts);`
+				},
+				{
+					language: 'cli',
+					code: `# Discover an agent's capabilities
+curl -s http://localhost:9000/.well-known/agent.json | jq
+
+# Send a task to an agent
+curl -X POST http://localhost:9000 \\
+  -H "Content-Type: application/json" \\
+  -d '{
+    "jsonrpc": "2.0",
+    "method": "message/send",
+    "params": {
+      "message": {
+        "role": "user",
+        "messageId": "msg-001",
+        "parts": [{"kind": "text", "text": "Find flights NYC to London"}]
+      }
+    },
+    "id": 1
+  }'
+
+# Stream results via SSE
+curl -N -X POST http://localhost:9000 \\
+  -H "Content-Type: application/json" \\
+  -H "Accept: text/event-stream" \\
+  -d '{"jsonrpc":"2.0","method":"message/stream","params":{...},"id":2}'`
+				},
+				{
+					language: 'wire',
+					code: '',
+					sections: [
+						{
+							title: 'Agent Card (/.well-known/agent.json)',
+							code: `{\n  "name": "Travel Agent",\n  "description": "Books flights, hotels, and car rentals",\n  "url": "https://travel.example.com/a2a",\n  "version": "1.0.0",\n  "protocolVersion": "1.0",\n  "capabilities": {\n    "streaming": true,\n    "pushNotifications": true\n  },\n  "skills": [\n    {\n      "id": "flights",\n      "name": "Flight Search",\n      "description": "Search and book flights worldwide"\n    }\n  ],\n  "securitySchemes": [\n    { "type": "oauth2", "authorizationUrl": "https://travel.example.com/oauth/authorize" }\n  ]\n}`
+						},
+						{
+							title: 'Task Lifecycle (message/send)',
+							code: `── Client → Agent ──\n{"jsonrpc":"2.0","method":"message/send","params":{"message":{"role":"user","messageId":"msg-001","parts":[{"kind":"text","text":"Find flights NYC to London"}]}},"id":1}\n\n── Agent → Client (task in progress) ──\n{"jsonrpc":"2.0","result":{"id":"task-42","status":{"state":"working","message":"Searching 3 airlines..."},"artifacts":[]},"id":1}\n\n── Agent → Client (task completed) ──\n{"jsonrpc":"2.0","result":{"id":"task-42","status":{"state":"completed"},"artifacts":[{"artifactId":"art-001","name":"flight_options","parts":[{"kind":"text","text":"Found 3 flights"},{"kind":"data","data":{"flights":[{"airline":"BA","price":450},{"airline":"AA","price":520}]}}]}]},"id":1}`
+						}
+					]
+				}
+			]
+		},
+		performance: {
+			latency:
+				'HTTP round-trip latency per message. Tasks are designed for longer-lived interactions (seconds to hours). SSE streaming provides real-time progress without polling.',
+			throughput:
+				'JSON-RPC over HTTP — similar to REST API throughput. gRPC transport option (v0.3+) available for high-volume scenarios.',
+			overhead:
+				'Agent Card discovery adds one HTTP request at startup. Task lifecycle management adds minimal state overhead per task.'
+		},
+		connections: ['grpc', 'http1', 'json-rpc', 'mcp', 'rest', 'sse', 'websockets'],
+		links: {
+			official: 'https://a2a-protocol.org/'
+		},
+		image: {
+			src: 'https://upload.wikimedia.org/wikipedia/commons/b/b7/IntelligentAgent-Learning.svg',
+			alt: 'Diagram of an intelligent agent interacting with its environment — perceiving through sensors, acting through actuators, with an internal learning and decision-making loop',
+			caption:
+				'The intelligent agent model from Russell & Norvig — an agent perceives its environment, reasons about it, and takes actions. A2A standardizes how these agents discover each other, delegate tasks, and exchange results across organizational boundaries.',
+			credit: 'Image: Wikimedia Commons / Public Domain, based on Russell & Norvig'
+		}
+	},
+	{
+		id: 'json-rpc',
+		name: 'JSON Remote Procedure Call',
+		abbreviation: 'JSON-RPC',
+		categoryId: 'web-api',
+		port: undefined,
+		year: 2005,
+		rfc: undefined, // Community spec at jsonrpc.org
+		oneLiner:
+			'A minimal RPC protocol encoded in JSON — call a method by name, get a result back. Nothing more.',
+		overview: `JSON-RPC is the protocol that proves less is more. The entire specification fits on a single page: send a {{json|JSON}} object with a method name, parameters, and an ID — get back a JSON object with the result and the same ID. That's it. No URL routing, no HTTP verb semantics, no schema compilation step. Just structured function calls over the wire.
+
+Created in 2005 as a lightweight alternative to {{xml|XML}}-based [[soap|SOAP]], JSON-RPC stayed deliberately simple while the web API world exploded with complexity. Version 2.0 (2010) refined the format: it added a mandatory \`"jsonrpc": "2.0"\` field, standardized error codes (borrowed from XML-RPC's tradition), introduced {{notification|notifications}} (requests without an \`id\` that expect no response), and added batch requests (send an array of calls, get an array of results). The spec is transport-agnostic — JSON-RPC works over [[http1|HTTP]], [[websockets|WebSockets]], raw [[tcp|TCP]], or even stdio pipes between processes.
+
+JSON-RPC found its biggest audience not in traditional web development but in infrastructure and AI. Ethereum's entire blockchain API is JSON-RPC. Bitcoin Core speaks JSON-RPC. Microsoft's Language Server Protocol (LSP) — which powers code intelligence in VS Code, Neovim, and virtually every modern editor — uses JSON-RPC 2.0 over stdio. And most recently, both Anthropic's Model Context Protocol ([[mcp|MCP]]) and Google's Agent-to-Agent Protocol ([[a2a|A2A]]) chose JSON-RPC 2.0 as their wire format, making it the de facto standard for AI agent communication.`,
+		howItWorks: [
+			{
+				title: 'Client builds a request',
+				description:
+					'The client constructs a JSON object with four fields: "jsonrpc" (always "2.0"), "method" (the function name), "params" (arguments as an array or object), and "id" (a unique identifier to match the response).'
+			},
+			{
+				title: 'Request is sent',
+				description:
+					'The JSON is sent over any transport — HTTP POST to a single endpoint, a WebSocket message, a line written to stdout, or a TCP socket. The protocol does not care how bytes move.'
+			},
+			{
+				title: 'Server dispatches',
+				description:
+					'The server parses the JSON, looks up the method name in its handler registry, validates the parameters, and calls the handler function. If the method name starts with "rpc.", it is reserved for system extensions.'
+			},
+			{
+				title: 'Response returned',
+				description:
+					'The server responds with a JSON object containing "jsonrpc", the same "id", and either a "result" (success) or "error" (failure with code, message, and optional data). Never both.'
+			},
+			{
+				title: 'Notifications & batches',
+				description:
+					'If the request omits the "id" field, it is a notification — fire-and-forget, no response expected. Multiple requests can be batched in a JSON array, and the server returns an array of responses (skipping notifications).'
+			}
+		],
+		useCases: [
+			'Blockchain node APIs (Ethereum, Bitcoin, Solana, Polkadot)',
+			'Language Server Protocol (LSP) for code editors',
+			'AI agent protocols (MCP, A2A)',
+			'Microservice internal RPC',
+			'Lightweight API servers where REST feels heavy'
+		],
+		codeExample: {
+			language: 'python',
+			code: `import requests
+
+# Call a JSON-RPC method
+response = requests.post('http://localhost:4000/rpc',
+    json={
+        'jsonrpc': '2.0',
+        'method': 'subtract',
+        'params': [42, 23],
+        'id': 1
+    })
+
+result = response.json()
+print(result['result'])  # 19
+
+# Batch request — multiple calls in one HTTP round trip
+batch = requests.post('http://localhost:4000/rpc',
+    json=[
+        {'jsonrpc': '2.0', 'method': 'add', 'params': [1, 2], 'id': 1},
+        {'jsonrpc': '2.0', 'method': 'multiply', 'params': [3, 4], 'id': 2},
+        {'jsonrpc': '2.0', 'method': 'log', 'params': ['hello']},  # notification
+    ])
+# Returns: [{"result": 3, "id": 1}, {"result": 12, "id": 2}]`,
+			caption:
+				'The entire protocol in one example — method calls, results, errors, and batches. No schema files, no code generation.',
+			alternatives: [
+				{
+					language: 'javascript',
+					code: `// JSON-RPC client — just fetch with structured JSON
+const call = async (method, params) => {
+  const res = await fetch('http://localhost:4000/rpc', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      jsonrpc: '2.0', method, params, id: Date.now()
+    })
+  });
+  const { result, error } = await res.json();
+  if (error) throw new Error(error.message);
+  return result;
+};
+
+const sum = await call('add', [1, 2]);          // 3
+const user = await call('getUser', { id: 42 }); // {name: "Alice"}
+
+// JSON-RPC server — Node.js
+const { createServer } = require('http');
+const methods = {
+  add: ([a, b]) => a + b,
+  subtract: ([a, b]) => a - b,
+};
+
+createServer((req, res) => {
+  let body = '';
+  req.on('data', c => body += c);
+  req.on('end', () => {
+    const { method, params, id } = JSON.parse(body);
+    const result = methods[method]?.(params);
+    res.end(JSON.stringify({ jsonrpc: '2.0', result, id }));
+  });
+}).listen(4000);`
+				},
+				{
+					language: 'cli',
+					code: `# Simple JSON-RPC call
+curl -s -X POST http://localhost:4000/rpc \\
+  -H "Content-Type: application/json" \\
+  -d '{"jsonrpc":"2.0","method":"subtract","params":[42,23],"id":1}'
+# → {"jsonrpc":"2.0","result":19,"id":1}
+
+# Ethereum — get latest block number
+curl -s -X POST https://eth.llamarpc.com \\
+  -H "Content-Type: application/json" \\
+  -d '{"jsonrpc":"2.0","method":"eth_blockNumber","params":[],"id":83}'
+# → {"jsonrpc":"2.0","id":83,"result":"0x134a1b7"}
+
+# Batch request — multiple calls, one HTTP request
+curl -s -X POST http://localhost:4000/rpc \\
+  -H "Content-Type: application/json" \\
+  -d '[
+    {"jsonrpc":"2.0","method":"add","params":[1,2],"id":1},
+    {"jsonrpc":"2.0","method":"multiply","params":[3,4],"id":2}
+  ]'`
+				},
+				{
+					language: 'wire',
+					code: '',
+					sections: [
+						{
+							title: 'Request → Response',
+							code: `POST /rpc HTTP/1.1\nHost: api.example.com\nContent-Type: application/json\nAccept: application/json\nContent-Length: 67\n\n{"jsonrpc":"2.0","method":"subtract","params":[42,23],"id":1}\n\nHTTP/1.1 200 OK\nContent-Type: application/json\n\n{"jsonrpc":"2.0","result":19,"id":1}`
+						},
+						{
+							title: 'Error Response',
+							code: `POST /rpc HTTP/1.1\nHost: api.example.com\nContent-Type: application/json\n\n{"jsonrpc":"2.0","method":"nonexistent","params":[],"id":2}\n\nHTTP/1.1 200 OK\nContent-Type: application/json\n\n{"jsonrpc":"2.0","error":{"code":-32601,"message":"Method not found"},"id":2}\n\n─────────────────────────────────────\nStandard Error Codes:\n  -32700  Parse error       (invalid JSON)\n  -32600  Invalid Request   (not a valid JSON-RPC object)\n  -32601  Method not found  (method does not exist)\n  -32602  Invalid params    (wrong arguments)\n  -32603  Internal error    (server-side failure)`
+						},
+						{
+							title: 'Notification (no response) & Batch',
+							code: `── Notification (no "id" → no response) ──\n{"jsonrpc":"2.0","method":"log","params":["event occurred"]}\n\n── Batch Request ──\n[\n  {"jsonrpc":"2.0","method":"add","params":[1,2],"id":"a"},\n  {"jsonrpc":"2.0","method":"log","params":["hello"]},\n  {"jsonrpc":"2.0","method":"subtract","params":[42,23],"id":"b"}\n]\n\n── Batch Response (no entry for notification) ──\n[\n  {"jsonrpc":"2.0","result":3,"id":"a"},\n  {"jsonrpc":"2.0","result":19,"id":"b"}\n]`
+						}
+					]
+				}
+			]
+		},
+		performance: {
+			latency:
+				'Same as the underlying transport — near-zero overhead for stdio/IPC, one HTTP round trip for remote calls. Batch requests amortize latency across many calls.',
+			throughput:
+				'JSON text is 2-10x larger than Protobuf binary. For high-throughput services, gRPC is faster — but for most use cases the difference is negligible.',
+			overhead:
+				'Minimal — no envelope wrapping, no schema validation, no mandatory headers beyond the JSON itself. A complete request is ~60 bytes.'
+		},
+		connections: ['a2a', 'http1', 'mcp', 'websockets', 'rest', 'grpc', 'graphql', 'soap', 'sse'],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/JSON-RPC',
+			official: 'https://www.jsonrpc.org/specification'
+		},
+		image: {
+			src: 'https://upload.wikimedia.org/wikipedia/commons/1/18/RPC_overview.png',
+			alt: 'Diagram showing how Remote Procedure Calls work — a client calls a stub which marshals parameters and sends them over the network to a server stub that executes the procedure',
+			caption:
+				'The RPC model that JSON-RPC inherits — a client calls a function by name, the parameters are serialized and sent over the network, and the server executes the method and returns the result. JSON-RPC strips this to pure JSON: no IDL, no code generation, no binary encoding.',
+			credit: 'Image: Wikimedia Commons / Public Domain'
 		}
 	},
 	{
@@ -1190,7 +1712,7 @@ curl https://example.com/service?wsdl`
 			overhead:
 				'Heavy — XML envelopes, namespace declarations, and schema validation. A simple "hello" operation may produce 500+ bytes of XML.'
 		},
-		connections: ['http1', 'tcp', 'tls', 'rest', 'grpc', 'graphql'],
+		connections: ['http1', 'json-rpc', 'tcp', 'tls', 'rest', 'grpc', 'graphql'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/SOAP',
 			official: 'https://www.w3.org/TR/soap12/'

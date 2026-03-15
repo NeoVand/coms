@@ -758,6 +758,30 @@ export const concepts: Concept[] = [
 		category: 'web'
 	},
 	{
+		id: 'notification',
+		term: 'Notification (fire-and-forget)',
+		definition:
+			'A message sent with no expectation of a response. In JSON-RPC 2.0, a request without an "id" field is a notification — the server processes it but must not reply. Useful for logging, metrics, and progress updates where acknowledgment is unnecessary.',
+		wikiUrl: 'https://www.jsonrpc.org/specification#notification',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'sampling',
+		term: 'Sampling (LLM Completion Request)',
+		definition:
+			'In MCP, a mechanism where the server asks the host to run an LLM completion on its behalf. This lets tool servers leverage the AI model without having direct API access — the host mediates and the user can approve or reject the request.',
+		wikiUrl: 'https://modelcontextprotocol.io/docs/concepts/sampling',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'opacity',
+		term: 'Opacity (Agent Design)',
+		definition:
+			'A design principle where an agent\'s internal reasoning, tool usage, and prompt chains are hidden from external observers. In A2A, agents are opaque — you see their skills and outputs (artifacts), not how they arrive at results. This enables agents from different vendors to interoperate without exposing proprietary logic.',
+		wikiUrl: 'https://a2a-protocol.org/latest/topics/key-concepts/',
+		category: 'protocol-mechanics'
+	},
+	{
 		id: 'xml',
 		term: 'XML (Extensible Markup Language)',
 		definition:

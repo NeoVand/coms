@@ -45,7 +45,7 @@ export function computeRadialPositions(
 // ─── Timeline constants (exported for canvas underlay) ─────────────────────
 export const TIMELINE_PARAMS = {
 	MIN_YEAR: 1969,
-	MAX_YEAR: 2025,
+	MAX_YEAR: 2026,
 	X_LEFT: -700,
 	X_RIGHT: 700,
 	LANE_SPACING: 170

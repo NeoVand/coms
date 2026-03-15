@@ -165,7 +165,7 @@ TFO is widely deployed (Linux, macOS, iOS) but faces challenges: middleboxes som
 	{
 		categoryId: 'web-api',
 		tagline:
-			'HTTP caching, content negotiation, CORS, header compression, and the mechanics beneath modern web APIs.',
+			'HTTP caching, CORS, header compression, JSON-RPC internals, MCP architecture, A2A discovery, and the mechanics beneath modern web and AI APIs.',
 		sections: [
 			{
 				type: 'narrative',
@@ -218,6 +218,67 @@ HPACK maintains a dynamic table shared between {{client-server|client and server
 [[http3|HTTP/3]] couldn't use HPACK because it requires in-order delivery (the dynamic table is a {{stream|stream}} of updates). QPACK solves this with a separate, unidirectional stream for table updates, allowing header blocks to be decoded independently -- eliminating {{head-of-line-blocking|head-of-line blocking}} in header decompression.
 
 This matters because [[http2|HTTP/2]] over [[tcp|TCP]] still suffers from transport-level head-of-line blocking -- a single lost {{packet|packet}} stalls all {{multiplexing|multiplexed}} streams. [[http3|HTTP/3]] over [[quic|QUIC]] solves this at the transport layer, and QPACK ensures header decompression doesn't reintroduce it.`
+			},
+			{
+				type: 'narrative',
+				title: 'JSON-RPC 2.0 — The Universal Wire Format',
+				text: `[[json-rpc|JSON-RPC]] 2.0 is deceptively simple — four message types (request, response, error, {{notification|notification}}) and a handful of rules — but this simplicity is its power. It has become the wire format of choice for systems that need structured RPC without the overhead of [[rest|REST]]'s resource-oriented model or [[grpc|gRPC]]'s binary serialization.
+
+The protocol's design is worth studying. Every request carries an "id" field that the server echoes back in the response, enabling correlation on any transport — even ones that deliver messages out of order. Notifications omit the id entirely, signaling that no response is expected. The server MUST NOT reply to a notification — this isn't a convention, it's a protocol rule.
+
+Batch requests (sending an array of calls) are one of JSON-RPC's killer features. A client can bundle multiple independent calls into a single [[http1|HTTP]] POST, and the server returns an array of results. Notifications in a batch produce no response entry. The server may process batch items in any order and return results in any order — the id fields handle correlation. This makes JSON-RPC remarkably efficient for chatty {{client-server|client-server}} interactions.
+
+Error codes follow a structured convention: -32700 (parse error), -32600 (invalid request), -32601 (method not found), -32602 (invalid params), -32603 (internal error). The range -32768 to -32000 is reserved for the spec; applications define their own codes outside this range.`
+			},
+			{
+				type: 'narrative',
+				title: 'MCP Architecture — Hosts, Clients, and Servers',
+				text: `[[mcp|MCP]]'s architecture has three layers that are often conflated: the host, the client, and the server. Understanding the distinction is essential for building robust integrations.
+
+The **host** is the AI application the user interacts with — Claude Desktop, Cursor, VS Code, or a custom agent. The host manages user consent, enforces security policies, and decides which MCP servers to connect to. It creates one MCP **client** per server connection. Each client maintains an independent session with exactly one MCP **server** — there's a strict 1:1 relationship.
+
+MCP servers expose three primitives: **tools** (model-controlled actions like "run SQL query"), **resources** (application-controlled data like "contents of file X"), and **prompts** (user-controlled templates like "summarize this codebase"). The distinction matters for permission models: tools require explicit user approval per invocation, resources can be loaded automatically, and prompts are selected by the user.
+
+The session lifecycle follows a strict sequence: the client sends \`initialize\` with its capabilities, the server responds with its own capabilities (supported primitives, protocol version), then the client sends an \`initialized\` {{notification|notification}}. Only after this three-step handshake can tools be listed, resources read, or prompts invoked. The handshake uses capability negotiation — if a server doesn't declare tool support, the client won't attempt tool calls.
+
+Transport is pluggable: **stdio** for local processes (the server is a subprocess communicating over stdin/stdout), **Streamable HTTP** for remote servers (a single HTTP endpoint that handles both request-response and server-initiated events via [[sse|SSE]] streams). The protocol is transport-agnostic by design — the same [[json-rpc|JSON-RPC]] messages work identically over either transport.`
+			},
+			{
+				type: 'diagram',
+				title: 'MCP Session Lifecycle',
+				caption: 'The full MCP session from initialization through tool invocation. The three-step handshake establishes capabilities before any tool or resource access.',
+				definition: `graph TD
+  I["initialize request<br/>(client capabilities, version)"] --> IR["initialize response<br/>(server capabilities, tools, resources)"]
+  IR --> N["initialized notification<br/>(handshake complete)"]
+  N --> D["Discovery Phase"]
+  D --> TL["tools/list"]
+  D --> RL["resources/list"]
+  D --> PL["prompts/list"]
+  TL --> TC["tools/call<br/>(user-approved invocation)"]
+  TC --> TR["Tool Result<br/>(content array)"]
+  TR --> TC`
+			},
+			{
+				type: 'narrative',
+				title: 'A2A — Agent Discovery and Task Delegation',
+				text: `[[a2a|A2A]]'s design solves a different problem than [[mcp|MCP]]: not "how does an agent use a tool?" but "how does one agent find and delegate work to another agent it has never interacted with?"
+
+Discovery centers on the **Agent Card** — a JSON document served at \`/.well-known/agent.json\`. It declares the agent's name, description, supported skills, authentication requirements, and the A2A endpoint URL. A client agent fetches the card, inspects the skills array, and decides whether this remote agent can help with the task at hand. This is analogous to how [[dns|DNS]] TXT records or [[oauth2|OAuth]] discovery documents work — a well-known URL that bootstraps trust.
+
+The interaction model is task-based. The client sends a message (containing text, files, or structured data as "Parts"), and the server creates a Task with a lifecycle: \`submitted → working → input-required → completed\` (or \`failed\` / \`canceled\`). The \`input-required\` state is what makes A2A conversational — the remote agent can ask for clarification before proceeding, and the client can send follow-up messages.
+
+For long-running tasks, A2A supports **SSE streaming**. The client adds \`Accept: text/event-stream\` to its request, and the server streams back task status updates, intermediate messages, and final artifacts as Server-Sent Events. Each SSE event contains a full [[json-rpc|JSON-RPC]] response — the same message format used for synchronous responses, just delivered incrementally. This reuse of [[json-rpc|JSON-RPC]] over [[sse|SSE]] is a pattern shared with [[mcp|MCP]]'s Streamable [[http1|HTTP]] transport.`
+			},
+			{
+				type: 'narrative',
+				title: 'MCP + A2A — The Two-Protocol Pattern',
+				text: `In production systems, [[mcp|MCP]] and [[a2a|A2A]] are almost always used together. The pattern is consistent: [[a2a|A2A]] for inter-agent coordination, [[mcp|MCP]] for each agent's internal tool access.
+
+Consider a travel booking system. A coordinator agent receives "book me a trip to Tokyo." It uses [[a2a|A2A]] to discover and delegate to a flight agent, a hotel agent, and a car rental agent. Each specialist agent uses [[mcp|MCP]] internally to connect to its own tools — the flight agent's MCP servers talk to airline APIs, fare databases, and seat maps. The coordinator doesn't know or care about these internal tools; it only sees A2A task results.
+
+Both protocols chose [[json-rpc|JSON-RPC]] 2.0 as their wire format for the same reasons: transport independence, built-in request correlation (via id fields), first-class {{notification|notifications}} for fire-and-forget events, and batch support. Both use [[sse|SSE]] for server-to-client streaming. Both moved to the Linux Foundation for open governance.
+
+The key architectural insight is that MCP and A2A operate at different levels of abstraction. [[mcp|MCP]] is like a function call — "execute this tool with these parameters and return the result." [[a2a|A2A]] is like a work order — "here's what I need done; figure out how to do it and get back to me." This distinction maps cleanly to the difference between deterministic tool execution and autonomous agent reasoning.`
 			}
 		]
 	},

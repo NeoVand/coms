@@ -876,6 +876,212 @@ const vsPairs: ProtocolPair[] = [
 			'You want to protect any protocol from eavesdropping (not just HTTP)',
 			'Compliance requires encryption of data in transit'
 		]
+	},
+
+	// ── JSON-RPC ────────────────────────────────────────────────
+
+	{
+		ids: ['json-rpc', 'rest'],
+		type: 'vs',
+		summary:
+			'[[rest|REST]] maps operations to HTTP verbs and multiple resource URLs; [[json-rpc|JSON-RPC]] sends method names to a single endpoint. REST is resource-oriented, JSON-RPC is action-oriented.',
+		keyDifferences: [
+			{ aspect: 'Data format', left: 'Method name + params in JSON body', right: 'HTTP verbs + resource URLs' },
+			{ aspect: 'Caching', left: 'Not cacheable (all POSTs)', right: 'HTTP-level caching (GET is cacheable)' },
+			{ aspect: 'Complexity', left: 'Minimal spec, single endpoint', right: 'Convention-heavy, multiple endpoints' },
+			{ aspect: 'Ecosystem', left: 'Growing (blockchain, AI agents)', right: 'Dominant (most public APIs)' },
+			{ aspect: 'Overhead', left: 'Batch requests reduce round trips', right: 'One HTTP request per operation' }
+		],
+		useLeftWhen: [
+			'Your API is action-oriented rather than resource-oriented (execute, calculate, query)',
+			'You need batch requests to reduce round trips for multiple calls',
+			'You are building infrastructure APIs (blockchain nodes, AI agents, editor backends)',
+			'Simplicity and minimal spec surface matter more than HTTP conventions'
+		],
+		useRightWhen: [
+			'Your API models resources with standard CRUD operations',
+			'HTTP caching, content negotiation, and status codes are important',
+			'You need broad third-party developer adoption (REST is universally understood)',
+			'Your API will be consumed by web browsers directly'
+		]
+	},
+	{
+		ids: ['grpc', 'json-rpc'],
+		type: 'vs',
+		summary:
+			'[[grpc|gRPC]] uses binary Protocol Buffers and HTTP/2 for maximum performance with code generation; [[json-rpc|JSON-RPC]] uses human-readable JSON over any transport for maximum simplicity.',
+		keyDifferences: [
+			{ aspect: 'Data format', left: 'Binary (Protocol Buffers)', right: 'Text (JSON)' },
+			{ aspect: 'Transport', left: 'HTTP/2 only', right: 'Any (HTTP, WebSocket, stdio, TCP)' },
+			{ aspect: 'Direction', left: 'Unary + bidirectional streaming', right: 'Request-response + notifications' },
+			{ aspect: 'Complexity', left: '.proto files + code generation', right: 'No schema, no build step' },
+			{ aspect: 'Ecosystem', left: 'Mature (Google-backed, 11 languages)', right: 'Lightweight (blockchain, AI, editors)' }
+		],
+		useLeftWhen: [
+			'You need maximum throughput between internal microservices',
+			'Strong typing and compile-time contract validation are essential',
+			'You need streaming (server-push, client-push, or bidirectional)',
+			'Your team can afford the .proto build step and code generation'
+		],
+		useRightWhen: [
+			'Human-readable messages matter (debugging, logging, curl testing)',
+			'You need transport flexibility (stdio for local processes, HTTP for remote)',
+			'The overhead of code generation and Protobuf compilation is not worth it',
+			'You are integrating with systems that already speak JSON-RPC (Ethereum, LSP, MCP)'
+		]
+	},
+	{
+		ids: ['graphql', 'json-rpc'],
+		type: 'vs',
+		summary:
+			'[[graphql|GraphQL]] lets clients select exactly which fields they need via a query language; [[json-rpc|JSON-RPC]] calls methods by name and returns whatever the method returns — no field selection.',
+		keyDifferences: [
+			{ aspect: 'Data format', left: 'Query language with field selection', right: 'Method name + params, fixed response' },
+			{ aspect: 'Complexity', left: 'Schema, resolvers, query parsing', right: 'No schema, direct method dispatch' },
+			{ aspect: 'Overhead', left: 'Query parsing + validation per request', right: 'Minimal — JSON parse + method lookup' },
+			{ aspect: 'Direction', left: 'Request-response + subscriptions', right: 'Request-response + notifications' },
+			{ aspect: 'Ecosystem', left: 'Web frontends, mobile apps', right: 'Infrastructure, blockchain, AI agents' }
+		],
+		useLeftWhen: [
+			'Clients have varied data needs and over-fetching is a problem',
+			'Your data model has deep relationships that benefit from traversal queries',
+			'You want introspection — clients can discover the schema automatically',
+			'Frontend teams need to iterate on data requirements without backend changes'
+		],
+		useRightWhen: [
+			'Your API is action-oriented (execute, compute, control) rather than data-oriented',
+			'Maximum simplicity and minimal overhead are priorities',
+			'You are building infrastructure (blockchain nodes, AI tool servers, editor backends)',
+			'Batch requests for multiple independent calls matter more than flexible field selection'
+		]
+	},
+	{
+		ids: ['json-rpc', 'soap'],
+		type: 'vs',
+		summary:
+			'[[soap|SOAP]] wraps RPC calls in verbose XML envelopes with formal WSDL contracts and WS-* extensions; [[json-rpc|JSON-RPC]] does the same thing in a few lines of JSON with no ceremony.',
+		keyDifferences: [
+			{ aspect: 'Data format', left: 'JSON (lightweight text)', right: 'XML (verbose, structured envelopes)' },
+			{ aspect: 'Complexity', left: 'One-page spec, no schema required', right: 'WSDL, XSD, WS-* extensions' },
+			{ aspect: 'Overhead', left: '~60 bytes for a simple call', right: '500+ bytes for the same call in XML' },
+			{ aspect: 'Standardization', left: 'Community spec (jsonrpc.org)', right: 'W3C standard with enterprise extensions' },
+			{ aspect: 'Ecosystem', left: 'Modern infrastructure and AI', right: 'Enterprise banking, healthcare, government' }
+		],
+		useLeftWhen: [
+			'You want RPC without the overhead of XML and WSDL',
+			'Your system uses JSON natively (JavaScript, Python, modern languages)',
+			'You are building new systems where simplicity outweighs enterprise features',
+			'Human-readability and debugging ease are priorities'
+		],
+		useRightWhen: [
+			'Formal WSDL contracts and compile-time validation are required',
+			'You need WS-Security, WS-ReliableMessaging, or WS-AtomicTransaction',
+			'You are integrating with existing enterprise SOAP services',
+			'Regulatory compliance requires the formality and audit trail of SOAP'
+		]
+	},
+
+	// ── MCP / A2A ───────────────────────────────────────────────
+
+	{
+		ids: ['a2a', 'mcp'],
+		type: 'vs',
+		summary:
+			'[[mcp|MCP]] connects an AI agent to tools and data sources; [[a2a|A2A]] connects AI agents to each other for multi-agent collaboration. They are complementary, not competing.',
+		keyDifferences: [
+			{ aspect: 'Purpose', left: 'Agent-to-agent collaboration', right: 'Agent-to-tool integration' },
+			{ aspect: 'Discovery', left: 'Agent Cards at /.well-known/agent.json', right: 'Capabilities handshake (initialize)' },
+			{ aspect: 'Transparency', left: 'Opaque (skills only, no internals)', right: 'Transparent (tool schemas, resource URIs)' },
+			{ aspect: 'Unit of work', left: 'Task with lifecycle (stateful)', right: 'Tool call (stateless request-response)' },
+			{ aspect: 'Transport', left: 'HTTP, SSE, webhooks, gRPC', right: 'stdio, Streamable HTTP' }
+		],
+		useLeftWhen: [
+			'You need multiple AI agents to collaborate on complex tasks',
+			'Agents are opaque systems from different vendors or frameworks',
+			'Tasks are long-running and need lifecycle management (status, cancellation)',
+			'Cross-organization agent communication requires formal discovery'
+		],
+		useRightWhen: [
+			'An AI application needs to access external tools and data sources',
+			'You want the LLM to discover and invoke functions dynamically',
+			'Local tool integration via subprocess (stdio) is sufficient',
+			'Tool schemas and data resources should be fully transparent to the host'
+		]
+	},
+	{
+		ids: ['a2a', 'rest'],
+		type: 'vs',
+		summary:
+			'[[rest|REST]] is a general-purpose API style for any client; [[a2a|A2A]] is specifically designed for AI agent communication with discovery, task lifecycle, and streaming built in.',
+		keyDifferences: [
+			{ aspect: 'Purpose', left: 'AI agent-to-agent collaboration', right: 'General-purpose API access' },
+			{ aspect: 'Discovery', left: 'Agent Cards with skills and auth', right: 'OpenAPI/Swagger documentation' },
+			{ aspect: 'Statefulness', left: 'Stateful tasks with lifecycle', right: 'Stateless request-response' },
+			{ aspect: 'Direction', left: 'Bidirectional (SSE, webhooks)', right: 'Client-initiated only' },
+			{ aspect: 'Data format', left: 'JSON-RPC methods + Parts/Artifacts', right: 'HTTP verbs + resource URLs' }
+		],
+		useLeftWhen: [
+			'You are building multi-agent AI systems that need to delegate and coordinate',
+			'Task lifecycle management (submitted, working, completed, failed) is needed',
+			'Agent discovery and capability negotiation must be standardized',
+			'Streaming progress updates and push notifications are important'
+		],
+		useRightWhen: [
+			'You are building a general-purpose API for human developers',
+			'Simple CRUD operations on resources are sufficient',
+			'Broad third-party adoption and tooling maturity are essential',
+			'HTTP caching, content negotiation, and status codes provide enough semantics'
+		]
+	},
+	{
+		ids: ['mcp', 'rest'],
+		type: 'vs',
+		summary:
+			'[[rest|REST]] exposes resources via HTTP for any client; [[mcp|MCP]] exposes tools, resources, and prompts specifically for AI applications with LLM-native semantics like sampling and tool schemas.',
+		keyDifferences: [
+			{ aspect: 'Purpose', left: 'AI-native tool and data access', right: 'General-purpose API access' },
+			{ aspect: 'Discovery', left: 'Dynamic capability negotiation', right: 'Static OpenAPI documentation' },
+			{ aspect: 'Data format', left: 'JSON-RPC methods (tools/call)', right: 'HTTP verbs + resource URLs' },
+			{ aspect: 'Transport', left: 'stdio + Streamable HTTP', right: 'HTTP only' },
+			{ aspect: 'Ecosystem', left: 'AI apps (Claude, ChatGPT, Cursor)', right: 'Universal (any HTTP client)' }
+		],
+		useLeftWhen: [
+			'You are building tools for AI applications to consume (not human developers)',
+			'Dynamic tool discovery and JSON Schema input validation are needed',
+			'Local subprocess communication (stdio) is the primary use case',
+			'The server needs to request LLM completions from the host (sampling)'
+		],
+		useRightWhen: [
+			'Your API serves both human developers and automated systems',
+			'HTTP semantics (caching, status codes, content negotiation) are valuable',
+			'Maximum compatibility across all languages and platforms is essential',
+			'You do not need LLM-specific features like tool schemas or sampling'
+		]
+	},
+	{
+		ids: ['a2a', 'grpc'],
+		type: 'vs',
+		summary:
+			'[[grpc|gRPC]] is a general-purpose RPC framework for microservices; [[a2a|A2A]] is specifically designed for AI agent communication with agent discovery, task lifecycle, and opaque collaboration.',
+		keyDifferences: [
+			{ aspect: 'Purpose', left: 'AI agent collaboration', right: 'General-purpose microservice RPC' },
+			{ aspect: 'Discovery', left: 'Agent Cards with skills', right: 'Protobuf service reflection' },
+			{ aspect: 'Data format', left: 'JSON-RPC 2.0 (text)', right: 'Protocol Buffers (binary)' },
+			{ aspect: 'Statefulness', left: 'Stateful tasks with lifecycle', right: 'Stateless unary or streaming calls' },
+			{ aspect: 'Ecosystem', left: 'AI agents (Google, Salesforce, SAP)', right: 'Microservices (Kubernetes, service mesh)' }
+		],
+		useLeftWhen: [
+			'You are orchestrating opaque AI agents that need to discover and delegate tasks',
+			'Task lifecycle management and push notifications are essential',
+			'Human-readable JSON messages are important for debugging and logging',
+			'Agents from different vendors and frameworks need to interoperate'
+		],
+		useRightWhen: [
+			'You need maximum throughput between internal microservices',
+			'Strong typing with .proto files and compile-time validation is required',
+			'Bidirectional streaming between services is the primary pattern',
+			'Binary serialization efficiency matters more than human readability'
+		]
 	}
 ];
 
@@ -1781,6 +1987,115 @@ const relationshipPairs: ProtocolPair[] = [
 			'[[ip|IP]] provides the packet delivery that [[icmp|ICMP]] both rides on and diagnoses problems within.',
 		rightRole:
 			'[[icmp|ICMP]] provides error reporting and diagnostics for [[ip|IP]]\'s routing infrastructure.'
+	},
+
+	// ── JSON-RPC relationships ──────────────────────────────────
+
+	{
+		ids: ['http1', 'json-rpc'],
+		type: 'relationship',
+		summary:
+			'[[json-rpc|JSON-RPC]] commonly rides over [[http1|HTTP]] POST — the HTTP layer handles transport while JSON-RPC defines the structured method-call semantics inside the body.',
+		howTheyWork:
+			'The client sends a JSON-RPC request as the body of an [[http1|HTTP]] POST to a single endpoint (e.g., /rpc). The Content-Type is application/json. The server processes the JSON-RPC call and returns the result in the HTTP response body. Unlike [[rest|REST]], the HTTP method is always POST and the URL is always the same — all routing happens via the method field inside the JSON.',
+		leftRole: '[[http1|HTTP]] provides the request-response transport, connection management, and TLS encryption for JSON-RPC calls.',
+		rightRole: '[[json-rpc|JSON-RPC]] provides the method dispatch, parameter passing, error handling, and batch semantics inside the HTTP body.'
+	},
+	{
+		ids: ['json-rpc', 'websockets'],
+		type: 'relationship',
+		summary:
+			'[[json-rpc|JSON-RPC]] over [[websockets|WebSockets]] enables bidirectional RPC — both client and server can initiate method calls and send notifications over the persistent connection.',
+		howTheyWork:
+			'After the [[websockets|WebSocket]] handshake upgrades the HTTP connection, both sides can send JSON-RPC messages at any time. The client sends requests; the server responds. But the server can also send notifications (no id) or even its own requests to the client — something impossible over plain HTTP. This is how Language Server Protocol (LSP) sends diagnostics and how MCP servers push progress updates.',
+		leftRole: '[[json-rpc|JSON-RPC]] provides the structured call semantics — method names, parameters, results, errors, and notifications.',
+		rightRole: '[[websockets|WebSockets]] provides the persistent, full-duplex transport that enables server-initiated JSON-RPC messages.'
+	},
+	{
+		ids: ['json-rpc', 'sse'],
+		type: 'relationship',
+		summary:
+			'[[json-rpc|JSON-RPC]] can use [[sse|SSE]] for streaming server responses — the client sends requests via HTTP POST and receives streamed results as server-sent events, as used by MCP\'s Streamable HTTP transport.',
+		howTheyWork:
+			'In MCP\'s Streamable HTTP transport, a client sends a JSON-RPC request as an HTTP POST. The server can respond with a normal JSON response or upgrade to an SSE stream (Content-Type: text/event-stream), sending incremental results and notifications as events. This gives JSON-RPC streaming capabilities without requiring a full WebSocket connection.',
+		leftRole: '[[json-rpc|JSON-RPC]] provides the method-call structure and request/response correlation via the id field.',
+		rightRole: '[[sse|SSE]] provides the server-push streaming mechanism for delivering incremental JSON-RPC results and notifications.'
+	},
+
+	// ── MCP relationships ──────────────────────────────────────
+
+	{
+		ids: ['json-rpc', 'mcp'],
+		type: 'relationship',
+		summary:
+			'[[mcp|MCP]] uses [[json-rpc|JSON-RPC]] 2.0 as its wire format — every MCP message (initialize, tools/call, notifications) is a JSON-RPC request, response, or notification.',
+		howTheyWork:
+			'[[mcp|MCP]] defines the method names (initialize, tools/list, tools/call, resources/read) and their parameter schemas, while [[json-rpc|JSON-RPC]] provides the framing — the id field for request-response correlation, the error object format, and the notification pattern (no id = no response). MCP\'s three-step handshake is three JSON-RPC messages: a request, a response, and a notification.',
+		leftRole: '[[json-rpc|JSON-RPC]] provides the wire format — request/response correlation, error codes, notifications, and transport-agnostic framing.',
+		rightRole: '[[mcp|MCP]] defines the semantic methods (tools, resources, prompts, sampling) and their parameter schemas on top of JSON-RPC.'
+	},
+	{
+		ids: ['http1', 'mcp'],
+		type: 'relationship',
+		summary:
+			'[[mcp|MCP]]\'s Streamable HTTP transport uses [[http1|HTTP]] POST for sending JSON-RPC messages, with optional SSE upgrade for streaming responses.',
+		howTheyWork:
+			'In Streamable HTTP mode, the MCP client sends JSON-RPC requests as [[http1|HTTP]] POST bodies to a single endpoint (e.g., /mcp). The server can respond with a plain JSON response or upgrade to an SSE stream for incremental results. The server assigns a session ID via the Mcp-Session-Id header for stateful session management.',
+		leftRole: '[[http1|HTTP]] provides the request-response transport and connection management for remote MCP servers.',
+		rightRole: '[[mcp|MCP]] defines the JSON-RPC methods and session semantics carried inside HTTP requests.'
+	},
+	{
+		ids: ['mcp', 'sse'],
+		type: 'relationship',
+		summary:
+			'[[mcp|MCP]]\'s Streamable HTTP transport uses [[sse|SSE]] to stream incremental tool results and server notifications back to the client.',
+		howTheyWork:
+			'When an MCP server needs to stream results (e.g., a long-running tool or progress updates), it responds to the client\'s HTTP POST with Content-Type: text/event-stream instead of application/json. The server then sends JSON-RPC responses and notifications as SSE events. This gives MCP streaming capabilities without requiring a persistent WebSocket connection.',
+		leftRole: '[[mcp|MCP]] defines the JSON-RPC messages (progress notifications, partial results) that are streamed as events.',
+		rightRole: '[[sse|SSE]] provides the HTTP-based streaming mechanism that delivers incremental MCP results to the client.'
+	},
+
+	// ── A2A relationships ──────────────────────────────────────
+
+	{
+		ids: ['a2a', 'json-rpc'],
+		type: 'relationship',
+		summary:
+			'[[a2a|A2A]] uses [[json-rpc|JSON-RPC]] 2.0 as its wire format — agent messages (message/send, message/stream) are JSON-RPC requests, and task results are JSON-RPC responses.',
+		howTheyWork:
+			'[[a2a|A2A]] defines the method names (message/send, message/stream) and their parameter schemas, while [[json-rpc|JSON-RPC]] provides the wire framing. The A2A client sends a JSON-RPC request with a user message, and the server responds with a Task object containing status and artifacts. JSON-RPC\'s id field correlates multi-turn conversations.',
+		leftRole: '[[a2a|A2A]] defines the agent communication semantics — messages, tasks, parts, artifacts, and the task lifecycle state machine.',
+		rightRole: '[[json-rpc|JSON-RPC]] provides the request/response framing, error handling, and notification support for A2A messages.'
+	},
+	{
+		ids: ['a2a', 'http1'],
+		type: 'relationship',
+		summary:
+			'[[a2a|A2A]] runs entirely over [[http1|HTTP]] — agent discovery (GET /.well-known/agent.json), task communication (POST), and push notifications (webhooks) all use standard HTTP.',
+		howTheyWork:
+			'Agent Cards are served as static JSON at the well-known HTTP URL. Task messages are sent as JSON-RPC payloads in HTTP POST requests. For streaming, the server responds with Content-Type: text/event-stream (SSE). Push notifications use HTTP POST to a client-provided webhook URL. All communication is standard HTTP that works through proxies, load balancers, and CDNs.',
+		leftRole: '[[a2a|A2A]] defines the agent discovery, task management, and collaboration semantics layered on HTTP.',
+		rightRole: '[[http1|HTTP]] provides the universal transport — GET for discovery, POST for messages, SSE for streaming, webhooks for push.'
+	},
+	{
+		ids: ['a2a', 'sse'],
+		type: 'relationship',
+		summary:
+			'[[a2a|A2A]] uses [[sse|SSE]] to stream task status updates and artifact delivery in real-time via the message/stream method.',
+		howTheyWork:
+			'When a client calls message/stream instead of message/send, the A2A server responds with a text/event-stream. As the agent works, it pushes TaskStatusUpdateEvent (state changes like "working" → "completed") and TaskArtifactUpdateEvent (incremental results) as SSE events. This allows clients to show real-time progress without polling.',
+		leftRole: '[[a2a|A2A]] defines the event types (TaskStatusUpdate, TaskArtifactUpdate) that are streamed to the client.',
+		rightRole: '[[sse|SSE]] provides the HTTP-based streaming transport for delivering real-time A2A task updates.'
+	},
+	{
+		ids: ['a2a', 'mcp'],
+		type: 'relationship',
+		summary:
+			'[[mcp|MCP]] equips individual agents with tool access; [[a2a|A2A]] enables those equipped agents to collaborate. Together they form the two-protocol foundation of agentic AI.',
+		howTheyWork:
+			'In a multi-agent system, [[a2a|A2A]] handles high-level coordination — Agent A uses message/send to delegate a sub-task to Agent B. Agent B then uses [[mcp|MCP]] internally to call database tools, read file resources, or invoke APIs to fulfill the task. Agent B returns results to Agent A via A2A artifacts. MCP is vertical (agent-to-tools), A2A is horizontal (agent-to-agent).',
+		leftRole: '[[a2a|A2A]] provides the inter-agent communication layer — discovery, delegation, task lifecycle, and result delivery.',
+		rightRole: '[[mcp|MCP]] provides the tool integration layer — each agent uses MCP to access the tools and data it needs to fulfill tasks.'
 	},
 
 	// ── SOAP relationships ──────────────────────────────────────

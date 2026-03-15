@@ -255,6 +255,44 @@ Many real systems are hybrids: Zoom uses a central server for group calls but P2
 				text: 'Asymmetric encryption is roughly 1000x slower than symmetric. TLS uses it only for the initial key exchange (a few hundred bytes), then switches to AES or ChaCha20 for the actual data transfer. This hybrid approach gives you the best of both worlds.'
 			}
 		]
+	},
+	{
+		id: 'ai-protocols',
+		title: 'Protocols for AI Agents',
+		sections: [
+			{
+				type: 'narrative',
+				title: 'A New Layer of Communication',
+				text: `For decades, protocols connected humans to servers ([[http1|HTTP]]), humans to humans (email, chat), and machines to machines (RPC, messaging). Starting in 2024, a new class of protocols emerged — ones designed for AI agents to use tools and collaborate with each other.
+
+The catalyst was an integration problem. Every AI application needed custom code for every external tool — connecting an AI to a database was a different project than connecting it to GitHub, which was different from Slack. With N AI hosts and M tools, you needed N×M bespoke integrations.
+
+Two complementary protocols solved this. [[mcp|MCP]] (Model Context Protocol) provides a universal interface between AI agents and their tools — define a tool once as an MCP server, and any AI host can use it. [[a2a|A2A]] (Agent-to-Agent Protocol) lets AI agents discover and delegate tasks to each other. MCP is vertical (agent → tools). A2A is horizontal (agent ↔ agent). Both are built on [[json-rpc|JSON-RPC]] 2.0 — the same minimal RPC format that has been quietly powering language servers, blockchain nodes, and editor tooling for years.`
+			},
+			{
+				type: 'diagram',
+				title: 'The AI Protocol Stack',
+				definition: `graph TD
+  U["User / AI Application"]
+  U -->|"MCP"| T["Tools & Data Sources"]
+  U -->|"A2A"| A["Other AI Agents"]
+  A -->|"MCP"| T2["Agent's Own Tools"]
+  subgraph Wire["Wire Format"]
+    JR["JSON-RPC 2.0"]
+  end
+  subgraph Transport["Transport Layer"]
+    HTTP["HTTP + SSE"]
+    STDIO["stdio (local)"]
+  end
+  Wire -.-> Transport`,
+				caption: 'AI protocols sit at the application layer, using JSON-RPC as their wire format and HTTP (or stdio) as their transport. MCP connects agents to tools; A2A connects agents to each other.'
+			},
+			{
+				type: 'callout',
+				title: 'Same Principles, New Domain',
+				text: 'AI protocols follow the same design principles as their predecessors: capability discovery (like [[dns|DNS]]), request-response messaging (like [[http1|HTTP]]), stateful sessions (like [[tcp|TCP]]), and streaming (like [[sse|SSE]]). The innovation isn\'t in the transport mechanics — it\'s in defining a universal contract between AI agents and the world they interact with.'
+			}
+		]
 	}
 ];
 

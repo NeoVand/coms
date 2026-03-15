@@ -42,6 +42,9 @@ import { ipRouting } from './ip-routing';
 import { soapRequest } from './soap-request';
 import { oauth2Flow } from './oauth2-flow';
 import { ipv6Ndp } from './ipv6-ndp';
+import { jsonRpcCall } from './json-rpc-call';
+import { mcpSession } from './mcp-session';
+import { a2aTask } from './a2a-task';
 
 const simulations = new Map<string, SimulationConfig>([
 	['tcp', tcpHandshake],
@@ -86,7 +89,10 @@ const simulations = new Map<string, SimulationConfig>([
 	['ip', ipRouting],
 	['soap', soapRequest],
 	['oauth2', oauth2Flow],
-	['ipv6', ipv6Ndp]
+	['ipv6', ipv6Ndp],
+	['json-rpc', jsonRpcCall],
+	['mcp', mcpSession],
+	['a2a', a2aTask]
 ]);
 
 export function getSimulation(protocolId: string): SimulationConfig | undefined {

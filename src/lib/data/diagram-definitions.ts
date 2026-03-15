@@ -233,6 +233,63 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
 		caption: 'Server pushes events over persistent HTTP — unidirectional (WHATWG Living Standard)'
 	},
 
+	'json-rpc': {
+		definition: `sequenceDiagram
+    participant C as Client
+    participant S as Server
+    C->>S: {"method":"subtract","params":[42,23],"id":1}
+    S->>C: {"result":19,"id":1}
+    C->>S: {"method":"log","params":["hello"]}
+    Note over S: Notification — no response
+    Note over C,S: Batch request
+    C->>S: [call1, call2, notify, call3]
+    S->>C: [result1, result2, result3]
+    Note over C,S: Transport-agnostic: HTTP, WebSocket, stdio, TCP
+    C->>S: {"method":"bad","id":2}
+    S->>C: {"error":{"code":-32601},"id":2}`,
+		caption: 'Method calls, notifications, and batches — the entire protocol in one diagram (jsonrpc.org 2.0)'
+	},
+
+	mcp: {
+		definition: `sequenceDiagram
+    participant H as Host (AI App)
+    participant S as MCP Server
+    Note over H,S: Initialization handshake
+    H->>S: initialize (capabilities, clientInfo)
+    S->>H: result (capabilities, serverInfo)
+    H->>S: notifications/initialized
+    Note over H,S: Discovery
+    H->>S: tools/list
+    S->>H: [{name: "weather", inputSchema: {...}}]
+    H->>S: resources/list
+    S->>H: [{uri: "file:///data.csv", name: "..."}]
+    Note over H,S: Tool invocation
+    H->>S: tools/call {name: "weather", args: {city: "NYC"}}
+    S->>H: {content: [{type: "text", text: "72°F, sunny"}]}
+    Note over H,S: JSON-RPC 2.0 over stdio or Streamable HTTP`,
+		caption: 'Initialize → discover tools/resources → invoke tools. JSON-RPC 2.0 over stdio or HTTP (modelcontextprotocol.io)'
+	},
+
+	a2a: {
+		definition: `sequenceDiagram
+    participant C as Client Agent
+    participant R as Remote Agent
+    Note over C,R: Discovery
+    C->>R: GET /.well-known/agent.json
+    R->>C: Agent Card {skills, capabilities}
+    Note over C,R: Task lifecycle
+    C->>R: message/send {text: "Find flights..."}
+    R->>C: Task {state: "submitted", id: "task-42"}
+    R->>C: Task {state: "working", message: "Searching..."}
+    R->>C: Task {state: "completed", artifacts: [...]}
+    Note over C,R: Or stream via SSE
+    C->>R: message/stream {text: "..."}
+    R-->>C: SSE: TaskStatusUpdate
+    R-->>C: SSE: TaskArtifactUpdate
+    Note over C,R: JSON-RPC 2.0 over HTTP(S)`,
+		caption: 'Discover via Agent Card → delegate task → receive artifacts. JSON-RPC 2.0 over HTTP (a2a-protocol.org)'
+	},
+
 	rest: {
 		definition: `sequenceDiagram
     participant C as Client

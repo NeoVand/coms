@@ -365,7 +365,8 @@ const TIMELINE_LANDMARKS: { year: number; label: string }[] = [
 	{ year: 1991, label: 'World Wide Web' },
 	{ year: 1998, label: 'Google Founded' },
 	{ year: 2007, label: 'iPhone' },
-	{ year: 2017, label: 'Cloud Era' }
+	{ year: 2017, label: 'Cloud Era' },
+	{ year: 2022, label: 'ChatGPT / AI Era' }
 ];
 
 function tlColor(theme: ThemeColors, alpha: number): string {
