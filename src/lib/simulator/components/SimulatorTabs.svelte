@@ -1,6 +1,7 @@
 <script lang="ts">
 	import ViewTabs from '$lib/components/detail/ViewTabs.svelte';
 	import { getAppState } from '$lib/state/context';
+	import { BookOpen, Play, Scale } from 'lucide-svelte';
 
 	interface Props {
 		color: string;
@@ -10,9 +11,9 @@
 	const appState = getAppState();
 
 	const tabs = [
-		{ id: 'learn', label: 'Learn' },
-		{ id: 'simulate', label: 'Simulate' },
-		{ id: 'compare', label: 'Compare' }
+		{ id: 'learn', label: 'Learn', icon: BookOpen },
+		{ id: 'simulate', label: 'Simulate', icon: Play },
+		{ id: 'compare', label: 'Compare', icon: Scale }
 	];
 </script>
 

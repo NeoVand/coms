@@ -99,6 +99,9 @@ export class AppState {
 		}
 	};
 
+	// Search highlight state — protocol IDs to highlight on canvas during search
+	searchHighlightIds: Set<string> | null = $state(null);
+
 	// Journey state
 	activeJourney: Journey | null = $state(null);
 	activeJourneyStepIndex: number = $state(0);

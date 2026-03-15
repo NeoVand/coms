@@ -1,7 +1,10 @@
 <script lang="ts">
+	import type { Component } from 'svelte';
+
 	interface Tab {
 		id: string;
 		label: string;
+		icon?: Component<{ size?: number; strokeWidth?: number }>;
 	}
 
 	interface Props {
@@ -33,11 +36,15 @@
 	{#each tabs as tab, i (tab.id)}
 		<button
 			bind:this={tabEls[i]}
-			class="relative z-10 px-4 py-2.5 text-sm font-medium transition-colors"
+			class="relative z-10 flex items-center gap-1.5 px-4 py-2.5 text-sm font-medium transition-colors"
 			class:text-slate-200={activeId === tab.id}
 			class:text-slate-500={activeId !== tab.id}
 			onclick={() => onchange(tab.id)}
 		>
+			{#if tab.icon}
+				{@const Icon = tab.icon}
+				<Icon size={14} strokeWidth={1.8} />
+			{/if}
 			{tab.label}
 		</button>
 	{/each}

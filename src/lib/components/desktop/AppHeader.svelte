@@ -1,10 +1,11 @@
 <script lang="ts">
 	import { BookMarked, BookOpen, CircleHelp } from 'lucide-svelte';
+	import SearchBar from '$lib/search/SearchBar.svelte';
 
 	let { onhelp, onguide, panelOpen = false }: { onhelp?: () => void; onguide?: () => void; panelOpen?: boolean } = $props();
 </script>
 
-<div class="absolute left-3 top-3 z-40 flex items-center gap-1 md:left-4 md:top-4 md:gap-1.5">
+<div class="absolute left-3 top-3 z-[55] flex items-center gap-1 md:left-4 md:top-4 md:gap-1.5">
 	<!-- App branding -->
 	<div class="flex items-center gap-2.5 px-1">
 		<!-- Network constellation icon -->
@@ -44,6 +45,8 @@
 	>
 		<CircleHelp size={16} />
 	</button>
+
+	<SearchBar />
 </div>
 
 <style>

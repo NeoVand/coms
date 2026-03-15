@@ -26,7 +26,7 @@
 	import ComparisonCard from '$lib/components/comparison/ComparisonCard.svelte';
 	import RelationshipCard from '$lib/components/comparison/RelationshipCard.svelte';
 	import { getPair } from '$lib/data/comparison/pairs';
-	import { X } from 'lucide-svelte';
+	import { X, Home, Lightbulb, Compass, BookOpen, Microscope } from 'lucide-svelte';
 	import ViewTabs from './ViewTabs.svelte';
 	import ConceptsView from './ConceptsView.svelte';
 	import CategoryAdvancedView from './CategoryAdvancedView.svelte';
@@ -165,9 +165,9 @@
 			<div class="px-6">
 				<ViewTabs
 					tabs={[
-						{ id: 'home', label: 'Home' },
-						{ id: 'concepts', label: 'Concepts' },
-						{ id: 'journeys', label: 'Journeys' }
+						{ id: 'home', label: 'Home', icon: Home },
+						{ id: 'concepts', label: 'Concepts', icon: Lightbulb },
+						{ id: 'journeys', label: 'Journeys', icon: Compass }
 					]}
 					activeId={appState.hubViewMode}
 					color="#FFFFFF"
@@ -459,9 +459,9 @@
 			<div class="px-6">
 				<ViewTabs
 					tabs={[
-						{ id: 'story', label: 'Story' },
-						{ id: 'advanced', label: 'Advanced' },
-						{ id: 'journeys', label: 'Journeys' }
+						{ id: 'story', label: 'Story', icon: BookOpen },
+						{ id: 'advanced', label: 'Advanced', icon: Microscope },
+						{ id: 'journeys', label: 'Journeys', icon: Compass }
 					]}
 					activeId={appState.categoryViewMode}
 					color={cat.color}

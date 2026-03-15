@@ -395,6 +395,7 @@
 				compareTargetId: appState.detailViewMode === 'compare' ? appState.compareTargetId : null,
 				activeJourney: appState.activeJourney,
 				activeJourneyStepIndex: appState.activeJourneyStepIndex,
+				searchHighlightIds: appState.searchHighlightIds,
 				time,
 				dpr,
 				layoutMode: appState.layoutMode

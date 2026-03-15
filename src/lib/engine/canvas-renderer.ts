@@ -17,6 +17,7 @@ interface RenderOptions {
 	compareTargetId?: string | null;
 	activeJourney?: Journey | null;
 	activeJourneyStepIndex?: number;
+	searchHighlightIds?: Set<string> | null;
 	time: number;
 	dpr: number;
 	layoutMode?: LayoutMode;
@@ -67,7 +68,18 @@ function updateJourneyIds(journey: Journey | null | undefined): void {
 	}
 }
 
-function isNodeDimmed(node: GraphNode, selectedNode: GraphNode | null, compareTargetId?: string | null, activeJourney?: Journey | null): boolean {
+function isNodeDimmed(node: GraphNode, selectedNode: GraphNode | null, compareTargetId?: string | null, activeJourney?: Journey | null, searchHighlightIds?: Set<string> | null): boolean {
+	// Search highlight mode: only matching protocol nodes + their categories stay bright
+	if (searchHighlightIds && searchHighlightIds.size > 0) {
+		if (searchHighlightIds.has(node.id)) return false;
+		if (node.type === 'category') {
+			for (const pid of searchHighlightIds) {
+				const n = NODE_MAP.get(pid);
+				if (n && n.categoryId === node.id) return false;
+			}
+		}
+		return true;
+	}
 	// Journey mode: only journey protocol nodes + their categories stay bright
 	if (activeJourney) {
 		if (journeyProtocolIds.has(node.id)) return false;
@@ -100,7 +112,7 @@ function isNodeDimmed(node: GraphNode, selectedNode: GraphNode | null, compareTa
 }
 
 export function render(ctx: CanvasRenderingContext2D, options: RenderOptions): void {
-	const { width, height, viewport, nodes, edges, hoveredNode, selectedNode, compareTargetId, activeJourney, activeJourneyStepIndex, time, dpr, layoutMode } =
+	const { width, height, viewport, nodes, edges, hoveredNode, selectedNode, compareTargetId, activeJourney, activeJourneyStepIndex, searchHighlightIds, time, dpr, layoutMode } =
 		options;
 
 	buildNodeMap(nodes);
@@ -170,7 +182,7 @@ export function render(ctx: CanvasRenderingContext2D, options: RenderOptions): v
 
 	// Update dim animations (smooth fade in/out)
 	for (const node of nodes) {
-		const targetDim = isNodeDimmed(node, selectedNode, compareTargetId, activeJourney) ? 1 : 0;
+		const targetDim = isNodeDimmed(node, selectedNode, compareTargetId, activeJourney, searchHighlightIds) ? 1 : 0;
 		const current = dimAnim.get(node.id) ?? 0;
 		const speed = targetDim > current ? DIM_EASE_IN : DIM_EASE_OUT;
 		const next = current + (targetDim - current) * speed;
