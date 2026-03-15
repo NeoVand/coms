@@ -52,13 +52,6 @@ export const utilitiesStory: CategoryStory = {
 					protocolId: 'ftp'
 				},
 				{
-					year: 1981,
-					title: 'ICMP — RFC 792',
-					description:
-						"Jon Postel defines the Internet Control Message Protocol. The network can now report errors and answer 'are you there?' — ping is born.",
-					protocolId: 'icmp'
-				},
-				{
 					year: 1982,
 					title: 'SMTP — RFC 821',
 					description:
@@ -166,12 +159,12 @@ export const utilitiesStory: CategoryStory = {
 		},
 		{
 			type: 'narrative',
-			title: 'Diagnostics, Routing, and the Complete Email System',
-			text: `While DNS and NTP solved naming and timing, three other protocols were quietly filling critical gaps in the internet's infrastructure.\n\nIn 1981, Jon Postel defined [[icmp]] — the Internet Control Message Protocol. ICMP operates at the network layer itself, not above it like application protocols. It gave routers a way to report errors: "destination unreachable," "time exceeded," "redirect." Most importantly, it enabled ping — the simplest and most universal network diagnostic. Type \`ping google.com\` and ICMP Echo Request/Reply packets tell you if a host is alive and how fast the path is. Traceroute exploits ICMP Time Exceeded messages to map every router hop between you and a destination.\n\nIn 1986, Mark Crispin at Stanford created [[imap]], solving a problem [[smtp]] never could: accessing your email from multiple devices. SMTP delivers mail, but it's a one-way push. IMAP lets you browse, search, and organize messages that stay on the server. When you read an email on your phone and see it marked as read on your laptop — that's IMAP's stateful, server-side model at work. Crispin maintained IMAP for over 25 years, evolving it from RFC 1064 to RFC 9051.\n\nBy 1989, the internet was outgrowing its routing. The original ARPANET had a single backbone — routing was simple. But as multiple networks connected, someone had to decide how traffic flows between them. Yakov Rekhter and Kirk Lougheed created [[bgp]], the Border Gateway Protocol, which treats each network as an "autonomous system" and exchanges route advertisements between them. Today, BGP is the protocol that literally holds the internet together — every path your data takes across network boundaries is decided by BGP.`
+			title: 'The Complete Email System',
+			text: `While DNS and NTP solved naming and timing, another protocol was quietly filling a critical gap in the internet's infrastructure.\n\nIn 1986, Mark Crispin at Stanford created [[imap]], solving a problem [[smtp]] never could: accessing your email from multiple devices. SMTP delivers mail, but it's a one-way push. IMAP lets you browse, search, and organize messages that stay on the server. When you read an email on your phone and see it marked as read on your laptop — that's IMAP's stateful, server-side model at work. Crispin maintained IMAP for over 25 years, evolving it from RFC 1064 to RFC 9051.`
 		},
 		{
 			type: 'pioneers',
-			title: 'The Diagnostics and Routing Pioneers',
+			title: 'The Email Pioneer',
 			people: [
 				{
 					name: 'Mark Crispin',
@@ -180,35 +173,12 @@ export const utilitiesStory: CategoryStory = {
 					org: 'Stanford University / University of Washington',
 					contribution:
 						"Invented the Internet Message Access Protocol (RFC 1064, 1986) and maintained it for over 25 years through multiple revisions. IMAP's server-side mail model enabled the multi-device email access we take for granted today."
-				},
-				{
-					name: 'Yakov Rekhter',
-					years: '1950–',
-					title: 'Co-creator of BGP',
-					org: 'IBM / Juniper Networks',
-					contribution:
-						'Co-authored the Border Gateway Protocol (RFC 1105, 1989) with Kirk Lougheed. BGP became the de facto inter-domain routing protocol, handling routing decisions between every autonomous system on the internet.'
-				},
-				{
-					name: 'Kirk Lougheed',
-					years: '',
-					title: 'Co-creator of BGP',
-					org: 'Cisco Systems',
-					contribution:
-						"Co-authored the original BGP specification with Yakov Rekhter. As one of Cisco's earliest engineers, helped build the router infrastructure that BGP would come to manage."
 				}
 			]
 		},
 		{
 			type: 'timeline',
 			entries: [
-				{
-					year: 1989,
-					title: 'BGP Introduced — RFC 1105',
-					description:
-						'Yakov Rekhter and Kirk Lougheed create the Border Gateway Protocol. Autonomous systems can now exchange routing information — the internet can scale beyond a single backbone.',
-					protocolId: 'bgp'
-				},
 				{
 					year: 1993,
 					title: 'DHCP Published — RFC 1531',

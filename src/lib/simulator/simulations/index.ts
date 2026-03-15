@@ -41,6 +41,7 @@ import { arpResolution } from './arp-resolution';
 import { ipRouting } from './ip-routing';
 import { soapRequest } from './soap-request';
 import { oauth2Flow } from './oauth2-flow';
+import { ipv6Ndp } from './ipv6-ndp';
 
 const simulations = new Map<string, SimulationConfig>([
 	['tcp', tcpHandshake],
@@ -84,7 +85,8 @@ const simulations = new Map<string, SimulationConfig>([
 	['arp', arpResolution],
 	['ip', ipRouting],
 	['soap', soapRequest],
-	['oauth2', oauth2Flow]
+	['oauth2', oauth2Flow],
+	['ipv6', ipv6Ndp]
 ]);
 
 export function getSimulation(protocolId: string): SimulationConfig | undefined {

@@ -746,6 +746,32 @@ const vsPairs: ProtocolPair[] = [
 		]
 	},
 
+	{
+		ids: ['ip', 'ipv6'],
+		type: 'vs',
+		summary:
+			'[[ip|IPv4]] uses 32-bit addresses (4.3 billion) and has served since 1981; [[ipv6|IPv6]] uses 128-bit addresses (340 undecillion) with a simplified header and no NAT needed.',
+		keyDifferences: [
+			{ aspect: 'Address size', left: '32-bit (192.168.1.1) — 4.3 billion addresses', right: '128-bit (2001:db8::1) — 340 undecillion addresses' },
+			{ aspect: 'Header', left: 'Variable 20-60 bytes, header checksum, options', right: 'Fixed 40 bytes, no checksum, extension header chain' },
+			{ aspect: 'Fragmentation', left: 'Routers and hosts can fragment', right: 'Only source host fragments (Path MTU Discovery)' },
+			{ aspect: 'Address resolution', left: 'ARP broadcasts (FF:FF:FF:FF:FF:FF)', right: 'NDP solicited-node multicast (far more efficient)' },
+			{ aspect: 'Auto-configuration', left: 'Requires DHCP server', right: 'SLAAC — hosts self-configure from router prefix' }
+		],
+		useLeftWhen: [
+			'You are operating in legacy environments where IPv6 is not yet supported',
+			'All devices and infrastructure only support IPv4',
+			'NAT provides sufficient address space for your needs',
+			'Your network tooling and monitoring only handles IPv4'
+		],
+		useRightWhen: [
+			'You need globally unique addresses for every device (IoT, mobile, cloud)',
+			'You want to eliminate NAT complexity and enable true end-to-end connectivity',
+			'You are deploying on modern mobile or cloud networks that prefer IPv6',
+			'You need efficient multicast and solicited-node address resolution'
+		]
+	},
+
 	// ── Web & API ───────────────────────────────────────────────
 
 	{
@@ -1884,6 +1910,81 @@ const relationshipPairs: ProtocolPair[] = [
 			'[[bgp|BGP]] builds and maintains the routing tables that determine how [[ip|IP]] packets are forwarded between autonomous systems.',
 		rightRole:
 			'[[ip|IP]] provides the addressing system whose prefixes [[bgp|BGP]] advertises and routes — every BGP UPDATE message references IP prefixes.'
+	},
+
+	// ── IPv6 relationships ──────────────────────────────────────
+
+	{
+		ids: ['ipv6', 'tcp'],
+		type: 'relationship',
+		summary:
+			'[[tcp|TCP]] runs identically over [[ipv6|IPv6]] as over [[ip|IPv4]] — the same reliable byte-stream delivery, but IPv6 mandates that TCP perform checksum computation (IPv6 has no header checksum).',
+		howTheyWork:
+			'[[tcp|TCP]] segments are encapsulated in [[ipv6|IPv6]] packets with Next Header value 6. The key difference from IPv4: since [[ipv6|IPv6]] has no header checksum, the TCP checksum is mandatory (not optional). TCP\'s pseudo-header for checksum computation uses 128-bit addresses instead of 32-bit ones. Otherwise the connection setup, flow control, and congestion algorithms are identical.',
+		leftRole:
+			'[[ipv6|IPv6]] provides 128-bit addressing and routing, carrying [[tcp|TCP]] segments in its payload with Next Header=6.',
+		rightRole:
+			'[[tcp|TCP]] provides reliable, ordered byte-stream delivery over [[ipv6|IPv6]] with mandatory checksum coverage.'
+	},
+	{
+		ids: ['ipv6', 'udp'],
+		type: 'relationship',
+		summary:
+			'[[udp|UDP]] datagrams ride over [[ipv6|IPv6]] just as over [[ip|IPv4]], but with one key difference: the UDP checksum is mandatory in IPv6 (it was optional in IPv4).',
+		howTheyWork:
+			'[[udp|UDP]] datagrams are carried in [[ipv6|IPv6]] packets with Next Header value 17. Because [[ipv6|IPv6]] eliminated the IP-layer header checksum, [[udp|UDP]]\'s checksum became mandatory to ensure minimum integrity coverage. The checksum pseudo-header uses the full 128-bit source and destination addresses. Applications like [[dns|DNS]], [[dhcp|DHCPv6]], and real-time media use UDP over IPv6.',
+		leftRole:
+			'[[ipv6|IPv6]] routes [[udp|UDP]] datagrams across networks using 128-bit addresses and Next Header=17.',
+		rightRole:
+			'[[udp|UDP]] provides lightweight, connectionless datagram delivery with mandatory checksums over [[ipv6|IPv6]].'
+	},
+	{
+		ids: ['ethernet', 'ipv6'],
+		type: 'relationship',
+		summary:
+			'[[ipv6|IPv6]] packets are carried inside [[ethernet|Ethernet]] frames using EtherType 0x86DD — the same framing model as IPv4 but with a different type identifier.',
+		howTheyWork:
+			'When sending an [[ipv6|IPv6]] packet on a LAN, the host wraps it in an [[ethernet|Ethernet]] frame with EtherType 0x86DD (vs 0x0800 for IPv4). The destination MAC is resolved using NDP (Neighbor Discovery Protocol) instead of [[arp|ARP]]. NDP sends Neighbor Solicitation messages to solicited-node multicast addresses (33:33:FF:xx:xx:xx) rather than broadcasting — dramatically reducing overhead on large networks.',
+		leftRole:
+			'[[ethernet|Ethernet]] provides the Layer 2 framing that carries [[ipv6|IPv6]] packets on wired networks, identified by EtherType 0x86DD.',
+		rightRole:
+			'[[ipv6|IPv6]] provides the Layer 3 addressing and routing carried inside [[ethernet|Ethernet]] frames, using NDP for address resolution.'
+	},
+	{
+		ids: ['ipv6', 'wifi'],
+		type: 'relationship',
+		summary:
+			'[[ipv6|IPv6]] packets are carried over [[wifi|Wi-Fi]] 802.11 frames, with NDP replacing ARP for address resolution on wireless networks.',
+		howTheyWork:
+			'[[ipv6|IPv6]] packets are encapsulated in 802.11 frames for wireless transmission. The access point bridges between [[wifi|Wi-Fi]] and [[ethernet|Ethernet]], re-encapsulating [[ipv6|IPv6]] packets between frame types. NDP Neighbor Solicitation multicast (ff02::1:ff..) works over Wi-Fi, though access points may convert multicast to unicast for sleeping clients. Router Advertisements over Wi-Fi enable SLAAC for wireless devices.',
+		leftRole:
+			'[[ipv6|IPv6]] provides addressing and routing for wireless clients, using NDP for neighbor discovery over the wireless medium.',
+		rightRole:
+			'[[wifi|Wi-Fi]] provides the wireless Layer 2 transport for [[ipv6|IPv6]] packets, bridging to wired Ethernet at the access point.'
+	},
+	{
+		ids: ['dns', 'ipv6'],
+		type: 'relationship',
+		summary:
+			'[[dns|DNS]] AAAA records map domain names to [[ipv6|IPv6]] addresses — the same naming system, extended for 128-bit addresses.',
+		howTheyWork:
+			'When a client queries [[dns|DNS]] for a hostname, it can request AAAA records (for [[ipv6|IPv6]]) alongside A records (for IPv4). Modern resolvers use Happy Eyeballs (RFC 8305) to race IPv4 and IPv6 connections simultaneously, preferring whichever responds first. Dual-stack [[dns|DNS]] servers return both record types, and clients choose based on connectivity. DNS itself can run over either IPv4 or IPv6 transport.',
+		leftRole:
+			'[[dns|DNS]] translates domain names into [[ipv6|IPv6]] addresses via AAAA records, extending the naming system for 128-bit addresses.',
+		rightRole:
+			'[[ipv6|IPv6]] provides the 128-bit addresses that [[dns|DNS]] AAAA records resolve to, and can also serve as the transport for DNS queries themselves.'
+	},
+	{
+		ids: ['icmp', 'ipv6'],
+		type: 'relationship',
+		summary:
+			'ICMPv6 is an integral part of [[ipv6|IPv6]] — it handles neighbor discovery, address resolution, and router discovery, not just error reporting like [[icmp|ICMPv4]].',
+		howTheyWork:
+			'In IPv4, [[icmp|ICMP]] primarily handles error messages and ping. In [[ipv6|IPv6]], ICMPv6 takes on a vastly expanded role: Neighbor Discovery Protocol (NDP) replaces ARP, Router Solicitation/Advertisement replaces DHCP for basic configuration (SLAAC), and Path MTU Discovery replaces router fragmentation. [[ipv6|IPv6]] literally cannot function without ICMPv6 — firewalls that block it break networking.',
+		leftRole:
+			'[[icmp|ICMPv6]] provides essential [[ipv6|IPv6]] functions: neighbor discovery (replacing ARP), router discovery (enabling SLAAC), and error reporting.',
+		rightRole:
+			'[[ipv6|IPv6]] depends on ICMPv6 for core operations — address resolution, router discovery, and path MTU discovery are all ICMPv6-based.'
 	}
 ];
 

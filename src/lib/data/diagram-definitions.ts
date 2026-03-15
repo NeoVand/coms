@@ -801,6 +801,28 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
 			'WSDL discovery, XML envelope exchange, and structured fault handling — enterprise web services (W3C SOAP 1.2)'
 	},
 
+	ipv6: {
+		definition: `sequenceDiagram
+    participant S as Source (2001:db8:1::a1f2)
+    participant R as Router
+    participant D as Destination (2001:db8:2::80)
+    Note over S: SLAAC — autoconfigure address from prefix + interface ID
+    S->>R: Router Solicitation (ICMPv6 Type 133)
+    R->>S: Router Advertisement (prefix: 2001:db8:1::/64)
+    Note over S: NDP replaces ARP — solicited-node multicast
+    S->>R: Neighbor Solicitation (ff02::1:ff00:1)
+    R->>S: Neighbor Advertisement (MAC: CC:DD:EE:FF:00:01)
+    Note over S,D: IPv6 packet — fixed 40-byte header
+    S->>R: IPv6 packet (Hop Limit=64, Next Header=TCP)
+    Note over R: Hop Limit: 64→63 (no checksum to recalculate)
+    R->>D: Forward (new MACs, same IPs, Hop Limit=63)
+    D->>R: Response (IPs swapped, Hop Limit=64)
+    R->>S: Return (Hop Limit=63)
+    Note over S,D: 128-bit addresses — no NAT needed`,
+		caption:
+			'IPv6 NDP and routing — solicited-node multicast replaces ARP broadcast, Hop Limit replaces TTL, no header checksum (RFC 8200)'
+	},
+
 	oauth2: {
 		definition: `sequenceDiagram
     participant A as Your App

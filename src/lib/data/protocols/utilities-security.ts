@@ -538,7 +538,7 @@ curl -sH 'accept: application/dns-json' \\
 			throughput: 'Not applicable — DNS is query/response, not streaming',
 			overhead: '12-byte header + question + answer. Typical query: 40-60 bytes. UDP-based.'
 		},
-		connections: ['udp', 'tcp', 'tls', 'smtp', 'dhcp', 'bgp', 'icmp'],
+		connections: ['udp', 'tcp', 'tls', 'smtp', 'dhcp', 'bgp', 'icmp', 'ipv6'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Domain_Name_System',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc1035'
@@ -1405,7 +1405,7 @@ Server: + idling
 		id: 'bgp',
 		name: 'Border Gateway Protocol',
 		abbreviation: 'BGP',
-		categoryId: 'utilities',
+		categoryId: 'network-foundations',
 		port: 179,
 		year: 1995,
 		rfc: 'RFC 4271',
@@ -1568,7 +1568,7 @@ for await (const elem of parser) {
 		id: 'icmp',
 		name: 'Internet Control Message Protocol',
 		abbreviation: 'ICMP',
-		categoryId: 'utilities',
+		categoryId: 'network-foundations',
 		port: undefined,
 		year: 1981,
 		rfc: 'RFC 792',
@@ -1735,7 +1735,7 @@ ICMP Echo Reply:
 			overhead:
 				'8-byte ICMP header (Type, Code, Checksum, Id, Seq) encapsulated in IP. Minimal by design — diagnostics should be lightweight.'
 		},
-		connections: ['dns', 'tcp', 'ip'],
+		connections: ['dns', 'tcp', 'ip', 'ipv6'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Internet_Control_Message_Protocol',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc792'

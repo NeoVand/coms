@@ -34,8 +34,10 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
     B2["UDP — fast datagrams"]
   end
   subgraph L3["Layer 3 — Network"]
-    C["IP — addressing & routing"]
-    C2["ARP — IP → MAC resolution"]
+    C["IPv4 / IPv6 — addressing & routing"]
+    C2["ARP / NDP — address resolution"]
+    C3["ICMP — diagnostics & errors"]
+    C4["BGP — inter-domain routing"]
   end
   subgraph L2["Layer 2 — Data Link"]
     D1["Ethernet — wired frames"]
@@ -47,14 +49,16 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
   A1 & A2 & A3 & A4 --> B1 & B2
   B1 & B2 --> C
   C --> C2
+  C --> C3
+  C4 --> C
   C2 --> D1 & D2
   D1 & D2 --> E1`,
 			caption:
-				'Where Network Foundations protocols fit in the stack. Ethernet and Wi-Fi frame data at Layer 2, IP routes it at Layer 3, and ARP bridges between them — translating IP addresses to MAC addresses so frames reach the right device.'
+				'Where Network Foundations protocols fit in the stack. Ethernet and Wi-Fi frame data at Layer 2, IPv4/IPv6 route at Layer 3, ARP/NDP bridge addressing, ICMP provides diagnostics, and BGP handles inter-domain routing.'
 		},
 		{
 			type: 'pioneers',
-			title: 'The Architects of Layer 2 and Layer 3',
+			title: 'The Architects of the Network',
 			people: [
 				{
 					name: 'Bob Metcalfe',
@@ -91,6 +95,22 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
 					org: 'NCR / Agere Systems',
 					contribution:
 						'Chaired the IEEE 802.11 working group from 1990 to 2002, shepherding the wireless LAN standard from concept to global adoption. Known as the "Father of Wi-Fi" for his persistence in driving consensus.'
+				},
+				{
+					name: 'Yakov Rekhter',
+					years: '1950–',
+					title: 'Co-creator of BGP',
+					org: 'IBM / Juniper Networks',
+					contribution:
+						'Co-authored the Border Gateway Protocol (RFC 1105, 1989) with Kirk Lougheed. BGP became the de facto inter-domain routing protocol, handling routing decisions between every autonomous system on the internet.'
+				},
+				{
+					name: 'Steve Deering',
+					years: '1960–',
+					title: 'Creator of IPv6',
+					org: 'Xerox PARC / Cisco',
+					contribution:
+						'Primary architect of IPv6, leading the design of 128-bit addressing, the simplified header, and multicast. Also invented IP multicast itself, fundamentally changing how one-to-many communication works on the internet.'
 				}
 			]
 		},
@@ -118,6 +138,13 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
 					protocolId: 'ip'
 				},
 				{
+					year: 1981,
+					title: 'ICMP Published — RFC 792',
+					description:
+						'Jon Postel defines the Internet Control Message Protocol. The network can now report errors and answer "are you there?" — ping is born, and traceroute follows.',
+					protocolId: 'icmp'
+				},
+				{
 					year: 1982,
 					title: 'ARP Defined — RFC 826',
 					description:
@@ -132,6 +159,13 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
 					protocolId: 'ethernet'
 				},
 				{
+					year: 1989,
+					title: 'BGP Introduced — RFC 1105',
+					description:
+						'Yakov Rekhter and Kirk Lougheed create the Border Gateway Protocol. Autonomous systems can now exchange routing information — the internet can scale beyond a single backbone.',
+					protocolId: 'bgp'
+				},
+				{
 					year: 1997,
 					title: 'IEEE 802.11 — First Wi-Fi Standard',
 					description:
@@ -143,6 +177,13 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
 					title: 'Wi-Fi Alliance Formed',
 					description:
 						'The Wi-Fi Alliance is created to certify interoperability. 802.11b brings 11 Mbps, making wireless affordable for consumers.'
+				},
+				{
+					year: 1998,
+					title: 'IPv6 Specified — RFC 2460',
+					description:
+						'Steve Deering and Rob Hinden publish IPv6 with 128-bit addresses, a simplified header, and no more broadcast. The long transition from IPv4 begins.',
+					protocolId: 'ipv6'
 				},
 				{
 					year: 2009,
@@ -238,6 +279,42 @@ An 802.11 frame carries three or four MAC addresses (receiver, transmitter, dest
 			type: 'callout',
 			title: 'Layer 2 vs Layer 3',
 			text: 'Ethernet and Wi-Fi operate at Layer 2 (Data Link) — they handle framing and local delivery using MAC addresses. IP operates at Layer 3 (Network) — it handles addressing and routing across networks. ARP bridges the two: it translates Layer 3 addresses (IP) into Layer 2 addresses (MAC). This separation of concerns is what makes the internet scalable — IP routes between networks, while Ethernet/Wi-Fi handles the "last mile" delivery on each segment.'
+		},
+		{
+			type: 'narrative',
+			title: 'Diagnostics, Routing, and the Next Generation',
+			text: `With framing, addressing, and routing in place, three more protocols completed the network foundation.
+
+In 1981, Jon Postel defined [[icmp|ICMP]] — the Internet Control Message Protocol. [[icmp|ICMP]] is the network's built-in diagnostic system: it reports errors ("destination unreachable," "time exceeded," "redirect") and enables the two most essential troubleshooting tools in networking. Ping sends an Echo Request and waits for an Echo Reply, telling you if a host is alive and how fast the path is. Traceroute sends packets with incrementing TTL values, collecting "Time Exceeded" responses from each router along the path — revealing every hop between you and a destination.
+
+By 1989, the internet was outgrowing its routing. The original ARPANET had a single backbone — routing was simple. But as multiple networks connected, someone had to decide how traffic flows between them. Yakov Rekhter and Kirk Lougheed created [[bgp|BGP]], the Border Gateway Protocol, which treats each network as an "autonomous system" and exchanges route advertisements between them. Today, [[bgp|BGP]] is literally the protocol that holds the internet together — every path your data takes across network boundaries is decided by BGP route advertisements exchanged on TCP port 179.
+
+The most ambitious chapter began in the 1990s. IPv4's 32-bit address space — 4.3 billion addresses — was running out. Steve Deering led the design of [[ipv6|IPv6]], published as RFC 2460 in 1998 (later updated as RFC 8200 in 2017). IPv6 didn't just add more addresses; it rethought the protocol entirely. The header was simplified to a fixed 40 bytes — no checksum, no variable-length options. Broadcast was eliminated in favor of multicast. [[arp|ARP]]'s broadcast-based address resolution was replaced by NDP (Neighbor Discovery Protocol), which uses efficient solicited-node multicast. Hosts can autoconfigure globally unique addresses via SLAAC without any server. By 2026, IPv6 carries over 45% of Google's traffic, and the transition that was supposed to take a few years is still ongoing — a testament to how deeply embedded IPv4 became.`
+		},
+		{
+			type: 'diagram',
+			title: 'IPv4 vs IPv6 — Header Comparison',
+			definition: `graph TD
+  subgraph V4["IPv4 Header (20-60 bytes, variable)"]
+    V4A["Version (4b) + IHL (4b)"]
+    V4B["DSCP + ECN + Total Length"]
+    V4C["Identification + Flags + Fragment Offset"]
+    V4D["TTL + Protocol + Header Checksum"]
+    V4E["Source IP (32-bit)"]
+    V4F["Destination IP (32-bit)"]
+    V4G["Options (0-40 bytes, variable)"]
+    V4A --- V4B --- V4C --- V4D --- V4E --- V4F --- V4G
+  end
+  subgraph V6["IPv6 Header (40 bytes, fixed)"]
+    V6A["Version (4b) + Traffic Class (8b) + Flow Label (20b)"]
+    V6B["Payload Length + Next Header + Hop Limit"]
+    V6C["Source IP (128-bit)"]
+    V6D["Destination IP (128-bit)"]
+    V6A --- V6B --- V6C --- V6D
+  end
+  V4 ~~~ V6`,
+			caption:
+				'IPv4 headers are variable-length with a checksum and options; IPv6 headers are fixed at 40 bytes with no checksum (upper layers handle integrity) and extension headers for optional features. Simpler headers mean faster router processing.'
 		}
 	]
 };
