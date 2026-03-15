@@ -344,6 +344,17 @@ function drawJourneyPath(
 	ctx.restore();
 }
 
+// Landmark events shown at the top of the timeline
+const TIMELINE_LANDMARKS: { year: number; label: string }[] = [
+	{ year: 1969, label: 'ARPANET' },
+	{ year: 1971, label: 'Email' },
+	{ year: 1983, label: 'Internet Born' },
+	{ year: 1991, label: 'World Wide Web' },
+	{ year: 1998, label: 'Google Founded' },
+	{ year: 2007, label: 'iPhone' },
+	{ year: 2017, label: 'Cloud Era' }
+];
+
 function drawTimelineUnderlay(ctx: CanvasRenderingContext2D): void {
 	const { MIN_YEAR, MAX_YEAR, X_LEFT, X_RIGHT, LANE_SPACING } = TIMELINE_PARAMS;
 	const catOrder = categories.map((c) => c.id);
@@ -382,12 +393,49 @@ function drawTimelineUnderlay(ctx: CanvasRenderingContext2D): void {
 
 		if (isDecade) {
 			ctx.setLineDash([]);
-			ctx.font = '500 10px Inter, system-ui, sans-serif';
+			ctx.font = '600 14px Inter, system-ui, sans-serif';
 			ctx.textAlign = 'center';
 			ctx.textBaseline = 'top';
-			ctx.fillStyle = 'rgba(148, 163, 184, 0.45)';
-			ctx.fillText(String(year), x, bottomY + 10);
+			ctx.fillStyle = 'rgba(148, 163, 184, 0.55)';
+			ctx.fillText(String(year), x, bottomY + 14);
 		}
+	}
+	ctx.setLineDash([]);
+	ctx.restore();
+
+	// 3. Landmark events — dashed lines top-to-bottom with labels
+	ctx.save();
+	const dotY = topY - 2;
+	for (const landmark of TIMELINE_LANDMARKS) {
+		const x = yearToX(landmark.year);
+
+		// Dashed vertical line spanning the full timeline
+		ctx.strokeStyle = 'rgba(148, 163, 184, 0.13)';
+		ctx.lineWidth = 0.7;
+		ctx.setLineDash([4, 5]);
+		ctx.beginPath();
+		ctx.moveTo(x, dotY);
+		ctx.lineTo(x, bottomY);
+		ctx.stroke();
+
+		// Small dot at the top edge of the timeline
+		ctx.setLineDash([]);
+		ctx.fillStyle = 'rgba(148, 163, 184, 0.4)';
+		ctx.beginPath();
+		ctx.arc(x, dotY, 2.5, 0, Math.PI * 2);
+		ctx.fill();
+
+		// Event name — right-aligned to left of dot
+		ctx.font = '600 12px Inter, system-ui, sans-serif';
+		ctx.textAlign = 'right';
+		ctx.textBaseline = 'bottom';
+		ctx.fillStyle = 'rgba(148, 163, 184, 0.55)';
+		ctx.fillText(landmark.label, x - 7, dotY - 4);
+
+		// Year — right-aligned above the name
+		ctx.font = '400 10px Inter, system-ui, sans-serif';
+		ctx.fillStyle = 'rgba(148, 163, 184, 0.35)';
+		ctx.fillText(String(landmark.year), x - 7, dotY - 18);
 	}
 	ctx.setLineDash([]);
 	ctx.restore();
