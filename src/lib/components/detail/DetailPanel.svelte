@@ -435,7 +435,7 @@
 					<div class="space-y-2">
 						{#each protocols.toSorted((a, b) => a.year - b.year) as proto (proto.id)}
 							<button
-								class="flex w-full items-start gap-3 rounded-xl border border-white/5 bg-white/[0.02] p-3 text-left transition-all hover:border-white/10 hover:bg-white/[0.05]"
+								class="flex w-full flex-col gap-1 rounded-xl border border-white/5 bg-white/[0.02] p-3 text-left transition-all hover:border-white/10 hover:bg-white/[0.05]"
 								onclick={() => {
 									const node = {
 										id: proto.id,
@@ -454,19 +454,11 @@
 									appState.selectNode(node);
 								}}
 							>
-								<div
-									class="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-xs font-bold"
-									style="background-color: {cat.color}20; color: {cat.color}"
-								>
-									{proto.abbreviation.slice(0, 3)}
+								<div class="flex items-baseline gap-2">
+									<span class="text-sm font-medium" style="color: {cat.color}">{proto.abbreviation}</span>
+									<span class="text-[10px] text-slate-600">{proto.year}</span>
 								</div>
-								<div class="min-w-0 flex-1">
-									<div class="flex items-baseline gap-2">
-										<span class="text-sm font-medium text-slate-200">{proto.abbreviation}</span>
-										<span class="text-[10px] text-slate-600">{proto.year}</span>
-									</div>
-									<div class="mt-0.5 text-xs text-slate-400">{proto.oneLiner}</div>
-								</div>
+								<div class="text-xs text-slate-400">{proto.oneLiner}</div>
 							</button>
 						{/each}
 					</div>

@@ -716,6 +716,140 @@ const vsPairs: ProtocolPair[] = [
 			'You are building an email relay or forwarding service',
 			'You need store-and-forward delivery across mail servers via MX records'
 		]
+	},
+
+	// ── Network Foundations ──────────────────────────────────────
+
+	{
+		ids: ['ethernet', 'wifi'],
+		type: 'vs',
+		summary:
+			'[[ethernet|Ethernet]] uses cables for reliable, high-speed LAN connectivity; [[wifi|Wi-Fi]] uses radio waves for wireless flexibility at the cost of shared airtime and lower throughput.',
+		keyDifferences: [
+			{ aspect: 'Medium', left: 'Copper/fiber cables (dedicated per link)', right: 'Radio waves (shared airtime)' },
+			{ aspect: 'Access control', left: 'Full duplex on switched links (no collisions)', right: 'CSMA/CA — collision avoidance on shared medium' },
+			{ aspect: 'Speed (typical)', left: '1-100 Gbps', right: '100 Mbps–9.6 Gbps (Wi-Fi 6E/7)' },
+			{ aspect: 'Security', left: 'Physical access required (inherently private)', right: 'Encryption mandatory (WPA2/WPA3)' },
+			{ aspect: 'Addressing', left: '2 MAC addresses per frame (src, dst)', right: '3-4 MAC addresses per frame (RA, TA, DA, SA)' }
+		],
+		useLeftWhen: [
+			'Maximum speed and minimum latency are required (data centers, server rooms)',
+			'Devices are stationary and can be physically cabled',
+			'You need guaranteed bandwidth without contention (financial trading, AV production)',
+			'Physical security of the network medium is important'
+		],
+		useRightWhen: [
+			'Devices need mobility (laptops, phones, tablets, IoT sensors)',
+			'Running cables is impractical or impossible (historic buildings, temporary setups)',
+			'Convenience and coverage matter more than raw performance',
+			'You need to connect many consumer devices in a home or office'
+		]
+	},
+
+	// ── Web & API ───────────────────────────────────────────────
+
+	{
+		ids: ['soap', 'rest'],
+		type: 'vs',
+		summary:
+			'[[soap|SOAP]] provides formal XML contracts and enterprise features (transactions, security); [[rest|REST]] favors simplicity with JSON over HTTP and standard methods.',
+		keyDifferences: [
+			{ aspect: 'Data format', left: 'XML only (strict schema)', right: 'JSON, XML, or any format (flexible)' },
+			{ aspect: 'Contract', left: 'WSDL — formal, machine-readable service definition', right: 'OpenAPI/Swagger — optional, documentation-oriented' },
+			{ aspect: 'Transport', left: 'HTTP POST only (protocol-agnostic in theory)', right: 'Full HTTP semantics (GET, POST, PUT, DELETE)' },
+			{ aspect: 'Error handling', left: 'SOAP Fault — structured XML error envelopes', right: 'HTTP status codes (404, 500, etc.)' },
+			{ aspect: 'Ecosystem', left: 'WS-Security, WS-ReliableMessaging, WS-AtomicTransaction', right: 'Lightweight — use TLS, retries, saga pattern separately' }
+		],
+		useLeftWhen: [
+			'You need formal service contracts with strict schema validation (banking, insurance)',
+			'Built-in security standards are required (WS-Security with XML signatures)',
+			'Distributed transactions across services must be atomic (WS-AtomicTransaction)',
+			'You are integrating with legacy enterprise systems that already speak SOAP'
+		],
+		useRightWhen: [
+			'You want simplicity and human-readable JSON payloads',
+			'Your API is public-facing and needs broad developer adoption',
+			'You want to leverage HTTP caching, content negotiation, and standard methods',
+			'Performance matters — JSON is 2-10x smaller than equivalent XML'
+		]
+	},
+	{
+		ids: ['soap', 'grpc'],
+		type: 'vs',
+		summary:
+			'Both use strict contracts and code generation, but [[soap|SOAP]] wraps calls in verbose XML envelopes while [[grpc|gRPC]] uses compact binary Protobuf over HTTP/2.',
+		keyDifferences: [
+			{ aspect: 'Serialization', left: 'XML (text-based, verbose)', right: 'Protocol Buffers (binary, compact)' },
+			{ aspect: 'Contract', left: 'WSDL (XML Schema)', right: '.proto files (Protocol Buffers IDL)' },
+			{ aspect: 'Transport', left: 'HTTP/1.1 POST', right: 'HTTP/2 with multiplexing and streaming' },
+			{ aspect: 'Streaming', left: 'Not supported natively', right: 'Bidirectional streaming built-in' },
+			{ aspect: 'Ecosystem', left: 'Mature enterprise (Java, .NET)', right: 'Modern polyglot (Go, Rust, Python, Java, JS)' }
+		],
+		useLeftWhen: [
+			'You are in a regulated industry requiring WSDL-based formal contracts',
+			'Existing infrastructure is built around SOAP/WS-* standards',
+			'You need WS-Security features like XML digital signatures',
+			'Human-readable XML messages aid debugging and compliance auditing'
+		],
+		useRightWhen: [
+			'Performance is critical — binary serialization is 5-10x faster than XML',
+			'You need streaming (server push, bidirectional communication)',
+			'You are building modern microservices that need efficient inter-service calls',
+			'Your team prefers code generation from .proto files over WSDL tooling'
+		]
+	},
+	{
+		ids: ['soap', 'graphql'],
+		type: 'vs',
+		summary:
+			'[[soap|SOAP]] defines rigid operations via WSDL; [[graphql|GraphQL]] lets clients specify exactly the data they need in a single flexible query.',
+		keyDifferences: [
+			{ aspect: 'Query model', left: 'Fixed operations defined in WSDL', right: 'Client specifies exact fields and relationships' },
+			{ aspect: 'Data format', left: 'XML envelopes with XML Schema', right: 'JSON responses with typed schema' },
+			{ aspect: 'Over/under-fetching', left: 'Returns entire operation result (over-fetching)', right: 'Returns exactly requested fields (precise)' },
+			{ aspect: 'Versioning', left: 'WSDL versioning (breaking changes)', right: 'Schema evolution (additive, non-breaking)' },
+			{ aspect: 'Introspection', left: 'WSDL document download', right: 'Built-in schema introspection queries' }
+		],
+		useLeftWhen: [
+			'You need formal, validated contracts for enterprise integration',
+			'The API surface is well-defined with fixed operations',
+			'Regulatory requirements mandate WSDL-based service descriptions',
+			'WS-* enterprise features (transactions, reliable messaging) are needed'
+		],
+		useRightWhen: [
+			'Clients have varying data needs (mobile gets less, desktop gets more)',
+			'You want to reduce round trips by fetching related data in a single query',
+			'Your API evolves frequently and you want to avoid breaking changes',
+			'Developer experience and self-documenting schemas are priorities'
+		]
+	},
+
+	// ── Utilities / Security ────────────────────────────────────
+
+	{
+		ids: ['oauth2', 'tls'],
+		type: 'vs',
+		summary:
+			'[[oauth2|OAuth 2.0]] handles authorization (who can access what); [[tls|TLS]] handles encryption (protecting data in transit). Different problems, complementary solutions — OAuth requires TLS.',
+		keyDifferences: [
+			{ aspect: 'Problem solved', left: 'Authorization — delegated access to resources', right: 'Encryption — confidentiality and integrity of data in transit' },
+			{ aspect: 'OSI layer', left: 'Application layer (HTTP redirects, tokens)', right: 'Session/transport layer (encrypts byte streams)' },
+			{ aspect: 'Scope', left: 'Per-resource access control (scopes, tokens)', right: 'Per-connection encryption (entire data stream)' },
+			{ aspect: 'User involvement', left: 'User consents to grant access', right: 'Transparent to the user (lock icon in browser)' },
+			{ aspect: 'Dependency', left: 'Requires TLS for security (tokens in cleartext = disaster)', right: 'Independent — works without OAuth' }
+		],
+		useLeftWhen: [
+			'Third-party apps need access to user resources without passwords',
+			'You need scoped, revocable access tokens for API authorization',
+			'Your system requires delegated consent (user approves access)',
+			'You are building a platform with third-party integrations'
+		],
+		useRightWhen: [
+			'You need to encrypt data between client and server (HTTPS)',
+			'Server identity verification via certificates is required',
+			'You want to protect any protocol from eavesdropping (not just HTTP)',
+			'Compliance requires encryption of data in transit'
+		]
 	}
 ];
 
@@ -1534,6 +1668,222 @@ const relationshipPairs: ProtocolPair[] = [
 			'[[imap|IMAP]] provides the email retrieval and management protocol that carries sensitive credentials and message content.',
 		rightRole:
 			'[[tls|TLS]] provides confidentiality, integrity, and authentication for all [[imap|IMAP]] traffic, protecting credentials and email content in transit.'
+	},
+
+	// ── Network Foundations relationships ────────────────────────
+
+	{
+		ids: ['arp', 'ethernet'],
+		type: 'relationship',
+		summary:
+			'[[arp|ARP]] resolves [[ip|IP]] addresses to MAC addresses so that [[ethernet|Ethernet]] frames can be addressed correctly on the local network.',
+		howTheyWork:
+			'When a host needs to send an IP packet to a local destination, it first checks its [[arp|ARP]] cache for the destination\'s MAC address. On a cache miss, it broadcasts an [[arp|ARP]] Request (EtherType 0x0806) to all devices on the [[ethernet|Ethernet]] segment. The target host replies with its MAC address, which is cached for future [[ethernet|Ethernet]] frame construction.',
+		leftRole:
+			'[[arp|ARP]] provides the IP-to-MAC resolution mechanism that makes [[ethernet|Ethernet]] delivery possible for IP traffic.',
+		rightRole:
+			'[[ethernet|Ethernet]] provides the Layer 2 framing and MAC-based delivery that [[arp|ARP]] messages themselves travel over.'
+	},
+	{
+		ids: ['arp', 'ip'],
+		type: 'relationship',
+		summary:
+			'[[arp|ARP]] bridges the gap between [[ip|IP]] addresses (Layer 3) and MAC addresses (Layer 2), enabling IP packets to be delivered on local networks.',
+		howTheyWork:
+			'[[ip|IP]] provides logical addressing for routing packets across networks, but the last hop to the destination requires a physical MAC address. [[arp|ARP]] translates the destination [[ip|IP]] address to the corresponding MAC address on the local segment. Without [[arp|ARP]], [[ip|IP]] packets could be routed to the correct network but never delivered to the correct host.',
+		leftRole:
+			'[[arp|ARP]] resolves [[ip|IP]]\'s logical addresses to the hardware addresses needed for local delivery.',
+		rightRole:
+			'[[ip|IP]] provides the logical addressing that [[arp|ARP]] resolves — every [[arp|ARP]] request asks "who has this IP address?"'
+	},
+	{
+		ids: ['ip', 'ethernet'],
+		type: 'relationship',
+		summary:
+			'[[ip|IP]] packets are encapsulated inside [[ethernet|Ethernet]] frames for delivery on local networks — Ethernet is IP\'s Layer 2 carrier on wired LANs.',
+		howTheyWork:
+			'When an [[ip|IP]] packet needs to traverse a local [[ethernet|Ethernet]] segment, it is placed inside an [[ethernet|Ethernet]] frame (EtherType 0x0800 for IPv4). The [[ethernet|Ethernet]] frame\'s destination MAC is either the final host (if local) or the default gateway router. At each router hop, the [[ip|IP]] header stays the same but the [[ethernet|Ethernet]] frame is stripped and rebuilt with new MAC addresses.',
+		leftRole:
+			'[[ip|IP]] provides logical addressing, routing decisions, and TTL management for end-to-end packet delivery.',
+		rightRole:
+			'[[ethernet|Ethernet]] provides the physical framing and MAC-based delivery for each hop of the [[ip|IP]] packet\'s journey.'
+	},
+	{
+		ids: ['ip', 'wifi'],
+		type: 'relationship',
+		summary:
+			'[[ip|IP]] packets are carried over [[wifi|Wi-Fi]] 802.11 frames for wireless delivery, just as they are carried over [[ethernet|Ethernet]] on wired networks.',
+		howTheyWork:
+			'On wireless networks, [[ip|IP]] packets are encapsulated in 802.11 frames instead of [[ethernet|Ethernet]] frames. The [[wifi|Wi-Fi]] access point bridges between the two: it receives 802.11 frames from wireless clients, extracts the [[ip|IP]] packet, and re-encapsulates it in an [[ethernet|Ethernet]] frame for the wired network (and vice versa).',
+		leftRole:
+			'[[ip|IP]] provides the network-layer addressing that stays constant whether the packet travels over wired or wireless links.',
+		rightRole:
+			'[[wifi|Wi-Fi]] provides the wireless Layer 2 transport for [[ip|IP]] packets, with encryption and airtime management.'
+	},
+	{
+		ids: ['ip', 'tcp'],
+		type: 'relationship',
+		summary:
+			'[[tcp|TCP]] provides reliable, ordered streams on top of [[ip|IP]]\'s best-effort packet delivery — together they form TCP/IP, the foundation of the internet.',
+		howTheyWork:
+			'[[ip|IP]] handles addressing and routing packets between hosts, but provides no guarantees about delivery, ordering, or duplication. [[tcp|TCP]] adds reliability on top: sequence numbers track byte order, acknowledgments confirm delivery, and retransmission recovers lost packets. Every [[tcp|TCP]] segment is encapsulated in an [[ip|IP]] packet (protocol number 6).',
+		leftRole:
+			'[[ip|IP]] provides the addressing and hop-by-hop routing that delivers packets across networks.',
+		rightRole:
+			'[[tcp|TCP]] provides reliable, ordered, connection-oriented byte streams over [[ip|IP]]\'s unreliable datagram service.'
+	},
+	{
+		ids: ['ip', 'udp'],
+		type: 'relationship',
+		summary:
+			'[[udp|UDP]] adds port-based multiplexing to [[ip|IP]] with minimal overhead — the simplest way to send datagrams between applications.',
+		howTheyWork:
+			'[[ip|IP]] delivers packets between hosts but has no concept of applications or ports. [[udp|UDP]] adds source and destination port numbers (plus a checksum) in just 8 bytes of header, allowing multiple applications to share a single [[ip|IP]] address. Every [[udp|UDP]] datagram is encapsulated in an [[ip|IP]] packet (protocol number 17).',
+		leftRole:
+			'[[ip|IP]] provides the addressing and routing that delivers packets to the correct host.',
+		rightRole:
+			'[[udp|UDP]] provides port-based demultiplexing so multiple applications can use [[ip|IP]] simultaneously.'
+	},
+	{
+		ids: ['ip', 'icmp'],
+		type: 'relationship',
+		summary:
+			'[[icmp|ICMP]] is [[ip|IP]]\'s diagnostic companion — it reports routing errors, measures reachability, and discovers path MTU, all encapsulated directly in [[ip|IP]] packets.',
+		howTheyWork:
+			'[[icmp|ICMP]] messages are encapsulated in [[ip|IP]] packets with protocol number 1 (not TCP or UDP). When a router can\'t deliver an [[ip|IP]] packet (TTL expired, destination unreachable, fragmentation needed), it sends an [[icmp|ICMP]] message back to the sender. Ping (Echo Request/Reply) and traceroute (TTL-based hop discovery) are the most common [[icmp|ICMP]] operations.',
+		leftRole:
+			'[[ip|IP]] provides the packet delivery that [[icmp|ICMP]] both rides on and diagnoses problems within.',
+		rightRole:
+			'[[icmp|ICMP]] provides error reporting and diagnostics for [[ip|IP]]\'s routing infrastructure.'
+	},
+
+	// ── SOAP relationships ──────────────────────────────────────
+
+	{
+		ids: ['soap', 'http1'],
+		type: 'relationship',
+		summary:
+			'[[soap|SOAP]] uses [[http1|HTTP]] POST as its transport, wrapping XML envelopes inside HTTP request/response pairs with the SOAPAction header identifying the operation.',
+		howTheyWork:
+			'A [[soap|SOAP]] client sends an XML envelope via [[http1|HTTP]] POST to the service endpoint. The Content-Type header is text/xml (SOAP 1.1) or application/soap+xml (SOAP 1.2), and the SOAPAction header names the operation. The server processes the envelope and returns a SOAP response (200 OK) or fault (500) in another [[http1|HTTP]] response.',
+		leftRole:
+			'[[soap|SOAP]] provides the XML envelope structure, operation definitions (via WSDL), and fault handling for web service calls.',
+		rightRole:
+			'[[http1|HTTP]] provides the request-response transport that carries [[soap|SOAP]] envelopes between client and service.'
+	},
+
+	// ── OAuth relationships ─────────────────────────────────────
+
+	{
+		ids: ['oauth2', 'rest'],
+		type: 'relationship',
+		summary:
+			'[[oauth2|OAuth 2.0]] is the standard way to protect [[rest|REST]] APIs — clients present Bearer tokens in the Authorization header, and the API validates scopes before returning resources.',
+		howTheyWork:
+			'After completing the OAuth flow, the client includes the access token in every [[rest|REST]] API request: `Authorization: Bearer eyJhbG...`. The [[rest|REST]] API validates the token (checking signature, expiry, and scopes) before processing the request. Different scopes can limit access to specific resources or operations.',
+		leftRole:
+			'[[oauth2|OAuth 2.0]] provides the authorization mechanism — issuing, validating, and scoping access tokens for API access.',
+		rightRole:
+			'[[rest|REST]] provides the API interface that [[oauth2|OAuth 2.0]] tokens authorize access to — resources, methods, and status codes.'
+	},
+
+	// ── Additional cross-category relationships ─────────────────
+
+	{
+		ids: ['arp', 'wifi'],
+		type: 'relationship',
+		summary:
+			'[[arp|ARP]] broadcasts work over [[wifi|Wi-Fi]] just as they do over [[ethernet|Ethernet]] — the access point bridges ARP requests between wireless clients and the wired LAN.',
+		howTheyWork:
+			'When a wireless client needs to resolve an IP address, it sends an [[arp|ARP]] broadcast as an 802.11 frame. The access point receives it, bridges it to the wired [[ethernet|Ethernet]] segment as a standard Ethernet broadcast, and relays the unicast reply back over [[wifi|Wi-Fi]]. The process is transparent — wireless and wired hosts appear on the same Layer 2 segment.',
+		leftRole:
+			'[[arp|ARP]] provides the IP-to-MAC resolution mechanism, using broadcast requests and unicast replies to map addresses.',
+		rightRole:
+			'[[wifi|Wi-Fi]] carries the [[arp|ARP]] frames wirelessly and relies on the access point to bridge them to the wired network.'
+	},
+	{
+		ids: ['arp', 'dhcp'],
+		type: 'relationship',
+		summary:
+			'[[dhcp|DHCP]] assigns IP addresses; [[arp|ARP]] resolves those addresses to MACs. Together they bootstrap a device onto the network — first an address, then local reachability.',
+		howTheyWork:
+			'A new device uses [[dhcp|DHCP]] (over UDP broadcast) to obtain an IP address, subnet mask, and default gateway. Once it has an IP, it uses [[arp|ARP]] to discover the MAC addresses of its gateway and local peers. Many [[dhcp|DHCP]] servers also send a Gratuitous [[arp|ARP]] after assignment to detect address conflicts.',
+		leftRole:
+			'[[arp|ARP]] resolves the IP addresses that [[dhcp|DHCP]] assigned — turning logical addresses into hardware addresses for frame delivery.',
+		rightRole:
+			'[[dhcp|DHCP]] provides the IP configuration that makes [[arp|ARP]] necessary — without assigned addresses, there is nothing to resolve.'
+	},
+	{
+		ids: ['dns', 'ip'],
+		type: 'relationship',
+		summary:
+			'[[dns|DNS]] is the phone book for [[ip|IP]]\'s address space — it translates human-readable names into the 32-bit or 128-bit addresses that [[ip|IP]] needs to route packets.',
+		howTheyWork:
+			'When an application needs to connect to a hostname, it queries [[dns|DNS]], which returns one or more [[ip|IP]] addresses. The operating system then uses [[ip|IP]] to construct packets with the resolved destination address. Without [[dns|DNS]], users would need to memorize numerical addresses; without [[ip|IP]], the resolved addresses would have nowhere to route to.',
+		leftRole:
+			'[[dns|DNS]] resolves domain names into [[ip|IP]] addresses, providing the naming layer that makes the internet usable by humans.',
+		rightRole:
+			'[[ip|IP]] provides the addressing and routing system whose addresses [[dns|DNS]] resolves — every A record points to an IPv4 address, every AAAA record to an IPv6 address.'
+	},
+	{
+		ids: ['http1', 'oauth2'],
+		type: 'relationship',
+		summary:
+			'[[oauth2|OAuth 2.0]] is built entirely on [[http1|HTTP]] — authorization endpoints, token exchanges, and bearer tokens all use HTTP redirects, POST requests, and headers.',
+		howTheyWork:
+			'The OAuth authorization code flow starts with an [[http1|HTTP]] redirect to the authorization server. After user consent, the server redirects back with an authorization code in the URL. The client then makes an [[http1|HTTP]] POST to the token endpoint to exchange the code for access and refresh tokens. Every API call includes the token in the [[http1|HTTP]] Authorization header as `Bearer <token>`.',
+		leftRole:
+			'[[http1|HTTP]] provides the transport mechanism — redirects for the authorization flow, POST for token exchange, and headers for bearer token presentation.',
+		rightRole:
+			'[[oauth2|OAuth 2.0]] defines the authorization semantics layered on top of [[http1|HTTP]] — what the redirects mean, what the token endpoint returns, and how tokens grant access.'
+	},
+	{
+		ids: ['soap', 'tls'],
+		type: 'relationship',
+		summary:
+			'Production [[soap|SOAP]] services run over HTTPS, with [[tls|TLS]] encrypting the XML envelopes in transit. [[soap|SOAP]] also has its own WS-Security layer for message-level encryption and signing.',
+		howTheyWork:
+			'[[tls|TLS]] provides transport-level encryption for [[soap|SOAP]] messages sent over HTTPS — protecting the entire HTTP request including the XML envelope. For end-to-end security through intermediaries, [[soap|SOAP]]\'s WS-Security standard adds message-level encryption and digital signatures within the SOAP Header, allowing parts of the message to remain encrypted even when TLS terminates at a load balancer.',
+		leftRole:
+			'[[soap|SOAP]] defines the XML message format and can add message-level security via WS-Security headers for end-to-end protection.',
+		rightRole:
+			'[[tls|TLS]] encrypts the transport channel, protecting [[soap|SOAP]] envelopes from eavesdropping between client and server.'
+	},
+	{
+		ids: ['soap', 'tcp'],
+		type: 'relationship',
+		summary:
+			'[[soap|SOAP]] messages are delivered over [[tcp|TCP]] via [[http1|HTTP]] — TCP provides the reliable byte stream that ensures XML envelopes arrive complete and in order.',
+		howTheyWork:
+			'A [[soap|SOAP]] client sends an XML envelope as the body of an [[http1|HTTP]] POST request. [[http1|HTTP]] relies on [[tcp|TCP]] for reliable delivery — the three-way handshake establishes the connection, TCP segments carry the HTTP request containing the SOAP envelope, and TCP acknowledgments guarantee nothing is lost. For high-throughput enterprise services, persistent TCP connections (HTTP keep-alive) amortize handshake costs across many SOAP calls.',
+		leftRole:
+			'[[soap|SOAP]] defines the XML envelope format and RPC semantics carried inside the HTTP body over the TCP connection.',
+		rightRole:
+			'[[tcp|TCP]] provides reliable, ordered delivery for the [[http1|HTTP]] requests that transport [[soap|SOAP]] messages.'
+	},
+	{
+		ids: ['oauth2', 'tcp'],
+		type: 'relationship',
+		summary:
+			'[[oauth2|OAuth 2.0]] flows run over [[tcp|TCP]] via [[http1|HTTP]] and [[tls|TLS]] — TCP ensures the authorization redirects, token exchanges, and API calls are delivered reliably.',
+		howTheyWork:
+			'Every [[oauth2|OAuth 2.0]] interaction — the initial redirect to the authorization server, the token endpoint POST, and each API call with a Bearer token — travels over an [[http1|HTTP]] connection built on [[tcp|TCP]]. The [[tls|TLS]] handshake that encrypts these exchanges also relies on TCP for reliable segment delivery. If a token exchange packet were lost, TCP retransmission ensures it arrives.',
+		leftRole:
+			'[[oauth2|OAuth 2.0]] defines the authorization flows and token semantics carried over HTTP on top of TCP connections.',
+		rightRole:
+			'[[tcp|TCP]] provides the reliable transport that ensures authorization codes, tokens, and API responses are delivered without loss.'
+	},
+	{
+		ids: ['bgp', 'ip'],
+		type: 'relationship',
+		summary:
+			'[[bgp|BGP]] is the routing protocol of the internet — it determines how [[ip|IP]] packets traverse autonomous system boundaries by exchanging reachability information for IP prefixes.',
+		howTheyWork:
+			'[[bgp|BGP]] routers advertise which [[ip|IP]] prefixes they can reach, along with AS path attributes. When a router receives a packet destined for an [[ip|IP]] address, it consults the routing table built from [[bgp|BGP]] advertisements to determine the next hop. [[bgp|BGP]] operates at the inter-domain level — within a network, IGP protocols handle routing, but between networks (ISPs, cloud providers, enterprises), [[bgp|BGP]] is the sole routing protocol.',
+		leftRole:
+			'[[bgp|BGP]] builds and maintains the routing tables that determine how [[ip|IP]] packets are forwarded between autonomous systems.',
+		rightRole:
+			'[[ip|IP]] provides the addressing system whose prefixes [[bgp|BGP]] advertises and routes — every BGP UPDATE message references IP prefixes.'
 	}
 ];
 

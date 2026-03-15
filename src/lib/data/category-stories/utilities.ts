@@ -250,6 +250,13 @@ export const utilitiesStory: CategoryStory = {
 					protocolId: 'ssh'
 				},
 				{
+					year: 2012,
+					title: 'OAuth 2.0 Published — RFC 6749',
+					description:
+						'The authorization framework that makes "Sign in with Google" possible. Apps get scoped tokens instead of passwords, and the modern API ecosystem gets its security layer.',
+					protocolId: 'oauth2'
+				},
+				{
 					year: 2018,
 					title: 'TLS 1.3 Published — RFC 8446',
 					description:

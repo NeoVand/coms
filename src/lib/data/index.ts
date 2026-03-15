@@ -5,8 +5,10 @@ import { webApiProtocols } from './protocols/web-api';
 import { asyncIotProtocols } from './protocols/async-iot';
 import { realtimeAvProtocols } from './protocols/realtime-av';
 import { utilitiesProtocols } from './protocols/utilities-security';
+import { networkFoundationsProtocols } from './protocols/network-foundations';
 
 export const allProtocols: Protocol[] = [
+	...networkFoundationsProtocols,
 	...transportProtocols,
 	...webApiProtocols,
 	...asyncIotProtocols,

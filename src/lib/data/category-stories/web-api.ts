@@ -74,6 +74,13 @@ The first version, HTTP/0.9, supported just one command: GET. No headers, no con
 					protocolId: 'http1'
 				},
 				{
+					year: 1998,
+					title: 'SOAP — XML Web Services',
+					description:
+						'Microsoft, IBM, and others introduce SOAP: XML-wrapped RPC calls with formal WSDL contracts. Enterprise web services become the dominant integration pattern.',
+					protocolId: 'soap'
+				},
+				{
 					year: 2000,
 					title: "Roy Fielding's REST Dissertation",
 					description:

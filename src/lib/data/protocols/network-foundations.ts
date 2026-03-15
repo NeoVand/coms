@@ -1,0 +1,713 @@
+import type { Protocol } from '../types';
+
+export const networkFoundationsProtocols: Protocol[] = [
+	{
+		id: 'ethernet',
+		name: 'Ethernet',
+		abbreviation: 'Ethernet',
+		categoryId: 'network-foundations',
+		port: undefined,
+		year: 1983,
+		rfc: undefined,
+		oneLiner: 'The wired foundation of local networks — framing, addressing, and switching at Layer 2.',
+		overview: `Ethernet is the protocol that makes local area networks work. Every time your computer talks to another device on the same network — a printer, a file server, a router — it wraps data in an Ethernet frame with a source and destination MAC address. The EtherType field tells the receiver what's inside: 0x0800 for [[ip|IP]], 0x0806 for [[arp|ARP]], 0x86DD for IPv6. It's the lingua franca of wired networking, operating at Layer 2 of the OSI model.
+
+Ethernet was invented by Bob Metcalfe at Xerox PARC in 1973, inspired by the ALOHAnet wireless network in Hawaii. The original design used a shared coaxial cable (a "bus") where all devices listened to all traffic and used CSMA/CD (Carrier Sense Multiple Access with Collision Detection) to manage access. DEC, Intel, and Xerox published the DIX standard in 1980, and the IEEE ratified 802.3 in 1983, giving Ethernet its formal identity.
+
+The evolution from shared media to switched networks was transformative. Hubs gave way to switches, which learn MAC addresses and forward frames only to the correct port — eliminating collisions entirely. Full-duplex links doubled effective bandwidth. Today, Ethernet spans from 10 Mbps to 400 Gbps and beyond, powering everything from home networks to hyperscale data centers. [[arp|ARP]] resolves [[ip|IP]] addresses to Ethernet MAC addresses, and [[wifi|Wi-Fi]] extends Ethernet's reach wirelessly by bridging 802.11 frames to 802.3 frames at the access point.`,
+		howItWorks: [
+			{
+				title: 'Frame construction',
+				description:
+					'The sender wraps the payload in an Ethernet frame: a 7-byte preamble and 1-byte Start Frame Delimiter for clock sync, followed by a 6-byte destination MAC, 6-byte source MAC, 2-byte EtherType (identifying the payload protocol), the payload itself (46-1500 bytes), and a 4-byte Frame Check Sequence (FCS) for error detection.'
+			},
+			{
+				title: 'MAC addressing',
+				description:
+					'Every network interface has a 48-bit MAC address (e.g., \`AA:BB:CC:DD:EE:FF\`), typically burned into hardware. The first 24 bits identify the manufacturer (OUI). Broadcast frames use \`FF:FF:FF:FF:FF:FF\` as the destination to reach all devices on the segment.'
+			},
+			{
+				title: 'Switch forwarding',
+				description:
+					'Switches maintain a MAC address table mapping each MAC to a physical port. When a frame arrives, the switch looks up the destination MAC and forwards it only to the correct port. Unknown destinations are flooded to all ports. This table is learned dynamically by observing source MACs.'
+			},
+			{
+				title: 'Error detection via FCS',
+				description:
+					'The sender computes a CRC-32 checksum over the frame and appends it as the Frame Check Sequence. The receiver recalculates the CRC and silently discards frames with mismatches — Ethernet detects errors but does not retransmit. That job belongs to higher-layer protocols like TCP.'
+			}
+		],
+		useCases: [
+			'LAN connectivity in homes and offices',
+			'Data center server-to-switch interconnects',
+			'Industrial automation and factory floor networking',
+			'Backbone networking between switches and routers',
+			'VLAN segmentation for network isolation and security'
+		],
+		codeExample: {
+			language: 'python',
+			code: `from scapy.all import Ether, IP, ICMP, sendp, sniff
+
+# Craft an Ethernet frame with an IP/ICMP payload
+frame = Ether(dst="ff:ff:ff:ff:ff:ff", src="aa:bb:cc:dd:ee:ff", type=0x0800) \\
+        / IP(dst="192.168.1.1") \\
+        / ICMP()
+
+# Send the frame on the wire (requires root)
+sendp(frame, iface="eth0", verbose=False)
+
+# Sniff Ethernet frames
+def handle(pkt):
+    print(f"{pkt[Ether].src} -> {pkt[Ether].dst} "
+          f"type=0x{pkt[Ether].type:04x}")
+
+sniff(iface="eth0", prn=handle, count=10)`,
+			caption:
+				'Using scapy to craft, send, and sniff raw Ethernet frames — you can see every MAC address and EtherType on the wire',
+			alternatives: [
+				{
+					language: 'javascript',
+					code: `// Node.js — inspecting Ethernet frames with the pcap library
+const pcap = require('pcap');
+
+// Create a capture session on eth0
+const session = pcap.createSession('eth0', {
+  filter: 'ether proto 0x0800'  // Only IPv4 frames
+});
+
+session.on('packet', (rawPacket) => {
+  const packet = pcap.decode.packet(rawPacket);
+  const ether = packet.payload;
+
+  console.log(
+    \`\${ether.shost} -> \${ether.dhost}\`,
+    \`EtherType: 0x\${ether.ethertype.toString(16)}\`,
+    \`Length: \${rawPacket.buf.length} bytes\`
+  );
+});
+
+console.log('Capturing Ethernet frames on eth0...');`
+				},
+				{
+					language: 'cli',
+					code: `# Capture Ethernet frames with tcpdump
+sudo tcpdump -i eth0 -e -c 10
+
+# Show Ethernet header details with tshark
+tshark -i eth0 -T fields -e eth.src -e eth.dst -e eth.type -c 10
+
+# Display all MAC addresses the switch has learned (Linux bridge)
+bridge fdb show
+
+# Show your interface's MAC address
+ip link show eth0
+
+# Watch Ethernet frame counters
+ethtool -S eth0 | head -20`
+				},
+				{
+					language: 'wire',
+					code: '',
+					sections: [
+						{
+							title: 'Ethernet Frame Format',
+							code: `Ethernet II Frame:
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  |  Preamble (7) | SFD (1) |                 |
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  |  Dest MAC (6 bytes)  |  Src MAC (6 bytes) |
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  |  EtherType (2) |     Payload (46-1500)     |
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  |            FCS (4 bytes)                   |
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+
+  Total: 64-1518 bytes (excluding preamble/SFD)`
+						},
+						{
+							title: 'Example Captured Frame',
+							code: `Ethernet Frame (captured):
+  Dst MAC: ff:ff:ff:ff:ff:ff (Broadcast)
+  Src MAC: aa:bb:cc:dd:ee:ff
+  EtherType: 0x0806 (ARP)
+  Payload (28 bytes):
+    00 01 08 00 06 04 00 01  HW=Ether, Proto=IPv4
+    aa bb cc dd ee ff c0 a8  Sender MAC + IP
+    01 0a 00 00 00 00 00 00  Target MAC (unknown)
+    c0 a8 01 01              Target IP: 192.168.1.1
+  FCS: 0x3a4b5c6d [valid]`
+						}
+					]
+				}
+			]
+		},
+		performance: {
+			latency: 'Sub-microsecond store-and-forward on modern switches; ~5 \u00b5s for cut-through switching',
+			throughput: '10 Mbps to 400 Gbps depending on standard; 1 Gbps and 10 Gbps most common today',
+			overhead: '18-byte header (14 header + 4 FCS) + 8-byte preamble/SFD; ~26 bytes per frame minimum'
+		},
+		connections: ['wifi', 'arp', 'ip'],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/Ethernet'
+		},
+		image: {
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Xerox_Alto_mit_Rechner.JPG/600px-Xerox_Alto_mit_Rechner.JPG',
+			alt: 'Xerox Alto computer, one of the first workstations to use Ethernet networking',
+			caption:
+				'The Xerox Alto (1973) — the workstation where Ethernet was born at Xerox PARC. Bob Metcalfe developed Ethernet to network these machines, connecting them over a shared coaxial cable at 2.94 Mbps.',
+			credit: 'Photo: Joho345 / Public Domain, via Wikimedia Commons'
+		}
+	},
+	{
+		id: 'wifi',
+		name: 'Wi-Fi',
+		abbreviation: '802.11',
+		categoryId: 'network-foundations',
+		port: undefined,
+		year: 1997,
+		rfc: undefined,
+		oneLiner:
+			'Wireless local networking — Ethernet without the cable, plus encryption and airtime management.',
+		overview: `Wi-Fi brings [[ethernet|Ethernet]]-style networking to the airwaves. Instead of transmitting frames over copper or fiber, 802.11 uses radio frequencies (2.4 GHz, 5 GHz, and now 6 GHz) to send data wirelessly. But air is a shared medium — everyone within range can hear everything — so Wi-Fi adds encryption (WPA2/WPA3), collision avoidance (CSMA/CA instead of Ethernet's CSMA/CD), and a more complex frame format with three MAC addresses: the receiver address (RA), transmitter address (TA), and destination address (DA).
+
+The differences from [[ethernet|Ethernet]] are deeper than just "no cable." Because wireless stations can't detect collisions while transmitting (the "hidden node" problem), Wi-Fi uses RTS/CTS handshakes and carrier sensing to avoid them. Every frame must be acknowledged — if the sender doesn't get an ACK, it retransmits. The access point bridges wireless and wired worlds, translating between 802.11 and 802.3 frames so that [[arp|ARP]], [[ip|IP]], and everything above works seamlessly across both.
+
+Wi-Fi has evolved dramatically since the original 802.11 standard in 1997 (2 Mbps). 802.11b (1999) brought 11 Mbps, 802.11g (2003) hit 54 Mbps, 802.11n (Wi-Fi 4, 2009) introduced MIMO for 600 Mbps, 802.11ac (Wi-Fi 5, 2014) pushed to gigabit speeds, 802.11ax (Wi-Fi 6, 2020) added OFDMA for dense environments, and 802.11be (Wi-Fi 7, 2024) delivers up to 46 Gbps with multi-link operation. Each generation brought better throughput, lower latency, and improved handling of crowded airspace.`,
+		howItWorks: [
+			{
+				title: 'Beacon scanning',
+				description:
+					'Access points broadcast beacon frames every ~100 ms announcing their SSID, supported rates, encryption type, and channel. Clients scan channels (passively listening or actively sending probe requests) to discover available networks.'
+			},
+			{
+				title: 'Authentication and association',
+				description:
+					'The client authenticates with the AP (Open System or SAE for WPA3), then sends an Association Request specifying desired parameters. The AP responds with an Association Response, assigning the client an Association ID and granting network access.'
+			},
+			{
+				title: '4-way handshake (WPA2/WPA3)',
+				description:
+					'After association, the client and AP perform a 4-message EAPOL handshake to derive per-session encryption keys (PTK). Both sides prove they know the passphrase without revealing it. This produces the temporal keys used to encrypt all subsequent data frames.'
+			},
+			{
+				title: 'Data frames with CSMA/CA',
+				description:
+					'Before transmitting, the sender listens for a clear channel (carrier sense) and waits a random backoff time (collision avoidance). Data frames carry three MAC addresses — RA, TA, and DA — and are encrypted with the session keys. Every unicast frame must be acknowledged by the receiver.'
+			},
+			{
+				title: 'Bridge to Ethernet',
+				description:
+					'The access point translates between 802.11 and [[ethernet|Ethernet]] (802.3) frames. It strips the wireless-specific headers, rewrites the frame as a standard Ethernet frame, and forwards it to the wired network — making the transition invisible to higher-layer protocols like [[ip|IP]] and [[tcp|TCP]].'
+			}
+		],
+		useCases: [
+			'Home and office wireless internet access',
+			'Mobile device connectivity (phones, tablets, laptops)',
+			'IoT and smart home device networking',
+			'Public hotspots in airports, cafes, and hotels',
+			'Enterprise campus wireless with roaming and 802.1X authentication'
+		],
+		codeExample: {
+			language: 'python',
+			code: `from scapy.all import *
+
+# Sniff Wi-Fi beacon frames (requires monitor mode)
+def handle_beacon(pkt):
+    if pkt.haslayer(Dot11Beacon):
+        ssid = pkt[Dot11Elt].info.decode(errors='ignore')
+        bssid = pkt[Dot11].addr2
+        channel = int(ord(pkt[Dot11Elt:3].info))
+        print(f"SSID: {ssid:20s}  BSSID: {bssid}  Ch: {channel}")
+
+# Put interface in monitor mode first:
+#   sudo airmon-ng start wlan0
+sniff(iface="wlan0mon", prn=handle_beacon,
+      lfilter=lambda p: p.haslayer(Dot11Beacon), count=20)`,
+			caption:
+				'Sniffing Wi-Fi beacon frames with scapy in monitor mode — revealing SSIDs, BSSIDs, and channels',
+			alternatives: [
+				{
+					language: 'javascript',
+					code: `// Node.js — scanning for Wi-Fi networks using node-wifi
+const wifi = require('node-wifi');
+
+wifi.init({ iface: null }); // auto-detect interface
+
+// Scan for available networks
+wifi.scan((err, networks) => {
+  if (err) { console.error(err); return; }
+
+  networks.forEach((net) => {
+    console.log(
+      \`SSID: \${net.ssid.padEnd(20)}\`,
+      \`Signal: \${net.signal_level} dBm\`,
+      \`Security: \${net.security}\`,
+      \`Channel: \${net.channel}\`
+    );
+  });
+});
+
+// Connect to a network
+wifi.connect({ ssid: 'MyNetwork', password: 'secret' }, (err) => {
+  if (err) console.error('Connection failed:', err);
+  else console.log('Connected!');
+});`
+				},
+				{
+					language: 'cli',
+					code: `# Scan for Wi-Fi networks (Linux)
+sudo iw dev wlan0 scan | grep -E "SSID|signal|freq"
+
+# Show current Wi-Fi connection details
+iw dev wlan0 link
+
+# Monitor Wi-Fi frames in real time (monitor mode)
+sudo tcpdump -i wlan0mon -e -s 256 type mgt subtype beacon
+
+# Show Wi-Fi interface info (macOS)
+/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport -s
+
+# Display Wi-Fi statistics
+iw dev wlan0 station dump`
+				},
+				{
+					language: 'wire',
+					code: '',
+					sections: [
+						{
+							title: '802.11 Data Frame Format',
+							code: `802.11 Data Frame:
+  Frame Control: 0x0842
+    Type: Data (2), Subtype: QoS Data (8)
+    Flags: To DS, Protected
+  Duration: 48 \u00b5s
+  Address 1 (RA/BSSID): 00:1A:2B:3C:4D:5E
+  Address 2 (TA/Source): AA:BB:CC:DD:EE:FF
+  Address 3 (DA/Dest):   11:22:33:44:55:66
+  Seq Control: Fragment=0, Sequence=1042
+  QoS Control: TID=0 (Best Effort)
+
+  Encrypted Payload (CCMP):
+    PN: 0x000000004A2B
+    Key ID: 0
+    Data: [encrypted payload]
+    MIC: 0xA1B2C3D4E5F6A7B8`
+						},
+						{
+							title: 'Beacon Frame',
+							code: `802.11 Beacon Frame:
+  Frame Control: 0x0080
+    Type: Management (0), Subtype: Beacon (8)
+  Duration: 0
+  Destination: ff:ff:ff:ff:ff:ff (Broadcast)
+  Source (BSSID): 00:1A:2B:3C:4D:5E
+  Timestamp: 1234567890 \u00b5s
+  Beacon Interval: 100 TU (102.4 ms)
+  Capabilities: ESS, Privacy, Short Preamble
+
+  Tagged Parameters:
+    SSID: "MyNetwork"
+    Supported Rates: 6, 9, 12, 18, 24, 36, 48, 54 Mbps
+    Channel: 6 (2.437 GHz)
+    RSN (WPA2): CCMP, PSK
+    HT Capabilities: 40MHz, SGI, MCS 0-15`
+						}
+					]
+				}
+			]
+		},
+		performance: {
+			latency: '1-5 ms typical for local access; higher under contention or with power-save modes',
+			throughput:
+				'Wi-Fi 5: ~800 Mbps real-world; Wi-Fi 6: ~1.2 Gbps; Wi-Fi 7: up to ~5 Gbps in ideal conditions',
+			overhead:
+				'36-byte MAC header (vs 14 for Ethernet) + encryption overhead (CCMP adds 16 bytes); acknowledgment frames add airtime cost'
+		},
+		connections: ['ethernet', 'arp', 'ip'],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/Wi-Fi',
+			official: 'https://www.wi-fi.org/'
+		},
+		image: {
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d0/Linksys_WAP54G.JPG/600px-Linksys_WAP54G.JPG',
+			alt: 'Linksys WAP54G 802.11b/g wireless access point, an early consumer Wi-Fi device',
+			caption:
+				'A Linksys WAP54G 802.11b/g wireless access point — representative of the consumer devices that brought Wi-Fi into homes and offices worldwide. These access points bridge wireless 802.11 frames to wired Ethernet.',
+			credit: 'Photo: Macic7 / CC BY-SA 3.0, via Wikimedia Commons'
+		}
+	},
+	{
+		id: 'arp',
+		name: 'Address Resolution Protocol',
+		abbreviation: 'ARP',
+		categoryId: 'network-foundations',
+		port: undefined,
+		year: 1982,
+		rfc: 'RFC 826',
+		oneLiner:
+			'Translates IP addresses to MAC addresses — the bridge between Layer 3 and Layer 2.',
+		overview: `ARP is the glue between [[ip|IP]] addresses and [[ethernet|Ethernet]] MAC addresses. When your computer wants to send a packet to 192.168.1.1, it knows the IP but not the MAC address of the destination. ARP broadcasts a question to the entire local network: "Who has 192.168.1.1? Tell me your MAC address." The owner responds with a unicast reply containing its MAC, and the sender caches this mapping for future use.
+
+Under the hood, ARP uses EtherType 0x0806 and operates directly on [[ethernet|Ethernet]] — it has no IP header. The request is broadcast to \`FF:FF:FF:FF:FF:FF\`, so every device on the segment receives it, but only the target replies. That reply is unicast directly back to the requester. The resulting IP-to-MAC mapping is stored in the ARP cache (also called the ARP table) with a time-to-live — typically 60 seconds on Linux, 20 minutes on Windows — after which the entry expires and must be re-resolved.
+
+ARP's simplicity is both its strength and its weakness. There is zero authentication — any device can claim to own any IP address. This makes ARP spoofing (or ARP poisoning) trivial: an attacker sends fake ARP replies to redirect traffic through their machine, enabling man-in-the-middle attacks. Countermeasures include Dynamic ARP Inspection (DAI) on managed switches, static ARP entries for critical hosts, and protocols like [[dhcp|DHCP]] snooping. Gratuitous ARP — where a host announces its own IP/MAC mapping without being asked — is used for duplicate IP detection and for updating caches after a MAC address change (e.g., during failover). On [[wifi|Wi-Fi]] networks, ARP works the same way but traverses the wireless medium, with the access point bridging requests between wired and wireless segments.`,
+		howItWorks: [
+			{
+				title: 'Check ARP cache',
+				description:
+					'Before sending any frame, the OS checks its local ARP cache for an existing IP-to-MAC mapping. If a valid (non-expired) entry exists, it uses the cached MAC address immediately and skips the rest of the process.'
+			},
+			{
+				title: 'Broadcast ARP request',
+				description:
+					'If no cache entry exists, the sender crafts an ARP request with its own IP/MAC as the source and the target IP with an empty MAC (\`00:00:00:00:00:00\`). This is sent as an Ethernet broadcast (\`FF:FF:FF:FF:FF:FF\`), reaching every device on the local segment.'
+			},
+			{
+				title: 'Unicast ARP reply',
+				description:
+					'The device that owns the requested IP address responds with a unicast ARP reply directly to the sender, filling in its MAC address. All other devices on the network ignore the request (though they may update their own caches with the sender\'s mapping).'
+			},
+			{
+				title: 'Cache update',
+				description:
+					'Both the sender and the responder update their ARP caches with the new mapping. Entries have a TTL (typically 60s-20min depending on OS) and are evicted when they expire, triggering a fresh ARP request on the next packet to that IP.'
+			},
+			{
+				title: 'Gratuitous ARP',
+				description:
+					'A host can broadcast an unsolicited ARP reply announcing its own IP/MAC mapping. This is used at boot time for duplicate IP detection, after a NIC replacement to update neighbors\' caches, and during failover in high-availability setups to redirect traffic to a new machine.'
+			}
+		],
+		useCases: [
+			'Resolving IP addresses to MAC addresses on local networks',
+			'Default gateway resolution — finding the router\'s MAC address',
+			'Duplicate IP address detection at boot time',
+			'Failover and high-availability (gratuitous ARP updates)',
+			'Network troubleshooting and diagnostics (arp -a, arping)'
+		],
+		codeExample: {
+			language: 'python',
+			code: `from scapy.all import ARP, Ether, srp
+
+# Send an ARP request to discover a host's MAC address
+target_ip = "192.168.1.1"
+
+# Craft ARP request inside an Ethernet broadcast
+packet = Ether(dst="ff:ff:ff:ff:ff:ff") / ARP(pdst=target_ip)
+
+# Send and receive responses (timeout 2 seconds)
+result, unanswered = srp(packet, timeout=2, verbose=False)
+
+for sent, received in result:
+    print(f"IP: {received.psrc}  MAC: {received.hwsrc}")
+
+# Scan an entire subnet
+for ip_suffix in range(1, 255):
+    packet = Ether(dst="ff:ff:ff:ff:ff:ff") \\
+             / ARP(pdst=f"192.168.1.{ip_suffix}")
+    result, _ = srp(packet, timeout=1, verbose=False)
+    for _, received in result:
+        print(f"  {received.psrc} -> {received.hwsrc}")`,
+			caption:
+				'ARP scanning with scapy — discover every device on the local network by broadcasting ARP requests',
+			alternatives: [
+				{
+					language: 'javascript',
+					code: `// Node.js — reading the system ARP table
+const { execSync } = require('child_process');
+
+// Read the OS ARP cache
+const arpTable = execSync('arp -a').toString();
+console.log('Current ARP cache:');
+console.log(arpTable);
+
+// Parse entries (macOS/Linux format)
+const entries = arpTable.split('\\n')
+  .filter(line => line.includes('at'))
+  .map(line => {
+    const match = line.match(
+      /\\(([\\d.]+)\\) at ([\\w:]+)/
+    );
+    return match
+      ? { ip: match[1], mac: match[2] }
+      : null;
+  })
+  .filter(Boolean);
+
+entries.forEach(({ ip, mac }) => {
+  console.log(\`IP: \${ip.padEnd(16)} MAC: \${mac}\`);
+});`
+				},
+				{
+					language: 'cli',
+					code: `# View the ARP cache
+arp -a
+
+# Send an ARP request to a specific IP
+arping -c 3 192.168.1.1
+
+# Clear the ARP cache (Linux)
+sudo ip neigh flush all
+
+# Add a static ARP entry (prevents spoofing for critical hosts)
+sudo arp -s 192.168.1.1 AA:BB:CC:DD:EE:FF
+
+# Monitor ARP traffic in real time
+sudo tcpdump -i eth0 arp -e
+
+# Watch ARP cache changes (Linux)
+ip monitor neigh`
+				},
+				{
+					language: 'wire',
+					code: '',
+					sections: [
+						{
+							title: 'ARP Request (Broadcast)',
+							code: `Ethernet Frame:
+  Dst: ff:ff:ff:ff:ff:ff (Broadcast)
+  Src: aa:bb:cc:dd:ee:ff
+  EtherType: 0x0806 (ARP)
+
+ARP Request:
+  Hardware Type: 1 (Ethernet)
+  Protocol Type: 0x0800 (IPv4)
+  HW Addr Len: 6
+  Proto Addr Len: 4
+  Opcode: 1 (Request)
+  Sender MAC: aa:bb:cc:dd:ee:ff
+  Sender IP:  192.168.1.10
+  Target MAC: 00:00:00:00:00:00 (unknown)
+  Target IP:  192.168.1.1`
+						},
+						{
+							title: 'ARP Reply (Unicast)',
+							code: `Ethernet Frame:
+  Dst: aa:bb:cc:dd:ee:ff
+  Src: 11:22:33:44:55:66
+  EtherType: 0x0806 (ARP)
+
+ARP Reply:
+  Hardware Type: 1 (Ethernet)
+  Protocol Type: 0x0800 (IPv4)
+  HW Addr Len: 6
+  Proto Addr Len: 4
+  Opcode: 2 (Reply)
+  Sender MAC: 11:22:33:44:55:66
+  Sender IP:  192.168.1.1
+  Target MAC: aa:bb:cc:dd:ee:ff
+  Target IP:  192.168.1.10`
+						}
+					]
+				}
+			]
+		},
+		performance: {
+			latency: 'Single broadcast + unicast reply: typically < 1 ms on a local LAN; cache hits are instant',
+			throughput: 'N/A — ARP is a control-plane protocol, not a data-transfer protocol',
+			overhead: '28-byte ARP payload inside a 42-byte Ethernet frame (no IP header involved)'
+		},
+		connections: ['ethernet', 'ip', 'wifi', 'dhcp'],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/Address_Resolution_Protocol',
+			rfc: 'https://datatracker.ietf.org/doc/html/rfc826'
+		},
+		image: {
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Ethernet_Switch_%28Front_View%29.jpg/600px-Ethernet_Switch_%28Front_View%29.jpg',
+			alt: 'Front view of an Ethernet network switch with multiple RJ-45 ports',
+			caption:
+				'An Ethernet switch — where ARP does its work. When a host needs to send an IP packet locally, ARP broadcasts "who has this IP?" on the switch\'s network, and the target replies with its MAC address.',
+			credit: 'Photo: CCDBarcodeScanner / CC BY-SA 4.0, via Wikimedia Commons'
+		}
+	},
+	{
+		id: 'ip',
+		name: 'Internet Protocol',
+		abbreviation: 'IPv4',
+		categoryId: 'network-foundations',
+		port: undefined,
+		year: 1981,
+		rfc: 'RFC 791',
+		oneLiner:
+			'The addressing system of the internet — every packet gets a source and destination IP.',
+		overview: `IP is the protocol that makes the internet an internet. It assigns every device a logical address and defines how packets are routed from source to destination across networks of networks. Every piece of data you send — whether it's a web request, an email, or a video frame — is wrapped in an IP packet with a source address, a destination address, and enough metadata for routers to forward it hop by hop to its destination.
+
+The IPv4 header is 20 bytes (plus options) and carries critical fields: Source IP, Destination IP, TTL (Time to Live, decremented by each router to prevent infinite loops), Protocol (6 for [[tcp|TCP]], 17 for [[udp|UDP]], 1 for ICMP), and fragmentation fields for splitting oversized packets. IP is a best-effort, connectionless protocol — it makes no guarantees about delivery, ordering, or integrity. Those responsibilities belong to the transport layer: [[tcp|TCP]] adds reliability, [[udp|UDP]] adds... nothing (and that's the point).
+
+IPv4's 32-bit address space (about 4.3 billion addresses) seemed vast in 1981 but was effectively exhausted by 2011. NAT (Network Address Translation) extended its life by letting entire networks hide behind a single public IP, but the real solution is IPv6 with its 128-bit addresses (3.4 \u00d7 10\u00b3\u2078 addresses — enough for every atom on Earth). IPv6 adoption is growing but IPv4 still carries the majority of internet traffic. At the local network level, [[arp|ARP]] maps IP addresses to [[ethernet|Ethernet]] MAC addresses, and [[dns|DNS]] maps human-readable domain names to IP addresses.`,
+		howItWorks: [
+			{
+				title: 'Packet construction',
+				description:
+					'The sending host wraps the transport-layer segment (TCP or UDP) in an IP header containing the source IP, destination IP, TTL (typically 64 or 128), protocol number, header checksum, and optional fields. This IP packet is then passed down to the link layer for framing.'
+			},
+			{
+				title: 'Local routing decision',
+				description:
+					'The sender checks if the destination IP is on the same subnet (using its subnet mask). If yes, it uses ARP to find the destination\'s MAC address and sends directly. If no, it forwards the packet to the default gateway (router), whose MAC is also resolved via ARP.'
+			},
+			{
+				title: 'Router forwarding and TTL decrement',
+				description:
+					'Each router examines the destination IP, consults its routing table, decrements the TTL by 1, recalculates the header checksum, and forwards the packet out the appropriate interface. If TTL reaches 0, the packet is dropped and an ICMP Time Exceeded message is sent back (this is how traceroute works).'
+			},
+			{
+				title: 'Fragmentation if needed',
+				description:
+					'If a packet is larger than the next link\'s MTU (Maximum Transmission Unit, typically 1500 bytes for Ethernet), the router fragments it into smaller IP packets. Each fragment carries offset information so the destination can reassemble them. Modern practice avoids fragmentation using Path MTU Discovery.'
+			},
+			{
+				title: 'Destination reassembly and delivery',
+				description:
+					'The destination host reassembles any fragments using the Identification field and fragment offsets, verifies the header checksum, strips the IP header, and delivers the payload to the correct transport-layer protocol (TCP, UDP, ICMP) based on the Protocol field.'
+			}
+		],
+		useCases: [
+			'Global internet packet routing between networks',
+			'Local network communication between devices on the same subnet',
+			'VPN tunneling (IP-in-IP encapsulation)',
+			'Multicast delivery for streaming and service discovery',
+			'Quality of Service (QoS) via DSCP/ToS header fields'
+		],
+		codeExample: {
+			language: 'python',
+			code: `import socket
+import struct
+
+# Create a raw socket to send a custom IP packet
+sock = socket.socket(socket.AF_INET, socket.SOCK_RAW, socket.IPPROTO_RAW)
+
+# Build an IP header manually
+version_ihl = (4 << 4) | 5    # IPv4, 5 x 32-bit words = 20 bytes
+dscp_ecn = 0                   # Default service
+total_length = 40              # 20 (IP) + 20 (TCP placeholder)
+identification = 54321
+flags_offset = 0x4000          # Don't Fragment
+ttl = 64
+protocol = 6                   # TCP
+checksum = 0                   # Kernel fills this
+src_ip = socket.inet_aton("192.168.1.10")
+dst_ip = socket.inet_aton("93.184.216.34")
+
+ip_header = struct.pack('!BBHHHBBH4s4s',
+    version_ihl, dscp_ecn, total_length,
+    identification, flags_offset,
+    ttl, protocol, checksum,
+    src_ip, dst_ip)
+
+# Send it (payload would follow the header)
+sock.sendto(ip_header + b'\\x00' * 20, ("93.184.216.34", 0))
+print("Raw IP packet sent!")`,
+			caption:
+				'Crafting a raw IP packet in Python — manually setting every header field from version to destination address',
+			alternatives: [
+				{
+					language: 'javascript',
+					code: `// Node.js — inspecting IP configuration and routing
+const { execSync } = require('child_process');
+const os = require('os');
+
+// Get all network interfaces with IP addresses
+const interfaces = os.networkInterfaces();
+Object.entries(interfaces).forEach(([name, addrs]) => {
+  addrs.forEach((addr) => {
+    if (addr.family === 'IPv4') {
+      console.log(
+        \`\${name.padEnd(10)} \` +
+        \`IP: \${addr.address.padEnd(16)} \` +
+        \`Netmask: \${addr.netmask.padEnd(16)} \` +
+        \`\${addr.internal ? '(loopback)' : '(external)'}\`
+      );
+    }
+  });
+});
+
+// Show routing table
+console.log('\\nRouting table:');
+console.log(execSync('netstat -rn').toString());`
+				},
+				{
+					language: 'cli',
+					code: `# Show IP addresses on all interfaces
+ip addr show          # Linux
+ifconfig              # macOS / BSD
+
+# Display the routing table
+ip route show         # Linux
+netstat -rn           # macOS / universal
+
+# Trace the path packets take to a destination
+traceroute example.com     # Uses ICMP/UDP
+mtr example.com            # Continuous traceroute
+
+# Test connectivity with ICMP (ping)
+ping -c 4 example.com
+
+# Show IP packet headers with tcpdump
+sudo tcpdump -i eth0 -v -c 5 ip`
+				},
+				{
+					language: 'wire',
+					code: '',
+					sections: [
+						{
+							title: 'IPv4 Header Format',
+							code: `IPv4 Header (20 bytes minimum):
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  |Version|  IHL  |  DSCP   | ECN |         Total Length          |
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  |       Identification          |Flags|    Fragment Offset       |
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  |  TTL  |    Protocol   |        Header Checksum                |
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  |                     Source IP Address                          |
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+  |                   Destination IP Address                       |
+  +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+`
+						},
+						{
+							title: 'Example Captured Packet',
+							code: `IP Packet:
+  Version: 4
+  IHL: 5 (20 bytes)
+  DSCP: 0 (Best Effort)
+  Total Length: 60
+  Identification: 0xD431
+  Flags: 0x4000 (Don't Fragment)
+  Fragment Offset: 0
+  TTL: 64
+  Protocol: 6 (TCP)
+  Header Checksum: 0xA3F1 [valid]
+  Source: 192.168.1.10
+  Destination: 93.184.216.34
+
+  Payload: TCP segment (40 bytes)
+    Src Port: 52431 -> Dst Port: 443
+    [SYN] Seq=0 Win=65535 MSS=1460`
+						}
+					]
+				}
+			]
+		},
+		performance: {
+			latency:
+				'Per-hop forwarding: 1-10 \u00b5s in hardware (ASIC routers); end-to-end depends on path length and congestion',
+			throughput:
+				'Line-rate forwarding on modern routers; IP itself adds no throughput limit beyond the link speed',
+			overhead:
+				'20-byte header minimum (no options); 24-60 bytes with options. Every packet on the internet carries this.'
+		},
+		connections: ['tcp', 'udp', 'ethernet', 'arp', 'dns', 'wifi'],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/Internet_Protocol',
+			rfc: 'https://datatracker.ietf.org/doc/html/rfc791'
+		},
+		image: {
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Internet_map_1024.jpg/600px-Internet_map_1024.jpg',
+			alt: 'Visualization of Internet IP address routes by The Opte Project, showing a partial map of the Internet',
+			caption:
+				'A partial map of the Internet by The Opte Project (2005). Each line connects two IP addresses; colors represent regional allocations. This is the network that IP\'s addressing and routing makes possible.',
+			credit: 'Image: Barrett Lyon / The Opte Project / CC BY 2.5, via Wikimedia Commons'
+		}
+	}
+];

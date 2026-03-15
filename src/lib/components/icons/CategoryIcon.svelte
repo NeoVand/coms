@@ -1,9 +1,10 @@
 <script lang="ts">
-	import { ArrowLeftRight, Orbit, Radio, Play, ShieldCheck } from 'lucide-svelte';
+	import { ArrowLeftRight, Orbit, Radio, Play, ShieldCheck, Network } from 'lucide-svelte';
 
 	let { icon, size = 24, animate = false }: { icon: string; size?: number; animate?: boolean } = $props();
 
 	const iconMap: Record<string, typeof ArrowLeftRight> = {
+		'network-foundations': Network,
 		transport: ArrowLeftRight,
 		'web-api': Orbit,
 		'async-iot': Radio,

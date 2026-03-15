@@ -2,6 +2,15 @@ import type { Category } from './types';
 
 export const categories: Category[] = [
 	{
+		id: 'network-foundations',
+		name: 'Network Foundations',
+		color: '#F472B6',
+		glowColor: 'rgba(244, 114, 182, 0.4)',
+		description:
+			'The physical and logical layers that make networking possible. Addressing, framing, and routing at Layers 2-3 — before any transport protocol gets involved.',
+		icon: 'network-foundations'
+	},
+	{
 		id: 'transport',
 		name: 'Transport',
 		color: '#39FF14',

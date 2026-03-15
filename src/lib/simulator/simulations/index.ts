@@ -35,6 +35,12 @@ import { mptcpMultipath } from './mptcp-multipath';
 import { imapSession } from './imap-session';
 import { bgpPeering } from './bgp-peering';
 import { icmpPing } from './icmp-ping';
+import { ethernetFrame } from './ethernet-frame';
+import { wifiAssociation } from './wifi-association';
+import { arpResolution } from './arp-resolution';
+import { ipRouting } from './ip-routing';
+import { soapRequest } from './soap-request';
+import { oauth2Flow } from './oauth2-flow';
 
 const simulations = new Map<string, SimulationConfig>([
 	['tcp', tcpHandshake],
@@ -72,7 +78,13 @@ const simulations = new Map<string, SimulationConfig>([
 	['mptcp', mptcpMultipath],
 	['imap', imapSession],
 	['bgp', bgpPeering],
-	['icmp', icmpPing]
+	['icmp', icmpPing],
+	['ethernet', ethernetFrame],
+	['wifi', wifiAssociation],
+	['arp', arpResolution],
+	['ip', ipRouting],
+	['soap', soapRequest],
+	['oauth2', oauth2Flow]
 ]);
 
 export function getSimulation(protocolId: string): SimulationConfig | undefined {

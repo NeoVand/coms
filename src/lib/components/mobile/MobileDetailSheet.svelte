@@ -7,6 +7,10 @@
 	import PerformanceStats from '$lib/components/detail/PerformanceStats.svelte';
 	import SimulatorTabs from '$lib/simulator/components/SimulatorTabs.svelte';
 	import SimulatorView from '$lib/simulator/components/SimulatorView.svelte';
+	import ComparisonPicker from '$lib/components/comparison/ComparisonPicker.svelte';
+	import ComparisonCard from '$lib/components/comparison/ComparisonCard.svelte';
+	import RelationshipCard from '$lib/components/comparison/RelationshipCard.svelte';
+	import { getPair } from '$lib/data/comparison/pairs';
 	import { getHighlightedName } from '$lib/data/name-highlights';
 
 	const appState = getAppState();
@@ -110,10 +114,24 @@
 				{/if}
 
 				<PerformanceStats performance={proto.performance} color={cat.color} />
-			{:else}
+			{:else if appState.detailViewMode === 'simulate'}
 				{#key proto.id}
 					<SimulatorView protocolId={proto.id} color={cat.color} />
 				{/key}
+			{:else if appState.detailViewMode === 'compare'}
+				{#if appState.compareTargetId}
+					{@const targetProto = getProtocolById(appState.compareTargetId)}
+					{@const pair = getPair(proto.id, appState.compareTargetId)}
+					{#if targetProto}
+						{#if pair?.type === 'relationship'}
+							<RelationshipCard {pair} leftProto={proto} rightProto={targetProto} color={cat.color} />
+						{:else}
+							<ComparisonCard {pair} leftProto={proto} rightProto={targetProto} color={cat.color} />
+						{/if}
+					{/if}
+				{:else}
+					<ComparisonPicker protocolId={proto.id} color={cat.color} />
+				{/if}
 			{/if}
 		</div>
 	</div>

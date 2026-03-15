@@ -689,5 +689,137 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     Note over S,T: Each hop revealed by TTL expiry`,
 		caption:
 			'Network diagnostics — ping measures round-trip time, traceroute reveals each hop via TTL expiry (RFC 792)'
+	},
+
+	// ═══════════════════════════════════════════════════
+	// NETWORK FOUNDATIONS
+	// ═══════════════════════════════════════════════════
+
+	ethernet: {
+		definition: `sequenceDiagram
+    participant A as Host A
+    participant SW as Switch
+    participant B as Host B
+    Note over A,B: ARP resolves IP → MAC first
+    A->>SW: ARP Broadcast (who has 192.168.1.50?)
+    SW->>B: ARP Broadcast (flooded to all ports)
+    B->>SW: ARP Reply (I'm 00:1B:2C:3D:4E:5F)
+    SW->>A: ARP Reply (forwarded, MAC learned)
+    Note over SW: MAC table: Port 1→Host A, Port 3→Host B
+    Note over A,B: Data frames — switch forwards by MAC
+    A->>SW: Ethernet frame (dst: 00:1B:2C:3D:4E:5F)
+    SW->>B: Frame forwarded to Port 3 only
+    B->>SW: Response frame (dst: 00:1A:2B:3C:4D:5E)
+    SW->>A: Frame forwarded to Port 1 only
+    Note over SW: No flooding — switch knows both MACs`,
+		caption:
+			'MAC address learning and frame forwarding — switches build their table from source MACs (IEEE 802.3)'
+	},
+
+	wifi: {
+		definition: `sequenceDiagram
+    participant L as Laptop
+    participant AP as Access Point
+    participant S as Server (LAN)
+    Note over L,AP: Discovery and association
+    AP->>L: Beacon (SSID: "MyNetwork", channel 6)
+    L->>AP: Authentication Request
+    AP->>L: Authentication Response (OK)
+    L->>AP: Association Request (capabilities)
+    AP->>L: Association Response (AID assigned)
+    Note over L,AP: WPA2 4-way handshake
+    AP->>L: ANonce (AP's random value)
+    L->>AP: SNonce + MIC (derive PTK)
+    AP->>L: GTK + MIC (group key)
+    L->>AP: ACK (keys installed)
+    Note over L,S: Encrypted data flow
+    L->>AP: 802.11 encrypted data frame
+    AP->>S: Bridged to Ethernet frame
+    S->>AP: Ethernet response
+    AP->>L: 802.11 encrypted response`,
+		caption:
+			'Beacon discovery, association, WPA2 key exchange, and wireless-to-wired bridging (IEEE 802.11)'
+	},
+
+	arp: {
+		definition: `sequenceDiagram
+    participant A as Host A (192.168.1.100)
+    participant B as Host B (192.168.1.50)
+    Note over A: Need to send IP packet to 192.168.1.50
+    Note over A: ARP cache miss — MAC unknown
+    A->>B: ARP Request (broadcast FF:FF:FF:FF:FF:FF)
+    Note right of A: Who has 192.168.1.50? Tell 192.168.1.100
+    Note over B: That's my IP — reply with my MAC
+    B->>A: ARP Reply (unicast to Host A's MAC)
+    Note right of B: 192.168.1.50 is at 00:1B:2C:3D:4E:5F
+    Note over A: Cache updated: 192.168.1.50 → 00:1B:2C:3D:4E:5F
+    A->>B: Ethernet frame with IP packet (now using MAC)
+    B->>A: Response frame
+    Note over A: Subsequent packets use cached MAC
+    Note over A,B: Cache entry expires after ~60-300 seconds`,
+		caption:
+			'Broadcast request, unicast reply — resolving IP addresses to MAC addresses on the local network (RFC 826)'
+	},
+
+	ip: {
+		definition: `sequenceDiagram
+    participant S as Source (192.168.1.100)
+    participant R as Router (10.0.0.1)
+    participant D as Destination (93.184.216.34)
+    Note over S: Build IP packet: src=192.168.1.100, dst=93.184.216.34, TTL=64
+    S->>R: IP packet (src MAC→router MAC, TTL=64)
+    Note over R: Not for me — check routing table
+    Note over R: Decrement TTL: 64→63
+    Note over R: Swap MACs: new src/dst MACs for next hop
+    R->>D: IP packet (new MACs, same IPs, TTL=63)
+    Note over D: TTL > 0, dst IP matches — accept packet
+    D->>R: Reply packet (src/dst IPs swapped, TTL=64)
+    R->>S: Reply forwarded (TTL=63)
+    Note over S,D: IPs stay constant; MACs change at every hop`,
+		caption:
+			'Hop-by-hop routing — IP addresses stay constant while MAC addresses change at each router (RFC 791)'
+	},
+
+	soap: {
+		definition: `sequenceDiagram
+    participant C as SOAP Client
+    participant S as SOAP Service
+    Note over C,S: Service discovery
+    C->>S: GET /UserService?wsdl
+    S->>C: WSDL document (operations, schemas, endpoint)
+    Note over C,S: SOAP request/response
+    C->>S: POST /UserService (SOAPAction: GetUser)
+    Note right of C: Envelope → Header + Body(GetUser id=42)
+    S->>C: 200 OK — SOAP Response Envelope
+    Note right of S: Body(GetUserResponse: name="Alice")
+    Note over C,S: SOAP fault handling
+    C->>S: POST /UserService (SOAPAction: GetUser)
+    Note right of C: Body(GetUser id=-1) — invalid
+    S->>C: 500 — SOAP Fault Envelope
+    Note right of S: faultcode=Client, faultstring="Invalid ID"`,
+		caption:
+			'WSDL discovery, XML envelope exchange, and structured fault handling — enterprise web services (W3C SOAP 1.2)'
+	},
+
+	oauth2: {
+		definition: `sequenceDiagram
+    participant A as Your App
+    participant AS as Auth Server
+    participant API as API Server
+    Note over A: Generate PKCE code_verifier + code_challenge
+    A->>AS: /authorize?client_id=app&scope=read:user&code_challenge=...
+    Note over AS: User logs in and consents
+    AS->>A: Redirect: /callback?code=SplxlOBez&state=xYz123
+    Note over A: Verify state matches (CSRF protection)
+    A->>AS: POST /token (code + code_verifier)
+    Note over AS: Verify PKCE: SHA256(verifier) == challenge
+    AS->>A: {access_token: "eyJhbG...", refresh_token: "tGzv3J..."}
+    A->>API: GET /api/user (Authorization: Bearer eyJhbG...)
+    API->>A: {id: 42, name: "Alice", email: "alice@..."}
+    Note over A: Token expired — use refresh token
+    A->>AS: POST /token (grant_type=refresh_token)
+    AS->>A: {access_token: "new_token...", expires_in: 3600}`,
+		caption:
+			'Authorization Code flow with PKCE — delegated access without sharing passwords (RFC 6749)'
 	}
 };

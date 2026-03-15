@@ -591,6 +591,27 @@ function drawNode(
 // --- Category icon drawing functions (all in 24×24 coordinate space) ---
 
 // Exact Lucide SVG paths rendered via Path2D for pixel-perfect icons
+function drawNetworkFoundationsIcon(ctx: CanvasRenderingContext2D): void {
+	// Three rounded rectangles (network nodes) connected by a branching path
+	// Top-center node
+	const rx = 1;
+	ctx.beginPath();
+	ctx.roundRect(9, 2, 6, 6, rx);
+	ctx.stroke();
+	// Bottom-left node
+	ctx.beginPath();
+	ctx.roundRect(2, 16, 6, 6, rx);
+	ctx.stroke();
+	// Bottom-right node
+	ctx.beginPath();
+	ctx.roundRect(16, 16, 6, 6, rx);
+	ctx.stroke();
+	// Vertical stem from top node down to junction
+	ctx.stroke(new Path2D('M12 8v4'));
+	// Horizontal bar with rounded corners branching to bottom nodes
+	ctx.stroke(new Path2D('M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3'));
+}
+
 function drawTransportIcon(ctx: CanvasRenderingContext2D): void {
 	ctx.stroke(new Path2D('M8 3 4 7l4 4'));
 	ctx.stroke(new Path2D('M4 7h16'));
@@ -726,6 +747,9 @@ function drawCategoryIcon(
 	ctx.lineJoin = 'round';
 
 	switch (icon) {
+		case 'network-foundations':
+			drawNetworkFoundationsIcon(ctx);
+			break;
 		case 'transport':
 			drawTransportIcon(ctx);
 			break;

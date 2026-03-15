@@ -161,7 +161,7 @@ Client → Server  [ACK]
 				'Limited by congestion window; typically reaches line speed on stable connections',
 			overhead: '20-byte header minimum + options; ~40 bytes typical with timestamps'
 		},
-		connections: ['udp', 'tls', 'http1', 'http2', 'websockets', 'ssh', 'smtp', 'ftp', 'bgp', 'imap'],
+		connections: ['udp', 'ip', 'tls', 'http1', 'http2', 'websockets', 'ssh', 'smtp', 'ftp', 'bgp', 'imap'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Transmission_Control_Protocol',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc9293'
@@ -316,7 +316,7 @@ ss -un  # or: netstat -un`
 			throughput: 'No congestion control — can send as fast as the network allows (or can handle)',
 			overhead: '8-byte header only — the minimum possible for transport'
 		},
-		connections: ['tcp', 'dns', 'quic', 'webrtc', 'dhcp', 'ntp', 'rtp', 'coap', 'sip'],
+		connections: ['tcp', 'ip', 'dns', 'quic', 'webrtc', 'dhcp', 'ntp', 'rtp', 'coap', 'sip'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/User_Datagram_Protocol',
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc768'
