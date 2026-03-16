@@ -19,8 +19,18 @@ In dev mode (`npm run dev`), a `window.__dev` object is exposed for agent and te
 | `__dev.play()` | Click the Play button to start the simulation. |
 | `__dev.scrollTo(text)` | Scroll to a heading containing `text` (e.g., `'Encapsulation'`). |
 | `__dev.ls()` | List all node IDs and types. |
-| `__dev.appState` | Direct access to the AppState instance. |
-| `__dev.nodes` | Array of all GraphNode objects. |
+| `__dev.appState` | Direct access to the AppState instance (viewport, layoutMode, selectedNode, theme, etc.). |
+| `__dev.nodes` | Static array of GraphNode objects (for ID/metadata lookup, not live positions). |
+| `__dev.journey(id)` | Start a journey by ID. |
+| `__dev.journeyNext()` | Advance to the next journey step. |
+| `__dev.journeyPrev()` | Go back to the previous journey step. |
+| `__dev.journeyExit()` | Exit the current journey. |
+
+**Changing layout mode:**
+
+```js
+window.__dev.appState.layoutMode = 'radial';   // 'force', 'radial', or 'timeline'
+```
 
 **Typical agent workflow for verifying a simulation:**
 
@@ -42,9 +52,9 @@ window.__dev.play();
 
 **Important:** Always wait ~2s after page reload for the app to mount before using `__dev`. The helper is only available in dev mode — it's tree-shaken out of production builds.
 
-**Protocol IDs with simulations:** `tcp`, `dns`, `http1`, `udp`, `tls`, `http2`, `http3`, `websockets`, `grpc`, `ssh`, `rest`, `webrtc`, `json-rpc`, `mcp`, `a2a`
+**Note:** `__dev.nodes` is a static copy for ID/metadata lookup. To read live viewport or layout state, use `__dev.appState.viewport`, `__dev.appState.layoutMode`, etc. Canvas node positions are internal to the render loop and not directly exposed.
 
-**All protocol IDs:** `tcp`, `udp`, `quic`, `sctp`, `mptcp`, `http1`, `http2`, `http3`, `websockets`, `grpc`, `graphql`, `sse`, `rest`, `json-rpc`, `mcp`, `a2a`, `mqtt`, `amqp`, `coap`, `stomp`, `xmpp`, `kafka`, `webrtc`, `rtp`, `sip`, `hls`, `rtmp`, `sdp`, `dash`, `tls`, `ssh`, `dns`, `dhcp`, `ntp`, `smtp`, `ftp`
+**All protocol IDs (all have simulations):** `tcp`, `udp`, `quic`, `sctp`, `mptcp`, `http1`, `http2`, `http3`, `websockets`, `grpc`, `graphql`, `sse`, `rest`, `json-rpc`, `mcp`, `a2a`, `soap`, `mqtt`, `amqp`, `coap`, `stomp`, `xmpp`, `kafka`, `webrtc`, `rtp`, `sip`, `hls`, `rtmp`, `sdp`, `dash`, `tls`, `ssh`, `dns`, `dhcp`, `ntp`, `smtp`, `ftp`, `imap`, `bgp`, `icmp`, `oauth2`, `ethernet`, `wifi`, `arp`, `ip`, `ipv6`
 
 ---
 
