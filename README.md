@@ -9,6 +9,10 @@
 </p>
 
 <p align="center">
+  <a href="https://neovand.github.io/coms/"><strong>Live Demo</strong></a>
+</p>
+
+<p align="center">
   <img src="https://img.shields.io/badge/SvelteKit-5-FF3E00?logo=svelte&logoColor=white" alt="SvelteKit 5" />
   <img src="https://img.shields.io/badge/Svelte-5-FF3E00?logo=svelte&logoColor=white" alt="Svelte 5" />
   <img src="https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white" alt="TypeScript" />
