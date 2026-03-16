@@ -210,7 +210,7 @@ export function render(ctx: CanvasRenderingContext2D, options: RenderOptions): v
 		const isSelected = selectedNode?.id === node.id;
 		const dimT = dimAnim.get(node.id) ?? 0;
 		const isConnected = connectedIds.has(node.id);
-		drawNode(ctx, node, hoverT, isSelected, dimT, isConnected, time, viewport.scale, theme);
+		drawNode(ctx, node, hoverT, isSelected, dimT, isConnected, time, viewport.scale, theme, layoutMode);
 	}
 
 	ctx.restore();
@@ -664,7 +664,8 @@ function drawNode(
 	isConnected: boolean,
 	time: number,
 	scale: number,
-	theme: ThemeColors
+	theme: ThemeColors,
+	layoutMode?: string
 ): void {
 	const { x, y, radius, type } = node;
 	const color = themedColor(node.color, theme.showStars ? 'dark' : 'light');
@@ -807,8 +808,7 @@ function drawNode(
 
 			const labelAlpha = isConnected && dimT > 0.5 ? 0.7 : alpha;
 			ctx.font = `${type === 'hub' ? '600' : '500'} ${fontSize}px Inter, system-ui, sans-serif`;
-			ctx.textAlign = 'center';
-			ctx.textBaseline = 'top';
+
 			// In light mode, use muted DOM colors for labels so they're readable on the light bg
 		const labelColor = type === 'hub'
 			? theme.hub
@@ -820,7 +820,32 @@ function drawNode(
 			// Text shadow
 			ctx.shadowColor = theme.labelShadowColor;
 			ctx.shadowBlur = theme.labelShadowBlur;
-			ctx.fillText(label, x, y + r + 6);
+
+			// Radial layout: position labels outward from center to avoid occlusion
+			if (layoutMode === 'radial' && type === 'protocol') {
+				const angle = Math.atan2(y, x);
+				const labelOffset = r + 8;
+				const lx = x + Math.cos(angle) * labelOffset;
+				const ly = y + Math.sin(angle) * labelOffset;
+
+				// Determine text alignment based on which side of the circle the node is on
+				const absCos = Math.abs(Math.cos(angle));
+				if (absCos < 0.3) {
+					// Top or bottom — center horizontally
+					ctx.textAlign = 'center';
+					ctx.textBaseline = Math.sin(angle) > 0 ? 'top' : 'bottom';
+				} else {
+					// Left or right side
+					ctx.textAlign = Math.cos(angle) > 0 ? 'left' : 'right';
+					ctx.textBaseline = 'middle';
+				}
+				ctx.fillText(label, lx, ly);
+			} else {
+				ctx.textAlign = 'center';
+				ctx.textBaseline = 'top';
+				ctx.fillText(label, x, y + r + 6);
+			}
+
 			ctx.shadowColor = 'transparent';
 			ctx.shadowBlur = 0;
 		}
