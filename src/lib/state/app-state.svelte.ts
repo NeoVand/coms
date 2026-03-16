@@ -201,7 +201,8 @@ export class AppState {
 		subgraphNodes: GraphNode[],
 		canvasWidth: number,
 		canvasHeight: number,
-		panelWidth?: number
+		panelWidth?: number,
+		instant?: boolean
 	) => {
 		if (subgraphNodes.length === 0) return;
 
@@ -236,11 +237,18 @@ export class AppState {
 		// Visible-area center relative to canvas center
 		const offsetX = (canvasWidth - panelW) / 2 - canvasWidth / 2;
 
-		this._viewportTarget = {
+		const target = {
 			x: offsetX - cx * newScale,
 			y: -cy * newScale,
 			scale: newScale
 		};
+
+		if (instant) {
+			this.viewport = { ...target };
+			this._viewportTarget = null;
+		} else {
+			this._viewportTarget = target;
+		}
 	};
 
 	/** Call each frame to smoothly interpolate viewport toward the target. */

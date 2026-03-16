@@ -26,6 +26,8 @@
 	// Layout transition state — null means no animation in progress
 	let layoutTargets: Map<string, { x: number; y: number }> | null = null;
 	let prevLayout: LayoutMode | null = null;
+	// Bloom animation on initial load (separate from layout transitions)
+	let bloomTargets: Map<string, { x: number; y: number }> | null = null;
 
 	let isPanning = $state(false);
 	let lastMouseX = 0;
@@ -161,10 +163,24 @@
 		const mode = appState.layoutMode;
 		if (mode === 'force') {
 			if (prevLayout !== null && prevLayout !== 'force') {
-				// Switching back to force — restart simulation
-				layoutTargets = null;
+				// Switching back to force — compute settled positions and lerp there
 				if (!prefersReducedMotion.current) {
-					simulation.alpha(0.5).restart();
+					// Re-warm simulation from current positions to get force targets
+					warmUpSimulation(simulation);
+					const forceTargets = new Map<string, { x: number; y: number }>();
+					const simNodes = simulation.nodes();
+					for (let i = 0; i < simNodes.length; i++) {
+						const sn = simNodes[i];
+						forceTargets.set(sn.id, { x: sn.x ?? 0, y: sn.y ?? 0 });
+					}
+					layoutTargets = forceTargets;
+					const targetNodes = nodes.map((n) => {
+						const t = forceTargets.get(n.id);
+						return t ? { ...n, x: t.x, y: t.y } : n;
+					});
+					appState.focusOnSubgraph(targetNodes, width, height, 0);
+				} else {
+					layoutTargets = null;
 				}
 			}
 		} else {
@@ -319,13 +335,20 @@
 		const ctx = canvas.getContext('2d')!;
 		const dpr = window.devicePixelRatio || 1;
 
-		// Warm up simulation
+		// Warm up to compute settled positions
 		warmUpSimulation(simulation);
 		syncPositions(simulation, nodes);
 
-		// If reduced motion, keep simulation stopped
 		if (!prefersReducedMotion.current) {
-			simulation.alpha(0.3).restart();
+			// Bloom animation: store settled positions as targets, reset to center, lerp outward
+			bloomTargets = new Map<string, { x: number; y: number }>();
+			for (const node of nodes) {
+				bloomTargets.set(node.id, { x: node.x, y: node.y });
+				if (node.type !== 'hub') {
+					node.x = 0;
+					node.y = 0;
+				}
+			}
 		}
 
 		// Register touch/wheel handlers as non-passive so preventDefault() works
@@ -347,7 +370,16 @@
 			// Fit graph to screen on first layout
 			if (!hasInitialFit && width > 0 && height > 0) {
 				hasInitialFit = true;
-				appState.focusOnSubgraph(nodes, width, height, 0);
+				if (bloomTargets) {
+					// Bloom mode: set viewport instantly using settled positions for bounding box
+					const targetNodes = nodes.map((n) => {
+						const t = bloomTargets!.get(n.id);
+						return t ? { ...n, x: t.x, y: t.y } : n;
+					});
+					appState.focusOnSubgraph(targetNodes, width, height, 0, true);
+				} else {
+					appState.focusOnSubgraph(nodes, width, height, 0);
+				}
 			}
 		});
 		resizeObserver.observe(canvas.parentElement!);
@@ -356,12 +388,27 @@
 			if (width === 0 || height === 0) return;
 
 			// Update node positions based on layout mode
-			if (appState.layoutMode === 'force') {
-				if (!prefersReducedMotion.current) {
-					syncPositions(simulation, nodes);
+			if (bloomTargets) {
+				// Initial bloom: lerp from center to settled force positions
+				const LERP = 0.07;
+				let allSettled = true;
+				for (const node of nodes) {
+					const t = bloomTargets.get(node.id);
+					if (!t) continue;
+					const dx = t.x - node.x;
+					const dy = t.y - node.y;
+					if (Math.abs(dx) + Math.abs(dy) > 0.3) {
+						allSettled = false;
+						node.x += dx * LERP;
+						node.y += dy * LERP;
+					} else {
+						node.x = t.x;
+						node.y = t.y;
+					}
 				}
+				if (allSettled) bloomTargets = null;
 			} else if (layoutTargets) {
-				// Lerp nodes toward their layout targets
+				// Layout transition (radial/timeline): lerp toward targets
 				const LERP = 0.08;
 				let allSettled = true;
 				for (const node of nodes) {
@@ -379,6 +426,10 @@
 					}
 				}
 				if (allSettled) layoutTargets = null;
+			} else if (appState.layoutMode === 'force') {
+				if (!prefersReducedMotion.current) {
+					syncPositions(simulation, nodes);
+				}
 			}
 
 			// Animate viewport toward focus target
