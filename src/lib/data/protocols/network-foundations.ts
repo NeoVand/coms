@@ -151,7 +151,7 @@ ethtool -S eth0 | head -20`
 			wikipedia: 'https://en.wikipedia.org/wiki/Ethernet'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Ethernet_frame.svg/600px-Ethernet_frame.svg.png',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Ethernet_frame.svg/500px-Ethernet_frame.svg.png',
 			alt: 'Diagram showing the structure of an Ethernet II frame with preamble, MAC addresses, EtherType, payload, and FCS fields',
 			caption:
 				'The Ethernet frame structure — every packet on your local network is wrapped in this format. The 6-byte destination and source MAC addresses identify devices, the EtherType field (0x0800 for IP, 0x0806 for ARP) tells the receiver what\'s inside, and the FCS checksum catches transmission errors.',
@@ -329,7 +329,7 @@ iw dev wlan0 station dump`
 			official: 'https://www.wi-fi.org/'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/802.11_MAC_Frame.svg/600px-802.11_MAC_Frame.svg.png',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/802.11_MAC_Frame.svg/500px-802.11_MAC_Frame.svg.png',
 			alt: 'Diagram of an 802.11 Wi-Fi MAC frame showing frame control, duration, four address fields, sequence control, and FCS',
 			caption:
 				'The 802.11 Wi-Fi MAC frame format — more complex than Ethernet because wireless needs extra fields. Up to four MAC addresses handle the receiver, transmitter, destination, and source, while the Frame Control field encodes the frame type, encryption status, and power management flags.',
@@ -513,7 +513,7 @@ ARP Reply:
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc826'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Ethernet_Switch_%28Front_View%29.jpg/600px-Ethernet_Switch_%28Front_View%29.jpg',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Ethernet_Switch_%28Front_View%29.jpg/500px-Ethernet_Switch_%28Front_View%29.jpg',
 			alt: 'Front view of an Ethernet network switch with multiple RJ-45 ports',
 			caption:
 				'An Ethernet switch — where ARP does its work. When a host needs to send an IP packet locally, ARP broadcasts "who has this IP?" on the switch\'s network, and the target replies with its MAC address.',
@@ -703,7 +703,7 @@ sudo tcpdump -i eth0 -v -c 5 ip`
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc791'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/IPv4_Packet-en.svg/600px-IPv4_Packet-en.svg.png',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/IPv4_Packet-en.svg/500px-IPv4_Packet-en.svg.png',
 			alt: 'Diagram of the IPv4 packet header showing all fields: version, IHL, DSCP, total length, identification, flags, TTL, protocol, checksum, source and destination addresses',
 			caption:
 				'The IPv4 packet header — every packet on the internet carries this 20-byte structure. Key fields include TTL (decremented by each router to prevent loops), Protocol (6=TCP, 17=UDP), and the source/destination IP addresses that make global routing possible.',
@@ -889,7 +889,7 @@ ICMPv6 Neighbor Advertisement:
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc8200'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Ipv6_address_leading_zeros.svg/600px-Ipv6_address_leading_zeros.svg.png',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Ipv6_address_leading_zeros.svg/500px-Ipv6_address_leading_zeros.svg.png',
 			alt: 'Diagram showing IPv6 address notation with leading zeros compressed and groups separated by colons',
 			caption:
 				'IPv6 address notation — eight groups of four hexadecimal digits separated by colons. Leading zeros can be omitted and consecutive zero groups replaced with :: for brevity (2001:0db8::1).',

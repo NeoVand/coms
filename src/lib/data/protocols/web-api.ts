@@ -118,7 +118,7 @@ curl -v https://example.com/api/users/42`
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc9112'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/HTTP_persistent_connection.svg/600px-HTTP_persistent_connection.svg.png',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/HTTP_persistent_connection.svg/500px-HTTP_persistent_connection.svg.png',
 			alt: 'Diagram comparing HTTP non-persistent and persistent connections, showing how keep-alive reduces round trips',
 			caption:
 				'HTTP persistent connections (keep-alive) vs non-persistent — HTTP/1.0 opened a new TCP connection for every request, while HTTP/1.1\'s keep-alive reuses the same connection, saving the overhead of repeated TCP handshakes.',
@@ -247,7 +247,7 @@ curl --http2 -v https://example.com 2>&1 | grep "< HTTP"`
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc9113'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/HTTP_pipelining2.svg/600px-HTTP_pipelining2.svg.png',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/HTTP_pipelining2.svg/500px-HTTP_pipelining2.svg.png',
 			alt: 'Diagram comparing HTTP/1.1 sequential requests, pipelining, and HTTP/2 multiplexing over a single connection',
 			caption:
 				'The evolution from HTTP/1.1 to HTTP/2 — sequential requests waste time waiting, pipelining helped but still suffered head-of-line blocking. HTTP/2 multiplexing sends multiple requests and responses simultaneously over a single connection using binary framing.',
@@ -384,7 +384,7 @@ asyncio.run(fetch_h3())`
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc9114'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Googleplex-Patio-Aug-2014.JPG/600px-Googleplex-Patio-Aug-2014.JPG',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Googleplex-Patio-Aug-2014.JPG/500px-Googleplex-Patio-Aug-2014.JPG',
 			alt: 'The Googleplex campus in Mountain View, California, where QUIC and HTTP/3 were developed',
 			caption:
 				'The Googleplex in Mountain View — birthplace of QUIC and HTTP/3. Google engineers designed these protocols to eliminate TCP\'s head-of-line blocking and speed up the web for billions of users.',
@@ -511,7 +511,7 @@ curl -i -N \\
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc6455'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Websocket_connection.png/600px-Websocket_connection.png',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Websocket_connection.png/500px-Websocket_connection.png',
 			alt: 'Diagram showing the WebSocket connection lifecycle: HTTP upgrade handshake followed by full-duplex bidirectional communication',
 			caption:
 				'The WebSocket connection lifecycle — it starts as a normal HTTP request with an Upgrade header, then switches to a persistent, full-duplex channel where both client and server can send messages at any time without the overhead of HTTP headers.',
@@ -644,7 +644,7 @@ grpcurl -plaintext localhost:50051 UserService/ListUsers`
 			official: 'https://grpc.io/'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Google_Corkboard_Server_Rack.jpg/600px-Google_Corkboard_Server_Rack.jpg',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Google_Corkboard_Server_Rack.jpg/500px-Google_Corkboard_Server_Rack.jpg',
 			alt: "Google's original corkboard server rack from 1999, now at the Computer History Museum",
 			caption:
 				"Google's original 1999 server rack — built from corkboard and spare parts. Google later created gRPC to handle the massive scale of inter-service communication across its data centers, using Protocol Buffers and HTTP/2.",
@@ -792,7 +792,7 @@ curl -X POST https://api.example.com/graphql \\
 			official: 'https://graphql.org/'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Facebook_Headquarters_Menlo_Park.jpg/600px-Facebook_Headquarters_Menlo_Park.jpg',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Facebook_Headquarters_Menlo_Park.jpg/500px-Facebook_Headquarters_Menlo_Park.jpg',
 			alt: 'Facebook headquarters in Menlo Park, California, where GraphQL was created',
 			caption:
 				'Facebook\'s headquarters in Menlo Park — where GraphQL was created in 2012 to power the News Feed on mobile. The query language solved the over-fetching problem that REST APIs couldn\'t.',
@@ -923,7 +923,7 @@ curl -sN https://example.com/api/notifications \\
 			official: 'https://html.spec.whatwg.org/multipage/server-sent-events.html'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Ian_Hickson_at_CSS_Working_Group_Meeting_Day_Three.jpeg/600px-Ian_Hickson_at_CSS_Working_Group_Meeting_Day_Three.jpeg',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Ian_Hickson_at_CSS_Working_Group_Meeting_Day_Three.jpeg/500px-Ian_Hickson_at_CSS_Working_Group_Meeting_Day_Three.jpeg',
 			alt: 'Ian Hickson at a CSS Working Group meeting, the author of the Server-Sent Events specification',
 			caption:
 				'Ian Hickson at a W3C Working Group meeting. As editor of the HTML5 specification, Hickson authored the Server-Sent Events spec — giving browsers a native, lightweight way to receive real-time server pushes over plain HTTP.',
@@ -1052,7 +1052,7 @@ curl -X DELETE https://api.example.com/users/42`
 			official: 'https://ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Client-server_model.svg/600px-Client-server_model.svg.png',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Client-server_model.svg/500px-Client-server_model.svg.png',
 			alt: 'Diagram of the client-server model showing multiple clients communicating with a central server over a network',
 			caption:
 				'The client-server model — the foundation of REST architecture. Clients send stateless HTTP requests to a server, which manages resources and returns representations. This separation of concerns is what makes REST APIs scalable and cacheable.',
@@ -1718,7 +1718,7 @@ curl https://example.com/service?wsdl`
 			official: 'https://www.w3.org/TR/soap12/'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/IBM_System_360_at_USDA.jpg/600px-IBM_System_360_at_USDA.jpg',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/IBM_System_360_at_USDA.jpg/500px-IBM_System_360_at_USDA.jpg',
 			alt: 'IBM System/360 mainframe at the USDA Data Processing Center in 1966',
 			caption:
 				'The IBM System/360 at the USDA (1966). Mainframes like these laid the groundwork for enterprise computing — the world that SOAP was built to serve, wrapping remote procedure calls in XML for cross-platform interoperability.',

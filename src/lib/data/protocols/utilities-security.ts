@@ -177,7 +177,7 @@ openssl req -x509 -newkey rsa:2048 -nodes \\
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc8446'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Full_TLS_1.3_Handshake.svg/600px-Full_TLS_1.3_Handshake.svg.png',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Full_TLS_1.3_Handshake.svg/500px-Full_TLS_1.3_Handshake.svg.png',
 			alt: 'Sequence diagram of the full TLS 1.3 handshake showing ClientHello, ServerHello, certificate exchange, and encrypted data flow',
 			caption:
 				'The TLS 1.3 handshake — reduced from two round trips (TLS 1.2) to just one. The client sends supported cipher suites and key shares in ClientHello; the server responds with its choices, certificate, and finished message — then encrypted data flows immediately.',
@@ -366,7 +366,7 @@ Client → Server:
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc4253'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Ssh_binary_packet_alt.svg/600px-Ssh_binary_packet_alt.svg.png',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Ssh_binary_packet_alt.svg/500px-Ssh_binary_packet_alt.svg.png',
 			alt: 'Diagram of the SSH binary packet structure showing packet length, padding length, payload, padding, and MAC fields',
 			caption:
 				'The SSH binary packet structure — every SSH message is wrapped in this format. The payload is encrypted, random padding prevents traffic analysis, and the MAC (Message Authentication Code) ensures integrity. This is what makes SSH secure where Telnet was not.',
@@ -548,7 +548,7 @@ curl -sH 'accept: application/dns-json' \\
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc1035'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Example_of_an_iterative_DNS_resolver.svg/600px-Example_of_an_iterative_DNS_resolver.svg.png',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Example_of_an_iterative_DNS_resolver.svg/500px-Example_of_an_iterative_DNS_resolver.svg.png',
 			alt: 'Diagram showing iterative DNS resolution: client queries recursive resolver, which queries root, TLD, and authoritative nameservers in sequence',
 			caption:
 				'How DNS resolution works — your device asks a recursive resolver, which iteratively queries root servers, TLD servers (.com, .org), and authoritative nameservers to translate a domain name like "example.com" into an IP address.',
@@ -744,7 +744,7 @@ DHCP ACK:
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc2131'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/DHCP_session.svg/600px-DHCP_session.svg.png',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/DHCP_session.svg/500px-DHCP_session.svg.png',
 			alt: 'Sequence diagram of the DHCP DORA process: Discover, Offer, Request, and Acknowledge messages between client and server',
 			caption:
 				'The DHCP DORA process — Discover (client broadcasts "I need an IP"), Offer (server proposes an address), Request (client accepts), Acknowledge (server confirms the lease). This four-step handshake happens every time a device joins a network.',
@@ -913,7 +913,7 @@ sudo ntpdate pool.ntp.org`
 			official: 'https://www.ntp.org/'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Nist-f1.jpg/600px-Nist-f1.jpg',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Nist-f1.jpg/500px-Nist-f1.jpg',
 			alt: 'NIST-F1 cesium fountain atomic clock at the National Institute of Standards and Technology',
 			caption:
 				'The NIST-F1 cesium fountain atomic clock — accurate to one second in 100 million years. Atomic clocks like this are the ultimate time source (Stratum 0) that NTP distributes to every device on the internet.',
@@ -1074,7 +1074,7 @@ Server: 221 2.0.0 Bye`
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc5321'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Email.svg/600px-Email.svg.png',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Email.svg/500px-Email.svg.png',
 			alt: 'Diagram showing the flow of email from sender through SMTP servers and DNS MX lookups to the recipient mailbox',
 			caption:
 				'How email flows across the internet — the sender\'s mail client submits to an SMTP server, which looks up the recipient\'s domain via DNS MX records and relays the message hop by hop until it reaches the destination mailbox.',
@@ -1236,7 +1236,7 @@ Server: 221 Goodbye`
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc959'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Passive_FTP_Verbindung.svg/600px-Passive_FTP_Verbindung.svg.png',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Passive_FTP_Verbindung.svg/500px-Passive_FTP_Verbindung.svg.png',
 			alt: 'Diagram showing FTP passive mode connection flow: client connects to control port 21, then server provides a data port for the client to connect to',
 			caption:
 				'FTP passive mode — the client connects to port 21 for commands, then the server tells the client which high port to connect to for data transfer. Passive mode solved the NAT/firewall problems that plagued FTP\'s original active mode.',
@@ -1402,7 +1402,7 @@ Server: + idling
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc9051'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Alpine_email_client.png/600px-Alpine_email_client.png',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Alpine_email_client.png/500px-Alpine_email_client.png',
 			alt: 'Screenshot of the Alpine email client showing threaded message view in a terminal interface',
 			caption:
 				"Alpine email client (2009) — the successor to Pine, developed at the University of Washington by Mark Crispin's team. Pine was the reference implementation for the IMAP protocol, proving that server-side mail access could work across any device.",
@@ -1567,7 +1567,7 @@ for await (const elem of parser) {
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc4271'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/ARPA_Network%2C_Logical_Map%2C_September_1973.jpg/600px-ARPA_Network%2C_Logical_Map%2C_September_1973.jpg',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/ARPA_Network%2C_Logical_Map%2C_September_1973.jpg/500px-ARPA_Network%2C_Logical_Map%2C_September_1973.jpg',
 			alt: 'ARPA Network logical map from September 1973 showing network nodes and satellite links',
 			caption:
 				'ARPANET logical map, September 1973 — showing the early internet backbone topology including satellite links to Hawaii and London. BGP was created in 1989 to replace the original routing protocols that managed networks like this one.',
@@ -1762,7 +1762,7 @@ ICMP Echo Reply:
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc792'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/DEC_VT100_terminal.jpg/600px-DEC_VT100_terminal.jpg',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/DEC_VT100_terminal.jpg/500px-DEC_VT100_terminal.jpg',
 			alt: 'DEC VT100 terminal at the Living Computer Museum, connected to a DEC PDP-11/70',
 			caption:
 				"A DEC VT100 terminal — the type of terminal where early network administrators ran ping and traceroute, the quintessential ICMP diagnostic tools. ICMP was defined in 1981, and these terminals were the window into the network.",
@@ -2001,7 +2001,7 @@ Cache-Control: no-store
 			official: 'https://oauth.net/2/'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Oauth_logo.svg/600px-Oauth_logo.svg.png',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Oauth_logo.svg/500px-Oauth_logo.svg.png',
 			alt: 'The OAuth open authorization protocol logo',
 			caption:
 				'The OAuth logo. OAuth 2.0 (RFC 6749, 2012) became the industry standard for delegated authorization — "Sign in with Google," GitHub Apps, and API access tokens all use OAuth.',

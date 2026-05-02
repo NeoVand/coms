@@ -101,7 +101,7 @@ export const utilitiesStory: CategoryStory = {
 		},
 		{
 			type: 'image',
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/PDP-11-70.JPG/600px-PDP-11-70.JPG',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/PDP-11-70.JPG/500px-PDP-11-70.JPG',
 			alt: 'A DEC PDP-11/70 minicomputer, representative of the machines that ran the early internet infrastructure',
 			caption:
 				"The DEC PDP-11 — machines like these ran early DNS servers, NTP clocks, and mail relays. The internet's invisible backbone started on hardware you could fill a room with.",
@@ -249,7 +249,7 @@ export const utilitiesStory: CategoryStory = {
 		},
 		{
 			type: 'image',
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Netscape_Navigator_2_Screenshot.png/600px-Netscape_Navigator_2_Screenshot.png',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Netscape_Navigator_2_Screenshot.png/500px-Netscape_Navigator_2_Screenshot.png',
 			alt: 'A screenshot of Netscape Navigator 2, the browser that introduced SSL encryption to the web',
 			caption:
 				"Netscape Navigator — the browser that introduced SSL and the padlock icon, making encrypted web communication possible. This UI convention persists in every browser today.",

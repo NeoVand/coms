@@ -11,7 +11,7 @@ export const realtimeAvStory: CategoryStory = {
 		},
 		{
 			type: 'image',
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/AT%26T_Picturephone_%2812721549765%29.jpg/600px-AT%26T_Picturephone_%2812721549765%29.jpg',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/AT%26T_Picturephone_%2812721549765%29.jpg/500px-AT%26T_Picturephone_%2812721549765%29.jpg',
 			alt: 'The AT&T Picturephone, an early commercial videophone system from the 1960s-70s',
 			caption:
 				"AT&T's Picturephone — decades before WebRTC, the dream of seeing the person you're talking to drove decades of protocol innovation, from analog circuits to packet-switched networks.",
@@ -194,7 +194,7 @@ export const realtimeAvStory: CategoryStory = {
 		},
 		{
 			type: 'image',
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Polycom_VSX_7000_with_2_video_conferencing_screens.JPG/600px-Polycom_VSX_7000_with_2_video_conferencing_screens.JPG',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Polycom_VSX_7000_with_2_video_conferencing_screens.JPG/500px-Polycom_VSX_7000_with_2_video_conferencing_screens.JPG',
 			alt: 'A Polycom VSX 7000 video conferencing system with dual screens, representing dedicated video conferencing hardware',
 			caption:
 				'Dedicated video conferencing hardware like the Polycom VSX 7000 — expensive, specialized equipment that WebRTC would eventually replace with a browser tab and a webcam.',

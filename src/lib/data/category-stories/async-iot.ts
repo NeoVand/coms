@@ -11,7 +11,7 @@ export const asyncIotStory: CategoryStory = {
 		},
 		{
 			type: 'image',
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/IBM_system_360.JPG/600px-IBM_system_360.JPG',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a0/IBM_system_360.JPG/500px-IBM_system_360.JPG',
 			alt: 'An IBM System/360 mainframe computer, representing the enterprise computing environment that drove message queuing development',
 			caption:
 				"Enterprise mainframes like the IBM System/360 drove the need for reliable message queuing — connecting business systems that couldn't afford to lose a single transaction.",
@@ -199,7 +199,7 @@ export const asyncIotStory: CategoryStory = {
 		},
 		{
 			type: 'image',
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Raspberry_Pi_3_Model_B.JPG/600px-Raspberry_Pi_3_Model_B.JPG',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Raspberry_Pi_3_Model_B.JPG/500px-Raspberry_Pi_3_Model_B.JPG',
 			alt: 'A Raspberry Pi 3 Model B single-board computer, one of the devices powering the IoT revolution',
 			caption:
 				'Devices like the Raspberry Pi brought MQTT from oil pipelines to maker workshops — running Mosquitto brokers on $35 hardware and connecting billions of IoT sensors.',

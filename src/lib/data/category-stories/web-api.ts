@@ -13,7 +13,7 @@ The first version, HTTP/0.9, supported just one command: GET. No headers, no con
 		},
 		{
 			type: 'image',
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/First_Web_Server.jpg/600px-First_Web_Server.jpg',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/First_Web_Server.jpg/500px-First_Web_Server.jpg',
 			alt: 'The NeXT computer used by Tim Berners-Lee at CERN, the world\'s first web server',
 			caption:
 				'The NeXT cube at CERN — the first web server and web browser, built by Tim Berners-Lee in 1990. The handwritten label reads "This machine is a server. DO NOT POWER IT DOWN!!"',
@@ -100,7 +100,7 @@ Meanwhile, Google's internal RPC system 'Stubby' was handling billions of reques
 		},
 		{
 			type: 'image',
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Ginevra%2C_centro_visitatori_del_cern%2C_primo_server_della_storia_%281989%29%2C_02.JPG/600px-Ginevra%2C_centro_visitatori_del_cern%2C_primo_server_della_storia_%281989%29%2C_02.JPG',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Ginevra%2C_centro_visitatori_del_cern%2C_primo_server_della_storia_%281989%29%2C_02.JPG/500px-Ginevra%2C_centro_visitatori_del_cern%2C_primo_server_della_storia_%281989%29%2C_02.JPG',
 			alt: "Tim Berners-Lee's 1989 proposal 'Information Management: A Proposal' displayed at the CERN visitors center",
 			caption:
 				"Berners-Lee's 1989 proposal on display at CERN — the document his supervisor Mike Sendall marked \"Vague, but exciting.\" It described HTTP, HTML, and URLs before any of them existed.",

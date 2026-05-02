@@ -167,7 +167,7 @@ Client → Server  [ACK]
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc9293'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Tcp_state_diagram.svg/600px-Tcp_state_diagram.svg.png',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Tcp_state_diagram.svg/500px-Tcp_state_diagram.svg.png',
 			alt: 'TCP finite state machine diagram showing all connection states from CLOSED through ESTABLISHED to TIME_WAIT',
 			caption:
 				'The TCP state machine — every TCP connection transitions through these states. From the three-way handshake (SYN → SYN-ACK → ACK) to graceful teardown (FIN → FIN-ACK), this diagram maps the full lifecycle of a TCP connection.',
@@ -322,7 +322,7 @@ ss -un  # or: netstat -un`
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc768'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Arpanet_1974.svg/600px-Arpanet_1974.svg.png',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Arpanet_1974.svg/500px-Arpanet_1974.svg.png',
 			alt: 'Map of the ARPANET in 1974, showing interconnected nodes across the United States',
 			caption:
 				'The ARPANET in 1974 — the network where UDP was born. While TCP guaranteed delivery, UDP offered raw speed for the applications that needed it most.',
@@ -488,7 +488,7 @@ sudo tcpdump -i any udp port 443`
 			official: 'https://quicwg.org/'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Google_Data_Center%2C_The_Dalles.jpg/600px-Google_Data_Center%2C_The_Dalles.jpg',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Google_Data_Center%2C_The_Dalles.jpg/500px-Google_Data_Center%2C_The_Dalles.jpg',
 			alt: 'Google data center in The Dalles, Oregon, with rows of colorful server racks',
 			caption:
 				'Google\'s data center in The Dalles, Oregon — where QUIC was born. Google developed QUIC internally starting in 2012 to replace TCP+TLS, deploying it across Chrome and YouTube before standardizing it as RFC 9000.',
@@ -652,7 +652,7 @@ SCTP INIT-ACK Chunk:
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc9260'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/SCTP-Multihoming.png/600px-SCTP-Multihoming.png',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/SCTP-Multihoming.png/500px-SCTP-Multihoming.png',
 			alt: 'Diagram showing SCTP multi-homing with a host connected to two different network paths for redundancy',
 			caption:
 				'SCTP multi-homing in action — a single SCTP association can span multiple IP addresses and network interfaces. If one path fails, traffic seamlessly shifts to another, making SCTP the backbone of telecom signaling (4G/5G).',
@@ -831,7 +831,7 @@ TCP SYN-ACK + MP_JOIN:
 			official: 'https://www.mptcp.dev/'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/DifferenceTCP_MPTCP-en.png/600px-DifferenceTCP_MPTCP-en.png',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/DifferenceTCP_MPTCP-en.png/500px-DifferenceTCP_MPTCP-en.png',
 			alt: 'Comparison diagram showing regular TCP using a single path versus MPTCP using multiple simultaneous paths between two hosts',
 			caption:
 				'TCP vs Multipath TCP — regular TCP sends data over a single path, while MPTCP splits traffic across multiple interfaces (WiFi + cellular, dual Ethernet) simultaneously, boosting throughput and providing seamless failover.',

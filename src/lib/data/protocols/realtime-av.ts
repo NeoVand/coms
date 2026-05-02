@@ -166,7 +166,7 @@ STUN Response:
 			official: 'https://webrtc.org/'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Video_Conference_Using_Laptop.jpg/600px-Video_Conference_Using_Laptop.jpg',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Video_Conference_Using_Laptop.jpg/500px-Video_Conference_Using_Laptop.jpg',
 			alt: 'Person participating in a video conference on a laptop, demonstrating WebRTC-powered real-time communication',
 			caption:
 				'WebRTC made this possible directly in the browser — no plugins, no downloads. Peer-to-peer video calls, screen sharing, and data channels all run natively in Chrome, Firefox, and Safari.',
@@ -337,7 +337,7 @@ tcpdump -i eth0 udp port 5004 -w rtp_capture.pcap`
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc3550'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/SIPNOC_2012_-_FCC_CTO_Henning_Schulzrinne_%287838924022%29.jpg/600px-SIPNOC_2012_-_FCC_CTO_Henning_Schulzrinne_%287838924022%29.jpg',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/SIPNOC_2012_-_FCC_CTO_Henning_Schulzrinne_%287838924022%29.jpg/500px-SIPNOC_2012_-_FCC_CTO_Henning_Schulzrinne_%287838924022%29.jpg',
 			alt: 'Henning Schulzrinne, co-creator of RTP, speaking at SIPNOC 2012',
 			caption:
 				'Henning Schulzrinne co-authored RTP (RFC 3550) and SIP — two protocols that underpin modern VoIP and video conferencing. He later served as CTO of the FCC.',
@@ -517,7 +517,7 @@ a=rtpmap:97 opus/48000/2`
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc3261'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/SIP_session_setup_example.svg/600px-SIP_session_setup_example.svg.png',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/SIP_session_setup_example.svg/500px-SIP_session_setup_example.svg.png',
 			alt: 'Sequence diagram of a SIP session setup showing INVITE, 100 Trying, 180 Ringing, 200 OK, and ACK messages between caller, proxy, and callee',
 			caption:
 				'A SIP session setup — the INVITE starts a call, proxies route it, the callee rings (180) then answers (200 OK), and the caller acknowledges. After this signaling dance, RTP media flows directly between the endpoints.',
@@ -688,7 +688,7 @@ https://cdn.example.com/stream_720p/seg_2683.ts
 			official: 'https://developer.apple.com/streaming/'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Zpracovani_videa_HTTP_Live_Streaming.png/600px-Zpracovani_videa_HTTP_Live_Streaming.png',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Zpracovani_videa_HTTP_Live_Streaming.png/500px-Zpracovani_videa_HTTP_Live_Streaming.png',
 			alt: 'Diagram of the HLS streaming architecture showing video encoding into multiple bitrate segments served via HTTP to adaptive players',
 			caption:
 				'The HLS streaming pipeline — video is encoded at multiple bitrates, segmented into small chunks, and served over standard HTTP. The player dynamically switches between quality levels based on network conditions, ensuring smooth playback.',
@@ -870,7 +870,7 @@ Client → Server (C2):
 			official: 'https://rtmp.veriskope.com/docs/spec/'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Macromedia_6_media.jpg/600px-Macromedia_6_media.jpg',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/Macromedia_6_media.jpg/500px-Macromedia_6_media.jpg',
 			alt: 'Macromedia product packaging including Flash MX and other multimedia tools',
 			caption:
 				'Macromedia (later acquired by Adobe) created RTMP for Flash Player in 2002. For over a decade, RTMP was the dominant protocol for live streaming on the web, powering everything from YouTube to Twitch.',
@@ -1062,7 +1062,7 @@ a=rtcp-fb:96 nack pli`
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc8866'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Early_CTS-3000_Prototype.jpg/600px-Early_CTS-3000_Prototype.jpg',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Early_CTS-3000_Prototype.jpg/500px-Early_CTS-3000_Prototype.jpg',
 			alt: 'Early Cisco TelePresence CTS-3000 prototype, a high-end video conferencing system',
 			caption:
 				'The Cisco TelePresence CTS-3000 prototype — the kind of immersive video conferencing system that relies on SDP to negotiate media capabilities. SDP describes codecs, network addresses, and media types so endpoints can agree on how to communicate.',
@@ -1255,7 +1255,7 @@ Content-Length: 1802400
 			official: 'https://dashif.org/'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/100_Winchester_Circle.jpg/600px-100_Winchester_Circle.jpg',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/100_Winchester_Circle.jpg/500px-100_Winchester_Circle.jpg',
 			alt: 'Netflix headquarters building at 100 Winchester Circle in Los Gatos, California',
 			caption:
 				'Netflix headquarters in Los Gatos, California. Netflix was instrumental in driving the adoption of MPEG-DASH (2012), the open-standard adaptive bitrate streaming protocol that dynamically adjusts video quality based on network conditions.',

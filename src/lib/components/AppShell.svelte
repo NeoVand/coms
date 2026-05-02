@@ -114,6 +114,6 @@
 	});
 </script>
 
-<div class="h-screen w-screen overflow-hidden bg-bg-deep">
+<div class="h-dvh w-screen overflow-hidden bg-bg-deep">
 	<DesktopView />
 </div>

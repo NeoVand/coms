@@ -13,7 +13,7 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
 		},
 		{
 			type: 'image',
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Xerox_Alto_mit_Rechner.JPG/600px-Xerox_Alto_mit_Rechner.JPG',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Xerox_Alto_mit_Rechner.JPG/500px-Xerox_Alto_mit_Rechner.JPG',
 			alt: 'The Xerox Alto computer at Xerox PARC — the machine that Ethernet was invented to network',
 			caption:
 				'The Xerox Alto (1973) — the workstation where Ethernet was born. Bob Metcalfe invented Ethernet at Xerox PARC to network these Alto machines, connecting them over a shared coaxial cable at 2.94 Mbps using CSMA/CD.',
@@ -68,7 +68,7 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
 					contribution:
 						'Invented Ethernet at Xerox PARC in 1973, co-authored the DIX Ethernet standard (1980), and co-founded 3Com to commercialize it. Received the 2022 ACM Turing Award for his contributions to networking.',
 					imagePath:
-						'https://upload.wikimedia.org/wikipedia/commons/thumb/6/66/Bob_Metcalfe_2009.jpg/330px-Bob_Metcalfe_2009.jpg'
+						'https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/With_Bob_Metcalfe_%28cropped%29.jpg/330px-With_Bob_Metcalfe_%28cropped%29.jpg'
 				},
 				{
 					name: 'Vint Cerf',
@@ -235,7 +235,7 @@ The shift from hubs to switches in the 1990s was transformative. A hub was just 
 		},
 		{
 			type: 'image',
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Internet_map_1024.jpg/600px-Internet_map_1024.jpg',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Internet_map_1024.jpg/500px-Internet_map_1024.jpg',
 			alt: 'A partial map of the Internet by the Opte Project, showing millions of IP routes as colored lines',
 			caption:
 				'A partial map of the Internet by the Opte Project (2005). Each line connects two IP addresses — the web of routes that IP makes possible. Colors represent regional allocations: blue for North America, green for Asia-Pacific, red for Europe.',

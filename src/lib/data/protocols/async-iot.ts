@@ -162,7 +162,7 @@ Payload:
 			official: 'https://mqtt.org/'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/MQTT_protocol_example_without_QoS.svg/600px-MQTT_protocol_example_without_QoS.svg.png',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/MQTT_protocol_example_without_QoS.svg/500px-MQTT_protocol_example_without_QoS.svg.png',
 			alt: 'Diagram showing MQTT publish/subscribe pattern: a temperature sensor publishes to a broker, which routes messages to subscribed clients',
 			caption:
 				'The MQTT publish/subscribe pattern — a sensor publishes a temperature reading to a topic on the broker, and any subscribed client receives it automatically. The publisher and subscribers never need to know about each other.',
@@ -336,7 +336,7 @@ Content Body:
 			official: 'https://www.amqp.org/'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Pieter_Hintjens_at_EuroPython2014_%28cropped%29.jpg/600px-Pieter_Hintjens_at_EuroPython2014_%28cropped%29.jpg',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Pieter_Hintjens_at_EuroPython2014_%28cropped%29.jpg/500px-Pieter_Hintjens_at_EuroPython2014_%28cropped%29.jpg',
 			alt: 'Pieter Hintjens, CEO of iMatix and key AMQP contributor, speaking at EuroPython 2014',
 			caption:
 				'Pieter Hintjens, CEO of iMatix, was a driving force behind AMQP and the creator of ZeroMQ. His work on open messaging standards helped shape enterprise message queuing as we know it.',
@@ -509,7 +509,7 @@ coap-client -m get coap://sensor.local/.well-known/core`
 			rfc: 'https://datatracker.ietf.org/doc/html/rfc7252'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Arduino_Uno_-_R3.jpg/600px-Arduino_Uno_-_R3.jpg',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Arduino_Uno_-_R3.jpg/500px-Arduino_Uno_-_R3.jpg',
 			alt: 'Arduino Uno microcontroller board, representative of the constrained IoT devices CoAP was designed for',
 			caption:
 				'An Arduino Uno — the kind of constrained device CoAP was designed for. With limited RAM and processing power, these microcontrollers need a protocol lighter than HTTP. CoAP delivers REST semantics in as little as 4 bytes of header.',
@@ -697,7 +697,7 @@ receipt-id:msg-receipt-1
 			official: 'https://stomp.github.io/'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/RabbitMQ_%2848853375337%29.jpg/600px-RabbitMQ_%2848853375337%29.jpg',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/RabbitMQ_%2848853375337%29.jpg/500px-RabbitMQ_%2848853375337%29.jpg',
 			alt: 'RabbitMQ message broker presentation at a developer conference',
 			caption:
 				'A RabbitMQ conference talk — RabbitMQ is one of the most popular message brokers supporting STOMP. The protocol\'s text-based simplicity made it a natural bridge for web developers entering the messaging world.',
@@ -910,7 +910,7 @@ Server → Contacts (broadcast):
 			official: 'https://xmpp.org/'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/JabberNetwork.svg/600px-JabberNetwork.svg.png',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/JabberNetwork.svg/500px-JabberNetwork.svg.png',
 			alt: 'Diagram of the XMPP/Jabber federated network showing multiple servers interconnected with clients on each server',
 			caption:
 				'XMPP federation — just like email, anyone can run their own XMPP server and communicate with users on any other server. This decentralized architecture means no single company controls the network.',
@@ -1113,7 +1113,7 @@ kafka-consumer-groups.sh \\
 			official: 'https://kafka.apache.org/protocol/'
 		},
 		image: {
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Kafka_Job_Queue_Architecture_diagram.svg/600px-Kafka_Job_Queue_Architecture_diagram.svg.png',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Kafka_Job_Queue_Architecture_diagram.svg/500px-Kafka_Job_Queue_Architecture_diagram.svg.png',
 			alt: 'Architecture diagram showing Kafka producers writing to topic partitions across brokers, with consumer groups reading independently',
 			caption:
 				'Kafka architecture — producers write records to topic partitions distributed across brokers. Consumer groups read independently at their own pace using offsets, and data persists in the append-only log for replay.',

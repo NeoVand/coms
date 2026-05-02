@@ -11,7 +11,7 @@ export const transportStory: CategoryStory = {
 		},
 		{
 			type: 'image',
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/ARPANET_first_router.jpg/600px-ARPANET_first_router.jpg',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/ARPANET_first_router.jpg/500px-ARPANET_first_router.jpg',
 			alt: 'The BBN Interface Message Processor (IMP) at UCLA, one of the first ARPANET nodes',
 			caption:
 				'The IMP at UCLA, 1969 — this refrigerator-sized Honeywell minicomputer processed the first ARPANET message. It arrived nearly two months before the first successful "LO" transmission to SRI.',
@@ -107,7 +107,7 @@ export const transportStory: CategoryStory = {
 		},
 		{
 			type: 'image',
-			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Arpanet_logical_map%2C_march_1977.png/600px-Arpanet_logical_map%2C_march_1977.png',
+			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Arpanet_logical_map%2C_march_1977.png/500px-Arpanet_logical_map%2C_march_1977.png',
 			alt: 'Logical map of the ARPANET, showing the network topology in March 1977',
 			caption:
 				'The ARPANET logical map, March 1977 — the network that would become the internet. Within six years, this entire network would cut over from NCP to TCP/IP on Flag Day.',
