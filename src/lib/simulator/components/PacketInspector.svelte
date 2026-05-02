@@ -117,19 +117,20 @@
 		{#each displayLayers as layer, li (layer.abbreviation)}
 			<!-- Encapsulation connector between layers -->
 			{#if li > 0}
-				<div class="flex items-center gap-2 py-2 pl-3">
-					<svg class="h-4 w-4 shrink-0" viewBox="0 0 16 16" fill="none">
-						<path
-							d="M8 2v8m0 0l-3-3m3 3l3-3"
-							stroke={lc(layer.color)}
-							stroke-width="1.5"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-							opacity="0.6"
-						/>
-						<rect x="2" y="12" width="12" height="3" rx="1" stroke={lc(layer.color)} stroke-width="1" opacity="0.4" fill="{lc(layer.color)}10" />
-					</svg>
-					<span class="text-[10px] text-t-muted">wrapped in <span style="color: {lc(layer.color)}" class="font-semibold">{layer.abbreviation}</span></span>
+				<div class="flex items-center gap-2 py-2.5">
+					<div class="h-px flex-1" style="background: linear-gradient(to right, transparent, {lc(layer.color)}30);"></div>
+					<div
+						class="flex items-center gap-1.5 rounded-full border px-2.5 py-0.5 text-[10px]"
+						style="border-color: {lc(layer.color)}30; background-color: {lc(layer.color)}0a; color: var(--theme-text-secondary);"
+					>
+						<!-- Nested-layers icon (encapsulation) -->
+						<svg class="h-3 w-3 shrink-0" viewBox="0 0 16 16" fill="none">
+							<rect x="3" y="3" width="6.5" height="4" rx="0.8" stroke={lc(layer.color)} stroke-width="1.2" opacity="0.7" />
+							<rect x="1.5" y="7" width="13" height="6" rx="0.8" stroke={lc(layer.color)} stroke-width="1.2" />
+						</svg>
+						<span>wrapped in <span style="color: {lc(layer.color)}" class="font-semibold">{layer.abbreviation}</span></span>
+					</div>
+					<div class="h-px flex-1" style="background: linear-gradient(to left, transparent, {lc(layer.color)}30);"></div>
 				</div>
 			{/if}
 

@@ -61,7 +61,7 @@
 
 				<!-- Step number circle -->
 				<button
-					class="relative z-10 flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[10px] font-bold transition-all duration-300"
+					class="relative z-10 flex h-6 w-6 shrink-0 cursor-pointer items-center justify-center rounded-full text-[10px] font-bold transition-all duration-300 hover:scale-110"
 					style="
 						background-color: {isCurrent ? color + '30' : isPast ? color + '20' : color + '08'};
 						color: {isCurrent ? color : isPast ? color + 'cc' : color + '40'};
@@ -81,44 +81,18 @@
 
 				<!-- Step content -->
 				<div class="min-w-0 flex-1">
-					<!-- Label row -->
-					<button
-						class="w-full text-left"
-						onclick={() => sim.goToStep(i)}
-					>
-						<div
-							class="flex items-baseline gap-2 transition-colors duration-300"
-						>
-							<h4
-								class="text-sm font-medium"
-								class:text-t-primary={isCurrent}
-								class:text-t-secondary={isPast}
-								class:text-t-muted={isFuture}
-							>
-								{step.label}
-							</h4>
-							<span
-								class="text-[10px] text-t-muted"
-							>
+					{#if isCurrent}
+						<!-- Non-clickable header for current step (already expanded) -->
+						<div class="flex items-baseline gap-2">
+							<h4 class="text-sm font-medium text-t-primary">{step.label}</h4>
+							<span class="text-[10px] text-t-muted">
 								{getActorLabel(step.fromActor)} → {getActorLabel(step.toActor)}
 							</span>
 						</div>
-					</button>
-
-					<!-- Description (past + current) -->
-					{#if isCurrent || isPast}
-						<p
-							class="mt-1 text-xs leading-relaxed transition-colors duration-300"
-							class:text-t-primary={isCurrent}
-							class:text-t-muted={isPast}
-							in:fly={{ y: 4, duration: 250 }}
-						>
+						<p class="mt-1 text-xs leading-relaxed text-t-primary" in:fly={{ y: 4, duration: 250 }}>
 							{step.description}
 						</p>
-					{/if}
 
-					<!-- Current step: full actor stage + packet inspector -->
-					{#if isCurrent}
 						<div class="mt-3 space-y-3">
 							<div in:fly={{ y: 8, duration: 300, delay: 60 }}>
 								<ActorStage
@@ -140,16 +114,40 @@
 								</div>
 							{/if}
 						</div>
-					{/if}
+					{:else}
+						<!-- Clickable card for past/future steps -->
+						<button
+							class="step-card w-full cursor-pointer rounded-lg border border-transparent px-2 py-1.5 text-left transition-all hover:border-s-border hover:bg-s-glass-hover"
+							class:past={isPast}
+							class:future={isFuture}
+							onclick={() => sim.goToStep(i)}
+							aria-label="Open step {i + 1}: {step.label}"
+						>
+							<div class="flex items-baseline gap-2">
+								<h4
+									class="text-sm font-medium"
+									class:text-t-secondary={isPast}
+									class:text-t-muted={isFuture}
+								>
+									{step.label}
+								</h4>
+								<span class="text-[10px] text-t-muted">
+									{getActorLabel(step.fromActor)} → {getActorLabel(step.toActor)}
+								</span>
+							</div>
 
-					<!-- Past step: compact packet summary -->
-					{#if isPast && step.layers && step.layers.length > 0}
-						<div class="mt-1.5">
-							<PacketInspector
-								layers={step.layers}
-								compact={true}
-							/>
-						</div>
+							{#if isPast}
+								<p class="mt-1 text-xs leading-relaxed text-t-muted">
+									{step.description}
+								</p>
+
+								{#if step.layers && step.layers.length > 0}
+									<div class="mt-1.5">
+										<PacketInspector layers={step.layers} compact={true} />
+									</div>
+								{/if}
+							{/if}
+						</button>
 					{/if}
 				</div>
 			</div>
