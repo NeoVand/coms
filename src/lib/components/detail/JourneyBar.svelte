@@ -25,35 +25,25 @@
 </script>
 
 {#if journey}
-	<div
-		class="relative overflow-hidden rounded-xl border border-s-border"
-		style="background: linear-gradient(135deg, {journey.color}14, {journey.color}08);"
-	>
-		<!-- Color accent line -->
-		<div
-			class="absolute top-0 left-0 h-full w-1 rounded-l-xl"
-			style="background-color: {journey.color};"
-		></div>
-
-		<div class="flex flex-col gap-3 py-3 pr-3 pl-4">
-			<!-- Top row: title + counter + exit -->
+	<div class="rounded-xl border border-s-border bg-s-glass">
+		<div class="flex flex-col gap-3 p-4">
+			<!-- Top row: title + counter + end tour link -->
 			<div class="flex items-center gap-3">
 				<div class="min-w-0 flex-1">
 					<div class="flex items-baseline gap-2">
-						<h4 class="truncate text-sm font-semibold text-t-primary">{journey.title}</h4>
-						<span class="shrink-0 text-xs tabular-nums text-t-secondary">
+						<h4 class="truncate text-base font-semibold text-t-primary">{journey.title}</h4>
+						<span class="shrink-0 text-xs tabular-nums text-t-muted">
 							{stepIndex + 1} / {journey.steps.length}
 						</span>
 					</div>
 				</div>
 
-				<!-- Exit (labeled, to differentiate from the panel close button) -->
 				<button
-					class="shrink-0 rounded-md border border-s-border bg-s-glass px-2.5 py-1 text-xs font-medium text-t-secondary transition-colors hover:bg-s-glass-hover hover:text-t-primary"
+					class="shrink-0 text-xs font-medium text-t-muted underline-offset-4 transition-colors hover:text-t-primary hover:underline"
 					onclick={() => appState.exitJourney()}
-					aria-label="Exit journey"
+					aria-label="End tour"
 				>
-					Exit tour
+					End tour
 				</button>
 			</div>
 
@@ -117,14 +107,11 @@
 					>
 						{currentProto?.abbreviation ?? currentStep.protocolId}
 					</span>
-					<span class="text-sm font-medium text-t-primary">{currentStep.title}</span>
+					<span class="text-base font-medium text-t-primary">{currentStep.title}</span>
 				</div>
 
 				{#if currentStep.transition && !isLast}
-					<p
-						class="border-l-2 pl-3 text-sm leading-relaxed text-t-secondary"
-						style="border-color: {journey.color};"
-					>
+					<p class="text-sm leading-relaxed text-t-secondary">
 						{currentStep.transition}
 					</p>
 				{/if}
