@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { getAppState } from '$lib/state/context';
 	import { getProtocolById, getCategoryById, buildGraphNodes } from '$lib/data/index';
-	import { ChevronLeft, ChevronRight, X } from 'lucide-svelte';
+	import { ChevronLeft, ChevronRight } from 'lucide-svelte';
 
 	const appState = getAppState();
 	const allNodes = buildGraphNodes();
@@ -27,7 +27,7 @@
 {#if journey}
 	<div
 		class="relative overflow-hidden rounded-xl border border-s-border"
-		style="background: linear-gradient(135deg, {journey.color}08, {journey.color}04);"
+		style="background: linear-gradient(135deg, {journey.color}14, {journey.color}08);"
 	>
 		<!-- Color accent line -->
 		<div
@@ -35,95 +35,95 @@
 			style="background-color: {journey.color};"
 		></div>
 
-		<div class="flex flex-col gap-2 py-3 pr-3 pl-4">
-			<!-- Top row: title + nav + exit -->
-			<div class="flex items-center gap-2">
+		<div class="flex flex-col gap-3 py-3 pr-3 pl-4">
+			<!-- Top row: title + counter + exit -->
+			<div class="flex items-center gap-3">
 				<div class="min-w-0 flex-1">
 					<div class="flex items-baseline gap-2">
-						<h4 class="truncate text-xs font-semibold text-t-primary">{journey.title}</h4>
-						<span class="shrink-0 text-[10px] tabular-nums text-t-muted">
-							{stepIndex + 1}/{journey.steps.length}
+						<h4 class="truncate text-sm font-semibold text-t-primary">{journey.title}</h4>
+						<span class="shrink-0 text-xs tabular-nums text-t-secondary">
+							{stepIndex + 1} / {journey.steps.length}
 						</span>
 					</div>
 				</div>
 
-				<!-- Prev/Next -->
-				<div class="flex shrink-0 items-center gap-0.5">
-					<button
-						class="flex h-6 w-6 items-center justify-center rounded-md transition-all hover:bg-s-glass-hover disabled:opacity-20"
-						style="color: {journey.color};"
-						disabled={isFirst}
-						onclick={() => navigateToStep(stepIndex - 1)}
-						aria-label="Previous step"
-					>
-						<ChevronLeft size={14} />
-					</button>
-					<button
-						class="flex h-6 w-6 items-center justify-center rounded-md transition-all hover:bg-s-glass-hover disabled:opacity-20"
-						style="color: {journey.color};"
-						disabled={isLast}
-						onclick={() => navigateToStep(stepIndex + 1)}
-						aria-label="Next step"
-					>
-						<ChevronRight size={14} />
-					</button>
-				</div>
-
-				<!-- Exit -->
+				<!-- Exit (labeled, to differentiate from the panel close button) -->
 				<button
-					class="flex h-6 w-6 shrink-0 items-center justify-center rounded-md text-t-muted transition-colors hover:bg-s-glass-hover hover:text-t-primary"
+					class="shrink-0 rounded-md border border-s-border bg-s-glass px-2.5 py-1 text-xs font-medium text-t-secondary transition-colors hover:bg-s-glass-hover hover:text-t-primary"
 					onclick={() => appState.exitJourney()}
 					aria-label="Exit journey"
 				>
-					<X size={13} />
+					Exit tour
 				</button>
 			</div>
 
-			<!-- Step dots -->
-			<div class="flex items-center gap-1.5">
-				{#each journey.steps as step, i (i)}
-					{@const proto = getProtocolById(step.protocolId)}
-					{@const cat = proto ? getCategoryById(proto.categoryId) : null}
-					{@const dotColor = cat?.color ?? journey.color}
-					{@const isCurrent = i === stepIndex}
-					{@const isVisited = i < stepIndex}
-					<button
-						class="group relative flex items-center justify-center"
-						onclick={() => navigateToStep(i)}
-						aria-label="Go to step {i + 1}: {step.title}"
-					>
-						<span
-							class="block h-2 w-2 rounded-full transition-all"
-							class:scale-125={isCurrent}
-							style={isCurrent
-								? `background-color: ${dotColor}; box-shadow: 0 0 8px ${dotColor}60;`
-								: isVisited
-									? `background-color: ${dotColor}90;`
-									: `background-color: ${dotColor}25; border: 1px solid ${dotColor}40;`}
-						></span>
-						<!-- Tooltip on hover -->
-						<span
-							class="pointer-events-none absolute -top-7 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-slate-900 px-1.5 py-0.5 text-[9px] text-t-primary opacity-0 shadow-lg transition-opacity group-hover:opacity-100"
+			<!-- Step dots + nav -->
+			<div class="flex items-center justify-between gap-2">
+				<button
+					class="flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-t-secondary transition-all hover:bg-s-glass-hover hover:text-t-primary disabled:opacity-25 disabled:hover:bg-transparent"
+					disabled={isFirst}
+					onclick={() => navigateToStep(stepIndex - 1)}
+					aria-label="Previous step"
+				>
+					<ChevronLeft size={16} />
+				</button>
+
+				<div class="flex flex-1 items-center justify-center gap-1.5">
+					{#each journey.steps as step, i (i)}
+						{@const proto = getProtocolById(step.protocolId)}
+						{@const cat = proto ? getCategoryById(proto.categoryId) : null}
+						{@const dotColor = cat?.color ?? journey.color}
+						{@const isCurrent = i === stepIndex}
+						{@const isVisited = i < stepIndex}
+						<button
+							class="group relative flex items-center justify-center p-1"
+							onclick={() => navigateToStep(i)}
+							aria-label="Go to step {i + 1}: {step.title}"
 						>
-							{proto?.abbreviation ?? step.protocolId}
-						</span>
-					</button>
-				{/each}
+							<span
+								class="block h-2 w-2 rounded-full transition-all"
+								class:scale-150={isCurrent}
+								style={isCurrent
+									? `background-color: ${dotColor}; box-shadow: 0 0 8px ${dotColor}80;`
+									: isVisited
+										? `background-color: ${dotColor};`
+										: `background-color: ${dotColor}30; border: 1px solid ${dotColor}50;`}
+							></span>
+							<span
+								class="pointer-events-none absolute -top-7 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-slate-900 px-1.5 py-0.5 text-[10px] text-white opacity-0 shadow-lg transition-opacity group-hover:opacity-100"
+							>
+								{proto?.abbreviation ?? step.protocolId}
+							</span>
+						</button>
+					{/each}
+				</div>
+
+				<button
+					class="flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-t-secondary transition-all hover:bg-s-glass-hover hover:text-t-primary disabled:opacity-25 disabled:hover:bg-transparent"
+					disabled={isLast}
+					onclick={() => navigateToStep(stepIndex + 1)}
+					aria-label="Next step"
+				>
+					<ChevronRight size={16} />
+				</button>
 			</div>
 
 			<!-- Current step info -->
 			{#if currentStep}
 				<div class="flex items-baseline gap-2">
-					<span class="text-[11px] font-medium" style="color: {currentCat?.color ?? journey.color};">
+					<span
+						class="rounded px-1.5 py-0.5 text-xs font-semibold"
+						style="background-color: {currentCat?.color ?? journey.color}20; color: {currentCat?.color ?? journey.color};"
+					>
 						{currentProto?.abbreviation ?? currentStep.protocolId}
 					</span>
-					<span class="text-[11px] text-t-secondary">{currentStep.title}</span>
+					<span class="text-sm font-medium text-t-primary">{currentStep.title}</span>
 				</div>
 
 				{#if currentStep.transition && !isLast}
 					<p
-						class="border-l pl-2 text-[10px] leading-relaxed italic"
-						style="border-color: {journey.color}25; color: {journey.color}70;"
+						class="border-l-2 pl-3 text-sm leading-relaxed text-t-secondary"
+						style="border-color: {journey.color};"
 					>
 						{currentStep.transition}
 					</p>
