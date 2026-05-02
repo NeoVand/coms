@@ -517,12 +517,12 @@
 		animation: slideInRight 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
 	}
 
-	/* Mobile: bottom sheet */
+	/* Mobile: bottom sheet anchored just below the header */
 	.detail-panel--mobile {
 		position: fixed;
 		inset-inline: 0;
+		top: calc(env(safe-area-inset-top) + 3.5rem);
 		bottom: 0;
-		max-height: 85vh;
 		border-radius: 1rem 1rem 0 0;
 		border-top: 1px solid var(--theme-glass-border);
 		animation: slideInUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
