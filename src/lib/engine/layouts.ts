@@ -1,7 +1,18 @@
+import {
+	forceSimulation,
+	forceLink,
+	forceManyBody,
+	forceCenter,
+	forceCollide,
+	forceX,
+	forceY,
+	type SimulationNodeDatum,
+	type SimulationLinkDatum
+} from 'd3-force';
 import type { GraphNode } from '$lib/data/types';
 import { allProtocols, categories } from '$lib/data/index';
 
-export type LayoutMode = 'force' | 'radial' | 'timeline';
+export type LayoutMode = 'force' | 'radial' | 'timeline' | 'mesh';
 
 // ─── Radial ────────────────────────────────────────────────────────────────
 export function computeRadialPositions(
@@ -111,3 +122,110 @@ export function computeTimelinePositions(
 	return pos;
 }
 
+// ─── Mesh (protocol relationships) ─────────────────────────────────────────
+//
+// Drops the hub/category scaffolding and lays out only the protocols, with
+// edges drawn directly from each protocol's `connections` field. We run a
+// one-shot force sim with custom tunings, then return the settled positions
+// so the existing layout-transition lerp can animate to them.
+
+interface MeshNode extends SimulationNodeDatum {
+	id: string;
+	categoryId: string;
+}
+interface MeshLink extends SimulationLinkDatum<MeshNode> {}
+
+export function computeMeshPositions(
+	nodes: GraphNode[]
+): Map<string, { x: number; y: number }> {
+	const pos = new Map<string, { x: number; y: number }>();
+	const protoNodes = nodes.filter((n) => n.type === 'protocol');
+
+	// Build undirected, deduplicated edges from `connections`
+	const protoIds = new Set(protoNodes.map((n) => n.id));
+	const edgePairs = new Set<string>();
+	const links: MeshLink[] = [];
+	for (const proto of allProtocols) {
+		if (!protoIds.has(proto.id)) continue;
+		for (const otherId of proto.connections) {
+			if (!protoIds.has(otherId)) continue;
+			if (proto.id === otherId) continue;
+			const pair = proto.id < otherId ? `${proto.id}|${otherId}` : `${otherId}|${proto.id}`;
+			if (edgePairs.has(pair)) continue;
+			edgePairs.add(pair);
+			links.push({ source: proto.id, target: otherId });
+		}
+	}
+
+	// Seed sim nodes from current positions so the layout feels continuous
+	// when entering mesh mode from another layout.
+	const meshNodes: MeshNode[] = protoNodes.map((n) => ({
+		id: n.id,
+		categoryId: n.categoryId ?? '',
+		x: n.x,
+		y: n.y,
+		vx: 0,
+		vy: 0
+	}));
+
+	// Gentle category clustering: pull each protocol toward a soft anchor for
+	// its category so the mesh inherits some of the topical grouping without
+	// becoming a strict hub-and-spoke. Anchors are placed evenly around the
+	// origin at ~radius 320.
+	const ANCHOR_RADIUS = 320;
+	const catAnchors = new Map<string, { x: number; y: number }>();
+	categories.forEach((cat, i) => {
+		const angle = (i / categories.length) * Math.PI * 2 - Math.PI / 2;
+		catAnchors.set(cat.id, {
+			x: Math.cos(angle) * ANCHOR_RADIUS,
+			y: Math.sin(angle) * ANCHOR_RADIUS
+		});
+	});
+
+	const sim = forceSimulation<MeshNode>(meshNodes)
+		.force('center', forceCenter(0, 0).strength(0.04))
+		.force(
+			'charge',
+			forceManyBody<MeshNode>().strength(-260).distanceMax(640)
+		)
+		.force(
+			'link',
+			forceLink<MeshNode, MeshLink>(links)
+				.id((d) => d.id)
+				.distance(95)
+				.strength(0.55)
+		)
+		.force(
+			'cluster-x',
+			forceX<MeshNode>((d) => catAnchors.get(d.categoryId)?.x ?? 0).strength(0.06)
+		)
+		.force(
+			'cluster-y',
+			forceY<MeshNode>((d) => catAnchors.get(d.categoryId)?.y ?? 0).strength(0.06)
+		)
+		.force(
+			'collide',
+			forceCollide<MeshNode>().radius(28).strength(0.85)
+		)
+		.alpha(1)
+		.alphaDecay(0.03)
+		.stop();
+
+	// Run to convergence
+	for (let i = 0; i < 400; i++) sim.tick();
+
+	for (const mn of meshNodes) {
+		pos.set(mn.id, { x: mn.x ?? 0, y: mn.y ?? 0 });
+	}
+
+	// Hide hub & categories during mesh mode by parking them at origin —
+	// the renderer will skip drawing them, and lerping back to other modes
+	// remains smooth.
+	for (const n of nodes) {
+		if (n.type === 'hub' || n.type === 'category') {
+			pos.set(n.id, { x: 0, y: 0 });
+		}
+	}
+
+	return pos;
+}

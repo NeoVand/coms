@@ -161,8 +161,9 @@ export function render(ctx: CanvasRenderingContext2D, options: RenderOptions): v
 		drawEdge(ctx, source, target, edge.color, edgeDimT, time, theme);
 	}
 
-	// Draw related protocol edges (dashed)
-	if (selectedNode && selectedNode.type === 'protocol' && !activeJourney) {
+	// Draw related protocol edges (dashed) — redundant in mesh mode where
+	// the same connections are already drawn as primary edges.
+	if (selectedNode && selectedNode.type === 'protocol' && !activeJourney && layoutMode !== 'mesh') {
 		drawRelatedEdges(ctx, selectedNode, time, compareTargetId);
 	}
 
@@ -199,8 +200,10 @@ export function render(ctx: CanvasRenderingContext2D, options: RenderOptions): v
 		}
 	}
 
-	// Draw nodes (hub last so it's on top)
-	const sortedNodes = [...nodes].sort((a, b) => {
+	// Draw nodes (hub last so it's on top). In mesh mode, hub and category
+	// scaffolding is hidden — only protocol nodes remain.
+	const visibleNodes = layoutMode === 'mesh' ? nodes.filter((n) => n.type === 'protocol') : nodes;
+	const sortedNodes = [...visibleNodes].sort((a, b) => {
 		const order = { protocol: 0, category: 1, hub: 2 };
 		return order[a.type] - order[b.type];
 	});

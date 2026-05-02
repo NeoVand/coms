@@ -1,14 +1,14 @@
 <script lang="ts">
 	import { onMount, untrack } from 'svelte';
 	import { prefersReducedMotion } from 'svelte/motion';
-	import { buildGraphNodes, buildGraphEdges, getProtocolById } from '$lib/data/index';
+	import { buildGraphNodes, buildGraphEdges, buildMeshEdges, getProtocolById } from '$lib/data/index';
 	import type { GraphNode } from '$lib/data/types';
 
 	import { createSimulation, warmUpSimulation, syncPositions } from '$lib/engine/simulation';
 	import { render, findNodeAtPosition } from '$lib/engine/canvas-renderer';
 	import { RenderLoop } from '$lib/engine/render-loop.svelte';
 	import { getAppState } from '$lib/state/context';
-	import { computeRadialPositions, computeTimelinePositions } from '$lib/engine/layouts';
+	import { computeRadialPositions, computeTimelinePositions, computeMeshPositions } from '$lib/engine/layouts';
 	import type { LayoutMode } from '$lib/engine/layouts';
 	import { getThemeColors } from '$lib/utils/colors';
 
@@ -20,6 +20,7 @@
 
 	const nodes = buildGraphNodes();
 	const edges = buildGraphEdges();
+	const meshEdges = buildMeshEdges();
 	const simulation = createSimulation(nodes, edges);
 	const renderLoop = new RenderLoop();
 
@@ -40,6 +41,11 @@
 			x: (screenX - width / 2 - appState.viewport.x) / appState.viewport.scale,
 			y: (screenY - height / 2 - appState.viewport.y) / appState.viewport.scale
 		};
+	}
+
+	/** Nodes visible to the user — hub/category are hidden in mesh mode. */
+	function hitNodes(): GraphNode[] {
+		return appState.layoutMode === 'mesh' ? nodes.filter((n) => n.type === 'protocol') : nodes;
 	}
 
 	/** Collect the non-dimmed nodes for a given selection (mirrors isNodeDimmed in canvas-renderer). */
@@ -187,14 +193,22 @@
 			simulation.stop();
 			untrack(() => {
 				const positions =
-					mode === 'radial' ? computeRadialPositions(nodes) : computeTimelinePositions(nodes);
+					mode === 'radial'
+						? computeRadialPositions(nodes)
+						: mode === 'timeline'
+							? computeTimelinePositions(nodes)
+							: computeMeshPositions(nodes);
 				layoutTargets = positions;
 				// Zoom to fit the target layout (use target positions, not current)
+				// In mesh mode, only consider protocol nodes for the bounding box —
+				// hub and categories are parked at origin and don't render.
 				const targetNodes = nodes.map((n) => {
 					const t = positions.get(n.id);
 					return t ? { ...n, x: t.x, y: t.y } : n;
 				});
-				appState.focusOnSubgraph(targetNodes, width, height, 0);
+				const focusNodes =
+					mode === 'mesh' ? targetNodes.filter((n) => n.type === 'protocol') : targetNodes;
+				appState.focusOnSubgraph(focusNodes, width, height, 0);
 			});
 		}
 		prevLayout = mode;
@@ -210,7 +224,7 @@
 		}
 
 		const world = screenToWorld(e.clientX, e.clientY);
-		const node = findNodeAtPosition(nodes, world.x, world.y, appState.viewport.scale);
+		const node = findNodeAtPosition(hitNodes(), world.x, world.y, appState.viewport.scale);
 		appState.hoverNode(node);
 		canvas.style.cursor = node ? 'pointer' : 'grab';
 	}
@@ -222,7 +236,7 @@
 	function handleMouseDown(e: MouseEvent) {
 		if (e.button !== 0) return;
 		const world = screenToWorld(e.clientX, e.clientY);
-		const node = findNodeAtPosition(nodes, world.x, world.y, appState.viewport.scale);
+		const node = findNodeAtPosition(hitNodes(), world.x, world.y, appState.viewport.scale);
 
 		if (!node) {
 			isPanning = true;
@@ -246,7 +260,7 @@
 		}
 
 		const world = screenToWorld(e.clientX, e.clientY);
-		const node = findNodeAtPosition(nodes, world.x, world.y, appState.viewport.scale);
+		const node = findNodeAtPosition(hitNodes(), world.x, world.y, appState.viewport.scale);
 
 		if (node) {
 			appState.selectNode(node);
@@ -319,7 +333,7 @@
 						e.changedTouches[0].clientX,
 						e.changedTouches[0].clientY
 					);
-					const node = findNodeAtPosition(nodes, world.x, world.y, appState.viewport.scale);
+					const node = findNodeAtPosition(hitNodes(), world.x, world.y, appState.viewport.scale);
 					if (node) {
 						appState.selectNode(node);
 					} else {
@@ -441,7 +455,7 @@
 				height,
 				viewport: appState.viewport,
 				nodes,
-				edges,
+				edges: appState.layoutMode === 'mesh' ? meshEdges : edges,
 				hoveredNode: appState.hoveredNode,
 				selectedNode: appState.selectedNode,
 				compareTargetId: appState.detailViewMode === 'compare' ? appState.compareTargetId : null,

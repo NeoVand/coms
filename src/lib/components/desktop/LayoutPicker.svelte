@@ -12,6 +12,7 @@
 
 	const layouts: { id: LayoutMode; label: string }[] = [
 		{ id: 'force', label: 'Force' },
+		{ id: 'mesh', label: 'Mesh' },
 		{ id: 'radial', label: 'Radial' },
 		{ id: 'timeline', label: 'Timeline' }
 	];
@@ -111,6 +112,24 @@
 								<circle cx="12" cy="10" r="2" fill="currentColor" stroke="none"/>
 								<circle cx="8" cy="14.5" r="2" fill="currentColor" stroke="none"/>
 								<circle cx="16" cy="5.5" r="2" fill="currentColor" stroke="none"/>
+							</svg>
+						{:else if layout.id === 'mesh'}
+							<svg viewBox="0 0 20 20" fill="none" class="h-4 w-4" stroke="currentColor" stroke-width="1.2">
+								<!-- Five interconnected nodes — pentagonal mesh -->
+								<line x1="10" y1="3" x2="3.5" y2="8" />
+								<line x1="10" y1="3" x2="16.5" y2="8" />
+								<line x1="10" y1="3" x2="6" y2="16" />
+								<line x1="10" y1="3" x2="14" y2="16" />
+								<line x1="3.5" y1="8" x2="6" y2="16" />
+								<line x1="3.5" y1="8" x2="14" y2="16" />
+								<line x1="16.5" y1="8" x2="14" y2="16" />
+								<line x1="16.5" y1="8" x2="6" y2="16" />
+								<line x1="6" y1="16" x2="14" y2="16" />
+								<circle cx="10" cy="3" r="1.7" fill="currentColor" stroke="none"/>
+								<circle cx="3.5" cy="8" r="1.7" fill="currentColor" stroke="none"/>
+								<circle cx="16.5" cy="8" r="1.7" fill="currentColor" stroke="none"/>
+								<circle cx="6" cy="16" r="1.7" fill="currentColor" stroke="none"/>
+								<circle cx="14" cy="16" r="1.7" fill="currentColor" stroke="none"/>
 							</svg>
 						{/if}
 					</span>
