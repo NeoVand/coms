@@ -31,10 +31,24 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 	function ensureTcp() {
 		if (tcpNode && appState.selectedNode?.id !== 'tcp') {
 			appState.selectedNode = tcpNode;
-			appState.showDetailPanel = true;
 			appState.hoveredNode = null;
 		}
 	}
+
+	/**
+	 * On mobile the detail panel is a bottom sheet that covers nearly the
+	 * whole screen, so it must be closed for steps that highlight things
+	 * behind it (the canvas, the layout picker). Returns whether the panel
+	 * visibility actually changed, so callers can refresh the popover after
+	 * the slide animation settles.
+	 */
+	function setPanelVisible(visible: boolean): boolean {
+		if (appState.showDetailPanel === visible) return false;
+		appState.showDetailPanel = visible;
+		return true;
+	}
+
+	const PANEL_ANIM_MS = 380;
 
 	let tourDriver: ReturnType<typeof driver>;
 
@@ -76,8 +90,20 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 						'<br><br>Drag to pan, scroll to zoom. When you select a node, related protocols stay highlighted so you can trace connections.'
 				},
 				disableActiveInteraction: true,
+				onHighlightStarted: () => {
+					// On mobile the bottom-sheet panel covers the canvas — keep it closed.
+					if (appState.isMobile) setPanelVisible(false);
+				},
 				onHighlighted: () => {
-					if (tcpNode) appState.selectNode(tcpNode);
+					if (tcpNode) {
+						appState.selectedNode = tcpNode;
+						appState.detailViewMode = 'learn';
+						appState.compareTargetId = null;
+						appState.hoveredNode = null;
+						appState.hubViewMode = 'home';
+						appState.categoryViewMode = 'story';
+					}
+					setPanelVisible(!appState.isMobile);
 				}
 			},
 			// ── Step 3: Zoom & Graph Layouts ──
@@ -95,6 +121,8 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 				disableActiveInteraction: true,
 				onHighlightStarted: () => {
 					ensureTcp();
+					// On mobile the bottom-sheet covers the layout picker — keep it closed.
+					setPanelVisible(!appState.isMobile);
 				}
 			},
 			// ── Step 4: Detail Panel Overview ──
@@ -111,8 +139,13 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 				},
 				onHighlightStarted: () => {
 					ensureTcp();
+					const wasHidden = setPanelVisible(true);
 					appState.detailViewMode = 'learn';
 					scrollPanelToTop();
+					// Wait for the slide-in animation before driver.js positions the popover.
+					if (wasHidden) {
+						setTimeout(() => tourDriver.refresh(), PANEL_ANIM_MS);
+					}
 				}
 			},
 			// ── Step 5: Sequence Diagram ──
