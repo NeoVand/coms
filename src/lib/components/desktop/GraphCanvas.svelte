@@ -26,41 +26,69 @@
 
 	// Layout transition state — null means no animation in progress
 	let layoutTargets: Map<string, { x: number; y: number }> | null = null;
-	let layoutSources: Map<string, { x: number; y: number }> | null = null;
 	let layoutTransitionStart: number | null = null;
-	const LAYOUT_DURATION_MS = 550;
 	let prevLayout: LayoutMode | null = null;
 	// Bloom animation on initial load (separate from layout transitions)
 	let bloomTargets: Map<string, { x: number; y: number }> | null = null;
 
 	/**
-	 * Layout-transition easing — ease-in-out cubic for the bulk of the motion,
-	 * with a subtle half-sine overshoot bump in the second half so nodes
-	 * gently spring past their target and settle back into place.
+	 * Spring physics — every node is a little damped harmonic oscillator.
+	 * Feels alive because the motion emerges from physics instead of
+	 * tracing a canned curve.
 	 *
-	 * Peaks around t ≈ 0.85 at ~2% overshoot — felt as a small bounce, not
-	 * a rubber-band snap.
+	 * Tuning:
+	 *   ω₀ = √(STIFFNESS) ≈ 14.1 rad/s  (response ≈ 0.45s)
+	 *   ζ  = DAMPING / (2·√STIFFNESS) ≈ 0.71
+	 *
+	 * A damping ratio around 0.7 gives one visible overshoot of ~4% then
+	 * a soft settle — that's the "cute, alive" feel. Snappier than Apple's
+	 * "smooth" default (ζ≈0.825) but tamer than wobbly springs (ζ≈0.5).
 	 */
-	function easeInOutWithBounce(t: number): number {
-		if (t <= 0) return 0;
-		if (t >= 1) return 1;
-		const base = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
-		if (t < 0.5) return base;
-		const u = (t - 0.5) * 2; // 0 → 1 across the second half
-		const bump = Math.sin(u * Math.PI) * 0.04; // half-sine, peak 4%
-		return base + bump;
+	const SPRING_STIFFNESS = 200;
+	const SPRING_DAMPING = 20;
+
+	/**
+	 * Each node gets a small deterministic delay before its spring starts,
+	 * derived from its id hash. Same id → same delay every time, but
+	 * neighbouring nodes have different delays so motion ripples through
+	 * the graph instead of moving in lock-step. This is the secret sauce.
+	 */
+	const SPRING_STAGGER_MAX_MS = 60;
+
+	interface SpringState {
+		vx: number;
+		vy: number;
+		delay: number;
+	}
+	const springStates = new Map<string, SpringState>();
+
+	function staggerDelayForId(id: string): number {
+		// FNV-1a-ish hash → stable [0, SPRING_STAGGER_MAX_MS) per id
+		let h = 0x811c9dc5;
+		for (let i = 0; i < id.length; i++) {
+			h ^= id.charCodeAt(i);
+			h = Math.imul(h, 0x01000193);
+		}
+		return ((h >>> 0) % 1000) / 1000 * SPRING_STAGGER_MAX_MS;
 	}
 
 	/**
-	 * Capture the current node positions as the source of a layout transition.
-	 * Resetting layoutTransitionStart to null causes the next animation tick
-	 * to set it to the current time, so the transition starts from "now"
-	 * regardless of when this was called.
+	 * Capture the current node positions and reset spring velocities to
+	 * begin a new transition from rest. Called whenever layoutTargets
+	 * changes — the next animation tick will set layoutTransitionStart
+	 * and start the springs.
 	 */
 	function captureLayoutSource() {
-		layoutSources = new Map();
+		// Preserve any in-flight velocity so toggling layouts mid-transition
+		// continues smoothly instead of stopping dead. Stagger is reset
+		// either way — the new motion is its own moment.
 		for (const node of nodes) {
-			layoutSources.set(node.id, { x: node.x, y: node.y });
+			const existing = springStates.get(node.id);
+			springStates.set(node.id, {
+				vx: existing?.vx ?? 0,
+				vy: existing?.vy ?? 0,
+				delay: staggerDelayForId(node.id)
+			});
 		}
 		layoutTransitionStart = null;
 	}
@@ -224,7 +252,7 @@
 					appState.focusOnSubgraph(targetNodes, width, height, 0);
 				} else {
 					layoutTargets = null;
-					layoutSources = null;
+					springStates.clear();
 				}
 			}
 		} else {
@@ -395,7 +423,7 @@
 		syncPositions(simulation, nodes);
 
 		if (!prefersReducedMotion.current) {
-			// Bloom animation: store settled positions as targets, reset to center, lerp outward
+			// Bloom animation: store settled positions as targets, reset to center, then spring out.
 			bloomTargets = new Map<string, { x: number; y: number }>();
 			for (const node of nodes) {
 				bloomTargets.set(node.id, { x: node.x, y: node.y });
@@ -404,6 +432,8 @@
 					node.y = 0;
 				}
 			}
+			// Initialise spring states so the tick loop can drive them.
+			captureLayoutSource();
 		}
 
 		// Register touch/wheel handlers as non-passive so preventDefault() works
@@ -439,49 +469,105 @@
 		});
 		resizeObserver.observe(canvas.parentElement!);
 
-		renderLoop.start((time, _dt) => {
+		renderLoop.start((time, dt) => {
 			if (width === 0 || height === 0) return;
+
+			// Spring physics is sub-stepped for stability at high stiffness:
+			// each visual frame runs N small physics steps so the integrator
+			// doesn't blow up under a long dt (e.g. after a tab returns from
+			// background).
+			const stepDt = Math.min(dt, 32) / 1000; // seconds, clamped
+			const SUBSTEPS = 4;
+			const subDt = stepDt / SUBSTEPS;
 
 			// Update node positions based on layout mode
 			if (bloomTargets) {
-				// Initial bloom: lerp from center to settled force positions
-				const LERP = 0.07;
+				// Initial bloom uses the same springs so the reveal feels
+				// continuous with later transitions.
+				if (layoutTransitionStart === null) {
+					layoutTransitionStart = time;
+				}
+				const elapsed = time - layoutTransitionStart;
+
 				let allSettled = true;
 				for (const node of nodes) {
-					const t = bloomTargets.get(node.id);
-					if (!t) continue;
-					const dx = t.x - node.x;
-					const dy = t.y - node.y;
-					if (Math.abs(dx) + Math.abs(dy) > 0.3) {
+					const tgt = bloomTargets.get(node.id);
+					const spring = springStates.get(node.id);
+					if (!tgt || !spring) continue;
+
+					if (elapsed < spring.delay) {
 						allSettled = false;
-						node.x += dx * LERP;
-						node.y += dy * LERP;
+						continue;
+					}
+
+					for (let s = 0; s < SUBSTEPS; s++) {
+						const ax = SPRING_STIFFNESS * (tgt.x - node.x) - SPRING_DAMPING * spring.vx;
+						const ay = SPRING_STIFFNESS * (tgt.y - node.y) - SPRING_DAMPING * spring.vy;
+						spring.vx += ax * subDt;
+						spring.vy += ay * subDt;
+						node.x += spring.vx * subDt;
+						node.y += spring.vy * subDt;
+					}
+
+					const posErr = Math.abs(tgt.x - node.x) + Math.abs(tgt.y - node.y);
+					const velMag = Math.abs(spring.vx) + Math.abs(spring.vy);
+					if (posErr > 0.4 || velMag > 1.5) {
+						allSettled = false;
 					} else {
-						node.x = t.x;
-						node.y = t.y;
+						node.x = tgt.x;
+						node.y = tgt.y;
+						spring.vx = 0;
+						spring.vy = 0;
 					}
 				}
-				if (allSettled) bloomTargets = null;
-			} else if (layoutTargets && layoutSources) {
-				// Layout transition: time-based ease-in-out from captured sources
-				// to targets so motion ramps in instead of starting at full speed.
+
+				if (allSettled && elapsed > 200) {
+					bloomTargets = null;
+					layoutTransitionStart = null;
+					springStates.clear();
+				}
+			} else if (layoutTargets) {
+				// Layout transition: each node springs toward its target with
+				// a small per-id delay so the wave feels alive, not lock-step.
 				if (layoutTransitionStart === null) layoutTransitionStart = time;
 				const elapsed = time - layoutTransitionStart;
-				const t = Math.min(elapsed / LAYOUT_DURATION_MS, 1);
-				const eased = easeInOutWithBounce(t);
 
+				let allSettled = true;
 				for (const node of nodes) {
-					const src = layoutSources.get(node.id);
 					const tgt = layoutTargets.get(node.id);
-					if (!src || !tgt) continue;
-					node.x = src.x + (tgt.x - src.x) * eased;
-					node.y = src.y + (tgt.y - src.y) * eased;
+					const spring = springStates.get(node.id);
+					if (!tgt || !spring) continue;
+
+					if (elapsed < spring.delay) {
+						allSettled = false;
+						continue;
+					}
+
+					for (let s = 0; s < SUBSTEPS; s++) {
+						const ax = SPRING_STIFFNESS * (tgt.x - node.x) - SPRING_DAMPING * spring.vx;
+						const ay = SPRING_STIFFNESS * (tgt.y - node.y) - SPRING_DAMPING * spring.vy;
+						spring.vx += ax * subDt;
+						spring.vy += ay * subDt;
+						node.x += spring.vx * subDt;
+						node.y += spring.vy * subDt;
+					}
+
+					const posErr = Math.abs(tgt.x - node.x) + Math.abs(tgt.y - node.y);
+					const velMag = Math.abs(spring.vx) + Math.abs(spring.vy);
+					if (posErr > 0.4 || velMag > 1.5) {
+						allSettled = false;
+					} else {
+						node.x = tgt.x;
+						node.y = tgt.y;
+						spring.vx = 0;
+						spring.vy = 0;
+					}
 				}
 
-				if (t >= 1) {
+				if (allSettled && elapsed > 200) {
 					layoutTargets = null;
-					layoutSources = null;
 					layoutTransitionStart = null;
+					springStates.clear();
 				}
 			} else if (appState.layoutMode === 'force') {
 				if (!prefersReducedMotion.current) {
