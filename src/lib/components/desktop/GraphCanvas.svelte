@@ -26,9 +26,44 @@
 
 	// Layout transition state — null means no animation in progress
 	let layoutTargets: Map<string, { x: number; y: number }> | null = null;
+	let layoutSources: Map<string, { x: number; y: number }> | null = null;
+	let layoutTransitionStart: number | null = null;
+	const LAYOUT_DURATION_MS = 550;
 	let prevLayout: LayoutMode | null = null;
 	// Bloom animation on initial load (separate from layout transitions)
 	let bloomTargets: Map<string, { x: number; y: number }> | null = null;
+
+	/**
+	 * Layout-transition easing — ease-in-out cubic for the bulk of the motion,
+	 * with a subtle half-sine overshoot bump in the second half so nodes
+	 * gently spring past their target and settle back into place.
+	 *
+	 * Peaks around t ≈ 0.85 at ~2% overshoot — felt as a small bounce, not
+	 * a rubber-band snap.
+	 */
+	function easeInOutWithBounce(t: number): number {
+		if (t <= 0) return 0;
+		if (t >= 1) return 1;
+		const base = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+		if (t < 0.5) return base;
+		const u = (t - 0.5) * 2; // 0 → 1 across the second half
+		const bump = Math.sin(u * Math.PI) * 0.04; // half-sine, peak 4%
+		return base + bump;
+	}
+
+	/**
+	 * Capture the current node positions as the source of a layout transition.
+	 * Resetting layoutTransitionStart to null causes the next animation tick
+	 * to set it to the current time, so the transition starts from "now"
+	 * regardless of when this was called.
+	 */
+	function captureLayoutSource() {
+		layoutSources = new Map();
+		for (const node of nodes) {
+			layoutSources.set(node.id, { x: node.x, y: node.y });
+		}
+		layoutTransitionStart = null;
+	}
 
 	let isPanning = $state(false);
 	let lastMouseX = 0;
@@ -171,7 +206,9 @@
 			if (prevLayout !== null && prevLayout !== 'force') {
 				// Switching back to force — compute settled positions and lerp there
 				if (!prefersReducedMotion.current) {
-					// Re-warm simulation from current positions to get force targets
+					// Capture current visible positions as the transition source
+					// BEFORE warming up the simulation, since warmUp mutates sim node positions.
+					captureLayoutSource();
 					warmUpSimulation(simulation);
 					const forceTargets = new Map<string, { x: number; y: number }>();
 					const simNodes = simulation.nodes();
@@ -187,6 +224,7 @@
 					appState.focusOnSubgraph(targetNodes, width, height, 0);
 				} else {
 					layoutTargets = null;
+					layoutSources = null;
 				}
 			}
 		} else {
@@ -198,6 +236,9 @@
 						: mode === 'timeline'
 							? computeTimelinePositions(nodes)
 							: computeMeshPositions(nodes);
+				if (!prefersReducedMotion.current) {
+					captureLayoutSource();
+				}
 				layoutTargets = positions;
 				// Zoom to fit the target layout (use target positions, not current)
 				// In mesh mode, only consider protocol nodes for the bounding box —
@@ -421,25 +462,27 @@
 					}
 				}
 				if (allSettled) bloomTargets = null;
-			} else if (layoutTargets) {
-				// Layout transition (radial/timeline): lerp toward targets
-				const LERP = 0.08;
-				let allSettled = true;
+			} else if (layoutTargets && layoutSources) {
+				// Layout transition: time-based ease-in-out from captured sources
+				// to targets so motion ramps in instead of starting at full speed.
+				if (layoutTransitionStart === null) layoutTransitionStart = time;
+				const elapsed = time - layoutTransitionStart;
+				const t = Math.min(elapsed / LAYOUT_DURATION_MS, 1);
+				const eased = easeInOutWithBounce(t);
+
 				for (const node of nodes) {
-					const t = layoutTargets.get(node.id);
-					if (!t) continue;
-					const dx = t.x - node.x;
-					const dy = t.y - node.y;
-					if (Math.abs(dx) + Math.abs(dy) > 0.3) {
-						allSettled = false;
-						node.x += dx * LERP;
-						node.y += dy * LERP;
-					} else {
-						node.x = t.x;
-						node.y = t.y;
-					}
+					const src = layoutSources.get(node.id);
+					const tgt = layoutTargets.get(node.id);
+					if (!src || !tgt) continue;
+					node.x = src.x + (tgt.x - src.x) * eased;
+					node.y = src.y + (tgt.y - src.y) * eased;
 				}
-				if (allSettled) layoutTargets = null;
+
+				if (t >= 1) {
+					layoutTargets = null;
+					layoutSources = null;
+					layoutTransitionStart = null;
+				}
 			} else if (appState.layoutMode === 'force') {
 				if (!prefersReducedMotion.current) {
 					syncPositions(simulation, nodes);
