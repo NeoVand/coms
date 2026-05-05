@@ -46,11 +46,24 @@
 
 	let panelWidth = $state(520);
 	let isResizing = $state(false);
+	let scrollerEl: HTMLDivElement | undefined = $state();
 
 	// Keep appState in sync so focusOnNode uses the current panel width
 	// On mobile (bottom sheet), panel doesn't consume horizontal space
 	$effect(() => {
 		appState.detailPanelWidth = isMobile ? 0 : panelWidth;
+	});
+
+	// Reset scroll to top whenever the selection or the active tab changes,
+	// so opening a new node never inherits a stale scroll position from
+	// the previous one.
+	$effect(() => {
+		// track these so the effect re-runs on change
+		const _id = appState.selectedNode?.id;
+		const _view = appState.detailViewMode;
+		void _id;
+		void _view;
+		if (scrollerEl) scrollerEl.scrollTop = 0;
 	});
 
 	const MIN_WIDTH = 360;
@@ -149,6 +162,7 @@
 	<!-- Content layer -->
 	<div
 		class="relative custom-scrollbar flex h-full w-full flex-col overflow-y-auto"
+		bind:this={scrollerEl}
 	>
 		{#if appState.activeJourney}
 			<div class="px-6 pt-4 pb-0">
