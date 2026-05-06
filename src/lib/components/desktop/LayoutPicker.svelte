@@ -1,6 +1,7 @@
 <script lang="ts">
 	import { getAppState } from '$lib/state/context';
 	import type { LayoutMode } from '$lib/engine/layouts';
+	import { LAYOUT_ICON_SVG } from '$lib/utils/layout-icons';
 	import { Minus, Plus, ChevronUp } from 'lucide-svelte';
 	import ThemeToggle from './ThemeToggle.svelte';
 
@@ -86,52 +87,9 @@
 					onclick={() => select(layout.id)}
 					role="menuitem"
 				>
-					<!-- Icon -->
-					<span class="flex h-5 w-5 shrink-0 items-center justify-center opacity-70">
-						{#if layout.id === 'force'}
-							<svg viewBox="0 0 20 20" fill="none" class="h-4 w-4" stroke="currentColor" stroke-width="1.5">
-								<circle cx="10" cy="4" r="2" fill="currentColor" stroke="none"/>
-								<circle cx="4" cy="15" r="2" fill="currentColor" stroke="none"/>
-								<circle cx="16" cy="15" r="2" fill="currentColor" stroke="none"/>
-								<line x1="10" y1="6" x2="5.5" y2="13.3"/>
-								<line x1="10" y1="6" x2="14.5" y2="13.3"/>
-								<line x1="6" y1="15" x2="14" y2="15"/>
-							</svg>
-						{:else if layout.id === 'radial'}
-							<svg viewBox="0 0 20 20" fill="none" class="h-4 w-4" stroke="currentColor" stroke-width="1.5">
-								<circle cx="10" cy="10" r="1.5" fill="currentColor" stroke="none"/>
-								<circle cx="10" cy="10" r="5" />
-								<circle cx="10" cy="10" r="8.5" />
-							</svg>
-						{:else if layout.id === 'timeline'}
-							<svg viewBox="0 0 20 20" fill="none" class="h-4 w-4" stroke="currentColor" stroke-width="1.5">
-								<line x1="1" y1="5.5" x2="19" y2="5.5"/>
-								<line x1="1" y1="10" x2="19" y2="10"/>
-								<line x1="1" y1="14.5" x2="19" y2="14.5"/>
-								<circle cx="5" cy="5.5" r="2" fill="currentColor" stroke="none"/>
-								<circle cx="12" cy="10" r="2" fill="currentColor" stroke="none"/>
-								<circle cx="8" cy="14.5" r="2" fill="currentColor" stroke="none"/>
-								<circle cx="16" cy="5.5" r="2" fill="currentColor" stroke="none"/>
-							</svg>
-						{:else if layout.id === 'mesh'}
-							<svg viewBox="0 0 20 20" fill="none" class="h-4 w-4" stroke="currentColor" stroke-width="1.2">
-								<!-- Five interconnected nodes — pentagonal mesh -->
-								<line x1="10" y1="3" x2="3.5" y2="8" />
-								<line x1="10" y1="3" x2="16.5" y2="8" />
-								<line x1="10" y1="3" x2="6" y2="16" />
-								<line x1="10" y1="3" x2="14" y2="16" />
-								<line x1="3.5" y1="8" x2="6" y2="16" />
-								<line x1="3.5" y1="8" x2="14" y2="16" />
-								<line x1="16.5" y1="8" x2="14" y2="16" />
-								<line x1="16.5" y1="8" x2="6" y2="16" />
-								<line x1="6" y1="16" x2="14" y2="16" />
-								<circle cx="10" cy="3" r="1.7" fill="currentColor" stroke="none"/>
-								<circle cx="3.5" cy="8" r="1.7" fill="currentColor" stroke="none"/>
-								<circle cx="16.5" cy="8" r="1.7" fill="currentColor" stroke="none"/>
-								<circle cx="6" cy="16" r="1.7" fill="currentColor" stroke="none"/>
-								<circle cx="14" cy="16" r="1.7" fill="currentColor" stroke="none"/>
-							</svg>
-						{/if}
+					<!-- Icon — shared with the guided tour via $lib/utils/layout-icons -->
+					<span class="layout-glyph flex h-4 w-4 shrink-0 items-center justify-center opacity-70">
+						{@html LAYOUT_ICON_SVG[layout.id]}
 					</span>
 					<span class="w-16 font-medium tracking-wide">{layout.label}</span>
 					{#if isActive}
@@ -144,18 +102,16 @@
 		</div>
 	{/if}
 
-	<!-- Trigger pill -->
+	<!-- Trigger pill — icon mirrors whichever layout is currently active -->
 	<button
 		class="flex items-center gap-2 rounded-full border border-s-border bg-bg-deep/80 px-3.5 py-1.5 text-xs font-medium text-t-primary shadow-lg backdrop-blur-xl transition-colors hover:border-s-border hover:text-t-primary"
 		onclick={() => (open = !open)}
 		aria-haspopup="true"
 		aria-expanded={open}
 	>
-		<!-- Layout icon (small) -->
-		<svg viewBox="0 0 16 16" class="h-3 w-3 shrink-0 opacity-60" fill="none" stroke="currentColor" stroke-width="1.5">
-			<circle cx="8" cy="8" r="3"/>
-			<circle cx="8" cy="8" r="7"/>
-		</svg>
+		<span class="layout-glyph flex h-3.5 w-3.5 shrink-0 items-center justify-center opacity-70">
+			{@html LAYOUT_ICON_SVG[appState.layoutMode]}
+		</span>
 		<span>{layouts.find((l) => l.id === appState.layoutMode)?.label ?? 'Layout'}</span>
 		<span class="opacity-50 transition-transform" class:rotate-180={open}>
 			<ChevronUp size={12} strokeWidth={2} />

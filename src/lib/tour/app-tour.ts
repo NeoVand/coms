@@ -2,6 +2,7 @@ import type { AppState } from '$lib/state/app-state.svelte';
 import type { GraphNode } from '$lib/data/types';
 import { goto } from '$app/navigation';
 import { base } from '$app/paths';
+import { layoutIconInlineHtml } from '$lib/utils/layout-icons';
 
 /** Instantly scroll an element inside the detail-panel scroller into view. */
 function scrollInPanel(selector: string) {
@@ -200,10 +201,10 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 					description:
 						'Use <strong>+/&minus;</strong> to zoom, or click the percentage to reset.' +
 						'<br><br>Switch how the graph is arranged:' +
-						'<br><strong>Force</strong> &mdash; physics-based clustering by category, hub at the centre' +
-						'<br><strong>Mesh</strong> &mdash; protocols laid out by how they actually relate to one another, like a map' +
-						'<br><strong>Radial</strong> &mdash; concentric rings grouped by category' +
-						'<br><strong>Timeline</strong> &mdash; protocols plotted by year, from 1969 to today'
+						`<br>${layoutIconInlineHtml('force')}<strong>Force</strong> &mdash; physics-based clustering by category, hub at the centre` +
+						`<br>${layoutIconInlineHtml('mesh')}<strong>Mesh</strong> &mdash; protocols laid out by how they actually relate to one another, like a map` +
+						`<br>${layoutIconInlineHtml('radial')}<strong>Radial</strong> &mdash; concentric rings grouped by category` +
+						`<br>${layoutIconInlineHtml('timeline')}<strong>Timeline</strong> &mdash; protocols plotted by year, from 1969 to today`
 				},
 				disableActiveInteraction: true,
 				onHighlightStarted: () => {
