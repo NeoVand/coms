@@ -23,7 +23,7 @@
 		navigateToProtocol,
 		navigateToCategory,
 		navigateToJourney,
-		navigateToHub
+		navigateToHubPanel
 	} from '$lib/utils/navigation';
 
 	const appState = getAppState();
@@ -161,7 +161,7 @@
 				break;
 			}
 			case 'hub': {
-				await navigateToHub();
+				await navigateToHubPanel();
 				appState.hubViewMode = nav.tab;
 				break;
 			}

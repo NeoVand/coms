@@ -30,8 +30,22 @@ function go(path: string, opts: NavOptions = {}): Promise<void> {
 	});
 }
 
+/**
+ * Bare graph, no panel. The default zero-state of the app.
+ * Use this for "close the panel" / "go home" affordances (Esc, X close,
+ * mobile backdrop tap).
+ */
 export function navigateToHub(opts: NavOptions = {}) {
 	return go('/', opts);
+}
+
+/**
+ * Hub welcome panel — the Home / Concepts / Journeys tabs. Distinct
+ * URL from `/` so the two states are independently shareable and so
+ * clicking the central PROTOCOLS node has somewhere to land.
+ */
+export function navigateToHubPanel(opts: NavOptions = {}) {
+	return go('/hub', opts);
 }
 
 export function navigateToProtocol(id: string, opts: NavOptions = {}) {
@@ -48,7 +62,7 @@ export function navigateToJourney(id: string, opts: NavOptions = {}) {
 
 /** Pick the right URL for any GraphNode (hub / category / protocol). */
 export function navigateToNode(node: GraphNode, opts: NavOptions = {}) {
-	if (node.type === 'hub') return navigateToHub(opts);
+	if (node.type === 'hub') return navigateToHubPanel(opts);
 	if (node.type === 'category') return navigateToCategory(node.id, opts);
 	return navigateToProtocol(node.id, opts);
 }
