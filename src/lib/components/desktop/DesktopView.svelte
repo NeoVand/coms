@@ -44,8 +44,9 @@
 
 	<!-- Detail panel: visible when there's a graph selection OR any
 	     open standalone reading surface (chapter, pioneer bio, RFC,
-	     outage replay, frontier entry). All read in the same surface. -->
-	{#if appState.showDetailPanel && (appState.selectedNode || appState.activeBookChapter || appState.activePioneer || appState.activeRfc || appState.activeOutage || appState.activeFrontier)}
+	     outage replay, frontier entry, registry index). All read in
+	     the same surface. -->
+	{#if appState.showDetailPanel && (appState.selectedNode || appState.activeBookChapter || appState.activePioneer || appState.activeRfc || appState.activeOutage || appState.activeFrontier || appState.activeRegistryIndex)}
 		<DetailPanel />
 	{/if}
 

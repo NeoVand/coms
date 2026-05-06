@@ -89,6 +89,20 @@ export function navigateToFrontier(id: string, opts: NavOptions = {}) {
 	return go(`/frontier/${id}`, opts);
 }
 
+// ── Registry indexes ────────────────────────────────────────────
+export function navigateToPioneersIndex(opts: NavOptions = {}) {
+	return go('/pioneers', opts);
+}
+export function navigateToRfcsIndex(opts: NavOptions = {}) {
+	return go('/rfcs', opts);
+}
+export function navigateToOutagesIndex(opts: NavOptions = {}) {
+	return go('/outages', opts);
+}
+export function navigateToFrontierIndex(opts: NavOptions = {}) {
+	return go('/frontier', opts);
+}
+
 /** Pick the right URL for any GraphNode (hub / category / protocol). */
 export function navigateToNode(node: GraphNode, opts: NavOptions = {}) {
 	if (node.type === 'hub') return navigateToHubPanel(opts);

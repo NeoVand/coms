@@ -56,6 +56,13 @@ export class AppState {
 	 */
 	activeFrontier: string | null = $state(null);
 
+	/**
+	 * Currently-open registry index page — one of 'pioneers', 'rfcs',
+	 * 'outages', 'frontier'. When set, the side panel renders the matching
+	 * full-list browser. URLs: /pioneers, /rfcs, /outages, /frontier.
+	 */
+	activeRegistryIndex: 'pioneers' | 'rfcs' | 'outages' | 'frontier' | null = $state(null);
+
 	// Diagram modal state (rendered at root level to escape stacking contexts)
 	diagramModal: { protocolId: string; color: string } | null = $state(null);
 
@@ -193,6 +200,7 @@ export class AppState {
 		this.activeRfc = null;
 		this.activeOutage = null;
 		this.activeFrontier = null;
+		this.activeRegistryIndex = null;
 	};
 
 	hoverNode = (node: GraphNode | null) => {

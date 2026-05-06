@@ -20,6 +20,17 @@
 	import RfcView from './RfcView.svelte';
 	import OutageView from './OutageView.svelte';
 	import FrontierView from './FrontierView.svelte';
+	import PioneersIndex from './registry-index/PioneersIndex.svelte';
+	import RfcsIndex from './registry-index/RfcsIndex.svelte';
+	import OutagesIndex from './registry-index/OutagesIndex.svelte';
+	import FrontierIndex from './registry-index/FrontierIndex.svelte';
+	import {
+		navigateToPioneersIndex,
+		navigateToRfcsIndex,
+		navigateToOutagesIndex,
+		navigateToFrontierIndex
+	} from '$lib/utils/navigation';
+	import { Users, FileText, AlertTriangle, Compass as CompassIcon } from 'lucide-svelte';
 
 	/**
 	 * Hand-written teasers for the Foundation chapter cards on the Home
@@ -100,6 +111,7 @@
 		const _rfc = appState.activeRfc;
 		const _outage = appState.activeOutage;
 		const _frontier = appState.activeFrontier;
+		const _idx = appState.activeRegistryIndex;
 		void _id;
 		void _view;
 		void _chapter;
@@ -107,6 +119,7 @@
 		void _rfc;
 		void _outage;
 		void _frontier;
+		void _idx;
 		if (scrollerEl) scrollerEl.scrollTop = 0;
 	});
 
@@ -235,6 +248,14 @@
 			<div class="p-6">
 				<FrontierView id={appState.activeFrontier} />
 			</div>
+		{:else if appState.activeRegistryIndex === 'pioneers'}
+			<div class="p-6"><PioneersIndex /></div>
+		{:else if appState.activeRegistryIndex === 'rfcs'}
+			<div class="p-6"><RfcsIndex /></div>
+		{:else if appState.activeRegistryIndex === 'outages'}
+			<div class="p-6"><OutagesIndex /></div>
+		{:else if appState.activeRegistryIndex === 'frontier'}
+			<div class="p-6"><FrontierIndex /></div>
 		{:else if selectedData?.type === 'hub'}
 			{@const simCount = allProtocols.filter((p) => hasSimulation(p.id)).length}
 			<!-- Hub hero (always visible) -->
@@ -300,6 +321,75 @@
 									>
 								</button>
 							{/each}
+						</div>
+					</section>
+
+					<!-- Browse the Lab — registry indexes -->
+					<section>
+						<h3 class="mb-3 text-xs font-semibold tracking-wider text-t-muted uppercase">
+							Browse the Lab
+						</h3>
+						<div class="grid grid-cols-2 gap-2">
+							<button
+								class="group flex items-start gap-2.5 rounded-xl border border-s-border bg-s-glass p-3 text-left transition-all hover:bg-s-glass-hover"
+								onclick={() => navigateToPioneersIndex()}
+							>
+								<span
+									class="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg"
+									style="background-color: rgba(167, 139, 250, 0.2); color: #a78bfa;"
+								>
+									<Users size={14} />
+								</span>
+								<div class="min-w-0">
+									<div class="text-sm font-medium text-t-primary">Pioneers</div>
+									<div class="text-[10px] text-t-muted">19 architects of the field</div>
+								</div>
+							</button>
+							<button
+								class="group flex items-start gap-2.5 rounded-xl border border-s-border bg-s-glass p-3 text-left transition-all hover:bg-s-glass-hover"
+								onclick={() => navigateToRfcsIndex()}
+							>
+								<span
+									class="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg"
+									style="background-color: rgba(96, 165, 250, 0.2); color: #60a5fa;"
+								>
+									<FileText size={14} />
+								</span>
+								<div class="min-w-0">
+									<div class="text-sm font-medium text-t-primary">RFCs</div>
+									<div class="text-[10px] text-t-muted">27 documents</div>
+								</div>
+							</button>
+							<button
+								class="group flex items-start gap-2.5 rounded-xl border border-s-border bg-s-glass p-3 text-left transition-all hover:bg-s-glass-hover"
+								onclick={() => navigateToOutagesIndex()}
+							>
+								<span
+									class="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg"
+									style="background-color: rgba(251, 146, 60, 0.2); color: #fb923c;"
+								>
+									<AlertTriangle size={14} />
+								</span>
+								<div class="min-w-0">
+									<div class="text-sm font-medium text-t-primary">Famous outages</div>
+									<div class="text-[10px] text-t-muted">7 incidents as stories</div>
+								</div>
+							</button>
+							<button
+								class="group flex items-start gap-2.5 rounded-xl border border-s-border bg-s-glass p-3 text-left transition-all hover:bg-s-glass-hover"
+								onclick={() => navigateToFrontierIndex()}
+							>
+								<span
+									class="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-lg"
+									style="background-color: rgba(167, 139, 250, 0.2); color: #a78bfa;"
+								>
+									<CompassIcon size={14} />
+								</span>
+								<div class="min-w-0">
+									<div class="text-sm font-medium text-t-primary">The Frontier</div>
+									<div class="text-[10px] text-t-muted">13 developments, 2024-2026</div>
+								</div>
+							</button>
 						</div>
 					</section>
 
