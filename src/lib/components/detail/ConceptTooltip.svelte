@@ -4,6 +4,15 @@
 	import { parseRichText } from '$lib/utils/text-parser';
 	import { ExternalLink } from 'lucide-svelte';
 	import { navigateToProtocol as navigateToProtocolUrl } from '$lib/utils/navigation';
+	import RfcRef from '$lib/components/detail/inline/RfcRef.svelte';
+	import OutageLink from '$lib/components/detail/inline/OutageLink.svelte';
+	import PioneerLink from '$lib/components/detail/inline/PioneerLink.svelte';
+	import GlossaryLink from '$lib/components/detail/inline/GlossaryLink.svelte';
+
+	/** Tooltip is divorced from category context — use a single accent color
+	 *  for all inline link variants so they read consistently inside the
+	 *  popover. */
+	const TOOLTIP_LINK_COLOR = '#38bdf8'; // sky-400
 
 	interface Props {
 		concept: Concept;
@@ -86,6 +95,14 @@
 					</button>
 				{:else if seg.type === 'concept' || seg.type === 'bold-concept'}
 					<span class="font-medium text-t-primary">{seg.label}</span>
+				{:else if seg.type === 'rfc-ref'}
+					<RfcRef number={seg.number} label={seg.label} color={TOOLTIP_LINK_COLOR} />
+				{:else if seg.type === 'outage-link'}
+					<OutageLink outageId={seg.outageId} label={seg.label} color={TOOLTIP_LINK_COLOR} />
+				{:else if seg.type === 'pioneer-link'}
+					<PioneerLink pioneerId={seg.pioneerId} label={seg.label} color={TOOLTIP_LINK_COLOR} />
+				{:else if seg.type === 'glossary-link'}
+					<GlossaryLink conceptId={seg.conceptId} label={seg.label} color={TOOLTIP_LINK_COLOR} />
 				{/if}
 			{/each}
 		</p>
@@ -109,6 +126,18 @@
 							</button>
 						{:else if seg.type === 'concept' || seg.type === 'bold-concept'}
 							<span class="font-medium text-t-primary">{seg.label}</span>
+						{:else if seg.type === 'rfc-ref'}
+							<RfcRef number={seg.number} label={seg.label} color={TOOLTIP_LINK_COLOR} />
+						{:else if seg.type === 'outage-link'}
+							<OutageLink outageId={seg.outageId} label={seg.label} color={TOOLTIP_LINK_COLOR} />
+						{:else if seg.type === 'pioneer-link'}
+							<PioneerLink pioneerId={seg.pioneerId} label={seg.label} color={TOOLTIP_LINK_COLOR} />
+						{:else if seg.type === 'glossary-link'}
+							<GlossaryLink
+								conceptId={seg.conceptId}
+								label={seg.label}
+								color={TOOLTIP_LINK_COLOR}
+							/>
 						{/if}
 					{/each}
 				</p>
