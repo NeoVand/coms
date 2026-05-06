@@ -3,8 +3,28 @@
 	import { navigateToBookChapter } from '$lib/utils/navigation';
 	import { BookOpen } from 'lucide-svelte';
 
-	const ACCENT = '#60a5fa'; // sky-400 — same as ChapterView so the
+	const ACCENT = '#60a5fa'; // sky-400 — same as ChapterView header so the
 	// TOC reads as part of the same surface
+
+	/**
+	 * Per-part accent colors — must mirror the PART_ACCENTS map in
+	 * ChapterView.svelte. Keep them in sync so a part's chapter chip in
+	 * the TOC and its chapter title page use the same hue.
+	 */
+	const PART_ACCENTS: Record<string, string> = {
+		foundations: '#60a5fa',
+		'story-of-the-internet': '#fbbf24',
+		'layer-2-3': '#22d3ee',
+		transport: '#34d399',
+		'web-api': '#a78bfa',
+		'async-iot': '#f472b6',
+		'realtime-av': '#fb7185',
+		'utilities-security': '#facc15',
+		'patterns-failures': '#f97316',
+		'famous-outages': '#fb923c',
+		frontier: '#a78bfa',
+		'how-to-learn-more': '#94a3b8'
+	};
 
 	function isReady(slots: { kind: string }[]): boolean {
 		return slots.length > 0;
@@ -21,9 +41,13 @@
 		}
 		return { total, ready };
 	});
+
+	function partAccent(id: string): string {
+		return PART_ACCENTS[id] ?? ACCENT;
+	}
 </script>
 
-<article class="flex flex-col gap-8">
+<article class="flex flex-col gap-6">
 	<header>
 		<div
 			class="inline-flex items-center gap-1.5 rounded-md px-2 py-0.5 text-[10px] font-bold tracking-wider uppercase"
@@ -39,19 +63,44 @@
 			Table of contents
 		</h1>
 		<p class="mt-2 text-sm leading-relaxed text-t-secondary">
-			{bookParts.length} parts, {stats.total} chapters planned, {stats.ready} live so far.
+			{bookParts.length} parts, {stats.total} chapters, {stats.ready} live.
 			Everything is meant to be readable end-to-end; jump in anywhere.
 		</p>
 	</header>
 
+	<!-- Jump bar — quick navigation across the 12 parts. The horizontal
+		scroll keeps it usable on mobile and on the narrow side panel. -->
+	<nav
+		class="-mx-1 flex flex-wrap gap-1.5 border-b border-s-border pb-3"
+		aria-label="Jump to part"
+	>
+		{#each bookParts as part (part.id)}
+			{@const accent = partAccent(part.id)}
+			<a
+				href="#part-{part.id}"
+				class="rounded-md border border-s-border px-2 py-1 font-mono text-[10px] font-bold tracking-wider uppercase transition-all hover:bg-s-glass-hover"
+				style="color: {accent}; border-color: {accent}40;"
+				title={part.title}
+			>
+				{part.label ?? '?'} · {part.title}
+			</a>
+		{/each}
+	</nav>
+
 	{#each bookParts as part (part.id)}
-		<section>
-			<div class="mb-2 flex items-baseline gap-3 border-b border-s-border pb-2">
+		{@const accent = partAccent(part.id)}
+		<section id="part-{part.id}" class="scroll-mt-4">
+			<div class="mb-2 flex items-baseline gap-3 border-b pb-2"
+				style="border-color: {accent}40;"
+			>
 				<span
 					class="font-mono text-xs font-bold tracking-wider"
-					style="color: {ACCENT};">PART {part.label ?? ''}</span
+					style="color: {accent};">PART {part.label ?? ''}</span
 				>
 				<h2 class="text-lg font-bold text-t-primary">{part.title}</h2>
+				<span class="ml-auto text-[10px] tabular-nums text-t-muted"
+					>{part.chapters.length} ch</span
+				>
 			</div>
 			{#if part.description}
 				<p class="mb-3 text-xs leading-relaxed text-t-secondary">{part.description}</p>
@@ -62,14 +111,15 @@
 					{#if ready}
 						<button
 							class="group flex w-full items-baseline gap-3 rounded-lg border border-s-border bg-s-glass px-3 py-2 text-left transition-all hover:bg-s-glass-hover"
+							style="border-color: {accent}30;"
 							onclick={() => navigateToBookChapter(part.id, chapter.id)}
 						>
 							<span
 								class="shrink-0 font-mono text-[10px] tabular-nums"
-								style="color: {ACCENT};"
+								style="color: {accent};"
 								>{(i + 1).toString().padStart(2, '0')}</span
 							>
-							<div class="flex-1 min-w-0">
+							<div class="min-w-0 flex-1">
 								<div class="text-sm font-medium text-t-primary">{chapter.title}</div>
 								{#if chapter.synopsis}
 									<div class="mt-0.5 text-[11px] leading-relaxed text-t-secondary">
@@ -78,7 +128,8 @@
 								{/if}
 							</div>
 							<span
-								class="shrink-0 text-t-muted transition-transform group-hover:translate-x-0.5 group-hover:text-t-secondary"
+								class="shrink-0 text-t-muted transition-transform group-hover:translate-x-0.5"
+								style="color: {accent};"
 								aria-hidden="true">→</span
 							>
 						</button>
@@ -89,7 +140,7 @@
 							<span class="shrink-0 font-mono text-[10px] tabular-nums text-t-muted/60"
 								>{(i + 1).toString().padStart(2, '0')}</span
 							>
-							<div class="flex-1 min-w-0 opacity-70">
+							<div class="min-w-0 flex-1 opacity-70">
 								<div class="text-sm text-t-secondary">{chapter.title}</div>
 								{#if chapter.synopsis}
 									<div class="mt-0.5 text-[11px] leading-relaxed text-t-muted">
