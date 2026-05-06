@@ -1,13 +1,13 @@
 <script lang="ts">
-	import AppShell from '$lib/components/AppShell.svelte';
+	import { onMount } from 'svelte';
+	import { getAppState } from '$lib/state/context';
+
+	const appState = getAppState();
+
+	// Visiting `/` shows the bird's-eye graph: clear any prior selection.
+	// AppShell + DesktopView render the graph from the layout; this page
+	// is intentionally empty.
+	onMount(() => {
+		if (appState.selectedNode) appState.clearSelection();
+	});
 </script>
-
-<svelte:head>
-	<title>Protocol Lab — Interactive Communication Protocols Explorer</title>
-	<meta
-		name="description"
-		content="Explore and learn about communication protocols through an interactive visualization. TCP, UDP, HTTP, WebSockets, gRPC, and more."
-	/>
-</svelte:head>
-
-<AppShell />

@@ -1,9 +1,9 @@
 <script lang="ts">
 	import type { Concept } from '$lib/data/concepts';
 	import { getAppState } from '$lib/state/context';
-	import { buildGraphNodes } from '$lib/data/index';
 	import { parseRichText } from '$lib/utils/text-parser';
 	import { ExternalLink } from 'lucide-svelte';
+	import { navigateToProtocol as navigateToProtocolUrl } from '$lib/utils/navigation';
 
 	interface Props {
 		concept: Concept;
@@ -12,7 +12,6 @@
 
 	let { concept, triggerRect }: Props = $props();
 	const appState = getAppState();
-	const allNodes = buildGraphNodes();
 
 	let windowWidth = $state(typeof window !== 'undefined' ? window.innerWidth : 1920);
 	let windowHeight = $state(typeof window !== 'undefined' ? window.innerHeight : 1080);
@@ -32,7 +31,9 @@
 
 	// Flip horizontally if too close to right edge
 	const flippedX = $derived(triggerRect.left + TOOLTIP_WIDTH > windowWidth - 20);
-	const left = $derived(flippedX ? Math.max(8, triggerRect.right - TOOLTIP_WIDTH) : triggerRect.left);
+	const left = $derived(
+		flippedX ? Math.max(8, triggerRect.right - TOOLTIP_WIDTH) : triggerRect.left
+	);
 
 	// Flip vertically if too close to bottom
 	const flippedY = $derived(triggerRect.bottom + GAP + APPROX_HEIGHT > windowHeight);
@@ -44,8 +45,7 @@
 
 	function navigateToProtocol(protocolId: string) {
 		appState.hideConceptTooltip();
-		const node = allNodes.find((n) => n.id === protocolId);
-		if (node) appState.selectNode(node);
+		navigateToProtocolUrl(protocolId);
 	}
 
 	function handleMouseEnter() {

@@ -1,17 +1,8 @@
 <script lang="ts">
 	import type { TimelineEntry } from '$lib/data/category-stories/types';
-	import { getAppState } from '$lib/state/context';
-	import { buildGraphNodes, getProtocolById } from '$lib/data/index';
+	import { navigateToProtocol } from '$lib/utils/navigation';
 
 	let { entries, color }: { entries: TimelineEntry[]; color: string } = $props();
-
-	const appState = getAppState();
-	const allNodes = buildGraphNodes();
-
-	function navigateToProtocol(protocolId: string) {
-		const node = allNodes.find((n) => n.id === protocolId);
-		if (node) appState.selectNode(node);
-	}
 </script>
 
 <section>
@@ -20,7 +11,7 @@
 			<div class="relative pb-5 last:pb-0">
 				<!-- Dot on the line -->
 				<div
-					class="absolute -left-[23px] top-0.5 h-2 w-2 rounded-full"
+					class="absolute top-0.5 -left-[23px] h-2 w-2 rounded-full"
 					style="background-color: {color}"
 				></div>
 

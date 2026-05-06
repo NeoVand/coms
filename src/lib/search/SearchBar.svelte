@@ -19,6 +19,12 @@
 	import { buildGraphNodes } from '$lib/data/index';
 	import { journeys } from '$lib/data/journeys';
 	import { themedDomColor } from '$lib/utils/colors';
+	import {
+		navigateToProtocol,
+		navigateToCategory,
+		navigateToJourney,
+		navigateToHub
+	} from '$lib/utils/navigation';
 
 	const appState = getAppState();
 	const allNodes = buildGraphNodes();
@@ -128,50 +134,35 @@
 		}
 	}
 
-	function navigate(entry: SearchEntry) {
+	async function navigate(entry: SearchEntry) {
 		const nav = entry.nav;
 		switch (nav.kind) {
 			case 'protocol': {
-				const node = allNodes.find((n) => n.id === nav.protocolId);
-				if (node) appState.selectNode(node);
+				await navigateToProtocol(nav.protocolId);
 				break;
 			}
 			case 'category': {
-				const node = allNodes.find((n) => n.id === nav.categoryId);
-				if (node) {
-					appState.selectNode(node);
-					if (nav.tab) appState.categoryViewMode = nav.tab;
-				}
+				await navigateToCategory(nav.categoryId);
+				if (nav.tab) appState.categoryViewMode = nav.tab;
 				break;
 			}
 			case 'comparison': {
-				const node = allNodes.find((n) => n.id === nav.protocolId);
-				if (node) {
-					appState.selectNode(node);
-					// Must set after selectNode since it resets these
+				await navigateToProtocol(nav.protocolId);
+				// Must set after navigation since the route effect calls selectNode,
+				// which resets detailViewMode + compareTargetId.
+				queueMicrotask(() => {
 					appState.detailViewMode = 'compare';
 					appState.compareTargetId = nav.compareTargetId;
-				}
+				});
 				break;
 			}
 			case 'journey': {
-				const journey = journeys.find((j) => j.id === nav.journeyId);
-				if (journey) {
-					appState.startJourney(journey);
-					const firstStep = journey.steps[0];
-					if (firstStep) {
-						const node = allNodes.find((n) => n.id === firstStep.protocolId);
-						if (node) appState.selectNode(node);
-					}
-				}
+				await navigateToJourney(nav.journeyId);
 				break;
 			}
 			case 'hub': {
-				const hub = allNodes.find((n) => n.type === 'hub');
-				if (hub) {
-					appState.selectNode(hub);
-					appState.hubViewMode = nav.tab;
-				}
+				await navigateToHub();
+				appState.hubViewMode = nav.tab;
 				break;
 			}
 		}
@@ -246,85 +237,94 @@
 		<!-- Dropdown -->
 		{#if results.length > 0}
 			<div
-				class="absolute left-0 top-full mt-2 w-80 overflow-hidden rounded-xl border border-s-border bg-bg-deep/95 shadow-2xl backdrop-blur-xl"
+				class="absolute top-full left-0 mt-2 w-80 overflow-hidden rounded-xl border border-s-border bg-bg-deep/95 shadow-2xl backdrop-blur-xl"
 			>
 				<div class="relative">
-			<div
-				bind:this={scrollEl}
-				onscroll={() => {
-					if (scrollEl) {
-						canScrollDown = scrollEl.scrollTop + scrollEl.clientHeight < scrollEl.scrollHeight - 4;
-					}
-				}}
-				class="search-results max-h-80 overflow-y-auto">
-					{#each grouped as group (group.type)}
-						{@const meta = groupMeta[group.type]}
-						{@const GroupIcon = meta.icon}
-						<!-- Section header -->
-						<div
-							class="sticky top-0 z-10 flex items-center gap-2 border-b border-s-border bg-bg-deep/95 px-3 py-1.5 backdrop-blur-xl"
-						>
-							<GroupIcon size={12} class="text-t-muted" />
-							<span class="text-[10px] font-semibold tracking-wider text-t-muted uppercase">
-								{meta.label}
-							</span>
-						</div>
-
-						<!-- Results -->
-						{#each group.entries as entry (entry.label + entry.type)}
-							{@const flatIdx = getFlatIndex(entry)}
-							{@const EntryIcon = meta.icon}
-							<button
-								class="flex w-full items-start gap-3 px-3 py-2 text-left transition-colors {flatIdx === selectedIndex ? 'bg-s-glass' : 'hover:bg-s-glass-hover'}"
-								onclick={() => navigate(entry)}
-								onmouseenter={() => (selectedIndex = flatIdx)}
-								role="option"
-								aria-selected={flatIdx === selectedIndex}
+					<div
+						bind:this={scrollEl}
+						onscroll={() => {
+							if (scrollEl) {
+								canScrollDown =
+									scrollEl.scrollTop + scrollEl.clientHeight < scrollEl.scrollHeight - 4;
+							}
+						}}
+						class="search-results max-h-80 overflow-y-auto"
+					>
+						{#each grouped as group (group.type)}
+							{@const meta = groupMeta[group.type]}
+							{@const GroupIcon = meta.icon}
+							<!-- Section header -->
+							<div
+								class="sticky top-0 z-10 flex items-center gap-2 border-b border-s-border bg-bg-deep/95 px-3 py-1.5 backdrop-blur-xl"
 							>
-								<!-- Type icon -->
-								<span class="mt-0.5 shrink-0" style:color={dc(entry.color)}>
-									<EntryIcon size={14} strokeWidth={1.5} />
+								<GroupIcon size={12} class="text-t-muted" />
+								<span class="text-[10px] font-semibold tracking-wider text-t-muted uppercase">
+									{meta.label}
 								</span>
-								<div class="min-w-0 flex-1">
-									<div class="truncate text-sm font-medium text-t-primary">
-										{#if entry.protocolMeta}
-											<span class="font-semibold" style:color={dc(entry.color)}>{entry.protocolMeta.abbreviation}</span>
-											<span class="text-t-muted"> — </span>
-											<span>{entry.protocolMeta.name}</span>
-										{:else if entry.comparisonMeta}
-											<span class="font-semibold" style:color={dc(entry.comparisonMeta.leftColor)}>{entry.comparisonMeta.leftAbbr}</span>
-											<span class="text-t-muted"> {entry.comparisonMeta.connector} </span>
-											<span class="font-semibold" style:color={dc(entry.comparisonMeta.rightColor)}>{entry.comparisonMeta.rightAbbr}</span>
-										{:else}
-											{entry.label}
-										{/if}
+							</div>
+
+							<!-- Results -->
+							{#each group.entries as entry (entry.label + entry.type)}
+								{@const flatIdx = getFlatIndex(entry)}
+								{@const EntryIcon = meta.icon}
+								<button
+									class="flex w-full items-start gap-3 px-3 py-2 text-left transition-colors {flatIdx ===
+									selectedIndex
+										? 'bg-s-glass'
+										: 'hover:bg-s-glass-hover'}"
+									onclick={() => navigate(entry)}
+									onmouseenter={() => (selectedIndex = flatIdx)}
+									role="option"
+									aria-selected={flatIdx === selectedIndex}
+								>
+									<!-- Type icon -->
+									<span class="mt-0.5 shrink-0" style:color={dc(entry.color)}>
+										<EntryIcon size={14} strokeWidth={1.5} />
+									</span>
+									<div class="min-w-0 flex-1">
+										<div class="truncate text-sm font-medium text-t-primary">
+											{#if entry.protocolMeta}
+												<span class="font-semibold" style:color={dc(entry.color)}
+													>{entry.protocolMeta.abbreviation}</span
+												>
+												<span class="text-t-muted"> — </span>
+												<span>{entry.protocolMeta.name}</span>
+											{:else if entry.comparisonMeta}
+												<span class="font-semibold" style:color={dc(entry.comparisonMeta.leftColor)}
+													>{entry.comparisonMeta.leftAbbr}</span
+												>
+												<span class="text-t-muted"> {entry.comparisonMeta.connector} </span>
+												<span
+													class="font-semibold"
+													style:color={dc(entry.comparisonMeta.rightColor)}
+													>{entry.comparisonMeta.rightAbbr}</span
+												>
+											{:else}
+												{entry.label}
+											{/if}
+										</div>
+										<div class="truncate text-[11px] text-t-muted">
+											{entry.description}
+										</div>
 									</div>
-									<div class="truncate text-[11px] text-t-muted">
-										{entry.description}
-									</div>
-								</div>
-							</button>
+								</button>
+							{/each}
 						{/each}
-					{/each}
+					</div>
+					<!-- Scroll fade indicator -->
+					{#if canScrollDown}
+						<div
+							class="pointer-events-none absolute right-0 bottom-0 left-0 h-8 bg-gradient-to-t from-bg-deep/95 to-transparent"
+						></div>
+					{/if}
 				</div>
-				<!-- Scroll fade indicator -->
-				{#if canScrollDown}
-					<div class="pointer-events-none absolute bottom-0 left-0 right-0 h-8 bg-gradient-to-t from-bg-deep/95 to-transparent"></div>
-				{/if}
-			</div>
 
 				<!-- Footer hint -->
-				<div
-					class="flex items-center justify-between border-t border-s-border px-3 py-1.5"
-				>
+				<div class="flex items-center justify-between border-t border-s-border px-3 py-1.5">
 					<span class="text-[10px] text-t-muted">
-						<kbd class="rounded bg-s-glass px-1 py-0.5 text-[9px] text-t-muted"
-							>&uarr;&darr;</kbd
-						>
+						<kbd class="rounded bg-s-glass px-1 py-0.5 text-[9px] text-t-muted">&uarr;&darr;</kbd>
 						navigate
-						<kbd class="ml-1 rounded bg-s-glass px-1 py-0.5 text-[9px] text-t-muted"
-							>&crarr;</kbd
-						>
+						<kbd class="ml-1 rounded bg-s-glass px-1 py-0.5 text-[9px] text-t-muted">&crarr;</kbd>
 						select
 					</span>
 					<span class="text-[10px] text-t-muted">
@@ -335,7 +335,7 @@
 			</div>
 		{:else if query.trim()}
 			<div
-				class="absolute left-0 top-full mt-2 w-80 rounded-xl border border-s-border bg-bg-deep/95 p-6 text-center shadow-2xl backdrop-blur-xl"
+				class="absolute top-full left-0 mt-2 w-80 rounded-xl border border-s-border bg-bg-deep/95 p-6 text-center shadow-2xl backdrop-blur-xl"
 			>
 				<p class="text-sm text-t-muted">No results for "{query}"</p>
 			</div>

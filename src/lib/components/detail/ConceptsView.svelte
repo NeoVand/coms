@@ -1,13 +1,9 @@
 <script lang="ts">
 	import { foundationSections } from '$lib/data/concept-foundations';
-	import { getAppState } from '$lib/state/context';
-	import { buildGraphNodes } from '$lib/data/index';
 	import StoryNarrative from './category-story/StoryNarrative.svelte';
 	import StoryCallout from './category-story/StoryCallout.svelte';
 	import StoryDiagram from './category-story/StoryDiagram.svelte';
-
-	const appState = getAppState();
-	const allNodes = buildGraphNodes();
+	import { navigateToCategory } from '$lib/utils/navigation';
 
 	let expandedId: string | null = $state(null);
 
@@ -16,8 +12,7 @@
 	}
 
 	function goToFoundations() {
-		const node = allNodes.find((n) => n.id === 'network-foundations');
-		if (node) appState.selectNode(node);
+		navigateToCategory('network-foundations');
 	}
 </script>
 
@@ -36,7 +31,9 @@
 
 	<!-- Concept sections accordion -->
 	{#each foundationSections as section (section.id)}
-		<div class="rounded-xl border border-s-border bg-s-glass transition-colors hover:border-s-border">
+		<div
+			class="rounded-xl border border-s-border bg-s-glass transition-colors hover:border-s-border"
+		>
 			<button
 				class="flex w-full items-center gap-3 p-3.5 text-left"
 				onclick={() => toggle(section.id)}
@@ -47,19 +44,31 @@
 					{foundationSections.indexOf(section) + 1}
 				</span>
 				<span class="flex-1 text-sm font-medium text-t-primary">{section.title}</span>
-				<span class="text-t-muted transition-transform" class:rotate-180={expandedId === section.id}>
+				<span
+					class="text-t-muted transition-transform"
+					class:rotate-180={expandedId === section.id}
+				>
 					<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M19 9l-7 7-7-7"
+						/>
 					</svg>
 				</span>
 			</button>
 
 			{#if expandedId === section.id}
-				<div class="border-t border-s-border px-3.5 pb-4 pt-3">
+				<div class="border-t border-s-border px-3.5 pt-3 pb-4">
 					<div class="flex flex-col gap-4">
 						{#each section.sections as storySection, i (`${section.id}-${i}`)}
 							{#if storySection.type === 'narrative'}
-								<StoryNarrative text={storySection.text} color="#60a5fa" title={storySection.title} />
+								<StoryNarrative
+									text={storySection.text}
+									color="#60a5fa"
+									title={storySection.title}
+								/>
 							{:else if storySection.type === 'callout'}
 								<StoryCallout title={storySection.title} text={storySection.text} color="#60a5fa" />
 							{:else if storySection.type === 'diagram'}

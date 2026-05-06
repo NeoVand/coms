@@ -1,11 +1,7 @@
 <script lang="ts">
 	import { categories } from '$lib/data/categories';
 	import { getProtocolsForCategory } from '$lib/data/index';
-	import { buildGraphNodes } from '$lib/data/index';
-	import { getAppState } from '$lib/state/context';
-
-	const appState = getAppState();
-	const allNodes = buildGraphNodes();
+	import { navigateToCategory, navigateToProtocol } from '$lib/utils/navigation';
 </script>
 
 <!-- Screen-reader accessible tree structure (visually hidden) -->
@@ -23,10 +19,7 @@
 			aria-selected="false"
 			tabindex="0"
 			onkeydown={(e) => {
-				if (e.key === 'Enter') {
-					const node = allNodes.find((n) => n.id === cat.id);
-					if (node) appState.selectNode(node);
-				}
+				if (e.key === 'Enter') navigateToCategory(cat.id);
 			}}
 		>
 			<span>{cat.name}: {cat.description}</span>
@@ -38,10 +31,7 @@
 						aria-selected="false"
 						tabindex="0"
 						onkeydown={(e) => {
-							if (e.key === 'Enter') {
-								const node = allNodes.find((n) => n.id === proto.id);
-								if (node) appState.selectNode(node);
-							}
+							if (e.key === 'Enter') navigateToProtocol(proto.id);
 						}}
 					>
 						{proto.abbreviation}: {proto.oneLiner}

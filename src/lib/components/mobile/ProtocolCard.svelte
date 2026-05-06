@@ -1,20 +1,13 @@
 <script lang="ts">
 	import type { Protocol } from '$lib/data/types';
-	import { buildGraphNodes } from '$lib/data/index';
-	import { getAppState } from '$lib/state/context';
+	import { navigateToProtocol } from '$lib/utils/navigation';
 
 	let { proto, color }: { proto: Protocol; color: string } = $props();
-
-	const appState = getAppState();
-	const allNodes = buildGraphNodes();
 </script>
 
 <button
 	class="flex w-full items-start gap-3 rounded-lg border border-s-border bg-s-glass p-3 text-left transition-all hover:bg-s-glass-hover"
-	onclick={() => {
-		const node = allNodes.find((n) => n.id === proto.id);
-		if (node) appState.selectNode(node);
-	}}
+	onclick={() => navigateToProtocol(proto.id)}
 >
 	<div
 		class="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg text-[10px] font-bold"

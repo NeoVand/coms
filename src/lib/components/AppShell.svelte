@@ -1,4 +1,5 @@
 <script lang="ts">
+	import type { Snippet } from 'svelte';
 	import { onMount } from 'svelte';
 	import { dev } from '$app/environment';
 	import { prefersReducedMotion } from 'svelte/motion';
@@ -6,7 +7,10 @@
 	import { setAppState } from '$lib/state/context';
 	import { buildGraphNodes } from '$lib/data';
 	import { getJourneyById } from '$lib/data/journeys';
+	import { navigateToNode, navigateToJourney, navigateToHub } from '$lib/utils/navigation';
 	import DesktopView from './desktop/DesktopView.svelte';
+
+	let { children }: { children?: Snippet } = $props();
 
 	const appState = new AppState();
 	setAppState(appState);
@@ -28,21 +32,30 @@
 	});
 
 	onMount(() => {
-		// Dev helper: exposes window.__dev for agent/testing navigation
+		// Dev helper: exposes window.__dev for agent/testing navigation.
+		// Goes through the URL navigator so URL ↔ state stays in sync —
+		// the same code path users hit when they click a node.
 		if (dev) {
 			const allNodes = buildGraphNodes();
 			(window as any).__dev = {
 				appState,
 				nodes: allNodes,
 				/** Navigate to a protocol or category by ID, optionally open simulate tab */
-				go(id: string, view: 'learn' | 'simulate' = 'learn') {
+				async go(id: string, view: 'learn' | 'simulate' = 'learn') {
 					const node = allNodes.find((n) => n.id === id);
 					if (!node) {
-						console.warn(`[dev] No node with id "${id}". Available:`, allNodes.map((n) => n.id).join(', '));
+						console.warn(
+							`[dev] No node with id "${id}". Available:`,
+							allNodes.map((n) => n.id).join(', ')
+						);
 						return;
 					}
-					appState.selectNode(node);
+					await navigateToNode(node);
 					appState.detailViewMode = view;
+				},
+				/** Clear selection and return to the hub graph. */
+				home() {
+					return navigateToHub();
 				},
 				/** List all protocol/category IDs */
 				ls() {
@@ -52,7 +65,9 @@
 				step(n = 1) {
 					for (let i = 0; i < n; i++) {
 						setTimeout(() => {
-							const btn = document.querySelector<HTMLButtonElement>('button[aria-label="Step forward"]');
+							const btn = document.querySelector<HTMLButtonElement>(
+								'button[aria-label="Step forward"]'
+							);
 							btn?.click();
 						}, i * 200);
 					}
@@ -63,27 +78,29 @@
 				},
 				/** Scroll to a section by heading text */
 				scrollTo(text: string) {
-					const el = Array.from(document.querySelectorAll('h3, h4')).find((h) => h.textContent?.includes(text));
+					const el = Array.from(document.querySelectorAll('h3, h4')).find((h) =>
+						h.textContent?.includes(text)
+					);
 					el?.scrollIntoView({ block: 'start', behavior: 'instant' });
 				},
 				/** Start a journey by ID */
-				journey(id: string) {
+				async journey(id: string) {
 					const j = getJourneyById(id);
 					if (!j) {
 						console.warn(`[dev] No journey with id "${id}".`);
 						return;
 					}
-					appState.startJourney(j);
-					const firstStep = j.steps[0];
-					if (firstStep) {
-						const node = allNodes.find((n) => n.id === firstStep.protocolId);
-						if (node) appState.selectNode(node);
-						appState.startJourney(j);
-					}
+					await navigateToJourney(id);
 				},
-				journeyNext() { appState.advanceJourneyStep(); },
-				journeyPrev() { appState.goBackJourneyStep(); },
-				journeyExit() { appState.exitJourney(); }
+				journeyNext() {
+					appState.advanceJourneyStep();
+				},
+				journeyPrev() {
+					appState.goBackJourneyStep();
+				},
+				journeyExit() {
+					appState.exitJourney();
+				}
 			};
 		}
 
@@ -102,7 +119,7 @@
 			if (e.key === 'Escape') {
 				// If diagram modal is open, close that first (handled by DiagramModal)
 				if (appState.diagramModal || appState.storyDiagramModal || appState.storyImageModal) return;
-				appState.clearSelection();
+				navigateToHub();
 			}
 		}
 		window.addEventListener('keydown', handleKeydown);
@@ -116,4 +133,11 @@
 
 <div class="h-dvh w-screen overflow-hidden bg-bg-deep">
 	<DesktopView />
+	<!--
+	  The route page renders here. For graph-driven routes (/p/[id], /c/[id],
+	  /journey/[id]) the page renders nothing visible — it just runs an effect
+	  that syncs AppState from the URL. Future content routes (/book, /glossary,
+	  /pioneers, …) will render their own UI here.
+	-->
+	{@render children?.()}
 </div>

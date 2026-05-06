@@ -1,19 +1,10 @@
 <script lang="ts">
 	import type { HowItWorksStep } from '$lib/data/types';
-	import { getAppState } from '$lib/state/context';
-	import { buildGraphNodes } from '$lib/data/index';
 	import { parseRichText } from '$lib/utils/text-parser';
 	import ConceptTrigger from '$lib/components/detail/ConceptTrigger.svelte';
+	import { navigateToProtocol } from '$lib/utils/navigation';
 
 	let { steps, color }: { steps: HowItWorksStep[]; color: string } = $props();
-
-	const appState = getAppState();
-	const allNodes = buildGraphNodes();
-
-	function navigateToProtocol(protocolId: string) {
-		const node = allNodes.find((n) => n.id === protocolId);
-		if (node) appState.selectNode(node);
-	}
 </script>
 
 <section data-tour="how-it-works">

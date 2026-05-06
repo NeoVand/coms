@@ -1,14 +1,14 @@
 <script lang="ts">
 	import { getJourneysByScope } from '$lib/data/journeys';
-	import { getProtocolById, getCategoryById, buildGraphNodes } from '$lib/data/index';
+	import { getProtocolById, getCategoryById } from '$lib/data/index';
 	import { getAppState } from '$lib/state/context';
 	import { ChevronLeft, ChevronRight } from 'lucide-svelte';
 	import { themedDomColor } from '$lib/utils/colors';
+	import { navigateToProtocol, navigateToJourney } from '$lib/utils/navigation';
 
 	let { scope, color = '#FFFFFF' }: { scope: string; color?: string } = $props();
 
 	const appState = getAppState();
-	const allNodes = buildGraphNodes();
 
 	const journeys = $derived(getJourneysByScope(scope));
 	const journey = $derived(appState.activeJourney);
@@ -22,24 +22,16 @@
 	}
 
 	function startJourney(j: (typeof journeys)[number]) {
-		appState.startJourney(j);
-		// Navigate to the first protocol
-		const firstStep = j.steps[0];
-		if (firstStep) {
-			const node = allNodes.find((n) => n.id === firstStep.protocolId);
-			if (node) appState.selectNode(node);
-		}
+		// Navigates to /journey/[id], which the route effect uses to start
+		// the journey and select the first step's protocol.
+		navigateToJourney(j.id);
 	}
 
 	function goToStep(index: number) {
 		if (!journey) return;
 		appState.goToJourneyStep(index);
-		// Navigate to the step's protocol
 		const step = journey.steps[index];
-		if (step) {
-			const node = allNodes.find((n) => n.id === step.protocolId);
-			if (node) appState.selectNode(node);
-		}
+		if (step) navigateToProtocol(step.protocolId);
 	}
 </script>
 
@@ -63,7 +55,7 @@
 			</button>
 
 			<div class="flex items-start justify-between gap-3">
-				<div class="flex-1 min-w-0">
+				<div class="min-w-0 flex-1">
 					<h3 class="text-sm font-bold text-t-primary">{journey.title}</h3>
 					<p class="mt-0.5 text-[11px] leading-relaxed text-t-muted">
 						{journey.description}
@@ -80,7 +72,7 @@
 					>
 						<ChevronLeft size={16} />
 					</button>
-					<span class="min-w-[3ch] text-center text-[11px] tabular-nums text-t-muted">
+					<span class="min-w-[3ch] text-center text-[11px] text-t-muted tabular-nums">
 						{stepIndex + 1}/{journey.steps.length}
 					</span>
 					<button
@@ -108,10 +100,7 @@
 				{@const isLast = i === journey.steps.length - 1}
 
 				<!-- Step row -->
-				<button
-					class="group relative flex w-full gap-3 text-left"
-					onclick={() => goToStep(i)}
-				>
+				<button class="group relative flex w-full gap-3 text-left" onclick={() => goToStep(i)}>
 					<!-- Timeline track -->
 					<div class="flex w-5 shrink-0 flex-col items-center">
 						<!-- Dot -->
@@ -129,13 +118,15 @@
 						{#if !isLast}
 							<div
 								class="w-px flex-1"
-								style="background-color: {isPast ? jc(journey.color) + '40' : jc(journey.color) + '15'};"
+								style="background-color: {isPast
+									? jc(journey.color) + '40'
+									: jc(journey.color) + '15'};"
 							></div>
 						{/if}
 					</div>
 
 					<!-- Content -->
-					<div class="flex-1 min-w-0 {isLast ? 'pb-0' : 'pb-4'}">
+					<div class="min-w-0 flex-1 {isLast ? 'pb-0' : 'pb-4'}">
 						<div class="flex items-baseline gap-2">
 							<span
 								class="text-[13px] font-semibold transition-colors"

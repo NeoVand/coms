@@ -12,16 +12,20 @@
 	import { getAppState } from '$lib/state/context';
 	import { buildGraphNodes } from '$lib/data/index';
 	import { startTour } from '$lib/tour/app-tour';
+	import { navigateToHub } from '$lib/utils/navigation';
 
 	const appState = getAppState();
 	const allNodes = buildGraphNodes();
 
 	function toggleGuide() {
 		if (appState.showDetailPanel && appState.selectedNode) {
-			// Panel is open — close it
-			appState.clearSelection();
+			// Panel is open — close it (URL → /, selection clears via the
+			// root +page.svelte effect)
+			navigateToHub();
 		} else {
-			// Panel is closed — open it (select hub if nothing selected)
+			// Panel is closed — open the hub home view in place. We don't
+			// URL-sync this transient state: refreshing returns to the bare
+			// graph at /.
 			const hub = allNodes.find((n) => n.type === 'hub');
 			if (hub) appState.selectNode(hub);
 		}

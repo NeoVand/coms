@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { getAppState } from '$lib/state/context';
-	import { getProtocolById, getCategoryById, buildGraphNodes } from '$lib/data/index';
+	import { getProtocolById, getCategoryById } from '$lib/data/index';
 	import { ChevronLeft, ChevronRight } from 'lucide-svelte';
+	import { navigateToProtocol } from '$lib/utils/navigation';
 
 	const appState = getAppState();
-	const allNodes = buildGraphNodes();
 
 	const journey = $derived(appState.activeJourney);
 	const stepIndex = $derived(appState.activeJourneyStepIndex);
@@ -19,8 +19,7 @@
 		if (index < 0 || index >= journey.steps.length) return;
 		appState.goToJourneyStep(index);
 		const step = journey.steps[index];
-		const node = allNodes.find((n) => n.id === step.protocolId);
-		if (node) appState.selectNode(node);
+		navigateToProtocol(step.protocolId);
 	}
 </script>
 
@@ -32,7 +31,7 @@
 				<div class="min-w-0 flex-1">
 					<div class="flex items-baseline gap-2">
 						<h4 class="truncate text-base font-semibold text-t-primary">{journey.title}</h4>
-						<span class="shrink-0 text-xs tabular-nums text-t-muted">
+						<span class="shrink-0 text-xs text-t-muted tabular-nums">
 							{stepIndex + 1} / {journey.steps.length}
 						</span>
 					</div>
@@ -80,7 +79,7 @@
 										: `background-color: ${dotColor}30; border: 1px solid ${dotColor}50;`}
 							></span>
 							<span
-								class="pointer-events-none absolute -top-7 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-slate-900 px-1.5 py-0.5 text-[10px] text-white opacity-0 shadow-lg transition-opacity group-hover:opacity-100"
+								class="pointer-events-none absolute -top-7 left-1/2 -translate-x-1/2 rounded bg-slate-900 px-1.5 py-0.5 text-[10px] whitespace-nowrap text-white opacity-0 shadow-lg transition-opacity group-hover:opacity-100"
 							>
 								{proto?.abbreviation ?? step.protocolId}
 							</span>
@@ -103,7 +102,8 @@
 				<div class="flex items-baseline gap-2">
 					<span
 						class="rounded px-1.5 py-0.5 text-xs font-semibold"
-						style="background-color: {currentCat?.color ?? journey.color}20; color: {currentCat?.color ?? journey.color};"
+						style="background-color: {currentCat?.color ??
+							journey.color}20; color: {currentCat?.color ?? journey.color};"
 					>
 						{currentProto?.abbreviation ?? currentStep.protocolId}
 					</span>

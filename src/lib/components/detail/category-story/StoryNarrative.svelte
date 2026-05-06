@@ -1,18 +1,9 @@
 <script lang="ts">
-	import { getAppState } from '$lib/state/context';
-	import { buildGraphNodes } from '$lib/data/index';
 	import { parseParagraphs } from '$lib/utils/text-parser';
 	import ConceptTrigger from '$lib/components/detail/ConceptTrigger.svelte';
+	import { navigateToProtocol } from '$lib/utils/navigation';
 
 	let { text, color, title }: { text: string; color: string; title?: string } = $props();
-
-	const appState = getAppState();
-	const allNodes = buildGraphNodes();
-
-	function navigateToProtocol(protocolId: string) {
-		const node = allNodes.find((n) => n.id === protocolId);
-		if (node) appState.selectNode(node);
-	}
 
 	const paragraphs = $derived(parseParagraphs(text));
 </script>
