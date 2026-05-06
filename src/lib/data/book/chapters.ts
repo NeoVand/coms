@@ -9,6 +9,7 @@
 
 import type { BookPart, Chapter } from './types';
 import { foundationSections } from '../concept-foundations';
+import { storyOfTheInternet } from './parts/story-of-the-internet';
 
 /**
  * Part I — Foundations.
@@ -58,55 +59,7 @@ function stubChapters(items: { id: string; title: string; synopsis: string }[]):
 
 export const bookParts: BookPart[] = [
 	partI,
-	{
-		id: 'story-of-the-internet',
-		title: 'The Story of the Internet',
-		label: 'II',
-		description:
-			'The narrative arc from packet switching as research idea to a global commons that AI agents now talk through.',
-		chapters: stubChapters([
-			{
-				id: 'before-the-internet',
-				title: 'Before the Internet',
-				synopsis: 'Xerox PARC, ARPANET, NCP — the three streams that became one.'
-			},
-			{
-				id: 'the-1981-burst',
-				title: 'The 1981–83 Standardisation Burst',
-				synopsis: 'RFC 791/792/793, ARPANET flag day, IEEE 802.3 ratified.'
-			},
-			{
-				id: 'the-1986-collapse',
-				title: 'The 1986 Congestion Collapse',
-				synopsis: "32 kbps to 40 bps in 400 yards — and Van Jacobson's fix."
-			},
-			{
-				id: 'osi-vs-tcp-ip',
-				title: 'The OSI vs TCP/IP War',
-				synopsis: '"Rough consensus and running code" — why the IETF won.'
-			},
-			{
-				id: 'the-web-arrives',
-				title: 'The Web Is Built On Top',
-				synopsis: 'CERN, hypertext, and a NeXT cube in the corner.'
-			},
-			{
-				id: 'mobile-and-bufferbloat',
-				title: 'The Mobile and Bufferbloat Decade',
-				synopsis: '3G, 4G, Comet, smartphones, and why your home internet is laggy under load.'
-			},
-			{
-				id: 'the-quic-redesign',
-				title: 'The QUIC Redesign',
-				synopsis: 'Pulling reliable transport into user space and folding TLS into it.'
-			},
-			{
-				id: 'the-ai-agent-layer',
-				title: 'The AI Agent Layer (2024–)',
-				synopsis: 'MCP, A2A, and the first new application layer in fifteen years.'
-			}
-		])
-	},
+	storyOfTheInternet,
 	{
 		id: 'layer-2-3',
 		title: 'Layer 2–3: Foundations',
