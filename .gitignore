@@ -27,7 +27,6 @@ test-results
 # Local research tooling — not part of the shipped app
 /scripts/generate-research-prompts.ts
 /deep-research-prompts.txt
-/research/
 
 /outreach-emails.md
 
