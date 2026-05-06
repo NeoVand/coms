@@ -8,6 +8,62 @@ export const protocolMap = new Map(allProtocols.map((p) => [p.id, p]));
 
 export { categories, categoryMap };
 
+// ── Deep-dive registries (populated as content workstreams land) ────
+export {
+	outages,
+	outageMap,
+	getOutageById,
+	getOutagesForProtocol,
+	type Outage,
+	type OutageBeat,
+	type OutageActor,
+	type OutageCategory
+} from './outages';
+
+export {
+	pioneers,
+	pioneerMap,
+	getPioneerById,
+	getPioneersForProtocol,
+	type Pioneer,
+	type PioneerAward,
+	type PioneerQuote
+} from './pioneers';
+
+export {
+	frontierEntries,
+	frontierMap,
+	getFrontierById,
+	getFrontierForProtocol,
+	getFrontierByTopic,
+	type FrontierEntry,
+	type FrontierMetric,
+	type FrontierStatus,
+	type FrontierTopic
+} from './frontier';
+
+export {
+	glossaryEntries,
+	glossaryMap,
+	getGlossaryEntry,
+	getGlossaryFor,
+	type GlossaryEntry
+} from './glossary';
+
+export { rfcs, rfcMap, getRfcByNumber, getRfcsForProtocol, type Rfc, type RfcStatus } from './rfcs';
+
+export {
+	bookParts,
+	bookPartMap,
+	getBookPart,
+	getChapter,
+	listChapters,
+	type BookPart,
+	type Chapter,
+	type ChapterSlot,
+	type ProtocolFacet
+} from './book';
+
 export function buildGraphNodes(): GraphNode[] {
 	const nodes: GraphNode[] = [];
 
