@@ -19,6 +19,7 @@
 		appState.activeOutage = null;
 		appState.activeFrontier = null;
 		appState.activeRegistryIndex = null;
+		appState.activeBookToc = false;
 		appState.showDetailPanel = false;
 	});
 </script>

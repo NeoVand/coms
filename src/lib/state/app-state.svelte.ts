@@ -63,6 +63,13 @@ export class AppState {
 	 */
 	activeRegistryIndex: 'pioneers' | 'rfcs' | 'outages' | 'frontier' | null = $state(null);
 
+	/**
+	 * True when the side panel is showing the book table of contents
+	 * (`/book`). The TOC is its own surface — distinct from a chapter,
+	 * which is one entry within the TOC.
+	 */
+	activeBookToc: boolean = $state(false);
+
 	// Diagram modal state (rendered at root level to escape stacking contexts)
 	diagramModal: { protocolId: string; color: string } | null = $state(null);
 
@@ -201,6 +208,7 @@ export class AppState {
 		this.activeOutage = null;
 		this.activeFrontier = null;
 		this.activeRegistryIndex = null;
+		this.activeBookToc = false;
 	};
 
 	hoverNode = (node: GraphNode | null) => {

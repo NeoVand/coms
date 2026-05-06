@@ -24,11 +24,13 @@
 	import RfcsIndex from './registry-index/RfcsIndex.svelte';
 	import OutagesIndex from './registry-index/OutagesIndex.svelte';
 	import FrontierIndex from './registry-index/FrontierIndex.svelte';
+	import BookTocView from './BookTocView.svelte';
 	import {
 		navigateToPioneersIndex,
 		navigateToRfcsIndex,
 		navigateToOutagesIndex,
-		navigateToFrontierIndex
+		navigateToFrontierIndex,
+		navigateToBookToc
 	} from '$lib/utils/navigation';
 	import { Users, FileText, AlertTriangle, Compass as CompassIcon } from 'lucide-svelte';
 
@@ -112,6 +114,7 @@
 		const _outage = appState.activeOutage;
 		const _frontier = appState.activeFrontier;
 		const _idx = appState.activeRegistryIndex;
+		const _toc = appState.activeBookToc;
 		void _id;
 		void _view;
 		void _chapter;
@@ -120,6 +123,7 @@
 		void _outage;
 		void _frontier;
 		void _idx;
+		void _toc;
 		if (scrollerEl) scrollerEl.scrollTop = 0;
 	});
 
@@ -256,6 +260,8 @@
 			<div class="p-6"><OutagesIndex /></div>
 		{:else if appState.activeRegistryIndex === 'frontier'}
 			<div class="p-6"><FrontierIndex /></div>
+		{:else if appState.activeBookToc}
+			<div class="p-6"><BookTocView /></div>
 		{:else if selectedData?.type === 'hub'}
 			{@const simCount = allProtocols.filter((p) => hasSimulation(p.id)).length}
 			<!-- Hub hero (always visible) -->
@@ -322,6 +328,13 @@
 								</button>
 							{/each}
 						</div>
+						<button
+							class="group mt-3 flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-s-border px-3 py-2.5 text-xs font-medium text-t-secondary transition-all hover:border-s-border hover:bg-s-glass hover:text-t-primary"
+							onclick={() => navigateToBookToc()}
+						>
+							View the full book — 12 parts, {foundationSections.length} chapters live
+							<span class="transition-transform group-hover:translate-x-0.5">→</span>
+						</button>
 					</section>
 
 					<!-- Browse the Lab — registry indexes -->

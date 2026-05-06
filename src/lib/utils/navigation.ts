@@ -69,6 +69,11 @@ export function navigateToBookChapter(chapterId: string, opts: NavOptions = {}) 
 	return go(`/book/foundations/${chapterId}`, opts);
 }
 
+/** The book's table of contents — twelve parts, each part's chapter list. */
+export function navigateToBookToc(opts: NavOptions = {}) {
+	return go('/book', opts);
+}
+
 /** A pioneer bio page — the architects of the field. */
 export function navigateToPioneer(id: string, opts: NavOptions = {}) {
 	return go(`/pioneer/${id}`, opts);
