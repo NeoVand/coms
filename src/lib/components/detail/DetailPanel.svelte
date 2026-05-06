@@ -319,53 +319,13 @@
 
 			{#if appState.hubViewMode === 'home'}
 				<div class="flex flex-col gap-6 p-6">
-					<!-- Hero: the book pitch + start-reading CTA -->
-					<section class="overflow-hidden rounded-xl border border-s-border bg-gradient-to-br from-s-glass to-s-glass/40 p-4">
-						<div class="flex items-start gap-3">
-							<span
-								class="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg"
-								style="background-color: rgba(96, 165, 250, 0.2); color: #60a5fa;"
-							>
-								<BookOpen size={18} />
-							</span>
-							<div class="min-w-0 flex-1">
-								<h2 class="text-sm font-semibold text-t-primary">The Book of Protocols</h2>
-								<p class="mt-1 text-xs leading-relaxed text-t-secondary">
-									A twelve-part book teaching network engineering through protocols, stories,
-									pioneers, and famous outages. {totalChapters} chapters, {totalParts} parts,
-									end-to-end readable — or jump in anywhere.
-								</p>
-							</div>
-						</div>
-						<div class="mt-3 flex flex-col gap-2 sm:flex-row">
-							<button
-								class="group flex flex-1 items-center justify-between gap-2 rounded-lg px-3 py-2.5 text-left text-xs font-medium transition-all hover:opacity-90"
-								style="background-color: #60a5fa; color: #0b1220;"
-								onclick={() => navigateToBookChapter('foundations', 'what-is-a-protocol')}
-							>
-								<span class="flex items-center gap-1.5">
-									<span class="rounded bg-black/15 px-1.5 py-0.5 font-mono text-[10px] tabular-nums">01</span>
-									<span>Start reading — What Is a Protocol?</span>
-								</span>
-								<span class="transition-transform group-hover:translate-x-0.5">→</span>
-							</button>
-							<button
-								class="group flex items-center justify-center gap-1.5 rounded-lg border border-s-border px-3 py-2.5 text-xs font-medium text-t-secondary transition-all hover:bg-s-glass hover:text-t-primary"
-								onclick={() => navigateToBookToc()}
-							>
-								Full table of contents
-								<span class="transition-transform group-hover:translate-x-0.5">→</span>
-							</button>
-						</div>
-					</section>
-
 					<!-- Condensed 12-part TOC — one card per part with accent color -->
 					<section>
 						<div class="mb-3 flex items-baseline justify-between gap-3">
 							<h3 class="text-xs font-semibold tracking-wider text-t-muted uppercase">
 								The book — twelve parts
 							</h3>
-							<span class="text-[10px] text-t-muted">jump in anywhere</span>
+							<span class="text-[10px] text-t-muted">{totalChapters} chapters · jump in anywhere</span>
 						</div>
 						<div class="space-y-1.5">
 							{#each bookParts as part (part.id)}

@@ -68,25 +68,6 @@
 		</p>
 	</header>
 
-	<!-- Jump bar — quick navigation across the 12 parts. The horizontal
-		scroll keeps it usable on mobile and on the narrow side panel. -->
-	<nav
-		class="-mx-1 flex flex-wrap gap-1.5 border-b border-s-border pb-3"
-		aria-label="Jump to part"
-	>
-		{#each bookParts as part (part.id)}
-			{@const accent = partAccent(part.id)}
-			<a
-				href="#part-{part.id}"
-				class="rounded-md border border-s-border px-2 py-1 font-mono text-[10px] font-bold tracking-wider uppercase transition-all hover:bg-s-glass-hover"
-				style="color: {accent}; border-color: {accent}40;"
-				title={part.title}
-			>
-				{part.label ?? '?'} · {part.title}
-			</a>
-		{/each}
-	</nav>
-
 	{#each bookParts as part (part.id)}
 		{@const accent = partAccent(part.id)}
 		<section id="part-{part.id}" class="scroll-mt-4">
