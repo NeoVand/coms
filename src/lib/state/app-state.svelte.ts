@@ -31,6 +31,13 @@ export class AppState {
 	 */
 	activeBookChapter: string | null = $state(null);
 
+	/**
+	 * Currently-open pioneer bio (id of an entry in pioneers.ts). When set,
+	 * the side panel renders PioneerView. URL is `/pioneer/[id]`. Cleared
+	 * whenever a graph node, chapter, or other entity is selected.
+	 */
+	activePioneer: string | null = $state(null);
+
 	// Diagram modal state (rendered at root level to escape stacking contexts)
 	diagramModal: { protocolId: string; color: string } | null = $state(null);
 
@@ -162,8 +169,9 @@ export class AppState {
 		this.hoveredNode = null;
 		this.hubViewMode = 'home';
 		this.categoryViewMode = 'story';
-		// Selecting a graph node ends any active chapter reading session.
+		// Selecting a graph node ends any active chapter or bio session.
 		this.activeBookChapter = null;
+		this.activePioneer = null;
 	};
 
 	hoverNode = (node: GraphNode | null) => {
