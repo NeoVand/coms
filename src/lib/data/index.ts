@@ -1,20 +1,8 @@
 import type { GraphNode, GraphEdge, Protocol, Category } from './types';
 import { categories, categoryMap } from './categories';
-import { transportProtocols } from './protocols/transport';
-import { webApiProtocols } from './protocols/web-api';
-import { asyncIotProtocols } from './protocols/async-iot';
-import { realtimeAvProtocols } from './protocols/realtime-av';
-import { utilitiesProtocols } from './protocols/utilities-security';
-import { networkFoundationsProtocols } from './protocols/network-foundations';
+import { allProtocols } from './protocols';
 
-export const allProtocols: Protocol[] = [
-	...networkFoundationsProtocols,
-	...transportProtocols,
-	...webApiProtocols,
-	...asyncIotProtocols,
-	...realtimeAvProtocols,
-	...utilitiesProtocols
-];
+export { allProtocols };
 
 export const protocolMap = new Map(allProtocols.map((p) => [p.id, p]));
 
