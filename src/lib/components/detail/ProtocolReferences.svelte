@@ -3,13 +3,15 @@
 	import { getRfcsForProtocol } from '$lib/data/rfcs';
 	import { getOutagesForProtocol } from '$lib/data/outages';
 	import { getFrontierForProtocol } from '$lib/data/frontier';
+	import { listChapters } from '$lib/data/book/chapters';
 	import {
 		navigateToPioneer,
 		navigateToRfc,
 		navigateToOutage,
-		navigateToFrontier
+		navigateToFrontier,
+		navigateToBookChapter
 	} from '$lib/utils/navigation';
-	import { Users, FileText, AlertTriangle, Compass } from 'lucide-svelte';
+	import { Users, FileText, AlertTriangle, Compass, BookOpen } from 'lucide-svelte';
 
 	interface Props {
 		protocolId: string;
@@ -24,13 +26,80 @@
 	const outages = $derived(getOutagesForProtocol(protocolId));
 	const frontier = $derived(getFrontierForProtocol(protocolId));
 
+	/**
+	 * Chapters that anchor on this protocol — surfaces the book reading
+	 * surface on every protocol page so the two parts of the app feel
+	 * bidirectionally linked. Match: chapter has any slot kind that names
+	 * this protocolId.
+	 */
+	const chapters = $derived.by(() => {
+		const out: { partId: string; partTitle: string; partLabel: string; chapterId: string; chapterTitle: string; synopsis?: string }[] = [];
+		for (const { part, chapter } of listChapters()) {
+			let mentions = false;
+			for (const slot of chapter.slots) {
+				if (slot.kind === 'protocol' && slot.id === protocolId) mentions = true;
+				if (slot.kind === 'simulation' && slot.protocolId === protocolId) mentions = true;
+				if (slot.kind === 'comparison' && (slot.pairIds[0] === protocolId || slot.pairIds[1] === protocolId)) mentions = true;
+			}
+			if (mentions) {
+				out.push({
+					partId: part.id,
+					partTitle: part.title,
+					partLabel: part.label ?? '',
+					chapterId: chapter.id,
+					chapterTitle: chapter.title,
+					synopsis: chapter.synopsis
+				});
+			}
+		}
+		return out;
+	});
+
 	const hasAnything = $derived(
-		pioneers.length > 0 || rfcs.length > 0 || outages.length > 0 || frontier.length > 0
+		pioneers.length > 0 ||
+			rfcs.length > 0 ||
+			outages.length > 0 ||
+			frontier.length > 0 ||
+			chapters.length > 0
 	);
 </script>
 
 {#if hasAnything}
 	<div class="flex flex-col gap-5">
+		{#if chapters.length > 0}
+			<section>
+				<h3
+					class="mb-2 flex items-center gap-1.5 text-xs font-semibold tracking-wider text-t-muted uppercase"
+				>
+					<BookOpen size={11} style="color: {color};" />
+					In the Book
+				</h3>
+				<div class="flex flex-col gap-1.5">
+					{#each chapters as c (`${c.partId}-${c.chapterId}`)}
+						<button
+							class="group flex items-baseline gap-3 rounded-lg border border-s-border bg-s-glass px-3 py-2 text-left transition-all hover:bg-s-glass-hover"
+							onclick={() => navigateToBookChapter(c.partId, c.chapterId)}
+						>
+							<span class="shrink-0 font-mono text-[10px] tabular-nums" style="color: {color};"
+								>PART {c.partLabel}</span
+							>
+							<div class="min-w-0 flex-1">
+								<div class="text-xs font-medium text-t-primary">{c.chapterTitle}</div>
+								{#if c.synopsis}
+									<div class="mt-0.5 text-[11px] leading-relaxed text-t-secondary">
+										{c.synopsis}
+									</div>
+								{/if}
+							</div>
+							<span
+								class="shrink-0 text-t-muted transition-transform group-hover:translate-x-0.5"
+								aria-hidden="true">→</span
+							>
+						</button>
+					{/each}
+				</div>
+			</section>
+		{/if}
 		{#if pioneers.length > 0}
 			<section>
 				<h3
