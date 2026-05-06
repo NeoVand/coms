@@ -43,28 +43,107 @@ Protocols are defined in public documents called RFCs (Requests for Comments). A
 		sections: [
 			{
 				type: 'narrative',
-				title: 'Why Layers Exist',
-				text: `The {{osi-model|OSI model}} divides networking into 7 layers, while the {{tcp-ip-model|TCP/IP model}} uses 4. Both exist to separate concerns — each layer handles one job and doesn't worry about the others.
+				title: 'The Problem Layers Solve',
+				text: `In late 1972, Bob Kahn at DARPA was sketching a problem nobody had solved: how do you let a computer on the ARPANET talk to one on a packet-radio network, or a satellite link, when those networks know nothing about each other? He brought in [[pioneer:vint-cerf|Vint Cerf]] at Stanford, and in May 1974 they published "A Protocol for Packet Network Intercommunication" in IEEE Transactions on Communications — the paper that coined the word "internet" and described a single, monolithic protocol they called TCP that did everything: routing hints, sequencing, flow control, reliability.
 
-Layer 1 (Physical) moves raw bits over cables or radio. Layer 2 (Data Link) handles local delivery using {{mac-address|MAC addresses}} — this is where [[ethernet|Ethernet]] and [[wifi|Wi-Fi]] operate. Layer 3 (Network) routes {{packet|packets}} across networks using {{ip-address|IP addresses}} — the domain of [[ip|IPv4]] and [[ipv6|IPv6]]. Layer 4 (Transport) provides end-to-end communication — [[tcp|TCP]] for reliability, [[udp|UDP]] for speed. Layers 5-7 (Session, Presentation, Application) handle everything above — [[tls|TLS]] encryption, [[http1|HTTP]] requests, and the apps you interact with.
+By 1978, repeated implementation work at Stanford, BBN, and University College London revealed the flaw. Some applications — packet voice, in particular — needed **speed** more than **reliability**. Forcing every application through the same reliable byte-stream was wrong. [[pioneer:jon-postel|Jon Postel]] and David Reed argued for splitting the monolith: a thin internetworking layer (IP) underneath, and an end-to-end transport layer above it. That single architectural decision is the reason [[udp|UDP]], [[icmp|ICMP]], and decades later [[quic|QUIC]] could exist without renegotiating with every router on the planet.
 
-In practice, the 4-layer TCP/IP model is what the internet actually uses: Link (Layers 1-2), Internet (Layer 3), Transport (Layer 4), and Application (Layers 5-7). The OSI model is a teaching tool; TCP/IP is the implementation.`
+The deeper principle is older than networking: separate what changes together from what doesn't. The wire (copper, fibre, radio) changes every decade. The routing algorithm changes every few years. The web changes every Tuesday. Layered protocols let each move on its own clock — and let an engineer reason about one layer without holding the other six in their head.`
 			},
 			{
 				type: 'diagram',
-				title: 'OSI vs TCP/IP',
+				title: 'What Each Layer Adds — A Single Web Request',
 				definition: `graph TD
-  O7["7 — Application"] --> O6["6 — Presentation"] --> O5["5 — Session"] --> O4["4 — Transport"] --> O3["3 — Network"] --> O2["2 — Data Link"] --> O1["1 — Physical"]
-  T4["Application ≈ 5-7"] -.->|maps to| O7
-  T3["Transport ≈ 4"] -.->|maps to| O4
-  T2["Internet ≈ 3"] -.->|maps to| O3
-  T1["Link ≈ 1-2"] -.->|maps to| O2`,
-				caption: 'Left: the 7-layer OSI reference model. Right: the 4-layer TCP/IP model that the internet actually uses, with dotted lines showing how they map.'
+  APP["<b>L7 Application</b><br/>HTTP — GET /index.html"]
+  TLS["<b>L5-7 Security</b><br/>TLS — wraps + encrypts"]
+  TCP["<b>L4 Transport</b><br/>TCP — adds ports, seq #, ACKs"]
+  IP["<b>L3 Internet</b><br/>IP — adds src/dst addresses, TTL"]
+  ETH["<b>L2 Data Link</b><br/>Ethernet — adds src/dst MAC, FCS"]
+  PHY["<b>L1 Physical</b><br/>Bits on copper / fibre / radio"]
+
+  APP -->|"each layer wraps the one above"| TLS
+  TLS --> TCP
+  TCP --> IP
+  IP --> ETH
+  ETH --> PHY`,
+				caption:
+					'Going down the stack, each layer wraps the previous payload with its own header — encapsulation. Going up, each layer strips its header and hands the rest to the next. This is why the same HTTP request rides unchanged across Wi-Fi at home, Ethernet in the office, and a satellite link to a server in Iowa.'
+			},
+			{
+				type: 'narrative',
+				title: 'The Seven Layers, Honestly',
+				text: `**L1 — Physical.** Volts on a wire, photons in a fibre, modulated radio. Specified by IEEE 802.3 (Ethernet PHYs), 802.11 (Wi-Fi), DOCSIS, fibre-optic standards, and the radio rules from the ITU. If your problem is "the cable is unplugged," it's L1.
+
+**L2 — Data Link.** Frames addressed by 48-bit {{mac-address|MAC addresses}}. Reaches one hop on a single segment. [[ethernet|Ethernet]] (RFC-less; IEEE 802.3) and [[wifi|Wi-Fi]] (802.11) live here, alongside [[arp|ARP]], the spanning tree protocol, and VLAN tags. Switches operate at L2.
+
+**L3 — Network.** [[ip|IP]] addresses, hop-by-hop forwarding, longest-prefix-match routing. [[ipv6|IPv6]], [[icmp|ICMP]], [[bgp|BGP]] for inter-domain routing. Routers operate at L3 — they decrement TTL and forward across networks.
+
+**L4 — Transport.** End-to-end semantics. [[tcp|TCP]] (reliable, ordered byte stream), [[udp|UDP]] (fire-and-forget datagrams), SCTP (multi-streamed), [[mptcp|MPTCP]] (multi-path), and now [[quic|QUIC]] which folds in encryption. The first layer with a **port** — the demux that picks which application gets the bytes.
+
+**L5–7 — Session, Presentation, Application.** OSI's three top layers. In practice the line between them is a fiction: [[http1|HTTP]] does session, presentation, and application at once. [[tls|TLS]] is "kind of L5/6" but on [[quic|QUIC]] it's fused into L4. [[smtp|SMTP]], [[dns|DNS]], [[ssh|SSH]], [[websockets|WebSockets]], [[grpc|gRPC]], [[mcp|MCP]] — everything an engineer touches sits up here.
+
+The IETF stack pragmatically collapses 5–7 into one Application layer. That's the four-layer TCP/IP model: Link, Internet, Transport, Application. It maps to OSI but doesn't pretend the upper three are usefully distinct.`
+			},
+			{
+				type: 'diagram',
+				title: 'OSI vs TCP/IP — Side by Side',
+				definition: `graph TD
+  subgraph OSI["OSI — 7 layers (1984, ISO 7498)"]
+    direction TB
+    O7["L7 Application"] --- O6["L6 Presentation"]
+    O6 --- O5["L5 Session"]
+    O5 --- O4["L4 Transport"]
+    O4 --- O3["L3 Network"]
+    O3 --- O2["L2 Data Link"]
+    O2 --- O1["L1 Physical"]
+  end
+  subgraph TCPIP["TCP/IP — 4 layers (RFC 1122, 1989)"]
+    direction TB
+    T4["Application — HTTP, DNS, SSH, TLS"] --- T3["Transport — TCP, UDP, QUIC"]
+    T3 --- T2["Internet — IP, ICMP, BGP"]
+    T2 --- T1["Link — Ethernet, Wi-Fi, ARP"]
+  end
+  O7 -.->|maps| T4
+  O6 -.->|maps| T4
+  O5 -.->|maps| T4
+  O4 -.->|maps| T3
+  O3 -.->|maps| T2
+  O2 -.->|maps| T1
+  O1 -.->|maps| T1`,
+				caption:
+					'OSI is a teaching tool with seven crisp boxes. TCP/IP is what the internet actually runs and collapses the three top boxes into one practical "Application" layer. Both end at the wire — only the bookkeeping above differs.'
+			},
+			{
+				type: 'narrative',
+				title: 'How TCP/IP Won the Standards War',
+				text: `Through the 1980s the official future of networking was OSI. ISO and the ITU promoted the seven-layer suite — TP4 transport, CLNP networking — with full institutional backing: European PTTs, the U.S. government's GOSIP mandate, the prestige of a global standards body. TCP/IP was, in those rooms, considered a research project that would be replaced.
+
+It was not. By July 1992, when [[pioneer:david-clark|David D. Clark]] gave his "A Cloudy Crystal Ball" plenary at the 24th IETF meeting in Cambridge, MA, he could distill the IETF's working culture into the sentence that decided the question: **"We reject: kings, presidents and voting. We believe in: rough consensus and running code."** OSI shipped specifications. The IETF shipped code. Code won.
+
+The win was never about elegance — OSI's seven layers are arguably cleaner. It was about deployment economics. By 1992, TCP/IP was already running on every Unix box in every university, every BSD-derived workstation, every router on the NSFNET backbone. Switching to OSI would have required a coordinated global flag day. The internet had quietly become too big to migrate.`
 			},
 			{
 				type: 'callout',
-				title: 'Layers Are a Mental Model',
-				text: 'The layer model is a way to think about networking, not a physical boundary. Real protocols sometimes span multiple layers (QUIC combines transport + encryption), and the lines between layers can blur. But the mental model remains invaluable for understanding how the pieces fit together.'
+				title: 'Rough Consensus and Running Code',
+				text: 'David Clark\'s 1992 IETF quote is the closest thing the internet community has to a national anthem. It says: standards are documents about behavior we have already shipped, not theories we hope someone will adopt. It is the reason new protocols appear as Internet Drafts with reference implementations, not as ISO documents. And it is why — even in 2026 — every protocol in this lab traces back to a draft someone could install and run.'
+			},
+			{
+				type: 'narrative',
+				title: 'Where the Layers Blur',
+				text: `Real protocols don't always respect the model:
+
+- [[quic|QUIC]] runs on [[udp|UDP]] (L4) but implements its own reliability + congestion control + multiplexing in user space, and folds [[tls|TLS]] 1.3 directly into the handshake. Is QUIC L4 or L4+L5+L6? Both, honestly.
+- MPLS sits between L2 and L3 — a 4-byte shim header that drives label-swap forwarding underneath IP. The community calls it "Layer 2.5" because no other label fits.
+- [[icmp|ICMP]] is "Layer 3" but it doesn't carry application data; it carries control messages **about** L3.
+- Network Address Translation (NAT) rewrites L3 source addresses **and** L4 source ports together — breaking the strict layer separation in exchange for IPv4 address conservation.
+- Encrypted Client Hello (RFC 9849) hides the L7 SNI inside an L5/6 TLS extension so middleboxes can't see the destination domain.
+
+The model is a **map**, not the territory. The map is invaluable: it lets you reason about responsibilities, predict failures, and design new protocols. But every model has its edge cases, and every edge case is where the most interesting engineering happens.`
+			},
+			{
+				type: 'callout',
+				title: 'A Layer Is Defined by What It Replaces',
+				text: 'When you read "X is a Layer 4 protocol," what that really means is: X provides services to whatever is above it (Layer 5+) and consumes services from whatever is below it (Layer 3). Swap out the layer underneath — IP for IPv6, Ethernet for Wi-Fi, fibre for radio — and X keeps working. That replaceability **is** the layer. Anything tightly coupled to its substrate isn\'t really layered.'
 			}
 		]
 	},
