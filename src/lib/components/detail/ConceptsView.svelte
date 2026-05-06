@@ -4,12 +4,33 @@
 	import StoryCallout from './category-story/StoryCallout.svelte';
 	import StoryDiagram from './category-story/StoryDiagram.svelte';
 	import { navigateToCategory } from '$lib/utils/navigation';
+	import { getAppState } from '$lib/state/context';
+
+	const appState = getAppState();
 
 	let expandedId: string | null = $state(null);
+
+	let sectionEls: Record<string, HTMLDivElement | undefined> = $state({});
 
 	function toggle(id: string) {
 		expandedId = expandedId === id ? null : id;
 	}
+
+	/**
+	 * If the Home tab requested a specific section (clicking a chapter
+	 * card), expand it, scroll the panel to it, and clear the request.
+	 */
+	$effect(() => {
+		const requested = appState.requestedConceptSection;
+		if (!requested) return;
+		expandedId = requested;
+		// Scroll the side panel to the section once it's rendered.
+		queueMicrotask(() => {
+			const el = sectionEls[requested];
+			if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+			appState.requestedConceptSection = null;
+		});
+	});
 
 	function goToFoundations() {
 		navigateToCategory('network-foundations');
@@ -32,6 +53,7 @@
 	<!-- Concept sections accordion -->
 	{#each foundationSections as section (section.id)}
 		<div
+			bind:this={sectionEls[section.id]}
 			class="rounded-xl border border-s-border bg-s-glass transition-colors hover:border-s-border"
 		>
 			<button

@@ -23,6 +23,14 @@ export class AppState {
 	hubViewMode: 'home' | 'concepts' | 'journeys' = $state('home');
 	categoryViewMode: 'story' | 'advanced' | 'journeys' = $state('story');
 
+	/**
+	 * Transient: when set, the Concepts tab will auto-expand and scroll
+	 * to the named foundation section, then clear the request. Lets the
+	 * Home tab's chapter cards drop the user directly into a chapter
+	 * without forcing them to find it in the accordion.
+	 */
+	requestedConceptSection: string | null = $state(null);
+
 	// Diagram modal state (rendered at root level to escape stacking contexts)
 	diagramModal: { protocolId: string; color: string } | null = $state(null);
 

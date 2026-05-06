@@ -8,6 +8,31 @@
 	} from '$lib/data/index';
 	import { categories } from '$lib/data/categories';
 	import { navigateToProtocol, navigateToCategory, navigateToHub } from '$lib/utils/navigation';
+	import { foundationSections } from '$lib/data/concept-foundations';
+
+	/**
+	 * Hand-written teasers for the Foundation chapter cards on the Home
+	 * tab. Each gives the reader a one-line reason to click in. Order
+	 * matches `foundationSections` so we can zip them together.
+	 */
+	const FOUNDATION_TEASERS: Record<string, string> = {
+		'what-is-a-protocol':
+			'What a protocol is, and why every machine on the planet agrees to follow them.',
+		'layer-model':
+			'Seven layers, the standards war that decided their fate, and where the layers blur.',
+		addressing: 'How a packet finds your laptop — hostnames, IPs, MACs, and ports.',
+		packets: 'Encapsulation in pictures — frames inside packets inside segments.',
+		'ports-sockets': 'How one machine runs a hundred services without confusing them.',
+		'reliability-speed': 'The defining tradeoff: TCP vs UDP, and why QUIC tries to have both.',
+		'client-server-p2p': 'Two communication patterns and what each makes easy or hard.',
+		'encryption-basics': "What HTTPS actually protects — and what it doesn't.",
+		'ai-protocols': 'MCP and A2A — the new layer of protocols designed for AI agents.'
+	};
+
+	function openChapter(sectionId: string) {
+		appState.hubViewMode = 'concepts';
+		appState.requestedConceptSection = sectionId;
+	}
 	import ProtocolHeader from './ProtocolHeader.svelte';
 	import ProtocolDiagram from './ProtocolDiagram.svelte';
 	import HowItWorksSteps from './HowItWorksSteps.svelte';
@@ -174,12 +199,14 @@
 			{@const simCount = allProtocols.filter((p) => hasSimulation(p.id)).length}
 			<!-- Hub hero (always visible) -->
 			<div class="p-6 pb-3">
-				<h2 class="text-2xl font-bold tracking-tight text-t-primary">Protocol Lab</h2>
+				<h2 class="text-2xl font-bold tracking-tight text-t-primary">The Book of Protocols</h2>
 				<p class="mt-2 text-sm leading-relaxed text-t-primary">
 					An interactive atlas of <span class="font-semibold text-t-primary"
 						>{allProtocols.length} network protocols</span
 					>
-					— from the foundational TCP handshake to modern QUIC streams.
+					— from Bob Metcalfe's 1973 napkin sketch of Ethernet to the post-quantum TLS handshakes
+					of 2026. Read it as a book, click around as a graph, or run any protocol as a live
+					simulation.
 				</p>
 			</div>
 
@@ -198,96 +225,55 @@
 			</div>
 
 			{#if appState.hubViewMode === 'home'}
-				{@const isLight = appState.theme === 'light'}
-				{@const featureCards = [
-					{
-						title: `${simCount} Interactive Simulations`,
-						desc: 'Step through real protocol exchanges — watch TCP three-way handshakes, DNS resolution, TLS negotiations, and more unfold message by message with play, pause, and step controls.',
-						fill: true,
-						d: 'M8 5v14l11-7z',
-						color: isLight ? '#0e7490' : '#22d3ee'
-					},
-					{
-						title: 'Diagrams, Code & Wire Formats',
-						desc: 'Every protocol comes with sequence diagrams, working code in multiple languages, and "On the Wire" views showing actual packet structure and byte layouts.',
-						fill: false,
-						d: 'M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4',
-						color: isLight ? '#7c3aed' : '#c084fc'
-					},
-					{
-						title: 'Three Graph Views',
-						desc: 'Switch between Force (physics-based clustering), Radial (concentric rings), and Timeline (chronological from 1969 to today) using the layout picker at the bottom left.',
-						fill: false,
-						d: '',
-						color: isLight ? '#047857' : '#34d399'
-					},
-					{
-						title: 'Stories Behind the Protocols',
-						desc: 'Each category tells the full history — the pioneers who invented TCP/IP, the design battles between reliability and speed, timelines, portraits, and conceptual diagrams.',
-						fill: false,
-						d: 'M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253',
-						color: isLight ? '#b45309' : '#fbbf24'
-					},
-					{
-						title: 'Protocol Comparisons',
-						desc: 'Compare protocols side by side — see key differences, when to use each, and how they relate. Switch to the Compare tab on any protocol to explore.',
-						fill: false,
-						d: 'M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4',
-						color: isLight ? '#be185d' : '#fb7185'
-					}
-				]}
 				<div class="flex flex-col gap-6 p-6">
-					<!-- Feature showcase -->
-					<section class="space-y-2">
-						{#each featureCards as card, ci (ci)}
-							<div
-								class="rounded-xl border p-3"
-								style="border-color: {card.color}15; background-color: {card.color}08;"
-							>
-								<div class="flex items-start gap-3">
+					<!-- Begin reading — Foundations -->
+					<section>
+						<div class="mb-3 flex items-baseline justify-between gap-3">
+							<h3 class="text-xs font-semibold tracking-wider text-t-muted uppercase">
+								Begin reading — Part I
+							</h3>
+							<span class="text-[10px] text-t-muted">{foundationSections.length} chapters</span>
+						</div>
+						<p class="mb-3 text-xs leading-relaxed text-t-secondary">
+							The foundations every networking conversation builds on. Each chapter is a
+							self-contained read with diagrams, history, and the protocols that bring it to
+							life.
+						</p>
+						<div class="space-y-2">
+							{#each foundationSections as section, i (section.id)}
+								<button
+									class="group flex w-full items-start gap-3 rounded-xl border border-s-border bg-s-glass p-3 text-left transition-all hover:border-s-border hover:bg-s-glass-hover"
+									onclick={() => openChapter(section.id)}
+								>
 									<span
-										class="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg"
-										style="background-color: {card.color}15; color: {card.color};"
+										class="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-s-glass text-[11px] font-bold text-t-secondary transition-colors group-hover:text-t-primary"
 									>
-										{#if ci === 0}
-											<svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24"
-												><path d="M8 5v14l11-7z" /></svg
-											>
-										{:else if ci === 2}
-											<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-												<circle cx="12" cy="5" r="2" stroke-width="2" /><circle
-													cx="5"
-													cy="19"
-													r="2"
-													stroke-width="2"
-												/><circle cx="19" cy="19" r="2" stroke-width="2" />
-												<path stroke-width="2" d="M12 7v4M10 13l-3 4M14 13l3 4" />
-											</svg>
-										{:else}
-											<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-												<path
-													stroke-linecap="round"
-													stroke-linejoin="round"
-													stroke-width="2"
-													d={card.d}
-												/>
-											</svg>
-										{/if}
+										{i + 1}
 									</span>
-									<div>
-										<div class="text-sm font-medium text-t-primary">{card.title}</div>
-										<p class="mt-0.5 text-xs text-t-secondary">{card.desc}</p>
+									<div class="min-w-0 flex-1">
+										<div class="text-sm font-medium text-t-primary">{section.title}</div>
+										<p class="mt-0.5 text-xs leading-relaxed text-t-secondary">
+											{FOUNDATION_TEASERS[section.id] ?? ''}
+										</p>
 									</div>
-								</div>
-							</div>
-						{/each}
+									<span
+										class="mt-1 text-t-muted transition-transform group-hover:translate-x-0.5 group-hover:text-t-secondary"
+										aria-hidden="true">→</span
+									>
+								</button>
+							{/each}
+						</div>
 					</section>
 
 					<!-- Categories -->
 					<section>
 						<h3 class="mb-3 text-xs font-semibold tracking-wider text-t-muted uppercase">
-							Explore by Category
+							Browse by category
 						</h3>
+						<p class="mb-3 text-xs leading-relaxed text-t-secondary">
+							Each category is its own slice of the stack — the foundations underneath, the
+							pioneers behind it, and the protocols that compete for the same job.
+						</p>
 						<div class="space-y-2">
 							{#each categories as cat (cat.id)}
 								{@const count = allProtocols.filter((p) => p.categoryId === cat.id).length}
@@ -313,65 +299,23 @@
 						</div>
 					</section>
 
-					<!-- Quick start -->
-					<section>
-						<h3 class="mb-3 text-xs font-semibold tracking-wider text-t-muted uppercase">
-							Quick Start
-						</h3>
-						<div class="space-y-2 text-xs text-t-secondary">
-							<div class="flex items-start gap-2">
-								<span class="mt-px text-t-muted">&rsaquo;</span>
-								<p>
-									<span class="text-t-primary">Click any node</span> to open its deep-dive — overview,
-									sequence diagram, how-it-works steps, code examples, and performance data.
-								</p>
-							</div>
-							<div class="flex items-start gap-2">
-								<span class="mt-px text-t-muted">&rsaquo;</span>
-								<p>
-									<span class="text-t-primary">Switch to Simulate</span> on any protocol to watch its
-									exchange play out step by step.
-								</p>
-							</div>
-							<div class="flex items-start gap-2">
-								<span class="mt-px text-t-muted">&rsaquo;</span>
-								<p>
-									<span class="text-t-primary">Use Compare</span> to see side-by-side differences between
-									protocols — like TCP vs UDP, or how TLS works with HTTP.
-								</p>
-							</div>
-							<div class="flex items-start gap-2">
-								<span class="mt-px text-t-muted">&rsaquo;</span>
-								<p>
-									<span class="text-t-primary">Click a category</span> to read its history, meet the pioneers,
-									and explore conceptual diagrams.
-								</p>
-							</div>
-							<div class="flex items-start gap-2">
-								<span class="mt-px text-t-muted">&rsaquo;</span>
-								<p>
-									<span class="text-t-primary">Scroll to zoom</span>, drag to pan, and hover for
-									quick summaries. Related protocols stay highlighted.
-								</p>
-							</div>
+					<!-- Compact stats footer -->
+					<section
+						class="flex items-center justify-between rounded-lg border border-s-border bg-s-glass px-4 py-2.5"
+					>
+						<div class="flex items-baseline gap-1.5">
+							<span class="text-sm font-bold text-t-primary">{allProtocols.length}</span>
+							<span class="text-[10px] text-t-muted">protocols</span>
 						</div>
-					</section>
-
-					<!-- Stats -->
-					<section>
-						<div class="grid grid-cols-3 gap-3">
-							<div class="rounded-lg border border-s-border bg-s-glass p-3 text-center">
-								<div class="text-lg font-bold text-t-primary">{allProtocols.length}</div>
-								<div class="text-[10px] text-t-muted">Protocols</div>
-							</div>
-							<div class="rounded-lg border border-s-border bg-s-glass p-3 text-center">
-								<div class="text-lg font-bold text-t-primary">{simCount}</div>
-								<div class="text-[10px] text-t-muted">Simulations</div>
-							</div>
-							<div class="rounded-lg border border-s-border bg-s-glass p-3 text-center">
-								<div class="text-lg font-bold text-t-primary">50+</div>
-								<div class="text-[10px] text-t-muted">Years of History</div>
-							</div>
+						<div class="h-3 w-px bg-s-border"></div>
+						<div class="flex items-baseline gap-1.5">
+							<span class="text-sm font-bold text-t-primary">{simCount}</span>
+							<span class="text-[10px] text-t-muted">simulations</span>
+						</div>
+						<div class="h-3 w-px bg-s-border"></div>
+						<div class="flex items-baseline gap-1.5">
+							<span class="text-sm font-bold text-t-primary">50+</span>
+							<span class="text-[10px] text-t-muted">years of history</span>
 						</div>
 					</section>
 
