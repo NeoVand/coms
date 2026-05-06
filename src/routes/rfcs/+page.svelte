@@ -6,6 +6,7 @@
 	$effect(() => {
 		if (appState.selectedNode) appState.selectedNode = null;
 		appState.activeBookChapter = null;
+		appState.activeBookPart = null;
 		appState.activePioneer = null;
 		appState.activeRfc = null;
 		appState.activeOutage = null;

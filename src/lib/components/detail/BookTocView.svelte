@@ -62,7 +62,7 @@
 					{#if ready}
 						<button
 							class="group flex w-full items-baseline gap-3 rounded-lg border border-s-border bg-s-glass px-3 py-2 text-left transition-all hover:bg-s-glass-hover"
-							onclick={() => navigateToBookChapter(chapter.id)}
+							onclick={() => navigateToBookChapter(part.id, chapter.id)}
 						>
 							<span
 								class="shrink-0 font-mono text-[10px] tabular-nums"

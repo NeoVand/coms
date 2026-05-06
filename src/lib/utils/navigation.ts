@@ -61,12 +61,31 @@ export function navigateToJourney(id: string, opts: NavOptions = {}) {
 }
 
 /**
- * A standalone book chapter from Part I (foundations). The route mounts
- * a ChapterView in the side panel — distinct from the Glossary tab,
- * which is the searchable atomic-term reference.
+ * A standalone book chapter, identified by (partId, chapterId). The
+ * route mounts ChapterView in the side panel. Separate from the
+ * Glossary tab, which is the searchable atomic-term reference.
+ *
+ * Single-arg form is kept for backwards compatibility — it assumes
+ * a Part I (foundations) chapter.
  */
-export function navigateToBookChapter(chapterId: string, opts: NavOptions = {}) {
-	return go(`/book/foundations/${chapterId}`, opts);
+export function navigateToBookChapter(
+	partOrChapterId: string,
+	chapterIdOrOpts?: string | NavOptions,
+	maybeOpts?: NavOptions
+) {
+	let partId: string;
+	let chapterId: string;
+	let opts: NavOptions;
+	if (typeof chapterIdOrOpts === 'string') {
+		partId = partOrChapterId;
+		chapterId = chapterIdOrOpts;
+		opts = maybeOpts ?? {};
+	} else {
+		partId = 'foundations';
+		chapterId = partOrChapterId;
+		opts = chapterIdOrOpts ?? {};
+	}
+	return go(`/book/${partId}/${chapterId}`, opts);
 }
 
 /** The book's table of contents — twelve parts, each part's chapter list. */

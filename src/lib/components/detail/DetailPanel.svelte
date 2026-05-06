@@ -232,9 +232,12 @@
 			</div>
 		{/if}
 
-		{#if appState.activeBookChapter}
+		{#if appState.activeBookChapter && appState.activeBookPart}
 			<div class="p-6">
-				<ChapterView chapterId={appState.activeBookChapter} />
+				<ChapterView
+					partId={appState.activeBookPart}
+					chapterId={appState.activeBookChapter}
+				/>
 			</div>
 		{:else if appState.activePioneer}
 			<div class="p-6">
@@ -308,7 +311,7 @@
 							{#each foundationSections as section, i (section.id)}
 								<button
 									class="group flex w-full items-start gap-3 rounded-xl border border-s-border bg-s-glass p-3 text-left transition-all hover:border-s-border hover:bg-s-glass-hover"
-									onclick={() => navigateToBookChapter(section.id)}
+									onclick={() => navigateToBookChapter('foundations', section.id)}
 								>
 									<span
 										class="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-s-glass text-[11px] font-bold text-t-secondary transition-colors group-hover:text-t-primary"

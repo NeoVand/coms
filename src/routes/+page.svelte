@@ -14,6 +14,7 @@
 	onMount(() => {
 		if (appState.selectedNode) appState.clearSelection();
 		appState.activeBookChapter = null;
+		appState.activeBookPart = null;
 		appState.activePioneer = null;
 		appState.activeRfc = null;
 		appState.activeOutage = null;

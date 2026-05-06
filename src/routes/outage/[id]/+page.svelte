@@ -10,6 +10,7 @@
 		if (!id) return;
 		if (appState.selectedNode) appState.selectedNode = null;
 		if (appState.activeBookChapter) appState.activeBookChapter = null;
+		if (appState.activeBookPart) appState.activeBookPart = null;
 		if (appState.activePioneer) appState.activePioneer = null;
 		if (appState.activeRfc) appState.activeRfc = null;
 		if (appState.activeOutage !== id) appState.activeOutage = id;

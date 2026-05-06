@@ -24,12 +24,19 @@ export class AppState {
 	categoryViewMode: 'story' | 'advanced' | 'journeys' = $state('story');
 
 	/**
-	 * Currently-open book chapter (id of an entry in foundationSections,
-	 * keyed by foundationSection.id). When set, the side panel renders a
-	 * standalone ChapterView instead of the graph-selection view. URL is
-	 * `/book/foundations/[id]`. Cleared whenever a graph node is selected.
+	 * Currently-open book chapter — the chapter id within `activeBookPart`'s
+	 * `chapters[]`. When both this and `activeBookPart` are set, the side
+	 * panel renders ChapterView for that chapter. URL is
+	 * `/book/[part]/[chapter]`. Cleared whenever a graph node is selected.
 	 */
 	activeBookChapter: string | null = $state(null);
+
+	/**
+	 * Currently-open book part id (e.g., 'foundations', 'transport',
+	 * 'famous-outages'). Pairs with `activeBookChapter` to disambiguate
+	 * chapters that share an id across parts. URL: `/book/[part]/[chapter]`.
+	 */
+	activeBookPart: string | null = $state(null);
 
 	/**
 	 * Currently-open pioneer bio (id of an entry in pioneers.ts). When set,
@@ -203,6 +210,7 @@ export class AppState {
 		this.categoryViewMode = 'story';
 		// Selecting a graph node ends any active reading session.
 		this.activeBookChapter = null;
+		this.activeBookPart = null;
 		this.activePioneer = null;
 		this.activeRfc = null;
 		this.activeOutage = null;
