@@ -32,6 +32,14 @@ The deeper trick is that protocols are **public**. They are described in plain t
 				caption: 'TCP requires a three-way handshake before any data can flow. The order matters — both sides have to confirm the connection in writing before either can speak its mind.'
 			},
 			{
+				type: 'image',
+				src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/TCP_Three-Way_Handshake.svg/500px-TCP_Three-Way_Handshake.svg.png',
+				alt: 'TCP three-way handshake sequence diagram — client SYN, server SYN-ACK, client ACK.',
+				caption:
+					'The same TCP handshake drawn as a sequence diagram with the wall-clock arrows. SYN proposes a connection; SYN-ACK accepts and proposes back; ACK seals it. After this 1.5 round-trip exchange, both sides have synchronised sequence numbers and can begin sending real data.',
+				credit: 'Image: Wikimedia Commons / public domain'
+			},
+			{
 				type: 'narrative',
 				title: 'Three Things Every Protocol Specifies',
 				text: `Read enough protocol specifications and the same three concerns repeat.
@@ -115,6 +123,14 @@ The deeper principle is older than networking: separate what changes together fr
   ETH --> PHY`,
 				caption:
 					'Going down the stack, each layer wraps the previous payload with its own header — encapsulation. Going up, each layer strips its header and hands the rest to the next. This is why the same HTTP request rides unchanged across Wi-Fi at home, Ethernet in the office, and a satellite link to a server in Iowa.'
+			},
+			{
+				type: 'image',
+				src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/OSI_Model_v1.svg/500px-OSI_Model_v1.svg.png',
+				alt: 'The OSI 7-layer reference model — Physical, Data Link, Network, Transport, Session, Presentation, Application.',
+				caption:
+					'The OSI 7-layer reference model, ratified by ISO in 1984. Forty years later it still shapes how every networking textbook teaches the stack — even though the internet itself runs the simpler 4-layer TCP/IP model.',
+				credit: 'Diagram: Wikimedia Commons / public domain'
 			},
 			{
 				type: 'narrative',
@@ -245,6 +261,22 @@ This division of labour — IP for end-to-end identity, MAC for hop-to-hop deliv
 				text: 'A MAC is only meaningful inside one broadcast domain. An IP is globally unique (or unique within a private space behind NAT). A port is meaningful only on one host. A hostname is meaningful to the entire DNS namespace. **The scope of an address determines what infrastructure has to keep state about it** — which is why the internet can scale to billions of hosts without any single device knowing all of them.'
 			},
 			{
+				type: 'image',
+				src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/MAC-48_Address.svg/500px-MAC-48_Address.svg.png',
+				alt: 'Bit-field structure of a 48-bit MAC address — 24-bit OUI + 24-bit NIC, with multicast and locally-administered flag bits.',
+				caption:
+					'A 48-bit MAC address is structured: the first 24 bits are the OUI (Organisationally Unique Identifier — Apple = ac:de:48, Cisco = 00:1b:54, etc.), the last 24 bits are assigned by the manufacturer per device. Two flag bits in the first octet mark multicast and locally-administered addresses.',
+				credit: 'Diagram: Wikimedia Commons / CC BY-SA 2.5'
+			},
+			{
+				type: 'image',
+				src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/DNS_schema.svg/500px-DNS_schema.svg.png',
+				alt: 'The hierarchical DNS namespace tree, rooted at "." with TLDs branching beneath.',
+				caption:
+					'The DNS namespace is a global tree rooted at "." (the root). Top-level domains (.com, .org, country codes) sit beneath the root; second-level domains (example.com, wikipedia.org) sit beneath those. Resolution walks the tree from root to leaf — usually answered by a cache on the way.',
+				credit: 'Diagram: Wikimedia Commons / CC BY-SA 2.5'
+			},
+			{
 				type: 'narrative',
 				title: 'NAT Changed Everything',
 				text: `In 1993, the IETF realised IPv4's 4.3 billion addresses would not last. Three responses landed nearly simultaneously: **CIDR** (RFC 1519, 1993) abolished the rigid Class A/B/C boundaries; **private address ranges** ([[rfc:1918|RFC 1918]], 1996) gave every organisation 10.0.0.0/8 to use internally; and **Network Address Translation** (RFC 1631, 1994) let one public IP front for thousands of private hosts.
@@ -285,6 +317,30 @@ A {{packet|packet}} is a **self-contained unit** with a **header** (control info
   S -->|"IP wraps"| P
   P -->|"Ethernet wraps"| F`,
 				caption: 'Each layer adds its own header around the payload from above. At the destination, headers are stripped in reverse order, and the original HTTP request is delivered to the application.'
+			},
+			{
+				type: 'image',
+				src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/UDP_encapsulation.svg/500px-UDP_encapsulation.svg.png',
+				alt: 'Encapsulation: application data wrapped in a UDP datagram, then an IP packet, then an Ethernet frame.',
+				caption:
+					'A second look at the same idea — this one shows a UDP datagram (it works the same for TCP). Each header is a fixed shape; only the payload region grows or shrinks. The same byte of application data is, simultaneously, part of a UDP datagram, an IP packet, and an Ethernet frame.',
+				credit: 'Diagram: Wikimedia Commons / CC BY-SA 3.0'
+			},
+			{
+				type: 'image',
+				src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/IPv4_Header.svg/500px-IPv4_Header.svg.png',
+				alt: 'Bit-field layout of the 20-byte IPv4 header.',
+				caption:
+					'The IPv4 header (20 bytes minimum). Each row is 32 bits. Source and destination addresses each take a full row; the smaller fields above pack version, header length, ToS/DSCP, fragmentation, TTL, transport protocol, and a checksum into the first three rows. Options (rare) extend it.',
+				credit: 'Diagram: Wikimedia Commons / CC BY-SA 3.0'
+			},
+			{
+				type: 'image',
+				src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Ethernet_Type_II_Frame_format.svg/500px-Ethernet_Type_II_Frame_format.svg.png',
+				alt: 'Ethernet II frame structure: 6-byte destination MAC, 6-byte source MAC, 2-byte EtherType, payload, 4-byte FCS.',
+				caption:
+					'The Ethernet II frame format that has not changed since 1980. 14 bytes of header (destination MAC, source MAC, EtherType), then up to 1500 bytes of payload, then a 4-byte CRC frame check sequence. Everything else — VLAN tags, jumbo frames, 800 GbE — slid in around it.',
+				credit: 'Diagram: Wikimedia Commons / public domain'
 			},
 			{
 				type: 'narrative',
@@ -336,6 +392,22 @@ Three conventional ranges. **Well-known ports** (0–1023) are reserved for stan
   OS -->|":22"| SSH["SSH Daemon"]
   OS -->|":5432"| DB["Database"]`,
 				caption: 'The OS uses the destination port to deliver each packet to the right process. Multiple services share one IP address; the port disambiguates.'
+			},
+			{
+				type: 'image',
+				src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/TCP_Header.svg/500px-TCP_Header.svg.png',
+				alt: 'Bit-field layout of the TCP segment header — source/destination ports, sequence/ACK numbers, flags, window, checksum.',
+				caption:
+					'The TCP segment header. The first row is the two 16-bit port fields — these are what the OS uses to demultiplex an arriving segment to a process. Below them: 32-bit sequence number, 32-bit ACK number, header length, control flags, window size, checksum, urgent pointer, and optional fields.',
+				credit: 'Diagram: Wikimedia Commons / CC BY-SA 3.0'
+			},
+			{
+				type: 'image',
+				src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/InternetSocketBasicDiagram_zhtw.png/500px-InternetSocketBasicDiagram_zhtw.png',
+				alt: 'Berkeley sockets API flow: server calls socket/bind/listen/accept, client calls socket/connect, then both send/recv.',
+				caption:
+					'The Berkeley sockets API has been the universal Unix interface for network I/O since 1983. Server calls socket() → bind(port) → listen() → accept() and blocks until a client arrives. Client calls socket() → connect(server, port). Once the four-tuple is bound, both sides read and write bytes like a file.',
+				credit: 'Diagram: Wikimedia Commons / public domain'
 			},
 			{
 				type: 'narrative',
@@ -523,6 +595,22 @@ Second, **trust is concentrated**. The server can be hardened, audited, monitore
 				caption: 'Client-server centralises control through one authority. P2P connects nodes directly — more resilient but harder to coordinate.'
 			},
 			{
+				type: 'image',
+				src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Client-Server_Model-en.svg/500px-Client-Server_Model-en.svg.png',
+				alt: 'Client-server topology: many client computers connected through a network to one central server.',
+				caption:
+					'Client-server topology. The asymmetry is the point — one well-known address that everyone connects to. Easy to discover, easy to harden, easy to scale by replicating the server.',
+				credit: 'Diagram: Wikimedia Commons / CC BY-SA 4.0'
+			},
+			{
+				type: 'image',
+				src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3f/P2P-network.svg/500px-P2P-network.svg.png',
+				alt: 'Peer-to-peer mesh: every node connected to every other node, no central server.',
+				caption:
+					'Peer-to-peer topology. Every node is both client and server. No single point of failure — and no single point of authority. The discovery problem (how peers find each other) is what makes building real P2P systems hard.',
+				credit: 'Diagram: Wikimedia Commons / public domain'
+			},
+			{
 				type: 'narrative',
 				title: 'When Peer-to-Peer Is The Right Answer',
 				text: `The {{peer-to-peer|peer-to-peer model}} is fundamentally different. Every participant is **simultaneously client and server**. Nodes connect directly to each other; there is no central authority that knows the full membership of the network. BitTorrent, [[webrtc|WebRTC]], blockchain consensus, IPFS, the original Napster's data plane (though not its discovery), and Gnutella all use P2P.
@@ -578,6 +666,14 @@ What it does **not** mean is anything about the server you connected to. The pad
 The combination is what makes the modern web tractable. You use slow asymmetric crypto **once** at the start of the connection to safely agree on a fast symmetric key, then use the symmetric key for all the bulk data. The slow operation is amortised across the whole conversation.`
 			},
 			{
+				type: 'image',
+				src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Asymmetric_Cryptography.svg/500px-Asymmetric_Cryptography.svg.png',
+				alt: 'Public-key cryptography: sender encrypts with the recipient\'s public key; recipient decrypts with their matching private key.',
+				caption:
+					'Public-key cryptography. Anyone can encrypt a message using the recipient\'s public key (which is shared openly). Only the recipient — the holder of the matching private key — can decrypt it. This solves the key-distribution problem that defeated symmetric ciphers for centuries.',
+				credit: 'Diagram: Wikimedia Commons / public domain'
+			},
+			{
 				type: 'diagram',
 				title: 'TLS Hybrid Encryption',
 				definition: `graph LR
@@ -590,6 +686,14 @@ The combination is what makes the modern web tractable. You use slow asymmetric 
   end
   Handshake -->|"shared secret"| Data`,
 				caption: 'TLS uses slow asymmetric crypto to safely exchange a session key, then switches to fast symmetric encryption for all data. The handshake is a few hundred bytes; the data can be gigabytes.'
+			},
+			{
+				type: 'image',
+				src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Digital_certificates_chain_of_trust.png/500px-Digital_certificates_chain_of_trust.png',
+				alt: 'X.509 chain of trust: root CA signs intermediate CA, which signs the leaf certificate.',
+				caption:
+					'The X.509 certificate chain of trust. Your browser ships with the public keys of around 100 root CAs. The site you connect to presents a leaf certificate signed by an intermediate CA, which is itself signed by a trusted root. Each link is a digital signature your browser verifies.',
+				credit: 'Diagram: Wikimedia Commons / CC BY-SA 4.0'
 			},
 			{
 				type: 'narrative',
