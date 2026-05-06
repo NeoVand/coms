@@ -247,21 +247,105 @@ A {{socket|socket}} combines an IP address, a port, and a protocol (TCP or UDP) 
 			{
 				type: 'narrative',
 				title: 'The Fundamental Tradeoff',
-				text: `Every network protocol makes a tradeoff between reliability and speed. This is the most important design decision in networking.
+				text: `Every network protocol makes a tradeoff between reliability and speed, and the choice ripples through every layer above. The story is forty years old and still writing itself.
 
-**{{connection-oriented|Connection-oriented}}** protocols like [[tcp|TCP]] establish a session before sending data. They guarantee every byte arrives, in order, with no duplicates. The cost: {{handshake|handshakes}} add {{latency|latency}}, {{retransmission|retransmissions}} add delay, and {{flow-control|flow control}} limits throughput.
+**{{connection-oriented|Connection-oriented}}** protocols like [[tcp|TCP]] establish a session before sending data. They guarantee every byte arrives, in order, with no duplicates. The cost: {{handshake|handshakes}} add a round-trip up front, {{retransmission|retransmissions}} add delay when packets drop, {{flow-control|flow control}} caps throughput, and {{head-of-line-blocking|head-of-line blocking}} stalls every byte behind a lost one.
 
-**{{connectionless|Connectionless}}** protocols like [[udp|UDP]] skip all of that. Each {{datagram|datagram}} is independent — no connection setup, no ordering guarantees, no retransmission. The benefit: minimal latency and overhead. The cost: your application must handle lost or reordered data.
+**{{connectionless|Connectionless}}** protocols like [[udp|UDP]] skip all of that. Each {{datagram|datagram}} is independent — no connection setup, no ordering guarantees, no retransmission. The benefit: an 8-byte header and zero state. The cost: your application is on its own when packets vanish or arrive out of order.
 
-This tradeoff drives the entire protocol ecosystem. Web pages need reliability → TCP. Video calls need low latency → UDP (or RTP over UDP). Modern protocols like [[quic|QUIC]] try to offer both — reliable delivery when needed, with minimal latency by building on UDP and adding selective retransmission.`
+This tradeoff drives the entire protocol ecosystem. Web pages need reliability → TCP. Video calls need low latency → UDP (with RTP for framing). Modern transports like [[quic|QUIC]] try to have both — reliable delivery when needed, with minimal latency by building on UDP and adding selective retransmission per stream so one lost packet only blocks the stream it belongs to.`
 			},
 			{
 				type: 'diagram',
 				title: 'The Reliability Spectrum',
 				definition: `graph LR
-  UDP["UDP<br/>No guarantees<br/>Lowest latency"] ---|"+"| RTP["RTP/QUIC<br/>Selective reliability<br/>Low latency"]
-  RTP ---|"+"| TCP["TCP<br/>Full reliability<br/>Higher latency"]`,
-				caption: 'Protocols sit on a spectrum from raw speed (UDP) to guaranteed delivery (TCP). Modern protocols like QUIC aim for the sweet spot in between.'
+  UDP["<b>UDP</b><br/>No guarantees<br/>8-byte header"] ---|"+ encryption + multiplexing"| QUIC["<b>QUIC</b><br/>Per-stream reliability<br/>0/1-RTT handshake"]
+  QUIC ---|"+ ordered byte stream"| TCP["<b>TCP</b><br/>Full reliability<br/>1-RTT handshake"]`,
+				caption: 'Protocols sit on a spectrum from raw speed (UDP) to guaranteed delivery (TCP). QUIC sits in between by giving each multiplexed stream its own reliability — so a lost packet only blocks one stream.'
+			},
+			{
+				type: 'narrative',
+				title: 'October 1986: The First Collapse',
+				text: `In October 1986 the internet broke for the first time. Throughput between Lawrence Berkeley Laboratory and UC Berkeley — three IMP hops apart, about 400 yards on the same site — collapsed from 32 kbps to 40 bps. A factor of 800. Multiple cascading collapses followed across the NSFNET backbone.
+
+The cause was [[tcp|TCP]] itself. Early BSD TCP retransmitted aggressively when it saw loss. When the network was actually congested, every retransmission generated more loss, which generated more retransmissions. The network was eating itself.
+
+[[pioneer:van-jacobson|Van Jacobson]] and Mike Karels at Berkeley spent the next eighteen months on the fix. Their 1988 SIGCOMM paper, **"Congestion Avoidance and Control,"** gave the world {{slow-start|slow start}}, {{aimd|AIMD}} congestion avoidance, fast retransmit, fast recovery, and Karn's algorithm for {{rtt|round-trip-time}} estimation under retransmission ambiguity. Six algorithms in one paper. The fixes shipped in 4.3BSD-Tahoe and saved the internet.
+
+The principle they articulated — **conservation of packets** — has held up for forty years. A sender should put one packet into the network only when an ACK confirms a previous packet has left it. Everything since is variations on that theme.`
+			},
+			{
+				type: 'diagram',
+				title: 'The Jacobson Recipe (1988)',
+				definition: `graph TD
+  S0["<b>Slow Start</b><br/>cwnd doubles each RTT<br/>until first loss"] -->|"loss detected"| FR["<b>Fast Retransmit</b><br/>3 duplicate ACKs →<br/>retransmit immediately"]
+  S0 -->|"reach ssthresh"| CA["<b>Congestion Avoidance</b><br/>cwnd += 1 MSS / RTT<br/>(linear growth)"]
+  FR --> RC["<b>Fast Recovery</b><br/>cwnd /= 2,<br/>continue, don't restart"]
+  RC -->|"new ACK"| CA
+  CA -->|"loss detected"| FR
+  CA -->|"timeout"| S0`,
+				caption: 'The four-phase loop every TCP congestion controller has used since 1988. Modern algorithms (CUBIC, BBR) replace the linear growth in Congestion Avoidance with their own curves, but the overall shape is unchanged.'
+			},
+			{
+				type: 'narrative',
+				title: 'CUBIC: A Curve That Scales',
+				text: `By the mid-2000s networks had outgrown Reno's polite linear ramp. On a fat long pipe — say a 1 Gbps transcontinental link with a 100 ms RTT, a {{bdp|bandwidth-delay product}} of 12.5 MB — adding one packet per RTT was glacial. After a single loss it could take hundreds of RTTs to refill the pipe. The network's bandwidth was sitting unused while TCP slowly tiptoed back up.
+
+In 2008, Sangtae Ha, Injong Rhee, and Lisong Xu at NC State published CUBIC: replace AIMD's linear function with a *cubic* function of time since the last loss. Far from the previous {{congestion-window|cwnd}}, CUBIC ramps fast; near it, it slows down and probes carefully; if the probe doesn't trigger loss, it accelerates past the previous max. The cubic curve is symmetric so two flows with different RTTs converge to fairness.
+
+CUBIC shipped as the Linux default in kernel 2.6.19 (2006), before any RFC blessed it. Windows 10 1709 / Server 2019 made it Windows's default. macOS uses it. [[rfc:9438|RFC 9438]] (August 2023) finally moved CUBIC to Standards Track, replacing the 2018 Informational [[rfc:8312|RFC 8312]]. Most TCP traffic on the internet today is CUBIC.`
+			},
+			{
+				type: 'narrative',
+				title: 'BBR: Stop Treating Loss as the Signal',
+				text: `Loss is a terrible primary signal because modern paths often drop packets for reasons that have nothing to do with congestion — a wireless retry budget exhausted, a lossy fibre amplifier, a buffer overflowing somewhere a thousand miles away. CUBIC backs off in all those cases too, even when the bottleneck wasn't actually full.
+
+[[pioneer:van-jacobson|Van Jacobson]] (returning, decades later, to the same problem) and a Google team published **"BBR: Congestion-Based Congestion Control"** in 2016. Instead of treating loss as the signal, BBR continuously **models** the path: it estimates the bottleneck bandwidth and the minimum RTT, and paces packets to fill exactly the {{bdp|bandwidth-delay product}} — no more, no less. Buffers stay empty. Loss is irrelevant unless something physical actually fails.
+
+BBRv1 hit ~4% mean throughput improvement on YouTube globally, more than 14% in some countries, and a 33% reduction in median RTT. BBRv3 has been the default for google.com and YouTube traffic since 2023. Linux supports it via \`sysctl net.ipv4.tcp_congestion_control=bbr\` paired with the FQ qdisc that BBR's pacing requires. See [[frontier:bbrv3-default|BBRv3 default for Google + YouTube]].`
+			},
+			{
+				type: 'callout',
+				title: 'Why Pacing Matters',
+				text: 'Classic TCP sends packets in bursts — whatever cwnd allows, into the wire as fast as the NIC can clock them out. BBR sends every packet at exactly the estimated bottleneck rate. The bursts disappear. AQM drops disappear with them. Buffers stay nearly empty, latency stays near base RTT, and throughput stays at the bottleneck. The single change from "fire bursts and react to loss" to "pace at the actual bottleneck rate" is what made BBR possible.'
+			},
+			{
+				type: 'narrative',
+				title: 'L4S: Sub-Millisecond Queuing',
+				text: `Even BBR can't fix {{bufferbloat|bufferbloat}} caused by other senders' classic TCP filling the same buffer. The buffer is in the network, not in BBR. The network needs to start helping.
+
+L4S — Low Latency, Low Loss, Scalable throughput — is the IETF's answer ([[rfc:9330|RFC 9330]] / 9331 / 9332, January 2023). The mechanism: cooperating senders mark every packet ECN-Capable and react to {{ecn|ECN}} marks like minor losses without backing off as hard. Routers running the DualQ Coupled {{aqm|AQM}} mark instead of dropping when congestion is incipient. Classic TCP shares the same path and converges to fair throughput, but L4S traffic gets sub-millisecond queuing latency at the same time.
+
+[[frontier:l4s-comcast-launch|Comcast launched L4S in production]] in late January 2025 in six US cities, with Apple, NVIDIA GeForce NOW, Meta, and Valve as launch partners. Apple shipped L4S in iOS 17 / macOS Sonoma and turned it on by default for [[quic|QUIC]] in newer releases. The same architecture works for cloud gaming, video calls, and AI assistant audio at the same time as a 4K download — without bufferbloat, without classic-TCP getting starved.`
+			},
+			{
+				type: 'diagram',
+				title: 'A Forty-Year Lineage',
+				definition: `graph TD
+  C1981["<b>1981</b><br/>RFC 793<br/>TCP basics"] --> C1986["<b>Oct 1986</b><br/>Congestion collapse<br/>32 kbps → 40 bps"]
+  C1986 --> C1988["<b>1988</b><br/>Jacobson + Karels<br/>Slow start, AIMD,<br/>fast retransmit"]
+  C1988 --> C1996["<b>1996</b><br/>SACK<br/>RFC 2018"]
+  C1996 --> C2006["<b>2006</b><br/>CUBIC<br/>Linux default"]
+  C2006 --> C2016["<b>2016</b><br/>BBR v1<br/>Model bandwidth, not loss"]
+  C2016 --> C2021["<b>2021</b><br/>RACK-TLP<br/>RFC 8985"]
+  C2021 --> C2023a["<b>2023</b><br/>BBRv3 default<br/>for google.com / YouTube"]
+  C2021 --> C2023b["<b>Jan 2023</b><br/>L4S<br/>RFC 9330/9331/9332"]
+  C2023b --> C2025["<b>Jan 2025</b><br/>Comcast L4S<br/>in production"]`,
+				caption: 'Every TCP congestion controller is a chapter in the story Jacobson started. Modern transports — CUBIC, BBR, L4S, RACK-TLP — are each refinements of the same conservation-of-packets principle, adapted to different network realities.'
+			},
+			{
+				type: 'narrative',
+				title: 'QUIC: Reliability Per Stream',
+				text: `[[quic|QUIC]] is the most ambitious attempt yet to have both reliability and speed at the same time. Its key insight: the unit of reliability shouldn't be the whole connection.
+
+A QUIC connection carries multiple independent streams. Each stream has its own sequence numbers and its own retransmission queue. When a packet is lost, only the stream(s) it carried get held back — the rest keep flowing. This is the {{head-of-line-blocking|head-of-line blocking}} problem [[tcp|TCP]] could never fully solve, fixed by moving the framing layer down into transport.
+
+QUIC also fuses transport and security ([[rfc:9000|RFC 9000]] for the transport, [[rfc:9001|RFC 9001]] for the [[tls|TLS]] integration). What used to be 1 RTT for [[tcp|TCP]] handshake + 1-2 RTT for [[tls|TLS]] is now a single 1-RTT handshake; with {{session-resumption|session resumption}} a returning client can send application data in the very first packet ({{zero-rtt|0-RTT}}). Connections survive an IP-address change ({{connection-migration|connection migration}}) — your phone can switch from Wi-Fi to cellular mid-page-load and the QUIC connection keeps going, just on a new path.`
+			},
+			{
+				type: 'callout',
+				title: 'Where the Tradeoff Goes Next',
+				text: 'The next round will be in the datacenter. Inside a single GPU cluster training a frontier model, the assumptions baked into TCP and even QUIC start to creak. The Ultra Ethernet Consortium spec (June 2025) builds a new transport layer on plain Ethernet+IP for AI/HPC scale-out: connectionless, multipath with intelligent packet spray, packet-trimming, selective retransmission. The principle Jacobson articulated in 1988 — match what you put in to what the network can carry — is unchanged. The implementation gets re-derived for every new generation of hardware.'
 			}
 		]
 	},
