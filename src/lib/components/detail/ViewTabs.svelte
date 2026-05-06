@@ -1,10 +1,20 @@
 <script lang="ts">
-	import type { Component } from 'svelte';
+	import type { Component, ComponentType, SvelteComponent } from 'svelte';
+
+	/**
+	 * Icon component slot — accepts both Svelte 5 `Component<…>` instances
+	 * and the legacy class-based `SvelteComponentTyped<…>` exports that
+	 * lucide-svelte still ships (until it migrates to runes). Both render
+	 * the same way at runtime; this union keeps the type-checker quiet.
+	 */
+	type TabIcon =
+		| Component<{ size?: number | string; strokeWidth?: number | string }>
+		| ComponentType<SvelteComponent<{ size?: number | string; strokeWidth?: number | string }>>;
 
 	interface Tab {
 		id: string;
 		label: string;
-		icon?: Component<{ size?: number; strokeWidth?: number }>;
+		icon?: TabIcon;
 	}
 
 	interface Props {

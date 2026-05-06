@@ -57,11 +57,11 @@
 			{#if expandedId === section.id}
 				<div class="border-t border-s-border px-3.5 pb-4 pt-3">
 					<div class="flex flex-col gap-4">
-						{#each section.sections as storySection (storySection.type + (storySection.title ?? ''))}
+						{#each section.sections as storySection, i (`${section.id}-${i}`)}
 							{#if storySection.type === 'narrative'}
 								<StoryNarrative text={storySection.text} color="#60a5fa" title={storySection.title} />
 							{:else if storySection.type === 'callout'}
-								<StoryCallout title={storySection.title} text={storySection.text} />
+								<StoryCallout title={storySection.title} text={storySection.text} color="#60a5fa" />
 							{:else if storySection.type === 'diagram'}
 								<StoryDiagram
 									definition={storySection.definition}
