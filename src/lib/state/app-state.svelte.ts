@@ -20,16 +20,16 @@ export class AppState {
 	compareTargetId: string | null = $state(null);
 
 	// Hub and category tab modes
-	hubViewMode: 'home' | 'concepts' | 'journeys' = $state('home');
+	hubViewMode: 'home' | 'glossary' | 'journeys' = $state('home');
 	categoryViewMode: 'story' | 'advanced' | 'journeys' = $state('story');
 
 	/**
-	 * Transient: when set, the Concepts tab will auto-expand and scroll
-	 * to the named foundation section, then clear the request. Lets the
-	 * Home tab's chapter cards drop the user directly into a chapter
-	 * without forcing them to find it in the accordion.
+	 * Currently-open book chapter (id of an entry in foundationSections,
+	 * keyed by foundationSection.id). When set, the side panel renders a
+	 * standalone ChapterView instead of the graph-selection view. URL is
+	 * `/book/foundations/[id]`. Cleared whenever a graph node is selected.
 	 */
-	requestedConceptSection: string | null = $state(null);
+	activeBookChapter: string | null = $state(null);
 
 	// Diagram modal state (rendered at root level to escape stacking contexts)
 	diagramModal: { protocolId: string; color: string } | null = $state(null);
@@ -162,6 +162,8 @@ export class AppState {
 		this.hoveredNode = null;
 		this.hubViewMode = 'home';
 		this.categoryViewMode = 'story';
+		// Selecting a graph node ends any active chapter reading session.
+		this.activeBookChapter = null;
 	};
 
 	hoverNode = (node: GraphNode | null) => {

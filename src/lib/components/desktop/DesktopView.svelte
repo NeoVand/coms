@@ -42,8 +42,9 @@
 		onhelp={() => startTour(appState, allNodes)}
 	/>
 
-	<!-- Detail panel -->
-	{#if appState.showDetailPanel && appState.selectedNode}
+	<!-- Detail panel: visible when there's a graph selection OR an open
+	     book chapter (chapters are read in the same panel surface). -->
+	{#if appState.showDetailPanel && (appState.selectedNode || appState.activeBookChapter)}
 		<DetailPanel />
 	{/if}
 

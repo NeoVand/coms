@@ -60,6 +60,15 @@ export function navigateToJourney(id: string, opts: NavOptions = {}) {
 	return go(`/journey/${id}`, opts);
 }
 
+/**
+ * A standalone book chapter from Part I (foundations). The route mounts
+ * a ChapterView in the side panel — distinct from the Glossary tab,
+ * which is the searchable atomic-term reference.
+ */
+export function navigateToBookChapter(chapterId: string, opts: NavOptions = {}) {
+	return go(`/book/foundations/${chapterId}`, opts);
+}
+
 /** Pick the right URL for any GraphNode (hub / category / protocol). */
 export function navigateToNode(node: GraphNode, opts: NavOptions = {}) {
 	if (node.type === 'hub') return navigateToHubPanel(opts);

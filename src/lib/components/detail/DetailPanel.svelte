@@ -7,8 +7,15 @@
 		allProtocols
 	} from '$lib/data/index';
 	import { categories } from '$lib/data/categories';
-	import { navigateToProtocol, navigateToCategory, navigateToHub } from '$lib/utils/navigation';
+	import {
+		navigateToProtocol,
+		navigateToCategory,
+		navigateToHub,
+		navigateToBookChapter
+	} from '$lib/utils/navigation';
 	import { foundationSections } from '$lib/data/concept-foundations';
+	import GlossaryView from './GlossaryView.svelte';
+	import ChapterView from './ChapterView.svelte';
 
 	/**
 	 * Hand-written teasers for the Foundation chapter cards on the Home
@@ -28,11 +35,6 @@
 		'encryption-basics': "What HTTPS actually protects — and what it doesn't.",
 		'ai-protocols': 'MCP and A2A — the new layer of protocols designed for AI agents.'
 	};
-
-	function openChapter(sectionId: string) {
-		appState.hubViewMode = 'concepts';
-		appState.requestedConceptSection = sectionId;
-	}
 	import ProtocolHeader from './ProtocolHeader.svelte';
 	import ProtocolDiagram from './ProtocolDiagram.svelte';
 	import HowItWorksSteps from './HowItWorksSteps.svelte';
@@ -53,7 +55,10 @@
 	import { getPair } from '$lib/data/comparison/pairs';
 	import { X, Home, Lightbulb, Compass, BookOpen, Microscope } from 'lucide-svelte';
 	import ViewTabs from './ViewTabs.svelte';
-	import ConceptsView from './ConceptsView.svelte';
+	// Concepts/foundation accordion is gone; the Glossary tab now uses
+	// GlossaryView (searchable atomic-term reference). Foundation
+	// chapters live behind /book/foundations/[id] and render via
+	// ChapterView when activeBookChapter is set.
 	import CategoryAdvancedView from './CategoryAdvancedView.svelte';
 	import JourneyListView from './JourneyListView.svelte';
 	import JourneyBar from './JourneyBar.svelte';
@@ -85,8 +90,10 @@
 		// track these so the effect re-runs on change
 		const _id = appState.selectedNode?.id;
 		const _view = appState.detailViewMode;
+		const _chapter = appState.activeBookChapter;
 		void _id;
 		void _view;
+		void _chapter;
 		if (scrollerEl) scrollerEl.scrollTop = 0;
 	});
 
@@ -195,7 +202,11 @@
 			</div>
 		{/if}
 
-		{#if selectedData?.type === 'hub'}
+		{#if appState.activeBookChapter}
+			<div class="p-6">
+				<ChapterView chapterId={appState.activeBookChapter} />
+			</div>
+		{:else if selectedData?.type === 'hub'}
 			{@const simCount = allProtocols.filter((p) => hasSimulation(p.id)).length}
 			<!-- Hub hero (always visible) -->
 			<div class="p-6 pb-3">
@@ -204,9 +215,8 @@
 					An interactive atlas of <span class="font-semibold text-t-primary"
 						>{allProtocols.length} network protocols</span
 					>
-					— from Bob Metcalfe's 1973 napkin sketch of Ethernet to the post-quantum TLS handshakes
-					of 2026. Read it as a book, click around as a graph, or run any protocol as a live
-					simulation.
+					— from Bob Metcalfe's 1973 napkin sketch of Ethernet to the post-quantum TLS handshakes of 2026.
+					Read it as a book, click around as a graph, or run any protocol as a live simulation.
 				</p>
 			</div>
 
@@ -215,12 +225,12 @@
 				<ViewTabs
 					tabs={[
 						{ id: 'home', label: 'Home', icon: Home },
-						{ id: 'concepts', label: 'Concepts', icon: Lightbulb },
+						{ id: 'glossary', label: 'Glossary', icon: Lightbulb },
 						{ id: 'journeys', label: 'Journeys', icon: Compass }
 					]}
 					activeId={appState.hubViewMode}
 					color="#FFFFFF"
-					onchange={(id) => (appState.hubViewMode = id as 'home' | 'concepts' | 'journeys')}
+					onchange={(id) => (appState.hubViewMode = id as 'home' | 'glossary' | 'journeys')}
 				/>
 			</div>
 
@@ -236,14 +246,13 @@
 						</div>
 						<p class="mb-3 text-xs leading-relaxed text-t-secondary">
 							The foundations every networking conversation builds on. Each chapter is a
-							self-contained read with diagrams, history, and the protocols that bring it to
-							life.
+							self-contained read with diagrams, history, and the protocols that bring it to life.
 						</p>
 						<div class="space-y-2">
 							{#each foundationSections as section, i (section.id)}
 								<button
 									class="group flex w-full items-start gap-3 rounded-xl border border-s-border bg-s-glass p-3 text-left transition-all hover:border-s-border hover:bg-s-glass-hover"
-									onclick={() => openChapter(section.id)}
+									onclick={() => navigateToBookChapter(section.id)}
 								>
 									<span
 										class="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-s-glass text-[11px] font-bold text-t-secondary transition-colors group-hover:text-t-primary"
@@ -271,8 +280,8 @@
 							Browse by category
 						</h3>
 						<p class="mb-3 text-xs leading-relaxed text-t-secondary">
-							Each category is its own slice of the stack — the foundations underneath, the
-							pioneers behind it, and the protocols that compete for the same job.
+							Each category is its own slice of the stack — the foundations underneath, the pioneers
+							behind it, and the protocols that compete for the same job.
 						</p>
 						<div class="space-y-2">
 							{#each categories as cat (cat.id)}
@@ -318,27 +327,10 @@
 							<span class="text-[10px] text-t-muted">years of history</span>
 						</div>
 					</section>
-
-					<!-- Attribution -->
-					<div class="border-t border-s-border pt-4">
-						<a
-							href="https://github.com/NeoVand/coms"
-							target="_blank"
-							rel="external noopener noreferrer"
-							class="flex items-center justify-center gap-2 text-[11px] text-t-muted transition-colors hover:text-t-secondary"
-						>
-							<svg class="h-3.5 w-3.5 shrink-0" fill="currentColor" viewBox="0 0 24 24">
-								<path
-									d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"
-								/>
-							</svg>
-							<span>Developed by Neo Mohsenvand</span>
-						</a>
-					</div>
 				</div>
-			{:else if appState.hubViewMode === 'concepts'}
+			{:else if appState.hubViewMode === 'glossary'}
 				<div class="p-6">
-					<ConceptsView />
+					<GlossaryView />
 				</div>
 			{:else if appState.hubViewMode === 'journeys'}
 				<div class="p-6">

@@ -19,7 +19,7 @@ export type SearchNav =
 	| { kind: 'category'; categoryId: string; tab?: 'story' | 'advanced' | 'journeys' }
 	| { kind: 'comparison'; protocolId: string; compareTargetId: string }
 	| { kind: 'journey'; journeyId: string }
-	| { kind: 'hub'; tab: 'home' | 'concepts' | 'journeys' };
+	| { kind: 'hub'; tab: 'home' | 'glossary' | 'journeys' };
 
 export interface SearchEntry {
 	type: SearchResultType;
@@ -71,7 +71,7 @@ for (const c of concepts) {
 		description: c.definition.length > 100 ? c.definition.slice(0, 100) + '\u2026' : c.definition,
 		searchText: `${c.term} ${c.definition}`.toLowerCase(),
 		protocolIds: [],
-		nav: { kind: 'hub', tab: 'concepts' }
+		nav: { kind: 'hub', tab: 'glossary' }
 	});
 }
 
@@ -84,7 +84,8 @@ for (const cat of categories) {
 		type: 'category',
 		label: cat.name,
 		description: story?.tagline ?? cat.description,
-		searchText: `${cat.name} ${cat.description} ${story?.tagline ?? ''} ${protoNames}`.toLowerCase(),
+		searchText:
+			`${cat.name} ${cat.description} ${story?.tagline ?? ''} ${protoNames}`.toLowerCase(),
 		protocolIds: catProtos.map((p) => p.id),
 		nav: { kind: 'category', categoryId: cat.id },
 		color: cat.color
@@ -108,8 +109,7 @@ for (const p of allProtocols) {
 		entries.push({
 			type: 'comparison',
 			label: `${left.abbreviation} ${pair.type === 'vs' ? 'vs' : '+'} ${right.abbreviation}`,
-			description:
-				cleanSummary.length > 100 ? cleanSummary.slice(0, 100) + '\u2026' : cleanSummary,
+			description: cleanSummary.length > 100 ? cleanSummary.slice(0, 100) + '\u2026' : cleanSummary,
 			searchText:
 				`${left.name} ${left.abbreviation} ${right.name} ${right.abbreviation} vs compare ${cleanSummary}`.toLowerCase(),
 			protocolIds: [pair.ids[0], pair.ids[1]],
