@@ -10,6 +10,10 @@
 import type { BookPart, Chapter } from './types';
 import { foundationSections } from '../concept-foundations';
 import { storyOfTheInternet } from './parts/story-of-the-internet';
+import { layer23 } from './parts/layer-2-3';
+import { transport } from './parts/transport';
+import { webApi } from './parts/web-api';
+import { asyncIot } from './parts/async-iot';
 
 /**
  * Part I — Foundations.
@@ -60,63 +64,10 @@ function stubChapters(items: { id: string; title: string; synopsis: string }[]):
 export const bookParts: BookPart[] = [
 	partI,
 	storyOfTheInternet,
-	{
-		id: 'layer-2-3',
-		title: 'Layer 2–3: Foundations',
-		label: 'III',
-		description:
-			'Frames, addresses, and routes — the Layer-2 fabric, IP, and the protocols that hold the inter-domain internet together.',
-		chapters: stubChapters([
-			{ id: 'ethernet', title: 'Ethernet', synopsis: 'From PARC to 800 GbE and AI fabrics.' },
-			{ id: 'wifi', title: 'Wi-Fi', synopsis: 'CSMA/CA on the airwaves; Wi-Fi 6, 7, and 8.' },
-			{ id: 'arp-and-ndp', title: 'ARP and NDP', synopsis: 'How a packet finds the next hop.' },
-			{ id: 'ipv4', title: 'IPv4', synopsis: 'The 32-bit address that ran 50 years longer than planned.' },
-			{ id: 'ipv6', title: 'IPv6', synopsis: 'A 28-year transition that just crossed 50%.' },
-			{ id: 'icmp', title: 'ICMP', synopsis: 'Ping, traceroute, and the diagnostic backplane.' },
-			{ id: 'bgp', title: 'BGP', synopsis: 'Three napkins, every transit relationship, no built-in trust.' }
-		])
-	},
-	{
-		id: 'transport',
-		title: 'Transport',
-		label: 'IV',
-		description:
-			'The layer that turns IP\'s best-effort datagrams into something applications can actually use.',
-		chapters: stubChapters([
-			{ id: 'tcp', title: 'TCP', synopsis: 'Reliable byte streams, four decades of congestion control.' },
-			{ id: 'udp', title: 'UDP', synopsis: 'Three pages, no guarantees, ubiquitous.' },
-			{ id: 'sctp', title: 'SCTP', synopsis: 'Multi-stream, multi-homed — niche but influential.' },
-			{ id: 'mptcp', title: 'MPTCP', synopsis: 'Wi-Fi + cellular at the same time, transparently.' },
-			{ id: 'quic', title: 'QUIC', synopsis: 'Reliable transport in user space, on UDP, with TLS folded in.' }
-		])
-	},
-	{
-		id: 'web-api',
-		title: 'Web / API',
-		label: 'V',
-		description: 'HTTP through three generations, the streaming alternatives, and the AI-agent stack.',
-		chapters: stubChapters([
-			{ id: 'http1', title: 'HTTP/1.1', synopsis: 'The text-based lingua franca of the web.' },
-			{ id: 'http2', title: 'HTTP/2', synopsis: 'Binary framing, streams, HPACK.' },
-			{ id: 'http3', title: 'HTTP/3', synopsis: 'HTTP on QUIC. No more TCP head-of-line blocking.' },
-			{ id: 'rest-and-graphql', title: 'REST and GraphQL', synopsis: 'Two ways to model an API.' },
-			{ id: 'grpc', title: 'gRPC', synopsis: 'Typed RPC over HTTP/2 — the microservices default.' },
-			{ id: 'websockets-and-sse', title: 'WebSockets and SSE', synopsis: 'Push from server to browser.' },
-			{ id: 'mcp-and-a2a', title: 'MCP and A2A', synopsis: 'The protocol layer for AI agents.' }
-		])
-	},
-	{
-		id: 'async-iot',
-		title: 'Async / IoT',
-		label: 'VI',
-		description: 'Decoupled, message-oriented protocols for sensors, microservices, and event streams.',
-		chapters: stubChapters([
-			{ id: 'mqtt', title: 'MQTT', synopsis: 'Sensors, satellites, and 2-byte publish overhead.' },
-			{ id: 'amqp', title: 'AMQP', synopsis: 'Enterprise messaging with content-based routing.' },
-			{ id: 'kafka', title: 'Kafka', synopsis: 'A distributed commit log as the unit of architecture.' },
-			{ id: 'coap', title: 'CoAP', synopsis: 'REST shrunk for microcontrollers.' }
-		])
-	},
+	layer23,
+	transport,
+	webApi,
+	asyncIot,
 	{
 		id: 'realtime-av',
 		title: 'Real-time A/V',
