@@ -50,6 +50,12 @@ export class AppState {
 	 */
 	activeOutage: string | null = $state(null);
 
+	/**
+	 * Currently-open frontier entry (id key into frontier.ts). When set,
+	 * the side panel renders FrontierView. URL is `/frontier/[id]`.
+	 */
+	activeFrontier: string | null = $state(null);
+
 	// Diagram modal state (rendered at root level to escape stacking contexts)
 	diagramModal: { protocolId: string; color: string } | null = $state(null);
 
@@ -186,6 +192,7 @@ export class AppState {
 		this.activePioneer = null;
 		this.activeRfc = null;
 		this.activeOutage = null;
+		this.activeFrontier = null;
 	};
 
 	hoverNode = (node: GraphNode | null) => {

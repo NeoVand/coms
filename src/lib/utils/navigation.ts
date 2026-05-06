@@ -84,6 +84,11 @@ export function navigateToOutage(id: string, opts: NavOptions = {}) {
 	return go(`/outage/${id}`, opts);
 }
 
+/** A 2024-2026 frontier development (frontier.ts entries). */
+export function navigateToFrontier(id: string, opts: NavOptions = {}) {
+	return go(`/frontier/${id}`, opts);
+}
+
 /** Pick the right URL for any GraphNode (hub / category / protocol). */
 export function navigateToNode(node: GraphNode, opts: NavOptions = {}) {
 	if (node.type === 'hub') return navigateToHubPanel(opts);

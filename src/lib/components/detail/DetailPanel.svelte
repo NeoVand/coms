@@ -19,6 +19,7 @@
 	import PioneerView from './PioneerView.svelte';
 	import RfcView from './RfcView.svelte';
 	import OutageView from './OutageView.svelte';
+	import FrontierView from './FrontierView.svelte';
 
 	/**
 	 * Hand-written teasers for the Foundation chapter cards on the Home
@@ -97,12 +98,14 @@
 		const _pioneer = appState.activePioneer;
 		const _rfc = appState.activeRfc;
 		const _outage = appState.activeOutage;
+		const _frontier = appState.activeFrontier;
 		void _id;
 		void _view;
 		void _chapter;
 		void _pioneer;
 		void _rfc;
 		void _outage;
+		void _frontier;
 		if (scrollerEl) scrollerEl.scrollTop = 0;
 	});
 
@@ -226,6 +229,10 @@
 		{:else if appState.activeOutage}
 			<div class="p-6">
 				<OutageView id={appState.activeOutage} />
+			</div>
+		{:else if appState.activeFrontier}
+			<div class="p-6">
+				<FrontierView id={appState.activeFrontier} />
 			</div>
 		{:else if selectedData?.type === 'hub'}
 			{@const simCount = allProtocols.filter((p) => hasSimulation(p.id)).length}
