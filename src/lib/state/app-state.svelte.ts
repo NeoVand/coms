@@ -161,6 +161,13 @@ export class AppState {
 	// Search highlight state — protocol IDs to highlight on canvas during search
 	searchHighlightIds: Set<string> | null = $state(null);
 
+	/**
+	 * Handle to the running guided tour, if any. Set by `startTour()` while
+	 * the driver.js walkthrough is on screen so other surfaces (e.g.
+	 * canvas empty-area click) can dismiss it without importing driver.js.
+	 */
+	activeTour: { destroy: () => void } | null = $state(null);
+
 	// Journey state
 	activeJourney: Journey | null = $state(null);
 	activeJourneyStepIndex: number = $state(0);

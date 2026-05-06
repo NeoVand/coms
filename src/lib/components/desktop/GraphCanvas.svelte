@@ -397,13 +397,24 @@
 		}
 	}
 
+	/**
+	 * "Reset to default" — used by every empty-canvas tap. Dismisses the
+	 * guided tour if it's running, then routes back to `/` so the side
+	 * panel and any active reading surface (book chapter, RFC, pioneer,
+	 * outage, etc.) all clear in one go.
+	 */
+	function resetToDefault() {
+		appState.activeTour?.destroy();
+		navigateToHub();
+	}
+
 	function handleMouseUp(e: MouseEvent) {
 		if (isPanning) {
 			isPanning = false;
 			canvas.style.cursor = 'grab';
 			const dist = Math.hypot(e.clientX - panStartX, e.clientY - panStartY);
 			if (dist < 5) {
-				appState.clearSelection();
+				resetToDefault();
 			}
 			return;
 		}
@@ -413,8 +424,8 @@
 
 		if (node) {
 			navigateToNode(node);
-		} else if (appState.selectedNode) {
-			navigateToHub();
+		} else {
+			resetToDefault();
 		}
 	}
 
@@ -477,7 +488,7 @@
 					e.changedTouches[0].clientY - touchStartY
 				);
 				if (dist < 10) {
-					// Tap — select node or clear selection
+					// Tap — select node or reset to default
 					const world = screenToWorld(
 						e.changedTouches[0].clientX,
 						e.changedTouches[0].clientY
@@ -485,8 +496,8 @@
 					const node = findNodeAtPosition(hitNodes(), world.x, world.y, appState.viewport.scale);
 					if (node) {
 						navigateToNode(node);
-					} else if (appState.selectedNode) {
-						navigateToHub();
+					} else {
+						resetToDefault();
 					}
 				}
 			}

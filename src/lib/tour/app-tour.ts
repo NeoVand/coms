@@ -1,5 +1,7 @@
 import type { AppState } from '$lib/state/app-state.svelte';
 import type { GraphNode } from '$lib/data/types';
+import { goto } from '$app/navigation';
+import { base } from '$app/paths';
 
 /** Instantly scroll an element inside the detail-panel scroller into view. */
 function scrollInPanel(selector: string) {
@@ -20,6 +22,21 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 	const savedShowDetailPanel = appState.showDetailPanel;
 	const savedViewMode = appState.detailViewMode;
 	const savedCompareTarget = appState.compareTargetId;
+
+	// Snapshot the URL too. Tours mutate `appState.selectedNode` directly;
+	// if we left the user on a route like `/p/tcp`, that route's `$effect`
+	// would clobber every selection change back to TCP and the book step
+	// (which selects the hub) would never render. Navigating to `/` at
+	// tour start unmounts every route page so the tour can drive state
+	// freely without route-effect interference. We restore the path on
+	// destroy so the user lands back where they started.
+	const savedPath = window.location.pathname + window.location.search;
+	const baseHome = `${base}/`;
+	const isAtHome =
+		window.location.pathname === baseHome || window.location.pathname === base;
+	if (!isAtHome) {
+		await goto(baseHome, { replaceState: false, keepFocus: true });
+	}
 
 	const tcpNode = allNodes.find((n) => n.id === 'tcp');
 
@@ -74,20 +91,45 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 					description:
 						'An interactive explorer for the protocols that power the internet. ' +
 						'Learn how they work, read real code, <strong>run step-by-step simulations</strong>, and compare protocols side by side.' +
-						'<br><br><span class="tour-hint">Takes about 60 seconds &middot; 11 stops</span>'
+						'<br><br><span class="tour-hint">Takes about 60 seconds &middot; 12 stops</span>'
 				},
 				onHighlighted: () => {
 					appState.clearSelection();
 				}
 			},
 			// ── Step 2: The Protocol Graph ──
+			// Show the graph against the hub welcome panel — that lays the
+			// foundation for step 3 (the book lives on the hub) and means we
+			// won't need to "jump out and back" to the hub mid-tour.
 			{
 				element: 'canvas',
 				popover: {
 					title: 'The Protocol Graph',
 					description:
 						'Every circle is a protocol. <strong>Click</strong> one to dive deep, or <strong>hover</strong> for a quick summary.' +
-						'<br><br>Drag to pan, scroll to zoom. When you select a node, related protocols stay highlighted so you can trace connections.'
+						'<br><br>Drag to pan, scroll to zoom. When you select a node, related protocols stay highlighted so you can trace connections.',
+					// Driver.js resolves the next step's `element` selector synchronously
+					// the moment we advance, so the hub home tab must be in the DOM
+					// before we move to step 3 (the book TOC). Intercept Next here,
+					// switch state, wait for Svelte to commit, *then* advance.
+					onNextClick: () => {
+						const hubNode = allNodes.find((n) => n.type === 'hub');
+						if (hubNode) {
+							appState.selectedNode = hubNode;
+							appState.detailViewMode = 'learn';
+							appState.compareTargetId = null;
+							appState.hoveredNode = null;
+							appState.hubViewMode = 'home';
+							appState.categoryViewMode = 'story';
+						}
+						setPanelVisible(!appState.isMobile);
+						scrollPanelToTop();
+						// Two rAFs: first lets Svelte commit the hub view to the DOM,
+						// second guarantees layout has settled before driver.js measures.
+						requestAnimationFrame(() => {
+							requestAnimationFrame(() => tourDriver.moveNext());
+						});
+					}
 				},
 				disableActiveInteraction: true,
 				onHighlightStarted: () => {
@@ -95,8 +137,9 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 					if (appState.isMobile) setPanelVisible(false);
 				},
 				onHighlighted: () => {
-					if (tcpNode) {
-						appState.selectedNode = tcpNode;
+					const hubNode = allNodes.find((n) => n.type === 'hub');
+					if (hubNode) {
+						appState.selectedNode = hubNode;
 						appState.detailViewMode = 'learn';
 						appState.compareTargetId = null;
 						appState.hoveredNode = null;
@@ -106,7 +149,50 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 					setPanelVisible(!appState.isMobile);
 				}
 			},
-			// ── Step 3: Zoom & Graph Layouts ──
+			// ── Step 3: The Book of Protocols ──
+			// Highlight the book TOC list on the hub welcome panel. Step 2's
+			// onNextClick guarantees the hub home tab is rendered before
+			// driver.js resolves `[data-tour="book-toc"]`.
+			//
+			// Driver.js calls `scrollIntoView` on the highlighted element
+			// right after `onHighlightStarted` — for the 1000+px part list
+			// that pushes the panel down past the hub hero. Pin the scroller
+			// to the top after driver finishes positioning so the user keeps
+			// the same scroll context they had before the step started.
+			{
+				element: '[data-tour="book-toc"]',
+				popover: {
+					title: 'The Book of Protocols',
+					description:
+						'Beyond the graph, the Lab is also a <strong>book in twelve parts</strong> — ' +
+						'from foundations and the story of the internet, through every layer of the stack, ' +
+						'to outages, the frontier, and where to learn more.' +
+						'<br><br>Each part has its own table of contents — click any card to jump in, or read it cover to cover.',
+					side: 'left' as const,
+					align: 'start' as const
+				},
+				onHighlightStarted: () => {
+					const hubNode = allNodes.find((n) => n.type === 'hub');
+					if (hubNode && appState.selectedNode?.id !== 'hub') {
+						appState.selectedNode = hubNode;
+						appState.detailViewMode = 'learn';
+						appState.compareTargetId = null;
+						appState.hoveredNode = null;
+						appState.hubViewMode = 'home';
+					}
+					setPanelVisible(true);
+					scrollPanelToTop();
+				},
+				onHighlighted: () => {
+					// Undo driver.js's auto-scroll (it tries to centre the 1000+px
+					// part list and ends up burying the heading + hub hero).
+					scrollPanelToTop();
+					requestAnimationFrame(() => tourDriver.refresh());
+				}
+			},
+			// ── Step 4: Zoom & Graph Layouts ──
+			// Hub stays selected so the panel still shows the book overview —
+			// nothing about the layout/zoom controls requires a protocol selected.
 			{
 				element: '[data-tour="layout-picker"]',
 				popover: {
@@ -114,18 +200,26 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 					description:
 						'Use <strong>+/&minus;</strong> to zoom, or click the percentage to reset.' +
 						'<br><br>Switch how the graph is arranged:' +
-						'<br><strong>Force</strong> &mdash; physics-based clustering by connections' +
+						'<br><strong>Force</strong> &mdash; physics-based clustering by category, hub at the centre' +
+						'<br><strong>Mesh</strong> &mdash; protocols laid out by how they actually relate to one another, like a map' +
 						'<br><strong>Radial</strong> &mdash; concentric rings grouped by category' +
 						'<br><strong>Timeline</strong> &mdash; protocols plotted by year, from 1969 to today'
 				},
 				disableActiveInteraction: true,
 				onHighlightStarted: () => {
-					ensureTcp();
+					const hubNode = allNodes.find((n) => n.type === 'hub');
+					if (hubNode && appState.selectedNode?.id !== 'hub') {
+						appState.selectedNode = hubNode;
+						appState.detailViewMode = 'learn';
+						appState.hubViewMode = 'home';
+					}
 					// On mobile the bottom-sheet covers the layout picker — keep it closed.
 					setPanelVisible(!appState.isMobile);
 				}
 			},
-			// ── Step 4: Detail Panel Overview ──
+			// ── Step 5: Detail Panel Overview ──
+			// First step where TCP enters the picture — from here on, every
+			// step lives inside the protocol detail panel for TCP.
 			{
 				element: '[data-tour="detail-panel"]',
 				popover: {
@@ -135,20 +229,37 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 						'an overview, sequence diagrams, step-by-step breakdowns, code examples, performance stats, and protocol comparisons.' +
 						'<br><br><span class="tour-hint">Drag the left edge to resize</span>',
 					side: 'left' as const,
-					align: 'start' as const
+					align: 'start' as const,
+					// Going Back from here returns to the Zoom step on the hub —
+					// switch the panel back to the hub view so the visuals match
+					// what the user saw before they crossed into TCP territory.
+					onPrevClick: () => {
+						const hubNode = allNodes.find((n) => n.type === 'hub');
+						if (hubNode) {
+							appState.selectedNode = hubNode;
+							appState.detailViewMode = 'learn';
+							appState.compareTargetId = null;
+							appState.hoveredNode = null;
+							appState.hubViewMode = 'home';
+						}
+						setPanelVisible(true);
+						scrollPanelToTop();
+						requestAnimationFrame(() => {
+							requestAnimationFrame(() => tourDriver.movePrevious());
+						});
+					}
 				},
 				onHighlightStarted: () => {
 					ensureTcp();
 					const wasHidden = setPanelVisible(true);
 					appState.detailViewMode = 'learn';
 					scrollPanelToTop();
-					// Wait for the slide-in animation before driver.js positions the popover.
 					if (wasHidden) {
 						setTimeout(() => tourDriver.refresh(), PANEL_ANIM_MS);
 					}
 				}
 			},
-			// ── Step 5: Sequence Diagram ──
+			// ── Step 6: Sequence Diagram ──
 			{
 				element: '[data-tour="protocol-diagram"]',
 				popover: {
@@ -169,7 +280,7 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 					requestAnimationFrame(() => tourDriver.refresh());
 				}
 			},
-			// ── Step 6: How It Works ──
+			// ── Step 7: How It Works ──
 			{
 				element: '[data-tour="how-it-works"]',
 				popover: {
@@ -188,7 +299,7 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 					requestAnimationFrame(() => tourDriver.refresh());
 				}
 			},
-			// ── Step 7: Code Examples ──
+			// ── Step 8: Code Examples ──
 			{
 				element: '[data-tour="code-example"]',
 				popover: {
@@ -209,7 +320,7 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 					requestAnimationFrame(() => tourDriver.refresh());
 				}
 			},
-			// ── Step 8: Three Modes ──
+			// ── Step 9: Three Modes ──
 			{
 				element: '[data-tour="simulator-tabs"]',
 				popover: {
@@ -227,12 +338,12 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 					scrollPanelToTop();
 				},
 				onHighlighted: () => {
-					// Pre-switch to simulate so [data-tour="simulator-view"] exists for step 9
+					// Pre-switch to simulate so [data-tour="simulator-view"] exists for step 10
 					appState.detailViewMode = 'simulate';
 					requestAnimationFrame(() => tourDriver.refresh());
 				}
 			},
-			// ── Step 9: Simulation View ──
+			// ── Step 10: Simulation View ──
 			{
 				element: '[data-tour="simulator-view"]',
 				popover: {
@@ -254,7 +365,7 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 					requestAnimationFrame(() => tourDriver.refresh());
 				}
 			},
-			// ── Step 10: Compare View ──
+			// ── Step 11: Compare View ──
 			// Target the whole panel because we switch to compare mode here;
 			// the compare-view element doesn't exist until the mode changes.
 			{
@@ -277,7 +388,7 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 					requestAnimationFrame(() => tourDriver.refresh());
 				}
 			},
-			// ── Step 11: Farewell ──
+			// ── Step 12: Farewell ──
 			{
 				popover: {
 					title: "You're Ready to Explore!",
@@ -305,8 +416,15 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 			} else {
 				appState.clearSelection();
 			}
+			appState.activeTour = null;
+			// Restore the URL we redirected away from at tour start.
+			if (!isAtHome && window.location.pathname + window.location.search !== savedPath) {
+				goto(savedPath, { replaceState: false, keepFocus: true });
+			}
 		}
 	});
+
+	appState.activeTour = { destroy: () => tourDriver.destroy() };
 
 	// Expose for dev testing (tree-shaken in prod via __dev check)
 	if (typeof window !== 'undefined' && (window as any).__dev) {

@@ -327,7 +327,7 @@
 							</h3>
 							<span class="text-[10px] text-t-muted">{totalChapters} chapters · jump in anywhere</span>
 						</div>
-						<div class="space-y-1.5">
+						<div data-tour="book-toc" class="space-y-1.5">
 							{#each bookParts as part (part.id)}
 								{@const accent = PART_ACCENTS[part.id] ?? '#60a5fa'}
 								<button
