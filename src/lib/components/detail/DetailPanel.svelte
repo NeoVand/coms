@@ -45,6 +45,7 @@
 	import CodeExample from './CodeExample.svelte';
 	import PerformanceStats from './PerformanceStats.svelte';
 	import RelatedProtocols from './RelatedProtocols.svelte';
+	import ProtocolReferences from './ProtocolReferences.svelte';
 	import CategoryIcon from '$lib/components/icons/CategoryIcon.svelte';
 	import CategoryStoryView from './category-story/CategoryStoryView.svelte';
 	import { getCategoryStory } from '$lib/data/category-stories/index';
@@ -421,6 +422,8 @@
 						{/if}
 
 						<PerformanceStats performance={proto.performance} {color} />
+
+						<ProtocolReferences protocolId={proto.id} {color} />
 
 						<RelatedProtocols connections={proto.connections} />
 					</div>
