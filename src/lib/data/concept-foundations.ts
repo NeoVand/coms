@@ -275,6 +275,22 @@ The cause was [[tcp|TCP]] itself. Early BSD TCP retransmitted aggressively when 
 The principle they articulated — **conservation of packets** — has held up for forty years. A sender should put one packet into the network only when an ACK confirms a previous packet has left it. Everything since is variations on that theme.`
 			},
 			{
+				type: 'image',
+				src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Van_Jacobson.jpg/330px-Van_Jacobson.jpg',
+				alt: 'Van Jacobson — co-author of the 1988 paper that saved the internet from congestion collapse and, decades later, of BBR.',
+				caption:
+					'Van Jacobson, co-author with Mike Karels of "Congestion Avoidance and Control" (SIGCOMM \'88) — the paper whose slow start, AIMD, and fast retransmit fixes shipped in 4.3BSD-Tahoe and stopped the 1986 cascade. Three decades later he was a co-author of the BBR paper at Google.',
+				credit: 'Photo: Wikimedia Commons / public domain'
+			},
+			{
+				type: 'image',
+				src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/ARPA_Network%2C_Logical_Map%2C_September_1973.jpg/500px-ARPA_Network%2C_Logical_Map%2C_September_1973.jpg',
+				alt: 'ARPA Network logical map, September 1973 — the network whose successor would melt down in 1986.',
+				caption:
+					'The ARPA Network in September 1973, a few dozen IMPs and hosts. By 1986 the same architecture was carrying NSFNET traffic across the country — and the buffers between Lawrence Berkeley Lab and UC Berkeley, three hops apart, were where Jacobson watched throughput collapse from 32 kbps to 40 bps.',
+				credit: 'Image: ARPA / public domain, via Wikimedia Commons'
+			},
+			{
 				type: 'diagram',
 				title: 'The Jacobson Recipe (1988)',
 				definition: `graph TD

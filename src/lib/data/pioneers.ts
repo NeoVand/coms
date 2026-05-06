@@ -285,6 +285,8 @@ Primary architect of IPv6 with Bob Hinden — RFC 1883 (1995), RFC 2460 (1998), 
 		contribution: `Saved the internet from congestion collapse. After the October 1986 collapse — when throughput between Lawrence Berkeley Lab and UC Berkeley dropped from 32 kbps to 40 bps — Jacobson and Mike Karels published "Congestion Avoidance and Control" (SIGCOMM '88), introducing slow start, AIMD congestion avoidance, fast retransmit, and exponential RTO backoff. Six algorithms in one paper; arguably the highest-leverage networking paper ever written. Their fixes shipped in 4.3BSD-Tahoe and saved the internet.
 
 Also wrote traceroute, tcpdump's BPF (Berkeley Packet Filter), and co-authored RFC 1144 (Compressing TCP/IP Headers for Low-Speed Serial Links). Co-author of the 2016 BBR paper at Google — congestion control for a second internet generation, replacing CUBIC for google.com and YouTube traffic.`,
+		imagePath:
+			'https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Van_Jacobson.jpg/330px-Van_Jacobson.jpg',
 		protocols: ['tcp'],
 		categories: ['transport'],
 		awards: [
