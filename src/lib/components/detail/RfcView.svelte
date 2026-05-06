@@ -1,0 +1,186 @@
+<script lang="ts">
+	import { getRfcByNumber, getProtocolById, getCategoryById } from '$lib/data/index';
+	import { navigateToProtocol, navigateToRfc } from '$lib/utils/navigation';
+	import { ExternalLink, FileText } from 'lucide-svelte';
+	import { themedDomColor } from '$lib/utils/colors';
+	import { getAppState } from '$lib/state/context';
+
+	interface Props {
+		number: string;
+	}
+
+	let { number }: Props = $props();
+
+	const appState = getAppState();
+	const rfc = $derived(getRfcByNumber(number));
+
+	/** Use the first protocol's category color so an RFC about TCP reads
+	 *  in transport green, an RFC about TLS in utilities teal, etc. */
+	const accent = $derived.by(() => {
+		const protoId = rfc?.protocols?.[0];
+		if (!protoId) return '#60a5fa';
+		const proto = getProtocolById(protoId);
+		const cat = proto ? getCategoryById(proto.categoryId) : null;
+		return themedDomColor(cat?.color ?? '#60a5fa', appState.theme);
+	});
+
+	const STATUS_LABEL: Record<string, string> = {
+		'internet-standard': 'Internet Standard',
+		'standards-track': 'Standards Track',
+		'proposed-standard': 'Proposed Standard',
+		'best-current-practice': 'Best Current Practice',
+		informational: 'Informational',
+		experimental: 'Experimental',
+		historic: 'Historic',
+		draft: 'Internet-Draft'
+	};
+</script>
+
+{#if rfc}
+	<article class="flex flex-col gap-6">
+		<!-- Header -->
+		<header>
+			<div
+				class="inline-flex items-center gap-1.5 rounded-md px-2 py-0.5 font-mono text-[10px] font-bold tracking-wider uppercase"
+				style="background-color: {accent}20; color: {accent};"
+			>
+				<FileText size={11} />
+				RFC {rfc.number}
+			</div>
+			<h1
+				class="mt-2 text-xl leading-tight font-bold tracking-tight text-t-primary"
+				style="color: {accent};"
+			>
+				{rfc.title}
+			</h1>
+			<div class="mt-1 flex flex-wrap items-baseline gap-x-3 gap-y-1 text-[11px] text-t-muted">
+				<span>{rfc.year}</span>
+				{#if rfc.authors}
+					<span>·</span>
+					<span class="text-t-secondary">{rfc.authors}</span>
+				{/if}
+				{#if rfc.status}
+					<span>·</span>
+					<span>{STATUS_LABEL[rfc.status] ?? rfc.status}</span>
+				{/if}
+			</div>
+		</header>
+
+		<!-- Notable sections -->
+		{#if rfc.notableSections && rfc.notableSections.length > 0}
+			<section>
+				<h3 class="mb-2 text-[10px] font-semibold tracking-wider text-t-muted uppercase">
+					Worth pointing at
+				</h3>
+				<ul class="space-y-1.5">
+					{#each rfc.notableSections as s (s.ref)}
+						<li class="flex items-baseline gap-2 text-xs">
+							<code
+								class="shrink-0 rounded px-1.5 py-0.5 font-mono text-[10px]"
+								style="background-color: {accent}15; color: {accent};">{s.ref}</code
+							>
+							<span class="text-t-secondary">{s.description}</span>
+						</li>
+					{/each}
+				</ul>
+			</section>
+		{/if}
+
+		<!-- Obsolescence chain -->
+		{#if (rfc.obsoletes && rfc.obsoletes.length > 0) || (rfc.obsoletedBy && rfc.obsoletedBy.length > 0)}
+			<section class="space-y-2 text-xs text-t-secondary">
+				{#if rfc.obsoletes && rfc.obsoletes.length > 0}
+					<div class="flex items-baseline gap-2">
+						<span class="text-[10px] font-semibold tracking-wider text-t-muted uppercase"
+							>Obsoletes</span
+						>
+						<div class="flex flex-wrap gap-1.5">
+							{#each rfc.obsoletes as old (old)}
+								{@const oldRfc = getRfcByNumber(old)}
+								{#if oldRfc}
+									<button
+										class="rounded font-mono text-[11px] transition-colors hover:underline"
+										style="color: {accent};"
+										onclick={() => navigateToRfc(old)}>RFC {old}</button
+									>
+								{:else}
+									<a
+										href="https://datatracker.ietf.org/doc/html/rfc{old}"
+										target="_blank"
+										rel="noopener noreferrer"
+										class="rounded font-mono text-[11px] transition-colors hover:underline"
+										style="color: {accent};">RFC {old}</a
+									>
+								{/if}
+							{/each}
+						</div>
+					</div>
+				{/if}
+				{#if rfc.obsoletedBy && rfc.obsoletedBy.length > 0}
+					<div class="flex items-baseline gap-2">
+						<span class="text-[10px] font-semibold tracking-wider text-t-muted uppercase"
+							>Obsoleted by</span
+						>
+						<div class="flex flex-wrap gap-1.5">
+							{#each rfc.obsoletedBy as ny (ny)}
+								<button
+									class="rounded font-mono text-[11px] transition-colors hover:underline"
+									style="color: {accent};"
+									onclick={() => navigateToRfc(ny)}>RFC {ny}</button
+								>
+							{/each}
+						</div>
+					</div>
+				{/if}
+			</section>
+		{/if}
+
+		<!-- Protocols this RFC defines or extends -->
+		{#if rfc.protocols && rfc.protocols.length > 0}
+			<section>
+				<h3 class="mb-2 text-[10px] font-semibold tracking-wider text-t-muted uppercase">
+					Protocols
+				</h3>
+				<div class="flex flex-wrap gap-2">
+					{#each rfc.protocols as protoId (protoId)}
+						{@const proto = getProtocolById(protoId)}
+						{@const cat = proto ? getCategoryById(proto.categoryId) : null}
+						{@const protoColor = themedDomColor(cat?.color ?? '#94a3b8', appState.theme)}
+						{#if proto}
+							<button
+								class="rounded-lg border px-2.5 py-1 text-xs font-medium transition-all hover:bg-s-glass-hover"
+								style="border-color: {protoColor}30; color: {protoColor};"
+								onclick={() => navigateToProtocol(proto.id)}
+							>
+								{proto.abbreviation}
+							</button>
+						{/if}
+					{/each}
+				</div>
+			</section>
+		{/if}
+
+		<!-- External link -->
+		<section class="border-t border-s-border pt-4 text-[11px] text-t-muted">
+			<a
+				href={rfc.url}
+				target="_blank"
+				rel="noopener noreferrer"
+				class="inline-flex items-center gap-1 transition-colors hover:text-t-secondary"
+			>
+				<ExternalLink size={10} />
+				Read on rfc-editor.org
+			</a>
+		</section>
+	</article>
+{:else}
+	<div class="rounded-xl border border-s-border bg-s-glass p-6 text-center">
+		<p class="text-sm text-t-secondary">RFC {number} is not in our registry yet.</p>
+		<a
+			href="https://datatracker.ietf.org/doc/html/rfc{number}"
+			target="_blank"
+			rel="noopener noreferrer"
+			class="mt-2 inline-block text-xs text-sky-400 hover:underline">Open on datatracker.ietf.org →</a
+		>
+	</div>
+{/if}

@@ -74,6 +74,11 @@ export function navigateToPioneer(id: string, opts: NavOptions = {}) {
 	return go(`/pioneer/${id}`, opts);
 }
 
+/** An RFC reference page (rfcs.ts entries). */
+export function navigateToRfc(number: string, opts: NavOptions = {}) {
+	return go(`/rfc/${number}`, opts);
+}
+
 /** Pick the right URL for any GraphNode (hub / category / protocol). */
 export function navigateToNode(node: GraphNode, opts: NavOptions = {}) {
 	if (node.type === 'hub') return navigateToHubPanel(opts);

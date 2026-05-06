@@ -38,6 +38,12 @@ export class AppState {
 	 */
 	activePioneer: string | null = $state(null);
 
+	/**
+	 * Currently-open RFC reference (number key into rfcs.ts). When set,
+	 * the side panel renders RfcView. URL is `/rfc/[number]`.
+	 */
+	activeRfc: string | null = $state(null);
+
 	// Diagram modal state (rendered at root level to escape stacking contexts)
 	diagramModal: { protocolId: string; color: string } | null = $state(null);
 
@@ -169,9 +175,10 @@ export class AppState {
 		this.hoveredNode = null;
 		this.hubViewMode = 'home';
 		this.categoryViewMode = 'story';
-		// Selecting a graph node ends any active chapter or bio session.
+		// Selecting a graph node ends any active reading session.
 		this.activeBookChapter = null;
 		this.activePioneer = null;
+		this.activeRfc = null;
 	};
 
 	hoverNode = (node: GraphNode | null) => {

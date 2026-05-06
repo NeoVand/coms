@@ -17,6 +17,7 @@
 	import GlossaryView from './GlossaryView.svelte';
 	import ChapterView from './ChapterView.svelte';
 	import PioneerView from './PioneerView.svelte';
+	import RfcView from './RfcView.svelte';
 
 	/**
 	 * Hand-written teasers for the Foundation chapter cards on the Home
@@ -93,10 +94,12 @@
 		const _view = appState.detailViewMode;
 		const _chapter = appState.activeBookChapter;
 		const _pioneer = appState.activePioneer;
+		const _rfc = appState.activeRfc;
 		void _id;
 		void _view;
 		void _chapter;
 		void _pioneer;
+		void _rfc;
 		if (scrollerEl) scrollerEl.scrollTop = 0;
 	});
 
@@ -212,6 +215,10 @@
 		{:else if appState.activePioneer}
 			<div class="p-6">
 				<PioneerView pioneerId={appState.activePioneer} />
+			</div>
+		{:else if appState.activeRfc}
+			<div class="p-6">
+				<RfcView number={appState.activeRfc} />
 			</div>
 		{:else if selectedData?.type === 'hub'}
 			{@const simCount = allProtocols.filter((p) => hasSimulation(p.id)).length}
