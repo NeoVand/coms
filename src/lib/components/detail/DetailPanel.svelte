@@ -14,6 +14,7 @@
 		navigateToBookChapter
 	} from '$lib/utils/navigation';
 	import { foundationSections } from '$lib/data/concept-foundations';
+	import { bookParts, listChapters } from '$lib/data/book/chapters';
 	import GlossaryView from './GlossaryView.svelte';
 	import ChapterView from './ChapterView.svelte';
 	import PioneerView from './PioneerView.svelte';
@@ -39,6 +40,28 @@
 	 * tab. Each gives the reader a one-line reason to click in. Order
 	 * matches `foundationSections` so we can zip them together.
 	 */
+	/**
+	 * Per-part accent colors — must mirror BookTocView and ChapterView so a
+	 * part has the same hue everywhere it appears in the UI.
+	 */
+	const PART_ACCENTS: Record<string, string> = {
+		foundations: '#60a5fa',
+		'story-of-the-internet': '#fbbf24',
+		'layer-2-3': '#22d3ee',
+		transport: '#34d399',
+		'web-api': '#a78bfa',
+		'async-iot': '#f472b6',
+		'realtime-av': '#fb7185',
+		'utilities-security': '#facc15',
+		'patterns-failures': '#f97316',
+		'famous-outages': '#fb923c',
+		frontier: '#a78bfa',
+		'how-to-learn-more': '#94a3b8'
+	};
+
+	const totalParts = bookParts.length;
+	const totalChapters = listChapters().length;
+
 	const FOUNDATION_TEASERS: Record<string, string> = {
 		'what-is-a-protocol':
 			'What a protocol is, and why every machine on the planet agrees to follow them.',
@@ -296,49 +319,90 @@
 
 			{#if appState.hubViewMode === 'home'}
 				<div class="flex flex-col gap-6 p-6">
-					<!-- Begin reading — Foundations -->
+					<!-- Hero: the book pitch + start-reading CTA -->
+					<section class="overflow-hidden rounded-xl border border-s-border bg-gradient-to-br from-s-glass to-s-glass/40 p-4">
+						<div class="flex items-start gap-3">
+							<span
+								class="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg"
+								style="background-color: rgba(96, 165, 250, 0.2); color: #60a5fa;"
+							>
+								<BookOpen size={18} />
+							</span>
+							<div class="min-w-0 flex-1">
+								<h2 class="text-sm font-semibold text-t-primary">The Book of Protocols</h2>
+								<p class="mt-1 text-xs leading-relaxed text-t-secondary">
+									A twelve-part book teaching network engineering through protocols, stories,
+									pioneers, and famous outages. {totalChapters} chapters, {totalParts} parts,
+									end-to-end readable — or jump in anywhere.
+								</p>
+							</div>
+						</div>
+						<div class="mt-3 flex flex-col gap-2 sm:flex-row">
+							<button
+								class="group flex flex-1 items-center justify-between gap-2 rounded-lg px-3 py-2.5 text-left text-xs font-medium transition-all hover:opacity-90"
+								style="background-color: #60a5fa; color: #0b1220;"
+								onclick={() => navigateToBookChapter('foundations', 'what-is-a-protocol')}
+							>
+								<span class="flex items-center gap-1.5">
+									<span class="rounded bg-black/15 px-1.5 py-0.5 font-mono text-[10px] tabular-nums">01</span>
+									<span>Start reading — What Is a Protocol?</span>
+								</span>
+								<span class="transition-transform group-hover:translate-x-0.5">→</span>
+							</button>
+							<button
+								class="group flex items-center justify-center gap-1.5 rounded-lg border border-s-border px-3 py-2.5 text-xs font-medium text-t-secondary transition-all hover:bg-s-glass hover:text-t-primary"
+								onclick={() => navigateToBookToc()}
+							>
+								Full table of contents
+								<span class="transition-transform group-hover:translate-x-0.5">→</span>
+							</button>
+						</div>
+					</section>
+
+					<!-- Condensed 12-part TOC — one card per part with accent color -->
 					<section>
 						<div class="mb-3 flex items-baseline justify-between gap-3">
 							<h3 class="text-xs font-semibold tracking-wider text-t-muted uppercase">
-								Begin reading — Part I
+								The book — twelve parts
 							</h3>
-							<span class="text-[10px] text-t-muted">{foundationSections.length} chapters</span>
+							<span class="text-[10px] text-t-muted">jump in anywhere</span>
 						</div>
-						<p class="mb-3 text-xs leading-relaxed text-t-secondary">
-							The foundations every networking conversation builds on. Each chapter is a
-							self-contained read with diagrams, history, and the protocols that bring it to life.
-						</p>
-						<div class="space-y-2">
-							{#each foundationSections as section, i (section.id)}
+						<div class="space-y-1.5">
+							{#each bookParts as part (part.id)}
+								{@const accent = PART_ACCENTS[part.id] ?? '#60a5fa'}
+								{@const firstChapter = part.chapters[0]}
 								<button
-									class="group flex w-full items-start gap-3 rounded-xl border border-s-border bg-s-glass p-3 text-left transition-all hover:border-s-border hover:bg-s-glass-hover"
-									onclick={() => navigateToBookChapter('foundations', section.id)}
+									class="group flex w-full items-start gap-3 rounded-xl border border-s-border bg-s-glass p-3 text-left transition-all hover:bg-s-glass-hover"
+									style="border-color: {accent}30;"
+									onclick={() => firstChapter && navigateToBookChapter(part.id, firstChapter.id)}
 								>
 									<span
-										class="mt-0.5 flex h-7 w-7 shrink-0 items-center justify-center rounded-md bg-s-glass text-[11px] font-bold text-t-secondary transition-colors group-hover:text-t-primary"
+										class="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg font-mono text-[11px] font-bold tabular-nums"
+										style="background-color: {accent}1f; color: {accent};"
 									>
-										{i + 1}
+										{part.label ?? '?'}
 									</span>
 									<div class="min-w-0 flex-1">
-										<div class="text-sm font-medium text-t-primary">{section.title}</div>
-										<p class="mt-0.5 text-xs leading-relaxed text-t-secondary">
-											{FOUNDATION_TEASERS[section.id] ?? ''}
-										</p>
+										<div class="flex items-baseline justify-between gap-2">
+											<div class="text-sm font-semibold text-t-primary">{part.title}</div>
+											<span class="shrink-0 font-mono text-[10px] tabular-nums text-t-muted"
+												>{part.chapters.length} ch</span
+											>
+										</div>
+										{#if part.description}
+											<p class="mt-0.5 line-clamp-2 text-[11px] leading-relaxed text-t-secondary">
+												{part.description}
+											</p>
+										{/if}
 									</div>
 									<span
-										class="mt-1 text-t-muted transition-transform group-hover:translate-x-0.5 group-hover:text-t-secondary"
+										class="mt-1.5 shrink-0 transition-transform group-hover:translate-x-0.5"
+										style="color: {accent};"
 										aria-hidden="true">→</span
 									>
 								</button>
 							{/each}
 						</div>
-						<button
-							class="group mt-3 flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-s-border px-3 py-2.5 text-xs font-medium text-t-secondary transition-all hover:border-s-border hover:bg-s-glass hover:text-t-primary"
-							onclick={() => navigateToBookToc()}
-						>
-							View the full book — 12 parts, {foundationSections.length} chapters live
-							<span class="transition-transform group-hover:translate-x-0.5">→</span>
-						</button>
 					</section>
 
 					<!-- Browse the Lab — registry indexes -->
