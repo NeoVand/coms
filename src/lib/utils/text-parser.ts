@@ -3,6 +3,7 @@ import { getConceptById } from '$lib/data/concepts';
 import { getOutageById } from '$lib/data/outages';
 import { getPioneerById } from '$lib/data/pioneers';
 import { getRfcByNumber } from '$lib/data/rfcs';
+import { getFrontierById } from '$lib/data/frontier';
 
 /**
  * Inline rich-text segments produced by `parseRichText`.
@@ -39,7 +40,9 @@ export type TextSegment =
 	| { type: 'rfc-ref'; number: string; label: string }
 	| { type: 'outage-link'; outageId: string; label: string }
 	| { type: 'pioneer-link'; pioneerId: string; label: string }
-	| { type: 'glossary-link'; conceptId: string; label: string };
+	| { type: 'glossary-link'; conceptId: string; label: string }
+	| { type: 'frontier-link'; frontierId: string; label: string }
+	| { type: 'chapter-link'; partId: string; chapterId: string; label: string };
 
 /**
  * Combined regex matching:
@@ -99,6 +102,22 @@ function buildBracketSegment(
 			const concept = getConceptById(id);
 			const label = rawLabel || concept?.term || id;
 			return { type: 'glossary-link', conceptId: id, label };
+		}
+		case 'frontier': {
+			const fe = getFrontierById(id);
+			const label = rawLabel || fe?.title || id;
+			return { type: 'frontier-link', frontierId: id, label };
+		}
+		case 'chapter': {
+			// Format: chapter:partId/chapterId — id has a "/" separator.
+			const slash = id.indexOf('/');
+			if (slash === -1) {
+				return { type: 'text', value: rawLabel ? `[[${rawId}|${rawLabel}]]` : `[[${rawId}]]` };
+			}
+			const partId = id.slice(0, slash);
+			const chapterId = id.slice(slash + 1);
+			const label = rawLabel || chapterId;
+			return { type: 'chapter-link', partId, chapterId, label };
 		}
 		default: {
 			// Unknown prefix — surface as plain text so the typo is visible.

@@ -5,6 +5,8 @@
 	import OutageLink from '$lib/components/detail/inline/OutageLink.svelte';
 	import PioneerLink from '$lib/components/detail/inline/PioneerLink.svelte';
 	import GlossaryLink from '$lib/components/detail/inline/GlossaryLink.svelte';
+	import FrontierLink from '$lib/components/detail/inline/FrontierLink.svelte';
+	import ChapterLink from '$lib/components/detail/inline/ChapterLink.svelte';
 	import { navigateToProtocol } from '$lib/utils/navigation';
 
 	let { text, color, title }: { text: string; color: string; title?: string } = $props();
@@ -52,6 +54,15 @@
 						<PioneerLink pioneerId={seg.pioneerId} label={seg.label} {color} />
 					{:else if seg.type === 'glossary-link'}
 						<GlossaryLink conceptId={seg.conceptId} label={seg.label} {color} />
+					{:else if seg.type === 'frontier-link'}
+						<FrontierLink frontierId={seg.frontierId} label={seg.label} {color} />
+					{:else if seg.type === 'chapter-link'}
+						<ChapterLink
+							partId={seg.partId}
+							chapterId={seg.chapterId}
+							label={seg.label}
+							{color}
+						/>
 					{/if}
 				{/each}
 			</p>
