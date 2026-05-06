@@ -1,16 +1,17 @@
 <script lang="ts">
 	import { onMount, untrack } from 'svelte';
 	import { prefersReducedMotion } from 'svelte/motion';
-	import { buildGraphNodes, buildGraphEdges, buildMeshEdges, getProtocolById } from '$lib/data/index';
+	import { buildGraphNodes, buildGraphEdges, buildMeshEdges, getProtocolById, allProtocols, categories } from '$lib/data/index';
 	import type { GraphNode } from '$lib/data/types';
 
 	import { createSimulation, warmUpSimulation, syncPositions } from '$lib/engine/simulation';
 	import { render, findNodeAtPosition } from '$lib/engine/canvas-renderer';
 	import { RenderLoop } from '$lib/engine/render-loop.svelte';
 	import { getAppState } from '$lib/state/context';
-	import { computeRadialPositions, computeTimelinePositions, computeMeshPositions } from '$lib/engine/layouts';
+	import { computeRadialPositions, computeTimelinePositions, computeMeshPositions, TIMELINE_PARAMS } from '$lib/engine/layouts';
 	import type { LayoutMode } from '$lib/engine/layouts';
 	import { getThemeColors } from '$lib/utils/colors';
+	import { navigateToNode, navigateToHub } from '$lib/utils/navigation';
 
 	const appState = getAppState();
 
@@ -28,8 +29,87 @@
 	let layoutTargets: Map<string, { x: number; y: number }> | null = null;
 	let layoutTransitionStart: number | null = null;
 	let prevLayout: LayoutMode | null = null;
-	// Bloom animation on initial load (separate from layout transitions)
-	let bloomTargets: Map<string, { x: number; y: number }> | null = null;
+	// Chronological bloom on initial load (separate from layout transitions)
+	let bloomActive = false;
+	let bloomStart: number | null = null;
+	let bloomNodeTargets: Map<string, { x: number; y: number }> | null = null;
+	// Per-node birth fraction during the chronological bloom (0..1).
+	// Empty after the bloom finishes — renderer treats missing as 1.
+	const birthScales = new Map<string, number>();
+	// Tracks which nodes have been "spawned" (placed at their starting
+	// offset from the parent) during the bloom.
+	const bloomSpawned = new Set<string>();
+	// Per-node spring velocities for the bloom glide.
+	const bloomVelocities = new Map<string, { vx: number; vy: number }>();
+
+	/**
+	 * Chronological bloom — every protocol unfurls in the order it was
+	 * invented, sprouting from its category like a tendril extending with
+	 * a bud opening at the tip.
+	 *
+	 * It's a tree, so we don't need a live force simulation during the
+	 * reveal — that just shakes the existing graph each time a leaf joins.
+	 * Targets come from a single pre-warmed force layout (so the final
+	 * shape is the natural force-directed one). Each node then *glides*
+	 * toward its target with a critically-damped spring: no overshoot, no
+	 * neighbour perturbation. The radius grows in step with the spring so
+	 * the bud is small near the parent and reaches full size as it lands
+	 * at its destination.
+	 */
+	const BLOOM_TOTAL_MS = 4200;
+	const BLOOM_HUB_SOLO_MS = 450;
+	const BLOOM_CATEGORY_PRE_OFFSET_MS = 380;
+	const BLOOM_BIRTH_FADE_MS = 1500;
+	/** Per-id deterministic jitter so siblings within a year don't lock-step. */
+	const BLOOM_JITTER_MAX_MS = 220;
+	/**
+	 * Critically-damped spring (ω₀≈3.4, ζ≈1.0). Slow glide, no overshoot.
+	 * Settle time ~5/ω₀ ≈ 1.5s — matched to BLOOM_BIRTH_FADE_MS so the
+	 * bud finishes growing right as the stem reaches full length.
+	 */
+	const BLOOM_SPRING_STIFFNESS = 11.5;
+	const BLOOM_SPRING_DAMPING = 6.8;
+	/**
+	 * Spawn fraction along the parent→target path. 0 = exactly at parent
+	 * (causes infinite repulsion when forces are live), 1 = already at
+	 * target. A small offset means the bud starts visibly attached to its
+	 * parent without overlap.
+	 */
+	const BLOOM_SPAWN_OFFSET = 0.12;
+
+	function yearToBloomMs(year: number): number {
+		const { MIN_YEAR, MAX_YEAR } = TIMELINE_PARAMS;
+		const t = (year - MIN_YEAR) / (MAX_YEAR - MIN_YEAR);
+		return BLOOM_HUB_SOLO_MS + Math.max(0, Math.min(1, t)) * (BLOOM_TOTAL_MS - BLOOM_HUB_SOLO_MS);
+	}
+
+	function bloomJitterForId(id: string): number {
+		// FNV-1a-ish hash → stable [0, BLOOM_JITTER_MAX_MS) per id
+		let h = 0x811c9dc5;
+		for (let i = 0; i < id.length; i++) {
+			h ^= id.charCodeAt(i);
+			h = Math.imul(h, 0x01000193);
+		}
+		return ((h >>> 0) % 1000) / 1000 * BLOOM_JITTER_MAX_MS;
+	}
+
+	function computeChronologicalDelays(): Map<string, number> {
+		const delays = new Map<string, number>();
+		delays.set('hub', 0);
+		for (const cat of categories) {
+			const catProtos = allProtocols.filter((p) => p.categoryId === cat.id);
+			if (catProtos.length === 0) continue;
+			const minYear = Math.min(...catProtos.map((p) => p.year));
+			const baseDelay = yearToBloomMs(minYear);
+			delays.set(cat.id, Math.max(120, baseDelay - BLOOM_CATEGORY_PRE_OFFSET_MS));
+		}
+		for (const proto of allProtocols) {
+			delays.set(proto.id, yearToBloomMs(proto.year) + bloomJitterForId(proto.id));
+		}
+		return delays;
+	}
+
+	const chronoDelays = computeChronologicalDelays();
 
 	/**
 	 * Spring physics — every node is a little damped harmonic oscillator.
@@ -332,9 +412,9 @@
 		const node = findNodeAtPosition(hitNodes(), world.x, world.y, appState.viewport.scale);
 
 		if (node) {
-			appState.selectNode(node);
-		} else {
-			appState.clearSelection();
+			navigateToNode(node);
+		} else if (appState.selectedNode) {
+			navigateToHub();
 		}
 	}
 
@@ -404,9 +484,9 @@
 					);
 					const node = findNodeAtPosition(hitNodes(), world.x, world.y, appState.viewport.scale);
 					if (node) {
-						appState.selectNode(node);
-					} else {
-						appState.clearSelection();
+						navigateToNode(node);
+					} else if (appState.selectedNode) {
+						navigateToHub();
 					}
 				}
 			}
@@ -418,22 +498,30 @@
 		const ctx = canvas.getContext('2d')!;
 		const dpr = window.devicePixelRatio || 1;
 
-		// Warm up to compute settled positions
+		// Warm up to compute settled target positions. With the bloom we
+		// then stash those targets, reset visible positions to (0,0), and
+		// glide each node into place — but we keep the warmed simulation
+		// frozen during the bloom so the existing graph doesn't shake.
 		warmUpSimulation(simulation);
 		syncPositions(simulation, nodes);
 
 		if (!prefersReducedMotion.current) {
-			// Bloom animation: store settled positions as targets, reset to center, then spring out.
-			bloomTargets = new Map<string, { x: number; y: number }>();
+			// Capture every node's settled position as its bloom target.
+			bloomNodeTargets = new Map<string, { x: number; y: number }>();
 			for (const node of nodes) {
-				bloomTargets.set(node.id, { x: node.x, y: node.y });
+				bloomNodeTargets.set(node.id, { x: node.x, y: node.y });
 				if (node.type !== 'hub') {
+					// Park off-screen until birth — invisible thanks to
+					// birthScales[id] = 0.
 					node.x = 0;
 					node.y = 0;
+					node.vx = 0;
+					node.vy = 0;
 				}
+				birthScales.set(node.id, 0);
+				bloomVelocities.set(node.id, { vx: 0, vy: 0 });
 			}
-			// Initialise spring states so the tick loop can drive them.
-			captureLayoutSource();
+			bloomActive = true;
 		}
 
 		// Register touch/wheel handlers as non-passive so preventDefault() works
@@ -455,13 +543,15 @@
 			// Fit graph to screen on first layout
 			if (!hasInitialFit && width > 0 && height > 0) {
 				hasInitialFit = true;
-				if (bloomTargets) {
-					// Bloom mode: set viewport instantly using settled positions for bounding box
-					const targetNodes = nodes.map((n) => {
-						const t = bloomTargets!.get(n.id);
+				if (bloomActive && bloomNodeTargets) {
+					// Bloom mode: frame the camera around the eventual
+					// settled positions so the viewport stays fixed during
+					// the reveal.
+					const settled = nodes.map((n) => {
+						const t = bloomNodeTargets!.get(n.id);
 						return t ? { ...n, x: t.x, y: t.y } : n;
 					});
-					appState.focusOnSubgraph(targetNodes, width, height, 0, true);
+					appState.focusOnSubgraph(settled, width, height, 0, true);
 				} else {
 					appState.focusOnSubgraph(nodes, width, height, 0);
 				}
@@ -481,50 +571,86 @@
 			const subDt = stepDt / SUBSTEPS;
 
 			// Update node positions based on layout mode
-			if (bloomTargets) {
-				// Initial bloom uses the same springs so the reveal feels
-				// continuous with later transitions.
-				if (layoutTransitionStart === null) {
-					layoutTransitionStart = time;
-				}
-				const elapsed = time - layoutTransitionStart;
+			if (bloomActive && bloomNodeTargets) {
+				// Chronological bloom — each node glides from a small offset
+				// near its parent toward its pre-computed target. Pure spring
+				// physics, no live force interaction: the existing graph
+				// stays perfectly still while a new bud unfurls.
+				if (bloomStart === null) bloomStart = time;
+				const elapsed = time - bloomStart;
 
 				let allSettled = true;
-				for (const node of nodes) {
-					const tgt = bloomTargets.get(node.id);
-					const spring = springStates.get(node.id);
-					if (!tgt || !spring) continue;
 
-					if (elapsed < spring.delay) {
+				for (const node of nodes) {
+					const delay = chronoDelays.get(node.id) ?? 0;
+
+					// Hub: already at (0,0) — only fades in visually.
+					if (node.type === 'hub') {
+						const t = Math.min(1, elapsed / BLOOM_BIRTH_FADE_MS);
+						birthScales.set(node.id, t);
+						if (t < 1) allSettled = false;
+						continue;
+					}
+
+					if (elapsed < delay) {
+						birthScales.set(node.id, 0);
 						allSettled = false;
 						continue;
 					}
 
-					for (let s = 0; s < SUBSTEPS; s++) {
-						const ax = SPRING_STIFFNESS * (tgt.x - node.x) - SPRING_DAMPING * spring.vx;
-						const ay = SPRING_STIFFNESS * (tgt.y - node.y) - SPRING_DAMPING * spring.vy;
-						spring.vx += ax * subDt;
-						spring.vy += ay * subDt;
-						node.x += spring.vx * subDt;
-						node.y += spring.vy * subDt;
+					const target = bloomNodeTargets.get(node.id);
+					const vel = bloomVelocities.get(node.id);
+					if (!target || !vel) continue;
+
+					// First frame past the birth delay — place the bud a
+					// short distance along the parent→target line so it's
+					// visibly attached but doesn't overlap the parent.
+					if (!bloomSpawned.has(node.id)) {
+						bloomSpawned.add(node.id);
+						const parentId = node.type === 'category' ? 'hub' : node.categoryId;
+						const parent = parentId ? nodes.find((n) => n.id === parentId) : undefined;
+						const px = parent?.x ?? 0;
+						const py = parent?.y ?? 0;
+						node.x = px + (target.x - px) * BLOOM_SPAWN_OFFSET;
+						node.y = py + (target.y - py) * BLOOM_SPAWN_OFFSET;
+						vel.vx = 0;
+						vel.vy = 0;
 					}
 
-					const posErr = Math.abs(tgt.x - node.x) + Math.abs(tgt.y - node.y);
-					const velMag = Math.abs(spring.vx) + Math.abs(spring.vy);
-					if (posErr > 0.4 || velMag > 1.5) {
+					const birthT = Math.min(1, (elapsed - delay) / BLOOM_BIRTH_FADE_MS);
+					birthScales.set(node.id, birthT);
+
+					// Critically-damped spring → smooth glide to target.
+					for (let s = 0; s < SUBSTEPS; s++) {
+						const ax =
+							BLOOM_SPRING_STIFFNESS * (target.x - node.x) - BLOOM_SPRING_DAMPING * vel.vx;
+						const ay =
+							BLOOM_SPRING_STIFFNESS * (target.y - node.y) - BLOOM_SPRING_DAMPING * vel.vy;
+						vel.vx += ax * subDt;
+						vel.vy += ay * subDt;
+						node.x += vel.vx * subDt;
+						node.y += vel.vy * subDt;
+					}
+
+					const posErr = Math.abs(target.x - node.x) + Math.abs(target.y - node.y);
+					const velMag = Math.abs(vel.vx) + Math.abs(vel.vy);
+					if (posErr > 0.5 || velMag > 1.0 || birthT < 1) {
 						allSettled = false;
 					} else {
-						node.x = tgt.x;
-						node.y = tgt.y;
-						spring.vx = 0;
-						spring.vy = 0;
+						node.x = target.x;
+						node.y = target.y;
+						vel.vx = 0;
+						vel.vy = 0;
 					}
 				}
 
-				if (allSettled && elapsed > 200) {
-					bloomTargets = null;
-					layoutTransitionStart = null;
-					springStates.clear();
+				if (allSettled && elapsed > BLOOM_TOTAL_MS) {
+					bloomActive = false;
+					bloomStart = null;
+					bloomNodeTargets = null;
+					birthScales.clear();
+					bloomSpawned.clear();
+					bloomVelocities.clear();
 				}
 			} else if (layoutTargets) {
 				// Layout transition: each node springs toward its target with
@@ -594,7 +720,8 @@
 				time,
 				dpr,
 				layoutMode: appState.layoutMode,
-				theme: getThemeColors(appState.theme)
+				theme: getThemeColors(appState.theme),
+				birthScales: bloomActive ? birthScales : null
 			});
 		});
 

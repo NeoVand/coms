@@ -11,11 +11,18 @@ import {
 } from 'd3-force';
 import type { GraphNode, GraphEdge } from '$lib/data/types';
 
-interface SimNode extends SimulationNodeDatum {
+export interface SimNode extends SimulationNodeDatum {
 	id: string;
 	type: 'hub' | 'category' | 'protocol';
 	radius: number;
 	categoryId?: string;
+	/**
+	 * Set false to make the node inert in the layout — no charge, no link
+	 * pull, no collision. Used during the chronological bloom so unborn
+	 * nodes don't perturb the live force simulation. Treat undefined as
+	 * "born" so existing call sites are unchanged.
+	 */
+	isBorn?: boolean;
 }
 
 interface SimLink extends SimulationLinkDatum<SimNode> {
@@ -51,6 +58,7 @@ export function createSimulation(
 			'charge',
 			forceManyBody<SimNode>()
 				.strength((d) => {
+					if (d.isBorn === false) return 0;
 					if (d.type === 'hub') return -800;
 					if (d.type === 'category') return -400;
 					return -170;
@@ -68,24 +76,69 @@ export function createSimulation(
 				})
 				.strength((d) => {
 					const src = d.source as SimNode;
+					const tgt = d.target as SimNode;
+					if (src.isBorn === false || tgt.isBorn === false) return 0;
 					if (src.type === 'hub') return 0.4;
 					return 0.6;
 				})
 		)
 		.force(
 			'radial-categories',
-			forceRadial<SimNode>(200, 0, 0).strength((d) => (d.type === 'category' ? 0.3 : 0))
+			forceRadial<SimNode>(200, 0, 0).strength((d) =>
+				d.isBorn !== false && d.type === 'category' ? 0.3 : 0
+			)
 		)
 		.force(
 			'collide',
 			forceCollide<SimNode>()
-				.radius((d) => d.radius + 12)
+				.radius((d) => (d.isBorn === false ? 0 : d.radius + 12))
 				.strength(0.8)
 		)
 		.alphaDecay(0.02)
 		.velocityDecay(0.3);
 
 	return simulation;
+}
+
+/**
+ * Toggle a node's "born" state mid-simulation, optionally snapping it to
+ * a starting position (typically its parent's current location).
+ *
+ * Setting born=false pins the node via fx/fy so it stays at `position`
+ * while still appearing in the simulation's node list. Setting born=true
+ * unpins and re-zeros velocity so the node is gently pushed by forces
+ * from its current position rather than launching out from accumulated
+ * pre-birth velocity.
+ */
+export function setBornState(
+	simulation: Simulation<SimNode, SimLink>,
+	nodeId: string,
+	born: boolean,
+	position?: { x: number; y: number }
+): void {
+	const sn = simulation.nodes().find((n) => n.id === nodeId);
+	if (!sn) return;
+	if (position) {
+		sn.x = position.x;
+		sn.y = position.y;
+	}
+	sn.vx = 0;
+	sn.vy = 0;
+	sn.isBorn = born;
+	if (born) {
+		sn.fx = null;
+		sn.fy = null;
+	} else {
+		sn.fx = position?.x ?? sn.x ?? 0;
+		sn.fy = position?.y ?? sn.y ?? 0;
+	}
+}
+
+export function getSimNode(
+	simulation: Simulation<SimNode, SimLink>,
+	nodeId: string
+): SimNode | undefined {
+	return simulation.nodes().find((n) => n.id === nodeId);
 }
 
 export function warmUpSimulation(simulation: Simulation<SimNode, SimLink>, ticks = 300): void {

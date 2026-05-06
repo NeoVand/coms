@@ -21,6 +21,8 @@ interface RenderOptions {
 	dpr: number;
 	layoutMode?: LayoutMode;
 	theme: ThemeColors;
+	/** Per-node birth fraction (0..1) used during chronological bloom. Missing = 1. */
+	birthScales?: Map<string, number> | null;
 }
 
 const NODE_MAP = new Map<string, GraphNode>();
@@ -115,8 +117,10 @@ function isNodeDimmed(node: GraphNode, selectedNode: GraphNode | null, compareTa
 let currentTheme: ThemeColors;
 
 export function render(ctx: CanvasRenderingContext2D, options: RenderOptions): void {
-	const { width, height, viewport, nodes, edges, hoveredNode, selectedNode, compareTargetId, activeJourney, activeJourneyStepIndex, searchHighlightIds, time, dpr, layoutMode, theme } =
+	const { width, height, viewport, nodes, edges, hoveredNode, selectedNode, compareTargetId, activeJourney, activeJourneyStepIndex, searchHighlightIds, time, dpr, layoutMode, theme, birthScales } =
 		options;
+
+	const getBirth = (id: string): number => birthScales?.get(id) ?? 1;
 
 	currentTheme = theme;
 
@@ -158,7 +162,10 @@ export function render(ctx: CanvasRenderingContext2D, options: RenderOptions): v
 		const dimTarget = dimAnim.get(target.id) ?? 0;
 		const edgeDimT = Math.max(dimSource, dimTarget);
 
-		drawEdge(ctx, source, target, edge.color, edgeDimT, time, theme);
+		const edgeBirth = Math.min(getBirth(source.id), getBirth(target.id));
+		if (edgeBirth <= 0.001) continue;
+
+		drawEdge(ctx, source, target, edge.color, edgeDimT, time, theme, edgeBirth);
 	}
 
 	// Draw related protocol edges (dashed) — redundant in mesh mode where
@@ -213,7 +220,9 @@ export function render(ctx: CanvasRenderingContext2D, options: RenderOptions): v
 		const isSelected = selectedNode?.id === node.id;
 		const dimT = dimAnim.get(node.id) ?? 0;
 		const isConnected = connectedIds.has(node.id);
-		drawNode(ctx, node, hoverT, isSelected, dimT, isConnected, time, viewport.scale, theme, layoutMode);
+		const birthT = getBirth(node.id);
+		if (birthT <= 0.001) continue;
+		drawNode(ctx, node, hoverT, isSelected, dimT, isConnected, time, viewport.scale, theme, layoutMode, birthT);
 	}
 
 	ctx.restore();
@@ -633,10 +642,14 @@ function drawEdge(
 	color: string,
 	dimT: number,
 	time: number,
-	theme: ThemeColors
+	theme: ThemeColors,
+	birthT: number = 1
 ): void {
+	// Edge fade matches node alpha curve (catches up faster than scale)
+	// so the stem reads as continuous with the bud at its tip.
+	const edgeBirthAlpha = birthT >= 1 ? 1 : Math.min(1, birthT * 1.8);
 	const baseAlpha = theme.edgeAlpha + 0.05 * Math.sin(time * 0.002);
-	const alpha = baseAlpha + (0.05 - baseAlpha) * dimT;
+	const alpha = (baseAlpha + (0.05 - baseAlpha) * dimT) * edgeBirthAlpha;
 
 	ctx.beginPath();
 
@@ -668,11 +681,23 @@ function drawNode(
 	time: number,
 	scale: number,
 	theme: ThemeColors,
-	layoutMode?: string
+	layoutMode?: string,
+	birthT: number = 1
 ): void {
 	const { x, y, radius, type } = node;
 	const color = themedColor(node.color, theme.showStars ? 'dark' : 'light');
-	const alpha = 1 - 0.9 * dimT;
+	// Plant-growth birth: smoothstep S-curve, no overshoot. The bud is
+	// faintly visible from the start (small minimum scale + fast alpha)
+	// then fills out as the stem extends.
+	let birthScale = 1;
+	let birthAlpha = 1;
+	if (birthT < 1) {
+		const t = birthT;
+		const eased = t * t * (3 - 2 * t); // smoothstep
+		birthScale = 0.06 + 0.94 * eased;
+		birthAlpha = Math.min(1, t * 1.8); // alpha catches up faster than scale
+	}
+	const alpha = (1 - 0.9 * dimT) * birthAlpha;
 
 	// Ease-out curve for organic "grow out" feel
 	const eased = 1 - (1 - hoverT) * (1 - hoverT);
@@ -686,6 +711,7 @@ function drawNode(
 	if (isSelected) {
 		r *= 1.1;
 	}
+	r *= birthScale;
 
 	// Outer glow — smoothly interpolated for hover
 	const glowVisibility = isConnected ? 1 : 1 - dimT;
