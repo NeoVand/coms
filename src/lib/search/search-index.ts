@@ -4,6 +4,11 @@ import { categories } from '$lib/data/categories';
 import { getPairsForProtocol } from '$lib/data/comparison/pairs';
 import { journeys } from '$lib/data/journeys';
 import { getCategoryStory } from '$lib/data/category-stories/index';
+import { foundationSections } from '$lib/data/concept-foundations';
+import { pioneers } from '$lib/data/pioneers';
+import { rfcs } from '$lib/data/rfcs';
+import { outages } from '$lib/data/outages';
+import { frontierEntries } from '$lib/data/frontier';
 
 export type SearchResultType =
 	| 'protocol'
@@ -11,7 +16,12 @@ export type SearchResultType =
 	| 'category'
 	| 'comparison'
 	| 'journey'
-	| 'story';
+	| 'story'
+	| 'chapter'
+	| 'pioneer'
+	| 'rfc'
+	| 'outage'
+	| 'frontier';
 
 export type SearchNav =
 	| { kind: 'protocol'; protocolId: string }
@@ -19,7 +29,12 @@ export type SearchNav =
 	| { kind: 'category'; categoryId: string; tab?: 'story' | 'advanced' | 'journeys' }
 	| { kind: 'comparison'; protocolId: string; compareTargetId: string }
 	| { kind: 'journey'; journeyId: string }
-	| { kind: 'hub'; tab: 'home' | 'glossary' | 'journeys' };
+	| { kind: 'hub'; tab: 'home' | 'glossary' | 'journeys' }
+	| { kind: 'chapter'; chapterId: string }
+	| { kind: 'pioneer'; pioneerId: string }
+	| { kind: 'rfc'; number: string }
+	| { kind: 'outage'; outageId: string }
+	| { kind: 'frontier'; frontierId: string };
 
 export interface SearchEntry {
 	type: SearchResultType;
@@ -161,11 +176,106 @@ for (const cat of categories) {
 	});
 }
 
+// Strip [[…]] and {{…}} atoms so they don't pollute the searchable text
+function stripAtoms(text: string): string {
+	return text
+		.replace(/\[\[[^\]|]+(?:\|([^\]]+))?\]\]/g, '$1')
+		.replace(/\{\{[^}|]+(?:\|([^}]+))?\}\}/g, '$1')
+		.replace(/\*\*([^*]+)\*\*/g, '$1');
+}
+
+// 7. Foundation chapters (Part I of the book)
+for (const section of foundationSections) {
+	// Concatenate all narrative text in the section so chapter search
+	// finds keywords from the body, not just the title.
+	const body = section.sections
+		.map((s) => {
+			if (s.type === 'narrative') return `${s.title ?? ''} ${stripAtoms(s.text)}`;
+			if (s.type === 'callout') return `${s.title} ${stripAtoms(s.text)}`;
+			if (s.type === 'diagram') return `${s.title ?? ''} ${s.caption}`;
+			return '';
+		})
+		.join(' ');
+	entries.push({
+		type: 'chapter',
+		label: section.title,
+		description: 'Part I — Foundations',
+		searchText: `${section.title} chapter foundations ${body}`.toLowerCase(),
+		protocolIds: [],
+		nav: { kind: 'chapter', chapterId: section.id }
+	});
+}
+
+// 8. Pioneers
+for (const p of pioneers) {
+	const protoNames = (p.protocols ?? [])
+		.map((id) => {
+			const proto = protocolMap.get(id);
+			return proto ? `${proto.name} ${proto.abbreviation}` : '';
+		})
+		.join(' ');
+	entries.push({
+		type: 'pioneer',
+		label: p.name,
+		description: p.title ?? p.org ?? '',
+		searchText: `${p.name} ${p.title ?? ''} ${p.org ?? ''} ${stripAtoms(p.contribution)} ${protoNames}`.toLowerCase(),
+		protocolIds: p.protocols ?? [],
+		nav: { kind: 'pioneer', pioneerId: p.id }
+	});
+}
+
+// 9. RFCs
+for (const r of rfcs) {
+	const protoNames = (r.protocols ?? [])
+		.map((id) => {
+			const proto = protocolMap.get(id);
+			return proto ? `${proto.name} ${proto.abbreviation}` : '';
+		})
+		.join(' ');
+	entries.push({
+		type: 'rfc',
+		label: `RFC ${r.number} — ${r.title}`,
+		description: `${r.year}${r.authors ? ' · ' + r.authors : ''}`,
+		searchText: `rfc ${r.number} ${r.title} ${r.authors ?? ''} ${protoNames}`.toLowerCase(),
+		protocolIds: r.protocols ?? [],
+		nav: { kind: 'rfc', number: r.number }
+	});
+}
+
+// 10. Outages
+for (const o of outages) {
+	entries.push({
+		type: 'outage',
+		label: o.title,
+		description: o.oneLiner,
+		searchText: `outage incident ${o.title} ${o.oneLiner} ${o.date} ${stripAtoms(o.setup)} ${stripAtoms(o.mistake)} ${stripAtoms(o.lesson)}`.toLowerCase(),
+		protocolIds: o.affectedProtocols,
+		nav: { kind: 'outage', outageId: o.id }
+	});
+}
+
+// 11. Frontier
+for (const f of frontierEntries) {
+	entries.push({
+		type: 'frontier',
+		label: f.title,
+		description: f.oneLiner,
+		searchText: `frontier ${f.title} ${f.oneLiner} ${stripAtoms(f.description)} ${f.topic} ${f.status}`.toLowerCase(),
+		protocolIds: f.protocols,
+		nav: { kind: 'frontier', frontierId: f.id }
+	});
+}
+
 // ── Search function ────────────────────────────────────────────
 
 const TYPE_PRIORITY: Record<SearchResultType, number> = {
-	protocol: 6,
-	category: 5,
+	protocol: 11,
+	category: 10,
+	chapter: 9,
+	rfc: 8,
+	pioneer: 7,
+	outage: 6,
+	frontier: 5,
 	comparison: 4,
 	concept: 3,
 	journey: 2,
@@ -237,10 +347,15 @@ export function search(query: string, limit = 12): SearchEntry[] {
 	const TYPE_ORDER: Record<SearchResultType, number> = {
 		protocol: 0,
 		category: 1,
-		comparison: 2,
-		concept: 3,
-		journey: 4,
-		story: 5
+		chapter: 2,
+		rfc: 3,
+		pioneer: 4,
+		outage: 5,
+		frontier: 6,
+		comparison: 7,
+		concept: 8,
+		journey: 9,
+		story: 10
 	};
 	result.sort((a, b) => {
 		const typeOrd = TYPE_ORDER[a.type] - TYPE_ORDER[b.type];

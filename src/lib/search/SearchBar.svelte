@@ -7,7 +7,10 @@
 		Scale,
 		Lightbulb,
 		Compass,
-		BookOpen
+		BookOpen,
+		Users,
+		FileText,
+		AlertTriangle
 	} from 'lucide-svelte';
 	import {
 		search,
@@ -23,7 +26,12 @@
 		navigateToProtocol,
 		navigateToCategory,
 		navigateToJourney,
-		navigateToHubPanel
+		navigateToHubPanel,
+		navigateToBookChapter,
+		navigateToPioneer,
+		navigateToRfc,
+		navigateToOutage,
+		navigateToFrontier
 	} from '$lib/utils/navigation';
 
 	const appState = getAppState();
@@ -81,10 +89,15 @@
 	const groupMeta: Record<SearchResultType, { label: string; icon: typeof Search }> = {
 		protocol: { label: 'Protocols', icon: CircuitBoard },
 		category: { label: 'Categories', icon: Layers },
+		chapter: { label: 'Chapters', icon: BookOpen },
+		rfc: { label: 'RFCs', icon: FileText },
+		pioneer: { label: 'Pioneers', icon: Users },
+		outage: { label: 'Famous outages', icon: AlertTriangle },
+		frontier: { label: 'Frontier', icon: Compass },
 		comparison: { label: 'Comparisons', icon: Scale },
-		concept: { label: 'Concepts', icon: Lightbulb },
+		concept: { label: 'Glossary', icon: Lightbulb },
 		journey: { label: 'Journeys', icon: Compass },
-		story: { label: 'Stories', icon: BookOpen }
+		story: { label: 'Category stories', icon: BookOpen }
 	};
 
 	function openSearch() {
@@ -163,6 +176,26 @@
 			case 'hub': {
 				await navigateToHubPanel();
 				appState.hubViewMode = nav.tab;
+				break;
+			}
+			case 'chapter': {
+				await navigateToBookChapter(nav.chapterId);
+				break;
+			}
+			case 'pioneer': {
+				await navigateToPioneer(nav.pioneerId);
+				break;
+			}
+			case 'rfc': {
+				await navigateToRfc(nav.number);
+				break;
+			}
+			case 'outage': {
+				await navigateToOutage(nav.outageId);
+				break;
+			}
+			case 'frontier': {
+				await navigateToFrontier(nav.frontierId);
 				break;
 			}
 		}
