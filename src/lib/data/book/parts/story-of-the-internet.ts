@@ -46,6 +46,27 @@ The third tradition was packet radio. ARPA's Packet Radio Network (PRNET, 1973) 
 						}
 					]
 				},
+				{
+					kind: 'prose',
+					sections: [
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/A_sketch_of_the_ARPANET_in_December_1969.png/500px-A_sketch_of_the_ARPANET_in_December_1969.png',
+							alt: 'Hand-drawn sketch of ARPANET, December 1969 — the original four nodes UCLA, SRI, UCSB, and Utah.',
+							caption:
+								'A December 1969 sketch of the ARPANET — the four-node network that became the internet. UCLA, SRI, UCSB, and Utah; one IMP per site.',
+							credit: 'Image: DARPA / public domain, via Wikimedia Commons'
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Interface_Message_Processor_%28%22IMP%22%29_%282586235502%29.jpg/500px-Interface_Message_Processor_%28%22IMP%22%29_%282586235502%29.jpg',
+							alt: 'A BBN-built Interface Message Processor (IMP) on display at the Computer History Museum.',
+							caption:
+								'An original BBN Interface Message Processor (IMP) — the rugged minicomputer that served as ARPANET\'s first router. The protocol that ran between IMPs is what TCP/IP would later replace.',
+							credit: 'Photo: Erik Pitti, CC BY 2.0, via Wikimedia Commons'
+						}
+					]
+				},
 				{ kind: 'pioneer', id: 'bob-metcalfe' },
 				{ kind: 'pioneer', id: 'vint-cerf' },
 				{ kind: 'protocol', id: 'ethernet' }
@@ -171,6 +192,14 @@ By 1995, OSI was effectively dead in production networks. CLNP survived in IS-IS
 By Christmas 1990, on a NeXT workstation in his office, Berners-Lee had built the first **web server** (info.cern.ch), the first **web browser** (also a WYSIWYG editor), and the first three protocols he needed: HTTP for transport, HTML for markup, and URLs for addressing. The whole system rode on top of [[tcp|TCP]] — that was the entire architectural assumption. It did not have to invent transport, ordering, retransmission, or addressing. The internet had already solved those.
 
 That is the deepest lesson of the web's success. It was an **application** — an application that benefited from a layered stack underneath that worked. [[http1|HTTP/1.0]] (1996), [[http1|HTTP/1.1]] (1997), [[http2|HTTP/2]] (2015), and [[http3|HTTP/3]] (2022) have all evolved within that frame, and every one of them is still 'just' a way to ask one host to send another some bytes.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/First_Web_Server.jpg/500px-First_Web_Server.jpg',
+							alt: 'Tim Berners-Lee\'s NeXTcube — the world\'s first web server, displayed at CERN with a "do not power down" note on the front.',
+							caption:
+								'The NeXTcube on which Berners-Lee ran the world\'s first web server (info.cern.ch) at CERN in 1990. The "Do not power down" sticker is original — for years this single machine was the entire web.',
+							credit: 'Photo: Coolcaesar, CC BY-SA 3.0, via Wikimedia Commons'
 						}
 					]
 				},

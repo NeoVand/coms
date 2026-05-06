@@ -67,6 +67,14 @@ DNS has been extended several times without breaking. **DNSSEC** adds cryptograp
 [[tls|TLS]] 1.3 was the first version to break wire compatibility — it cut every weak cipher (RC4, 3DES, MD5, SHA-1, RSA key exchange), reduced the handshake from 2 round-trips to 1 (or 0 for resumption), and adopted authenticated encryption (AEAD) as the only legal cipher mode. Industry deployment was fast: by 2022, over 60% of all TLS connections used 1.3.
 
 The current frontier is **post-quantum cryptography**. A working quantum computer could break the elliptic-curve key exchange ([[tls|X25519]]) that secures essentially all modern TLS. The fix — already shipping — is a **hybrid** approach: combine X25519 with a post-quantum KEM (ML-KEM-768, formerly Kyber-768) so that an attacker has to break both. **[[frontier:pq-tls-x25519mlkem768|X25519MLKEM768]]** is the named hybrid; Apple defaulted it on iOS 26, Chrome 124+, and Cloudflare for all TLS 1.3 connections. By the end of 2026, most TLS handshakes on the internet will be post-quantum-secure.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Digital_certificates_chain_of_trust.png/500px-Digital_certificates_chain_of_trust.png',
+							alt: 'X.509 chain of trust: root CA signs intermediate CA, which signs the leaf certificate.',
+							caption:
+								'X.509 chain of trust. A root CA (pre-installed in your browser) signs an intermediate CA, which signs the leaf certificate the server presents. Each link is a digital signature your browser verifies before trusting the connection.',
+							credit: 'Diagram: Wikisosh, CC BY-SA 4.0, via Wikimedia Commons'
 						}
 					]
 				},

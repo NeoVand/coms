@@ -33,6 +33,14 @@ The architecture is **publish-subscribe** through a central **broker**. Sensors 
 MQTT is the de facto IoT protocol. Tesla's vehicles use it to phone home. Ring doorbells, AWS IoT Core, the Matter smart-home standard, Facebook Messenger's mobile push (yes, really) all run on MQTT or its variants.`
 						},
 						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Parabolic-antenna-SHF-updown.jpg/500px-Parabolic-antenna-SHF-updown.jpg',
+							alt: 'A 2.5-metre parabolic dish for two-way satellite Internet, mounted outdoors.',
+							caption:
+								'A 2.5 m parabolic dish for two-way satellite Internet — the kind of ground-station antenna behind the satellite-IoT links MQTT was originally designed for.',
+							credit: 'Photo: Adamantios, CC BY-SA 3.0, via Wikimedia Commons'
+						},
+						{
 							type: 'callout',
 							title: '2-byte overhead is not just an engineering preference.',
 							text: 'On a satellite link priced at $0.20/KB, every byte saved across millions of devices is real money. MQTT was designed when overhead was not an aesthetic choice but a budget item.'

@@ -45,6 +45,19 @@ The IEEE standardised it as **802.3** in 1983, the same year ARPANET flag-day. S
 						}
 					]
 				},
+				{
+					kind: 'prose',
+					sections: [
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Ethernet_RJ45_connector_p1160054.jpg/500px-Ethernet_RJ45_connector_p1160054.jpg',
+							alt: 'Close-up of an 8P8C (RJ-45) modular plug terminating a Cat-5 twisted-pair cable.',
+							caption:
+								'An 8P8C ("RJ-45") modular plug — the connector that brought Ethernet to every desk. Eight conductors carry four differential pairs at gigabit-plus rates over Cat-5 or Cat-6 copper.',
+							credit: 'Photo: David Monniaux, CC BY-SA 3.0, via Wikimedia Commons'
+						}
+					]
+				},
 				{ kind: 'pioneer', id: 'bob-metcalfe' },
 				{ kind: 'pioneer', id: 'david-boggs' },
 				{ kind: 'protocol', id: 'ethernet' },
