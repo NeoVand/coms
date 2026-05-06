@@ -153,5 +153,79 @@ ss -un  # or: netstat -un`
 		caption:
 			'The ARPANET in 1974 — the network where UDP was born. While TCP guaranteed delivery, UDP offered raw speed for the applications that needed it most.',
 		credit: 'Image: ARPANET / Public Domain, via Wikimedia Commons'
+	},
+
+	recentChanges: [
+		{
+			date: '2024-2026',
+			title: 'UDP rises with QUIC',
+			description:
+				'Almost all internet UDP traffic growth in the last five years has been [[quic|QUIC]]. Where UDP used to be a niche transport (DNS, NTP, RTP), it now carries the majority of HTTP/3 traffic plus the entire next generation of media transports.'
+		},
+		{
+			date: '2025',
+			title: 'Linux io_uring + UDP zero-copy',
+			description:
+				'io_uring zero-copy send/receive paths land for UDP in Linux 6.13, dramatically improving QUIC performance on high-throughput servers.'
+		}
+	],
+
+	realWorldDeployments: [
+		{
+			org: 'DNS root + recursive resolvers',
+			scale: '~14 trillion queries/day (Google 8.8.8.8 alone)',
+			description:
+				'Every DNS query/response is one UDP datagram each way. The recursive resolver fleet is the largest UDP application by query count.'
+		},
+		{
+			org: 'NTP pool',
+			scale: '~25 billion queries/day',
+			description:
+				'pool.ntp.org and friends serve tens of billions of UDP NTP queries per day, keeping the world\'s clocks within a few milliseconds.'
+		},
+		{
+			org: 'WebRTC media',
+			scale: 'Every Zoom / Discord / FaceTime call',
+			description:
+				'RTP-over-UDP carries audio/video for every peer-to-peer media call. Late audio is worse than missing audio — UDP\'s "fire and pray" semantics are exactly what RTP needs.'
+		},
+		{
+			org: 'QUIC / HTTP/3',
+			scale: '>50% of Chrome traffic, >75% of Meta',
+			description:
+				'The largest single application of UDP today. Every QUIC packet rides inside a UDP datagram; the user-space transport handles reliability, congestion, and crypto above it.'
+		}
+	],
+
+	funFacts: [
+		{
+			title: 'RFC 768 is three pages long',
+			text: 'UDP\'s entire spec — header format, length field, checksum, and a paragraph of prose — fits in three pages. [[pioneer:jon-postel|Jon Postel]] wrote it in August 1980. It has not been updated since. There has been nothing to update.'
+		},
+		{
+			title: 'UDP gives you ports — that is most of L4',
+			text: 'The only thing UDP adds above raw [[ip|IP]] is the source/destination port pair. That is the entire reason multiple applications can share a host\'s network adapter. Everything else (reliability, ordering, congestion) is left to the application above.'
+		},
+		{
+			title: 'UDP is what middleboxes already pass',
+			text: '[[quic|QUIC]] runs over UDP not because UDP is great, but because middleboxes (NAT routers, firewalls, transparent proxies) already forward UDP unchanged. SCTP is a "better" transport in many ways, but it cannot traverse the public internet because middleboxes drop unknown protocol numbers. UDP is the deployment substrate.'
+		}
+	],
+
+	practicalWisdom: {
+		pitfalls: [
+			{
+				title: 'No congestion control by default',
+				text: 'UDP applications must implement congestion control themselves, or risk being a bad citizen. Sending UDP at line rate without backoff is what brought the internet down in 1986. Use a transport library (QUIC, RTP with feedback) rather than rolling your own.'
+			},
+			{
+				title: 'Fragmentation = unreliable delivery',
+				text: 'UDP datagrams larger than the path MTU get fragmented at the IP layer. If any one fragment is dropped, the entire datagram is lost (no per-fragment retransmit). Cure: keep UDP payloads under ~1400 bytes for safety, or use Path MTU Discovery and resend at the application layer.'
+			},
+			{
+				title: 'Source port matters for NAT pinholes',
+				text: 'A NAT router opens a "pinhole" for outbound UDP keyed by (src IP, src port). The pinhole closes after a few minutes of silence. For long-lived UDP applications (VoIP, IoT keepalives), send a keepalive every 30-60 seconds to keep the pinhole open.'
+			}
+		]
 	}
 };

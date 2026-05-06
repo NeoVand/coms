@@ -184,5 +184,102 @@ Client → Server  [ACK]
 		caption:
 			'The TCP state machine — every TCP connection transitions through these states. From the three-way handshake (SYN → SYN-ACK → ACK) to graceful teardown (FIN → FIN-ACK), this diagram maps the full lifecycle of a TCP connection.',
 		credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
+	},
+
+	recentChanges: [
+		{
+			date: '2024-01',
+			title: 'Linux 6.7 ships native TCP-AO (RFC 5925)',
+			description:
+				'Five thousand lines of new networking code finally give Linux a modern replacement for the deprecated TCP-MD5 used by BGP/LDP. Same release added microsecond-resolution TCP timestamps.',
+			source: { url: 'https://kernelnewbies.org/Linux_6.7', label: 'kernelnewbies.org' }
+		},
+		{
+			date: '2025-01',
+			title: 'Comcast launches L4S in production',
+			description:
+				'Sub-millisecond queuing latency for cooperating flows in six US metros, with Apple, NVIDIA GeForce NOW, Meta, and Valve as launch partners. The first large-scale deployment of the L4S architecture (RFC 9330/9331/9332) on a production access network.',
+			source: { url: 'https://www.rcrwireless.com/20250129/uncategorized/comcast-l4s', label: 'RCR Wireless' }
+		},
+		{
+			date: '2025-06',
+			title: 'Linux 6.15 lands io_uring zero-copy receive',
+			description:
+				'io_uring zcrx integrated with the kernel TCP stack hit ~106 Gb/s on a single TCP flow versus ~74 Gb/s for epoll — a ~40% throughput jump for high-bandwidth servers without any application changes.',
+			source: { url: 'https://www.phoronix.com/news/Linux-6.15-IO_uring', label: 'Phoronix' }
+		},
+		{
+			date: '2025-03',
+			title: 'AccECN advances to draft-34',
+			description:
+				'Accurate ECN (draft-ietf-tcpm-accurate-ecn) reallocates the old ECN-Nonce bit to deliver more than one congestion signal per RTT — the precondition L4S over TCP needs for fine-grained congestion response.',
+			source: {
+				url: 'https://datatracker.ietf.org/doc/draft-ietf-tcpm-accurate-ecn/',
+				label: 'IETF Datatracker'
+			}
+		}
+	],
+
+	realWorldDeployments: [
+		{
+			org: 'Linux kernel',
+			scale: 'CUBIC default since 2.6.19',
+			description:
+				'CUBIC has been the default TCP congestion control on Linux since 2006. Most large-scale Linux servers (web, database, file) run it.'
+		},
+		{
+			org: 'Google',
+			scale: 'BBR for google.com / YouTube',
+			description:
+				'BBRv1 deployed in 2016, BBRv3 has rolled out as the default since 2024. Replaces CUBIC for outbound traffic from Google\'s edge.'
+		},
+		{
+			org: 'Meta',
+			scale: '>50% of traffic still TCP',
+			description:
+				'Despite >75% of Meta\'s internet-facing traffic moving to QUIC, TCP remains the default for service-to-service inside the datacenter and for backwards-compatible client paths.'
+		},
+		{
+			org: 'Apple',
+			scale: 'iOS / macOS default',
+			description:
+				'NewReno + CUBIC by default since iOS 5; ECN with L4S support enabled by default on iOS 17+ and macOS Sonoma+.'
+		}
+	],
+
+	funFacts: [
+		{
+			title: 'RFC 793 was the spec for 41 years',
+			text: 'From September 1981 until [[rfc:9293|RFC 9293]] (August 2022), [[pioneer:jon-postel|Jon Postel]]\'s [[rfc:9293|RFC 793]] was the canonical TCP specification — almost certainly the longest unmodified IETF spec ever. RFC 9293 finally consolidated 13 errata documents into a single readable document, edited by Wesley Eddy.'
+		},
+		{
+			title: 'TCP\'s sequence numbers used to be guessable',
+			text: 'Early TCP picked the initial sequence number from a counter incremented at a fixed rate per second. Kevin Mitnick used this in 1994 to forge a connection to Tsutomu Shimomura\'s host. Modern stacks use a cryptographically-random ISN per [[rfc:9293|RFC 9293]] §3.4.1.'
+		},
+		{
+			title: 'The window field is only 16 bits',
+			text: 'The TCP receive-window field is 16 bits — max 65,535 bytes. On a 100 ms transcontinental path that caps throughput at ~5 Mbit/s. The Window Scale option (RFC 7323, 1992) shifts the window left by up to 14 bits, allowing windows up to 1 GB. Without it, modern long-fat-pipe networking would be impossible.'
+		},
+		{
+			title: 'TIME_WAIT exists because of stragglers',
+			text: 'After active close, a socket sits in **TIME_WAIT** for ~60 seconds (2× MSL) on Linux. Why? A delayed segment from the old connection could otherwise re-enter a freshly-opened connection on the same four-tuple and be misinterpreted as legitimate data. This is the most paranoid 60 seconds in networking.'
+		}
+	],
+
+	practicalWisdom: {
+		pitfalls: [
+			{
+				title: 'Nagle + Delayed ACK = 200ms latency',
+				text: 'Nagle\'s algorithm coalesces small writes; delayed ACK batches acknowledgements. When both are on (the default), interactive applications writing in small chunks can stall for up to 200 ms waiting for an ACK. Cure: setsockopt(TCP_NODELAY, 1) for low-latency apps.'
+			},
+			{
+				title: 'Ephemeral port exhaustion',
+				text: 'On a server doing many short-lived outbound connections (e.g., to upstream APIs), the local OS exhausts the ephemeral port range (default 32768-60999 on Linux). Sockets sit in TIME_WAIT for ~60s, blocking the four-tuple. Cure: enable connection reuse (HTTP keep-alive, gRPC pooling), or widen the range with net.ipv4.ip_local_port_range.'
+			},
+			{
+				title: 'PMTU black holes',
+				text: 'A path drops large packets but does not return ICMP Fragmentation Needed — usually because some intermediate firewall rate-limits or blocks ICMP. The connection hangs because retransmits also fail. Cure: enable PLPMTUD (RFC 4821) or set TCP MSS clamping at the edge.'
+			}
+		]
 	}
 };

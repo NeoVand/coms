@@ -163,5 +163,80 @@ for await (const elem of parser) {
 		caption:
 			'ARPANET logical map, September 1973 — showing the early internet backbone topology including satellite links to Hawaii and London. BGP was created in 1989 to replace the original routing protocols that managed networks like this one.',
 		credit: 'Image: Bolt Beranek and Newman Inc. / Public Domain, via Wikimedia Commons'
+	},
+
+	recentChanges: [
+		{
+			date: '2026',
+			title: 'RPKI/ROV crosses 50% of advertised IP space',
+			description:
+				'NIST Route Origin Validation Monitor and Cloudflare\'s isbgpsafeyet.com show over 50% of advertised IPv4 space now covered by signed Route Origin Authorisations. Most tier-1 transits enforce ROV on incoming announcements.'
+		},
+		{
+			date: '2024-2025',
+			title: 'ASPA reaches late-stage IETF draft',
+			description:
+				'AS Provider Authorisation extends RPKI to AS-path validation — closing the route-leak hole that origin validation alone cannot fix. Standards finalisation expected 2026-2027.',
+			source: { url: 'https://datatracker.ietf.org/wg/sidrops/about/', label: 'IETF SIDROPS WG' }
+		},
+		{
+			date: '2024-01',
+			title: 'TCP-AO ships in Linux 6.7 for BGP',
+			description:
+				'Native TCP Authentication Option (RFC 5925) lands in Linux, finally giving BGP sessions a modern replacement for the deprecated TCP-MD5. Cisco IOS-XR and Junos already supported it; Linux was the long-pole.'
+		}
+	],
+
+	realWorldDeployments: [
+		{
+			org: 'Tier-1 transit (Lumen, Telia, NTT, GTT, Cogent, Tata)',
+			scale: '~1M IPv4 + 200k IPv6 routes',
+			description:
+				'Every tier-1 backbone runs BGP with the full global routing table on every border router. Memory and route-processor capacity is the binding constraint.'
+		},
+		{
+			org: 'Cloudflare',
+			scale: '335+ cities, anycast everywhere',
+			description:
+				'Cloudflare announces the same prefixes from hundreds of POPs via BGP anycast; users hit the nearest PoP based on routing policy.'
+		},
+		{
+			org: 'Hyperscalers (AWS, GCP, Azure)',
+			scale: 'Massive AS holdings',
+			description:
+				'AWS (AS 16509), Google (AS 15169), Microsoft (AS 8075) operate some of the largest BGP networks in the world. AWS Direct Connect, Azure ExpressRoute, GCP Cloud Interconnect all use BGP for customer peering.'
+		}
+	],
+
+	funFacts: [
+		{
+			title: 'BGP was sketched on three napkins',
+			text: 'In January 1989, [[pioneer:yakov-rekhter|Yakov Rekhter]] and Kirk Lougheed met at lunch during an IETF meeting in Austin. The previous routing protocol (EGP) was unmanageable. They sketched a replacement on three napkins. That sketch became BGP-1 (RFC 1105) six months later.'
+		},
+		{
+			title: 'BGP has no built-in authentication',
+			text: 'When AS A says "I can reach 8.8.8.0/24 in two hops," AS B has to choose whether to believe it. There is no cryptographic proof. This is why every BGP hijack of the last 25 years was possible — [[outage:as-7007-1997|AS 7007]], [[outage:pakistan-youtube-2008|Pakistan/YouTube]], and the same architecture choice that made [[outage:facebook-2021|Facebook 2021]] propagate globally in minutes.'
+		},
+		{
+			title: 'TCP keepalives keep BGP sessions alive',
+			text: 'A BGP session is just a long-lived TCP connection on port 179. KEEPALIVE messages every 60 seconds prove the peer is still there; if no message arrives within 180 seconds (HoldTime), the session resets and all routes through that peer are withdrawn — which is what cascaded into [[outage:centurylink-flowspec-2020|CenturyLink 2020]].'
+		}
+	],
+
+	practicalWisdom: {
+		pitfalls: [
+			{
+				title: 'No prefix filters = catastrophic leaks',
+				text: 'Without max-prefix limits and explicit allow-lists, a misconfigured customer can announce the entire global table to you, which you then propagate to your peers. [[outage:as-7007-1997|AS 7007]] is the canonical example. Cure: max-prefix on every BGP session; explicit prefix-list filters from customers.'
+			},
+			{
+				title: 'Soft reset vs hard reset',
+				text: 'A "hard" reset of a BGP session withdraws all routes and re-learns them — visible to the entire internet. A "soft" reset (route-refresh capability, RFC 2918) just reapplies policy without dropping the session. Always prefer soft reset when changing filter policy.'
+			},
+			{
+				title: 'TTL security gotcha',
+				text: 'Some operators enable GTSM (Generalised TTL Security Mechanism, RFC 5082) requiring incoming BGP packets to have TTL=255 — defending against off-path injection. If your peer does not also enable it, the session simply never establishes. Check both ends.'
+			}
+		]
 	}
 };

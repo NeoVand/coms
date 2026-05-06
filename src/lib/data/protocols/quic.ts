@@ -165,5 +165,96 @@ sudo tcpdump -i any udp port 443`
 		caption:
 			"Google's data center in The Dalles, Oregon — where QUIC was born. Google developed QUIC internally starting in 2012 to replace TCP+TLS, deploying it across Chrome and YouTube before standardizing it as RFC 9000.",
 		credit: 'Photo: Google / CC BY 2.0, via Wikimedia Commons'
+	},
+
+	recentChanges: [
+		{
+			date: '2025-Q1',
+			title: 'QUIC carries 35% of top 10M websites',
+			description:
+				'W3Techs measurements show QUIC adoption crossed 35% of the top 10 million websites — up from 27% a year earlier. Cloudflare, Fastly, and Akamai serve QUIC universally.',
+			source: { url: 'https://w3techs.com/technologies/details/ce-quic', label: 'W3Techs' }
+		},
+		{
+			date: '2024-Q4',
+			title: 'Meta reports >75% of internet traffic on QUIC',
+			description:
+				'Facebook, Instagram, and WhatsApp web/mobile now serve the majority of bytes via QUIC and HTTP/3, with TCP retained mainly for legacy clients.'
+		},
+		{
+			date: '2024-09',
+			title: 'Multipath QUIC reaches stable IETF draft',
+			description:
+				'draft-ietf-quic-multipath progressed to stable; multipath QUIC inherits MPTCP\'s algorithmic ideas inside a transport that actually traverses middleboxes. Apple, Google, and several mobile carriers are running interop events.',
+			source: {
+				url: 'https://datatracker.ietf.org/doc/draft-ietf-quic-multipath/',
+				label: 'IETF Datatracker'
+			}
+		},
+		{
+			date: '2024-2025',
+			title: 'MoQ Transport interop events',
+			description:
+				'Media-over-QUIC (Twitch, Cisco Webex, Cloudflare Stream, Meta) running quarterly interop events. Sub-second live-streaming over QUIC with native late-join and per-stream prioritisation.'
+		}
+	],
+
+	realWorldDeployments: [
+		{
+			org: 'Google (Chrome, YouTube, Search)',
+			scale: 'Default since 2017',
+			description:
+				'gQUIC deployed in Chrome / YouTube from 2013; IETF QUIC default for chrome.com and youtube.com since 2020. Google says >50% of all Chrome traffic uses QUIC.'
+		},
+		{
+			org: 'Meta',
+			scale: '>75% of web/mobile bytes',
+			description:
+				'Facebook, Instagram, WhatsApp serve majority of traffic via QUIC. mvfst (Meta\'s QUIC implementation) is open-source.'
+		},
+		{
+			org: 'Cloudflare',
+			scale: 'All HTTPS traffic',
+			description:
+				'quiche library powers QUIC at Cloudflare\'s edge for every HTTPS site behind their CDN. Connection-coalescing and 0-RTT enabled by default.'
+		},
+		{
+			org: 'Apple',
+			scale: 'iOS 18+ / macOS 15+',
+			description:
+				'Network.framework offers native QUIC; Safari 18 enables HTTP/3 by default. CloudKit and iCloud sync use QUIC for low-latency mobile updates.'
+		}
+	],
+
+	funFacts: [
+		{
+			title: 'QUIC was originally an internal Google name',
+			text: 'QUIC stood for "Quick UDP Internet Connections" inside Google. The IETF working group dropped the expansion entirely — [[rfc:9000|RFC 9000]] just calls it "QUIC" with no expansion. The protocol\'s name is now an unexplained four-letter word, like "HTTP" or "TCP."'
+		},
+		{
+			title: 'Connection IDs let your phone roam',
+			text: 'A QUIC connection is identified by a **64-bit Connection ID**, not by the (src IP, src port, dst IP, dst port) four-tuple TCP uses. When your phone moves between Wi-Fi and cellular, the underlying IP changes — but the QUIC connection survives. The receiver matches the new packet by Connection ID. This is why HTTP/3 video calls do not stutter on handoff.'
+		},
+		{
+			title: 'QUIC encrypts almost the entire packet',
+			text: 'TCP segment headers are visible to anyone on the path — sequence numbers, ACK numbers, window sizes. QUIC encrypts almost everything except the Connection ID, packet number, and a few framing bits. This blocks decades of network-side observation tools (and is why some operators still resist QUIC).'
+		}
+	],
+
+	practicalWisdom: {
+		pitfalls: [
+			{
+				title: 'Some networks block UDP / QUIC',
+				text: 'Corporate firewalls, school networks, and a small fraction of mobile carriers block UDP on port 443. Browsers fall back to TCP+HTTP/2, but the fallback adds 1-2 RTTs of detection. If you need consistent QUIC, validate connectivity before you depend on it.'
+			},
+			{
+				title: 'Connection migration breaks middleboxes',
+				text: 'Some stateful middleboxes (NAT routers, transparent proxies) drop a connection when its source IP suddenly changes — they assume it\'s a new flow. QUIC\'s Path Validation fixes this when both endpoints support it; the path-probing handshake is RFC 9000 §8.'
+			},
+			{
+				title: 'Higher CPU than kernel TCP',
+				text: 'QUIC encryption + user-space implementation costs roughly 2× CPU per byte versus a tuned kernel TCP stack. CDNs offload to TLS-acceleration NICs (kTLS); plain servers should expect higher load.'
+			}
+		]
 	}
 };

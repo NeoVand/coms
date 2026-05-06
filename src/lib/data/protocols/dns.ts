@@ -180,5 +180,80 @@ curl -sH 'accept: application/dns-json' \\
 		caption:
 			'How DNS resolution works — your device asks a recursive resolver, which iteratively queries root servers, TLD servers (.com, .org), and authoritative nameservers to translate a domain name like "example.com" into an IP address.',
 		credit: 'Image: Wikimedia Commons / Public Domain'
+	},
+
+	recentChanges: [
+		{
+			date: '2025',
+			title: 'DNS-over-HTTPS adoption past 30%',
+			description:
+				'Cloudflare, Google Public DNS, and Quad9 collectively report over 30% of global DNS queries now arriving via DoH (RFC 8484). Browser-level DoH (Firefox, Chrome) drives most of the growth.'
+		},
+		{
+			date: '2024',
+			title: 'DNSSEC validation reaches 38%',
+			description:
+				'APNIC measurements show 38% of users are behind a validating resolver — a steady climb from 12% a decade ago. The .gov and .mil zones are 100% DNSSEC-signed; .com is at ~5% of leaf domains.'
+		},
+		{
+			date: '2024-10',
+			title: 'KeyTrap (CVE-2023-50387) prompts cross-vendor patches',
+			description:
+				'A DNSSEC implementation flaw in BIND, Unbound, PowerDNS, Knot, and others let a single crafted query exhaust CPU on validating resolvers. Coordinated cross-vendor patches shipped within a week.',
+			source: { url: 'https://nvd.nist.gov/vuln/detail/CVE-2023-50387', label: 'NIST NVD' }
+		}
+	],
+
+	realWorldDeployments: [
+		{
+			org: 'Cloudflare 1.1.1.1',
+			scale: '~1 trillion queries/day',
+			description:
+				'Anycast public resolver with privacy-first design (no logging, encrypted via DoH/DoT). Fastest resolver by most measurements.'
+		},
+		{
+			org: 'Google 8.8.8.8',
+			scale: '~14 trillion queries/day',
+			description:
+				'The original public resolver, anycast across Google\'s edge network. Backbone of much of the modern internet\'s name resolution.'
+		},
+		{
+			org: 'Root server system',
+			scale: '13 root server letters, ~1500 anycast instances',
+			description:
+				'The 13 logical root servers (a.root-servers.net to m.root-servers.net) are operated by 12 organisations and replicated across thousands of physical machines via anycast. Loss of any one is invisible.'
+		}
+	],
+
+	funFacts: [
+		{
+			title: 'DNS replaced a hand-edited text file',
+			text: 'Until 1983, every host on the ARPANET maintained a flat HOSTS.TXT file with all the address mappings, distributed by FTP. As the network grew past a few hundred hosts, the manual update process became absurd. [[pioneer:paul-mockapetris|Paul Mockapetris]] designed DNS to replace it.'
+		},
+		{
+			title: 'Caching does almost all the work',
+			text: 'A typical recursive resolver answers **95%+ of queries from cache** without contacting any other server. The "distributed hierarchy" is mostly an availability and authority story; the operational hot path is local memory. TTL fields let zone administrators control how long records can be cached.'
+		},
+		{
+			title: 'There are only 13 root server letters',
+			text: 'Why 13? In 1991, when the root system was designed, a single UDP packet could only fit so many name+IP records — and 13 was the maximum that fit in a 512-byte response. Today the limit is moot (EDNS allows larger responses), but the 13-letter convention has stuck for 35 years.'
+		}
+	],
+
+	practicalWisdom: {
+		pitfalls: [
+			{
+				title: 'TTL of 0 does not mean "never cache"',
+				text: 'Some resolvers ignore TTL=0 and use a minimum-cache-time (often 60 seconds). Other resolvers cache TTL=0 forever. If you need fast cache invalidation, use a moderate TTL (60-300 seconds) and rotate explicitly, not TTL=0.'
+			},
+			{
+				title: 'CNAME at the apex breaks email',
+				text: 'A CNAME at example.com (the zone apex) violates RFC 1034 because the apex must also have NS and SOA records. Some DNS providers offer "ALIAS" or "ANAME" pseudo-records that work around this; the underlying limitation is in the spec.'
+			},
+			{
+				title: 'Negative caching can hurt',
+				text: 'Resolvers cache NXDOMAIN responses based on the SOA minimum field. If you typo a domain name and a resolver caches the failure for an hour, your fix won\'t take effect until the cache expires. Cure: monitor for unexpected NXDOMAIN; test resolution from multiple resolvers.'
+			}
+		]
 	}
 };

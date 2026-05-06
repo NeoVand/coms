@@ -134,5 +134,79 @@ asyncio.run(fetch_h3())`
 		caption:
 			"The Googleplex in Mountain View — birthplace of QUIC and HTTP/3. Google engineers designed these protocols to eliminate TCP's head-of-line blocking and speed up the web for billions of users.",
 		credit: 'Photo: The Pancake of Heaven! / CC BY-SA 4.0, via Wikimedia Commons'
+	},
+
+	recentChanges: [
+		{
+			date: '2026',
+			title: '~35% of top 10M websites support HTTP/3',
+			description:
+				'W3Techs measurements show HTTP/3 adoption past 35% of the top 10M websites — every CDN-fronted site, plus a growing share of origin-served sites with nginx 1.25+ or Caddy.'
+		},
+		{
+			date: '2024-Q4',
+			title: 'nginx 1.25 ships HTTP/3 stable',
+			description:
+				'After years of QUIC plug-in modules, mainline nginx finally ships HTTP/3 as a stable feature. Cloud-init images and Docker base images followed within months.'
+		},
+		{
+			date: '2024',
+			title: 'WebTransport API ships in Chrome',
+			description:
+				'WebTransport (the JavaScript API on top of HTTP/3 datagrams and streams) reached Chrome stable. Replaces WebSockets for low-latency client-server use cases.'
+		}
+	],
+
+	realWorldDeployments: [
+		{
+			org: 'Cloudflare',
+			scale: 'All HTTPS traffic',
+			description:
+				'HTTP/3 enabled by default for every site behind Cloudflare. Roughly 30% of HTTPS bytes served negotiate HTTP/3.'
+		},
+		{
+			org: 'Google',
+			scale: 'google.com / YouTube',
+			description:
+				'Default for chrome.com, youtube.com, and most Google web properties. Google\'s investment is what drove QUIC + HTTP/3 standardisation.'
+		},
+		{
+			org: 'Meta',
+			scale: '>75% of internet traffic on QUIC',
+			description:
+				'Facebook, Instagram, WhatsApp move majority bytes via HTTP/3. mvfst (their QUIC stack) is open-source.'
+		}
+	],
+
+	funFacts: [
+		{
+			title: 'HTTP/3 has the same semantics as HTTP/1.1',
+			text: 'A GET request in HTTP/3 means exactly what it meant in HTTP/1.1 (1997). The verbs, status codes, headers, content negotiation, and caching semantics are identical. Only the **wire encoding** changed — from text framing (1.1) to binary frames (2) to QUIC streams (3). Reading [[rfc:9110|RFC 9110]] (HTTP Semantics) explains all three at once.'
+		},
+		{
+			title: 'No more head-of-line blocking',
+			text: 'In [[http2|HTTP/2]] over [[tcp|TCP]], a single dropped packet stalls **all** streams on the connection. HTTP/3 over [[quic|QUIC]] only stalls the stream that owned the lost data, because QUIC streams are independent at the transport layer. This is the entire reason HTTP/3 exists.'
+		},
+		{
+			title: 'Connection migration survives Wi-Fi/cellular handoff',
+			text: 'When your phone moves between Wi-Fi and cellular, the underlying IP changes — but the HTTP/3 connection survives because QUIC identifies it by Connection ID, not IP. A video call or live stream does not stutter on handoff.'
+		}
+	],
+
+	practicalWisdom: {
+		pitfalls: [
+			{
+				title: 'Alt-Svc bootstrap requires a TCP+TLS round-trip',
+				text: 'A new client doesn\'t know to try HTTP/3 until it sees an Alt-Svc header in an HTTP/1.1 or HTTP/2 response — meaning the very first connection still pays the TCP+TLS round-trip cost. The HTTPS DNS record (HTTPS RR, RFC 9460) closes this gap by advertising HTTP/3 support directly in DNS, but adoption is partial.'
+			},
+			{
+				title: 'CDN coverage is much better than origin coverage',
+				text: 'Cloudflare/Fastly/Akamai serve HTTP/3 universally; origin servers running older nginx, Apache, or IIS often do not. If your site sits behind a CDN, you have HTTP/3 for free. If you serve directly from origin, you need to deploy a recent nginx/Caddy/h2o build.'
+			},
+			{
+				title: 'Some debugging tools have limited QUIC support',
+				text: 'Wireshark dissects HTTP/3 (since 4.0), but only when you have the QUIC session secrets. curl supports HTTP/3 with --http3 (in builds compiled with quiche or msh3). If you rely on tcpdump to debug HTTP/2, expect more friction with HTTP/3.'
+			}
+		]
 	}
 };
