@@ -1,31 +1,117 @@
 import { getProtocolById } from '$lib/data/index';
 import { getConceptById } from '$lib/data/concepts';
+import { getOutageById } from '$lib/data/outages';
+import { getPioneerById } from '$lib/data/pioneers';
+import { getRfcByNumber } from '$lib/data/rfcs';
 
+/**
+ * Inline rich-text segments produced by `parseRichText`.
+ *
+ * Syntax supported (all backwards-compatible — existing prose works
+ * unchanged):
+ *
+ *   `**text**`                 → bold
+ *   `{{conceptId|label}}`      → concept tooltip
+ *   `**{{conceptId|label}}**`  → bold concept tooltip
+ *   `[[id|label]]`             → cross-reference (typed; see below)
+ *   `**[[id|label]]**`         → bold cross-reference
+ *
+ * The `id` portion of `[[id|label]]` may carry an optional type prefix:
+ *
+ *   `[[tcp]]`                  → protocol link (default — backwards compat)
+ *   `[[protocol:tcp|TCP]]`     → protocol link (explicit)
+ *   `[[rfc:9293]]`             → RFC citation
+ *   `[[outage:facebook-2021]]` → famous-incident link
+ *   `[[pioneer:radia-perlman]]`→ pioneer bio link
+ *   `[[glossary:cwnd]]`        → glossary entry link
+ *
+ * If the label is omitted, the renderer falls back to a sensible
+ * default — protocol abbreviation, "RFC <N>", outage title, pioneer
+ * name, or glossary term.
+ */
 export type TextSegment =
 	| { type: 'text'; value: string }
 	| { type: 'bold'; value: string }
 	| { type: 'bold-concept'; conceptId: string; label: string }
 	| { type: 'bold-protocol-link'; protocolId: string; label: string }
 	| { type: 'protocol-link'; protocolId: string; label: string }
-	| { type: 'concept'; conceptId: string; label: string };
+	| { type: 'concept'; conceptId: string; label: string }
+	| { type: 'rfc-ref'; number: string; label: string }
+	| { type: 'outage-link'; outageId: string; label: string }
+	| { type: 'pioneer-link'; pioneerId: string; label: string }
+	| { type: 'glossary-link'; conceptId: string; label: string };
 
 /**
  * Combined regex matching:
  *   **{{conceptId|label}}**   — bold-wrapped concept (must come first)
- *   **[[protocolId|label]]**  — bold-wrapped protocol link (must come first)
- *   [[protocolId|label]]      — protocol cross-references
+ *   **[[id|label]]**          — bold-wrapped cross-reference
+ *   [[id|label]]              — cross-reference (protocol / rfc / outage / pioneer / glossary)
  *   {{conceptId|display}}     — concept tooltips
  *   **bold text**             — bold formatting
  *
  * Bold-wrapped variants are matched first to prevent partial matches.
+ *
+ * Note: the `id` character class is `[^\]|]` which intentionally
+ * permits `:` so that typed prefixes like `rfc:9293` parse cleanly.
  */
 const RICH_TEXT_RE =
 	/\*\*\{\{([^}|]+)(?:\|([^}]+))?\}\}\*\*|\*\*\[\[([^\]|]+)(?:\|([^\]]+))?\]\]\*\*|\[\[([^\]|]+)(?:\|([^\]]+))?\]\]|\{\{([^}|]+)(?:\|([^}]+))?\}\}|\*\*([^*]+)\*\*/g;
 
 /**
- * Parse a string containing [[protocol|label]], {{concept|display text}},
- * **bold**, **{{concept|text}}**, and **[[protocol|label]]** syntax
- * into a flat array of typed segments.
+ * Resolve a `[[id|label]]` raw match into a typed segment, honoring the
+ * optional `<type>:` prefix. Falls back to a plain-text segment when an
+ * unknown prefix is encountered (so typos surface visibly in the UI
+ * rather than disappearing silently).
+ */
+function buildBracketSegment(
+	rawId: string,
+	rawLabel: string | undefined,
+	bold: boolean
+): TextSegment {
+	const colonIdx = rawId.indexOf(':');
+	const prefix = colonIdx === -1 ? 'protocol' : rawId.slice(0, colonIdx);
+	const id = colonIdx === -1 ? rawId : rawId.slice(colonIdx + 1);
+
+	switch (prefix) {
+		case 'protocol': {
+			const proto = getProtocolById(id);
+			const label = rawLabel || proto?.abbreviation || id.toUpperCase();
+			return bold
+				? { type: 'bold-protocol-link', protocolId: id, label }
+				: { type: 'protocol-link', protocolId: id, label };
+		}
+		case 'rfc': {
+			const rfc = getRfcByNumber(id);
+			const label = rawLabel || (rfc ? `RFC ${rfc.number}` : `RFC ${id}`);
+			return { type: 'rfc-ref', number: id, label };
+		}
+		case 'outage': {
+			const outage = getOutageById(id);
+			const label = rawLabel || outage?.title || id;
+			return { type: 'outage-link', outageId: id, label };
+		}
+		case 'pioneer': {
+			const pioneer = getPioneerById(id);
+			const label = rawLabel || pioneer?.name || id;
+			return { type: 'pioneer-link', pioneerId: id, label };
+		}
+		case 'glossary': {
+			const concept = getConceptById(id);
+			const label = rawLabel || concept?.term || id;
+			return { type: 'glossary-link', conceptId: id, label };
+		}
+		default: {
+			// Unknown prefix — surface as plain text so the typo is visible.
+			const reconstructed = rawLabel ? `[[${rawId}|${rawLabel}]]` : `[[${rawId}]]`;
+			return { type: 'text', value: reconstructed };
+		}
+	}
+}
+
+/**
+ * Parse a string containing `[[id|label]]`, `{{conceptId|label}}`,
+ * `**bold**`, `**{{...}}**`, and `**[[...]]**` syntax into a flat
+ * array of typed segments suitable for incremental rendering.
  */
 export function parseRichText(raw: string): TextSegment[] {
 	const segments: TextSegment[] = [];
@@ -46,17 +132,11 @@ export function parseRichText(raw: string): TextSegment[] {
 			const label = match[2] || concept?.term || conceptId;
 			segments.push({ type: 'bold-concept', conceptId, label });
 		} else if (match[3] !== undefined) {
-			// Bold protocol link: **[[protocolId|label]]**
-			const protocolId = match[3];
-			const proto = getProtocolById(protocolId);
-			const label = match[4] || proto?.abbreviation || protocolId.toUpperCase();
-			segments.push({ type: 'bold-protocol-link', protocolId, label });
+			// Bold cross-reference: **[[id|label]]**
+			segments.push(buildBracketSegment(match[3], match[4], true));
 		} else if (match[5] !== undefined) {
-			// Protocol link: [[protocolId|label]]
-			const protocolId = match[5];
-			const proto = getProtocolById(protocolId);
-			const label = match[6] || proto?.abbreviation || protocolId.toUpperCase();
-			segments.push({ type: 'protocol-link', protocolId, label });
+			// Cross-reference: [[id|label]]
+			segments.push(buildBracketSegment(match[5], match[6], false));
 		} else if (match[7] !== undefined) {
 			// Concept: {{conceptId|display text}}
 			const conceptId = match[7];
