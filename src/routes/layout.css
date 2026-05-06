@@ -10,8 +10,8 @@
 	--theme-glass-bg: rgba(255, 255, 255, 0.05);
 	--theme-glass-bg-hover: rgba(255, 255, 255, 0.08);
 	--theme-text-primary: #f8fafc;
-	--theme-text-secondary: #94a3b8;
-	--theme-text-muted: #475569;
+	--theme-text-secondary: #cbd5e1;
+	--theme-text-muted: #94a3b8;
 	--theme-code-bg: #0b1120;
 	--theme-scrollbar: rgba(255, 255, 255, 0.12);
 	--theme-scrollbar-thumb: rgba(255, 255, 255, 0.1);
@@ -31,8 +31,8 @@
 	--theme-glass-bg: rgba(0, 0, 0, 0.03);
 	--theme-glass-bg-hover: rgba(0, 0, 0, 0.06);
 	--theme-text-primary: #1e293b;
-	--theme-text-secondary: #475569;
-	--theme-text-muted: #94a3b8;
+	--theme-text-secondary: #334155;
+	--theme-text-muted: #64748b;
 	--theme-code-bg: #f1f5f9;
 	--theme-scrollbar: rgba(0, 0, 0, 0.08);
 	--theme-scrollbar-thumb: rgba(0, 0, 0, 0.12);

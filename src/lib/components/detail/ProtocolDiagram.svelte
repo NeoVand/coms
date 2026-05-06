@@ -1,5 +1,5 @@
 <script lang="ts">
-	import MermaidDiagram from './MermaidDiagram.svelte';
+	import SequencePlayer from './SequencePlayer.svelte';
 	import { diagramDefinitions } from '$lib/data/diagram-definitions';
 	import { getAppState } from '$lib/state/context';
 
@@ -24,7 +24,7 @@
 				</svg>
 			</button>
 		</div>
-		<MermaidDiagram {protocolId} {color} />
+		<SequencePlayer {protocolId} {color} />
 	</section>
 {/if}
 
