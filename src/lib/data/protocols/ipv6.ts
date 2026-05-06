@@ -18,7 +18,7 @@ IPv6 eliminates {{broadcast|broadcast}} entirely, replacing it with {{multicast|
 
 The primary IPv4-to-IPv6 transition mechanism is dual-stack operation, where hosts and routers run both protocols simultaneously and prefer IPv6 when available. This avoids a hard cutover and allows gradual migration.
 
-By 2026, IPv6 carries over 45% of Google's traffic, and major mobile networks, cloud providers, and {{cdn|CDNs}} run IPv6-primary. The transition from IPv4 is happening — just slower than anyone predicted.`,
+On 28 March 2026, IPv6 carried 50.1% of Google's traffic for the first time in its history — 28 years after RFC 2460. Cloudflare and APNIC measure 40-43% from their own vantage points, so the milestone is real but uneven. Mobile carriers are the leading edge: US averages around 87%, T-Mobile ~93%, France ~86%, India >75%. The transition from IPv4 is happening — just slower than anyone predicted.`,
 	howItWorks: [
 		{
 			title: 'Addressing (128-bit)',

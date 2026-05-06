@@ -198,6 +198,27 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
 					description:
 						'Wi-Fi 6 focuses on efficiency in dense environments: OFDMA, BSS Coloring, and Target Wake Time improve performance when hundreds of devices share the airwaves.',
 					protocolId: 'wifi'
+				},
+				{
+					year: 2024,
+					title: '800 GbE Standardised — IEEE 802.3df-2024',
+					description:
+						'Approved 16 February 2024, 802.3df defines 800 GbE (and 400 GbE on 100 G lanes). The 1.6 TbE follow-up (P802.3dj, 200 G/lane) targets July 2026 — driven by AI training fabrics that need lossless Ethernet with RoCEv2 to replace InfiniBand in large GPU clusters.',
+					protocolId: 'ethernet'
+				},
+				{
+					year: 2025,
+					title: 'Wi-Fi 7 (802.11be) Published',
+					description:
+						'IEEE 802.11be ratified 22 July 2025: 320-MHz channels in 6 GHz, 4096-QAM, Multi-Link Operation, preamble puncturing. Wi-Fi 8 (802.11bn / Ultra High Reliability) is in draft for 2028 — not faster, but 25% better at the 95th percentile.',
+					protocolId: 'wifi'
+				},
+				{
+					year: 2026,
+					title: 'IPv6 Crosses 50% on Google',
+					description:
+						'On 28 March 2026, IPv6 carried 50.1% of Google\'s traffic for the first time — 28 years after RFC 2460. Cloudflare and APNIC measure 40-43% from their vantage points, so the milestone is real but uneven.',
+					protocolId: 'ipv6'
 				}
 			]
 		},
@@ -289,7 +310,7 @@ In 1981, Jon Postel defined [[icmp|ICMP]] — the Internet Control Message Proto
 
 By 1989, the internet was outgrowing its routing. The original ARPANET had a single backbone — routing was simple. But as multiple networks connected, someone had to decide how traffic flows between them. Yakov Rekhter and Kirk Lougheed created [[bgp|BGP]], the Border Gateway Protocol, which treats each network as an "autonomous system" and exchanges route advertisements between them. Today, [[bgp|BGP]] is literally the protocol that holds the internet together — every path your data takes across network boundaries is decided by BGP route advertisements exchanged on TCP port 179.
 
-The most ambitious chapter began in the 1990s. IPv4's 32-bit address space — 4.3 billion addresses — was running out. Steve Deering led the design of [[ipv6|IPv6]], published as RFC 2460 in 1998 (later updated as RFC 8200 in 2017). IPv6 didn't just add more addresses; it rethought the protocol entirely. The header was simplified to a fixed 40 bytes — no checksum, no variable-length options. Broadcast was eliminated in favor of multicast. [[arp|ARP]]'s broadcast-based address resolution was replaced by NDP (Neighbor Discovery Protocol), which uses efficient solicited-node multicast. Hosts can autoconfigure globally unique addresses via SLAAC without any server. By 2026, IPv6 carries over 45% of Google's traffic, and the transition that was supposed to take a few years is still ongoing — a testament to how deeply embedded IPv4 became.`
+The most ambitious chapter began in the 1990s. IPv4's 32-bit address space — 4.3 billion addresses — was running out. Steve Deering led the design of [[ipv6|IPv6]], published as RFC 2460 in 1998 (later updated as RFC 8200 in 2017). IPv6 didn't just add more addresses; it rethought the protocol entirely. The header was simplified to a fixed 40 bytes — no checksum, no variable-length options. Broadcast was eliminated in favor of multicast. [[arp|ARP]]'s broadcast-based address resolution was replaced by NDP (Neighbor Discovery Protocol), which uses efficient solicited-node multicast. Hosts can autoconfigure globally unique addresses via SLAAC without any server. On 28 March 2026, IPv6 crossed 50% of Google's traffic for the first time, 28 years after the spec — a transition that was supposed to take a few years and is still ongoing, a testament to how deeply embedded IPv4 became.`
 		},
 		{
 			type: 'diagram',
