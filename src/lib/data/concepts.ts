@@ -1076,6 +1076,432 @@ export const concepts: Concept[] = [
 			'Like a receptionist at a large company — visitors talk to the receptionist, who routes them to the right department. Visitors never interact with individual employees directly.',
 		wikiUrl: 'https://en.wikipedia.org/wiki/Reverse_proxy',
 		category: 'infrastructure'
+	},
+
+	// ── Networking Basics — additions ──────────────────────────────────
+	{
+		id: 'mss',
+		term: 'MSS (Maximum Segment Size)',
+		definition:
+			'The largest TCP payload that fits in a single segment without IP fragmentation, advertised in the SYN handshake. Typically MTU − 40 bytes (IPv4 + TCP) or MTU − 60 bytes (IPv6 + TCP).',
+		analogy:
+			'If MTU is the maximum size of an envelope your post office accepts, MSS is the size of the letter you can stuff inside after subtracting the address labels and stamps.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Maximum_segment_size',
+		category: 'networking-basics'
+	},
+	{
+		id: 'default-gateway',
+		term: 'Default Gateway',
+		definition:
+			'The router a host sends packets to when the destination IP is not on its local subnet. Configured per-interface, it is the "exit door" from the local network onto the wider internet.',
+		analogy:
+			'Like the front desk of an office building — if you do not know which floor someone is on, you take the matter to the front desk and let them route it.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Default_gateway',
+		category: 'networking-basics'
+	},
+	{
+		id: 'loopback',
+		term: 'Loopback',
+		definition:
+			'The reserved address that always means "this host" — 127.0.0.0/8 in IPv4 (typically 127.0.0.1) and ::1 in IPv6. Packets sent to a loopback address never leave the host; they go straight back up the network stack.',
+		analogy: 'Like dialing your own phone number — the call never leaves the building.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Localhost',
+		category: 'networking-basics'
+	},
+	{
+		id: 'link-local',
+		term: 'Link-Local Address',
+		definition:
+			'An address valid only on a single network segment (one "link") and never routed beyond it. IPv4 uses 169.254.0.0/16 (assigned automatically when DHCP fails); IPv6 uses fe80::/10 (every IPv6 interface has one by default and uses it for NDP).',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Link-local_address',
+		category: 'networking-basics'
+	},
+	{
+		id: 'private-ip-address',
+		term: 'Private IP Address',
+		definition:
+			'An IP address from a range reserved for use inside a private network and not routable on the public internet. RFC 1918 defines 10.0.0.0/8, 172.16.0.0/12, and 192.168.0.0/16 for IPv4; IPv6 uses fc00::/7 for unique local addresses.',
+		analogy: 'Like an internal office extension — only people inside the building can dial it.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Private_network',
+		category: 'networking-basics'
+	},
+	{
+		id: 'public-ip-address',
+		term: 'Public IP Address',
+		definition:
+			'A globally unique, routable IP address assigned by an internet service provider. Anything reachable from the open internet has one (often shared via NAT).',
+		category: 'networking-basics'
+	},
+	{
+		id: 'ephemeral-port',
+		term: 'Ephemeral Port',
+		definition:
+			'A short-lived source port the operating system picks for outgoing connections, typically from the range 49152–65535 (IANA), 32768–60999 (Linux), or 49152–65535 (Windows). Each new outbound TCP/UDP connection gets a fresh ephemeral port so multiple connections to the same destination can coexist.',
+		analogy:
+			"Like the temporary number a delivery driver writes on their clipboard — it's only meaningful for this delivery, not stored anywhere permanent.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Ephemeral_port',
+		category: 'networking-basics'
+	},
+	{
+		id: 'well-known-port',
+		term: 'Well-Known Port',
+		definition:
+			'A port number from the range 0–1023, reserved for standardised services and only bindable by privileged processes on Unix-like systems. 80 (HTTP), 443 (HTTPS), 22 (SSH), 53 (DNS), and 25 (SMTP) are well-known ports.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers',
+		category: 'networking-basics'
+	},
+	{
+		id: 'half-duplex',
+		term: 'Half Duplex',
+		definition:
+			'A link where only one side may transmit at a time. Original Ethernet on shared coaxial cable was half duplex with collisions handled by CSMA/CD; modern switched Ethernet on point-to-point fibre is full duplex.',
+		analogy: 'Like a walkie-talkie: you have to say "over" before the other side can speak.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Duplex_(telecommunications)',
+		category: 'networking-basics'
+	},
+	{
+		id: 'mtu-black-hole',
+		term: 'MTU Black Hole',
+		definition:
+			'A failure mode where a network path silently drops packets larger than its MTU because the ICMP "Packet Too Big" messages that would inform the sender are filtered. Path MTU Discovery (PMTUD) breaks; large packets vanish; small ones get through, so it looks intermittent.',
+		analogy:
+			'Like a low bridge that catches trucks but the warning sign is missing — drivers only learn the bridge is there after their truck disappears.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Path_MTU_Discovery#Problems_with_PMTUD',
+		category: 'networking-basics'
+	},
+	{
+		id: 'cgnat',
+		term: 'CGNAT (Carrier-Grade NAT)',
+		definition:
+			'Network Address Translation performed at internet-service-provider scale, mapping many subscribers behind a single public IPv4 address. CGNAT bought IPv4 another decade past exhaustion at the cost of breaking inbound connectivity, complicating peer-to-peer apps, and frustrating abuse-tracing.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Carrier-grade_NAT',
+		category: 'networking-basics'
+	},
+	{
+		id: 'nat64',
+		term: 'NAT64',
+		definition:
+			'A translation mechanism (RFC 6146) that lets IPv6-only clients reach IPv4-only servers by rewriting addresses at a stateful gateway. Usually paired with DNS64, which synthesises AAAA records from A records so the client thinks the destination is IPv6. Together with 464XLAT they make IPv6-mostly access networks possible.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/NAT64',
+		category: 'networking-basics'
+	},
+
+	// ── Protocol Mechanics — additions ─────────────────────────────────
+	{
+		id: 'bdp',
+		term: 'BDP (Bandwidth-Delay Product)',
+		definition:
+			'The amount of data needed in flight to fully utilise a network path: bandwidth × round-trip time. The natural target size for a sender\'s congestion window. A 100 ms × 1 Gbps path has a 12.5 MB BDP.',
+		analogy:
+			'Like the volume of water needed to fill a hose end-to-end before flow becomes steady — short hose or low pressure means less water; long hose or high pressure means more.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Bandwidth-delay_product',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'aimd',
+		term: 'AIMD (Additive Increase, Multiplicative Decrease)',
+		definition:
+			"The fairness rule that defined classic TCP congestion control: grow the sending window by a fixed amount each round-trip when things are going well; cut it in half (or worse) the moment loss is detected. Van Jacobson's 1988 paper made this the internet's default behavior.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Additive_increase/multiplicative_decrease',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'cubic',
+		term: 'CUBIC',
+		definition:
+			'The TCP congestion control algorithm that has been the Linux default since 2.6.19 (2006), Windows default since 2017, and is now Standards Track as RFC 9438 (2023). Replaces AIMD\'s linear ramp with a cubic function of time since the last loss — much friendlier to long fat pipes.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/CUBIC_TCP',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'bbr',
+		term: 'BBR (Bottleneck Bandwidth and Round-trip)',
+		definition:
+			'Google\'s 2016 model-based congestion control. Instead of treating loss as the only signal, BBR estimates the path\'s bottleneck bandwidth and minimum RTT and paces packets to fully use the bandwidth without filling buffers. BBRv3 has been the default for google.com and YouTube since 2023.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/TCP_congestion_control#TCP_BBR',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'l4s',
+		term: 'L4S (Low Latency, Low Loss, Scalable)',
+		definition:
+			'An IETF architecture (RFCs 9330/9331/9332, January 2023) for sub-millisecond queuing latency. Cooperating senders mark every packet ECN-Capable; routers mark instead of drop on incipient congestion; the dual-queue AQM gives L4S traffic priority without starving classic TCP. Comcast launched it in production in January 2025.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/L4S',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'ecn',
+		term: 'ECN (Explicit Congestion Notification)',
+		definition:
+			'IP+TCP bits (RFC 3168) that let routers signal congestion by *marking* packets instead of dropping them, so endpoints can slow down without losing data. The foundation L4S builds on. AccECN (an in-flight TCP extension) widens the feedback channel from one signal per RTT to many.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Explicit_Congestion_Notification',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'aqm',
+		term: 'AQM (Active Queue Management)',
+		definition:
+			'Algorithms that drop or mark packets in a router\'s queue *before* the queue fills up, signaling senders to slow down early instead of buffering data into seconds of latency. CoDel, FQ-CoDel, PIE, and the L4S DualQ Coupled AQM are modern examples; their absence is why bufferbloat exists.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Active_queue_management',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'bufferbloat',
+		term: 'Bufferbloat',
+		definition:
+			'The pathological latency caused by oversized buffers in network gear (modems, Wi-Fi APs, cellular base stations). When a buffer fills, every packet behind it waits — and TCP, which only knows about loss, keeps the buffer full. Jim Gettys coined the term at Bell Labs in 2010 after measuring 1.2-second latencies on home links.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Bufferbloat',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'time-wait',
+		term: 'TIME_WAIT',
+		definition:
+			'The TCP state a socket enters for ~60 seconds (2 × MSL) after an active close, ensuring stray packets from the closed connection do not contaminate a new one with the same four-tuple. A high-frequency client that opens many short-lived connections can exhaust ephemeral ports stuck in TIME_WAIT.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Transmission_Control_Protocol#Connection_termination',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'syn-cookies',
+		term: 'SYN Cookies',
+		definition:
+			"D. J. Bernstein and Eric Schenk's 1996 defense against SYN floods. Instead of allocating server state on each SYN, the server encodes the connection parameters into the initial sequence number it sends back; if the client returns a valid ACK, the server reconstructs the state. No state means no exhaustion.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/SYN_cookies',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'zero-rtt',
+		term: '0-RTT (Zero Round-Trip Time)',
+		definition:
+			'A handshake mode where a client sends application data in its very first packet, before the server has confirmed anything, by reusing keys from a previous session. TLS 1.3 and QUIC both support it. The cost: 0-RTT data has no forward secrecy and weaker replay protection, so it should be limited to idempotent requests.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Transport_Layer_Security#TLS_1.3',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'session-resumption',
+		term: 'Session Resumption',
+		definition:
+			"A handshake shortcut where a returning client and server skip the full key exchange by reusing parameters from a previous session, identified by a session ID or session ticket. Saves an entire round-trip and the cost of asymmetric crypto. Underpins TLS 1.3's 1-RTT and 0-RTT resumption.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Transport_Layer_Security#Session_IDs_and_session_tickets',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'connection-migration',
+		term: 'Connection Migration',
+		definition:
+			"QUIC's ability to keep a connection alive when the client's IP address or port changes — for example, when your phone switches from Wi-Fi to cellular. The connection is identified by an opaque Connection ID rather than the IP/port four-tuple, so the new path just continues the same session.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/QUIC',
+		category: 'protocol-mechanics'
+	},
+
+	// ── Security — additions ───────────────────────────────────────────
+	{
+		id: 'cryptographic-hash',
+		term: 'Cryptographic Hash',
+		definition:
+			'A one-way function that maps arbitrary input to a fixed-length output (a *digest*) such that finding two inputs with the same digest is computationally infeasible. SHA-256, SHA-384, and BLAKE3 are common modern choices. Distinct from a checksum, which only detects accidental corruption — a cryptographic hash also resists deliberate tampering.',
+		analogy:
+			"Like a fingerprint of a document — easy to compute, but you can't reconstruct the document from the fingerprint, and finding two different documents with the same fingerprint is essentially impossible.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Cryptographic_hash_function',
+		category: 'security'
+	},
+	{
+		id: 'hmac',
+		term: 'HMAC (Hash-based MAC)',
+		definition:
+			'A keyed message authentication code built from a cryptographic hash function (RFC 2104). Both parties share a secret; the sender computes HMAC(key, message) and appends it; the receiver recomputes and verifies. Used inside TLS, JWT (HS256), and the HKDF key-derivation chain.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/HMAC',
+		category: 'security'
+	},
+	{
+		id: 'aead',
+		term: 'AEAD (Authenticated Encryption with Associated Data)',
+		definition:
+			'A symmetric cipher mode that encrypts and authenticates in one operation, plus binds extra "associated data" (like a packet header) to the ciphertext without encrypting it. AES-GCM, ChaCha20-Poly1305, and AES-CCM are the standard AEADs. TLS 1.3 mandates AEAD; older CBC+HMAC compositions were repeatedly broken (BEAST, Lucky13).',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Authenticated_encryption',
+		category: 'security'
+	},
+	{
+		id: 'nonce',
+		term: 'Nonce',
+		definition:
+			'A "number used once" — a value (usually random or counter-derived) that must never repeat under the same key. AEAD ciphers like AES-GCM require a unique nonce per message; reusing one is catastrophic and leaks the plaintext. TLS 1.3 derives per-record nonces by XORing the record sequence number into a static IV.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Cryptographic_nonce',
+		category: 'security'
+	},
+	{
+		id: 'diffie-hellman',
+		term: 'Diffie-Hellman Key Exchange',
+		definition:
+			'A 1976 protocol that lets two parties agree on a shared secret over an open channel without ever sending the secret itself. Modern implementations use elliptic curves (X25519 is the common choice in TLS 1.3 and QUIC) and provide forward secrecy when both sides generate fresh keys per session (ECDHE).',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange',
+		category: 'security'
+	},
+	{
+		id: 'ml-kem',
+		term: 'ML-KEM (Module-Lattice Key Encapsulation)',
+		definition:
+			'The lattice-based key-encapsulation mechanism standardised by NIST as FIPS 203 in August 2024 — formerly known as Kyber. Designed to be secure against attacks by quantum computers. Already deployed in TLS 1.3 as the X25519MLKEM768 hybrid (~52% of TLS connections to Cloudflare by end of 2025) and on by default in iOS 26 / macOS Tahoe.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Kyber',
+		category: 'security'
+	},
+	{
+		id: 'sni',
+		term: 'SNI (Server Name Indication)',
+		definition:
+			'A TLS extension (RFC 6066) that lets a client tell the server which hostname it wants during the handshake — necessary when one IP address hosts many TLS sites. Historically sent in plaintext, which lets middleboxes and ISPs see which sites you visit; ECH is the fix.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Server_Name_Indication',
+		category: 'security'
+	},
+	{
+		id: 'alpn',
+		term: 'ALPN (Application-Layer Protocol Negotiation)',
+		definition:
+			'A TLS extension (RFC 7301) that lets client and server agree on the application protocol — h2 (HTTP/2), h3 (HTTP/3), http/1.1 — during the TLS handshake itself, eliminating an extra round-trip. Why your browser silently picks HTTP/2 or HTTP/3 without you doing anything.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Application-Layer_Protocol_Negotiation',
+		category: 'security'
+	},
+	{
+		id: 'ech',
+		term: 'ECH (Encrypted Client Hello)',
+		definition:
+			'A TLS extension (RFC 9849, 2025) that encrypts the SNI and other ClientHello fields so eavesdroppers cannot see which site you are visiting. Cloudflare deploys ECH for ~70% of websites it fronts; Chrome and Firefox both support it.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Server_Name_Indication#Encrypted_Client_Hello',
+		category: 'security'
+	},
+	{
+		id: 'mtls',
+		term: 'mTLS (Mutual TLS)',
+		definition:
+			'A TLS variant where the *client* also presents a certificate during the handshake, so both sides authenticate each other cryptographically — not just the server. Common in service-to-service authentication inside a service mesh, in IoT device fleets, and in some banking APIs.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Mutual_authentication',
+		category: 'security'
+	},
+	{
+		id: 'rpki',
+		term: 'RPKI (Resource Public Key Infrastructure)',
+		definition:
+			'A cryptographic system (RFCs 6480, 6482, 8210) that lets an autonomous system prove it is authorised to originate a particular IP prefix. Combined with Route Origin Validation (ROV), routers reject BGP announcements that contradict the published authorisations — mitigating origin hijacks. Crossed 50% of IPv4 prefixes by May 2024.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Resource_Public_Key_Infrastructure',
+		category: 'security'
+	},
+	{
+		id: 'syn-flood',
+		term: 'SYN Flood',
+		definition:
+			'A denial-of-service attack that sends many TCP SYN packets without completing the handshake, exhausting the server\'s half-open-connection table. The attack first hit the public internet at Panix in September 1996 and motivated D. J. Bernstein to invent SYN cookies within days.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/SYN_flood',
+		category: 'security'
+	},
+
+	// ── Web — additions ────────────────────────────────────────────────
+	{
+		id: 'cors',
+		term: 'CORS (Cross-Origin Resource Sharing)',
+		definition:
+			'A browser security mechanism that controls which other origins may call your API and read the response. The server opts in via Access-Control-Allow-Origin headers; for non-simple requests the browser sends a preflight OPTIONS request first. The reason your fetch from a different domain "works in curl but fails in the browser."',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Cross-origin_resource_sharing',
+		category: 'web'
+	},
+	{
+		id: 'same-origin-policy',
+		term: 'Same-Origin Policy',
+		definition:
+			'The browser\'s foundational security boundary: scripts loaded from one origin (scheme + host + port) cannot read responses from another origin without that origin\'s explicit consent. CORS, document.domain, postMessage, and Cookie SameSite are the carve-outs and escape valves built around it.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Same-origin_policy',
+		category: 'web'
+	},
+	{
+		id: 'bearer-token',
+		term: 'Bearer Token',
+		definition:
+			'An opaque or signed credential carried in the HTTP Authorization header as `Authorization: Bearer <token>` (RFC 6750). Whoever holds the token can act on behalf of the user — there is no extra signature or proof-of-possession by default. JWT access tokens issued by OAuth 2.0 are typically used as bearer tokens.',
+		wikiUrl: 'https://datatracker.ietf.org/doc/html/rfc6750',
+		category: 'web'
+	},
+	{
+		id: 'pkce',
+		term: 'PKCE (Proof Key for Code Exchange)',
+		definition:
+			'An OAuth 2.0 extension (RFC 7636) that protects the authorisation-code flow on public clients (mobile apps, single-page apps) where a client secret cannot be kept private. The client generates a random code-verifier per request, sends its hash up-front, and reveals the verifier when redeeming the code. Mandatory in OAuth 2.1.',
+		wikiUrl: 'https://datatracker.ietf.org/doc/html/rfc7636',
+		category: 'web'
+	},
+	{
+		id: 'early-hints',
+		term: 'Early Hints (HTTP 103)',
+		definition:
+			'An HTTP status code (RFC 8297) that lets a server send response headers — typically Link headers for preloading critical resources — *before* the final response is ready. The replacement for HTTP/2 Server Push, which Chrome disabled by default in 2022 and Firefox removed in 2024.',
+		wikiUrl: 'https://developer.mozilla.org/en-US/docs/Web/HTTP/Status/103',
+		category: 'web'
+	},
+
+	// ── Messaging — additions ──────────────────────────────────────────
+	{
+		id: 'offset',
+		term: 'Offset (Message Log)',
+		definition:
+			'A monotonically increasing position within a partition or topic that identifies a specific message. In Kafka the consumer commits its current offset back to the broker so it can resume after a restart; in event sourcing the offset *is* the version number of the aggregate.',
+		wikiUrl: 'https://kafka.apache.org/documentation/#consumerapi',
+		category: 'messaging'
+	},
+	{
+		id: 'exactly-once-delivery',
+		term: 'Exactly-Once Delivery',
+		definition:
+			'A messaging guarantee that every message is processed by every interested consumer exactly one time — no loss, no duplicates. End-to-end exactly-once requires deduplication at the consumer plus transactional state, since the network alone cannot prove a message was processed; Kafka provides "exactly-once semantics" within the Kafka cluster via idempotent producers and transactional offsets.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Two_Generals%27_Problem',
+		category: 'messaging'
+	},
+	{
+		id: 'at-least-once-delivery',
+		term: 'At-Least-Once Delivery',
+		definition:
+			'A messaging guarantee that every message reaches its consumer one or more times — never zero. The system retries on failure, which means the consumer must be idempotent or it will see duplicates. The most common pragmatic guarantee in real systems.',
+		category: 'messaging'
+	},
+	{
+		id: 'idempotent-consumer',
+		term: 'Idempotent Consumer',
+		definition:
+			'A consumer designed so that processing the same message twice produces the same result as processing it once — typically by tracking a deduplication key, using a database UNIQUE constraint, or by writing transactionally with the offset commit. The standard way to make at-least-once delivery feel like exactly-once.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Idempotence',
+		category: 'messaging'
+	},
+
+	// ── Infrastructure — additions ─────────────────────────────────────
+	{
+		id: 'service-mesh',
+		term: 'Service Mesh',
+		definition:
+			'An infrastructure layer that handles service-to-service communication for microservices — usually by injecting a sidecar proxy alongside every service, capturing all traffic, and enforcing mTLS, retries, timeouts, traffic shifting, and observability without the application code knowing. Istio, Linkerd, and Consul Connect are common implementations.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Service_mesh',
+		category: 'infrastructure'
+	},
+	{
+		id: 'sidecar',
+		term: 'Sidecar',
+		definition:
+			'A helper container deployed alongside an application container in the same pod, sharing its network namespace. The sidecar handles cross-cutting concerns — service-mesh proxying (Envoy), log shipping (Fluent Bit), secret injection — without the application needing to implement them. The dominant pattern in Kubernetes.',
+		wikiUrl: 'https://learn.microsoft.com/en-us/azure/architecture/patterns/sidecar',
+		category: 'infrastructure'
+	},
+	{
+		id: 'health-check',
+		term: 'Health Check',
+		definition:
+			'A periodic probe — typically an HTTP GET or TCP connect — that asks an instance whether it is ready to handle traffic. Load balancers, service meshes, Kubernetes, and orchestrators all use health checks to remove unhealthy instances from rotation. "Liveness" checks ask "are you still alive"; "readiness" checks ask "should you receive traffic right now."',
+		category: 'infrastructure'
+	},
+	{
+		id: 'observability',
+		term: 'Observability',
+		definition:
+			'The property that you can answer arbitrary questions about a running system from the outside — typically by combining three signal types: *metrics* (numerical aggregates over time), *logs* (timestamped events), and *traces* (causally-linked spans across services). OpenTelemetry is the standard wire format.',
+		analogy:
+			'Like the difference between a car\'s dashboard (metrics: a few numbers you watch) and a black-box flight recorder (traces: a complete record you query after the fact). Observability is having both.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Observability_(software)',
+		category: 'infrastructure'
 	}
 ];
 
