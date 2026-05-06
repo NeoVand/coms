@@ -3,6 +3,9 @@
 	import StoryNarrative from './category-story/StoryNarrative.svelte';
 	import StoryCallout from './category-story/StoryCallout.svelte';
 	import StoryDiagram from './category-story/StoryDiagram.svelte';
+	import StoryImage from './category-story/StoryImage.svelte';
+	import StoryTimeline from './category-story/StoryTimeline.svelte';
+	import PioneerGrid from './category-story/PioneerGrid.svelte';
 	import { ChevronLeft, ChevronRight, BookOpen } from 'lucide-svelte';
 	import { navigateToBookChapter, navigateToHubPanel } from '$lib/utils/navigation';
 
@@ -80,6 +83,23 @@
 					<StoryDiagram
 						definition={storySection.definition}
 						caption={storySection.caption}
+						color={CHAPTER_ACCENT}
+						title={storySection.title}
+					/>
+				{:else if storySection.type === 'image'}
+					<StoryImage
+						src={storySection.src}
+						alt={storySection.alt}
+						caption={storySection.caption}
+						credit={storySection.credit}
+						color={CHAPTER_ACCENT}
+						title={storySection.title}
+					/>
+				{:else if storySection.type === 'timeline'}
+					<StoryTimeline entries={storySection.entries} color={CHAPTER_ACCENT} />
+				{:else if storySection.type === 'pioneers'}
+					<PioneerGrid
+						people={storySection.people}
 						color={CHAPTER_ACCENT}
 						title={storySection.title}
 					/>
