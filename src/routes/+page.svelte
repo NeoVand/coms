@@ -15,12 +15,12 @@
 		if (appState.selectedNode) appState.clearSelection();
 		appState.activeBookChapter = null;
 		appState.activeBookPart = null;
+		appState.activeBookPartToc = null;
 		appState.activePioneer = null;
 		appState.activeRfc = null;
 		appState.activeOutage = null;
 		appState.activeFrontier = null;
 		appState.activeRegistryIndex = null;
-		appState.activeBookToc = false;
 		appState.showDetailPanel = false;
 	});
 </script>

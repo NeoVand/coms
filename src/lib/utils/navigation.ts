@@ -88,9 +88,14 @@ export function navigateToBookChapter(
 	return go(`/book/${partId}/${chapterId}`, opts);
 }
 
-/** The book's table of contents — twelve parts, each part's chapter list. */
-export function navigateToBookToc(opts: NavOptions = {}) {
-	return go('/book', opts);
+/**
+ * The detailed table of contents for one part (`/book/[part]`).
+ * The full-book TOC has been retired — Home shows the condensed
+ * 12-part overview, and each part has its own detailed TOC at this
+ * URL. Click `navigateToBookChapter` to jump deeper.
+ */
+export function navigateToBookPart(partId: string, opts: NavOptions = {}) {
+	return go(`/book/${partId}`, opts);
 }
 
 /** A pioneer bio page — the architects of the field. */

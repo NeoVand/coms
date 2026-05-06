@@ -71,11 +71,11 @@ export class AppState {
 	activeRegistryIndex: 'pioneers' | 'rfcs' | 'outages' | 'frontier' | null = $state(null);
 
 	/**
-	 * True when the side panel is showing the book table of contents
-	 * (`/book`). The TOC is its own surface — distinct from a chapter,
-	 * which is one entry within the TOC.
+	 * Part id whose detailed table of contents is currently being
+	 * displayed (`/book/[part]`). One of the reading-surface flags;
+	 * exactly one is set at a time.
 	 */
-	activeBookToc: boolean = $state(false);
+	activeBookPartToc: string | null = $state(null);
 
 	// Diagram modal state (rendered at root level to escape stacking contexts)
 	diagramModal: { protocolId: string; color: string } | null = $state(null);
@@ -211,12 +211,12 @@ export class AppState {
 		// Selecting a graph node ends any active reading session.
 		this.activeBookChapter = null;
 		this.activeBookPart = null;
+		this.activeBookPartToc = null;
 		this.activePioneer = null;
 		this.activeRfc = null;
 		this.activeOutage = null;
 		this.activeFrontier = null;
 		this.activeRegistryIndex = null;
-		this.activeBookToc = false;
 	};
 
 	hoverNode = (node: GraphNode | null) => {

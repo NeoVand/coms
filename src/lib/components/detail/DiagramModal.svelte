@@ -1,5 +1,5 @@
 <script lang="ts">
-	import MermaidDiagram from './MermaidDiagram.svelte';
+	import SequencePlayer from './SequencePlayer.svelte';
 	import { getProtocolById } from '$lib/data/index';
 	import { diagramDefinitions } from '$lib/data/diagram-definitions';
 
@@ -16,7 +16,7 @@
 	} = $props();
 
 	const protocol = $derived(getProtocolById(protocolId));
-	const caption = $derived(diagramDefinitions[protocolId]?.caption);
+	const hasDiagram = $derived(protocolId in diagramDefinitions);
 
 	function handleKeydown(e: KeyboardEvent) {
 		if (!open) return;
@@ -38,7 +38,7 @@
 {#if open}
 	<!-- svelte-ignore a11y_click_events_have_key_events -->
 	<div
-		class="fixed inset-0 z-[100] flex items-center justify-center p-8"
+		class="fixed inset-0 z-[100] flex items-center justify-center p-2 sm:p-4 md:p-6"
 		role="dialog"
 		aria-modal="true"
 		aria-label="Expanded protocol diagram"
@@ -49,21 +49,20 @@
 		<div class="pointer-events-none absolute inset-0 bg-[var(--theme-overlay)] backdrop-blur-md"></div>
 
 		<!-- Modal card -->
-		<div class="modal-card relative z-10 flex max-h-[90vh] w-full max-w-4xl flex-col overflow-hidden rounded-2xl border border-s-border bg-bg-deep shadow-2xl">
+		<div
+			class="modal-card relative z-10 flex max-h-[96vh] sm:max-h-[92vh] w-full max-w-6xl flex-col overflow-hidden rounded-2xl border border-s-border bg-bg-deep shadow-2xl"
+		>
 			<!-- Header -->
-			<div class="flex items-center justify-between border-b border-s-border px-6 py-4">
-				<div class="flex items-center gap-3">
-					<div
-						class="h-2 w-2 rounded-full"
-						style="background-color: {color}"
-					></div>
-					<h3 class="text-sm font-semibold text-t-primary">
+			<div class="flex shrink-0 items-center justify-between border-b border-s-border px-4 py-3 sm:px-6 sm:py-4">
+				<div class="flex items-center gap-2 sm:gap-3">
+					<div class="h-2 w-2 rounded-full" style="background-color: {color}"></div>
+					<h3 class="text-sm font-semibold text-t-primary sm:text-base">
 						{protocol?.abbreviation ?? protocolId.toUpperCase()}
 					</h3>
-					<span class="text-xs text-t-muted">How It Works</span>
+					<span class="hidden text-xs text-t-muted sm:inline">Sequence Diagram</span>
 				</div>
 				<button
-					class="flex h-7 w-7 items-center justify-center rounded-lg text-t-secondary transition-colors hover:bg-s-glass-hover hover:text-t-primary"
+					class="flex h-8 w-8 items-center justify-center rounded-lg text-t-secondary transition-colors hover:bg-s-glass-hover hover:text-t-primary"
 					onclick={onclose}
 					aria-label="Close"
 				>
@@ -73,19 +72,14 @@
 				</button>
 			</div>
 
-			<!-- Diagram content -->
-			<div class="custom-scrollbar flex flex-1 flex-col items-center justify-center overflow-y-auto px-8 py-6">
-				<div class="diagram-container w-full">
-					<MermaidDiagram {protocolId} {color} expanded={true} hideCaption={true} />
-				</div>
+			<!-- Player content (scrollable if it overflows) -->
+			<div class="custom-scrollbar flex flex-1 flex-col overflow-y-auto px-3 py-4 sm:px-6 sm:py-5">
+				{#if hasDiagram}
+					<SequencePlayer {protocolId} {color} expanded={true} />
+				{:else}
+					<p class="py-12 text-center text-sm text-t-muted">No diagram available.</p>
+				{/if}
 			</div>
-
-			<!-- Footer with caption -->
-			{#if caption}
-				<div class="border-t border-s-border px-6 py-3">
-					<p class="text-center text-xs text-t-muted">{caption}</p>
-				</div>
-			{/if}
 		</div>
 	</div>
 {/if}
@@ -104,14 +98,5 @@
 			opacity: 1;
 			transform: scale(1) translateY(0);
 		}
-	}
-
-	/* Override the default 100% width SVG so diagram centers naturally */
-	.diagram-container :global(svg) {
-		width: auto !important;
-		max-width: 100%;
-		height: auto;
-		margin: 0 auto;
-		display: block;
 	}
 </style>

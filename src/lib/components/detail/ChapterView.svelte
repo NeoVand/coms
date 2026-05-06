@@ -26,7 +26,8 @@
 	} from 'lucide-svelte';
 	import {
 		navigateToBookChapter,
-		navigateToBookToc,
+		navigateToBookPart,
+		navigateToHubPanel,
 		navigateToProtocol,
 		navigateToPioneer,
 		navigateToOutage,
@@ -90,17 +91,19 @@
 	<nav class="flex flex-wrap items-center gap-x-2 gap-y-1 text-[11px] text-t-muted">
 		<button
 			class="flex items-center gap-1 transition-colors hover:text-t-primary"
-			onclick={() => navigateToBookToc()}
+			onclick={() => navigateToHubPanel()}
 		>
 			<BookOpen size={11} />
 			The Book
 		</button>
 		<span>·</span>
-		<span style="color: {ACCENT};">{partLabel(partId)}</span>
-		{#if part}
-			<span>·</span>
-			<span>{part.title}</span>
-		{/if}
+		<button
+			class="transition-colors hover:text-t-primary"
+			style="color: {ACCENT};"
+			onclick={() => navigateToBookPart(partId)}
+		>
+			{partLabel(partId)}{#if part} — {part.title}{/if}
+		</button>
 		{#if currentIndex >= 0}
 			<span>·</span>
 			<span class="text-t-secondary">Chapter {currentIndex + 1} of {allChapters.length}</span>
@@ -445,7 +448,7 @@
 					<button
 						class="mt-2 text-xs hover:underline"
 						style="color: {ACCENT};"
-						onclick={() => navigateToBookToc()}
+						onclick={() => navigateToHubPanel()}
 					>
 						← Back to The Book
 					</button>
@@ -489,7 +492,7 @@
 	{:else}
 		<div class="rounded-xl border border-s-border bg-s-glass p-6 text-center">
 			<p class="text-sm text-t-secondary">Chapter not found.</p>
-			<button class="mt-2 text-xs text-sky-400 hover:underline" onclick={() => navigateToBookToc()}
+			<button class="mt-2 text-xs text-sky-400 hover:underline" onclick={() => navigateToHubPanel()}
 				>← Back to The Book</button
 			>
 		</div>

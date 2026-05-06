@@ -11,7 +11,8 @@
 		navigateToProtocol,
 		navigateToCategory,
 		navigateToHub,
-		navigateToBookChapter
+		navigateToBookChapter,
+		navigateToBookPart
 	} from '$lib/utils/navigation';
 	import { foundationSections } from '$lib/data/concept-foundations';
 	import { bookParts, listChapters } from '$lib/data/book/chapters';
@@ -25,13 +26,12 @@
 	import RfcsIndex from './registry-index/RfcsIndex.svelte';
 	import OutagesIndex from './registry-index/OutagesIndex.svelte';
 	import FrontierIndex from './registry-index/FrontierIndex.svelte';
-	import BookTocView from './BookTocView.svelte';
+	import BookPartView from './BookPartView.svelte';
 	import {
 		navigateToPioneersIndex,
 		navigateToRfcsIndex,
 		navigateToOutagesIndex,
-		navigateToFrontierIndex,
-		navigateToBookToc
+		navigateToFrontierIndex
 	} from '$lib/utils/navigation';
 	import { Users, FileText, AlertTriangle, Compass as CompassIcon } from 'lucide-svelte';
 
@@ -138,7 +138,7 @@
 		const _outage = appState.activeOutage;
 		const _frontier = appState.activeFrontier;
 		const _idx = appState.activeRegistryIndex;
-		const _toc = appState.activeBookToc;
+		const _partToc = appState.activeBookPartToc;
 		void _id;
 		void _view;
 		void _chapter;
@@ -147,7 +147,7 @@
 		void _outage;
 		void _frontier;
 		void _idx;
-		void _toc;
+		void _partToc;
 		if (scrollerEl) scrollerEl.scrollTop = 0;
 	});
 
@@ -287,8 +287,8 @@
 			<div class="p-6"><OutagesIndex /></div>
 		{:else if appState.activeRegistryIndex === 'frontier'}
 			<div class="p-6"><FrontierIndex /></div>
-		{:else if appState.activeBookToc}
-			<div class="p-6"><BookTocView /></div>
+		{:else if appState.activeBookPartToc}
+			<div class="p-6"><BookPartView partId={appState.activeBookPartToc} /></div>
 		{:else if selectedData?.type === 'hub'}
 			{@const simCount = allProtocols.filter((p) => hasSimulation(p.id)).length}
 			<!-- Hub hero (always visible) -->
@@ -330,11 +330,10 @@
 						<div class="space-y-1.5">
 							{#each bookParts as part (part.id)}
 								{@const accent = PART_ACCENTS[part.id] ?? '#60a5fa'}
-								{@const firstChapter = part.chapters[0]}
 								<button
 									class="group flex w-full items-start gap-3 rounded-xl border border-s-border bg-s-glass p-3 text-left transition-all hover:bg-s-glass-hover"
 									style="border-color: {accent}30;"
-									onclick={() => firstChapter && navigateToBookChapter(part.id, firstChapter.id)}
+									onclick={() => navigateToBookPart(part.id)}
 								>
 									<span
 										class="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg font-mono text-[11px] font-bold tabular-nums"

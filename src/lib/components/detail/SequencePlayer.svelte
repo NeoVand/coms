@@ -322,10 +322,10 @@
 	});
 </script>
 
-<div class="sequence-player flex flex-col gap-3">
+<div class="sequence-player flex flex-col" class:expanded class:gap-4={expanded} class:gap-3={!expanded}>
 	<!-- Player controls + caption — sits above the diagram, not sticky. -->
-	<div class="player-bar flex flex-col gap-2 rounded-xl border border-s-border bg-s-glass p-3">
-		<div class="flex items-center gap-2">
+	<div class="player-bar flex flex-col rounded-xl border border-s-border bg-s-glass" class:gap-3={expanded} class:gap-2={!expanded} class:p-4={expanded} class:p-3={!expanded}>
+		<div class="flex items-center" class:gap-3={expanded} class:gap-2={!expanded}>
 			<button
 				class="player-btn"
 				onclick={prev}
@@ -333,21 +333,21 @@
 				aria-label="Previous step"
 				title="Previous"
 			>
-				<svg viewBox="0 0 24 24" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+				<svg viewBox="0 0 24 24" class="player-icon" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
 					<polyline points="15 18 9 12 15 6"></polyline>
 				</svg>
 			</button>
 
 			{#if playing}
 				<button class="player-btn player-btn-primary" onclick={pause} aria-label="Pause" title="Pause" style="--c: {color};">
-					<svg viewBox="0 0 24 24" class="h-3.5 w-3.5" fill="currentColor">
+					<svg viewBox="0 0 24 24" class="player-icon" fill="currentColor">
 						<rect x="6" y="5" width="4" height="14" rx="1"></rect>
 						<rect x="14" y="5" width="4" height="14" rx="1"></rect>
 					</svg>
 				</button>
 			{:else}
 				<button class="player-btn player-btn-primary" onclick={play} aria-label="Play" title="Play" disabled={total === 0} style="--c: {color};">
-					<svg viewBox="0 0 24 24" class="h-3.5 w-3.5" fill="currentColor">
+					<svg viewBox="0 0 24 24" class="player-icon" fill="currentColor">
 						<polygon points="6 4 20 12 6 20 6 4"></polygon>
 					</svg>
 				</button>
@@ -360,19 +360,19 @@
 				aria-label="Next step"
 				title="Next"
 			>
-				<svg viewBox="0 0 24 24" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+				<svg viewBox="0 0 24 24" class="player-icon" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
 					<polyline points="9 18 15 12 9 6"></polyline>
 				</svg>
 			</button>
 
 			<button class="player-btn" onclick={restart} aria-label="Restart" title="Restart from beginning" disabled={total === 0}>
-				<svg viewBox="0 0 24 24" class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+				<svg viewBox="0 0 24 24" class="player-icon" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
 					<polyline points="1 4 1 10 7 10"></polyline>
 					<path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
 				</svg>
 			</button>
 
-			<div class="ml-1 text-[11px] tabular-nums text-t-muted">
+			<div class="counter ml-1 tabular-nums text-t-muted">
 				{cursor + 1} / {total || '—'}
 			</div>
 
@@ -389,7 +389,7 @@
 		<div class="caption-stack" aria-live="polite">
 			{#each allCaptions as cap, i (i)}
 				<div class="cap-slot" class:visible={i === cursor} aria-hidden={i !== cursor}>
-					<DiagramCaption caption={cap} {color} size="sm" align="left" />
+					<DiagramCaption caption={cap} {color} size={expanded ? 'lg' : 'sm'} align="left" />
 				</div>
 			{/each}
 		</div>
@@ -419,7 +419,10 @@
 	}
 
 	.mermaid-container :global(svg) {
-		width: 100%;
+		display: block;
+		margin-left: auto;
+		margin-right: auto;
+		max-width: 100%;
 		height: auto;
 		background-color: transparent !important;
 	}
@@ -470,6 +473,35 @@
 			border-color 0.15s ease,
 			transform 0.1s ease;
 		cursor: pointer;
+	}
+
+	.player-icon {
+		width: 14px;
+		height: 14px;
+	}
+
+	.counter {
+		font-size: 11px;
+	}
+
+	/* Expanded mode — bigger touch targets and bigger icons for the modal view. */
+	.sequence-player.expanded .player-btn {
+		width: 38px;
+		height: 38px;
+		border-radius: 10px;
+	}
+
+	.sequence-player.expanded .player-icon {
+		width: 18px;
+		height: 18px;
+	}
+
+	.sequence-player.expanded .counter {
+		font-size: 13px;
+	}
+
+	.sequence-player.expanded .progress-track {
+		height: 4px;
 	}
 
 	.player-btn:hover:not(:disabled) {

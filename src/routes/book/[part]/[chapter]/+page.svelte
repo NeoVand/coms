@@ -16,12 +16,12 @@
 		const chapterId = page.params.chapter;
 		if (!partId || !chapterId) return;
 		if (appState.selectedNode) appState.selectedNode = null;
-		appState.activeBookToc = false;
 		appState.activePioneer = null;
 		appState.activeRfc = null;
 		appState.activeOutage = null;
 		appState.activeFrontier = null;
 		appState.activeRegistryIndex = null;
+		appState.activeBookPartToc = null;
 		if (appState.activeBookPart !== partId) appState.activeBookPart = partId;
 		if (appState.activeBookChapter !== chapterId) appState.activeBookChapter = chapterId;
 		appState.showDetailPanel = true;

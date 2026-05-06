@@ -192,9 +192,16 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     S->>C: 200 OK (JS)
     Note over C,S: Head-of-line blocking: each request waits for previous response`,
 		caption:
-			'**HTTP/1.1** = the original web protocol. One request at a time per connection — each must complete before the next can start. Browsers open multiple connections in parallel to work around it (RFC 9112).',
+			'**HTTP/1.1** = the text-based protocol that built the web (1997). A request line + headers + optional body, then a status line + headers + body in reply. One request at a time per connection — browsers parallelize by opening up to **6 connections per origin** (RFC 9112).',
 		steps: {
-			7: 'Three resources, three sequential round trips. Even though the client knows it needs the CSS and JS as soon as the HTML is parsed, **HTTP/1 can\'t multiplex them on one connection** — that\'s *head-of-line blocking* at the application layer.'
+			0: '**`GET`** = the request method for *fetching* a resource. **Safe** (no server-side side effects) and **idempotent** (calling twice = calling once), so responses are freely cacheable. The other common methods: **`POST`** (create), **`PUT`** (replace), **`PATCH`** (partial update), **`DELETE`** (remove), **`HEAD`** (GET without body — just headers), **`OPTIONS`** (capabilities probe, used in CORS).',
+			1: '**`200 OK`** = success with body. HTTP status codes are 3-digit, grouped by hundreds: **`1xx`** informational (`100 Continue`), **`2xx`** success (`201 Created`, `204 No Content`), **`3xx`** redirect (`301` permanent, `302` temporary, `304 Not Modified`), **`4xx`** client error (`400 Bad Request`, `401 Unauthorized`, `403 Forbidden`, `404 Not Found`, `429 Too Many Requests`), **`5xx`** server error (`500 Internal`, `502 Bad Gateway`, `503 Unavailable`, `504 Gateway Timeout`).',
+			2: 'Browser scans the HTML and finds **`<link rel="stylesheet">`** (CSS), **`<script src="...">`** (JS), and **`<img src="...">`** tags pointing to other URLs. Each becomes a fresh request — and HTML parsing **pauses for blocking scripts** until they download and execute.',
+			3: 'Same TCP connection. HTTP/1.1\'s **`Connection: keep-alive`** (the default since 1999) reuses the connection for all requests to the same host, saving the **TCP + TLS handshake** on every fetch. Without keep-alive, each resource would need a brand-new connection.',
+			4: 'Response carries headers like **`Content-Type: text/css`** (so the browser interprets it correctly) and **`Cache-Control: max-age=31536000, immutable`** (reuse from cache for a year, never re-validate). Caching is *the* HTTP performance superpower.',
+			5: 'Third sequential request on this connection. Even though the browser knew it needed all three resources as soon as the HTML was parsed, **HTTP/1.1 can\'t send them in parallel on one connection**. To work around this, browsers open up to **6 concurrent connections per origin** — and *domain sharding* (serving assets from `static1.example.com`, `static2.example.com`...) was a common 2010s trick.',
+			6: 'JS arrives. Conditional requests via **`If-None-Match`** + **`ETag`** (or **`If-Modified-Since`** + **`Last-Modified`**) let the server reply **`304 Not Modified`** with no body when nothing changed — saves bandwidth on repeat visits. **Compression** via `Content-Encoding: gzip` or `br` (Brotli) shrinks the payload further.',
+			7: 'Each request must wait for the previous response — **head-of-line blocking** at the application layer. The 6-connection workaround helps but doesn\'t scale. **HTTP/2** fixed this by multiplexing all requests as numbered streams over a single TCP connection.'
 		}
 	},
 

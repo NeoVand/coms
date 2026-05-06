@@ -11,6 +11,7 @@
 		if (appState.selectedNode) appState.selectedNode = null;
 		if (appState.activeBookChapter) appState.activeBookChapter = null;
 		if (appState.activeBookPart) appState.activeBookPart = null;
+		appState.activeBookPartToc = null;
 		if (appState.activePioneer) appState.activePioneer = null;
 		if (appState.activeRfc) appState.activeRfc = null;
 		if (appState.activeOutage) appState.activeOutage = null;
