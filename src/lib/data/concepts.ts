@@ -1502,6 +1502,455 @@ export const concepts: Concept[] = [
 			'Like the difference between a car\'s dashboard (metrics: a few numbers you watch) and a black-box flight recorder (traces: a complete record you query after the fact). Observability is having both.',
 		wikiUrl: 'https://en.wikipedia.org/wiki/Observability_(software)',
 		category: 'infrastructure'
+	},
+
+	// ── Networking Basics — second wave ────────────────────────────────
+	{
+		id: 'five-tuple',
+		term: 'Five-Tuple',
+		definition:
+			'The five values that uniquely identify a flow on the internet: source IP, destination IP, source port, destination port, and L4 protocol (TCP/UDP). Routers, firewalls, NATs, and ECMP hashes all key off the 5-tuple. The "4-tuple" drops the protocol and is what TCP uses to identify a connection.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Tuple#Computer_science',
+		category: 'networking-basics'
+	},
+	{
+		id: 'asn',
+		term: 'ASN (Autonomous System Number)',
+		definition:
+			'A unique 16- or 32-bit identifier (RFC 6793) for an autonomous system — the unit of inter-domain routing on the internet. AS 32934 is Meta, AS 15169 is Google, AS 13335 is Cloudflare. BGP UPDATE messages carry an AS_PATH attribute listing the ASNs the route has traversed.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Autonomous_system_(Internet)',
+		category: 'networking-basics'
+	},
+	{
+		id: 'peering',
+		term: 'Peering',
+		definition:
+			'A bilateral interconnection between two networks where each agrees to exchange traffic destined for the other (and the other\'s customers) at no cost. Distinct from *transit*, where one network pays another for access to the rest of the internet. Public peering happens at IXPs; private peering is direct fibre between two AS edges.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Peering',
+		category: 'networking-basics'
+	},
+	{
+		id: 'transit',
+		term: 'Transit (Network)',
+		definition:
+			'A paid relationship where one network buys reachability to the rest of the internet from a larger upstream provider. Tier-1 networks form the top of the hierarchy and have transit-free interconnection with each other; everyone else buys transit from someone.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Internet_transit',
+		category: 'networking-basics'
+	},
+	{
+		id: 'ixp',
+		term: 'IXP (Internet Exchange Point)',
+		definition:
+			'A neutral facility where many autonomous systems meet on a shared layer-2 fabric (typically Ethernet) to exchange traffic via BGP without paying transit. AMS-IX, DE-CIX, and LINX move terabits per second. The IXP itself doesn\'t move traffic — it provides the meet-me room and the switch.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Internet_exchange_point',
+		category: 'networking-basics'
+	},
+	{
+		id: 'rib-fib',
+		term: 'RIB / FIB',
+		definition:
+			"Two routing tables that look the same but live in different worlds. The Routing Information Base (RIB) is the *control plane*'s view: all known routes from BGP, OSPF, IS-IS, static config. The Forwarding Information Base (FIB) is the *data plane*'s view: the subset of routes the router actually uses, programmed into ASIC TCAM for line-rate lookup.",
+		category: 'networking-basics'
+	},
+	{
+		id: 'control-plane-data-plane',
+		term: 'Control Plane vs Data Plane',
+		definition:
+			"The two halves of a router or switch. The *control plane* runs the routing protocols (BGP, OSPF, NDP), builds the RIB, and reacts to topology changes — typically on a general-purpose CPU. The *data plane* forwards packets at line rate using the FIB — typically in ASIC silicon. SDN's contribution was making both programmable.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Forwarding_plane',
+		category: 'networking-basics'
+	},
+	{
+		id: 'ndp',
+		term: 'NDP (Neighbor Discovery Protocol)',
+		definition:
+			"IPv6's replacement for ARP plus router discovery, prefix discovery, and Duplicate Address Detection (RFC 4861). Runs over ICMPv6 multicast on the local link. Where ARP broadcasts \"who has 192.0.2.7?\", NDP sends a Neighbor Solicitation to a solicited-node multicast group — much more efficient.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Neighbor_Discovery_Protocol',
+		category: 'networking-basics'
+	},
+	{
+		id: 'slaac',
+		term: 'SLAAC (Stateless Address Autoconfiguration)',
+		definition:
+			"IPv6's mechanism (RFC 4862) for hosts to generate their own globally-unique addresses without a DHCP server. The router advertises a prefix; the host appends an interface identifier (EUI-64 or RFC 7217 stable-private). No server, no lease, no central state.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/IPv6#Stateless_address_autoconfiguration_(SLAAC)',
+		category: 'networking-basics'
+	},
+	{
+		id: 'dscp',
+		term: 'DSCP (Differentiated Services Code Point)',
+		definition:
+			"A 6-bit field in the IPv4 ToS or IPv6 Traffic Class header (RFC 2474) that classifies a packet's quality-of-service treatment. Common values include EF (Expedited Forwarding, voice), AF41-43 (Assured Forwarding, video), and CS0 (default best-effort). Routers configured for DiffServ enqueue packets into different priority queues based on DSCP.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Differentiated_services',
+		category: 'networking-basics'
+	},
+	{
+		id: 'four-six-four-xlat',
+		term: '464XLAT',
+		definition:
+			"An IPv6 transition mechanism (RFC 6877) that lets IPv4-only applications run on IPv6-only access networks. A CLAT on the host translates IPv4 → IPv6; a PLAT (NAT64) at the carrier edge translates IPv6 → IPv4. Modern Android, iOS, macOS, and Windows 11 ship CLAT natively. Why your phone can be IPv6-only without breaking ancient apps.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/464XLAT',
+		category: 'networking-basics'
+	},
+
+	// ── Protocol Mechanics — second wave ───────────────────────────────
+	{
+		id: 'tcp-rst',
+		term: 'TCP RST',
+		definition:
+			'A TCP packet with the RST flag set, which immediately aborts a connection without the four-way close handshake. Sent when a packet arrives for a closed socket, when a stack rejects a connection attempt, or when an application explicitly aborts. RSTs are the basis of off-path connection-reset attacks (the 2016 CVE-2016-5696 used a side channel in the RST rate-limit counter).',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Transmission_Control_Protocol#Connection_termination',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'tcp-fin',
+		term: 'TCP FIN',
+		definition:
+			"A TCP packet with the FIN flag set, signalling \"I'm done sending data — but I'll keep listening.\" The graceful counterpart to RST. A clean TCP close is a four-way exchange: FIN, ACK, FIN, ACK, with both sides able to half-close independently.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Transmission_Control_Protocol#Connection_termination',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'sack',
+		term: 'SACK (Selective Acknowledgment)',
+		definition:
+			"A TCP option (RFC 2018, 1996) that lets the receiver tell the sender exactly which non-contiguous byte ranges have arrived — instead of the cumulative ACK only saying \"I have everything up to byte N.\" Lets the sender retransmit only what's missing, dramatically improving recovery on lossy paths. Universally supported.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Transmission_Control_Protocol#Selective_acknowledgments',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'window-scale',
+		term: 'Window Scale',
+		definition:
+			"A TCP option (RFC 7323) that lets the 16-bit receive window field represent values up to 2³⁰ bytes by left-shifting it during the handshake. Without window scale, a single TCP connection caps at 64 KB in flight — fine in 1981, far too little for a 10 Gbps × 100 ms BDP. Negotiated only in the SYN handshake, never midstream.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/TCP_window_scale_option',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'nagle',
+		term: "Nagle's Algorithm",
+		definition:
+			"A 1984 sender-side rule (RFC 896) that holds back small writes until either the previous data is ACKed or a full segment is ready, to avoid flooding the network with tiny packets. Saved early networks; today it interacts pathologically with delayed ACKs and is the reason TCP_NODELAY exists.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Nagle%27s_algorithm',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'delayed-ack',
+		term: 'Delayed ACK',
+		definition:
+			"A receiver-side optimisation (RFC 1122 §4.2.3.2) that batches ACKs by waiting up to ~200 ms in case more data or an outgoing packet can carry the ACK. Combined with Nagle's algorithm on the sender, this can produce 200 ms request-response latencies on otherwise instant networks — the classic interactive-app footgun.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/TCP_delayed_acknowledgment',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'tcp-fast-open',
+		term: 'TCP Fast Open',
+		definition:
+			'A TCP extension (RFC 7413, 2014) that lets a returning client send application data inside the SYN, using a server-issued cookie to authenticate. Saves an entire round-trip for repeat connections. ~5% middlebox failure rate on the public internet — a key reason QUIC ended up on UDP instead of as another TCP option.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/TCP_Fast_Open',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'initial-cwnd',
+		term: 'Initial cwnd',
+		definition:
+			"The number of segments a TCP sender may put in flight before receiving the first ACK. RFC 6928 (2013) raised it from 3-4 to 10 (≈14,600 bytes), shaving an entire round-trip off small-page loads. Some CDNs go higher. The reason a fresh connection's first burst can saturate a 100 Mbps link before the server has heard back.",
+		wikiUrl: 'https://datatracker.ietf.org/doc/html/rfc6928',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'pacing',
+		term: 'Pacing',
+		definition:
+			"Spreading outgoing packets evenly over time instead of sending them in a burst. BBR paces every send to exactly the estimated bottleneck bandwidth, which avoids triggering AQM drops and minimises queue buildup. Linux pacing is implemented in the FQ qdisc — BBR depends on it.",
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'one-rtt',
+		term: '1-RTT (One Round-Trip Time)',
+		definition:
+			"A handshake mode where application data flows after exactly one round-trip — the client's first flight reaches the server, the server's reply reaches the client, and then the client can send. TLS 1.3 and QUIC achieve 1-RTT for new connections; with session resumption they fall to 0-RTT for repeat visitors.",
+		category: 'protocol-mechanics'
+	},
+
+	// ── Security — second wave ─────────────────────────────────────────
+	{
+		id: 'salt',
+		term: 'Salt',
+		definition:
+			"Random data mixed with a password before hashing so identical passwords produce different stored hashes — defeating precomputed rainbow tables. Modern password hashing (argon2, bcrypt, scrypt) salts internally. Distinct from a *nonce*, which prevents key reuse rather than precomputation.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Salt_(cryptography)',
+		category: 'security'
+	},
+	{
+		id: 'kdf',
+		term: 'KDF / HKDF (Key Derivation Function)',
+		definition:
+			"A function that turns a single high-entropy input — the (EC)DHE shared secret, a master key, a password — into a tree of named, application-specific keys. HKDF (RFC 5869) is the HMAC-based KDF that powers TLS 1.3's key schedule and most modern protocols. Its job: ensure that compromising one derived key doesn't compromise the others.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/HKDF',
+		category: 'security'
+	},
+	{
+		id: 'iv',
+		term: 'IV (Initialization Vector)',
+		definition:
+			"A non-secret value that randomises the starting state of a block cipher mode so encrypting the same plaintext twice produces different ciphertext. CBC requires an unpredictable IV; GCM uses a 96-bit nonce as IV. Reusing an IV under the same key in GCM is catastrophic (it leaks the authentication key).",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Initialization_vector',
+		category: 'security'
+	},
+	{
+		id: 'ocsp-crl',
+		term: 'OCSP / CRL (Certificate Revocation)',
+		definition:
+			"Two mechanisms for telling clients a certificate has been revoked before its expiry. CRLs are large signed lists the client downloads periodically; OCSP (RFC 6960) is a per-certificate online query. Both are unreliable in practice — clients soft-fail when the responder is unreachable — which is why short certificate lifetimes are replacing revocation as the primary defence.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Online_Certificate_Status_Protocol',
+		category: 'security'
+	},
+	{
+		id: 'certificate-transparency',
+		term: 'Certificate Transparency',
+		definition:
+			"A system (RFC 9162) where every publicly-trusted TLS certificate is logged to append-only Merkle-tree logs that anyone can audit. Browsers reject certificates that aren't logged, so a CA cannot quietly mis-issue a certificate for a domain — the domain owner will see it. Crt.sh is a popular search interface.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Certificate_Transparency',
+		category: 'security'
+	},
+	{
+		id: 'bgp-hijack',
+		term: 'BGP Hijack',
+		definition:
+			"A BGP announcement that originates a prefix the announcer is not authorised to originate, or claims a more-specific prefix that wins under longest-prefix match. Pakistan Telecom's 2008 announcement of YouTube's /24 took YouTube offline globally for two hours; the 2018 MyEtherWallet hijack stole ~$150K in crypto. RPKI ROV mitigates origin hijacks; ASPA mitigates path hijacks.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/BGP_hijacking',
+		category: 'security'
+	},
+	{
+		id: 'route-leak',
+		term: 'Route Leak',
+		definition:
+			"A BGP route announcement that propagates outside its agreed policy boundary — typically a customer accidentally announcing all its provider's routes back to other providers, turning itself into a transit AS for the entire internet. RFC 7908 catalogues six types. The 1997 AS 7007 incident and the 2019 Verizon/Cloudflare leak are textbook examples.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Route_leak',
+		category: 'security'
+	},
+	{
+		id: 'rov',
+		term: 'ROV (Route Origin Validation)',
+		definition:
+			"The runtime check a router performs against RPKI: for each BGP UPDATE, verify that the originating AS is authorised to announce the prefix. Result is *Valid*, *Invalid*, or *NotFound*. Most large transit providers drop *Invalid*. Pairs with RPKI as the deployment mechanism that stopped the YouTube-class hijack.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Resource_Public_Key_Infrastructure#Route_Origin_Validation',
+		category: 'security'
+	},
+	{
+		id: 'aspa',
+		term: 'ASPA (Autonomous System Provider Authorization)',
+		definition:
+			"An emerging RPKI extension (draft-ietf-sidrops-aspa-verification, expected to publish 2026) where each AS publishes a signed list of its upstream providers. Routers can then detect path hijacks and route leaks by checking that each AS_PATH segment matches the customer-provider hierarchy. The pragmatic alternative to BGPsec.",
+		wikiUrl: 'https://datatracker.ietf.org/doc/draft-ietf-sidrops-aspa-verification/',
+		category: 'security'
+	},
+	{
+		id: 'replay-attack',
+		term: 'Replay Attack',
+		definition:
+			"Capturing a valid message and re-sending it later to trick the recipient into accepting it as fresh. Defeated with nonces, timestamps, sequence numbers, or single-use tokens. TLS 1.3's 0-RTT data has limited replay protection by design — which is why it should be restricted to idempotent requests like GETs.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Replay_attack',
+		category: 'security'
+	},
+
+	// ── Web — second wave ──────────────────────────────────────────────
+	{
+		id: 'etag',
+		term: 'ETag',
+		definition:
+			"An opaque token an HTTP server sends in a response header that identifies a specific version of a resource. The client sends it back in If-None-Match on the next request; if the resource hasn't changed, the server returns 304 Not Modified with no body. The cheapest possible cache-validation round-trip.",
+		wikiUrl: 'https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/ETag',
+		category: 'web'
+	},
+	{
+		id: 'cache-control',
+		term: 'Cache-Control',
+		definition:
+			"The HTTP header (RFC 9111) that tells caches — both the browser and any intermediate CDN/proxy — how to handle a response. Common directives: max-age=N (cache for N seconds), no-cache (must revalidate), no-store (don't cache at all), public/private, immutable (never revalidate, even on reload). The single most important header for web performance.",
+		wikiUrl: 'https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control',
+		category: 'web'
+	},
+	{
+		id: 'cookie',
+		term: 'Cookie',
+		definition:
+			"A small key-value pair the server stores on the client via Set-Cookie and the client returns on every subsequent request to the same origin. Modern attributes: Secure (HTTPS only), HttpOnly (not visible to JavaScript), SameSite (Strict/Lax/None — controls cross-site sending), Domain, Path, Max-Age. Cookies underpin sessions, auth, tracking, and most XSS/CSRF concerns.",
+		wikiUrl: 'https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies',
+		category: 'web'
+	},
+	{
+		id: 'hsts',
+		term: 'HSTS (HTTP Strict Transport Security)',
+		definition:
+			"A response header (RFC 6797) that tells the browser \"only ever connect to this domain over HTTPS, for the next N seconds.\" After the first visit, plaintext HTTP requests are upgraded automatically — defeating SSL-stripping attacks. Browsers also ship a preload list (hstspreload.org) so the very first visit is protected too.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/HTTP_Strict_Transport_Security',
+		category: 'web'
+	},
+	{
+		id: 'csp',
+		term: 'CSP (Content Security Policy)',
+		definition:
+			"A response header that tells the browser which sources of script, style, image, font, and connection are allowed for the page. A strict CSP (script-src 'self' with nonces) is the modern defence against XSS — even if an attacker injects a <script> tag, the browser refuses to execute it.",
+		wikiUrl: 'https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP',
+		category: 'web'
+	},
+	{
+		id: 'http2-stream',
+		term: 'HTTP/2 Stream',
+		definition:
+			"A bidirectional sequence of HTTP/2 frames within a single TCP connection, identified by a stream ID. Each request-response pair is one stream; many streams interleave their frames over the same connection. Eliminates HTTP/1.1's connection-per-request overhead — but a single TCP packet loss still stalls all streams, the limitation HTTP/3 fixed.",
+		wikiUrl: 'https://datatracker.ietf.org/doc/html/rfc9113#name-streams-and-multiplexing',
+		category: 'web'
+	},
+	{
+		id: 'webtransport',
+		term: 'WebTransport',
+		definition:
+			"A modern client-server transport API for browsers (W3C Working Draft, IETF draft-ietf-webtrans-http3) running over HTTP/3. Provides multiplexed reliable streams plus unreliable datagrams — what WebSocket would look like if redesigned in 2024. Targeted for completion late 2026 or early 2027.",
+		wikiUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/WebTransport_API',
+		category: 'web'
+	},
+	{
+		id: 'masque',
+		term: 'MASQUE',
+		definition:
+			"An IETF working group standardising proxy protocols on top of HTTP/3 — CONNECT-IP (tunnel any L3 traffic), CONNECT-UDP (proxy UDP, used by HTTP/3-over-HTTP/3), CONNECT-Ethernet. The technology behind iCloud Private Relay and Cloudflare WARP: arbitrary IP traffic tunnelled inside what looks like normal HTTPS.",
+		wikiUrl: 'https://datatracker.ietf.org/wg/masque/about/',
+		category: 'web'
+	},
+
+	// ── Messaging — second wave ────────────────────────────────────────
+	{
+		id: 'at-most-once-delivery',
+		term: 'At-Most-Once Delivery',
+		definition:
+			'A messaging guarantee where a message is delivered zero or one times — never duplicated. The sender does not retry on failure. The right choice for telemetry where occasional loss is acceptable but reprocessing is not (e.g., metrics counters that would over-count on duplicate).',
+		category: 'messaging'
+	},
+	{
+		id: 'routing-key',
+		term: 'Routing Key',
+		definition:
+			"In AMQP, a string the producer attaches to a message that the exchange uses to decide which queues receive it. With a *direct* exchange the routing key matches a queue exactly; with a *topic* exchange it's a dotted pattern (`logs.error.*`); with a *fanout* exchange it's ignored.",
+		wikiUrl: 'https://www.rabbitmq.com/tutorials/amqp-concepts.html',
+		category: 'messaging'
+	},
+	{
+		id: 'last-will',
+		term: 'Last Will (MQTT)',
+		definition:
+			"A message a client tells the MQTT broker to publish on its behalf if the client disconnects ungracefully. Lets every other subscriber learn immediately when a sensor goes offline — without polling — even though the failed sensor cannot send anything itself.",
+		wikiUrl: 'https://docs.oasis-open.org/mqtt/mqtt/v5.0/os/mqtt-v5.0-os.html',
+		category: 'messaging'
+	},
+	{
+		id: 'retained-message',
+		term: 'Retained Message (MQTT)',
+		definition:
+			"A message the MQTT broker holds onto for a topic and immediately delivers to any new subscriber. Lets a late-joining subscriber learn the current state of the world (e.g., the last reading from a sensor) without waiting for the next publish.",
+		wikiUrl: 'https://docs.oasis-open.org/mqtt/mqtt/v5.0/os/mqtt-v5.0-os.html',
+		category: 'messaging'
+	},
+	{
+		id: 'log-compaction',
+		term: 'Log Compaction (Kafka)',
+		definition:
+			"A Kafka retention policy that, instead of deleting old records by age, keeps the most recent value for each key. Lets a topic act as an event log that doubles as a snapshot — a new consumer can read from offset 0 and end up with the current state of every key, just slowly.",
+		wikiUrl: 'https://kafka.apache.org/documentation/#compaction',
+		category: 'messaging'
+	},
+	{
+		id: 'replication-factor',
+		term: 'Replication Factor',
+		definition:
+			"How many copies of each piece of data a distributed system stores. In Kafka, a topic's replication factor is how many brokers hold a copy of each partition; you can lose (factor − 1) brokers without data loss. In Cassandra / DynamoDB it's the analogous concept for keyspaces / tables.",
+		wikiUrl: 'https://kafka.apache.org/documentation/#replication',
+		category: 'messaging'
+	},
+
+	// ── Infrastructure — second wave ───────────────────────────────────
+	{
+		id: 'edge-origin',
+		term: 'Edge / Origin',
+		definition:
+			"Two ends of a CDN. The *origin* is your authoritative server (where content lives, where dynamic logic runs). The *edge* is the CDN's many points-of-presence around the world, close to users. A request hits the nearest edge first; if the edge has the content cached it serves from there, otherwise it fetches from origin and caches the result.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Content_delivery_network',
+		category: 'infrastructure'
+	},
+	{
+		id: 'cache-hit-miss',
+		term: 'Cache Hit / Cache Miss',
+		definition:
+			"The two outcomes of a cache lookup. A *hit* finds the value in cache and returns it instantly. A *miss* doesn't, fetches from the slow source, and (usually) writes the result back to cache so the next request hits. Cache hit ratio is the dominant performance lever for CDNs, databases, and CPU L1 alike.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Cache_(computing)',
+		category: 'infrastructure'
+	},
+	{
+		id: 'service-discovery',
+		term: 'Service Discovery',
+		definition:
+			"The mechanism by which a service finds the network address of another service it depends on, when those addresses change frequently. Implementations include DNS (with short TTLs), Consul/etcd (key-value lookup), Kubernetes Services (a stable DNS name in front of changing pod IPs), and the service mesh (the sidecar handles it).",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Service_discovery',
+		category: 'infrastructure'
+	},
+	{
+		id: 'circuit-breaker',
+		term: 'Circuit Breaker',
+		definition:
+			"A resilience pattern where calls to a failing dependency are short-circuited (fail-fast with a fallback) instead of waiting for timeouts. Three states: *closed* (calls flow), *open* (calls fail immediately), *half-open* (a few probe calls test recovery). Prevents one slow dependency from saturating thread pools and cascading the failure.",
+		analogy: 'Like the breaker in your house — it trips when something downstream is in trouble, protecting the rest of the circuit until you fix it.',
+		wikiUrl: 'https://martinfowler.com/bliki/CircuitBreaker.html',
+		category: 'infrastructure'
+	},
+	{
+		id: 'exponential-backoff',
+		term: 'Exponential Backoff',
+		definition:
+			"A retry strategy where the wait between attempts doubles each time, ideally with random jitter. After a transient failure, attempt 1 waits 100 ms, attempt 2 waits 200 ms, then 400 ms, 800 ms, etc. Without jitter, many clients all retry at the same instant after a shared outage and create a thundering herd.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Exponential_backoff',
+		category: 'infrastructure'
+	},
+	{
+		id: 'rate-limiting',
+		term: 'Rate Limiting',
+		definition:
+			"A server-side mechanism that caps how many requests a client may make in a time window — by IP, API key, user, or tenant. Token bucket and leaky bucket are the standard algorithms. The HTTP response is 429 Too Many Requests, ideally with a Retry-After header naming when to try again.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Rate_limiting',
+		category: 'infrastructure'
+	},
+	{
+		id: 'slo-sli-sla',
+		term: 'SLO / SLI / SLA',
+		definition:
+			"Three nested concepts from Google\'s SRE practice. An *SLI* (Service Level Indicator) is a measurement (e.g., 99th-percentile latency). An *SLO* (Objective) is the target you set for it (\"99.9% of requests under 200 ms over 30 days\"). An *SLA* (Agreement) is the externally-promised version with consequences if missed. The gap between an SLO and an SLA is your error budget.",
+		wikiUrl: 'https://sre.google/sre-book/service-level-objectives/',
+		category: 'infrastructure'
+	},
+	{
+		id: 'tail-latency',
+		term: 'Tail Latency (p99, p999)',
+		definition:
+			"The high-percentile latencies that dominate user experience but disappear in averages. p99 is \"99% of requests are at least this fast\" — and at internet scale every user hits p99+ multiple times per session. Jeff Dean and Luiz Barroso\'s 2013 paper \"The Tail at Scale\" is the canonical text.",
+		wikiUrl: 'https://research.google/pubs/the-tail-at-scale/',
+		category: 'infrastructure'
+	},
+	{
+		id: 'trace-span',
+		term: 'Trace / Span',
+		definition:
+			"The distributed-tracing data model. A *trace* represents one request\'s end-to-end journey. Each unit of work along the way (an HTTP call, a database query, a queue publish) is a *span* with a start time, end time, and a parent span. Spans form a tree across services. OpenTelemetry is the standard wire format; Jaeger, Tempo, and Zipkin are common UIs.",
+		wikiUrl: 'https://opentelemetry.io/docs/concepts/signals/traces/',
+		category: 'infrastructure'
+	},
+	{
+		id: 'availability-zone',
+		term: 'Region / Availability Zone',
+		definition:
+			"Cloud-provider terminology for failure domains. A *region* is a geographic area (us-east-1, eu-west-2) with its own user-facing endpoints. An *availability zone* is one or more datacenters within a region with independent power, cooling, and networking — designed so a single AZ failure does not take down the others. \"Multi-AZ\" is the minimum production resilience bar.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Availability_zone',
+		category: 'infrastructure'
 	}
 ];
 
