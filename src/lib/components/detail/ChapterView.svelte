@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { getChapter, listChapters, bookPartMap } from '$lib/data/book/chapters';
 	import { getFoundationSection } from '$lib/data/concept-foundations';
-	import { getProtocolById } from '$lib/data';
+	import { getProtocolById, getProtocolColor } from '$lib/data';
 	import { getPioneerById } from '$lib/data/pioneers';
 	import { getOutageById } from '$lib/data/outages';
 	import { getFrontierById } from '$lib/data/frontier';
@@ -233,13 +233,15 @@
 				{:else if slot.kind === 'protocol'}
 					{@const proto = getProtocolById(slot.id)}
 					{#if proto}
+						{@const pc = getProtocolColor(proto.id, appState.theme, ACCENT)}
 						<button
-							class="group flex items-start gap-3 rounded-xl border border-s-border bg-s-glass p-3.5 text-left transition-all hover:border-s-border hover:bg-s-glass-hover"
+							class="group flex items-start gap-3 rounded-xl border bg-s-glass p-3.5 text-left transition-all hover:bg-s-glass-hover"
+							style="border-color: {pc}40;"
 							onclick={() => navigateToProtocol(proto.id)}
 						>
 							<span
 								class="shrink-0 rounded-lg px-2 py-1 font-mono text-[11px] font-bold"
-								style="background-color: {ACCENT}1f; color: {ACCENT};"
+								style="background-color: {pc}1f; color: {pc};"
 							>
 								{proto.abbreviation ?? proto.id.toUpperCase()}
 							</span>
@@ -258,25 +260,26 @@
 							</div>
 							<ArrowRight
 								size={14}
-								class="mt-1 shrink-0 text-t-muted transition-transform group-hover:translate-x-0.5"
-								style="color: {ACCENT};"
+								class="mt-1 shrink-0 transition-transform group-hover:translate-x-0.5"
+								style="color: {pc};"
 							/>
 						</button>
 					{/if}
 				{:else if slot.kind === 'simulation'}
 					{@const proto = getProtocolById(slot.protocolId)}
 					{#if proto}
+						{@const pc = getProtocolColor(proto.id, appState.theme, ACCENT)}
 						<button
 							class="group flex items-center gap-3 rounded-xl border p-3.5 text-left transition-all hover:bg-s-glass-hover"
-							style="border-color: {ACCENT}66; background-color: {ACCENT}10;"
+							style="border-color: {pc}66; background-color: {pc}10;"
 							onclick={() => {
 								appState.detailViewMode = 'simulate';
 								navigateToProtocol(proto.id);
 							}}
 						>
-							<PlayCircle size={28} style="color: {ACCENT};" />
+							<PlayCircle size={28} style="color: {pc};" />
 							<div class="min-w-0 flex-1">
-								<div class="text-[10px] font-semibold tracking-wider uppercase" style="color: {ACCENT};">
+								<div class="text-[10px] font-semibold tracking-wider uppercase" style="color: {pc};">
 									Try the simulation
 								</div>
 								<div class="text-sm font-semibold text-t-primary">
@@ -289,7 +292,7 @@
 							<ArrowRight
 								size={14}
 								class="shrink-0 transition-transform group-hover:translate-x-0.5"
-								style="color: {ACCENT};"
+								style="color: {pc};"
 							/>
 						</button>
 					{/if}
@@ -409,6 +412,8 @@
 					{@const a = getProtocolById(slot.pairIds[0])}
 					{@const b = getProtocolById(slot.pairIds[1])}
 					{#if a && b}
+						{@const ac = getProtocolColor(a.id, appState.theme, ACCENT)}
+						{@const bc = getProtocolColor(b.id, appState.theme, ACCENT)}
 						<div
 							class="rounded-xl border p-3.5"
 							style="border-color: {ACCENT}66; background-color: {ACCENT}08;"
@@ -419,19 +424,21 @@
 							</div>
 							<div class="grid grid-cols-2 gap-2">
 								<button
-									class="rounded-lg border border-s-border bg-s-glass p-2.5 text-left transition-all hover:bg-s-glass-hover"
+									class="rounded-lg border bg-s-glass p-2.5 text-left transition-all hover:bg-s-glass-hover"
+									style="border-color: {ac}40;"
 									onclick={() => navigateToProtocol(a.id)}
 								>
-									<div class="font-mono text-[10px] font-bold" style="color: {ACCENT};">
+									<div class="font-mono text-[10px] font-bold" style="color: {ac};">
 										{a.abbreviation ?? a.id.toUpperCase()}
 									</div>
 									<div class="text-xs font-semibold text-t-primary">{a.name}</div>
 								</button>
 								<button
-									class="rounded-lg border border-s-border bg-s-glass p-2.5 text-left transition-all hover:bg-s-glass-hover"
+									class="rounded-lg border bg-s-glass p-2.5 text-left transition-all hover:bg-s-glass-hover"
+									style="border-color: {bc}40;"
 									onclick={() => navigateToProtocol(b.id)}
 								>
-									<div class="font-mono text-[10px] font-bold" style="color: {ACCENT};">
+									<div class="font-mono text-[10px] font-bold" style="color: {bc};">
 										{b.abbreviation ?? b.id.toUpperCase()}
 									</div>
 									<div class="text-xs font-semibold text-t-primary">{b.name}</div>

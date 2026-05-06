@@ -1,8 +1,11 @@
 <script lang="ts">
-	import { getProtocolById } from '$lib/data/index';
+	import { getProtocolById, getProtocolColor } from '$lib/data/index';
 	import { navigateToProtocol } from '$lib/utils/navigation';
+	import { getAppState } from '$lib/state/context';
 
 	let { connections }: { connections: string[] } = $props();
+
+	const appState = getAppState();
 
 	const related = $derived(
 		connections
@@ -23,8 +26,10 @@
 		<div class="flex flex-wrap gap-2">
 			{#each related as proto (proto?.id)}
 				{#if proto}
+					{@const c = getProtocolColor(proto.id, appState.theme)}
 					<button
-						class="rounded-lg border border-s-border bg-s-glass px-3 py-1.5 text-xs font-medium text-t-primary transition-all hover:border-s-border hover:bg-s-glass-hover"
+						class="rounded-lg border bg-s-glass px-3 py-1.5 text-xs font-semibold transition-all hover:bg-s-glass-hover"
+						style="color: {c}; border-color: {c}40;"
 						onclick={() => navigateToProtocol(proto.id)}
 					>
 						{proto.abbreviation}

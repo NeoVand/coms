@@ -8,10 +8,23 @@
 	import FrontierLink from '$lib/components/detail/inline/FrontierLink.svelte';
 	import ChapterLink from '$lib/components/detail/inline/ChapterLink.svelte';
 	import { navigateToProtocol } from '$lib/utils/navigation';
+	import { getProtocolColor } from '$lib/data';
+	import { getAppState } from '$lib/state/context';
 
 	let { text, color, title }: { text: string; color: string; title?: string } = $props();
 
+	const appState = getAppState();
 	const paragraphs = $derived(parseParagraphs(text));
+
+	/**
+	 * Inline protocol mentions render in their **target** protocol's
+	 * category color, not the surrounding surface accent. So [[tcp]]
+	 * is always green, [[mqtt]] is always pink, regardless of which
+	 * chapter or protocol page hosts the link.
+	 */
+	function protoColor(id: string): string {
+		return getProtocolColor(id, appState.theme, color);
+	}
 </script>
 
 <section>
@@ -29,7 +42,7 @@
 					{:else if seg.type === 'protocol-link'}
 						<button
 							class="inline font-medium transition-colors hover:underline"
-							style="color: {color}"
+							style="color: {protoColor(seg.protocolId)}"
 							onclick={() => navigateToProtocol(seg.protocolId)}
 						>
 							{seg.label}
@@ -37,7 +50,7 @@
 					{:else if seg.type === 'bold-protocol-link'}
 						<button
 							class="inline font-semibold transition-colors hover:underline"
-							style="color: {color}"
+							style="color: {protoColor(seg.protocolId)}"
 							onclick={() => navigateToProtocol(seg.protocolId)}
 						>
 							{seg.label}

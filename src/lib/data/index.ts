@@ -1,6 +1,7 @@
 import type { GraphNode, GraphEdge, Protocol, Category } from './types';
 import { categories, categoryMap } from './categories';
 import { allProtocols } from './protocols';
+import { themedDomColor } from '../utils/colors';
 
 export { allProtocols };
 
@@ -191,4 +192,24 @@ export function getCategoryById(id: string): Category | undefined {
 
 export function getProtocolsForCategory(categoryId: string): Protocol[] {
 	return allProtocols.filter((p) => p.categoryId === categoryId);
+}
+
+/**
+ * Resolve a protocol id to its category color. Used by inline link
+ * renderers and pills so a protocol mention always renders in its own
+ * category color rather than inheriting the parent surface's accent.
+ *
+ * Falls back to the supplied default when the id is unknown (typo or
+ * not-yet-registered protocol). Theme-aware via `themedDomColor`.
+ */
+export function getProtocolColor(
+	protocolId: string,
+	theme: 'dark' | 'light',
+	fallback = '#94a3b8'
+): string {
+	const proto = protocolMap.get(protocolId);
+	if (!proto) return fallback;
+	const cat = categoryMap.get(proto.categoryId);
+	if (!cat) return fallback;
+	return themedDomColor(cat.color, theme);
 }
