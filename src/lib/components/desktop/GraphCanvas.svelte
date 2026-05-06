@@ -215,6 +215,28 @@
 	// React to ANY selection change (canvas click, book icon, category buttons, etc.)
 	let prevSelected: GraphNode | null = null;
 
+	/**
+	 * Returns true when *something* is open in the side panel — a graph
+	 * node, or any of the standalone reading surfaces (book chapter,
+	 * book part TOC, pioneer bio, RFC, outage, frontier entry, registry
+	 * index). When any of these are active the graph viewport should
+	 * leave room for the panel (same as when the hub is selected); only
+	 * the bare-graph zero state (URL `/`) zooms across the full viewport.
+	 */
+	function isPanelOccupied(): boolean {
+		return Boolean(
+			appState.selectedNode ||
+				appState.activeBookChapter ||
+				appState.activeBookPart ||
+				appState.activeBookPartToc ||
+				appState.activePioneer ||
+				appState.activeRfc ||
+				appState.activeOutage ||
+				appState.activeFrontier ||
+				appState.activeRegistryIndex
+		);
+	}
+
 	$effect(() => {
 		const selected = appState.selectedNode;
 		if (selected) {
@@ -222,9 +244,16 @@
 				appState.focusOnSubgraph(getHighlightedNodes(selected), width, height);
 			});
 		} else if (prevSelected) {
-			// Was focused, now deselected — zoom out to fit all nodes (no panel offset)
 			untrack(() => {
-				appState.focusOnSubgraph(nodes, width, height, 0);
+				if (isPanelOccupied()) {
+					// Reading surface is open — keep the same panel-offset framing
+					// the user just had on the hub so entering The Book / a chapter /
+					// a pioneer bio doesn't snap the graph to a different zoom.
+					appState.focusOnSubgraph(nodes, width, height);
+				} else {
+					// Bare-graph zero state — zoom across the full viewport.
+					appState.focusOnSubgraph(nodes, width, height, 0);
+				}
 			});
 		}
 		prevSelected = selected;
@@ -276,6 +305,8 @@
 			untrack(() => {
 				if (selected) {
 					appState.focusOnSubgraph(getHighlightedNodes(selected), width, height);
+				} else if (isPanelOccupied()) {
+					appState.focusOnSubgraph(nodes, width, height);
 				} else {
 					appState.focusOnSubgraph(nodes, width, height, 0);
 				}
@@ -329,7 +360,12 @@
 						const t = forceTargets.get(n.id);
 						return t ? { ...n, x: t.x, y: t.y } : n;
 					});
-					appState.focusOnSubgraph(targetNodes, width, height, 0);
+					appState.focusOnSubgraph(
+						targetNodes,
+						width,
+						height,
+						isPanelOccupied() ? undefined : 0
+					);
 				} else {
 					layoutTargets = null;
 					springStates.clear();
@@ -357,7 +393,12 @@
 				});
 				const focusNodes =
 					mode === 'mesh' ? targetNodes.filter((n) => n.type === 'protocol') : targetNodes;
-				appState.focusOnSubgraph(focusNodes, width, height, 0);
+				appState.focusOnSubgraph(
+					focusNodes,
+					width,
+					height,
+					isPanelOccupied() ? undefined : 0
+				);
 			});
 		}
 		prevLayout = mode;
@@ -551,9 +592,15 @@
 			canvas.width = width * dpr;
 			canvas.height = height * dpr;
 
-			// Fit graph to screen on first layout
+			// Fit graph to screen on first layout. When the user lands
+			// directly on a route that opens the side panel (e.g. /hub,
+			// /book/..., /pioneer/..., /p/...), reserve room for it from
+			// the very first frame — otherwise the bloom plays in the
+			// full viewport and snaps to the panel-offset framing the
+			// moment the page's $effect selects something.
 			if (!hasInitialFit && width > 0 && height > 0) {
 				hasInitialFit = true;
+				const initialPanelW = isPanelOccupied() ? undefined : 0;
 				if (bloomActive && bloomNodeTargets) {
 					// Bloom mode: frame the camera around the eventual
 					// settled positions so the viewport stays fixed during
@@ -562,9 +609,9 @@
 						const t = bloomNodeTargets!.get(n.id);
 						return t ? { ...n, x: t.x, y: t.y } : n;
 					});
-					appState.focusOnSubgraph(settled, width, height, 0, true);
+					appState.focusOnSubgraph(settled, width, height, initialPanelW, true);
 				} else {
-					appState.focusOnSubgraph(nodes, width, height, 0);
+					appState.focusOnSubgraph(nodes, width, height, initialPanelW);
 				}
 			}
 		});
