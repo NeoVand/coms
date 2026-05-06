@@ -43,9 +43,9 @@
 	/>
 
 	<!-- Detail panel: visible when there's a graph selection OR an open
-	     standalone reading surface (chapter, pioneer bio, RFC, future
-	     outage, frontier entry, …). All read in the same panel surface. -->
-	{#if appState.showDetailPanel && (appState.selectedNode || appState.activeBookChapter || appState.activePioneer || appState.activeRfc)}
+	     standalone reading surface (chapter, pioneer bio, RFC, outage,
+	     future frontier entry). All read in the same panel surface. -->
+	{#if appState.showDetailPanel && (appState.selectedNode || appState.activeBookChapter || appState.activePioneer || appState.activeRfc || appState.activeOutage)}
 		<DetailPanel />
 	{/if}
 

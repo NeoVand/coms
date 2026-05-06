@@ -44,6 +44,12 @@ export class AppState {
 	 */
 	activeRfc: string | null = $state(null);
 
+	/**
+	 * Currently-open outage incident (id key into outages.ts). When set,
+	 * the side panel renders OutageView. URL is `/outage/[id]`.
+	 */
+	activeOutage: string | null = $state(null);
+
 	// Diagram modal state (rendered at root level to escape stacking contexts)
 	diagramModal: { protocolId: string; color: string } | null = $state(null);
 
@@ -179,6 +185,7 @@ export class AppState {
 		this.activeBookChapter = null;
 		this.activePioneer = null;
 		this.activeRfc = null;
+		this.activeOutage = null;
 	};
 
 	hoverNode = (node: GraphNode | null) => {

@@ -79,6 +79,11 @@ export function navigateToRfc(number: string, opts: NavOptions = {}) {
 	return go(`/rfc/${number}`, opts);
 }
 
+/** A famous-outage replay (outages.ts entries). */
+export function navigateToOutage(id: string, opts: NavOptions = {}) {
+	return go(`/outage/${id}`, opts);
+}
+
 /** Pick the right URL for any GraphNode (hub / category / protocol). */
 export function navigateToNode(node: GraphNode, opts: NavOptions = {}) {
 	if (node.type === 'hub') return navigateToHubPanel(opts);

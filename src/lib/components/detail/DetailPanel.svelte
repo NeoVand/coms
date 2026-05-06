@@ -18,6 +18,7 @@
 	import ChapterView from './ChapterView.svelte';
 	import PioneerView from './PioneerView.svelte';
 	import RfcView from './RfcView.svelte';
+	import OutageView from './OutageView.svelte';
 
 	/**
 	 * Hand-written teasers for the Foundation chapter cards on the Home
@@ -95,11 +96,13 @@
 		const _chapter = appState.activeBookChapter;
 		const _pioneer = appState.activePioneer;
 		const _rfc = appState.activeRfc;
+		const _outage = appState.activeOutage;
 		void _id;
 		void _view;
 		void _chapter;
 		void _pioneer;
 		void _rfc;
+		void _outage;
 		if (scrollerEl) scrollerEl.scrollTop = 0;
 	});
 
@@ -219,6 +222,10 @@
 		{:else if appState.activeRfc}
 			<div class="p-6">
 				<RfcView number={appState.activeRfc} />
+			</div>
+		{:else if appState.activeOutage}
+			<div class="p-6">
+				<OutageView id={appState.activeOutage} />
 			</div>
 		{:else if selectedData?.type === 'hub'}
 			{@const simCount = allProtocols.filter((p) => hasSimulation(p.id)).length}
