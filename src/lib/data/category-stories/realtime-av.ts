@@ -27,7 +27,7 @@ export const realtimeAvStory: CategoryStory = {
 					title: 'Co-creator of RTP and SIP',
 					org: 'Columbia University / AT&T Bell Labs',
 					contribution:
-						'The most central figure in internet real-time communication. Co-created both RTP and SIP, and later served as FCC Chief Technology Officer.',
+						'The most central figure in internet real-time communication. Co-created both [[rtp|RTP]] and [[sip|SIP]], and later served as FCC Chief Technology Officer.',
 					imagePath:
 						'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/SIPNOC_2012_-_FCC_CTO_Henning_Schulzrinne_%287838924022%29.jpg/330px-SIPNOC_2012_-_FCC_CTO_Henning_Schulzrinne_%287838924022%29.jpg'
 				},
@@ -37,7 +37,7 @@ export const realtimeAvStory: CategoryStory = {
 					title: 'Co-creator of RTP',
 					org: 'Lawrence Berkeley National Lab',
 					contribution:
-						'Co-created RTP and invented the TCP congestion control algorithms that prevented the internet from collapsing. A foundational networking researcher.',
+						'Co-created [[rtp|RTP]] and invented the [[tcp|TCP]] {{congestion-control|congestion control}} algorithms that prevented the internet from collapsing. A foundational networking researcher.',
 					imagePath:
 						'https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Van_Jacobson.jpg/330px-Van_Jacobson.jpg'
 				}
@@ -56,13 +56,13 @@ export const realtimeAvStory: CategoryStory = {
 					year: 1992,
 					title: 'The MBone Era',
 					description:
-						'Multicast Backbone experiments enable internet audio/video conferences. Researchers build tools like vat and vic.'
+						'{{multicast|Multicast}} Backbone experiments enable internet audio/video conferences. Researchers build tools like vat and vic.'
 				},
 				{
 					year: 1996,
 					title: 'RTP Published \u2014 RFC 1889',
 					description:
-						'The Real-time Transport Protocol defines how to carry audio and video over IP networks. Timestamps, sequence numbers, payload identification.',
+						'The Real-time Transport Protocol defines how to carry audio and video over IP networks. Timestamps, {{sequence-number|sequence numbers}}, {{payload|payload}} identification.',
 					protocolId: 'rtp'
 				},
 				{
@@ -75,14 +75,14 @@ export const realtimeAvStory: CategoryStory = {
 					year: 1998,
 					title: 'SDP Published — RFC 2327',
 					description:
-						'The Session Description Protocol defines how endpoints describe their media capabilities — codecs, addresses, ports. The essential handshake before any call begins.',
+						'The Session Description Protocol defines how endpoints describe their media capabilities — {{codec|codecs}}, addresses, ports. The essential {{handshake|handshake}} before any call begins.',
 					protocolId: 'sdp'
 				},
 				{
 					year: 1999,
 					title: 'SIP Published \u2014 RFC 2543',
 					description:
-						'The Session Initiation Protocol takes an HTTP-inspired approach to call signaling. Text-based, extensible, and easier to debug than H.323.',
+						'The Session Initiation Protocol takes an HTTP-inspired approach to call {{signaling|signaling}}. Text-based, extensible, and easier to debug than H.323.',
 					protocolId: 'sip'
 				}
 			]

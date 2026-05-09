@@ -18,22 +18,22 @@ ARP's simplicity is both its strength and its weakness. There is zero authentica
 		{
 			title: 'Check ARP cache',
 			description:
-				'Before sending any frame, the OS checks its local ARP cache for an existing IP-to-MAC mapping. If a valid (non-expired) entry exists, it uses the cached MAC address immediately and skips the rest of the process.'
+				'Before sending any frame, the OS checks its local ARP cache for an existing {{ip-address|IP}}-to-{{mac-address|MAC}} mapping. If a valid (non-expired) entry exists, it uses the cached MAC address immediately and skips the rest of the process.'
 		},
 		{
 			title: 'Broadcast ARP request',
 			description:
-				'If no cache entry exists, the sender crafts an ARP request with its own IP/MAC as the source and the target IP with an empty MAC (\`00:00:00:00:00:00\`). This is sent as an Ethernet broadcast (\`FF:FF:FF:FF:FF:FF\`), reaching every device on the local segment.'
+				'If no cache entry exists, the sender crafts an ARP request with its own IP/MAC as the source and the target IP with an empty MAC (\`00:00:00:00:00:00\`). This is sent as an [[ethernet|Ethernet]] {{broadcast|broadcast}} (\`FF:FF:FF:FF:FF:FF\`), reaching every device on the local segment.'
 		},
 		{
 			title: 'Unicast ARP reply',
 			description:
-				"The device that owns the requested IP address responds with a unicast ARP reply directly to the sender, filling in its MAC address. All other devices on the network ignore the request (though they may update their own caches with the sender's mapping)."
+				"The device that owns the requested IP address responds with a {{unicast|unicast}} ARP reply directly to the sender, filling in its MAC address. All other devices on the network ignore the request (though they may update their own caches with the sender's mapping)."
 		},
 		{
 			title: 'Cache update',
 			description:
-				'Both the sender and the responder update their ARP caches with the new mapping. Entries have a TTL (typically 60s-20min depending on OS) and are evicted when they expire, triggering a fresh ARP request on the next packet to that IP.'
+				'Both the sender and the responder update their ARP caches with the new mapping. Entries have a {{ttl|TTL}} (typically 60s-20min depending on OS) and are evicted when they expire, triggering a fresh ARP request on the next packet to that IP.'
 		},
 		{
 			title: 'Gratuitous ARP',

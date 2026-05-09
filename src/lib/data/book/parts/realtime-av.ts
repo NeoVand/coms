@@ -51,7 +51,7 @@ The companion **RTCP** (RTP Control Protocol) flows alongside, carrying receiver
 						{
 							type: 'callout',
 							title: 'SFrame finally standardized in August 2024',
-							text: '**[[rfc:9605|RFC 9605]] (August 2024)** finally standardized **SFrame** — end-to-end frame-level encryption that travels through SFUs without decryption. Justin Uberti and Emad Omara "scribbled the original idea on a whiteboard in 2018." Discord\'s **DAVE protocol** (deployed 1 March 2026) layers MLS keys + SFrame on top of RTP/SRTP for E2EE voice across **2.5 million concurrent users**.'
+							text: '**[[rfc:9605|RFC 9605]] (August 2024)** finally standardized **SFrame** — end-to-end frame-level {{encryption|encryption}} that travels through SFUs without decryption. Justin Uberti and Emad Omara "scribbled the original idea on a whiteboard in 2018." Discord\'s **DAVE protocol** (deployed 1 March 2026) layers MLS keys + SFrame on top of [[rtp|RTP]]/SRTP for E2EE voice across **2.5 million concurrent users**.'
 						},
 						{
 							type: 'narrative',
@@ -86,7 +86,7 @@ Active 2025-2026 work in the IETF AVTCORE WG: **RFC 9628 (2024)** finally promot
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: 'WebRTC is the only way for a web browser to send a UDP packet. Every WebSocket, fetch, HTTP/2 stream, and even WebTransport datagram before March 2026 was either TCP or QUIC under browser control with no peer-to-peer mode.',
+					text: '[[webrtc|WebRTC]] is the only way for a web browser to send a [[udp|UDP]] packet. Every [[websockets|WebSocket]], fetch, {{http2-stream|HTTP/2 stream}}, and even {{webtransport|WebTransport}} datagram before March 2026 was either [[tcp|TCP]] or [[quic|QUIC]] under browser control with no peer-to-peer mode.',
 					attribution: 'Cloudflare engineering blog'
 				},
 				{
@@ -111,7 +111,7 @@ The media itself is [[rtp|RTP]] wrapped in **SRTP** (Secure RTP, RFC 3711), with
 						{
 							type: 'callout',
 							title: 'AV1 came from screen-share',
-							text: '**AV1 went default-on for screen-share in Google Meet in 2024.** AV1 hardware encode shipped in Chrome M120 (Dec 2023). Firefox 125 added AV1+EME in April 2024. But the royalty-free claim has a new asterisk: on **23 March 2026 Dolby filed AV1+HEVC patent suits against Snap**, re-opening the question of whether AV1 is actually patent-clean. The codec wars never end.'
+							text: '**AV1 went default-on for screen-share in Google Meet in 2024.** AV1 hardware encode shipped in Chrome M120 (Dec 2023). Firefox 125 added AV1+EME in April 2024. But the royalty-free claim has a new asterisk: on **23 March 2026 Dolby filed AV1+HEVC patent suits against Snap**, re-opening the question of whether AV1 is actually patent-clean. The {{codec|codec}} wars never end.'
 						},
 						{
 							type: 'narrative',
