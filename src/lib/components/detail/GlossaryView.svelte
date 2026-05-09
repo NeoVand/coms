@@ -3,7 +3,7 @@
 	import { Search, X, ExternalLink } from 'lucide-svelte';
 	import { parseRichText } from '$lib/utils/text-parser';
 	import StoryNarrative from './category-story/StoryNarrative.svelte';
-	import { navigateToProtocol } from '$lib/utils/navigation';
+	import ProtocolLink from '$lib/components/detail/inline/ProtocolLink.svelte';
 	import { onMount, tick } from 'svelte';
 	import { browser } from '$app/environment';
 
@@ -199,13 +199,11 @@
 										{:else if seg.type === 'bold'}
 											<strong class="font-semibold text-t-primary">{seg.value}</strong>
 										{:else if seg.type === 'protocol-link' || seg.type === 'bold-protocol-link'}
-											<button
-												class="inline font-medium text-sky-400 transition-colors hover:text-sky-300 hover:underline"
-												onclick={(e) => {
-													e.stopPropagation();
-													navigateToProtocol(seg.protocolId);
-												}}>{seg.label}</button
-											>
+											<ProtocolLink
+												protocolId={seg.protocolId}
+												label={seg.label}
+												color="#38bdf8"
+											/>
 										{:else if seg.type === 'concept' || seg.type === 'bold-concept'}
 											<span class="font-medium text-t-primary">{seg.label}</span>
 										{/if}
@@ -222,13 +220,11 @@
 												{:else if seg.type === 'bold'}
 													<strong class="font-semibold text-t-primary">{seg.value}</strong>
 												{:else if seg.type === 'protocol-link' || seg.type === 'bold-protocol-link'}
-													<button
-														class="inline font-medium text-sky-400 transition-colors hover:text-sky-300 hover:underline"
-														onclick={(e) => {
-															e.stopPropagation();
-															navigateToProtocol(seg.protocolId);
-														}}>{seg.label}</button
-													>
+													<ProtocolLink
+														protocolId={seg.protocolId}
+														label={seg.label}
+														color="#38bdf8"
+													/>
 												{:else if seg.type === 'concept' || seg.type === 'bold-concept'}
 													<span class="font-medium text-t-primary">{seg.label}</span>
 												{/if}

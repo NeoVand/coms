@@ -10,6 +10,7 @@
 	import { navigateToProtocol, navigateToCategory } from '$lib/utils/navigation';
 	import { themedDomColor } from '$lib/utils/colors';
 	import { getAppState } from '$lib/state/context';
+	import ProtocolLink from '$lib/components/detail/inline/ProtocolLink.svelte';
 
 	interface Props {
 		pioneerId: string;
@@ -88,11 +89,11 @@
 							{:else if seg.type === 'bold'}
 								<strong class="font-semibold text-t-primary">{seg.value}</strong>
 							{:else if seg.type === 'protocol-link' || seg.type === 'bold-protocol-link'}
-								<button
-									class="inline font-medium transition-colors hover:underline"
-									style="color: {accent};"
-									onclick={() => navigateToProtocol(seg.protocolId)}>{seg.label}</button
-								>
+								<ProtocolLink
+									protocolId={seg.protocolId}
+									label={seg.label}
+									color={accent}
+								/>
 							{:else if seg.type === 'concept' || seg.type === 'bold-concept'}
 								<span class="font-medium text-t-primary">{seg.label}</span>
 							{/if}

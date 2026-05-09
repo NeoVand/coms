@@ -7,6 +7,12 @@ export class AppState {
 	selectedNode: GraphNode | null = $state(null);
 	layoutMode: LayoutMode = $state('force');
 	hoveredNode: GraphNode | null = $state(null);
+	/**
+	 * When non-null, NodeTooltip anchors itself to this rect (used by
+	 * inline protocol links in prose). When null, the tooltip follows
+	 * the cursor (graph-node hover behaviour).
+	 */
+	hoveredAnchor: DOMRect | null = $state(null);
 	isMobile: boolean = $state(false);
 	reducedMotion: boolean = $state(false);
 	theme: 'dark' | 'light' = $state('dark');
@@ -230,6 +236,8 @@ export class AppState {
 
 	hoverNode = (node: GraphNode | null) => {
 		this.hoveredNode = node;
+		// Canvas hover always follows the cursor — clear any inline-link anchor.
+		this.hoveredAnchor = null;
 	};
 
 	clearSelection = () => {

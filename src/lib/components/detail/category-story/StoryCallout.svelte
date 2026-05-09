@@ -5,7 +5,7 @@
 	import OutageLink from '$lib/components/detail/inline/OutageLink.svelte';
 	import PioneerLink from '$lib/components/detail/inline/PioneerLink.svelte';
 	import GlossaryLink from '$lib/components/detail/inline/GlossaryLink.svelte';
-	import { navigateToProtocol } from '$lib/utils/navigation';
+	import ProtocolLink from '$lib/components/detail/inline/ProtocolLink.svelte';
 
 	let { title, text, color }: { title: string; text: string; color: string } = $props();
 
@@ -23,21 +23,9 @@
 					{:else if seg.type === 'bold'}
 						<strong class="font-semibold text-t-primary">{seg.value}</strong>
 					{:else if seg.type === 'protocol-link'}
-						<button
-							class="inline font-medium transition-colors hover:underline"
-							style="color: {color}"
-							onclick={() => navigateToProtocol(seg.protocolId)}
-						>
-							{seg.label}
-						</button>
+						<ProtocolLink protocolId={seg.protocolId} label={seg.label} {color} />
 					{:else if seg.type === 'bold-protocol-link'}
-						<button
-							class="inline font-semibold transition-colors hover:underline"
-							style="color: {color}"
-							onclick={() => navigateToProtocol(seg.protocolId)}
-						>
-							{seg.label}
-						</button>
+						<ProtocolLink protocolId={seg.protocolId} label={seg.label} {color} bold />
 					{:else if seg.type === 'concept'}
 						<ConceptTrigger conceptId={seg.conceptId} label={seg.label} />
 					{:else if seg.type === 'bold-concept'}

@@ -15,6 +15,7 @@
 	let tooltipX = $state(0);
 	let tooltipY = $state(0);
 	let windowWidth = $state(typeof window !== 'undefined' ? window.innerWidth : 1920);
+	let windowHeight = $state(typeof window !== 'undefined' ? window.innerHeight : 1080);
 
 	$effect(() => {
 		if (!appState.hoveredNode) return;
@@ -26,9 +27,13 @@
 
 		function onResize() {
 			windowWidth = window.innerWidth;
+			windowHeight = window.innerHeight;
 		}
 
-		window.addEventListener('mousemove', onMouseMove);
+		// Cursor-following only matters when there's no anchor element.
+		if (!appState.hoveredAnchor) {
+			window.addEventListener('mousemove', onMouseMove);
+		}
 		window.addEventListener('resize', onResize);
 		return () => {
 			window.removeEventListener('mousemove', onMouseMove);
@@ -39,13 +44,41 @@
 	const TOOLTIP_WIDTH = 280;
 	const PANEL_WIDTH = 520;
 	const OFFSET = 16;
+	const ANCHOR_GAP = 8;
+	/** Reserved vertical space we *might* need above. If less is available,
+	 *  we drop the tooltip below the link instead. */
+	const ANCHOR_HEIGHT_BUDGET = 180;
+
+	/**
+	 * When hoveredAnchor is set (inline protocol-link in prose), pin the
+	 * tooltip directly to that element — preferring above the link, then
+	 * below if there isn't enough room. We translate -100% in CSS for the
+	 * above case so the tooltip's actual height doesn't have to be known
+	 * up front.
+	 */
+	const anchored = $derived.by(() => {
+		const r = appState.hoveredAnchor;
+		if (!r) return null;
+		const above = r.top - ANCHOR_GAP >= ANCHOR_HEIGHT_BUDGET;
+		const top = above ? r.top - ANCHOR_GAP : r.bottom + ANCHOR_GAP;
+		const rawLeft = r.left + r.width / 2 - TOOLTIP_WIDTH / 2;
+		const left = Math.max(8, Math.min(rawLeft, windowWidth - TOOLTIP_WIDTH - 8));
+		return { left, top, above };
+	});
 
 	const flipped = $derived(
-		appState.showDetailPanel && tooltipX + OFFSET + TOOLTIP_WIDTH > windowWidth - PANEL_WIDTH
+		!anchored &&
+			appState.showDetailPanel &&
+			tooltipX + OFFSET + TOOLTIP_WIDTH > windowWidth - PANEL_WIDTH
 	);
 
 	const tooltipLeft = $derived(
-		flipped ? tooltipX - TOOLTIP_WIDTH - OFFSET : tooltipX + OFFSET
+		anchored ? anchored.left : flipped ? tooltipX - TOOLTIP_WIDTH - OFFSET : tooltipX + OFFSET
+	);
+	const tooltipTop = $derived(anchored ? anchored.top : tooltipY - 8);
+	const tooltipTransform = $derived(anchored && anchored.above ? 'translateY(-100%)' : 'none');
+	const transformOrigin = $derived(
+		anchored ? `center ${anchored.above ? 'bottom' : 'top'}` : `${flipped ? 'right' : 'left'} top`
 	);
 
 	const hoveredInfo = $derived.by(() => {
@@ -77,34 +110,38 @@
 {#if hoveredInfo && appState.hoveredNode && !appState.isMobile}
 	{#key appState.hoveredNode.id}
 		<div
-			class="tooltip-pop pointer-events-none fixed z-50 max-w-xs rounded-xl border bg-bg-deep/90 px-4 py-3 shadow-2xl backdrop-blur-xl"
-			style="left: {tooltipLeft}px; top: {tooltipY -
-				8}px; border-color: {tc(hoveredInfo.color)}40; transform-origin: {flipped ? 'right' : 'left'} top;"
+			class="pointer-events-none fixed z-[60] w-[280px]"
+			style="left: {tooltipLeft}px; top: {tooltipTop}px; transform: {tooltipTransform};"
 		>
-			<div class="flex items-center gap-2">
-				{#if hoveredInfo.icon}
-					<span style="color: {tc(hoveredInfo.color)}">
-						<CategoryIcon icon={hoveredInfo.icon} size={16} />
+			<div
+				class="tooltip-pop rounded-xl border bg-bg-deep/90 px-4 py-3 shadow-2xl backdrop-blur-xl"
+				style="border-color: {tc(hoveredInfo.color)}40; transform-origin: {transformOrigin};"
+			>
+				<div class="flex items-center gap-2">
+					{#if hoveredInfo.icon}
+						<span style="color: {tc(hoveredInfo.color)}">
+							<CategoryIcon icon={hoveredInfo.icon} size={16} />
+						</span>
+					{/if}
+					<span class="text-sm font-semibold" style="color: {tc(hoveredInfo.color)}">
+						{hoveredInfo.name}
 					</span>
+					{#if hoveredInfo.port}
+						<span class="rounded bg-s-glass px-1.5 py-0.5 text-[10px] text-t-secondary">
+							Port {hoveredInfo.port}
+						</span>
+					{/if}
+				</div>
+				{#if hoveredInfo.nameSegments}
+					<p class="mt-0.5 text-[11px] text-t-secondary">
+						{#each hoveredInfo.nameSegments as seg, k (k)}{#if seg.highlight}<span class="font-bold" style="color: {tc(hoveredInfo.color)}">{seg.text}</span>{:else}{seg.text}{/if}{/each}
+					</p>
 				{/if}
-				<span class="text-sm font-semibold" style="color: {tc(hoveredInfo.color)}">
-					{hoveredInfo.name}
-				</span>
-				{#if hoveredInfo.port}
-					<span class="rounded bg-s-glass px-1.5 py-0.5 text-[10px] text-t-secondary">
-						Port {hoveredInfo.port}
-					</span>
+				<p class="mt-1 text-xs leading-relaxed text-t-primary">{hoveredInfo.description}</p>
+				{#if hoveredInfo.year}
+					<p class="mt-1 text-[10px] text-t-muted">Since {hoveredInfo.year}</p>
 				{/if}
 			</div>
-			{#if hoveredInfo.nameSegments}
-				<p class="mt-0.5 text-[11px] text-t-secondary">
-					{#each hoveredInfo.nameSegments as seg}{#if seg.highlight}<span class="font-bold" style="color: {tc(hoveredInfo.color)}">{seg.text}</span>{:else}{seg.text}{/if}{/each}
-				</p>
-			{/if}
-			<p class="mt-1 text-xs leading-relaxed text-t-primary">{hoveredInfo.description}</p>
-			{#if hoveredInfo.year}
-				<p class="mt-1 text-[10px] text-t-muted">Since {hoveredInfo.year}</p>
-			{/if}
 		</div>
 	{/key}
 {/if}

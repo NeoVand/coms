@@ -7,7 +7,7 @@
 	import GlossaryLink from '$lib/components/detail/inline/GlossaryLink.svelte';
 	import FrontierLink from '$lib/components/detail/inline/FrontierLink.svelte';
 	import ChapterLink from '$lib/components/detail/inline/ChapterLink.svelte';
-	import { navigateToProtocol } from '$lib/utils/navigation';
+	import ProtocolLink from '$lib/components/detail/inline/ProtocolLink.svelte';
 	import { getProtocolColor } from '$lib/data';
 	import { getAppState } from '$lib/state/context';
 
@@ -40,21 +40,18 @@
 					{:else if seg.type === 'bold'}
 						<strong class="font-semibold text-t-primary">{seg.value}</strong>
 					{:else if seg.type === 'protocol-link'}
-						<button
-							class="inline font-medium transition-colors hover:underline"
-							style="color: {protoColor(seg.protocolId)}"
-							onclick={() => navigateToProtocol(seg.protocolId)}
-						>
-							{seg.label}
-						</button>
+						<ProtocolLink
+							protocolId={seg.protocolId}
+							label={seg.label}
+							color={protoColor(seg.protocolId)}
+						/>
 					{:else if seg.type === 'bold-protocol-link'}
-						<button
-							class="inline font-semibold transition-colors hover:underline"
-							style="color: {protoColor(seg.protocolId)}"
-							onclick={() => navigateToProtocol(seg.protocolId)}
-						>
-							{seg.label}
-						</button>
+						<ProtocolLink
+							protocolId={seg.protocolId}
+							label={seg.label}
+							color={protoColor(seg.protocolId)}
+							bold
+						/>
 					{:else if seg.type === 'concept'}
 						<ConceptTrigger conceptId={seg.conceptId} label={seg.label} />
 					{:else if seg.type === 'bold-concept'}
