@@ -3,7 +3,8 @@
  *
  * Patterns and failure modes that recur across protocols. The most
  * useful chapters in the book for someone debugging a real problem
- * who already knows the protocol they are looking at.
+ * who already knows the protocol they are looking at. Three chapters,
+ * each enriched with multi-section reading and embedded slot cards.
  */
 
 import type { BookPart } from '../types';
@@ -15,90 +16,170 @@ export const patternsFailures: BookPart = {
 	description:
 		'Recurring patterns and the failure modes they cause — handshakes, sliding windows, ossification, MTU black holes.',
 	chapters: [
+		// ────────────────────────────────────────────────────────────
 		{
 			id: 'patterns',
 			title: 'Recurring Patterns',
-			synopsis: 'Handshakes, sliding windows, keepalives, ECN, hashing — the Lego pieces every protocol uses.',
+			synopsis:
+				'Handshakes, sliding windows, keepalives, ECN, hashing — the Lego pieces every protocol uses.',
 			slots: [
+				{
+					kind: 'pull-quote',
+					text: 'Knowing the handshake pattern means you understand 80% of TLS, SSH, MQTT, and SCTP setup before reading their specs. The remaining 20% is the part worth investing time in.',
+					attribution: 'Author'
+				},
 				{
 					kind: 'prose',
 					sections: [
 						{
 							type: 'narrative',
 							title: 'The Engineering Vocabulary',
-							text: `Once you have read about ten protocols you start to see the same handful of patterns repeat. Knowing them means a new protocol takes minutes to read, not days.
+							text: `Once you have read about ten protocols, you start to see the same handful of patterns repeat. Knowing them means a new protocol takes minutes to read, not days — most of the spec turns out to be a particular instantiation of a pattern you already understand.
 
-**Handshakes** establish state on both sides. SYN/SYN-ACK/ACK in [[tcp|TCP]]; ClientHello/ServerHello/Finished in [[tls|TLS]]; CONNECT/CONNACK in [[mqtt|MQTT]]. The shape is always: party A proposes, party B confirms with its own proposal, party A acknowledges. The number of round-trips defines connection setup latency, and shrinking it (TLS 1.3 down to 1-RTT, [[quic|QUIC]] down to 0-RTT) is one of the recurring optimisations.
+The point of this chapter is to enumerate those patterns, name them, and note where each one appears. Engineering literacy compounds.`
+						},
+						{
+							type: 'narrative',
+							title: 'Handshakes — Establishing Mutual State',
+							text: `**Handshakes** establish state on both sides. SYN/SYN-ACK/ACK in [[tcp|TCP]]; ClientHello/ServerHello/Finished in [[tls|TLS]] 1.2 (RFC 5246) and the streamlined 1-RTT handshake in [[tls|TLS]] 1.3 ([[rfc:8446|RFC 8446]], 2018); CONNECT/CONNACK in [[mqtt|MQTT]] 5; the SCTP four-way handshake (INIT, INIT-ACK, COOKIE-ECHO, COOKIE-ACK).
 
-**Sliding windows** decouple sending rate from acknowledgement rate. The sender may have N bytes in flight; as ACKs arrive, the window slides forward. TCP, QUIC, and most reliable transports use them. The window's **size** is governed by either flow control (don't overflow the receiver) or congestion control (don't overflow the network).
+The shape is always the same: party A proposes, party B confirms with its own proposal, party A acknowledges. The number of round-trips defines the connection setup latency, and shrinking it is one of the recurring optimisations in protocol design. TLS 1.3 went from two round-trips (TLS 1.2) to one. [[quic|QUIC]] went from three round-trips for TCP+TLS down to one — and to **zero** for resumption (sending application data in the very first packet, encrypted under a previously-established key).
 
-**Keepalives** detect a dead peer when no data is flowing. SSH sends a 1-byte ping every 30 seconds. WebSocket has explicit Ping/Pong frames. HTTP/2 has PING frames. Without keepalives, a stateful firewall might silently drop the connection state and you'd notice only when you tried to send.
+The cost of zero round-trip data is **replayability** — an attacker who captures the first packet of a 0-RTT exchange can replay it later. RFC 8446 §8 spells out the security implications and limits 0-RTT to idempotent requests. Browsers restrict it to GET; servers should refuse it for any state-mutating operation.`
+						},
+						{
+							type: 'narrative',
+							title: 'Sliding Windows — Decoupling Send From ACK',
+							text: `**Sliding windows** decouple sending rate from acknowledgement rate. The sender may have N bytes in flight; as ACKs arrive, the window slides forward. Without this, a sender would have to wait for an ACK after every byte — disaster on a satellite link where round-trip times are hundreds of milliseconds.
 
-**ECN** (Explicit Congestion Notification) lets routers signal congestion without dropping packets. Mark a bit, the receiver echoes it, the sender slows down. The future of low-latency networking ([[frontier:l4s-comcast-launch|L4S]]) depends on ECN being widely supported.
+[[tcp|TCP]] has had sliding windows since 1981. The window's *size* is governed by either flow control (don't overflow the receiver — the rwnd field in the TCP header) or congestion control (don't overflow the network — the cwnd state variable that lives only in the sender's memory). The actual sending limit is min(rwnd, cwnd).
 
-**Consistent hashing** distributes load across a fleet so that adding or removing a node only re-routes a fraction of traffic. Used in [[dns|DNS]] anycast, in CDN cache placement, in distributed databases.
+Modern protocols inherit the same idea. [[quic|QUIC]] has per-stream and per-connection flow control. [[http2|HTTP/2]] has its own application-layer flow control on top of TCP's transport flow control (a cause of considerable confusion when both windows close simultaneously). The pattern is universal across reliable transports.`
+						},
+						{
+							type: 'narrative',
+							title: 'Keepalives, ECN, Consistent Hashing',
+							text: `**Keepalives** detect a dead peer when no data is flowing. SSH sends a 1-byte ping every 30 seconds. WebSocket has explicit Ping/Pong frames. HTTP/2 has PING frames. BGP sessions exchange KEEPALIVEs every 60 seconds; if no message arrives within 180 seconds (HoldTime), the session resets and routes are withdrawn — which is what cascaded into [[outage:centurylink-flowspec-2020|CenturyLink 2020]]. Without keepalives, a stateful firewall might silently drop the connection state and you'd notice only when you tried to send.
 
-**Idempotency keys** make retries safe — a request with the same key, sent twice, has the effect of being processed once. Stripe pioneered this for payments; it's now standard in REST APIs.`
+**ECN** (Explicit Congestion Notification, RFC 3168) lets routers signal congestion **without dropping packets**. Mark a 2-bit field in the IP header, the receiver echoes it, the sender slows down. The future of low-latency networking ([[frontier:l4s-comcast-launch|L4S]], RFCs 9330/9331/9332) depends entirely on ECN being widely supported. Comcast launched L4S in production in January 2025 across six US metros.
+
+**Consistent hashing** distributes load across a fleet so that adding or removing a node only re-routes a fraction of traffic. Used in [[dns|DNS]] anycast, in CDN cache placement, in distributed databases like Cassandra and DynamoDB. The MIT 1997 paper by Karger et al. invented it; nearly every internet-scale system uses it now.
+
+**Idempotency keys** make retries safe — a request with the same key, sent twice, has the effect of being processed once. Stripe pioneered this for payments in 2015; it is now standard in REST APIs, Kafka producers, and any system that needs at-least-once semantics without duplicate side effects.`
 						},
 						{
 							type: 'callout',
-							title: 'Patterns are why protocol literacy compounds.',
-							text: 'Knowing the handshake pattern means you understand 80% of TLS, SSH, MQTT, and SCTP setup before reading their specs. The remaining 20% is the part worth investing time in.'
+							title: 'Patterns are why protocol literacy compounds',
+							text: 'Knowing the handshake pattern means you understand 80% of [[tls|TLS]], [[ssh|SSH]], [[mqtt|MQTT]], and [[sctp|SCTP]] setup before reading their specs. The remaining 20% is the part worth investing time in. Read the patterns first; protocol-specific details slot in around them.'
 						}
 					]
-				}
+				},
+				{ kind: 'protocol', id: 'tcp' },
+				{ kind: 'protocol', id: 'tls' },
+				{ kind: 'frontier', id: 'l4s-comcast-launch' }
 			]
 		},
+
+		// ────────────────────────────────────────────────────────────
 		{
 			id: 'failure-modes',
 			title: 'Failure Modes',
-			synopsis: 'Bufferbloat, ossification, head-of-line, microloops, MTU black holes — the bestiary.',
+			synopsis:
+				'Bufferbloat, ossification, head-of-line, microloops, MTU black holes — the bestiary every operator learns by being burned.',
 			slots: [
+				{
+					kind: 'pull-quote',
+					text: 'The interesting failures are the ones where everything is "working" but nothing is good. The cable is plugged in. The server is up. The packets are flowing. And yet.',
+					attribution: 'Author'
+				},
 				{
 					kind: 'prose',
 					sections: [
 						{
 							type: 'narrative',
 							title: 'The Bestiary',
-							text: `Some failures are obvious: a cable is cut, a server is down. The interesting failures are the ones where everything is "working" but nothing is **good**.
+							text: `Some failures are obvious: a cable is cut, a server is down, a process crashed. Those are easy to diagnose because they trip every monitoring alarm at once.
 
-**Bufferbloat** — too much buffering in routers and modems destroys [[tcp|TCP]]'s congestion-control feedback loop. Your video call stutters because someone in the next room started a download. The fix (active queue management like CoDel/PIE) took fifteen years to deploy.
+The interesting failures are the ones where everything is "working" but nothing is good. The cable is plugged in. The server is up. The packets are flowing. And yet — your video call stutters, the database query takes thirty seconds, the page load fails 5% of the time. These are the failures worth naming, because each one has a distinctive signature and a known fix once you recognise it.`
+						},
+						{
+							type: 'narrative',
+							title: 'Bufferbloat — Latency Without Loss',
+							text: `**Bufferbloat** is what happens when there is too much buffering in routers and modems. A naive engineer thinks "more buffer is better" — bursts won't cause loss. But [[tcp|TCP]]'s congestion-control loop *needs* loss as its signal to slow down. With huge buffers, packets pile up in router queues for **seconds** before they are dropped. The sender keeps pushing because no loss is reported.
 
-**Protocol ossification** — middleboxes inspect protocol headers and break anything that doesn't match what they expect. SCTP cannot traverse the public internet. New TCP options get stripped. This is the entire reason [[quic|QUIC]] tunnels inside UDP.
+The result: your video call stutters because someone in the next room started a download. The download is happily filling a 200 ms buffer with bursts; your video, sharing the same buffer, sits behind 200 ms of someone else's traffic.
 
-**Head-of-line blocking** — a single lost packet stalls all subsequent in-order data. Severe in [[tcp|TCP]]; the entire reason [[http3|HTTP/3]] moved off TCP onto QUIC.
+Jim Gettys named the problem in 2010 and spent the next decade getting it fixed. The cure was **active queue management** — CoDel (RFC 8289), PIE (RFC 8033), fq_codel (the Linux default since kernel 4.x). These shrink queues by dropping packets early when latency rises, signalling congestion to senders before the queue grows. The deeper fix is [[frontier:l4s-comcast-launch|L4S]], which uses ECN signalling to keep queues sub-millisecond even at full link utilisation.
 
-**Microloops** — a routing convergence event temporarily creates a loop where two routers think the path goes through each other. Packets bounce until TTL hits zero. Lasts seconds; usually invisible unless you're tcpdumping.
+Bufferbloat took fifteen years to deploy at scale because every cheap home router on the planet had to be replaced or firmware-updated. We are mostly there now.`
+						},
+						{
+							type: 'narrative',
+							title: 'Protocol Ossification — Why You Cannot Change TCP',
+							text: `**Protocol ossification** is the phenomenon where middleboxes — firewalls, NAT routers, transparent proxies, "next-gen" deep-packet-inspection appliances — inspect protocol headers and break anything that doesn't match what they expect.
 
-**MTU black holes** — a path drops large packets but does not return the [[icmp|ICMP]] needed to signal Path MTU. The connection hangs because retransmits also fail. Cure: enable PMTUD or use packetisation-layer MTU discovery (PLPMTUD).
+The classic example: TCP. By 2015, you could not deploy a new TCP option globally because some non-trivial fraction of middleboxes would strip it, or worse, drop the connection. SCTP cannot traverse the public internet for the same reason: middleboxes drop unknown protocol numbers. Multipath TCP gets stripped to plain TCP by many middleboxes.
 
-**Slowloris-style attacks** — hold connections open with minimal data, exhausting the server's connection table without burning attacker bandwidth. Defended by per-IP connection limits and timeouts.
+The fix is the only fix — tunnel inside something the middleboxes already accept. [[quic|QUIC]] runs over [[udp|UDP]] specifically because UDP traversal is well-understood by middleboxes. Inside the UDP envelope, QUIC encrypts almost everything, so middleboxes can't inspect — and therefore can't ossify — the inner protocol. This is the architectural lesson of the 2010s: **encryption is what keeps a protocol evolvable**.`
+						},
+						{
+							type: 'narrative',
+							title: 'The Subtler Failures',
+							text: `**Head-of-line blocking** — a single lost packet stalls all subsequent in-order data. Severe in [[tcp|TCP]]; the entire reason [[http3|HTTP/3]] moved off TCP onto QUIC. Visible as latency spikes during loss events.
 
-**Cache poisoning** — inject malicious answers into a [[dns|DNS]] resolver's cache so subsequent lookups go to the attacker's site. Largely cured by source-port randomisation and DNSSEC.
+**Microloops** — a routing convergence event temporarily creates a loop where two routers think the path goes through each other. Packets bounce until TTL hits zero. Lasts a few seconds; usually invisible unless you're tcpdumping.
 
-**BGP hijacks** — an AS announces a prefix it does not own. ([[outage:as-7007-1997|AS 7007 1997]], [[outage:pakistan-youtube-2008|Pakistan / YouTube 2008]].) The fix in flight: [[frontier:rpki-rov-50-percent|RPKI/ROV]].
+**MTU black holes** — a path drops large packets but does not return the [[icmp|ICMP]] "Fragmentation Needed" needed to signal Path MTU. The connection hangs because retransmits also fail. Cure: enable PLPMTUD (Packetisation Layer Path MTU Discovery, RFC 4821) which probes packet sizes at the application layer; or set TCP MSS clamping at network edges.
 
-**Cascading failures** — one failure increases load on healthy components, which then fail too. ([[outage:facebook-2021|Facebook 2021]], [[outage:rogers-2022|Rogers 2022]].) Cure: rate-limiting and circuit-breakers at every layer.`
+**Slowloris-style attacks** — hold connections open with minimal data, exhausting the server's connection table without burning attacker bandwidth. Defended by per-IP connection limits, idle timeouts, and reverse proxies that buffer slow clients.
+
+**Cache poisoning** — inject malicious answers into a [[dns|DNS]] resolver's cache so subsequent lookups go to the attacker's site. Largely cured by source-port randomisation (Dan Kaminsky's 2008 fix) and DNSSEC.
+
+**BGP hijacks** — an AS announces a prefix it does not own. Examples: [[outage:as-7007-1997|AS 7007 1997]], [[outage:pakistan-youtube-2008|Pakistan / YouTube 2008]], [[outage:china-telecom-2010|China Telecom 2010]]. The fix in flight: [[frontier:rpki-rov-50-percent|RPKI/ROV]].
+
+**Cascading failures** — one failure increases load on healthy components, which then fail too. Examples: [[outage:facebook-2021|Facebook 2021]], [[outage:rogers-2022|Rogers 2022]]. Cure: rate-limiting and circuit-breakers at every layer; the SRE pattern is "fail fast, fail isolated."`
+						},
+						{
+							type: 'callout',
+							title: 'Reading a stack trace vs. reading a network',
+							text: 'When code crashes, the stack trace tells you where. When a network misbehaves, there is no stack trace — just a histogram of latencies, a packet capture, and the question "which of the patterns in the bestiary is this?" Naming the failure modes is most of the diagnosis. Once you can say "this is bufferbloat" or "this is MTU black hole," the fix is mechanical.'
 						}
 					]
 				},
 				{ kind: 'outage', id: 'sack-panic-2019' },
 				{ kind: 'outage', id: 'centurylink-flowspec-2020' },
+				{ kind: 'outage', id: 'facebook-2021' },
 				{ kind: 'frontier', id: 'l4s-comcast-launch' }
 			]
 		},
+
+		// ────────────────────────────────────────────────────────────
 		{
 			id: 'congestion-history',
 			title: 'A History of Congestion Control',
 			synopsis: 'Tahoe → Reno → CUBIC → BBR → L4S, in one sitting.',
 			slots: [
 				{
+					kind: 'pull-quote',
+					text: 'The arc of congestion control: react to loss → react to delay → model the network → use explicit signalling. Each generation reduced the cost of being a good citizen on the internet.',
+					attribution: 'Author'
+				},
+				{
 					kind: 'prose',
 					sections: [
 						{
 							type: 'narrative',
-							title: 'Forty Years of Senders Trying Not to Melt the Network',
-							text: `**Tahoe (1988)**, by [[pioneer:van-jacobson|Van Jacobson]] and Mike Karels — the original. Slow start, AIMD congestion avoidance, fast retransmit on three duplicate ACKs, exponential RTO backoff. Saved the internet from the 1986 collapse.
+							title: 'The Pre-1988 Era — No Congestion Control At All',
+							text: `Before 1988, [[tcp|TCP]] had no congestion control. The original [[rfc:9293|RFC 793]] (1981) specified flow control — don't overflow the receiver — but said nothing about not overflowing the network.
+
+This worked when the internet was small. By 1986, with the NSFNET backbone scaling, it stopped working. In October 1986, throughput between Lawrence Berkeley Lab and UC Berkeley — three IMP hops apart — collapsed from 32 kbps to 40 bps. A 1000× degradation. Senders kept retransmitting; the network melted.
+
+[[pioneer:van-jacobson|Van Jacobson]] and Mike Karels at Berkeley spent six months instrumenting and reading the BSD source. Their 1988 SIGCOMM paper, *"Congestion Avoidance and Control,"* was the inflection point. Six algorithms in one paper. Saved the internet.`
+						},
+						{
+							type: 'narrative',
+							title: 'Loss-Based Algorithms — The Long Lineage',
+							text: `**Tahoe (1988)**, by [[pioneer:van-jacobson|Van Jacobson]] and Mike Karels — the original. Slow start (double cwnd every RTT), AIMD congestion avoidance (additive increase, multiplicative decrease), fast retransmit on three duplicate ACKs, exponential RTO backoff. Shipped in 4.3BSD-Tahoe.
 
 **Reno (1990)** — added fast recovery: when fast retransmit fires, halve the congestion window instead of dropping it to 1 MSS. Less brutal on the sender; faster to recover.
 
@@ -106,15 +187,25 @@ export const patternsFailures: BookPart = {
 
 **Vegas (1995)** — proactive instead of reactive: monitor RTT directly, slow down when RTT starts climbing (signalling congestion before loss). Brilliant in a homogeneous network, terrible mixed with Reno (it always loses to a more aggressive flow). Never widely deployed.
 
-**[[rfc:9438|CUBIC]] (2008, deployed Linux 2.6, now [[rfc:9438|RFC 9438]])** — replaces linear additive-increase with a cubic function of time since the last loss. Recovers throughput much faster on long fat pipes (gigabit transcontinental, etc.). Default in Linux, Windows, and macOS for over a decade.
+**[[rfc:9438|CUBIC]] (2008, deployed in Linux 2.6, Standards Track in [[rfc:9438|RFC 9438]] in August 2023)** — replaces linear additive-increase with a cubic function of time since the last loss. Recovers throughput much faster on long fat pipes (gigabit transcontinental, etc.). Default in Linux, Windows, and macOS for over a decade.
 
-**Compound (Microsoft, 2007)** — combined loss-based and delay-based components. Used in Windows. Withdrawn in newer versions.
+**Compound (Microsoft, 2007)** — combined loss-based and delay-based components. Used in Windows. Withdrawn in newer versions.`
+						},
+						{
+							type: 'narrative',
+							title: 'Model-Based and Signal-Based — The New Paradigm',
+							text: `**BBR (Google, 2016)** — fundamentally different from everything before. Model the bottleneck bandwidth and minimum RTT directly, then send at a paced rate just below the model. Robust to the random-loss problem (where CUBIC over-reacts). Deployed by default for google.com and YouTube outbound traffic from 2016. **BBRv3** ([[frontier:bbrv3-default|currently shipping default in production]] from 2024) addresses fairness issues v1 had with non-BBR flows on shared bottlenecks.
 
-**BBR (Google, 2016)** — fundamentally different: model the bottleneck bandwidth and minimum RTT directly, then send at a paced rate just below the model. Robust to the random-loss problem (where CUBIC over-reacts). Defaults for google.com and YouTube. **BBRv3** ([[frontier:bbrv3-default|currently shipping default in production]]) addresses fairness issues with v1.
+**[[frontier:l4s-comcast-launch|L4S]] (RFCs 9330/9331/9332, January 2023)** — the next paradigm. Instead of inferring congestion from loss or RTT, use **ECN as a per-packet explicit signal**. Cooperating senders mark packets ECT(1); routers with L4S support put those packets in a separate, isolated queue and mark CE (congestion experienced) early — before the queue grows. Senders react with paced back-off rather than half-the-window slash.
 
-**[[frontier:l4s-comcast-launch|L4S]] (2024)** — the next paradigm: use ECN as a per-packet signal so senders can ramp up smoothly without ever needing to lose a packet. Sub-millisecond queuing latency for cooperating flows. Comcast launched in production in 2025; Apple has it on by default in iOS 26.
+The result: **sub-millisecond queuing latency** even at 100% link utilisation, for flows that participate. Comcast launched L4S in production in January 2025 across six US metros, with Apple, NVIDIA GeForce NOW, Meta, and Valve as launch partners. Apple shipped L4S support in iOS 17 / macOS Sonoma in 2023, default for QUIC in newer releases.
 
-The arc has been from "react to loss" → "react to delay" → "model the network" → "use explicit signalling." Each generation reduced the cost of being a good citizen on the internet.`
+The arc: react to loss → react to delay → model the network → use explicit signalling. Each generation reduced the cost of being a good citizen on the internet.`
+						},
+						{
+							type: 'callout',
+							title: 'The unsolved problem: heterogeneous fairness',
+							text: 'Every congestion-control algorithm is fair to itself. Mix BBR with CUBIC on a shared bottleneck and BBR takes the lion\'s share. Mix L4S with classic flows in the wrong queue and L4S starves. Each new algorithm has had to fight not just for performance but for **coexistence** with the deployed base — a constraint that consumes most of the engineering effort. BBRv3 spent two years on coexistence work before it was production-ready.'
 						}
 					]
 				},
