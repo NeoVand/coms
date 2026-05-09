@@ -1954,7 +1954,7 @@ export const concepts: Concept[] = [
 	}
 ];
 
-const conceptMap = new Map(concepts.map((c) => [c.id, c]));
+export const conceptMap = new Map(concepts.map((c) => [c.id, c]));
 
 export function getConceptById(id: string): Concept | undefined {
 	return conceptMap.get(id);

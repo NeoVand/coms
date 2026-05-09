@@ -65,10 +65,12 @@ export class AppState {
 
 	/**
 	 * Currently-open registry index page — one of 'pioneers', 'rfcs',
-	 * 'outages', 'frontier'. When set, the side panel renders the matching
-	 * full-list browser. URLs: /pioneers, /rfcs, /outages, /frontier.
+	 * 'outages', 'frontier', 'glossary'. When set, the side panel renders
+	 * the matching full-list browser. URLs: /pioneers, /rfcs, /outages,
+	 * /frontier, /glossary.
 	 */
-	activeRegistryIndex: 'pioneers' | 'rfcs' | 'outages' | 'frontier' | null = $state(null);
+	activeRegistryIndex: 'pioneers' | 'rfcs' | 'outages' | 'frontier' | 'glossary' | null =
+		$state(null);
 
 	/**
 	 * Part id whose detailed table of contents is currently being

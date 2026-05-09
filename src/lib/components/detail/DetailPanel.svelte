@@ -287,6 +287,8 @@
 			<div class="p-6"><OutagesIndex /></div>
 		{:else if appState.activeRegistryIndex === 'frontier'}
 			<div class="p-6"><FrontierIndex /></div>
+		{:else if appState.activeRegistryIndex === 'glossary'}
+			<div class="p-6"><GlossaryView /></div>
 		{:else if appState.activeBookPartToc}
 			<div class="p-6"><BookPartView partId={appState.activeBookPartToc} /></div>
 		{:else if selectedData?.type === 'hub'}

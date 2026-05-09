@@ -1,9 +1,11 @@
 <script lang="ts">
-	import { concepts, type Concept, type ConceptCategory } from '$lib/data/concepts';
+	import { concepts, conceptMap, type Concept, type ConceptCategory } from '$lib/data/concepts';
 	import { Search, X, ExternalLink } from 'lucide-svelte';
 	import { parseRichText } from '$lib/utils/text-parser';
 	import StoryNarrative from './category-story/StoryNarrative.svelte';
 	import { navigateToProtocol } from '$lib/utils/navigation';
+	import { onMount, tick } from 'svelte';
+	import { browser } from '$app/environment';
 
 	let query = $state('');
 	let expandedId: string | null = $state(null);
@@ -11,6 +13,51 @@
 	function toggle(id: string) {
 		expandedId = expandedId === id ? null : id;
 	}
+
+	/**
+	 * Walks up to the nearest scrolling ancestor. `Element.scrollIntoView`
+	 * misbehaves inside the DetailPanel's nested scroll container — the
+	 * smooth-scroll silently no-ops — so we set `scrollTop` directly.
+	 */
+	function scrollableParent(el: Element): Element | null {
+		let cur: Element | null = el.parentElement;
+		while (cur) {
+			const cs = getComputedStyle(cur);
+			const scrolls = cs.overflowY === 'auto' || cs.overflowY === 'scroll';
+			if (scrolls && cur.scrollHeight > cur.clientHeight) return cur;
+			cur = cur.parentElement;
+		}
+		return null;
+	}
+
+	/**
+	 * Opens the term referenced by the URL hash (e.g.
+	 * `/glossary#congestion-window`) and scrolls it into view.
+	 */
+	async function openFromHash() {
+		if (!browser) return;
+		const id = window.location.hash.slice(1);
+		if (!id || !conceptMap.has(id)) return;
+		expandedId = id;
+		await tick(); // let the {#if isExpanded} branch render
+		const target = document.getElementById(`glossary-${id}`);
+		if (!target) return;
+		const scroller = scrollableParent(target);
+		if (!scroller) return;
+		const tRect = target.getBoundingClientRect();
+		const sRect = scroller.getBoundingClientRect();
+		// `behavior: 'smooth'` is silently no-op'd on this scroll container
+		// (the panel inherits a CSS rule that disables it), so we use the
+		// default `'auto'` — instant jump, but reliable.
+		scroller.scrollTo({ top: scroller.scrollTop + (tRect.top - sRect.top) - 16 });
+	}
+
+	onMount(() => {
+		openFromHash();
+		const handler = () => openFromHash();
+		window.addEventListener('hashchange', handler);
+		return () => window.removeEventListener('hashchange', handler);
+	});
 
 	const CATEGORY_LABELS: Record<ConceptCategory, string> = {
 		'networking-basics': 'Networking basics',
@@ -120,7 +167,8 @@
 					{@const analogySegments =
 						isExpanded && concept.analogy ? parseRichText(concept.analogy) : []}
 					<div
-						class="rounded-lg border border-s-border bg-s-glass transition-colors hover:border-s-border"
+						id="glossary-{concept.id}"
+						class="scroll-mt-6 rounded-lg border border-s-border bg-s-glass transition-colors hover:border-s-border"
 					>
 						<button
 							class="flex w-full items-baseline justify-between gap-3 px-3 py-2 text-left"

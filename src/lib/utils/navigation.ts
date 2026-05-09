@@ -131,6 +131,9 @@ export function navigateToOutagesIndex(opts: NavOptions = {}) {
 export function navigateToFrontierIndex(opts: NavOptions = {}) {
 	return go('/frontier', opts);
 }
+export function navigateToGlossaryIndex(opts: NavOptions = {}) {
+	return go('/glossary', opts);
+}
 
 /** Pick the right URL for any GraphNode (hub / category / protocol). */
 export function navigateToNode(node: GraphNode, opts: NavOptions = {}) {
