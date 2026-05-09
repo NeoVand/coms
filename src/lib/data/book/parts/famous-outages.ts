@@ -155,7 +155,7 @@ Mitnick used this to land a forged connection from a host listed in Shimomura's 
 						{
 							type: 'callout',
 							title: 'rsh / rlogin trust was the multiplier',
-							text: 'TCP sequence prediction by itself is not catastrophic — it just lets you forge a connection. The reason this attack worked is that Berkeley Unix\'s \`.rhosts\` mechanism trusted **the source IP address** of an incoming connection as authentication. Forge the source IP, get the trust. SSH (which Tatu Ylönen wrote in 1995, partly in response to incidents like this one) replaced \`.rhosts\` with cryptographic identity — even a perfectly forged TCP connection cannot impersonate someone without their private key.'
+							text: 'TCP sequence prediction by itself is not catastrophic — it just lets you forge a connection. The reason this attack worked is that Berkeley Unix\'s \`.rhosts\` mechanism trusted **the source {{ip-address|IP address}}** of an incoming connection as authentication. Forge the source IP, get the trust. [[ssh|SSH]] (which Tatu Ylönen wrote in 1995, partly in response to incidents like this one) replaced \`.rhosts\` with cryptographic identity — even a perfectly forged TCP connection cannot impersonate someone without their {{private-key|private key}}.'
 						},
 						{
 							type: 'narrative',
@@ -269,7 +269,7 @@ The technical fact is unambiguous: 15% of the global internet's traffic had a br
 						{
 							type: 'callout',
 							title: 'The "everything is encrypted" reply does not hold',
-							text: 'A natural reaction to BGP hijack incidents is "but the data is encrypted, so what does it matter if a third party sees it?" Two reasons it matters. First, **cryptographic metadata** (TLS handshake fingerprints, certificate chains, SNI hostnames) reveals more than people realise. Second, **traffic analysis** — even on encrypted flows, packet sizes and timing leak intent. A connection burst between a Pentagon IP and a defence contractor IP, observed by a foreign AS, is intelligence regardless of cipher. This is part of why ECH (Encrypted Client Hello) is a current TLS frontier.'
+							text: 'A natural reaction to {{bgp-hijack|BGP hijack}} incidents is "but the data is encrypted, so what does it matter if a third party sees it?" Two reasons it matters. First, **cryptographic metadata** ({{tls-handshake|TLS handshake}} fingerprints, {{certificate-chain|certificate chains}}, SNI hostnames) reveals more than people realise. Second, **traffic analysis** — even on encrypted flows, packet sizes and timing leak intent. A connection burst between a Pentagon IP and a defence contractor IP, observed by a foreign AS, is intelligence regardless of cipher. This is part of why {{ech|ECH (Encrypted Client Hello)}} is a current TLS frontier.'
 						}
 					]
 				},

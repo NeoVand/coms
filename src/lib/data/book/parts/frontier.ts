@@ -84,7 +84,7 @@ The **47-day-cert cliff**: CA/Browser Forum **Ballot SC-081v3** (passed 11 April
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: 'For 35 years, congestion control on the internet has been loss-based: when a packet is dropped, the sender slows down. By the time the packet is dropped, the queue is already full. L4S inverts the model.',
+					text: 'For 35 years, {{congestion-control|congestion control}} on the internet has been loss-based: when a packet is dropped, the sender slows down. By the time the packet is dropped, the queue is already full. L4S inverts the model.',
 					attribution: 'Author'
 				},
 				{
@@ -93,7 +93,7 @@ The **47-day-cert cliff**: CA/Browser Forum **Ballot SC-081v3** (passed 11 April
 						{
 							type: 'narrative',
 							title: 'The Problem Bufferbloat Created',
-							text: `The motivating problem for L4S is **bufferbloat** — a term **Jim Gettys at Bell Labs coined in 2010-2011** in an ACM Queue article after he measured 1.2-second latencies on home links. Cheap memory had made router and modem queues huge; full queues meant seconds of latency before any loss signal reached senders. The community's response progressed from CoDel → FQ-CoDel → PIE → L4S.
+							text: `The motivating problem for L4S is **{{bufferbloat|bufferbloat}}** — a term **Jim Gettys at Bell Labs coined in 2010-2011** in an ACM Queue article after he measured 1.2-second latencies on home links. Cheap memory had made router and modem queues huge; full queues meant seconds of latency before any loss signal reached senders. The community's response progressed from CoDel → FQ-CoDel → PIE → L4S.
 
 For 35 years, congestion control on the internet has been **loss-based**: when a packet is dropped, the sender slows down. The mechanism works, but the cost is queueing delay — by the time the packet is dropped, the queue is already full and every packet behind it has been delayed.
 
@@ -167,7 +167,7 @@ Within months, AWS workloads at scale began migrating to IPv6-only architectures
 						{
 							type: 'callout',
 							title: 'IPv6-Mostly is the deployment pattern',
-							text: '**IPv6-Mostly** is what most modern networks actually deploy: a single network using **DHCPv4 Option 108 (RFC 8925)** to tell capable clients "skip IPv4 entirely," **PREF64 in Router Advertisements (RFC 8781)** to advertise the NAT64 prefix, and **464XLAT (RFC 6877)** CLAT for clients still needing IPv4. **Fedora/NetworkManager auto-enable CLAT for IPv6-mostly networks (2024); Windows 11 ships 464XLAT CLAT.** The OS support is finally there.'
+							text: '**IPv6-Mostly** is what most modern networks actually deploy: a single network using **DHCPv4 Option 108 ([[rfc:8925|RFC 8925]])** to tell capable clients "skip IPv4 entirely," **PREF64 in Router Advertisements ([[rfc:8781|RFC 8781]])** to advertise the {{nat64|NAT64}} prefix, and **{{four-six-four-xlat|464XLAT}} ([[rfc:6877|RFC 6877]])** CLAT for clients still needing IPv4. **Fedora/NetworkManager auto-enable CLAT for IPv6-mostly networks (2024); Windows 11 ships 464XLAT CLAT.** The OS support is finally there.'
 						},
 						{
 							type: 'narrative',

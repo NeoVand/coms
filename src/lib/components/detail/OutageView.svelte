@@ -8,6 +8,7 @@
 	import { ExternalLink, AlertTriangle, Clock, Users, Lightbulb } from 'lucide-svelte';
 	import { themedDomColor } from '$lib/utils/colors';
 	import { getAppState } from '$lib/state/context';
+	import RichText from '$lib/components/detail/inline/RichText.svelte';
 
 	interface Props {
 		id: string;
@@ -106,21 +107,7 @@
 		<section>
 			<h2 class="mb-2 text-[11px] font-semibold tracking-wider text-t-muted uppercase">Setup</h2>
 			<p class="text-sm leading-relaxed text-t-primary">
-				{#each renderRich(outage.setup) as seg, j (j)}
-					{#if seg.type === 'text'}
-						{seg.value}
-					{:else if seg.type === 'bold'}
-						<strong class="font-semibold text-t-primary">{seg.value}</strong>
-					{:else if seg.type === 'protocol-link' || seg.type === 'bold-protocol-link'}
-						<button
-							class="inline font-medium transition-colors hover:underline"
-							style="color: {ACCENT};"
-							onclick={() => navigateToProtocol(seg.protocolId)}>{seg.label}</button
-						>
-					{:else if seg.type === 'concept' || seg.type === 'bold-concept'}
-						<span class="font-medium text-t-primary">{seg.label}</span>
-					{/if}
-				{/each}
+				<RichText segments={renderRich(outage.setup)} color={ACCENT} />
 			</p>
 		</section>
 
@@ -130,21 +117,7 @@
 				Mistake
 			</h2>
 			<p class="text-sm leading-relaxed text-t-primary">
-				{#each renderRich(outage.mistake) as seg, j (j)}
-					{#if seg.type === 'text'}
-						{seg.value}
-					{:else if seg.type === 'bold'}
-						<strong class="font-semibold text-t-primary">{seg.value}</strong>
-					{:else if seg.type === 'protocol-link' || seg.type === 'bold-protocol-link'}
-						<button
-							class="inline font-medium transition-colors hover:underline"
-							style="color: {ACCENT};"
-							onclick={() => navigateToProtocol(seg.protocolId)}>{seg.label}</button
-						>
-					{:else if seg.type === 'concept' || seg.type === 'bold-concept'}
-						<span class="font-medium text-t-primary">{seg.label}</span>
-					{/if}
-				{/each}
+				<RichText segments={renderRich(outage.mistake)} color={ACCENT} />
 			</p>
 		</section>
 
@@ -168,21 +141,7 @@
 							{/if}
 							<div class="text-sm font-medium text-t-primary">{beat.title}</div>
 							<p class="mt-0.5 text-xs leading-relaxed text-t-secondary">
-								{#each renderRich(beat.description) as seg, j (j)}
-									{#if seg.type === 'text'}
-										{seg.value}
-									{:else if seg.type === 'bold'}
-										<strong class="font-semibold text-t-primary">{seg.value}</strong>
-									{:else if seg.type === 'protocol-link' || seg.type === 'bold-protocol-link'}
-										<button
-											class="inline font-medium transition-colors hover:underline"
-											style="color: {ACCENT};"
-											onclick={() => navigateToProtocol(seg.protocolId)}>{seg.label}</button
-										>
-									{:else if seg.type === 'concept' || seg.type === 'bold-concept'}
-										<span class="font-medium text-t-primary">{seg.label}</span>
-									{/if}
-								{/each}
+								<RichText segments={renderRich(beat.description)} color={ACCENT} />
 							</p>
 							{#if beat.protocols && beat.protocols.length > 0}
 								<div class="mt-1.5 flex flex-wrap gap-1">
@@ -213,7 +172,9 @@
 			<h2 class="mb-2 text-[11px] font-semibold tracking-wider text-t-muted uppercase">
 				Consequence
 			</h2>
-			<p class="text-sm leading-relaxed text-t-primary">{outage.consequence}</p>
+			<p class="text-sm leading-relaxed text-t-primary">
+				<RichText segments={renderRich(outage.consequence)} color={ACCENT} />
+			</p>
 		</section>
 
 		<!-- Resolution -->
@@ -221,7 +182,9 @@
 			<h2 class="mb-2 text-[11px] font-semibold tracking-wider text-t-muted uppercase">
 				Resolution
 			</h2>
-			<p class="text-sm leading-relaxed text-t-primary">{outage.resolution}</p>
+			<p class="text-sm leading-relaxed text-t-primary">
+				<RichText segments={renderRich(outage.resolution)} color={ACCENT} />
+			</p>
 		</section>
 
 		<!-- Lesson — emphasized callout -->
@@ -236,7 +199,9 @@
 				<Lightbulb size={11} />
 				Lesson
 			</div>
-			<p class="text-sm leading-relaxed text-t-primary">{outage.lesson}</p>
+			<p class="text-sm leading-relaxed text-t-primary">
+				<RichText segments={renderRich(outage.lesson)} color={ACCENT} />
+			</p>
 		</section>
 
 		<!-- Affected protocols -->

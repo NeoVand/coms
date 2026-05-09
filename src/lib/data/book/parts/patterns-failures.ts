@@ -25,7 +25,7 @@ export const patternsFailures: BookPart = {
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: 'Knowing the handshake pattern means you understand 80% of TLS, SSH, MQTT, and SCTP setup before reading their specs. The remaining 20% is the part worth investing time in.',
+					text: 'Knowing the {{handshake|handshake}} pattern means you understand 80% of [[tls|TLS]], [[ssh|SSH]], [[mqtt|MQTT]], and [[sctp|SCTP]] setup before reading their specs. The remaining 20% is the part worth investing time in.',
 					attribution: 'Author'
 				},
 				{
@@ -142,7 +142,7 @@ The fix is the only fix — tunnel inside something the middleboxes already acce
 						{
 							type: 'callout',
 							title: 'Reading a stack trace vs. reading a network',
-							text: 'When code crashes, the stack trace tells you where. When a network misbehaves, there is no stack trace — just a histogram of latencies, a packet capture, and the question "which of the patterns in the bestiary is this?" Naming the failure modes is most of the diagnosis. Once you can say "this is bufferbloat" or "this is MTU black hole," the fix is mechanical.'
+							text: 'When code crashes, the stack trace tells you where. When a network misbehaves, there is no stack trace — just a histogram of {{latency|latencies}}, a packet capture, and the question "which of the patterns in the bestiary is this?" Naming the failure modes is most of the diagnosis. Once you can say "this is {{bufferbloat|bufferbloat}}" or "this is {{mtu-black-hole|MTU black hole}}," the fix is mechanical.'
 						}
 					]
 				},
