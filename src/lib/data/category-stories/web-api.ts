@@ -16,7 +16,7 @@ The first version, HTTP/0.9, supported just one command: GET. No headers, no con
 			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/First_Web_Server.jpg/500px-First_Web_Server.jpg',
 			alt: 'The NeXT computer used by Tim Berners-Lee at CERN, the world\'s first web server',
 			caption:
-				'The NeXT cube at CERN — the first web server and web browser, built by Tim Berners-Lee in 1990. The handwritten label reads "This machine is a server. DO NOT POWER IT DOWN!!"',
+				'The NeXT cube at CERN — the first web server and web browser, built by [[pioneer:tim-berners-lee|Tim Berners-Lee]] in 1990. The handwritten label reads "This machine is a server. DO NOT POWER IT DOWN!!"',
 			credit: 'Photo: Coolcaesar / CC BY-SA 3.0, via Wikimedia Commons'
 		},
 		{
@@ -119,7 +119,7 @@ GET /friends"]
   G -->|"1 query"| G1["{ user, posts, friends }"]
   P -->|"1 binary call"| P1["GetUser protobuf"]`,
 			caption:
-				'REST needs multiple round trips. GraphQL fetches exact data in one query. gRPC uses efficient binary serialization.'
+				'REST needs multiple round trips. GraphQL fetches exact data in one query. gRPC uses efficient binary {{serialization|serialization}}.'
 		},
 		{
 			type: 'pioneers',
@@ -131,7 +131,7 @@ GET /friends"]
 					title: 'Co-creator of SPDY',
 					org: 'Google',
 					contribution:
-						'Led the development of SPDY, the experimental protocol that proved multiplexing could dramatically speed up the web, directly leading to HTTP/2.',
+						'Led the development of SPDY, the experimental protocol that proved {{multiplexing|multiplexing}} could dramatically speed up the web, directly leading to [[http2|HTTP/2]].',
 					imagePath:
 						'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Mike_Belshe_SALT_Conference.jpg/330px-Mike_Belshe_SALT_Conference.jpg'
 				},
@@ -141,7 +141,7 @@ GET /friends"]
 					title: 'Co-creator of SPDY & HPACK',
 					org: 'Google',
 					contribution:
-						"Co-designed SPDY and created HPACK header compression, solving HTTP/1.1's header bloat problem for HTTP/2."
+						"Co-designed SPDY and created {{hpack|HPACK}} header compression, solving [[http1|HTTP/1.1]]'s header bloat problem for [[http2|HTTP/2]]."
 				},
 				{
 					name: 'Ian Fette',
@@ -149,7 +149,7 @@ GET /friends"]
 					title: 'WebSocket Protocol Editor',
 					org: 'Google',
 					contribution:
-						'Primary editor of the WebSocket protocol (RFC 6455), enabling full-duplex communication between browsers and servers.'
+						'Primary editor of the WebSocket protocol ([[rfc:6455|RFC 6455]]), enabling {{full-duplex|full-duplex}} communication between browsers and servers.'
 				}
 			]
 		},
@@ -180,7 +180,7 @@ GET /friends"]
 					year: 2015,
 					title: 'HTTP/2 \u2014 RFC 7540',
 					description:
-						"SPDY's ideas become an official standard: binary framing, multiplexing, server push, header compression.",
+						"SPDY's ideas become an official standard: {{binary-framing|binary framing}}, multiplexing, {{server-push|server push}}, header compression.",
 					protocolId: 'http2'
 				},
 				{
@@ -201,7 +201,7 @@ GET /friends"]
 					year: 2022,
 					title: 'HTTP/3 \u2014 RFC 9114',
 					description:
-						'HTTP moves from TCP to QUIC. Multiplexing without head-of-line blocking. The transport layer is finally fixed.',
+						'HTTP moves from [[tcp|TCP]] to [[quic|QUIC]]. Multiplexing without {{head-of-line-blocking|head-of-line blocking}}. The transport layer is finally fixed.',
 					protocolId: 'http3'
 				}
 			]
@@ -264,7 +264,7 @@ The evolution from [[http1]] to [[http2]] to [[http3]] tells a story of learning
 		{
 			type: 'callout',
 			title: 'From 1 Command to Millions',
-			text: 'HTTP/0.9 had exactly one command: GET. Today, the web handles over 5 billion HTTP requests per second globally. Each generation of HTTP addressed real bottlenecks discovered through massive scale deployment \u2014 from connection reuse in HTTP/1.1, to multiplexing in HTTP/2, to transport-layer encryption in HTTP/3.'
+			text: 'HTTP/0.9 had exactly one command: GET. Today, the web handles over 5 billion HTTP requests per second globally. Each generation of HTTP addressed real bottlenecks discovered through massive scale deployment \u2014 from connection reuse in [[http1|HTTP/1.1]], to multiplexing in [[http2|HTTP/2]], to transport-layer {{encryption|encryption}} in [[http3|HTTP/3]].'
 		},
 		{
 			type: 'narrative',

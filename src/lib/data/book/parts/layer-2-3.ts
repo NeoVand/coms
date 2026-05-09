@@ -41,7 +41,7 @@ The IEEE standardised it as **802.3** in 1983, the same year as ARPANET flag-day
 						{
 							type: 'callout',
 							title: 'Why the 64-byte minimum frame size still exists in 800 GbE',
-							text: 'The minimum Ethernet frame is **64 bytes** because the original 10 Mbps coaxial Ethernet had to detect collisions before completing a frame transmission — round-trip time across the maximum 2.5 km / 4-repeater diameter is 51.2 µs = 64 bytes at 10 Mbps. Modern switched full-duplex Ethernet has no collisions, but the minimum stays for backwards compatibility. Forty-five years later, every 800 GbE frame still respects the slot-time math from a 10 Mbps shared coax in 1980.'
+							text: 'The minimum Ethernet frame is **64 bytes** because the original 10 Mbps coaxial Ethernet had to detect collisions before completing a frame transmission — round-trip time across the maximum 2.5 km / 4-repeater diameter is 51.2 µs = 64 bytes at 10 Mbps. Modern switched {{full-duplex|full-duplex}} Ethernet has no collisions, but the minimum stays for backwards compatibility. Forty-five years later, every 800 GbE frame still respects the slot-time math from a 10 Mbps shared coax in 1980.'
 						},
 						{
 							type: 'narrative',
@@ -153,7 +153,7 @@ David C. Plummer at Symbolics/MIT-AI wrote RFC 826 from address \`DCP@MIT-MC\` i
 						{
 							type: 'callout',
 							title: 'ARP has no checksum and no authentication',
-							text: 'ARP relies entirely on the L2 frame check sequence — no application-layer integrity. It also trusts the first reply that comes back. Which is why **ARP spoofing is an entry-level network attack**, why every enterprise switch has Dynamic ARP Inspection, and why **dsniff (Dug Song, 1999), Ettercap (Ornaghi/Valleri, 2001), and Firesheep (Eric Butler, October 2010)** all became famous tools by exploiting it. Firesheep on coffee-shop Wi-Fi was the proximate cause of the industry-wide HTTPS-everywhere push.'
+							text: 'ARP relies entirely on the L2 {{checksum|frame check sequence}} — no application-layer integrity. It also trusts the first reply that comes back. Which is why **ARP {{spoofing|spoofing}} is an entry-level network attack**, why every enterprise switch has Dynamic ARP Inspection, and why **dsniff (Dug Song, 1999), Ettercap (Ornaghi/Valleri, 2001), and Firesheep (Eric Butler, October 2010)** all became famous tools by exploiting it. Firesheep on coffee-shop Wi-Fi was the proximate cause of the industry-wide HTTPS-everywhere push.'
 						},
 						{
 							type: 'narrative',
@@ -279,7 +279,7 @@ It then took **twenty-eight years** to reach 50% adoption. The reason is not tec
 						{
 							type: 'callout',
 							title: 'IPv6 is NOT encrypted by default',
-							text: 'IPsec was originally mandatory-to-implement in IPv6, but **demoted to optional by RFC 6434 (2011)**. A frequent source of myth that IPv6 has built-in security. It does not. The encryption story for IPv6 is the same as for IPv4: TLS at the application layer.'
+							text: 'IPsec was originally mandatory-to-implement in IPv6, but **demoted to optional by [[rfc:6434|RFC 6434]] (2011)**. A frequent source of myth that IPv6 has built-in security. It does not. The {{encryption|encryption}} story for IPv6 is the same as for IPv4: TLS at the application layer.'
 						},
 						{
 							type: 'narrative',
@@ -340,7 +340,7 @@ The most famous ICMP message is **Echo Request / Echo Reply** — what **ping** 
 						{
 							type: 'callout',
 							title: 'Dropping ICMP at the firewall is partially refusing to implement IP',
-							text: 'Read literally, **RFC 1122 §3.2.2 says "ICMP is a control protocol that is considered to be an integral part of IP."** Every IP host MUST answer Echo Requests by spec. Dropping ICMP at your border firewall is, in standards terms, partially refusing to implement IP. It also breaks Path MTU Discovery and creates the "MTU black hole" failure mode where TCP connections hang because the network can neither deliver the large packet nor signal that it cannot.'
+							text: 'Read literally, **[[rfc:1122|RFC 1122]] §3.2.2 says "ICMP is a control protocol that is considered to be an integral part of IP."** Every IP host MUST answer Echo Requests by spec. Dropping ICMP at your border {{firewall|firewall}} is, in standards terms, partially refusing to implement IP. It also breaks {{path-mtu-discovery|Path MTU Discovery}} and creates the {{mtu-black-hole|"MTU black hole"}} failure mode where TCP connections hang because the network can neither deliver the large packet nor signal that it cannot.'
 						},
 						{
 							type: 'narrative',

@@ -18,7 +18,7 @@ TCP operates at Layer 4 (Transport) of the {{osi-model|OSI model}} and is identi
 		{
 			title: 'SYN — Client initiates',
 			description:
-				'The client sends a SYN (synchronize) packet to the server, proposing an initial sequence number. This is the "Hey, can we talk?" message.'
+				'The client sends a SYN (synchronize) packet to the server, proposing an initial {{sequence-number|sequence number}}. This is the "Hey, can we talk?" message.'
 		},
 		{
 			title: 'SYN-ACK — Server responds',
@@ -28,12 +28,12 @@ TCP operates at Layer 4 (Transport) of the {{osi-model|OSI model}} and is identi
 		{
 			title: 'ACK — Connection established',
 			description:
-				"The client sends an ACK confirming the server's sequence number. The three-way handshake is complete — data can now flow."
+				"The client sends an ACK confirming the server's sequence number. The {{three-way-handshake|three-way handshake}} is complete — data can now flow."
 		},
 		{
 			title: 'Data transfer',
 			description:
-				'Data flows in ordered segments. Each segment is acknowledged; lost segments trigger retransmission after a timeout or duplicate ACKs. A sliding window controls how much data can be in flight, and congestion control algorithms (slow start, congestion avoidance) dynamically adjust the sending rate to avoid overwhelming the network.'
+				'Data flows in ordered segments. Each segment is acknowledged; lost segments trigger {{retransmission|retransmission}} after a timeout or duplicate ACKs. A {{sliding-window|sliding window}} controls how much data can be in flight, and {{congestion-control|congestion control}} algorithms ({{slow-start|slow start}}, {{congestion-avoidance|congestion avoidance}}) dynamically adjust the sending rate to avoid overwhelming the network.'
 		},
 		{
 			title: 'FIN — Graceful close',
@@ -225,7 +225,7 @@ Client → Server  [ACK]
 			org: 'Linux kernel',
 			scale: 'CUBIC default since 2.6.19',
 			description:
-				'CUBIC has been the default TCP congestion control on Linux since 2006. Most large-scale Linux servers (web, database, file) run it.'
+				'{{cubic|CUBIC}} has been the default TCP congestion control on Linux since 2006. Most large-scale Linux servers (web, database, file) run it.'
 		},
 		{
 			org: 'Google',
@@ -258,11 +258,11 @@ Client → Server  [ACK]
 		},
 		{
 			title: 'The window field is only 16 bits',
-			text: 'The TCP receive-window field is 16 bits — max 65,535 bytes. On a 100 ms transcontinental path that caps throughput at ~5 Mbit/s. The Window Scale option (RFC 7323, 1992) shifts the window left by up to 14 bits, allowing windows up to 1 GB. Without it, modern long-fat-pipe networking would be impossible.'
+			text: 'The TCP receive-window field is 16 bits — max 65,535 bytes. On a 100 ms transcontinental path that caps throughput at ~5 Mbit/s. The {{window-scale|Window Scale}} option ([[rfc:7323|RFC 7323]], 1992) shifts the window left by up to 14 bits, allowing windows up to 1 GB. Without it, modern long-fat-pipe networking would be impossible.'
 		},
 		{
 			title: 'TIME_WAIT exists because of stragglers',
-			text: 'After active close, a socket sits in **TIME_WAIT** for ~60 seconds (2× MSL) on Linux. Why? A delayed segment from the old connection could otherwise re-enter a freshly-opened connection on the same four-tuple and be misinterpreted as legitimate data. This is the most paranoid 60 seconds in networking.'
+			text: 'After active close, a socket sits in **{{time-wait|TIME_WAIT}}** for ~60 seconds (2× MSL) on Linux. Why? A delayed segment from the old connection could otherwise re-enter a freshly-opened connection on the same four-tuple and be misinterpreted as legitimate data. This is the most paranoid 60 seconds in networking.'
 		}
 	],
 
@@ -270,15 +270,15 @@ Client → Server  [ACK]
 		pitfalls: [
 			{
 				title: 'Nagle + Delayed ACK = 200ms latency',
-				text: 'Nagle\'s algorithm coalesces small writes; delayed ACK batches acknowledgements. When both are on (the default), interactive applications writing in small chunks can stall for up to 200 ms waiting for an ACK. Cure: setsockopt(TCP_NODELAY, 1) for low-latency apps.'
+				text: 'Nagle\'s algorithm coalesces small writes; {{delayed-ack|delayed ACK}} batches acknowledgements. When both are on (the default), interactive applications writing in small chunks can stall for up to 200 ms waiting for an ACK. Cure: setsockopt(TCP_NODELAY, 1) for low-latency apps.'
 			},
 			{
 				title: 'Ephemeral port exhaustion',
-				text: 'On a server doing many short-lived outbound connections (e.g., to upstream APIs), the local OS exhausts the ephemeral port range (default 32768-60999 on Linux). Sockets sit in TIME_WAIT for ~60s, blocking the four-tuple. Cure: enable connection reuse (HTTP keep-alive, gRPC pooling), or widen the range with net.ipv4.ip_local_port_range.'
+				text: 'On a server doing many short-lived outbound connections (e.g., to upstream APIs), the local OS exhausts the {{ephemeral-port|ephemeral port}} range (default 32768-60999 on Linux). Sockets sit in TIME_WAIT for ~60s, blocking the four-tuple. Cure: enable connection reuse (HTTP {{keep-alive|keep-alive}}, [[grpc|gRPC]] pooling), or widen the range with net.ipv4.ip_local_port_range.'
 			},
 			{
 				title: 'PMTU black holes',
-				text: 'A path drops large packets but does not return ICMP Fragmentation Needed — usually because some intermediate firewall rate-limits or blocks ICMP. The connection hangs because retransmits also fail. Cure: enable PLPMTUD (RFC 4821) or set TCP MSS clamping at the edge.'
+				text: 'A path drops large packets but does not return [[icmp|ICMP]] {{fragmentation|Fragmentation}} Needed — usually because some intermediate {{firewall|firewall}} rate-limits or blocks ICMP. The connection hangs because retransmits also fail. Cure: enable PLPMTUD ([[rfc:4821|RFC 4821]]) or set TCP MSS clamping at the edge.'
 			}
 		]
 	}

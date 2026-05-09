@@ -27,6 +27,13 @@
 	import OutagesIndex from './registry-index/OutagesIndex.svelte';
 	import FrontierIndex from './registry-index/FrontierIndex.svelte';
 	import BookPartView from './BookPartView.svelte';
+	// Live registry counts so the Browse-the-Lab tiles never go stale when
+	// new entries are added. Hard-coded numbers used to drift here (RFCs
+	// said "27" while the registry held nearly 100).
+	import { rfcs } from '$lib/data/rfcs';
+	import { pioneers } from '$lib/data/pioneers';
+	import { outages } from '$lib/data/outages';
+	import { frontierEntries } from '$lib/data/frontier';
 	import {
 		navigateToPioneersIndex,
 		navigateToRfcsIndex,
@@ -384,7 +391,7 @@
 								</span>
 								<div class="min-w-0">
 									<div class="text-sm font-medium text-t-primary">Pioneers</div>
-									<div class="text-[10px] text-t-muted">19 architects of the field</div>
+									<div class="text-[10px] text-t-muted">{pioneers.length} architects of the field</div>
 								</div>
 							</button>
 							<button
@@ -399,7 +406,7 @@
 								</span>
 								<div class="min-w-0">
 									<div class="text-sm font-medium text-t-primary">RFCs</div>
-									<div class="text-[10px] text-t-muted">27 documents</div>
+									<div class="text-[10px] text-t-muted">{rfcs.length} documents</div>
 								</div>
 							</button>
 							<button
@@ -414,7 +421,7 @@
 								</span>
 								<div class="min-w-0">
 									<div class="text-sm font-medium text-t-primary">Famous outages</div>
-									<div class="text-[10px] text-t-muted">7 incidents as stories</div>
+									<div class="text-[10px] text-t-muted">{outages.length} incidents as stories</div>
 								</div>
 							</button>
 							<button
@@ -429,7 +436,7 @@
 								</span>
 								<div class="min-w-0">
 									<div class="text-sm font-medium text-t-primary">The Frontier</div>
-									<div class="text-[10px] text-t-muted">13 developments, 2024-2026</div>
+									<div class="text-[10px] text-t-muted">{frontierEntries.length} developments, 2024-2026</div>
 								</div>
 							</button>
 						</div>
