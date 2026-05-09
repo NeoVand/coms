@@ -30,3 +30,11 @@ test-results
 
 /outreach-emails.md
 
+# Podcast-blueprints pipeline — Pass-1 flattener output is gitignored.
+# The eventual synthesized markdown under podcast-blueprints/<type>/ will be
+# committable once Pass-2 produces it.
+/scripts/flatten-content.ts
+/podcast-blueprints/_raw/
+/podcast-blueprints/_link-report.txt
+/podcast-blueprints/_index.txt
+
