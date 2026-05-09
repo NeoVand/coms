@@ -97,7 +97,7 @@ export const utilitiesStory: CategoryStory = {
 		{
 			type: 'narrative',
 			title: 'The Naming Crisis',
-			text: `In the early internet, every computer on the network maintained a file called HOSTS.TXT — a simple list mapping hostnames to IP addresses. The Stanford Research Institute maintained the master copy, and everyone downloaded updates periodically. This worked when there were a hundred hosts. By 1983, with thousands of hosts joining, it was falling apart.\n\nPaul Mockapetris solved this with [[dns]], the Domain Name System. Instead of one file, [[dns|DNS]] distributed the naming across a hierarchical system of servers. Ask for 'google.com' and your query cascades: root servers direct you to .com servers, which direct you to Google's name servers, which return the {{ip-address|IP address}}. This hierarchy handles billions of queries per day and translates every URL you type into the numbers the network actually uses.\n\nDavid Mills tackled an equally fundamental problem: time. How do you keep clocks synchronized across thousands of computers separated by unpredictable network delays? [[ntp]], the Network Time Protocol, uses a hierarchical system of time sources (stratum 0 from atomic clocks, cascading down) and sophisticated algorithms to compensate for network {{jitter|jitter}}. Mills maintained [[ntp|NTP]] for over 30 years — one person, one protocol, keeping the world's computers in sync.`
+			text: `In the early internet, every computer on the network maintained a file called HOSTS.TXT — a simple list mapping hostnames to [[ip|IP]] addresses. The Stanford Research Institute maintained the master copy, and everyone downloaded updates periodically. This worked when there were a hundred hosts. By 1983, with thousands of hosts joining, it was falling apart.\n\nPaul Mockapetris solved this with [[dns]], the Domain Name System. Instead of one file, [[dns|DNS]] distributed the naming across a hierarchical system of servers. Ask for 'google.com' and your query cascades: root servers direct you to .com servers, which direct you to Google's name servers, which return the {{ip-address|IP address}}. This hierarchy handles billions of queries per day and translates every URL you type into the numbers the network actually uses.\n\nDavid Mills tackled an equally fundamental problem: time. How do you keep clocks synchronized across thousands of computers separated by unpredictable network delays? [[ntp]], the Network Time Protocol, uses a hierarchical system of time sources (stratum 0 from atomic clocks, cascading down) and sophisticated algorithms to compensate for network {{jitter|jitter}}. Mills maintained [[ntp|NTP]] for over 30 years — one person, one protocol, keeping the world's computers in sync.`
 		},
 		{
 			type: 'image',
@@ -151,7 +151,7 @@ export const utilitiesStory: CategoryStory = {
 					title: 'Architect of DHCP',
 					org: 'Bucknell University / Cisco',
 					contribution:
-						'Designed the Dynamic Host Configuration Protocol ([[rfc:2131|RFC 2131]]), automating the tedious process of manually configuring IP addresses for every device on a network.',
+						'Designed the Dynamic Host Configuration Protocol ([[rfc:2131|RFC 2131]]), automating the tedious process of manually configuring [[ip|IP]] addresses for every device on a network.',
 					imagePath:
 						'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Ralph_E._Droms_-_2013.jpg/330px-Ralph_E._Droms_-_2013.jpg'
 				}
@@ -160,7 +160,7 @@ export const utilitiesStory: CategoryStory = {
 		{
 			type: 'narrative',
 			title: 'The Complete Email System',
-			text: `While [[dns|DNS]] and [[ntp|NTP]] solved naming and timing, another protocol was quietly filling a critical gap in the internet's infrastructure.\n\nIn 1988, Mark Crispin at Stanford created [[imap]], solving a problem [[smtp]] never could: accessing your email from multiple devices. [[smtp|SMTP]] delivers mail, but it's a one-way push. [[imap|IMAP]] lets you browse, search, and organize messages that stay on the server. When you read an email on your phone and see it marked as read on your laptop — that's IMAP's {{stateful|stateful}}, server-side model at work. Crispin maintained IMAP for over 25 years, evolving it from RFC 1064 to RFC 9051.`
+			text: `While [[dns|DNS]] and [[ntp|NTP]] solved naming and timing, another protocol was quietly filling a critical gap in the internet's infrastructure.\n\nIn 1988, Mark Crispin at Stanford created [[imap]], solving a problem [[smtp]] never could: accessing your email from multiple devices. [[smtp|SMTP]] delivers mail, but it's a one-way push. [[imap|IMAP]] lets you browse, search, and organize messages that stay on the server. When you read an email on your phone and see it marked as read on your laptop — that's [[imap|IMAP]]'s {{stateful|stateful}}, server-side model at work. Crispin maintained [[imap|IMAP]] for over 25 years, evolving it from RFC 1064 to RFC 9051.`
 		},
 		{
 			type: 'pioneers',

@@ -102,7 +102,7 @@ export const asyncIotStory: CategoryStory = {
 		{
 			type: 'narrative',
 			title: "Wall Street's Messaging Problem",
-			text: `While [[mqtt|MQTT]] was solving IoT telemetry and [[xmpp]] was revolutionizing instant messaging — powering Jabber, and later Google Talk and Facebook Chat — a different messaging crisis was unfolding on Wall Street. JPMorgan Chase was spending hundreds of millions on proprietary messaging middleware — TIBCO, IBM MQ, Microsoft MSMQ — with no interoperability between them. John O'Hara saw the absurdity: why should the wire format be proprietary? In 2003, he began designing [[amqp]], the Advanced Message Queuing Protocol.\n\n[[amqp]] was ambitious: a complete wire-level protocol with exchanges, queues, bindings, and sophisticated routing. Unlike [[mqtt]], which was minimal by design, [[amqp|AMQP]] tried to be comprehensive. This made it powerful for enterprise messaging but complex to implement. The creation of RabbitMQ in 2007 gave AMQP its killer app — a robust, open-source broker that could handle millions of messages per second.\n\nFor developers who wanted something even simpler, [[stomp|STOMP]] emerged in 2009 — a text-based protocol so simple you could debug it with telnet. Where AMQP was the enterprise heavyweight and MQTT the IoT specialist, [[stomp|STOMP]] was the developer-friendly option for web applications, often running over [[websockets]].`
+			text: `While [[mqtt|MQTT]] was solving IoT telemetry and [[xmpp]] was revolutionizing instant messaging — powering Jabber, and later Google Talk and Facebook Chat — a different messaging crisis was unfolding on Wall Street. JPMorgan Chase was spending hundreds of millions on proprietary messaging middleware — TIBCO, IBM MQ, Microsoft MSMQ — with no interoperability between them. John O'Hara saw the absurdity: why should the wire format be proprietary? In 2003, he began designing [[amqp]], the Advanced Message Queuing Protocol.\n\n[[amqp]] was ambitious: a complete wire-level protocol with exchanges, queues, bindings, and sophisticated routing. Unlike [[mqtt]], which was minimal by design, [[amqp|AMQP]] tried to be comprehensive. This made it powerful for enterprise messaging but complex to implement. The creation of RabbitMQ in 2007 gave [[amqp|AMQP]] its killer app — a robust, open-source broker that could handle millions of messages per second.\n\nFor developers who wanted something even simpler, [[stomp|STOMP]] emerged in 2009 — a text-based protocol so simple you could debug it with telnet. Where [[amqp|AMQP]] was the enterprise heavyweight and [[mqtt|MQTT]] the IoT specialist, [[stomp|STOMP]] was the developer-friendly option for web applications, often running over [[websockets]].`
 		},
 		{
 			type: 'pioneers',
@@ -122,7 +122,7 @@ export const asyncIotStory: CategoryStory = {
 					title: 'Messaging Visionary',
 					org: 'iMatix',
 					contribution:
-						'Built the first open-source [[amqp|AMQP]] broker (OpenAMQ) at iMatix and later created ZeroMQ, a brokerless messaging library. A passionate open-source advocate, though he grew critical of AMQP\'s complexity and eventually left the workgroup.',
+						'Built the first open-source [[amqp|AMQP]] broker (OpenAMQ) at iMatix and later created ZeroMQ, a brokerless messaging library. A passionate open-source advocate, though he grew critical of [[amqp|AMQP]]\'s complexity and eventually left the workgroup.',
 					imagePath:
 						'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Pieter_Hintjens_at_EuroPython2014_%28cropped%29.jpg/330px-Pieter_Hintjens_at_EuroPython2014_%28cropped%29.jpg'
 				},
@@ -166,7 +166,7 @@ export const asyncIotStory: CategoryStory = {
 					year: 2012,
 					title: 'Eclipse Paho & Mosquitto',
 					description:
-						"The Eclipse Foundation adopts [[mqtt|MQTT]] client libraries and the Mosquitto broker, cementing MQTT's open-source ecosystem.",
+						"The Eclipse Foundation adopts [[mqtt|MQTT]] client libraries and the Mosquitto broker, cementing [[mqtt|MQTT]]'s open-source ecosystem.",
 					protocolId: 'mqtt'
 				},
 				{
@@ -180,7 +180,7 @@ export const asyncIotStory: CategoryStory = {
 					year: 2014,
 					title: 'CoAP Published — RFC 7252',
 					description:
-						"The Constrained Application Protocol brings REST-like semantics to tiny devices that can't run HTTP.",
+						"The Constrained Application Protocol brings [[rest|REST]]-like semantics to tiny devices that can't run HTTP.",
 					protocolId: 'coap'
 				},
 				{

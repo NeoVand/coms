@@ -43,7 +43,7 @@ The point of this chapter is to enumerate those patterns, name them, and note wh
 							title: 'Handshakes — Establishing Mutual State',
 							text: `**Handshakes** establish state on both sides. SYN/SYN-ACK/ACK in [[tcp|TCP]]; ClientHello/ServerHello/Finished in [[tls|TLS]] 1.2 (RFC 5246) and the streamlined {{one-rtt|1-RTT}} {{handshake|handshake}} in [[tls|TLS]] 1.3 ([[rfc:8446|RFC 8446]], 2018); CONNECT/CONNACK in [[mqtt|MQTT]] 5; the [[sctp|SCTP]] four-way handshake (INIT, INIT-ACK, {{cookie|COOKIE}}-ECHO, COOKIE-ACK).
 
-The shape is always the same: party A proposes, party B confirms with its own proposal, party A acknowledges. The number of round-trips defines the connection setup {{latency|latency}}, and shrinking it is one of the recurring optimisations in protocol design. [[tls|TLS]] 1.3 went from two round-trips (TLS 1.2) to one. [[quic|QUIC]] went from three round-trips for [[tcp|TCP]]+TLS down to one — and to **zero** for resumption (sending application data in the very first packet, encrypted under a previously-established key).
+The shape is always the same: party A proposes, party B confirms with its own proposal, party A acknowledges. The number of round-trips defines the connection setup {{latency|latency}}, and shrinking it is one of the recurring optimisations in protocol design. [[tls|TLS]] 1.3 went from two round-trips ([[tls|TLS]] 1.2) to one. [[quic|QUIC]] went from three round-trips for [[tcp|TCP]]+[[tls|TLS]] down to one — and to **zero** for resumption (sending application data in the very first packet, encrypted under a previously-established key).
 
 The cost of zero round-trip data is **replayability** — an attacker who captures the first packet of a {{zero-rtt|0-RTT}} {{exchange|exchange}} can replay it later. RFC 8446 §8 spells out the security implications and limits 0-RTT to {{idempotent|idempotent}} requests. Browsers restrict it to GET; servers should refuse it for any state-mutating operation.`
 						},
@@ -54,14 +54,14 @@ The cost of zero round-trip data is **replayability** — an attacker who captur
 
 [[tcp|TCP]] has had sliding windows since 1981. The window's *size* is governed by either {{flow-control|flow control}} (don't overflow the receiver — the rwnd field in the [[tcp|TCP]] header) or {{congestion-control|congestion control}} (don't overflow the network — the cwnd state variable that lives only in the sender's memory). The actual sending limit is min(rwnd, cwnd).
 
-Modern protocols inherit the same idea. [[quic|QUIC]] has per-stream and per-connection flow control. [[http2|HTTP/2]] has its own application-layer flow control on top of TCP's transport flow control (a cause of considerable confusion when both windows close simultaneously). The pattern is universal across reliable transports.`
+Modern protocols inherit the same idea. [[quic|QUIC]] has per-stream and per-connection flow control. [[http2|HTTP/2]] has its own application-layer flow control on top of [[tcp|TCP]]'s transport flow control (a cause of considerable confusion when both windows close simultaneously). The pattern is universal across reliable transports.`
 						},
 						{
 							type: 'narrative',
 							title: 'Keepalives, ECN, Consistent Hashing',
-							text: `**Keepalives** detect a dead peer when no data is flowing. [[ssh|SSH]] sends a 1-byte ping every 30 seconds. WebSocket has explicit Ping/Pong frames. [[http2|HTTP/2]] has PING frames. [[bgp|BGP]] sessions {{exchange|exchange}} KEEPALIVEs every 60 seconds; if no message arrives within 180 seconds (HoldTime), the session resets and routes are withdrawn — which is what cascaded into [[outage:centurylink-flowspec-2020|CenturyLink 2020]]. Without keepalives, a {{stateful|stateful}} {{firewall|firewall}} might silently drop the connection state and you'd notice only when you tried to send.
+							text: `**Keepalives** detect a dead peer when no data is flowing. [[ssh|SSH]] sends a 1-byte ping every 30 seconds. [[websockets|WebSocket]] has explicit Ping/Pong frames. [[http2|HTTP/2]] has PING frames. [[bgp|BGP]] sessions {{exchange|exchange}} KEEPALIVEs every 60 seconds; if no message arrives within 180 seconds (HoldTime), the session resets and routes are withdrawn — which is what cascaded into [[outage:centurylink-flowspec-2020|CenturyLink 2020]]. Without keepalives, a {{stateful|stateful}} {{firewall|firewall}} might silently drop the connection state and you'd notice only when you tried to send.
 
-**ECN** (Explicit Congestion {{notification|Notification}}, RFC 3168) lets routers signal congestion **without dropping packets**. Mark a 2-bit field in the IP header, the receiver echoes it, the sender slows down. The future of low-{{latency|latency}} networking ([[frontier:l4s-comcast-launch|L4S]], RFCs 9330/9331/9332) depends entirely on ECN being widely supported. Comcast launched L4S in production in January 2025 across six US metros.
+**ECN** (Explicit Congestion {{notification|Notification}}, RFC 3168) lets routers signal congestion **without dropping packets**. Mark a 2-bit field in the [[ip|IP]] header, the receiver echoes it, the sender slows down. The future of low-{{latency|latency}} networking ([[frontier:l4s-comcast-launch|L4S]], RFCs 9330/9331/9332) depends entirely on ECN being widely supported. Comcast launched L4S in production in January 2025 across six US metros.
 
 **Consistent hashing** distributes load across a fleet so that adding or removing a node only re-routes a fraction of traffic. Used in [[dns|DNS]] {{anycast|anycast}}, in CDN cache placement, in distributed databases like Cassandra and DynamoDB. The MIT 1997 paper by Karger et al. invented it; nearly every internet-scale system uses it now.
 
@@ -118,9 +118,9 @@ Bufferbloat took fifteen years to deploy at scale because every cheap home route
 							title: 'Protocol Ossification — Why You Cannot Change TCP',
 							text: `**Protocol ossification** is the phenomenon where middleboxes — firewalls, NAT routers, transparent proxies, "next-gen" deep-packet-inspection appliances — inspect protocol headers and break anything that doesn't match what they expect.
 
-The classic example: [[tcp|TCP]]. By 2015, you could not deploy a new TCP option globally because some non-trivial fraction of middleboxes would strip it, or worse, drop the connection. [[sctp|SCTP]] cannot traverse the public internet for the same reason: middleboxes drop unknown protocol numbers. Multipath TCP gets stripped to plain TCP by many middleboxes.
+The classic example: [[tcp|TCP]]. By 2015, you could not deploy a new [[tcp|TCP]] option globally because some non-trivial fraction of middleboxes would strip it, or worse, drop the connection. [[sctp|SCTP]] cannot traverse the public internet for the same reason: middleboxes drop unknown protocol numbers. [[mptcp|Multipath TCP]] gets stripped to plain [[tcp|TCP]] by many middleboxes.
 
-The fix is the only fix — tunnel inside something the middleboxes already accept. [[quic|QUIC]] runs over [[udp|UDP]] specifically because [[udp|UDP]] traversal is well-understood by middleboxes. Inside the UDP envelope, [[quic|QUIC]] encrypts almost everything, so middleboxes can't inspect — and therefore can't ossify — the inner protocol. This is the architectural lesson of the 2010s: **{{encryption|encryption}} is what keeps a protocol evolvable**.`
+The fix is the only fix — tunnel inside something the middleboxes already accept. [[quic|QUIC]] runs over [[udp|UDP]] specifically because [[udp|UDP]] traversal is well-understood by middleboxes. Inside the [[udp|UDP]] envelope, [[quic|QUIC]] encrypts almost everything, so middleboxes can't inspect — and therefore can't ossify — the inner protocol. This is the architectural lesson of the 2010s: **{{encryption|encryption}} is what keeps a protocol evolvable**.`
 						},
 						{
 							type: 'narrative',
@@ -129,9 +129,9 @@ The fix is the only fix — tunnel inside something the middleboxes already acce
 
 **Microloops** — a routing convergence event temporarily creates a loop where two routers think the path goes through each other. Packets bounce until TTL hits zero. Lasts a few seconds; usually invisible unless you're tcpdumping.
 
-**MTU black holes** — a path drops large packets but does not return the [[icmp|ICMP]] "{{fragmentation|Fragmentation}} Needed" needed to signal Path MTU. The connection hangs because retransmits also fail. Cure: enable PLPMTUD (Packetisation Layer {{path-mtu-discovery|Path MTU Discovery}}, RFC 4821) which probes packet sizes at the application layer; or set TCP MSS clamping at network edges.
+**MTU black holes** — a path drops large packets but does not return the [[icmp|ICMP]] "{{fragmentation|Fragmentation}} Needed" needed to signal Path MTU. The connection hangs because retransmits also fail. Cure: enable PLPMTUD (Packetisation Layer {{path-mtu-discovery|Path MTU Discovery}}, RFC 4821) which probes packet sizes at the application layer; or set [[tcp|TCP]] MSS clamping at network edges.
 
-**Slowloris-style attacks** — hold connections open with minimal data, exhausting the server's connection table without burning attacker {{bandwidth|bandwidth}}. Defended by per-IP connection limits, idle timeouts, and reverse proxies that buffer slow clients.
+**Slowloris-style attacks** — hold connections open with minimal data, exhausting the server's connection table without burning attacker {{bandwidth|bandwidth}}. Defended by per-[[ip|IP]] connection limits, idle timeouts, and reverse proxies that buffer slow clients.
 
 **Cache poisoning** — inject malicious answers into a [[dns|DNS]] resolver's cache so subsequent lookups go to the attacker's site. Largely cured by source-port randomisation (Dan Kaminsky's 2008 fix) and {{dnssec|DNSSEC}}.
 

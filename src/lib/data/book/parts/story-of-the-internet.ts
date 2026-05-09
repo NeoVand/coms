@@ -20,7 +20,7 @@ export const storyOfTheInternet: BookPart = {
 		{
 			id: 'before-the-internet',
 			title: 'Before the Internet',
-			synopsis: 'Xerox PARC, ARPANET, NCP — the three streams that flowed into TCP/IP.',
+			synopsis: 'Xerox PARC, ARPANET, NCP — the three streams that flowed into [[tcp|TCP]]/[[ip|IP]].',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -37,12 +37,12 @@ export const storyOfTheInternet: BookPart = {
 
 At Xerox PARC, **[[pioneer:bob-metcalfe|Bob Metcalfe]]** and **[[pioneer:david-boggs|David Boggs]]** were building [[ethernet|Ethernet]] — a local-area network on coaxial cable where every host shouted onto the same wire and used carrier sensing to back off when collisions happened. The PARC Universal Packet (PUP), running over [[ethernet|Ethernet]], anticipated almost every architectural idea the internet would later canonise: variable-length packets, a thin internetworking layer, separate transport protocols above it.
 
-The third tradition was packet radio. ARPA's Packet Radio Network (PRNET, 1973) and the Atlantic Packet Satellite Network (SATNET, 1975) had to deal with hosts moving, links flickering, and {{bandwidth|bandwidth}} that varied by orders of magnitude. They could not assume an IMP-style fabric beneath them. The question — how do you let a packet hop from Ethernet to ARPANET to a satellite link without any of them knowing about the others? — was the question that produced the internet.`
+The third tradition was packet radio. ARPA's Packet Radio Network (PRNET, 1973) and the Atlantic Packet Satellite Network (SATNET, 1975) had to deal with hosts moving, links flickering, and {{bandwidth|bandwidth}} that varied by orders of magnitude. They could not assume an IMP-style fabric beneath them. The question — how do you let a packet hop from [[ethernet|Ethernet]] to ARPANET to a satellite link without any of them knowing about the others? — was the question that produced the internet.`
 						},
 						{
 							type: 'callout',
 							title: "Why three? Because the problem was three problems.",
-							text: 'Local fabric ([[ethernet|Ethernet]]), wide-area research backbone (ARPANET), and unreliable wireless (PRNET/SATNET) each forced different design pressures. The architecture that won — TCP/IP — is the one that took none of them as canonical and instead specified the **gluing** layer.'
+							text: 'Local fabric ([[ethernet|Ethernet]]), wide-area research backbone (ARPANET), and unreliable wireless (PRNET/SATNET) each forced different design pressures. The architecture that won — [[tcp|TCP]]/[[ip|IP]] — is the one that took none of them as canonical and instead specified the **gluing** layer.'
 						}
 					]
 				},
@@ -87,16 +87,16 @@ The third tradition was packet radio. ARPA's Packet Radio Network (PRNET, 1973) 
 
 In **September 1981**, [[pioneer:jon-postel|Jon Postel]] at ISI shipped three RFCs in rapid succession: [[rfc:791|RFC 791]] (Internet Protocol), [[rfc:792|RFC 792]] ([[icmp|ICMP]]), and [[rfc:9293|RFC 793]] (Transmission Control Protocol). These are the documents the modern internet still cites — RFC 793 was the canonical [[tcp|TCP]] specification for the next 41 years, until [[rfc:9293|RFC 9293]] obsoleted it in 2022.
 
-On **1 January 1983**, ARPANET executed its famous "flag day": NCP was switched off, and TCP/IP became the only protocol allowed on the network. Roughly 400 hosts had to convert; sites that missed the deadline simply lost connectivity. Survivors got buttons reading **I survived the TCP/IP transition**. Most historians treat this date as the birthday of the modern internet.
+On **1 January 1983**, ARPANET executed its famous "flag day": NCP was switched off, and [[tcp|TCP]]/[[ip|IP]] became the only protocol allowed on the network. Roughly 400 hosts had to convert; sites that missed the deadline simply lost connectivity. Survivors got buttons reading **I survived the [[tcp|TCP]]/[[ip|IP]] transition**. Most historians treat this date as the birthday of the modern internet.
 
-In parallel, the IEEE 802.3 working group ratified its [[ethernet|Ethernet]] standard (originally a Xerox/DEC/Intel collaboration). LAN technology and WAN technology now had a clean interface — the IP packet — and could evolve independently. That separation has held for forty-three years.`
+In parallel, the IEEE 802.3 working group ratified its [[ethernet|Ethernet]] standard (originally a Xerox/DEC/Intel collaboration). LAN technology and WAN technology now had a clean interface — the [[ip|IP]] packet — and could evolve independently. That separation has held for forty-three years.`
 						},
 						{
 							type: 'narrative',
 							title: 'The Architectural Decision That Made the Rest Possible',
-							text: `The split that mattered most was not legal or organisational. It was the **separation of [[tcp|TCP]] from IP**, finalised in [[rfc:791|RFC 791]] and [[rfc:9293|RFC 793]] (both September 1981). For the previous decade, the experimental Transmission Control Program had bundled everything into a single reliable byte-stream: addressing, sequencing, {{flow-control|flow control}}, {{retransmission|retransmission}}. **David Reed and Jon Postel argued in 1978** that some applications — packet voice, in particular — needed speed more than reliability, and that fusing the two services made it impossible for protocols like the future [[udp|UDP]] (1980), [[icmp|ICMP]] (1981), or eventually [[quic|QUIC]] (2021) to exist.
+							text: `The split that mattered most was not legal or organisational. It was the **separation of [[tcp|TCP]] from [[ip|IP]]**, finalised in [[rfc:791|RFC 791]] and [[rfc:9293|RFC 793]] (both September 1981). For the previous decade, the experimental Transmission Control Program had bundled everything into a single reliable byte-stream: addressing, sequencing, {{flow-control|flow control}}, {{retransmission|retransmission}}. **David Reed and Jon Postel argued in 1978** that some applications — packet voice, in particular — needed speed more than reliability, and that fusing the two services made it impossible for protocols like the future [[udp|UDP]] (1980), [[icmp|ICMP]] (1981), or eventually [[quic|QUIC]] (2021) to exist.
 
-The decision to peel IP off as a thin internetworking layer underneath TCP is the reason the modern internet has more than one transport protocol. Without that separation, every new transport would have had to renegotiate with every router on the planet. With it, [[udp|UDP]] could ship in 1980 over the same IP fabric without changing anything below it.
+The decision to peel [[ip|IP]] off as a thin internetworking layer underneath [[tcp|TCP]] is the reason the modern internet has more than one transport protocol. Without that separation, every new transport would have had to renegotiate with every router on the planet. With it, [[udp|UDP]] could ship in 1980 over the same [[ip|IP]] fabric without changing anything below it.
 
 This is the deepest principle of the era: **separate what changes together from what doesn't**. Transports change; addressing doesn't. Wires change; packets don't. The architecture that survived four decades was the one that made each layer free to evolve on its own clock.`
 						}
@@ -107,7 +107,7 @@ This is the deepest principle of the era: **separate what changes together from 
 				{ kind: 'pioneer', id: 'jon-postel' },
 				{
 					kind: 'pull-quote',
-					text: 'The flag day was a forcing function. There was no committee that could have produced a softer transition. NCP and TCP/IP had to coexist for as little time as possible because every additional month of dual-stack maintenance was a month nobody was building anything new.',
+					text: 'The flag day was a forcing function. There was no committee that could have produced a softer transition. NCP and [[tcp|TCP]]/[[ip|IP]] had to coexist for as little time as possible because every additional month of dual-stack maintenance was a month nobody was building anything new.',
 					attribution: 'Author'
 				}
 			]
@@ -136,9 +136,9 @@ The deeper principle they articulated — **conservation of packets** — has he
 
 The intuition is reordering tolerance. A single duplicate ACK could mean a packet was reordered by the network and arrived out of sequence. Two duplicates is suspicious but still possibly reordering. Three duplicates means the packet is almost certainly *lost*, not just reordered — the receiver has seen three later packets without seeing the one in question. Jacobson chose three as the threshold that minimised false retransmits in the BSD measurements.
 
-Forty years later, three duplicate ACKs is still the trigger. The number is hard-coded into [[rfc:5681|RFC 5681]] and every modern TCP implementation. **{{cubic|CUBIC}}, BBR, NewReno** all inherit it unchanged. The mechanism is so universal that it now has a name everyone knows — *fast retransmit* — and a paper-trail back to a single 1988 design choice.
+Forty years later, three duplicate ACKs is still the trigger. The number is hard-coded into [[rfc:5681|RFC 5681]] and every modern [[tcp|TCP]] implementation. **{{cubic|CUBIC}}, BBR, NewReno** all inherit it unchanged. The mechanism is so universal that it now has a name everyone knows — *fast retransmit* — and a paper-trail back to a single 1988 design choice.
 
-The 1986 collapse is the moment TCP went from working-most-of-the-time to **a protocol you could trust at scale**. Every later congestion-control algorithm — Reno, NewReno, Vegas, CUBIC, Compound, BBR, BBRv3, [[frontier:l4s-comcast-launch|L4S]] — is a refinement of Jacobson's six. The branch point of the field is one paper.`
+The 1986 collapse is the moment [[tcp|TCP]] went from working-most-of-the-time to **a protocol you could trust at scale**. Every later congestion-control algorithm — Reno, NewReno, Vegas, CUBIC, Compound, BBR, BBRv3, [[frontier:l4s-comcast-launch|L4S]] — is a refinement of Jacobson's six. The branch point of the field is one paper.`
 						},
 						{
 							type: 'image',
@@ -220,7 +220,7 @@ That is the deepest lesson of the web's success. It was an **application** — a
 
 The 1993 release is the reason there is no Microsoft web, no Apple web, no IBM web. Within twelve months, **Mosaic** (NCSA, Marc Andreessen + Eric Bina, January 1993) had become the first popular graphical browser. Andreessen co-founded Netscape later that year. Microsoft licensed the Spyglass / Mosaic codebase as the seed of Internet Explorer in 1995. By 1996, the browser wars were under way — but every combatant was building on the public-domain CERN spec.
 
-The architectural lesson the web carried forward: an application that succeeds at internet scale must be **open enough that competitors can implement it**. HTTP succeeded for the same reason TCP/IP succeeded — the spec was public, the reference implementation was free, and anyone could build a compatible peer. Every walled-garden alternative (Microsoft's MSN, AOL's keywords, Compuserve, even Apple's later eWorld) lost to the open web.`
+The architectural lesson the web carried forward: an application that succeeds at internet scale must be **open enough that competitors can implement it**. HTTP succeeded for the same reason [[tcp|TCP]]/[[ip|IP]] succeeded — the spec was public, the reference implementation was free, and anyone could build a compatible peer. Every walled-garden alternative (Microsoft's MSN, AOL's keywords, Compuserve, even Apple's later eWorld) lost to the open web.`
 						},
 						{
 							type: 'image',
@@ -252,7 +252,7 @@ The architectural lesson the web carried forward: an application that succeeds a
 						{
 							type: 'narrative',
 							title: 'When the Network Got Personal',
-							text: `From 2007 onward, the internet stopped being a thing you logged into from a desktop and became a thing in your pocket. The iPhone shipped in June 2007 with a Wi-Fi/EDGE radio; the App Store followed in 2008; LTE in 2010. Within a decade, mobile traffic dwarfed fixed-line traffic almost everywhere.
+							text: `From 2007 onward, the internet stopped being a thing you logged into from a desktop and became a thing in your pocket. The iPhone shipped in June 2007 with a [[wifi|Wi-Fi]]/EDGE radio; the App Store followed in 2008; LTE in 2010. Within a decade, mobile traffic dwarfed fixed-line traffic almost everywhere.
 
 That changed two assumptions in [[tcp|TCP]] design. First, the **last-mile {{bandwidth|bandwidth}} varied wildly** — a hand turning the user 90° could change throughput by 10×. Second, **buffers grew enormously**. Cheap memory meant routers and home modems were shipped with multi-megabyte queues, ostensibly to absorb bursts but actually to hide congestion from the senders that needed to see it. The result was **{{bufferbloat|bufferbloat}}**: queues that grew to seconds of {{latency|latency}} under load, defeating the entire {{aimd|AIMD}} signalling mechanism Jacobson had built. Your video call stuttered because someone in the next room started a download.
 
@@ -280,22 +280,22 @@ The fix took fifteen years. **Active queue management** (CoDel, fq_codel, PIE �
 						{
 							type: 'narrative',
 							title: 'Why a New Transport in 2012',
-							text: `By 2012, [[tcp|TCP]] had a problem nobody could fix. Operating-system kernels shipped its implementation. Middleboxes — firewalls, NAT routers, transparent proxies — inspected and modified its headers. Anything you wanted to add to [[tcp|TCP]] (TFO, [[mptcp|MPTCP]], {{sack|SACK}} Permitted) had to survive being mangled by every intermediate device on the planet. The protocol had **ossified**: even Google, with its enormous deployment leverage, could not roll out new TCP features in less than a decade.
+							text: `By 2012, [[tcp|TCP]] had a problem nobody could fix. Operating-system kernels shipped its implementation. Middleboxes — firewalls, NAT routers, transparent proxies — inspected and modified its headers. Anything you wanted to add to [[tcp|TCP]] (TFO, [[mptcp|MPTCP]], {{sack|SACK}} Permitted) had to survive being mangled by every intermediate device on the planet. The protocol had **ossified**: even Google, with its enormous deployment leverage, could not roll out new [[tcp|TCP]] features in less than a decade.
 
-The [[quic|QUIC]] project, started by **[[pioneer:jim-roskind|Jim Roskind]]** at Google in 2012, took a radically different bet. Instead of fighting the middleboxes, QUIC would tunnel a brand-new transport inside [[udp|UDP]] datagrams that middleboxes already had to forward unchanged. Inside that tunnel: a [[tls|TLS]] 1.3 {{handshake|handshake}} that combined transport and crypto setup into a single round-trip; per-stream sequencing that eliminated {{head-of-line-blocking|head-of-line blocking}}; and the entire protocol implemented in user space, where applications could deploy improvements monthly instead of waiting for the next OS release.
+The [[quic|QUIC]] project, started by **[[pioneer:jim-roskind|Jim Roskind]]** at Google in 2012, took a radically different bet. Instead of fighting the middleboxes, [[quic|QUIC]] would tunnel a brand-new transport inside [[udp|UDP]] datagrams that middleboxes already had to forward unchanged. Inside that tunnel: a [[tls|TLS]] 1.3 {{handshake|handshake}} that combined transport and crypto setup into a single round-trip; per-stream sequencing that eliminated {{head-of-line-blocking|head-of-line blocking}}; and the entire protocol implemented in user space, where applications could deploy improvements monthly instead of waiting for the next OS release.
 
-[[rfc:9000|RFC 9000]] standardised QUIC in May 2021. By 2025, QUIC carried 35% of all websites and over 75% of Meta's internet traffic. [[http3|HTTP/3]] — HTTP over QUIC — became the default transport choice for most large platforms. The same architectural move that made QUIC possible (user-space transport on [[udp|UDP]]) is now what makes [[mptcp|multipath QUIC]], MoQ live streaming, and [[http3|HTTP/3]] datagrams possible. Ossification, finally, has a release valve.`
+[[rfc:9000|RFC 9000]] standardised [[quic|QUIC]] in May 2021. By 2025, [[quic|QUIC]] carried 35% of all websites and over 75% of Meta's internet traffic. [[http3|HTTP/3]] — HTTP over [[quic|QUIC]] — became the default transport choice for most large platforms. The same architectural move that made [[quic|QUIC]] possible (user-space transport on [[udp|UDP]]) is now what makes [[mptcp|multipath QUIC]], MoQ live streaming, and [[http3|HTTP/3]] datagrams possible. Ossification, finally, has a release valve.`
 						},
 						{
 							type: 'narrative',
 							title: 'Why UDP, Not a New Protocol Number',
-							text: `The choice to tunnel inside [[udp|UDP]] rather than ship as a new IP protocol number (51, 132, anything not yet assigned) was the most important deployment decision [[quic|QUIC]] made.
+							text: `The choice to tunnel inside [[udp|UDP]] rather than ship as a new [[ip|IP]] protocol number (51, 132, anything not yet assigned) was the most important deployment decision [[quic|QUIC]] made.
 
-A new IP protocol number — like [[sctp|SCTP]] got — would have been the architecturally cleaner choice. SCTP (RFC 4960, 2000) is the better transport on paper: multi-streaming, multi-homing, message-oriented. SCTP cannot traverse the public internet. Middleboxes drop unknown protocol numbers; SCTP packets between Internet endpoints disappear within milliseconds.
+A new [[ip|IP]] protocol number — like [[sctp|SCTP]] got — would have been the architecturally cleaner choice. [[sctp|SCTP]] (RFC 4960, 2000) is the better transport on paper: multi-streaming, multi-homing, message-oriented. [[sctp|SCTP]] cannot traverse the public internet. Middleboxes drop unknown protocol numbers; [[sctp|SCTP]] packets between Internet endpoints disappear within milliseconds.
 
-QUIC's designers had watched SCTP die in production for fifteen years. They picked [[udp|UDP]] — a protocol every NAT, {{firewall|firewall}}, and middlebox already had to forward unchanged — and accepted the cost of putting a fully-encrypted reliable transport inside it. The cost was real (every byte of a QUIC packet is processed in user space; the kernel sees only opaque UDP) but the benefit was deployment.
+[[quic|QUIC]]'s designers had watched [[sctp|SCTP]] die in production for fifteen years. They picked [[udp|UDP]] — a protocol every NAT, {{firewall|firewall}}, and middlebox already had to forward unchanged — and accepted the cost of putting a fully-encrypted reliable transport inside it. The cost was real (every byte of a [[quic|QUIC]] packet is processed in user space; the kernel sees only opaque [[udp|UDP]]) but the benefit was deployment.
 
-This is the structural lesson of the late-2010s protocol-design era: **{{encryption|encryption}} is what keeps a protocol evolvable, and UDP is what makes encryption deployable**. Anything not encrypted gets ossified by middlebox inspection within a decade. Anything not on UDP cannot traverse the deployed internet. Future transports — multipath QUIC, RTP-over-QUIC, MoQ — all sit inside the same envelope for the same reasons.`
+This is the structural lesson of the late-2010s protocol-design era: **{{encryption|encryption}} is what keeps a protocol evolvable, and [[udp|UDP]] is what makes encryption deployable**. Anything not encrypted gets ossified by middlebox inspection within a decade. Anything not on [[udp|UDP]] cannot traverse the deployed internet. Future transports — multipath [[quic|QUIC]], [[rtp|RTP]]-over-[[quic|QUIC]], MoQ — all sit inside the same envelope for the same reasons.`
 						}
 					]
 				},
@@ -320,7 +320,7 @@ This is the structural lesson of the late-2010s protocol-design era: **{{encrypt
 							title: 'A Protocol Layer Designed for Software That Reasons',
 							text: `For fifteen years after [[websockets|WebSockets]] (2011), the application layer of the internet was settled. [[http1|HTTP]] (in three versions), [[grpc|gRPC]] for service-to-service RPC, [[graphql|GraphQL]] when you needed a flexible query model, and a long tail of older protocols ([[smtp|SMTP]], [[imap|IMAP]], [[xmpp|XMPP]], [[mqtt|MQTT]]) holding their niches. Nothing genuinely new happened at L7 between 2011 and 2024.
 
-In November 2024, Anthropic published the **Model Context Protocol** — [[mcp|MCP]]. The premise was simple: AI coding assistants and chat agents needed a standard way to talk to tools (file systems, databases, APIs, internal systems) without each pair re-inventing the integration. Within a year, [[mcp|MCP]] had streaming HTTP transport ([[frontier:mcp-streamable-http|MCP-streamable-HTTP]]), thousands of MCP servers in the registry, and first-class support across major model providers.
+In November 2024, Anthropic published the **Model Context Protocol** — [[mcp|MCP]]. The premise was simple: AI coding assistants and chat agents needed a standard way to talk to tools (file systems, databases, APIs, internal systems) without each pair re-inventing the integration. Within a year, [[mcp|MCP]] had streaming HTTP transport ([[frontier:mcp-streamable-http|MCP-streamable-HTTP]]), thousands of [[mcp|MCP]] servers in the registry, and first-class support across major model providers.
 
 In April 2025, Google followed with **Agent2Agent Protocol** — [[a2a|A2A]] — for agent-to-agent collaboration: capability discovery, task delegation, asynchronous event streams. [[a2a|A2A]] moved into the [[frontier:a2a-linux-foundation|Linux Foundation]] in mid-2025.
 

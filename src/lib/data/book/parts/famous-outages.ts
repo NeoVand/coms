@@ -99,7 +99,7 @@ The fix was to install patched IMP software that rejected sequence numbers from 
 							title: 'The Cascade',
 							text: `Within minutes, the rest of the internet was sending **the entire internet's traffic** through a single underpowered Florida router. Of course it collapsed under load — the device had nowhere near the forwarding capacity of a tier-1 backbone.
 
-What made the recovery so painful was that there was no way to tell [[bgp|BGP]] "drop those announcements" centrally. Every upstream provider had to manually install filters rejecting the bogus /24s from AS 7007. Sprint took the lead on the global cleanup — pulling cable, updating filter lists, waiting for BGP convergence. Most of the global internet was unreachable for over an hour.`
+What made the recovery so painful was that there was no way to tell [[bgp|BGP]] "drop those announcements" centrally. Every upstream provider had to manually install filters rejecting the bogus /24s from AS 7007. Sprint took the lead on the global cleanup — pulling cable, updating filter lists, waiting for [[bgp|BGP]] convergence. Most of the global internet was unreachable for over an hour.`
 						},
 						{
 							type: 'callout',
@@ -115,11 +115,11 @@ What made the recovery so painful was that there was no way to tell [[bgp|BGP]] 
 						{
 							type: 'narrative',
 							title: 'Why It Took Twenty-Five Years to Fix',
-							text: `{{rpki|RPKI}} was specified in 2008. It took until 2026 to cross **50% of advertised IP space covered**. The reason is the structure of [[bgp|BGP]] deployment.
+							text: `{{rpki|RPKI}} was specified in 2008. It took until 2026 to cross **50% of advertised [[ip|IP]] space covered**. The reason is the structure of [[bgp|BGP]] deployment.
 
 For RPKI to fix the AS 7007 problem, two parties have to participate: the prefix-holder must publish a Route Origin Authorisation (ROA), and the receiving router must enforce Route Origin Validation (ROV). For the first decade after specification, only a handful of large networks ran ROV. Smaller operators pointed out — correctly — that running ROV with low ROA coverage means dropping legitimate routes from peers who haven\'t signed yet. So nobody enforced. Without enforcement, signing your prefixes had no upside. Classic chicken-and-egg.
 
-What broke the deadlock was a series of high-profile incidents (2018 Amazon Route 53 / MyEtherWallet hijack, 2018 Iranian Telegram hijack, 2019 SafeHost / China Telecom leak) that made unsigned networks look negligent. By 2022, the major hyperscalers and tier-1s were enforcing. By 2026, [[frontier:rpki-rov-50-percent|over 50%]] of advertised IP space was covered. {{aspa|ASPA}} — the AS-path validation extension — is the next chapter.`
+What broke the deadlock was a series of high-profile incidents (2018 Amazon Route 53 / MyEtherWallet hijack, 2018 Iranian Telegram hijack, 2019 SafeHost / China Telecom leak) that made unsigned networks look negligent. By 2022, the major hyperscalers and tier-1s were enforcing. By 2026, [[frontier:rpki-rov-50-percent|over 50%]] of advertised [[ip|IP]] space was covered. {{aspa|ASPA}} — the AS-path validation extension — is the next chapter.`
 						}
 					]
 				},
@@ -148,14 +148,14 @@ The flaw: if you knew the rough current value, you could **forge** an entire con
 3. The target sends SYN-ACK to the (silent) trusted host, choosing a fresh ISN.
 4. Predict that ISN by knowing the formula plus a sample.
 5. Send a forged ACK back to the target with the predicted {{sequence-number|sequence number}}.
-6. The target sees a valid ACK and the connection is "established." You now have a TCP connection appearing to come from the trusted host.
+6. The target sees a valid ACK and the connection is "established." You now have a [[tcp|TCP]] connection appearing to come from the trusted host.
 
 Mitnick used this to land a forged connection from a host listed in Shimomura's \`.rhosts\` file, which gave him root access without authentication.`
 						},
 						{
 							type: 'callout',
 							title: 'rsh / rlogin trust was the multiplier',
-							text: '[[tcp|TCP]] sequence prediction by itself is not catastrophic — it just lets you forge a connection. The reason this attack worked is that Berkeley Unix\'s \`.rhosts\` mechanism trusted **the source {{ip-address|IP address}}** of an incoming connection as authentication. Forge the source IP, get the trust. [[ssh|SSH]] (which Tatu Ylönen wrote in 1995, partly in response to incidents like this one) replaced \`.rhosts\` with cryptographic identity — even a perfectly forged [[tcp|TCP]] connection cannot impersonate someone without their {{private-key|private key}}.'
+							text: '[[tcp|TCP]] sequence prediction by itself is not catastrophic — it just lets you forge a connection. The reason this attack worked is that Berkeley Unix\'s \`.rhosts\` mechanism trusted **the source {{ip-address|IP address}}** of an incoming connection as authentication. Forge the source [[ip|IP]], get the trust. [[ssh|SSH]] (which Tatu Ylönen wrote in 1995, partly in response to incidents like this one) replaced \`.rhosts\` with cryptographic identity — even a perfectly forged [[tcp|TCP]] connection cannot impersonate someone without their {{private-key|private key}}.'
 						},
 						{
 							type: 'narrative',
@@ -174,9 +174,9 @@ The technical legacy outlived the celebrity. **RFC 1948** (Steve Bellovin, 1996)
 						{
 							type: 'narrative',
 							title: 'Why This Incident Changed Authentication',
-							text: `Before 1995, "this connection comes from a trusted IP" was treated as sufficient authentication on most internal networks. After 1995, the entire industry moved toward **cryptographic** authentication that didn't depend on transport-layer trust.
+							text: `Before 1995, "this connection comes from a trusted [[ip|IP]]" was treated as sufficient authentication on most internal networks. After 1995, the entire industry moved toward **cryptographic** authentication that didn't depend on transport-layer trust.
 
-[[ssh|SSH]] replaced rsh/rlogin/telnet within five years. [[tls|TLS]] added per-connection cryptographic verification on top of [[tcp|TCP]]. Modern zero-trust architectures take this further: **every connection** is treated as untrusted until cryptographically authenticated, regardless of source IP. The Mitnick attack is the canonical example of why "the source IP says it's a trusted host" is never enough.`
+[[ssh|SSH]] replaced rsh/rlogin/telnet within five years. [[tls|TLS]] added per-connection cryptographic verification on top of [[tcp|TCP]]. Modern zero-trust architectures take this further: **every connection** is treated as untrusted until cryptographically authenticated, regardless of source [[ip|IP]]. The Mitnick attack is the canonical example of why "the source [[ip|IP]] says it's a trusted host" is never enough.`
 						}
 					]
 				}
@@ -211,7 +211,7 @@ This is fine — **as long as you don't propagate the route outside your network
 
 Within three minutes of the original injection, the entire internet believed the best path to YouTube\'s prefix was through Pakistan Telecom. Every YouTube request anywhere on the planet was being null-routed by a router in Karachi. YouTube\'s authoritative [[dns|DNS]] continued to resolve correctly; the actual [[tcp|TCP]] connections just disappeared into a black hole.
 
-YouTube was offline globally for two hours. PCCW Global eventually identified the bogus route and applied filtering, after which BGP convergence took another 30 minutes to restore reachability.`
+YouTube was offline globally for two hours. PCCW Global eventually identified the bogus route and applied filtering, after which [[bgp|BGP]] convergence took another 30 minutes to restore reachability.`
 						},
 						{
 							type: 'callout',
@@ -232,7 +232,7 @@ YouTube was offline globally for two hours. PCCW Global eventually identified th
 
 The same rule is what made Pakistan/YouTube possible. A /24 inside YouTube\'s /22 wins, regardless of who is announcing it. The combination of "most specific wins" + "no origin validation" + "global propagation" turned every upstream provider into a single point of failure for every downstream customer\'s prefix integrity.
 
-This is the structural reason BGP needs cryptography to fix it, not just better operational hygiene. Hygiene catches typos; cryptography catches deliberate hijacks. {{rpki|RPKI}} provides the cryptography. {{aspa|ASPA}} (the AS-path validation extension, in IETF draft) closes the route-leak hole that origin validation alone cannot fix — where AS X **does** legitimately originate the prefix, but its upstream then leaks the route through an unintended path.`
+This is the structural reason [[bgp|BGP]] needs cryptography to fix it, not just better operational hygiene. Hygiene catches typos; cryptography catches deliberate hijacks. {{rpki|RPKI}} provides the cryptography. {{aspa|ASPA}} (the AS-path validation extension, in IETF draft) closes the route-leak hole that origin validation alone cannot fix — where AS X **does** legitimately originate the prefix, but its upstream then leaks the route through an unintended path.`
 						}
 					]
 				}
@@ -269,7 +269,7 @@ The technical fact is unambiguous: 15% of the global internet's traffic had a br
 						{
 							type: 'callout',
 							title: 'The "everything is encrypted" reply does not hold',
-							text: 'A natural reaction to {{bgp-hijack|BGP hijack}} incidents is "but the data is encrypted, so what does it matter if a third party sees it?" Two reasons it matters. First, **cryptographic metadata** ({{tls-handshake|TLS handshake}} fingerprints, {{certificate-chain|certificate chains}}, SNI hostnames) reveals more than people realise. Second, **traffic analysis** — even on encrypted flows, packet sizes and timing leak intent. A connection burst between a Pentagon IP and a defence contractor IP, observed by a foreign AS, is intelligence regardless of cipher. This is part of why {{ech|ECH (Encrypted Client Hello)}} is a current [[tls|TLS]] frontier.'
+							text: 'A natural reaction to {{bgp-hijack|BGP hijack}} incidents is "but the data is encrypted, so what does it matter if a third party sees it?" Two reasons it matters. First, **cryptographic metadata** ({{tls-handshake|TLS handshake}} fingerprints, {{certificate-chain|certificate chains}}, SNI hostnames) reveals more than people realise. Second, **traffic analysis** — even on encrypted flows, packet sizes and timing leak intent. A connection burst between a Pentagon [[ip|IP]] and a defence contractor [[ip|IP]], observed by a foreign AS, is intelligence regardless of cipher. This is part of why {{ech|ECH (Encrypted Client Hello)}} is a current [[tls|TLS]] frontier.'
 						}
 					]
 				},
@@ -283,7 +283,7 @@ The technical fact is unambiguous: 15% of the global internet's traffic had a br
 							title: 'Why This Incident Funded RPKI Deployment',
 							text: `China Telecom 2010 was a turning point for U.S. government interest in **secure routing** infrastructure. The Department of Homeland Security funded several {{rpki|RPKI}} deployment efforts in the years following. The .gov and .mil top-level domains became some of the earliest large-scale ROA signers — a politically straightforward action that materially improved the security of U.S. federal traffic.
 
-The deeper challenge was always private-sector adoption. Government agencies could mandate RPKI for their own networks, but the bulk of internet traffic flows through commercial ISPs and content networks. The shift came in 2018-2022 when major hyperscalers (Cloudflare, Google, Amazon, Meta) made RPKI a publicly-stated requirement for their {{peering|peering}} arrangements. Networks that wanted to peer at scale had to sign their prefixes; those that wouldn't became increasingly isolated. By 2026, [[frontier:rpki-rov-50-percent|over 50%]] of advertised IP space is covered.`
+The deeper challenge was always private-sector adoption. Government agencies could mandate RPKI for their own networks, but the bulk of internet traffic flows through commercial ISPs and content networks. The shift came in 2018-2022 when major hyperscalers (Cloudflare, Google, Amazon, Meta) made RPKI a publicly-stated requirement for their {{peering|peering}} arrangements. Networks that wanted to peer at scale had to sign their prefixes; those that wouldn't became increasingly isolated. By 2026, [[frontier:rpki-rov-50-percent|over 50%]] of advertised [[ip|IP]] space is covered.`
 						}
 					]
 				}
@@ -309,7 +309,7 @@ The deeper challenge was always private-sector adoption. Government agencies cou
 							title: 'Integer Overflow in the Most Critical Data Path',
 							text: `In June 2019, Netflix security researcher Jonathan Looney found that a maliciously crafted [[tcp|TCP]] packet with carefully chosen Selective Acknowledgement ({{sack|SACK}}) options could trigger an integer overflow in the Linux kernel's [[tcp|TCP]] stack, leading to a kernel panic.
 
-The bug, **CVE-2019-11477** ("SACK Panic"), affected every Linux kernel from 2.6.29 (2009) through 5.1 (2019) — **ten years of unpatched code in the heart of every Linux server on the internet**. A single TCP packet, no authentication required, would crash any vulnerable host. Service providers, cloud hyperscalers, container hosts, embedded systems — all simultaneously vulnerable.
+The bug, **CVE-2019-11477** ("SACK Panic"), affected every Linux kernel from 2.6.29 (2009) through 5.1 (2019) — **ten years of unpatched code in the heart of every Linux server on the internet**. A single [[tcp|TCP]] packet, no authentication required, would crash any vulnerable host. Service providers, cloud hyperscalers, container hosts, embedded systems — all simultaneously vulnerable.
 
 The disclosure was coordinated across Red Hat, Canonical, SUSE, Debian, AWS, Google, and the Linux kernel team. Patches shipped within hours of public disclosure on 17 June 2019, but the full deployment took weeks across the global Linux fleet.`
 						},
@@ -326,7 +326,7 @@ The bug had been present in production code since 2009. It survived because:
 3. Most performance benchmarks did not exercise the path.
 4. SACK was considered "battle-tested" — engineers focused new attention on newer code paths instead.
 
-Looney found it by writing a fuzzer that combined SACK with TCP\'s other options in unusual sequences. The same fuzzer found three additional related bugs (CVE-2019-11478, 11479, 11479) that were patched in the same coordinated disclosure.`
+Looney found it by writing a fuzzer that combined SACK with [[tcp|TCP]]\'s other options in unusual sequences. The same fuzzer found three additional related bugs (CVE-2019-11478, 11479, 11479) that were patched in the same coordinated disclosure.`
 						},
 						{
 							type: 'callout',
@@ -345,7 +345,7 @@ Looney found it by writing a fuzzer that combined SACK with TCP\'s other options
 							title: 'What Changed After SACK Panic',
 							text: `Three operational changes are now standard in production Linux fleets.
 
-**Continuous fuzzing of network code paths.** syzkaller runs against every Linux kernel commit, generating millions of random syscall + packet sequences per day. Most CVEs in the kernel\'s TCP/IP stack since 2019 have been found this way, not by humans.
+**Continuous fuzzing of network code paths.** syzkaller runs against every Linux kernel commit, generating millions of random syscall + packet sequences per day. Most CVEs in the kernel\'s [[tcp|TCP]]/[[ip|IP]] stack since 2019 have been found this way, not by humans.
 
 **Faster CVE response in distributed Linux environments.** Pre-2019, large fleets often took weeks to roll out a kernel patch — full reboot rotations, slow validation cycles. {{sack|SACK}} Panic forced the industry to invest in **live patching** (Red Hat\'s kpatch, Canonical\'s Livepatch, SUSE\'s kGraft) that can apply security fixes to a running kernel without reboot. By 2026, hyperscalers routinely live-patch kernel CVEs across millions of hosts within hours.
 
@@ -360,7 +360,7 @@ Looney found it by writing a fuzzer that combined SACK with TCP\'s other options
 		{
 			id: 'centurylink-2020',
 			title: 'CenturyLink Flowspec 2020',
-			synopsis: 'A [[bgp|BGP]] rule kills the BGP session that delivered it.',
+			synopsis: 'A [[bgp|BGP]] rule kills the [[bgp|BGP]] session that delivered it.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -377,14 +377,14 @@ Looney found it by writing a fuzzer that combined SACK with TCP\'s other options
 
 Flowspec (RFC 5575, RFC 8955) lets operators install {{firewall|firewall}}-like rules through [[bgp|BGP]] — useful for distributing DDoS mitigation rules across thousands of routers in seconds. The rule in question was supposed to filter traffic for one customer\'s DDoS protection.
 
-The catastrophic mistake: the rule\'s match criteria included BGP control traffic itself. Routers received the rule, applied it, and immediately began dropping the BGP keepalive packets carrying the next rule. BGP sessions timed out across the network. As sessions dropped, BGP withdrew every prefix learned through them. The network entered a cascading-failure mode.`
+The catastrophic mistake: the rule\'s match criteria included [[bgp|BGP]] control traffic itself. Routers received the rule, applied it, and immediately began dropping the [[bgp|BGP]] keepalive packets carrying the next rule. [[bgp|BGP]] sessions timed out across the network. As sessions dropped, [[bgp|BGP]] withdrew every prefix learned through them. The network entered a cascading-failure mode.`
 						},
 						{
 							type: 'narrative',
 							title: 'Five Hours of Manual Recovery',
 							text: `Once the bad rule had propagated, there was no automated way to retract it — the very mechanism for retracting Flowspec rules ([[bgp|BGP]]) was the mechanism the rule had broken. Every router needed to be touched manually, either via out-of-band management or by physically connecting a console.
 
-Recovery took **five hours**. During that window, approximately **3.5% of all global internet traffic dropped** — a massive number for a single backbone. Cloudflare, Amazon, Microsoft, and most of the U.S. tier-1 customers reported downtime. Cloudflare\'s detailed write-up the next day became required reading in BGP operations.`
+Recovery took **five hours**. During that window, approximately **3.5% of all global internet traffic dropped** — a massive number for a single backbone. Cloudflare, Amazon, Microsoft, and most of the U.S. tier-1 customers reported downtime. Cloudflare\'s detailed write-up the next day became required reading in [[bgp|BGP]] operations.`
 						},
 						{
 							type: 'callout',
@@ -404,7 +404,7 @@ Recovery took **five hours**. During that window, approximately **3.5% of all gl
 
 [[bgp|BGP]] is the universal control plane for internet routing. Flowspec rides on [[bgp|BGP]] because that\'s what every router already speaks. The alternative — a separate out-of-band protocol for distributing filter rules — would require new infrastructure on every router on the internet. The economic friction is too high; nobody is going to deploy it.
 
-So we live with the architectural fragility and add operational guards. Every modern router\'s Flowspec implementation now refuses to install rules that would drop BGP\'s own ports (179) or the matching peer addresses. Each new generation of routers adds more such guards. The lesson is incremental rather than fundamental: when you build a control plane on top of itself, every change to the control plane needs to be reviewed for self-consistency — manually, before it ships.`
+So we live with the architectural fragility and add operational guards. Every modern router\'s Flowspec implementation now refuses to install rules that would drop [[bgp|BGP]]\'s own ports (179) or the matching peer addresses. Each new generation of routers adds more such guards. The lesson is incremental rather than fundamental: when you build a control plane on top of itself, every change to the control plane needs to be reviewed for self-consistency — manually, before it ships.`
 						}
 					]
 				}
@@ -437,9 +437,9 @@ That was the easy part of the cascade.`
 						{
 							type: 'narrative',
 							title: 'The DNS Black Hole',
-							text: `Facebook\'s authoritative [[dns|DNS]] servers were inside the data centres that just lost their [[bgp|BGP]] advertisements. Resolvers around the world tried to query them — and got nothing back, because the IP addresses no longer routed anywhere.
+							text: `Facebook\'s authoritative [[dns|DNS]] servers were inside the data centres that just lost their [[bgp|BGP]] advertisements. Resolvers around the world tried to query them — and got nothing back, because the [[ip|IP]] addresses no longer routed anywhere.
 
-After a brief period of cached responses, every cached record expired (typical TTLs are minutes, not hours). [[dns|DNS]] resolution for Facebook\'s domains failed worldwide. **Without DNS**, Facebook\'s internal systems — Workplace, Calendar, internal monitoring, [[oauth2|OAuth]], the company directory — all failed. Engineers could not reach their own infrastructure remotely. They could not even verify that the outage was BGP-related, because their monitoring tools couldn\'t resolve internal hostnames.`
+After a brief period of cached responses, every cached record expired (typical TTLs are minutes, not hours). [[dns|DNS]] resolution for Facebook\'s domains failed worldwide. **Without [[dns|DNS]]**, Facebook\'s internal systems — Workplace, Calendar, internal monitoring, [[oauth2|OAuth]], the company directory — all failed. Engineers could not reach their own infrastructure remotely. They could not even verify that the outage was [[bgp|BGP]]-related, because their monitoring tools couldn\'t resolve internal hostnames.`
 						},
 						{
 							type: 'narrative',
@@ -466,7 +466,7 @@ The first [[bgp|BGP]] fix went in around 21:00 UTC. Recovery took until 22:30 �
 							title: 'What Changed After Facebook 2021',
 							text: `Three structural changes rolled through the industry in the eighteen months after the outage.
 
-**Out-of-band recovery for authoritative [[dns|DNS]].** Facebook (and others) moved to a model where authoritative DNS for their critical domains is reachable through multiple independent network paths — including paths that do not depend on the company\'s own backbone. Cloudflare and AWS Route 53 both saw enterprise growth as customers moved DNS to "if our network is down, our DNS is still up."
+**Out-of-band recovery for authoritative [[dns|DNS]].** Facebook (and others) moved to a model where authoritative [[dns|DNS]] for their critical domains is reachable through multiple independent network paths — including paths that do not depend on the company\'s own backbone. Cloudflare and AWS Route 53 both saw enterprise growth as customers moved [[dns|DNS]] to "if our network is down, our [[dns|DNS]] is still up."
 
 **Physical access systems on independent networks.** Badge readers, door locks, environmental controls, fire suppression — anything that needs to work during a network outage — now runs on dedicated, isolated networks at most hyperscalers. The lesson: physical security cannot depend on the network whose data centre it secures.
 
@@ -496,7 +496,7 @@ The first [[bgp|BGP]] fix went in around 21:00 UTC. Recovery took until 22:30 �
 							title: 'When the ISP Is the Country',
 							text: `On 8 July 2022 at 04:45 EDT, Rogers Communications — the largest ISP and mobile carrier in Canada, serving over **11 million subscribers** — went down nationally. For 15 hours, Rogers customers had no internet, no mobile signal, no landline (Rogers also runs Canada\'s largest VoIP-based home phone service through its Hi-Speed Internet bundles), no Interac debit transactions (Interac\'s national network runs over Rogers connectivity), and **no 911 service** in many regions.
 
-The trigger was a misconfiguration during a planned maintenance update to the Rogers IP/MPLS core. A bad route policy caused control-plane CPU exhaustion across Rogers\' core routers — they spent so much CPU recomputing routes in response to the bad policy that they had no cycles left to actually forward traffic.`
+The trigger was a misconfiguration during a planned maintenance update to the Rogers [[ip|IP]]/MPLS core. A bad route policy caused control-plane CPU exhaustion across Rogers\' core routers — they spent so much CPU recomputing routes in response to the bad policy that they had no cycles left to actually forward traffic.`
 						},
 						{
 							type: 'narrative',
@@ -568,7 +568,7 @@ Approximately **125 million devices** became unreachable for **up to twelve hour
 							text: `The most consequential failure was 911. **An estimated 25,000 emergency calls were not connected during the outage** — a number AT&T disclosed in its FCC report.
 
 Several states issued public advisories during the outage telling AT&T customers to:
-- Use Wi-Fi calling (which routes through the home internet rather than the cellular network)
+- Use [[wifi|Wi-Fi]] calling (which routes through the home internet rather than the cellular network)
 - Switch to a different carrier\'s SIM if available
 - Use landlines if accessible
 - Walk or drive to the nearest fire station, police station, or hospital

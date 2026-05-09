@@ -36,9 +36,9 @@ export const howToLearnMore: BookPart = {
 
 **[[rfc:1035|RFC 1035]] — [[dns|DNS]]**. Forty years old, still the canonical reference. Read it with [[rfc:1034|RFC 1034]] (concepts) for the architecture; together they are 100 pages and they explain a system that has scaled to a billion hostnames.
 
-**[[rfc:4271|RFC 4271]] — BGP-4**. The protocol that decides how packets reach which continent. Section 5 (path attributes) is where most of the engineering interest lives.
+**[[rfc:4271|RFC 4271]] — [[bgp|BGP]]-4**. The protocol that decides how packets reach which continent. Section 5 (path attributes) is where most of the engineering interest lives.
 
-**[[rfc:5681|RFC 5681]] — TCP {{congestion-control|Congestion Control}}**. Codifies {{slow-start|slow start}}, {{congestion-avoidance|congestion avoidance}}, fast retransmit, and fast recovery — the four algorithms [[pioneer:van-jacobson|Van Jacobson]] introduced in 1988, formalised over decades.
+**[[rfc:5681|RFC 5681]] — [[tcp|TCP]] {{congestion-control|Congestion Control}}**. Codifies {{slow-start|slow start}}, {{congestion-avoidance|congestion avoidance}}, fast retransmit, and fast recovery — the four algorithms [[pioneer:van-jacobson|Van Jacobson]] introduced in 1988, formalised over decades.
 
 **RFC 1958 — Architectural Principles of the Internet**. Brian Carpenter's 7-page summary of **why** the internet is the way it is. End-to-end principle, layering, robustness — all in one short document.
 
@@ -68,7 +68,7 @@ export const howToLearnMore: BookPart = {
 							title: 'Five Books, In Recommended Reading Order',
 							text: `**Andrew Tanenbaum, "Computer Networks" (6th ed., 2021).** The textbook most networking courses use. Bottom-up — physical layer first, application layer last. Strong on history and intuition; weaker on operational practice.
 
-**W. Richard Stevens, "TCP/IP Illustrated, Volume 1" (Fall, Wright, 2nd ed., 2011).** The book to read after a textbook to actually understand what is on the wire. Each chapter pairs a protocol description with a packet trace from real network capture. Volume 2 (the BSD source) is a deep-dive for systems engineers.
+**W. Richard Stevens, "[[tcp|TCP]]/[[ip|IP]] Illustrated, Volume 1" (Fall, Wright, 2nd ed., 2011).** The book to read after a textbook to actually understand what is on the wire. Each chapter pairs a protocol description with a packet trace from real network capture. Volume 2 (the BSD source) is a deep-dive for systems engineers.
 
 **Kurose & Ross, "Computer Networking: A Top-Down Approach" (8th ed., 2021).** The other major textbook. Top-down — application protocols first. More accessible than Tanenbaum for non-CS readers. The companion problem sets and lab assignments are excellent.
 
@@ -76,7 +76,7 @@ export const howToLearnMore: BookPart = {
 
 **Ilya Grigorik, "High Performance Browser Networking" (O'Reilly, 2013).** The book on what actually matters for web performance. [[tcp|TCP]], [[tls|TLS]], [[http1|HTTP/1.1]], [[http2|HTTP/2]] (no [[http3|HTTP/3]] — it predates the spec), [[webrtc|WebRTC]], browser networking APIs. The single most useful book for full-stack web developers who want to debug {{latency|latency}}.
 
-For specialised areas: **Olivier Bonaventure, "Computer Networking: Principles, Protocols and Practice"** (free online) — a lighter alternative to Tanenbaum. **Radia Perlman, "Interconnections" (2nd ed., 2000)** — the routing/switching deep-dive by the inventor of spanning tree. **Marc Greis, "RFC 1180: A TCP/IP Tutorial" (1991)** — 28 pages, free, 35 years old, still the cleanest introduction to the basics.`
+For specialised areas: **Olivier Bonaventure, "Computer Networking: Principles, Protocols and Practice"** (free online) — a lighter alternative to Tanenbaum. **Radia Perlman, "Interconnections" (2nd ed., 2000)** — the routing/switching deep-dive by the inventor of spanning tree. **Marc Greis, "RFC 1180: A [[tcp|TCP]]/[[ip|IP]] Tutorial" (1991)** — 28 pages, free, 35 years old, still the cleanest introduction to the basics.`
 						}
 					]
 				},
@@ -94,17 +94,17 @@ For specialised areas: **Olivier Bonaventure, "Computer Networking: Principles, 
 						{
 							type: 'narrative',
 							title: 'Where to Learn by Doing',
-							text: `**Stanford CS144 — Introduction to Computer Networking**. The single most useful course on this {{topic|topic}}. The labs walk you through implementing a working TCP/IP stack from scratch — your code goes from sending raw IP datagrams to running a full reliable transport with {{congestion-control|congestion control}}. Materials are public; the labs run on Linux and produce a stack that interoperates with the real internet.
+							text: `**Stanford CS144 — Introduction to Computer Networking**. The single most useful course on this {{topic|topic}}. The labs walk you through implementing a working [[tcp|TCP]]/[[ip|IP]] stack from scratch — your code goes from sending raw [[ip|IP]] datagrams to running a full reliable transport with {{congestion-control|congestion control}}. Materials are public; the labs run on Linux and produce a stack that interoperates with the real internet.
 
 **MIT 6.829 — Computer Networks**. Graduate-level, with a focus on the research-paper canon — Jacobson 1988, Cardwell BBR 2016, Cerf & Kahn 1974. Strong on routing and congestion control. Materials and lecture videos public.
 
-**Berkeley CS168 — Introduction to the Internet**. Newer than CS144 and more focused on operational reality ([[bgp|BGP]], CDN architecture, [[dns|DNS]], real-world security incidents). Materials online; the projects involve building a small BGP simulator and a CDN.
+**Berkeley CS168 — Introduction to the Internet**. Newer than CS144 and more focused on operational reality ([[bgp|BGP]], CDN architecture, [[dns|DNS]], real-world security incidents). Materials online; the projects involve building a small [[bgp|BGP]] simulator and a CDN.
 
 **Coursera / Stanford "Networking in Google Cloud" specialisation**. If you want production-grade datacenter and cloud networking content rather than the academic treatment, this is the one to take. Practical, hands-on, well-paced.
 
-**Princeton COS 461 — Computer Networks**. Jennifer Rexford's course; particularly strong on SDN, BGP, and inter-domain routing. The instructor is a major contributor to those areas of research.
+**Princeton COS 461 — Computer Networks**. Jennifer Rexford's course; particularly strong on SDN, [[bgp|BGP]], and inter-domain routing. The instructor is a major contributor to those areas of research.
 
-For a self-paced path: read **RFC 1180** (28 pages), then take **CS144**, then read **Stevens TCP/IP Illustrated Vol 1**. Three months of evenings will make you genuinely fluent in the field.`
+For a self-paced path: read **RFC 1180** (28 pages), then take **CS144**, then read **Stevens [[tcp|TCP]]/[[ip|IP]] Illustrated Vol 1**. Three months of evenings will make you genuinely fluent in the field.`
 						}
 					]
 				}
@@ -129,7 +129,7 @@ For a self-paced path: read **RFC 1180** (28 pages), then take **CS144**, then r
 
 **ipSpace.net** — Ivan Pepelnjak's blog on enterprise networking, SDN, and the practical realities of operating real networks. Pragmatic and opinionated.
 
-**Daniel Stenberg's blog** (daniel.haxx.se) — the maintainer of curl. If you want to understand HTTP at the level where bugs actually live, read his QUIC and [[http3|HTTP/3]] deployment posts.
+**Daniel Stenberg's blog** (daniel.haxx.se) — the maintainer of curl. If you want to understand HTTP at the level where bugs actually live, read his [[quic|QUIC]] and [[http3|HTTP/3]] deployment posts.
 
 **Julia Evans' zines** (wizardzines.com) — short, illustrated explainers on networking primitives, debugging tools, kernel concepts. The ideal "I need to learn what tcpdump options I'm using" reference.
 
@@ -156,17 +156,17 @@ For a self-paced path: read **RFC 1180** (28 pages), then take **CS144**, then r
 
 **curl** (curl.se) — the command-line HTTP client and Swiss-army knife of the protocol world. \`curl -v\` shows you the entire request and response with headers; \`--http3\` forces [[quic|QUIC]]; \`--resolve\` overrides [[dns|DNS]] for one request; \`-w\` formats timing information.
 
-**dig** (BIND tools) — the standard DNS debugging tool. \`dig +trace +recurse example.com\` walks the entire delegation chain from root to authoritative.
+**dig** (BIND tools) — the standard [[dns|DNS]] debugging tool. \`dig +trace +recurse example.com\` walks the entire delegation chain from root to authoritative.
 
 **scapy** (Python) — when you need to craft a packet that no normal tool will produce. The standard for protocol research, fuzzing, and unusual diagnostics. Steep learning curve, deep payoff.
 
 **FRRouting** (frrouting.org) — open-source routing stack ([[bgp|BGP]], OSPF, IS-IS, RIP, etc.) that runs on Linux. Used in containerlab simulations and in some production small-scale ISPs.
 
-**Containerlab** (containerlab.dev) — orchestrates network labs of containerised network operating systems. Spin up a 50-router BGP topology in under a minute on your laptop. The standard for hands-on routing learning today.
+**Containerlab** (containerlab.dev) — orchestrates network labs of containerised network operating systems. Spin up a 50-router [[bgp|BGP]] topology in under a minute on your laptop. The standard for hands-on routing learning today.
 
 **RIPE Atlas** (atlas.ripe.net) — a global mesh of probes you can use to measure reachability, {{latency|latency}}, and routing from arbitrary vantage points. Free for non-commercial research.
 
-**bgp.tools** — the modern BGP looking glass. Type any AS or prefix; see the global {{routing-table|routing table}} from multiple vantage points. The successor to the older route-views.org infrastructure.
+**bgp.tools** — the modern [[bgp|BGP]] looking glass. Type any AS or prefix; see the global {{routing-table|routing table}} from multiple vantage points. The successor to the older route-views.org infrastructure.
 
 **iperf3** — {{bandwidth|bandwidth}} measurement between two endpoints. The standard for "how fast can these two hosts actually talk to each other."
 

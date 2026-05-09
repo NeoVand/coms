@@ -92,7 +92,7 @@ The first version, HTTP/0.9, supported just one command: GET. No headers, no con
 		{
 			type: 'narrative',
 			title: 'The API Revolution',
-			text: `Roy Fielding didn't set out to change how software was built. His dissertation was about understanding the web's architecture. But Chapter 5 \u2014 'Representational State Transfer' \u2014 described a set of constraints that, when followed, made web services scalable, simple, and loosely coupled. [[rest]] wasn't a protocol or a standard; it was a style. Use HTTP verbs (GET, POST, PUT, DELETE), use URLs as resource identifiers, make interactions {{stateless|stateless}}. It was the anti-SOAP \u2014 no XML envelopes, no complex schemas, just clean HTTP.
+			text: `Roy Fielding didn't set out to change how software was built. His dissertation was about understanding the web's architecture. But Chapter 5 \u2014 'Representational State Transfer' \u2014 described a set of constraints that, when followed, made web services scalable, simple, and loosely coupled. [[rest]] wasn't a protocol or a standard; it was a style. Use HTTP verbs (GET, POST, PUT, DELETE), use URLs as resource identifiers, make interactions {{stateless|stateless}}. It was the anti-[[soap|SOAP]] \u2014 no XML envelopes, no complex schemas, just clean HTTP.
 
 The API economy exploded. Every startup, every tech giant began exposing [[rest]] APIs. But [[rest|REST]] had limitations: over-fetching (getting more data than you need) and under-fetching (needing multiple requests). Facebook's mobile team felt this acutely \u2014 their News Feed required dozens of endpoints per page load. In 2012, Lee Byron, Dan Schafer, and Nick Schrock began building [[graphql]], a query language that let clients ask for exactly the data they needed.
 
@@ -149,7 +149,7 @@ GET /friends"]
 					title: 'WebSocket Protocol Editor',
 					org: 'Google',
 					contribution:
-						'Primary editor of the WebSocket protocol ([[rfc:6455|RFC 6455]]), enabling {{full-duplex|full-duplex}} communication between browsers and servers.'
+						'Primary editor of the [[websockets|WebSocket]] protocol ([[rfc:6455|RFC 6455]]), enabling {{full-duplex|full-duplex}} communication between browsers and servers.'
 				}
 			]
 		},
@@ -247,7 +247,7 @@ The evolution from [[http1]] to [[http2]] to [[http3]] tells a story of learning
 					title: 'Creator of Server-Sent Events',
 					org: 'Opera / Google / WHATWG',
 					contribution:
-						'Defined Server-Sent Events as part of the HTML5 specification, enabling simple server-to-client push over HTTP.',
+						'Defined [[sse|Server-Sent Events]] as part of the HTML5 specification, enabling simple server-to-client push over HTTP.',
 					imagePath:
 						'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Ian_Hickson_at_CSS_Working_Group_Meeting_Day_Three.jpeg/120px-Ian_Hickson_at_CSS_Working_Group_Meeting_Day_Three.jpeg'
 				},
@@ -271,9 +271,9 @@ The evolution from [[http1]] to [[http2]] to [[http3]] tells a story of learning
 			title: 'The AI Protocol Revolution',
 			text: `In late 2024, a new class of protocols emerged \u2014 not for humans calling APIs, but for AI agents using tools and collaborating with each other. The catalyst was a deceptively simple problem: every AI application needed custom code for every integration. Connecting Claude to your database was a different project than connecting it to GitHub, which was different from Slack. An N\u00D7M matrix of bespoke integrations that didn't scale.
 
-Anthropic's answer was [[mcp|MCP]] (Model Context Protocol) \u2014 a universal interface built on [[json-rpc|JSON-RPC]] 2.0 that lets any AI host discover and use any tool through a standard protocol. Define a tool once as an [[mcp|MCP]] server, and Claude, ChatGPT, Cursor, and VS Code can all use it. MCP collapsed the integration matrix from N\u00D7M to N+M. Within months, thousands of MCP servers existed for everything from databases to cloud infrastructure.
+Anthropic's answer was [[mcp|MCP]] (Model Context Protocol) \u2014 a universal interface built on [[json-rpc|JSON-RPC]] 2.0 that lets any AI host discover and use any tool through a standard protocol. Define a tool once as an [[mcp|MCP]] server, and Claude, ChatGPT, Cursor, and VS Code can all use it. [[mcp|MCP]] collapsed the integration matrix from N\u00D7M to N+M. Within months, thousands of [[mcp|MCP]] servers existed for everything from databases to cloud infrastructure.
 
-But MCP solved only half the puzzle. It connected agents to tools \u2014 what about connecting agents to *each other*? Google's [[a2a|A2A]] (Agent-to-Agent Protocol), announced in April 2025, addressed this. Where MCP is vertical (agent \u2192 tools), [[a2a|A2A]] is horizontal (agent \u2192 agent). A travel coordinator agent uses A2A to delegate to flight, hotel, and car rental agents \u2014 each of which uses MCP internally to access their own tools and databases. Both protocols chose [[json-rpc|JSON-RPC]] 2.0 as their wire format, and both moved to the Linux Foundation by the end of 2025, cementing them as open industry standards.`
+But [[mcp|MCP]] solved only half the puzzle. It connected agents to tools \u2014 what about connecting agents to *each other*? Google's [[a2a|A2A]] (Agent-to-Agent Protocol), announced in April 2025, addressed this. Where [[mcp|MCP]] is vertical (agent \u2192 tools), [[a2a|A2A]] is horizontal (agent \u2192 agent). A travel coordinator agent uses [[a2a|A2A]] to delegate to flight, hotel, and car rental agents \u2014 each of which uses [[mcp|MCP]] internally to access their own tools and databases. Both protocols chose [[json-rpc|JSON-RPC]] 2.0 as their wire format, and both moved to the Linux Foundation by the end of 2025, cementing them as open industry standards.`
 		},
 		{
 			type: 'diagram',
@@ -304,7 +304,7 @@ But MCP solved only half the puzzle. It connected agents to tools \u2014 what ab
 					year: 2024,
 					title: 'MCP \u2014 Model Context Protocol',
 					description:
-						'Anthropic releases [[mcp|MCP]], a universal interface for connecting AI applications to tools and data. Claude Desktop ships with MCP support.',
+						'Anthropic releases [[mcp|MCP]], a universal interface for connecting AI applications to tools and data. Claude Desktop ships with [[mcp|MCP]] support.',
 					protocolId: 'mcp'
 				},
 				{

@@ -62,7 +62,7 @@ export const realtimeAvStory: CategoryStory = {
 					year: 1996,
 					title: 'RTP Published \u2014 RFC 1889',
 					description:
-						'The Real-time Transport Protocol defines how to carry audio and video over IP networks. Timestamps, {{sequence-number|sequence numbers}}, {{payload|payload}} identification.',
+						'The Real-time Transport Protocol defines how to carry audio and video over [[ip|IP]] networks. Timestamps, {{sequence-number|sequence numbers}}, {{payload|payload}} identification.',
 					protocolId: 'rtp'
 				},
 				{
@@ -90,7 +90,7 @@ export const realtimeAvStory: CategoryStory = {
 		{
 			type: 'narrative',
 			title: 'The VoIP Standards War',
-			text: `The late 1990s saw a battle between two fundamentally different visions for internet telephony. H.323, backed by the ITU-T (the telecom standards body), brought the full complexity of the telephone network to IP. It worked, but it was enormous \u2014 hundreds of pages of specifications, binary encoding, and tight coupling between components.\n\n[[sip]] took the opposite approach. Designed by Henning Schulzrinne, Mark Handley, and Eve Schooler, [[sip|SIP]] was modeled on [[http1]] \u2014 text-based, simple headers, {{stateless|stateless}} by default. Want to make a call? Send an INVITE. Want to hang up? Send a BYE. The protocol was so simple that you could debug it by reading the packets.\n\nSIP won. Not because it was technically superior in every way, but because it was easier to understand, implement, and extend. The HTTP-inspired design meant web developers could grasp it quickly, and the loose coupling between {{signaling|signaling}} ([[sip]]), session description ([[sdp]]), and media transport ([[rtp]]) allowed each to evolve independently.`
+			text: `The late 1990s saw a battle between two fundamentally different visions for internet telephony. H.323, backed by the ITU-T (the telecom standards body), brought the full complexity of the telephone network to [[ip|IP]]. It worked, but it was enormous \u2014 hundreds of pages of specifications, binary encoding, and tight coupling between components.\n\n[[sip]] took the opposite approach. Designed by Henning Schulzrinne, Mark Handley, and Eve Schooler, [[sip|SIP]] was modeled on [[http1]] \u2014 text-based, simple headers, {{stateless|stateless}} by default. Want to make a call? Send an INVITE. Want to hang up? Send a BYE. The protocol was so simple that you could debug it by reading the packets.\n\nSIP won. Not because it was technically superior in every way, but because it was easier to understand, implement, and extend. The HTTP-inspired design meant web developers could grasp it quickly, and the loose coupling between {{signaling|signaling}} ([[sip]]), session description ([[sdp]]), and media transport ([[rtp]]) allowed each to evolve independently.`
 		},
 		{
 			type: 'pioneers',
@@ -149,7 +149,7 @@ export const realtimeAvStory: CategoryStory = {
 					year: 2010,
 					title: 'Google Acquires GIPS for $68.2M',
 					description:
-						'Global IP Solutions makes the audio/video codecs that will become [[webrtc|WebRTC]]\u2019s core. Google open-sources them.',
+						'Global [[ip|IP]] Solutions makes the audio/video codecs that will become [[webrtc|WebRTC]]\u2019s core. Google open-sources them.',
 					protocolId: 'webrtc'
 				},
 				{
@@ -190,7 +190,7 @@ export const realtimeAvStory: CategoryStory = {
 		{
 			type: 'narrative',
 			title: 'WebRTC \u2014 The Browser Revolution',
-			text: `In 2010, Google made a $68.2 million bet on real-time communication. They acquired Global IP Solutions (GIPS), a Swedish company whose audio and video codecs powered Skype and dozens of other VoIP applications. Then they did something remarkable: they open-sourced everything and began building it into Chrome.\n\n[[webrtc]] didn't invent new protocols \u2014 it combined existing ones. [[rtp]] for media transport, {{srtp|SRTP}} for {{encryption|encryption}}, ICE/STUN/TURN for NAT traversal, [[sdp]] for session negotiation, and [[sctp]] for data channels. The genius was packaging all of this into a browser API that any web developer could use. No plugins, no installs, no special servers. Just JavaScript.\n\nJustin Uberti and Harald Alvestrand led the effort, navigating both the W3C (for the browser API) and the IETF (for the underlying protocols). The result was a platform that powers everything from Google Meet to telehealth appointments.`
+			text: `In 2010, Google made a $68.2 million bet on real-time communication. They acquired Global [[ip|IP]] Solutions (GIPS), a Swedish company whose audio and video codecs powered Skype and dozens of other VoIP applications. Then they did something remarkable: they open-sourced everything and began building it into Chrome.\n\n[[webrtc]] didn't invent new protocols \u2014 it combined existing ones. [[rtp]] for media transport, {{srtp|SRTP}} for {{encryption|encryption}}, ICE/STUN/TURN for NAT traversal, [[sdp]] for session negotiation, and [[sctp]] for data channels. The genius was packaging all of this into a browser API that any web developer could use. No plugins, no installs, no special servers. Just JavaScript.\n\nJustin Uberti and Harald Alvestrand led the effort, navigating both the W3C (for the browser API) and the IETF (for the underlying protocols). The result was a platform that powers everything from Google Meet to telehealth appointments.`
 		},
 		{
 			type: 'image',

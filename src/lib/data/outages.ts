@@ -75,7 +75,7 @@ export const outages: Outage[] = [
 		duration: '~6 hours',
 		scale: 'Global — 3 billion users; Facebook, Instagram, WhatsApp, Oculus all dark',
 		oneLiner:
-			'A routine maintenance command on Meta\'s global backbone took down its DNS, then its websites, then its employees\' badge readers — all because the safety mechanism worked exactly as designed.',
+			'A routine maintenance command on Meta\'s global backbone took down its [[dns|DNS]], then its websites, then its employees\' badge readers — all because the safety mechanism worked exactly as designed.',
 		category: 'configuration',
 		affectedProtocols: ['bgp', 'dns', 'tcp'],
 		cast: [
@@ -84,7 +84,7 @@ export const outages: Outage[] = [
 			{ name: 'ThousandEyes', role: 'External monitor' }
 		],
 		setup:
-			"Meta runs tens of thousands of miles of fibre between its data centres — a global private backbone. Its DNS servers live in smaller \"edge\" facilities, programmed with a defensive safety: if a DNS server cannot reach the data centres (and therefore cannot answer authoritatively), it withdraws its own [[bgp|BGP]] advertisements so nobody routes queries to it. The reasoning was sound: a DNS server that can't answer shouldn't be reached.",
+			"Meta runs tens of thousands of miles of fibre between its data centres — a global private backbone. Its [[dns|DNS]] servers live in smaller \"edge\" facilities, programmed with a defensive safety: if a DNS server cannot reach the data centres (and therefore cannot answer authoritatively), it withdraws its own [[bgp|BGP]] advertisements so nobody routes queries to it. The reasoning was sound: a DNS server that can't answer shouldn't be reached.",
 		mistake:
 			"During routine maintenance an engineer issued a command intended to assess the availability of global backbone capacity. Meta's audit tooling — designed to catch destructive commands — had a bug, and didn't stop it. The command took down the entire backbone.",
 		cascade: [
@@ -92,50 +92,50 @@ export const outages: Outage[] = [
 				time: '15:39 UTC',
 				title: 'Backbone collapse',
 				description:
-					"The maintenance command disconnected Meta's data centres from each other. The DNS edge servers, isolated, did exactly what they were designed to do.",
+					"The maintenance command disconnected Meta's data centres from each other. The [[dns|DNS]] edge servers, isolated, did exactly what they were designed to do.",
 				protocols: ['bgp']
 			},
 			{
 				time: '15:40 UTC',
 				title: 'BGP withdrawals',
 				description:
-					"Cloudflare and other observers detect a flood of [[bgp|BGP]] UPDATE messages from AS 32934 — and then a wave of WITHDRAWALs of the IPv4 and IPv6 prefixes covering Facebook's DNS servers. From the outside, Facebook ceases to exist.",
+					"Cloudflare and other observers detect a flood of [[bgp|BGP]] UPDATE messages from AS 32934 — and then a wave of WITHDRAWALs of the [[ip|IPv4]] and [[ipv6|IPv6]] prefixes covering Facebook's [[dns|DNS]] servers. From the outside, Facebook ceases to exist.",
 				protocols: ['bgp', 'dns']
 			},
 			{
 				time: '15:42 UTC',
 				title: 'DNS goes dark',
 				description:
-					'Public resolvers like 1.1.1.1 and 8.8.8.8 start returning SERVFAIL for facebook.com. Apps and humans retry aggressively, generating a 30× DNS query surge on public resolvers.',
+					'Public resolvers like 1.1.1.1 and 8.8.8.8 start returning SERVFAIL for facebook.com. Apps and humans retry aggressively, generating a 30× [[dns|DNS]] query surge on public resolvers.',
 				protocols: ['dns']
 			},
 			{
 				time: '15:50 UTC',
 				title: 'Apps cascade',
 				description:
-					'WhatsApp, Instagram, Messenger, Oculus all go dark — every product depending on the Facebook backbone or DNS.',
+					'WhatsApp, Instagram, Messenger, Oculus all go dark — every product depending on the Facebook backbone or [[dns|DNS]].',
 				protocols: ['tcp', 'tls']
 			},
 			{
 				time: '~16:00 UTC',
 				title: "Internal tools disappear too",
 				description:
-					"Meta engineers cannot get into the network to fix it because their internal tools depend on the same DNS, and their physical badge readers depend on the same network. Engineers are reportedly dispatched to data centres with bolt cutters."
+					"Meta engineers cannot get into the network to fix it because their internal tools depend on the same [[dns|DNS]], and their physical badge readers depend on the same network. Engineers are reportedly dispatched to data centres with bolt cutters."
 			},
 			{
 				time: '21:00 UTC',
 				title: 'Backbone restored',
 				description:
-					'After roughly six hours, Meta re-establishes backbone connectivity. DNS prefix advertisements return at 21:05 UTC. Cached DNS clears worldwide over the next several hours.',
+					'After roughly six hours, Meta re-establishes backbone connectivity. [[dns|DNS]] prefix advertisements return at 21:05 UTC. Cached DNS clears worldwide over the next several hours.',
 				protocols: ['bgp', 'dns']
 			}
 		],
 		consequence:
 			"Estimated revenue impact crosses $60M. Mark Zuckerberg's net worth drops by more than $6B in a day. In developing countries where Facebook's \"Free Basics\" program is the de-facto internet, communication, business, and humanitarian work pause for seven hours.",
 		resolution:
-			"Meta's post-mortem the next day acknowledges configuration tooling and audit-bypass as the root cause; the BGP withdrawal was the *symptom* of the larger backbone failure, not its cause.",
+			"Meta's post-mortem the next day acknowledges configuration tooling and audit-bypass as the root cause; the [[bgp|BGP]] withdrawal was the *symptom* of the larger backbone failure, not its cause.",
 		lesson:
-			"Three layers — BGP, DNS, and physical access — fail in cascade because each one trusts the layer below it. Never have a single dependency chain run through your own product. The defensive safety (DNS withdraws on failure) is sound; the issue is that *every* product, including badge readers and audit tools, depended on the same DNS.",
+			"Three layers — [[bgp|BGP]], [[dns|DNS]], and physical access — fail in cascade because each one trusts the layer below it. Never have a single dependency chain run through your own product. The defensive safety (DNS withdraws on failure) is sound; the issue is that *every* product, including badge readers and audit tools, depended on the same DNS.",
 		sources: [
 			{
 				url: 'https://blog.cloudflare.com/october-2021-facebook-outage/',
@@ -158,18 +158,18 @@ export const outages: Outage[] = [
 		duration: '~2 hours, with aftershocks for days',
 		scale: 'Global — Sprint and large parts of the internet went dark',
 		oneLiner:
-			"A small Florida ISP's misconfigured router de-aggregated the entire global routing table into /24s and re-originated them all as itself.",
+			"A small Florida ISP's misconfigured router de-aggregated the entire global {{routing-table|routing table}} into /24s and re-originated them all as itself.",
 		category: 'configuration',
 		affectedProtocols: ['bgp'],
 		setup:
 			"In 1997 BGP-4 had been the inter-domain routing protocol for eight years. It assumes neighbours announce only what they own. There were almost no upstream filters: if a customer announced something, the upstream took it.",
 		mistake:
-			"MAI Network Services (AS 7007) had a Bay Networks router whose forwarding table got dumped into BGP as if every entry were a route the AS originated. The router didn't just announce its own prefixes — it announced /24 fragments of the entire global routing table, claiming MAI was the origin AS for everything.",
+			"MAI Network Services (AS 7007) had a Bay Networks router whose forwarding table got dumped into [[bgp|BGP]] as if every entry were a route the AS originated. The router didn't just announce its own prefixes — it announced /24 fragments of the entire global {{routing-table|routing table}}, claiming MAI was the origin AS for everything.",
 		cascade: [
 			{
 				title: 'Specific prefixes win',
 				description:
-					"Under BGP's longest-prefix-match rule, a /24 always beats a less-specific /16 or /8. The leaked /24s instantly became the preferred path globally for the prefixes they covered."
+					"Under [[bgp|BGP]]'s longest-prefix-match rule, a /24 always beats a less-specific /16 or /8. The leaked /24s instantly became the preferred path globally for the prefixes they covered."
 			},
 			{
 				title: 'Sprint propagates',
@@ -188,11 +188,11 @@ export const outages: Outage[] = [
 			}
 		],
 		consequence:
-			"Multi-hour partial outage of the public internet. Sprint customers especially affected. The first time the BGP community truly understood that a single misconfigured router anywhere on earth could take down the entire internet.",
+			"Multi-hour partial outage of the public internet. Sprint customers especially affected. The first time the [[bgp|BGP]] community truly understood that a single misconfigured router anywhere on earth could take down the entire internet.",
 		resolution:
 			"Vince Bono's apology email to NANOG that day is preserved in the archives — a remarkably calm and detailed admission that became a model for incident communication.",
 		lesson:
-			"BGP trusts every neighbour by default. Without prefix filters at every peering point, a single broken router can become the apparent origin of the entire internet. Prompted the slow rollout of route filters across transit providers, but the protocol-level fix (RPKI ROV) took another 25 years to reach 50% deployment.",
+			"[[bgp|BGP]] trusts every neighbour by default. Without prefix filters at every {{peering|peering}} point, a single broken router can become the apparent origin of the entire internet. Prompted the slow rollout of route filters across {{transit|transit}} providers, but the protocol-level fix ({{rpki|RPKI}} ROV) took another 25 years to reach 50% deployment.",
 		sources: [
 			{
 				url: 'https://en.wikipedia.org/wiki/AS_7007_incident',
@@ -248,7 +248,7 @@ export const outages: Outage[] = [
 		resolution:
 			"YouTube announced more-specific prefixes to outcompete the hijack. PCCW eventually filtered Pakistan Telecom's announcements. The whole event drained over ~2 hours.",
 		lesson:
-			'Forced RPKI from research curiosity to operational priority. Demonstrated definitively that BGP trust between ASes had to be replaced with cryptographic verification of who could originate which prefix. RPKI ROV deployment finally crossed 50% of IPv4 prefixes 16 years later, in 2024.',
+			'Forced {{rpki|RPKI}} from research curiosity to operational priority. Demonstrated definitively that [[bgp|BGP]] trust between ASes had to be replaced with cryptographic verification of who could originate which prefix. RPKI ROV deployment finally crossed 50% of [[ip|IPv4]] prefixes 16 years later, in 2024.',
 		sources: [
 			{
 				url: 'https://www.ripe.net/about-us/news/youtube-hijacking-a-ripe-ncc-ris-case-study/',
@@ -267,7 +267,7 @@ export const outages: Outage[] = [
 		duration: '~5 hours',
 		scale: 'Global — 3.5% drop in worldwide internet traffic',
 		oneLiner:
-			"A BGP Flowspec rule pushed to mitigate a customer's DDoS killed the BGP session that delivered it — and Level 3's tier-1 backbone went into a control-plane infinite loop.",
+			"A [[bgp|BGP]] Flowspec rule pushed to mitigate a customer's DDoS killed the BGP session that delivered it — and Level 3's tier-1 backbone went into a control-plane infinite loop.",
 		category: 'software-bug',
 		affectedProtocols: ['bgp', 'tcp'],
 		cast: [
@@ -275,26 +275,26 @@ export const outages: Outage[] = [
 			{ name: 'Cloudflare', role: 'External monitor + customer' }
 		],
 		setup:
-			"Level 3 (now CenturyLink) ran one of the world's largest tier-1 transit networks. To mitigate DDoS attacks for customers, they used [[bgp|BGP]] Flowspec — a BGP extension (RFC 5575) that distributes packet-filtering rules across the network the same way BGP distributes routes.",
+			"Level 3 (now CenturyLink) ran one of the world's largest tier-1 {{transit|transit}} networks. To mitigate DDoS attacks for customers, they used [[bgp|BGP]] Flowspec — a [[bgp|BGP]] extension (RFC 5575) that distributes packet-filtering rules across the network the same way BGP distributes routes.",
 		mistake:
-			"An incorrectly-formatted Flowspec rule pushed to mitigate a customer's DDoS blocked BGP itself. The rule killed the BGP session that delivered it. The session re-established. The rule was re-pushed. The session died again.",
+			"An incorrectly-formatted Flowspec rule pushed to mitigate a customer's DDoS blocked [[bgp|BGP]] itself. The rule killed the BGP session that delivered it. The session re-established. The rule was re-pushed. The session died again.",
 		cascade: [
 			{
 				title: 'Bad Flowspec rule pushed',
 				description:
-					"Operators push a Flowspec rule intended to drop a customer's attack traffic. The rule's match criteria are too broad — they accidentally match BGP itself.",
+					"Operators push a Flowspec rule intended to drop a customer's attack traffic. The rule's match criteria are too broad — they accidentally match [[bgp|BGP]] itself.",
 				protocols: ['bgp']
 			},
 			{
 				title: 'BGP sessions drop',
 				description:
-					"Routers across the Level 3 backbone start dropping the rule's match — which includes their own BGP keepalives. BGP sessions die across the entire backbone.",
+					"Routers across the Level 3 backbone start dropping the rule's match — which includes their own [[bgp|BGP]] keepalives. BGP sessions die across the entire backbone.",
 				protocols: ['bgp', 'tcp']
 			},
 			{
 				title: 'Sessions re-establish',
 				description:
-					"Each BGP session times out, retries, and re-establishes. As soon as it does, it re-receives the same Flowspec rule. The cycle restarts.",
+					"Each [[bgp|BGP]] session times out, retries, and re-establishes. As soon as it does, it re-receives the same Flowspec rule. The cycle restarts.",
 				protocols: ['bgp']
 			},
 			{
@@ -313,7 +313,7 @@ export const outages: Outage[] = [
 		resolution:
 			"Level 3 manually de-peered with other tier-1s to break the BGP-update loop, removed the bad Flowspec rule, then re-peered.",
 		lesson:
-			"Don't deploy a feature whose failure mode disables the channel that controls it. BGP Flowspec is powerful — and Flowspec rules that touch BGP itself can lock you out of your own network. The same lesson applies to any in-band control protocol.",
+			"Don't deploy a feature whose failure mode disables the channel that controls it. [[bgp|BGP]] Flowspec is powerful — and Flowspec rules that touch BGP itself can lock you out of your own network. The same lesson applies to any in-band control protocol.",
 		sources: [
 			{
 				url: 'https://blog.cloudflare.com/analysis-of-todays-centurylink-level-3-outage/',
@@ -332,14 +332,14 @@ export const outages: Outage[] = [
 		duration: '~15 hours',
 		scale: '12+ million Canadians lost wireless, wireline, internet, and Interac debit-card service',
 		oneLiner:
-			"A maintenance change to BGP route policy in the IP core inadvertently allowed a full BGP table redistribution into OSPF — overwhelming the core router CPUs and crashing the entire network.",
+			"A maintenance change to [[bgp|BGP]] route policy in the IP core inadvertently allowed a full BGP table redistribution into OSPF — overwhelming the core router CPUs and crashing the entire network.",
 		category: 'configuration',
 		affectedProtocols: ['bgp'],
 		cast: [{ name: 'Rogers Communications (AS 812)', role: 'Operator' }],
 		setup:
-			"Rogers ran one of Canada's three national telecom networks — wireless, wireline, internet, and the Interac point-of-sale debit card system that runs Canadian retail. The IP core used BGP for inter-AS routing and OSPF for intra-AS routing — the standard separation.",
+			"Rogers ran one of Canada's three national telecom networks — wireless, wireline, internet, and the Interac point-of-sale debit card system that runs Canadian retail. The IP core used [[bgp|BGP]] for inter-AS routing and OSPF for intra-AS routing — the standard separation.",
 		mistake:
-			"A maintenance change to BGP route policy in the IP core was meant to apply to a small set of routes. A missing filter let the entire BGP table — nearly a million prefixes — redistribute into OSPF, the intra-AS routing protocol.",
+			"A maintenance change to [[bgp|BGP]] route policy in the IP core was meant to apply to a small set of routes. A missing filter let the entire BGP table — nearly a million prefixes — redistribute into OSPF, the intra-AS routing protocol.",
 		cascade: [
 			{
 				title: 'BGP-into-OSPF flood',
@@ -422,7 +422,7 @@ export const outages: Outage[] = [
 			}
 		],
 		consequence:
-			"125M+ devices affected. 92M+ blocked voice calls. 25K+ failed 911 calls. The FCC report reads like every BGP outage post-mortem: insufficient peer review, missing controls, unscanned changes.",
+			"125M+ devices affected. 92M+ blocked voice calls. 25K+ failed 911 calls. The FCC report reads like every [[bgp|BGP]] outage post-mortem: insufficient peer review, missing controls, unscanned changes.",
 		resolution:
 			'Configuration rollback and gradual reconnection of subscribers to avoid signalling overload.',
 		lesson:
@@ -445,7 +445,7 @@ export const outages: Outage[] = [
 		duration: 'Disclosed; many systems exposed for weeks while patching',
 		scale: 'Most Linux servers on the internet (CVSS 7.5)',
 		oneLiner:
-			"Netflix's Jonathan Looney found that the right TCP SACK option pattern would crash the Linux kernel — a single TCP packet, no authentication, instant remote denial of service.",
+			"Netflix's Jonathan Looney found that the right [[tcp|TCP]] {{sack|SACK}} option pattern would crash the Linux kernel — a single TCP packet, no authentication, instant remote denial of service.",
 		category: 'software-bug',
 		affectedProtocols: ['tcp'],
 		cast: [
@@ -453,14 +453,14 @@ export const outages: Outage[] = [
 			{ name: 'Linux Kernel TCP maintainers', role: 'Vendors' }
 		],
 		setup:
-			"TCP Selective Acknowledgment (SACK, RFC 2018) lets the receiver tell the sender exactly which non-contiguous byte ranges have arrived. The Linux kernel tracks these as a queue of skb (socket buffer) ranges. The data structure includes a 16-bit gso_segs counter for the segments-in-flight on a single sk_buff.",
+			"[[tcp|TCP]] Selective Acknowledgment ({{sack|SACK}}, RFC 2018) lets the receiver tell the sender exactly which non-contiguous byte ranges have arrived. The Linux kernel tracks these as a queue of skb (socket buffer) ranges. The data structure includes a 16-bit gso_segs counter for the segments-in-flight on a single sk_buff.",
 		mistake:
 			"With a small enough MSS — easily set by a remote peer — a single sk_buff could be split into more than 65,535 GSO segments. The 16-bit counter overflowed. The kernel hit an integer overflow in tcp_skb_cb, triggering a panic.",
 		cascade: [
 			{
 				title: 'Patch crafted',
 				description:
-					'A remote attacker establishes a TCP connection, advertises a tiny MSS, and triggers the kernel to compute gso_segs > 65,535.'
+					'A remote attacker establishes a [[tcp|TCP]] connection, advertises a tiny MSS, and triggers the kernel to compute gso_segs > 65,535.'
 			},
 			{
 				title: 'Integer overflow',
@@ -469,16 +469,16 @@ export const outages: Outage[] = [
 			{
 				title: 'CVE-2019-11477 (CVSS 7.5)',
 				description:
-					"Disclosed alongside CVE-2019-11478 (SACK Slowness) and CVE-2019-11479 (excessive resource consumption from low MSS) in Netflix's coordinated disclosure of June 17, 2019.",
+					"Disclosed alongside CVE-2019-11478 ({{sack|SACK}} Slowness) and CVE-2019-11479 (excessive resource consumption from low MSS) in Netflix's coordinated disclosure of June 17, 2019.",
 				protocols: ['tcp']
 			}
 		],
 		consequence:
-			"Most Linux servers on the public internet were vulnerable. CVSS 7.5 (high). Operators scrambled to patch; many disabled SACK as an interim mitigation, accepting performance degradation to avoid the crash.",
+			"Most Linux servers on the public internet were vulnerable. CVSS 7.5 (high). Operators scrambled to patch; many disabled {{sack|SACK}} as an interim mitigation, accepting performance degradation to avoid the crash.",
 		resolution:
-			'Mainline kernel patch shipped within days. Mitigations: disable SACK (`net.ipv4.tcp_sack=0`) or enforce a minimum MSS via the new `net.ipv4.tcp_min_snd_mss` sysctl.',
+			'Mainline kernel patch shipped within days. Mitigations: disable {{sack|SACK}} (`net.ipv4.tcp_sack=0`) or enforce a minimum MSS via the new `net.ipv4.tcp_min_snd_mss` sysctl.',
 		lesson:
-			"Decades-old TCP code paths still hide remote-DoS bugs. The post-disclosure work led to better TCP fuzzing infrastructure and to RACK-TLP (RFC 8985, Feb 2021) replacing the older 'three duplicate ACKs' loss-detection rule.",
+			"Decades-old [[tcp|TCP]] code paths still hide remote-DoS bugs. The post-disclosure work led to better TCP fuzzing infrastructure and to RACK-TLP (RFC 8985, Feb 2021) replacing the older 'three duplicate ACKs' loss-detection rule.",
 		sources: [
 			{
 				url: 'https://github.com/Netflix/security-bulletins/blob/master/advisories/third-party/2019-001.md',

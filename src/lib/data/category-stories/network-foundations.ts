@@ -9,7 +9,7 @@ export const networkFoundationsStory: CategoryStory = {
 			title: 'Before the Internet',
 			text: `In 1973, a young engineer named Bob Metcalfe was working at Xerox PARC in Palo Alto when he had an insight that would change computing forever. He'd studied the ALOHAnet — a radio network connecting Hawaiian islands — and realized the same principle could wire computers together in an office. He sketched a system on the back of a napkin: a shared cable with simple rules for who gets to transmit. He called it [[ethernet|Ethernet]], after the "luminiferous aether" that 19th-century physicists believed permeated space.
 
-That sketch became [[ethernet|Ethernet]], and it solved the first problem of networking: how do machines on the same wire talk to each other? Each device got a unique 48-bit {{mac-address|MAC address}}, and frames carried data from source to destination. But Ethernet alone wasn't enough. You also needed a way to find who's who — that's [[arp|ARP]], which translates logical [[ip|IP]] addresses to physical MAC addresses. And you needed a way to route beyond your local wire — that's [[ip|IP]], the addressing system that makes the internet a network of networks.`
+That sketch became [[ethernet|Ethernet]], and it solved the first problem of networking: how do machines on the same wire talk to each other? Each device got a unique 48-bit {{mac-address|MAC address}}, and frames carried data from source to destination. But [[ethernet|Ethernet]] alone wasn't enough. You also needed a way to find who's who — that's [[arp|ARP]], which translates logical [[ip|IP]] addresses to physical MAC addresses. And you needed a way to route beyond your local wire — that's [[ip|IP]], the addressing system that makes the internet a network of networks.`
 		},
 		{
 			type: 'image',
@@ -66,7 +66,7 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
 					title: 'Inventor of Ethernet',
 					org: 'Xerox PARC / 3Com',
 					contribution:
-						'Invented [[ethernet|Ethernet]] at Xerox PARC in 1973, co-authored the DIX Ethernet standard (1980), and co-founded 3Com to commercialize it. Received the 2022 ACM Turing Award for his contributions to networking.',
+						'Invented [[ethernet|Ethernet]] at Xerox PARC in 1973, co-authored the DIX [[ethernet|Ethernet]] standard (1980), and co-founded 3Com to commercialize it. Received the 2022 ACM Turing Award for his contributions to networking.',
 					imagePath:
 						'https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/With_Bob_Metcalfe_%28cropped%29.jpg/330px-With_Bob_Metcalfe_%28cropped%29.jpg'
 				},
@@ -76,7 +76,7 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
 					title: 'Co-inventor of TCP/IP',
 					org: 'Stanford / DARPA / Google',
 					contribution:
-						'Co-designed the TCP/IP protocol suite (including IP) with [[pioneer:bob-kahn|Bob Kahn]]. Their 1974 paper defined how heterogeneous networks could {{exchange|exchange}} data — the fundamental insight that created the internet.',
+						'Co-designed the [[tcp|TCP]]/[[ip|IP]] protocol suite (including [[ip|IP]]) with [[pioneer:bob-kahn|Bob Kahn]]. Their 1974 paper defined how heterogeneous networks could {{exchange|exchange}} data — the fundamental insight that created the internet.',
 					imagePath:
 						'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Dr_Vint_Cerf_ForMemRS_%28cropped%29.jpg/330px-Dr_Vint_Cerf_ForMemRS_%28cropped%29.jpg'
 				},
@@ -86,7 +86,7 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
 					title: 'Author of ARP',
 					org: 'MIT',
 					contribution:
-						'Wrote [[rfc:826|RFC 826]] (1982) defining the Address Resolution Protocol — the elegantly simple {{broadcast|broadcast}} mechanism that bridges IP addresses to hardware addresses on local networks.'
+						'Wrote [[rfc:826|RFC 826]] (1982) defining the Address Resolution Protocol — the elegantly simple {{broadcast|broadcast}} mechanism that bridges [[ip|IP]] addresses to hardware addresses on local networks.'
 				},
 				{
 					name: 'Vic Hayes',
@@ -94,7 +94,7 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
 					title: 'Father of Wi-Fi',
 					org: 'NCR / Agere Systems',
 					contribution:
-						'Chaired the IEEE [[wifi|802.11]] working group from 1990 to 2002, shepherding the wireless LAN standard from concept to global adoption. Known as the "Father of Wi-Fi" for his persistence in driving consensus.'
+						'Chaired the IEEE [[wifi|802.11]] working group from 1990 to 2002, shepherding the wireless LAN standard from concept to global adoption. Known as the "Father of [[wifi|Wi-Fi]]" for his persistence in driving consensus.'
 				},
 				{
 					name: 'Yakov Rekhter',
@@ -110,7 +110,7 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
 					title: 'Creator of IPv6',
 					org: 'Xerox PARC / Cisco',
 					contribution:
-						'Primary architect of [[ipv6|IPv6]], leading the design of 128-bit addressing, the simplified header, and {{multicast|multicast}}. Also invented IP {{multicast|multicast}} itself, fundamentally changing how one-to-many communication works on the internet.'
+						'Primary architect of [[ipv6|IPv6]], leading the design of 128-bit addressing, the simplified header, and {{multicast|multicast}}. Also invented [[ip|IP]] {{multicast|multicast}} itself, fundamentally changing how one-to-many communication works on the internet.'
 				}
 			]
 		},
@@ -148,14 +148,14 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
 					year: 1982,
 					title: 'ARP Defined — RFC 826',
 					description:
-						'David Plummer publishes the Address Resolution Protocol, solving the IP-to-MAC resolution problem with a simple {{broadcast|broadcast}}-and-reply mechanism.',
+						'David Plummer publishes the Address Resolution Protocol, solving the [[ip|IP]]-to-MAC resolution problem with a simple {{broadcast|broadcast}}-and-reply mechanism.',
 					protocolId: 'arp'
 				},
 				{
 					year: 1983,
 					title: 'IEEE 802.3 Ratified',
 					description:
-						'The IEEE ratifies 802.3, giving [[ethernet|Ethernet]] its formal standard. ARPANET officially switches to TCP/IP on January 1, "Flag Day."',
+						'The IEEE ratifies 802.3, giving [[ethernet|Ethernet]] its formal standard. ARPANET officially switches to [[tcp|TCP]]/[[ip|IP]] on January 1, "Flag Day."',
 					protocolId: 'ethernet'
 				},
 				{
@@ -183,20 +183,20 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
 					year: 1999,
 					title: 'Wi-Fi Alliance Formed',
 					description:
-						'The Wi-Fi Alliance is created to certify interoperability. 802.11b brings 11 Mbps, making wireless affordable for consumers.'
+						'The [[wifi|Wi-Fi]] Alliance is created to certify interoperability. 802.11b brings 11 Mbps, making wireless affordable for consumers.'
 				},
 				{
 					year: 2009,
 					title: 'Wi-Fi 4 (802.11n) — MIMO',
 					description:
-						'802.11n introduces multiple-input multiple-output (MIMO) antennas, reaching 600 Mbps and making Wi-Fi competitive with wired connections for most uses.',
+						'802.11n introduces multiple-input multiple-output (MIMO) antennas, reaching 600 Mbps and making [[wifi|Wi-Fi]] competitive with wired connections for most uses.',
 					protocolId: 'wifi'
 				},
 				{
 					year: 2020,
 					title: 'Wi-Fi 6 (802.11ax) — Efficiency Era',
 					description:
-						'Wi-Fi 6 focuses on efficiency in dense environments: OFDMA, BSS Coloring, and Target Wake Time improve performance when hundreds of devices share the airwaves.',
+						'[[wifi|Wi-Fi]] 6 focuses on efficiency in dense environments: OFDMA, BSS Coloring, and Target Wake Time improve performance when hundreds of devices share the airwaves.',
 					protocolId: 'wifi'
 				},
 				{
@@ -210,7 +210,7 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
 					year: 2025,
 					title: 'Wi-Fi 7 (802.11be) Published',
 					description:
-						'IEEE 802.11be ratified 22 July 2025: 320-MHz channels in 6 GHz, 4096-QAM, Multi-Link Operation, preamble puncturing. Wi-Fi 8 (802.11bn / Ultra High Reliability) is in draft for 2028 — not faster, but 25% better at the 95th percentile.',
+						'IEEE 802.11be ratified 22 July 2025: 320-MHz channels in 6 GHz, 4096-QAM, Multi-Link Operation, preamble puncturing. [[wifi|Wi-Fi]] 8 (802.11bn / Ultra High Reliability) is in draft for 2028 — not faster, but 25% better at the 95th percentile.',
 					protocolId: 'wifi'
 				},
 				{
@@ -252,7 +252,7 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
 			title: 'From Shared Wire to Switched Networks',
 			text: `The original [[ethernet|Ethernet]] was a shared coaxial cable — a "bus" — where every device heard every transmission. Collisions were inevitable, and CSMA/CD (Carrier Sense Multiple Access with Collision Detection) was the traffic cop: listen before transmitting, and if two devices collide, both back off for a random time and try again.
 
-The shift from hubs to switches in the 1990s was transformative. A hub was just a repeater — it sent every frame to every port. A switch, however, learns which MAC addresses live on which ports by watching source addresses. After learning, it forwards frames only to the correct port. Collisions disappeared. {{full-duplex|Full-duplex}} links doubled effective {{bandwidth|bandwidth}}. This simple innovation — the Ethernet switch — is what made modern LANs possible, from small offices to hyperscale data centers running at 400 Gbps.`
+The shift from hubs to switches in the 1990s was transformative. A hub was just a repeater — it sent every frame to every port. A switch, however, learns which MAC addresses live on which ports by watching source addresses. After learning, it forwards frames only to the correct port. Collisions disappeared. {{full-duplex|Full-duplex}} links doubled effective {{bandwidth|bandwidth}}. This simple innovation — the [[ethernet|Ethernet]] switch — is what made modern LANs possible, from small offices to hyperscale data centers running at 400 Gbps.`
 		},
 		{
 			type: 'image',
@@ -265,9 +265,9 @@ The shift from hubs to switches in the 1990s was transformative. A hub was just 
 		{
 			type: 'narrative',
 			title: 'Cutting the Cord',
-			text: `[[wifi|Wi-Fi]] brought [[ethernet|Ethernet]]'s model to the airwaves, but radio introduced challenges that cables never had. The wireless medium is shared — you can't run a dedicated cable to each device — so Wi-Fi uses CSMA/CA (Collision Avoidance) instead of CSMA/CD: devices announce their intent to transmit and wait for clear airtime rather than detecting collisions after the fact.
+			text: `[[wifi|Wi-Fi]] brought [[ethernet|Ethernet]]'s model to the airwaves, but radio introduced challenges that cables never had. The wireless medium is shared — you can't run a dedicated cable to each device — so [[wifi|Wi-Fi]] uses CSMA/CA (Collision Avoidance) instead of CSMA/CD: devices announce their intent to transmit and wait for clear airtime rather than detecting collisions after the fact.
 
-An [[wifi|802.11]] frame carries three or four MAC addresses (receiver, transmitter, destination, and sometimes source) compared to Ethernet's two. The {{access-point|access point}} bridges between worlds: it receives encrypted [[wifi|Wi-Fi]] frames from wireless clients, decrypts and strips the 802.11 header, then wraps the {{payload|payload}} in a standard [[ethernet|Ethernet]] frame for the wired network. This seamless bridging is why your laptop doesn't care whether it's plugged in or on Wi-Fi — [[ip|IP]] works the same either way.`
+An [[wifi|802.11]] frame carries three or four MAC addresses (receiver, transmitter, destination, and sometimes source) compared to [[ethernet|Ethernet]]'s two. The {{access-point|access point}} bridges between worlds: it receives encrypted [[wifi|Wi-Fi]] frames from wireless clients, decrypts and strips the [[wifi|802.11]] header, then wraps the {{payload|payload}} in a standard [[ethernet|Ethernet]] frame for the wired network. This seamless bridging is why your laptop doesn't care whether it's plugged in or on [[wifi|Wi-Fi]] — [[ip|IP]] works the same either way.`
 		},
 		{
 			type: 'diagram',
@@ -299,7 +299,7 @@ An [[wifi|802.11]] frame carries three or four MAC addresses (receiver, transmit
 		{
 			type: 'callout',
 			title: 'Layer 2 vs Layer 3',
-			text: '[[ethernet|Ethernet]] and Wi-Fi operate at Layer 2 (Data Link) — they handle framing and local delivery using MAC addresses. IP operates at Layer 3 (Network) — it handles addressing and routing across networks. [[arp|ARP]] bridges the two: it translates Layer 3 addresses (IP) into Layer 2 addresses (MAC). This separation of concerns is what makes the internet scalable — IP routes between networks, while Ethernet/Wi-Fi handles the "last mile" delivery on each segment.'
+			text: '[[ethernet|Ethernet]] and [[wifi|Wi-Fi]] operate at Layer 2 (Data Link) — they handle framing and local delivery using MAC addresses. [[ip|IP]] operates at Layer 3 (Network) — it handles addressing and routing across networks. [[arp|ARP]] bridges the two: it translates Layer 3 addresses ([[ip|IP]]) into Layer 2 addresses (MAC). This separation of concerns is what makes the internet scalable — [[ip|IP]] routes between networks, while [[ethernet|Ethernet]]/[[wifi|Wi-Fi]] handles the "last mile" delivery on each segment.'
 		},
 		{
 			type: 'narrative',
@@ -310,7 +310,7 @@ In 1981, Jon Postel defined [[icmp|ICMP]] — the Internet Control Message Proto
 
 By 1989, the internet was outgrowing its routing. The original ARPANET had a single backbone — routing was simple. But as multiple networks connected, someone had to decide how traffic flows between them. Yakov Rekhter and Kirk Lougheed created [[bgp|BGP]], the Border Gateway Protocol, which treats each network as an "{{autonomous-system|autonomous system}}" and exchanges route advertisements between them. Today, [[bgp|BGP]] is literally the protocol that holds the internet together — every path your data takes across network boundaries is decided by [[bgp|BGP]] route advertisements exchanged on [[tcp|TCP]] port 179.
 
-The most ambitious chapter began in the 1990s. [[ip|IPv4]]'s 32-bit address space — 4.3 billion addresses — was running out. Steve Deering led the design of [[ipv6|IPv6]], published as RFC 2460 in 1998 (later updated as RFC 8200 in 2017). [[ipv6|IPv6]] didn't just add more addresses; it rethought the protocol entirely. The header was simplified to a fixed 40 bytes — no {{checksum|checksum}}, no variable-length options. {{broadcast|Broadcast}} was eliminated in favor of {{multicast|multicast}}. [[arp|ARP]]'s broadcast-based address resolution was replaced by NDP (Neighbor Discovery Protocol), which uses efficient solicited-node multicast. Hosts can autoconfigure globally unique addresses via {{slaac|SLAAC}} without any server. On 28 March 2026, IPv6 crossed 50% of Google's traffic for the first time, 28 years after the spec — a transition that was supposed to take a few years and is still ongoing, a testament to how deeply embedded IPv4 became.`
+The most ambitious chapter began in the 1990s. [[ip|IPv4]]'s 32-bit address space — 4.3 billion addresses — was running out. Steve Deering led the design of [[ipv6|IPv6]], published as RFC 2460 in 1998 (later updated as RFC 8200 in 2017). [[ipv6|IPv6]] didn't just add more addresses; it rethought the protocol entirely. The header was simplified to a fixed 40 bytes — no {{checksum|checksum}}, no variable-length options. {{broadcast|Broadcast}} was eliminated in favor of {{multicast|multicast}}. [[arp|ARP]]'s broadcast-based address resolution was replaced by NDP (Neighbor Discovery Protocol), which uses efficient solicited-node multicast. Hosts can autoconfigure globally unique addresses via {{slaac|SLAAC}} without any server. On 28 March 2026, [[ipv6|IPv6]] crossed 50% of Google's traffic for the first time, 28 years after the spec — a transition that was supposed to take a few years and is still ongoing, a testament to how deeply embedded [[ip|IPv4]] became.`
 		},
 		{
 			type: 'diagram',
