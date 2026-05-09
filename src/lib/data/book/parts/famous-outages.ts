@@ -77,7 +77,7 @@ The fix was to install patched IMP software that rejected sequence numbers from 
 		{
 			id: 'as-7007-1997',
 			title: 'AS 7007 1997',
-			synopsis: 'A Florida ISP de-aggregates the entire BGP table.',
+			synopsis: 'A Florida ISP de-aggregates the entire [[bgp|BGP]] table.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -104,7 +104,7 @@ What made the recovery so painful was that there was no way to tell BGP "drop th
 						{
 							type: 'callout',
 							title: 'Three controls that did not exist in 1997',
-							text: '**Max-prefix limits** — automatically drop a BGP session that announces an unreasonable number of routes. **Prefix filters** — only accept announcements for prefixes a customer is documented to own. **[[frontier:rpki-rov-50-percent|RPKI/ROV]]** — cryptographically validate the origin AS before accepting a route. None of these were standard practice in 1997. All three exist now in large part because of incidents like AS 7007.'
+							text: '**Max-prefix limits** — automatically drop a [[bgp|BGP]] session that announces an unreasonable number of routes. **Prefix filters** — only accept announcements for prefixes a customer is documented to own. **[[frontier:rpki-rov-50-percent|RPKI/ROV]]** — cryptographically validate the origin AS before accepting a route. None of these were standard practice in 1997. All three exist now in large part because of incidents like AS 7007.'
 						}
 					]
 				},
@@ -131,7 +131,7 @@ What broke the deadlock was a series of high-profile incidents (2018 Amazon Rout
 		{
 			id: 'mitnick-1994',
 			title: 'Mitnick vs Shimomura 1994',
-			synopsis: 'TCP sequence-prediction attack on Christmas Day.',
+			synopsis: '[[tcp|TCP]] sequence-prediction attack on Christmas Day.',
 			slots: [
 				{
 					kind: 'prose',
@@ -155,7 +155,7 @@ Mitnick used this to land a forged connection from a host listed in Shimomura's 
 						{
 							type: 'callout',
 							title: 'rsh / rlogin trust was the multiplier',
-							text: 'TCP sequence prediction by itself is not catastrophic — it just lets you forge a connection. The reason this attack worked is that Berkeley Unix\'s \`.rhosts\` mechanism trusted **the source {{ip-address|IP address}}** of an incoming connection as authentication. Forge the source IP, get the trust. [[ssh|SSH]] (which Tatu Ylönen wrote in 1995, partly in response to incidents like this one) replaced \`.rhosts\` with cryptographic identity — even a perfectly forged TCP connection cannot impersonate someone without their {{private-key|private key}}.'
+							text: '[[tcp|TCP]] sequence prediction by itself is not catastrophic — it just lets you forge a connection. The reason this attack worked is that Berkeley Unix\'s \`.rhosts\` mechanism trusted **the source {{ip-address|IP address}}** of an incoming connection as authentication. Forge the source IP, get the trust. [[ssh|SSH]] (which Tatu Ylönen wrote in 1995, partly in response to incidents like this one) replaced \`.rhosts\` with cryptographic identity — even a perfectly forged [[tcp|TCP]] connection cannot impersonate someone without their {{private-key|private key}}.'
 						},
 						{
 							type: 'narrative',
@@ -191,7 +191,7 @@ The technical legacy outlived the celebrity. **RFC 1948** (Steve Bellovin, 1996)
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: 'BGP has no built-in concept of "this announcement should stay inside my country." Pakistan\'s domestic block became the world\'s outage in three minutes flat.',
+					text: '[[bgp|BGP]] has no built-in concept of "this announcement should stay inside my country." Pakistan\'s domestic block became the world\'s outage in three minutes flat.',
 					attribution: 'Author'
 				},
 				{
@@ -269,7 +269,7 @@ The technical fact is unambiguous: 15% of the global internet's traffic had a br
 						{
 							type: 'callout',
 							title: 'The "everything is encrypted" reply does not hold',
-							text: 'A natural reaction to {{bgp-hijack|BGP hijack}} incidents is "but the data is encrypted, so what does it matter if a third party sees it?" Two reasons it matters. First, **cryptographic metadata** ({{tls-handshake|TLS handshake}} fingerprints, {{certificate-chain|certificate chains}}, SNI hostnames) reveals more than people realise. Second, **traffic analysis** — even on encrypted flows, packet sizes and timing leak intent. A connection burst between a Pentagon IP and a defence contractor IP, observed by a foreign AS, is intelligence regardless of cipher. This is part of why {{ech|ECH (Encrypted Client Hello)}} is a current TLS frontier.'
+							text: 'A natural reaction to {{bgp-hijack|BGP hijack}} incidents is "but the data is encrypted, so what does it matter if a third party sees it?" Two reasons it matters. First, **cryptographic metadata** ({{tls-handshake|TLS handshake}} fingerprints, {{certificate-chain|certificate chains}}, SNI hostnames) reveals more than people realise. Second, **traffic analysis** — even on encrypted flows, packet sizes and timing leak intent. A connection burst between a Pentagon IP and a defence contractor IP, observed by a foreign AS, is intelligence regardless of cipher. This is part of why {{ech|ECH (Encrypted Client Hello)}} is a current [[tls|TLS]] frontier.'
 						}
 					]
 				},
@@ -415,7 +415,7 @@ So we live with the architectural fragility and add operational guards. Every mo
 		{
 			id: 'facebook-2021',
 			title: 'Facebook 2021 — The Cascade',
-			synopsis: 'BGP, DNS, badge readers — six hours of compounding failure.',
+			synopsis: 'BGP, [[dns|DNS]], badge readers — six hours of compounding failure.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -453,7 +453,7 @@ The first BGP fix went in around 21:00 UTC. Recovery took until 22:30 — six ho
 						{
 							type: 'callout',
 							title: 'Independent on the diagram, same fate in operation',
-							text: '**Dependencies that look independent on the architecture diagram are often the same dependency in operation.** BGP, DNS, badge readers, build systems, monitoring — Facebook\'s diagram showed them as separate concerns. In practice, all five depended on the same underlying network, and when the network disappeared, all five disappeared together. The post-mortem documented every cascade step, and the industry collectively learned to ask "what depends on the network?" of every operationally-critical system.'
+							text: '**Dependencies that look independent on the architecture diagram are often the same dependency in operation.** BGP, [[dns|DNS]], badge readers, build systems, monitoring — Facebook\'s diagram showed them as separate concerns. In practice, all five depended on the same underlying network, and when the network disappeared, all five disappeared together. The post-mortem documented every cascade step, and the industry collectively learned to ask "what depends on the network?" of every operationally-critical system.'
 						}
 					]
 				},

@@ -20,7 +20,7 @@ Security is a growing concern: {{dnssec|DNSSEC}} (DNS Security Extensions) adds 
 		{
 			title: 'Query sent',
 			description:
-				'Your device asks the configured recursive resolver (e.g., 8.8.8.8 or 1.1.1.1): "What is the IP for example.com?" Usually sent over UDP for speed.'
+				'Your device asks the configured recursive resolver (e.g., 8.8.8.8 or 1.1.1.1): "What is the IP for example.com?" Usually sent over [[udp|UDP]] for speed.'
 		},
 		{
 			title: 'Recursive resolution',
@@ -228,7 +228,7 @@ curl -sH 'accept: application/dns-json' \\
 	funFacts: [
 		{
 			title: 'DNS replaced a hand-edited text file',
-			text: 'Until 1983, every host on the ARPANET maintained a flat HOSTS.TXT file with all the address mappings, distributed by FTP. As the network grew past a few hundred hosts, the manual update process became absurd. [[pioneer:paul-mockapetris|Paul Mockapetris]] designed DNS to replace it.'
+			text: 'Until 1983, every host on the ARPANET maintained a flat HOSTS.TXT file with all the address mappings, distributed by [[ftp|FTP]]. As the network grew past a few hundred hosts, the manual update process became absurd. [[pioneer:paul-mockapetris|Paul Mockapetris]] designed DNS to replace it.'
 		},
 		{
 			title: 'Caching does almost all the work',
@@ -236,7 +236,7 @@ curl -sH 'accept: application/dns-json' \\
 		},
 		{
 			title: 'There are only 13 root server letters',
-			text: 'Why 13? In 1991, when the root system was designed, a single UDP packet could only fit so many name+IP records — and 13 was the maximum that fit in a 512-byte response. Today the limit is moot (EDNS allows larger responses), but the 13-letter convention has stuck for 35 years.'
+			text: 'Why 13? In 1991, when the root system was designed, a single [[udp|UDP]] packet could only fit so many name+IP records — and 13 was the maximum that fit in a 512-byte response. Today the limit is moot (EDNS allows larger responses), but the 13-letter convention has stuck for 35 years.'
 		}
 	],
 

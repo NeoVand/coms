@@ -29,7 +29,7 @@ SOAP remains deeply embedded in banking, healthcare, government, and insurance s
 		{
 			title: 'HTTP POST',
 			description:
-				'The complete XML envelope is sent as an HTTP POST request with Content-Type: text/xml (SOAP 1.1) or application/soap+xml (SOAP 1.2). Unlike REST, SOAP always uses POST regardless of whether the operation reads or writes data.'
+				'The complete XML envelope is sent as an HTTP POST request with Content-Type: text/xml (SOAP 1.1) or application/soap+xml (SOAP 1.2). Unlike [[rest|REST]], SOAP always uses POST regardless of whether the operation reads or writes data.'
 		},
 		{
 			title: 'Response or Fault',

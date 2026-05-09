@@ -23,7 +23,7 @@ On 28 March 2026, IPv6 carried 50.1% of Google's traffic for the first time in i
 		{
 			title: 'Addressing (128-bit)',
 			description:
-				"Addresses are written as eight groups of four hex digits (2001:0db8:85a3::8a2e:0370:7334). Link-local (fe80::), global {{unicast|unicast}} (2000::/3), and {{multicast|multicast}} (ff00::/8) replace IPv4's {{broadcast|broadcast}} model."
+				"Addresses are written as eight groups of four hex digits (2001:0db8:85a3::8a2e:0370:7334). Link-local (fe80::), global {{unicast|unicast}} (2000::/3), and {{multicast|multicast}} (ff00::/8) replace [[ip|IPv4]]'s {{broadcast|broadcast}} model."
 		},
 		{
 			title: 'Simplified header',
@@ -38,7 +38,7 @@ On 28 March 2026, IPv6 carried 50.1% of Google's traffic for the first time in i
 		{
 			title: 'Neighbor Discovery (NDP)',
 			description:
-				'Replaces ARP, ICMP Router Discovery, and ICMP Redirect. Uses ICMPv6 messages: Router Solicitation/Advertisement (find routers), Neighbor Solicitation/Advertisement (resolve addresses via solicited-node multicast).'
+				'Replaces [[arp|ARP]], [[icmp|ICMP]] Router Discovery, and [[icmp|ICMP]] Redirect. Uses ICMPv6 messages: Router Solicitation/Advertisement (find routers), Neighbor Solicitation/Advertisement (resolve addresses via solicited-node multicast).'
 		},
 		{
 			title: 'Stateless autoconfiguration (SLAAC)',

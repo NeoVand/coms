@@ -1,5 +1,7 @@
 <script lang="ts">
 	import type { Pioneer } from '$lib/data/category-stories/types';
+	import { parseRichText } from '$lib/utils/text-parser';
+	import RichText from '$lib/components/detail/inline/RichText.svelte';
 
 	let { pioneer, color }: { pioneer: Pioneer; color: string } = $props();
 
@@ -44,6 +46,8 @@
 		</div>
 		<div class="text-xs text-t-secondary">{pioneer.title}</div>
 		<div class="mt-0.5 text-[10px] text-t-muted">{pioneer.org}</div>
-		<p class="mt-1.5 text-xs leading-relaxed text-t-muted">{pioneer.contribution}</p>
+		<p class="mt-1.5 text-xs leading-relaxed text-t-muted">
+			<RichText segments={parseRichText(pioneer.contribution)} {color} />
+		</p>
 	</div>
 </div>

@@ -157,7 +157,7 @@ ethtool -S eth0 | head -20`
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Ethernet_frame.svg/500px-Ethernet_frame.svg.png',
 		alt: 'Diagram showing the structure of an Ethernet II frame with preamble, MAC addresses, EtherType, payload, and FCS fields',
 		caption:
-			"The Ethernet frame structure — every packet on your local network is wrapped in this format. The 6-byte destination and source MAC addresses identify devices, the EtherType field (0x0800 for IP, 0x0806 for ARP) tells the receiver what's inside, and the FCS checksum catches transmission errors.",
+			"The Ethernet frame structure — every packet on your local network is wrapped in this format. The 6-byte destination and source MAC addresses identify devices, the EtherType field (0x0800 for IP, 0x0806 for [[arp|ARP]]) tells the receiver what's inside, and the FCS checksum catches transmission errors.",
 		credit: 'Image: Wikimedia Commons / Public Domain'
 	}
 };

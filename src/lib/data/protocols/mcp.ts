@@ -24,7 +24,7 @@ The architecture has three roles: the **Host** (the AI application you interact 
 		{
 			title: 'Initialize handshake',
 			description:
-				'The client sends an "initialize" JSON-RPC request declaring its protocol version and capabilities (sampling, roots, elicitation). The server responds with its own version and capabilities (tools, resources, prompts). The client then sends a "notifications/initialized" notification to confirm readiness.'
+				'The client sends an "initialize" [[json-rpc|JSON-RPC]] request declaring its protocol version and capabilities (sampling, roots, elicitation). The server responds with its own version and capabilities (tools, resources, prompts). The client then sends a "notifications/initialized" notification to confirm readiness.'
 		},
 		{
 			title: 'Discovery',
@@ -73,7 +73,7 @@ def review_code(code: str) -> str:
 # Run with: mcp run server.py
 # Or: mcp dev server.py (for inspector UI)`,
 		caption:
-			'Three lines of decorator code expose a tool, a resource, and a prompt — the MCP SDK handles all the JSON-RPC plumbing.',
+			'Three lines of decorator code expose a tool, a resource, and a prompt — the MCP SDK handles all the [[json-rpc|JSON-RPC]] plumbing.',
 		alternatives: [
 			{
 				language: 'javascript',
@@ -163,7 +163,7 @@ curl -X POST http://localhost:3000/mcp \\
 		src: 'https://upload.wikimedia.org/wikipedia/commons/d/d5/Model_Context_Protocol_Component_diagram.svg',
 		alt: 'Model Context Protocol component diagram showing the Host, Client, and Server architecture with tool, resource, and prompt primitives',
 		caption:
-			'The MCP architecture — a Host (AI application) creates Clients that connect 1:1 to Servers. Each Server exposes tools, resources, and prompts through a standard JSON-RPC interface. Created by Anthropic in 2024 and donated to the Linux Foundation in 2025.',
+			'The MCP architecture — a Host (AI application) creates Clients that connect 1:1 to Servers. Each Server exposes tools, resources, and prompts through a standard [[json-rpc|JSON-RPC]] interface. Created by Anthropic in 2024 and donated to the Linux Foundation in 2025.',
 		credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 	}
 };

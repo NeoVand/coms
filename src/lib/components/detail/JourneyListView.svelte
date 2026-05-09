@@ -5,6 +5,8 @@
 	import { ChevronLeft, ChevronRight } from 'lucide-svelte';
 	import { themedDomColor } from '$lib/utils/colors';
 	import { navigateToProtocol, navigateToJourney } from '$lib/utils/navigation';
+	import { parseRichText } from '$lib/utils/text-parser';
+	import RichText from '$lib/components/detail/inline/RichText.svelte';
 
 	let { scope, color = '#FFFFFF' }: { scope: string; color?: string } = $props();
 
@@ -58,7 +60,7 @@
 				<div class="min-w-0 flex-1">
 					<h3 class="text-sm font-bold text-t-primary">{journey.title}</h3>
 					<p class="mt-0.5 text-[11px] leading-relaxed text-t-muted">
-						{journey.description}
+						<RichText segments={parseRichText(journey.description)} color={jc(journey.color)} />
 					</p>
 				</div>
 				<!-- Compact nav -->
@@ -146,14 +148,14 @@
 
 						{#if isActive}
 							<p class="mt-1.5 text-xs leading-relaxed text-t-primary">
-								{step.description}
+								<RichText segments={parseRichText(step.description)} color={jc(journey.color)} />
 							</p>
 							{#if step.transition && i < journey.steps.length - 1}
 								<p
 									class="mt-2 border-l-2 pl-2.5 text-[11px] leading-relaxed italic"
 									style="border-color: {jc(journey.color)}30; color: {jc(journey.color)}80;"
 								>
-									{step.transition}
+									<RichText segments={parseRichText(step.transition)} color={jc(journey.color)} />
 								</p>
 							{/if}
 						{/if}
@@ -174,7 +176,9 @@
 				onclick={() => startJourney(j)}
 			>
 				<h4 class="text-sm font-semibold text-t-primary">{j.title}</h4>
-				<p class="mt-1 text-xs leading-relaxed text-t-secondary">{j.description}</p>
+				<p class="mt-1 text-xs leading-relaxed text-t-secondary">
+					<RichText segments={parseRichText(j.description)} color={jc(j.color)} />
+				</p>
 				<div class="mt-3 flex flex-wrap gap-1.5">
 					{#each j.steps as step, i (i)}
 						{@const proto = getProtocolById(step.protocolId)}

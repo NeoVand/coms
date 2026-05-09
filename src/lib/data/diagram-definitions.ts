@@ -41,7 +41,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     C->>S: ACK (ack=302)
     Note over C: TIME_WAIT (~60s)`,
 		caption:
-			'**TCP** = Transmission Control Protocol. A three-way handshake opens the connection, **`seq`**/**`ack`** numbers track every byte, and **FIN** closes it cleanly — the foundation of reliable delivery ([[rfc:793|RFC 793]] / [[rfc:9293|RFC 9293]]).',
+			'**[[tcp|TCP]]** = Transmission Control Protocol. A three-way handshake opens the connection, **`seq`**/**`ack`** numbers track every byte, and **FIN** closes it cleanly — the foundation of reliable delivery ([[rfc:793|RFC 793]] / [[rfc:9293|RFC 9293]]).',
 		steps: {
 			0: 'Before any data flows, both sides must agree they\'re talking. The next three messages — **SYN**, **SYN-ACK**, **ACK** — establish that agreement and sync their sequence counters.',
 			1: '**SYN** = synchronize. The client picks a random initial sequence number (here `100`) and sends it. The *Hey, can we talk?* step.',
@@ -74,7 +74,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     Note over S: Received 1, 2, 3, 5 — no retransmit for #4
     Note over C,S: No ACKs, no sequence numbers, no guarantees`,
 		caption:
-			'**UDP** = User Datagram Protocol. Fire-and-forget delivery — minimal 8-byte header, no handshake, no retransmits. The application is responsible for any reliability it needs ([[rfc:768|RFC 768]]).',
+			'**[[udp|UDP]]** = User Datagram Protocol. Fire-and-forget delivery — minimal 8-byte header, no handshake, no retransmits. The application is responsible for any reliability it needs ([[rfc:768|RFC 768]]).',
 		steps: {
 			0: 'No setup. The very first packet carries data — there\'s no SYN/ACK ceremony. This is what makes UDP fast for DNS lookups, voice, video, and gaming.',
 			4: 'Datagram **4 is dropped** in transit. UDP doesn\'t notice and doesn\'t care — there\'s no retransmission machinery.',
@@ -99,7 +99,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     S->>C: Stream 2 data — unaffected
     Note over C,S: 0-RTT available for returning clients`,
 		caption:
-			'**QUIC** = Quick UDP Internet Connections. Transport + encryption fused into one handshake. Independent **streams** mean a lost packet only blocks its own stream, not the whole connection ([[rfc:9000|RFC 9000]]).',
+			'**[[quic|QUIC]]** = Quick [[udp|UDP]] Internet Connections. Transport + encryption fused into one handshake. Independent **streams** mean a lost packet only blocks its own stream, not the whole connection ([[rfc:9000|RFC 9000]]).',
 		steps: {
 			0: 'Where TCP needs a separate TLS handshake on top, **QUIC merges them** — connection setup and encryption happen in the same exchange, halving the round trips.',
 			1: 'Client\'s first flight carries the **TLS ClientHello** plus QUIC connection setup. Already includes its key share for the handshake.',
@@ -128,7 +128,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     A->>B: Stream 3 — voice (unaffected!)
     Note over A,B: Streams independent + multi-homing for failover`,
 		caption:
-			'**SCTP** = Stream Control Transmission Protocol. TCP-like reliability with two superpowers: multiple **independent streams** in one association and **multi-homing** for IP-level failover ([[rfc:4960|RFC 4960]] / 9260).',
+			'**[[sctp|SCTP]]** = Stream Control Transmission Protocol. TCP-like reliability with two superpowers: multiple **independent streams** in one association and **multi-homing** for IP-level failover ([[rfc:4960|RFC 4960]] / 9260).',
 		steps: {
 			0: 'Unlike TCP\'s three-way, SCTP uses **four** messages — the extra round trip lets the server hand out a cookie *before* committing any state, defeating SYN-flood attacks.',
 			1: '**INIT** opens the association. Includes the client\'s address list (multi-homing) and a verification tag.',
@@ -161,7 +161,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     Note over C,S: WiFi drops — seamless failover
     C->>S: Data (subflow 2 only — no interruption)`,
 		caption:
-			'**MPTCP** = Multipath TCP. One logical TCP connection spread across **multiple network paths** — same socket, but data flows over WiFi *and* cellular at once. Survives losing either path ([[rfc:8684|RFC 8684]]).',
+			'**[[mptcp|MPTCP]]** = Multipath [[tcp|TCP]]. One logical [[tcp|TCP]] connection spread across **multiple network paths** — same socket, but data flows over WiFi *and* cellular at once. Survives losing either path ([[rfc:8684|RFC 8684]]).',
 		steps: {
 			0: 'MPTCP starts looking exactly like a regular TCP handshake. The trick is the new **`MP_CAPABLE`** option that signals *I can do multipath*.',
 			1: 'Looks like a normal **SYN**, but carries an `MP_CAPABLE` option with `key_A` — a per-host key used later to authenticate additional subflows.',
@@ -192,7 +192,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     S->>C: 200 OK (JS)
     Note over C,S: Head-of-line blocking: each request waits for previous response`,
 		caption:
-			'**HTTP/1.1** = the text-based protocol that built the web (1997). A request line + headers + optional body, then a status line + headers + body in reply. One request at a time per connection — browsers parallelize by opening up to **6 connections per origin** ([[rfc:9112|RFC 9112]]).',
+			'**[[http1|HTTP/1.1]]** = the text-based protocol that built the web (1997). A request line + headers + optional body, then a status line + headers + body in reply. One request at a time per connection — browsers parallelize by opening up to **6 connections per origin** ([[rfc:9112|RFC 9112]]).',
 		steps: {
 			0: '**`GET`** = the request method for *fetching* a resource. **Safe** (no server-side side effects) and **idempotent** (calling twice = calling once), so responses are freely cacheable. The other common methods: **`POST`** (create), **`PUT`** (replace), **`PATCH`** (partial update), **`DELETE`** (remove), **`HEAD`** (GET without body — just headers), **`OPTIONS`** (capabilities probe, used in CORS).',
 			1: '**`200 OK`** = success with body. HTTP status codes are 3-digit, grouped by hundreds: **`1xx`** informational (`100 Continue`), **`2xx`** success (`201 Created`, `204 No Content`), **`3xx`** redirect (`301` permanent, `302` temporary, `304 Not Modified`), **`4xx`** client error (`400 Bad Request`, `401 Unauthorized`, `403 Forbidden`, `404 Not Found`, `429 Too Many Requests`), **`5xx`** server error (`500 Internal`, `502 Bad Gateway`, `503 Unavailable`, `504 Gateway Timeout`).',
@@ -224,7 +224,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     S->>C: HEADERS + DATA (stream 3)
     Note over C,S: Header compression (HPACK) + server push`,
 		caption:
-			'**HTTP/2** = HTTP rebuilt over **multiplexed streams**. All requests share one TCP connection and interleave freely as numbered streams. Headers are compressed via HPACK ([[rfc:9113|RFC 9113]]).',
+			'**[[http2|HTTP/2]]** = HTTP rebuilt over **multiplexed streams**. All requests share one TCP connection and interleave freely as numbered streams. Headers are compressed via HPACK ([[rfc:9113|RFC 9113]]).',
 		steps: {
 			0: '**ALPN** = Application-Layer Protocol Negotiation. Inside the TLS handshake, the client lists protocols it supports and the server picks one. **`h2`** = HTTP/2.',
 			3: 'All three GETs go out **in parallel as separate streams** (odd-numbered streams are client-initiated). No waiting for the first response.',
@@ -251,7 +251,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     S->>C: DATA (stream 3) — unaffected!
     Note over C,S: No head-of-line blocking across streams`,
 		caption:
-			'**HTTP/3** = HTTP over **QUIC** (which runs on UDP). Same multiplexing as HTTP/2, but streams are independent at the *transport* layer too — a lost packet on one stream cannot block others ([[rfc:9114|RFC 9114]]).',
+			'**[[http3|HTTP/3]]** = HTTP over **[[quic|QUIC]]** (which runs on [[udp|UDP]]). Same multiplexing as [[http2|HTTP/2]], but streams are independent at the *transport* layer too — a lost packet on one stream cannot block others ([[rfc:9114|RFC 9114]]).',
 		steps: {
 			0: '**`h3`** = HTTP/3 identifier negotiated via ALPN inside QUIC\'s combined TLS handshake.',
 			1: 'QUIC\'s handshake setup + crypto in **one round trip**. Returning clients can do 0-RTT.',
@@ -298,7 +298,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     S->>C: Bidirectional stream
     Note over C,S: Code generated from .proto service definitions`,
 		caption:
-			'**gRPC** = Google\'s high-performance **RPC** framework. Methods defined in `.proto` files become typed client and server stubs in your language; messages travel as compact **Protobuf** binary over HTTP/2.',
+			'**[[grpc|gRPC]]** = Google\'s high-performance **RPC** framework. Methods defined in `.proto` files become typed client and server stubs in your language; messages travel as compact **Protobuf** binary over [[http2|HTTP/2]].',
 		steps: {
 			0: '**RPC** = Remote Procedure Call. Looks like a function call but actually crosses the network. The strong typing comes from the **`.proto`** schema both sides share.',
 			1: 'Method invocation. Note this **isn\'t JSON** — Protobuf serializes the call by field-number, omitting names and types from the wire format.',
@@ -322,7 +322,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     S->>C: { "data": exact shape requested }
     Note over C,S: No over-fetching, no under-fetching`,
 		caption:
-			'**GraphQL** = a query language for APIs. The client describes the *shape* of data it wants; the server returns exactly that — no more, no less. Typed schema, single endpoint (graphql.org).',
+			'**[[graphql|GraphQL]]** = a query language for APIs. The client describes the *shape* of data it wants; the server returns exactly that — no more, no less. Typed schema, single endpoint (graphql.org).',
 		steps: {
 			0: 'Top half of the diagram shows the REST way: two endpoints, two round trips, and each response includes fields you never asked for.',
 			5: 'Bottom half: GraphQL. **One request**, one response, exact fields.',
@@ -347,7 +347,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     end
     Note over C,S: Auto-reconnects on disconnect (Last-Event-ID)`,
 		caption:
-			'**SSE** = Server-Sent Events. The browser opens an HTTP connection and the server **pushes named events** as plain text. One-way (server→client) with built-in auto-reconnect (WHATWG).',
+			'**[[sse|SSE]]** = Server-Sent Events. The browser opens an HTTP connection and the server **pushes named events** as plain text. One-way (server→client) with built-in auto-reconnect (WHATWG).',
 		steps: {
 			0: 'Standard HTTP request with **`Accept: text/event-stream`** — no special protocol upgrade needed. Works over HTTP/1.1, /2, /3.',
 			1: 'Server returns `200` with **`Content-Type: text/event-stream`** and never closes. The body streams forever.',
@@ -370,7 +370,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     C->>S: {"method":"bad","id":2}
     S->>C: {"error":{"code":-32601},"id":2}`,
 		caption:
-			'**JSON-RPC** = a tiny RPC protocol where every message is a JSON object. Calls have an `id` and get a result; notifications omit `id` and get nothing back. Used by Bitcoin, Ethereum, MCP, and the Language Server Protocol (jsonrpc.org 2.0).',
+			'**[[json-rpc|JSON-RPC]]** = a tiny RPC protocol where every message is a JSON object. Calls have an `id` and get a result; notifications omit `id` and get nothing back. Used by Bitcoin, Ethereum, [[mcp|MCP]], and the Language Server Protocol (jsonrpc.org 2.0).',
 		steps: {
 			0: 'A **call**: includes `method` name, `params` array or object, and an `id`. The id pairs the eventual response with this request.',
 			1: 'Response with the matching `id` and a `result` field. Calls and responses don\'t have to arrive in order — the id is what matches them.',
@@ -400,7 +400,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     S->>H: {content: [{type: "text", text: "72°F, sunny"}]}
     Note over H,S: JSON-RPC 2.0 over stdio or Streamable HTTP`,
 		caption:
-			'**MCP** = Model Context Protocol. The standard way for AI applications (the **host**) to connect to outside **tools** and **resources** — file systems, databases, APIs. JSON-RPC 2.0 over stdio or HTTP (modelcontextprotocol.io).',
+			'**[[mcp|MCP]]** = Model Context Protocol. The standard way for AI applications (the **host**) to connect to outside **tools** and **resources** — file systems, databases, APIs. [[json-rpc|JSON-RPC]] 2.0 over stdio or HTTP (modelcontextprotocol.io).',
 		steps: {
 			0: 'Every MCP session starts with a **handshake** so both sides agree on protocol version and what features each supports.',
 			1: 'Host opens with **`initialize`** — sends its protocol version, capabilities (e.g., supports streaming?), and basic info about itself.',
@@ -432,7 +432,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     R-->>C: SSE: TaskArtifactUpdate
     Note over C,R: JSON-RPC 2.0 over HTTP(S)`,
 		caption:
-			'**A2A** = Agent-to-Agent. The standard for one AI agent to **discover** and **delegate work** to another over HTTP. Tasks have an explicit lifecycle, and agents publish their skills in a public Agent Card (a2a-protocol.org).',
+			'**[[a2a|A2A]]** = Agent-to-Agent. The standard for one AI agent to **discover** and **delegate work** to another over HTTP. Tasks have an explicit lifecycle, and agents publish their skills in a public Agent Card (a2a-protocol.org).',
 		steps: {
 			1: 'Discovery is just a **well-known URL** — `/.well-known/agent.json`. Anyone can fetch it without authentication to learn what an agent does.',
 			2: 'The **Agent Card** is the agent\'s public profile: name, what it can do (skills), what it accepts (input schemas), how to authenticate, and the API endpoint.',
@@ -461,7 +461,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     Note over C,S: Stateless — each request carries all context
     Note over C,S: Resources as URLs, actions as HTTP verbs`,
 		caption:
-			'**REST** = Representational State Transfer (Roy Fielding, 2000). Resources are URLs; **CRUD** maps to HTTP verbs. Each request is **stateless** — the server keeps no per-client memory between requests.',
+			'**[[rest|REST]]** = Representational State Transfer (Roy Fielding, 2000). Resources are URLs; **CRUD** maps to HTTP verbs. Each request is **stateless** — the server keeps no per-client memory between requests.',
 		steps: {
 			0: '**`GET`** = read. Safe (no side effects) and **idempotent** (calling it twice = calling it once). Cacheable by intermediaries.',
 			2: '**`POST`** = create. Not idempotent — calling twice creates two resources. Returns **`201 Created`** with a `Location` header pointing to the new URL.',
@@ -492,7 +492,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     B->>S: PUBLISH "sensor/temp" = 24.1C
     Note over P,S: QoS 0 (fire-and-forget), 1 (at-least-once), 2 (exactly-once)`,
 		caption:
-			'**MQTT** = Message Queuing Telemetry Transport. Tiny **publish/subscribe** protocol designed for unreliable IoT links. A central **broker** routes messages by **topic** — publishers and subscribers never talk directly (OASIS MQTT).',
+			'**[[mqtt|MQTT]]** = Message Queuing Telemetry Transport. Tiny **publish/subscribe** protocol designed for unreliable IoT links. A central **broker** routes messages by **topic** — publishers and subscribers never talk directly (OASIS [[mqtt|MQTT]]).',
 		steps: {
 			0: '**`CONNECT`** carries the client ID, optional username/password, and a **last-will** message the broker will publish if this client disconnects unexpectedly.',
 			2: '**`SUBSCRIBE`** registers interest in a topic pattern. Wildcards: **`+`** matches one level (`sensor/+/temp`), **`#`** matches everything below (`sensor/#`).',
@@ -518,7 +518,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     Note over B: Route to dead-letter exchange
     Note over P,C: Durable queues survive broker restarts`,
 		caption:
-			'**AMQP** = Advanced Message Queuing Protocol. Producers send to an **exchange**, which uses **binding rules** to route into named **queues**. Consumers acknowledge each message — failures can be redirected to a dead-letter queue (AMQP 0-9-1).',
+			'**[[amqp|AMQP]]** = Advanced Message Queuing Protocol. Producers send to an **exchange**, which uses **binding rules** to route into named **queues**. Consumers acknowledge each message — failures can be redirected to a dead-letter queue ([[amqp|AMQP]] 0-9-1).',
 		steps: {
 			0: 'Publisher targets an **exchange** with a **routing key** (here `order.new`). Unlike MQTT, producers don\'t pick the queue — the exchange decides.',
 			1: 'Exchange types: **direct** (exact key match), **topic** (wildcard match), **fanout** (broadcast to all bound queues), **headers** (match on header dict). Picking the right type is the design choice.',
@@ -543,7 +543,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     S->>C: RECEIPT
     Note over C,S: Text-based frames: COMMAND + headers + body + null byte`,
 		caption:
-			'**STOMP** = Simple Text Oriented Messaging Protocol. Plain-text frames you can type by hand — `COMMAND` + headers + body + `\\0`. Built into many message brokers as a friendlier alternative to AMQP.',
+			'**[[stomp|STOMP]]** = Simple Text Oriented Messaging Protocol. Plain-text frames you can type by hand — `COMMAND` + headers + body + `\\0`. Built into many message brokers as a friendlier alternative to [[amqp|AMQP]].',
 		steps: {
 			0: '**`CONNECT`** opens the session. Like an HTTP handshake but the body is a STOMP frame, and headers carry credentials.',
 			2: '**`SUBSCRIBE`** registers interest in a destination (queue or topic). The `id` is the client\'s local handle for this subscription.',
@@ -567,7 +567,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     S->>C: 2.05 Content: 24.8C (observe seq 3)
     Note over C,S: No polling — server notifies on change`,
 		caption:
-			'**CoAP** = Constrained Application Protocol. HTTP\'s design, shrunk for tiny IoT devices: 4-byte header, runs over **UDP**, optional reliability per message. Same REST verbs and status codes ([[rfc:7252|RFC 7252]]).',
+			'**[[coap|CoAP]]** = Constrained Application Protocol. HTTP\'s design, shrunk for tiny IoT devices: 4-byte header, runs over **UDP**, optional reliability per message. Same [[rest|REST]] verbs and status codes ([[rfc:7252|RFC 7252]]).',
 		steps: {
 			0: '**`CON`** = Confirmable. The request asks for an explicit ACK back. The cheap counterpart is **`NON`** (non-confirmable, fire-and-forget).',
 			1: 'HTTP\'s headers can run hundreds of bytes; CoAP packs everything into **4 bytes** plus compact options. Critical for battery-powered radios.',
@@ -597,7 +597,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     R->>R: Deliver to bob's connected client
     Note over C,R: Federated messaging — like email routing`,
 		caption:
-			'**XMPP** = Extensible Messaging and Presence Protocol. Originally Jabber. An open XML stream over TCP with **federated** routing — different domains relay to each other like email ([[rfc:6120|RFC 6120]]).',
+			'**[[xmpp|XMPP]]** = Extensible Messaging and Presence Protocol. Originally Jabber. An open XML stream over TCP with **federated** routing — different domains relay to each other like email ([[rfc:6120|RFC 6120]]).',
 		steps: {
 			0: 'Client opens a TCP socket and sends `<stream:stream>` — an XML element that won\'t be closed until the session ends. The whole conversation is one continuous XML document.',
 			1: 'Server replies with **`<stream:features>`** advertising what\'s available — TLS, SASL mechanisms, optional extensions.',
@@ -627,7 +627,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     B->>C: Records (offsets 43–50)
     Note over P,C: Log is immutable — consumers replay at any offset`,
 		caption:
-			'**Kafka** = a distributed **append-only log**. Producers append; consumers read by **offset** at their own pace. Multi-day retention means anyone can replay history. The backbone of modern event streaming (Apache Kafka).',
+			'**[[kafka|Kafka]]** = a distributed **append-only log**. Producers append; consumers read by **offset** at their own pace. Multi-day retention means anyone can replay history. The backbone of modern event streaming (Apache [[kafka|Kafka]]).',
 		steps: {
 			0: 'Client first asks any broker for the **cluster map** — which broker leads which partition. Producers and consumers route directly to leaders after this.',
 			2: 'Producer sends a **batch** to a specific (topic, partition) leader. Picking the partition (random, round-robin, or by key) decides ordering and parallelism.',
@@ -661,7 +661,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     B->>A: Audio/Video (SRTP)
     Note over A,B: Server only assists setup — media flows P2P`,
 		caption:
-			'**WebRTC** = real-time video, audio, and data **directly between browsers**. The server only helps peers find each other (signaling) — once connected, **media flows peer-to-peer** with no hop through your servers (W3C / IETF).',
+			'**[[webrtc|WebRTC]]** = real-time video, audio, and data **directly between browsers**. The server only helps peers find each other (signaling) — once connected, **media flows peer-to-peer** with no hop through your servers (W3C / IETF).',
 		steps: {
 			0: '**SDP** = Session Description Protocol. Peer A\'s offer lists the codecs it supports, ports, encryption keys, and ICE candidates.',
 			1: 'Browsers can\'t talk directly until they know each other\'s addresses. Your **signaling server** (any transport — WebSocket is typical) just forwards messages between them.',
@@ -688,7 +688,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     R->>S: Receiver Report (loss=1, jitter=5ms)
     S->>R: RTP (lower bitrate — adapting)`,
 		caption:
-			'**RTP** = Real-time Transport Protocol. Carries audio/video over UDP with sequence numbers and timestamps for reordering. **RTCP** is the companion control channel that reports loss back so the sender can adapt ([[rfc:3550|RFC 3550]]).',
+			'**[[rtp|RTP]]** = Real-time Transport Protocol. Carries audio/video over UDP with sequence numbers and timestamps for reordering. **RTCP** is the companion control channel that reports loss back so the sender can adapt ([[rfc:3550|RFC 3550]]).',
 		steps: {
 			1: 'Each RTP packet carries a **sequence number** (`seq=100`) for detecting loss/reorder, and a **timestamp** (`ts=0`) in media units (here, audio sample counts) for playback timing.',
 			4: 'Packet **103 is lost**. Unlike TCP, RTP does **not** retransmit — for live media, a late packet is worthless.',
@@ -718,7 +718,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     A->>B: BYE
     B->>A: 200 OK`,
 		caption:
-			'**SIP** = Session Initiation Protocol. The signaling that sets up VoIP calls — sounds like HTTP, looks like email addresses (`sip:bob@example.com`). Once a call is established, the actual audio/video flows separately over **RTP** ([[rfc:3261|RFC 3261]]).',
+			'**[[sip|SIP]]** = Session Initiation Protocol. The signaling that sets up VoIP calls — sounds like HTTP, looks like email addresses (`sip:bob@example.com`). Once a call is established, the actual audio/video flows separately over **[[rtp|RTP]]** ([[rfc:3261|RFC 3261]]).',
 		steps: {
 			0: '**REGISTER** maps a SIP address (`bob@example.com`) to the device\'s current IP. The registrar is how the proxy knows where to ring Bob.',
 			2: '**INVITE** is the call request. Body carries an **SDP offer** describing what audio/video the caller can send.',
@@ -747,7 +747,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     S->>P: Segment data (smaller)
     Note over S,P: Quality adapts to available bandwidth`,
 		caption:
-			'**HLS** = HTTP Live Streaming (Apple). Video is pre-chopped into ~6-second `.ts` segments at multiple quality levels; the player picks a level per segment based on bandwidth — **adaptive bitrate** over plain HTTP ([[rfc:8216|RFC 8216]]).',
+			'**[[hls|HLS]]** = HTTP Live Streaming (Apple). Video is pre-chopped into ~6-second `.ts` segments at multiple quality levels; the player picks a level per segment based on bandwidth — **adaptive bitrate** over plain HTTP ([[rfc:8216|RFC 8216]]).',
 		steps: {
 			0: '**Pre-encoding** is the magic. The same content is encoded ahead of time at e.g. 1080p, 720p, 360p — so any quality can be served instantly.',
 			1: '**`.m3u8`** is a plain text playlist (the *master manifest*). Lists the variant playlists for each quality level.',
@@ -778,7 +778,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     E->>S: Audio + Video interleaved
     Note over E,S: Server transcodes → HLS/DASH for viewers`,
 		caption:
-			'**RTMP** = Real-Time Messaging Protocol (Adobe, 1996). Originally Flash; now the de-facto **live-stream ingest** protocol — your encoder (OBS, Wirecast) pushes here, and the platform transcodes it for HLS/DASH viewers.',
+			'**[[rtmp|RTMP]]** = Real-Time Messaging Protocol (Adobe, 1996). Originally Flash; now the de-facto **live-stream ingest** protocol — your encoder (OBS, Wirecast) pushes here, and the platform transcodes it for HLS/DASH viewers.',
 		steps: {
 			1: 'Three-stage handshake: **C0** = protocol version byte, **C1** = 1536 random bytes + timestamp.',
 			2: 'Server replies with its own version (**S0**), random bytes (**S1**), and an echo of C1 (**S2**) — proves both sides can talk.',
@@ -810,7 +810,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     B->>A: Media streams (RTP) begin
     Note over A,B: SDP negotiated codecs, ports, encryption`,
 		caption:
-			'**SDP** = Session Description Protocol. A plain-text format that describes a media session — codecs, ports, IPs, encryption keys. Used inside SIP and WebRTC to negotiate *what\'s about to be streamed* ([[rfc:8866|RFC 8866]]).',
+			'**[[sdp|SDP]]** = Session Description Protocol. A plain-text format that describes a media session — codecs, ports, IPs, encryption keys. Used inside [[sip|SIP]] and [[webrtc|WebRTC]] to negotiate *what\'s about to be streamed* ([[rfc:8866|RFC 8866]]).',
 		steps: {
 			1: 'Each line is `key=value`: **`v=0`** (protocol version), **`m=`** (media: audio or video, port, codec list), **`c=`** (connection IP), plus codec parameters and crypto.',
 			3: 'SDP is **transport-agnostic** — it doesn\'t carry itself, it rides inside something else (SIP INVITE body, WebRTC signaling channel).',
@@ -838,7 +838,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     S->>P: Segment data
     Note over S,P: Adaptive bitrate — seamless quality switching`,
 		caption:
-			'**DASH** = Dynamic Adaptive Streaming over HTTP (MPEG, ISO 23009-1). Same idea as HLS — segmented video at multiple bitrates over plain HTTP — but **codec-agnostic** and an open standard.',
+			'**[[dash|DASH]]** = Dynamic Adaptive Streaming over HTTP (MPEG, ISO 23009-1). Same idea as [[hls|HLS]] — segmented video at multiple bitrates over plain HTTP — but **codec-agnostic** and an open standard.',
 		steps: {
 			0: '**`.mpd`** = Media Presentation Description, an XML manifest describing the whole presentation hierarchy.',
 			1: 'Hierarchy: **Period** (a chapter) → **AdaptationSet** (a track: video, audio, subtitle) → **Representation** (a quality variant). Cleaner abstraction than HLS\'s nested playlists.',
@@ -868,7 +868,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     R->>C: 93.184.216.34 (cached for TTL)
     Note over C,R: Iterative resolution: Root, TLD, Authoritative`,
 		caption:
-			'**DNS** = Domain Name System. Translates human names (`example.com`) into IP addresses. Hierarchical: 13 **Root** servers know the **TLDs** (`.com`, `.org`...), TLDs know the **Authoritative** servers, those know the actual records ([[rfc:1035|RFC 1035]]).',
+			'**[[dns|DNS]]** = Domain Name System. Translates human names (`example.com`) into IP addresses. Hierarchical: 13 **Root** servers know the **TLDs** (`.com`, `.org`...), TLDs know the **Authoritative** servers, those know the actual records ([[rfc:1035|RFC 1035]]).',
 		steps: {
 			0: 'Client asks its configured **resolver** (typically your ISP or a public one like `1.1.1.1` or `8.8.8.8`).',
 			1: 'First, the resolver checks its **cache**. Roughly 80% of real-world queries are answered here without a single network packet.',
@@ -895,7 +895,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     S->>C: Application data (encrypted)
     Note over C,S: Returning clients: 0-RTT with cached keys`,
 		caption:
-			'**TLS** = Transport Layer Security. Encrypts everything above it (HTTPS, secure SMTP, etc.). TLS 1.3 setup is a single round trip — handshake + first encrypted byte happen together ([[rfc:8446|RFC 8446]]).',
+			'**[[tls|TLS]]** = Transport Layer Security. Encrypts everything above it (HTTPS, secure [[smtp|SMTP]], etc.). [[tls|TLS]] 1.3 setup is a single round trip — handshake + first encrypted byte happen together ([[rfc:8446|RFC 8446]]).',
 		steps: {
 			1: '**ClientHello** lists the **cipher suites** the client supports plus a **key share** (its half of a Diffie-Hellman exchange). The keyshare bit is the TLS 1.3 trick that saves a round trip.',
 			2: '**ServerHello** picks one cipher and sends its own **key share**. After this exchange, both sides can derive the shared secret — the handshake itself is now encrypted.',
@@ -923,7 +923,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     C->>S: Channel open (shell)
     S->>C: Channel confirm`,
 		caption:
-			'**SSH** = Secure Shell. Encrypted remote shell + tunneling. Key exchange establishes a shared secret over an open network, **host key verification** stops MITM, then user auth grants access ([[rfc:4253|RFC 4253]]).',
+			'**[[ssh|SSH]]** = Secure Shell. Encrypted remote shell + tunneling. Key exchange establishes a shared secret over an open network, **host key verification** stops MITM, then user auth grants access ([[rfc:4253|RFC 4253]]).',
 		steps: {
 			0: 'Both sides advertise their **version string** in plaintext. Used to negotiate features and as input to the handshake\'s MAC.',
 			3: '**KEX_INIT** lists the algorithms each side supports for key exchange, host-key, encryption, MAC, and compression. Both sides pick the strongest mutual choice.',
@@ -946,7 +946,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     Note over D,S: Device configured — ready to communicate
     Note over D,S: Lease renewal at 50% expiry (12h mark)`,
 		caption:
-			'**DHCP** = Dynamic Host Configuration Protocol. Plug a device into a network, it gets an IP address, gateway, DNS, and subnet mask without manual config. The four messages spell **DORA**: Discover, Offer, Request, Ack ([[rfc:2131|RFC 2131]]).',
+			'**[[dhcp|DHCP]]** = Dynamic Host Configuration Protocol. Plug a device into a network, it gets an IP address, gateway, [[dns|DNS]], and subnet mask without manual config. The four messages spell **DORA**: Discover, Offer, Request, Ack ([[rfc:2131|RFC 2131]]).',
 		steps: {
 			0: 'The device has no IP, no gateway, no DNS — it can\'t even ask a specific server for help. The only thing it can do is **broadcast**.',
 			1: '**DISCOVER** is a broadcast (`255.255.255.255` from `0.0.0.0`). Every DHCP server on the LAN can hear it; usually only one responds.',
@@ -971,7 +971,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     Note over C,S: Offset = ((T2-T1)+(T3-T4))/2
     Note over C,S: Multiple samples — accuracy within 1-10ms`,
 		caption:
-			'**NTP** = Network Time Protocol. Keeps every device\'s clock within milliseconds of true time — the foundation of logs, certificates, and distributed systems. The trick is **four timestamps per exchange** ([[rfc:5905|RFC 5905]]).',
+			'**[[ntp|NTP]]** = Network Time Protocol. Keeps every device\'s clock within milliseconds of true time — the foundation of logs, certificates, and distributed systems. The trick is **four timestamps per exchange** ([[rfc:5905|RFC 5905]]).',
 		steps: {
 			0: 'Crystal oscillators drift — even good ones gain or lose seconds per day. Without NTP, your machine\'s clock would be hours off after a few months.',
 			1: 'Client records **`T1`** when it sends the request. T1 travels in the packet.',
@@ -996,7 +996,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     R->>S: 250 OK — delivered to mailbox
     Note over C,R: Store-and-forward: email hops through MTAs`,
 		caption:
-			'**SMTP** = Simple Mail Transfer Protocol. The protocol that **sends** email between mail servers. Each server is an **MTA** (Mail Transfer Agent), and the message hops along until it reaches the recipient\'s MTA ([[rfc:5321|RFC 5321]]).',
+			'**[[smtp|SMTP]]** = Simple Mail Transfer Protocol. The protocol that **sends** email between mail servers. Each server is an **MTA** (Mail Transfer Agent), and the message hops along until it reaches the recipient\'s MTA ([[rfc:5321|RFC 5321]]).',
 		steps: {
 			0: '**EHLO** = Extended HELLO (introduces the client). **STARTTLS** upgrades the plaintext connection to TLS — modern MTAs require it.',
 			1: 'Server replies with the **capabilities** it supports (PIPELINING, AUTH methods, max message size, etc.) — discovered, not assumed.',
@@ -1026,7 +1026,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     S->>C: 226 Transfer complete
     Note over C,S: Dual-channel: commands on 21, data on separate port`,
 		caption:
-			'**FTP** = File Transfer Protocol (1971 — older than email). Unique in using **two TCP connections**: one for commands, a separate one for the actual file bytes. That dual-channel design predates NAT and causes endless firewall headaches today ([[rfc:959|RFC 959]]).',
+			'**[[ftp|FTP]]** = File Transfer Protocol (1971 — older than email). Unique in using **two TCP connections**: one for commands, a separate one for the actual file bytes. That dual-channel design predates NAT and causes endless firewall headaches today ([[rfc:959|RFC 959]]).',
 		steps: {
 			1: '**`USER`** + **`PASS`** is plaintext authentication. Modern alternatives: **FTPS** (FTP over TLS) or **SFTP** (file transfer over SSH — totally different protocol).',
 			5: '**`PASV`** = passive mode. The default *active* mode has the server connecting back to the client — broken behind NAT. PASV flips it: client opens both connections.',
@@ -1055,7 +1055,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     S->>C: + idling
     Note over S,C: Server pushes * 48 EXISTS on new mail`,
 		caption:
-			'**IMAP** = Internet Message Access Protocol. The modern way to **read** mail (vs POP3 which downloads + deletes). Mail stays on the server, multiple clients see the same state, and the server can push notifications via IDLE ([[rfc:9051|RFC 9051]]).',
+			'**[[imap|IMAP]]** = Internet Message Access Protocol. The modern way to **read** mail (vs POP3 which downloads + deletes). Mail stays on the server, multiple clients see the same state, and the server can push notifications via IDLE ([[rfc:9051|RFC 9051]]).',
 		steps: {
 			1: 'Untagged response (starts with **`*`**) is server-initiated info — capability greetings, mailbox state, push notifications. Tagged responses (`A001`, `A002`...) are answers to specific commands.',
 			2: 'Each command starts with a **client-chosen tag** (`A001`). Lets responses come back out-of-order — the tag matches them up.',
@@ -1082,7 +1082,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     A->>B: UPDATE (withdraw 192.168.100.0/24)
     Note over A,B: Route removed from B's table`,
 		caption:
-			'**BGP** = Border Gateway Protocol. The protocol that holds the internet together — routers in different **Autonomous Systems** (ISPs, big companies) tell each other which IP ranges they can reach ([[rfc:4271|RFC 4271]]).',
+			'**[[bgp|BGP]]** = Border Gateway Protocol. The protocol that holds the internet together — routers in different **Autonomous Systems** (ISPs, big companies) tell each other which IP ranges they can reach ([[rfc:4271|RFC 4271]]).',
 		steps: {
 			0: 'Runs over **TCP port 179** between two router neighbors that have been manually configured to peer with each other. There\'s no auto-discovery on the public internet.',
 			1: '**AS** = Autonomous System: one organization\'s network, identified by a number. **OPEN** carries this AS number plus a **hold timer** — how long to wait without a keepalive before declaring the peer dead.',
@@ -1110,7 +1110,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     T->>S: Echo Reply — destination reached
     Note over S,T: Each hop revealed by TTL expiry`,
 		caption:
-			'**ICMP** = Internet Control Message Protocol. The internet\'s diagnostic and error-reporting layer. **`ping`** measures round-trip time; **`traceroute`** maps the path your packets take, hop by hop ([[rfc:792|RFC 792]]).',
+			'**[[icmp|ICMP]]** = Internet Control Message Protocol. The internet\'s diagnostic and error-reporting layer. **`ping`** measures round-trip time; **`traceroute`** maps the path your packets take, hop by hop ([[rfc:792|RFC 792]]).',
 		steps: {
 			1: '**Echo Request** = ping. **Type 8**, identifier + sequence number, optional payload (helpful to detect MTU issues if you fill it with bytes).',
 			2: '**Echo Reply** = pong. **Type 0**, copies the request\'s identifier and seq back so you can pair them. The time difference is your round-trip time.',
@@ -1143,7 +1143,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     SW->>A: Frame forwarded to Port 1 only
     Note over SW: No flooding — switch knows both MACs`,
 		caption:
-			'**Ethernet** = the physical-and-link layer that moves frames between machines on a LAN (IEEE 802.3). A **switch** learns which **MAC address** lives on which port by watching frame source addresses, then forwards only to the right port.',
+			'**[[ethernet|Ethernet]]** = the physical-and-link layer that moves frames between machines on a LAN (IEEE 802.3). A **switch** learns which **MAC address** lives on which port by watching frame source addresses, then forwards only to the right port.',
 		steps: {
 			1: '**ARP** asks *who has IP `192.168.1.50`?* — sent as an Ethernet broadcast (destination MAC `FF:FF:FF:FF:FF:FF`).',
 			2: 'Switch **floods** broadcasts to every port — it has no choice; the destination MAC is unknown and the request must reach everyone.',
@@ -1177,7 +1177,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     S->>AP: Ethernet response
     AP->>L: 802.11 encrypted response`,
 		caption:
-			'**WiFi** = wireless Ethernet (IEEE 802.11). After discovering the network, the device authenticates and associates, then runs the **WPA2 4-way handshake** to derive encryption keys. Wireless frames are then bridged to the wired LAN by the **AP** (Access Point).',
+			'**WiFi** = wireless [[ethernet|Ethernet]] (IEEE [[wifi|802.11]]). After discovering the network, the device authenticates and associates, then runs the **WPA2 4-way handshake** to derive encryption keys. Wireless frames are then bridged to the wired LAN by the **AP** (Access Point).',
 		steps: {
 			1: '**Beacon** = the AP\'s broadcast announcement, ~10× per second. Carries the **SSID** (network name), supported rates, security mode, and capabilities.',
 			2: 'Legacy step (predates WPA): used to allow shared-key auth in WEP. Today it\'s just a formality — security happens in the 4-way handshake.',
@@ -1207,7 +1207,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     Note over A: Subsequent packets use cached MAC
     Note over A,B: Cache entry expires after ~60-300 seconds`,
 		caption:
-			'**ARP** = Address Resolution Protocol (IPv4 only). To send an IP packet to a host on the same LAN, you need its **MAC** address. ARP shouts to the whole network asking who owns an IP — only the matching host answers ([[rfc:826|RFC 826]]).',
+			'**[[arp|ARP]]** = Address Resolution Protocol ([[ip|IPv4]] only). To send an IP packet to a host on the same LAN, you need its **MAC** address. [[arp|ARP]] shouts to the whole network asking who owns an IP — only the matching host answers ([[rfc:826|RFC 826]]).',
 		steps: {
 			1: 'ARP cache stores recent IP→MAC mappings. A **miss** means we have to ask the network.',
 			2: 'Sent as a **broadcast** — destination MAC `FF:FF:FF:FF:FF:FF`. Every device on the LAN receives and processes it.',
@@ -1261,7 +1261,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     S->>C: 500 — SOAP Fault Envelope
     Note right of S: faultcode=Client, faultstring="Invalid ID"`,
 		caption:
-			'**SOAP** = Simple Object Access Protocol. Strict XML messaging for enterprise services. Every message is an **Envelope** with a Header and Body; the contract is described by **WSDL**. Heavy compared to REST, but typed and tooling-friendly (W3C SOAP 1.2).',
+			'**[[soap|SOAP]]** = Simple Object Access Protocol. Strict XML messaging for enterprise services. Every message is an **Envelope** with a Header and Body; the contract is described by **WSDL**. Heavy compared to [[rest|REST]], but typed and tooling-friendly (W3C [[soap|SOAP]] 1.2).',
 		steps: {
 			1: '**WSDL** = Web Services Description Language. Machine-readable contract — operations, parameter types, endpoint URLs. Tools generate client stubs from it.',
 			4: 'Always **POST** with a **`SOAPAction`** header naming the operation. Pre-WSDL clients keyed off this header to dispatch.',
@@ -1289,7 +1289,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     R->>S: Return (Hop Limit=63)
     Note over S,D: 128-bit addresses — no NAT needed`,
 		caption:
-			'**IPv6** = the next-generation IP. **128-bit addresses** (so many that NAT becomes unnecessary), a fixed 40-byte header, and built-in autoconfiguration. NDP replaces ARP using IPv6 multicast ([[rfc:8200|RFC 8200]]).',
+			'**[[ipv6|IPv6]]** = the next-generation IP. **128-bit addresses** (so many that NAT becomes unnecessary), a fixed 40-byte header, and built-in autoconfiguration. NDP replaces [[arp|ARP]] using [[ipv6|IPv6]] multicast ([[rfc:8200|RFC 8200]]).',
 		steps: {
 			1: '**Router Solicitation** asks any router on the link to advertise itself. ICMPv6 type 133, sent to the all-routers multicast address (`ff02::2`).',
 			2: '**Router Advertisement** carries the network\'s `/64` prefix. The host **builds its own address** by combining the prefix with its interface ID — no DHCP needed (**SLAAC**).',
@@ -1320,7 +1320,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     A->>AS: POST /token (grant_type=refresh_token)
     AS->>A: {access_token: "new_token...", expires_in: 3600}`,
 		caption:
-			'**OAuth 2.0** = delegated authorization. Lets your app act on behalf of a user **without ever seeing their password**. Authorization Code flow with **PKCE** is the modern recommendation for any client ([[rfc:6749|RFC 6749]] + [[rfc:7636|RFC 7636]]).',
+			'**[[oauth2|OAuth]] 2.0** = delegated authorization. Lets your app act on behalf of a user **without ever seeing their password**. Authorization Code flow with **PKCE** is the modern recommendation for any client ([[rfc:6749|RFC 6749]] + [[rfc:7636|RFC 7636]]).',
 		steps: {
 			0: '**PKCE** = Proof Key for Code Exchange. Your app picks a random `code_verifier` and sends its `SHA256` hash (`code_challenge`). Locks the auth code to *your* app — required since 2022.',
 			1: 'Browser redirects to the auth server with: client id, requested scopes, code_challenge, and a **`state`** value (CSRF token). User sees the login + consent screen.',

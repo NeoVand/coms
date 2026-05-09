@@ -20,7 +20,7 @@ NTP has been exploited for DDoS amplification attacks: the legacy \`monlist\` co
 		{
 			title: 'Client sends request',
 			description:
-				'Client sends a UDP packet with its current timestamp (T1). The packet is tiny — 48 bytes.'
+				'Client sends a [[udp|UDP]] packet with its current timestamp (T1). The packet is tiny — 48 bytes.'
 		},
 		{
 			title: 'Server timestamps receipt',

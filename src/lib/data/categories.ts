@@ -52,7 +52,7 @@ export const categories: Category[] = [
 		color: '#2DD4BF',
 		glowColor: 'rgba(45, 212, 191, 0.4)',
 		description:
-			'The invisible infrastructure. DNS translates names to addresses, TLS encrypts everything, and NTP keeps the world synchronized.',
+			'The invisible infrastructure. [[dns|DNS]] translates names to addresses, [[tls|TLS]] encrypts everything, and [[ntp|NTP]] keeps the world synchronized.',
 		icon: 'utilities'
 	}
 ];

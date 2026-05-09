@@ -2,6 +2,8 @@
 	import type { Protocol, Category } from '$lib/data/types';
 	import CategoryIcon from '$lib/components/icons/CategoryIcon.svelte';
 	import { getHighlightedName } from '$lib/data/name-highlights';
+	import { parseRichText } from '$lib/utils/text-parser';
+	import RichText from '$lib/components/detail/inline/RichText.svelte';
 
 	let { proto, cat, color = cat?.color ?? '#fff' }: { proto: Protocol; cat: Category | undefined; color?: string } = $props();
 
@@ -136,6 +138,6 @@
 		class="mt-3 rounded-lg border py-2 px-3 text-sm leading-relaxed text-t-primary"
 		style="border-color: {color}30; background-color: {color}08"
 	>
-		{proto.oneLiner}
+		<RichText segments={parseRichText(proto.oneLiner)} {color} />
 	</p>
 </div>

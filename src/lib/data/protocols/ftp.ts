@@ -28,7 +28,7 @@ While FTP's {{plaintext|plain-text}} design makes it insecure by modern standard
 		{
 			title: 'Data connection',
 			description:
-				'For file transfers, a separate TCP connection opens. In passive mode (PASV), the server tells the client which port to connect to. This separates control flow from data flow.'
+				'For file transfers, a separate [[tcp|TCP]] connection opens. In passive mode (PASV), the server tells the client which port to connect to. This separates control flow from data flow.'
 		},
 		{
 			title: 'File transfer',

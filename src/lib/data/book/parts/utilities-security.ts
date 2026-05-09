@@ -12,7 +12,7 @@ export const utilitiesSecurity: BookPart = {
 	id: 'utilities-security',
 	title: 'Utilities & Security',
 	label: 'VIII',
-	description: 'The invisible plumbing — DNS, TLS, SSH, NTP, the email stack, and authentication.',
+	description: 'The invisible plumbing — [[dns|DNS]], [[tls|TLS]], [[ssh|SSH]], [[ntp|NTP]], the email stack, and authentication.',
 	chapters: [
 		// ────────────────────────────────────────────────────────────
 		{
@@ -22,7 +22,7 @@ export const utilitiesSecurity: BookPart = {
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: 'DNS has no {{checksum|checksum}} at the application layer — it relies entirely on [[udp|UDP]]/[[tcp|TCP]] checksums. A single bit-flip can sneak through if UDP checksum somehow validates. [[rfc:9499|RFC 9499]] (March 2024) is the canonical glossary.',
+					text: '[[dns|DNS]] has no {{checksum|checksum}} at the application layer — it relies entirely on [[udp|UDP]]/[[tcp|TCP]] checksums. A single bit-flip can sneak through if [[udp|UDP]] checksum somehow validates. [[rfc:9499|RFC 9499]] (March 2024) is the canonical glossary.',
 					attribution: 'Author'
 				},
 				{
@@ -40,7 +40,7 @@ The first six TLDs were **\`.edu, .gov, .com, .mil, .org, .net\`**, with **\`.in
 						{
 							type: 'callout',
 							title: '.onion is a special-use carve-out',
-							text: '**IANA reserved \`.onion\` as a Special-Use Domain Name ([[rfc:7686|RFC 7686]], 2015) — MUST NOT be looked up in public DNS.** A rare carve-out outside ICANN\'s namespace, granted because the Tor protocol uses .onion as an internal addressing scheme rather than a public naming hierarchy. The reservation prevents accidental DNS leakage of Tor traffic.'
+							text: '**IANA reserved \`.onion\` as a Special-Use Domain Name ([[rfc:7686|RFC 7686]], 2015) — MUST NOT be looked up in public [[dns|DNS]].** A rare carve-out outside ICANN\'s namespace, granted because the Tor protocol uses .onion as an internal addressing scheme rather than a public naming hierarchy. The reservation prevents accidental DNS leakage of Tor traffic.'
 						},
 						{
 							type: 'narrative',
@@ -82,7 +82,7 @@ The first six TLDs were **\`.edu, .gov, .com, .mil, .org, .net\`**, with **\`.in
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: '"TLS not SSL" was Microsoft\'s price for IETF participation — a face-saving rename so it didn\'t look like the IETF was rubber-stamping Netscape.',
+					text: '"[[tls|TLS]] not SSL" was Microsoft\'s price for IETF participation — a face-saving rename so it didn\'t look like the IETF was rubber-stamping Netscape.',
 					attribution: 'Tim Dierks, 2014'
 				},
 				{
@@ -100,7 +100,7 @@ In 1999 the IETF took ownership and renamed it [[tls|TLS]] 1.0 (RFC 2246, Januar
 						{
 							type: 'callout',
 							title: 'TLS 1.3 has middlebox-compatibility hacks built in',
-							text: 'The "everyone gets it wrong" wire fact: **TLS 1.3 ClientHello.legacy_version = 0x0303** (TLS 1.2); the real version goes in the \`supported_versions\` extension. **legacy_session_id is non-empty** (faking {{session-resumption|session resumption}}). Both sides send a no-op **ChangeCipherSpec record** after their first flight. All of this is because middleboxes broke when they saw real TLS 1.3 wire format. The protocol is technically clean; the wire encoding is a deliberate camouflage.'
+							text: 'The "everyone gets it wrong" wire fact: **[[tls|TLS]] 1.3 ClientHello.legacy_version = 0x0303** (TLS 1.2); the real version goes in the \`supported_versions\` extension. **legacy_session_id is non-empty** (faking {{session-resumption|session resumption}}). Both sides send a no-op **ChangeCipherSpec record** after their first flight. All of this is because middleboxes broke when they saw real TLS 1.3 wire format. The protocol is technically clean; the wire encoding is a deliberate camouflage.'
 						},
 						{
 							type: 'narrative',
@@ -168,7 +168,7 @@ The protocol uses **public-key cryptography** for host and user authentication, 
 						{
 							type: 'callout',
 							title: 'SFTP is not "FTP over SSH"',
-							text: 'The "everyone gets it wrong" SCP fact: **SFTP is not "FTP over SSH"** — it\'s a wholly distinct file-transfer protocol that runs as a *subsystem* request inside an SSH session channel. Spec is `draft-ietf-secsh-filexfer-13` from 2006, never published as an RFC. **OpenSSH 9.0 (April 2022) switched the `scp` command to use SFTP under the hood by default.** RHEL 9 deprecated the SCP wire protocol entirely. After 27 years, the protocol that was supposed to replace SCP is finally replacing it.'
+							text: 'The "everyone gets it wrong" SCP fact: **SFTP is not "[[ftp|FTP]] over [[ssh|SSH]]"** — it\'s a wholly distinct file-transfer protocol that runs as a *subsystem* request inside an [[ssh|SSH]] session channel. Spec is `draft-ietf-secsh-filexfer-13` from 2006, never published as an RFC. **OpenSSH 9.0 (April 2022) switched the `scp` command to use SFTP under the hood by default.** RHEL 9 deprecated the SCP wire protocol entirely. After 27 years, the protocol that was supposed to replace SCP is finally replacing it.'
 						},
 						{
 							type: 'narrative',
@@ -228,7 +228,7 @@ A client samples the round-trip time to a server (call it δ) and the apparent o
 						{
 							type: 'callout',
 							title: 'Era rollover: 7 February 2036 at 06:28:16 UTC',
-							text: 'NTP\'s 64-bit timestamp uses the **NTP prime epoch, 1900-01-01 00:00:00 UTC** — older than ARPANET, older than UNIX, older than every other timestamp standard in computing. Span = 2³² s = **136.19 years per era**. **Era rollover is 7 February 2036 at 06:28:16 UTC.** The protocol handles eras correctly via 64-bit math; many client implementations assume 32-bit and will need fixes before 2036. The Y2036 work has been quietly underway since 2020.'
+							text: '[[ntp|NTP]]\'s 64-bit timestamp uses the **[[ntp|NTP]] prime epoch, 1900-01-01 00:00:00 UTC** — older than ARPANET, older than UNIX, older than every other timestamp standard in computing. Span = 2³² s = **136.19 years per era**. **Era rollover is 7 February 2036 at 06:28:16 UTC.** The protocol handles eras correctly via 64-bit math; many client implementations assume 32-bit and will need fixes before 2036. The Y2036 work has been quietly underway since 2020.'
 						},
 						{
 							type: 'narrative',
@@ -271,7 +271,7 @@ A client samples the round-trip time to a server (call it δ) and the apparent o
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: 'OAuth 2.0 and the Road to Hell. WS-* bad. The two slogans Eran Hammer used in his July 2012 resignation are still the most-cited critique of any IETF standard.',
+					text: '[[oauth2|OAuth]] 2.0 and the Road to Hell. WS-* bad. The two slogans Eran Hammer used in his July 2012 resignation are still the most-cited critique of any IETF standard.',
 					attribution: 'Author'
 				},
 				{
@@ -289,7 +289,7 @@ OAuth's insight was to separate **authentication** (proving who you are, done by
 						{
 							type: 'callout',
 							title: 'The Road to Hell resignation',
-							text: '**The "Road to Hell" resignation (26 July 2012)**: Eran Hammer published *"OAuth 2.0 and the Road to Hell"* — most famous resignation in modern protocol history. His core line: *"WS-\* bad"* — shorthand among IETF veterans for any standard sunk by enterprise committee design. The "everyone gets it wrong" framework fact: **OAuth 2.0 is technically a framework, not a protocol.** [[rfc:6749|RFC 6749]]\'s abstract itself warns *"this specification is likely to produce a wide range of non-interoperable implementations"* — language Hammer fought to insert.'
+							text: '**The "Road to Hell" resignation (26 July 2012)**: Eran Hammer published *"[[oauth2|OAuth]] 2.0 and the Road to Hell"* — most famous resignation in modern protocol history. His core line: *"WS-\* bad"* — shorthand among IETF veterans for any standard sunk by enterprise committee design. The "everyone gets it wrong" framework fact: **[[oauth2|OAuth]] 2.0 is technically a framework, not a protocol.** [[rfc:6749|RFC 6749]]\'s abstract itself warns *"this specification is likely to produce a wide range of non-interoperable implementations"* — language Hammer fought to insert.'
 						},
 						{
 							type: 'narrative',
@@ -336,11 +336,11 @@ OAuth's insight was to separate **authentication** (proving who you are, done by
 		{
 			id: 'email-stack',
 			title: 'The Email Stack',
-			synopsis: 'SMTP + IMAP, the protocol family that refused to die — and the new bulk-sender enforcement.',
+			synopsis: '[[smtp|SMTP]] + [[imap|IMAP]], the protocol family that refused to die — and the new bulk-sender enforcement.',
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: 'The era of "give me a 16-character password and IMAP works forever" is over. Microsoft 365 SMTP AUTH basic auth retires in two phases starting March 2026 with full rejection by April 2026. Google "Less Secure Apps" was removed for personal accounts May 2022; Workspace deadline September 2024.',
+					text: 'The era of "give me a 16-character password and [[imap|IMAP]] works forever" is over. Microsoft 365 [[smtp|SMTP]] AUTH basic auth retires in two phases starting March 2026 with full rejection by April 2026. Google "Less Secure Apps" was removed for personal accounts May 2022; Workspace deadline September 2024.',
 					attribution: 'Author'
 				},
 				{

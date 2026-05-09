@@ -23,7 +23,7 @@ export const webApi: BookPart = {
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: 'A complete HTTP/1.1 request is a few lines of plain ASCII you can debug with netcat. That readability is why every developer can debug an HTTP problem with curl, why every programming language has an implementation, and why every middlebox can interpret it.',
+					text: 'A complete [[http1|HTTP/1.1]] request is a few lines of plain ASCII you can debug with netcat. That readability is why every developer can debug an HTTP problem with curl, why every programming language has an implementation, and why every middlebox can interpret it.',
 					attribution: 'Author'
 				},
 				{
@@ -42,7 +42,7 @@ Three things explain HTTP/1.1's longevity.`
 							text: `**Text on the wire.** A complete HTTP/1.1 request is a few lines of plain US-ASCII (RFC 9112 §2.2 specifies the message grammar in ABNF over US-ASCII octets):
 
 \`\`\`
-GET /index.html HTTP/1.1
+GET /index.html [[http1|HTTP/1.1]]
 Host: example.com
 \\r\\n\\r\\n
 \`\`\`
@@ -56,7 +56,7 @@ That readability is the entire reason every developer can debug an HTTP problem 
 						{
 							type: 'callout',
 							title: 'The 6-connection cap is why HTTP/2 exists',
-							text: 'By 2009, web pages were averaging 90 requests across 15 origins. With 6 connections per origin, every page paid the cost of TCP setup repeatedly, and connections were idle most of the time. Google\'s SPDY experiment proposed multiplexing many requests over a single connection, with binary framing. SPDY became the seed of HTTP/2.'
+							text: 'By 2009, web pages were averaging 90 requests across 15 origins. With 6 connections per origin, every page paid the cost of [[tcp|TCP]] setup repeatedly, and connections were idle most of the time. Google\'s SPDY experiment proposed multiplexing many requests over a single connection, with binary framing. SPDY became the seed of [[http2|HTTP/2]].'
 						},
 						{
 							type: 'narrative',
@@ -86,7 +86,7 @@ That readability is the entire reason every developer can debug an HTTP problem 
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: 'HTTP/2 still carries the majority of the web in 2026 — 51% of Cloudflare-observed traffic. The very feature that made it succeed (multiplexing many streams over one connection) also made it a DDoS amplifier. The CVE story is not over.',
+					text: '[[http2|HTTP/2]] still carries the majority of the web in 2026 — 51% of Cloudflare-observed traffic. The very feature that made it succeed (multiplexing many streams over one connection) also made it a DDoS amplifier. The CVE story is not over.',
 					attribution: 'Author'
 				},
 				{
@@ -111,7 +111,7 @@ The unsolvable structural flaw: HTTP/2 still runs over [[tcp|TCP]], and TCP retr
 						{
 							type: 'callout',
 							title: 'Server Push is gone',
-							text: 'HTTP/2 Server Push was supposed to let servers preemptively send resources the client would need next. **Chrome 106 (October 2022) disabled it by default**; only ~1.25% of HTTP/2 sites had ever used it. **Firefox 132 (October 29, 2024) removed support entirely.** No major browser implements HTTP/2 Server Push as of 2026. The replacement pattern is the **`103 Early Hints`** informational status combined with `Link: rel=preload`.'
+							text: '[[http2|HTTP/2]] Server Push was supposed to let servers preemptively send resources the client would need next. **Chrome 106 (October 2022) disabled it by default**; only ~1.25% of HTTP/2 sites had ever used it. **Firefox 132 (October 29, 2024) removed support entirely.** No major browser implements HTTP/2 Server Push as of 2026. The replacement pattern is the **`103 Early Hints`** informational status combined with `Link: rel=preload`.'
 						},
 						{
 							type: 'narrative',
@@ -139,11 +139,11 @@ The pattern: each CVE breaks an assumption that earlier mitigations had baked in
 		{
 			id: 'http3',
 			title: 'HTTP/3',
-			synopsis: 'HTTP semantics on QUIC. The plateau is real but so is the agenda.',
+			synopsis: 'HTTP semantics on [[quic|QUIC]]. The plateau is real but so is the agenda.',
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: 'HTTP/3 is at ~21% of Cloudflare-observed traffic in Q1 2026 — flat or slightly declining. The plateau correlates with a 2024 paper showing up-to-45% throughput regressions vs HTTP/2 above 500 Mbps, mostly from receiver-side userspace ACK and copy overhead.',
+					text: '[[http3|HTTP/3]] is at ~21% of Cloudflare-observed traffic in Q1 2026 — flat or slightly declining. The plateau correlates with a 2024 paper showing up-to-45% throughput regressions vs HTTP/2 above 500 Mbps, mostly from receiver-side userspace ACK and copy overhead.',
 					attribution: 'Author'
 				},
 				{
@@ -172,7 +172,7 @@ The fix in flight is **in-kernel QUIC**. Xin Long posted the first ~9,000-line i
 						{
 							type: 'callout',
 							title: 'nginx HTTP/3 finally stable',
-							text: 'After years of experimental builds, **mainline nginx 1.25.0 (23 May 2023)** merged the QUIC stack and shipped HTTP/3 as a stable feature. **Caddy 2.6 (September 2022)** has shipped HTTP/3 by default since. **HAProxy 2.6** added experimental HTTP/3 in May 2022 and stabilised in 2.8/3.0. **curl** got HTTP/3 in default Debian 13/trixie in October 2025. Apache httpd has no production HTTP/3.'
+							text: 'After years of experimental builds, **mainline nginx 1.25.0 (23 May 2023)** merged the [[quic|QUIC]] stack and shipped [[http3|HTTP/3]] as a stable feature. **Caddy 2.6 (September 2022)** has shipped [[http3|HTTP/3]] by default since. **HAProxy 2.6** added experimental HTTP/3 in May 2022 and stabilised in 2.8/3.0. **curl** got HTTP/3 in default Debian 13/trixie in October 2025. Apache httpd has no production HTTP/3.'
 						},
 						{
 							type: 'narrative',
@@ -225,7 +225,7 @@ REST has six constraints (client-server, stateless, cacheable, layered, uniform 
 						{
 							type: 'callout',
 							title: 'Almost no REST API is REST',
-							text: '**HATEOAS — Hypermedia as the Engine of Application State** — is Fielding\'s constraint that clients should drive interactions by following links and forms in server responses, not by hard-coding URI templates. Pronounced "hate-ee-oss." Fielding has been publicly frustrated for 25 years that the vast majority of "REST APIs" are not RESTful in his strict sense — they fail HATEOAS. His **2008 essay "REST APIs must be hypertext-driven"** is required reading for the genre. Most modern APIs are pragmatic JSON-over-HTTP; REST in the original sense remains rare.'
+							text: '**HATEOAS — Hypermedia as the Engine of Application State** — is Fielding\'s constraint that clients should drive interactions by following links and forms in server responses, not by hard-coding URI templates. Pronounced "hate-ee-oss." Fielding has been publicly frustrated for 25 years that the vast majority of "[[rest|REST]] APIs" are not RESTful in his strict sense — they fail HATEOAS. His **2008 essay "[[rest|REST]] APIs must be hypertext-driven"** is required reading for the genre. Most modern APIs are pragmatic JSON-over-HTTP; [[rest|REST]] in the original sense remains rare.'
 						},
 						{
 							type: 'narrative',
@@ -266,7 +266,7 @@ The choice between REST and GraphQL is not strictly either/or. Most modern syste
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: 'gRPC is what you build when you control both sides. It assumes a shared schema, a binary encoding, HTTP/2 trailers — none of which the public web supports cleanly. That is why it dominates inside the datacenter and barely exists in browsers.',
+					text: '[[grpc|gRPC]] is what you build when you control both sides. It assumes a shared schema, a binary encoding, HTTP/2 trailers — none of which the public web supports cleanly. That is why it dominates inside the datacenter and barely exists in browsers.',
 					attribution: 'Author'
 				},
 				{
@@ -291,7 +291,7 @@ The model lets you describe a service as Go-like methods (\`rpc GetUser(UserRequ
 						{
 							type: 'callout',
 							title: 'gRPC versus the alternatives',
-							text: 'gRPC dominates **service-to-service traffic inside the datacenter** at almost every large engineering org since 2019. Where it does not fit: **browsers** (gRPC-Web exists but is awkward), **mobile clients with constrained bandwidth** (the protobuf runtime is heavy compared to JSON+HTTP), and **public APIs** (where REST\'s discoverability and curl-debuggability still win). The choice is not "gRPC vs REST" in the abstract; it is "controlled both sides, performance-critical → gRPC; everything else → HTTP+JSON."'
+							text: '[[grpc|gRPC]] dominates **service-to-service traffic inside the datacenter** at almost every large engineering org since 2019. Where it does not fit: **browsers** (gRPC-Web exists but is awkward), **mobile clients with constrained bandwidth** (the protobuf runtime is heavy compared to JSON+HTTP), and **public APIs** (where REST\'s discoverability and curl-debuggability still win). The choice is not "[[grpc|gRPC]] vs REST" in the abstract; it is "controlled both sides, performance-critical → gRPC; everything else → HTTP+JSON."'
 						},
 						{
 							type: 'narrative',
@@ -313,11 +313,11 @@ Active 2024-2026 work in the gRPC working group includes: native HTTP/3 support 
 		{
 			id: 'websockets-and-sse',
 			title: 'WebSockets and SSE',
-			synopsis: 'Server push, two ways — and the SSE renaissance via LLM streaming.',
+			synopsis: 'Server push, two ways — and the [[sse|SSE]] renaissance via LLM streaming.',
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: 'For most of its life SSE lost mindshare to WebSocket. It is now the de facto wire format for LLM token streaming — OpenAI, Anthropic, Gemini, Cloudflare Workers AI all stream tokens as `text/event-stream`.',
+					text: 'For most of its life [[sse|SSE]] lost mindshare to WebSocket. It is now the de facto wire format for LLM token streaming — OpenAI, Anthropic, Gemini, Cloudflare Workers AI all stream tokens as `text/event-stream`.',
 					attribution: 'Author'
 				},
 				{
@@ -375,11 +375,11 @@ The choice between WebSocket, SSE, and WebTransport for new projects in 2026 is 
 		{
 			id: 'mcp-and-a2a',
 			title: 'MCP and A2A',
-			synopsis: 'The protocol layer for AI agents — built deliberately boring on top of JSON-RPC, HTTP, and SSE.',
+			synopsis: 'The protocol layer for AI agents — built deliberately boring on top of [[json-rpc|JSON-RPC]], HTTP, and [[sse|SSE]].',
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: 'For fifteen years after WebSockets in 2011, no genuinely new application protocol shipped. Then 2024 happened twice — MCP in November, A2A the following April.',
+					text: 'For fifteen years after WebSockets in 2011, no genuinely new application protocol shipped. Then 2024 happened twice — [[mcp|MCP]] in November, [[a2a|A2A]] the following April.',
 					attribution: 'Author'
 				},
 				{
@@ -409,7 +409,7 @@ The **2025-03-26 MCP spec** replaced HTTP+SSE with **[[frontier:mcp-streamable-h
 						{
 							type: 'callout',
 							title: 'Why JSON-RPC 2.0',
-							text: 'Both MCP and A2A picked JSON-RPC 2.0 as their wire format — a 6-page spec. **The boringness is the point.** The Language Server Protocol uses JSON-RPC. Ethereum nodes use it. The Chrome DevTools Protocol uses it. Every editor tooling system from VS Code to Neovim speaks it. For a brand-new protocol layer where adoption is the existential risk, picking the lowest-overhead, highest-interoperability RPC format that already works in every language was the right move. MCP and A2A could have invented binary protocols with schemas; instead they let the message shape be a transport-level concern and put their innovation in **what** the messages mean.'
+							text: 'Both [[mcp|MCP]] and [[a2a|A2A]] picked [[json-rpc|JSON-RPC]] 2.0 as their wire format — a 6-page spec. **The boringness is the point.** The Language Server Protocol uses [[json-rpc|JSON-RPC]]. Ethereum nodes use it. The Chrome DevTools Protocol uses it. Every editor tooling system from VS Code to Neovim speaks it. For a brand-new protocol layer where adoption is the existential risk, picking the lowest-overhead, highest-interoperability RPC format that already works in every language was the right move. [[mcp|MCP]] and [[a2a|A2A]] could have invented binary protocols with schemas; instead they let the message shape be a transport-level concern and put their innovation in **what** the messages mean.'
 						},
 						{
 							type: 'narrative',

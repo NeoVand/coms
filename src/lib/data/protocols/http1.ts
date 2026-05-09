@@ -18,7 +18,7 @@ To work around this, browsers open 6 parallel [[tcp|TCP]] connections per domain
 		{
 			title: 'TCP connection',
 			description:
-				'Client establishes a TCP connection to the server (and TLS if HTTPS). This takes 1-3 round trips before any HTTP data flows.'
+				'Client establishes a [[tcp|TCP]] connection to the server (and [[tls|TLS]] if HTTPS). This takes 1-3 round trips before any HTTP data flows.'
 		},
 		{
 			title: 'Request sent',
@@ -131,7 +131,7 @@ curl -v https://example.com/api/users/42`
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/HTTP_persistent_connection.svg/500px-HTTP_persistent_connection.svg.png',
 		alt: 'Diagram comparing HTTP non-persistent and persistent connections, showing how keep-alive reduces round trips',
 		caption:
-			"HTTP persistent connections ({{keep-alive|keep-alive}}) vs non-persistent — HTTP/1.0 opened a new TCP connection for every request, while HTTP/1.1's keep-alive reuses the same connection, saving the overhead of repeated TCP {{handshake|handshakes}}.",
+			"HTTP persistent connections ({{keep-alive|keep-alive}}) vs non-persistent — HTTP/1.0 opened a new [[tcp|TCP]] connection for every request, while HTTP/1.1's keep-alive reuses the same connection, saving the overhead of repeated [[tcp|TCP]] {{handshake|handshakes}}.",
 		credit: 'Image: Wikimedia Commons / Public Domain'
 	}
 };

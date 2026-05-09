@@ -23,17 +23,17 @@ SIP is the backbone of virtually every modern phone system: enterprise PBX syste
 		{
 			title: 'INVITE',
 			description:
-				'Caller sends INVITE to the SIP server with an SDP body describing desired media (audio/video codecs, ports). Server routes it to the callee.'
+				'Caller sends INVITE to the SIP server with an [[sdp|SDP]] body describing desired media (audio/video codecs, ports). Server routes it to the callee.'
 		},
 		{
 			title: '200 OK + ACK',
 			description:
-				'Callee accepts with 200 OK (including their SDP). Caller confirms with ACK. RTP media streams are now established between the peers.'
+				'Callee accepts with 200 OK (including their [[sdp|SDP]]). Caller confirms with ACK. [[rtp|RTP]] media streams are now established between the peers.'
 		},
 		{
 			title: 'BYE',
 			description:
-				'Either party sends BYE to end the call. The other responds 200 OK. RTP streams stop. Simple and clean.'
+				'Either party sends BYE to end the call. The other responds 200 OK. [[rtp|RTP]] streams stop. Simple and clean.'
 		}
 	],
 	useCases: [

@@ -48,7 +48,7 @@ Browser deployment moved fast. **Chrome 124 (April 2024)** made X25519Kyber768 d
 						{
 							type: 'callout',
 							title: 'Apple iOS 26 cliff: <2% to 25% in 90 days',
-							text: '**Apple iOS 26 / iPadOS 26 / macOS Tahoe 26 / visionOS 26 (September 2025)** turned X25519MLKEM768 on by default for all TLS 1.3 in Network.framework. Within **four days** the iOS post-quantum traffic share went from <2% to 11%. By December 2025 it was >25%. Apple\'s scale plus the default-on shipping pattern is the fastest deployment of a new TLS feature in the protocol\'s history.'
+							text: '**Apple iOS 26 / iPadOS 26 / macOS Tahoe 26 / visionOS 26 (September 2025)** turned X25519MLKEM768 on by default for all [[tls|TLS]] 1.3 in Network.framework. Within **four days** the iOS post-quantum traffic share went from <2% to 11%. By December 2025 it was >25%. Apple\'s scale plus the default-on shipping pattern is the fastest deployment of a new [[tls|TLS]] feature in the protocol\'s history.'
 						},
 						{
 							type: 'narrative',
@@ -136,11 +136,11 @@ L4S deployment as of mid-2026 is **infrastructure-shaped**: clients (Apple, Chro
 		{
 			id: 'ipv6-mostly',
 			title: 'IPv6-Mostly',
-			synopsis: 'On 28 March 2026, Google\'s IPv6 dashboard recorded 50.1% for the first time.',
+			synopsis: 'On 28 March 2026, Google\'s [[ipv6|IPv6]] dashboard recorded 50.1% for the first time.',
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: 'Geoff Huston projected linear extrapolation puts IPv6 transition completion around late 2045 — and warned that v4/v6 coexistence may now be a steady state rather than a transition.',
+					text: 'Geoff Huston projected linear extrapolation puts [[ipv6|IPv6]] transition completion around late 2045 — and warned that v4/v6 coexistence may now be a steady state rather than a transition.',
 					attribution: 'APNIC, October 2024'
 				},
 				{
@@ -167,7 +167,7 @@ Within months, AWS workloads at scale began migrating to IPv6-only architectures
 						{
 							type: 'callout',
 							title: 'IPv6-Mostly is the deployment pattern',
-							text: '**IPv6-Mostly** is what most modern networks actually deploy: a single network using **DHCPv4 Option 108 ([[rfc:8925|RFC 8925]])** to tell capable clients "skip IPv4 entirely," **PREF64 in Router Advertisements ([[rfc:8781|RFC 8781]])** to advertise the {{nat64|NAT64}} prefix, and **{{four-six-four-xlat|464XLAT}} ([[rfc:6877|RFC 6877]])** CLAT for clients still needing IPv4. **Fedora/NetworkManager auto-enable CLAT for IPv6-mostly networks (2024); Windows 11 ships 464XLAT CLAT.** The OS support is finally there.'
+							text: '**IPv6-Mostly** is what most modern networks actually deploy: a single network using **DHCPv4 Option 108 ([[rfc:8925|RFC 8925]])** to tell capable clients "skip [[ip|IPv4]] entirely," **PREF64 in Router Advertisements ([[rfc:8781|RFC 8781]])** to advertise the {{nat64|NAT64}} prefix, and **{{four-six-four-xlat|464XLAT}} ([[rfc:6877|RFC 6877]])** CLAT for clients still needing [[ip|IPv4]]. **Fedora/NetworkManager auto-enable CLAT for IPv6-mostly networks (2024); Windows 11 ships 464XLAT CLAT.** The OS support is finally there.'
 						},
 						{
 							type: 'narrative',
@@ -194,7 +194,7 @@ The "everyone gets this wrong" detail: IPv6's mandatory-to-implement IPsec requi
 		{
 			id: 'rpki-aspa',
 			title: 'RPKI + ASPA',
-			synopsis: 'Cryptographic BGP, finally arriving — 50% of IPv4 covered May 2024.',
+			synopsis: 'Cryptographic [[bgp|BGP]], finally arriving — 50% of [[ip|IPv4]] covered May 2024.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -231,7 +231,7 @@ ASPA closes the route-leak hole that origin validation alone cannot fix — wher
 						{
 							type: 'callout',
 							title: 'BGPsec is dead',
-							text: '**BGPsec ([[rfc:8205|RFC 8205]], 2017)** has **negligible deployment** — the combinatorial signature size, lack of router silicon support, and zero incremental-deployment benefit have left it almost entirely unimplemented. ASPA and [[rfc:9234|RFC 9234]] (BGP Roles + OTC) ate its lunch. The lesson: a security protocol that requires every participant to deploy before any of them benefit will not get deployed. RPKI + ROV + ASPA wins because each step is independently useful.'
+							text: '**BGPsec ([[rfc:8205|RFC 8205]], 2017)** has **negligible deployment** — the combinatorial signature size, lack of router silicon support, and zero incremental-deployment benefit have left it almost entirely unimplemented. ASPA and [[rfc:9234|RFC 9234]] ([[bgp|BGP]] Roles + OTC) ate its lunch. The lesson: a security protocol that requires every participant to deploy before any of them benefit will not get deployed. RPKI + ROV + ASPA wins because each step is independently useful.'
 						},
 						{
 							type: 'narrative',
@@ -286,7 +286,7 @@ UEC's design comes from collective lessons of running RoCEv2 at this scale: per-
 						{
 							type: 'callout',
 							title: 'Switch silicon is moving fast',
-							text: '**Broadcom Tomahawk 6 (102.4 Tbps single-chip)** shipped June 2025; **Tomahawk 6-Davisson with co-packaged optics** shipped October 2025 — a single chip can drive 64×1.6T, 128×800G, 256×400G, or 512×200G ports. **NVIDIA Spectrum-X**, announced Computex 2024 and deployed by xAI Colossus, Microsoft, and CoreWeave, reportedly delivers **~95% effective throughput vs ~60% on best-effort Ethernet** for AI workloads. **Spectrum-X1600 (102.4 Tbps)** is expected 2H 2026.'
+							text: '**Broadcom Tomahawk 6 (102.4 Tbps single-chip)** shipped June 2025; **Tomahawk 6-Davisson with co-packaged optics** shipped October 2025 — a single chip can drive 64×1.6T, 128×800G, 256×400G, or 512×200G ports. **NVIDIA Spectrum-X**, announced Computex 2024 and deployed by xAI Colossus, Microsoft, and CoreWeave, reportedly delivers **~95% effective throughput vs ~60% on best-effort [[ethernet|Ethernet]]** for AI workloads. **Spectrum-X1600 (102.4 Tbps)** is expected 2H 2026.'
 						},
 						{
 							type: 'narrative',

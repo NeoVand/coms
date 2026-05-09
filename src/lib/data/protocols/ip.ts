@@ -24,7 +24,7 @@ IPv4's 32-bit address space (about 4.3 billion addresses) seemed vast in 1981 bu
 		{
 			title: 'Local routing decision',
 			description:
-				"The sender checks if the destination IP is on the same {{subnet|subnet}} (using its subnet mask). If yes, it uses [[arp|ARP]] to find the destination's {{mac-address|MAC address}} and sends directly. If no, it forwards the packet to the {{default-gateway|default gateway}} (router), whose MAC is also resolved via ARP."
+				"The sender checks if the destination IP is on the same {{subnet|subnet}} (using its subnet mask). If yes, it uses [[arp|ARP]] to find the destination's {{mac-address|MAC address}} and sends directly. If no, it forwards the packet to the {{default-gateway|default gateway}} (router), whose MAC is also resolved via [[arp|ARP]]."
 		},
 		{
 			title: 'Router forwarding and TTL decrement',
@@ -34,7 +34,7 @@ IPv4's 32-bit address space (about 4.3 billion addresses) seemed vast in 1981 bu
 		{
 			title: 'Fragmentation if needed',
 			description:
-				"If a packet is larger than the next link's {{mtu|MTU}} (Maximum Transmission Unit, typically 1500 bytes for Ethernet), the router {{fragmentation|fragments}} it into smaller IP packets. Each fragment carries offset information so the destination can reassemble them. Modern practice avoids fragmentation using {{path-mtu-discovery|Path MTU Discovery}}."
+				"If a packet is larger than the next link's {{mtu|MTU}} (Maximum Transmission Unit, typically 1500 bytes for [[ethernet|Ethernet]]), the router {{fragmentation|fragments}} it into smaller IP packets. Each fragment carries offset information so the destination can reassemble them. Modern practice avoids fragmentation using {{path-mtu-discovery|Path MTU Discovery}}."
 		},
 		{
 			title: 'Destination reassembly and delivery',
@@ -186,7 +186,7 @@ sudo tcpdump -i eth0 -v -c 5 ip`
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/IPv4_Packet-en.svg/500px-IPv4_Packet-en.svg.png',
 		alt: 'Diagram of the IPv4 packet header showing all fields: version, IHL, DSCP, total length, identification, flags, TTL, protocol, checksum, source and destination addresses',
 		caption:
-			'The IPv4 packet header — every packet on the internet carries this 20-byte structure. Key fields include TTL (decremented by each router to prevent loops), Protocol (6=TCP, 17=UDP), and the source/destination IP addresses that make global routing possible.',
+			'The IPv4 packet header — every packet on the internet carries this 20-byte structure. Key fields include TTL (decremented by each router to prevent loops), Protocol (6=[[tcp|TCP]], 17=[[udp|UDP]]), and the source/destination IP addresses that make global routing possible.',
 		credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 	}
 };

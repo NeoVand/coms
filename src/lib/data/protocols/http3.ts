@@ -8,7 +8,7 @@ export const http3: Protocol = {
 	port: 443,
 	year: 2022,
 	rfc: 'RFC 9114',
-	oneLiner: 'HTTP over QUIC — faster connections, no head-of-line blocking, built-in encryption.',
+	oneLiner: 'HTTP over [[quic|QUIC]] — faster connections, no head-of-line blocking, built-in encryption.',
 	overview: `HTTP/3 is the latest evolution of HTTP, replacing [[tcp|TCP]] with [[quic|QUIC]] as its transport layer. This seemingly simple swap has profound implications: connections establish faster (1 {{rtt|RTT}} vs 2-3), lost {{packet|packets}} don't block unrelated streams, and connections survive network changes (Wi-Fi to cellular).
 
 The API for developers is identical — same methods, headers, and status codes. The difference is entirely at the transport level. HTTP/3 uses [[quic|QUIC]]'s independent {{stream|streams}} to solve the {{head-of-line-blocking|head-of-line blocking}} that plagued [[http2|HTTP/2]] over [[tcp|TCP]]. Each HTTP request maps to a [[quic|QUIC]] stream; if one packet is lost, only that stream waits for {{retransmission|retransmission}}.
@@ -23,12 +23,12 @@ Adoption is accelerating: Google, Cloudflare, Facebook, and most {{cdn|CDNs}} su
 		{
 			title: 'QPACK header compression',
 			description:
-				"Like HTTP/2's {{hpack|HPACK}} but adapted for QUIC's out-of-order delivery. Uses separate encoder/decoder streams."
+				"Like [[http2|HTTP/2]]'s {{hpack|HPACK}} but adapted for [[quic|QUIC]]'s out-of-order delivery. Uses separate encoder/decoder streams."
 		},
 		{
 			title: 'Independent streams',
 			description:
-				'Each request/response is a separate QUIC stream. Packet loss on one stream has zero impact on others.'
+				'Each request/response is a separate [[quic|QUIC]] stream. Packet loss on one stream has zero impact on others.'
 		},
 		{
 			title: 'Connection migration',
@@ -132,7 +132,7 @@ asyncio.run(fetch_h3())`
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Googleplex-Patio-Aug-2014.JPG/500px-Googleplex-Patio-Aug-2014.JPG',
 		alt: 'The Googleplex campus in Mountain View, California, where QUIC and HTTP/3 were developed',
 		caption:
-			"The Googleplex in Mountain View — birthplace of QUIC and HTTP/3. Google engineers designed these protocols to eliminate TCP's head-of-line blocking and speed up the web for billions of users.",
+			"The Googleplex in Mountain View — birthplace of QUIC and HTTP/3. Google engineers designed these protocols to eliminate [[tcp|TCP]]'s head-of-line blocking and speed up the web for billions of users.",
 		credit: 'Photo: The Pancake of Heaven! / CC BY-SA 4.0, via Wikimedia Commons'
 	},
 
@@ -181,7 +181,7 @@ asyncio.run(fetch_h3())`
 	funFacts: [
 		{
 			title: 'HTTP/3 has the same semantics as HTTP/1.1',
-			text: 'A GET request in HTTP/3 means exactly what it meant in HTTP/1.1 (1997). The verbs, status codes, headers, {{content-negotiation|content negotiation}}, and caching semantics are identical. Only the **wire encoding** changed — from text framing (1.1) to binary frames (2) to QUIC streams (3). Reading [[rfc:9110|RFC 9110]] (HTTP Semantics) explains all three at once.'
+			text: 'A GET request in HTTP/3 means exactly what it meant in [[http1|HTTP/1.1]] (1997). The verbs, status codes, headers, {{content-negotiation|content negotiation}}, and caching semantics are identical. Only the **wire encoding** changed — from text framing (1.1) to binary frames (2) to QUIC streams (3). Reading [[rfc:9110|RFC 9110]] (HTTP Semantics) explains all three at once.'
 		},
 		{
 			title: 'No more head-of-line blocking',
@@ -197,7 +197,7 @@ asyncio.run(fetch_h3())`
 		pitfalls: [
 			{
 				title: 'Alt-Svc bootstrap requires a TCP+TLS round-trip',
-				text: 'A new client doesn\'t know to try HTTP/3 until it sees an Alt-Svc header in an HTTP/1.1 or HTTP/2 response — meaning the very first connection still pays the TCP+TLS round-trip cost. The HTTPS DNS record (HTTPS RR, [[rfc:9460|RFC 9460]]) closes this gap by advertising HTTP/3 support directly in DNS, but adoption is partial.'
+				text: 'A new client doesn\'t know to try HTTP/3 until it sees an Alt-Svc header in an [[http1|HTTP/1.1]] or [[http2|HTTP/2]] response — meaning the very first connection still pays the [[tcp|TCP]]+[[tls|TLS]] round-trip cost. The HTTPS [[dns|DNS]] record (HTTPS RR, [[rfc:9460|RFC 9460]]) closes this gap by advertising HTTP/3 support directly in [[dns|DNS]], but adoption is partial.'
 			},
 			{
 				title: 'CDN coverage is much better than origin coverage',
@@ -205,7 +205,7 @@ asyncio.run(fetch_h3())`
 			},
 			{
 				title: 'Some debugging tools have limited QUIC support',
-				text: 'Wireshark dissects HTTP/3 (since 4.0), but only when you have the QUIC session secrets. curl supports HTTP/3 with --http3 (in builds compiled with quiche or msh3). If you rely on tcpdump to debug HTTP/2, expect more friction with HTTP/3.'
+				text: 'Wireshark dissects HTTP/3 (since 4.0), but only when you have the QUIC session secrets. curl supports HTTP/3 with --http3 (in builds compiled with quiche or msh3). If you rely on tcpdump to debug [[http2|HTTP/2]], expect more friction with HTTP/3.'
 			}
 		]
 	}

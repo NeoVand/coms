@@ -237,7 +237,7 @@ Client → Server  [ACK]
 			org: 'Meta',
 			scale: '>50% of traffic still TCP',
 			description:
-				'Despite >75% of Meta\'s internet-facing traffic moving to QUIC, TCP remains the default for service-to-service inside the datacenter and for backwards-compatible client paths.'
+				'Despite >75% of Meta\'s internet-facing traffic moving to [[quic|QUIC]], TCP remains the default for service-to-service inside the datacenter and for backwards-compatible client paths.'
 		},
 		{
 			org: 'Apple',
@@ -278,7 +278,7 @@ Client → Server  [ACK]
 			},
 			{
 				title: 'PMTU black holes',
-				text: 'A path drops large packets but does not return [[icmp|ICMP]] {{fragmentation|Fragmentation}} Needed — usually because some intermediate {{firewall|firewall}} rate-limits or blocks ICMP. The connection hangs because retransmits also fail. Cure: enable PLPMTUD ([[rfc:4821|RFC 4821]]) or set TCP MSS clamping at the edge.'
+				text: 'A path drops large packets but does not return [[icmp|ICMP]] {{fragmentation|Fragmentation}} Needed — usually because some intermediate {{firewall|firewall}} rate-limits or blocks [[icmp|ICMP]]. The connection hangs because retransmits also fail. Cure: enable PLPMTUD ([[rfc:4821|RFC 4821]]) or set TCP MSS clamping at the edge.'
 			}
 		]
 	}

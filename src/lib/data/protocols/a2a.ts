@@ -19,12 +19,12 @@ Discovery happens through **Agent Cards** — JSON metadata documents served at 
 		{
 			title: 'Agent discovery',
 			description:
-				"A client agent fetches the remote agent's Agent Card from /.well-known/agent.json. The card describes the agent's name, skills, supported capabilities (streaming, push notifications), and authentication requirements (API key, OAuth 2.0, OpenID Connect)."
+				"A client agent fetches the remote agent's Agent Card from /.well-known/agent.json. The card describes the agent's name, skills, supported capabilities (streaming, push notifications), and authentication requirements (API key, [[oauth2|OAuth]] 2.0, OpenID Connect)."
 		},
 		{
 			title: 'Send a message',
 			description:
-				'The client sends a JSON-RPC request to the remote agent\'s endpoint using "message/send" (synchronous) or "message/stream" (streaming via SSE). The message contains Parts — TextPart, FilePart, or DataPart — describing what the client needs.'
+				'The client sends a [[json-rpc|JSON-RPC]] request to the remote agent\'s endpoint using "message/send" (synchronous) or "message/stream" (streaming via [[sse|SSE]]). The message contains Parts — TextPart, FilePart, or DataPart — describing what the client needs.'
 		},
 		{
 			title: 'Task lifecycle',
@@ -34,7 +34,7 @@ Discovery happens through **Agent Cards** — JSON metadata documents served at 
 		{
 			title: 'Artifacts returned',
 			description:
-				'As the agent works, it produces Artifacts — structured outputs composed of Parts (text, files, data). Artifacts can be streamed incrementally via SSE or returned all at once in the final response.'
+				'As the agent works, it produces Artifacts — structured outputs composed of Parts (text, files, data). Artifacts can be streamed incrementally via [[sse|SSE]] or returned all at once in the final response.'
 		},
 		{
 			title: 'Async & push',
@@ -81,7 +81,7 @@ card = AgentCard(
     capabilities={"streaming": True}
 )`,
 		caption:
-			'An A2A agent publishes its skills in an Agent Card and handles tasks via an executor — the SDK manages JSON-RPC, streaming, and task lifecycle.',
+			'An A2A agent publishes its skills in an Agent Card and handles tasks via an executor — the SDK manages [[json-rpc|JSON-RPC]], streaming, and task lifecycle.',
 		alternatives: [
 			{
 				language: 'javascript',

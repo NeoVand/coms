@@ -24,7 +24,7 @@ export const transport: BookPart = {
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: '[[rfc:793|RFC 793]] was the canonical TCP specification for 41 years — almost certainly the longest unmodified IETF spec ever. [[rfc:9293|RFC 9293]] finally consolidated 13 errata documents in August 2022.',
+					text: '[[rfc:793|RFC 793]] was the canonical [[tcp|TCP]] specification for 41 years — almost certainly the longest unmodified IETF spec ever. [[rfc:9293|RFC 9293]] finally consolidated 13 errata documents in August 2022.',
 					attribution: 'Author'
 				},
 				{
@@ -51,7 +51,7 @@ Forty-five years after [[rfc:9293|RFC 793]] (September 1981), TCP is still the w
 						{
 							type: 'callout',
 							title: 'Three pre-existing security incidents from the 1990s',
-							text: '**TCP sequence-prediction (Mitnick 1994)** exploited predictable initial {{sequence-number|sequence numbers}} from BSD\'s linear ISN counter. [[rfc:1948|RFC 1948]] (1996) replaced it with a cryptographically-hashed function of the four-tuple. **SYN floods (mid-1990s)** exhausted server connection tables before {{syn-cookies|SYN cookies}} (Bernstein, [[rfc:4987|RFC 4987]]) made them {{stateless|stateless}}. **Smurf attacks (1997)** abused IP {{broadcast|broadcast}} to amplify {{tcp-rst|TCP RST}} floods. Modern stacks defeat all three; the design lessons are baked into [[rfc:9293|RFC 9293]]\'s security considerations.'
+							text: '**[[tcp|TCP]] sequence-prediction (Mitnick 1994)** exploited predictable initial {{sequence-number|sequence numbers}} from BSD\'s linear ISN counter. [[rfc:1948|RFC 1948]] (1996) replaced it with a cryptographically-hashed function of the four-tuple. **SYN floods (mid-1990s)** exhausted server connection tables before {{syn-cookies|SYN cookies}} (Bernstein, [[rfc:4987|RFC 4987]]) made them {{stateless|stateless}}. **Smurf attacks (1997)** abused IP {{broadcast|broadcast}} to amplify {{tcp-rst|TCP RST}} floods. Modern stacks defeat all three; the design lessons are baked into [[rfc:9293|RFC 9293]]\'s security considerations.'
 						},
 						{
 							type: 'narrative',
@@ -93,7 +93,7 @@ The vulnerability surface keeps producing CVEs. **CVE-2019-11477 (SACK Panic)** 
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: '[[rfc:768|RFC 768]] is three pages long. [[pioneer:jon-postel|Jon Postel]] wrote it in August 1980, two months before the first version of TCP. It has not been updated since. There has been nothing to update.',
+					text: '[[rfc:768|RFC 768]] is three pages long. [[pioneer:jon-postel|Jon Postel]] wrote it in August 1980, two months before the first version of [[tcp|TCP]]. It has not been updated since. There has been nothing to update.',
 					attribution: 'Author'
 				},
 				{
@@ -122,7 +122,7 @@ The single thing UDP gives you above raw IP is **ports** — the 16-bit demux th
 						{
 							type: 'callout',
 							title: 'NAT pinholes are a UDP-specific concern',
-							text: 'A NAT router opens a "pinhole" for outbound UDP keyed by (src IP, src port). The pinhole closes after a few minutes of silence. For long-lived UDP applications — VoIP, IoT keepalives, [[quic|QUIC]] connections that have gone idle — you must send a keepalive every 30-60 seconds to keep the pinhole open, or the next inbound packet will be dropped at the NAT. This is one of the reasons WebRTC and SIP both have explicit keepalive timers despite their underlying transports having no need for them.'
+							text: 'A NAT router opens a "pinhole" for outbound [[udp|UDP]] keyed by (src IP, src port). The pinhole closes after a few minutes of silence. For long-lived [[udp|UDP]] applications — VoIP, IoT keepalives, [[quic|QUIC]] connections that have gone idle — you must send a keepalive every 30-60 seconds to keep the pinhole open, or the next inbound packet will be dropped at the NAT. This is one of the reasons [[webrtc|WebRTC]] and [[sip|SIP]] both have explicit keepalive timers despite their underlying transports having no need for them.'
 						},
 						{
 							type: 'narrative',
@@ -152,7 +152,7 @@ The protocol itself has not changed. The role it plays has been reshaped by what
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: 'SCTP is the better TCP that lost the deployment war. The lesson it teaches is the lesson QUIC applied: if you want a new transport on the deployed internet, you must tunnel inside UDP.',
+					text: '[[sctp|SCTP]] is the better TCP that lost the deployment war. The lesson it teaches is the lesson [[quic|QUIC]] applied: if you want a new transport on the deployed internet, you must tunnel inside [[udp|UDP]].',
 					attribution: 'Author'
 				},
 				{
@@ -183,7 +183,7 @@ The deeper lesson SCTP teaches is the lesson [[quic|QUIC]] applied: **if you wan
 						{
 							type: 'callout',
 							title: 'WebRTC Data Channels are SCTP under the hood',
-							text: 'There is one place SCTP runs successfully on the open internet: **WebRTC Data Channels**. [[rfc:8831|RFC 8831]] defines the data channel as **SCTP over DTLS over UDP** — the SCTP-over-something-else trick QUIC would later generalise. The browser implementations (libwebrtc, Firefox\'s networking stack) carry an SCTP stack in user space. WebRTC is the largest production SCTP deployment by message count, even though almost nobody knows it.'
+							text: 'There is one place [[sctp|SCTP]] runs successfully on the open internet: **[[webrtc|WebRTC]] Data Channels**. [[rfc:8831|RFC 8831]] defines the data channel as **[[sctp|SCTP]] over DTLS over UDP** — the SCTP-over-something-else trick [[quic|QUIC]] would later generalise. The browser implementations (libwebrtc, Firefox\'s networking stack) carry an SCTP stack in user space. [[webrtc|WebRTC]] is the largest production SCTP deployment by message count, even though almost nobody knows it.'
 						},
 						{
 							type: 'narrative',
@@ -207,7 +207,7 @@ The protocol itself remains specialised. It is the canonical example of a techni
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: 'Apple shipped MPTCP in iOS 7 (2013) for Siri because the half-second handoff between Wi-Fi and cellular was visibly degrading user experience. Twelve years later, the same multipath idea is moving to QUIC.',
+					text: 'Apple shipped [[mptcp|MPTCP]] in iOS 7 (2013) for Siri because the half-second handoff between Wi-Fi and cellular was visibly degrading user experience. Twelve years later, the same multipath idea is moving to [[quic|QUIC]].',
 					attribution: 'Author'
 				},
 				{
@@ -234,7 +234,7 @@ Apple expanded MPTCP in iOS 11 (2017) to a public API for any app, and in iOS 12
 						{
 							type: 'callout',
 							title: 'Adoption is real but limited',
-							text: 'The same {{nat|NAT}}/{{firewall|firewall}} friction that confines [[sctp|SCTP]] hits MPTCP. Many middleboxes strip the MPTCP option from the SYN, falling the connection back to plain TCP. Where MPTCP works (Apple OS services, Korea Telecom GIGA Path, some specialised enterprise WANs) it works well. Where it does not work (the long tail of public-internet middleboxes), it falls back transparently. The deployment story is "successful in controlled paths, invisible everywhere else."'
+							text: 'The same {{nat|NAT}}/{{firewall|firewall}} friction that confines [[sctp|SCTP]] hits [[mptcp|MPTCP]]. Many middleboxes strip the [[mptcp|MPTCP]] option from the SYN, falling the connection back to plain TCP. Where MPTCP works (Apple OS services, Korea Telecom GIGA Path, some specialised enterprise WANs) it works well. Where it does not work (the long tail of public-internet middleboxes), it falls back transparently. The deployment story is "successful in controlled paths, invisible everywhere else."'
 						},
 						{
 							type: 'narrative',
@@ -259,7 +259,7 @@ MPTCP itself will remain in production for the use cases it currently serves. Bu
 		{
 			id: 'quic',
 			title: 'QUIC',
-			synopsis: 'Reliable transport in user space, on UDP, with TLS folded in.',
+			synopsis: 'Reliable transport in user space, on UDP, with [[tls|TLS]] folded in.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -292,7 +292,7 @@ QUIC solves four problems at once.`
 						{
 							type: 'callout',
 							title: 'The 21% plateau and the in-kernel push',
-							text: 'As of Q1 2026, QUIC carries roughly **21% of Cloudflare-observed web requests** — flat or slightly declining for several months. The plateau correlates with the **2024 ACM Web Conference paper "QUIC is not Quick Enough over Fast Internet"** (Zhang et al., doi:10.1145/3589334.3645323) showing **up-to-45.2% throughput regressions** vs HTTP/2 above ~500 Mbps, due to receiver-side userspace ACK and copy overhead. The fix in flight is **in-kernel QUIC** — Xin Long\'s ~9,000-line patch series for Linux landed July 2025; mainline merge expected 2026. When in-kernel QUIC ships, the throughput gap with kernel TCP closes.'
+							text: 'As of Q1 2026, QUIC carries roughly **21% of Cloudflare-observed web requests** — flat or slightly declining for several months. The plateau correlates with the **2024 ACM Web Conference paper "QUIC is not Quick Enough over Fast Internet"** (Zhang et al., doi:10.1145/3589334.3645323) showing **up-to-45.2% throughput regressions** vs [[http2|HTTP/2]] above ~500 Mbps, due to receiver-side userspace ACK and copy overhead. The fix in flight is **in-kernel QUIC** — Xin Long\'s ~9,000-line patch series for Linux landed July 2025; mainline merge expected 2026. When in-kernel QUIC ships, the throughput gap with kernel TCP closes.'
 						},
 						{
 							type: 'narrative',

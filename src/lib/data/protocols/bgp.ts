@@ -23,7 +23,7 @@ The consequences of BGP mistakes are enormous. The Facebook outage of October 20
 		{
 			title: 'TCP session establishment',
 			description:
-				'BGP peers open a TCP connection on port 179. Unlike most protocols, BGP uses TCP for reliability — routing information must never be lost, duplicated, or reordered.'
+				'BGP peers open a [[tcp|TCP]] connection on port 179. Unlike most protocols, BGP uses [[tcp|TCP]] for reliability — routing information must never be lost, duplicated, or reordered.'
 		},
 		{
 			title: 'OPEN exchange',
@@ -170,7 +170,7 @@ for await (const elem of parser) {
 			date: '2026',
 			title: 'RPKI/ROV crosses 50% of advertised IP space',
 			description:
-				'NIST Route Origin Validation Monitor and Cloudflare\'s isbgpsafeyet.com show over 50% of advertised IPv4 space now covered by signed Route Origin Authorisations. Most tier-1 transits enforce ROV on incoming announcements.'
+				'NIST Route Origin Validation Monitor and Cloudflare\'s isbgpsafeyet.com show over 50% of advertised [[ip|IPv4]] space now covered by signed Route Origin Authorisations. Most tier-1 transits enforce ROV on incoming announcements.'
 		},
 		{
 			date: '2024-2025',
@@ -183,7 +183,7 @@ for await (const elem of parser) {
 			date: '2024-01',
 			title: 'TCP-AO ships in Linux 6.7 for BGP',
 			description:
-				'Native TCP Authentication Option ([[rfc:5925|RFC 5925]]) lands in Linux, finally giving BGP sessions a modern replacement for the deprecated TCP-MD5. Cisco IOS-XR and Junos already supported it; Linux was the long-pole.'
+				'Native [[tcp|TCP]] Authentication Option ([[rfc:5925|RFC 5925]]) lands in Linux, finally giving BGP sessions a modern replacement for the deprecated TCP-MD5. Cisco IOS-XR and Junos already supported it; Linux was the long-pole.'
 		}
 	],
 

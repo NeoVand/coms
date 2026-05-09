@@ -18,7 +18,7 @@ RabbitMQ, the most popular AMQP {{broker|broker}}, powers message-driven archite
 		{
 			title: 'Connection and channels',
 			description:
-				'Client opens a TCP connection, then multiplexes multiple lightweight "channels" within it. Each channel is an independent communication stream.'
+				'Client opens a [[tcp|TCP]] connection, then multiplexes multiple lightweight "channels" within it. Each channel is an independent communication stream.'
 		},
 		{
 			title: 'Declare exchanges and queues',

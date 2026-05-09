@@ -8,7 +8,7 @@ export const sdp: Protocol = {
 	year: 1998,
 	rfc: 'RFC 8866',
 	oneLiner:
-		'The universal format for describing multimedia sessions — the matchmaker behind every WebRTC and VoIP call.',
+		'The universal format for describing multimedia sessions — the matchmaker behind every [[webrtc|WebRTC]] and VoIP call.',
 	overview: `SDP doesn't carry a single byte of audio or video. Instead, it's the language that endpoints use to describe what they can do — {{codec|codecs}} they support, IP addresses they're reachable at, {{bandwidth|bandwidth}} they expect, and {{encryption|encryption}} keys they'll use. Think of it as a dating profile for media sessions.
 
 Originally published in 1998 as RFC 2327 for the Mbone (multicast backbone) conferencing community, SDP found its true calling as the session description format for [[sip|SIP]] and later [[webrtc|WebRTC]]. Every time you join a video call in your browser, an SDP "offer" and "answer" are exchanged behind the scenes to {{content-negotiation|negotiate}} what media will flow and how.
@@ -38,7 +38,7 @@ The format is deceptively simple — plain text with single-letter field identif
 		{
 			title: 'Session established',
 			description:
-				'Once both sides have exchanged and accepted SDP, media streams (RTP) and data channels (SCTP) begin flowing according to the negotiated parameters.'
+				'Once both sides have exchanged and accepted SDP, media streams ([[rtp|RTP]]) and data channels ([[sctp|SCTP]]) begin flowing according to the negotiated parameters.'
 		}
 	],
 	useCases: [
@@ -74,7 +74,7 @@ async def main():
     await pc.setRemoteDescription(answer)
 
 asyncio.run(main())`,
-		caption: 'WebRTC SDP offer/answer — SDP is generated automatically from your media tracks',
+		caption: '[[webrtc|WebRTC]] SDP offer/answer — SDP is generated automatically from your media tracks',
 		alternatives: [
 			{
 				language: 'javascript',

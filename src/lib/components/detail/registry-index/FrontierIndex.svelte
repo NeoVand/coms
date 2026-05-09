@@ -2,6 +2,8 @@
 	import { frontierEntries, type FrontierTopic } from '$lib/data/frontier';
 	import { navigateToFrontier } from '$lib/utils/navigation';
 	import { Compass } from 'lucide-svelte';
+	import { parseRichText } from '$lib/utils/text-parser';
+	import RichText from '$lib/components/detail/inline/RichText.svelte';
 
 	const ACCENT = '#a78bfa';
 
@@ -73,7 +75,9 @@
 							>
 							<span class="shrink-0 text-[10px] text-t-muted tabular-nums">{f.date}</span>
 						</div>
-						<p class="text-xs leading-relaxed text-t-secondary italic">{f.oneLiner}</p>
+						<p class="text-xs leading-relaxed text-t-secondary italic">
+							<RichText segments={parseRichText(f.oneLiner)} color={ACCENT} />
+						</p>
 						<div class="mt-0.5 text-[10px] text-t-muted">{STATUS_LABEL[f.status] ?? f.status}</div>
 					</button>
 				{/each}

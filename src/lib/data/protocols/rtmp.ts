@@ -18,7 +18,7 @@ Today, RTMP is the de facto standard for live stream ingest. Twitch, YouTube Liv
 		{
 			title: 'TCP handshake + RTMP handshake',
 			description:
-				'Client establishes a TCP connection on port 1935, then performs a 3-phase RTMP handshake (C0/S0, C1/S1, C2/S2) exchanging timestamps and random bytes to verify connectivity.'
+				'Client establishes a [[tcp|TCP]] connection on port 1935, then performs a 3-phase RTMP handshake (C0/S0, C1/S1, C2/S2) exchanging timestamps and random bytes to verify connectivity.'
 		},
 		{
 			title: 'Connect and create stream',
@@ -28,7 +28,7 @@ Today, RTMP is the de facto standard for live stream ingest. Twitch, YouTube Liv
 		{
 			title: 'Chunk and multiplex',
 			description:
-				'Audio, video, and data are split into chunks (default 128 bytes, negotiable). Chunks from different streams are interleaved over the single TCP connection.'
+				'Audio, video, and data are split into chunks (default 128 bytes, negotiable). Chunks from different streams are interleaved over the single [[tcp|TCP]] connection.'
 		},
 		{
 			title: 'Publish or play',
@@ -38,7 +38,7 @@ Today, RTMP is the de facto standard for live stream ingest. Twitch, YouTube Liv
 		{
 			title: 'Teardown',
 			description:
-				'Either side sends "deleteStream" followed by closing the TCP connection. The server can also disconnect idle clients or reject unauthorized publishers.'
+				'Either side sends "deleteStream" followed by closing the [[tcp|TCP]] connection. The server can also disconnect idle clients or reject unauthorized publishers.'
 		}
 	],
 	useCases: [

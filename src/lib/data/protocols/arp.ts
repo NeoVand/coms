@@ -181,7 +181,7 @@ ARP Reply:
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Ethernet_Switch_%28Front_View%29.jpg/500px-Ethernet_Switch_%28Front_View%29.jpg',
 		alt: 'Front view of an Ethernet network switch with multiple RJ-45 ports',
 		caption:
-			'An Ethernet switch — where ARP does its work. When a host needs to send an IP packet locally, ARP broadcasts "who has this IP?" on the switch\'s network, and the target replies with its MAC address.',
+			'An [[ethernet|Ethernet]] switch — where ARP does its work. When a host needs to send an IP packet locally, ARP broadcasts "who has this IP?" on the switch\'s network, and the target replies with its MAC address.',
 		credit: 'Photo: CCDBarcodeScanner / CC BY-SA 4.0, via Wikimedia Commons'
 	}
 };

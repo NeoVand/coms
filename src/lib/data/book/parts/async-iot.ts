@@ -22,7 +22,7 @@ export const asyncIot: BookPart = {
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: 'MQTT was drafted in 1999 by Andy Stanford-Clark of IBM and Arlen Nipper of Arcom Control Systems to instrument Phillips 66 oil pipelines over a brand-new VSAT satellite link. The 2-byte fixed header was not aesthetic — it was a budget item.',
+					text: '[[mqtt|MQTT]] was drafted in 1999 by Andy Stanford-Clark of IBM and Arlen Nipper of Arcom Control Systems to instrument Phillips 66 oil pipelines over a brand-new VSAT satellite link. The 2-byte fixed header was not aesthetic — it was a budget item.',
 					attribution: 'Author'
 				},
 				{
@@ -53,7 +53,7 @@ IBM released **MQTT 3.1 royalty-free in 2010**; **MQTT 3.1.1** was approved by O
 						{
 							type: 'callout',
 							title: 'Facebook Messenger has used MQTT since 2011',
-							text: '**Facebook Messenger has used MQTT since 2011** — chosen with "just a few weeks until launch" by Lucy Zhang\'s team — to drop perceived send latency from seconds to "hundreds of milliseconds" on mobile. Tesla\'s vehicles use MQTT to phone home. Ring doorbells, AWS IoT Core (until 16 August 2023, when Google Cloud IoT Core was retired), the Matter smart-home standard, all run on MQTT or its variants.'
+							text: '**Facebook Messenger has used [[mqtt|MQTT]] since 2011** — chosen with "just a few weeks until launch" by Lucy Zhang\'s team — to drop perceived send latency from seconds to "hundreds of milliseconds" on mobile. Tesla\'s vehicles use [[mqtt|MQTT]] to phone home. Ring doorbells, AWS IoT Core (until 16 August 2023, when Google Cloud IoT Core was retired), the Matter smart-home standard, all run on MQTT or its variants.'
 						},
 						{
 							type: 'narrative',
@@ -79,7 +79,7 @@ IBM released **MQTT 3.1 royalty-free in 2010**; **MQTT 3.1.1** was approved by O
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: 'If you read AMQP 1.0, it\'s called Advanced Message Queue Protocol, but there are no queues in it.',
+					text: 'If you read [[amqp|AMQP]] 1.0, it\'s called Advanced Message Queue Protocol, but there are no queues in it.',
 					attribution: 'Alexis Richardson, March 2025'
 				},
 				{
@@ -108,7 +108,7 @@ The 0-9-1 working group was dead by 2010 — Pieter Hintjens (iMatix CEO) circul
 						{
 							type: 'callout',
 							title: 'RabbitMQ 4.0 made AMQP 1.0 a core protocol',
-							text: '**RabbitMQ 4.0 GA (18 September 2024)** made AMQP 1.0 a *core* protocol — single Erlang process per session vs 15 in 3.13, peak throughput "more than double" 3.13.x. **Classic mirrored queues were fully removed** after deprecation since 2021. **Khepri** (Raft-based metadata store) is **default in RabbitMQ 4.2.0** and **mandatory in 4.3 (April 2026)** — Mnesia is removed. RabbitMQ 4.3 also added JMS-style queues with SQL message selectors.'
+							text: '**RabbitMQ 4.0 GA (18 September 2024)** made [[amqp|AMQP]] 1.0 a *core* protocol — single Erlang process per session vs 15 in 3.13, peak throughput "more than double" 3.13.x. **Classic mirrored queues were fully removed** after deprecation since 2021. **Khepri** (Raft-based metadata store) is **default in RabbitMQ 4.2.0** and **mandatory in 4.3 (April 2026)** — Mnesia is removed. RabbitMQ 4.3 also added JMS-style queues with SQL message selectors.'
 						},
 						{
 							type: 'narrative',
@@ -130,11 +130,11 @@ The trade-off versus [[mqtt|MQTT]] remains operational complexity. An AMQP broke
 		{
 			id: 'kafka',
 			title: 'Kafka',
-			synopsis: 'A distributed commit log as architecture unit — LinkedIn, 2010, named after Franz Kafka because "it\'s a system optimized for writing."',
+			synopsis: 'A distributed commit log as architecture unit — LinkedIn, 2010, named after Franz [[kafka|Kafka]] because "it\'s a system optimized for writing."',
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: 'Jay Kreps named Kafka after Franz Kafka because "it\'s a system optimized for writing" and he liked the writer. LinkedIn now runs >7 trillion messages/day across 4,000+ brokers and ~7M partitions.',
+					text: 'Jay Kreps named [[kafka|Kafka]] after Franz [[kafka|Kafka]] because "it\'s a system optimized for writing" and he liked the writer. LinkedIn now runs >7 trillion messages/day across 4,000+ brokers and ~7M partitions.',
 					attribution: 'Author'
 				},
 				{
@@ -187,11 +187,11 @@ The wire-level details that matter operationally: Kafka's reference congestion a
 		{
 			id: 'coap',
 			title: 'CoAP',
-			synopsis: 'REST shrunk for microcontrollers — and one of the most-deployed-at-scale uses turned out to be Chinese smartphones.',
+			synopsis: '[[rest|REST]] shrunk for microcontrollers — and one of the most-deployed-at-scale uses turned out to be Chinese smartphones.',
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: 'NETSCOUT\'s January 2019 scan found 388,344 publicly-reachable CoAP endpoints, 81% in China, but most were not IoT devices — they were Chinese smartphones running the QLC Chain peer-to-peer crypto stack.',
+					text: 'NETSCOUT\'s January 2019 scan found 388,344 publicly-reachable [[coap|CoAP]] endpoints, 81% in China, but most were not IoT devices — they were Chinese smartphones running the QLC Chain peer-to-peer crypto stack.',
 					attribution: 'Author'
 				},
 				{
@@ -209,7 +209,7 @@ CoAP is what you build when you want REST semantics on a 32 kB microcontroller t
 						{
 							type: 'callout',
 							title: 'EDHOC — three messages, ~100 bytes',
-							text: '**EDHOC ([[rfc:9000|RFC 9528]], March 2024)** — the biggest constrained-IoT crypto news of the period — gives full mutual authentication + {{forward-secrecy|forward secrecy}} in **three messages totalling ~100 bytes** for static-DH credentials, vs **~700+ bytes for a DTLS 1.3 ECC {{handshake|handshake}}**. For battery-powered devices that translates to *years* of additional life. Companion: **OSCORE ([[rfc:8613|RFC 8613]])** wraps the [[coap|CoAP]] {{payload|payload}} in COSE_Encrypt0/AES-CCM and is end-to-end-secure even across CoAP↔HTTP proxies.'
+							text: '**EDHOC ([[rfc:9000|RFC 9528]], March 2024)** — the biggest constrained-IoT crypto news of the period — gives full mutual authentication + {{forward-secrecy|forward secrecy}} in **three messages totalling ~100 bytes** for static-DH credentials, vs **~700+ bytes for a DTLS 1.3 ECC {{handshake|handshake}}**. For battery-powered devices that translates to *years* of additional life. Companion: **OSCORE ([[rfc:8613|RFC 8613]])** wraps the [[coap|CoAP]] {{payload|payload}} in COSE_Encrypt0/AES-CCM and is end-to-end-secure even across [[coap|CoAP]]↔HTTP proxies.'
 						},
 						{
 							type: 'narrative',

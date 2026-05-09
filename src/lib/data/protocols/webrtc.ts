@@ -18,7 +18,7 @@ Under the hood, WebRTC is actually a bundle of protocols: ICE for connectivity e
 		{
 			title: 'Signaling',
 			description:
-				'Peers exchange "offers" and "answers" (SDP descriptions of their capabilities) through a signaling server (WebSocket, HTTP, or even carrier pigeon — WebRTC doesn\'t care how).'
+				'Peers exchange "offers" and "answers" ([[sdp|SDP]] descriptions of their capabilities) through a signaling server (WebSocket, HTTP, or even carrier pigeon — WebRTC doesn\'t care how).'
 		},
 		{
 			title: 'ICE candidate gathering',
@@ -33,7 +33,7 @@ Under the hood, WebRTC is actually a bundle of protocols: ICE for connectivity e
 		{
 			title: 'Media and data flow',
 			description:
-				'Audio/video flows via SRTP (Secure RTP) directly between peers. Data channels use SCTP over DTLS for reliable or unreliable data transfer.'
+				'Audio/video flows via SRTP (Secure [[rtp|RTP]]) directly between peers. Data channels use [[sctp|SCTP]] over DTLS for reliable or unreliable data transfer.'
 		}
 	],
 	useCases: [

@@ -21,7 +21,7 @@ IMAP's FETCH command is remarkably flexible: you can request just message {{head
 		{
 			title: 'Connect & authenticate',
 			description:
-				"Client connects to port 993 (IMAPS with TLS) and authenticates with LOGIN or a SASL mechanism like OAUTH2. The server grants access to the user's mailboxes."
+				"Client connects to port 993 (IMAPS with [[tls|TLS]]) and authenticates with LOGIN or a SASL mechanism like OAUTH2. The server grants access to the user's mailboxes."
 		},
 		{
 			title: 'SELECT mailbox',

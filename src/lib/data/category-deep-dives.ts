@@ -246,7 +246,7 @@ Transport is pluggable: **stdio** for local processes (the server is a subproces
 			{
 				type: 'diagram',
 				title: 'MCP Session Lifecycle',
-				caption: 'The full MCP session from initialization through tool invocation. The three-step handshake establishes capabilities before any tool or resource access.',
+				caption: 'The full [[mcp|MCP]] session from initialization through tool invocation. The three-step handshake establishes capabilities before any tool or resource access.',
 				definition: `graph TD
   I["initialize request<br/>(client capabilities, version)"] --> IR["initialize response<br/>(server capabilities, tools, resources)"]
   IR --> N["initialized notification<br/>(handshake complete)"]

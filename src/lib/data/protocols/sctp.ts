@@ -8,7 +8,7 @@ export const sctp: Protocol = {
 	port: undefined,
 	year: 2000,
 	rfc: 'RFC 9260',
-	oneLiner: "Multi-streaming, multi-homing transport — TCP's more capable but less popular cousin.",
+	oneLiner: "Multi-streaming, multi-homing transport — [[tcp|TCP]]'s more capable but less popular cousin.",
 	overview: `SCTP was designed for telecom signaling but offers features that both [[tcp|TCP]] and [[udp|UDP]] lack. It supports {{multiplexing|multiple independent streams}} within a single connection (like [[quic|QUIC]], but decades earlier), multi-homing (a connection can span multiple network interfaces for redundancy), and message boundaries (unlike [[tcp|TCP]]'s byte stream).
 
 Despite its technical superiority in many aspects, SCTP never gained widespread adoption on the public internet because {{nat|NATs}} and {{firewall|firewalls}} typically don't understand it. However, it's widely used in telecom infrastructure (4G/5G networks use it extensively) and is used by [[webrtc|WebRTC]]'s data channels — though in WebRTC, SCTP doesn't run as a raw OS-level transport; instead it runs over DTLS over [[udp|UDP]], with the SCTP implementation in userspace.
@@ -33,7 +33,7 @@ SCTP provides the reliability of [[tcp|TCP]], the message-oriented nature of [[u
 		{
 			title: 'Message boundaries',
 			description:
-				'Unlike TCP (byte stream), SCTP preserves message boundaries. What you send as one message arrives as one message — no need for application-level framing.'
+				'Unlike [[tcp|TCP]] (byte stream), SCTP preserves message boundaries. What you send as one message arrives as one message — no need for application-level framing.'
 		}
 	],
 	useCases: [
@@ -61,7 +61,7 @@ print(f"Association from {addr}")
 data = conn.recv(4096)
 conn.send(b"SCTP response with multi-streaming support")
 conn.close()`,
-		caption: 'SCTP preserves message boundaries unlike TCP byte streams',
+		caption: 'SCTP preserves message boundaries unlike [[tcp|TCP]] byte streams',
 		alternatives: [
 			{
 				language: 'javascript',

@@ -8,7 +8,7 @@ export const coap: Protocol = {
 	port: 5683,
 	year: 2014,
 	rfc: 'RFC 7252',
-	oneLiner: 'HTTP for tiny devices — REST semantics over UDP for constrained IoT.',
+	oneLiner: 'HTTP for tiny devices — [[rest|REST]] semantics over [[udp|UDP]] for constrained IoT.',
 	overview: `CoAP brings the familiar [[rest|REST]] model (GET, POST, PUT, DELETE) to the world of constrained IoT devices — think microcontrollers with 10KB of RAM on lossy, low-power wireless networks. It runs over [[udp|UDP]] instead of [[tcp|TCP]], uses a compact binary format, and adds built-in support for resource observation (subscribe to changes).
 
 The design mirrors [[http1|HTTP]] closely enough that translating between CoAP and [[http1|HTTP]] is straightforward, enabling IoT devices to integrate with web infrastructure through simple {{gateway|proxies}}. But unlike [[http1|HTTP]], CoAP supports {{multicast|multicast}} (discover all devices on a network), observation (a GET with an Observe option that lets clients receive push notifications when a resource changes), and block-wise transfer (for large payloads on constrained links).
@@ -68,7 +68,7 @@ async def main():
 
 asyncio.run(main())`,
 		caption:
-			'CoAP uses REST-like methods (GET, PUT) over UDP — designed for constrained IoT devices',
+			'CoAP uses REST-like methods (GET, PUT) over [[udp|UDP]] — designed for constrained IoT devices',
 		alternatives: [
 			{
 				language: 'javascript',
@@ -169,7 +169,7 @@ coap-client -m get coap://sensor.local/.well-known/core`
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Arduino_Uno_-_R3.jpg/500px-Arduino_Uno_-_R3.jpg',
 		alt: 'Arduino Uno microcontroller board, representative of the constrained IoT devices CoAP was designed for',
 		caption:
-			'An Arduino Uno — the kind of constrained device CoAP was designed for. With limited RAM and processing power, these microcontrollers need a protocol lighter than HTTP. CoAP delivers REST semantics in as little as 4 bytes of header.',
+			'An Arduino Uno — the kind of constrained device CoAP was designed for. With limited RAM and processing power, these microcontrollers need a protocol lighter than HTTP. CoAP delivers [[rest|REST]] semantics in as little as 4 bytes of header.',
 		credit: 'Photo: SparkFun Electronics / CC BY 2.0, via Wikimedia Commons'
 	}
 };

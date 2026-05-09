@@ -56,7 +56,7 @@ export const frontierEntries: FrontierEntry[] = [
 		id: 'ipv6-50-percent',
 		title: "IPv6 Crosses 50% of Google's Traffic",
 		oneLiner:
-			"On 28 March 2026, IPv6 carried 50.1% of Google's traffic for the first time — 28 years after [[rfc:2460|RFC 2460]].",
+			"On 28 March 2026, [[ipv6|IPv6]] carried 50.1% of Google's traffic for the first time — 28 years after [[rfc:2460|RFC 2460]].",
 		topic: 'standards',
 		status: 'shipped',
 		date: '2026-03-28',
@@ -79,7 +79,7 @@ The economics that finally tipped it: AWS started charging $0.005/hour per publi
 		id: 'pq-tls-x25519mlkem768',
 		title: 'Post-Quantum Hybrid TLS (X25519MLKEM768)',
 		oneLiner:
-			'~52% of TLS 1.3 connections to Cloudflare carry post-quantum hybrid key exchange by end of 2025; on by default in iOS 26 and macOS Tahoe.',
+			'~52% of [[tls|TLS]] 1.3 connections to Cloudflare carry post-quantum hybrid key exchange by end of 2025; on by default in iOS 26 and macOS Tahoe.',
 		topic: 'security',
 		status: 'rolling-out',
 		date: '2025-09 (default in Apple platforms)',
@@ -139,7 +139,7 @@ The mechanism: cooperating senders mark packets ECN-Capable; routers running the
 		id: 'ech-rfc-9849',
 		title: 'Encrypted Client Hello Published as RFC 9849',
 		oneLiner:
-			'TLS 1.3 ClientHello — including the SNI — is finally encrypted; Cloudflare deploys ECH for ~70% of fronted sites.',
+			'[[tls|TLS]] 1.3 ClientHello — including the SNI — is finally encrypted; Cloudflare deploys ECH for ~70% of fronted sites.',
 		topic: 'security',
 		status: 'shipped',
 		date: '2025',
@@ -198,7 +198,7 @@ The Wi-Fi Alliance opened certification on 8 January 2024. As of late April 2026
 		id: 'ethernet-800g',
 		title: '800 GbE Standardised — IEEE 802.3df-2024',
 		oneLiner:
-			'Ethernet at 800 Gbps shipped to standard in February 2024; 1.6 TbE coming July 2026; AI training fabrics are the demand engine.',
+			'[[ethernet|Ethernet]] at 800 Gbps shipped to standard in February 2024; 1.6 TbE coming July 2026; AI training fabrics are the demand engine.',
 		topic: 'datacenter',
 		status: 'shipped',
 		date: '2024-02-16',
@@ -232,7 +232,7 @@ AMD's Pensando Pollara 400 is the first shipping NIC. The likely RoCEv2 successo
 		id: 'multipath-quic',
 		title: 'Multipath QUIC',
 		oneLiner:
-			'QUIC catches up with MPTCP — uses Wi-Fi and cellular simultaneously without breaking the QUIC connection.',
+			'[[quic|QUIC]] catches up with [[mptcp|MPTCP]] — uses Wi-Fi and cellular simultaneously without breaking the [[quic|QUIC]] connection.',
 		topic: 'transport',
 		status: 'standardizing',
 		date: 'late 2025 / early 2026',
@@ -248,7 +248,7 @@ Use cases: aggregating Wi-Fi and cellular bandwidth on a phone (Apple already do
 		id: 'moq-transport',
 		title: 'Media-over-QUIC (MoQ) Transport',
 		oneLiner:
-			'Sub-second live streaming over QUIC — the spiritual successor to RTMP and an alternative to WebRTC for one-to-many.',
+			'Sub-second live streaming over [[quic|QUIC]] — the spiritual successor to [[rtmp|RTMP]] and an alternative to [[webrtc|WebRTC]] for one-to-many.',
 		topic: 'realtime-av',
 		status: 'standardizing',
 		date: '2026-03 (draft -17)',
@@ -265,7 +265,7 @@ The architecture: publishers send named objects to MoQ relays; subscribers fetch
 		id: 'mcp-streamable-http',
 		title: 'MCP Streamable HTTP Transport',
 		oneLiner:
-			'Anthropic deprecates the original HTTP+SSE MCP transport in favour of Streamable HTTP (March 2025).',
+			'Anthropic deprecates the original HTTP+[[sse|SSE]] [[mcp|MCP]] transport in favour of Streamable HTTP (March 2025).',
 		topic: 'ai-agents',
 		status: 'shipped',
 		date: '2025-03',
@@ -282,7 +282,7 @@ Streamable HTTP is one HTTP endpoint that can return either a single JSON-RPC re
 		id: 'a2a-linux-foundation',
 		title: 'A2A Donated to the Linux Foundation',
 		oneLiner:
-			'Google\'s Agent2Agent protocol joins MCP under open governance — the second AI-agent protocol to find a foundation home.',
+			'Google\'s Agent2Agent protocol joins [[mcp|MCP]] under open governance — the second AI-agent protocol to find a foundation home.',
 		topic: 'ai-agents',
 		status: 'shipped',
 		date: '2025-06',

@@ -19,7 +19,7 @@ Google Talk, the early versions of WhatsApp, Facebook Messenger (originally), an
 		{
 			title: 'TCP connection + stream negotiation',
 			description:
-				'Client opens a TCP connection to the server on port 5222, then opens an XML stream. The server responds with its own stream header, and they negotiate TLS and authentication.'
+				'Client opens a [[tcp|TCP]] connection to the server on port 5222, then opens an XML stream. The server responds with its own stream header, and they negotiate [[tls|TLS]] and authentication.'
 		},
 		{
 			title: 'Authentication and resource binding',
@@ -34,7 +34,7 @@ Google Talk, the early versions of WhatsApp, Facebook Messenger (originally), an
 		{
 			title: 'Server-to-server federation',
 			description:
-				'When alice@server-a.com messages bob@server-b.com, Server A connects to Server B on port 5269 using TLS. Messages route between federated servers just like email.'
+				'When alice@server-a.com messages bob@server-b.com, Server A connects to Server B on port 5269 using [[tls|TLS]]. Messages route between federated servers just like email.'
 		},
 		{
 			title: 'Extensions (XEPs)',

@@ -42,7 +42,7 @@ The third tradition was packet radio. ARPA's Packet Radio Network (PRNET, 1973) 
 						{
 							type: 'callout',
 							title: "Why three? Because the problem was three problems.",
-							text: 'Local fabric (Ethernet), wide-area research backbone (ARPANET), and unreliable wireless (PRNET/SATNET) each forced different design pressures. The architecture that won — TCP/IP — is the one that took none of them as canonical and instead specified the **gluing** layer.'
+							text: 'Local fabric ([[ethernet|Ethernet]]), wide-area research backbone (ARPANET), and unreliable wireless (PRNET/SATNET) each forced different design pressures. The architecture that won — TCP/IP — is the one that took none of them as canonical and instead specified the **gluing** layer.'
 						}
 					]
 				},
@@ -75,7 +75,7 @@ The third tradition was packet radio. ARPA's Packet Radio Network (PRNET, 1973) 
 		{
 			id: 'the-1981-burst',
 			title: 'The 1981–83 Standardisation Burst',
-			synopsis: 'RFC 791/792/793, the ARPANET flag day, and IEEE 802.3 ratified — three years that locked in the stack.',
+			synopsis: '[[rfc:791|RFC 791]]/792/793, the ARPANET flag day, and IEEE 802.3 ratified — three years that locked in the stack.',
 			slots: [
 				{
 					kind: 'prose',
@@ -261,7 +261,7 @@ The fix took fifteen years. **Active queue management** (CoDel, fq_codel, PIE �
 						{
 							type: 'callout',
 							title: 'Bufferbloat is the canonical example of well-meaning engineering creating a network-wide pathology.',
-							text: 'Adding more buffer seemed obviously good — bursts wouldn\'t cause loss. But TCP\'s congestion-control loop **needed** loss as its signal. The fix was to push buffers back down and add explicit signalling (ECN) instead.'
+							text: 'Adding more buffer seemed obviously good — bursts wouldn\'t cause loss. But [[tcp|TCP]]\'s congestion-control loop **needed** loss as its signal. The fix was to push buffers back down and add explicit signalling (ECN) instead.'
 						}
 					]
 				},
@@ -272,7 +272,7 @@ The fix took fifteen years. **Active queue management** (CoDel, fq_codel, PIE �
 		{
 			id: 'the-quic-redesign',
 			title: 'The QUIC Redesign',
-			synopsis: 'Pulling reliable transport into user space and folding TLS into it.',
+			synopsis: 'Pulling reliable transport into user space and folding [[tls|TLS]] into it.',
 			slots: [
 				{
 					kind: 'prose',
@@ -310,7 +310,7 @@ This is the structural lesson of the late-2010s protocol-design era: **encryptio
 		{
 			id: 'the-ai-agent-layer',
 			title: 'The AI Agent Layer (2024–)',
-			synopsis: 'MCP, A2A, and the first new application layer in fifteen years.',
+			synopsis: '[[mcp|MCP]], [[a2a|A2A]], and the first new application layer in fifteen years.',
 			slots: [
 				{
 					kind: 'prose',

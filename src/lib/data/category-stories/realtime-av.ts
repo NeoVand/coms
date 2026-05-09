@@ -14,7 +14,7 @@ export const realtimeAvStory: CategoryStory = {
 			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/AT%26T_Picturephone_%2812721549765%29.jpg/500px-AT%26T_Picturephone_%2812721549765%29.jpg',
 			alt: 'The AT&T Picturephone, an early commercial videophone system from the 1960s-70s',
 			caption:
-				"AT&T's Picturephone — decades before WebRTC, the dream of seeing the person you're talking to drove decades of protocol innovation, from analog circuits to packet-switched networks.",
+				"AT&T's Picturephone — decades before [[webrtc|WebRTC]], the dream of seeing the person you're talking to drove decades of protocol innovation, from analog circuits to packet-switched networks.",
 			credit: 'Photo: Mike Mozart / CC BY 2.0, via Wikimedia Commons'
 		},
 		{
@@ -102,7 +102,7 @@ export const realtimeAvStory: CategoryStory = {
 					title: 'Co-creator of SIP',
 					org: 'University College London',
 					contribution:
-						'Brought internet architecture thinking to multimedia signaling. Co-created SIP and SDP, the protocol pair that handles call setup across the internet.'
+						'Brought internet architecture thinking to multimedia signaling. Co-created [[sip|SIP]] and [[sdp|SDP]], the protocol pair that handles call setup across the internet.'
 				},
 				{
 					name: 'Eve Schooler',
@@ -110,7 +110,7 @@ export const realtimeAvStory: CategoryStory = {
 					title: 'Co-creator of SIP',
 					org: 'Caltech / ISI / Intel',
 					contribution:
-						'Pioneer of internet multimedia conferencing and co-creator of SIP. Her research on multicast conferences laid groundwork for modern video calling.'
+						'Pioneer of internet multimedia conferencing and co-creator of [[sip|SIP]]. Her research on multicast conferences laid groundwork for modern video calling.'
 				},
 				{
 					name: 'Jonathan Rosenberg',
@@ -118,7 +118,7 @@ export const realtimeAvStory: CategoryStory = {
 					title: 'SIP Ecosystem Architect',
 					org: 'dynamicsoft / Cisco / Five9',
 					contribution:
-						'Designed critical SIP infrastructure: STUN, TURN, and ICE for NAT traversal, plus SRTP for encrypting media streams.'
+						'Designed critical [[sip|SIP]] infrastructure: STUN, TURN, and ICE for NAT traversal, plus SRTP for encrypting media streams.'
 				}
 			]
 		},
@@ -129,7 +129,7 @@ export const realtimeAvStory: CategoryStory = {
 					year: 2002,
 					title: 'RTMP Created at Macromedia',
 					description:
-						'The Real-Time Messaging Protocol powers Flash-based streaming. For a decade, RTMP is the dominant way to deliver live video on the web.',
+						'The Real-Time Messaging Protocol powers Flash-based streaming. For a decade, [[rtmp|RTMP]] is the dominant way to deliver live video on the web.',
 					protocolId: 'rtmp'
 				},
 				{
@@ -149,7 +149,7 @@ export const realtimeAvStory: CategoryStory = {
 					year: 2010,
 					title: 'Google Acquires GIPS for $68.2M',
 					description:
-						'Global IP Solutions makes the audio/video codecs that will become WebRTC\u2019s core. Google open-sources them.',
+						'Global IP Solutions makes the audio/video codecs that will become [[webrtc|WebRTC]]\u2019s core. Google open-sources them.',
 					protocolId: 'webrtc'
 				},
 				{
@@ -163,14 +163,14 @@ export const realtimeAvStory: CategoryStory = {
 					year: 2012,
 					title: 'MPEG-DASH Published',
 					description:
-						"The open standard alternative to Apple's HLS. DASH uses the same adaptive bitrate principle but with codec flexibility and industry-wide backing.",
+						"The open standard alternative to Apple's [[hls|HLS]]. [[dash|DASH]] uses the same adaptive bitrate principle but with codec flexibility and industry-wide backing.",
 					protocolId: 'dash'
 				},
 				{
 					year: 2017,
 					title: 'Safari Adds WebRTC Support',
 					description:
-						'With Apple\u2019s browser on board, WebRTC reaches all major platforms. Browser-native real-time communication is universal.',
+						'With Apple\u2019s browser on board, [[webrtc|WebRTC]] reaches all major platforms. Browser-native real-time communication is universal.',
 					protocolId: 'webrtc'
 				},
 				{

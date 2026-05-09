@@ -6,6 +6,8 @@
 		navigateToBookPart
 	} from '$lib/utils/navigation';
 	import { ChevronLeft, ChevronRight, BookOpen } from 'lucide-svelte';
+	import RichText from './inline/RichText.svelte';
+	import { parseRichText } from '$lib/utils/text-parser';
 
 	interface Props {
 		partId: string;
@@ -76,7 +78,9 @@
 				{part.title}
 			</h1>
 			{#if part.description}
-				<p class="mt-2 text-sm leading-relaxed text-t-secondary">{part.description}</p>
+				<p class="mt-2 text-sm leading-relaxed text-t-secondary">
+					<RichText segments={parseRichText(part.description)} color={accent} />
+				</p>
 			{/if}
 		</header>
 
@@ -99,7 +103,7 @@
 							<div class="text-sm font-medium text-t-primary">{chapter.title}</div>
 							{#if chapter.synopsis}
 								<div class="mt-0.5 text-[11px] leading-relaxed text-t-secondary">
-									{chapter.synopsis}
+									<RichText segments={parseRichText(chapter.synopsis)} color={accent} />
 								</div>
 							{/if}
 						</div>
@@ -120,7 +124,7 @@
 							<div class="text-sm text-t-secondary">{chapter.title}</div>
 							{#if chapter.synopsis}
 								<div class="mt-0.5 text-[11px] leading-relaxed text-t-muted">
-									{chapter.synopsis}
+									<RichText segments={parseRichText(chapter.synopsis)} color={accent} />
 								</div>
 							{/if}
 						</div>

@@ -33,7 +33,7 @@ UDP is essential for [[dns|DNS]] lookups (where speed matters and the payload fi
 		{
 			title: 'Application handles reliability',
 			description:
-				'If an app needs reliability over UDP (like QUIC or game networking), it builds its own retry/ordering logic on top.'
+				'If an app needs reliability over UDP (like [[quic|QUIC]] or game networking), it builds its own retry/ordering logic on top.'
 		}
 	],
 	useCases: [
@@ -151,7 +151,7 @@ ss -un  # or: netstat -un`
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Arpanet_1974.svg/500px-Arpanet_1974.svg.png',
 		alt: 'Map of the ARPANET in 1974, showing interconnected nodes across the United States',
 		caption:
-			'The ARPANET in 1974 — the network where UDP was born. While TCP guaranteed delivery, UDP offered raw speed for the applications that needed it most.',
+			'The ARPANET in 1974 — the network where UDP was born. While [[tcp|TCP]] guaranteed delivery, UDP offered raw speed for the applications that needed it most.',
 		credit: 'Image: ARPANET / Public Domain, via Wikimedia Commons'
 	},
 
@@ -160,13 +160,13 @@ ss -un  # or: netstat -un`
 			date: '2024-2026',
 			title: 'UDP rises with QUIC',
 			description:
-				'Almost all internet UDP traffic growth in the last five years has been [[quic|QUIC]]. Where UDP used to be a niche transport (DNS, NTP, RTP), it now carries the majority of HTTP/3 traffic plus the entire next generation of media transports.'
+				'Almost all internet UDP traffic growth in the last five years has been [[quic|QUIC]]. Where UDP used to be a niche transport ([[dns|DNS]], [[ntp|NTP]], [[rtp|RTP]]), it now carries the majority of [[http3|HTTP/3]] traffic plus the entire next generation of media transports.'
 		},
 		{
 			date: '2025',
 			title: 'Linux io_uring + UDP zero-copy',
 			description:
-				'io_uring zero-copy send/receive paths land for UDP in Linux 6.13, dramatically improving QUIC performance on high-throughput servers.'
+				'io_uring zero-copy send/receive paths land for UDP in Linux 6.13, dramatically improving [[quic|QUIC]] performance on high-throughput servers.'
 		}
 	],
 
@@ -175,25 +175,25 @@ ss -un  # or: netstat -un`
 			org: 'DNS root + recursive resolvers',
 			scale: '~14 trillion queries/day (Google 8.8.8.8 alone)',
 			description:
-				'Every DNS query/response is one UDP datagram each way. The recursive resolver fleet is the largest UDP application by query count.'
+				'Every [[dns|DNS]] query/response is one UDP datagram each way. The recursive resolver fleet is the largest UDP application by query count.'
 		},
 		{
 			org: 'NTP pool',
 			scale: '~25 billion queries/day',
 			description:
-				'pool.ntp.org and friends serve tens of billions of UDP NTP queries per day, keeping the world\'s clocks within a few milliseconds.'
+				'pool.ntp.org and friends serve tens of billions of UDP [[ntp|NTP]] queries per day, keeping the world\'s clocks within a few milliseconds.'
 		},
 		{
 			org: 'WebRTC media',
 			scale: 'Every Zoom / Discord / FaceTime call',
 			description:
-				'RTP-over-UDP carries audio/video for every peer-to-peer media call. Late audio is worse than missing audio — UDP\'s "fire and pray" semantics are exactly what RTP needs.'
+				'RTP-over-UDP carries audio/video for every peer-to-peer media call. Late audio is worse than missing audio — UDP\'s "fire and pray" semantics are exactly what [[rtp|RTP]] needs.'
 		},
 		{
 			org: 'QUIC / HTTP/3',
 			scale: '>50% of Chrome traffic, >75% of Meta',
 			description:
-				'The largest single application of UDP today. Every QUIC packet rides inside a UDP datagram; the user-space transport handles reliability, congestion, and crypto above it.'
+				'The largest single application of UDP today. Every [[quic|QUIC]] packet rides inside a UDP datagram; the user-space transport handles reliability, congestion, and crypto above it.'
 		}
 	],
 
@@ -208,7 +208,7 @@ ss -un  # or: netstat -un`
 		},
 		{
 			title: 'UDP is what middleboxes already pass',
-			text: '[[quic|QUIC]] runs over UDP not because UDP is great, but because middleboxes (NAT routers, firewalls, transparent proxies) already forward UDP unchanged. SCTP is a "better" transport in many ways, but it cannot traverse the public internet because middleboxes drop unknown protocol numbers. UDP is the deployment substrate.'
+			text: '[[quic|QUIC]] runs over UDP not because UDP is great, but because middleboxes (NAT routers, firewalls, transparent proxies) already forward UDP unchanged. [[sctp|SCTP]] is a "better" transport in many ways, but it cannot traverse the public internet because middleboxes drop unknown protocol numbers. UDP is the deployment substrate.'
 		}
 	],
 

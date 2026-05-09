@@ -8,7 +8,7 @@ export const mptcp: Protocol = {
 	year: 2013,
 	rfc: 'RFC 8684',
 	oneLiner:
-		'TCP that uses multiple network paths simultaneously — WiFi and cellular at the same time.',
+		'[[tcp|TCP]] that uses multiple network paths simultaneously — WiFi and cellular at the same time.',
 	overview: `Multipath TCP solves a fundamental limitation of regular [[tcp|TCP]]: a connection is locked to a single pair of {{ip-address|IP addresses}}. If your phone is connected to both WiFi and cellular, standard [[tcp|TCP]] can only use one at a time. MPTCP allows a single connection to spread across multiple network interfaces simultaneously, combining their {{bandwidth|bandwidth}} and seamlessly failing over when one path drops.
 
 The protocol works by establishing "subflows" — each subflow is a regular [[tcp|TCP]] connection on a different network path. A shim layer sits between the application and these subflows, distributing data across paths and reassembling it on the other end. The application sees a single, normal [[tcp|TCP]] {{socket|socket}}; the magic happens entirely at the transport layer.
@@ -18,12 +18,12 @@ Apple was the first major adopter, shipping MPTCP in iOS 7 (2013) for Siri — s
 		{
 			title: 'Initial handshake with MP_CAPABLE',
 			description:
-				'The first subflow is established like a normal TCP handshake, but SYN packets carry the MP_CAPABLE option. Both sides exchange keys that identify this MPTCP connection.'
+				'The first subflow is established like a normal [[tcp|TCP]] handshake, but SYN packets carry the MP_CAPABLE option. Both sides exchange keys that identify this MPTCP connection.'
 		},
 		{
 			title: 'Additional subflows via MP_JOIN',
 			description:
-				'Either endpoint can open additional TCP subflows over different network paths (e.g., WiFi + cellular). The SYN carries an MP_JOIN option linking it to the existing connection.'
+				'Either endpoint can open additional [[tcp|TCP]] subflows over different network paths (e.g., WiFi + cellular). The SYN carries an MP_JOIN option linking it to the existing connection.'
 		},
 		{
 			title: 'Data-level sequencing',
@@ -175,7 +175,7 @@ TCP SYN-ACK + MP_JOIN:
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/DifferenceTCP_MPTCP-en.png/500px-DifferenceTCP_MPTCP-en.png',
 		alt: 'Comparison diagram showing regular TCP using a single path versus MPTCP using multiple simultaneous paths between two hosts',
 		caption:
-			'TCP vs Multipath TCP — regular TCP sends data over a single path, while MPTCP splits traffic across multiple interfaces (WiFi + cellular, dual Ethernet) simultaneously, boosting throughput and providing seamless failover.',
+			'TCP vs Multipath TCP — regular TCP sends data over a single path, while MPTCP splits traffic across multiple interfaces (WiFi + cellular, dual [[ethernet|Ethernet]]) simultaneously, boosting throughput and providing seamless failover.',
 		credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 	}
 };

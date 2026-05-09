@@ -163,7 +163,7 @@ sudo tcpdump -i any udp port 443`
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Google_Data_Center%2C_The_Dalles.jpg/500px-Google_Data_Center%2C_The_Dalles.jpg',
 		alt: 'Google data center in The Dalles, Oregon, with rows of colorful server racks',
 		caption:
-			"Google's data center in The Dalles, Oregon — where QUIC was born. Google developed QUIC internally starting in 2012 to replace TCP+TLS, deploying it across Chrome and YouTube before standardizing it as [[rfc:9000|RFC 9000]].",
+			"Google's data center in The Dalles, Oregon — where QUIC was born. Google developed QUIC internally starting in 2012 to replace [[tcp|TCP]]+[[tls|TLS]], deploying it across Chrome and YouTube before standardizing it as [[rfc:9000|RFC 9000]].",
 		credit: 'Photo: Google / CC BY 2.0, via Wikimedia Commons'
 	},
 
@@ -179,13 +179,13 @@ sudo tcpdump -i any udp port 443`
 			date: '2024-Q4',
 			title: 'Meta reports >75% of internet traffic on QUIC',
 			description:
-				'Facebook, Instagram, and WhatsApp web/mobile now serve the majority of bytes via QUIC and HTTP/3, with TCP retained mainly for legacy clients.'
+				'Facebook, Instagram, and WhatsApp web/mobile now serve the majority of bytes via QUIC and [[http3|HTTP/3]], with [[tcp|TCP]] retained mainly for legacy clients.'
 		},
 		{
 			date: '2024-09',
 			title: 'Multipath QUIC reaches stable IETF draft',
 			description:
-				'draft-ietf-quic-multipath progressed to stable; multipath QUIC inherits MPTCP\'s algorithmic ideas inside a transport that actually traverses middleboxes. Apple, Google, and several mobile carriers are running interop events.',
+				'draft-ietf-quic-multipath progressed to stable; multipath QUIC inherits [[mptcp|MPTCP]]\'s algorithmic ideas inside a transport that actually traverses middleboxes. Apple, Google, and several mobile carriers are running interop events.',
 			source: {
 				url: 'https://datatracker.ietf.org/doc/draft-ietf-quic-multipath/',
 				label: 'IETF Datatracker'
@@ -222,18 +222,18 @@ sudo tcpdump -i any udp port 443`
 			org: 'Apple',
 			scale: 'iOS 18+ / macOS 15+',
 			description:
-				'Network.framework offers native QUIC; Safari 18 enables HTTP/3 by default. CloudKit and iCloud sync use QUIC for low-latency mobile updates.'
+				'Network.framework offers native QUIC; Safari 18 enables [[http3|HTTP/3]] by default. CloudKit and iCloud sync use QUIC for low-latency mobile updates.'
 		}
 	],
 
 	funFacts: [
 		{
 			title: 'QUIC was originally an internal Google name',
-			text: 'QUIC stood for "Quick UDP Internet Connections" inside Google. The IETF working group dropped the expansion entirely — [[rfc:9000|RFC 9000]] just calls it "QUIC" with no expansion. The protocol\'s name is now an unexplained four-letter word, like "HTTP" or "TCP."'
+			text: 'QUIC stood for "Quick [[udp|UDP]] Internet Connections" inside Google. The IETF working group dropped the expansion entirely — [[rfc:9000|RFC 9000]] just calls it "QUIC" with no expansion. The protocol\'s name is now an unexplained four-letter word, like "HTTP" or "[[tcp|TCP]]."'
 		},
 		{
 			title: 'Connection IDs let your phone roam',
-			text: 'A QUIC connection is identified by a **64-bit Connection ID**, not by the (src IP, src port, dst IP, dst port) four-tuple TCP uses. When your phone moves between Wi-Fi and cellular, the underlying IP changes — but the QUIC connection survives. The receiver matches the new packet by Connection ID. This is why HTTP/3 video calls do not stutter on handoff.'
+			text: 'A QUIC connection is identified by a **64-bit Connection ID**, not by the (src IP, src port, dst IP, dst port) four-tuple TCP uses. When your phone moves between Wi-Fi and cellular, the underlying IP changes — but the QUIC connection survives. The receiver matches the new packet by Connection ID. This is why [[http3|HTTP/3]] video calls do not stutter on handoff.'
 		},
 		{
 			title: 'QUIC encrypts almost the entire packet',
@@ -245,7 +245,7 @@ sudo tcpdump -i any udp port 443`
 		pitfalls: [
 			{
 				title: 'Some networks block UDP / QUIC',
-				text: 'Corporate firewalls, school networks, and a small fraction of mobile carriers block UDP on port 443. Browsers fall back to TCP+HTTP/2, but the fallback adds 1-2 RTTs of detection. If you need consistent QUIC, validate connectivity before you depend on it.'
+				text: 'Corporate firewalls, school networks, and a small fraction of mobile carriers block [[udp|UDP]] on port 443. Browsers fall back to TCP+[[http2|HTTP/2]], but the fallback adds 1-2 RTTs of detection. If you need consistent QUIC, validate connectivity before you depend on it.'
 			},
 			{
 				title: 'Connection migration breaks middleboxes',

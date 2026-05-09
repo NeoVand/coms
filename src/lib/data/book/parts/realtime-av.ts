@@ -20,11 +20,11 @@ export const realtimeAv: BookPart = {
 		{
 			id: 'rtp-and-rtcp',
 			title: 'RTP and RTCP',
-			synopsis: 'Carrying media on top of UDP — the protocol born from MBone in 1992.',
+			synopsis: 'Carrying media on top of [[udp|UDP]] — the protocol born from MBone in 1992.',
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: 'Every RTP packet on Earth has a version field of "2" because version 0 was Steve Casner\'s 1992 vat audio tool wire format. Thirty-four years later, the historical fingerprint is still on every voice call.',
+					text: 'Every [[rtp|RTP]] packet on Earth has a version field of "2" because version 0 was Steve Casner\'s 1992 vat audio tool wire format. Thirty-four years later, the historical fingerprint is still on every voice call.',
 					attribution: 'Author'
 				},
 				{
@@ -82,7 +82,7 @@ Active 2025-2026 work in the IETF AVTCORE WG: **RFC 9628 (2024)** finally promot
 		{
 			id: 'webrtc',
 			title: 'WebRTC',
-			synopsis: 'Peer-to-peer in the browser, ICE/STUN/TURN, DTLS, SRTP — and the only way for a browser to send a UDP packet.',
+			synopsis: 'Peer-to-peer in the browser, ICE/STUN/TURN, DTLS, SRTP — and the only way for a browser to send a [[udp|UDP]] packet.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -148,7 +148,7 @@ Plan B SDP is fully gone now: deprecation-warned in Chrome M89 (Feb 2021), remov
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: 'The `sips:` URI scheme means TLS hop-by-hop only, NOT end-to-end like `https:`. [[rfc:5630|RFC 5630]] (2009) explicitly warns against the padlock-icon intuition. Forty years in, this is still where engineers get burned.',
+					text: 'The `sips:` URI scheme means [[tls|TLS]] hop-by-hop only, NOT end-to-end like `https:`. [[rfc:5630|RFC 5630]] (2009) explicitly warns against the padlock-icon intuition. Forty years in, this is still where engineers get burned.',
 					attribution: 'Author'
 				},
 				{
@@ -173,7 +173,7 @@ Twenty-eight years in, the protocol-version line is still \`v=0\`. The SDP "offe
 						{
 							type: 'callout',
 							title: 'The 911 outages keep happening',
-							text: 'The **AT&T 22 February 2024 outage** disconnected 125 million devices and blocked ~25,000 911 calls — caused by a single misconfigured network element during expansion, surfacing as IMS/SIP registration failures. The **CenturyLink December 2018 911 outage** lost 911 service for 7.4 million Washington residents for 49 hours; 24,000 calls failed; Washington UTC fined them $7.2 M. **VoLTE/VoNR is the world\'s largest SIP deployment** — GSMA reports 310+ VoLTE operators in 140+ countries and 45+ commercial VoNR networks by 2025 — and the failure modes ripple straight into emergency services.'
+							text: 'The **AT&T 22 February 2024 outage** disconnected 125 million devices and blocked ~25,000 911 calls — caused by a single misconfigured network element during expansion, surfacing as IMS/SIP registration failures. The **CenturyLink December 2018 911 outage** lost 911 service for 7.4 million Washington residents for 49 hours; 24,000 calls failed; Washington UTC fined them $7.2 M. **VoLTE/VoNR is the world\'s largest [[sip|SIP]] deployment** — GSMA reports 310+ VoLTE operators in 140+ countries and 45+ commercial VoNR networks by 2025 — and the failure modes ripple straight into emergency services.'
 						},
 						{
 							type: 'narrative',
@@ -229,7 +229,7 @@ The trick was breaking the stream into **2-10 second segments**, each a regular 
 						{
 							type: 'callout',
 							title: 'M3U is a Winamp inheritance',
-							text: 'HLS\'s playlist format is **M3U**, which was created in 1995 by Fraunhofer IIS for **WinPlay3** and popularised by **Nullsoft\'s Winamp on 21 April 1997**. The world\'s most-deployed video protocol — the one carrying every live sports event, every Netflix stream, every Apple TV broadcast — still starts every playlist with `#EXTM3U`. The internet runs on inheritance.'
+							text: '[[hls|HLS]]\'s playlist format is **M3U**, which was created in 1995 by Fraunhofer IIS for **WinPlay3** and popularised by **Nullsoft\'s Winamp on 21 April 1997**. The world\'s most-deployed video protocol — the one carrying every live sports event, every Netflix stream, every Apple TV broadcast — still starts every playlist with `#EXTM3U`. The internet runs on inheritance.'
 						},
 						{
 							type: 'narrative',
@@ -274,7 +274,7 @@ The post-Flash reality: **Adobe Flash Player retired on 31 December 2020**, kill
 		{
 			id: 'moq-transport',
 			title: 'MoQ Transport',
-			synopsis: 'Sub-second live streaming over QUIC — the first IETF media transport that intentionally is not RTP.',
+			synopsis: 'Sub-second live streaming over [[quic|QUIC]] — the first IETF media transport that intentionally is not [[rtp|RTP]].',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -296,7 +296,7 @@ MoQT's data model is **publish/subscribe with relay caches**: media flows as **t
 						{
 							type: 'callout',
 							title: 'MoQ is not a WebRTC competitor',
-							text: '**MoQ is not a WebRTC competitor in the conversational case.** It\'s optimised for one-to-many publish/subscribe at CDN scale. webrtcHacks\'s "Is everyone switching to MoQ?" rebutted Cloudflare\'s January 2025 framing, noting that "We\'re joining Meta, Google, Cisco" overstates corporate consensus. MoQ is positioned to replace HLS for *live* delivery, not replace WebRTC for two-way calls.'
+							text: '**MoQ is not a [[webrtc|WebRTC]] competitor in the conversational case.** It\'s optimised for one-to-many publish/subscribe at CDN scale. webrtcHacks\'s "Is everyone switching to MoQ?" rebutted Cloudflare\'s January 2025 framing, noting that "We\'re joining Meta, Google, Cisco" overstates corporate consensus. MoQ is positioned to replace [[hls|HLS]] for *live* delivery, not replace [[webrtc|WebRTC]] for two-way calls.'
 						},
 						{
 							type: 'narrative',

@@ -66,7 +66,9 @@
 			>
 				{outage.title}
 			</h1>
-			<p class="mt-2 text-sm leading-relaxed text-t-primary italic">{outage.oneLiner}</p>
+			<p class="mt-2 text-sm leading-relaxed text-t-primary italic">
+				<RichText segments={renderRich(outage.oneLiner)} color={ACCENT} />
+			</p>
 			<div class="mt-3 flex flex-wrap items-baseline gap-x-3 gap-y-1 text-[11px] text-t-muted">
 				{#if outage.duration}
 					<span class="inline-flex items-center gap-1">

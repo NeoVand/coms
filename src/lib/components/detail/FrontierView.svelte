@@ -2,6 +2,8 @@
 	import { getFrontierById, getProtocolById, getCategoryById } from '$lib/data/index';
 	import { navigateToProtocol } from '$lib/utils/navigation';
 	import { ExternalLink, Compass, BarChart3 } from 'lucide-svelte';
+	import { parseRichText } from '$lib/utils/text-parser';
+	import RichText from '$lib/components/detail/inline/RichText.svelte';
 	import { themedDomColor } from '$lib/utils/colors';
 	import { getAppState } from '$lib/state/context';
 
@@ -67,7 +69,9 @@
 			>
 				{entry.title}
 			</h1>
-			<p class="mt-2 text-sm leading-relaxed text-t-primary italic">{entry.oneLiner}</p>
+			<p class="mt-2 text-sm leading-relaxed text-t-primary italic">
+				<RichText segments={parseRichText(entry.oneLiner)} color={ACCENT} />
+			</p>
 		</header>
 
 		<!-- Description (multi-paragraph) -->

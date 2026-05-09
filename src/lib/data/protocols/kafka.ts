@@ -19,7 +19,7 @@ The protocol handles producer requests, fetch requests, metadata discovery, offs
 		{
 			title: 'Connect and discover topology',
 			description:
-				'Client opens a TCP connection to any broker and sends a Metadata request. The response contains the full cluster map: all brokers, topics, partitions, and partition leaders.'
+				'Client opens a [[tcp|TCP]] connection to any broker and sends a Metadata request. The response contains the full cluster map: all brokers, topics, partitions, and partition leaders.'
 		},
 		{
 			title: 'Produce records',

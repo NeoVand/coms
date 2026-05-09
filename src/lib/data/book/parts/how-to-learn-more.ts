@@ -86,7 +86,7 @@ For specialised areas: **Olivier Bonaventure, "Computer Networking: Principles, 
 		{
 			id: 'courses',
 			title: 'Courses',
-			synopsis: 'Stanford CS144 (build a TCP stack), MIT 6.829, Berkeley CS168.',
+			synopsis: 'Stanford CS144 (build a [[tcp|TCP]] stack), MIT 6.829, Berkeley CS168.',
 			slots: [
 				{
 					kind: 'prose',

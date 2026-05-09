@@ -33,7 +33,7 @@ Despite being over 40 years old, SMTP remains the universal standard for email d
 		{
 			title: 'Relay & delivery',
 			description:
-				"The server accepts the message (250 OK) and relays it to the recipient's mail server by looking up MX records in DNS. Each hop stores and forwards until the message reaches the destination mailbox."
+				"The server accepts the message (250 OK) and relays it to the recipient's mail server by looking up MX records in [[dns|DNS]]. Each hop stores and forwards until the message reaches the destination mailbox."
 		}
 	],
 	useCases: [
@@ -156,7 +156,7 @@ Server: 221 2.0.0 Bye`
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Email.svg/500px-Email.svg.png',
 		alt: 'Diagram showing the flow of email from sender through SMTP servers and DNS MX lookups to the recipient mailbox',
 		caption:
-			"How email flows across the internet — the sender's mail client submits to an SMTP server, which looks up the recipient's domain via DNS MX records and relays the message hop by hop until it reaches the destination mailbox.",
+			"How email flows across the internet — the sender's mail client submits to an SMTP server, which looks up the recipient's domain via [[dns|DNS]] MX records and relays the message hop by hop until it reaches the destination mailbox.",
 		credit: 'Image: Wikimedia Commons / CC BY-SA 3.0'
 	}
 };

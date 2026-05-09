@@ -16,7 +16,7 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
 			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Xerox_Alto_mit_Rechner.JPG/500px-Xerox_Alto_mit_Rechner.JPG',
 			alt: 'The Xerox Alto computer at Xerox PARC — the machine that Ethernet was invented to network',
 			caption:
-				'The Xerox Alto (1973) — the workstation where Ethernet was born. [[pioneer:bob-metcalfe|Bob Metcalfe]] invented Ethernet at Xerox PARC to network these Alto machines, connecting them over a shared coaxial cable at 2.94 Mbps using CSMA/CD.',
+				'The Xerox Alto (1973) — the workstation where [[ethernet|Ethernet]] was born. [[pioneer:bob-metcalfe|Bob Metcalfe]] invented [[ethernet|Ethernet]] at Xerox PARC to network these Alto machines, connecting them over a shared coaxial cable at 2.94 Mbps using CSMA/CD.',
 			credit: 'Photo: Joho345 / Public Domain, via Wikimedia Commons'
 		},
 		{
@@ -54,7 +54,7 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
   C2 --> D1 & D2
   D1 & D2 --> E1`,
 			caption:
-				'Where Network Foundations protocols fit in the stack. Ethernet and Wi-Fi frame data at Layer 2, IPv4/IPv6 route at Layer 3, ARP/NDP bridge addressing, ICMP provides diagnostics, and BGP handles inter-domain routing.'
+				'Where Network Foundations protocols fit in the stack. [[ethernet|Ethernet]] and Wi-Fi frame data at Layer 2, IPv4/IPv6 route at Layer 3, ARP/NDP bridge addressing, [[icmp|ICMP]] provides diagnostics, and [[bgp|BGP]] handles inter-domain routing.'
 		},
 		{
 			type: 'pioneers',
@@ -94,7 +94,7 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
 					title: 'Father of Wi-Fi',
 					org: 'NCR / Agere Systems',
 					contribution:
-						'Chaired the IEEE 802.11 working group from 1990 to 2002, shepherding the wireless LAN standard from concept to global adoption. Known as the "Father of Wi-Fi" for his persistence in driving consensus.'
+						'Chaired the IEEE [[wifi|802.11]] working group from 1990 to 2002, shepherding the wireless LAN standard from concept to global adoption. Known as the "Father of Wi-Fi" for his persistence in driving consensus.'
 				},
 				{
 					name: 'Yakov Rekhter',
@@ -102,7 +102,7 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
 					title: 'Co-creator of BGP',
 					org: 'IBM / Juniper Networks',
 					contribution:
-						'Co-authored the Border Gateway Protocol ([[rfc:1105|RFC 1105]], 1989) with Kirk Lougheed. BGP became the de facto inter-domain routing protocol, handling routing decisions between every {{autonomous-system|autonomous system}} on the internet.'
+						'Co-authored the Border Gateway Protocol ([[rfc:1105|RFC 1105]], 1989) with Kirk Lougheed. [[bgp|BGP]] became the de facto inter-domain routing protocol, handling routing decisions between every {{autonomous-system|autonomous system}} on the internet.'
 				},
 				{
 					name: 'Steve Deering',
@@ -110,7 +110,7 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
 					title: 'Creator of IPv6',
 					org: 'Xerox PARC / Cisco',
 					contribution:
-						'Primary architect of IPv6, leading the design of 128-bit addressing, the simplified header, and {{multicast|multicast}}. Also invented IP multicast itself, fundamentally changing how one-to-many communication works on the internet.'
+						'Primary architect of [[ipv6|IPv6]], leading the design of 128-bit addressing, the simplified header, and {{multicast|multicast}}. Also invented IP multicast itself, fundamentally changing how one-to-many communication works on the internet.'
 				}
 			]
 		},
@@ -169,14 +169,14 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
 					year: 1997,
 					title: 'IEEE 802.11 — First Wi-Fi Standard',
 					description:
-						'The original 802.11 standard is published, supporting 2 Mbps wireless LAN. Slow and expensive, but it proves wireless networking is viable.',
+						'The original [[wifi|802.11]] standard is published, supporting 2 Mbps wireless LAN. Slow and expensive, but it proves wireless networking is viable.',
 					protocolId: 'wifi'
 				},
 				{
 					year: 1998,
 					title: 'IPv6 Specified — RFC 2460',
 					description:
-						'Steve Deering and Rob Hinden publish IPv6 with 128-bit addresses, a simplified header, and no more broadcast. The long transition from IPv4 begins.',
+						'Steve Deering and Rob Hinden publish [[ipv6|IPv6]] with 128-bit addresses, a simplified header, and no more broadcast. The long transition from [[ip|IPv4]] begins.',
 					protocolId: 'ipv6'
 				},
 				{
@@ -217,7 +217,7 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
 					year: 2026,
 					title: 'IPv6 Crosses 50% on Google',
 					description:
-						'On 28 March 2026, IPv6 carried 50.1% of Google\'s traffic for the first time — 28 years after [[rfc:2460|RFC 2460]]. Cloudflare and APNIC measure 40-43% from their vantage points, so the milestone is real but uneven.',
+						'On 28 March 2026, [[ipv6|IPv6]] carried 50.1% of Google\'s traffic for the first time — 28 years after [[rfc:2460|RFC 2460]]. Cloudflare and APNIC measure 40-43% from their vantage points, so the milestone is real but uneven.',
 					protocolId: 'ipv6'
 				}
 			]
@@ -245,7 +245,7 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
   S4 -->|"Frame on wire"| R1
   R3 -->|"New frame, same IP packet"| D1`,
 			caption:
-				'Each layer wraps the {{payload|payload}} from the layer above. At every {{hop|hop}}, the Ethernet {{frame|frame}} is stripped and rebuilt with new {{mac-address|MAC addresses}} — but the {{ip-address|IP addresses}} and TCP ports stay constant end-to-end. This is the fundamental principle of {{encapsulation|encapsulation}}.'
+				'Each layer wraps the {{payload|payload}} from the layer above. At every {{hop|hop}}, the Ethernet {{frame|frame}} is stripped and rebuilt with new {{mac-address|MAC addresses}} — but the {{ip-address|IP addresses}} and [[tcp|TCP]] ports stay constant end-to-end. This is the fundamental principle of {{encapsulation|encapsulation}}.'
 		},
 		{
 			type: 'narrative',
@@ -299,7 +299,7 @@ An 802.11 frame carries three or four MAC addresses (receiver, transmitter, dest
 		{
 			type: 'callout',
 			title: 'Layer 2 vs Layer 3',
-			text: 'Ethernet and Wi-Fi operate at Layer 2 (Data Link) — they handle framing and local delivery using MAC addresses. IP operates at Layer 3 (Network) — it handles addressing and routing across networks. ARP bridges the two: it translates Layer 3 addresses (IP) into Layer 2 addresses (MAC). This separation of concerns is what makes the internet scalable — IP routes between networks, while Ethernet/Wi-Fi handles the "last mile" delivery on each segment.'
+			text: 'Ethernet and Wi-Fi operate at Layer 2 (Data Link) — they handle framing and local delivery using MAC addresses. IP operates at Layer 3 (Network) — it handles addressing and routing across networks. [[arp|ARP]] bridges the two: it translates Layer 3 addresses (IP) into Layer 2 addresses (MAC). This separation of concerns is what makes the internet scalable — IP routes between networks, while Ethernet/Wi-Fi handles the "last mile" delivery on each segment.'
 		},
 		{
 			type: 'narrative',
@@ -335,7 +335,7 @@ The most ambitious chapter began in the 1990s. IPv4's 32-bit address space — 4
   end
   V4 ~~~ V6`,
 			caption:
-				'IPv4 headers are variable-length with a {{checksum|checksum}} and options; IPv6 headers are fixed at 40 bytes with no checksum (upper layers handle integrity) and extension headers for optional features. Simpler headers mean faster router processing.'
+				'[[ip|IPv4]] headers are variable-length with a {{checksum|checksum}} and options; IPv6 headers are fixed at 40 bytes with no checksum (upper layers handle integrity) and extension headers for optional features. Simpler headers mean faster router processing.'
 		}
 	]
 };

@@ -27,7 +27,7 @@ export const utilitiesStory: CategoryStory = {
 					title: "The Internet's Conscience",
 					org: 'USC Information Sciences Institute',
 					contribution:
-						'Authored the RFCs for SMTP, contributed to FTP and DNS, served as RFC Editor for 28 years, and administered IANA. Perhaps the single most important figure in internet protocol development.',
+						'Authored the RFCs for [[smtp|SMTP]], contributed to [[ftp|FTP]] and [[dns|DNS]], served as RFC Editor for 28 years, and administered IANA. Perhaps the single most important figure in internet protocol development.',
 					imagePath:
 						'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Jon_Postel_sitting_in_office_%28cropped%29.jpg/330px-Jon_Postel_sitting_in_office_%28cropped%29.jpg'
 				},
@@ -82,7 +82,7 @@ export const utilitiesStory: CategoryStory = {
 					year: 1985,
 					title: 'First .com Registered',
 					description:
-						'On March 15th, symbolics.com becomes the first registered .com domain name. DNS makes human-friendly addresses possible.',
+						'On March 15th, symbolics.com becomes the first registered .com domain name. [[dns|DNS]] makes human-friendly addresses possible.',
 					protocolId: 'dns'
 				},
 				{
@@ -104,7 +104,7 @@ export const utilitiesStory: CategoryStory = {
 			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b5/PDP-11-70.JPG/500px-PDP-11-70.JPG',
 			alt: 'A DEC PDP-11/70 minicomputer, representative of the machines that ran the early internet infrastructure',
 			caption:
-				"The DEC PDP-11 — machines like these ran early DNS servers, NTP clocks, and mail relays. The internet's invisible backbone started on hardware you could fill a room with.",
+				"The DEC PDP-11 — machines like these ran early [[dns|DNS]] servers, [[ntp|NTP]] clocks, and mail relays. The internet's invisible backbone started on hardware you could fill a room with.",
 			credit: 'Photo: Kozan / Public Domain, via Wikimedia Commons'
 		},
 		{
@@ -172,7 +172,7 @@ export const utilitiesStory: CategoryStory = {
 					title: 'Creator of IMAP',
 					org: 'Stanford University / University of Washington',
 					contribution:
-						"Invented the Internet Message Access Protocol ([[rfc:1064|RFC 1064]], 1988) and maintained it for over 25 years through multiple revisions. IMAP's server-side mail model enabled the multi-device email access we take for granted today."
+						"Invented the Internet Message Access Protocol ([[rfc:1064|RFC 1064]], 1988) and maintained it for over 25 years through multiple revisions. [[imap|IMAP]]'s server-side mail model enabled the multi-device email access we take for granted today."
 				}
 			]
 		},
@@ -196,7 +196,7 @@ export const utilitiesStory: CategoryStory = {
 					year: 1995,
 					title: 'SSH Created by Tatu Ylönen',
 					description:
-						'After a password-sniffing attack at his university, Ylönen writes SSH in a weekend. Secure remote access replaces the dangerously unencrypted telnet.',
+						'After a password-sniffing attack at his university, Ylönen writes [[ssh|SSH]] in a weekend. Secure remote access replaces the dangerously unencrypted telnet.',
 					protocolId: 'ssh'
 				},
 				{
@@ -209,14 +209,14 @@ export const utilitiesStory: CategoryStory = {
 					year: 1999,
 					title: 'TLS 1.0 Published — RFC 2246',
 					description:
-						'The IETF takes over from Netscape, renaming SSL to TLS. The protocol that encrypts the web begins its standardization journey.',
+						'The IETF takes over from Netscape, renaming SSL to [[tls|TLS]]. The protocol that encrypts the web begins its standardization journey.',
 					protocolId: 'tls'
 				},
 				{
 					year: 2006,
 					title: 'SSH Standardized — RFC 4251-4254',
 					description:
-						'After a decade of widespread use, SSH gets formal IETF standardization. OpenSSH has already become ubiquitous.',
+						'After a decade of widespread use, [[ssh|SSH]] gets formal IETF standardization. OpenSSH has already become ubiquitous.',
 					protocolId: 'ssh'
 				},
 				{
@@ -275,7 +275,7 @@ export const utilitiesStory: CategoryStory = {
 					title: 'Creator of SSH',
 					org: 'Helsinki University of Technology / SSH Communications Security',
 					contribution:
-						'Created the Secure Shell protocol after a university network security breach. SSH replaced telnet worldwide and is now used on virtually every server on the internet.'
+						'Created the Secure Shell protocol after a university network security breach. [[ssh|SSH]] replaced telnet worldwide and is now used on virtually every server on the internet.'
 				},
 				{
 					name: 'Eric Rescorla',
@@ -283,7 +283,7 @@ export const utilitiesStory: CategoryStory = {
 					title: 'Author of TLS 1.3',
 					org: 'Mozilla / IETF',
 					contribution:
-						"Authored the TLS 1.3 specification ([[rfc:8446|RFC 8446]]), dramatically improving both the security and performance of internet encryption. Also key contributor to WebRTC's security architecture."
+						"Authored the [[tls|TLS]] 1.3 specification ([[rfc:8446|RFC 8446]]), dramatically improving both the security and performance of internet encryption. Also key contributor to [[webrtc|WebRTC]]'s security architecture."
 				},
 				{
 					name: 'Paul Vixie',
@@ -300,7 +300,7 @@ export const utilitiesStory: CategoryStory = {
 		{
 			type: 'callout',
 			title: "Jon Postel — The Internet's Most Important Person You've Never Heard Of",
-			text: "Jon Postel edited the RFC series for 28 years, wrote or co-wrote over 200 RFCs, edited foundational RFCs for TCP, SMTP, and other core protocols, served as IANA administrator. When he died in 1998 at age 55, Vint Cerf wrote [[rfc:2468|RFC 2468]] as a memorial. His robustness principle — 'Be conservative in what you send, be liberal in what you accept' — remains one of the internet's guiding philosophies."
+			text: "Jon Postel edited the RFC series for 28 years, wrote or co-wrote over 200 RFCs, edited foundational RFCs for [[tcp|TCP]], [[smtp|SMTP]], and other core protocols, served as IANA administrator. When he died in 1998 at age 55, Vint Cerf wrote [[rfc:2468|RFC 2468]] as a memorial. His robustness principle — 'Be conservative in what you send, be liberal in what you accept' — remains one of the internet's guiding philosophies."
 		}
 	]
 };

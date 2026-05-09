@@ -27,7 +27,7 @@ export const asyncIotStory: CategoryStory = {
 					title: 'Co-inventor of MQTT',
 					org: 'IBM',
 					contribution:
-						'Co-created MQTT with Arlen Nipper (then at Arcom) for IoT telemetry over unreliable networks. An IBM Distinguished Engineer, he helped open-source the protocol and shepherd it through OASIS standardization.',
+						'Co-created [[mqtt|MQTT]] with Arlen Nipper (then at Arcom) for IoT telemetry over unreliable networks. An IBM Distinguished Engineer, he helped open-source the protocol and shepherd it through OASIS standardization.',
 					imagePath:
 						'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6c/Andy_Stanford-Clark_%284995549809%29.jpg/330px-Andy_Stanford-Clark_%284995549809%29.jpg'
 				},
@@ -37,7 +37,7 @@ export const asyncIotStory: CategoryStory = {
 					title: 'Co-inventor of MQTT',
 					org: 'Arcom / Eurotech / Cirrus Link',
 					contribution:
-						"Brought embedded systems and SCADA expertise to MQTT's design. Co-founded Cirrus Link Solutions to commercialize MQTT for industrial IoT."
+						"Brought embedded systems and SCADA expertise to [[mqtt|MQTT]]'s design. Co-founded Cirrus Link Solutions to commercialize [[mqtt|MQTT]] for industrial IoT."
 				}
 			]
 		},
@@ -73,7 +73,7 @@ export const asyncIotStory: CategoryStory = {
 					year: 1999,
 					title: 'Jabber (XMPP) Created',
 					description:
-						'Jeremie Miller creates an open instant messaging protocol. Jabber would become XMPP, powering Google Talk, Facebook Chat, and billions of messages.',
+						'Jeremie Miller creates an open instant messaging protocol. Jabber would become [[xmpp|XMPP]], powering Google Talk, Facebook Chat, and billions of messages.',
 					protocolId: 'xmpp'
 				},
 				{
@@ -87,14 +87,14 @@ export const asyncIotStory: CategoryStory = {
 					year: 2006,
 					title: 'AMQP 0-8 Published',
 					description:
-						'The first public AMQP specification. A wire-level protocol that any client can implement to talk to any broker.',
+						'The first public [[amqp|AMQP]] specification. A wire-level protocol that any client can implement to talk to any broker.',
 					protocolId: 'amqp'
 				},
 				{
 					year: 2007,
 					title: 'RabbitMQ Created',
 					description:
-						"Alexis Richardson's Rabbit Technologies builds the first major AMQP broker. It becomes the most popular open-source message broker.",
+						"Alexis Richardson's Rabbit Technologies builds the first major [[amqp|AMQP]] broker. It becomes the most popular open-source message broker.",
 					protocolId: 'amqp'
 				}
 			]
@@ -114,7 +114,7 @@ export const asyncIotStory: CategoryStory = {
 					title: 'Creator of AMQP',
 					org: 'JPMorgan Chase',
 					contribution:
-						'Conceived AMQP to break vendor lock-in in financial messaging. Convinced major banks and tech companies to collaborate on an open standard.'
+						'Conceived [[amqp|AMQP]] to break vendor lock-in in financial messaging. Convinced major banks and tech companies to collaborate on an open standard.'
 				},
 				{
 					name: 'Pieter Hintjens',
@@ -159,7 +159,7 @@ export const asyncIotStory: CategoryStory = {
 					year: 2011,
 					title: 'Apache Kafka Open-Sourced',
 					description:
-						'LinkedIn open-sources its distributed event streaming platform. Kafka redefines messaging: an immutable, replayable log instead of transient queues.',
+						'LinkedIn open-sources its distributed event streaming platform. [[kafka|Kafka]] redefines messaging: an immutable, replayable log instead of transient queues.',
 					protocolId: 'kafka'
 				},
 				{
@@ -225,7 +225,7 @@ export const asyncIotStory: CategoryStory = {
   end
   Kafka ~~~ Traditional`,
 			caption:
-				"Traditional queues delete messages after consumption. Kafka's immutable log lets multiple consumers read independently and replay at will."
+				"Traditional queues delete messages after consumption. [[kafka|Kafka]]'s immutable log lets multiple consumers read independently and replay at will."
 		},
 		{
 			type: 'pioneers',
@@ -237,7 +237,7 @@ export const asyncIotStory: CategoryStory = {
 					title: 'CoAP Editor',
 					org: 'Sensinode / ARM',
 					contribution:
-						'Primary editor of the CoAP specification ([[rfc:7252|RFC 7252]]) and co-founder of the IETF CoRE Working Group, bridging web standards and IoT.'
+						'Primary editor of the [[coap|CoAP]] specification ([[rfc:7252|RFC 7252]]) and co-founder of the IETF CoRE Working Group, bridging web standards and IoT.'
 				},
 				{
 					name: 'Carsten Bormann',
@@ -245,7 +245,7 @@ export const asyncIotStory: CategoryStory = {
 					title: 'CoAP Co-editor',
 					org: 'Universitat Bremen',
 					contribution:
-						'Co-edited the CoAP specification and co-created CBOR, the efficient binary serialization format used throughout the IoT ecosystem.'
+						'Co-edited the [[coap|CoAP]] specification and co-created CBOR, the efficient binary serialization format used throughout the IoT ecosystem.'
 				},
 				{
 					name: 'Roger Light',

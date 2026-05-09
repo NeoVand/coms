@@ -39,7 +39,7 @@ The first version, HTTP/0.9, supported just one command: GET. No headers, no con
 					title: 'Architect of HTTP/1.1 & REST',
 					org: 'UC Irvine / Apache Foundation',
 					contribution:
-						'Co-authored the HTTP/1.1 specification ([[rfc:2616|RFC 2616]]) and defined REST in his 2000 doctoral dissertation, shaping how modern APIs are designed.',
+						'Co-authored the [[http1|HTTP/1.1]] specification ([[rfc:2616|RFC 2616]]) and defined [[rest|REST]] in his 2000 doctoral dissertation, shaping how modern APIs are designed.',
 					imagePath:
 						'https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Roy_Fielding_%28cropped%29.jpg/330px-Roy_Fielding_%28cropped%29.jpg'
 				}
@@ -77,7 +77,7 @@ The first version, HTTP/0.9, supported just one command: GET. No headers, no con
 					year: 1998,
 					title: 'SOAP — XML Web Services',
 					description:
-						'Microsoft, IBM, and others introduce SOAP: XML-wrapped RPC calls with formal WSDL contracts. Enterprise web services become the dominant integration pattern.',
+						'Microsoft, IBM, and others introduce [[soap|SOAP]]: XML-wrapped RPC calls with formal WSDL contracts. Enterprise web services become the dominant integration pattern.',
 					protocolId: 'soap'
 				},
 				{
@@ -119,7 +119,7 @@ GET /friends"]
   G -->|"1 query"| G1["{ user, posts, friends }"]
   P -->|"1 binary call"| P1["GetUser protobuf"]`,
 			caption:
-				'REST needs multiple round trips. GraphQL fetches exact data in one query. gRPC uses efficient binary {{serialization|serialization}}.'
+				'[[rest|REST]] needs multiple round trips. [[graphql|GraphQL]] fetches exact data in one query. [[grpc|gRPC]] uses efficient binary {{serialization|serialization}}.'
 		},
 		{
 			type: 'pioneers',
@@ -160,7 +160,7 @@ GET /friends"]
 					year: 2009,
 					title: 'Google Begins SPDY',
 					description:
-						"Frustrated by HTTP/1.1's limitations, Google experiments with a multiplexed, compressed alternative. It works."
+						"Frustrated by [[http1|HTTP/1.1]]'s limitations, Google experiments with a multiplexed, compressed alternative. It works."
 				},
 				{
 					year: 2011,
@@ -187,14 +187,14 @@ GET /friends"]
 					year: 2015,
 					title: 'GraphQL Open-Sourced',
 					description:
-						'Facebook releases GraphQL to the world. The developer community rapidly adopts it.',
+						'Facebook releases [[graphql|GraphQL]] to the world. The developer community rapidly adopts it.',
 					protocolId: 'graphql'
 				},
 				{
 					year: 2016,
 					title: 'gRPC 1.0 Released',
 					description:
-						'Google open-sources its internal RPC framework, built on HTTP/2 and Protocol Buffers.',
+						'Google open-sources its internal RPC framework, built on [[http2|HTTP/2]] and Protocol Buffers.',
 					protocolId: 'grpc'
 				},
 				{
@@ -223,7 +223,7 @@ The evolution from [[http1]] to [[http2]] to [[http3]] tells a story of learning
 					title: 'Creator of GraphQL',
 					org: 'Facebook / Meta',
 					contribution:
-						'Primary designer and evangelist of GraphQL. Built the reference implementation and led its open-source release.'
+						'Primary designer and evangelist of [[graphql|GraphQL]]. Built the reference implementation and led its open-source release.'
 				},
 				{
 					name: 'Dan Schafer',
@@ -257,7 +257,7 @@ The evolution from [[http1]] to [[http2]] to [[http3]] tells a story of learning
 					title: 'gRPC Technical Lead',
 					org: 'Google',
 					contribution:
-						"Led the development of gRPC from Google's internal Stubby system to an open-source RPC framework used across the industry."
+						"Led the development of [[grpc|gRPC]] from Google's internal Stubby system to an open-source RPC framework used across the industry."
 				}
 			]
 		},
@@ -288,7 +288,7 @@ But MCP solved only half the puzzle. It connected agents to tools \u2014 what ab
   A1 -->|"MCP"| T5["Hotel API"]
   A2 -->|"MCP"| T6["Web Search"]`,
 			caption:
-				'MCP connects agents to tools (vertical). A2A connects agents to agents (horizontal). Each agent uses MCP internally for its own tools.'
+				'[[mcp|MCP]] connects agents to tools (vertical). [[a2a|A2A]] connects agents to agents (horizontal). Each agent uses [[mcp|MCP]] internally for its own tools.'
 		},
 		{
 			type: 'timeline',
@@ -297,7 +297,7 @@ But MCP solved only half the puzzle. It connected agents to tools \u2014 what ab
 					year: 2005,
 					title: 'JSON-RPC 2.0',
 					description:
-						'A minimal RPC protocol using JSON \u2014 method calls, results, notifications, and batches. The wire format that MCP and A2A would later build upon.',
+						'A minimal RPC protocol using JSON \u2014 method calls, results, notifications, and batches. The wire format that [[mcp|MCP]] and [[a2a|A2A]] would later build upon.',
 					protocolId: 'json-rpc'
 				},
 				{
@@ -311,7 +311,7 @@ But MCP solved only half the puzzle. It connected agents to tools \u2014 what ab
 					year: 2025,
 					title: 'A2A \u2014 Agent-to-Agent Protocol',
 					description:
-						'Google announces A2A at Cloud Next, backed by 100+ partners. AI agents can now discover and collaborate with each other across vendors.',
+						'Google announces [[a2a|A2A]] at Cloud Next, backed by 100+ partners. AI agents can now discover and collaborate with each other across vendors.',
 					protocolId: 'a2a'
 				},
 				{

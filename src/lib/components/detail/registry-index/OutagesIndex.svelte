@@ -2,6 +2,8 @@
 	import { outages } from '$lib/data/outages';
 	import { navigateToOutage } from '$lib/utils/navigation';
 	import { AlertTriangle } from 'lucide-svelte';
+	import { parseRichText } from '$lib/utils/text-parser';
+	import RichText from '$lib/components/detail/inline/RichText.svelte';
 
 	const ACCENT = '#fb923c';
 
@@ -41,7 +43,9 @@
 					>
 					<span class="shrink-0 text-[10px] text-t-muted tabular-nums">{o.date}</span>
 				</div>
-				<p class="text-xs leading-relaxed text-t-secondary italic">{o.oneLiner}</p>
+				<p class="text-xs leading-relaxed text-t-secondary italic">
+					<RichText segments={parseRichText(o.oneLiner)} color={ACCENT} />
+				</p>
 				{#if o.duration || o.scale}
 					<p class="text-[10px] text-t-muted">
 						{#if o.duration}<span>{o.duration}</span>{/if}

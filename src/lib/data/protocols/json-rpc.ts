@@ -24,7 +24,7 @@ JSON-RPC found its biggest audience not in traditional web development but in in
 		{
 			title: 'Request is sent',
 			description:
-				'The JSON is sent over any transport — HTTP POST to a single endpoint, a WebSocket message, a line written to stdout, or a TCP socket. The protocol does not care how bytes move.'
+				'The JSON is sent over any transport — HTTP POST to a single endpoint, a WebSocket message, a line written to stdout, or a [[tcp|TCP]] socket. The protocol does not care how bytes move.'
 		},
 		{
 			title: 'Server dispatches',

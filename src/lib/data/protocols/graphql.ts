@@ -23,7 +23,7 @@ It shines for complex frontends (mobile apps, SPAs) that need flexible data fetc
 		{
 			title: 'Client writes query',
 			description:
-				'Client requests exactly the fields it needs, including nested relationships. One query replaces multiple REST calls.'
+				'Client requests exactly the fields it needs, including nested relationships. One query replaces multiple [[rest|REST]] calls.'
 		},
 		{
 			title: 'Server resolves',
@@ -64,7 +64,7 @@ response = requests.post(
 
 data = response.json()["data"]
 print(data["user"]["name"], data["user"]["posts"])`,
-		caption: 'One GraphQL query replaces multiple REST calls — ask for exactly the data you need',
+		caption: 'One GraphQL query replaces multiple [[rest|REST]] calls — ask for exactly the data you need',
 		alternatives: [
 			{
 				language: 'javascript',
@@ -143,7 +143,7 @@ curl -X POST https://api.example.com/graphql \\
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Facebook_Headquarters_Menlo_Park.jpg/500px-Facebook_Headquarters_Menlo_Park.jpg',
 		alt: 'Facebook headquarters in Menlo Park, California, where GraphQL was created',
 		caption:
-			"Facebook's headquarters in Menlo Park — where GraphQL was created in 2012 to power the News Feed on mobile. The query language solved the over-fetching problem that REST APIs couldn't.",
+			"Facebook's headquarters in Menlo Park — where GraphQL was created in 2012 to power the News Feed on mobile. The query language solved the over-fetching problem that [[rest|REST]] APIs couldn't.",
 		credit: 'Photo: Marcin Wichary / CC BY 2.0, via Wikimedia Commons'
 	}
 };

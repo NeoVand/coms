@@ -22,7 +22,7 @@ export const journeys: Journey[] = [
 		id: 'url-bar',
 		title: 'What Happens When You Type a URL',
 		description:
-			'Follow a request from your browser to a server and back — through DNS, TCP, TLS, and HTTP.',
+			'Follow a request from your browser to a server and back — through [[dns|DNS]], [[tcp|TCP]], [[tls|TLS]], and HTTP.',
 		color: '#00D4FF',
 		scope: 'global',
 		steps: [
@@ -30,21 +30,21 @@ export const journeys: Journey[] = [
 				protocolId: 'dns',
 				title: 'DNS Resolution',
 				description:
-					'Before your browser can reach google.com, it needs an actual address — like needing a street address before you can mail a letter. Your device sends a DNS query to a recursive resolver, which walks the DNS hierarchy: root servers, then .com TLD servers, then google.com\'s authoritative nameserver. The answer (e.g., 142.250.80.46) is cached locally so future requests skip this entire chain. Without DNS, you would have to memorize raw IP addresses for every website you visit.',
+					'Before your browser can reach google.com, it needs an actual address — like needing a street address before you can mail a letter. Your device sends a [[dns|DNS]] query to a recursive resolver, which walks the [[dns|DNS]] hierarchy: root servers, then .com TLD servers, then google.com\'s authoritative nameserver. The answer (e.g., 142.250.80.46) is cached locally so future requests skip this entire chain. Without DNS, you would have to memorize raw IP addresses for every website you visit.',
 				transition: 'The browser now knows WHERE the server lives — but packets on the internet can be lost, reordered, or duplicated. Before sending any real data, it needs to negotiate a reliable channel...'
 			},
 			{
 				protocolId: 'tcp',
 				title: 'TCP Handshake',
 				description:
-					'The internet is inherently unreliable — packets can vanish, arrive out of order, or show up twice. TCP solves this with a three-way handshake (SYN, SYN-ACK, ACK) that synchronizes sequence numbers between your browser and the server, creating a reliable ordered channel. This handshake also negotiates window sizes for flow control, ensuring neither side overwhelms the other. It costs one round trip of latency, but without it every application would need to implement its own reliability logic.',
+					'The internet is inherently unreliable — packets can vanish, arrive out of order, or show up twice. [[tcp|TCP]] solves this with a three-way handshake (SYN, SYN-ACK, ACK) that synchronizes sequence numbers between your browser and the server, creating a reliable ordered channel. This handshake also negotiates window sizes for flow control, ensuring neither side overwhelms the other. It costs one round trip of latency, but without it every application would need to implement its own reliability logic.',
 				transition: 'A reliable pipe now connects your browser to the server — but anyone sitting on the network path (your ISP, a coffee shop router, a government firewall) can read every byte in plaintext. The data needs encryption...'
 			},
 			{
 				protocolId: 'tls',
 				title: 'TLS Negotiation',
 				description:
-					'TLS is where trust is established. The server presents a certificate proving it really is google.com (signed by a trusted certificate authority), and both sides negotiate which cipher suite to use. They then perform a key exchange (typically ECDHE) to derive shared session keys that only they know — even if someone recorded the entire handshake. TLS 1.3 collapses this to a single round trip, and on repeat visits, 0-RTT resumption can send encrypted data immediately.',
+					'[[tls|TLS]] is where trust is established. The server presents a certificate proving it really is google.com (signed by a trusted certificate authority), and both sides negotiate which cipher suite to use. They then perform a key exchange (typically ECDHE) to derive shared session keys that only they know — even if someone recorded the entire handshake. [[tls|TLS]] 1.3 collapses this to a single round trip, and on repeat visits, 0-RTT resumption can send encrypted data immediately.',
 				transition: 'The connection is now both reliable and encrypted — no eavesdropper can read or tamper with the data. Everything is ready to speak the language of the web...'
 			},
 			{
@@ -59,7 +59,7 @@ export const journeys: Journey[] = [
 		id: 'wire-to-web',
 		title: 'From Wire to Web',
 		description:
-			'Trace data from the physical Ethernet cable through every layer of the network stack up to the application.',
+			'Trace data from the physical [[ethernet|Ethernet]] cable through every layer of the network stack up to the application.',
 		color: '#F472B6',
 		scope: 'global',
 		steps: [
@@ -67,28 +67,28 @@ export const journeys: Journey[] = [
 				protocolId: 'ethernet',
 				title: 'Ethernet Frame',
 				description:
-					'Every piece of data on a local network travels as an Ethernet frame — a precisely structured envelope containing source and destination MAC addresses (48-bit hardware identifiers burned into every network card), a type field that indicates what protocol lives inside (IPv4, IPv6, ARP), and a Frame Check Sequence for error detection. The frame is the physical currency of LANs: switches read the destination MAC to forward it to the correct port. Without this framing, raw electrical signals on the wire would be meaningless noise.',
-				transition: 'The Ethernet frame needs a destination MAC address — but your application only knows an IP address. Something has to bridge the gap between Layer 3 (IP) and Layer 2 (Ethernet)...'
+					'Every piece of data on a local network travels as an [[ethernet|Ethernet]] frame — a precisely structured envelope containing source and destination MAC addresses (48-bit hardware identifiers burned into every network card), a type field that indicates what protocol lives inside ([[ip|IPv4]], [[ipv6|IPv6]], [[arp|ARP]]), and a Frame Check Sequence for error detection. The frame is the physical currency of LANs: switches read the destination MAC to forward it to the correct port. Without this framing, raw electrical signals on the wire would be meaningless noise.',
+				transition: 'The [[ethernet|Ethernet]] frame needs a destination MAC address — but your application only knows an IP address. Something has to bridge the gap between Layer 3 (IP) and Layer 2 (Ethernet)...'
 			},
 			{
 				protocolId: 'arp',
 				title: 'ARP Resolution',
 				description:
-					'ARP is the glue between IP addresses and physical hardware. When your machine needs to reach 192.168.1.1 but only knows its IP, it broadcasts an ARP request to every device on the LAN: "Who has 192.168.1.1? Tell me your MAC address." The target replies directly with its MAC, and the result is cached in an ARP table so future packets skip the broadcast. This is why the first packet to a new host on your LAN is slightly slower — ARP has to resolve the address first.',
+					'[[arp|ARP]] is the glue between IP addresses and physical hardware. When your machine needs to reach 192.168.1.1 but only knows its IP, it broadcasts an [[arp|ARP]] request to every device on the LAN: "Who has 192.168.1.1? Tell me your MAC address." The target replies directly with its MAC, and the result is cached in an ARP table so future packets skip the broadcast. This is why the first packet to a new host on your LAN is slightly slower — ARP has to resolve the address first.',
 				transition: 'With the destination MAC resolved and the Ethernet frame ready, the packet can now be addressed for its journey beyond the local network. The IP layer takes over to handle global addressing and routing...'
 			},
 			{
 				protocolId: 'ip',
 				title: 'IP Routing',
 				description:
-					'IP is the postal service of the internet — it stamps each packet with a source and destination address, then forwards it hop by hop toward its target. Each router along the path examines the destination IP, consults its routing table, decrements the TTL (Time To Live) by one, and forwards the packet to the next hop. If TTL reaches zero, the packet is discarded and an ICMP "Time Exceeded" is sent back — this is how traceroute works. IP makes no guarantees about delivery order or reliability; it simply does its best to get each packet to the right machine.',
-				transition: 'IP delivered the packet to the correct machine — but a server might be running dozens of applications simultaneously. A web server on port 80, an SSH daemon on port 22, a database on port 5432. Something has to deliver the data to the right process...'
+					'IP is the postal service of the internet — it stamps each packet with a source and destination address, then forwards it hop by hop toward its target. Each router along the path examines the destination IP, consults its routing table, decrements the TTL (Time To Live) by one, and forwards the packet to the next hop. If TTL reaches zero, the packet is discarded and an [[icmp|ICMP]] "Time Exceeded" is sent back — this is how traceroute works. IP makes no guarantees about delivery order or reliability; it simply does its best to get each packet to the right machine.',
+				transition: 'IP delivered the packet to the correct machine — but a server might be running dozens of applications simultaneously. A web server on port 80, an [[ssh|SSH]] daemon on port 22, a database on port 5432. Something has to deliver the data to the right process...'
 			},
 			{
 				protocolId: 'tcp',
 				title: 'TCP Delivery',
 				description:
-					'TCP is the reliability layer that IP lacks. It uses 16-bit port numbers (0-65535) to multiplex multiple conversations on the same IP address, delivering each segment to the correct application. Beyond addressing, TCP guarantees that data arrives complete, in order, and without duplication — it retransmits lost segments, resequences out-of-order arrivals, and uses sliding window flow control to prevent a fast sender from overwhelming a slow receiver. This reliability is why the web, email, and file transfer all run on TCP.',
+					'[[tcp|TCP]] is the reliability layer that IP lacks. It uses 16-bit port numbers (0-65535) to multiplex multiple conversations on the same IP address, delivering each segment to the correct application. Beyond addressing, TCP guarantees that data arrives complete, in order, and without duplication — it retransmits lost segments, resequences out-of-order arrivals, and uses sliding window flow control to prevent a fast sender from overwhelming a slow receiver. This reliability is why the web, email, and file transfer all run on TCP.',
 				transition: 'The data has been reliably delivered to the correct process on the correct machine. Now the application can finally interpret the bytes using its own protocol semantics...'
 			},
 			{
@@ -110,28 +110,28 @@ export const journeys: Journey[] = [
 				protocolId: 'udp',
 				title: 'UDP: The Simple Datagram',
 				description:
-					'UDP is the bare minimum of transport — it adds just 8 bytes of overhead (source port, destination port, length, checksum) and fires your data into the network with no handshake, no acknowledgments, and no ordering guarantees. This makes it blazing fast and perfect for scenarios where speed matters more than perfection: DNS queries, live video, gaming, and voice calls. If a packet is lost, the application decides whether to care — a missing video frame is better than waiting 200ms for a retransmission that arrives too late to display.',
-				transition: 'UDP gives you raw speed, but many applications cannot tolerate missing or reordered data. A web page with a missing CSS file, a bank transfer with lost bytes, or a file download with gaps — these need every byte in the right order. The internet needed a more disciplined transport...'
+					'[[udp|UDP]] is the bare minimum of transport — it adds just 8 bytes of overhead (source port, destination port, length, checksum) and fires your data into the network with no handshake, no acknowledgments, and no ordering guarantees. This makes it blazing fast and perfect for scenarios where speed matters more than perfection: DNS queries, live video, gaming, and voice calls. If a packet is lost, the application decides whether to care — a missing video frame is better than waiting 200ms for a retransmission that arrives too late to display.',
+				transition: '[[udp|UDP]] gives you raw speed, but many applications cannot tolerate missing or reordered data. A web page with a missing CSS file, a bank transfer with lost bytes, or a file download with gaps — these need every byte in the right order. The internet needed a more disciplined transport...'
 			},
 			{
 				protocolId: 'tcp',
 				title: 'TCP: Reliable Streams',
 				description:
-					'TCP transforms the unreliable internet into a dependable byte stream. It establishes connections with a three-way handshake, assigns sequence numbers to every byte, requires acknowledgments for received data, and retransmits anything that goes missing. Its congestion control algorithms (Reno, CUBIC, BBR) actively probe the network to find the maximum safe sending rate without causing collapse. TCP has been the backbone of the internet for over 40 years — HTTP, email, SSH, and file transfer all depend on it. The tradeoff is latency: the handshake, acknowledgment delays, and head-of-line blocking (one lost packet stalls everything behind it) add up.',
+					'TCP transforms the unreliable internet into a dependable byte stream. It establishes connections with a three-way handshake, assigns sequence numbers to every byte, requires acknowledgments for received data, and retransmits anything that goes missing. Its congestion control algorithms (Reno, CUBIC, BBR) actively probe the network to find the maximum safe sending rate without causing collapse. TCP has been the backbone of the internet for over 40 years — HTTP, email, [[ssh|SSH]], and file transfer all depend on it. The tradeoff is latency: the handshake, acknowledgment delays, and head-of-line blocking (one lost packet stalls everything behind it) add up.',
 				transition: 'TCP proved that reliability works, but its single-stream design means one lost packet blocks all data behind it — even unrelated requests. And its handshake adds a full round trip before any data flows. Engineers began asking: can we keep the reliability but eliminate these bottlenecks?'
 			},
 			{
 				protocolId: 'quic',
 				title: 'QUIC: The Modern Fusion',
 				description:
-					'QUIC is what happens when you redesign transport from scratch with modern needs in mind. It runs on top of UDP (so it passes through existing firewalls and NATs), but implements its own reliability, ordering, and congestion control internally. Crucially, QUIC supports multiplexed independent streams — so a lost packet on stream 3 does not block streams 1, 2, or 4. It also bakes in TLS 1.3 encryption from the start, merging the transport and security handshakes into a single round trip. On repeat connections, 0-RTT resumption lets you send data immediately. QUIC powers HTTP/3 and is rapidly becoming the new default transport for the web.',
+					'[[quic|QUIC]] is what happens when you redesign transport from scratch with modern needs in mind. It runs on top of [[udp|UDP]] (so it passes through existing firewalls and NATs), but implements its own reliability, ordering, and congestion control internally. Crucially, [[quic|QUIC]] supports multiplexed independent streams — so a lost packet on stream 3 does not block streams 1, 2, or 4. It also bakes in TLS 1.3 encryption from the start, merging the transport and security handshakes into a single round trip. On repeat connections, 0-RTT resumption lets you send data immediately. [[quic|QUIC]] powers [[http3|HTTP/3]] and is rapidly becoming the new default transport for the web.',
 				transition: 'QUIC solves head-of-line blocking and connection setup latency brilliantly, but it assumes a single network path. What happens when a device has multiple network interfaces — WiFi and cellular, two Ethernet ports, or a wired and wireless backup link? There is a transport designed for exactly that scenario...'
 			},
 			{
 				protocolId: 'sctp',
 				title: 'SCTP: Multi-Stream Transport',
 				description:
-					'SCTP (Stream Control Transmission Protocol) introduced two ideas ahead of their time: multiple independent message streams within a single association, and multi-homing — the ability to bind to multiple IP addresses simultaneously and fail over between them without dropping the connection. If one network interface goes down, SCTP seamlessly switches to another. Originally designed for telecom signaling (carrying phone call setup messages between switches), it also supports message boundaries natively (unlike TCP\'s raw byte stream). While SCTP never gained widespread web adoption due to NAT traversal issues, its concepts directly influenced QUIC\'s stream multiplexing design.'
+					'[[sctp|SCTP]] (Stream Control Transmission Protocol) introduced two ideas ahead of their time: multiple independent message streams within a single association, and multi-homing — the ability to bind to multiple IP addresses simultaneously and fail over between them without dropping the connection. If one network interface goes down, [[sctp|SCTP]] seamlessly switches to another. Originally designed for telecom signaling (carrying phone call setup messages between switches), it also supports message boundaries natively (unlike TCP\'s raw byte stream). While [[sctp|SCTP]] never gained widespread web adoption due to NAT traversal issues, its concepts directly influenced QUIC\'s stream multiplexing design.'
 			}
 		]
 	},
@@ -153,14 +153,14 @@ export const journeys: Journey[] = [
 				protocolId: 'ssh',
 				title: 'SSH: Secure Shell',
 				description:
-					'Before SSH, administrators used Telnet to manage remote servers — sending passwords and commands in cleartext. SSH replaced it with a fully encrypted channel that supports public-key authentication (no passwords to steal), secure file transfer (SCP and SFTP), and port forwarding that can tunnel any TCP connection through the encrypted link. SSH uses its own key exchange and encryption layer independent of TLS, and its agent forwarding feature lets you chain SSH connections through jump hosts without exposing your private key. It became the universal tool for server management, Git operations, and secure automation.',
+					'Before [[ssh|SSH]], administrators used Telnet to manage remote servers — sending passwords and commands in cleartext. SSH replaced it with a fully encrypted channel that supports public-key authentication (no passwords to steal), secure file transfer (SCP and SFTP), and port forwarding that can tunnel any TCP connection through the encrypted link. SSH uses its own key exchange and encryption layer independent of TLS, and its agent forwarding feature lets you chain SSH connections through jump hosts without exposing your private key. It became the universal tool for server management, Git operations, and secure automation.',
 				transition: 'With TLS protecting web connections and SSH securing server access, the foundations of internet security were in place. But there was still a problem: HTTP encryption was optional, and most sites did not bother. The web needed a forcing function to make encryption the default, not the exception...'
 			},
 			{
 				protocolId: 'http2',
 				title: 'HTTPS Everywhere',
 				description:
-					'HTTP/2 was the tipping point. While the specification technically allows plaintext HTTP/2, every major browser only implements it over TLS — making encryption a de facto requirement for the modern web. Combined with free certificate authorities like Let\'s Encrypt and browser warnings on HTTP sites ("Not Secure"), the web went from roughly 40% encrypted in 2015 to over 95% today. HTTP/2 also introduced binary framing, multiplexed streams, and HPACK header compression, but its most lasting impact may be normalizing the idea that all web traffic should be encrypted by default.'
+					'[[http2|HTTP/2]] was the tipping point. While the specification technically allows plaintext [[http2|HTTP/2]], every major browser only implements it over TLS — making encryption a de facto requirement for the modern web. Combined with free certificate authorities like Let\'s Encrypt and browser warnings on HTTP sites ("Not Secure"), the web went from roughly 40% encrypted in 2015 to over 95% today. [[http2|HTTP/2]] also introduced binary framing, multiplexed streams, and HPACK header compression, but its most lasting impact may be normalizing the idea that all web traffic should be encrypted by default.'
 			}
 		]
 	},
@@ -177,7 +177,7 @@ export const journeys: Journey[] = [
 				protocolId: 'ethernet',
 				title: 'Ethernet Framing',
 				description:
-					'Every packet\'s journey begins at the network interface card (NIC), which constructs an Ethernet frame. The NIC stamps on its own 48-bit MAC address as the source, adds the destination MAC, a type field (0x0800 for IPv4, 0x0806 for ARP), the payload, and a 4-byte Frame Check Sequence (CRC-32) that lets the receiver detect bit errors caused by electrical interference. If any bits are corrupted in transit, the FCS check fails and the frame is silently discarded — no correction, just detection. This is the foundation of all local network communication.',
+					'Every packet\'s journey begins at the network interface card (NIC), which constructs an Ethernet frame. The NIC stamps on its own 48-bit MAC address as the source, adds the destination MAC, a type field (0x0800 for [[ip|IPv4]], 0x0806 for ARP), the payload, and a 4-byte Frame Check Sequence (CRC-32) that lets the receiver detect bit errors caused by electrical interference. If any bits are corrupted in transit, the FCS check fails and the frame is silently discarded — no correction, just detection. This is the foundation of all local network communication.',
 				transition: 'The Ethernet frame is ready to send, but there is a chicken-and-egg problem: your application knows the destination IP address (192.168.1.100), not the destination MAC address. You cannot build an Ethernet frame without a MAC. The network needs a way to translate between these two addressing systems...'
 			},
 			{
@@ -198,7 +198,7 @@ export const journeys: Journey[] = [
 				protocolId: 'icmp',
 				title: 'ICMP Diagnostics',
 				description:
-					'ICMP is the internet\'s diagnostic nervous system — it does not carry user data but instead reports on the health and status of the network itself. The "ping" command sends ICMP Echo Requests and measures round-trip times to verify reachability. "Traceroute" cleverly sends packets with incrementing TTL values (1, 2, 3...), causing each successive router to reply with a "Time Exceeded" message, mapping the entire path to a destination. ICMP also carries critical error messages: "Destination Unreachable" (with subcodes for network, host, port, and fragmentation failures), "Redirect" (telling a host to use a better route), and "Source Quench" (legacy congestion signaling). Without ICMP, debugging network problems would be nearly impossible.'
+					'[[icmp|ICMP]] is the internet\'s diagnostic nervous system — it does not carry user data but instead reports on the health and status of the network itself. The "ping" command sends [[icmp|ICMP]] Echo Requests and measures round-trip times to verify reachability. "Traceroute" cleverly sends packets with incrementing TTL values (1, 2, 3...), causing each successive router to reply with a "Time Exceeded" message, mapping the entire path to a destination. ICMP also carries critical error messages: "Destination Unreachable" (with subcodes for network, host, port, and fragmentation failures), "Redirect" (telling a host to use a better route), and "Source Quench" (legacy congestion signaling). Without ICMP, debugging network problems would be nearly impossible.'
 			}
 		]
 	},
@@ -214,21 +214,21 @@ export const journeys: Journey[] = [
 				protocolId: 'ip',
 				title: 'IPv4: The Original Addressing',
 				description:
-					'IPv4, designed in 1981, gives every device a 32-bit address (like 192.168.1.1) and defines how packets are forwarded hop-by-hop through routers. It was brilliantly simple and powered the explosive growth of the internet — but its designers never imagined billions of smartphones, IoT sensors, and cloud instances. With only 4.3 billion possible addresses, IPv4 exhaustion became inevitable. NAT (Network Address Translation) bought time by hiding entire private networks behind a single public IP, but it breaks end-to-end connectivity and complicates protocols that embed IP addresses in their payloads.',
+					'[[ip|IPv4]], designed in 1981, gives every device a 32-bit address (like 192.168.1.1) and defines how packets are forwarded hop-by-hop through routers. It was brilliantly simple and powered the explosive growth of the internet — but its designers never imagined billions of smartphones, IoT sensors, and cloud instances. With only 4.3 billion possible addresses, IPv4 exhaustion became inevitable. NAT (Network Address Translation) bought time by hiding entire private networks behind a single public IP, but it breaks end-to-end connectivity and complicates protocols that embed IP addresses in their payloads.',
 				transition: 'IANA allocated the last IPv4 address blocks in 2011. The stopgap of NAT created a fragile internet where devices could not directly reach each other. A fundamental redesign had been in the works since the 1990s, and the world is finally adopting it...'
 			},
 			{
 				protocolId: 'ipv6',
 				title: 'IPv6: The Next Generation',
 				description:
-					'IPv6 expands the address space from 32 bits to 128 bits — enough for 340 undecillion addresses (3.4 x 10^38), roughly 100 addresses per atom on Earth\'s surface. But IPv6 is not just bigger addresses: it simplifies the packet header (no more header checksums or fragmentation at intermediate routers), introduces SLAAC (Stateless Address Auto-Configuration) so devices can generate their own addresses without DHCP, and replaces ARP with NDP (Neighbor Discovery Protocol). Most importantly, it restores true end-to-end connectivity — every device gets a globally routable address, eliminating the need for NAT. The dual-stack transition (running IPv4 and IPv6 simultaneously) is well underway: on 28 March 2026 IPv6 carried 50.1% of Google\'s traffic for the first time, with US mobile carriers averaging ~87%.',
+					'[[ipv6|IPv6]] expands the address space from 32 bits to 128 bits — enough for 340 undecillion addresses (3.4 x 10^38), roughly 100 addresses per atom on Earth\'s surface. But [[ipv6|IPv6]] is not just bigger addresses: it simplifies the packet header (no more header checksums or fragmentation at intermediate routers), introduces SLAAC (Stateless Address Auto-Configuration) so devices can generate their own addresses without [[dhcp|DHCP]], and replaces ARP with NDP (Neighbor Discovery Protocol). Most importantly, it restores true end-to-end connectivity — every device gets a globally routable address, eliminating the need for NAT. The dual-stack transition (running IPv4 and IPv6 simultaneously) is well underway: on 28 March 2026 IPv6 carried 50.1% of Google\'s traffic for the first time, with US mobile carriers averaging ~87%.',
 				transition: 'Individual devices now have addresses, but the internet is composed of over 70,000 autonomous systems (AS) — independent networks run by ISPs, cloud providers, universities, and enterprises. These networks need a way to discover each other and calculate paths across this vast interconnected mesh...'
 			},
 			{
 				protocolId: 'bgp',
 				title: 'BGP: The Internet\'s Routing Protocol',
 				description:
-					'BGP (Border Gateway Protocol) is the protocol that literally holds the internet together. Each autonomous system uses BGP to announce which IP prefixes it owns and which paths it can reach. BGP routers at network borders exchange these announcements with their peers, building a global map of reachability. Path selection is policy-driven — an ISP might prefer cheaper transit providers, avoid routes through certain countries, or favor shorter AS paths. When a BGP misconfiguration happens (like Pakistan accidentally hijacking YouTube\'s prefix in 2008), large portions of the internet can go dark. Despite carrying the routing table for the entire internet (nearly 1 million IPv4 prefixes), BGP runs on surprisingly modest hardware and converges within minutes after topology changes.'
+					'[[bgp|BGP]] (Border Gateway Protocol) is the protocol that literally holds the internet together. Each autonomous system uses [[bgp|BGP]] to announce which IP prefixes it owns and which paths it can reach. [[bgp|BGP]] routers at network borders exchange these announcements with their peers, building a global map of reachability. Path selection is policy-driven — an ISP might prefer cheaper transit providers, avoid routes through certain countries, or favor shorter AS paths. When a BGP misconfiguration happens (like Pakistan accidentally hijacking YouTube\'s prefix in 2008), large portions of the internet can go dark. Despite carrying the routing table for the entire internet (nearly 1 million IPv4 prefixes), BGP runs on surprisingly modest hardware and converges within minutes after topology changes.'
 			}
 		]
 	},
@@ -260,14 +260,14 @@ export const journeys: Journey[] = [
 				protocolId: 'mptcp',
 				title: 'MPTCP: Multiple Paths',
 				description:
-					'Multipath TCP extends standard TCP to use multiple network interfaces simultaneously. Your phone can send data over both WiFi and cellular at the same time, aggregating their bandwidth. If you walk out of WiFi range, the cellular subflow keeps going seamlessly — no connection drop, no reconnection delay. MPTCP works by establishing multiple TCP subflows and distributing data across them using a coupled congestion control algorithm that balances load fairly. Apple uses MPTCP in iOS for Siri and Maps, and it powers the seamless WiFi-to-cellular transitions you experience daily without noticing. The tradeoff is complexity: schedulers must decide which path gets which data, and reordering at the receiver adds latency.',
-				transition: 'MPTCP showed the power of using multiple paths, but it still inherits TCP\'s fundamental constraints — the three-way handshake, the kernel implementation that is hard to update, and middlebox interference. A completely new transport protocol, designed with all these lessons in mind, would soon arrive...'
+					'Multipath TCP extends standard TCP to use multiple network interfaces simultaneously. Your phone can send data over both WiFi and cellular at the same time, aggregating their bandwidth. If you walk out of WiFi range, the cellular subflow keeps going seamlessly — no connection drop, no reconnection delay. [[mptcp|MPTCP]] works by establishing multiple TCP subflows and distributing data across them using a coupled congestion control algorithm that balances load fairly. Apple uses [[mptcp|MPTCP]] in iOS for Siri and Maps, and it powers the seamless WiFi-to-cellular transitions you experience daily without noticing. The tradeoff is complexity: schedulers must decide which path gets which data, and reordering at the receiver adds latency.',
+				transition: '[[mptcp|MPTCP]] showed the power of using multiple paths, but it still inherits TCP\'s fundamental constraints — the three-way handshake, the kernel implementation that is hard to update, and middlebox interference. A completely new transport protocol, designed with all these lessons in mind, would soon arrive...'
 			},
 			{
 				protocolId: 'quic',
 				title: 'QUIC: The Modern Synthesis',
 				description:
-					'QUIC represents the culmination of everything learned from TCP, SCTP, and MPTCP. Built on UDP to bypass ossified middleboxes, it implements its own reliability and congestion control in userspace (making it updatable without OS kernel changes). From SCTP it borrows independent streams without head-of-line blocking. It integrates TLS 1.3 directly into the handshake, achieving a secure connection in just one round trip (or zero for repeat visits). QUIC connections are identified by a variable-length Connection ID rather than the IP/port tuple, enabling connection migration — switch from WiFi to cellular and the connection survives. Google developed it, the IETF standardized it, and it now powers HTTP/3 for billions of users.'
+					'QUIC represents the culmination of everything learned from TCP, SCTP, and MPTCP. Built on UDP to bypass ossified middleboxes, it implements its own reliability and congestion control in userspace (making it updatable without OS kernel changes). From SCTP it borrows independent streams without head-of-line blocking. It integrates TLS 1.3 directly into the handshake, achieving a secure connection in just one round trip (or zero for repeat visits). QUIC connections are identified by a variable-length Connection ID rather than the IP/port tuple, enabling connection migration — switch from WiFi to cellular and the connection survives. Google developed it, the IETF standardized it, and it now powers [[http3|HTTP/3]] for billions of users.'
 			}
 		]
 	},
@@ -299,7 +299,7 @@ export const journeys: Journey[] = [
 				title: 'QUIC: The Synthesis',
 				description:
 					'QUIC merges transport and security into a single protocol. Its handshake combines the connection setup and TLS 1.3 key exchange into one round trip — the client sends its cryptographic parameters in the very first packet, and the server\'s first response is already encrypted. Independent streams within a single QUIC connection mean a lost packet only blocks the stream it belongs to, not all traffic. Connections are identified by a variable-length Connection ID rather than the IP/port 4-tuple, so when you switch from WiFi to cellular, the connection migrates seamlessly. And because QUIC runs in userspace, it can be iterated on monthly rather than waiting years for kernel updates.',
-				transition: 'With QUIC providing fast, encrypted, multiplexed transport, the final piece was adapting HTTP to take advantage of it. HTTP/3 is not just "HTTP/2 on QUIC" — it had to be redesigned because QUIC\'s streams replaced the stream multiplexing that HTTP/2 implemented over TCP...'
+				transition: 'With QUIC providing fast, encrypted, multiplexed transport, the final piece was adapting HTTP to take advantage of it. [[http3|HTTP/3]] is not just "HTTP/2 on QUIC" — it had to be redesigned because QUIC\'s streams replaced the stream multiplexing that HTTP/2 implemented over TCP...'
 			},
 			{
 				protocolId: 'http3',
@@ -322,14 +322,14 @@ export const journeys: Journey[] = [
 				protocolId: 'http1',
 				title: 'HTTP/1.1: The Foundation',
 				description:
-					'HTTP/1.1 (1997) established the web as we know it. It is entirely text-based — you can literally type "GET / HTTP/1.1" into a telnet session and get a web page back. The keep-alive header lets a single TCP connection serve multiple sequential requests, avoiding the cost of a new handshake for each resource. But requests are strictly serialized: the client must wait for each response before sending the next request. Browsers worked around this by opening 6-8 parallel TCP connections per domain, and developers invented domain sharding, CSS sprites, and resource inlining to reduce the request count. These were hacks born from protocol limitations, and the web was crying out for something better.',
+					'[[http1|HTTP/1.1]] (1997) established the web as we know it. It is entirely text-based — you can literally type "GET / [[http1|HTTP/1.1]]" into a telnet session and get a web page back. The keep-alive header lets a single TCP connection serve multiple sequential requests, avoiding the cost of a new handshake for each resource. But requests are strictly serialized: the client must wait for each response before sending the next request. Browsers worked around this by opening 6-8 parallel TCP connections per domain, and developers invented domain sharding, CSS sprites, and resource inlining to reduce the request count. These were hacks born from protocol limitations, and the web was crying out for something better.',
 				transition: 'By 2015, the average web page required over 100 resources (scripts, stylesheets, images, fonts). Opening 6 connections per domain and serializing requests within each one was an enormous waste of bandwidth and latency. The web needed a protocol that could handle many requests simultaneously over a single connection...'
 			},
 			{
 				protocolId: 'http2',
 				title: 'HTTP/2: Multiplexed Binary',
 				description:
-					'HTTP/2 (2015) was a ground-up redesign of how HTTP frames are encoded and transmitted, while keeping the familiar semantics (GET, POST, headers, status codes) unchanged. It switched from text to a compact binary framing layer, multiplexes unlimited concurrent streams over a single TCP connection, and compresses headers with HPACK (using a shared dynamic table that avoids re-sending identical headers like cookies and user-agents). Server push lets the server proactively send resources it knows the client will need (like the CSS for a page it just served). All those HTTP/1.1 performance hacks — domain sharding, spriting, inlining — became unnecessary and even counterproductive.',
+					'HTTP/2 (2015) was a ground-up redesign of how HTTP frames are encoded and transmitted, while keeping the familiar semantics (GET, POST, headers, status codes) unchanged. It switched from text to a compact binary framing layer, multiplexes unlimited concurrent streams over a single TCP connection, and compresses headers with HPACK (using a shared dynamic table that avoids re-sending identical headers like cookies and user-agents). Server push lets the server proactively send resources it knows the client will need (like the CSS for a page it just served). All those [[http1|HTTP/1.1]] performance hacks — domain sharding, spriting, inlining — became unnecessary and even counterproductive.',
 				transition: 'HTTP/2 eliminated the HTTP-layer head-of-line blocking, but it exposed a deeper problem: all those multiplexed streams shared a single TCP connection. When one TCP packet was lost, TCP\'s ordered delivery guarantee stalled ALL streams until the retransmission arrived. The protocol needed a new transport layer that would not punish unrelated streams for one stream\'s lost packet...'
 			},
 			{
@@ -351,15 +351,15 @@ export const journeys: Journey[] = [
 				protocolId: 'rest',
 				title: 'REST: Request-Response',
 				description:
-					'REST (Representational State Transfer) models your API as a collection of resources, each identified by a URL, manipulated through standard HTTP methods: GET to read, POST to create, PUT to replace, DELETE to remove. Its stateless design means every request carries all the context the server needs — no session state to manage, trivial to cache, easy to scale behind load balancers. REST dominates web APIs because of this simplicity. But it has a fundamental limitation: the client must ask for updates. If you want real-time stock prices or live chat messages, you are stuck polling — hammering the server with repeated requests, most of which return "nothing new," wasting bandwidth and battery life.',
+					'[[rest|REST]] (Representational State Transfer) models your API as a collection of resources, each identified by a URL, manipulated through standard HTTP methods: GET to read, POST to create, PUT to replace, DELETE to remove. Its stateless design means every request carries all the context the server needs — no session state to manage, trivial to cache, easy to scale behind load balancers. [[rest|REST]] dominates web APIs because of this simplicity. But it has a fundamental limitation: the client must ask for updates. If you want real-time stock prices or live chat messages, you are stuck polling — hammering the server with repeated requests, most of which return "nothing new," wasting bandwidth and battery life.',
 				transition: 'Polling is like repeatedly calling someone to ask "any news?" — wasteful for both parties. What if the server could simply call you back whenever something interesting happens? The web platform introduced a lightweight mechanism for exactly this kind of one-way push...'
 			},
 			{
 				protocolId: 'sse',
 				title: 'SSE: Server-Sent Events',
 				description:
-					'Server-Sent Events flip the REST model on its head: instead of the client polling, the server holds the connection open and pushes events whenever they occur. It works over plain HTTP (so it passes through proxies, load balancers, and CDNs without issues), uses a dead-simple text-based format (just "data:" lines), and the browser\'s EventSource API automatically reconnects if the connection drops — even resuming from the last received event ID. SSE is perfect for live dashboards, notification feeds, log tailing, and AI streaming responses (like ChatGPT\'s token-by-token output). The limitation is that it is one-directional: only the server can push. If the client needs to send messages too, it must use separate HTTP requests.',
-				transition: 'SSE handles server-to-client streaming elegantly, but many applications need truly bidirectional communication — chat applications where both users type simultaneously, multiplayer games with constant input and output, collaborative editors where every keystroke must be broadcast. These need a connection where either side can send at any moment...'
+					'Server-Sent Events flip the [[rest|REST]] model on its head: instead of the client polling, the server holds the connection open and pushes events whenever they occur. It works over plain HTTP (so it passes through proxies, load balancers, and CDNs without issues), uses a dead-simple text-based format (just "data:" lines), and the browser\'s EventSource API automatically reconnects if the connection drops — even resuming from the last received event ID. [[sse|SSE]] is perfect for live dashboards, notification feeds, log tailing, and AI streaming responses (like ChatGPT\'s token-by-token output). The limitation is that it is one-directional: only the server can push. If the client needs to send messages too, it must use separate HTTP requests.',
+				transition: '[[sse|SSE]] handles server-to-client streaming elegantly, but many applications need truly bidirectional communication — chat applications where both users type simultaneously, multiplayer games with constant input and output, collaborative editors where every keystroke must be broadcast. These need a connection where either side can send at any moment...'
 			},
 			{
 				protocolId: 'websockets',
@@ -372,7 +372,7 @@ export const journeys: Journey[] = [
 				protocolId: 'grpc',
 				title: 'gRPC: Typed Streaming RPC',
 				description:
-					'gRPC brings the rigor of typed interfaces to network communication. You define your service and message schemas in Protocol Buffers (.proto files), and the gRPC toolchain generates client and server code in dozens of languages — Go, Java, Python, Rust, C++, TypeScript, and more. Messages are serialized to a compact binary format (5-10x smaller than JSON), and the transport runs on HTTP/2 with full support for four streaming patterns: unary (single request/response), server streaming, client streaming, and bidirectional streaming. Built-in features include deadlines, cancellation, metadata propagation, and pluggable authentication. gRPC is the backbone of microservice communication at Google, Netflix, and most major cloud providers.'
+					'[[grpc|gRPC]] brings the rigor of typed interfaces to network communication. You define your service and message schemas in Protocol Buffers (.proto files), and the [[grpc|gRPC]] toolchain generates client and server code in dozens of languages — Go, Java, Python, Rust, C++, TypeScript, and more. Messages are serialized to a compact binary format (5-10x smaller than JSON), and the transport runs on HTTP/2 with full support for four streaming patterns: unary (single request/response), server streaming, client streaming, and bidirectional streaming. Built-in features include deadlines, cancellation, metadata propagation, and pluggable authentication. [[grpc|gRPC]] is the backbone of microservice communication at Google, Netflix, and most major cloud providers.'
 			}
 		]
 	},
@@ -389,21 +389,21 @@ export const journeys: Journey[] = [
 				protocolId: 'mqtt',
 				title: 'MQTT: Lightweight IoT',
 				description:
-					'MQTT was designed for the harshest conditions: sensors on oil rigs with satellite uplinks, medical devices with intermittent cellular, smart home gadgets on flaky WiFi. Its binary protocol is extraordinarily compact — a minimal publish message is just 2 bytes of overhead. Clients publish to hierarchical topics (like "home/kitchen/temperature") and subscribe with wildcards ("home/+/temperature" for all rooms). Three QoS levels let you choose between fire-and-forget (QoS 0), acknowledged delivery (QoS 1), and exactly-once delivery (QoS 2). The broker handles all routing: publishers and subscribers never need to know about each other, creating clean decoupling. A "Last Will" message is even sent automatically if a device disconnects unexpectedly.',
-				transition: 'MQTT excels at getting small messages from constrained devices to a broker, but enterprise systems need more sophisticated message routing. What if you need to route messages based on content, fan out to multiple queues, implement priority ordering, or guarantee transactional processing with dead-letter handling?'
+					'[[mqtt|MQTT]] was designed for the harshest conditions: sensors on oil rigs with satellite uplinks, medical devices with intermittent cellular, smart home gadgets on flaky WiFi. Its binary protocol is extraordinarily compact — a minimal publish message is just 2 bytes of overhead. Clients publish to hierarchical topics (like "home/kitchen/temperature") and subscribe with wildcards ("home/+/temperature" for all rooms). Three QoS levels let you choose between fire-and-forget (QoS 0), acknowledged delivery (QoS 1), and exactly-once delivery (QoS 2). The broker handles all routing: publishers and subscribers never need to know about each other, creating clean decoupling. A "Last Will" message is even sent automatically if a device disconnects unexpectedly.',
+				transition: '[[mqtt|MQTT]] excels at getting small messages from constrained devices to a broker, but enterprise systems need more sophisticated message routing. What if you need to route messages based on content, fan out to multiple queues, implement priority ordering, or guarantee transactional processing with dead-letter handling?'
 			},
 			{
 				protocolId: 'amqp',
 				title: 'AMQP: Enterprise Messaging',
 				description:
-					'AMQP (Advanced Message Queuing Protocol) is the industrial-strength messaging protocol for enterprise systems. It introduces a powerful routing model: producers send messages to exchanges, which route them to queues based on bindings. Different exchange types enable different patterns — direct exchanges for point-to-point, fanout for broadcasting to all queues, topic exchanges for pattern-based routing, and headers exchanges for attribute-based routing. Messages can be persistent (surviving broker restarts), acknowledged (consumers confirm processing), and rejected (dead-lettered for error handling). This architecture powers financial trading systems, healthcare data pipelines, and e-commerce order processing where losing a message could mean losing money or endangering lives.',
-				transition: 'AMQP handles complex enterprise routing brilliantly, but what happens when you need to process millions of events per second, replay historical data, and scale horizontally across dozens of servers? Enterprise message brokers were not designed for internet-scale event streaming...'
+					'[[amqp|AMQP]] (Advanced Message Queuing Protocol) is the industrial-strength messaging protocol for enterprise systems. It introduces a powerful routing model: producers send messages to exchanges, which route them to queues based on bindings. Different exchange types enable different patterns — direct exchanges for point-to-point, fanout for broadcasting to all queues, topic exchanges for pattern-based routing, and headers exchanges for attribute-based routing. Messages can be persistent (surviving broker restarts), acknowledged (consumers confirm processing), and rejected (dead-lettered for error handling). This architecture powers financial trading systems, healthcare data pipelines, and e-commerce order processing where losing a message could mean losing money or endangering lives.',
+				transition: '[[amqp|AMQP]] handles complex enterprise routing brilliantly, but what happens when you need to process millions of events per second, replay historical data, and scale horizontally across dozens of servers? Enterprise message brokers were not designed for internet-scale event streaming...'
 			},
 			{
 				protocolId: 'kafka',
 				title: 'Kafka: Event Streaming',
 				description:
-					'Kafka reimagined messaging as a distributed commit log — an append-only, immutable sequence of events that can be replayed from any point in time. Topics are split into partitions distributed across a cluster, with each partition replicated for fault tolerance. Consumer groups enable parallel processing: each consumer in a group reads from different partitions, providing horizontal scalability. Unlike traditional message queues that delete messages after consumption, Kafka retains events for a configurable period (days, weeks, or forever), enabling new consumers to reprocess the entire history. This makes it ideal for event sourcing, change data capture, stream processing pipelines, and building real-time data platforms. LinkedIn, where Kafka was born, processes over 7 trillion messages per day through it.'
+					'[[kafka|Kafka]] reimagined messaging as a distributed commit log — an append-only, immutable sequence of events that can be replayed from any point in time. Topics are split into partitions distributed across a cluster, with each partition replicated for fault tolerance. Consumer groups enable parallel processing: each consumer in a group reads from different partitions, providing horizontal scalability. Unlike traditional message queues that delete messages after consumption, [[kafka|Kafka]] retains events for a configurable period (days, weeks, or forever), enabling new consumers to reprocess the entire history. This makes it ideal for event sourcing, change data capture, stream processing pipelines, and building real-time data platforms. LinkedIn, where [[kafka|Kafka]] was born, processes over 7 trillion messages per day through it.'
 			}
 		]
 	},
@@ -419,15 +419,15 @@ export const journeys: Journey[] = [
 				protocolId: 'coap',
 				title: 'CoAP: Constrained Devices',
 				description:
-					'CoAP (Constrained Application Protocol) brings REST-like semantics to devices too small and power-limited for HTTP. Running over UDP with compact binary headers (just 4 bytes fixed), it supports GET, PUT, POST, and DELETE on resources identified by URIs — familiar patterns for web developers, but sized for microcontrollers with 10KB of RAM. Its "Observe" option lets a client register for notifications when a resource changes (like a temperature sensor), avoiding the cost of repeated polling. CoAP also supports multicast for discovering devices on a network and DTLS for encrypted communication. Think of it as HTTP shrunk down for a world where every byte and milliwatt counts.',
+					'[[coap|CoAP]] (Constrained Application Protocol) brings REST-like semantics to devices too small and power-limited for HTTP. Running over UDP with compact binary headers (just 4 bytes fixed), it supports GET, PUT, POST, and DELETE on resources identified by URIs — familiar patterns for web developers, but sized for microcontrollers with 10KB of RAM. Its "Observe" option lets a client register for notifications when a resource changes (like a temperature sensor), avoiding the cost of repeated polling. [[coap|CoAP]] also supports multicast for discovering devices on a network and DTLS for encrypted communication. Think of it as HTTP shrunk down for a world where every byte and milliwatt counts.',
 				transition:
-					'CoAP works brilliantly for individual device communication, but a real IoT deployment might have thousands of sensors, each publishing readings every few seconds. Something needs to aggregate all these data streams, handle intermittent connectivity, and route data to the right consumers without every device needing to know about every consumer...'
+					'[[coap|CoAP]] works brilliantly for individual device communication, but a real IoT deployment might have thousands of sensors, each publishing readings every few seconds. Something needs to aggregate all these data streams, handle intermittent connectivity, and route data to the right consumers without every device needing to know about every consumer...'
 			},
 			{
 				protocolId: 'mqtt',
 				title: 'MQTT: Device Gateway',
 				description:
-					'MQTT acts as the central nervous system of an IoT deployment. A gateway device translates CoAP messages from local sensors into MQTT publishes, sending them to a broker that manages all subscriptions and routing. Topics create a natural hierarchy for organizing device data: "factory/floor-2/press-7/temperature" makes it intuitive to subscribe to all sensors on floor 2 ("factory/floor-2/#") or all temperature readings ("factory/+/+/temperature"). QoS levels ensure data reaches its destination even over unreliable cellular or satellite links. The broker also tracks which devices are online via keep-alive pings and publishes Last Will messages when a device disappears, enabling immediate alerting on device failures.',
+					'[[mqtt|MQTT]] acts as the central nervous system of an IoT deployment. A gateway device translates CoAP messages from local sensors into MQTT publishes, sending them to a broker that manages all subscriptions and routing. Topics create a natural hierarchy for organizing device data: "factory/floor-2/press-7/temperature" makes it intuitive to subscribe to all sensors on floor 2 ("factory/floor-2/#") or all temperature readings ("factory/+/+/temperature"). QoS levels ensure data reaches its destination even over unreliable cellular or satellite links. The broker also tracks which devices are online via keep-alive pings and publishes Last Will messages when a device disappears, enabling immediate alerting on device failures.',
 				transition:
 					'MQTT reliably moves IoT data from the edge to central systems, but enterprise applications — web dashboards, analytics platforms, legacy systems — often cannot speak MQTT directly. You need a protocol that bridges the gap, one that is simple enough for a web developer to integrate in an afternoon...'
 			},
@@ -435,14 +435,14 @@ export const journeys: Journey[] = [
 				protocolId: 'stomp',
 				title: 'STOMP: Simple Integration',
 				description:
-					'STOMP (Simple Text Oriented Messaging Protocol) is the HTTP of messaging — entirely text-based and human-readable, making it trivial to debug with basic tools. Commands like CONNECT, SUBSCRIBE, SEND, and ACK are self-explanatory, and any developer who understands HTTP can integrate STOMP in minutes. Web applications commonly use STOMP over WebSockets, enabling browser-based dashboards to subscribe to IoT data feeds in real time. Message brokers like RabbitMQ and ActiveMQ support STOMP alongside their native protocols, making it the easiest on-ramp for connecting web frontends to messaging infrastructure. The tradeoff is efficiency: text headers and no compression mean more overhead than binary protocols.',
+					'[[stomp|STOMP]] (Simple Text Oriented Messaging Protocol) is the HTTP of messaging — entirely text-based and human-readable, making it trivial to debug with basic tools. Commands like CONNECT, SUBSCRIBE, SEND, and ACK are self-explanatory, and any developer who understands HTTP can integrate [[stomp|STOMP]] in minutes. Web applications commonly use [[stomp|STOMP]] over WebSockets, enabling browser-based dashboards to subscribe to IoT data feeds in real time. Message brokers like RabbitMQ and ActiveMQ support STOMP alongside their native protocols, making it the easiest on-ramp for connecting web frontends to messaging infrastructure. The tradeoff is efficiency: text headers and no compression mean more overhead than binary protocols.',
 				transition: 'STOMP makes integration easy, but enterprise data processing demands more — content-based routing that sends alerts only to the right team, transactional message handling that guarantees no order is processed twice, dead-letter queues for failed processing, and priority ordering for time-sensitive data. These requirements call for a full-featured enterprise messaging protocol...'
 			},
 			{
 				protocolId: 'amqp',
 				title: 'AMQP: Enterprise Processing',
 				description:
-					'At the enterprise tier, AMQP provides the routing sophistication and reliability guarantees that business-critical systems demand. IoT data flowing in from MQTT can be routed by AMQP exchanges based on content, priority, or routing keys — temperature alerts go to the monitoring queue, maintenance data goes to the ERP integration queue, and raw telemetry goes to the data lake ingestion queue. Transactional publishing ensures that a batch of related messages either all arrive or none do. Consumer acknowledgments guarantee that no message is lost if a processing node crashes mid-operation — the broker simply redelivers to another consumer. This reliability pipeline transforms raw sensor data into trustworthy business intelligence.'
+					'At the enterprise tier, [[amqp|AMQP]] provides the routing sophistication and reliability guarantees that business-critical systems demand. IoT data flowing in from MQTT can be routed by AMQP exchanges based on content, priority, or routing keys — temperature alerts go to the monitoring queue, maintenance data goes to the ERP integration queue, and raw telemetry goes to the data lake ingestion queue. Transactional publishing ensures that a batch of related messages either all arrive or none do. Consumer acknowledgments guarantee that no message is lost if a processing node crashes mid-operation — the broker simply redelivers to another consumer. This reliability pipeline transforms raw sensor data into trustworthy business intelligence.'
 			}
 		]
 	},
@@ -460,15 +460,15 @@ export const journeys: Journey[] = [
 				protocolId: 'sdp',
 				title: 'SDP: Session Description',
 				description:
-					'Before a single frame of video can flow, both peers need to agree on the ground rules: which codecs they support (VP8, H.264, Opus), what transport addresses to use, which media types to exchange (audio, video, or both), and their bandwidth capabilities. SDP (Session Description Protocol) is a structured text format that encodes all of this into an "offer" from one peer and an "answer" from the other. This offer/answer exchange happens through a signaling server (which could use WebSockets, HTTP, or even copy-pasting text), and it is the critical negotiation step that makes two arbitrary devices mutually intelligible. Without SDP, neither peer would know how to decode the other\'s media.',
+					'Before a single frame of video can flow, both peers need to agree on the ground rules: which codecs they support (VP8, H.264, Opus), what transport addresses to use, which media types to exchange (audio, video, or both), and their bandwidth capabilities. [[sdp|SDP]] (Session Description Protocol) is a structured text format that encodes all of this into an "offer" from one peer and an "answer" from the other. This offer/answer exchange happens through a signaling server (which could use WebSockets, HTTP, or even copy-pasting text), and it is the critical negotiation step that makes two arbitrary devices mutually intelligible. Without [[sdp|SDP]], neither peer would know how to decode the other\'s media.',
 				transition:
-					'Both peers have agreed on codecs, formats, and transport parameters through SDP negotiation. The signaling is complete — but now the actual audio and video data needs a way to travel between them in real time, with timestamps for synchronization and sequence numbers for detecting loss...'
+					'Both peers have agreed on codecs, formats, and transport parameters through [[sdp|SDP]] negotiation. The signaling is complete — but now the actual audio and video data needs a way to travel between them in real time, with timestamps for synchronization and sequence numbers for detecting loss...'
 			},
 			{
 				protocolId: 'rtp',
 				title: 'RTP: Media Transport',
 				description:
-					'RTP (Real-time Transport Protocol) is the workhorse that carries the actual audio and video data. Each RTP packet includes a timestamp (essential for playing audio and video at the right moment, even if packets arrive out of order), a sequence number (for detecting lost packets), a payload type identifier (so the receiver knows which codec to use for decoding), and synchronization source identifiers (for distinguishing multiple media streams). RTP runs over UDP because real-time media cannot afford TCP\'s retransmission delays — a 200ms-old video frame is useless, so it is better to skip it and show the next one. Its companion protocol RTCP provides feedback: receiver reports on packet loss and jitter help the sender adapt its bitrate in real time.',
+					'[[rtp|RTP]] (Real-time Transport Protocol) is the workhorse that carries the actual audio and video data. Each [[rtp|RTP]] packet includes a timestamp (essential for playing audio and video at the right moment, even if packets arrive out of order), a sequence number (for detecting lost packets), a payload type identifier (so the receiver knows which codec to use for decoding), and synchronization source identifiers (for distinguishing multiple media streams). [[rtp|RTP]] runs over UDP because real-time media cannot afford TCP\'s retransmission delays — a 200ms-old video frame is useless, so it is better to skip it and show the next one. Its companion protocol RTCP provides feedback: receiver reports on packet loss and jitter help the sender adapt its bitrate in real time.',
 				transition:
 					'RTP handles media transport beautifully, but building a video call in a web browser involves much more than just sending packets. Peers are usually behind NATs and firewalls, all media must be encrypted, and browsers need a JavaScript API to access cameras and microphones. A comprehensive framework is needed to tie everything together...'
 			},
@@ -476,7 +476,7 @@ export const journeys: Journey[] = [
 				protocolId: 'webrtc',
 				title: 'WebRTC: The Full Stack',
 				description:
-					'WebRTC is the browser-native framework that makes peer-to-peer video calls possible without plugins. It orchestrates an entire stack: ICE (Interactive Connectivity Establishment) punches through NATs by testing multiple connection candidates (local addresses, server-reflexive via STUN, relay via TURN) and selecting the best path. DTLS (Datagram TLS) encrypts the connection, and SRTP (Secure RTP) encrypts the media streams. The getUserMedia API accesses cameras and microphones, RTCPeerConnection manages the connection lifecycle, and RTCDataChannel provides a reliable or unreliable channel for arbitrary data (file sharing, game state, text chat) alongside the media. All of this happens peer-to-peer — video data flows directly between browsers without passing through a server, reducing latency and server costs.'
+					'[[webrtc|WebRTC]] is the browser-native framework that makes peer-to-peer video calls possible without plugins. It orchestrates an entire stack: ICE (Interactive Connectivity Establishment) punches through NATs by testing multiple connection candidates (local addresses, server-reflexive via STUN, relay via TURN) and selecting the best path. DTLS (Datagram TLS) encrypts the connection, and SRTP (Secure RTP) encrypts the media streams. The getUserMedia API accesses cameras and microphones, RTCPeerConnection manages the connection lifecycle, and RTCDataChannel provides a reliable or unreliable channel for arbitrary data (file sharing, game state, text chat) alongside the media. All of this happens peer-to-peer — video data flows directly between browsers without passing through a server, reducing latency and server costs.'
 			}
 		]
 	},
@@ -492,7 +492,7 @@ export const journeys: Journey[] = [
 				protocolId: 'rtmp',
 				title: 'RTMP: Legacy Streaming',
 				description:
-					'RTMP (Real-Time Messaging Protocol) was developed by Macromedia for Flash Player and became the dominant live streaming protocol for over a decade. It maintains a persistent TCP connection and multiplexes audio, video, and data messages into interleaved chunks, achieving low latency (1-3 seconds) for live broadcasts. RTMP powered early YouTube live, Twitch, and Facebook Live. However, it required specialized streaming servers (like Adobe Media Server or Wowza), could not pass through many firewalls and proxies, and while Flash Player\'s end-of-life in 2020 ended RTMP\'s use for playback, the protocol survives as a widely-used ingest format — streamers still use RTMP to send video from OBS to platforms like Twitch, which then transcode and redistribute via modern protocols.',
+					'[[rtmp|RTMP]] (Real-Time Messaging Protocol) was developed by Macromedia for Flash Player and became the dominant live streaming protocol for over a decade. It maintains a persistent TCP connection and multiplexes audio, video, and data messages into interleaved chunks, achieving low latency (1-3 seconds) for live broadcasts. [[rtmp|RTMP]] powered early YouTube live, Twitch, and Facebook Live. However, it required specialized streaming servers (like Adobe Media Server or Wowza), could not pass through many firewalls and proxies, and while Flash Player\'s end-of-life in 2020 ended [[rtmp|RTMP]]\'s use for playback, the protocol survives as a widely-used ingest format — streamers still use RTMP to send video from OBS to platforms like Twitch, which then transcode and redistribute via modern protocols.',
 				transition:
 					'RTMP\'s dependence on Flash and specialized servers was its downfall. The insight that changed everything was simple: what if you broke video into small files and served them over plain HTTP? Suddenly any web server, any CDN, and any HTTP cache in the world could deliver video without special software...'
 			},
@@ -500,15 +500,15 @@ export const journeys: Journey[] = [
 				protocolId: 'hls',
 				title: 'HLS: Adaptive HTTP',
 				description:
-					'HLS (HTTP Live Streaming), created by Apple in 2009, broke video streaming wide open. The encoder splits the video into small segments (typically 6-10 seconds each), encodes each segment at multiple quality levels (360p, 720p, 1080p, 4K), and generates a playlist file (.m3u8) listing the available segments and qualities. The player downloads the playlist, starts fetching segments, and continuously monitors download speed — if bandwidth drops, it seamlessly switches to a lower quality; when bandwidth recovers, it ramps back up. Because everything is plain HTTP, it works through any CDN, proxy, or cache, making it massively scalable. HLS is natively supported in Safari and iOS, and nearly every streaming platform uses it as their primary delivery format.',
+					'[[hls|HLS]] (HTTP Live Streaming), created by Apple in 2009, broke video streaming wide open. The encoder splits the video into small segments (typically 6-10 seconds each), encodes each segment at multiple quality levels (360p, 720p, 1080p, 4K), and generates a playlist file (.m3u8) listing the available segments and qualities. The player downloads the playlist, starts fetching segments, and continuously monitors download speed — if bandwidth drops, it seamlessly switches to a lower quality; when bandwidth recovers, it ramps back up. Because everything is plain HTTP, it works through any CDN, proxy, or cache, making it massively scalable. [[hls|HLS]] is natively supported in Safari and iOS, and nearly every streaming platform uses it as their primary delivery format.',
 				transition:
-					'HLS transformed video delivery but is an Apple-developed technology. The internet standards community wanted an open, vendor-neutral alternative that could offer the same adaptive streaming benefits while supporting a wider range of codecs and DRM systems without patent encumbrances...'
+					'[[hls|HLS]] transformed video delivery but is an Apple-developed technology. The internet standards community wanted an open, vendor-neutral alternative that could offer the same adaptive streaming benefits while supporting a wider range of codecs and DRM systems without patent encumbrances...'
 			},
 			{
 				protocolId: 'dash',
 				title: 'DASH: Open Standard',
 				description:
-					'DASH (Dynamic Adaptive Streaming over HTTP) is the ISO-standardized answer to HLS. Instead of an Apple-specific playlist format, DASH uses an XML-based Media Presentation Description (MPD) that describes available representations — each with its codec, resolution, bitrate, and segment URLs. Being codec-agnostic, DASH supports H.264, H.265/HEVC, VP9, AV1, and any future codec without protocol changes. It offers more flexible segment addressing (template-based URLs, byte-range requests, timeline-based indexing) and supports features like multi-period presentations (inserting ads as separate periods) and content protection descriptors for DRM integration. Netflix, YouTube, and most major streaming services use DASH for non-Apple devices, often running both DASH and HLS in parallel to cover the entire device ecosystem.'
+					'[[dash|DASH]] (Dynamic Adaptive Streaming over HTTP) is the ISO-standardized answer to HLS. Instead of an Apple-specific playlist format, [[dash|DASH]] uses an XML-based Media Presentation Description (MPD) that describes available representations — each with its codec, resolution, bitrate, and segment URLs. Being codec-agnostic, [[dash|DASH]] supports H.264, H.265/HEVC, VP9, AV1, and any future codec without protocol changes. It offers more flexible segment addressing (template-based URLs, byte-range requests, timeline-based indexing) and supports features like multi-period presentations (inserting ads as separate periods) and content protection descriptors for DRM integration. Netflix, YouTube, and most major streaming services use DASH for non-Apple devices, often running both DASH and HLS in parallel to cover the entire device ecosystem.'
 			}
 		]
 	},
@@ -558,7 +558,7 @@ export const journeys: Journey[] = [
 				protocolId: 'dhcp',
 				title: 'DHCP: Get an Address',
 				description:
-					'When your device joins a network, it literally has no identity — no IP address, no subnet mask, no idea where the gateway is. DHCP (Dynamic Host Configuration Protocol) solves this bootstrap problem through a four-step dance called DORA: your device broadcasts a Discover message to the entire LAN (since it cannot address anyone specifically), a DHCP server responds with an Offer containing an available IP, your device formally Requests that address, and the server sends an Acknowledgment confirming the lease. Along with the IP, DHCP provides the subnet mask, default gateway, DNS server addresses, lease duration, and often additional options like NTP servers and domain search suffixes. Without DHCP, every device on every network would need manual IP configuration — a nightmare at any scale.',
+					'When your device joins a network, it literally has no identity — no IP address, no subnet mask, no idea where the gateway is. [[dhcp|DHCP]] (Dynamic Host Configuration Protocol) solves this bootstrap problem through a four-step dance called DORA: your device broadcasts a Discover message to the entire LAN (since it cannot address anyone specifically), a [[dhcp|DHCP]] server responds with an Offer containing an available IP, your device formally Requests that address, and the server sends an Acknowledgment confirming the lease. Along with the IP, DHCP provides the subnet mask, default gateway, DNS server addresses, lease duration, and often additional options like [[ntp|NTP]] servers and domain search suffixes. Without DHCP, every device on every network would need manual IP configuration — a nightmare at any scale.',
 				transition:
 					'Your device has an IP address and can send packets, but its internal clock might be hours or even years off — set to a factory default or drifted during a long power-off period. This matters more than you might think: TLS certificates have validity windows, log timestamps must be accurate for debugging, and Kerberos authentication fails with more than 5 minutes of clock skew...'
 			},
@@ -566,7 +566,7 @@ export const journeys: Journey[] = [
 				protocolId: 'ntp',
 				title: 'NTP: Sync the Clock',
 				description:
-					'NTP (Network Time Protocol) synchronizes your device\'s clock with atomic time references accurate to billionths of a second. It uses a clever algorithm that sends multiple time-stamped packets to upstream servers, measures the round-trip delay, and calculates the offset between your clock and the server\'s clock — compensating for the asymmetric network latency. NTP organizes time sources in a stratum hierarchy: stratum 0 is the atomic clock itself, stratum 1 servers connect directly to those clocks, stratum 2 servers sync from stratum 1, and so on. Accurate time is not just a convenience — TLS certificates that appear expired due to clock drift will be rejected, distributed databases use timestamps for conflict resolution, and forensic logging is useless if you cannot trust when events occurred.',
+					'[[ntp|NTP]] (Network Time Protocol) synchronizes your device\'s clock with atomic time references accurate to billionths of a second. It uses a clever algorithm that sends multiple time-stamped packets to upstream servers, measures the round-trip delay, and calculates the offset between your clock and the server\'s clock — compensating for the asymmetric network latency. [[ntp|NTP]] organizes time sources in a stratum hierarchy: stratum 0 is the atomic clock itself, stratum 1 servers connect directly to those clocks, stratum 2 servers sync from stratum 1, and so on. Accurate time is not just a convenience — TLS certificates that appear expired due to clock drift will be rejected, distributed databases use timestamps for conflict resolution, and forensic logging is useless if you cannot trust when events occurred.',
 				transition:
 					'Your device now has a network address (DHCP) and an accurate clock (NTP). The infrastructure is ready. But when you type "gmail.com" into a browser, the network needs to translate that human-friendly name into a machine-routable IP address...'
 			},
@@ -582,7 +582,7 @@ export const journeys: Journey[] = [
 				protocolId: 'smtp',
 				title: 'SMTP: First Message',
 				description:
-					'With the full network stack operational, your email client can connect to the mail server and send your first message. SMTP (Simple Mail Transfer Protocol) uses a text-based command dialogue that has barely changed since 1982: EHLO introduces your client, AUTH LOGIN authenticates you, MAIL FROM and RCPT TO specify the envelope addresses, and DATA begins the message body (headers, MIME parts, attachments). Modern SMTP uses STARTTLS to upgrade the connection to encrypted, and SPF/DKIM/DMARC records in DNS authenticate the sender to prevent spoofing. This first successful email is proof that every layer of the network stack — from physical Ethernet to application protocols — is functioning correctly.'
+					'With the full network stack operational, your email client can connect to the mail server and send your first message. [[smtp|SMTP]] (Simple Mail Transfer Protocol) uses a text-based command dialogue that has barely changed since 1982: EHLO introduces your client, AUTH LOGIN authenticates you, MAIL FROM and RCPT TO specify the envelope addresses, and DATA begins the message body (headers, MIME parts, attachments). Modern [[smtp|SMTP]] uses STARTTLS to upgrade the connection to encrypted, and SPF/DKIM/DMARC records in DNS authenticate the sender to prevent spoofing. This first successful email is proof that every layer of the network stack — from physical Ethernet to application protocols — is functioning correctly.'
 			}
 		]
 	},
@@ -590,7 +590,7 @@ export const journeys: Journey[] = [
 		id: 'api-design-patterns',
 		title: 'API Design Patterns',
 		description:
-			'Compare three major approaches to building APIs — from resource-oriented REST to flexible GraphQL to high-performance gRPC.',
+			'Compare three major approaches to building APIs — from resource-oriented REST to flexible [[graphql|GraphQL]] to high-performance gRPC.',
 		color: '#818CF8',
 		scope: 'web-api',
 		steps: [
@@ -605,8 +605,8 @@ export const journeys: Journey[] = [
 				protocolId: 'graphql',
 				title: 'GraphQL: Ask for Exactly What You Need',
 				description:
-					'GraphQL lets clients send a query describing exactly the shape of the data they want, and the server returns only that — no more, no less. A single query can traverse relationships (user → posts → comments) that would require multiple REST endpoints. The schema is typed and introspectable, making APIs self-documenting. Mutations handle writes, and subscriptions push real-time updates over WebSockets. The trade-off: the server must resolve arbitrary query shapes, making caching harder (no URL-based caching), rate-limiting more complex (a single query can be expensive), and N+1 database problems common without careful DataLoader usage.',
-				transition: 'GraphQL gives clients flexibility, but its text-based JSON format adds overhead. For internal microservice communication where both sides are controlled by the same team, is there an even more efficient option?'
+					'[[graphql|GraphQL]] lets clients send a query describing exactly the shape of the data they want, and the server returns only that — no more, no less. A single query can traverse relationships (user → posts → comments) that would require multiple REST endpoints. The schema is typed and introspectable, making APIs self-documenting. Mutations handle writes, and subscriptions push real-time updates over WebSockets. The trade-off: the server must resolve arbitrary query shapes, making caching harder (no URL-based caching), rate-limiting more complex (a single query can be expensive), and N+1 database problems common without careful DataLoader usage.',
+				transition: '[[graphql|GraphQL]] gives clients flexibility, but its text-based JSON format adds overhead. For internal microservice communication where both sides are controlled by the same team, is there an even more efficient option?'
 			},
 			{
 				protocolId: 'grpc',
@@ -620,7 +620,7 @@ export const journeys: Journey[] = [
 		id: 'auth-journey',
 		title: 'How Authentication Works',
 		description:
-			'Understand the protocols that prove identity and protect communication — from OAuth tokens to TLS certificates to SSH keys.',
+			'Understand the protocols that prove identity and protect communication — from [[oauth2|OAuth]] tokens to TLS certificates to SSH keys.',
 		color: '#F59E0B',
 		scope: 'global',
 		steps: [
@@ -628,7 +628,7 @@ export const journeys: Journey[] = [
 				protocolId: 'oauth2',
 				title: 'OAuth 2.0: Delegated Authorization',
 				description:
-					'OAuth 2.0 solves a fundamental problem: how can a third-party app access your data without knowing your password? Instead of sharing credentials, OAuth uses an authorization server as an intermediary. You authenticate directly with the provider (Google, GitHub), approve specific permissions (scopes), and the provider issues a time-limited access token to the app. The Authorization Code flow with PKCE is the standard for web and mobile apps — it uses a code verifier to prevent interception attacks. Refresh tokens allow silent re-authentication without user interaction. OAuth is authorization (what you can access), not authentication (who you are) — OpenID Connect adds the identity layer on top.',
+					'[[oauth2|OAuth]] 2.0 solves a fundamental problem: how can a third-party app access your data without knowing your password? Instead of sharing credentials, [[oauth2|OAuth]] uses an authorization server as an intermediary. You authenticate directly with the provider (Google, GitHub), approve specific permissions (scopes), and the provider issues a time-limited access token to the app. The Authorization Code flow with PKCE is the standard for web and mobile apps — it uses a code verifier to prevent interception attacks. Refresh tokens allow silent re-authentication without user interaction. OAuth is authorization (what you can access), not authentication (who you are) — OpenID Connect adds the identity layer on top.',
 				transition: 'OAuth tokens travel over the network as Bearer tokens in HTTP headers. But how are those HTTP connections themselves protected from eavesdroppers? The answer is the encryption layer that secures virtually all internet traffic...'
 			},
 			{
@@ -710,7 +710,7 @@ export const journeys: Journey[] = [
 		id: 'email-journey',
 		title: 'Life of an Email',
 		description:
-			'Follow an email from composition to reading — across DNS, SMTP, and IMAP.',
+			'Follow an email from composition to reading — across DNS, [[smtp|SMTP]], and [[imap|IMAP]].',
 		color: '#2DD4BF',
 		scope: 'utilities',
 		steps: [
@@ -734,7 +734,7 @@ export const journeys: Journey[] = [
 				protocolId: 'imap',
 				title: 'IMAP: Read the Email',
 				description:
-					'IMAP (Internet Message Access Protocol) is what makes modern multi-device email possible. Unlike its predecessor POP3 (which downloads messages and optionally deletes them from the server), IMAP keeps all messages on the server and synchronizes state across every connected client. When you open your email app, IMAP fetches just the headers first (sender, subject, date) for a fast initial display, then downloads full message bodies on demand. Folders, flags (read, starred, deleted), and search happen server-side, so changes made on your phone instantly appear on your laptop. IMAP IDLE enables push notifications — the server immediately alerts your client when a new message arrives, eliminating the need for periodic polling. This server-centric model is why Gmail, Outlook, and every modern email service can provide a consistent experience across web, desktop, and mobile.'
+					'[[imap|IMAP]] (Internet Message Access Protocol) is what makes modern multi-device email possible. Unlike its predecessor POP3 (which downloads messages and optionally deletes them from the server), [[imap|IMAP]] keeps all messages on the server and synchronizes state across every connected client. When you open your email app, IMAP fetches just the headers first (sender, subject, date) for a fast initial display, then downloads full message bodies on demand. Folders, flags (read, starred, deleted), and search happen server-side, so changes made on your phone instantly appear on your laptop. IMAP IDLE enables push notifications — the server immediately alerts your client when a new message arrives, eliminating the need for periodic polling. This server-centric model is why Gmail, Outlook, and every modern email service can provide a consistent experience across web, desktop, and mobile.'
 			}
 		]
 	},
@@ -745,7 +745,7 @@ export const journeys: Journey[] = [
 		id: 'ai-agent-communication',
 		title: 'How AI Agents Work Together',
 		description:
-			'Follow an AI agent from tool discovery to multi-agent collaboration — through JSON-RPC, MCP, and A2A.',
+			'Follow an AI agent from tool discovery to multi-agent collaboration — through [[json-rpc|JSON-RPC]], [[mcp|MCP]], and [[a2a|A2A]].',
 		color: '#00D4FF',
 		scope: 'web-api',
 		steps: [
@@ -760,7 +760,7 @@ export const journeys: Journey[] = [
 				protocolId: 'mcp',
 				title: 'MCP: Connecting Agents to Tools',
 				description:
-					'The Model Context Protocol solves the N×M integration problem. Before [[mcp|MCP]], connecting Claude to your database required custom code — different from connecting it to GitHub, different from Slack. [[mcp|MCP]] provides a universal interface: an MCP server exposes tools (actions the LLM can invoke), resources (data it can read), and prompts (templates it can use). The three-step initialization handshake negotiates capabilities, then the AI host discovers available tools via tools/list and invokes them via tools/call. A single host can connect to dozens of MCP servers simultaneously — one for your database, one for git, one for Slack — all through the same protocol.',
+					'The Model Context Protocol solves the N×M integration problem. Before [[mcp|MCP]], connecting Claude to your database required custom code — different from connecting it to GitHub, different from Slack. [[mcp|MCP]] provides a universal interface: an [[mcp|MCP]] server exposes tools (actions the LLM can invoke), resources (data it can read), and prompts (templates it can use). The three-step initialization handshake negotiates capabilities, then the AI host discovers available tools via tools/list and invokes them via tools/call. A single host can connect to dozens of [[mcp|MCP]] servers simultaneously — one for your database, one for git, one for Slack — all through the same protocol.',
 				transition: '[[mcp|MCP]] beautifully connects a single agent to its tools. But what happens when the task requires multiple specialized agents — a travel agent, a research agent, a booking agent — each with their own tools and expertise? A different protocol handles that layer of coordination...'
 			},
 			{

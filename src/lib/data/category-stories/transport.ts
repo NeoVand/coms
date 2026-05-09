@@ -47,7 +47,7 @@ export const transportStory: CategoryStory = {
 					title: 'RFC Editor & Protocol Architect',
 					org: 'USC Information Sciences Institute',
 					contribution:
-						'Wrote the definitive RFC specifications for both TCP ([[rfc:793|RFC 793]]) and UDP ([[rfc:768|RFC 768]]), and served as the RFC Editor for nearly three decades, shaping the standards process that governs the internet.',
+						'Wrote the definitive RFC specifications for both [[tcp|TCP]] ([[rfc:793|RFC 793]]) and [[udp|UDP]] ([[rfc:768|RFC 768]]), and served as the RFC Editor for nearly three decades, shaping the standards process that governs the internet.',
 					imagePath:
 						'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Jon_Postel_sitting_in_office_%28cropped%29.jpg/330px-Jon_Postel_sitting_in_office_%28cropped%29.jpg'
 				},
@@ -57,7 +57,7 @@ export const transportStory: CategoryStory = {
 					title: 'Network Pioneer',
 					org: 'USC Information Sciences Institute',
 					contribution:
-						'Advocated for splitting the monolithic TCP into separate transport and network layers, enabling diverse transport protocols to coexist. Also coined the terms "big-endian" and "little-endian" for byte ordering.',
+						'Advocated for splitting the monolithic [[tcp|TCP]] into separate transport and network layers, enabling diverse transport protocols to coexist. Also coined the terms "big-endian" and "little-endian" for byte ordering.',
 					imagePath:
 						'https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/2009.DannyCohen.jpg/120px-2009.DannyCohen.jpg'
 				}
@@ -76,7 +76,7 @@ export const transportStory: CategoryStory = {
 					year: 1978,
 					title: 'TCP/IP Split',
 					description:
-						'The monolithic TCP is split into TCP (reliable transport) and IP (network routing), creating the layered architecture we use today.'
+						'The monolithic [[tcp|TCP]] is split into TCP (reliable transport) and IP (network routing), creating the layered architecture we use today.'
 				},
 				{
 					year: 1980,
@@ -143,7 +143,7 @@ export const transportStory: CategoryStory = {
   B1 & B2 --> C
   C --> D`,
 			caption:
-				'The layered architecture born from splitting TCP \u2014 applications choose reliable (TCP) or fast (UDP) transport, both riding on IP.'
+				'The layered architecture born from splitting TCP \u2014 applications choose reliable (TCP) or fast ([[udp|UDP]]) transport, both riding on IP.'
 		},
 		{
 			type: 'timeline',
@@ -173,14 +173,14 @@ export const transportStory: CategoryStory = {
 					year: 2013,
 					title: 'QUIC Deployed in Chrome',
 					description:
-						'Google begins experimenting with QUIC in Chrome, carrying Google search and YouTube traffic. A real-world proving ground.',
+						'Google begins experimenting with [[quic|QUIC]] in Chrome, carrying Google search and YouTube traffic. A real-world proving ground.',
 					protocolId: 'quic'
 				},
 				{
 					year: 2021,
 					title: 'QUIC v1 Published \u2014 RFC 9000',
 					description:
-						'After years of IETF standardization, QUIC becomes an official internet standard, building {{encryption|encryption}} into the transport layer itself.',
+						'After years of IETF standardization, [[quic|QUIC]] becomes an official internet standard, building {{encryption|encryption}} into the transport layer itself.',
 					protocolId: 'quic'
 				}
 			]
@@ -195,7 +195,7 @@ export const transportStory: CategoryStory = {
 					title: 'QUIC Architect',
 					org: 'Google',
 					contribution:
-						"Designed QUIC to solve TCP's fundamental limitations for the modern web, introducing 0-RTT connection establishment and multiplexed streams without head-of-line blocking.",
+						"Designed [[quic|QUIC]] to solve TCP's fundamental limitations for the modern web, introducing 0-RTT connection establishment and multiplexed streams without head-of-line blocking.",
 					imagePath:
 						'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Jim_Roskind_2016.jpg/330px-Jim_Roskind_2016.jpg'
 				},
@@ -213,7 +213,7 @@ export const transportStory: CategoryStory = {
 					title: 'SCTP Architect',
 					org: 'Cisco',
 					contribution:
-						'Designed SCTP to provide reliable multi-stream transport, enabling telephony signaling networks to transition from legacy SS7 to IP-based infrastructure.'
+						'Designed [[sctp|SCTP]] to provide reliable multi-stream transport, enabling telephony signaling networks to transition from legacy SS7 to IP-based infrastructure.'
 				}
 			]
 		},
@@ -238,7 +238,7 @@ export const transportStory: CategoryStory = {
   end
   Traditional ~~~ Modern`,
 			caption:
-				'Middleboxes inspect TCP headers and block changes. QUIC hides inside UDP packets they already know how to ignore.'
+				'Middleboxes inspect TCP headers and block changes. QUIC hides inside [[udp|UDP]] packets they already know how to ignore.'
 		},
 		{
 			type: 'callout',

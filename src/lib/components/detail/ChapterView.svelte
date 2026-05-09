@@ -7,6 +7,8 @@
 	import { getFrontierById } from '$lib/data/frontier';
 	import { getRfcByNumber } from '$lib/data/rfcs';
 	import StoryNarrative from './category-story/StoryNarrative.svelte';
+	import RichText from './inline/RichText.svelte';
+	import { parseRichText } from '$lib/utils/text-parser';
 	import StoryCallout from './category-story/StoryCallout.svelte';
 	import StoryDiagram from './category-story/StoryDiagram.svelte';
 	import StoryImage from './category-story/StoryImage.svelte';
@@ -123,7 +125,9 @@
 				{chapter.title}
 			</h1>
 			{#if chapter.synopsis}
-				<p class="mt-2 text-sm leading-relaxed text-t-secondary">{chapter.synopsis}</p>
+				<p class="mt-2 text-sm leading-relaxed text-t-secondary">
+					<RichText segments={parseRichText(chapter.synopsis)} color={ACCENT} />
+				</p>
 			{/if}
 		</header>
 
@@ -222,7 +226,7 @@
 							class="text-base leading-relaxed font-medium text-t-primary italic"
 							style="color: {ACCENT};"
 						>
-							"{slot.text}"
+							"<RichText segments={parseRichText(slot.text)} color={ACCENT} />"
 						</blockquote>
 						{#if slot.attribution}
 							<div class="mt-1 text-[11px] tracking-wide text-t-muted">
@@ -255,7 +259,7 @@
 								<div
 									class="mt-0.5 line-clamp-2 text-[12px] leading-relaxed text-t-secondary"
 								>
-									{proto.oneLiner}
+									<RichText segments={parseRichText(proto.oneLiner)} color={ACCENT} />
 								</div>
 							</div>
 							<ArrowRight
@@ -312,7 +316,7 @@
 								</div>
 								<div class="text-sm font-semibold text-t-primary">{outage.title}</div>
 								<div class="mt-0.5 line-clamp-2 text-[12px] leading-relaxed text-t-secondary">
-									{outage.oneLiner}
+									<RichText segments={parseRichText(outage.oneLiner)} color={ACCENT} />
 								</div>
 							</div>
 							<ArrowRight
@@ -375,7 +379,7 @@
 								</div>
 								<div class="text-sm font-semibold text-t-primary">{fe.title}</div>
 								<div class="mt-0.5 line-clamp-2 text-[12px] leading-relaxed text-t-secondary">
-									{fe.oneLiner}
+									<RichText segments={parseRichText(fe.oneLiner)} color={ACCENT} />
 								</div>
 							</div>
 							<ArrowRight

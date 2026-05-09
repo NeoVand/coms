@@ -40,13 +40,15 @@ const SKIP_FILES = new Set([
 
 // Fields whose string-literal values get rendered through parseRichText.
 // Only matches inside one of these field assignments are wrapped.
+// Parser-aware fields. `synopsis` and `oneLiner` were promoted to this
+// list once their renderers (BookPartView, ChapterView, OutageView,
+// FrontierView) were updated to use the shared RichText component.
 const PARSED_FIELDS = new Set([
 	'text',
 	'description',
 	'caption',
 	'contribution',
 	'narrative',
-	'synopsis', // sometimes rendered rich, sometimes plain — we'll allow it; risk is acceptable
 	'definition',
 	'analogy',
 	'mistake',
@@ -55,8 +57,11 @@ const PARSED_FIELDS = new Set([
 	'resolution',
 	'lesson',
 	'overview',
-	'oneLiner', // SOMETIMES plain (we'll exclude on case-by-case)
-	'longDefinition'
+	'longDefinition',
+	'abstract',
+	'synopsis',
+	'oneLiner',
+	'transition'
 ]);
 
 // Fields we will explicitly skip even if a match lands on one of their lines.
