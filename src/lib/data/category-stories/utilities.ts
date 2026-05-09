@@ -183,7 +183,7 @@ export const utilitiesStory: CategoryStory = {
 					year: 1993,
 					title: 'DHCP Published — RFC 1531',
 					description:
-						'Dynamic Host Configuration Protocol automates network configuration. Plug in a device and it gets an IP address automatically.',
+						'Dynamic Host Configuration Protocol automates network configuration. Plug in a device and it gets an {{ip-address|IP address}} automatically.',
 					protocolId: 'dhcp'
 				},
 				{
@@ -230,7 +230,7 @@ export const utilitiesStory: CategoryStory = {
 					year: 2018,
 					title: 'TLS 1.3 Published — RFC 8446',
 					description:
-						'A major overhaul: faster handshakes, stronger security, removal of legacy cryptography. The modern encryption standard.',
+						'A major overhaul: faster {{handshake|handshakes}}, stronger security, removal of legacy cryptography. The modern {{encryption|encryption}} standard.',
 					protocolId: 'tls'
 				},
 				{

@@ -146,9 +146,9 @@ for await (const elem of parser) {
 	},
 	performance: {
 		latency:
-			'Session setup: seconds (TCP handshake + OPEN exchange). Convergence after change: seconds to minutes depending on network size and policy.',
+			'Session setup: seconds ([[tcp|TCP]] {{handshake|handshake}} + OPEN exchange). Convergence after change: seconds to minutes depending on network size and policy.',
 		throughput:
-			'Full internet routing table: ~1M IPv4 prefixes. Initial table transfer can take 30-60 seconds between peers.',
+			'Full internet {{routing-table|routing table}}: ~1M IPv4 prefixes. Initial table transfer can take 30-60 seconds between peers.',
 		overhead:
 			'19-byte minimum header (16-byte marker + 2-byte length + 1-byte type). UPDATE messages vary by prefix count and path attributes.'
 	},
@@ -215,7 +215,7 @@ for await (const elem of parser) {
 		},
 		{
 			title: 'BGP has no built-in authentication',
-			text: 'When AS A says "I can reach 8.8.8.0/24 in two hops," AS B has to choose whether to believe it. There is no cryptographic proof. This is why every BGP hijack of the last 25 years was possible — [[outage:as-7007-1997|AS 7007]], [[outage:pakistan-youtube-2008|Pakistan/YouTube]], and the same architecture choice that made [[outage:facebook-2021|Facebook 2021]] propagate globally in minutes.'
+			text: 'When AS A says "I can reach 8.8.8.0/24 in two hops," AS B has to choose whether to believe it. There is no cryptographic proof. This is why every {{bgp-hijack|BGP hijack}} of the last 25 years was possible — [[outage:as-7007-1997|AS 7007]], [[outage:pakistan-youtube-2008|Pakistan/YouTube]], and the same architecture choice that made [[outage:facebook-2021|Facebook 2021]] propagate globally in minutes.'
 		},
 		{
 			title: 'TCP keepalives keep BGP sessions alive',
