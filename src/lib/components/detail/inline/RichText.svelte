@@ -42,56 +42,62 @@
 	let { segments, color = '#38bdf8' }: Props = $props();
 </script>
 
-{#snippet render(segs: TextSegment[])}
-	{#each segs as seg, i (i)}
-		{#if seg.type === 'text'}{seg.value}{:else if seg.type === 'bold'}<strong
-				class="font-semibold text-t-primary">{seg.value}</strong
-			>{:else if seg.type === 'bold-group'}<strong class="font-semibold text-t-primary"
-				>{@render render(seg.segments)}</strong
-			>{:else if seg.type === 'italic'}<em class="italic">{seg.value}</em
+<!--
+	`bold-group` is the only segment type that can carry inner segments
+	(prose like `**The {{handshake|handshake}}**`). The parser
+	guarantees that the inner segments cannot themselves contain a
+	bold-group (nested `**…**` can't form because the regex requires
+	non-asterisk content), so we inline the inner case branches here
+	instead of recursing — both Svelte 5 self-referencing snippets and
+	`<svelte:self>` fail in slightly different ways for this layout.
+-->
+{#snippet leaf(seg: TextSegment, c: string)}
+	{#if seg.type === 'text'}{seg.value}{:else if seg.type === 'italic'}<em class="italic"
+			>{seg.value}</em
 		>{:else if seg.type === 'code'}<code
 			class="rounded bg-s-glass px-1 py-px font-mono text-[0.92em] text-t-primary">{seg.value}</code
 		>{:else if seg.type === 'protocol-link'}<ProtocolLink
 			protocolId={seg.protocolId}
 			label={seg.label}
-			{color}
+			color={c}
 		/>{:else if seg.type === 'bold-protocol-link'}<ProtocolLink
 			protocolId={seg.protocolId}
 			label={seg.label}
-			{color}
+			color={c}
 			bold
 		/>{:else if seg.type === 'concept'}<GlossaryLink
 			conceptId={seg.conceptId}
 			label={seg.label}
-			{color}
+			color={c}
 		/>{:else if seg.type === 'bold-concept'}<strong class="font-semibold"
-			><GlossaryLink conceptId={seg.conceptId} label={seg.label} {color} /></strong
-		>{:else if seg.type === 'rfc-ref'}<RfcRef
-			number={seg.number}
-			label={seg.label}
-			{color}
+			><GlossaryLink conceptId={seg.conceptId} label={seg.label} color={c} /></strong
+		>{:else if seg.type === 'rfc-ref'}<RfcRef number={seg.number} label={seg.label} color={c}
 		/>{:else if seg.type === 'pioneer-link'}<PioneerLink
 			pioneerId={seg.pioneerId}
 			label={seg.label}
-			{color}
+			color={c}
 		/>{:else if seg.type === 'outage-link'}<OutageLink
 			outageId={seg.outageId}
 			label={seg.label}
-			{color}
+			color={c}
 		/>{:else if seg.type === 'glossary-link'}<GlossaryLink
 			conceptId={seg.conceptId}
 			label={seg.label}
-			{color}
+			color={c}
 		/>{:else if seg.type === 'frontier-link'}<FrontierLink
 			frontierId={seg.frontierId}
 			label={seg.label}
-			{color}
+			color={c}
 		/>{:else if seg.type === 'chapter-link'}<ChapterLink
 			partId={seg.partId}
 			chapterId={seg.chapterId}
 			label={seg.label}
-			{color}
-		/>{/if}{/each}
+			color={c}
+		/>{/if}
 {/snippet}
 
-{@render render(segments)}
+{#each segments as seg, i (i)}
+	{#if seg.type === 'bold'}<strong class="font-semibold text-t-primary">{seg.value}</strong
+		>{:else if seg.type === 'bold-group'}<strong class="font-semibold text-t-primary"
+			>{#each seg.segments as inner, j (j)}{@render leaf(inner, color)}{/each}</strong
+		>{:else}{@render leaf(seg, color)}{/if}{/each}

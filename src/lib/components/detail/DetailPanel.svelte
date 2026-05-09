@@ -33,6 +33,8 @@
 	import { rfcs } from '$lib/data/rfcs';
 	import { pioneers } from '$lib/data/pioneers';
 	import { outages } from '$lib/data/outages';
+	import RichText from './inline/RichText.svelte';
+	import { parseRichText } from '$lib/utils/text-parser';
 	import { frontierEntries } from '$lib/data/frontier';
 	import {
 		navigateToPioneersIndex,
@@ -359,7 +361,10 @@
 										</div>
 										{#if part.description}
 											<p class="mt-0.5 line-clamp-2 text-[11px] leading-relaxed text-t-secondary">
-												{part.description}
+												<RichText
+													segments={parseRichText(part.description)}
+													color={PART_ACCENTS[part.id] ?? '#94a3b8'}
+												/>
 											</p>
 										{/if}
 									</div>
@@ -469,7 +474,12 @@
 											{cat.name}
 											<span class="ml-1 text-[10px] text-t-muted">{count} protocols</span>
 										</div>
-										<div class="mt-0.5 text-xs text-t-secondary">{cat.description}</div>
+										<div class="mt-0.5 text-xs text-t-secondary">
+											<RichText
+												segments={parseRichText(cat.description)}
+												color={dc(cat.color)}
+											/>
+										</div>
 									</div>
 								</button>
 							{/each}
@@ -550,7 +560,7 @@
 											class="mt-1.5 h-1 w-1 shrink-0 rounded-full"
 											style="background-color: {color}"
 										></span>
-										{useCase}
+										<span><RichText segments={parseRichText(useCase)} {color} /></span>
 									</li>
 								{/each}
 							</ul>

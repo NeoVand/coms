@@ -77,7 +77,7 @@
 		<!-- Description (multi-paragraph) -->
 		<section class="flex flex-col gap-3 text-sm leading-relaxed text-t-primary">
 			{#each entry.description.split('\n\n') as para, i (i)}
-				<p>{para}</p>
+				<p><RichText segments={parseRichText(para)} color={ACCENT} /></p>
 			{/each}
 		</section>
 
