@@ -23,17 +23,17 @@ On 28 March 2026, IPv6 carried 50.1% of Google's traffic for the first time in i
 		{
 			title: 'Addressing (128-bit)',
 			description:
-				"Addresses are written as eight groups of four hex digits (2001:0db8:85a3::8a2e:0370:7334). Link-local (fe80::), global unicast (2000::/3), and multicast (ff00::/8) replace IPv4's broadcast model."
+				"Addresses are written as eight groups of four hex digits (2001:0db8:85a3::8a2e:0370:7334). Link-local (fe80::), global {{unicast|unicast}} (2000::/3), and {{multicast|multicast}} (ff00::/8) replace IPv4's {{broadcast|broadcast}} model."
 		},
 		{
 			title: 'Simplified header',
 			description:
-				'Fixed 40-byte header: Version (4b), Traffic Class (8b), Flow Label (20b), Payload Length (16b), Next Header (8b), Hop Limit (8b), Source (128b), Destination (128b). No checksum, no options — just clean forwarding.'
+				'Fixed 40-byte header: Version (4b), Traffic Class (8b), Flow Label (20b), {{payload|Payload}} Length (16b), Next Header (8b), {{hop|Hop}} Limit (8b), Source (128b), Destination (128b). No {{checksum|checksum}}, no options — just clean forwarding.'
 		},
 		{
 			title: 'Extension headers',
 			description:
-				'Optional features (routing, fragmentation, security, mobility) are chained via Next Header fields. Each extension points to the next, creating a flexible chain processed only by the destination — not by every router. The one exception is the Hop-by-Hop Options header (Next Header = 0), which must be examined by every router along the path.'
+				'Optional features (routing, {{fragmentation|fragmentation}}, security, mobility) are chained via Next Header fields. Each extension points to the next, creating a flexible chain processed only by the destination — not by every router. The one exception is the Hop-by-Hop Options header (Next Header = 0), which must be examined by every router along the path.'
 		},
 		{
 			title: 'Neighbor Discovery (NDP)',
@@ -43,7 +43,7 @@ On 28 March 2026, IPv6 carried 50.1% of Google's traffic for the first time in i
 		{
 			title: 'Stateless autoconfiguration (SLAAC)',
 			description:
-				'Hosts generate their own global address from the network prefix (learned via Router Advertisement) and their interface identifier. No DHCP server needed — plug in and go. Note: by default SLAAC embeds the MAC address in the IPv6 address, which is a privacy concern — Privacy Extensions (RFC 8981) replace this with randomized, temporary interface identifiers that rotate periodically.'
+				'Hosts generate their own global address from the network prefix (learned via Router Advertisement) and their interface identifier. No [[dhcp|DHCP]] server needed — plug in and go. Note: by default {{stateless|SLAAC}} embeds the {{mac-address|MAC address}} in the IPv6 address, which is a privacy concern — Privacy Extensions ([[rfc:8981|RFC 8981]]) replace this with randomized, temporary interface identifiers that rotate periodically.'
 		}
 	],
 	useCases: [

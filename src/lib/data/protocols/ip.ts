@@ -19,27 +19,27 @@ IPv4's 32-bit address space (about 4.3 billion addresses) seemed vast in 1981 bu
 		{
 			title: 'Packet construction',
 			description:
-				'The sending host wraps the transport-layer segment (TCP or UDP) in an IP header containing the source IP, destination IP, TTL (typically 64 or 128), protocol number, header checksum, and optional fields. This IP packet is then passed down to the link layer for framing.'
+				'The sending host wraps the transport-layer segment ([[tcp|TCP]] or [[udp|UDP]]) in an IP header containing the source IP, destination IP, {{ttl|TTL}} (typically 64 or 128), protocol number, header {{checksum|checksum}}, and optional fields. This IP packet is then passed down to the link layer for framing.'
 		},
 		{
 			title: 'Local routing decision',
 			description:
-				"The sender checks if the destination IP is on the same subnet (using its subnet mask). If yes, it uses ARP to find the destination's MAC address and sends directly. If no, it forwards the packet to the default gateway (router), whose MAC is also resolved via ARP."
+				"The sender checks if the destination IP is on the same {{subnet|subnet}} (using its subnet mask). If yes, it uses [[arp|ARP]] to find the destination's {{mac-address|MAC address}} and sends directly. If no, it forwards the packet to the {{default-gateway|default gateway}} (router), whose MAC is also resolved via ARP."
 		},
 		{
 			title: 'Router forwarding and TTL decrement',
 			description:
-				'Each router examines the destination IP, consults its routing table, decrements the TTL by 1, recalculates the header checksum, and forwards the packet out the appropriate interface. If TTL reaches 0, the packet is dropped and an ICMP Time Exceeded message is sent back (this is how traceroute works).'
+				'Each router examines the destination IP, consults its {{routing-table|routing table}}, decrements the TTL by 1, recalculates the header checksum, and forwards the packet out the appropriate interface. If TTL reaches 0, the packet is dropped and an [[icmp|ICMP]] Time Exceeded message is sent back (this is how traceroute works).'
 		},
 		{
 			title: 'Fragmentation if needed',
 			description:
-				"If a packet is larger than the next link's MTU (Maximum Transmission Unit, typically 1500 bytes for Ethernet), the router fragments it into smaller IP packets. Each fragment carries offset information so the destination can reassemble them. Modern practice avoids fragmentation using Path MTU Discovery."
+				"If a packet is larger than the next link's {{mtu|MTU}} (Maximum Transmission Unit, typically 1500 bytes for Ethernet), the router {{fragmentation|fragments}} it into smaller IP packets. Each fragment carries offset information so the destination can reassemble them. Modern practice avoids fragmentation using {{path-mtu-discovery|Path MTU Discovery}}."
 		},
 		{
 			title: 'Destination reassembly and delivery',
 			description:
-				'The destination host reassembles any fragments using the Identification field and fragment offsets, verifies the header checksum, strips the IP header, and delivers the payload to the correct transport-layer protocol (TCP, UDP, ICMP) based on the Protocol field.'
+				'The destination host reassembles any fragments using the Identification field and fragment offsets, verifies the header checksum, strips the IP header, and delivers the {{payload|payload}} to the correct transport-layer protocol ([[tcp|TCP]], [[udp|UDP]], [[icmp|ICMP]]) based on the Protocol field.'
 		}
 	],
 	useCases: [

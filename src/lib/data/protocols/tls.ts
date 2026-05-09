@@ -23,17 +23,17 @@ When you see the lock icon in your browser, TLS is at work. It sits between the 
 		{
 			title: 'ServerHello + Certificate',
 			description:
-				'Server selects a cipher suite, sends its certificate chain (proving identity), and in TLS 1.3, sends its key share. Handshake keys are now derived.'
+				'Server selects a {{cipher-suite|cipher suite}}, sends its {{certificate-chain|certificate chain}} (proving identity), and in TLS 1.3, sends its key share. {{handshake|Handshake}} keys are now derived.'
 		},
 		{
 			title: 'Certificate verification',
 			description:
-				"Client verifies the server's certificate against trusted CAs. If it's valid (correct domain, not expired, trusted chain), the connection proceeds."
+				"Client verifies the server's {{certificate|certificate}} against trusted {{certificate-authority|CAs}}. If it's valid (correct domain, not expired, trusted chain), the connection proceeds."
 		},
 		{
 			title: 'Encrypted data flow',
 			description:
-				'Application data (HTTP, SMTP, etc.) is encrypted with the negotiated cipher. Each record has an authentication tag preventing tampering.'
+				'Application data ([[http1|HTTP]], [[smtp|SMTP]], etc.) is {{encryption|encrypted}} with the negotiated cipher. Each record has an authentication tag preventing tampering.'
 		}
 	],
 	useCases: [
@@ -219,7 +219,7 @@ openssl req -x509 -newkey rsa:2048 -nodes \\
 			date: '2024-09',
 			title: 'ECH (Encrypted Client Hello) progresses',
 			description:
-				'draft-ietf-tls-esni-23 advanced toward RFC; ECH hides the SNI from on-path observers, closing a long-standing TLS metadata leak. Cloudflare and Mozilla running joint deployments.'
+				'draft-ietf-tls-esni-23 advanced toward RFC; {{ech|ECH}} hides the SNI from on-path observers, closing a long-standing TLS metadata leak. Cloudflare and Mozilla running joint deployments.'
 		}
 	],
 
@@ -273,7 +273,7 @@ openssl req -x509 -newkey rsa:2048 -nodes \\
 			},
 			{
 				title: 'Resumption tickets enable replay on 0-RTT',
-				text: 'TLS 1.3 0-RTT lets the client send application data in the very first message — but that data is potentially replayable. Idempotent requests (GET) are usually safe; mutating requests (POST) are not. Most browsers limit 0-RTT to GET; servers should refuse 0-RTT for any non-idempotent method.'
+				text: 'TLS 1.3 0-RTT lets the client send application data in the very first message — but that data is potentially replayable. {{idempotent|Idempotent}} requests (GET) are usually safe; mutating requests (POST) are not. Most browsers limit 0-RTT to GET; servers should refuse 0-RTT for any non-idempotent method.'
 			},
 			{
 				title: 'Mixed content breaks the padlock',
