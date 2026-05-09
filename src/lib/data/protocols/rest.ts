@@ -22,17 +22,17 @@ REST's ubiquity comes from its simplicity: any [[http1|HTTP]] client in any lang
 		{
 			title: 'HTTP methods as verbs',
 			description:
-				'GET (read), POST (create), PUT (replace), PATCH (partial update), DELETE (remove). Each method has defined semantics — GET is safe and idempotent, DELETE is idempotent but not safe.'
+				'GET (read), POST (create), PUT (replace), PATCH (partial update), DELETE (remove). Each method has defined semantics — GET is safe and {{idempotent|idempotent}}, DELETE is idempotent but not safe.'
 		},
 		{
 			title: 'Stateless requests',
 			description:
-				'Each request contains all information needed to process it — authentication tokens, content type, requested format. The server maintains no session state between requests.'
+				'Each request contains all information needed to process it — authentication tokens, content type, requested format. The server maintains no session state between requests — REST is {{stateless|stateless}}.'
 		},
 		{
 			title: 'Response with status',
 			description:
-				'Server returns an HTTP status code (200 OK, 201 Created, 404 Not Found, etc.) along with the resource representation, typically as JSON.'
+				'Server returns an {{status-code|HTTP status code}} (200 OK, 201 Created, 404 Not Found, etc.) along with the resource representation, typically as JSON.'
 		}
 	],
 	useCases: [

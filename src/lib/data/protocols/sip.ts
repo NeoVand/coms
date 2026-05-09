@@ -176,7 +176,7 @@ a=rtpmap:97 opus/48000/2`
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/SIP_session_setup_example.svg/500px-SIP_session_setup_example.svg.png',
 		alt: 'Sequence diagram of a SIP session setup showing INVITE, 100 Trying, 180 Ringing, 200 OK, and ACK messages between caller, proxy, and callee',
 		caption:
-			'A SIP session setup — the INVITE starts a call, proxies route it, the callee rings (180) then answers (200 OK), and the caller acknowledges. After this signaling dance, RTP media flows directly between the endpoints.',
+			'A SIP session setup — the INVITE starts a call, proxies route it, the callee rings (180) then answers (200 OK), and the caller acknowledges. After this {{signaling|signaling}} dance, [[rtp|RTP]] media flows directly between the endpoints.',
 		credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 	}
 };

@@ -20,12 +20,12 @@ For IPv6 networks, DHCPv6 (RFC 8415) provides similar functionality but with a d
 		{
 			title: 'DISCOVER (broadcast)',
 			description:
-				'New device broadcasts to the entire network: "I need an IP address." It has no IP yet, so it uses 0.0.0.0 as source and 255.255.255.255 as destination.'
+				'New device {{broadcast|broadcasts}} to the entire network: "I need an {{ip-address|IP address}}." It has no IP yet, so it uses 0.0.0.0 as source and 255.255.255.255 as destination.'
 		},
 		{
 			title: 'OFFER',
 			description:
-				'DHCP server(s) respond with an offered IP address, subnet mask, gateway, DNS servers, and lease time. Multiple servers may offer.'
+				'DHCP server(s) respond with an offered IP address, {{subnet|subnet}} mask, gateway, [[dns|DNS]] servers, and lease time. Multiple servers may offer.'
 		},
 		{
 			title: 'REQUEST',

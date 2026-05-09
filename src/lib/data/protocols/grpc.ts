@@ -28,7 +28,7 @@ gRPC dominates in microservice architectures where services are internal and per
 		{
 			title: 'Call like a local function',
 			description:
-				'Client code calls server methods as if they were local functions. gRPC handles serialization, HTTP/2 framing, and transport.'
+				'Client code calls server methods as if they were local functions. gRPC handles {{serialization|serialization}}, [[http2|HTTP/2]] framing, and transport.'
 		},
 		{
 			title: 'Streaming',

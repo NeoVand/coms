@@ -23,7 +23,7 @@ Beyond shell access, SSH's {{port-forwarding|port forwarding}} capability is rem
 		{
 			title: 'Key exchange',
 			description:
-				'Client and server negotiate encryption using Diffie-Hellman or similar. This produces shared session keys without ever transmitting them. Everything after this is encrypted.'
+				'Client and server negotiate {{encryption|encryption}} using Diffie-Hellman or similar. This produces shared session keys without ever transmitting them. Everything after this is encrypted.'
 		},
 		{
 			title: 'Server authentication',
@@ -33,7 +33,7 @@ Beyond shell access, SSH's {{port-forwarding|port forwarding}} capability is rem
 		{
 			title: 'User authentication',
 			description:
-				'Client authenticates via public key (preferred), password, or other method. The server verifies and grants access. An encrypted session is now established.'
+				'Client authenticates via {{public-key|public key}} (preferred), password, or other method. The server verifies and grants access. An encrypted session is now established.'
 		}
 	],
 	useCases: [

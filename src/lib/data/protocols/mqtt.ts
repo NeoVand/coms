@@ -18,7 +18,7 @@ MQTT's fixed header is just 2 bytes. It supports three {{qos|quality-of-service}
 		{
 			title: 'Connect to broker',
 			description:
-				'Client connects to the MQTT broker (like Mosquitto or HiveMQ) over TCP. It can specify a client ID, credentials, keep-alive interval, and a "last will" message.'
+				'Client connects to the MQTT broker (like Mosquitto or HiveMQ) over [[tcp|TCP]]. It can specify a client ID, credentials, {{keep-alive|keep-alive}} interval, and a "last will" message.'
 		},
 		{
 			title: 'Subscribe to topics',
@@ -33,7 +33,7 @@ MQTT's fixed header is just 2 bytes. It supports three {{qos|quality-of-service}
 		{
 			title: 'QoS delivery',
 			description:
-				'QoS 0: fire-and-forget. QoS 1: acknowledged (at-least-once). QoS 2: four-step handshake (exactly-once). Choose based on data criticality.'
+				'QoS 0: fire-and-forget. QoS 1: acknowledged (at-least-once). QoS 2: four-step {{handshake|handshake}} (exactly-once). Choose based on data criticality.'
 		}
 	],
 	useCases: [

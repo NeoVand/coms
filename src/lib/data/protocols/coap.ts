@@ -20,12 +20,12 @@ CoAP is widely used in smart buildings, industrial automation, and city infrastr
 		{
 			title: 'UDP-based messaging',
 			description:
-				"CoAP runs over UDP — no TCP handshake needed. Messages are tiny binary packets (4-byte base header). Confirmable messages get ACKs; non-confirmable don't."
+				"CoAP runs over [[udp|UDP]] — no [[tcp|TCP]] {{handshake|handshake}} needed. Messages are tiny binary packets (4-byte base header). Confirmable messages get ACKs; non-confirmable don't."
 		},
 		{
 			title: 'REST methods',
 			description:
-				'Supports GET, POST, PUT, DELETE just like HTTP. URIs identify resources. Content negotiation works via options (like HTTP headers but binary-encoded).'
+				'Supports GET, POST, PUT, DELETE just like HTTP. URIs identify resources. {{content-negotiation|Content negotiation}} works via options (like HTTP headers but binary-encoded).'
 		},
 		{
 			title: 'Observe pattern',
@@ -35,7 +35,7 @@ CoAP is widely used in smart buildings, industrial automation, and city infrastr
 		{
 			title: 'Resource discovery',
 			description:
-				'Devices expose /.well-known/core listing all their resources. Supports multicast discovery — find all temperature sensors on the network in one query.'
+				'Devices expose /.well-known/core listing all their resources. Supports {{multicast|multicast}} discovery — find all temperature sensors on the network in one query.'
 		}
 	],
 	useCases: [

@@ -158,7 +158,7 @@ Server: 221 Goodbye`
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Passive_FTP_Verbindung.svg/500px-Passive_FTP_Verbindung.svg.png',
 		alt: 'Diagram showing FTP passive mode connection flow: client connects to control port 21, then server provides a data port for the client to connect to',
 		caption:
-			"FTP passive mode — the client connects to port 21 for commands, then the server tells the client which high port to connect to for data transfer. Passive mode solved the NAT/firewall problems that plagued FTP's original active mode.",
+			"FTP passive mode — the client connects to port 21 for commands, then the server tells the client which high port to connect to for data transfer. Passive mode solved the {{nat|NAT}}/{{firewall|firewall}} problems that plagued FTP's original active mode.",
 		credit: 'Image: Wikimedia Commons / CC BY-SA 3.0'
 	}
 };

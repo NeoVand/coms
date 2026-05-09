@@ -22,7 +22,7 @@ IPv6 uses a separate specification called ICMPv6 (RFC 4443) with different type 
 		{
 			title: 'Echo Request (ping)',
 			description:
-				'Source sends an ICMP Type 8 packet to the target with an Identifier (session ID), Sequence number, and optional data payload. No TCP or UDP — just IP + ICMP.'
+				'Source sends an ICMP Type 8 packet to the target with an Identifier (session ID), {{sequence-number|Sequence number}}, and optional data payload. No [[tcp|TCP]] or [[udp|UDP]] — just IP + ICMP.'
 		},
 		{
 			title: 'Echo Reply',
@@ -37,7 +37,7 @@ IPv6 uses a separate specification called ICMPv6 (RFC 4443) with different type 
 		{
 			title: 'Time Exceeded (traceroute)',
 			description:
-				"When a packet's TTL reaches zero, the router sends Type 11 back. Traceroute exploits this by sending packets with incrementing TTL values (1, 2, 3...) to discover each hop."
+				"When a packet's {{ttl|TTL}} reaches zero, the router sends Type 11 back. Traceroute exploits this by sending packets with incrementing TTL values (1, 2, 3...) to discover each {{hop|hop}}."
 		},
 		{
 			title: 'Redirect',
