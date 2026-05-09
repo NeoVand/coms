@@ -297,6 +297,9 @@ The architectural document; the algorithmic specs are RFC 9331 (DualPI2 AQM) and
 		obsoletes: ['7230', '7231', '7232', '7233', '7234', '7235'],
 		url: 'https://datatracker.ietf.org/doc/rfc9110/',
 		protocols: ['http1', 'http2', 'http3'],
+		abstract: `Defines the **version-independent semantics** of HTTP — methods (GET, POST, PUT, DELETE, PATCH), status codes (2xx success, 4xx client error, 5xx server error), {{header|headers}}, {{idempotent|idempotency}}, {{content-negotiation|content negotiation}}, conditional requests, range requests, and authentication. The wire encoding is *not* here — this RFC is what [[http1|HTTP/1.1]], [[http2|HTTP/2]], and [[http3|HTTP/3]] all share.
+
+Co-edited by [[pioneer:roy-fielding|Roy Fielding]] (the original HTTP/1.1 architect), Mark Nottingham, and Julian Reschke. Consolidates **six previous RFCs** (7230–7235) into a single semantics document, with the message-format pieces split off into version-specific siblings ([[rfc:9112|RFC 9112]], [[rfc:9113|9113]], [[rfc:9114|9114]]). Reading [[rfc:9110|RFC 9110]] explains every HTTP version at once.`,
 		notableSections: [
 			{ ref: '§9.2.2', description: 'Idempotent methods (PUT, DELETE, GET)' },
 			{ ref: '§12', description: 'Content negotiation' }
@@ -309,7 +312,10 @@ The architectural document; the algorithmic specs are RFC 9331 (DualPI2 AQM) and
 		authors: 'R. Fielding, M. Nottingham, J. Reschke (eds.)',
 		status: 'internet-standard',
 		url: 'https://datatracker.ietf.org/doc/rfc9112/',
-		protocols: ['http1']
+		protocols: ['http1'],
+		abstract: `The current Internet Standard for the [[http1|HTTP/1.1]] **wire format** — the text-based message framing, the request line / status line / headers / body structure, persistent connections ({{keep-alive|keep-alive}}), pipelining, and chunked transfer encoding. Semantics live in the companion [[rfc:9110|RFC 9110]].
+
+Together with [[rfc:9110|RFC 9110]] this obsoletes the venerable [[rfc:2616|RFC 2616]] (1999) and the 7230-series split (2014). The protocol on the wire is unchanged; the spec just gets cleaner.`
 	},
 	{
 		number: '9113',
@@ -319,7 +325,10 @@ The architectural document; the algorithmic specs are RFC 9331 (DualPI2 AQM) and
 		status: 'proposed-standard',
 		obsoletes: ['7540'],
 		url: 'https://www.rfc-editor.org/rfc/rfc9113.html',
-		protocols: ['http2']
+		protocols: ['http2'],
+		abstract: `The current spec for [[http2|HTTP/2]] — the binary, multiplexed framing layer that runs the same [[rfc:9110|HTTP semantics]] over a single [[tcp|TCP]] connection with many concurrent {{stream|streams}}. Each request/response pair is a stream; {{binary-framing|binary frames}} (HEADERS, DATA, SETTINGS, …) are interleaved on the wire, and {{hpack|HPACK}} compresses the headers.
+
+Obsoletes the original [[rfc:7540|RFC 7540]] (2015), partly to incorporate the response to the *Rapid Reset* CVE-2023-44487 DDoS attack (October 2023) — RFC 9113 mandates server-side limits on concurrent stream creation/cancellation. Despite [[http3|HTTP/3]]'s growth, HTTP/2 still serves the majority of HTTPS bytes.`
 	},
 	{
 		number: '9114',
@@ -328,7 +337,10 @@ The architectural document; the algorithmic specs are RFC 9331 (DualPI2 AQM) and
 		authors: 'M. Bishop (ed.)',
 		status: 'proposed-standard',
 		url: 'https://datatracker.ietf.org/doc/html/rfc9114',
-		protocols: ['http3']
+		protocols: ['http3'],
+		abstract: `Specifies how [[rfc:9110|HTTP semantics]] map onto [[quic|QUIC]] streams — i.e. [[http3|HTTP/3]]. Each request/response pair is a bidirectional QUIC stream; HEADERS frames carry compressed headers via *QPACK* (the QUIC-friendly successor to {{hpack|HPACK}}); DATA frames carry the body. Because QUIC streams are independent at the *transport* layer, a lost packet only blocks its own stream — finally fixing the [[http2|HTTP/2]] {{head-of-line-blocking|head-of-line blocking}} that motivated the whole exercise.
+
+Adoption is brisk: by 2025 ~35% of top-10M sites support HTTP/3; Cloudflare, Google, Meta, and Akamai all serve it by default. Discovered via the \`Alt-Svc\` header (or, more recently, the {{dns-resolution|DNS}} HTTPS RR — [[rfc:9460|RFC 9460]]) so the browser can switch on the second request.`
 	},
 	{
 		number: '6455',
@@ -337,7 +349,10 @@ The architectural document; the algorithmic specs are RFC 9331 (DualPI2 AQM) and
 		authors: 'I. Fette, A. Melnikov',
 		status: 'proposed-standard',
 		url: 'https://www.rfc-editor.org/rfc/rfc6455',
-		protocols: ['websockets']
+		protocols: ['websockets'],
+		abstract: `Defines [[websockets|WebSockets]] — a {{full-duplex|full-duplex}}, persistent message-based channel between a browser and a server, bootstrapped over a regular [[http1|HTTP]] request. The handshake is an HTTP \`Upgrade: websocket\` exchange that, on success, leaves the underlying TCP connection in WebSocket framing mode forever after.
+
+Edited by Ian Fette (Google) and Alexey Melnikov; the design was driven by [[pioneer:ian-hickson|Ian Hickson]] in the WHATWG. Solved the early-2000s "comet / long-poll" hacks that web apps used for server push. Frame format is small (2–14 byte overhead), supports binary or text, and is the foundation of every browser-side real-time app — chat, multiplayer games, collaborative editing, live tickers — that doesn't go through {{webrtc|WebRTC}}.`
 	},
 
 	// ── Utilities / Security ──────────────────────────────────────────
@@ -348,7 +363,10 @@ The architectural document; the algorithmic specs are RFC 9331 (DualPI2 AQM) and
 		authors: 'P. Mockapetris',
 		status: 'internet-standard',
 		url: 'https://www.rfc-editor.org/rfc/rfc1035',
-		protocols: ['dns']
+		protocols: ['dns'],
+		abstract: `[[pioneer:paul-mockapetris|Paul Mockapetris]]'s implementation specification for [[dns|DNS]] — the wire format, message structure (Header / Question / Answer / Authority / Additional sections), record types (A, NS, CNAME, MX, TXT, …), the binary-label name encoding with pointer compression, and the resolver algorithms. Companion to [[rfc:1034|RFC 1034]], which covers concepts and facilities.
+
+Together these obsoleted the earlier RFC 882/883 (1983) and have stayed canonical for nearly four decades. Almost every DNS extension since (DNSSEC, EDNS0, DoH, DoT, SVCB/HTTPS RR) layers on top without changing the core message format.`
 	},
 	{
 		number: '8446',
@@ -359,6 +377,9 @@ The architectural document; the algorithmic specs are RFC 9331 (DualPI2 AQM) and
 		obsoletes: ['5077', '5246', '6961'],
 		url: 'https://datatracker.ietf.org/doc/html/rfc8446',
 		protocols: ['tls'],
+		abstract: `The current [[tls|TLS]] specification — a five-year, 28-draft redesign edited by [[pioneer:eric-rescorla|Eric Rescorla]]. Cuts every weak primitive (RC4, 3DES, MD5, SHA-1, RSA key exchange, static-DH), reduces the {{handshake|handshake}} to **one round trip** (or zero for resumption), and mandates *AEAD* as the only legal cipher mode. Forward secrecy is the default, not an option.
+
+Internally cleaner than 1.0–1.2; externally indistinguishable on the wire from TLS 1.2 thanks to deliberate middlebox-compatibility hacks (\`legacy_version = 0x0303\`, fake ChangeCipherSpec record, real version in \`supported_versions\` extension) — without these the spec couldn't have deployed because ~3% of middleboxes parsed the version field and broke. The reason your browser's HTTPS handshake takes one round trip in 2026 instead of two.`,
 		notableSections: [
 			{ ref: '§5', description: 'Record Protocol' },
 			{ ref: '§7.1', description: 'Key schedule (HKDF-Extract / HKDF-Expand-Label)' },
@@ -372,7 +393,10 @@ The architectural document; the algorithmic specs are RFC 9331 (DualPI2 AQM) and
 		authors: 'D. Mills, J. Martin, J. Burbank, W. Kasch',
 		status: 'proposed-standard',
 		url: 'https://datatracker.ietf.org/doc/html/rfc5905',
-		protocols: ['ntp']
+		protocols: ['ntp'],
+		abstract: `[[pioneer:david-mills|David L. Mills]]'s definitive specification of [[ntp|NTPv4]] — the protocol that synchronises every clock on the public internet to within milliseconds despite arbitrary network jitter. Defines the on-wire packet format, the *clock filter* algorithm, *Marzullo's algorithm* for selecting trustworthy peers from a candidate set, and the *clock discipline* loop that nudges the local oscillator without causing the kind of step-changes that would break [[tls|TLS]] certificate validation, Kerberos tickets, or distributed log timestamps.
+
+Mills refined NTP across four decades (RFC 958/1119/1305/5905). Without his careful stewardship there would not be a working internet — every cryptographic protocol assumes monotonic, roughly-correct time. The 2024 successor work (NTS, [[rfc:8915|RFC 8915]]) adds the authentication NTP itself never had.`
 	},
 	{
 		number: '1122',
@@ -381,7 +405,10 @@ The architectural document; the algorithmic specs are RFC 9331 (DualPI2 AQM) and
 		authors: 'R. Braden (ed.)',
 		status: 'internet-standard',
 		url: 'https://datatracker.ietf.org/doc/html/rfc1122',
-		protocols: ['tcp', 'udp', 'ip', 'icmp']
+		protocols: ['tcp', 'udp', 'ip', 'icmp'],
+		abstract: `The defining "host requirements" document — pulls together every MUST/SHOULD/MAY constraint a compliant TCP/IP host has to honour at the link, internet, and transport layers. Edited by Bob Braden, IAB; the application-layer counterpart is [[rfc:1123|RFC 1123]]. Forty-plus years later this is still the spec people cite when arguing that ICMP is "an integral part of IP" (§3.2.2) or that a host MUST send an *ICMP Destination Unreachable* in particular cases.
+
+Reading [[rfc:1122|RFC 1122]] is a fast way to learn what a "correct" TCP/IP stack actually has to do. Most operating-system kernels still implement a recognisable superset of these rules.`
 	},
 
 	// ── Audit-added stubs ────────────────────────────────────────────────
@@ -399,7 +426,8 @@ The architectural document; the algorithmic specs are RFC 9331 (DualPI2 AQM) and
 		status: 'historic',
 		obsoletedBy: ['791'],
 		url: 'https://www.rfc-editor.org/rfc/rfc760',
-		protocols: ['ip']
+		protocols: ['ip'],
+		abstract: `[[pioneer:jon-postel|Jon Postel]]'s January 1980 specification of the Internet Protocol — the first version published as a U.S. DoD standard, before the IETF process existed. Defines essentially the same datagram service as the better-known [[rfc:791|RFC 791]] (September 1981), which obsoleted it. Notable as the document where the *Robustness Principle* — *"be conservative in what you do, be liberal in what you accept from others"* — first appeared, in the introduction.`
 	},
 	{
 		number: '793',
@@ -409,7 +437,10 @@ The architectural document; the algorithmic specs are RFC 9331 (DualPI2 AQM) and
 		status: 'historic',
 		obsoletedBy: ['9293'],
 		url: 'https://www.rfc-editor.org/rfc/rfc793',
-		protocols: ['tcp']
+		protocols: ['tcp'],
+		abstract: `[[pioneer:jon-postel|Jon Postel]]'s September 1981 specification of [[tcp|TCP]] — the canonical TCP RFC for **41 years**, almost certainly the longest-lived unmodified core IETF spec ever. Defines the {{three-way-handshake|three-way handshake}}, {{sequence-number|sequence numbers}}, the {{sliding-window|sliding window}}, FIN-based teardown, and {{time-wait|TIME_WAIT}} — every concept your kernel still implements.
+
+Finally obsoleted by [[rfc:9293|RFC 9293]] in August 2022, which consolidated 41 years of accumulated errata. The wire format hasn't changed; the spec just finally matches what implementations actually do.`
 	},
 	{
 		number: '2018',
@@ -418,7 +449,10 @@ The architectural document; the algorithmic specs are RFC 9331 (DualPI2 AQM) and
 		authors: 'M. Mathis, J. Mahdavi, S. Floyd, A. Romanow',
 		status: 'proposed-standard',
 		url: 'https://www.rfc-editor.org/rfc/rfc2018',
-		protocols: ['tcp']
+		protocols: ['tcp'],
+		abstract: `Adds *SACK* — the **Selective Acknowledgment** option — to TCP. With cumulative ACKs alone, a single lost segment forces the sender to either wait for a timeout or naively re-send everything after the gap. SACK lets the receiver advertise which non-contiguous blocks it has actually received, so the sender can retransmit only the missing pieces.
+
+Negotiated at handshake via SACK-Permitted; carried in subsequent ACKs as a TCP option. Almost universally implemented for two decades — without SACK, modern TCP behaviour over lossy links would be substantially worse.`
 	},
 	{
 		number: '1948',
@@ -427,7 +461,10 @@ The architectural document; the algorithmic specs are RFC 9331 (DualPI2 AQM) and
 		authors: 'S. Bellovin',
 		status: 'informational',
 		url: 'https://www.rfc-editor.org/rfc/rfc1948',
-		protocols: ['tcp']
+		protocols: ['tcp'],
+		abstract: `Steve Bellovin's response to the 1994 Mitnick attack on Tsutomu Shimomura's machines. The original BSD TCP stack used a linear *Initial Sequence Number* counter — predictable enough that an attacker who could guess it could spoof a TCP three-way handshake without ever seeing the SYN-ACK. Bellovin proposes deriving the ISN from a cryptographic hash of the four-tuple plus a secret, so it's unpredictable to anyone who doesn't see the connection.
+
+The technique is now standard in every TCP stack on earth; the underlying lesson — *don't assume anything you put on the wire predictably is "secret"* — recurs across decades of protocol design.`
 	},
 	{
 		number: '4821',
@@ -436,7 +473,10 @@ The architectural document; the algorithmic specs are RFC 9331 (DualPI2 AQM) and
 		authors: 'M. Mathis, J. Heffner',
 		status: 'proposed-standard',
 		url: 'https://www.rfc-editor.org/rfc/rfc4821',
-		protocols: ['tcp']
+		protocols: ['tcp'],
+		abstract: `*PLPMTUD* — a robust replacement for classic [[icmp|ICMP]]-based {{path-mtu-discovery|Path MTU Discovery}} that doesn't rely on receiving *Fragmentation Needed* messages. Instead the transport (TCP or another) probes the path with progressively-larger packets and infers the MTU from which probes get through and which don't.
+
+Critical because so many networks drop or rate-limit ICMP, creating the {{mtu-black-hole|MTU black hole}} failure mode where TCP connections silently hang. Linux enables PLPMTUD by default since ~2007. The same technique applies to QUIC.`
 	},
 	{
 		number: '4987',
@@ -445,7 +485,10 @@ The architectural document; the algorithmic specs are RFC 9331 (DualPI2 AQM) and
 		authors: 'W. Eddy',
 		status: 'informational',
 		url: 'https://www.rfc-editor.org/rfc/rfc4987',
-		protocols: ['tcp']
+		protocols: ['tcp'],
+		abstract: `Wesley Eddy's survey of how SYN-flood DoS attacks work and what mitigations exist. The classic problem: a SYN forces the server to allocate state for a *half-open* connection while it waits for the third ACK; flooding SYNs from spoofed sources fills the backlog and starves legitimate clients.
+
+Catalogues the three main defences — connection-table tuning, *SYN cookies* ([[pioneer:dan-bernstein|Bernstein]], 1996, makes the SYN-ACK statelessly verifiable so no server-side state is needed before the third ACK), and various rate-limiters. Reading order: this RFC, then Bernstein's original cr.yp.to write-up.`
 	},
 	{
 		number: '5925',
@@ -454,7 +497,10 @@ The architectural document; the algorithmic specs are RFC 9331 (DualPI2 AQM) and
 		authors: 'J. Touch, A. Mankin, R. Bonica',
 		status: 'proposed-standard',
 		url: 'https://www.rfc-editor.org/rfc/rfc5925',
-		protocols: ['tcp']
+		protocols: ['tcp'],
+		abstract: `*TCP-AO* — a modern replacement for the deprecated TCP-MD5 option (RFC 2385) used to authenticate long-lived [[bgp|BGP]] sessions. Provides per-segment HMAC authentication with multiple Master Key Tuples and graceful key rotation, fixing TCP-MD5's lack of algorithm agility and its vulnerability to MD5 collisions.
+
+Cisco IOS-XR and Junos shipped TCP-AO years ago; **Linux didn't ship it until kernel 6.7 in January 2024**. Almost exclusively used for BGP today; the long-pole has been kernel support outside vendor silicon.`
 	},
 	{
 		number: '6824',
@@ -464,7 +510,10 @@ The architectural document; the algorithmic specs are RFC 9331 (DualPI2 AQM) and
 		status: 'experimental',
 		obsoletedBy: ['8684'],
 		url: 'https://www.rfc-editor.org/rfc/rfc6824',
-		protocols: ['mptcp']
+		protocols: ['mptcp'],
+		abstract: `The original experimental specification of *Multipath TCP* (MPTCP v0) — a TCP extension that lets a single logical connection use multiple network paths simultaneously, bonding e.g. Wi-Fi and cellular for a phone. Apple deployed v0 in iOS 7 (2013) for Siri, the first major real-world MPTCP use. The whole protocol falls back transparently to plain TCP when middleboxes strip the option, which is most of the time.
+
+Obsoleted by [[rfc:8684|RFC 8684]] (MPTCP v1, 2020), which carries the lessons learned from production deployment.`
 	},
 	{
 		number: '8684',
@@ -474,7 +523,10 @@ The architectural document; the algorithmic specs are RFC 9331 (DualPI2 AQM) and
 		status: 'standards-track',
 		obsoletes: ['6824'],
 		url: 'https://www.rfc-editor.org/rfc/rfc8684',
-		protocols: ['mptcp']
+		protocols: ['mptcp'],
+		abstract: `*MPTCP v1* — the standards-track replacement for the experimental [[rfc:6824|v0]], shipped after seven years of production experience. Cleaner option format, better fallback semantics for middleboxes that strip the MPTCP option from the SYN, and improved subflow management. Linux merged the upstream MPTCP implementation in kernel 5.6 (March 2020) after years of out-of-tree patches; Apple shipped v1 in iOS 14.
+
+Where MPTCP works (Apple OS services, Korea Telecom GIGA Path, some specialised enterprise WANs) it works well; everywhere else it transparently falls back. The successor work is multipath [[quic|QUIC]] (\`draft-ietf-quic-multipath\`), which avoids the middlebox problem entirely by being inside an encrypted UDP payload.`
 	},
 
 	// MPTCP / SCTP family
@@ -486,7 +538,10 @@ The architectural document; the algorithmic specs are RFC 9331 (DualPI2 AQM) and
 		status: 'historic',
 		obsoletedBy: ['9260'],
 		url: 'https://www.rfc-editor.org/rfc/rfc2960',
-		protocols: ['sctp']
+		protocols: ['sctp'],
+		abstract: `The original specification of [[sctp|SCTP]] — a transport protocol with TCP-like reliability plus two superpowers: **multiple independent {{stream|streams}}** in one association (no [[tcp|TCP]] {{head-of-line-blocking|head-of-line blocking}}) and **multi-homing** for IP-level failover when a path fails. Originally designed by Randall Stewart and others to carry telephony {{signaling|SS7 signaling}} over IP networks.
+
+Obsoleted by [[rfc:4960|RFC 4960]] (2007) and then [[rfc:9260|RFC 9260]] (2022). SCTP rarely runs on the open internet because middleboxes don't pass it; it survives mostly inside telco networks, in WebRTC Data Channels (over UDP/DTLS), and in datacentre niches.`
 	},
 	{
 		number: '4960',
@@ -497,7 +552,8 @@ The architectural document; the algorithmic specs are RFC 9331 (DualPI2 AQM) and
 		obsoletes: ['2960'],
 		obsoletedBy: ['9260'],
 		url: 'https://www.rfc-editor.org/rfc/rfc4960',
-		protocols: ['sctp']
+		protocols: ['sctp'],
+		abstract: `The 2007 revision of [[sctp|SCTP]] — consolidated errata against the original [[rfc:2960|RFC 2960]] and clarified ambiguities found in early production deployments. The wire protocol is unchanged; this is the spec most SCTP implementations are written against. Itself obsoleted by [[rfc:9260|RFC 9260]] (2022).`
 	},
 	{
 		number: '9260',
@@ -507,7 +563,10 @@ The architectural document; the algorithmic specs are RFC 9331 (DualPI2 AQM) and
 		status: 'proposed-standard',
 		obsoletes: ['4960'],
 		url: 'https://www.rfc-editor.org/rfc/rfc9260',
-		protocols: ['sctp']
+		protocols: ['sctp'],
+		abstract: `The current [[sctp|SCTP]] specification — consolidates 15+ years of errata against [[rfc:4960|RFC 4960]] and aligns with all the SCTP extensions (PR-SCTP, SCTP-AUTH, NDATA, …) that shipped in the meantime. Edited by Randall Stewart, Michael Tüxen, and Karen Nielsen.
+
+Same wire protocol; cleaner spec. SCTP's largest production deployment by message count is **WebRTC Data Channels**, which run SCTP over DTLS over UDP — the only widely-deployed SCTP on the open internet.`
 	},
 	{
 		number: '6951',
@@ -516,7 +575,10 @@ The architectural document; the algorithmic specs are RFC 9331 (DualPI2 AQM) and
 		authors: 'M. Tüxen, R. Stewart',
 		status: 'proposed-standard',
 		url: 'https://www.rfc-editor.org/rfc/rfc6951',
-		protocols: ['sctp']
+		protocols: ['sctp'],
+		abstract: `Defines how to wrap [[sctp|SCTP]] packets inside [[udp|UDP]] {{datagram|datagrams}} so SCTP can traverse the {{nat|NAT}}s and {{firewall|firewalls}} that don't pass IP protocol 132. Without this, SCTP is essentially undeployable on the open internet — it works inside telco networks but dies at every consumer router.
+
+The same trick that {{quic|QUIC}} would later generalise: ride on top of UDP because UDP is the lowest common denominator everything passes. Used by WebRTC Data Channels and a handful of telco-over-internet deployments.`
 	},
 
 	// Original IPv6 / IP utilities
@@ -528,7 +590,10 @@ The architectural document; the algorithmic specs are RFC 9331 (DualPI2 AQM) and
 		status: 'historic',
 		obsoletedBy: ['8200'],
 		url: 'https://www.rfc-editor.org/rfc/rfc2460',
-		protocols: ['ipv6']
+		protocols: ['ipv6'],
+		abstract: `[[pioneer:steve-deering|Steve Deering]] and Bob Hinden's 1998 specification of [[ipv6|IPv6]] — the version most production IPv6 stacks were written against for 19 years. Defines the 128-bit address space, the 40-byte fixed header, extension headers, and the no-in-network-fragmentation rule.
+
+Obsoleted by [[rfc:8200|RFC 8200]] (2017), which raised the spec to *Internet Standard 86* and clarified some details (e.g. the "Hop-by-Hop Options" extension is no longer required to be processed by every router along the path). Wire format unchanged.`
 	},
 	{
 		number: '6434',
@@ -537,7 +602,10 @@ The architectural document; the algorithmic specs are RFC 9331 (DualPI2 AQM) and
 		authors: 'E. Jankiewicz, J. Loughney, T. Narten',
 		status: 'informational',
 		url: 'https://www.rfc-editor.org/rfc/rfc6434',
-		protocols: ['ipv6']
+		protocols: ['ipv6'],
+		abstract: `The "host requirements" companion document for [[ipv6|IPv6]] — the IPv6 equivalent of [[rfc:1122|RFC 1122]], pulling together every MUST/SHOULD a compliant IPv6 node has to honour. Notable for **demoting IPsec from mandatory-to-implement to optional**, which became one of the most-cited corrections to the persistent myth that "IPv6 has built-in encryption." It does not — TLS is still where transport-layer encryption happens.
+
+Updated by RFC 8504 (2019) for further clarifications.`
 	},
 	{
 		number: '6864',
@@ -546,7 +614,10 @@ The architectural document; the algorithmic specs are RFC 9331 (DualPI2 AQM) and
 		authors: 'J. Touch',
 		status: 'proposed-standard',
 		url: 'https://www.rfc-editor.org/rfc/rfc6864',
-		protocols: ['ip']
+		protocols: ['ip'],
+		abstract: `Joe Touch's clarification of how the 16-bit IPv4 *Identification* field is supposed to be used. The original [[rfc:791|RFC 791]] required a unique ID per source/destination/protocol combination, which on a 1 Gbps link cycles in milliseconds — a constraint many implementations had been ignoring for decades. RFC 6864 retroactively legalises the common practice: ID only matters when fragmentation is actually possible (DF=0); when DF=1, set it to anything.
+
+Resolves a long-standing gap between spec and reality. Mostly invisible operationally; matters for anyone writing a packet filter or implementing a stack.`
 	},
 	{
 		number: '6877',
@@ -555,7 +626,10 @@ The architectural document; the algorithmic specs are RFC 9331 (DualPI2 AQM) and
 		authors: 'M. Mawatari, M. Kawashima, C. Byrne',
 		status: 'informational',
 		url: 'https://www.rfc-editor.org/rfc/rfc6877',
-		protocols: ['ipv6']
+		protocols: ['ipv6'],
+		abstract: `*464XLAT* — a deployment pattern where an IPv6-only client runs a *CLAT* (Customer-side Translator) that synthesises IPv4 onto IPv6 (XLAT464) so legacy IPv4-only applications keep working, while the network operator runs a stateful *PLAT* (Provider-side Translator, NAT64) that maps the synthesised addresses to real public IPv4. End result: phones and laptops on a pure IPv6 network can still reach the IPv4 internet without dual-stack everywhere.
+
+The standard recipe for "IPv6-Mostly" mobile and enterprise networks. Fedora/NetworkManager auto-enables CLAT for IPv6-mostly networks (2024); Windows 11 ships 464XLAT CLAT. Combined with [[rfc:8925|RFC 8925]] (DHCPv4 Option 108) and [[rfc:8781|RFC 8781]] (PREF64 in RA) it's how T-Mobile, Sky Broadband, and a growing number of enterprise networks actually run IPv6-only today.`
 	},
 	{
 		number: '8305',
@@ -564,7 +638,10 @@ The architectural document; the algorithmic specs are RFC 9331 (DualPI2 AQM) and
 		authors: 'D. Schinazi, T. Pauly',
 		status: 'proposed-standard',
 		url: 'https://www.rfc-editor.org/rfc/rfc8305',
-		protocols: ['ipv6']
+		protocols: ['ipv6'],
+		abstract: `*Happy Eyeballs v2* — the algorithm a dual-stack client uses to race IPv4 and IPv6 connection attempts in parallel and pick whichever wins, instead of trying IPv6 first and waiting for a long timeout when it fails. Originally [[rfc:6555|RFC 6555]] (2012, v1); v2 adds DNS resolution races, parallel address-family attempts with small staggers (typically 250 ms), and explicit support for {{tls|TLS}} where the OS doesn't manage that.
+
+Without Happy Eyeballs the IPv6 transition would have been visibly painful for end users on networks with broken IPv6 connectivity — every page load would hang. Now standard in every major browser and OS.`
 	},
 	{
 		number: '8781',
@@ -573,7 +650,10 @@ The architectural document; the algorithmic specs are RFC 9331 (DualPI2 AQM) and
 		authors: 'L. Colitti, J. Linkova',
 		status: 'proposed-standard',
 		url: 'https://www.rfc-editor.org/rfc/rfc8781',
-		protocols: ['ipv6']
+		protocols: ['ipv6'],
+		abstract: `Adds a *PREF64* option to IPv6 Router Advertisements that tells hosts the {{nat64|NAT64}} prefix in use on the local network. Hosts that know the PREF64 can synthesise IPv4 addresses into IPv6 themselves (CLAT, see [[rfc:6877|464XLAT]]) without needing DNS64 to do it for them — sidestepping a long list of DNS64 problems including {{dnssec|DNSSEC}} validation failures.
+
+One of the small, high-leverage IPv6-Mostly deployment pieces. Native support landed in Linux's kernel and NetworkManager, Android, and Apple OSes between 2021 and 2023.`
 	},
 	{
 		number: '8925',
@@ -582,7 +662,10 @@ The architectural document; the algorithmic specs are RFC 9331 (DualPI2 AQM) and
 		authors: 'L. Colitti, J. Linkova, M. Richardson, T. Mrugalski',
 		status: 'proposed-standard',
 		url: 'https://www.rfc-editor.org/rfc/rfc8925',
-		protocols: ['ipv6', 'dhcp']
+		protocols: ['ipv6', 'dhcp'],
+		abstract: `*DHCPv4 Option 108* — a one-bit signal a DHCPv4 server sends to capable clients meaning "this network prefers IPv6; please skip IPv4 entirely." Clients that understand Option 108 don't even claim a DHCPv4 lease; they configure IPv6 via SLAAC + DHCPv6 and rely on {{nat64|NAT64}} for legacy IPv4 destinations.
+
+Together with [[rfc:6877|464XLAT]] this is what makes "IPv6-Mostly" networks usable: dual-stack capable clients keep using IPv4 directly when the operator wants them to, IPv6-Mostly clients drop the IPv4 stack entirely. Apple iOS 14, Android 12, Windows 11, and modern Linux all honour it.`
 	},
 	{
 		number: '8981',
@@ -591,7 +674,10 @@ The architectural document; the algorithmic specs are RFC 9331 (DualPI2 AQM) and
 		authors: 'F. Gont, S. Krishnan, T. Narten, R. Draves',
 		status: 'standards-track',
 		url: 'https://www.rfc-editor.org/rfc/rfc8981',
-		protocols: ['ipv6']
+		protocols: ['ipv6'],
+		abstract: `*IPv6 Privacy Extensions* — replaces the original [[rfc:4862|SLAAC]] EUI-64 interface identifier (which embedded the {{mac-address|MAC address}} in the IPv6 address and let networks track a device across visits) with **randomised, periodically-rotating** identifiers. Every modern OS turns this on by default.
+
+Originally RFC 3041 (2001), then RFC 4941 (2007); this is the current revision. Without it, IPv6 would be a privacy disaster — your laptop's MAC, hashed into your global IP, visible to every server you ever connect to.`
 	},
 	{
 		number: '2468',
@@ -599,7 +685,10 @@ The architectural document; the algorithmic specs are RFC 9331 (DualPI2 AQM) and
 		year: 1998,
 		authors: 'V. Cerf',
 		status: 'informational',
-		url: 'https://www.rfc-editor.org/rfc/rfc2468'
+		url: 'https://www.rfc-editor.org/rfc/rfc2468',
+		abstract: `[[pioneer:vint-cerf|Vint Cerf]]'s memorial RFC for [[pioneer:jon-postel|Jon Postel]], who died on 16 October 1998 at age 55. Postel had run the IANA single-handedly from his ISI office for nearly three decades, edited essentially every foundational TCP/IP RFC, and authored the *Robustness Principle*. The RFC is a personal eulogy from one of his closest collaborators.
+
+One of a small handful of non-technical RFCs in the registry. Reading it is the most concentrated way to understand who Postel was and why so much of the early internet hung on one person's quiet, scrupulous work.`
 	},
 
 	// BGP family
@@ -611,7 +700,10 @@ The architectural document; the algorithmic specs are RFC 9331 (DualPI2 AQM) and
 		status: 'historic',
 		obsoletedBy: ['4271'],
 		url: 'https://www.rfc-editor.org/rfc/rfc1105',
-		protocols: ['bgp']
+		protocols: ['bgp'],
+		abstract: `The original [[bgp|BGP]] specification — Kirk Lougheed (Cisco) and [[pioneer:yakov-rekhter|Yakov Rekhter]] (IBM) sketched it on **three napkins** at lunch during the 12th IETF meeting in Austin, January 1989; published as RFC 1105 six months later. Replaced *EGP*, which had been showing its age as the inter-domain routing protocol for the early internet.
+
+The wire format and decision algorithm have evolved through BGP-2 (RFC 1163), BGP-3 (RFC 1267), and BGP-4 ([[rfc:4271|RFC 4271]]) — but the core idea (path-vector announcements with arbitrary local policy) is unchanged 36 years later.`
 	},
 	{
 		number: '2918',
@@ -620,7 +712,10 @@ The architectural document; the algorithmic specs are RFC 9331 (DualPI2 AQM) and
 		authors: 'E. Chen',
 		status: 'standards-track',
 		url: 'https://www.rfc-editor.org/rfc/rfc2918',
-		protocols: ['bgp']
+		protocols: ['bgp'],
+		abstract: `Adds the *Route Refresh* capability — a way to ask a [[bgp|BGP]] peer to re-send its full RIB without resetting the session. Before this, applying a new inbound filter required either a "hard reset" (drop the session and re-learn everything, visible to the entire internet) or stored "Adj-RIBs-In" (memory-expensive). Route Refresh lets you reapply policy in seconds without the disruption.
+
+Negotiated as a capability in OPEN; once both sides advertise it, either can issue a *ROUTE-REFRESH* message at any time. Universally implemented; standard operational hygiene.`
 	},
 	{
 		number: '5082',
@@ -629,7 +724,10 @@ The architectural document; the algorithmic specs are RFC 9331 (DualPI2 AQM) and
 		authors: 'V. Gill, J. Heasley, D. Meyer, P. Savola (ed.), C. Pignataro',
 		status: 'standards-track',
 		url: 'https://www.rfc-editor.org/rfc/rfc5082',
-		protocols: ['bgp']
+		protocols: ['bgp'],
+		abstract: `*GTSM* — a deceptively simple defence-in-depth trick for [[bgp|BGP]] (and any other peer-to-peer protocol over [[ip|IP]]). Two BGP routers that are directly connected set the outgoing {{ttl|TTL}} to 255 and require incoming packets to also have TTL ≥ 254. A remote attacker on the public internet can't forge a packet with TTL > 1 hop's worth, so spoofed BGP injections from off-path simply don't reach the BGP daemon.
+
+Free, deployable today, no crypto required. Often paired with [[rfc:5925|TCP-AO]] or TCP-MD5 for cryptographic peer authentication.`
 	},
 	{
 		number: '5575',
@@ -638,7 +736,10 @@ The architectural document; the algorithmic specs are RFC 9331 (DualPI2 AQM) and
 		authors: 'P. Marques et al.',
 		status: 'standards-track',
 		url: 'https://www.rfc-editor.org/rfc/rfc5575',
-		protocols: ['bgp']
+		protocols: ['bgp'],
+		abstract: `*BGP Flowspec* — extends [[bgp|BGP]] to distribute packet-filter / traffic-engineering rules (match fields like source/destination prefix, port, protocol; action like drop, rate-limit, redirect). The original use case was anti-DDoS: when a network operator detects an attack, they distribute Flowspec rules across the network in seconds to drop the attack traffic at the edge.
+
+Famously implicated in the **2020 CenturyLink/Level 3 outage** — a malformed Flowspec rule cascaded into a six-hour global routing meltdown. Updated by [[rfc:8955|RFC 8955]] (2020) which fixes some of the underspecified validation behaviour exposed by that incident.`
 	},
 	{
 		number: '8205',
@@ -647,7 +748,10 @@ The architectural document; the algorithmic specs are RFC 9331 (DualPI2 AQM) and
 		authors: 'M. Lepinski (ed.), K. Sriram (ed.)',
 		status: 'standards-track',
 		url: 'https://www.rfc-editor.org/rfc/rfc8205',
-		protocols: ['bgp']
+		protocols: ['bgp'],
+		abstract: `*BGPsec* — extends [[bgp|BGP]] with cryptographic signatures over the AS_PATH so that a downstream router can verify each AS in the path actually authorised the route. Designed to defeat path-mangling {{bgp-hijack|BGP hijacks}} that RPKI Origin Validation alone can't catch.
+
+In practice **deployment has been negligible** — every signature requires a verified RPKI cert chain, signature volumes balloon, hardware support is missing, and the operational model is unfamiliar. The **ASPA + Roles** approach of [[rfc:9234|RFC 9234]] (2022) ate BGPsec's lunch as the next-generation answer because it doesn't require per-update signatures.`
 	},
 	{
 		number: '9234',
@@ -656,7 +760,10 @@ The architectural document; the algorithmic specs are RFC 9331 (DualPI2 AQM) and
 		authors: 'A. Azimov, E. Bogomazov, R. Bush, K. Patel, K. Sriram',
 		status: 'proposed-standard',
 		url: 'https://www.rfc-editor.org/rfc/rfc9234',
-		protocols: ['bgp']
+		protocols: ['bgp'],
+		abstract: `Adds *Roles* to [[bgp|BGP]] — peers explicitly negotiate their relationship (provider, customer, peer, …) at OPEN, and a new *OTC* (Only-To-Customer) attribute carries the role through the AS_PATH. A route leak — a customer accidentally re-announcing transit-learned routes upstream as if it were a provider — becomes detectable at every router along the way and can be filtered automatically.
+
+Together with RPKI-ROV and ASPA, this is the modern operational answer to BGP route-leak incidents that the more ambitious [[rfc:8205|BGPsec]] couldn't deliver. Steadily growing deployment: by 2026 every major IXP route server supports it.`
 	},
 
 	// HTTP family (older + 7540)
@@ -667,7 +774,10 @@ The architectural document; the algorithmic specs are RFC 9331 (DualPI2 AQM) and
 		authors: 'T. Berners-Lee, R. Fielding, H. Frystyk',
 		status: 'informational',
 		url: 'https://www.rfc-editor.org/rfc/rfc1945',
-		protocols: ['http1']
+		protocols: ['http1'],
+		abstract: `The first formal HTTP specification — co-authored by [[pioneer:tim-berners-lee|Tim Berners-Lee]] (CERN), [[pioneer:roy-fielding|Roy Fielding]] (UC Irvine), and Henrik Frystyk (W3C). Documents the request/response cycle, headers, status codes, MIME-typed bodies, and the GET/HEAD/POST methods that web servers in 1996 actually understood.
+
+HTTP/1.0 opened a new TCP connection for every request — there was no {{keep-alive|keep-alive}} yet. *Informational* status because by the time it published, work on [[rfc:2068|HTTP/1.1]] (which fixed connection reuse) was already well advanced.`
 	},
 	{
 		number: '2068',
@@ -677,7 +787,10 @@ The architectural document; the algorithmic specs are RFC 9331 (DualPI2 AQM) and
 		status: 'historic',
 		obsoletedBy: ['2616'],
 		url: 'https://www.rfc-editor.org/rfc/rfc2068',
-		protocols: ['http1']
+		protocols: ['http1'],
+		abstract: `The first specification of [[http1|HTTP/1.1]] — added persistent connections (keep-alive by default), pipelining, chunked transfer encoding, content negotiation, byte ranges, conditional requests (If-Modified-Since, ETag), proper caching semantics, and the OPTIONS / PUT / DELETE / TRACE methods. Most of what people still mean by "HTTP" was nailed down here.
+
+Co-edited by [[pioneer:roy-fielding|Roy Fielding]] et al. Quickly obsoleted by [[rfc:2616|RFC 2616]] (1999), which fixed errata and clarified ambiguities discovered in the rapid late-1990s deployment.`
 	},
 	{
 		number: '2616',
@@ -688,7 +801,10 @@ The architectural document; the algorithmic specs are RFC 9331 (DualPI2 AQM) and
 		obsoletes: ['2068'],
 		obsoletedBy: ['7230', '7231', '7232', '7233', '7234', '7235'],
 		url: 'https://www.rfc-editor.org/rfc/rfc2616',
-		protocols: ['http1']
+		protocols: ['http1'],
+		abstract: `The 1999 revision of [[http1|HTTP/1.1]] — for fifteen years, **the** spec every web developer, server, browser, library, and proxy was written against. [[pioneer:roy-fielding|Roy Fielding]]'s doctoral dissertation (REST) was being defended in the same period, and many of the architectural constraints that came to define "REST APIs" trace back to choices made here.
+
+Eventually obsoleted by the **6-RFC split** (7230–7235, 2014), which separated message syntax from semantics from caching from authentication. Then [[rfc:9110|RFC 9110]] / [[rfc:9112|9112]] re-consolidated those in 2022. Despite all this churn, the wire format you see when you \`telnet example.com 80\` and type \`GET / HTTP/1.1\` has not changed since 1999.`
 	},
 	{
 		number: '7540',
@@ -698,7 +814,10 @@ The architectural document; the algorithmic specs are RFC 9331 (DualPI2 AQM) and
 		status: 'historic',
 		obsoletedBy: ['9113'],
 		url: 'https://www.rfc-editor.org/rfc/rfc7540',
-		protocols: ['http2']
+		protocols: ['http2'],
+		abstract: `The original [[http2|HTTP/2]] specification — direct descendant of Google's *SPDY* experiment ([[pioneer:mike-belshe|Mike Belshe]] and Roberto Peon, 2009). Replaces HTTP/1.1's text-based one-request-per-connection model with a {{binary-framing|binary frame}} format and stream {{multiplexing|multiplexing}} over a single TCP connection. {{hpack|HPACK}} compresses repeated headers.
+
+Obsoleted by [[rfc:9113|RFC 9113]] in 2022, partly because of the *Rapid Reset* CVE-2023-44487 DDoS attack which forced new server-side limits on stream creation/cancellation rates. The wire format is essentially unchanged.`
 	},
 
 	// DNS family
@@ -710,7 +829,10 @@ The architectural document; the algorithmic specs are RFC 9331 (DualPI2 AQM) and
 		status: 'historic',
 		obsoletedBy: ['1034'],
 		url: 'https://www.rfc-editor.org/rfc/rfc882',
-		protocols: ['dns']
+		protocols: ['dns'],
+		abstract: `The original 1983 [[dns|DNS]] design — [[pioneer:paul-mockapetris|Paul Mockapetris]]'s response to the question "how do we replace the single \`HOSTS.TXT\` file that has been the entire internet's name lookup table?" Defines the hierarchical, distributed, cacheable namespace concepts: zones, delegations, authoritative servers, recursive resolvers.
+
+Companion to RFC 883 (the implementation spec). Both obsoleted in 1987 by [[rfc:1034|RFC 1034]] and [[rfc:1035|RFC 1035]] which finalised the architecture we still use four decades later.`
 	},
 	{
 		number: '1034',
@@ -720,7 +842,10 @@ The architectural document; the algorithmic specs are RFC 9331 (DualPI2 AQM) and
 		status: 'internet-standard',
 		obsoletes: ['882'],
 		url: 'https://www.rfc-editor.org/rfc/rfc1034',
-		protocols: ['dns']
+		protocols: ['dns'],
+		abstract: `The architectural overview of [[dns|DNS]] — [[pioneer:paul-mockapetris|Paul Mockapetris]]'s 1987 revision of [[rfc:882|RFC 882]]. Covers concepts (domains, zones, resource records), the authority/recursion model, caching, and how delegations work. The wire format and resolver implementation live in companion [[rfc:1035|RFC 1035]].
+
+Forty years later still the canonical text for "how does DNS actually work". Almost every DNS extension since (DNSSEC, EDNS0, [[rfc:8484|DoH]], [[rfc:7858|DoT]], [[rfc:9460|SVCB/HTTPS]]) layers on top without changing the core architecture.`
 	},
 	{
 		number: '7686',
