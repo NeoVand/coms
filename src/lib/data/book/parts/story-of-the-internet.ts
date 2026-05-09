@@ -90,6 +90,15 @@ In **September 1981**, [[pioneer:jon-postel|Jon Postel]] at ISI shipped three RF
 On **1 January 1983**, ARPANET executed its famous "flag day": NCP was switched off, and TCP/IP became the only protocol allowed on the network. Roughly 400 hosts had to convert; sites that missed the deadline simply lost connectivity. Survivors got buttons reading **I survived the TCP/IP transition**. Most historians treat this date as the birthday of the modern internet.
 
 In parallel, the IEEE 802.3 working group ratified its [[ethernet|Ethernet]] standard (originally a Xerox/DEC/Intel collaboration). LAN technology and WAN technology now had a clean interface — the IP packet — and could evolve independently. That separation has held for forty-three years.`
+						},
+						{
+							type: 'narrative',
+							title: 'The Architectural Decision That Made the Rest Possible',
+							text: `The split that mattered most was not legal or organisational. It was the **separation of TCP from IP**, finalised in [[rfc:791|RFC 791]] and [[rfc:9293|RFC 793]] (both September 1981). For the previous decade, the experimental Transmission Control Program had bundled everything into a single reliable byte-stream: addressing, sequencing, flow control, retransmission. **David Reed and Jon Postel argued in 1978** that some applications — packet voice, in particular — needed speed more than reliability, and that fusing the two services made it impossible for protocols like the future [[udp|UDP]] (1980), [[icmp|ICMP]] (1981), or eventually [[quic|QUIC]] (2021) to exist.
+
+The decision to peel IP off as a thin internetworking layer underneath TCP is the reason the modern internet has more than one transport protocol. Without that separation, every new transport would have had to renegotiate with every router on the planet. With it, [[udp|UDP]] could ship in 1980 over the same IP fabric without changing anything below it.
+
+This is the deepest principle of the era: **separate what changes together from what doesn't**. Transports change; addressing doesn't. Wires change; packets don't. The architecture that survived four decades was the one that made each layer free to evolve on its own clock.`
 						}
 					]
 				},
@@ -119,6 +128,17 @@ In parallel, the IEEE 802.3 working group ratified its [[ethernet|Ethernet]] sta
 [[pioneer:van-jacobson|Van Jacobson]] and Mike Karels at Berkeley spent six months instrumenting the wire and reading the BSD source. Their 1988 SIGCOMM paper, **"Congestion Avoidance and Control,"** introduced six algorithms in one paper: **slow start**, **AIMD congestion avoidance**, **fast retransmit**, **fast recovery**, **exponential RTO backoff**, and a refined **RTT estimator**. The fixes shipped in 4.3BSD-Tahoe and saved the internet.
 
 The deeper principle they articulated — **conservation of packets** — has held up for nearly forty years. A sender should put one packet into the network only when an ACK confirms a previous packet has left it. Everything since, including [[quic|QUIC]] in 2021 and Google's BBR in 2016, is variations on that theme.`
+						},
+						{
+							type: 'narrative',
+							title: 'Why "Three Duplicate ACKs"?',
+							text: `One mechanical detail from the 1988 paper deserves a paragraph because it shows up in every TCP stack today. Jacobson's **fast retransmit** triggers when the sender sees **three duplicate ACKs** — three acknowledgements all naming the same next-expected-byte. Why three?
+
+The intuition is reordering tolerance. A single duplicate ACK could mean a packet was reordered by the network and arrived out of sequence. Two duplicates is suspicious but still possibly reordering. Three duplicates means the packet is almost certainly *lost*, not just reordered — the receiver has seen three later packets without seeing the one in question. Jacobson chose three as the threshold that minimised false retransmits in the BSD measurements.
+
+Forty years later, three duplicate ACKs is still the trigger. The number is hard-coded into [[rfc:5681|RFC 5681]] and every modern TCP implementation. **CUBIC, BBR, NewReno** all inherit it unchanged. The mechanism is so universal that it now has a name everyone knows — *fast retransmit* — and a paper-trail back to a single 1988 design choice.
+
+The 1986 collapse is the moment TCP went from working-most-of-the-time to **a protocol you could trust at scale**. Every later congestion-control algorithm — Reno, NewReno, Vegas, CUBIC, Compound, BBR, BBRv3, [[frontier:l4s-comcast-launch|L4S]] — is a refinement of Jacobson's six. The branch point of the field is one paper.`
 						},
 						{
 							type: 'image',
@@ -194,6 +214,15 @@ By Christmas 1990, on a NeXT workstation in his office, Berners-Lee had built th
 That is the deepest lesson of the web's success. It was an **application** — an application that benefited from a layered stack underneath that worked. [[http1|HTTP/1.0]] (1996), [[http1|HTTP/1.1]] (1997), [[http2|HTTP/2]] (2015), and [[http3|HTTP/3]] (2022) have all evolved within that frame, and every one of them is still 'just' a way to ask one host to send another some bytes.`
 						},
 						{
+							type: 'narrative',
+							title: 'CERN Released It Royalty-Free',
+							text: `On **30 April 1993**, CERN released the World Wide Web technology — server, browser, line-mode reader, and the protocol specifications — into the public domain. The document is one of the most consequential pieces of paper in computing history. It was a deliberate decision by CERN's management, against the institutional instinct to license the research, that the web should be free for anyone to implement.
+
+The 1993 release is the reason there is no Microsoft web, no Apple web, no IBM web. Within twelve months, **Mosaic** (NCSA, Marc Andreessen + Eric Bina, January 1993) had become the first popular graphical browser. Andreessen co-founded Netscape later that year. Microsoft licensed the Spyglass / Mosaic codebase as the seed of Internet Explorer in 1995. By 1996, the browser wars were under way — but every combatant was building on the public-domain CERN spec.
+
+The architectural lesson the web carried forward: an application that succeeds at internet scale must be **open enough that competitors can implement it**. HTTP succeeded for the same reason TCP/IP succeeded — the spec was public, the reference implementation was free, and anyone could build a compatible peer. Every walled-garden alternative (Microsoft's MSN, AOL's keywords, Compuserve, even Apple's later eWorld) lost to the open web.`
+						},
+						{
 							type: 'image',
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/First_Web_Server.jpg/500px-First_Web_Server.jpg',
 							alt: 'Tim Berners-Lee\'s NeXTcube — the world\'s first web server, displayed at CERN with a "do not power down" note on the front.',
@@ -256,6 +285,17 @@ The fix took fifteen years. **Active queue management** (CoDel, fq_codel, PIE �
 The QUIC project, started by **[[pioneer:jim-roskind|Jim Roskind]]** at Google in 2012, took a radically different bet. Instead of fighting the middleboxes, QUIC would tunnel a brand-new transport inside [[udp|UDP]] datagrams that middleboxes already had to forward unchanged. Inside that tunnel: a TLS 1.3 handshake that combined transport and crypto setup into a single round-trip; per-stream sequencing that eliminated head-of-line blocking; and the entire protocol implemented in user space, where applications could deploy improvements monthly instead of waiting for the next OS release.
 
 [[rfc:9000|RFC 9000]] standardised QUIC in May 2021. By 2025, QUIC carried 35% of all websites and over 75% of Meta's internet traffic. [[http3|HTTP/3]] — HTTP over QUIC — became the default transport choice for most large platforms. The same architectural move that made QUIC possible (user-space transport on UDP) is now what makes [[mptcp|multipath QUIC]], MoQ live streaming, and HTTP/3 datagrams possible. Ossification, finally, has a release valve.`
+						},
+						{
+							type: 'narrative',
+							title: 'Why UDP, Not a New Protocol Number',
+							text: `The choice to tunnel inside [[udp|UDP]] rather than ship as a new IP protocol number (51, 132, anything not yet assigned) was the most important deployment decision QUIC made.
+
+A new IP protocol number — like SCTP got — would have been the architecturally cleaner choice. SCTP (RFC 4960, 2000) is the better transport on paper: multi-streaming, multi-homing, message-oriented. SCTP cannot traverse the public internet. Middleboxes drop unknown protocol numbers; SCTP packets between Internet endpoints disappear within milliseconds.
+
+QUIC's designers had watched SCTP die in production for fifteen years. They picked UDP — a protocol every NAT, firewall, and middlebox already had to forward unchanged — and accepted the cost of putting a fully-encrypted reliable transport inside it. The cost was real (every byte of a QUIC packet is processed in user space; the kernel sees only opaque UDP) but the benefit was deployment.
+
+This is the structural lesson of the late-2010s protocol-design era: **encryption is what keeps a protocol evolvable, and UDP is what makes encryption deployable**. Anything not encrypted gets ossified by middlebox inspection within a decade. Anything not on UDP cannot traverse the deployed internet. Future transports — multipath QUIC, RTP-over-QUIC, MoQ — all sit inside the same envelope for the same reasons.`
 						}
 					]
 				},
