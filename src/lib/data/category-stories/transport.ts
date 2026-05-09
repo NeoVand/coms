@@ -27,7 +27,7 @@ export const transportStory: CategoryStory = {
 					title: 'Co-inventor of TCP/IP',
 					org: 'Stanford / DARPA',
 					contribution:
-						'Designed the TCP/IP protocol suite alongside Bob Kahn, co-authoring the foundational 1974 paper "A Protocol for Packet Network Intercommunication" that defined how heterogeneous networks could exchange data reliably.',
+						'Designed the TCP/IP protocol suite alongside [[pioneer:bob-kahn|Bob Kahn]], co-authoring the foundational 1974 paper "A Protocol for Packet Network Intercommunication" that defined how heterogeneous networks could exchange data reliably.',
 					imagePath:
 						'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Dr_Vint_Cerf_ForMemRS_%28cropped%29.jpg/330px-Dr_Vint_Cerf_ForMemRS_%28cropped%29.jpg'
 				},
@@ -37,7 +37,7 @@ export const transportStory: CategoryStory = {
 					title: 'Co-inventor of TCP/IP',
 					org: 'DARPA',
 					contribution:
-						'Conceived the idea of open-architecture networking while managing the ARPANET project at DARPA, then recruited Vint Cerf to collaborate on the protocol design that would become the backbone of the internet.',
+						'Conceived the idea of open-architecture networking while managing the ARPANET project at DARPA, then recruited [[pioneer:vint-cerf|Vint Cerf]] to collaborate on the protocol design that would become the backbone of the internet.',
 					imagePath:
 						'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Bob_Kahn.jpg/330px-Bob_Kahn.jpg'
 				},
@@ -47,7 +47,7 @@ export const transportStory: CategoryStory = {
 					title: 'RFC Editor & Protocol Architect',
 					org: 'USC Information Sciences Institute',
 					contribution:
-						'Wrote the definitive RFC specifications for both TCP (RFC 793) and UDP (RFC 768), and served as the RFC Editor for nearly three decades, shaping the standards process that governs the internet.',
+						'Wrote the definitive RFC specifications for both TCP ([[rfc:793|RFC 793]]) and UDP ([[rfc:768|RFC 768]]), and served as the RFC Editor for nearly three decades, shaping the standards process that governs the internet.',
 					imagePath:
 						'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Jon_Postel_sitting_in_office_%28cropped%29.jpg/330px-Jon_Postel_sitting_in_office_%28cropped%29.jpg'
 				},
@@ -82,7 +82,7 @@ export const transportStory: CategoryStory = {
 					year: 1980,
 					title: 'UDP Published \u2014 RFC 768',
 					description:
-						'Jon Postel defines the minimal, connectionless transport protocol in just 3 pages. Sometimes less is more.',
+						'[[pioneer:jon-postel|Jon Postel]] defines the minimal, {{connectionless|connectionless}} transport protocol in just 3 pages. Sometimes less is more.',
 					protocolId: 'udp'
 				},
 				{
@@ -152,7 +152,7 @@ export const transportStory: CategoryStory = {
 					year: 2000,
 					title: 'SCTP Published \u2014 RFC 2960',
 					description:
-						'Stream Control Transmission Protocol brings multi-streaming and multi-homing to transport, originally designed for telephony signaling.',
+						'Stream Control Transmission Protocol brings multi-streaming and multi-homing to transport, originally designed for telephony {{signaling|signaling}}.',
 					protocolId: 'sctp'
 				},
 				{
@@ -166,7 +166,7 @@ export const transportStory: CategoryStory = {
 					year: 2012,
 					title: 'QUIC Development Begins at Google',
 					description:
-						"Jim Roskind starts designing a new transport protocol to solve TCP's head-of-line blocking and slow handshakes.",
+						"[[pioneer:jim-roskind|Jim Roskind]] starts designing a new transport protocol to solve TCP's {{head-of-line-blocking|head-of-line blocking}} and slow handshakes.",
 					protocolId: 'quic'
 				},
 				{
@@ -180,7 +180,7 @@ export const transportStory: CategoryStory = {
 					year: 2021,
 					title: 'QUIC v1 Published \u2014 RFC 9000',
 					description:
-						'After years of IETF standardization, QUIC becomes an official internet standard, building encryption into the transport layer itself.',
+						'After years of IETF standardization, QUIC becomes an official internet standard, building {{encryption|encryption}} into the transport layer itself.',
 					protocolId: 'quic'
 				}
 			]

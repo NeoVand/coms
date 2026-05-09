@@ -236,6 +236,14 @@ export const concepts: Concept[] = [
 		category: 'protocol-mechanics'
 	},
 	{
+		id: 'congestion-avoidance',
+		term: 'Congestion Avoidance',
+		definition:
+			'The phase of TCP congestion control after slow start ends — the sender grows the congestion window linearly (additive increase, +1 MSS per RTT) instead of exponentially. The "AI" half of AIMD (Additive Increase / Multiplicative Decrease). When loss is detected, the window is cut and the cycle restarts. Defined in Jacobson & Karels (SIGCOMM \'88) and standardised in RFC 5681.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/TCP_congestion_control#Congestion_avoidance',
+		category: 'protocol-mechanics'
+	},
+	{
 		id: 'multiplexing',
 		term: 'Multiplexing',
 		definition:
@@ -402,6 +410,16 @@ export const concepts: Concept[] = [
 		definition:
 			'A sequence of certificates from a server certificate up to a trusted root CA. Each certificate in the chain is signed by the next, creating a chain of trust that browsers can verify.',
 		wikiUrl: 'https://en.wikipedia.org/wiki/Chain_of_trust',
+		category: 'security'
+	},
+	{
+		id: 'certificate-authority',
+		term: 'Certificate Authority (CA)',
+		definition:
+			'An organisation trusted to issue digital certificates. CAs sign certificates after verifying the requester controls a domain (DV), an organisation (OV), or has been extended-validated (EV). Root CAs are pre-installed in browsers and operating systems; intermediate CAs sign on their behalf so the root key can stay offline. Let\'s Encrypt, DigiCert, Sectigo, GoDaddy, and Google Trust Services issue most public-web certificates.',
+		analogy:
+			'Like a notary public — a third party that the issuing world has agreed to trust, so a stamp from them means the document is what it claims to be.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Certificate_authority',
 		category: 'security'
 	},
 	{
@@ -588,6 +606,14 @@ export const concepts: Concept[] = [
 		analogy:
 			'Like the maximum box size a conveyor belt can handle — anything bigger must be split into smaller boxes.',
 		wikiUrl: 'https://en.wikipedia.org/wiki/Maximum_transmission_unit',
+		category: 'networking-basics'
+	},
+	{
+		id: 'path-mtu-discovery',
+		term: 'Path MTU Discovery',
+		definition:
+			'A technique where a sender probes the path to a destination to find the largest packet size that can traverse it without fragmentation. Sets the Don\'t Fragment flag and watches for ICMP "Fragmentation Needed" messages. When ICMP is filtered (the "MTU black hole"), connections silently hang. RFC 1191 (IPv4) and RFC 8201 (IPv6); RFC 4821 PLPMTUD probes without ICMP.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Path_MTU_Discovery',
 		category: 'networking-basics'
 	},
 	{

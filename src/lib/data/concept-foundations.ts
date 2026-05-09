@@ -29,7 +29,7 @@ The deeper trick is that protocols are **public**. They are described in plain t
   A -->|"3. ACK"| B
   A -->|"4. Request"| B
   B -->|"5. Response"| A`,
-				caption: 'TCP requires a three-way handshake before any data can flow. The order matters — both sides have to confirm the connection in writing before either can speak its mind.'
+				caption: 'TCP requires a {{three-way-handshake|three-way handshake}} before any data can flow. The order matters — both sides have to confirm the connection in writing before either can speak its mind.'
 			},
 			{
 				type: 'image',
@@ -74,7 +74,7 @@ The IETF's job is not to invent these protocols. It is to **document them**, **r
 						title: 'Co-author of TCP/IP',
 						org: 'Stanford → DARPA → Google',
 						contribution:
-							"With Bob Kahn, the 1974 paper that coined the word \"internet\" and described a single protocol they would later split into TCP + IP. Stewards of the protocol's growth across the next four decades.",
+							"With [[pioneer:bob-kahn|Bob Kahn]], the 1974 paper that coined the word \"internet\" and described a single protocol they would later split into TCP + IP. Stewards of the protocol's growth across the next four decades.",
 						imagePath:
 							'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Dr_Vint_Cerf_ForMemRS_%28cropped%29.jpg/330px-Dr_Vint_Cerf_ForMemRS_%28cropped%29.jpg'
 					},
@@ -122,14 +122,14 @@ The deeper principle is older than networking: separate what changes together fr
   IP --> ETH
   ETH --> PHY`,
 				caption:
-					'Going down the stack, each layer wraps the previous payload with its own header — encapsulation. Going up, each layer strips its header and hands the rest to the next. This is why the same HTTP request rides unchanged across Wi-Fi at home, Ethernet in the office, and a satellite link to a server in Iowa.'
+					'Going down the stack, each layer wraps the previous payload with its own header — {{encapsulation|encapsulation}}. Going up, each layer strips its header and hands the rest to the next. This is why the same HTTP request rides unchanged across Wi-Fi at home, Ethernet in the office, and a satellite link to a server in Iowa.'
 			},
 			{
 				type: 'image',
 				src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/OSI_Model_v1.svg/500px-OSI_Model_v1.svg.png',
 				alt: 'The OSI 7-layer reference model — Physical, Data Link, Network, Transport, Session, Presentation, Application.',
 				caption:
-					'The OSI 7-layer reference model, ratified by ISO in 1984. Forty years later it still shapes how every networking textbook teaches the stack — even though the internet itself runs the simpler 4-layer TCP/IP model.',
+					'The OSI 7-layer reference model, ratified by ISO in 1984. Forty years later it still shapes how every networking textbook teaches the stack — even though the internet itself runs the simpler 4-layer {{tcp-ip-model|TCP/IP model}}.',
 				credit: 'Diagram: Wikimedia Commons / public domain'
 			},
 			{
@@ -247,7 +247,7 @@ Together: DNS resolves the hostname → IP routes the packet to the host → [[a
 				title: 'How an Address Survives the Trip',
 				text: `Watch a single packet travel from your laptop to a Google server, focusing only on the addresses.
 
-At your laptop: the packet has a destination IP of 142.250.80.46 and a destination MAC of your home router's WAN-side address. Your router strips the Ethernet frame, rewrites the source IP via [[nat|NAT]] to its own public address, picks a new next-hop MAC (its ISP's gateway), and forwards.
+At your laptop: the packet has a destination IP of 142.250.80.46 and a destination MAC of your home router's WAN-side address. Your router strips the Ethernet frame, rewrites the source IP via {{nat|NAT}} to its own public address, picks a new next-hop MAC (its ISP's gateway), and forwards.
 
 At every router along the path — typically 10-20 hops — the same thing happens. The IP destination is left untouched; the source IP is left untouched; the **MAC pair is rewritten at every single hop**. The router is doing all the work of finding the next hop via [[bgp|BGP]] or its internal routing table; the IP packet never knows about any of it.
 
@@ -258,14 +258,14 @@ This division of labour — IP for end-to-end identity, MAC for hop-to-hop deliv
 			{
 				type: 'callout',
 				title: 'Address scope is what matters most',
-				text: 'A MAC is only meaningful inside one broadcast domain. An IP is globally unique (or unique within a private space behind NAT). A port is meaningful only on one host. A hostname is meaningful to the entire DNS namespace. **The scope of an address determines what infrastructure has to keep state about it** — which is why the internet can scale to billions of hosts without any single device knowing all of them.'
+				text: 'A {{mac-address|MAC}} is only meaningful inside one {{broadcast|broadcast}} domain. An {{ip-address|IP}} is globally unique (or unique within a private space behind {{nat|NAT}}). A port is meaningful only on one host. A hostname is meaningful to the entire [[dns|DNS]] namespace. **The scope of an address determines what infrastructure has to keep state about it** — which is why the internet can scale to billions of hosts without any single device knowing all of them.'
 			},
 			{
 				type: 'image',
 				src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/MAC-48_Address.svg/500px-MAC-48_Address.svg.png',
 				alt: 'Bit-field structure of a 48-bit MAC address — 24-bit OUI + 24-bit NIC, with multicast and locally-administered flag bits.',
 				caption:
-					'A 48-bit MAC address is structured: the first 24 bits are the OUI (Organisationally Unique Identifier — Apple = ac:de:48, Cisco = 00:1b:54, etc.), the last 24 bits are assigned by the manufacturer per device. Two flag bits in the first octet mark multicast and locally-administered addresses.',
+					'A 48-bit {{mac-address|MAC address}} is structured: the first 24 bits are the OUI (Organisationally Unique Identifier — Apple = ac:de:48, Cisco = 00:1b:54, etc.), the last 24 bits are assigned by the manufacturer per device. Two flag bits in the first octet mark {{multicast|multicast}} and locally-administered addresses.',
 				credit: 'Diagram: Wikimedia Commons / CC BY-SA 2.5'
 			},
 			{
@@ -288,7 +288,7 @@ NAT bought IPv4 thirty extra years. It also broke a foundational property of the
 			{
 				type: 'callout',
 				title: 'Why an IP looks like four numbers',
-				text: 'IPv4 addresses are 32 bits, conventionally written as four decimal numbers separated by dots: \`192.0.2.5\` is just \`11000000.00000010.00000000.00000101\` in dotted-decimal. The notation is for humans. The router only sees the bits. When you write a CIDR prefix like \`192.0.2.0/24\`, the \`/24\` says "the first 24 bits are the network; the last 8 are the host" — a routing table lookup compares those leading bits against its prefix entries to pick the next hop.'
+				text: 'IPv4 addresses are 32 bits, conventionally written as four decimal numbers separated by dots: \`192.0.2.5\` is just \`11000000.00000010.00000000.00000101\` in dotted-decimal. The notation is for humans. The router only sees the bits. When you write a CIDR prefix like \`192.0.2.0/24\`, the \`/24\` says "the first 24 bits are the network; the last 8 are the host" — a {{routing-table|routing table}} lookup compares those leading bits against its prefix entries to pick the next {{hop|hop}}.'
 			}
 		]
 	},
@@ -331,7 +331,7 @@ A {{packet|packet}} is a **self-contained unit** with a **header** (control info
 				src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/IPv4_Header.svg/500px-IPv4_Header.svg.png',
 				alt: 'Bit-field layout of the 20-byte IPv4 header.',
 				caption:
-					'The IPv4 header (20 bytes minimum). Each row is 32 bits. Source and destination addresses each take a full row; the smaller fields above pack version, header length, ToS/DSCP, fragmentation, TTL, transport protocol, and a checksum into the first three rows. Options (rare) extend it.',
+					'The IPv4 header (20 bytes minimum). Each row is 32 bits. Source and destination addresses each take a full row; the smaller fields above pack version, header length, ToS/DSCP, {{fragmentation|fragmentation}}, TTL, transport protocol, and a {{checksum|checksum}} into the first three rows. Options (rare) extend it.',
 				credit: 'Diagram: Wikimedia Commons / CC BY-SA 3.0'
 			},
 			{
@@ -354,7 +354,7 @@ The same data is all of these things at once, of course. Right now, on this page
 			{
 				type: 'callout',
 				title: 'MTU and the 1500-byte ceiling',
-				text: 'The largest packet most internet links will carry without fragmenting is **1500 bytes** — the Ethernet MTU, set by Bob Metcalfe in 1980 and never changed. Subtract 20 bytes of IP header and 20 bytes of TCP header, and the maximum payload per packet is **1460 bytes**. Sending a 1 MB file means roughly 685 packets. Path MTU Discovery probes the path to find the largest size that survives end-to-end; when it fails (the dreaded "MTU black hole"), connections hang because both sides keep sending packets that get dropped silently.'
+				text: 'The largest packet most internet links will carry without fragmenting is **1500 bytes** — the [[ethernet|Ethernet]] {{mtu|MTU}}, set by [[pioneer:bob-metcalfe|Bob Metcalfe]] in 1980 and never changed. Subtract 20 bytes of IP header and 20 bytes of TCP header, and the maximum payload per packet is **1460 bytes**. Sending a 1 MB file means roughly 685 packets. {{path-mtu-discovery|Path MTU Discovery}} probes the path to find the largest size that survives end-to-end; when it fails (the dreaded {{mtu-black-hole|"MTU black hole"}}), connections hang because both sides keep sending packets that get dropped silently.'
 			},
 			{
 				type: 'narrative',
@@ -421,7 +421,7 @@ Run \`ss -t\` (or \`netstat -t\`) on a busy server and you can see the table. Hu
 			{
 				type: 'callout',
 				title: 'Why TIME_WAIT lives for 60 seconds',
-				text: 'After a TCP connection closes, the local OS holds the four-tuple in **TIME_WAIT** state for ~60 seconds (2× the maximum segment lifetime). The reason is paranoia about stragglers — a packet from the old connection that was delayed in the network for 30 seconds could otherwise re-enter a freshly-opened connection on the same four-tuple and be misinterpreted as legitimate data. On servers with thousands of short-lived connections per second this can exhaust the ephemeral port range; the cure is connection reuse (HTTP keep-alive, [[http2|HTTP/2]] multiplexing, [[grpc|gRPC]] connection pooling).'
+				text: 'After a TCP connection closes, the local OS holds the four-tuple in **{{time-wait|TIME_WAIT}}** state for ~60 seconds (2× the maximum segment lifetime). The reason is paranoia about stragglers — a packet from the old connection that was delayed in the network for 30 seconds could otherwise re-enter a freshly-opened connection on the same four-tuple and be misinterpreted as legitimate data. On servers with thousands of short-lived connections per second this can exhaust the {{ephemeral-port|ephemeral port}} range; the cure is connection reuse (HTTP {{keep-alive|keep-alive}}, [[http2|HTTP/2]] {{multiplexing|multiplexing}}, [[grpc|gRPC]] connection pooling).'
 			},
 			{
 				type: 'narrative',
@@ -478,7 +478,7 @@ The principle they articulated — **conservation of packets** — has held up f
 				src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Van_Jacobson.jpg/330px-Van_Jacobson.jpg',
 				alt: 'Van Jacobson — co-author of the 1988 paper that saved the internet from congestion collapse and, decades later, of BBR.',
 				caption:
-					'Van Jacobson, co-author with Mike Karels of "Congestion Avoidance and Control" (SIGCOMM \'88) — the paper whose slow start, AIMD, and fast retransmit fixes shipped in 4.3BSD-Tahoe and stopped the 1986 cascade. Three decades later he was a co-author of the BBR paper at Google.',
+					'[[pioneer:van-jacobson|Van Jacobson]], co-author with Mike Karels of "Congestion Avoidance and Control" (SIGCOMM \'88) — the paper whose {{slow-start|slow start}}, {{aimd|AIMD}}, and fast retransmit fixes shipped in 4.3BSD-Tahoe and stopped the 1986 cascade. Three decades later he was a co-author of the BBR paper at Google.',
 				credit: 'Photo: Wikimedia Commons / public domain'
 			},
 			{
@@ -499,7 +499,7 @@ The principle they articulated — **conservation of packets** — has held up f
   RC -->|"new ACK"| CA
   CA -->|"loss detected"| FR
   CA -->|"timeout"| S0`,
-				caption: 'The four-phase loop every TCP congestion controller has used since 1988. Modern algorithms (CUBIC, BBR) replace the linear growth in Congestion Avoidance with their own curves, but the overall shape is unchanged.'
+				caption: 'The four-phase loop every TCP {{congestion-control|congestion controller}} has used since 1988. Modern algorithms ({{cubic|CUBIC}}, {{bbr|BBR}}) replace the linear growth in {{congestion-avoidance|Congestion Avoidance}} with their own curves, but the overall shape is unchanged.'
 			},
 			{
 				type: 'narrative',
@@ -670,7 +670,7 @@ The combination is what makes the modern web tractable. You use slow asymmetric 
 				src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Asymmetric_Cryptography.svg/500px-Asymmetric_Cryptography.svg.png',
 				alt: 'Public-key cryptography: sender encrypts with the recipient\'s public key; recipient decrypts with their matching private key.',
 				caption:
-					'Public-key cryptography. Anyone can encrypt a message using the recipient\'s public key (which is shared openly). Only the recipient — the holder of the matching private key — can decrypt it. This solves the key-distribution problem that defeated symmetric ciphers for centuries.',
+					'{{public-key|Public-key}} cryptography. Anyone can {{encryption|encrypt}} a message using the recipient\'s {{public-key|public key}} (which is shared openly). Only the recipient — the holder of the matching {{private-key|private key}} — can decrypt it. This solves the key-distribution problem that defeated symmetric ciphers for centuries.',
 				credit: 'Diagram: Wikimedia Commons / public domain'
 			},
 			{
@@ -685,14 +685,14 @@ The combination is what makes the modern web tractable. You use slow asymmetric 
     C2["Client"] <-->|"AES / ChaCha20 encrypted"| S2["Server"]
   end
   Handshake -->|"shared secret"| Data`,
-				caption: 'TLS uses slow asymmetric crypto to safely exchange a session key, then switches to fast symmetric encryption for all data. The handshake is a few hundred bytes; the data can be gigabytes.'
+				caption: 'TLS uses slow {{asymmetric-encryption|asymmetric crypto}} to safely exchange a session key, then switches to fast {{symmetric-encryption|symmetric encryption}} for all data. The {{handshake|handshake}} is a few hundred bytes; the data can be gigabytes.'
 			},
 			{
 				type: 'image',
 				src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Digital_certificates_chain_of_trust.png/500px-Digital_certificates_chain_of_trust.png',
 				alt: 'X.509 chain of trust: root CA signs intermediate CA, which signs the leaf certificate.',
 				caption:
-					'The X.509 certificate chain of trust. Your browser ships with the public keys of around 100 root CAs. The site you connect to presents a leaf certificate signed by an intermediate CA, which is itself signed by a trusted root. Each link is a digital signature your browser verifies.',
+					'The X.509 {{certificate-chain|certificate chain of trust}}. Your browser ships with the public keys of around 100 root {{certificate-authority|CAs}}. The site you connect to presents a leaf {{certificate|certificate}} signed by an intermediate CA, which is itself signed by a trusted root. Each link is a digital signature your browser verifies.',
 				credit: 'Diagram: Wikimedia Commons / CC BY-SA 4.0'
 			},
 			{

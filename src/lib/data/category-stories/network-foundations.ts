@@ -16,7 +16,7 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
 			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Xerox_Alto_mit_Rechner.JPG/500px-Xerox_Alto_mit_Rechner.JPG',
 			alt: 'The Xerox Alto computer at Xerox PARC — the machine that Ethernet was invented to network',
 			caption:
-				'The Xerox Alto (1973) — the workstation where Ethernet was born. Bob Metcalfe invented Ethernet at Xerox PARC to network these Alto machines, connecting them over a shared coaxial cable at 2.94 Mbps using CSMA/CD.',
+				'The Xerox Alto (1973) — the workstation where Ethernet was born. [[pioneer:bob-metcalfe|Bob Metcalfe]] invented Ethernet at Xerox PARC to network these Alto machines, connecting them over a shared coaxial cable at 2.94 Mbps using CSMA/CD.',
 			credit: 'Photo: Joho345 / Public Domain, via Wikimedia Commons'
 		},
 		{
@@ -76,7 +76,7 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
 					title: 'Co-inventor of TCP/IP',
 					org: 'Stanford / DARPA / Google',
 					contribution:
-						'Co-designed the TCP/IP protocol suite (including IP) with Bob Kahn. Their 1974 paper defined how heterogeneous networks could exchange data — the fundamental insight that created the internet.',
+						'Co-designed the TCP/IP protocol suite (including IP) with [[pioneer:bob-kahn|Bob Kahn]]. Their 1974 paper defined how heterogeneous networks could exchange data — the fundamental insight that created the internet.',
 					imagePath:
 						'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Dr_Vint_Cerf_ForMemRS_%28cropped%29.jpg/330px-Dr_Vint_Cerf_ForMemRS_%28cropped%29.jpg'
 				},
@@ -86,7 +86,7 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
 					title: 'Author of ARP',
 					org: 'MIT',
 					contribution:
-						'Wrote RFC 826 (1982) defining the Address Resolution Protocol — the elegantly simple broadcast mechanism that bridges IP addresses to hardware addresses on local networks.'
+						'Wrote [[rfc:826|RFC 826]] (1982) defining the Address Resolution Protocol — the elegantly simple {{broadcast|broadcast}} mechanism that bridges IP addresses to hardware addresses on local networks.'
 				},
 				{
 					name: 'Vic Hayes',
@@ -102,7 +102,7 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
 					title: 'Co-creator of BGP',
 					org: 'IBM / Juniper Networks',
 					contribution:
-						'Co-authored the Border Gateway Protocol (RFC 1105, 1989) with Kirk Lougheed. BGP became the de facto inter-domain routing protocol, handling routing decisions between every autonomous system on the internet.'
+						'Co-authored the Border Gateway Protocol ([[rfc:1105|RFC 1105]], 1989) with Kirk Lougheed. BGP became the de facto inter-domain routing protocol, handling routing decisions between every {{autonomous-system|autonomous system}} on the internet.'
 				},
 				{
 					name: 'Steve Deering',
@@ -110,7 +110,7 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
 					title: 'Creator of IPv6',
 					org: 'Xerox PARC / Cisco',
 					contribution:
-						'Primary architect of IPv6, leading the design of 128-bit addressing, the simplified header, and multicast. Also invented IP multicast itself, fundamentally changing how one-to-many communication works on the internet.'
+						'Primary architect of IPv6, leading the design of 128-bit addressing, the simplified header, and {{multicast|multicast}}. Also invented IP multicast itself, fundamentally changing how one-to-many communication works on the internet.'
 				}
 			]
 		},
@@ -134,7 +134,7 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
 					year: 1981,
 					title: 'IPv4 Specified — RFC 791',
 					description:
-						'Jon Postel publishes RFC 791, defining the Internet Protocol with 32-bit addresses, TTL, and fragmentation — the addressing system of the internet.',
+						'[[pioneer:jon-postel|Jon Postel]] publishes [[rfc:791|RFC 791]], defining the Internet Protocol with 32-bit addresses, {{ttl|TTL}}, and {{fragmentation|fragmentation}} — the addressing system of the internet.',
 					protocolId: 'ip'
 				},
 				{
@@ -245,7 +245,7 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
   S4 -->|"Frame on wire"| R1
   R3 -->|"New frame, same IP packet"| D1`,
 			caption:
-				'Each layer wraps the payload from the layer above. At every hop, the Ethernet frame is stripped and rebuilt with new MAC addresses — but the IP addresses and TCP ports stay constant end-to-end. This is the fundamental principle of encapsulation.'
+				'Each layer wraps the {{payload|payload}} from the layer above. At every {{hop|hop}}, the Ethernet {{frame|frame}} is stripped and rebuilt with new {{mac-address|MAC addresses}} — but the {{ip-address|IP addresses}} and TCP ports stay constant end-to-end. This is the fundamental principle of {{encapsulation|encapsulation}}.'
 		},
 		{
 			type: 'narrative',
@@ -335,7 +335,7 @@ The most ambitious chapter began in the 1990s. IPv4's 32-bit address space — 4
   end
   V4 ~~~ V6`,
 			caption:
-				'IPv4 headers are variable-length with a checksum and options; IPv6 headers are fixed at 40 bytes with no checksum (upper layers handle integrity) and extension headers for optional features. Simpler headers mean faster router processing.'
+				'IPv4 headers are variable-length with a {{checksum|checksum}} and options; IPv6 headers are fixed at 40 bytes with no checksum (upper layers handle integrity) and extension headers for optional features. Simpler headers mean faster router processing.'
 		}
 	]
 };
