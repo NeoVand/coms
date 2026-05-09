@@ -854,7 +854,10 @@ Forty years later still the canonical text for "how does DNS actually work". Alm
 		authors: 'J. Appelbaum, A. Muffett',
 		status: 'proposed-standard',
 		url: 'https://www.rfc-editor.org/rfc/rfc7686',
-		protocols: ['dns']
+		protocols: ['dns'],
+		abstract: `Reserves \`.onion\` as a *Special-Use Domain Name* — a rare carve-out outside ICANN's namespace, granted because the Tor protocol uses .onion as an internal addressing scheme rather than a public name hierarchy. Public {{dns-resolution|DNS}} resolvers MUST NOT look up .onion names, MUST NOT cache them, and MUST NOT forward them. The reservation prevents accidental DNS leakage of Tor traffic to the open internet.
+
+Authored by Jacob Appelbaum and Alec Muffett. The IANA *Special-Use Domain Names* registry now has a small but growing list of similar reservations (.alt, .home.arpa, etc.).`
 	},
 	{
 		number: '7858',
@@ -863,7 +866,10 @@ Forty years later still the canonical text for "how does DNS actually work". Alm
 		authors: 'Z. Hu, L. Zhu, J. Heidemann, A. Mankin, D. Wessels, P. Hoffman',
 		status: 'proposed-standard',
 		url: 'https://www.rfc-editor.org/rfc/rfc7858',
-		protocols: ['dns']
+		protocols: ['dns'],
+		abstract: `*DoT* — runs the regular [[dns|DNS]] wire protocol inside a [[tls|TLS]] connection on **TCP port 853**. Encrypts DNS queries between stub resolver and recursive resolver so the on-path observers (your ISP, the coffee-shop Wi-Fi, etc.) can't see what you're looking up.
+
+Together with [[rfc:8484|DoH]] (DNS over HTTPS) this is the modern answer to the long-standing privacy gap that DNS was designed in 1983 with no transport encryption. Cloudflare 1.1.1.1, Google 8.8.8.8, Quad9, NextDNS all support DoT; Android has had system-wide DoT (\`Private DNS\`) since Android 9 (2018).`
 	},
 	{
 		number: '8484',
@@ -872,7 +878,10 @@ Forty years later still the canonical text for "how does DNS actually work". Alm
 		authors: 'P. Hoffman, P. McManus',
 		status: 'proposed-standard',
 		url: 'https://www.rfc-editor.org/rfc/rfc8484',
-		protocols: ['dns']
+		protocols: ['dns'],
+		abstract: `*DoH* — sends [[dns|DNS]] queries as the body of an [[http2|HTTP/2]] (or [[http3|HTTP/3]]) POST/GET to \`/dns-query\`, and gets the response back the same way. Indistinguishable from any other HTTPS traffic to a network observer; bypasses DNS-blocking middleboxes that operate purely on UDP/53.
+
+Co-authored by Paul Hoffman and Patrick McManus (then Mozilla). DoH is now ubiquitous — every major browser supports it, often defaulting on. The deployment generated genuine controversy: it shifts DNS visibility from the user's local network to a small set of large public resolvers, a centralisation tradeoff against the privacy gain.`
 	},
 	{
 		number: '9460',
@@ -881,7 +890,10 @@ Forty years later still the canonical text for "how does DNS actually work". Alm
 		authors: 'B. Schwartz, M. Bishop, E. Nygren',
 		status: 'proposed-standard',
 		url: 'https://www.rfc-editor.org/rfc/rfc9460',
-		protocols: ['dns']
+		protocols: ['dns'],
+		abstract: `Adds two new [[dns|DNS]] resource record types: *SVCB* (general service binding) and *HTTPS* (a specialisation for web). They let a single record advertise a service's preferred protocol stack — *"this name speaks [[http3|HTTP/3]] on port 443, supports {{ech|ECH}} with this public key, and the canonical hostname is X."*
+
+Solves the long-standing apex-CNAME problem (\`example.com\` can now alias to \`example.cdn.com\` without violating [[rfc:1034|RFC 1034]]) and lets browsers learn about HTTP/3 and ECH support **before** the first connection, instead of paying a round-trip-penalty to discover them. Cloudflare and Apple are the most aggressive deployers.`
 	},
 	{
 		number: '9499',
@@ -890,7 +902,10 @@ Forty years later still the canonical text for "how does DNS actually work". Alm
 		authors: 'P. Hoffman, A. Sullivan, K. Fujiwara',
 		status: 'best-current-practice',
 		url: 'https://www.rfc-editor.org/rfc/rfc9499',
-		protocols: ['dns']
+		protocols: ['dns'],
+		abstract: `The canonical glossary for [[dns|DNS]] — the document that fixes the meaning of *zone*, *delegation*, *NXDOMAIN*, *bailiwick*, *negative cache*, *split-horizon*, and roughly two hundred other terms that DNS practitioners had been using inconsistently for forty years. Best Current Practice; replaces RFC 8499 (2019) and RFC 7719 (2015).
+
+Edited by Paul Hoffman, Andrew Sullivan, and Kazunori Fujiwara. If you're writing a paper, a spec, or a code comment about DNS, this is the glossary to cite.`
 	},
 
 	// Email
@@ -902,7 +917,10 @@ Forty years later still the canonical text for "how does DNS actually work". Alm
 		status: 'historic',
 		obsoletedBy: ['2821', '5321'],
 		url: 'https://www.rfc-editor.org/rfc/rfc821',
-		protocols: ['smtp']
+		protocols: ['smtp'],
+		abstract: `[[pioneer:jon-postel|Jon Postel]]'s original 1982 specification of [[smtp|SMTP]] — the store-and-forward mail transfer protocol that built every email system since. Defines the verb-based command vocabulary (\`HELO\`, \`MAIL FROM\`, \`RCPT TO\`, \`DATA\`, \`QUIT\`) and the numeric reply codes (250 OK, 550 No such user) that you can still type into a \`telnet mail.example.com 25\` session today.
+
+Obsoleted by RFC 2821 (2001, Klensin) and the current [[rfc:5321|RFC 5321]] (2008). The wire protocol has barely changed in 40 years; what's accreted around it is the security layer (STARTTLS, SPF, DKIM, DMARC) the original spec never imagined.`
 	},
 	{
 		number: '822',
@@ -911,7 +929,10 @@ Forty years later still the canonical text for "how does DNS actually work". Alm
 		authors: 'D. Crocker',
 		status: 'historic',
 		url: 'https://www.rfc-editor.org/rfc/rfc822',
-		protocols: ['smtp']
+		protocols: ['smtp'],
+		abstract: `Dave Crocker's 1982 specification of the *email message format* — the \`From:\`, \`To:\`, \`Subject:\`, \`Date:\`, \`Message-ID:\` header fields above an empty line above the body. Companion to [[rfc:821|RFC 821]] (which is the *transport*; this is what gets transported).
+
+Obsoleted by RFC 2822 (2001) and RFC 5322 (2008). Every modern email message format is recognisably descended from this 50-page document. The phrase "RFC 822 message format" is still a common shorthand for the basic envelope.`
 	},
 	{
 		number: '5321',
@@ -921,7 +942,10 @@ Forty years later still the canonical text for "how does DNS actually work". Alm
 		status: 'standards-track',
 		obsoletes: ['821', '2821'],
 		url: 'https://www.rfc-editor.org/rfc/rfc5321',
-		protocols: ['smtp']
+		protocols: ['smtp'],
+		abstract: `John Klensin's 2008 revision of [[smtp|SMTP]] — the spec every modern mail server is written against. Adds the *Extended SMTP* mechanism (EHLO with capability negotiation), specifies STARTTLS as the standard upgrade path, and codifies the practical SMTP behaviour two decades of deployment had developed.
+
+The wire vocabulary is unchanged from [[rfc:821|RFC 821]] (1982) — what's new is everything around the edges (extensions, modern reply codes, internationalised email handling, message-size declarations). Pair with [[rfc:5322|RFC 5322]] (message format) for the complete current email picture.`
 	},
 	{
 		number: '6409',
@@ -930,7 +954,10 @@ Forty years later still the canonical text for "how does DNS actually work". Alm
 		authors: 'R. Gellens, J. Klensin',
 		status: 'internet-standard',
 		url: 'https://www.rfc-editor.org/rfc/rfc6409',
-		protocols: ['smtp']
+		protocols: ['smtp'],
+		abstract: `Splits the *submission* of mail (mail user agent → mail submission agent) from the *relay* of mail (MSA → other MTA) onto separate ports — submission on **587**, relay on 25. The two roles need different policies: submission requires authentication, applies content rewriting (Message-ID assignment, address canonicalisation), and shouldn't be open to the whole internet. Port 25 is for inter-MTA traffic and is widely blocked by ISPs to limit spam emission.
+
+If your mail client is configured to send via your provider, it's almost certainly talking to port 587 with STARTTLS, by virtue of this RFC. The complementary *Submissions* port 465 (SMTPS, implicit TLS) was retroactively standardised by [[rfc:8314|RFC 8314]].`
 	},
 	{
 		number: '8314',
@@ -939,7 +966,10 @@ Forty years later still the canonical text for "how does DNS actually work". Alm
 		authors: 'K. Moore, C. Newman',
 		status: 'proposed-standard',
 		url: 'https://www.rfc-editor.org/rfc/rfc8314',
-		protocols: ['smtp', 'imap']
+		protocols: ['smtp', 'imap'],
+		abstract: `Declares cleartext email submission and access **obsolete** in favour of always-on [[tls|TLS]]. Deprecates plain ports for [[smtp|SMTP]] submission, [[imap|IMAP]], and POP3, recommending Implicit-TLS ports — *Submissions* (465), IMAPS (993), POP3S (995) — and treating STARTTLS as a transition path, not a final destination.
+
+Best Current Practice for any new email deployment in the late 2010s and beyond. Major mail providers (Gmail, Outlook, Apple Mail) had already shifted defaults; this RFC writes that shift into the standard.`
 	},
 	{
 		number: '1064',
@@ -948,7 +978,10 @@ Forty years later still the canonical text for "how does DNS actually work". Alm
 		authors: 'M. Crispin',
 		status: 'historic',
 		url: 'https://www.rfc-editor.org/rfc/rfc1064',
-		protocols: ['imap']
+		protocols: ['imap'],
+		abstract: `Mark Crispin's 1988 specification of [[imap|IMAP2]] — an early version of the Interactive Mail Access Protocol that lets a client browse messages stored on a server (vs. POP3 which downloads them locally). The mailbox-as-server-side-state model is what makes modern multi-device email tractable: read on your phone, the desktop client sees the message as read.
+
+Long since superseded by IMAP4rev1 (RFC 3501, 2003) and the current [[rfc:9051|RFC 9051]] (IMAP4rev2, 2021). Crispin spent decades stewarding IMAP through revisions until his death in 2012.`
 	},
 	{
 		number: '9051',
@@ -957,7 +990,10 @@ Forty years later still the canonical text for "how does DNS actually work". Alm
 		authors: 'A. Melnikov, B. Leiba (eds.)',
 		status: 'proposed-standard',
 		url: 'https://www.rfc-editor.org/rfc/rfc9051',
-		protocols: ['imap']
+		protocols: ['imap'],
+		abstract: `*IMAP4rev2* — the current revision of [[imap|IMAP]], replacing the long-running RFC 3501 (IMAP4rev1, 2003). Folds in 18 years of accumulated extensions: SASL-IR, ENABLE, IDLE (server push for new mail without polling), CONDSTORE/QRESYNC (efficient resync after disconnection), MOVE, internationalised mailbox names, UTF-8 message parts.
+
+Edited by Alexey Melnikov and Barry Leiba. Most modern mail servers (Dovecot, Cyrus, Microsoft Exchange) had implemented these as IMAP4rev1 extensions; rev2 is the cleanup that makes them the baseline.`
 	},
 
 	// File transfer
@@ -968,7 +1004,10 @@ Forty years later still the canonical text for "how does DNS actually work". Alm
 		authors: 'A. Bhushan',
 		status: 'historic',
 		url: 'https://www.rfc-editor.org/rfc/rfc114',
-		protocols: ['ftp']
+		protocols: ['ftp'],
+		abstract: `Abhay Bhushan's 1971 specification of *FTP* — the original file transfer protocol for the early ARPANET. Predates [[ip|IP]] itself (which arrived in 1981); the spec is written against the older NCP transport. Establishes the basic verb vocabulary (\`USER\`, \`PASS\`, \`STOR\`, \`RETR\`) that has survived for **55 years** of revisions through to [[rfc:959|RFC 959]] (1985) and beyond.
+
+One of the earliest application-layer protocols on what would become the internet. Reading it is a useful lesson in how application protocols looked before the TCP/IP era forced everything to be byte-stream-oriented.`
 	},
 	{
 		number: '959',
@@ -977,7 +1016,10 @@ Forty years later still the canonical text for "how does DNS actually work". Alm
 		authors: 'J. Postel, J. Reynolds',
 		status: 'internet-standard',
 		url: 'https://www.rfc-editor.org/rfc/rfc959',
-		protocols: ['ftp']
+		protocols: ['ftp'],
+		abstract: `[[pioneer:jon-postel|Jon Postel]] and Joyce Reynolds's 1985 revision of [[ftp|FTP]] — the version every FTP client and server is still essentially written against, **40 years** later. Defines the two-channel architecture (control on port 21, data on a separately-negotiated port), the verb vocabulary, the active-vs-passive mode distinction, ASCII vs binary transfer types.
+
+The two-channel design is responsible for FTP's well-known {{nat|NAT}}/{{firewall|firewall}} pain — the data port has to be opened separately, and middleboxes have to *understand* FTP to rewrite the embedded port numbers. Modern systems use SFTP (over [[ssh|SSH]]) or HTTPS instead; classic FTP survives in a dwindling set of legacy contexts.`
 	},
 
 	// SSH
@@ -988,7 +1030,10 @@ Forty years later still the canonical text for "how does DNS actually work". Alm
 		authors: 'T. Ylonen, C. Lonvick (ed.)',
 		status: 'standards-track',
 		url: 'https://www.rfc-editor.org/rfc/rfc4251',
-		protocols: ['ssh']
+		protocols: ['ssh'],
+		abstract: `The architectural overview of [[ssh|SSH-2]] — the design Tatu Ylönen wrote in 1995 (after his Helsinki University machine was passively sniffed for credentials), formalised by the IETF as RFC 4251–4254 in 2006. Three layers: a {{tls|TLS}}-style transport for confidentiality and integrity, a user-authentication layer (password, {{public-key|public key}}, GSSAPI), and a connection layer that multiplexes channels (interactive shell, X11 forwarding, SCP/SFTP, port forwarding).
+
+The reason the modern world has *only* SSH and not Telnet+rsh+rlogin is this RFC suite plus OpenSSH's nearly-universal adoption.`
 	},
 	{
 		number: '4253',
@@ -997,7 +1042,10 @@ Forty years later still the canonical text for "how does DNS actually work". Alm
 		authors: 'T. Ylonen, C. Lonvick (ed.)',
 		status: 'standards-track',
 		url: 'https://www.rfc-editor.org/rfc/rfc4253',
-		protocols: ['ssh']
+		protocols: ['ssh'],
+		abstract: `The wire-protocol layer of [[ssh|SSH-2]] — packet format, key exchange (Diffie-Hellman variants), {{cipher-suite|cipher suite}} negotiation, integrity protection. Companion to [[rfc:4251|RFC 4251]] (architecture), RFC 4252 (user authentication), and RFC 4254 (connection multiplexing).
+
+The host key fingerprint that SSH clients warn about on first connection is defined here. Algorithm agility built in from the start has let SSH-2 keep pace with cryptographic advances (Curve25519, Ed25519, ChaCha20-Poly1305, post-quantum candidates) without breaking the wire format.`
 	},
 
 	// TLS predecessors
@@ -1009,7 +1057,10 @@ Forty years later still the canonical text for "how does DNS actually work". Alm
 		status: 'historic',
 		obsoletedBy: ['4346'],
 		url: 'https://www.rfc-editor.org/rfc/rfc2246',
-		protocols: ['tls']
+		protocols: ['tls'],
+		abstract: `The first IETF [[tls|TLS]] specification — Tim Dierks and Christopher Allen's January 1999 publication, after the IETF took ownership of Netscape's SSL 3.0 ([[pioneer:taher-elgamal|Taher Elgamal]] et al.) and renamed it. Tim Dierks's own description: "TLS 1.0 was, in practice, really SSL 3.1." The rename was a face-saving compromise so it didn't look like the IETF was rubber-stamping Netscape.
+
+Long since obsolete: TLS 1.1 (RFC 4346, 2006), TLS 1.2 (RFC 5246, 2008), and the current [[rfc:8446|TLS 1.3]] (2018). Modern browsers and servers have actively *disabled* TLS 1.0/1.1 since ~2020.`
 	},
 	{
 		number: '5630',
@@ -1018,7 +1069,10 @@ Forty years later still the canonical text for "how does DNS actually work". Alm
 		authors: 'F. Audet',
 		status: 'standards-track',
 		url: 'https://www.rfc-editor.org/rfc/rfc5630',
-		protocols: ['sip', 'tls']
+		protocols: ['sip', 'tls'],
+		abstract: `Clarifies the meaning of the \`sips:\` URI scheme in [[sip|SIP]] — and crucially **warns** that \`sips:\` does **not** guarantee end-to-end encryption the way \`https:\` does. SIPS only guarantees [[tls|TLS]] **hop-by-hop** along the SIP signalling path; once a request crosses an interconnect into another carrier's domain, it may travel in cleartext.
+
+This subtlety is the source of countless misconfigurations in the SIP world. If you genuinely need end-to-end media security, use [[rtp|SRTP]] with separately-negotiated keys, not SIPS.`
 	},
 	{
 		number: '9849',
@@ -1027,7 +1081,10 @@ Forty years later still the canonical text for "how does DNS actually work". Alm
 		authors: 'IETF (TLS WG)',
 		status: 'draft',
 		url: 'https://www.rfc-editor.org/rfc/rfc9849',
-		protocols: ['tls']
+		protocols: ['tls'],
+		abstract: `Companion registration document for the {{ech|TLS Encrypted Client Hello}} mechanism — encrypts the SNI (Server Name Indication) hostname in the [[tls|TLS]] ClientHello so an on-path observer can no longer learn which site you're connecting to from the handshake. Closes a long-standing TLS metadata leak; the only previous workaround was wildcard certificates plus aggressive name padding, neither great.
+
+ECH key material is published via the {{dns-resolution|DNS}} HTTPS RR ([[rfc:9460|RFC 9460]]). Cloudflare turned ECH on by default in 2023; Firefox 119 enabled ECH by default. As a *draft*-status entry the underlying ECH spec is still settling; this is the IANA-registration-list piece.`
 	},
 
 	// DHCP
@@ -1039,7 +1096,10 @@ Forty years later still the canonical text for "how does DNS actually work". Alm
 		status: 'historic',
 		obsoletedBy: ['2131'],
 		url: 'https://www.rfc-editor.org/rfc/rfc1531',
-		protocols: ['dhcp']
+		protocols: ['dhcp'],
+		abstract: `Ralph Droms's 1993 original specification of [[dhcp|DHCP]] — the protocol that automates the assignment of IP addresses, gateways, DNS servers, and dozens of other configuration options to clients on a network. Replaced the earlier static-mapped *BOOTP* by adding leases, dynamic allocation, and a much richer option set.
+
+Obsoleted by [[rfc:2131|RFC 2131]] in 1997, which fixed errata and added relay-agent semantics. The DISCOVER → OFFER → REQUEST → ACK four-step dance is unchanged.`
 	},
 	{
 		number: '2131',
@@ -1049,7 +1109,10 @@ Forty years later still the canonical text for "how does DNS actually work". Alm
 		status: 'standards-track',
 		obsoletes: ['1531'],
 		url: 'https://www.rfc-editor.org/rfc/rfc2131',
-		protocols: ['dhcp']
+		protocols: ['dhcp'],
+		abstract: `The current [[dhcp|DHCPv4]] specification — Ralph Droms's 1997 revision of [[rfc:1531|RFC 1531]]. Defines the DISCOVER → OFFER → REQUEST → ACK message exchange, the lease-renewal lifecycle, the relay-agent architecture, and the format of the variable-length options field that everything from \`DNS Servers\` to \`Domain Name\` to {{nat64|PREF64}}-via-RA-Option to *IPv6-Only Preferred* ([[rfc:8925|RFC 8925]]) rides on top of.
+
+DHCPv6 (RFC 8415) is a distinct protocol with a different message flow but the same job. Almost every router and OS implements both today.`
 	},
 
 	// NTP older
@@ -1061,7 +1124,10 @@ Forty years later still the canonical text for "how does DNS actually work". Alm
 		status: 'historic',
 		obsoletedBy: ['1059', '1119', '1305', '5905'],
 		url: 'https://www.rfc-editor.org/rfc/rfc958',
-		protocols: ['ntp']
+		protocols: ['ntp'],
+		abstract: `[[pioneer:david-mills|David L. Mills]]'s original 1985 specification of [[ntp|NTPv0]] — the first version of the protocol that synchronises every clock on the internet. Mills then iterated through RFC 1059 (NTPv1, 1988), RFC 1119 (NTPv2, 1989), RFC 1305 (NTPv3, 1992), and finally [[rfc:5905|RFC 5905]] (NTPv4, 2010), refining the *clock filter*, *Marzullo's algorithm*, and *clock discipline* loop across four decades of careful work.
+
+NTPv0 is purely historical; if you're running NTP today you're running NTPv4. Mills himself ran it from his University of Delaware lab until his death in January 2024 — the longest single-person stewardship of any internet protocol.`
 	},
 
 	// SIP / RTP / SDP / RTSP / SRTP / streaming
@@ -1073,7 +1139,10 @@ Forty years later still the canonical text for "how does DNS actually work". Alm
 		status: 'proposed-standard',
 		obsoletes: ['2543'],
 		url: 'https://www.rfc-editor.org/rfc/rfc3261',
-		protocols: ['sip']
+		protocols: ['sip'],
+		abstract: `The current [[sip|SIP]] specification — the {{signaling|signaling}} protocol that sets up, modifies, and tears down voice/video calls between endpoints over IP. Edited by Jonathan Rosenberg, Henning Schulzrinne, et al. as the 2002 revision of the original [[rfc:2543|RFC 2543]] (1999). Text-based, [[http1|HTTP]]-inspired (\`INVITE\`, \`200 OK\`, \`ACK\`), pluggable through registrations and proxies.
+
+SIP carries essentially every business VoIP call on earth — virtually all enterprise PBXs, ITSPs, and 4G/5G voice services (VoLTE/VoNR) are SIP under the hood. Pair with [[rfc:8866|SDP]] (call parameters) and [[rtp|RTP]] (the actual media).`
 	},
 	{
 		number: '2543',
@@ -1083,7 +1152,10 @@ Forty years later still the canonical text for "how does DNS actually work". Alm
 		status: 'historic',
 		obsoletedBy: ['3261'],
 		url: 'https://www.rfc-editor.org/rfc/rfc2543',
-		protocols: ['sip']
+		protocols: ['sip'],
+		abstract: `The original 1999 [[sip|SIP]] specification — Mark Handley, [[pioneer:henning-schulzrinne|Henning Schulzrinne]], Eve Schooler, and Jonathan Rosenberg's first published version. Established SIP as the IETF's text-based alternative to ITU's binary H.323 for VoIP signalling. Won that standards war decisively over the following decade.
+
+Obsoleted by [[rfc:3261|RFC 3261]] in 2002 with substantial revisions (cleaner state machines, better proxy semantics, INVITE-handling fixes from production deployment).`
 	},
 	{
 		number: '1889',
@@ -1093,7 +1165,10 @@ Forty years later still the canonical text for "how does DNS actually work". Alm
 		status: 'historic',
 		obsoletedBy: ['3550'],
 		url: 'https://www.rfc-editor.org/rfc/rfc1889',
-		protocols: ['rtp']
+		protocols: ['rtp'],
+		abstract: `The original 1996 specification of [[rtp|RTP]] — the *Real-time Transport Protocol* that carries audio and video over IP networks. Co-authored by [[pioneer:henning-schulzrinne|Henning Schulzrinne]] (Columbia), Steve Casner, Ron Frederick, and [[pioneer:van-jacobson|Van Jacobson]]. Fixed-size header with {{sequence-number|sequence number}}, timestamp, and synchronisation-source identifier on top of [[udp|UDP]].
+
+Obsoleted by [[rfc:3550|RFC 3550]] in 2003 (Internet Standard 64), which folded in the RTCP control protocol and seven years of production fixes.`
 	},
 	{
 		number: '3550',
@@ -1103,7 +1178,10 @@ Forty years later still the canonical text for "how does DNS actually work". Alm
 		status: 'internet-standard',
 		obsoletes: ['1889'],
 		url: 'https://www.rfc-editor.org/rfc/rfc3550',
-		protocols: ['rtp']
+		protocols: ['rtp'],
+		abstract: `The current [[rtp|RTP]] specification — Internet Standard 64. Combines the data-plane RTP packets with the control-plane RTCP feedback (sender reports, receiver reports, source description, BYE) into one document. Every modern voice/video application — Zoom, FaceTime, WebRTC, VoLTE, IPTV head-ends — uses RTP/RTCP under the hood.
+
+The author lineup is a who's-who of internet real-time work: [[pioneer:henning-schulzrinne|Schulzrinne]], Casner, Frederick, [[pioneer:van-jacobson|Jacobson]]. The protocol is a model of careful design — small, composable, layered cleanly with codec, transport, and security as separate concerns.`
 	},
 	{
 		number: '2327',
@@ -1113,7 +1191,10 @@ Forty years later still the canonical text for "how does DNS actually work". Alm
 		status: 'historic',
 		obsoletedBy: ['4566'],
 		url: 'https://www.rfc-editor.org/rfc/rfc2327',
-		protocols: ['sdp']
+		protocols: ['sdp'],
+		abstract: `The original 1998 specification of [[sdp|SDP]] — Mark Handley and [[pioneer:van-jacobson|Van Jacobson]]'s text-based format that describes media sessions: codecs, IP addresses, ports, encryption keys, bandwidth budgets. Originally for *SAP* (multicast session announcements); later adopted by [[sip|SIP]] (offer/answer) and [[webrtc|WebRTC]] (the SDP blob in every \`createOffer\` / \`createAnswer\`).
+
+Obsoleted by RFC 4566 (2006) and the current [[rfc:8866|RFC 8866]] (2021), but the wire format every WebRTC engineer has had to learn to debug is recognisably the same.`
 	},
 	{
 		number: '8216',
@@ -1122,7 +1203,10 @@ Forty years later still the canonical text for "how does DNS actually work". Alm
 		authors: 'R. Pantos (ed.), W. May',
 		status: 'informational',
 		url: 'https://www.rfc-editor.org/rfc/rfc8216',
-		protocols: ['hls']
+		protocols: ['hls'],
+		abstract: `Apple's [[hls|HLS]] specification — adaptive bitrate video streaming over plain [[http1|HTTP]]. The server publishes a *master playlist* (\`.m3u8\`) listing several variant streams at different bitrates; each variant playlist points to a sequence of small \`.ts\` (or now \`.mp4\`) media segments. The client measures throughput, switches between variants on the fly, and keeps a small buffer.
+
+Designed by Roger Pantos at Apple, originally for the iPhone (2009). Carries every Apple TV stream, every iOS-played live sports event, and a huge fraction of all web video. Companion to [[dash|DASH]] (the open MPEG version of the same idea).`
 	},
 	{
 		number: '8866',
@@ -1131,7 +1215,10 @@ Forty years later still the canonical text for "how does DNS actually work". Alm
 		authors: 'A. Begen, P. Kyzivat, C. Perkins, M. Handley',
 		status: 'proposed-standard',
 		url: 'https://www.rfc-editor.org/rfc/rfc8866',
-		protocols: ['sdp']
+		protocols: ['sdp'],
+		abstract: `The current [[sdp|SDP]] specification — replaces RFC 4566 (2006) and the original [[rfc:2327|RFC 2327]] (1998). Same fundamentally text-based attribute-line format ("v=", "o=", "m=", "a=") that describes the media a session offers or accepts. Carries codec lists, RTP payload types, IP addresses, encryption parameters, and trickle-ICE candidates for [[webrtc|WebRTC]].
+
+Edited by Ali Begen, Paul Kyzivat, Colin Perkins, and Mark Handley. The 2021 revision tightens spec language and folds in 15 years of accumulated extensions; the wire format is unchanged.`
 	},
 
 	// WebRTC + data channels
@@ -1142,7 +1229,10 @@ Forty years later still the canonical text for "how does DNS actually work". Alm
 		authors: 'H. Alvestrand',
 		status: 'proposed-standard',
 		url: 'https://www.rfc-editor.org/rfc/rfc8825',
-		protocols: ['webrtc']
+		protocols: ['webrtc'],
+		abstract: `The architectural overview of [[webrtc|WebRTC]] — the only path by which a web browser can send a [[udp|UDP]] packet to a peer. Surveys the dozen-plus IETF documents that together define the system: [[rtp|RTP]]/SRTP for media, ICE for {{nat|NAT}} traversal, STUN/TURN for path discovery, [[sdp|SDP]] for offer/answer, DTLS for key agreement, [[rfc:8831|SCTP-over-DTLS]] for data channels.
+
+Authored by Harald Alvestrand at Google. Reading it is the fastest way to understand how all the WebRTC pieces fit together; each piece has its own RFC.`
 	},
 	{
 		number: '8831',
@@ -1151,7 +1241,10 @@ Forty years later still the canonical text for "how does DNS actually work". Alm
 		authors: 'R. Jesup, S. Loreto, M. Tüxen',
 		status: 'proposed-standard',
 		url: 'https://www.rfc-editor.org/rfc/rfc8831',
-		protocols: ['webrtc']
+		protocols: ['webrtc'],
+		abstract: `Defines [[webrtc|WebRTC]] *Data Channels* — the API for sending arbitrary application data peer-to-peer between browsers, alongside the audio and video. Uses [[sctp|SCTP]] over DTLS over [[udp|UDP]]: SCTP gives you ordered or unordered, reliable or unreliable streams; DTLS encrypts; UDP is what browsers can actually send.
+
+The largest production [[sctp|SCTP]] deployment by message count today, even though almost nobody knows their browser carries an SCTP stack. Used by collaborative tools (Figma, Google Docs cursors), in-browser games, and BitTorrent-in-the-browser projects.`
 	},
 
 	// XMPP
@@ -1162,7 +1255,10 @@ Forty years later still the canonical text for "how does DNS actually work". Alm
 		authors: 'P. Saint-Andre',
 		status: 'proposed-standard',
 		url: 'https://www.rfc-editor.org/rfc/rfc6120',
-		protocols: ['xmpp']
+		protocols: ['xmpp'],
+		abstract: `Peter Saint-Andre's specification of [[xmpp|XMPP]] core — an XML-based, federated, peer-to-peer messaging protocol originally born from Jabber (1999). XMPP servers federate the way SMTP does: anyone can run one, and they relay messages to each other based on the JID (\`user@server.example\`).
+
+Carried Google Talk, Facebook Chat (early years), and WhatsApp's early backend. Most of those have since moved to proprietary protocols; XMPP survives in a long tail of federated chat (Conversations, Snikket, ProcessOne) and as an interop layer in some IoT and gaming deployments. RFC 6121 covers the IM/presence semantics built on top of this core.`
 	},
 	{
 		number: '7395',
@@ -1171,7 +1267,10 @@ Forty years later still the canonical text for "how does DNS actually work". Alm
 		authors: 'L. Stout (ed.), J. Moffitt, E. Cestari',
 		status: 'proposed-standard',
 		url: 'https://www.rfc-editor.org/rfc/rfc7395',
-		protocols: ['xmpp', 'websockets']
+		protocols: ['xmpp', 'websockets'],
+		abstract: `Defines how to carry [[xmpp|XMPP]] over [[websockets|WebSockets]] (\`xmpp\` subprotocol) — letting a browser-based XMPP client speak directly to an XMPP server over the same port-443 path as any other web traffic, instead of needing the older long-poll BOSH transport. Each WebSocket message carries one XMPP stanza.
+
+What makes Conversations.im, Snikket, and other modern XMPP web clients work without server-side polling proxies.`
 	},
 
 	// CoAP / IoT
@@ -1182,7 +1281,10 @@ Forty years later still the canonical text for "how does DNS actually work". Alm
 		authors: 'Z. Shelby, K. Hartke, C. Bormann',
 		status: 'proposed-standard',
 		url: 'https://www.rfc-editor.org/rfc/rfc7252',
-		protocols: ['coap']
+		protocols: ['coap'],
+		abstract: `[[coap|CoAP]] — the IETF's *constrained-device* counterpart to [[http1|HTTP]]. Same REST verbs (GET/POST/PUT/DELETE), same status code semantics, but a 4-byte binary header on top of [[udp|UDP]] instead of HTTP's text-based framing on TCP. Designed for sensors and actuators with kilobytes of RAM and intermittent radio links.
+
+Co-authored by Zach Shelby, Klaus Hartke, and Carsten Bormann. Used in *Thread* network management (Matter does NOT use CoAP for its main payloads, despite the common misconception), industrial IoT, and constrained sensor networks. Companion {{encryption|encryption}} layers are DTLS or [[rfc:8613|OSCORE]].`
 	},
 	{
 		number: '8613',
@@ -1191,7 +1293,10 @@ Forty years later still the canonical text for "how does DNS actually work". Alm
 		authors: 'G. Selander, J. Mattsson, F. Palombini, L. Seitz',
 		status: 'proposed-standard',
 		url: 'https://www.rfc-editor.org/rfc/rfc8613',
-		protocols: ['coap']
+		protocols: ['coap'],
+		abstract: `*OSCORE* — wraps the [[coap|CoAP]] message payload in *COSE_Encrypt0* (CBOR Object Signing and Encryption) using AES-CCM, providing **end-to-end** confidentiality and integrity even when the message traverses CoAP↔HTTP proxies. Unlike DTLS, OSCORE protects the application object itself, not the transport — so proxies can route without seeing the contents and without having to terminate {{tls|DTLS}}.
+
+The constrained-device counterpart to fitting [[tls|TLS]] into a battery-powered sensor — much smaller footprint, no per-message asymmetric crypto. Pair with [[rfc:9528|EDHOC]] for the full mutual-authentication + forward-secrecy story.`
 	},
 
 	// OAuth
@@ -1202,7 +1307,10 @@ Forty years later still the canonical text for "how does DNS actually work". Alm
 		authors: 'D. Hardt (ed.)',
 		status: 'standards-track',
 		url: 'https://www.rfc-editor.org/rfc/rfc6749',
-		protocols: ['oauth2']
+		protocols: ['oauth2'],
+		abstract: `The framework specification for [[oauth2|OAuth 2.0]] — *not a protocol but a framework*: defines four grant types (authorization code, implicit, resource owner password, client credentials), the access-token / refresh-token model, and the abstract roles (resource owner, client, resource server, authorization server). The exact wire details are spread across companion RFCs.
+
+Edited by Dick Hardt. The framework's own abstract famously warns *"this specification is likely to produce a wide range of non-interoperable implementations"* — which has aged exactly as well as you'd expect. Modern best practice (PKCE for all clients, no implicit flow, mTLS or DPoP for sender constraint) is largely defined in the **OAuth 2.1 BCP** drafts the WG has been refining since 2020.`
 	},
 	{
 		number: '7636',
@@ -1211,7 +1319,10 @@ Forty years later still the canonical text for "how does DNS actually work". Alm
 		authors: 'N. Sakimura (ed.), J. Bradley, N. Agarwal',
 		status: 'standards-track',
 		url: 'https://www.rfc-editor.org/rfc/rfc7636',
-		protocols: ['oauth2']
+		protocols: ['oauth2'],
+		abstract: `*PKCE* (pronounced "pixie") — closes a fundamental [[oauth2|OAuth 2.0]] security gap for public clients (mobile apps, single-page apps) that can't keep a client secret. The client generates a high-entropy *code_verifier*, sends its hash (*code_challenge*) on the authorization request, and presents the original verifier on the token-exchange request. An attacker who intercepts the authorization code can't redeem it without the verifier.
+
+Originally defined for native mobile apps; **OAuth 2.1 mandates PKCE for every authorization-code flow**, public or confidential. If you're building any new OAuth integration in 2026, you're using PKCE.`
 	}
 ];
 
