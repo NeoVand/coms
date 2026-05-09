@@ -2,9 +2,8 @@
  * Part III — Layer 2-3 Foundations.
  *
  * Frames, addresses, and routes — how a packet finds your laptop.
- * Each chapter is anchored to one protocol but pulls in pioneers,
- * RFCs, and outages so the engineering history travels with the
- * mechanism.
+ * Multi-section chapters drawn from the per-protocol research files
+ * with citation-backed dates and 2024-2026 deployment numbers.
  */
 
 import type { BookPart } from '../types';
@@ -16,6 +15,7 @@ export const layer23: BookPart = {
 	description:
 		'Frames, addresses, and routes — the Layer-2 fabric, IP, and the protocols that hold the inter-domain internet together.',
 	chapters: [
+		// ────────────────────────────────────────────────────────────
 		{
 			id: 'ethernet',
 			title: 'Ethernet',
@@ -34,27 +34,34 @@ export const layer23: BookPart = {
 							title: 'The Aloha Inheritance',
 							text: `In 1971, the University of Hawaii ran a wireless packet network called **ALOHAnet** that solved the multiple-access problem with brutal honesty: anyone can transmit at any time; if two stations collide, both back off a random interval and try again. The throughput was awful — Norman Abramson's original paper showed a maximum channel utilisation of 18% — but the architecture was right.
 
-In 1973, **[[pioneer:bob-metcalfe|Bob Metcalfe]]** at Xerox PARC adapted ALOHA to a wired medium and added **carrier sensing**: listen before you transmit, and if you detect another station already speaking, wait. Combined with **collision detection** (stop the moment you hear a clash), CSMA/CD pushed utilisation past 90%. Metcalfe and **[[pioneer:david-boggs|David Boggs]]** had a 2.94 Mbps prototype running by November 1973. They named it Ethernet, after the luminiferous aether that nineteenth-century physicists thought light travelled through.
+On **22 May 1973**, **[[pioneer:bob-metcalfe|Bob Metcalfe]]** at Xerox PARC circulated the *"Alto Ethernet"* memo with hand-drawn diagrams. He named it after the discredited *"luminiferous ether"* so the medium could be coax, twisted pair, fiber, or radio. Combined with **carrier sensing** (listen before you transmit) and **collision detection** (stop the moment you hear a clash), CSMA/CD pushed wired-medium utilisation past 90%. Metcalfe and **[[pioneer:david-boggs|David Boggs]]** had a **2.94 Mbps prototype running by 11 November 1973** — the original speed was chosen because it matched the Alto's clock divided down.
 
-The IEEE standardised it as **802.3** in 1983, the same year ARPANET flag-day. Speeds doubled approximately every five years: 10 Mbps (1983), 100 Mbps Fast Ethernet (1995), 1 GbE (1999), 10 GbE (2002), 100 GbE (2010), 400 GbE (2017). Each generation kept the original 1500-byte MTU and the same 14-byte frame header. AI training fabrics now demand 800 GbE and the [[frontier:ultra-ethernet-1-0|Ultra Ethernet]] consortium is finalising 1.6 TbE for 2027.`
+The IEEE standardised it as **802.3** in 1983, the same year as ARPANET flag-day. Speeds doubled approximately every five years: 10 Mbps (1983), 100 Mbps Fast Ethernet (1995), 1 GbE (1999), 10 GbE (2002), 100 GbE (2010), 400 GbE (2017). **Bob Metcalfe won the 2022 ACM A.M. Turing Award** (announced March 2023) "for the invention, standardization, and commercialization of Ethernet."`
 						},
 						{
 							type: 'callout',
-							title: 'The frame format never changed.',
-							text: 'Six bytes of destination MAC, six of source, two of EtherType, then up to 1500 bytes of payload, then a 4-byte CRC. That is the same in 1980 and 2025. Everything that scaled — bandwidth, switching, VLANs, jumbo frames — slid in around it without breaking the wire format.'
-						}
-					]
-				},
-				{
-					kind: 'prose',
-					sections: [
+							title: 'Why the 64-byte minimum frame size still exists in 800 GbE',
+							text: 'The minimum Ethernet frame is **64 bytes** because the original 10 Mbps coaxial Ethernet had to detect collisions before completing a frame transmission — round-trip time across the maximum 2.5 km / 4-repeater diameter is 51.2 µs = 64 bytes at 10 Mbps. Modern switched full-duplex Ethernet has no collisions, but the minimum stays for backwards compatibility. Forty-five years later, every 800 GbE frame still respects the slot-time math from a 10 Mbps shared coax in 1980.'
+						},
 						{
-							type: 'image',
-							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Ethernet_RJ45_connector_p1160054.jpg/500px-Ethernet_RJ45_connector_p1160054.jpg',
-							alt: 'Close-up of an 8P8C (RJ-45) modular plug terminating a Cat-5 twisted-pair cable.',
-							caption:
-								'An 8P8C ("RJ-45") modular plug — the connector that brought Ethernet to every desk. Eight conductors carry four differential pairs at gigabit-plus rates over Cat-5 or Cat-6 copper.',
-							credit: 'Photo: David Monniaux, CC BY-SA 3.0, via Wikimedia Commons'
+							type: 'narrative',
+							title: 'The Frame Format That Never Changed',
+							text: `Six bytes of destination MAC, six of source, two of EtherType, then up to 1500 bytes of payload, then a 4-byte CRC. That is the Ethernet II frame in 1980 and in 2025. Everything that scaled — bandwidth, switching, VLANs (802.1Q), jumbo frames — slid in around it without breaking the wire format.
+
+**Jumbo frames (9000 bytes)** popularised by Alteon in 1998 are still technically non-standard 28 years later. The **1500-byte MTU** from the 1980 DIX (DEC/Intel/Xerox) choice still rules in production internet links. Routers MUST support 1500; jumbo frames MAY be supported per peering agreement. The conservative default has held because changing it requires every device on a path to agree, and one device that does not is a black hole.
+
+The naming history is its own joke: **802.3 letter suffixes ran out at "z"** (1000BASE-X), forcing 802.3aa, ab, …, eventually **df (800 GbE) and dj (1.6 TbE)**. The standards process kept producing letters faster than the alphabet could supply them.`
+						},
+						{
+							type: 'narrative',
+							title: 'AI Training Fabrics — The Current Gold Rush',
+							text: `**IEEE 802.3df-2024 (800 GbE)** was approved 16 February 2024 and published March 2024. **IEEE P802.3dj (1.6 TbE at 200 Gb/s/lane PAM-4)** passed its 3rd Working Group recirculation ballot **16 December 2025 with 87% approval** — expected ratification mid-2026.
+
+**2025 milestone**: **Broadcom Tomahawk 6** — world's first **102.4 Tbps single-chip switch** — shipped 3 June 2025; **Tomahawk 6-Davisson with co-packaged optics** shipped October 2025. A single chip can drive 64×1.6T, 128×800G, 256×400G, or 512×200G ports.
+
+The **[[frontier:ultra-ethernet-1-0|Ultra Ethernet Consortium]] Specification 1.0** was published 11 June 2025 (~560 pages) — the first ground-up rethink of how Ethernet carries RDMA traffic for AI/HPC workloads. Defines **Ultra Ethernet Transport (UET)**: packet spraying with multipath, selective retransmission, in-network telemetry-driven congestion control, ephemeral/connectionless transport state for millions of endpoints.
+
+**650 Group estimates 91% of AI workloads will run on Ethernet by 2029**; NVIDIA Spectrum-X delivers ~95% effective throughput vs ~60% on best-effort Ethernet for AI workloads. The architectural significance is that AI training is now important enough to drive a new datacenter transport — the same kind of pressure that produced [[ethernet|Ethernet]] in 1973 for office networking, [[tcp|TCP/IP]] in 1981 for inter-network research, and [[quic|QUIC]] in 2012 for the modern web.`
 						}
 					]
 				},
@@ -62,40 +69,74 @@ The IEEE standardised it as **802.3** in 1983, the same year ARPANET flag-day. S
 				{ kind: 'pioneer', id: 'david-boggs' },
 				{ kind: 'protocol', id: 'ethernet' },
 				{ kind: 'frontier', id: 'ethernet-800g' },
-				{ kind: 'frontier', id: 'ultra-ethernet-1-0' }
+				{ kind: 'frontier', id: 'ultra-ethernet-1-0' },
+				{ kind: 'outage', id: 'facebook-2021' }
 			]
 		},
+
+		// ────────────────────────────────────────────────────────────
 		{
 			id: 'wifi',
 			title: 'Wi-Fi',
-			synopsis: 'CSMA/CA on the airwaves; from 1 Mbps to Wi-Fi 7 to multi-link.',
+			synopsis: 'CSMA/CA on the airwaves; from FCC Docket 81-413 to Wi-Fi 8.',
 			slots: [
+				{
+					kind: 'pull-quote',
+					text: 'Mathy Vanhoef has broken Wi-Fi every two years on stage: KRACK (2017), Dragonblood (2019), FragAttacks (2021), Framing Frames (2023), SSID Confusion (2024). The cadence is so reliable that the field plans security audits around his summer talks.',
+					attribution: 'Author'
+				},
 				{
 					kind: 'prose',
 					sections: [
 						{
 							type: 'narrative',
-							title: 'Putting Ethernet on the Air',
-							text: `The IEEE 802.11 working group started in 1990 with a simple goal: take the [[ethernet|Ethernet]] frame format and put it on a radio. The first standard, 802.11 (1997), shipped at 1 and 2 Mbps. The big breakthrough was 802.11b (1999) at 11 Mbps and the 802.11g (2003) at 54 Mbps — speeds that made wireless networking actually useful for the consumer market.
+							title: 'The Regulatory Big Bang',
+							text: `Wi-Fi exists because of **FCC Docket 81-413 (9 May 1985)**, championed by **Michael Marcus**, which opened the **902 MHz / 2.4 GHz / 5.8 GHz ISM bands** for unlicensed spread-spectrum use. Without that regulatory action, no consumer wireless networking could have existed. The IEEE 802.11 working group started in 1990; **the first standard, 802.11 (1997)**, shipped at 1 and 2 Mbps. The big consumer breakthroughs were 802.11b (1999) at 11 Mbps and 802.11g (2003) at 54 Mbps.
 
-The fundamental problem is that radios cannot listen and transmit simultaneously, so you cannot detect collisions the way wired Ethernet does. Wi-Fi instead uses **CSMA/CA** — collision **avoidance**. Before transmitting, a station waits a random backoff window scaled by traffic congestion. Acknowledgements are explicit: every unicast frame must be ACKed within microseconds, or the sender retransmits. Half-duplex, mandatory ACKs, and shared spectrum together cap real-world Wi-Fi throughput at roughly 60% of the headline number.
+The fundamental problem: radios cannot listen and transmit simultaneously, so you cannot detect collisions the way wired Ethernet does. Wi-Fi instead uses **CSMA/CA** — collision **avoidance**. Before transmitting, a station waits a random backoff window scaled by traffic congestion. Acknowledgements are explicit: every unicast frame must be ACKed within microseconds, or the sender retransmits. Half-duplex, mandatory ACKs, and shared spectrum together cap real-world Wi-Fi throughput at roughly 60% of the headline number.
 
-Wi-Fi 6 (2019) introduced **OFDMA**, letting an access point talk to multiple stations in the same time slot by giving each one a slice of the channel. Wi-Fi 7 ([[frontier:wifi-7-ratified|802.11be, ratified 2024]]) added **multi-link operation** — a single connection can use 2.4, 5, and 6 GHz bands simultaneously, switching whichever is least congested per packet. The result is the first Wi-Fi where tail latency competes with wired Ethernet.`
+**"Wi-Fi" is not an acronym.** Phil Belanger of the Wi-Fi Alliance confirmed in 2005 that **Interbrand chose the name from 10 candidates**. *"Wireless Fidelity"* was a tagline retrofitted briefly by the WECA board and dropped. The yin-yang logo is also Interbrand's work.`
+						},
+						{
+							type: 'narrative',
+							title: 'Wi-Fi 7 Is Here, Wi-Fi 8 Is Different',
+							text: `**Wi-Fi 7 launched 8 January 2024** (Wi-Fi Alliance certification); **IEEE 802.11be amendment approved 26 September 2024**, published 22 July 2025. Headline features: **320 MHz channels, 4096-QAM, Multi-Link Operation, preamble puncturing**. Theoretical peak ~46 Gb/s; ~30 Gb/s required by the PAR.
+
+**The "everyone gets it wrong" technical fact on Multi-Link Operation**: MLO in shipping silicon is mostly **eMLSR** (Enhanced Multi-Link Single Radio), not true STR. **Throughput does NOT add across bands** — eMLSR uses one radio time-sliced across multiple bands. **Latency consistency is the actual win**, not raw aggregate throughput.
+
+**Wi-Fi 8 / 802.11bn** is **NOT a peak-speed upgrade**. Same bands as Wi-Fi 7, same 320 MHz max, same ~46 Gb/s PHY peak. PAR objectives: **+25% throughput at given SINR, −25% 95th-percentile latency, −25% MPDU loss across BSS transitions**. Headline features: Multi-AP Coordination, Seamless Roaming Domain, Distributed Resource Units. Targeted for ratification September 2028.
+
+**2025 deployment**: **583 million Wi-Fi 7 devices shipped in 2025**; 3.9 billion Wi-Fi devices shipped that year for cumulative 48.8 billion lifetime; $4.9 trillion annual global economic value.`
+						},
+						{
+							type: 'callout',
+							title: 'Vanhoef every two years',
+							text: '**Mathy Vanhoef and the KU Leuven team have broken Wi-Fi on stage every ~2 years**: **KRACK** (October 2017, key reinstallation), **Dragonblood** (April 2019, WPA3 SAE side channels), **FragAttacks** (May 2021, fragmentation/aggregation), **Framing Frames** (March 2023), **SSID Confusion / CVE-2023-52424** (May 2024 — the 802.11 standard does NOT require the SSID to enter PMK or session-key derivation in many config paths). The cadence is so reliable that the field plans security audits around his summer talks.'
+						},
+						{
+							type: 'narrative',
+							title: 'The 6 GHz Politics, And the TJX Story That Changed Everything',
+							text: `**The US FCC freed 1,200 MHz of 6 GHz spectrum on 23 April 2020**; on **23 February 2024** the FCC OET approved **seven AFC system operators** (Qualcomm, Federated Wireless, Sony, Comsearch, Wi-Fi Alliance Services, WBA, Broadcom) for commercial **Standard Power AFC** operation. **First AFC-certified Wi-Fi 7 AP (RUCKUS R770) was certified 16 April 2024.**
+
+But on **12 November 2025**, the EU Radio Spectrum Policy Group recommended assigning the **upper 6 GHz band (6585-7125 MHz) to mobile/5G**, holding 6425-6585 MHz pending WRC-27 — **effectively closing the upper band to Wi-Fi in the EU for the medium term**. The Wi-Fi Alliance "strongly disagrees."
+
+The breach that changed everything: **TJX (disclosed 17 January 2007)** — attackers war-drove a poorly-secured **WEP-protected** Wi-Fi at a Marshalls store in Miami starting July 2005; **~94 million customer card records exfiltrated**. TJX settled with 41 state AGs for $9.75M. Drove WPA2 mandates and effectively ended WEP deployment in retail.
+
+**Wi-Fi sensing standardised**: 802.11bf-2025 published 26 September 2025, allows CSI-based presence/motion/breathing detection across 1-7.125 GHz and >45 GHz — radio waves as occupancy sensors.`
 						}
 					]
 				},
 				{ kind: 'protocol', id: 'wifi' },
 				{ kind: 'frontier', id: 'wifi-7-ratified' },
-				{
-					kind: 'simulation',
-					protocolId: 'wifi'
-				}
+				{ kind: 'simulation', protocolId: 'wifi' }
 			]
 		},
+
+		// ────────────────────────────────────────────────────────────
 		{
 			id: 'arp-and-ndp',
 			title: 'ARP and NDP',
-			synopsis: 'How a packet finds the next physical hop.',
+			synopsis: 'How a packet finds the next physical hop — STD 37 has not been obsoleted in 44 years.',
 			slots: [
 				{
 					kind: 'prose',
@@ -105,14 +146,40 @@ Wi-Fi 6 (2019) introduced **OFDMA**, letting an access point talk to multiple st
 							title: 'The Layer Seam',
 							text: `Two layers meet awkwardly inside your network adapter. The IP layer thinks in terms of 32-bit IPv4 addresses (or 128-bit IPv6). The Ethernet layer thinks in terms of 48-bit MAC addresses burned into the silicon. To send a packet to **192.0.2.5**, the kernel needs to know which **MAC address** on the local segment owns that IP — and that mapping is not given anywhere in advance.
 
-The **Address Resolution Protocol** ([[arp|ARP]], [[rfc:826|RFC 826]], 1982) solves it with the simplest broadcast you can imagine: shout "who has 192.0.2.5?" onto the wire, and the host that owns it shouts back "I do, MAC ab:cd:..." Cache the answer for a few minutes; repeat when it expires. ARP is plain text, has no authentication, and trusts the first reply that comes back — which is why **ARP spoofing** is an entry-level network attack and why every enterprise switch has dynamic ARP inspection.
+The **Address Resolution Protocol** ([[arp|ARP]], **[[rfc:826|RFC 826]]**, November 1982) solves it with the simplest broadcast you can imagine: shout "who has 192.0.2.5?" onto the wire, and the host that owns it shouts back "I do, MAC ab:cd:..." Cache the answer for a few minutes; repeat when it expires.
 
-[[ipv6|IPv6]] redesigned the same idea as the **Neighbor Discovery Protocol** ([[rfc:4861|RFC 4861]]). Same shape — solicitation, advertisement — but on top of [[icmp|ICMPv6]], with optional **Secure Neighbor Discovery** (SEND, RFC 3971) using cryptographic addresses to defeat spoofing. NDP also folds in router discovery and stateless autoconfiguration ([[rfc:4862|SLAAC]]), so a fresh-booted IPv6 host can pick its own address and find the local router without DHCP.`
+David C. Plummer at Symbolics/MIT-AI wrote RFC 826 from address \`DCP@MIT-MC\` in November 1982. **STD 37 has never been obsoleted in 44 years** — only updated by RFC 5227. The 28-byte ARP packet (padded to 60 by Ethernet) is one of the smallest standard PDUs on the Internet; HLEN/PLEN are variable on purpose so the same wire format outlived Token Ring, FDDI, ATM, and Frame Relay.`
 						},
 						{
 							type: 'callout',
-							title: 'ARP is one of the few protocols where a 1982 RFC is still the canonical specification.',
-							text: 'There is nothing to update — the broadcast-and-cache mechanism works, and replacing it would break every Ethernet switch. The IPv6 transition is what is replacing it, by routing the same problem through ICMPv6 instead.'
+							title: 'ARP has no checksum and no authentication',
+							text: 'ARP relies entirely on the L2 frame check sequence — no application-layer integrity. It also trusts the first reply that comes back. Which is why **ARP spoofing is an entry-level network attack**, why every enterprise switch has Dynamic ARP Inspection, and why **dsniff (Dug Song, 1999), Ettercap (Ornaghi/Valleri, 2001), and Firesheep (Eric Butler, October 2010)** all became famous tools by exploiting it. Firesheep on coffee-shop Wi-Fi was the proximate cause of the industry-wide HTTPS-everywhere push.'
+						},
+						{
+							type: 'narrative',
+							title: 'The IPv6 Successor — and Its CVE Year',
+							text: `[[ipv6|IPv6]] redesigned the same idea as the **Neighbor Discovery Protocol** ([[rfc:4861|RFC 4861]]). Same shape — solicitation, advertisement — but on top of [[icmp|ICMPv6]], with optional **Secure Neighbor Discovery** (SEND, RFC 3971) using cryptographic addresses to defeat spoofing.
+
+NDP also folds in router discovery and stateless autoconfiguration ([[rfc:4862|SLAAC]]), so a fresh-booted IPv6 host can pick its own address and find the local router without DHCP. **VRRPv3 reissued as RFC 9568 (April 2024)** updated gratuitous-ARP behavior on master transition.
+
+Two NDP CVEs deserve naming.
+
+**CVE-2024-38063 (Microsoft, August 2024)** — \`tcpip.sys\` integer underflow in IPv6 fragment reassembly. CVSS 9.8, "exploitable from anywhere on the link." Patched 13 August 2024.
+
+**CVE-2020-16898 "Bad Neighbor" (13 October 2020)** — Windows \`tcpip.sys\` mishandled an ICMPv6 RA with even-length RDNSS option. CVSS 8.8; remote-code-execution claimed wormable. The IPv6 stack was supposed to be cleaner than IPv4's; the CVE history shows the implementations are no less intricate.
+
+**SEND (RFC 3971) remains stillborn**: NIST SP 800-119 §5.4.3 acknowledged in 2010 that cryptographic NDP isn't deployed; nothing has changed in 2024-2026.`
+						},
+						{
+							type: 'narrative',
+							title: 'Three Operational Footguns to Know',
+							text: `**AWS does not run ARP.** Per AWS *Logical Separation* whitepaper, *"ARP packets never hit the network as they are not needed for discovery of the virtual network topology"* — every ARP request inside a VPC is intercepted and answered by the hypervisor from an authenticated central database. If you have ever wondered why \`arp -a\` looks weird in EC2, that is why.
+
+**Linux \`gc_thresh3=1024\` default silently drops traffic on cloud hosts with >700 neighbors.** Symptom: \`dmesg\` floods with \`neighbour: arp_cache: neighbor table overflow!\` Documented as Ubuntu/OpenStack bug 1780348 (still relevant in 2026). Cure: bump \`net.ipv4.neigh.default.gc_thresh3\` and friends.
+
+**iOS 18 / macOS Sequoia (September 2024) introduced "Rotate Wi-Fi Address" mode** that changes MAC every 14 days on weak/open networks, breaking captive portals, MAC-based DHCP reservations, and ARP-cache freshness assumptions. Many enterprise Wi-Fi deployments needed reconfiguration.
+
+**Frontier — IPv6-mostly is going mainstream**: RFC 8925 + RFC 8781 + 464XLAT lets a single SSID/VLAN serve dual-stack laptops AND IPv6-only-capable phones simultaneously, with the IPv6-only-capable hosts **never running ARP**. Apple iOS/macOS, Android, and recent macOS request DHCP option 108 by default; Windows is lagging. The day ARP becomes vestigial is approaching.`
 						}
 					]
 				},
@@ -122,48 +189,121 @@ The **Address Resolution Protocol** ([[arp|ARP]], [[rfc:826|RFC 826]], 1982) sol
 				{ kind: 'rfc', number: '4862' }
 			]
 		},
+
+		// ────────────────────────────────────────────────────────────
 		{
 			id: 'ipv4',
 			title: 'IPv4',
 			synopsis: 'The 32-bit address that ran fifty years longer than planned.',
 			slots: [
 				{
-					kind: 'prose',
-					sections: [
-						{
-							type: 'narrative',
-							title: 'A Twenty-Bit Address Space, Stretched',
-							text: `When [[pioneer:vint-cerf|Vint Cerf]] picked 32 bits for the IP address field in 1977, he was asked whether it would be enough. His honest answer: more than enough for an experiment that he expected to be replaced before it had a million hosts. The "experiment" became the global internet, and the 4.3-billion-address space ran out for the first time in **February 2011**, when IANA allocated the last five /8 blocks to the regional registries.
-
-Three engineering tricks stretched IPv4 a generation past what its designers planned. **CIDR** (Classless Inter-Domain Routing, [[rfc:1519|RFC 1519]], 1993) abolished the rigid Class A/B/C boundaries and let routes be aggregated by arbitrary prefix length — collapsing the global routing table from 70k entries headed for the moon down to a manageable 20k. **NAT** (Network Address Translation, RFC 1631, 1994) let one public IP front for thousands of private hosts behind a router. And **private address ranges** ([[rfc:1918|RFC 1918]], 1996) — 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16 — gave organisations enormous internal address space without consuming any of the public 32-bit pool.
-
-Together these stretched IPv4 from "exhausted in 1995" to "still 60% of internet traffic in 2026." But the cost compounds: NAT breaks end-to-end addressability, complicates every protocol that needs inbound connections (peer-to-peer, voice, gaming), and forces middleboxes that ossify the entire stack. The transition to [[ipv6|IPv6]], discussed in the next chapter, has finally crossed 50% on Google measurements — and the [[frontier:ipv6-50-percent|halfway point matters]].`
-						}
-					]
+					kind: 'pull-quote',
+					text: 'I am a little embarrassed about that because I was the guy who decided that 32-bit was enough for the Internet experiment. My only defense is that that choice was made in 1977, and I thought it was an experiment.',
+					attribution: 'Vint Cerf, Linux.conf.au 2011'
 				},
-				{ kind: 'protocol', id: 'ip' },
-				{ kind: 'rfc', number: '791' },
-				{ kind: 'rfc', number: '1918' }
-			]
-		},
-		{
-			id: 'ipv6',
-			title: 'IPv6',
-			synopsis: 'A 28-year transition that just crossed 50%.',
-			slots: [
 				{
 					kind: 'prose',
 					sections: [
 						{
 							type: 'narrative',
-							title: 'The Long Crossing',
-							text: `IPv6 was specified in 1995 ([[rfc:8200|RFC 1883]], later RFC 2460, finally STD 86 / [[rfc:8200|RFC 8200]] in 2017). The address field grew from 32 bits to **128 bits** — enough that every grain of sand on Earth could have its own subnet. The header was simplified, fragmentation was pushed to the edges, multicast and link-local autoconfiguration ([[rfc:4862|SLAAC]]) became core mechanisms.
+							title: 'The 32-Bit Experiment That Became the Internet',
+							text: `When [[pioneer:vint-cerf|Vint Cerf]] picked 32 bits for the IP address field in 1977, he was asked whether it would be enough. His honest answer: more than enough for an experiment that he expected to be replaced before it had a million hosts. The "experiment" became the global internet.
 
-It then took **twenty-eight years** to reach 50% adoption. The reason is not technical; it is the chicken-and-egg of network effects. A site that turns on IPv6 sees no benefit unless its peers do. An ISP that rolls out IPv6 still has to support IPv4 for backward compatibility. **Dual-stack** — running both — is the cost of transition, and dual-stack means twice the operational surface.
+**[[rfc:791|RFC 791]] (September 1981, Postel)** is the canonical text — still cited 45 years later. **Flag day 1 January 1983**: ARPANET cut over from NCP to TCP/IP. The 4.3-billion-address space ran out for the first time in **February 2011**, when IANA allocated the last five /8 blocks to the regional registries.
 
-Adoption inflected when mobile carriers started rolling IPv6 by default for their cellular subscribers. T-Mobile US went IPv6-only with [[a2a|464XLAT]] translation in 2014. Verizon, AT&T, and the Asian carriers followed. By 2026, **87% of US mobile traffic is IPv6**; Google sees [[frontier:ipv6-50-percent|over 50% of all access from IPv6]]; many large enterprises run **IPv6-mostly** networks where IPv4 is a translation gateway.
+The exhaustion timeline: **IANA Feb 3 2011; APNIC Apr 15 2011; RIPE Sep 14 2012; LACNIC Jun 10 2014; ARIN Sep 24 2015; AFRINIC Apr 21 2017**. Each region went depleted on its own schedule; the regional asymmetry is part of why IPv4 prices and policy still vary by RIR.`
+						},
+						{
+							type: 'callout',
+							title: 'Every TCP connection >6.4 Mbps technically violated RFC 791 until 2013',
+							text: 'Read literally, the original IPv4 spec limited any pair of hosts to ~6.4 Mbps for 1500-byte packets — because the 16-bit Identification field would have to repeat within the maximum segment lifetime. **Every TCP connection above 6.4 Mbps you have made since 1995 has technically violated RFC 791.** **RFC 6864 (February 2013) retroactively legalised what every implementation was already doing**: relax the uniqueness requirement when "Don\'t Fragment" is set. Sometimes the spec catches up to reality.'
+						},
+						{
+							type: 'narrative',
+							title: 'NAT Changed Everything',
+							text: `Three engineering tricks stretched IPv4 a generation past what its designers planned.
 
-[[pioneer:steve-deering|Steve Deering]], who designed IPv6 with Bob Hinden, said in 2017 that the transition would be done when "no engineer alive remembers a network without IPv6." We are not there yet. But for the first time in a quarter-century, you can plausibly stand up a new service on IPv6 only and serve a real audience.`
+**CIDR** (Classless Inter-Domain Routing, RFC 1519, 1993) abolished the rigid Class A/B/C boundaries and let routes be aggregated by arbitrary prefix length — collapsing the global routing table from 70k entries headed for the moon down to a manageable 20k.
+
+**NAT** (Network Address Translation, RFC 1631, 1994) let one public IP front for thousands of private hosts behind a router.
+
+**Private address ranges** ([[rfc:1918|RFC 1918]], 1996) — 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16 — gave organisations enormous internal address space without consuming any public IPs.
+
+Together these stretched IPv4 from "exhausted in 1995" to "still ~50% of internet traffic in 2026." But the cost compounds: NAT breaks end-to-end addressability, complicates every protocol that needs inbound connections (peer-to-peer, voice, gaming), and forces middleboxes that ossify the entire stack. The transition to [[ipv6|IPv6]] ([[frontier:ipv6-50-percent|crossed 50% on Google in March 2026]]) is what eventually fixes this.`
+						},
+						{
+							type: 'narrative',
+							title: 'The 2024 AWS Forcing Function and the IPv4 Market',
+							text: `**AWS began charging $0.005/IP/hour for every public IPv4 address on 1 February 2024** — $43.80/year per address. AWS owns ~1.7% of the entire IPv4 space (~100M addresses). Cloudflare estimated this as a ~$2B "tax on the Internet." Within months, AWS workloads at scale began migrating to IPv6-only architectures with NAT64 gateways for legacy IPv4 destinations. The economic forcing function did more for IPv6 deployment in 2024 than two decades of advocacy.
+
+**The IPv4 secondary market**: mid-2024 averages were $32-36/IP; in **June 2025 /16 prices fell below $20/IP for the first time since 2019**; January 2026 mean: $22/IP, with a /14 block transferred at $9/IP. The market has inverted from "exhaustion-driven scarcity premium" to "post-exhaustion oversupply" as IPv6-mostly deployment frees v4 blocks.
+
+**End-2025 routing scale**: Global BGP DFZ surpassed **1,000,000 IPv4 prefixes in September 2025** (~1,040,000-1,050,000 by year-end), advertised by ~46,800 ASNs.
+
+**[[outage:pakistan-youtube-2008|Pakistan Telecom's YouTube hijack (24 February 2008)]]** — PTCL announced 208.65.153.0/24 (more-specific of YouTube's /22), PCCW Global propagated, YouTube went dark globally for ~2 hours. Drove RPKI / BGPsec / MANRS work that finally accelerated in 2024-2025.
+
+**Linux 6.3 (April 2023, deployed in 2024)** shipped **BIG TCP for IPv4** — TSO/GRO superpackets above 64 KB on 100/200 Gb NICs. **Cloudflare blocked 47.1 million DDoS attacks in 2025**; peaked at **31.4 Tbps for one 35-second burst** (Aisuru-Kimwolf Android-TV botnet, December 2025).`
+						}
+					]
+				},
+				{ kind: 'protocol', id: 'ip' },
+				{ kind: 'rfc', number: '791' },
+				{ kind: 'rfc', number: '1918' },
+				{ kind: 'outage', id: 'pakistan-youtube-2008' }
+			]
+		},
+
+		// ────────────────────────────────────────────────────────────
+		{
+			id: 'ipv6',
+			title: 'IPv6',
+			synopsis: 'A 28-year transition that just crossed 50% on 28 March 2026.',
+			slots: [
+				{
+					kind: 'pull-quote',
+					text: 'Geoff Huston projected linear extrapolation puts IPv6 transition completion around late 2045 — and warned that v4/v6 coexistence may be a steady state, not a transition.',
+					attribution: 'APNIC Labs, October 2024'
+				},
+				{
+					kind: 'prose',
+					sections: [
+						{
+							type: 'narrative',
+							title: 'Why "v6"? Because v5 Was Already Taken',
+							text: `Why "v6"? **Version 5 was already claimed by the experimental ST/ST-II Stream Protocol** (real-time transport). SIPP took 6, and won. The IPng selection happened at the **"BigTen" retreat near Chicago, 19-20 May 1994**, where the IPng Directorate met with WG chairs. SIPP-128 was selected at the Toronto IETF on 25 July 1994 ([[pioneer:steve-deering|Steve Deering]] / Robert Hinden lineage).
+
+[[ipv6|IPv6]] was specified in 1995 (RFC 1883), revised as RFC 2460 in 1998, and finally became **STD 86 / [[rfc:8200|RFC 8200]] in July 2017** — 19 years after RFC 2460, 22 years after the original. The address field grew from 32 bits to **128 bits** — enough that every grain of sand on Earth could have its own subnet. The header was simplified, fragmentation was pushed to the edges, multicast and link-local autoconfiguration ([[rfc:4862|SLAAC]]) became core mechanisms.
+
+It then took **twenty-eight years** to reach 50% adoption. The reason is not technical; it is the chicken-and-egg of network effects.`
+						},
+						{
+							type: 'callout',
+							title: 'IPv6 is NOT encrypted by default',
+							text: 'IPsec was originally mandatory-to-implement in IPv6, but **demoted to optional by RFC 6434 (2011)**. A frequent source of myth that IPv6 has built-in security. It does not. The encryption story for IPv6 is the same as for IPv4: TLS at the application layer.'
+						},
+						{
+							type: 'narrative',
+							title: 'The 50.1% Crossing — And Why It Inflected',
+							text: `**On 28 March 2026, Google\'s IPv6 dashboard recorded 50.1% for the first time** — IPv6 briefly surpassed IPv4 in Google's measured user base. APNIC Labs and Cloudflare Radar still place global IPv6 capability in the **40-43%** range; the 50% number is a Google-specific snapshot. But it is a milestone the community has been waiting for since 1995.
+
+Adoption inflected when **mobile carriers** went IPv6-mostly for cellular subscribers. **T-Mobile US** moved its mobile core to IPv6-only with 464XLAT (Cameron Byrne, NANOG 61, 2014) — the production case study that defined the pattern. **Reliance Jio (India)** launched IPv6-first in 2016 — >237M IPv6 users by 2017 — single biggest reason India's IPv6 share now runs 67-80%. **Meta** runs >99% of internal datacenter traffic over IPv6; entire new clusters are IPv6-only. Meta says **internal IPv6 is 10-15% faster than IPv4** (and on one carrier mobile measurement, 40% faster).
+
+By 2026: **US mobile IPv6 averages ~87%**; **France 86%** (Google, Feb 2026); **Germany 68%**; **China 865M IPv6 users (77% of users); 34% of traffic** (Sept 2025).`
+						},
+						{
+							type: 'narrative',
+							title: 'The KAME Turtle, And the 2024 RFC Backlog',
+							text: `**The KAME Project (1998-March 2006)** — joint Fujitsu / Hitachi / IIJ / NEC / Toshiba / Yokogawa / Keio U. / U.Tokyo — produced the free reference IPv6/IPsec stack underlying **FreeBSD, macOS, and iOS**. The dancing turtle still appears at kame.net for IPv6-reachable visitors. If you ever wondered where Apple's IPv6 stack came from, the answer is "a Japanese collaboration from 1998 named after a turtle." (Most modern Apple IPv6 work has long since moved past KAME, but the lineage is real.)
+
+The 2024 IETF backlog tells the story of where IPv6 work is happening:
+- **RFC 9637 (August 2024)** added \`3fff::/20\` as a second IPv6 documentation prefix on top of \`2001:db8::/32\`, large enough to model multi-AS networks.
+- **RFC 9673 (October 2024)** finally relaxed Hop-by-Hop Options handling so HBH options are deployable on real router silicon.
+- **RFC 9602 (2024)** reserved \`5f00::/16\` for SRv6 SIDs.
+- **\`face:b00c\` was removed from Linux kernel traces in 2024** because the example prefix from RFC 5514 was being mistaken for a real prefix in copy-pasted configs.
+
+**Frontier**: SoftBank (Dec 2025) announced the world's first commercial 5G deployment using **SRv6 MUP**; Microsoft Azure Fairwater (OCP 2025) uses **SRv6 as fabric** for what Microsoft calls the largest AI back-end network in the world.
+
+**Apple iCloud Private Relay** (Oct 2021+) prefers IPv6 egress when AAAA exists; pure IPv4-only enterprise networks frequently break Private Relay — its own forcing function for IPv6 deployment in enterprises that want Apple-device compatibility.`
 						}
 					]
 				},
@@ -173,27 +313,56 @@ Adoption inflected when mobile carriers started rolling IPv6 by default for thei
 				{ kind: 'frontier', id: 'ipv6-50-percent' }
 			]
 		},
+
+		// ────────────────────────────────────────────────────────────
 		{
 			id: 'icmp',
 			title: 'ICMP',
 			synopsis: 'Ping, traceroute, and the diagnostic backplane.',
 			slots: [
 				{
+					kind: 'pull-quote',
+					text: 'I named it after the sound that sonar makes, inspired by the whole principle of echo-location.',
+					attribution: 'Mike Muuss, on writing ping in December 1983'
+				},
+				{
 					kind: 'prose',
 					sections: [
 						{
 							type: 'narrative',
-							title: 'The Internet\'s Out-of-Band Channel',
-							text: `[[icmp|ICMP]] ([[rfc:792|RFC 792]], 1981) is the protocol that lets the network tell you something is wrong without opening a connection. When a router drops your packet because the **TTL** hit zero, it sends an ICMP **Time Exceeded** back to you — the mechanism that **traceroute** exploits to map every hop along a path. When a destination is unreachable because no service is listening on the requested port, you get **Destination Unreachable**. When a router has too small an MTU for your packet and the **Don't Fragment** bit is set, it sends **Fragmentation Needed**, which is what **Path MTU Discovery** depends on.
+							title: 'Mike Muuss\'s One-Night Tool',
+							text: `[[icmp|ICMP]] ([[rfc:792|RFC 792]], September 1981) is the protocol that lets the network tell you something is wrong without opening a connection. When a router drops your packet because the **TTL** hit zero, it sends an ICMP **Time Exceeded** back to you — the mechanism that **traceroute** exploits to map every hop along a path. When a destination is unreachable, you get **Destination Unreachable**. When a router has too small an MTU for your packet and the **Don't Fragment** bit is set, it sends **Fragmentation Needed**, which is what **Path MTU Discovery** depends on.
 
-The most famous ICMP message is **Echo Request / Echo Reply** — what **ping** sends. Mike Muuss wrote ping in 1983 in a single sitting; it has been included in every Unix and Windows since.
+The most famous ICMP message is **Echo Request / Echo Reply** — what **ping** sends. **Mike Muuss** wrote ping at BRL Aberdeen **in December 1983 in a single night** after hearing Dave Mills describe Fuzzball latency-timing experiments. He had to write the kernel raw-ICMP socket support too because it didn't exist. *"Had everything working well before sunrise."*
 
-ICMP also has a security problem. Because it can carry arbitrary text payloads and is allowed through most firewalls, it has been weaponised as a covert channel ("ICMP tunnelling") for decades. Many enterprise networks rate-limit or block ICMP entirely — which then breaks Path MTU Discovery and creates the "MTU black hole" failure mode where TCP connections hang because the network can neither deliver the large packet nor signal that it cannot.`
+**"Ping" is named after sonar**, not an acronym. Mike Muuss explicitly debunked the "Packet INternet Groper" backronym himself: *"I named it after the sound that sonar makes, inspired by the whole principle of echo-location."* He also coined "default route" / "default gateway." **Mike Muuss died on 20 November 2000** in an automobile collision on Interstate 95, age 42.`
 						},
 						{
 							type: 'callout',
-							title: 'When in doubt, ping it.',
-							text: 'ICMP Echo Request is the lowest-overhead reachability test you can run. If it fails, every higher-level diagnosis becomes faster — you have already ruled out everything above L3.'
+							title: 'Dropping ICMP at the firewall is partially refusing to implement IP',
+							text: 'Read literally, **RFC 1122 §3.2.2 says "ICMP is a control protocol that is considered to be an integral part of IP."** Every IP host MUST answer Echo Requests by spec. Dropping ICMP at your border firewall is, in standards terms, partially refusing to implement IP. It also breaks Path MTU Discovery and creates the "MTU black hole" failure mode where TCP connections hang because the network can neither deliver the large packet nor signal that it cannot.'
+						},
+						{
+							type: 'narrative',
+							title: 'Two Famous Attacks That Renamed the Field',
+							text: `**Smurf attack (1997-1998)**: Tool \`smurf.c\` written by Dan Moschuk (alias TFreak); ICMP Echo Requests with spoofed source to a network's directed broadcast address; first high-profile incident University of Minnesota, 1998. **RFC 2644 (August 1999)** changed router default from "forward directed broadcasts" to "drop." Every modern router has the fix; Smurf is now a museum piece, but it is the reason directed-broadcast forwarding is off by default everywhere.
+
+**Ping of Death (1996-1997)**: Oversized fragmented ICMP packets, when reassembled, exceeded 65,535 bytes and crashed Windows 95/NT, early Linux/BSD, Cisco IOS, and classic Mac. **CERT advisory CA-1996-26 (16 December 1996)**. Modern stacks check for total length overflow before reassembly; the bug is closed but the lesson — that fragment reassembly is one of the most critical security paths in any IP stack — survives in the **CVE-2024-38063** Windows IPv6 fragment integer underflow disclosed 13 August 2024 (CVSS 9.8, "exploitable from anywhere on the link").
+
+**Cloudflare 2014 PMTUD black-hole**: Cloudflare's blog *"Path MTU Discovery in Practice"* documented ICMP Type 3/Code 4 messages getting filtered before reaching servers — TCP handshakes complete, then HTTP responses hang forever. Drove industry rollout of **RFC 4821 PLPMTUD** (Packetisation-Layer PMTUD) which probes path MTU at the application layer instead of relying on routers to send ICMP back.`
+						},
+						{
+							type: 'narrative',
+							title: 'The 2024 CVE Wave and the Frontier',
+							text: `**2024 scale**: Cloudflare mitigated **21.3 million DDoS attacks in 2024** (53% YoY), single biggest 5.6 Tbps Mirai-variant flood. ICMP reflection still ranked among network-layer DDoS vectors, though the protocol's role has shrunk as DNS/NTP/UDP-amplification attacks dominate the headlines.
+
+**Linux became its own CVE Numbering Authority on 13 February 2024** — **3,108-3,529 kernel CVEs in 2024** (NIST/CIQ) — a 79% YoY increase, mostly from process change not real bug rate. ICMP-tagged kernel CVEs include CVE-2024-47678 (icmp rate limit ordering) and CVE-2024-56647 (ICMP host re-lookup triggering ip_rt_bug).
+
+**2020 Internet-wide measurement (SMap study)**: **69.8% of ASes still don't filter spoofed packets at ingress** — substrate that makes ICMP reflection still feasible.
+
+**Frontier**: Tsinghua's \`draft-xu-intarea-challenge-icmpv4-02\` (February 2025) proposes a challenge-confirm scheme using IP options so receivers can verify a router actually saw the original packet — the most concrete proposal in years to fix ICMP's "anyone-can-spoof-any-error" weakness. \`draft-ietf-6man-icmpv6-reflection-19\` (December 2025) defines a stateless probe-and-reflect ICMPv6 utility, currently active.
+
+**GGP (RFC 823, September 1982)** is ICMP's parent — the Gateway-to-Gateway Protocol on BBN's LSI-11 gateways, predecessor of EGP (1984) and grand-uncle of [[bgp|BGP]]. The diagnostic mechanism predates the routing protocol.`
 						}
 					]
 				},
@@ -201,6 +370,8 @@ ICMP also has a security problem. Because it can carry arbitrary text payloads a
 				{ kind: 'rfc', number: '792' }
 			]
 		},
+
+		// ────────────────────────────────────────────────────────────
 		{
 			id: 'bgp',
 			title: 'BGP',
@@ -208,7 +379,7 @@ ICMP also has a security problem. Because it can carry arbitrary text payloads a
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: 'BGP was sketched on three napkins at lunch in 1989 and is still the protocol that decides which packets reach which continent.',
+					text: 'BGP doesn\'t have a real authentication story for 30+ years. The 16-byte all-ones Marker field at the start of every BGP message was originally a placeholder for an authentication digest — now vestigial.',
 					attribution: 'Author'
 				},
 				{
@@ -216,14 +387,49 @@ ICMP also has a security problem. Because it can carry arbitrary text payloads a
 					sections: [
 						{
 							type: 'narrative',
-							title: 'A Trust System Without Trust',
-							text: `In January 1989, **[[pioneer:yakov-rekhter|Yakov Rekhter]]** at IBM and Kirk Lougheed at Cisco met for lunch at an IETF meeting in Austin. The previous routing protocol (EGP) had become unmanageable; the internet was about to outgrow it. On the back of three napkins, they sketched a replacement: a path-vector protocol where every autonomous system advertises which prefixes it can reach and which other ASes its packets would traverse. Routers pick the shortest AS path that satisfies their local policy.
+							title: 'The Two-Napkin Protocol',
+							text: `**The "Two-Napkin Protocol" was sketched at IETF 12, Austin, Texas, January 1989**: **[[pioneer:yakov-rekhter|Yakov Rekhter]]** (IBM Watson) and **Kirk Lougheed** (Cisco) over cafeteria napkins. The previous routing protocol (EGP) had become unmanageable; the internet was about to outgrow it. The originals went in the trash; **Cisco's archivist preserved photocopies that hang in Milpitas**. Expanded to three handwritten sheets — hence "Three-Napkin Protocol."
 
 That sketch became [[rfc:4271|BGP-1]] (RFC 1105, June 1989), then BGP-4 (RFC 1771, 1995), then the current [[rfc:4271|RFC 4271]] (2006). The protocol has been backwards-compatible for over thirty years across more than 100,000 ASes.
 
-The structural problem BGP can never solve on its own is that **it has no built-in authentication**. When AS A says "I can reach 8.8.8.0/24 in two hops," AS B has to choose whether to believe it. There is no cryptographic proof. A misconfiguration — or a hijack — can re-route real traffic through an unintended AS, with consequences ranging from outages ([[outage:facebook-2021|Facebook 2021]], [[outage:as-7007-1997|AS 7007 1997]]) to surveillance to censorship ([[outage:pakistan-youtube-2008|Pakistan / YouTube 2008]]).
+**The 16-byte all-ones Marker field at the start of every BGP message** was originally a placeholder for an authentication digest — now vestigial. Modern auth is below BGP (TCP-MD5/TCP-AO) or above (RPKI/BGPsec/ASPA). Source of the running joke "BGP doesn't have a real authentication story for 30+ years."`
+						},
+						{
+							type: 'callout',
+							title: 'MED is meaningful only between paths from the same neighbour AS',
+							text: 'The "everyone gets it wrong" technical fact: **Multi-Exit Discriminator (MED) is meaningful only between paths from the same neighbour AS.** Comparing MEDs cross-AS is meaningless and frequently misconfigured. Every BGP operator burns a few hours on this at some point. The standard does not enforce same-AS comparison; you have to know.'
+						},
+						{
+							type: 'narrative',
+							title: 'A Catalogue of Famous Failures',
+							text: `**[[outage:as-7007-1997|AS 7007 (25 April 1997, 11:30 EST)]]**: MAI Network Services leaked a deaggregated copy of much of the global routing table as /24s; /24s win longest-prefix match, so Internet traffic funnelled toward AS7007's tiny edge routers. Several hours of partial Internet meltdown — the canonical inspiration for max-prefix limits and prefix filtering.
 
-The fix has been arriving incrementally for fifteen years. **[[frontier:rpki-rov-50-percent|RPKI]]** lets prefix-holders publish cryptographically signed Route Origin Authorisations; **ROV** (Route Origin Validation) checks them at ingress. As of 2026, more than 50% of advertised IP space is covered by RPKI. **ASPA** (AS Provider Authorisation) extends the same idea to AS-path validation, due to ship in 2026-2027.`
+**KlaySwap (3 February 2022)**: First known live attack that leveraged BGP to break the WebPKI. Attackers BGP-hijacked Kakao's prefix to obtain a valid TLS cert for \`developers.kakao.com\` via DCV; replaced JS to authorise user wallets to attacker contracts. **Loss ~$1.9M.** A new failure class — *DCV-via-BGP-hijack* — that argues for ACME's "multi-perspective" issuance now used by Let's Encrypt.
+
+**Verizon × DQE × Allegheny Technologies (24 June 2019)**: A steel mill rerouted 20,000 prefixes for ~2,400 networks via Noction BGP optimizer leak. **Cloudflare lost 15% of global traffic at peak.** Cloudflare's blog became canonical reading.
+
+**[[outage:rogers-2022|Rogers Communications outage (8 July 2022, 26 hours, 12M Canadians)]]**: Removal of an ACL filter from a distribution router redistributed the full BGP table into OSPF, overloading core router CPU/RAM. Shared wireline+wireless IP core meant **everything (including 911) fell**. Staff couldn't communicate because internal management network depended on the same data plane.
+
+**The 512K Day (12 August 2014)**: When IPv4 DFZ crossed 512,000 prefixes, older Cisco line cards with default 512K-route TCAMs failed silently; eBay, LastPass, Microsoft Azure had visible outages. Hardware capacity is part of routing-table economics.
+
+**JunOS/Arista session-reset incident (20 May 2025)**: A malformed BGP UPDATE with all-zero RFC 8669 Prefix-SID attribute (40), originated by AS9304 Hutchison or AS135338 Starcloud, leaked to public DFZ. **JunOS and Arista EOS crashed sessions.** IOS-XR, Nokia SR OS, BIRD correctly applied RFC 7606 "treat-as-withdraw." Implementation diversity matters.`
+						},
+						{
+							type: 'narrative',
+							title: 'The 2024-2026 Cleanup Wave',
+							text: `Several long-pending RFCs landed in the past two years.
+
+**[[rfc:4271|RFC 9582 (May 2024)]]** replaced RFC 6482 as the current ROA profile (Snijders, Maddison, Lepinski, Kong, Kent — clarifies X.509 extensions, fixes errata, mandates canonicalisation).
+
+**RFC 9687 (November 2024)** added the **\`SendHoldTimer\`** to the BGP FSM — closing the **"BGP zombie" failure mode** where a TCP socket stops draining and withdrawn routes linger forever.
+
+**RFC 9774 (May 2025)** formally **deprecates \`AS_SET\` and \`AS_CONFED_SET\`** with a normative MUST NOT — speakers must "treat-as-withdraw" any UPDATE containing them.
+
+**ASPA (AS Provider Authorization)** is *still* an Internet-Draft as of May 2026 — \`draft-ietf-sidrops-aspa-verification-25\` (October 2025) and \`draft-ietf-sidrops-aspa-profile-26\` (April 2026). Cisco ran an **Early Field Trial of ASPA on IOS-XR in 2025**. SIDROPS chair Job Snijders has signalled the WG is "close to last call."
+
+**The June 2024 FCC NPRM** is the first-ever U.S. federal proposal to compel the nine largest BIAS providers (AT&T, Altice, Charter, Comcast, Cox, Lumen, T-Mobile, TDS/US Cellular, Verizon) to file BGP Routing Security Risk Management Plans and quarterly RPKI deployment reports. As of March 2024, only **~22% of US-originated routes had ROAs**.
+
+**2026 RPKI scale**: ~54% of IPv4 prefixes and ~54% of IPv6 prefixes are ROA-covered; **~74% of IP traffic** is destined to ROA-covered networks (Kentik). [[frontier:rpki-rov-50-percent|IPv4 first crossed 50% ROA coverage in May 2024.]] **BIRD 3.0 (January 2025)** was the first stable multithreaded BGP implementation, scaling to 5,000+ peers. The protocol is finally being given the security guardrails it should have had thirty years ago.`
 						}
 					]
 				},
