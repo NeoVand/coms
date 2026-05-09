@@ -115,7 +115,7 @@ This is the deepest principle of the era: **separate what changes together from 
 		{
 			id: 'the-1986-collapse',
 			title: 'The 1986 Congestion Collapse',
-			synopsis: '32 kbps to 40 bps in 400 yards — and Van Jacobson\'s six-algorithm fix.',
+			synopsis: '32 kbps to 40 bps in 400 yards — and [[pioneer:van-jacobson|Van Jacobson]]\'s six-algorithm fix.',
 			slots: [
 				{
 					kind: 'prose',
@@ -227,7 +227,7 @@ The architectural lesson the web carried forward: an application that succeeds a
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/First_Web_Server.jpg/500px-First_Web_Server.jpg',
 							alt: 'Tim Berners-Lee\'s NeXTcube — the world\'s first web server, displayed at CERN with a "do not power down" note on the front.',
 							caption:
-								'The NeXTcube on which Berners-Lee ran the world\'s first web server (info.cern.ch) at CERN in 1990. The "Do not power down" sticker is original — for years this single machine was the entire web.',
+								'The NeXTcube on which [[pioneer:tim-berners-lee|Berners-Lee]] ran the world\'s first web server (info.cern.ch) at CERN in 1990. The "Do not power down" sticker is original — for years this single machine was the entire web.',
 							credit: 'Photo: Coolcaesar, CC BY-SA 3.0, via Wikimedia Commons'
 						}
 					]

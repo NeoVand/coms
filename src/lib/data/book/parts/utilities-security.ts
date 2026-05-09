@@ -22,7 +22,7 @@ export const utilitiesSecurity: BookPart = {
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: 'DNS has no checksum at the application layer — it relies entirely on UDP/TCP checksums. A single bit-flip can sneak through if UDP checksum somehow validates. RFC 9499 (March 2024) is the canonical glossary.',
+					text: 'DNS has no {{checksum|checksum}} at the application layer — it relies entirely on [[udp|UDP]]/[[tcp|TCP]] checksums. A single bit-flip can sneak through if UDP checksum somehow validates. [[rfc:9499|RFC 9499]] (March 2024) is the canonical glossary.',
 					attribution: 'Author'
 				},
 				{
@@ -45,7 +45,7 @@ The first six TLDs were **\`.edu, .gov, .com, .mil, .org, .net\`**, with **\`.in
 						{
 							type: 'narrative',
 							title: 'The Kaminsky Moment, And Modern DNSSEC',
-							text: `**Dan Kaminsky\'s CVE-2008-1447 (July 2008)** turned every recursive resolver in the world into a cache-poisoning target by abusing in-bailiwick referrals + the small (16-bit) DNS transaction ID. The disclosure was coordinated across all major DNS vendors; patches added **source-port randomisation** as the immediate mitigation. The deeper fix is **DNSSEC**, which has been deploying glacially.
+							text: `**Dan Kaminsky\'s CVE-2008-1447 (July 2008)** turned every recursive resolver in the world into a cache-poisoning target by abusing in-bailiwick referrals + the small (16-bit) DNS transaction ID. The disclosure was coordinated across all major DNS vendors; patches added **source-port randomisation** as the immediate mitigation. The deeper fix is **{{dnssec|DNSSEC}}**, which has been deploying glacially.
 
 **KeyTrap (CVE-2023-50387, February 2024)**: ATHENE researchers (Heftrig, Schulmann, Vogel, Waidner) disclosed inherent DNSSEC validation complexity attacks — CVSS 7.5. BIND, Unbound, PowerDNS, Knot all patched, but the underlying DNSSEC RFCs themselves are the issue. DNSSEC is conceptually right and operationally fragile.
 
@@ -100,7 +100,7 @@ In 1999 the IETF took ownership and renamed it [[tls|TLS]] 1.0 (RFC 2246, Januar
 						{
 							type: 'callout',
 							title: 'TLS 1.3 has middlebox-compatibility hacks built in',
-							text: 'The "everyone gets it wrong" wire fact: **TLS 1.3 ClientHello.legacy_version = 0x0303** (TLS 1.2); the real version goes in the \`supported_versions\` extension. **legacy_session_id is non-empty** (faking session resumption). Both sides send a no-op **ChangeCipherSpec record** after their first flight. All of this is because middleboxes broke when they saw real TLS 1.3 wire format. The protocol is technically clean; the wire encoding is a deliberate camouflage.'
+							text: 'The "everyone gets it wrong" wire fact: **TLS 1.3 ClientHello.legacy_version = 0x0303** (TLS 1.2); the real version goes in the \`supported_versions\` extension. **legacy_session_id is non-empty** (faking {{session-resumption|session resumption}}). Both sides send a no-op **ChangeCipherSpec record** after their first flight. All of this is because middleboxes broke when they saw real TLS 1.3 wire format. The protocol is technically clean; the wire encoding is a deliberate camouflage.'
 						},
 						{
 							type: 'narrative',
@@ -208,8 +208,8 @@ SSH was the **first widely-deployed protocol to ship post-quantum crypto by defa
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: 'David L. Mills — "Father Time" of the Internet — was visually impaired from birth and completely blind by 2022. He continued NTP work using large displays and screen readers until his death on 17 January 2024.',
-					attribution: 'Vint Cerf, Internet History list obituary'
+					text: '[[pioneer:david-mills|David L. Mills]] — "Father Time" of the Internet — was visually impaired from birth and completely blind by 2022. He continued [[ntp|NTP]] work using large displays and screen readers until his death on 17 January 2024.',
+					attribution: '[[pioneer:vint-cerf|Vint Cerf]], Internet History list obituary'
 				},
 				{
 					kind: 'prose',

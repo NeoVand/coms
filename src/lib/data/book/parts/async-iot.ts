@@ -163,7 +163,7 @@ A Kafka **topic** is a partitioned log. Producers append records; consumers read
 						{
 							type: 'callout',
 							title: 'Diskless Topics — KIP-1150',
-							text: '**KIP-1150 "Diskless Topics"** was accepted by the Apache Kafka community on **2 March 2026** with 9 binding votes — the formal blessing of the WarpStream / AutoMQ / Aiven Inkless / Bufstream architecture that uses S3 as primary storage. Brokers become stateless cache servers; the log lives in object storage. Cost can drop 10-20× for high-retention workloads. The five-year implications for the broker market are still being argued.'
+							text: '**KIP-1150 "Diskless Topics"** was accepted by the Apache Kafka community on **2 March 2026** with 9 binding votes — the formal blessing of the WarpStream / AutoMQ / Aiven Inkless / Bufstream architecture that uses S3 as primary storage. Brokers become {{stateless|stateless}} cache servers; the log lives in object storage. Cost can drop 10-20× for high-retention workloads. The five-year implications for the broker market are still being argued.'
 						},
 						{
 							type: 'narrative',
@@ -209,7 +209,7 @@ CoAP is what you build when you want REST semantics on a 32 kB microcontroller t
 						{
 							type: 'callout',
 							title: 'EDHOC — three messages, ~100 bytes',
-							text: '**EDHOC ([[rfc:9000|RFC 9528]], March 2024)** — the biggest constrained-IoT crypto news of the period — gives full mutual authentication + forward secrecy in **three messages totalling ~100 bytes** for static-DH credentials, vs **~700+ bytes for a DTLS 1.3 ECC handshake**. For battery-powered devices that translates to *years* of additional life. Companion: **OSCORE (RFC 8613)** wraps the CoAP payload in COSE_Encrypt0/AES-CCM and is end-to-end-secure even across CoAP↔HTTP proxies.'
+							text: '**EDHOC ([[rfc:9000|RFC 9528]], March 2024)** — the biggest constrained-IoT crypto news of the period — gives full mutual authentication + {{forward-secrecy|forward secrecy}} in **three messages totalling ~100 bytes** for static-DH credentials, vs **~700+ bytes for a DTLS 1.3 ECC {{handshake|handshake}}**. For battery-powered devices that translates to *years* of additional life. Companion: **OSCORE ([[rfc:8613|RFC 8613]])** wraps the [[coap|CoAP]] {{payload|payload}} in COSE_Encrypt0/AES-CCM and is end-to-end-secure even across CoAP↔HTTP proxies.'
 						},
 						{
 							type: 'narrative',
