@@ -20,17 +20,17 @@ However, HTTP/2 still runs on [[tcp|TCP]], which means [[tcp|TCP]]-level {{head-
 		{
 			title: 'Connection & settings',
 			description:
-				'After TCP+TLS handshake, client and server exchange SETTINGS frames establishing max concurrent streams, window sizes, etc.'
+				'After [[tcp|TCP]]+[[tls|TLS]] {{handshake|handshake}}, client and server exchange SETTINGS frames establishing max concurrent streams, window sizes, etc.'
 		},
 		{
 			title: 'Binary framing',
 			description:
-				'All communication is split into small binary frames. Each frame belongs to a numbered stream. Multiple streams are interleaved on the same connection.'
+				'All communication is split into small {{binary-framing|binary frames}}. Each frame belongs to a numbered stream. Multiple streams are interleaved on the same connection.'
 		},
 		{
 			title: 'Header compression',
 			description:
-				'HPACK compression reduces header overhead dramatically. Common headers are encoded as small integers. Repeated headers reference a shared table.'
+				'{{hpack|HPACK}} compression reduces header overhead dramatically. Common headers are encoded as small integers. Repeated headers reference a shared table.'
 		},
 		{
 			title: 'Multiplexed responses',
@@ -125,7 +125,7 @@ curl --http2 -v https://example.com 2>&1 | grep "< HTTP"`
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/HTTP_pipelining2.svg/500px-HTTP_pipelining2.svg.png',
 		alt: 'Diagram comparing HTTP/1.1 sequential requests, pipelining, and HTTP/2 multiplexing over a single connection',
 		caption:
-			'The evolution from HTTP/1.1 to HTTP/2 — sequential requests waste time waiting, pipelining helped but still suffered head-of-line blocking. HTTP/2 multiplexing sends multiple requests and responses simultaneously over a single connection using binary framing.',
+			'The evolution from [[http1|HTTP/1.1]] to HTTP/2 — sequential requests waste time waiting, pipelining helped but still suffered {{head-of-line-blocking|head-of-line blocking}}. HTTP/2 {{multiplexing|multiplexing}} sends multiple requests and responses simultaneously over a single connection using {{binary-framing|binary framing}}.',
 		credit: 'Image: Wikimedia Commons / Public Domain'
 	}
 };

@@ -18,12 +18,12 @@ UDP is essential for [[dns|DNS]] lookups (where speed matters and the payload fi
 		{
 			title: 'No handshake',
 			description:
-				'Unlike TCP, UDP has no connection setup. The sender just starts blasting packets immediately — no SYN, no waiting.'
+				'Unlike [[tcp|TCP]], UDP has no connection setup or {{handshake|handshake}}. The sender just starts blasting packets immediately — no SYN, no waiting.'
 		},
 		{
 			title: 'Datagram sent',
 			description:
-				"Each UDP message (datagram) is self-contained with source port, destination port, length, and checksum. It either arrives or it doesn't."
+				"Each UDP message ({{datagram|datagram}}) is self-contained with source port, destination port, length, and {{checksum|checksum}}. It either arrives or it doesn't."
 		},
 		{
 			title: 'No acknowledgment',
@@ -57,7 +57,7 @@ sock.sendto(b"Ping!", ('localhost', 8888))
 # Receive — might never arrive
 data, addr = sock.recvfrom(1024)
 print(f"Got {data} from {addr}")`,
-		caption: 'UDP is connectionless — just bind, send, and hope for the best',
+		caption: 'UDP is {{connectionless|connectionless}} — just bind, send, and hope for the best',
 		alternatives: [
 			{
 				language: 'javascript',
@@ -216,11 +216,11 @@ ss -un  # or: netstat -un`
 		pitfalls: [
 			{
 				title: 'No congestion control by default',
-				text: 'UDP applications must implement congestion control themselves, or risk being a bad citizen. Sending UDP at line rate without backoff is what brought the internet down in 1986. Use a transport library (QUIC, RTP with feedback) rather than rolling your own.'
+				text: 'UDP applications must implement {{congestion-control|congestion control}} themselves, or risk being a bad citizen. Sending UDP at line rate without backoff is what brought the internet down in 1986. Use a transport library ([[quic|QUIC]], [[rtp|RTP]] with feedback) rather than rolling your own.'
 			},
 			{
 				title: 'Fragmentation = unreliable delivery',
-				text: 'UDP datagrams larger than the path MTU get fragmented at the IP layer. If any one fragment is dropped, the entire datagram is lost (no per-fragment retransmit). Cure: keep UDP payloads under ~1400 bytes for safety, or use Path MTU Discovery and resend at the application layer.'
+				text: 'UDP datagrams larger than the path {{mtu|MTU}} get {{fragmentation|fragmented}} at the IP layer. If any one fragment is dropped, the entire datagram is lost (no per-fragment retransmit). Cure: keep UDP payloads under ~1400 bytes for safety, or use {{path-mtu-discovery|Path MTU Discovery}} and resend at the application layer.'
 			},
 			{
 				title: 'Source port matters for NAT pinholes',

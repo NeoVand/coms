@@ -106,7 +106,7 @@ curl -v https://example.com/api/users/42`
 	},
 	performance: {
 		latency:
-			'1 RTT per request-response (after connection). Head-of-line blocking adds latency for multiple resources.',
+			'1 RTT per {{request-response|request-response}} (after connection). {{head-of-line-blocking|Head-of-line blocking}} adds latency for multiple resources.',
 		throughput:
 			'Limited by serial requests; browsers use 6 parallel connections per domain as workaround',
 		overhead: 'Text headers are uncompressed and often repeated — 500-800 bytes typical per request'
@@ -131,7 +131,7 @@ curl -v https://example.com/api/users/42`
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/HTTP_persistent_connection.svg/500px-HTTP_persistent_connection.svg.png',
 		alt: 'Diagram comparing HTTP non-persistent and persistent connections, showing how keep-alive reduces round trips',
 		caption:
-			"HTTP persistent connections (keep-alive) vs non-persistent — HTTP/1.0 opened a new TCP connection for every request, while HTTP/1.1's keep-alive reuses the same connection, saving the overhead of repeated TCP handshakes.",
+			"HTTP persistent connections ({{keep-alive|keep-alive}}) vs non-persistent — HTTP/1.0 opened a new TCP connection for every request, while HTTP/1.1's keep-alive reuses the same connection, saving the overhead of repeated TCP {{handshake|handshakes}}.",
 		credit: 'Image: Wikimedia Commons / Public Domain'
 	}
 };

@@ -18,12 +18,12 @@ Adoption is accelerating: Google, Cloudflare, Facebook, and most {{cdn|CDNs}} su
 		{
 			title: 'QUIC handshake (1 RTT)',
 			description:
-				'Transport and encryption are established in a single round trip. Returning clients can even send data immediately (0 RTT).'
+				'Transport and {{encryption|encryption}} are established in a single round trip. Returning clients can even send data immediately (0 RTT).'
 		},
 		{
 			title: 'QPACK header compression',
 			description:
-				"Like HTTP/2's HPACK but adapted for QUIC's out-of-order delivery. Uses separate encoder/decoder streams."
+				"Like HTTP/2's {{hpack|HPACK}} but adapted for QUIC's out-of-order delivery. Uses separate encoder/decoder streams."
 		},
 		{
 			title: 'Independent streams',
@@ -33,7 +33,7 @@ Adoption is accelerating: Google, Cloudflare, Facebook, and most {{cdn|CDNs}} su
 		{
 			title: 'Connection migration',
 			description:
-				"If the client's IP changes (mobile network switch), the connection continues seamlessly via QUIC Connection IDs."
+				"If the client's IP changes (mobile network switch), the connection continues seamlessly via {{connection-migration|QUIC Connection IDs}}."
 		}
 	],
 	useCases: [
@@ -153,7 +153,7 @@ asyncio.run(fetch_h3())`
 			date: '2024',
 			title: 'WebTransport API ships in Chrome',
 			description:
-				'WebTransport (the JavaScript API on top of HTTP/3 datagrams and streams) reached Chrome stable. Replaces WebSockets for low-latency client-server use cases.'
+				'{{webtransport|WebTransport}} (the JavaScript API on top of HTTP/3 datagrams and streams) reached Chrome stable. Replaces [[websockets|WebSockets]] for low-latency client-server use cases.'
 		}
 	],
 
@@ -181,7 +181,7 @@ asyncio.run(fetch_h3())`
 	funFacts: [
 		{
 			title: 'HTTP/3 has the same semantics as HTTP/1.1',
-			text: 'A GET request in HTTP/3 means exactly what it meant in HTTP/1.1 (1997). The verbs, status codes, headers, content negotiation, and caching semantics are identical. Only the **wire encoding** changed — from text framing (1.1) to binary frames (2) to QUIC streams (3). Reading [[rfc:9110|RFC 9110]] (HTTP Semantics) explains all three at once.'
+			text: 'A GET request in HTTP/3 means exactly what it meant in HTTP/1.1 (1997). The verbs, status codes, headers, {{content-negotiation|content negotiation}}, and caching semantics are identical. Only the **wire encoding** changed — from text framing (1.1) to binary frames (2) to QUIC streams (3). Reading [[rfc:9110|RFC 9110]] (HTTP Semantics) explains all three at once.'
 		},
 		{
 			title: 'No more head-of-line blocking',

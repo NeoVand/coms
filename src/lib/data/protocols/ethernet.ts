@@ -19,12 +19,12 @@ The evolution from shared media to switched networks was transformative. Hubs ga
 		{
 			title: 'Frame construction',
 			description:
-				'The sender wraps the payload in an Ethernet frame: a 7-byte preamble and 1-byte Start Frame Delimiter for clock sync, followed by a 6-byte destination MAC, 6-byte source MAC, 2-byte EtherType (identifying the payload protocol), the payload itself (46-1500 bytes), and a 4-byte Frame Check Sequence (FCS) for error detection.'
+				'The sender wraps the {{payload|payload}} in an Ethernet {{frame|frame}}: a 7-byte preamble and 1-byte Start Frame Delimiter for clock sync, followed by a 6-byte destination {{mac-address|MAC}}, 6-byte source MAC, 2-byte EtherType (identifying the payload protocol), the payload itself (46-1500 bytes), and a 4-byte Frame Check Sequence (FCS) for error detection.'
 		},
 		{
 			title: 'MAC addressing',
 			description:
-				'Every network interface has a 48-bit MAC address (e.g., \`AA:BB:CC:DD:EE:FF\`), typically burned into hardware. The first 24 bits identify the manufacturer (OUI). Broadcast frames use \`FF:FF:FF:FF:FF:FF\` as the destination to reach all devices on the segment.'
+				'Every network interface has a 48-bit {{mac-address|MAC address}} (e.g., \`AA:BB:CC:DD:EE:FF\`), typically burned into hardware. The first 24 bits identify the manufacturer (OUI). {{broadcast|Broadcast}} frames use \`FF:FF:FF:FF:FF:FF\` as the destination to reach all devices on the segment.'
 		},
 		{
 			title: 'Switch forwarding',
@@ -34,7 +34,7 @@ The evolution from shared media to switched networks was transformative. Hubs ga
 		{
 			title: 'Error detection via FCS',
 			description:
-				'The sender computes a CRC-32 checksum over the frame and appends it as the Frame Check Sequence. The receiver recalculates the CRC and silently discards frames with mismatches — Ethernet detects errors but does not retransmit. That job belongs to higher-layer protocols like TCP.'
+				'The sender computes a CRC-32 {{checksum|checksum}} over the frame and appends it as the Frame Check Sequence. The receiver recalculates the CRC and silently discards frames with mismatches — Ethernet detects errors but does not retransmit. That job belongs to higher-layer protocols like [[tcp|TCP]].'
 		}
 	],
 	useCases: [
