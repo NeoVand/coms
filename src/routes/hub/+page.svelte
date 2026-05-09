@@ -1,9 +1,10 @@
 <script lang="ts">
 	import { getAppState } from '$lib/state/context';
-	import { buildGraphNodes } from '$lib/data';
+	import { allProtocols, buildGraphNodes } from '$lib/data';
 
 	const appState = getAppState();
 	const allNodes = buildGraphNodes();
+	const description = `Browse ${allProtocols.length} network protocols organized by category, with stories, simulations, and journeys.`;
 
 	/**
 	 * The /hub route opens the welcome side panel — the same view you
@@ -21,8 +22,5 @@
 
 <svelte:head>
 	<title>Protocol Lab — Atlas of Network Protocols</title>
-	<meta
-		name="description"
-		content="Browse 46 network protocols organized by category, with stories, simulations, and journeys."
-	/>
+	<meta name="description" content={description} />
 </svelte:head>
