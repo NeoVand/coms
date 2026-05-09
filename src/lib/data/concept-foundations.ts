@@ -53,7 +53,7 @@ The deeper trick is that protocols are **public**. They are described in plain t
 			{
 				type: 'callout',
 				title: "Postel's Law",
-				text: '**Be conservative in what you send, be liberal in what you accept.** This single sentence, from [[pioneer:jon-postel|Jon Postel]]\'s RFC 760 (1980) and repeated in [[rfc:1122|RFC 1122]] (1989), guided decades of protocol design. Modern thinking has reversed it for security-sensitive protocols — being "liberal" in what you accept means accepting attack inputs — but for the foundational era it was the principle that let two slightly-different implementations interoperate at all.'
+				text: '**Be conservative in what you send, be liberal in what you accept.** This single sentence, from [[pioneer:jon-postel|Jon Postel]]\'s [[rfc:760|RFC 760]] (1980) and repeated in [[rfc:1122|RFC 1122]] (1989), guided decades of protocol design. Modern thinking has reversed it for security-sensitive protocols — being "liberal" in what you accept means accepting attack inputs — but for the foundational era it was the principle that let two slightly-different implementations interoperate at all.'
 			},
 			{
 				type: 'narrative',

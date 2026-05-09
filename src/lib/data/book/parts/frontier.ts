@@ -231,7 +231,7 @@ ASPA closes the route-leak hole that origin validation alone cannot fix — wher
 						{
 							type: 'callout',
 							title: 'BGPsec is dead',
-							text: '**BGPsec (RFC 8205, 2017)** has **negligible deployment** — the combinatorial signature size, lack of router silicon support, and zero incremental-deployment benefit have left it almost entirely unimplemented. ASPA and RFC 9234 (BGP Roles + OTC) ate its lunch. The lesson: a security protocol that requires every participant to deploy before any of them benefit will not get deployed. RPKI + ROV + ASPA wins because each step is independently useful.'
+							text: '**BGPsec ([[rfc:8205|RFC 8205]], 2017)** has **negligible deployment** — the combinatorial signature size, lack of router silicon support, and zero incremental-deployment benefit have left it almost entirely unimplemented. ASPA and [[rfc:9234|RFC 9234]] (BGP Roles + OTC) ate its lunch. The lesson: a security protocol that requires every participant to deploy before any of them benefit will not get deployed. RPKI + ROV + ASPA wins because each step is independently useful.'
 						},
 						{
 							type: 'narrative',

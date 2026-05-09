@@ -56,7 +56,7 @@ export const frontierEntries: FrontierEntry[] = [
 		id: 'ipv6-50-percent',
 		title: "IPv6 Crosses 50% of Google's Traffic",
 		oneLiner:
-			"On 28 March 2026, IPv6 carried 50.1% of Google's traffic for the first time — 28 years after RFC 2460.",
+			"On 28 March 2026, IPv6 carried 50.1% of Google's traffic for the first time — 28 years after [[rfc:2460|RFC 2460]].",
 		topic: 'standards',
 		status: 'shipped',
 		date: '2026-03-28',

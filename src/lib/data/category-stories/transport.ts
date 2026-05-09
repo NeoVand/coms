@@ -89,7 +89,7 @@ export const transportStory: CategoryStory = {
 					year: 1981,
 					title: 'TCP Published \u2014 RFC 793',
 					description:
-						'The reliable transport protocol specification. Every byte acknowledged, every packet ordered. Later consolidated and updated as RFC 9293 (2022).',
+						'The reliable transport protocol specification. Every byte acknowledged, every packet ordered. Later consolidated and updated as [[rfc:9293|RFC 9293]] (2022).',
 					protocolId: 'tcp'
 				},
 				{
@@ -116,7 +116,7 @@ export const transportStory: CategoryStory = {
 		{
 			type: 'callout',
 			title: "Postel's Law",
-			text: "Jon Postel's robustness principle, articulated in RFC 793: 'Be conservative in what you send, be liberal in what you accept.' This philosophy shaped how the entire internet handles interoperability and became a guiding principle for protocol design."
+			text: "Jon Postel's robustness principle, articulated in [[rfc:793|RFC 793]]: 'Be conservative in what you send, be liberal in what you accept.' This philosophy shaped how the entire internet handles interoperability and became a guiding principle for protocol design."
 		},
 		{
 			type: 'diagram',
@@ -205,7 +205,7 @@ export const transportStory: CategoryStory = {
 					title: 'QUIC Standardization Lead',
 					org: 'Google / Fastly',
 					contribution:
-						'Led the IETF standardization effort that transformed QUIC from a Google experiment into RFC 9000, navigating the complex process of building industry consensus around a new transport protocol.'
+						'Led the IETF standardization effort that transformed QUIC from a Google experiment into [[rfc:9000|RFC 9000]], navigating the complex process of building industry consensus around a new transport protocol.'
 				},
 				{
 					name: 'Randall Stewart',

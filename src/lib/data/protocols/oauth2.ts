@@ -235,7 +235,7 @@ Cache-Control: no-store
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Oauth_logo.svg/500px-Oauth_logo.svg.png',
 		alt: 'The OAuth open authorization protocol logo',
 		caption:
-			'The OAuth logo. OAuth 2.0 (RFC 6749, 2012) became the industry standard for delegated authorization — "Sign in with Google," GitHub Apps, and API access tokens all use OAuth.',
+			'The OAuth logo. OAuth 2.0 ([[rfc:6749|RFC 6749]], 2012) became the industry standard for delegated authorization — "Sign in with Google," GitHub Apps, and API access tokens all use OAuth.',
 		credit: 'Image: Chris Messina / CC BY-SA 3.0, via Wikimedia Commons'
 	}
 };

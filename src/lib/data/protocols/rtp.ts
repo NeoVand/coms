@@ -166,7 +166,7 @@ tcpdump -i eth0 udp port 5004 -w rtp_capture.pcap`
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/SIPNOC_2012_-_FCC_CTO_Henning_Schulzrinne_%287838924022%29.jpg/500px-SIPNOC_2012_-_FCC_CTO_Henning_Schulzrinne_%287838924022%29.jpg',
 		alt: 'Henning Schulzrinne, co-creator of RTP, speaking at SIPNOC 2012',
 		caption:
-			'Henning Schulzrinne co-authored RTP (RFC 3550) and SIP — two protocols that underpin modern VoIP and video conferencing. He later served as CTO of the FCC.',
+			'Henning Schulzrinne co-authored RTP ([[rfc:3550|RFC 3550]]) and SIP — two protocols that underpin modern VoIP and video conferencing. He later served as CTO of the FCC.',
 		credit: 'Photo: SIPNOC / CC BY 2.0, via Wikimedia Commons'
 	}
 };

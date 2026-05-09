@@ -198,7 +198,7 @@ Client → Server  [ACK]
 			date: '2025-01',
 			title: 'Comcast launches L4S in production',
 			description:
-				'Sub-millisecond queuing latency for cooperating flows in six US metros, with Apple, NVIDIA GeForce NOW, Meta, and Valve as launch partners. The first large-scale deployment of the L4S architecture (RFC 9330/9331/9332) on a production access network.',
+				'Sub-millisecond queuing latency for cooperating flows in six US metros, with Apple, NVIDIA GeForce NOW, Meta, and Valve as launch partners. The first large-scale deployment of the L4S architecture ([[rfc:9330|RFC 9330]]/9331/9332) on a production access network.',
 			source: { url: 'https://www.rcrwireless.com/20250129/uncategorized/comcast-l4s', label: 'RCR Wireless' }
 		},
 		{
@@ -250,7 +250,7 @@ Client → Server  [ACK]
 	funFacts: [
 		{
 			title: 'RFC 793 was the spec for 41 years',
-			text: 'From September 1981 until [[rfc:9293|RFC 9293]] (August 2022), [[pioneer:jon-postel|Jon Postel]]\'s [[rfc:9293|RFC 793]] was the canonical TCP specification — almost certainly the longest unmodified IETF spec ever. RFC 9293 finally consolidated 13 errata documents into a single readable document, edited by Wesley Eddy.'
+			text: 'From September 1981 until [[rfc:9293|RFC 9293]] (August 2022), [[pioneer:jon-postel|Jon Postel]]\'s [[rfc:9293|RFC 793]] was the canonical TCP specification — almost certainly the longest unmodified IETF spec ever. [[rfc:9293|RFC 9293]] finally consolidated 13 errata documents into a single readable document, edited by Wesley Eddy.'
 		},
 		{
 			title: 'TCP\'s sequence numbers used to be guessable',

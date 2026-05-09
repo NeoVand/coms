@@ -197,7 +197,7 @@ asyncio.run(fetch_h3())`
 		pitfalls: [
 			{
 				title: 'Alt-Svc bootstrap requires a TCP+TLS round-trip',
-				text: 'A new client doesn\'t know to try HTTP/3 until it sees an Alt-Svc header in an HTTP/1.1 or HTTP/2 response — meaning the very first connection still pays the TCP+TLS round-trip cost. The HTTPS DNS record (HTTPS RR, RFC 9460) closes this gap by advertising HTTP/3 support directly in DNS, but adoption is partial.'
+				text: 'A new client doesn\'t know to try HTTP/3 until it sees an Alt-Svc header in an HTTP/1.1 or HTTP/2 response — meaning the very first connection still pays the TCP+TLS round-trip cost. The HTTPS DNS record (HTTPS RR, [[rfc:9460|RFC 9460]]) closes this gap by advertising HTTP/3 support directly in DNS, but adoption is partial.'
 			},
 			{
 				title: 'CDN coverage is much better than origin coverage',

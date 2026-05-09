@@ -19,7 +19,7 @@ export const utilitiesStory: CategoryStory = {
 					title: 'Creator of FTP',
 					org: 'MIT',
 					contribution:
-						"Created the File Transfer Protocol (RFC 114) in 1971 — one of the internet's very first application protocols. Later held leadership roles at Xerox PARC and several tech companies."
+						"Created the File Transfer Protocol ([[rfc:114|RFC 114]]) in 1971 — one of the internet's very first application protocols. Later held leadership roles at Xerox PARC and several tech companies."
 				},
 				{
 					name: 'Jon Postel',
@@ -37,7 +37,7 @@ export const utilitiesStory: CategoryStory = {
 					title: 'Email Format Architect',
 					org: 'University of Delaware / Brandenburg InternetWorking',
 					contribution:
-						'Authored RFC 822, which defined the email message format (From, To, Subject, Date) still used by every email sent today.'
+						'Authored [[rfc:822|RFC 822]], which defined the email message format (From, To, Subject, Date) still used by every email sent today.'
 				}
 			]
 		},
@@ -151,7 +151,7 @@ export const utilitiesStory: CategoryStory = {
 					title: 'Architect of DHCP',
 					org: 'Bucknell University / Cisco',
 					contribution:
-						'Designed the Dynamic Host Configuration Protocol (RFC 2131), automating the tedious process of manually configuring IP addresses for every device on a network.',
+						'Designed the Dynamic Host Configuration Protocol ([[rfc:2131|RFC 2131]]), automating the tedious process of manually configuring IP addresses for every device on a network.',
 					imagePath:
 						'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Ralph_E._Droms_-_2013.jpg/330px-Ralph_E._Droms_-_2013.jpg'
 				}
@@ -172,7 +172,7 @@ export const utilitiesStory: CategoryStory = {
 					title: 'Creator of IMAP',
 					org: 'Stanford University / University of Washington',
 					contribution:
-						"Invented the Internet Message Access Protocol (RFC 1064, 1988) and maintained it for over 25 years through multiple revisions. IMAP's server-side mail model enabled the multi-device email access we take for granted today."
+						"Invented the Internet Message Access Protocol ([[rfc:1064|RFC 1064]], 1988) and maintained it for over 25 years through multiple revisions. IMAP's server-side mail model enabled the multi-device email access we take for granted today."
 				}
 			]
 		},
@@ -283,7 +283,7 @@ export const utilitiesStory: CategoryStory = {
 					title: 'Author of TLS 1.3',
 					org: 'Mozilla / IETF',
 					contribution:
-						"Authored the TLS 1.3 specification (RFC 8446), dramatically improving both the security and performance of internet encryption. Also key contributor to WebRTC's security architecture."
+						"Authored the TLS 1.3 specification ([[rfc:8446|RFC 8446]]), dramatically improving both the security and performance of internet encryption. Also key contributor to WebRTC's security architecture."
 				},
 				{
 					name: 'Paul Vixie',
@@ -300,7 +300,7 @@ export const utilitiesStory: CategoryStory = {
 		{
 			type: 'callout',
 			title: "Jon Postel — The Internet's Most Important Person You've Never Heard Of",
-			text: "Jon Postel edited the RFC series for 28 years, wrote or co-wrote over 200 RFCs, edited foundational RFCs for TCP, SMTP, and other core protocols, served as IANA administrator. When he died in 1998 at age 55, Vint Cerf wrote RFC 2468 as a memorial. His robustness principle — 'Be conservative in what you send, be liberal in what you accept' — remains one of the internet's guiding philosophies."
+			text: "Jon Postel edited the RFC series for 28 years, wrote or co-wrote over 200 RFCs, edited foundational RFCs for TCP, SMTP, and other core protocols, served as IANA administrator. When he died in 1998 at age 55, Vint Cerf wrote [[rfc:2468|RFC 2468]] as a memorial. His robustness principle — 'Be conservative in what you send, be liberal in what you accept' — remains one of the internet's guiding philosophies."
 		}
 	]
 };

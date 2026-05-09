@@ -237,7 +237,7 @@ export const asyncIotStory: CategoryStory = {
 					title: 'CoAP Editor',
 					org: 'Sensinode / ARM',
 					contribution:
-						'Primary editor of the CoAP specification (RFC 7252) and co-founder of the IETF CoRE Working Group, bridging web standards and IoT.'
+						'Primary editor of the CoAP specification ([[rfc:7252|RFC 7252]]) and co-founder of the IETF CoRE Working Group, bridging web standards and IoT.'
 				},
 				{
 					name: 'Carsten Bormann',

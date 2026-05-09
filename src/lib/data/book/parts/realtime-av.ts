@@ -148,7 +148,7 @@ Plan B SDP is fully gone now: deprecation-warned in Chrome M89 (Feb 2021), remov
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: 'The `sips:` URI scheme means TLS hop-by-hop only, NOT end-to-end like `https:`. RFC 5630 (2009) explicitly warns against the padlock-icon intuition. Forty years in, this is still where engineers get burned.',
+					text: 'The `sips:` URI scheme means TLS hop-by-hop only, NOT end-to-end like `https:`. [[rfc:5630|RFC 5630]] (2009) explicitly warns against the padlock-icon intuition. Forty years in, this is still where engineers get burned.',
 					attribution: 'Author'
 				},
 				{

@@ -163,7 +163,7 @@ sudo tcpdump -i any udp port 443`
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Google_Data_Center%2C_The_Dalles.jpg/500px-Google_Data_Center%2C_The_Dalles.jpg',
 		alt: 'Google data center in The Dalles, Oregon, with rows of colorful server racks',
 		caption:
-			"Google's data center in The Dalles, Oregon — where QUIC was born. Google developed QUIC internally starting in 2012 to replace TCP+TLS, deploying it across Chrome and YouTube before standardizing it as RFC 9000.",
+			"Google's data center in The Dalles, Oregon — where QUIC was born. Google developed QUIC internally starting in 2012 to replace TCP+TLS, deploying it across Chrome and YouTube before standardizing it as [[rfc:9000|RFC 9000]].",
 		credit: 'Photo: Google / CC BY 2.0, via Wikimedia Commons'
 	},
 

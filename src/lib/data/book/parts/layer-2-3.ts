@@ -216,7 +216,7 @@ The exhaustion timeline: **IANA Feb 3 2011; APNIC Apr 15 2011; RIPE Sep 14 2012;
 						{
 							type: 'callout',
 							title: 'Every TCP connection >6.4 Mbps technically violated RFC 791 until 2013',
-							text: 'Read literally, the original IPv4 spec limited any pair of hosts to ~6.4 Mbps for 1500-byte packets — because the 16-bit Identification field would have to repeat within the maximum segment lifetime. **Every TCP connection above 6.4 Mbps you have made since 1995 has technically violated RFC 791.** **RFC 6864 (February 2013) retroactively legalised what every implementation was already doing**: relax the uniqueness requirement when "Don\'t Fragment" is set. Sometimes the spec catches up to reality.'
+							text: 'Read literally, the original IPv4 spec limited any pair of hosts to ~6.4 Mbps for 1500-byte packets — because the 16-bit Identification field would have to repeat within the maximum segment lifetime. **Every TCP connection above 6.4 Mbps you have made since 1995 has technically violated [[rfc:791|RFC 791]].** **[[rfc:6864|RFC 6864]] (February 2013) retroactively legalised what every implementation was already doing**: relax the uniqueness requirement when "Don\'t Fragment" is set. Sometimes the spec catches up to reality.'
 						},
 						{
 							type: 'narrative',

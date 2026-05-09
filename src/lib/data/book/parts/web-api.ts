@@ -351,7 +351,7 @@ WebSocket is the right answer when the client genuinely needs to send messages b
 						{
 							type: 'callout',
 							title: 'The 2024-2026 CVE wave for WebSocket',
-							text: 'RFC 6455 itself has not changed. The ecosystem has. Major CVEs in major implementations: **CVE-2024-37890** in Node \`ws\`; **CVE-2025-10148** in libcurl reviving the very cache-poisoning attack masking was designed to prevent; **CVE-2025-43855** in tRPC; **CVE-2025-5399** in libcurl. \`gorilla/websocket\` was archived in late 2022 and unarchived under community maintenance; \`nhooyr/websocket\` was renamed to \`coder/websocket\` in 2024. The protocol is stable; the implementations are not.'
+							text: '[[rfc:6455|RFC 6455]] itself has not changed. The ecosystem has. Major CVEs in major implementations: **CVE-2024-37890** in Node \`ws\`; **CVE-2025-10148** in libcurl reviving the very cache-poisoning attack masking was designed to prevent; **CVE-2025-43855** in tRPC; **CVE-2025-5399** in libcurl. \`gorilla/websocket\` was archived in late 2022 and unarchived under community maintenance; \`nhooyr/websocket\` was renamed to \`coder/websocket\` in 2024. The protocol is stable; the implementations are not.'
 						},
 						{
 							type: 'narrative',

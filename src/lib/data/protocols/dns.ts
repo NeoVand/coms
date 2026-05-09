@@ -248,7 +248,7 @@ curl -sH 'accept: application/dns-json' \\
 			},
 			{
 				title: 'CNAME at the apex breaks email',
-				text: 'A CNAME at example.com (the zone apex) violates RFC 1034 because the apex must also have NS and SOA records. Some DNS providers offer "ALIAS" or "ANAME" pseudo-records that work around this; the underlying limitation is in the spec.'
+				text: 'A CNAME at example.com (the zone apex) violates [[rfc:1034|RFC 1034]] because the apex must also have NS and SOA records. Some DNS providers offer "ALIAS" or "ANAME" pseudo-records that work around this; the underlying limitation is in the spec.'
 			},
 			{
 				title: 'Negative caching can hurt',

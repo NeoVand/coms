@@ -40,7 +40,7 @@ The first six TLDs were **\`.edu, .gov, .com, .mil, .org, .net\`**, with **\`.in
 						{
 							type: 'callout',
 							title: '.onion is a special-use carve-out',
-							text: '**IANA reserved \`.onion\` as a Special-Use Domain Name (RFC 7686, 2015) — MUST NOT be looked up in public DNS.** A rare carve-out outside ICANN\'s namespace, granted because the Tor protocol uses .onion as an internal addressing scheme rather than a public naming hierarchy. The reservation prevents accidental DNS leakage of Tor traffic.'
+							text: '**IANA reserved \`.onion\` as a Special-Use Domain Name ([[rfc:7686|RFC 7686]], 2015) — MUST NOT be looked up in public DNS.** A rare carve-out outside ICANN\'s namespace, granted because the Tor protocol uses .onion as an internal addressing scheme rather than a public naming hierarchy. The reservation prevents accidental DNS leakage of Tor traffic.'
 						},
 						{
 							type: 'narrative',
@@ -289,7 +289,7 @@ OAuth's insight was to separate **authentication** (proving who you are, done by
 						{
 							type: 'callout',
 							title: 'The Road to Hell resignation',
-							text: '**The "Road to Hell" resignation (26 July 2012)**: Eran Hammer published *"OAuth 2.0 and the Road to Hell"* — most famous resignation in modern protocol history. His core line: *"WS-\* bad"* — shorthand among IETF veterans for any standard sunk by enterprise committee design. The "everyone gets it wrong" framework fact: **OAuth 2.0 is technically a framework, not a protocol.** RFC 6749\'s abstract itself warns *"this specification is likely to produce a wide range of non-interoperable implementations"* — language Hammer fought to insert.'
+							text: '**The "Road to Hell" resignation (26 July 2012)**: Eran Hammer published *"OAuth 2.0 and the Road to Hell"* — most famous resignation in modern protocol history. His core line: *"WS-\* bad"* — shorthand among IETF veterans for any standard sunk by enterprise committee design. The "everyone gets it wrong" framework fact: **OAuth 2.0 is technically a framework, not a protocol.** [[rfc:6749|RFC 6749]]\'s abstract itself warns *"this specification is likely to produce a wide range of non-interoperable implementations"* — language Hammer fought to insert.'
 						},
 						{
 							type: 'narrative',
@@ -360,7 +360,7 @@ OAuth's insight was to separate **authentication** (proving who you are, done by
 						{
 							type: 'callout',
 							title: 'Port 25 vs 587 vs 465',
-							text: '**The "everyone gets it wrong" port fact**: Port **25** is MTA-to-MTA relay; **587** is Submission with STARTTLS (RFC 6409); **465** is **Submissions** with implicit TLS (formally restored to that role by RFC 8314, January 2018). **465 is preferred for new client integrations because STARTTLS is strippable** by an active attacker who can downgrade the connection. The "submission" vs "relay" distinction is what enterprise mail admins burn most of their time on.'
+							text: '**The "everyone gets it wrong" port fact**: Port **25** is MTA-to-MTA relay; **587** is Submission with STARTTLS ([[rfc:6409|RFC 6409]]); **465** is **Submissions** with implicit TLS (formally restored to that role by [[rfc:8314|RFC 8314]], January 2018). **465 is preferred for new client integrations because STARTTLS is strippable** by an active attacker who can downgrade the connection. The "submission" vs "relay" distinction is what enterprise mail admins burn most of their time on.'
 						},
 						{
 							type: 'narrative',

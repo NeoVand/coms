@@ -39,7 +39,7 @@ The first version, HTTP/0.9, supported just one command: GET. No headers, no con
 					title: 'Architect of HTTP/1.1 & REST',
 					org: 'UC Irvine / Apache Foundation',
 					contribution:
-						'Co-authored the HTTP/1.1 specification (RFC 2616) and defined REST in his 2000 doctoral dissertation, shaping how modern APIs are designed.',
+						'Co-authored the HTTP/1.1 specification ([[rfc:2616|RFC 2616]]) and defined REST in his 2000 doctoral dissertation, shaping how modern APIs are designed.',
 					imagePath:
 						'https://upload.wikimedia.org/wikipedia/commons/thumb/5/52/Roy_Fielding_%28cropped%29.jpg/330px-Roy_Fielding_%28cropped%29.jpg'
 				}

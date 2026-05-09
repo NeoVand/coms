@@ -33,6 +33,8 @@ import { getFrontierById } from '$lib/data/frontier';
 export type TextSegment =
 	| { type: 'text'; value: string }
 	| { type: 'bold'; value: string }
+	| { type: 'italic'; value: string }
+	| { type: 'code'; value: string }
 	| { type: 'bold-concept'; conceptId: string; label: string }
 	| { type: 'bold-protocol-link'; protocolId: string; label: string }
 	| { type: 'protocol-link'; protocolId: string; label: string }
@@ -45,12 +47,15 @@ export type TextSegment =
 	| { type: 'chapter-link'; partId: string; chapterId: string; label: string };
 
 /**
- * Combined regex matching:
- *   **{{conceptId|label}}**   — bold-wrapped concept (must come first)
+ * Combined regex matching, in priority order:
+ *   **{{conceptId|label}}**   — bold-wrapped concept
  *   **[[id|label]]**          — bold-wrapped cross-reference
- *   [[id|label]]              — cross-reference (protocol / rfc / outage / pioneer / glossary)
- *   {{conceptId|display}}     — concept tooltips
- *   **bold text**             — bold formatting
+ *   [[id|label]]              — cross-reference (protocol / rfc / outage / pioneer / glossary / frontier / chapter)
+ *   {{conceptId|display}}     — concept tooltip
+ *   **bold text**             — bold
+ *   `code text`               — inline code
+ *   *italic text*             — italic (single-asterisk; must NOT start/end with whitespace
+ *                               so we don't match math-style multiplication)
  *
  * Bold-wrapped variants are matched first to prevent partial matches.
  *
@@ -58,7 +63,7 @@ export type TextSegment =
  * permits `:` so that typed prefixes like `rfc:9293` parse cleanly.
  */
 const RICH_TEXT_RE =
-	/\*\*\{\{([^}|]+)(?:\|([^}]+))?\}\}\*\*|\*\*\[\[([^\]|]+)(?:\|([^\]]+))?\]\]\*\*|\[\[([^\]|]+)(?:\|([^\]]+))?\]\]|\{\{([^}|]+)(?:\|([^}]+))?\}\}|\*\*([^*]+)\*\*/g;
+	/\*\*\{\{([^}|]+)(?:\|([^}]+))?\}\}\*\*|\*\*\[\[([^\]|]+)(?:\|([^\]]+))?\]\]\*\*|\[\[([^\]|]+)(?:\|([^\]]+))?\]\]|\{\{([^}|]+)(?:\|([^}]+))?\}\}|\*\*([^*]+)\*\*|`([^`]+)`|\*([^*\s][^*]*[^*\s]|[^*\s])\*/g;
 
 /**
  * Resolve a `[[id|label]]` raw match into a typed segment, honoring the
@@ -165,6 +170,12 @@ export function parseRichText(raw: string): TextSegment[] {
 		} else if (match[9] !== undefined) {
 			// Bold: **text**
 			segments.push({ type: 'bold', value: match[9] });
+		} else if (match[10] !== undefined) {
+			// Inline code: `text`
+			segments.push({ type: 'code', value: match[10] });
+		} else if (match[11] !== undefined) {
+			// Italic: *text*
+			segments.push({ type: 'italic', value: match[11] });
 		}
 
 		lastIndex = regex.lastIndex;

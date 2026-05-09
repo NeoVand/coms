@@ -217,7 +217,7 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
 					year: 2026,
 					title: 'IPv6 Crosses 50% on Google',
 					description:
-						'On 28 March 2026, IPv6 carried 50.1% of Google\'s traffic for the first time — 28 years after RFC 2460. Cloudflare and APNIC measure 40-43% from their vantage points, so the milestone is real but uneven.',
+						'On 28 March 2026, IPv6 carried 50.1% of Google\'s traffic for the first time — 28 years after [[rfc:2460|RFC 2460]]. Cloudflare and APNIC measure 40-43% from their vantage points, so the milestone is real but uneven.',
 					protocolId: 'ipv6'
 				}
 			]

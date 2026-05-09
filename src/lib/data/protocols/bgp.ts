@@ -183,7 +183,7 @@ for await (const elem of parser) {
 			date: '2024-01',
 			title: 'TCP-AO ships in Linux 6.7 for BGP',
 			description:
-				'Native TCP Authentication Option (RFC 5925) lands in Linux, finally giving BGP sessions a modern replacement for the deprecated TCP-MD5. Cisco IOS-XR and Junos already supported it; Linux was the long-pole.'
+				'Native TCP Authentication Option ([[rfc:5925|RFC 5925]]) lands in Linux, finally giving BGP sessions a modern replacement for the deprecated TCP-MD5. Cisco IOS-XR and Junos already supported it; Linux was the long-pole.'
 		}
 	],
 
@@ -211,7 +211,7 @@ for await (const elem of parser) {
 	funFacts: [
 		{
 			title: 'BGP was sketched on three napkins',
-			text: 'In January 1989, [[pioneer:yakov-rekhter|Yakov Rekhter]] and Kirk Lougheed met at lunch during an IETF meeting in Austin. The previous routing protocol (EGP) was unmanageable. They sketched a replacement on three napkins. That sketch became BGP-1 (RFC 1105) six months later.'
+			text: 'In January 1989, [[pioneer:yakov-rekhter|Yakov Rekhter]] and Kirk Lougheed met at lunch during an IETF meeting in Austin. The previous routing protocol (EGP) was unmanageable. They sketched a replacement on three napkins. That sketch became BGP-1 ([[rfc:1105|RFC 1105]]) six months later.'
 		},
 		{
 			title: 'BGP has no built-in authentication',
@@ -231,11 +231,11 @@ for await (const elem of parser) {
 			},
 			{
 				title: 'Soft reset vs hard reset',
-				text: 'A "hard" reset of a BGP session withdraws all routes and re-learns them — visible to the entire internet. A "soft" reset (route-refresh capability, RFC 2918) just reapplies policy without dropping the session. Always prefer soft reset when changing filter policy.'
+				text: 'A "hard" reset of a BGP session withdraws all routes and re-learns them — visible to the entire internet. A "soft" reset (route-refresh capability, [[rfc:2918|RFC 2918]]) just reapplies policy without dropping the session. Always prefer soft reset when changing filter policy.'
 			},
 			{
 				title: 'TTL security gotcha',
-				text: 'Some operators enable GTSM (Generalised TTL Security Mechanism, RFC 5082) requiring incoming BGP packets to have TTL=255 — defending against off-path injection. If your peer does not also enable it, the session simply never establishes. Check both ends.'
+				text: 'Some operators enable GTSM (Generalised TTL Security Mechanism, [[rfc:5082|RFC 5082]]) requiring incoming BGP packets to have TTL=255 — defending against off-path injection. If your peer does not also enable it, the session simply never establishes. Check both ends.'
 			}
 		]
 	}

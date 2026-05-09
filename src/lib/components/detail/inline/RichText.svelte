@@ -45,6 +45,9 @@
 {#each segments as seg, i (i)}
 	{#if seg.type === 'text'}{seg.value}{:else if seg.type === 'bold'}<strong
 			class="font-semibold text-t-primary">{seg.value}</strong
+		>{:else if seg.type === 'italic'}<em class="italic">{seg.value}</em
+		>{:else if seg.type === 'code'}<code
+			class="rounded bg-s-glass px-1 py-px font-mono text-[0.92em] text-t-primary">{seg.value}</code
 		>{:else if seg.type === 'protocol-link'}<ProtocolLink
 			protocolId={seg.protocolId}
 			label={seg.label}

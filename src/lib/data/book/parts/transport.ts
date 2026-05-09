@@ -24,7 +24,7 @@ export const transport: BookPart = {
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: 'RFC 793 was the canonical TCP specification for 41 years — almost certainly the longest unmodified IETF spec ever. RFC 9293 finally consolidated 13 errata documents in August 2022.',
+					text: '[[rfc:793|RFC 793]] was the canonical TCP specification for 41 years — almost certainly the longest unmodified IETF spec ever. [[rfc:9293|RFC 9293]] finally consolidated 13 errata documents in August 2022.',
 					attribution: 'Author'
 				},
 				{
@@ -183,7 +183,7 @@ The deeper lesson SCTP teaches is the lesson [[quic|QUIC]] applied: **if you wan
 						{
 							type: 'callout',
 							title: 'WebRTC Data Channels are SCTP under the hood',
-							text: 'There is one place SCTP runs successfully on the open internet: **WebRTC Data Channels**. RFC 8831 defines the data channel as **SCTP over DTLS over UDP** — the SCTP-over-something-else trick QUIC would later generalise. The browser implementations (libwebrtc, Firefox\'s networking stack) carry an SCTP stack in user space. WebRTC is the largest production SCTP deployment by message count, even though almost nobody knows it.'
+							text: 'There is one place SCTP runs successfully on the open internet: **WebRTC Data Channels**. [[rfc:8831|RFC 8831]] defines the data channel as **SCTP over DTLS over UDP** — the SCTP-over-something-else trick QUIC would later generalise. The browser implementations (libwebrtc, Firefox\'s networking stack) carry an SCTP stack in user space. WebRTC is the largest production SCTP deployment by message count, even though almost nobody knows it.'
 						},
 						{
 							type: 'narrative',
