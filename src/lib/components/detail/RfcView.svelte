@@ -4,6 +4,8 @@
 	import { ExternalLink, FileText } from 'lucide-svelte';
 	import { themedDomColor } from '$lib/utils/colors';
 	import { getAppState } from '$lib/state/context';
+	import { parseParagraphs } from '$lib/utils/text-parser';
+	import RichText from '$lib/components/detail/inline/RichText.svelte';
 
 	interface Props {
 		number: string;
@@ -65,6 +67,29 @@
 				{/if}
 			</div>
 		</header>
+
+		<!-- Abstract — plain-English summary -->
+		{#if rfc.abstract}
+			<section class="-mt-1 space-y-3">
+				{#each parseParagraphs(rfc.abstract) as paraSegments, i (i)}
+					<p class="text-sm leading-relaxed text-t-primary">
+						<RichText segments={paraSegments} color={accent} />
+					</p>
+				{/each}
+			</section>
+		{/if}
+
+		<!-- Primary CTA: read the actual spec -->
+		<a
+			href={rfc.url}
+			target="_blank"
+			rel="noopener noreferrer"
+			class="inline-flex items-center gap-2 self-start rounded-lg border px-3.5 py-2 text-sm font-medium transition-all hover:bg-s-glass-hover"
+			style="border-color: {accent}40; color: {accent}; background-color: {accent}10;"
+		>
+			<ExternalLink size={14} />
+			Read RFC {rfc.number} on rfc-editor.org
+		</a>
 
 		<!-- Notable sections -->
 		{#if rfc.notableSections && rfc.notableSections.length > 0}
@@ -160,18 +185,6 @@
 			</section>
 		{/if}
 
-		<!-- External link -->
-		<section class="border-t border-s-border pt-4 text-[11px] text-t-muted">
-			<a
-				href={rfc.url}
-				target="_blank"
-				rel="noopener noreferrer"
-				class="inline-flex items-center gap-1 transition-colors hover:text-t-secondary"
-			>
-				<ExternalLink size={10} />
-				Read on rfc-editor.org
-			</a>
-		</section>
 	</article>
 {:else}
 	<div class="rounded-xl border border-s-border bg-s-glass p-6 text-center">
