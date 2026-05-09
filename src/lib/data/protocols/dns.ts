@@ -35,7 +35,7 @@ Security is a growing concern: {{dnssec|DNSSEC}} (DNS Security Extensions) adds 
 		{
 			title: 'IP returned',
 			description:
-				'Your device receives the IP address and can now establish a TCP connection to the web server. The entire process typically takes 10-100ms for uncached queries.'
+				'Your device receives the {{ip-address|IP address}} and can now establish a [[tcp|TCP]] connection to the web server. The entire process typically takes 10-100ms for uncached queries.'
 		}
 	],
 	useCases: [
@@ -178,7 +178,7 @@ curl -sH 'accept: application/dns-json' \\
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Example_of_an_iterative_DNS_resolver.svg/500px-Example_of_an_iterative_DNS_resolver.svg.png',
 		alt: 'Diagram showing iterative DNS resolution: client queries recursive resolver, which queries root, TLD, and authoritative nameservers in sequence',
 		caption:
-			'How DNS resolution works — your device asks a recursive resolver, which iteratively queries root servers, TLD servers (.com, .org), and authoritative nameservers to translate a domain name like "example.com" into an IP address.',
+			'How {{dns-resolution|DNS resolution}} works — your device asks a recursive resolver, which iteratively queries root servers, TLD servers (.com, .org), and authoritative nameservers to translate a domain name like "example.com" into an {{ip-address|IP address}}.',
 		credit: 'Image: Wikimedia Commons / Public Domain'
 	},
 
@@ -187,13 +187,13 @@ curl -sH 'accept: application/dns-json' \\
 			date: '2025',
 			title: 'DNS-over-HTTPS adoption past 30%',
 			description:
-				'Cloudflare, Google Public DNS, and Quad9 collectively report over 30% of global DNS queries now arriving via DoH (RFC 8484). Browser-level DoH (Firefox, Chrome) drives most of the growth.'
+				'Cloudflare, Google Public DNS, and Quad9 collectively report over 30% of global DNS queries now arriving via DoH ([[rfc:8484|RFC 8484]]). Browser-level DoH (Firefox, Chrome) drives most of the growth.'
 		},
 		{
 			date: '2024',
 			title: 'DNSSEC validation reaches 38%',
 			description:
-				'APNIC measurements show 38% of users are behind a validating resolver — a steady climb from 12% a decade ago. The .gov and .mil zones are 100% DNSSEC-signed; .com is at ~5% of leaf domains.'
+				'APNIC measurements show 38% of users are behind a validating resolver — a steady climb from 12% a decade ago. The .gov and .mil zones are 100% {{dnssec|DNSSEC}}-signed; .com is at ~5% of leaf domains.'
 		},
 		{
 			date: '2024-10',
@@ -209,7 +209,7 @@ curl -sH 'accept: application/dns-json' \\
 			org: 'Cloudflare 1.1.1.1',
 			scale: '~1 trillion queries/day',
 			description:
-				'Anycast public resolver with privacy-first design (no logging, encrypted via DoH/DoT). Fastest resolver by most measurements.'
+				'{{anycast|Anycast}} public resolver with privacy-first design (no logging, encrypted via DoH/DoT). Fastest resolver by most measurements.'
 		},
 		{
 			org: 'Google 8.8.8.8',

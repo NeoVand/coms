@@ -51,12 +51,12 @@ Forty-five years after [[rfc:9293|RFC 793]] (September 1981), TCP is still the w
 						{
 							type: 'callout',
 							title: 'Three pre-existing security incidents from the 1990s',
-							text: '**TCP sequence-prediction (Mitnick 1994)** exploited predictable initial sequence numbers from BSD\'s linear ISN counter. RFC 1948 (1996) replaced it with a cryptographically-hashed function of the four-tuple. **SYN floods (mid-1990s)** exhausted server connection tables before SYN cookies (Bernstein, RFC 4987) made them stateless. **Smurf attacks (1997)** abused IP broadcast to amplify TCP RST floods. Modern stacks defeat all three; the design lessons are baked into [[rfc:9293|RFC 9293]]\'s security considerations.'
+							text: '**TCP sequence-prediction (Mitnick 1994)** exploited predictable initial {{sequence-number|sequence numbers}} from BSD\'s linear ISN counter. [[rfc:1948|RFC 1948]] (1996) replaced it with a cryptographically-hashed function of the four-tuple. **SYN floods (mid-1990s)** exhausted server connection tables before {{syn-cookies|SYN cookies}} (Bernstein, [[rfc:4987|RFC 4987]]) made them {{stateless|stateless}}. **Smurf attacks (1997)** abused IP {{broadcast|broadcast}} to amplify {{tcp-rst|TCP RST}} floods. Modern stacks defeat all three; the design lessons are baked into [[rfc:9293|RFC 9293]]\'s security considerations.'
 						},
 						{
 							type: 'narrative',
 							title: 'Congestion Control: Tahoe Through BBR Through L4S',
-							text: `The single most important change in TCP's history is the **1988 congestion avoidance** work by [[pioneer:van-jacobson|Van Jacobson]] and Mike Karels — slow start, AIMD, fast retransmit, exponential backoff — that prevented the [[outage:arpanet-1980|1986 collapse]] from repeating. The single most important change since is **CUBIC** ([[rfc:9438|RFC 9438]], default in Linux/Windows/Apple stacks since the late 2000s) and **BBR** (Google, 2016, [[frontier:bbrv3-default|now BBRv3]] for google.com and YouTube traffic).
+							text: `The single most important change in TCP's history is the **1988 congestion avoidance** work by [[pioneer:van-jacobson|Van Jacobson]] and Mike Karels — slow start, AIMD, fast retransmit, exponential backoff — that prevented the [[outage:nsfnet-1986-collapse|1986 collapse]] from repeating. The single most important change since is **CUBIC** ([[rfc:9438|RFC 9438]], default in Linux/Windows/Apple stacks since the late 2000s) and **BBR** (Google, 2016, [[frontier:bbrv3-default|now BBRv3]] for google.com and YouTube traffic).
 
 The story of TCP, more than any other transport, is the story of congestion control. Everything else — flow control, error recovery, connection state — settled by 1988. The active research has moved through Reno, NewReno, Vegas, CUBIC, Compound, BBR v1/v2/v3, and now [[frontier:l4s-comcast-launch|L4S]] with TCP Prague. Each generation refined the inference about network state from increasingly sparse signals.
 
@@ -93,7 +93,7 @@ The vulnerability surface keeps producing CVEs. **CVE-2019-11477 (SACK Panic)** 
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: 'RFC 768 is three pages long. Jon Postel wrote it in August 1980, two months before the first version of TCP. It has not been updated since. There has been nothing to update.',
+					text: '[[rfc:768|RFC 768]] is three pages long. [[pioneer:jon-postel|Jon Postel]] wrote it in August 1980, two months before the first version of TCP. It has not been updated since. There has been nothing to update.',
 					attribution: 'Author'
 				},
 				{
@@ -234,7 +234,7 @@ Apple expanded MPTCP in iOS 11 (2017) to a public API for any app, and in iOS 12
 						{
 							type: 'callout',
 							title: 'Adoption is real but limited',
-							text: 'The same NAT/firewall friction that confines [[sctp|SCTP]] hits MPTCP. Many middleboxes strip the MPTCP option from the SYN, falling the connection back to plain TCP. Where MPTCP works (Apple OS services, Korea Telecom GIGA Path, some specialised enterprise WANs) it works well. Where it does not work (the long tail of public-internet middleboxes), it falls back transparently. The deployment story is "successful in controlled paths, invisible everywhere else."'
+							text: 'The same {{nat|NAT}}/{{firewall|firewall}} friction that confines [[sctp|SCTP]] hits MPTCP. Many middleboxes strip the MPTCP option from the SYN, falling the connection back to plain TCP. Where MPTCP works (Apple OS services, Korea Telecom GIGA Path, some specialised enterprise WANs) it works well. Where it does not work (the long tail of public-internet middleboxes), it falls back transparently. The deployment story is "successful in controlled paths, invisible everywhere else."'
 						},
 						{
 							type: 'narrative',

@@ -19,7 +19,7 @@ QUIC powers [[http3|HTTP/3]], which is the latest version of HTTP. Major browser
 		{
 			title: 'Initial handshake (1 RTT)',
 			description:
-				'Client sends a QUIC Initial packet containing a TLS ClientHello. Server responds with its Initial + Handshake packets. Connection is established in a single round trip with encryption from the start.'
+				'Client sends a QUIC Initial packet containing a [[tls|TLS]] ClientHello. Server responds with its Initial + {{handshake|Handshake}} packets. Connection is established in a single round trip with encryption from the start.'
 		},
 		{
 			title: '0-RTT resumption',
@@ -29,12 +29,12 @@ QUIC powers [[http3|HTTP/3]], which is the latest version of HTTP. Major browser
 		{
 			title: 'Multiplexed streams',
 			description:
-				"Multiple independent streams share one connection. Each stream has its own flow control. Packet loss on one stream doesn't block others."
+				"Multiple independent streams share one connection. Each stream has its own {{flow-control|flow control}}. Packet loss on one stream doesn't block others."
 		},
 		{
 			title: 'Connection migration',
 			description:
-				'Connections are identified by a Connection ID, not the IP/port tuple. If your phone switches from Wi-Fi to cellular, the QUIC connection survives.'
+				'Connections are identified by a {{connection-migration|Connection ID}}, not the IP/port tuple. If your phone switches from [[wifi|Wi-Fi]] to cellular, the QUIC connection survives.'
 		}
 	],
 	useCases: [
@@ -249,7 +249,7 @@ sudo tcpdump -i any udp port 443`
 			},
 			{
 				title: 'Connection migration breaks middleboxes',
-				text: 'Some stateful middleboxes (NAT routers, transparent proxies) drop a connection when its source IP suddenly changes — they assume it\'s a new flow. QUIC\'s Path Validation fixes this when both endpoints support it; the path-probing handshake is RFC 9000 §8.'
+				text: 'Some {{stateful|stateful}} middleboxes ({{nat|NAT}} routers, transparent proxies) drop a connection when its source IP suddenly changes — they assume it\'s a new flow. QUIC\'s Path Validation fixes this when both endpoints support it; the path-probing handshake is [[rfc:9000|RFC 9000]] §8.'
 			},
 			{
 				title: 'Higher CPU than kernel TCP',
