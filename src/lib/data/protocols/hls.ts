@@ -11,9 +11,9 @@ export const hls: Protocol = {
 	oneLiner: "Apple's adaptive streaming protocol — video delivered as small HTTP file downloads.",
 	overview: `HLS takes a clever approach to streaming: instead of a continuous real-time stream, it chops video into small files (typically 2-10 second segments) and serves them as ordinary [[http1|HTTP]] downloads. A manifest file (.m3u8) lists the available segments and quality levels.
 
-This design is brilliant for several reasons: it works through any {{firewall|firewall}} (it's just [[http1|HTTP]]), it scales trivially with {{cdn|CDNs}} (segments are cacheable files), and it enables {{adaptive-bitrate|adaptive bitrate}} — the player switches between quality levels based on {{bandwidth|bandwidth}}, providing smooth playback even on unstable connections. Increasingly, HLS and [[dash|DASH]] are converging on CMAF (Common Media Application Format), which defines a unified segment format (fragmented MP4) so content providers can encode once and serve both HLS and DASH from the same segments.
+This design is brilliant for several reasons: it works through any {{firewall|firewall}} (it's just [[http1|HTTP]]), it scales trivially with {{cdn|CDNs}} (segments are cacheable files), and it enables {{adaptive-bitrate|adaptive bitrate}} — the player switches between quality levels based on {{bandwidth|bandwidth}}, providing smooth playback even on unstable connections. Increasingly, HLS and [[dash|DASH]] are converging on CMAF (Common Media Application Format), which defines a unified segment format (fragmented MP4) so content providers can encode once and serve both HLS and [[dash|DASH]] from the same segments.
 
-The tradeoff is {{latency|latency}}: buffering several segments means HLS typically has 6-30 seconds of delay. Low-Latency HLS (LL-HLS) reduces this to 2-4 seconds by using partial segments and preload hints (\`EXT-X-PRELOAD-HINT\`). HLS is widely used across the streaming landscape — Disney+ relies on it as a primary format, while services like Netflix and YouTube primarily use [[dash|DASH]] but fall back to HLS for Apple device compatibility.`,
+The tradeoff is {{latency|latency}}: buffering several segments means HLS typically has 6-30 seconds of delay. Low-{{latency|Latency}} HLS (LL-HLS) reduces this to 2-4 seconds by using partial segments and preload hints (\`EXT-X-PRELOAD-HINT\`). HLS is widely used across the streaming landscape — Disney+ relies on it as a primary format, while services like Netflix and YouTube primarily use [[dash|DASH]] but fall back to HLS for Apple device compatibility.`,
 	howItWorks: [
 		{
 			title: 'Encode and segment',
@@ -23,7 +23,7 @@ The tradeoff is {{latency|latency}}: buffering several segments means HLS typica
 		{
 			title: 'Manifest playlist',
 			description:
-				'A master .m3u8 playlist lists available quality levels. Each level has its own playlist listing segment URLs. Player picks the right level for current bandwidth.'
+				'A master .m3u8 playlist lists available quality levels. Each level has its own playlist listing segment URLs. Player picks the right level for current {{bandwidth|bandwidth}}.'
 		},
 		{
 			title: 'Segment download',
@@ -33,7 +33,7 @@ The tradeoff is {{latency|latency}}: buffering several segments means HLS typica
 		{
 			title: 'Adaptive bitrate',
 			description:
-				'Player monitors download speed. If bandwidth drops, it switches to a lower quality. If it improves, it switches up. No buffering, no interruption.'
+				'Player monitors download speed. If {{bandwidth|bandwidth}} drops, it switches to a lower quality. If it improves, it switches up. No buffering, no interruption.'
 		}
 	],
 	useCases: [

@@ -29,7 +29,7 @@ Netflix, YouTube, Disney+, and most major streaming services use DASH (often alo
 		{
 			title: 'Client fetches MPD',
 			description:
-				'The DASH player downloads the MPD, parses the available options, and selects an initial quality level based on estimated bandwidth.'
+				'The DASH player downloads the MPD, parses the available options, and selects an initial quality level based on estimated {{bandwidth|bandwidth}}.'
 		},
 		{
 			title: 'Adaptive segment fetching',
@@ -189,7 +189,7 @@ Content-Length: 1802400
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/100_Winchester_Circle.jpg/500px-100_Winchester_Circle.jpg',
 		alt: 'Netflix headquarters building at 100 Winchester Circle in Los Gatos, California',
 		caption:
-			'Netflix headquarters in Los Gatos, California. Netflix was instrumental in driving the adoption of MPEG-DASH (2012), the open-standard adaptive bitrate streaming protocol that dynamically adjusts video quality based on network conditions.',
+			'Netflix headquarters in Los Gatos, California. Netflix was instrumental in driving the adoption of MPEG-DASH (2012), the open-standard {{adaptive-bitrate|adaptive bitrate streaming}} protocol that dynamically adjusts video quality based on network conditions.',
 		credit: 'Photo: Coolcaesar / CC BY-SA 4.0, via Wikimedia Commons'
 	}
 };

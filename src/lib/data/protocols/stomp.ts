@@ -9,7 +9,7 @@ export const stomp: Protocol = {
 	year: 2003,
 	rfc: undefined,
 	oneLiner: 'A dead-simple text protocol for message brokers — the HTTP of messaging.',
-	overview: `STOMP is to message queuing what [[http1|HTTP]] is to the web — a simple, text-based protocol that any language can implement easily. While [[amqp|AMQP]] has complex binary framing and [[mqtt|MQTT]] has its binary headers, STOMP uses plain text commands like CONNECT, SUBSCRIBE, SEND, and {{ack|ACK}}.
+	overview: `STOMP is to message queuing what [[http1|HTTP]] is to the web — a simple, text-based protocol that any language can implement easily. While [[amqp|AMQP]] has complex {{binary-framing|binary framing}} and [[mqtt|MQTT]] has its binary headers, STOMP uses plain text commands like CONNECT, SUBSCRIBE, SEND, and {{ack|ACK}}.
 
 This simplicity is STOMP's superpower. You can literally telnet to a STOMP {{broker|broker}} and type messages by hand. It's supported by most major message brokers (RabbitMQ, ActiveMQ, Apollo) as an alternative to their native protocols, making it a great choice when you need messaging but don't want to learn a complex protocol.
 
@@ -23,12 +23,12 @@ STOMP is commonly used in web applications via [[websockets|WebSocket]] bridges 
 		{
 			title: 'SUBSCRIBE',
 			description:
-				'Client subscribes to a destination (like a topic or queue). Each subscription gets an ID for tracking.'
+				'Client subscribes to a destination (like a {{topic|topic}} or queue). Each subscription gets an ID for tracking.'
 		},
 		{
 			title: 'SEND',
 			description:
-				'Client sends a message to a destination. The body can be any content type — JSON, XML, plain text, binary.'
+				'Client sends a message to a destination. The body can be any content type — {{json|JSON}}, XML, plain text, binary.'
 		},
 		{
 			title: 'MESSAGE delivery',

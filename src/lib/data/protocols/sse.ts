@@ -13,7 +13,7 @@ export const sse: Protocol = {
 
 SSE uses plain [[http1|HTTP]], which means it works through {{proxy|proxies}}, {{load-balancing|load balancers}}, and {{firewall|firewalls}} without any special configuration. The browser's EventSource API automatically handles reconnection, event IDs for resuming after disconnects, and {{content-negotiation|content type negotiation}}.
 
-Each event is a text block with optional fields: event type, data payload, ID, and retry interval. The format is deliberately simple — just UTF-8 text with newline separators. This makes SSE ideal for live feeds, notifications, and {{stream|streaming}} AI responses where the server needs to push data but doesn't need to receive a stream back.`,
+Each event is a text block with optional fields: event type, data {{payload|payload}}, ID, and retry interval. The format is deliberately simple — just UTF-8 text with newline separators. This makes SSE ideal for live feeds, notifications, and {{stream|streaming}} AI responses where the server needs to push data but doesn't need to receive a stream back.`,
 	howItWorks: [
 		{
 			title: 'HTTP connection',
@@ -23,7 +23,7 @@ Each event is a text block with optional fields: event type, data payload, ID, a
 		{
 			title: 'Event stream',
 			description:
-				'Server sends events as text blocks separated by blank lines. Each event has optional fields: "event:" (type), "data:" (payload), "id:" (last event ID), and "retry:" (reconnection interval in ms).'
+				'Server sends events as text blocks separated by blank lines. Each event has optional fields: "event:" (type), "data:" ({{payload|payload}}), "id:" (last event ID), and "retry:" (reconnection interval in ms).'
 		},
 		{
 			title: 'Auto-reconnection',

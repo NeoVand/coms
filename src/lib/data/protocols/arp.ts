@@ -9,16 +9,16 @@ export const arp: Protocol = {
 	year: 1982,
 	rfc: 'RFC 826',
 	oneLiner: 'Translates IP addresses to MAC addresses — the bridge between Layer 3 and Layer 2.',
-	overview: `ARP is the glue between [[ip|IP]] addresses and [[ethernet|Ethernet]] {{mac-address|MAC addresses}}. When your computer wants to send a {{packet|packet}} to 192.168.1.1, it knows the IP but not the MAC address of the destination. ARP {{broadcast|broadcasts}} a question to the entire local network: "Who has 192.168.1.1? Tell me your MAC address." The owner responds with a {{unicast|unicast}} reply containing its MAC, and the sender caches this mapping for future use.
+	overview: `ARP is the glue between [[ip|IP]] addresses and [[ethernet|Ethernet]] {{mac-address|MAC addresses}}. When your computer wants to send a {{packet|packet}} to 192.168.1.1, it knows the IP but not the {{mac-address|MAC address}} of the destination. ARP {{broadcast|broadcasts}} a question to the entire local network: "Who has 192.168.1.1? Tell me your MAC address." The owner responds with a {{unicast|unicast}} reply containing its MAC, and the sender caches this mapping for future use.
 
-Under the hood, ARP uses EtherType 0x0806 and operates directly on [[ethernet|Ethernet]] — it has no IP header. The request is broadcast to \`FF:FF:FF:FF:FF:FF\`, so every device on the segment receives it, but only the target replies. That reply is unicast directly back to the requester. The resulting IP-to-MAC mapping is stored in the ARP cache (also called the ARP table) with a {{ttl|time-to-live}} — typically 15-45 seconds on modern systems (randomized per RFC 4861) — after which the entry expires and must be re-resolved.
+Under the hood, ARP uses EtherType 0x0806 and operates directly on [[ethernet|Ethernet]] — it has no IP header. The request is {{broadcast|broadcast}} to \`FF:FF:FF:FF:FF:FF\`, so every device on the segment receives it, but only the target replies. That reply is {{unicast|unicast}} directly back to the requester. The resulting IP-to-MAC mapping is stored in the ARP cache (also called the ARP table) with a {{ttl|time-to-live}} — typically 15-45 seconds on modern systems (randomized per RFC 4861) — after which the entry expires and must be re-resolved.
 
-ARP's simplicity is both its strength and its weakness. There is zero authentication — any device can claim to own any {{ip-address|IP address}}. This makes {{spoofing|ARP spoofing}} (or ARP poisoning) trivial: an attacker sends fake ARP replies to redirect traffic through their machine, enabling {{man-in-the-middle|man-in-the-middle}} attacks. Countermeasures include Dynamic ARP Inspection (DAI) on managed switches, static ARP entries for critical hosts, and protocols like [[dhcp|DHCP]] snooping. Gratuitous ARP — where a host announces its own IP/MAC mapping without being asked — is used for duplicate IP detection and for updating caches after a MAC address change (e.g., during failover). On [[wifi|Wi-Fi]] networks, ARP works the same way but traverses the wireless medium, with the access point bridging requests between wired and wireless segments.`,
+ARP's simplicity is both its strength and its weakness. There is zero authentication — any device can claim to own any {{ip-address|IP address}}. This makes {{spoofing|ARP spoofing}} (or ARP poisoning) trivial: an attacker sends fake ARP replies to redirect traffic through their machine, enabling {{man-in-the-middle|man-in-the-middle}} attacks. Countermeasures include Dynamic ARP Inspection (DAI) on managed switches, static ARP entries for critical hosts, and protocols like [[dhcp|DHCP]] snooping. Gratuitous ARP — where a host announces its own IP/MAC mapping without being asked — is used for duplicate IP detection and for updating caches after a MAC address change (e.g., during failover). On [[wifi|Wi-Fi]] networks, ARP works the same way but traverses the wireless medium, with the {{access-point|access point}} bridging requests between wired and wireless segments.`,
 	howItWorks: [
 		{
 			title: 'Check ARP cache',
 			description:
-				'Before sending any frame, the OS checks its local ARP cache for an existing {{ip-address|IP}}-to-{{mac-address|MAC}} mapping. If a valid (non-expired) entry exists, it uses the cached MAC address immediately and skips the rest of the process.'
+				'Before sending any frame, the OS checks its local ARP cache for an existing {{ip-address|IP}}-to-{{mac-address|MAC}} mapping. If a valid (non-expired) entry exists, it uses the cached {{mac-address|MAC address}} immediately and skips the rest of the process.'
 		},
 		{
 			title: 'Broadcast ARP request',
@@ -28,7 +28,7 @@ ARP's simplicity is both its strength and its weakness. There is zero authentica
 		{
 			title: 'Unicast ARP reply',
 			description:
-				"The device that owns the requested IP address responds with a {{unicast|unicast}} ARP reply directly to the sender, filling in its MAC address. All other devices on the network ignore the request (though they may update their own caches with the sender's mapping)."
+				"The device that owns the requested {{ip-address|IP address}} responds with a {{unicast|unicast}} ARP reply directly to the sender, filling in its {{mac-address|MAC address}}. All other devices on the network ignore the request (though they may update their own caches with the sender's mapping)."
 		},
 		{
 			title: 'Cache update',
@@ -38,7 +38,7 @@ ARP's simplicity is both its strength and its weakness. There is zero authentica
 		{
 			title: 'Gratuitous ARP',
 			description:
-				"A host can broadcast an unsolicited ARP reply announcing its own IP/MAC mapping. This is used at boot time for duplicate IP detection, after a NIC replacement to update neighbors' caches, and during failover in high-availability setups to redirect traffic to a new machine."
+				"A host can {{broadcast|broadcast}} an unsolicited ARP reply announcing its own IP/MAC mapping. This is used at boot time for duplicate IP detection, after a NIC replacement to update neighbors' caches, and during failover in high-availability setups to redirect traffic to a new machine."
 		}
 	],
 	useCases: [
@@ -181,7 +181,7 @@ ARP Reply:
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Ethernet_Switch_%28Front_View%29.jpg/500px-Ethernet_Switch_%28Front_View%29.jpg',
 		alt: 'Front view of an Ethernet network switch with multiple RJ-45 ports',
 		caption:
-			'An [[ethernet|Ethernet]] switch — where ARP does its work. When a host needs to send an IP packet locally, ARP broadcasts "who has this IP?" on the switch\'s network, and the target replies with its MAC address.',
+			'An [[ethernet|Ethernet]] switch — where ARP does its work. When a host needs to send an IP packet locally, ARP broadcasts "who has this IP?" on the switch\'s network, and the target replies with its {{mac-address|MAC address}}.',
 		credit: 'Photo: CCDBarcodeScanner / CC BY-SA 4.0, via Wikimedia Commons'
 	}
 };

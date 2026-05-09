@@ -35,6 +35,14 @@ export type TextSegment =
 	| { type: 'bold'; value: string }
 	| { type: 'italic'; value: string }
 	| { type: 'code'; value: string }
+	/**
+	 * Bold span whose content was itself rich-text. Used when prose
+	 * authors write `**The {{handshake|handshake}}**` — the bold
+	 * `**...**` greedy regex would otherwise win and the inner wrap
+	 * would render literally. The renderer wraps `segments` in
+	 * `<strong>` and recurses.
+	 */
+	| { type: 'bold-group'; segments: TextSegment[] }
 	| { type: 'bold-concept'; conceptId: string; label: string }
 	| { type: 'bold-protocol-link'; protocolId: string; label: string }
 	| { type: 'protocol-link'; protocolId: string; label: string }
@@ -169,7 +177,16 @@ export function parseRichText(raw: string): TextSegment[] {
 			segments.push({ type: 'concept', conceptId, label });
 		} else if (match[9] !== undefined) {
 			// Bold: **text**
-			segments.push({ type: 'bold', value: match[9] });
+			// If the bold content has nested rich-text markup
+			// (`{{...}}`, `[[...]]`, `\`code\``, `*italic*`),
+			// recursively parse it and emit a bold-group; otherwise
+			// keep the cheap `bold` segment so simple cases stay flat.
+			const inner = match[9];
+			if (/[\[{`*]/.test(inner)) {
+				segments.push({ type: 'bold-group', segments: parseRichText(inner) });
+			} else {
+				segments.push({ type: 'bold', value: inner });
+			}
 		} else if (match[10] !== undefined) {
 			// Inline code: `text`
 			segments.push({ type: 'code', value: match[10] });

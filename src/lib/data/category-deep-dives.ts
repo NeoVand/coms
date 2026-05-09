@@ -15,19 +15,19 @@ export const categoryDeepDives: CategoryDeepDive[] = [
 			{
 				type: 'narrative',
 				title: 'VLANs and Network Segmentation',
-				text: `In a flat Layer 2 network, every device can see every other device's broadcast traffic. VLANs (Virtual LANs, IEEE 802.1Q) solve this by logically partitioning a physical switch into separate broadcast domains. A single 48-port switch can operate as if it were multiple independent switches.
+				text: `In a flat Layer 2 network, every device can see every other device's {{broadcast|broadcast}} traffic. VLANs (Virtual LANs, IEEE 802.1Q) solve this by logically partitioning a physical switch into separate broadcast domains. A single 48-port switch can operate as if it were multiple independent switches.
 
-VLAN tagging inserts a 4-byte header into {{frame|Ethernet frames}}, containing a 12-bit VLAN ID (1-4094). Trunk ports carry frames from multiple VLANs between switches; access ports strip the tag and connect to end devices. Inter-VLAN {{routing-table|routing}} requires a Layer 3 device -- either a router on a stick or a Layer 3 switch.
+{{vlan|VLAN}} tagging inserts a 4-byte header into {{frame|Ethernet frames}}, containing a 12-bit VLAN ID (1-4094). Trunk ports carry frames from multiple VLANs between switches; access ports strip the tag and connect to end devices. Inter-VLAN {{routing-table|routing}} requires a Layer 3 device -- either a router on a stick or a Layer 3 switch.
 
 VLANs are essential for security (isolating guest [[wifi|WiFi]] from the corporate network), performance (reducing broadcast storms), and compliance (PCI DSS requires cardholder data on its own {{subnet|subnet}}).`
 			},
 			{
 				type: 'diagram',
 				title: 'VLAN Tagging and Trunk Architecture',
-				caption: `How 802.1Q VLAN tagging works across trunk and access ports. Frames are tagged with VLAN IDs on trunk links and stripped on access ports connecting to end devices.`,
+				caption: `How 802.1Q {{vlan|VLAN}} tagging works across trunk and access ports. Frames are tagged with VLAN IDs on trunk links and stripped on access ports connecting to end devices.`,
 				definition: `graph TD
     subgraph Switch_A["Switch A"]
-        A_AP1["Access Port<br/>VLAN 10<br/>Engineering"]
+        A_AP1["Access Port<br/>{{vlan|VLAN}} 10<br/>Engineering"]
         A_AP2["Access Port<br/>VLAN 20<br/>Marketing"]
         A_AP3["Access Port<br/>VLAN 30<br/>Guest WiFi"]
         A_TRUNK["Trunk Port<br/>802.1Q Tagged<br/>VLANs 10,20,30"]
@@ -58,7 +58,7 @@ VLANs are essential for security (isolating guest [[wifi|WiFi]] from the corpora
 			{
 				type: 'narrative',
 				title: 'Spanning Tree Protocol (STP)',
-				text: `Redundant links between [[ethernet|switches]] are essential for reliability -- but they create loops that cause broadcast storms. Spanning Tree Protocol (IEEE 802.1D) prevents loops by electing a root bridge, calculating the shortest path from every switch to the root, and blocking redundant {{port|ports}}.
+				text: `Redundant links between [[ethernet|switches]] are essential for reliability -- but they create loops that cause {{broadcast|broadcast}} storms. Spanning Tree Protocol (IEEE 802.1D) prevents loops by electing a root bridge, calculating the shortest path from every switch to the root, and blocking redundant {{port|ports}}.
 
 Classic STP converges in 30-50 seconds after a topology change -- an eternity for modern networks. Rapid Spanning Tree Protocol (RSTP, IEEE 802.1w) reduces this to 1-2 seconds with proposal/agreement {{handshake|handshakes}}. Multiple Spanning Tree Protocol (MSTP, 802.1s) maps multiple VLANs to fewer spanning tree instances for efficiency.
 
@@ -67,16 +67,16 @@ In modern data centers, STP is increasingly replaced by fabric architectures (VX
 			{
 				type: 'narrative',
 				title: 'ARP Security',
-				text: `[[arp|ARP]] has no authentication -- any device can claim any {{ip-address|IP}}-to-{{mac-address|MAC}} mapping. ARP spoofing (also called ARP poisoning) exploits this: an attacker sends fake ARP replies to redirect traffic through their machine, enabling man-in-the-middle attacks.
+				text: `[[arp|ARP]] has no authentication -- any device can claim any {{ip-address|IP}}-to-{{mac-address|MAC}} mapping. [[arp|ARP]] {{spoofing|spoofing}} (also called ARP poisoning) exploits this: an attacker sends fake ARP replies to redirect traffic through their machine, enabling man-in-the-middle attacks.
 
-Dynamic ARP Inspection (DAI) is the primary defense. It intercepts ARP {{packet|packets}} on untrusted ports and validates them against a DHCP snooping binding table. If the IP-to-MAC mapping doesn't match a legitimate [[dhcp|DHCP]] lease, the ARP packet is dropped.
+Dynamic ARP Inspection (DAI) is the primary defense. It intercepts ARP {{packet|packets}} on untrusted ports and validates them against a [[dhcp|DHCP]] snooping binding table. If the IP-to-MAC mapping doesn't match a legitimate [[dhcp|DHCP]] {{lease|lease}}, the ARP packet is dropped.
 
 [[ipv6|IPv6]] replaces ARP entirely with Neighbor Discovery Protocol (NDP), which runs over [[icmp|ICMPv6]]. While NDP has its own spoofing risks, Secure Neighbor Discovery (SEND) uses cryptographic addressing to authenticate neighbor advertisements.`
 			},
 			{
 				type: 'narrative',
 				title: 'Wi-Fi Roaming and Mesh',
-				text: `When you walk from one room to another, your device must seamlessly switch from one access point to another -- this is [[wifi|Wi-Fi]] roaming. Basic roaming is slow: the client must re-authenticate with each AP. IEEE 802.11r (Fast BSS Transition) pre-authenticates with target APs, reducing handoff to under 50ms.
+				text: `When you walk from one room to another, your device must seamlessly switch from one {{access-point|access point}} to another -- this is [[wifi|Wi-Fi]] roaming. Basic roaming is slow: the client must re-authenticate with each AP. IEEE 802.11r (Fast BSS Transition) pre-authenticates with target APs, reducing handoff to under 50ms.
 
 802.11k (Radio Resource Management) helps clients discover nearby APs without scanning every channel. 802.11v (BSS Transition Management) lets APs steer clients toward less-congested access points. Together, 802.11r/k/v enable enterprise-grade seamless roaming.
 
@@ -85,13 +85,13 @@ Wi-Fi mesh networks (802.11s) take this further -- APs connect to each other wir
 			{
 				type: 'narrative',
 				title: 'BGP Route Policies',
-				text: `[[bgp|BGP]] doesn't just exchange routes -- operators use policy to control which routes they accept, prefer, and advertise. This is the art of internet traffic engineering.
+				text: `[[bgp|BGP]] doesn't just {{exchange|exchange}} routes -- operators use policy to control which routes they accept, prefer, and advertise. This is the art of internet traffic engineering.
 
-**Route filtering** uses prefix lists and AS-path filters to accept only legitimate routes. Accepting too broadly risks route leaks; filtering too aggressively disconnects networks. The RPKI (Resource Public Key Infrastructure) system uses {{certificate|cryptographic certificates}} to validate that an AS is authorized to announce a prefix.
+**Route filtering** uses prefix lists and AS-path filters to accept only legitimate routes. Accepting too broadly risks route leaks; filtering too aggressively disconnects networks. The {{rpki|RPKI}} (Resource {{public-key|Public Key}} Infrastructure) system uses {{certificate|cryptographic certificates}} to validate that an AS is authorized to announce a prefix.
 
 **Local preference** controls outbound traffic by assigning weights to routes -- higher preference means "prefer this path." **MED (Multi-Exit Discriminator)** hints to neighboring ASes which entry point to use. **AS-path prepending** makes a path look longer to discourage inbound traffic through that link.
 
-BGP communities tag routes with metadata that triggers policies in other networks. Standard communities (like "no-export") prevent route propagation. Large communities (RFC 8092) enable fine-grained traffic engineering across multi-provider networks.`
+[[bgp|BGP]] communities tag routes with metadata that triggers policies in other networks. Standard communities (like "no-export") prevent route propagation. Large communities (RFC 8092) enable fine-grained traffic engineering across multi-provider networks.`
 			}
 		]
 	},
@@ -105,33 +105,33 @@ BGP communities tag routes with metadata that triggers policies in other network
 				title: 'Congestion Control Algorithms',
 				text: `{{congestion-control|Congestion control}} is the art of sending data as fast as possible without overwhelming the network. [[tcp|TCP]]'s algorithms have evolved dramatically over four decades.
 
-**TCP Tahoe** (1988) introduced slow start and congestion avoidance. Start with a small {{sliding-window|window}}, double it each {{rtt|RTT}} (slow start), then switch to linear growth after detecting congestion. On {{packet|packet}} loss, reset the window to 1 -- devastating for performance.
+**[[tcp|TCP]] Tahoe** (1988) introduced {{slow-start|slow start}} and {{congestion-avoidance|congestion avoidance}}. Start with a small {{sliding-window|window}}, double it each {{rtt|RTT}} (slow start), then switch to linear growth after detecting congestion. On {{packet|packet}} loss, reset the window to 1 -- devastating for performance.
 
 **TCP Reno** (1990) added fast recovery: on triple duplicate {{ack|ACKs}}, halve the window instead of resetting to 1. This simple change dramatically improved throughput.
 
-**CUBIC** (2006, Linux default since 2.6.19) uses a cubic function for window growth -- aggressive probing for {{bandwidth|bandwidth}} followed by a gentle approach near the last-known capacity. It's the most widely deployed algorithm today.
+**{{cubic|CUBIC}}** (2006, Linux default since 2.6.19) uses a cubic function for window growth -- aggressive probing for {{bandwidth|bandwidth}} followed by a gentle approach near the last-known capacity. It's the most widely deployed algorithm today.
 
-**BBR** (2016, Google) took a fundamentally different approach. Instead of reacting to loss, BBR actively measures the bottleneck bandwidth and minimum RTT, then paces {{segment|packets}} to match the path capacity. It performs dramatically better on long-distance, high-bandwidth links.`
+**BBR** (2016, Google) took a fundamentally different approach. Instead of reacting to loss, BBR actively measures the bottleneck {{bandwidth|bandwidth}} and minimum RTT, then paces {{segment|packets}} to match the path capacity. It performs dramatically better on long-distance, high-bandwidth links.`
 			},
 			{
 				type: 'diagram',
 				title: 'Congestion Window Growth: Tahoe vs Reno vs CUBIC vs BBR',
-				caption: `How different congestion control algorithms grow and adjust their sending window. Loss-based algorithms (Tahoe, Reno, CUBIC) react to packet loss, while BBR probes the actual bottleneck bandwidth.`,
+				caption: `How different {{congestion-control|congestion control}} algorithms grow and adjust their sending window. Loss-based algorithms (Tahoe, Reno, {{cubic|CUBIC}}) react to packet loss, while BBR probes the actual bottleneck {{bandwidth|bandwidth}}.`,
 				definition: `graph TD
-    START["Connection Start<br/>cwnd = 1 MSS"] --> SS["Slow Start Phase<br/>cwnd doubles each RTT"]
+    START["Connection Start<br/>cwnd = 1 MSS"] --> SS["{{slow-start|Slow Start}} Phase<br/>cwnd doubles each RTT"]
     SS --> THRESH{"Hit ssthresh<br/>or loss?"}
 
     THRESH -- "Loss (Tahoe)" --> TAHOE_RESET["Reset cwnd = 1<br/>ssthresh = cwnd/2<br/>Restart Slow Start"]
     TAHOE_RESET --> SS
 
     THRESH -- "3 Dup ACKs (Reno)" --> RENO_HALF["Halve cwnd<br/>ssthresh = cwnd/2<br/>Fast Recovery"]
-    RENO_HALF --> RENO_CA["Congestion Avoidance<br/>Linear growth +1 MSS/RTT"]
+    RENO_HALF --> RENO_CA["{{congestion-avoidance|Congestion Avoidance}}<br/>Linear growth +1 MSS/RTT"]
 
-    THRESH -- "ssthresh (CUBIC)" --> CUBIC_CA["CUBIC Function<br/>W(t) = C(t - K)^3 + Wmax<br/>Aggressive probe + gentle plateau"]
+    THRESH -- "ssthresh ({{cubic|CUBIC}})" --> CUBIC_CA["CUBIC Function<br/>W(t) = C(t - K)^3 + Wmax<br/>Aggressive probe + gentle plateau"]
     CUBIC_CA -- "Loss" --> CUBIC_MULT["Multiplicative Decrease<br/>Wmax = cwnd * 0.7"]
     CUBIC_MULT --> CUBIC_CA
 
-    THRESH -- "BBR (no loss trigger)" --> BBR_PROBE["Probe Bandwidth<br/>Measure BtlBw + RTprop"]
+    THRESH -- "BBR (no loss trigger)" --> BBR_PROBE["Probe {{bandwidth|Bandwidth}}<br/>Measure BtlBw + RTprop"]
     BBR_PROBE --> BBR_PACE["Pace at BtlBw * gain<br/>cwnd = BtlBw * RTprop * 2"]
     BBR_PACE -- "Periodic probe" --> BBR_PROBE`
 			},
@@ -140,23 +140,23 @@ BGP communities tag routes with metadata that triggers policies in other network
 				title: 'Flow Control Deep Dive',
 				text: `{{flow-control|Flow control}} prevents a fast sender from overwhelming a slow receiver. [[tcp|TCP]]'s {{sliding-window|sliding window}} is elegant: the receiver advertises its available buffer space (the "receive window") in every {{ack|ACK}}.
 
-If the receiver's window shrinks to zero, the sender must stop. To avoid deadlock (the sender waiting for a window update that gets lost), TCP uses persist timers -- small probe {{packet|packets}} sent periodically to check if the window has reopened.
+If the receiver's window shrinks to zero, the sender must stop. To avoid deadlock (the sender waiting for a window update that gets lost), [[tcp|TCP]] uses persist timers -- small probe {{packet|packets}} sent periodically to check if the window has reopened.
 
 Window scaling (RFC 7323) extends the 16-bit window field beyond 65KB using a scale factor negotiated during the {{handshake|handshake}}. Without it, high-{{bandwidth|bandwidth}} long-distance links would be limited to 65KB x (1/RTT) throughput -- roughly 5 Mbps on a 100ms {{rtt|RTT}} path.
 
-Nagle's algorithm (RFC 896) coalesces small writes into larger {{segment|segments}} to reduce overhead -- but it interacts badly with delayed ACKs, causing 200ms {{latency|latency}} spikes. Most interactive applications disable it with TCP_NODELAY.`
+{{nagle|Nagle's algorithm}} (RFC 896) coalesces small writes into larger {{segment|segments}} to reduce overhead -- but it interacts badly with delayed ACKs, causing 200ms {{latency|latency}} spikes. Most interactive applications disable it with TCP_NODELAY.`
 			},
 			{
 				type: 'callout',
 				title: 'The Bufferbloat Problem',
-				text: 'Oversized router buffers (often hundreds of megabytes) let queues grow enormous before any {{packet|packets}} are dropped. {{congestion-control|Congestion control}} algorithms that rely on loss as a signal (Tahoe, Reno, CUBIC) don\'t react until buffers overflow -- by which point {{latency|latency}} has ballooned from 10ms to 1000ms. This "bufferbloat" is why your internet feels slow when someone starts a big download. Solutions: Active Queue Management (CoDel, PIE, fq_codel) and algorithms like BBR that measure latency instead of waiting for loss.'
+				text: 'Oversized router buffers (often hundreds of megabytes) let queues grow enormous before any {{packet|packets}} are dropped. {{congestion-control|Congestion control}} algorithms that rely on loss as a signal (Tahoe, Reno, {{cubic|CUBIC}}) don\'t react until buffers overflow -- by which point {{latency|latency}} has ballooned from 10ms to 1000ms. This "{{bufferbloat|bufferbloat}}" is why your internet feels slow when someone starts a big download. Solutions: Active Queue Management (CoDel, PIE, fq_codel) and algorithms like BBR that measure {{latency|latency}} instead of waiting for loss.'
 			},
 			{
 				type: 'narrative',
 				title: 'TCP Fast Open',
-				text: `Standard [[tcp|TCP]] requires a full {{rtt|RTT}} for the three-way {{handshake|handshake}} before any data can flow. TCP Fast Open (TFO, RFC 7413) allows data in the SYN {{packet|packet}} itself.
+				text: `Standard [[tcp|TCP]] requires a full {{rtt|RTT}} for the three-way {{handshake|handshake}} before any data can flow. [[tcp|TCP]] Fast Open (TFO, RFC 7413) allows data in the SYN {{packet|packet}} itself.
 
-On the first {{connection-oriented|connection}}, the server sends a cookie in the SYN-ACK. On subsequent connections, the client includes this cookie and application data in the SYN. The server can process the data immediately, saving one full RTT.
+On the first {{connection-oriented|connection}}, the server sends a {{cookie|cookie}} in the SYN-ACK. On subsequent connections, the client includes this cookie and application data in the SYN. The server can process the data immediately, saving one full RTT.
 
 TFO is widely deployed (Linux, macOS, iOS) but faces challenges: middleboxes sometimes strip the TFO option, and {{idempotent|idempotency}} is required (the SYN data might be delivered twice). Despite this, it provides measurable {{latency|latency}} improvements for short-lived connections like web requests.`
 			}
@@ -170,18 +170,18 @@ TFO is widely deployed (Linux, macOS, iOS) but faces challenges: middleboxes som
 			{
 				type: 'narrative',
 				title: 'HTTP Caching In Depth',
-				text: `Caching is the most impactful performance optimization in the [[http1|HTTP]] stack. The Cache-Control {{header|header}} drives everything.
+				text: `Caching is the most impactful performance optimization in the [[http1|HTTP]] stack. The {{cache-control|Cache-Control}} {{header|header}} drives everything.
 
 **max-age=3600** means "this response is fresh for 3600 seconds." **no-cache** means "always revalidate with the server." **no-store** means "never store this response." **private** vs **public** controls whether CDNs and shared proxies can cache the response.
 
-Conditional requests avoid re-downloading unchanged resources. The server sends ETag (a content fingerprint) or Last-Modified headers. On subsequent requests, the client sends If-None-Match or If-Modified-Since. If unchanged, the server responds with a {{status-code|304 Not Modified}} -- no body, saving {{bandwidth|bandwidth}}.
+Conditional requests avoid re-downloading unchanged resources. The server sends {{etag|ETag}} (a content fingerprint) or Last-Modified headers. On subsequent requests, the client sends If-None-Match or If-Modified-Since. If unchanged, the server responds with a {{status-code|304 Not Modified}} -- no body, saving {{bandwidth|bandwidth}}.
 
 **stale-while-revalidate** (RFC 5861) is a modern gem: serve the stale cached version immediately while asynchronously checking for updates. The user gets instant responses; the cache stays fresh. Combined with CDNs, this pattern enables sub-10ms {{latency|response times}} globally.`
 			},
 			{
 				type: 'narrative',
 				title: 'CORS Mechanics',
-				text: `Cross-Origin Resource Sharing (CORS) is the browser's security mechanism for controlling cross-origin {{http-method|HTTP}} requests. When JavaScript on example.com tries to fetch from api.other.com, the browser intervenes.
+				text: `Cross-Origin Resource Sharing ({{cors|CORS}}) is the browser's security mechanism for controlling cross-origin {{http-method|HTTP}} requests. When JavaScript on example.com tries to fetch from api.other.com, the browser intervenes.
 
 **Simple requests** (GET, POST with standard {{header|headers}}) send the request directly with an Origin header. The server responds with Access-Control-Allow-Origin -- if it matches, the browser allows JavaScript to read the response.
 
@@ -199,7 +199,7 @@ The preflight result is cached (Access-Control-Max-Age), but misconfigured CORS 
     CHECK -- "Yes" --> SIMPLE["Send request directly<br/>with Origin header"]
     SIMPLE --> SRES{"Server responds with<br/>Access-Control-Allow-Origin?"}
     SRES -- "Origin matches" --> ALLOW["Browser exposes<br/>response to JavaScript"]
-    SRES -- "Missing or mismatch" --> BLOCK["Browser blocks response<br/>CORS error in console"]
+    SRES -- "Missing or mismatch" --> BLOCK["Browser blocks response<br/>{{cors|CORS}} error in console"]
 
     CHECK -- "No" --> PREFLIGHT["Browser sends<br/>OPTIONS preflight request<br/>Origin + Access-Control-Request-Method<br/>+ Access-Control-Request-Headers"]
     PREFLIGHT --> PRES{"Server responds with<br/>allowed methods, headers,<br/>credentials policy?"}
@@ -211,22 +211,22 @@ The preflight result is cached (Access-Control-Max-Age), but misconfigured CORS 
 			{
 				type: 'narrative',
 				title: 'HPACK and QPACK Compression',
-				text: `{{header|HTTP headers}} are repetitive -- Cookie, User-Agent, Accept, and dozens of others are sent identically on every request. [[http2|HTTP/2]]'s HPACK compression reduces header overhead by 85-90%.
+				text: `{{header|HTTP headers}} are repetitive -- {{cookie|Cookie}}, User-Agent, Accept, and dozens of others are sent identically on every request. [[http2|HTTP/2]]'s {{hpack|HPACK}} compression reduces header overhead by 85-90%.
 
 HPACK maintains a dynamic table shared between {{client-server|client and server}}. Previously-seen header key-value pairs are referenced by index instead of retransmitted. A static table of 61 common headers (like ":method: GET") is pre-populated. Huffman coding further compresses literal values.
 
 [[http3|HTTP/3]] couldn't use HPACK because it requires in-order delivery (the dynamic table is a {{stream|stream}} of updates). QPACK solves this with a separate, unidirectional stream for table updates, allowing header blocks to be decoded independently -- eliminating {{head-of-line-blocking|head-of-line blocking}} in header decompression.
 
-This matters because [[http2|HTTP/2]] over [[tcp|TCP]] still suffers from transport-level head-of-line blocking -- a single lost {{packet|packet}} stalls all {{multiplexing|multiplexed}} streams. [[http3|HTTP/3]] over [[quic|QUIC]] solves this at the transport layer, and QPACK ensures header decompression doesn't reintroduce it.`
+This matters because [[http2|HTTP/2]] over [[tcp|TCP]] still suffers from transport-level {{head-of-line-blocking|head-of-line blocking}} -- a single lost {{packet|packet}} stalls all {{multiplexing|multiplexed}} streams. [[http3|HTTP/3]] over [[quic|QUIC]] solves this at the transport layer, and QPACK ensures header decompression doesn't reintroduce it.`
 			},
 			{
 				type: 'narrative',
 				title: 'JSON-RPC 2.0 — The Universal Wire Format',
-				text: `[[json-rpc|JSON-RPC]] 2.0 is deceptively simple — four message types (request, response, error, {{notification|notification}}) and a handful of rules — but this simplicity is its power. It has become the wire format of choice for systems that need structured RPC without the overhead of [[rest|REST]]'s resource-oriented model or [[grpc|gRPC]]'s binary serialization.
+				text: `[[json-rpc|JSON-RPC]] 2.0 is deceptively simple — four message types (request, response, error, {{notification|notification}}) and a handful of rules — but this simplicity is its power. It has become the wire format of choice for systems that need structured RPC without the overhead of [[rest|REST]]'s resource-oriented model or [[grpc|gRPC]]'s binary {{serialization|serialization}}.
 
-The protocol's design is worth studying. Every request carries an "id" field that the server echoes back in the response, enabling correlation on any transport — even ones that deliver messages out of order. Notifications omit the id entirely, signaling that no response is expected. The server MUST NOT reply to a notification — this isn't a convention, it's a protocol rule.
+The protocol's design is worth studying. Every request carries an "id" field that the server echoes back in the response, enabling correlation on any transport — even ones that deliver messages out of order. Notifications omit the id entirely, {{signaling|signaling}} that no response is expected. The server MUST NOT reply to a {{notification|notification}} — this isn't a convention, it's a protocol rule.
 
-Batch requests (sending an array of calls) are one of JSON-RPC's killer features. A client can bundle multiple independent calls into a single [[http1|HTTP]] POST, and the server returns an array of results. Notifications in a batch produce no response entry. The server may process batch items in any order and return results in any order — the id fields handle correlation. This makes JSON-RPC remarkably efficient for chatty {{client-server|client-server}} interactions.
+Batch requests (sending an array of calls) are one of [[json-rpc|JSON-RPC]]'s killer features. A client can bundle multiple independent calls into a single [[http1|HTTP]] POST, and the server returns an array of results. Notifications in a batch produce no response entry. The server may process batch items in any order and return results in any order — the id fields handle correlation. This makes {{json|JSON}}-RPC remarkably efficient for chatty {{client-server|client-server}} interactions.
 
 Error codes follow a structured convention: -32700 (parse error), -32600 (invalid request), -32601 (method not found), -32602 (invalid params), -32603 (internal error). The range -32768 to -32000 is reserved for the spec; applications define their own codes outside this range.`
 			},
@@ -235,21 +235,21 @@ Error codes follow a structured convention: -32700 (parse error), -32600 (invali
 				title: 'MCP Architecture — Hosts, Clients, and Servers',
 				text: `[[mcp|MCP]]'s architecture has three layers that are often conflated: the host, the client, and the server. Understanding the distinction is essential for building robust integrations.
 
-The **host** is the AI application the user interacts with — Claude Desktop, Cursor, VS Code, or a custom agent. The host manages user consent, enforces security policies, and decides which MCP servers to connect to. It creates one MCP **client** per server connection. Each client maintains an independent session with exactly one MCP **server** — there's a strict 1:1 relationship.
+The **host** is the AI application the user interacts with — Claude Desktop, Cursor, VS Code, or a custom agent. The host manages user consent, enforces security policies, and decides which [[mcp|MCP]] servers to connect to. It creates one MCP **client** per server connection. Each client maintains an independent session with exactly one MCP **server** — there's a strict 1:1 relationship.
 
 MCP servers expose three primitives: **tools** (model-controlled actions like "run SQL query"), **resources** (application-controlled data like "contents of file X"), and **prompts** (user-controlled templates like "summarize this codebase"). The distinction matters for permission models: tools require explicit user approval per invocation, resources can be loaded automatically, and prompts are selected by the user.
 
-The session lifecycle follows a strict sequence: the client sends \`initialize\` with its capabilities, the server responds with its own capabilities (supported primitives, protocol version), then the client sends an \`initialized\` {{notification|notification}}. Only after this three-step handshake can tools be listed, resources read, or prompts invoked. The handshake uses capability negotiation — if a server doesn't declare tool support, the client won't attempt tool calls.
+The session lifecycle follows a strict sequence: the client sends \`initialize\` with its capabilities, the server responds with its own capabilities (supported primitives, protocol version), then the client sends an \`initialized\` {{notification|notification}}. Only after this three-step {{handshake|handshake}} can tools be listed, resources read, or prompts invoked. The handshake uses capability negotiation — if a server doesn't declare tool support, the client won't attempt tool calls.
 
-Transport is pluggable: **stdio** for local processes (the server is a subprocess communicating over stdin/stdout), **Streamable HTTP** for remote servers (a single HTTP endpoint that handles both request-response and server-initiated events via [[sse|SSE]] streams). The protocol is transport-agnostic by design — the same [[json-rpc|JSON-RPC]] messages work identically over either transport.`
+Transport is pluggable: **stdio** for local processes (the server is a subprocess communicating over stdin/stdout), **Streamable HTTP** for remote servers (a single HTTP endpoint that handles both {{request-response|request-response}} and server-initiated events via [[sse|SSE]] streams). The protocol is transport-agnostic by design — the same [[json-rpc|JSON-RPC]] messages work identically over either transport.`
 			},
 			{
 				type: 'diagram',
 				title: 'MCP Session Lifecycle',
-				caption: 'The full [[mcp|MCP]] session from initialization through tool invocation. The three-step handshake establishes capabilities before any tool or resource access.',
+				caption: 'The full [[mcp|MCP]] session from initialization through tool invocation. The three-step {{handshake|handshake}} establishes capabilities before any tool or resource access.',
 				definition: `graph TD
   I["initialize request<br/>(client capabilities, version)"] --> IR["initialize response<br/>(server capabilities, tools, resources)"]
-  IR --> N["initialized notification<br/>(handshake complete)"]
+  IR --> N["initialized {{notification|notification}}<br/>({{handshake|handshake}} complete)"]
   N --> D["Discovery Phase"]
   D --> TL["tools/list"]
   D --> RL["resources/list"]
@@ -263,18 +263,18 @@ Transport is pluggable: **stdio** for local processes (the server is a subproces
 				title: 'A2A — Agent Discovery and Task Delegation',
 				text: `[[a2a|A2A]]'s design solves a different problem than [[mcp|MCP]]: not "how does an agent use a tool?" but "how does one agent find and delegate work to another agent it has never interacted with?"
 
-Discovery centers on the **Agent Card** — a JSON document served at \`/.well-known/agent.json\`. It declares the agent's name, description, supported skills, authentication requirements, and the A2A endpoint URL. A client agent fetches the card, inspects the skills array, and decides whether this remote agent can help with the task at hand. This is analogous to how [[dns|DNS]] TXT records or [[oauth2|OAuth]] discovery documents work — a well-known URL that bootstraps trust.
+Discovery centers on the **Agent Card** — a {{json|JSON}} document served at \`/.well-known/agent.json\`. It declares the agent's name, description, supported skills, authentication requirements, and the [[a2a|A2A]] endpoint URL. A client agent fetches the card, inspects the skills array, and decides whether this remote agent can help with the task at hand. This is analogous to how [[dns|DNS]] TXT records or [[oauth2|OAuth]] discovery documents work — a well-known URL that bootstraps trust.
 
 The interaction model is task-based. The client sends a message (containing text, files, or structured data as "Parts"), and the server creates a Task with a lifecycle: \`submitted → working → input-required → completed\` (or \`failed\` / \`canceled\`). The \`input-required\` state is what makes A2A conversational — the remote agent can ask for clarification before proceeding, and the client can send follow-up messages.
 
-For long-running tasks, A2A supports **SSE streaming**. The client adds \`Accept: text/event-stream\` to its request, and the server streams back task status updates, intermediate messages, and final artifacts as Server-Sent Events. Each SSE event contains a full [[json-rpc|JSON-RPC]] response — the same message format used for synchronous responses, just delivered incrementally. This reuse of [[json-rpc|JSON-RPC]] over [[sse|SSE]] is a pattern shared with [[mcp|MCP]]'s Streamable [[http1|HTTP]] transport.`
+For long-running tasks, A2A supports **[[sse|SSE]] streaming**. The client adds \`Accept: text/event-stream\` to its request, and the server streams back task status updates, intermediate messages, and final artifacts as Server-Sent Events. Each SSE event contains a full [[json-rpc|JSON-RPC]] response — the same message format used for synchronous responses, just delivered incrementally. This reuse of [[json-rpc|JSON-RPC]] over [[sse|SSE]] is a pattern shared with [[mcp|MCP]]'s Streamable [[http1|HTTP]] transport.`
 			},
 			{
 				type: 'narrative',
 				title: 'MCP + A2A — The Two-Protocol Pattern',
 				text: `In production systems, [[mcp|MCP]] and [[a2a|A2A]] are almost always used together. The pattern is consistent: [[a2a|A2A]] for inter-agent coordination, [[mcp|MCP]] for each agent's internal tool access.
 
-Consider a travel booking system. A coordinator agent receives "book me a trip to Tokyo." It uses [[a2a|A2A]] to discover and delegate to a flight agent, a hotel agent, and a car rental agent. Each specialist agent uses [[mcp|MCP]] internally to connect to its own tools — the flight agent's MCP servers talk to airline APIs, fare databases, and seat maps. The coordinator doesn't know or care about these internal tools; it only sees A2A task results.
+Consider a travel booking system. A coordinator agent receives "book me a trip to Tokyo." It uses [[a2a|A2A]] to discover and delegate to a flight agent, a hotel agent, and a car rental agent. Each specialist agent uses [[mcp|MCP]] internally to connect to its own tools — the flight agent's [[mcp|MCP]] servers talk to airline APIs, fare databases, and seat maps. The coordinator doesn't know or care about these internal tools; it only sees [[a2a|A2A]] task results.
 
 Both protocols chose [[json-rpc|JSON-RPC]] 2.0 as their wire format for the same reasons: transport independence, built-in request correlation (via id fields), first-class {{notification|notifications}} for fire-and-forget events, and batch support. Both use [[sse|SSE]] for server-to-client streaming. Both moved to the Linux Foundation for open governance.
 
@@ -301,12 +301,12 @@ The key architectural insight is that MCP and A2A operate at different levels of
 			{
 				type: 'diagram',
 				title: 'Message Broker Architecture Patterns',
-				caption: `Two fundamental broker patterns: centralized brokers (like RabbitMQ) with smart routing, and distributed commit logs (like Kafka) with consumer-tracked offsets.`,
+				caption: `Two fundamental broker patterns: centralized brokers (like RabbitMQ) with smart routing, and distributed commit logs (like [[kafka|Kafka]]) with consumer-tracked offsets.`,
 				definition: `graph TD
-    subgraph Central["Centralized Broker (RabbitMQ / AMQP)"]
-        P1["Producer A"] --> EX["Exchange<br/>(routing rules)"]
+    subgraph Central["Centralized Broker (RabbitMQ / [[amqp|AMQP]])"]
+        P1["Producer A"] --> EX["{{exchange|Exchange}}<br/>(routing rules)"]
         P2["Producer B"] --> EX
-        EX -- "topic match" --> Q1["Queue 1<br/>(orders)"]
+        EX -- "{{topic|topic}} match" --> Q1["Queue 1<br/>(orders)"]
         EX -- "fanout" --> Q2["Queue 2<br/>(notifications)"]
         EX -- "headers" --> Q3["Dead Letter Queue"]
         Q1 --> C1["Consumer 1"]
@@ -315,10 +315,10 @@ The key architectural insight is that MCP and A2A operate at different levels of
         Q3 --> C4["Admin / Retry"]
     end
 
-    subgraph Distributed["Distributed Commit Log (Kafka)"]
-        KP1["Producer A"] --> T["Topic: orders<br/>Partition 0 | Partition 1 | Partition 2"]
+    subgraph Distributed["Distributed Commit Log ([[kafka|Kafka]])"]
+        KP1["Producer A"] --> T["Topic: orders<br/>{{partition|Partition}} 0 | Partition 1 | Partition 2"]
         KP2["Producer B"] --> T
-        T --> CG1["Consumer Group A<br/>offset: 42, 38, 50"]
+        T --> CG1["{{consumer-group|Consumer Group}} A<br/>{{offset|offset}}: 42, 38, 50"]
         T --> CG2["Consumer Group B<br/>offset: 10, 12, 15<br/>(can replay)"]
     end`
 			},
@@ -329,18 +329,18 @@ The key architectural insight is that MCP and A2A operate at different levels of
 
 **Centralized brokers** ([[amqp|RabbitMQ]], Mosquitto, ActiveMQ) route every message through a single logical broker. The broker handles queuing, routing, {{ack|acknowledgments}}, and {{dead-letter-queue|dead-letter}} handling. Simple to reason about but the broker is a single point of failure and a potential bottleneck.
 
-**Distributed commit logs** ([[kafka|Kafka]], Pulsar, Redpanda) store messages in ordered, partitioned, replicated logs. Consumers track their own offset -- they can replay the entire history or catch up after downtime. Messages are retained for days or weeks, not deleted after delivery. This enables event sourcing, {{stream|stream}} processing, and CQRS patterns.
+**Distributed commit logs** ([[kafka|Kafka]], Pulsar, Redpanda) store messages in ordered, partitioned, replicated logs. Consumers track their own {{offset|offset}} -- they can replay the entire history or catch up after downtime. Messages are retained for days or weeks, not deleted after delivery. This enables event sourcing, {{stream|stream}} processing, and CQRS patterns.
 
 The choice depends on your messaging pattern: if you need complex routing ({{topic|topic}} exchanges, headers-based filtering, priority queues), a traditional broker excels. If you need ordered, replayable event streams at massive scale, a distributed log is the right tool.`
 			},
 			{
 				type: 'narrative',
 				title: 'Exactly-Once Delivery',
-				text: `"Exactly once" is the holy grail of messaging -- and the hardest to achieve. The Two Generals Problem proves that exactly-once delivery is impossible over an unreliable network. So how do systems claim to offer it?
+				text: `"Exactly once" is the holy grail of messaging -- and the hardest to achieve. The Two Generals Problem proves that {{exactly-once-delivery|exactly-once delivery}} is impossible over an unreliable network. So how do systems claim to offer it?
 
 The trick is **exactly-once processing**, not exactly-once delivery. The system may deliver a message multiple times, but it ensures the effect happens only once. Techniques:
 
-**Idempotent producers** ([[kafka|Kafka]]): each message gets a {{sequence-number|sequence number}}. The {{broker|broker}} deduplicates based on producer ID + sequence, discarding {{retransmission|retransmissions}}.
+**{{idempotent|Idempotent}} producers** ([[kafka|Kafka]]): each message gets a {{sequence-number|sequence number}}. The {{broker|broker}} deduplicates based on producer ID + sequence, discarding {{retransmission|retransmissions}}.
 
 **Transactional outbox**: writes the message and a "processed" flag in the same database transaction. If the transaction commits, the message is processed exactly once. If it rolls back, neither the message nor the side effect persists.
 
@@ -358,25 +358,25 @@ The trick is **exactly-once processing**, not exactly-once delivery. The system 
 				title: 'Jitter Buffers',
 				text: `Network {{jitter|jitter}} -- the variation in {{packet|packet}} arrival times -- is the enemy of smooth audio and video playback. Even if the average {{latency|latency}} is low, irregular arrival times cause gaps and glitches.
 
-Jitter buffers smooth this out by introducing a small, intentional delay. Incoming packets are held in a buffer and released at regular intervals, absorbing timing variations. The tradeoff: larger buffers handle more jitter but add latency.
+{{jitter|Jitter}} buffers smooth this out by introducing a small, intentional delay. Incoming packets are held in a buffer and released at regular intervals, absorbing timing variations. The tradeoff: larger buffers handle more jitter but add {{latency|latency}}.
 
 **Static jitter buffers** use a fixed delay (e.g., 60ms). Simple but suboptimal -- too small and you get dropouts; too large and the latency is noticeable. **Adaptive jitter buffers** dynamically adjust their size based on observed network conditions, growing during high jitter and shrinking when the network is stable. [[webrtc|WebRTC]]'s NetEQ is a sophisticated adaptive jitter buffer that also handles packet loss concealment.`
 			},
 			{
 				type: 'narrative',
 				title: 'Forward Error Correction',
-				text: `When [[udp|UDP]] {{datagram|packets}} are lost, the data is gone -- there's no {{retransmission|retransmission}} mechanism. For real-time media, waiting for a retransmit is worse than skipping the lost data. Forward Error Correction (FEC) adds redundant data so the receiver can reconstruct lost packets without retransmission.
+				text: `When [[udp|UDP]] {{datagram|packets}} are lost, the data is gone -- there's no {{retransmission|retransmission}} mechanism. For real-time media, waiting for a retransmit is worse than skipping the lost data. Forward Error Correction (FEC) adds redundant data so the receiver can reconstruct lost packets without {{retransmission|retransmission}}.
 
 **XOR-based FEC**: Send N data packets plus 1 parity packet (XOR of all N). If any single packet is lost, it can be reconstructed from the others. Simple, low overhead (1/N+1), handles single-packet losses.
 
-**Reed-Solomon codes**: More sophisticated -- can recover from multiple simultaneous losses. Higher CPU cost but configurable redundancy. Used in professional broadcast systems.
+**Reed-Solomon codes**: More sophisticated -- can recover from multiple simultaneous losses. Higher CPU cost but configurable redundancy. Used in professional {{broadcast|broadcast}} systems.
 
-**Opus FEC**: The Opus audio codec includes built-in FEC -- each packet contains a low-bitrate encoding of the **previous** packet's audio. If a packet is lost, the next packet contains enough information to reconstruct a reasonable approximation. Nearly zero overhead for the common case of isolated packet losses.`
+**Opus FEC**: The Opus audio {{codec|codec}} includes built-in FEC -- each packet contains a low-bitrate encoding of the **previous** packet's audio. If a packet is lost, the next packet contains enough information to reconstruct a reasonable approximation. Nearly zero overhead for the common case of isolated packet losses.`
 			},
 			{
 				type: 'diagram',
 				title: 'Adaptive Bitrate Streaming Flow',
-				caption: `How adaptive bitrate streaming works in HLS and DASH. The client player monitors network conditions and switches between quality levels dynamically.`,
+				caption: `How {{adaptive-bitrate|adaptive bitrate streaming}} works in [[hls|HLS]] and [[dash|DASH]]. The client player monitors network conditions and switches between quality levels dynamically.`,
 				definition: `graph TD
     subgraph Encode["Server-Side Encoding"]
         SRC["Source Video"] --> ENC["Encoder / Transcoder"]
@@ -398,7 +398,7 @@ Jitter buffers smooth this out by introducing a small, intentional delay. Incomi
         MAN --> FETCH["Fetch manifest"]
         FETCH --> MON["Monitor:<br/>Download speed<br/>Buffer level<br/>RTT"]
         MON --> ALG{"ABR Decision<br/>(BBA / Throughput / BOLA)"}
-        ALG -- "High bandwidth<br/>Full buffer" --> HIGH["Request 1080p segment"]
+        ALG -- "High {{bandwidth|bandwidth}}<br/>Full buffer" --> HIGH["Request 1080p segment"]
         ALG -- "Low bandwidth<br/>Buffer draining" --> LOW["Request 360p segment"]
         ALG -- "Medium" --> MED["Request 720p segment"]
         HIGH --> MON
@@ -429,50 +429,50 @@ The ABR algorithm runs in the client's player. It monitors download speed, buffe
 			{
 				type: 'narrative',
 				title: 'PKI and Certificate Chains',
-				text: `The {{pki|Public Key Infrastructure}} is the trust system that makes HTTPS possible. When your browser connects to a server, it receives a {{certificate|certificate}} containing the server's {{public-key|public key}}, the domain name, and a digital signature from a Certificate Authority (CA).
+				text: `The {{pki|Public Key Infrastructure}} is the trust system that makes HTTPS possible. When your browser connects to a server, it receives a {{certificate|certificate}} containing the server's {{public-key|public key}}, the domain name, and a digital signature from a {{certificate-authority|Certificate Authority}} (CA).
 
 The browser verifies this by following the {{certificate-chain|certificate chain}}: the server cert is signed by an intermediate CA, which is signed by a root CA. Root CAs are pre-installed in your browser/OS (~150 of them). If the chain validates, the padlock icon appears.
 
-Certificate Transparency (CT) adds an extra layer: all certificates must be logged in public, append-only logs. If a CA is compromised and issues fraudulent certificates, the transparency logs make it detectable. Browsers enforce CT -- certificates not logged are rejected.
+{{certificate-transparency|Certificate Transparency}} (CT) adds an extra layer: all certificates must be logged in public, append-only logs. If a CA is compromised and issues fraudulent certificates, the transparency logs make it detectable. Browsers enforce CT -- certificates not logged are rejected.
 
-OCSP (Online Certificate Status Protocol) and CRL (Certificate Revocation Lists) handle revoked certificates. OCSP Stapling (where the server includes a signed "not revoked" proof in the [[tls|TLS]] {{tls-handshake|handshake}}) avoids the privacy and performance problems of clients querying CAs directly.`
+OCSP (Online {{certificate|Certificate}} Status Protocol) and CRL (Certificate Revocation Lists) handle revoked certificates. OCSP Stapling (where the server includes a signed "not revoked" proof in the [[tls|TLS]] {{tls-handshake|handshake}}) avoids the privacy and performance problems of clients querying CAs directly.`
 			},
 			{
 				type: 'diagram',
 				title: 'TLS 1.3 Handshake Steps',
-				caption: `The complete TLS 1.3 handshake in a single round trip. The client sends key shares upfront, eliminating the extra round trip that TLS 1.2 needed.`,
+				caption: `The complete [[tls|TLS]] 1.3 {{handshake|handshake}} in a single round trip. The client sends key shares upfront, eliminating the extra round trip that TLS 1.2 needed.`,
 				definition: `graph TD
-    subgraph RTT1["1-RTT Handshake"]
-        CH["Client Hello<br/>Supported cipher suites<br/>Random nonce<br/>Key shares (X25519, P-256)"] -- "Flight 1" --> SH["Server Hello<br/>Chosen cipher suite<br/>Server key share"]
-        SH --> ENC_ON["Encryption begins"]
+    subgraph RTT1["{{one-rtt|1-RTT}} {{handshake|Handshake}}"]
+        CH["Client Hello<br/>Supported cipher suites<br/>Random {{nonce|nonce}}<br/>Key shares (X25519, P-256)"] -- "Flight 1" --> SH["Server Hello<br/>Chosen {{cipher-suite|cipher suite}}<br/>Server key share"]
+        SH --> ENC_ON["{{encryption|Encryption}} begins"]
         ENC_ON --> EE["Encrypted Extensions<br/>Server parameters"]
-        EE --> CERT["Certificate<br/>(encrypted)"]
+        EE --> CERT["{{certificate|Certificate}}<br/>(encrypted)"]
         CERT --> CV["Certificate Verify<br/>Signature over handshake"]
         CV --> SF["Server Finished<br/>MAC over handshake"]
-        SF -- "Flight 2" --> VERIFY["Client verifies<br/>certificate chain"]
+        SF -- "Flight 2" --> VERIFY["Client verifies<br/>{{certificate-chain|certificate chain}}"]
         VERIFY --> CF["Client Finished"]
         CF --> APP["Application Data Flows"]
     end
 
-    subgraph ZERO["0-RTT Resumption"]
+    subgraph ZERO["{{zero-rtt|0-RTT}} Resumption"]
         CH0["Client Hello +<br/>Early Data (encrypted)<br/>with PSK from prior session"] -- "Immediate" --> S0["Server processes<br/>early data"]
         S0 --> SH0["Server Hello +<br/>Finished"]
         SH0 --> APP0["Full connection established"]
-        S0 -. "Warning: 0-RTT data<br/>can be replayed<br/>(must be idempotent)" .-> APP0
+        S0 -. "Warning: 0-RTT data<br/>can be replayed<br/>(must be {{idempotent|idempotent}})" .-> APP0
     end`
 			},
 			{
 				type: 'narrative',
 				title: 'TLS 1.3 Handshake Walkthrough',
-				text: `[[tls|TLS]] 1.3 (RFC 8446) is a radical simplification over TLS 1.2. The entire {{tls-handshake|handshake}} completes in a single {{rtt|round trip}}:
+				text: `[[tls|TLS]] 1.3 (RFC 8446) is a radical simplification over [[tls|TLS]] 1.2. The entire {{tls-handshake|handshake}} completes in a single {{rtt|round trip}}:
 
-**Client Hello**: The client sends supported {{cipher-suite|cipher suites}}, a random nonce, and **key shares** for all supported key exchange algorithms (usually X25519 and P-256). By sending keys upfront, the client gambles that the server will accept one -- eliminating the extra round trip that TLS 1.2 needed.
+**Client Hello**: The client sends supported {{cipher-suite|cipher suites}}, a random {{nonce|nonce}}, and **key shares** for all supported key {{exchange|exchange}} algorithms (usually X25519 and P-256). By sending keys upfront, the client gambles that the server will accept one -- eliminating the extra round trip that TLS 1.2 needed.
 
-**Server Hello + Encrypted Extensions**: The server picks a cipher suite, sends its key share, and immediately switches to {{encryption|encrypted}} communication. The server's {{certificate|certificate}}, certificate verify (signature), and Finished message are all encrypted.
+**Server Hello + Encrypted Extensions**: The server picks a {{cipher-suite|cipher suite}}, sends its key share, and immediately switches to {{encryption|encrypted}} communication. The server's {{certificate|certificate}}, {{certificate|certificate}} verify (signature), and Finished message are all encrypted.
 
 **Client Finished**: The client verifies the {{certificate-chain|certificate chain}}, sends its Finished message, and application data can begin flowing immediately.
 
-TLS 1.3 also supports **0-RTT resumption**: if the client has connected before, it can send encrypted application data in the very first {{packet|packet}}. The tradeoff: 0-RTT data can be replayed by an attacker, so it must be {{idempotent|idempotent}} (safe to process twice).`
+TLS 1.3 also supports **{{zero-rtt|0-RTT}} resumption**: if the client has connected before, it can send encrypted application data in the very first {{packet|packet}}. The tradeoff: 0-RTT data can be replayed by an attacker, so it must be {{idempotent|idempotent}} (safe to process twice).`
 			},
 			{
 				type: 'narrative',
@@ -485,7 +485,7 @@ TLS 1.3 also supports **0-RTT resumption**: if the client has connected before, 
 
 **Caching**: Every response includes a {{ttl|TTL}}. The recursive resolver caches results for that duration. A TTL of 300 means the record is fresh for 5 minutes -- reducing load on authoritative servers while allowing reasonably fast [[dns|DNS]] changes.
 
-DNSSEC adds cryptographic signatures to DNS responses, preventing spoofing. DNS-over-HTTPS (DoH) and DNS-over-TLS (DoT) encrypt the query itself using [[tls|TLS]], preventing ISPs and network operators from snooping on which domains you're looking up.`
+{{dnssec|DNSSEC}} adds cryptographic signatures to [[dns|DNS]] responses, preventing {{spoofing|spoofing}}. DNS-over-HTTPS (DoH) and DNS-over-TLS (DoT) encrypt the query itself using [[tls|TLS]], preventing ISPs and network operators from snooping on which domains you're looking up.`
 			}
 		]
 	}

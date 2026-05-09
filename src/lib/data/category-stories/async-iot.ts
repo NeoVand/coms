@@ -7,7 +7,7 @@ export const asyncIotStory: CategoryStory = {
 		{
 			type: 'narrative',
 			title: 'Oil Pipelines in the Desert',
-			text: `Somewhere in a remote oil field, a sensor measures pipeline pressure. The data needs to reach a monitoring station hundreds of miles away, over a satellite link that drops packets and costs per byte. It's 1999, and Andy Stanford-Clark at IBM has a problem: [[http1]] is too heavy, [[tcp]] connections are too chatty, and bandwidth is precious. Together with Arlen Nipper of Arcom, he designs a protocol so lightweight it can run on the most constrained devices imaginable. They call it MQTT — a publish-subscribe protocol with a tiny 2-byte header overhead. A sensor publishes data to a topic; any number of subscribers can listen. The broker handles all the routing. It was designed for a world that didn't exist yet — the Internet of Things.`
+			text: `Somewhere in a remote oil field, a sensor measures pipeline pressure. The data needs to reach a monitoring station hundreds of miles away, over a satellite link that drops packets and costs per byte. It's 1999, and Andy Stanford-Clark at IBM has a problem: [[http1]] is too heavy, [[tcp]] connections are too chatty, and {{bandwidth|bandwidth}} is precious. Together with Arlen Nipper of Arcom, he designs a protocol so lightweight it can run on the most constrained devices imaginable. They call it [[mqtt|MQTT]] — a publish-subscribe protocol with a tiny 2-byte header overhead. A sensor publishes data to a {{topic|topic}}; any number of subscribers can listen. The broker handles all the routing. It was designed for a world that didn't exist yet — the Internet of Things.`
 		},
 		{
 			type: 'image',
@@ -66,7 +66,7 @@ export const asyncIotStory: CategoryStory = {
 					year: 1999,
 					title: 'MQTT Created',
 					description:
-						'Stanford-Clark and Nipper design MQTT for oil pipeline telemetry over satellite links. Lightweight, publish-subscribe, minimal overhead.',
+						'Stanford-Clark and Nipper design [[mqtt|MQTT]] for oil pipeline telemetry over satellite links. Lightweight, publish-subscribe, minimal overhead.',
 					protocolId: 'mqtt'
 				},
 				{
@@ -94,7 +94,7 @@ export const asyncIotStory: CategoryStory = {
 					year: 2007,
 					title: 'RabbitMQ Created',
 					description:
-						"Alexis Richardson's Rabbit Technologies builds the first major [[amqp|AMQP]] broker. It becomes the most popular open-source message broker.",
+						"Alexis Richardson's Rabbit Technologies builds the first major [[amqp|AMQP]] broker. It becomes the most popular open-source {{broker|message broker}}.",
 					protocolId: 'amqp'
 				}
 			]
@@ -102,7 +102,7 @@ export const asyncIotStory: CategoryStory = {
 		{
 			type: 'narrative',
 			title: "Wall Street's Messaging Problem",
-			text: `While MQTT was solving IoT telemetry and [[xmpp]] was revolutionizing instant messaging — powering Jabber, and later Google Talk and Facebook Chat — a different messaging crisis was unfolding on Wall Street. JPMorgan Chase was spending hundreds of millions on proprietary messaging middleware — TIBCO, IBM MQ, Microsoft MSMQ — with no interoperability between them. John O'Hara saw the absurdity: why should the wire format be proprietary? In 2003, he began designing [[amqp]], the Advanced Message Queuing Protocol.\n\n[[amqp]] was ambitious: a complete wire-level protocol with exchanges, queues, bindings, and sophisticated routing. Unlike [[mqtt]], which was minimal by design, AMQP tried to be comprehensive. This made it powerful for enterprise messaging but complex to implement. The creation of RabbitMQ in 2007 gave AMQP its killer app — a robust, open-source broker that could handle millions of messages per second.\n\nFor developers who wanted something even simpler, [[stomp|STOMP]] emerged in 2009 — a text-based protocol so simple you could debug it with telnet. Where AMQP was the enterprise heavyweight and MQTT the IoT specialist, STOMP was the developer-friendly option for web applications, often running over [[websockets]].`
+			text: `While [[mqtt|MQTT]] was solving IoT telemetry and [[xmpp]] was revolutionizing instant messaging — powering Jabber, and later Google Talk and Facebook Chat — a different messaging crisis was unfolding on Wall Street. JPMorgan Chase was spending hundreds of millions on proprietary messaging middleware — TIBCO, IBM MQ, Microsoft MSMQ — with no interoperability between them. John O'Hara saw the absurdity: why should the wire format be proprietary? In 2003, he began designing [[amqp]], the Advanced Message Queuing Protocol.\n\n[[amqp]] was ambitious: a complete wire-level protocol with exchanges, queues, bindings, and sophisticated routing. Unlike [[mqtt]], which was minimal by design, [[amqp|AMQP]] tried to be comprehensive. This made it powerful for enterprise messaging but complex to implement. The creation of RabbitMQ in 2007 gave AMQP its killer app — a robust, open-source broker that could handle millions of messages per second.\n\nFor developers who wanted something even simpler, [[stomp|STOMP]] emerged in 2009 — a text-based protocol so simple you could debug it with telnet. Where AMQP was the enterprise heavyweight and MQTT the IoT specialist, [[stomp|STOMP]] was the developer-friendly option for web applications, often running over [[websockets]].`
 		},
 		{
 			type: 'pioneers',
@@ -122,7 +122,7 @@ export const asyncIotStory: CategoryStory = {
 					title: 'Messaging Visionary',
 					org: 'iMatix',
 					contribution:
-						'Built the first open-source AMQP broker (OpenAMQ) at iMatix and later created ZeroMQ, a brokerless messaging library. A passionate open-source advocate, though he grew critical of AMQP\'s complexity and eventually left the workgroup.',
+						'Built the first open-source [[amqp|AMQP]] broker (OpenAMQ) at iMatix and later created ZeroMQ, a brokerless messaging library. A passionate open-source advocate, though he grew critical of AMQP\'s complexity and eventually left the workgroup.',
 					imagePath:
 						'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Pieter_Hintjens_at_EuroPython2014_%28cropped%29.jpg/330px-Pieter_Hintjens_at_EuroPython2014_%28cropped%29.jpg'
 				},
@@ -132,7 +132,7 @@ export const asyncIotStory: CategoryStory = {
 					title: 'RabbitMQ Co-founder',
 					org: 'Rabbit Technologies / Pivotal',
 					contribution:
-						'Co-founded the company behind RabbitMQ, the most widely deployed AMQP broker. Later became CEO of Weaveworks, bringing messaging patterns to cloud-native.',
+						'Co-founded the company behind RabbitMQ, the most widely deployed [[amqp|AMQP]] broker. Later became CEO of Weaveworks, bringing messaging patterns to cloud-native.',
 					imagePath:
 						'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Alexis_richardson.jpg/330px-Alexis_richardson.jpg'
 				}
@@ -152,7 +152,7 @@ export const asyncIotStory: CategoryStory = {
 					year: 2010,
 					title: 'MQTT Released as Royalty-Free',
 					description:
-						'IBM and Eurotech release MQTT 3.1 as royalty-free, enabling widespread adoption beyond industrial use cases.',
+						'IBM and Eurotech release [[mqtt|MQTT]] 3.1 as royalty-free, enabling widespread adoption beyond industrial use cases.',
 					protocolId: 'mqtt'
 				},
 				{
@@ -166,14 +166,14 @@ export const asyncIotStory: CategoryStory = {
 					year: 2012,
 					title: 'Eclipse Paho & Mosquitto',
 					description:
-						"The Eclipse Foundation adopts MQTT client libraries and the Mosquitto broker, cementing MQTT's open-source ecosystem.",
+						"The Eclipse Foundation adopts [[mqtt|MQTT]] client libraries and the Mosquitto broker, cementing MQTT's open-source ecosystem.",
 					protocolId: 'mqtt'
 				},
 				{
 					year: 2012,
 					title: 'AMQP 1.0 Ratified by OASIS',
 					description:
-						'The AMQP standard matures, though the 1.0 wire format differs significantly from the 0-9-1 version used by RabbitMQ.',
+						'The [[amqp|AMQP]] standard matures, though the 1.0 wire format differs significantly from the 0-9-1 version used by RabbitMQ.',
 					protocolId: 'amqp'
 				},
 				{
@@ -187,7 +187,7 @@ export const asyncIotStory: CategoryStory = {
 					year: 2019,
 					title: 'MQTT v5.0 Released',
 					description:
-						'Major upgrade with shared subscriptions, message expiry, reason codes, and topic aliases. MQTT grows up.',
+						'Major upgrade with shared subscriptions, message expiry, reason codes, and {{topic|topic}} aliases. [[mqtt|MQTT]] grows up.',
 					protocolId: 'mqtt'
 				}
 			]
@@ -195,27 +195,27 @@ export const asyncIotStory: CategoryStory = {
 		{
 			type: 'narrative',
 			title: 'The IoT Explosion',
-			text: `The Internet of Things turned MQTT from a niche protocol into a global standard. Smart homes, industrial sensors, connected cars, agricultural monitors — billions of devices needed to send small messages reliably over constrained networks. [[mqtt]] was built for exactly this.\n\nBut some devices are even more constrained — 8-bit microcontrollers with kilobytes of RAM, running on coin-cell batteries. For these, even [[mqtt]] over [[tcp]] was too heavy. [[coap|CoAP]] was designed as the HTTP of the constrained world: it uses [[udp]] instead of TCP, supports GET/PUT/POST/DELETE like REST, but with a compact binary format. A CoAP message can be as small as 4 bytes. It even supports observe — a lightweight subscription mechanism — and can be proxied to HTTP, bridging the constrained and web worlds.`
+			text: `The Internet of Things turned [[mqtt|MQTT]] from a niche protocol into a global standard. Smart homes, industrial sensors, connected cars, agricultural monitors — billions of devices needed to send small messages reliably over constrained networks. [[mqtt]] was built for exactly this.\n\nBut some devices are even more constrained — 8-bit microcontrollers with kilobytes of RAM, running on coin-cell batteries. For these, even [[mqtt]] over [[tcp]] was too heavy. [[coap|CoAP]] was designed as the HTTP of the constrained world: it uses [[udp]] instead of [[tcp|TCP]], supports GET/PUT/POST/DELETE like [[rest|REST]], but with a compact binary format. A [[coap|CoAP]] message can be as small as 4 bytes. It even supports observe — a lightweight subscription mechanism — and can be proxied to HTTP, bridging the constrained and web worlds.`
 		},
 		{
 			type: 'image',
 			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Raspberry_Pi_3_Model_B.JPG/500px-Raspberry_Pi_3_Model_B.JPG',
 			alt: 'A Raspberry Pi 3 Model B single-board computer, one of the devices powering the IoT revolution',
 			caption:
-				'Devices like the Raspberry Pi brought MQTT from oil pipelines to maker workshops — running Mosquitto brokers on $35 hardware and connecting billions of IoT sensors.',
+				'Devices like the Raspberry Pi brought [[mqtt|MQTT]] from oil pipelines to maker workshops — running Mosquitto brokers on $35 hardware and connecting billions of IoT sensors.',
 			credit: 'Photo: Jose.gil / CC BY-SA 4.0, via Wikimedia Commons'
 		},
 		{
 			type: 'narrative',
 			title: 'The Event Streaming Revolution',
-			text: `Traditional message brokers like [[amqp]] and [[mqtt]] treat messages as transient: once consumed, they're gone. [[kafka]] inverted this model entirely. Created at LinkedIn in 2011 by Jay Kreps, Neha Narkhede, and Jun Rao, Kafka treats messages as an immutable, ordered log that consumers can replay at will. A consumer can read from the beginning, skip ahead, or maintain multiple read positions independently.\n\nThis seemingly simple change unlocked an entirely new architecture: event sourcing. Instead of storing current state in a database and publishing notifications as a side effect, systems could treat the event stream itself as the source of truth. [[kafka]] now processes trillions of messages per day across companies like Netflix, Uber, and Airbnb — forming the backbone of modern data infrastructure.`
+			text: `Traditional message brokers like [[amqp]] and [[mqtt]] treat messages as transient: once consumed, they're gone. [[kafka]] inverted this model entirely. Created at LinkedIn in 2011 by Jay Kreps, Neha Narkhede, and Jun Rao, [[kafka|Kafka]] treats messages as an immutable, ordered log that consumers can replay at will. A consumer can read from the beginning, skip ahead, or maintain multiple read positions independently.\n\nThis seemingly simple change unlocked an entirely new architecture: event sourcing. Instead of storing current state in a database and publishing notifications as a side effect, systems could treat the event stream itself as the source of truth. [[kafka]] now processes trillions of messages per day across companies like Netflix, Uber, and Airbnb — forming the backbone of modern data infrastructure.`
 		},
 		{
 			type: 'diagram',
 			definition: `graph TD
-  subgraph Kafka["Kafka Log"]
+  subgraph [[kafka|Kafka]]["Kafka Log"]
     K1[Producer] --> K2[Append-Only Log]
-    K2 -->|"offset 0"| K3[Consumer A]
+    K2 -->|"{{offset|offset}} 0"| K3[Consumer A]
     K2 -->|"offset 42"| K4[Consumer B]
     K2 -->|"replay"| K5[Consumer C]
   end
@@ -245,7 +245,7 @@ export const asyncIotStory: CategoryStory = {
 					title: 'CoAP Co-editor',
 					org: 'Universitat Bremen',
 					contribution:
-						'Co-edited the [[coap|CoAP]] specification and co-created CBOR, the efficient binary serialization format used throughout the IoT ecosystem.'
+						'Co-edited the [[coap|CoAP]] specification and co-created CBOR, the efficient binary {{serialization|serialization}} format used throughout the IoT ecosystem.'
 				},
 				{
 					name: 'Roger Light',
@@ -253,14 +253,14 @@ export const asyncIotStory: CategoryStory = {
 					title: 'Creator of Mosquitto',
 					org: 'Eclipse Foundation / Cedalo',
 					contribution:
-						'Created Mosquitto, the most widely deployed open-source MQTT broker — running on everything from Raspberry Pis to production servers.'
+						'Created Mosquitto, the most widely deployed open-source [[mqtt|MQTT]] broker — running on everything from Raspberry Pis to production servers.'
 				}
 			]
 		},
 		{
 			type: 'callout',
 			title: 'The Pub/Sub Pattern',
-			text: "The publish-subscribe pattern — where senders don't know their receivers and receivers don't know their senders — dates back to academic research in the 1980s. It journeyed from Wall Street trading floors (TIBCO) to IoT sensors (MQTT) to cloud-native microservices ([[amqp]], NATS, [[kafka]]). Today, it's one of the most important patterns in distributed systems, decoupling producers and consumers at global scale."
+			text: "The publish-subscribe pattern — where senders don't know their receivers and receivers don't know their senders — dates back to academic research in the 1980s. It journeyed from Wall Street trading floors (TIBCO) to IoT sensors ([[mqtt|MQTT]]) to cloud-native microservices ([[amqp]], NATS, [[kafka]]). Today, it's one of the most important patterns in distributed systems, decoupling producers and consumers at global scale."
 		}
 	]
 };

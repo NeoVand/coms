@@ -12,7 +12,7 @@ export const mcp: Protocol = {
 		'A universal interface that lets AI applications discover and use tools, data, and prompts from any server.',
 	overview: `MCP is the protocol that solved the AI integration problem. Before MCP, every AI application needed custom code for every data source — connecting Claude to your database was a different project than connecting it to GitHub, which was different again from connecting it to Slack. An N-clients × M-tools matrix of bespoke integrations. MCP collapses this to N + M: each AI host implements the MCP client once, each tool implements the MCP server once, and they all interoperate.
 
-Anthropic released MCP in November 2024, and it was quickly adopted across the industry — Claude, ChatGPT, Copilot, Cursor, VS Code, and Replit all speak MCP. The protocol uses [[json-rpc|JSON-RPC]] 2.0 as its wire format, running over two transports: stdio (for local tools spawned as subprocesses) and Streamable HTTP (for remote servers, where responses can upgrade to [[sse|SSE]] streams). A three-step initialization handshake negotiates capabilities: the client declares what it supports ({{sampling|sampling}}, roots, elicitation), the server declares what it offers (tools, resources, prompts), and both sides confirm readiness.
+Anthropic released MCP in November 2024, and it was quickly adopted across the industry — Claude, ChatGPT, Copilot, Cursor, VS Code, and Replit all speak MCP. The protocol uses [[json-rpc|JSON-RPC]] 2.0 as its wire format, running over two transports: stdio (for local tools spawned as subprocesses) and Streamable HTTP (for remote servers, where responses can upgrade to [[sse|SSE]] streams). A three-step initialization {{handshake|handshake}} negotiates capabilities: the client declares what it supports ({{sampling|sampling}}, roots, elicitation), the server declares what it offers (tools, resources, prompts), and both sides confirm readiness.
 
 The architecture has three roles: the **Host** (the AI application you interact with), the **Client** (a protocol handler inside the host that manages one session), and the **Server** (a lightweight process exposing tools, resources, and prompts). A single host can connect to many servers simultaneously. In December 2025, Anthropic donated MCP to the Agentic AI Foundation under the Linux Foundation, co-founded with Block and OpenAI. By early 2026, the protocol was processing over 97 million SDK downloads per month. [[a2a|A2A]] complements MCP — where MCP connects an agent to its tools, [[a2a|A2A]] connects agents to each other.`,
 	howItWorks: [
@@ -24,12 +24,12 @@ The architecture has three roles: the **Host** (the AI application you interact 
 		{
 			title: 'Initialize handshake',
 			description:
-				'The client sends an "initialize" [[json-rpc|JSON-RPC]] request declaring its protocol version and capabilities (sampling, roots, elicitation). The server responds with its own version and capabilities (tools, resources, prompts). The client then sends a "notifications/initialized" notification to confirm readiness.'
+				'The client sends an "initialize" [[json-rpc|JSON-RPC]] request declaring its protocol version and capabilities ({{sampling|sampling}}, roots, elicitation). The server responds with its own version and capabilities (tools, resources, prompts). The client then sends a "notifications/initialized" {{notification|notification}} to confirm readiness.'
 		},
 		{
 			title: 'Discovery',
 			description:
-				'The client calls "tools/list" to discover available tools (with JSON Schema input definitions), "resources/list" to find data sources, and "prompts/list" to find prompt templates. The LLM uses these to decide what to invoke.'
+				'The client calls "tools/list" to discover available tools (with {{json|JSON}} Schema input definitions), "resources/list" to find data sources, and "prompts/list" to find prompt templates. The LLM uses these to decide what to invoke.'
 		},
 		{
 			title: 'Tool invocation',

@@ -11,7 +11,7 @@ export const ssh: Protocol = {
 	oneLiner: 'Encrypted remote access — how developers securely connect to servers.',
 	overview: `SSH replaced the insecure telnet and rlogin protocols by providing {{encryption|encrypted}} remote shell access. When you connect to a server, push code to GitHub, or tunnel a database connection, you're likely using SSH.
 
-SSH provides an encrypted tunnel between {{client-server|client and server}} that can carry interactive shell sessions, file transfers (SCP/SFTP), and port forwarding. Authentication can use passwords, but the preferred method is {{public-key|public key}} authentication: your {{private-key|private key}} stays on your machine, and the server has your public key — no passwords transmitted over the network.
+SSH provides an encrypted tunnel between {{client-server|client and server}} that can carry interactive shell sessions, file transfers (SCP/SFTP), and {{port-forwarding|port forwarding}}. Authentication can use passwords, but the preferred method is {{public-key|public key}} authentication: your {{private-key|private key}} stays on your machine, and the server has your {{public-key|public key}} — no passwords transmitted over the network.
 
 Beyond shell access, SSH's {{port-forwarding|port forwarding}} capability is remarkably powerful. You can create {{tunnel|tunnels}} that securely expose remote services locally, bypass {{firewall|firewalls}}, and create ad-hoc {{vpn|VPNs}} — making SSH one of the most versatile networking tools in a developer's toolkit.`,
 	howItWorks: [
@@ -186,7 +186,7 @@ Client → Server:
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Ssh_binary_packet_alt.svg/500px-Ssh_binary_packet_alt.svg.png',
 		alt: 'Diagram of the SSH binary packet structure showing packet length, padding length, payload, padding, and MAC fields',
 		caption:
-			'The SSH binary packet structure — every SSH message is wrapped in this format. The payload is encrypted, random padding prevents traffic analysis, and the MAC (Message Authentication Code) ensures integrity. This is what makes SSH secure where Telnet was not.',
+			'The SSH binary packet structure — every SSH message is wrapped in this format. The {{payload|payload}} is encrypted, random padding prevents traffic analysis, and the MAC (Message Authentication Code) ensures integrity. This is what makes SSH secure where Telnet was not.',
 		credit: 'Image: Wikimedia Commons / CC BY 2.5'
 	}
 };

@@ -92,11 +92,11 @@ The first version, HTTP/0.9, supported just one command: GET. No headers, no con
 		{
 			type: 'narrative',
 			title: 'The API Revolution',
-			text: `Roy Fielding didn't set out to change how software was built. His dissertation was about understanding the web's architecture. But Chapter 5 \u2014 'Representational State Transfer' \u2014 described a set of constraints that, when followed, made web services scalable, simple, and loosely coupled. [[rest]] wasn't a protocol or a standard; it was a style. Use HTTP verbs (GET, POST, PUT, DELETE), use URLs as resource identifiers, make interactions stateless. It was the anti-SOAP \u2014 no XML envelopes, no complex schemas, just clean HTTP.
+			text: `Roy Fielding didn't set out to change how software was built. His dissertation was about understanding the web's architecture. But Chapter 5 \u2014 'Representational State Transfer' \u2014 described a set of constraints that, when followed, made web services scalable, simple, and loosely coupled. [[rest]] wasn't a protocol or a standard; it was a style. Use HTTP verbs (GET, POST, PUT, DELETE), use URLs as resource identifiers, make interactions {{stateless|stateless}}. It was the anti-SOAP \u2014 no XML envelopes, no complex schemas, just clean HTTP.
 
-The API economy exploded. Every startup, every tech giant began exposing [[rest]] APIs. But REST had limitations: over-fetching (getting more data than you need) and under-fetching (needing multiple requests). Facebook's mobile team felt this acutely \u2014 their News Feed required dozens of endpoints per page load. In 2012, Lee Byron, Dan Schafer, and Nick Schrock began building [[graphql]], a query language that let clients ask for exactly the data they needed.
+The API economy exploded. Every startup, every tech giant began exposing [[rest]] APIs. But [[rest|REST]] had limitations: over-fetching (getting more data than you need) and under-fetching (needing multiple requests). Facebook's mobile team felt this acutely \u2014 their News Feed required dozens of endpoints per page load. In 2012, Lee Byron, Dan Schafer, and Nick Schrock began building [[graphql]], a query language that let clients ask for exactly the data they needed.
 
-Meanwhile, Google's internal RPC system 'Stubby' was handling billions of requests per day. When they open-sourced it as [[grpc]] in 2016, it brought efficient binary serialization (Protocol Buffers), streaming, and HTTP/2 multiplexing to the microservices world.`
+Meanwhile, Google's internal RPC system 'Stubby' was handling billions of requests per day. When they open-sourced it as [[grpc]] in 2016, it brought efficient binary {{serialization|serialization}} ({{protocol-buffers|Protocol Buffers}}), streaming, and [[http2|HTTP/2]] {{multiplexing|multiplexing}} to the microservices world.`
 		},
 		{
 			type: 'image',
@@ -110,9 +110,9 @@ Meanwhile, Google's internal RPC system 'Stubby' was handling billions of reques
 			type: 'diagram',
 			definition: `graph TD
   C[Client needs data]
-  C --> R["REST"]
-  C --> G["GraphQL"]
-  C --> P["gRPC"]
+  C --> R["[[rest|REST]]"]
+  C --> G["[[graphql|GraphQL]]"]
+  C --> P["[[grpc|gRPC]]"]
   R -->|"3 requests"| R1["GET /users
 GET /posts
 GET /friends"]
@@ -166,7 +166,7 @@ GET /friends"]
 					year: 2011,
 					title: 'WebSocket Protocol \u2014 RFC 6455',
 					description:
-						'Full-duplex communication arrives in browsers. Real-time web applications no longer need polling hacks.',
+						'{{full-duplex|Full-duplex}} communication arrives in browsers. Real-time web applications no longer need polling hacks.',
 					protocolId: 'websockets'
 				},
 				{
@@ -180,7 +180,7 @@ GET /friends"]
 					year: 2015,
 					title: 'HTTP/2 \u2014 RFC 7540',
 					description:
-						"SPDY's ideas become an official standard: {{binary-framing|binary framing}}, multiplexing, {{server-push|server push}}, header compression.",
+						"SPDY's ideas become an official standard: {{binary-framing|binary framing}}, {{multiplexing|multiplexing}}, {{server-push|server push}}, header compression.",
 					protocolId: 'http2'
 				},
 				{
@@ -194,14 +194,14 @@ GET /friends"]
 					year: 2016,
 					title: 'gRPC 1.0 Released',
 					description:
-						'Google open-sources its internal RPC framework, built on [[http2|HTTP/2]] and Protocol Buffers.',
+						'Google open-sources its internal RPC framework, built on [[http2|HTTP/2]] and {{protocol-buffers|Protocol Buffers}}.',
 					protocolId: 'grpc'
 				},
 				{
 					year: 2022,
 					title: 'HTTP/3 \u2014 RFC 9114',
 					description:
-						'HTTP moves from [[tcp|TCP]] to [[quic|QUIC]]. Multiplexing without {{head-of-line-blocking|head-of-line blocking}}. The transport layer is finally fixed.',
+						'HTTP moves from [[tcp|TCP]] to [[quic|QUIC]]. {{multiplexing|Multiplexing}} without {{head-of-line-blocking|head-of-line blocking}}. The transport layer is finally fixed.',
 					protocolId: 'http3'
 				}
 			]
@@ -209,9 +209,9 @@ GET /friends"]
 		{
 			type: 'narrative',
 			title: 'The Real-Time Web',
-			text: `The original web was request-response: click a link, wait for a page. But modern applications need live data \u2014 chat messages, stock tickers, collaborative editing. [[websockets]] solved this by upgrading an HTTP connection into a persistent, full-duplex channel. For simpler use cases where only the server needs to push updates, [[sse|Server-Sent Events]] offered a lighter alternative over plain HTTP.
+			text: `The original web was {{request-response|request-response}}: click a link, wait for a page. But modern applications need live data \u2014 chat messages, stock tickers, collaborative editing. [[websockets]] solved this by upgrading an HTTP connection into a persistent, {{full-duplex|full-duplex}} channel. For simpler use cases where only the server needs to push updates, [[sse|Server-Sent Events]] offered a lighter alternative over plain HTTP.
 
-The evolution from [[http1]] to [[http2]] to [[http3]] tells a story of learning from real-world pain. Each generation addressed specific bottlenecks: persistent connections, multiplexing, and finally, fixing the transport layer itself with [[quic]].`
+The evolution from [[http1]] to [[http2]] to [[http3]] tells a story of learning from real-world pain. Each generation addressed specific bottlenecks: persistent connections, {{multiplexing|multiplexing}}, and finally, fixing the transport layer itself with [[quic]].`
 		},
 		{
 			type: 'pioneers',
@@ -231,7 +231,7 @@ The evolution from [[http1]] to [[http2]] to [[http3]] tells a story of learning
 					title: 'Co-creator of GraphQL',
 					org: 'Facebook / Meta',
 					contribution:
-						"Co-designed GraphQL's type system and query execution model, solving the mobile data-fetching problem."
+						"Co-designed [[graphql|GraphQL]]'s type system and query execution model, solving the mobile data-fetching problem."
 				},
 				{
 					name: 'Nick Schrock',
@@ -239,7 +239,7 @@ The evolution from [[http1]] to [[http2]] to [[http3]] tells a story of learning
 					title: 'Co-creator of GraphQL',
 					org: 'Facebook / Meta',
 					contribution:
-						"Co-created GraphQL and led the team that built it for Facebook's mobile applications."
+						"Co-created [[graphql|GraphQL]] and led the team that built it for Facebook's mobile applications."
 				},
 				{
 					name: 'Ian Hickson',
@@ -264,25 +264,25 @@ The evolution from [[http1]] to [[http2]] to [[http3]] tells a story of learning
 		{
 			type: 'callout',
 			title: 'From 1 Command to Millions',
-			text: 'HTTP/0.9 had exactly one command: GET. Today, the web handles over 5 billion HTTP requests per second globally. Each generation of HTTP addressed real bottlenecks discovered through massive scale deployment \u2014 from connection reuse in [[http1|HTTP/1.1]], to multiplexing in [[http2|HTTP/2]], to transport-layer {{encryption|encryption}} in [[http3|HTTP/3]].'
+			text: 'HTTP/0.9 had exactly one command: GET. Today, the web handles over 5 billion HTTP requests per second globally. Each generation of HTTP addressed real bottlenecks discovered through massive scale deployment \u2014 from connection reuse in [[http1|HTTP/1.1]], to {{multiplexing|multiplexing}} in [[http2|HTTP/2]], to transport-layer {{encryption|encryption}} in [[http3|HTTP/3]].'
 		},
 		{
 			type: 'narrative',
 			title: 'The AI Protocol Revolution',
 			text: `In late 2024, a new class of protocols emerged \u2014 not for humans calling APIs, but for AI agents using tools and collaborating with each other. The catalyst was a deceptively simple problem: every AI application needed custom code for every integration. Connecting Claude to your database was a different project than connecting it to GitHub, which was different from Slack. An N\u00D7M matrix of bespoke integrations that didn't scale.
 
-Anthropic's answer was [[mcp|MCP]] (Model Context Protocol) \u2014 a universal interface built on [[json-rpc|JSON-RPC]] 2.0 that lets any AI host discover and use any tool through a standard protocol. Define a tool once as an MCP server, and Claude, ChatGPT, Cursor, and VS Code can all use it. MCP collapsed the integration matrix from N\u00D7M to N+M. Within months, thousands of MCP servers existed for everything from databases to cloud infrastructure.
+Anthropic's answer was [[mcp|MCP]] (Model Context Protocol) \u2014 a universal interface built on [[json-rpc|JSON-RPC]] 2.0 that lets any AI host discover and use any tool through a standard protocol. Define a tool once as an [[mcp|MCP]] server, and Claude, ChatGPT, Cursor, and VS Code can all use it. MCP collapsed the integration matrix from N\u00D7M to N+M. Within months, thousands of MCP servers existed for everything from databases to cloud infrastructure.
 
-But MCP solved only half the puzzle. It connected agents to tools \u2014 what about connecting agents to *each other*? Google's [[a2a|A2A]] (Agent-to-Agent Protocol), announced in April 2025, addressed this. Where MCP is vertical (agent \u2192 tools), A2A is horizontal (agent \u2192 agent). A travel coordinator agent uses A2A to delegate to flight, hotel, and car rental agents \u2014 each of which uses MCP internally to access their own tools and databases. Both protocols chose [[json-rpc|JSON-RPC]] 2.0 as their wire format, and both moved to the Linux Foundation by the end of 2025, cementing them as open industry standards.`
+But MCP solved only half the puzzle. It connected agents to tools \u2014 what about connecting agents to *each other*? Google's [[a2a|A2A]] (Agent-to-Agent Protocol), announced in April 2025, addressed this. Where MCP is vertical (agent \u2192 tools), [[a2a|A2A]] is horizontal (agent \u2192 agent). A travel coordinator agent uses A2A to delegate to flight, hotel, and car rental agents \u2014 each of which uses MCP internally to access their own tools and databases. Both protocols chose [[json-rpc|JSON-RPC]] 2.0 as their wire format, and both moved to the Linux Foundation by the end of 2025, cementing them as open industry standards.`
 		},
 		{
 			type: 'diagram',
 			definition: `graph TD
   U["User / AI App"]
-  U -->|"MCP"| T1["Database Tool"]
+  U -->|"[[mcp|MCP]]"| T1["Database Tool"]
   U -->|"MCP"| T2["GitHub Tool"]
   U -->|"MCP"| T3["Slack Tool"]
-  U -->|"A2A"| A1["Travel Agent"]
+  U -->|"[[a2a|A2A]]"| A1["Travel Agent"]
   U -->|"A2A"| A2["Research Agent"]
   A1 -->|"MCP"| T4["Flight API"]
   A1 -->|"MCP"| T5["Hotel API"]
@@ -297,14 +297,14 @@ But MCP solved only half the puzzle. It connected agents to tools \u2014 what ab
 					year: 2005,
 					title: 'JSON-RPC 2.0',
 					description:
-						'A minimal RPC protocol using JSON \u2014 method calls, results, notifications, and batches. The wire format that [[mcp|MCP]] and [[a2a|A2A]] would later build upon.',
+						'A minimal RPC protocol using {{json|JSON}} \u2014 method calls, results, notifications, and batches. The wire format that [[mcp|MCP]] and [[a2a|A2A]] would later build upon.',
 					protocolId: 'json-rpc'
 				},
 				{
 					year: 2024,
 					title: 'MCP \u2014 Model Context Protocol',
 					description:
-						'Anthropic releases MCP, a universal interface for connecting AI applications to tools and data. Claude Desktop ships with MCP support.',
+						'Anthropic releases [[mcp|MCP]], a universal interface for connecting AI applications to tools and data. Claude Desktop ships with MCP support.',
 					protocolId: 'mcp'
 				},
 				{
@@ -318,13 +318,13 @@ But MCP solved only half the puzzle. It connected agents to tools \u2014 what ab
 					year: 2025,
 					title: 'Both Protocols Join the Linux Foundation',
 					description:
-						'MCP moves to the Agentic AI Foundation (AAIF) and A2A launches as a Linux Foundation project, establishing open governance for AI protocols.'
+						'[[mcp|MCP]] moves to the Agentic AI Foundation (AAIF) and [[a2a|A2A]] launches as a Linux Foundation project, establishing open governance for AI protocols.'
 				},
 				{
 					year: 2026,
 					title: 'A2A v1.0 and the Agentic Era',
 					description:
-						'A2A reaches v1.0 stability. MCP surpasses 97 million monthly SDK downloads. The two-protocol foundation of agentic AI is established.',
+						'[[a2a|A2A]] reaches v1.0 stability. [[mcp|MCP]] surpasses 97 million monthly SDK downloads. The two-protocol foundation of agentic AI is established.',
 					protocolId: 'a2a'
 				}
 			]

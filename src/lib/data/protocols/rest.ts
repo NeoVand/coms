@@ -22,7 +22,7 @@ REST's ubiquity comes from its simplicity: any [[http1|HTTP]] client in any lang
 		{
 			title: 'HTTP methods as verbs',
 			description:
-				'GET (read), POST (create), PUT (replace), PATCH (partial update), DELETE (remove). Each method has defined semantics — GET is safe and {{idempotent|idempotent}}, DELETE is idempotent but not safe.'
+				'GET (read), POST (create), PUT (replace), PATCH (partial update), DELETE (remove). Each method has defined semantics — GET is safe and {{idempotent|idempotent}}, DELETE is {{idempotent|idempotent}} but not safe.'
 		},
 		{
 			title: 'Stateless requests',
@@ -32,7 +32,7 @@ REST's ubiquity comes from its simplicity: any [[http1|HTTP]] client in any lang
 		{
 			title: 'Response with status',
 			description:
-				'Server returns an {{status-code|HTTP status code}} (200 OK, 201 Created, 404 Not Found, etc.) along with the resource representation, typically as JSON.'
+				'Server returns an {{status-code|HTTP status code}} (200 OK, 201 Created, 404 Not Found, etc.) along with the resource representation, typically as {{json|JSON}}.'
 		}
 	],
 	useCases: [
@@ -138,7 +138,7 @@ curl -X DELETE https://api.example.com/users/42`
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Client-server_model.svg/500px-Client-server_model.svg.png',
 		alt: 'Diagram of the client-server model showing multiple clients communicating with a central server over a network',
 		caption:
-			'The client-server model — the foundation of REST architecture. Clients send stateless HTTP requests to a server, which manages resources and returns representations. This separation of concerns is what makes REST APIs scalable and cacheable.',
+			'The {{client-server|client-server model}} — the foundation of REST architecture. Clients send {{stateless|stateless}} HTTP requests to a server, which manages resources and returns representations. This separation of concerns is what makes REST APIs scalable and cacheable.',
 		credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 	}
 };

@@ -8,10 +8,10 @@ export const grpc: Protocol = {
 	port: 443,
 	year: 2015,
 	rfc: undefined,
-	oneLiner: 'High-performance RPC framework using Protocol Buffers over [[http2|HTTP/2]].',
+	oneLiner: 'High-performance RPC framework using {{protocol-buffers|Protocol Buffers}} over [[http2|HTTP/2]].',
 	overview: `gRPC is Google's open-source framework for remote procedure calls. Instead of designing [[rest|REST]] endpoints and manually serializing {{json|JSON}}, you define your service and messages in {{protocol-buffers|Protocol Buffers}} (.proto files), and gRPC generates strongly-typed client and server code in 11 languages.
 
-It uses [[http2|HTTP/2]] for transport, gaining {{multiplexing|multiplexing}} and {{header|header}} compression for free. Messages are serialized as Protocol Buffers — a binary format that's 3-10x smaller and 3-10x faster to parse than JSON. gRPC also natively supports {{stream|streaming}}: server-streaming, client-streaming, and bidirectional streaming.
+It uses [[http2|HTTP/2]] for transport, gaining {{multiplexing|multiplexing}} and {{header|header}} compression for free. Messages are serialized as {{protocol-buffers|Protocol Buffers}} — a binary format that's 3-10x smaller and 3-10x faster to parse than {{json|JSON}}. gRPC also natively supports {{stream|streaming}}: server-streaming, client-streaming, and bidirectional streaming.
 
 gRPC dominates in microservice architectures where services are internal and performance matters. It's less common for public APIs (browsers can't easily use it), though gRPC-Web bridges that gap.`,
 	howItWorks: [
@@ -129,7 +129,7 @@ grpcurl -plaintext localhost:50051 UserService/ListUsers`
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Google_Corkboard_Server_Rack.jpg/500px-Google_Corkboard_Server_Rack.jpg',
 		alt: "Google's original corkboard server rack from 1999, now at the Computer History Museum",
 		caption:
-			"Google's original 1999 server rack — built from corkboard and spare parts. Google later created gRPC to handle the massive scale of inter-service communication across its data centers, using Protocol Buffers and [[http2|HTTP/2]].",
+			"Google's original 1999 server rack — built from corkboard and spare parts. Google later created gRPC to handle the massive scale of inter-service communication across its data centers, using {{protocol-buffers|Protocol Buffers}} and [[http2|HTTP/2]].",
 		credit: 'Photo: Wikimedia Commons / CC BY 2.0'
 	}
 };

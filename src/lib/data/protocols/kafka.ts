@@ -14,22 +14,22 @@ export const kafka: Protocol = {
 
 Unlike traditional message queues where messages are pushed to consumers and deleted after delivery, Kafka uses an append-only log model: producers append records to {{topic|topic}} {{partition|partitions}}, and consumers read at their own pace using offsets. Multiple consumers can independently read the same data, and messages persist for a configurable retention period. Because consumers control their own read rate, {{backpressure|backpressure}} is handled naturally — slow consumers simply fall behind in the log without affecting producers or other consumer groups.
 
-The protocol handles producer requests, fetch requests, metadata discovery, offset management, and consumer group coordination. Its efficiency comes from batching, zero-copy transfers, and sequential disk I/O. Kafka clusters routinely handle millions of messages per second with sub-10ms {{latency|latency}}.`,
+The protocol handles producer requests, fetch requests, metadata discovery, {{offset|offset}} management, and {{consumer-group|consumer group}} coordination. Its efficiency comes from batching, zero-copy transfers, and sequential disk I/O. Kafka clusters routinely handle millions of messages per second with sub-10ms {{latency|latency}}.`,
 	howItWorks: [
 		{
 			title: 'Connect and discover topology',
 			description:
-				'Client opens a [[tcp|TCP]] connection to any broker and sends a Metadata request. The response contains the full cluster map: all brokers, topics, partitions, and partition leaders.'
+				'Client opens a [[tcp|TCP]] connection to any broker and sends a Metadata request. The response contains the full cluster map: all brokers, topics, partitions, and {{partition|partition}} leaders.'
 		},
 		{
 			title: 'Produce records',
 			description:
-				'Producer batches records by topic-partition, compresses the batch, and sends a Produce request to the partition leader. The leader writes to its log and replicates before acknowledging.'
+				'Producer batches records by {{topic|topic}}-{{partition|partition}}, compresses the batch, and sends a Produce request to the partition leader. The leader writes to its log and replicates before acknowledging.'
 		},
 		{
 			title: 'Consume with offsets',
 			description:
-				'Consumer sends Fetch requests specifying topic, partition, and offset. The broker returns records from that offset forward. The consumer tracks its own position.'
+				'Consumer sends Fetch requests specifying {{topic|topic}}, {{partition|partition}}, and {{offset|offset}}. The broker returns records from that offset forward. The consumer tracks its own position.'
 		},
 		{
 			title: 'Consumer groups coordinate',
@@ -197,7 +197,7 @@ kafka-consumer-groups.sh \\
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Kafka_Job_Queue_Architecture_diagram.svg/500px-Kafka_Job_Queue_Architecture_diagram.svg.png',
 		alt: 'Architecture diagram showing Kafka producers writing to topic partitions across brokers, with consumer groups reading independently',
 		caption:
-			'Kafka architecture — producers write records to topic partitions distributed across brokers. Consumer groups read independently at their own pace using offsets, and data persists in the append-only log for replay.',
+			'Kafka architecture — producers write records to {{topic|topic}} partitions distributed across brokers. Consumer groups read independently at their own pace using offsets, and data persists in the append-only log for replay.',
 		credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 	}
 };

@@ -97,7 +97,7 @@ export const utilitiesStory: CategoryStory = {
 		{
 			type: 'narrative',
 			title: 'The Naming Crisis',
-			text: `In the early internet, every computer on the network maintained a file called HOSTS.TXT — a simple list mapping hostnames to IP addresses. The Stanford Research Institute maintained the master copy, and everyone downloaded updates periodically. This worked when there were a hundred hosts. By 1983, with thousands of hosts joining, it was falling apart.\n\nPaul Mockapetris solved this with [[dns]], the Domain Name System. Instead of one file, DNS distributed the naming across a hierarchical system of servers. Ask for 'google.com' and your query cascades: root servers direct you to .com servers, which direct you to Google's name servers, which return the IP address. This hierarchy handles billions of queries per day and translates every URL you type into the numbers the network actually uses.\n\nDavid Mills tackled an equally fundamental problem: time. How do you keep clocks synchronized across thousands of computers separated by unpredictable network delays? [[ntp]], the Network Time Protocol, uses a hierarchical system of time sources (stratum 0 from atomic clocks, cascading down) and sophisticated algorithms to compensate for network jitter. Mills maintained NTP for over 30 years — one person, one protocol, keeping the world's computers in sync.`
+			text: `In the early internet, every computer on the network maintained a file called HOSTS.TXT — a simple list mapping hostnames to IP addresses. The Stanford Research Institute maintained the master copy, and everyone downloaded updates periodically. This worked when there were a hundred hosts. By 1983, with thousands of hosts joining, it was falling apart.\n\nPaul Mockapetris solved this with [[dns]], the Domain Name System. Instead of one file, [[dns|DNS]] distributed the naming across a hierarchical system of servers. Ask for 'google.com' and your query cascades: root servers direct you to .com servers, which direct you to Google's name servers, which return the {{ip-address|IP address}}. This hierarchy handles billions of queries per day and translates every URL you type into the numbers the network actually uses.\n\nDavid Mills tackled an equally fundamental problem: time. How do you keep clocks synchronized across thousands of computers separated by unpredictable network delays? [[ntp]], the Network Time Protocol, uses a hierarchical system of time sources (stratum 0 from atomic clocks, cascading down) and sophisticated algorithms to compensate for network {{jitter|jitter}}. Mills maintained [[ntp|NTP]] for over 30 years — one person, one protocol, keeping the world's computers in sync.`
 		},
 		{
 			type: 'image',
@@ -110,7 +110,7 @@ export const utilitiesStory: CategoryStory = {
 		{
 			type: 'diagram',
 			definition: `graph TD
-  A[Your Browser] -->|"who is example.com?"| B[DNS Resolver]
+  A[Your Browser] -->|"who is example.com?"| B[[[dns|DNS]] Resolver]
   B -->|"where is .com?"| C[Root Server]
   C -.->|"ask the .com server"| B
   B -->|"where is example.com?"| D[.com TLD Server]
@@ -119,7 +119,7 @@ export const utilitiesStory: CategoryStory = {
   E -.->|"93.184.216.34"| B
   B -.->|"93.184.216.34"| A`,
 			caption:
-				'DNS resolves names by cascading through a hierarchy: root servers \u2192 TLD servers \u2192 authoritative servers.'
+				'[[dns|DNS]] resolves names by cascading through a hierarchy: root servers \u2192 TLD servers \u2192 authoritative servers.'
 		},
 		{
 			type: 'pioneers',
@@ -160,7 +160,7 @@ export const utilitiesStory: CategoryStory = {
 		{
 			type: 'narrative',
 			title: 'The Complete Email System',
-			text: `While DNS and NTP solved naming and timing, another protocol was quietly filling a critical gap in the internet's infrastructure.\n\nIn 1988, Mark Crispin at Stanford created [[imap]], solving a problem [[smtp]] never could: accessing your email from multiple devices. SMTP delivers mail, but it's a one-way push. IMAP lets you browse, search, and organize messages that stay on the server. When you read an email on your phone and see it marked as read on your laptop — that's IMAP's stateful, server-side model at work. Crispin maintained IMAP for over 25 years, evolving it from RFC 1064 to RFC 9051.`
+			text: `While [[dns|DNS]] and [[ntp|NTP]] solved naming and timing, another protocol was quietly filling a critical gap in the internet's infrastructure.\n\nIn 1988, Mark Crispin at Stanford created [[imap]], solving a problem [[smtp]] never could: accessing your email from multiple devices. [[smtp|SMTP]] delivers mail, but it's a one-way push. [[imap|IMAP]] lets you browse, search, and organize messages that stay on the server. When you read an email on your phone and see it marked as read on your laptop — that's IMAP's {{stateful|stateful}}, server-side model at work. Crispin maintained IMAP for over 25 years, evolving it from RFC 1064 to RFC 9051.`
 		},
 		{
 			type: 'pioneers',
@@ -237,7 +237,7 @@ export const utilitiesStory: CategoryStory = {
 					year: 2020,
 					title: 'DNS-over-HTTPS Widely Adopted',
 					description:
-						'DNS queries, traditionally sent in plaintext, can now be encrypted. The last major unencrypted protocol gets a security upgrade.',
+						'[[dns|DNS]] queries, traditionally sent in plaintext, can now be encrypted. The last major unencrypted protocol gets a security upgrade.',
 					protocolId: 'dns'
 				}
 			]
@@ -245,7 +245,7 @@ export const utilitiesStory: CategoryStory = {
 		{
 			type: 'narrative',
 			title: 'The Security Imperative',
-			text: `The internet was built on trust. Early protocols sent everything in plaintext — passwords, emails, file transfers — because the network was small and its users were known. As the internet grew from hundreds to millions of hosts, this trust model shattered.\n\nIn 1994, Netscape needed to enable secure credit card transactions on the web. Taher Elgamal led the creation of SSL (Secure Sockets Layer), wrapping [[tcp]] connections in encryption. SSL 2.0 shipped with Netscape Navigator, and suddenly e-commerce was possible. The IETF later standardized it as [[tls]], which now encrypts the vast majority of web traffic.\n\nMeanwhile in Finland, Tatu Ylönen had a more personal motivation. In 1995, a password-sniffing attack compromised accounts at his university. He wrote [[ssh]] — Secure Shell — essentially in a weekend, replacing the completely unencrypted telnet and rlogin. SSH didn't just encrypt remote access; it provided a secure tunnel for anything: file transfers (replacing [[ftp]] with SFTP), port forwarding, and eventually even Git transport.`
+			text: `The internet was built on trust. Early protocols sent everything in plaintext — passwords, emails, file transfers — because the network was small and its users were known. As the internet grew from hundreds to millions of hosts, this trust model shattered.\n\nIn 1994, Netscape needed to enable secure credit card transactions on the web. Taher Elgamal led the creation of SSL (Secure Sockets Layer), wrapping [[tcp]] connections in {{encryption|encryption}}. SSL 2.0 shipped with Netscape Navigator, and suddenly e-commerce was possible. The IETF later standardized it as [[tls]], which now encrypts the vast majority of web traffic.\n\nMeanwhile in Finland, Tatu Ylönen had a more personal motivation. In 1995, a password-sniffing attack compromised accounts at his university. He wrote [[ssh]] — Secure Shell — essentially in a weekend, replacing the completely unencrypted telnet and rlogin. [[ssh|SSH]] didn't just encrypt remote access; it provided a secure tunnel for anything: file transfers (replacing [[ftp]] with SFTP), {{port-forwarding|port forwarding}}, and eventually even Git transport.`
 		},
 		{
 			type: 'image',
@@ -265,7 +265,7 @@ export const utilitiesStory: CategoryStory = {
 					title: 'Father of SSL',
 					org: 'Netscape Communications',
 					contribution:
-						'Led the development of SSL at Netscape, enabling encrypted web communication and the birth of e-commerce. Also invented the ElGamal encryption scheme.',
+						'Led the development of SSL at Netscape, enabling encrypted web communication and the birth of e-commerce. Also invented the ElGamal {{encryption|encryption}} scheme.',
 					imagePath:
 						'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Taher_Elgamal_it-sa_2010.jpg/330px-Taher_Elgamal_it-sa_2010.jpg'
 				},
@@ -283,7 +283,7 @@ export const utilitiesStory: CategoryStory = {
 					title: 'Author of TLS 1.3',
 					org: 'Mozilla / IETF',
 					contribution:
-						"Authored the [[tls|TLS]] 1.3 specification ([[rfc:8446|RFC 8446]]), dramatically improving both the security and performance of internet encryption. Also key contributor to [[webrtc|WebRTC]]'s security architecture."
+						"Authored the [[tls|TLS]] 1.3 specification ([[rfc:8446|RFC 8446]]), dramatically improving both the security and performance of internet {{encryption|encryption}}. Also key contributor to [[webrtc|WebRTC]]'s security architecture."
 				},
 				{
 					name: 'Paul Vixie',
@@ -291,7 +291,7 @@ export const utilitiesStory: CategoryStory = {
 					title: 'DNS Implementation Pioneer',
 					org: 'ISC / Farsight Security',
 					contribution:
-						'Wrote BIND, the most widely deployed DNS server software. Founded the Internet Systems Consortium. Inducted into the Internet Hall of Fame in 2014.',
+						'Wrote BIND, the most widely deployed [[dns|DNS]] server software. Founded the Internet Systems Consortium. Inducted into the Internet Hall of Fame in 2014.',
 					imagePath:
 						'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Paul_Vixie_-_2014.jpg/330px-Paul_Vixie_-_2014.jpg'
 				}

@@ -43,7 +43,7 @@ export const categories: Category[] = [
 		color: '#FF9F67',
 		glowColor: 'rgba(255, 159, 103, 0.4)',
 		description:
-			'Protocols optimized for streaming audio and video in real-time. They prioritize low latency over perfect delivery — a dropped frame beats a frozen screen.',
+			'Protocols optimized for streaming audio and video in real-time. They prioritize low {{latency|latency}} over perfect delivery — a dropped frame beats a frozen screen.',
 		icon: 'realtime-av'
 	},
 	{

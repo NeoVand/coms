@@ -10,11 +10,11 @@ export const bgp: Protocol = {
 	rfc: 'RFC 4271',
 	oneLiner:
 		'The routing protocol of the internet — how autonomous systems find paths to each other.',
-	overview: `BGP is the protocol that holds the internet together. The internet isn't a single network — it's a network of networks, each called an Autonomous System (AS). Your ISP is an AS. Google is an AS. Amazon, universities, governments — each is an AS with its own number. BGP is how they learn to reach each other.
+	overview: `BGP is the protocol that holds the internet together. The internet isn't a single network — it's a network of networks, each called an {{autonomous-system|Autonomous System}} (AS). Your ISP is an AS. Google is an AS. Amazon, universities, governments — each is an AS with its own number. BGP is how they learn to reach each other.
 
 When you visit a website, your {{packet|packets}} may cross 5-10 different autonomous systems. BGP is the protocol that calculated that path. Each BGP router maintains a {{routing-table|table}} of every reachable IP prefix on the internet (~1 million entries) along with the AS_PATH — the sequence of autonomous systems to traverse. BGP is a path-vector protocol: it doesn't just know the next hop, it knows the entire AS-level path.
 
-BGP runs over [[tcp|TCP]] port 179, relying on TCP's reliable delivery because routing information must never be lost or corrupted. Two BGP routers ("peers") establish a session by exchanging OPEN messages, then continuously exchange UPDATE messages as routes are announced or withdrawn. {{keep-alive|KEEPALIVE}} messages every ~30 seconds prove the peer is still alive.
+BGP runs over [[tcp|TCP]] port 179, relying on [[tcp|TCP]]'s reliable delivery because routing information must never be lost or corrupted. Two BGP routers ("peers") establish a session by exchanging OPEN messages, then continuously {{exchange|exchange}} UPDATE messages as routes are announced or withdrawn. {{keep-alive|KEEPALIVE}} messages every ~30 seconds prove the peer is still alive.
 
 A fundamental distinction in BGP is between eBGP (External BGP) and iBGP (Internal BGP). eBGP runs between routers in different autonomous systems — this is the inter-domain routing that connects the internet. iBGP runs between routers within the same AS, distributing externally learned routes internally. The two behave differently: eBGP modifies the AS_PATH on each hop, while iBGP does not, requiring either a full mesh of iBGP peers or route reflectors to prevent loops.
 
@@ -28,22 +28,22 @@ The consequences of BGP mistakes are enormous. The Facebook outage of October 20
 		{
 			title: 'OPEN exchange',
 			description:
-				'Both routers exchange OPEN messages containing their AS number, BGP identifier (router IP), proposed hold time, and supported capabilities like 4-byte AS numbers.'
+				'Both routers {{exchange|exchange}} OPEN messages containing their AS number, BGP identifier (router IP), proposed hold time, and supported capabilities like 4-byte AS numbers.'
 		},
 		{
 			title: 'KEEPALIVE confirmation',
 			description:
-				'Each router confirms the session with a KEEPALIVE (the smallest BGP message — just 19 bytes). The session enters the Established state and route exchange begins.'
+				'Each router confirms the session with a KEEPALIVE (the smallest BGP message — just 19 bytes). The session enters the Established state and route {{exchange|exchange}} begins.'
 		},
 		{
 			title: 'UPDATE announcements',
 			description:
-				'Routers exchange UPDATE messages containing reachable prefixes (NLRI) with path attributes: AS_PATH, NEXT_HOP, LOCAL_PREF, MED. Each UPDATE can announce new routes or withdraw old ones.'
+				'Routers {{exchange|exchange}} UPDATE messages containing reachable prefixes (NLRI) with path attributes: AS_PATH, NEXT_HOP, LOCAL_PREF, MED. Each UPDATE can announce new routes or withdraw old ones.'
 		},
 		{
 			title: 'Ongoing operation',
 			description:
-				'Routers send KEEPALIVEs every ~30 seconds to prove liveness. UPDATEs flow whenever routes change. NOTIFICATION messages signal fatal errors and close the session.'
+				'Routers send KEEPALIVEs every ~30 seconds to prove liveness. UPDATEs flow whenever routes change. {{notification|NOTIFICATION}} messages signal fatal errors and close the session.'
 		}
 	],
 	useCases: [
@@ -176,7 +176,7 @@ for await (const elem of parser) {
 			date: '2024-2025',
 			title: 'ASPA reaches late-stage IETF draft',
 			description:
-				'AS Provider Authorisation extends RPKI to AS-path validation — closing the route-leak hole that origin validation alone cannot fix. Standards finalisation expected 2026-2027.',
+				'AS Provider Authorisation extends {{rpki|RPKI}} to AS-path validation — closing the route-leak hole that origin validation alone cannot fix. Standards finalisation expected 2026-2027.',
 			source: { url: 'https://datatracker.ietf.org/wg/sidrops/about/', label: 'IETF SIDROPS WG' }
 		},
 		{
@@ -192,19 +192,19 @@ for await (const elem of parser) {
 			org: 'Tier-1 transit (Lumen, Telia, NTT, GTT, Cogent, Tata)',
 			scale: '~1M IPv4 + 200k IPv6 routes',
 			description:
-				'Every tier-1 backbone runs BGP with the full global routing table on every border router. Memory and route-processor capacity is the binding constraint.'
+				'Every tier-1 backbone runs BGP with the full global {{routing-table|routing table}} on every border router. Memory and route-processor capacity is the binding constraint.'
 		},
 		{
 			org: 'Cloudflare',
 			scale: '335+ cities, anycast everywhere',
 			description:
-				'Cloudflare announces the same prefixes from hundreds of POPs via BGP anycast; users hit the nearest PoP based on routing policy.'
+				'Cloudflare announces the same prefixes from hundreds of POPs via BGP {{anycast|anycast}}; users hit the nearest PoP based on routing policy.'
 		},
 		{
 			org: 'Hyperscalers (AWS, GCP, Azure)',
 			scale: 'Massive AS holdings',
 			description:
-				'AWS (AS 16509), Google (AS 15169), Microsoft (AS 8075) operate some of the largest BGP networks in the world. AWS Direct Connect, Azure ExpressRoute, GCP Cloud Interconnect all use BGP for customer peering.'
+				'AWS (AS 16509), Google (AS 15169), Microsoft (AS 8075) operate some of the largest BGP networks in the world. AWS Direct Connect, Azure ExpressRoute, GCP Cloud Interconnect all use BGP for customer {{peering|peering}}.'
 		}
 	],
 
@@ -219,7 +219,7 @@ for await (const elem of parser) {
 		},
 		{
 			title: 'TCP keepalives keep BGP sessions alive',
-			text: 'A BGP session is just a long-lived TCP connection on port 179. KEEPALIVE messages every 60 seconds prove the peer is still there; if no message arrives within 180 seconds (HoldTime), the session resets and all routes through that peer are withdrawn — which is what cascaded into [[outage:centurylink-flowspec-2020|CenturyLink 2020]].'
+			text: 'A BGP session is just a long-lived [[tcp|TCP]] connection on port 179. KEEPALIVE messages every 60 seconds prove the peer is still there; if no message arrives within 180 seconds (HoldTime), the session resets and all routes through that peer are withdrawn — which is what cascaded into [[outage:centurylink-flowspec-2020|CenturyLink 2020]].'
 		}
 	],
 

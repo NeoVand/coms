@@ -27,7 +27,7 @@ export const transportStory: CategoryStory = {
 					title: 'Co-inventor of TCP/IP',
 					org: 'Stanford / DARPA',
 					contribution:
-						'Designed the TCP/IP protocol suite alongside [[pioneer:bob-kahn|Bob Kahn]], co-authoring the foundational 1974 paper "A Protocol for Packet Network Intercommunication" that defined how heterogeneous networks could exchange data reliably.',
+						'Designed the TCP/IP protocol suite alongside [[pioneer:bob-kahn|Bob Kahn]], co-authoring the foundational 1974 paper "A Protocol for Packet Network Intercommunication" that defined how heterogeneous networks could {{exchange|exchange}} data reliably.',
 					imagePath:
 						'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Dr_Vint_Cerf_ForMemRS_%28cropped%29.jpg/330px-Dr_Vint_Cerf_ForMemRS_%28cropped%29.jpg'
 				},
@@ -76,7 +76,7 @@ export const transportStory: CategoryStory = {
 					year: 1978,
 					title: 'TCP/IP Split',
 					description:
-						'The monolithic [[tcp|TCP]] is split into TCP (reliable transport) and IP (network routing), creating the layered architecture we use today.'
+						'The monolithic [[tcp|TCP]] is split into [[tcp|TCP]] (reliable transport) and IP (network routing), creating the layered architecture we use today.'
 				},
 				{
 					year: 1980,
@@ -103,7 +103,7 @@ export const transportStory: CategoryStory = {
 		{
 			type: 'narrative',
 			title: 'The Great Split',
-			text: `The original TCP was a monolith. It handled routing, reliability, and ordering all in one protocol. But Danny Cohen made a compelling case: real-time voice traffic couldn't tolerate TCP's insistence on retransmitting every lost packet. A dropped voice sample is gone \u2014 by the time a retransmission arrives, the conversation has moved on.\n\nThis argument led to one of the most consequential design decisions in computing history. TCP was split into two layers: IP for routing packets across networks, and TCP for providing reliable, ordered byte streams on top of IP. Alongside TCP came [[udp]] \u2014 a minimal transport that offered little more than port numbers and a checksum. No connections, no retransmissions, no ordering guarantees.\n\nThe separation was a stroke of genius. It meant that new transport protocols could be built on top of IP without changing a single router. [[tcp]] became the workhorse of the internet, carrying [[http1]], [[ssh]], [[ftp]], and [[smtp]]. [[udp]] became the foundation for real-time applications where speed matters more than perfection. And the door was left open for protocols yet to come.`
+			text: `The original [[tcp|TCP]] was a monolith. It handled routing, reliability, and ordering all in one protocol. But Danny Cohen made a compelling case: real-time voice traffic couldn't tolerate TCP's insistence on retransmitting every lost packet. A dropped voice sample is gone \u2014 by the time a {{retransmission|retransmission}} arrives, the conversation has moved on.\n\nThis argument led to one of the most consequential design decisions in computing history. TCP was split into two layers: IP for routing packets across networks, and TCP for providing reliable, ordered byte streams on top of IP. Alongside TCP came [[udp]] \u2014 a minimal transport that offered little more than port numbers and a {{checksum|checksum}}. No connections, no retransmissions, no ordering guarantees.\n\nThe separation was a stroke of genius. It meant that new transport protocols could be built on top of IP without changing a single router. [[tcp]] became the workhorse of the internet, carrying [[http1]], [[ssh]], [[ftp]], and [[smtp]]. [[udp]] became the foundation for real-time applications where speed matters more than perfection. And the door was left open for protocols yet to come.`
 		},
 		{
 			type: 'image',
@@ -124,26 +124,26 @@ export const transportStory: CategoryStory = {
 			definition: `graph TD
   subgraph Application Layer
     A1[HTTP]
-    A2[SSH]
-    A3[DNS]
-    A4[RTP]
+    A2[[[ssh|SSH]]]
+    A3[[[dns|DNS]]]
+    A4[[[rtp|RTP]]]
   end
   subgraph Transport Layer
-    B1["TCP \u2014 reliable, ordered"]
-    B2["UDP \u2014 fast, minimal"]
+    B1["[[tcp|TCP]] \u2014 reliable, ordered"]
+    B2["[[udp|UDP]] \u2014 fast, minimal"]
   end
   subgraph Network Layer
     C[IP \u2014 routes packets across networks]
   end
   subgraph Link Layer
-    D[Ethernet / Wi-Fi / Fiber]
+    D[[[ethernet|Ethernet]] / Wi-Fi / Fiber]
   end
   A1 & A2 --> B1
   A3 & A4 --> B2
   B1 & B2 --> C
   C --> D`,
 			caption:
-				'The layered architecture born from splitting TCP \u2014 applications choose reliable (TCP) or fast ([[udp|UDP]]) transport, both riding on IP.'
+				'The layered architecture born from splitting [[tcp|TCP]] \u2014 applications choose reliable (TCP) or fast ([[udp|UDP]]) transport, both riding on IP.'
 		},
 		{
 			type: 'timeline',
@@ -159,14 +159,14 @@ export const transportStory: CategoryStory = {
 					year: 2013,
 					title: 'MPTCP Published — RFC 6824',
 					description:
-						'Multipath TCP allows a single connection to use multiple network paths simultaneously. Apple deploys it in iOS 7 for Siri, its first major real-world adoption.',
+						'Multipath [[tcp|TCP]] allows a single connection to use multiple network paths simultaneously. Apple deploys it in iOS 7 for Siri, its first major real-world adoption.',
 					protocolId: 'mptcp'
 				},
 				{
 					year: 2012,
 					title: 'QUIC Development Begins at Google',
 					description:
-						"[[pioneer:jim-roskind|Jim Roskind]] starts designing a new transport protocol to solve TCP's {{head-of-line-blocking|head-of-line blocking}} and slow handshakes.",
+						"[[pioneer:jim-roskind|Jim Roskind]] starts designing a new transport protocol to solve [[tcp|TCP]]'s {{head-of-line-blocking|head-of-line blocking}} and slow handshakes.",
 					protocolId: 'quic'
 				},
 				{
@@ -195,7 +195,7 @@ export const transportStory: CategoryStory = {
 					title: 'QUIC Architect',
 					org: 'Google',
 					contribution:
-						"Designed [[quic|QUIC]] to solve TCP's fundamental limitations for the modern web, introducing 0-RTT connection establishment and multiplexed streams without head-of-line blocking.",
+						"Designed [[quic|QUIC]] to solve [[tcp|TCP]]'s fundamental limitations for the modern web, introducing {{zero-rtt|0-RTT}} connection establishment and multiplexed streams without {{head-of-line-blocking|head-of-line blocking}}.",
 					imagePath:
 						'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Jim_Roskind_2016.jpg/330px-Jim_Roskind_2016.jpg'
 				},
@@ -205,7 +205,7 @@ export const transportStory: CategoryStory = {
 					title: 'QUIC Standardization Lead',
 					org: 'Google / Fastly',
 					contribution:
-						'Led the IETF standardization effort that transformed QUIC from a Google experiment into [[rfc:9000|RFC 9000]], navigating the complex process of building industry consensus around a new transport protocol.'
+						'Led the IETF standardization effort that transformed [[quic|QUIC]] from a Google experiment into [[rfc:9000|RFC 9000]], navigating the complex process of building industry consensus around a new transport protocol.'
 				},
 				{
 					name: 'Randall Stewart',
@@ -213,37 +213,37 @@ export const transportStory: CategoryStory = {
 					title: 'SCTP Architect',
 					org: 'Cisco',
 					contribution:
-						'Designed [[sctp|SCTP]] to provide reliable multi-stream transport, enabling telephony signaling networks to transition from legacy SS7 to IP-based infrastructure.'
+						'Designed [[sctp|SCTP]] to provide reliable multi-stream transport, enabling telephony {{signaling|signaling}} networks to transition from legacy SS7 to IP-based infrastructure.'
 				}
 			]
 		},
 		{
 			type: 'narrative',
 			title: 'The Ossification Problem',
-			text: `Why didn't we just improve [[tcp]]? The answer is ossification \u2014 one of the most frustrating phenomena in networked systems.\n\nOver decades, an entire ecosystem of middleboxes grew up around TCP: firewalls that inspect TCP headers, NATs that rewrite port numbers, load balancers that track connection state, and intrusion detection systems that parse TCP options. These devices learned the exact byte layout of TCP segments and made assumptions about what they'd see. Any change to TCP's wire format \u2014 even one permitted by the specification \u2014 risked being silently dropped or mangled by some middlebox along the path.\n\n[[mptcp]] tried a different approach: extending TCP itself to use multiple network paths simultaneously, improving resilience and bandwidth. Apple adopted it for Siri in 2013, but MPTCP's reliance on TCP options meant middleboxes could still interfere.\n\n[[quic]] solved the ossification problem radically. Instead of trying to change TCP, it built an entirely new transport protocol on top of [[udp]], which middleboxes pass through without inspection. Then QUIC went a step further: it encrypts nearly everything, including its own transport headers. Middleboxes can't interfere with what they can't read. It's transport evolution through camouflage \u2014 hiding innovation inside a packet format that the existing infrastructure already knows how to ignore.`
+			text: `Why didn't we just improve [[tcp]]? The answer is ossification \u2014 one of the most frustrating phenomena in networked systems.\n\nOver decades, an entire ecosystem of middleboxes grew up around [[tcp|TCP]]: firewalls that inspect TCP headers, NATs that rewrite port numbers, load balancers that track connection state, and intrusion detection systems that parse TCP options. These devices learned the exact byte layout of TCP segments and made assumptions about what they'd see. Any change to TCP's wire format \u2014 even one permitted by the specification \u2014 risked being silently dropped or mangled by some middlebox along the path.\n\n[[mptcp]] tried a different approach: extending TCP itself to use multiple network paths simultaneously, improving resilience and {{bandwidth|bandwidth}}. Apple adopted it for Siri in 2013, but [[mptcp|MPTCP]]'s reliance on TCP options meant middleboxes could still interfere.\n\n[[quic]] solved the ossification problem radically. Instead of trying to change TCP, it built an entirely new transport protocol on top of [[udp]], which middleboxes pass through without inspection. Then [[quic|QUIC]] went a step further: it encrypts nearly everything, including its own transport headers. Middleboxes can't interfere with what they can't read. It's transport evolution through camouflage \u2014 hiding innovation inside a packet format that the existing infrastructure already knows how to ignore.`
 		},
 		{
 			type: 'diagram',
 			definition: `graph TD
-  subgraph Traditional["Traditional TCP"]
+  subgraph Traditional["Traditional [[tcp|TCP]]"]
     T1[Application] --> T2[TCP]
     T2 --> T3{{"Middlebox"}}
     T3 -->|"inspects headers"| T4[Network]
   end
-  subgraph Modern["QUIC Approach"]
+  subgraph Modern["[[quic|QUIC]] Approach"]
     Q1[Application] --> Q2["QUIC — encrypted"]
-    Q2 --> Q3[UDP]
+    Q2 --> Q3[[[udp|UDP]]]
     Q3 --> Q4{{"Middlebox"}}
     Q4 -->|"passes through"| Q5[Network]
   end
   Traditional ~~~ Modern`,
 			caption:
-				'Middleboxes inspect TCP headers and block changes. QUIC hides inside [[udp|UDP]] packets they already know how to ignore.'
+				'Middleboxes inspect [[tcp|TCP]] headers and block changes. [[quic|QUIC]] hides inside [[udp|UDP]] packets they already know how to ignore.'
 		},
 		{
 			type: 'callout',
 			title: 'The Numbers',
-			text: 'TCP and UDP together carry virtually 100% of internet traffic. As of 2024, QUIC (which runs over UDP) carries over 30% of global web traffic \u2014 primarily through Google services and Cloudflare. The transport layer is the most fundamental, and least visible, part of the internet.'
+			text: '[[tcp|TCP]] and [[udp|UDP]] together carry virtually 100% of internet traffic. As of 2024, [[quic|QUIC]] (which runs over UDP) carries over 30% of global web traffic \u2014 primarily through Google services and Cloudflare. The transport layer is the most fundamental, and least visible, part of the internet.'
 		}
 	]
 };

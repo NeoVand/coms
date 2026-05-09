@@ -12,14 +12,14 @@ export const oauth2: Protocol = {
 		'Delegated authorization for the modern web — let apps access your data without sharing your password.',
 	overview: `OAuth 2.0 is the authorization framework that powers "Sign in with Google," "Connect your GitHub," and virtually every third-party integration on the modern web. Instead of handing your password to an application, OAuth lets you grant it a scoped, time-limited {{access-token|access token}} — the app can read your repos but not delete them, view your calendar but not your email. Your credentials never leave the identity provider.
 
-The core mechanism is the authorization code flow. When you click "Sign in with GitHub," you're redirected to GitHub's authorization server. You authenticate there (not on the app), review what permissions the app is requesting, and consent. GitHub redirects you back to the app with a short-lived authorization code. The app exchanges this code — along with a PKCE (Proof Key for Code Exchange) code verifier to prevent interception — for an access token and a refresh token. Access tokens are short-lived (minutes to hours); when they expire, the app uses the refresh token to silently obtain a new one without bothering the user.
+The core mechanism is the authorization code flow. When you click "Sign in with GitHub," you're redirected to GitHub's authorization server. You authenticate there (not on the app), review what permissions the app is requesting, and consent. GitHub redirects you back to the app with a short-lived authorization code. The app exchanges this code — along with a {{pkce|PKCE}} (Proof Key for Code {{exchange|Exchange}}) code verifier to prevent interception — for an {{access-token|access token}} and a refresh token. Access tokens are short-lived (minutes to hours); when they expire, the app uses the refresh token to silently obtain a new one without bothering the user.
 
 A critical distinction: OAuth is an authorization {{protocol|protocol}} (what you can access), not an authentication protocol (who you are). Knowing that a token grants read access to someone's repos doesn't tell you who that someone is. OpenID Connect (OIDC) is a thin identity layer built on top of OAuth that adds authentication — it returns an ID token (a {{jwt|JWT}}) containing the user's identity. Together, OAuth + OIDC secure [[rest|REST]] APIs across the web, all running over [[tls|TLS]] on top of [[http1|HTTP]] and [[tcp|TCP]].`,
 	howItWorks: [
 		{
 			title: 'Authorization request',
 			description:
-				'App redirects the user to the authorization server with client_id, requested scope, a random state parameter for CSRF protection, and a PKCE code_challenge derived from a secret code_verifier.'
+				'App redirects the user to the authorization server with client_id, requested scope, a random state parameter for CSRF protection, and a {{pkce|PKCE}} code_challenge derived from a secret code_verifier.'
 		},
 		{
 			title: 'User consent',
@@ -34,7 +34,7 @@ A critical distinction: OAuth is an authorization {{protocol|protocol}} (what yo
 		{
 			title: 'Token exchange',
 			description:
-				'The app sends the authorization code along with the PKCE code_verifier to the token endpoint. The server validates the PKCE proof and returns an access token (short-lived) and a refresh token (long-lived).'
+				'The app sends the authorization code along with the {{pkce|PKCE}} code_verifier to the token endpoint. The server validates the PKCE proof and returns an {{access-token|access token}} (short-lived) and a refresh token (long-lived).'
 		},
 		{
 			title: 'API access',

@@ -120,11 +120,13 @@ function blankOut(s: string, re: RegExp) {
 }
 
 function strip(src: string) {
+	// See wrap-bare-protocols.ts — no backtick stripping, otherwise the
+	// outer template literal that holds most prose in this codebase
+	// gets blanked at the first escaped backtick.
 	let s = blankOut(src, /\*\*\[\[[^\]]+\]\]\*\*/g);
 	s = blankOut(s, /\[\[[^\]]+\]\]/g);
 	s = blankOut(s, /\*\*\{\{[^}]+\}\}\*\*/g);
 	s = blankOut(s, /\{\{[^}]+\}\}/g);
-	s = blankOut(s, /`[^`]*`/g);
 	s = blankOut(s, /https?:\/\/\S+/g);
 	return s;
 }

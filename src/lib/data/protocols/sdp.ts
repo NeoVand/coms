@@ -11,9 +11,9 @@ export const sdp: Protocol = {
 		'The universal format for describing multimedia sessions — the matchmaker behind every [[webrtc|WebRTC]] and VoIP call.',
 	overview: `SDP doesn't carry a single byte of audio or video. Instead, it's the language that endpoints use to describe what they can do — {{codec|codecs}} they support, IP addresses they're reachable at, {{bandwidth|bandwidth}} they expect, and {{encryption|encryption}} keys they'll use. Think of it as a dating profile for media sessions.
 
-Originally published in 1998 as RFC 2327 for the Mbone (multicast backbone) conferencing community, SDP found its true calling as the session description format for [[sip|SIP]] and later [[webrtc|WebRTC]]. Every time you join a video call in your browser, an SDP "offer" and "answer" are exchanged behind the scenes to {{content-negotiation|negotiate}} what media will flow and how.
+Originally published in 1998 as RFC 2327 for the Mbone ({{multicast|multicast}} backbone) conferencing community, SDP found its true calling as the session description format for [[sip|SIP]] and later [[webrtc|WebRTC]]. Every time you join a video call in your browser, an SDP "offer" and "answer" are exchanged behind the scenes to {{content-negotiation|negotiate}} what media will flow and how.
 
-The format is deceptively simple — plain text with single-letter field identifiers (v= for version, o= for origin, m= for media, a= for attributes). But this simplicity hides enormous complexity: SDP extensions handle ICE candidates, DTLS (based on [[tls|TLS]]) fingerprints, simulcast layers, codec parameters, and dozens of other modern requirements.`,
+The format is deceptively simple — plain text with single-letter field identifiers (v= for version, o= for origin, m= for media, a= for attributes). But this simplicity hides enormous complexity: SDP extensions handle ICE candidates, {{dtls|DTLS}} (based on [[tls|TLS]]) fingerprints, simulcast layers, {{codec|codec}} parameters, and dozens of other modern requirements.`,
 	howItWorks: [
 		{
 			title: 'Session description created',
@@ -23,12 +23,12 @@ The format is deceptively simple — plain text with single-letter field identif
 		{
 			title: 'Media lines define streams',
 			description:
-				'Each "m=" line declares a media type (audio, video), transport protocol (RTP/SAVPF), port number, and list of supported codec payload types.'
+				'Each "m=" line declares a media type (audio, video), transport protocol (RTP/SAVPF), port number, and list of supported {{codec|codec}} {{payload|payload}} types.'
 		},
 		{
 			title: 'Attributes add detail',
 			description:
-				'Attribute lines (a=) specify codec parameters, ICE credentials, DTLS fingerprints, bandwidth limits, and direction (sendrecv, recvonly).'
+				'Attribute lines (a=) specify {{codec|codec}} parameters, ICE credentials, {{dtls|DTLS}} fingerprints, {{bandwidth|bandwidth}} limits, and direction (sendrecv, recvonly).'
 		},
 		{
 			title: 'Offer/answer exchange',

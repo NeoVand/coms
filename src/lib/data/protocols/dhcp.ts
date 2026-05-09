@@ -9,13 +9,13 @@ export const dhcp: Protocol = {
 	year: 1993,
 	rfc: 'RFC 2131',
 	oneLiner: "Automatically assigns IP addresses — plug in and you're on the network.",
-	overview: `DHCP is the reason you can connect to a Wi-Fi network and immediately start browsing. Without it, you'd have to manually configure your {{ip-address|IP address}}, {{subnet|subnet mask}}, {{gateway|gateway}}, and DNS servers — for every network you join.
+	overview: `DHCP is the reason you can connect to a Wi-Fi network and immediately start browsing. Without it, you'd have to manually configure your {{ip-address|IP address}}, {{subnet|subnet mask}}, {{gateway|gateway}}, and [[dns|DNS]] servers — for every network you join.
 
-When your device connects to a network, it {{broadcast|broadcasts}} a DHCP Discover message ("I need an IP address!"). A DHCP server responds with an offer, which the client accepts. The server then confirms and assigns the IP, along with all the configuration your device needs: subnet mask, default gateway, [[dns|DNS]] servers, and the {{lease|lease}} duration.
+When your device connects to a network, it {{broadcast|broadcasts}} a DHCP Discover message ("I need an {{ip-address|IP address}}!"). A DHCP server responds with an offer, which the client accepts. The server then confirms and assigns the IP, along with all the configuration your device needs: {{subnet|subnet}} mask, {{gateway|default gateway}}, [[dns|DNS]] servers, and the {{lease|lease}} duration.
 
-DHCP leases are temporary — typically 1-24 hours. When a lease expires, the device must renew it. This dynamic allocation means IP addresses can be reused efficiently. DHCP is simple, ubiquitous, and works transparently — one of those "invisible" {{protocol|protocols}} that makes networking just work.
+DHCP leases are temporary — typically 1-24 hours. When a {{lease|lease}} expires, the device must renew it. This dynamic allocation means IP addresses can be reused efficiently. DHCP is simple, ubiquitous, and works transparently — one of those "invisible" {{protocol|protocols}} that makes networking just work.
 
-For IPv6 networks, DHCPv6 (RFC 8415) provides similar functionality but with a different message flow: Solicit/Advertise replaces Discover/Offer, and Request/Reply replaces Request/ACK. DHCPv6 also supports a stateless configuration mode (via SLAAC — Stateless Address Autoconfiguration) where hosts generate their own addresses and only use DHCPv6 for additional options like DNS server addresses.`,
+For [[ipv6|IPv6]] networks, DHCPv6 (RFC 8415) provides similar functionality but with a different message flow: Solicit/Advertise replaces Discover/Offer, and Request/Reply replaces Request/ACK. DHCPv6 also supports a {{stateless|stateless}} configuration mode (via {{slaac|SLAAC}} — Stateless Address Autoconfiguration) where hosts generate their own addresses and only use DHCPv6 for additional options like DNS server addresses.`,
 	howItWorks: [
 		{
 			title: 'DISCOVER (broadcast)',
@@ -25,12 +25,12 @@ For IPv6 networks, DHCPv6 (RFC 8415) provides similar functionality but with a d
 		{
 			title: 'OFFER',
 			description:
-				'DHCP server(s) respond with an offered IP address, {{subnet|subnet}} mask, gateway, [[dns|DNS]] servers, and lease time. Multiple servers may offer.'
+				'DHCP server(s) respond with an offered {{ip-address|IP address}}, {{subnet|subnet}} mask, gateway, [[dns|DNS]] servers, and {{lease|lease}} time. Multiple servers may offer.'
 		},
 		{
 			title: 'REQUEST',
 			description:
-				'Client broadcasts its selection: "I\'ll take the offer from server X." This broadcast ensures other servers know their offer was declined.'
+				'Client broadcasts its selection: "I\'ll take the offer from server X." This {{broadcast|broadcast}} ensures other servers know their offer was declined.'
 		},
 		{
 			title: 'ACK',
@@ -192,7 +192,7 @@ DHCP ACK:
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/DHCP_session.svg/500px-DHCP_session.svg.png',
 		alt: 'Sequence diagram of the DHCP DORA process: Discover, Offer, Request, and Acknowledge messages between client and server',
 		caption:
-			'The DHCP DORA process — Discover (client broadcasts "I need an IP"), Offer (server proposes an address), Request (client accepts), Acknowledge (server confirms the lease). This four-step handshake happens every time a device joins a network.',
+			'The DHCP DORA process — Discover (client broadcasts "I need an IP"), Offer (server proposes an address), Request (client accepts), Acknowledge (server confirms the {{lease|lease}}). This four-step {{handshake|handshake}} happens every time a device joins a network.',
 		credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 	}
 };

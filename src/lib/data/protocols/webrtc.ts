@@ -8,32 +8,32 @@ export const webrtc: Protocol = {
 	port: undefined,
 	year: 2011,
 	rfc: 'RFC 8825',
-	oneLiner: 'Peer-to-peer audio, video, and data — directly between browsers, no plugins needed.',
+	oneLiner: '{{peer-to-peer|Peer-to-peer}} audio, video, and data — directly between browsers, no plugins needed.',
 	overview: `WebRTC is the technology that makes browser-based video calls possible. Before WebRTC, real-time communication required plugins (Flash, Java applets) or native apps. Now, two browsers can establish a direct, encrypted, {{peer-to-peer|peer-to-peer}} connection for audio, video, and arbitrary data.
 
-The key insight is "peer-to-peer" — once the connection is established, data flows directly between users without passing through a server. This reduces {{latency|latency}} and server costs. However, establishing that connection requires a {{signaling|signaling server}} (to exchange connection offers) and often STUN/TURN servers to navigate {{nat|NATs}} and {{firewall|firewalls}}. STUN (Session Traversal Utilities for NAT) discovers the peer's public IP address. TURN (Traversal Using Relays around NAT) relays media through a server when a direct connection fails (about 10-15% of cases). ICE (Interactive Connectivity Establishment) coordinates both STUN and TURN to find the best available path between peers.
+The key insight is "{{peer-to-peer|peer-to-peer}}" — once the connection is established, data flows directly between users without passing through a server. This reduces {{latency|latency}} and server costs. However, establishing that connection requires a {{signaling|signaling server}} (to {{exchange|exchange}} connection offers) and often STUN/TURN servers to navigate {{nat|NATs}} and {{firewall|firewalls}}. STUN (Session Traversal Utilities for NAT) discovers the peer's {{public-ip-address|public IP address}}. TURN (Traversal Using Relays around NAT) relays media through a server when a direct connection fails (about 10-15% of cases). ICE (Interactive Connectivity Establishment) coordinates both STUN and TURN to find the best available path between peers.
 
-Under the hood, WebRTC is actually a bundle of protocols: ICE for connectivity establishment, DTLS (based on [[tls|TLS]]) for encryption, {{srtp|SRTP}} (secured [[rtp|RTP]]) for media, and [[sctp|SCTP]] for data channels. The browser API abstracts all of this into a relatively simple JavaScript interface.`,
+Under the hood, WebRTC is actually a bundle of protocols: ICE for connectivity establishment, {{dtls|DTLS}} (based on [[tls|TLS]]) for {{encryption|encryption}}, {{srtp|SRTP}} (secured [[rtp|RTP]]) for media, and [[sctp|SCTP]] for data channels. The browser API abstracts all of this into a relatively simple JavaScript interface.`,
 	howItWorks: [
 		{
 			title: 'Signaling',
 			description:
-				'Peers exchange "offers" and "answers" ([[sdp|SDP]] descriptions of their capabilities) through a signaling server (WebSocket, HTTP, or even carrier pigeon — WebRTC doesn\'t care how).'
+				'Peers {{exchange|exchange}} "offers" and "answers" ([[sdp|SDP]] descriptions of their capabilities) through a {{signaling|signaling}} server (WebSocket, HTTP, or even carrier pigeon — WebRTC doesn\'t care how).'
 		},
 		{
 			title: 'ICE candidate gathering',
 			description:
-				'Each peer gathers network candidates: local IPs, STUN-discovered public IPs, and TURN relay addresses. These are exchanged via the signaling server.'
+				'Each peer gathers network candidates: local IPs, STUN-discovered public IPs, and TURN relay addresses. These are exchanged via the {{signaling|signaling}} server.'
 		},
 		{
 			title: 'DTLS handshake',
 			description:
-				'Once a path is found, peers perform a DTLS handshake to establish encryption keys. All subsequent media is encrypted end-to-end.'
+				'Once a path is found, peers perform a {{dtls|DTLS}} {{handshake|handshake}} to establish {{encryption|encryption}} keys. All subsequent media is encrypted end-to-end.'
 		},
 		{
 			title: 'Media and data flow',
 			description:
-				'Audio/video flows via SRTP (Secure [[rtp|RTP]]) directly between peers. Data channels use [[sctp|SCTP]] over DTLS for reliable or unreliable data transfer.'
+				'Audio/video flows via {{srtp|SRTP}} (Secure [[rtp|RTP]]) directly between peers. Data channels use [[sctp|SCTP]] over {{dtls|DTLS}} for reliable or unreliable data transfer.'
 		}
 	],
 	useCases: [
@@ -68,7 +68,7 @@ async def main():
 
 asyncio.run(main())`,
 		caption:
-			'Get camera access, create an offer, and signal — WebRTC handles the rest peer-to-peer',
+			'Get camera access, create an offer, and signal — WebRTC handles the rest {{peer-to-peer|peer-to-peer}}',
 		alternatives: [
 			{
 				language: 'javascript',
@@ -169,7 +169,7 @@ STUN Response:
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Video_Conference_Using_Laptop.jpg/500px-Video_Conference_Using_Laptop.jpg',
 		alt: 'Person participating in a video conference on a laptop, demonstrating WebRTC-powered real-time communication',
 		caption:
-			'WebRTC made this possible directly in the browser — no plugins, no downloads. Peer-to-peer video calls, screen sharing, and data channels all run natively in Chrome, Firefox, and Safari.',
+			'WebRTC made this possible directly in the browser — no plugins, no downloads. {{peer-to-peer|Peer-to-peer}} video calls, screen sharing, and data channels all run natively in Chrome, Firefox, and Safari.',
 		credit: 'Photo: Visuals / CC BY 2.0, via Wikimedia Commons'
 	}
 };

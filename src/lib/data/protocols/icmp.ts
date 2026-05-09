@@ -11,28 +11,28 @@ export const icmp: Protocol = {
 	oneLiner: 'The diagnostic protocol behind ping and traceroute — how the network reports errors.',
 	overview: `ICMP is the internet's error-reporting and diagnostic protocol. When you type \`ping google.com\`, ICMP Echo Request and Reply messages measure whether the target is reachable and how long the {{rtt|round trip}} takes. When you run \`traceroute\`, ICMP Time Exceeded messages reveal each {{hop|hop}} along the path. ICMP is arguably the most universally used protocol in network troubleshooting.
 
-Unlike [[tcp|TCP]] or UDP, ICMP doesn't use {{port|ports}}. It's {{encapsulation|encapsulated}} directly in IP {{packet|packets}} with protocol number 1 — sitting at the network layer, not the transport layer. This means ICMP can report problems that TCP and UDP can't even see: unreachable networks, expired {{ttl|TTLs}}, {{fragmentation|fragmentation}} issues, and routing redirects.
+Unlike [[tcp|TCP]] or [[udp|UDP]], ICMP doesn't use {{port|ports}}. It's {{encapsulation|encapsulated}} directly in IP {{packet|packets}} with protocol number 1 — sitting at the network layer, not the transport layer. This means ICMP can report problems that [[tcp|TCP]] and UDP can't even see: unreachable networks, expired {{ttl|TTLs}}, {{fragmentation|fragmentation}} issues, and routing redirects.
 
-Every router on the internet speaks ICMP. When a router can't deliver a packet, it sends an ICMP Destination Unreachable (Type 3) back to the sender, with codes specifying why: network unreachable, host unreachable, port unreachable, or "fragmentation needed but don't-fragment flag is set" (which is essential for Path MTU Discovery).
+Every router on the internet speaks ICMP. When a router can't deliver a packet, it sends an ICMP Destination Unreachable (Type 3) back to the sender, with codes specifying why: network unreachable, host unreachable, port unreachable, or "{{fragmentation|fragmentation}} needed but don't-fragment flag is set" (which is essential for {{path-mtu-discovery|Path MTU Discovery}}).
 
 ICMP is also controversial. Many {{firewall|firewalls}} block ICMP to prevent reconnaissance, but this breaks legitimate diagnostics and can cause subtle problems like Path MTU Discovery failures. The debate over whether to filter ICMP has been going on for decades — and ICMP's designers would argue it should never be blocked.
 
-IPv6 uses a separate specification called ICMPv6 (RFC 4443) with different type numbers and additional functionality. ICMPv6 is more critical than its IPv4 counterpart because it incorporates Neighbor Discovery Protocol (NDP), which replaces ARP for address resolution and handles router discovery, address autoconfiguration, and duplicate address detection.`,
+[[ipv6|IPv6]] uses a separate specification called ICMPv6 (RFC 4443) with different type numbers and additional functionality. ICMPv6 is more critical than its [[ip|IPv4]] counterpart because it incorporates Neighbor Discovery Protocol (NDP), which replaces [[arp|ARP]] for address resolution and handles router discovery, address autoconfiguration, and duplicate address detection.`,
 	howItWorks: [
 		{
 			title: 'Echo Request (ping)',
 			description:
-				'Source sends an ICMP Type 8 packet to the target with an Identifier (session ID), {{sequence-number|Sequence number}}, and optional data payload. No [[tcp|TCP]] or [[udp|UDP]] — just IP + ICMP.'
+				'Source sends an ICMP Type 8 packet to the target with an Identifier (session ID), {{sequence-number|Sequence number}}, and optional data {{payload|payload}}. No [[tcp|TCP]] or [[udp|UDP]] — just IP + ICMP.'
 		},
 		{
 			title: 'Echo Reply',
 			description:
-				'If reachable, the target replies with ICMP Type 0 containing the same Identifier, Sequence, and data. Round-trip time is measured from send to receive.'
+				'If reachable, the target replies with ICMP Type 0 containing the same Identifier, Sequence, and data. {{rtt|Round-trip time}} is measured from send to receive.'
 		},
 		{
 			title: 'Destination Unreachable',
 			description:
-				'When a router cannot deliver a packet, it sends Type 3 back to the sender. Code values specify why: 0=Network Unreachable, 1=Host Unreachable, 2=Protocol Unreachable, 3=Port Unreachable, 4=Fragmentation Needed.'
+				'When a router cannot deliver a packet, it sends Type 3 back to the sender. Code values specify why: 0=Network Unreachable, 1=Host Unreachable, 2=Protocol Unreachable, 3=Port Unreachable, 4={{fragmentation|Fragmentation}} Needed.'
 		},
 		{
 			title: 'Time Exceeded (traceroute)',

@@ -13,7 +13,7 @@ export const udp: Protocol = {
 
 Think of a live video call: if one frame is lost, it's better to show the next frame than to pause and wait for {{retransmission|retransmission}}. UDP enables this by stripping away all of [[tcp|TCP]]'s reliability mechanisms, leaving a bare-minimum 8-byte header. Applications that use UDP typically implement their own reliability on top (like [[quic|QUIC]] does) or simply tolerate some loss.
 
-UDP is essential for [[dns|DNS]] lookups (where speed matters and the payload fits in one {{datagram|packet}}), online gaming (where stale data is useless), live streaming, and VoIP. It operates at {{osi-model|Layer 4}} alongside [[tcp|TCP]] and is identified by protocol number 17.`,
+UDP is essential for [[dns|DNS]] lookups (where speed matters and the {{payload|payload}} fits in one {{datagram|packet}}), online gaming (where stale data is useless), live streaming, and VoIP. It operates at {{osi-model|Layer 4}} alongside [[tcp|TCP]] and is identified by protocol number 17.`,
 	howItWorks: [
 		{
 			title: 'No handshake',
@@ -187,7 +187,7 @@ ss -un  # or: netstat -un`
 			org: 'WebRTC media',
 			scale: 'Every Zoom / Discord / FaceTime call',
 			description:
-				'RTP-over-UDP carries audio/video for every peer-to-peer media call. Late audio is worse than missing audio — UDP\'s "fire and pray" semantics are exactly what [[rtp|RTP]] needs.'
+				'RTP-over-UDP carries audio/video for every {{peer-to-peer|peer-to-peer}} media call. Late audio is worse than missing audio — UDP\'s "fire and pray" semantics are exactly what [[rtp|RTP]] needs.'
 		},
 		{
 			org: 'QUIC / HTTP/3',
@@ -200,7 +200,7 @@ ss -un  # or: netstat -un`
 	funFacts: [
 		{
 			title: 'RFC 768 is three pages long',
-			text: 'UDP\'s entire spec — header format, length field, checksum, and a paragraph of prose — fits in three pages. [[pioneer:jon-postel|Jon Postel]] wrote it in August 1980. It has not been updated since. There has been nothing to update.'
+			text: 'UDP\'s entire spec — header format, length field, {{checksum|checksum}}, and a paragraph of prose — fits in three pages. [[pioneer:jon-postel|Jon Postel]] wrote it in August 1980. It has not been updated since. There has been nothing to update.'
 		},
 		{
 			title: 'UDP gives you ports — that is most of L4',

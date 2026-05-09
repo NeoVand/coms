@@ -10,7 +10,7 @@ export const imap: Protocol = {
 	rfc: 'RFC 9051',
 	oneLiner:
 		'Access and manage email on the server — read, search, and organize without downloading.',
-	overview: `IMAP is how your email client reads messages from the server while keeping them stored remotely. Unlike POP3 (which downloads and deletes), IMAP keeps all mail on the server — so your phone, laptop, and webmail all see the same inbox, the same folders, and the same read/unread state. IMAP uses port 143 for plaintext connections (with optional STARTTLS upgrade) or port 993 for IMAPS (implicit TLS).
+	overview: `IMAP is how your email client reads messages from the server while keeping them stored remotely. Unlike POP3 (which downloads and deletes), IMAP keeps all mail on the server — so your phone, laptop, and webmail all see the same inbox, the same folders, and the same read/unread state. IMAP uses port 143 for plaintext connections (with optional STARTTLS upgrade) or port 993 for IMAPS (implicit [[tls|TLS]]).
 
 The key insight is IMAP's tagged command-response {{protocol|protocol}}. Every command gets a unique tag (A001, A002...) and the server's response includes the same tag. This means you can pipeline commands — send A002 before A001's response arrives — because tags match responses to commands unambiguously.
 

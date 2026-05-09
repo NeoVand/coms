@@ -10,11 +10,11 @@ export const ipv6: Protocol = {
 	rfc: 'RFC 8200',
 	oneLiner:
 		'The next-generation internet addressing system — 128-bit addresses, simplified headers, and no more NAT.',
-	overview: `IPv6 is the successor to [[ip|IPv4]], designed to solve the internet's {{ip-address|address}} exhaustion crisis. IPv4's 32-bit addresses provide roughly 4.3 billion unique addresses — a number that seemed inexhaustible in 1981 but was effectively depleted by 2011. IPv6 uses 128-bit addresses, providing 340 undecillion (3.4×10³⁸) addresses — enough to assign a unique address to every atom on the surface of the Earth and still have addresses left over.
+	overview: `IPv6 is the successor to [[ip|IPv4]], designed to solve the internet's {{ip-address|address}} exhaustion crisis. [[ip|IPv4]]'s 32-bit addresses provide roughly 4.3 billion unique addresses — a number that seemed inexhaustible in 1981 but was effectively depleted by 2011. IPv6 uses 128-bit addresses, providing 340 undecillion (3.4×10³⁸) addresses — enough to assign a unique address to every atom on the surface of the Earth and still have addresses left over.
 
-But IPv6 isn't just "bigger addresses." The protocol was redesigned from scratch with decades of operational experience. The header was simplified: IPv4's variable-length header with a checksum and options field became a fixed 40-byte header with no {{checksum|checksum}} (upper layers handle integrity) and an elegant extension {{header|header}} chain for optional features. {{fragmentation|Fragmentation}} was removed from routers entirely — only the source host fragments, discovered through Path MTU Discovery using [[icmp|ICMPv6]].
+But IPv6 isn't just "bigger addresses." The protocol was redesigned from scratch with decades of operational experience. The header was simplified: IPv4's variable-length header with a {{checksum|checksum}} and options field became a fixed 40-byte header with no {{checksum|checksum}} (upper layers handle integrity) and an elegant extension {{header|header}} chain for optional features. {{fragmentation|Fragmentation}} was removed from routers entirely — only the source host fragments, discovered through {{path-mtu-discovery|Path MTU Discovery}} using [[icmp|ICMPv6]].
 
-IPv6 eliminates {{broadcast|broadcast}} entirely, replacing it with {{multicast|multicast}} and {{anycast|anycast}}. Instead of [[arp|ARP]] broadcasts to resolve addresses, IPv6 uses Neighbor Discovery Protocol (NDP), which runs over ICMPv6 and uses solicited-node multicast — far more efficient than flooding every device on the network. NDP also handles {{stateless|stateless}} address autoconfiguration (SLAAC), where a device can configure its own globally unique address without a [[dhcp|DHCP]] server.
+IPv6 eliminates {{broadcast|broadcast}} entirely, replacing it with {{multicast|multicast}} and {{anycast|anycast}}. Instead of [[arp|ARP]] broadcasts to resolve addresses, IPv6 uses Neighbor Discovery Protocol (NDP), which runs over ICMPv6 and uses solicited-node {{multicast|multicast}} — far more efficient than flooding every device on the network. NDP also handles {{stateless|stateless}} address autoconfiguration ({{slaac|SLAAC}}), where a device can configure its own globally unique address without a [[dhcp|DHCP]] server.
 
 The primary IPv4-to-IPv6 transition mechanism is dual-stack operation, where hosts and routers run both protocols simultaneously and prefer IPv6 when available. This avoids a hard cutover and allows gradual migration.
 
@@ -38,7 +38,7 @@ On 28 March 2026, IPv6 carried 50.1% of Google's traffic for the first time in i
 		{
 			title: 'Neighbor Discovery (NDP)',
 			description:
-				'Replaces [[arp|ARP]], [[icmp|ICMP]] Router Discovery, and [[icmp|ICMP]] Redirect. Uses ICMPv6 messages: Router Solicitation/Advertisement (find routers), Neighbor Solicitation/Advertisement (resolve addresses via solicited-node multicast).'
+				'Replaces [[arp|ARP]], [[icmp|ICMP]] Router Discovery, and [[icmp|ICMP]] Redirect. Uses ICMPv6 messages: Router Solicitation/Advertisement (find routers), Neighbor Solicitation/Advertisement (resolve addresses via solicited-node {{multicast|multicast}}).'
 		},
 		{
 			title: 'Stateless autoconfiguration (SLAAC)',

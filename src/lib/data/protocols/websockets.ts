@@ -8,10 +8,10 @@ export const websockets: Protocol = {
 	port: 80,
 	year: 2011,
 	rfc: 'RFC 6455',
-	oneLiner: 'Full-duplex, persistent connection — server and client talk freely in real time.',
+	oneLiner: '{{full-duplex|Full-duplex}}, persistent connection — server and client talk freely in real time.',
 	overview: `WebSockets solve a fundamental limitation of [[http1|HTTP]]: the server can't initiate communication. In [[http1|HTTP]], the client always asks and the server always responds. WebSockets upgrade an [[http1|HTTP]] connection into a persistent, {{full-duplex|full-duplex}} channel where either side can send messages at any time.
 
-This is perfect for real-time applications: chat, live sports scores, collaborative editing, multiplayer games, financial tickers. Instead of the client repeatedly polling "any updates?" (wasteful), the server simply pushes data when it's available. Unlike [[http1|HTTP]]'s request-response model, WebSockets maintain a {{stateful|stateful}} connection where both sides can track context across messages without re-establishing identity on every exchange.
+This is perfect for real-time applications: chat, live sports scores, collaborative editing, multiplayer games, financial tickers. Instead of the client repeatedly polling "any updates?" (wasteful), the server simply pushes data when it's available. Unlike [[http1|HTTP]]'s {{request-response|request-response}} model, WebSockets maintain a {{stateful|stateful}} connection where both sides can track context across messages without re-establishing identity on every {{exchange|exchange}}.
 
 The connection starts as a normal [[http1|HTTP]] request with an "Upgrade: websocket" {{header|header}}. If the server agrees, the connection switches protocols. From that point on, both sides exchange lightweight binary or text {{frame|frames}} with just 2-14 bytes of overhead per message (vs hundreds of bytes for [[http1|HTTP]] headers).`,
 	howItWorks: [
@@ -123,7 +123,7 @@ curl -i -N \\
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Websocket_connection.png/500px-Websocket_connection.png',
 		alt: 'Diagram showing the WebSocket connection lifecycle: HTTP upgrade handshake followed by full-duplex bidirectional communication',
 		caption:
-			'The WebSocket connection lifecycle — it starts as a normal HTTP request with an Upgrade header, then switches to a persistent, full-duplex channel where both client and server can send messages at any time without the overhead of HTTP headers.',
+			'The WebSocket connection lifecycle — it starts as a normal HTTP request with an Upgrade header, then switches to a persistent, {{full-duplex|full-duplex}} channel where both client and server can send messages at any time without the overhead of HTTP headers.',
 		credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 	}
 };

@@ -9,8 +9,8 @@ export const wifi: Protocol = {
 	year: 1997,
 	rfc: undefined,
 	oneLiner:
-		'Wireless local networking — [[ethernet|Ethernet]] without the cable, plus encryption and airtime management.',
-	overview: `Wi-Fi brings [[ethernet|Ethernet]]-style networking to the airwaves. Instead of transmitting {{frame|frames}} over copper or fiber, 802.11 uses radio frequencies (2.4 GHz, 5 GHz, and now 6 GHz) to send data wirelessly. But air is a shared medium — everyone within range can hear everything — so Wi-Fi adds {{encryption|encryption}} (WPA2/WPA3), collision avoidance (CSMA/CA instead of Ethernet's CSMA/CD), and a more complex frame format with up to four MAC addresses (three typically used): the receiver address (RA), transmitter address (TA), and destination address (DA) — plus an optional fourth address used in wireless bridging (WDS) mode.
+		'Wireless local networking — [[ethernet|Ethernet]] without the cable, plus {{encryption|encryption}} and airtime management.',
+	overview: `Wi-Fi brings [[ethernet|Ethernet]]-style networking to the airwaves. Instead of transmitting {{frame|frames}} over copper or fiber, 802.11 uses radio frequencies (2.4 GHz, 5 GHz, and now 6 GHz) to send data wirelessly. But air is a shared medium — everyone within range can hear everything — so Wi-Fi adds {{encryption|encryption}} (WPA2/WPA3), collision avoidance (CSMA/CA instead of [[ethernet|Ethernet]]'s CSMA/CD), and a more complex frame format with up to four MAC addresses (three typically used): the receiver address (RA), transmitter address (TA), and destination address (DA) — plus an optional fourth address used in wireless bridging (WDS) mode.
 
 The differences from [[ethernet|Ethernet]] are deeper than just "no cable." Because wireless stations can't detect collisions while transmitting (the "hidden node" problem), Wi-Fi uses RTS/CTS {{handshake|handshakes}} and carrier sensing to avoid them. Every frame must be {{ack|acknowledged}} — if the sender doesn't get an ACK, it {{retransmission|retransmits}}. The {{access-point|access point}} bridges wireless and wired worlds, translating between 802.11 and 802.3 frames so that [[arp|ARP]], [[ip|IP]], and everything above works seamlessly across both.
 
@@ -19,7 +19,7 @@ Wi-Fi has evolved dramatically since the original 802.11 standard in 1997 (2 Mbp
 		{
 			title: 'Beacon scanning',
 			description:
-				'Access points broadcast beacon frames every ~100 ms announcing their SSID, supported rates, encryption type, and channel. Clients scan channels (passively listening or actively sending probe requests) to discover available networks.'
+				'Access points {{broadcast|broadcast}} beacon frames every ~100 ms announcing their SSID, supported rates, {{encryption|encryption}} type, and channel. Clients scan channels (passively listening or actively sending probe requests) to discover available networks.'
 		},
 		{
 			title: 'Authentication and association',
@@ -29,17 +29,17 @@ Wi-Fi has evolved dramatically since the original 802.11 standard in 1997 (2 Mbp
 		{
 			title: '4-way handshake (WPA2/WPA3)',
 			description:
-				'After association, the client and AP perform a 4-message EAPOL handshake to derive per-session encryption keys (PTK). Both sides prove they know the passphrase without revealing it. This produces the temporal keys used to encrypt all subsequent data frames.'
+				'After association, the client and AP perform a 4-message EAPOL {{handshake|handshake}} to derive per-session {{encryption|encryption}} keys (PTK). Both sides prove they know the passphrase without revealing it. This produces the temporal keys used to encrypt all subsequent data frames.'
 		},
 		{
 			title: 'Data frames with CSMA/CA',
 			description:
-				'Before transmitting, the sender listens for a clear channel (carrier sense) and waits a random backoff time (collision avoidance). Data frames carry up to four MAC addresses (three typically used) — RA, TA, and DA — and are encrypted with the session keys. Every unicast frame must be acknowledged by the receiver.'
+				'Before transmitting, the sender listens for a clear channel (carrier sense) and waits a random backoff time (collision avoidance). Data frames carry up to four MAC addresses (three typically used) — RA, TA, and DA — and are encrypted with the session keys. Every {{unicast|unicast}} frame must be acknowledged by the receiver.'
 		},
 		{
 			title: 'Bridge to Ethernet',
 			description:
-				'The access point translates between 802.11 and [[ethernet|Ethernet]] (802.3) frames. It strips the wireless-specific headers, rewrites the frame as a standard [[ethernet|Ethernet]] frame, and forwards it to the wired network — making the transition invisible to higher-layer protocols like [[ip|IP]] and [[tcp|TCP]].'
+				'The {{access-point|access point}} translates between 802.11 and [[ethernet|Ethernet]] (802.3) frames. It strips the wireless-specific headers, rewrites the frame as a standard [[ethernet|Ethernet]] frame, and forwards it to the wired network — making the transition invisible to higher-layer protocols like [[ip|IP]] and [[tcp|TCP]].'
 		}
 	],
 	useCases: [
@@ -174,7 +174,7 @@ iw dev wlan0 station dump`
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/802.11_MAC_Frame.svg/500px-802.11_MAC_Frame.svg.png',
 		alt: 'Diagram of an 802.11 Wi-Fi MAC frame showing frame control, duration, four address fields, sequence control, and FCS',
 		caption:
-			'The 802.11 Wi-Fi MAC frame format — more complex than [[ethernet|Ethernet]] because wireless needs extra fields. Up to four MAC addresses handle the receiver, transmitter, destination, and source, while the Frame Control field encodes the frame type, encryption status, and power management flags.',
+			'The 802.11 Wi-Fi MAC frame format — more complex than [[ethernet|Ethernet]] because wireless needs extra fields. Up to four MAC addresses handle the receiver, transmitter, destination, and source, while the Frame Control field encodes the frame type, {{encryption|encryption}} status, and power management flags.',
 		credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 	}
 };

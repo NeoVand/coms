@@ -9,21 +9,21 @@ export const sctp: Protocol = {
 	year: 2000,
 	rfc: 'RFC 9260',
 	oneLiner: "Multi-streaming, multi-homing transport — [[tcp|TCP]]'s more capable but less popular cousin.",
-	overview: `SCTP was designed for telecom signaling but offers features that both [[tcp|TCP]] and [[udp|UDP]] lack. It supports {{multiplexing|multiple independent streams}} within a single connection (like [[quic|QUIC]], but decades earlier), multi-homing (a connection can span multiple network interfaces for redundancy), and message boundaries (unlike [[tcp|TCP]]'s byte stream).
+	overview: `SCTP was designed for telecom {{signaling|signaling}} but offers features that both [[tcp|TCP]] and [[udp|UDP]] lack. It supports {{multiplexing|multiple independent streams}} within a single connection (like [[quic|QUIC]], but decades earlier), multi-homing (a connection can span multiple network interfaces for redundancy), and message boundaries (unlike [[tcp|TCP]]'s byte stream).
 
-Despite its technical superiority in many aspects, SCTP never gained widespread adoption on the public internet because {{nat|NATs}} and {{firewall|firewalls}} typically don't understand it. However, it's widely used in telecom infrastructure (4G/5G networks use it extensively) and is used by [[webrtc|WebRTC]]'s data channels — though in WebRTC, SCTP doesn't run as a raw OS-level transport; instead it runs over DTLS over [[udp|UDP]], with the SCTP implementation in userspace.
+Despite its technical superiority in many aspects, SCTP never gained widespread adoption on the public internet because {{nat|NATs}} and {{firewall|firewalls}} typically don't understand it. However, it's widely used in telecom infrastructure (4G/5G networks use it extensively) and is used by [[webrtc|WebRTC]]'s data channels — though in [[webrtc|WebRTC]], SCTP doesn't run as a raw OS-level transport; instead it runs over {{dtls|DTLS}} over [[udp|UDP]], with the SCTP implementation in userspace.
 
 SCTP provides the reliability of [[tcp|TCP]], the message-oriented nature of [[udp|UDP]], and several features that neither has — making it an interesting study in {{protocol|protocol}} design trade-offs and the power of network effects.`,
 	howItWorks: [
 		{
 			title: '4-way handshake',
 			description:
-				"SCTP uses a 4-step handshake (INIT, INIT-ACK, COOKIE-ECHO, COOKIE-ACK) that prevents SYN flood attacks by design — no server state is allocated until the client proves it's real."
+				"SCTP uses a 4-step {{handshake|handshake}} (INIT, INIT-ACK, {{cookie|COOKIE}}-ECHO, COOKIE-ACK) that prevents {{syn-flood|SYN flood}} attacks by design — no server state is allocated until the client proves it's real."
 		},
 		{
 			title: 'Multi-streaming',
 			description:
-				"Multiple independent message streams share one association. A lost message on stream 1 doesn't block stream 2 — solving head-of-line blocking."
+				"Multiple independent message streams share one association. A lost message on stream 1 doesn't block stream 2 — solving {{head-of-line-blocking|head-of-line blocking}}."
 		},
 		{
 			title: 'Multi-homing',
@@ -158,7 +158,7 @@ SCTP INIT-ACK Chunk:
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/SCTP-Multihoming.png/500px-SCTP-Multihoming.png',
 		alt: 'Diagram showing SCTP multi-homing with a host connected to two different network paths for redundancy',
 		caption:
-			'SCTP multi-homing in action — a single SCTP association can span multiple IP addresses and network interfaces. If one path fails, traffic seamlessly shifts to another, making SCTP the backbone of telecom signaling (4G/5G).',
+			'SCTP multi-homing in action — a single SCTP association can span multiple IP addresses and network interfaces. If one path fails, traffic seamlessly shifts to another, making SCTP the backbone of telecom {{signaling|signaling}} (4G/5G).',
 		credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 	}
 };

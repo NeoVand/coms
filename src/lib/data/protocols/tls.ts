@@ -9,7 +9,7 @@ export const tls: Protocol = {
 	year: 1999,
 	rfc: 'RFC 8446',
 	oneLiner: 'Encrypts everything between client and server — the lock icon in your browser.',
-	overview: `TLS (and its predecessor SSL) is the security layer that makes the modern internet possible. Every HTTPS website, every secure API call, every {{encryption|encrypted}} email — they all rely on TLS to ensure that data can't be read or modified in transit.
+	overview: `TLS (and its predecessor SSL) is the security layer that makes the modern internet possible. Every HTTPS website, every secure API call, every {{encryption|encrypted}} email — they all rely on TLS to ensure that data can't be read or modified in {{transit|transit}}.
 
 TLS provides three guarantees: confidentiality (data is encrypted, so eavesdroppers see gibberish), integrity (data can't be modified without detection), and authentication (you're actually talking to who you think you are, verified by {{certificate|certificates}}). TLS 1.3 (2018) dramatically simplified the {{tls-handshake|handshake}}, reducing it from 2 {{rtt|round trips}} to 1, and removed support for legacy insecure algorithms.
 
@@ -64,7 +64,7 @@ with socket.create_connection(('example.com', 443)) as sock:
                      b"Host: example.com\\r\\n\\r\\n")
         print(tls.recv(1024).decode())`,
 		caption:
-			'Every HTTPS connection starts with a TLS handshake — you can inspect certificates with openssl',
+			'Every HTTPS connection starts with a {{tls-handshake|TLS handshake}} — you can inspect certificates with openssl',
 		alternatives: [
 			{
 				language: 'javascript',
@@ -190,7 +190,7 @@ openssl req -x509 -newkey rsa:2048 -nodes \\
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Full_TLS_1.3_Handshake.svg/500px-Full_TLS_1.3_Handshake.svg.png',
 		alt: 'Sequence diagram of the full TLS 1.3 handshake showing ClientHello, ServerHello, certificate exchange, and encrypted data flow',
 		caption:
-			'The TLS 1.3 handshake — reduced from two round trips (TLS 1.2) to just one. The client sends supported cipher suites and key shares in ClientHello; the server responds with its choices, certificate, and finished message — then encrypted data flows immediately.',
+			'The TLS 1.3 {{handshake|handshake}} — reduced from two round trips (TLS 1.2) to just one. The client sends supported cipher suites and key shares in ClientHello; the server responds with its choices, {{certificate|certificate}}, and finished message — then encrypted data flows immediately.',
 		credit: 'Image: Wikimedia Commons / Public Domain'
 	},
 
@@ -199,7 +199,7 @@ openssl req -x509 -newkey rsa:2048 -nodes \\
 			date: '2024-08',
 			title: 'NIST finalises ML-KEM, ML-DSA, SLH-DSA',
 			description:
-				'FIPS 203, 204, 205 published — the post-quantum cryptography primitives that TLS would depend on. ML-KEM-768 (formerly Kyber-768) becomes the foundation for hybrid key exchange.',
+				'FIPS 203, 204, 205 published — the post-quantum cryptography primitives that TLS would depend on. {{ml-kem|ML-KEM}}-768 (formerly Kyber-768) becomes the foundation for hybrid key {{exchange|exchange}}.',
 			source: { url: 'https://csrc.nist.gov/publications/detail/fips/203/final', label: 'NIST FIPS 203' }
 		},
 		{
@@ -228,7 +228,7 @@ openssl req -x509 -newkey rsa:2048 -nodes \\
 			org: 'Cloudflare',
 			scale: '100% of HTTPS edge',
 			description:
-				'TLS 1.3 with X25519MLKEM768 hybrid key exchange and ECH support enabled by default for every site fronted by Cloudflare.'
+				'TLS 1.3 with X25519MLKEM768 hybrid key {{exchange|exchange}} and ECH support enabled by default for every site fronted by Cloudflare.'
 		},
 		{
 			org: 'Apple',
@@ -257,7 +257,7 @@ openssl req -x509 -newkey rsa:2048 -nodes \\
 		},
 		{
 			title: 'TLS 1.3 cut every weak cipher',
-			text: 'TLS 1.3 ([[rfc:8446|RFC 8446]]) was the first version to break wire compatibility — it removed RC4, 3DES, MD5, SHA-1, RSA key exchange, and every CBC-mode cipher. Each one had been weaponised in a published attack: BEAST, CRIME, BREACH, Lucky 13, FREAK, Logjam, ROBOT.'
+			text: 'TLS 1.3 ([[rfc:8446|RFC 8446]]) was the first version to break wire compatibility — it removed RC4, 3DES, MD5, SHA-1, RSA key {{exchange|exchange}}, and every CBC-mode cipher. Each one had been weaponised in a published attack: BEAST, CRIME, BREACH, Lucky 13, FREAK, Logjam, ROBOT.'
 		},
 		{
 			title: 'Harvest now, decrypt later',
@@ -269,11 +269,11 @@ openssl req -x509 -newkey rsa:2048 -nodes \\
 		pitfalls: [
 			{
 				title: 'Certificate expiry takes down major sites',
-				text: 'Even huge organisations forget to renew. Microsoft Teams (2020), Spotify (2020), Cisco WebEx (2018) all had hours-long outages because a single certificate expired. Cure: monitor expiries (cert-monitor, AWS ACM, Let\'s Encrypt automation), and never have an "important" cert that someone has to renew by hand.'
+				text: 'Even huge organisations forget to renew. Microsoft Teams (2020), Spotify (2020), Cisco WebEx (2018) all had hours-long outages because a single {{certificate|certificate}} expired. Cure: monitor expiries (cert-monitor, AWS ACM, Let\'s Encrypt automation), and never have an "important" cert that someone has to renew by hand.'
 			},
 			{
 				title: 'Resumption tickets enable replay on 0-RTT',
-				text: 'TLS 1.3 0-RTT lets the client send application data in the very first message — but that data is potentially replayable. {{idempotent|Idempotent}} requests (GET) are usually safe; mutating requests (POST) are not. Most browsers limit 0-RTT to GET; servers should refuse 0-RTT for any non-idempotent method.'
+				text: 'TLS 1.3 {{zero-rtt|0-RTT}} lets the client send application data in the very first message — but that data is potentially replayable. {{idempotent|Idempotent}} requests (GET) are usually safe; mutating requests (POST) are not. Most browsers limit 0-RTT to GET; servers should refuse 0-RTT for any non-{{idempotent|idempotent}} method.'
 			},
 			{
 				title: 'Mixed content breaks the padlock',

@@ -13,27 +13,27 @@ export const rtp: Protocol = {
 
 RTP doesn't guarantee delivery — it runs over [[udp|UDP]] intentionally. Instead, it gives the application enough information to handle problems intelligently. The companion protocol {{rtcp|RTCP}} (RTP Control Protocol) runs alongside RTP, carrying statistics about packet loss, {{jitter|jitter}}, and {{rtt|round-trip time}} so endpoints can adapt their encoding in real time.
 
-Think of RTP as the envelope for media packets and RTCP as the feedback channel. Together, they enable adaptive, real-time communication that gracefully handles network imperfections.`,
+Think of RTP as the envelope for media packets and {{rtcp|RTCP}} as the feedback channel. Together, they enable adaptive, real-time communication that gracefully handles network imperfections.`,
 	howItWorks: [
 		{
 			title: 'Session establishment',
 			description:
-				"RTP itself doesn't handle session setup — that's done by a signaling protocol ([[sip|SIP]], [[webrtc|WebRTC]]'s [[sdp|SDP]]). The signaling determines ports, codecs, and parameters."
+				"RTP itself doesn't handle session setup — that's done by a {{signaling|signaling}} protocol ([[sip|SIP]], [[webrtc|WebRTC]]'s [[sdp|SDP]]). The signaling determines ports, codecs, and parameters."
 		},
 		{
 			title: 'Packetize media',
 			description:
-				'Audio/video frames are split into RTP packets, each with a timestamp, sequence number, and payload type. Packets are sent over [[udp|UDP]].'
+				'Audio/video frames are split into RTP packets, each with a timestamp, {{sequence-number|sequence number}}, and {{payload|payload}} type. Packets are sent over [[udp|UDP]].'
 		},
 		{
 			title: 'Receiver buffers and orders',
 			description:
-				'The receiver uses sequence numbers to detect loss and reorder packets. A jitter buffer smooths out timing variations before playback.'
+				'The receiver uses sequence numbers to detect loss and reorder packets. A {{jitter|jitter}} buffer smooths out timing variations before playback.'
 		},
 		{
 			title: 'RTCP feedback',
 			description:
-				'Receiver periodically sends RTCP reports: packets received, loss rate, jitter. The sender uses this to adjust bitrate, codec, or error correction.'
+				'Receiver periodically sends {{rtcp|RTCP}} reports: packets received, loss rate, {{jitter|jitter}}. The sender uses this to adjust bitrate, {{codec|codec}}, or error correction.'
 		}
 	],
 	useCases: [
@@ -68,7 +68,7 @@ for seq in range(100):
     sock.sendto(packet, ('127.0.0.1', 5004))
     time.sleep(0.02)  # 20ms intervals (50 packets/sec)`,
 		caption:
-			'Raw RTP packet construction — 12-byte header with sequence number and timestamp for media ordering',
+			'Raw RTP packet construction — 12-byte header with {{sequence-number|sequence number}} and timestamp for media ordering',
 		alternatives: [
 			{
 				language: 'javascript',

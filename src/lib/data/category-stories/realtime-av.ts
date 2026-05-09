@@ -7,7 +7,7 @@ export const realtimeAvStory: CategoryStory = {
 		{
 			type: 'narrative',
 			title: 'The Dream of Real-Time',
-			text: `In 1973, on the ARPANET \u2014 the same network that would become the internet \u2014 researchers at the Lincoln Laboratory transmitted real-time voice using the Network Voice Protocol. The audio was choppy, the latency unpredictable, but it proved something: the packet-switched network could carry more than just data. The dream of real-time communication over the internet had begun.\n\nThe challenge was fundamental: voice and video tolerate delay very poorly but tolerate loss surprisingly well. A dropped video frame is invisible; a 200ms delay makes conversation awkward. This is the opposite of file transfer, where every byte matters but timing doesn't. The real-time protocols in this category all solve the same problem: deliver media fast, even if some of it doesn't make it. [[rtp]] and [[udp]] are the foundation of this approach.`
+			text: `In 1973, on the ARPANET \u2014 the same network that would become the internet \u2014 researchers at the Lincoln Laboratory transmitted real-time voice using the Network Voice Protocol. The audio was choppy, the {{latency|latency}} unpredictable, but it proved something: the packet-switched network could carry more than just data. The dream of real-time communication over the internet had begun.\n\nThe challenge was fundamental: voice and video tolerate delay very poorly but tolerate loss surprisingly well. A dropped video frame is invisible; a 200ms delay makes conversation awkward. This is the opposite of file transfer, where every byte matters but timing doesn't. The real-time protocols in this category all solve the same problem: deliver media fast, even if some of it doesn't make it. [[rtp]] and [[udp]] are the foundation of this approach.`
 		},
 		{
 			type: 'image',
@@ -90,7 +90,7 @@ export const realtimeAvStory: CategoryStory = {
 		{
 			type: 'narrative',
 			title: 'The VoIP Standards War',
-			text: `The late 1990s saw a battle between two fundamentally different visions for internet telephony. H.323, backed by the ITU-T (the telecom standards body), brought the full complexity of the telephone network to IP. It worked, but it was enormous \u2014 hundreds of pages of specifications, binary encoding, and tight coupling between components.\n\n[[sip]] took the opposite approach. Designed by Henning Schulzrinne, Mark Handley, and Eve Schooler, SIP was modeled on [[http1]] \u2014 text-based, simple headers, stateless by default. Want to make a call? Send an INVITE. Want to hang up? Send a BYE. The protocol was so simple that you could debug it by reading the packets.\n\nSIP won. Not because it was technically superior in every way, but because it was easier to understand, implement, and extend. The HTTP-inspired design meant web developers could grasp it quickly, and the loose coupling between signaling ([[sip]]), session description ([[sdp]]), and media transport ([[rtp]]) allowed each to evolve independently.`
+			text: `The late 1990s saw a battle between two fundamentally different visions for internet telephony. H.323, backed by the ITU-T (the telecom standards body), brought the full complexity of the telephone network to IP. It worked, but it was enormous \u2014 hundreds of pages of specifications, binary encoding, and tight coupling between components.\n\n[[sip]] took the opposite approach. Designed by Henning Schulzrinne, Mark Handley, and Eve Schooler, [[sip|SIP]] was modeled on [[http1]] \u2014 text-based, simple headers, {{stateless|stateless}} by default. Want to make a call? Send an INVITE. Want to hang up? Send a BYE. The protocol was so simple that you could debug it by reading the packets.\n\nSIP won. Not because it was technically superior in every way, but because it was easier to understand, implement, and extend. The HTTP-inspired design meant web developers could grasp it quickly, and the loose coupling between {{signaling|signaling}} ([[sip]]), session description ([[sdp]]), and media transport ([[rtp]]) allowed each to evolve independently.`
 		},
 		{
 			type: 'pioneers',
@@ -102,7 +102,7 @@ export const realtimeAvStory: CategoryStory = {
 					title: 'Co-creator of SIP',
 					org: 'University College London',
 					contribution:
-						'Brought internet architecture thinking to multimedia signaling. Co-created [[sip|SIP]] and [[sdp|SDP]], the protocol pair that handles call setup across the internet.'
+						'Brought internet architecture thinking to multimedia {{signaling|signaling}}. Co-created [[sip|SIP]] and [[sdp|SDP]], the protocol pair that handles call setup across the internet.'
 				},
 				{
 					name: 'Eve Schooler',
@@ -110,7 +110,7 @@ export const realtimeAvStory: CategoryStory = {
 					title: 'Co-creator of SIP',
 					org: 'Caltech / ISI / Intel',
 					contribution:
-						'Pioneer of internet multimedia conferencing and co-creator of [[sip|SIP]]. Her research on multicast conferences laid groundwork for modern video calling.'
+						'Pioneer of internet multimedia conferencing and co-creator of [[sip|SIP]]. Her research on {{multicast|multicast}} conferences laid groundwork for modern video calling.'
 				},
 				{
 					name: 'Jonathan Rosenberg',
@@ -118,7 +118,7 @@ export const realtimeAvStory: CategoryStory = {
 					title: 'SIP Ecosystem Architect',
 					org: 'dynamicsoft / Cisco / Five9',
 					contribution:
-						'Designed critical [[sip|SIP]] infrastructure: STUN, TURN, and ICE for NAT traversal, plus SRTP for encrypting media streams.'
+						'Designed critical [[sip|SIP]] infrastructure: STUN, TURN, and ICE for NAT traversal, plus {{srtp|SRTP}} for encrypting media streams.'
 				}
 			]
 		},
@@ -136,7 +136,7 @@ export const realtimeAvStory: CategoryStory = {
 					year: 2003,
 					title: 'Skype Launches',
 					description:
-						'Peer-to-peer VoIP goes mainstream. Skype proves massive consumer demand for internet voice and video calling.'
+						'{{peer-to-peer|Peer-to-peer}} VoIP goes mainstream. Skype proves massive consumer demand for internet voice and video calling.'
 				},
 				{
 					year: 2009,
@@ -163,7 +163,7 @@ export const realtimeAvStory: CategoryStory = {
 					year: 2012,
 					title: 'MPEG-DASH Published',
 					description:
-						"The open standard alternative to Apple's [[hls|HLS]]. [[dash|DASH]] uses the same adaptive bitrate principle but with codec flexibility and industry-wide backing.",
+						"The open standard alternative to Apple's [[hls|HLS]]. [[dash|DASH]] uses the same adaptive bitrate principle but with {{codec|codec}} flexibility and industry-wide backing.",
 					protocolId: 'dash'
 				},
 				{
@@ -177,12 +177,12 @@ export const realtimeAvStory: CategoryStory = {
 					year: 2020,
 					title: 'COVID-19 and the Video Calling Explosion',
 					description:
-						'Global lockdowns drive unprecedented adoption of video conferencing. WebRTC traffic multiplies overnight.'
+						'Global lockdowns drive unprecedented adoption of video conferencing. [[webrtc|WebRTC]] traffic multiplies overnight.'
 				},
 				{
 					year: 2021,
 					title: 'WebRTC 1.0 \u2014 W3C Recommendation',
-					description: 'After a decade of development, WebRTC reaches official standard status.',
+					description: 'After a decade of development, [[webrtc|WebRTC]] reaches official standard status.',
 					protocolId: 'webrtc'
 				}
 			]
@@ -190,28 +190,28 @@ export const realtimeAvStory: CategoryStory = {
 		{
 			type: 'narrative',
 			title: 'WebRTC \u2014 The Browser Revolution',
-			text: `In 2010, Google made a $68.2 million bet on real-time communication. They acquired Global IP Solutions (GIPS), a Swedish company whose audio and video codecs powered Skype and dozens of other VoIP applications. Then they did something remarkable: they open-sourced everything and began building it into Chrome.\n\n[[webrtc]] didn't invent new protocols \u2014 it combined existing ones. [[rtp]] for media transport, SRTP for encryption, ICE/STUN/TURN for NAT traversal, [[sdp]] for session negotiation, and [[sctp]] for data channels. The genius was packaging all of this into a browser API that any web developer could use. No plugins, no installs, no special servers. Just JavaScript.\n\nJustin Uberti and Harald Alvestrand led the effort, navigating both the W3C (for the browser API) and the IETF (for the underlying protocols). The result was a platform that powers everything from Google Meet to telehealth appointments.`
+			text: `In 2010, Google made a $68.2 million bet on real-time communication. They acquired Global IP Solutions (GIPS), a Swedish company whose audio and video codecs powered Skype and dozens of other VoIP applications. Then they did something remarkable: they open-sourced everything and began building it into Chrome.\n\n[[webrtc]] didn't invent new protocols \u2014 it combined existing ones. [[rtp]] for media transport, {{srtp|SRTP}} for {{encryption|encryption}}, ICE/STUN/TURN for NAT traversal, [[sdp]] for session negotiation, and [[sctp]] for data channels. The genius was packaging all of this into a browser API that any web developer could use. No plugins, no installs, no special servers. Just JavaScript.\n\nJustin Uberti and Harald Alvestrand led the effort, navigating both the W3C (for the browser API) and the IETF (for the underlying protocols). The result was a platform that powers everything from Google Meet to telehealth appointments.`
 		},
 		{
 			type: 'image',
 			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Polycom_VSX_7000_with_2_video_conferencing_screens.JPG/500px-Polycom_VSX_7000_with_2_video_conferencing_screens.JPG',
 			alt: 'A Polycom VSX 7000 video conferencing system with dual screens, representing dedicated video conferencing hardware',
 			caption:
-				'Dedicated video conferencing hardware like the Polycom VSX 7000 — expensive, specialized equipment that WebRTC would eventually replace with a browser tab and a webcam.',
+				'Dedicated video conferencing hardware like the Polycom VSX 7000 — expensive, specialized equipment that [[webrtc|WebRTC]] would eventually replace with a browser tab and a webcam.',
 			credit: 'Photo: BrokenSphere / CC BY-SA 3.0, via Wikimedia Commons'
 		},
 		{
 			type: 'diagram',
 			definition: `graph TD
-  A["JavaScript API\n(getUserMedia, RTCPeerConnection)"] --> B[SDP \u2014 session negotiation]
+  A["JavaScript API\n(getUserMedia, RTCPeerConnection)"] --> B[[[sdp|SDP]] \u2014 session negotiation]
   A --> C[ICE / STUN / TURN \u2014 NAT traversal]
-  C --> D[DTLS \u2014 key exchange]
-  D --> E[SRTP \u2014 encrypted audio & video]
-  D --> F[SCTP \u2014 data channels]
-  E --> G[UDP]
+  C --> D[{{dtls|DTLS}} \u2014 key {{exchange|exchange}}]
+  D --> E[{{srtp|SRTP}} \u2014 encrypted audio & video]
+  D --> F[[[sctp|SCTP]] \u2014 data channels]
+  E --> G[[[udp|UDP]]]
   F --> G`,
 			caption:
-				"WebRTC didn't invent new protocols \u2014 it orchestrated existing ones into a browser API."
+				"[[webrtc|WebRTC]] didn't invent new protocols \u2014 it orchestrated existing ones into a browser API."
 		},
 		{
 			type: 'pioneers',
@@ -223,7 +223,7 @@ export const realtimeAvStory: CategoryStory = {
 					title: 'WebRTC Technical Lead',
 					org: 'Google',
 					contribution:
-						'Led the technical development of WebRTC at Google. Drove the integration of real-time communication directly into web browsers.'
+						'Led the technical development of [[webrtc|WebRTC]] at Google. Drove the integration of real-time communication directly into web browsers.'
 				},
 				{
 					name: 'Harald Alvestrand',
@@ -231,7 +231,7 @@ export const realtimeAvStory: CategoryStory = {
 					title: 'WebRTC Standardization Lead',
 					org: 'Google / IETF',
 					contribution:
-						'Led WebRTC standardization across both the W3C and IETF. Former IETF Chair, bringing deep standards expertise to the effort.',
+						'Led [[webrtc|WebRTC]] standardization across both the W3C and IETF. Former IETF Chair, bringing deep standards expertise to the effort.',
 					imagePath:
 						'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Harald_Tveit_Alvestrand.jpg/330px-Harald_Tveit_Alvestrand.jpg'
 				},

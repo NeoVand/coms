@@ -15,7 +15,7 @@ DNS is a distributed, hierarchical database. At the top are 13 root server clust
 
 A typical {{dns-resolution|DNS lookup}} takes 10-50ms and involves your device's stub resolver → your ISP's recursive resolver → root servers → TLD servers → authoritative servers. But caching means most lookups are answered in under 1ms from a nearby cache. DNS also carries more than just IP addresses: MX records for email, TXT records for verification, CNAME records for aliases, and many more.
 
-Security is a growing concern: {{dnssec|DNSSEC}} (DNS Security Extensions) adds cryptographic signatures to DNS responses, authenticating their origin and preventing cache poisoning attacks where an attacker injects forged records. For privacy, DNS over TLS (DoT, port 853) and {{dns-over-https|DNS over HTTPS}} (DoH) encrypt DNS queries so eavesdroppers can't see which domains you're resolving.`,
+Security is a growing concern: {{dnssec|DNSSEC}} (DNS Security Extensions) adds cryptographic signatures to DNS responses, authenticating their origin and preventing cache poisoning attacks where an attacker injects forged records. For privacy, DNS over [[tls|TLS]] (DoT, port 853) and {{dns-over-https|DNS over HTTPS}} (DoH) encrypt DNS queries so eavesdroppers can't see which domains you're resolving.`,
 	howItWorks: [
 		{
 			title: 'Query sent',
@@ -199,7 +199,7 @@ curl -sH 'accept: application/dns-json' \\
 			date: '2024-10',
 			title: 'KeyTrap (CVE-2023-50387) prompts cross-vendor patches',
 			description:
-				'A DNSSEC implementation flaw in BIND, Unbound, PowerDNS, Knot, and others let a single crafted query exhaust CPU on validating resolvers. Coordinated cross-vendor patches shipped within a week.',
+				'A {{dnssec|DNSSEC}} implementation flaw in BIND, Unbound, PowerDNS, Knot, and others let a single crafted query exhaust CPU on validating resolvers. Coordinated cross-vendor patches shipped within a week.',
 			source: { url: 'https://nvd.nist.gov/vuln/detail/CVE-2023-50387', label: 'NIST NVD' }
 		}
 	],
@@ -215,13 +215,13 @@ curl -sH 'accept: application/dns-json' \\
 			org: 'Google 8.8.8.8',
 			scale: '~14 trillion queries/day',
 			description:
-				'The original public resolver, anycast across Google\'s edge network. Backbone of much of the modern internet\'s name resolution.'
+				'The original public resolver, {{anycast|anycast}} across Google\'s edge network. Backbone of much of the modern internet\'s name resolution.'
 		},
 		{
 			org: 'Root server system',
 			scale: '13 root server letters, ~1500 anycast instances',
 			description:
-				'The 13 logical root servers (a.root-servers.net to m.root-servers.net) are operated by 12 organisations and replicated across thousands of physical machines via anycast. Loss of any one is invisible.'
+				'The 13 logical root servers (a.root-servers.net to m.root-servers.net) are operated by 12 organisations and replicated across thousands of physical machines via {{anycast|anycast}}. Loss of any one is invisible.'
 		}
 	],
 

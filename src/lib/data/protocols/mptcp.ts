@@ -9,7 +9,7 @@ export const mptcp: Protocol = {
 	rfc: 'RFC 8684',
 	oneLiner:
 		'[[tcp|TCP]] that uses multiple network paths simultaneously — WiFi and cellular at the same time.',
-	overview: `Multipath TCP solves a fundamental limitation of regular [[tcp|TCP]]: a connection is locked to a single pair of {{ip-address|IP addresses}}. If your phone is connected to both WiFi and cellular, standard [[tcp|TCP]] can only use one at a time. MPTCP allows a single connection to spread across multiple network interfaces simultaneously, combining their {{bandwidth|bandwidth}} and seamlessly failing over when one path drops.
+	overview: `Multipath [[tcp|TCP]] solves a fundamental limitation of regular [[tcp|TCP]]: a connection is locked to a single pair of {{ip-address|IP addresses}}. If your phone is connected to both WiFi and cellular, standard [[tcp|TCP]] can only use one at a time. MPTCP allows a single connection to spread across multiple network interfaces simultaneously, combining their {{bandwidth|bandwidth}} and seamlessly failing over when one path drops.
 
 The protocol works by establishing "subflows" — each subflow is a regular [[tcp|TCP]] connection on a different network path. A shim layer sits between the application and these subflows, distributing data across paths and reassembling it on the other end. The application sees a single, normal [[tcp|TCP]] {{socket|socket}}; the magic happens entirely at the transport layer.
 
@@ -18,7 +18,7 @@ Apple was the first major adopter, shipping MPTCP in iOS 7 (2013) for Siri — s
 		{
 			title: 'Initial handshake with MP_CAPABLE',
 			description:
-				'The first subflow is established like a normal [[tcp|TCP]] handshake, but SYN packets carry the MP_CAPABLE option. Both sides exchange keys that identify this MPTCP connection.'
+				'The first subflow is established like a normal [[tcp|TCP]] {{handshake|handshake}}, but SYN packets carry the MP_CAPABLE option. Both sides {{exchange|exchange}} keys that identify this MPTCP connection.'
 		},
 		{
 			title: 'Additional subflows via MP_JOIN',
@@ -28,12 +28,12 @@ Apple was the first major adopter, shipping MPTCP in iOS 7 (2013) for Siri — s
 		{
 			title: 'Data-level sequencing',
 			description:
-				'Each subflow has its own TCP sequence numbers. A separate Data Sequence Number (DSN) ensures correct ordering across all subflows before delivering to the application.'
+				'Each subflow has its own [[tcp|TCP]] sequence numbers. A separate Data {{sequence-number|Sequence Number}} (DSN) ensures correct ordering across all subflows before delivering to the application.'
 		},
 		{
 			title: 'Scheduler distributes data',
 			description:
-				'The MPTCP scheduler decides which subflow carries each chunk — round-robin, lowest-latency-first, or redundant. This is transparent to the application.'
+				'The MPTCP scheduler decides which subflow carries each chunk — round-robin, lowest-{{latency|latency}}-first, or redundant. This is transparent to the application.'
 		},
 		{
 			title: 'Seamless failover',
@@ -62,7 +62,7 @@ sock.sendall(b'GET / HTTP/1.1\\r\\nHost: example.com\\r\\n\\r\\n')
 response = sock.recv(4096)
 print(response.decode())
 sock.close()`,
-		caption: 'MPTCP in Python — same API as TCP, but the kernel routes data over multiple paths',
+		caption: 'MPTCP in Python — same API as [[tcp|TCP]], but the kernel routes data over multiple paths',
 		alternatives: [
 			{
 				language: 'javascript',
@@ -175,7 +175,7 @@ TCP SYN-ACK + MP_JOIN:
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/DifferenceTCP_MPTCP-en.png/500px-DifferenceTCP_MPTCP-en.png',
 		alt: 'Comparison diagram showing regular TCP using a single path versus MPTCP using multiple simultaneous paths between two hosts',
 		caption:
-			'TCP vs Multipath TCP — regular TCP sends data over a single path, while MPTCP splits traffic across multiple interfaces (WiFi + cellular, dual [[ethernet|Ethernet]]) simultaneously, boosting throughput and providing seamless failover.',
+			'[[tcp|TCP]] vs Multipath TCP — regular TCP sends data over a single path, while MPTCP splits traffic across multiple interfaces (WiFi + cellular, dual [[ethernet|Ethernet]]) simultaneously, boosting throughput and providing seamless failover.',
 		credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 	}
 };

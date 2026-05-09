@@ -42,10 +42,13 @@
 	let { segments, color = '#38bdf8' }: Props = $props();
 </script>
 
-{#each segments as seg, i (i)}
-	{#if seg.type === 'text'}{seg.value}{:else if seg.type === 'bold'}<strong
-			class="font-semibold text-t-primary">{seg.value}</strong
-		>{:else if seg.type === 'italic'}<em class="italic">{seg.value}</em
+{#snippet render(segs: TextSegment[])}
+	{#each segs as seg, i (i)}
+		{#if seg.type === 'text'}{seg.value}{:else if seg.type === 'bold'}<strong
+				class="font-semibold text-t-primary">{seg.value}</strong
+			>{:else if seg.type === 'bold-group'}<strong class="font-semibold text-t-primary"
+				>{@render render(seg.segments)}</strong
+			>{:else if seg.type === 'italic'}<em class="italic">{seg.value}</em
 		>{:else if seg.type === 'code'}<code
 			class="rounded bg-s-glass px-1 py-px font-mono text-[0.92em] text-t-primary">{seg.value}</code
 		>{:else if seg.type === 'protocol-link'}<ProtocolLink
@@ -89,3 +92,6 @@
 			label={seg.label}
 			{color}
 		/>{/if}{/each}
+{/snippet}
+
+{@render render(segments)}

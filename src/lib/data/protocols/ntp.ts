@@ -35,7 +35,7 @@ NTP has been exploited for DDoS amplification attacks: the legacy \`monlist\` co
 		{
 			title: 'Calculate offset and delay',
 			description:
-				'Offset = ((T2-T1) + (T3-T4)) / 2. Delay = (T4-T1) - (T3-T2). The clock is adjusted gradually to avoid time jumps.'
+				'{{offset|Offset}} = ((T2-T1) + (T3-T4)) / 2. Delay = (T4-T1) - (T3-T2). The clock is adjusted gradually to avoid time jumps.'
 		}
 	],
 	useCases: [
@@ -63,7 +63,7 @@ print(f"Stratum:  {response.stratum}")
 # Offset tells you how far your clock is off
 # Positive = your clock is behind, Negative = ahead`,
 		caption:
-			'ntplib queries an NTP server and calculates the clock offset using the four-timestamp algorithm',
+			'ntplib queries an NTP server and calculates the clock {{offset|offset}} using the four-timestamp algorithm',
 		alternatives: [
 			{
 				language: 'javascript',

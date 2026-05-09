@@ -12,9 +12,9 @@ export const ip: Protocol = {
 		'The addressing system of the internet — every packet gets a source and destination IP.',
 	overview: `IP is the protocol that makes the internet an internet. It assigns every device a logical address and defines how {{packet|packets}} are routed from source to destination across networks of networks. Every piece of data you send — whether it's a web request, an email, or a video frame — is wrapped in an IP packet with a source address, a destination address, and enough metadata for routers to forward it {{hop|hop}} by hop to its destination.
 
-The IPv4 header is 20 bytes (plus options) and carries critical fields: Source IP, Destination IP, {{ttl|TTL}} (Time to Live, decremented by each router to prevent infinite loops), Protocol (6 for [[tcp|TCP]], 17 for [[udp|UDP]], 1 for ICMP), and {{fragmentation|fragmentation}} fields for splitting oversized packets. IP is a best-effort, {{connectionless|connectionless}} protocol — it makes no guarantees about delivery, ordering, or integrity. Those responsibilities belong to the transport layer: [[tcp|TCP]] adds reliability, [[udp|UDP]] adds... nothing (and that's the point).
+The IPv4 header is 20 bytes (plus options) and carries critical fields: Source IP, Destination IP, {{ttl|TTL}} (Time to Live, decremented by each router to prevent infinite loops), Protocol (6 for [[tcp|TCP]], 17 for [[udp|UDP]], 1 for [[icmp|ICMP]]), and {{fragmentation|fragmentation}} fields for splitting oversized packets. IP is a best-effort, {{connectionless|connectionless}} protocol — it makes no guarantees about delivery, ordering, or integrity. Those responsibilities belong to the transport layer: [[tcp|TCP]] adds reliability, [[udp|UDP]] adds... nothing (and that's the point).
 
-IPv4's 32-bit address space (about 4.3 billion addresses) seemed vast in 1981 but was effectively exhausted by 2011. {{nat|NAT}} (Network Address Translation) extended its life by letting entire networks hide behind a single public IP, but the real solution is IPv6 with its 128-bit addresses (3.4 \u00d7 10\u00b3\u2078 addresses — enough for every atom on Earth). IPv6 adoption is growing but IPv4 still carries the majority of internet traffic. At the local network level, [[arp|ARP]] maps IP addresses to [[ethernet|Ethernet]] MAC addresses, and [[dns|DNS]] maps human-readable domain names to IP addresses.`,
+IPv4's 32-bit address space (about 4.3 billion addresses) seemed vast in 1981 but was effectively exhausted by 2011. {{nat|NAT}} (Network Address Translation) extended its life by letting entire networks hide behind a single public IP, but the real solution is [[ipv6|IPv6]] with its 128-bit addresses (3.4 \u00d7 10\u00b3\u2078 addresses — enough for every atom on Earth). IPv6 adoption is growing but IPv4 still carries the majority of internet traffic. At the local network level, [[arp|ARP]] maps IP addresses to [[ethernet|Ethernet]] MAC addresses, and [[dns|DNS]] maps human-readable domain names to IP addresses.`,
 	howItWorks: [
 		{
 			title: 'Packet construction',
@@ -24,22 +24,22 @@ IPv4's 32-bit address space (about 4.3 billion addresses) seemed vast in 1981 bu
 		{
 			title: 'Local routing decision',
 			description:
-				"The sender checks if the destination IP is on the same {{subnet|subnet}} (using its subnet mask). If yes, it uses [[arp|ARP]] to find the destination's {{mac-address|MAC address}} and sends directly. If no, it forwards the packet to the {{default-gateway|default gateway}} (router), whose MAC is also resolved via [[arp|ARP]]."
+				"The sender checks if the destination IP is on the same {{subnet|subnet}} (using its {{subnet|subnet}} mask). If yes, it uses [[arp|ARP]] to find the destination's {{mac-address|MAC address}} and sends directly. If no, it forwards the packet to the {{default-gateway|default gateway}} (router), whose MAC is also resolved via [[arp|ARP]]."
 		},
 		{
 			title: 'Router forwarding and TTL decrement',
 			description:
-				'Each router examines the destination IP, consults its {{routing-table|routing table}}, decrements the TTL by 1, recalculates the header checksum, and forwards the packet out the appropriate interface. If TTL reaches 0, the packet is dropped and an [[icmp|ICMP]] Time Exceeded message is sent back (this is how traceroute works).'
+				'Each router examines the destination IP, consults its {{routing-table|routing table}}, decrements the TTL by 1, recalculates the header {{checksum|checksum}}, and forwards the packet out the appropriate interface. If TTL reaches 0, the packet is dropped and an [[icmp|ICMP]] Time Exceeded message is sent back (this is how traceroute works).'
 		},
 		{
 			title: 'Fragmentation if needed',
 			description:
-				"If a packet is larger than the next link's {{mtu|MTU}} (Maximum Transmission Unit, typically 1500 bytes for [[ethernet|Ethernet]]), the router {{fragmentation|fragments}} it into smaller IP packets. Each fragment carries offset information so the destination can reassemble them. Modern practice avoids fragmentation using {{path-mtu-discovery|Path MTU Discovery}}."
+				"If a packet is larger than the next link's {{mtu|MTU}} (Maximum Transmission Unit, typically 1500 bytes for [[ethernet|Ethernet]]), the router {{fragmentation|fragments}} it into smaller IP packets. Each fragment carries {{offset|offset}} information so the destination can reassemble them. Modern practice avoids {{fragmentation|fragmentation}} using {{path-mtu-discovery|Path MTU Discovery}}."
 		},
 		{
 			title: 'Destination reassembly and delivery',
 			description:
-				'The destination host reassembles any fragments using the Identification field and fragment offsets, verifies the header checksum, strips the IP header, and delivers the {{payload|payload}} to the correct transport-layer protocol ([[tcp|TCP]], [[udp|UDP]], [[icmp|ICMP]]) based on the Protocol field.'
+				'The destination host reassembles any fragments using the Identification field and fragment offsets, verifies the header {{checksum|checksum}}, strips the IP header, and delivers the {{payload|payload}} to the correct transport-layer protocol ([[tcp|TCP]], [[udp|UDP]], [[icmp|ICMP]]) based on the Protocol field.'
 		}
 	],
 	useCases: [

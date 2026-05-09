@@ -9,8 +9,8 @@ export const jsonRpc: Protocol = {
 	year: 2005,
 	rfc: undefined, // Community spec at jsonrpc.org
 	oneLiner:
-		'A minimal RPC protocol encoded in JSON — call a method by name, get a result back. Nothing more.',
-	overview: `JSON-RPC is the protocol that proves less is more. The entire specification fits on a single page: send a {{json|JSON}} object with a method name, parameters, and an ID — get back a JSON object with the result and the same ID. That's it. No URL routing, no HTTP verb semantics, no schema compilation step. Just structured function calls over the wire.
+		'A minimal RPC protocol encoded in {{json|JSON}} — call a method by name, get a result back. Nothing more.',
+	overview: `{{json|JSON}}-RPC is the protocol that proves less is more. The entire specification fits on a single page: send a {{json|JSON}} object with a method name, parameters, and an ID — get back a JSON object with the result and the same ID. That's it. No URL routing, no HTTP verb semantics, no schema compilation step. Just structured function calls over the wire.
 
 Created in 2005 as a lightweight alternative to {{xml|XML}}-based [[soap|SOAP]], JSON-RPC stayed deliberately simple while the web API world exploded with complexity. Version 2.0 (2010) refined the format: it added a mandatory \`"jsonrpc": "2.0"\` field, standardized error codes (borrowed from XML-RPC's tradition), introduced {{notification|notifications}} (requests without an \`id\` that expect no response), and added batch requests (send an array of calls, get an array of results). The spec is transport-agnostic — JSON-RPC works over [[http1|HTTP]], [[websockets|WebSockets]], raw [[tcp|TCP]], or even stdio pipes between processes.
 
@@ -19,27 +19,27 @@ JSON-RPC found its biggest audience not in traditional web development but in in
 		{
 			title: 'Client builds a request',
 			description:
-				'The client constructs a JSON object with four fields: "jsonrpc" (always "2.0"), "method" (the function name), "params" (arguments as an array or object), and "id" (a unique identifier to match the response).'
+				'The client constructs a {{json|JSON}} object with four fields: "jsonrpc" (always "2.0"), "method" (the function name), "params" (arguments as an array or object), and "id" (a unique identifier to match the response).'
 		},
 		{
 			title: 'Request is sent',
 			description:
-				'The JSON is sent over any transport — HTTP POST to a single endpoint, a WebSocket message, a line written to stdout, or a [[tcp|TCP]] socket. The protocol does not care how bytes move.'
+				'The {{json|JSON}} is sent over any transport — HTTP POST to a single endpoint, a WebSocket message, a line written to stdout, or a [[tcp|TCP]] socket. The protocol does not care how bytes move.'
 		},
 		{
 			title: 'Server dispatches',
 			description:
-				'The server parses the JSON, looks up the method name in its handler registry, validates the parameters, and calls the handler function. If the method name starts with "rpc.", it is reserved for system extensions.'
+				'The server parses the {{json|JSON}}, looks up the method name in its handler registry, validates the parameters, and calls the handler function. If the method name starts with "rpc.", it is reserved for system extensions.'
 		},
 		{
 			title: 'Response returned',
 			description:
-				'The server responds with a JSON object containing "jsonrpc", the same "id", and either a "result" (success) or "error" (failure with code, message, and optional data). Never both.'
+				'The server responds with a {{json|JSON}} object containing "jsonrpc", the same "id", and either a "result" (success) or "error" (failure with code, message, and optional data). Never both.'
 		},
 		{
 			title: 'Notifications & batches',
 			description:
-				'If the request omits the "id" field, it is a notification — fire-and-forget, no response expected. Multiple requests can be batched in a JSON array, and the server returns an array of responses (skipping notifications).'
+				'If the request omits the "id" field, it is a {{notification|notification}} — fire-and-forget, no response expected. Multiple requests can be batched in a {{json|JSON}} array, and the server returns an array of responses (skipping notifications).'
 		}
 	],
 	useCases: [
@@ -171,7 +171,7 @@ curl -s -X POST http://localhost:4000/rpc \\
 		src: 'https://upload.wikimedia.org/wikipedia/commons/1/18/RPC_overview.png',
 		alt: 'Diagram showing how Remote Procedure Calls work — a client calls a stub which marshals parameters and sends them over the network to a server stub that executes the procedure',
 		caption:
-			'The RPC model that JSON-RPC inherits — a client calls a function by name, the parameters are serialized and sent over the network, and the server executes the method and returns the result. JSON-RPC strips this to pure JSON: no IDL, no code generation, no binary encoding.',
+			'The RPC model that {{json|JSON}}-RPC inherits — a client calls a function by name, the parameters are serialized and sent over the network, and the server executes the method and returns the result. JSON-RPC strips this to pure JSON: no IDL, no code generation, no binary encoding.',
 		credit: 'Image: Wikimedia Commons / Public Domain'
 	}
 };

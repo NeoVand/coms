@@ -9,18 +9,18 @@ export const http2: Protocol = {
 	year: 2015,
 	rfc: 'RFC 9113',
 	oneLiner: 'Multiplexed, binary HTTP — many requests flying over one connection simultaneously.',
-	overview: `HTTP/2 was designed to fix [[http1|HTTP/1.1]]'s biggest pain points without changing the semantics developers know and love. You still use GET, POST, headers, and {{status-code|status codes}} — but under the hood, everything is different. The protocol is {{binary-framing|binary (not text)}}, {{multiplexing|multiplexed}} (many requests share one connection), and supports {{header|header}} compression ({{hpack|HPACK}}) and {{server-push|server push}} (now deprecated — Chrome removed support in Chrome 106; 103 Early Hints is the recommended replacement).
+	overview: `HTTP/2 was designed to fix [[http1|HTTP/1.1]]'s biggest pain points without changing the semantics developers know and love. You still use GET, POST, headers, and {{status-code|status codes}} — but under the hood, everything is different. The protocol is {{binary-framing|binary (not text)}}, {{multiplexing|multiplexed}} (many requests share one connection), and supports {{header|header}} compression ({{hpack|HPACK}}) and {{server-push|server push}} (now deprecated — Chrome removed support in Chrome 106; 103 {{early-hints|Early Hints}} is the recommended replacement).
 
-Multiplexing is the killer feature: instead of waiting for each response before sending the next request, HTTP/2 interleaves multiple request-response pairs as "{{stream|streams}}" on a single [[tcp|TCP]] connection. This eliminates the need for multiple connections and dramatically improves page load times for resource-heavy sites.
+{{multiplexing|Multiplexing}} is the killer feature: instead of waiting for each response before sending the next request, HTTP/2 interleaves multiple {{request-response|request-response}} pairs as "{{stream|streams}}" on a single [[tcp|TCP]] connection. This eliminates the need for multiple connections and dramatically improves page load times for resource-heavy sites.
 
-While the HTTP/2 spec (RFC 9113) doesn't mandate TLS, all browsers require HTTPS for HTTP/2 connections (h2). Unencrypted HTTP/2 (h2c) is only used in server-to-server communication.
+While the HTTP/2 spec (RFC 9113) doesn't mandate [[tls|TLS]], all browsers require HTTPS for HTTP/2 connections (h2). Unencrypted HTTP/2 (h2c) is only used in server-to-server communication.
 
 However, HTTP/2 still runs on [[tcp|TCP]], which means [[tcp|TCP]]-level {{head-of-line-blocking|head-of-line blocking}} persists — a single lost [[tcp|TCP]] {{packet|packet}} blocks all streams. This is what motivated [[http3|HTTP/3]] and [[quic|QUIC]].`,
 	howItWorks: [
 		{
 			title: 'Connection & settings',
 			description:
-				'After [[tcp|TCP]]+[[tls|TLS]] {{handshake|handshake}}, client and server exchange SETTINGS frames establishing max concurrent streams, window sizes, etc.'
+				'After [[tcp|TCP]]+[[tls|TLS]] {{handshake|handshake}}, client and server {{exchange|exchange}} SETTINGS frames establishing max concurrent streams, window sizes, etc.'
 		},
 		{
 			title: 'Binary framing',
@@ -58,7 +58,7 @@ print(f"Status: {response.status_code}")
 print(f"Body: {response.text}")
 
 client.close()`,
-		caption: 'HTTP/2 multiplexes requests over a single connection with binary framing',
+		caption: 'HTTP/2 multiplexes requests over a single connection with {{binary-framing|binary framing}}',
 		alternatives: [
 			{
 				language: 'javascript',

@@ -14,7 +14,7 @@ export const xmpp: Protocol = {
 
 XMPP uses persistent {{xml|XML}} streams between {{client-server|clients and servers}} over [[tcp|TCP]]. Messages, presence updates ("Alice is online"), and IQ (info/query) stanzas flow as XML fragments over these streams. The {{protocol|protocol}} is designed to be extensible — hundreds of XEPs (XMPP Extension Protocols) add capabilities from file transfer and multi-user chat to IoT device management.
 
-Google Talk, the early versions of WhatsApp, Facebook Messenger (originally), and Apple's iChat (their desktop chat client) all used XMPP at some point. iChat supported XMPP federation briefly, though Apple's later iMessage system uses a completely proprietary push notification service (APNs). While many moved to proprietary protocols for scale, XMPP remains the backbone of countless enterprise chat systems, IoT platforms, and the federated messaging movement.`,
+Google Talk, the early versions of WhatsApp, Facebook Messenger (originally), and Apple's iChat (their desktop chat client) all used XMPP at some point. iChat supported XMPP federation briefly, though Apple's later iMessage system uses a completely proprietary push {{notification|notification}} service (APNs). While many moved to proprietary protocols for scale, XMPP remains the backbone of countless enterprise chat systems, IoT platforms, and the federated messaging movement.`,
 	howItWorks: [
 		{
 			title: 'TCP connection + stream negotiation',
@@ -29,7 +29,7 @@ Google Talk, the early versions of WhatsApp, Facebook Messenger (originally), an
 		{
 			title: 'Stanza exchange',
 			description:
-				'Three types of XML stanzas flow: <message> for chat, <presence> for online/offline status, and <iq> (info/query) for request-response interactions.'
+				'Three types of XML stanzas flow: <message> for chat, <presence> for online/offline status, and <iq> (info/query) for {{request-response|request-response}} interactions.'
 		},
 		{
 			title: 'Server-to-server federation',
@@ -39,7 +39,7 @@ Google Talk, the early versions of WhatsApp, Facebook Messenger (originally), an
 		{
 			title: 'Extensions (XEPs)',
 			description:
-				'The base protocol is minimal. Hundreds of XEPs add features: multi-user chat, HTTP file upload, message carbons, end-to-end encryption (OMEMO), and more.'
+				'The base protocol is minimal. Hundreds of XEPs add features: multi-user chat, HTTP file upload, message carbons, end-to-end {{encryption|encryption}} (OMEMO), and more.'
 		}
 	],
 	useCases: [

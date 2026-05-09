@@ -9,22 +9,22 @@ export const quic: Protocol = {
 	year: 2021,
 	rfc: 'RFC 9000',
 	oneLiner:
-		'UDP-based transport with built-in encryption and multiplexing — the future of the web.',
-	overview: `QUIC is what happens when Google looks at [[tcp|TCP]]+[[tls|TLS]] and says "we can do better." It runs on top of [[udp|UDP]] but provides [[tcp|TCP]]-like reliability, [[tls|TLS 1.3]] {{encryption|encryption}}, and [[http2|HTTP/2]]-style {{multiplexing|multiplexing}} — all in a single protocol. The result: faster connections, no {{head-of-line-blocking|head-of-line blocking}}, and seamless connection migration.
+		'UDP-based transport with built-in {{encryption|encryption}} and {{multiplexing|multiplexing}} — the future of the web.',
+	overview: `QUIC is what happens when Google looks at [[tcp|TCP]]+[[tls|TLS]] and says "we can do better." It runs on top of [[udp|UDP]] but provides [[tcp|TCP]]-like reliability, [[tls|TLS 1.3]] {{encryption|encryption}}, and [[http2|HTTP/2]]-style {{multiplexing|multiplexing}} — all in a single protocol. The result: faster connections, no {{head-of-line-blocking|head-of-line blocking}}, and seamless {{connection-migration|connection migration}}.
 
-The key insight is combining the transport {{handshake|handshake}} with the [[tls|TLS]] handshake. [[tcp|TCP]]+[[tls|TLS 1.3]] requires 2 round trips before data flows (1 RTT for TCP handshake + 1 RTT for TLS); QUIC does it in 1 {{rtt|RTT}} (or 0 RTT for repeat connections). It also solves [[tcp|TCP]]'s head-of-line blocking problem: in [[http2|HTTP/2]] over [[tcp|TCP]], a single lost packet blocks ALL streams. In QUIC, streams are independent — a lost packet only affects its own stream.
+The key insight is combining the transport {{handshake|handshake}} with the [[tls|TLS]] {{handshake|handshake}}. [[tcp|TCP]]+[[tls|TLS 1.3]] requires 2 round trips before data flows (1 RTT for [[tcp|TCP]] handshake + 1 RTT for [[tls|TLS]]); QUIC does it in 1 {{rtt|RTT}} (or 0 RTT for repeat connections). It also solves [[tcp|TCP]]'s {{head-of-line-blocking|head-of-line blocking}} problem: in [[http2|HTTP/2]] over [[tcp|TCP]], a single lost packet blocks ALL streams. In QUIC, streams are independent — a lost packet only affects its own stream.
 
 QUIC powers [[http3|HTTP/3]], which is the latest version of HTTP. Major browsers and services (Google, Facebook, Cloudflare) already use it heavily. It's the most significant transport protocol innovation in decades.`,
 	howItWorks: [
 		{
 			title: 'Initial handshake (1 RTT)',
 			description:
-				'Client sends a QUIC Initial packet containing a [[tls|TLS]] ClientHello. Server responds with its Initial + {{handshake|Handshake}} packets. Connection is established in a single round trip with encryption from the start.'
+				'Client sends a QUIC Initial packet containing a [[tls|TLS]] ClientHello. Server responds with its Initial + {{handshake|Handshake}} packets. Connection is established in a single round trip with {{encryption|encryption}} from the start.'
 		},
 		{
 			title: '0-RTT resumption',
 			description:
-				'For repeat connections, the client can send data immediately using a cached key — zero round trips. The server can process it before the handshake completes.'
+				'For repeat connections, the client can send data immediately using a cached key — zero round trips. The server can process it before the {{handshake|handshake}} completes.'
 		},
 		{
 			title: 'Multiplexed streams',
@@ -66,7 +66,7 @@ async def main():
         print(f"Response: {response}")
 
 asyncio.run(main())`,
-		caption: 'QUIC combines transport + encryption in one step, enabling faster connections',
+		caption: 'QUIC combines transport + {{encryption|encryption}} in one step, enabling faster connections',
 		alternatives: [
 			{
 				language: 'javascript',
@@ -216,13 +216,13 @@ sudo tcpdump -i any udp port 443`
 			org: 'Cloudflare',
 			scale: 'All HTTPS traffic',
 			description:
-				'quiche library powers QUIC at Cloudflare\'s edge for every HTTPS site behind their CDN. Connection-coalescing and 0-RTT enabled by default.'
+				'quiche library powers QUIC at Cloudflare\'s edge for every HTTPS site behind their CDN. Connection-coalescing and {{zero-rtt|0-RTT}} enabled by default.'
 		},
 		{
 			org: 'Apple',
 			scale: 'iOS 18+ / macOS 15+',
 			description:
-				'Network.framework offers native QUIC; Safari 18 enables [[http3|HTTP/3]] by default. CloudKit and iCloud sync use QUIC for low-latency mobile updates.'
+				'Network.framework offers native QUIC; Safari 18 enables [[http3|HTTP/3]] by default. CloudKit and iCloud sync use QUIC for low-{{latency|latency}} mobile updates.'
 		}
 	],
 
@@ -233,11 +233,11 @@ sudo tcpdump -i any udp port 443`
 		},
 		{
 			title: 'Connection IDs let your phone roam',
-			text: 'A QUIC connection is identified by a **64-bit Connection ID**, not by the (src IP, src port, dst IP, dst port) four-tuple TCP uses. When your phone moves between Wi-Fi and cellular, the underlying IP changes — but the QUIC connection survives. The receiver matches the new packet by Connection ID. This is why [[http3|HTTP/3]] video calls do not stutter on handoff.'
+			text: 'A QUIC connection is identified by a **64-bit Connection ID**, not by the (src IP, src port, dst IP, dst port) four-tuple [[tcp|TCP]] uses. When your phone moves between Wi-Fi and cellular, the underlying IP changes — but the QUIC connection survives. The receiver matches the new packet by Connection ID. This is why [[http3|HTTP/3]] video calls do not stutter on handoff.'
 		},
 		{
 			title: 'QUIC encrypts almost the entire packet',
-			text: 'TCP segment headers are visible to anyone on the path — sequence numbers, ACK numbers, window sizes. QUIC encrypts almost everything except the Connection ID, packet number, and a few framing bits. This blocks decades of network-side observation tools (and is why some operators still resist QUIC).'
+			text: '[[tcp|TCP]] segment headers are visible to anyone on the path — sequence numbers, ACK numbers, window sizes. QUIC encrypts almost everything except the Connection ID, packet number, and a few framing bits. This blocks decades of network-side observation tools (and is why some operators still resist QUIC).'
 		}
 	],
 
@@ -245,15 +245,15 @@ sudo tcpdump -i any udp port 443`
 		pitfalls: [
 			{
 				title: 'Some networks block UDP / QUIC',
-				text: 'Corporate firewalls, school networks, and a small fraction of mobile carriers block [[udp|UDP]] on port 443. Browsers fall back to TCP+[[http2|HTTP/2]], but the fallback adds 1-2 RTTs of detection. If you need consistent QUIC, validate connectivity before you depend on it.'
+				text: 'Corporate firewalls, school networks, and a small fraction of mobile carriers block [[udp|UDP]] on port 443. Browsers fall back to [[tcp|TCP]]+[[http2|HTTP/2]], but the fallback adds 1-2 RTTs of detection. If you need consistent QUIC, validate connectivity before you depend on it.'
 			},
 			{
 				title: 'Connection migration breaks middleboxes',
-				text: 'Some {{stateful|stateful}} middleboxes ({{nat|NAT}} routers, transparent proxies) drop a connection when its source IP suddenly changes — they assume it\'s a new flow. QUIC\'s Path Validation fixes this when both endpoints support it; the path-probing handshake is [[rfc:9000|RFC 9000]] §8.'
+				text: 'Some {{stateful|stateful}} middleboxes ({{nat|NAT}} routers, transparent proxies) drop a connection when its source IP suddenly changes — they assume it\'s a new flow. QUIC\'s Path Validation fixes this when both endpoints support it; the path-probing {{handshake|handshake}} is [[rfc:9000|RFC 9000]] §8.'
 			},
 			{
 				title: 'Higher CPU than kernel TCP',
-				text: 'QUIC encryption + user-space implementation costs roughly 2× CPU per byte versus a tuned kernel TCP stack. CDNs offload to TLS-acceleration NICs (kTLS); plain servers should expect higher load.'
+				text: 'QUIC {{encryption|encryption}} + user-space implementation costs roughly 2× CPU per byte versus a tuned kernel [[tcp|TCP]] stack. CDNs offload to TLS-acceleration NICs (kTLS); plain servers should expect higher load.'
 			}
 		]
 	}

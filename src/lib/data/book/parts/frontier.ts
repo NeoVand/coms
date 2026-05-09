@@ -39,9 +39,9 @@ For data that needs to stay secret for decades — state secrets, medical record
 						{
 							type: 'narrative',
 							title: 'NIST FIPS 203 and the Codepoint Disruption',
-							text: `**NIST published FIPS 203 (ML-KEM) on 13 August 2024** — Kyber's final-form rename. The rename was not cosmetic: it forced a new TLS codepoint **0x11EC for X25519MLKEM768**, and the old **codepoint 0x6399 (Kyber768) was invalidated**. Every browser/server/load balancer had to re-deploy because the wire format changed.
+							text: `**NIST published FIPS 203 ({{ml-kem|ML-KEM}}) on 13 August 2024** — Kyber's final-form rename. The rename was not cosmetic: it forced a new [[tls|TLS]] codepoint **0x11EC for X25519MLKEM768**, and the old **codepoint 0x6399 (Kyber768) was invalidated**. Every browser/server/load balancer had to re-deploy because the wire format changed.
 
-The deployment trick is **hybrid**: combine the existing X25519 key exchange with ML-KEM-768 in such a way that an attacker has to break **both**. ML-KEM-768 hybrid combines 192-bit classical security with NIST Cat-3 PQ — eliminating the HNDL window without sacrificing classical security if ML-KEM turns out to have an unexpected weakness.
+The deployment trick is **hybrid**: combine the existing X25519 key {{exchange|exchange}} with ML-KEM-768 in such a way that an attacker has to break **both**. ML-KEM-768 hybrid combines 192-bit classical security with NIST Cat-3 PQ — eliminating the HNDL window without sacrificing classical security if ML-KEM turns out to have an unexpected weakness.
 
 Browser deployment moved fast. **Chrome 124 (April 2024)** made X25519Kyber768 default; **Chrome 131 (November 2024)** switched to the renamed X25519MLKEM768. Firefox 132, Edge 131, OpenJDK (JEP 527), and **OpenSSL 3.5 LTS (8 April 2025)** followed. OpenSSL 3.5's default keyshare is now \`X25519MLKEM768 + X25519\`.`
 						},
@@ -53,16 +53,16 @@ Browser deployment moved fast. **Chrome 124 (April 2024)** made X25519Kyber768 d
 						{
 							type: 'narrative',
 							title: 'The Asymmetry — Browsers Ahead, Origins Behind',
-							text: `**By the end of 2025, ~52% of all TLS 1.3 connections to Cloudflare carried post-quantum hybrid key agreement** — but only **~3.7% of *origins*** support X25519MLKEM768. The asymmetry is the story.
+							text: `**By the end of 2025, ~52% of all [[tls|TLS]] 1.3 connections to Cloudflare carried post-quantum hybrid key agreement** — but only **~3.7% of *origins*** support X25519MLKEM768. The asymmetry is the story.
 
-The browser→edge handshake is now PQ on a majority of human traffic. The edge→origin leg is the new frontier. **Akamai rolled out PQ to-origin on 30 June 2025**; Cloudflare enabled PQ key agreement by default in October 2022 for client connections. The long pole is the server side: every nginx, Apache, IIS, and proprietary HTTP server eventually needs an OpenSSL 3.5+ build with X25519MLKEM768 support, then explicit configuration to enable it.
+The browser→edge {{handshake|handshake}} is now PQ on a majority of human traffic. The edge→origin leg is the new frontier. **Akamai rolled out PQ to-origin on 30 June 2025**; Cloudflare enabled PQ key agreement by default in October 2022 for client connections. The long pole is the server side: every nginx, Apache, IIS, and proprietary HTTP server eventually needs an OpenSSL 3.5+ build with X25519MLKEM768 support, then explicit configuration to enable it.
 
-The cost: **ML-KEM ciphertext is 1088 bytes, public key 1184 bytes**. Most compatibility pain is from larger ClientHellos exceeding a single TCP MSS. ML-KEM-768 shared-secret derivation runs in ~30µs on a modern x86 core — performance is not the concern; wire compatibility is.`
+The cost: **{{ml-kem|ML-KEM}} ciphertext is 1088 bytes, {{public-key|public key}} 1184 bytes**. Most compatibility pain is from larger ClientHellos exceeding a single [[tcp|TCP]] MSS. ML-KEM-768 shared-secret derivation runs in ~30µs on a modern x86 core — performance is not the concern; wire compatibility is.`
 						},
 						{
 							type: 'narrative',
 							title: 'What Comes After Key Agreement',
-							text: `Pure-PQ signatures are not yet feasible for the web: an ML-DSA-44 cert is ~5 KB and ML-DSA-65 ~9 KB. **Cloudflare's Merkle Tree Certificates** (PLANTS WG) experiment is the most-discussed path; expect 2027-2028 before pure-PQ TLS auth is realistic at scale.
+							text: `Pure-PQ signatures are not yet feasible for the web: an ML-DSA-44 cert is ~5 KB and ML-DSA-65 ~9 KB. **Cloudflare's Merkle Tree Certificates** (PLANTS WG) experiment is the most-discussed path; expect 2027-2028 before pure-PQ [[tls|TLS]] auth is realistic at scale.
 
 **Encrypted Client Hello** was published as **[[frontier:ech-rfc-9849|RFC 9849]] in 2025** after 25 drafts. Cloudflare deploys ECH for ~70% of websites it fronts. **Russia is already partly blocking ECH** via \`ClientHelloOuter\` SNI inspection (PETS FOCI 2025) — censorship resistance and metadata privacy are the same problem.
 
@@ -80,7 +80,7 @@ The **47-day-cert cliff**: CA/Browser Forum **Ballot SC-081v3** (passed 11 April
 		{
 			id: 'l4s-everywhere',
 			title: 'L4S Everywhere',
-			synopsis: 'Sub-millisecond queuing latency for cooperating flows — Comcast launched in production January 2025.',
+			synopsis: 'Sub-millisecond queuing {{latency|latency}} for cooperating flows — Comcast launched in production January 2025.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -93,20 +93,20 @@ The **47-day-cert cliff**: CA/Browser Forum **Ballot SC-081v3** (passed 11 April
 						{
 							type: 'narrative',
 							title: 'The Problem Bufferbloat Created',
-							text: `The motivating problem for L4S is **{{bufferbloat|bufferbloat}}** — a term **Jim Gettys at Bell Labs coined in 2010-2011** in an ACM Queue article after he measured 1.2-second latencies on home links. Cheap memory had made router and modem queues huge; full queues meant seconds of latency before any loss signal reached senders. The community's response progressed from CoDel → FQ-CoDel → PIE → L4S.
+							text: `The motivating problem for L4S is **{{bufferbloat|bufferbloat}}** — a term **Jim Gettys at Bell Labs coined in 2010-2011** in an ACM Queue article after he measured 1.2-second latencies on home links. Cheap memory had made router and modem queues huge; full queues meant seconds of {{latency|latency}} before any loss signal reached senders. The community's response progressed from CoDel → FQ-CoDel → PIE → L4S.
 
-For 35 years, congestion control on the internet has been **loss-based**: when a packet is dropped, the sender slows down. The mechanism works, but the cost is queueing delay — by the time the packet is dropped, the queue is already full and every packet behind it has been delayed.
+For 35 years, {{congestion-control|congestion control}} on the internet has been **loss-based**: when a packet is dropped, the sender slows down. The mechanism works, but the cost is queueing delay — by the time the packet is dropped, the queue is already full and every packet behind it has been delayed.
 
 **L4S** (Low-Latency, Low-Loss, Scalable Throughput) was published in **January 2023** as **[[rfc:9330|RFC 9330]] (architecture), RFC 9331 (ECT(1) signalling), RFC 9332 (Dual-Queue Coupled AQM)**. The architecture inverts the model.`
 						},
 						{
 							type: 'narrative',
 							title: 'How L4S Works — The ECT(1) Repurpose',
-							text: `Cooperating senders mark their packets with **ECT(1)** — a previously-unused IP codepoint (\`01\` in the ECN field). Routers with L4S support put those packets in a **separate, isolated queue** and use **explicit congestion notification** (ECN) to signal earlier — before the queue grows. Senders react to the signal by paced back-off rather than half-the-window slash.
+							text: `Cooperating senders mark their packets with **ECT(1)** — a previously-unused IP codepoint (\`01\` in the ECN field). Routers with L4S support put those packets in a **separate, isolated queue** and use **explicit congestion {{notification|notification}}** (ECN) to signal earlier — before the queue grows. Senders react to the signal by paced back-off rather than half-the-window slash.
 
-The result: **sub-millisecond queuing delay** even at 100% link utilisation, for flows that participate. Non-L4S flows in the classic queue see no degradation. It is the first congestion-control change that delivers an order-of-magnitude latency improvement without coordination across all senders.
+The result: **sub-millisecond queuing delay** even at 100% link utilisation, for flows that participate. Non-L4S flows in the classic queue see no degradation. It is the first congestion-control change that delivers an order-of-magnitude {{latency|latency}} improvement without coordination across all senders.
 
-The reference scalable congestion control is **TCP Prague**. Apple shipped **L4S support in iOS 17 / macOS Sonoma at WWDC June 2023** — the first mass-market client deployment.`
+The reference scalable {{congestion-control|congestion control}} is **[[tcp|TCP]] Prague**. Apple shipped **L4S support in iOS 17 / macOS Sonoma at WWDC June 2023** — the first mass-market client deployment.`
 						},
 						{
 							type: 'callout',
@@ -116,11 +116,11 @@ The reference scalable congestion control is **TCP Prague**. Apple shipped **L4S
 						{
 							type: 'narrative',
 							title: 'WebRTC, AI, and the Active Spread',
-							text: `**WebRTC field trials are live in Chromium** behind the field trial flags \`WebRTC-RFC8888CongestionControlFeedback/Enabled\` and \`WebRTC-Bwe-ScreamV2/Enabled\`. Combined with [[rtp|RFC 8888]] feedback, L4S delivers **sub-1 ms queuing delay** for cooperating real-time flows. Benchmarked in IFIP Networking 2025 ("Performance Evaluation of L4S in XR Scenarios").
+							text: `**[[webrtc|WebRTC]] field trials are live in Chromium** behind the field trial flags \`WebRTC-RFC8888CongestionControlFeedback/Enabled\` and \`WebRTC-Bwe-ScreamV2/Enabled\`. Combined with [[rtp|RFC 8888]] feedback, L4S delivers **sub-1 ms queuing delay** for cooperating real-time flows. Benchmarked in IFIP Networking 2025 ("Performance Evaluation of L4S in XR Scenarios").
 
 Apple also added L4S signalling into APIs surfaced through **Network.framework** so apps inherit it without code changes — a deliberate strategy to bypass the slow uptake of new transport features.
 
-The unresolved political fight is **L4S-vs-classic fairness**: Scalable Congestion Control flows starve out CUBIC/Reno in the same queue, which is why **Dual-Queue AQM is required** — the bottleneck must classify and isolate. The **BBRv3** community continues to publish papers on whether "scalable" and "classic" can ever share a single FIFO fairly.
+The unresolved political fight is **L4S-vs-classic fairness**: Scalable {{congestion-control|Congestion Control}} flows starve out {{cubic|CUBIC}}/Reno in the same queue, which is why **Dual-Queue AQM is required** — the bottleneck must classify and isolate. The **BBRv3** community continues to publish papers on whether "scalable" and "classic" can ever share a single FIFO fairly.
 
 L4S deployment as of mid-2026 is **infrastructure-shaped**: clients (Apple, Chrome WebRTC) and ISPs (Comcast DOCSIS) are ahead of the middle of the network. The long pole is server-side ECN handling and CDN AQM upgrades. The next 24 months will tell whether L4S is the new default or stays a niche feature for gaming and live media.`
 						}
@@ -149,30 +149,30 @@ L4S deployment as of mid-2026 is **infrastructure-shaped**: clients (Apple, Chro
 						{
 							type: 'narrative',
 							title: 'The 50% Crossing',
-							text: `**On 28 March 2026, Google's IPv6 dashboard recorded 50.1% for the first time** — IPv6 briefly surpassed IPv4 in Google's measured user base. APNIC Labs and Cloudflare Radar still place global IPv6 capability in the **40-43%** range; the 50% number is a Google-specific snapshot. But it is a milestone the community has been waiting for since 1995.
+							text: `**On 28 March 2026, Google's [[ipv6|IPv6]] dashboard recorded 50.1% for the first time** — IPv6 briefly surpassed [[ip|IPv4]] in Google's measured user base. APNIC Labs and Cloudflare Radar still place global IPv6 capability in the **40-43%** range; the 50% number is a Google-specific snapshot. But it is a milestone the community has been waiting for since 1995.
 
 **[[ipv6|IPv6]]** was specified in 1995. For most of the next twenty-eight years, deployment was painful — early adopters had to maintain dual stacks, the operational cost was double, and the upside was mostly future-proofing.
 
-Adoption inflected when **mobile carriers** went IPv6-mostly for cellular subscribers. **T-Mobile US** moved its mobile core to IPv6-only with 464XLAT (Cameron Byrne, NANOG 61, 2014) — the production case study that defined the pattern. Verizon and AT&T followed. By 2026, **US mobile IPv6 averages ~87%**; **France 86%** (Google, Feb 2026); **India 67-80%** largely on the back of Reliance Jio's IPv6-first launch in 2016 (>237M IPv6 users by 2017); **China 865M IPv6 users (77% of users); 34% of traffic** (Sept 2025).`
+Adoption inflected when **mobile carriers** went IPv6-mostly for cellular subscribers. **T-Mobile US** moved its mobile core to IPv6-only with {{four-six-four-xlat|464XLAT}} (Cameron Byrne, NANOG 61, 2014) — the production case study that defined the pattern. Verizon and AT&T followed. By 2026, **US mobile IPv6 averages ~87%**; **France 86%** (Google, Feb 2026); **India 67-80%** largely on the back of Reliance Jio's IPv6-first launch in 2016 (>237M IPv6 users by 2017); **China 865M IPv6 users (77% of users); 34% of traffic** (Sept 2025).`
 						},
 						{
 							type: 'narrative',
 							title: 'AWS Started Charging — And Everything Moved',
-							text: `**AWS began charging $0.005/IP/hour for every public IPv4 address on 1 February 2024** — the first hard *financial* push toward IPv6 from a hyperscaler at scale. ~$3.65/month per address, attached or not. For organisations running thousands of VMs, the cost added up immediately.
+							text: `**AWS began charging $0.005/IP/hour for every public [[ip|IPv4]] address on 1 February 2024** — the first hard *financial* push toward [[ipv6|IPv6]] from a hyperscaler at scale. ~$3.65/month per address, attached or not. For organisations running thousands of VMs, the cost added up immediately.
 
-Within months, AWS workloads at scale began migrating to IPv6-only architectures with NAT64 gateways for legacy IPv4 destinations. The economic forcing function did more for IPv6 deployment in 2024 than two decades of advocacy.
+Within months, AWS workloads at scale began migrating to IPv6-only architectures with {{nat64|NAT64}} gateways for legacy IPv4 destinations. The economic forcing function did more for IPv6 deployment in 2024 than two decades of advocacy.
 
 **Meta** runs >99% of internal datacenter traffic over IPv6; entire new clusters are IPv6-only, serving IPv4 via L4/L7 load balancers. Meta says **internal IPv6 is 10-15% faster than IPv4** (and on one carrier mobile measurement, 40% faster), driven mostly by NAT removal and caching.`
 						},
 						{
 							type: 'callout',
 							title: 'IPv6-Mostly is the deployment pattern',
-							text: '**IPv6-Mostly** is what most modern networks actually deploy: a single network using **DHCPv4 Option 108 ([[rfc:8925|RFC 8925]])** to tell capable clients "skip [[ip|IPv4]] entirely," **PREF64 in Router Advertisements ([[rfc:8781|RFC 8781]])** to advertise the {{nat64|NAT64}} prefix, and **{{four-six-four-xlat|464XLAT}} ([[rfc:6877|RFC 6877]])** CLAT for clients still needing [[ip|IPv4]]. **Fedora/NetworkManager auto-enable CLAT for IPv6-mostly networks (2024); Windows 11 ships 464XLAT CLAT.** The OS support is finally there.'
+							text: '**IPv6-Mostly** is what most modern networks actually deploy: a single network using **DHCPv4 Option 108 ([[rfc:8925|RFC 8925]])** to tell capable clients "skip [[ip|IPv4]] entirely," **PREF64 in Router Advertisements ([[rfc:8781|RFC 8781]])** to advertise the {{nat64|NAT64}} prefix, and **{{four-six-four-xlat|464XLAT}} ([[rfc:6877|RFC 6877]])** CLAT for clients still needing [[ip|IPv4]]. **Fedora/NetworkManager auto-enable CLAT for IPv6-mostly networks (2024); Windows 11 ships {{four-six-four-xlat|464XLAT}} CLAT.** The OS support is finally there.'
 						},
 						{
 							type: 'narrative',
 							title: 'The Long Tail — and Why It May Be Permanent',
-							text: `**Geoff Huston (APNIC) projected in October 2024** that linear extrapolation puts IPv6 transition completion around **late 2045** — and warned that v4/v6 coexistence may now be a steady state rather than a transition. The remaining hurdle is enterprise: most large companies still run IPv4-only internal networks. New infrastructure is built v6-first; old IPv4 islands age out slowly.
+							text: `**Geoff Huston (APNIC) projected in October 2024** that linear extrapolation puts [[ipv6|IPv6]] transition completion around **late 2045** — and warned that v4/v6 coexistence may now be a steady state rather than a transition. The remaining hurdle is enterprise: most large companies still run IPv4-only internal networks. New infrastructure is built v6-first; old [[ip|IPv4]] islands age out slowly.
 
 The 2024 RFC backlog tells the story of where IPv6 work is happening:
 - **RFC 9637 (August 2024)** added \`3fff::/20\` as a second IPv6 documentation prefix on top of \`2001:db8::/32\`, large enough to model multi-AS networks.
@@ -181,7 +181,7 @@ The 2024 RFC backlog tells the story of where IPv6 work is happening:
 
 **Apple iCloud Private Relay** (October 2021 onward) prefers IPv6 egress when AAAA exists; pure IPv4-only enterprise networks frequently break Private Relay — the documented response is per-network opt-out, which is its own forcing function for IPv6 deployment in enterprises that want Apple device compatibility.
 
-The "everyone gets this wrong" detail: IPv6's mandatory-to-implement IPsec requirement was **demoted to optional in RFC 6434 (2011)** — a frequent source of "but IPv6 is encrypted by default!" myth. IPv6 is not encrypted by default. The encryption story for IPv6 is the same as for IPv4: TLS at the application layer.`
+The "everyone gets this wrong" detail: IPv6's mandatory-to-implement IPsec requirement was **demoted to optional in RFC 6434 (2011)** — a frequent source of "but IPv6 is encrypted by default!" myth. IPv6 is not encrypted by default. The {{encryption|encryption}} story for IPv6 is the same as for IPv4: [[tls|TLS]] at the application layer.`
 						}
 					]
 				},
@@ -198,7 +198,7 @@ The "everyone gets this wrong" detail: IPv6's mandatory-to-implement IPsec requi
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: 'Orange España, 3 January 2024: a threat actor using infostealer-harvested credentials logged in to RIPE NCC and edited ROAs to make legitimate prefixes RPKI-invalid. The first major outage caused by RPKI being too strict against an attacker-modified ROA set. Lesson: enforce 2FA on RIR portals.',
+					text: 'Orange España, 3 January 2024: a threat actor using infostealer-harvested credentials logged in to RIPE NCC and edited ROAs to make legitimate prefixes {{rpki|RPKI}}-invalid. The first major outage caused by RPKI being too strict against an attacker-modified ROA set. Lesson: enforce 2FA on RIR portals.',
 					attribution: 'Author'
 				},
 				{
@@ -207,11 +207,11 @@ The "everyone gets this wrong" detail: IPv6's mandatory-to-implement IPsec requi
 						{
 							type: 'narrative',
 							title: 'The Decade-Long Slow Win',
-							text: `[[bgp|BGP]] without origin authentication is the architectural reason every BGP hijack of the last 25 years was possible: [[outage:as-7007-1997|AS 7007]], [[outage:pakistan-youtube-2008|Pakistan/YouTube]], [[outage:china-telecom-2010|China Telecom 2010]], [[outage:facebook-2021|Facebook 2021]] all worked because no router could verify whether an AS was entitled to announce a prefix.
+							text: `[[bgp|BGP]] without origin authentication is the architectural reason every [[bgp|BGP]] hijack of the last 25 years was possible: [[outage:as-7007-1997|AS 7007]], [[outage:pakistan-youtube-2008|Pakistan/YouTube]], [[outage:china-telecom-2010|China Telecom 2010]], [[outage:facebook-2021|Facebook 2021]] all worked because no router could verify whether an AS was entitled to announce a prefix.
 
-**RPKI** (Resource Public Key Infrastructure) lets prefix-holders publish cryptographically signed Route Origin Authorisations declaring "AS X is authorised to originate prefix Y." **ROV** (Route Origin Validation) is the BGP router check that drops or de-preferences advertisements that fail RPKI validation.
+**{{rpki|RPKI}}** (Resource {{public-key|Public Key}} Infrastructure) lets prefix-holders publish cryptographically signed Route Origin Authorisations declaring "AS X is authorised to originate prefix Y." **ROV** (Route Origin Validation) is the BGP router check that drops or de-preferences advertisements that fail RPKI validation.
 
-**RPKI ROA coverage crossed 50% of IPv4 prefixes for the first time in May 2024** (IPv6 had crossed earlier, in late 2023). By December 2024: **~54% of IPv4 and IPv6 prefixes ROA-covered, ~74% of IP traffic destined to ROA-covered networks** (MANRS / Kentik). The coverage curve is finally accelerating.`
+**RPKI ROA coverage crossed 50% of [[ip|IPv4]] prefixes for the first time in May 2024** ([[ipv6|IPv6]] had crossed earlier, in late 2023). By December 2024: **~54% of IPv4 and IPv6 prefixes ROA-covered, ~74% of IP traffic destined to ROA-covered networks** (MANRS / Kentik). The coverage curve is finally accelerating.`
 						},
 						{
 							type: 'narrative',
@@ -220,33 +220,33 @@ The "everyone gets this wrong" detail: IPv6's mandatory-to-implement IPsec requi
 
 **RFC 9582 (May 2024)** replaced RFC 6482 as the ROA profile (Snijders, Maddison, Lepinski, Kong, Kent — clarifies X.509 extensions, fixes errata, mandates canonicalisation).
 
-**RFC 9687 (November 2024)** added the **\`SendHoldTimer\`** to the BGP FSM — closing the "BGP zombie" failure mode where a TCP socket stops draining and withdrawn routes linger forever.
+**RFC 9687 (November 2024)** added the **\`SendHoldTimer\`** to the [[bgp|BGP]] FSM — closing the "BGP zombie" failure mode where a [[tcp|TCP]] socket stops draining and withdrawn routes linger forever.
 
 **RFC 9774 (May 2025)** formally **deprecates \`AS_SET\` and \`AS_CONFED_SET\`** with a normative MUST NOT — speakers must "treat-as-withdraw" any UPDATE containing them.
 
-**ASPA (Autonomous System Provider Authorization)** is *still* an Internet-Draft as of May 2026 — \`draft-ietf-sidrops-aspa-verification-25\` (Oct 2025) and \`draft-ietf-sidrops-aspa-profile-26\` (Apr 2026). Cisco ran an **Early Field Trial of ASPA on IOS-XR in 2025**; OpenBGPD, BIRD 2.16+, and Routinator have ASPA support. SIDROPS chair Job Snijders has signalled the WG is "close to last call."
+**{{aspa|ASPA}} ({{autonomous-system|Autonomous System}} Provider Authorization)** is *still* an Internet-Draft as of May 2026 — \`draft-ietf-sidrops-aspa-verification-25\` (Oct 2025) and \`draft-ietf-sidrops-aspa-profile-26\` (Apr 2026). Cisco ran an **Early Field Trial of ASPA on IOS-XR in 2025**; OpenBGPD, BIRD 2.16+, and Routinator have ASPA support. SIDROPS chair Job Snijders has signalled the WG is "close to last call."
 
 ASPA closes the route-leak hole that origin validation alone cannot fix — where AS X *does* legitimately originate the prefix, but its upstream then leaks the route through an unintended path.`
 						},
 						{
 							type: 'callout',
 							title: 'BGPsec is dead',
-							text: '**BGPsec ([[rfc:8205|RFC 8205]], 2017)** has **negligible deployment** — the combinatorial signature size, lack of router silicon support, and zero incremental-deployment benefit have left it almost entirely unimplemented. ASPA and [[rfc:9234|RFC 9234]] ([[bgp|BGP]] Roles + OTC) ate its lunch. The lesson: a security protocol that requires every participant to deploy before any of them benefit will not get deployed. RPKI + ROV + ASPA wins because each step is independently useful.'
+							text: '**BGPsec ([[rfc:8205|RFC 8205]], 2017)** has **negligible deployment** — the combinatorial signature size, lack of router silicon support, and zero incremental-deployment benefit have left it almost entirely unimplemented. {{aspa|ASPA}} and [[rfc:9234|RFC 9234]] ([[bgp|BGP]] Roles + OTC) ate its lunch. The lesson: a security protocol that requires every participant to deploy before any of them benefit will not get deployed. {{rpki|RPKI}} + ROV + ASPA wins because each step is independently useful.'
 						},
 						{
 							type: 'narrative',
 							title: 'When RPKI Backfires, And When It Doesn\'t',
-							text: `**Orange España, 3 January 2024**: a threat actor "Snow" used infostealer-harvested credentials to log in to Orange Spain's RIPE NCC account and edited ROAs to make legitimate prefixes RPKI-invalid — the first major outage caused by **RPKI being too strict against an attacker-modified ROA set**. Lesson: enforce 2FA on RIR portals. The vulnerability is not in RPKI; it is in the human-facing authentication surface around RPKI.
+							text: `**Orange España, 3 January 2024**: a threat actor "Snow" used infostealer-harvested credentials to log in to Orange Spain's RIPE NCC account and edited ROAs to make legitimate prefixes {{rpki|RPKI}}-invalid — the first major outage caused by **RPKI being too strict against an attacker-modified ROA set**. Lesson: enforce 2FA on RIR portals. The vulnerability is not in RPKI; it is in the human-facing authentication surface around RPKI.
 
-**Cloudflare 1.1.1.1 hijack (27 June 2024)**: Brazilian ISP Eletronet (AS267613) announced **1.1.1.1/32**. Cloudflare had a valid /24 ROA, but ROAs cover up to maxLength /24, so a /32 announcement is not RPKI-invalid. Tier-1 PEER 1 (AS1031) accepted and propagated. **300 networks in 70 countries lost 1.1.1.1.** The lesson: maxLength matters; sloppy ROA configuration creates loopholes ASPA cannot close.
+**Cloudflare 1.1.1.1 hijack (27 June 2024)**: Brazilian ISP Eletronet (AS267613) announced **1.1.1.1/32**. Cloudflare had a valid /24 ROA, but ROAs cover up to maxLength /24, so a /32 announcement is not RPKI-invalid. Tier-1 PEER 1 (AS1031) accepted and propagated. **300 networks in 70 countries lost 1.1.1.1.** The lesson: maxLength matters; sloppy ROA configuration creates loopholes {{aspa|ASPA}} cannot close.
 
-The regulatory layer is moving too. **The FCC issued a Notice of Proposed Rulemaking on BGP Routing Security in June 2024** — the first US federal proposal to compel the nine largest BIAS providers (AT&T, Comcast, Verizon, T-Mobile, etc.) to file BGP Routing Security Risk Management Plans and quarterly RPKI reports. As of March 2024, only **~22% of US-originated routes had ROAs**.
+The regulatory layer is moving too. **The FCC issued a Notice of Proposed Rulemaking on [[bgp|BGP]] Routing Security in June 2024** — the first US federal proposal to compel the nine largest BIAS providers (AT&T, Comcast, Verizon, T-Mobile, etc.) to file BGP Routing Security Risk Management Plans and quarterly RPKI reports. As of March 2024, only **~22% of US-originated routes had ROAs**.
 
-**BIRD 3.0 (January 2025)** was the first stable multithreaded BGP implementation, scaling to 5,000+ peers; BIRD 2.16 (December 2024) shipped ASPA support. The IPv4 DFZ exceeded **~1.0 million prefixes** by late 2025; Geoff Huston's vantage point reported ~1.2M prefixes seen by 1,026 BGP peers at the start of 2026.`
+**BIRD 3.0 (January 2025)** was the first stable multithreaded BGP implementation, scaling to 5,000+ peers; BIRD 2.16 (December 2024) shipped ASPA support. The [[ip|IPv4]] DFZ exceeded **~1.0 million prefixes** by late 2025; Geoff Huston's vantage point reported ~1.2M prefixes seen by 1,026 BGP peers at the start of 2026.`
 						}
 					]
 				},
-				{ kind: 'frontier', id: 'rpki-rov-50-percent' },
+				{ kind: 'frontier', id: '{{rpki|rpki}}-rov-50-percent' },
 				{ kind: 'protocol', id: 'bgp' }
 			]
 		},
@@ -268,18 +268,18 @@ The regulatory layer is moving too. **The FCC issued a Notice of Proposed Rulema
 						{
 							type: 'narrative',
 							title: 'A New Transport for AI Datacenters',
-							text: `Training a large language model requires **hundreds of thousands of GPUs talking to each other at terabits per second** with microsecond tail latency. The dominant transport — **RoCEv2** (RDMA over Converged Ethernet) — was designed for HPC clusters of a few thousand nodes and shows its age at GPT-scale: head-of-line blocking, congestion-control issues, and operational complexity.
+							text: `Training a large language model requires **hundreds of thousands of GPUs talking to each other at terabits per second** with microsecond {{tail-latency|tail latency}}. The dominant transport — **RoCEv2** (RDMA over Converged [[ethernet|Ethernet]]) — was designed for HPC clusters of a few thousand nodes and shows its age at GPT-scale: {{head-of-line-blocking|head-of-line blocking}}, congestion-control issues, and operational complexity.
 
 The **Ultra Ethernet Consortium** was founded **19 July 2023** under the Linux Foundation by **AMD, Arista, Broadcom, Cisco, Eviden (Atos), HPE, Intel, Meta, and Microsoft**. **NVIDIA joined later** despite its InfiniBand allegiance. By mid-2025: 97+ members.
 
-**UEC Specification 1.0 was published 11 June 2025** — ~560 pages, the first major ground-up rethink of how Ethernet carries RDMA traffic. Defines **Ultra Ethernet Transport (UET)**: packet spraying with multipath, selective retransmission, in-network telemetry-driven congestion control, optional credit-based flow control, ephemeral/connectionless transport state for millions of endpoints.`
+**UEC Specification 1.0 was published 11 June 2025** — ~560 pages, the first major ground-up rethink of how Ethernet carries RDMA traffic. Defines **Ultra Ethernet Transport (UET)**: packet spraying with multipath, selective {{retransmission|retransmission}}, in-network telemetry-driven {{congestion-control|congestion control}}, optional credit-based {{flow-control|flow control}}, ephemeral/{{connectionless|connectionless}} transport state for millions of endpoints.`
 						},
 						{
 							type: 'narrative',
 							title: 'What RoCEv2 Looks Like at GPT Scale',
-							text: `**RoCEv2** encapsulates InfiniBand transport in UDP/IP/Ethernet (UDP port 4791). It is what **Meta runs on its 24,000-GPU clusters to train Llama 3** (SIGCOMM 2024 paper). The paper details job-aware traffic engineering and the operational decision to abandon **DCQCN** (Datacenter Quantized Congestion Notification) in favor of **collective-library-driven receiver pacing** — moving congestion control out of the network and into the AI framework.
+							text: `**RoCEv2** encapsulates InfiniBand transport in UDP/IP/Ethernet ([[udp|UDP]] port 4791). It is what **Meta runs on its 24,000-GPU clusters to train Llama 3** (SIGCOMM 2024 paper). The paper details job-aware traffic engineering and the operational decision to abandon **DCQCN** (Datacenter Quantized Congestion {{notification|Notification}}) in favor of **collective-library-driven receiver {{pacing|pacing}}** — moving {{congestion-control|congestion control}} out of the network and into the AI framework.
 
-UEC's design comes from collective lessons of running RoCEv2 at this scale: per-flow ECMP collapsing onto hot links, congestion-control oscillations, the cost of stateful per-connection transport in a fabric with 100k+ endpoints. Ultra Ethernet's **packet spraying** spreads flows across all paths automatically; **selective retransmission** keeps a single dropped packet from stalling a collective; **connectionless transport state** lets a single switch track millions of endpoints without per-flow tables.
+UEC's design comes from collective lessons of running RoCEv2 at this scale: per-flow ECMP collapsing onto hot links, congestion-control oscillations, the cost of {{stateful|stateful}} per-connection transport in a fabric with 100k+ endpoints. Ultra [[ethernet|Ethernet]]'s **packet spraying** spreads flows across all paths automatically; **selective {{retransmission|retransmission}}** keeps a single dropped packet from stalling a collective; **{{connectionless|connectionless}} transport state** lets a single switch track millions of endpoints without per-flow tables.
 
 **AMD's Pensando Pollara 400 GbE is the first UEC-compliant NIC**, announced June 2025, deployed at Oracle Cloud.`
 						},
@@ -295,9 +295,9 @@ UEC's design comes from collective lessons of running RoCEv2 at this scale: per-
 
 The Jensen Huang argument: scaling 1M GPUs with traditional pluggable optics would consume **~180 MW** of power for the optics alone. That is why NVIDIA pivoted to **co-packaged optics** in Quantum-X Photonics and Spectrum-X Photonics — the optics moves into the switch package itself, eliminating the per-port pluggable transceiver and its power overhead.
 
-**Google Jupiter** (SIGCOMM 2022 "Jupiter Evolving") moved from a Clos with electrical spine to a **direct-connect mesh of aggregation blocks via MEMS Optical Circuit Switches with SDN** — yielding **5× speed/capacity, 30% lower CapEx, 41% lower power**, supporting >13 Pb/s of bisection bandwidth as of 2024.
+**Google Jupiter** (SIGCOMM 2022 "Jupiter Evolving") moved from a Clos with electrical spine to a **direct-connect mesh of aggregation blocks via MEMS Optical Circuit Switches with SDN** — yielding **5× speed/capacity, 30% lower CapEx, 41% lower power**, supporting >13 Pb/s of bisection {{bandwidth|bandwidth}} as of 2024.
 
-The commercial scale: **Ethernet switching market exceeded $30B in 2021**; Dell'Oro forecasts ~$80B over five years driven by AI fabrics — the *commercial* reason UEC matters even more than the technical one. The architectural significance is that AI training is now important enough to drive a new datacenter transport — the same kind of pressure that produced [[ethernet|Ethernet]] in 1973 for office networking, [[tcp|TCP/IP]] in 1981 for inter-network research, and [[quic|QUIC]] in 2012 for the modern web.`
+The commercial scale: **[[ethernet|Ethernet]] switching market exceeded $30B in 2021**; Dell'Oro forecasts ~$80B over five years driven by AI fabrics — the *commercial* reason UEC matters even more than the technical one. The architectural significance is that AI training is now important enough to drive a new datacenter transport — the same kind of pressure that produced [[ethernet|Ethernet]] in 1973 for office networking, [[tcp|TCP/IP]] in 1981 for inter-network research, and [[quic|QUIC]] in 2012 for the modern web.`
 						}
 					]
 				},
@@ -311,7 +311,7 @@ The commercial scale: **Ethernet switching market exceeded $30B in 2021**; Dell'
 		{
 			id: 'wifi-7-and-8',
 			title: 'Wi-Fi 7 and 8',
-			synopsis: '320 MHz, then a 25% better tail latency target — and the politics of 6 GHz.',
+			synopsis: '320 MHz, then a 25% better {{tail-latency|tail latency}} target — and the politics of 6 GHz.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -328,16 +328,16 @@ The commercial scale: **Ethernet switching market exceeded $30B in 2021**; Dell'
 
 **583 million Wi-Fi 7 devices shipped in 2025**; ABI projects 117.9 million Wi-Fi 7 enterprise APs in 2026 (up from 26.3M in 2024). The Wi-Fi Alliance reports **3.9 billion Wi-Fi devices forecast to ship in 2025** for a cumulative 48.8 billion lifetime.
 
-**Multi-Link Operation (MLO)** is the feature that matters most for ordinary users. A single connection can use 2.4, 5, and 6 GHz bands simultaneously, switching whichever is least congested per packet. Tail latency on a busy Wi-Fi network — the 99th-percentile delay that made video calls stutter and games lag — used to spike into hundreds of milliseconds when many devices contended. With MLO, a frame can be sent on whichever band is free; the median and tail both improve.`
+**Multi-Link Operation (MLO)** is the feature that matters most for ordinary users. A single connection can use 2.4, 5, and 6 GHz bands simultaneously, switching whichever is least congested per packet. {{tail-latency|Tail latency}} on a busy Wi-Fi network — the 99th-percentile delay that made video calls stutter and games lag — used to spike into hundreds of milliseconds when many devices contended. With MLO, a frame can be sent on whichever band is free; the median and tail both improve.`
 						},
 						{
 							type: 'narrative',
 							title: 'Wi-Fi 8 — A Reliability Upgrade, Not a Speed Upgrade',
 							text: `**Wi-Fi 8 / 802.11bn — Ultra High Reliability** is explicitly **NOT a peak-speed upgrade**: same bands as Wi-Fi 7, same 320 MHz max, same ~46 Gb/s PHY peak.
 
-PAR objectives: **+25% throughput at given SINR, −25% 95th-percentile latency, −25% MPDU loss across BSS transitions**.
+PAR objectives: **+25% throughput at given SINR, −25% 95th-percentile {{latency|latency}}, −25% MPDU loss across BSS transitions**.
 
-Headline features: **Multi-AP Coordination (Co-BF, Co-SR, Co-TDMA), Seamless Roaming Domain (SMD), Enhanced Long Range PPDU, Distributed Resource Units, Non-Primary Channel Access**. The pattern across all of these: optimise the existing speed budget for **tail latency and reliability** instead of headline throughput.
+Headline features: **Multi-AP Coordination (Co-BF, Co-SR, Co-TDMA), Seamless Roaming Domain (SMD), Enhanced Long Range PPDU, Distributed Resource Units, Non-Primary Channel Access**. The pattern across all of these: optimise the existing speed budget for **{{tail-latency|tail latency}} and reliability** instead of headline throughput.
 
 **Wi-Fi 8 is targeted for ratification September 2028**. As of the March 2026 plenary, TGbn was at Draft 1.3, with Draft 2.0 ballot targeted for May 2026 (Antwerp). **Broadcom announced a Wi-Fi 8 chipset in October 2025**; **ASUS demoed a draft router at CES 2026**; consumer launches expected mid-to-late 2026. A "Wi-Fi 9" successor study group started January 2026.`
 						},
@@ -355,7 +355,7 @@ Headline features: **Multi-AP Coordination (Co-BF, Co-SR, Co-TDMA), Seamless Roa
 
 **The CSIRO patent windfall**: Australia's CSIRO held US Patent 5,487,069 (granted 23 January 1996) on radio-astronomy-derived OFDM/multipath. After Buffalo lost in 2005, CSIRO settled with 14 majors in 2009 (~US$205M) and again with AT&T/Verizon/T-Mobile in 2012 (~US$220M) — **lifetime royalties reportedly ~US$430M+, near US$1 billion by some industry estimates**. Patents expired 30 November 2013. Most of Wi-Fi's mid-2010s deployment happened in the post-CSIRO-royalty era.
 
-The 2024 security news: **SSID Confusion (CVE-2023-52424, May 2024)**: Gollier & Vanhoef (WiSec 2024) showed the SSID is not part of the 4-way-handshake key derivation in many configurations, allowing downgrade-style trickery against any client OS — the most important new Wi-Fi flaw since FragAttacks.
+The 2024 security news: **SSID Confusion (CVE-2023-52424, May 2024)**: Gollier & Vanhoef (WiSec 2024) showed the SSID is not part of the 4-way-{{handshake|handshake}} key derivation in many configurations, allowing downgrade-style trickery against any client OS — the most important new Wi-Fi flaw since FragAttacks.
 
 The 5.9 GHz transition: **FCC's Second Report and Order (FCC 24-106, November 2024)** finalised C-V2X for ITS and **mandated retirement of DSRC by 14 December 2026** — ending the 1999 DSRC monopoly that 802.11p was built on.`
 						}

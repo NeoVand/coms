@@ -9,9 +9,9 @@ export const tcp: Protocol = {
 	year: 1981,
 	rfc: 'RFC 9293',
 	oneLiner: 'Guarantees ordered, reliable delivery of data between applications.',
-	overview: `TCP is the backbone of the internet. When you load a webpage, send an email, or download a file, TCP ensures every single byte arrives correctly and in order. It does this by {{connection-oriented|establishing a connection}} between sender and receiver before any data flows — like a phone call where both sides confirm they can hear each other. TCP is inherently {{stateful|stateful}}: each connection tracks sequence numbers, acknowledgments, window sizes, and retransmission timers throughout its lifetime.
+	overview: `TCP is the backbone of the internet. When you load a webpage, send an email, or download a file, TCP ensures every single byte arrives correctly and in order. It does this by {{connection-oriented|establishing a connection}} between sender and receiver before any data flows — like a phone call where both sides confirm they can hear each other. TCP is inherently {{stateful|stateful}}: each connection tracks sequence numbers, acknowledgments, window sizes, and {{retransmission|retransmission}} timers throughout its lifetime.
 
-Unlike [[udp|UDP]], TCP will detect lost {{packet|packets}} and {{retransmission|retransmit}} them. It also implements {{flow-control|flow control}} (so a fast sender doesn't overwhelm a slow receiver) and {{congestion-control|congestion control}} (so the network itself doesn't get overloaded). TCP's congestion control has evolved over the decades — from the original Tahoe and Reno algorithms through CUBIC (still the Linux default) to Google's BBR, which models the path's bottleneck bandwidth and RTT instead of treating loss as the only signal. BBRv3 has been the default for google.com and YouTube since 2023. This reliability comes at a cost: extra round trips and overhead, which is why {{latency|latency}}-sensitive applications sometimes prefer [[udp|UDP]].
+Unlike [[udp|UDP]], TCP will detect lost {{packet|packets}} and {{retransmission|retransmit}} them. It also implements {{flow-control|flow control}} (so a fast sender doesn't overwhelm a slow receiver) and {{congestion-control|congestion control}} (so the network itself doesn't get overloaded). TCP's {{congestion-control|congestion control}} has evolved over the decades — from the original Tahoe and Reno algorithms through {{cubic|CUBIC}} (still the Linux default) to Google's BBR, which models the path's bottleneck {{bandwidth|bandwidth}} and RTT instead of treating loss as the only signal. BBRv3 has been the default for google.com and YouTube since 2023. This reliability comes at a cost: extra round trips and overhead, which is why {{latency|latency}}-sensitive applications sometimes prefer [[udp|UDP]].
 
 TCP operates at Layer 4 (Transport) of the {{osi-model|OSI model}} and is identified by protocol number 6 in the IP header. Nearly every major internet application — [[http1|HTTP]], [[ssh|SSH]], [[ftp|FTP]], [[smtp|SMTP]] — runs on top of TCP.`,
 	howItWorks: [
@@ -23,12 +23,12 @@ TCP operates at Layer 4 (Transport) of the {{osi-model|OSI model}} and is identi
 		{
 			title: 'SYN-ACK — Server responds',
 			description:
-				'The server responds with SYN-ACK, acknowledging the client\'s sequence number and proposing its own. "Yes, I hear you. Can you hear me?"'
+				'The server responds with SYN-ACK, acknowledging the client\'s {{sequence-number|sequence number}} and proposing its own. "Yes, I hear you. Can you hear me?"'
 		},
 		{
 			title: 'ACK — Connection established',
 			description:
-				"The client sends an ACK confirming the server's sequence number. The {{three-way-handshake|three-way handshake}} is complete — data can now flow."
+				"The client sends an ACK confirming the server's {{sequence-number|sequence number}}. The {{three-way-handshake|three-way handshake}} is complete — data can now flow."
 		},
 		{
 			title: 'Data transfer',
@@ -64,7 +64,7 @@ print(f"Connected by {addr}")
 data = conn.recv(1024)  # Reliable, ordered delivery
 conn.sendall(b"Hello back!")
 conn.close()  # FIN sequence`,
-		caption: 'A minimal TCP server — the 3-way handshake happens automatically inside accept()',
+		caption: 'A minimal TCP server — the 3-way {{handshake|handshake}} happens automatically inside accept()',
 		alternatives: [
 			{
 				language: 'javascript',
@@ -182,7 +182,7 @@ Client → Server  [ACK]
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Tcp_state_diagram.svg/500px-Tcp_state_diagram.svg.png',
 		alt: 'TCP finite state machine diagram showing all connection states from CLOSED through ESTABLISHED to TIME_WAIT',
 		caption:
-			'The TCP state machine — every TCP connection transitions through these states. From the three-way handshake (SYN → SYN-ACK → ACK) to graceful teardown (FIN → FIN-ACK), this diagram maps the full lifecycle of a TCP connection.',
+			'The TCP state machine — every TCP connection transitions through these states. From the {{three-way-handshake|three-way handshake}} (SYN → SYN-ACK → ACK) to graceful teardown (FIN → FIN-ACK), this diagram maps the full lifecycle of a TCP connection.',
 		credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 	},
 
@@ -198,21 +198,21 @@ Client → Server  [ACK]
 			date: '2025-01',
 			title: 'Comcast launches L4S in production',
 			description:
-				'Sub-millisecond queuing latency for cooperating flows in six US metros, with Apple, NVIDIA GeForce NOW, Meta, and Valve as launch partners. The first large-scale deployment of the L4S architecture ([[rfc:9330|RFC 9330]]/9331/9332) on a production access network.',
+				'Sub-millisecond queuing {{latency|latency}} for cooperating flows in six US metros, with Apple, NVIDIA GeForce NOW, Meta, and Valve as launch partners. The first large-scale deployment of the L4S architecture ([[rfc:9330|RFC 9330]]/9331/9332) on a production access network.',
 			source: { url: 'https://www.rcrwireless.com/20250129/uncategorized/comcast-l4s', label: 'RCR Wireless' }
 		},
 		{
 			date: '2025-06',
 			title: 'Linux 6.15 lands io_uring zero-copy receive',
 			description:
-				'io_uring zcrx integrated with the kernel TCP stack hit ~106 Gb/s on a single TCP flow versus ~74 Gb/s for epoll — a ~40% throughput jump for high-bandwidth servers without any application changes.',
+				'io_uring zcrx integrated with the kernel TCP stack hit ~106 Gb/s on a single TCP flow versus ~74 Gb/s for epoll — a ~40% throughput jump for high-{{bandwidth|bandwidth}} servers without any application changes.',
 			source: { url: 'https://www.phoronix.com/news/Linux-6.15-IO_uring', label: 'Phoronix' }
 		},
 		{
 			date: '2025-03',
 			title: 'AccECN advances to draft-34',
 			description:
-				'Accurate ECN (draft-ietf-tcpm-accurate-ecn) reallocates the old ECN-Nonce bit to deliver more than one congestion signal per RTT — the precondition L4S over TCP needs for fine-grained congestion response.',
+				'Accurate ECN (draft-ietf-tcpm-accurate-ecn) reallocates the old ECN-{{nonce|Nonce}} bit to deliver more than one congestion signal per RTT — the precondition L4S over TCP needs for fine-grained congestion response.',
 			source: {
 				url: 'https://datatracker.ietf.org/doc/draft-ietf-tcpm-accurate-ecn/',
 				label: 'IETF Datatracker'
@@ -225,13 +225,13 @@ Client → Server  [ACK]
 			org: 'Linux kernel',
 			scale: 'CUBIC default since 2.6.19',
 			description:
-				'{{cubic|CUBIC}} has been the default TCP congestion control on Linux since 2006. Most large-scale Linux servers (web, database, file) run it.'
+				'{{cubic|CUBIC}} has been the default TCP {{congestion-control|congestion control}} on Linux since 2006. Most large-scale Linux servers (web, database, file) run it.'
 		},
 		{
 			org: 'Google',
 			scale: 'BBR for google.com / YouTube',
 			description:
-				'BBRv1 deployed in 2016, BBRv3 has rolled out as the default since 2024. Replaces CUBIC for outbound traffic from Google\'s edge.'
+				'BBRv1 deployed in 2016, BBRv3 has rolled out as the default since 2024. Replaces {{cubic|CUBIC}} for outbound traffic from Google\'s edge.'
 		},
 		{
 			org: 'Meta',
@@ -243,7 +243,7 @@ Client → Server  [ACK]
 			org: 'Apple',
 			scale: 'iOS / macOS default',
 			description:
-				'NewReno + CUBIC by default since iOS 5; ECN with L4S support enabled by default on iOS 17+ and macOS Sonoma+.'
+				'NewReno + {{cubic|CUBIC}} by default since iOS 5; ECN with L4S support enabled by default on iOS 17+ and macOS Sonoma+.'
 		}
 	],
 
@@ -254,7 +254,7 @@ Client → Server  [ACK]
 		},
 		{
 			title: 'TCP\'s sequence numbers used to be guessable',
-			text: 'Early TCP picked the initial sequence number from a counter incremented at a fixed rate per second. Kevin Mitnick used this in 1994 to forge a connection to Tsutomu Shimomura\'s host. Modern stacks use a cryptographically-random ISN per [[rfc:9293|RFC 9293]] §3.4.1.'
+			text: 'Early TCP picked the initial {{sequence-number|sequence number}} from a counter incremented at a fixed rate per second. Kevin Mitnick used this in 1994 to forge a connection to Tsutomu Shimomura\'s host. Modern stacks use a cryptographically-random ISN per [[rfc:9293|RFC 9293]] §3.4.1.'
 		},
 		{
 			title: 'The window field is only 16 bits',
@@ -270,11 +270,11 @@ Client → Server  [ACK]
 		pitfalls: [
 			{
 				title: 'Nagle + Delayed ACK = 200ms latency',
-				text: 'Nagle\'s algorithm coalesces small writes; {{delayed-ack|delayed ACK}} batches acknowledgements. When both are on (the default), interactive applications writing in small chunks can stall for up to 200 ms waiting for an ACK. Cure: setsockopt(TCP_NODELAY, 1) for low-latency apps.'
+				text: 'Nagle\'s algorithm coalesces small writes; {{delayed-ack|delayed ACK}} batches acknowledgements. When both are on (the default), interactive applications writing in small chunks can stall for up to 200 ms waiting for an ACK. Cure: setsockopt(TCP_NODELAY, 1) for low-{{latency|latency}} apps.'
 			},
 			{
 				title: 'Ephemeral port exhaustion',
-				text: 'On a server doing many short-lived outbound connections (e.g., to upstream APIs), the local OS exhausts the {{ephemeral-port|ephemeral port}} range (default 32768-60999 on Linux). Sockets sit in TIME_WAIT for ~60s, blocking the four-tuple. Cure: enable connection reuse (HTTP {{keep-alive|keep-alive}}, [[grpc|gRPC]] pooling), or widen the range with net.ipv4.ip_local_port_range.'
+				text: 'On a server doing many short-lived outbound connections (e.g., to upstream APIs), the local OS exhausts the {{ephemeral-port|ephemeral port}} range (default 32768-60999 on Linux). Sockets sit in {{time-wait|TIME_WAIT}} for ~60s, blocking the four-tuple. Cure: enable connection reuse (HTTP {{keep-alive|keep-alive}}, [[grpc|gRPC]] pooling), or widen the range with net.ipv4.ip_local_port_range.'
 			},
 			{
 				title: 'PMTU black holes',

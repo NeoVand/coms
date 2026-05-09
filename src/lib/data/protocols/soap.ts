@@ -12,7 +12,7 @@ export const soap: Protocol = {
 		'XML-based messaging for enterprise web services — structured envelopes, strict schemas, and built-in error handling.',
 	overview: `SOAP is a messaging protocol that wraps remote procedure calls in structured {{xml|XML}} envelopes. Originally "Simple Object Access Protocol," the W3C dropped the acronym expansion in SOAP 1.2 (2003) — it's now just "SOAP." Developed by Dave Winer, Don Box, and others at Microsoft in 1998, it became the backbone of enterprise web services throughout the 2000s. Services describe themselves using WSDL (Web Services Description Language) — a machine-readable XML contract that defines available operations, message formats, and endpoint URLs. Where [[rest|REST]] embraces simplicity and convention, SOAP enforces formality and precision.
 
-Every SOAP message is an XML Envelope containing an optional {{header|Header}} and a required Body. The Header carries metadata — authentication tokens, routing information, transaction IDs, WS-Addressing headers — while the Body contains the actual operation and its parameters. SOAP messages travel over [[http1|HTTP]] POST (most commonly), though the {{protocol|protocol}} is transport-agnostic and can also run over SMTP, JMS, or raw [[tcp|TCP]]. In SOAP 1.1, the Content-Type is \`text/xml\` and a separate \`SOAPAction\` HTTP header identifies the intended operation. SOAP 1.2 changed this: it uses \`application/soap+xml\` and embeds the action in the Content-Type parameter instead.
+Every SOAP message is an XML Envelope containing an optional {{header|Header}} and a required Body. The Header carries metadata — authentication tokens, routing information, transaction IDs, WS-Addressing headers — while the Body contains the actual operation and its parameters. SOAP messages travel over [[http1|HTTP]] POST (most commonly), though the {{protocol|protocol}} is transport-agnostic and can also run over [[smtp|SMTP]], JMS, or raw [[tcp|TCP]]. In SOAP 1.1, the Content-Type is \`text/xml\` and a separate \`SOAPAction\` {{header|HTTP header}} identifies the intended operation. SOAP 1.2 changed this: it uses \`application/soap+xml\` and embeds the action in the Content-Type parameter instead.
 
 SOAP remains deeply embedded in banking, healthcare, government, and insurance systems where its strengths matter most: WSDL provides formal contracts that both sides can validate at compile time, WS-Security handles {{encryption|encryption}} and signing at the message level (beyond what [[tls|TLS]] offers), WS-ReliableMessaging guarantees delivery, and WS-AtomicTransaction coordinates distributed commits. For new projects, [[rest|REST]], [[grpc|gRPC]], and [[graphql|GraphQL]] have largely replaced SOAP — but the protocol still processes trillions of dollars in financial transactions every year.`,
 	howItWorks: [
@@ -24,7 +24,7 @@ SOAP remains deeply embedded in banking, healthcare, government, and insurance s
 		{
 			title: 'Envelope construction',
 			description:
-				'Client builds an XML SOAP Envelope containing an optional Header (authentication, routing, transaction context) and a Body with the operation name and parameters. The SOAPAction HTTP header is set to identify the target operation.'
+				'Client builds an XML SOAP Envelope containing an optional Header (authentication, routing, transaction context) and a Body with the operation name and parameters. The SOAPAction {{header|HTTP header}} is set to identify the target operation.'
 		},
 		{
 			title: 'HTTP POST',
