@@ -58,7 +58,9 @@ const highlightedNames: Record<string, string> = {
 	'mdns-dns-sd': '[m][DNS] / [DNS-SD]',
 	cellular: '[4G] / [5G] [C]ellular',
 	kerberos: '[K]erberos',
-	nfc: '[N]ear [F]ield [C]ommunication'
+	nfc: '[N]ear [F]ield [C]ommunication',
+	zigbee: '[Zigbee]',
+	uwb: '[U]ltra-[W]ide[b]and'
 };
 
 export interface NameSegment {

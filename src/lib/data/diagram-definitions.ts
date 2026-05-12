@@ -1610,6 +1610,64 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
 		}
 	},
 
+	zigbee: {
+		definition: `sequenceDiagram
+    participant B as New Bulb (Joiner)
+    participant R as Router
+    participant C as Coordinator + Trust Center
+    Note over B: Power on — no parent yet
+    B->>R: Beacon Request (MAC Cmd 0x07, broadcast)
+    C->>B: Beacon — PAN=0x1A62, Permit-Join=1
+    B->>C: Association Request (Capability=0x8E)
+    C->>B: Association Response — short=0x3F4E
+    Note over C,B: APS Transport-Key (encrypted under pre-conf link key)
+    C->>B: Network Key delivered
+    B->>R: NWK Device Announce broadcast — "I am 0x3F4E"
+    Note over R,C: Routers add 0x3F4E to routing tables
+    C->>B: ZCL OnOff.Toggle (cluster=0x0006, cmd=0x02)
+    Note over B: Bulb turns on`,
+		caption:
+			"**[[zigbee|Zigbee]] join** = the beacon → Association → Transport-Key → Device-Announce flow every Hue bulb, Trådfri light, and Aqara sensor runs the first time it pairs. The critical step is the **APS Transport-Key**: the network key is delivered encrypted under the joiner's pre-configured link key — either an **install code** (secure) or the default *ZigBeeAlliance09* (sniffable at join).",
+		steps: {
+			0: 'The new bulb has no parent. It broadcasts a **Beacon Request** (MAC Cmd 0x07) on the chosen channel. Pick 15, 20, 25, or 26 to avoid [[wifi|Wi-Fi]] channels 1/6/11.',
+			1: 'Every router and the Coordinator that permits joining replies with a **Beacon** advertising the PAN ID, the Coordinator short address (0x0000), Stack Profile (Zigbee PRO), and the Permit-Joining flag. The joiner picks by RSSI + LQI + capability.',
+			2: '**Association Request** — the joiner asks for a short address. Capability byte 0x8E = FFD, mains-powered, security-capable, allocate-short.',
+			3: 'The Coordinator allocates a 16-bit short (here 0x3F4E) — much cheaper than the 8-byte EUI-64 on every frame for the rest of the device\'s life on this network.',
+			5: '**APS Transport-Key** (cmd 0x05) delivers the network key, **encrypted under the pre-configured link key**. With an install code, an eavesdropper at join cannot decrypt this; with default *ZigBeeAlliance09*, they can — the canonical Zigbee sniffer-at-join attack.',
+			6: '**Device Announce** (ZDO cluster 0x0013) — the joiner broadcasts its arrival so every router can add it to routing and binding tables. From here it is on the mesh.',
+			7: '**ZCL OnOff Toggle** (cluster 0x0006, command 0x02) — the canonical first command. The whole on-the-wire payload, including all 802.15.4 + NWK + APS + ZCL headers, fits in ~40 bytes.'
+		}
+	},
+
+	uwb: {
+		definition: `sequenceDiagram
+    participant P as Phone (Initiator)
+    participant A as Anchor (Responder)
+    Note over P,A: BLE bootstrap
+    A->>P: BLE ADV_NONCONN_IND (service UUID)
+    P->>A: BLE GATT pairing + PAKE auth
+    P->>A: BLE: STS_KEY transport + ranging schedule
+    Note over P,A: UWB DS-TWR — Ch 9, 7987.2 MHz, BPRF, 6.81 Mbps
+    P->>A: UWB Poll — RFRAME with STS, t1 = TX timestamp
+    A->>P: UWB Response — STS, carries t2, t3
+    P->>A: UWB Final — STS, carries t1, t4, t5
+    Note over A: ToF = (T_r1·T_r2 - T_p1·T_p2) / (T_r1+T_r2+T_p1+T_p2)
+    Note over A: distance = ToF × c ≈ 1.41 m
+    A->>P: BLE: result — distance + bearing → Unlock / Refresh`,
+		caption:
+			"**[[uwb|UWB]] DS-TWR** = the secure ranging flow under AirTag Precision Finding, BMW Digital Key, and Aliro hands-free unlock. [[bluetooth|BLE]] does the bootstrap (auth + STS_KEY transport); UWB does the three-message ranging exchange; the cross-product cancels clock drift; **STS** is the AES-CTR-generated pulse pattern that makes the distance measurement unforgeable.",
+		steps: {
+			0: 'Every consumer UWB session starts on [[bluetooth|BLE]]. The anchor advertises its service UUID; the phone discovers it. UWB is not yet powered — saves battery.',
+			1: 'BLE GATT pairing + application-specific authentication. **SPAKE2+/PAKE** for {{ccc-digital-key|CCC Digital Key}}; Apple\'s proprietary handshake for Find My; ECDSA mutual auth for {{aliro|Aliro 1.0}}.',
+			2: 'The **STS_KEY** (128-bit AES key) and ranging schedule are transferred over the BLE encrypted channel. Without this key, the UWB ranging frames look like noise to any other receiver.',
+			3: '**Poll** — Phone fires UWB on Channel 9 (7987.2 MHz, 499.2 MHz BW). The 32-chip {{sts|STS}} segment is the AES-CTR-generated pulse pattern that defeats the distance-decrease attack. The phone records `t1 = TX timestamp` at the SFD (~15 ps resolution).',
+			4: '**Response** — Anchor RX-timestamps the Poll at t2, deliberately delays by T_reply1 (~200 µs), then transmits Response carrying t2, t3. Phone records `t4 = RX timestamp`.',
+			5: '**Final** — Phone delays by T_reply2 and transmits Final carrying t1, t4, t5. Anchor records `t6 = RX`. All six timestamps now exist.',
+			6: 'The **DS-TWR cross-product** cancels relative clock drift to first order. ToF resolved to ~1 ns ≈ 30 cm; with multipath and STS valid, real-world DS-TWR achieves 10–30 cm distance accuracy and ~5 cm standard deviation.',
+			8: 'Distance + bearing returned over BLE. Apple\'s Nearby Interaction framework refreshes at ~10 Hz; the haptic + display guide the user. For Digital Key, distance ≤ threshold + valid credential → **Unlock**.'
+		}
+	},
+
 	nfc: {
 		definition: `sequenceDiagram
     participant T as Terminal (PCD)

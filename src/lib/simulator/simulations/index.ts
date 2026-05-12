@@ -54,6 +54,8 @@ import { mdnsDiscovery } from './mdns-discovery';
 import { cellularRegistration } from './cellular-registration';
 import { kerberosAuth } from './kerberos-auth';
 import { nfcTap } from './nfc-tap';
+import { zigbeeJoin } from './zigbee-join';
+import { uwbRanging } from './uwb-ranging';
 
 const simulations = new Map<string, SimulationConfig>([
 	['tcp', tcpHandshake],
@@ -110,7 +112,9 @@ const simulations = new Map<string, SimulationConfig>([
 	['mdns-dns-sd', mdnsDiscovery],
 	['cellular', cellularRegistration],
 	['kerberos', kerberosAuth],
-	['nfc', nfcTap]
+	['nfc', nfcTap],
+	['zigbee', zigbeeJoin],
+	['uwb', uwbRanging]
 ]);
 
 export function getSimulation(protocolId: string): SimulationConfig | undefined {

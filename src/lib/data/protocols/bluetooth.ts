@@ -203,7 +203,7 @@ CRC: x^24 + x^10 + x^9 + x^6 + x^4 + x^3 + x + 1, seeded by Access Address.`
 		overhead:
 			'BLE LL adds 10 bytes per packet (1 preamble + 4 Access Address + 2 LL header + 3 CRC). ATT operation overhead: 3-byte ATT header + 4-byte L2CAP. Default ATT MTU = 23 → 20 bytes payload per Notify; negotiate up to 247 or 517'
 	},
-	connections: ['wifi', 'ipv6', 'tls', 'mdns-dns-sd', 'cellular', 'nfc'],
+	connections: ['wifi', 'ipv6', 'tls', 'mdns-dns-sd', 'cellular', 'nfc', 'zigbee', 'uwb'],
 	links: {
 		wikipedia: 'https://en.wikipedia.org/wiki/Bluetooth',
 		official: 'https://www.bluetooth.com/specifications/specs/'

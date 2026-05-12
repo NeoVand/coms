@@ -1021,6 +1021,114 @@ Maintains the **TeslaKee** defensive app for Android/iOS. His public disclosures
 		links: {
 			homepage: 'https://trifinite.org/'
 		}
+	},
+	{
+		id: 'bob-heile',
+		name: 'Bob Heile',
+		years: '1945–2020',
+		title: 'Founding Chair of the Zigbee Alliance; founding member of IEEE 802.11',
+		org: 'BBN → Zigbee Alliance / IEEE 802.15 → Wi-SUN Alliance',
+		contribution: `**Robert F. Heile** is the institutional father of low-power 802.15.4-based wireless. Physics doctorate at Johns Hopkins; started his data-communications career in 1980 at Codex Corp.; joined **BBN in 1997** to commercialise wireless technology, then transitioned full-time into standards.
+
+A **founding member of IEEE 802.11 (Wi-Fi) in 1990** — and an active contributor through the rest of his life. In **August 2002** he co-founded the **Zigbee Alliance** and chaired it through 2013, taking the organisation from concept to over 400 member companies. He concurrently chaired **IEEE 802.15** (the WG on Wireless Specialty Networks) for almost two decades and **IEEE 2030.5** (Smart Energy Profile 2.0). From 2015 he served as **Director of Standards at the Wi-SUN Alliance** while still chairing 802.15.
+
+Almost every low-power 802.15.4-based protocol you can name — [[zigbee|Zigbee]], Thread, WirelessHART, Wi-SUN — traces directly back through Bob. He died of prostate cancer in North Attleboro, Massachusetts on **24 September 2020**; the IEEE 802.15 chair role he held continuously for almost two decades was passed days before his death.`,
+		protocols: ['zigbee'],
+		categories: ['wireless'],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/Bob_Heile'
+		}
+	},
+	{
+		id: 'tobin-richardson',
+		name: 'Tobin Richardson',
+		years: 'c. 1968–',
+		title: 'President & CEO, Connectivity Standards Alliance (formerly Zigbee Alliance)',
+		org: 'Connectivity Standards Alliance',
+		contribution: `UC Davis undergraduate; master's at Georgetown. Entered the IoT world in 2008 helping establish **Zigbee Smart Energy** as the utility-industry connectivity standard. Joined the Zigbee Alliance leadership in 2014; became President & CEO.
+
+Under his leadership the Alliance launched **Project CHIP (now Matter)** in December 2019 with Amazon, Apple, and Google as co-founders; **rebranded from Zigbee Alliance to Connectivity Standards Alliance** on 11 May 2021; and grew membership past **850 companies in 45 countries**. The CSA he runs now stewards Zigbee, Matter, RF4CE, and Aliro under one umbrella.
+
+Sits on the World Economic Forum's Council on the Connected World as chair of the WEF initiative on cross-stakeholder IoT collaboration. The political bridge that kept Zigbee semantically alive across the Matter transition — bridge code in Hue, Aqara, and SmartThings hubs is the direct outcome.`,
+		protocols: ['zigbee'],
+		categories: ['wireless']
+	},
+	{
+		id: 'skip-ashton',
+		name: 'Skip Ashton',
+		years: 'c. 1957–',
+		title: 'VP Engineering, Ember → Silicon Labs → Infineon; long-time Zigbee technical lead',
+		org: 'Ember Corporation → Silicon Labs → Infineon',
+		contribution: `Joined **Ember Corporation** (Cambridge, MA — founded 2001 by Andrew Wheeler and Robert Poor) as VP of Engineering and Technology, leading the **EmberZNet PRO** stack — the reference [[zigbee|Zigbee]] stack against which every other implementation is still measured.
+
+When **Silicon Labs acquired Ember in May 2012**, Skip became VP of Software at Silicon Labs covering 8- and 32-bit MCU drivers, EmberZNet, and short-range sub-GHz. Involved with Zigbee since 2004; served as a Zigbee Alliance board member, **Chair of the Zigbee Technical Committee**, **Chair of the Zigbee Test and Certification Committee**, and on the NIST Smart Grid Architecture Committee. Later moved to Infineon as a Distinguished Engineer and has served on the **Thread Group board** as well — the rare individual who has technical authority over both 802.15.4 mesh stacks.`,
+		protocols: ['zigbee'],
+		categories: ['wireless']
+	},
+	{
+		id: 'robert-scholtz',
+		name: 'Robert A. Scholtz',
+		years: '1936–',
+		title: 'Theoretical founder of time-hopping impulse radio',
+		org: 'University of Southern California — Communication Sciences Institute',
+		contribution: `Foundational impulse-radio papers from the early 1990s. The canonical citation is **R. A. Scholtz, *"Multiple-Access with Time-Hopping Impulse Modulation,"*** *Proc. IEEE MILCOM '93*, Boston, MA, 11–14 October 1993 — the paper that defined the **time-hopping spread-spectrum framework** that lets many users share a UWB band.
+
+With his student [[pioneer:moe-win|Moe Z. Win]], co-authored *"Ultra-Wide Bandwidth Time-Hopping Spread-Spectrum Impulse Radio for Wireless Multiple-Access Communications"* (IEEE Trans. Commun., April 2000) — the most-cited UWB physical-layer paper in the field, recognised in his Engineering and Technology History Wiki bio and explicitly cited in FiRa Consortium's own *Introduction to Impulse Radio UWB* white paper as foundational to the technology.
+
+The theoretical grandfather of every modern [[uwb|UWB]] system, from the AirTag's U1 chip to BMW Digital Key Plus.`,
+		protocols: ['uwb'],
+		categories: ['wireless']
+	},
+	{
+		id: 'moe-win',
+		name: 'Moe Z. Win',
+		years: 'c. 1962–',
+		title: 'Robert R. Taylor Professor at MIT; founding director of MIT WINS Lab',
+		org: 'MIT Laboratory for Information and Decision Systems',
+		contribution: `**Robert R. Taylor Professor at MIT**, founding director of MIT's **Wireless Information and Network Sciences Laboratory (WINS Lab)** in LIDS. Before MIT, AT&T Research Laboratories (5 years) and NASA Jet Propulsion Laboratory (7 years). Bachelor's from Texas A&M; master's in applied math and PhD in EE from USC under [[pioneer:robert-scholtz|Robert Scholtz]].
+
+IEEE Fellow; recipient of the **IEEE Eric E. Sumner Award (2006)** "for pioneering contributions to ultra-wide band communications science and technology," and the IEEE Kiyo Tomiyasu Award.
+
+Co-authored the foundational **Dardari, Conti, Ferner, Giorgetti, Win — *"Ranging With Ultrawide Bandwidth Signals in Multipath Environments"*** (Proceedings of the IEEE, vol. 97, no. 2, Feb 2009) — the canonical reference for [[uwb|UWB]] time-of-arrival-based ranging theory in multipath. Every modern DS-TWR implementation owes its multipath bias model to this paper.`,
+		protocols: ['uwb'],
+		categories: ['wireless'],
+		awards: [
+			{ name: 'IEEE Eric E. Sumner Award', year: 2006 },
+			{ name: 'IEEE Kiyo Tomiyasu Award' }
+		]
+	},
+	{
+		id: 'larry-fullerton',
+		name: 'Larry W. Fullerton',
+		years: 'c. 1942–',
+		title: '1990s UWB commercialiser; founder of Time Domain Corporation',
+		org: 'Time Domain Corporation (Huntsville, AL) — later Humatics',
+		contribution: `Founded **Time Domain Corporation** in Huntsville, Alabama in 1987. Holder of foundational US patents on **impulse-radio modulation, time-hopping codes, and pulse-position encoding** from the late 1980s and 1990s. Co-author with [[pioneer:moe-win|Win]] and [[pioneer:robert-scholtz|Scholtz]] on early-1990s impulse-radio papers (e.g. *"Time-hopping SSMA techniques for impulse radio with an analog modulated data subcarrier,"* IEEE Spread Spectrum Tech. Symp., 1996).
+
+Time Domain was the canonical 1990s [[uwb|UWB]] start-up: patent-heavy from the start, technically influential well beyond the size of its products. The company pivoted through the 2000s toward military / intelligence-grade radar and metrology, eventually becoming **Humatics**. Fullerton's patents underpinned much of the early-2000s UWB licensing landscape and the early FCC proceedings that opened the 3.1–10.6 GHz band.`,
+		protocols: ['uwb'],
+		categories: ['wireless']
+	},
+	{
+		id: 'srdjan-capkun',
+		name: 'Srdjan Čapkun',
+		years: 'c. 1972–',
+		title: 'ETH Zurich professor; lead of the modern UWB ranging-security research',
+		org: 'ETH Zurich — System Security Group',
+		contribution: `Professor at ETH Zurich; head of the System Security Group; the most influential single academic voice in modern [[uwb|UWB]] ranging security. With students and collaborators (**Mridula Singh**, **Patrick Leu**, **Giovanni Camurati**, **Marc Roeschlin**, **Claudio Anliker**, **Alexander Heinrich** at TU Darmstadt), produced the foundational body of work that defined what FiRa, CCC, and IEEE 802.15.4ab had to fix:
+
+- *UWB-ED: Distance Enlargement Attack Detection in Ultra-Wideband* — USENIX Security 2019.
+- *UWB with Pulse Reordering: Securing Ranging against Relay and Physical-Layer Attacks* — NDSS 2019.
+- *Security analysis of IEEE 802.15.4z/HRP UWB time-of-flight distance measurement* — WiSec 2021 (Cicada++).
+- ***Ghost Peak: Practical Distance Reduction Attacks Against HRP UWB Ranging*** — USENIX Security 2022. The practical attack on deployed Apple U1, NXP, and Qorvo HRP-STS ranging. Reduces 12 m to 0 m at up to ~4 % success with a $65 device.
+- *Time for Change: How Clocks Break UWB Secure Ranging* — USENIX Security 2023.
+
+Apple's published reference STS receiver (Luo, Kalkanli, Zhou, Zhan, Cohen — arXiv:2312.03964, Dec 2023) is a direct response to this body of work. The 802.15.4ab amendment's tighter cipher-suite specification grew from the same conversation.`,
+		protocols: ['uwb'],
+		categories: ['wireless'],
+		links: {
+			homepage: 'https://syssec.ethz.ch/'
+		}
 	}
 ];
 

@@ -275,7 +275,7 @@ Total airtime from field-on to ARQC: ~300–800 ms on a real terminal.`
 		overhead:
 			'16-bit CRC_A per ISO 14443-3 frame; ISO 14443-4 I-blocks add 2–3 bytes PCB+CID; ISO 7816-4 APDU header is 4–7 bytes. NDEF status byte 1 + variable type/id/payload-length fields'
 	},
-	connections: ['bluetooth', 'wifi', 'tls', 'cellular'],
+	connections: ['bluetooth', 'wifi', 'tls', 'cellular', 'uwb'],
 	links: {
 		wikipedia: 'https://en.wikipedia.org/wiki/Near-field_communication',
 		official: 'https://nfc-forum.org/build/specifications'

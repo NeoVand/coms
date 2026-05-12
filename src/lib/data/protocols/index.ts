@@ -54,9 +54,11 @@ import { wireguard } from './wireguard';
 import { mdnsDnsSd } from './mdns-dns-sd';
 import { kerberos } from './kerberos';
 import { nfc } from './nfc';
+import { zigbee } from './zigbee';
+import { uwb } from './uwb';
 
 export const networkFoundationsProtocols: Protocol[] = [ethernet, arp, ip, ipv6, ospf];
-export const wirelessProtocols: Protocol[] = [wifi, bluetooth, cellular, nfc];
+export const wirelessProtocols: Protocol[] = [wifi, bluetooth, cellular, nfc, zigbee, uwb];
 export const transportProtocols: Protocol[] = [tcp, udp, quic, sctp, mptcp];
 export const webApiProtocols: Protocol[] = [
 	http1,
