@@ -26,9 +26,27 @@ Up to 5 concurrent.
 | 04 | WireGuard (re-run) | 04-wireguard.md | https://claude.ai/chat/3ba8254e-3552-480a-b39c-2bf49ed3f1d6 | 882617722 |
 | 06 | mDNS / DNS-SD | 06-mdns-dns-sd.md | https://claude.ai/chat/ca088bcd-7b18-44ac-8837-9fb842e242b6 | 882617725 |
 | 07 | Kerberos | 07-kerberos.md | https://claude.ai/chat/e24d5916-457a-40ed-b50f-27c89e333fca | 882617728 |
+| C1 | **Wireless category** (new — Wi-Fi + Bluetooth + family arc + book plan) | _wireless-category.md | https://claude.ai/chat/e21bf637-610d-4e40-a273-131886321f25 | 882617733 |
+| 17 | **Cellular** (4G LTE + 5G NR, new) | 17-cellular.md | https://claude.ai/chat/4fa6bbc9-5932-439d-88af-449cbc9d4a4e | 882617736 |
 | 08 | OIDC | 08-oidc.md | _queued_ | _queued_ |
 | 09 | ACME | 09-acme.md | _queued_ | _queued_ |
 | 10 | Email-auth (DKIM/SPF/DMARC) | 10-email-auth.md | _queued_ | _queued_ |
+
+## Wireless-category expansion (planned)
+
+After user feedback that a 2-protocol Wireless category looked thin, the
+plan expanded to 7 wireless protocols total:
+
+- ✅ **Wi-Fi** — already shipped
+- ✅ **Bluetooth** — already shipped
+- ⏳ **Cellular** (4G LTE + 5G NR) — research running, see C1/17 above
+- ⏳ **Thread** — bundled into Matter+Thread prompt (14, queued in batch 3)
+- 🔜 **NFC** — prompt being authored by background agent (18-nfc.md)
+- 🔜 **Zigbee** — prompt being authored by background agent (19-zigbee.md)
+- 🔜 **UWB** (Ultra-Wideband) — prompt being authored by background agent (20-uwb.md)
+
+Plus the category-level deep research (C1) returns the family narrative,
+spectrum map, internal taxonomy, and a book-chapter plan.
 
 ## Batch 3 (queued)
 
