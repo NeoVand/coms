@@ -7,7 +7,7 @@ export const webApiStory: CategoryStory = {
 		{
 			type: 'narrative',
 			title: 'A Proposal That Changed Everything',
-			text: `March 1989, CERN, Geneva. Tim Berners-Lee writes a proposal titled 'Information Management: A Proposal.' His boss writes 'Vague, but exciting' on the cover. This modest document describes a system of linked documents accessible over the network \u2014 the World Wide Web. At its heart: HTTP, a simple protocol where a client sends a request and a server sends a response.
+			text: `March 1989, CERN, Geneva. [[pioneer:tim-berners-lee|Tim Berners-Lee]] writes a proposal titled 'Information Management: A Proposal.' His boss writes 'Vague, but exciting' on the cover. This modest document describes a system of linked documents accessible over the network \u2014 the World Wide Web. At its heart: HTTP, a simple protocol where a client sends a request and a server sends a response.
 
 The first version, HTTP/0.9, supported just one command: GET. No headers, no content types, no status codes. Just 'give me this document.' It was beautifully simple, and it was enough to start a revolution. [[http1]]`
 		},
@@ -77,7 +77,7 @@ The first version, HTTP/0.9, supported just one command: GET. No headers, no con
 					year: 1998,
 					title: 'SOAP — XML Web Services',
 					description:
-						'Microsoft, IBM, and others introduce [[soap|SOAP]]: XML-wrapped RPC calls with formal WSDL contracts. Enterprise web services become the dominant integration pattern.',
+						'Microsoft, IBM, and others introduce [[soap|SOAP]]: {{xml|XML}}-wrapped RPC calls with formal WSDL contracts. Enterprise web services become the dominant integration pattern.',
 					protocolId: 'soap'
 				},
 				{
@@ -92,7 +92,7 @@ The first version, HTTP/0.9, supported just one command: GET. No headers, no con
 		{
 			type: 'narrative',
 			title: 'The API Revolution',
-			text: `Roy Fielding didn't set out to change how software was built. His dissertation was about understanding the web's architecture. But Chapter 5 \u2014 'Representational State Transfer' \u2014 described a set of constraints that, when followed, made web services scalable, simple, and loosely coupled. [[rest]] wasn't a protocol or a standard; it was a style. Use HTTP verbs (GET, POST, PUT, DELETE), use URLs as resource identifiers, make interactions {{stateless|stateless}}. It was the anti-[[soap|SOAP]] \u2014 no XML envelopes, no complex schemas, just clean HTTP.
+			text: `[[pioneer:roy-fielding|Roy Fielding]] didn't set out to change how software was built. His dissertation was about understanding the web's architecture. But Chapter 5 \u2014 'Representational State Transfer' \u2014 described a set of constraints that, when followed, made web services scalable, simple, and loosely coupled. [[rest]] wasn't a protocol or a standard; it was a style. Use HTTP verbs (GET, POST, PUT, DELETE), use URLs as resource identifiers, make interactions {{stateless|stateless}}. It was the anti-[[soap|SOAP]] \u2014 no {{xml|XML}} envelopes, no complex schemas, just clean HTTP.
 
 The API economy exploded. Every startup, every tech giant began exposing [[rest]] APIs. But [[rest|REST]] had limitations: over-fetching (getting more data than you need) and under-fetching (needing multiple requests). Facebook's mobile team felt this acutely \u2014 their News Feed required dozens of endpoints per page load. In 2012, Lee Byron, Dan Schafer, and Nick Schrock began building [[graphql]], a query language that let clients ask for exactly the data they needed.
 

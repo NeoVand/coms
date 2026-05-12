@@ -13,7 +13,7 @@ export const http2: Protocol = {
 
 {{multiplexing|Multiplexing}} is the killer feature: instead of waiting for each response before sending the next request, [[http2|HTTP/2]] interleaves multiple {{request-response|request-response}} pairs as "{{stream|streams}}" on a single [[tcp|TCP]] connection. This eliminates the need for multiple connections and dramatically improves page load times for resource-heavy sites.
 
-While the [[http2|HTTP/2]] spec (RFC 9113) doesn't mandate [[tls|TLS]], all browsers require HTTPS for [[http2|HTTP/2]] connections (h2). Unencrypted [[http2|HTTP/2]] (h2c) is only used in server-to-server communication.
+While the [[http2|HTTP/2]] spec ([[rfc:9113|RFC 9113]]) doesn't mandate [[tls|TLS]], all browsers require HTTPS for [[http2|HTTP/2]] connections (h2). Unencrypted [[http2|HTTP/2]] (h2c) is only used in server-to-server communication.
 
 However, [[http2|HTTP/2]] still runs on [[tcp|TCP]], which means [[tcp|TCP]]-level {{head-of-line-blocking|head-of-line blocking}} persists — a single lost [[tcp|TCP]] {{packet|packet}} blocks all streams. This is what motivated [[http3|HTTP/3]] and [[quic|QUIC]].`,
 	howItWorks: [

@@ -18,7 +18,7 @@ Despite its technical superiority in many aspects, [[sctp|SCTP]] never gained wi
 		{
 			title: '4-way handshake',
 			description:
-				"[[sctp|SCTP]] uses a 4-step {{handshake|handshake}} (INIT, INIT-ACK, {{cookie|COOKIE}}-ECHO, COOKIE-ACK) that prevents {{syn-flood|SYN flood}} attacks by design — no server state is allocated until the client proves it's real."
+				"[[sctp|SCTP]] uses a 4-step {{handshake|handshake}} (INIT, INIT-{{ack|ACK}}, {{cookie|COOKIE}}-ECHO, COOKIE-{{ack|ACK}}) that prevents {{syn-flood|SYN flood}} attacks by design — no server state is allocated until the client proves it's real."
 		},
 		{
 			title: 'Multi-streaming',

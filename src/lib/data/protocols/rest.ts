@@ -8,7 +8,7 @@ export const rest: Protocol = {
 	year: 2000,
 	oneLiner:
 		'An architectural style for web APIs — not a protocol, but the dominant pattern for HTTP services.',
-	overview: `[[rest|REST]] is not a protocol — it's an architectural style defined by Roy Fielding in his 2000 doctoral dissertation. It describes how to build scalable web services using the existing mechanics of [[http1|HTTP]]: URLs as resource identifiers, {{http-method|HTTP methods}} as operations, {{status-code|status codes}} as outcomes, and hypermedia as the engine of application state.
+	overview: `[[rest|REST]] is not a protocol — it's an architectural style defined by [[pioneer:roy-fielding|Roy Fielding]] in his 2000 doctoral dissertation. It describes how to build scalable web services using the existing mechanics of [[http1|HTTP]]: URLs as resource identifiers, {{http-method|HTTP methods}} as operations, {{status-code|status codes}} as outcomes, and hypermedia as the engine of application state.
 
 A RESTful API models everything as resources (nouns, not verbs). You GET a user, POST a new order, PUT an updated profile, DELETE a session. Each request is {{stateless|stateless}} — the server doesn't remember previous requests, so every call carries all the context it needs. This makes [[rest|REST]] APIs easy to cache, scale horizontally, and reason about.
 

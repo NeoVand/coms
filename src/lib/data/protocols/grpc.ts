@@ -41,7 +41,7 @@ It uses [[http2|HTTP/2]] for transport, gaining {{multiplexing|multiplexing}} an
 		'Mobile backend APIs (efficient binary protocol)',
 		'Real-time data streaming between services',
 		'Polyglot architectures (11 language support)',
-		'Kubernetes service mesh communication'
+		'Kubernetes {{service-mesh|service mesh}} communication'
 	],
 	codeExample: {
 		language: 'python',

@@ -18,7 +18,7 @@ Adoption is accelerating: Google, Cloudflare, Facebook, and most {{cdn|CDNs}} su
 		{
 			title: 'QUIC handshake (1 RTT)',
 			description:
-				'Transport and {{encryption|encryption}} are established in a single round trip. Returning clients can even send data immediately (0 RTT).'
+				'Transport and {{encryption|encryption}} are established in a single round trip. Returning clients can even send data immediately (0 {{rtt|RTT}}).'
 		},
 		{
 			title: 'QPACK header compression',
@@ -40,7 +40,7 @@ Adoption is accelerating: Google, Cloudflare, Facebook, and most {{cdn|CDNs}} su
 		'Modern web browsing (Chrome, Firefox, Safari support it)',
 		'Mobile-first applications',
 		'High-latency networks (satellite, remote areas)',
-		'CDN and edge computing',
+		'{{cdn|CDN}} and edge computing',
 		'Real-time collaboration tools'
 	],
 	codeExample: {
@@ -141,7 +141,7 @@ asyncio.run(fetch_h3())`
 			date: '2026',
 			title: '~35% of top 10M websites support HTTP/3',
 			description:
-				'W3Techs measurements show [[http3|HTTP/3]] adoption past 35% of the top 10M websites — every CDN-fronted site, plus a growing share of origin-served sites with nginx 1.25+ or Caddy.'
+				'W3Techs measurements show [[http3|HTTP/3]] adoption past 35% of the top 10M websites — every {{cdn|CDN}}-fronted site, plus a growing share of origin-served sites with nginx 1.25+ or Caddy.'
 		},
 		{
 			date: '2024-Q4',
@@ -201,7 +201,7 @@ asyncio.run(fetch_h3())`
 			},
 			{
 				title: 'CDN coverage is much better than origin coverage',
-				text: 'Cloudflare/Fastly/Akamai serve [[http3|HTTP/3]] universally; origin servers running older nginx, Apache, or IIS often do not. If your site sits behind a CDN, you have [[http3|HTTP/3]] for free. If you serve directly from origin, you need to deploy a recent nginx/Caddy/h2o build.'
+				text: 'Cloudflare/Fastly/Akamai serve [[http3|HTTP/3]] universally; origin servers running older nginx, Apache, or IIS often do not. If your site sits behind a {{cdn|CDN}}, you have [[http3|HTTP/3]] for free. If you serve directly from origin, you need to deploy a recent nginx/Caddy/h2o build.'
 			},
 			{
 				title: 'Some debugging tools have limited QUIC support',

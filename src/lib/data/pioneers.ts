@@ -282,9 +282,9 @@ Primary architect of [[ipv6|IPv6]] with Bob Hinden — RFC 1883 (1995), RFC 2460
 		years: '1950–',
 		title: 'Father of TCP Congestion Control',
 		org: 'Lawrence Berkeley Lab / Cisco / PARC / Google',
-		contribution: `Saved the internet from congestion collapse. After the October 1986 collapse — when throughput between Lawrence Berkeley Lab and UC Berkeley dropped from 32 kbps to 40 bps — Jacobson and Mike Karels published "Congestion Avoidance and Control" (SIGCOMM '88), introducing slow start, AIMD congestion avoidance, fast retransmit, and exponential RTO backoff. Six algorithms in one paper; arguably the highest-leverage networking paper ever written. Their fixes shipped in 4.3BSD-Tahoe and saved the internet.
+		contribution: `Saved the internet from congestion collapse. After the October 1986 collapse — when throughput between Lawrence Berkeley Lab and UC Berkeley dropped from 32 kbps to 40 bps — Jacobson and Mike Karels published "{{congestion-avoidance|Congestion Avoidance}} and Control" (SIGCOMM '88), introducing {{slow-start|slow start}}, {{aimd|AIMD}} {{congestion-avoidance|congestion avoidance}}, fast retransmit, and exponential RTO backoff. Six algorithms in one paper; arguably the highest-leverage networking paper ever written. Their fixes shipped in 4.3BSD-Tahoe and saved the internet.
 
-Also wrote traceroute, tcpdump's BPF (Berkeley Packet Filter), and co-authored RFC 1144 (Compressing [[tcp|TCP]]/[[ip|IP]] Headers for Low-Speed Serial Links). Co-author of the 2016 BBR paper at Google — congestion control for a second internet generation, replacing CUBIC for google.com and YouTube traffic.`,
+Also wrote traceroute, tcpdump's BPF (Berkeley Packet Filter), and co-authored RFC 1144 (Compressing [[tcp|TCP]]/[[ip|IP]] Headers for Low-Speed Serial Links). Co-author of the 2016 {{bbr|BBR}} paper at Google — {{congestion-control|congestion control}} for a second internet generation, replacing {{cubic|CUBIC}} for google.com and YouTube traffic.`,
 		imagePath:
 			'https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Van_Jacobson.jpg/330px-Van_Jacobson.jpg',
 		protocols: ['tcp'],
@@ -324,7 +324,7 @@ Also built the early NSFNET "Fuzzball" routers and gateway algorithms that ran t
 		years: 'c. 1970–',
 		title: 'Co-creator of SPDY (→ HTTP/2)',
 		org: 'Google / BitGo',
-		contribution: `Co-created SPDY at Google in 2009 with Roberto Peon — the experimental binary, multiplexed, header-compressed transport that proved [[http1|HTTP/1.1]]'s head-of-line blocking and one-request-per-connection model could be replaced. Within a year SPDY shipped in Chrome (2010); the IETF httpbis WG started [[http2|HTTP/2]] in 2012 using SPDY/2 as the base; [[http2|HTTP/2]] published as RFC 7540 in May 2015.
+		contribution: `Co-created SPDY at Google in 2009 with Roberto Peon — the experimental binary, multiplexed, header-compressed transport that proved [[http1|HTTP/1.1]]'s {{head-of-line-blocking|head-of-line blocking}} and one-request-per-connection model could be replaced. Within a year SPDY shipped in Chrome (2010); the IETF httpbis WG started [[http2|HTTP/2]] in 2012 using SPDY/2 as the base; [[http2|HTTP/2]] published as RFC 7540 in May 2015.
 
 Once [[http2|HTTP/2]] was on track, Google deprecated SPDY in Chrome — a textbook example of "ship a thing, prove it works, hand it to the standards body, retire your version." Now CEO of BitGo (cryptocurrency custody).`,
 		imagePath:
@@ -358,7 +358,7 @@ Google deployed gQUIC in production from 2013 onwards. The IETF [[quic|QUIC]] wo
 		years: 'c. 1968–',
 		title: 'Editor of TLS 1.3',
 		org: 'Mozilla / Windy Hill Systems',
-		contribution: `Edited [[tls|TLS]] 1.3 (RFC 8446, August 2018) — a five-year, 28-draft redesign that dropped insecure cipher suites, fused the handshake to one round-trip, and made AEAD mandatory. Designed the middlebox-compatibility hacks (legacy_version field, fake ChangeCipherSpec) that let [[tls|TLS]] 1.3 deploy on the open internet despite ~3% of middleboxes parsing the version field.
+		contribution: `Edited [[tls|TLS]] 1.3 (RFC 8446, August 2018) — a five-year, 28-draft redesign that dropped insecure cipher suites, fused the handshake to one round-trip, and made {{aead|AEAD}} mandatory. Designed the middlebox-compatibility hacks (legacy_version field, fake ChangeCipherSpec) that let [[tls|TLS]] 1.3 deploy on the open internet despite ~3% of middleboxes parsing the version field.
 
 Author of *SSL and [[tls|TLS]]: Designing and Building Secure Systems* (2000), the standard practitioner's text. Continues to chair IETF working groups on [[tls|TLS]], [[oauth2|OAuth]], and encrypted [[dns|DNS]]. The reason your browser's HTTPS handshake takes one round-trip in 2026 instead of two.`,
 		protocols: ['tls'],
@@ -400,7 +400,7 @@ Distilled the IETF's working culture into the sentence that decided the OSI vs [
 		org: 'Netscape / Salesforce / Axway',
 		contribution: `Designed SSL (Secure Sockets Layer) at Netscape in 1994-1996 — the protocol that made encrypted commerce on the open web possible and seeded what later became [[tls|TLS]]. SSL 3.0 (1996) was the version that POODLE eventually killed; the IETF took it over as [[tls|TLS]] 1.0 in RFC 2246 (January 1999) after a Microsoft/Netscape standards horsetrade.
 
-Also invented the Elgamal encryption algorithm (1985), one of the earliest practical public-key schemes, which underpins Diffie-Hellman key exchange and DSA signatures. Often called the "Father of SSL."`,
+Also invented the Elgamal encryption algorithm (1985), one of the earliest practical public-key schemes, which underpins {{diffie-hellman|Diffie-Hellman key exchange}} and DSA signatures. Often called the "Father of SSL."`,
 		imagePath:
 			'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Taher_Elgamal_it-sa_2010.jpg/330px-Taher_Elgamal_it-sa_2010.jpg',
 		protocols: ['tls'],

@@ -28,7 +28,7 @@ Think of a live video call: if one frame is lost, it's better to show the next f
 		{
 			title: 'No acknowledgment',
 			description:
-				'The receiver never sends an ACK. The sender has no idea if the packet arrived, was duplicated, or arrived out of order.'
+				'The receiver never sends an {{ack|ACK}}. The sender has no idea if the packet arrived, was duplicated, or arrived out of order.'
 		},
 		{
 			title: 'Application handles reliability',
@@ -208,7 +208,7 @@ ss -un  # or: netstat -un`
 		},
 		{
 			title: 'UDP is what middleboxes already pass',
-			text: '[[quic|QUIC]] runs over [[udp|UDP]] not because [[udp|UDP]] is great, but because middleboxes (NAT routers, firewalls, transparent proxies) already forward [[udp|UDP]] unchanged. [[sctp|SCTP]] is a "better" transport in many ways, but it cannot traverse the public internet because middleboxes drop unknown protocol numbers. [[udp|UDP]] is the deployment substrate.'
+			text: '[[quic|QUIC]] runs over [[udp|UDP]] not because [[udp|UDP]] is great, but because middleboxes ({{nat|NAT}} routers, firewalls, transparent proxies) already forward [[udp|UDP]] unchanged. [[sctp|SCTP]] is a "better" transport in many ways, but it cannot traverse the public internet because middleboxes drop unknown protocol numbers. [[udp|UDP]] is the deployment substrate.'
 		}
 	],
 
@@ -224,7 +224,7 @@ ss -un  # or: netstat -un`
 			},
 			{
 				title: 'Source port matters for NAT pinholes',
-				text: 'A NAT router opens a "pinhole" for outbound [[udp|UDP]] keyed by (src [[ip|IP]], src port). The pinhole closes after a few minutes of silence. For long-lived [[udp|UDP]] applications (VoIP, IoT keepalives), send a keepalive every 30-60 seconds to keep the pinhole open.'
+				text: 'A {{nat|NAT}} router opens a "pinhole" for outbound [[udp|UDP]] keyed by (src [[ip|IP]], src port). The pinhole closes after a few minutes of silence. For long-lived [[udp|UDP]] applications (VoIP, IoT keepalives), send a keepalive every 30-60 seconds to keep the pinhole open.'
 			}
 		]
 	}

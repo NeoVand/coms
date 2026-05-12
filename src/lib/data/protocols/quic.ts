@@ -12,7 +12,7 @@ export const quic: Protocol = {
 		'[[udp|UDP]]-based transport with built-in {{encryption|encryption}} and {{multiplexing|multiplexing}} — the future of the web.',
 	overview: `[[quic|QUIC]] is what happens when Google looks at [[tcp|TCP]]+[[tls|TLS]] and says "we can do better." It runs on top of [[udp|UDP]] but provides [[tcp|TCP]]-like reliability, [[tls|TLS 1.3]] {{encryption|encryption}}, and [[http2|HTTP/2]]-style {{multiplexing|multiplexing}} — all in a single protocol. The result: faster connections, no {{head-of-line-blocking|head-of-line blocking}}, and seamless {{connection-migration|connection migration}}.
 
-The key insight is combining the transport {{handshake|handshake}} with the [[tls|TLS]] {{handshake|handshake}}. [[tcp|TCP]]+[[tls|TLS 1.3]] requires 2 round trips before data flows (1 RTT for [[tcp|TCP]] handshake + 1 RTT for [[tls|TLS]]); [[quic|QUIC]] does it in 1 {{rtt|RTT}} (or 0 RTT for repeat connections). It also solves [[tcp|TCP]]'s {{head-of-line-blocking|head-of-line blocking}} problem: in [[http2|HTTP/2]] over [[tcp|TCP]], a single lost packet blocks ALL streams. In [[quic|QUIC]], streams are independent — a lost packet only affects its own stream.
+The key insight is combining the transport {{handshake|handshake}} with the [[tls|TLS]] {{handshake|handshake}}. [[tcp|TCP]]+[[tls|TLS 1.3]] requires 2 round trips before data flows (1 {{rtt|RTT}} for [[tcp|TCP]] handshake + 1 {{rtt|RTT}} for [[tls|TLS]]); [[quic|QUIC]] does it in 1 {{rtt|RTT}} (or 0 {{rtt|RTT}} for repeat connections). It also solves [[tcp|TCP]]'s {{head-of-line-blocking|head-of-line blocking}} problem: in [[http2|HTTP/2]] over [[tcp|TCP]], a single lost packet blocks ALL streams. In [[quic|QUIC]], streams are independent — a lost packet only affects its own stream.
 
 [[quic|QUIC]] powers [[http3|HTTP/3]], which is the latest version of HTTP. Major browsers and services (Google, Facebook, Cloudflare) already use it heavily. It's the most significant transport protocol innovation in decades.`,
 	howItWorks: [
@@ -39,7 +39,7 @@ The key insight is combining the transport {{handshake|handshake}} with the [[tl
 	],
 	useCases: [
 		'[[http3|HTTP/3]] web browsing',
-		'Mobile applications (connection migration)',
+		'Mobile applications ({{connection-migration|connection migration}})',
 		'Video streaming platforms',
 		'Cloud gaming',
 		'API communication over unstable networks'
@@ -216,7 +216,7 @@ sudo tcpdump -i any udp port 443`
 			org: 'Cloudflare',
 			scale: 'All HTTPS traffic',
 			description:
-				'quiche library powers [[quic|QUIC]] at Cloudflare\'s edge for every HTTPS site behind their CDN. Connection-coalescing and {{zero-rtt|0-RTT}} enabled by default.'
+				'quiche library powers [[quic|QUIC]] at Cloudflare\'s edge for every HTTPS site behind their {{cdn|CDN}}. Connection-coalescing and {{zero-rtt|0-RTT}} enabled by default.'
 		},
 		{
 			org: 'Apple',
@@ -237,7 +237,7 @@ sudo tcpdump -i any udp port 443`
 		},
 		{
 			title: 'QUIC encrypts almost the entire packet',
-			text: '[[tcp|TCP]] segment headers are visible to anyone on the path — sequence numbers, ACK numbers, window sizes. [[quic|QUIC]] encrypts almost everything except the Connection ID, packet number, and a few framing bits. This blocks decades of network-side observation tools (and is why some operators still resist [[quic|QUIC]]).'
+			text: '[[tcp|TCP]] segment headers are visible to anyone on the path — sequence numbers, {{ack|ACK}} numbers, window sizes. [[quic|QUIC]] encrypts almost everything except the Connection ID, packet number, and a few framing bits. This blocks decades of network-side observation tools (and is why some operators still resist [[quic|QUIC]]).'
 		}
 	],
 

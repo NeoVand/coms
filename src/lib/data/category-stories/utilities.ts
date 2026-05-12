@@ -7,7 +7,7 @@ export const utilitiesStory: CategoryStory = {
 		{
 			type: 'narrative',
 			title: 'The Fundamentals Come First',
-			text: `Before the web, before streaming, before even email as we know it — there were protocols for the most basic operations: transferring files and sending messages. In 1971, Abhay Bhushan at MIT wrote RFC 114, defining the File Transfer Protocol. [[ftp]] was one of the very first application-layer protocols on the ARPANET, allowing researchers to share files between distant universities.\n\nA year later, email followed. Jon Postel, the quiet architect of the internet, helped define how electronic messages should be formatted and delivered. By 1982, [[smtp]] (RFC 821) established the system that, remarkably, still carries the world's email today. These weren't glamorous protocols — they were the workhorses that made a network of computers actually useful.`
+			text: `Before the web, before streaming, before even email as we know it — there were protocols for the most basic operations: transferring files and sending messages. In 1971, Abhay Bhushan at MIT wrote [[rfc:114|RFC 114]], defining the File Transfer Protocol. [[ftp]] was one of the very first application-layer protocols on the ARPANET, allowing researchers to share files between distant universities.\n\nA year later, email followed. [[pioneer:jon-postel|Jon Postel]], the quiet architect of the internet, helped define how electronic messages should be formatted and delivered. By 1982, [[smtp]] ([[rfc:821|RFC 821]]) established the system that, remarkably, still carries the world's email today. These weren't glamorous protocols — they were the workhorses that made a network of computers actually useful.`
 		},
 		{
 			type: 'pioneers',
@@ -55,7 +55,7 @@ export const utilitiesStory: CategoryStory = {
 					year: 1982,
 					title: 'SMTP — RFC 821',
 					description:
-						'Jon Postel defines the Simple Mail Transfer Protocol. Email gets its universal delivery system.',
+						'[[pioneer:jon-postel|Jon Postel]] defines the Simple Mail Transfer Protocol. Email gets its universal delivery system.',
 					protocolId: 'smtp'
 				},
 				{
@@ -68,7 +68,7 @@ export const utilitiesStory: CategoryStory = {
 					year: 1983,
 					title: 'DNS Created — RFC 882/883',
 					description:
-						'Paul Mockapetris invents the Domain Name System. No more maintaining a single HOSTS.TXT file for the entire internet.',
+						'[[pioneer:paul-mockapetris|Paul Mockapetris]] invents the Domain Name System. No more maintaining a single HOSTS.TXT file for the entire internet.',
 					protocolId: 'dns'
 				},
 				{
@@ -97,7 +97,7 @@ export const utilitiesStory: CategoryStory = {
 		{
 			type: 'narrative',
 			title: 'The Naming Crisis',
-			text: `In the early internet, every computer on the network maintained a file called HOSTS.TXT — a simple list mapping hostnames to [[ip|IP]] addresses. The Stanford Research Institute maintained the master copy, and everyone downloaded updates periodically. This worked when there were a hundred hosts. By 1983, with thousands of hosts joining, it was falling apart.\n\nPaul Mockapetris solved this with [[dns]], the Domain Name System. Instead of one file, [[dns|DNS]] distributed the naming across a hierarchical system of servers. Ask for 'google.com' and your query cascades: root servers direct you to .com servers, which direct you to Google's name servers, which return the {{ip-address|IP address}}. This hierarchy handles billions of queries per day and translates every URL you type into the numbers the network actually uses.\n\nDavid Mills tackled an equally fundamental problem: time. How do you keep clocks synchronized across thousands of computers separated by unpredictable network delays? [[ntp]], the Network Time Protocol, uses a hierarchical system of time sources (stratum 0 from atomic clocks, cascading down) and sophisticated algorithms to compensate for network {{jitter|jitter}}. Mills maintained [[ntp|NTP]] for over 30 years — one person, one protocol, keeping the world's computers in sync.`
+			text: `In the early internet, every computer on the network maintained a file called HOSTS.TXT — a simple list mapping hostnames to [[ip|IP]] addresses. The Stanford Research Institute maintained the master copy, and everyone downloaded updates periodically. This worked when there were a hundred hosts. By 1983, with thousands of hosts joining, it was falling apart.\n\n[[pioneer:paul-mockapetris|Paul Mockapetris]] solved this with [[dns]], the Domain Name System. Instead of one file, [[dns|DNS]] distributed the naming across a hierarchical system of servers. Ask for 'google.com' and your query cascades: root servers direct you to .com servers, which direct you to Google's name servers, which return the {{ip-address|IP address}}. This hierarchy handles billions of queries per day and translates every URL you type into the numbers the network actually uses.\n\nDavid Mills tackled an equally fundamental problem: time. How do you keep clocks synchronized across thousands of computers separated by unpredictable network delays? [[ntp]], the Network Time Protocol, uses a hierarchical system of time sources (stratum 0 from atomic clocks, cascading down) and sophisticated algorithms to compensate for network {{jitter|jitter}}. Mills maintained [[ntp|NTP]] for over 30 years — one person, one protocol, keeping the world's computers in sync.`
 		},
 		{
 			type: 'image',
@@ -160,7 +160,7 @@ export const utilitiesStory: CategoryStory = {
 		{
 			type: 'narrative',
 			title: 'The Complete Email System',
-			text: `While [[dns|DNS]] and [[ntp|NTP]] solved naming and timing, another protocol was quietly filling a critical gap in the internet's infrastructure.\n\nIn 1988, Mark Crispin at Stanford created [[imap]], solving a problem [[smtp]] never could: accessing your email from multiple devices. [[smtp|SMTP]] delivers mail, but it's a one-way push. [[imap|IMAP]] lets you browse, search, and organize messages that stay on the server. When you read an email on your phone and see it marked as read on your laptop — that's [[imap|IMAP]]'s {{stateful|stateful}}, server-side model at work. Crispin maintained [[imap|IMAP]] for over 25 years, evolving it from RFC 1064 to RFC 9051.`
+			text: `While [[dns|DNS]] and [[ntp|NTP]] solved naming and timing, another protocol was quietly filling a critical gap in the internet's infrastructure.\n\nIn 1988, Mark Crispin at Stanford created [[imap]], solving a problem [[smtp]] never could: accessing your email from multiple devices. [[smtp|SMTP]] delivers mail, but it's a one-way push. [[imap|IMAP]] lets you browse, search, and organize messages that stay on the server. When you read an email on your phone and see it marked as read on your laptop — that's [[imap|IMAP]]'s {{stateful|stateful}}, server-side model at work. Crispin maintained [[imap|IMAP]] for over 25 years, evolving it from [[rfc:1064|RFC 1064]] to [[rfc:9051|RFC 9051]].`
 		},
 		{
 			type: 'pioneers',
@@ -190,7 +190,7 @@ export const utilitiesStory: CategoryStory = {
 					year: 1994,
 					title: 'SSL 1.0 at Netscape',
 					description:
-						'Taher Elgamal leads the creation of Secure Sockets Layer. Version 1.0 is never released publicly due to security flaws.'
+						'[[pioneer:taher-elgamal|Taher Elgamal]] leads the creation of Secure Sockets Layer. Version 1.0 is never released publicly due to security flaws.'
 				},
 				{
 					year: 1995,
@@ -245,7 +245,7 @@ export const utilitiesStory: CategoryStory = {
 		{
 			type: 'narrative',
 			title: 'The Security Imperative',
-			text: `The internet was built on trust. Early protocols sent everything in plaintext — passwords, emails, file transfers — because the network was small and its users were known. As the internet grew from hundreds to millions of hosts, this trust model shattered.\n\nIn 1994, Netscape needed to enable secure credit card transactions on the web. Taher Elgamal led the creation of SSL (Secure Sockets Layer), wrapping [[tcp]] connections in {{encryption|encryption}}. SSL 2.0 shipped with Netscape Navigator, and suddenly e-commerce was possible. The IETF later standardized it as [[tls]], which now encrypts the vast majority of web traffic.\n\nMeanwhile in Finland, Tatu Ylönen had a more personal motivation. In 1995, a password-sniffing attack compromised accounts at his university. He wrote [[ssh]] — Secure Shell — essentially in a weekend, replacing the completely unencrypted telnet and rlogin. [[ssh|SSH]] didn't just encrypt remote access; it provided a secure tunnel for anything: file transfers (replacing [[ftp]] with SFTP), {{port-forwarding|port forwarding}}, and eventually even Git transport.`
+			text: `The internet was built on trust. Early protocols sent everything in plaintext — passwords, emails, file transfers — because the network was small and its users were known. As the internet grew from hundreds to millions of hosts, this trust model shattered.\n\nIn 1994, Netscape needed to enable secure credit card transactions on the web. [[pioneer:taher-elgamal|Taher Elgamal]] led the creation of SSL (Secure Sockets Layer), wrapping [[tcp]] connections in {{encryption|encryption}}. SSL 2.0 shipped with Netscape Navigator, and suddenly e-commerce was possible. The IETF later standardized it as [[tls]], which now encrypts the vast majority of web traffic.\n\nMeanwhile in Finland, Tatu Ylönen had a more personal motivation. In 1995, a password-sniffing attack compromised accounts at his university. He wrote [[ssh]] — Secure Shell — essentially in a weekend, replacing the completely unencrypted telnet and rlogin. [[ssh|SSH]] didn't just encrypt remote access; it provided a secure tunnel for anything: file transfers (replacing [[ftp]] with SFTP), {{port-forwarding|port forwarding}}, and eventually even Git transport.`
 		},
 		{
 			type: 'image',
@@ -300,7 +300,7 @@ export const utilitiesStory: CategoryStory = {
 		{
 			type: 'callout',
 			title: "Jon Postel — The Internet's Most Important Person You've Never Heard Of",
-			text: "Jon Postel edited the RFC series for 28 years, wrote or co-wrote over 200 RFCs, edited foundational RFCs for [[tcp|TCP]], [[smtp|SMTP]], and other core protocols, served as IANA administrator. When he died in 1998 at age 55, Vint Cerf wrote [[rfc:2468|RFC 2468]] as a memorial. His robustness principle — 'Be conservative in what you send, be liberal in what you accept' — remains one of the internet's guiding philosophies."
+			text: "[[pioneer:jon-postel|Jon Postel]] edited the RFC series for 28 years, wrote or co-wrote over 200 RFCs, edited foundational RFCs for [[tcp|TCP]], [[smtp|SMTP]], and other core protocols, served as IANA administrator. When he died in 1998 at age 55, [[pioneer:vint-cerf|Vint Cerf]] wrote [[rfc:2468|RFC 2468]] as a memorial. His robustness principle — 'Be conservative in what you send, be liberal in what you accept' — remains one of the internet's guiding philosophies."
 		}
 	]
 };

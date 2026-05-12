@@ -35,7 +35,7 @@ export const realtimeAv: BookPart = {
 							title: 'A Datagram Per Frame, A Timestamp Per Packet',
 							text: `[[rtp|RTP]] (Real-time Transport Protocol) is the protocol that runs underneath every voice call, video conference, and {{broadcast|broadcast}} media stream on the internet.
 
-Its origin is unusually specific: in **March 1992**, Steve Casner, Van Jacobson, and Steve Deering audio-cast the IETF San Diego meeting to ~20 sites over the new {{multicast|Multicast}} Backbone (the "MBone"). The protocol that came out of that work was published as **RFC 1889 in January 1996** and re-issued as **RFC 3550 in July 2003** (Schulzrinne, Casner, Frederick, Jacobson) — still the canonical text in 2026.
+Its origin is unusually specific: in **March 1992**, Steve Casner, [[pioneer:van-jacobson|Van Jacobson]], and [[pioneer:steve-deering|Steve Deering]] audio-cast the IETF San Diego meeting to ~20 sites over the new {{multicast|Multicast}} Backbone (the "MBone"). The protocol that came out of that work was published as **[[rfc:1889|RFC 1889]] in January 1996** and re-issued as **[[rfc:3550|RFC 3550]] in July 2003** (Schulzrinne, Casner, Frederick, Jacobson) — still the canonical text in 2026.
 
 [[rtp|RTP]] rides on top of [[udp|UDP]] because **late audio is worse than missing audio** — retransmitting a packet that arrives 200 ms late delivers something the receiver cannot use. [[rtp|RTP]] adds three things to a [[udp|UDP]] datagram: a **{{sequence-number|sequence number}}** so the receiver can detect loss and reorder packets, a **timestamp** so playback can be paced correctly, and a **{{payload|payload}} type** field that names the {{codec|codec}}.`
 						},
@@ -44,9 +44,9 @@ Its origin is unusually specific: in **March 1992**, Steve Casner, Van Jacobson,
 							title: 'The Subtle Design Choice That Saved SRTP',
 							text: `[[rtp|RTP]] requires both the {{sequence-number|sequence number}} and the timestamp to **start from random initial values**, not zero. This was a 1996 design decision — the spec authors thought it was good practice for synchronisation. It turned out to be **load-bearing for {{srtp|SRTP}}'s AES-CTR nonces eight years later**: random sequence numbers are the entropy that keeps the per-packet AES counter unique across reboots and re-keys.
 
-The companion **{{rtcp|RTCP}}** ([[rtp|RTP]] Control Protocol) flows alongside, carrying receiver reports (loss rates, {{jitter|jitter}}), sender reports (mapping wall-clock time to [[rtp|RTP]] timestamps for cross-stream sync), and source descriptions (CNAME, the canonical participant identifier). RTCP is what lets a video conferencing client detect that 8% of audio packets are being dropped and adapt the {{codec|codec}} down.
+The companion **{{rtcp|RTCP}}** ([[rtp|RTP]] Control Protocol) flows alongside, carrying receiver reports (loss rates, {{jitter|jitter}}), sender reports (mapping wall-clock time to [[rtp|RTP]] timestamps for cross-stream sync), and source descriptions (CNAME, the canonical participant identifier). {{rtcp|RTCP}} is what lets a video conferencing client detect that 8% of audio packets are being dropped and adapt the {{codec|codec}} down.
 
-**RFC 8888 (2020)** finally unified per-packet RTCP feedback formats for Google {{congestion-control|Congestion Control}} (GCC), Cisco NADA (RFC 8698), and Ericsson SCReAM (RFC 8298). **L4S/ECN-marked feedback** is now live in libwebrtc behind the field trial \`[[webrtc|WebRTC]]-RFC8888CongestionControlFeedback/Enabled\` — the bridge from [[rtp|RTP]] into the [[frontier:l4s-comcast-launch|L4S frontier]].`
+**RFC 8888 (2020)** finally unified per-packet {{rtcp|RTCP}} feedback formats for Google {{congestion-control|Congestion Control}} (GCC), Cisco NADA (RFC 8698), and Ericsson SCReAM (RFC 8298). **{{l4s|L4S}}/{{ecn|ECN}}-marked feedback** is now live in libwebrtc behind the field trial \`[[webrtc|WebRTC]]-RFC8888CongestionControlFeedback/Enabled\` — the bridge from [[rtp|RTP]] into the [[frontier:l4s-comcast-launch|L4S frontier]].`
 						},
 						{
 							type: 'callout',
@@ -65,7 +65,7 @@ Asterisk had its own [[rtp|RTP]] security incident in 2017: **AST-2017-008/-012 
 						{
 							type: 'narrative',
 							title: 'RTP-over-QUIC — The Frontier',
-							text: `**[[rtp|RTP]]-over-[[quic|QUIC]] (RoQ)** — \`draft-ietf-avtcore-rtp-over-quic-14\` — entered Working Group Last Call in **July 2025**. {{alpn|ALPN}} token \`roq\`. Multiplexes [[rtp|RTP]] sessions over one [[quic|QUIC]] connection; preserves the entire [[rtp|RTP]] ecosystem while gaining [[quic|QUIC]]'s {{encryption|encryption}}, NAT-friendliness, and {{zero-rtt|0-RTT}}.
+							text: `**[[rtp|RTP]]-over-[[quic|QUIC]] (RoQ)** — \`draft-ietf-avtcore-rtp-over-quic-14\` — entered Working Group Last Call in **July 2025**. {{alpn|ALPN}} token \`roq\`. Multiplexes [[rtp|RTP]] sessions over one [[quic|QUIC]] connection; preserves the entire [[rtp|RTP]] ecosystem while gaining [[quic|QUIC]]'s {{encryption|encryption}}, {{nat|NAT}}-friendliness, and {{zero-rtt|0-RTT}}.
 
 Active 2025-2026 work in the IETF AVTCORE WG: **RFC 9628 (2024)** finally promoted the VP9 [[rtp|RTP]] {{payload|payload}} format to Standards Track. Drafts in flight cover haptics, V3C volumetric video, JPEG XS 3rd edition, APV {{codec|codec}}, and an HEVC/H.265 [[webrtc|WebRTC]] profile (\`draft-ietf-avtcore-hevc-webrtc-08\`, March 2026). [[rtp|RTP]] keeps acquiring new payload formats forty years after Casner first audio-cast IETF San Diego.`
 						}
@@ -157,16 +157,16 @@ Plan B [[sdp|SDP]] is fully gone now: deprecation-warned in Chrome M89 (Feb 2021
 						{
 							type: 'narrative',
 							title: 'The Phone Call as an HTTP Conversation',
-							text: `When you place a VoIP call, two protocols work in tandem before any audio flows. **[[sip|SIP]]** (Session Initiation Protocol) is the signalling layer — text-based, request/response shaped like [[http1|HTTP]], with verbs like INVITE, ACK, BYE, REGISTER. [[sip|SIP]] locates the callee (through registration servers and proxies that resolve \`sip:alice@example.com\`), negotiates capability, and sets up or tears down the session.
+							text: `When you place a VoIP call, two protocols work in tandem before any audio flows. **[[sip|SIP]]** (Session Initiation Protocol) is the signalling layer — text-based, request/response shaped like [[http1|HTTP]], with verbs like INVITE, {{ack|ACK}}, BYE, REGISTER. [[sip|SIP]] locates the callee (through registration servers and proxies that resolve \`sip:alice@example.com\`), negotiates capability, and sets up or tears down the session.
 
 Both [[sip|SIP]] and [[sdp|SDP]] — and [[rtp|RTP]] above them — were authored by **[[pioneer:henning-schulzrinne|Henning Schulzrinne]]**, a Columbia University professor who has authored more than 70 RFCs, served as FCC CTO three times, and was inducted into the Internet Hall of Fame in 2013.
 
-**[[sip|SIP]]'s first standard RFC 2543 (March 1999)** was completely rewritten as **RFC 3261 in June 2002** by Rosenberg, Schulzrinne, Camarillo, Johnston, Peterson, Sparks, Handley, Schooler — still the canonical text 24 years later.`
+**[[sip|SIP]]'s first standard [[rfc:2543|RFC 2543]] (March 1999)** was completely rewritten as **[[rfc:3261|RFC 3261]] in June 2002** by Rosenberg, Schulzrinne, Camarillo, Johnston, Peterson, Sparks, Handley, Schooler — still the canonical text 24 years later.`
 						},
 						{
 							type: 'narrative',
 							title: 'SDP — Session Description From the MBone',
-							text: `**[[sdp|SDP]]** (Session Description Protocol) carries the actual session parameters inside [[sip|SIP]] messages: which codecs each side supports, what ports they will use for [[rtp|RTP]], what crypto keys they propose. [[sdp|SDP]] began life inside Mark Handley and Van Jacobson's MBone work for the \`sdr\` session-directory tool. **RFC 2327 (April 1998)** by Handley & Jacobson was the first Proposed Standard. After RFC 4566 (2006) the current spec is **RFC 8866 (January 2021)**.
+							text: `**[[sdp|SDP]]** (Session Description Protocol) carries the actual session parameters inside [[sip|SIP]] messages: which codecs each side supports, what ports they will use for [[rtp|RTP]], what crypto keys they propose. [[sdp|SDP]] began life inside Mark Handley and [[pioneer:van-jacobson|Van Jacobson]]'s MBone work for the \`sdr\` session-directory tool. **[[rfc:2327|RFC 2327]] (April 1998)** by Handley & Jacobson was the first Proposed Standard. After RFC 4566 (2006) the current spec is **[[rfc:8866|RFC 8866]] (January 2021)**.
 
 Twenty-eight years in, the protocol-version line is still \`v=0\`. The [[sdp|SDP]] "offer/answer" {{exchange|exchange}} — one side offers their capability, the other answers with the subset they accept — became the standard pattern for media negotiation everywhere, including [[webrtc|WebRTC]].`
 						},
@@ -222,7 +222,7 @@ The cryptography is slowly tightening: **RFC 8760 (March 2020)** finally depreca
 							title: 'Streaming Without Streaming Servers',
 							text: `Until 2008, live video streaming required specialised streaming servers and protocols ([[rtmp|RTMP]], MMS, RTSP) — separate infrastructure from the web servers that delivered everything else.
 
-Apple changed that with **[[hls|HLS]]** (HTTP Live Streaming), which **shipped on 17 June 2009 with iPhone OS 3.0 / iPhone 3GS** — created at Apple by Roger Pantos and William May Jr. The 2007/2008 iPhone had no Flash, and Apple needed something that survived NAT/firewalls on 3G. Reusing HTTP/443 was a deliberate {{firewall|firewall}}-traversal play.
+Apple changed that with **[[hls|HLS]]** (HTTP Live Streaming), which **shipped on 17 June 2009 with iPhone OS 3.0 / iPhone 3GS** — created at Apple by Roger Pantos and William May Jr. The 2007/2008 iPhone had no Flash, and Apple needed something that survived {{nat|NAT}}/firewalls on 3G. Reusing HTTP/443 was a deliberate {{firewall|firewall}}-traversal play.
 
 The trick was breaking the stream into **2-10 second segments**, each a regular .ts (or later .mp4/CMAF) file accessible via plain [[http1|HTTP]]. A small **playlist** file (.m3u8) lists the segments in order. The client downloads the playlist, fetches segments, and plays them. To support multiple bitrates, the server publishes parallel playlists (240p, 480p, 1080p, 4K) and a master playlist; the client switches bitrates between segments based on observed {{bandwidth|bandwidth}}.`
 						},
@@ -234,7 +234,7 @@ The trick was breaking the stream into **2-10 second segments**, each a regular 
 						{
 							type: 'narrative',
 							title: 'DASH — The IETF/MPEG Alternative',
-							text: `**MPEG-[[dash|DASH]] (ISO/IEC 23009-1)** was first published in **2012** as the standardised version of the same idea. The differences from [[hls|HLS]] are {{codec|codec}} restrictions, manifest format (XML MPD vs M3U8), and licensing. The **5th edition (23009-1:2022)** is freely available via ISO ITTF; the **6th edition (FDIS 23009-1)** reached stage 50.00 by April 2025 and adds **L3D-[[dash|DASH]]/SSR** for sub-second join times.
+							text: `**MPEG-[[dash|DASH]] (ISO/IEC 23009-1)** was first published in **2012** as the standardised version of the same idea. The differences from [[hls|HLS]] are {{codec|codec}} restrictions, manifest format ({{xml|XML}} MPD vs M3U8), and licensing. The **5th edition (23009-1:2022)** is freely available via ISO ITTF; the **6th edition (FDIS 23009-1)** reached stage 50.00 by April 2025 and adds **L3D-[[dash|DASH]]/SSR** for sub-second join times.
 
 The "everyone gets this wrong" detail: **Apple devices have never natively played [[dash|DASH]]**, and **FairPlay still does not work with [[dash|DASH]]** (Apple's own developer thread confirms it). Every iOS app must use [[hls|HLS]] through AVPlayer — [[dash|DASH]] on iOS is a custom-decoder situation. This is the structural reason [[hls|HLS]] won the format war: Apple wouldn't switch.
 
@@ -247,7 +247,7 @@ The "everyone gets this wrong" detail: **Apple devices have never natively playe
 							title: 'Low-Latency, And The "Apple Took It Away" Drama',
 							text: `**Apple announced Low-{{latency|Latency}} [[hls|HLS]] at WWDC 2019 session 502** with a Sydney→Cupertino live demo by Roger Pantos at sub-2-second latency. The original spec required **[[http2|HTTP/2]] push** — a hard dependency on a feature most CDNs supported poorly.
 
-On **30 April 2020**, after Mux's "the community gave us low-latency live streaming, then Apple took it away" backlash, Apple replaced the [[http2|HTTP/2]] push requirement with **\`EXT-X-PRELOAD-HINT\`** — a simpler, CDN-friendly hint that didn't require {{server-push|server push}}. The community had been pushing back for almost a year by that point. The protocol design evolves; the politics of who designs it evolves more slowly.
+On **30 April 2020**, after Mux's "the community gave us low-latency live streaming, then Apple took it away" backlash, Apple replaced the [[http2|HTTP/2]] push requirement with **\`EXT-X-PRELOAD-HINT\`** — a simpler, {{cdn|CDN}}-friendly hint that didn't require {{server-push|server push}}. The community had been pushing back for almost a year by that point. The protocol design evolves; the politics of who designs it evolves more slowly.
 
 The 2026 cryptographic milestone: **\`draft-pantos-hls-rfc8216bis-22\` (May 2026) added AES-256-GCM as a permissible [[hls|HLS]] {{encryption|encryption}} method** — the most consequential cryptographic change in nearly a decade, and the bis draft also renamed the "master playlist" to "**Multivariant Playlist**."`
 						},
@@ -296,7 +296,7 @@ MoQT's data model is **{{pub-sub|publish/subscribe}} with relay caches**: media 
 						{
 							type: 'callout',
 							title: 'MoQ is not a WebRTC competitor',
-							text: '**MoQ is not a [[webrtc|WebRTC]] competitor in the conversational case.** It\'s optimised for one-to-many {{pub-sub|publish/subscribe}} at CDN scale. webrtcHacks\'s "Is everyone switching to MoQ?" rebutted Cloudflare\'s January 2025 framing, noting that "We\'re joining Meta, Google, Cisco" overstates corporate consensus. MoQ is positioned to replace [[hls|HLS]] for *live* delivery, not replace [[webrtc|WebRTC]] for two-way calls.'
+							text: '**MoQ is not a [[webrtc|WebRTC]] competitor in the conversational case.** It\'s optimised for one-to-many {{pub-sub|publish/subscribe}} at {{cdn|CDN}} scale. webrtcHacks\'s "Is everyone switching to MoQ?" rebutted Cloudflare\'s January 2025 framing, noting that "We\'re joining Meta, Google, Cisco" overstates corporate consensus. MoQ is positioned to replace [[hls|HLS]] for *live* delivery, not replace [[webrtc|WebRTC]] for two-way calls.'
 						},
 						{
 							type: 'narrative',
@@ -310,7 +310,7 @@ The spec has nonetheless attracted serious implementation effort. **NAB 2026 (28
 						{
 							type: 'narrative',
 							title: 'Browsers, Apple, and the Adjacent Path',
-							text: `The browser story matured fast: **{{webtransport|WebTransport}} reached cross-browser Baseline status in March/April 2026** (Safari 26.4). Combined with WebCodecs, this is the first time JavaScript can implement non-[[rtp|RTP]] media transports natively. Safari first shipped early WebTransport in **18.4 (March/April 2025)**.
+							text: `The browser story matured fast: **{{webtransport|WebTransport}} reached cross-browser Baseline status in March/April 2026** (Safari 26.4). Combined with WebCodecs, this is the first time JavaScript can implement non-[[rtp|RTP]] media transports natively. Safari first shipped early {{webtransport|WebTransport}} in **18.4 (March/April 2025)**.
 
 Twitch's MoQ heritage matters: Twitch's internal **"Warp"** [[quic|QUIC]]-based replacement for [[hls|HLS]] (presented at Demuxed 2021) became the seed of the MoQ Working Group's WARP draft.
 

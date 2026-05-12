@@ -11,7 +11,7 @@ export const sip: Protocol = {
 	oneLiner: 'The "dialing" protocol for VoIP — establishes, modifies, and tears down calls.',
 	overview: `[[sip|SIP]] is the {{signaling|signaling}} {{protocol|protocol}} that makes VoIP calls happen. It doesn't carry the actual audio or video (that's [[rtp|RTP]]'s job). Instead, [[sip|SIP]] handles the "control plane": inviting someone to a call, ringing, answering, putting on hold, transferring, and hanging up.
 
-[[sip|SIP]]'s design was inspired by [[http1|HTTP]] — it uses text-based {{request-response|request/response}} messages with methods like INVITE, ACK, BYE, and REGISTER. URIs identify users (sip:alice@example.com). This [[http1|HTTP]]-like design made it easier to implement and debug compared to the ITU's H.323 alternative.
+[[sip|SIP]]'s design was inspired by [[http1|HTTP]] — it uses text-based {{request-response|request/response}} messages with methods like INVITE, {{ack|ACK}}, BYE, and REGISTER. URIs identify users (sip:alice@example.com). This [[http1|HTTP]]-like design made it easier to implement and debug compared to the ITU's H.323 alternative.
 
 [[sip|SIP]] is the backbone of virtually every modern phone system: enterprise PBX systems, VoIP carriers (like Twilio), and telecom infrastructure. When you make a phone call today, [[sip|SIP]] is almost certainly involved somewhere in the chain.`,
 	howItWorks: [
@@ -28,7 +28,7 @@ export const sip: Protocol = {
 		{
 			title: '200 OK + ACK',
 			description:
-				'Callee accepts with 200 OK (including their [[sdp|SDP]]). Caller confirms with ACK. [[rtp|RTP]] media streams are now established between the peers.'
+				'Callee accepts with 200 OK (including their [[sdp|SDP]]). Caller confirms with {{ack|ACK}}. [[rtp|RTP]] media streams are now established between the peers.'
 		},
 		{
 			title: 'BYE',
@@ -69,7 +69,7 @@ acfg.sipConfig.authCreds.append(
 
 account = pj.Account()
 account.create(acfg)  # Sends SIP REGISTER`,
-		caption: 'PJSIP registers with a [[sip|SIP]] server — the INVITE/200 OK/ACK flow handles call setup',
+		caption: 'PJSIP registers with a [[sip|SIP]] server — the INVITE/200 OK/{{ack|ACK}} flow handles call setup',
 		alternatives: [
 			{
 				language: 'javascript',

@@ -165,7 +165,7 @@ function applyAlias(
 	// negative lookaround on word chars instead.
 	const startsWord = /^[A-Za-z0-9_]/.test(alias);
 	const endsWord = /[A-Za-z0-9_]$/.test(alias[alias.length - 1]);
-	const left = startsWord ? '(?:^|[^A-Za-z0-9_])' : '';
+	const left = startsWord ? '(?:^|[^A-Za-z0-9_]|\\\\.)' : '';
 	const right = endsWord ? '(?![A-Za-z0-9_])' : '';
 	const re = new RegExp(`${left}(${escapeRegex(alias)})${right}`, 'g');
 

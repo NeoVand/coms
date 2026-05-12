@@ -15,9 +15,9 @@ Unlike [[tcp|TCP]] or [[udp|UDP]], [[icmp|ICMP]] doesn't use {{port|ports}}. It'
 
 Every router on the internet speaks [[icmp|ICMP]]. When a router can't deliver a packet, it sends an [[icmp|ICMP]] Destination Unreachable (Type 3) back to the sender, with codes specifying why: network unreachable, host unreachable, port unreachable, or "{{fragmentation|fragmentation}} needed but don't-fragment flag is set" (which is essential for {{path-mtu-discovery|Path MTU Discovery}}).
 
-[[icmp|ICMP]] is also controversial. Many {{firewall|firewalls}} block [[icmp|ICMP]] to prevent reconnaissance, but this breaks legitimate diagnostics and can cause subtle problems like Path MTU Discovery failures. The debate over whether to filter [[icmp|ICMP]] has been going on for decades — and [[icmp|ICMP]]'s designers would argue it should never be blocked.
+[[icmp|ICMP]] is also controversial. Many {{firewall|firewalls}} block [[icmp|ICMP]] to prevent reconnaissance, but this breaks legitimate diagnostics and can cause subtle problems like {{path-mtu-discovery|Path MTU Discovery}} failures. The debate over whether to filter [[icmp|ICMP]] has been going on for decades — and [[icmp|ICMP]]'s designers would argue it should never be blocked.
 
-[[ipv6|IPv6]] uses a separate specification called ICMPv6 (RFC 4443) with different type numbers and additional functionality. ICMPv6 is more critical than its [[ip|IPv4]] counterpart because it incorporates Neighbor Discovery Protocol (NDP), which replaces [[arp|ARP]] for address resolution and handles router discovery, address autoconfiguration, and duplicate address detection.`,
+[[ipv6|IPv6]] uses a separate specification called ICMPv6 (RFC 4443) with different type numbers and additional functionality. ICMPv6 is more critical than its [[ip|IPv4]] counterpart because it incorporates {{ndp|Neighbor Discovery Protocol}} ({{ndp|NDP}}), which replaces [[arp|ARP]] for address resolution and handles router discovery, address autoconfiguration, and duplicate address detection.`,
 	howItWorks: [
 		{
 			title: 'Echo Request (ping)',
@@ -37,7 +37,7 @@ Every router on the internet speaks [[icmp|ICMP]]. When a router can't deliver a
 		{
 			title: 'Time Exceeded (traceroute)',
 			description:
-				"When a packet's {{ttl|TTL}} reaches zero, the router sends Type 11 back. Traceroute exploits this by sending packets with incrementing TTL values (1, 2, 3...) to discover each {{hop|hop}}."
+				"When a packet's {{ttl|TTL}} reaches zero, the router sends Type 11 back. Traceroute exploits this by sending packets with incrementing {{ttl|TTL}} values (1, 2, 3...) to discover each {{hop|hop}}."
 		},
 		{
 			title: 'Redirect',
@@ -49,7 +49,7 @@ Every router on the internet speaks [[icmp|ICMP]]. When a router can't deliver a
 		'Network reachability testing (ping)',
 		'Path discovery and latency measurement (traceroute/tracert)',
 		'Network troubleshooting and diagnostics',
-		'Path MTU Discovery (Packet Too Big messages)',
+		'{{path-mtu-discovery|Path MTU Discovery}} (Packet Too Big messages)',
 		'Router signaling and redirect optimization'
 	],
 	codeExample: {

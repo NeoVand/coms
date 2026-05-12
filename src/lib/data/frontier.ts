@@ -106,9 +106,9 @@ Apple iOS 26 / macOS Tahoe 26 (September 2025) turned X25519MLKEM768 on by defau
 		status: 'shipped',
 		date: '2023 (default through 2024-2025)',
 		protocols: ['tcp', 'quic'],
-		description: `BBR (Bottleneck {{bandwidth|Bandwidth}} and Round-trip propagation time) is Google's {{congestion-control|congestion control}} that abandons loss as the primary signal and instead models the path's bottleneck bandwidth and RTT. Cardwell, Cheng, Gunn, Yeganeh, and Jacobson published it at ACM Queue in 2016 (CACM Feb 2017). BBRv1's gain over {{cubic|CUBIC}} was ~4% globally on YouTube, more than 14% in some countries, and a 33% reduction in median RTT.
+		description: `{{bbr|BBR}} (Bottleneck {{bandwidth|Bandwidth}} and Round-trip propagation time) is Google's {{congestion-control|congestion control}} that abandons loss as the primary signal and instead models the path's bottleneck bandwidth and {{rtt|RTT}}. Cardwell, Cheng, Gunn, Yeganeh, and Jacobson published it at ACM Queue in 2016 (CACM Feb 2017). BBRv1's gain over {{cubic|CUBIC}} was ~4% globally on YouTube, more than 14% in some countries, and a 33% reduction in median {{rtt|RTT}}.
 
-BBRv3 is now \`draft-ietf-ccwg-bbr\` inside the IETF's Congestion Control Working Group. Google has been running it as the default for google.com and YouTube traffic since 2023. The draft (-04 / -05 in 2025-2026) refines the bandwidth probing, packet conservation, and convergence properties that earlier BBR versions had open issues with. Available in Linux via \`sysctl net.ipv4.tcp_congestion_control=bbr\` (paired with the FQ qdisc, which BBR {{pacing|pacing}} requires).`,
+BBRv3 is now \`draft-ietf-ccwg-bbr\` inside the IETF's {{congestion-control|Congestion Control}} Working Group. Google has been running it as the default for google.com and YouTube traffic since 2023. The draft (-04 / -05 in 2025-2026) refines the bandwidth probing, packet conservation, and convergence properties that earlier {{bbr|BBR}} versions had open issues with. Available in Linux via \`sysctl net.ipv4.tcp_congestion_control=bbr\` (paired with the FQ qdisc, which {{bbr|BBR}} {{pacing|pacing}} requires).`,
 		metrics: [
 			{ label: 'Google YouTube throughput gain (BBRv1)', value: '+4%', date: '2017' },
 			{ label: 'Google median RTT reduction', value: '−33%', date: '2017' }
@@ -122,14 +122,14 @@ BBRv3 is now \`draft-ietf-ccwg-bbr\` inside the IETF's Congestion Control Workin
 		id: 'l4s-comcast-launch',
 		title: 'L4S Launches in Production at Comcast',
 		oneLiner:
-			'Sub-millisecond queuing {{latency|latency}} on a residential ISP — L4S goes from spec to deployed reality in January 2025.',
+			'Sub-millisecond queuing {{latency|latency}} on a residential ISP — {{l4s|L4S}} goes from spec to deployed reality in January 2025.',
 		topic: 'transport',
 		status: 'rolling-out',
 		date: '2025-01-29',
 		protocols: ['tcp', 'quic'],
-		description: `L4S (Low {{latency|Latency}}, Low Loss, Scalable throughput) — RFCs 9330/9331/9332, January 2023 — is the architecture for sub-millisecond queuing latency. Comcast launched it in production in late January 2025 in Atlanta, Chicago, Colorado Springs, Philadelphia, Rockville (MD) and San Francisco, with Apple, NVIDIA GeForce NOW, Meta and Valve as launch partners.
+		description: `{{l4s|L4S}} (Low {{latency|Latency}}, Low Loss, Scalable throughput) — RFCs 9330/9331/9332, January 2023 — is the architecture for sub-millisecond queuing latency. Comcast launched it in production in late January 2025 in Atlanta, Chicago, Colorado Springs, Philadelphia, Rockville (MD) and San Francisco, with Apple, NVIDIA GeForce NOW, Meta and Valve as launch partners.
 
-The mechanism: cooperating senders mark packets ECN-Capable; routers running the DualQ Coupled AQM mark instead of dropping when congestion is incipient; senders react to marks like minor losses without backing off as hard. The result is {{bufferbloat|bufferbloat}} avoided in real time: latency-sensitive apps (cloud gaming, video calls) get the headroom they need without starving classic [[tcp|TCP]]. Apple shipped L4S support in iOS 17, iPadOS 17, macOS Sonoma and tvOS 17 in 2023, on by default for [[quic|QUIC]] in newer releases.`,
+The mechanism: cooperating senders mark packets {{ecn|ECN}}-Capable; routers running the DualQ Coupled {{aqm|AQM}} mark instead of dropping when congestion is incipient; senders react to marks like minor losses without backing off as hard. The result is {{bufferbloat|bufferbloat}} avoided in real time: latency-sensitive apps (cloud gaming, video calls) get the headroom they need without starving classic [[tcp|TCP]]. Apple shipped {{l4s|L4S}} support in iOS 17, iPadOS 17, macOS Sonoma and tvOS 17 in 2023, on by default for [[quic|QUIC]] in newer releases.`,
 		sources: [
 			{ url: 'https://www.rcrwireless.com/20250129/uncategorized/comcast-l4s', label: 'RCR Wireless — Comcast L4S launch' },
 			{ url: 'https://www.nokia.com/bell-labs/research/l4s/', label: 'Nokia Bell Labs — L4S' }
@@ -139,14 +139,14 @@ The mechanism: cooperating senders mark packets ECN-Capable; routers running the
 		id: 'ech-rfc-9849',
 		title: 'Encrypted Client Hello Published as RFC 9849',
 		oneLiner:
-			'[[tls|TLS]] 1.3 ClientHello — including the SNI — is finally encrypted; Cloudflare deploys ECH for ~70% of fronted sites.',
+			'[[tls|TLS]] 1.3 ClientHello — including the {{sni|SNI}} — is finally encrypted; Cloudflare deploys {{ech|ECH}} for ~70% of fronted sites.',
 		topic: 'security',
 		status: 'shipped',
 		date: '2025',
 		protocols: ['tls'],
-		description: `ECH (Encrypted Client Hello) hides the SNI and other ClientHello fields that previously let middleboxes and ISPs see which site you were visiting. Specified through 25 IETF drafts and finally published as RFC 9849 in 2025.
+		description: `{{ech|ECH}} ({{ech|Encrypted Client Hello}}) hides the {{sni|SNI}} and other ClientHello fields that previously let middleboxes and ISPs see which site you were visiting. Specified through 25 IETF drafts and finally published as [[rfc:9849|RFC 9849]] in 2025.
 
-Cloudflare deploys ECH for ~70% of websites it fronts; Chrome and Firefox both support it. The architecture: the server publishes an ECHConfig in [[dns|DNS]] (HTTPS RR); the client encrypts the inner ClientHello to that key and wraps it in an outer ClientHello that uses a generic "cloudflare-ech.com" SNI. From the network's perspective, every fronted site looks the same.`,
+Cloudflare deploys {{ech|ECH}} for ~70% of websites it fronts; Chrome and Firefox both support it. The architecture: the server publishes an ECHConfig in [[dns|DNS]] (HTTPS RR); the client encrypts the inner ClientHello to that key and wraps it in an outer ClientHello that uses a generic "cloudflare-ech.com" {{sni|SNI}}. From the network's perspective, every fronted site looks the same.`,
 		sources: [
 			{ url: 'https://www.feistyduck.com/newsletter/issue_127_encrypted_client_hello_approved_for_publication.html', label: 'Feisty Duck — ECH approved for publication' },
 			{ url: 'https://www.cisecurity.org/insights/blog/security-control-changes-due-to-tls-encrypted-clienthello', label: 'CISecurity — security control changes due to ECH' }
@@ -163,7 +163,7 @@ Cloudflare deploys ECH for ~70% of websites it fronts; Chrome and Firefox both s
 		protocols: ['bgp'],
 		description: `By May 2024, more than 50% of [[ip|IPv4]] routes had ROAs (Route Origin Authorisations); roughly three-quarters of [[ip|IP]] traffic was bound for {{rpki|RPKI}}-secured destinations. MANRS surpassed 1,190 participants in 2024 and continued growing through 2025 under Global Cyber Alliance stewardship.
 
-Cloudflare's separate measurement of *enforcement* (ASes that drop invalids) puts the directly-protected user population at ~261M (~6.5%), but because almost every Tier-1 {{transit|transit}} drops invalids, *indirect* validation suppresses invalid-route propagation by a factor of two to three. {{aspa|ASPA}} (the path-hijack defence beyond RPKI's origin defence) is in IETF SIDROPS last call as of April 2026.`,
+Cloudflare's separate measurement of *enforcement* (ASes that drop invalids) puts the directly-protected user population at ~261M (~6.5%), but because almost every Tier-1 {{transit|transit}} drops invalids, *indirect* validation suppresses invalid-route propagation by a factor of two to three. {{aspa|ASPA}} (the path-hijack defence beyond {{rpki|RPKI}}'s origin defence) is in IETF SIDROPS last call as of April 2026.`,
 		metrics: [
 			{ label: 'IPv4 prefixes with ROAs', value: '>50%', date: '2024-05' },
 			{ label: 'Traffic bound for RPKI-secured destinations', value: '~75%', date: '2024' }

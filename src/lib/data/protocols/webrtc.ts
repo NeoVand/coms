@@ -11,7 +11,7 @@ export const webrtc: Protocol = {
 	oneLiner: '{{peer-to-peer|Peer-to-peer}} audio, video, and data — directly between browsers, no plugins needed.',
 	overview: `[[webrtc|WebRTC]] is the technology that makes browser-based video calls possible. Before [[webrtc|WebRTC]], real-time communication required plugins (Flash, Java applets) or native apps. Now, two browsers can establish a direct, encrypted, {{peer-to-peer|peer-to-peer}} connection for audio, video, and arbitrary data.
 
-The key insight is "{{peer-to-peer|peer-to-peer}}" — once the connection is established, data flows directly between users without passing through a server. This reduces {{latency|latency}} and server costs. However, establishing that connection requires a {{signaling|signaling server}} (to {{exchange|exchange}} connection offers) and often STUN/TURN servers to navigate {{nat|NATs}} and {{firewall|firewalls}}. STUN (Session Traversal Utilities for NAT) discovers the peer's {{public-ip-address|public IP address}}. TURN (Traversal Using Relays around NAT) relays media through a server when a direct connection fails (about 10-15% of cases). ICE (Interactive Connectivity Establishment) coordinates both STUN and TURN to find the best available path between peers.
+The key insight is "{{peer-to-peer|peer-to-peer}}" — once the connection is established, data flows directly between users without passing through a server. This reduces {{latency|latency}} and server costs. However, establishing that connection requires a {{signaling|signaling server}} (to {{exchange|exchange}} connection offers) and often STUN/TURN servers to navigate {{nat|NATs}} and {{firewall|firewalls}}. STUN (Session Traversal Utilities for {{nat|NAT}}) discovers the peer's {{public-ip-address|public IP address}}. TURN (Traversal Using Relays around {{nat|NAT}}) relays media through a server when a direct connection fails (about 10-15% of cases). ICE (Interactive Connectivity Establishment) coordinates both STUN and TURN to find the best available path between peers.
 
 Under the hood, [[webrtc|WebRTC]] is actually a bundle of protocols: ICE for connectivity establishment, {{dtls|DTLS}} (based on [[tls|TLS]]) for {{encryption|encryption}}, {{srtp|SRTP}} (secured [[rtp|RTP]]) for media, and [[sctp|SCTP]] for data channels. The browser API abstracts all of this into a relatively simple JavaScript interface.`,
 	howItWorks: [
@@ -40,7 +40,7 @@ Under the hood, [[webrtc|WebRTC]] is actually a bundle of protocols: ICE for con
 		'Video conferencing (Google Meet, Zoom web client)',
 		'Voice calls in the browser',
 		'Screen sharing and remote desktop',
-		'Peer-to-peer file sharing',
+		'{{peer-to-peer|Peer-to-peer}} file sharing',
 		'Real-time gaming and AR/VR'
 	],
 	codeExample: {

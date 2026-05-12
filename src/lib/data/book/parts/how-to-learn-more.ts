@@ -28,9 +28,9 @@ export const howToLearnMore: BookPart = {
 							title: 'A Reading List, In Order',
 							text: `If you read three RFCs in your career, read these. They are the documents that taught the rest of the field how to write protocols.
 
-**[[rfc:9293|RFC 9293]] — [[tcp|TCP]] (2022 update of RFC 793)**. The single most-implemented protocol on the internet. Read sections 3.4 (sequence numbers and reliability), 3.6 (connection close and {{time-wait|TIME_WAIT}}), and 3.8 ({{flow-control|flow control}}). The state machine in 3.3.2 is worth memorising.
+**[[rfc:9293|RFC 9293]] — [[tcp|TCP]] (2022 update of [[rfc:793|RFC 793]])**. The single most-implemented protocol on the internet. Read sections 3.4 (sequence numbers and reliability), 3.6 (connection close and {{time-wait|TIME_WAIT}}), and 3.8 ({{flow-control|flow control}}). The state machine in 3.3.2 is worth memorising.
 
-**[[rfc:8446|RFC 8446]] — [[tls|TLS]] 1.3**. Modern crypto-engineering at its best. Eric Rescorla's prose is the model for how to write a security spec. Read the entire {{handshake|handshake}} section; the formal-methods analysis appendices are optional.
+**[[rfc:8446|RFC 8446]] — [[tls|TLS]] 1.3**. Modern crypto-engineering at its best. [[pioneer:eric-rescorla|Eric Rescorla]]'s prose is the model for how to write a security spec. Read the entire {{handshake|handshake}} section; the formal-methods analysis appendices are optional.
 
 **[[rfc:9000|RFC 9000]] — [[quic|QUIC]]**. The first transport designed in user space, and the place to see how the lessons of [[tcp|TCP]]'s 40 years got applied. Sections on streams (2.1), {{connection-migration|connection migration}} (9), and {{zero-rtt|0-RTT}} are essential.
 
@@ -76,7 +76,7 @@ export const howToLearnMore: BookPart = {
 
 **Ilya Grigorik, "High Performance Browser Networking" (O'Reilly, 2013).** The book on what actually matters for web performance. [[tcp|TCP]], [[tls|TLS]], [[http1|HTTP/1.1]], [[http2|HTTP/2]] (no [[http3|HTTP/3]] — it predates the spec), [[webrtc|WebRTC]], browser networking APIs. The single most useful book for full-stack web developers who want to debug {{latency|latency}}.
 
-For specialised areas: **Olivier Bonaventure, "Computer Networking: Principles, Protocols and Practice"** (free online) — a lighter alternative to Tanenbaum. **Radia Perlman, "Interconnections" (2nd ed., 2000)** — the routing/switching deep-dive by the inventor of spanning tree. **Marc Greis, "RFC 1180: A [[tcp|TCP]]/[[ip|IP]] Tutorial" (1991)** — 28 pages, free, 35 years old, still the cleanest introduction to the basics.`
+For specialised areas: **Olivier Bonaventure, "Computer Networking: Principles, Protocols and Practice"** (free online) — a lighter alternative to Tanenbaum. **[[pioneer:radia-perlman|Radia Perlman]], "Interconnections" (2nd ed., 2000)** — the routing/switching deep-dive by the inventor of spanning tree. **Marc Greis, "RFC 1180: A [[tcp|TCP]]/[[ip|IP]] Tutorial" (1991)** — 28 pages, free, 35 years old, still the cleanest introduction to the basics.`
 						}
 					]
 				},
@@ -96,9 +96,9 @@ For specialised areas: **Olivier Bonaventure, "Computer Networking: Principles, 
 							title: 'Where to Learn by Doing',
 							text: `**Stanford CS144 — Introduction to Computer Networking**. The single most useful course on this {{topic|topic}}. The labs walk you through implementing a working [[tcp|TCP]]/[[ip|IP]] stack from scratch — your code goes from sending raw [[ip|IP]] datagrams to running a full reliable transport with {{congestion-control|congestion control}}. Materials are public; the labs run on Linux and produce a stack that interoperates with the real internet.
 
-**MIT 6.829 — Computer Networks**. Graduate-level, with a focus on the research-paper canon — Jacobson 1988, Cardwell BBR 2016, Cerf & Kahn 1974. Strong on routing and congestion control. Materials and lecture videos public.
+**MIT 6.829 — Computer Networks**. Graduate-level, with a focus on the research-paper canon — Jacobson 1988, Cardwell {{bbr|BBR}} 2016, Cerf & Kahn 1974. Strong on routing and {{congestion-control|congestion control}}. Materials and lecture videos public.
 
-**Berkeley CS168 — Introduction to the Internet**. Newer than CS144 and more focused on operational reality ([[bgp|BGP]], CDN architecture, [[dns|DNS]], real-world security incidents). Materials online; the projects involve building a small [[bgp|BGP]] simulator and a CDN.
+**Berkeley CS168 — Introduction to the Internet**. Newer than CS144 and more focused on operational reality ([[bgp|BGP]], {{cdn|CDN}} architecture, [[dns|DNS]], real-world security incidents). Materials online; the projects involve building a small [[bgp|BGP]] simulator and a {{cdn|CDN}}.
 
 **Coursera / Stanford "Networking in Google Cloud" specialisation**. If you want production-grade datacenter and cloud networking content rather than the academic treatment, this is the one to take. Practical, hands-on, well-paced.
 
@@ -166,7 +166,7 @@ For a self-paced path: read **RFC 1180** (28 pages), then take **CS144**, then r
 
 **RIPE Atlas** (atlas.ripe.net) — a global mesh of probes you can use to measure reachability, {{latency|latency}}, and routing from arbitrary vantage points. Free for non-commercial research.
 
-**bgp.tools** — the modern [[bgp|BGP]] looking glass. Type any AS or prefix; see the global {{routing-table|routing table}} from multiple vantage points. The successor to the older route-views.org infrastructure.
+**bgp.tools** — the modern [[bgp|BGP]] looking glass. Type any {{autonomous-system|AS}} or prefix; see the global {{routing-table|routing table}} from multiple vantage points. The successor to the older route-views.org infrastructure.
 
 **iperf3** — {{bandwidth|bandwidth}} measurement between two endpoints. The standard for "how fast can these two hosts actually talk to each other."
 

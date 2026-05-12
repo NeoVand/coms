@@ -85,7 +85,7 @@ The third tradition was packet radio. ARPA's Packet Radio Network (PRNET, 1973) 
 							title: 'Three Years That Decided Everything',
 							text: `Between January 1980 and January 1983, the internet went from a research curiosity to a system you could rely on. The architectural decision had already been made — split the original combined Transmission Control Program into a thin internetworking layer ([[ip|IP]]) underneath and an end-to-end transport ([[tcp|TCP]]) above it — but the **specifications** needed to harden, and a critical mass of hosts had to actually convert.
 
-In **September 1981**, [[pioneer:jon-postel|Jon Postel]] at ISI shipped three RFCs in rapid succession: [[rfc:791|RFC 791]] (Internet Protocol), [[rfc:792|RFC 792]] ([[icmp|ICMP]]), and [[rfc:9293|RFC 793]] (Transmission Control Protocol). These are the documents the modern internet still cites — RFC 793 was the canonical [[tcp|TCP]] specification for the next 41 years, until [[rfc:9293|RFC 9293]] obsoleted it in 2022.
+In **September 1981**, [[pioneer:jon-postel|Jon Postel]] at ISI shipped three RFCs in rapid succession: [[rfc:791|RFC 791]] (Internet Protocol), [[rfc:792|RFC 792]] ([[icmp|ICMP]]), and [[rfc:9293|RFC 793]] (Transmission Control Protocol). These are the documents the modern internet still cites — [[rfc:793|RFC 793]] was the canonical [[tcp|TCP]] specification for the next 41 years, until [[rfc:9293|RFC 9293]] obsoleted it in 2022.
 
 On **1 January 1983**, ARPANET executed its famous "flag day": NCP was switched off, and [[tcp|TCP]]/[[ip|IP]] became the only protocol allowed on the network. Roughly 400 hosts had to convert; sites that missed the deadline simply lost connectivity. Survivors got buttons reading **I survived the [[tcp|TCP]]/[[ip|IP]] transition**. Most historians treat this date as the birthday of the modern internet.
 
@@ -94,7 +94,7 @@ In parallel, the IEEE 802.3 working group ratified its [[ethernet|Ethernet]] sta
 						{
 							type: 'narrative',
 							title: 'The Architectural Decision That Made the Rest Possible',
-							text: `The split that mattered most was not legal or organisational. It was the **separation of [[tcp|TCP]] from [[ip|IP]]**, finalised in [[rfc:791|RFC 791]] and [[rfc:9293|RFC 793]] (both September 1981). For the previous decade, the experimental Transmission Control Program had bundled everything into a single reliable byte-stream: addressing, sequencing, {{flow-control|flow control}}, {{retransmission|retransmission}}. **David Reed and Jon Postel argued in 1978** that some applications — packet voice, in particular — needed speed more than reliability, and that fusing the two services made it impossible for protocols like the future [[udp|UDP]] (1980), [[icmp|ICMP]] (1981), or eventually [[quic|QUIC]] (2021) to exist.
+							text: `The split that mattered most was not legal or organisational. It was the **separation of [[tcp|TCP]] from [[ip|IP]]**, finalised in [[rfc:791|RFC 791]] and [[rfc:9293|RFC 793]] (both September 1981). For the previous decade, the experimental Transmission Control Program had bundled everything into a single reliable byte-stream: addressing, sequencing, {{flow-control|flow control}}, {{retransmission|retransmission}}. **David Reed and [[pioneer:jon-postel|Jon Postel]] argued in 1978** that some applications — packet voice, in particular — needed speed more than reliability, and that fusing the two services made it impossible for protocols like the future [[udp|UDP]] (1980), [[icmp|ICMP]] (1981), or eventually [[quic|QUIC]] (2021) to exist.
 
 The decision to peel [[ip|IP]] off as a thin internetworking layer underneath [[tcp|TCP]] is the reason the modern internet has more than one transport protocol. Without that separation, every new transport would have had to renegotiate with every router on the planet. With it, [[udp|UDP]] could ship in 1980 over the same [[ip|IP]] fabric without changing anything below it.
 
@@ -125,27 +125,27 @@ This is the deepest principle of the era: **separate what changes together from 
 							title: 'The First Collapse',
 							text: `In October 1986, the internet broke for the first time. Throughput between Lawrence Berkeley Lab and UC Berkeley — three IMP hops apart, less than 400 yards of physical distance — collapsed from 32 kbps to 40 bps. A 1000× degradation. The cause was [[tcp|TCP]] itself: early BSD [[tcp|TCP]] retransmitted aggressively when ACKs were late, and as the network filled up, every {{retransmission|retransmission}} only added to the congestion. The senders kept piling on; the network kept melting.
 
-[[pioneer:van-jacobson|Van Jacobson]] and Mike Karels at Berkeley spent six months instrumenting the wire and reading the BSD source. Their 1988 SIGCOMM paper, **"{{congestion-avoidance|Congestion Avoidance}} and Control,"** introduced six algorithms in one paper: **{{slow-start|slow start}}**, **{{aimd|AIMD}} congestion avoidance**, **fast retransmit**, **fast recovery**, **exponential RTO backoff**, and a refined **RTT estimator**. The fixes shipped in 4.3BSD-Tahoe and saved the internet.
+[[pioneer:van-jacobson|Van Jacobson]] and Mike Karels at Berkeley spent six months instrumenting the wire and reading the BSD source. Their 1988 SIGCOMM paper, **"{{congestion-avoidance|Congestion Avoidance}} and Control,"** introduced six algorithms in one paper: **{{slow-start|slow start}}**, **{{aimd|AIMD}} {{congestion-avoidance|congestion avoidance}}**, **fast retransmit**, **fast recovery**, **exponential RTO backoff**, and a refined **{{rtt|RTT}} estimator**. The fixes shipped in 4.3BSD-Tahoe and saved the internet.
 
-The deeper principle they articulated — **conservation of packets** — has held up for nearly forty years. A sender should put one packet into the network only when an ACK confirms a previous packet has left it. Everything since, including [[quic|QUIC]] in 2021 and Google's BBR in 2016, is variations on that theme.`
+The deeper principle they articulated — **conservation of packets** — has held up for nearly forty years. A sender should put one packet into the network only when an {{ack|ACK}} confirms a previous packet has left it. Everything since, including [[quic|QUIC]] in 2021 and Google's {{bbr|BBR}} in 2016, is variations on that theme.`
 						},
 						{
 							type: 'narrative',
 							title: 'Why "Three Duplicate ACKs"?',
 							text: `One mechanical detail from the 1988 paper deserves a paragraph because it shows up in every [[tcp|TCP]] stack today. Jacobson's **fast retransmit** triggers when the sender sees **three duplicate ACKs** — three acknowledgements all naming the same next-expected-byte. Why three?
 
-The intuition is reordering tolerance. A single duplicate ACK could mean a packet was reordered by the network and arrived out of sequence. Two duplicates is suspicious but still possibly reordering. Three duplicates means the packet is almost certainly *lost*, not just reordered — the receiver has seen three later packets without seeing the one in question. Jacobson chose three as the threshold that minimised false retransmits in the BSD measurements.
+The intuition is reordering tolerance. A single duplicate {{ack|ACK}} could mean a packet was reordered by the network and arrived out of sequence. Two duplicates is suspicious but still possibly reordering. Three duplicates means the packet is almost certainly *lost*, not just reordered — the receiver has seen three later packets without seeing the one in question. Jacobson chose three as the threshold that minimised false retransmits in the BSD measurements.
 
-Forty years later, three duplicate ACKs is still the trigger. The number is hard-coded into [[rfc:5681|RFC 5681]] and every modern [[tcp|TCP]] implementation. **{{cubic|CUBIC}}, BBR, NewReno** all inherit it unchanged. The mechanism is so universal that it now has a name everyone knows — *fast retransmit* — and a paper-trail back to a single 1988 design choice.
+Forty years later, three duplicate ACKs is still the trigger. The number is hard-coded into [[rfc:5681|RFC 5681]] and every modern [[tcp|TCP]] implementation. **{{cubic|CUBIC}}, {{bbr|BBR}}, NewReno** all inherit it unchanged. The mechanism is so universal that it now has a name everyone knows — *fast retransmit* — and a paper-trail back to a single 1988 design choice.
 
-The 1986 collapse is the moment [[tcp|TCP]] went from working-most-of-the-time to **a protocol you could trust at scale**. Every later congestion-control algorithm — Reno, NewReno, Vegas, CUBIC, Compound, BBR, BBRv3, [[frontier:l4s-comcast-launch|L4S]] — is a refinement of Jacobson's six. The branch point of the field is one paper.`
+The 1986 collapse is the moment [[tcp|TCP]] went from working-most-of-the-time to **a protocol you could trust at scale**. Every later congestion-control algorithm — Reno, NewReno, Vegas, {{cubic|CUBIC}}, Compound, {{bbr|BBR}}, BBRv3, [[frontier:l4s-comcast-launch|L4S]] — is a refinement of Jacobson's six. The branch point of the field is one paper.`
 						},
 						{
 							type: 'image',
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Van_Jacobson.jpg/330px-Van_Jacobson.jpg',
 							alt: 'Van Jacobson — co-author of the 1988 paper that saved the internet from congestion collapse.',
 							caption:
-								'Van Jacobson, who in 1988 wrote the six algorithms that ship in every operating system today.',
+								'[[pioneer:van-jacobson|Van Jacobson]], who in 1988 wrote the six algorithms that ship in every operating system today.',
 							credit: 'Photo: Wikimedia Commons / public domain'
 						}
 					]
@@ -256,12 +256,12 @@ The architectural lesson the web carried forward: an application that succeeds a
 
 That changed two assumptions in [[tcp|TCP]] design. First, the **last-mile {{bandwidth|bandwidth}} varied wildly** — a hand turning the user 90° could change throughput by 10×. Second, **buffers grew enormously**. Cheap memory meant routers and home modems were shipped with multi-megabyte queues, ostensibly to absorb bursts but actually to hide congestion from the senders that needed to see it. The result was **{{bufferbloat|bufferbloat}}**: queues that grew to seconds of {{latency|latency}} under load, defeating the entire {{aimd|AIMD}} signalling mechanism Jacobson had built. Your video call stuttered because someone in the next room started a download.
 
-The fix took fifteen years. **Active queue management** (CoDel, fq_codel, PIE — RFCs 8290, 8033) shrank queues by dropping packets early when latency rose. **Smart queue management** (SQM) appeared in router firmware. And eventually [[quic|QUIC]] gave applications fine-grained control over their own {{pacing|pacing}}, sidestepping the kernel's ossified [[tcp|TCP]] stack entirely.`
+The fix took fifteen years. **{{aqm|Active queue management}}** (CoDel, fq_codel, PIE — RFCs 8290, 8033) shrank queues by dropping packets early when latency rose. **Smart queue management** (SQM) appeared in router firmware. And eventually [[quic|QUIC]] gave applications fine-grained control over their own {{pacing|pacing}}, sidestepping the kernel's ossified [[tcp|TCP]] stack entirely.`
 						},
 						{
 							type: 'callout',
 							title: 'Bufferbloat is the canonical example of well-meaning engineering creating a network-wide pathology.',
-							text: 'Adding more buffer seemed obviously good — bursts wouldn\'t cause loss. But [[tcp|TCP]]\'s congestion-control loop **needed** loss as its signal. The fix was to push buffers back down and add explicit signalling (ECN) instead.'
+							text: 'Adding more buffer seemed obviously good — bursts wouldn\'t cause loss. But [[tcp|TCP]]\'s congestion-control loop **needed** loss as its signal. The fix was to push buffers back down and add explicit signalling ({{ecn|ECN}}) instead.'
 						}
 					]
 				},
@@ -280,7 +280,7 @@ The fix took fifteen years. **Active queue management** (CoDel, fq_codel, PIE �
 						{
 							type: 'narrative',
 							title: 'Why a New Transport in 2012',
-							text: `By 2012, [[tcp|TCP]] had a problem nobody could fix. Operating-system kernels shipped its implementation. Middleboxes — firewalls, NAT routers, transparent proxies — inspected and modified its headers. Anything you wanted to add to [[tcp|TCP]] (TFO, [[mptcp|MPTCP]], {{sack|SACK}} Permitted) had to survive being mangled by every intermediate device on the planet. The protocol had **ossified**: even Google, with its enormous deployment leverage, could not roll out new [[tcp|TCP]] features in less than a decade.
+							text: `By 2012, [[tcp|TCP]] had a problem nobody could fix. Operating-system kernels shipped its implementation. Middleboxes — firewalls, {{nat|NAT}} routers, transparent proxies — inspected and modified its headers. Anything you wanted to add to [[tcp|TCP]] (TFO, [[mptcp|MPTCP]], {{sack|SACK}} Permitted) had to survive being mangled by every intermediate device on the planet. The protocol had **ossified**: even Google, with its enormous deployment leverage, could not roll out new [[tcp|TCP]] features in less than a decade.
 
 The [[quic|QUIC]] project, started by **[[pioneer:jim-roskind|Jim Roskind]]** at Google in 2012, took a radically different bet. Instead of fighting the middleboxes, [[quic|QUIC]] would tunnel a brand-new transport inside [[udp|UDP]] datagrams that middleboxes already had to forward unchanged. Inside that tunnel: a [[tls|TLS]] 1.3 {{handshake|handshake}} that combined transport and crypto setup into a single round-trip; per-stream sequencing that eliminated {{head-of-line-blocking|head-of-line blocking}}; and the entire protocol implemented in user space, where applications could deploy improvements monthly instead of waiting for the next OS release.
 
@@ -291,9 +291,9 @@ The [[quic|QUIC]] project, started by **[[pioneer:jim-roskind|Jim Roskind]]** at
 							title: 'Why UDP, Not a New Protocol Number',
 							text: `The choice to tunnel inside [[udp|UDP]] rather than ship as a new [[ip|IP]] protocol number (51, 132, anything not yet assigned) was the most important deployment decision [[quic|QUIC]] made.
 
-A new [[ip|IP]] protocol number — like [[sctp|SCTP]] got — would have been the architecturally cleaner choice. [[sctp|SCTP]] (RFC 4960, 2000) is the better transport on paper: multi-streaming, multi-homing, message-oriented. [[sctp|SCTP]] cannot traverse the public internet. Middleboxes drop unknown protocol numbers; [[sctp|SCTP]] packets between Internet endpoints disappear within milliseconds.
+A new [[ip|IP]] protocol number — like [[sctp|SCTP]] got — would have been the architecturally cleaner choice. [[sctp|SCTP]] ([[rfc:4960|RFC 4960]], 2000) is the better transport on paper: multi-streaming, multi-homing, message-oriented. [[sctp|SCTP]] cannot traverse the public internet. Middleboxes drop unknown protocol numbers; [[sctp|SCTP]] packets between Internet endpoints disappear within milliseconds.
 
-[[quic|QUIC]]'s designers had watched [[sctp|SCTP]] die in production for fifteen years. They picked [[udp|UDP]] — a protocol every NAT, {{firewall|firewall}}, and middlebox already had to forward unchanged — and accepted the cost of putting a fully-encrypted reliable transport inside it. The cost was real (every byte of a [[quic|QUIC]] packet is processed in user space; the kernel sees only opaque [[udp|UDP]]) but the benefit was deployment.
+[[quic|QUIC]]'s designers had watched [[sctp|SCTP]] die in production for fifteen years. They picked [[udp|UDP]] — a protocol every {{nat|NAT}}, {{firewall|firewall}}, and middlebox already had to forward unchanged — and accepted the cost of putting a fully-encrypted reliable transport inside it. The cost was real (every byte of a [[quic|QUIC]] packet is processed in user space; the kernel sees only opaque [[udp|UDP]]) but the benefit was deployment.
 
 This is the structural lesson of the late-2010s protocol-design era: **{{encryption|encryption}} is what keeps a protocol evolvable, and [[udp|UDP]] is what makes encryption deployable**. Anything not encrypted gets ossified by middlebox inspection within a decade. Anything not on [[udp|UDP]] cannot traverse the deployed internet. Future transports — multipath [[quic|QUIC]], [[rtp|RTP]]-over-[[quic|QUIC]], MoQ — all sit inside the same envelope for the same reasons.`
 						}

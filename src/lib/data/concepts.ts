@@ -239,7 +239,7 @@ export const concepts: Concept[] = [
 		id: 'congestion-avoidance',
 		term: 'Congestion Avoidance',
 		definition:
-			'The phase of [[tcp|TCP]] congestion control after slow start ends — the sender grows the congestion window linearly (additive increase, +1 MSS per RTT) instead of exponentially. The "AI" half of AIMD (Additive Increase / Multiplicative Decrease). When loss is detected, the window is cut and the cycle restarts. Defined in Jacobson & Karels (SIGCOMM \'88) and standardised in RFC 5681.',
+			'The phase of [[tcp|TCP]] congestion control after slow start ends — the sender grows the congestion window linearly (additive increase, +1 MSS per RTT) instead of exponentially. The "AI" half of AIMD (Additive Increase / Multiplicative Decrease). When loss is detected, the window is cut and the cycle restarts. Defined in Jacobson & Karels (SIGCOMM \'88) and standardised in [[rfc:5681|RFC 5681]].',
 		wikiUrl: 'https://en.wikipedia.org/wiki/TCP_congestion_control#Congestion_avoidance',
 		category: 'protocol-mechanics'
 	},
@@ -612,7 +612,7 @@ export const concepts: Concept[] = [
 		id: 'path-mtu-discovery',
 		term: 'Path MTU Discovery',
 		definition:
-			'A technique where a sender probes the path to a destination to find the largest packet size that can traverse it without fragmentation. Sets the Don\'t Fragment flag and watches for [[icmp|ICMP]] "Fragmentation Needed" messages. When [[icmp|ICMP]] is filtered (the "MTU black hole"), connections silently hang. RFC 1191 ([[ip|IPv4]]) and RFC 8201 ([[ipv6|IPv6]]); RFC 4821 PLPMTUD probes without [[icmp|ICMP]].',
+			'A technique where a sender probes the path to a destination to find the largest packet size that can traverse it without fragmentation. Sets the Don\'t Fragment flag and watches for [[icmp|ICMP]] "Fragmentation Needed" messages. When [[icmp|ICMP]] is filtered (the "MTU black hole"), connections silently hang. RFC 1191 ([[ip|IPv4]]) and RFC 8201 ([[ipv6|IPv6]]); [[rfc:4821|RFC 4821]] PLPMTUD probes without [[icmp|ICMP]].',
 		wikiUrl: 'https://en.wikipedia.org/wiki/Path_MTU_Discovery',
 		category: 'networking-basics'
 	},
@@ -1146,7 +1146,7 @@ export const concepts: Concept[] = [
 		id: 'private-ip-address',
 		term: 'Private IP Address',
 		definition:
-			'An [[ip|IP]] address from a range reserved for use inside a private network and not routable on the public internet. RFC 1918 defines 10.0.0.0/8, 172.16.0.0/12, and 192.168.0.0/16 for [[ip|IPv4]]; [[ipv6|IPv6]] uses fc00::/7 for unique local addresses.',
+			'An [[ip|IP]] address from a range reserved for use inside a private network and not routable on the public internet. [[rfc:1918|RFC 1918]] defines 10.0.0.0/8, 172.16.0.0/12, and 192.168.0.0/16 for [[ip|IPv4]]; [[ipv6|IPv6]] uses fc00::/7 for unique local addresses.',
 		analogy: 'Like an internal office extension — only people inside the building can dial it.',
 		wikiUrl: 'https://en.wikipedia.org/wiki/Private_network',
 		category: 'networking-basics'
@@ -1227,7 +1227,7 @@ export const concepts: Concept[] = [
 		id: 'aimd',
 		term: 'AIMD (Additive Increase, Multiplicative Decrease)',
 		definition:
-			"The fairness rule that defined classic [[tcp|TCP]] congestion control: grow the sending window by a fixed amount each round-trip when things are going well; cut it in half (or worse) the moment loss is detected. Van Jacobson's 1988 paper made this the internet's default behavior.",
+			"The fairness rule that defined classic [[tcp|TCP]] congestion control: grow the sending window by a fixed amount each round-trip when things are going well; cut it in half (or worse) the moment loss is detected. [[pioneer:van-jacobson|Van Jacobson]]'s 1988 paper made this the internet's default behavior.",
 		wikiUrl: 'https://en.wikipedia.org/wiki/Additive_increase/multiplicative_decrease',
 		category: 'protocol-mechanics'
 	},
@@ -1235,7 +1235,7 @@ export const concepts: Concept[] = [
 		id: 'cubic',
 		term: 'CUBIC',
 		definition:
-			'The [[tcp|TCP]] congestion control algorithm that has been the Linux default since 2.6.19 (2006), Windows default since 2017, and is now Standards Track as RFC 9438 (2023). Replaces AIMD\'s linear ramp with a cubic function of time since the last loss — much friendlier to long fat pipes.',
+			'The [[tcp|TCP]] congestion control algorithm that has been the Linux default since 2.6.19 (2006), Windows default since 2017, and is now Standards Track as [[rfc:9438|RFC 9438]] (2023). Replaces AIMD\'s linear ramp with a cubic function of time since the last loss — much friendlier to long fat pipes.',
 		wikiUrl: 'https://en.wikipedia.org/wiki/CUBIC_TCP',
 		category: 'protocol-mechanics'
 	},
@@ -1391,7 +1391,7 @@ export const concepts: Concept[] = [
 		id: 'ech',
 		term: 'ECH (Encrypted Client Hello)',
 		definition:
-			'A [[tls|TLS]] extension (RFC 9849, 2025) that encrypts the SNI and other ClientHello fields so eavesdroppers cannot see which site you are visiting. Cloudflare deploys ECH for ~70% of websites it fronts; Chrome and Firefox both support it.',
+			'A [[tls|TLS]] extension ([[rfc:9849|RFC 9849]], 2025) that encrypts the SNI and other ClientHello fields so eavesdroppers cannot see which site you are visiting. Cloudflare deploys ECH for ~70% of websites it fronts; Chrome and Firefox both support it.',
 		wikiUrl: 'https://en.wikipedia.org/wiki/Server_Name_Indication#Encrypted_Client_Hello',
 		category: 'security'
 	},
@@ -1449,7 +1449,7 @@ export const concepts: Concept[] = [
 		id: 'pkce',
 		term: 'PKCE (Proof Key for Code Exchange)',
 		definition:
-			'An [[oauth2|OAuth 2.0]] extension (RFC 7636) that protects the authorisation-code flow on public clients (mobile apps, single-page apps) where a client secret cannot be kept private. The client generates a random code-verifier per request, sends its hash up-front, and reveals the verifier when redeeming the code. Mandatory in [[oauth2|OAuth]] 2.1.',
+			'An [[oauth2|OAuth 2.0]] extension ([[rfc:7636|RFC 7636]]) that protects the authorisation-code flow on public clients (mobile apps, single-page apps) where a client secret cannot be kept private. The client generates a random code-verifier per request, sends its hash up-front, and reveals the verifier when redeeming the code. Mandatory in [[oauth2|OAuth]] 2.1.',
 		wikiUrl: 'https://datatracker.ietf.org/doc/html/rfc7636',
 		category: 'web'
 	},
@@ -1590,7 +1590,7 @@ export const concepts: Concept[] = [
 		id: 'ndp',
 		term: 'NDP (Neighbor Discovery Protocol)',
 		definition:
-			"[[ipv6|IPv6]]'s replacement for [[arp|ARP]] plus router discovery, prefix discovery, and Duplicate Address Detection (RFC 4861). Runs over ICMPv6 multicast on the local link. Where [[arp|ARP]] broadcasts \"who has 192.0.2.7?\", NDP sends a Neighbor Solicitation to a solicited-node multicast group — much more efficient.",
+			"[[ipv6|IPv6]]'s replacement for [[arp|ARP]] plus router discovery, prefix discovery, and Duplicate Address Detection ([[rfc:4861|RFC 4861]]). Runs over ICMPv6 multicast on the local link. Where [[arp|ARP]] broadcasts \"who has 192.0.2.7?\", NDP sends a Neighbor Solicitation to a solicited-node multicast group — much more efficient.",
 		wikiUrl: 'https://en.wikipedia.org/wiki/Neighbor_Discovery_Protocol',
 		category: 'networking-basics'
 	},
@@ -1598,7 +1598,7 @@ export const concepts: Concept[] = [
 		id: 'slaac',
 		term: 'SLAAC (Stateless Address Autoconfiguration)',
 		definition:
-			"[[ipv6|IPv6]]'s mechanism (RFC 4862) for hosts to generate their own globally-unique addresses without a [[dhcp|DHCP]] server. The router advertises a prefix; the host appends an interface identifier (EUI-64 or RFC 7217 stable-private). No server, no lease, no central state.",
+			"[[ipv6|IPv6]]'s mechanism ([[rfc:4862|RFC 4862]]) for hosts to generate their own globally-unique addresses without a [[dhcp|DHCP]] server. The router advertises a prefix; the host appends an interface identifier (EUI-64 or RFC 7217 stable-private). No server, no lease, no central state.",
 		wikiUrl: 'https://en.wikipedia.org/wiki/[[ipv6|IPv6]]#Stateless_address_autoconfiguration_(SLAAC)',
 		category: 'networking-basics'
 	},
@@ -1614,7 +1614,7 @@ export const concepts: Concept[] = [
 		id: 'four-six-four-xlat',
 		term: '464XLAT',
 		definition:
-			"An [[ipv6|IPv6]] transition mechanism (RFC 6877) that lets [[ip|IPv4]]-only applications run on [[ipv6|IPv6]]-only access networks. A CLAT on the host translates [[ip|IPv4]] → [[ipv6|IPv6]]; a PLAT (NAT64) at the carrier edge translates [[ipv6|IPv6]] → [[ip|IPv4]]. Modern Android, iOS, macOS, and Windows 11 ship CLAT natively. Why your phone can be [[ipv6|IPv6]]-only without breaking ancient apps.",
+			"An [[ipv6|IPv6]] transition mechanism ([[rfc:6877|RFC 6877]]) that lets [[ip|IPv4]]-only applications run on [[ipv6|IPv6]]-only access networks. A CLAT on the host translates [[ip|IPv4]] → [[ipv6|IPv6]]; a PLAT (NAT64) at the carrier edge translates [[ipv6|IPv6]] → [[ip|IPv4]]. Modern Android, iOS, macOS, and Windows 11 ship CLAT natively. Why your phone can be [[ipv6|IPv6]]-only without breaking ancient apps.",
 		wikiUrl: 'https://en.wikipedia.org/wiki/464XLAT',
 		category: 'networking-basics'
 	},
@@ -1640,7 +1640,7 @@ export const concepts: Concept[] = [
 		id: 'sack',
 		term: 'SACK (Selective Acknowledgment)',
 		definition:
-			"A [[tcp|TCP]] option (RFC 2018, 1996) that lets the receiver tell the sender exactly which non-contiguous byte ranges have arrived — instead of the cumulative ACK only saying \"I have everything up to byte N.\" Lets the sender retransmit only what's missing, dramatically improving recovery on lossy paths. Universally supported.",
+			"A [[tcp|TCP]] option ([[rfc:2018|RFC 2018]], 1996) that lets the receiver tell the sender exactly which non-contiguous byte ranges have arrived — instead of the cumulative ACK only saying \"I have everything up to byte N.\" Lets the sender retransmit only what's missing, dramatically improving recovery on lossy paths. Universally supported.",
 		wikiUrl: 'https://en.wikipedia.org/wiki/Transmission_Control_Protocol#Selective_acknowledgments',
 		category: 'protocol-mechanics'
 	},
@@ -1648,7 +1648,7 @@ export const concepts: Concept[] = [
 		id: 'window-scale',
 		term: 'Window Scale',
 		definition:
-			"A [[tcp|TCP]] option (RFC 7323) that lets the 16-bit receive window field represent values up to 2³⁰ bytes by left-shifting it during the handshake. Without window scale, a single [[tcp|TCP]] connection caps at 64 KB in flight — fine in 1981, far too little for a 10 Gbps × 100 ms BDP. Negotiated only in the SYN handshake, never midstream.",
+			"A [[tcp|TCP]] option ([[rfc:7323|RFC 7323]]) that lets the 16-bit receive window field represent values up to 2³⁰ bytes by left-shifting it during the handshake. Without window scale, a single [[tcp|TCP]] connection caps at 64 KB in flight — fine in 1981, far too little for a 10 Gbps × 100 ms BDP. Negotiated only in the SYN handshake, never midstream.",
 		wikiUrl: 'https://en.wikipedia.org/wiki/TCP_window_scale_option',
 		category: 'protocol-mechanics'
 	},
@@ -1664,7 +1664,7 @@ export const concepts: Concept[] = [
 		id: 'delayed-ack',
 		term: 'Delayed ACK',
 		definition:
-			"A receiver-side optimisation (RFC 1122 §4.2.3.2) that batches ACKs by waiting up to ~200 ms in case more data or an outgoing packet can carry the ACK. Combined with Nagle's algorithm on the sender, this can produce 200 ms request-response latencies on otherwise instant networks — the classic interactive-app footgun.",
+			"A receiver-side optimisation ([[rfc:1122|RFC 1122]] §4.2.3.2) that batches ACKs by waiting up to ~200 ms in case more data or an outgoing packet can carry the ACK. Combined with Nagle's algorithm on the sender, this can produce 200 ms request-response latencies on otherwise instant networks — the classic interactive-app footgun.",
 		wikiUrl: 'https://en.wikipedia.org/wiki/TCP_delayed_acknowledgment',
 		category: 'protocol-mechanics'
 	},

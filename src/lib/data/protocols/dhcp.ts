@@ -15,7 +15,7 @@ When your device connects to a network, it {{broadcast|broadcasts}} a [[dhcp|DHC
 
 [[dhcp|DHCP]] leases are temporary — typically 1-24 hours. When a {{lease|lease}} expires, the device must renew it. This dynamic allocation means [[ip|IP]] addresses can be reused efficiently. [[dhcp|DHCP]] is simple, ubiquitous, and works transparently — one of those "invisible" {{protocol|protocols}} that makes networking just work.
 
-For [[ipv6|IPv6]] networks, DHCPv6 (RFC 8415) provides similar functionality but with a different message flow: Solicit/Advertise replaces Discover/Offer, and Request/Reply replaces Request/ACK. DHCPv6 also supports a {{stateless|stateless}} configuration mode (via {{slaac|SLAAC}} — Stateless Address Autoconfiguration) where hosts generate their own addresses and only use DHCPv6 for additional options like [[dns|DNS]] server addresses.`,
+For [[ipv6|IPv6]] networks, DHCPv6 (RFC 8415) provides similar functionality but with a different message flow: Solicit/Advertise replaces Discover/Offer, and Request/Reply replaces Request/{{ack|ACK}}. DHCPv6 also supports a {{stateless|stateless}} configuration mode (via {{slaac|SLAAC}} — {{slaac|Stateless Address Autoconfiguration}}) where hosts generate their own addresses and only use DHCPv6 for additional options like [[dns|DNS]] server addresses.`,
 	howItWorks: [
 		{
 			title: 'DISCOVER (broadcast)',
@@ -35,7 +35,7 @@ For [[ipv6|IPv6]] networks, DHCPv6 (RFC 8415) provides similar functionality but
 		{
 			title: 'ACK',
 			description:
-				"Selected server confirms with [[dhcp|DHCP]] ACK. The client configures its network interface. Done — you're online. The entire process takes milliseconds."
+				"Selected server confirms with [[dhcp|DHCP]] {{ack|ACK}}. The client configures its network interface. Done — you're online. The entire process takes milliseconds."
 		}
 	],
 	useCases: [

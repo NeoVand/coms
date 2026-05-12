@@ -44,7 +44,7 @@ Apple was the first major adopter, shipping [[mptcp|MPTCP]] in iOS 7 (2013) for 
 	useCases: [
 		'Mobile connectivity resilience ([[wifi|WiFi]] to cellular handover)',
 		'Apple Siri, Maps, and Music on iOS devices',
-		'Bandwidth aggregation across multiple ISP links',
+		'{{bandwidth|Bandwidth}} aggregation across multiple ISP links',
 		'High-availability server connections',
 		'Hybrid access networks (DSL + LTE bonding)'
 	],

@@ -11,7 +11,7 @@ export const sdp: Protocol = {
 		'The universal format for describing multimedia sessions — the matchmaker behind every [[webrtc|WebRTC]] and VoIP call.',
 	overview: `[[sdp|SDP]] doesn't carry a single byte of audio or video. Instead, it's the language that endpoints use to describe what they can do — {{codec|codecs}} they support, [[ip|IP]] addresses they're reachable at, {{bandwidth|bandwidth}} they expect, and {{encryption|encryption}} keys they'll use. Think of it as a dating profile for media sessions.
 
-Originally published in 1998 as RFC 2327 for the Mbone ({{multicast|multicast}} backbone) conferencing community, [[sdp|SDP]] found its true calling as the session description format for [[sip|SIP]] and later [[webrtc|WebRTC]]. Every time you join a video call in your browser, an [[sdp|SDP]] "offer" and "answer" are exchanged behind the scenes to {{content-negotiation|negotiate}} what media will flow and how.
+Originally published in 1998 as [[rfc:2327|RFC 2327]] for the Mbone ({{multicast|multicast}} backbone) conferencing community, [[sdp|SDP]] found its true calling as the session description format for [[sip|SIP]] and later [[webrtc|WebRTC]]. Every time you join a video call in your browser, an [[sdp|SDP]] "offer" and "answer" are exchanged behind the scenes to {{content-negotiation|negotiate}} what media will flow and how.
 
 The format is deceptively simple — plain text with single-letter field identifiers (v= for version, o= for origin, m= for media, a= for attributes). But this simplicity hides enormous complexity: [[sdp|SDP]] extensions handle ICE candidates, {{dtls|DTLS}} (based on [[tls|TLS]]) fingerprints, simulcast layers, {{codec|codec}} parameters, and dozens of other modern requirements.`,
 	howItWorks: [
@@ -45,7 +45,7 @@ The format is deceptively simple — plain text with single-letter field identif
 		'[[webrtc|WebRTC]] peer connection negotiation (offer/answer)',
 		'[[sip|SIP]] call setup (INVITE body)',
 		'Video conferencing session initialization',
-		'Multicast session announcements (SAP)',
+		'{{multicast|Multicast}} session announcements (SAP)',
 		'Streaming media session descriptions (RTSP)'
 	],
 	codeExample: {

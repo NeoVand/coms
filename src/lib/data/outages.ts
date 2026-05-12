@@ -99,7 +99,7 @@ export const outages: Outage[] = [
 				time: '15:40 UTC',
 				title: 'BGP withdrawals',
 				description:
-					"Cloudflare and other observers detect a flood of [[bgp|BGP]] UPDATE messages from AS 32934 — and then a wave of WITHDRAWALs of the [[ip|IPv4]] and [[ipv6|IPv6]] prefixes covering Facebook's [[dns|DNS]] servers. From the outside, Facebook ceases to exist.",
+					"Cloudflare and other observers detect a flood of [[bgp|BGP]] UPDATE messages from {{autonomous-system|AS}} 32934 — and then a wave of WITHDRAWALs of the [[ip|IPv4]] and [[ipv6|IPv6]] prefixes covering Facebook's [[dns|DNS]] servers. From the outside, Facebook ceases to exist.",
 				protocols: ['bgp', 'dns']
 			},
 			{
@@ -164,7 +164,7 @@ export const outages: Outage[] = [
 		setup:
 			"In 1997 [[bgp|BGP]]-4 had been the inter-domain routing protocol for eight years. It assumes neighbours announce only what they own. There were almost no upstream filters: if a customer announced something, the upstream took it.",
 		mistake:
-			"MAI Network Services (AS 7007) had a Bay Networks router whose forwarding table got dumped into [[bgp|BGP]] as if every entry were a route the AS originated. The router didn't just announce its own prefixes — it announced /24 fragments of the entire global {{routing-table|routing table}}, claiming MAI was the origin AS for everything.",
+			"MAI Network Services ({{autonomous-system|AS}} 7007) had a Bay Networks router whose forwarding table got dumped into [[bgp|BGP]] as if every entry were a route the {{autonomous-system|AS}} originated. The router didn't just announce its own prefixes — it announced /24 fragments of the entire global {{routing-table|routing table}}, claiming MAI was the origin {{autonomous-system|AS}} for everything.",
 		cascade: [
 			{
 				title: 'Specific prefixes win',
@@ -192,7 +192,7 @@ export const outages: Outage[] = [
 		resolution:
 			"Vince Bono's apology email to NANOG that day is preserved in the archives — a remarkably calm and detailed admission that became a model for incident communication.",
 		lesson:
-			"[[bgp|BGP]] trusts every neighbour by default. Without prefix filters at every {{peering|peering}} point, a single broken router can become the apparent origin of the entire internet. Prompted the slow rollout of route filters across {{transit|transit}} providers, but the protocol-level fix ({{rpki|RPKI}} ROV) took another 25 years to reach 50% deployment.",
+			"[[bgp|BGP]] trusts every neighbour by default. Without prefix filters at every {{peering|peering}} point, a single broken router can become the apparent origin of the entire internet. Prompted the slow rollout of route filters across {{transit|transit}} providers, but the protocol-level fix ({{rpki|RPKI}} {{rov|ROV}}) took another 25 years to reach 50% deployment.",
 		sources: [
 			{
 				url: 'https://en.wikipedia.org/wiki/AS_7007_incident',
@@ -215,9 +215,9 @@ export const outages: Outage[] = [
 		category: 'configuration',
 		affectedProtocols: ['bgp'],
 		setup:
-			"Pakistan ordered ISPs to block YouTube in response to a controversial video. Pakistan Telecom (AS 17557) decided to do this by null-routing YouTube domestically: announce a more-specific [[bgp|BGP]] prefix for YouTube's address space inside its own AS so traffic gets dropped. The technique works fine if the announcement stays inside the AS.",
+			"Pakistan ordered ISPs to block YouTube in response to a controversial video. Pakistan Telecom ({{autonomous-system|AS}} 17557) decided to do this by null-routing YouTube domestically: announce a more-specific [[bgp|BGP]] prefix for YouTube's address space inside its own {{autonomous-system|AS}} so traffic gets dropped. The technique works fine if the announcement stays inside the {{autonomous-system|AS}}.",
 		mistake:
-			"Pakistan Telecom announced 208.65.153.0/24 — more specific than YouTube's 208.65.152.0/22, so under longest-prefix match it would win locally. But Pakistan Telecom's upstream PCCW (AS 3491) had no inbound filter and propagated the route globally. Suddenly the whole internet thought YouTube was in Pakistan.",
+			"Pakistan Telecom announced 208.65.153.0/24 — more specific than YouTube's 208.65.152.0/22, so under longest-prefix match it would win locally. But Pakistan Telecom's upstream PCCW ({{autonomous-system|AS}} 3491) had no inbound filter and propagated the route globally. Suddenly the whole internet thought YouTube was in Pakistan.",
 		cascade: [
 			{
 				title: '/24 wins globally',
@@ -240,7 +240,7 @@ export const outages: Outage[] = [
 			{
 				title: 'PCCW blackholes',
 				description:
-					"PCCW eventually blackholed traffic to AS 17557 to stop propagating the hijack."
+					"PCCW eventually blackholed traffic to {{autonomous-system|AS}} 17557 to stop propagating the hijack."
 			}
 		],
 		consequence:
@@ -248,7 +248,7 @@ export const outages: Outage[] = [
 		resolution:
 			"YouTube announced more-specific prefixes to outcompete the hijack. PCCW eventually filtered Pakistan Telecom's announcements. The whole event drained over ~2 hours.",
 		lesson:
-			'Forced {{rpki|RPKI}} from research curiosity to operational priority. Demonstrated definitively that [[bgp|BGP]] trust between ASes had to be replaced with cryptographic verification of who could originate which prefix. RPKI ROV deployment finally crossed 50% of [[ip|IPv4]] prefixes 16 years later, in 2024.',
+			'Forced {{rpki|RPKI}} from research curiosity to operational priority. Demonstrated definitively that [[bgp|BGP]] trust between ASes had to be replaced with cryptographic verification of who could originate which prefix. {{rpki|RPKI}} {{rov|ROV}} deployment finally crossed 50% of [[ip|IPv4]] prefixes 16 years later, in 2024.',
 		sources: [
 			{
 				url: 'https://www.ripe.net/about-us/news/youtube-hijacking-a-ripe-ncc-ris-case-study/',
@@ -275,7 +275,7 @@ export const outages: Outage[] = [
 			{ name: 'Cloudflare', role: 'External monitor + customer' }
 		],
 		setup:
-			"Level 3 (now CenturyLink) ran one of the world's largest tier-1 {{transit|transit}} networks. To mitigate DDoS attacks for customers, they used [[bgp|BGP]] Flowspec — a [[bgp|BGP]] extension (RFC 5575) that distributes packet-filtering rules across the network the same way [[bgp|BGP]] distributes routes.",
+			"Level 3 (now CenturyLink) ran one of the world's largest tier-1 {{transit|transit}} networks. To mitigate DDoS attacks for customers, they used [[bgp|BGP]] Flowspec — a [[bgp|BGP]] extension ([[rfc:5575|RFC 5575]]) that distributes packet-filtering rules across the network the same way [[bgp|BGP]] distributes routes.",
 		mistake:
 			"An incorrectly-formatted Flowspec rule pushed to mitigate a customer's DDoS blocked [[bgp|BGP]] itself. The rule killed the [[bgp|BGP]] session that delivered it. The session re-established. The rule was re-pushed. The session died again.",
 		cascade: [
@@ -337,9 +337,9 @@ export const outages: Outage[] = [
 		affectedProtocols: ['bgp'],
 		cast: [{ name: 'Rogers Communications (AS 812)', role: 'Operator' }],
 		setup:
-			"Rogers ran one of Canada's three national telecom networks — wireless, wireline, internet, and the Interac point-of-sale debit card system that runs Canadian retail. The [[ip|IP]] core used [[bgp|BGP]] for inter-AS routing and OSPF for intra-AS routing — the standard separation.",
+			"Rogers ran one of Canada's three national telecom networks — wireless, wireline, internet, and the Interac point-of-sale debit card system that runs Canadian retail. The [[ip|IP]] core used [[bgp|BGP]] for inter-{{autonomous-system|AS}} routing and OSPF for intra-{{autonomous-system|AS}} routing — the standard separation.",
 		mistake:
-			"A maintenance change to [[bgp|BGP]] route policy in the [[ip|IP]] core was meant to apply to a small set of routes. A missing filter let the entire [[bgp|BGP]] table — nearly a million prefixes — redistribute into OSPF, the intra-AS routing protocol.",
+			"A maintenance change to [[bgp|BGP]] route policy in the [[ip|IP]] core was meant to apply to a small set of routes. A missing filter let the entire [[bgp|BGP]] table — nearly a million prefixes — redistribute into OSPF, the intra-{{autonomous-system|AS}} routing protocol.",
 		cascade: [
 			{
 				title: 'BGP-into-OSPF flood',
@@ -368,7 +368,7 @@ export const outages: Outage[] = [
 		resolution:
 			"Manual rollback of the offending policy change, with engineers physically present at core sites.",
 		lesson:
-			"A single national telecom outage can take down payment systems, hospitals, and emergency services. Canada subsequently mandated mutual emergency-roaming agreements between carriers, on the principle that a single AS failing should not disconnect a country.",
+			"A single national telecom outage can take down payment systems, hospitals, and emergency services. Canada subsequently mandated mutual emergency-roaming agreements between carriers, on the principle that a single {{autonomous-system|AS}} failing should not disconnect a country.",
 		sources: [
 			{
 				url: 'https://blog.cloudflare.com/cloudflares-view-of-the-rogers-communications-outage-in-canada/',
@@ -453,14 +453,14 @@ export const outages: Outage[] = [
 			{ name: 'Linux Kernel TCP maintainers', role: 'Vendors' }
 		],
 		setup:
-			"[[tcp|TCP]] Selective Acknowledgment ({{sack|SACK}}, RFC 2018) lets the receiver tell the sender exactly which non-contiguous byte ranges have arrived. The Linux kernel tracks these as a queue of skb (socket buffer) ranges. The data structure includes a 16-bit gso_segs counter for the segments-in-flight on a single sk_buff.",
+			"[[tcp|TCP]] {{sack|Selective Acknowledgment}} ({{sack|SACK}}, [[rfc:2018|RFC 2018]]) lets the receiver tell the sender exactly which non-contiguous byte ranges have arrived. The Linux kernel tracks these as a queue of skb (socket buffer) ranges. The data structure includes a 16-bit gso_segs counter for the segments-in-flight on a single sk_buff.",
 		mistake:
-			"With a small enough MSS — easily set by a remote peer — a single sk_buff could be split into more than 65,535 GSO segments. The 16-bit counter overflowed. The kernel hit an integer overflow in tcp_skb_cb, triggering a panic.",
+			"With a small enough {{mss|MSS}} — easily set by a remote peer — a single sk_buff could be split into more than 65,535 GSO segments. The 16-bit counter overflowed. The kernel hit an integer overflow in tcp_skb_cb, triggering a panic.",
 		cascade: [
 			{
 				title: 'Patch crafted',
 				description:
-					'A remote attacker establishes a [[tcp|TCP]] connection, advertises a tiny MSS, and triggers the kernel to compute gso_segs > 65,535.'
+					'A remote attacker establishes a [[tcp|TCP]] connection, advertises a tiny {{mss|MSS}}, and triggers the kernel to compute gso_segs > 65,535.'
 			},
 			{
 				title: 'Integer overflow',
@@ -469,16 +469,16 @@ export const outages: Outage[] = [
 			{
 				title: 'CVE-2019-11477 (CVSS 7.5)',
 				description:
-					"Disclosed alongside CVE-2019-11478 ({{sack|SACK}} Slowness) and CVE-2019-11479 (excessive resource consumption from low MSS) in Netflix's coordinated disclosure of June 17, 2019.",
+					"Disclosed alongside CVE-2019-11478 ({{sack|SACK}} Slowness) and CVE-2019-11479 (excessive resource consumption from low {{mss|MSS}}) in Netflix's coordinated disclosure of June 17, 2019.",
 				protocols: ['tcp']
 			}
 		],
 		consequence:
 			"Most Linux servers on the public internet were vulnerable. CVSS 7.5 (high). Operators scrambled to patch; many disabled {{sack|SACK}} as an interim mitigation, accepting performance degradation to avoid the crash.",
 		resolution:
-			'Mainline kernel patch shipped within days. Mitigations: disable {{sack|SACK}} (`net.ipv4.tcp_sack=0`) or enforce a minimum MSS via the new `net.ipv4.tcp_min_snd_mss` sysctl.',
+			'Mainline kernel patch shipped within days. Mitigations: disable {{sack|SACK}} (`net.ipv4.tcp_sack=0`) or enforce a minimum {{mss|MSS}} via the new `net.ipv4.tcp_min_snd_mss` sysctl.',
 		lesson:
-			"Decades-old [[tcp|TCP]] code paths still hide remote-DoS bugs. The post-disclosure work led to better [[tcp|TCP]] fuzzing infrastructure and to RACK-TLP (RFC 8985, Feb 2021) replacing the older 'three duplicate ACKs' loss-detection rule.",
+			"Decades-old [[tcp|TCP]] code paths still hide remote-DoS bugs. The post-disclosure work led to better [[tcp|TCP]] fuzzing infrastructure and to RACK-TLP ([[rfc:8985|RFC 8985]], Feb 2021) replacing the older 'three duplicate ACKs' loss-detection rule.",
 		sources: [
 			{
 				url: 'https://github.com/Netflix/security-bulletins/blob/master/advisories/third-party/2019-001.md',

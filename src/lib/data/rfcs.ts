@@ -57,7 +57,7 @@ export const rfcs: Rfc[] = [
 		obsoletedBy: ['9293'],
 		url: 'https://www.rfc-editor.org/rfc/rfc791',
 		protocols: ['ip'],
-		abstract: `The defining specification of [[ip|IPv4]] — the connectionless, best-effort packet protocol that interconnects every network on the internet. Defines the 32-bit address space, the 20-byte minimum header (source/destination, TTL, protocol, header checksum, fragmentation fields), and the rules for routers to decrement TTL, fragment when needed, and drop packets that can't be delivered.
+		abstract: `The defining specification of [[ip|IPv4]] — the connectionless, best-effort packet protocol that interconnects every network on the internet. Defines the 32-bit address space, the 20-byte minimum header (source/destination, {{ttl|TTL}}, protocol, header checksum, fragmentation fields), and the rules for routers to decrement {{ttl|TTL}}, fragment when needed, and drop packets that can't be delivered.
 
 Edited by [[pioneer:jon-postel|Jon Postel]] at ISI in September 1981 alongside [[rfc:792|RFC 792]] ([[icmp|ICMP]]) and [[rfc:9293|RFC 793]] ([[tcp|TCP]]). Stayed the canonical [[ip|IPv4]] spec for 41 years until [[rfc:9293|RFC 9293]] consolidated [[tcp|TCP]] errata in 2022; [[ip|IPv4]] itself is still defined here.`
 	},
@@ -69,9 +69,9 @@ Edited by [[pioneer:jon-postel|Jon Postel]] at ISI in September 1981 alongside [
 		status: 'internet-standard',
 		url: 'https://www.rfc-editor.org/rfc/rfc792',
 		protocols: ['icmp'],
-		abstract: `Defines [[icmp|ICMP]] — the control-plane protocol [[ip|IP]] hosts and routers use to report errors and probe reachability. The most familiar messages are *Echo Request / Echo Reply* (the basis of \`ping\`) and *Time Exceeded* (sent when a router decrements TTL to zero, the trick \`traceroute\` uses to discover each {{hop|hop}}). Other messages cover *Destination Unreachable*, *Redirect*, *Source Quench*, and *Parameter Problem*.
+		abstract: `Defines [[icmp|ICMP]] — the control-plane protocol [[ip|IP]] hosts and routers use to report errors and probe reachability. The most familiar messages are *Echo Request / Echo Reply* (the basis of \`ping\`) and *Time Exceeded* (sent when a router decrements {{ttl|TTL}} to zero, the trick \`traceroute\` uses to discover each {{hop|hop}}). Other messages cover *Destination Unreachable*, *Redirect*, *Source Quench*, and *Parameter Problem*.
 
-[[rfc:1122|RFC 1122]] §3.2.2 declares [[icmp|ICMP]] "an integral part of [[ip|IP]]" — every [[ip|IP]] host MUST implement it. Dropping [[icmp|ICMP]] at firewalls is a frequent root cause of {{mtu-black-hole|MTU black holes}} and silently broken Path MTU Discovery. [[ipv6|IPv6]] has its own equivalent in [[rfc:4443|RFC 4443]] (ICMPv6).`
+[[rfc:1122|RFC 1122]] §3.2.2 declares [[icmp|ICMP]] "an integral part of [[ip|IP]]" — every [[ip|IP]] host MUST implement it. Dropping [[icmp|ICMP]] at firewalls is a frequent root cause of {{mtu-black-hole|MTU black holes}} and silently broken {{path-mtu-discovery|Path MTU Discovery}}. [[ipv6|IPv6]] has its own equivalent in [[rfc:4443|RFC 4443]] (ICMPv6).`
 	},
 	{
 		number: '826',
@@ -108,7 +108,7 @@ Combined with [[rfc:3022|NAT]], private addressing extended [[ip|IPv4]]'s lifesp
 		protocols: ['bgp'],
 		abstract: `The current specification of [[bgp|BGP-4]] — the path-vector protocol every transit and peering relationship on the public internet uses to exchange reachability information between {{autonomous-system|autonomous systems}}. Defines the OPEN/UPDATE/KEEPALIVE/NOTIFICATION messages, the NLRI encoding for prefixes, the path attributes (AS_PATH, NEXT_HOP, MULTI_EXIT_DISC, LOCAL_PREF, COMMUNITIES, …), and the *decision process* a router uses to pick the best route from competing announcements.
 
-Edited by [[pioneer:yakov-rekhter|Yakov Rekhter]] et al., consolidating two decades of incremental extensions on top of the original 1989 [[rfc:1105|RFC 1105]] sketch. As of 2026 [[bgp|BGP]] carries roughly 1M [[ip|IPv4]] and 225k [[ipv6|IPv6]] prefixes globally. The protocol's open-trust model is also the root cause of every major {{bgp-hijack|BGP hijack}} incident; [[rfc:8205|RFC 8205]] (BGPsec) and RPKI-ROV are the slow-rolling cryptographic answers.`
+Edited by [[pioneer:yakov-rekhter|Yakov Rekhter]] et al., consolidating two decades of incremental extensions on top of the original 1989 [[rfc:1105|RFC 1105]] sketch. As of 2026 [[bgp|BGP]] carries roughly 1M [[ip|IPv4]] and 225k [[ipv6|IPv6]] prefixes globally. The protocol's open-trust model is also the root cause of every major {{bgp-hijack|BGP hijack}} incident; [[rfc:8205|RFC 8205]] (BGPsec) and {{rpki|RPKI}}-{{rov|ROV}} are the slow-rolling cryptographic answers.`
 	},
 	{
 		number: '4861',
@@ -118,9 +118,9 @@ Edited by [[pioneer:yakov-rekhter|Yakov Rekhter]] et al., consolidating two deca
 		status: 'standards-track',
 		url: 'https://www.rfc-editor.org/rfc/rfc4861',
 		protocols: ['ipv6'],
-		abstract: `Defines the [[ipv6|IPv6]] *Neighbor Discovery Protocol* (NDP) — the [[ipv6|IPv6]] equivalent of [[arp|ARP]] plus [[icmp|ICMP]] Router Discovery plus Redirect, all consolidated into one protocol on top of [[icmp|ICMPv6]]. Hosts use NDP to discover routers (Router Solicitation / Router Advertisement), resolve link-layer addresses (Neighbor Solicitation / Neighbor Advertisement via solicited-node {{multicast|multicast}}), and detect when a neighbour has gone away.
+		abstract: `Defines the [[ipv6|IPv6]] *{{ndp|Neighbor Discovery Protocol}}* ({{ndp|NDP}}) — the [[ipv6|IPv6]] equivalent of [[arp|ARP]] plus [[icmp|ICMP]] Router Discovery plus Redirect, all consolidated into one protocol on top of [[icmp|ICMPv6]]. Hosts use {{ndp|NDP}} to discover routers (Router Solicitation / Router Advertisement), resolve link-layer addresses (Neighbor Solicitation / Neighbor Advertisement via solicited-node {{multicast|multicast}}), and detect when a neighbour has gone away.
 
-Operates entirely over ICMPv6, with no [[arp|ARP]]-style {{broadcast|broadcast}} ([[ipv6|IPv6]] has no broadcast). The cryptographic counterpart is *SEND* ([[rfc:3971|RFC 3971]]) using cryptographically generated addresses to defeat NDP {{spoofing|spoofing}}; deployment has been minimal.`
+Operates entirely over ICMPv6, with no [[arp|ARP]]-style {{broadcast|broadcast}} ([[ipv6|IPv6]] has no broadcast). The cryptographic counterpart is *SEND* ([[rfc:3971|RFC 3971]]) using cryptographically generated addresses to defeat {{ndp|NDP}} {{spoofing|spoofing}}; deployment has been minimal.`
 	},
 	{
 		number: '4862',
@@ -130,7 +130,7 @@ Operates entirely over ICMPv6, with no [[arp|ARP]]-style {{broadcast|broadcast}}
 		status: 'standards-track',
 		url: 'https://www.rfc-editor.org/rfc/rfc4862',
 		protocols: ['ipv6'],
-		abstract: `Specifies *SLAAC* — the mechanism by which an [[ipv6|IPv6]] host generates its own globally-routable address by combining a network prefix learned from a Router Advertisement with an interface identifier (originally derived from the {{mac-address|MAC}} via EUI-64, now usually random). No [[dhcp|DHCP]] server required: plug in, pick up an address, go.
+		abstract: `Specifies *{{slaac|SLAAC}}* — the mechanism by which an [[ipv6|IPv6]] host generates its own globally-routable address by combining a network prefix learned from a Router Advertisement with an interface identifier (originally derived from the {{mac-address|MAC}} via EUI-64, now usually random). No [[dhcp|DHCP]] server required: plug in, pick up an address, go.
 
 The original EUI-64 form embedded the MAC into the [[ipv6|IPv6]] address — a privacy leak that lets a device be tracked across networks. [[rfc:8981|RFC 8981]] (Privacy Extensions) replaces it with randomised, periodically-rotating identifiers and is now the default in every major OS.`
 	},
@@ -143,7 +143,7 @@ The original EUI-64 form embedded the MAC into the [[ipv6|IPv6]] address — a p
 		obsoletes: ['2460'],
 		url: 'https://datatracker.ietf.org/doc/html/rfc8200',
 		protocols: ['ipv6'],
-		abstract: `The current Internet Standard defining [[ipv6|IPv6]]: 128-bit addresses (3.4 × 10³⁸), a fixed 40-byte header (no options, no header {{checksum|checksum}}, no in-network {{fragmentation|fragmentation}}), and a chained "extension header" mechanism for everything that used to live in [[ip|IPv4]] options. The minimum link MTU is **1280 bytes**, and routers may not fragment — senders MUST do {{path-mtu-discovery|Path MTU Discovery}}.
+		abstract: `The current Internet Standard defining [[ipv6|IPv6]]: 128-bit addresses (3.4 × 10³⁸), a fixed 40-byte header (no options, no header {{checksum|checksum}}, no in-network {{fragmentation|fragmentation}}), and a chained "extension header" mechanism for everything that used to live in [[ip|IPv4]] options. The minimum link {{mtu|MTU}} is **1280 bytes**, and routers may not fragment — senders MUST do {{path-mtu-discovery|Path MTU Discovery}}.
 
 [[pioneer:steve-deering|Steve Deering]] and Bob Hinden are the primary architects, building on three decades of [[ipv6|IPv6]] work: [[rfc:1883|RFC 1883]] (1995), [[rfc:2460|RFC 2460]] (1998), and now this Internet Standard 86 (2017). On 28 March 2026, [[ipv6|IPv6]] carried 50.1% of Google's traffic for the first time — 28 years after the protocol was first specified.`
 	},
@@ -157,7 +157,7 @@ The original EUI-64 form embedded the MAC into the [[ipv6|IPv6]] address — a p
 		status: 'internet-standard',
 		url: 'https://www.rfc-editor.org/rfc/rfc768',
 		protocols: ['udp'],
-		abstract: `[[pioneer:jon-postel|Jon Postel]]'s three-page specification of [[udp|UDP]] — the minimal {{connectionless|connectionless}} transport. An 8-byte header (source port, destination port, length, {{checksum|checksum}}) on top of [[ip|IP]], no setup, no acknowledgements, no flow control, no {{retransmission|retransmission}}. The application owns reliability if it needs any.
+		abstract: `[[pioneer:jon-postel|Jon Postel]]'s three-page specification of [[udp|UDP]] — the minimal {{connectionless|connectionless}} transport. An 8-byte header (source port, destination port, length, {{checksum|checksum}}) on top of [[ip|IP]], no setup, no acknowledgements, no {{flow-control|flow control}}, no {{retransmission|retransmission}}. The application owns reliability if it needs any.
 
 Published August 1980, two months before the first version of [[tcp|TCP]]. **It has not been updated since.** Three pages were enough; everything [[udp|UDP]] doesn't do is the point. [[udp|UDP]] is what makes [[dns|DNS]], [[ntp|NTP]], [[quic|QUIC]], [[webrtc|WebRTC]], and almost every real-time protocol possible.`
 	},
@@ -170,14 +170,14 @@ Published August 1980, two months before the first version of [[tcp|TCP]]. **It 
 		obsoletes: ['793', '879', '2873', '6093', '6429', '6528', '6691'],
 		url: 'https://datatracker.ietf.org/doc/html/rfc9293',
 		protocols: ['tcp'],
-		abstract: `The current Internet Standard for [[tcp|TCP]] — the reliable, ordered, byte-stream transport that powers most of the application internet. Defines the {{three-way-handshake|three-way handshake}}, {{sequence-number|sequence numbers}}, the {{sliding-window|sliding window}} flow control, the FIN-based teardown, and the {{time-wait|TIME_WAIT}} state. The actual congestion-control behaviour lives in companion RFCs ([[rfc:5681|RFC 5681]], [[rfc:9438|RFC 9438]], …).
+		abstract: `The current Internet Standard for [[tcp|TCP]] — the reliable, ordered, byte-stream transport that powers most of the application internet. Defines the {{three-way-handshake|three-way handshake}}, {{sequence-number|sequence numbers}}, the {{sliding-window|sliding window}} {{flow-control|flow control}}, the FIN-based teardown, and the {{time-wait|TIME_WAIT}} state. The actual congestion-control behaviour lives in companion RFCs ([[rfc:5681|RFC 5681]], [[rfc:9438|RFC 9438]], …).
 
 Edited by Wesley Eddy in August 2022, this RFC consolidated **41 years of errata** against [[rfc:793|RFC 793]] (1981) — the longest-lived unmodified core IETF spec ever — plus six more obsoleted RFCs. Almost certainly the highest-leverage cleanup commit in IETF history. The wire protocol is unchanged; the spec just finally matches what implementations actually do.`,
 		notableSections: [
 			{ ref: '§3.1', description: '[[tcp|TCP]] header format' },
 			{ ref: '§3.4', description: 'Sequence numbers' },
-			{ ref: '§3.5', description: 'Three-way handshake' },
-			{ ref: '§3.8', description: 'Sliding window flow control' }
+			{ ref: '§3.5', description: '{{three-way-handshake|Three-way handshake}}' },
+			{ ref: '§3.8', description: '{{sliding-window|Sliding window}} {{flow-control|flow control}}' }
 		]
 	},
 	{
@@ -189,9 +189,9 @@ Edited by Wesley Eddy in August 2022, this RFC consolidated **41 years of errata
 		obsoletes: ['2581'],
 		url: 'https://www.rfc-editor.org/rfc/rfc5681',
 		protocols: ['tcp'],
-		abstract: `Codifies the four canonical [[tcp|TCP]] {{congestion-control|congestion control}} algorithms — *Slow Start*, *Congestion Avoidance*, *Fast Retransmit*, and *Fast Recovery* — that emerged from [[pioneer:van-jacobson|Van Jacobson]] and Mike Karels's response to the [[outage:nsfnet-1986-collapse|1986 NSFNET congestion collapse]]. The {{slow-start|slow start}} window grows exponentially after handshake until loss is observed, then {{congestion-avoidance|congestion avoidance}} switches to additive increase. Fast retransmit triggers on three duplicate ACKs.
+		abstract: `Codifies the four canonical [[tcp|TCP]] {{congestion-control|congestion control}} algorithms — *{{slow-start|Slow Start}}*, *{{congestion-avoidance|Congestion Avoidance}}*, *Fast Retransmit*, and *Fast Recovery* — that emerged from [[pioneer:van-jacobson|Van Jacobson]] and Mike Karels's response to the [[outage:nsfnet-1986-collapse|1986 NSFNET congestion collapse]]. The {{slow-start|slow start}} window grows exponentially after handshake until loss is observed, then {{congestion-avoidance|congestion avoidance}} switches to additive increase. Fast retransmit triggers on three duplicate ACKs.
 
-This is the *behaviour* spec; modern algorithms ([[rfc:9438|CUBIC]], BBR, Prague-over-L4S) replace the curves but keep the four-phase loop. Effectively every [[tcp|TCP]] stack on earth implements this.`
+This is the *behaviour* spec; modern algorithms ([[rfc:9438|CUBIC]], {{bbr|BBR}}, Prague-over-{{l4s|L4S}}) replace the curves but keep the four-phase loop. Effectively every [[tcp|TCP]] stack on earth implements this.`
 	},
 	{
 		number: '6298',
@@ -202,7 +202,7 @@ This is the *behaviour* spec; modern algorithms ([[rfc:9438|CUBIC]], BBR, Prague
 		obsoletes: ['2988'],
 		url: 'https://www.rfc-editor.org/rfc/rfc6298',
 		protocols: ['tcp'],
-		abstract: `Specifies how a [[tcp|TCP]] sender computes its *Retransmission Timeout* (RTO) — when to give up waiting for an ACK and resend. Maintains an exponentially-weighted moving average of the round-trip time (SRTT) and its variance (RTTVAR), with RTO = SRTT + max(G, 4·RTTVAR), clamped to a minimum of 1 second. Karn's algorithm prevents poisoning the estimator from retransmitted segments.
+		abstract: `Specifies how a [[tcp|TCP]] sender computes its *{{retransmission|Retransmission}} Timeout* (RTO) — when to give up waiting for an {{ack|ACK}} and resend. Maintains an exponentially-weighted moving average of the {{rtt|round-trip time}} (SRTT) and its variance (RTTVAR), with RTO = SRTT + max(G, 4·RTTVAR), clamped to a minimum of 1 second. Karn's algorithm prevents poisoning the estimator from retransmitted segments.
 
 The math originated in [[pioneer:van-jacobson|Van Jacobson]] and Karels's 1988 SIGCOMM paper; this RFC pins down the precise formulas every kernel uses. The 1-second floor is one of the most-debated defaults in networking — too aggressive for datacentres, conservative for the open internet.`
 	},
@@ -214,11 +214,11 @@ The math originated in [[pioneer:van-jacobson|Van Jacobson]] and Karels's 1988 S
 		status: 'standards-track',
 		url: 'https://www.rfc-editor.org/rfc/rfc7323',
 		protocols: ['tcp'],
-		abstract: `Defines the two [[tcp|TCP]] options that make modern long-fat-pipe networking tractable: *{{window-scale|Window Scale}}* and *Timestamps + PAWS*. Window Scale shifts the 16-bit receive window by up to 14 bits, raising the maximum advertised window from 64 KB to ~1 GB — without it, a 100 ms transcontinental link caps at ~5 Mbit/s regardless of available bandwidth. Timestamps enable accurate RTT measurement on retransmitted segments, and PAWS (*Protection Against Wrapped Sequence numbers*) prevents an old segment from re-entering a fast connection where {{sequence-number|sequence numbers}} cycle in seconds.
+		abstract: `Defines the two [[tcp|TCP]] options that make modern long-fat-pipe networking tractable: *{{window-scale|Window Scale}}* and *Timestamps + PAWS*. {{window-scale|Window Scale}} shifts the 16-bit receive window by up to 14 bits, raising the maximum advertised window from 64 KB to ~1 GB — without it, a 100 ms transcontinental link caps at ~5 Mbit/s regardless of available bandwidth. Timestamps enable accurate {{rtt|RTT}} measurement on retransmitted segments, and PAWS (*Protection Against Wrapped Sequence numbers*) prevents an old segment from re-entering a fast connection where {{sequence-number|sequence numbers}} cycle in seconds.
 
 Originally published as RFC 1323 in 1992 by [[pioneer:van-jacobson|Van Jacobson]] et al.; refined and republished here. Both options are negotiated in the SYN — they're either there from the start or never.`,
 		notableSections: [
-			{ ref: 'Window Scale', description: 'Lets the 16-bit receive window represent up to 2³⁰ bytes' },
+			{ ref: '{{window-scale|Window Scale}}', description: 'Lets the 16-bit receive window represent up to 2³⁰ bytes' },
 			{ ref: 'Timestamps + PAWS', description: 'Protection Against Wrapped Sequence numbers' }
 		]
 	},
@@ -230,9 +230,9 @@ Originally published as RFC 1323 in 1992 by [[pioneer:van-jacobson|Van Jacobson]
 		status: 'standards-track',
 		url: 'https://datatracker.ietf.org/doc/rfc8985/',
 		protocols: ['tcp'],
-		abstract: `Replaces [[tcp|TCP]]'s classic dup-ACK-based fast retransmit with two complementary mechanisms: *RACK* (Recent ACKnowledgment) infers loss from the time elapsed since the most recent acknowledged packet, and *TLP* (Tail Loss Probe) sends a probe at the end of a flight to recover quickly when no further ACKs would otherwise arrive.
+		abstract: `Replaces [[tcp|TCP]]'s classic dup-{{ack|ACK}}-based fast retransmit with two complementary mechanisms: *RACK* (Recent ACKnowledgment) infers loss from the time elapsed since the most recent acknowledged packet, and *TLP* (Tail Loss Probe) sends a probe at the end of a flight to recover quickly when no further ACKs would otherwise arrive.
 
-Authored at Google by Yuchung Cheng, Neal Cardwell, et al. RACK detects losses much faster than three-dup-ACK in modern bursty / reordered traffic, and TLP eliminates the painful RTO-driven recovery for the very common "lost the last segment" case. Default in Linux since 4.10 (2017).`
+Authored at Google by Yuchung Cheng, Neal Cardwell, et al. RACK detects losses much faster than three-dup-{{ack|ACK}} in modern bursty / reordered traffic, and TLP eliminates the painful RTO-driven recovery for the very common "lost the last segment" case. Default in Linux since 4.10 (2017).`
 	},
 	{
 		number: '9438',
@@ -245,7 +245,7 @@ Authored at Google by Yuchung Cheng, Neal Cardwell, et al. RACK detects losses m
 		protocols: ['tcp'],
 		abstract: `The standards-track specification of {{cubic|CUBIC}} — the [[tcp|TCP]] congestion-control algorithm that has been the Linux default since kernel 2.6.19 (2006) and the de-facto default for most of the public internet for two decades. Replaces {{aimd|AIMD}}'s linear window growth with a cubic function of time-since-loss: aggressive recovery early, then a polite probe near the previous ceiling.
 
-Designed by Sangtae Ha, Injong Rhee, and Lisong Xu; obsoletes the 2018 informational [[rfc:8312|RFC 8312]] and finally pins down the exact constants. CUBIC scales gracefully from a few-Mbps phone link to 100+ Gbps datacentre flows where Reno's "+1 packet per RTT" growth would take hours to refill the pipe.`
+Designed by Sangtae Ha, Injong Rhee, and Lisong Xu; obsoletes the 2018 informational [[rfc:8312|RFC 8312]] and finally pins down the exact constants. {{cubic|CUBIC}} scales gracefully from a few-Mbps phone link to 100+ Gbps datacentre flows where Reno's "+1 packet per {{rtt|RTT}}" growth would take hours to refill the pipe.`
 	},
 	{
 		number: '9000',
@@ -257,10 +257,10 @@ Designed by Sangtae Ha, Injong Rhee, and Lisong Xu; obsoletes the 2018 informati
 		protocols: ['quic'],
 		abstract: `The IETF specification of [[quic|QUIC]] — a reliable, multiplexed, encrypted transport that runs on top of [[udp|UDP]] in user space. Conceived at Google by [[pioneer:jim-roskind|Jim Roskind]] (gQUIC, 2012); standardised across a dozen IETF drafts and shipped as RFC 9000 in May 2021. The premise: [[udp|UDP]] traverses every middlebox, so layer reliability + multiplexing + crypto on top of it and iterate by browser update instead of kernel upgrade.
 
-Defines connection setup (single-RTT {{handshake|handshake}}, 0-RTT for resumption), independent {{stream|streams}} (a lost packet only blocks its own stream — no [[tcp|TCP]] {{head-of-line-blocking|head-of-line blocking}}), {{connection-migration|connection migration}} via Connection IDs ([[wifi|Wi-Fi]]-to-cellular without breaking the connection), and an integrated [[tls|TLS]] 1.3 binding. By 2026 Meta moves >75% of its traffic over [[quic|QUIC]]; ~35% of top-10M sites support [[http3|HTTP/3]] over it.`,
+Defines connection setup (single-{{rtt|RTT}} {{handshake|handshake}}, {{zero-rtt|0-RTT}} for resumption), independent {{stream|streams}} (a lost packet only blocks its own stream — no [[tcp|TCP]] {{head-of-line-blocking|head-of-line blocking}}), {{connection-migration|connection migration}} via Connection IDs ([[wifi|Wi-Fi]]-to-cellular without breaking the connection), and an integrated [[tls|TLS]] 1.3 binding. By 2026 Meta moves >75% of its traffic over [[quic|QUIC]]; ~35% of top-10M sites support [[http3|HTTP/3]] over it.`,
 		notableSections: [
 			{ ref: '§5', description: 'Connections (Connection IDs, paths, migration)' },
-			{ ref: '§13', description: 'Loss recovery and congestion control' },
+			{ ref: '§13', description: 'Loss recovery and {{congestion-control|congestion control}}' },
 			{ ref: '§17', description: 'Packet header formats (long / short)' }
 		]
 	},
@@ -272,7 +272,7 @@ Defines connection setup (single-RTT {{handshake|handshake}}, 0-RTT for resumpti
 		status: 'proposed-standard',
 		url: 'https://datatracker.ietf.org/doc/rfc9221/',
 		protocols: ['quic'],
-		abstract: `Adds a *DATAGRAM* frame to [[quic|QUIC]] for unreliable, unordered messages that share the connection's {{handshake|handshake}}, {{encryption|encryption}}, and {{congestion-control|congestion control}} but skip the reliability machinery — essentially "{{udp|UDP}} payloads inside an authenticated [[quic|QUIC]] connection." Used by {{webtransport|WebTransport}}, MASQUE proxies (CONNECT-[[udp|UDP]]), and IETF media transport drafts that need [[udp|UDP]] semantics over a connection that already exists.`
+		abstract: `Adds a *DATAGRAM* frame to [[quic|QUIC]] for unreliable, unordered messages that share the connection's {{handshake|handshake}}, {{encryption|encryption}}, and {{congestion-control|congestion control}} but skip the reliability machinery — essentially "{{udp|UDP}} payloads inside an authenticated [[quic|QUIC]] connection." Used by {{webtransport|WebTransport}}, {{masque|MASQUE}} proxies (CONNECT-[[udp|UDP]]), and IETF media transport drafts that need [[udp|UDP]] semantics over a connection that already exists.`
 	},
 	{
 		number: '9330',
@@ -282,9 +282,9 @@ Defines connection setup (single-RTT {{handshake|handshake}}, 0-RTT for resumpti
 		status: 'informational',
 		url: 'https://datatracker.ietf.org/doc/rfc9330/',
 		protocols: ['tcp', 'quic'],
-		abstract: `Describes the *L4S* architecture — a new internet service that aims for **sub-millisecond queuing latency** for participating senders by replacing loss-based congestion signalling with an explicit, fine-grained ECN mark (ECT(1)). Senders that opt in (Prague over [[tcp|TCP]], BBRv3, L4S-aware [[quic|QUIC]]) react instantly and gently; the AQM in the network gives them a separate queue. Cooperating flows get datacentre-scale latency on the open internet without starving anyone.
+		abstract: `Describes the *{{l4s|L4S}}* architecture — a new internet service that aims for **sub-millisecond queuing latency** for participating senders by replacing loss-based congestion signalling with an explicit, fine-grained {{ecn|ECN}} mark (ECT(1)). Senders that opt in (Prague over [[tcp|TCP]], BBRv3, {{l4s|L4S}}-aware [[quic|QUIC]]) react instantly and gently; the {{aqm|AQM}} in the network gives them a separate queue. Cooperating flows get datacentre-scale latency on the open internet without starving anyone.
 
-The architectural document; the algorithmic specs are RFC 9331 (DualPI2 AQM) and RFC 9332 (ECN protocol). First production deployment was Comcast's January 2025 launch in six US metros with Apple, NVIDIA GeForce NOW, and Valve as partners.`
+The architectural document; the algorithmic specs are RFC 9331 (DualPI2 {{aqm|AQM}}) and RFC 9332 ({{ecn|ECN}} protocol). First production deployment was Comcast's January 2025 launch in six US metros with Apple, NVIDIA GeForce NOW, and Valve as partners.`
 	},
 
 	// ── Web / API ─────────────────────────────────────────────────────
@@ -301,8 +301,8 @@ The architectural document; the algorithmic specs are RFC 9331 (DualPI2 AQM) and
 
 Co-edited by [[pioneer:roy-fielding|Roy Fielding]] (the original [[http1|HTTP/1.1]] architect), Mark Nottingham, and Julian Reschke. Consolidates **six previous RFCs** (7230–7235) into a single semantics document, with the message-format pieces split off into version-specific siblings ([[rfc:9112|RFC 9112]], [[rfc:9113|9113]], [[rfc:9114|9114]]). Reading [[rfc:9110|RFC 9110]] explains every HTTP version at once.`,
 		notableSections: [
-			{ ref: '§9.2.2', description: 'Idempotent methods (PUT, DELETE, GET)' },
-			{ ref: '§12', description: 'Content negotiation' }
+			{ ref: '§9.2.2', description: '{{idempotent|Idempotent}} methods (PUT, DELETE, GET)' },
+			{ ref: '§12', description: '{{content-negotiation|Content negotiation}}' }
 		]
 	},
 	{
@@ -352,7 +352,7 @@ Adoption is brisk: by 2025 ~35% of top-10M sites support [[http3|HTTP/3]]; Cloud
 		protocols: ['websockets'],
 		abstract: `Defines [[websockets|WebSockets]] — a {{full-duplex|full-duplex}}, persistent message-based channel between a browser and a server, bootstrapped over a regular [[http1|HTTP]] request. The handshake is an HTTP \`Upgrade: websocket\` exchange that, on success, leaves the underlying [[tcp|TCP]] connection in [[websockets|WebSocket]] framing mode forever after.
 
-Edited by Ian Fette (Google) and Alexey Melnikov; the design was driven by [[pioneer:ian-hickson|Ian Hickson]] in the WHATWG. Solved the early-2000s "comet / long-poll" hacks that web apps used for server push. Frame format is small (2–14 byte overhead), supports binary or text, and is the foundation of every browser-side real-time app — chat, multiplayer games, collaborative editing, live tickers — that doesn't go through {{webrtc|WebRTC}}.`
+Edited by Ian Fette (Google) and Alexey Melnikov; the design was driven by [[pioneer:ian-hickson|Ian Hickson]] in the WHATWG. Solved the early-2000s "comet / long-poll" hacks that web apps used for {{server-push|server push}}. Frame format is small (2–14 byte overhead), supports binary or text, and is the foundation of every browser-side real-time app — chat, multiplayer games, collaborative editing, live tickers — that doesn't go through {{webrtc|WebRTC}}.`
 	},
 
 	// ── Utilities / Security ──────────────────────────────────────────
@@ -366,7 +366,7 @@ Edited by Ian Fette (Google) and Alexey Melnikov; the design was driven by [[pio
 		protocols: ['dns'],
 		abstract: `[[pioneer:paul-mockapetris|Paul Mockapetris]]'s implementation specification for [[dns|DNS]] — the wire format, message structure (Header / Question / Answer / Authority / Additional sections), record types (A, NS, CNAME, MX, TXT, …), the binary-label name encoding with pointer compression, and the resolver algorithms. Companion to [[rfc:1034|RFC 1034]], which covers concepts and facilities.
 
-Together these obsoleted the earlier RFC 882/883 (1983) and have stayed canonical for nearly four decades. Almost every [[dns|DNS]] extension since (DNSSEC, EDNS0, DoH, DoT, SVCB/HTTPS RR) layers on top without changing the core message format.`
+Together these obsoleted the earlier RFC 882/883 (1983) and have stayed canonical for nearly four decades. Almost every [[dns|DNS]] extension since ({{dnssec|DNSSEC}}, EDNS0, DoH, DoT, SVCB/HTTPS RR) layers on top without changing the core message format.`
 	},
 	{
 		number: '8446',
@@ -377,7 +377,7 @@ Together these obsoleted the earlier RFC 882/883 (1983) and have stayed canonica
 		obsoletes: ['5077', '5246', '6961'],
 		url: 'https://datatracker.ietf.org/doc/html/rfc8446',
 		protocols: ['tls'],
-		abstract: `The current [[tls|TLS]] specification — a five-year, 28-draft redesign edited by [[pioneer:eric-rescorla|Eric Rescorla]]. Cuts every weak primitive (RC4, 3DES, MD5, SHA-1, RSA key exchange, static-DH), reduces the {{handshake|handshake}} to **one round trip** (or zero for resumption), and mandates *AEAD* as the only legal cipher mode. Forward secrecy is the default, not an option.
+		abstract: `The current [[tls|TLS]] specification — a five-year, 28-draft redesign edited by [[pioneer:eric-rescorla|Eric Rescorla]]. Cuts every weak primitive (RC4, 3DES, MD5, SHA-1, RSA key exchange, static-DH), reduces the {{handshake|handshake}} to **one round trip** (or zero for resumption), and mandates *{{aead|AEAD}}* as the only legal cipher mode. {{forward-secrecy|Forward secrecy}} is the default, not an option.
 
 Internally cleaner than 1.0–1.2; externally indistinguishable on the wire from [[tls|TLS]] 1.2 thanks to deliberate middlebox-compatibility hacks (\`legacy_version = 0x0303\`, fake ChangeCipherSpec record, real version in \`supported_versions\` extension) — without these the spec couldn't have deployed because ~3% of middleboxes parsed the version field and broke. The reason your browser's HTTPS handshake takes one round trip in 2026 instead of two.`,
 		notableSections: [
@@ -450,9 +450,9 @@ Finally obsoleted by [[rfc:9293|RFC 9293]] in August 2022, which consolidated 41
 		status: 'proposed-standard',
 		url: 'https://www.rfc-editor.org/rfc/rfc2018',
 		protocols: ['tcp'],
-		abstract: `Adds *SACK* — the **Selective Acknowledgment** option — to [[tcp|TCP]]. With cumulative ACKs alone, a single lost segment forces the sender to either wait for a timeout or naively re-send everything after the gap. SACK lets the receiver advertise which non-contiguous blocks it has actually received, so the sender can retransmit only the missing pieces.
+		abstract: `Adds *{{sack|SACK}}* — the **{{sack|Selective Acknowledgment}}** option — to [[tcp|TCP]]. With cumulative ACKs alone, a single lost segment forces the sender to either wait for a timeout or naively re-send everything after the gap. {{sack|SACK}} lets the receiver advertise which non-contiguous blocks it has actually received, so the sender can retransmit only the missing pieces.
 
-Negotiated at handshake via SACK-Permitted; carried in subsequent ACKs as a [[tcp|TCP]] option. Almost universally implemented for two decades — without SACK, modern [[tcp|TCP]] behaviour over lossy links would be substantially worse.`
+Negotiated at handshake via {{sack|SACK}}-Permitted; carried in subsequent ACKs as a [[tcp|TCP]] option. Almost universally implemented for two decades — without {{sack|SACK}}, modern [[tcp|TCP]] behaviour over lossy links would be substantially worse.`
 	},
 	{
 		number: '1948',
@@ -462,7 +462,7 @@ Negotiated at handshake via SACK-Permitted; carried in subsequent ACKs as a [[tc
 		status: 'informational',
 		url: 'https://www.rfc-editor.org/rfc/rfc1948',
 		protocols: ['tcp'],
-		abstract: `Steve Bellovin's response to the 1994 Mitnick attack on Tsutomu Shimomura's machines. The original BSD [[tcp|TCP]] stack used a linear *Initial Sequence Number* counter — predictable enough that an attacker who could guess it could spoof a [[tcp|TCP]] three-way handshake without ever seeing the SYN-ACK. Bellovin proposes deriving the ISN from a cryptographic hash of the four-tuple plus a secret, so it's unpredictable to anyone who doesn't see the connection.
+		abstract: `Steve Bellovin's response to the 1994 Mitnick attack on Tsutomu Shimomura's machines. The original BSD [[tcp|TCP]] stack used a linear *Initial {{sequence-number|Sequence Number}}* counter — predictable enough that an attacker who could guess it could spoof a [[tcp|TCP]] {{three-way-handshake|three-way handshake}} without ever seeing the SYN-{{ack|ACK}}. Bellovin proposes deriving the ISN from a {{cryptographic-hash|cryptographic hash}} of the four-tuple plus a secret, so it's unpredictable to anyone who doesn't see the connection.
 
 The technique is now standard in every [[tcp|TCP]] stack on earth; the underlying lesson — *don't assume anything you put on the wire predictably is "secret"* — recurs across decades of protocol design.`
 	},
@@ -474,7 +474,7 @@ The technique is now standard in every [[tcp|TCP]] stack on earth; the underlyin
 		status: 'proposed-standard',
 		url: 'https://www.rfc-editor.org/rfc/rfc4821',
 		protocols: ['tcp'],
-		abstract: `*PLPMTUD* — a robust replacement for classic [[icmp|ICMP]]-based {{path-mtu-discovery|Path MTU Discovery}} that doesn't rely on receiving *Fragmentation Needed* messages. Instead the transport ([[tcp|TCP]] or another) probes the path with progressively-larger packets and infers the MTU from which probes get through and which don't.
+		abstract: `*PLPMTUD* — a robust replacement for classic [[icmp|ICMP]]-based {{path-mtu-discovery|Path MTU Discovery}} that doesn't rely on receiving *{{fragmentation|Fragmentation}} Needed* messages. Instead the transport ([[tcp|TCP]] or another) probes the path with progressively-larger packets and infers the {{mtu|MTU}} from which probes get through and which don't.
 
 Critical because so many networks drop or rate-limit [[icmp|ICMP]], creating the {{mtu-black-hole|MTU black hole}} failure mode where [[tcp|TCP]] connections silently hang. Linux enables PLPMTUD by default since ~2007. The same technique applies to [[quic|QUIC]].`
 	},
@@ -486,9 +486,9 @@ Critical because so many networks drop or rate-limit [[icmp|ICMP]], creating the
 		status: 'informational',
 		url: 'https://www.rfc-editor.org/rfc/rfc4987',
 		protocols: ['tcp'],
-		abstract: `Wesley Eddy's survey of how SYN-flood DoS attacks work and what mitigations exist. The classic problem: a SYN forces the server to allocate state for a *half-open* connection while it waits for the third ACK; flooding SYNs from spoofed sources fills the backlog and starves legitimate clients.
+		abstract: `Wesley Eddy's survey of how SYN-flood DoS attacks work and what mitigations exist. The classic problem: a SYN forces the server to allocate state for a *half-open* connection while it waits for the third {{ack|ACK}}; flooding SYNs from spoofed sources fills the backlog and starves legitimate clients.
 
-Catalogues the three main defences — connection-table tuning, *SYN cookies* ([[pioneer:dan-bernstein|Bernstein]], 1996, makes the SYN-ACK statelessly verifiable so no server-side state is needed before the third ACK), and various rate-limiters. Reading order: this RFC, then Bernstein's original cr.yp.to write-up.`
+Catalogues the three main defences — connection-table tuning, *{{syn-cookies|SYN cookies}}* ([[pioneer:dan-bernstein|Bernstein]], 1996, makes the SYN-{{ack|ACK}} statelessly verifiable so no server-side state is needed before the third {{ack|ACK}}), and various rate-limiters. Reading order: this RFC, then Bernstein's original cr.yp.to write-up.`
 	},
 	{
 		number: '5925',
@@ -498,7 +498,7 @@ Catalogues the three main defences — connection-table tuning, *SYN cookies* ([
 		status: 'proposed-standard',
 		url: 'https://www.rfc-editor.org/rfc/rfc5925',
 		protocols: ['tcp'],
-		abstract: `*[[tcp|TCP]]-AO* — a modern replacement for the deprecated [[tcp|TCP]]-MD5 option (RFC 2385) used to authenticate long-lived [[bgp|BGP]] sessions. Provides per-segment HMAC authentication with multiple Master Key Tuples and graceful key rotation, fixing [[tcp|TCP]]-MD5's lack of algorithm agility and its vulnerability to MD5 collisions.
+		abstract: `*[[tcp|TCP]]-AO* — a modern replacement for the deprecated [[tcp|TCP]]-MD5 option (RFC 2385) used to authenticate long-lived [[bgp|BGP]] sessions. Provides per-segment {{hmac|HMAC}} authentication with multiple Master Key Tuples and graceful key rotation, fixing [[tcp|TCP]]-MD5's lack of algorithm agility and its vulnerability to MD5 collisions.
 
 Cisco IOS-XR and Junos shipped [[tcp|TCP]]-AO years ago; **Linux didn't ship it until kernel 6.7 in January 2024**. Almost exclusively used for [[bgp|BGP]] today; the long-pole has been kernel support outside vendor silicon.`
 	},
@@ -541,7 +541,7 @@ Where [[mptcp|MPTCP]] works (Apple OS services, Korea Telecom GIGA Path, some sp
 		protocols: ['sctp'],
 		abstract: `The original specification of [[sctp|SCTP]] — a transport protocol with [[tcp|TCP]]-like reliability plus two superpowers: **multiple independent {{stream|streams}}** in one association (no [[tcp|TCP]] {{head-of-line-blocking|head-of-line blocking}}) and **multi-homing** for [[ip|IP]]-level failover when a path fails. Originally designed by Randall Stewart and others to carry telephony {{signaling|SS7 signaling}} over [[ip|IP]] networks.
 
-Obsoleted by [[rfc:4960|RFC 4960]] (2007) and then [[rfc:9260|RFC 9260]] (2022). [[sctp|SCTP]] rarely runs on the open internet because middleboxes don't pass it; it survives mostly inside telco networks, in [[webrtc|WebRTC]] Data Channels (over [[udp|UDP]]/DTLS), and in datacentre niches.`
+Obsoleted by [[rfc:4960|RFC 4960]] (2007) and then [[rfc:9260|RFC 9260]] (2022). [[sctp|SCTP]] rarely runs on the open internet because middleboxes don't pass it; it survives mostly inside telco networks, in [[webrtc|WebRTC]] Data Channels (over [[udp|UDP]]/{{dtls|DTLS}}), and in datacentre niches.`
 	},
 	{
 		number: '4960',
@@ -566,7 +566,7 @@ Obsoleted by [[rfc:4960|RFC 4960]] (2007) and then [[rfc:9260|RFC 9260]] (2022).
 		protocols: ['sctp'],
 		abstract: `The current [[sctp|SCTP]] specification — consolidates 15+ years of errata against [[rfc:4960|RFC 4960]] and aligns with all the [[sctp|SCTP]] extensions (PR-[[sctp|SCTP]], [[sctp|SCTP]]-AUTH, NDATA, …) that shipped in the meantime. Edited by Randall Stewart, Michael Tüxen, and Karen Nielsen.
 
-Same wire protocol; cleaner spec. [[sctp|SCTP]]'s largest production deployment by message count is **[[webrtc|WebRTC]] Data Channels**, which run [[sctp|SCTP]] over DTLS over [[udp|UDP]] — the only widely-deployed [[sctp|SCTP]] on the open internet.`
+Same wire protocol; cleaner spec. [[sctp|SCTP]]'s largest production deployment by message count is **[[webrtc|WebRTC]] Data Channels**, which run [[sctp|SCTP]] over {{dtls|DTLS}} over [[udp|UDP]] — the only widely-deployed [[sctp|SCTP]] on the open internet.`
 	},
 	{
 		number: '6951',
@@ -593,7 +593,7 @@ The same trick that {{quic|QUIC}} would later generalise: ride on top of [[udp|U
 		protocols: ['ipv6'],
 		abstract: `[[pioneer:steve-deering|Steve Deering]] and Bob Hinden's 1998 specification of [[ipv6|IPv6]] — the version most production [[ipv6|IPv6]] stacks were written against for 19 years. Defines the 128-bit address space, the 40-byte fixed header, extension headers, and the no-in-network-fragmentation rule.
 
-Obsoleted by [[rfc:8200|RFC 8200]] (2017), which raised the spec to *Internet Standard 86* and clarified some details (e.g. the "Hop-by-Hop Options" extension is no longer required to be processed by every router along the path). Wire format unchanged.`
+Obsoleted by [[rfc:8200|RFC 8200]] (2017), which raised the spec to *Internet Standard 86* and clarified some details (e.g. the "{{hop|Hop}}-by-{{hop|Hop}} Options" extension is no longer required to be processed by every router along the path). Wire format unchanged.`
 	},
 	{
 		number: '6434',
@@ -627,9 +627,9 @@ Resolves a long-standing gap between spec and reality. Mostly invisible operatio
 		status: 'informational',
 		url: 'https://www.rfc-editor.org/rfc/rfc6877',
 		protocols: ['ipv6'],
-		abstract: `*464XLAT* — a deployment pattern where an [[ipv6|IPv6]]-only client runs a *CLAT* (Customer-side Translator) that synthesises [[ip|IPv4]] onto [[ipv6|IPv6]] (XLAT464) so legacy [[ip|IPv4]]-only applications keep working, while the network operator runs a stateful *PLAT* (Provider-side Translator, NAT64) that maps the synthesised addresses to real public [[ip|IPv4]]. End result: phones and laptops on a pure [[ipv6|IPv6]] network can still reach the [[ip|IPv4]] internet without dual-stack everywhere.
+		abstract: `*{{four-six-four-xlat|464XLAT}}* — a deployment pattern where an [[ipv6|IPv6]]-only client runs a *CLAT* (Customer-side Translator) that synthesises [[ip|IPv4]] onto [[ipv6|IPv6]] (XLAT464) so legacy [[ip|IPv4]]-only applications keep working, while the network operator runs a stateful *PLAT* (Provider-side Translator, {{nat64|NAT64}}) that maps the synthesised addresses to real public [[ip|IPv4]]. End result: phones and laptops on a pure [[ipv6|IPv6]] network can still reach the [[ip|IPv4]] internet without dual-stack everywhere.
 
-The standard recipe for "[[ipv6|IPv6]]-Mostly" mobile and enterprise networks. Fedora/NetworkManager auto-enables CLAT for [[ipv6|IPv6]]-mostly networks (2024); Windows 11 ships 464XLAT CLAT. Combined with [[rfc:8925|RFC 8925]] (DHCPv4 Option 108) and [[rfc:8781|RFC 8781]] (PREF64 in RA) it's how T-Mobile, Sky Broadband, and a growing number of enterprise networks actually run [[ipv6|IPv6]]-only today.`
+The standard recipe for "[[ipv6|IPv6]]-Mostly" mobile and enterprise networks. Fedora/NetworkManager auto-enables CLAT for [[ipv6|IPv6]]-mostly networks (2024); Windows 11 ships {{four-six-four-xlat|464XLAT}} CLAT. Combined with [[rfc:8925|RFC 8925]] (DHCPv4 Option 108) and [[rfc:8781|RFC 8781]] (PREF64 in RA) it's how T-Mobile, Sky Broadband, and a growing number of enterprise networks actually run [[ipv6|IPv6]]-only today.`
 	},
 	{
 		number: '8305',
@@ -663,7 +663,7 @@ One of the small, high-leverage [[ipv6|IPv6]]-Mostly deployment pieces. Native s
 		status: 'proposed-standard',
 		url: 'https://www.rfc-editor.org/rfc/rfc8925',
 		protocols: ['ipv6', 'dhcp'],
-		abstract: `*DHCPv4 Option 108* — a one-bit signal a DHCPv4 server sends to capable clients meaning "this network prefers [[ipv6|IPv6]]; please skip [[ip|IPv4]] entirely." Clients that understand Option 108 don't even claim a DHCPv4 lease; they configure [[ipv6|IPv6]] via SLAAC + DHCPv6 and rely on {{nat64|NAT64}} for legacy [[ip|IPv4]] destinations.
+		abstract: `*DHCPv4 Option 108* — a one-bit signal a DHCPv4 server sends to capable clients meaning "this network prefers [[ipv6|IPv6]]; please skip [[ip|IPv4]] entirely." Clients that understand Option 108 don't even claim a DHCPv4 lease; they configure [[ipv6|IPv6]] via {{slaac|SLAAC}} + DHCPv6 and rely on {{nat64|NAT64}} for legacy [[ip|IPv4]] destinations.
 
 Together with [[rfc:6877|464XLAT]] this is what makes "[[ipv6|IPv6]]-Mostly" networks usable: dual-stack capable clients keep using [[ip|IPv4]] directly when the operator wants them to, [[ipv6|IPv6]]-Mostly clients drop the [[ip|IPv4]] stack entirely. Apple iOS 14, Android 12, Windows 11, and modern Linux all honour it.`
 	},
@@ -725,7 +725,7 @@ Negotiated as a capability in OPEN; once both sides advertise it, either can iss
 		status: 'standards-track',
 		url: 'https://www.rfc-editor.org/rfc/rfc5082',
 		protocols: ['bgp'],
-		abstract: `*GTSM* — a deceptively simple defence-in-depth trick for [[bgp|BGP]] (and any other peer-to-peer protocol over [[ip|IP]]). Two [[bgp|BGP]] routers that are directly connected set the outgoing {{ttl|TTL}} to 255 and require incoming packets to also have TTL ≥ 254. A remote attacker on the public internet can't forge a packet with TTL > 1 hop's worth, so spoofed [[bgp|BGP]] injections from off-path simply don't reach the [[bgp|BGP]] daemon.
+		abstract: `*GTSM* — a deceptively simple defence-in-depth trick for [[bgp|BGP]] (and any other {{peer-to-peer|peer-to-peer}} protocol over [[ip|IP]]). Two [[bgp|BGP]] routers that are directly connected set the outgoing {{ttl|TTL}} to 255 and require incoming packets to also have {{ttl|TTL}} ≥ 254. A remote attacker on the public internet can't forge a packet with {{ttl|TTL}} > 1 hop's worth, so spoofed [[bgp|BGP]] injections from off-path simply don't reach the [[bgp|BGP]] daemon.
 
 Free, deployable today, no crypto required. Often paired with [[rfc:5925|TCP-AO]] or [[tcp|TCP]]-MD5 for cryptographic peer authentication.`
 	},
@@ -749,9 +749,9 @@ Famously implicated in the **2020 CenturyLink/Level 3 outage** — a malformed F
 		status: 'standards-track',
 		url: 'https://www.rfc-editor.org/rfc/rfc8205',
 		protocols: ['bgp'],
-		abstract: `*BGPsec* — extends [[bgp|BGP]] with cryptographic signatures over the AS_PATH so that a downstream router can verify each AS in the path actually authorised the route. Designed to defeat path-mangling {{bgp-hijack|BGP hijacks}} that RPKI Origin Validation alone can't catch.
+		abstract: `*BGPsec* — extends [[bgp|BGP]] with cryptographic signatures over the AS_PATH so that a downstream router can verify each {{autonomous-system|AS}} in the path actually authorised the route. Designed to defeat path-mangling {{bgp-hijack|BGP hijacks}} that {{rpki|RPKI}} Origin Validation alone can't catch.
 
-In practice **deployment has been negligible** — every signature requires a verified RPKI cert chain, signature volumes balloon, hardware support is missing, and the operational model is unfamiliar. The **ASPA + Roles** approach of [[rfc:9234|RFC 9234]] (2022) ate BGPsec's lunch as the next-generation answer because it doesn't require per-update signatures.`
+In practice **deployment has been negligible** — every signature requires a verified {{rpki|RPKI}} cert chain, signature volumes balloon, hardware support is missing, and the operational model is unfamiliar. The **{{aspa|ASPA}} + Roles** approach of [[rfc:9234|RFC 9234]] (2022) ate BGPsec's lunch as the next-generation answer because it doesn't require per-update signatures.`
 	},
 	{
 		number: '9234',
@@ -761,9 +761,9 @@ In practice **deployment has been negligible** — every signature requires a ve
 		status: 'proposed-standard',
 		url: 'https://www.rfc-editor.org/rfc/rfc9234',
 		protocols: ['bgp'],
-		abstract: `Adds *Roles* to [[bgp|BGP]] — peers explicitly negotiate their relationship (provider, customer, peer, …) at OPEN, and a new *OTC* (Only-To-Customer) attribute carries the role through the AS_PATH. A route leak — a customer accidentally re-announcing transit-learned routes upstream as if it were a provider — becomes detectable at every router along the way and can be filtered automatically.
+		abstract: `Adds *Roles* to [[bgp|BGP]] — peers explicitly negotiate their relationship (provider, customer, peer, …) at OPEN, and a new *OTC* (Only-To-Customer) attribute carries the role through the AS_PATH. A {{route-leak|route leak}} — a customer accidentally re-announcing transit-learned routes upstream as if it were a provider — becomes detectable at every router along the way and can be filtered automatically.
 
-Together with RPKI-ROV and ASPA, this is the modern operational answer to [[bgp|BGP]] route-leak incidents that the more ambitious [[rfc:8205|BGPsec]] couldn't deliver. Steadily growing deployment: by 2026 every major IXP route server supports it.`
+Together with {{rpki|RPKI}}-{{rov|ROV}} and {{aspa|ASPA}}, this is the modern operational answer to [[bgp|BGP]] route-leak incidents that the more ambitious [[rfc:8205|BGPsec]] couldn't deliver. Steadily growing deployment: by 2026 every major {{ixp|IXP}} route server supports it.`
 	},
 
 	// HTTP family (older + 7540)
@@ -788,7 +788,7 @@ Together with RPKI-ROV and ASPA, this is the modern operational answer to [[bgp|
 		obsoletedBy: ['2616'],
 		url: 'https://www.rfc-editor.org/rfc/rfc2068',
 		protocols: ['http1'],
-		abstract: `The first specification of [[http1|HTTP/1.1]] — added persistent connections (keep-alive by default), pipelining, chunked transfer encoding, content negotiation, byte ranges, conditional requests (If-Modified-Since, ETag), proper caching semantics, and the OPTIONS / PUT / DELETE / TRACE methods. Most of what people still mean by "HTTP" was nailed down here.
+		abstract: `The first specification of [[http1|HTTP/1.1]] — added persistent connections ({{keep-alive|keep-alive}} by default), pipelining, chunked transfer encoding, {{content-negotiation|content negotiation}}, byte ranges, conditional requests (If-Modified-Since, {{etag|ETag}}), proper caching semantics, and the OPTIONS / PUT / DELETE / TRACE methods. Most of what people still mean by "HTTP" was nailed down here.
 
 Co-edited by [[pioneer:roy-fielding|Roy Fielding]] et al. Quickly obsoleted by [[rfc:2616|RFC 2616]] (1999), which fixed errata and clarified ambiguities discovered in the rapid late-1990s deployment.`
 	},
@@ -845,7 +845,7 @@ Companion to RFC 883 (the implementation spec). Both obsoleted in 1987 by [[rfc:
 		protocols: ['dns'],
 		abstract: `The architectural overview of [[dns|DNS]] — [[pioneer:paul-mockapetris|Paul Mockapetris]]'s 1987 revision of [[rfc:882|RFC 882]]. Covers concepts (domains, zones, resource records), the authority/recursion model, caching, and how delegations work. The wire format and resolver implementation live in companion [[rfc:1035|RFC 1035]].
 
-Forty years later still the canonical text for "how does [[dns|DNS]] actually work". Almost every [[dns|DNS]] extension since (DNSSEC, EDNS0, [[rfc:8484|DoH]], [[rfc:7858|DoT]], [[rfc:9460|SVCB/HTTPS]]) layers on top without changing the core architecture.`
+Forty years later still the canonical text for "how does [[dns|DNS]] actually work". Almost every [[dns|DNS]] extension since ({{dnssec|DNSSEC}}, EDNS0, [[rfc:8484|DoH]], [[rfc:7858|DoT]], [[rfc:9460|SVCB/HTTPS]]) layers on top without changing the core architecture.`
 	},
 	{
 		number: '7686',
@@ -891,9 +891,9 @@ Co-authored by Paul Hoffman and Patrick McManus (then Mozilla). DoH is now ubiqu
 		status: 'proposed-standard',
 		url: 'https://www.rfc-editor.org/rfc/rfc9460',
 		protocols: ['dns'],
-		abstract: `Adds two new [[dns|DNS]] resource record types: *SVCB* (general service binding) and *HTTPS* (a specialisation for web). They let a single record advertise a service's preferred protocol stack — *"this name speaks [[http3|HTTP/3]] on port 443, supports {{ech|ECH}} with this public key, and the canonical hostname is X."*
+		abstract: `Adds two new [[dns|DNS]] resource record types: *SVCB* (general service binding) and *HTTPS* (a specialisation for web). They let a single record advertise a service's preferred protocol stack — *"this name speaks [[http3|HTTP/3]] on port 443, supports {{ech|ECH}} with this {{public-key|public key}}, and the canonical hostname is X."*
 
-Solves the long-standing apex-CNAME problem (\`example.com\` can now alias to \`example.cdn.com\` without violating [[rfc:1034|RFC 1034]]) and lets browsers learn about [[http3|HTTP/3]] and ECH support **before** the first connection, instead of paying a round-trip-penalty to discover them. Cloudflare and Apple are the most aggressive deployers.`
+Solves the long-standing apex-CNAME problem (\`example.com\` can now alias to \`example.cdn.com\` without violating [[rfc:1034|RFC 1034]]) and lets browsers learn about [[http3|HTTP/3]] and {{ech|ECH}} support **before** the first connection, instead of paying a round-trip-penalty to discover them. Cloudflare and Apple are the most aggressive deployers.`
 	},
 	{
 		number: '9499',
@@ -991,7 +991,7 @@ Long since superseded by IMAP4rev1 (RFC 3501, 2003) and the current [[rfc:9051|R
 		status: 'proposed-standard',
 		url: 'https://www.rfc-editor.org/rfc/rfc9051',
 		protocols: ['imap'],
-		abstract: `*IMAP4rev2* — the current revision of [[imap|IMAP]], replacing the long-running RFC 3501 (IMAP4rev1, 2003). Folds in 18 years of accumulated extensions: SASL-IR, ENABLE, IDLE (server push for new mail without polling), CONDSTORE/QRESYNC (efficient resync after disconnection), MOVE, internationalised mailbox names, UTF-8 message parts.
+		abstract: `*IMAP4rev2* — the current revision of [[imap|IMAP]], replacing the long-running RFC 3501 (IMAP4rev1, 2003). Folds in 18 years of accumulated extensions: SASL-IR, ENABLE, IDLE ({{server-push|server push}} for new mail without polling), CONDSTORE/QRESYNC (efficient resync after disconnection), MOVE, internationalised mailbox names, UTF-8 message parts.
 
 Edited by Alexey Melnikov and Barry Leiba. Most modern mail servers (Dovecot, Cyrus, Microsoft Exchange) had implemented these as IMAP4rev1 extensions; rev2 is the cleanup that makes them the baseline.`
 	},
@@ -1031,7 +1031,7 @@ The two-channel design is responsible for [[ftp|FTP]]'s well-known {{nat|NAT}}/{
 		status: 'standards-track',
 		url: 'https://www.rfc-editor.org/rfc/rfc4251',
 		protocols: ['ssh'],
-		abstract: `The architectural overview of [[ssh|SSH-2]] — the design Tatu Ylönen wrote in 1995 (after his Helsinki University machine was passively sniffed for credentials), formalised by the IETF as RFC 4251–4254 in 2006. Three layers: a {{tls|TLS}}-style transport for confidentiality and integrity, a user-authentication layer (password, {{public-key|public key}}, GSSAPI), and a connection layer that multiplexes channels (interactive shell, X11 forwarding, SCP/SFTP, port forwarding).
+		abstract: `The architectural overview of [[ssh|SSH-2]] — the design Tatu Ylönen wrote in 1995 (after his Helsinki University machine was passively sniffed for credentials), formalised by the IETF as RFC 4251–4254 in 2006. Three layers: a {{tls|TLS}}-style transport for confidentiality and integrity, a user-authentication layer (password, {{public-key|public key}}, GSSAPI), and a connection layer that multiplexes channels (interactive shell, X11 forwarding, SCP/SFTP, {{port-forwarding|port forwarding}}).
 
 The reason the modern world has *only* [[ssh|SSH]] and not Telnet+rsh+rlogin is this RFC suite plus OpenSSH's nearly-universal adoption.`
 	},
@@ -1082,9 +1082,9 @@ This subtlety is the source of countless misconfigurations in the [[sip|SIP]] wo
 		status: 'draft',
 		url: 'https://www.rfc-editor.org/rfc/rfc9849',
 		protocols: ['tls'],
-		abstract: `Companion registration document for the {{ech|TLS Encrypted Client Hello}} mechanism — encrypts the SNI (Server Name Indication) hostname in the [[tls|TLS]] ClientHello so an on-path observer can no longer learn which site you're connecting to from the handshake. Closes a long-standing [[tls|TLS]] metadata leak; the only previous workaround was wildcard certificates plus aggressive name padding, neither great.
+		abstract: `Companion registration document for the {{ech|TLS Encrypted Client Hello}} mechanism — encrypts the {{sni|SNI}} ({{sni|Server Name Indication}}) hostname in the [[tls|TLS]] ClientHello so an on-path observer can no longer learn which site you're connecting to from the handshake. Closes a long-standing [[tls|TLS]] metadata leak; the only previous workaround was wildcard certificates plus aggressive name padding, neither great.
 
-ECH key material is published via the {{dns-resolution|DNS}} HTTPS RR ([[rfc:9460|RFC 9460]]). Cloudflare turned ECH on by default in 2023; Firefox 119 enabled ECH by default. As a *draft*-status entry the underlying ECH spec is still settling; this is the IANA-registration-list piece.`
+{{ech|ECH}} key material is published via the {{dns-resolution|DNS}} HTTPS RR ([[rfc:9460|RFC 9460]]). Cloudflare turned {{ech|ECH}} on by default in 2023; Firefox 119 enabled {{ech|ECH}} by default. As a *draft*-status entry the underlying {{ech|ECH}} spec is still settling; this is the IANA-registration-list piece.`
 	},
 
 	// DHCP
@@ -1099,7 +1099,7 @@ ECH key material is published via the {{dns-resolution|DNS}} HTTPS RR ([[rfc:946
 		protocols: ['dhcp'],
 		abstract: `Ralph Droms's 1993 original specification of [[dhcp|DHCP]] — the protocol that automates the assignment of [[ip|IP]] addresses, gateways, [[dns|DNS]] servers, and dozens of other configuration options to clients on a network. Replaced the earlier static-mapped *BOOTP* by adding leases, dynamic allocation, and a much richer option set.
 
-Obsoleted by [[rfc:2131|RFC 2131]] in 1997, which fixed errata and added relay-agent semantics. The DISCOVER → OFFER → REQUEST → ACK four-step dance is unchanged.`
+Obsoleted by [[rfc:2131|RFC 2131]] in 1997, which fixed errata and added relay-agent semantics. The DISCOVER → OFFER → REQUEST → {{ack|ACK}} four-step dance is unchanged.`
 	},
 	{
 		number: '2131',
@@ -1110,7 +1110,7 @@ Obsoleted by [[rfc:2131|RFC 2131]] in 1997, which fixed errata and added relay-a
 		obsoletes: ['1531'],
 		url: 'https://www.rfc-editor.org/rfc/rfc2131',
 		protocols: ['dhcp'],
-		abstract: `The current [[dhcp|DHCPv4]] specification — Ralph Droms's 1997 revision of [[rfc:1531|RFC 1531]]. Defines the DISCOVER → OFFER → REQUEST → ACK message exchange, the lease-renewal lifecycle, the relay-agent architecture, and the format of the variable-length options field that everything from \`[[dns|DNS]] Servers\` to \`Domain Name\` to {{nat64|PREF64}}-via-RA-Option to *[[ipv6|IPv6]]-Only Preferred* ([[rfc:8925|RFC 8925]]) rides on top of.
+		abstract: `The current [[dhcp|DHCPv4]] specification — Ralph Droms's 1997 revision of [[rfc:1531|RFC 1531]]. Defines the DISCOVER → OFFER → REQUEST → {{ack|ACK}} message exchange, the lease-renewal lifecycle, the relay-agent architecture, and the format of the variable-length options field that everything from \`[[dns|DNS]] Servers\` to \`Domain Name\` to {{nat64|PREF64}}-via-RA-Option to *[[ipv6|IPv6]]-Only Preferred* ([[rfc:8925|RFC 8925]]) rides on top of.
 
 DHCPv6 (RFC 8415) is a distinct protocol with a different message flow but the same job. Almost every router and OS implements both today.`
 	},
@@ -1140,7 +1140,7 @@ NTPv0 is purely historical; if you're running [[ntp|NTP]] today you're running N
 		obsoletes: ['2543'],
 		url: 'https://www.rfc-editor.org/rfc/rfc3261',
 		protocols: ['sip'],
-		abstract: `The current [[sip|SIP]] specification — the {{signaling|signaling}} protocol that sets up, modifies, and tears down voice/video calls between endpoints over [[ip|IP]]. Edited by Jonathan Rosenberg, Henning Schulzrinne, et al. as the 2002 revision of the original [[rfc:2543|RFC 2543]] (1999). Text-based, [[http1|HTTP]]-inspired (\`INVITE\`, \`200 OK\`, \`ACK\`), pluggable through registrations and proxies.
+		abstract: `The current [[sip|SIP]] specification — the {{signaling|signaling}} protocol that sets up, modifies, and tears down voice/video calls between endpoints over [[ip|IP]]. Edited by Jonathan Rosenberg, Henning Schulzrinne, et al. as the 2002 revision of the original [[rfc:2543|RFC 2543]] (1999). Text-based, [[http1|HTTP]]-inspired (\`INVITE\`, \`200 OK\`, \`{{ack|ACK}}\`), pluggable through registrations and proxies.
 
 [[sip|SIP]] carries essentially every business VoIP call on earth — virtually all enterprise PBXs, ITSPs, and 4G/5G voice services (VoLTE/VoNR) are [[sip|SIP]] under the hood. Pair with [[rfc:8866|SDP]] (call parameters) and [[rtp|RTP]] (the actual media).`
 	},
@@ -1168,7 +1168,7 @@ Obsoleted by [[rfc:3261|RFC 3261]] in 2002 with substantial revisions (cleaner s
 		protocols: ['rtp'],
 		abstract: `The original 1996 specification of [[rtp|RTP]] — the *Real-time Transport Protocol* that carries audio and video over [[ip|IP]] networks. Co-authored by [[pioneer:henning-schulzrinne|Henning Schulzrinne]] (Columbia), Steve Casner, Ron Frederick, and [[pioneer:van-jacobson|Van Jacobson]]. Fixed-size header with {{sequence-number|sequence number}}, timestamp, and synchronisation-source identifier on top of [[udp|UDP]].
 
-Obsoleted by [[rfc:3550|RFC 3550]] in 2003 (Internet Standard 64), which folded in the RTCP control protocol and seven years of production fixes.`
+Obsoleted by [[rfc:3550|RFC 3550]] in 2003 (Internet Standard 64), which folded in the {{rtcp|RTCP}} control protocol and seven years of production fixes.`
 	},
 	{
 		number: '3550',
@@ -1179,7 +1179,7 @@ Obsoleted by [[rfc:3550|RFC 3550]] in 2003 (Internet Standard 64), which folded 
 		obsoletes: ['1889'],
 		url: 'https://www.rfc-editor.org/rfc/rfc3550',
 		protocols: ['rtp'],
-		abstract: `The current [[rtp|RTP]] specification — Internet Standard 64. Combines the data-plane [[rtp|RTP]] packets with the control-plane RTCP feedback (sender reports, receiver reports, source description, BYE) into one document. Every modern voice/video application — Zoom, FaceTime, [[webrtc|WebRTC]], VoLTE, IPTV head-ends — uses [[rtp|RTP]]/RTCP under the hood.
+		abstract: `The current [[rtp|RTP]] specification — Internet Standard 64. Combines the data-plane [[rtp|RTP]] packets with the control-plane {{rtcp|RTCP}} feedback (sender reports, receiver reports, source description, BYE) into one document. Every modern voice/video application — Zoom, FaceTime, [[webrtc|WebRTC]], VoLTE, IPTV head-ends — uses [[rtp|RTP]]/{{rtcp|RTCP}} under the hood.
 
 The author lineup is a who's-who of internet real-time work: [[pioneer:henning-schulzrinne|Schulzrinne]], Casner, Frederick, [[pioneer:van-jacobson|Jacobson]]. The protocol is a model of careful design — small, composable, layered cleanly with codec, transport, and security as separate concerns.`
 	},
@@ -1230,7 +1230,7 @@ Edited by Ali Begen, Paul Kyzivat, Colin Perkins, and Mark Handley. The 2021 rev
 		status: 'proposed-standard',
 		url: 'https://www.rfc-editor.org/rfc/rfc8825',
 		protocols: ['webrtc'],
-		abstract: `The architectural overview of [[webrtc|WebRTC]] — the only path by which a web browser can send a [[udp|UDP]] packet to a peer. Surveys the dozen-plus IETF documents that together define the system: [[rtp|RTP]]/SRTP for media, ICE for {{nat|NAT}} traversal, STUN/TURN for path discovery, [[sdp|SDP]] for offer/answer, DTLS for key agreement, [[rfc:8831|SCTP-over-DTLS]] for data channels.
+		abstract: `The architectural overview of [[webrtc|WebRTC]] — the only path by which a web browser can send a [[udp|UDP]] packet to a peer. Surveys the dozen-plus IETF documents that together define the system: [[rtp|RTP]]/{{srtp|SRTP}} for media, ICE for {{nat|NAT}} traversal, STUN/TURN for path discovery, [[sdp|SDP]] for offer/answer, {{dtls|DTLS}} for key agreement, [[rfc:8831|SCTP-over-DTLS]] for data channels.
 
 Authored by Harald Alvestrand at Google. Reading it is the fastest way to understand how all the [[webrtc|WebRTC]] pieces fit together; each piece has its own RFC.`
 	},
@@ -1242,7 +1242,7 @@ Authored by Harald Alvestrand at Google. Reading it is the fastest way to unders
 		status: 'proposed-standard',
 		url: 'https://www.rfc-editor.org/rfc/rfc8831',
 		protocols: ['webrtc'],
-		abstract: `Defines [[webrtc|WebRTC]] *Data Channels* — the API for sending arbitrary application data peer-to-peer between browsers, alongside the audio and video. Uses [[sctp|SCTP]] over DTLS over [[udp|UDP]]: [[sctp|SCTP]] gives you ordered or unordered, reliable or unreliable streams; DTLS encrypts; [[udp|UDP]] is what browsers can actually send.
+		abstract: `Defines [[webrtc|WebRTC]] *Data Channels* — the API for sending arbitrary application data {{peer-to-peer|peer-to-peer}} between browsers, alongside the audio and video. Uses [[sctp|SCTP]] over {{dtls|DTLS}} over [[udp|UDP]]: [[sctp|SCTP]] gives you ordered or unordered, reliable or unreliable streams; {{dtls|DTLS}} encrypts; [[udp|UDP]] is what browsers can actually send.
 
 The largest production [[sctp|SCTP]] deployment by message count today, even though almost nobody knows their browser carries an [[sctp|SCTP]] stack. Used by collaborative tools (Figma, Google Docs cursors), in-browser games, and BitTorrent-in-the-browser projects.`
 	},
@@ -1256,7 +1256,7 @@ The largest production [[sctp|SCTP]] deployment by message count today, even tho
 		status: 'proposed-standard',
 		url: 'https://www.rfc-editor.org/rfc/rfc6120',
 		protocols: ['xmpp'],
-		abstract: `Peter Saint-Andre's specification of [[xmpp|XMPP]] core — an XML-based, federated, peer-to-peer messaging protocol originally born from Jabber (1999). [[xmpp|XMPP]] servers federate the way [[smtp|SMTP]] does: anyone can run one, and they relay messages to each other based on the JID (\`user@server.example\`).
+		abstract: `Peter Saint-Andre's specification of [[xmpp|XMPP]] core — an {{xml|XML}}-based, federated, {{peer-to-peer|peer-to-peer}} messaging protocol originally born from Jabber (1999). [[xmpp|XMPP]] servers federate the way [[smtp|SMTP]] does: anyone can run one, and they relay messages to each other based on the JID (\`user@server.example\`).
 
 Carried Google Talk, Facebook Chat (early years), and WhatsApp's early backend. Most of those have since moved to proprietary protocols; [[xmpp|XMPP]] survives in a long tail of federated chat (Conversations, Snikket, ProcessOne) and as an interop layer in some IoT and gaming deployments. RFC 6121 covers the IM/presence semantics built on top of this core.`
 	},
@@ -1284,7 +1284,7 @@ What makes Conversations.im, Snikket, and other modern [[xmpp|XMPP]] web clients
 		protocols: ['coap'],
 		abstract: `[[coap|CoAP]] — the IETF's *constrained-device* counterpart to [[http1|HTTP]]. Same [[rest|REST]] verbs (GET/POST/PUT/DELETE), same status code semantics, but a 4-byte binary header on top of [[udp|UDP]] instead of HTTP's text-based framing on [[tcp|TCP]]. Designed for sensors and actuators with kilobytes of RAM and intermittent radio links.
 
-Co-authored by Zach Shelby, Klaus Hartke, and Carsten Bormann. Used in *Thread* network management (Matter does NOT use [[coap|CoAP]] for its main payloads, despite the common misconception), industrial IoT, and constrained sensor networks. Companion {{encryption|encryption}} layers are DTLS or [[rfc:8613|OSCORE]].`
+Co-authored by Zach Shelby, Klaus Hartke, and Carsten Bormann. Used in *Thread* network management (Matter does NOT use [[coap|CoAP]] for its main payloads, despite the common misconception), industrial IoT, and constrained sensor networks. Companion {{encryption|encryption}} layers are {{dtls|DTLS}} or [[rfc:8613|OSCORE]].`
 	},
 	{
 		number: '8613',
@@ -1294,7 +1294,7 @@ Co-authored by Zach Shelby, Klaus Hartke, and Carsten Bormann. Used in *Thread* 
 		status: 'proposed-standard',
 		url: 'https://www.rfc-editor.org/rfc/rfc8613',
 		protocols: ['coap'],
-		abstract: `*OSCORE* — wraps the [[coap|CoAP]] message payload in *COSE_Encrypt0* (CBOR Object Signing and Encryption) using AES-CCM, providing **end-to-end** confidentiality and integrity even when the message traverses [[coap|CoAP]]↔HTTP proxies. Unlike DTLS, OSCORE protects the application object itself, not the transport — so proxies can route without seeing the contents and without having to terminate {{tls|DTLS}}.
+		abstract: `*OSCORE* — wraps the [[coap|CoAP]] message payload in *COSE_Encrypt0* (CBOR Object Signing and {{encryption|Encryption}}) using AES-CCM, providing **end-to-end** confidentiality and integrity even when the message traverses [[coap|CoAP]]↔HTTP proxies. Unlike {{dtls|DTLS}}, OSCORE protects the application object itself, not the transport — so proxies can route without seeing the contents and without having to terminate {{tls|DTLS}}.
 
 The constrained-device counterpart to fitting [[tls|TLS]] into a battery-powered sensor — much smaller footprint, no per-message asymmetric crypto. Pair with [[rfc:9528|EDHOC]] for the full mutual-authentication + forward-secrecy story.`
 	},
@@ -1310,7 +1310,7 @@ The constrained-device counterpart to fitting [[tls|TLS]] into a battery-powered
 		protocols: ['oauth2'],
 		abstract: `The framework specification for [[oauth2|OAuth 2.0]] — *not a protocol but a framework*: defines four grant types (authorization code, implicit, resource owner password, client credentials), the access-token / refresh-token model, and the abstract roles (resource owner, client, resource server, authorization server). The exact wire details are spread across companion RFCs.
 
-Edited by Dick Hardt. The framework's own abstract famously warns *"this specification is likely to produce a wide range of non-interoperable implementations"* — which has aged exactly as well as you'd expect. Modern best practice (PKCE for all clients, no implicit flow, mTLS or DPoP for sender constraint) is largely defined in the **[[oauth2|OAuth]] 2.1 BCP** drafts the WG has been refining since 2020.`
+Edited by Dick Hardt. The framework's own abstract famously warns *"this specification is likely to produce a wide range of non-interoperable implementations"* — which has aged exactly as well as you'd expect. Modern best practice ({{pkce|PKCE}} for all clients, no implicit flow, {{mtls|mTLS}} or DPoP for sender constraint) is largely defined in the **[[oauth2|OAuth]] 2.1 BCP** drafts the WG has been refining since 2020.`
 	},
 	{
 		number: '7636',
@@ -1320,9 +1320,9 @@ Edited by Dick Hardt. The framework's own abstract famously warns *"this specifi
 		status: 'standards-track',
 		url: 'https://www.rfc-editor.org/rfc/rfc7636',
 		protocols: ['oauth2'],
-		abstract: `*PKCE* (pronounced "pixie") — closes a fundamental [[oauth2|OAuth 2.0]] security gap for public clients (mobile apps, single-page apps) that can't keep a client secret. The client generates a high-entropy *code_verifier*, sends its hash (*code_challenge*) on the authorization request, and presents the original verifier on the token-exchange request. An attacker who intercepts the authorization code can't redeem it without the verifier.
+		abstract: `*{{pkce|PKCE}}* (pronounced "pixie") — closes a fundamental [[oauth2|OAuth 2.0]] security gap for public clients (mobile apps, single-page apps) that can't keep a client secret. The client generates a high-entropy *code_verifier*, sends its hash (*code_challenge*) on the authorization request, and presents the original verifier on the token-exchange request. An attacker who intercepts the authorization code can't redeem it without the verifier.
 
-Originally defined for native mobile apps; **[[oauth2|OAuth]] 2.1 mandates PKCE for every authorization-code flow**, public or confidential. If you're building any new [[oauth2|OAuth]] integration in 2026, you're using PKCE.`
+Originally defined for native mobile apps; **[[oauth2|OAuth]] 2.1 mandates {{pkce|PKCE}} for every authorization-code flow**, public or confidential. If you're building any new [[oauth2|OAuth]] integration in 2026, you're using {{pkce|PKCE}}.`
 	}
 ];
 

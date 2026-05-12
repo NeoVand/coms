@@ -24,7 +24,7 @@ Netflix, YouTube, Disney+, and most major streaming services use [[dash|DASH]] (
 		{
 			title: 'MPD manifest generation',
 			description:
-				'An XML manifest (MPD) describes the content hierarchy: Periods, Adaptation Sets, Representations (bitrates/resolutions), and segment URLs or templates.'
+				'An {{xml|XML}} manifest (MPD) describes the content hierarchy: Periods, Adaptation Sets, Representations (bitrates/resolutions), and segment URLs or templates.'
 		},
 		{
 			title: 'Client fetches MPD',

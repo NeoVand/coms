@@ -34,7 +34,7 @@ A critical distinction: [[oauth2|OAuth]] is an authorization {{protocol|protocol
 		{
 			title: 'Token exchange',
 			description:
-				'The app sends the authorization code along with the {{pkce|PKCE}} code_verifier to the token endpoint. The server validates the PKCE proof and returns an {{access-token|access token}} (short-lived) and a refresh token (long-lived).'
+				'The app sends the authorization code along with the {{pkce|PKCE}} code_verifier to the token endpoint. The server validates the {{pkce|PKCE}} proof and returns an {{access-token|access token}} (short-lived) and a refresh token (long-lived).'
 		},
 		{
 			title: 'API access',

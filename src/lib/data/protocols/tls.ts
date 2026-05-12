@@ -40,7 +40,7 @@ When you see the lock icon in your browser, [[tls|TLS]] is at work. It sits betw
 		'HTTPS web browsing (every secure website)',
 		'Secure API communication',
 		'Email encryption (SMTPS, IMAPS)',
-		'VPN tunneling (OpenVPN)',
+		'{{vpn|VPN}} tunneling (OpenVPN)',
 		'Database connection encryption'
 	],
 	codeExample: {
@@ -213,13 +213,13 @@ openssl req -x509 -newkey rsa:2048 -nodes \\
 			date: '2025-Q3',
 			title: '~70% of TLS 1.3 handshakes are post-quantum',
 			description:
-				'CDN measurements show majority of [[tls|TLS]] 1.3 connections now negotiate X25519MLKEM768 hybrid. Apple iOS 26 ships with PQ on by default.'
+				'{{cdn|CDN}} measurements show majority of [[tls|TLS]] 1.3 connections now negotiate X25519MLKEM768 hybrid. Apple iOS 26 ships with PQ on by default.'
 		},
 		{
 			date: '2024-09',
 			title: 'ECH (Encrypted Client Hello) progresses',
 			description:
-				'draft-ietf-tls-esni-23 advanced toward RFC; {{ech|ECH}} hides the SNI from on-path observers, closing a long-standing [[tls|TLS]] metadata leak. Cloudflare and Mozilla running joint deployments.'
+				'draft-ietf-tls-esni-23 advanced toward RFC; {{ech|ECH}} hides the {{sni|SNI}} from on-path observers, closing a long-standing [[tls|TLS]] metadata leak. Cloudflare and Mozilla running joint deployments.'
 		}
 	],
 
@@ -228,7 +228,7 @@ openssl req -x509 -newkey rsa:2048 -nodes \\
 			org: 'Cloudflare',
 			scale: '100% of HTTPS edge',
 			description:
-				'[[tls|TLS]] 1.3 with X25519MLKEM768 hybrid key {{exchange|exchange}} and ECH support enabled by default for every site fronted by Cloudflare.'
+				'[[tls|TLS]] 1.3 with X25519MLKEM768 hybrid key {{exchange|exchange}} and {{ech|ECH}} support enabled by default for every site fronted by Cloudflare.'
 		},
 		{
 			org: 'Apple',
@@ -246,7 +246,7 @@ openssl req -x509 -newkey rsa:2048 -nodes \\
 			org: 'Let\'s Encrypt',
 			scale: '~470M certificates active',
 			description:
-				'The dominant CA for the web. All certificates issued via ACME. ~3M certificates renewed daily.'
+				'The dominant {{certificate-authority|CA}} for the web. All certificates issued via ACME. ~3M certificates renewed daily.'
 		}
 	],
 
@@ -273,7 +273,7 @@ openssl req -x509 -newkey rsa:2048 -nodes \\
 			},
 			{
 				title: 'Resumption tickets enable replay on 0-RTT',
-				text: '[[tls|TLS]] 1.3 {{zero-rtt|0-RTT}} lets the client send application data in the very first message — but that data is potentially replayable. {{idempotent|Idempotent}} requests (GET) are usually safe; mutating requests (POST) are not. Most browsers limit 0-RTT to GET; servers should refuse 0-RTT for any non-{{idempotent|idempotent}} method.'
+				text: '[[tls|TLS]] 1.3 {{zero-rtt|0-RTT}} lets the client send application data in the very first message — but that data is potentially replayable. {{idempotent|Idempotent}} requests (GET) are usually safe; mutating requests (POST) are not. Most browsers limit {{zero-rtt|0-RTT}} to GET; servers should refuse {{zero-rtt|0-RTT}} for any non-{{idempotent|idempotent}} method.'
 			},
 			{
 				title: 'Mixed content breaks the padlock',

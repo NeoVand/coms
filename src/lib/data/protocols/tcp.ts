@@ -11,7 +11,7 @@ export const tcp: Protocol = {
 	oneLiner: 'Guarantees ordered, reliable delivery of data between applications.',
 	overview: `[[tcp|TCP]] is the backbone of the internet. When you load a webpage, send an email, or download a file, [[tcp|TCP]] ensures every single byte arrives correctly and in order. It does this by {{connection-oriented|establishing a connection}} between sender and receiver before any data flows — like a phone call where both sides confirm they can hear each other. [[tcp|TCP]] is inherently {{stateful|stateful}}: each connection tracks sequence numbers, acknowledgments, window sizes, and {{retransmission|retransmission}} timers throughout its lifetime.
 
-Unlike [[udp|UDP]], [[tcp|TCP]] will detect lost {{packet|packets}} and {{retransmission|retransmit}} them. It also implements {{flow-control|flow control}} (so a fast sender doesn't overwhelm a slow receiver) and {{congestion-control|congestion control}} (so the network itself doesn't get overloaded). [[tcp|TCP]]'s {{congestion-control|congestion control}} has evolved over the decades — from the original Tahoe and Reno algorithms through {{cubic|CUBIC}} (still the Linux default) to Google's BBR, which models the path's bottleneck {{bandwidth|bandwidth}} and RTT instead of treating loss as the only signal. BBRv3 has been the default for google.com and YouTube since 2023. This reliability comes at a cost: extra round trips and overhead, which is why {{latency|latency}}-sensitive applications sometimes prefer [[udp|UDP]].
+Unlike [[udp|UDP]], [[tcp|TCP]] will detect lost {{packet|packets}} and {{retransmission|retransmit}} them. It also implements {{flow-control|flow control}} (so a fast sender doesn't overwhelm a slow receiver) and {{congestion-control|congestion control}} (so the network itself doesn't get overloaded). [[tcp|TCP]]'s {{congestion-control|congestion control}} has evolved over the decades — from the original Tahoe and Reno algorithms through {{cubic|CUBIC}} (still the Linux default) to Google's {{bbr|BBR}}, which models the path's bottleneck {{bandwidth|bandwidth}} and {{rtt|RTT}} instead of treating loss as the only signal. BBRv3 has been the default for google.com and YouTube since 2023. This reliability comes at a cost: extra round trips and overhead, which is why {{latency|latency}}-sensitive applications sometimes prefer [[udp|UDP]].
 
 [[tcp|TCP]] operates at Layer 4 (Transport) of the {{osi-model|OSI model}} and is identified by protocol number 6 in the [[ip|IP]] header. Nearly every major internet application — [[http1|HTTP]], [[ssh|SSH]], [[ftp|FTP]], [[smtp|SMTP]] — runs on top of [[tcp|TCP]].`,
 	howItWorks: [
@@ -23,12 +23,12 @@ Unlike [[udp|UDP]], [[tcp|TCP]] will detect lost {{packet|packets}} and {{retran
 		{
 			title: 'SYN-ACK — Server responds',
 			description:
-				'The server responds with SYN-ACK, acknowledging the client\'s {{sequence-number|sequence number}} and proposing its own. "Yes, I hear you. Can you hear me?"'
+				'The server responds with SYN-{{ack|ACK}}, acknowledging the client\'s {{sequence-number|sequence number}} and proposing its own. "Yes, I hear you. Can you hear me?"'
 		},
 		{
 			title: 'ACK — Connection established',
 			description:
-				"The client sends an ACK confirming the server's {{sequence-number|sequence number}}. The {{three-way-handshake|three-way handshake}} is complete — data can now flow."
+				"The client sends an {{ack|ACK}} confirming the server's {{sequence-number|sequence number}}. The {{three-way-handshake|three-way handshake}} is complete — data can now flow."
 		},
 		{
 			title: 'Data transfer',
@@ -182,7 +182,7 @@ Client → Server  [ACK]
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Tcp_state_diagram.svg/500px-Tcp_state_diagram.svg.png',
 		alt: 'TCP finite state machine diagram showing all connection states from CLOSED through ESTABLISHED to TIME_WAIT',
 		caption:
-			'The [[tcp|TCP]] state machine — every [[tcp|TCP]] connection transitions through these states. From the {{three-way-handshake|three-way handshake}} (SYN → SYN-ACK → ACK) to graceful teardown (FIN → FIN-ACK), this diagram maps the full lifecycle of a [[tcp|TCP]] connection.',
+			'The [[tcp|TCP]] state machine — every [[tcp|TCP]] connection transitions through these states. From the {{three-way-handshake|three-way handshake}} (SYN → SYN-{{ack|ACK}} → {{ack|ACK}}) to graceful teardown (FIN → FIN-{{ack|ACK}}), this diagram maps the full lifecycle of a [[tcp|TCP]] connection.',
 		credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 	},
 
@@ -198,7 +198,7 @@ Client → Server  [ACK]
 			date: '2025-01',
 			title: 'Comcast launches L4S in production',
 			description:
-				'Sub-millisecond queuing {{latency|latency}} for cooperating flows in six US metros, with Apple, NVIDIA GeForce NOW, Meta, and Valve as launch partners. The first large-scale deployment of the L4S architecture ([[rfc:9330|RFC 9330]]/9331/9332) on a production access network.',
+				'Sub-millisecond queuing {{latency|latency}} for cooperating flows in six US metros, with Apple, NVIDIA GeForce NOW, Meta, and Valve as launch partners. The first large-scale deployment of the {{l4s|L4S}} architecture ([[rfc:9330|RFC 9330]]/9331/9332) on a production access network.',
 			source: { url: 'https://www.rcrwireless.com/20250129/uncategorized/comcast-l4s', label: 'RCR Wireless' }
 		},
 		{
@@ -212,7 +212,7 @@ Client → Server  [ACK]
 			date: '2025-03',
 			title: 'AccECN advances to draft-34',
 			description:
-				'Accurate ECN (draft-ietf-tcpm-accurate-ecn) reallocates the old ECN-{{nonce|Nonce}} bit to deliver more than one congestion signal per RTT — the precondition L4S over [[tcp|TCP]] needs for fine-grained congestion response.',
+				'Accurate {{ecn|ECN}} (draft-ietf-tcpm-accurate-ecn) reallocates the old {{ecn|ECN}}-{{nonce|Nonce}} bit to deliver more than one congestion signal per {{rtt|RTT}} — the precondition {{l4s|L4S}} over [[tcp|TCP]] needs for fine-grained congestion response.',
 			source: {
 				url: 'https://datatracker.ietf.org/doc/draft-ietf-tcpm-accurate-ecn/',
 				label: 'IETF Datatracker'
@@ -243,7 +243,7 @@ Client → Server  [ACK]
 			org: 'Apple',
 			scale: 'iOS / macOS default',
 			description:
-				'NewReno + {{cubic|CUBIC}} by default since iOS 5; ECN with L4S support enabled by default on iOS 17+ and macOS Sonoma+.'
+				'NewReno + {{cubic|CUBIC}} by default since iOS 5; {{ecn|ECN}} with {{l4s|L4S}} support enabled by default on iOS 17+ and macOS Sonoma+.'
 		}
 	],
 
@@ -270,7 +270,7 @@ Client → Server  [ACK]
 		pitfalls: [
 			{
 				title: 'Nagle + Delayed ACK = 200ms latency',
-				text: 'Nagle\'s algorithm coalesces small writes; {{delayed-ack|delayed ACK}} batches acknowledgements. When both are on (the default), interactive applications writing in small chunks can stall for up to 200 ms waiting for an ACK. Cure: setsockopt(TCP_NODELAY, 1) for low-{{latency|latency}} apps.'
+				text: 'Nagle\'s algorithm coalesces small writes; {{delayed-ack|delayed ACK}} batches acknowledgements. When both are on (the default), interactive applications writing in small chunks can stall for up to 200 ms waiting for an {{ack|ACK}}. Cure: setsockopt(TCP_NODELAY, 1) for low-{{latency|latency}} apps.'
 			},
 			{
 				title: 'Ephemeral port exhaustion',
@@ -278,7 +278,7 @@ Client → Server  [ACK]
 			},
 			{
 				title: 'PMTU black holes',
-				text: 'A path drops large packets but does not return [[icmp|ICMP]] {{fragmentation|Fragmentation}} Needed — usually because some intermediate {{firewall|firewall}} rate-limits or blocks [[icmp|ICMP]]. The connection hangs because retransmits also fail. Cure: enable PLPMTUD ([[rfc:4821|RFC 4821]]) or set [[tcp|TCP]] MSS clamping at the edge.'
+				text: 'A path drops large packets but does not return [[icmp|ICMP]] {{fragmentation|Fragmentation}} Needed — usually because some intermediate {{firewall|firewall}} rate-limits or blocks [[icmp|ICMP]]. The connection hangs because retransmits also fail. Cure: enable PLPMTUD ([[rfc:4821|RFC 4821]]) or set [[tcp|TCP]] {{mss|MSS}} clamping at the edge.'
 			}
 		]
 	}

@@ -13,7 +13,7 @@ export const coap: Protocol = {
 
 The design mirrors [[http1|HTTP]] closely enough that translating between [[coap|CoAP]] and [[http1|HTTP]] is straightforward, enabling IoT devices to integrate with web infrastructure through simple {{gateway|proxies}}. But unlike [[http1|HTTP]], [[coap|CoAP]] supports {{multicast|multicast}} (discover all devices on a network), observation (a GET with an Observe option that lets clients receive push notifications when a resource changes), and block-wise transfer (for large payloads on constrained links).
 
-For security, [[coap|CoAP]] relies on {{dtls|DTLS}} (Datagram [[tls|TLS]]) — the [[udp|UDP]] equivalent of [[tls|TLS]] — to provide {{encryption|encryption}}, authentication, and integrity. DTLS is defined as [[coap|CoAP]]'s primary security mechanism in the specification (RFC 7252), with the secure port being 5684.
+For security, [[coap|CoAP]] relies on {{dtls|DTLS}} (Datagram [[tls|TLS]]) — the [[udp|UDP]] equivalent of [[tls|TLS]] — to provide {{encryption|encryption}}, authentication, and integrity. {{dtls|DTLS}} is defined as [[coap|CoAP]]'s primary security mechanism in the specification ([[rfc:7252|RFC 7252]]), with the secure port being 5684.
 
 [[coap|CoAP]] is widely used in smart buildings, industrial automation, and city infrastructure where devices have extreme resource constraints but still need web-like interaction patterns.`,
 	howItWorks: [

@@ -7,7 +7,7 @@ export const networkFoundationsStory: CategoryStory = {
 		{
 			type: 'narrative',
 			title: 'Before the Internet',
-			text: `In 1973, a young engineer named Bob Metcalfe was working at Xerox PARC in Palo Alto when he had an insight that would change computing forever. He'd studied the ALOHAnet — a radio network connecting Hawaiian islands — and realized the same principle could wire computers together in an office. He sketched a system on the back of a napkin: a shared cable with simple rules for who gets to transmit. He called it [[ethernet|Ethernet]], after the "luminiferous aether" that 19th-century physicists believed permeated space.
+			text: `In 1973, a young engineer named [[pioneer:bob-metcalfe|Bob Metcalfe]] was working at Xerox PARC in Palo Alto when he had an insight that would change computing forever. He'd studied the ALOHAnet — a radio network connecting Hawaiian islands — and realized the same principle could wire computers together in an office. He sketched a system on the back of a napkin: a shared cable with simple rules for who gets to transmit. He called it [[ethernet|Ethernet]], after the "luminiferous aether" that 19th-century physicists believed permeated space.
 
 That sketch became [[ethernet|Ethernet]], and it solved the first problem of networking: how do machines on the same wire talk to each other? Each device got a unique 48-bit {{mac-address|MAC address}}, and frames carried data from source to destination. But [[ethernet|Ethernet]] alone wasn't enough. You also needed a way to find who's who — that's [[arp|ARP]], which translates logical [[ip|IP]] addresses to physical MAC addresses. And you needed a way to route beyond your local wire — that's [[ip|IP]], the addressing system that makes the internet a network of networks.`
 		},
@@ -54,7 +54,7 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
   C2 --> D1 & D2
   D1 & D2 --> E1`,
 			caption:
-				'Where Network Foundations protocols fit in the stack. [[ethernet|Ethernet]] and [[wifi|Wi-Fi]] frame data at Layer 2, [[ip|IPv4]]/[[ipv6|IPv6]] route at Layer 3, [[arp|ARP]]/NDP bridge addressing, [[icmp|ICMP]] provides diagnostics, and [[bgp|BGP]] handles inter-domain routing.'
+				'Where Network Foundations protocols fit in the stack. [[ethernet|Ethernet]] and [[wifi|Wi-Fi]] frame data at Layer 2, [[ip|IPv4]]/[[ipv6|IPv6]] route at Layer 3, [[arp|ARP]]/{{ndp|NDP}} bridge addressing, [[icmp|ICMP]] provides diagnostics, and [[bgp|BGP]] handles inter-domain routing.'
 		},
 		{
 			type: 'pioneers',
@@ -121,7 +121,7 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
 					year: 1973,
 					title: 'Ethernet Invented at Xerox PARC',
 					description:
-						'Bob Metcalfe sketches the first [[ethernet|Ethernet]] network, connecting Alto workstations over a shared coaxial cable at 2.94 Mbps using CSMA/CD.',
+						'[[pioneer:bob-metcalfe|Bob Metcalfe]] sketches the first [[ethernet|Ethernet]] network, connecting Alto workstations over a shared coaxial cable at 2.94 Mbps using CSMA/CD.',
 					protocolId: 'ethernet'
 				},
 				{
@@ -141,7 +141,7 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
 					year: 1981,
 					title: 'ICMP Published — RFC 792',
 					description:
-						'Jon Postel defines the Internet Control Message Protocol. The network can now report errors and answer "are you there?" — ping is born, and traceroute follows.',
+						'[[pioneer:jon-postel|Jon Postel]] defines the Internet Control Message Protocol. The network can now report errors and answer "are you there?" — ping is born, and traceroute follows.',
 					protocolId: 'icmp'
 				},
 				{
@@ -162,7 +162,7 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
 					year: 1989,
 					title: 'BGP Introduced — RFC 1105',
 					description:
-						'Yakov Rekhter and Kirk Lougheed create the Border Gateway Protocol. Autonomous systems can now {{exchange|exchange}} routing information — the internet can scale beyond a single backbone.',
+						'[[pioneer:yakov-rekhter|Yakov Rekhter]] and Kirk Lougheed create the Border Gateway Protocol. Autonomous systems can now {{exchange|exchange}} routing information — the internet can scale beyond a single backbone.',
 					protocolId: 'bgp'
 				},
 				{
@@ -176,7 +176,7 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
 					year: 1998,
 					title: 'IPv6 Specified — RFC 2460',
 					description:
-						'Steve Deering and Rob Hinden publish [[ipv6|IPv6]] with 128-bit addresses, a simplified header, and no more {{broadcast|broadcast}}. The long transition from [[ip|IPv4]] begins.',
+						'[[pioneer:steve-deering|Steve Deering]] and Rob Hinden publish [[ipv6|IPv6]] with 128-bit addresses, a simplified header, and no more {{broadcast|broadcast}}. The long transition from [[ip|IPv4]] begins.',
 					protocolId: 'ipv6'
 				},
 				{
@@ -265,7 +265,7 @@ The shift from hubs to switches in the 1990s was transformative. A hub was just 
 		{
 			type: 'narrative',
 			title: 'Cutting the Cord',
-			text: `[[wifi|Wi-Fi]] brought [[ethernet|Ethernet]]'s model to the airwaves, but radio introduced challenges that cables never had. The wireless medium is shared — you can't run a dedicated cable to each device — so [[wifi|Wi-Fi]] uses CSMA/CA (Collision Avoidance) instead of CSMA/CD: devices announce their intent to transmit and wait for clear airtime rather than detecting collisions after the fact.
+			text: `[[wifi|Wi-Fi]] brought [[ethernet|Ethernet]]'s model to the airwaves, but radio introduced challenges that cables never had. The wireless medium is shared — you can't run a dedicated cable to each device — so [[wifi|Wi-Fi]] uses CSMA/{{certificate-authority|CA}} (Collision Avoidance) instead of CSMA/CD: devices announce their intent to transmit and wait for clear airtime rather than detecting collisions after the fact.
 
 An [[wifi|802.11]] frame carries three or four MAC addresses (receiver, transmitter, destination, and sometimes source) compared to [[ethernet|Ethernet]]'s two. The {{access-point|access point}} bridges between worlds: it receives encrypted [[wifi|Wi-Fi]] frames from wireless clients, decrypts and strips the [[wifi|802.11]] header, then wraps the {{payload|payload}} in a standard [[ethernet|Ethernet]] frame for the wired network. This seamless bridging is why your laptop doesn't care whether it's plugged in or on [[wifi|Wi-Fi]] — [[ip|IP]] works the same either way.`
 		},
@@ -306,11 +306,11 @@ An [[wifi|802.11]] frame carries three or four MAC addresses (receiver, transmit
 			title: 'Diagnostics, Routing, and the Next Generation',
 			text: `With framing, addressing, and routing in place, three more protocols completed the network foundation.
 
-In 1981, Jon Postel defined [[icmp|ICMP]] — the Internet Control Message Protocol. [[icmp|ICMP]] is the network's built-in diagnostic system: it reports errors ("destination unreachable," "time exceeded," "redirect") and enables the two most essential troubleshooting tools in networking. Ping sends an Echo Request and waits for an Echo Reply, telling you if a host is alive and how fast the path is. Traceroute sends packets with incrementing TTL values, collecting "Time Exceeded" responses from each router along the path — revealing every hop between you and a destination.
+In 1981, [[pioneer:jon-postel|Jon Postel]] defined [[icmp|ICMP]] — the Internet Control Message Protocol. [[icmp|ICMP]] is the network's built-in diagnostic system: it reports errors ("destination unreachable," "time exceeded," "redirect") and enables the two most essential troubleshooting tools in networking. Ping sends an Echo Request and waits for an Echo Reply, telling you if a host is alive and how fast the path is. Traceroute sends packets with incrementing {{ttl|TTL}} values, collecting "Time Exceeded" responses from each router along the path — revealing every hop between you and a destination.
 
-By 1989, the internet was outgrowing its routing. The original ARPANET had a single backbone — routing was simple. But as multiple networks connected, someone had to decide how traffic flows between them. Yakov Rekhter and Kirk Lougheed created [[bgp|BGP]], the Border Gateway Protocol, which treats each network as an "{{autonomous-system|autonomous system}}" and exchanges route advertisements between them. Today, [[bgp|BGP]] is literally the protocol that holds the internet together — every path your data takes across network boundaries is decided by [[bgp|BGP]] route advertisements exchanged on [[tcp|TCP]] port 179.
+By 1989, the internet was outgrowing its routing. The original ARPANET had a single backbone — routing was simple. But as multiple networks connected, someone had to decide how traffic flows between them. [[pioneer:yakov-rekhter|Yakov Rekhter]] and Kirk Lougheed created [[bgp|BGP]], the Border Gateway Protocol, which treats each network as an "{{autonomous-system|autonomous system}}" and exchanges route advertisements between them. Today, [[bgp|BGP]] is literally the protocol that holds the internet together — every path your data takes across network boundaries is decided by [[bgp|BGP]] route advertisements exchanged on [[tcp|TCP]] port 179.
 
-The most ambitious chapter began in the 1990s. [[ip|IPv4]]'s 32-bit address space — 4.3 billion addresses — was running out. Steve Deering led the design of [[ipv6|IPv6]], published as RFC 2460 in 1998 (later updated as RFC 8200 in 2017). [[ipv6|IPv6]] didn't just add more addresses; it rethought the protocol entirely. The header was simplified to a fixed 40 bytes — no {{checksum|checksum}}, no variable-length options. {{broadcast|Broadcast}} was eliminated in favor of {{multicast|multicast}}. [[arp|ARP]]'s broadcast-based address resolution was replaced by NDP (Neighbor Discovery Protocol), which uses efficient solicited-node multicast. Hosts can autoconfigure globally unique addresses via {{slaac|SLAAC}} without any server. On 28 March 2026, [[ipv6|IPv6]] crossed 50% of Google's traffic for the first time, 28 years after the spec — a transition that was supposed to take a few years and is still ongoing, a testament to how deeply embedded [[ip|IPv4]] became.`
+The most ambitious chapter began in the 1990s. [[ip|IPv4]]'s 32-bit address space — 4.3 billion addresses — was running out. [[pioneer:steve-deering|Steve Deering]] led the design of [[ipv6|IPv6]], published as [[rfc:2460|RFC 2460]] in 1998 (later updated as [[rfc:8200|RFC 8200]] in 2017). [[ipv6|IPv6]] didn't just add more addresses; it rethought the protocol entirely. The header was simplified to a fixed 40 bytes — no {{checksum|checksum}}, no variable-length options. {{broadcast|Broadcast}} was eliminated in favor of {{multicast|multicast}}. [[arp|ARP]]'s broadcast-based address resolution was replaced by {{ndp|NDP}} ({{ndp|Neighbor Discovery Protocol}}), which uses efficient solicited-node multicast. Hosts can autoconfigure globally unique addresses via {{slaac|SLAAC}} without any server. On 28 March 2026, [[ipv6|IPv6]] crossed 50% of Google's traffic for the first time, 28 years after the spec — a transition that was supposed to take a few years and is still ongoing, a testament to how deeply embedded [[ip|IPv4]] became.`
 		},
 		{
 			type: 'diagram',

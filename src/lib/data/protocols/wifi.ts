@@ -10,9 +10,9 @@ export const wifi: Protocol = {
 	rfc: undefined,
 	oneLiner:
 		'Wireless local networking — [[ethernet|Ethernet]] without the cable, plus {{encryption|encryption}} and airtime management.',
-	overview: `[[wifi|Wi-Fi]] brings [[ethernet|Ethernet]]-style networking to the airwaves. Instead of transmitting {{frame|frames}} over copper or fiber, [[wifi|802.11]] uses radio frequencies (2.4 GHz, 5 GHz, and now 6 GHz) to send data wirelessly. But air is a shared medium — everyone within range can hear everything — so [[wifi|Wi-Fi]] adds {{encryption|encryption}} (WPA2/WPA3), collision avoidance (CSMA/CA instead of [[ethernet|Ethernet]]'s CSMA/CD), and a more complex frame format with up to four MAC addresses (three typically used): the receiver address (RA), transmitter address (TA), and destination address (DA) — plus an optional fourth address used in wireless bridging (WDS) mode.
+	overview: `[[wifi|Wi-Fi]] brings [[ethernet|Ethernet]]-style networking to the airwaves. Instead of transmitting {{frame|frames}} over copper or fiber, [[wifi|802.11]] uses radio frequencies (2.4 GHz, 5 GHz, and now 6 GHz) to send data wirelessly. But air is a shared medium — everyone within range can hear everything — so [[wifi|Wi-Fi]] adds {{encryption|encryption}} (WPA2/WPA3), collision avoidance (CSMA/{{certificate-authority|CA}} instead of [[ethernet|Ethernet]]'s CSMA/CD), and a more complex frame format with up to four MAC addresses (three typically used): the receiver address (RA), transmitter address (TA), and destination address (DA) — plus an optional fourth address used in wireless bridging (WDS) mode.
 
-The differences from [[ethernet|Ethernet]] are deeper than just "no cable." Because wireless stations can't detect collisions while transmitting (the "hidden node" problem), [[wifi|Wi-Fi]] uses RTS/CTS {{handshake|handshakes}} and carrier sensing to avoid them. Every frame must be {{ack|acknowledged}} — if the sender doesn't get an ACK, it {{retransmission|retransmits}}. The {{access-point|access point}} bridges wireless and wired worlds, translating between [[wifi|802.11]] and 802.3 frames so that [[arp|ARP]], [[ip|IP]], and everything above works seamlessly across both.
+The differences from [[ethernet|Ethernet]] are deeper than just "no cable." Because wireless stations can't detect collisions while transmitting (the "hidden node" problem), [[wifi|Wi-Fi]] uses RTS/CTS {{handshake|handshakes}} and carrier sensing to avoid them. Every frame must be {{ack|acknowledged}} — if the sender doesn't get an {{ack|ACK}}, it {{retransmission|retransmits}}. The {{access-point|access point}} bridges wireless and wired worlds, translating between [[wifi|802.11]] and 802.3 frames so that [[arp|ARP]], [[ip|IP]], and everything above works seamlessly across both.
 
 [[wifi|Wi-Fi]] has evolved dramatically since the original [[wifi|802.11]] standard in 1997 (2 Mbps). 802.11b (1999) brought 11 Mbps, 802.11g (2003) hit 54 Mbps, 802.11n ([[wifi|Wi-Fi]] 4, 2009) introduced MIMO for 600 Mbps, 802.11ac ([[wifi|Wi-Fi]] 5, 2014) pushed to gigabit speeds, 802.11ax ([[wifi|Wi-Fi]] 6, 2020) added OFDMA for dense environments, and 802.11be ([[wifi|Wi-Fi]] 7, 2024) delivers up to 46 Gbps with multi-link operation. Each generation brought better throughput, lower {{latency|latency}}, and improved handling of crowded airspace.`,
 	howItWorks: [
@@ -24,12 +24,12 @@ The differences from [[ethernet|Ethernet]] are deeper than just "no cable." Beca
 		{
 			title: 'Authentication and association',
 			description:
-				'The client authenticates with the AP (Open System or SAE for WPA3), then sends an Association Request specifying desired parameters. The AP responds with an Association Response, assigning the client an Association ID and granting network access.'
+				'The client authenticates with the {{access-point|AP}} (Open System or SAE for WPA3), then sends an Association Request specifying desired parameters. The {{access-point|AP}} responds with an Association Response, assigning the client an Association ID and granting network access.'
 		},
 		{
 			title: '4-way handshake (WPA2/WPA3)',
 			description:
-				'After association, the client and AP perform a 4-message EAPOL {{handshake|handshake}} to derive per-session {{encryption|encryption}} keys (PTK). Both sides prove they know the passphrase without revealing it. This produces the temporal keys used to encrypt all subsequent data frames.'
+				'After association, the client and {{access-point|AP}} perform a 4-message EAPOL {{handshake|handshake}} to derive per-session {{encryption|encryption}} keys (PTK). Both sides prove they know the passphrase without revealing it. This produces the temporal keys used to encrypt all subsequent data frames.'
 		},
 		{
 			title: 'Data frames with CSMA/CA',

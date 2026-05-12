@@ -200,11 +200,11 @@ The wire-level details that matter operationally: [[kafka|Kafka]]'s reference co
 						{
 							type: 'narrative',
 							title: 'HTTP at 32 kB of RAM',
-							text: `[[coap|CoAP]] (Constrained Application Protocol) was specified by the **IETF CoRE WG** chartered March 2010; base spec **RFC 7252** published **June 2014** (Shelby, Hartke, Bormann). The intellectual lineage runs through **Sensinode (Oulu, Finland)** — acquired by **ARM in 2013** — and the **University of Bremen TZI** group.
+							text: `[[coap|CoAP]] (Constrained Application Protocol) was specified by the **IETF CoRE WG** chartered March 2010; base spec **[[rfc:7252|RFC 7252]]** published **June 2014** (Shelby, Hartke, Bormann). The intellectual lineage runs through **Sensinode (Oulu, Finland)** — acquired by **ARM in 2013** — and the **University of Bremen TZI** group.
 
 [[coap|CoAP]] is what you build when you want [[rest|REST]] semantics on a 32 kB microcontroller talking over a 50 kbps mesh radio. It looks like [[http1|HTTP]] from a distance — GET, POST, PUT, DELETE, status codes, URIs — but the wire format is binary and it runs over [[udp|UDP]] instead of [[tcp|TCP]].
 
-**The fixed header is 4 bytes**; a minimal Empty [[coap|CoAP]] message is 4 bytes total; a typical GET sits at 10-20 bytes — designed for IEEE 802.15.4 frames that fragment [[ipv6|IPv6]] packets into ~80-byte chunks. [[coap|CoAP]] defines **four message types** (CON/NON/ACK/RST) and a **2-byte Message ID** for de-duplication, with **0-8 byte Tokens** for matching responses across messages. Default [[udp|UDP]] port is **5683**, CoAPS over {{dtls|DTLS}} is **5684**.`
+**The fixed header is 4 bytes**; a minimal Empty [[coap|CoAP]] message is 4 bytes total; a typical GET sits at 10-20 bytes — designed for IEEE 802.15.4 frames that fragment [[ipv6|IPv6]] packets into ~80-byte chunks. [[coap|CoAP]] defines **four message types** (CON/NON/{{ack|ACK}}/RST) and a **2-byte Message ID** for de-duplication, with **0-8 byte Tokens** for matching responses across messages. Default [[udp|UDP]] port is **5683**, CoAPS over {{dtls|DTLS}} is **5684**.`
 						},
 						{
 							type: 'callout',
@@ -216,7 +216,7 @@ The wire-level details that matter operationally: [[kafka|Kafka]]'s reference co
 							title: 'Where CoAP Actually Runs — And the Matter Misconception',
 							text: `The "everyone gets this wrong" fact: **Matter does NOT use [[coap|CoAP]]** for its main payloads. Matter has its own Message Reliability Protocol on [[udp|UDP]]/5540. [[coap|CoAP]] is only used in **Thread network management** (the "[[coap|CoAP]]-TMF" Wireshark dissector). Older blog posts saying "Thread uses [[coap|CoAP]]" are imprecise.
 
-**The QLC Chain surprise**: NETSCOUT's January 2019 scan found **388,344 publicly-reachable [[coap|CoAP]] endpoints, 81% in China**, but most were *not* IoT devices — they were **Chinese smartphones running the QLC Chain {{peer-to-peer|peer-to-peer}} crypto stack**. [[coap|CoAP]]'s largest-deployed-at-scale use case for years was, embarrassingly, P2P crypto on phones.
+**The QLC Chain surprise**: NETSCOUT's January 2019 scan found **388,344 publicly-reachable [[coap|CoAP]] endpoints, 81% in China**, but most were *not* IoT devices — they were **Chinese smartphones running the QLC Chain {{peer-to-peer|peer-to-peer}} crypto stack**. [[coap|CoAP]]'s largest-deployed-at-scale use case for years was, embarrassingly, {{peer-to-peer|P2P}} crypto on phones.
 
 **[[coap|CoAP]] reflection/amplification DDoS** (Jan-Mar 2019) had a measured **34× amplification factor** (21-byte \`GET /.well-known/core\` → ~720-byte response). The often-cited "3,300×" figure is *not* [[coap|CoAP]] — that was memcached in Feb 2018. The [[coap|CoAP]] number is real but smaller than the press coverage suggested.`
 						},

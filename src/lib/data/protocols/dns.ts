@@ -30,7 +30,7 @@ Security is a growing concern: {{dnssec|DNSSEC}} ([[dns|DNS]] Security Extension
 		{
 			title: 'Response cached',
 			description:
-				'Each answer has a TTL (time-to-live). The resolver caches the answer for that duration. Your OS and browser cache it too. Next lookup is instant.'
+				'Each answer has a {{ttl|TTL}} (time-to-live). The resolver caches the answer for that duration. Your OS and browser cache it too. Next lookup is instant.'
 		},
 		{
 			title: 'IP returned',
@@ -42,8 +42,8 @@ Security is a growing concern: {{dnssec|DNSSEC}} ([[dns|DNS]] Security Extension
 		'Every website visit (domain → [[ip|IP]] translation)',
 		'Email delivery (MX record lookups)',
 		'Domain verification (TXT records for SPF, DKIM, DMARC)',
-		'Load balancing (multiple A records, GeoDNS)',
-		'Service discovery in microservices'
+		'{{load-balancing|Load balancing}} (multiple A records, GeoDNS)',
+		'{{service-discovery|Service discovery}} in microservices'
 	],
 	codeExample: {
 		language: 'python',
@@ -232,7 +232,7 @@ curl -sH 'accept: application/dns-json' \\
 		},
 		{
 			title: 'Caching does almost all the work',
-			text: 'A typical recursive resolver answers **95%+ of queries from cache** without contacting any other server. The "distributed hierarchy" is mostly an availability and authority story; the operational hot path is local memory. TTL fields let zone administrators control how long records can be cached.'
+			text: 'A typical recursive resolver answers **95%+ of queries from cache** without contacting any other server. The "distributed hierarchy" is mostly an availability and authority story; the operational hot path is local memory. {{ttl|TTL}} fields let zone administrators control how long records can be cached.'
 		},
 		{
 			title: 'There are only 13 root server letters',
@@ -244,7 +244,7 @@ curl -sH 'accept: application/dns-json' \\
 		pitfalls: [
 			{
 				title: 'TTL of 0 does not mean "never cache"',
-				text: 'Some resolvers ignore TTL=0 and use a minimum-cache-time (often 60 seconds). Other resolvers cache TTL=0 forever. If you need fast cache invalidation, use a moderate TTL (60-300 seconds) and rotate explicitly, not TTL=0.'
+				text: 'Some resolvers ignore {{ttl|TTL}}=0 and use a minimum-cache-time (often 60 seconds). Other resolvers cache {{ttl|TTL}}=0 forever. If you need fast cache invalidation, use a moderate {{ttl|TTL}} (60-300 seconds) and rotate explicitly, not {{ttl|TTL}}=0.'
 			},
 			{
 				title: 'CNAME at the apex breaks email',

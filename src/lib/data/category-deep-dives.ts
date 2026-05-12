@@ -17,14 +17,14 @@ export const categoryDeepDives: CategoryDeepDive[] = [
 				title: 'VLANs and Network Segmentation',
 				text: `In a flat Layer 2 network, every device can see every other device's {{broadcast|broadcast}} traffic. VLANs (Virtual LANs, IEEE 802.1Q) solve this by logically partitioning a physical switch into separate broadcast domains. A single 48-port switch can operate as if it were multiple independent switches.
 
-{{vlan|VLAN}} tagging inserts a 4-byte header into {{frame|Ethernet frames}}, containing a 12-bit VLAN ID (1-4094). Trunk ports carry frames from multiple VLANs between switches; access ports strip the tag and connect to end devices. Inter-VLAN {{routing-table|routing}} requires a Layer 3 device -- either a router on a stick or a Layer 3 switch.
+{{vlan|VLAN}} tagging inserts a 4-byte header into {{frame|Ethernet frames}}, containing a 12-bit {{vlan|VLAN}} ID (1-4094). Trunk ports carry frames from multiple VLANs between switches; access ports strip the tag and connect to end devices. Inter-{{vlan|VLAN}} {{routing-table|routing}} requires a Layer 3 device -- either a router on a stick or a Layer 3 switch.
 
 VLANs are essential for security (isolating guest [[wifi|WiFi]] from the corporate network), performance (reducing broadcast storms), and compliance (PCI DSS requires cardholder data on its own {{subnet|subnet}}).`
 			},
 			{
 				type: 'diagram',
 				title: 'VLAN Tagging and Trunk Architecture',
-				caption: `How 802.1Q {{vlan|VLAN}} tagging works across trunk and access ports. Frames are tagged with VLAN IDs on trunk links and stripped on access ports connecting to end devices.`,
+				caption: `How 802.1Q {{vlan|VLAN}} tagging works across trunk and access ports. Frames are tagged with {{vlan|VLAN}} IDs on trunk links and stripped on access ports connecting to end devices.`,
 				definition: `graph TD
     subgraph Switch_A["Switch A"]
         A_AP1["Access Port<br/>{{vlan|VLAN}} 10<br/>Engineering"]
@@ -71,25 +71,25 @@ In modern data centers, STP is increasingly replaced by fabric architectures (VX
 
 Dynamic [[arp|ARP]] Inspection (DAI) is the primary defense. It intercepts [[arp|ARP]] {{packet|packets}} on untrusted ports and validates them against a [[dhcp|DHCP]] snooping binding table. If the [[ip|IP]]-to-MAC mapping doesn't match a legitimate [[dhcp|DHCP]] {{lease|lease}}, the [[arp|ARP]] packet is dropped.
 
-[[ipv6|IPv6]] replaces [[arp|ARP]] entirely with Neighbor Discovery Protocol (NDP), which runs over [[icmp|ICMPv6]]. While NDP has its own spoofing risks, Secure Neighbor Discovery (SEND) uses cryptographic addressing to authenticate neighbor advertisements.`
+[[ipv6|IPv6]] replaces [[arp|ARP]] entirely with {{ndp|Neighbor Discovery Protocol}} ({{ndp|NDP}}), which runs over [[icmp|ICMPv6]]. While {{ndp|NDP}} has its own spoofing risks, Secure Neighbor Discovery (SEND) uses cryptographic addressing to authenticate neighbor advertisements.`
 			},
 			{
 				type: 'narrative',
 				title: 'Wi-Fi Roaming and Mesh',
-				text: `When you walk from one room to another, your device must seamlessly switch from one {{access-point|access point}} to another -- this is [[wifi|Wi-Fi]] roaming. Basic roaming is slow: the client must re-authenticate with each AP. IEEE 802.11r (Fast BSS Transition) pre-authenticates with target APs, reducing handoff to under 50ms.
+				text: `When you walk from one room to another, your device must seamlessly switch from one {{access-point|access point}} to another -- this is [[wifi|Wi-Fi]] roaming. Basic roaming is slow: the client must re-authenticate with each {{access-point|AP}}. IEEE 802.11r (Fast BSS Transition) pre-authenticates with target APs, reducing handoff to under 50ms.
 
 802.11k (Radio Resource Management) helps clients discover nearby APs without scanning every channel. 802.11v (BSS Transition Management) lets APs steer clients toward less-congested access points. Together, 802.11r/k/v enable enterprise-grade seamless roaming.
 
-[[wifi|Wi-Fi]] mesh networks (802.11s) take this further -- APs connect to each other wirelessly, forming a self-healing fabric. Each AP acts as both an access point and a relay, automatically routing traffic along the best path. Consumer mesh systems (Eero, Google [[wifi|WiFi]]) use proprietary versions of this concept.`
+[[wifi|Wi-Fi]] mesh networks (802.11s) take this further -- APs connect to each other wirelessly, forming a self-healing fabric. Each {{access-point|AP}} acts as both an {{access-point|access point}} and a relay, automatically routing traffic along the best path. Consumer mesh systems (Eero, Google [[wifi|WiFi]]) use proprietary versions of this concept.`
 			},
 			{
 				type: 'narrative',
 				title: 'BGP Route Policies',
 				text: `[[bgp|BGP]] doesn't just {{exchange|exchange}} routes -- operators use policy to control which routes they accept, prefer, and advertise. This is the art of internet traffic engineering.
 
-**Route filtering** uses prefix lists and AS-path filters to accept only legitimate routes. Accepting too broadly risks route leaks; filtering too aggressively disconnects networks. The {{rpki|RPKI}} (Resource {{public-key|Public Key}} Infrastructure) system uses {{certificate|cryptographic certificates}} to validate that an AS is authorized to announce a prefix.
+**Route filtering** uses prefix lists and {{autonomous-system|AS}}-path filters to accept only legitimate routes. Accepting too broadly risks route leaks; filtering too aggressively disconnects networks. The {{rpki|RPKI}} (Resource {{public-key|Public Key}} Infrastructure) system uses {{certificate|cryptographic certificates}} to validate that an {{autonomous-system|AS}} is authorized to announce a prefix.
 
-**Local preference** controls outbound traffic by assigning weights to routes -- higher preference means "prefer this path." **MED (Multi-Exit Discriminator)** hints to neighboring ASes which entry point to use. **AS-path prepending** makes a path look longer to discourage inbound traffic through that link.
+**Local preference** controls outbound traffic by assigning weights to routes -- higher preference means "prefer this path." **MED (Multi-Exit Discriminator)** hints to neighboring ASes which entry point to use. **{{autonomous-system|AS}}-path prepending** makes a path look longer to discourage inbound traffic through that link.
 
 [[bgp|BGP]] communities tag routes with metadata that triggers policies in other networks. Standard communities (like "no-export") prevent route propagation. Large communities (RFC 8092) enable fine-grained traffic engineering across multi-provider networks.`
 			}
@@ -105,18 +105,18 @@ Dynamic [[arp|ARP]] Inspection (DAI) is the primary defense. It intercepts [[arp
 				title: 'Congestion Control Algorithms',
 				text: `{{congestion-control|Congestion control}} is the art of sending data as fast as possible without overwhelming the network. [[tcp|TCP]]'s algorithms have evolved dramatically over four decades.
 
-**[[tcp|TCP]] Tahoe** (1988) introduced {{slow-start|slow start}} and {{congestion-avoidance|congestion avoidance}}. Start with a small {{sliding-window|window}}, double it each {{rtt|RTT}} (slow start), then switch to linear growth after detecting congestion. On {{packet|packet}} loss, reset the window to 1 -- devastating for performance.
+**[[tcp|TCP]] Tahoe** (1988) introduced {{slow-start|slow start}} and {{congestion-avoidance|congestion avoidance}}. Start with a small {{sliding-window|window}}, double it each {{rtt|RTT}} ({{slow-start|slow start}}), then switch to linear growth after detecting congestion. On {{packet|packet}} loss, reset the window to 1 -- devastating for performance.
 
 **[[tcp|TCP]] Reno** (1990) added fast recovery: on triple duplicate {{ack|ACKs}}, halve the window instead of resetting to 1. This simple change dramatically improved throughput.
 
 **{{cubic|CUBIC}}** (2006, Linux default since 2.6.19) uses a cubic function for window growth -- aggressive probing for {{bandwidth|bandwidth}} followed by a gentle approach near the last-known capacity. It's the most widely deployed algorithm today.
 
-**BBR** (2016, Google) took a fundamentally different approach. Instead of reacting to loss, BBR actively measures the bottleneck {{bandwidth|bandwidth}} and minimum RTT, then paces {{segment|packets}} to match the path capacity. It performs dramatically better on long-distance, high-bandwidth links.`
+**{{bbr|BBR}}** (2016, Google) took a fundamentally different approach. Instead of reacting to loss, {{bbr|BBR}} actively measures the bottleneck {{bandwidth|bandwidth}} and minimum {{rtt|RTT}}, then paces {{segment|packets}} to match the path capacity. It performs dramatically better on long-distance, high-bandwidth links.`
 			},
 			{
 				type: 'diagram',
 				title: 'Congestion Window Growth: Tahoe vs Reno vs CUBIC vs BBR',
-				caption: `How different {{congestion-control|congestion control}} algorithms grow and adjust their sending window. Loss-based algorithms (Tahoe, Reno, {{cubic|CUBIC}}) react to packet loss, while BBR probes the actual bottleneck {{bandwidth|bandwidth}}.`,
+				caption: `How different {{congestion-control|congestion control}} algorithms grow and adjust their sending window. Loss-based algorithms (Tahoe, Reno, {{cubic|CUBIC}}) react to packet loss, while {{bbr|BBR}} probes the actual bottleneck {{bandwidth|bandwidth}}.`,
 				definition: `graph TD
     START["Connection Start<br/>cwnd = 1 MSS"] --> SS["{{slow-start|Slow Start}} Phase<br/>cwnd doubles each RTT"]
     SS --> THRESH{"Hit ssthresh<br/>or loss?"}
@@ -142,21 +142,21 @@ Dynamic [[arp|ARP]] Inspection (DAI) is the primary defense. It intercepts [[arp
 
 If the receiver's window shrinks to zero, the sender must stop. To avoid deadlock (the sender waiting for a window update that gets lost), [[tcp|TCP]] uses persist timers -- small probe {{packet|packets}} sent periodically to check if the window has reopened.
 
-Window scaling (RFC 7323) extends the 16-bit window field beyond 65KB using a scale factor negotiated during the {{handshake|handshake}}. Without it, high-{{bandwidth|bandwidth}} long-distance links would be limited to 65KB x (1/RTT) throughput -- roughly 5 Mbps on a 100ms {{rtt|RTT}} path.
+Window scaling ([[rfc:7323|RFC 7323]]) extends the 16-bit window field beyond 65KB using a scale factor negotiated during the {{handshake|handshake}}. Without it, high-{{bandwidth|bandwidth}} long-distance links would be limited to 65KB x (1/{{rtt|RTT}}) throughput -- roughly 5 Mbps on a 100ms {{rtt|RTT}} path.
 
 {{nagle|Nagle's algorithm}} (RFC 896) coalesces small writes into larger {{segment|segments}} to reduce overhead -- but it interacts badly with delayed ACKs, causing 200ms {{latency|latency}} spikes. Most interactive applications disable it with TCP_NODELAY.`
 			},
 			{
 				type: 'callout',
 				title: 'The Bufferbloat Problem',
-				text: 'Oversized router buffers (often hundreds of megabytes) let queues grow enormous before any {{packet|packets}} are dropped. {{congestion-control|Congestion control}} algorithms that rely on loss as a signal (Tahoe, Reno, {{cubic|CUBIC}}) don\'t react until buffers overflow -- by which point {{latency|latency}} has ballooned from 10ms to 1000ms. This "{{bufferbloat|bufferbloat}}" is why your internet feels slow when someone starts a big download. Solutions: Active Queue Management (CoDel, PIE, fq_codel) and algorithms like BBR that measure {{latency|latency}} instead of waiting for loss.'
+				text: 'Oversized router buffers (often hundreds of megabytes) let queues grow enormous before any {{packet|packets}} are dropped. {{congestion-control|Congestion control}} algorithms that rely on loss as a signal (Tahoe, Reno, {{cubic|CUBIC}}) don\'t react until buffers overflow -- by which point {{latency|latency}} has ballooned from 10ms to 1000ms. This "{{bufferbloat|bufferbloat}}" is why your internet feels slow when someone starts a big download. Solutions: {{aqm|Active Queue Management}} (CoDel, PIE, fq_codel) and algorithms like {{bbr|BBR}} that measure {{latency|latency}} instead of waiting for loss.'
 			},
 			{
 				type: 'narrative',
 				title: 'TCP Fast Open',
 				text: `Standard [[tcp|TCP]] requires a full {{rtt|RTT}} for the three-way {{handshake|handshake}} before any data can flow. [[tcp|TCP]] Fast Open (TFO, RFC 7413) allows data in the SYN {{packet|packet}} itself.
 
-On the first {{connection-oriented|connection}}, the server sends a {{cookie|cookie}} in the SYN-ACK. On subsequent connections, the client includes this cookie and application data in the SYN. The server can process the data immediately, saving one full RTT.
+On the first {{connection-oriented|connection}}, the server sends a {{cookie|cookie}} in the SYN-{{ack|ACK}}. On subsequent connections, the client includes this cookie and application data in the SYN. The server can process the data immediately, saving one full {{rtt|RTT}}.
 
 TFO is widely deployed (Linux, macOS, iOS) but faces challenges: middleboxes sometimes strip the TFO option, and {{idempotent|idempotency}} is required (the SYN data might be delivered twice). Despite this, it provides measurable {{latency|latency}} improvements for short-lived connections like web requests.`
 			}
@@ -181,13 +181,13 @@ Conditional requests avoid re-downloading unchanged resources. The server sends 
 			{
 				type: 'narrative',
 				title: 'CORS Mechanics',
-				text: `Cross-Origin Resource Sharing ({{cors|CORS}}) is the browser's security mechanism for controlling cross-origin {{http-method|HTTP}} requests. When JavaScript on example.com tries to fetch from api.other.com, the browser intervenes.
+				text: `{{cors|Cross-Origin Resource Sharing}} ({{cors|CORS}}) is the browser's security mechanism for controlling cross-origin {{http-method|HTTP}} requests. When JavaScript on example.com tries to fetch from api.other.com, the browser intervenes.
 
 **Simple requests** (GET, POST with standard {{header|headers}}) send the request directly with an Origin header. The server responds with Access-Control-Allow-Origin -- if it matches, the browser allows JavaScript to read the response.
 
 **Preflight requests** are triggered by custom headers, PUT/DELETE {{http-method|methods}}, or non-standard Content-Types. The browser sends an OPTIONS request first, asking "is this allowed?" The server responds with allowed methods, headers, and credentials policy. Only then does the actual {{request-response|request}} proceed.
 
-The preflight result is cached (Access-Control-Max-Age), but misconfigured CORS headers are one of the most common sources of frustration in web development. Overly permissive CORS ("Allow-Origin: *") is a security risk; overly restrictive CORS blocks legitimate integrations.`
+The preflight result is cached (Access-Control-Max-Age), but misconfigured {{cors|CORS}} headers are one of the most common sources of frustration in web development. Overly permissive {{cors|CORS}} ("Allow-Origin: *") is a security risk; overly restrictive {{cors|CORS}} blocks legitimate integrations.`
 			},
 			{
 				type: 'diagram',
@@ -213,9 +213,9 @@ The preflight result is cached (Access-Control-Max-Age), but misconfigured CORS 
 				title: 'HPACK and QPACK Compression',
 				text: `{{header|HTTP headers}} are repetitive -- {{cookie|Cookie}}, User-Agent, Accept, and dozens of others are sent identically on every request. [[http2|HTTP/2]]'s {{hpack|HPACK}} compression reduces header overhead by 85-90%.
 
-HPACK maintains a dynamic table shared between {{client-server|client and server}}. Previously-seen header key-value pairs are referenced by index instead of retransmitted. A static table of 61 common headers (like ":method: GET") is pre-populated. Huffman coding further compresses literal values.
+{{hpack|HPACK}} maintains a dynamic table shared between {{client-server|client and server}}. Previously-seen header key-value pairs are referenced by index instead of retransmitted. A static table of 61 common headers (like ":method: GET") is pre-populated. Huffman coding further compresses literal values.
 
-[[http3|HTTP/3]] couldn't use HPACK because it requires in-order delivery (the dynamic table is a {{stream|stream}} of updates). QPACK solves this with a separate, unidirectional stream for table updates, allowing header blocks to be decoded independently -- eliminating {{head-of-line-blocking|head-of-line blocking}} in header decompression.
+[[http3|HTTP/3]] couldn't use {{hpack|HPACK}} because it requires in-order delivery (the dynamic table is a {{stream|stream}} of updates). QPACK solves this with a separate, unidirectional stream for table updates, allowing header blocks to be decoded independently -- eliminating {{head-of-line-blocking|head-of-line blocking}} in header decompression.
 
 This matters because [[http2|HTTP/2]] over [[tcp|TCP]] still suffers from transport-level {{head-of-line-blocking|head-of-line blocking}} -- a single lost {{packet|packet}} stalls all {{multiplexing|multiplexed}} streams. [[http3|HTTP/3]] over [[quic|QUIC]] solves this at the transport layer, and QPACK ensures header decompression doesn't reintroduce it.`
 			},
@@ -338,7 +338,7 @@ The choice depends on your messaging pattern: if you need complex routing ({{top
 				title: 'Exactly-Once Delivery',
 				text: `"Exactly once" is the holy grail of messaging -- and the hardest to achieve. The Two Generals Problem proves that {{exactly-once-delivery|exactly-once delivery}} is impossible over an unreliable network. So how do systems claim to offer it?
 
-The trick is **exactly-once processing**, not exactly-once delivery. The system may deliver a message multiple times, but it ensures the effect happens only once. Techniques:
+The trick is **exactly-once processing**, not {{exactly-once-delivery|exactly-once delivery}}. The system may deliver a message multiple times, but it ensures the effect happens only once. Techniques:
 
 **{{idempotent|Idempotent}} producers** ([[kafka|Kafka]]): each message gets a {{sequence-number|sequence number}}. The {{broker|broker}} deduplicates based on producer ID + sequence, discarding {{retransmission|retransmissions}}.
 
@@ -429,11 +429,11 @@ The ABR algorithm runs in the client's player. It monitors download speed, buffe
 			{
 				type: 'narrative',
 				title: 'PKI and Certificate Chains',
-				text: `The {{pki|Public Key Infrastructure}} is the trust system that makes HTTPS possible. When your browser connects to a server, it receives a {{certificate|certificate}} containing the server's {{public-key|public key}}, the domain name, and a digital signature from a {{certificate-authority|Certificate Authority}} (CA).
+				text: `The {{pki|Public Key Infrastructure}} is the trust system that makes HTTPS possible. When your browser connects to a server, it receives a {{certificate|certificate}} containing the server's {{public-key|public key}}, the domain name, and a digital signature from a {{certificate-authority|Certificate Authority}} ({{certificate-authority|CA}}).
 
-The browser verifies this by following the {{certificate-chain|certificate chain}}: the server cert is signed by an intermediate CA, which is signed by a root CA. Root CAs are pre-installed in your browser/OS (~150 of them). If the chain validates, the padlock icon appears.
+The browser verifies this by following the {{certificate-chain|certificate chain}}: the server cert is signed by an intermediate {{certificate-authority|CA}}, which is signed by a root {{certificate-authority|CA}}. Root CAs are pre-installed in your browser/OS (~150 of them). If the chain validates, the padlock icon appears.
 
-{{certificate-transparency|Certificate Transparency}} (CT) adds an extra layer: all certificates must be logged in public, append-only logs. If a CA is compromised and issues fraudulent certificates, the transparency logs make it detectable. Browsers enforce CT -- certificates not logged are rejected.
+{{certificate-transparency|Certificate Transparency}} (CT) adds an extra layer: all certificates must be logged in public, append-only logs. If a {{certificate-authority|CA}} is compromised and issues fraudulent certificates, the transparency logs make it detectable. Browsers enforce CT -- certificates not logged are rejected.
 
 OCSP (Online {{certificate|Certificate}} Status Protocol) and CRL (Certificate Revocation Lists) handle revoked certificates. OCSP Stapling (where the server includes a signed "not revoked" proof in the [[tls|TLS]] {{tls-handshake|handshake}}) avoids the privacy and performance problems of clients querying CAs directly.`
 			},
@@ -464,7 +464,7 @@ OCSP (Online {{certificate|Certificate}} Status Protocol) and CRL (Certificate R
 			{
 				type: 'narrative',
 				title: 'TLS 1.3 Handshake Walkthrough',
-				text: `[[tls|TLS]] 1.3 (RFC 8446) is a radical simplification over [[tls|TLS]] 1.2. The entire {{tls-handshake|handshake}} completes in a single {{rtt|round trip}}:
+				text: `[[tls|TLS]] 1.3 ([[rfc:8446|RFC 8446]]) is a radical simplification over [[tls|TLS]] 1.2. The entire {{tls-handshake|handshake}} completes in a single {{rtt|round trip}}:
 
 **Client Hello**: The client sends supported {{cipher-suite|cipher suites}}, a random {{nonce|nonce}}, and **key shares** for all supported key {{exchange|exchange}} algorithms (usually X25519 and P-256). By sending keys upfront, the client gambles that the server will accept one -- eliminating the extra round trip that [[tls|TLS]] 1.2 needed.
 
@@ -472,7 +472,7 @@ OCSP (Online {{certificate|Certificate}} Status Protocol) and CRL (Certificate R
 
 **Client Finished**: The client verifies the {{certificate-chain|certificate chain}}, sends its Finished message, and application data can begin flowing immediately.
 
-[[tls|TLS]] 1.3 also supports **{{zero-rtt|0-RTT}} resumption**: if the client has connected before, it can send encrypted application data in the very first {{packet|packet}}. The tradeoff: 0-RTT data can be replayed by an attacker, so it must be {{idempotent|idempotent}} (safe to process twice).`
+[[tls|TLS]] 1.3 also supports **{{zero-rtt|0-RTT}} resumption**: if the client has connected before, it can send encrypted application data in the very first {{packet|packet}}. The tradeoff: {{zero-rtt|0-RTT}} data can be replayed by an attacker, so it must be {{idempotent|idempotent}} (safe to process twice).`
 			},
 			{
 				type: 'narrative',
@@ -483,7 +483,7 @@ OCSP (Online {{certificate|Certificate}} Status Protocol) and CRL (Certificate R
 
 **Recursive resolver**: Does the hard work. If not cached, it starts at the root -- querying one of the 13 root server clusters for ".com." The root points to the .com TLD servers. The TLD server points to example.com's authoritative nameservers. The authoritative server returns the actual {{ip-address|IP address}}.
 
-**Caching**: Every response includes a {{ttl|TTL}}. The recursive resolver caches results for that duration. A TTL of 300 means the record is fresh for 5 minutes -- reducing load on authoritative servers while allowing reasonably fast [[dns|DNS]] changes.
+**Caching**: Every response includes a {{ttl|TTL}}. The recursive resolver caches results for that duration. A {{ttl|TTL}} of 300 means the record is fresh for 5 minutes -- reducing load on authoritative servers while allowing reasonably fast [[dns|DNS]] changes.
 
 {{dnssec|DNSSEC}} adds cryptographic signatures to [[dns|DNS]] responses, preventing {{spoofing|spoofing}}. [[dns|DNS]]-over-HTTPS (DoH) and [[dns|DNS]]-over-[[tls|TLS]] (DoT) encrypt the query itself using [[tls|TLS]], preventing ISPs and network operators from snooping on which domains you're looking up.`
 			}

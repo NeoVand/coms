@@ -40,7 +40,7 @@ Beyond shell access, [[ssh|SSH]]'s {{port-forwarding|port forwarding}} capabilit
 		'Remote server administration',
 		'Git operations (GitHub, GitLab over [[ssh|SSH]])',
 		'Secure file transfer (SCP, SFTP)',
-		'Port forwarding and tunneling',
+		'{{port-forwarding|Port forwarding}} and tunneling',
 		'Automated deployment scripts'
 	],
 	codeExample: {

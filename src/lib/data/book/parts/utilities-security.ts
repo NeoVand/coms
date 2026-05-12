@@ -18,7 +18,7 @@ export const utilitiesSecurity: BookPart = {
 		{
 			id: 'dns',
 			title: 'DNS',
-			synopsis: "The internet's distributed phone book — designed by Paul Mockapetris in 1983.",
+			synopsis: "The internet's distributed phone book — designed by [[pioneer:paul-mockapetris|Paul Mockapetris]] in 1983.",
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -33,7 +33,7 @@ export const utilitiesSecurity: BookPart = {
 							title: 'A Hierarchy You Cannot See',
 							text: `When you type \`example.com\` into a browser, the operating system needs an {{ip-address|IP address}}. Until 1983 every host on ARPANET maintained a flat **HOSTS.TXT** file with all the mappings, distributed by [[ftp|FTP]] from the SRI-NIC. As the network grew past a few hundred hosts, that became absurd — every change required every host to download the whole file.
 
-**[[pioneer:paul-mockapetris|Paul Mockapetris]]** at USC ISI was asked by Jon Postel to design a distributed naming system. He published **RFC 882/883 in November 1983**; the first server was *"Jeeves"* running TOPS-20. Then **RFC 1034/1035 in 1987** finalised the architecture we still use.
+**[[pioneer:paul-mockapetris|Paul Mockapetris]]** at USC ISI was asked by [[pioneer:jon-postel|Jon Postel]] to design a distributed naming system. He published **[[rfc:882|RFC 882]]/883 in November 1983**; the first server was *"Jeeves"* running TOPS-20. Then **[[rfc:1034|RFC 1034]]/1035 in 1987** finalised the architecture we still use.
 
 The first six TLDs were **\`.edu, .gov, .com, .mil, .org, .net\`**, with **\`.int\`** added shortly after. The design has held for forty years across a billion hostnames. The key insight is that **caching does almost all the work** — most lookups are answered by your ISP's resolver from cache; only fresh queries walk the tree.`
 						},
@@ -47,11 +47,11 @@ The first six TLDs were **\`.edu, .gov, .com, .mil, .org, .net\`**, with **\`.in
 							title: 'The Kaminsky Moment, And Modern DNSSEC',
 							text: `**Dan Kaminsky\'s CVE-2008-1447 (July 2008)** turned every recursive resolver in the world into a cache-poisoning target by abusing in-bailiwick referrals + the small (16-bit) [[dns|DNS]] transaction ID. The disclosure was coordinated across all major [[dns|DNS]] vendors; patches added **source-port randomisation** as the immediate mitigation. The deeper fix is **{{dnssec|DNSSEC}}**, which has been deploying glacially.
 
-**KeyTrap (CVE-2023-50387, February 2024)**: ATHENE researchers (Heftrig, Schulmann, Vogel, Waidner) disclosed inherent {{dnssec|DNSSEC}} validation complexity attacks — CVSS 7.5. BIND, Unbound, PowerDNS, Knot all patched, but the underlying DNSSEC RFCs themselves are the issue. DNSSEC is conceptually right and operationally fragile.
+**KeyTrap (CVE-2023-50387, February 2024)**: ATHENE researchers (Heftrig, Schulmann, Vogel, Waidner) disclosed inherent {{dnssec|DNSSEC}} validation complexity attacks — CVSS 7.5. BIND, Unbound, PowerDNS, Knot all patched, but the underlying {{dnssec|DNSSEC}} RFCs themselves are the issue. {{dnssec|DNSSEC}} is conceptually right and operationally fragile.
 
-**2023-2024 milestone**: \`.com\`, \`.net\`, \`.edu\` rolled DNSSEC algorithm 8 → 13 (ECDSA P-256) in Q3-Q4 2023. **ZONEMD** (RFC 8976) added to root zone in September 2023 with SHA-384 from 6 December 2023. **RFC 9619 (2024) "QDCOUNT Is (Usually) One"** formally constrains a 38-year ambiguity in RFC 1035.
+**2023-2024 milestone**: \`.com\`, \`.net\`, \`.edu\` rolled {{dnssec|DNSSEC}} algorithm 8 → 13 (ECDSA P-256) in Q3-Q4 2023. **ZONEMD** (RFC 8976) added to root zone in September 2023 with SHA-384 from 6 December 2023. **RFC 9619 (2024) "QDCOUNT Is (Usually) One"** formally constrains a 38-year ambiguity in [[rfc:1035|RFC 1035]].
 
-**RFC 9460 (November 2023): SVCB / HTTPS RRs** enable apex aliasing, [[http3|HTTP/3]] advertisement, and (critically) ECH key publication. Cloudflare turned ECH on by default in 2023; Firefox 119 enabled ECH by default. The HTTPS RR is what tells the browser "this site speaks h3" before the first connection.`
+**[[rfc:9460|RFC 9460]] (November 2023): SVCB / HTTPS RRs** enable apex aliasing, [[http3|HTTP/3]] advertisement, and (critically) {{ech|ECH}} key publication. Cloudflare turned {{ech|ECH}} on by default in 2023; Firefox 119 enabled {{ech|ECH}} by default. The HTTPS RR is what tells the browser "this site speaks h3" before the first connection.`
 						},
 						{
 							type: 'narrative',
@@ -93,7 +93,7 @@ The first six TLDs were **\`.edu, .gov, .com, .mil, .org, .net\`**, with **\`.in
 							title: 'SSL 1.0 Never Shipped',
 							text: `**Netscape's [[pioneer:taher-elgamal|Taher Elgamal]] designed SSL** in 1994 to encrypt e-commerce on the early web. **SSL 1.0 was never released** — Phil Karlton, Paul Kocher, and others tore it apart in internal review at Netscape (1994). SSL 2.0 (1995) shipped instead but had its own flaws; **SSL 3.0 (1996)** was rewritten from scratch by Paul Kocher and survived for over a decade.
 
-In 1999 the IETF took ownership and renamed it [[tls|TLS]] 1.0 (RFC 2246, January 1999). **The rename was Microsoft's price** for IETF participation. In Tim Dierks's words: "a face-saving rename so it didn't look like the IETF was rubber-stamping Netscape." [[tls|TLS]] 1.0 was, in practice, "really SSL 3.1." Then 1.1 (2006), 1.2 (2008), and **1.3 ([[rfc:8446|RFC 8446]], August 2018)**.
+In 1999 the IETF took ownership and renamed it [[tls|TLS]] 1.0 ([[rfc:2246|RFC 2246]], January 1999). **The rename was Microsoft's price** for IETF participation. In Tim Dierks's words: "a face-saving rename so it didn't look like the IETF was rubber-stamping Netscape." [[tls|TLS]] 1.0 was, in practice, "really SSL 3.1." Then 1.1 (2006), 1.2 (2008), and **1.3 ([[rfc:8446|RFC 8446]], August 2018)**.
 
 [[tls|TLS]] 1.3 was the first version to break wire compatibility — it cut every weak cipher (RC4, 3DES, MD5, SHA-1, RSA key {{exchange|exchange}}), reduced the {{handshake|handshake}} from 2 round-trips to 1 (or 0 for resumption), and adopted authenticated {{encryption|encryption}} ({{aead|AEAD}}) as the only legal cipher mode.`
 						},
@@ -109,24 +109,24 @@ In 1999 the IETF took ownership and renamed it [[tls|TLS]] 1.0 (RFC 2246, Januar
 
 **Heartbleed (CVE-2014-0160, April 2014)**: Independent discovery by Neel Mehta of Google Security and the Codenomicon team in Finland. **One missing length check** in OpenSSL's Heartbeat extension let any client read up to **64 KiB of server memory per request** — including private keys, session keys, passwords. **~17% of the trusted web was vulnerable.** Direct cause of the **Core Infrastructure Initiative**, Google's BoringSSL fork, OpenBSD's LibreSSL fork, and Amazon's s2n-tls.
 
-**DigiNotar (August 2011)**: Iran-linked attacker issued **531 fraudulent certs for 344 domains** including \`*.google.com\`, used in MITM against ~300,000 Iranian Gmail users. **DigiNotar bankrupt within a month.** Forced **{{certificate-transparency|Certificate Transparency}}** into existence as a structural fix.
+**DigiNotar (August 2011)**: Iran-linked attacker issued **531 fraudulent certs for 344 domains** including \`*.google.com\`, used in {{man-in-the-middle|MITM}} against ~300,000 Iranian Gmail users. **DigiNotar bankrupt within a month.** Forced **{{certificate-transparency|Certificate Transparency}}** into existence as a structural fix.
 
 **GREASE ([[rfc:8446|RFC 8701]], January 2020)**: David Benjamin (Google) reserved values like \`0x0A0A, 0x1A1A, ..., 0xFAFA\` in the cipher-suite, named-group, signature, {{alpn|ALPN}}, and version registries. **Chrome injects one at random into every ClientHello** so any server or middlebox that crashes on unknown values is detected before that brittleness ossifies. GREASE is the entire reason [[tls|TLS]] 1.3 deployment did not get blocked by another decade of middlebox ossification.
 
-Two more historical incidents to name: **goto fail (CVE-2014-1266)** — a duplicated \`goto fail;\` line in iOS/OS X 10.9 made Safari silently accept any server's signed key {{exchange|exchange}} — full MITM on every Safari HTTPS connection for ~17 months. **ROBOT (December 2017)** — 19-year-old Bleichenbacher attack still let researchers sign messages with **facebook.com's {{private-key|private key}}** in 2017, affecting F5, Citrix, Cisco, Radware, BouncyCastle, WolfSSL.`
+Two more historical incidents to name: **goto fail (CVE-2014-1266)** — a duplicated \`goto fail;\` line in iOS/OS X 10.9 made Safari silently accept any server's signed key {{exchange|exchange}} — full {{man-in-the-middle|MITM}} on every Safari HTTPS connection for ~17 months. **ROBOT (December 2017)** — 19-year-old Bleichenbacher attack still let researchers sign messages with **facebook.com's {{private-key|private key}}** in 2017, affecting F5, Citrix, Cisco, Radware, BouncyCastle, WolfSSL.`
 						},
 						{
 							type: 'narrative',
 							title: 'The Post-Quantum Migration Is Mostly Done',
 							text: `**>50% of all [[tls|TLS]] 1.3 connections to Cloudflare carried post-quantum hybrid (X25519MLKEM768) by end of 2025**. Within four days of Apple shipping iOS 26 in September 2025, share of PQ-secured iPhone requests jumped from **<2% to 11%, and >25% by December 2025**.
 
-**The 2024 Kyber → {{ml-kem|ML-KEM}} rename literally invalidated [[tls|TLS]] code point 0x6399** in favor of **0x11EC (ML-KEM-768)** after NIST published FIPS 203 on 13 August 2024. Every browser, server, and load balancer had to re-deploy because the wire format changed.
+**The 2024 Kyber → {{ml-kem|ML-KEM}} rename literally invalidated [[tls|TLS]] code point 0x6399** in favor of **0x11EC ({{ml-kem|ML-KEM}}-768)** after NIST published FIPS 203 on 13 August 2024. Every browser, server, and load balancer had to re-deploy because the wire format changed.
 
-**OpenSSL 3.5 LTS (8 April 2025)** made X25519MLKEM768 + X25519 the default keyshare; supported until April 2030. **Encrypted Client Hello published as [[frontier:ech-rfc-9849|RFC 9849]]** in 2025 after 25 drafts; Cloudflare deploys ECH for ~70% of websites it fronts.
+**OpenSSL 3.5 LTS (8 April 2025)** made X25519MLKEM768 + X25519 the default keyshare; supported until April 2030. **{{ech|Encrypted Client Hello}} published as [[frontier:ech-rfc-9849|RFC 9849]]** in 2025 after 25 drafts; Cloudflare deploys {{ech|ECH}} for ~70% of websites it fronts.
 
-**Frontier — 47-day cert lifetimes**: CA/Browser Forum **Ballot SC-081v3 (11 April 2025, Apple-sponsored, 29-yes-0-no)** phases certs to **200 days on 15 March 2026, 100 days on 15 March 2027, 47 days on 15 March 2029**, with DCV reuse falling to **10 days** in the same window. **Manual renewal is no longer an option.** Every {{certificate|certificate}} operation must be automated by 2029.
+**Frontier — 47-day cert lifetimes**: {{certificate-authority|CA}}/Browser Forum **Ballot SC-081v3 (11 April 2025, Apple-sponsored, 29-yes-0-no)** phases certs to **200 days on 15 March 2026, 100 days on 15 March 2027, 47 days on 15 March 2029**, with DCV reuse falling to **10 days** in the same window. **Manual renewal is no longer an option.** Every {{certificate|certificate}} operation must be automated by 2029.
 
-**Let's Encrypt DST Root CA X3 expiry (30 September 2021)** broke older Android, OpenSSL <1.1.0, Sophos UTM, Stripe webhook clients, Roku, Heroku Redis. Root expiration is a **calendar-driven incident** that should have been forecast — and now serves as the canonical case for why root rollovers must be scheduled like rocket launches.`
+**Let's Encrypt DST Root {{certificate-authority|CA}} X3 expiry (30 September 2021)** broke older Android, OpenSSL <1.1.0, Sophos UTM, Stripe webhook clients, Roku, Heroku Redis. Root expiration is a **calendar-driven incident** that should have been forecast — and now serves as the canonical case for why root rollovers must be scheduled like rocket launches.`
 						}
 					]
 				},
@@ -179,7 +179,7 @@ The protocol uses **public-key cryptography** for host and user authentication, 
 
 **CVE-2024-6387 "regreSSHion" (1 July 2024)**: Qualys disclosed pre-auth, unauthenticated **RCE as root** in \`sshd\` on glibc-based Linux. Signal-handler race: \`SIGALRM\` handler calls \`syslog()\` (not async-signal-safe). **Lineage**: regression of CVE-2006-5051 (Mark Dowd's original 2006 report) — the original 2006 fix was wrapped in \`#ifdef DO_LOG_SAFE_IN_SIGHAND\`; in October 2020 OpenSSH 8.5p1's logging refactor accidentally dropped the directive. Qualys identified **~14 million internet-exposed OpenSSH instances potentially in scope**.
 
-**CVE-2023-48795 — Terrapin (18 December 2023)**: Bäumer/Brinkmann/Schwenk at Ruhr University Bochum (USENIX Security 2024 best paper). MITM can delete chosen number of encrypted packets from the start of an [[ssh|SSH]] channel without detection because per-direction sequence numbers begin counting before the first encrypted message. Mitigation: **"Strict KEX" extension implemented in OpenSSH 9.6 (December 2023)**.`
+**CVE-2023-48795 — Terrapin (18 December 2023)**: Bäumer/Brinkmann/Schwenk at Ruhr University Bochum (USENIX Security 2024 best paper). {{man-in-the-middle|MITM}} can delete chosen number of encrypted packets from the start of an [[ssh|SSH]] channel without detection because per-direction sequence numbers begin counting before the first encrypted message. Mitigation: **"Strict KEX" extension implemented in OpenSSH 9.6 (December 2023)**.`
 						},
 						{
 							type: 'narrative',
@@ -188,7 +188,7 @@ The protocol uses **public-key cryptography** for host and user authentication, 
 
 [[ssh|SSH]] was the **first widely-deployed protocol to ship post-quantum crypto by default** — six months before [[tls|TLS]] X25519MLKEM768 reached default-on in iOS 26. The deployment story is the same: NIST FIPS 203 in August 2024 let the OpenSSH team standardise the codepoint, and OpenBSD ships the upstream that downstream Linux distros consume.
 
-**The IETF Secure Shell Maintenance (sshm) WG was chartered August 2024** with chairs Job Snijders (Fastly) and Stephen Farrell (Trinity College Dublin) — first WG dedicated to [[ssh|SSH]] in over a decade. Active drafts include \`draft-ietf-sshm-mlkem-hybrid-kex\` (Kampanakis/Stebila/Hansen) for \`mlkem768x25519-sha256\` and an experimental \`draft-michel-ssh3\` (UCLouvain) re-implementing an [[ssh|SSH]]-equivalent on [[http3|HTTP/3]]+[[quic|QUIC]], claiming 3-RTT session establishment vs [[ssh|SSH]]'s 5-7 (research prototype only).
+**The IETF Secure Shell Maintenance (sshm) WG was chartered August 2024** with chairs Job Snijders (Fastly) and Stephen Farrell (Trinity College Dublin) — first WG dedicated to [[ssh|SSH]] in over a decade. Active drafts include \`draft-ietf-sshm-mlkem-hybrid-kex\` (Kampanakis/Stebila/Hansen) for \`mlkem768x25519-sha256\` and an experimental \`draft-michel-ssh3\` (UCLouvain) re-implementing an [[ssh|SSH]]-equivalent on [[http3|HTTP/3]]+[[quic|QUIC]], claiming 3-{{rtt|RTT}} session establishment vs [[ssh|SSH]]'s 5-7 (research prototype only).
 
 **GitHub host-key exposure (24 March 2023)**: GitHub's RSA [[ssh|SSH]] host {{private-key|private key}} was briefly inadvertently published in a public GitHub repo; users worldwide had to \`ssh-keygen -R github.com\` and re-trust. The remediation cost was the user-visible part; the deeper lesson was about secret-handling in shared development infrastructure.
 
@@ -217,11 +217,11 @@ The protocol uses **public-key cryptography** for host and user authentication, 
 						{
 							type: 'narrative',
 							title: 'David Mills, Father Time of the Internet',
-							text: `**[[pioneer:david-mills|David L. Mills]] (1938-2024)** designed [[ntp|NTP]] at the University of Delaware with DARPA funding. **Died 17 January 2024 in Newark, Delaware, age 85.** Vint Cerf wrote the obituary on the Internet History mailing list. Poul-Henning Kamp called Mills *"the grandfather of the Internet."*
+							text: `**[[pioneer:david-mills|David L. Mills]] (1938-2024)** designed [[ntp|NTP]] at the University of Delaware with DARPA funding. **Died 17 January 2024 in Newark, Delaware, age 85.** [[pioneer:vint-cerf|Vint Cerf]] wrote the obituary on the Internet History mailing list. Poul-Henning Kamp called Mills *"the grandfather of the Internet."*
 
 **Mills was visually impaired from birth** (glaucoma); childhood surgery preserved partial vision in one eye. His vision deteriorated from 2012; **completely blind by 2022**, but continued [[ntp|NTP]] work using large displays and screen readers.
 
-The [[ntp|NTP]] family tree: **RFC 778 (1981)** DCNET Internet Clock Service; **RFC 958 (1985)** first [[ntp|NTP]]; **RFC 1305 (1992)** NTPv3 with Marzullo's algorithm; **RFC 5905 (June 2010) NTPv4** is the current canonical spec.
+The [[ntp|NTP]] family tree: **RFC 778 (1981)** DCNET Internet Clock Service; **[[rfc:958|RFC 958]] (1985)** first [[ntp|NTP]]; **RFC 1305 (1992)** NTPv3 with Marzullo's algorithm; **[[rfc:5905|RFC 5905]] (June 2010) NTPv4** is the current canonical spec.
 
 A client samples the {{rtt|round-trip time}} to a server (call it δ) and the apparent {{offset|offset}} (call it θ), then assumes the server's true time was **θ ± δ/2**. Multiple servers are queried; outliers are clustered out; the surviving median is the new local time. **Marzullo's algorithm** (1984) is the consensus computation; it has not changed in 40 years.`
 						},
@@ -280,7 +280,7 @@ A client samples the {{rtt|round-trip time}} to a server (call it δ) and the ap
 						{
 							type: 'narrative',
 							title: 'Born at CitizenSpace, Late 2006',
-							text: `Late 2006: **Blaine Cook** (Twitter chief architect), **Chris Messina, David Recordon, Larry Halff** (Ma.gnolia) met at a CitizenSpace OpenID gathering and concluded no open API-delegation standard existed. Eran Hammer (Yahoo) took over as community chair; **[[oauth2|OAuth]] Core 1.0** released October 2007. **[[oauth2|OAuth 2.0]]** as RFC 6749 in October 2012.
+							text: `Late 2006: **Blaine Cook** (Twitter chief architect), **Chris Messina, David Recordon, Larry Halff** (Ma.gnolia) met at a CitizenSpace OpenID gathering and concluded no open API-delegation standard existed. Eran Hammer (Yahoo) took over as community chair; **[[oauth2|OAuth]] Core 1.0** released October 2007. **[[oauth2|OAuth 2.0]]** as [[rfc:6749|RFC 6749]] in October 2012.
 
 Before [[oauth2|OAuth]], an app that wanted access to your Google calendar asked you for your Google password. You gave it. The app stored it. When the password was breached, every app that had it was breached. This was *normal* in 2007.
 
@@ -298,7 +298,7 @@ Before [[oauth2|OAuth]], an app that wanted access to your Google calendar asked
 
 **Storm-0558 (May-July 2023)**: ~25 organisations including US State Dept and Commerce had Outlook Web Access mailboxes read for ~one month after the China-aligned actor forged authentication tokens. Microsoft consumer (MSA) signing key from 2016 leaked into a crash dump in April 2021, was moved to a debug environment; an engineer's account was later compromised; a separate flaw caused Microsoft 365 to accept consumer-key-signed tokens for enterprise OWA. The CSRB's April 2024 report called the breach **"preventable"** and Microsoft's security culture **"inadequate."**
 
-**Sign-in-with-Apple JWT forgery (May 2020, Bhavuk Jain)**: Apple would issue valid JWTs for arbitrary email IDs, signed by Apple's key. **Bounty: $100,000.** A single missing check.
+**Sign-in-with-Apple {{jwt|JWT}} forgery (May 2020, Bhavuk Jain)**: Apple would issue valid JWTs for arbitrary email IDs, signed by Apple's key. **Bounty: $100,000.** A single missing check.
 
 **Booking.com "Pass-The-Token" (2023, {{salt|Salt}} Labs)**: [[oauth2|OAuth]] misconfiguration could have enabled account takeover for any user using "Continue with Facebook" — \`redirect_uri\` path manipulation. Also affected Vidio (~100M MAU), Bukalapak, Grammarly, Expo (CVE-2023-28131), Codecademy.
 
@@ -313,7 +313,7 @@ Before [[oauth2|OAuth]], an app that wanted access to your Google calendar asked
 
 **RFC 9700 (January 2025) — [[oauth2|OAuth 2.0]] Security BCP** formally **deprecates the Implicit grant and Resource Owner Password Credentials grant**, mandates Authorization Code + {{pkce|PKCE}} for public clients, requires exact redirect-URI matching.
 
-**[[oauth2|OAuth]] 2.1 status (May 2026)**: \`draft-ietf-oauth-v2-1-15\` (Hardt, Parecki, Lodderstedt; 2 March 2026). **Mandates PKCE for ALL clients; exact redirect-URI matching; removes Implicit and ROPC.** Spring Authorization Server, Cloudflare Workers, and major IdPs already enforce its rules.
+**[[oauth2|OAuth]] 2.1 status (May 2026)**: \`draft-ietf-oauth-v2-1-15\` (Hardt, Parecki, Lodderstedt; 2 March 2026). **Mandates {{pkce|PKCE}} for ALL clients; exact redirect-URI matching; removes Implicit and ROPC.** Spring Authorization Server, Cloudflare Workers, and major IdPs already enforce its rules.
 
 **DPoP (RFC 9449, September 2023)** re-introduces **sender-constraining 11+ years after Hammer's lasting bearer-token complaint** — vindicating his original objection that bearer tokens are too easy to steal and replay.
 
@@ -321,7 +321,7 @@ Before [[oauth2|OAuth]], an app that wanted access to your Google calendar asked
 
 **2025 deployment scale**: Microsoft Entra ID authenticates **>1.2 billion sign-ins per day**; April 2024 spike of **11,000 Entra-blocked attacks per second**. AWS Cognito processes **100 billion+ authentications per month**.
 
-**Frontier**: SD-JWT-VC (\`draft-ietf-oauth-sd-jwt-vc-16\`, April 2026) for selective-disclosure verifiable credentials underpinning the **EU Digital Identity Wallet**.
+**Frontier**: SD-{{jwt|JWT}}-VC (\`draft-ietf-oauth-sd-jwt-vc-16\`, April 2026) for selective-disclosure verifiable credentials underpinning the **EU Digital Identity Wallet**.
 
 **Vittorio Bertocci** — Principal Architect at Okta, host of *Identity, Unlocked* podcast, co-author of RFC 9470 — passed away from pancreatic cancer 7 October 2023; the podcast has not produced new episodes since. The [[oauth2|OAuth]] community lost its most prolific public educator at a critical moment.`
 						}
@@ -351,11 +351,11 @@ Before [[oauth2|OAuth]], an app that wanted access to your Google calendar asked
 							title: 'Ray Tomlinson Picked the @',
 							text: `Email is the longest-running application of the internet. **\`@\` was chosen by Ray Tomlinson at BBN in 1971**, modifying SNDMSG for ARPANET — the symbol that is now everywhere from email to social media handles to AWS resources started with one engineer picking a separator that wasn't in any name.
 
-**[[smtp|SMTP]]** was born from RFC 788 (November 1981) and **[[rfc:5321|RFC 821]] (August 1982)** by [[pioneer:jon-postel|Jon Postel]], assigning **port 25** ("contact socket 25 (31 octal)"). Dave Crocker's RFC 822 same month defined the message header format we still use.
+**[[smtp|SMTP]]** was born from RFC 788 (November 1981) and **[[rfc:5321|RFC 821]] (August 1982)** by [[pioneer:jon-postel|Jon Postel]], assigning **port 25** ("contact socket 25 (31 octal)"). Dave Crocker's [[rfc:822|RFC 822]] same month defined the message header format we still use.
 
 **Sendmail (1981-83)**: Eric Allman at UC Berkeley wrote *delivermail*, then rewrote as **sendmail** which shipped with 4.1cBSD in 1983 — the first BSD with [[tcp|TCP]]/[[ip|IP]]. **Once 80% of public mail servers (1996); now under 4%.** Postfix (Wietse Venema, 1998) and Exim (Philip Hazel, 1995) ate sendmail's share over the next two decades.
 
-**[[smtp|SMTP]] vs X.400 protocol war**: ITU-T's X.400 (Red Book 1984, Blue Book 1988) was the official "future" of email — strongly typed, ASN.1-encoded, with built-in {{encryption|encryption}}. [[smtp|SMTP]] won by being deployable on already-installed Unix machines and by routing around X.400's PTT-billed gateway model. **X.400 survives only in aviation AMHS and military MMHS.**`
+**[[smtp|SMTP]] vs X.400 protocol war**: ITU-T's X.400 (Red Book 1984, Blue Book 1988) was the official "future" of email — strongly typed, {{asn|ASN}}.1-encoded, with built-in {{encryption|encryption}}. [[smtp|SMTP]] won by being deployable on already-installed Unix machines and by routing around X.400's PTT-billed gateway model. **X.400 survives only in aviation AMHS and military MMHS.**`
 						},
 						{
 							type: 'callout',
@@ -365,7 +365,7 @@ Before [[oauth2|OAuth]], an app that wanted access to your Google calendar asked
 						{
 							type: 'narrative',
 							title: 'IMAP and the Crispin Mythology',
-							text: `**[[imap|IMAP]] origin**: **Mark Reed Crispin** (b. 19 July 1956; d. 28 December 2012) wrote the original "Interim Mail Access Protocol" at Stanford KSL in 1985-86; first server was a Xerox Lisp Machine client and TOPS-20 server. RFC 1064 (July 1988) was the first publicly-distributed IMAP2.
+							text: `**[[imap|IMAP]] origin**: **Mark Reed Crispin** (b. 19 July 1956; d. 28 December 2012) wrote the original "Interim Mail Access Protocol" at Stanford KSL in 1985-86; first server was a Xerox Lisp Machine client and TOPS-20 server. [[rfc:1064|RFC 1064]] (July 1988) was the first publicly-distributed IMAP2.
 
 **IMAP3 (RFC 1203, February 1991, J. Rice) was a counter-proposal that never won the marketplace** — IESG reclassified it as **Historic in 1993**; the [[imap|IMAP]] WG used RFC 1176 (IMAP2) as the basis for IMAP4, which is why we have **IMAP4rev1 and IMAP4rev2 but no successful IMAP3**.
 

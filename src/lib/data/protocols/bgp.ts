@@ -10,15 +10,15 @@ export const bgp: Protocol = {
 	rfc: 'RFC 4271',
 	oneLiner:
 		'The routing protocol of the internet — how autonomous systems find paths to each other.',
-	overview: `[[bgp|BGP]] is the protocol that holds the internet together. The internet isn't a single network — it's a network of networks, each called an {{autonomous-system|Autonomous System}} (AS). Your ISP is an AS. Google is an AS. Amazon, universities, governments — each is an AS with its own number. [[bgp|BGP]] is how they learn to reach each other.
+	overview: `[[bgp|BGP]] is the protocol that holds the internet together. The internet isn't a single network — it's a network of networks, each called an {{autonomous-system|Autonomous System}} ({{autonomous-system|AS}}). Your ISP is an {{autonomous-system|AS}}. Google is an {{autonomous-system|AS}}. Amazon, universities, governments — each is an {{autonomous-system|AS}} with its own number. [[bgp|BGP]] is how they learn to reach each other.
 
-When you visit a website, your {{packet|packets}} may cross 5-10 different autonomous systems. [[bgp|BGP]] is the protocol that calculated that path. Each [[bgp|BGP]] router maintains a {{routing-table|table}} of every reachable [[ip|IP]] prefix on the internet (~1 million entries) along with the AS_PATH — the sequence of autonomous systems to traverse. [[bgp|BGP]] is a path-vector protocol: it doesn't just know the next hop, it knows the entire AS-level path.
+When you visit a website, your {{packet|packets}} may cross 5-10 different autonomous systems. [[bgp|BGP]] is the protocol that calculated that path. Each [[bgp|BGP]] router maintains a {{routing-table|table}} of every reachable [[ip|IP]] prefix on the internet (~1 million entries) along with the AS_PATH — the sequence of autonomous systems to traverse. [[bgp|BGP]] is a path-vector protocol: it doesn't just know the next hop, it knows the entire {{autonomous-system|AS}}-level path.
 
 [[bgp|BGP]] runs over [[tcp|TCP]] port 179, relying on [[tcp|TCP]]'s reliable delivery because routing information must never be lost or corrupted. Two [[bgp|BGP]] routers ("peers") establish a session by exchanging OPEN messages, then continuously {{exchange|exchange}} UPDATE messages as routes are announced or withdrawn. {{keep-alive|KEEPALIVE}} messages every ~30 seconds prove the peer is still alive.
 
-A fundamental distinction in [[bgp|BGP]] is between eBGP (External [[bgp|BGP]]) and iBGP (Internal [[bgp|BGP]]). eBGP runs between routers in different autonomous systems — this is the inter-domain routing that connects the internet. iBGP runs between routers within the same AS, distributing externally learned routes internally. The two behave differently: eBGP modifies the AS_PATH on each hop, while iBGP does not, requiring either a full mesh of iBGP peers or route reflectors to prevent loops.
+A fundamental distinction in [[bgp|BGP]] is between eBGP (External [[bgp|BGP]]) and iBGP (Internal [[bgp|BGP]]). eBGP runs between routers in different autonomous systems — this is the inter-domain routing that connects the internet. iBGP runs between routers within the same {{autonomous-system|AS}}, distributing externally learned routes internally. The two behave differently: eBGP modifies the AS_PATH on each hop, while iBGP does not, requiring either a full mesh of iBGP peers or route reflectors to prevent loops.
 
-The consequences of [[bgp|BGP]] mistakes are enormous. The Facebook outage of October 2021 — which took down Facebook, Instagram, and WhatsApp for six hours — was caused by a [[bgp|BGP]] misconfiguration that withdrew all of Facebook's routes from the internet. [[bgp|BGP]] route hijacks, where an AS announces routes it doesn't own, can redirect traffic through malicious networks.`,
+The consequences of [[bgp|BGP]] mistakes are enormous. The Facebook outage of October 2021 — which took down Facebook, Instagram, and WhatsApp for six hours — was caused by a [[bgp|BGP]] misconfiguration that withdrew all of Facebook's routes from the internet. [[bgp|BGP]] route hijacks, where an {{autonomous-system|AS}} announces routes it doesn't own, can redirect traffic through malicious networks.`,
 	howItWorks: [
 		{
 			title: 'TCP session establishment',
@@ -28,7 +28,7 @@ The consequences of [[bgp|BGP]] mistakes are enormous. The Facebook outage of Oc
 		{
 			title: 'OPEN exchange',
 			description:
-				'Both routers {{exchange|exchange}} OPEN messages containing their AS number, [[bgp|BGP]] identifier (router [[ip|IP]]), proposed hold time, and supported capabilities like 4-byte AS numbers.'
+				'Both routers {{exchange|exchange}} OPEN messages containing their {{autonomous-system|AS}} number, [[bgp|BGP]] identifier (router [[ip|IP]]), proposed hold time, and supported capabilities like 4-byte {{autonomous-system|AS}} numbers.'
 		},
 		{
 			title: 'KEEPALIVE confirmation',
@@ -50,8 +50,8 @@ The consequences of [[bgp|BGP]] mistakes are enormous. The Facebook outage of Oc
 		'Internet backbone routing between ISPs and content providers',
 		'Enterprise multi-homing (connecting to multiple ISPs for redundancy)',
 		'Cloud provider network peering (AWS, Google, Azure edge networks)',
-		'Internet Exchange Point (IXP) route exchange',
-		'Content delivery network (CDN) anycast routing'
+		'{{ixp|Internet Exchange Point}} ({{ixp|IXP}}) route exchange',
+		'{{cdn|Content delivery network}} ({{cdn|CDN}}) anycast routing'
 	],
 	codeExample: {
 		language: 'python',
@@ -170,13 +170,13 @@ for await (const elem of parser) {
 			date: '2026',
 			title: 'RPKI/ROV crosses 50% of advertised IP space',
 			description:
-				'NIST Route Origin Validation Monitor and Cloudflare\'s isbgpsafeyet.com show over 50% of advertised [[ip|IPv4]] space now covered by signed Route Origin Authorisations. Most tier-1 transits enforce ROV on incoming announcements.'
+				'NIST {{rov|Route Origin Validation}} Monitor and Cloudflare\'s isbgpsafeyet.com show over 50% of advertised [[ip|IPv4]] space now covered by signed Route Origin Authorisations. Most tier-1 transits enforce {{rov|ROV}} on incoming announcements.'
 		},
 		{
 			date: '2024-2025',
 			title: 'ASPA reaches late-stage IETF draft',
 			description:
-				'AS Provider Authorisation extends {{rpki|RPKI}} to AS-path validation — closing the route-leak hole that origin validation alone cannot fix. Standards finalisation expected 2026-2027.',
+				'{{autonomous-system|AS}} Provider Authorisation extends {{rpki|RPKI}} to {{autonomous-system|AS}}-path validation — closing the route-leak hole that origin validation alone cannot fix. Standards finalisation expected 2026-2027.',
 			source: { url: 'https://datatracker.ietf.org/wg/sidrops/about/', label: 'IETF SIDROPS WG' }
 		},
 		{
@@ -204,7 +204,7 @@ for await (const elem of parser) {
 			org: 'Hyperscalers (AWS, GCP, Azure)',
 			scale: 'Massive AS holdings',
 			description:
-				'AWS (AS 16509), Google (AS 15169), Microsoft (AS 8075) operate some of the largest [[bgp|BGP]] networks in the world. AWS Direct Connect, Azure ExpressRoute, GCP Cloud Interconnect all use [[bgp|BGP]] for customer {{peering|peering}}.'
+				'AWS ({{autonomous-system|AS}} 16509), Google ({{autonomous-system|AS}} 15169), Microsoft ({{autonomous-system|AS}} 8075) operate some of the largest [[bgp|BGP]] networks in the world. AWS Direct Connect, Azure ExpressRoute, GCP Cloud Interconnect all use [[bgp|BGP]] for customer {{peering|peering}}.'
 		}
 	],
 
@@ -215,7 +215,7 @@ for await (const elem of parser) {
 		},
 		{
 			title: 'BGP has no built-in authentication',
-			text: 'When AS A says "I can reach 8.8.8.0/24 in two hops," AS B has to choose whether to believe it. There is no cryptographic proof. This is why every {{bgp-hijack|BGP hijack}} of the last 25 years was possible — [[outage:as-7007-1997|AS 7007]], [[outage:pakistan-youtube-2008|Pakistan/YouTube]], and the same architecture choice that made [[outage:facebook-2021|Facebook 2021]] propagate globally in minutes.'
+			text: 'When {{autonomous-system|AS}} A says "I can reach 8.8.8.0/24 in two hops," {{autonomous-system|AS}} B has to choose whether to believe it. There is no cryptographic proof. This is why every {{bgp-hijack|BGP hijack}} of the last 25 years was possible — [[outage:as-7007-1997|AS 7007]], [[outage:pakistan-youtube-2008|Pakistan/YouTube]], and the same architecture choice that made [[outage:facebook-2021|Facebook 2021]] propagate globally in minutes.'
 		},
 		{
 			title: 'TCP keepalives keep BGP sessions alive',
@@ -235,7 +235,7 @@ for await (const elem of parser) {
 			},
 			{
 				title: 'TTL security gotcha',
-				text: 'Some operators enable GTSM (Generalised TTL Security Mechanism, [[rfc:5082|RFC 5082]]) requiring incoming [[bgp|BGP]] packets to have TTL=255 — defending against off-path injection. If your peer does not also enable it, the session simply never establishes. Check both ends.'
+				text: 'Some operators enable GTSM (Generalised {{ttl|TTL}} Security Mechanism, [[rfc:5082|RFC 5082]]) requiring incoming [[bgp|BGP]] packets to have {{ttl|TTL}}=255 — defending against off-path injection. If your peer does not also enable it, the session simply never establishes. Check both ends.'
 			}
 		]
 	}

@@ -66,7 +66,7 @@ The fix was to install patched IMP software that rejected sequence numbers from 
 
 **Public post-mortems became the norm.** [[rfc:789|RFC 789]] established that engineering organisations publish detailed root-cause analyses of their incidents. The Google SRE book, the Cloudflare incident reports, the Facebook 2021 write-up — all descendants of this practice.
 
-**Sequence-number arithmetic is paranoid by default.** Modern protocols reject any {{sequence-number|sequence number}} that is impossibly far in the past or future, instead of trusting wall-clock-style ordering. [[tcp|TCP]]\'s [[rfc:9293|PAWS]] (Protection Against Wrapped Sequences, RFC 7323) is one example.`
+**Sequence-number arithmetic is paranoid by default.** Modern protocols reject any {{sequence-number|sequence number}} that is impossibly far in the past or future, instead of trusting wall-clock-style ordering. [[tcp|TCP]]\'s [[rfc:9293|PAWS]] (Protection Against Wrapped Sequences, [[rfc:7323|RFC 7323]]) is one example.`
 						}
 					]
 				}
@@ -81,7 +81,7 @@ The fix was to install patched IMP software that rejected sequence numbers from 
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: 'Most-specific wins, by definition. AS 7007 didn\'t hijack anything on purpose — it simply announced everything as a /24, and the entire internet routed through a single underpowered Florida router.',
+					text: 'Most-specific wins, by definition. {{autonomous-system|AS}} 7007 didn\'t hijack anything on purpose — it simply announced everything as a /24, and the entire internet routed through a single underpowered Florida router.',
 					attribution: 'Author'
 				},
 				{
@@ -90,21 +90,21 @@ The fix was to install patched IMP software that rejected sequence numbers from 
 						{
 							type: 'narrative',
 							title: 'The Florida Router That Ate the Internet',
-							text: `On 25 April 1997, an MAI Network Services router in Florida (AS 7007) received the global [[bgp|BGP]] {{routing-table|routing table}} from its upstream — about 50,000 prefixes at the time — and, due to a misconfiguration in a packet inspection appliance, **redistributed every entry as a /24 originating from itself**.
+							text: `On 25 April 1997, an MAI Network Services router in Florida ({{autonomous-system|AS}} 7007) received the global [[bgp|BGP]] {{routing-table|routing table}} from its upstream — about 50,000 prefixes at the time — and, due to a misconfiguration in a packet inspection appliance, **redistributed every entry as a /24 originating from itself**.
 
-[[bgp|BGP]]'s tie-breaking rule is "most-specific prefix wins." A /24 is more specific than a /16 or a /8. So when AS 7007 announced "I am the next hop for 8.8.8.0/24" — and 8.8.10.0/24, and 8.8.11.0/24, and tens of thousands more — every [[bgp|BGP]] router on the planet preferred those new, more-specific routes over the legitimate aggregated announcements.`
+[[bgp|BGP]]'s tie-breaking rule is "most-specific prefix wins." A /24 is more specific than a /16 or a /8. So when {{autonomous-system|AS}} 7007 announced "I am the next hop for 8.8.8.0/24" — and 8.8.10.0/24, and 8.8.11.0/24, and tens of thousands more — every [[bgp|BGP]] router on the planet preferred those new, more-specific routes over the legitimate aggregated announcements.`
 						},
 						{
 							type: 'narrative',
 							title: 'The Cascade',
 							text: `Within minutes, the rest of the internet was sending **the entire internet's traffic** through a single underpowered Florida router. Of course it collapsed under load — the device had nowhere near the forwarding capacity of a tier-1 backbone.
 
-What made the recovery so painful was that there was no way to tell [[bgp|BGP]] "drop those announcements" centrally. Every upstream provider had to manually install filters rejecting the bogus /24s from AS 7007. Sprint took the lead on the global cleanup — pulling cable, updating filter lists, waiting for [[bgp|BGP]] convergence. Most of the global internet was unreachable for over an hour.`
+What made the recovery so painful was that there was no way to tell [[bgp|BGP]] "drop those announcements" centrally. Every upstream provider had to manually install filters rejecting the bogus /24s from {{autonomous-system|AS}} 7007. Sprint took the lead on the global cleanup — pulling cable, updating filter lists, waiting for [[bgp|BGP]] convergence. Most of the global internet was unreachable for over an hour.`
 						},
 						{
 							type: 'callout',
 							title: 'Three controls that did not exist in 1997',
-							text: '**Max-prefix limits** — automatically drop a [[bgp|BGP]] session that announces an unreasonable number of routes. **Prefix filters** — only accept announcements for prefixes a customer is documented to own. **[[frontier:rpki-rov-50-percent|RPKI/ROV]]** — cryptographically validate the origin AS before accepting a route. None of these were standard practice in 1997. All three exist now in large part because of incidents like AS 7007.'
+							text: '**Max-prefix limits** — automatically drop a [[bgp|BGP]] session that announces an unreasonable number of routes. **Prefix filters** — only accept announcements for prefixes a customer is documented to own. **[[frontier:rpki-rov-50-percent|RPKI/ROV]]** — cryptographically validate the origin {{autonomous-system|AS}} before accepting a route. None of these were standard practice in 1997. All three exist now in large part because of incidents like {{autonomous-system|AS}} 7007.'
 						}
 					]
 				},
@@ -117,9 +117,9 @@ What made the recovery so painful was that there was no way to tell [[bgp|BGP]] 
 							title: 'Why It Took Twenty-Five Years to Fix',
 							text: `{{rpki|RPKI}} was specified in 2008. It took until 2026 to cross **50% of advertised [[ip|IP]] space covered**. The reason is the structure of [[bgp|BGP]] deployment.
 
-For RPKI to fix the AS 7007 problem, two parties have to participate: the prefix-holder must publish a Route Origin Authorisation (ROA), and the receiving router must enforce Route Origin Validation (ROV). For the first decade after specification, only a handful of large networks ran ROV. Smaller operators pointed out — correctly — that running ROV with low ROA coverage means dropping legitimate routes from peers who haven\'t signed yet. So nobody enforced. Without enforcement, signing your prefixes had no upside. Classic chicken-and-egg.
+For {{rpki|RPKI}} to fix the {{autonomous-system|AS}} 7007 problem, two parties have to participate: the prefix-holder must publish a Route Origin Authorisation (ROA), and the receiving router must enforce {{rov|Route Origin Validation}} ({{rov|ROV}}). For the first decade after specification, only a handful of large networks ran {{rov|ROV}}. Smaller operators pointed out — correctly — that running {{rov|ROV}} with low ROA coverage means dropping legitimate routes from peers who haven\'t signed yet. So nobody enforced. Without enforcement, signing your prefixes had no upside. Classic chicken-and-egg.
 
-What broke the deadlock was a series of high-profile incidents (2018 Amazon Route 53 / MyEtherWallet hijack, 2018 Iranian Telegram hijack, 2019 SafeHost / China Telecom leak) that made unsigned networks look negligent. By 2022, the major hyperscalers and tier-1s were enforcing. By 2026, [[frontier:rpki-rov-50-percent|over 50%]] of advertised [[ip|IP]] space was covered. {{aspa|ASPA}} — the AS-path validation extension — is the next chapter.`
+What broke the deadlock was a series of high-profile incidents (2018 Amazon Route 53 / MyEtherWallet hijack, 2018 Iranian Telegram hijack, 2019 SafeHost / China Telecom leak) that made unsigned networks look negligent. By 2022, the major hyperscalers and tier-1s were enforcing. By 2026, [[frontier:rpki-rov-50-percent|over 50%]] of advertised [[ip|IP]] space was covered. {{aspa|ASPA}} — the {{autonomous-system|AS}}-path validation extension — is the next chapter.`
 						}
 					]
 				},
@@ -145,10 +145,10 @@ The flaw: if you knew the rough current value, you could **forge** an entire con
 
 1. Send a {{syn-flood|SYN flood}} to a trusted internal host, exhausting its ability to respond.
 2. Send a SYN to the target, source-spoofed to come from the trusted host.
-3. The target sends SYN-ACK to the (silent) trusted host, choosing a fresh ISN.
+3. The target sends SYN-{{ack|ACK}} to the (silent) trusted host, choosing a fresh ISN.
 4. Predict that ISN by knowing the formula plus a sample.
-5. Send a forged ACK back to the target with the predicted {{sequence-number|sequence number}}.
-6. The target sees a valid ACK and the connection is "established." You now have a [[tcp|TCP]] connection appearing to come from the trusted host.
+5. Send a forged {{ack|ACK}} back to the target with the predicted {{sequence-number|sequence number}}.
+6. The target sees a valid {{ack|ACK}} and the connection is "established." You now have a [[tcp|TCP]] connection appearing to come from the trusted host.
 
 Mitnick used this to land a forged connection from a host listed in Shimomura's \`.rhosts\` file, which gave him root access without authentication.`
 						},
@@ -162,7 +162,7 @@ Mitnick used this to land a forged connection from a host listed in Shimomura's 
 							title: 'The Manhunt',
 							text: `Shimomura, a security researcher, took the intrusion personally. He spent two months tracing the attack back to Mitnick — using passive monitoring of compromised hosts, traffic analysis to triangulate Mitnick's dial-up POPs, and ultimately direction-finding equipment to locate his physical address in Raleigh, North Carolina. Mitnick was arrested on 15 February 1995. The story became Shimomura's 1996 book *Takedown* and a Hollywood movie.
 
-The technical legacy outlived the celebrity. **RFC 1948** (Steve Bellovin, 1996) replaced the predictable ISN formula with a hashed function of the connection four-tuple plus a per-boot secret. **RFC 6528** (Larry Joncheray + Fernando Gont, 2012) tightened it further. Modern stacks use cryptographically-random ISNs per [[rfc:9293|RFC 9293]] §3.4.1; predicting them is computationally infeasible.`
+The technical legacy outlived the celebrity. **[[rfc:1948|RFC 1948]]** (Steve Bellovin, 1996) replaced the predictable ISN formula with a hashed function of the connection four-tuple plus a per-boot secret. **RFC 6528** (Larry Joncheray + Fernando Gont, 2012) tightened it further. Modern stacks use cryptographically-random ISNs per [[rfc:9293|RFC 9293]] §3.4.1; predicting them is computationally infeasible.`
 						}
 					]
 				},
@@ -200,14 +200,14 @@ The technical legacy outlived the celebrity. **RFC 1948** (Steve Bellovin, 1996)
 						{
 							type: 'narrative',
 							title: 'A Domestic Block, A Global Outage',
-							text: `On 24 February 2008, the Pakistan Telecommunications Authority ordered domestic ISPs to block YouTube — the immediate cause was a video the government considered blasphemous. Pakistan Telecom (AS 17557) implemented the block using the standard "Remotely Triggered Blackhole" (RTBH) technique: inject a more-specific [[bgp|BGP]] route for YouTube\'s prefix into their internal network, pointing it at a null interface. Any traffic destined for YouTube would be silently dropped at the Pakistan Telecom edge.
+							text: `On 24 February 2008, the Pakistan Telecommunications Authority ordered domestic ISPs to block YouTube — the immediate cause was a video the government considered blasphemous. Pakistan Telecom ({{autonomous-system|AS}} 17557) implemented the block using the standard "Remotely Triggered Blackhole" (RTBH) technique: inject a more-specific [[bgp|BGP]] route for YouTube\'s prefix into their internal network, pointing it at a null interface. Any traffic destined for YouTube would be silently dropped at the Pakistan Telecom edge.
 
 This is fine — **as long as you don't propagate the route outside your network**.`
 						},
 						{
 							type: 'narrative',
 							title: 'The Leak',
-							text: `Pakistan Telecom's upstream provider was PCCW Global (AS 3491), a major Hong Kong-based {{transit|transit}}. PCCW Global was not filtering incoming [[bgp|BGP]] from Pakistan Telecom — they accepted the bogus, more-specific YouTube route and propagated it onward to every PCCW peer. From there it went global.
+							text: `Pakistan Telecom's upstream provider was PCCW Global ({{autonomous-system|AS}} 3491), a major Hong Kong-based {{transit|transit}}. PCCW Global was not filtering incoming [[bgp|BGP]] from Pakistan Telecom — they accepted the bogus, more-specific YouTube route and propagated it onward to every PCCW peer. From there it went global.
 
 Within three minutes of the original injection, the entire internet believed the best path to YouTube\'s prefix was through Pakistan Telecom. Every YouTube request anywhere on the planet was being null-routed by a router in Karachi. YouTube\'s authoritative [[dns|DNS]] continued to resolve correctly; the actual [[tcp|TCP]] connections just disappeared into a black hole.
 
@@ -216,7 +216,7 @@ YouTube was offline globally for two hours. PCCW Global eventually identified th
 						{
 							type: 'callout',
 							title: 'The fix that took fifteen years',
-							text: 'After Pakistan/YouTube, **prefix filtering between providers and customers** went from "best practice" to "industry default" within a year. The deeper structural fix — **[[frontier:rpki-rov-50-percent|RPKI / Route Origin Validation]]** — let any router cryptographically verify that an AS was authorised to originate a prefix, regardless of how the announcement reached them. {{rpki|RPKI}} was specified in 2008 (the same year as Pakistan/YouTube). It took until 2026 to cross 50% deployment.'
+							text: 'After Pakistan/YouTube, **prefix filtering between providers and customers** went from "best practice" to "industry default" within a year. The deeper structural fix — **[[frontier:rpki-rov-50-percent|RPKI / Route Origin Validation]]** — let any router cryptographically verify that an {{autonomous-system|AS}} was authorised to originate a prefix, regardless of how the announcement reached them. {{rpki|RPKI}} was specified in 2008 (the same year as Pakistan/YouTube). It took until 2026 to cross 50% deployment.'
 						}
 					]
 				},
@@ -228,11 +228,11 @@ YouTube was offline globally for two hours. PCCW Global eventually identified th
 						{
 							type: 'narrative',
 							title: 'Why "Most Specific Wins" Is Both Genius and Curse',
-							text: `[[bgp|BGP]]\'s "most specific prefix wins" rule has a beautiful property: it lets traffic engineering work without coordination. If your origin announces a /16 and your CDN announces a /20 inside that block, every router automatically prefers the CDN — no negotiation needed.
+							text: `[[bgp|BGP]]\'s "most specific prefix wins" rule has a beautiful property: it lets traffic engineering work without coordination. If your origin announces a /16 and your {{cdn|CDN}} announces a /20 inside that block, every router automatically prefers the {{cdn|CDN}} — no negotiation needed.
 
 The same rule is what made Pakistan/YouTube possible. A /24 inside YouTube\'s /22 wins, regardless of who is announcing it. The combination of "most specific wins" + "no origin validation" + "global propagation" turned every upstream provider into a single point of failure for every downstream customer\'s prefix integrity.
 
-This is the structural reason [[bgp|BGP]] needs cryptography to fix it, not just better operational hygiene. Hygiene catches typos; cryptography catches deliberate hijacks. {{rpki|RPKI}} provides the cryptography. {{aspa|ASPA}} (the AS-path validation extension, in IETF draft) closes the route-leak hole that origin validation alone cannot fix — where AS X **does** legitimately originate the prefix, but its upstream then leaks the route through an unintended path.`
+This is the structural reason [[bgp|BGP]] needs cryptography to fix it, not just better operational hygiene. Hygiene catches typos; cryptography catches deliberate hijacks. {{rpki|RPKI}} provides the cryptography. {{aspa|ASPA}} (the {{autonomous-system|AS}}-path validation extension, in IETF draft) closes the route-leak hole that origin validation alone cannot fix — where {{autonomous-system|AS}} X **does** legitimately originate the prefix, but its upstream then leaks the route through an unintended path.`
 						}
 					]
 				}
@@ -243,7 +243,7 @@ This is the structural reason [[bgp|BGP]] needs cryptography to fix it, not just
 		{
 			id: 'china-telecom-2010',
 			title: 'China Telecom 2010',
-			synopsis: '15% of the internet routed through a single AS for 18 minutes.',
+			synopsis: '15% of the internet routed through a single {{autonomous-system|AS}} for 18 minutes.',
 			slots: [
 				{
 					kind: 'prose',
@@ -251,7 +251,7 @@ This is the structural reason [[bgp|BGP]] needs cryptography to fix it, not just
 						{
 							type: 'narrative',
 							title: 'Brief, Massive, Unexplained',
-							text: `On 8 April 2010 at 15:54 UTC, China Telecom (AS 23724) announced [[bgp|BGP]] routes for approximately **37,000 prefixes** — about **15% of the global {{routing-table|routing table}}** — claiming to be the best path. For 18 minutes, traffic destined for U.S. military networks (.mil), several .gov domains, and major commercial sites (Dell, Yahoo, IBM, Microsoft) was traversing China Telecom's network on its way to the legitimate destination.
+							text: `On 8 April 2010 at 15:54 UTC, China Telecom ({{autonomous-system|AS}} 23724) announced [[bgp|BGP]] routes for approximately **37,000 prefixes** — about **15% of the global {{routing-table|routing table}}** — claiming to be the best path. For 18 minutes, traffic destined for U.S. military networks (.mil), several .gov domains, and major commercial sites (Dell, Yahoo, IBM, Microsoft) was traversing China Telecom's network on its way to the legitimate destination.
 
 The leak was caught by automated monitoring (BGPmon, RIPE RIS, RouteViews) within minutes. China Telecom\'s upstreams installed filters around 16:12 UTC, and [[bgp|BGP]] convergence restored normal routing by 16:18.`
 						},
@@ -262,14 +262,14 @@ The leak was caught by automated monitoring (BGPmon, RIPE RIS, RouteViews) withi
 
 The U.S.-China Economic and Security Review Commission's 2010 annual report flagged the incident as a potential intelligence concern, noting that 18 minutes of unauthorised observation of military traffic could yield significant signals-intelligence value, even if the traffic was encrypted (cryptographic metadata, traffic-volume patterns, source/destination IPs).
 
-China Telecom's official response described it as a routine misconfiguration during a software upgrade. Several technical analyses (notably from Renesys / Dyn) concluded the announcement pattern was **consistent with both** an accidental redistribution of internal routes to external peers (the AS 7007 mechanism) **and** a deliberate route hijack disguised as a misconfiguration.
+China Telecom's official response described it as a routine misconfiguration during a software upgrade. Several technical analyses (notably from Renesys / Dyn) concluded the announcement pattern was **consistent with both** an accidental redistribution of internal routes to external peers (the {{autonomous-system|AS}} 7007 mechanism) **and** a deliberate route hijack disguised as a misconfiguration.
 
-The technical fact is unambiguous: 15% of the global internet's traffic had a brief, unauthorised observer in the path. Whether or not the observer was deliberate, the architectural lesson is the same — **[[bgp|BGP]] gives any AS the power to do this, accidentally or on purpose, in seconds**.`
+The technical fact is unambiguous: 15% of the global internet's traffic had a brief, unauthorised observer in the path. Whether or not the observer was deliberate, the architectural lesson is the same — **[[bgp|BGP]] gives any {{autonomous-system|AS}} the power to do this, accidentally or on purpose, in seconds**.`
 						},
 						{
 							type: 'callout',
 							title: 'The "everything is encrypted" reply does not hold',
-							text: 'A natural reaction to {{bgp-hijack|BGP hijack}} incidents is "but the data is encrypted, so what does it matter if a third party sees it?" Two reasons it matters. First, **cryptographic metadata** ({{tls-handshake|TLS handshake}} fingerprints, {{certificate-chain|certificate chains}}, SNI hostnames) reveals more than people realise. Second, **traffic analysis** — even on encrypted flows, packet sizes and timing leak intent. A connection burst between a Pentagon [[ip|IP]] and a defence contractor [[ip|IP]], observed by a foreign AS, is intelligence regardless of cipher. This is part of why {{ech|ECH (Encrypted Client Hello)}} is a current [[tls|TLS]] frontier.'
+							text: 'A natural reaction to {{bgp-hijack|BGP hijack}} incidents is "but the data is encrypted, so what does it matter if a third party sees it?" Two reasons it matters. First, **cryptographic metadata** ({{tls-handshake|TLS handshake}} fingerprints, {{certificate-chain|certificate chains}}, {{sni|SNI}} hostnames) reveals more than people realise. Second, **traffic analysis** — even on encrypted flows, packet sizes and timing leak intent. A connection burst between a Pentagon [[ip|IP]] and a defence contractor [[ip|IP]], observed by a foreign {{autonomous-system|AS}}, is intelligence regardless of cipher. This is part of why {{ech|ECH (Encrypted Client Hello)}} is a current [[tls|TLS]] frontier.'
 						}
 					]
 				},
@@ -283,7 +283,7 @@ The technical fact is unambiguous: 15% of the global internet's traffic had a br
 							title: 'Why This Incident Funded RPKI Deployment',
 							text: `China Telecom 2010 was a turning point for U.S. government interest in **secure routing** infrastructure. The Department of Homeland Security funded several {{rpki|RPKI}} deployment efforts in the years following. The .gov and .mil top-level domains became some of the earliest large-scale ROA signers — a politically straightforward action that materially improved the security of U.S. federal traffic.
 
-The deeper challenge was always private-sector adoption. Government agencies could mandate RPKI for their own networks, but the bulk of internet traffic flows through commercial ISPs and content networks. The shift came in 2018-2022 when major hyperscalers (Cloudflare, Google, Amazon, Meta) made RPKI a publicly-stated requirement for their {{peering|peering}} arrangements. Networks that wanted to peer at scale had to sign their prefixes; those that wouldn't became increasingly isolated. By 2026, [[frontier:rpki-rov-50-percent|over 50%]] of advertised [[ip|IP]] space is covered.`
+The deeper challenge was always private-sector adoption. Government agencies could mandate {{rpki|RPKI}} for their own networks, but the bulk of internet traffic flows through commercial ISPs and content networks. The shift came in 2018-2022 when major hyperscalers (Cloudflare, Google, Amazon, Meta) made {{rpki|RPKI}} a publicly-stated requirement for their {{peering|peering}} arrangements. Networks that wanted to peer at scale had to sign their prefixes; those that wouldn't became increasingly isolated. By 2026, [[frontier:rpki-rov-50-percent|over 50%]] of advertised [[ip|IP]] space is covered.`
 						}
 					]
 				}
@@ -309,24 +309,24 @@ The deeper challenge was always private-sector adoption. Government agencies cou
 							title: 'Integer Overflow in the Most Critical Data Path',
 							text: `In June 2019, Netflix security researcher Jonathan Looney found that a maliciously crafted [[tcp|TCP]] packet with carefully chosen Selective Acknowledgement ({{sack|SACK}}) options could trigger an integer overflow in the Linux kernel's [[tcp|TCP]] stack, leading to a kernel panic.
 
-The bug, **CVE-2019-11477** ("SACK Panic"), affected every Linux kernel from 2.6.29 (2009) through 5.1 (2019) — **ten years of unpatched code in the heart of every Linux server on the internet**. A single [[tcp|TCP]] packet, no authentication required, would crash any vulnerable host. Service providers, cloud hyperscalers, container hosts, embedded systems — all simultaneously vulnerable.
+The bug, **CVE-2019-11477** ("{{sack|SACK}} Panic"), affected every Linux kernel from 2.6.29 (2009) through 5.1 (2019) — **ten years of unpatched code in the heart of every Linux server on the internet**. A single [[tcp|TCP]] packet, no authentication required, would crash any vulnerable host. Service providers, cloud hyperscalers, container hosts, embedded systems — all simultaneously vulnerable.
 
 The disclosure was coordinated across Red Hat, Canonical, SUSE, Debian, AWS, Google, and the Linux kernel team. Patches shipped within hours of public disclosure on 17 June 2019, but the full deployment took weeks across the global Linux fleet.`
 						},
 						{
 							type: 'narrative',
 							title: 'How a 23-Year-Old Option Survived Undetected',
-							text: `The {{sack|SACK}} option itself (RFC 2018, October 1996) had been working correctly for **23 years**. The bug was not in SACK\'s logic; it was in a specific edge-case interaction with the **frags_per_skb** limit, increased in 2009 to support larger send buffers.
+							text: `The {{sack|SACK}} option itself ([[rfc:2018|RFC 2018]], October 1996) had been working correctly for **23 years**. The bug was not in {{sack|SACK}}\'s logic; it was in a specific edge-case interaction with the **frags_per_skb** limit, increased in 2009 to support larger send buffers.
 
-When SACK indicated a large number of non-contiguous holes in the receive window, the kernel\'s logic for splitting the retransmit buffer into smaller skbs (socket buffers) miscalculated a 16-bit length field. The miscalculation overflowed, the kernel asserted, and the BUG_ON() panicked the system.
+When {{sack|SACK}} indicated a large number of non-contiguous holes in the receive window, the kernel\'s logic for splitting the retransmit buffer into smaller skbs (socket buffers) miscalculated a 16-bit length field. The miscalculation overflowed, the kernel asserted, and the BUG_ON() panicked the system.
 
 The bug had been present in production code since 2009. It survived because:
 1. The trigger required a specific combination of [[tcp|TCP]] options that no real client sent in normal traffic.
-2. The Linux test suite did not fuzz SACK option boundaries.
+2. The Linux test suite did not fuzz {{sack|SACK}} option boundaries.
 3. Most performance benchmarks did not exercise the path.
-4. SACK was considered "battle-tested" — engineers focused new attention on newer code paths instead.
+4. {{sack|SACK}} was considered "battle-tested" — engineers focused new attention on newer code paths instead.
 
-Looney found it by writing a fuzzer that combined SACK with [[tcp|TCP]]\'s other options in unusual sequences. The same fuzzer found three additional related bugs (CVE-2019-11478, 11479, 11479) that were patched in the same coordinated disclosure.`
+Looney found it by writing a fuzzer that combined {{sack|SACK}} with [[tcp|TCP]]\'s other options in unusual sequences. The same fuzzer found three additional related bugs (CVE-2019-11478, 11479, 11479) that were patched in the same coordinated disclosure.`
 						},
 						{
 							type: 'callout',
@@ -349,7 +349,7 @@ Looney found it by writing a fuzzer that combined SACK with [[tcp|TCP]]\'s other
 
 **Faster CVE response in distributed Linux environments.** Pre-2019, large fleets often took weeks to roll out a kernel patch — full reboot rotations, slow validation cycles. {{sack|SACK}} Panic forced the industry to invest in **live patching** (Red Hat\'s kpatch, Canonical\'s Livepatch, SUSE\'s kGraft) that can apply security fixes to a running kernel without reboot. By 2026, hyperscalers routinely live-patch kernel CVEs across millions of hosts within hours.
 
-**Per-feature kill switches.** The SACK Panic patch is gated behind a sysctl (\`net.ipv4.tcp_sack\`) so operators can disable SACK entirely if a future bug surfaces — without waiting for a kernel update. Modern kernel networking is full of such switches: an emergency lever for every major optional feature.`
+**Per-feature kill switches.** The {{sack|SACK}} Panic patch is gated behind a sysctl (\`net.ipv4.tcp_sack\`) so operators can disable {{sack|SACK}} entirely if a future bug surfaces — without waiting for a kernel update. Modern kernel networking is full of such switches: an emergency lever for every major optional feature.`
 						}
 					]
 				}
@@ -373,9 +373,9 @@ Looney found it by writing a fuzzer that combined SACK with [[tcp|TCP]]\'s other
 						{
 							type: 'narrative',
 							title: 'A Rule That Killed Its Own Delivery Mechanism',
-							text: `On 30 August 2020, CenturyLink (AS 209 — one of the largest tier-1 backbones in the U.S., now branded Lumen) propagated a [[bgp|BGP]] **Flowspec** rule across its global network.
+							text: `On 30 August 2020, CenturyLink ({{autonomous-system|AS}} 209 — one of the largest tier-1 backbones in the U.S., now branded Lumen) propagated a [[bgp|BGP]] **Flowspec** rule across its global network.
 
-Flowspec (RFC 5575, RFC 8955) lets operators install {{firewall|firewall}}-like rules through [[bgp|BGP]] — useful for distributing DDoS mitigation rules across thousands of routers in seconds. The rule in question was supposed to filter traffic for one customer\'s DDoS protection.
+Flowspec ([[rfc:5575|RFC 5575]], RFC 8955) lets operators install {{firewall|firewall}}-like rules through [[bgp|BGP]] — useful for distributing DDoS mitigation rules across thousands of routers in seconds. The rule in question was supposed to filter traffic for one customer\'s DDoS protection.
 
 The catastrophic mistake: the rule\'s match criteria included [[bgp|BGP]] control traffic itself. Routers received the rule, applied it, and immediately began dropping the [[bgp|BGP]] keepalive packets carrying the next rule. [[bgp|BGP]] sessions timed out across the network. As sessions dropped, [[bgp|BGP]] withdrew every prefix learned through them. The network entered a cascading-failure mode.`
 						},

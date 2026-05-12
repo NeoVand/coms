@@ -12,9 +12,9 @@ export const ip: Protocol = {
 		'The addressing system of the internet — every packet gets a source and destination [[ip|IP]].',
 	overview: `[[ip|IP]] is the protocol that makes the internet an internet. It assigns every device a logical address and defines how {{packet|packets}} are routed from source to destination across networks of networks. Every piece of data you send — whether it's a web request, an email, or a video frame — is wrapped in an [[ip|IP]] packet with a source address, a destination address, and enough metadata for routers to forward it {{hop|hop}} by hop to its destination.
 
-The [[ip|IPv4]] header is 20 bytes (plus options) and carries critical fields: Source [[ip|IP]], Destination [[ip|IP]], {{ttl|TTL}} (Time to Live, decremented by each router to prevent infinite loops), Protocol (6 for [[tcp|TCP]], 17 for [[udp|UDP]], 1 for [[icmp|ICMP]]), and {{fragmentation|fragmentation}} fields for splitting oversized packets. [[ip|IP]] is a best-effort, {{connectionless|connectionless}} protocol — it makes no guarantees about delivery, ordering, or integrity. Those responsibilities belong to the transport layer: [[tcp|TCP]] adds reliability, [[udp|UDP]] adds... nothing (and that's the point).
+The [[ip|IPv4]] header is 20 bytes (plus options) and carries critical fields: Source [[ip|IP]], Destination [[ip|IP]], {{ttl|TTL}} ({{ttl|Time to Live}}, decremented by each router to prevent infinite loops), Protocol (6 for [[tcp|TCP]], 17 for [[udp|UDP]], 1 for [[icmp|ICMP]]), and {{fragmentation|fragmentation}} fields for splitting oversized packets. [[ip|IP]] is a best-effort, {{connectionless|connectionless}} protocol — it makes no guarantees about delivery, ordering, or integrity. Those responsibilities belong to the transport layer: [[tcp|TCP]] adds reliability, [[udp|UDP]] adds... nothing (and that's the point).
 
-[[ip|IPv4]]'s 32-bit address space (about 4.3 billion addresses) seemed vast in 1981 but was effectively exhausted by 2011. {{nat|NAT}} (Network Address Translation) extended its life by letting entire networks hide behind a single public [[ip|IP]], but the real solution is [[ipv6|IPv6]] with its 128-bit addresses (3.4 \u00d7 10\u00b3\u2078 addresses — enough for every atom on Earth). [[ipv6|IPv6]] adoption is growing but [[ip|IPv4]] still carries the majority of internet traffic. At the local network level, [[arp|ARP]] maps [[ip|IP]] addresses to [[ethernet|Ethernet]] MAC addresses, and [[dns|DNS]] maps human-readable domain names to [[ip|IP]] addresses.`,
+[[ip|IPv4]]'s 32-bit address space (about 4.3 billion addresses) seemed vast in 1981 but was effectively exhausted by 2011. {{nat|NAT}} ({{nat|Network Address Translation}}) extended its life by letting entire networks hide behind a single public [[ip|IP]], but the real solution is [[ipv6|IPv6]] with its 128-bit addresses (3.4 \u00d7 10\u00b3\u2078 addresses — enough for every atom on Earth). [[ipv6|IPv6]] adoption is growing but [[ip|IPv4]] still carries the majority of internet traffic. At the local network level, [[arp|ARP]] maps [[ip|IP]] addresses to [[ethernet|Ethernet]] MAC addresses, and [[dns|DNS]] maps human-readable domain names to [[ip|IP]] addresses.`,
 	howItWorks: [
 		{
 			title: 'Packet construction',
@@ -29,12 +29,12 @@ The [[ip|IPv4]] header is 20 bytes (plus options) and carries critical fields: S
 		{
 			title: 'Router forwarding and TTL decrement',
 			description:
-				'Each router examines the destination [[ip|IP]], consults its {{routing-table|routing table}}, decrements the TTL by 1, recalculates the header {{checksum|checksum}}, and forwards the packet out the appropriate interface. If TTL reaches 0, the packet is dropped and an [[icmp|ICMP]] Time Exceeded message is sent back (this is how traceroute works).'
+				'Each router examines the destination [[ip|IP]], consults its {{routing-table|routing table}}, decrements the {{ttl|TTL}} by 1, recalculates the header {{checksum|checksum}}, and forwards the packet out the appropriate interface. If {{ttl|TTL}} reaches 0, the packet is dropped and an [[icmp|ICMP]] Time Exceeded message is sent back (this is how traceroute works).'
 		},
 		{
 			title: 'Fragmentation if needed',
 			description:
-				"If a packet is larger than the next link's {{mtu|MTU}} (Maximum Transmission Unit, typically 1500 bytes for [[ethernet|Ethernet]]), the router {{fragmentation|fragments}} it into smaller [[ip|IP]] packets. Each fragment carries {{offset|offset}} information so the destination can reassemble them. Modern practice avoids {{fragmentation|fragmentation}} using {{path-mtu-discovery|Path MTU Discovery}}."
+				"If a packet is larger than the next link's {{mtu|MTU}} ({{mtu|Maximum Transmission Unit}}, typically 1500 bytes for [[ethernet|Ethernet]]), the router {{fragmentation|fragments}} it into smaller [[ip|IP]] packets. Each fragment carries {{offset|offset}} information so the destination can reassemble them. Modern practice avoids {{fragmentation|fragmentation}} using {{path-mtu-discovery|Path MTU Discovery}}."
 		},
 		{
 			title: 'Destination reassembly and delivery',
@@ -45,9 +45,9 @@ The [[ip|IPv4]] header is 20 bytes (plus options) and carries critical fields: S
 	useCases: [
 		'Global internet packet routing between networks',
 		'Local network communication between devices on the same subnet',
-		'VPN tunneling ([[ip|IP]]-in-[[ip|IP]] encapsulation)',
-		'Multicast delivery for streaming and service discovery',
-		'Quality of Service (QoS) via DSCP/ToS header fields'
+		'{{vpn|VPN}} tunneling ([[ip|IP]]-in-[[ip|IP]] encapsulation)',
+		'{{multicast|Multicast}} delivery for streaming and {{service-discovery|service discovery}}',
+		'{{qos|Quality of Service}} (QoS) via {{dscp|DSCP}}/ToS header fields'
 	],
 	codeExample: {
 		language: 'python',
@@ -186,7 +186,7 @@ sudo tcpdump -i eth0 -v -c 5 ip`
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/IPv4_Packet-en.svg/500px-IPv4_Packet-en.svg.png',
 		alt: 'Diagram of the IPv4 packet header showing all fields: version, IHL, DSCP, total length, identification, flags, TTL, protocol, checksum, source and destination addresses',
 		caption:
-			'The [[ip|IPv4]] packet header — every packet on the internet carries this 20-byte structure. Key fields include TTL (decremented by each router to prevent loops), Protocol (6=[[tcp|TCP]], 17=[[udp|UDP]]), and the source/destination [[ip|IP]] addresses that make global routing possible.',
+			'The [[ip|IPv4]] packet header — every packet on the internet carries this 20-byte structure. Key fields include {{ttl|TTL}} (decremented by each router to prevent loops), Protocol (6=[[tcp|TCP]], 17=[[udp|UDP]]), and the source/destination [[ip|IP]] addresses that make global routing possible.',
 		credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 	}
 };

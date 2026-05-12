@@ -7,7 +7,7 @@ export const transportStory: CategoryStory = {
 		{
 			type: 'narrative',
 			title: 'The Need for Reliable Transport',
-			text: `The year was 1973, and the ARPANET had a problem. The network worked \u2014 mostly \u2014 but its underlying protocol, the Network Control Program (NCP), was welded to the ARPANET hardware. Every node had to be an ARPANET node. There was no way to bridge to a satellite network, a packet radio network, or any future network that hadn't been invented yet.\n\nVint Cerf and Bob Kahn saw what others didn't: the real challenge wasn't building one network, it was connecting all of them. They needed a protocol that made no assumptions about the underlying network \u2014 one that could ride on top of anything. That insight became [[tcp]], and later, when guaranteed delivery proved too heavy for every use case, its lighter sibling [[udp]]. Together, they formed the transport layer that would carry every email, every web page, and every video call the world would ever make.`
+			text: `The year was 1973, and the ARPANET had a problem. The network worked \u2014 mostly \u2014 but its underlying protocol, the Network Control Program (NCP), was welded to the ARPANET hardware. Every node had to be an ARPANET node. There was no way to bridge to a satellite network, a packet radio network, or any future network that hadn't been invented yet.\n\n[[pioneer:vint-cerf|Vint Cerf]] and [[pioneer:bob-kahn|Bob Kahn]] saw what others didn't: the real challenge wasn't building one network, it was connecting all of them. They needed a protocol that made no assumptions about the underlying network \u2014 one that could ride on top of anything. That insight became [[tcp]], and later, when guaranteed delivery proved too heavy for every use case, its lighter sibling [[udp]]. Together, they formed the transport layer that would carry every email, every web page, and every video call the world would ever make.`
 		},
 		{
 			type: 'image',
@@ -116,7 +116,7 @@ export const transportStory: CategoryStory = {
 		{
 			type: 'callout',
 			title: "Postel's Law",
-			text: "Jon Postel's robustness principle, articulated in [[rfc:793|RFC 793]]: 'Be conservative in what you send, be liberal in what you accept.' This philosophy shaped how the entire internet handles interoperability and became a guiding principle for protocol design."
+			text: "[[pioneer:jon-postel|Jon Postel]]'s robustness principle, articulated in [[rfc:793|RFC 793]]: 'Be conservative in what you send, be liberal in what you accept.' This philosophy shaped how the entire internet handles interoperability and became a guiding principle for protocol design."
 		},
 		{
 			type: 'diagram',

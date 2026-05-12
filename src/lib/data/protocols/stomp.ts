@@ -28,12 +28,12 @@ This simplicity is [[stomp|STOMP]]'s superpower. You can literally telnet to a [
 		{
 			title: 'SEND',
 			description:
-				'Client sends a message to a destination. The body can be any content type — {{json|JSON}}, XML, plain text, binary.'
+				'Client sends a message to a destination. The body can be any content type — {{json|JSON}}, {{xml|XML}}, plain text, binary.'
 		},
 		{
 			title: 'MESSAGE delivery',
 			description:
-				'Broker delivers matching messages to subscribers as MESSAGE frames. Client can ACK/NACK for reliable delivery.'
+				'Broker delivers matching messages to subscribers as MESSAGE frames. Client can {{ack|ACK}}/NACK for reliable delivery.'
 		}
 	],
 	useCases: [

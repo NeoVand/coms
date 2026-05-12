@@ -9,17 +9,17 @@ export const xmpp: Protocol = {
 	year: 1999,
 	rfc: 'RFC 6120',
 	oneLiner:
-		'The open, XML-based messaging protocol born as Jabber — federated chat before it was cool.',
+		'The open, {{xml|XML}}-based messaging protocol born as Jabber — federated chat before it was cool.',
 	overview: `In January 1999, Jeremie Miller was tired of juggling four different instant messaging clients for four different walled-garden services. So he built Jabber — an open, federated messaging system where anyone could run a server and talk to anyone on any other server. That system became [[xmpp|XMPP]], and its ideas about federation and open standards shaped the future of messaging.
 
-[[xmpp|XMPP]] uses persistent {{xml|XML}} streams between {{client-server|clients and servers}} over [[tcp|TCP]]. Messages, presence updates ("Alice is online"), and IQ (info/query) stanzas flow as XML fragments over these streams. The {{protocol|protocol}} is designed to be extensible — hundreds of XEPs ([[xmpp|XMPP]] Extension Protocols) add capabilities from file transfer and multi-user chat to IoT device management.
+[[xmpp|XMPP]] uses persistent {{xml|XML}} streams between {{client-server|clients and servers}} over [[tcp|TCP]]. Messages, presence updates ("Alice is online"), and IQ (info/query) stanzas flow as {{xml|XML}} fragments over these streams. The {{protocol|protocol}} is designed to be extensible — hundreds of XEPs ([[xmpp|XMPP]] Extension Protocols) add capabilities from file transfer and multi-user chat to IoT device management.
 
 Google Talk, the early versions of WhatsApp, Facebook Messenger (originally), and Apple's iChat (their desktop chat client) all used [[xmpp|XMPP]] at some point. iChat supported [[xmpp|XMPP]] federation briefly, though Apple's later iMessage system uses a completely proprietary push {{notification|notification}} service (APNs). While many moved to proprietary protocols for scale, [[xmpp|XMPP]] remains the backbone of countless enterprise chat systems, IoT platforms, and the federated messaging movement.`,
 	howItWorks: [
 		{
 			title: 'TCP connection + stream negotiation',
 			description:
-				'Client opens a [[tcp|TCP]] connection to the server on port 5222, then opens an XML stream. The server responds with its own stream header, and they negotiate [[tls|TLS]] and authentication.'
+				'Client opens a [[tcp|TCP]] connection to the server on port 5222, then opens an {{xml|XML}} stream. The server responds with its own stream header, and they negotiate [[tls|TLS]] and authentication.'
 		},
 		{
 			title: 'Authentication and resource binding',
@@ -29,7 +29,7 @@ Google Talk, the early versions of WhatsApp, Facebook Messenger (originally), an
 		{
 			title: 'Stanza exchange',
 			description:
-				'Three types of XML stanzas flow: <message> for chat, <presence> for online/offline status, and <iq> (info/query) for {{request-response|request-response}} interactions.'
+				'Three types of {{xml|XML}} stanzas flow: <message> for chat, <presence> for online/offline status, and <iq> (info/query) for {{request-response|request-response}} interactions.'
 		},
 		{
 			title: 'Server-to-server federation',
@@ -72,7 +72,7 @@ class ChatBot(slixmpp.ClientXMPP):
 bot = ChatBot("alice@example.com", "secret")
 bot.connect()
 bot.process()`,
-		caption: '[[xmpp|XMPP]] client — connect, announce presence, and send messages as XML stanzas',
+		caption: '[[xmpp|XMPP]] client — connect, announce presence, and send messages as {{xml|XML}} stanzas',
 		alternatives: [
 			{
 				language: 'javascript',

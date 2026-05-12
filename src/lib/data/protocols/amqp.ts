@@ -11,7 +11,7 @@ export const amqp: Protocol = {
 	oneLiner: 'Enterprise message queuing with routing, persistence, and guaranteed delivery.',
 	overview: `[[amqp|AMQP]] is the heavyweight champion of message queuing protocols. While [[mqtt|MQTT]] is designed for constrained IoT devices, [[amqp|AMQP]] is designed for enterprise backends where reliability and sophisticated routing matter more than minimal overhead.
 
-The protocol separates concerns beautifully: producers send messages to "{{exchange|exchanges}}," exchanges route messages to "queues" based on rules, and consumers read from queues. This decoupling means you can change routing logic without touching producers or consumers. [[amqp|AMQP]] defines four {{exchange|exchange}} types: **direct** (routes by exact {{routing-key|routing key}} match), **{{topic|topic}}** (routes by wildcard pattern matching on routing keys), **fanout** (broadcasts to all bound queues regardless of routing key), and **headers** (routes based on message header attributes instead of routing keys).
+The protocol separates concerns beautifully: producers send messages to "{{exchange|exchanges}}," exchanges route messages to "queues" based on rules, and consumers read from queues. This decoupling means you can change routing logic without touching producers or consumers. [[amqp|AMQP]] defines four {{exchange|exchange}} types: **direct** (routes by exact {{routing-key|routing key}} match), **{{topic|topic}}** (routes by wildcard pattern matching on routing keys), **fanout** (broadcasts to all bound queues regardless of {{routing-key|routing key}}), and **headers** (routes based on message header attributes instead of routing keys).
 
 RabbitMQ, the most popular [[amqp|AMQP]] {{broker|broker}}, powers message-driven architectures at companies like Bloomberg, Instagram, and NASA. [[amqp|AMQP]] guarantees delivery, supports transactions, and provides fine-grained {{flow-control|flow control}} — making it ideal for financial systems, order processing, and any workflow where losing a message is unacceptable.`,
 	howItWorks: [
@@ -33,7 +33,7 @@ RabbitMQ, the most popular [[amqp|AMQP]] {{broker|broker}}, powers message-drive
 		{
 			title: 'Consume and acknowledge',
 			description:
-				'Consumer pulls messages from its queue. After processing, it sends an ACK. If the consumer crashes without ACK, the message is redelivered.'
+				'Consumer pulls messages from its queue. After processing, it sends an {{ack|ACK}}. If the consumer crashes without {{ack|ACK}}, the message is redelivered.'
 		}
 	],
 	useCases: [
