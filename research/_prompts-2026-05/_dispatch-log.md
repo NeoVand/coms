@@ -39,14 +39,22 @@ plan expanded to 7 wireless protocols total:
 
 - ✅ **Wi-Fi** — already shipped
 - ✅ **Bluetooth** — already shipped
-- ⏳ **Cellular** (4G LTE + 5G NR) — research running, see C1/17 above
+- ✅ **Cellular** (4G LTE + 5G NR) — shipped (bc20b23)
 - ⏳ **Thread** — bundled into Matter+Thread prompt (14, queued in batch 3)
-- 🔜 **NFC** — prompt being authored by background agent (18-nfc.md)
-- 🔜 **Zigbee** — prompt being authored by background agent (19-zigbee.md)
-- 🔜 **UWB** (Ultra-Wideband) — prompt being authored by background agent (20-uwb.md)
+- ⏳ **NFC** — research running (batch 3W)
+- ⏳ **Zigbee** — research running (batch 3W)
+- ⏳ **UWB** (Ultra-Wideband) — research running (batch 3W)
 
 Plus the category-level deep research (C1) returns the family narrative,
 spectrum map, internal taxonomy, and a book-chapter plan.
+
+## Batch 3W — wireless wave (in progress — dispatched 2026-05-12)
+
+| # | Protocol | Prompt file | Chat URL | Tab |
+|---|----------|-------------|----------|-----|
+| 18 | NFC | 18-nfc.md | https://claude.ai/chat/8d738252-cb01-4d86-8c74-6a4c83cd7df0 | 882617707 |
+| 19 | Zigbee | 19-zigbee.md | https://claude.ai/chat/e127251c-3e32-4f67-91fd-b78faf430835 | 882617719 |
+| 20 | UWB | 20-uwb.md | https://claude.ai/chat/908e213a-4224-4971-bbc0-d2358bc274a9 | 882617725 |
 
 ## Batch 3 (queued)
 
@@ -87,3 +95,23 @@ between click and `find`. The reliable flow is:
 
 Long pastes (>~10K chars) become a "PASTED" attachment chip rather than
 inline text — that's fine, Claude reads it the same way.
+
+### 2026-05-12 updates to the playbook
+
+- **`pbcopy` corrupts UTF-8 under `LC_CTYPE=C`**. Always run
+  `LC_ALL=en_US.UTF-8 pbcopy < file` — otherwise multi-byte chars (·, —,
+  TRÅDFRI) round-trip through MacRoman and arrive in Claude as mojibake.
+  Verify with `LC_ALL=en_US.UTF-8 pbpaste | head -1 | xxd | head -1`.
+- **`computer key cmd+v` is unreliable** — the synthetic keydown often
+  doesn't reach the focused contenteditable. Use a JS-dispatched
+  `ClipboardEvent('paste', { clipboardData: dt })` with a `DataTransfer`
+  carrying the clipboard text instead. Claude.ai's paste handler treats
+  it identically to a real Cmd+V (produces the PASTED chip for long
+  content).
+- **`navigator.clipboard.readText()` requires the tab to be focused**.
+  After navigation, fire one `computer left_click` into the textbox area
+  before the JS read, or you get `NotAllowedError: Document is not
+  focused`.
+- **Step type the intro via `document.execCommand('insertText', ...)`**
+  rather than `computer type` — the latter sometimes drops most chars
+  and only the em-dashes land.
