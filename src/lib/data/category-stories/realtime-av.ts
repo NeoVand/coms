@@ -203,12 +203,12 @@ export const realtimeAvStory: CategoryStory = {
 		{
 			type: 'diagram',
 			definition: `graph TD
-  A["JavaScript API\n(getUserMedia, RTCPeerConnection)"] --> B[[[sdp|SDP]] \u2014 session negotiation]
+  A["JavaScript API\n(getUserMedia, RTCPeerConnection)"] --> B[SDP \u2014 session negotiation]
   A --> C[ICE / STUN / TURN \u2014 NAT traversal]
-  C --> D[{{dtls|DTLS}} \u2014 key {{exchange|exchange}}]
-  D --> E[{{srtp|SRTP}} \u2014 encrypted audio & video]
-  D --> F[[[sctp|SCTP]] \u2014 data channels]
-  E --> G[[[udp|UDP]]]
+  C --> D[DTLS \u2014 key exchange]
+  D --> E[SRTP \u2014 encrypted audio & video]
+  D --> F[SCTP \u2014 data channels]
+  E --> G[UDP]
   F --> G`,
 			caption:
 				"[[webrtc|WebRTC]] didn't invent new protocols \u2014 it orchestrated existing ones into a browser API."

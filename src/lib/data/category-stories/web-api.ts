@@ -110,9 +110,9 @@ Meanwhile, Google's internal RPC system 'Stubby' was handling billions of reques
 			type: 'diagram',
 			definition: `graph TD
   C[Client needs data]
-  C --> R["[[rest|REST]]"]
-  C --> G["[[graphql|GraphQL]]"]
-  C --> P["[[grpc|gRPC]]"]
+  C --> R["REST"]
+  C --> G["GraphQL"]
+  C --> P["gRPC"]
   R -->|"3 requests"| R1["GET /users
 GET /posts
 GET /friends"]
@@ -279,10 +279,10 @@ But [[mcp|MCP]] solved only half the puzzle. It connected agents to tools \u2014
 			type: 'diagram',
 			definition: `graph TD
   U["User / AI App"]
-  U -->|"[[mcp|MCP]]"| T1["Database Tool"]
+  U -->|"MCP"| T1["Database Tool"]
   U -->|"MCP"| T2["GitHub Tool"]
   U -->|"MCP"| T3["Slack Tool"]
-  U -->|"[[a2a|A2A]]"| A1["Travel Agent"]
+  U -->|"A2A"| A1["Travel Agent"]
   U -->|"A2A"| A2["Research Agent"]
   A1 -->|"MCP"| T4["Flight API"]
   A1 -->|"MCP"| T5["Hotel API"]

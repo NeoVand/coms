@@ -25,23 +25,23 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
 			definition: `graph TD
   subgraph L7["Layer 7 — Application"]
     A1[HTTP]
-    A2[[[dns|DNS]]]
-    A3[[[ssh|SSH]]]
-    A4[[[smtp|SMTP]]]
+    A2[DNS]
+    A3[SSH]
+    A4[SMTP]
   end
   subgraph L4["Layer 4 — Transport"]
-    B1["[[tcp|TCP]] — reliable streams"]
-    B2["[[udp|UDP]] — fast datagrams"]
+    B1["TCP — reliable streams"]
+    B2["UDP — fast datagrams"]
   end
   subgraph L3["Layer 3 — Network"]
-    C["[[ip|IPv4]] / [[ipv6|IPv6]] — addressing & routing"]
-    C2["[[arp|ARP]] / NDP — address resolution"]
-    C3["[[icmp|ICMP]] — diagnostics & errors"]
-    C4["[[bgp|BGP]] — inter-domain routing"]
+    C["IPv4 / IPv6 — addressing & routing"]
+    C2["ARP / NDP — address resolution"]
+    C3["ICMP — diagnostics & errors"]
+    C4["BGP — inter-domain routing"]
   end
   subgraph L2["Layer 2 — Data Link"]
-    D1["[[ethernet|Ethernet]] — wired frames"]
-    D2["Wi-Fi ([[wifi|802.11]]) — wireless frames"]
+    D1["Ethernet — wired frames"]
+    D2["Wi-Fi (802.11) — wireless frames"]
   end
   subgraph L1["Layer 1 — Physical"]
     E1["Copper / Fiber / Radio waves"]
@@ -54,7 +54,7 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
   C2 --> D1 & D2
   D1 & D2 --> E1`,
 			caption:
-				'Where Network Foundations protocols fit in the stack. [[ethernet|Ethernet]] and Wi-Fi frame data at Layer 2, IPv4/IPv6 route at Layer 3, ARP/NDP bridge addressing, [[icmp|ICMP]] provides diagnostics, and [[bgp|BGP]] handles inter-domain routing.'
+				'Where Network Foundations protocols fit in the stack. [[ethernet|Ethernet]] and [[wifi|Wi-Fi]] frame data at Layer 2, [[ip|IPv4]]/[[ipv6|IPv6]] route at Layer 3, [[arp|ARP]]/NDP bridge addressing, [[icmp|ICMP]] provides diagnostics, and [[bgp|BGP]] handles inter-domain routing.'
 		},
 		{
 			type: 'pioneers',
@@ -228,9 +228,9 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
 			definition: `graph LR
   subgraph Source["Source Host"]
     S1["Application: GET /index.html"]
-    S2["[[tcp|TCP]]: src=49152 dst=80"]
+    S2["TCP: src=49152 dst=80"]
     S3["IP: src=192.168.1.100 dst=93.184.216.34"]
-    S4["[[ethernet|Ethernet]]: src=AA:BB:CC dst=Router MAC"]
+    S4["Ethernet: src=AA:BB:CC dst=Router MAC"]
     S1 --> S2 --> S3 --> S4
   end
   subgraph Router["Router"]
@@ -259,7 +259,7 @@ The shift from hubs to switches in the 1990s was transformative. A hub was just 
 			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Internet_map_1024.jpg/500px-Internet_map_1024.jpg',
 			alt: 'A partial map of the Internet by the Opte Project, showing millions of IP routes as colored lines',
 			caption:
-				'A partial map of the Internet by the Opte Project (2005). Each line connects two IP addresses — the web of routes that IP makes possible. Colors represent regional allocations: blue for North America, green for Asia-Pacific, red for Europe.',
+				'A partial map of the Internet by the Opte Project (2005). Each line connects two [[ip|IP]] addresses — the web of routes that [[ip|IP]] makes possible. Colors represent regional allocations: blue for North America, green for Asia-Pacific, red for Europe.',
 			credit: 'Image: Barrett Lyon / The Opte Project / CC BY 2.5, via Wikimedia Commons'
 		},
 		{
@@ -273,15 +273,15 @@ An [[wifi|802.11]] frame carries three or four MAC addresses (receiver, transmit
 			type: 'diagram',
 			title: 'Wired vs Wireless — Ethernet and Wi-Fi Frame Comparison',
 			definition: `graph TD
-  subgraph EthFrame["[[ethernet|Ethernet]] Frame (Layer 2 — Wired)"]
+  subgraph EthFrame["Ethernet Frame (Layer 2 — Wired)"]
     E1["Dst MAC — 6 bytes"]
     E2["Src MAC — 6 bytes"]
     E3["EtherType — 2 bytes"]
-    E4["{{payload|Payload}} — 46-1500 bytes"]
+    E4["Payload — 46-1500 bytes"]
     E5["FCS — 4 bytes"]
     E1 --- E2 --- E3 --- E4 --- E5
   end
-  subgraph WiFiFrame["[[wifi|802.11]] Frame (Layer 2 — Wireless)"]
+  subgraph WiFiFrame["802.11 Frame (Layer 2 — Wireless)"]
     W1["Frame Control — 2 bytes"]
     W2["Duration — 2 bytes"]
     W3["Addr 1: Receiver — 6 bytes"]
@@ -294,7 +294,7 @@ An [[wifi|802.11]] frame carries three or four MAC addresses (receiver, transmit
   end
   EthFrame ~~~ WiFiFrame`,
 			caption:
-				'[[ethernet|Ethernet]] frames use two MAC addresses (source, destination) and are sent in the clear. Wi-Fi frames need three or four addresses (receiver, transmitter, destination, and optionally source) and encrypt the {{payload|payload}} — reflecting the complexity of shared airwaves vs dedicated cables.'
+				'[[ethernet|Ethernet]] frames use two MAC addresses (source, destination) and are sent in the clear. [[wifi|Wi-Fi]] frames need three or four addresses (receiver, transmitter, destination, and optionally source) and encrypt the {{payload|payload}} — reflecting the complexity of shared airwaves vs dedicated cables.'
 		},
 		{
 			type: 'callout',
@@ -316,19 +316,19 @@ The most ambitious chapter began in the 1990s. [[ip|IPv4]]'s 32-bit address spac
 			type: 'diagram',
 			title: 'IPv4 vs IPv6 — Header Comparison',
 			definition: `graph TD
-  subgraph V4["[[ip|IPv4]] Header (20-60 bytes, variable)"]
+  subgraph V4["IPv4 Header (20-60 bytes, variable)"]
     V4A["Version (4b) + IHL (4b)"]
-    V4B["{{dscp|DSCP}} + ECN + Total Length"]
-    V4C["Identification + Flags + Fragment {{offset|Offset}}"]
-    V4D["TTL + Protocol + Header {{checksum|Checksum}}"]
+    V4B["DSCP + ECN + Total Length"]
+    V4C["Identification + Flags + Fragment Offset"]
+    V4D["TTL + Protocol + Header Checksum"]
     V4E["Source IP (32-bit)"]
     V4F["Destination IP (32-bit)"]
     V4G["Options (0-40 bytes, variable)"]
     V4A --- V4B --- V4C --- V4D --- V4E --- V4F --- V4G
   end
-  subgraph V6["[[ipv6|IPv6]] Header (40 bytes, fixed)"]
+  subgraph V6["IPv6 Header (40 bytes, fixed)"]
     V6A["Version (4b) + Traffic Class (8b) + Flow Label (20b)"]
-    V6B["{{payload|Payload}} Length + Next Header + Hop Limit"]
+    V6B["Payload Length + Next Header + Hop Limit"]
     V6C["Source IP (128-bit)"]
     V6D["Destination IP (128-bit)"]
     V6A --- V6B --- V6C --- V6D

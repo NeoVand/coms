@@ -110,7 +110,7 @@ export const transportStory: CategoryStory = {
 			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Arpanet_logical_map%2C_march_1977.png/500px-Arpanet_logical_map%2C_march_1977.png',
 			alt: 'Logical map of the ARPANET, showing the network topology in March 1977',
 			caption:
-				'The ARPANET logical map, March 1977 — the network that would become the internet. Within six years, this entire network would cut over from NCP to TCP/IP on Flag Day.',
+				'The ARPANET logical map, March 1977 — the network that would become the internet. Within six years, this entire network would cut over from NCP to [[tcp|TCP]]/[[ip|IP]] on Flag Day.',
 			credit: 'ARPANET / Public Domain, via Wikimedia Commons'
 		},
 		{
@@ -124,26 +124,26 @@ export const transportStory: CategoryStory = {
 			definition: `graph TD
   subgraph Application Layer
     A1[HTTP]
-    A2[[[ssh|SSH]]]
-    A3[[[dns|DNS]]]
-    A4[[[rtp|RTP]]]
+    A2[SSH]
+    A3[DNS]
+    A4[RTP]
   end
   subgraph Transport Layer
-    B1["[[tcp|TCP]] \u2014 reliable, ordered"]
-    B2["[[udp|UDP]] \u2014 fast, minimal"]
+    B1["TCP \u2014 reliable, ordered"]
+    B2["UDP \u2014 fast, minimal"]
   end
   subgraph Network Layer
     C[IP \u2014 routes packets across networks]
   end
   subgraph Link Layer
-    D[[[ethernet|Ethernet]] / Wi-Fi / Fiber]
+    D[Ethernet / Wi-Fi / Fiber]
   end
   A1 & A2 --> B1
   A3 & A4 --> B2
   B1 & B2 --> C
   C --> D`,
 			caption:
-				'The layered architecture born from splitting [[tcp|TCP]] \u2014 applications choose reliable (TCP) or fast ([[udp|UDP]]) transport, both riding on IP.'
+				'The layered architecture born from splitting [[tcp|TCP]] \u2014 applications choose reliable ([[tcp|TCP]]) or fast ([[udp|UDP]]) transport, both riding on [[ip|IP]].'
 		},
 		{
 			type: 'timeline',
@@ -225,14 +225,14 @@ export const transportStory: CategoryStory = {
 		{
 			type: 'diagram',
 			definition: `graph TD
-  subgraph Traditional["Traditional [[tcp|TCP]]"]
+  subgraph Traditional["Traditional TCP"]
     T1[Application] --> T2[TCP]
     T2 --> T3{{"Middlebox"}}
     T3 -->|"inspects headers"| T4[Network]
   end
-  subgraph Modern["[[quic|QUIC]] Approach"]
+  subgraph Modern["QUIC Approach"]
     Q1[Application] --> Q2["QUIC — encrypted"]
-    Q2 --> Q3[[[udp|UDP]]]
+    Q2 --> Q3[UDP]
     Q3 --> Q4{{"Middlebox"}}
     Q4 -->|"passes through"| Q5[Network]
   end
