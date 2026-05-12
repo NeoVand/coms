@@ -212,8 +212,33 @@ export class AppState {
 
 	viewport: Viewport = $state({ x: 0, y: 0, scale: 1 });
 
+	/**
+	 * The *live* graph node array, registered by GraphCanvas on mount.
+	 * The force simulation mutates the `x`/`y` of these objects in
+	 * place; anything outside the canvas that needs current positions
+	 * (e.g. ProtocolLink panning the camera on hover) reads from here.
+	 *
+	 * Not reactive on contents — we don't want every $effect that
+	 * touches the registry to re-fire when the sim ticks. Treat it as
+	 * a borrowed reference, not a state value.
+	 */
+	private _liveNodes: GraphNode[] = [];
+	registerLiveNodes = (nodes: GraphNode[]) => {
+		this._liveNodes = nodes;
+	};
+	findLiveNode = (id: string): GraphNode | undefined => {
+		return this._liveNodes.find((n) => n.id === id);
+	};
+
 	// Smooth viewport animation (not reactive — only read by tickViewport)
 	private _viewportTarget: Viewport | null = null;
+
+	/** Snapshot of the viewport taken when the *first* prose-link hover
+	 *  in a sequence starts panning the camera. Restored when the user
+	 *  stops hovering (after a short debounce) so the camera "snaps back"
+	 *  to wherever they were before the hover-pan ride. */
+	private _viewportBeforeHover: Viewport | null = null;
+	private _hoverRestoreTimer: ReturnType<typeof setTimeout> | null = null;
 
 	selectNode = (node: GraphNode | null) => {
 		this.selectedNode = node;
@@ -329,6 +354,46 @@ export class AppState {
 		} else {
 			this._viewportTarget = target;
 		}
+	};
+
+	/**
+	 * Frame the given node in the visible canvas area, but stash the
+	 * current viewport first so `endHoverFocus()` can restore it later.
+	 * Called when a user hovers an inline protocol link in prose — the
+	 * camera pans to the node so they can see it in context.
+	 *
+	 * Subsequent hovers re-frame to the new node without re-snapshotting:
+	 * the saved "before" viewport stays anchored to wherever the user was
+	 * before the *first* hover started, so a chain of hovers feels like
+	 * one ride rather than a yo-yo.
+	 */
+	focusOnHover = (node: GraphNode, canvasWidth: number, canvasHeight: number) => {
+		if (this._hoverRestoreTimer !== null) {
+			clearTimeout(this._hoverRestoreTimer);
+			this._hoverRestoreTimer = null;
+		}
+		if (this._viewportBeforeHover === null) {
+			this._viewportBeforeHover = { ...this.viewport };
+		}
+		this.focusOnSubgraph([node], canvasWidth, canvasHeight);
+	};
+
+	/**
+	 * End-of-hover. Wait a short debounce so a quick chain of link
+	 * hovers (a user scanning prose) doesn't snap-back-then-snap-out
+	 * between every transition. Then ease the viewport back to whatever
+	 * was saved at the start of the hover sequence.
+	 */
+	endHoverFocus = () => {
+		if (this._viewportBeforeHover === null) return;
+		if (this._hoverRestoreTimer !== null) clearTimeout(this._hoverRestoreTimer);
+		this._hoverRestoreTimer = setTimeout(() => {
+			if (this._viewportBeforeHover !== null) {
+				this._viewportTarget = this._viewportBeforeHover;
+				this._viewportBeforeHover = null;
+			}
+			this._hoverRestoreTimer = null;
+		}, 180);
 	};
 
 	/** Call each frame to smoothly interpolate viewport toward the target. */

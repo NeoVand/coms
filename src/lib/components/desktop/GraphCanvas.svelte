@@ -550,6 +550,11 @@
 		const ctx = canvas.getContext('2d')!;
 		const dpr = window.devicePixelRatio || 1;
 
+		// Expose the live nodes (post-simulation positions) so anything
+		// outside the canvas (e.g. inline ProtocolLink hover pans) can
+		// read current positions instead of stale static x:0/y:0 values.
+		appState.registerLiveNodes(nodes);
+
 		// Warm up to compute settled target positions. With the bloom we
 		// then stash those targets, reset visible positions to (0,0), and
 		// glide each node into place — but we keep the warmed simulation

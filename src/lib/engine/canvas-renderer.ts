@@ -70,7 +70,12 @@ function updateJourneyIds(journey: Journey | null | undefined): void {
 	}
 }
 
-function isNodeDimmed(node: GraphNode, selectedNode: GraphNode | null, compareTargetId?: string | null, activeJourney?: Journey | null, searchHighlightIds?: Set<string> | null): boolean {
+function isNodeDimmed(node: GraphNode, selectedNode: GraphNode | null, compareTargetId?: string | null, activeJourney?: Journey | null, searchHighlightIds?: Set<string> | null, hoveredNode?: GraphNode | null): boolean {
+	// Hover overrides every dimming mode — when the user hovers an inline
+	// protocol link in prose, the target node must light up regardless of
+	// the current selection / journey / comparison context.
+	if (hoveredNode && hoveredNode.id === node.id) return false;
+
 	// Search highlight mode: only matching protocol nodes + their categories stay bright
 	if (searchHighlightIds && searchHighlightIds.size > 0) {
 		if (searchHighlightIds.has(node.id)) return false;
@@ -195,7 +200,7 @@ export function render(ctx: CanvasRenderingContext2D, options: RenderOptions): v
 
 	// Update dim animations (smooth fade in/out)
 	for (const node of nodes) {
-		const targetDim = isNodeDimmed(node, selectedNode, compareTargetId, activeJourney, searchHighlightIds) ? 1 : 0;
+		const targetDim = isNodeDimmed(node, selectedNode, compareTargetId, activeJourney, searchHighlightIds, hoveredNode) ? 1 : 0;
 		const current = dimAnim.get(node.id) ?? 0;
 		const speed = targetDim > current ? DIM_EASE_IN : DIM_EASE_OUT;
 		const next = current + (targetDim - current) * speed;

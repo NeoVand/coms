@@ -29,12 +29,21 @@
 		if (!node || !btn) return;
 		appState.hoveredAnchor = btn.getBoundingClientRect();
 		appState.hoveredNode = node;
+		// Pan the graph to bring this node into the visible area (and
+		// un-dim it via the canvas renderer's hover override). We prefer
+		// the *live* node so we read the simulation's current x/y, not
+		// the stale static (0,0) from the static lookup map.
+		if (!appState.isMobile) {
+			const live = appState.findLiveNode(protocolId) ?? node;
+			appState.focusOnHover(live, window.innerWidth, window.innerHeight);
+		}
 	}
 
 	function hide() {
 		if (appState.hoveredNode?.id === protocolId) {
 			appState.hoveredNode = null;
 			appState.hoveredAnchor = null;
+			appState.endHoverFocus();
 		}
 	}
 
