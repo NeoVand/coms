@@ -10,33 +10,33 @@ export const kerberos: Protocol = {
 	rfc: 'RFC 4120',
 	oneLiner:
 		'The three-headed dog that guards every Windows domain, every Hadoop cluster, every NFSv4-with-security mount on Earth. Tickets, not tokens; trusted third party; mutual authentication without ever sending the password.',
-	overview: `[[kerberos|Kerberos]] is a network authentication protocol built on **tickets** — short-lived, encrypted credentials issued by a trusted third party (the **Key Distribution Center**, or KDC) — that lets a client prove its identity to a service without ever sending a password, and without the service ever needing to talk to the KDC for the auth check. The trick is symmetric cryptography plus a clock: every principal shares a long-term key with the KDC; the KDC mints session keys and embeds them in tickets encrypted under the service's long-term key; the client presents the ticket and proves it owns the session key by encrypting an authenticator with a fresh timestamp.
+	overview: `[[kerberos|Kerberos]] is a network authentication protocol built on **tickets** — short-lived, {{encryption|encrypted}} credentials issued by a trusted third party (the **Key Distribution Center**, or KDC) — that lets a client prove its identity to a service without ever sending a password, and without the service ever needing to talk to the KDC for the auth check. The trick is {{symmetric-encryption|symmetric cryptography}} plus a clock: every principal shares a long-term key with the KDC; the KDC mints session keys and embeds them in tickets encrypted under the service's long-term key; the client presents the ticket and proves it owns the session key by encrypting an authenticator with a fresh timestamp.
 
-Designed at **MIT Project Athena** (1983–1991) by Steve Miller, Clifford Neuman, Jerome Saltzer, and Jeffrey Schiller — *the three-headed dog* in Greek mythology (Cerberus → Kerberos) that guards the gates of Hades. Version 4 was MIT-only and closed-source for export-control reasons; **Version 5** ([[rfc:4120|RFC 4120]], current since 2005) is what every implementation actually deploys.
+Designed at **MIT Project Athena** (1983–1991) by Steve Miller, [[pioneer:clifford-neuman|Clifford Neuman]], Jerome Saltzer, and Jeffrey Schiller — *the three-headed dog* in Greek mythology (Cerberus → Kerberos) that guards the gates of Hades. Version 4 was MIT-only and closed-source for export-control reasons; **Version 5** ([[rfc:4120|RFC 4120]], current since 2005) is what every implementation actually deploys.
 
 The protocol's reach in 2026 is colossal: **every Active Directory domain on Earth** (Microsoft has used Kerberos as AD's primary auth since Windows 2000), **every Hadoop / HDFS / Hive / Impala cluster**, **NFSv4 with sec=krb5**, FreeIPA, Apple Open Directory historically, and "enterprise SSO" in nearly every university research network (MIT Athena still runs on it). Two reference implementations dominate: **MIT Kerberos** (the canonical C codebase, [[pioneer:greg-hudson|Greg Hudson]] as lead since the mid-2010s) and **Heimdal** (BSD-licensed, Love Hörnquist Åstrand and Jelmer Vernooij; what Apple shipped in macOS).
 
-The famous architectural decision: Kerberos requires **time synchronisation** across all participants (default ±5 minutes), and runs almost everything over **UDP/88 with TCP/88 fallback** when the response exceeds the \`udp_preference_limit\`. The replay-defence is the encrypted timestamp in the **authenticator** — if your client clock is wrong, every auth attempt fails. The result: every enterprise Kerberos deployment depends on [[ntp|NTP]] as much as it depends on AES.`,
+The famous architectural decision: Kerberos requires **time synchronisation** across all participants (default ±5 minutes), and runs almost everything over **{{well-known-port|UDP/88}} with [[tcp|TCP]]/88 fallback** when the response exceeds the \`udp_preference_limit\`. The {{replay-attack|replay defence}} is the encrypted timestamp in the **authenticator** — if your client clock is wrong, every auth attempt fails. The result: every enterprise Kerberos deployment depends on [[ntp|NTP]] as much as it depends on AES.`,
 	howItWorks: [
 		{
 			title: 'AS-REQ → AS-REP — get a Ticket Granting Ticket',
 			description:
-				'Client sends an **AS-REQ** to the KDC\'s Authentication Service with its principal name (`alice@EXAMPLE.COM`). KDC looks up Alice\'s long-term key in its database, generates a fresh session key, and returns an **AS-REP** containing: (a) a **Ticket Granting Ticket (TGT)** encrypted under the **krbtgt** principal\'s key (so only the KDC can later decrypt it), and (b) the session key encrypted under Alice\'s long-term key (so only Alice can decrypt it). Alice never sends her password.'
+				'Client sends an **AS-REQ** to the KDC\'s Authentication Service with its principal name (`alice@EXAMPLE.COM`). KDC looks up Alice\'s long-term key in its database, generates a fresh session key, and returns an **AS-REP** containing: (a) a **Ticket Granting Ticket (TGT)** {{encryption|encrypted}} under the **krbtgt** principal\'s key (so only the KDC can later decrypt it), and (b) the session key encrypted under Alice\'s long-term key (so only Alice can decrypt it). Alice never sends her password.'
 		},
 		{
 			title: 'Pre-authentication (the modern default)',
 			description:
-				"Modern KDCs reject an unauthenticated AS-REQ. The client must include a **PA-ENC-TIMESTAMP** — a fresh timestamp encrypted under its long-term key — so the KDC can verify the client actually knows the password before issuing a TGT. (The old behaviour of returning the AS-REP without pre-auth is what enables **AS-REP roasting** — an attacker harvests the encrypted blob and brute-forces it offline.)"
+				"Modern KDCs reject an unauthenticated AS-REQ. The client must include a **PA-ENC-TIMESTAMP** — a fresh timestamp encrypted under its long-term key — so the KDC can verify the client actually knows the password before issuing a TGT. (The old behaviour of returning the AS-REP without pre-auth is what enables **AS-REP roasting** — an attacker harvests the {{encryption|encrypted}} blob and brute-forces it offline.)"
 		},
 		{
 			title: 'TGS-REQ → TGS-REP — get a service ticket',
 			description:
-				'When Alice wants to access \`HTTP/web1.example.com\`, she sends a **TGS-REQ** to the KDC\'s Ticket Granting Service, presenting her TGT plus a fresh authenticator. KDC decrypts the TGT (it knows krbtgt\'s key), validates the authenticator, mints a new session key for Alice↔web1, and returns a **TGS-REP** with a **service ticket** encrypted under web1\'s long-term key.'
+				'When Alice wants to access \`HTTP/web1.example.com\`, she sends a **TGS-REQ** to the KDC\'s Ticket Granting Service, presenting her TGT plus a fresh authenticator (an {{anti-replay|anti-replay}} timestamp encrypted under the TGT session key). KDC decrypts the TGT (it knows krbtgt\'s key), validates the authenticator, mints a new session key for Alice↔web1, and returns a **TGS-REP** with a **service ticket** encrypted under web1\'s long-term key.'
 		},
 		{
 			title: 'AP-REQ — present the service ticket',
 			description:
-				"Alice connects to web1 and sends an **AP-REQ** containing the service ticket + a fresh authenticator. web1 decrypts the ticket using its own long-term key (no round trip to the KDC needed!), extracts the session key, and uses it to decrypt the authenticator. If the timestamp is within the 5-minute skew window and hasn't been seen before, Alice is authenticated. Optionally web1 returns an **AP-REP** with its own timestamp for mutual auth."
+				"Alice connects to web1 and sends an **AP-REQ** containing the service ticket + a fresh authenticator. web1 decrypts the ticket using its own long-term key (no round trip to the KDC needed!), extracts the session key, and uses it to decrypt the authenticator. If the timestamp is within the 5-minute skew window and hasn't been seen before, Alice is authenticated — defeating any {{replay-attack|replay attack}} that reuses an old AP-REQ. Optionally web1 returns an **AP-REP** with its own timestamp for {{mtls|mutual auth}}."
 		},
 		{
 			title: 'Cross-realm referrals',
@@ -46,7 +46,7 @@ The famous architectural decision: Kerberos requires **time synchronisation** ac
 		{
 			title: 'GSS-API and SPNEGO — the application bindings',
 			description:
-				'Applications rarely speak Kerberos directly. They speak **GSS-API** (Generic Security Service API, [[rfc:2743|RFC 2743]]), which abstracts authentication mechanisms behind \`gss_init_sec_context\` / \`gss_accept_sec_context\`. **SPNEGO** ([[rfc:4178|RFC 4178]]) is the protocol negotiation layer that lets HTTP (`Authorization: Negotiate <base64>`), SMB, LDAP, and other applications transparently use Kerberos when available and fall back to [[oauth2|OAuth]] / NTLM otherwise. Every "Windows Integrated Authentication" prompt in Internet Explorer / Edge / Chrome is SPNEGO over HTTP wrapping a Kerberos AP-REQ.'
+				'Applications rarely speak Kerberos directly. They speak **GSS-API** (Generic Security Service API, [[rfc:2743|RFC 2743]]), which abstracts authentication mechanisms behind \`gss_init_sec_context\` / \`gss_accept_sec_context\`. **SPNEGO** ([[rfc:4178|RFC 4178]]) is the protocol negotiation layer that lets [[http1|HTTP]] (`Authorization: Negotiate <base64>`), SMB, LDAP, and other applications transparently use Kerberos when available and fall back to [[oauth2|OAuth]] / NTLM otherwise. Every "Windows Integrated Authentication" prompt in Internet Explorer / Edge / Chrome is SPNEGO over HTTP wrapping a Kerberos AP-REQ.'
 		}
 	],
 	useCases: [

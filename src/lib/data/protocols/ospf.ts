@@ -10,31 +10,31 @@ export const ospf: Protocol = {
 	rfc: 'RFC 2328',
 	oneLiner:
 		'Link-state interior gateway protocol: every router builds an identical topology database, then runs Dijkstra to compute its routing table.',
-	overview: `[[ospf|OSPF]] is the dominant link-state Interior Gateway Protocol on [[ip|IP]] networks. Where [[bgp|BGP]] is the *external* protocol that stitches the internet's autonomous systems together, [[ospf|OSPF]] is what each AS uses *inside* to compute paths between its own routers — every enterprise core, every MPLS PE-CE link, every mid-tier carrier IGP. The trick is elegant: every router floods a description of its own links to every other router in the area, every router holds an **identical** Link State Database (LSDB), and every router independently runs **Dijkstra's shortest-path-first algorithm** on that database to compute its routing table. No router trusts another's path computation; they all derive the same answer from the same graph.
+	overview: `[[ospf|OSPF]] is the dominant link-state {{igp|Interior Gateway Protocol}} on [[ip|IP]] networks. Where [[bgp|BGP]] is the *external* protocol that stitches the internet's {{autonomous-system|autonomous systems}} together, [[ospf|OSPF]] is what each AS uses *inside* to compute paths between its own routers — every enterprise core, every MPLS PE-CE link, every mid-tier carrier IGP. The trick is elegant: every router floods a description of its own links to every other router in the area, every router holds an **identical** {{lsdb|Link State Database (LSDB)}}, and every router independently runs **Dijkstra's shortest-path-first algorithm** on that database to compute its {{routing-table|routing table}}. No router trusts another's path computation; they all derive the same answer from the same graph.
 
-[[ospf|OSPFv2]] ([[rfc:2328|RFC 2328]], April 1998, edited by [[pioneer:john-moy|John Moy]] at Ascend) is **STD 54** — still the canonical [[ip|IPv4]] spec, 244 pages, unchanged at the level of frame format. OSPFv3 ([[rfc:5340|RFC 5340]], 2008) carries [[ipv6|IPv6]] and — via RFC 5838 — IPv4 as separate address families. Everything modern (Segment Routing, Flex-Algo, SRv6, BFD Strict-Mode) is layered on through Opaque LSAs and Router Information LSA TLVs, not by rewriting the protocol. [[ospf|OSPF]] runs directly on [[ip|IP]] as protocol number 89 — no [[tcp|TCP]], no [[udp|UDP]] — and uses link-local multicast \`224.0.0.5\` / \`FF02::5\` for adjacency.
+[[ospf|OSPFv2]] ([[rfc:2328|RFC 2328]], April 1998, edited by [[pioneer:john-moy|John Moy]] at Ascend) is **STD 54** — still the canonical [[ip|IPv4]] spec, 244 pages, unchanged at the level of {{frame|frame}} format. OSPFv3 ([[rfc:5340|RFC 5340]], 2008) carries [[ipv6|IPv6]] and — via RFC 5838 — IPv4 as separate address families. Everything modern (Segment Routing, Flex-Algo, SRv6, BFD Strict-Mode) is layered on through Opaque {{lsa|LSAs}} and Router Information LSA TLVs, not by rewriting the protocol. [[ospf|OSPF]] runs directly on [[ip|IP]] as protocol number 89 — no [[tcp|TCP]], no [[udp|UDP]] — and uses {{link-local|link-local}} {{multicast|multicast}} \`224.0.0.5\` / \`FF02::5\` for adjacency.
 
 [[pioneer:radia-perlman|Radia Perlman]]'s parallel design **IS-IS** dominates tier-1 ISP backbones; hyperscaler data-center fabrics increasingly skip both in favour of EBGP everywhere (RFC 7938). But for the campus, the branch, the enterprise WAN, and the mid-tier provider — [[ospf|OSPF]] is the protocol that draws the map.`,
 	howItWorks: [
 		{
 			title: 'Hello — discover neighbours',
 			description:
-				'Each [[ospf|OSPF]]-enabled interface multicasts Hello packets to `224.0.0.5` ([[ipv6|IPv6]]: `FF02::5`) every HelloInterval (default 10 s on point-to-point, 30 s on NBMA). Hellos carry the router\'s ID, options, and the list of neighbours it currently sees on this link — bidirectional visibility is established as soon as a Hello lists *you* in its neighbours field.'
+				'Each [[ospf|OSPF]]-enabled interface multicasts Hello {{packet|packets}} to `224.0.0.5` ([[ipv6|IPv6]]: `FF02::5`) every HelloInterval (default 10 s on point-to-point, 30 s on NBMA). Hellos carry the router\'s ID, options, and the list of neighbours it currently sees on this link — bidirectional visibility is established as soon as a Hello lists *you* in its neighbours field.'
 		},
 		{
 			title: 'Adjacency state machine',
 			description:
-				'Neighbours progress through eight states: **Down → Init → 2-Way → ExStart → Exchange → Loading → Full** (with **Attempt** for NBMA). On broadcast networks (e.g. [[ethernet|Ethernet]]) routers elect a **Designated Router (DR)** and Backup DR — the DR is the only neighbour every router on the segment becomes Full with, cutting the adjacency mesh from O(n²) to O(n).'
+				'Neighbours progress through eight states: **Down → Init → 2-Way → ExStart → Exchange → Loading → Full** (with **Attempt** for NBMA). On {{broadcast|broadcast}} networks (e.g. [[ethernet|Ethernet]]) routers elect a **Designated Router (DR)** and Backup DR — the DR is the only neighbour every router on the segment becomes Full with, cutting the adjacency mesh from O(n²) to O(n).'
 		},
 		{
 			title: 'Synchronise the LSDB',
 			description:
-				'Routers exchange **Database Description (DBD)** packets carrying LSA *headers* (sequence/age/length), then send **Link State Request (LSR)** packets asking for the LSAs they don\'t have, and receive them in **Link State Update (LSU)** packets. **LSAck** packets explicitly acknowledge receipt — [[ospf|OSPF]] has reliable delivery without [[tcp|TCP]].'
+				'Routers exchange **Database Description (DBD)** packets carrying {{lsa|LSA}} *headers* (sequence/age/length), then send **Link State Request (LSR)** packets asking for the LSAs they don\'t have, and receive them in **Link State Update (LSU)** packets. **LSAck** packets explicitly acknowledge receipt — [[ospf|OSPF]] has {{retransmission|reliable delivery}} without [[tcp|TCP]].'
 		},
 		{
 			title: 'Flood, throttle, age',
 			description:
-				'Every LSA carries a 16-bit sequence number, 16-bit age, and 16-bit checksum. New LSAs flood through the area in seconds; routers refresh their own LSAs every 30 minutes (`LSRefreshTime`) and age them out at `MaxAge = 3600 s`. RFC 8405 SPF back-off (INITIAL/SHORT_WAIT/LONG_WAIT) throttles SPF runs when topology churns.'
+				'Every LSA carries a 16-bit {{sequence-number|sequence number}}, 16-bit age, and 16-bit {{checksum|checksum}}. New LSAs flood through the area in seconds; routers refresh their own LSAs every 30 minutes (`LSRefreshTime`) and age them out at `MaxAge = 3600 s`. RFC 8405 SPF back-off (INITIAL/SHORT_WAIT/LONG_WAIT) throttles SPF runs when topology churns.'
 		},
 		{
 			title: 'Run Dijkstra',

@@ -10,7 +10,7 @@ export const ipsec: Protocol = {
 	rfc: 'RFC 4301 / 7296',
 	oneLiner:
 		'The IETF\'s Layer-3 cryptographic envelope — every site-to-site VPN, every 3GPP mobile-core backhaul, every IKEv2 client tunnel on macOS / iOS / Windows / Android runs IPsec.',
-	overview: `[[ipsec|IPsec]] is the IETF's **network-layer** security architecture. Where [[tls|TLS]] wraps a single [[tcp|TCP]] stream and [[ssh|SSH]] wraps a single remote session, [[ipsec|IPsec]] encrypts entire [[ip|IP]] packets — host-to-host, gateway-to-gateway, or both — and is the only mainstream cryptographic protocol that lives *inside* the network stack rather than above it. **AH** ([[rfc:4302|RFC 4302]]) authenticates the [[ip|IP]] header and payload; **ESP** ([[rfc:4303|RFC 4303]], the part everyone actually deploys) encrypts and authenticates payloads using AEAD ciphers like AES-GCM and ChaCha20-Poly1305. **IKEv2** ([[rfc:7296|RFC 7296]], the modern key-management protocol, edited across decades by [[pioneer:charlie-kaufman|Charlie Kaufman]] and [[pioneer:tero-kivinen|Tero Kivinen]]) negotiates the cipher suite and establishes the *Security Associations* the data plane uses.
+	overview: `[[ipsec|IPsec]] is the {{ietf|IETF}}'s **network-layer** security architecture. Where [[tls|TLS]] wraps a single [[tcp|TCP]] stream and [[ssh|SSH]] wraps a single remote session, [[ipsec|IPsec]] {{encryption|encrypts}} entire [[ip|IP]] {{packet|packets}} — host-to-host, gateway-to-gateway, or both — and is the only mainstream cryptographic protocol that lives *inside* the network stack rather than above it. **{{ah-authentication-header|AH}}** ([[rfc:4302|RFC 4302]]) authenticates the [[ip|IP]] {{header|header}} and {{payload|payload}}; **{{esp|ESP}}** ([[rfc:4303|RFC 4303]], the part everyone actually deploys) encrypts and authenticates payloads using {{aead|AEAD ciphers}} like AES-GCM and ChaCha20-Poly1305. **{{ike|IKEv2}}** ([[rfc:7296|RFC 7296]], the modern key-management protocol, edited across decades by [[pioneer:charlie-kaufman|Charlie Kaufman]] and [[pioneer:tero-kivinen|Tero Kivinen]]) negotiates the {{cipher-suite|cipher suite}} and establishes the {{security-association|Security Associations}} the data plane uses.
 
 The architecture began in 1995 with [[pioneer:randall-atkinson|Randall Atkinson]] at the U.S. Naval Research Lab (RFC 1825/1826/1827); [[pioneer:phil-karn|Phil Karn]] influenced the design from Qualcomm and was, in parallel, the plaintiff in *Karn v. U.S. State Department* — the export-control case that helped establish "code is speech." [[ipsec|IPsec]] has been re-architected twice ([[rfc:4301|RFC 4301]], 2005) and survived a 2003 architectural critique from Ferguson and Schneier (whose paper concluded it was, despite its complexity, "the best [[ip|IP]] security protocol available at the moment"). It is the **only** widely-deployed VPN that natively carries [[bgp|BGP]] / [[ospf|OSPF]] / multicast on tunnel interfaces — the reason 3GPP picked it for LTE S1/X2 and 5G N2/N3 backhaul, and the reason every carrier on Earth runs it whether they want to or not.
 
@@ -19,22 +19,22 @@ As of May 2026, [[ipsec|IPsec]] is also the first mainstream VPN with a real, de
 		{
 			title: 'IKE_SA_INIT — negotiate crypto, exchange DH/ECDH/ML-KEM, detect NAT',
 			description:
-				'Two peers exchange Diffie-Hellman (or ECDH, or **ML-KEM** since 2024) public keys, nonces, and the cipher suite they support. NAT detection happens here: if either peer is behind {{nat|NAT}}, the SA switches to UDP/4500 encapsulation. Two messages total; the resulting *IKE SA* protects every subsequent exchange.'
+				'Two peers exchange {{diffie-hellman|Diffie-Hellman}} (or ECDH, or **ML-KEM** since 2024) {{public-key|public keys}}, {{nonce|nonces}}, and the {{cipher-suite|cipher suite}} they support. NAT detection happens here: if either peer is behind {{nat|NAT}}, the SA switches to UDP/4500 encapsulation. Two messages total; the resulting *{{ike|IKE SA}}* protects every subsequent exchange.'
 		},
 		{
 			title: 'IKE_AUTH — prove identity, authorize the Child SA',
 			description:
-				'Each peer presents its identity (certificate, raw public key, PSK, or EAP method) and signs the IKE_SA_INIT messages with it. Traffic Selectors negotiate *which* {{ip-address|IP address ranges}} flow over the tunnel. The first **Child SA** (a one-direction ESP key) is set up in the same exchange.'
+				'Each peer presents its identity ({{certificate|certificate}}, raw {{public-key|public key}}, PSK, or EAP method) and signs the IKE_SA_INIT messages with it. Traffic Selectors negotiate *which* {{ip-address|IP address ranges}} flow over the {{tunnel|tunnel}}. The first **Child SA** (a one-direction {{esp|ESP}} key) is set up in the same exchange.'
 		},
 		{
 			title: 'ESP — encrypt and authenticate every packet',
 			description:
-				"Once the Child SA is up, every outbound [[ip|IP]] packet matching the Security Policy Database (SPD) is wrapped in an **ESP** header (32-bit SPI + 32-bit sequence number), AEAD-encrypted with the negotiated key, and forwarded. In **tunnel mode** (the default for gateways) the original [[ip|IP]] packet is encapsulated inside a new outer [[ip|IP]] header. In **transport mode** (host-to-host) the [[ip|IP]] header is preserved and only the payload is encrypted."
+				"Once the Child SA is up, every outbound [[ip|IP]] {{packet|packet}} matching the Security Policy Database (SPD) is wrapped in an **{{esp|ESP}} {{header|header}}** (32-bit SPI + 32-bit {{sequence-number|sequence number}}), {{aead|AEAD-encrypted}} with the negotiated key, and forwarded. In **tunnel mode** (the default for gateways) the original [[ip|IP]] packet is {{encapsulation|encapsulated}} inside a new outer [[ip|IP]] header. In **transport mode** (host-to-host) the [[ip|IP]] header is preserved and only the {{payload|payload}} is encrypted."
 		},
 		{
 			title: 'Anti-replay window',
 			description:
-				'The 32-bit ESP sequence number prevents replay. Receivers maintain a sliding **anti-replay window** (RFC 4303 §3.4.3 default = 32 entries; production at 10 Gbps+ needs 1024+). Window misconfiguration is the single most common reason a tuned site-to-site tunnel drops legitimate packets — RFC 4303 §A.2 specifically warns about it.'
+				'The 32-bit ESP sequence number prevents {{replay-attack|replay}}. Receivers maintain a sliding **{{anti-replay|anti-replay window}}** (RFC 4303 §3.4.3 default = 32 entries; production at 10 Gbps+ needs 1024+). Window misconfiguration is the single most common reason a tuned site-to-site tunnel drops legitimate packets — RFC 4303 §A.2 specifically warns about it.'
 		},
 		{
 			title: 'Rekey before the SA expires',

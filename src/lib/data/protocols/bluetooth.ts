@@ -12,48 +12,48 @@ export const bluetooth: Protocol = {
 		'Short-range 2.4 GHz wireless with two protocol stacks: Classic BR/EDR for streaming audio, and BLE for low-power sensors, trackers, hearing aids, and IoT commissioning.',
 	overview: `[[bluetooth|Bluetooth]] is the most ubiquitous short-range wireless protocol on Earth — roughly 4.7 billion ICs shipped per year. It started as a 1994 Ericsson project in Lund, Sweden to replace the RS-232 cable to a mobile-phone headset; [[pioneer:jaap-haartsen|Jaap Haartsen]] and [[pioneer:sven-mattisson|Sven Mattisson]] did the original radio design, [[pioneer:jim-kardach|Jim Kardach]] at Intel proposed the name (after Harald "Blåtand" Gormsson, the 10th-century Danish king who united Denmark and Norway), and the [[bluetooth|Bluetooth]] Special Interest Group was founded in May 1998 by Ericsson, IBM, Intel, Nokia, and Toshiba. The first commercial product was a hands-free headset at COMDEX 1999; the first phone was the Ericsson T39 in 2001.
 
-[[bluetooth|Bluetooth]] in 2026 is *two protocols braided into one brand*. **BR/EDR ("Classic")** is the 1999 frequency-hopping master/slave wire-replacement system — 79 × 1 MHz channels, 1,600 hops per second, GFSK + DPSK modulation. It still carries A2DP audio, HFP voice, HID (every wireless keyboard and mouse), and RFCOMM. **BLE (Bluetooth Low Energy)** was added in Core 4.0 (December 2009), derived from Nokia's *Wibree* design. Different radio (40 × 2 MHz channels), different link layer, different framing (L2CAP), different security (SMP), different application protocol (GATT). Both share the 2.4 GHz ISM band and a SIG, but they share **no bits over the air**.
+[[bluetooth|Bluetooth]] in 2026 is *two protocols braided into one brand*. **BR/EDR ("Classic")** is the 1999 frequency-hopping master/{{piconet|slave}} wire-replacement system — 79 × 1 MHz channels, 1,600 hops per second, GFSK + DPSK modulation. It still carries A2DP audio, HFP voice, HID (every wireless keyboard and mouse), and RFCOMM. **{{ble|BLE (Bluetooth Low Energy)}}** was added in Core 4.0 (December 2009), derived from Nokia's *Wibree* design. Different radio (40 × 2 MHz channels), different link layer, different framing ({{l2cap|L2CAP}}), different security (SMP), different application protocol ({{gatt|GATT}}). Both share the 2.4 GHz {{ism-band|ISM band}} and a SIG, but they share **no bits over the air**.
 
-The single biggest change in the last 24 months is **Bluetooth 6.0** (adopted 3 September 2024), which introduced **Channel Sounding** — phase-based + round-trip-time ranging delivering centimetre-class accuracy and explicitly targeting UWB's secure-access and digital-key niche. Simultaneously, **Auracast** (LC3-based broadcast LE Audio) went from spec to real deployments — Frankfurt Airport became the first airport to broadcast all gate announcements over Auracast on 28 January 2026. The Apple-Google **DULT** anti-stalking standard moved into IETF working-group drafts in 2024–2026. [[wifi|Wi-Fi]] is the protocol you stream from; [[bluetooth|Bluetooth]] is the protocol you carry with you.`,
+The single biggest change in the last 24 months is **Bluetooth 6.0** (adopted 3 September 2024), which introduced **Channel Sounding** — phase-based + round-trip-time ranging delivering centimetre-class accuracy and explicitly targeting [[uwb|UWB]]'s secure-access and digital-key niche. Simultaneously, **Auracast** ({{codec|LC3-based}} broadcast LE Audio) went from spec to real deployments — Frankfurt Airport became the first airport to broadcast all gate announcements over Auracast on 28 January 2026. The Apple-Google **DULT** anti-stalking standard moved into {{ietf|IETF}} working-group drafts in 2024–2026. [[wifi|Wi-Fi]] is the protocol you stream from; [[bluetooth|Bluetooth]] is the protocol you carry with you.`,
 	howItWorks: [
 		{
 			title: 'Frequency-hopping in the 2.4 GHz ISM band',
 			description:
-				"Both BR/EDR (79 × 1 MHz channels) and BLE (40 × 2 MHz channels) use the globally unlicensed 2.402–2.480 GHz ISM band. BR/EDR uses a pseudo-random frequency-hopping pattern, hopping 1,600 times per second, keyed off the piconet master's clock and BD_ADDR. BLE uses three primary advertising channels (37/38/39, carefully placed to avoid [[wifi|Wi-Fi]] channels 1/6/11) and 37 data channels (0–36) that hop once per connection event."
+				"Both BR/EDR (79 × 1 MHz channels) and {{ble|BLE}} (40 × 2 MHz channels) use the globally unlicensed 2.402–2.480 GHz {{ism-band|ISM band}}. BR/EDR uses a pseudo-random frequency-hopping pattern, hopping 1,600 times per second, keyed off the {{piconet|piconet}} master's clock and BD_ADDR. BLE uses three primary advertising channels (37/38/39, carefully placed to avoid [[wifi|Wi-Fi]] channels 1/6/11) and 37 data channels (0–36) that hop once per connection event."
 		},
 		{
 			title: 'Advertising and discovery (BLE)',
 			description:
-				'A BLE Peripheral broadcasts ADV_IND packets on ch 37/38/39 every 20 ms to 10.24 s. A Central scans those channels. A connection begins with the Central sending CONNECT_IND, which contains the Access Address, CRC seed, hop pattern, and connection-interval parameters (7.5 ms–4 s).'
+				'A BLE Peripheral {{broadcast|broadcasts}} ADV_IND {{packet|packets}} on ch 37/38/39 every 20 ms to 10.24 s. A Central scans those channels. A connection begins with the Central sending CONNECT_IND, which contains the Access Address, CRC seed, hop pattern, and connection-interval parameters (7.5 ms–4 s).'
 		},
 		{
 			title: 'L2CAP framing and ATT/GATT (BLE)',
 			description:
-				'Inside a connection, BLE devices exchange L2CAP packets. The Attribute Protocol (ATT) lives on L2CAP CID 0x0004 and provides read/write/notify/indicate operations against 16-bit handles. GATT layers semantic structure on top — services, characteristics, descriptors — with 16-bit (SIG-assigned) or 128-bit (vendor) UUIDs. Default ATT MTU is 23 (a known trap — 20 bytes of payload per Notify); modern devices negotiate up to 247 or 517.'
+				'Inside a connection, BLE devices exchange {{l2cap|L2CAP}} packets. The Attribute Protocol (ATT) lives on L2CAP CID 0x0004 and provides read/write/notify/indicate operations against 16-bit handles. {{gatt|GATT}} layers semantic structure on top — services, characteristics, descriptors — with 16-bit (SIG-assigned) or 128-bit (vendor) UUIDs. Default ATT {{mtu|MTU}} is 23 (a known trap — 20 bytes of {{payload|payload}} per Notify); modern devices negotiate up to 247 or 517.'
 		},
 		{
 			title: 'Pairing and encryption (SMP)',
 			description:
-				'The Security Manager Protocol (SMP, L2CAP CID 0x0006) performs pairing: Just Works, Passkey Entry, Numeric Comparison, or Out-of-Band. LE Secure Connections (4.2+) uses ECDH on Curve P-256 to derive a Long-Term Key (LTK); the link is then encrypted with AES-CCM at the Link Layer. Bonding stores the LTK for future reconnections; the address resolution scheme (RPA — Resolvable Private Address) prevents long-term tracking.'
+				'The Security Manager Protocol (SMP, L2CAP CID 0x0006) performs pairing: Just Works, Passkey Entry, Numeric Comparison, or Out-of-Band. LE Secure Connections (4.2+) uses {{diffie-hellman|ECDH}} on Curve P-256 to derive a Long-Term Key (LTK); the link is then {{encryption|encrypted}} with {{aead|AES-CCM}} at the Link Layer. Bonding stores the LTK for future reconnections; the address resolution scheme (RPA — Resolvable Private Address) prevents long-term tracking.'
 		},
 		{
 			title: 'LE Audio and Auracast (5.2+)',
 			description:
-				'LE Audio runs over **Isochronous Channels** — Connected Isochronous Streams (CIS) for unicast earbuds/hearing aids, and Broadcast Isochronous Streams (BIS) for one-to-many public broadcast. **LC3** is the mandatory codec (replacing SBC and saving ~50% battery vs A2DP). **Auracast** is the SIG brand for BIS-based public-venue broadcast — airports, theatres, gyms, hearing-loop replacement.'
+				'LE Audio runs over **Isochronous Channels** — Connected Isochronous Streams (CIS) for {{unicast|unicast}} earbuds/hearing aids, and Broadcast Isochronous Streams (BIS) for one-to-many public {{broadcast|broadcast}}. **LC3** is the mandatory {{codec|codec}} (replacing SBC and saving ~50% battery vs A2DP). **Auracast** is the SIG brand for BIS-based public-venue broadcast — airports, theatres, gyms, hearing-loop replacement.'
 		},
 		{
 			title: 'Channel Sounding (6.0+)',
 			description:
-				'Two devices in a normal LL connection schedule **Channel Sounding** events on a new LE 2M 2BT PHY. They measure both signal **phase** across multiple frequencies (Phase-Based Ranging) and **round-trip time** of timestamped packets; the combination gives centimetre-class distance accuracy up to ~150 m. The intended use: digital car keys, smart locks, and anti-stalking tags — all of which need to know if the peer is actually *here* and not relayed via radio.'
+				'Two devices in a normal LL connection schedule **Channel Sounding** events on a new LE 2M 2BT PHY. They measure both signal **phase** across multiple frequencies (Phase-Based Ranging) and **round-trip time** of timestamped packets; the combination gives centimetre-class distance accuracy up to ~150 m. The intended use: digital car keys, smart locks, and anti-stalking tags — all of which need to know if the peer is actually *here* and not {{replay-attack|relayed}} via radio.'
 		}
 	],
 	useCases: [
 		'Wireless audio: headsets, earbuds (AirPods), car infotainment (A2DP / HFP / LE Audio)',
 		'Wearables and fitness sensors: HRM straps, step counters, smartwatches',
 		'Item finders: Apple AirTag, Samsung SmartTag, Tile (Find My / Find My Device networks)',
-		'Commissioning bootstrap for Matter / Thread / [[wifi|Wi-Fi]] IoT devices',
+		'Commissioning bootstrap for {{matter|Matter}} / Thread / [[wifi|Wi-Fi]] IoT devices',
 		'Hearing aids and assistive listening (LE Audio + Auracast)',
-		'Smart locks, digital car keys (Tesla, BMW, CCC Digital Key)',
+		'Smart locks, digital car keys (Tesla, BMW, {{ccc-digital-key|CCC Digital Key}})',
 		'Retail beacons (iBeacon / Eddystone) and Electronic Shelf Labels (PAwR)'
 	],
 	codeExample: {
@@ -82,7 +82,7 @@ hrChar.addEventListener('characteristicvaluechanged', (event) => {
 device.addEventListener('gattserverdisconnected', () =>
   console.log('disconnected — exiting low-power mode'));`,
 		caption:
-			"A Web Bluetooth client subscribing to a Heart Rate Profile sensor. The handshake — advertising, connection, pairing, MTU exchange, characteristic discovery — happens inside the platform's BLE stack; the page sees only the GATT abstraction.",
+			"A Web Bluetooth client subscribing to a Heart Rate Profile sensor. The {{handshake|handshake}} — advertising, connection, pairing, {{mtu|MTU}} exchange, characteristic discovery — happens inside the platform's {{ble|BLE}} stack; the page sees only the {{gatt|GATT}} abstraction.",
 		alternatives: [
 			{
 				language: 'python',
@@ -201,7 +201,7 @@ CRC: x^24 + x^10 + x^9 + x^6 + x^4 + x^3 + x + 1, seeded by Access Address.`
 		throughput:
 			'BR/EDR: up to 3 Mbps raw (EDR 3-DH5), ~2.1 Mbps app throughput. BLE: up to 2 Mbps raw on LE 2M; ~1.4 Mbps app with DLE + MTU 247. LE Coded S=8 trades down to ~125 kbps for ~4× range',
 		overhead:
-			'BLE LL adds 10 bytes per packet (1 preamble + 4 Access Address + 2 LL header + 3 CRC). ATT operation overhead: 3-byte ATT header + 4-byte L2CAP. Default ATT MTU = 23 → 20 bytes payload per Notify; negotiate up to 247 or 517'
+			'BLE LL adds 10 bytes per packet (1 preamble + 4 Access Address + 2 LL header + 3 CRC). ATT operation overhead: 3-byte ATT header + 4-byte L2CAP header. Default ATT MTU = 23 → 20 bytes payload per Notify; negotiate up to 247 or 517'
 	},
 	connections: ['wifi', 'ipv6', 'tls', 'mdns-dns-sd', 'cellular', 'nfc', 'zigbee', 'uwb'],
 	links: {
@@ -221,7 +221,7 @@ CRC: x^24 + x^10 + x^9 + x^6 + x^4 + x^3 + x + 1, seeded by Access Address.`
 			date: '2024-09',
 			title: 'Bluetooth 6.0 — Channel Sounding adopted',
 			description:
-				'Adopted 3 September 2024. Channel Sounding adds phase-based + RTT distance measurement on a new LE 2M 2BT PHY, achieving centimetre-class accuracy up to ~150 m. The protocol-level answer to UWB for digital-key, anti-stalking, and finder applications.',
+				'Adopted 3 September 2024. Channel Sounding adds phase-based + {{rtt|RTT}} distance measurement on a new LE 2M 2BT PHY, achieving centimetre-class accuracy up to ~150 m. The protocol-level answer to [[uwb|UWB]] for digital-key, anti-stalking, and finder applications.',
 			source: {
 				url: 'https://www.bluetooth.com/blog/bluetooth-6-0-released/',
 				label: 'Bluetooth SIG: 6.0 release'
