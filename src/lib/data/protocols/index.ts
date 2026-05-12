@@ -48,12 +48,14 @@ import { oauth2 } from './oauth2';
 import { natTraversal } from './nat-traversal';
 import { ospf } from './ospf';
 import { bluetooth } from './bluetooth';
+import { cellular } from './cellular';
 import { ipsec } from './ipsec';
 import { wireguard } from './wireguard';
 import { mdnsDnsSd } from './mdns-dns-sd';
+import { kerberos } from './kerberos';
 
 export const networkFoundationsProtocols: Protocol[] = [ethernet, arp, ip, ipv6, ospf];
-export const wirelessProtocols: Protocol[] = [wifi, bluetooth];
+export const wirelessProtocols: Protocol[] = [wifi, bluetooth, cellular];
 export const transportProtocols: Protocol[] = [tcp, udp, quic, sctp, mptcp];
 export const webApiProtocols: Protocol[] = [
 	http1,
@@ -86,7 +88,8 @@ export const utilitiesProtocols: Protocol[] = [
 	natTraversal,
 	ipsec,
 	wireguard,
-	mdnsDnsSd
+	mdnsDnsSd,
+	kerberos
 ];
 
 export const allProtocols: Protocol[] = [

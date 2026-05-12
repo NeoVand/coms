@@ -51,6 +51,8 @@ import { bluetoothBleGatt } from './bluetooth-ble';
 import { ipsecTunnel } from './ipsec-tunnel';
 import { wireguardHandshake } from './wireguard-handshake';
 import { mdnsDiscovery } from './mdns-discovery';
+import { cellularRegistration } from './cellular-registration';
+import { kerberosAuth } from './kerberos-auth';
 
 const simulations = new Map<string, SimulationConfig>([
 	['tcp', tcpHandshake],
@@ -104,7 +106,9 @@ const simulations = new Map<string, SimulationConfig>([
 	['bluetooth', bluetoothBleGatt],
 	['ipsec', ipsecTunnel],
 	['wireguard', wireguardHandshake],
-	['mdns-dns-sd', mdnsDiscovery]
+	['mdns-dns-sd', mdnsDiscovery],
+	['cellular', cellularRegistration],
+	['kerberos', kerberosAuth]
 ]);
 
 export function getSimulation(protocolId: string): SimulationConfig | undefined {

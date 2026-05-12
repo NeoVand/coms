@@ -167,7 +167,7 @@ iw dev wlan0 station dump`
 		overhead:
 			'24-36 byte MAC header depending on frame type and flags (vs 14 for Ethernet) + encryption overhead (CCMP adds 16 bytes); acknowledgment frames add airtime cost'
 	},
-	connections: ['ethernet', 'arp', 'ip', 'ipv6', 'bluetooth'],
+	connections: ['ethernet', 'arp', 'ip', 'ipv6', 'bluetooth', 'cellular'],
 	links: {
 		wikipedia: 'https://en.wikipedia.org/wiki/[[wifi|Wi-Fi]]',
 		official: 'https://www.wi-fi.org/'

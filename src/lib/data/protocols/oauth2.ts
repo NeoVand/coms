@@ -225,7 +225,7 @@ Cache-Control: no-store
 		overhead:
 			'Access tokens: 200-2000 bytes (JWT). Authorization flow adds user-facing redirect latency.'
 	},
-	connections: ['tls', 'rest', 'http1', 'tcp'],
+	connections: ['tls', 'rest', 'http1', 'tcp', 'kerberos'],
 	links: {
 		wikipedia: 'https://en.wikipedia.org/wiki/[[oauth2|OAuth]]',
 		rfc: 'https://datatracker.ietf.org/doc/html/rfc6749',

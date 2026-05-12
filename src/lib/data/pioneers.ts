@@ -726,6 +726,118 @@ Before Noise: co-designed Signal's **X3DH** key-agreement protocol and the **Axo
 		}
 	},
 	{
+		id: 'clifford-neuman',
+		name: 'Clifford Neuman',
+		years: 'c. 1962–',
+		title: 'Co-designer of Kerberos V5',
+		org: 'USC Information Sciences Institute (Senior Research Scientist)',
+		contribution: `One of the principal architects of **[[kerberos|Kerberos]] V5** ([[rfc:4120|RFC 4120]]). PhD from the University of Washington (1992) on naming and security in distributed systems. Joined MIT Project Athena in the late 1980s during the Kerberos design phase; co-authored the canonical 1994 paper *"Kerberos: An Authentication Service for Computer Networks"* (IEEE Communications Magazine) with Theodore Ts'o — the article that taught a generation of engineers how the protocol actually works.
+
+Has been at **USC Information Sciences Institute** for three decades, where he led the GOST (Gigabit Operating System Technologies) project and continues to publish on distributed-systems security. Co-author of textbook *Network Security: Private Communication in a Public World* with [[pioneer:charlie-kaufman|Charlie Kaufman]] and Radia Perlman — the book that connects [[kerberos|Kerberos]], [[ipsec|IPsec]], [[tls|TLS]], and PKI into a coherent pedagogy.`,
+		protocols: ['kerberos'],
+		categories: ['utilities'],
+		links: {
+			homepage: 'https://www.isi.edu/~bcn/'
+		}
+	},
+	{
+		id: 'greg-hudson',
+		name: 'Greg Hudson',
+		years: 'c. 1976–',
+		title: 'MIT Kerberos lead maintainer',
+		org: 'MIT Kerberos Consortium',
+		contribution: `Long-running lead maintainer of **MIT [[kerberos|Kerberos]]** (\`krb5\`) — the canonical C codebase used by every Linux distribution, FreeIPA, Hadoop, NFSv4, and the Heimdal-incompatible parts of the macOS Kerberos stack. At MIT since the late 1990s; took over the lead-maintainer role from Sam Hartman in the mid-2010s.
+
+Steward of MIT krb5 releases through the entire 1.18 → 1.22 era (2020–2025), shipping PKINIT ECDH support (1.22, August 2025), Unix-domain socket transport, IAKerb realm discovery, paChecksum2, and the response to CVE-2024-37370 / CVE-2024-37371 in 1.21.3. The kind of maintainer whose patch commits are the ground truth on how [[kerberos|Kerberos]] actually behaves in 2026.`,
+		protocols: ['kerberos'],
+		categories: ['utilities'],
+		links: {
+			homepage: 'https://web.mit.edu/kerberos/'
+		}
+	},
+	{
+		id: 'marty-cooper',
+		name: 'Marty Cooper',
+		years: '1928–',
+		title: 'Inventor of the handheld cellular phone',
+		org: 'Motorola (1954–1983); Dyna LLC',
+		contribution: `Motorola engineer who led the **DynaTAC** team and placed the **first public handheld cellular call** on 3 April 1973, from Sixth Avenue in Manhattan to Joel Engel at AT&T Bell Labs — his direct rival. *"Joel, this is Marty. I'm calling you from a cell phone, a real handheld portable cell phone."* The DynaTAC weighed 2.5 lb and gave 35 minutes of talk after 10 hours of charging. As Cooper later put it: *"The battery lifetime wasn't really a problem because you couldn't hold that phone up for that long!"*
+
+Patent "radio telephone system" filed 17 October 1973. **2013 Charles Stark Draper Prize**; **2015 IEEE Masaru Ibuka Consumer Electronics Award**. Considered the *father of the handheld cell phone*. Now 96 and still active in spectrum-policy advocacy.`,
+		protocols: ['cellular'],
+		categories: ['wireless'],
+		awards: [
+			{ name: 'Charles Stark Draper Prize', year: 2013 },
+			{ name: 'IEEE Masaru Ibuka Consumer Electronics Award', year: 2015 }
+		],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/Martin_Cooper_(inventor)'
+		},
+		quotes: [
+			{
+				text: "Joel, this is Marty. I'm calling you from a cell phone, a real handheld portable cell phone.",
+				source: {
+					url: 'https://en.wikipedia.org/wiki/Martin_Cooper_(inventor)',
+					label: 'First public cellular call, 3 April 1973'
+				}
+			}
+		]
+	},
+	{
+		id: 'andrew-viterbi',
+		name: 'Andrew Viterbi',
+		years: '1935–',
+		title: 'Inventor of the Viterbi algorithm; Qualcomm co-founder',
+		org: 'Qualcomm (co-founded 1985); previously Linkabit (1968)',
+		contribution: `Italian-born American electrical engineer. **Invented the Viterbi algorithm (1967)** for decoding convolutional codes — used in essentially every digital communications system on Earth: every cellular phone, every disk-drive read channel, every GPS receiver, every speech recognizer. *On advice of a lawyer, Viterbi did not patent the algorithm.* It made nothing for him directly; it made Qualcomm everything.
+
+Co-founded **Linkabit** (1968) with [[pioneer:irwin-jacobs|Irwin Jacobs]] and Leonard Kleinrock, then **Qualcomm** on 1 July 1985 — the company that turned CDMA from a research curiosity into a global cellular standard. **National Medal of Science 2007**; **IEEE Medal of Honor 2010**. The USC Viterbi School of Engineering is named for him after a $52M gift in 2004.`,
+		protocols: ['cellular'],
+		categories: ['wireless'],
+		awards: [
+			{ name: 'National Medal of Science', year: 2007 },
+			{ name: 'IEEE Medal of Honor', year: 2010 },
+			{ name: 'Marconi Prize', year: 1990 }
+		],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/Andrew_Viterbi'
+		}
+	},
+	{
+		id: 'irwin-jacobs',
+		name: 'Irwin Jacobs',
+		years: '1933–',
+		title: 'Co-founder of Qualcomm; CDMA champion',
+		org: 'Qualcomm (co-founded 1985; CEO 1985–2005)',
+		contribution: `MIT-trained engineer who co-founded **Linkabit** with [[pioneer:andrew-viterbi|Andrew Viterbi]] (1968) and then **Qualcomm** (1985). Led the commercial fight for **CDMA** against the TDMA establishment after the CTIA's January 1989 vote *against* CDMA — *"no one found a hole in the technical presentation"* but the political fight took a decade. Hong Kong (1995), Korea, then the US were the first to ship cdmaOne. CDMA's mathematical foundation eventually became the basis of **WCDMA in UMTS** — the GSM camp ended up adopting it, closing the fork.
+
+**National Medal of Technology 1994**; **IEEE Alexander Graham Bell Medal 1995**. Co-author with John Wozencraft of *Principles of Communication Engineering* (1965) — still in print sixty years later.`,
+		protocols: ['cellular'],
+		categories: ['wireless'],
+		awards: [
+			{ name: 'National Medal of Technology', year: 1994 },
+			{ name: 'IEEE Alexander Graham Bell Medal', year: 1995 }
+		],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/Irwin_M._Jacobs'
+		}
+	},
+	{
+		id: 'erik-dahlman',
+		name: 'Erik Dahlman',
+		years: 'c. 1962–',
+		title: 'LTE and 5G NR systems architect',
+		org: 'Ericsson Research (Senior Expert, Radio Access Technologies)',
+		contribution: `Long-running Senior Expert at Ericsson Research and personal contributor to **LTE Release 8 PHY** design and **5G NR numerology**. Co-author with Stefan Parkvall and Johan Sköld of the two canonical reference texts — *4G LTE/LTE-Advanced for Mobile Broadband* (Academic Press, multiple editions through 2014) and *5G NR: The Next Generation Wireless Access Technology* (Academic Press, 2018; 2nd ed 2020) — used by every cellular engineer of the 2010s and 2020s.
+
+Active in 3GPP TSG-RAN through every release since LTE. The kind of contributor whose name on a study item means the study is real.`,
+		protocols: ['cellular'],
+		categories: ['wireless'],
+		links: {
+			homepage: 'https://www.ericsson.com/en/research-and-development'
+		}
+	},
+	{
 		id: 'stuart-cheshire',
 		name: 'Stuart Cheshire',
 		years: 'c. 1968–',

@@ -55,7 +55,9 @@ const highlightedNames: Record<string, string> = {
 	bluetooth: '[B]lue[T]ooth',
 	ipsec: '[IP] [Sec]urity',
 	wireguard: '[W]ire[G]uard',
-	'mdns-dns-sd': '[m][DNS] / [DNS-SD]'
+	'mdns-dns-sd': '[m][DNS] / [DNS-SD]',
+	cellular: '[4G] / [5G] [C]ellular',
+	kerberos: '[K]erberos'
 };
 
 export interface NameSegment {

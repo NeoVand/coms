@@ -177,7 +177,7 @@ Client → Server:
 		overhead:
 			'Per-packet: ~28+ bytes (4 length + 1 padding length + padding + MAC). MAC size varies: HMAC-SHA1 = 20 bytes, HMAC-SHA2-256 = 32 bytes. AEAD ciphers (AES-GCM, ChaCha20-Poly1305) use a 16-byte authentication tag instead.'
 	},
-	connections: ['tcp', 'tls', 'ftp'],
+	connections: ['tcp', 'tls', 'ftp', 'kerberos'],
 	links: {
 		wikipedia: 'https://en.wikipedia.org/wiki/Secure_Shell',
 		rfc: 'https://datatracker.ietf.org/doc/html/rfc4253'

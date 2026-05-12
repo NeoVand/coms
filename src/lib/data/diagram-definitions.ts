@@ -1333,6 +1333,84 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
 		}
 	},
 
+	kerberos: {
+		definition: `sequenceDiagram
+    participant C as Client (Alice)
+    participant AS as AS (Auth Service)
+    participant TGS as TGS (Ticket Granting)
+    participant S as Service (web1)
+    Note over C,AS: 1. Login — get a TGT
+    C->>AS: AS-REQ (alice, PA-ENC-TIMESTAMP)
+    AS->>C: AS-REP (TGT enc[krbtgt], K_session enc[alice])
+    Note over C: Alice decrypts K_session with her password-derived key
+    Note over C,TGS: 2. Request a service ticket (per service)
+    C->>TGS: TGS-REQ (TGT, sname=HTTP/web1, authenticator)
+    TGS->>C: TGS-REP (service ticket enc[web1], K_svc enc[K_session])
+    Note over C,S: 3. Connect to the service
+    C->>S: AP-REQ (service ticket, authenticator)
+    Note over S: web1 decrypts ticket with its keytab key,<br/>extracts K_svc, decrypts authenticator,<br/>checks ctime within ±5 min
+    S->>C: AP-REP (mutual auth: encrypted server timestamp)
+    Note over C,S: Authenticated. Optionally use K_svc to wrap KRB-PRIV / KRB-SAFE`,
+		caption:
+			'**[[kerberos|Kerberos]]** = three principals, two encrypted blobs per ticket, zero passwords on the wire. Designed at MIT Project Athena (1983–1991), [[rfc:4120|RFC 4120]] (2005). Powers every [[kerberos|Active Directory]] domain on Earth.',
+		steps: {
+			0: 'Alice wants to log in. She sends an **AS-REQ** to the Key Distribution Center\'s Authentication Service with her principal name and a **PA-ENC-TIMESTAMP** — a fresh timestamp encrypted under her long-term key — proving she knows the password before the KDC bothers responding.',
+			1: '**AS-REP** carries two things: a **Ticket Granting Ticket** encrypted under the krbtgt principal\'s key (only the KDC can decrypt it later), and the session key encrypted under Alice\'s long-term key (only Alice can decrypt). Alice never sends her password.',
+			3: 'For each service Alice wants to use, she sends a **TGS-REQ** to the KDC\'s Ticket Granting Service: her TGT (proves who she is) + a fresh **authenticator** encrypted under her TGT\'s session key (proves she just got it).',
+			4: '**TGS-REP** returns a **service ticket** encrypted under web1\'s long-term key (so only web1 can decrypt it), plus the new client↔service session key encrypted under the TGT\'s session key (so only Alice can decrypt it).',
+			6: '**AP-REQ** — Alice connects to web1 and presents the service ticket plus a fresh authenticator. The service ticket carries Alice\'s identity inside the encrypted blob; web1 doesn\'t need to talk to the KDC to verify.',
+			7: 'web1 decrypts the ticket with its **keytab** key, extracts K_svc, decrypts the authenticator. If `ctime` is within ±5 minutes of web1\'s clock and the authenticator hasn\'t been seen before, Alice is authenticated.',
+			8: '**AP-REP** — web1 returns an encrypted timestamp proving it also knows K_svc. This is **mutual authentication**: Alice now knows web1 is real (not an impostor with a stolen TGT).'
+		}
+	},
+
+	cellular: {
+		definition: `sequenceDiagram
+    participant U as UE (phone)
+    participant G as gNB (base station)
+    participant A as AMF (mobility)
+    participant S as SMF (sessions)
+    participant P as UPF (user-plane)
+    Note over U,G: 1. RRC Setup — PRACH random access
+    U->>G: Msg1 PRACH preamble
+    G->>U: Msg2 RAR (timing advance, C-RNTI)
+    U->>G: Msg3 RRCSetupRequest
+    G->>U: Msg4 RRCSetup
+    Note over U,A: 2. Registration Request (NAS)
+    U->>G: NAS Registration Request (SUCI, requested NSSAI)
+    G->>A: NGAP Initial UE Message
+    Note over U,A: 3. 5G-AKA Authentication
+    A->>U: Authentication Request (RAND, AUTN)
+    U->>A: Authentication Response (RES*)
+    Note over U,A: 4. NAS Security Mode (128-NEA2 / 128-NIA2)
+    A->>U: Security Mode Command
+    U->>A: Security Mode Complete (ciphered + integrity)
+    A->>U: Registration Accept (5G-GUTI, allowed NSSAI)
+    Note over U,P: 5. PDU Session Establishment
+    U->>A: PDU Session Est Req (DNN=internet, IPv4v6)
+    A->>S: Nsmf_PDUSession_CreateSMContext
+    S->>P: PFCP Session Est Req (PDR/FAR/QER/URR)
+    P->>S: PFCP Session Est Resp
+    S->>A: SM Context (UE IP, DNS)
+    A->>G: NGAP N2 (DRB setup, QFI→DRB mapping)
+    G->>U: RRCReconfiguration (DRB up)
+    Note over U,P: N3 GTP-U tunnel live — first user packet flows`,
+		caption:
+			'**[[cellular|Cellular 5G SA]]** initial registration + PDU session establishment. The eight beats every phone walks every time it leaves airplane mode. Every NGAP hop and every GTP-U packet between gNB and UPF is wrapped in [[ipsec|IPsec ESP]] per 3GPP TS 33.501.',
+		steps: {
+			0: '**Random Access** — UE chose a cell from SSB measurements, sent a PRACH preamble (Msg1). Base station replied with a Random Access Response (Msg2) carrying timing advance and a temporary identifier (C-RNTI).',
+			2: 'UE sends **RRCSetupRequest** with an establishment cause. Base station responds with **RRCSetup**. UE now has SRB1 (signalling radio bearer) but no security yet.',
+			4: '**Registration Request** carries the **SUCI** — the [[ip|IP]] address of every cell phone\'s long-term identity, encrypted with the home network\'s public key (ECIES Profile A on Curve25519 — never sent in clear).',
+			6: '**5G-AKA** — AMF asks AUSF, AUSF asks UDM. The UDM\'s SIDF decrypts SUCI → SUPI, generates an authentication vector. RAND/AUTN traverse all the way down to the UE. The USIM checks AUTN.MAC against `f1(K, SQN, RAND)`, computes RES* via `KDF(CK || IK)`. AUSF compares RES* to HRES*. Mutual authentication achieved.',
+			8: '**NAS Security Mode** — AMF picks ciphering (typically 128-NEA2 = AES-CTR) and integrity (128-NIA2 = AES-CMAC). From here every NAS message is integrity-protected and ciphered with K_NASint / K_NASenc.',
+			10: '**Registration Accept** carries the assigned **5G-GUTI** (the temporary identity the UE will use until next rekey) and the allowed NSSAI (network slices).',
+			12: 'UE requests a **PDU Session** — what the rest of the world would call "give me an [[ip|IP]] address." DNN ("internet"), session type (IPv4v6), requested S-NSSAI.',
+			14: '**PFCP** (Packet Forwarding Control Protocol — UDP/8805) lets SMF program the UPF: PDR (Packet Detection Rule), FAR (Forwarding Action Rule), QER (QoS Enforcement Rule), URR (Usage Reporting Rule). The split between SMF (control) and UPF (data) is the CUPS architecture.',
+			16: 'SMF returns the UE [[ipv6|IP]] address (and DNS servers, gateway, etc.) plus the N2 info gNB needs to set up the radio bearer.',
+			17: '**RRCReconfiguration** maps the QoS flow → Data Radio Bearer. N3 GTP-U tunnel is live. First user-plane packet flows.'
+		}
+	},
+
 	'mdns-dns-sd': {
 		definition: `sequenceDiagram
     participant N as New host (printer)

@@ -12,12 +12,32 @@ export const wirelessStory: CategoryStory = {
 
 Two technologies broke through. **[[wifi|Wi-Fi]]** (IEEE 802.11, 1997) took [[ethernet|Ethernet]]'s shared-medium model — CSMA/CD on coax — and adapted it for radio: CSMA/CA (Collision *Avoidance*, because radios can't detect collisions while transmitting), RTS/CTS handshakes for hidden terminals, encryption built in because the air can't be physically secured. Today it carries most consumer traffic.
 
-**[[bluetooth|Bluetooth]]** (1999) took the *opposite* approach: tiny piconets, frequency-hopping 1,600 times per second to dodge interference, master-slave (now Central/Peripheral) topology, microamp-scale power budgets. Different goals, different design — and together they cover every wireless surface from streaming 4K video to a hearing aid sipping power from a coin cell.`
+**[[bluetooth|Bluetooth]]** (1999) took the *opposite* approach: tiny piconets, frequency-hopping 1,600 times per second to dodge interference, master-slave (now Central/Peripheral) topology, microamp-scale power budgets. Different goals, different design.
+
+And, sitting beside both of them in this category, **[[cellular|Cellular]]** — 4G LTE and 5G NR, the 3GPP family that the rest of the world calls "the phone network." About 9 billion subscriptions in 2026. Where [[wifi|Wi-Fi]] is unlicensed and operated by whoever owns the building and [[bluetooth|Bluetooth]] is a personal-area network you carry in your pocket, [[cellular|cellular]] is **licensed spectrum, carrier-operated, wide-area, mobile** — and architecturally it is one of the largest [[ipsec|IPsec]] + [[http2|HTTP/2]] microservice fabrics on Earth.
+
+Together — Wi-Fi for local broadband, Bluetooth for personal-area, Cellular for wide-area — the three cover every wireless surface from streaming 4K video to a hearing aid sipping power from a coin cell to a phone connecting to a Starlink satellite 600 km overhead.`
 		},
 		{
 			type: 'pioneers',
 			title: 'The Architects of the Air',
 			people: [
+				{
+					name: 'Marty Cooper',
+					years: '1928–',
+					title: 'Inventor of the handheld cellular phone',
+					org: 'Motorola',
+					contribution:
+						'Led the Motorola DynaTAC team and placed the **first public handheld cellular call** on 3 April 1973, from Sixth Avenue in Manhattan — to Joel Engel at AT&T Bell Labs, his direct rival. *"Joel, this is Marty. I\'m calling you from a cell phone, a real handheld portable cell phone."* The DynaTAC weighed 2.5 lb and gave 35 minutes of talk after 10 hours of charging. 2013 Charles Stark Draper Prize; the *father of the handheld cell phone*.'
+				},
+				{
+					name: 'Andrew Viterbi',
+					years: '1935–',
+					title: 'Viterbi algorithm; Qualcomm co-founder',
+					org: 'Qualcomm',
+					contribution:
+						'Invented the **Viterbi algorithm** in 1967 — used in every cellular phone, every disk-drive read channel, every GPS receiver, and every speech recognizer. *On advice of a lawyer, Viterbi did not patent the algorithm.* Co-founded Qualcomm in 1985; led the company through the CDMA-vs-TDMA wars that culminated in CDMA\'s mathematical foundation becoming WCDMA inside UMTS. **IEEE Medal of Honor 2010**.'
+				},
 				{
 					name: 'Vic Hayes',
 					years: '1941–',
@@ -62,6 +82,20 @@ Two technologies broke through. **[[wifi|Wi-Fi]]** (IEEE 802.11, 1997) took [[et
 						'Norman Abramson at the University of Hawaii builds ALOHAnet, the first wireless packet network — connecting islands via radio at 9.6 kbps. The "random access" idea (transmit whenever you have data; retransmit on collision) directly inspired [[ethernet|Ethernet]] CSMA/CD and, by extension, [[wifi|Wi-Fi]] CSMA/CA.'
 				},
 				{
+					year: 1973,
+					title: 'First handheld cellular call — Motorola DynaTAC',
+					description:
+						"Marty Cooper of Motorola dials Joel Engel at AT&T Bell Labs from Sixth Avenue, Manhattan: *\"Joel, this is Marty. I'm calling you from a cell phone, a real handheld portable cell phone.\"* The DynaTAC weighs 2.5 lb and gets 35 minutes of talk after 10 hours of charging.",
+					protocolId: 'cellular'
+				},
+				{
+					year: 1991,
+					title: 'GSM goes live in Finland',
+					description:
+						"Radiolinja launches the world's first commercial GSM network in Finland — the 2G digital standard that European carriers built and that became the foundation of [[cellular|cellular]] worldwide. The CDMA-vs-GSM standards war won't resolve until WCDMA inside UMTS in the early 2000s.",
+					protocolId: 'cellular'
+				},
+				{
 					year: 1994,
 					title: 'Bluetooth invented at Ericsson Lund',
 					description:
@@ -104,6 +138,20 @@ Two technologies broke through. **[[wifi|Wi-Fi]]** (IEEE 802.11, 1997) took [[et
 					protocolId: 'wifi'
 				},
 				{
+					year: 2008,
+					title: '4G LTE Release 8 frozen — OFDMA arrives',
+					description:
+						"3GPP freezes Release 8 in December 2008. **Long Term Evolution** abandons WCDMA's spreading codes for an OFDMA + SC-FDMA air interface — the clean-sheet radio design that scales linearly with spectrum width. The architectural substrate every 5G NR design choice is later evolved from.",
+					protocolId: 'cellular'
+				},
+				{
+					year: 2018,
+					title: '5G NR Release 15 freeze',
+					description:
+						"3GPP Release 15 — the **first 5G NR specification** — is frozen on 14 June 2018. Service-based 5G Core, flexible numerology, mmWave (FR2) support, network slicing. First commercial 5G networks light up in 2019; first 5G-Standalone (no LTE anchor) deployments arrive in 2020–2021.",
+					protocolId: 'cellular'
+				},
+				{
 					year: 2024,
 					title: 'Bluetooth 6.0 — Channel Sounding',
 					description:
@@ -123,8 +171,25 @@ Two technologies broke through. **[[wifi|Wi-Fi]]** (IEEE 802.11, 1997) took [[et
 					description:
 						'On 28 January 2026 Frankfurt Airport became the first airport to broadcast all gate announcements over **Auracast** — LC3-based one-to-many LE Audio. The first real-world replacement for analog hearing loops.',
 					protocolId: 'bluetooth'
+				},
+				{
+					year: 2025,
+					title: 'T-Mobile + SpaceX Direct-to-Cell launches commercially',
+					description:
+						"The first commercial **satellite-to-cell** service. Standard band n25/n26 phones connect to low-Earth-orbit Starlink satellites for SMS and emergency. Apple\'s Globalstar partnership and AT&T's AST SpaceMobile follow similar patterns. Reshapes \"coverage\" as a concept: \"no signal\" no longer means *no signal*.",
+					protocolId: 'cellular'
 				}
 			]
+		},
+		{
+			type: 'callout',
+			title: 'Definitive members list (ranked by deployment priority)',
+			text: `Three are already in this category, four more are queued for the next research wave:\n\n1. **Wi-Fi** (802.11) — universal local broadband. *Shipped.*\n2. **Bluetooth** (BR/EDR + BLE) — personal-area + IoT commissioning. *Shipped.*\n3. **Cellular** (4G LTE + 5G NR) — wide-area, licensed, mobile. ~9B subs. *Shipped.*\n4. **NFC** (ISO/IEC 18092) — contactless payment + transit cards. *Queued.*\n5. **UWB** (IEEE 802.15.4z) — sub-decimetre ranging, AirTag Precision Finding, CCC Digital Key. *Queued.*\n6. **Thread** (IEEE 802.15.4 + 6LoWPAN) — the IPv6-native smart-home mesh under Matter. *Coming with Matter+Thread bundle.*\n7. **LoRaWAN** — sub-GHz LPWAN for metering, agriculture, smart cities; 125M+ devices deployed by end-2025. *Queued.*\n8. **Zigbee** (CSA) — the legacy mesh that still runs the Philips Hue installed base. *Queued.*\n\n**Sidebars** rather than full pages: NB-IoT / LTE-M (inside the Cellular page), Z-Wave (inside Zigbee/Thread), GNSS / NMEA 0183 (positioning, not a network). **Callouts only**: DECT NR+, WirelessHART/ISA100.11a, broadcast (AM/FM/DAB+/ATSC 3.0), passive RFID, IrDA.`
+		},
+		{
+			type: 'callout',
+			title: 'Spectrum at a glance',
+			text: `Every wireless protocol picks a band, and the band picks the trade-offs:\n\n- **Sub-GHz (433/868/915 MHz)** — long range, low data rate. Unlicensed in most regions. *LoRaWAN, Sigfox, Z-Wave, NB-IoT in 700 MHz.*\n- **2.4 GHz ISM** — global, unlicensed, crowded. *Wi-Fi b/g/n/ax, Bluetooth BR/EDR + BLE, Zigbee, Thread, microwave-oven leakage, baby monitors.* Modern combo chips (Apple H-series, Broadcom, Qualcomm) do time-division arbitration to keep them all alive on one antenna.\n- **5 GHz / 6 GHz** — fast, less crowded. *Wi-Fi a/n/ac/ax/be (6E and 7).* The 6 GHz expansion in the US (FCC 2020) and EU (CEPT 2021) added 1200 MHz of unlicensed spectrum — the biggest single bandwidth grant in 20 years.\n- **24–52 GHz mmWave** — line-of-sight, gigabits. *Wi-Fi WiGig, 5G NR FR2.* Loses 20 dB on a wet leaf; deployed mostly in stadiums and dense urban hotspots.\n- **Licensed cellular (600 MHz – 3.7 GHz mid-band)** — predictable QoS, carrier-operated. *4G LTE FR1, 5G NR FR1.* Spectrum auctioned for billions.\n- **UWB (6–8.5 GHz)** — wide bandwidth, ultra-low power, sub-decimetre ranging. *FiRa Consortium, IEEE 802.15.4z.*\n- **Satellite L/S/Ka band** — global coverage. *Starlink Direct-to-Cell on n25/n26, AST SpaceMobile, Apple Globalstar Emergency SOS.*`
 		},
 		{
 			type: 'narrative',
