@@ -127,7 +127,8 @@ function defaultTargets(): string[] {
 		'src/lib/data/frontier.ts',
 		'src/lib/data/journeys.ts',
 		'src/lib/data/category-deep-dives.ts',
-		'src/lib/data/outages.ts'
+		'src/lib/data/outages.ts',
+		'src/lib/data/comparison/pairs.ts'
 	].map((p) => join(REPO, p));
 	return [...parts, ...stories, ...protocols, foundations, ...others];
 }
@@ -299,7 +300,10 @@ const PROPERTY_DENYLIST = new Set([
 	'overhead',
 	'status',
 	'term',
-	'value'
+	'value',
+	// ComparisonCard renders `diff.aspect` raw — it's a short row
+	// heading like "Header size" or "Connection model", not prose.
+	'aspect'
 ]);
 
 /**

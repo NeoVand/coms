@@ -36,7 +36,7 @@ const vsPairs: ProtocolPair[] = [
 		ids: ['mptcp', 'tcp'],
 		type: 'vs',
 		summary:
-			'Standard [[tcp|TCP]] uses a single network path; [[mptcp|MPTCP]] spreads traffic across multiple paths (e.g. Wi-Fi + cellular) for better throughput and seamless failover.',
+			'Standard [[tcp|TCP]] uses a single network path; [[mptcp|MPTCP]] spreads traffic across multiple paths (e.g. [[wifi|Wi-Fi]] + cellular) for better throughput and seamless failover.',
 		keyDifferences: [
 			{ aspect: 'Connection model', left: 'Multiple subflows across interfaces', right: 'Single path, single interface' },
 			{ aspect: 'Redundancy', left: 'Seamless failover between paths', right: 'Connection drops if path fails' },
@@ -45,7 +45,7 @@ const vsPairs: ProtocolPair[] = [
 			{ aspect: 'Ecosystem', left: 'Growing support (Apple, Linux 5.6+)', right: 'Universal support everywhere' }
 		],
 		useLeftWhen: [
-			'Devices have multiple network interfaces (mobile with Wi-Fi + cellular)',
+			'Devices have multiple network interfaces (mobile with [[wifi|Wi-Fi]] + cellular)',
 			'Connection continuity matters during network transitions (handoffs)',
 			'You need aggregated bandwidth from multiple paths',
 			'Failover resilience is more important than simplicity'
@@ -65,7 +65,7 @@ const vsPairs: ProtocolPair[] = [
 		keyDifferences: [
 			{ aspect: 'Data format', left: 'Message-oriented (preserves boundaries)', right: 'Byte-stream (no message boundaries)' },
 			{ aspect: 'Multiplexing', left: 'Multiple independent streams', right: 'Single stream (head-of-line blocking)' },
-			{ aspect: 'Redundancy', left: 'Built-in multi-homing (multiple IPs)', right: 'Single IP per connection' },
+			{ aspect: 'Redundancy', left: 'Built-in multi-homing (multiple IPs)', right: 'Single [[ip|IP]] per connection' },
 			{ aspect: 'Connection model', left: '4-way handshake with cookie (DoS-resistant)', right: '3-way handshake' },
 			{ aspect: 'Ecosystem', left: 'Limited (telecom, [[webrtc|WebRTC]] data channels)', right: 'Universal support' }
 		],
@@ -156,7 +156,7 @@ const vsPairs: ProtocolPair[] = [
 		useRightWhen: [
 			'Users are on lossy or mobile networks where [[tcp|TCP]] head-of-line blocking hurts',
 			'Fast connection establishment (0-RTT) significantly improves user experience',
-			'Connection migration matters (users switching Wi-Fi to cellular)',
+			'Connection migration matters (users switching [[wifi|Wi-Fi]] to cellular)',
 			'You are building latency-sensitive applications (live streaming, gaming APIs)'
 		]
 	},
@@ -364,7 +364,7 @@ const vsPairs: ProtocolPair[] = [
 		ids: ['http2', 'rest'],
 		type: 'vs',
 		summary:
-			'[[rest|REST]] is an architectural style defining how to structure APIs; [[http2|HTTP/2]] is a transport protocol that improves how HTTP requests are delivered — they operate at different levels and are not direct alternatives. They are complementary: REST APIs can (and commonly do) run over HTTP/2, gaining multiplexing, header compression, and server push without any changes to API design.',
+			'[[rest|REST]] is an architectural style defining how to structure APIs; [[http2|HTTP/2]] is a transport protocol that improves how HTTP requests are delivered — they operate at different levels and are not direct alternatives. They are complementary: [[rest|REST]] APIs can (and commonly do) run over [[http2|HTTP/2]], gaining multiplexing, header compression, and server push without any changes to API design.',
 		keyDifferences: [
 			{ aspect: 'Multiplexing', left: 'Multiple concurrent streams natively', right: 'One request per connection (uses multiple connections)' },
 			{ aspect: 'Direction', left: 'Server push for proactive delivery', right: 'Client-initiated requests only' },
@@ -700,7 +700,7 @@ const vsPairs: ProtocolPair[] = [
 			},
 			{
 				aspect: 'Default port',
-				left: '993 (IMAPS with TLS)',
+				left: '993 (IMAPS with [[tls|TLS]])',
 				right: '587 (submission with STARTTLS)'
 			}
 		],
@@ -728,7 +728,7 @@ const vsPairs: ProtocolPair[] = [
 		keyDifferences: [
 			{ aspect: 'Medium', left: 'Copper/fiber cables (dedicated per link)', right: 'Radio waves (shared airtime)' },
 			{ aspect: 'Access control', left: 'Full duplex on switched links (no collisions)', right: 'CSMA/CA — collision avoidance on shared medium' },
-			{ aspect: 'Speed (typical)', left: '1-100 Gbps', right: '100 Mbps–9.6 Gbps (Wi-Fi 6E/7)' },
+			{ aspect: 'Speed (typical)', left: '1-100 Gbps', right: '100 Mbps–9.6 Gbps ([[wifi|Wi-Fi]] 6E/7)' },
 			{ aspect: 'Security', left: 'Physical access required (inherently private)', right: 'Encryption mandatory (WPA2/WPA3)' },
 			{ aspect: 'Addressing', left: '2 MAC addresses per frame (src, dst)', right: '3-4 MAC addresses per frame (RA, TA, DA, SA)' }
 		],
@@ -755,19 +755,19 @@ const vsPairs: ProtocolPair[] = [
 			{ aspect: 'Address size', left: '32-bit (192.168.1.1) — 4.3 billion addresses', right: '128-bit (2001:db8::1) — 340 undecillion addresses' },
 			{ aspect: 'Header', left: 'Variable 20-60 bytes, header checksum, options', right: 'Fixed 40 bytes, no checksum, extension header chain' },
 			{ aspect: 'Fragmentation', left: 'Routers and hosts can fragment', right: 'Only source host fragments (Path MTU Discovery)' },
-			{ aspect: 'Address resolution', left: 'ARP broadcasts (FF:FF:FF:FF:FF:FF)', right: 'NDP solicited-node multicast (far more efficient)' },
-			{ aspect: 'Auto-configuration', left: 'Requires DHCP server', right: 'SLAAC — hosts self-configure from router prefix' }
+			{ aspect: 'Address resolution', left: '[[arp|ARP]] broadcasts (FF:FF:FF:FF:FF:FF)', right: 'NDP solicited-node multicast (far more efficient)' },
+			{ aspect: 'Auto-configuration', left: 'Requires [[dhcp|DHCP]] server', right: 'SLAAC — hosts self-configure from router prefix' }
 		],
 		useLeftWhen: [
-			'You are operating in legacy environments where IPv6 is not yet supported',
-			'All devices and infrastructure only support IPv4',
+			'You are operating in legacy environments where [[ipv6|IPv6]] is not yet supported',
+			'All devices and infrastructure only support [[ip|IPv4]]',
 			'NAT provides sufficient address space for your needs',
-			'Your network tooling and monitoring only handles IPv4'
+			'Your network tooling and monitoring only handles [[ip|IPv4]]'
 		],
 		useRightWhen: [
 			'You need globally unique addresses for every device (IoT, mobile, cloud)',
 			'You want to eliminate NAT complexity and enable true end-to-end connectivity',
-			'You are deploying on modern mobile or cloud networks that prefer IPv6',
+			'You are deploying on modern mobile or cloud networks that prefer [[ipv6|IPv6]]',
 			'You need efficient multicast and solicited-node address resolution'
 		]
 	},
@@ -783,14 +783,14 @@ const vsPairs: ProtocolPair[] = [
 			{ aspect: 'Data format', left: 'XML only (strict schema)', right: 'JSON, XML, or any format (flexible)' },
 			{ aspect: 'Contract', left: 'WSDL — formal, machine-readable service definition', right: 'OpenAPI/Swagger — optional, documentation-oriented' },
 			{ aspect: 'Transport', left: 'HTTP POST only (protocol-agnostic in theory)', right: 'Full HTTP semantics (GET, POST, PUT, DELETE)' },
-			{ aspect: 'Error handling', left: 'SOAP Fault — structured XML error envelopes', right: 'HTTP status codes (404, 500, etc.)' },
-			{ aspect: 'Ecosystem', left: 'WS-Security, WS-ReliableMessaging, WS-AtomicTransaction', right: 'Lightweight — use TLS, retries, saga pattern separately' }
+			{ aspect: 'Error handling', left: '[[soap|SOAP]] Fault — structured XML error envelopes', right: 'HTTP status codes (404, 500, etc.)' },
+			{ aspect: 'Ecosystem', left: 'WS-Security, WS-ReliableMessaging, WS-AtomicTransaction', right: 'Lightweight — use [[tls|TLS]], retries, saga pattern separately' }
 		],
 		useLeftWhen: [
 			'You need formal service contracts with strict schema validation (banking, insurance)',
 			'Built-in security standards are required (WS-Security with XML signatures)',
 			'Distributed transactions across services must be atomic (WS-AtomicTransaction)',
-			'You are integrating with legacy enterprise systems that already speak SOAP'
+			'You are integrating with legacy enterprise systems that already speak [[soap|SOAP]]'
 		],
 		useRightWhen: [
 			'You want simplicity and human-readable JSON payloads',
@@ -803,17 +803,17 @@ const vsPairs: ProtocolPair[] = [
 		ids: ['soap', 'grpc'],
 		type: 'vs',
 		summary:
-			'Both use strict contracts and code generation, but [[soap|SOAP]] wraps calls in verbose XML envelopes while [[grpc|gRPC]] uses compact binary Protobuf over HTTP/2.',
+			'Both use strict contracts and code generation, but [[soap|SOAP]] wraps calls in verbose XML envelopes while [[grpc|gRPC]] uses compact binary Protobuf over [[http2|HTTP/2]].',
 		keyDifferences: [
 			{ aspect: 'Serialization', left: 'XML (text-based, verbose)', right: 'Protocol Buffers (binary, compact)' },
 			{ aspect: 'Contract', left: 'WSDL (XML Schema)', right: '.proto files (Protocol Buffers IDL)' },
-			{ aspect: 'Transport', left: 'HTTP/1.1 POST', right: 'HTTP/2 with multiplexing and streaming' },
+			{ aspect: 'Transport', left: '[[http1|HTTP/1.1]] POST', right: '[[http2|HTTP/2]] with multiplexing and streaming' },
 			{ aspect: 'Streaming', left: 'Not supported natively', right: 'Bidirectional streaming built-in' },
 			{ aspect: 'Ecosystem', left: 'Mature enterprise (Java, .NET)', right: 'Modern polyglot (Go, Rust, Python, Java, JS)' }
 		],
 		useLeftWhen: [
 			'You are in a regulated industry requiring WSDL-based formal contracts',
-			'Existing infrastructure is built around SOAP/WS-* standards',
+			'Existing infrastructure is built around [[soap|SOAP]]/WS-* standards',
 			'You need WS-Security features like XML digital signatures',
 			'Human-readable XML messages aid debugging and compliance auditing'
 		],
@@ -856,13 +856,13 @@ const vsPairs: ProtocolPair[] = [
 		ids: ['oauth2', 'tls'],
 		type: 'vs',
 		summary:
-			'[[oauth2|OAuth 2.0]] handles authorization (who can access what); [[tls|TLS]] handles encryption (protecting data in transit). Different problems, complementary solutions — OAuth requires TLS.',
+			'[[oauth2|OAuth 2.0]] handles authorization (who can access what); [[tls|TLS]] handles encryption (protecting data in transit). Different problems, complementary solutions — [[oauth2|OAuth]] requires [[tls|TLS]].',
 		keyDifferences: [
 			{ aspect: 'Problem solved', left: 'Authorization — delegated access to resources', right: 'Encryption — confidentiality and integrity of data in transit' },
 			{ aspect: 'OSI layer', left: 'Application layer (HTTP redirects, tokens)', right: 'Session/transport layer (encrypts byte streams)' },
 			{ aspect: 'Scope', left: 'Per-resource access control (scopes, tokens)', right: 'Per-connection encryption (entire data stream)' },
 			{ aspect: 'User involvement', left: 'User consents to grant access', right: 'Transparent to the user (lock icon in browser)' },
-			{ aspect: 'Dependency', left: 'Requires TLS for security (tokens in cleartext = disaster)', right: 'Independent — works without OAuth' }
+			{ aspect: 'Dependency', left: 'Requires [[tls|TLS]] for security (tokens in cleartext = disaster)', right: 'Independent — works without [[oauth2|OAuth]]' }
 		],
 		useLeftWhen: [
 			'Third-party apps need access to user resources without passwords',
@@ -884,7 +884,7 @@ const vsPairs: ProtocolPair[] = [
 		ids: ['json-rpc', 'rest'],
 		type: 'vs',
 		summary:
-			'[[rest|REST]] maps operations to HTTP verbs and multiple resource URLs; [[json-rpc|JSON-RPC]] sends method names to a single endpoint. REST is resource-oriented, JSON-RPC is action-oriented.',
+			'[[rest|REST]] maps operations to HTTP verbs and multiple resource URLs; [[json-rpc|JSON-RPC]] sends method names to a single endpoint. [[rest|REST]] is resource-oriented, [[json-rpc|JSON-RPC]] is action-oriented.',
 		keyDifferences: [
 			{ aspect: 'Data format', left: 'Method name + params in JSON body', right: 'HTTP verbs + resource URLs' },
 			{ aspect: 'Caching', left: 'Not cacheable (all POSTs)', right: 'HTTP-level caching (GET is cacheable)' },
@@ -901,7 +901,7 @@ const vsPairs: ProtocolPair[] = [
 		useRightWhen: [
 			'Your API models resources with standard CRUD operations',
 			'HTTP caching, content negotiation, and status codes are important',
-			'You need broad third-party developer adoption (REST is universally understood)',
+			'You need broad third-party developer adoption ([[rest|REST]] is universally understood)',
 			'Your API will be consumed by web browsers directly'
 		]
 	},
@@ -909,10 +909,10 @@ const vsPairs: ProtocolPair[] = [
 		ids: ['grpc', 'json-rpc'],
 		type: 'vs',
 		summary:
-			'[[grpc|gRPC]] uses binary Protocol Buffers and HTTP/2 for maximum performance with code generation; [[json-rpc|JSON-RPC]] uses human-readable JSON over any transport for maximum simplicity.',
+			'[[grpc|gRPC]] uses binary Protocol Buffers and [[http2|HTTP/2]] for maximum performance with code generation; [[json-rpc|JSON-RPC]] uses human-readable JSON over any transport for maximum simplicity.',
 		keyDifferences: [
 			{ aspect: 'Data format', left: 'Binary (Protocol Buffers)', right: 'Text (JSON)' },
-			{ aspect: 'Transport', left: 'HTTP/2 only', right: 'Any (HTTP, WebSocket, stdio, TCP)' },
+			{ aspect: 'Transport', left: '[[http2|HTTP/2]] only', right: 'Any (HTTP, [[websockets|WebSocket]], stdio, [[tcp|TCP]])' },
 			{ aspect: 'Direction', left: 'Unary + bidirectional streaming', right: 'Request-response + notifications' },
 			{ aspect: 'Complexity', left: '.proto files + code generation', right: 'No schema, no build step' },
 			{ aspect: 'Ecosystem', left: 'Mature (Google-backed, 11 languages)', right: 'Lightweight (blockchain, AI, editors)' }
@@ -927,7 +927,7 @@ const vsPairs: ProtocolPair[] = [
 			'Human-readable messages matter (debugging, logging, curl testing)',
 			'You need transport flexibility (stdio for local processes, HTTP for remote)',
 			'The overhead of code generation and Protobuf compilation is not worth it',
-			'You are integrating with systems that already speak JSON-RPC (Ethereum, LSP, MCP)'
+			'You are integrating with systems that already speak [[json-rpc|JSON-RPC]] (Ethereum, LSP, [[mcp|MCP]])'
 		]
 	},
 	{
@@ -976,8 +976,8 @@ const vsPairs: ProtocolPair[] = [
 		useRightWhen: [
 			'Formal WSDL contracts and compile-time validation are required',
 			'You need WS-Security, WS-ReliableMessaging, or WS-AtomicTransaction',
-			'You are integrating with existing enterprise SOAP services',
-			'Regulatory compliance requires the formality and audit trail of SOAP'
+			'You are integrating with existing enterprise [[soap|SOAP]] services',
+			'Regulatory compliance requires the formality and audit trail of [[soap|SOAP]]'
 		]
 	},
 
@@ -993,7 +993,7 @@ const vsPairs: ProtocolPair[] = [
 			{ aspect: 'Discovery', left: 'Agent Cards at /.well-known/agent.json', right: 'Capabilities handshake (initialize)' },
 			{ aspect: 'Transparency', left: 'Opaque (skills only, no internals)', right: 'Transparent (tool schemas, resource URIs)' },
 			{ aspect: 'Unit of work', left: 'Task with lifecycle (stateful)', right: 'Tool call (stateless request-response)' },
-			{ aspect: 'Transport', left: 'HTTP, SSE, webhooks, gRPC', right: 'stdio, Streamable HTTP' }
+			{ aspect: 'Transport', left: 'HTTP, [[sse|SSE]], webhooks, [[grpc|gRPC]]', right: 'stdio, Streamable HTTP' }
 		],
 		useLeftWhen: [
 			'You need multiple AI agents to collaborate on complex tasks',
@@ -1017,8 +1017,8 @@ const vsPairs: ProtocolPair[] = [
 			{ aspect: 'Purpose', left: 'AI agent-to-agent collaboration', right: 'General-purpose API access' },
 			{ aspect: 'Discovery', left: 'Agent Cards with skills and auth', right: 'OpenAPI/Swagger documentation' },
 			{ aspect: 'Statefulness', left: 'Stateful tasks with lifecycle', right: 'Stateless request-response' },
-			{ aspect: 'Direction', left: 'Bidirectional (SSE, webhooks)', right: 'Client-initiated only' },
-			{ aspect: 'Data format', left: 'JSON-RPC methods + Parts/Artifacts', right: 'HTTP verbs + resource URLs' }
+			{ aspect: 'Direction', left: 'Bidirectional ([[sse|SSE]], webhooks)', right: 'Client-initiated only' },
+			{ aspect: 'Data format', left: '[[json-rpc|JSON-RPC]] methods + Parts/Artifacts', right: 'HTTP verbs + resource URLs' }
 		],
 		useLeftWhen: [
 			'You are building multi-agent AI systems that need to delegate and coordinate',
@@ -1041,7 +1041,7 @@ const vsPairs: ProtocolPair[] = [
 		keyDifferences: [
 			{ aspect: 'Purpose', left: 'AI-native tool and data access', right: 'General-purpose API access' },
 			{ aspect: 'Discovery', left: 'Dynamic capability negotiation', right: 'Static OpenAPI documentation' },
-			{ aspect: 'Data format', left: 'JSON-RPC methods (tools/call)', right: 'HTTP verbs + resource URLs' },
+			{ aspect: 'Data format', left: '[[json-rpc|JSON-RPC]] methods (tools/call)', right: 'HTTP verbs + resource URLs' },
 			{ aspect: 'Transport', left: 'stdio + Streamable HTTP', right: 'HTTP only' },
 			{ aspect: 'Ecosystem', left: 'AI apps (Claude, ChatGPT, Cursor)', right: 'Universal (any HTTP client)' }
 		],
@@ -1066,7 +1066,7 @@ const vsPairs: ProtocolPair[] = [
 		keyDifferences: [
 			{ aspect: 'Purpose', left: 'AI agent collaboration', right: 'General-purpose microservice RPC' },
 			{ aspect: 'Discovery', left: 'Agent Cards with skills', right: 'Protobuf service reflection' },
-			{ aspect: 'Data format', left: 'JSON-RPC 2.0 (text)', right: 'Protocol Buffers (binary)' },
+			{ aspect: 'Data format', left: '[[json-rpc|JSON-RPC]] 2.0 (text)', right: 'Protocol Buffers (binary)' },
 			{ aspect: 'Statefulness', left: 'Stateful tasks with lifecycle', right: 'Stateless unary or streaming calls' },
 			{ aspect: 'Ecosystem', left: 'AI agents (Google, Salesforce, SAP)', right: 'Microservices (Kubernetes, service mesh)' }
 		],
@@ -1252,7 +1252,7 @@ const relationshipPairs: ProtocolPair[] = [
 			'[[dns|DNS]] uses [[udp|UDP]] as its primary transport for fast, single-packet query-response lookups, keeping name resolution lightweight and low-latency.',
 		howTheyWork:
 			'A [[dns|DNS]] client sends a query as a single [[udp|UDP]] datagram (typically under 512 bytes) to a resolver on port 53. The resolver responds with another [[udp|UDP]] datagram containing the answer. No connection setup is needed, making lookups fast. For responses exceeding 512 bytes or requiring reliability, [[dns|DNS]] falls back to [[tcp|TCP]].',
-		leftRole: '[[dns|DNS]] defines the query/response format for translating domain names to IP addresses.',
+		leftRole: '[[dns|DNS]] defines the query/response format for translating domain names to [[ip|IP]] addresses.',
 		rightRole: '[[udp|UDP]] provides the fast, connectionless transport that makes single-packet [[dns|DNS]] lookups efficient.'
 	},
 	{
@@ -1269,11 +1269,11 @@ const relationshipPairs: ProtocolPair[] = [
 		ids: ['dhcp', 'udp'],
 		type: 'relationship',
 		summary:
-			'[[dhcp|DHCP]] uses [[udp|UDP]] for automatic IP address assignment, since clients cannot establish [[tcp|TCP]] connections before they have an IP address.',
+			'[[dhcp|DHCP]] uses [[udp|UDP]] for automatic [[ip|IP]] address assignment, since clients cannot establish [[tcp|TCP]] connections before they have an [[ip|IP]] address.',
 		howTheyWork:
-			'A [[dhcp|DHCP]] client broadcasts a DISCOVER message from port 68 as a [[udp|UDP]] datagram because it has no IP address yet and cannot perform [[tcp|TCP]]\'s handshake. The [[dhcp|DHCP]] server listens on port 67 and responds with an OFFER, also via [[udp|UDP]] broadcast or unicast. This bootstrap problem makes [[udp|UDP]] the only viable transport — [[tcp|TCP]] requires an established IP address on both sides before communication can begin.',
-		leftRole: '[[dhcp|DHCP]] provides the protocol logic for discovering servers, requesting leases, and assigning IP configuration.',
-		rightRole: '[[udp|UDP]] provides the connectionless transport necessary for communication before a client has an IP address.'
+			'A [[dhcp|DHCP]] client broadcasts a DISCOVER message from port 68 as a [[udp|UDP]] datagram because it has no [[ip|IP]] address yet and cannot perform [[tcp|TCP]]\'s handshake. The [[dhcp|DHCP]] server listens on port 67 and responds with an OFFER, also via [[udp|UDP]] broadcast or unicast. This bootstrap problem makes [[udp|UDP]] the only viable transport — [[tcp|TCP]] requires an established [[ip|IP]] address on both sides before communication can begin.',
+		leftRole: '[[dhcp|DHCP]] provides the protocol logic for discovering servers, requesting leases, and assigning [[ip|IP]] configuration.',
+		rightRole: '[[udp|UDP]] provides the connectionless transport necessary for communication before a client has an [[ip|IP]] address.'
 	},
 	{
 		ids: ['http3', 'udp'],
@@ -1365,7 +1365,7 @@ const relationshipPairs: ProtocolPair[] = [
 			'[[dns|DNS]] over [[tls|TLS]] (DoT) encrypts [[dns|DNS]] queries by wrapping them in a [[tls|TLS]] connection on port 853, preventing eavesdropping and manipulation of name resolution.',
 		howTheyWork:
 			'A [[dns|DNS]] client establishes a [[tls|TLS]] connection to a resolver on port 853 (RFC 7858) before sending any [[dns|DNS]] queries. Each query and response travels through the encrypted [[tls|TLS]] channel, preventing network observers from seeing which domains are being resolved. Without DoT, standard [[dns|DNS]] queries on port 53 are sent in plaintext and are trivially observable or spoofable.',
-		leftRole: '[[dns|DNS]] provides the query/response protocol for translating domain names to IP addresses.',
+		leftRole: '[[dns|DNS]] provides the query/response protocol for translating domain names to [[ip|IP]] addresses.',
 		rightRole: '[[tls|TLS]] provides confidentiality and integrity, preventing eavesdropping and tampering of [[dns|DNS]] lookups.'
 	},
 	{
@@ -1444,7 +1444,7 @@ const relationshipPairs: ProtocolPair[] = [
 		summary:
 			'[[tls|TLS]] encrypts [[mptcp|MPTCP]] connections just as it does standard [[tcp|TCP]], securing data flowing across multiple network paths simultaneously.',
 		howTheyWork:
-			'[[mptcp|MPTCP]] establishes multiple [[tcp|TCP]] subflows across different network interfaces (e.g., Wi-Fi and cellular). [[tls|TLS]] operates on the [[mptcp|MPTCP]] connection as a whole, performing its handshake once over the initial subflow. The encrypted [[tls|TLS]] session then transparently spans all subflows, so data remains protected regardless of which network path carries it.',
+			'[[mptcp|MPTCP]] establishes multiple [[tcp|TCP]] subflows across different network interfaces (e.g., [[wifi|Wi-Fi]] and cellular). [[tls|TLS]] operates on the [[mptcp|MPTCP]] connection as a whole, performing its handshake once over the initial subflow. The encrypted [[tls|TLS]] session then transparently spans all subflows, so data remains protected regardless of which network path carries it.',
 		leftRole: '[[mptcp|MPTCP]] provides multi-path transport, aggregating bandwidth and enabling seamless failover.',
 		rightRole: '[[tls|TLS]] provides confidentiality, integrity, and authentication across all [[mptcp|MPTCP]] subflows.'
 	},
@@ -1703,7 +1703,7 @@ const relationshipPairs: ProtocolPair[] = [
 		summary:
 			'[[sdp|SDP]] describes the parameters of an [[rtp|RTP]] session — codecs, payload types, ports, and addresses — so both endpoints agree on how to send and receive media.',
 		howTheyWork:
-			'Before [[rtp|RTP]] media can flow, endpoints exchange [[sdp|SDP]] descriptions (via [[sip|SIP]], [[webrtc|WebRTC]] signaling, or other means) that specify the IP addresses, port numbers, codecs, and payload type mappings for each media stream. [[rtp|RTP]] then uses these negotiated parameters to deliver audio and video packets between the endpoints.',
+			'Before [[rtp|RTP]] media can flow, endpoints exchange [[sdp|SDP]] descriptions (via [[sip|SIP]], [[webrtc|WebRTC]] signaling, or other means) that specify the [[ip|IP]] addresses, port numbers, codecs, and payload type mappings for each media stream. [[rtp|RTP]] then uses these negotiated parameters to deliver audio and video packets between the endpoints.',
 		leftRole: '[[rtp|RTP]] carries the actual audio and video media packets using parameters negotiated by [[sdp|SDP]].',
 		rightRole: '[[sdp|SDP]] describes the session parameters (codecs, ports, addresses) that configure the [[rtp|RTP]] streams.'
 	},
@@ -1743,7 +1743,7 @@ const relationshipPairs: ProtocolPair[] = [
 		summary:
 			'[[sip|SIP]] carries [[sdp|SDP]] payloads in its INVITE and response messages to negotiate the media parameters (codecs, ports, addresses) for a call session.',
 		howTheyWork:
-			'When a [[sip|SIP]] client sends an INVITE, it includes an [[sdp|SDP]] offer in the message body describing its supported codecs, IP address, and port. The callee responds with a [[sip|SIP]] 200 OK containing an [[sdp|SDP]] answer with its own media capabilities. This offer/answer exchange within [[sip|SIP]] messages establishes the agreed-upon parameters for the subsequent [[rtp|RTP]] media streams.',
+			'When a [[sip|SIP]] client sends an INVITE, it includes an [[sdp|SDP]] offer in the message body describing its supported codecs, [[ip|IP]] address, and port. The callee responds with a [[sip|SIP]] 200 OK containing an [[sdp|SDP]] answer with its own media capabilities. This offer/answer exchange within [[sip|SIP]] messages establishes the agreed-upon parameters for the subsequent [[rtp|RTP]] media streams.',
 		leftRole: '[[sdp|SDP]] provides the session description format that specifies codecs, ports, and media parameters.',
 		rightRole: '[[sip|SIP]] provides the signaling protocol that carries [[sdp|SDP]] offers and answers in its messages.'
 	},
@@ -1766,7 +1766,7 @@ const relationshipPairs: ProtocolPair[] = [
 		summary:
 			'[[dhcp|DHCP]] provides [[dns|DNS]] server addresses to clients as part of network configuration, telling devices where to send their [[dns|DNS]] queries.',
 		howTheyWork:
-			'When a device joins a network, [[dhcp|DHCP]] assigns it an IP address along with other configuration including the [[dns|DNS]] server addresses (option 6 in DHCPv4). The client then uses these [[dns|DNS]] server addresses for all subsequent name resolution. Without [[dhcp|DHCP]] providing this information, clients would need manually configured [[dns|DNS]] servers.',
+			'When a device joins a network, [[dhcp|DHCP]] assigns it an [[ip|IP]] address along with other configuration including the [[dns|DNS]] server addresses (option 6 in DHCPv4). The client then uses these [[dns|DNS]] server addresses for all subsequent name resolution. Without [[dhcp|DHCP]] providing this information, clients would need manually configured [[dns|DNS]] servers.',
 		leftRole: '[[dhcp|DHCP]] provides network configuration including the [[dns|DNS]] server addresses clients should use.',
 		rightRole: '[[dns|DNS]] provides name resolution services at the server addresses distributed by [[dhcp|DHCP]].'
 	},
@@ -1776,7 +1776,7 @@ const relationshipPairs: ProtocolPair[] = [
 		summary:
 			'[[smtp|SMTP]] relies on [[dns|DNS]] MX (Mail Exchanger) records to determine which mail server should receive email for a given domain.',
 		howTheyWork:
-			'When an [[smtp|SMTP]] server needs to deliver mail to user@example.com, it queries [[dns|DNS]] for the MX records of example.com. [[dns|DNS]] returns one or more mail server hostnames with priority values. The [[smtp|SMTP]] server then resolves those hostnames to IP addresses (A/AAAA records) and connects to the highest-priority server to deliver the message.',
+			'When an [[smtp|SMTP]] server needs to deliver mail to user@example.com, it queries [[dns|DNS]] for the MX records of example.com. [[dns|DNS]] returns one or more mail server hostnames with priority values. The [[smtp|SMTP]] server then resolves those hostnames to [[ip|IP]] addresses (A/AAAA records) and connects to the highest-priority server to deliver the message.',
 		leftRole: '[[dns|DNS]] provides the MX record lookups that map email domains to their mail server hostnames.',
 		rightRole: '[[smtp|SMTP]] uses MX records from [[dns|DNS]] to route and deliver email to the correct destination mail server.'
 	},
@@ -1839,13 +1839,13 @@ const relationshipPairs: ProtocolPair[] = [
 		ids: ['bgp', 'dns'],
 		type: 'relationship',
 		summary:
-			'[[bgp|BGP]] determines how IP packets are routed between networks, while [[dns|DNS]] translates domain names to the IP addresses that [[bgp|BGP]] routes. Together they form the internet\'s addressing and reachability system.',
+			'[[bgp|BGP]] determines how [[ip|IP]] packets are routed between networks, while [[dns|DNS]] translates domain names to the [[ip|IP]] addresses that [[bgp|BGP]] routes. Together they form the internet\'s addressing and reachability system.',
 		howTheyWork:
-			'[[dns|DNS]] resolves domain names to IP addresses, and [[bgp|BGP]] determines how to reach those IP addresses across autonomous system boundaries. When a DNS query returns an IP, the packets follow BGP-established routes to reach it. DNS anycast relies on [[bgp|BGP]] to advertise the same IP prefix from multiple geographic locations.',
+			'[[dns|DNS]] resolves domain names to [[ip|IP]] addresses, and [[bgp|BGP]] determines how to reach those [[ip|IP]] addresses across autonomous system boundaries. When a [[dns|DNS]] query returns an [[ip|IP]], the packets follow [[bgp|BGP]]-established routes to reach it. [[dns|DNS]] anycast relies on [[bgp|BGP]] to advertise the same [[ip|IP]] prefix from multiple geographic locations.',
 		leftRole:
-			'[[bgp|BGP]] provides the routing fabric that determines how packets reach their destination IP addresses across autonomous systems.',
+			'[[bgp|BGP]] provides the routing fabric that determines how packets reach their destination [[ip|IP]] addresses across autonomous systems.',
 		rightRole:
-			'[[dns|DNS]] provides the name-to-IP translation that gives human-readable meaning to the addresses [[bgp|BGP]] routes.'
+			'[[dns|DNS]] provides the name-to-[[ip|IP]] translation that gives human-readable meaning to the addresses [[bgp|BGP]] routes.'
 	},
 
 	// ── ICMP relationships ──────────────────────────────────────
@@ -1854,9 +1854,9 @@ const relationshipPairs: ProtocolPair[] = [
 		ids: ['dns', 'icmp'],
 		type: 'relationship',
 		summary:
-			'[[icmp|ICMP]] and [[dns|DNS]] are both fundamental diagnostic tools: [[dns|DNS]] answers "what is this name?" while [[icmp|ICMP]] answers "can I reach it?" Network troubleshooting typically starts with DNS then verifies with ping.',
+			'[[icmp|ICMP]] and [[dns|DNS]] are both fundamental diagnostic tools: [[dns|DNS]] answers "what is this name?" while [[icmp|ICMP]] answers "can I reach it?" Network troubleshooting typically starts with [[dns|DNS]] then verifies with ping.',
 		howTheyWork:
-			'When diagnosing connectivity, administrators first use [[dns|DNS]] to resolve a hostname to an IP address, then [[icmp|ICMP]] ping to test reachability. If [[dns|DNS]] succeeds but [[icmp|ICMP]] fails, the problem is routing or firewall-related. If [[dns|DNS]] fails, the issue is name resolution. [[icmp|ICMP]] Destination Unreachable messages can also indicate a [[dns|DNS]] server is unreachable.',
+			'When diagnosing connectivity, administrators first use [[dns|DNS]] to resolve a hostname to an [[ip|IP]] address, then [[icmp|ICMP]] ping to test reachability. If [[dns|DNS]] succeeds but [[icmp|ICMP]] fails, the problem is routing or firewall-related. If [[dns|DNS]] fails, the issue is name resolution. [[icmp|ICMP]] Destination Unreachable messages can also indicate a [[dns|DNS]] server is unreachable.',
 		leftRole:
 			'[[dns|DNS]] provides name-to-address resolution — the first step in any network diagnostic workflow.',
 		rightRole:
@@ -1883,7 +1883,7 @@ const relationshipPairs: ProtocolPair[] = [
 		summary:
 			'[[imap|IMAP]] uses [[tcp|TCP]] for reliable delivery of email commands, message data, and mailbox state synchronization between clients and servers.',
 		howTheyWork:
-			'An [[imap|IMAP]] client opens a [[tcp|TCP]] connection to the mail server on port 993 (with [[tls|TLS]]) or 143 (plaintext). The tagged command-response protocol requires [[tcp|TCP]]\'s reliable, ordered delivery to ensure command tags match responses correctly. IMAP\'s IDLE mode keeps the [[tcp|TCP]] connection open for real-time server-push notifications.',
+			'An [[imap|IMAP]] client opens a [[tcp|TCP]] connection to the mail server on port 993 (with [[tls|TLS]]) or 143 (plaintext). The tagged command-response protocol requires [[tcp|TCP]]\'s reliable, ordered delivery to ensure command tags match responses correctly. [[imap|IMAP]]\'s IDLE mode keeps the [[tcp|TCP]] connection open for real-time server-push notifications.',
 		leftRole:
 			'[[imap|IMAP]] provides the email retrieval protocol — mailbox selection, message fetching, searching, and flag management.',
 		rightRole:
@@ -1895,7 +1895,7 @@ const relationshipPairs: ProtocolPair[] = [
 		summary:
 			'[[tls|TLS]] encrypts [[imap|IMAP]] connections (IMAPS on port 993), protecting email credentials and message content from eavesdropping.',
 		howTheyWork:
-			'[[imap|IMAP]] connects to port 993 where [[tls|TLS]] is required from the start (implicit TLS), or connects to port 143 and upgrades via STARTTLS. Once [[tls|TLS]] is established, all [[imap|IMAP]] commands — including LOGIN credentials, FETCH message bodies, and SEARCH queries — flow through the encrypted channel.',
+			'[[imap|IMAP]] connects to port 993 where [[tls|TLS]] is required from the start (implicit [[tls|TLS]]), or connects to port 143 and upgrades via STARTTLS. Once [[tls|TLS]] is established, all [[imap|IMAP]] commands — including LOGIN credentials, FETCH message bodies, and SEARCH queries — flow through the encrypted channel.',
 		leftRole:
 			'[[imap|IMAP]] provides the email retrieval and management protocol that carries sensitive credentials and message content.',
 		rightRole:
@@ -1910,9 +1910,9 @@ const relationshipPairs: ProtocolPair[] = [
 		summary:
 			'[[arp|ARP]] resolves [[ip|IP]] addresses to MAC addresses so that [[ethernet|Ethernet]] frames can be addressed correctly on the local network.',
 		howTheyWork:
-			'When a host needs to send an IP packet to a local destination, it first checks its [[arp|ARP]] cache for the destination\'s MAC address. On a cache miss, it broadcasts an [[arp|ARP]] Request (EtherType 0x0806) to all devices on the [[ethernet|Ethernet]] segment. The target host replies with its MAC address, which is cached for future [[ethernet|Ethernet]] frame construction.',
+			'When a host needs to send an [[ip|IP]] packet to a local destination, it first checks its [[arp|ARP]] cache for the destination\'s MAC address. On a cache miss, it broadcasts an [[arp|ARP]] Request (EtherType 0x0806) to all devices on the [[ethernet|Ethernet]] segment. The target host replies with its MAC address, which is cached for future [[ethernet|Ethernet]] frame construction.',
 		leftRole:
-			'[[arp|ARP]] provides the IP-to-MAC resolution mechanism that makes [[ethernet|Ethernet]] delivery possible for IP traffic.',
+			'[[arp|ARP]] provides the [[ip|IP]]-to-MAC resolution mechanism that makes [[ethernet|Ethernet]] delivery possible for [[ip|IP]] traffic.',
 		rightRole:
 			'[[ethernet|Ethernet]] provides the Layer 2 framing and MAC-based delivery that [[arp|ARP]] messages themselves travel over.'
 	},
@@ -1920,21 +1920,21 @@ const relationshipPairs: ProtocolPair[] = [
 		ids: ['arp', 'ip'],
 		type: 'relationship',
 		summary:
-			'[[arp|ARP]] bridges the gap between [[ip|IP]] addresses (Layer 3) and MAC addresses (Layer 2), enabling IP packets to be delivered on local networks.',
+			'[[arp|ARP]] bridges the gap between [[ip|IP]] addresses (Layer 3) and MAC addresses (Layer 2), enabling [[ip|IP]] packets to be delivered on local networks.',
 		howTheyWork:
 			'[[ip|IP]] provides logical addressing for routing packets across networks, but the last hop to the destination requires a physical MAC address. [[arp|ARP]] translates the destination [[ip|IP]] address to the corresponding MAC address on the local segment. Without [[arp|ARP]], [[ip|IP]] packets could be routed to the correct network but never delivered to the correct host.',
 		leftRole:
 			'[[arp|ARP]] resolves [[ip|IP]]\'s logical addresses to the hardware addresses needed for local delivery.',
 		rightRole:
-			'[[ip|IP]] provides the logical addressing that [[arp|ARP]] resolves — every [[arp|ARP]] request asks "who has this IP address?"'
+			'[[ip|IP]] provides the logical addressing that [[arp|ARP]] resolves — every [[arp|ARP]] request asks "who has this [[ip|IP]] address?"'
 	},
 	{
 		ids: ['ip', 'ethernet'],
 		type: 'relationship',
 		summary:
-			'[[ip|IP]] packets are encapsulated inside [[ethernet|Ethernet]] frames for delivery on local networks — Ethernet is IP\'s Layer 2 carrier on wired LANs.',
+			'[[ip|IP]] packets are encapsulated inside [[ethernet|Ethernet]] frames for delivery on local networks — [[ethernet|Ethernet]] is [[ip|IP]]\'s Layer 2 carrier on wired LANs.',
 		howTheyWork:
-			'When an [[ip|IP]] packet needs to traverse a local [[ethernet|Ethernet]] segment, it is placed inside an [[ethernet|Ethernet]] frame (EtherType 0x0800 for IPv4). The [[ethernet|Ethernet]] frame\'s destination MAC is either the final host (if local) or the default gateway router. At each router hop, the [[ip|IP]] header stays the same but the [[ethernet|Ethernet]] frame is stripped and rebuilt with new MAC addresses.',
+			'When an [[ip|IP]] packet needs to traverse a local [[ethernet|Ethernet]] segment, it is placed inside an [[ethernet|Ethernet]] frame (EtherType 0x0800 for [[ip|IPv4]]). The [[ethernet|Ethernet]] frame\'s destination MAC is either the final host (if local) or the default gateway router. At each router hop, the [[ip|IP]] header stays the same but the [[ethernet|Ethernet]] frame is stripped and rebuilt with new MAC addresses.',
 		leftRole:
 			'[[ip|IP]] provides logical addressing, routing decisions, and TTL management for end-to-end packet delivery.',
 		rightRole:
@@ -1944,9 +1944,9 @@ const relationshipPairs: ProtocolPair[] = [
 		ids: ['ip', 'wifi'],
 		type: 'relationship',
 		summary:
-			'[[ip|IP]] packets are carried over [[wifi|Wi-Fi]] 802.11 frames for wireless delivery, just as they are carried over [[ethernet|Ethernet]] on wired networks.',
+			'[[ip|IP]] packets are carried over [[wifi|Wi-Fi]] [[wifi|802.11]] frames for wireless delivery, just as they are carried over [[ethernet|Ethernet]] on wired networks.',
 		howTheyWork:
-			'On wireless networks, [[ip|IP]] packets are encapsulated in 802.11 frames instead of [[ethernet|Ethernet]] frames. The [[wifi|Wi-Fi]] access point bridges between the two: it receives 802.11 frames from wireless clients, extracts the [[ip|IP]] packet, and re-encapsulates it in an [[ethernet|Ethernet]] frame for the wired network (and vice versa).',
+			'On wireless networks, [[ip|IP]] packets are encapsulated in [[wifi|802.11]] frames instead of [[ethernet|Ethernet]] frames. The [[wifi|Wi-Fi]] access point bridges between the two: it receives [[wifi|802.11]] frames from wireless clients, extracts the [[ip|IP]] packet, and re-encapsulates it in an [[ethernet|Ethernet]] frame for the wired network (and vice versa).',
 		leftRole:
 			'[[ip|IP]] provides the network-layer addressing that stays constant whether the packet travels over wired or wireless links.',
 		rightRole:
@@ -1956,7 +1956,7 @@ const relationshipPairs: ProtocolPair[] = [
 		ids: ['ip', 'tcp'],
 		type: 'relationship',
 		summary:
-			'[[tcp|TCP]] provides reliable, ordered streams on top of [[ip|IP]]\'s best-effort packet delivery — together they form TCP/IP, the foundation of the internet.',
+			'[[tcp|TCP]] provides reliable, ordered streams on top of [[ip|IP]]\'s best-effort packet delivery — together they form [[tcp|TCP]]/[[ip|IP]], the foundation of the internet.',
 		howTheyWork:
 			'[[ip|IP]] handles addressing and routing packets between hosts, but provides no guarantees about delivery, ordering, or duplication. [[tcp|TCP]] adds reliability on top: sequence numbers track byte order, acknowledgments confirm delivery, and retransmission recovers lost packets. Every [[tcp|TCP]] segment is encapsulated in an [[ip|IP]] packet (protocol number 6).',
 		leftRole:
@@ -1982,7 +1982,7 @@ const relationshipPairs: ProtocolPair[] = [
 		summary:
 			'[[icmp|ICMP]] is [[ip|IP]]\'s diagnostic companion — it reports routing errors, measures reachability, and discovers path MTU, all encapsulated directly in [[ip|IP]] packets.',
 		howTheyWork:
-			'[[icmp|ICMP]] messages are encapsulated in [[ip|IP]] packets with protocol number 1 (not TCP or UDP). When a router can\'t deliver an [[ip|IP]] packet (TTL expired, destination unreachable, fragmentation needed), it sends an [[icmp|ICMP]] message back to the sender. Ping (Echo Request/Reply) and traceroute (TTL-based hop discovery) are the most common [[icmp|ICMP]] operations.',
+			'[[icmp|ICMP]] messages are encapsulated in [[ip|IP]] packets with protocol number 1 (not [[tcp|TCP]] or [[udp|UDP]]). When a router can\'t deliver an [[ip|IP]] packet (TTL expired, destination unreachable, fragmentation needed), it sends an [[icmp|ICMP]] message back to the sender. Ping (Echo Request/Reply) and traceroute (TTL-based hop discovery) are the most common [[icmp|ICMP]] operations.',
 		leftRole:
 			'[[ip|IP]] provides the packet delivery that [[icmp|ICMP]] both rides on and diagnoses problems within.',
 		rightRole:
@@ -1995,10 +1995,10 @@ const relationshipPairs: ProtocolPair[] = [
 		ids: ['http1', 'json-rpc'],
 		type: 'relationship',
 		summary:
-			'[[json-rpc|JSON-RPC]] commonly rides over [[http1|HTTP]] POST — the HTTP layer handles transport while JSON-RPC defines the structured method-call semantics inside the body.',
+			'[[json-rpc|JSON-RPC]] commonly rides over [[http1|HTTP]] POST — the HTTP layer handles transport while [[json-rpc|JSON-RPC]] defines the structured method-call semantics inside the body.',
 		howTheyWork:
-			'The client sends a JSON-RPC request as the body of an [[http1|HTTP]] POST to a single endpoint (e.g., /rpc). The Content-Type is application/json. The server processes the JSON-RPC call and returns the result in the HTTP response body. Unlike [[rest|REST]], the HTTP method is always POST and the URL is always the same — all routing happens via the method field inside the JSON.',
-		leftRole: '[[http1|HTTP]] provides the request-response transport, connection management, and TLS encryption for JSON-RPC calls.',
+			'The client sends a [[json-rpc|JSON-RPC]] request as the body of an [[http1|HTTP]] POST to a single endpoint (e.g., /rpc). The Content-Type is application/json. The server processes the [[json-rpc|JSON-RPC]] call and returns the result in the HTTP response body. Unlike [[rest|REST]], the HTTP method is always POST and the URL is always the same — all routing happens via the method field inside the JSON.',
+		leftRole: '[[http1|HTTP]] provides the request-response transport, connection management, and [[tls|TLS]] encryption for [[json-rpc|JSON-RPC]] calls.',
 		rightRole: '[[json-rpc|JSON-RPC]] provides the method dispatch, parameter passing, error handling, and batch semantics inside the HTTP body.'
 	},
 	{
@@ -2007,19 +2007,19 @@ const relationshipPairs: ProtocolPair[] = [
 		summary:
 			'[[json-rpc|JSON-RPC]] over [[websockets|WebSockets]] enables bidirectional RPC — both client and server can initiate method calls and send notifications over the persistent connection.',
 		howTheyWork:
-			'After the [[websockets|WebSocket]] handshake upgrades the HTTP connection, both sides can send JSON-RPC messages at any time. The client sends requests; the server responds. But the server can also send notifications (no id) or even its own requests to the client — something impossible over plain HTTP. This is how Language Server Protocol (LSP) sends diagnostics and how MCP servers push progress updates.',
+			'After the [[websockets|WebSocket]] handshake upgrades the HTTP connection, both sides can send [[json-rpc|JSON-RPC]] messages at any time. The client sends requests; the server responds. But the server can also send notifications (no id) or even its own requests to the client — something impossible over plain HTTP. This is how Language Server Protocol (LSP) sends diagnostics and how [[mcp|MCP]] servers push progress updates.',
 		leftRole: '[[json-rpc|JSON-RPC]] provides the structured call semantics — method names, parameters, results, errors, and notifications.',
-		rightRole: '[[websockets|WebSockets]] provides the persistent, full-duplex transport that enables server-initiated JSON-RPC messages.'
+		rightRole: '[[websockets|WebSockets]] provides the persistent, full-duplex transport that enables server-initiated [[json-rpc|JSON-RPC]] messages.'
 	},
 	{
 		ids: ['json-rpc', 'sse'],
 		type: 'relationship',
 		summary:
-			'[[json-rpc|JSON-RPC]] can use [[sse|SSE]] for streaming server responses — the client sends requests via HTTP POST and receives streamed results as server-sent events, as used by MCP\'s Streamable HTTP transport.',
+			'[[json-rpc|JSON-RPC]] can use [[sse|SSE]] for streaming server responses — the client sends requests via HTTP POST and receives streamed results as server-sent events, as used by [[mcp|MCP]]\'s Streamable HTTP transport.',
 		howTheyWork:
-			'In MCP\'s Streamable HTTP transport, a client sends a JSON-RPC request as an HTTP POST. The server can respond with a normal JSON response or upgrade to an SSE stream (Content-Type: text/event-stream), sending incremental results and notifications as events. This gives JSON-RPC streaming capabilities without requiring a full WebSocket connection.',
+			'In [[mcp|MCP]]\'s Streamable HTTP transport, a client sends a [[json-rpc|JSON-RPC]] request as an HTTP POST. The server can respond with a normal JSON response or upgrade to an [[sse|SSE]] stream (Content-Type: text/event-stream), sending incremental results and notifications as events. This gives [[json-rpc|JSON-RPC]] streaming capabilities without requiring a full [[websockets|WebSocket]] connection.',
 		leftRole: '[[json-rpc|JSON-RPC]] provides the method-call structure and request/response correlation via the id field.',
-		rightRole: '[[sse|SSE]] provides the server-push streaming mechanism for delivering incremental JSON-RPC results and notifications.'
+		rightRole: '[[sse|SSE]] provides the server-push streaming mechanism for delivering incremental [[json-rpc|JSON-RPC]] results and notifications.'
 	},
 
 	// ── MCP relationships ──────────────────────────────────────
@@ -2028,21 +2028,21 @@ const relationshipPairs: ProtocolPair[] = [
 		ids: ['json-rpc', 'mcp'],
 		type: 'relationship',
 		summary:
-			'[[mcp|MCP]] uses [[json-rpc|JSON-RPC]] 2.0 as its wire format — every MCP message (initialize, tools/call, notifications) is a JSON-RPC request, response, or notification.',
+			'[[mcp|MCP]] uses [[json-rpc|JSON-RPC]] 2.0 as its wire format — every [[mcp|MCP]] message (initialize, tools/call, notifications) is a [[json-rpc|JSON-RPC]] request, response, or notification.',
 		howTheyWork:
-			'[[mcp|MCP]] defines the method names (initialize, tools/list, tools/call, resources/read) and their parameter schemas, while [[json-rpc|JSON-RPC]] provides the framing — the id field for request-response correlation, the error object format, and the notification pattern (no id = no response). MCP\'s three-step handshake is three JSON-RPC messages: a request, a response, and a notification.',
+			'[[mcp|MCP]] defines the method names (initialize, tools/list, tools/call, resources/read) and their parameter schemas, while [[json-rpc|JSON-RPC]] provides the framing — the id field for request-response correlation, the error object format, and the notification pattern (no id = no response). [[mcp|MCP]]\'s three-step handshake is three [[json-rpc|JSON-RPC]] messages: a request, a response, and a notification.',
 		leftRole: '[[json-rpc|JSON-RPC]] provides the wire format — request/response correlation, error codes, notifications, and transport-agnostic framing.',
-		rightRole: '[[mcp|MCP]] defines the semantic methods (tools, resources, prompts, sampling) and their parameter schemas on top of JSON-RPC.'
+		rightRole: '[[mcp|MCP]] defines the semantic methods (tools, resources, prompts, sampling) and their parameter schemas on top of [[json-rpc|JSON-RPC]].'
 	},
 	{
 		ids: ['http1', 'mcp'],
 		type: 'relationship',
 		summary:
-			'[[mcp|MCP]]\'s Streamable HTTP transport uses [[http1|HTTP]] POST for sending JSON-RPC messages, with optional SSE upgrade for streaming responses.',
+			'[[mcp|MCP]]\'s Streamable HTTP transport uses [[http1|HTTP]] POST for sending [[json-rpc|JSON-RPC]] messages, with optional [[sse|SSE]] upgrade for streaming responses.',
 		howTheyWork:
-			'In Streamable HTTP mode, the MCP client sends JSON-RPC requests as [[http1|HTTP]] POST bodies to a single endpoint (e.g., /mcp). The server can respond with a plain JSON response or upgrade to an SSE stream for incremental results. The server assigns a session ID via the Mcp-Session-Id header for stateful session management.',
-		leftRole: '[[http1|HTTP]] provides the request-response transport and connection management for remote MCP servers.',
-		rightRole: '[[mcp|MCP]] defines the JSON-RPC methods and session semantics carried inside HTTP requests.'
+			'In Streamable HTTP mode, the [[mcp|MCP]] client sends [[json-rpc|JSON-RPC]] requests as [[http1|HTTP]] POST bodies to a single endpoint (e.g., /mcp). The server can respond with a plain JSON response or upgrade to an [[sse|SSE]] stream for incremental results. The server assigns a session ID via the Mcp-Session-Id header for stateful session management.',
+		leftRole: '[[http1|HTTP]] provides the request-response transport and connection management for remote [[mcp|MCP]] servers.',
+		rightRole: '[[mcp|MCP]] defines the [[json-rpc|JSON-RPC]] methods and session semantics carried inside HTTP requests.'
 	},
 	{
 		ids: ['mcp', 'sse'],
@@ -2050,9 +2050,9 @@ const relationshipPairs: ProtocolPair[] = [
 		summary:
 			'[[mcp|MCP]]\'s Streamable HTTP transport uses [[sse|SSE]] to stream incremental tool results and server notifications back to the client.',
 		howTheyWork:
-			'When an MCP server needs to stream results (e.g., a long-running tool or progress updates), it responds to the client\'s HTTP POST with Content-Type: text/event-stream instead of application/json. The server then sends JSON-RPC responses and notifications as SSE events. This gives MCP streaming capabilities without requiring a persistent WebSocket connection.',
-		leftRole: '[[mcp|MCP]] defines the JSON-RPC messages (progress notifications, partial results) that are streamed as events.',
-		rightRole: '[[sse|SSE]] provides the HTTP-based streaming mechanism that delivers incremental MCP results to the client.'
+			'When an [[mcp|MCP]] server needs to stream results (e.g., a long-running tool or progress updates), it responds to the client\'s HTTP POST with Content-Type: text/event-stream instead of application/json. The server then sends [[json-rpc|JSON-RPC]] responses and notifications as [[sse|SSE]] events. This gives [[mcp|MCP]] streaming capabilities without requiring a persistent [[websockets|WebSocket]] connection.',
+		leftRole: '[[mcp|MCP]] defines the [[json-rpc|JSON-RPC]] messages (progress notifications, partial results) that are streamed as events.',
+		rightRole: '[[sse|SSE]] provides the HTTP-based streaming mechanism that delivers incremental [[mcp|MCP]] results to the client.'
 	},
 
 	// ── A2A relationships ──────────────────────────────────────
@@ -2061,11 +2061,11 @@ const relationshipPairs: ProtocolPair[] = [
 		ids: ['a2a', 'json-rpc'],
 		type: 'relationship',
 		summary:
-			'[[a2a|A2A]] uses [[json-rpc|JSON-RPC]] 2.0 as its wire format — agent messages (message/send, message/stream) are JSON-RPC requests, and task results are JSON-RPC responses.',
+			'[[a2a|A2A]] uses [[json-rpc|JSON-RPC]] 2.0 as its wire format — agent messages (message/send, message/stream) are [[json-rpc|JSON-RPC]] requests, and task results are [[json-rpc|JSON-RPC]] responses.',
 		howTheyWork:
-			'[[a2a|A2A]] defines the method names (message/send, message/stream) and their parameter schemas, while [[json-rpc|JSON-RPC]] provides the wire framing. The A2A client sends a JSON-RPC request with a user message, and the server responds with a Task object containing status and artifacts. JSON-RPC\'s id field correlates multi-turn conversations.',
+			'[[a2a|A2A]] defines the method names (message/send, message/stream) and their parameter schemas, while [[json-rpc|JSON-RPC]] provides the wire framing. The [[a2a|A2A]] client sends a [[json-rpc|JSON-RPC]] request with a user message, and the server responds with a Task object containing status and artifacts. [[json-rpc|JSON-RPC]]\'s id field correlates multi-turn conversations.',
 		leftRole: '[[a2a|A2A]] defines the agent communication semantics — messages, tasks, parts, artifacts, and the task lifecycle state machine.',
-		rightRole: '[[json-rpc|JSON-RPC]] provides the request/response framing, error handling, and notification support for A2A messages.'
+		rightRole: '[[json-rpc|JSON-RPC]] provides the request/response framing, error handling, and notification support for [[a2a|A2A]] messages.'
 	},
 	{
 		ids: ['a2a', 'http1'],
@@ -2073,9 +2073,9 @@ const relationshipPairs: ProtocolPair[] = [
 		summary:
 			'[[a2a|A2A]] runs entirely over [[http1|HTTP]] — agent discovery (GET /.well-known/agent.json), task communication (POST), and push notifications (webhooks) all use standard HTTP.',
 		howTheyWork:
-			'Agent Cards are served as static JSON at the well-known HTTP URL. Task messages are sent as JSON-RPC payloads in HTTP POST requests. For streaming, the server responds with Content-Type: text/event-stream (SSE). Push notifications use HTTP POST to a client-provided webhook URL. All communication is standard HTTP that works through proxies, load balancers, and CDNs.',
+			'Agent Cards are served as static JSON at the well-known HTTP URL. Task messages are sent as [[json-rpc|JSON-RPC]] payloads in HTTP POST requests. For streaming, the server responds with Content-Type: text/event-stream ([[sse|SSE]]). Push notifications use HTTP POST to a client-provided webhook URL. All communication is standard HTTP that works through proxies, load balancers, and CDNs.',
 		leftRole: '[[a2a|A2A]] defines the agent discovery, task management, and collaboration semantics layered on HTTP.',
-		rightRole: '[[http1|HTTP]] provides the universal transport — GET for discovery, POST for messages, SSE for streaming, webhooks for push.'
+		rightRole: '[[http1|HTTP]] provides the universal transport — GET for discovery, POST for messages, [[sse|SSE]] for streaming, webhooks for push.'
 	},
 	{
 		ids: ['a2a', 'sse'],
@@ -2083,9 +2083,9 @@ const relationshipPairs: ProtocolPair[] = [
 		summary:
 			'[[a2a|A2A]] uses [[sse|SSE]] to stream task status updates and artifact delivery in real-time via the message/stream method.',
 		howTheyWork:
-			'When a client calls message/stream instead of message/send, the A2A server responds with a text/event-stream. As the agent works, it pushes TaskStatusUpdateEvent (state changes like "working" → "completed") and TaskArtifactUpdateEvent (incremental results) as SSE events. This allows clients to show real-time progress without polling.',
+			'When a client calls message/stream instead of message/send, the [[a2a|A2A]] server responds with a text/event-stream. As the agent works, it pushes TaskStatusUpdateEvent (state changes like "working" → "completed") and TaskArtifactUpdateEvent (incremental results) as [[sse|SSE]] events. This allows clients to show real-time progress without polling.',
 		leftRole: '[[a2a|A2A]] defines the event types (TaskStatusUpdate, TaskArtifactUpdate) that are streamed to the client.',
-		rightRole: '[[sse|SSE]] provides the HTTP-based streaming transport for delivering real-time A2A task updates.'
+		rightRole: '[[sse|SSE]] provides the HTTP-based streaming transport for delivering real-time [[a2a|A2A]] task updates.'
 	},
 	{
 		ids: ['a2a', 'mcp'],
@@ -2093,9 +2093,9 @@ const relationshipPairs: ProtocolPair[] = [
 		summary:
 			'[[mcp|MCP]] equips individual agents with tool access; [[a2a|A2A]] enables those equipped agents to collaborate. Together they form the two-protocol foundation of agentic AI.',
 		howTheyWork:
-			'In a multi-agent system, [[a2a|A2A]] handles high-level coordination — Agent A uses message/send to delegate a sub-task to Agent B. Agent B then uses [[mcp|MCP]] internally to call database tools, read file resources, or invoke APIs to fulfill the task. Agent B returns results to Agent A via A2A artifacts. MCP is vertical (agent-to-tools), A2A is horizontal (agent-to-agent).',
+			'In a multi-agent system, [[a2a|A2A]] handles high-level coordination — Agent A uses message/send to delegate a sub-task to Agent B. Agent B then uses [[mcp|MCP]] internally to call database tools, read file resources, or invoke APIs to fulfill the task. Agent B returns results to Agent A via [[a2a|A2A]] artifacts. [[mcp|MCP]] is vertical (agent-to-tools), [[a2a|A2A]] is horizontal (agent-to-agent).',
 		leftRole: '[[a2a|A2A]] provides the inter-agent communication layer — discovery, delegation, task lifecycle, and result delivery.',
-		rightRole: '[[mcp|MCP]] provides the tool integration layer — each agent uses MCP to access the tools and data it needs to fulfill tasks.'
+		rightRole: '[[mcp|MCP]] provides the tool integration layer — each agent uses [[mcp|MCP]] to access the tools and data it needs to fulfill tasks.'
 	},
 
 	// ── SOAP relationships ──────────────────────────────────────
@@ -2106,7 +2106,7 @@ const relationshipPairs: ProtocolPair[] = [
 		summary:
 			'[[soap|SOAP]] uses [[http1|HTTP]] POST as its transport, wrapping XML envelopes inside HTTP request/response pairs with the SOAPAction header identifying the operation.',
 		howTheyWork:
-			'A [[soap|SOAP]] client sends an XML envelope via [[http1|HTTP]] POST to the service endpoint. The Content-Type header is text/xml (SOAP 1.1) or application/soap+xml (SOAP 1.2), and the SOAPAction header names the operation. The server processes the envelope and returns a SOAP response (200 OK) or fault (500) in another [[http1|HTTP]] response.',
+			'A [[soap|SOAP]] client sends an XML envelope via [[http1|HTTP]] POST to the service endpoint. The Content-Type header is text/xml ([[soap|SOAP]] 1.1) or application/soap+xml ([[soap|SOAP]] 1.2), and the SOAPAction header names the operation. The server processes the envelope and returns a [[soap|SOAP]] response (200 OK) or fault (500) in another [[http1|HTTP]] response.',
 		leftRole:
 			'[[soap|SOAP]] provides the XML envelope structure, operation definitions (via WSDL), and fault handling for web service calls.',
 		rightRole:
@@ -2121,7 +2121,7 @@ const relationshipPairs: ProtocolPair[] = [
 		summary:
 			'[[oauth2|OAuth 2.0]] is the standard way to protect [[rest|REST]] APIs — clients present Bearer tokens in the Authorization header, and the API validates scopes before returning resources.',
 		howTheyWork:
-			'After completing the OAuth flow, the client includes the access token in every [[rest|REST]] API request: `Authorization: Bearer eyJhbG...`. The [[rest|REST]] API validates the token (checking signature, expiry, and scopes) before processing the request. Different scopes can limit access to specific resources or operations.',
+			'After completing the [[oauth2|OAuth]] flow, the client includes the access token in every [[rest|REST]] API request: `Authorization: Bearer eyJhbG...`. The [[rest|REST]] API validates the token (checking signature, expiry, and scopes) before processing the request. Different scopes can limit access to specific resources or operations.',
 		leftRole:
 			'[[oauth2|OAuth 2.0]] provides the authorization mechanism — issuing, validating, and scoping access tokens for API access.',
 		rightRole:
@@ -2134,11 +2134,11 @@ const relationshipPairs: ProtocolPair[] = [
 		ids: ['arp', 'wifi'],
 		type: 'relationship',
 		summary:
-			'[[arp|ARP]] broadcasts work over [[wifi|Wi-Fi]] just as they do over [[ethernet|Ethernet]] — the access point bridges ARP requests between wireless clients and the wired LAN.',
+			'[[arp|ARP]] broadcasts work over [[wifi|Wi-Fi]] just as they do over [[ethernet|Ethernet]] — the access point bridges [[arp|ARP]] requests between wireless clients and the wired LAN.',
 		howTheyWork:
-			'When a wireless client needs to resolve an IP address, it sends an [[arp|ARP]] broadcast as an 802.11 frame. The access point receives it, bridges it to the wired [[ethernet|Ethernet]] segment as a standard Ethernet broadcast, and relays the unicast reply back over [[wifi|Wi-Fi]]. The process is transparent — wireless and wired hosts appear on the same Layer 2 segment.',
+			'When a wireless client needs to resolve an [[ip|IP]] address, it sends an [[arp|ARP]] broadcast as an [[wifi|802.11]] frame. The access point receives it, bridges it to the wired [[ethernet|Ethernet]] segment as a standard [[ethernet|Ethernet]] broadcast, and relays the unicast reply back over [[wifi|Wi-Fi]]. The process is transparent — wireless and wired hosts appear on the same Layer 2 segment.',
 		leftRole:
-			'[[arp|ARP]] provides the IP-to-MAC resolution mechanism, using broadcast requests and unicast replies to map addresses.',
+			'[[arp|ARP]] provides the [[ip|IP]]-to-MAC resolution mechanism, using broadcast requests and unicast replies to map addresses.',
 		rightRole:
 			'[[wifi|Wi-Fi]] carries the [[arp|ARP]] frames wirelessly and relies on the access point to bridge them to the wired network.'
 	},
@@ -2146,13 +2146,13 @@ const relationshipPairs: ProtocolPair[] = [
 		ids: ['arp', 'dhcp'],
 		type: 'relationship',
 		summary:
-			'[[dhcp|DHCP]] assigns IP addresses; [[arp|ARP]] resolves those addresses to MACs. Together they bootstrap a device onto the network — first an address, then local reachability.',
+			'[[dhcp|DHCP]] assigns [[ip|IP]] addresses; [[arp|ARP]] resolves those addresses to MACs. Together they bootstrap a device onto the network — first an address, then local reachability.',
 		howTheyWork:
-			'A new device uses [[dhcp|DHCP]] (over UDP broadcast) to obtain an IP address, subnet mask, and default gateway. Once it has an IP, it uses [[arp|ARP]] to discover the MAC addresses of its gateway and local peers. Many [[dhcp|DHCP]] servers also send a Gratuitous [[arp|ARP]] after assignment to detect address conflicts.',
+			'A new device uses [[dhcp|DHCP]] (over [[udp|UDP]] broadcast) to obtain an [[ip|IP]] address, subnet mask, and default gateway. Once it has an [[ip|IP]], it uses [[arp|ARP]] to discover the MAC addresses of its gateway and local peers. Many [[dhcp|DHCP]] servers also send a Gratuitous [[arp|ARP]] after assignment to detect address conflicts.',
 		leftRole:
-			'[[arp|ARP]] resolves the IP addresses that [[dhcp|DHCP]] assigned — turning logical addresses into hardware addresses for frame delivery.',
+			'[[arp|ARP]] resolves the [[ip|IP]] addresses that [[dhcp|DHCP]] assigned — turning logical addresses into hardware addresses for frame delivery.',
 		rightRole:
-			'[[dhcp|DHCP]] provides the IP configuration that makes [[arp|ARP]] necessary — without assigned addresses, there is nothing to resolve.'
+			'[[dhcp|DHCP]] provides the [[ip|IP]] configuration that makes [[arp|ARP]] necessary — without assigned addresses, there is nothing to resolve.'
 	},
 	{
 		ids: ['dns', 'ip'],
@@ -2164,7 +2164,7 @@ const relationshipPairs: ProtocolPair[] = [
 		leftRole:
 			'[[dns|DNS]] resolves domain names into [[ip|IP]] addresses, providing the naming layer that makes the internet usable by humans.',
 		rightRole:
-			'[[ip|IP]] provides the addressing and routing system whose addresses [[dns|DNS]] resolves — every A record points to an IPv4 address, every AAAA record to an IPv6 address.'
+			'[[ip|IP]] provides the addressing and routing system whose addresses [[dns|DNS]] resolves — every A record points to an [[ip|IPv4]] address, every AAAA record to an [[ipv6|IPv6]] address.'
 	},
 	{
 		ids: ['http1', 'oauth2'],
@@ -2172,7 +2172,7 @@ const relationshipPairs: ProtocolPair[] = [
 		summary:
 			'[[oauth2|OAuth 2.0]] is built entirely on [[http1|HTTP]] — authorization endpoints, token exchanges, and bearer tokens all use HTTP redirects, POST requests, and headers.',
 		howTheyWork:
-			'The OAuth authorization code flow starts with an [[http1|HTTP]] redirect to the authorization server. After user consent, the server redirects back with an authorization code in the URL. The client then makes an [[http1|HTTP]] POST to the token endpoint to exchange the code for access and refresh tokens. Every API call includes the token in the [[http1|HTTP]] Authorization header as `Bearer <token>`.',
+			'The [[oauth2|OAuth]] authorization code flow starts with an [[http1|HTTP]] redirect to the authorization server. After user consent, the server redirects back with an authorization code in the URL. The client then makes an [[http1|HTTP]] POST to the token endpoint to exchange the code for access and refresh tokens. Every API call includes the token in the [[http1|HTTP]] Authorization header as `Bearer <token>`.',
 		leftRole:
 			'[[http1|HTTP]] provides the transport mechanism — redirects for the authorization flow, POST for token exchange, and headers for bearer token presentation.',
 		rightRole:
@@ -2184,7 +2184,7 @@ const relationshipPairs: ProtocolPair[] = [
 		summary:
 			'Production [[soap|SOAP]] services run over HTTPS, with [[tls|TLS]] encrypting the XML envelopes in transit. [[soap|SOAP]] also has its own WS-Security layer for message-level encryption and signing.',
 		howTheyWork:
-			'[[tls|TLS]] provides transport-level encryption for [[soap|SOAP]] messages sent over HTTPS — protecting the entire HTTP request including the XML envelope. For end-to-end security through intermediaries, [[soap|SOAP]]\'s WS-Security standard adds message-level encryption and digital signatures within the SOAP Header, allowing parts of the message to remain encrypted even when TLS terminates at a load balancer.',
+			'[[tls|TLS]] provides transport-level encryption for [[soap|SOAP]] messages sent over HTTPS — protecting the entire HTTP request including the XML envelope. For end-to-end security through intermediaries, [[soap|SOAP]]\'s WS-Security standard adds message-level encryption and digital signatures within the [[soap|SOAP]] Header, allowing parts of the message to remain encrypted even when [[tls|TLS]] terminates at a load balancer.',
 		leftRole:
 			'[[soap|SOAP]] defines the XML message format and can add message-level security via WS-Security headers for end-to-end protection.',
 		rightRole:
@@ -2194,11 +2194,11 @@ const relationshipPairs: ProtocolPair[] = [
 		ids: ['soap', 'tcp'],
 		type: 'relationship',
 		summary:
-			'[[soap|SOAP]] messages are delivered over [[tcp|TCP]] via [[http1|HTTP]] — TCP provides the reliable byte stream that ensures XML envelopes arrive complete and in order.',
+			'[[soap|SOAP]] messages are delivered over [[tcp|TCP]] via [[http1|HTTP]] — [[tcp|TCP]] provides the reliable byte stream that ensures XML envelopes arrive complete and in order.',
 		howTheyWork:
-			'A [[soap|SOAP]] client sends an XML envelope as the body of an [[http1|HTTP]] POST request. [[http1|HTTP]] relies on [[tcp|TCP]] for reliable delivery — the three-way handshake establishes the connection, TCP segments carry the HTTP request containing the SOAP envelope, and TCP acknowledgments guarantee nothing is lost. For high-throughput enterprise services, persistent TCP connections (HTTP keep-alive) amortize handshake costs across many SOAP calls.',
+			'A [[soap|SOAP]] client sends an XML envelope as the body of an [[http1|HTTP]] POST request. [[http1|HTTP]] relies on [[tcp|TCP]] for reliable delivery — the three-way handshake establishes the connection, [[tcp|TCP]] segments carry the HTTP request containing the [[soap|SOAP]] envelope, and [[tcp|TCP]] acknowledgments guarantee nothing is lost. For high-throughput enterprise services, persistent [[tcp|TCP]] connections (HTTP keep-alive) amortize handshake costs across many [[soap|SOAP]] calls.',
 		leftRole:
-			'[[soap|SOAP]] defines the XML envelope format and RPC semantics carried inside the HTTP body over the TCP connection.',
+			'[[soap|SOAP]] defines the XML envelope format and RPC semantics carried inside the HTTP body over the [[tcp|TCP]] connection.',
 		rightRole:
 			'[[tcp|TCP]] provides reliable, ordered delivery for the [[http1|HTTP]] requests that transport [[soap|SOAP]] messages.'
 	},
@@ -2206,11 +2206,11 @@ const relationshipPairs: ProtocolPair[] = [
 		ids: ['oauth2', 'tcp'],
 		type: 'relationship',
 		summary:
-			'[[oauth2|OAuth 2.0]] flows run over [[tcp|TCP]] via [[http1|HTTP]] and [[tls|TLS]] — TCP ensures the authorization redirects, token exchanges, and API calls are delivered reliably.',
+			'[[oauth2|OAuth 2.0]] flows run over [[tcp|TCP]] via [[http1|HTTP]] and [[tls|TLS]] — [[tcp|TCP]] ensures the authorization redirects, token exchanges, and API calls are delivered reliably.',
 		howTheyWork:
-			'Every [[oauth2|OAuth 2.0]] interaction — the initial redirect to the authorization server, the token endpoint POST, and each API call with a Bearer token — travels over an [[http1|HTTP]] connection built on [[tcp|TCP]]. The [[tls|TLS]] handshake that encrypts these exchanges also relies on TCP for reliable segment delivery. If a token exchange packet were lost, TCP retransmission ensures it arrives.',
+			'Every [[oauth2|OAuth 2.0]] interaction — the initial redirect to the authorization server, the token endpoint POST, and each API call with a Bearer token — travels over an [[http1|HTTP]] connection built on [[tcp|TCP]]. The [[tls|TLS]] handshake that encrypts these exchanges also relies on [[tcp|TCP]] for reliable segment delivery. If a token exchange packet were lost, [[tcp|TCP]] retransmission ensures it arrives.',
 		leftRole:
-			'[[oauth2|OAuth 2.0]] defines the authorization flows and token semantics carried over HTTP on top of TCP connections.',
+			'[[oauth2|OAuth 2.0]] defines the authorization flows and token semantics carried over HTTP on top of [[tcp|TCP]] connections.',
 		rightRole:
 			'[[tcp|TCP]] provides the reliable transport that ensures authorization codes, tokens, and API responses are delivered without loss.'
 	},
@@ -2218,13 +2218,13 @@ const relationshipPairs: ProtocolPair[] = [
 		ids: ['bgp', 'ip'],
 		type: 'relationship',
 		summary:
-			'[[bgp|BGP]] is the routing protocol of the internet — it determines how [[ip|IP]] packets traverse autonomous system boundaries by exchanging reachability information for IP prefixes.',
+			'[[bgp|BGP]] is the routing protocol of the internet — it determines how [[ip|IP]] packets traverse autonomous system boundaries by exchanging reachability information for [[ip|IP]] prefixes.',
 		howTheyWork:
 			'[[bgp|BGP]] routers advertise which [[ip|IP]] prefixes they can reach, along with AS path attributes. When a router receives a packet destined for an [[ip|IP]] address, it consults the routing table built from [[bgp|BGP]] advertisements to determine the next hop. [[bgp|BGP]] operates at the inter-domain level — within a network, IGP protocols handle routing, but between networks (ISPs, cloud providers, enterprises), [[bgp|BGP]] is the sole routing protocol.',
 		leftRole:
 			'[[bgp|BGP]] builds and maintains the routing tables that determine how [[ip|IP]] packets are forwarded between autonomous systems.',
 		rightRole:
-			'[[ip|IP]] provides the addressing system whose prefixes [[bgp|BGP]] advertises and routes — every BGP UPDATE message references IP prefixes.'
+			'[[ip|IP]] provides the addressing system whose prefixes [[bgp|BGP]] advertises and routes — every [[bgp|BGP]] UPDATE message references [[ip|IP]] prefixes.'
 	},
 
 	// ── IPv6 relationships ──────────────────────────────────────
@@ -2233,9 +2233,9 @@ const relationshipPairs: ProtocolPair[] = [
 		ids: ['ipv6', 'tcp'],
 		type: 'relationship',
 		summary:
-			'[[tcp|TCP]] runs identically over [[ipv6|IPv6]] as over [[ip|IPv4]] — the same reliable byte-stream delivery, but IPv6 mandates that TCP perform checksum computation (IPv6 has no header checksum).',
+			'[[tcp|TCP]] runs identically over [[ipv6|IPv6]] as over [[ip|IPv4]] — the same reliable byte-stream delivery, but [[ipv6|IPv6]] mandates that [[tcp|TCP]] perform checksum computation ([[ipv6|IPv6]] has no header checksum).',
 		howTheyWork:
-			'[[tcp|TCP]] segments are encapsulated in [[ipv6|IPv6]] packets with Next Header value 6. The key difference from IPv4: since [[ipv6|IPv6]] has no header checksum, the TCP checksum is mandatory (not optional). TCP\'s pseudo-header for checksum computation uses 128-bit addresses instead of 32-bit ones. Otherwise the connection setup, flow control, and congestion algorithms are identical.',
+			'[[tcp|TCP]] segments are encapsulated in [[ipv6|IPv6]] packets with Next Header value 6. The key difference from [[ip|IPv4]]: since [[ipv6|IPv6]] has no header checksum, the [[tcp|TCP]] checksum is mandatory (not optional). [[tcp|TCP]]\'s pseudo-header for checksum computation uses 128-bit addresses instead of 32-bit ones. Otherwise the connection setup, flow control, and congestion algorithms are identical.',
 		leftRole:
 			'[[ipv6|IPv6]] provides 128-bit addressing and routing, carrying [[tcp|TCP]] segments in its payload with Next Header=6.',
 		rightRole:
@@ -2245,9 +2245,9 @@ const relationshipPairs: ProtocolPair[] = [
 		ids: ['ipv6', 'udp'],
 		type: 'relationship',
 		summary:
-			'[[udp|UDP]] datagrams ride over [[ipv6|IPv6]] just as over [[ip|IPv4]], but with one key difference: the UDP checksum is mandatory in IPv6 (it was optional in IPv4).',
+			'[[udp|UDP]] datagrams ride over [[ipv6|IPv6]] just as over [[ip|IPv4]], but with one key difference: the [[udp|UDP]] checksum is mandatory in [[ipv6|IPv6]] (it was optional in [[ip|IPv4]]).',
 		howTheyWork:
-			'[[udp|UDP]] datagrams are carried in [[ipv6|IPv6]] packets with Next Header value 17. Because [[ipv6|IPv6]] eliminated the IP-layer header checksum, [[udp|UDP]]\'s checksum became mandatory to ensure minimum integrity coverage. The checksum pseudo-header uses the full 128-bit source and destination addresses. Applications like [[dns|DNS]], [[dhcp|DHCPv6]], and real-time media use UDP over IPv6.',
+			'[[udp|UDP]] datagrams are carried in [[ipv6|IPv6]] packets with Next Header value 17. Because [[ipv6|IPv6]] eliminated the [[ip|IP]]-layer header checksum, [[udp|UDP]]\'s checksum became mandatory to ensure minimum integrity coverage. The checksum pseudo-header uses the full 128-bit source and destination addresses. Applications like [[dns|DNS]], [[dhcp|DHCPv6]], and real-time media use [[udp|UDP]] over [[ipv6|IPv6]].',
 		leftRole:
 			'[[ipv6|IPv6]] routes [[udp|UDP]] datagrams across networks using 128-bit addresses and Next Header=17.',
 		rightRole:
@@ -2257,9 +2257,9 @@ const relationshipPairs: ProtocolPair[] = [
 		ids: ['ethernet', 'ipv6'],
 		type: 'relationship',
 		summary:
-			'[[ipv6|IPv6]] packets are carried inside [[ethernet|Ethernet]] frames using EtherType 0x86DD — the same framing model as IPv4 but with a different type identifier.',
+			'[[ipv6|IPv6]] packets are carried inside [[ethernet|Ethernet]] frames using EtherType 0x86DD — the same framing model as [[ip|IPv4]] but with a different type identifier.',
 		howTheyWork:
-			'When sending an [[ipv6|IPv6]] packet on a LAN, the host wraps it in an [[ethernet|Ethernet]] frame with EtherType 0x86DD (vs 0x0800 for IPv4). The destination MAC is resolved using NDP (Neighbor Discovery Protocol) instead of [[arp|ARP]]. NDP sends Neighbor Solicitation messages to solicited-node multicast addresses (33:33:FF:xx:xx:xx) rather than broadcasting — dramatically reducing overhead on large networks.',
+			'When sending an [[ipv6|IPv6]] packet on a LAN, the host wraps it in an [[ethernet|Ethernet]] frame with EtherType 0x86DD (vs 0x0800 for [[ip|IPv4]]). The destination MAC is resolved using NDP (Neighbor Discovery Protocol) instead of [[arp|ARP]]. NDP sends Neighbor Solicitation messages to solicited-node multicast addresses (33:33:FF:xx:xx:xx) rather than broadcasting — dramatically reducing overhead on large networks.',
 		leftRole:
 			'[[ethernet|Ethernet]] provides the Layer 2 framing that carries [[ipv6|IPv6]] packets on wired networks, identified by EtherType 0x86DD.',
 		rightRole:
@@ -2269,13 +2269,13 @@ const relationshipPairs: ProtocolPair[] = [
 		ids: ['ipv6', 'wifi'],
 		type: 'relationship',
 		summary:
-			'[[ipv6|IPv6]] packets are carried over [[wifi|Wi-Fi]] 802.11 frames, with NDP replacing ARP for address resolution on wireless networks.',
+			'[[ipv6|IPv6]] packets are carried over [[wifi|Wi-Fi]] [[wifi|802.11]] frames, with NDP replacing [[arp|ARP]] for address resolution on wireless networks.',
 		howTheyWork:
-			'[[ipv6|IPv6]] packets are encapsulated in 802.11 frames for wireless transmission. The access point bridges between [[wifi|Wi-Fi]] and [[ethernet|Ethernet]], re-encapsulating [[ipv6|IPv6]] packets between frame types. NDP Neighbor Solicitation multicast (ff02::1:ff..) works over Wi-Fi, though access points may convert multicast to unicast for sleeping clients. Router Advertisements over Wi-Fi enable SLAAC for wireless devices.',
+			'[[ipv6|IPv6]] packets are encapsulated in [[wifi|802.11]] frames for wireless transmission. The access point bridges between [[wifi|Wi-Fi]] and [[ethernet|Ethernet]], re-encapsulating [[ipv6|IPv6]] packets between frame types. NDP Neighbor Solicitation multicast (ff02::1:ff..) works over [[wifi|Wi-Fi]], though access points may convert multicast to unicast for sleeping clients. Router Advertisements over [[wifi|Wi-Fi]] enable SLAAC for wireless devices.',
 		leftRole:
 			'[[ipv6|IPv6]] provides addressing and routing for wireless clients, using NDP for neighbor discovery over the wireless medium.',
 		rightRole:
-			'[[wifi|Wi-Fi]] provides the wireless Layer 2 transport for [[ipv6|IPv6]] packets, bridging to wired Ethernet at the access point.'
+			'[[wifi|Wi-Fi]] provides the wireless Layer 2 transport for [[ipv6|IPv6]] packets, bridging to wired [[ethernet|Ethernet]] at the access point.'
 	},
 	{
 		ids: ['dns', 'ipv6'],
@@ -2283,11 +2283,11 @@ const relationshipPairs: ProtocolPair[] = [
 		summary:
 			'[[dns|DNS]] AAAA records map domain names to [[ipv6|IPv6]] addresses — the same naming system, extended for 128-bit addresses.',
 		howTheyWork:
-			'When a client queries [[dns|DNS]] for a hostname, it can request AAAA records (for [[ipv6|IPv6]]) alongside A records (for IPv4). Modern resolvers use Happy Eyeballs (RFC 8305) to race IPv4 and IPv6 connections simultaneously, preferring whichever responds first. Dual-stack [[dns|DNS]] servers return both record types, and clients choose based on connectivity. DNS itself can run over either IPv4 or IPv6 transport.',
+			'When a client queries [[dns|DNS]] for a hostname, it can request AAAA records (for [[ipv6|IPv6]]) alongside A records (for [[ip|IPv4]]). Modern resolvers use Happy Eyeballs (RFC 8305) to race [[ip|IPv4]] and [[ipv6|IPv6]] connections simultaneously, preferring whichever responds first. Dual-stack [[dns|DNS]] servers return both record types, and clients choose based on connectivity. [[dns|DNS]] itself can run over either [[ip|IPv4]] or [[ipv6|IPv6]] transport.',
 		leftRole:
 			'[[dns|DNS]] translates domain names into [[ipv6|IPv6]] addresses via AAAA records, extending the naming system for 128-bit addresses.',
 		rightRole:
-			'[[ipv6|IPv6]] provides the 128-bit addresses that [[dns|DNS]] AAAA records resolve to, and can also serve as the transport for DNS queries themselves.'
+			'[[ipv6|IPv6]] provides the 128-bit addresses that [[dns|DNS]] AAAA records resolve to, and can also serve as the transport for [[dns|DNS]] queries themselves.'
 	},
 	{
 		ids: ['icmp', 'ipv6'],
@@ -2295,9 +2295,9 @@ const relationshipPairs: ProtocolPair[] = [
 		summary:
 			'ICMPv6 is an integral part of [[ipv6|IPv6]] — it handles neighbor discovery, address resolution, and router discovery, not just error reporting like [[icmp|ICMPv4]].',
 		howTheyWork:
-			'In IPv4, [[icmp|ICMP]] primarily handles error messages and ping. In [[ipv6|IPv6]], ICMPv6 takes on a vastly expanded role: Neighbor Discovery Protocol (NDP) replaces ARP, Router Solicitation/Advertisement replaces DHCP for basic configuration (SLAAC), and Path MTU Discovery replaces router fragmentation. [[ipv6|IPv6]] literally cannot function without ICMPv6 — firewalls that block it break networking.',
+			'In [[ip|IPv4]], [[icmp|ICMP]] primarily handles error messages and ping. In [[ipv6|IPv6]], ICMPv6 takes on a vastly expanded role: Neighbor Discovery Protocol (NDP) replaces [[arp|ARP]], Router Solicitation/Advertisement replaces [[dhcp|DHCP]] for basic configuration (SLAAC), and Path MTU Discovery replaces router fragmentation. [[ipv6|IPv6]] literally cannot function without ICMPv6 — firewalls that block it break networking.',
 		leftRole:
-			'[[icmp|ICMPv6]] provides essential [[ipv6|IPv6]] functions: neighbor discovery (replacing ARP), router discovery (enabling SLAAC), and error reporting.',
+			'[[icmp|ICMPv6]] provides essential [[ipv6|IPv6]] functions: neighbor discovery (replacing [[arp|ARP]]), router discovery (enabling SLAAC), and error reporting.',
 		rightRole:
 			'[[ipv6|IPv6]] depends on ICMPv6 for core operations — address resolution, router discovery, and path MTU discovery are all ICMPv6-based.'
 	}
