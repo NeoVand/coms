@@ -169,7 +169,7 @@ curl -sH 'accept: application/dns-json' \\
 		throughput: 'Not applicable — DNS is query/response, not streaming',
 		overhead: '12-byte header + question + answer. Typical query: 40-60 bytes. UDP-based.'
 	},
-	connections: ['udp', 'tcp', 'tls', 'smtp', 'dhcp', 'bgp', 'icmp', 'ipv6'],
+	connections: ['udp', 'tcp', 'tls', 'smtp', 'dhcp', 'bgp', 'icmp', 'ipv6', 'mdns-dns-sd'],
 	links: {
 		wikipedia: 'https://en.wikipedia.org/wiki/Domain_Name_System',
 		rfc: 'https://datatracker.ietf.org/doc/html/rfc1035'

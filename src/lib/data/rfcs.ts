@@ -1558,6 +1558,44 @@ Compatible with the IKEv2 state machine; only the KDF inputs change. Co-authored
 			{ ref: '§2', description: 'KE_ADDITIONAL_KEY_EXCHANGE_n notify' },
 			{ ref: '§3', description: 'IKE_INTERMEDIATE chaining with multiple KEMs' }
 		]
+	},
+
+	// ── mDNS / DNS-SD (Multicast DNS + Service Discovery) ──────────────
+	{
+		number: '6762',
+		title: 'Multicast DNS',
+		year: 2013,
+		authors: 'Cheshire, Krochmal',
+		status: 'proposed-standard',
+		url: 'https://www.rfc-editor.org/rfc/rfc6762',
+		protocols: ['mdns-dns-sd'],
+		abstract: `Defines **[[mdns-dns-sd|Multicast DNS]]** — the [[dns|DNS]] wire format you already know, sent to a link-local multicast group (\`224.0.0.251\` / \`FF02::FB\`) on UDP/5353. Repurposes two flag bits: the high bit of QCLASS becomes the **unicast-response** bit; the high bit of RRCLASS becomes the **cache-flush** bit. Adds a probe/announce/respond/defend/goodbye lifecycle that turns DNS into a self-organising, conflict-resolving name registry for the local link.
+
+[[pioneer:stuart-cheshire|Cheshire]] and Krochmal shipped this as Apple's **Rendezvous** (renamed **Bonjour** in 2005) starting in macOS 10.2 (2002) — eleven years before the [[rfc:6762|RFC]] was published. The standard codifies what had been running on millions of Macs for over a decade.`,
+		notableSections: [
+			{ ref: '§5', description: 'One-shot queries vs continuous queries' },
+			{ ref: '§7', description: 'Known-answer suppression' },
+			{ ref: '§8', description: 'Probing and announcing on startup' },
+			{ ref: '§9', description: 'Conflict resolution' },
+			{ ref: '§18', description: 'Reuse of QCLASS/RRCLASS top bits' }
+		]
+	},
+	{
+		number: '6763',
+		title: 'DNS-Based Service Discovery',
+		year: 2013,
+		authors: 'Cheshire, Krochmal',
+		status: 'proposed-standard',
+		url: 'https://www.rfc-editor.org/rfc/rfc6763',
+		protocols: ['mdns-dns-sd'],
+		abstract: `Defines **[[mdns-dns-sd|DNS-SD]]** — the naming convention layered on top of [[dns|DNS]] (or [[mdns-dns-sd|mDNS]]) for service discovery. A service instance is named \`<Instance>._<service>._<proto>.<domain>\` — e.g., \`Office Printer._ipp._tcp.local\`. A **PTR** record enumerates instances of a service type; an **SRV** record gives \`host:port\`; **TXT** carries key-value metadata; **A/AAAA** resolves the hostname.
+
+Independent of the transport. Works equally well over multicast DNS on the link or over unicast DNS for wide-area discovery (the latter now formalised by SRP, RFC 9665, 2025). The wire-protocol substrate for every AirPlay receiver, AirPrint printer, Chromecast, Sonos speaker, and Matter device on the planet.`,
+		notableSections: [
+			{ ref: '§4', description: 'Service Instance Names (the `Instance._service._proto.domain` pattern)' },
+			{ ref: '§7', description: 'Service Names registered with IANA' },
+			{ ref: '§6', description: 'Data syntax for DNS-SD TXT records' }
+		]
 	}
 ];
 

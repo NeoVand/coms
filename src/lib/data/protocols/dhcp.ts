@@ -183,7 +183,7 @@ DHCP ACK:
 		overhead:
 			'Fixed BOOTP header is 236 bytes, but minimum on-wire DHCP frame is larger (300+ bytes with required options and Ethernet/IP/UDP headers). UDP-based, broadcast-heavy.'
 	},
-	connections: ['udp', 'dns', 'arp'],
+	connections: ['udp', 'dns', 'arp', 'mdns-dns-sd'],
 	links: {
 		wikipedia: 'https://en.wikipedia.org/wiki/Dynamic_Host_Configuration_Protocol',
 		rfc: 'https://datatracker.ietf.org/doc/html/rfc2131'

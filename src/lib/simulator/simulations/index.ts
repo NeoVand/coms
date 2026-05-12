@@ -49,6 +49,8 @@ import { natTraversalIce } from './nat-traversal';
 import { ospfAdjacency } from './ospf-adjacency';
 import { bluetoothBleGatt } from './bluetooth-ble';
 import { ipsecTunnel } from './ipsec-tunnel';
+import { wireguardHandshake } from './wireguard-handshake';
+import { mdnsDiscovery } from './mdns-discovery';
 
 const simulations = new Map<string, SimulationConfig>([
 	['tcp', tcpHandshake],
@@ -100,7 +102,9 @@ const simulations = new Map<string, SimulationConfig>([
 	['nat-traversal', natTraversalIce],
 	['ospf', ospfAdjacency],
 	['bluetooth', bluetoothBleGatt],
-	['ipsec', ipsecTunnel]
+	['ipsec', ipsecTunnel],
+	['wireguard', wireguardHandshake],
+	['mdns-dns-sd', mdnsDiscovery]
 ]);
 
 export function getSimulation(protocolId: string): SimulationConfig | undefined {

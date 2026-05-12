@@ -1333,6 +1333,68 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
 		}
 	},
 
+	'mdns-dns-sd': {
+		definition: `sequenceDiagram
+    participant N as New host (printer)
+    participant L as Link (224.0.0.251)
+    participant C as Client (laptop)
+    Note over N: Boot — pick candidate name "office-printer.local"
+    N->>L: Probe Query #1 (250 ms)
+    N->>L: Probe Query #2 (250 ms)
+    N->>L: Probe Query #3 (250 ms)
+    Note over N: No conflict — name is mine
+    N->>L: Announce (PTR + SRV + TXT + A, cache-flush bit set)
+    N->>L: Announce #2 (1 s later)
+    Note over C: User taps "Find printer"
+    C->>L: PTR Query _ipp._tcp.local (unicast-response bit)
+    N-->>C: PTR Response → Office Printer._ipp._tcp.local
+    C->>L: SRV + TXT + A query for that instance
+    N-->>C: host=office-printer.local:631, rp=ipp/print, A=192.168.1.42
+    Note over C: Printer found — start IPP job
+    Note over N: At shutdown
+    N->>L: Goodbye (PTR with TTL=0)`,
+		caption:
+			'**[[mdns-dns-sd|mDNS]] + [[mdns-dns-sd|DNS-SD]]** = the [[dns|DNS]] you already know, sent to a link-local multicast group on UDP/5353, with a probe/announce/respond/goodbye lifecycle. [[rfc:6762|RFC 6762]] + [[rfc:6763|RFC 6763]] (2013) — but shipped by [[pioneer:stuart-cheshire|Apple as Bonjour]] in macOS 10.2 (2002).',
+		steps: {
+			0: 'A new printer wants to join the link. It picks a candidate name (`office-printer.local`) and is about to claim it — but first it has to check nobody else already owns it.',
+			1: '**Probe** — three Query messages 250 ms apart. *"Is anyone already using `office-printer.local`?"* If any host responds with a matching record, the prober picks `office-printer-2.local` and starts over.',
+			4: 'Three probes succeeded with no conflict. The host now owns the name.',
+			5: '**Announce** — two Response messages 1 second apart with the **cache-flush** bit set on every A/AAAA/SRV/TXT record. Every receiver replaces any stale cache entries; the host is live on the link.',
+			8: '**PTR Query** for `_ipp._tcp.local` — the [[mdns-dns-sd|DNS-SD]] way to ask *"what IPP printers exist on this link?"* The unicast-response bit asks responders to reply directly to save multicast bandwidth.',
+			10: '**SRV + TXT + A** completes the discovery. The client now knows the printer is at `office-printer.local:631`, the resource path is `ipp/print`, and the IP is `192.168.1.42`.',
+			12: '**Goodbye** — at graceful shutdown, the host sends one Response with `TTL=0` for every record it owns. Receivers immediately flush the cache. Crash-exits leave records to age out at their normal TTL (120 s for hostnames, 4500 s for service records).'
+		}
+	},
+
+	wireguard: {
+		definition: `sequenceDiagram
+    participant I as Initiator (peer A)
+    participant R as Responder (peer B)
+    Note over I,R: Handshake — Noise_IKpsk2, one round trip
+    I->>R: Handshake Initiation (148 B)
+    Note right of I: type=1, ephemeral pub,<br/>encrypted static, TAI64N,<br/>MAC1 + MAC2
+    R->>I: Handshake Response (92 B)
+    Note left of R: type=2, ephemeral pub,<br/>encrypted empty, MAC1 + MAC2
+    Note over I,R: Both sides derive ChaCha20-Poly1305 keys;<br/>ephemeral state wiped
+    I-->>R: Transport Data (type=4, encrypted IP packet)
+    R-->>I: Transport Data (type=4, encrypted IP packet)
+    Note over I,R: Every 120 s — REKEY_AFTER_TIME
+    I->>R: Handshake Initiation (new ephemeral)
+    R->>I: Handshake Response
+    Note over I,R: Fresh keys; old session wiped at REJECT_AFTER_TIME (180 s)`,
+		caption:
+			'**[[wireguard|WireGuard]]** = one round-trip Noise_IKpsk2 handshake → encrypted [[ip|IP]] packets over [[udp|UDP]]. Exactly four message types, exactly one ciphersuite (`Noise_IKpsk2_25519_ChaChaPoly_BLAKE2s`). Designed by [[pioneer:jason-donenfeld|Jason Donenfeld]] (2015–2016), mainlined in Linux 5.6 (29 March 2020).',
+		steps: {
+			0: 'Before any traffic flows, each peer already knows the other\'s **32-byte Curve25519 public key**. There is no certificate exchange, no PKI, no negotiation. The public key *is* the identity.',
+			1: '**Handshake Initiation** — 148 bytes. Carries the initiator\'s ephemeral pubkey, an AEAD-encrypted copy of its static pubkey (hides sender identity from passive observers), and a TAI64N timestamp. `MAC1` proves the initiator knows the responder\'s pubkey (anti-amplification). `MAC2` is a cookie under DoS load.',
+			3: '**Handshake Response** — 92 bytes. The responder\'s ephemeral pubkey, an AEAD-encrypted empty payload (proves key agreement), and the same MAC1/MAC2 pair. Completes the four-DH Noise_IK pattern (plus optional PSK mix).',
+			4: 'Both sides now hold matching **ChaCha20-Poly1305** sending and receiving keys, derived from a chaining key via HKDF. The chaining key is wiped from memory — there is no "session state" beyond the symmetric keys.',
+			5: '**Transport Data** (type=4) — every inner [[ip|IP]] packet is wrapped in a 16-byte WireGuard header (type, receiver-index, 64-bit counter) plus the AEAD ciphertext + 16-byte Poly1305 tag. The counter doubles as the AEAD nonce *and* the anti-replay sequence number.',
+			7: '**`REKEY_AFTER_TIME` = 120 s** forces a fresh handshake. Old keys are wiped. **Per-message forward secrecy** within a session, **per-handshake forward secrecy** across sessions. Silent peers are torn down at `REJECT_AFTER_TIME = 180 s`.',
+			9: 'The new session installs new keys. Inner [[ip|IP]] traffic continues seamlessly — there is no "reconnection" visible to the application.'
+		}
+	},
+
 	ipsec: {
 		definition: `sequenceDiagram
     participant I as Initiator (HQ Gateway)

@@ -53,7 +53,9 @@ const highlightedNames: Record<string, string> = {
 	'nat-traversal': '[NAT] [T]raversal ([STUN] / [TURN] / [ICE])',
 	ospf: '[O]pen [S]hortest [P]ath [F]irst',
 	bluetooth: '[B]lue[T]ooth',
-	ipsec: '[IP] [Sec]urity'
+	ipsec: '[IP] [Sec]urity',
+	wireguard: '[W]ire[G]uard',
+	'mdns-dns-sd': '[m][DNS] / [DNS-SD]'
 };
 
 export interface NameSegment {

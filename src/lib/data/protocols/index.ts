@@ -49,6 +49,8 @@ import { natTraversal } from './nat-traversal';
 import { ospf } from './ospf';
 import { bluetooth } from './bluetooth';
 import { ipsec } from './ipsec';
+import { wireguard } from './wireguard';
+import { mdnsDnsSd } from './mdns-dns-sd';
 
 export const networkFoundationsProtocols: Protocol[] = [ethernet, arp, ip, ipv6, ospf];
 export const wirelessProtocols: Protocol[] = [wifi, bluetooth];
@@ -82,7 +84,9 @@ export const utilitiesProtocols: Protocol[] = [
 	icmp,
 	oauth2,
 	natTraversal,
-	ipsec
+	ipsec,
+	wireguard,
+	mdnsDnsSd
 ];
 
 export const allProtocols: Protocol[] = [

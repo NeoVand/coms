@@ -223,7 +223,7 @@ Payloads:
 		overhead:
 			'ESP adds 36–44 bytes per packet (8B SPI+seq, 8B IV, up to 16B padding+trailer, 16B GCM ICV). Tunnel mode adds another 20-byte outer IPv4 header (40 bytes for IPv6). MTU clamping is mandatory unless PMTUD is reliable'
 	},
-	connections: ['ip', 'ipv6', 'udp', 'tcp', 'tls', 'bgp', 'ospf', 'quic'],
+	connections: ['ip', 'ipv6', 'udp', 'tcp', 'tls', 'bgp', 'ospf', 'quic', 'wireguard'],
 	links: {
 		wikipedia: 'https://en.wikipedia.org/wiki/IPsec',
 		rfc: 'https://www.rfc-editor.org/rfc/rfc7296',

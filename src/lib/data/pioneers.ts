@@ -684,6 +684,112 @@ If you've used [[ipsec|IPsec]] on Linux in the last decade, you've probably depe
 		}
 	},
 	{
+		id: 'jason-donenfeld',
+		name: 'Jason A. Donenfeld',
+		years: 'c. 1989–',
+		title: 'Creator of WireGuard',
+		org: 'Edge Security (zx2c4.com); Linux kernel developer; Linux RNG maintainer (random.c) since 2022',
+		contribution: `Created **[[wireguard|WireGuard]]** as a side project in 2015, frustrated with the architectural sprawl of [[ipsec|IPsec]] and OpenVPN. First public code snapshot 30 June 2016; whitepaper presented at NDSS 2017. The whole Linux kernel module weighs ~4,000 lines of code — versus 100,000+ for OpenVPN's core and the six-figure footprint of strongSwan + Linux XFRM. **Linus Torvalds called it "a work of art" on the LKML in August 2018**; mainlined in Linux 5.6 on 29 March 2020.
+
+Also wrote **Wintun** (Windows TUN driver), **wireguard-nt** (native Windows kernel module), **wireguard-go** (cross-platform userspace reference), and as of 2022 maintains **\`random.c\`** — the Linux kernel's RNG. Funding for the WireGuard work comes from the Open Technology Fund, NLnet, Mullvad, Tailscale, Jump Trading, Fly.io, and Germany's Sovereign Tech Fund (€209,000+ in 2023).
+
+Famously refuses to take [[wireguard|WireGuard]] through the IETF: *"I have a very low opinion of internet standards… [[wireguard|WireGuard]] is one of the first times in my career I've seen something get this much adoption without having to get through the filter of the IETF."*`,
+		protocols: ['wireguard'],
+		categories: ['utilities'],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/Jason_A._Donenfeld',
+			homepage: 'https://www.zx2c4.com/'
+		},
+		quotes: [
+			{
+				text: 'WireGuard can be simply implemented for Linux in less than 4,000 lines of code, making it easily audited and verified.',
+				source: {
+					url: 'https://www.wireguard.com/papers/wireguard.pdf',
+					label: 'WireGuard whitepaper, NDSS 2017'
+				}
+			}
+		]
+	},
+	{
+		id: 'trevor-perrin',
+		name: 'Trevor Perrin',
+		years: 'c. 1977–',
+		title: 'Designer of the Noise Protocol Framework and the Signal Protocol',
+		org: 'Independent cryptographer',
+		contribution: `Designed the **Noise Protocol Framework** (noiseprotocol.org, 2016) — a construction toolkit for building secure handshakes from a small set of patterns and DH/AEAD/hash primitives. [[wireguard|WireGuard]]'s handshake is an instantiation of the Noise \`IKpsk2\` pattern (\`Noise_IKpsk2_25519_ChaChaPoly_BLAKE2s\`).
+
+Before Noise: co-designed Signal's **X3DH** key-agreement protocol and the **Axolotl** ratchet (later renamed the Double Ratchet) with Moxie Marlinspike, both foundational to Signal, WhatsApp, Facebook Messenger E2E, and Google Messages RCS. Quietly one of the most consequential applied cryptographers of the last 15 years; rarely seen at conferences but his patterns are everywhere.`,
+		protocols: ['wireguard'],
+		categories: ['utilities'],
+		links: {
+			homepage: 'https://noiseprotocol.org/'
+		}
+	},
+	{
+		id: 'stuart-cheshire',
+		name: 'Stuart Cheshire',
+		years: 'c. 1968–',
+		title: 'Designer of Multicast DNS and DNS-SD',
+		org: 'Apple (Distinguished Engineer/Scientist/Technologist)',
+		contribution: `Designed **[[mdns-dns-sd|mDNS]]** and **[[mdns-dns-sd|DNS-SD]]** at Apple, where he has been since January 1998. Educated at Sidney Sussex College, Cambridge (BA + MA Computer Science, 1989 + 1992) and Stanford (MSc + PhD Computer Networking, 1996 + 1998). His PhD dissertation invented **Consistent Overhead Byte Stuffing (COBS)** — the framing algorithm widely used in embedded protocols.
+
+Lead or co-author of an astonishing RFC catalogue: RFC 3927 (IPv4 link-local), RFC 6335 (IANA port-number procedures), RFC 6760 / RFC 6761 / [[rfc:6762|RFC 6762]] / [[rfc:6763|RFC 6763]] (the Zeroconf quartet), RFC 6886 (NAT-PMP), RFC 6887 (PCP, co-author), RFC 7558 (DNS-SD scalability requirements), RFC 8765 (DNS Push), RFC 8766 (Discovery Proxy), RFC 9664 (DNS Update Lease), and **RFC 9665 (SRP, 2025)**.
+
+Co-author of *Zero Configuration Networking: The Definitive Guide* (O'Reilly, 2005, with Daniel H. Steinberg). Also the author of **Bolo** (BBC Micro 1987, Mac port 1990s) — a 16-player networked tank game some old-timers at Apple will still name-drop. His IETF presentations are famous for animated polemics, most notably his recurring "why mDNS instead of LLMNR" critique of the Microsoft alternative.`,
+		protocols: ['mdns-dns-sd'],
+		categories: ['utilities'],
+		links: {
+			homepage: 'https://stuartcheshire.org/'
+		}
+	},
+	{
+		id: 'lennart-poettering',
+		name: 'Lennart Poettering',
+		years: '1980–',
+		title: 'Co-author of Avahi; author of PulseAudio and systemd',
+		org: 'Microsoft (since 2022); previously Red Hat (2008–2022)',
+		contribution: `Born 15 October 1980 in Guatemala City; raised in Rio de Janeiro and Hamburg. Initial author or co-author of more than 40 free-software projects, including **PulseAudio** (2004 — the dominant Linux sound server), **[[mdns-dns-sd|Avahi]]** (2004–2005, with Trent Lloyd — the dominant Linux/BSD mDNS implementation), and **systemd** (2010 — the dominant Linux init system).
+
+At Red Hat from at least 2008 until joining Microsoft in 2022. Known in the Linux community for sharp opinions on init systems and Linux distribution architecture; the systemd debates were occasionally vitriolic and Poettering himself has spoken publicly about the difficulty of working in open-source under sustained personal attack. Avahi was his contribution to the [[mdns-dns-sd|mDNS]] world before he moved on to PulseAudio and systemd full-time.`,
+		protocols: ['mdns-dns-sd'],
+		categories: ['utilities'],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/Lennart_Poettering',
+			homepage: 'https://0pointer.net/'
+		}
+	},
+	{
+		id: 'ted-lemon',
+		name: 'Ted Lemon',
+		years: 'c. 1962–',
+		title: 'DHCP / DNS-SD elder; lead author of SRP (RFC 9665)',
+		org: 'Apple (Senior Software Engineer); previously Fastly, Nominum',
+		contribution: `Long-time IETF contributor; co-author of *The DHCP Handbook* (with Ralph Droms, Macmillan, 2002) — the canonical text on dynamic host configuration. Co-author of RFC 8375 (Special-Use Domain \`home.arpa.\`) and RFC 8415 (DHCPv6 modernisation).
+
+**Lead author of RFC 9665 (SRP — Service Registration Protocol, June 2025) with [[pioneer:stuart-cheshire|Stuart Cheshire]] as co-author.** SRP extends [[mdns-dns-sd|DNS-SD]] from link-local to wide-area via Thread Border Routers and Matter ecosystems — the protocol that will glue link-local discovery to wide-area DNS as Matter and Thread roll out across the smart home. Currently working on \`draft-tlmk-infra-dnssd\` (July 2025) and \`draft-ietf-dnssd-advertising-proxy\` (current March 2024).`,
+		protocols: ['mdns-dns-sd', 'dhcp'],
+		categories: ['utilities'],
+		links: {
+			homepage: 'https://datatracker.ietf.org/person/mellon@fugue.com'
+		}
+	},
+	{
+		id: 'avery-pennarun',
+		name: 'Avery Pennarun',
+		years: 'c. 1975–',
+		title: 'Co-founder & CEO of Tailscale',
+		org: 'Tailscale (CEO since 2019); previously Google',
+		contribution: `Co-founded **Tailscale** in 2019 with David Crawshaw, David Carney, and (Jan 2020) Brad Fitzpatrick. Tailscale wraps [[wireguard|WireGuard]] with a control plane that handles key exchange, NAT-traversal coordination (STUN-style hole-punching with the proprietary DERP relay as a TURN-analogue), and ACL-style "tailnet" policy. The single biggest reason engineering teams encounter [[wireguard|WireGuard]] in 2026 is via Tailscale, not via raw \`wg-quick\`.
+
+Toronto-based. Ex-Google staff engineer. Public spokesperson for the "BeyondCorp + [[wireguard|WireGuard]]" thesis: that mesh networking + zero-trust auth obsoletes the corporate VPN. Tailscale crossed 10,000 paying customers and raised its Series C in 2025.`,
+		protocols: ['wireguard', 'nat-traversal'],
+		categories: ['utilities'],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/Tailscale',
+			homepage: 'https://apenwarr.ca/'
+		}
+	},
+	{
 		id: 'andreas-steffen',
 		name: 'Andreas Steffen',
 		years: 'c. 1955–',
