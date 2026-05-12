@@ -2245,6 +2245,95 @@ export const concepts: Concept[] = [
 			"A property of a key-exchange protocol where compromising one session\'s long-term key does **not** compromise past sessions. Achieved by deriving each session key from an ephemeral Diffie-Hellman exchange. [[tls|TLS]] 1.3 enforces it; [[ipsec|IKEv2]] gets it via fresh DH/KEM in CREATE_CHILD_SA rekeys.",
 		wikiUrl: 'https://en.wikipedia.org/wiki/Forward_secrecy',
 		category: 'security'
+	},
+	// ── NFC concepts ───────────────────────────────────────────────────
+	{
+		id: 'ism-band',
+		term: 'ISM band',
+		definition:
+			'Industrial, Scientific, and Medical radio bands — unlicensed frequencies set aside by the ITU for non-communications use that grew into the home of every short-range wireless protocol. [[nfc|NFC]] sits at **13.56 MHz**; [[bluetooth|Bluetooth]] and [[wifi|Wi-Fi]] share 2.4 GHz; Wi-Fi also uses 5 GHz; Zigbee + Thread use 2.4 GHz; LoRa uses 868/915 MHz.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/ISM_radio_band',
+		category: 'networking-basics'
+	},
+	{
+		id: 'inductive-coupling',
+		term: 'Inductive coupling',
+		definition:
+			"Energy and data transfer via the *magnetic* component of the field between two coupled loop antennas. The magnetic field falls off as **1/r³**, vs 1/r² for far-field radiative coupling — which is exactly why [[nfc|NFC]]'s ≤10 cm range is a feature, not a bug. The passive PICC harvests power from the reader's field and signals back via {{load-modulation|load modulation}}.",
+		analogy:
+			'Two transformer windings momentarily brought together — except the secondary is in a credit card and the primary is in a payment terminal.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Inductive_coupling',
+		category: 'networking-basics'
+	},
+	{
+		id: 'load-modulation',
+		term: 'Load modulation',
+		definition:
+			"How a passive [[nfc|NFC]] card talks back: it switches a load (typically an 847.5 kHz subcarrier — 13.56 MHz/16) on its own antenna, which the reader perceives as small amplitude/phase changes in its own resonant loop. Cheap, requires no power source on the card. Modern phones use *active load modulation* instead — generating a small reflected carrier — which is why iPhones work through metal cases where plain plastic cards don't.",
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'ndef',
+		term: 'NDEF (NFC Data Exchange Format)',
+		definition:
+			"The NFC Forum binary record container that lives in tags and rides over LLCP/SNEP. A 1-byte header (MB/ME/CF/SR/IL + 3-bit TNF) + variable type/id/payload-length fields + payload. The TNF picks the namespace: 1=Well-Known (URI, Text, Smart Poster), 2=MIME, 3=Absolute URI, 4=External. A URI record uses a single-byte prefix shorthand (0x03 = `https://`). **Adopted as an IEC standard in March 2026.**",
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'apdu',
+		term: 'APDU (Application Protocol Data Unit)',
+		definition:
+			'The command/response unit per ISO/IEC 7816-4 — the alphabet of every contact and contactless smart card. Command APDU: 4-byte header `CLA INS P1 P2` + optional `Lc` length + data + optional `Le` expected response length. Response APDU: data + 2-byte status word `SW1 SW2` (where `9000` is success). EMV, eMRTDs, [[nfc|NFC]] card emulation, Aliro — all speak APDU.',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'aid',
+		term: 'AID (Application Identifier)',
+		definition:
+			"A 5–16 byte identifier per ISO 7816-5 that selects which on-card application to talk to — e.g. `A0000000041010` for Mastercard, `A0000000031010` for Visa, `A0000002471001` for ICAO eMRTDs. {{emv-cryptogram|EMV}} contactless uses a two-stage selection: first SELECT *PPSE* (`2PAY.SYS.DDF01`) to enumerate which AIDs the card supports, then SELECT the chosen AID.",
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'ppse',
+		term: 'PPSE (Proximity Payment System Environment)',
+		definition:
+			'The AID `2PAY.SYS.DDF01` that every contactless EMV terminal SELECTs *first* — it returns an FCI listing every payment AID the card supports in priority order, so the terminal can pick the right brand kernel (Visa, Mastercard, Amex, UnionPay) before negotiating the actual transaction.',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'emv-cryptogram',
+		term: 'EMV Application Cryptogram (ARQC / TC)',
+		definition:
+			'The per-transaction proof an EMV chip card produces in response to `GENERATE AC`. **ARQC** (Authorisation Request Cryptogram) → online to the issuer; **TC** (Transaction Certificate) → offline approval; **AAC** (Application Authentication Cryptogram) → decline. Bound to the amount, currency, country, terminal type, ATC (Application Transaction Counter), and Unpredictable Number — so even a captured cryptogram is worthless: the ATC has already moved on.',
+		category: 'security'
+	},
+	{
+		id: 'hce',
+		term: 'HCE (Host Card Emulation)',
+		definition:
+			"Android 4.4+ (2013) and iOS 17.4+ EEA: NFC card-emulation APDUs terminate in a normal application registered via `apduservice.xml` (Android) or the NFC entitlement (iOS), rather than in a hardware {{ese|Secure Element}}. Cheaper and more flexible — but the protocol can't tell whether the APDU stream came from a phone-in-hand or a relay tunnel, which is why **EMV Relay Resistance Protocol** exists.",
+		category: 'security'
+	},
+	{
+		id: 'ese',
+		term: 'eSE (embedded Secure Element)',
+		definition:
+			'A tamper-resistant smart-card chip soldered onto a phone or wearable motherboard, with its own CPU, encrypted storage, and cryptographic accelerators. Apple Pay uses an eSE for every transaction — the host OS never sees the keys. Pricier and harder to update than {{hce|HCE}}, but immune to OS-level compromise and to relay-attack timing manipulation.',
+		category: 'security'
+	},
+	{
+		id: 'ccc-digital-key',
+		term: 'CCC Digital Key',
+		definition:
+			'The Car Connectivity Consortium standard for phone-as-key. v1 was proprietary; v2 standardised NFC tap-to-unlock; v3 added BLE proximity + UWB centimetre-ranging (so the car knows *which side* of the door you are on); v4 (announced July 2025) brought cross-version interoperability. **115 vehicle/module products certified in 2025** — BMW (first, late 2024), Mercedes, Hyundai/Kia, Audi (2025), Volvo, Porsche, GM, Ford, plus Chinese OEMs (NIO, XPENG, Geely group).',
+		category: 'security'
+	},
+	{
+		id: 'aliro',
+		term: 'Aliro',
+		definition:
+			'The Connectivity Standards Alliance\'s PKI-based **access-control credential standard**, finalised as v1.0 on **26 February 2026**. ECDSA mutual authentication; transports over [[nfc|NFC]] (tap-to-access), [[bluetooth|BLE]] (proximity), and BLE+UWB (ranged hands-free). Backed by 220+ companies including Apple, Google, Samsung, ASSA ABLOY, HID, Allegion, Kwikset, Nuki. CSA positions it as *"Matter for doors."*',
+		category: 'security'
 	}
 ];
 

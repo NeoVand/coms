@@ -267,7 +267,7 @@ Inner packet:
 		overhead:
 			'Air-interface MAC + RLC + PDCP overhead is ~5–15% depending on numerology. On the backhaul, GTP-U adds 8 bytes plus the IPsec ESP wrapping (36–60 bytes) — every cellular packet pays an IPsec round on every N3 hop. ROHC header compression brings the 40-byte IPv6+TCP header down to 1–4 bytes on a steady flow'
 	},
-	connections: ['ip', 'ipv6', 'tcp', 'udp', 'quic', 'ipsec', 'http2', 'http3', 'tls', 'dns', 'sip', 'rtp', 'webrtc', 'wifi', 'bluetooth'],
+	connections: ['ip', 'ipv6', 'tcp', 'udp', 'quic', 'ipsec', 'http2', 'http3', 'tls', 'dns', 'sip', 'rtp', 'webrtc', 'wifi', 'bluetooth', 'nfc'],
 	links: {
 		wikipedia: 'https://en.wikipedia.org/wiki/5G_NR',
 		official: 'https://www.3gpp.org/'

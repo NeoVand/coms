@@ -915,6 +915,112 @@ Professor at HSR / OST in Rapperswil, Switzerland — strongSwan started as an a
 		links: {
 			homepage: 'https://strongswan.org'
 		}
+	},
+	{
+		id: 'charles-walton',
+		name: 'Charles Walton',
+		years: '1921–2011',
+		title: 'Holder of the foundational RFID patent — the ancestor of NFC',
+		org: 'IBM (1960–1970) → Proximity Devices (founded 1970, Sunnyvale)',
+		contribution: `US engineer; Cornell BSEE 1943; MS Stevens Institute of Technology; US Army Signal Corps; ten years at IBM working primarily on disk-drive R&D. **Founded Proximity Devices in Sunnyvale in 1970** and spent the next two decades inventing the radio-identification primitives that would later become the [[nfc|NFC]] family. Holder of 50+ patents in radio identification.
+
+The canonical "ancestor" patent is **US 4,384,288 — *Portable Radio Frequency Emitting Identifier*** (issued **15 May 1983**) — the first patent to use the acronym "RFID". His earliest passive transponder patent is US 3,752,960 (August 1973). He licensed his card-and-reader door-lock to **Schlage**, earning millions in royalties — but the bulk of his patents expired in the mid-1990s, just before Walmart's 2003 RFID mandate and the wider boom.
+
+Died in Los Gatos on **6 November 2011** — three months after Google launched **Google Wallet 1.0** on the Nexus S 4G — at age 89. The Lemelson-MIT program recognised him; the **VentureBeat** and **Engadget** obituaries the following month are the canonical citations.`,
+		protocols: ['nfc'],
+		categories: ['wireless'],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/Charles_Walton_(inventor)'
+		}
+	},
+	{
+		id: 'franz-amtmann',
+		name: 'Franz Amtmann',
+		years: '1963–',
+		title: 'Co-inventor of NFC; RFID Lead Architect at NXP',
+		org: 'Philips Semiconductors → NXP (Gratkorn, Austria)',
+		contribution: `Austrian electrical engineer who led the physical-layer and IC architecture work behind [[nfc|NFC]] at Philips Semiconductors (later **NXP**, spun out in 2006). ~50 patents. Instrumental in the **MIFARE** family architecture and the NFC physical-layer specification — the side of the standard that turned a paper draft into manufacturable silicon.
+
+Co-recipient with [[pioneer:philippe-maugars|Philippe Maugars]] of the **European Patent Office's European Inventor Award 2015** in the *Industry* category, for jointly inventing NFC. NXP's NW-ENGINEERS-EUROPEAN-INVENTOR-AWARD press release describes 25+ years at the company. In a 2015 interview with M2M Now, Amtmann and Maugars credited the success to "a cooperation between teams having complementary expertise across RFID, applications, and IC design."`,
+		protocols: ['nfc'],
+		categories: ['wireless'],
+		awards: [{ name: 'European Inventor Award (Industry)', year: 2015 }]
+	},
+	{
+		id: 'philippe-maugars',
+		name: 'Philippe Maugars',
+		years: 'c. 1960–',
+		title: 'Co-inventor of NFC',
+		org: 'Philips → NXP (Caen, France)',
+		contribution: `French electrical engineer; 30+ years at Philips / NXP. Career arc across smart-card readers, power management, and LED-based smart lighting; ~25 patents. **Co-inventor of [[nfc|NFC]] with [[pioneer:franz-amtmann|Franz Amtmann]]**, and joint recipient of the **European Patent Office European Inventor Award 2015** in the Industry category.
+
+Where Amtmann owned the physical-layer and IC architecture in Gratkorn, Maugars owned the reader-side and protocol work in Caen — the contactless reader chips that ship in every payment terminal, transit gate, and access reader using NXP silicon today are direct descendants of his designs.`,
+		protocols: ['nfc'],
+		categories: ['wireless'],
+		awards: [{ name: 'European Inventor Award (Industry)', year: 2015 }]
+	},
+	{
+		id: 'karsten-nohl',
+		name: 'Karsten Nohl',
+		years: 'c. 1981–',
+		title: 'Cryptographer who broke MIFARE Classic Crypto1',
+		org: 'University of Virginia PhD → Security Research Labs (SRLabs), Berlin',
+		contribution: `German cryptographer and security researcher who ended *security-by-obscurity* in NFC contactless. With [[pioneer:henryk-plotz|Henryk Plötz]] and "Starbug" at the Chaos Computer Club, presented ***MIFARE — little security despite obscurity*** at **24C3 in Berlin on 28 December 2007**, dismantling the Crypto1 stream cipher used in roughly 1 billion MIFARE Classic cards worldwide — Dutch OV-chipkaart, London Oyster, Boston Charlie Card, and innumerable hotel-key, office-badge, and university-canteen systems.
+
+They had **decapped the chip, photographed ~10 000 gates with an optical microscope**, recognised that only ~70 unique gates were used, and isolated the ~10 % of gates dedicated to Crypto1. They also noticed the weak 16-bit PRNG seeded from a free-running power-up counter. The follow-on academic paper *Reverse-Engineering a Cryptographic RFID Tag* (USENIX Security 2008) is the canonical citation.
+
+Founded **SRLabs in Berlin**; later work covered SIM-card cloning, SS7 attacks, and contactless banking-app analyses. The Crypto1 story is now textbook material for "why open peer review is not optional."`,
+		protocols: ['nfc'],
+		categories: ['wireless'],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/Karsten_Nohl',
+			homepage: 'https://srlabs.de/'
+		}
+	},
+	{
+		id: 'henryk-plotz',
+		name: 'Henryk Plötz',
+		years: 'c. 1980–',
+		title: 'Chaos Computer Club hardware security researcher; co-author of the MIFARE break',
+		org: 'Chaos Computer Club / Humboldt University of Berlin',
+		contribution: `German computer scientist; CCC member; co-author with [[pioneer:karsten-nohl|Karsten Nohl]] and "Starbug" of the **24C3 (28 December 2007)** dismantlement of MIFARE Classic's Crypto1 — the first time a deployed mass-market contactless cipher was reverse-engineered from silicon and broken in public.
+
+Subsequent academic work at HU Berlin on RFID/NFC security and on lattice/side-channel attacks. The 24C3 talk's recording remains one of the most-viewed Chaos Computer Club lectures and is the canonical "this is how security-by-obscurity dies" video.`,
+		protocols: ['nfc'],
+		categories: ['wireless']
+	},
+	{
+		id: 'preeti-ohri-khemani',
+		name: 'Preeti Ohri Khemani',
+		years: '—',
+		title: 'Current Chair, NFC Forum',
+		org: 'NFC Forum (board) / Infineon Technologies',
+		contribution: `Public **Chair of the NFC Forum** as of the 2025 Release 15 announcement, succeeding prior chairs (Koichi Tagawa, then Mike McCamon as Executive Director). The public spokesperson for the **20 mm operating volume** rollout — what she described as the technically hardest standardisation effort to date while maintaining ISO 14443 compatibility.
+
+Under her tenure the Forum:
+
+- Quadrupled the certified operating volume from 5 mm to 20 mm (Release 15, June 2025).
+- Promoted **NFC Wireless Charging (WLC 2.0)** through adoption as an IEC standard (March 2026).
+- Published the **NDPP** candidate spec for digital product passports (March 2025).
+- Drove **NDEF** to formal IEC standardisation (March 2026).
+- Committed the Forum's 2026 Technology Roadmap to **Multi-Purpose Tap (MPT)** as a strategic direction.`,
+		protocols: ['nfc'],
+		categories: ['wireless']
+	},
+	{
+		id: 'martin-herfurt',
+		name: 'Martin Herfurt',
+		years: '—',
+		title: 'Founder of Trifinite; Bluetooth and NFC security researcher',
+		org: 'Trifinite Group (Austria)',
+		contribution: `Austrian security researcher; founder of **Trifinite**; long-running specialist in [[bluetooth|Bluetooth]] and [[nfc|NFC]] security. Authored the **2022 Tesla NFC keycard 130-second authorisation-window attack** — *Gone in under 130 seconds* — demonstrating that Tesla's post-unlock "convenience window" also accepted *new key enrolment* without re-authentication or owner notification. Within the legitimate driver's 130 s shift-into-gear window, an attacker could enrol an attacker-controlled phone over BLE and drive the car away.
+
+Maintains the **TeslaKee** defensive app for Android/iOS. His public disclosures (private to Tesla months prior) directly motivated the **anti-relay-resistance requirements** in CCC Digital Key 3.0 / 4.0 and the USPTO filings on NFC anti-relay timing bounds.`,
+		protocols: ['nfc', 'bluetooth'],
+		categories: ['wireless'],
+		links: {
+			homepage: 'https://trifinite.org/'
+		}
 	}
 ];
 

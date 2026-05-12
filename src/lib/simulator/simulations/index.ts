@@ -53,6 +53,7 @@ import { wireguardHandshake } from './wireguard-handshake';
 import { mdnsDiscovery } from './mdns-discovery';
 import { cellularRegistration } from './cellular-registration';
 import { kerberosAuth } from './kerberos-auth';
+import { nfcTap } from './nfc-tap';
 
 const simulations = new Map<string, SimulationConfig>([
 	['tcp', tcpHandshake],
@@ -108,7 +109,8 @@ const simulations = new Map<string, SimulationConfig>([
 	['wireguard', wireguardHandshake],
 	['mdns-dns-sd', mdnsDiscovery],
 	['cellular', cellularRegistration],
-	['kerberos', kerberosAuth]
+	['kerberos', kerberosAuth],
+	['nfc', nfcTap]
 ]);
 
 export function getSimulation(protocolId: string): SimulationConfig | undefined {

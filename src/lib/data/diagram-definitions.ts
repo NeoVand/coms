@@ -1608,5 +1608,44 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
 			10: 'The controlling agent sends **`USE-CANDIDATE`** on the highest-priority working pair. That pair is *nominated*; media starts flowing on it.',
 			11: '**Consent freshness** ([[rfc:7675|RFC 7675]]): every ~15s, a Binding Indication keeps the NAT binding alive and confirms the peer still wants to receive. Silence for ~30s = ICE restart.'
 		}
+	},
+
+	nfc: {
+		definition: `sequenceDiagram
+    participant T as Terminal (PCD)
+    participant P as Phone eSE (PICC)
+    Note over T: RF field on at 13.56 MHz
+    T->>P: REQA 0x26
+    P->>T: ATQA 0x04 0x00
+    T->>P: SEL/NVB → UID → SAK 0x28
+    Note over T,P: ISO 14443-4 negotiated
+    T->>P: RATS 0xE0 0x80
+    P->>T: ATS (FSCI=5, FWI=3)
+    T->>P: SELECT PPSE 2PAY.SYS.DDF01
+    P->>T: FCI (Mastercard AID A0000000041010)
+    T->>P: SELECT AID A0000000041010
+    P->>T: FCI + PDOL
+    T->>P: GET PROCESSING OPTIONS (amount, currency, UN)
+    P->>T: AIP + AFL
+    T->>P: READ RECORD × N (DPAN, expiry, cert chain)
+    P->>T: records + 9000
+    T->>P: GENERATE AC (CDOL1 data)
+    P->>T: ARQC + ATC + IAD
+    Note over T,P: Terminal → acquirer → issuer → ARPC: APPROVED`,
+		caption:
+			"**[[nfc|NFC]]** = Near Field Communication. The same nine beats — anti-collision → RATS/ATS → SELECT PPSE → SELECT AID → GPO → READ RECORD → GENERATE AC — that every Apple Pay, Google Wallet, transit gate, and plastic contactless card runs through in under half a second (ISO/IEC 14443 + ISO/IEC 7816-4 + EMVCo Contactless Book C-2).",
+		steps: {
+			0: 'The terminal energises the **13.56 MHz** magnetic carrier continuously. When the phone is within ~4 cm, the {{ese|eSE}} harvests power inductively and wakes — no battery contribution needed.',
+			1: '**REQA** = `0x26`, a 7-bit short frame. Any IDLE Type A PICC in the field transitions to READY.',
+			2: '**ATQA** = `0x04 0x00` — declares a 4-byte UID and standard bit-frame anti-collision.',
+			3: 'Bit-frame **anti-collision** loop with SEL=0x93 / NVB=0x20 → UID → NVB=0x70 → SAK. `SAK = 0x28` has bit 6 set → ISO 14443-4 supported.',
+			5: '**RATS** = `0xE0 0x80` asks for Answer-To-Select. **ATS** declares Frame Size for Card (FSCI=5 = 64 byte max) and Frame Waiting Time.',
+			6: '**SELECT PPSE** with AID `2PAY.SYS.DDF01` — the Proximity Payment System Environment. The card returns an FCI Template listing every payment AID it supports in priority order.',
+			8: 'Terminal **SELECTs the chosen AID** (Mastercard `A0000000041010`). The card returns its FCI with the **PDOL** — the list of EMV tags it needs filled in to compute the cryptogram.',
+			10: '**GET PROCESSING OPTIONS** carries the PDOL-filled data: amount, currency, country, TVR, Unpredictable Number. The card returns **AIP** (authentication modes supported — CDA, RRP) and **AFL** (which files to READ next).',
+			12: '**READ RECORD × N** — one per AFL entry. Pulls the **DPAN** (not the real PAN — that lives at the issuer), expiry, CDOL1, and the certificate chain for offline CDA verification.',
+			14: '**GENERATE AC** with CDOL1 data — the card runs the inputs through AES-MAC under the per-DPAN key and returns the **ARQC** (Authorisation Request Cryptogram). The ATC has already incremented.',
+			16: 'Terminal sends the ARQC online via acquirer → payment network → issuer HSM. **ARPC = APPROVED** comes back; terminal beeps green; phone vibrates. Total time including network round-trip: 300–800 ms.'
+		}
 	}
 };

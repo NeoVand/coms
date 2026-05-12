@@ -57,7 +57,8 @@ const highlightedNames: Record<string, string> = {
 	wireguard: '[W]ire[G]uard',
 	'mdns-dns-sd': '[m][DNS] / [DNS-SD]',
 	cellular: '[4G] / [5G] [C]ellular',
-	kerberos: '[K]erberos'
+	kerberos: '[K]erberos',
+	nfc: '[N]ear [F]ield [C]ommunication'
 };
 
 export interface NameSegment {

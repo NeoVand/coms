@@ -53,9 +53,10 @@ import { ipsec } from './ipsec';
 import { wireguard } from './wireguard';
 import { mdnsDnsSd } from './mdns-dns-sd';
 import { kerberos } from './kerberos';
+import { nfc } from './nfc';
 
 export const networkFoundationsProtocols: Protocol[] = [ethernet, arp, ip, ipv6, ospf];
-export const wirelessProtocols: Protocol[] = [wifi, bluetooth, cellular];
+export const wirelessProtocols: Protocol[] = [wifi, bluetooth, cellular, nfc];
 export const transportProtocols: Protocol[] = [tcp, udp, quic, sctp, mptcp];
 export const webApiProtocols: Protocol[] = [
 	http1,
