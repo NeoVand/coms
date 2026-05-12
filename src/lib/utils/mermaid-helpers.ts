@@ -2,12 +2,19 @@
  * Shared mermaid rendering utilities used by MermaidDiagram and DiagramModal.
  */
 
+import { stripRichTextMarkup } from '$lib/utils/text-parser';
+
 export function buildThemedDefinition(
 	rawDef: string,
 	color: string,
 	expanded = false,
 	appTheme: 'dark' | 'light' = 'dark'
 ): string {
+	// Some Mermaid definitions in the data files include rich-text atoms
+	// ({{concept|label}}, [[id|label]]) inside node labels — those are
+	// authoring hints, not Mermaid syntax. Strip them down to their
+	// label text before handing the source to Mermaid.
+	rawDef = stripRichTextMarkup(rawDef);
 	const fontSize = expanded ? '15px' : '13px';
 	const actorFontSize = expanded ? 15 : 13;
 	const messageFontSize = expanded ? 14 : 12;

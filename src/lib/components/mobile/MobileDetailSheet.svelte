@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { getAppState } from '$lib/state/context';
 	import { getProtocolById, getCategoryById } from '$lib/data/index';
+	import RichText from '$lib/components/detail/inline/RichText.svelte';
+	import { parseRichText } from '$lib/utils/text-parser';
 	import HowItWorksSteps from '$lib/components/detail/HowItWorksSteps.svelte';
 	import ProtocolDiagram from '$lib/components/detail/ProtocolDiagram.svelte';
 	import CodeExample from '$lib/components/detail/CodeExample.svelte';
@@ -75,7 +77,7 @@
 					class="mt-2 rounded-lg border-l-2 py-2 pl-3 text-sm text-t-primary"
 					style="border-color: {color}; background-color: {color}08"
 				>
-					{proto.oneLiner}
+					<RichText segments={parseRichText(proto.oneLiner)} {color} />
 				</p>
 			</div>
 

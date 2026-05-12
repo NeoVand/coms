@@ -10,11 +10,11 @@ export const oauth2: Protocol = {
 	rfc: 'RFC 6749',
 	oneLiner:
 		'Delegated authorization for the modern web — let apps access your data without sharing your password.',
-	overview: `OAuth 2.0 is the authorization framework that powers "Sign in with Google," "Connect your GitHub," and virtually every third-party integration on the modern web. Instead of handing your password to an application, OAuth lets you grant it a scoped, time-limited {{access-token|access token}} — the app can read your repos but not delete them, view your calendar but not your email. Your credentials never leave the identity provider.
+	overview: `[[oauth2|OAuth 2.0]] is the authorization framework that powers "Sign in with Google," "Connect your GitHub," and virtually every third-party integration on the modern web. Instead of handing your password to an application, [[oauth2|OAuth]] lets you grant it a scoped, time-limited {{access-token|access token}} — the app can read your repos but not delete them, view your calendar but not your email. Your credentials never leave the identity provider.
 
 The core mechanism is the authorization code flow. When you click "Sign in with GitHub," you're redirected to GitHub's authorization server. You authenticate there (not on the app), review what permissions the app is requesting, and consent. GitHub redirects you back to the app with a short-lived authorization code. The app exchanges this code — along with a {{pkce|PKCE}} (Proof Key for Code {{exchange|Exchange}}) code verifier to prevent interception — for an {{access-token|access token}} and a refresh token. Access tokens are short-lived (minutes to hours); when they expire, the app uses the refresh token to silently obtain a new one without bothering the user.
 
-A critical distinction: OAuth is an authorization {{protocol|protocol}} (what you can access), not an authentication protocol (who you are). Knowing that a token grants read access to someone's repos doesn't tell you who that someone is. OpenID Connect (OIDC) is a thin identity layer built on top of OAuth that adds authentication — it returns an ID token (a {{jwt|JWT}}) containing the user's identity. Together, OAuth + OIDC secure [[rest|REST]] APIs across the web, all running over [[tls|TLS]] on top of [[http1|HTTP]] and [[tcp|TCP]].`,
+A critical distinction: [[oauth2|OAuth]] is an authorization {{protocol|protocol}} (what you can access), not an authentication protocol (who you are). Knowing that a token grants read access to someone's repos doesn't tell you who that someone is. OpenID Connect (OIDC) is a thin identity layer built on top of [[oauth2|OAuth]] that adds authentication — it returns an ID token (a {{jwt|JWT}}) containing the user's identity. Together, [[oauth2|OAuth]] + OIDC secure [[rest|REST]] APIs across the web, all running over [[tls|TLS]] on top of [[http1|HTTP]] and [[tcp|TCP]].`,
 	howItWorks: [
 		{
 			title: 'Authorization request',
@@ -47,7 +47,7 @@ A critical distinction: OAuth is an authorization {{protocol|protocol}} (what yo
 		'Third-party API access (GitHub Apps, Slack integrations, Google APIs)',
 		'Mobile and single-page app authorization',
 		'Microservice-to-microservice authentication (client_credentials grant)',
-		'Scoped access control for REST APIs'
+		'Scoped access control for [[rest|REST]] APIs'
 	],
 	codeExample: {
 		language: 'python',
@@ -86,7 +86,7 @@ print(f"Expires in: {token['expires_in']}s")
 resp = client.get('https://api.github.com/user')
 print(f"Hello, {resp.json()['login']}!")`,
 		caption:
-			'OAuth lets apps access your data with scoped tokens — your password never leaves the identity provider',
+			'[[oauth2|OAuth]] lets apps access your data with scoped tokens — your password never leaves the identity provider',
 		alternatives: [
 			{
 				language: 'javascript',
@@ -227,7 +227,7 @@ Cache-Control: no-store
 	},
 	connections: ['tls', 'rest', 'http1', 'tcp'],
 	links: {
-		wikipedia: 'https://en.wikipedia.org/wiki/OAuth',
+		wikipedia: 'https://en.wikipedia.org/wiki/[[oauth2|OAuth]]',
 		rfc: 'https://datatracker.ietf.org/doc/html/rfc6749',
 		official: 'https://oauth.net/2/'
 	},
@@ -235,7 +235,7 @@ Cache-Control: no-store
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Oauth_logo.svg/500px-Oauth_logo.svg.png',
 		alt: 'The OAuth open authorization protocol logo',
 		caption:
-			'The OAuth logo. OAuth 2.0 ([[rfc:6749|RFC 6749]], 2012) became the industry standard for delegated authorization — "Sign in with Google," GitHub Apps, and API access tokens all use OAuth.',
+			'The [[oauth2|OAuth]] logo. [[oauth2|OAuth 2.0]] ([[rfc:6749|RFC 6749]], 2012) became the industry standard for delegated authorization — "Sign in with Google," GitHub Apps, and API access tokens all use [[oauth2|OAuth]].',
 		credit: 'Image: Chris Messina / CC BY-SA 3.0, via Wikimedia Commons'
 	}
 };

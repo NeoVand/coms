@@ -9,11 +9,11 @@ export const tcp: Protocol = {
 	year: 1981,
 	rfc: 'RFC 9293',
 	oneLiner: 'Guarantees ordered, reliable delivery of data between applications.',
-	overview: `TCP is the backbone of the internet. When you load a webpage, send an email, or download a file, TCP ensures every single byte arrives correctly and in order. It does this by {{connection-oriented|establishing a connection}} between sender and receiver before any data flows — like a phone call where both sides confirm they can hear each other. TCP is inherently {{stateful|stateful}}: each connection tracks sequence numbers, acknowledgments, window sizes, and {{retransmission|retransmission}} timers throughout its lifetime.
+	overview: `[[tcp|TCP]] is the backbone of the internet. When you load a webpage, send an email, or download a file, [[tcp|TCP]] ensures every single byte arrives correctly and in order. It does this by {{connection-oriented|establishing a connection}} between sender and receiver before any data flows — like a phone call where both sides confirm they can hear each other. [[tcp|TCP]] is inherently {{stateful|stateful}}: each connection tracks sequence numbers, acknowledgments, window sizes, and {{retransmission|retransmission}} timers throughout its lifetime.
 
-Unlike [[udp|UDP]], TCP will detect lost {{packet|packets}} and {{retransmission|retransmit}} them. It also implements {{flow-control|flow control}} (so a fast sender doesn't overwhelm a slow receiver) and {{congestion-control|congestion control}} (so the network itself doesn't get overloaded). TCP's {{congestion-control|congestion control}} has evolved over the decades — from the original Tahoe and Reno algorithms through {{cubic|CUBIC}} (still the Linux default) to Google's BBR, which models the path's bottleneck {{bandwidth|bandwidth}} and RTT instead of treating loss as the only signal. BBRv3 has been the default for google.com and YouTube since 2023. This reliability comes at a cost: extra round trips and overhead, which is why {{latency|latency}}-sensitive applications sometimes prefer [[udp|UDP]].
+Unlike [[udp|UDP]], [[tcp|TCP]] will detect lost {{packet|packets}} and {{retransmission|retransmit}} them. It also implements {{flow-control|flow control}} (so a fast sender doesn't overwhelm a slow receiver) and {{congestion-control|congestion control}} (so the network itself doesn't get overloaded). [[tcp|TCP]]'s {{congestion-control|congestion control}} has evolved over the decades — from the original Tahoe and Reno algorithms through {{cubic|CUBIC}} (still the Linux default) to Google's BBR, which models the path's bottleneck {{bandwidth|bandwidth}} and RTT instead of treating loss as the only signal. BBRv3 has been the default for google.com and YouTube since 2023. This reliability comes at a cost: extra round trips and overhead, which is why {{latency|latency}}-sensitive applications sometimes prefer [[udp|UDP]].
 
-TCP operates at Layer 4 (Transport) of the {{osi-model|OSI model}} and is identified by protocol number 6 in the IP header. Nearly every major internet application — [[http1|HTTP]], [[ssh|SSH]], [[ftp|FTP]], [[smtp|SMTP]] — runs on top of TCP.`,
+[[tcp|TCP]] operates at Layer 4 (Transport) of the {{osi-model|OSI model}} and is identified by protocol number 6 in the [[ip|IP]] header. Nearly every major internet application — [[http1|HTTP]], [[ssh|SSH]], [[ftp|FTP]], [[smtp|SMTP]] — runs on top of [[tcp|TCP]].`,
 	howItWorks: [
 		{
 			title: 'SYN — Client initiates',
@@ -43,9 +43,9 @@ TCP operates at Layer 4 (Transport) of the {{osi-model|OSI model}} and is identi
 	],
 	useCases: [
 		'Web browsing (HTTP/HTTPS)',
-		'Email (SMTP, IMAP, POP3)',
-		'File transfer (FTP, SFTP)',
-		'Remote access (SSH)',
+		'Email ([[smtp|SMTP]], [[imap|IMAP]], POP3)',
+		'File transfer ([[ftp|FTP]], SFTP)',
+		'Remote access ([[ssh|SSH]])',
 		'Database connections (MySQL, PostgreSQL)'
 	],
 	codeExample: {
@@ -64,7 +64,7 @@ print(f"Connected by {addr}")
 data = conn.recv(1024)  # Reliable, ordered delivery
 conn.sendall(b"Hello back!")
 conn.close()  # FIN sequence`,
-		caption: 'A minimal TCP server — the 3-way {{handshake|handshake}} happens automatically inside accept()',
+		caption: 'A minimal [[tcp|TCP]] server — the 3-way {{handshake|handshake}} happens automatically inside accept()',
 		alternatives: [
 			{
 				language: 'javascript',
@@ -182,7 +182,7 @@ Client → Server  [ACK]
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Tcp_state_diagram.svg/500px-Tcp_state_diagram.svg.png',
 		alt: 'TCP finite state machine diagram showing all connection states from CLOSED through ESTABLISHED to TIME_WAIT',
 		caption:
-			'The TCP state machine — every TCP connection transitions through these states. From the {{three-way-handshake|three-way handshake}} (SYN → SYN-ACK → ACK) to graceful teardown (FIN → FIN-ACK), this diagram maps the full lifecycle of a TCP connection.',
+			'The [[tcp|TCP]] state machine — every [[tcp|TCP]] connection transitions through these states. From the {{three-way-handshake|three-way handshake}} (SYN → SYN-ACK → ACK) to graceful teardown (FIN → FIN-ACK), this diagram maps the full lifecycle of a [[tcp|TCP]] connection.',
 		credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 	},
 
@@ -191,7 +191,7 @@ Client → Server  [ACK]
 			date: '2024-01',
 			title: 'Linux 6.7 ships native TCP-AO (RFC 5925)',
 			description:
-				'Five thousand lines of new networking code finally give Linux a modern replacement for the deprecated TCP-MD5 used by BGP/LDP. Same release added microsecond-resolution TCP timestamps.',
+				'Five thousand lines of new networking code finally give Linux a modern replacement for the deprecated [[tcp|TCP]]-MD5 used by [[bgp|BGP]]/LDP. Same release added microsecond-resolution [[tcp|TCP]] timestamps.',
 			source: { url: 'https://kernelnewbies.org/Linux_6.7', label: 'kernelnewbies.org' }
 		},
 		{
@@ -205,14 +205,14 @@ Client → Server  [ACK]
 			date: '2025-06',
 			title: 'Linux 6.15 lands io_uring zero-copy receive',
 			description:
-				'io_uring zcrx integrated with the kernel TCP stack hit ~106 Gb/s on a single TCP flow versus ~74 Gb/s for epoll — a ~40% throughput jump for high-{{bandwidth|bandwidth}} servers without any application changes.',
+				'io_uring zcrx integrated with the kernel [[tcp|TCP]] stack hit ~106 Gb/s on a single [[tcp|TCP]] flow versus ~74 Gb/s for epoll — a ~40% throughput jump for high-{{bandwidth|bandwidth}} servers without any application changes.',
 			source: { url: 'https://www.phoronix.com/news/Linux-6.15-IO_uring', label: 'Phoronix' }
 		},
 		{
 			date: '2025-03',
 			title: 'AccECN advances to draft-34',
 			description:
-				'Accurate ECN (draft-ietf-tcpm-accurate-ecn) reallocates the old ECN-{{nonce|Nonce}} bit to deliver more than one congestion signal per RTT — the precondition L4S over TCP needs for fine-grained congestion response.',
+				'Accurate ECN (draft-ietf-tcpm-accurate-ecn) reallocates the old ECN-{{nonce|Nonce}} bit to deliver more than one congestion signal per RTT — the precondition L4S over [[tcp|TCP]] needs for fine-grained congestion response.',
 			source: {
 				url: 'https://datatracker.ietf.org/doc/draft-ietf-tcpm-accurate-ecn/',
 				label: 'IETF Datatracker'
@@ -225,7 +225,7 @@ Client → Server  [ACK]
 			org: 'Linux kernel',
 			scale: 'CUBIC default since 2.6.19',
 			description:
-				'{{cubic|CUBIC}} has been the default TCP {{congestion-control|congestion control}} on Linux since 2006. Most large-scale Linux servers (web, database, file) run it.'
+				'{{cubic|CUBIC}} has been the default [[tcp|TCP]] {{congestion-control|congestion control}} on Linux since 2006. Most large-scale Linux servers (web, database, file) run it.'
 		},
 		{
 			org: 'Google',
@@ -237,7 +237,7 @@ Client → Server  [ACK]
 			org: 'Meta',
 			scale: '>50% of traffic still TCP',
 			description:
-				'Despite >75% of Meta\'s internet-facing traffic moving to [[quic|QUIC]], TCP remains the default for service-to-service inside the datacenter and for backwards-compatible client paths.'
+				'Despite >75% of Meta\'s internet-facing traffic moving to [[quic|QUIC]], [[tcp|TCP]] remains the default for service-to-service inside the datacenter and for backwards-compatible client paths.'
 		},
 		{
 			org: 'Apple',
@@ -250,15 +250,15 @@ Client → Server  [ACK]
 	funFacts: [
 		{
 			title: 'RFC 793 was the spec for 41 years',
-			text: 'From September 1981 until [[rfc:9293|RFC 9293]] (August 2022), [[pioneer:jon-postel|Jon Postel]]\'s [[rfc:9293|RFC 793]] was the canonical TCP specification — almost certainly the longest unmodified IETF spec ever. [[rfc:9293|RFC 9293]] finally consolidated 13 errata documents into a single readable document, edited by Wesley Eddy.'
+			text: 'From September 1981 until [[rfc:9293|RFC 9293]] (August 2022), [[pioneer:jon-postel|Jon Postel]]\'s [[rfc:9293|RFC 793]] was the canonical [[tcp|TCP]] specification — almost certainly the longest unmodified IETF spec ever. [[rfc:9293|RFC 9293]] finally consolidated 13 errata documents into a single readable document, edited by Wesley Eddy.'
 		},
 		{
 			title: 'TCP\'s sequence numbers used to be guessable',
-			text: 'Early TCP picked the initial {{sequence-number|sequence number}} from a counter incremented at a fixed rate per second. Kevin Mitnick used this in 1994 to forge a connection to Tsutomu Shimomura\'s host. Modern stacks use a cryptographically-random ISN per [[rfc:9293|RFC 9293]] §3.4.1.'
+			text: 'Early [[tcp|TCP]] picked the initial {{sequence-number|sequence number}} from a counter incremented at a fixed rate per second. Kevin Mitnick used this in 1994 to forge a connection to Tsutomu Shimomura\'s host. Modern stacks use a cryptographically-random ISN per [[rfc:9293|RFC 9293]] §3.4.1.'
 		},
 		{
 			title: 'The window field is only 16 bits',
-			text: 'The TCP receive-window field is 16 bits — max 65,535 bytes. On a 100 ms transcontinental path that caps throughput at ~5 Mbit/s. The {{window-scale|Window Scale}} option ([[rfc:7323|RFC 7323]], 1992) shifts the window left by up to 14 bits, allowing windows up to 1 GB. Without it, modern long-fat-pipe networking would be impossible.'
+			text: 'The [[tcp|TCP]] receive-window field is 16 bits — max 65,535 bytes. On a 100 ms transcontinental path that caps throughput at ~5 Mbit/s. The {{window-scale|Window Scale}} option ([[rfc:7323|RFC 7323]], 1992) shifts the window left by up to 14 bits, allowing windows up to 1 GB. Without it, modern long-fat-pipe networking would be impossible.'
 		},
 		{
 			title: 'TIME_WAIT exists because of stragglers',
@@ -278,7 +278,7 @@ Client → Server  [ACK]
 			},
 			{
 				title: 'PMTU black holes',
-				text: 'A path drops large packets but does not return [[icmp|ICMP]] {{fragmentation|Fragmentation}} Needed — usually because some intermediate {{firewall|firewall}} rate-limits or blocks [[icmp|ICMP]]. The connection hangs because retransmits also fail. Cure: enable PLPMTUD ([[rfc:4821|RFC 4821]]) or set TCP MSS clamping at the edge.'
+				text: 'A path drops large packets but does not return [[icmp|ICMP]] {{fragmentation|Fragmentation}} Needed — usually because some intermediate {{firewall|firewall}} rate-limits or blocks [[icmp|ICMP]]. The connection hangs because retransmits also fail. Cure: enable PLPMTUD ([[rfc:4821|RFC 4821]]) or set [[tcp|TCP]] MSS clamping at the edge.'
 			}
 		]
 	}

@@ -10,11 +10,11 @@ export const kafka: Protocol = {
 	rfc: undefined,
 	oneLiner:
 		"The distributed event streaming wire protocol — LinkedIn's answer to real-time data at massive scale.",
-	overview: `Apache Kafka started as LinkedIn's internal project to handle the firehose of activity data — page views, searches, metrics — that their existing message queues couldn't keep up with. Jay Kreps, Neha Narkhede, and Jun Rao open-sourced it in 2011, and it quickly became the de facto platform for event streaming at scale.
+	overview: `Apache [[kafka|Kafka]] started as LinkedIn's internal project to handle the firehose of activity data — page views, searches, metrics — that their existing message queues couldn't keep up with. Jay Kreps, Neha Narkhede, and Jun Rao open-sourced it in 2011, and it quickly became the de facto platform for event streaming at scale.
 
-Unlike traditional message queues where messages are pushed to consumers and deleted after delivery, Kafka uses an append-only log model: producers append records to {{topic|topic}} {{partition|partitions}}, and consumers read at their own pace using offsets. Multiple consumers can independently read the same data, and messages persist for a configurable retention period. Because consumers control their own read rate, {{backpressure|backpressure}} is handled naturally — slow consumers simply fall behind in the log without affecting producers or other consumer groups.
+Unlike traditional message queues where messages are pushed to consumers and deleted after delivery, [[kafka|Kafka]] uses an append-only log model: producers append records to {{topic|topic}} {{partition|partitions}}, and consumers read at their own pace using offsets. Multiple consumers can independently read the same data, and messages persist for a configurable retention period. Because consumers control their own read rate, {{backpressure|backpressure}} is handled naturally — slow consumers simply fall behind in the log without affecting producers or other consumer groups.
 
-The protocol handles producer requests, fetch requests, metadata discovery, {{offset|offset}} management, and {{consumer-group|consumer group}} coordination. Its efficiency comes from batching, zero-copy transfers, and sequential disk I/O. Kafka clusters routinely handle millions of messages per second with sub-10ms {{latency|latency}}.`,
+The protocol handles producer requests, fetch requests, metadata discovery, {{offset|offset}} management, and {{consumer-group|consumer group}} coordination. Its efficiency comes from batching, zero-copy transfers, and sequential disk I/O. [[kafka|Kafka]] clusters routinely handle millions of messages per second with sub-10ms {{latency|latency}}.`,
 	howItWorks: [
 		{
 			title: 'Connect and discover topology',
@@ -47,7 +47,7 @@ The protocol handles producer requests, fetch requests, metadata discovery, {{of
 		'Microservice event-driven architectures',
 		'Log aggregation and centralized monitoring',
 		'Change data capture (CDC) from databases',
-		'Stream processing with Kafka Streams or Flink'
+		'Stream processing with [[kafka|Kafka]] Streams or Flink'
 	],
 	codeExample: {
 		language: 'python',
@@ -73,7 +73,7 @@ consumer = KafkaConsumer(
 
 for message in consumer:
     print(f"[{message.partition}] {message.key}: {message.value}")`,
-		caption: 'Kafka producer and consumer — event streaming with consumer groups',
+		caption: '[[kafka|Kafka]] producer and consumer — event streaming with consumer groups',
 		alternatives: [
 			{
 				language: 'javascript',
@@ -197,7 +197,7 @@ kafka-consumer-groups.sh \\
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Kafka_Job_Queue_Architecture_diagram.svg/500px-Kafka_Job_Queue_Architecture_diagram.svg.png',
 		alt: 'Architecture diagram showing Kafka producers writing to topic partitions across brokers, with consumer groups reading independently',
 		caption:
-			'Kafka architecture — producers write records to {{topic|topic}} partitions distributed across brokers. Consumer groups read independently at their own pace using offsets, and data persists in the append-only log for replay.',
+			'[[kafka|Kafka]] architecture — producers write records to {{topic|topic}} partitions distributed across brokers. Consumer groups read independently at their own pace using offsets, and data persists in the append-only log for replay.',
 		credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 	}
 };

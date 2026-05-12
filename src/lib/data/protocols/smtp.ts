@@ -9,11 +9,11 @@ export const smtp: Protocol = {
 	year: 1982,
 	rfc: 'RFC 5321',
 	oneLiner: 'The protocol that delivers email across the internet — store and forward, hop by hop.',
-	overview: `SMTP is the backbone of email. Every email you've ever sent was delivered via SMTP — from your mail client to your provider's server, then relayed across the internet to the recipient's mail server. It's a "store and forward" protocol: each server along the path accepts responsibility for the message and forwards it to the next {{hop|hop}}.
+	overview: `[[smtp|SMTP]] is the backbone of email. Every email you've ever sent was delivered via [[smtp|SMTP]] — from your mail client to your provider's server, then relayed across the internet to the recipient's mail server. It's a "store and forward" protocol: each server along the path accepts responsibility for the message and forwards it to the next {{hop|hop}}.
 
-SMTP is a text-based {{protocol|protocol}} with a simple command vocabulary: HELO/EHLO to greet, MAIL FROM to specify the sender, RCPT TO for recipients, DATA to send the message body, and QUIT to disconnect. Modern SMTP uses STARTTLS to upgrade plain connections to [[tls|TLS]]-encrypted ones, and authentication (SMTP AUTH) to prevent unauthorized sending.
+[[smtp|SMTP]] is a text-based {{protocol|protocol}} with a simple command vocabulary: HELO/EHLO to greet, MAIL FROM to specify the sender, RCPT TO for recipients, DATA to send the message body, and QUIT to disconnect. Modern [[smtp|SMTP]] uses STARTTLS to upgrade plain connections to [[tls|TLS]]-encrypted ones, and authentication ([[smtp|SMTP]] AUTH) to prevent unauthorized sending.
 
-Despite being over 40 years old, SMTP remains the universal standard for email delivery. It's been extended with SPF, DKIM, and DMARC to fight spam and phishing. While newer protocols handle retrieval ([[imap|IMAP]], POP3), SMTP still handles every email's journey from sender to destination.`,
+Despite being over 40 years old, [[smtp|SMTP]] remains the universal standard for email delivery. It's been extended with SPF, DKIM, and DMARC to fight spam and phishing. While newer protocols handle retrieval ([[imap|IMAP]], POP3), [[smtp|SMTP]] still handles every email's journey from sender to destination.`,
 	howItWorks: [
 		{
 			title: 'Connection & greeting',
@@ -41,7 +41,7 @@ Despite being over 40 years old, SMTP remains the universal standard for email d
 		'Transactional emails (receipts, password resets, notifications)',
 		'Newsletter and marketing email campaigns',
 		'Automated alerts and monitoring notifications',
-		'Application-generated email via SMTP relay services'
+		'Application-generated email via [[smtp|SMTP]] relay services'
 	],
 	codeExample: {
 		language: 'python',
@@ -57,7 +57,7 @@ with smtplib.SMTP("smtp.example.com", 587) as server:
     server.starttls()
     server.login("sender@example.com", "password")
     server.send_message(msg)`,
-		caption: 'SMTP delivers email hop by hop — STARTTLS encrypts the connection.',
+		caption: '[[smtp|SMTP]] delivers email hop by hop — STARTTLS encrypts the connection.',
 		alternatives: [
 			{
 				language: 'javascript',
@@ -156,7 +156,7 @@ Server: 221 2.0.0 Bye`
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Email.svg/500px-Email.svg.png',
 		alt: 'Diagram showing the flow of email from sender through SMTP servers and DNS MX lookups to the recipient mailbox',
 		caption:
-			"How email flows across the internet — the sender's mail client submits to an SMTP server, which looks up the recipient's domain via [[dns|DNS]] MX records and relays the message hop by hop until it reaches the destination mailbox.",
+			"How email flows across the internet — the sender's mail client submits to an [[smtp|SMTP]] server, which looks up the recipient's domain via [[dns|DNS]] MX records and relays the message hop by hop until it reaches the destination mailbox.",
 		credit: 'Image: Wikimedia Commons / CC BY-SA 3.0'
 	}
 };

@@ -9,25 +9,25 @@ export const icmp: Protocol = {
 	year: 1981,
 	rfc: 'RFC 792',
 	oneLiner: 'The diagnostic protocol behind ping and traceroute — how the network reports errors.',
-	overview: `ICMP is the internet's error-reporting and diagnostic protocol. When you type \`ping google.com\`, ICMP Echo Request and Reply messages measure whether the target is reachable and how long the {{rtt|round trip}} takes. When you run \`traceroute\`, ICMP Time Exceeded messages reveal each {{hop|hop}} along the path. ICMP is arguably the most universally used protocol in network troubleshooting.
+	overview: `[[icmp|ICMP]] is the internet's error-reporting and diagnostic protocol. When you type \`ping google.com\`, [[icmp|ICMP]] Echo Request and Reply messages measure whether the target is reachable and how long the {{rtt|round trip}} takes. When you run \`traceroute\`, [[icmp|ICMP]] Time Exceeded messages reveal each {{hop|hop}} along the path. [[icmp|ICMP]] is arguably the most universally used protocol in network troubleshooting.
 
-Unlike [[tcp|TCP]] or [[udp|UDP]], ICMP doesn't use {{port|ports}}. It's {{encapsulation|encapsulated}} directly in IP {{packet|packets}} with protocol number 1 — sitting at the network layer, not the transport layer. This means ICMP can report problems that [[tcp|TCP]] and UDP can't even see: unreachable networks, expired {{ttl|TTLs}}, {{fragmentation|fragmentation}} issues, and routing redirects.
+Unlike [[tcp|TCP]] or [[udp|UDP]], [[icmp|ICMP]] doesn't use {{port|ports}}. It's {{encapsulation|encapsulated}} directly in [[ip|IP]] {{packet|packets}} with protocol number 1 — sitting at the network layer, not the transport layer. This means [[icmp|ICMP]] can report problems that [[tcp|TCP]] and [[udp|UDP]] can't even see: unreachable networks, expired {{ttl|TTLs}}, {{fragmentation|fragmentation}} issues, and routing redirects.
 
-Every router on the internet speaks ICMP. When a router can't deliver a packet, it sends an ICMP Destination Unreachable (Type 3) back to the sender, with codes specifying why: network unreachable, host unreachable, port unreachable, or "{{fragmentation|fragmentation}} needed but don't-fragment flag is set" (which is essential for {{path-mtu-discovery|Path MTU Discovery}}).
+Every router on the internet speaks [[icmp|ICMP]]. When a router can't deliver a packet, it sends an [[icmp|ICMP]] Destination Unreachable (Type 3) back to the sender, with codes specifying why: network unreachable, host unreachable, port unreachable, or "{{fragmentation|fragmentation}} needed but don't-fragment flag is set" (which is essential for {{path-mtu-discovery|Path MTU Discovery}}).
 
-ICMP is also controversial. Many {{firewall|firewalls}} block ICMP to prevent reconnaissance, but this breaks legitimate diagnostics and can cause subtle problems like Path MTU Discovery failures. The debate over whether to filter ICMP has been going on for decades — and ICMP's designers would argue it should never be blocked.
+[[icmp|ICMP]] is also controversial. Many {{firewall|firewalls}} block [[icmp|ICMP]] to prevent reconnaissance, but this breaks legitimate diagnostics and can cause subtle problems like Path MTU Discovery failures. The debate over whether to filter [[icmp|ICMP]] has been going on for decades — and [[icmp|ICMP]]'s designers would argue it should never be blocked.
 
 [[ipv6|IPv6]] uses a separate specification called ICMPv6 (RFC 4443) with different type numbers and additional functionality. ICMPv6 is more critical than its [[ip|IPv4]] counterpart because it incorporates Neighbor Discovery Protocol (NDP), which replaces [[arp|ARP]] for address resolution and handles router discovery, address autoconfiguration, and duplicate address detection.`,
 	howItWorks: [
 		{
 			title: 'Echo Request (ping)',
 			description:
-				'Source sends an ICMP Type 8 packet to the target with an Identifier (session ID), {{sequence-number|Sequence number}}, and optional data {{payload|payload}}. No [[tcp|TCP]] or [[udp|UDP]] — just IP + ICMP.'
+				'Source sends an [[icmp|ICMP]] Type 8 packet to the target with an Identifier (session ID), {{sequence-number|Sequence number}}, and optional data {{payload|payload}}. No [[tcp|TCP]] or [[udp|UDP]] — just [[ip|IP]] + [[icmp|ICMP]].'
 		},
 		{
 			title: 'Echo Reply',
 			description:
-				'If reachable, the target replies with ICMP Type 0 containing the same Identifier, Sequence, and data. {{rtt|Round-trip time}} is measured from send to receive.'
+				'If reachable, the target replies with [[icmp|ICMP]] Type 0 containing the same Identifier, Sequence, and data. {{rtt|Round-trip time}} is measured from send to receive.'
 		},
 		{
 			title: 'Destination Unreachable',
@@ -90,7 +90,7 @@ def ping(host):
     reply = sock.recv(1024)
     rtt = (time.time() - start) * 1000
     print(f"Reply from {host}: time={rtt:.1f}ms")`,
-		caption: 'ICMP requires raw sockets — it operates at the network layer, below TCP/UDP',
+		caption: '[[icmp|ICMP]] requires raw sockets — it operates at the network layer, below [[tcp|TCP]]/[[udp|UDP]]',
 		alternatives: [
 			{
 				language: 'cli',
@@ -189,7 +189,7 @@ ICMP Echo Reply:
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/DEC_VT100_terminal.jpg/500px-DEC_VT100_terminal.jpg',
 		alt: 'DEC VT100 terminal at the Living Computer Museum, connected to a DEC PDP-11/70',
 		caption:
-			'A DEC VT100 terminal — the type of terminal where early network administrators ran ping and traceroute, the quintessential ICMP diagnostic tools. ICMP was defined in 1981, and these terminals were the window into the network.',
+			'A DEC VT100 terminal — the type of terminal where early network administrators ran ping and traceroute, the quintessential [[icmp|ICMP]] diagnostic tools. [[icmp|ICMP]] was defined in 1981, and these terminals were the window into the network.',
 		credit: 'Photo: Jason Scott / CC BY 2.0, via Wikimedia Commons'
 	}
 };

@@ -67,11 +67,11 @@ In modern data centers, STP is increasingly replaced by fabric architectures (VX
 			{
 				type: 'narrative',
 				title: 'ARP Security',
-				text: `[[arp|ARP]] has no authentication -- any device can claim any {{ip-address|IP}}-to-{{mac-address|MAC}} mapping. [[arp|ARP]] {{spoofing|spoofing}} (also called ARP poisoning) exploits this: an attacker sends fake ARP replies to redirect traffic through their machine, enabling man-in-the-middle attacks.
+				text: `[[arp|ARP]] has no authentication -- any device can claim any {{ip-address|IP}}-to-{{mac-address|MAC}} mapping. [[arp|ARP]] {{spoofing|spoofing}} (also called [[arp|ARP]] poisoning) exploits this: an attacker sends fake [[arp|ARP]] replies to redirect traffic through their machine, enabling man-in-the-middle attacks.
 
-Dynamic ARP Inspection (DAI) is the primary defense. It intercepts ARP {{packet|packets}} on untrusted ports and validates them against a [[dhcp|DHCP]] snooping binding table. If the IP-to-MAC mapping doesn't match a legitimate [[dhcp|DHCP]] {{lease|lease}}, the ARP packet is dropped.
+Dynamic [[arp|ARP]] Inspection (DAI) is the primary defense. It intercepts [[arp|ARP]] {{packet|packets}} on untrusted ports and validates them against a [[dhcp|DHCP]] snooping binding table. If the [[ip|IP]]-to-MAC mapping doesn't match a legitimate [[dhcp|DHCP]] {{lease|lease}}, the [[arp|ARP]] packet is dropped.
 
-[[ipv6|IPv6]] replaces ARP entirely with Neighbor Discovery Protocol (NDP), which runs over [[icmp|ICMPv6]]. While NDP has its own spoofing risks, Secure Neighbor Discovery (SEND) uses cryptographic addressing to authenticate neighbor advertisements.`
+[[ipv6|IPv6]] replaces [[arp|ARP]] entirely with Neighbor Discovery Protocol (NDP), which runs over [[icmp|ICMPv6]]. While NDP has its own spoofing risks, Secure Neighbor Discovery (SEND) uses cryptographic addressing to authenticate neighbor advertisements.`
 			},
 			{
 				type: 'narrative',
@@ -80,7 +80,7 @@ Dynamic ARP Inspection (DAI) is the primary defense. It intercepts ARP {{packet|
 
 802.11k (Radio Resource Management) helps clients discover nearby APs without scanning every channel. 802.11v (BSS Transition Management) lets APs steer clients toward less-congested access points. Together, 802.11r/k/v enable enterprise-grade seamless roaming.
 
-Wi-Fi mesh networks (802.11s) take this further -- APs connect to each other wirelessly, forming a self-healing fabric. Each AP acts as both an access point and a relay, automatically routing traffic along the best path. Consumer mesh systems (Eero, Google WiFi) use proprietary versions of this concept.`
+[[wifi|Wi-Fi]] mesh networks (802.11s) take this further -- APs connect to each other wirelessly, forming a self-healing fabric. Each AP acts as both an access point and a relay, automatically routing traffic along the best path. Consumer mesh systems (Eero, Google [[wifi|WiFi]]) use proprietary versions of this concept.`
 			},
 			{
 				type: 'narrative',
@@ -107,7 +107,7 @@ Wi-Fi mesh networks (802.11s) take this further -- APs connect to each other wir
 
 **[[tcp|TCP]] Tahoe** (1988) introduced {{slow-start|slow start}} and {{congestion-avoidance|congestion avoidance}}. Start with a small {{sliding-window|window}}, double it each {{rtt|RTT}} (slow start), then switch to linear growth after detecting congestion. On {{packet|packet}} loss, reset the window to 1 -- devastating for performance.
 
-**TCP Reno** (1990) added fast recovery: on triple duplicate {{ack|ACKs}}, halve the window instead of resetting to 1. This simple change dramatically improved throughput.
+**[[tcp|TCP]] Reno** (1990) added fast recovery: on triple duplicate {{ack|ACKs}}, halve the window instead of resetting to 1. This simple change dramatically improved throughput.
 
 **{{cubic|CUBIC}}** (2006, Linux default since 2.6.19) uses a cubic function for window growth -- aggressive probing for {{bandwidth|bandwidth}} followed by a gentle approach near the last-known capacity. It's the most widely deployed algorithm today.
 
@@ -235,9 +235,9 @@ Error codes follow a structured convention: -32700 (parse error), -32600 (invali
 				title: 'MCP Architecture — Hosts, Clients, and Servers',
 				text: `[[mcp|MCP]]'s architecture has three layers that are often conflated: the host, the client, and the server. Understanding the distinction is essential for building robust integrations.
 
-The **host** is the AI application the user interacts with — Claude Desktop, Cursor, VS Code, or a custom agent. The host manages user consent, enforces security policies, and decides which [[mcp|MCP]] servers to connect to. It creates one MCP **client** per server connection. Each client maintains an independent session with exactly one MCP **server** — there's a strict 1:1 relationship.
+The **host** is the AI application the user interacts with — Claude Desktop, Cursor, VS Code, or a custom agent. The host manages user consent, enforces security policies, and decides which [[mcp|MCP]] servers to connect to. It creates one [[mcp|MCP]] **client** per server connection. Each client maintains an independent session with exactly one [[mcp|MCP]] **server** — there's a strict 1:1 relationship.
 
-MCP servers expose three primitives: **tools** (model-controlled actions like "run SQL query"), **resources** (application-controlled data like "contents of file X"), and **prompts** (user-controlled templates like "summarize this codebase"). The distinction matters for permission models: tools require explicit user approval per invocation, resources can be loaded automatically, and prompts are selected by the user.
+[[mcp|MCP]] servers expose three primitives: **tools** (model-controlled actions like "run SQL query"), **resources** (application-controlled data like "contents of file X"), and **prompts** (user-controlled templates like "summarize this codebase"). The distinction matters for permission models: tools require explicit user approval per invocation, resources can be loaded automatically, and prompts are selected by the user.
 
 The session lifecycle follows a strict sequence: the client sends \`initialize\` with its capabilities, the server responds with its own capabilities (supported primitives, protocol version), then the client sends an \`initialized\` {{notification|notification}}. Only after this three-step {{handshake|handshake}} can tools be listed, resources read, or prompts invoked. The handshake uses capability negotiation — if a server doesn't declare tool support, the client won't attempt tool calls.
 
@@ -265,9 +265,9 @@ Transport is pluggable: **stdio** for local processes (the server is a subproces
 
 Discovery centers on the **Agent Card** — a {{json|JSON}} document served at \`/.well-known/agent.json\`. It declares the agent's name, description, supported skills, authentication requirements, and the [[a2a|A2A]] endpoint URL. A client agent fetches the card, inspects the skills array, and decides whether this remote agent can help with the task at hand. This is analogous to how [[dns|DNS]] TXT records or [[oauth2|OAuth]] discovery documents work — a well-known URL that bootstraps trust.
 
-The interaction model is task-based. The client sends a message (containing text, files, or structured data as "Parts"), and the server creates a Task with a lifecycle: \`submitted → working → input-required → completed\` (or \`failed\` / \`canceled\`). The \`input-required\` state is what makes A2A conversational — the remote agent can ask for clarification before proceeding, and the client can send follow-up messages.
+The interaction model is task-based. The client sends a message (containing text, files, or structured data as "Parts"), and the server creates a Task with a lifecycle: \`submitted → working → input-required → completed\` (or \`failed\` / \`canceled\`). The \`input-required\` state is what makes [[a2a|A2A]] conversational — the remote agent can ask for clarification before proceeding, and the client can send follow-up messages.
 
-For long-running tasks, A2A supports **[[sse|SSE]] streaming**. The client adds \`Accept: text/event-stream\` to its request, and the server streams back task status updates, intermediate messages, and final artifacts as Server-Sent Events. Each SSE event contains a full [[json-rpc|JSON-RPC]] response — the same message format used for synchronous responses, just delivered incrementally. This reuse of [[json-rpc|JSON-RPC]] over [[sse|SSE]] is a pattern shared with [[mcp|MCP]]'s Streamable [[http1|HTTP]] transport.`
+For long-running tasks, [[a2a|A2A]] supports **[[sse|SSE]] streaming**. The client adds \`Accept: text/event-stream\` to its request, and the server streams back task status updates, intermediate messages, and final artifacts as [[sse|Server-Sent Events]]. Each [[sse|SSE]] event contains a full [[json-rpc|JSON-RPC]] response — the same message format used for synchronous responses, just delivered incrementally. This reuse of [[json-rpc|JSON-RPC]] over [[sse|SSE]] is a pattern shared with [[mcp|MCP]]'s Streamable [[http1|HTTP]] transport.`
 			},
 			{
 				type: 'narrative',
@@ -278,7 +278,7 @@ Consider a travel booking system. A coordinator agent receives "book me a trip t
 
 Both protocols chose [[json-rpc|JSON-RPC]] 2.0 as their wire format for the same reasons: transport independence, built-in request correlation (via id fields), first-class {{notification|notifications}} for fire-and-forget events, and batch support. Both use [[sse|SSE]] for server-to-client streaming. Both moved to the Linux Foundation for open governance.
 
-The key architectural insight is that MCP and A2A operate at different levels of abstraction. [[mcp|MCP]] is like a function call — "execute this tool with these parameters and return the result." [[a2a|A2A]] is like a work order — "here's what I need done; figure out how to do it and get back to me." This distinction maps cleanly to the difference between deterministic tool execution and autonomous agent reasoning.`
+The key architectural insight is that [[mcp|MCP]] and [[a2a|A2A]] operate at different levels of abstraction. [[mcp|MCP]] is like a function call — "execute this tool with these parameters and return the result." [[a2a|A2A]] is like a work order — "here's what I need done; figure out how to do it and get back to me." This distinction maps cleanly to the difference between deterministic tool execution and autonomous agent reasoning.`
 			}
 		]
 	},
@@ -440,7 +440,7 @@ OCSP (Online {{certificate|Certificate}} Status Protocol) and CRL (Certificate R
 			{
 				type: 'diagram',
 				title: 'TLS 1.3 Handshake Steps',
-				caption: `The complete [[tls|TLS]] 1.3 {{handshake|handshake}} in a single round trip. The client sends key shares upfront, eliminating the extra round trip that TLS 1.2 needed.`,
+				caption: `The complete [[tls|TLS]] 1.3 {{handshake|handshake}} in a single round trip. The client sends key shares upfront, eliminating the extra round trip that [[tls|TLS]] 1.2 needed.`,
 				definition: `graph TD
     subgraph RTT1["{{one-rtt|1-RTT}} {{handshake|Handshake}}"]
         CH["Client Hello<br/>Supported cipher suites<br/>Random {{nonce|nonce}}<br/>Key shares (X25519, P-256)"] -- "Flight 1" --> SH["Server Hello<br/>Chosen {{cipher-suite|cipher suite}}<br/>Server key share"]
@@ -466,13 +466,13 @@ OCSP (Online {{certificate|Certificate}} Status Protocol) and CRL (Certificate R
 				title: 'TLS 1.3 Handshake Walkthrough',
 				text: `[[tls|TLS]] 1.3 (RFC 8446) is a radical simplification over [[tls|TLS]] 1.2. The entire {{tls-handshake|handshake}} completes in a single {{rtt|round trip}}:
 
-**Client Hello**: The client sends supported {{cipher-suite|cipher suites}}, a random {{nonce|nonce}}, and **key shares** for all supported key {{exchange|exchange}} algorithms (usually X25519 and P-256). By sending keys upfront, the client gambles that the server will accept one -- eliminating the extra round trip that TLS 1.2 needed.
+**Client Hello**: The client sends supported {{cipher-suite|cipher suites}}, a random {{nonce|nonce}}, and **key shares** for all supported key {{exchange|exchange}} algorithms (usually X25519 and P-256). By sending keys upfront, the client gambles that the server will accept one -- eliminating the extra round trip that [[tls|TLS]] 1.2 needed.
 
 **Server Hello + Encrypted Extensions**: The server picks a {{cipher-suite|cipher suite}}, sends its key share, and immediately switches to {{encryption|encrypted}} communication. The server's {{certificate|certificate}}, {{certificate|certificate}} verify (signature), and Finished message are all encrypted.
 
 **Client Finished**: The client verifies the {{certificate-chain|certificate chain}}, sends its Finished message, and application data can begin flowing immediately.
 
-TLS 1.3 also supports **{{zero-rtt|0-RTT}} resumption**: if the client has connected before, it can send encrypted application data in the very first {{packet|packet}}. The tradeoff: 0-RTT data can be replayed by an attacker, so it must be {{idempotent|idempotent}} (safe to process twice).`
+[[tls|TLS]] 1.3 also supports **{{zero-rtt|0-RTT}} resumption**: if the client has connected before, it can send encrypted application data in the very first {{packet|packet}}. The tradeoff: 0-RTT data can be replayed by an attacker, so it must be {{idempotent|idempotent}} (safe to process twice).`
 			},
 			{
 				type: 'narrative',
@@ -485,7 +485,7 @@ TLS 1.3 also supports **{{zero-rtt|0-RTT}} resumption**: if the client has conne
 
 **Caching**: Every response includes a {{ttl|TTL}}. The recursive resolver caches results for that duration. A TTL of 300 means the record is fresh for 5 minutes -- reducing load on authoritative servers while allowing reasonably fast [[dns|DNS]] changes.
 
-{{dnssec|DNSSEC}} adds cryptographic signatures to [[dns|DNS]] responses, preventing {{spoofing|spoofing}}. DNS-over-HTTPS (DoH) and DNS-over-TLS (DoT) encrypt the query itself using [[tls|TLS]], preventing ISPs and network operators from snooping on which domains you're looking up.`
+{{dnssec|DNSSEC}} adds cryptographic signatures to [[dns|DNS]] responses, preventing {{spoofing|spoofing}}. [[dns|DNS]]-over-HTTPS (DoH) and [[dns|DNS]]-over-[[tls|TLS]] (DoT) encrypt the query itself using [[tls|TLS]], preventing ISPs and network operators from snooping on which domains you're looking up.`
 			}
 		]
 	}

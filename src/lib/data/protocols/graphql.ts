@@ -9,9 +9,9 @@ export const graphql: Protocol = {
 	year: 2015,
 	rfc: undefined,
 	oneLiner: 'Ask for exactly the data you need — no more, no less. A query language for APIs.',
-	overview: `GraphQL was created at Facebook in 2012 and open-sourced in 2015. It's now maintained by the GraphQL Foundation under the Linux Foundation. Instead of the server deciding what data each endpoint returns, the client sends a query describing exactly what it wants. The server responds with precisely that shape of data — no over-fetching (getting fields you don't need) and no under-fetching (needing 5 [[rest|REST]] calls for one screen).
+	overview: `[[graphql|GraphQL]] was created at Facebook in 2012 and open-sourced in 2015. It's now maintained by the [[graphql|GraphQL]] Foundation under the Linux Foundation. Instead of the server deciding what data each endpoint returns, the client sends a query describing exactly what it wants. The server responds with precisely that shape of data — no over-fetching (getting fields you don't need) and no under-fetching (needing 5 [[rest|REST]] calls for one screen).
 
-GraphQL has three operation types: queries (read data), mutations (write data), and subscriptions (real-time updates pushed from the server, typically over [[websockets|WebSockets]]). It operates over [[http1|HTTP]] (typically a single /graphql endpoint accepting both {{http-method|GET and POST}} requests). The query language lets you traverse relationships, request nested data, and combine what would be multiple [[rest|REST]] requests into a single query. It also has a strong type system — the schema defines every type, field, and relationship.
+[[graphql|GraphQL]] has three operation types: queries (read data), mutations (write data), and subscriptions (real-time updates pushed from the server, typically over [[websockets|WebSockets]]). It operates over [[http1|HTTP]] (typically a single /graphql endpoint accepting both {{http-method|GET and POST}} requests). The query language lets you traverse relationships, request nested data, and combine what would be multiple [[rest|REST]] requests into a single query. It also has a strong type system — the schema defines every type, field, and relationship.
 
 It shines for complex frontends (mobile apps, SPAs) that need flexible data fetching. It's less ideal for simple CRUD operations where [[rest|REST]]'s simplicity wins.`,
 	howItWorks: [
@@ -28,7 +28,7 @@ It shines for complex frontends (mobile apps, SPAs) that need flexible data fetc
 		{
 			title: 'Server resolves',
 			description:
-				'GraphQL engine parses the query, validates it against the schema, and calls resolver functions for each field.'
+				'[[graphql|GraphQL]] engine parses the query, validates it against the schema, and calls resolver functions for each field.'
 		},
 		{
 			title: 'Shaped response',
@@ -64,7 +64,7 @@ response = requests.post(
 
 data = response.json()["data"]
 print(data["user"]["name"], data["user"]["posts"])`,
-		caption: 'One GraphQL query replaces multiple [[rest|REST]] calls — ask for exactly the data you need',
+		caption: 'One [[graphql|GraphQL]] query replaces multiple [[rest|REST]] calls — ask for exactly the data you need',
 		alternatives: [
 			{
 				language: 'javascript',
@@ -136,14 +136,14 @@ curl -X POST https://api.example.com/graphql \\
 	},
 	connections: ['http1', 'http2', 'json-rpc', 'websockets', 'rest', 'sse', 'soap'],
 	links: {
-		wikipedia: 'https://en.wikipedia.org/wiki/GraphQL',
+		wikipedia: 'https://en.wikipedia.org/wiki/[[graphql|GraphQL]]',
 		official: 'https://graphql.org/'
 	},
 	image: {
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Facebook_Headquarters_Menlo_Park.jpg/500px-Facebook_Headquarters_Menlo_Park.jpg',
 		alt: 'Facebook headquarters in Menlo Park, California, where GraphQL was created',
 		caption:
-			"Facebook's headquarters in Menlo Park — where GraphQL was created in 2012 to power the News Feed on mobile. The query language solved the over-fetching problem that [[rest|REST]] APIs couldn't.",
+			"Facebook's headquarters in Menlo Park — where [[graphql|GraphQL]] was created in 2012 to power the News Feed on mobile. The query language solved the over-fetching problem that [[rest|REST]] APIs couldn't.",
 		credit: 'Photo: Marcin Wichary / CC BY 2.0, via Wikimedia Commons'
 	}
 };

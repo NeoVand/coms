@@ -10,15 +10,15 @@ export const ipv6: Protocol = {
 	rfc: 'RFC 8200',
 	oneLiner:
 		'The next-generation internet addressing system — 128-bit addresses, simplified headers, and no more NAT.',
-	overview: `IPv6 is the successor to [[ip|IPv4]], designed to solve the internet's {{ip-address|address}} exhaustion crisis. [[ip|IPv4]]'s 32-bit addresses provide roughly 4.3 billion unique addresses — a number that seemed inexhaustible in 1981 but was effectively depleted by 2011. IPv6 uses 128-bit addresses, providing 340 undecillion (3.4×10³⁸) addresses — enough to assign a unique address to every atom on the surface of the Earth and still have addresses left over.
+	overview: `[[ipv6|IPv6]] is the successor to [[ip|IPv4]], designed to solve the internet's {{ip-address|address}} exhaustion crisis. [[ip|IPv4]]'s 32-bit addresses provide roughly 4.3 billion unique addresses — a number that seemed inexhaustible in 1981 but was effectively depleted by 2011. [[ipv6|IPv6]] uses 128-bit addresses, providing 340 undecillion (3.4×10³⁸) addresses — enough to assign a unique address to every atom on the surface of the Earth and still have addresses left over.
 
-But IPv6 isn't just "bigger addresses." The protocol was redesigned from scratch with decades of operational experience. The header was simplified: IPv4's variable-length header with a {{checksum|checksum}} and options field became a fixed 40-byte header with no {{checksum|checksum}} (upper layers handle integrity) and an elegant extension {{header|header}} chain for optional features. {{fragmentation|Fragmentation}} was removed from routers entirely — only the source host fragments, discovered through {{path-mtu-discovery|Path MTU Discovery}} using [[icmp|ICMPv6]].
+But [[ipv6|IPv6]] isn't just "bigger addresses." The protocol was redesigned from scratch with decades of operational experience. The header was simplified: [[ip|IPv4]]'s variable-length header with a {{checksum|checksum}} and options field became a fixed 40-byte header with no {{checksum|checksum}} (upper layers handle integrity) and an elegant extension {{header|header}} chain for optional features. {{fragmentation|Fragmentation}} was removed from routers entirely — only the source host fragments, discovered through {{path-mtu-discovery|Path MTU Discovery}} using [[icmp|ICMPv6]].
 
-IPv6 eliminates {{broadcast|broadcast}} entirely, replacing it with {{multicast|multicast}} and {{anycast|anycast}}. Instead of [[arp|ARP]] broadcasts to resolve addresses, IPv6 uses Neighbor Discovery Protocol (NDP), which runs over ICMPv6 and uses solicited-node {{multicast|multicast}} — far more efficient than flooding every device on the network. NDP also handles {{stateless|stateless}} address autoconfiguration ({{slaac|SLAAC}}), where a device can configure its own globally unique address without a [[dhcp|DHCP]] server.
+[[ipv6|IPv6]] eliminates {{broadcast|broadcast}} entirely, replacing it with {{multicast|multicast}} and {{anycast|anycast}}. Instead of [[arp|ARP]] broadcasts to resolve addresses, [[ipv6|IPv6]] uses Neighbor Discovery Protocol (NDP), which runs over ICMPv6 and uses solicited-node {{multicast|multicast}} — far more efficient than flooding every device on the network. NDP also handles {{stateless|stateless}} address autoconfiguration ({{slaac|SLAAC}}), where a device can configure its own globally unique address without a [[dhcp|DHCP]] server.
 
-The primary IPv4-to-IPv6 transition mechanism is dual-stack operation, where hosts and routers run both protocols simultaneously and prefer IPv6 when available. This avoids a hard cutover and allows gradual migration.
+The primary [[ip|IPv4]]-to-[[ipv6|IPv6]] transition mechanism is dual-stack operation, where hosts and routers run both protocols simultaneously and prefer [[ipv6|IPv6]] when available. This avoids a hard cutover and allows gradual migration.
 
-On 28 March 2026, IPv6 carried 50.1% of Google's traffic for the first time in its history — 28 years after RFC 2460. Cloudflare and APNIC measure 40-43% from their own vantage points, so the milestone is real but uneven. Mobile carriers are the leading edge: US averages around 87%, T-Mobile ~93%, France ~86%, India >75%. The transition from IPv4 is happening — just slower than anyone predicted.`,
+On 28 March 2026, [[ipv6|IPv6]] carried 50.1% of Google's traffic for the first time in its history — 28 years after RFC 2460. Cloudflare and APNIC measure 40-43% from their own vantage points, so the milestone is real but uneven. Mobile carriers are the leading edge: US averages around 87%, T-Mobile ~93%, France ~86%, India >75%. The transition from [[ip|IPv4]] is happening — just slower than anyone predicted.`,
 	howItWorks: [
 		{
 			title: 'Addressing (128-bit)',
@@ -43,15 +43,15 @@ On 28 March 2026, IPv6 carried 50.1% of Google's traffic for the first time in i
 		{
 			title: 'Stateless autoconfiguration (SLAAC)',
 			description:
-				'Hosts generate their own global address from the network prefix (learned via Router Advertisement) and their interface identifier. No [[dhcp|DHCP]] server needed — plug in and go. Note: by default {{stateless|SLAAC}} embeds the {{mac-address|MAC address}} in the IPv6 address, which is a privacy concern — Privacy Extensions ([[rfc:8981|RFC 8981]]) replace this with randomized, temporary interface identifiers that rotate periodically.'
+				'Hosts generate their own global address from the network prefix (learned via Router Advertisement) and their interface identifier. No [[dhcp|DHCP]] server needed — plug in and go. Note: by default {{stateless|SLAAC}} embeds the {{mac-address|MAC address}} in the [[ipv6|IPv6]] address, which is a privacy concern — Privacy Extensions ([[rfc:8981|RFC 8981]]) replace this with randomized, temporary interface identifiers that rotate periodically.'
 		}
 	],
 	useCases: [
-		'Mobile networks (most 4G/5G networks run IPv6-only internally)',
-		'Cloud infrastructure (AWS, Azure, GCP native dual-stack and IPv6-only VPCs)',
+		'Mobile networks (most 4G/5G networks run [[ipv6|IPv6]]-only internally)',
+		'Cloud infrastructure (AWS, Azure, GCP native dual-stack and [[ipv6|IPv6]]-only VPCs)',
 		'IoT deployments needing unique global addresses for every device',
 		'Large-scale networks avoiding NAT complexity and enabling end-to-end connectivity',
-		'Content delivery and streaming services optimizing for IPv6-primary clients'
+		'Content delivery and streaming services optimizing for [[ipv6|IPv6]]-primary clients'
 	],
 	codeExample: {
 		language: 'python',
@@ -76,7 +76,7 @@ sock.send(b'GET / HTTP/1.1\\r\\n'
           b'Host: example.com\\r\\n\\r\\n')
 response = sock.recv(4096)
 print(response.decode()[:200])`,
-		caption: 'IPv6 sockets use AF_INET6 and 4-tuple addresses (host, port, flowinfo, scope_id)',
+		caption: '[[ipv6|IPv6]] sockets use AF_INET6 and 4-tuple addresses (host, port, flowinfo, scope_id)',
 		alternatives: [
 			{
 				language: 'cli',
@@ -174,14 +174,14 @@ ICMPv6 Neighbor Advertisement:
 	},
 	connections: ['ip', 'tcp', 'udp', 'ethernet', 'wifi', 'dns', 'dhcp'],
 	links: {
-		wikipedia: 'https://en.wikipedia.org/wiki/IPv6',
+		wikipedia: 'https://en.wikipedia.org/wiki/[[ipv6|IPv6]]',
 		rfc: 'https://datatracker.ietf.org/doc/html/rfc8200'
 	},
 	image: {
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Ipv6_address_leading_zeros.svg/500px-Ipv6_address_leading_zeros.svg.png',
 		alt: 'Diagram showing IPv6 address notation with leading zeros compressed and groups separated by colons',
 		caption:
-			'IPv6 address notation — eight groups of four hexadecimal digits separated by colons. Leading zeros can be omitted and consecutive zero groups replaced with :: for brevity (2001:0db8::1).',
+			'[[ipv6|IPv6]] address notation — eight groups of four hexadecimal digits separated by colons. Leading zeros can be omitted and consecutive zero groups replaced with :: for brevity (2001:0db8::1).',
 		credit: 'Image: Wikimedia Commons / CC BY-SA 3.0'
 	}
 };

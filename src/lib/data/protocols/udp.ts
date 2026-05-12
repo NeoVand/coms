@@ -9,21 +9,21 @@ export const udp: Protocol = {
 	year: 1980,
 	rfc: 'RFC 768',
 	oneLiner: 'Fire-and-forget delivery — fast but with no guarantees.',
-	overview: `UDP is [[tcp|TCP]]'s carefree sibling. It sends data {{connectionless|without establishing a connection}}, without checking if it arrived, and without caring about order. This sounds unreliable (and it is), but that's exactly why it's useful — sometimes speed matters more than perfection.
+	overview: `[[udp|UDP]] is [[tcp|TCP]]'s carefree sibling. It sends data {{connectionless|without establishing a connection}}, without checking if it arrived, and without caring about order. This sounds unreliable (and it is), but that's exactly why it's useful — sometimes speed matters more than perfection.
 
-Think of a live video call: if one frame is lost, it's better to show the next frame than to pause and wait for {{retransmission|retransmission}}. UDP enables this by stripping away all of [[tcp|TCP]]'s reliability mechanisms, leaving a bare-minimum 8-byte header. Applications that use UDP typically implement their own reliability on top (like [[quic|QUIC]] does) or simply tolerate some loss.
+Think of a live video call: if one frame is lost, it's better to show the next frame than to pause and wait for {{retransmission|retransmission}}. [[udp|UDP]] enables this by stripping away all of [[tcp|TCP]]'s reliability mechanisms, leaving a bare-minimum 8-byte header. Applications that use [[udp|UDP]] typically implement their own reliability on top (like [[quic|QUIC]] does) or simply tolerate some loss.
 
-UDP is essential for [[dns|DNS]] lookups (where speed matters and the {{payload|payload}} fits in one {{datagram|packet}}), online gaming (where stale data is useless), live streaming, and VoIP. It operates at {{osi-model|Layer 4}} alongside [[tcp|TCP]] and is identified by protocol number 17.`,
+[[udp|UDP]] is essential for [[dns|DNS]] lookups (where speed matters and the {{payload|payload}} fits in one {{datagram|packet}}), online gaming (where stale data is useless), live streaming, and VoIP. It operates at {{osi-model|Layer 4}} alongside [[tcp|TCP]] and is identified by protocol number 17.`,
 	howItWorks: [
 		{
 			title: 'No handshake',
 			description:
-				'Unlike [[tcp|TCP]], UDP has no connection setup or {{handshake|handshake}}. The sender just starts blasting packets immediately — no SYN, no waiting.'
+				'Unlike [[tcp|TCP]], [[udp|UDP]] has no connection setup or {{handshake|handshake}}. The sender just starts blasting packets immediately — no SYN, no waiting.'
 		},
 		{
 			title: 'Datagram sent',
 			description:
-				"Each UDP message ({{datagram|datagram}}) is self-contained with source port, destination port, length, and {{checksum|checksum}}. It either arrives or it doesn't."
+				"Each [[udp|UDP]] message ({{datagram|datagram}}) is self-contained with source port, destination port, length, and {{checksum|checksum}}. It either arrives or it doesn't."
 		},
 		{
 			title: 'No acknowledgment',
@@ -33,13 +33,13 @@ UDP is essential for [[dns|DNS]] lookups (where speed matters and the {{payload|
 		{
 			title: 'Application handles reliability',
 			description:
-				'If an app needs reliability over UDP (like [[quic|QUIC]] or game networking), it builds its own retry/ordering logic on top.'
+				'If an app needs reliability over [[udp|UDP]] (like [[quic|QUIC]] or game networking), it builds its own retry/ordering logic on top.'
 		}
 	],
 	useCases: [
-		'DNS lookups (fast single-packet queries)',
+		'[[dns|DNS]] lookups (fast single-packet queries)',
 		'Online gaming (real-time state updates)',
-		'Voice over IP (VoIP) and video calls',
+		'Voice over [[ip|IP]] (VoIP) and video calls',
 		'Live video streaming',
 		'IoT sensor data transmission'
 	],
@@ -57,7 +57,7 @@ sock.sendto(b"Ping!", ('localhost', 8888))
 # Receive — might never arrive
 data, addr = sock.recvfrom(1024)
 print(f"Got {data} from {addr}")`,
-		caption: 'UDP is {{connectionless|connectionless}} — just bind, send, and hope for the best',
+		caption: '[[udp|UDP]] is {{connectionless|connectionless}} — just bind, send, and hope for the best',
 		alternatives: [
 			{
 				language: 'javascript',
@@ -151,7 +151,7 @@ ss -un  # or: netstat -un`
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Arpanet_1974.svg/500px-Arpanet_1974.svg.png',
 		alt: 'Map of the ARPANET in 1974, showing interconnected nodes across the United States',
 		caption:
-			'The ARPANET in 1974 — the network where UDP was born. While [[tcp|TCP]] guaranteed delivery, UDP offered raw speed for the applications that needed it most.',
+			'The ARPANET in 1974 — the network where [[udp|UDP]] was born. While [[tcp|TCP]] guaranteed delivery, [[udp|UDP]] offered raw speed for the applications that needed it most.',
 		credit: 'Image: ARPANET / Public Domain, via Wikimedia Commons'
 	},
 
@@ -160,13 +160,13 @@ ss -un  # or: netstat -un`
 			date: '2024-2026',
 			title: 'UDP rises with QUIC',
 			description:
-				'Almost all internet UDP traffic growth in the last five years has been [[quic|QUIC]]. Where UDP used to be a niche transport ([[dns|DNS]], [[ntp|NTP]], [[rtp|RTP]]), it now carries the majority of [[http3|HTTP/3]] traffic plus the entire next generation of media transports.'
+				'Almost all internet [[udp|UDP]] traffic growth in the last five years has been [[quic|QUIC]]. Where [[udp|UDP]] used to be a niche transport ([[dns|DNS]], [[ntp|NTP]], [[rtp|RTP]]), it now carries the majority of [[http3|HTTP/3]] traffic plus the entire next generation of media transports.'
 		},
 		{
 			date: '2025',
 			title: 'Linux io_uring + UDP zero-copy',
 			description:
-				'io_uring zero-copy send/receive paths land for UDP in Linux 6.13, dramatically improving [[quic|QUIC]] performance on high-throughput servers.'
+				'io_uring zero-copy send/receive paths land for [[udp|UDP]] in Linux 6.13, dramatically improving [[quic|QUIC]] performance on high-throughput servers.'
 		}
 	],
 
@@ -175,40 +175,40 @@ ss -un  # or: netstat -un`
 			org: 'DNS root + recursive resolvers',
 			scale: '~14 trillion queries/day (Google 8.8.8.8 alone)',
 			description:
-				'Every [[dns|DNS]] query/response is one UDP datagram each way. The recursive resolver fleet is the largest UDP application by query count.'
+				'Every [[dns|DNS]] query/response is one [[udp|UDP]] datagram each way. The recursive resolver fleet is the largest [[udp|UDP]] application by query count.'
 		},
 		{
 			org: 'NTP pool',
 			scale: '~25 billion queries/day',
 			description:
-				'pool.ntp.org and friends serve tens of billions of UDP [[ntp|NTP]] queries per day, keeping the world\'s clocks within a few milliseconds.'
+				'pool.ntp.org and friends serve tens of billions of [[udp|UDP]] [[ntp|NTP]] queries per day, keeping the world\'s clocks within a few milliseconds.'
 		},
 		{
 			org: 'WebRTC media',
 			scale: 'Every Zoom / Discord / FaceTime call',
 			description:
-				'RTP-over-UDP carries audio/video for every {{peer-to-peer|peer-to-peer}} media call. Late audio is worse than missing audio — UDP\'s "fire and pray" semantics are exactly what [[rtp|RTP]] needs.'
+				'[[rtp|RTP]]-over-[[udp|UDP]] carries audio/video for every {{peer-to-peer|peer-to-peer}} media call. Late audio is worse than missing audio — [[udp|UDP]]\'s "fire and pray" semantics are exactly what [[rtp|RTP]] needs.'
 		},
 		{
 			org: 'QUIC / HTTP/3',
 			scale: '>50% of Chrome traffic, >75% of Meta',
 			description:
-				'The largest single application of UDP today. Every [[quic|QUIC]] packet rides inside a UDP datagram; the user-space transport handles reliability, congestion, and crypto above it.'
+				'The largest single application of [[udp|UDP]] today. Every [[quic|QUIC]] packet rides inside a [[udp|UDP]] datagram; the user-space transport handles reliability, congestion, and crypto above it.'
 		}
 	],
 
 	funFacts: [
 		{
 			title: 'RFC 768 is three pages long',
-			text: 'UDP\'s entire spec — header format, length field, {{checksum|checksum}}, and a paragraph of prose — fits in three pages. [[pioneer:jon-postel|Jon Postel]] wrote it in August 1980. It has not been updated since. There has been nothing to update.'
+			text: '[[udp|UDP]]\'s entire spec — header format, length field, {{checksum|checksum}}, and a paragraph of prose — fits in three pages. [[pioneer:jon-postel|Jon Postel]] wrote it in August 1980. It has not been updated since. There has been nothing to update.'
 		},
 		{
 			title: 'UDP gives you ports — that is most of L4',
-			text: 'The only thing UDP adds above raw [[ip|IP]] is the source/destination port pair. That is the entire reason multiple applications can share a host\'s network adapter. Everything else (reliability, ordering, congestion) is left to the application above.'
+			text: 'The only thing [[udp|UDP]] adds above raw [[ip|IP]] is the source/destination port pair. That is the entire reason multiple applications can share a host\'s network adapter. Everything else (reliability, ordering, congestion) is left to the application above.'
 		},
 		{
 			title: 'UDP is what middleboxes already pass',
-			text: '[[quic|QUIC]] runs over UDP not because UDP is great, but because middleboxes (NAT routers, firewalls, transparent proxies) already forward UDP unchanged. [[sctp|SCTP]] is a "better" transport in many ways, but it cannot traverse the public internet because middleboxes drop unknown protocol numbers. UDP is the deployment substrate.'
+			text: '[[quic|QUIC]] runs over [[udp|UDP]] not because [[udp|UDP]] is great, but because middleboxes (NAT routers, firewalls, transparent proxies) already forward [[udp|UDP]] unchanged. [[sctp|SCTP]] is a "better" transport in many ways, but it cannot traverse the public internet because middleboxes drop unknown protocol numbers. [[udp|UDP]] is the deployment substrate.'
 		}
 	],
 
@@ -216,15 +216,15 @@ ss -un  # or: netstat -un`
 		pitfalls: [
 			{
 				title: 'No congestion control by default',
-				text: 'UDP applications must implement {{congestion-control|congestion control}} themselves, or risk being a bad citizen. Sending UDP at line rate without backoff is what brought the internet down in 1986. Use a transport library ([[quic|QUIC]], [[rtp|RTP]] with feedback) rather than rolling your own.'
+				text: '[[udp|UDP]] applications must implement {{congestion-control|congestion control}} themselves, or risk being a bad citizen. Sending [[udp|UDP]] at line rate without backoff is what brought the internet down in 1986. Use a transport library ([[quic|QUIC]], [[rtp|RTP]] with feedback) rather than rolling your own.'
 			},
 			{
 				title: 'Fragmentation = unreliable delivery',
-				text: 'UDP datagrams larger than the path {{mtu|MTU}} get {{fragmentation|fragmented}} at the IP layer. If any one fragment is dropped, the entire datagram is lost (no per-fragment retransmit). Cure: keep UDP payloads under ~1400 bytes for safety, or use {{path-mtu-discovery|Path MTU Discovery}} and resend at the application layer.'
+				text: '[[udp|UDP]] datagrams larger than the path {{mtu|MTU}} get {{fragmentation|fragmented}} at the [[ip|IP]] layer. If any one fragment is dropped, the entire datagram is lost (no per-fragment retransmit). Cure: keep [[udp|UDP]] payloads under ~1400 bytes for safety, or use {{path-mtu-discovery|Path MTU Discovery}} and resend at the application layer.'
 			},
 			{
 				title: 'Source port matters for NAT pinholes',
-				text: 'A NAT router opens a "pinhole" for outbound UDP keyed by (src IP, src port). The pinhole closes after a few minutes of silence. For long-lived UDP applications (VoIP, IoT keepalives), send a keepalive every 30-60 seconds to keep the pinhole open.'
+				text: 'A NAT router opens a "pinhole" for outbound [[udp|UDP]] keyed by (src [[ip|IP]], src port). The pinhole closes after a few minutes of silence. For long-lived [[udp|UDP]] applications (VoIP, IoT keepalives), send a keepalive every 30-60 seconds to keep the pinhole open.'
 			}
 		]
 	}

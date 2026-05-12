@@ -9,21 +9,21 @@ export const sip: Protocol = {
 	year: 1999,
 	rfc: 'RFC 3261',
 	oneLiner: 'The "dialing" protocol for VoIP — establishes, modifies, and tears down calls.',
-	overview: `SIP is the {{signaling|signaling}} {{protocol|protocol}} that makes VoIP calls happen. It doesn't carry the actual audio or video (that's [[rtp|RTP]]'s job). Instead, SIP handles the "control plane": inviting someone to a call, ringing, answering, putting on hold, transferring, and hanging up.
+	overview: `[[sip|SIP]] is the {{signaling|signaling}} {{protocol|protocol}} that makes VoIP calls happen. It doesn't carry the actual audio or video (that's [[rtp|RTP]]'s job). Instead, [[sip|SIP]] handles the "control plane": inviting someone to a call, ringing, answering, putting on hold, transferring, and hanging up.
 
-SIP's design was inspired by [[http1|HTTP]] — it uses text-based {{request-response|request/response}} messages with methods like INVITE, ACK, BYE, and REGISTER. URIs identify users (sip:alice@example.com). This [[http1|HTTP]]-like design made it easier to implement and debug compared to the ITU's H.323 alternative.
+[[sip|SIP]]'s design was inspired by [[http1|HTTP]] — it uses text-based {{request-response|request/response}} messages with methods like INVITE, ACK, BYE, and REGISTER. URIs identify users (sip:alice@example.com). This [[http1|HTTP]]-like design made it easier to implement and debug compared to the ITU's H.323 alternative.
 
-SIP is the backbone of virtually every modern phone system: enterprise PBX systems, VoIP carriers (like Twilio), and telecom infrastructure. When you make a phone call today, SIP is almost certainly involved somewhere in the chain.`,
+[[sip|SIP]] is the backbone of virtually every modern phone system: enterprise PBX systems, VoIP carriers (like Twilio), and telecom infrastructure. When you make a phone call today, [[sip|SIP]] is almost certainly involved somewhere in the chain.`,
 	howItWorks: [
 		{
 			title: 'REGISTER',
 			description:
-				'Phone/softphone registers with a SIP server, telling it "I\'m alice@example.com and I\'m reachable at this IP." This is like logging in.'
+				'Phone/softphone registers with a [[sip|SIP]] server, telling it "I\'m alice@example.com and I\'m reachable at this [[ip|IP]]." This is like logging in.'
 		},
 		{
 			title: 'INVITE',
 			description:
-				'Caller sends INVITE to the SIP server with an [[sdp|SDP]] body describing desired media (audio/video codecs, ports). Server routes it to the callee.'
+				'Caller sends INVITE to the [[sip|SIP]] server with an [[sdp|SDP]] body describing desired media (audio/video codecs, ports). Server routes it to the callee.'
 		},
 		{
 			title: '200 OK + ACK',
@@ -40,7 +40,7 @@ SIP is the backbone of virtually every modern phone system: enterprise PBX syste
 		'Enterprise phone systems (PBX)',
 		'VoIP service providers (Twilio, Vonage)',
 		'Video conferencing initiation',
-		'Instant messaging (SIP SIMPLE)',
+		'Instant messaging ([[sip|SIP]] SIMPLE)',
 		'Emergency call routing (E911)'
 	],
 	codeExample: {
@@ -69,7 +69,7 @@ acfg.sipConfig.authCreds.append(
 
 account = pj.Account()
 account.create(acfg)  # Sends SIP REGISTER`,
-		caption: 'PJSIP registers with a SIP server — the INVITE/200 OK/ACK flow handles call setup',
+		caption: 'PJSIP registers with a [[sip|SIP]] server — the INVITE/200 OK/ACK flow handles call setup',
 		alternatives: [
 			{
 				language: 'javascript',
@@ -176,7 +176,7 @@ a=rtpmap:97 opus/48000/2`
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/SIP_session_setup_example.svg/500px-SIP_session_setup_example.svg.png',
 		alt: 'Sequence diagram of a SIP session setup showing INVITE, 100 Trying, 180 Ringing, 200 OK, and ACK messages between caller, proxy, and callee',
 		caption:
-			'A SIP session setup — the INVITE starts a call, proxies route it, the callee rings (180) then answers (200 OK), and the caller acknowledges. After this {{signaling|signaling}} dance, [[rtp|RTP]] media flows directly between the endpoints.',
+			'A [[sip|SIP]] session setup — the INVITE starts a call, proxies route it, the callee rings (180) then answers (200 OK), and the caller acknowledges. After this {{signaling|signaling}} dance, [[rtp|RTP]] media flows directly between the endpoints.',
 		credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 	}
 };

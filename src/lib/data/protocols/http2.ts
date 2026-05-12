@@ -9,13 +9,13 @@ export const http2: Protocol = {
 	year: 2015,
 	rfc: 'RFC 9113',
 	oneLiner: 'Multiplexed, binary HTTP — many requests flying over one connection simultaneously.',
-	overview: `HTTP/2 was designed to fix [[http1|HTTP/1.1]]'s biggest pain points without changing the semantics developers know and love. You still use GET, POST, headers, and {{status-code|status codes}} — but under the hood, everything is different. The protocol is {{binary-framing|binary (not text)}}, {{multiplexing|multiplexed}} (many requests share one connection), and supports {{header|header}} compression ({{hpack|HPACK}}) and {{server-push|server push}} (now deprecated — Chrome removed support in Chrome 106; 103 {{early-hints|Early Hints}} is the recommended replacement).
+	overview: `[[http2|HTTP/2]] was designed to fix [[http1|HTTP/1.1]]'s biggest pain points without changing the semantics developers know and love. You still use GET, POST, headers, and {{status-code|status codes}} — but under the hood, everything is different. The protocol is {{binary-framing|binary (not text)}}, {{multiplexing|multiplexed}} (many requests share one connection), and supports {{header|header}} compression ({{hpack|HPACK}}) and {{server-push|server push}} (now deprecated — Chrome removed support in Chrome 106; 103 {{early-hints|Early Hints}} is the recommended replacement).
 
-{{multiplexing|Multiplexing}} is the killer feature: instead of waiting for each response before sending the next request, HTTP/2 interleaves multiple {{request-response|request-response}} pairs as "{{stream|streams}}" on a single [[tcp|TCP]] connection. This eliminates the need for multiple connections and dramatically improves page load times for resource-heavy sites.
+{{multiplexing|Multiplexing}} is the killer feature: instead of waiting for each response before sending the next request, [[http2|HTTP/2]] interleaves multiple {{request-response|request-response}} pairs as "{{stream|streams}}" on a single [[tcp|TCP]] connection. This eliminates the need for multiple connections and dramatically improves page load times for resource-heavy sites.
 
-While the HTTP/2 spec (RFC 9113) doesn't mandate [[tls|TLS]], all browsers require HTTPS for HTTP/2 connections (h2). Unencrypted HTTP/2 (h2c) is only used in server-to-server communication.
+While the [[http2|HTTP/2]] spec (RFC 9113) doesn't mandate [[tls|TLS]], all browsers require HTTPS for [[http2|HTTP/2]] connections (h2). Unencrypted [[http2|HTTP/2]] (h2c) is only used in server-to-server communication.
 
-However, HTTP/2 still runs on [[tcp|TCP]], which means [[tcp|TCP]]-level {{head-of-line-blocking|head-of-line blocking}} persists — a single lost [[tcp|TCP]] {{packet|packet}} blocks all streams. This is what motivated [[http3|HTTP/3]] and [[quic|QUIC]].`,
+However, [[http2|HTTP/2]] still runs on [[tcp|TCP]], which means [[tcp|TCP]]-level {{head-of-line-blocking|head-of-line blocking}} persists — a single lost [[tcp|TCP]] {{packet|packet}} blocks all streams. This is what motivated [[http3|HTTP/3]] and [[quic|QUIC]].`,
 	howItWorks: [
 		{
 			title: 'Connection & settings',
@@ -41,7 +41,7 @@ However, HTTP/2 still runs on [[tcp|TCP]], which means [[tcp|TCP]]-level {{head-
 	useCases: [
 		'Modern websites with many resources (images, scripts, styles)',
 		'Single-page applications with many API calls',
-		'gRPC (uses HTTP/2 as transport)',
+		'[[grpc|gRPC]] (uses [[http2|HTTP/2]] as transport)',
 		'Mobile applications (single connection saves battery)',
 		'Microservice-to-microservice communication'
 	],
@@ -58,7 +58,7 @@ print(f"Status: {response.status_code}")
 print(f"Body: {response.text}")
 
 client.close()`,
-		caption: 'HTTP/2 multiplexes requests over a single connection with {{binary-framing|binary framing}}',
+		caption: '[[http2|HTTP/2]] multiplexes requests over a single connection with {{binary-framing|binary framing}}',
 		alternatives: [
 			{
 				language: 'javascript',
@@ -118,14 +118,14 @@ curl --http2 -v https://example.com 2>&1 | grep "< HTTP"`
 	},
 	connections: ['http1', 'http3', 'tcp', 'tls', 'grpc', 'sse'],
 	links: {
-		wikipedia: 'https://en.wikipedia.org/wiki/HTTP/2',
+		wikipedia: 'https://en.wikipedia.org/wiki/[[http2|HTTP/2]]',
 		rfc: 'https://datatracker.ietf.org/doc/html/rfc9113'
 	},
 	image: {
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/HTTP_pipelining2.svg/500px-HTTP_pipelining2.svg.png',
 		alt: 'Diagram comparing HTTP/1.1 sequential requests, pipelining, and HTTP/2 multiplexing over a single connection',
 		caption:
-			'The evolution from [[http1|HTTP/1.1]] to HTTP/2 — sequential requests waste time waiting, pipelining helped but still suffered {{head-of-line-blocking|head-of-line blocking}}. HTTP/2 {{multiplexing|multiplexing}} sends multiple requests and responses simultaneously over a single connection using {{binary-framing|binary framing}}.',
+			'The evolution from [[http1|HTTP/1.1]] to [[http2|HTTP/2]] — sequential requests waste time waiting, pipelining helped but still suffered {{head-of-line-blocking|head-of-line blocking}}. [[http2|HTTP/2]] {{multiplexing|multiplexing}} sends multiple requests and responses simultaneously over a single connection using {{binary-framing|binary framing}}.',
 		credit: 'Image: Wikimedia Commons / Public Domain'
 	}
 };

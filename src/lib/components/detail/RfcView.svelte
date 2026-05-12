@@ -4,7 +4,7 @@
 	import { ExternalLink, FileText } from 'lucide-svelte';
 	import { themedDomColor } from '$lib/utils/colors';
 	import { getAppState } from '$lib/state/context';
-	import { parseParagraphs } from '$lib/utils/text-parser';
+	import { parseParagraphs, parseRichText } from '$lib/utils/text-parser';
 	import RichText from '$lib/components/detail/inline/RichText.svelte';
 
 	interface Props {
@@ -104,7 +104,9 @@
 								class="shrink-0 rounded px-1.5 py-0.5 font-mono text-[10px]"
 								style="background-color: {accent}15; color: {accent};">{s.ref}</code
 							>
-							<span class="text-t-secondary">{s.description}</span>
+							<span class="text-t-secondary"
+								><RichText segments={parseRichText(s.description)} color={accent} /></span
+							>
 						</li>
 					{/each}
 				</ul>

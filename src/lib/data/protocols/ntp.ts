@@ -9,13 +9,13 @@ export const ntp: Protocol = {
 	year: 1985,
 	rfc: 'RFC 5905',
 	oneLiner: 'Keeps every device on Earth synchronized to the same clock.',
-	overview: `NTP is one of the oldest protocols still in active use, and one of the most underappreciated. It synchronizes clocks across the internet to within milliseconds — a critical requirement for everything from log correlation to financial trading to [[tls|TLS]] {{certificate|certificate}} validation.
+	overview: `[[ntp|NTP]] is one of the oldest protocols still in active use, and one of the most underappreciated. It synchronizes clocks across the internet to within milliseconds — a critical requirement for everything from log correlation to financial trading to [[tls|TLS]] {{certificate|certificate}} validation.
 
-NTP uses a hierarchical system of time sources. Stratum 0 are atomic clocks and GPS receivers. Stratum 1 servers connect directly to these. Stratum 2 servers sync from Stratum 1, and so on. Your computer typically syncs from Stratum 2 or 3 servers (like pool.ntp.org).
+[[ntp|NTP]] uses a hierarchical system of time sources. Stratum 0 are atomic clocks and GPS receivers. Stratum 1 servers connect directly to these. Stratum 2 servers sync from Stratum 1, and so on. Your computer typically syncs from Stratum 2 or 3 servers (like pool.ntp.org).
 
-The clever part is how NTP accounts for network {{latency|delay}}. It measures the {{rtt|round-trip time}} of its packets and mathematically compensates for the delay, achieving accuracy far beyond what simple "what time is it?" queries could provide.
+The clever part is how [[ntp|NTP]] accounts for network {{latency|delay}}. It measures the {{rtt|round-trip time}} of its packets and mathematically compensates for the delay, achieving accuracy far beyond what simple "what time is it?" queries could provide.
 
-NTP has been exploited for DDoS amplification attacks: the legacy \`monlist\` command could return a large list of recent clients in response to a small spoofed request, amplifying traffic by a factor of 500x or more. Modern NTP implementations disable \`monlist\` by default, and rate-limiting helps mitigate remaining abuse.`,
+[[ntp|NTP]] has been exploited for DDoS amplification attacks: the legacy \`monlist\` command could return a large list of recent clients in response to a small spoofed request, amplifying traffic by a factor of 500x or more. Modern [[ntp|NTP]] implementations disable \`monlist\` by default, and rate-limiting helps mitigate remaining abuse.`,
 	howItWorks: [
 		{
 			title: 'Client sends request',
@@ -63,7 +63,7 @@ print(f"Stratum:  {response.stratum}")
 # Offset tells you how far your clock is off
 # Positive = your clock is behind, Negative = ahead`,
 		caption:
-			'ntplib queries an NTP server and calculates the clock {{offset|offset}} using the four-timestamp algorithm',
+			'ntplib queries an [[ntp|NTP]] server and calculates the clock {{offset|offset}} using the four-timestamp algorithm',
 		alternatives: [
 			{
 				language: 'javascript',
@@ -164,7 +164,7 @@ sudo ntpdate pool.ntp.org`
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Nist-f1.jpg/500px-Nist-f1.jpg',
 		alt: 'NIST-F1 cesium fountain atomic clock at the National Institute of Standards and Technology',
 		caption:
-			'The NIST-F1 cesium fountain atomic clock — accurate to one second in 100 million years. Atomic clocks like this are the ultimate time source (Stratum 0) that NTP distributes to every device on the internet.',
+			'The NIST-F1 cesium fountain atomic clock — accurate to one second in 100 million years. Atomic clocks like this are the ultimate time source (Stratum 0) that [[ntp|NTP]] distributes to every device on the internet.',
 		credit: 'Photo: NIST / Public Domain, via Wikimedia Commons'
 	}
 };

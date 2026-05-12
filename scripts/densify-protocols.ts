@@ -116,8 +116,20 @@ function defaultTargets(): string[] {
 	const stories = listDir(join(REPO, 'src/lib/data/category-stories'), '.ts').filter(
 		(p) => !p.endsWith('/index.ts') && !p.endsWith('/types.ts')
 	);
+	const protocols = listDir(join(REPO, 'src/lib/data/protocols'), '.ts').filter(
+		(p) => !p.endsWith('/index.ts')
+	);
 	const foundations = join(REPO, 'src/lib/data/concept-foundations.ts');
-	return [...parts, ...stories, foundations];
+	const others = [
+		'src/lib/data/pioneers.ts',
+		'src/lib/data/concepts.ts',
+		'src/lib/data/rfcs.ts',
+		'src/lib/data/frontier.ts',
+		'src/lib/data/journeys.ts',
+		'src/lib/data/category-deep-dives.ts',
+		'src/lib/data/outages.ts'
+	].map((p) => join(REPO, p));
+	return [...parts, ...stories, ...protocols, foundations, ...others];
 }
 
 // ─────────────────────────────────────────────────────────────────────
@@ -226,7 +238,10 @@ interface FileResult {
  */
 const PROPERTY_DENYLIST = new Set([
 	// Embedded source consumed by another renderer.
-	'definition',
+	// NOTE: `definition` is intentionally NOT here — it's Mermaid source
+	// in StorySection but rich-text concept body in concepts.ts.  The
+	// content-based `looksLikeMermaid` check below catches the Mermaid
+	// case so we don't pollute diagrams while still wrapping concepts.
 	'imagePath',
 	'src',
 	'credit',
@@ -247,8 +262,10 @@ const PROPERTY_DENYLIST = new Set([
 	'rfcId',
 	'number',
 	// Raw-rendered DOM text — short headings, captions, names.
+	// (caption used to live here, but DiagramCaption / StoryDiagram /
+	// StoryImage / CodeExample now route their captions through
+	// RichText, so we let captions densify.)
 	'title',
-	'caption',
 	'alt',
 	'attribution',
 	'name',
@@ -259,8 +276,30 @@ const PROPERTY_DENYLIST = new Set([
 	'duration',
 	'scale',
 	'time',
-	'oneLiner',
-	'category'
+	// `oneLiner` is rendered raw in NodeTooltip + AccessibleGraph (small
+	// popover / aria-label), but those surfaces now call
+	// stripRichTextMarkup, so we let oneLiner densify and the link
+	// surfaces (ProtocolHeader, OutageView, FrontierView, list cards)
+	// pick up the wraps.
+	'category',
+	'tagline',
+	// Protocol / RFC / Frontier short labels and identifiers.
+	'abbreviation',
+	'port',
+	'rfc',
+	'rfcNumber',
+	'language',
+	'label',
+	'key',
+	'filter',
+	'bits',
+	'format',
+	'latency',
+	'throughput',
+	'overhead',
+	'status',
+	'term',
+	'value'
 ]);
 
 /**

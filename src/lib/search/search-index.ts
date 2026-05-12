@@ -59,6 +59,16 @@ export interface SearchEntry {
 	};
 }
 
+// Strip [[…]] / {{…}} / **…** atoms so descriptions don't show as
+// literal markup in the search dropdown. Defined here so the
+// concept/journey/category loops below can use it.
+function stripAtoms(text: string): string {
+	return text
+		.replace(/\[\[[^\]|]+(?:\|([^\]]+))?\]\]/g, '$1')
+		.replace(/\{\{[^}|]+(?:\|([^}]+))?\}\}/g, '$1')
+		.replace(/\*\*([^*]+)\*\*/g, '$1');
+}
+
 // ── Build index at module level ────────────────────────────────
 
 const entries: SearchEntry[] = [];
@@ -80,11 +90,12 @@ for (const p of allProtocols) {
 
 // 2. Concepts
 for (const c of concepts) {
+	const cleanDef = stripAtoms(c.definition);
 	entries.push({
 		type: 'concept',
 		label: c.term,
-		description: c.definition.length > 100 ? c.definition.slice(0, 100) + '\u2026' : c.definition,
-		searchText: `${c.term} ${c.definition}`.toLowerCase(),
+		description: cleanDef.length > 100 ? cleanDef.slice(0, 100) + '\u2026' : cleanDef,
+		searchText: `${c.term} ${cleanDef}`.toLowerCase(),
 		protocolIds: [],
 		nav: { kind: 'hub', tab: 'glossary' }
 	});
@@ -148,11 +159,12 @@ for (const j of journeys) {
 			return p ? `${p.name} ${p.abbreviation}` : '';
 		})
 		.join(' ');
+	const cleanDesc = stripAtoms(j.description);
 	entries.push({
 		type: 'journey',
 		label: j.title,
-		description: j.description,
-		searchText: `${j.title} ${j.description} journey ${stepProtoNames}`.toLowerCase(),
+		description: cleanDesc,
+		searchText: `${j.title} ${cleanDesc} journey ${stepProtoNames}`.toLowerCase(),
 		protocolIds: j.steps.map((s) => s.protocolId),
 		nav: { kind: 'journey', journeyId: j.id },
 		color: j.color
@@ -174,14 +186,6 @@ for (const cat of categories) {
 		nav: { kind: 'category', categoryId: cat.id, tab: 'story' },
 		color: cat.color
 	});
-}
-
-// Strip [[…]] and {{…}} atoms so they don't pollute the searchable text
-function stripAtoms(text: string): string {
-	return text
-		.replace(/\[\[[^\]|]+(?:\|([^\]]+))?\]\]/g, '$1')
-		.replace(/\{\{[^}|]+(?:\|([^}]+))?\}\}/g, '$1')
-		.replace(/\*\*([^*]+)\*\*/g, '$1');
 }
 
 // 7. Foundation chapters (Part I of the book)
@@ -244,11 +248,12 @@ for (const r of rfcs) {
 
 // 10. Outages
 for (const o of outages) {
+	const cleanOneLiner = stripAtoms(o.oneLiner);
 	entries.push({
 		type: 'outage',
 		label: o.title,
-		description: o.oneLiner,
-		searchText: `outage incident ${o.title} ${o.oneLiner} ${o.date} ${stripAtoms(o.setup)} ${stripAtoms(o.mistake)} ${stripAtoms(o.lesson)}`.toLowerCase(),
+		description: cleanOneLiner,
+		searchText: `outage incident ${o.title} ${cleanOneLiner} ${o.date} ${stripAtoms(o.setup)} ${stripAtoms(o.mistake)} ${stripAtoms(o.lesson)}`.toLowerCase(),
 		protocolIds: o.affectedProtocols,
 		nav: { kind: 'outage', outageId: o.id }
 	});
@@ -256,11 +261,12 @@ for (const o of outages) {
 
 // 11. Frontier
 for (const f of frontierEntries) {
+	const cleanOneLiner = stripAtoms(f.oneLiner);
 	entries.push({
 		type: 'frontier',
 		label: f.title,
-		description: f.oneLiner,
-		searchText: `frontier ${f.title} ${f.oneLiner} ${stripAtoms(f.description)} ${f.topic} ${f.status}`.toLowerCase(),
+		description: cleanOneLiner,
+		searchText: `frontier ${f.title} ${cleanOneLiner} ${stripAtoms(f.description)} ${f.topic} ${f.status}`.toLowerCase(),
 		protocolIds: f.protocols,
 		nav: { kind: 'frontier', frontierId: f.id }
 	});

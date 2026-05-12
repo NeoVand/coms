@@ -62,7 +62,7 @@ The third tradition was packet radio. ARPA's Packet Radio Network (PRNET, 1973) 
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Interface_Message_Processor_%28%22IMP%22%29_%282586235502%29.jpg/500px-Interface_Message_Processor_%28%22IMP%22%29_%282586235502%29.jpg',
 							alt: 'A BBN-built Interface Message Processor (IMP) on display at the Computer History Museum.',
 							caption:
-								'An original BBN Interface Message Processor (IMP) — the rugged minicomputer that served as ARPANET\'s first router. The protocol that ran between IMPs is what TCP/IP would later replace.',
+								'An original BBN Interface Message Processor (IMP) — the rugged minicomputer that served as ARPANET\'s first router. The protocol that ran between IMPs is what [[tcp|TCP]]/[[ip|IP]] would later replace.',
 							credit: 'Photo: Erik Pitti, CC BY 2.0, via Wikimedia Commons'
 						}
 					]

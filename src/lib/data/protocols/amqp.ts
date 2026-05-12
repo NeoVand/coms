@@ -9,11 +9,11 @@ export const amqp: Protocol = {
 	year: 2006,
 	rfc: undefined,
 	oneLiner: 'Enterprise message queuing with routing, persistence, and guaranteed delivery.',
-	overview: `AMQP is the heavyweight champion of message queuing protocols. While [[mqtt|MQTT]] is designed for constrained IoT devices, AMQP is designed for enterprise backends where reliability and sophisticated routing matter more than minimal overhead.
+	overview: `[[amqp|AMQP]] is the heavyweight champion of message queuing protocols. While [[mqtt|MQTT]] is designed for constrained IoT devices, [[amqp|AMQP]] is designed for enterprise backends where reliability and sophisticated routing matter more than minimal overhead.
 
-The protocol separates concerns beautifully: producers send messages to "{{exchange|exchanges}}," exchanges route messages to "queues" based on rules, and consumers read from queues. This decoupling means you can change routing logic without touching producers or consumers. AMQP defines four {{exchange|exchange}} types: **direct** (routes by exact {{routing-key|routing key}} match), **{{topic|topic}}** (routes by wildcard pattern matching on routing keys), **fanout** (broadcasts to all bound queues regardless of routing key), and **headers** (routes based on message header attributes instead of routing keys).
+The protocol separates concerns beautifully: producers send messages to "{{exchange|exchanges}}," exchanges route messages to "queues" based on rules, and consumers read from queues. This decoupling means you can change routing logic without touching producers or consumers. [[amqp|AMQP]] defines four {{exchange|exchange}} types: **direct** (routes by exact {{routing-key|routing key}} match), **{{topic|topic}}** (routes by wildcard pattern matching on routing keys), **fanout** (broadcasts to all bound queues regardless of routing key), and **headers** (routes based on message header attributes instead of routing keys).
 
-RabbitMQ, the most popular AMQP {{broker|broker}}, powers message-driven architectures at companies like Bloomberg, Instagram, and NASA. AMQP guarantees delivery, supports transactions, and provides fine-grained {{flow-control|flow control}} — making it ideal for financial systems, order processing, and any workflow where losing a message is unacceptable.`,
+RabbitMQ, the most popular [[amqp|AMQP]] {{broker|broker}}, powers message-driven architectures at companies like Bloomberg, Instagram, and NASA. [[amqp|AMQP]] guarantees delivery, supports transactions, and provides fine-grained {{flow-control|flow control}} — making it ideal for financial systems, order processing, and any workflow where losing a message is unacceptable.`,
 	howItWorks: [
 		{
 			title: 'Connection and channels',
@@ -170,7 +170,7 @@ Content Body:
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Pieter_Hintjens_at_EuroPython2014_%28cropped%29.jpg/500px-Pieter_Hintjens_at_EuroPython2014_%28cropped%29.jpg',
 		alt: 'Pieter Hintjens, CEO of iMatix and key AMQP contributor, speaking at EuroPython 2014',
 		caption:
-			'Pieter Hintjens, CEO of iMatix, was a driving force behind AMQP and the creator of ZeroMQ. His work on open messaging standards helped shape enterprise message queuing as we know it.',
+			'Pieter Hintjens, CEO of iMatix, was a driving force behind [[amqp|AMQP]] and the creator of ZeroMQ. His work on open messaging standards helped shape enterprise message queuing as we know it.',
 		credit: 'Photo: EuroPython / CC BY 2.0, via Wikimedia Commons'
 	}
 };

@@ -9,18 +9,18 @@ export const coap: Protocol = {
 	year: 2014,
 	rfc: 'RFC 7252',
 	oneLiner: 'HTTP for tiny devices — [[rest|REST]] semantics over [[udp|UDP]] for constrained IoT.',
-	overview: `CoAP brings the familiar [[rest|REST]] model (GET, POST, PUT, DELETE) to the world of constrained IoT devices — think microcontrollers with 10KB of RAM on lossy, low-power wireless networks. It runs over [[udp|UDP]] instead of [[tcp|TCP]], uses a compact binary format, and adds built-in support for resource observation (subscribe to changes).
+	overview: `[[coap|CoAP]] brings the familiar [[rest|REST]] model (GET, POST, PUT, DELETE) to the world of constrained IoT devices — think microcontrollers with 10KB of RAM on lossy, low-power wireless networks. It runs over [[udp|UDP]] instead of [[tcp|TCP]], uses a compact binary format, and adds built-in support for resource observation (subscribe to changes).
 
-The design mirrors [[http1|HTTP]] closely enough that translating between CoAP and [[http1|HTTP]] is straightforward, enabling IoT devices to integrate with web infrastructure through simple {{gateway|proxies}}. But unlike [[http1|HTTP]], CoAP supports {{multicast|multicast}} (discover all devices on a network), observation (a GET with an Observe option that lets clients receive push notifications when a resource changes), and block-wise transfer (for large payloads on constrained links).
+The design mirrors [[http1|HTTP]] closely enough that translating between [[coap|CoAP]] and [[http1|HTTP]] is straightforward, enabling IoT devices to integrate with web infrastructure through simple {{gateway|proxies}}. But unlike [[http1|HTTP]], [[coap|CoAP]] supports {{multicast|multicast}} (discover all devices on a network), observation (a GET with an Observe option that lets clients receive push notifications when a resource changes), and block-wise transfer (for large payloads on constrained links).
 
-For security, CoAP relies on {{dtls|DTLS}} (Datagram [[tls|TLS]]) — the [[udp|UDP]] equivalent of TLS — to provide {{encryption|encryption}}, authentication, and integrity. DTLS is defined as CoAP's primary security mechanism in the specification (RFC 7252), with the secure port being 5684.
+For security, [[coap|CoAP]] relies on {{dtls|DTLS}} (Datagram [[tls|TLS]]) — the [[udp|UDP]] equivalent of [[tls|TLS]] — to provide {{encryption|encryption}}, authentication, and integrity. DTLS is defined as [[coap|CoAP]]'s primary security mechanism in the specification (RFC 7252), with the secure port being 5684.
 
-CoAP is widely used in smart buildings, industrial automation, and city infrastructure where devices have extreme resource constraints but still need web-like interaction patterns.`,
+[[coap|CoAP]] is widely used in smart buildings, industrial automation, and city infrastructure where devices have extreme resource constraints but still need web-like interaction patterns.`,
 	howItWorks: [
 		{
 			title: 'UDP-based messaging',
 			description:
-				"CoAP runs over [[udp|UDP]] — no [[tcp|TCP]] {{handshake|handshake}} needed. Messages are tiny binary packets (4-byte base header). Confirmable messages get ACKs; non-confirmable don't."
+				"[[coap|CoAP]] runs over [[udp|UDP]] — no [[tcp|TCP]] {{handshake|handshake}} needed. Messages are tiny binary packets (4-byte base header). Confirmable messages get ACKs; non-confirmable don't."
 		},
 		{
 			title: 'REST methods',
@@ -30,7 +30,7 @@ CoAP is widely used in smart buildings, industrial automation, and city infrastr
 		{
 			title: 'Observe pattern',
 			description:
-				'Client sends GET with an "Observe" option. Server then pushes notifications whenever the resource changes — like WebSockets but for constrained devices.'
+				'Client sends GET with an "Observe" option. Server then pushes notifications whenever the resource changes — like [[websockets|WebSockets]] but for constrained devices.'
 		},
 		{
 			title: 'Resource discovery',
@@ -68,7 +68,7 @@ async def main():
 
 asyncio.run(main())`,
 		caption:
-			'CoAP uses REST-like methods (GET, PUT) over [[udp|UDP]] — designed for constrained IoT devices',
+			'[[coap|CoAP]] uses [[rest|REST]]-like methods (GET, PUT) over [[udp|UDP]] — designed for constrained IoT devices',
 		alternatives: [
 			{
 				language: 'javascript',
@@ -169,7 +169,7 @@ coap-client -m get coap://sensor.local/.well-known/core`
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Arduino_Uno_-_R3.jpg/500px-Arduino_Uno_-_R3.jpg',
 		alt: 'Arduino Uno microcontroller board, representative of the constrained IoT devices CoAP was designed for',
 		caption:
-			'An Arduino Uno — the kind of constrained device CoAP was designed for. With limited RAM and processing power, these microcontrollers need a protocol lighter than HTTP. CoAP delivers [[rest|REST]] semantics in as little as 4 bytes of header.',
+			'An Arduino Uno — the kind of constrained device [[coap|CoAP]] was designed for. With limited RAM and processing power, these microcontrollers need a protocol lighter than HTTP. [[coap|CoAP]] delivers [[rest|REST]] semantics in as little as 4 bytes of header.',
 		credit: 'Photo: SparkFun Electronics / CC BY 2.0, via Wikimedia Commons'
 	}
 };

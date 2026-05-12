@@ -209,7 +209,7 @@ The protocol uses **public-key cryptography** for host and user authentication, 
 				{
 					kind: 'pull-quote',
 					text: '[[pioneer:david-mills|David L. Mills]] — "Father Time" of the Internet — was visually impaired from birth and completely blind by 2022. He continued [[ntp|NTP]] work using large displays and screen readers until his death on 17 January 2024.',
-					attribution: '[[pioneer:vint-cerf|Vint Cerf]], Internet History list obituary'
+					attribution: 'Vint Cerf, Internet History list obituary'
 				},
 				{
 					kind: 'prose',

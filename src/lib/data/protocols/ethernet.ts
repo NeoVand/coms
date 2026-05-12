@@ -10,16 +10,16 @@ export const ethernet: Protocol = {
 	rfc: undefined,
 	oneLiner:
 		'The wired foundation of local networks — framing, addressing, and switching at Layer 2.',
-	overview: `Ethernet is the {{protocol|protocol}} that makes local area networks work. Every time your computer talks to another device on the same network — a printer, a file server, a router — it {{encapsulation|wraps data}} in an Ethernet {{frame|frame}} with a source and destination {{mac-address|MAC address}}. The EtherType field tells the receiver what's inside: 0x0800 for [[ip|IP]], 0x0806 for [[arp|ARP]], 0x86DD for [[ipv6|IPv6]]. It's the lingua franca of wired networking, operating at Layer 2 of the {{osi-model|OSI model}}.
+	overview: `[[ethernet|Ethernet]] is the {{protocol|protocol}} that makes local area networks work. Every time your computer talks to another device on the same network — a printer, a file server, a router — it {{encapsulation|wraps data}} in an [[ethernet|Ethernet]] {{frame|frame}} with a source and destination {{mac-address|MAC address}}. The EtherType field tells the receiver what's inside: 0x0800 for [[ip|IP]], 0x0806 for [[arp|ARP]], 0x86DD for [[ipv6|IPv6]]. It's the lingua franca of wired networking, operating at Layer 2 of the {{osi-model|OSI model}}.
 
-Ethernet was invented by Bob Metcalfe at Xerox PARC in 1973, inspired by the ALOHAnet wireless network in Hawaii. The original design used a shared coaxial cable (a "bus") where all devices listened to all traffic and used CSMA/CD (Carrier Sense Multiple Access with Collision Detection) to manage access. DEC, Intel, and Xerox published the DIX standard in 1980, and the IEEE ratified 802.3 in 1983, giving Ethernet its formal identity.
+[[ethernet|Ethernet]] was invented by Bob Metcalfe at Xerox PARC in 1973, inspired by the ALOHAnet wireless network in Hawaii. The original design used a shared coaxial cable (a "bus") where all devices listened to all traffic and used CSMA/CD (Carrier Sense Multiple Access with Collision Detection) to manage access. DEC, Intel, and Xerox published the DIX standard in 1980, and the IEEE ratified 802.3 in 1983, giving [[ethernet|Ethernet]] its formal identity.
 
-The evolution from shared media to switched networks was transformative. Hubs gave way to switches, which learn MAC addresses and forward frames only to the correct port — eliminating collisions entirely. {{full-duplex|Full-duplex}} links doubled effective {{bandwidth|bandwidth}}. Today, Ethernet spans from 10 Mbps to 800 Gbps (IEEE 802.3df, ratified 2024) and beyond, powering everything from home networks to hyperscale data centers. [[arp|ARP]] resolves [[ip|IP]] addresses to Ethernet MAC addresses, and [[wifi|Wi-Fi]] extends Ethernet's reach wirelessly by bridging [[wifi|802.11]] frames to 802.3 frames at the {{access-point|access point}}.`,
+The evolution from shared media to switched networks was transformative. Hubs gave way to switches, which learn MAC addresses and forward frames only to the correct port — eliminating collisions entirely. {{full-duplex|Full-duplex}} links doubled effective {{bandwidth|bandwidth}}. Today, [[ethernet|Ethernet]] spans from 10 Mbps to 800 Gbps (IEEE 802.3df, ratified 2024) and beyond, powering everything from home networks to hyperscale data centers. [[arp|ARP]] resolves [[ip|IP]] addresses to [[ethernet|Ethernet]] MAC addresses, and [[wifi|Wi-Fi]] extends [[ethernet|Ethernet]]'s reach wirelessly by bridging [[wifi|802.11]] frames to 802.3 frames at the {{access-point|access point}}.`,
 	howItWorks: [
 		{
 			title: 'Frame construction',
 			description:
-				'The sender wraps the {{payload|payload}} in an Ethernet {{frame|frame}}: a 7-byte preamble and 1-byte Start Frame Delimiter for clock sync, followed by a 6-byte destination {{mac-address|MAC}}, 6-byte source MAC, 2-byte EtherType (identifying the {{payload|payload}} protocol), the payload itself (46-1500 bytes), and a 4-byte Frame Check Sequence (FCS) for error detection.'
+				'The sender wraps the {{payload|payload}} in an [[ethernet|Ethernet]] {{frame|frame}}: a 7-byte preamble and 1-byte Start Frame Delimiter for clock sync, followed by a 6-byte destination {{mac-address|MAC}}, 6-byte source MAC, 2-byte EtherType (identifying the {{payload|payload}} protocol), the payload itself (46-1500 bytes), and a 4-byte Frame Check Sequence (FCS) for error detection.'
 		},
 		{
 			title: 'MAC addressing',
@@ -34,7 +34,7 @@ The evolution from shared media to switched networks was transformative. Hubs ga
 		{
 			title: 'Error detection via FCS',
 			description:
-				'The sender computes a CRC-32 {{checksum|checksum}} over the frame and appends it as the Frame Check Sequence. The receiver recalculates the CRC and silently discards frames with mismatches — Ethernet detects errors but does not retransmit. That job belongs to higher-layer protocols like [[tcp|TCP]].'
+				'The sender computes a CRC-32 {{checksum|checksum}} over the frame and appends it as the Frame Check Sequence. The receiver recalculates the CRC and silently discards frames with mismatches — [[ethernet|Ethernet]] detects errors but does not retransmit. That job belongs to higher-layer protocols like [[tcp|TCP]].'
 		}
 	],
 	useCases: [
@@ -63,7 +63,7 @@ def handle(pkt):
 
 sniff(iface="eth0", prn=handle, count=10)`,
 		caption:
-			'Using scapy to craft, send, and sniff raw Ethernet frames — you can see every {{mac-address|MAC address}} and EtherType on the wire',
+			'Using scapy to craft, send, and sniff raw [[ethernet|Ethernet]] frames — you can see every {{mac-address|MAC address}} and EtherType on the wire',
 		alternatives: [
 			{
 				language: 'javascript',
@@ -151,13 +151,13 @@ ethtool -S eth0 | head -20`
 	},
 	connections: ['wifi', 'arp', 'ip', 'ipv6'],
 	links: {
-		wikipedia: 'https://en.wikipedia.org/wiki/Ethernet'
+		wikipedia: 'https://en.wikipedia.org/wiki/[[ethernet|Ethernet]]'
 	},
 	image: {
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/42/Ethernet_frame.svg/500px-Ethernet_frame.svg.png',
 		alt: 'Diagram showing the structure of an Ethernet II frame with preamble, MAC addresses, EtherType, payload, and FCS fields',
 		caption:
-			"The Ethernet frame structure — every packet on your local network is wrapped in this format. The 6-byte destination and source MAC addresses identify devices, the EtherType field (0x0800 for IP, 0x0806 for [[arp|ARP]]) tells the receiver what's inside, and the FCS {{checksum|checksum}} catches transmission errors.",
+			"The [[ethernet|Ethernet]] frame structure — every packet on your local network is wrapped in this format. The 6-byte destination and source MAC addresses identify devices, the EtherType field (0x0800 for [[ip|IP]], 0x0806 for [[arp|ARP]]) tells the receiver what's inside, and the FCS {{checksum|checksum}} catches transmission errors.",
 		credit: 'Image: Wikimedia Commons / Public Domain'
 	}
 };

@@ -12,6 +12,8 @@
 		navigateToBookChapter
 	} from '$lib/utils/navigation';
 	import { Users, FileText, AlertTriangle, Compass, BookOpen } from 'lucide-svelte';
+	import RichText from './inline/RichText.svelte';
+	import { parseRichText } from '$lib/utils/text-parser';
 
 	interface Props {
 		protocolId: string;
@@ -87,7 +89,7 @@
 								<div class="text-xs font-medium text-t-primary">{c.chapterTitle}</div>
 								{#if c.synopsis}
 									<div class="mt-0.5 text-[11px] leading-relaxed text-t-secondary">
-										{c.synopsis}
+										<RichText segments={parseRichText(c.synopsis)} {color} />
 									</div>
 								{/if}
 							</div>
@@ -185,7 +187,7 @@
 								<span class="shrink-0 text-[10px] text-t-muted tabular-nums">{o.date}</span>
 							</div>
 							<p class="mt-0.5 text-[11px] leading-relaxed text-t-secondary italic">
-								{o.oneLiner}
+								<RichText segments={parseRichText(o.oneLiner)} {color} />
 							</p>
 						</button>
 					{/each}
@@ -212,7 +214,7 @@
 								<span class="shrink-0 text-[10px] text-t-muted tabular-nums">{f.date}</span>
 							</div>
 							<p class="mt-0.5 text-[11px] leading-relaxed text-t-secondary italic">
-								{f.oneLiner}
+								<RichText segments={parseRichText(f.oneLiner)} {color} />
 							</p>
 						</button>
 					{/each}

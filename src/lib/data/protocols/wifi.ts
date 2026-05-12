@@ -10,11 +10,11 @@ export const wifi: Protocol = {
 	rfc: undefined,
 	oneLiner:
 		'Wireless local networking — [[ethernet|Ethernet]] without the cable, plus {{encryption|encryption}} and airtime management.',
-	overview: `Wi-Fi brings [[ethernet|Ethernet]]-style networking to the airwaves. Instead of transmitting {{frame|frames}} over copper or fiber, 802.11 uses radio frequencies (2.4 GHz, 5 GHz, and now 6 GHz) to send data wirelessly. But air is a shared medium — everyone within range can hear everything — so Wi-Fi adds {{encryption|encryption}} (WPA2/WPA3), collision avoidance (CSMA/CA instead of [[ethernet|Ethernet]]'s CSMA/CD), and a more complex frame format with up to four MAC addresses (three typically used): the receiver address (RA), transmitter address (TA), and destination address (DA) — plus an optional fourth address used in wireless bridging (WDS) mode.
+	overview: `[[wifi|Wi-Fi]] brings [[ethernet|Ethernet]]-style networking to the airwaves. Instead of transmitting {{frame|frames}} over copper or fiber, [[wifi|802.11]] uses radio frequencies (2.4 GHz, 5 GHz, and now 6 GHz) to send data wirelessly. But air is a shared medium — everyone within range can hear everything — so [[wifi|Wi-Fi]] adds {{encryption|encryption}} (WPA2/WPA3), collision avoidance (CSMA/CA instead of [[ethernet|Ethernet]]'s CSMA/CD), and a more complex frame format with up to four MAC addresses (three typically used): the receiver address (RA), transmitter address (TA), and destination address (DA) — plus an optional fourth address used in wireless bridging (WDS) mode.
 
-The differences from [[ethernet|Ethernet]] are deeper than just "no cable." Because wireless stations can't detect collisions while transmitting (the "hidden node" problem), Wi-Fi uses RTS/CTS {{handshake|handshakes}} and carrier sensing to avoid them. Every frame must be {{ack|acknowledged}} — if the sender doesn't get an ACK, it {{retransmission|retransmits}}. The {{access-point|access point}} bridges wireless and wired worlds, translating between 802.11 and 802.3 frames so that [[arp|ARP]], [[ip|IP]], and everything above works seamlessly across both.
+The differences from [[ethernet|Ethernet]] are deeper than just "no cable." Because wireless stations can't detect collisions while transmitting (the "hidden node" problem), [[wifi|Wi-Fi]] uses RTS/CTS {{handshake|handshakes}} and carrier sensing to avoid them. Every frame must be {{ack|acknowledged}} — if the sender doesn't get an ACK, it {{retransmission|retransmits}}. The {{access-point|access point}} bridges wireless and wired worlds, translating between [[wifi|802.11]] and 802.3 frames so that [[arp|ARP]], [[ip|IP]], and everything above works seamlessly across both.
 
-Wi-Fi has evolved dramatically since the original 802.11 standard in 1997 (2 Mbps). 802.11b (1999) brought 11 Mbps, 802.11g (2003) hit 54 Mbps, 802.11n (Wi-Fi 4, 2009) introduced MIMO for 600 Mbps, 802.11ac (Wi-Fi 5, 2014) pushed to gigabit speeds, 802.11ax (Wi-Fi 6, 2020) added OFDMA for dense environments, and 802.11be (Wi-Fi 7, 2024) delivers up to 46 Gbps with multi-link operation. Each generation brought better throughput, lower {{latency|latency}}, and improved handling of crowded airspace.`,
+[[wifi|Wi-Fi]] has evolved dramatically since the original [[wifi|802.11]] standard in 1997 (2 Mbps). 802.11b (1999) brought 11 Mbps, 802.11g (2003) hit 54 Mbps, 802.11n ([[wifi|Wi-Fi]] 4, 2009) introduced MIMO for 600 Mbps, 802.11ac ([[wifi|Wi-Fi]] 5, 2014) pushed to gigabit speeds, 802.11ax ([[wifi|Wi-Fi]] 6, 2020) added OFDMA for dense environments, and 802.11be ([[wifi|Wi-Fi]] 7, 2024) delivers up to 46 Gbps with multi-link operation. Each generation brought better throughput, lower {{latency|latency}}, and improved handling of crowded airspace.`,
 	howItWorks: [
 		{
 			title: 'Beacon scanning',
@@ -39,7 +39,7 @@ Wi-Fi has evolved dramatically since the original 802.11 standard in 1997 (2 Mbp
 		{
 			title: 'Bridge to Ethernet',
 			description:
-				'The {{access-point|access point}} translates between 802.11 and [[ethernet|Ethernet]] (802.3) frames. It strips the wireless-specific headers, rewrites the frame as a standard [[ethernet|Ethernet]] frame, and forwards it to the wired network — making the transition invisible to higher-layer protocols like [[ip|IP]] and [[tcp|TCP]].'
+				'The {{access-point|access point}} translates between [[wifi|802.11]] and [[ethernet|Ethernet]] (802.3) frames. It strips the wireless-specific headers, rewrites the frame as a standard [[ethernet|Ethernet]] frame, and forwards it to the wired network — making the transition invisible to higher-layer protocols like [[ip|IP]] and [[tcp|TCP]].'
 		}
 	],
 	useCases: [
@@ -66,7 +66,7 @@ def handle_beacon(pkt):
 sniff(iface="wlan0mon", prn=handle_beacon,
       lfilter=lambda p: p.haslayer(Dot11Beacon), count=20)`,
 		caption:
-			'Sniffing Wi-Fi beacon frames with scapy in monitor mode — revealing SSIDs, BSSIDs, and channels',
+			'Sniffing [[wifi|Wi-Fi]] beacon frames with scapy in monitor mode — revealing SSIDs, BSSIDs, and channels',
 		alternatives: [
 			{
 				language: 'javascript',
@@ -167,14 +167,14 @@ iw dev wlan0 station dump`
 	},
 	connections: ['ethernet', 'arp', 'ip', 'ipv6'],
 	links: {
-		wikipedia: 'https://en.wikipedia.org/wiki/Wi-Fi',
+		wikipedia: 'https://en.wikipedia.org/wiki/[[wifi|Wi-Fi]]',
 		official: 'https://www.wi-fi.org/'
 	},
 	image: {
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/802.11_MAC_Frame.svg/500px-802.11_MAC_Frame.svg.png',
 		alt: 'Diagram of an 802.11 Wi-Fi MAC frame showing frame control, duration, four address fields, sequence control, and FCS',
 		caption:
-			'The 802.11 Wi-Fi MAC frame format — more complex than [[ethernet|Ethernet]] because wireless needs extra fields. Up to four MAC addresses handle the receiver, transmitter, destination, and source, while the Frame Control field encodes the frame type, {{encryption|encryption}} status, and power management flags.',
+			'The [[wifi|802.11]] [[wifi|Wi-Fi]] MAC frame format — more complex than [[ethernet|Ethernet]] because wireless needs extra fields. Up to four MAC addresses handle the receiver, transmitter, destination, and source, while the Frame Control field encodes the frame type, {{encryption|encryption}} status, and power management flags.',
 		credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 	}
 };

@@ -7,6 +7,7 @@
 	} from '$lib/data/index';
 	import { ExternalLink, Award, Quote } from 'lucide-svelte';
 	import { parseRichText } from '$lib/utils/text-parser';
+	import RichText from '$lib/components/detail/inline/RichText.svelte';
 	import { navigateToProtocol, navigateToCategory } from '$lib/utils/navigation';
 	import { themedDomColor } from '$lib/utils/colors';
 	import { getAppState } from '$lib/state/context';
@@ -114,7 +115,9 @@
 						<div class="flex items-start gap-2">
 							<Quote size={14} class="mt-1 shrink-0" style="color: {accent};" />
 							<div class="flex-1">
-								<p class="text-sm leading-relaxed text-t-primary italic">"{q.text}"</p>
+								<p class="text-sm leading-relaxed text-t-primary italic">
+									"<RichText segments={parseRichText(q.text)} color={accent} />"
+								</p>
 								{#if q.source}
 									<a
 										href={q.source.url}

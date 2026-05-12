@@ -10,11 +10,11 @@ export const a2a: Protocol = {
 	rfc: undefined,
 	oneLiner:
 		'An open protocol that lets AI agents discover each other, delegate tasks, and collaborate — even across different frameworks and vendors.',
-	overview: `A2A solves the problem that [[mcp|MCP]] doesn't: how do AI agents talk to *each other*? [[mcp|MCP]] connects an agent to its tools and data sources, but modern AI systems increasingly need multiple specialized agents working together — a travel agent delegating to flight, hotel, and car rental agents; an HR agent coordinating with payroll, benefits, and IT provisioning agents. A2A provides the standard protocol for this multi-agent collaboration.
+	overview: `[[a2a|A2A]] solves the problem that [[mcp|MCP]] doesn't: how do AI agents talk to *each other*? [[mcp|MCP]] connects an agent to its tools and data sources, but modern AI systems increasingly need multiple specialized agents working together — a travel agent delegating to flight, hotel, and car rental agents; an HR agent coordinating with payroll, benefits, and IT provisioning agents. [[a2a|A2A]] provides the standard protocol for this multi-agent collaboration.
 
-Google announced A2A in April 2025 at Cloud Next, backed by over 100 technology partners including Atlassian, Microsoft, Salesforce, SAP, and LangChain. The protocol uses [[json-rpc|JSON-RPC]] 2.0 over [[http1|HTTP]], with [[sse|SSE]] for streaming and webhooks for push notifications. A key design principle is {{opacity|opacity}}: agents are treated as black boxes. You don't see their internal reasoning, tool usage, or prompt chains — you see their **skills** (what they can do) and their **artifacts** (what they produce). This is fundamentally different from MCP, where the server's tools and resources are fully transparent.
+Google announced [[a2a|A2A]] in April 2025 at Cloud Next, backed by over 100 technology partners including Atlassian, Microsoft, Salesforce, SAP, and LangChain. The protocol uses [[json-rpc|JSON-RPC]] 2.0 over [[http1|HTTP]], with [[sse|SSE]] for streaming and webhooks for push notifications. A key design principle is {{opacity|opacity}}: agents are treated as black boxes. You don't see their internal reasoning, tool usage, or prompt chains — you see their **skills** (what they can do) and their **artifacts** (what they produce). This is fundamentally different from [[mcp|MCP]], where the server's tools and resources are fully transparent.
 
-Discovery happens through **Agent Cards** — {{json|JSON}} metadata documents served at \`/.well-known/agent.json\` that describe an agent's identity, capabilities, skills, and authentication requirements. The fundamental unit of work is a **Task**, which progresses through a defined lifecycle: submitted → working → completed (or failed, canceled, or input-required when the agent needs more information). In June 2025, A2A moved to the Linux Foundation, and version 1.0 shipped in early 2026. Together with [[mcp|MCP]], A2A forms the two-protocol foundation of the agentic AI era — MCP for tool use, A2A for agent collaboration.`,
+Discovery happens through **Agent Cards** — {{json|JSON}} metadata documents served at \`/.well-known/agent.json\` that describe an agent's identity, capabilities, skills, and authentication requirements. The fundamental unit of work is a **Task**, which progresses through a defined lifecycle: submitted → working → completed (or failed, canceled, or input-required when the agent needs more information). In June 2025, [[a2a|A2A]] moved to the Linux Foundation, and version 1.0 shipped in early 2026. Together with [[mcp|MCP]], [[a2a|A2A]] forms the two-protocol foundation of the agentic AI era — [[mcp|MCP]] for tool use, [[a2a|A2A]] for agent collaboration.`,
 	howItWorks: [
 		{
 			title: 'Agent discovery',
@@ -81,7 +81,7 @@ card = AgentCard(
     capabilities={"streaming": True}
 )`,
 		caption:
-			'An A2A agent publishes its skills in an Agent Card and handles tasks via an executor — the SDK manages [[json-rpc|JSON-RPC]], streaming, and task lifecycle.',
+			'An [[a2a|A2A]] agent publishes its skills in an Agent Card and handles tasks via an executor — the SDK manages [[json-rpc|JSON-RPC]], streaming, and task lifecycle.',
 		alternatives: [
 			{
 				language: 'javascript',
@@ -176,7 +176,7 @@ curl -N -X POST http://localhost:9000 \\
 		src: 'https://upload.wikimedia.org/wikipedia/commons/b/b7/IntelligentAgent-Learning.svg',
 		alt: 'Diagram of an intelligent agent interacting with its environment — perceiving through sensors, acting through actuators, with an internal learning and decision-making loop',
 		caption:
-			'The intelligent agent model from Russell & Norvig — an agent perceives its environment, reasons about it, and takes actions. A2A standardizes how these agents discover each other, delegate tasks, and {{exchange|exchange}} results across organizational boundaries.',
+			'The intelligent agent model from Russell & Norvig — an agent perceives its environment, reasons about it, and takes actions. [[a2a|A2A]] standardizes how these agents discover each other, delegate tasks, and {{exchange|exchange}} results across organizational boundaries.',
 		credit: 'Image: Wikimedia Commons / Public Domain, based on Russell & Norvig'
 	}
 };

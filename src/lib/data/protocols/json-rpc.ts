@@ -12,9 +12,9 @@ export const jsonRpc: Protocol = {
 		'A minimal RPC protocol encoded in {{json|JSON}} — call a method by name, get a result back. Nothing more.',
 	overview: `{{json|JSON}}-RPC is the protocol that proves less is more. The entire specification fits on a single page: send a {{json|JSON}} object with a method name, parameters, and an ID — get back a JSON object with the result and the same ID. That's it. No URL routing, no HTTP verb semantics, no schema compilation step. Just structured function calls over the wire.
 
-Created in 2005 as a lightweight alternative to {{xml|XML}}-based [[soap|SOAP]], JSON-RPC stayed deliberately simple while the web API world exploded with complexity. Version 2.0 (2010) refined the format: it added a mandatory \`"jsonrpc": "2.0"\` field, standardized error codes (borrowed from XML-RPC's tradition), introduced {{notification|notifications}} (requests without an \`id\` that expect no response), and added batch requests (send an array of calls, get an array of results). The spec is transport-agnostic — JSON-RPC works over [[http1|HTTP]], [[websockets|WebSockets]], raw [[tcp|TCP]], or even stdio pipes between processes.
+Created in 2005 as a lightweight alternative to {{xml|XML}}-based [[soap|SOAP]], [[json-rpc|JSON-RPC]] stayed deliberately simple while the web API world exploded with complexity. Version 2.0 (2010) refined the format: it added a mandatory \`"jsonrpc": "2.0"\` field, standardized error codes (borrowed from XML-RPC's tradition), introduced {{notification|notifications}} (requests without an \`id\` that expect no response), and added batch requests (send an array of calls, get an array of results). The spec is transport-agnostic — [[json-rpc|JSON-RPC]] works over [[http1|HTTP]], [[websockets|WebSockets]], raw [[tcp|TCP]], or even stdio pipes between processes.
 
-JSON-RPC found its biggest audience not in traditional web development but in infrastructure and AI. Ethereum's entire blockchain API is JSON-RPC. Bitcoin Core speaks JSON-RPC. Microsoft's Language Server Protocol (LSP) — which powers code intelligence in VS Code, Neovim, and virtually every modern editor — uses JSON-RPC 2.0 over stdio. And most recently, both Anthropic's Model Context Protocol ([[mcp|MCP]]) and Google's Agent-to-Agent Protocol ([[a2a|A2A]]) chose JSON-RPC 2.0 as their wire format, making it the de facto standard for AI agent communication.`,
+[[json-rpc|JSON-RPC]] found its biggest audience not in traditional web development but in infrastructure and AI. Ethereum's entire blockchain API is [[json-rpc|JSON-RPC]]. Bitcoin Core speaks [[json-rpc|JSON-RPC]]. Microsoft's Language Server Protocol (LSP) — which powers code intelligence in VS Code, Neovim, and virtually every modern editor — uses [[json-rpc|JSON-RPC]] 2.0 over stdio. And most recently, both Anthropic's Model Context Protocol ([[mcp|MCP]]) and Google's Agent-to-Agent Protocol ([[a2a|A2A]]) chose [[json-rpc|JSON-RPC]] 2.0 as their wire format, making it the de facto standard for AI agent communication.`,
 	howItWorks: [
 		{
 			title: 'Client builds a request',
@@ -24,7 +24,7 @@ JSON-RPC found its biggest audience not in traditional web development but in in
 		{
 			title: 'Request is sent',
 			description:
-				'The {{json|JSON}} is sent over any transport — HTTP POST to a single endpoint, a WebSocket message, a line written to stdout, or a [[tcp|TCP]] socket. The protocol does not care how bytes move.'
+				'The {{json|JSON}} is sent over any transport — HTTP POST to a single endpoint, a [[websockets|WebSocket]] message, a line written to stdout, or a [[tcp|TCP]] socket. The protocol does not care how bytes move.'
 		},
 		{
 			title: 'Server dispatches',
@@ -45,9 +45,9 @@ JSON-RPC found its biggest audience not in traditional web development but in in
 	useCases: [
 		'Blockchain node APIs (Ethereum, Bitcoin, Solana, Polkadot)',
 		'Language Server Protocol (LSP) for code editors',
-		'AI agent protocols (MCP, A2A)',
+		'AI agent protocols ([[mcp|MCP]], [[a2a|A2A]])',
 		'Microservice internal RPC',
-		'Lightweight API servers where REST feels heavy'
+		'Lightweight API servers where [[rest|REST]] feels heavy'
 	],
 	codeExample: {
 		language: 'python',
@@ -164,14 +164,14 @@ curl -s -X POST http://localhost:4000/rpc \\
 	},
 	connections: ['a2a', 'http1', 'mcp', 'websockets', 'rest', 'grpc', 'graphql', 'soap', 'sse'],
 	links: {
-		wikipedia: 'https://en.wikipedia.org/wiki/JSON-RPC',
+		wikipedia: 'https://en.wikipedia.org/wiki/[[json-rpc|JSON-RPC]]',
 		official: 'https://www.jsonrpc.org/specification'
 	},
 	image: {
 		src: 'https://upload.wikimedia.org/wikipedia/commons/1/18/RPC_overview.png',
 		alt: 'Diagram showing how Remote Procedure Calls work — a client calls a stub which marshals parameters and sends them over the network to a server stub that executes the procedure',
 		caption:
-			'The RPC model that {{json|JSON}}-RPC inherits — a client calls a function by name, the parameters are serialized and sent over the network, and the server executes the method and returns the result. JSON-RPC strips this to pure JSON: no IDL, no code generation, no binary encoding.',
+			'The RPC model that {{json|JSON}}-RPC inherits — a client calls a function by name, the parameters are serialized and sent over the network, and the server executes the method and returns the result. [[json-rpc|JSON-RPC]] strips this to pure JSON: no IDL, no code generation, no binary encoding.',
 		credit: 'Image: Wikimedia Commons / Public Domain'
 	}
 };

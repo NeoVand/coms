@@ -10,13 +10,13 @@ export const imap: Protocol = {
 	rfc: 'RFC 9051',
 	oneLiner:
 		'Access and manage email on the server — read, search, and organize without downloading.',
-	overview: `IMAP is how your email client reads messages from the server while keeping them stored remotely. Unlike POP3 (which downloads and deletes), IMAP keeps all mail on the server — so your phone, laptop, and webmail all see the same inbox, the same folders, and the same read/unread state. IMAP uses port 143 for plaintext connections (with optional STARTTLS upgrade) or port 993 for IMAPS (implicit [[tls|TLS]]).
+	overview: `[[imap|IMAP]] is how your email client reads messages from the server while keeping them stored remotely. Unlike POP3 (which downloads and deletes), [[imap|IMAP]] keeps all mail on the server — so your phone, laptop, and webmail all see the same inbox, the same folders, and the same read/unread state. [[imap|IMAP]] uses port 143 for plaintext connections (with optional STARTTLS upgrade) or port 993 for IMAPS (implicit [[tls|TLS]]).
 
-The key insight is IMAP's tagged command-response {{protocol|protocol}}. Every command gets a unique tag (A001, A002...) and the server's response includes the same tag. This means you can pipeline commands — send A002 before A001's response arrives — because tags match responses to commands unambiguously.
+The key insight is [[imap|IMAP]]'s tagged command-response {{protocol|protocol}}. Every command gets a unique tag (A001, A002...) and the server's response includes the same tag. This means you can pipeline commands — send A002 before A001's response arrives — because tags match responses to commands unambiguously.
 
-IMAP's FETCH command is remarkably flexible: you can request just message {{header|headers}}, just the text body, or individual MIME attachments — without downloading the entire message. Server-side SEARCH lets you find messages by sender, date, subject, or full-text content without transferring anything. The IDLE command keeps a persistent connection open for push notifications when new mail arrives.
+[[imap|IMAP]]'s FETCH command is remarkably flexible: you can request just message {{header|headers}}, just the text body, or individual MIME attachments — without downloading the entire message. Server-side SEARCH lets you find messages by sender, date, subject, or full-text content without transferring anything. The IDLE command keeps a persistent connection open for push notifications when new mail arrives.
 
-[[smtp|SMTP]] sends email, IMAP receives it — together they form the complete email system. IMAP connections are {{encryption|encrypted}} with [[tls|TLS]] (IMAPS on {{port|port}} 993) and ride over [[tcp|TCP]] for reliable delivery of the tagged command-response dialogue.`,
+[[smtp|SMTP]] sends email, [[imap|IMAP]] receives it — together they form the complete email system. [[imap|IMAP]] connections are {{encryption|encrypted}} with [[tls|TLS]] (IMAPS on {{port|port}} 993) and ride over [[tcp|TCP]] for reliable delivery of the tagged command-response dialogue.`,
 	howItWorks: [
 		{
 			title: 'Connect & authenticate',
@@ -31,7 +31,7 @@ IMAP's FETCH command is remarkably flexible: you can request just message {{head
 		{
 			title: 'FETCH messages',
 			description:
-				'Client requests message envelopes, headers, or full bodies. IMAP can fetch parts of messages — just headers, just text, or individual attachments — without downloading everything.'
+				'Client requests message envelopes, headers, or full bodies. [[imap|IMAP]] can fetch parts of messages — just headers, just text, or individual attachments — without downloading everything.'
 		},
 		{
 			title: 'SEARCH & STORE',
@@ -41,7 +41,7 @@ IMAP's FETCH command is remarkably flexible: you can request just message {{head
 		{
 			title: 'IDLE for push',
 			description:
-				'Client enters IDLE mode — server pushes notifications when new mail arrives or flags change. This is how "push email" works on IMAP, keeping the connection open for real-time updates.'
+				'Client enters IDLE mode — server pushes notifications when new mail arrives or flags change. This is how "push email" works on [[imap|IMAP]], keeping the connection open for real-time updates.'
 		}
 	],
 	useCases: [
@@ -67,7 +67,7 @@ with imaplib.IMAP4_SSL('imap.example.com') as mail:
         print(data[0][1])
 
     mail.logout()`,
-		caption: 'IMAP lets you search and fetch email on the server — no need to download everything',
+		caption: '[[imap|IMAP]] lets you search and fetch email on the server — no need to download everything',
 		alternatives: [
 			{
 				language: 'javascript',
@@ -161,7 +161,7 @@ Server: + idling
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ee/Alpine_email_client.png/500px-Alpine_email_client.png',
 		alt: 'Screenshot of the Alpine email client showing threaded message view in a terminal interface',
 		caption:
-			"Alpine email client (2009) — the successor to Pine, developed at the University of Washington by Mark Crispin's team. Pine was the reference implementation for the IMAP protocol, proving that server-side mail access could work across any device.",
+			"Alpine email client (2009) — the successor to Pine, developed at the University of Washington by Mark Crispin's team. Pine was the reference implementation for the [[imap|IMAP]] protocol, proving that server-side mail access could work across any device.",
 		credit: 'Image: University of Washington / Apache License 2.0, via Wikimedia Commons'
 	}
 };

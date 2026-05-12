@@ -213,3 +213,17 @@ export function parseRichText(raw: string): TextSegment[] {
 export function parseParagraphs(raw: string): TextSegment[][] {
 	return raw.split('\n\n').map((p) => parseRichText(p));
 }
+
+/**
+ * Strip rich-text atoms ([[…]] / {{…}} / **…**) down to their label
+ * text. For surfaces that render strings as raw DOM text (screen-reader
+ * aria-labels, search-result descriptions, NodeTooltip body) or where
+ * embedding more tooltips would be visually noisy (e.g. a link inside
+ * a hover card).
+ */
+export function stripRichTextMarkup(raw: string): string {
+	return raw
+		.replace(/\[\[[^\]|]+(?:\|([^\]]+))?\]\]/g, (_m, label) => label ?? '')
+		.replace(/\{\{[^}|]+(?:\|([^}]+))?\}\}/g, (_m, label) => label ?? '')
+		.replace(/\*\*([^*]+)\*\*/g, '$1');
+}

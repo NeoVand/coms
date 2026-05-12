@@ -8,24 +8,24 @@ export const dns: Protocol = {
 	port: 53,
 	year: 1983,
 	rfc: 'RFC 1035',
-	oneLiner: "The internet's phone book — translates domain names to IP addresses.",
-	overview: `DNS is arguably the most critical infrastructure protocol on the internet. Every time you type a URL, your device asks DNS "what {{ip-address|IP address}} is google.com?" without this translation, the web as we know it couldn't exist.
+	oneLiner: "The internet's phone book — translates domain names to [[ip|IP]] addresses.",
+	overview: `[[dns|DNS]] is arguably the most critical infrastructure protocol on the internet. Every time you type a URL, your device asks [[dns|DNS]] "what {{ip-address|IP address}} is google.com?" without this translation, the web as we know it couldn't exist.
 
-DNS is a distributed, hierarchical database. At the top are 13 root server clusters. Below them are TLD servers (.com, .org, .net). Below those are authoritative servers for individual domains. Your query cascades down this tree, with aggressive caching at every level to keep things fast.
+[[dns|DNS]] is a distributed, hierarchical database. At the top are 13 root server clusters. Below them are TLD servers (.com, .org, .net). Below those are authoritative servers for individual domains. Your query cascades down this tree, with aggressive caching at every level to keep things fast.
 
-A typical {{dns-resolution|DNS lookup}} takes 10-50ms and involves your device's stub resolver → your ISP's recursive resolver → root servers → TLD servers → authoritative servers. But caching means most lookups are answered in under 1ms from a nearby cache. DNS also carries more than just IP addresses: MX records for email, TXT records for verification, CNAME records for aliases, and many more.
+A typical {{dns-resolution|DNS lookup}} takes 10-50ms and involves your device's stub resolver → your ISP's recursive resolver → root servers → TLD servers → authoritative servers. But caching means most lookups are answered in under 1ms from a nearby cache. [[dns|DNS]] also carries more than just [[ip|IP]] addresses: MX records for email, TXT records for verification, CNAME records for aliases, and many more.
 
-Security is a growing concern: {{dnssec|DNSSEC}} (DNS Security Extensions) adds cryptographic signatures to DNS responses, authenticating their origin and preventing cache poisoning attacks where an attacker injects forged records. For privacy, DNS over [[tls|TLS]] (DoT, port 853) and {{dns-over-https|DNS over HTTPS}} (DoH) encrypt DNS queries so eavesdroppers can't see which domains you're resolving.`,
+Security is a growing concern: {{dnssec|DNSSEC}} ([[dns|DNS]] Security Extensions) adds cryptographic signatures to [[dns|DNS]] responses, authenticating their origin and preventing cache poisoning attacks where an attacker injects forged records. For privacy, [[dns|DNS]] over [[tls|TLS]] (DoT, port 853) and {{dns-over-https|DNS over HTTPS}} (DoH) encrypt [[dns|DNS]] queries so eavesdroppers can't see which domains you're resolving.`,
 	howItWorks: [
 		{
 			title: 'Query sent',
 			description:
-				'Your device asks the configured recursive resolver (e.g., 8.8.8.8 or 1.1.1.1): "What is the IP for example.com?" Usually sent over [[udp|UDP]] for speed.'
+				'Your device asks the configured recursive resolver (e.g., 8.8.8.8 or 1.1.1.1): "What is the [[ip|IP]] for example.com?" Usually sent over [[udp|UDP]] for speed.'
 		},
 		{
 			title: 'Recursive resolution',
 			description:
-				"The resolver walks the DNS tree: asks a root server → gets referred to .com TLD → asks .com → gets referred to example.com's authoritative server → asks it → gets the answer."
+				"The resolver walks the [[dns|DNS]] tree: asks a root server → gets referred to .com TLD → asks .com → gets referred to example.com's authoritative server → asks it → gets the answer."
 		},
 		{
 			title: 'Response cached',
@@ -39,7 +39,7 @@ Security is a growing concern: {{dnssec|DNSSEC}} (DNS Security Extensions) adds 
 		}
 	],
 	useCases: [
-		'Every website visit (domain → IP translation)',
+		'Every website visit (domain → [[ip|IP]] translation)',
 		'Email delivery (MX record lookups)',
 		'Domain verification (TXT records for SPF, DKIM, DMARC)',
 		'Load balancing (multiple A records, GeoDNS)',
@@ -64,7 +64,7 @@ txt_records = dns.resolver.resolve('example.com', 'TXT')
 for txt in txt_records:
     print(f"TXT: {txt.to_text()}")`,
 		caption:
-			'The dig command shows exactly how DNS resolves a name — from root servers down to the answer',
+			'The dig command shows exactly how [[dns|DNS]] resolves a name — from root servers down to the answer',
 		alternatives: [
 			{
 				language: 'javascript',
@@ -187,7 +187,7 @@ curl -sH 'accept: application/dns-json' \\
 			date: '2025',
 			title: 'DNS-over-HTTPS adoption past 30%',
 			description:
-				'Cloudflare, Google Public DNS, and Quad9 collectively report over 30% of global DNS queries now arriving via DoH ([[rfc:8484|RFC 8484]]). Browser-level DoH (Firefox, Chrome) drives most of the growth.'
+				'Cloudflare, Google Public [[dns|DNS]], and Quad9 collectively report over 30% of global [[dns|DNS]] queries now arriving via DoH ([[rfc:8484|RFC 8484]]). Browser-level DoH (Firefox, Chrome) drives most of the growth.'
 		},
 		{
 			date: '2024',
@@ -228,7 +228,7 @@ curl -sH 'accept: application/dns-json' \\
 	funFacts: [
 		{
 			title: 'DNS replaced a hand-edited text file',
-			text: 'Until 1983, every host on the ARPANET maintained a flat HOSTS.TXT file with all the address mappings, distributed by [[ftp|FTP]]. As the network grew past a few hundred hosts, the manual update process became absurd. [[pioneer:paul-mockapetris|Paul Mockapetris]] designed DNS to replace it.'
+			text: 'Until 1983, every host on the ARPANET maintained a flat HOSTS.TXT file with all the address mappings, distributed by [[ftp|FTP]]. As the network grew past a few hundred hosts, the manual update process became absurd. [[pioneer:paul-mockapetris|Paul Mockapetris]] designed [[dns|DNS]] to replace it.'
 		},
 		{
 			title: 'Caching does almost all the work',
@@ -236,7 +236,7 @@ curl -sH 'accept: application/dns-json' \\
 		},
 		{
 			title: 'There are only 13 root server letters',
-			text: 'Why 13? In 1991, when the root system was designed, a single [[udp|UDP]] packet could only fit so many name+IP records — and 13 was the maximum that fit in a 512-byte response. Today the limit is moot (EDNS allows larger responses), but the 13-letter convention has stuck for 35 years.'
+			text: 'Why 13? In 1991, when the root system was designed, a single [[udp|UDP]] packet could only fit so many name+[[ip|IP]] records — and 13 was the maximum that fit in a 512-byte response. Today the limit is moot (EDNS allows larger responses), but the 13-letter convention has stuck for 35 years.'
 		}
 	],
 
@@ -248,7 +248,7 @@ curl -sH 'accept: application/dns-json' \\
 			},
 			{
 				title: 'CNAME at the apex breaks email',
-				text: 'A CNAME at example.com (the zone apex) violates [[rfc:1034|RFC 1034]] because the apex must also have NS and SOA records. Some DNS providers offer "ALIAS" or "ANAME" pseudo-records that work around this; the underlying limitation is in the spec.'
+				text: 'A CNAME at example.com (the zone apex) violates [[rfc:1034|RFC 1034]] because the apex must also have NS and SOA records. Some [[dns|DNS]] providers offer "ALIAS" or "ANAME" pseudo-records that work around this; the underlying limitation is in the spec.'
 			},
 			{
 				title: 'Negative caching can hurt',

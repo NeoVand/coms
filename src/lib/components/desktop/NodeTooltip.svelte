@@ -4,6 +4,7 @@
 	import { getHighlightedName } from '$lib/data/name-highlights';
 	import CategoryIcon from '$lib/components/icons/CategoryIcon.svelte';
 	import { themedDomColor } from '$lib/utils/colors';
+	import { stripRichTextMarkup } from '$lib/utils/text-parser';
 
 	const appState = getAppState();
 
@@ -88,7 +89,12 @@
 		if (node.type === 'category') {
 			const cat = getCategoryById(node.id);
 			return cat
-				? { name: cat.name, description: cat.description, color: cat.color, icon: cat.icon }
+				? {
+						name: cat.name,
+						description: stripRichTextMarkup(cat.description),
+						color: cat.color,
+						icon: cat.icon
+					}
 				: null;
 		}
 
@@ -96,7 +102,7 @@
 		return proto
 			? {
 					name: proto.abbreviation,
-					description: proto.oneLiner,
+					description: stripRichTextMarkup(proto.oneLiner),
 					color: node.color,
 					icon: undefined,
 					port: proto.port,

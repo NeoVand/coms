@@ -8,22 +8,22 @@ export const mptcp: Protocol = {
 	year: 2013,
 	rfc: 'RFC 8684',
 	oneLiner:
-		'[[tcp|TCP]] that uses multiple network paths simultaneously — WiFi and cellular at the same time.',
-	overview: `Multipath [[tcp|TCP]] solves a fundamental limitation of regular [[tcp|TCP]]: a connection is locked to a single pair of {{ip-address|IP addresses}}. If your phone is connected to both WiFi and cellular, standard [[tcp|TCP]] can only use one at a time. MPTCP allows a single connection to spread across multiple network interfaces simultaneously, combining their {{bandwidth|bandwidth}} and seamlessly failing over when one path drops.
+		'[[tcp|TCP]] that uses multiple network paths simultaneously — [[wifi|WiFi]] and cellular at the same time.',
+	overview: `Multipath [[tcp|TCP]] solves a fundamental limitation of regular [[tcp|TCP]]: a connection is locked to a single pair of {{ip-address|IP addresses}}. If your phone is connected to both [[wifi|WiFi]] and cellular, standard [[tcp|TCP]] can only use one at a time. [[mptcp|MPTCP]] allows a single connection to spread across multiple network interfaces simultaneously, combining their {{bandwidth|bandwidth}} and seamlessly failing over when one path drops.
 
 The protocol works by establishing "subflows" — each subflow is a regular [[tcp|TCP]] connection on a different network path. A shim layer sits between the application and these subflows, distributing data across paths and reassembling it on the other end. The application sees a single, normal [[tcp|TCP]] {{socket|socket}}; the magic happens entirely at the transport layer.
 
-Apple was the first major adopter, shipping MPTCP in iOS 7 (2013) for Siri — so your voice command wouldn't drop when walking from WiFi to cellular range. Since then, Apple has extended it to Maps, Music, and third-party apps. Linux has native MPTCP support since kernel 5.6 (2020).`,
+Apple was the first major adopter, shipping [[mptcp|MPTCP]] in iOS 7 (2013) for Siri — so your voice command wouldn't drop when walking from [[wifi|WiFi]] to cellular range. Since then, Apple has extended it to Maps, Music, and third-party apps. Linux has native [[mptcp|MPTCP]] support since kernel 5.6 (2020).`,
 	howItWorks: [
 		{
 			title: 'Initial handshake with MP_CAPABLE',
 			description:
-				'The first subflow is established like a normal [[tcp|TCP]] {{handshake|handshake}}, but SYN packets carry the MP_CAPABLE option. Both sides {{exchange|exchange}} keys that identify this MPTCP connection.'
+				'The first subflow is established like a normal [[tcp|TCP]] {{handshake|handshake}}, but SYN packets carry the MP_CAPABLE option. Both sides {{exchange|exchange}} keys that identify this [[mptcp|MPTCP]] connection.'
 		},
 		{
 			title: 'Additional subflows via MP_JOIN',
 			description:
-				'Either endpoint can open additional [[tcp|TCP]] subflows over different network paths (e.g., WiFi + cellular). The SYN carries an MP_JOIN option linking it to the existing connection.'
+				'Either endpoint can open additional [[tcp|TCP]] subflows over different network paths (e.g., [[wifi|WiFi]] + cellular). The SYN carries an MP_JOIN option linking it to the existing connection.'
 		},
 		{
 			title: 'Data-level sequencing',
@@ -33,16 +33,16 @@ Apple was the first major adopter, shipping MPTCP in iOS 7 (2013) for Siri — s
 		{
 			title: 'Scheduler distributes data',
 			description:
-				'The MPTCP scheduler decides which subflow carries each chunk — round-robin, lowest-{{latency|latency}}-first, or redundant. This is transparent to the application.'
+				'The [[mptcp|MPTCP]] scheduler decides which subflow carries each chunk — round-robin, lowest-{{latency|latency}}-first, or redundant. This is transparent to the application.'
 		},
 		{
 			title: 'Seamless failover',
 			description:
-				'If a subflow fails (WiFi drops), data is automatically redirected to remaining subflows. New subflows can be added on-the-fly. The application never sees a disconnection.'
+				'If a subflow fails ([[wifi|WiFi]] drops), data is automatically redirected to remaining subflows. New subflows can be added on-the-fly. The application never sees a disconnection.'
 		}
 	],
 	useCases: [
-		'Mobile connectivity resilience (WiFi to cellular handover)',
+		'Mobile connectivity resilience ([[wifi|WiFi]] to cellular handover)',
 		'Apple Siri, Maps, and Music on iOS devices',
 		'Bandwidth aggregation across multiple ISP links',
 		'High-availability server connections',
@@ -62,7 +62,7 @@ sock.sendall(b'GET / HTTP/1.1\\r\\nHost: example.com\\r\\n\\r\\n')
 response = sock.recv(4096)
 print(response.decode())
 sock.close()`,
-		caption: 'MPTCP in Python — same API as [[tcp|TCP]], but the kernel routes data over multiple paths',
+		caption: '[[mptcp|MPTCP]] in Python — same API as [[tcp|TCP]], but the kernel routes data over multiple paths',
 		alternatives: [
 			{
 				language: 'javascript',
@@ -175,7 +175,7 @@ TCP SYN-ACK + MP_JOIN:
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/DifferenceTCP_MPTCP-en.png/500px-DifferenceTCP_MPTCP-en.png',
 		alt: 'Comparison diagram showing regular TCP using a single path versus MPTCP using multiple simultaneous paths between two hosts',
 		caption:
-			'[[tcp|TCP]] vs Multipath TCP — regular TCP sends data over a single path, while MPTCP splits traffic across multiple interfaces (WiFi + cellular, dual [[ethernet|Ethernet]]) simultaneously, boosting throughput and providing seamless failover.',
+			'[[tcp|TCP]] vs [[mptcp|Multipath TCP]] — regular [[tcp|TCP]] sends data over a single path, while [[mptcp|MPTCP]] splits traffic across multiple interfaces ([[wifi|WiFi]] + cellular, dual [[ethernet|Ethernet]]) simultaneously, boosting throughput and providing seamless failover.',
 		credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 	}
 };

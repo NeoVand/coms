@@ -9,21 +9,21 @@ export const sdp: Protocol = {
 	rfc: 'RFC 8866',
 	oneLiner:
 		'The universal format for describing multimedia sessions — the matchmaker behind every [[webrtc|WebRTC]] and VoIP call.',
-	overview: `SDP doesn't carry a single byte of audio or video. Instead, it's the language that endpoints use to describe what they can do — {{codec|codecs}} they support, IP addresses they're reachable at, {{bandwidth|bandwidth}} they expect, and {{encryption|encryption}} keys they'll use. Think of it as a dating profile for media sessions.
+	overview: `[[sdp|SDP]] doesn't carry a single byte of audio or video. Instead, it's the language that endpoints use to describe what they can do — {{codec|codecs}} they support, [[ip|IP]] addresses they're reachable at, {{bandwidth|bandwidth}} they expect, and {{encryption|encryption}} keys they'll use. Think of it as a dating profile for media sessions.
 
-Originally published in 1998 as RFC 2327 for the Mbone ({{multicast|multicast}} backbone) conferencing community, SDP found its true calling as the session description format for [[sip|SIP]] and later [[webrtc|WebRTC]]. Every time you join a video call in your browser, an SDP "offer" and "answer" are exchanged behind the scenes to {{content-negotiation|negotiate}} what media will flow and how.
+Originally published in 1998 as RFC 2327 for the Mbone ({{multicast|multicast}} backbone) conferencing community, [[sdp|SDP]] found its true calling as the session description format for [[sip|SIP]] and later [[webrtc|WebRTC]]. Every time you join a video call in your browser, an [[sdp|SDP]] "offer" and "answer" are exchanged behind the scenes to {{content-negotiation|negotiate}} what media will flow and how.
 
-The format is deceptively simple — plain text with single-letter field identifiers (v= for version, o= for origin, m= for media, a= for attributes). But this simplicity hides enormous complexity: SDP extensions handle ICE candidates, {{dtls|DTLS}} (based on [[tls|TLS]]) fingerprints, simulcast layers, {{codec|codec}} parameters, and dozens of other modern requirements.`,
+The format is deceptively simple — plain text with single-letter field identifiers (v= for version, o= for origin, m= for media, a= for attributes). But this simplicity hides enormous complexity: [[sdp|SDP]] extensions handle ICE candidates, {{dtls|DTLS}} (based on [[tls|TLS]]) fingerprints, simulcast layers, {{codec|codec}} parameters, and dozens of other modern requirements.`,
 	howItWorks: [
 		{
 			title: 'Session description created',
 			description:
-				'The initiator generates an SDP document describing the session: version, originator, session name, timing, and one or more media descriptions.'
+				'The initiator generates an [[sdp|SDP]] document describing the session: version, originator, session name, timing, and one or more media descriptions.'
 		},
 		{
 			title: 'Media lines define streams',
 			description:
-				'Each "m=" line declares a media type (audio, video), transport protocol (RTP/SAVPF), port number, and list of supported {{codec|codec}} {{payload|payload}} types.'
+				'Each "m=" line declares a media type (audio, video), transport protocol ([[rtp|RTP]]/SAVPF), port number, and list of supported {{codec|codec}} {{payload|payload}} types.'
 		},
 		{
 			title: 'Attributes add detail',
@@ -33,17 +33,17 @@ The format is deceptively simple — plain text with single-letter field identif
 		{
 			title: 'Offer/answer exchange',
 			description:
-				'One peer sends an SDP "offer" and the other responds with an SDP "answer." Each side picks compatible codecs and transport parameters.'
+				'One peer sends an [[sdp|SDP]] "offer" and the other responds with an [[sdp|SDP]] "answer." Each side picks compatible codecs and transport parameters.'
 		},
 		{
 			title: 'Session established',
 			description:
-				'Once both sides have exchanged and accepted SDP, media streams ([[rtp|RTP]]) and data channels ([[sctp|SCTP]]) begin flowing according to the negotiated parameters.'
+				'Once both sides have exchanged and accepted [[sdp|SDP]], media streams ([[rtp|RTP]]) and data channels ([[sctp|SCTP]]) begin flowing according to the negotiated parameters.'
 		}
 	],
 	useCases: [
-		'WebRTC peer connection negotiation (offer/answer)',
-		'SIP call setup (INVITE body)',
+		'[[webrtc|WebRTC]] peer connection negotiation (offer/answer)',
+		'[[sip|SIP]] call setup (INVITE body)',
 		'Video conferencing session initialization',
 		'Multicast session announcements (SAP)',
 		'Streaming media session descriptions (RTSP)'
@@ -74,7 +74,7 @@ async def main():
     await pc.setRemoteDescription(answer)
 
 asyncio.run(main())`,
-		caption: '[[webrtc|WebRTC]] SDP offer/answer — SDP is generated automatically from your media tracks',
+		caption: '[[webrtc|WebRTC]] [[sdp|SDP]] offer/answer — [[sdp|SDP]] is generated automatically from your media tracks',
 		alternatives: [
 			{
 				language: 'javascript',
@@ -188,7 +188,7 @@ a=rtcp-fb:96 nack pli`
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Early_CTS-3000_Prototype.jpg/500px-Early_CTS-3000_Prototype.jpg',
 		alt: 'Early Cisco TelePresence CTS-3000 prototype, a high-end video conferencing system',
 		caption:
-			'The Cisco TelePresence CTS-3000 prototype — the kind of immersive video conferencing system that relies on SDP to negotiate media capabilities. SDP describes codecs, network addresses, and media types so endpoints can agree on how to communicate.',
+			'The Cisco TelePresence CTS-3000 prototype — the kind of immersive video conferencing system that relies on [[sdp|SDP]] to negotiate media capabilities. [[sdp|SDP]] describes codecs, network addresses, and media types so endpoints can agree on how to communicate.',
 		credit: 'Photo: Cisco Systems / CC BY 2.0, via Wikimedia Commons'
 	}
 };

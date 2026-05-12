@@ -8,24 +8,24 @@ export const dhcp: Protocol = {
 	port: 67,
 	year: 1993,
 	rfc: 'RFC 2131',
-	oneLiner: "Automatically assigns IP addresses — plug in and you're on the network.",
-	overview: `DHCP is the reason you can connect to a Wi-Fi network and immediately start browsing. Without it, you'd have to manually configure your {{ip-address|IP address}}, {{subnet|subnet mask}}, {{gateway|gateway}}, and [[dns|DNS]] servers — for every network you join.
+	oneLiner: "Automatically assigns [[ip|IP]] addresses — plug in and you're on the network.",
+	overview: `[[dhcp|DHCP]] is the reason you can connect to a [[wifi|Wi-Fi]] network and immediately start browsing. Without it, you'd have to manually configure your {{ip-address|IP address}}, {{subnet|subnet mask}}, {{gateway|gateway}}, and [[dns|DNS]] servers — for every network you join.
 
-When your device connects to a network, it {{broadcast|broadcasts}} a DHCP Discover message ("I need an {{ip-address|IP address}}!"). A DHCP server responds with an offer, which the client accepts. The server then confirms and assigns the IP, along with all the configuration your device needs: {{subnet|subnet}} mask, {{gateway|default gateway}}, [[dns|DNS]] servers, and the {{lease|lease}} duration.
+When your device connects to a network, it {{broadcast|broadcasts}} a [[dhcp|DHCP]] Discover message ("I need an {{ip-address|IP address}}!"). A [[dhcp|DHCP]] server responds with an offer, which the client accepts. The server then confirms and assigns the [[ip|IP]], along with all the configuration your device needs: {{subnet|subnet}} mask, {{gateway|default gateway}}, [[dns|DNS]] servers, and the {{lease|lease}} duration.
 
-DHCP leases are temporary — typically 1-24 hours. When a {{lease|lease}} expires, the device must renew it. This dynamic allocation means IP addresses can be reused efficiently. DHCP is simple, ubiquitous, and works transparently — one of those "invisible" {{protocol|protocols}} that makes networking just work.
+[[dhcp|DHCP]] leases are temporary — typically 1-24 hours. When a {{lease|lease}} expires, the device must renew it. This dynamic allocation means [[ip|IP]] addresses can be reused efficiently. [[dhcp|DHCP]] is simple, ubiquitous, and works transparently — one of those "invisible" {{protocol|protocols}} that makes networking just work.
 
-For [[ipv6|IPv6]] networks, DHCPv6 (RFC 8415) provides similar functionality but with a different message flow: Solicit/Advertise replaces Discover/Offer, and Request/Reply replaces Request/ACK. DHCPv6 also supports a {{stateless|stateless}} configuration mode (via {{slaac|SLAAC}} — Stateless Address Autoconfiguration) where hosts generate their own addresses and only use DHCPv6 for additional options like DNS server addresses.`,
+For [[ipv6|IPv6]] networks, DHCPv6 (RFC 8415) provides similar functionality but with a different message flow: Solicit/Advertise replaces Discover/Offer, and Request/Reply replaces Request/ACK. DHCPv6 also supports a {{stateless|stateless}} configuration mode (via {{slaac|SLAAC}} — Stateless Address Autoconfiguration) where hosts generate their own addresses and only use DHCPv6 for additional options like [[dns|DNS]] server addresses.`,
 	howItWorks: [
 		{
 			title: 'DISCOVER (broadcast)',
 			description:
-				'New device {{broadcast|broadcasts}} to the entire network: "I need an {{ip-address|IP address}}." It has no IP yet, so it uses 0.0.0.0 as source and 255.255.255.255 as destination.'
+				'New device {{broadcast|broadcasts}} to the entire network: "I need an {{ip-address|IP address}}." It has no [[ip|IP]] yet, so it uses 0.0.0.0 as source and 255.255.255.255 as destination.'
 		},
 		{
 			title: 'OFFER',
 			description:
-				'DHCP server(s) respond with an offered {{ip-address|IP address}}, {{subnet|subnet}} mask, gateway, [[dns|DNS]] servers, and {{lease|lease}} time. Multiple servers may offer.'
+				'[[dhcp|DHCP]] server(s) respond with an offered {{ip-address|IP address}}, {{subnet|subnet}} mask, gateway, [[dns|DNS]] servers, and {{lease|lease}} time. Multiple servers may offer.'
 		},
 		{
 			title: 'REQUEST',
@@ -35,15 +35,15 @@ For [[ipv6|IPv6]] networks, DHCPv6 (RFC 8415) provides similar functionality but
 		{
 			title: 'ACK',
 			description:
-				"Selected server confirms with DHCP ACK. The client configures its network interface. Done — you're online. The entire process takes milliseconds."
+				"Selected server confirms with [[dhcp|DHCP]] ACK. The client configures its network interface. Done — you're online. The entire process takes milliseconds."
 		}
 	],
 	useCases: [
-		'Home and office Wi-Fi networks',
+		'Home and office [[wifi|Wi-Fi]] networks',
 		'Enterprise network management',
-		'ISP customer IP assignment',
+		'ISP customer [[ip|IP]] assignment',
 		'Container/VM orchestration',
-		'Hotel and public Wi-Fi networks'
+		'Hotel and public [[wifi|Wi-Fi]] networks'
 	],
 	codeExample: {
 		language: 'python',
@@ -67,7 +67,7 @@ ans = srp1(dhcp_discover, timeout=5, verbose=0)
 if ans:
     offered_ip = ans[BOOTP].yiaddr
     print(f"Offered IP: {offered_ip}")`,
-		caption: 'Scapy lets you construct and send raw DHCP packets — see the DORA process in action',
+		caption: 'Scapy lets you construct and send raw [[dhcp|DHCP]] packets — see the DORA process in action',
 		alternatives: [
 			{
 				language: 'javascript',
@@ -192,7 +192,7 @@ DHCP ACK:
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/DHCP_session.svg/500px-DHCP_session.svg.png',
 		alt: 'Sequence diagram of the DHCP DORA process: Discover, Offer, Request, and Acknowledge messages between client and server',
 		caption:
-			'The DHCP DORA process — Discover (client broadcasts "I need an IP"), Offer (server proposes an address), Request (client accepts), Acknowledge (server confirms the {{lease|lease}}). This four-step {{handshake|handshake}} happens every time a device joins a network.',
+			'The [[dhcp|DHCP]] DORA process — Discover (client broadcasts "I need an [[ip|IP]]"), Offer (server proposes an address), Request (client accepts), Acknowledge (server confirms the {{lease|lease}}). This four-step {{handshake|handshake}} happens every time a device joins a network.',
 		credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 	}
 };

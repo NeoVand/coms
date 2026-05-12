@@ -9,16 +9,16 @@ export const mqtt: Protocol = {
 	year: 1999,
 	rfc: undefined,
 	oneLiner: 'Lightweight {{pub-sub|publish/subscribe}} messaging — the lingua franca of IoT.',
-	overview: `MQTT was invented at IBM in 1999 for monitoring oil pipelines over unreliable satellite links. Originally called "MQ Telemetry Transport," the name was dropped as a formal acronym when MQTT became an OASIS standard in 2014 — it's now just "MQTT." Its design goals — minimal {{bandwidth|bandwidth}}, tiny code footprint, and unreliable network tolerance — make it perfect for IoT devices with limited resources.
+	overview: `[[mqtt|MQTT]] was invented at IBM in 1999 for monitoring oil pipelines over unreliable satellite links. Originally called "MQ Telemetry Transport," the name was dropped as a formal acronym when [[mqtt|MQTT]] became an OASIS standard in 2014 — it's now just "[[mqtt|MQTT]]." Its design goals — minimal {{bandwidth|bandwidth}}, tiny code footprint, and unreliable network tolerance — make it perfect for IoT devices with limited resources.
 
 The pattern is {{pub-sub|publish/subscribe}}: devices publish messages to named "{{topic|topics}}," and other devices subscribe to topics they care about. A central {{broker|broker}} handles routing. A temperature sensor publishes to "home/kitchen/temperature," and any interested dashboard or automation system subscribes to that {{topic|topic}}.
 
-MQTT's fixed header is just 2 bytes. It supports three {{qos|quality-of-service}} levels (fire-and-forget, at-least-once, exactly-once), retained messages (new subscribers get the last value immediately), and "{{last-will|last will}}" messages (the broker publishes a message if a device disconnects unexpectedly).`,
+[[mqtt|MQTT]]'s fixed header is just 2 bytes. It supports three {{qos|quality-of-service}} levels (fire-and-forget, at-least-once, exactly-once), retained messages (new subscribers get the last value immediately), and "{{last-will|last will}}" messages (the broker publishes a message if a device disconnects unexpectedly).`,
 	howItWorks: [
 		{
 			title: 'Connect to broker',
 			description:
-				'Client connects to the MQTT broker (like Mosquitto or HiveMQ) over [[tcp|TCP]]. It can specify a client ID, credentials, {{keep-alive|keep-alive}} interval, and a "{{last-will|last will}}" message.'
+				'Client connects to the [[mqtt|MQTT]] broker (like Mosquitto or HiveMQ) over [[tcp|TCP]]. It can specify a client ID, credentials, {{keep-alive|keep-alive}} interval, and a "{{last-will|last will}}" message.'
 		},
 		{
 			title: 'Subscribe to topics',
@@ -157,14 +157,14 @@ Payload:
 	},
 	connections: ['tcp', 'websockets', 'tls', 'amqp'],
 	links: {
-		wikipedia: 'https://en.wikipedia.org/wiki/MQTT',
+		wikipedia: 'https://en.wikipedia.org/wiki/[[mqtt|MQTT]]',
 		official: 'https://mqtt.org/'
 	},
 	image: {
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/MQTT_protocol_example_without_QoS.svg/500px-MQTT_protocol_example_without_QoS.svg.png',
 		alt: 'Diagram showing MQTT publish/subscribe pattern: a temperature sensor publishes to a broker, which routes messages to subscribed clients',
 		caption:
-			'The MQTT {{pub-sub|publish/subscribe}} pattern — a sensor publishes a temperature reading to a {{topic|topic}} on the broker, and any subscribed client receives it automatically. The publisher and subscribers never need to know about each other.',
+			'The [[mqtt|MQTT]] {{pub-sub|publish/subscribe}} pattern — a sensor publishes a temperature reading to a {{topic|topic}} on the broker, and any subscribed client receives it automatically. The publisher and subscribers never need to know about each other.',
 		credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 	}
 };

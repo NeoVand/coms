@@ -9,11 +9,11 @@ export const stomp: Protocol = {
 	year: 2003,
 	rfc: undefined,
 	oneLiner: 'A dead-simple text protocol for message brokers — the HTTP of messaging.',
-	overview: `STOMP is to message queuing what [[http1|HTTP]] is to the web — a simple, text-based protocol that any language can implement easily. While [[amqp|AMQP]] has complex {{binary-framing|binary framing}} and [[mqtt|MQTT]] has its binary headers, STOMP uses plain text commands like CONNECT, SUBSCRIBE, SEND, and {{ack|ACK}}.
+	overview: `[[stomp|STOMP]] is to message queuing what [[http1|HTTP]] is to the web — a simple, text-based protocol that any language can implement easily. While [[amqp|AMQP]] has complex {{binary-framing|binary framing}} and [[mqtt|MQTT]] has its binary headers, [[stomp|STOMP]] uses plain text commands like CONNECT, SUBSCRIBE, SEND, and {{ack|ACK}}.
 
-This simplicity is STOMP's superpower. You can literally telnet to a STOMP {{broker|broker}} and type messages by hand. It's supported by most major message brokers (RabbitMQ, ActiveMQ, Apollo) as an alternative to their native protocols, making it a great choice when you need messaging but don't want to learn a complex protocol.
+This simplicity is [[stomp|STOMP]]'s superpower. You can literally telnet to a [[stomp|STOMP]] {{broker|broker}} and type messages by hand. It's supported by most major message brokers (RabbitMQ, ActiveMQ, Apollo) as an alternative to their native protocols, making it a great choice when you need messaging but don't want to learn a complex protocol.
 
-STOMP is commonly used in web applications via [[websockets|WebSocket]] bridges — the Spring Framework's messaging support, for example, uses STOMP over [[websockets|WebSockets]] for real-time server-to-browser communication.`,
+[[stomp|STOMP]] is commonly used in web applications via [[websockets|WebSocket]] bridges — the Spring Framework's messaging support, for example, uses [[stomp|STOMP]] over [[websockets|WebSockets]] for real-time server-to-browser communication.`,
 	howItWorks: [
 		{
 			title: 'CONNECT',
@@ -37,7 +37,7 @@ STOMP is commonly used in web applications via [[websockets|WebSocket]] bridges 
 		}
 	],
 	useCases: [
-		'WebSocket-based real-time messaging',
+		'[[websockets|WebSocket]]-based real-time messaging',
 		'Spring Framework server-push notifications',
 		'Simple integration with message brokers',
 		'Debug-friendly messaging (text-based)',
@@ -63,7 +63,7 @@ conn.send(
     destination='/queue/tasks',
     body='{"task": "process-order", "id": 42}',
     content_type='application/json')`,
-		caption: 'STOMP — text-based messaging that you could debug with browser DevTools',
+		caption: '[[stomp|STOMP]] — text-based messaging that you could debug with browser DevTools',
 		alternatives: [
 			{
 				language: 'javascript',
@@ -183,7 +183,7 @@ receipt-id:msg-receipt-1
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/RabbitMQ_%2848853375337%29.jpg/500px-RabbitMQ_%2848853375337%29.jpg',
 		alt: 'RabbitMQ message broker presentation at a developer conference',
 		caption:
-			"A RabbitMQ conference talk — RabbitMQ is one of the most popular message brokers supporting STOMP. The protocol's text-based simplicity made it a natural bridge for web developers entering the messaging world.",
+			"A RabbitMQ conference talk — RabbitMQ is one of the most popular message brokers supporting [[stomp|STOMP]]. The protocol's text-based simplicity made it a natural bridge for web developers entering the messaging world.",
 		credit: 'Photo: Exey Panteleev / CC BY 2.0, via Wikimedia Commons'
 	}
 };

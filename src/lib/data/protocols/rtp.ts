@@ -9,21 +9,21 @@ export const rtp: Protocol = {
 	year: 1996,
 	rfc: 'RFC 3550',
 	oneLiner: 'The standard way to deliver audio and video packets in real-time over [[udp|UDP]].',
-	overview: `RTP is the workhorse behind virtually all real-time audio and video on the internet. [[webrtc|WebRTC]] uses it (as {{srtp|SRTP}}). VoIP phones use it. Video conferencing systems use it. It provides the essential services that raw [[udp|UDP]] lacks for media: timestamps (for synchronization), {{sequence-number|sequence numbers}} (for reordering and loss detection), and {{payload|payload}} type identification.
+	overview: `[[rtp|RTP]] is the workhorse behind virtually all real-time audio and video on the internet. [[webrtc|WebRTC]] uses it (as {{srtp|SRTP}}). VoIP phones use it. Video conferencing systems use it. It provides the essential services that raw [[udp|UDP]] lacks for media: timestamps (for synchronization), {{sequence-number|sequence numbers}} (for reordering and loss detection), and {{payload|payload}} type identification.
 
-RTP doesn't guarantee delivery — it runs over [[udp|UDP]] intentionally. Instead, it gives the application enough information to handle problems intelligently. The companion protocol {{rtcp|RTCP}} (RTP Control Protocol) runs alongside RTP, carrying statistics about packet loss, {{jitter|jitter}}, and {{rtt|round-trip time}} so endpoints can adapt their encoding in real time.
+[[rtp|RTP]] doesn't guarantee delivery — it runs over [[udp|UDP]] intentionally. Instead, it gives the application enough information to handle problems intelligently. The companion protocol {{rtcp|RTCP}} ([[rtp|RTP]] Control Protocol) runs alongside [[rtp|RTP]], carrying statistics about packet loss, {{jitter|jitter}}, and {{rtt|round-trip time}} so endpoints can adapt their encoding in real time.
 
-Think of RTP as the envelope for media packets and {{rtcp|RTCP}} as the feedback channel. Together, they enable adaptive, real-time communication that gracefully handles network imperfections.`,
+Think of [[rtp|RTP]] as the envelope for media packets and {{rtcp|RTCP}} as the feedback channel. Together, they enable adaptive, real-time communication that gracefully handles network imperfections.`,
 	howItWorks: [
 		{
 			title: 'Session establishment',
 			description:
-				"RTP itself doesn't handle session setup — that's done by a {{signaling|signaling}} protocol ([[sip|SIP]], [[webrtc|WebRTC]]'s [[sdp|SDP]]). The signaling determines ports, codecs, and parameters."
+				"[[rtp|RTP]] itself doesn't handle session setup — that's done by a {{signaling|signaling}} protocol ([[sip|SIP]], [[webrtc|WebRTC]]'s [[sdp|SDP]]). The signaling determines ports, codecs, and parameters."
 		},
 		{
 			title: 'Packetize media',
 			description:
-				'Audio/video frames are split into RTP packets, each with a timestamp, {{sequence-number|sequence number}}, and {{payload|payload}} type. Packets are sent over [[udp|UDP]].'
+				'Audio/video frames are split into [[rtp|RTP]] packets, each with a timestamp, {{sequence-number|sequence number}}, and {{payload|payload}} type. Packets are sent over [[udp|UDP]].'
 		},
 		{
 			title: 'Receiver buffers and orders',
@@ -68,7 +68,7 @@ for seq in range(100):
     sock.sendto(packet, ('127.0.0.1', 5004))
     time.sleep(0.02)  # 20ms intervals (50 packets/sec)`,
 		caption:
-			'Raw RTP packet construction — 12-byte header with {{sequence-number|sequence number}} and timestamp for media ordering',
+			'Raw [[rtp|RTP]] packet construction — 12-byte header with {{sequence-number|sequence number}} and timestamp for media ordering',
 		alternatives: [
 			{
 				language: 'javascript',
@@ -166,7 +166,7 @@ tcpdump -i eth0 udp port 5004 -w rtp_capture.pcap`
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/SIPNOC_2012_-_FCC_CTO_Henning_Schulzrinne_%287838924022%29.jpg/500px-SIPNOC_2012_-_FCC_CTO_Henning_Schulzrinne_%287838924022%29.jpg',
 		alt: 'Henning Schulzrinne, co-creator of RTP, speaking at SIPNOC 2012',
 		caption:
-			'Henning Schulzrinne co-authored RTP ([[rfc:3550|RFC 3550]]) and [[sip|SIP]] — two protocols that underpin modern VoIP and video conferencing. He later served as CTO of the FCC.',
+			'Henning Schulzrinne co-authored [[rtp|RTP]] ([[rfc:3550|RFC 3550]]) and [[sip|SIP]] — two protocols that underpin modern VoIP and video conferencing. He later served as CTO of the FCC.',
 		credit: 'Photo: SIPNOC / CC BY 2.0, via Wikimedia Commons'
 	}
 };

@@ -1,6 +1,8 @@
 <script lang="ts">
 	import type { TimelineEntry } from '$lib/data/category-stories/types';
 	import { navigateToProtocol } from '$lib/utils/navigation';
+	import RichText from '$lib/components/detail/inline/RichText.svelte';
+	import { parseRichText } from '$lib/utils/text-parser';
 
 	let { entries, color }: { entries: TimelineEntry[]; color: string } = $props();
 </script>
@@ -37,7 +39,7 @@
 
 				<!-- Description -->
 				<p class="mt-0.5 text-xs leading-relaxed text-t-muted">
-					{entry.description}
+					<RichText segments={parseRichText(entry.description)} {color} />
 				</p>
 			</div>
 		{/each}

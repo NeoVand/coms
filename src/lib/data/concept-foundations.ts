@@ -34,7 +34,7 @@ The deeper trick is that protocols are **public**. They are described in plain t
 			{
 				type: 'image',
 				src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/TCP_Three-Way_Handshake.svg/500px-TCP_Three-Way_Handshake.svg.png',
-				alt: '[[tcp|TCP]] three-way handshake sequence diagram — client SYN, server SYN-ACK, client ACK.',
+				alt: 'TCP three-way handshake sequence diagram — client SYN, server SYN-ACK, client ACK.',
 				caption:
 					'The same [[tcp|TCP]] {{handshake|handshake}} drawn as a sequence diagram with the wall-clock arrows. SYN proposes a connection; SYN-ACK accepts and proposes back; ACK seals it. After this 1.5 round-trip {{exchange|exchange}}, both sides have synchronised sequence numbers and can begin sending real data.',
 				credit: 'Image: Wikimedia Commons / public domain'
@@ -71,7 +71,7 @@ The IETF's job is not to invent these protocols. It is to **document them**, **r
 					{
 						name: 'Vint Cerf',
 						years: '1943 –',
-						title: 'Co-author of [[tcp|TCP]]/[[ip|IP]]',
+						title: 'Co-author of TCP/IP',
 						org: 'Stanford → DARPA → Google',
 						contribution:
 							"With [[pioneer:bob-kahn|Bob Kahn]], the 1974 paper that coined the word \"internet\" and described a single protocol they would later split into [[tcp|TCP]] + [[ip|IP]]. Stewards of the protocol's growth across the next four decades.",
@@ -149,7 +149,7 @@ The IETF stack pragmatically collapses 5–7 into one Application layer. That's 
 			},
 			{
 				type: 'diagram',
-				title: 'OSI vs [[tcp|TCP]]/[[ip|IP]] — Side by Side',
+				title: 'OSI vs TCP/IP — Side by Side',
 				definition: `graph TD
   subgraph OSI["OSI — 7 layers (1984, ISO 7498)"]
     direction TB
@@ -178,7 +178,7 @@ The IETF stack pragmatically collapses 5–7 into one Application layer. That's 
 			},
 			{
 				type: 'narrative',
-				title: 'How [[tcp|TCP]]/[[ip|IP]] Won the Standards War',
+				title: 'How TCP/IP Won the Standards War',
 				text: `Through the 1980s the official future of networking was OSI. ISO and the ITU promoted the seven-layer suite — TP4 transport, CLNP networking — with full institutional backing: European PTTs, the U.S. government's GOSIP mandate, the prestige of a global standards body. [[tcp|TCP]]/[[ip|IP]] was, in those rooms, considered a research project that would be replaced.
 
 It was not. By July 1992, when [[pioneer:david-clark|David D. Clark]] gave his "A Cloudy Crystal Ball" plenary at the 24th IETF meeting in Cambridge, MA, he could distill the IETF's working culture into the sentence that decided the question: **"We reject: kings, presidents and voting. We believe in: rough consensus and running code."** OSI shipped specifications. The IETF shipped code. Code won.
@@ -271,7 +271,7 @@ This division of labour — [[ip|IP]] for end-to-end identity, MAC for hop-to-ho
 			{
 				type: 'image',
 				src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/DNS_schema.svg/500px-DNS_schema.svg.png',
-				alt: 'The hierarchical [[dns|DNS]] namespace tree, rooted at "." with TLDs branching beneath.',
+				alt: 'The hierarchical DNS namespace tree, rooted at "." with TLDs branching beneath.',
 				caption:
 					'The [[dns|DNS]] namespace is a global tree rooted at "." (the root). Top-level domains (.com, .org, country codes) sit beneath the root; second-level domains (example.com, wikipedia.org) sit beneath those. Resolution walks the tree from root to leaf — usually answered by a cache on the way.',
 				credit: 'Diagram: Wikimedia Commons / CC BY-SA 2.5'
@@ -287,7 +287,7 @@ NAT bought [[ip|IPv4]] thirty extra years. It also broke a foundational property
 			},
 			{
 				type: 'callout',
-				title: 'Why an [[ip|IP]] looks like four numbers',
+				title: 'Why an IP looks like four numbers',
 				text: '[[ip|IPv4]] addresses are 32 bits, conventionally written as four decimal numbers separated by dots: \`192.0.2.5\` is just \`11000000.00000010.00000000.00000101\` in dotted-decimal. The notation is for humans. The router only sees the bits. When you write a {{cidr|CIDR}} prefix like \`192.0.2.0/24\`, the \`/24\` says "the first 24 bits are the network; the last 8 are the host" — a {{routing-table|routing table}} lookup compares those leading bits against its prefix entries to pick the next {{hop|hop}}.'
 			}
 		]
@@ -321,7 +321,7 @@ A {{packet|packet}} is a **self-contained unit** with a **header** (control info
 			{
 				type: 'image',
 				src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/UDP_encapsulation.svg/500px-UDP_encapsulation.svg.png',
-				alt: 'Encapsulation: application data wrapped in a [[udp|UDP]] datagram, then an [[ip|IP]] packet, then an [[ethernet|Ethernet]] frame.',
+				alt: 'Encapsulation: application data wrapped in a UDP datagram, then an IP packet, then an Ethernet frame.',
 				caption:
 					'A second look at the same idea — this one shows a [[udp|UDP]] datagram (it works the same for [[tcp|TCP]]). Each header is a fixed shape; only the {{payload|payload}} region grows or shrinks. The same byte of application data is, simultaneously, part of a [[udp|UDP]] datagram, an [[ip|IP]] packet, and an [[ethernet|Ethernet]] frame.',
 				credit: 'Diagram: Wikimedia Commons / CC BY-SA 3.0'
@@ -329,7 +329,7 @@ A {{packet|packet}} is a **self-contained unit** with a **header** (control info
 			{
 				type: 'image',
 				src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/88/IPv4_Header.svg/500px-IPv4_Header.svg.png',
-				alt: 'Bit-field layout of the 20-byte [[ip|IPv4]] header.',
+				alt: 'Bit-field layout of the 20-byte IPv4 header.',
 				caption:
 					'The [[ip|IPv4]] header (20 bytes minimum). Each row is 32 bits. Source and destination addresses each take a full row; the smaller fields above pack version, header length, ToS/{{dscp|DSCP}}, {{fragmentation|fragmentation}}, TTL, transport protocol, and a {{checksum|checksum}} into the first three rows. Options (rare) extend it.',
 				credit: 'Diagram: Wikimedia Commons / CC BY-SA 3.0'
@@ -337,7 +337,7 @@ A {{packet|packet}} is a **self-contained unit** with a **header** (control info
 			{
 				type: 'image',
 				src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Ethernet_Type_II_Frame_format.svg/500px-Ethernet_Type_II_Frame_format.svg.png',
-				alt: '[[ethernet|Ethernet]] II frame structure: 6-byte destination MAC, 6-byte source MAC, 2-byte EtherType, payload, 4-byte FCS.',
+				alt: 'Ethernet II frame structure: 6-byte destination MAC, 6-byte source MAC, 2-byte EtherType, payload, 4-byte FCS.',
 				caption:
 					'The [[ethernet|Ethernet]] II frame format that has not changed since 1980. 14 bytes of header (destination MAC, source MAC, EtherType), then up to 1500 bytes of {{payload|payload}}, then a 4-byte CRC frame check sequence. Everything else — {{vlan|VLAN}} tags, jumbo frames, 800 GbE — slid in around it.',
 				credit: 'Diagram: Wikimedia Commons / public domain'
@@ -396,7 +396,7 @@ Three conventional ranges. **Well-known ports** (0–1023) are reserved for stan
 			{
 				type: 'image',
 				src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/TCP_Header.svg/500px-TCP_Header.svg.png',
-				alt: 'Bit-field layout of the [[tcp|TCP]] segment header — source/destination ports, sequence/ACK numbers, flags, window, checksum.',
+				alt: 'Bit-field layout of the TCP segment header — source/destination ports, sequence/ACK numbers, flags, window, checksum.',
 				caption:
 					'The [[tcp|TCP]] segment header. The first row is the two 16-bit port fields — these are what the OS uses to demultiplex an arriving segment to a process. Below them: 32-bit {{sequence-number|sequence number}}, 32-bit ACK number, header length, control flags, window size, {{checksum|checksum}}, urgent pointer, and optional fields.',
 				credit: 'Diagram: Wikimedia Commons / CC BY-SA 3.0'
@@ -550,7 +550,7 @@ L4S — Low {{latency|Latency}}, Low Loss, Scalable throughput — is the IETF's
 			},
 			{
 				type: 'narrative',
-				title: '[[quic|QUIC]]: Reliability Per Stream',
+				title: 'QUIC: Reliability Per Stream',
 				text: `[[quic|QUIC]] is the most ambitious attempt yet to have both reliability and speed at the same time. Its key insight: the unit of reliability shouldn't be the whole connection.
 
 A [[quic|QUIC]] connection carries multiple independent streams. Each stream has its own sequence numbers and its own {{retransmission|retransmission}} queue. When a packet is lost, only the stream(s) it carried get held back — the rest keep flowing. This is the {{head-of-line-blocking|head-of-line blocking}} problem [[tcp|TCP]] could never fully solve, fixed by moving the framing layer down into transport.
@@ -675,7 +675,7 @@ The combination is what makes the modern web tractable. You use slow asymmetric 
 			},
 			{
 				type: 'diagram',
-				title: '[[tls|TLS]] Hybrid Encryption',
+				title: 'TLS Hybrid Encryption',
 				definition: `graph LR
   subgraph {{handshake|Handshake}}["Key {{exchange|Exchange}} — Asymmetric"]
     C["Client"] -->|"{{public-key|public key}}"| S["Server"]
@@ -708,7 +708,7 @@ When the system breaks (and it has, repeatedly: DigiNotar 2011, Symantec 2017, m
 			},
 			{
 				type: 'callout',
-				title: 'Why [[tls|TLS]] 1.3 banned everything weak',
+				title: 'Why TLS 1.3 banned everything weak',
 				text: '[[tls|TLS 1.3]] ([[rfc:8446|RFC 8446]], 2018) was the first version to break wire compatibility with its predecessors. It removed RC4, 3DES, MD5, SHA-1, RSA key {{exchange|exchange}}, and every CBC-mode cipher — keeping only ChaCha20-Poly1305 and AES-GCM, with X25519 / ECDH for key exchange. The cleanup was overdue: every weak cipher [[tls|TLS]] still allowed had been weaponised in a published attack (BEAST, CRIME, BREACH, Lucky 13, FREAK, Logjam, ROBOT, …). [[tls|TLS]] 1.3 also reduced the {{handshake|handshake}} to **1 round-trip for new connections, 0 for resumptions** — substantially faster than 1.2.'
 			},
 			{
@@ -755,7 +755,7 @@ In April 2025, Google published **Agent-to-Agent Protocol** — [[a2a|A2A]] — 
 			},
 			{
 				type: 'narrative',
-				title: 'Why [[json-rpc|JSON-RPC]] 2.0',
+				title: 'Why JSON-RPC 2.0',
 				text: `Both [[mcp|MCP]] and [[a2a|A2A]] picked **[[json-rpc|JSON-RPC 2.0]]** as their wire format. The choice is deliberate, and worth pausing over.
 
 [[json-rpc|JSON-RPC]] 2.0 is, by application-protocol standards, **boring**. It is a 6-page specification (compared to [[grpc|gRPC]]'s 50+ pages, [[graphql|GraphQL]]'s 200+, [[mqtt|MQTT]] 5's 130+). A request is a {{json|JSON}} object with a method name, parameters, and an id. A response is a JSON object with the same id and either a result or an error. That is the entire protocol.
@@ -771,7 +771,7 @@ For a brand-new protocol layer where adoption is the existential risk, picking t
 			},
 			{
 				type: 'narrative',
-				title: 'What An [[mcp|MCP]] Server Actually Looks Like',
+				title: 'What An MCP Server Actually Looks Like',
 				text: `A minimal [[mcp|MCP]] server is a single executable, often under 100 lines of code, that speaks [[json-rpc|JSON-RPC]] over stdin/stdout (for local servers) or HTTP+[[sse|SSE]] (for remote ones, via the [[frontier:mcp-streamable-http|streamable HTTP]] transport finalised in 2025).
 
 When the agent starts, it spawns the server and exchanges an \`initialize\` request — the server responds with its capabilities (which tools, prompts, and resources it offers). The agent calls \`tools/list\` to learn the names and schemas; later it calls \`tools/call\` with a tool name and arguments to actually invoke. The server runs the work, returns the result, and the agent decides what to do next.
@@ -787,15 +787,15 @@ The architecture's resemblance to the original [[http1|HTTP]] story is not accid
 					{
 						name: 'Anthropic team',
 						years: '2024 –',
-						title: '[[mcp|MCP]] architects',
+						title: 'MCP architects',
 						org: 'Anthropic',
 						contribution:
 							'Published the Model Context Protocol in November 2024 with a deliberate decision to make it open and vendor-neutral. Within a year, [[mcp|MCP]] had thousands of public servers and native support across every major agent framework.'
 					},
 					{
-						name: 'Google [[a2a|A2A]] team',
+						name: 'Google A2A team',
 						years: '2025 –',
-						title: '[[a2a|A2A]] architects',
+						title: 'A2A architects',
 						org: 'Google',
 						contribution:
 							'Published Agent-to-Agent Protocol in April 2025 to handle the collaboration-between-agents case [[mcp|MCP]] did not address. Moved both protocols into the Linux Foundation in mid-2025 to prevent any single company from controlling the agent layer.'

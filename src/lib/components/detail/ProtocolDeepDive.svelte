@@ -2,6 +2,8 @@
 	import type { Protocol } from '$lib/data/types';
 	import { Calendar, Sparkles, Building2, Lightbulb } from 'lucide-svelte';
 	import StoryNarrative from './category-story/StoryNarrative.svelte';
+	import RichText from './inline/RichText.svelte';
+	import { parseRichText } from '$lib/utils/text-parser';
 
 	interface Props {
 		proto: Protocol;
@@ -39,7 +41,7 @@
 								<span class="font-semibold text-t-primary">{ev.title}</span>
 							</div>
 							<p class="mt-0.5 text-[12px] leading-relaxed text-t-secondary">
-								{ev.description}
+								<RichText segments={parseRichText(ev.description)} {color} />
 							</p>
 							{#if ev.source}
 								<a
@@ -76,7 +78,7 @@
 								{/if}
 							</div>
 							<p class="mt-0.5 text-[11px] leading-relaxed text-t-secondary">
-								{d.description}
+								<RichText segments={parseRichText(d.description)} {color} />
 							</p>
 						</div>
 					{/each}
@@ -120,7 +122,9 @@
 					{#each proto.practicalWisdom.pitfalls as p (p.title)}
 						<div class="rounded-lg border border-s-border bg-s-glass p-2.5">
 							<div class="text-xs font-semibold text-t-primary">{p.title}</div>
-							<p class="mt-0.5 text-[11px] leading-relaxed text-t-secondary">{p.text}</p>
+							<p class="mt-0.5 text-[11px] leading-relaxed text-t-secondary">
+								<RichText segments={parseRichText(p.text)} {color} />
+							</p>
 						</div>
 					{/each}
 				</div>

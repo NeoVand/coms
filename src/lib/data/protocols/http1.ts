@@ -9,11 +9,11 @@ export const http1: Protocol = {
 	year: 1997,
 	rfc: 'RFC 9112',
 	oneLiner: 'The original language of the web — one request at a time, in plain text.',
-	overview: `HTTP/1.1 is the protocol that built the web as we know it. Every time you click a link, submit a form, or load an image, your browser speaks HTTP to a server. It's a {{request-response|request-response}} protocol: the client asks for something, the server responds.
+	overview: `[[http1|HTTP/1.1]] is the protocol that built the web as we know it. Every time you click a link, submit a form, or load an image, your browser speaks HTTP to a server. It's a {{request-response|request-response}} protocol: the client asks for something, the server responds.
 
-HTTP/1.1 improved on HTTP/1.0 by adding persistent connections ({{keep-alive|keep-alive}}), chunked transfer encoding, and {{header|host headers}} (allowing multiple websites on one IP). But it has a fundamental limitation: requests on a single connection are serialized. The browser must wait for each response before sending the next request — called "{{head-of-line-blocking|head-of-line blocking}}."
+[[http1|HTTP/1.1]] improved on [[http1|HTTP/1.0]] by adding persistent connections ({{keep-alive|keep-alive}}), chunked transfer encoding, and {{header|host headers}} (allowing multiple websites on one [[ip|IP]]). But it has a fundamental limitation: requests on a single connection are serialized. The browser must wait for each response before sending the next request — called "{{head-of-line-blocking|head-of-line blocking}}."
 
-To work around this, browsers open 6 parallel [[tcp|TCP]] connections per domain. This works but is wasteful. [[http2|HTTP/2]] and [[http3|HTTP/3]] solve this properly with {{multiplexing|multiplexing}}. Despite being "old," HTTP/1.1 is still the most widely understood protocol in web development and the foundation for [[rest|REST]] APIs.`,
+To work around this, browsers open 6 parallel [[tcp|TCP]] connections per domain. This works but is wasteful. [[http2|HTTP/2]] and [[http3|HTTP/3]] solve this properly with {{multiplexing|multiplexing}}. Despite being "old," [[http1|HTTP/1.1]] is still the most widely understood protocol in web development and the foundation for [[rest|REST]] APIs.`,
 	howItWorks: [
 		{
 			title: 'TCP connection',
@@ -37,7 +37,7 @@ To work around this, browsers open 6 parallel [[tcp|TCP]] connections per domain
 		}
 	],
 	useCases: [
-		'REST APIs (the most common API pattern)',
+		'[[rest|REST]] APIs (the most common API pattern)',
 		'Static website serving',
 		'Webhook callbacks',
 		'Legacy system integration',
@@ -56,7 +56,7 @@ print(response.json())  # {"id": 42, "name": "Alice"}
 new_user = requests.post('https://example.com/api/users',
     json={'name': 'Alice', 'role': 'admin'})
 print(new_user.status_code)  # 201`,
-		caption: 'A raw HTTP/1.1 request and response — plain text, human-readable',
+		caption: 'A raw [[http1|HTTP/1.1]] request and response — plain text, human-readable',
 		alternatives: [
 			{
 				language: 'javascript',
@@ -131,7 +131,7 @@ curl -v https://example.com/api/users/42`
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/HTTP_persistent_connection.svg/500px-HTTP_persistent_connection.svg.png',
 		alt: 'Diagram comparing HTTP non-persistent and persistent connections, showing how keep-alive reduces round trips',
 		caption:
-			"HTTP persistent connections ({{keep-alive|keep-alive}}) vs non-persistent — HTTP/1.0 opened a new [[tcp|TCP]] connection for every request, while HTTP/1.1's {{keep-alive|keep-alive}} reuses the same connection, saving the overhead of repeated [[tcp|TCP]] {{handshake|handshakes}}.",
+			"HTTP persistent connections ({{keep-alive|keep-alive}}) vs non-persistent — [[http1|HTTP/1.0]] opened a new [[tcp|TCP]] connection for every request, while [[http1|HTTP/1.1]]'s {{keep-alive|keep-alive}} reuses the same connection, saving the overhead of repeated [[tcp|TCP]] {{handshake|handshakes}}.",
 		credit: 'Image: Wikimedia Commons / Public Domain'
 	}
 };

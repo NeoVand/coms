@@ -9,11 +9,11 @@ export const hls: Protocol = {
 	year: 2009,
 	rfc: 'RFC 8216',
 	oneLiner: "Apple's adaptive streaming protocol — video delivered as small HTTP file downloads.",
-	overview: `HLS takes a clever approach to streaming: instead of a continuous real-time stream, it chops video into small files (typically 2-10 second segments) and serves them as ordinary [[http1|HTTP]] downloads. A manifest file (.m3u8) lists the available segments and quality levels.
+	overview: `[[hls|HLS]] takes a clever approach to streaming: instead of a continuous real-time stream, it chops video into small files (typically 2-10 second segments) and serves them as ordinary [[http1|HTTP]] downloads. A manifest file (.m3u8) lists the available segments and quality levels.
 
-This design is brilliant for several reasons: it works through any {{firewall|firewall}} (it's just [[http1|HTTP]]), it scales trivially with {{cdn|CDNs}} (segments are cacheable files), and it enables {{adaptive-bitrate|adaptive bitrate}} — the player switches between quality levels based on {{bandwidth|bandwidth}}, providing smooth playback even on unstable connections. Increasingly, HLS and [[dash|DASH]] are converging on CMAF (Common Media Application Format), which defines a unified segment format (fragmented MP4) so content providers can encode once and serve both HLS and [[dash|DASH]] from the same segments.
+This design is brilliant for several reasons: it works through any {{firewall|firewall}} (it's just [[http1|HTTP]]), it scales trivially with {{cdn|CDNs}} (segments are cacheable files), and it enables {{adaptive-bitrate|adaptive bitrate}} — the player switches between quality levels based on {{bandwidth|bandwidth}}, providing smooth playback even on unstable connections. Increasingly, [[hls|HLS]] and [[dash|DASH]] are converging on CMAF (Common Media Application Format), which defines a unified segment format (fragmented MP4) so content providers can encode once and serve both [[hls|HLS]] and [[dash|DASH]] from the same segments.
 
-The tradeoff is {{latency|latency}}: buffering several segments means HLS typically has 6-30 seconds of delay. Low-{{latency|Latency}} HLS (LL-HLS) reduces this to 2-4 seconds by using partial segments and preload hints (\`EXT-X-PRELOAD-HINT\`). HLS is widely used across the streaming landscape — Disney+ relies on it as a primary format, while services like Netflix and YouTube primarily use [[dash|DASH]] but fall back to HLS for Apple device compatibility.`,
+The tradeoff is {{latency|latency}}: buffering several segments means [[hls|HLS]] typically has 6-30 seconds of delay. Low-{{latency|Latency}} [[hls|HLS]] (LL-[[hls|HLS]]) reduces this to 2-4 seconds by using partial segments and preload hints (\`EXT-X-PRELOAD-HINT\`). [[hls|HLS]] is widely used across the streaming landscape — Disney+ relies on it as a primary format, while services like Netflix and YouTube primarily use [[dash|DASH]] but fall back to [[hls|HLS]] for Apple device compatibility.`,
 	howItWorks: [
 		{
 			title: 'Encode and segment',
@@ -62,7 +62,7 @@ media = m3u8.load(playlist.playlists[0].uri)
 for segment in media.segments:
     print(f"Segment: {segment.uri} ({segment.duration}s)")
     # data = requests.get(segment.uri).content`,
-		caption: 'ffmpeg creates HLS segments and playlists — CDNs serve these as ordinary HTTP files',
+		caption: 'ffmpeg creates [[hls|HLS]] segments and playlists — CDNs serve these as ordinary HTTP files',
 		alternatives: [
 			{
 				language: 'javascript',
@@ -166,7 +166,7 @@ https://cdn.example.com/stream_720p/seg_2683.ts
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Zpracovani_videa_HTTP_Live_Streaming.png/500px-Zpracovani_videa_HTTP_Live_Streaming.png',
 		alt: 'Diagram of the HLS streaming architecture showing video encoding into multiple bitrate segments served via HTTP to adaptive players',
 		caption:
-			'The HLS streaming pipeline — video is encoded at multiple bitrates, segmented into small chunks, and served over standard HTTP. The player dynamically switches between quality levels based on network conditions, ensuring smooth playback.',
+			'The [[hls|HLS]] streaming pipeline — video is encoded at multiple bitrates, segmented into small chunks, and served over standard HTTP. The player dynamically switches between quality levels based on network conditions, ensuring smooth playback.',
 		credit: 'Image: Wikimedia Commons / CC0'
 	}
 };

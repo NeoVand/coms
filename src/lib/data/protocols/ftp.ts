@@ -9,11 +9,11 @@ export const ftp: Protocol = {
 	year: 1971,
 	rfc: 'RFC 959',
 	oneLiner: 'One of the oldest internet protocols — built for transferring files between machines.',
-	overview: `FTP is one of the original internet protocols, predating even TCP/IP itself. It was designed for one purpose: moving files between computers. FTP uses a unique dual-connection architecture — a control connection for commands and a separate data connection for file transfers.
+	overview: `[[ftp|FTP]] is one of the original internet protocols, predating even [[tcp|TCP]]/[[ip|IP]] itself. It was designed for one purpose: moving files between computers. [[ftp|FTP]] uses a unique dual-connection architecture — a control connection for commands and a separate data connection for file transfers.
 
 The control channel ({{port|port}} 21) carries text commands like USER, PASS, LIST, RETR (download), and STOR (upload). When a file transfer begins, a separate data connection opens on a different port. In "active" mode, the server connects back to the client; in "passive" mode (PASV), the client initiates both connections, which works better with {{firewall|firewalls}} and {{nat|NAT}}.
 
-While FTP's {{plaintext|plain-text}} design makes it insecure by modern standards, FTPS (FTP over [[tls|TLS]]) adds {{encryption|encryption}}. SFTP ([[ssh|SSH]] File Transfer Protocol) is a completely different protocol that runs over [[ssh|SSH]]. Despite being largely superseded by SFTP, SCP, and [[http1|HTTP]]-based file transfer, FTP remains in use for legacy systems, firmware updates, and bulk file hosting.`,
+While [[ftp|FTP]]'s {{plaintext|plain-text}} design makes it insecure by modern standards, FTPS ([[ftp|FTP]] over [[tls|TLS]]) adds {{encryption|encryption}}. SFTP ([[ssh|SSH]] File Transfer Protocol) is a completely different protocol that runs over [[ssh|SSH]]. Despite being largely superseded by SFTP, SCP, and [[http1|HTTP]]-based file transfer, [[ftp|FTP]] remains in use for legacy systems, firmware updates, and bulk file hosting.`,
 	howItWorks: [
 		{
 			title: 'Control connection',
@@ -63,7 +63,7 @@ with open('upload.txt', 'rb') as f:
 
 ftp.quit()`,
 		caption:
-			'FTP uses dual connections — control channel for commands, data channel for transfers.',
+			'[[ftp|FTP]] uses dual connections — control channel for commands, data channel for transfers.',
 		alternatives: [
 			{
 				language: 'javascript',
@@ -158,7 +158,7 @@ Server: 221 Goodbye`
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Passive_FTP_Verbindung.svg/500px-Passive_FTP_Verbindung.svg.png',
 		alt: 'Diagram showing FTP passive mode connection flow: client connects to control port 21, then server provides a data port for the client to connect to',
 		caption:
-			"FTP passive mode — the client connects to port 21 for commands, then the server tells the client which high port to connect to for data transfer. Passive mode solved the {{nat|NAT}}/{{firewall|firewall}} problems that plagued FTP's original active mode.",
+			"[[ftp|FTP]] passive mode — the client connects to port 21 for commands, then the server tells the client which high port to connect to for data transfer. Passive mode solved the {{nat|NAT}}/{{firewall|firewall}} problems that plagued [[ftp|FTP]]'s original active mode.",
 		credit: 'Image: Wikimedia Commons / CC BY-SA 3.0'
 	}
 };

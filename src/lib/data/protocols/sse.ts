@@ -9,11 +9,11 @@ export const sse: Protocol = {
 	year: 2006,
 	rfc: 'WHATWG Living Standard',
 	oneLiner: 'One-way real-time streaming from server to browser over plain HTTP.',
-	overview: `Server-Sent Events (SSE) provide a simple, standardized way for servers to push updates to web clients over a single [[http1|HTTP]] connection. Unlike [[websockets|WebSockets]], SSE is unidirectional — the server sends events, and the client listens. This simplicity is its strength.
+	overview: `[[sse|Server-Sent Events]] ([[sse|SSE]]) provide a simple, standardized way for servers to push updates to web clients over a single [[http1|HTTP]] connection. Unlike [[websockets|WebSockets]], [[sse|SSE]] is unidirectional — the server sends events, and the client listens. This simplicity is its strength.
 
-SSE uses plain [[http1|HTTP]], which means it works through {{proxy|proxies}}, {{load-balancing|load balancers}}, and {{firewall|firewalls}} without any special configuration. The browser's EventSource API automatically handles reconnection, event IDs for resuming after disconnects, and {{content-negotiation|content type negotiation}}.
+[[sse|SSE]] uses plain [[http1|HTTP]], which means it works through {{proxy|proxies}}, {{load-balancing|load balancers}}, and {{firewall|firewalls}} without any special configuration. The browser's EventSource API automatically handles reconnection, event IDs for resuming after disconnects, and {{content-negotiation|content type negotiation}}.
 
-Each event is a text block with optional fields: event type, data {{payload|payload}}, ID, and retry interval. The format is deliberately simple — just UTF-8 text with newline separators. This makes SSE ideal for live feeds, notifications, and {{stream|streaming}} AI responses where the server needs to push data but doesn't need to receive a stream back.`,
+Each event is a text block with optional fields: event type, data {{payload|payload}}, ID, and retry interval. The format is deliberately simple — just UTF-8 text with newline separators. This makes [[sse|SSE]] ideal for live feeds, notifications, and {{stream|streaming}} AI responses where the server needs to push data but doesn't need to receive a stream back.`,
 	howItWorks: [
 		{
 			title: 'HTTP connection',
@@ -127,7 +127,7 @@ curl -sN https://example.com/api/notifications \\
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Ian_Hickson_at_CSS_Working_Group_Meeting_Day_Three.jpeg/500px-Ian_Hickson_at_CSS_Working_Group_Meeting_Day_Three.jpeg',
 		alt: 'Ian Hickson at a CSS Working Group meeting, the author of the Server-Sent Events specification',
 		caption:
-			'Ian Hickson at a W3C Working Group meeting. As editor of the HTML5 specification, Hickson authored the Server-Sent Events spec — giving browsers a native, lightweight way to receive real-time server pushes over plain HTTP.',
+			'Ian Hickson at a W3C Working Group meeting. As editor of the HTML5 specification, Hickson authored the [[sse|Server-Sent Events]] spec — giving browsers a native, lightweight way to receive real-time server pushes over plain HTTP.',
 		credit: 'Photo: Molly Holzschlag / CC BY-SA 2.0, via Wikimedia Commons'
 	}
 };

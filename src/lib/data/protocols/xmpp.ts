@@ -10,11 +10,11 @@ export const xmpp: Protocol = {
 	rfc: 'RFC 6120',
 	oneLiner:
 		'The open, XML-based messaging protocol born as Jabber — federated chat before it was cool.',
-	overview: `In January 1999, Jeremie Miller was tired of juggling four different instant messaging clients for four different walled-garden services. So he built Jabber — an open, federated messaging system where anyone could run a server and talk to anyone on any other server. That system became XMPP, and its ideas about federation and open standards shaped the future of messaging.
+	overview: `In January 1999, Jeremie Miller was tired of juggling four different instant messaging clients for four different walled-garden services. So he built Jabber — an open, federated messaging system where anyone could run a server and talk to anyone on any other server. That system became [[xmpp|XMPP]], and its ideas about federation and open standards shaped the future of messaging.
 
-XMPP uses persistent {{xml|XML}} streams between {{client-server|clients and servers}} over [[tcp|TCP]]. Messages, presence updates ("Alice is online"), and IQ (info/query) stanzas flow as XML fragments over these streams. The {{protocol|protocol}} is designed to be extensible — hundreds of XEPs (XMPP Extension Protocols) add capabilities from file transfer and multi-user chat to IoT device management.
+[[xmpp|XMPP]] uses persistent {{xml|XML}} streams between {{client-server|clients and servers}} over [[tcp|TCP]]. Messages, presence updates ("Alice is online"), and IQ (info/query) stanzas flow as XML fragments over these streams. The {{protocol|protocol}} is designed to be extensible — hundreds of XEPs ([[xmpp|XMPP]] Extension Protocols) add capabilities from file transfer and multi-user chat to IoT device management.
 
-Google Talk, the early versions of WhatsApp, Facebook Messenger (originally), and Apple's iChat (their desktop chat client) all used XMPP at some point. iChat supported XMPP federation briefly, though Apple's later iMessage system uses a completely proprietary push {{notification|notification}} service (APNs). While many moved to proprietary protocols for scale, XMPP remains the backbone of countless enterprise chat systems, IoT platforms, and the federated messaging movement.`,
+Google Talk, the early versions of WhatsApp, Facebook Messenger (originally), and Apple's iChat (their desktop chat client) all used [[xmpp|XMPP]] at some point. iChat supported [[xmpp|XMPP]] federation briefly, though Apple's later iMessage system uses a completely proprietary push {{notification|notification}} service (APNs). While many moved to proprietary protocols for scale, [[xmpp|XMPP]] remains the backbone of countless enterprise chat systems, IoT platforms, and the federated messaging movement.`,
 	howItWorks: [
 		{
 			title: 'TCP connection + stream negotiation',
@@ -72,7 +72,7 @@ class ChatBot(slixmpp.ClientXMPP):
 bot = ChatBot("alice@example.com", "secret")
 bot.connect()
 bot.process()`,
-		caption: 'XMPP client — connect, announce presence, and send messages as XML stanzas',
+		caption: '[[xmpp|XMPP]] client — connect, announce presence, and send messages as XML stanzas',
 		alternatives: [
 			{
 				language: 'javascript',
@@ -201,7 +201,7 @@ Server → Contacts (broadcast):
 	},
 	connections: ['tcp', 'tls', 'websockets'],
 	links: {
-		wikipedia: 'https://en.wikipedia.org/wiki/XMPP',
+		wikipedia: 'https://en.wikipedia.org/wiki/[[xmpp|XMPP]]',
 		rfc: 'https://datatracker.ietf.org/doc/html/rfc6120',
 		official: 'https://xmpp.org/'
 	},
@@ -209,7 +209,7 @@ Server → Contacts (broadcast):
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/JabberNetwork.svg/500px-JabberNetwork.svg.png',
 		alt: 'Diagram of the XMPP/Jabber federated network showing multiple servers interconnected with clients on each server',
 		caption:
-			'XMPP federation — just like email, anyone can run their own XMPP server and communicate with users on any other server. This decentralized architecture means no single company controls the network.',
+			'[[xmpp|XMPP]] federation — just like email, anyone can run their own [[xmpp|XMPP]] server and communicate with users on any other server. This decentralized architecture means no single company controls the network.',
 		credit: 'Image: Wikimedia Commons / CC BY-SA 3.0'
 	}
 };

@@ -1,5 +1,7 @@
 <script lang="ts">
 	import type { CodeExample as CodeExampleType } from '$lib/data/types';
+	import RichText from '$lib/components/detail/inline/RichText.svelte';
+	import { parseRichText } from '$lib/utils/text-parser';
 	import hljs from 'highlight.js/lib/core';
 	import python from 'highlight.js/lib/languages/python';
 	import javascript from 'highlight.js/lib/languages/javascript';
@@ -186,7 +188,9 @@
 		{/if}
 	</div>
 	{#if example.caption}
-		<p class="mt-2 text-[10px] leading-relaxed text-t-muted">{example.caption}</p>
+		<p class="mt-2 text-[10px] leading-relaxed text-t-muted">
+			<RichText segments={parseRichText(example.caption)} {color} />
+		</p>
 	{/if}
 </section>
 

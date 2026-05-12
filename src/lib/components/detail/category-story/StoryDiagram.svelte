@@ -6,6 +6,8 @@
 	import { onMount } from 'svelte';
 	import { buildThemedDefinition } from '$lib/utils/mermaid-helpers';
 	import { getAppState } from '$lib/state/context';
+	import RichText from '$lib/components/detail/inline/RichText.svelte';
+	import { parseRichText } from '$lib/utils/text-parser';
 
 	let {
 		definition,
@@ -102,7 +104,7 @@
 			</div>
 		</div>
 		<p class="border-t border-s-border px-4 py-2.5 text-center text-[11px] text-t-muted italic">
-			{caption}
+			<RichText segments={parseRichText(caption)} {color} />
 		</p>
 	</div>
 </section>

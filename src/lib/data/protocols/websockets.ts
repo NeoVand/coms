@@ -9,9 +9,9 @@ export const websockets: Protocol = {
 	year: 2011,
 	rfc: 'RFC 6455',
 	oneLiner: '{{full-duplex|Full-duplex}}, persistent connection — server and client talk freely in real time.',
-	overview: `WebSockets solve a fundamental limitation of [[http1|HTTP]]: the server can't initiate communication. In [[http1|HTTP]], the client always asks and the server always responds. WebSockets upgrade an [[http1|HTTP]] connection into a persistent, {{full-duplex|full-duplex}} channel where either side can send messages at any time.
+	overview: `[[websockets|WebSockets]] solve a fundamental limitation of [[http1|HTTP]]: the server can't initiate communication. In [[http1|HTTP]], the client always asks and the server always responds. [[websockets|WebSockets]] upgrade an [[http1|HTTP]] connection into a persistent, {{full-duplex|full-duplex}} channel where either side can send messages at any time.
 
-This is perfect for real-time applications: chat, live sports scores, collaborative editing, multiplayer games, financial tickers. Instead of the client repeatedly polling "any updates?" (wasteful), the server simply pushes data when it's available. Unlike [[http1|HTTP]]'s {{request-response|request-response}} model, WebSockets maintain a {{stateful|stateful}} connection where both sides can track context across messages without re-establishing identity on every {{exchange|exchange}}.
+This is perfect for real-time applications: chat, live sports scores, collaborative editing, multiplayer games, financial tickers. Instead of the client repeatedly polling "any updates?" (wasteful), the server simply pushes data when it's available. Unlike [[http1|HTTP]]'s {{request-response|request-response}} model, [[websockets|WebSockets]] maintain a {{stateful|stateful}} connection where both sides can track context across messages without re-establishing identity on every {{exchange|exchange}}.
 
 The connection starts as a normal [[http1|HTTP]] request with an "Upgrade: websocket" {{header|header}}. If the server agrees, the connection switches protocols. From that point on, both sides exchange lightweight binary or text {{frame|frames}} with just 2-14 bytes of overhead per message (vs hundreds of bytes for [[http1|HTTP]] headers).`,
 	howItWorks: [
@@ -23,7 +23,7 @@ The connection starts as a normal [[http1|HTTP]] request with an "Upgrade: webso
 		{
 			title: 'Server accepts upgrade',
 			description:
-				'Server responds with "101 Switching Protocols" and a computed accept key. The connection is now a WebSocket — HTTP is done.'
+				'Server responds with "101 Switching Protocols" and a computed accept key. The connection is now a [[websockets|WebSocket]] — HTTP is done.'
 		},
 		{
 			title: 'Bidirectional messaging',
@@ -57,7 +57,7 @@ async def chat():
             await ws.send('{"type": "msg", "text": "Hello!"}')
 
 asyncio.run(chat())`,
-		caption: 'WebSocket API is dead simple — connect, send, receive. Both sides can initiate.',
+		caption: '[[websockets|WebSocket]] API is dead simple — connect, send, receive. Both sides can initiate.',
 		alternatives: [
 			{
 				language: 'javascript',
@@ -116,14 +116,14 @@ curl -i -N \\
 	},
 	connections: ['a2a', 'http1', 'http2', 'json-rpc', 'mcp', 'tcp', 'tls', 'sse', 'graphql', 'rest'],
 	links: {
-		wikipedia: 'https://en.wikipedia.org/wiki/WebSocket',
+		wikipedia: 'https://en.wikipedia.org/wiki/[[websockets|WebSocket]]',
 		rfc: 'https://datatracker.ietf.org/doc/html/rfc6455'
 	},
 	image: {
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Websocket_connection.png/500px-Websocket_connection.png',
 		alt: 'Diagram showing the WebSocket connection lifecycle: HTTP upgrade handshake followed by full-duplex bidirectional communication',
 		caption:
-			'The WebSocket connection lifecycle — it starts as a normal HTTP request with an Upgrade header, then switches to a persistent, {{full-duplex|full-duplex}} channel where both client and server can send messages at any time without the overhead of HTTP headers.',
+			'The [[websockets|WebSocket]] connection lifecycle — it starts as a normal HTTP request with an Upgrade header, then switches to a persistent, {{full-duplex|full-duplex}} channel where both client and server can send messages at any time without the overhead of HTTP headers.',
 		credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 	}
 };

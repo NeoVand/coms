@@ -9,17 +9,17 @@ export const quic: Protocol = {
 	year: 2021,
 	rfc: 'RFC 9000',
 	oneLiner:
-		'UDP-based transport with built-in {{encryption|encryption}} and {{multiplexing|multiplexing}} — the future of the web.',
-	overview: `QUIC is what happens when Google looks at [[tcp|TCP]]+[[tls|TLS]] and says "we can do better." It runs on top of [[udp|UDP]] but provides [[tcp|TCP]]-like reliability, [[tls|TLS 1.3]] {{encryption|encryption}}, and [[http2|HTTP/2]]-style {{multiplexing|multiplexing}} — all in a single protocol. The result: faster connections, no {{head-of-line-blocking|head-of-line blocking}}, and seamless {{connection-migration|connection migration}}.
+		'[[udp|UDP]]-based transport with built-in {{encryption|encryption}} and {{multiplexing|multiplexing}} — the future of the web.',
+	overview: `[[quic|QUIC]] is what happens when Google looks at [[tcp|TCP]]+[[tls|TLS]] and says "we can do better." It runs on top of [[udp|UDP]] but provides [[tcp|TCP]]-like reliability, [[tls|TLS 1.3]] {{encryption|encryption}}, and [[http2|HTTP/2]]-style {{multiplexing|multiplexing}} — all in a single protocol. The result: faster connections, no {{head-of-line-blocking|head-of-line blocking}}, and seamless {{connection-migration|connection migration}}.
 
-The key insight is combining the transport {{handshake|handshake}} with the [[tls|TLS]] {{handshake|handshake}}. [[tcp|TCP]]+[[tls|TLS 1.3]] requires 2 round trips before data flows (1 RTT for [[tcp|TCP]] handshake + 1 RTT for [[tls|TLS]]); QUIC does it in 1 {{rtt|RTT}} (or 0 RTT for repeat connections). It also solves [[tcp|TCP]]'s {{head-of-line-blocking|head-of-line blocking}} problem: in [[http2|HTTP/2]] over [[tcp|TCP]], a single lost packet blocks ALL streams. In QUIC, streams are independent — a lost packet only affects its own stream.
+The key insight is combining the transport {{handshake|handshake}} with the [[tls|TLS]] {{handshake|handshake}}. [[tcp|TCP]]+[[tls|TLS 1.3]] requires 2 round trips before data flows (1 RTT for [[tcp|TCP]] handshake + 1 RTT for [[tls|TLS]]); [[quic|QUIC]] does it in 1 {{rtt|RTT}} (or 0 RTT for repeat connections). It also solves [[tcp|TCP]]'s {{head-of-line-blocking|head-of-line blocking}} problem: in [[http2|HTTP/2]] over [[tcp|TCP]], a single lost packet blocks ALL streams. In [[quic|QUIC]], streams are independent — a lost packet only affects its own stream.
 
-QUIC powers [[http3|HTTP/3]], which is the latest version of HTTP. Major browsers and services (Google, Facebook, Cloudflare) already use it heavily. It's the most significant transport protocol innovation in decades.`,
+[[quic|QUIC]] powers [[http3|HTTP/3]], which is the latest version of HTTP. Major browsers and services (Google, Facebook, Cloudflare) already use it heavily. It's the most significant transport protocol innovation in decades.`,
 	howItWorks: [
 		{
 			title: 'Initial handshake (1 RTT)',
 			description:
-				'Client sends a QUIC Initial packet containing a [[tls|TLS]] ClientHello. Server responds with its Initial + {{handshake|Handshake}} packets. Connection is established in a single round trip with {{encryption|encryption}} from the start.'
+				'Client sends a [[quic|QUIC]] Initial packet containing a [[tls|TLS]] ClientHello. Server responds with its Initial + {{handshake|Handshake}} packets. Connection is established in a single round trip with {{encryption|encryption}} from the start.'
 		},
 		{
 			title: '0-RTT resumption',
@@ -34,11 +34,11 @@ QUIC powers [[http3|HTTP/3]], which is the latest version of HTTP. Major browser
 		{
 			title: 'Connection migration',
 			description:
-				'Connections are identified by a {{connection-migration|Connection ID}}, not the IP/port tuple. If your phone switches from [[wifi|Wi-Fi]] to cellular, the QUIC connection survives.'
+				'Connections are identified by a {{connection-migration|Connection ID}}, not the [[ip|IP]]/port tuple. If your phone switches from [[wifi|Wi-Fi]] to cellular, the [[quic|QUIC]] connection survives.'
 		}
 	],
 	useCases: [
-		'HTTP/3 web browsing',
+		'[[http3|HTTP/3]] web browsing',
 		'Mobile applications (connection migration)',
 		'Video streaming platforms',
 		'Cloud gaming',
@@ -66,7 +66,7 @@ async def main():
         print(f"Response: {response}")
 
 asyncio.run(main())`,
-		caption: 'QUIC combines transport + {{encryption|encryption}} in one step, enabling faster connections',
+		caption: '[[quic|QUIC]] combines transport + {{encryption|encryption}} in one step, enabling faster connections',
 		alternatives: [
 			{
 				language: 'javascript',
@@ -155,7 +155,7 @@ sudo tcpdump -i any udp port 443`
 	},
 	connections: ['tcp', 'udp', 'tls', 'http2', 'http3'],
 	links: {
-		wikipedia: 'https://en.wikipedia.org/wiki/QUIC',
+		wikipedia: 'https://en.wikipedia.org/wiki/[[quic|QUIC]]',
 		rfc: 'https://datatracker.ietf.org/doc/html/rfc9000',
 		official: 'https://quicwg.org/'
 	},
@@ -163,7 +163,7 @@ sudo tcpdump -i any udp port 443`
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Google_Data_Center%2C_The_Dalles.jpg/500px-Google_Data_Center%2C_The_Dalles.jpg',
 		alt: 'Google data center in The Dalles, Oregon, with rows of colorful server racks',
 		caption:
-			"Google's data center in The Dalles, Oregon — where QUIC was born. Google developed QUIC internally starting in 2012 to replace [[tcp|TCP]]+[[tls|TLS]], deploying it across Chrome and YouTube before standardizing it as [[rfc:9000|RFC 9000]].",
+			"Google's data center in The Dalles, Oregon — where [[quic|QUIC]] was born. Google developed [[quic|QUIC]] internally starting in 2012 to replace [[tcp|TCP]]+[[tls|TLS]], deploying it across Chrome and YouTube before standardizing it as [[rfc:9000|RFC 9000]].",
 		credit: 'Photo: Google / CC BY 2.0, via Wikimedia Commons'
 	},
 
@@ -172,20 +172,20 @@ sudo tcpdump -i any udp port 443`
 			date: '2025-Q1',
 			title: 'QUIC carries 35% of top 10M websites',
 			description:
-				'W3Techs measurements show QUIC adoption crossed 35% of the top 10 million websites — up from 27% a year earlier. Cloudflare, Fastly, and Akamai serve QUIC universally.',
+				'W3Techs measurements show [[quic|QUIC]] adoption crossed 35% of the top 10 million websites — up from 27% a year earlier. Cloudflare, Fastly, and Akamai serve [[quic|QUIC]] universally.',
 			source: { url: 'https://w3techs.com/technologies/details/ce-quic', label: 'W3Techs' }
 		},
 		{
 			date: '2024-Q4',
 			title: 'Meta reports >75% of internet traffic on QUIC',
 			description:
-				'Facebook, Instagram, and WhatsApp web/mobile now serve the majority of bytes via QUIC and [[http3|HTTP/3]], with [[tcp|TCP]] retained mainly for legacy clients.'
+				'Facebook, Instagram, and WhatsApp web/mobile now serve the majority of bytes via [[quic|QUIC]] and [[http3|HTTP/3]], with [[tcp|TCP]] retained mainly for legacy clients.'
 		},
 		{
 			date: '2024-09',
 			title: 'Multipath QUIC reaches stable IETF draft',
 			description:
-				'draft-ietf-quic-multipath progressed to stable; multipath QUIC inherits [[mptcp|MPTCP]]\'s algorithmic ideas inside a transport that actually traverses middleboxes. Apple, Google, and several mobile carriers are running interop events.',
+				'draft-ietf-quic-multipath progressed to stable; multipath [[quic|QUIC]] inherits [[mptcp|MPTCP]]\'s algorithmic ideas inside a transport that actually traverses middleboxes. Apple, Google, and several mobile carriers are running interop events.',
 			source: {
 				url: 'https://datatracker.ietf.org/doc/draft-ietf-quic-multipath/',
 				label: 'IETF Datatracker'
@@ -195,7 +195,7 @@ sudo tcpdump -i any udp port 443`
 			date: '2024-2025',
 			title: 'MoQ Transport interop events',
 			description:
-				'Media-over-QUIC (Twitch, Cisco Webex, Cloudflare Stream, Meta) running quarterly interop events. Sub-second live-streaming over QUIC with native late-join and per-stream prioritisation.'
+				'Media-over-[[quic|QUIC]] (Twitch, Cisco Webex, Cloudflare Stream, Meta) running quarterly interop events. Sub-second live-streaming over [[quic|QUIC]] with native late-join and per-stream prioritisation.'
 		}
 	],
 
@@ -204,40 +204,40 @@ sudo tcpdump -i any udp port 443`
 			org: 'Google (Chrome, YouTube, Search)',
 			scale: 'Default since 2017',
 			description:
-				'gQUIC deployed in Chrome / YouTube from 2013; IETF QUIC default for chrome.com and youtube.com since 2020. Google says >50% of all Chrome traffic uses QUIC.'
+				'gQUIC deployed in Chrome / YouTube from 2013; IETF [[quic|QUIC]] default for chrome.com and youtube.com since 2020. Google says >50% of all Chrome traffic uses [[quic|QUIC]].'
 		},
 		{
 			org: 'Meta',
 			scale: '>75% of web/mobile bytes',
 			description:
-				'Facebook, Instagram, WhatsApp serve majority of traffic via QUIC. mvfst (Meta\'s QUIC implementation) is open-source.'
+				'Facebook, Instagram, WhatsApp serve majority of traffic via [[quic|QUIC]]. mvfst (Meta\'s [[quic|QUIC]] implementation) is open-source.'
 		},
 		{
 			org: 'Cloudflare',
 			scale: 'All HTTPS traffic',
 			description:
-				'quiche library powers QUIC at Cloudflare\'s edge for every HTTPS site behind their CDN. Connection-coalescing and {{zero-rtt|0-RTT}} enabled by default.'
+				'quiche library powers [[quic|QUIC]] at Cloudflare\'s edge for every HTTPS site behind their CDN. Connection-coalescing and {{zero-rtt|0-RTT}} enabled by default.'
 		},
 		{
 			org: 'Apple',
 			scale: 'iOS 18+ / macOS 15+',
 			description:
-				'Network.framework offers native QUIC; Safari 18 enables [[http3|HTTP/3]] by default. CloudKit and iCloud sync use QUIC for low-{{latency|latency}} mobile updates.'
+				'Network.framework offers native [[quic|QUIC]]; Safari 18 enables [[http3|HTTP/3]] by default. CloudKit and iCloud sync use [[quic|QUIC]] for low-{{latency|latency}} mobile updates.'
 		}
 	],
 
 	funFacts: [
 		{
 			title: 'QUIC was originally an internal Google name',
-			text: 'QUIC stood for "Quick [[udp|UDP]] Internet Connections" inside Google. The IETF working group dropped the expansion entirely — [[rfc:9000|RFC 9000]] just calls it "QUIC" with no expansion. The protocol\'s name is now an unexplained four-letter word, like "HTTP" or "[[tcp|TCP]]."'
+			text: '[[quic|QUIC]] stood for "Quick [[udp|UDP]] Internet Connections" inside Google. The IETF working group dropped the expansion entirely — [[rfc:9000|RFC 9000]] just calls it "[[quic|QUIC]]" with no expansion. The protocol\'s name is now an unexplained four-letter word, like "HTTP" or "[[tcp|TCP]]."'
 		},
 		{
 			title: 'Connection IDs let your phone roam',
-			text: 'A QUIC connection is identified by a **64-bit Connection ID**, not by the (src IP, src port, dst IP, dst port) four-tuple [[tcp|TCP]] uses. When your phone moves between Wi-Fi and cellular, the underlying IP changes — but the QUIC connection survives. The receiver matches the new packet by Connection ID. This is why [[http3|HTTP/3]] video calls do not stutter on handoff.'
+			text: 'A [[quic|QUIC]] connection is identified by a **64-bit Connection ID**, not by the (src [[ip|IP]], src port, dst [[ip|IP]], dst port) four-tuple [[tcp|TCP]] uses. When your phone moves between [[wifi|Wi-Fi]] and cellular, the underlying [[ip|IP]] changes — but the [[quic|QUIC]] connection survives. The receiver matches the new packet by Connection ID. This is why [[http3|HTTP/3]] video calls do not stutter on handoff.'
 		},
 		{
 			title: 'QUIC encrypts almost the entire packet',
-			text: '[[tcp|TCP]] segment headers are visible to anyone on the path — sequence numbers, ACK numbers, window sizes. QUIC encrypts almost everything except the Connection ID, packet number, and a few framing bits. This blocks decades of network-side observation tools (and is why some operators still resist QUIC).'
+			text: '[[tcp|TCP]] segment headers are visible to anyone on the path — sequence numbers, ACK numbers, window sizes. [[quic|QUIC]] encrypts almost everything except the Connection ID, packet number, and a few framing bits. This blocks decades of network-side observation tools (and is why some operators still resist [[quic|QUIC]]).'
 		}
 	],
 
@@ -245,15 +245,15 @@ sudo tcpdump -i any udp port 443`
 		pitfalls: [
 			{
 				title: 'Some networks block UDP / QUIC',
-				text: 'Corporate firewalls, school networks, and a small fraction of mobile carriers block [[udp|UDP]] on port 443. Browsers fall back to [[tcp|TCP]]+[[http2|HTTP/2]], but the fallback adds 1-2 RTTs of detection. If you need consistent QUIC, validate connectivity before you depend on it.'
+				text: 'Corporate firewalls, school networks, and a small fraction of mobile carriers block [[udp|UDP]] on port 443. Browsers fall back to [[tcp|TCP]]+[[http2|HTTP/2]], but the fallback adds 1-2 RTTs of detection. If you need consistent [[quic|QUIC]], validate connectivity before you depend on it.'
 			},
 			{
 				title: 'Connection migration breaks middleboxes',
-				text: 'Some {{stateful|stateful}} middleboxes ({{nat|NAT}} routers, transparent proxies) drop a connection when its source IP suddenly changes — they assume it\'s a new flow. QUIC\'s Path Validation fixes this when both endpoints support it; the path-probing {{handshake|handshake}} is [[rfc:9000|RFC 9000]] §8.'
+				text: 'Some {{stateful|stateful}} middleboxes ({{nat|NAT}} routers, transparent proxies) drop a connection when its source [[ip|IP]] suddenly changes — they assume it\'s a new flow. [[quic|QUIC]]\'s Path Validation fixes this when both endpoints support it; the path-probing {{handshake|handshake}} is [[rfc:9000|RFC 9000]] §8.'
 			},
 			{
 				title: 'Higher CPU than kernel TCP',
-				text: 'QUIC {{encryption|encryption}} + user-space implementation costs roughly 2× CPU per byte versus a tuned kernel [[tcp|TCP]] stack. CDNs offload to TLS-acceleration NICs (kTLS); plain servers should expect higher load.'
+				text: '[[quic|QUIC]] {{encryption|encryption}} + user-space implementation costs roughly 2× CPU per byte versus a tuned kernel [[tcp|TCP]] stack. CDNs offload to [[tls|TLS]]-acceleration NICs (kTLS); plain servers should expect higher load.'
 			}
 		]
 	}

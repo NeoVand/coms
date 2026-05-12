@@ -661,7 +661,9 @@
 										>
 										<span class="text-[10px] text-t-muted">{proto.year}</span>
 									</div>
-									<div class="text-xs text-t-secondary">{proto.oneLiner}</div>
+									<div class="text-xs text-t-secondary">
+											<RichText segments={parseRichText(proto.oneLiner)} {color} />
+										</div>
 								</button>
 							{/each}
 						</div>
