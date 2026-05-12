@@ -13,12 +13,19 @@ Up to 5 concurrent.
 | 04 | WireGuard | 04-wireguard.md | https://claude.ai/chat/7987f72a-5778-40eb-87e2-c476ad477b76 | 882617716 |
 | 05 | OSPF | 05-ospf.md | https://claude.ai/chat/f463f51b-2b3b-4459-a99a-7b0cc8bacb85 | 882617719 |
 
-## Batch 2 (queued)
+## Batch 1 — completion notes
 
-| # | Protocol | Prompt file | Chat URL | Status |
-|---|----------|-------------|----------|--------|
-| 06 | mDNS / DNS-SD | 06-mdns-dns-sd.md | _queued_ | _queued_ |
-| 07 | Kerberos | 07-kerberos.md | _queued_ | _queued_ |
+- 01, 02, 05 extracted to research/protocol-{bluetooth,nat-traversal,ospf}.md and implemented as TS protocols on 2026-05-12.
+- 03 and 04 both returned IPsec content (04 misread the WireGuard prompt). 03 used as primary IPsec source; 04 archived as a supplement. IPsec implemented as TS protocol on 2026-05-12.
+- **WireGuard re-dispatched** in batch 2 below with an explicit "this is about WireGuard SPECIFICALLY, not IPsec" intro.
+
+## Batch 2 (in progress — dispatched 2026-05-12)
+
+| # | Protocol | Prompt file | Chat URL | Tab |
+|---|----------|-------------|----------|-----|
+| 04 | WireGuard (re-run) | 04-wireguard.md | https://claude.ai/chat/3ba8254e-3552-480a-b39c-2bf49ed3f1d6 | 882617722 |
+| 06 | mDNS / DNS-SD | 06-mdns-dns-sd.md | https://claude.ai/chat/ca088bcd-7b18-44ac-8837-9fb842e242b6 | 882617725 |
+| 07 | Kerberos | 07-kerberos.md | https://claude.ai/chat/e24d5916-457a-40ed-b50f-27c89e333fca | 882617728 |
 | 08 | OIDC | 08-oidc.md | _queued_ | _queued_ |
 | 09 | ACME | 09-acme.md | _queued_ | _queued_ |
 | 10 | Email-auth (DKIM/SPF/DMARC) | 10-email-auth.md | _queued_ | _queued_ |
