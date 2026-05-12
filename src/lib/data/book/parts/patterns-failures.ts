@@ -12,7 +12,7 @@ import type { BookPart } from '../types';
 export const patternsFailures: BookPart = {
 	id: 'patterns-failures',
 	title: 'How Networks Actually Behave',
-	label: 'IX',
+	label: 'X',
 	description:
 		'Recurring patterns and the failure modes they cause — handshakes, sliding windows, ossification, {{mtu|MTU}} black holes.',
 	chapters: [

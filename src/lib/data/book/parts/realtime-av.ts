@@ -12,7 +12,7 @@ import type { BookPart } from '../types';
 export const realtimeAv: BookPart = {
 	id: 'realtime-av',
 	title: 'Real-time A/V',
-	label: 'VII',
+	label: 'VIII',
 	description:
 		'Protocols that prioritise low {{latency|latency}} over perfect delivery — voice, video, and live media.',
 	chapters: [

@@ -12,7 +12,7 @@ import type { BookPart } from '../types';
 export const famousOutages: BookPart = {
 	id: 'famous-outages',
 	title: 'Famous Outages',
-	label: 'X',
+	label: 'XI',
 	description:
 		'Ten incidents told as stories — what broke, what cascaded, and what the industry learned.',
 	chapters: [

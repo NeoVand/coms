@@ -11,7 +11,7 @@ import type { BookPart } from '../types';
 export const howToLearnMore: BookPart = {
 	id: 'how-to-learn-more',
 	title: 'How to Learn More',
-	label: 'XII',
+	label: 'XIII',
 	description:
 		'Curated reading lists per area — the RFCs, books, courses, blogs, and tools worth investing time in.',
 	chapters: [

@@ -335,7 +335,7 @@
 					<section>
 						<div class="mb-3 flex items-baseline justify-between gap-3">
 							<h3 class="text-xs font-semibold tracking-wider text-t-muted uppercase">
-								The book — twelve parts
+								The book — thirteen parts
 							</h3>
 							<span class="text-[10px] text-t-muted">{totalChapters} chapters · jump in anywhere</span>
 						</div>

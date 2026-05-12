@@ -11,7 +11,7 @@ import type { BookPart } from '../types';
 export const frontier: BookPart = {
 	id: 'frontier',
 	title: 'The Modern Frontier (2024–2026)',
-	label: 'XI',
+	label: 'XII',
 	description:
 		'What is actively shipping or being standardised right now — the things that will date this book in five years.',
 	chapters: [

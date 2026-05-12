@@ -11,7 +11,7 @@ import type { BookPart } from '../types';
 export const utilitiesSecurity: BookPart = {
 	id: 'utilities-security',
 	title: 'Utilities & Security',
-	label: 'VIII',
+	label: 'IX',
 	description: 'The invisible plumbing — [[dns|DNS]], [[tls|TLS]], [[ssh|SSH]], [[ntp|NTP]], the email stack, and authentication.',
 	chapters: [
 		// ────────────────────────────────────────────────────────────

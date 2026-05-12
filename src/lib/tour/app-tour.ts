@@ -165,7 +165,7 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 				popover: {
 					title: 'The Book of Protocols',
 					description:
-						'Beyond the graph, the Lab is also a <strong>book in twelve parts</strong> — ' +
+						'Beyond the graph, the Lab is also a <strong>book in thirteen parts</strong> — ' +
 						'from foundations and the story of the internet, through every layer of the stack, ' +
 						'to outages, the frontier, and where to learn more.' +
 						'<br><br>Each part has its own table of contents — click any card to jump in, or read it cover to cover.',

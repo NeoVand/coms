@@ -11,7 +11,7 @@ import type { BookPart } from '../types';
 export const asyncIot: BookPart = {
 	id: 'async-iot',
 	title: 'Async / IoT',
-	label: 'VI',
+	label: 'VII',
 	description: 'Decoupled, message-oriented protocols for sensors, microservices, and event streams.',
 	chapters: [
 		// ────────────────────────────────────────────────────────────

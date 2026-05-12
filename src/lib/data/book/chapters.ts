@@ -12,6 +12,7 @@ import { foundationSections } from '../concept-foundations';
 import { storyOfTheInternet } from './parts/story-of-the-internet';
 import { layer23 } from './parts/layer-2-3';
 import { transport } from './parts/transport';
+import { wireless } from './parts/wireless';
 import { webApi } from './parts/web-api';
 import { asyncIot } from './parts/async-iot';
 import { realtimeAv } from './parts/realtime-av';
@@ -72,6 +73,7 @@ export const bookParts: BookPart[] = [
 	storyOfTheInternet,
 	layer23,
 	transport,
+	wireless,
 	webApi,
 	asyncIot,
 	realtimeAv,

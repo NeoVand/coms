@@ -12,7 +12,7 @@ import type { BookPart } from '../types';
 export const webApi: BookPart = {
 	id: 'web-api',
 	title: 'Web / API',
-	label: 'V',
+	label: 'VI',
 	description: 'HTTP through three generations, the streaming alternatives, and the AI-agent stack.',
 	chapters: [
 		// ────────────────────────────────────────────────────────────
