@@ -950,6 +950,15 @@ function drawUtilitiesIcon(ctx: CanvasRenderingContext2D): void {
 	ctx.stroke(new Path2D('M9 12l2 2 4-4'));
 }
 
+function drawWirelessIcon(ctx: CanvasRenderingContext2D): void {
+	ctx.stroke(new Path2D('M2 12 7 2'));
+	ctx.stroke(new Path2D('M7 12 12 2'));
+	ctx.stroke(new Path2D('M12 12 17 2'));
+	ctx.stroke(new Path2D('M17 12 22 2'));
+	ctx.stroke(new Path2D('M4.5 7h15'));
+	ctx.stroke(new Path2D('M12 16v6'));
+}
+
 function drawHubIcon(
 	ctx: CanvasRenderingContext2D,
 	x: number,
@@ -1064,6 +1073,9 @@ function drawCategoryIcon(
 			break;
 		case 'utilities':
 			drawUtilitiesIcon(ctx);
+			break;
+		case 'wireless':
+			drawWirelessIcon(ctx);
 			break;
 	}
 
