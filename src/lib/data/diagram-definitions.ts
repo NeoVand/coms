@@ -1648,12 +1648,11 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     P->>A: BLE GATT pairing + PAKE auth
     P->>A: BLE: STS_KEY transport + ranging schedule
     Note over P,A: UWB DS-TWR — Ch 9, 7987.2 MHz, BPRF, 6.81 Mbps
-    P->>A: UWB Poll — RFRAME with STS, t1 = TX timestamp
-    A->>P: UWB Response — STS, carries t2, t3
-    P->>A: UWB Final — STS, carries t1, t4, t5
-    Note over A: ToF = (T_r1·T_r2 - T_p1·T_p2) / (T_r1+T_r2+T_p1+T_p2)
-    Note over A: distance = ToF × c ≈ 1.41 m
-    A->>P: BLE: result — distance + bearing → Unlock / Refresh`,
+    P->>A: UWB Poll — RFRAME with STS (t1)
+    A->>P: UWB Response — STS (t2, t3)
+    P->>A: UWB Final — STS (t1, t4, t5)
+    Note over A: Compute ToF via DS-TWR cross-product<br/>distance ≈ 1.41 m
+    A->>P: BLE: distance + bearing → Unlock`,
 		caption:
 			"**[[uwb|UWB]] DS-TWR** = the secure ranging flow under AirTag Precision Finding, BMW Digital Key, and Aliro hands-free unlock. [[bluetooth|BLE]] does the bootstrap (auth + STS_KEY transport); UWB does the three-message ranging exchange; the cross-product cancels clock drift; **STS** is the AES-CTR-generated pulse pattern that makes the distance measurement unforgeable.",
 		steps: {
