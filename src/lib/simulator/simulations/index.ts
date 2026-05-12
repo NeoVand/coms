@@ -45,6 +45,10 @@ import { ipv6Ndp } from './ipv6-ndp';
 import { jsonRpcCall } from './json-rpc-call';
 import { mcpSession } from './mcp-session';
 import { a2aTask } from './a2a-task';
+import { natTraversalIce } from './nat-traversal';
+import { ospfAdjacency } from './ospf-adjacency';
+import { bluetoothBleGatt } from './bluetooth-ble';
+import { ipsecTunnel } from './ipsec-tunnel';
 
 const simulations = new Map<string, SimulationConfig>([
 	['tcp', tcpHandshake],
@@ -92,7 +96,11 @@ const simulations = new Map<string, SimulationConfig>([
 	['ipv6', ipv6Ndp],
 	['json-rpc', jsonRpcCall],
 	['mcp', mcpSession],
-	['a2a', a2aTask]
+	['a2a', a2aTask],
+	['nat-traversal', natTraversalIce],
+	['ospf', ospfAdjacency],
+	['bluetooth', bluetoothBleGatt],
+	['ipsec', ipsecTunnel]
 ]);
 
 export function getSimulation(protocolId: string): SimulationConfig | undefined {

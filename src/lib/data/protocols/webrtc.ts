@@ -11,7 +11,7 @@ export const webrtc: Protocol = {
 	oneLiner: '{{peer-to-peer|Peer-to-peer}} audio, video, and data — directly between browsers, no plugins needed.',
 	overview: `[[webrtc|WebRTC]] is the technology that makes browser-based video calls possible. Before [[webrtc|WebRTC]], real-time communication required plugins (Flash, Java applets) or native apps. Now, two browsers can establish a direct, encrypted, {{peer-to-peer|peer-to-peer}} connection for audio, video, and arbitrary data.
 
-The key insight is "{{peer-to-peer|peer-to-peer}}" — once the connection is established, data flows directly between users without passing through a server. This reduces {{latency|latency}} and server costs. However, establishing that connection requires a {{signaling|signaling server}} (to {{exchange|exchange}} connection offers) and often STUN/TURN servers to navigate {{nat|NATs}} and {{firewall|firewalls}}. STUN (Session Traversal Utilities for {{nat|NAT}}) discovers the peer's {{public-ip-address|public IP address}}. TURN (Traversal Using Relays around {{nat|NAT}}) relays media through a server when a direct connection fails (about 10-15% of cases). ICE (Interactive Connectivity Establishment) coordinates both STUN and TURN to find the best available path between peers.
+The key insight is "{{peer-to-peer|peer-to-peer}}" — once the connection is established, data flows directly between users without passing through a server. This reduces {{latency|latency}} and server costs. However, establishing that connection requires a {{signaling|signaling server}} (to {{exchange|exchange}} connection offers) and the [[nat-traversal|STUN / TURN / ICE]] stack to navigate {{nat|NATs}} and {{firewall|firewalls}}. **STUN** discovers the peer's {{public-ip-address|public IP address}}; **TURN** relays media through a server when a direct connection fails (about 10–15% of cases); **ICE** coordinates both to find the best working path. See the [[nat-traversal|NAT-traversal]] page for the full wire format and history.
 
 Under the hood, [[webrtc|WebRTC]] is actually a bundle of protocols: ICE for connectivity establishment, {{dtls|DTLS}} (based on [[tls|TLS]]) for {{encryption|encryption}}, {{srtp|SRTP}} (secured [[rtp|RTP]]) for media, and [[sctp|SCTP]] for data channels. The browser API abstracts all of this into a relatively simple JavaScript interface.`,
 	howItWorks: [
@@ -159,7 +159,7 @@ STUN Response:
 		overhead:
 			'SRTP adds ~10 bytes authentication tag per packet (80-bit default). DTLS handshake is one-time cost.'
 	},
-	connections: ['udp', 'tls', 'sip', 'sctp', 'rtp', 'sdp'],
+	connections: ['udp', 'tls', 'sip', 'sctp', 'rtp', 'sdp', 'nat-traversal'],
 	links: {
 		wikipedia: 'https://en.wikipedia.org/wiki/[[webrtc|WebRTC]]',
 		rfc: 'https://datatracker.ietf.org/doc/html/rfc8825',

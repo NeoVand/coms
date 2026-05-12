@@ -172,7 +172,7 @@ ICMPv6 Neighbor Advertisement:
 		overhead:
 			"Fixed 40-byte header (vs IPv4's variable 20-60 bytes). Extension headers add overhead only when used. No per-hop checksum computation saves router CPU."
 	},
-	connections: ['ip', 'tcp', 'udp', 'ethernet', 'wifi', 'dns', 'dhcp'],
+	connections: ['ip', 'tcp', 'udp', 'ethernet', 'wifi', 'dns', 'dhcp', 'ospf', 'ipsec'],
 	links: {
 		wikipedia: 'https://en.wikipedia.org/wiki/[[ipv6|IPv6]]',
 		rfc: 'https://datatracker.ietf.org/doc/html/rfc8200'

@@ -142,7 +142,7 @@ ss -un  # or: netstat -un`
 		throughput: 'No congestion control — can send as fast as the network allows (or can handle)',
 		overhead: '8-byte header only — the minimum possible for transport'
 	},
-	connections: ['tcp', 'ip', 'ipv6', 'dns', 'quic', 'webrtc', 'dhcp', 'ntp', 'rtp', 'coap', 'sip'],
+	connections: ['tcp', 'ip', 'ipv6', 'dns', 'quic', 'webrtc', 'dhcp', 'ntp', 'rtp', 'coap', 'sip', 'ipsec', 'nat-traversal'],
 	links: {
 		wikipedia: 'https://en.wikipedia.org/wiki/User_Datagram_Protocol',
 		rfc: 'https://datatracker.ietf.org/doc/html/rfc768'

@@ -13,7 +13,9 @@ export const tls: Protocol = {
 
 [[tls|TLS]] provides three guarantees: confidentiality (data is encrypted, so eavesdroppers see gibberish), integrity (data can't be modified without detection), and authentication (you're actually talking to who you think you are, verified by {{certificate|certificates}}). [[tls|TLS]] 1.3 (2018) dramatically simplified the {{tls-handshake|handshake}}, reducing it from 2 {{rtt|round trips}} to 1, and removed support for legacy insecure algorithms.
 
-When you see the lock icon in your browser, [[tls|TLS]] is at work. It sits between the application layer ([[http1|HTTP]]) and the transport layer ([[tcp|TCP]]), transparently encrypting everything. Application code doesn't need to change — "http://" becomes "https://" and [[tls|TLS]] handles the rest.`,
+When you see the lock icon in your browser, [[tls|TLS]] is at work. It sits between the application layer ([[http1|HTTP]]) and the transport layer ([[tcp|TCP]]), transparently encrypting everything. Application code doesn't need to change — "http://" becomes "https://" and [[tls|TLS]] handles the rest.
+
+[[tls|TLS]] is the Layer-4 (transport) encryption story. Its Layer-3 (network) counterpart is **[[ipsec|IPsec]]** — same goal (confidentiality + integrity + authentication), different scope (entire [[ip|IP]] packets instead of single [[tcp|TCP]] streams). Where [[tls|TLS]] wraps one connection that one application can see, [[ipsec|IPsec]] encrypts every [[ip|IP]] packet between two endpoints — host-to-host or gateway-to-gateway — and is the substrate of every site-to-site VPN, every 3GPP mobile-core backhaul, and every IKEv2 client tunnel on macOS, iOS, Windows, and Android.`,
 	howItWorks: [
 		{
 			title: 'ClientHello',
@@ -180,7 +182,8 @@ openssl req -x509 -newkey rsa:2048 -nodes \\
 		'ftp',
 		'dns',
 		'imap',
-		'oauth2'
+		'oauth2',
+		'ipsec'
 	],
 	links: {
 		wikipedia: 'https://en.wikipedia.org/wiki/Transport_Layer_Security',

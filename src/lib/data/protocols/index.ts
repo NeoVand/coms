@@ -45,8 +45,13 @@ import { imap } from './imap';
 import { bgp } from './bgp';
 import { icmp } from './icmp';
 import { oauth2 } from './oauth2';
+import { natTraversal } from './nat-traversal';
+import { ospf } from './ospf';
+import { bluetooth } from './bluetooth';
+import { ipsec } from './ipsec';
 
-export const networkFoundationsProtocols: Protocol[] = [ethernet, wifi, arp, ip, ipv6];
+export const networkFoundationsProtocols: Protocol[] = [ethernet, arp, ip, ipv6, ospf];
+export const wirelessProtocols: Protocol[] = [wifi, bluetooth];
 export const transportProtocols: Protocol[] = [tcp, udp, quic, sctp, mptcp];
 export const webApiProtocols: Protocol[] = [
 	http1,
@@ -75,7 +80,9 @@ export const utilitiesProtocols: Protocol[] = [
 	imap,
 	bgp,
 	icmp,
-	oauth2
+	oauth2,
+	natTraversal,
+	ipsec
 ];
 
 export const allProtocols: Protocol[] = [
@@ -84,5 +91,6 @@ export const allProtocols: Protocol[] = [
 	...webApiProtocols,
 	...asyncIotProtocols,
 	...realtimeAvProtocols,
-	...utilitiesProtocols
+	...utilitiesProtocols,
+	...wirelessProtocols
 ];

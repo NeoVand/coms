@@ -1331,5 +1331,142 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
 			8: 'Send the access token in the **`Authorization: Bearer ...`** header on every API request.',
 			10: 'Access tokens are short-lived (e.g., 1 hour). When one expires (`401 Unauthorized`), exchange the refresh token for a new one — no user interaction.'
 		}
+	},
+
+	ipsec: {
+		definition: `sequenceDiagram
+    participant I as Initiator (HQ Gateway)
+    participant R as Responder (Branch Gateway)
+    Note over I,R: IKE_SA_INIT — establish IKE SA
+    I->>R: HDR, SAi1 (proposals), KEi (ML-KEM + ECDH), Ni, NAT_DETECTION_*
+    R->>I: HDR, SAr1 (chosen), KEr, Nr, NAT_DETECTION_*, CERT_REQ
+    Note over I,R: IKE_INTERMEDIATE — transfer large PQ keys (RFC 9242)
+    I->>R: HDR(IKE-encrypted), KE_ADDITIONAL (FrodoKEM, optional)
+    R->>I: HDR(IKE-encrypted), KE_ADDITIONAL response
+    Note over I,R: IKE_AUTH — identity + first Child SA
+    I->>R: HDR(IKE-encrypted), IDi, CERT, AUTH, SAi2, TSi, TSr, CP(req)
+    R->>I: HDR(IKE-encrypted), IDr, CERT, AUTH, SAr2, TSi, TSr, CP(reply)
+    Note over I,R: Child SA up — ESP starts flowing
+    I-->>R: ESP (SPI=0xC0FFEE, seq=1, AES-GCM payload)
+    R-->>I: ESP (SPI=0xDEADBEEF, seq=1, AES-GCM payload)
+    Note over I,R: CREATE_CHILD_SA — rekey before lifetime
+    I->>R: HDR(IKE-encrypted), N(REKEY_SA), SA, Nonces, KE (PFS)
+    R->>I: HDR(IKE-encrypted), SA (new), Nonces, KE`,
+		caption:
+			'**[[ipsec|IPsec]]** = network-layer cryptographic envelope. **IKEv2** negotiates keys ([[rfc:7296|RFC 7296]]); **ESP** carries encrypted/authenticated [[ip|IP]] packets ([[rfc:4303|RFC 4303]]). Two round trips bring a tunnel up; **CREATE_CHILD_SA** rekeys before the lifetime expires.',
+		steps: {
+			0: '**IKE_SA_INIT** is the first exchange — no encryption yet because keys don\'t exist. The initiator proposes a cipher suite, sends its Diffie-Hellman / ECDH / ML-KEM public key, a random Nonce, and NAT_DETECTION hashes that detect whether either peer is behind {{nat|NAT}}.',
+			1: 'Responder picks one proposal from SAi1, replies with its own KE / Nonce, and optionally requests a certificate (`CERT_REQ`). After this exchange both sides derive **SKEYSEED** and the IKE SA key material — every subsequent exchange is IKE-encrypted.',
+			3: '**IKE_INTERMEDIATE** ([[rfc:9242|RFC 9242]]) was added because post-quantum public keys (ML-KEM-1024 = 1,568 bytes) overflow common UDP MTUs if shipped in IKE_SA_INIT. It runs *inside* the IKE SA, before identity is revealed, and can chain additional KEMs per [[rfc:9370|RFC 9370]].',
+			5: '**IKE_AUTH** carries the identity (`IDi`, `IDr`) and authenticates the IKE_SA_INIT exchange — usually with an RSA / ECDSA certificate (`CERT` + `AUTH`), sometimes with a PSK or EAP method. The first **Child SA** (an ESP one-direction key) is negotiated in the same exchange via `SAi2` / `TSi` / `TSr`.',
+			7: 'Once the Child SA exists, every packet matching the policy gets an **ESP** header (32-bit SPI + 32-bit sequence number), is AEAD-encrypted (typically AES-GCM-256 or ChaCha20-Poly1305), and forwarded. The receiver looks up the SA by SPI and decrypts.',
+			9: '**Anti-replay** uses the sequence number. The receiver maintains a sliding window of recently-seen sequence numbers (default 32 — the famous foot-gun on 10 Gbps+ links). Anything older than the window or duplicate within it is dropped.',
+			10: '**CREATE_CHILD_SA** with the `REKEY_SA` notify rekeys an existing Child SA before its time/byte lifetime expires (default ~8 h / ~100 GB). Optional fresh DH/KEM gives **Perfect Forward Secrecy**. The old SA is deleted via INFORMATIONAL(DELETE) after one MaxRetransmit cycle.'
+		}
+	},
+
+	bluetooth: {
+		definition: `sequenceDiagram
+    participant C as Central (Phone)
+    participant P as Peripheral (Sensor)
+    Note over P: Idle — wakes periodically
+    P->>C: ADV_IND on ch 37/38/39
+    C->>P: CONNECT_IND (Access Address, hop pattern)
+    Note over C,P: Connected on data ch 0-36
+    C->>P: ATT MTU Request (target = 247)
+    P->>C: ATT MTU Response (negotiated MTU)
+    C->>P: SMP Pairing Request (LE Secure Conn)
+    P->>C: SMP Pairing Response
+    Note over C,P: ECDH key exchange (Curve P-256)
+    C->>P: LL_ENC_REQ → link encrypted (AES-CCM)
+    C->>P: ATT Read by Type Request (HRM characteristic)
+    P->>C: ATT Read Response (value)
+    C->>P: ATT Write (CCCD = notify enable)
+    P-->>C: ATT Notify (HR=72 bpm)
+    P-->>C: ATT Notify (HR=73 bpm) every 1s`,
+		caption:
+			'**[[bluetooth|BLE]]** = Bluetooth Low Energy. Advertising → connection → pairing → GATT — the same flow for every fitness tracker, AirTag, hearing aid, and Matter device commissioning over [[bluetooth|Bluetooth]] (Bluetooth Core Spec 6.0).',
+		steps: {
+			0: 'The peripheral spends most of its life **off**. Every advertising interval (20 ms to 10.24 s, configurable) it wakes, transmits ADV_IND on each of channels 37/38/39, then goes back to sleep — sub-microamp average current.',
+			1: '**ADV_IND** is the most common advertising PDU. The 31-byte payload carries Flags (general-discoverable, BR/EDR-not-supported), a list of 16-bit Service UUIDs (e.g. 0x180D = Heart Rate), and the device local name.',
+			2: '**CONNECT_IND** carries everything needed for the data channel to work: a 32-bit Access Address per connection, the CRC seed, the hop pattern (channel-map + hopIncrement), and the initial connection-interval / slave-latency / supervision-timeout.',
+			4: 'Default ATT MTU = **23** is a trap — only 20 bytes of payload per Notify. The exchange to 247 (one LL PDU with Data Length Extension) or 517 happens here and is the single most important thing to do on every new connection.',
+			6: '**LE Secure Connections** (Bluetooth 4.2+) uses ECDH on Curve P-256 to derive a Long-Term Key. The pair compares numeric values on screen — defeating most relay attacks that bit the old Just-Works pairing.',
+			9: 'Once paired, the link layer encrypts every PDU with **AES-CCM**. Replay protection comes from a 39-bit packet counter; integrity from a 4-byte MIC appended after the payload.',
+			10: '**ATT Read by Type** is how characteristics are read by UUID rather than handle — the most efficient lookup before the client has discovered all characteristic handles.',
+			12: 'Writing **0x0001** to the Client Characteristic Configuration Descriptor (CCCD, UUID 0x2902) tells the peripheral: *push me updates*. From here on the central only receives — no polling required.',
+			13: '**ATT Handle Value Notification** carries the new sensor value. No ACK at the ATT layer; reliability comes from the LL ARQ (NESN/SN bits). For confirmed delivery, use *Indication* instead — adds an ATT-level ACK at the cost of a round trip.'
+		}
+	},
+
+	ospf: {
+		definition: `sequenceDiagram
+    participant R1 as Router R1
+    participant R2 as Router R2
+    Note over R1,R2: Hello — discover each other
+    R1->>R2: Hello (RID=1.1.1.1, Nbrs=[])
+    R2->>R1: Hello (RID=2.2.2.2, Nbrs=[])
+    R1->>R2: Hello (Nbrs=[2.2.2.2])
+    R2->>R1: Hello (Nbrs=[1.1.1.1])
+    Note over R1,R2: ExStart — elect Master/Slave
+    R2->>R1: DBD (I=1, M=1, MS=1, Seq=X)
+    R1->>R2: DBD (I=1, M=1, MS=0, Seq=X)
+    Note over R1,R2: Exchange — swap LSA headers
+    R2->>R1: DBD (I=0, M=1, MS=1, hdrs)
+    R1->>R2: DBD (I=0, M=1, MS=0, hdrs)
+    Note over R1,R2: Loading — fetch missing LSAs
+    R1->>R2: LSR [LSAs needed]
+    R2->>R1: LSU [LSAs]
+    R1->>R2: LSAck
+    Note over R1,R2: Full — run Dijkstra, install routes`,
+		caption:
+			'**[[ospf|OSPF]]** = Open Shortest Path First. Two routers walk the eight-state adjacency machine — **Down → Init → 2-Way → ExStart → Exchange → Loading → Full** — synchronise an identical link-state database, then independently run [[pioneer:edsger-dijkstra|Dijkstra]] ([[rfc:2328|RFC 2328]] / STD 54).',
+		steps: {
+			0: '**Hello** packets are multicast to `224.0.0.5` ([[ipv6|IPv6]]: `FF02::5`) every 10 s on point-to-point links. They carry the router\'s ID, the neighbours it currently sees, and the HelloInterval / DeadInterval that the other side must match exactly.',
+			1: 'R1 sees the Hello but R2 isn\'t listed in its neighbours field yet — adjacency is **one-way**. State: `Init`.',
+			3: 'Once both Hellos list each other (`Nbrs=[2.2.2.2]` ↔ `Nbrs=[1.1.1.1]`), the adjacency goes **`2-Way`** — both sides agree they\'re talking.',
+			5: '**DBD = Database Description.** The `MS` bit elects master/slave (higher RID wins); `I` is the init bit; `M` says more DBDs follow. Master controls the sequence number.',
+			7: 'Subsequent DBDs carry **LSA headers** — just sequence/age/checksum, not the full LSA. Each side learns which LSAs the *other* has.',
+			9: '**LSR = Link State Request.** R1 asks for the LSAs it doesn\'t have or whose copies are older.',
+			10: '**LSU = Link State Update.** R2 sends the actual LSAs. Every LSA is checksummed, age-stamped, and sequence-numbered.',
+			11: '**LSAck** is mandatory — [[ospf|OSPF]] implements reliable delivery on top of raw [[ip|IP]] (protocol 89), without [[tcp|TCP]]. Unacked LSAs are retransmitted every RxmtInterval (5 s default).',
+			12: 'State **`Full`**. Both routers have identical LSDBs. Each independently runs **Dijkstra** on the topology graph, installs the resulting tree into its FIB, and starts forwarding.'
+		}
+	},
+
+	'nat-traversal': {
+		definition: `sequenceDiagram
+    participant A as Alice (browser)
+    participant SS as STUN server
+    participant TS as TURN server
+    participant SG as Signalling
+    participant B as Bob (browser)
+    Note over A,B: ICE gather — find every possible address
+    A->>SS: STUN Binding Request (host socket)
+    SS->>A: XOR-MAPPED-ADDRESS = server-reflexive
+    A->>TS: Allocate (long-term credentials)
+    TS->>A: XOR-RELAYED-ADDRESS = 203.0.113.5:62000
+    A->>SG: SDP offer + candidates (trickle)
+    SG->>B: Forward to Bob
+    Note over A,B: ICE checks — probe every candidate pair
+    A->>B: STUN Binding (short-term creds, PRIORITY)
+    B->>A: STUN Binding Response
+    A->>B: USE-CANDIDATE on winning pair
+    Note over A,B: Media flows on the chosen pair
+    A-->>B: SRTP media (every ~15s: consent-freshness ping)`,
+		caption:
+			'**[[nat-traversal|NAT traversal]]** = the three-protocol stack that lets two browsers behind home routers find each other. **STUN** learns your public address; **TURN** relays when nothing direct works; **ICE** picks the path ([[rfc:8489|RFC 8489]] / [[rfc:8656|RFC 8656]] / [[rfc:8445|RFC 8445]]).',
+		steps: {
+			0: 'Before any check fires, each peer enumerates **every** address it might be reachable on: local LAN interfaces (host), the public address it reaches the world through (server-reflexive via STUN), and a TURN-allocated public relay (relayed).',
+			1: '**STUN Binding Request** — 20-byte header, magic cookie `0x2112A442`, random 96-bit transaction ID, zero attributes. The smallest useful packet on the modern internet.',
+			2: 'The STUN server replies with **`XOR-MAPPED-ADDRESS`** — the source `ip:port` it observed, XORed against the magic cookie so middleboxes can\'t rewrite it. That\'s your *server-reflexive candidate*.',
+			3: '**TURN `Allocate`** request reserves a public `ip:port` on the relay. The client authenticates with long-term creds (username/realm/nonce/HMAC-SHA256). Default lifetime: 600 s.',
+			4: 'The relay returns **`XOR-RELAYED-ADDRESS`** — a public socket Bob can hit. This is the fallback path when nothing direct works.',
+			5: '**Trickle ICE** ([[rfc:8838|RFC 8838]]): candidates are signalled as they appear, not after all gathering finishes. Cuts call-setup time by hundreds of milliseconds.',
+			7: 'Each side **pairs every local candidate with every remote candidate** and prioritises: host (126) > peer-reflexive (110) > server-reflexive (100) > relay (0).',
+			8: '**STUN connectivity check** — Binding Request with short-term credentials (`ufrag`/`pwd` from the SDP), `PRIORITY`, `ICE-CONTROLLING`/`CONTROLLED` tiebreaker, and `MESSAGE-INTEGRITY`.',
+			10: 'The controlling agent sends **`USE-CANDIDATE`** on the highest-priority working pair. That pair is *nominated*; media starts flowing on it.',
+			11: '**Consent freshness** ([[rfc:7675|RFC 7675]]): every ~15s, a Binding Indication keeps the NAT binding alive and confirms the peer still wants to receive. Silence for ~30s = ICE restart.'
+		}
 	}
 };

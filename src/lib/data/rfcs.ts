@@ -1323,6 +1323,241 @@ Edited by Dick Hardt. The framework's own abstract famously warns *"this specifi
 		abstract: `*{{pkce|PKCE}}* (pronounced "pixie") — closes a fundamental [[oauth2|OAuth 2.0]] security gap for public clients (mobile apps, single-page apps) that can't keep a client secret. The client generates a high-entropy *code_verifier*, sends its hash (*code_challenge*) on the authorization request, and presents the original verifier on the token-exchange request. An attacker who intercepts the authorization code can't redeem it without the verifier.
 
 Originally defined for native mobile apps; **[[oauth2|OAuth]] 2.1 mandates {{pkce|PKCE}} for every authorization-code flow**, public or confidential. If you're building any new [[oauth2|OAuth]] integration in 2026, you're using {{pkce|PKCE}}.`
+	},
+
+	// ── NAT traversal (STUN / TURN / ICE) ──────────────────────────────
+	{
+		number: '8489',
+		title: 'Session Traversal Utilities for NAT (STUN)',
+		year: 2020,
+		authors: 'Petit-Huguenin, Salgueiro, Rosenberg, Wing, Mahy, Matthews',
+		status: 'proposed-standard',
+		obsoletes: ['5389'],
+		url: 'https://www.rfc-editor.org/rfc/rfc8489',
+		protocols: ['nat-traversal', 'webrtc'],
+		abstract: `The modern revision of [[pioneer:jonathan-rosenberg|Jonathan Rosenberg]]'s 2003 [[rfc:8489|RFC 3489]] — the wire format and reflexive-address probe at the heart of [[nat-traversal|NAT traversal]]. Defines the 20-byte STUN header with the famous \`0x2112A442\` magic cookie, the 96-bit transaction ID, TLV attribute encoding, and the Binding method that lets a client learn its public \`ip:port\` (encoded XORed into \`XOR-MAPPED-ADDRESS\`).
+
+This revision (Feb 2020) added \`MESSAGE-INTEGRITY-SHA256\`, the \`USERHASH\` attribute that anonymises usernames, negotiated \`PASSWORD-ALGORITHMS\`, and a 13-byte "nonce cookie" prefix (\`obMatJos2…\`) that defends against bid-down attacks. STUN is also the substrate every other piece of [[nat-traversal|NAT traversal]] is built on: [[rfc:8656|TURN]] messages (except \`ChannelData\`) are STUN-formatted, and [[rfc:8445|ICE]] connectivity checks are STUN Binding requests with short-term credentials.`,
+		notableSections: [
+			{ ref: '§5', description: 'STUN Message Structure (20-byte header)' },
+			{ ref: '§14', description: 'Attribute encoding and the catalogue' },
+			{ ref: '§9', description: 'Short-term and long-term authentication' },
+			{ ref: '§11', description: 'RFC 3489 backward compatibility' }
+		]
+	},
+	{
+		number: '8656',
+		title: 'Traversal Using Relays around NAT (TURN)',
+		year: 2020,
+		authors: 'Reddy, Johnston (ed.), Matthews, Rosenberg',
+		status: 'proposed-standard',
+		obsoletes: ['5766', '6156'],
+		url: 'https://www.rfc-editor.org/rfc/rfc8656',
+		protocols: ['nat-traversal', 'webrtc'],
+		abstract: `Extends [[rfc:8489|STUN]] with the *relayed* transport address — a public \`ip:port\` on a TURN server that two peers can target when no direct path works. A client \`Allocate\`s a relay (default 600 s lifetime), \`CreatePermission\` on each peer it wants to talk to, and then either sends via \`Send\`/\`Data\` indications or — more efficiently — binds 4-byte \`ChannelData\` headers via \`ChannelBind\`.
+
+The 2020 revision merged the original 5766 with the IPv6 extensions of 6156 and added dual-stack allocations (\`ADDITIONAL-ADDRESS-FAMILY\`, \`ADDRESS-ERROR-CODE\`). TURN is what makes calls work behind cloud-default NATs (AWS, GCP, Azure are all symmetric), CGNAT carriers, and aggressive enterprise firewalls. The trade-off: an extra hop of latency and a per-GB bill.`,
+		notableSections: [
+			{ ref: '§3', description: 'Overview and TURN message types' },
+			{ ref: '§6–8', description: 'Allocate, Refresh, CreatePermission, ChannelBind' },
+			{ ref: '§18', description: 'TURN-specific attributes' },
+			{ ref: '§21', description: 'Security considerations (open-proxy risks)' }
+		]
+	},
+	{
+		number: '8445',
+		title: 'Interactive Connectivity Establishment (ICE)',
+		year: 2018,
+		authors: 'Keränen, Holmberg, Rosenberg',
+		status: 'proposed-standard',
+		obsoletes: ['5245'],
+		url: 'https://www.rfc-editor.org/rfc/rfc8445',
+		protocols: ['nat-traversal', 'webrtc', 'sip'],
+		abstract: `The algorithm that turns [[rfc:8489|STUN]] probes and [[rfc:8656|TURN]] allocations into a working call. Each ICE agent gathers candidates (host, server-reflexive, peer-reflexive, relayed), pairs them with the peer's, prioritises (host > prflx > srflx > relay), and runs STUN connectivity checks across every pair using short-term credentials.
+
+The *controlling* agent breaks ties and nominates the winning pair with \`USE-CANDIDATE\`. The 2018 revision unified the algorithm across SIP and WebRTC use cases, simplified the lite/full distinction, and tightened the formula for pair priority: \`2^32 * min(G,D) + 2 * max(G,D) + (G>D?1:0)\`. Companion documents add Trickle ICE ([[rfc:8838|RFC 8838]]), ICE-PAC ([[rfc:8863|RFC 8863]]), and consent freshness ([[rfc:7675|RFC 7675]]).`,
+		notableSections: [
+			{ ref: '§5', description: 'Candidate gathering' },
+			{ ref: '§6', description: 'Connectivity checks' },
+			{ ref: '§7', description: 'Concluding ICE' },
+			{ ref: '§8.1.1', description: 'Regular vs aggressive nomination' }
+		]
+	},
+
+	// ── OSPF (Open Shortest Path First) ────────────────────────────────
+	{
+		number: '2328',
+		title: 'OSPF Version 2',
+		year: 1998,
+		authors: 'John Moy',
+		status: 'internet-standard',
+		url: 'https://www.rfc-editor.org/rfc/rfc2328',
+		protocols: ['ospf'],
+		abstract: `**STD 54** — the canonical [[ospf|OSPF]] specification, 244 pages, edited by [[pioneer:john-moy|John Moy]] at Ascend Communications. Defines the [[ip|IPv4]] link-state Interior Gateway Protocol that drives most enterprise core networks, MPLS PE-CE links, and mid-tier carrier IGPs. The protocol runs directly on [[ip|IP]] (protocol 89), uses link-local multicast \`224.0.0.5\`/\`224.0.0.6\` for adjacency, and synchronises a topology database across every router in an area before each independently runs [[pioneer:edsger-dijkstra|Dijkstra]]'s shortest-path-first algorithm.
+
+The packet format, eight-state neighbour state machine (Down → Init → 2-Way → ExStart → Exchange → Loading → Full), LSA flooding rules, area and DR election, and SPF computation are all defined here — and unchanged in 28 years. Everything modern ([[rfc:8665|Segment Routing]], [[rfc:9350|Flex-Algo]], SRv6, BFD Strict-Mode) is layered on through Opaque LSAs and Router Information TLVs, not by rewriting the protocol.`,
+		notableSections: [
+			{ ref: '§A.3', description: 'Packet formats for Hello, DBD, LSR, LSU, LSAck' },
+			{ ref: '§10', description: 'The neighbour state machine' },
+			{ ref: '§16', description: 'Calculation of the routing table (SPF)' },
+			{ ref: 'Annex D', description: 'Cryptographic authentication' }
+		]
+	},
+	{
+		number: '5340',
+		title: 'OSPF for IPv6 (OSPFv3)',
+		year: 2008,
+		authors: 'Coltun, Ferguson, Moy, Lindem',
+		status: 'proposed-standard',
+		obsoletes: ['2740'],
+		url: 'https://www.rfc-editor.org/rfc/rfc5340',
+		protocols: ['ospf', 'ipv6'],
+		abstract: `[[ospf|OSPFv3]] — the [[ipv6|IPv6]] revision of [[rfc:2328|OSPF]]. Same algorithm, same state machine, same LSA flooding model, but with a 16-byte header (no authentication field — auth moves to the [[rfc:7166|Authentication Trailer]]), per-link rather than per-IP-subnet operation, and a clean LSA extensibility design via RFC 8362.
+
+Via RFC 5838, OSPFv3 also carries [[ip|IPv4]] as a separate address family — making it the natural choice for dual-stack networks that want a single IGP control plane.`,
+		notableSections: [
+			{ ref: '§A.3', description: 'OSPFv3 packet format (16-byte header)' },
+			{ ref: '§A.4', description: 'LSA formats' },
+			{ ref: '§2.4', description: 'Instance ID for multi-instance support' }
+		]
+	},
+	{
+		number: '9350',
+		title: 'IGP Flexible Algorithm',
+		year: 2023,
+		authors: 'Psenak, Hegde, Filsfils, Talaulikar, Gulko',
+		status: 'proposed-standard',
+		url: 'https://www.rfc-editor.org/rfc/rfc9350',
+		protocols: ['ospf'],
+		abstract: `Lets operators compute **multiple parallel SPF planes** per [[ospf|OSPF]]/IS-IS area, each with its own metric and constraints. The Flexible Algorithm Definition (FAD) TLV — area-scoped, carried in the Router Information LSA — defines:
+
+- A **metric type** (IGP cost, min-delay, TE cost)
+- A set of **include/exclude admin-groups**
+- A set of **excluded SRLGs**
+- A **calc-type** (usually plain Dijkstra)
+
+The result: a single physical topology can carry a "low-latency plane", a "redundant plane", and a "minimum-cost plane" simultaneously, each computed independently on every router. The substrate for modern Segment Routing traffic engineering — and the most-cited recent [[ospf|OSPF]] feature outside the base spec.`,
+		notableSections: [
+			{ ref: '§5', description: 'FAD TLV format' },
+			{ ref: '§6', description: 'Path computation rules' }
+		]
+	},
+
+	// ── IPsec (Internet Protocol Security) ─────────────────────────────
+	{
+		number: '4301',
+		title: 'Security Architecture for the Internet Protocol',
+		year: 2005,
+		authors: 'Kent, Seo',
+		status: 'proposed-standard',
+		obsoletes: ['2401'],
+		url: 'https://www.rfc-editor.org/rfc/rfc4301',
+		protocols: ['ipsec'],
+		abstract: `The architectural foundation of [[ipsec|IPsec]] — defines the **Security Association Database (SAD)**, **Security Policy Database (SPD)**, **Security Parameters Index (SPI)**, the *transport vs tunnel* mode distinction, and the rules for selecting which outbound packets are encrypted, bypassed, or discarded. The second-generation architecture (obsoleted RFC 2401) that decoupled policy from key management cleanly enough for IKEv2 ([[rfc:7296|RFC 7296]]) to land on top.
+
+This document and its companions ([[rfc:4302|RFC 4302]] AH, [[rfc:4303|RFC 4303]] ESP) are the *data-plane* definition. IKEv2 negotiates the keys; this RFC defines what the kernel does with each packet that matches an SA.`,
+		notableSections: [
+			{ ref: '§4', description: 'Security Associations — SAD, SPD, SPI semantics' },
+			{ ref: '§5', description: 'IP traffic processing (outbound + inbound)' },
+			{ ref: '§7', description: 'Auditing and logging' }
+		]
+	},
+	{
+		number: '4302',
+		title: 'IP Authentication Header (AH)',
+		year: 2005,
+		authors: 'Kent',
+		status: 'proposed-standard',
+		obsoletes: ['2402'],
+		url: 'https://www.rfc-editor.org/rfc/rfc4302',
+		protocols: ['ipsec'],
+		abstract: `Defines the **Authentication Header (AH)** — [[ipsec|IPsec]]'s integrity-only protocol. AH authenticates the entire [[ip|IP]] header (except mutable fields like {{ttl|TTL}}) **and** the payload using HMAC-SHA-2 or AES-GMAC. No encryption. Designed for environments where confidentiality was banned by export controls in the 1990s.
+
+Almost no production deployment uses AH alone in 2026; **[[rfc:4303|ESP]]** with AEAD ciphers does both encryption and authentication in one pass and has won the architecture debate. AH is still allowed for transport-mode authentication of [[ipv6|IPv6]] extension headers, and a handful of high-assurance government deployments specify it.`,
+		notableSections: [
+			{ ref: '§2', description: 'Authentication Header format' },
+			{ ref: '§3.3', description: 'Integrity Check Value (ICV) computation' }
+		]
+	},
+	{
+		number: '4303',
+		title: 'IP Encapsulating Security Payload (ESP)',
+		year: 2005,
+		authors: 'Kent',
+		status: 'proposed-standard',
+		obsoletes: ['2406'],
+		url: 'https://www.rfc-editor.org/rfc/rfc4303',
+		protocols: ['ipsec'],
+		abstract: `The **Encapsulating Security Payload (ESP)** — the part of [[ipsec|IPsec]] everyone actually deploys. Encrypts and authenticates [[ip|IP]] payloads (and, in tunnel mode, the full original packet) with AEAD ciphers like **AES-GCM** ([[rfc:4106|RFC 4106]]) or **ChaCha20-Poly1305** ([[rfc:7634|RFC 7634]]). 8-byte ESP header (SPI + 32-bit sequence number), 8-byte AEAD nonce, encrypted payload, 16-byte authentication tag.
+
+The 32-bit sequence number drives **anti-replay** protection (§3.4.3): receivers maintain a sliding window of recently-seen sequences (default 32 entries — a documented foot-gun on 10 Gbps+ links). [[rfc:4304|RFC 4304]] / RFC 4309 extend this to 64-bit (ESN) for very high-rate flows.`,
+		notableSections: [
+			{ ref: '§2', description: 'ESP packet format (SPI, seq, IV, ciphertext, ICV)' },
+			{ ref: '§3.3', description: 'Outbound processing — encryption + integrity in one AEAD pass' },
+			{ ref: '§3.4.3', description: 'Anti-replay window (the famous default-32 pitfall)' },
+			{ ref: '§A', description: 'Extended sequence number (ESN) appendix' }
+		]
+	},
+	{
+		number: '7296',
+		title: 'Internet Key Exchange Protocol Version 2 (IKEv2)',
+		year: 2014,
+		authors: 'Kaufman, Hoffman, Nir, Eronen, Kivinen',
+		status: 'internet-standard',
+		obsoletes: ['5996'],
+		url: 'https://www.rfc-editor.org/rfc/rfc7296',
+		protocols: ['ipsec'],
+		abstract: `**STD 79** — the canonical Internet Standard for **IKEv2**, the modern key-management protocol that negotiates [[ipsec|IPsec]] Security Associations. Two exchanges open the tunnel: **IKE_SA_INIT** (Diffie-Hellman + nonces + NAT detection, 2 messages) and **IKE_AUTH** (identity + first Child SA, 2 messages). Subsequent **CREATE_CHILD_SA** exchanges rekey or open new SAs; **INFORMATIONAL** carries delete and dead-peer-detection messages.
+
+Edited across decades by [[pioneer:charlie-kaufman|Charlie Kaufman]] (Microsoft) and [[pioneer:tero-kivinen|Tero Kivinen]] (the ~20-year IKEv2 editor), with [[pioneer:paul-wouters|Paul Wouters]] now leading the IPSECME WG. The 2014 revision (Internet Standard) consolidated the 2005 first edition ([[rfc:4306|RFC 4306]]) and 2010 clarifications ([[rfc:5996|RFC 5996]]). Companion documents add fragmentation ([[rfc:7383|RFC 7383]]), signature auth ([[rfc:7427|RFC 7427]]), TCP encapsulation ([[rfc:8229|RFC 8229]]), and the post-quantum extensions [[rfc:8784|RFC 8784]] / [[rfc:9242|RFC 9242]] / [[rfc:9370|RFC 9370]].`,
+		notableSections: [
+			{ ref: '§1.2', description: 'IKE_SA_INIT and IKE_AUTH exchanges' },
+			{ ref: '§1.3', description: 'CREATE_CHILD_SA — rekeying and new SAs' },
+			{ ref: '§2.23', description: 'NAT traversal (UDP/4500 encapsulation)' },
+			{ ref: '§3', description: 'Header and payload formats' }
+		]
+	},
+	{
+		number: '8784',
+		title: 'Mixing Preshared Keys in the IKEv2 Internet Key Exchange',
+		year: 2020,
+		authors: 'Fluhrer, McGrew, Kampanakis, Smyslov',
+		status: 'proposed-standard',
+		url: 'https://www.rfc-editor.org/rfc/rfc8784',
+		protocols: ['ipsec'],
+		abstract: `The first deployable **post-quantum** extension to [[ipsec|IPsec]]. Adds a **Post-quantum Preshared Key (PPK)** to the IKEv2 key derivation so that even if classical Diffie-Hellman is broken later by a quantum adversary, recorded traffic remains unrecoverable (the "harvest-now-decrypt-later" defence).
+
+Compatible with the IKEv2 state machine; only the KDF inputs change. Co-authored by Cisco (Scott Fluhrer, David McGrew), AWS (Panos Kampanakis), and ELVIS-PLUS (Valery Smyslov) — illustrating that [[ipsec|IPsec]] is always a multi-vendor, multi-government project. Superseded for new deployments by [[rfc:9242|RFC 9242]] + [[rfc:9370|RFC 9370]] + the draft-ietf-ipsecme-ikev2-mlkem draft, but still the only PQ option for legacy stacks that can't be upgraded.`,
+		notableSections: [
+			{ ref: '§3', description: 'PPK_IDENTITY notify and KDF mixing' }
+		]
+	},
+	{
+		number: '9242',
+		title: 'Intermediate Exchange in the IKEv2 Protocol',
+		year: 2022,
+		authors: 'Smyslov',
+		status: 'proposed-standard',
+		url: 'https://www.rfc-editor.org/rfc/rfc9242',
+		protocols: ['ipsec'],
+		abstract: `Adds a new **IKE_INTERMEDIATE** exchange between IKE_SA_INIT and IKE_AUTH so that large post-quantum public keys (ML-KEM-768 is 1,184 bytes; ML-KEM-1024 is 1,568 bytes) can be transferred *after* the IKE SA is protected but *before* the identity is revealed. Without this, the IKE_SA_INIT message would exceed common UDP MTU limits and force fragmentation that NATs and firewalls regularly mangle.`,
+		notableSections: [
+			{ ref: '§3', description: 'IKE_INTERMEDIATE message format and rules' }
+		]
+	},
+	{
+		number: '9370',
+		title: 'Multiple Key Exchanges in the IKEv2 Protocol',
+		year: 2023,
+		authors: 'Tjhai, Tomlinson, Bartlett, Fluhrer, Van Geest, Garcia-Morchon, Smyslov',
+		status: 'proposed-standard',
+		url: 'https://www.rfc-editor.org/rfc/rfc9370',
+		protocols: ['ipsec'],
+		abstract: `Lets IKEv2 chain **multiple key-exchange methods** in a single SA negotiation — classical ecp384 *and* ML-KEM-768 *and* (optionally) a third KEM. The session key is derived from all of them combined, so an adversary must break *every* algorithm to recover it. The architectural answer to "we don't know yet which post-quantum KEM will hold up — so use several."`,
+		notableSections: [
+			{ ref: '§2', description: 'KE_ADDITIONAL_KEY_EXCHANGE_n notify' },
+			{ ref: '§3', description: 'IKE_INTERMEDIATE chaining with multiple KEMs' }
+		]
 	}
 ];
 

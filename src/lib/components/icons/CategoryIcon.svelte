@@ -1,5 +1,13 @@
 <script lang="ts">
-	import { ArrowLeftRight, Orbit, Radio, Play, ShieldCheck, Network } from 'lucide-svelte';
+	import {
+		ArrowLeftRight,
+		Orbit,
+		Radio,
+		Play,
+		ShieldCheck,
+		Network,
+		Antenna
+	} from 'lucide-svelte';
 
 	let { icon, size = 24, animate = false }: { icon: string; size?: number; animate?: boolean } = $props();
 
@@ -9,7 +17,8 @@
 		'web-api': Orbit,
 		'async-iot': Radio,
 		'realtime-av': Play,
-		utilities: ShieldCheck
+		utilities: ShieldCheck,
+		wireless: Antenna
 	};
 
 	const Component = $derived(iconMap[icon]);

@@ -49,7 +49,11 @@ const highlightedNames: Record<string, string> = {
 	dhcp: '[D]ynamic [H]ost [C]onfiguration [P]rotocol',
 	ntp: '[N]etwork [T]ime [P]rotocol',
 	smtp: '[S]imple [M]ail [T]ransfer [P]rotocol',
-	ftp: '[F]ile [T]ransfer [P]rotocol'
+	ftp: '[F]ile [T]ransfer [P]rotocol',
+	'nat-traversal': '[NAT] [T]raversal ([STUN] / [TURN] / [ICE])',
+	ospf: '[O]pen [S]hortest [P]ath [F]irst',
+	bluetooth: '[B]lue[T]ooth',
+	ipsec: '[IP] [Sec]urity'
 };
 
 export interface NameSegment {

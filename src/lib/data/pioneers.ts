@@ -162,7 +162,7 @@ Founded 3Com in 1979 to commercialize [[ethernet|Ethernet]]. Today, four decades
 		contribution: `Invented the Spanning Tree Protocol (IEEE 802.1D, 1985), which made redundant [[ethernet|Ethernet]] topologies possible by automatically discovering and disabling loops without operator intervention. Without STP, every backbone [[ethernet|Ethernet]] network in the world would broadcast-storm itself to death. Later designed TRILL (Transparent Interconnection of Lots of Links) and contributed to the IS-IS routing protocol.
 
 Holds over 100 patents. Often called the "Mother of the Internet" for the loop-prevention work that made every multi-switch [[ethernet|Ethernet]] network possible. Wrote the textbook *Interconnections: Bridges, Routers, Switches and Internetworking Protocols*, the gold standard on bridging vs routing.`,
-		protocols: ['ethernet'],
+		protocols: ['ethernet', 'ospf'],
 		categories: ['network-foundations'],
 		awards: [
 			{ name: 'Internet Hall of Fame', year: 2014 },
@@ -429,6 +429,273 @@ The amount of detailed specification work shipped under his name across two deca
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Ian_Hickson',
 			homepage: 'https://hixie.ch/'
+		}
+	},
+	{
+		id: 'jonathan-rosenberg',
+		name: 'Jonathan Rosenberg',
+		years: '1968–',
+		title: 'Architect of SIP, STUN, TURN, and ICE',
+		org: 'Five9 (CTO / Head of AI), formerly Cisco, Skype, dynamicsoft',
+		contribution: `One of the most prolific RFC authors in the IETF's history — public counts range from 56 to 71 RFCs depending on year and source, consistently in the top 10. As principal or co-author of [[sip|SIP]] itself ([[rfc:8445|RFC 3261]]), SDP offer/answer (RFC 3264), and **every** revision of [[rfc:8489|STUN]] (3489 / 5389 / 8489), [[rfc:8656|TURN]] (5766 / 8656), and [[rfc:8445|ICE]] (5245 / 8445), [[pioneer:jonathan-rosenberg|Rosenberg]] is the architect of the entire modern [[nat-traversal|NAT-traversal]] stack.
+
+MIT BS/MS, Columbia PhD; Lucent (1993–99), CTO of dynamicsoft until Cisco acquired it (2004), Cisco Fellow, Chief Technology Strategist at Skype (2009–13), VP/CTO Collaboration at Cisco (2013–18), and since January 2019 CTO and Head of AI at Five9. Pulver VoN Pioneer Award (2000); MIT TR35 (2002).`,
+		protocols: ['nat-traversal', 'sip', 'sdp', 'webrtc'],
+		categories: ['utilities', 'realtime-av'],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/Jonathan_Rosenberg_(engineer)',
+			homepage: 'https://www.jdrosen.net/'
+		}
+	},
+	{
+		id: 'bryan-ford',
+		name: 'Bryan Ford',
+		years: '1973–',
+		title: 'NAT-traversal academic anchor; P2P researcher',
+		org: 'EPFL DEDIS Lab (faculty); previously Yale',
+		contribution: `MIT PhD; faculty at Yale, now at EPFL. His 2005 USENIX ATC paper with Pyda Srisuresh and Dan Kegel — *"Peer-to-Peer Communication Across Network Address Translators"* — is *the* canonical academic [[nat-traversal|NAT-traversal]] reference, with the famous **82% UDP / 64% TCP hole-punching** success numbers that destroyed the four-flavours NAT model. His follow-up STUNT toolkit extended hole-punching to [[tcp|TCP]]. Co-author with [[pioneer:saikat-guha|Saikat Guha]] of RFC 5128 (*State of P2P Communication across NATs*, 2008) and RFC 5382 (TCP NAT behavioural requirements).
+
+Now leads DEDIS (Decentralized/Distributed Systems lab) at EPFL, working on scalable byzantine-fault-tolerant systems and privacy-preserving protocols.`,
+		protocols: ['nat-traversal'],
+		categories: ['utilities'],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/Bryan_Ford_(computer_scientist)',
+			homepage: 'https://bford.info/'
+		}
+	},
+	{
+		id: 'saikat-guha',
+		name: 'Saikat Guha',
+		years: '1979–',
+		title: 'NAT measurement pioneer',
+		org: 'Microsoft Research India',
+		contribution: `Cornell PhD (advisor Paul Francis). His 2005 IMC paper with Francis — *"Characterization and Measurement of TCP Traversal Through NATs and Firewalls"* — and the follow-up NUTSS papers established what NATs *actually do* on the wire, not what the RFCs assumed. Co-author of RFC 5382 (NAT Behavioural Requirements for TCP, 2008) with [[pioneer:bryan-ford|Bryan Ford]] and Pyda Srisuresh.
+
+Subsequent work spans enterprise network measurement (IMC 2008), online advertising privacy, and ISP traffic differentiation (NSDI 2010's *Glasnost* tool). Now at Microsoft Research, leading work on responsible AI and large-scale system measurement.`,
+		protocols: ['nat-traversal'],
+		categories: ['utilities'],
+		links: {
+			homepage: 'https://www.microsoft.com/en-us/research/people/saikat/'
+		}
+	},
+	{
+		id: 'justin-uberti',
+		name: 'Justin Uberti',
+		years: '1975–',
+		title: 'Architect of WebRTC and modern voice/video infrastructure',
+		org: 'OpenAI (Head of Real-Time AI, from Nov 2024); formerly Google, Fixie',
+		contribution: `Distinguished Engineer at Google for over a decade, leading the WebRTC architecture behind Google Meet, Duo, Stadia, and the open-source libwebrtc (which grew to ~1.21M lines of code under his watch, roughly 3× the Space Shuttle flight software). Co-author of [[rfc:8445|RFC 8838]] (Trickle ICE) and RFC 8863 (ICE-PAC), and the public face of WebRTC at IETF, Google I/O, and Kranky Geek for years.
+
+Before Google: AOL Instant Messenger and the early AIM/AOL real-time media stack. After Google: CTO of Fixie / Ultravox, building real-time voice agents. Joined OpenAI on **25 November 2024** to lead Real-Time AI — the move that signalled [[nat-traversal|NAT traversal]] is now load-bearing for low-latency voice agents, not just video calls.`,
+		protocols: ['nat-traversal', 'webrtc', 'rtp'],
+		categories: ['utilities', 'realtime-av'],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/Justin_Uberti',
+			homepage: 'https://x.com/juberti'
+		}
+	},
+	{
+		id: 'john-moy',
+		name: 'John T. Moy',
+		years: '1955–',
+		title: 'Principal architect of OSPF',
+		org: 'Proteon → Cascade → Ascend → Lucent → Sycamore Networks (Corporate Fellow)',
+		contribution: `Principal architect of [[ospf|OSPF]]. B.S. in mathematics from the University of Minnesota; M.A. in mathematics from Princeton. Began designing router software at Bolt Beranek and Newman (BBN). At Proteon Inc. in Westborough, MA (1987–89) he wrote both the [[ospf|OSPF]] specification (RFC 1131, 1989) and one of the first [[ospf|OSPF]] implementations. Chaired the IETF [[ospf|OSPF]] Working Group and the MOSPF Working Group through the late 1980s and 1990s.
+
+After Proteon: Cascade Communications, then Ascend Communications (where he was Senior Consulting Engineer when [[rfc:2328|RFC 2328]] — STD 54, the canonical [[ospf|OSPFv2]] spec — was published in April 1998), then to Lucent Technologies via Lucent's 1999 acquisition of Ascend, then to Sycamore Networks as a Corporate Fellow.
+
+Author of two definitive books: *[[ospf|OSPF]]: Anatomy of an Internet Routing Protocol* (Addison-Wesley, 1998) and *[[ospf|OSPF]] Complete Implementation* (Addison-Wesley, 2000) — the latter publishes a working C++ [[ospf|OSPF]] speaker as part of the book.`,
+		protocols: ['ospf'],
+		categories: ['network-foundations'],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/John_Moy'
+		}
+	},
+	{
+		id: 'edsger-dijkstra',
+		name: 'Edsger W. Dijkstra',
+		years: '1930–2002',
+		title: 'Inventor of the shortest-path-first algorithm',
+		org: 'Mathematisch Centrum (Amsterdam) → Eindhoven University → Burroughs → UT Austin',
+		contribution: `Dutch computer scientist whose **shortest-path-first algorithm**, designed in 1956 at a café table in Amsterdam, is the computational core every [[ospf|OSPF]] router runs every time the topology changes. Published in 1959 as "A note on two problems in connexion with graphs," *Numerische Mathematik* 1:269–271 — a three-page paper that didn't even name the algorithm.
+
+Awarded the **ACM Turing Award in 1972** "for fundamental contributions to programming as a high, intellectual challenge; for eloquent insistence and practical demonstration that programs should be composed correctly, not just debugged into correctness." Also authored the celebrated "GOTO Considered Harmful" letter (CACM 11(3), 1968), the THE operating system, semaphores, guarded commands, structured programming. At UT Austin from 1984 until his death on 6 August 2002.
+
+His work is the substrate of *every* link-state routing protocol: [[ospf|OSPF]], IS-IS, PNNI, even modern Flex-Algo planes still run Dijkstra under the hood.`,
+		protocols: ['ospf'],
+		categories: ['network-foundations'],
+		awards: [
+			{ name: 'ACM Turing Award', year: 1972 },
+			{ name: 'ACM PODC Influential-Paper Award (Dijkstra Prize, 2002–, named for him)' }
+		],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/Edsger_W._Dijkstra'
+		},
+		quotes: [
+			{
+				text: 'Computer science is no more about computers than astronomy is about telescopes.',
+				source: {
+					url: 'https://en.wikiquote.org/wiki/Edsger_W._Dijkstra',
+					label: 'Widely attributed; cf. EWD 1036 and related notes'
+				}
+			}
+		]
+	},
+	{
+		id: 'jaap-haartsen',
+		name: 'Jaap Haartsen',
+		years: '1963–',
+		title: 'Inventor of Bluetooth',
+		org: 'Ericsson (Lund) → Plantronics → Sony Mobile (retired)',
+		contribution: `Dutch electrical engineer who invented the [[bluetooth|Bluetooth]] radio. Joined Ericsson Mobile Communications in Lund, Sweden in 1991; tasked with replacing the RS-232 cable to a mobile-phone headset. With Sven Mattisson he produced the original frequency-hopping 2.4 GHz radio design between 1994 and 1997 — the foundation of every [[bluetooth|Bluetooth]] chip ever made.
+
+Authored the core technical work that defined the Bluetooth Baseband: piconets, the 1,600-hops-per-second frequency hopping pattern, the master/slave (now Central/Peripheral) topology, BD_ADDR-derived clock alignment, the SCO/eSCO voice links, and ACL data links. Co-architected the SIG founding in May 1998.
+
+European Inventor Award 2015 finalist (Lifetime Achievement) — the EPO citation says he "made wireless communication ubiquitous."`,
+		protocols: ['bluetooth'],
+		categories: ['wireless'],
+		awards: [
+			{ name: 'European Inventor Award (Lifetime Achievement finalist)', year: 2015 },
+			{ name: 'Eduard Rhein Foundation Technology Award', year: 2009 }
+		],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/Jaap_Haartsen'
+		},
+		quotes: [
+			{
+				text: 'We were not trying to invent a new wireless standard. We were trying to get rid of a cable.',
+				source: {
+					url: 'https://www.epo.org/learning/materials/inventors/files/2015-finalists-haartsen.pdf',
+					label: 'EPO 2015 Inventor Award finalist profile'
+				}
+			}
+		]
+	},
+	{
+		id: 'sven-mattisson',
+		name: 'Sven Mattisson',
+		years: '1956–',
+		title: 'Co-inventor of Bluetooth',
+		org: 'Ericsson Research → Sony Mobile (retired)',
+		contribution: `Swedish electrical engineer; collaborator with [[pioneer:jaap-haartsen|Jaap Haartsen]] on the original [[bluetooth|Bluetooth]] radio at Ericsson Lund. Where Haartsen owned the digital baseband design, Mattisson owned the analog RF and CMOS implementation work — the IC-level decisions that made [[bluetooth|Bluetooth]] manufacturable at consumer price points.
+
+Adjunct Professor at Lund University; long-running editor of *IEEE Journal of Solid-State Circuits* contributions on low-power radio design. The 2015 European Inventor Award shortlisting recognised the Haartsen/Mattisson pair as the joint architects.`,
+		protocols: ['bluetooth'],
+		categories: ['wireless'],
+		awards: [{ name: 'European Inventor Award (Lifetime Achievement finalist)', year: 2015 }]
+	},
+	{
+		id: 'jim-kardach',
+		name: 'Jim Kardach',
+		years: '1958–',
+		title: 'Named Bluetooth; SIG founding architect',
+		org: 'Intel (retired)',
+		contribution: `Intel engineer who proposed the name **Bluetooth** at a 1997 SIG planning meeting — after Harald "Blåtand" Gormsson, the 10th-century Danish king who united Denmark and Norway. Kardach was reading Frans G. Bengtsson's novel *The Long Ships* on a flight and made the analogy: just as Harald united warring tribes, the SIG was trying to unite Ericsson, IBM, Intel, Nokia, and Toshiba behind one wireless standard. The name was supposed to be a placeholder. It stuck.
+
+Beyond the name, Kardach drove much of Intel's early [[bluetooth|Bluetooth]] silicon strategy and was instrumental in landing the May 1998 SIG founding charter. The logo — a bind-rune of Hagall (ᚼ) and Bjarkan (ᛒ) in Younger Futhark — also came out of the original branding work.`,
+		protocols: ['bluetooth'],
+		categories: ['wireless'],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/Jim_Kardach'
+		},
+		quotes: [
+			{
+				text: 'Bluetooth was originally intended as a placeholder name, until marketing could come up with something better. They never did.',
+				source: {
+					url: 'https://www.eetimes.com/the-naming-of-a-technology/',
+					label: '"The Naming of a Technology" — Kardach in EETimes'
+				}
+			}
+		]
+	},
+	{
+		id: 'phil-karn',
+		name: 'Phil Karn',
+		years: '1956–',
+		title: 'IPsec contributor; "code is speech" plaintiff',
+		org: 'Qualcomm (1991–retirement); ARDC President Emeritus',
+		contribution: `Engineer at Qualcomm for two decades; contributor to [[ipsec|IPsec]] (acknowledged in RFC 1827, the original ESP spec) and author of the KA9Q [[tcp|TCP]]/[[ip|IP]] stack — one of the first public-domain implementations of the protocol suite. Karn's Algorithm (the TCP RTT estimator that ignores retransmitted segments) is in every TCP stack on Earth.
+
+Plaintiff in *Karn v. U.S. State Department* (1994–1999) — the case where the State Department classified the **printed book** of Bruce Schneier's *Applied Cryptography* as First Amendment-protected speech, but the **floppy disk** with the same code as a regulated munition under ITAR. The case is one of the founding "code is speech" precedents in U.S. law and helped force the 1996 liberalisation of crypto export controls — without which [[ipsec|IPsec]] could not have shipped commercially.`,
+		protocols: ['ipsec', 'tcp'],
+		categories: ['utilities', 'transport'],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/Phil_Karn'
+		}
+	},
+	{
+		id: 'randall-atkinson',
+		name: 'Randall Atkinson',
+		years: 'c. 1965–',
+		title: 'Original IPsec architect',
+		org: 'U.S. Naval Research Laboratory, Information Technology Division',
+		contribution: `Lead author of the **first-generation [[ipsec|IPsec]] architecture**: RFC 1825 (Security Architecture for the Internet Protocol), RFC 1826 (AH), and RFC 1827 (ESP), all published in August 1995 from the U.S. Naval Research Lab. Built one of the first interoperable [[ipsec|IPsec]] implementations and shepherded the working-group consensus through the early IETF Security Area.
+
+The 2005 second-generation rewrite ([[rfc:4301|RFC 4301]] / [[rfc:4302|4302]] / [[rfc:4303|4303]]) restructured the architecture but preserved every wire-format decision Atkinson made. His work is the substrate every modern [[ipsec|IPsec]] implementation builds on.`,
+		protocols: ['ipsec'],
+		categories: ['utilities'],
+		links: {
+			homepage: 'https://datatracker.ietf.org/doc/rfc1825/'
+		}
+	},
+	{
+		id: 'charlie-kaufman',
+		name: 'Charlie Kaufman',
+		years: 'c. 1955–',
+		title: 'Editor of IKEv2',
+		org: 'Microsoft (also Lotus, IBM, DEC, Iris Associates)',
+		contribution: `Lead editor of **IKEv2** across its full 20-year lifecycle: [[rfc:4306|RFC 4306]] (2005, the original), [[rfc:5996|RFC 5996]] (2010, clarifications), and **[[rfc:7296|RFC 7296]] (2014) — the Internet Standard (STD 79)** that anchors every modern [[ipsec|IPsec]] deployment. Co-author of *Network Security: Private Communication in a Public World* (Prentice Hall, multiple editions) — the textbook that taught a generation how to think about cryptographic protocols.
+
+Career across DEC, Lotus, Iris Associates (Lotus Notes security architecture), IBM, and Microsoft. Pragmatic voice in IETF security debates; the kind of editor whose name on a draft means it actually works in production.`,
+		protocols: ['ipsec'],
+		categories: ['utilities'],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/Charlie_Kaufman'
+		}
+	},
+	{
+		id: 'tero-kivinen',
+		name: 'Tero Kivinen',
+		years: 'c. 1970–',
+		title: 'IKEv2 long-running editor',
+		org: 'SSH Communications Security → AuthenTec → INSIDE Secure (Helsinki)',
+		contribution: `The ~20-year IKEv2 editor — co-author of [[rfc:7296|RFC 7296]], [[rfc:7427|RFC 7427]] (signature auth), RFC 7670 (raw public keys), RFC 6467 (secure-password framework), RFC 7815 (minimal IKEv2 initiator). At SSH Communications Security in Helsinki when the original IKEv1 was being designed; stayed with [[ipsec|IPsec]] through every architectural revision.
+
+Kivinen is the engineer who has written down what an [[ipsec|IPsec]] implementation actually does, in normative IETF prose, more times than anyone else alive.`,
+		protocols: ['ipsec'],
+		categories: ['utilities'],
+		links: {
+			homepage: 'https://datatracker.ietf.org/person/kivinen@iki.fi'
+		}
+	},
+	{
+		id: 'paul-wouters',
+		name: 'Paul Wouters',
+		years: 'c. 1971–',
+		title: 'Libreswan maintainer; IETF Security Area Director',
+		org: 'Aiven Senior Security Architect (previously Red Hat)',
+		contribution: `Maintainer of **Libreswan**, the descendant of FreeS/WAN → Openswan, shipped in Red Hat Enterprise Linux as the default [[ipsec|IPsec]] stack. Two-term IETF **Security Area Director**, deeply involved in the IPSECME working group, and author of NIST SP 800-77 Rev. 1 (Guide to [[ipsec|IPsec]] VPNs).
+
+If you've used [[ipsec|IPsec]] on Linux in the last decade, you've probably depended on a binary Wouters maintains, an RFC he co-authored, or a NIST guidance document he wrote.`,
+		protocols: ['ipsec'],
+		categories: ['utilities'],
+		links: {
+			homepage: 'https://nohats.ca/wordpress/'
+		}
+	},
+	{
+		id: 'andreas-steffen',
+		name: 'Andreas Steffen',
+		years: 'c. 1955–',
+		title: 'Founder and lead of strongSwan',
+		org: 'OST Eastern Switzerland University of Applied Sciences (formerly HSR Rapperswil); strongSwan project lead',
+		contribution: `Founded and led the **strongSwan** project — the most-deployed open-source [[ipsec|IPsec]] / IKEv2 stack on Linux. strongSwan ships in every cloud-hyperscaler VPN gateway image, every BSI SINA high-security solution (secunet acquired strongSwan in June 2022), every Yocto-derived IoT gateway. Long-running contributor to IETF security work, including Trusted Network Connect (TNC) / PT-EAP.
+
+Professor at HSR / OST in Rapperswil, Switzerland — strongSwan started as an academic project there and is one of the longest-running successful open-source security projects of European origin.`,
+		protocols: ['ipsec'],
+		categories: ['utilities'],
+		links: {
+			homepage: 'https://strongswan.org'
 		}
 	}
 ];

@@ -89,14 +89,6 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
 						'Wrote [[rfc:826|RFC 826]] (1982) defining the Address Resolution Protocol — the elegantly simple {{broadcast|broadcast}} mechanism that bridges [[ip|IP]] addresses to hardware addresses on local networks.'
 				},
 				{
-					name: 'Vic Hayes',
-					years: '1941–',
-					title: 'Father of Wi-Fi',
-					org: 'NCR / Agere Systems',
-					contribution:
-						'Chaired the IEEE [[wifi|802.11]] working group from 1990 to 2002, shepherding the wireless LAN standard from concept to global adoption. Known as the "Father of [[wifi|Wi-Fi]]" for his persistence in driving consensus.'
-				},
-				{
 					name: 'Yakov Rekhter',
 					years: 'c. 1950–',
 					title: 'Co-creator of BGP',
@@ -166,13 +158,6 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
 					protocolId: 'bgp'
 				},
 				{
-					year: 1997,
-					title: 'IEEE 802.11 — First Wi-Fi Standard',
-					description:
-						'The original [[wifi|802.11]] standard is published, supporting 2 Mbps wireless LAN. Slow and expensive, but it proves wireless networking is viable.',
-					protocolId: 'wifi'
-				},
-				{
 					year: 1998,
 					title: 'IPv6 Specified — RFC 2460',
 					description:
@@ -180,38 +165,11 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
 					protocolId: 'ipv6'
 				},
 				{
-					year: 1999,
-					title: 'Wi-Fi Alliance Formed',
-					description:
-						'The [[wifi|Wi-Fi]] Alliance is created to certify interoperability. 802.11b brings 11 Mbps, making wireless affordable for consumers.'
-				},
-				{
-					year: 2009,
-					title: 'Wi-Fi 4 (802.11n) — MIMO',
-					description:
-						'802.11n introduces multiple-input multiple-output (MIMO) antennas, reaching 600 Mbps and making [[wifi|Wi-Fi]] competitive with wired connections for most uses.',
-					protocolId: 'wifi'
-				},
-				{
-					year: 2020,
-					title: 'Wi-Fi 6 (802.11ax) — Efficiency Era',
-					description:
-						'[[wifi|Wi-Fi]] 6 focuses on efficiency in dense environments: OFDMA, BSS Coloring, and Target Wake Time improve performance when hundreds of devices share the airwaves.',
-					protocolId: 'wifi'
-				},
-				{
 					year: 2024,
 					title: '800 GbE Standardised — IEEE 802.3df-2024',
 					description:
 						'Approved 16 February 2024, 802.3df defines 800 GbE (and 400 GbE on 100 G lanes). The 1.6 TbE follow-up (P802.3dj, 200 G/lane) targets July 2026 — driven by AI training fabrics that need lossless [[ethernet|Ethernet]] with RoCEv2 to replace InfiniBand in large GPU clusters.',
 					protocolId: 'ethernet'
-				},
-				{
-					year: 2025,
-					title: 'Wi-Fi 7 (802.11be) Published',
-					description:
-						'IEEE 802.11be ratified 22 July 2025: 320-MHz channels in 6 GHz, 4096-QAM, Multi-Link Operation, preamble puncturing. [[wifi|Wi-Fi]] 8 (802.11bn / Ultra High Reliability) is in draft for 2028 — not faster, but 25% better at the 95th percentile.',
-					protocolId: 'wifi'
 				},
 				{
 					year: 2026,
@@ -263,43 +221,9 @@ The shift from hubs to switches in the 1990s was transformative. A hub was just 
 			credit: 'Image: Barrett Lyon / The Opte Project / CC BY 2.5, via Wikimedia Commons'
 		},
 		{
-			type: 'narrative',
-			title: 'Cutting the Cord',
-			text: `[[wifi|Wi-Fi]] brought [[ethernet|Ethernet]]'s model to the airwaves, but radio introduced challenges that cables never had. The wireless medium is shared — you can't run a dedicated cable to each device — so [[wifi|Wi-Fi]] uses CSMA/{{certificate-authority|CA}} (Collision Avoidance) instead of CSMA/CD: devices announce their intent to transmit and wait for clear airtime rather than detecting collisions after the fact.
-
-An [[wifi|802.11]] frame carries three or four MAC addresses (receiver, transmitter, destination, and sometimes source) compared to [[ethernet|Ethernet]]'s two. The {{access-point|access point}} bridges between worlds: it receives encrypted [[wifi|Wi-Fi]] frames from wireless clients, decrypts and strips the [[wifi|802.11]] header, then wraps the {{payload|payload}} in a standard [[ethernet|Ethernet]] frame for the wired network. This seamless bridging is why your laptop doesn't care whether it's plugged in or on [[wifi|Wi-Fi]] — [[ip|IP]] works the same either way.`
-		},
-		{
-			type: 'diagram',
-			title: 'Wired vs Wireless — Ethernet and Wi-Fi Frame Comparison',
-			definition: `graph TD
-  subgraph EthFrame["Ethernet Frame (Layer 2 — Wired)"]
-    E1["Dst MAC — 6 bytes"]
-    E2["Src MAC — 6 bytes"]
-    E3["EtherType — 2 bytes"]
-    E4["Payload — 46-1500 bytes"]
-    E5["FCS — 4 bytes"]
-    E1 --- E2 --- E3 --- E4 --- E5
-  end
-  subgraph WiFiFrame["802.11 Frame (Layer 2 — Wireless)"]
-    W1["Frame Control — 2 bytes"]
-    W2["Duration — 2 bytes"]
-    W3["Addr 1: Receiver — 6 bytes"]
-    W4["Addr 2: Transmitter — 6 bytes"]
-    W5["Addr 3: Destination — 6 bytes"]
-    W6["Seq Control — 2 bytes"]
-    W7["Encrypted Payload"]
-    W8["FCS — 4 bytes"]
-    W1 --- W2 --- W3 --- W4 --- W5 --- W6 --- W7 --- W8
-  end
-  EthFrame ~~~ WiFiFrame`,
-			caption:
-				'[[ethernet|Ethernet]] frames use two MAC addresses (source, destination) and are sent in the clear. [[wifi|Wi-Fi]] frames need three or four addresses (receiver, transmitter, destination, and optionally source) and encrypt the {{payload|payload}} — reflecting the complexity of shared airwaves vs dedicated cables.'
-		},
-		{
 			type: 'callout',
 			title: 'Layer 2 vs Layer 3',
-			text: '[[ethernet|Ethernet]] and [[wifi|Wi-Fi]] operate at Layer 2 (Data Link) — they handle framing and local delivery using MAC addresses. [[ip|IP]] operates at Layer 3 (Network) — it handles addressing and routing across networks. [[arp|ARP]] bridges the two: it translates Layer 3 addresses ([[ip|IP]]) into Layer 2 addresses (MAC). This separation of concerns is what makes the internet scalable — [[ip|IP]] routes between networks, while [[ethernet|Ethernet]]/[[wifi|Wi-Fi]] handles the "last mile" delivery on each segment.'
+			text: '[[ethernet|Ethernet]] operates at Layer 2 (Data Link) — it handles framing and local delivery using MAC addresses. [[ip|IP]] operates at Layer 3 (Network) — it handles addressing and routing across networks. [[arp|ARP]] bridges the two: it translates Layer 3 addresses ([[ip|IP]]) into Layer 2 addresses (MAC). This separation of concerns is what makes the internet scalable — [[ip|IP]] routes between networks, while [[ethernet|Ethernet]] (and its [[wifi|Wireless]] siblings in the [[wifi|Wireless]] category) handles the "last mile" delivery on each segment.'
 		},
 		{
 			type: 'narrative',

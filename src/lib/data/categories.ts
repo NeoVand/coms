@@ -54,6 +54,15 @@ export const categories: Category[] = [
 		description:
 			'The invisible infrastructure. [[dns|DNS]] translates names to addresses, [[tls|TLS]] encrypts everything, and [[ntp|NTP]] keeps the world synchronized.',
 		icon: 'utilities'
+	},
+	{
+		id: 'wireless',
+		name: 'Wireless',
+		color: '#FBBF24',
+		glowColor: 'rgba(251, 191, 36, 0.4)',
+		description:
+			'Protocols that move bits through the air. From [[wifi|Wi-Fi]] hotspots to [[bluetooth|Bluetooth]] earbuds — every layer where the physical medium is radio rather than copper or fibre.',
+		icon: 'wireless'
 	}
 ];
 

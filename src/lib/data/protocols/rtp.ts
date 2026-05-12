@@ -157,7 +157,7 @@ tcpdump -i eth0 udp port 5004 -w rtp_capture.pcap`
 			'Adaptive: codec and bitrate adjust based on RTCP feedback. Audio: 8-128kbps. Video: 100kbps-10+Mbps.',
 		overhead: '12-byte RTP header per packet. RTCP reports are periodic and small.'
 	},
-	connections: ['udp', 'webrtc', 'sip', 'sdp'],
+	connections: ['udp', 'webrtc', 'sip', 'sdp', 'nat-traversal'],
 	links: {
 		wikipedia: 'https://en.wikipedia.org/wiki/Real-time_Transport_Protocol',
 		rfc: 'https://datatracker.ietf.org/doc/html/rfc3550'

@@ -167,7 +167,7 @@ a=rtpmap:97 opus/48000/2`
 		throughput: 'SIP messages are small text; the media (RTP) carries the bandwidth load',
 		overhead: 'Text-based headers like HTTP; typically 500-1000 bytes per SIP message'
 	},
-	connections: ['udp', 'tcp', 'tls', 'rtp', 'webrtc', 'sdp'],
+	connections: ['udp', 'tcp', 'tls', 'rtp', 'webrtc', 'sdp', 'nat-traversal'],
 	links: {
 		wikipedia: 'https://en.wikipedia.org/wiki/Session_Initiation_Protocol',
 		rfc: 'https://datatracker.ietf.org/doc/html/rfc3261'

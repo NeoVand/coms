@@ -4,7 +4,7 @@ export const wifi: Protocol = {
 	id: 'wifi',
 	name: 'Wi-Fi',
 	abbreviation: '802.11',
-	categoryId: 'network-foundations',
+	categoryId: 'wireless',
 	port: undefined,
 	year: 1997,
 	rfc: undefined,
@@ -14,7 +14,9 @@ export const wifi: Protocol = {
 
 The differences from [[ethernet|Ethernet]] are deeper than just "no cable." Because wireless stations can't detect collisions while transmitting (the "hidden node" problem), [[wifi|Wi-Fi]] uses RTS/CTS {{handshake|handshakes}} and carrier sensing to avoid them. Every frame must be {{ack|acknowledged}} — if the sender doesn't get an {{ack|ACK}}, it {{retransmission|retransmits}}. The {{access-point|access point}} bridges wireless and wired worlds, translating between [[wifi|802.11]] and 802.3 frames so that [[arp|ARP]], [[ip|IP]], and everything above works seamlessly across both.
 
-[[wifi|Wi-Fi]] has evolved dramatically since the original [[wifi|802.11]] standard in 1997 (2 Mbps). 802.11b (1999) brought 11 Mbps, 802.11g (2003) hit 54 Mbps, 802.11n ([[wifi|Wi-Fi]] 4, 2009) introduced MIMO for 600 Mbps, 802.11ac ([[wifi|Wi-Fi]] 5, 2014) pushed to gigabit speeds, 802.11ax ([[wifi|Wi-Fi]] 6, 2020) added OFDMA for dense environments, and 802.11be ([[wifi|Wi-Fi]] 7, 2024) delivers up to 46 Gbps with multi-link operation. Each generation brought better throughput, lower {{latency|latency}}, and improved handling of crowded airspace.`,
+[[wifi|Wi-Fi]] has evolved dramatically since the original [[wifi|802.11]] standard in 1997 (2 Mbps). 802.11b (1999) brought 11 Mbps, 802.11g (2003) hit 54 Mbps, 802.11n ([[wifi|Wi-Fi]] 4, 2009) introduced MIMO for 600 Mbps, 802.11ac ([[wifi|Wi-Fi]] 5, 2014) pushed to gigabit speeds, 802.11ax ([[wifi|Wi-Fi]] 6, 2020) added OFDMA for dense environments, and 802.11be ([[wifi|Wi-Fi]] 7, 2024) delivers up to 46 Gbps with multi-link operation. Each generation brought better throughput, lower {{latency|latency}}, and improved handling of crowded airspace.
+
+[[wifi|Wi-Fi]] shares the 2.4 GHz ISM band with **[[bluetooth|Bluetooth]]** — the two are the universal coexistence pairing in the [[wifi|Wireless]] category. Modern combo chips (Apple H-series, Broadcom, Qualcomm) do time-division arbitration at the silicon level so [[wifi|Wi-Fi]] and [[bluetooth|Bluetooth]] don't starve each other. The escape to 5 GHz and 6 GHz on the [[wifi|Wi-Fi]] side has eased the crowding; [[bluetooth|Bluetooth]] stays at 2.4 GHz where every battery-powered consumer device already lives.`,
 	howItWorks: [
 		{
 			title: 'Beacon scanning',
@@ -165,7 +167,7 @@ iw dev wlan0 station dump`
 		overhead:
 			'24-36 byte MAC header depending on frame type and flags (vs 14 for Ethernet) + encryption overhead (CCMP adds 16 bytes); acknowledgment frames add airtime cost'
 	},
-	connections: ['ethernet', 'arp', 'ip', 'ipv6'],
+	connections: ['ethernet', 'arp', 'ip', 'ipv6', 'bluetooth'],
 	links: {
 		wikipedia: 'https://en.wikipedia.org/wiki/[[wifi|Wi-Fi]]',
 		official: 'https://www.wi-fi.org/'

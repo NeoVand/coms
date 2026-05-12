@@ -179,7 +179,7 @@ a=rtcp-fb:96 nack pli`
 		overhead:
 			'Plain text format is verbose but human-readable. Binary alternatives exist but are rare.'
 	},
-	connections: ['webrtc', 'sip', 'rtp'],
+	connections: ['webrtc', 'sip', 'rtp', 'nat-traversal'],
 	links: {
 		wikipedia: 'https://en.wikipedia.org/wiki/Session_Description_Protocol',
 		rfc: 'https://datatracker.ietf.org/doc/html/rfc8866'

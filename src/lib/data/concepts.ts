@@ -2099,6 +2099,152 @@ export const concepts: Concept[] = [
 			"Cloud-provider terminology for failure domains. A *region* is a geographic area (us-east-1, eu-west-2) with its own user-facing endpoints. An *availability zone* is one or more datacenters within a region with independent power, cooling, and networking — designed so a single AZ failure does not take down the others. \"Multi-AZ\" is the minimum production resilience bar.",
 		wikiUrl: 'https://en.wikipedia.org/wiki/Availability_zone',
 		category: 'infrastructure'
+	},
+
+	// ── NAT traversal vocabulary ───────────────────────────────────────
+	{
+		id: 'ice',
+		term: 'ICE (Interactive Connectivity Establishment)',
+		definition:
+			'The algorithm that orchestrates [[nat-traversal|NAT traversal]] for a single session. Each agent gathers every possible candidate address (host, server-reflexive via STUN, peer-reflexive, relayed via TURN), pairs them with the peer\'s candidates, runs connectivity checks across every pair, and nominates the highest-priority working one. RFC 8445.',
+		analogy:
+			"Like a meet-up app that tries every route between two friends — bike, train, ride-share, walking — and picks the one that actually gets them together.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Interactive_Connectivity_Establishment',
+		category: 'networking-basics'
+	},
+	{
+		id: 'stun',
+		term: 'STUN (Session Traversal Utilities for NAT)',
+		definition:
+			'The wire format and reflexive-address probe under [[nat-traversal|NAT traversal]]. A 20-byte header with the magic cookie 0x2112A442 and a 96-bit transaction ID. A Binding Request asks a public server "what address do you see me from?" — the answer (XOR-MAPPED-ADDRESS) is the agent\'s public {{ip-address|IP:port}}. RFC 8489.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/STUN',
+		category: 'networking-basics'
+	},
+	{
+		id: 'turn',
+		term: 'TURN (Traversal Using Relays around NAT)',
+		definition:
+			"STUN's relay extension: when no direct path works between two peers, both connect to a public TURN server which forwards media between them. The fallback path that makes [[webrtc|WebRTC]] calls reach 99%+ success rates. Default allocation lifetime: 600 seconds. RFC 8656.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Traversal_Using_Relays_around_NAT',
+		category: 'networking-basics'
+	},
+	{
+		id: 'ice-candidate',
+		term: 'ICE candidate',
+		definition:
+			'A (transport, address, port) tuple that an [[nat-traversal|ICE]] agent thinks the peer might be able to reach it on. Four types: **host** (a local interface, priority 126), **server-reflexive** (STUN-discovered public IP, 100), **peer-reflexive** (discovered during checks, 110), and **relay** (TURN-allocated, 0). Candidates are signalled to the peer via SDP.',
+		wikiUrl: 'https://datatracker.ietf.org/doc/html/rfc8445#section-5.1.1',
+		category: 'networking-basics'
+	},
+
+	// ── Bluetooth vocabulary ──────────────────────────────────────────
+	{
+		id: 'gatt',
+		term: 'GATT (Generic Attribute Profile)',
+		definition:
+			"The [[bluetooth|BLE]] application protocol. A GATT *server* (peripheral) exposes a tree of services → characteristics → descriptors, each with a 16- or 128-bit UUID and a numeric handle. A GATT *client* (central) discovers them, reads/writes/subscribes-to-notifications. The protocol every BLE sensor and wearable speaks above L2CAP.",
+		analogy:
+			'Like a tiny REST API embedded in every Bluetooth sensor — services are endpoints, characteristics are the actual values.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Bluetooth_Low_Energy#GATT',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'ble',
+		term: 'BLE (Bluetooth Low Energy)',
+		definition:
+			"The 2010 [[bluetooth|Bluetooth]] redesign for microamp power budgets. Different radio than Classic BR/EDR (40 × 2 MHz channels, GFSK-only, hops once per connection event). Different stack: L2CAP → ATT → GATT. The protocol under AirPods, AirTags, hearing aids, and Matter device commissioning.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Bluetooth_Low_Energy',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'l2cap',
+		term: 'L2CAP (Logical Link Control and Adaptation Protocol)',
+		definition:
+			"The [[bluetooth|Bluetooth]] transport layer above the Link Layer. Provides Channel IDs that demultiplex sub-protocols: CID 0x0004 is ATT (GATT data), CID 0x0005 is LE signalling, CID 0x0006 is the Security Manager Protocol (pairing).",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Bluetooth#L2CAP',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'piconet',
+		term: 'Piconet',
+		definition:
+			"A small [[bluetooth|Bluetooth]] Classic network — one master (now Central) and up to seven active slaves (Peripherals) sharing a frequency-hopping pattern keyed off the master's clock. The fundamental BR/EDR topology since 1999.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Piconet',
+		category: 'networking-basics'
+	},
+
+	// ── OSPF vocabulary ───────────────────────────────────────────────
+	{
+		id: 'lsa',
+		term: 'LSA (Link State Advertisement)',
+		definition:
+			"The unit of routing information in [[ospf|OSPF]] and IS-IS. Each router floods LSAs describing its own links — type, cost, neighbours — and every router in the area accumulates them into an identical Link State Database (LSDB). Dijkstra runs on that database to compute shortest paths.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Link-state_advertisement',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'lsdb',
+		term: 'LSDB (Link State Database)',
+		definition:
+			"The synchronised graph of all links in an [[ospf|OSPF]] area. Every router in the area maintains an *identical* copy by flooding LSAs and acknowledging them. Dijkstra's shortest-path-first algorithm runs locally on this database — no router trusts another's route computation.",
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'igp',
+		term: 'IGP (Interior Gateway Protocol)',
+		definition:
+			"A routing protocol used *inside* an {{autonomous-system|autonomous system}} — to compute paths between a single organisation's own routers. [[ospf|OSPF]] and IS-IS are the two dominant link-state IGPs. Contrast with EGP / [[bgp|BGP]], which routes *between* autonomous systems.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Interior_gateway_protocol',
+		category: 'networking-basics'
+	},
+
+	// ── IPsec vocabulary ──────────────────────────────────────────────
+	{
+		id: 'security-association',
+		term: 'SA (Security Association)',
+		definition:
+			"A one-directional [[ipsec|IPsec]] tunnel, identified by a 32-bit Security Parameters Index (SPI). It carries the cipher, key, sequence-number counter, and anti-replay window for traffic in one direction. A typical site-to-site VPN has two SAs (one each way) per Traffic Selector pair.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Security_association',
+		category: 'security'
+	},
+	{
+		id: 'esp',
+		term: 'ESP (Encapsulating Security Payload)',
+		definition:
+			"The [[ipsec|IPsec]] data-plane protocol that encrypts and authenticates [[ip|IP]] payloads with an AEAD cipher like AES-GCM. 8-byte header (SPI + 32-bit sequence number), 8-byte AEAD nonce, encrypted payload, 16-byte authentication tag. The part of IPsec that everyone deploys. RFC 4303.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/IPsec#Encapsulating_Security_Payload',
+		category: 'security'
+	},
+	{
+		id: 'ah-authentication-header',
+		term: 'AH (Authentication Header)',
+		definition:
+			"The [[ipsec|IPsec]] integrity-only protocol. Authenticates the entire [[ip|IP]] header (minus mutable fields) and payload but encrypts nothing. Almost no production deployment uses AH alone in 2026 — ESP with AEAD does both jobs in one pass. RFC 4302.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/IPsec#Authentication_Header',
+		category: 'security'
+	},
+	{
+		id: 'ike',
+		term: 'IKE / IKEv2 (Internet Key Exchange)',
+		definition:
+			"The [[ipsec|IPsec]] control plane — negotiates the cipher suite, exchanges Diffie-Hellman / ECDH / ML-KEM public keys, authenticates the peers (certificate, PSK, or EAP), and establishes the Security Associations the data plane uses. IKEv2 (RFC 7296, STD 79) is the modern Internet Standard.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Internet_Key_Exchange',
+		category: 'security'
+	},
+	{
+		id: 'anti-replay',
+		term: 'Anti-replay window',
+		definition:
+			"A sliding bitmap of recently-seen sequence numbers maintained by an [[ipsec|ESP]] (or similar) receiver. Packets older than the window or duplicates within it are dropped. RFC 4303 §3.4.3 default is **32 entries** — a well-documented foot-gun on 10 Gbps+ links where out-of-order delivery routinely overflows it; production gateways tune to 1024+.",
+		category: 'security'
+	},
+	{
+		id: 'pfs',
+		term: 'PFS (Perfect Forward Secrecy)',
+		definition:
+			"A property of a key-exchange protocol where compromising one session\'s long-term key does **not** compromise past sessions. Achieved by deriving each session key from an ephemeral Diffie-Hellman exchange. [[tls|TLS]] 1.3 enforces it; [[ipsec|IKEv2]] gets it via fresh DH/KEM in CREATE_CHILD_SA rekeys.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Forward_secrecy',
+		category: 'security'
 	}
 ];
 

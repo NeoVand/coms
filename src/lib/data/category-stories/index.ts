@@ -5,6 +5,7 @@ import { webApiStory } from './web-api';
 import { asyncIotStory } from './async-iot';
 import { realtimeAvStory } from './realtime-av';
 import { utilitiesStory } from './utilities';
+import { wirelessStory } from './wireless';
 
 const storyMap = new Map<string, CategoryStory>(
 	[
@@ -13,7 +14,8 @@ const storyMap = new Map<string, CategoryStory>(
 		webApiStory,
 		asyncIotStory,
 		realtimeAvStory,
-		utilitiesStory
+		utilitiesStory,
+		wirelessStory
 	].map((s) => [s.categoryId, s])
 );
 

@@ -18,6 +18,8 @@ When you visit a website, your {{packet|packets}} may cross 5-10 different auton
 
 A fundamental distinction in [[bgp|BGP]] is between eBGP (External [[bgp|BGP]]) and iBGP (Internal [[bgp|BGP]]). eBGP runs between routers in different autonomous systems — this is the inter-domain routing that connects the internet. iBGP runs between routers within the same {{autonomous-system|AS}}, distributing externally learned routes internally. The two behave differently: eBGP modifies the AS_PATH on each hop, while iBGP does not, requiring either a full mesh of iBGP peers or route reflectors to prevent loops.
 
+[[bgp|BGP]] is the *exterior* protocol. The *interior* gateway protocol — what each {{autonomous-system|AS}} runs internally to compute shortest paths between its own routers — is usually **[[ospf|OSPF]]** (campus, enterprise, mid-tier ISP) or IS-IS (tier-1 ISP backbones). [[bgp|BGP]] routes are recursively resolved through the IGP: a [[bgp|BGP]] next-hop typically isn't directly connected, so [[ospf|OSPF]] tells the router how to reach it. Every modern internet packet that crosses AS boundaries was routed by both protocols in concert.
+
 The consequences of [[bgp|BGP]] mistakes are enormous. The Facebook outage of October 2021 — which took down Facebook, Instagram, and WhatsApp for six hours — was caused by a [[bgp|BGP]] misconfiguration that withdrew all of Facebook's routes from the internet. [[bgp|BGP]] route hijacks, where an {{autonomous-system|AS}} announces routes it doesn't own, can redirect traffic through malicious networks.`,
 	howItWorks: [
 		{
@@ -152,7 +154,7 @@ for await (const elem of parser) {
 		overhead:
 			'19-byte minimum header (16-byte marker + 2-byte length + 1-byte type). UPDATE messages vary by prefix count and path attributes.'
 	},
-	connections: ['tcp', 'dns', 'ip'],
+	connections: ['tcp', 'dns', 'ip', 'ospf'],
 	links: {
 		wikipedia: 'https://en.wikipedia.org/wiki/Border_Gateway_Protocol',
 		rfc: 'https://datatracker.ietf.org/doc/html/rfc4271'
