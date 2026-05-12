@@ -244,7 +244,7 @@ That entire on-the-wire dump fits in roughly 40 bytes — a single Hue bulb comm
 		official: 'https://csa-iot.org/all-solutions/zigbee/'
 	},
 	image: {
-		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/93/Zigbee_Logo.svg/250px-Zigbee_Logo.svg.png',
+		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Zigbee_logo.svg/330px-Zigbee_logo.svg.png',
 		alt: 'The Zigbee logo — a stylised honey-bee evoking the waggle dance, the Alliance\'s metaphor for mesh routing.',
 		caption:
 			'The Zigbee name comes from the **honey-bee waggle dance** — the figure-eight a foraging bee performs to communicate the direction and distance of food. The Alliance picked the metaphor for the mesh: thousands of small, low-power messengers cooperatively routing information to where it is needed.',

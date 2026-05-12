@@ -820,6 +820,135 @@ export const journeys: Journey[] = [
 					'Google\'s Agent-to-Agent Protocol, announced in April 2025, completed the picture. Where [[mcp|MCP]] connects agents to tools, [[a2a|A2A]] connects agents to each other. An agent publishes its skills in an Agent Card, and other agents discover it, delegate tasks, and receive structured results — all without knowing anything about the internal implementation. The task lifecycle (submitted → working → completed) with [[sse|SSE]] streaming provides the coordination primitives that multi-agent systems need. Together, [[mcp|MCP]] and [[a2a|A2A]] form the two-protocol foundation of the agentic AI era — donated to the Linux Foundation as open industry standards.'
 			}
 		]
+	},
+
+	// ── Wireless ───────────────────────────────────────────────────────
+	{
+		id: 'wireless-tap-to-pay',
+		title: 'Tap to Pay — what happens in the 300 ms after you touch the terminal',
+		description:
+			'A contactless EMV payment is the most-deployed cryptographic protocol on Earth. Follow a tap from antenna power-on to issuer approval — through [[nfc|NFC]], EMV, the eSE, and back through the [[cellular|cellular]] network to the bank.',
+		color: '#FBBF24',
+		scope: 'wireless',
+		steps: [
+			{
+				protocolId: 'nfc',
+				title: 'Field on — phone harvests power inductively',
+				description:
+					"The terminal's antenna is radiating a 13.56 MHz magnetic field continuously. When you bring your phone within ~4 cm, the phone's NFC controller and {{ese|embedded Secure Element}} harvest microwatts directly from the field — no battery contribution needed on the SE side. This is the {{inductive-coupling|inductive coupling}} that makes [[nfc|NFC]] work: magnetic field falls off as 1/r³, which is exactly why 10 cm is a feature, not a bug. The biometric release (Face ID / Touch ID) had to happen *before* this point — the eSE applet is now armed and waiting.",
+				transition: 'The phone is powered and the terminal needs to discover what kind of card is in the field. ISO 14443-3 defines a tight anti-collision sequence — REQA / ATQA / SEL / SAK — that completes in under 20 ms...'
+			},
+			{
+				protocolId: 'nfc',
+				title: 'Anti-collision + RATS/ATS — negotiate framing',
+				description:
+					"The terminal sends a 7-bit `0x26` REQA. The eSE replies with **ATQA** declaring a 4-byte UID and standard anti-collision. The terminal then runs the bit-frame anti-collision loop (`SEL=0x93`, `NVB=0x20` → UID → `NVB=0x70`) to converge on the {{frame|frame}} UID, ending in **SAK** = `0x28` — bit 6 set means *I speak ISO 14443-4*. The terminal sends **RATS**, the eSE replies with **ATS** declaring its frame-size budget (FSCI=5 = 64 bytes max). Both ends now know how to {{packet|packet}}ise the EMV exchange.",
+				transition: "With 14443-4 framing established, the terminal switches into ISO 7816-4 APDU mode and asks the canonical EMV opening question: *which payment networks do you support?*"
+			},
+			{
+				protocolId: 'nfc',
+				title: 'SELECT PPSE → SELECT AID — enumerate payment apps',
+				description:
+					"The terminal sends `00 A4 04 00 0E 32 50 41 59 2E 53 59 53 2E 44 44 46 30 31` — SELECT **PPSE** (Proximity Payment System Environment, the magic {{aid|AID}} `2PAY.SYS.DDF01`). The eSE returns an FCI Template listing every payment {{aid|AID}} it supports in priority order — Mastercard `A0000000041010`, Visa `A0000000031010`, etc. The terminal picks the highest-priority one and SELECTs it; the card returns its **PDOL** — the list of EMV tags the card needs filled in to compute the cryptogram (amount, currency, country, terminal type, Unpredictable Number).",
+				transition: 'The card now knows what payment network it is on; the terminal knows what data the card wants. Time to bind the transaction: amount, currency, a fresh random nonce.'
+			},
+			{
+				protocolId: 'nfc',
+				title: 'GENERATE AC — the cryptogram',
+				description:
+					"After GET PROCESSING OPTIONS (returning AIP+AFL) and READ RECORD ×N (pulling the **DPAN**, expiry, certificate chain), the terminal sends `80 AE 80 00` GENERATE AC with the filled CDOL1 data. The eSE composes the inputs (amount, currency, country, TVR, ATC, Unpredictable Number, AIP) and runs them through AES-MAC under the per-DPAN key, producing the **{{emv-cryptogram|Application Cryptogram (ARQC)}}**. The {{anti-replay|ATC}} (Application Transaction Counter) has already incremented by 1; the cryptogram is unforgeable without the eSE key.",
+				transition: "The cryptogram is now in the terminal's hand. But the eSE has no online connection — it can't authorise the transaction itself. The terminal needs to send the ARQC to the issuer bank, which is somewhere on the other end of the carrier network..."
+			},
+			{
+				protocolId: 'cellular',
+				title: 'Backhaul over LTE / 5G to the acquirer',
+				description:
+					"Modern wireless POS terminals (Square, Stripe, Verifone Engage) send the ARQC to the acquirer over [[cellular|cellular]] data — LTE Cat-1 or 5G in 2026. The terminal opens a [[tls|TLS]] connection to the acquirer's API endpoint, posts a JSON body containing the cryptogram + transaction details. The carrier core wraps the [[ip|IP]] traffic in **GTP-U over [[ipsec|IPsec ESP]]** between the gNB and UPF — per 3GPP TS 33.501, every backhaul {{hop|hop}} is IPsec-wrapped. The single largest enterprise IPsec deployment on Earth lives inside this layer.",
+				transition: "The cryptogram reaches the acquirer; the acquirer routes it through the payment network (Mastercard / Visa) to the issuing bank's HSM..."
+			},
+			{
+				protocolId: 'tls',
+				title: 'Issuer verification + ARPC return',
+				description:
+					"The **issuer bank's HSM** decrypts the cryptogram inputs using the per-DPAN key it minted at tokenisation time, re-derives the ARQC, and compares. Match + sufficient balance + no fraud flag = **APPROVED**. The issuer returns an **ARPC** (Authorisation Response Cryptogram) over its own [[tls|TLS]]-protected connection back through the payment network to the acquirer, then back over [[cellular|cellular]] to the terminal. Total time including the round-trip: typically **300–800 ms**. The terminal beeps green; the phone vibrates with the Apple Pay success animation. Total NFC airtime in the field was less than half a second — but the cryptographic chain stretched from the eSE through IPsec, cellular, TLS, and back."
+			}
+		]
+	},
+
+	{
+		id: 'wireless-phone-as-key',
+		title: 'A phone unlocks a car — BLE bootstrap → UWB ranging → unlock',
+		description:
+			'The 2022 Tesla BLE relay made it clear that RSSI proximity is fundamentally broken. CCC Digital Key 3.0 is the industry response: [[bluetooth|BLE]] for discovery and credential exchange, [[uwb|UWB]] for the cryptographic distance bound that the speed of light cannot lie about.',
+		color: '#FBBF24',
+		scope: 'wireless',
+		steps: [
+			{
+				protocolId: 'bluetooth',
+				title: 'BLE advertising — the car says hello on ch 37/38/39',
+				description:
+					"The car's BLE radio broadcasts `ADV_IND` on advertising channels 37 (2402 MHz), 38 (2426 MHz), and 39 (2480 MHz) every 100 ms or so — three channels carefully chosen to avoid [[wifi|Wi-Fi]]'s 1/6/11. The advert carries the {{ccc-digital-key|CCC Digital Key}} service UUID and an ephemeral identifier. Your iPhone (or Galaxy, or Android phone with {{aliro|Aliro}}) scans those channels continuously. When the phone sees the car's UUID, it sends `CONNECT_IND` — switching both radios from advertising channels to one of the 37 data channels — and the BLE link is up.",
+				transition: 'BLE is now connected, but BLE alone proved insecure in 2022 — Sultan Qasim Khan unlocked a parked Tesla from 25 m using $50 of dev boards by relaying the BLE signals. CCC Digital Key 3.0 fixes this with a layered cryptographic + physical defence...'
+			},
+			{
+				protocolId: 'bluetooth',
+				title: 'GATT pairing + SPAKE2+ authentication',
+				description:
+					"Over the BLE encrypted channel, the car and the phone run **SPAKE2+ / PAKE** authentication — the car proves it has the right vehicle key, the phone proves it has the right Digital Key applet in its {{ese|embedded Secure Element}}. {{apdu|APDUs}} flow over {{gatt|GATT}} carrying the EMV-style certificate chain. Both sides now share session keys. The next critical message: the car sends the phone the **STS_KEY** — a 128-bit AES key for the upcoming UWB ranging session — over the now-encrypted BLE channel. UWB has no power-efficient discovery of its own; BLE provides the on-ramp.",
+				transition: 'The phone has the STS_KEY. The car has the STS_KEY. Both fire up their UWB radios for the ranging round that proves *the phone is actually here*, not relayed from across the parking lot...'
+			},
+			{
+				protocolId: 'uwb',
+				title: 'UWB DS-TWR — three messages, six timestamps, cm-class distance',
+				description:
+					"The phone transmits a **Poll** RFRAME on UWB Channel 9 (7987.2 MHz, 499.2 MHz bandwidth, BPRF mode, 6.81 Mbps). The frame carries a 32-chip **{{sts|STS}}** (Scrambled Timestamp Sequence) generated by `AES-128-CTR(STS_KEY, nonce)` — the AES-keyed pulse pattern an attacker without STS_KEY cannot predict. The phone records `t1 = TX timestamp` at the SFD with ~15 ps resolution. The car (multiple anchors typically) RX-timestamps at t2, delays by `T_reply1` (~200 µs), transmits **Response** carrying t2 + t3. Phone records t4 = RX. Phone delays by T_reply2, transmits **Final** carrying t1, t4, t5. Car records t6 = RX. All six timestamps now exist.",
+				transition: 'The car can now compute time-of-flight. The cross-product formula cancels relative clock drift to first order — DS-TWR is insensitive to 20 ppm crystal offsets. Multiply ToF by the speed of light and you have distance...'
+			},
+			{
+				protocolId: 'uwb',
+				title: 'Distance check — and the unlock decision',
+				description:
+					"Using the **{{twr|DS-TWR}} cross-product** `ToF = (T_round1·T_round2 − T_reply1·T_reply2) / (T_round1+T_round2+T_reply1+T_reply2)`, the car computes time-of-flight to 1 ns precision — about 30 cm. Multiple anchors give an x/y/z position around the car. If `distance ≤ threshold` *and* the BLE credential is valid *and* the STS validation passed (no Ghost Peak-style injection detected), the car unlocks the side you're approaching, lights the welcome animation, and adjusts your seat. The key property: **{{tof-ranging|time-of-flight}} cannot be shortened by a relay** — the speed of light is the hard upper bound. The 2022 BLE relay attack does not work against UWB ranging. [[nfc|NFC]] remains the fallback for when your phone's battery is dead."
+			}
+		]
+	},
+
+	{
+		id: 'wireless-hue-bulb',
+		title: 'A Hue bulb joins the mesh — Zigbee commissioning in 4 messages',
+		description:
+			'You unbox a new Philips Hue bulb, plug it in, and the Hue app on your phone walks it through Zigbee Trust Center commissioning. Behind that simple UX is a four-message join sequence with one critical secret transfer.',
+		color: '#FBBF24',
+		scope: 'wireless',
+		steps: [
+			{
+				protocolId: 'zigbee',
+				title: 'Beacon Request — joiner asks "any networks?"',
+				description:
+					"The new bulb powers on, has no parent yet, and broadcasts an {{ieee-802-15-4|IEEE 802.15.4}} MAC Command `0x07` (**Beacon Request**) on its channel — picked from {15, 20, 25, 26} to dodge [[wifi|Wi-Fi]] 1/6/11 at 2412/2437/2462 MHz. Every Zigbee router with permit-joining enabled responds with a **Beacon**: the PAN ID, the Coordinator's short address (0x0000), the Stack Profile (Zigbee PRO), and the Permit-Joining flag. The joiner picks the best parent by RSSI + LQI. This is the slowest step — beacon scanning can take 2–4 seconds across all candidate channels.",
+				transition: 'The bulb has picked a parent. Now it needs a short address — a 16-bit local identifier much cheaper than its 64-bit EUI-64 on every frame for the rest of its life on this network...'
+			},
+			{
+				protocolId: 'zigbee',
+				title: 'Association Request + Response — get a short address',
+				description:
+					"The bulb sends MAC Command `0x01` (**Association Request**) with its Capability byte (`0x8E` = FFD, mains-powered, security-capable, allocate-short). The Coordinator allocates a unique 16-bit short address (e.g. `0x3F4E`) and replies with MAC Command `0x02` (**Association Response**). The bulb is now associated with the network at the MAC layer — but it doesn't have the **network key** yet, which means it can't decrypt or {{encryption|encrypt}} any actual Zigbee frames. The critical security step is next.",
+				transition: 'Without the network key the bulb is useless. The Coordinator (acting as {{trust-center|Trust Center}}) needs to securely deliver it — and how it does that is the single most important security decision in the whole Zigbee architecture...'
+			},
+			{
+				protocolId: 'zigbee',
+				title: 'APS Transport-Key — the network key, encrypted at the application layer',
+				description:
+					"The Coordinator sends an **APS Transport-Key** command (cmd `0x05`) containing the 128-bit AES network key, **{{encryption|encrypted}} under the joiner's pre-configured link key**. With a per-device {{install-code|install code}} (printed on the Hue bulb's box as a QR code), that link key is unique and an eavesdropper at join cannot decrypt this frame. With the default *ZigBeeAlliance09* link key (universally known: `5A:69:67:42:65:65:41:6C:6C:69:61:6E:63:65:30:39`), an eavesdropper *can* — this is the canonical Zigbee sniffer-at-join attack. Zigbee R23's **Dynamic Link Key** with SPEKE-over-Curve25519 removes the question entirely.",
+				transition: "The bulb now has both a short address and the network key. It can encrypt frames and join the mesh as a router for its neighbours. Time to announce its arrival..."
+			},
+			{
+				protocolId: 'zigbee',
+				title: 'Device Announce + first ZCL command',
+				description:
+					"The bulb NWK-broadcasts a **Device Announce** ZDO message (cluster `0x0013`): *I am 0x3F4E, EUI-64 = …, capability = mains-powered router*. Every router on the mesh adds the new bulb to its {{routing-table|routing}} and binding tables. The Hue app now appears to discover the bulb. Tapping the on/off toggle sends a single **{{zcl|ZCL}} OnOff.Toggle** command — APS profile `0x0104` (Home Automation), cluster `0x0006` (OnOff), command `0x02` (Toggle). The whole on-the-wire payload, including all 802.15.4 + NWK + APS + ZCL {{header|headers}} + AES-CCM* MIC, fits in ~40 bytes. The bulb turns on. From boot to first command: ~4 seconds."
+			}
+		]
 	}
 ];
 

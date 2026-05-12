@@ -281,7 +281,7 @@ Total airtime from field-on to ARQC: ~300–800 ms on a real terminal.`
 		official: 'https://nfc-forum.org/build/specifications'
 	},
 	image: {
-		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2b/NFC_Logo.svg/250px-NFC_Logo.svg.png',
+		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/NFC_logo.svg/330px-NFC_logo.svg.png',
 		alt: 'The NFC Forum "N-Mark" — a stylised lowercase "n" used to identify NFC-capable surfaces and devices since 2010.',
 		caption:
 			'The NFC Forum "N-Mark" replaced the older "ContactLess" branding around 2010 and is now a registered trademark. Where Bluetooth\'s logo is a bind-rune of King Harald Bluetooth\'s initials in Younger Futhark, NFC simply turned the first letter of its name into a single character.',

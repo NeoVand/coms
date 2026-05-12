@@ -280,7 +280,7 @@ Continuous Precision Finding refreshes at ~10 Hz on Apple silicon.`
 		official: 'https://www.firaconsortium.org/'
 	},
 	image: {
-		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/AirTag_in_hand.jpg/320px-AirTag_in_hand.jpg',
+		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Apple_AirTag.svg/330px-Apple_AirTag.svg.png',
 		alt: 'An Apple AirTag held between thumb and forefinger — the consumer product that mass-introduced UWB precision finding in April 2021.',
 		caption:
 			"Apple's **AirTag** (30 April 2021, $29) is the product that put UWB into the public vocabulary. Inside is a U1 chip plus a BLE radio, with the Find My network of ~1 billion participating Apple devices acting as a global crowdsourced locator. The U2-equipped second-generation AirTag shipped in January 2026 with 1.5× longer Precision Finding range and an integrated speaker that is harder to physically remove (an anti-stalking hardening directly motivated by the AirTag stalking cases of 2021–22).",

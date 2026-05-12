@@ -488,6 +488,123 @@ OCSP (Online {{certificate|Certificate}} Status Protocol) and CRL (Certificate R
 {{dnssec|DNSSEC}} adds cryptographic signatures to [[dns|DNS]] responses, preventing {{spoofing|spoofing}}. [[dns|DNS]]-over-HTTPS (DoH) and [[dns|DNS]]-over-[[tls|TLS]] (DoT) encrypt the query itself using [[tls|TLS]], preventing ISPs and network operators from snooping on which domains you're looking up.`
 			}
 		]
+	},
+	{
+		categoryId: 'wireless',
+		tagline:
+			'The power–range–throughput triangle, CSMA/CA versus CSMA/CD, the 2.4 GHz coexistence dance, the BLE-bootstrap pattern, and the cross-cutting security history of the wireless family.',
+		sections: [
+			{
+				type: 'narrative',
+				title: 'The Power–Range–Throughput Triangle',
+				text: `Every wireless protocol picks two corners of a three-way trade-off: **transmit power**, **range**, and **throughput**. You can have any two cheaply; the third is what the spec is really negotiating.
+
+[[nfc|NFC]] picks **low power + low range** — passive cards harvest microwatts from the reader's field at ≤10 cm and trade everything for a 13.56 MHz carrier that physics caps at ~424 kbit/s. [[bluetooth|BLE]] picks **low power + medium throughput** — coin-cell devices at 1–2 Mbps over 10 m. [[wifi|Wi-Fi]] picks **high throughput + medium range** — gigabit speeds at 30 m but with hundreds of milliwatts of TX power. [[cellular|Cellular]] picks **range + throughput** at the cost of power and licensed spectrum — 50 km with the right base station, ~1–10 Gbps in FR1, but you don't run a base station on a coin cell. [[uwb|UWB]] sits in a corner of its own: **wide bandwidth + low average power** by trading time-of-flight precision for any meaningful data rate — it is a clock, not a data radio.
+
+The numbers below are typical 2026 production values; spec maxima are higher, real-world is usually lower. **Edholm's law of bandwidth** — wireless data rates double roughly every 18 months — is what keeps the table moving.`
+			},
+			{
+				type: 'diagram',
+				title: 'Power–Range–Throughput at a glance',
+				caption: `Where each member of the [[wifi|Wireless]] category sits in the three-way trade-off space. Numbers are typical production values, not spec maxima.`,
+				definition: `graph TD
+    subgraph Personal["Personal-area (≤10 m)"]
+        NFC["[[nfc|NFC]]<br/>≤10 cm, 424 kbit/s<br/>passive power"]
+        BLE["[[bluetooth|BLE]]<br/>10 m, 1-2 Mbit/s<br/>1-100 mW"]
+        UWB["[[uwb|UWB]]<br/>10-50 m, ranging<br/>≤1 mW avg"]
+        ZIGBEE["[[zigbee|Zigbee]]<br/>10-30 m hop, 250 kbit/s<br/>1 mW, mesh"]
+    end
+    subgraph Local["Local-area (≤100 m)"]
+        WIFI["[[wifi|Wi-Fi]]<br/>30 m, 1-46 Gbit/s<br/>100-1000 mW"]
+    end
+    subgraph Wide["Wide-area (≥1 km)"]
+        CELL["[[cellular|Cellular]]<br/>1-50 km, 1-10 Gbit/s<br/>licensed spectrum"]
+    end
+
+    NFC -.->|tap-to-pair bootstrap| BLE
+    NFC -.->|tap-to-pair bootstrap| WIFI
+    BLE -.->|session-key bootstrap| UWB
+    BLE -.->|commissioning| ZIGBEE
+    WIFI -.->|offload| CELL`
+			},
+			{
+				type: 'narrative',
+				title: 'CSMA/CA — collision avoidance in a medium you can\'t monitor',
+				text: `Wired [[ethernet|Ethernet]] uses **CSMA/CD** (Collision Detection): a station listens while it transmits and aborts the moment another station's signal collides with its own. That trick is impossible on radio — your own transmitter saturates your own receiver, so a wireless NIC literally cannot hear another station while it is sending. Every wireless MAC therefore uses **CSMA/CA** (Collision *Avoidance*): listen-before-talk, plus a randomised back-off if the channel was busy.
+
+[[wifi|Wi-Fi]]'s flavour is DCF (Distributed Coordination Function). Before each {{frame|frame}}, the station senses the channel for a DIFS interval (28–34 µs), then picks a random slot from a contention window (initial CW=15, doubled on collision up to 1023), then transmits if still idle. Every successful frame is {{ack|ACKed}} after a SIFS gap (~10 µs); no ACK in time = the sender assumes collision and {{retransmission|retransmits}} from a larger CW. RTS/CTS is the optional defence against hidden terminals: the sender first asks "may I?" with a tiny RTS, the receiver responds with CTS, and every station that heard either falls silent for the negotiated duration.
+
+[[zigbee|Zigbee]] and Thread use a similar unslotted CSMA-CA on IEEE 802.15.4. [[bluetooth|Bluetooth]] sidesteps the whole problem by **frequency hopping** — 1,600 hops/sec on BR/EDR — so collisions on a single channel are statistically rare. [[cellular|Cellular]] doesn't contend at all on the downlink: the base station schedules every slot.
+
+The cost of CSMA/CA is **airtime overhead**. At Wi-Fi 6's nominal 9.6 Gbit/s, real throughput on a busy AP is closer to 1–2 Gbit/s because half the airtime is DIFS, SIFS, ACKs, beacons, and CW back-off. The Wi-Fi 8 work on **MLO (Multi-Link Operation)** lets one device use 2.4 + 5 + 6 GHz radios simultaneously precisely to dodge contention on any one band.`
+			},
+			{
+				type: 'callout',
+				title: 'The hidden-terminal problem in one sentence',
+				text: 'On a wired bus, every station hears every other; on a radio, station A and station C may both hear AP B but not each other — so they both think the channel is clear and both transmit at once, colliding at B. RTS/CTS exists because of this. The same physics motivates BLE\'s frequency-hopping master clock, Zigbee\'s coordinator-led scheduling, and every cellular RAN\'s centralised uplink scheduler.'
+			},
+			{
+				type: 'narrative',
+				title: 'The 2.4 GHz coexistence dance',
+				text: `Four protocol families share the unlicensed 2.4 GHz {{ism-band|ISM band}}: [[wifi|Wi-Fi]] (20 MHz channels centred at 2412 / 2437 / 2462 MHz — the canonical 1/6/11 trio), [[bluetooth|Bluetooth]] BR/EDR (79 × 1 MHz channels hopping 1,600/sec), [[bluetooth|BLE]] (40 × 2 MHz channels), and [[zigbee|Zigbee]] / Thread on IEEE 802.15.4 (16 × 2 MHz channels at 11–26). Plus microwave ovens, baby monitors, cordless phones, and every other device the FCC ever granted Part 15 to.
+
+How they coexist:
+
+**Modern combo chips** (Apple H-series, Broadcom, Qualcomm) put [[wifi|Wi-Fi]] and [[bluetooth|Bluetooth]] radios on the same die and arbitrate airtime in firmware — time-slicing so one starves the other only briefly. The same silicon usually handles [[bluetooth|BLE]] and Thread too.
+
+**Zigbee dodges Wi-Fi.** Zigbee channels 11–14 sit under Wi-Fi 1; 15, 20, 25, and 26 fit in the gaps between Wi-Fi 1/6/11. The single most common cause of unreliable Zigbee is a coordinator dongle plugged directly into a Wi-Fi router's USB port — the router's switched-mode PSU radiates broadband 2.4 GHz noise.
+
+**BLE picks its advertising channels carefully.** Channels 37/38/39 — the three primary advertising channels — sit at 2402, 2426, and 2480 MHz, deliberately outside Wi-Fi 1/6/11. The 37 data channels (0–36) overlap and rely on adaptive frequency hopping to dodge active Wi-Fi APs.
+
+**The 5/6 GHz escape valve.** Modern Wi-Fi (5, 6, 7, 8) is increasingly pushed up to 5 GHz and 6 GHz where it has the spectrum to itself. 2.4 GHz remains the universal floor — battery-powered devices still live there because 2.4 GHz penetrates walls better than 5 GHz at the same power.
+
+**Cellular bands are licensed**, which is why your phone's 4G/5G radio doesn't fight with your Wi-Fi even in the same physical space — different spectrum entirely.`
+			},
+			{
+				type: 'callout',
+				title: 'The 2.4 GHz death spiral',
+				text: 'As airtime utilisation rises, retries rise, which raises airtime utilisation, which raises retries. Dense apartment buildings have measurable 2.4 GHz collapse — when 20+ Wi-Fi APs share three non-overlapping channels, throughput drops by an order of magnitude. The fix is to move every modern client to 5 / 6 GHz and leave 2.4 GHz to IoT.'
+			},
+			{
+				type: 'narrative',
+				title: 'The BLE-bootstrap pattern',
+				text: `Almost every consumer wireless interaction in 2026 chains *multiple* radios. The pattern is everywhere once you see it:
+
+**[[uwb|UWB]] ranging** never starts without [[bluetooth|BLE]] first. The lock or car advertises a service UUID over BLE; the phone connects, runs SPAKE2+/PAKE authentication, transfers the **STS_KEY** for the UWB session over the BLE encrypted channel, and only then powers up its UWB radio for a three-message DS-TWR ranging round. UWB has no power-efficient discovery mechanism of its own — BLE provides it. ({{ccc-digital-key|CCC Digital Key 3.0}}, {{aliro|Aliro 1.0}}, every Apple AirTag Precision Finding round.)
+
+**[[bluetooth|Bluetooth]] / [[wifi|Wi-Fi]] handover** is bootstrapped by [[nfc|NFC]]. The NFC Forum Connection Handover spec defines NDEF records carrying the BLE MAC + SMP OOB key or the Wi-Fi SSID + WPA2 key. A single 4 cm tap replaces the entire discovery + pairing dialog on Bluetooth speakers, printers, and Matter device commissioning.
+
+**[[cellular|Cellular]] data** falls back to [[wifi|Wi-Fi]] calling when the carrier signal is weak — IPsec ePDG tunnel from the UE to the carrier core over any IP link. The reverse is now true too: **Wi-Fi 8 and the 3GPP "Wi-Fi RAN" work** is exploring Wi-Fi as a fully 3GPP-managed access network so the phone never has to know which radio it's on.
+
+**Zigbee + Thread** are commissioned over BLE (Zigbee Direct, R23 mandatory in Coordinators) or Wi-Fi (Matter setup). Once commissioned they run their own mesh; BLE is just the on-ramp.
+
+The architectural rule: the radio with the **best discovery + power profile** does the bootstrap; the radio with the **right property for the workload** (range, throughput, precision, security) does the actual session. No single protocol does both well.`
+			},
+			{
+				type: 'narrative',
+				title: 'The wireless security history in one arc',
+				text: `Every wireless protocol has been broken at the spec level at least once. The pattern is similar enough that they are best understood as one story.
+
+**MIFARE Crypto1 — 24C3, December 2007** ([[pioneer:karsten-nohl|Karsten Nohl]], [[pioneer:henryk-plotz|Henryk Plötz]], "Starbug"). Philips's proprietary 48-bit stream cipher, "secure" by virtue of being secret, dismantled by decapping a chip and photographing ~10 000 gates with an optical microscope. The first canonical "security-by-obscurity does not scale" lesson in deployed wireless silicon. Dutch OV-chipkaart kept shipping affected cards until **2024**.
+
+**KRACK — USENIX Security 2017** (Mathy Vanhoef, Frank Piessens). The WPA2 four-way handshake permitted nonce reuse on key reinstall, defeating CCMP integrity. Universal — every WPA2 client on Earth needed firmware updates. The 802.11 working group's response was WPA3 (SAE handshake, immune by construction).
+
+**KNOB / BIAS / BLUFFS — 2019 / 2020 / 2023** (Daniele Antonioli et al., CVE-2019-9506 / CVE-2020-10135 / CVE-2023-24023). The same author broke [[bluetooth|Bluetooth]] BR/EDR session security three times in five years — key-negotiation forcing 1-byte entropy, impersonation across bonding, and forward-secrecy breakage on cross-session key derivation. Every BR/EDR device shipped before mid-2024 affected.
+
+**Tesla Model 3 BLE relay — May 2022** (Sultan Qasim Khan, NCC Group, CVSS 6.8). ~$50 of dev boards, ~8 ms relay latency, below Tesla's ~30 ms GATT threshold. RSSI proximity is fundamentally broken when an attacker can relay. The industry response: [[uwb|UWB]] cryptographic distance bounds (CCC Digital Key 3.0) — the speed of light is the hard upper bound that no relay can shorten.
+
+**Ghost Peak — USENIX Security 2022** (Leu, Camurati et al.). Even [[uwb|UWB]]'s STS distance commitment was attackable at ~4 % success with a $65 device — random STS-like signal injection biased the correlation peak earlier. Motivated **IEEE 802.15.4ab** (Draft D03 Sept 2025) with NBA-MMS narrowband-assist and a redesigned receiver.
+
+**SS7 / Diameter abuse — ongoing** (Citizen Lab 2024–25, CISA testimony to FCC 2024). The cellular signalling plane was designed in 1975 with implicit trust between carriers. Modern surveillance actors (STA1, STA2) exploit SS7 / Diameter routing to silently track mobile users worldwide. The fix is a multi-year migration to authenticated SBI and signature-checked roaming — partially complete in 5GC but the SS7 layer below is still everywhere.
+
+**The pattern:** every spec that depends on a *secret algorithm* or a *trust assumption between operators* eventually gets broken in public. Every spec that depends on *cryptographic primitives + open analysis* (WPA3, CCMP-256, EMV cryptograms, IEEE 802.15.4z STS as redesigned) survives the next attack.`
+			},
+			{
+				type: 'callout',
+				title: 'The one rule that ties this category together',
+				text: 'Wireless is the only major networking category where the *physical layer is adversarial by default*. Wired networks fail when something breaks. Wireless networks fail because the medium is shared with everything else operating in the same band — including, sometimes, an attacker. Every architectural choice in this category — frequency hopping, CSMA/CA, scheduled access, STS, cryptographic distance bounds — exists to make a hostile medium predictable.'
+			}
+		]
 	}
 ];
 

@@ -22,6 +22,16 @@
 	const appState = getAppState();
 	let imgLoaded = $state(false);
 	let imgFailed = $state(false);
+
+	// Reset load state whenever the src changes — without this, navigating
+	// from a protocol with a broken image to one with a working image keeps
+	// the failed flag stuck and shows "Image unavailable" everywhere.
+	$effect(() => {
+		// Reading src registers the dependency; the body runs on every change.
+		void src;
+		imgLoaded = false;
+		imgFailed = false;
+	});
 </script>
 
 <section>
