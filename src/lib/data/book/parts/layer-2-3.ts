@@ -34,9 +34,9 @@ export const layer23: BookPart = {
 							title: 'The Aloha Inheritance',
 							text: `In 1971, the University of Hawaii ran a wireless packet network called **ALOHAnet** that solved the multiple-access problem with brutal honesty: anyone can transmit at any time; if two stations collide, both back off a random interval and try again. The throughput was awful — Norman Abramson's original paper showed a maximum channel utilisation of 18% — but the architecture was right.
 
-On **22 May 1973**, **[[pioneer:bob-metcalfe|Bob Metcalfe]]** at Xerox PARC circulated the *"Alto [[ethernet|Ethernet]]"* memo with hand-drawn diagrams. He named it after the discredited *"luminiferous ether"* so the medium could be coax, twisted pair, fiber, or radio. Combined with **carrier sensing** (listen before you transmit) and **collision detection** (stop the moment you hear a clash), CSMA/CD pushed wired-medium utilisation past 90%. Metcalfe and **[[pioneer:david-boggs|David Boggs]]** had a **2.94 Mbps prototype running by 11 November 1973** — the original speed was chosen because it matched the Alto's clock divided down.
+On **22 May 1973**, **[[pioneer:bob-metcalfe|Bob Metcalfe]]** at {{xerox-parc|Xerox PARC}} circulated the *"Alto [[ethernet|Ethernet]]"* memo with hand-drawn diagrams. He named it after the discredited *"luminiferous ether"* so the medium could be coax, twisted pair, fiber, or radio. Combined with **carrier sensing** (listen before you transmit) and **collision detection** (stop the moment you hear a clash), CSMA/CD pushed wired-medium utilisation past 90%. Metcalfe and **[[pioneer:david-boggs|David Boggs]]** had a **2.94 Mbps prototype running by 11 November 1973** — the original speed was chosen because it matched the Alto's clock divided down.
 
-The IEEE standardised it as **802.3** in 1983, the same year as ARPANET flag-day. Speeds doubled approximately every five years: 10 Mbps (1983), 100 Mbps Fast [[ethernet|Ethernet]] (1995), 1 GbE (1999), 10 GbE (2002), 100 GbE (2010), 400 GbE (2017). **[[pioneer:bob-metcalfe|Bob Metcalfe]] won the 2022 ACM A.M. Turing Award** (announced March 2023) "for the invention, standardization, and commercialization of [[ethernet|Ethernet]]."`
+The IEEE standardised it as **802.3** in 1983, the same year as {{arpanet|ARPANET}} flag-day. Speeds doubled approximately every five years: 10 Mbps (1983), 100 Mbps Fast [[ethernet|Ethernet]] (1995), 1 GbE (1999), 10 GbE (2002), 100 GbE (2010), 400 GbE (2017). **[[pioneer:bob-metcalfe|Bob Metcalfe]] won the 2022 ACM A.M. Turing Award** (announced March 2023) "for the invention, standardization, and commercialization of [[ethernet|Ethernet]]."`
 						},
 						{
 							type: 'callout',
@@ -209,9 +209,9 @@ Two {{ndp|NDP}} CVEs deserve naming.
 							title: 'The 32-Bit Experiment That Became the Internet',
 							text: `When [[pioneer:vint-cerf|Vint Cerf]] picked 32 bits for the {{ip-address|IP address}} field in 1977, he was asked whether it would be enough. His honest answer: more than enough for an experiment that he expected to be replaced before it had a million hosts. The "experiment" became the global internet.
 
-**[[rfc:791|RFC 791]] (September 1981, Postel)** is the canonical text — still cited 45 years later. **Flag day 1 January 1983**: ARPANET cut over from NCP to [[tcp|TCP]]/[[ip|IP]]. The 4.3-billion-address space ran out for the first time in **February 2011**, when IANA allocated the last five /8 blocks to the regional registries.
+**[[rfc:791|RFC 791]] (September 1981, Postel)** is the canonical text — still cited 45 years later. **{{flag-day-1983|Flag day}} 1 January 1983**: {{arpanet|ARPANET}} cut over from {{ncp|NCP}} to [[tcp|TCP]]/[[ip|IP]]. The 4.3-billion-address space ran out for the first time in **February 2011**, when {{iana|IANA}} allocated the last five /8 blocks to the regional registries.
 
-The exhaustion timeline: **IANA Feb 3 2011; APNIC Apr 15 2011; RIPE Sep 14 2012; LACNIC Jun 10 2014; ARIN Sep 24 2015; AFRINIC Apr 21 2017**. Each region went depleted on its own schedule; the regional asymmetry is part of why [[ip|IPv4]] prices and policy still vary by RIR.`
+The exhaustion timeline: **{{iana|IANA}} Feb 3 2011; APNIC Apr 15 2011; RIPE Sep 14 2012; LACNIC Jun 10 2014; ARIN Sep 24 2015; AFRINIC Apr 21 2017**. Each region went depleted on its own schedule; the regional asymmetry is part of why [[ip|IPv4]] prices and policy still vary by RIR.`
 						},
 						{
 							type: 'callout',
@@ -270,7 +270,7 @@ Together these stretched [[ip|IPv4]] from "exhausted in 1995" to "still ~50% of 
 						{
 							type: 'narrative',
 							title: 'Why "v6"? Because v5 Was Already Taken',
-							text: `Why "v6"? **Version 5 was already claimed by the experimental ST/ST-II Stream Protocol** (real-time transport). SIPP took 6, and won. The IPng selection happened at the **"BigTen" retreat near Chicago, 19-20 May 1994**, where the IPng Directorate met with WG chairs. SIPP-128 was selected at the Toronto IETF on 25 July 1994 ([[pioneer:steve-deering|Steve Deering]] / Robert Hinden lineage).
+							text: `Why "v6"? **Version 5 was already claimed by the experimental ST/ST-II Stream Protocol** (real-time transport). SIPP took 6, and won. The IPng selection happened at the **"BigTen" retreat near Chicago, 19-20 May 1994**, where the IPng Directorate met with WG chairs. SIPP-128 was selected at the Toronto {{ietf|IETF}} on 25 July 1994 ([[pioneer:steve-deering|Steve Deering]] / Robert Hinden lineage).
 
 [[ipv6|IPv6]] was specified in 1995 (RFC 1883), revised as [[rfc:2460|RFC 2460]] in 1998, and finally became **STD 86 / [[rfc:8200|RFC 8200]] in July 2017** — 19 years after [[rfc:2460|RFC 2460]], 22 years after the original. The address field grew from 32 bits to **128 bits** — enough that every grain of sand on Earth could have its own {{subnet|subnet}}. The header was simplified, {{fragmentation|fragmentation}} was pushed to the edges, {{multicast|multicast}} and link-local autoconfiguration ([[rfc:4862|SLAAC]]) became core mechanisms.
 
@@ -295,7 +295,7 @@ By 2026: **US mobile [[ipv6|IPv6]] averages ~87%**; **France 86%** (Google, Feb 
 							title: 'The KAME Turtle, And the 2024 RFC Backlog',
 							text: `**The KAME Project (1998-March 2006)** — joint Fujitsu / Hitachi / IIJ / NEC / Toshiba / Yokogawa / Keio U. / U.Tokyo — produced the free reference [[ipv6|IPv6]]/IPsec stack underlying **FreeBSD, macOS, and iOS**. The dancing turtle still appears at kame.net for [[ipv6|IPv6]]-reachable visitors. If you ever wondered where Apple's [[ipv6|IPv6]] stack came from, the answer is "a Japanese collaboration from 1998 named after a turtle." (Most modern Apple [[ipv6|IPv6]] work has long since moved past KAME, but the lineage is real.)
 
-The 2024 IETF backlog tells the story of where [[ipv6|IPv6]] work is happening:
+The 2024 {{ietf|IETF}} backlog tells the story of where [[ipv6|IPv6]] work is happening:
 - **RFC 9637 (August 2024)** added \`3fff::/20\` as a second [[ipv6|IPv6]] documentation prefix on top of \`2001:db8::/32\`, large enough to model multi-{{autonomous-system|AS}} networks.
 - **RFC 9673 (October 2024)** finally relaxed {{hop|Hop}}-by-{{hop|Hop}} Options handling so HBH options are deployable on real router silicon.
 - **RFC 9602 (2024)** reserved \`5f00::/16\` for SRv6 SIDs.
@@ -362,7 +362,7 @@ The most famous [[icmp|ICMP]] message is **Echo Request / Echo Reply** — what 
 
 **Frontier**: Tsinghua's \`draft-xu-intarea-challenge-icmpv4-02\` (February 2025) proposes a challenge-confirm scheme using [[ip|IP]] options so receivers can verify a router actually saw the original packet — the most concrete proposal in years to fix [[icmp|ICMP]]'s "anyone-can-spoof-any-error" weakness. \`draft-ietf-6man-icmpv6-reflection-19\` (December 2025) defines a {{stateless|stateless}} probe-and-reflect ICMPv6 utility, currently active.
 
-**GGP (RFC 823, September 1982)** is [[icmp|ICMP]]'s parent — the Gateway-to-Gateway Protocol on BBN's LSI-11 gateways, predecessor of EGP (1984) and grand-uncle of [[bgp|BGP]]. The diagnostic mechanism predates the routing protocol.`
+**GGP (RFC 823, September 1982)** is [[icmp|ICMP]]'s parent — the Gateway-to-Gateway Protocol on {{bbn|BBN}}'s LSI-11 gateways, predecessor of EGP (1984) and grand-uncle of [[bgp|BGP]]. The diagnostic mechanism predates the routing protocol.`
 						}
 					]
 				},
@@ -388,7 +388,7 @@ The most famous [[icmp|ICMP]] message is **Echo Request / Echo Reply** — what 
 						{
 							type: 'narrative',
 							title: 'The Two-Napkin Protocol',
-							text: `**The "Two-Napkin Protocol" was sketched at IETF 12, Austin, Texas, January 1989**: **[[pioneer:yakov-rekhter|Yakov Rekhter]]** (IBM Watson) and **Kirk Lougheed** (Cisco) over cafeteria napkins. The previous routing protocol (EGP) had become unmanageable; the internet was about to outgrow it. The originals went in the trash; **Cisco's archivist preserved photocopies that hang in Milpitas**. Expanded to three handwritten sheets — hence "Three-Napkin Protocol."
+							text: `**The "Two-Napkin Protocol" was sketched at {{ietf|IETF}} 12, Austin, Texas, January 1989**: **[[pioneer:yakov-rekhter|Yakov Rekhter]]** (IBM Watson) and **Kirk Lougheed** (Cisco) over cafeteria napkins. The previous routing protocol (EGP) had become unmanageable; the internet was about to outgrow it. The originals went in the trash; **Cisco's archivist preserved photocopies that hang in Milpitas**. Expanded to three handwritten sheets — hence "Three-Napkin Protocol."
 
 That sketch became [[rfc:4271|BGP-1]] ([[rfc:1105|RFC 1105]], June 1989), then [[bgp|BGP]]-4 (RFC 1771, 1995), then the current [[rfc:4271|RFC 4271]] (2006). The protocol has been backwards-compatible for over thirty years across more than 100,000 ASes.
 

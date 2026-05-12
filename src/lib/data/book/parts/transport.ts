@@ -24,7 +24,7 @@ export const transport: BookPart = {
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: '[[rfc:793|RFC 793]] was the canonical [[tcp|TCP]] specification for 41 years — almost certainly the longest unmodified IETF spec ever. [[rfc:9293|RFC 9293]] finally consolidated 13 errata documents in August 2022.',
+					text: '[[rfc:793|RFC 793]] was the canonical [[tcp|TCP]] specification for 41 years — almost certainly the longest unmodified {{ietf|IETF}} spec ever. [[rfc:9293|RFC 9293]] finally consolidated 13 errata documents in August 2022.',
 					attribution: 'Author'
 				},
 				{
@@ -161,7 +161,7 @@ The protocol itself has not changed. The role it plays has been reshaped by what
 						{
 							type: 'narrative',
 							title: 'A Protocol Born From Telephony',
-							text: `In the late 1990s, the **SS7 telephony signalling protocol** was being moved onto [[ip|IP]]. The PSTN's reliability requirements — sub-second failover when a link dies — embarrassed [[tcp|TCP]]. A [[tcp|TCP]] connection bound to a single source/destination pair will hang indefinitely when its path fails, regardless of whether other paths to the same endpoint are working. **Randall Stewart at Cisco**, working with the IETF SIGTRAN group, designed a replacement.
+							text: `In the late 1990s, the **SS7 telephony signalling protocol** was being moved onto [[ip|IP]]. The PSTN's reliability requirements — sub-second failover when a link dies — embarrassed [[tcp|TCP]]. A [[tcp|TCP]] connection bound to a single source/destination pair will hang indefinitely when its path fails, regardless of whether other paths to the same endpoint are working. **Randall Stewart at Cisco**, working with the {{ietf|IETF}} SIGTRAN group, designed a replacement.
 
 [[sctp|SCTP]] (Stream Control Transmission Protocol, [[rfc:2960|RFC 2960]] in October 2000, current [[rfc:9260|RFC 9260]] in June 2022) was [[tcp|TCP]] redesigned with three improvements:
 
@@ -274,7 +274,7 @@ Multipath [[quic|QUIC]] inherits [[mptcp|MPTCP]]'s algorithmic ideas — subflow
 							title: 'A Transport That Can Ship Updates',
 							text: `[[quic|QUIC]] began as **gQUIC** at Google in 2012, written by [[pioneer:jim-roskind|Jim Roskind]] to address a specific frustration: every [[tcp|TCP]] improvement Google wanted to deploy had to wait years for kernel rollout across the heterogeneous internet, and many were stripped or blocked by middleboxes that had ossified on the existing wire format.
 
-The IETF [[quic|QUIC]] Working Group, formed in 2016, took Google's experiment and modularised it. **[[rfc:9000|RFC 9000]]** standardised [[quic|QUIC]] v1 in May 2021. **[[rfc:9114|RFC 9114]]** defined [[http3|HTTP/3]] as HTTP semantics on top of [[quic|QUIC]], published one year later. **[[quic|QUIC]] v2 (RFC 9369, May 2023)** is now a Standards-Track template for new [[quic|QUIC]] versions; its wire-image version number is **0x6b3343cf** — the first 4 bytes of \`sha256("QUICv2 version number")\` — chosen specifically to exercise version negotiation and break middleboxes that ossified on v1's Initial-packet {{salt|salt}}.
+The {{ietf|IETF}} [[quic|QUIC]] Working Group, formed in 2016, took Google's experiment and modularised it. **[[rfc:9000|RFC 9000]]** standardised [[quic|QUIC]] v1 in May 2021. **[[rfc:9114|RFC 9114]]** defined [[http3|HTTP/3]] as HTTP semantics on top of [[quic|QUIC]], published one year later. **[[quic|QUIC]] v2 (RFC 9369, May 2023)** is now a Standards-Track template for new [[quic|QUIC]] versions; its wire-image version number is **0x6b3343cf** — the first 4 bytes of \`sha256("QUICv2 version number")\` — chosen specifically to exercise version negotiation and break middleboxes that ossified on v1's Initial-packet {{salt|salt}}.
 
 [[quic|QUIC]] solves four problems at once.`
 						},
@@ -305,7 +305,7 @@ The IETF [[quic|QUIC]] Working Group, formed in 2016, took Google's experiment a
 
 **{{masque|MASQUE}} WG** (RFC 9298 — Proxying [[udp|UDP]] in HTTP, August 2022; RFC 9484 — Proxying [[ip|IP]] in HTTP, October 2023) ships CONNECT-[[udp|UDP]] and CONNECT-[[ip|IP]]. Apple Private Relay and Cloudflare's WARP-related proxy services use these.
 
-**[[frontier:moq-transport|MoQ Transport]]** (\`draft-ietf-moq-transport-17\`, March 2026) is the first IETF media transport that intentionally is not [[rtp|RTP]] — sub-second live streaming with one-to-many {{pub-sub|publish/subscribe}} at {{cdn|CDN}} scale.
+**[[frontier:moq-transport|MoQ Transport]]** (\`draft-ietf-moq-transport-17\`, March 2026) is the first {{ietf|IETF}} media transport that intentionally is not [[rtp|RTP]] — sub-second live streaming with one-to-many {{pub-sub|publish/subscribe}} at {{cdn|CDN}} scale.
 
 **[[rtp|RTP]]-over-[[quic|QUIC]] (RoQ)** (\`draft-ietf-avtcore-rtp-over-quic-14\`) entered Working Group Last Call in July 2025 — preserves the entire [[rtp|RTP]] ecosystem while gaining [[quic|QUIC]]'s {{encryption|encryption}}, {{nat|NAT}}-friendliness, and {{zero-rtt|0-RTT}}.
 

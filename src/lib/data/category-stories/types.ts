@@ -1,4 +1,8 @@
 export interface Pioneer {
+	/** Optional pioneer-registry id. When set (or when a registry entry's
+	 *  `name` matches the inline `name`), the card becomes clickable and
+	 *  links to /pioneer/[id]. */
+	id?: string;
 	name: string;
 	years: string;
 	title: string;

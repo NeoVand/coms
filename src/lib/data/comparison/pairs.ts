@@ -576,7 +576,7 @@ const vsPairs: ProtocolPair[] = [
 			{ aspect: 'Connection model', left: 'Client-server via [[sip|SIP]] proxy/registrar', right: '{{peer-to-peer|Peer-to-peer}} with STUN/TURN fallback' },
 			{ aspect: 'Complexity', left: 'Mature telecom stack ([[sip|SIP]]/[[sdp|SDP]]/[[rtp|RTP]])', right: 'Integrated (ICE, {{dtls|DTLS}}-{{srtp|SRTP}}, [[sctp|SCTP]])' },
 			{ aspect: 'Ecosystem', left: 'Asterisk, FreeSWITCH, telecom carriers', right: 'Browsers, Twilio, Daily, Jitsi' },
-			{ aspect: 'Standardization', left: 'IETF [[rfc:3261|RFC 3261]] (telecom-oriented)', right: 'W3C + IETF (web-oriented)' }
+			{ aspect: 'Standardization', left: '{{ietf|IETF}} [[rfc:3261|RFC 3261]] (telecom-oriented)', right: '{{w3c|W3C}} + {{ietf|IETF}} (web-oriented)' }
 		],
 		useLeftWhen: [
 			'You are integrating with existing telephony infrastructure (PBX, PSTN)',
@@ -964,7 +964,7 @@ const vsPairs: ProtocolPair[] = [
 			{ aspect: 'Data format', left: '{{json|JSON}} (lightweight text)', right: '{{xml|XML}} (verbose, structured envelopes)' },
 			{ aspect: 'Complexity', left: 'One-page spec, no schema required', right: 'WSDL, XSD, WS-* extensions' },
 			{ aspect: 'Overhead', left: '~60 bytes for a simple call', right: '500+ bytes for the same call in {{xml|XML}}' },
-			{ aspect: 'Standardization', left: 'Community spec (jsonrpc.org)', right: 'W3C standard with enterprise extensions' },
+			{ aspect: 'Standardization', left: 'Community spec (jsonrpc.org)', right: '{{w3c|W3C}} standard with enterprise extensions' },
 			{ aspect: 'Ecosystem', left: 'Modern infrastructure and AI', right: 'Enterprise banking, healthcare, government' }
 		],
 		useLeftWhen: [

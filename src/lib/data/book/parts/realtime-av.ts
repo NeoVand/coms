@@ -35,7 +35,7 @@ export const realtimeAv: BookPart = {
 							title: 'A Datagram Per Frame, A Timestamp Per Packet',
 							text: `[[rtp|RTP]] (Real-time Transport Protocol) is the protocol that runs underneath every voice call, video conference, and {{broadcast|broadcast}} media stream on the internet.
 
-Its origin is unusually specific: in **March 1992**, Steve Casner, [[pioneer:van-jacobson|Van Jacobson]], and [[pioneer:steve-deering|Steve Deering]] audio-cast the IETF San Diego meeting to ~20 sites over the new {{multicast|Multicast}} Backbone (the "MBone"). The protocol that came out of that work was published as **[[rfc:1889|RFC 1889]] in January 1996** and re-issued as **[[rfc:3550|RFC 3550]] in July 2003** (Schulzrinne, Casner, Frederick, Jacobson) — still the canonical text in 2026.
+Its origin is unusually specific: in **March 1992**, Steve Casner, [[pioneer:van-jacobson|Van Jacobson]], and [[pioneer:steve-deering|Steve Deering]] audio-cast the {{ietf|IETF}} San Diego meeting to ~20 sites over the new {{multicast|Multicast}} Backbone (the "MBone"). The protocol that came out of that work was published as **[[rfc:1889|RFC 1889]] in January 1996** and re-issued as **[[rfc:3550|RFC 3550]] in July 2003** (Schulzrinne, Casner, Frederick, Jacobson) — still the canonical text in 2026.
 
 [[rtp|RTP]] rides on top of [[udp|UDP]] because **late audio is worse than missing audio** — retransmitting a packet that arrives 200 ms late delivers something the receiver cannot use. [[rtp|RTP]] adds three things to a [[udp|UDP]] datagram: a **{{sequence-number|sequence number}}** so the receiver can detect loss and reorder packets, a **timestamp** so playback can be paced correctly, and a **{{payload|payload}} type** field that names the {{codec|codec}}.`
 						},
@@ -67,7 +67,7 @@ Asterisk had its own [[rtp|RTP]] security incident in 2017: **AST-2017-008/-012 
 							title: 'RTP-over-QUIC — The Frontier',
 							text: `**[[rtp|RTP]]-over-[[quic|QUIC]] (RoQ)** — \`draft-ietf-avtcore-rtp-over-quic-14\` — entered Working Group Last Call in **July 2025**. {{alpn|ALPN}} token \`roq\`. Multiplexes [[rtp|RTP]] sessions over one [[quic|QUIC]] connection; preserves the entire [[rtp|RTP]] ecosystem while gaining [[quic|QUIC]]'s {{encryption|encryption}}, {{nat|NAT}}-friendliness, and {{zero-rtt|0-RTT}}.
 
-Active 2025-2026 work in the IETF AVTCORE WG: **RFC 9628 (2024)** finally promoted the VP9 [[rtp|RTP]] {{payload|payload}} format to Standards Track. Drafts in flight cover haptics, V3C volumetric video, JPEG XS 3rd edition, APV {{codec|codec}}, and an HEVC/H.265 [[webrtc|WebRTC]] profile (\`draft-ietf-avtcore-hevc-webrtc-08\`, March 2026). [[rtp|RTP]] keeps acquiring new payload formats forty years after Casner first audio-cast IETF San Diego.`
+Active 2025-2026 work in the {{ietf|IETF}} AVTCORE WG: **RFC 9628 (2024)** finally promoted the VP9 [[rtp|RTP]] {{payload|payload}} format to Standards Track. Drafts in flight cover haptics, V3C volumetric video, JPEG XS 3rd edition, APV {{codec|codec}}, and an HEVC/H.265 [[webrtc|WebRTC]] profile (\`draft-ietf-avtcore-hevc-webrtc-08\`, March 2026). [[rtp|RTP]] keeps acquiring new payload formats forty years after Casner first audio-cast {{ietf|IETF}} San Diego.`
 						}
 					]
 				},
@@ -95,7 +95,7 @@ Active 2025-2026 work in the IETF AVTCORE WG: **RFC 9628 (2024)** finally promot
 						{
 							type: 'narrative',
 							title: 'The $68 Million Acquisition That Made WebRTC',
-							text: `[[webrtc|WebRTC]] is a {{peer-to-peer|peer-to-peer}} media stack the W3C standardised between 2011 and 2021. The premise was audacious: enable a web page, in a sandboxed browser tab, to capture audio and video from a user's microphone and camera and stream them directly to another browser — without a plugin, without a server in the media path, with sub-200 ms {{latency|latency}}.
+							text: `[[webrtc|WebRTC]] is a {{peer-to-peer|peer-to-peer}} media stack the {{w3c|W3C}} standardised between 2011 and 2021. The premise was audacious: enable a web page, in a sandboxed browser tab, to capture audio and video from a user's microphone and camera and stream them directly to another browser — without a plugin, without a server in the media path, with sub-200 ms {{latency|latency}}.
 
 The audio engine was bought, not built: in **May 2010 Google paid USD 68.2 million for Global [[ip|IP]] Solutions (GIPS)** specifically because GIPS's NetEQ {{jitter|jitter}} buffer was already running on **800 million endpoints**. Google open-sourced it in 2011 as \`libwebrtc\`. By end-2018, libwebrtc reached **1.21 million lines of code** — three times the size of the Space Shuttle's onboard software (per Justin Uberti's 2019 figure).`
 						},
@@ -274,7 +274,7 @@ The post-Flash reality: **Adobe Flash Player retired on 31 December 2020**, kill
 		{
 			id: 'moq-transport',
 			title: 'MoQ Transport',
-			synopsis: 'Sub-second live streaming over [[quic|QUIC]] — the first IETF media transport that intentionally is not [[rtp|RTP]].',
+			synopsis: 'Sub-second live streaming over [[quic|QUIC]] — the first {{ietf|IETF}} media transport that intentionally is not [[rtp|RTP]].',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -289,7 +289,7 @@ The post-Flash reality: **Adobe Flash Player retired on 31 December 2020**, kill
 							title: 'The Sub-Second Frontier',
 							text: `[[hls|HLS]] and [[dash|DASH]] traded {{latency|latency}} for compatibility with the web. For sports, gaming streams, auctions, and interactive broadcasting, that 40-80 second end-to-end delay is intolerable — viewers see the goal scored on Twitter before they see it on their TV. Decade-old solutions ([[rtmp|RTMP]] for ingest, low-latency [[hls|HLS]], custom [[webrtc|WebRTC]]-based stacks) each solved part of the problem.
 
-**Media over [[quic|QUIC]] (MoQ)** is the first IETF media transport that intentionally **is not [[rtp|RTP]]**. \`draft-ietf-moq-transport-17\` was published **March 2026**, with co-editors Suhas Nandakumar (Cisco), Victor Vasiliev (Google), Ian Swett (Google), and Alan Frindell (Meta).
+**Media over [[quic|QUIC]] (MoQ)** is the first {{ietf|IETF}} media transport that intentionally **is not [[rtp|RTP]]**. \`draft-ietf-moq-transport-17\` was published **March 2026**, with co-editors Suhas Nandakumar (Cisco), Victor Vasiliev (Google), Ian Swett (Google), and Alan Frindell (Meta).
 
 MoQT's data model is **{{pub-sub|publish/subscribe}} with relay caches**: media flows as **track > group > subgroup > object**, mapped onto [[quic|QUIC]] streams or unreliable [[quic|QUIC]] datagrams, and runs over either raw [[quic|QUIC]] or {{webtransport|WebTransport}} so it's reachable from browsers.`
 						},
@@ -303,7 +303,7 @@ MoQT's data model is **{{pub-sub|publish/subscribe}} with relay caches**: media 
 							title: 'The Spec Forking Inside the Working Group',
 							text: `The MoQ spec is being forked from inside the working group. **Luke Curley's \`draft-lcurley-moq-lite-02\`** (November 2025, rev 04 by 2026) explicitly claims *"MoqTransport has become too complicated. There are too many messages, optional modes, and half-baked features."*
 
-This is unusual: a working group co-author publishing a competing draft inside the same WG. The fork suggests the design is not converging. As of the March 2026 IETF meeting, MoQ-Lite has support from a small group of implementers; the main draft has the institutional weight. Whether they merge, one wins, or both ship and the market chooses — open question.
+This is unusual: a working group co-author publishing a competing draft inside the same WG. The fork suggests the design is not converging. As of the March 2026 {{ietf|IETF}} meeting, MoQ-Lite has support from a small group of implementers; the main draft has the institutional weight. Whether they merge, one wins, or both ship and the market chooses — open question.
 
 The spec has nonetheless attracted serious implementation effort. **NAB 2026 (28 April 2026)** demoed MoQ interop across **eleven vendors** — Ant Media, AWS, Bitmovin, Broadpeak, CacheFly, Cloudflare, Nomad Media, Oracle, Norsk, Synamedia, Red5 — under a new "OpenMOQ Software Consortium." **Cloudflare deployed an MoQ relay at every Cloudflare edge across 330+ cities in 2025** as a beta managed service — the first global MoQ relay network.`
 						},

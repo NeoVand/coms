@@ -172,7 +172,7 @@ The fix is the only fix — tunnel inside something the middleboxes already acce
 							title: 'The Pre-1988 Era — No Congestion Control At All',
 							text: `Before 1988, [[tcp|TCP]] had no {{congestion-control|congestion control}}. The original [[rfc:9293|RFC 793]] (1981) specified {{flow-control|flow control}} — don't overflow the receiver — but said nothing about not overflowing the network.
 
-This worked when the internet was small. By 1986, with the NSFNET backbone scaling, it stopped working. In October 1986, throughput between Lawrence Berkeley Lab and UC Berkeley — three IMP hops apart — collapsed from 32 kbps to 40 bps. A 1000× degradation. Senders kept retransmitting; the network melted.
+This worked when the internet was small. By 1986, with the NSFNET backbone scaling, it stopped working. In October 1986, throughput between Lawrence Berkeley Lab and UC Berkeley — three {{imp|IMP}} hops apart — collapsed from 32 kbps to 40 bps. A 1000× degradation. Senders kept retransmitting; the network melted.
 
 [[pioneer:van-jacobson|Van Jacobson]] and Mike Karels at Berkeley spent six months instrumenting and reading the BSD source. Their 1988 SIGCOMM paper, *"{{congestion-avoidance|Congestion Avoidance}} and Control,"* was the inflection point. Six algorithms in one paper. Saved the internet.`
 						},

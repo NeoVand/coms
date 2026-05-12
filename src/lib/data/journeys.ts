@@ -215,7 +215,7 @@ export const journeys: Journey[] = [
 				title: 'IPv4: The Original Addressing',
 				description:
 					'[[ip|IPv4]], designed in 1981, gives every device a 32-bit address (like 192.168.1.1) and defines how packets are forwarded hop-by-hop through routers. It was brilliantly simple and powered the explosive growth of the internet — but its designers never imagined billions of smartphones, IoT sensors, and cloud instances. With only 4.3 billion possible addresses, [[ip|IPv4]] exhaustion became inevitable. {{nat|NAT}} ({{nat|Network Address Translation}}) bought time by hiding entire private networks behind a single public [[ip|IP]], but it breaks end-to-end connectivity and complicates protocols that embed [[ip|IP]] addresses in their payloads.',
-				transition: 'IANA allocated the last [[ip|IPv4]] address blocks in 2011. The stopgap of {{nat|NAT}} created a fragile internet where devices could not directly reach each other. A fundamental redesign had been in the works since the 1990s, and the world is finally adopting it...'
+				transition: '{{iana|IANA}} allocated the last [[ip|IPv4]] address blocks in 2011. The stopgap of {{nat|NAT}} created a fragile internet where devices could not directly reach each other. A fundamental redesign had been in the works since the 1990s, and the world is finally adopting it...'
 			},
 			{
 				protocolId: 'ipv6',
@@ -267,7 +267,7 @@ export const journeys: Journey[] = [
 				protocolId: 'quic',
 				title: 'QUIC: The Modern Synthesis',
 				description:
-					'[[quic|QUIC]] represents the culmination of everything learned from [[tcp|TCP]], [[sctp|SCTP]], and [[mptcp|MPTCP]]. Built on [[udp|UDP]] to bypass ossified middleboxes, it implements its own reliability and {{congestion-control|congestion control}} in userspace (making it updatable without OS kernel changes). From [[sctp|SCTP]] it borrows independent streams without {{head-of-line-blocking|head-of-line blocking}}. It integrates [[tls|TLS]] 1.3 directly into the {{handshake|handshake}}, achieving a secure connection in just one round trip (or zero for repeat visits). [[quic|QUIC]] connections are identified by a variable-length Connection ID rather than the [[ip|IP]]/port tuple, enabling {{connection-migration|connection migration}} — switch from [[wifi|WiFi]] to cellular and the connection survives. Google developed it, the IETF standardized it, and it now powers [[http3|HTTP/3]] for billions of users.'
+					'[[quic|QUIC]] represents the culmination of everything learned from [[tcp|TCP]], [[sctp|SCTP]], and [[mptcp|MPTCP]]. Built on [[udp|UDP]] to bypass ossified middleboxes, it implements its own reliability and {{congestion-control|congestion control}} in userspace (making it updatable without OS kernel changes). From [[sctp|SCTP]] it borrows independent streams without {{head-of-line-blocking|head-of-line blocking}}. It integrates [[tls|TLS]] 1.3 directly into the {{handshake|handshake}}, achieving a secure connection in just one round trip (or zero for repeat visits). [[quic|QUIC]] connections are identified by a variable-length Connection ID rather than the [[ip|IP]]/port tuple, enabling {{connection-migration|connection migration}} — switch from [[wifi|WiFi]] to cellular and the connection survives. Google developed it, the {{ietf|IETF}} standardized it, and it now powers [[http3|HTTP/3]] for billions of users.'
 			}
 		]
 	},

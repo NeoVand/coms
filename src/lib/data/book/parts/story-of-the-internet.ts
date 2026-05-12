@@ -20,7 +20,7 @@ export const storyOfTheInternet: BookPart = {
 		{
 			id: 'before-the-internet',
 			title: 'Before the Internet',
-			synopsis: 'Xerox PARC, ARPANET, NCP — the three streams that flowed into [[tcp|TCP]]/[[ip|IP]].',
+			synopsis: '{{xerox-parc|Xerox PARC}}, {{arpanet|ARPANET}}, {{ncp|NCP}} — the three streams that flowed into [[tcp|TCP]]/[[ip|IP]].',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -33,16 +33,16 @@ export const storyOfTheInternet: BookPart = {
 						{
 							type: 'narrative',
 							title: 'Three Traditions, One Architecture',
-							text: `By 1972 there were three living networks worth talking about. ARPANET, funded by DARPA and built by BBN, used the Network Control Program (**NCP**) — a rigidly host-to-host protocol that assumed every node spoke the same language and trusted the IMPs (Interface Message Processors) to deliver packets in order. It linked four sites at the end of 1969, and by 1972 it spanned dozens of universities and research labs.
+							text: `By 1972 there were three living networks worth talking about. {{arpanet|ARPANET}}, funded by {{darpa|DARPA}} and built by {{bbn|BBN}}, used the {{ncp|Network Control Program}} (**{{ncp|NCP}}**) — a rigidly host-to-host protocol that assumed every node spoke the same language and trusted the IMPs (Interface Message Processors) to deliver packets in order. It linked four sites at the end of 1969, and by 1972 it spanned dozens of universities and research labs.
 
-At Xerox PARC, **[[pioneer:bob-metcalfe|Bob Metcalfe]]** and **[[pioneer:david-boggs|David Boggs]]** were building [[ethernet|Ethernet]] — a local-area network on coaxial cable where every host shouted onto the same wire and used carrier sensing to back off when collisions happened. The PARC Universal Packet (PUP), running over [[ethernet|Ethernet]], anticipated almost every architectural idea the internet would later canonise: variable-length packets, a thin internetworking layer, separate transport protocols above it.
+At {{xerox-parc|Xerox PARC}}, **[[pioneer:bob-metcalfe|Bob Metcalfe]]** and **[[pioneer:david-boggs|David Boggs]]** were building [[ethernet|Ethernet]] — a local-area network on coaxial cable where every host shouted onto the same wire and used carrier sensing to back off when collisions happened. The PARC Universal Packet (PUP), running over [[ethernet|Ethernet]], anticipated almost every architectural idea the internet would later canonise: variable-length packets, a thin internetworking layer, separate transport protocols above it.
 
-The third tradition was packet radio. ARPA's Packet Radio Network (PRNET, 1973) and the Atlantic Packet Satellite Network (SATNET, 1975) had to deal with hosts moving, links flickering, and {{bandwidth|bandwidth}} that varied by orders of magnitude. They could not assume an IMP-style fabric beneath them. The question — how do you let a packet hop from [[ethernet|Ethernet]] to ARPANET to a satellite link without any of them knowing about the others? — was the question that produced the internet.`
+The third tradition was packet radio. ARPA's Packet Radio Network (PRNET, 1973) and the Atlantic Packet Satellite Network (SATNET, 1975) had to deal with hosts moving, links flickering, and {{bandwidth|bandwidth}} that varied by orders of magnitude. They could not assume an {{imp|IMP}}-style fabric beneath them. The question — how do you let a packet hop from [[ethernet|Ethernet]] to {{arpanet|ARPANET}} to a satellite link without any of them knowing about the others? — was the question that produced the internet.`
 						},
 						{
 							type: 'callout',
 							title: "Why three? Because the problem was three problems.",
-							text: 'Local fabric ([[ethernet|Ethernet]]), wide-area research backbone (ARPANET), and unreliable wireless (PRNET/SATNET) each forced different design pressures. The architecture that won — [[tcp|TCP]]/[[ip|IP]] — is the one that took none of them as canonical and instead specified the **gluing** layer.'
+							text: 'Local fabric ([[ethernet|Ethernet]]), wide-area research backbone ({{arpanet|ARPANET}}), and unreliable wireless (PRNET/SATNET) each forced different design pressures. The architecture that won — [[tcp|TCP]]/[[ip|IP]] — is the one that took none of them as canonical and instead specified the **gluing** layer.'
 						}
 					]
 				},
@@ -54,7 +54,7 @@ The third tradition was packet radio. ARPA's Packet Radio Network (PRNET, 1973) 
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/A_sketch_of_the_ARPANET_in_December_1969.png/500px-A_sketch_of_the_ARPANET_in_December_1969.png',
 							alt: 'Hand-drawn sketch of ARPANET, December 1969 — the original four nodes UCLA, SRI, UCSB, and Utah.',
 							caption:
-								'A December 1969 sketch of the ARPANET — the four-node network that became the internet. UCLA, SRI, UCSB, and Utah; one IMP per site.',
+								'A December 1969 sketch of the {{arpanet|ARPANET}} — the four-node network that became the internet. UCLA, SRI, UCSB, and Utah; one {{imp|IMP}} per site.',
 							credit: 'Image: DARPA / public domain, via Wikimedia Commons'
 						},
 						{
@@ -62,7 +62,7 @@ The third tradition was packet radio. ARPA's Packet Radio Network (PRNET, 1973) 
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Interface_Message_Processor_%28%22IMP%22%29_%282586235502%29.jpg/500px-Interface_Message_Processor_%28%22IMP%22%29_%282586235502%29.jpg',
 							alt: 'A BBN-built Interface Message Processor (IMP) on display at the Computer History Museum.',
 							caption:
-								'An original BBN Interface Message Processor (IMP) — the rugged minicomputer that served as ARPANET\'s first router. The protocol that ran between IMPs is what [[tcp|TCP]]/[[ip|IP]] would later replace.',
+								'An original {{bbn|BBN}} {{imp|Interface Message Processor}} ({{imp|IMP}}) — the rugged minicomputer that served as {{arpanet|ARPANET}}\'s first router. The protocol that ran between IMPs is what [[tcp|TCP]]/[[ip|IP]] would later replace.',
 							credit: 'Photo: Erik Pitti, CC BY 2.0, via Wikimedia Commons'
 						}
 					]
@@ -75,7 +75,7 @@ The third tradition was packet radio. ARPA's Packet Radio Network (PRNET, 1973) 
 		{
 			id: 'the-1981-burst',
 			title: 'The 1981–83 Standardisation Burst',
-			synopsis: '[[rfc:791|RFC 791]]/792/793, the ARPANET flag day, and IEEE 802.3 ratified — three years that locked in the stack.',
+			synopsis: '[[rfc:791|RFC 791]]/792/793, the {{arpanet|ARPANET}} {{flag-day-1983|flag day}}, and IEEE 802.3 ratified — three years that locked in the stack.',
 			slots: [
 				{
 					kind: 'prose',
@@ -87,7 +87,7 @@ The third tradition was packet radio. ARPA's Packet Radio Network (PRNET, 1973) 
 
 In **September 1981**, [[pioneer:jon-postel|Jon Postel]] at ISI shipped three RFCs in rapid succession: [[rfc:791|RFC 791]] (Internet Protocol), [[rfc:792|RFC 792]] ([[icmp|ICMP]]), and [[rfc:9293|RFC 793]] (Transmission Control Protocol). These are the documents the modern internet still cites — [[rfc:793|RFC 793]] was the canonical [[tcp|TCP]] specification for the next 41 years, until [[rfc:9293|RFC 9293]] obsoleted it in 2022.
 
-On **1 January 1983**, ARPANET executed its famous "flag day": NCP was switched off, and [[tcp|TCP]]/[[ip|IP]] became the only protocol allowed on the network. Roughly 400 hosts had to convert; sites that missed the deadline simply lost connectivity. Survivors got buttons reading **I survived the [[tcp|TCP]]/[[ip|IP]] transition**. Most historians treat this date as the birthday of the modern internet.
+On **1 January 1983**, {{arpanet|ARPANET}} executed its famous "{{flag-day-1983|flag day}}": {{ncp|NCP}} was switched off, and [[tcp|TCP]]/[[ip|IP]] became the only protocol allowed on the network. Roughly 400 hosts had to convert; sites that missed the deadline simply lost connectivity. Survivors got buttons reading **I survived the [[tcp|TCP]]/[[ip|IP]] transition**. Most historians treat this date as the birthday of the modern internet.
 
 In parallel, the IEEE 802.3 working group ratified its [[ethernet|Ethernet]] standard (originally a Xerox/DEC/Intel collaboration). LAN technology and WAN technology now had a clean interface — the [[ip|IP]] packet — and could evolve independently. That separation has held for forty-three years.`
 						},
@@ -107,7 +107,7 @@ This is the deepest principle of the era: **separate what changes together from 
 				{ kind: 'pioneer', id: 'jon-postel' },
 				{
 					kind: 'pull-quote',
-					text: 'The flag day was a forcing function. There was no committee that could have produced a softer transition. NCP and [[tcp|TCP]]/[[ip|IP]] had to coexist for as little time as possible because every additional month of dual-stack maintenance was a month nobody was building anything new.',
+					text: 'The {{flag-day-1983|flag day}} was a forcing function. There was no committee that could have produced a softer transition. {{ncp|NCP}} and [[tcp|TCP]]/[[ip|IP]] had to coexist for as little time as possible because every additional month of dual-stack maintenance was a month nobody was building anything new.',
 					attribution: 'Author'
 				}
 			]
@@ -123,7 +123,7 @@ This is the deepest principle of the era: **separate what changes together from 
 						{
 							type: 'narrative',
 							title: 'The First Collapse',
-							text: `In October 1986, the internet broke for the first time. Throughput between Lawrence Berkeley Lab and UC Berkeley — three IMP hops apart, less than 400 yards of physical distance — collapsed from 32 kbps to 40 bps. A 1000× degradation. The cause was [[tcp|TCP]] itself: early BSD [[tcp|TCP]] retransmitted aggressively when ACKs were late, and as the network filled up, every {{retransmission|retransmission}} only added to the congestion. The senders kept piling on; the network kept melting.
+							text: `In October 1986, the internet broke for the first time. Throughput between Lawrence Berkeley Lab and UC Berkeley — three {{imp|IMP}} hops apart, less than 400 yards of physical distance — collapsed from 32 kbps to 40 bps. A 1000× degradation. The cause was [[tcp|TCP]] itself: early BSD [[tcp|TCP]] retransmitted aggressively when ACKs were late, and as the network filled up, every {{retransmission|retransmission}} only added to the congestion. The senders kept piling on; the network kept melting.
 
 [[pioneer:van-jacobson|Van Jacobson]] and Mike Karels at Berkeley spent six months instrumenting the wire and reading the BSD source. Their 1988 SIGCOMM paper, **"{{congestion-avoidance|Congestion Avoidance}} and Control,"** introduced six algorithms in one paper: **{{slow-start|slow start}}**, **{{aimd|AIMD}} {{congestion-avoidance|congestion avoidance}}**, **fast retransmit**, **fast recovery**, **exponential RTO backoff**, and a refined **{{rtt|RTT}} estimator**. The fixes shipped in 4.3BSD-Tahoe and saved the internet.
 
@@ -161,7 +161,7 @@ The 1986 collapse is the moment [[tcp|TCP]] went from working-most-of-the-time t
 		{
 			id: 'osi-vs-tcp-ip',
 			title: 'The OSI vs TCP/IP War',
-			synopsis: '"Rough consensus and running code" — why the IETF won.',
+			synopsis: '"Rough consensus and running code" — why the {{ietf|IETF}} won.',
 			slots: [
 				{
 					kind: 'prose',
@@ -171,9 +171,9 @@ The 1986 collapse is the moment [[tcp|TCP]] went from working-most-of-the-time t
 							title: 'A Standards War Decided by Implementation',
 							text: `Through the late 1980s and early 1990s, almost everyone official believed [[tcp|TCP/IP]] was a research project that would soon be replaced by the **real** networking future: the OSI suite. ISO and the ITU-T were promoting a seven-layer stack with proper transport (TP4), proper internetworking (CLNP), and proper application protocols (X.400 mail, X.500 directory). The U.S. government had a procurement mandate called GOSIP that **required** OSI for federal systems. European PTTs threw their weight behind it. Universities taught it from textbooks.
 
-The trouble was, OSI shipped specifications. The IETF shipped code.
+The trouble was, OSI shipped specifications. The {{ietf|IETF}} shipped code.
 
-In July 1992, **[[pioneer:david-clark|David Clark]]** gave a talk at the 24th IETF meeting in Cambridge titled **"A Cloudy Crystal Ball — Visions of the Future."** Halfway through, he distilled the working culture of the IETF into a sentence that decided the question:`
+In July 1992, **[[pioneer:david-clark|David Clark]]** gave a talk at the 24th {{ietf|IETF}} meeting in Cambridge titled **"A Cloudy Crystal Ball — Visions of the Future."** Halfway through, he distilled the working culture of the {{ietf|IETF}} into a sentence that decided the question:`
 						}
 					]
 				},
@@ -189,7 +189,7 @@ In July 1992, **[[pioneer:david-clark|David Clark]]** gave a talk at the 24th IE
 							type: 'narrative',
 							text: `That line travels well because it is precise. **Rough** consensus, not unanimous — small minorities cannot block. **Running** code, not just specifications — your idea must be implementable and demonstrable. Together they describe a process that ships things, accepts that some of them are wrong, and iterates. OSI's process did the opposite: write the perfect specification, ratify it through votes, deploy it once.
 
-By 1995, OSI was effectively dead in production networks. CLNP survived in IS-IS routing and as the trace heritage in [[ipv6|IPv6]]'s addressing model. X.500 became LDAP. X.400 lost to [[smtp|SMTP]]. The lesson was generalised across the industry: the IETF's **running code** test became the default expectation everywhere standards were made, including the W3C and later the WHATWG.`
+By 1995, OSI was effectively dead in production networks. CLNP survived in IS-IS routing and as the trace heritage in [[ipv6|IPv6]]'s addressing model. X.500 became LDAP. X.400 lost to [[smtp|SMTP]]. The lesson was generalised across the industry: the {{ietf|IETF}}'s **running code** test became the default expectation everywhere standards were made, including the {{w3c|W3C}} and later the WHATWG.`
 						}
 					]
 				},

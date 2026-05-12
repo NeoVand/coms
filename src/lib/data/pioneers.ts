@@ -74,7 +74,7 @@ Edited or co-edited many of the early [[tcp|TCP]] RFCs at Stanford with Yogen Da
 		years: '1938–',
 		title: 'Co-inventor of TCP/IP',
 		org: 'DARPA / BBN',
-		contribution: `Conceived the idea of open-architecture networking while managing the ARPANET project at DARPA, then in late 1972 started sketching how to interconnect packet-switched networks that did not look like the ARPANET — radio nets, satellite nets, eventually Ethernets. Recruited Vint Cerf to collaborate on what became [[tcp|TCP]]/[[ip|IP]].
+		contribution: `Conceived the idea of open-architecture networking while managing the {{arpanet|ARPANET}} project at {{darpa|DARPA}}, then in late 1972 started sketching how to interconnect packet-switched networks that did not look like the {{arpanet|ARPANET}} — radio nets, satellite nets, eventually Ethernets. Recruited Vint Cerf to collaborate on what became [[tcp|TCP]]/[[ip|IP]].
 
 Designed the protocols at the gateways (now called routers), the original architecture of the Internet — including the principles of best-effort delivery, end-to-end reliability at the hosts, and gateways that hide L2 differences from the endpoints. Founded the Corporation for National Research Initiatives in 1986.`,
 		imagePath:
@@ -98,7 +98,7 @@ Designed the protocols at the gateways (now called routers), the original archit
 		org: 'USC Information Sciences Institute',
 		contribution: `Edited the foundational [[tcp|TCP]]/[[ip|IP]] RFCs — RFC 791 ([[ip|IPv4]], September 1981), RFC 792 ([[icmp|ICMP]]), RFC 793 ([[tcp|TCP]]), RFC 768 ([[udp|UDP]], August 1980 — three pages, the most spartan and durable spec in networking) — and served as the RFC Editor for nearly three decades, shaping the standards process that governs the internet to this day.
 
-Argued (with David Reed) for splitting the original monolithic [[tcp|TCP]] into [[ip|IP]] plus a separate transport layer in 1978, the architectural decision that made [[udp|UDP]] and decades later [[quic|QUIC]] possible. The first IANA's first steward. The "Robustness Principle" — be conservative in what you send, be liberal in what you accept — appeared in his RFC 760 introduction and entered the cultural canon.`,
+Argued (with David Reed) for splitting the original monolithic [[tcp|TCP]] into [[ip|IP]] plus a separate transport layer in 1978, the architectural decision that made [[udp|UDP]] and decades later [[quic|QUIC]] possible. The first {{iana|IANA}}'s first steward. The "Robustness Principle" — be conservative in what you send, be liberal in what you accept — appeared in his RFC 760 introduction and entered the cultural canon.`,
 		imagePath:
 			'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Jon_Postel_sitting_in_office_%28cropped%29.jpg/330px-Jon_Postel_sitting_in_office_%28cropped%29.jpg',
 		protocols: ['tcp', 'udp', 'ip', 'icmp', 'dns', 'smtp'],
@@ -123,7 +123,7 @@ Argued (with David Reed) for splitting the original monolithic [[tcp|TCP]] into 
 		years: '1946–',
 		title: 'Inventor of Ethernet',
 		org: 'Xerox PARC / 3Com',
-		contribution: `Built the first 2.94 Mbps [[ethernet|Ethernet]] in 1973 at Xerox PARC with David Boggs to connect Alto workstations to laser printers. Co-authored the seminal "[[ethernet|Ethernet]]: Distributed Packet Switching for Local Computer Networks" in *Communications of the ACM*, July 1976. Co-authored the DIX (Digital/Intel/Xerox) [[ethernet|Ethernet]] specification in 1980, which IEEE 802.3 ratified in 1983.
+		contribution: `Built the first 2.94 Mbps [[ethernet|Ethernet]] in 1973 at {{xerox-parc|Xerox PARC}} with David Boggs to connect Alto workstations to laser printers. Co-authored the seminal "[[ethernet|Ethernet]]: Distributed Packet Switching for Local Computer Networks" in *Communications of the ACM*, July 1976. Co-authored the DIX (Digital/Intel/Xerox) [[ethernet|Ethernet]] specification in 1980, which IEEE 802.3 ratified in 1983.
 
 Founded 3Com in 1979 to commercialize [[ethernet|Ethernet]]. Today, four decades later, every wired network on the planet from your home router to a 800 Gbps AI training cluster runs [[ethernet|Ethernet]] at the link layer.`,
 		imagePath:
@@ -146,7 +146,7 @@ Founded 3Com in 1979 to commercialize [[ethernet|Ethernet]]. Today, four decades
 		years: '1950–2022',
 		title: 'Co-inventor of Ethernet',
 		org: 'Xerox PARC / DEC',
-		contribution: `Co-invented [[ethernet|Ethernet]] at Xerox PARC with Bob Metcalfe in 1973, building the original 2.94 Mbps coaxial-cable system that connected Alto workstations. Designed and built much of the original PARC [[ethernet|Ethernet]] hardware. Co-authored the 1976 CACM paper that introduced [[ethernet|Ethernet]] to the world. Later developed the PARC Universal Packet (PUP) architecture and worked at DEC on early routing systems.`,
+		contribution: `Co-invented [[ethernet|Ethernet]] at {{xerox-parc|Xerox PARC}} with Bob Metcalfe in 1973, building the original 2.94 Mbps coaxial-cable system that connected Alto workstations. Designed and built much of the original PARC [[ethernet|Ethernet]] hardware. Co-authored the 1976 CACM paper that introduced [[ethernet|Ethernet]] to the world. Later developed the PARC Universal Packet (PUP) architecture and worked at DEC on early routing systems.`,
 		protocols: ['ethernet'],
 		categories: ['network-foundations'],
 		links: {
@@ -188,9 +188,9 @@ Holds over 100 patents. Often called the "Mother of the Internet" for the loop-p
 		years: '1948–',
 		title: 'Inventor of DNS',
 		org: 'USC Information Sciences Institute',
-		contribution: `Designed the Domain Name System in 1983 (RFC 882/883, later RFC 1034/1035, 1987) to replace the single HOSTS.TXT file that had been the entire internet's name lookup table since the ARPANET days. The hierarchical, distributed, cacheable [[dns|DNS]] architecture scaled the internet from a few hundred hosts to billions.
+		contribution: `Designed the Domain Name System in 1983 (RFC 882/883, later RFC 1034/1035, 1987) to replace the single HOSTS.TXT file that had been the entire internet's name lookup table since the {{arpanet|ARPANET}} days. The hierarchical, distributed, cacheable [[dns|DNS]] architecture scaled the internet from a few hundred hosts to billions.
 
-Without [[dns|DNS]], every device would still be looking up addresses in a single text file someone updated by hand. Continues to advise on naming, anti-abuse, and [[dns|DNS]] security through ThreatSTOP and the IETF.`,
+Without [[dns|DNS]], every device would still be looking up addresses in a single text file someone updated by hand. Continues to advise on naming, anti-abuse, and [[dns|DNS]] security through ThreatSTOP and the {{ietf|IETF}}.`,
 		imagePath:
 			'https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Paul_Mockapetris.JPG/330px-Paul_Mockapetris.JPG',
 		protocols: ['dns'],
@@ -212,7 +212,7 @@ Without [[dns|DNS]], every device would still be looking up addresses in a singl
 		org: 'CERN / W3C / MIT',
 		contribution: `Created HTTP, HTML, and URLs at CERN in 1989-1991 — the three pillars of the web. Built the first web browser and editor (WorldWideWeb) and the first web server (CERN httpd) on a NeXT cube; the first website went live by Christmas 1990. CERN released the technology royalty-free on 30 April 1993.
 
-Founded the World Wide Web Consortium (W3C) in 1994 and continues to direct it from MIT. The 60-second narrated hook of internet history is "Vint Cerf made the network of networks; Tim Berners-Lee made the application that turned it into something every human uses."`,
+Founded the {{w3c|World Wide Web Consortium}} ({{w3c|W3C}}) in 1994 and continues to direct it from MIT. The 60-second narrated hook of internet history is "Vint Cerf made the network of networks; Tim Berners-Lee made the application that turned it into something every human uses."`,
 		imagePath:
 			'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/LS3_4919_%28cropped%29.jpg/330px-LS3_4919_%28cropped%29.jpg',
 		protocols: ['http1', 'http2', 'http3'],
@@ -250,7 +250,7 @@ Co-founded the Apache HTTP Server Project and chaired the Apache Software Founda
 		years: 'c. 1950–',
 		title: 'Co-creator of BGP',
 		org: 'IBM / Cisco / Juniper Networks',
-		contribution: `Co-created the Border Gateway Protocol with Kirk Lougheed at the 12th IETF meeting in Austin, Texas in January 1989 — sketched on three sheets of paper at lunch (the famous "two-napkin protocol"). Published as RFC 1105 in June 1989; the current standard is RFC 4271 (2006), still authored by Rekhter et al.
+		contribution: `Co-created the Border Gateway Protocol with Kirk Lougheed at the 12th {{ietf|IETF}} meeting in Austin, Texas in January 1989 — sketched on three sheets of paper at lunch (the famous "two-napkin protocol"). Published as RFC 1105 in June 1989; the current standard is RFC 4271 (2006), still authored by Rekhter et al.
 
 [[bgp|BGP]] runs every transit and peering relationship on the public internet today, carrying ~975K [[ip|IPv4]] and ~225K [[ipv6|IPv6]] prefixes globally as of January 2026. Rekhter has shaped or co-authored most of the [[bgp|BGP]] extensions in use, including [[bgp|BGP]]-MPLS VPNs (RFC 4364) and many EVPN drafts. The internet runs on a protocol he sketched on three napkins.`,
 		protocols: ['bgp'],
@@ -324,7 +324,7 @@ Also built the early NSFNET "Fuzzball" routers and gateway algorithms that ran t
 		years: 'c. 1970–',
 		title: 'Co-creator of SPDY (→ HTTP/2)',
 		org: 'Google / BitGo',
-		contribution: `Co-created SPDY at Google in 2009 with Roberto Peon — the experimental binary, multiplexed, header-compressed transport that proved [[http1|HTTP/1.1]]'s {{head-of-line-blocking|head-of-line blocking}} and one-request-per-connection model could be replaced. Within a year SPDY shipped in Chrome (2010); the IETF httpbis WG started [[http2|HTTP/2]] in 2012 using SPDY/2 as the base; [[http2|HTTP/2]] published as RFC 7540 in May 2015.
+		contribution: `Co-created SPDY at Google in 2009 with Roberto Peon — the experimental binary, multiplexed, header-compressed transport that proved [[http1|HTTP/1.1]]'s {{head-of-line-blocking|head-of-line blocking}} and one-request-per-connection model could be replaced. Within a year SPDY shipped in Chrome (2010); the {{ietf|IETF}} httpbis WG started [[http2|HTTP/2]] in 2012 using SPDY/2 as the base; [[http2|HTTP/2]] published as RFC 7540 in May 2015.
 
 Once [[http2|HTTP/2]] was on track, Google deprecated SPDY in Chrome — a textbook example of "ship a thing, prove it works, hand it to the standards body, retire your version." Now CEO of BitGo (cryptocurrency custody).`,
 		imagePath:
@@ -343,7 +343,7 @@ Once [[http2|HTTP/2]] was on track, Google deprecated SPDY in Chrome — a textb
 		org: 'Google',
 		contribution: `Designed and championed [[quic|QUIC]] at Google starting around 2012 (originally "Quick [[udp|UDP]] Internet Connections"). The premise: [[udp|UDP]] passes through every middlebox; layer reliability + multiplexing + crypto on top of it in user space; iterate as a browser update instead of a kernel upgrade.
 
-Google deployed gQUIC in production from 2013 onwards. The IETF [[quic|QUIC]] working group chartered in 2016 and shipped RFC 9000 in May 2021 — substantially redesigned from gQUIC but recognisable as the same architecture. [[http3|HTTP/3]] (RFC 9114, June 2022) made [[quic|QUIC]] the default modern transport for the web. By 2025, ~35% of the top 10M sites support [[http3|HTTP/3]] and Meta reports >75% of its traffic on [[quic|QUIC]].`,
+Google deployed gQUIC in production from 2013 onwards. The {{ietf|IETF}} [[quic|QUIC]] working group chartered in 2016 and shipped RFC 9000 in May 2021 — substantially redesigned from gQUIC but recognisable as the same architecture. [[http3|HTTP/3]] (RFC 9114, June 2022) made [[quic|QUIC]] the default modern transport for the web. By 2025, ~35% of the top 10M sites support [[http3|HTTP/3]] and Meta reports >75% of its traffic on [[quic|QUIC]].`,
 		imagePath:
 			'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Jim_Roskind_2016.jpg/330px-Jim_Roskind_2016.jpg',
 		protocols: ['quic', 'http3'],
@@ -360,7 +360,7 @@ Google deployed gQUIC in production from 2013 onwards. The IETF [[quic|QUIC]] wo
 		org: 'Mozilla / Windy Hill Systems',
 		contribution: `Edited [[tls|TLS]] 1.3 (RFC 8446, August 2018) — a five-year, 28-draft redesign that dropped insecure cipher suites, fused the handshake to one round-trip, and made {{aead|AEAD}} mandatory. Designed the middlebox-compatibility hacks (legacy_version field, fake ChangeCipherSpec) that let [[tls|TLS]] 1.3 deploy on the open internet despite ~3% of middleboxes parsing the version field.
 
-Author of *SSL and [[tls|TLS]]: Designing and Building Secure Systems* (2000), the standard practitioner's text. Continues to chair IETF working groups on [[tls|TLS]], [[oauth2|OAuth]], and encrypted [[dns|DNS]]. The reason your browser's HTTPS handshake takes one round-trip in 2026 instead of two.`,
+Author of *SSL and [[tls|TLS]]: Designing and Building Secure Systems* (2000), the standard practitioner's text. Continues to chair {{ietf|IETF}} working groups on [[tls|TLS]], [[oauth2|OAuth]], and encrypted [[dns|DNS]]. The reason your browser's HTTPS handshake takes one round-trip in 2026 instead of two.`,
 		protocols: ['tls'],
 		categories: ['utilities'],
 		links: {
@@ -375,7 +375,7 @@ Author of *SSL and [[tls|TLS]]: Designing and Building Secure Systems* (2000), t
 		org: 'MIT CSAIL',
 		contribution: `Chief Protocol Architect of the Internet from 1981 to 1989, when most of the architectural decisions that shape the internet today were made: the end-to-end principle, the four-layer model, the separation of mechanism from policy. Continues at MIT CSAIL.
 
-Distilled the IETF's working culture into the sentence that decided the OSI vs [[tcp|TCP]]/[[ip|IP]] standards war at IETF 24 in Cambridge, MA in July 1992: "We reject: kings, presidents and voting. We believe in: rough consensus and running code." That single quote is the closest thing the IETF has to a national anthem.`,
+Distilled the {{ietf|IETF}}'s working culture into the sentence that decided the OSI vs [[tcp|TCP]]/[[ip|IP]] standards war at {{ietf|IETF}} 24 in Cambridge, MA in July 1992: "We reject: kings, presidents and voting. We believe in: rough consensus and running code." That single quote is the closest thing the {{ietf|IETF}} has to a national anthem.`,
 		protocols: ['tcp', 'ip'],
 		categories: ['transport', 'network-foundations'],
 		awards: [{ name: 'IEEE Internet Award', year: 1990 }],
@@ -398,7 +398,7 @@ Distilled the IETF's working culture into the sentence that decided the OSI vs [
 		years: '1955–',
 		title: 'Designer of SSL',
 		org: 'Netscape / Salesforce / Axway',
-		contribution: `Designed SSL (Secure Sockets Layer) at Netscape in 1994-1996 — the protocol that made encrypted commerce on the open web possible and seeded what later became [[tls|TLS]]. SSL 3.0 (1996) was the version that POODLE eventually killed; the IETF took it over as [[tls|TLS]] 1.0 in RFC 2246 (January 1999) after a Microsoft/Netscape standards horsetrade.
+		contribution: `Designed SSL (Secure Sockets Layer) at Netscape in 1994-1996 — the protocol that made encrypted commerce on the open web possible and seeded what later became [[tls|TLS]]. SSL 3.0 (1996) was the version that POODLE eventually killed; the {{ietf|IETF}} took it over as [[tls|TLS]] 1.0 in RFC 2246 (January 1999) after a Microsoft/Netscape standards horsetrade.
 
 Also invented the Elgamal encryption algorithm (1985), one of the earliest practical public-key schemes, which underpins {{diffie-hellman|Diffie-Hellman key exchange}} and DSA signatures. Often called the "Father of SSL."`,
 		imagePath:
@@ -421,7 +421,7 @@ Also invented the Elgamal encryption algorithm (1985), one of the earliest pract
 		org: 'Opera / Google / WHATWG',
 		contribution: `Edited the HTML5 specification at the WHATWG from 2004, single-handedly turning the failed XHTML 2 path into a living standard the entire web platform now depends on. Also edited [[sse|Server-Sent Events]] (first shipped in Opera in September 2006 as part of "Web Applications 1.0") and coined "[[websockets|WebSocket]]" in #whatwg IRC. [[websockets|WebSocket]] finalised as RFC 6455 in December 2011 under Ian Fette.
 
-The amount of detailed specification work shipped under his name across two decades is exceptional even by IETF/W3C standards.`,
+The amount of detailed specification work shipped under his name across two decades is exceptional even by {{ietf|IETF}}/{{w3c|W3C}} standards.`,
 		imagePath:
 			'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Ian_Hickson_at_CSS_Working_Group_Meeting_Day_Three.jpeg/120px-Ian_Hickson_at_CSS_Working_Group_Meeting_Day_Three.jpeg',
 		protocols: ['websockets', 'sse'],

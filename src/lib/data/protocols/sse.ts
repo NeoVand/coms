@@ -127,7 +127,7 @@ curl -sN https://example.com/api/notifications \\
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Ian_Hickson_at_CSS_Working_Group_Meeting_Day_Three.jpeg/500px-Ian_Hickson_at_CSS_Working_Group_Meeting_Day_Three.jpeg',
 		alt: 'Ian Hickson at a CSS Working Group meeting, the author of the Server-Sent Events specification',
 		caption:
-			'[[pioneer:ian-hickson|Ian Hickson]] at a W3C Working Group meeting. As editor of the HTML5 specification, Hickson authored the [[sse|Server-Sent Events]] spec — giving browsers a native, lightweight way to receive real-time server pushes over plain HTTP.',
+			'[[pioneer:ian-hickson|Ian Hickson]] at a {{w3c|W3C}} Working Group meeting. As editor of the HTML5 specification, Hickson authored the [[sse|Server-Sent Events]] spec — giving browsers a native, lightweight way to receive real-time server pushes over plain HTTP.',
 		credit: 'Photo: Molly Holzschlag / CC BY-SA 2.0, via Wikimedia Commons'
 	}
 };

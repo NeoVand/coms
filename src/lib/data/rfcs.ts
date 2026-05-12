@@ -172,7 +172,7 @@ Published August 1980, two months before the first version of [[tcp|TCP]]. **It 
 		protocols: ['tcp'],
 		abstract: `The current Internet Standard for [[tcp|TCP]] — the reliable, ordered, byte-stream transport that powers most of the application internet. Defines the {{three-way-handshake|three-way handshake}}, {{sequence-number|sequence numbers}}, the {{sliding-window|sliding window}} {{flow-control|flow control}}, the FIN-based teardown, and the {{time-wait|TIME_WAIT}} state. The actual congestion-control behaviour lives in companion RFCs ([[rfc:5681|RFC 5681]], [[rfc:9438|RFC 9438]], …).
 
-Edited by Wesley Eddy in August 2022, this RFC consolidated **41 years of errata** against [[rfc:793|RFC 793]] (1981) — the longest-lived unmodified core IETF spec ever — plus six more obsoleted RFCs. Almost certainly the highest-leverage cleanup commit in IETF history. The wire protocol is unchanged; the spec just finally matches what implementations actually do.`,
+Edited by Wesley Eddy in August 2022, this RFC consolidated **41 years of errata** against [[rfc:793|RFC 793]] (1981) — the longest-lived unmodified core {{ietf|IETF}} spec ever — plus six more obsoleted RFCs. Almost certainly the highest-leverage cleanup commit in {{ietf|IETF}} history. The wire protocol is unchanged; the spec just finally matches what implementations actually do.`,
 		notableSections: [
 			{ ref: '§3.1', description: '[[tcp|TCP]] header format' },
 			{ ref: '§3.4', description: 'Sequence numbers' },
@@ -255,7 +255,7 @@ Designed by Sangtae Ha, Injong Rhee, and Lisong Xu; obsoletes the 2018 informati
 		status: 'proposed-standard',
 		url: 'https://datatracker.ietf.org/doc/html/rfc9000',
 		protocols: ['quic'],
-		abstract: `The IETF specification of [[quic|QUIC]] — a reliable, multiplexed, encrypted transport that runs on top of [[udp|UDP]] in user space. Conceived at Google by [[pioneer:jim-roskind|Jim Roskind]] (gQUIC, 2012); standardised across a dozen IETF drafts and shipped as RFC 9000 in May 2021. The premise: [[udp|UDP]] traverses every middlebox, so layer reliability + multiplexing + crypto on top of it and iterate by browser update instead of kernel upgrade.
+		abstract: `The {{ietf|IETF}} specification of [[quic|QUIC]] — a reliable, multiplexed, encrypted transport that runs on top of [[udp|UDP]] in user space. Conceived at Google by [[pioneer:jim-roskind|Jim Roskind]] (gQUIC, 2012); standardised across a dozen {{ietf|IETF}} drafts and shipped as RFC 9000 in May 2021. The premise: [[udp|UDP]] traverses every middlebox, so layer reliability + multiplexing + crypto on top of it and iterate by browser update instead of kernel upgrade.
 
 Defines connection setup (single-{{rtt|RTT}} {{handshake|handshake}}, {{zero-rtt|0-RTT}} for resumption), independent {{stream|streams}} (a lost packet only blocks its own stream — no [[tcp|TCP]] {{head-of-line-blocking|head-of-line blocking}}), {{connection-migration|connection migration}} via Connection IDs ([[wifi|Wi-Fi]]-to-cellular without breaking the connection), and an integrated [[tls|TLS]] 1.3 binding. By 2026 Meta moves >75% of its traffic over [[quic|QUIC]]; ~35% of top-10M sites support [[http3|HTTP/3]] over it.`,
 		notableSections: [
@@ -272,7 +272,7 @@ Defines connection setup (single-{{rtt|RTT}} {{handshake|handshake}}, {{zero-rtt
 		status: 'proposed-standard',
 		url: 'https://datatracker.ietf.org/doc/rfc9221/',
 		protocols: ['quic'],
-		abstract: `Adds a *DATAGRAM* frame to [[quic|QUIC]] for unreliable, unordered messages that share the connection's {{handshake|handshake}}, {{encryption|encryption}}, and {{congestion-control|congestion control}} but skip the reliability machinery — essentially "{{udp|UDP}} payloads inside an authenticated [[quic|QUIC]] connection." Used by {{webtransport|WebTransport}}, {{masque|MASQUE}} proxies (CONNECT-[[udp|UDP]]), and IETF media transport drafts that need [[udp|UDP]] semantics over a connection that already exists.`
+		abstract: `Adds a *DATAGRAM* frame to [[quic|QUIC]] for unreliable, unordered messages that share the connection's {{handshake|handshake}}, {{encryption|encryption}}, and {{congestion-control|congestion control}} but skip the reliability machinery — essentially "{{udp|UDP}} payloads inside an authenticated [[quic|QUIC]] connection." Used by {{webtransport|WebTransport}}, {{masque|MASQUE}} proxies (CONNECT-[[udp|UDP]]), and {{ietf|IETF}} media transport drafts that need [[udp|UDP]] semantics over a connection that already exists.`
 	},
 	{
 		number: '9330',
@@ -427,7 +427,7 @@ Reading [[rfc:1122|RFC 1122]] is a fast way to learn what a "correct" [[tcp|TCP]
 		obsoletedBy: ['791'],
 		url: 'https://www.rfc-editor.org/rfc/rfc760',
 		protocols: ['ip'],
-		abstract: `[[pioneer:jon-postel|Jon Postel]]'s January 1980 specification of the Internet Protocol — the first version published as a U.S. DoD standard, before the IETF process existed. Defines essentially the same datagram service as the better-known [[rfc:791|RFC 791]] (September 1981), which obsoleted it. Notable as the document where the *Robustness Principle* — *"be conservative in what you do, be liberal in what you accept from others"* — first appeared, in the introduction.`
+		abstract: `[[pioneer:jon-postel|Jon Postel]]'s January 1980 specification of the Internet Protocol — the first version published as a U.S. DoD standard, before the {{ietf|IETF}} process existed. Defines essentially the same datagram service as the better-known [[rfc:791|RFC 791]] (September 1981), which obsoleted it. Notable as the document where the *Robustness Principle* — *"be conservative in what you do, be liberal in what you accept from others"* — first appeared, in the introduction.`
 	},
 	{
 		number: '793',
@@ -438,7 +438,7 @@ Reading [[rfc:1122|RFC 1122]] is a fast way to learn what a "correct" [[tcp|TCP]
 		obsoletedBy: ['9293'],
 		url: 'https://www.rfc-editor.org/rfc/rfc793',
 		protocols: ['tcp'],
-		abstract: `[[pioneer:jon-postel|Jon Postel]]'s September 1981 specification of [[tcp|TCP]] — the canonical [[tcp|TCP]] RFC for **41 years**, almost certainly the longest-lived unmodified core IETF spec ever. Defines the {{three-way-handshake|three-way handshake}}, {{sequence-number|sequence numbers}}, the {{sliding-window|sliding window}}, FIN-based teardown, and {{time-wait|TIME_WAIT}} — every concept your kernel still implements.
+		abstract: `[[pioneer:jon-postel|Jon Postel]]'s September 1981 specification of [[tcp|TCP]] — the canonical [[tcp|TCP]] RFC for **41 years**, almost certainly the longest-lived unmodified core {{ietf|IETF}} spec ever. Defines the {{three-way-handshake|three-way handshake}}, {{sequence-number|sequence numbers}}, the {{sliding-window|sliding window}}, FIN-based teardown, and {{time-wait|TIME_WAIT}} — every concept your kernel still implements.
 
 Finally obsoleted by [[rfc:9293|RFC 9293]] in August 2022, which consolidated 41 years of accumulated errata. The wire format hasn't changed; the spec just finally matches what implementations actually do.`
 	},
@@ -686,7 +686,7 @@ Originally RFC 3041 (2001), then RFC 4941 (2007); this is the current revision. 
 		authors: 'V. Cerf',
 		status: 'informational',
 		url: 'https://www.rfc-editor.org/rfc/rfc2468',
-		abstract: `[[pioneer:vint-cerf|Vint Cerf]]'s memorial RFC for [[pioneer:jon-postel|Jon Postel]], who died on 16 October 1998 at age 55. Postel had run the IANA single-handedly from his ISI office for nearly three decades, edited essentially every foundational [[tcp|TCP]]/[[ip|IP]] RFC, and authored the *Robustness Principle*. The RFC is a personal eulogy from one of his closest collaborators.
+		abstract: `[[pioneer:vint-cerf|Vint Cerf]]'s memorial RFC for [[pioneer:jon-postel|Jon Postel]], who died on 16 October 1998 at age 55. Postel had run the {{iana|IANA}} single-handedly from his ISI office for nearly three decades, edited essentially every foundational [[tcp|TCP]]/[[ip|IP]] RFC, and authored the *Robustness Principle*. The RFC is a personal eulogy from one of his closest collaborators.
 
 One of a small handful of non-technical RFCs in the registry. Reading it is the most concentrated way to understand who Postel was and why so much of the early internet hung on one person's quiet, scrupulous work.`
 	},
@@ -701,7 +701,7 @@ One of a small handful of non-technical RFCs in the registry. Reading it is the 
 		obsoletedBy: ['4271'],
 		url: 'https://www.rfc-editor.org/rfc/rfc1105',
 		protocols: ['bgp'],
-		abstract: `The original [[bgp|BGP]] specification — Kirk Lougheed (Cisco) and [[pioneer:yakov-rekhter|Yakov Rekhter]] (IBM) sketched it on **three napkins** at lunch during the 12th IETF meeting in Austin, January 1989; published as RFC 1105 six months later. Replaced *EGP*, which had been showing its age as the inter-domain routing protocol for the early internet.
+		abstract: `The original [[bgp|BGP]] specification — Kirk Lougheed (Cisco) and [[pioneer:yakov-rekhter|Yakov Rekhter]] (IBM) sketched it on **three napkins** at lunch during the 12th {{ietf|IETF}} meeting in Austin, January 1989; published as RFC 1105 six months later. Replaced *EGP*, which had been showing its age as the inter-domain routing protocol for the early internet.
 
 The wire format and decision algorithm have evolved through [[bgp|BGP]]-2 (RFC 1163), [[bgp|BGP]]-3 (RFC 1267), and [[bgp|BGP]]-4 ([[rfc:4271|RFC 4271]]) — but the core idea (path-vector announcements with arbitrary local policy) is unchanged 36 years later.`
 	},
@@ -775,7 +775,7 @@ Together with {{rpki|RPKI}}-{{rov|ROV}} and {{aspa|ASPA}}, this is the modern op
 		status: 'informational',
 		url: 'https://www.rfc-editor.org/rfc/rfc1945',
 		protocols: ['http1'],
-		abstract: `The first formal HTTP specification — co-authored by [[pioneer:tim-berners-lee|Tim Berners-Lee]] (CERN), [[pioneer:roy-fielding|Roy Fielding]] (UC Irvine), and Henrik Frystyk (W3C). Documents the request/response cycle, headers, status codes, MIME-typed bodies, and the GET/HEAD/POST methods that web servers in 1996 actually understood.
+		abstract: `The first formal HTTP specification — co-authored by [[pioneer:tim-berners-lee|Tim Berners-Lee]] (CERN), [[pioneer:roy-fielding|Roy Fielding]] (UC Irvine), and Henrik Frystyk ({{w3c|W3C}}). Documents the request/response cycle, headers, status codes, MIME-typed bodies, and the GET/HEAD/POST methods that web servers in 1996 actually understood.
 
 [[http1|HTTP/1.0]] opened a new [[tcp|TCP]] connection for every request — there was no {{keep-alive|keep-alive}} yet. *Informational* status because by the time it published, work on [[rfc:2068|HTTP/1.1]] (which fixed connection reuse) was already well advanced.`
 	},
@@ -855,9 +855,9 @@ Forty years later still the canonical text for "how does [[dns|DNS]] actually wo
 		status: 'proposed-standard',
 		url: 'https://www.rfc-editor.org/rfc/rfc7686',
 		protocols: ['dns'],
-		abstract: `Reserves \`.onion\` as a *Special-Use Domain Name* — a rare carve-out outside ICANN's namespace, granted because the Tor protocol uses .onion as an internal addressing scheme rather than a public name hierarchy. Public {{dns-resolution|DNS}} resolvers MUST NOT look up .onion names, MUST NOT cache them, and MUST NOT forward them. The reservation prevents accidental [[dns|DNS]] leakage of Tor traffic to the open internet.
+		abstract: `Reserves \`.onion\` as a *Special-Use Domain Name* — a rare carve-out outside {{icann|ICANN}}'s namespace, granted because the Tor protocol uses .onion as an internal addressing scheme rather than a public name hierarchy. Public {{dns-resolution|DNS}} resolvers MUST NOT look up .onion names, MUST NOT cache them, and MUST NOT forward them. The reservation prevents accidental [[dns|DNS]] leakage of Tor traffic to the open internet.
 
-Authored by Jacob Appelbaum and Alec Muffett. The IANA *Special-Use Domain Names* registry now has a small but growing list of similar reservations (.alt, .home.arpa, etc.).`
+Authored by Jacob Appelbaum and Alec Muffett. The {{iana|IANA}} *Special-Use Domain Names* registry now has a small but growing list of similar reservations (.alt, .home.arpa, etc.).`
 	},
 	{
 		number: '7858',
@@ -1005,7 +1005,7 @@ Edited by Alexey Melnikov and Barry Leiba. Most modern mail servers (Dovecot, Cy
 		status: 'historic',
 		url: 'https://www.rfc-editor.org/rfc/rfc114',
 		protocols: ['ftp'],
-		abstract: `Abhay Bhushan's 1971 specification of *[[ftp|FTP]]* — the original file transfer protocol for the early ARPANET. Predates [[ip|IP]] itself (which arrived in 1981); the spec is written against the older NCP transport. Establishes the basic verb vocabulary (\`USER\`, \`PASS\`, \`STOR\`, \`RETR\`) that has survived for **55 years** of revisions through to [[rfc:959|RFC 959]] (1985) and beyond.
+		abstract: `Abhay Bhushan's 1971 specification of *[[ftp|FTP]]* — the original file transfer protocol for the early {{arpanet|ARPANET}}. Predates [[ip|IP]] itself (which arrived in 1981); the spec is written against the older {{ncp|NCP}} transport. Establishes the basic verb vocabulary (\`USER\`, \`PASS\`, \`STOR\`, \`RETR\`) that has survived for **55 years** of revisions through to [[rfc:959|RFC 959]] (1985) and beyond.
 
 One of the earliest application-layer protocols on what would become the internet. Reading it is a useful lesson in how application protocols looked before the [[tcp|TCP]]/[[ip|IP]] era forced everything to be byte-stream-oriented.`
 	},
@@ -1031,7 +1031,7 @@ The two-channel design is responsible for [[ftp|FTP]]'s well-known {{nat|NAT}}/{
 		status: 'standards-track',
 		url: 'https://www.rfc-editor.org/rfc/rfc4251',
 		protocols: ['ssh'],
-		abstract: `The architectural overview of [[ssh|SSH-2]] — the design Tatu Ylönen wrote in 1995 (after his Helsinki University machine was passively sniffed for credentials), formalised by the IETF as RFC 4251–4254 in 2006. Three layers: a {{tls|TLS}}-style transport for confidentiality and integrity, a user-authentication layer (password, {{public-key|public key}}, GSSAPI), and a connection layer that multiplexes channels (interactive shell, X11 forwarding, SCP/SFTP, {{port-forwarding|port forwarding}}).
+		abstract: `The architectural overview of [[ssh|SSH-2]] — the design Tatu Ylönen wrote in 1995 (after his Helsinki University machine was passively sniffed for credentials), formalised by the {{ietf|IETF}} as RFC 4251–4254 in 2006. Three layers: a {{tls|TLS}}-style transport for confidentiality and integrity, a user-authentication layer (password, {{public-key|public key}}, GSSAPI), and a connection layer that multiplexes channels (interactive shell, X11 forwarding, SCP/SFTP, {{port-forwarding|port forwarding}}).
 
 The reason the modern world has *only* [[ssh|SSH]] and not Telnet+rsh+rlogin is this RFC suite plus OpenSSH's nearly-universal adoption.`
 	},
@@ -1058,7 +1058,7 @@ The host key fingerprint that [[ssh|SSH]] clients warn about on first connection
 		obsoletedBy: ['4346'],
 		url: 'https://www.rfc-editor.org/rfc/rfc2246',
 		protocols: ['tls'],
-		abstract: `The first IETF [[tls|TLS]] specification — Tim Dierks and Christopher Allen's January 1999 publication, after the IETF took ownership of Netscape's SSL 3.0 ([[pioneer:taher-elgamal|Taher Elgamal]] et al.) and renamed it. Tim Dierks's own description: "[[tls|TLS]] 1.0 was, in practice, really SSL 3.1." The rename was a face-saving compromise so it didn't look like the IETF was rubber-stamping Netscape.
+		abstract: `The first {{ietf|IETF}} [[tls|TLS]] specification — Tim Dierks and Christopher Allen's January 1999 publication, after the {{ietf|IETF}} took ownership of Netscape's SSL 3.0 ([[pioneer:taher-elgamal|Taher Elgamal]] et al.) and renamed it. Tim Dierks's own description: "[[tls|TLS]] 1.0 was, in practice, really SSL 3.1." The rename was a face-saving compromise so it didn't look like the {{ietf|IETF}} was rubber-stamping Netscape.
 
 Long since obsolete: [[tls|TLS]] 1.1 (RFC 4346, 2006), [[tls|TLS]] 1.2 (RFC 5246, 2008), and the current [[rfc:8446|TLS 1.3]] (2018). Modern browsers and servers have actively *disabled* [[tls|TLS]] 1.0/1.1 since ~2020.`
 	},
@@ -1078,13 +1078,13 @@ This subtlety is the source of countless misconfigurations in the [[sip|SIP]] wo
 		number: '9849',
 		title: 'TLS Encrypted Client Hello (ECH) — registration entries',
 		year: 2025,
-		authors: 'IETF ([[tls|TLS]] WG)',
+		authors: '{{ietf|IETF}} ([[tls|TLS]] WG)',
 		status: 'draft',
 		url: 'https://www.rfc-editor.org/rfc/rfc9849',
 		protocols: ['tls'],
 		abstract: `Companion registration document for the {{ech|TLS Encrypted Client Hello}} mechanism — encrypts the {{sni|SNI}} ({{sni|Server Name Indication}}) hostname in the [[tls|TLS]] ClientHello so an on-path observer can no longer learn which site you're connecting to from the handshake. Closes a long-standing [[tls|TLS]] metadata leak; the only previous workaround was wildcard certificates plus aggressive name padding, neither great.
 
-{{ech|ECH}} key material is published via the {{dns-resolution|DNS}} HTTPS RR ([[rfc:9460|RFC 9460]]). Cloudflare turned {{ech|ECH}} on by default in 2023; Firefox 119 enabled {{ech|ECH}} by default. As a *draft*-status entry the underlying {{ech|ECH}} spec is still settling; this is the IANA-registration-list piece.`
+{{ech|ECH}} key material is published via the {{dns-resolution|DNS}} HTTPS RR ([[rfc:9460|RFC 9460]]). Cloudflare turned {{ech|ECH}} on by default in 2023; Firefox 119 enabled {{ech|ECH}} by default. As a *draft*-status entry the underlying {{ech|ECH}} spec is still settling; this is the {{iana|IANA}}-registration-list piece.`
 	},
 
 	// DHCP
@@ -1153,7 +1153,7 @@ NTPv0 is purely historical; if you're running [[ntp|NTP]] today you're running N
 		obsoletedBy: ['3261'],
 		url: 'https://www.rfc-editor.org/rfc/rfc2543',
 		protocols: ['sip'],
-		abstract: `The original 1999 [[sip|SIP]] specification — Mark Handley, [[pioneer:henning-schulzrinne|Henning Schulzrinne]], Eve Schooler, and Jonathan Rosenberg's first published version. Established [[sip|SIP]] as the IETF's text-based alternative to ITU's binary H.323 for VoIP signalling. Won that standards war decisively over the following decade.
+		abstract: `The original 1999 [[sip|SIP]] specification — Mark Handley, [[pioneer:henning-schulzrinne|Henning Schulzrinne]], Eve Schooler, and Jonathan Rosenberg's first published version. Established [[sip|SIP]] as the {{ietf|IETF}}'s text-based alternative to ITU's binary H.323 for VoIP signalling. Won that standards war decisively over the following decade.
 
 Obsoleted by [[rfc:3261|RFC 3261]] in 2002 with substantial revisions (cleaner state machines, better proxy semantics, INVITE-handling fixes from production deployment).`
 	},
@@ -1230,7 +1230,7 @@ Edited by Ali Begen, Paul Kyzivat, Colin Perkins, and Mark Handley. The 2021 rev
 		status: 'proposed-standard',
 		url: 'https://www.rfc-editor.org/rfc/rfc8825',
 		protocols: ['webrtc'],
-		abstract: `The architectural overview of [[webrtc|WebRTC]] — the only path by which a web browser can send a [[udp|UDP]] packet to a peer. Surveys the dozen-plus IETF documents that together define the system: [[rtp|RTP]]/{{srtp|SRTP}} for media, ICE for {{nat|NAT}} traversal, STUN/TURN for path discovery, [[sdp|SDP]] for offer/answer, {{dtls|DTLS}} for key agreement, [[rfc:8831|SCTP-over-DTLS]] for data channels.
+		abstract: `The architectural overview of [[webrtc|WebRTC]] — the only path by which a web browser can send a [[udp|UDP]] packet to a peer. Surveys the dozen-plus {{ietf|IETF}} documents that together define the system: [[rtp|RTP]]/{{srtp|SRTP}} for media, ICE for {{nat|NAT}} traversal, STUN/TURN for path discovery, [[sdp|SDP]] for offer/answer, {{dtls|DTLS}} for key agreement, [[rfc:8831|SCTP-over-DTLS]] for data channels.
 
 Authored by Harald Alvestrand at Google. Reading it is the fastest way to understand how all the [[webrtc|WebRTC]] pieces fit together; each piece has its own RFC.`
 	},
@@ -1282,7 +1282,7 @@ What makes Conversations.im, Snikket, and other modern [[xmpp|XMPP]] web clients
 		status: 'proposed-standard',
 		url: 'https://www.rfc-editor.org/rfc/rfc7252',
 		protocols: ['coap'],
-		abstract: `[[coap|CoAP]] — the IETF's *constrained-device* counterpart to [[http1|HTTP]]. Same [[rest|REST]] verbs (GET/POST/PUT/DELETE), same status code semantics, but a 4-byte binary header on top of [[udp|UDP]] instead of HTTP's text-based framing on [[tcp|TCP]]. Designed for sensors and actuators with kilobytes of RAM and intermittent radio links.
+		abstract: `[[coap|CoAP]] — the {{ietf|IETF}}'s *constrained-device* counterpart to [[http1|HTTP]]. Same [[rest|REST]] verbs (GET/POST/PUT/DELETE), same status code semantics, but a 4-byte binary header on top of [[udp|UDP]] instead of HTTP's text-based framing on [[tcp|TCP]]. Designed for sensors and actuators with kilobytes of RAM and intermittent radio links.
 
 Co-authored by Zach Shelby, Klaus Hartke, and Carsten Bormann. Used in *Thread* network management (Matter does NOT use [[coap|CoAP]] for its main payloads, despite the common misconception), industrial IoT, and constrained sensor networks. Companion {{encryption|encryption}} layers are {{dtls|DTLS}} or [[rfc:8613|OSCORE]].`
 	},

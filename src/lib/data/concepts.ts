@@ -16,6 +16,128 @@ export interface Concept {
 }
 
 export const concepts: Concept[] = [
+	// ── Historical / Institutional ─────────────────────────────────────
+	{
+		id: 'arpanet',
+		term: 'ARPANET',
+		definition:
+			'The DARPA-funded packet-switched research network that ran from 1969 to 1990. First message sent UCLA → SRI on Oct 29 1969; switched from {{ncp|NCP}} to [[tcp|TCP]]/[[ip|IP]] on Flag Day, Jan 1 1983. The direct ancestor of the modern internet.',
+		analogy:
+			'The first long-distance group chat — a handful of universities and labs taking turns on a few cables, with {{bbn|BBN}} running the switchboard.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/ARPANET',
+		category: 'networking-basics'
+	},
+	{
+		id: 'ncp',
+		term: 'NCP (Network Control Program)',
+		definition:
+			"ARPANET's original host-to-host protocol, in service 1970–1982. Welded to {{arpanet|ARPANET}} hardware — every node had to be an ARPANET node, with no way to bridge to other networks. Replaced by [[tcp|TCP]]/[[ip|IP]] on {{flag-day-1983|Flag Day}}, January 1 1983, when the network cut over wholesale.",
+		analogy:
+			'A walkie-talkie protocol that only works on one brand of radio. The moment you want to talk to a phone or a satellite, you need something new.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Network_Control_Protocol_(ARPANET)',
+		category: 'networking-basics'
+	},
+	{
+		id: 'imp',
+		term: 'IMP (Interface Message Processor)',
+		definition:
+			"The refrigerator-sized minicomputers (modified Honeywell DDP-516s) built by {{bbn|BBN}} that served as {{arpanet|ARPANET}}'s first routers. The IMP at UCLA processed the very first ARPANET message on October 29, 1969 — the network's \"Hello World.\"",
+		analogy:
+			'The original router, but the size of a wardrobe and humming loud enough to fill a room.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Interface_Message_Processor',
+		category: 'networking-basics'
+	},
+	{
+		id: 'ietf',
+		term: 'IETF (Internet Engineering Task Force)',
+		definition:
+			'The open, volunteer-run standards body that has shepherded internet protocols since 1986. Standards are published as RFCs and the motto is "rough consensus and running code." No membership fees, no votes — anyone with technical merit and patience can drive a spec to publication.',
+		analogy:
+			'An open-source community for the wire — instead of code, they ship the rules every device on earth has to agree on.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Internet_Engineering_Task_Force',
+		category: 'infrastructure'
+	},
+	{
+		id: 'darpa',
+		term: 'DARPA',
+		definition:
+			"Defense Advanced Research Projects Agency. The US DoD research arm whose 1960s funding birthed {{arpanet|ARPANET}} and whose 1970s contracts paid for the design of [[tcp|TCP]]/[[ip|IP]]. ARPA → DARPA → ARPA → DARPA in the renaming wars; the work didn't stop.",
+		analogy:
+			'The patient money that wrote the cheque before "the internet" was a thing anyone could explain to a senator.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/DARPA',
+		category: 'infrastructure'
+	},
+	{
+		id: 'bbn',
+		term: 'BBN (Bolt, Beranek and Newman)',
+		definition:
+			"The Cambridge, Mass. consultancy that won the {{arpanet|ARPANET}} hardware contract in 1968 and built the {{imp|IMPs}}. BBN also wrote the first @-sign email program ([[pioneer:ray-tomlinson|Ray Tomlinson]], 1971) and much of the early internet plumbing. Now part of RTX (Raytheon Technologies).",
+		analogy:
+			'The Skunk Works of early networking — small team, contract by contract, no glamour, all of the foundations.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/BBN_Technologies',
+		category: 'infrastructure'
+	},
+	{
+		id: 'iana',
+		term: 'IANA (Internet Assigned Numbers Authority)',
+		definition:
+			'The function (not an organization) responsible for assigning unique numbers used by internet protocols — [[ip|IP]] address blocks, AS numbers, well-known port numbers, MIME types, character sets. Run single-handedly by [[pioneer:jon-postel|Jon Postel]] from his ISI office for over a decade; now operated by {{icann|ICANN}}.',
+		analogy:
+			'The phone directory that prevents two countries from claiming the same area code.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Internet_Assigned_Numbers_Authority',
+		category: 'infrastructure'
+	},
+	{
+		id: 'icann',
+		term: 'ICANN',
+		definition:
+			"Internet Corporation for Assigned Names and Numbers. The non-profit incorporated in 1998 that took over the {{iana|IANA}} functions from [[pioneer:jon-postel|Jon Postel]]'s office. Coordinates the global [[dns|DNS]] root, the [[ip|IP]] address allocation system, and the policy process for generic top-level domains.",
+		analogy:
+			'The committee that runs the global address book — boring, essential, periodically very political.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/ICANN',
+		category: 'infrastructure'
+	},
+	{
+		id: 'w3c',
+		term: 'W3C (World Wide Web Consortium)',
+		definition:
+			'The standards body for the web, founded by [[pioneer:tim-berners-lee|Tim Berners-Lee]] in 1994 and hosted by MIT (and partners). Publishes the specs for HTML, CSS, the DOM, and dozens of related web technologies. Where the {{ietf|IETF}} does wire formats, the W3C does the layers above HTTP.',
+		analogy:
+			'{{ietf|IETF}} runs the rails, W3C runs the trains.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/World_Wide_Web_Consortium',
+		category: 'web'
+	},
+	{
+		id: 'isoc',
+		term: 'ISOC (Internet Society)',
+		definition:
+			'Non-profit founded in 1992 to provide an organizational home for the {{ietf|IETF}} and to advocate for open internet policy worldwide. Funds the IETF Trust, supports the IRTF research arm, and runs programs on internet access, encryption, and routing security.',
+		analogy:
+			'The fiscal sponsor and policy lobby for the people who actually write the protocols.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Internet_Society',
+		category: 'infrastructure'
+	},
+	{
+		id: 'xerox-parc',
+		term: 'Xerox PARC',
+		definition:
+			'Palo Alto Research Center. The Xerox-funded lab that invented [[ethernet|Ethernet]] (1973, [[pioneer:bob-metcalfe|Bob Metcalfe]] & [[pioneer:david-boggs|David Boggs]]), the laser printer, the GUI, the mouse-driven workstation, and most of personal computing as we know it. Famously bad at commercializing its own breakthroughs.',
+		analogy:
+			'The garage where most of modern computing was prototyped, before everyone else turned the prototypes into companies.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/PARC_(company)',
+		category: 'infrastructure'
+	},
+	{
+		id: 'flag-day-1983',
+		term: 'Flag Day (Jan 1 1983)',
+		definition:
+			'January 1, 1983 — the day {{arpanet|ARPANET}} cut over from {{ncp|NCP}} to [[tcp|TCP]]/[[ip|IP]] wholesale, with no fallback. Sites scrambled to ship working [[tcp|TCP]]/[[ip|IP]] stacks before the deadline; lots of email was sent in the months prior begging operators to test their code. The day the internet, as we know it, technically began.',
+		analogy:
+			"A continent-wide phone-number switchover with no extensions. Everyone moves at midnight or you're unreachable.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Flag_day_(computing)#1983_NCP/TCP_transition',
+		category: 'networking-basics'
+	},
+
 	// ── Networking Basics ──────────────────────────────────────────────
 	{
 		id: 'ip-address',

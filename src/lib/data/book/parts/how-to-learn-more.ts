@@ -135,7 +135,7 @@ For a self-paced path: read **RFC 1180** (28 pages), then take **CS144**, then r
 
 **Hacker News networking tag** — for breaking news. Set up a saved search. The discussions are usually more useful than the articles.
 
-**The IETF mailing lists themselves** — datatracker.ietf.org. If you want to see protocols being designed in real time, subscribe to a working group whose work interests you. Be ready for high traffic.`
+**The {{ietf|IETF}} mailing lists themselves** — datatracker.ietf.org. If you want to see protocols being designed in real time, subscribe to a working group whose work interests you. Be ready for high traffic.`
 						}
 					]
 				}

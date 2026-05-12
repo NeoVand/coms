@@ -32,7 +32,7 @@ export const webApi: BookPart = {
 						{
 							type: 'narrative',
 							title: 'The Protocol You Can Read',
-							text: `[[http1|HTTP/1.1]] is the most successful application protocol ever shipped. It was originally specified in **[[rfc:2068|RFC 2068]] (January 1997)**, then revised through [[rfc:2616|RFC 2616]] (1999) and RFC 7230-7235 (2014). In **June 2022** the IETF replaced the entire 1997-2014 lineage in one big bang with a five-document set: **[[rfc:9110|RFC 9110]]** (HTTP Semantics), [[rfc:9112|RFC 9112]] ([[http1|HTTP/1.1]] Messaging), RFC 9111 (Caching), and the matching [[http2|HTTP/2]] ([[rfc:9113|RFC 9113]]) and [[http3|HTTP/3]] ([[rfc:9114|RFC 9114]]) updates. *The Register* called the 7 June 2022 cluster *"the day [[tcp|TCP]] stopped being assumed."*
+							text: `[[http1|HTTP/1.1]] is the most successful application protocol ever shipped. It was originally specified in **[[rfc:2068|RFC 2068]] (January 1997)**, then revised through [[rfc:2616|RFC 2616]] (1999) and RFC 7230-7235 (2014). In **June 2022** the {{ietf|IETF}} replaced the entire 1997-2014 lineage in one big bang with a five-document set: **[[rfc:9110|RFC 9110]]** (HTTP Semantics), [[rfc:9112|RFC 9112]] ([[http1|HTTP/1.1]] Messaging), RFC 9111 (Caching), and the matching [[http2|HTTP/2]] ([[rfc:9113|RFC 9113]]) and [[http3|HTTP/3]] ([[rfc:9114|RFC 9114]]) updates. *The Register* called the 7 June 2022 cluster *"the day [[tcp|TCP]] stopped being assumed."*
 
 Three things explain [[http1|HTTP/1.1]]'s longevity.`
 						},
@@ -187,7 +187,7 @@ The fix in flight is **in-kernel [[quic|QUIC]]**. Xin Long posted the first ~9,0
 
 **{{webtransport|WebTransport}} over [[http3|HTTP/3]]** is at draft-ietf-webtrans-http3-15 (March 2026). Chrome and Edge ship implementations; ASP.NET Core Kestrel has experimental support.
 
-**[[frontier:ech-rfc-9849|Encrypted Client Hello (ECH)]]** was approved by the [[tls|TLS]] WG and entered the RFC editor queue in 2025 ([[rfc:9849|RFC 9849]]-track, IANA registry allocated 2025-07-30). Cloudflare turned it on for ~70% of its zones; Russia began censoring {{ech|ECH}} connections; major browsers ship {{ech|ECH}} gated by HTTPS [[dns|DNS]] records ([[rfc:9460|RFC 9460]]).
+**[[frontier:ech-rfc-9849|Encrypted Client Hello (ECH)]]** was approved by the [[tls|TLS]] WG and entered the RFC editor queue in 2025 ([[rfc:9849|RFC 9849]]-track, {{iana|IANA}} registry allocated 2025-07-30). Cloudflare turned it on for ~70% of its zones; Russia began censoring {{ech|ECH}} connections; major browsers ship {{ech|ECH}} gated by HTTPS [[dns|DNS]] records ([[rfc:9460|RFC 9460]]).
 
 **Reliable Stream Resets** (draft-ietf-quic-reliable-stream-reset, M. Seemann & K. Oku, latest -07 in June 2025) defines RESET_STREAM_AT for {{webtransport|WebTransport}}'s reliable initial bytes.`
 						}

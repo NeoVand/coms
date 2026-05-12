@@ -2,6 +2,11 @@ import type { GraphNode, GraphEdge, Protocol, Category } from './types';
 import { categories, categoryMap } from './categories';
 import { allProtocols } from './protocols';
 import { themedDomColor } from '../utils/colors';
+import { pioneers as _pioneersRegistry, type Pioneer } from './pioneers';
+import { rfcs as _rfcsRegistry, type Rfc } from './rfcs';
+import { outages as _outagesRegistry, type Outage } from './outages';
+import { frontierEntries as _frontierRegistry, type FrontierEntry } from './frontier';
+import { listChapters as _listChapters } from './book';
 
 export { allProtocols };
 
@@ -192,6 +197,87 @@ export function getCategoryById(id: string): Category | undefined {
 
 export function getProtocolsForCategory(categoryId: string): Protocol[] {
 	return allProtocols.filter((p) => p.categoryId === categoryId);
+}
+
+// ─────────────────────────────────────────────────────────────────────
+// Category-aware roll-ups. These give CategoryReferences.svelte the
+// same "in-the-book + pioneers + RFCs + outages + frontier" rollup
+// that ProtocolReferences already shows for a single protocol.
+//
+// RFCs, outages, and frontier entries don't carry a `categories` field
+// directly — their `protocols: string[]` is the source of truth — so
+// we resolve them transitively: take the category's protocols, then
+// union the records that touch any of them.
+// ─────────────────────────────────────────────────────────────────────
+
+export function getPioneersForCategory(categoryId: string): Pioneer[] {
+	return _pioneersRegistry.filter((p) => p.categories?.includes(categoryId));
+}
+
+export function getRfcsForCategory(categoryId: string): Rfc[] {
+	const protoIds = new Set(getProtocolsForCategory(categoryId).map((p) => p.id));
+	return _rfcsRegistry.filter((r) => r.protocols?.some((id) => protoIds.has(id)));
+}
+
+export function getOutagesForCategory(categoryId: string): Outage[] {
+	const protoIds = new Set(getProtocolsForCategory(categoryId).map((p) => p.id));
+	return _outagesRegistry.filter((o) => o.affectedProtocols.some((id) => protoIds.has(id)));
+}
+
+export function getFrontierForCategory(categoryId: string): FrontierEntry[] {
+	const protoIds = new Set(getProtocolsForCategory(categoryId).map((p) => p.id));
+	return _frontierRegistry.filter((f) => f.protocols.some((id) => protoIds.has(id)));
+}
+
+/**
+ * Chapters that reference this category — either via a `category-story`
+ * slot pinned to the category id, or via any slot that names a protocol
+ * inside the category. Returns the same shape ProtocolReferences uses
+ * for its "In the Book" section.
+ */
+export function getChaptersForCategory(categoryId: string): {
+	partId: string;
+	partTitle: string;
+	partLabel: string;
+	chapterId: string;
+	chapterTitle: string;
+	synopsis?: string;
+}[] {
+	const protoIds = new Set(getProtocolsForCategory(categoryId).map((p) => p.id));
+	const out: {
+		partId: string;
+		partTitle: string;
+		partLabel: string;
+		chapterId: string;
+		chapterTitle: string;
+		synopsis?: string;
+	}[] = [];
+	const seen = new Set<string>();
+
+	for (const { part, chapter } of _listChapters()) {
+		const key = `${part.id}/${chapter.id}`;
+		if (seen.has(key)) continue;
+
+		const matches = chapter.slots.some((slot) => {
+			if (slot.kind === 'category-story' && slot.categoryId === categoryId) return true;
+			if (slot.kind === 'protocol' && protoIds.has(slot.id)) return true;
+			if (slot.kind === 'simulation' && protoIds.has(slot.protocolId)) return true;
+			return false;
+		});
+
+		if (matches) {
+			seen.add(key);
+			out.push({
+				partId: part.id,
+				partTitle: part.title,
+				partLabel: part.label ?? '',
+				chapterId: chapter.id,
+				chapterTitle: chapter.title,
+				synopsis: chapter.synopsis
+			});
+		}
+	}
+	return out;
 }
 
 /**

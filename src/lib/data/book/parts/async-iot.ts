@@ -200,7 +200,7 @@ The wire-level details that matter operationally: [[kafka|Kafka]]'s reference co
 						{
 							type: 'narrative',
 							title: 'HTTP at 32 kB of RAM',
-							text: `[[coap|CoAP]] (Constrained Application Protocol) was specified by the **IETF CoRE WG** chartered March 2010; base spec **[[rfc:7252|RFC 7252]]** published **June 2014** (Shelby, Hartke, Bormann). The intellectual lineage runs through **Sensinode (Oulu, Finland)** — acquired by **ARM in 2013** — and the **University of Bremen TZI** group.
+							text: `[[coap|CoAP]] (Constrained Application Protocol) was specified by the **{{ietf|IETF}} CoRE WG** chartered March 2010; base spec **[[rfc:7252|RFC 7252]]** published **June 2014** (Shelby, Hartke, Bormann). The intellectual lineage runs through **Sensinode (Oulu, Finland)** — acquired by **ARM in 2013** — and the **University of Bremen TZI** group.
 
 [[coap|CoAP]] is what you build when you want [[rest|REST]] semantics on a 32 kB microcontroller talking over a 50 kbps mesh radio. It looks like [[http1|HTTP]] from a distance — GET, POST, PUT, DELETE, status codes, URIs — but the wire format is binary and it runs over [[udp|UDP]] instead of [[tcp|TCP]].
 

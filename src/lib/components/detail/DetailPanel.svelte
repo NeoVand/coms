@@ -111,6 +111,7 @@
 	// chapters live behind /book/foundations/[id] and render via
 	// ChapterView when activeBookChapter is set.
 	import CategoryAdvancedView from './CategoryAdvancedView.svelte';
+	import CategoryReferences from './CategoryReferences.svelte';
 	import JourneyListView from './JourneyListView.svelte';
 	import JourneyBar from './JourneyBar.svelte';
 	import { themedDomColor } from '$lib/utils/colors';
@@ -668,10 +669,14 @@
 							{/each}
 						</div>
 					</section>
+
+					<!-- In the Book / Pioneers / RFCs / Famous incidents / Frontier -->
+					<CategoryReferences categoryId={cat.id} {color} />
 				</div>
 			{:else if appState.categoryViewMode === 'advanced'}
-				<div class="p-6">
+				<div class="flex flex-col gap-6 p-6">
 					<CategoryAdvancedView {cat} {color} />
+					<CategoryReferences categoryId={cat.id} {color} />
 				</div>
 			{:else if appState.categoryViewMode === 'journeys'}
 				<div class="p-6">

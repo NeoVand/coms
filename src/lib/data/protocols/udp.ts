@@ -151,7 +151,7 @@ ss -un  # or: netstat -un`
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Arpanet_1974.svg/500px-Arpanet_1974.svg.png',
 		alt: 'Map of the ARPANET in 1974, showing interconnected nodes across the United States',
 		caption:
-			'The ARPANET in 1974 — the network where [[udp|UDP]] was born. While [[tcp|TCP]] guaranteed delivery, [[udp|UDP]] offered raw speed for the applications that needed it most.',
+			'The {{arpanet|ARPANET}} in 1974 — the network where [[udp|UDP]] was born. While [[tcp|TCP]] guaranteed delivery, [[udp|UDP]] offered raw speed for the applications that needed it most.',
 		credit: 'Image: ARPANET / Public Domain, via Wikimedia Commons'
 	},
 

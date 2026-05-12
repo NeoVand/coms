@@ -108,7 +108,7 @@ Apple iOS 26 / macOS Tahoe 26 (September 2025) turned X25519MLKEM768 on by defau
 		protocols: ['tcp', 'quic'],
 		description: `{{bbr|BBR}} (Bottleneck {{bandwidth|Bandwidth}} and Round-trip propagation time) is Google's {{congestion-control|congestion control}} that abandons loss as the primary signal and instead models the path's bottleneck bandwidth and {{rtt|RTT}}. Cardwell, Cheng, Gunn, Yeganeh, and Jacobson published it at ACM Queue in 2016 (CACM Feb 2017). BBRv1's gain over {{cubic|CUBIC}} was ~4% globally on YouTube, more than 14% in some countries, and a 33% reduction in median {{rtt|RTT}}.
 
-BBRv3 is now \`draft-ietf-ccwg-bbr\` inside the IETF's {{congestion-control|Congestion Control}} Working Group. Google has been running it as the default for google.com and YouTube traffic since 2023. The draft (-04 / -05 in 2025-2026) refines the bandwidth probing, packet conservation, and convergence properties that earlier {{bbr|BBR}} versions had open issues with. Available in Linux via \`sysctl net.ipv4.tcp_congestion_control=bbr\` (paired with the FQ qdisc, which {{bbr|BBR}} {{pacing|pacing}} requires).`,
+BBRv3 is now \`draft-ietf-ccwg-bbr\` inside the {{ietf|IETF}}'s {{congestion-control|Congestion Control}} Working Group. Google has been running it as the default for google.com and YouTube traffic since 2023. The draft (-04 / -05 in 2025-2026) refines the bandwidth probing, packet conservation, and convergence properties that earlier {{bbr|BBR}} versions had open issues with. Available in Linux via \`sysctl net.ipv4.tcp_congestion_control=bbr\` (paired with the FQ qdisc, which {{bbr|BBR}} {{pacing|pacing}} requires).`,
 		metrics: [
 			{ label: 'Google YouTube throughput gain (BBRv1)', value: '+4%', date: '2017' },
 			{ label: 'Google median RTT reduction', value: '−33%', date: '2017' }
@@ -144,7 +144,7 @@ The mechanism: cooperating senders mark packets {{ecn|ECN}}-Capable; routers run
 		status: 'shipped',
 		date: '2025',
 		protocols: ['tls'],
-		description: `{{ech|ECH}} ({{ech|Encrypted Client Hello}}) hides the {{sni|SNI}} and other ClientHello fields that previously let middleboxes and ISPs see which site you were visiting. Specified through 25 IETF drafts and finally published as [[rfc:9849|RFC 9849]] in 2025.
+		description: `{{ech|ECH}} ({{ech|Encrypted Client Hello}}) hides the {{sni|SNI}} and other ClientHello fields that previously let middleboxes and ISPs see which site you were visiting. Specified through 25 {{ietf|IETF}} drafts and finally published as [[rfc:9849|RFC 9849]] in 2025.
 
 Cloudflare deploys {{ech|ECH}} for ~70% of websites it fronts; Chrome and Firefox both support it. The architecture: the server publishes an ECHConfig in [[dns|DNS]] (HTTPS RR); the client encrypts the inner ClientHello to that key and wraps it in an outer ClientHello that uses a generic "cloudflare-ech.com" {{sni|SNI}}. From the network's perspective, every fronted site looks the same.`,
 		sources: [
@@ -163,7 +163,7 @@ Cloudflare deploys {{ech|ECH}} for ~70% of websites it fronts; Chrome and Firefo
 		protocols: ['bgp'],
 		description: `By May 2024, more than 50% of [[ip|IPv4]] routes had ROAs (Route Origin Authorisations); roughly three-quarters of [[ip|IP]] traffic was bound for {{rpki|RPKI}}-secured destinations. MANRS surpassed 1,190 participants in 2024 and continued growing through 2025 under Global Cyber Alliance stewardship.
 
-Cloudflare's separate measurement of *enforcement* (ASes that drop invalids) puts the directly-protected user population at ~261M (~6.5%), but because almost every Tier-1 {{transit|transit}} drops invalids, *indirect* validation suppresses invalid-route propagation by a factor of two to three. {{aspa|ASPA}} (the path-hijack defence beyond {{rpki|RPKI}}'s origin defence) is in IETF SIDROPS last call as of April 2026.`,
+Cloudflare's separate measurement of *enforcement* (ASes that drop invalids) puts the directly-protected user population at ~261M (~6.5%), but because almost every Tier-1 {{transit|transit}} drops invalids, *indirect* validation suppresses invalid-route propagation by a factor of two to three. {{aspa|ASPA}} (the path-hijack defence beyond {{rpki|RPKI}}'s origin defence) is in {{ietf|IETF}} SIDROPS last call as of April 2026.`,
 		metrics: [
 			{ label: 'IPv4 prefixes with ROAs', value: '>50%', date: '2024-05' },
 			{ label: 'Traffic bound for RPKI-secured destinations', value: '~75%', date: '2024' }
@@ -237,7 +237,7 @@ AMD's Pensando Pollara 400 is the first shipping NIC. The likely RoCEv2 successo
 		status: 'standardizing',
 		date: 'late 2025 / early 2026',
 		protocols: ['quic'],
-		description: `\`draft-ietf-quic-multipath\` is in IETF last-call as of late 2025 / early 2026. The protocol extends [[quic|QUIC]] with multiple concurrent paths between endpoints, the same way [[mptcp|MPTCP]] extended [[tcp|TCP]] — but built into [[quic|QUIC]]'s connection-ID architecture rather than bolted on as [[tcp|TCP]] options.
+		description: `\`draft-ietf-quic-multipath\` is in {{ietf|IETF}} last-call as of late 2025 / early 2026. The protocol extends [[quic|QUIC]] with multiple concurrent paths between endpoints, the same way [[mptcp|MPTCP]] extended [[tcp|TCP]] — but built into [[quic|QUIC]]'s connection-ID architecture rather than bolted on as [[tcp|TCP]] options.
 
 Use cases: aggregating [[wifi|Wi-Fi]] and cellular {{bandwidth|bandwidth}} on a phone (Apple already does this with [[mptcp|MPTCP]] for Siri), seamless network handover when the user changes interfaces, reaching a multi-homed server through whichever path is fastest. The 3GPP ATSSS standard for 5G already specifies [[mptcp|MPTCP]] and MPQUIC for traffic steering between cellular and [[wifi|Wi-Fi]].`,
 		sources: [
@@ -253,7 +253,7 @@ Use cases: aggregating [[wifi|Wi-Fi]] and cellular {{bandwidth|bandwidth}} on a 
 		status: 'standardizing',
 		date: '2026-03 (draft -17)',
 		protocols: ['quic', 'http3'],
-		description: `\`draft-ietf-moq-transport-17\` (March 2026) is the IETF's Media-over-[[quic|QUIC]] Transport — sub-second live streaming over [[quic|QUIC]], designed to replace the [[rtmp|RTMP]]-into-[[hls|HLS]] pipeline that streamers use today. Cloudflare and Meta have public MoQ relay implementations; Twitch and YouTube are evaluating.
+		description: `\`draft-ietf-moq-transport-17\` (March 2026) is the {{ietf|IETF}}'s Media-over-[[quic|QUIC]] Transport — sub-second live streaming over [[quic|QUIC]], designed to replace the [[rtmp|RTMP]]-into-[[hls|HLS]] pipeline that streamers use today. Cloudflare and Meta have public MoQ relay implementations; Twitch and YouTube are evaluating.
 
 The architecture: publishers send named objects to MoQ relays; subscribers fetch named objects from the nearest relay, with hop-by-hop [[quic|QUIC]]. Object naming + [[quic|QUIC]] stream {{multiplexing|multiplexing}} mean a relay can drop objects under congestion (preserve key frames over delta frames) without the publisher coordinating. [[webrtc|WebRTC]]'s lunch may finally be eaten for one-to-many use cases.`,
 		sources: [

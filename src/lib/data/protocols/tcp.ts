@@ -250,7 +250,7 @@ Client → Server  [ACK]
 	funFacts: [
 		{
 			title: 'RFC 793 was the spec for 41 years',
-			text: 'From September 1981 until [[rfc:9293|RFC 9293]] (August 2022), [[pioneer:jon-postel|Jon Postel]]\'s [[rfc:9293|RFC 793]] was the canonical [[tcp|TCP]] specification — almost certainly the longest unmodified IETF spec ever. [[rfc:9293|RFC 9293]] finally consolidated 13 errata documents into a single readable document, edited by Wesley Eddy.'
+			text: 'From September 1981 until [[rfc:9293|RFC 9293]] (August 2022), [[pioneer:jon-postel|Jon Postel]]\'s [[rfc:9293|RFC 793]] was the canonical [[tcp|TCP]] specification — almost certainly the longest unmodified {{ietf|IETF}} spec ever. [[rfc:9293|RFC 9293]] finally consolidated 13 errata documents into a single readable document, edited by Wesley Eddy.'
 		},
 		{
 			title: 'TCP\'s sequence numbers used to be guessable',

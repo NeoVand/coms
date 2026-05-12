@@ -7,14 +7,14 @@ export const transportStory: CategoryStory = {
 		{
 			type: 'narrative',
 			title: 'The Need for Reliable Transport',
-			text: `The year was 1973, and the ARPANET had a problem. The network worked \u2014 mostly \u2014 but its underlying protocol, the Network Control Program (NCP), was welded to the ARPANET hardware. Every node had to be an ARPANET node. There was no way to bridge to a satellite network, a packet radio network, or any future network that hadn't been invented yet.\n\n[[pioneer:vint-cerf|Vint Cerf]] and [[pioneer:bob-kahn|Bob Kahn]] saw what others didn't: the real challenge wasn't building one network, it was connecting all of them. They needed a protocol that made no assumptions about the underlying network \u2014 one that could ride on top of anything. That insight became [[tcp]], and later, when guaranteed delivery proved too heavy for every use case, its lighter sibling [[udp]]. Together, they formed the transport layer that would carry every email, every web page, and every video call the world would ever make.`
+			text: `The year was 1973, and the {{arpanet|ARPANET}} had a problem. The network worked \u2014 mostly \u2014 but its underlying protocol, the {{ncp|Network Control Program}} ({{ncp|NCP}}), was welded to the {{arpanet|ARPANET}} hardware. Every node had to be an {{arpanet|ARPANET}} node. There was no way to bridge to a satellite network, a packet radio network, or any future network that hadn't been invented yet.\n\n[[pioneer:vint-cerf|Vint Cerf]] and [[pioneer:bob-kahn|Bob Kahn]] saw what others didn't: the real challenge wasn't building one network, it was connecting all of them. They needed a protocol that made no assumptions about the underlying network \u2014 one that could ride on top of anything. That insight became [[tcp]], and later, when guaranteed delivery proved too heavy for every use case, its lighter sibling [[udp]]. Together, they formed the transport layer that would carry every email, every web page, and every video call the world would ever make.`
 		},
 		{
 			type: 'image',
 			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/ARPANET_first_router.jpg/500px-ARPANET_first_router.jpg',
 			alt: 'The BBN Interface Message Processor (IMP) at UCLA, one of the first ARPANET nodes',
 			caption:
-				'The IMP at UCLA, 1969 — this refrigerator-sized Honeywell minicomputer processed the first ARPANET message. It arrived nearly two months before the first successful "LO" transmission to SRI.',
+				'The {{imp|IMP}} at UCLA, 1969 — this refrigerator-sized Honeywell minicomputer processed the first {{arpanet|ARPANET}} message. It arrived nearly two months before the first successful "LO" transmission to SRI.',
 			credit: 'Photo: Steve Jurvetson / CC BY 2.0, via Wikimedia Commons'
 		},
 		{
@@ -37,7 +37,7 @@ export const transportStory: CategoryStory = {
 					title: 'Co-inventor of TCP/IP',
 					org: 'DARPA',
 					contribution:
-						'Conceived the idea of open-architecture networking while managing the ARPANET project at DARPA, then recruited [[pioneer:vint-cerf|Vint Cerf]] to collaborate on the protocol design that would become the backbone of the internet.',
+						'Conceived the idea of open-architecture networking while managing the {{arpanet|ARPANET}} project at {{darpa|DARPA}}, then recruited [[pioneer:vint-cerf|Vint Cerf]] to collaborate on the protocol design that would become the backbone of the internet.',
 					imagePath:
 						'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Bob_Kahn.jpg/330px-Bob_Kahn.jpg'
 				},
@@ -96,7 +96,7 @@ export const transportStory: CategoryStory = {
 					year: 1983,
 					title: 'Flag Day \u2014 ARPANET Switches to TCP/IP',
 					description:
-						'On January 1st, the entire ARPANET cuts over from NCP to [[tcp|TCP]]/[[ip|IP]]. The internet as we know it begins.'
+						'On January 1st, the entire {{arpanet|ARPANET}} cuts over from {{ncp|NCP}} to [[tcp|TCP]]/[[ip|IP]]. The internet as we know it begins.'
 				}
 			]
 		},
@@ -110,7 +110,7 @@ export const transportStory: CategoryStory = {
 			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Arpanet_logical_map%2C_march_1977.png/500px-Arpanet_logical_map%2C_march_1977.png',
 			alt: 'Logical map of the ARPANET, showing the network topology in March 1977',
 			caption:
-				'The ARPANET logical map, March 1977 — the network that would become the internet. Within six years, this entire network would cut over from NCP to [[tcp|TCP]]/[[ip|IP]] on Flag Day.',
+				'The {{arpanet|ARPANET}} logical map, March 1977 — the network that would become the internet. Within six years, this entire network would cut over from {{ncp|NCP}} to [[tcp|TCP]]/[[ip|IP]] on {{flag-day-1983|Flag Day}}.',
 			credit: 'ARPANET / Public Domain, via Wikimedia Commons'
 		},
 		{
@@ -180,7 +180,7 @@ export const transportStory: CategoryStory = {
 					year: 2021,
 					title: 'QUIC v1 Published \u2014 RFC 9000',
 					description:
-						'After years of IETF standardization, [[quic|QUIC]] becomes an official internet standard, building {{encryption|encryption}} into the transport layer itself.',
+						'After years of {{ietf|IETF}} standardization, [[quic|QUIC]] becomes an official internet standard, building {{encryption|encryption}} into the transport layer itself.',
 					protocolId: 'quic'
 				}
 			]
@@ -205,7 +205,7 @@ export const transportStory: CategoryStory = {
 					title: 'QUIC Standardization Lead',
 					org: 'Google / Fastly',
 					contribution:
-						'Led the IETF standardization effort that transformed [[quic|QUIC]] from a Google experiment into [[rfc:9000|RFC 9000]], navigating the complex process of building industry consensus around a new transport protocol.'
+						'Led the {{ietf|IETF}} standardization effort that transformed [[quic|QUIC]] from a Google experiment into [[rfc:9000|RFC 9000]], navigating the complex process of building industry consensus around a new transport protocol.'
 				},
 				{
 					name: 'Randall Stewart',

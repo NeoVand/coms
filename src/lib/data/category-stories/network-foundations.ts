@@ -7,7 +7,7 @@ export const networkFoundationsStory: CategoryStory = {
 		{
 			type: 'narrative',
 			title: 'Before the Internet',
-			text: `In 1973, a young engineer named [[pioneer:bob-metcalfe|Bob Metcalfe]] was working at Xerox PARC in Palo Alto when he had an insight that would change computing forever. He'd studied the ALOHAnet — a radio network connecting Hawaiian islands — and realized the same principle could wire computers together in an office. He sketched a system on the back of a napkin: a shared cable with simple rules for who gets to transmit. He called it [[ethernet|Ethernet]], after the "luminiferous aether" that 19th-century physicists believed permeated space.
+			text: `In 1973, a young engineer named [[pioneer:bob-metcalfe|Bob Metcalfe]] was working at {{xerox-parc|Xerox PARC}} in Palo Alto when he had an insight that would change computing forever. He'd studied the ALOHAnet — a radio network connecting Hawaiian islands — and realized the same principle could wire computers together in an office. He sketched a system on the back of a napkin: a shared cable with simple rules for who gets to transmit. He called it [[ethernet|Ethernet]], after the "luminiferous aether" that 19th-century physicists believed permeated space.
 
 That sketch became [[ethernet|Ethernet]], and it solved the first problem of networking: how do machines on the same wire talk to each other? Each device got a unique 48-bit {{mac-address|MAC address}}, and frames carried data from source to destination. But [[ethernet|Ethernet]] alone wasn't enough. You also needed a way to find who's who — that's [[arp|ARP]], which translates logical [[ip|IP]] addresses to physical MAC addresses. And you needed a way to route beyond your local wire — that's [[ip|IP]], the addressing system that makes the internet a network of networks.`
 		},
@@ -16,7 +16,7 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
 			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Xerox_Alto_mit_Rechner.JPG/500px-Xerox_Alto_mit_Rechner.JPG',
 			alt: 'The Xerox Alto computer at Xerox PARC — the machine that Ethernet was invented to network',
 			caption:
-				'The Xerox Alto (1973) — the workstation where [[ethernet|Ethernet]] was born. [[pioneer:bob-metcalfe|Bob Metcalfe]] invented [[ethernet|Ethernet]] at Xerox PARC to network these Alto machines, connecting them over a shared coaxial cable at 2.94 Mbps using CSMA/CD.',
+				'The Xerox Alto (1973) — the workstation where [[ethernet|Ethernet]] was born. [[pioneer:bob-metcalfe|Bob Metcalfe]] invented [[ethernet|Ethernet]] at {{xerox-parc|Xerox PARC}} to network these Alto machines, connecting them over a shared coaxial cable at 2.94 Mbps using CSMA/CD.',
 			credit: 'Photo: Joho345 / Public Domain, via Wikimedia Commons'
 		},
 		{
@@ -66,7 +66,7 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
 					title: 'Inventor of Ethernet',
 					org: 'Xerox PARC / 3Com',
 					contribution:
-						'Invented [[ethernet|Ethernet]] at Xerox PARC in 1973, co-authored the DIX [[ethernet|Ethernet]] standard (1980), and co-founded 3Com to commercialize it. Received the 2022 ACM Turing Award for his contributions to networking.',
+						'Invented [[ethernet|Ethernet]] at {{xerox-parc|Xerox PARC}} in 1973, co-authored the DIX [[ethernet|Ethernet]] standard (1980), and co-founded 3Com to commercialize it. Received the 2022 ACM Turing Award for his contributions to networking.',
 					imagePath:
 						'https://upload.wikimedia.org/wikipedia/commons/thumb/8/85/With_Bob_Metcalfe_%28cropped%29.jpg/330px-With_Bob_Metcalfe_%28cropped%29.jpg'
 				},
@@ -155,7 +155,7 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
 					year: 1983,
 					title: 'IEEE 802.3 Ratified',
 					description:
-						'The IEEE ratifies 802.3, giving [[ethernet|Ethernet]] its formal standard. ARPANET officially switches to [[tcp|TCP]]/[[ip|IP]] on January 1, "Flag Day."',
+						'The IEEE ratifies 802.3, giving [[ethernet|Ethernet]] its formal standard. {{arpanet|ARPANET}} officially switches to [[tcp|TCP]]/[[ip|IP]] on January 1, "{{flag-day-1983|Flag Day}}."',
 					protocolId: 'ethernet'
 				},
 				{
@@ -308,7 +308,7 @@ An [[wifi|802.11]] frame carries three or four MAC addresses (receiver, transmit
 
 In 1981, [[pioneer:jon-postel|Jon Postel]] defined [[icmp|ICMP]] — the Internet Control Message Protocol. [[icmp|ICMP]] is the network's built-in diagnostic system: it reports errors ("destination unreachable," "time exceeded," "redirect") and enables the two most essential troubleshooting tools in networking. Ping sends an Echo Request and waits for an Echo Reply, telling you if a host is alive and how fast the path is. Traceroute sends packets with incrementing {{ttl|TTL}} values, collecting "Time Exceeded" responses from each router along the path — revealing every hop between you and a destination.
 
-By 1989, the internet was outgrowing its routing. The original ARPANET had a single backbone — routing was simple. But as multiple networks connected, someone had to decide how traffic flows between them. [[pioneer:yakov-rekhter|Yakov Rekhter]] and Kirk Lougheed created [[bgp|BGP]], the Border Gateway Protocol, which treats each network as an "{{autonomous-system|autonomous system}}" and exchanges route advertisements between them. Today, [[bgp|BGP]] is literally the protocol that holds the internet together — every path your data takes across network boundaries is decided by [[bgp|BGP]] route advertisements exchanged on [[tcp|TCP]] port 179.
+By 1989, the internet was outgrowing its routing. The original {{arpanet|ARPANET}} had a single backbone — routing was simple. But as multiple networks connected, someone had to decide how traffic flows between them. [[pioneer:yakov-rekhter|Yakov Rekhter]] and Kirk Lougheed created [[bgp|BGP]], the Border Gateway Protocol, which treats each network as an "{{autonomous-system|autonomous system}}" and exchanges route advertisements between them. Today, [[bgp|BGP]] is literally the protocol that holds the internet together — every path your data takes across network boundaries is decided by [[bgp|BGP]] route advertisements exchanged on [[tcp|TCP]] port 179.
 
 The most ambitious chapter began in the 1990s. [[ip|IPv4]]'s 32-bit address space — 4.3 billion addresses — was running out. [[pioneer:steve-deering|Steve Deering]] led the design of [[ipv6|IPv6]], published as [[rfc:2460|RFC 2460]] in 1998 (later updated as [[rfc:8200|RFC 8200]] in 2017). [[ipv6|IPv6]] didn't just add more addresses; it rethought the protocol entirely. The header was simplified to a fixed 40 bytes — no {{checksum|checksum}}, no variable-length options. {{broadcast|Broadcast}} was eliminated in favor of {{multicast|multicast}}. [[arp|ARP]]'s broadcast-based address resolution was replaced by {{ndp|NDP}} ({{ndp|Neighbor Discovery Protocol}}), which uses efficient solicited-node multicast. Hosts can autoconfigure globally unique addresses via {{slaac|SLAAC}} without any server. On 28 March 2026, [[ipv6|IPv6]] crossed 50% of Google's traffic for the first time, 28 years after the spec — a transition that was supposed to take a few years and is still ongoing, a testament to how deeply embedded [[ip|IPv4]] became.`
 		},

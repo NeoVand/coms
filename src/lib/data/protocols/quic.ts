@@ -204,7 +204,7 @@ sudo tcpdump -i any udp port 443`
 			org: 'Google (Chrome, YouTube, Search)',
 			scale: 'Default since 2017',
 			description:
-				'gQUIC deployed in Chrome / YouTube from 2013; IETF [[quic|QUIC]] default for chrome.com and youtube.com since 2020. Google says >50% of all Chrome traffic uses [[quic|QUIC]].'
+				'gQUIC deployed in Chrome / YouTube from 2013; {{ietf|IETF}} [[quic|QUIC]] default for chrome.com and youtube.com since 2020. Google says >50% of all Chrome traffic uses [[quic|QUIC]].'
 		},
 		{
 			org: 'Meta',
@@ -229,7 +229,7 @@ sudo tcpdump -i any udp port 443`
 	funFacts: [
 		{
 			title: 'QUIC was originally an internal Google name',
-			text: '[[quic|QUIC]] stood for "Quick [[udp|UDP]] Internet Connections" inside Google. The IETF working group dropped the expansion entirely — [[rfc:9000|RFC 9000]] just calls it "[[quic|QUIC]]" with no expansion. The protocol\'s name is now an unexplained four-letter word, like "HTTP" or "[[tcp|TCP]]."'
+			text: '[[quic|QUIC]] stood for "Quick [[udp|UDP]] Internet Connections" inside Google. The {{ietf|IETF}} working group dropped the expansion entirely — [[rfc:9000|RFC 9000]] just calls it "[[quic|QUIC]]" with no expansion. The protocol\'s name is now an unexplained four-letter word, like "HTTP" or "[[tcp|TCP]]."'
 		},
 		{
 			title: 'Connection IDs let your phone roam',

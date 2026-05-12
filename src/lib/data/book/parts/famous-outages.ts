@@ -33,18 +33,18 @@ export const famousOutages: BookPart = {
 						{
 							type: 'narrative',
 							title: 'Three Bits, A Whole Network Down',
-							text: `On 27 October 1980, ARPANET — the entire research internet of the time, a few hundred host machines connected through BBN's IMPs (Interface Message Processors) — went dark for a full day. The cause was three bits in a periodic status update.
+							text: `On 27 October 1980, {{arpanet|ARPANET}} — the entire research internet of the time, a few hundred host machines connected through {{bbn|BBN}}'s IMPs (Interface Message Processors) — went dark for a full day. The cause was three bits in a periodic status update.
 
-The IMPs ran a distance-vector routing protocol. Every few seconds, each IMP told its neighbours "I am alive, here are my reachable destinations and the cost of each." A faulty IMP at Harvard sent a status update where one of its sequence numbers had three bits flipped — turning a single message into something that looked like **three different valid versions of the same announcement**, each claiming to be the most recent.
+The IMPs ran a distance-vector routing protocol. Every few seconds, each {{imp|IMP}} told its neighbours "I am alive, here are my reachable destinations and the cost of each." A faulty {{imp|IMP}} at Harvard sent a status update where one of its sequence numbers had three bits flipped — turning a single message into something that looked like **three different valid versions of the same announcement**, each claiming to be the most recent.
 
-Receiving IMPs applied their tie-breaking rule (pick the most recent) — but each one picked a different version, then propagated its choice. The network entered a state where every IMP believed a different version of the topology was canonical. Routes flapped. Loops formed. Throughput collapsed.`
+Receiving IMPs applied their tie-breaking rule (pick the most recent) — but each one picked a different version, then propagated its choice. The network entered a state where every {{imp|IMP}} believed a different version of the topology was canonical. Routes flapped. Loops formed. Throughput collapsed.`
 						},
 						{
 							type: 'narrative',
 							title: 'The Six-Hour Diagnosis',
-							text: `Eric Rosen at BBN spent the next six hours instrumenting the wire and reading IMP code. The bug was not in the routing algorithm — it was in the **input validation**: the code that received a status update assumed any malformed-looking {{sequence-number|sequence number}} was simply newer than what it had. It never considered the possibility that a single bad IMP could create three legal-looking versions simultaneously.
+							text: `Eric Rosen at {{bbn|BBN}} spent the next six hours instrumenting the wire and reading {{imp|IMP}} code. The bug was not in the routing algorithm — it was in the **input validation**: the code that received a status update assumed any malformed-looking {{sequence-number|sequence number}} was simply newer than what it had. It never considered the possibility that a single bad {{imp|IMP}} could create three legal-looking versions simultaneously.
 
-The fix was to install patched IMP software that rejected sequence numbers from impossible state transitions, then reboot every IMP on the network. Three hours of rollout, five years of organisational change. Rosen wrote up the post-mortem as **[[rfc:789|RFC 789]]** — *"Vulnerabilities of Network Control Protocols: An Example"* — published in July 1981. It is one of the earliest detailed engineering post-mortems published openly, and the template for every "service A took down service B because of an unhandled edge case" report since.`
+The fix was to install patched {{imp|IMP}} software that rejected sequence numbers from impossible state transitions, then reboot every {{imp|IMP}} on the network. Three hours of rollout, five years of organisational change. Rosen wrote up the post-mortem as **[[rfc:789|RFC 789]]** — *"Vulnerabilities of Network Control Protocols: An Example"* — published in July 1981. It is one of the earliest detailed engineering post-mortems published openly, and the template for every "service A took down service B because of an unhandled edge case" report since.`
 						},
 						{
 							type: 'callout',
@@ -232,7 +232,7 @@ YouTube was offline globally for two hours. PCCW Global eventually identified th
 
 The same rule is what made Pakistan/YouTube possible. A /24 inside YouTube\'s /22 wins, regardless of who is announcing it. The combination of "most specific wins" + "no origin validation" + "global propagation" turned every upstream provider into a single point of failure for every downstream customer\'s prefix integrity.
 
-This is the structural reason [[bgp|BGP]] needs cryptography to fix it, not just better operational hygiene. Hygiene catches typos; cryptography catches deliberate hijacks. {{rpki|RPKI}} provides the cryptography. {{aspa|ASPA}} (the {{autonomous-system|AS}}-path validation extension, in IETF draft) closes the route-leak hole that origin validation alone cannot fix — where {{autonomous-system|AS}} X **does** legitimately originate the prefix, but its upstream then leaks the route through an unintended path.`
+This is the structural reason [[bgp|BGP]] needs cryptography to fix it, not just better operational hygiene. Hygiene catches typos; cryptography catches deliberate hijacks. {{rpki|RPKI}} provides the cryptography. {{aspa|ASPA}} (the {{autonomous-system|AS}}-path validation extension, in {{ietf|IETF}} draft) closes the route-leak hole that origin validation alone cannot fix — where {{autonomous-system|AS}} X **does** legitimately originate the prefix, but its upstream then leaks the route through an unintended path.`
 						}
 					]
 				}

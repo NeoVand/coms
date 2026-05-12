@@ -7,7 +7,7 @@ export const utilitiesStory: CategoryStory = {
 		{
 			type: 'narrative',
 			title: 'The Fundamentals Come First',
-			text: `Before the web, before streaming, before even email as we know it — there were protocols for the most basic operations: transferring files and sending messages. In 1971, Abhay Bhushan at MIT wrote [[rfc:114|RFC 114]], defining the File Transfer Protocol. [[ftp]] was one of the very first application-layer protocols on the ARPANET, allowing researchers to share files between distant universities.\n\nA year later, email followed. [[pioneer:jon-postel|Jon Postel]], the quiet architect of the internet, helped define how electronic messages should be formatted and delivered. By 1982, [[smtp]] ([[rfc:821|RFC 821]]) established the system that, remarkably, still carries the world's email today. These weren't glamorous protocols — they were the workhorses that made a network of computers actually useful.`
+			text: `Before the web, before streaming, before even email as we know it — there were protocols for the most basic operations: transferring files and sending messages. In 1971, Abhay Bhushan at MIT wrote [[rfc:114|RFC 114]], defining the File Transfer Protocol. [[ftp]] was one of the very first application-layer protocols on the {{arpanet|ARPANET}}, allowing researchers to share files between distant universities.\n\nA year later, email followed. [[pioneer:jon-postel|Jon Postel]], the quiet architect of the internet, helped define how electronic messages should be formatted and delivered. By 1982, [[smtp]] ([[rfc:821|RFC 821]]) established the system that, remarkably, still carries the world's email today. These weren't glamorous protocols — they were the workhorses that made a network of computers actually useful.`
 		},
 		{
 			type: 'pioneers',
@@ -19,7 +19,7 @@ export const utilitiesStory: CategoryStory = {
 					title: 'Creator of FTP',
 					org: 'MIT',
 					contribution:
-						"Created the File Transfer Protocol ([[rfc:114|RFC 114]]) in 1971 — one of the internet's very first application protocols. Later held leadership roles at Xerox PARC and several tech companies."
+						"Created the File Transfer Protocol ([[rfc:114|RFC 114]]) in 1971 — one of the internet's very first application protocols. Later held leadership roles at {{xerox-parc|Xerox PARC}} and several tech companies."
 				},
 				{
 					name: 'Jon Postel',
@@ -27,7 +27,7 @@ export const utilitiesStory: CategoryStory = {
 					title: "The Internet's Conscience",
 					org: 'USC Information Sciences Institute',
 					contribution:
-						'Authored the RFCs for [[smtp|SMTP]], contributed to [[ftp|FTP]] and [[dns|DNS]], served as RFC Editor for 28 years, and administered IANA. Perhaps the single most important figure in internet protocol development.',
+						'Authored the RFCs for [[smtp|SMTP]], contributed to [[ftp|FTP]] and [[dns|DNS]], served as RFC Editor for 28 years, and administered {{iana|IANA}}. Perhaps the single most important figure in internet protocol development.',
 					imagePath:
 						'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Jon_Postel_sitting_in_office_%28cropped%29.jpg/330px-Jon_Postel_sitting_in_office_%28cropped%29.jpg'
 				},
@@ -48,7 +48,7 @@ export const utilitiesStory: CategoryStory = {
 					year: 1971,
 					title: 'FTP — RFC 114',
 					description:
-						"One of the internet's first application protocols. Researchers can now transfer files between ARPANET hosts.",
+						"One of the internet's first application protocols. Researchers can now transfer files between {{arpanet|ARPANET}} hosts.",
 					protocolId: 'ftp'
 				},
 				{
@@ -209,14 +209,14 @@ export const utilitiesStory: CategoryStory = {
 					year: 1999,
 					title: 'TLS 1.0 Published — RFC 2246',
 					description:
-						'The IETF takes over from Netscape, renaming SSL to [[tls|TLS]]. The protocol that encrypts the web begins its standardization journey.',
+						'The {{ietf|IETF}} takes over from Netscape, renaming SSL to [[tls|TLS]]. The protocol that encrypts the web begins its standardization journey.',
 					protocolId: 'tls'
 				},
 				{
 					year: 2006,
 					title: 'SSH Standardized — RFC 4251-4254',
 					description:
-						'After a decade of widespread use, [[ssh|SSH]] gets formal IETF standardization. OpenSSH has already become ubiquitous.',
+						'After a decade of widespread use, [[ssh|SSH]] gets formal {{ietf|IETF}} standardization. OpenSSH has already become ubiquitous.',
 					protocolId: 'ssh'
 				},
 				{
@@ -245,7 +245,7 @@ export const utilitiesStory: CategoryStory = {
 		{
 			type: 'narrative',
 			title: 'The Security Imperative',
-			text: `The internet was built on trust. Early protocols sent everything in plaintext — passwords, emails, file transfers — because the network was small and its users were known. As the internet grew from hundreds to millions of hosts, this trust model shattered.\n\nIn 1994, Netscape needed to enable secure credit card transactions on the web. [[pioneer:taher-elgamal|Taher Elgamal]] led the creation of SSL (Secure Sockets Layer), wrapping [[tcp]] connections in {{encryption|encryption}}. SSL 2.0 shipped with Netscape Navigator, and suddenly e-commerce was possible. The IETF later standardized it as [[tls]], which now encrypts the vast majority of web traffic.\n\nMeanwhile in Finland, Tatu Ylönen had a more personal motivation. In 1995, a password-sniffing attack compromised accounts at his university. He wrote [[ssh]] — Secure Shell — essentially in a weekend, replacing the completely unencrypted telnet and rlogin. [[ssh|SSH]] didn't just encrypt remote access; it provided a secure tunnel for anything: file transfers (replacing [[ftp]] with SFTP), {{port-forwarding|port forwarding}}, and eventually even Git transport.`
+			text: `The internet was built on trust. Early protocols sent everything in plaintext — passwords, emails, file transfers — because the network was small and its users were known. As the internet grew from hundreds to millions of hosts, this trust model shattered.\n\nIn 1994, Netscape needed to enable secure credit card transactions on the web. [[pioneer:taher-elgamal|Taher Elgamal]] led the creation of SSL (Secure Sockets Layer), wrapping [[tcp]] connections in {{encryption|encryption}}. SSL 2.0 shipped with Netscape Navigator, and suddenly e-commerce was possible. The {{ietf|IETF}} later standardized it as [[tls]], which now encrypts the vast majority of web traffic.\n\nMeanwhile in Finland, Tatu Ylönen had a more personal motivation. In 1995, a password-sniffing attack compromised accounts at his university. He wrote [[ssh]] — Secure Shell — essentially in a weekend, replacing the completely unencrypted telnet and rlogin. [[ssh|SSH]] didn't just encrypt remote access; it provided a secure tunnel for anything: file transfers (replacing [[ftp]] with SFTP), {{port-forwarding|port forwarding}}, and eventually even Git transport.`
 		},
 		{
 			type: 'image',
@@ -300,7 +300,7 @@ export const utilitiesStory: CategoryStory = {
 		{
 			type: 'callout',
 			title: "Jon Postel — The Internet's Most Important Person You've Never Heard Of",
-			text: "[[pioneer:jon-postel|Jon Postel]] edited the RFC series for 28 years, wrote or co-wrote over 200 RFCs, edited foundational RFCs for [[tcp|TCP]], [[smtp|SMTP]], and other core protocols, served as IANA administrator. When he died in 1998 at age 55, [[pioneer:vint-cerf|Vint Cerf]] wrote [[rfc:2468|RFC 2468]] as a memorial. His robustness principle — 'Be conservative in what you send, be liberal in what you accept' — remains one of the internet's guiding philosophies."
+			text: "[[pioneer:jon-postel|Jon Postel]] edited the RFC series for 28 years, wrote or co-wrote over 200 RFCs, edited foundational RFCs for [[tcp|TCP]], [[smtp|SMTP]], and other core protocols, served as {{iana|IANA}} administrator. When he died in 1998 at age 55, [[pioneer:vint-cerf|Vint Cerf]] wrote [[rfc:2468|RFC 2468]] as a memorial. His robustness principle — 'Be conservative in what you send, be liberal in what you accept' — remains one of the internet's guiding philosophies."
 		}
 	]
 };

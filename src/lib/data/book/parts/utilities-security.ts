@@ -31,7 +31,7 @@ export const utilitiesSecurity: BookPart = {
 						{
 							type: 'narrative',
 							title: 'A Hierarchy You Cannot See',
-							text: `When you type \`example.com\` into a browser, the operating system needs an {{ip-address|IP address}}. Until 1983 every host on ARPANET maintained a flat **HOSTS.TXT** file with all the mappings, distributed by [[ftp|FTP]] from the SRI-NIC. As the network grew past a few hundred hosts, that became absurd — every change required every host to download the whole file.
+							text: `When you type \`example.com\` into a browser, the operating system needs an {{ip-address|IP address}}. Until 1983 every host on {{arpanet|ARPANET}} maintained a flat **HOSTS.TXT** file with all the mappings, distributed by [[ftp|FTP]] from the SRI-NIC. As the network grew past a few hundred hosts, that became absurd — every change required every host to download the whole file.
 
 **[[pioneer:paul-mockapetris|Paul Mockapetris]]** at USC ISI was asked by [[pioneer:jon-postel|Jon Postel]] to design a distributed naming system. He published **[[rfc:882|RFC 882]]/883 in November 1983**; the first server was *"Jeeves"* running TOPS-20. Then **[[rfc:1034|RFC 1034]]/1035 in 1987** finalised the architecture we still use.
 
@@ -40,7 +40,7 @@ The first six TLDs were **\`.edu, .gov, .com, .mil, .org, .net\`**, with **\`.in
 						{
 							type: 'callout',
 							title: '.onion is a special-use carve-out',
-							text: '**IANA reserved \`.onion\` as a Special-Use Domain Name ([[rfc:7686|RFC 7686]], 2015) — MUST NOT be looked up in public [[dns|DNS]].** A rare carve-out outside ICANN\'s namespace, granted because the Tor protocol uses .onion as an internal addressing scheme rather than a public naming hierarchy. The reservation prevents accidental [[dns|DNS]] leakage of Tor traffic.'
+							text: '**{{iana|IANA}} reserved \`.onion\` as a Special-Use Domain Name ([[rfc:7686|RFC 7686]], 2015) — MUST NOT be looked up in public [[dns|DNS]].** A rare carve-out outside {{icann|ICANN}}\'s namespace, granted because the Tor protocol uses .onion as an internal addressing scheme rather than a public naming hierarchy. The reservation prevents accidental [[dns|DNS]] leakage of Tor traffic.'
 						},
 						{
 							type: 'narrative',
@@ -62,7 +62,7 @@ The first six TLDs were **\`.edu, .gov, .com, .mil, .org, .net\`**, with **\`.in
 
 **2025 incidents to know**: AWS Route 53 / DynamoDB [[dns|DNS]] race (19-20 October 2025); Microsoft Azure Front Door [[dns|DNS]] outage (29 October 2025).
 
-**Frontier**: **DELEG WG (\`draft-ietf-deleg-08\`, March 2026)** introduces new **DELEG and DELEGPARAM RR types** meant to make delegations extensible — specifically to let parents express that a child speaks DoT/DoQ on a non-default port. **Post-quantum {{dnssec|DNSSEC}}** prototypes in BIND/Unbound/NSD/CoreDNS were measured at IETF 123 (July 2025) hackathon; NIST finalised ML-DSA/{{ml-kem|ML-KEM}}/SLH-DSA on **13 August 2024** and FN-DSA (Falcon) draft FIPS 206 was submitted **28 August 2025**.`
+**Frontier**: **DELEG WG (\`draft-ietf-deleg-08\`, March 2026)** introduces new **DELEG and DELEGPARAM RR types** meant to make delegations extensible — specifically to let parents express that a child speaks DoT/DoQ on a non-default port. **Post-quantum {{dnssec|DNSSEC}}** prototypes in BIND/Unbound/NSD/CoreDNS were measured at {{ietf|IETF}} 123 (July 2025) hackathon; NIST finalised ML-DSA/{{ml-kem|ML-KEM}}/SLH-DSA on **13 August 2024** and FN-DSA (Falcon) draft FIPS 206 was submitted **28 August 2025**.`
 						}
 					]
 				},
@@ -82,7 +82,7 @@ The first six TLDs were **\`.edu, .gov, .com, .mil, .org, .net\`**, with **\`.in
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: '"[[tls|TLS]] not SSL" was Microsoft\'s price for IETF participation — a face-saving rename so it didn\'t look like the IETF was rubber-stamping Netscape.',
+					text: '"[[tls|TLS]] not SSL" was Microsoft\'s price for {{ietf|IETF}} participation — a face-saving rename so it didn\'t look like the {{ietf|IETF}} was rubber-stamping Netscape.',
 					attribution: 'Tim Dierks, 2014'
 				},
 				{
@@ -93,7 +93,7 @@ The first six TLDs were **\`.edu, .gov, .com, .mil, .org, .net\`**, with **\`.in
 							title: 'SSL 1.0 Never Shipped',
 							text: `**Netscape's [[pioneer:taher-elgamal|Taher Elgamal]] designed SSL** in 1994 to encrypt e-commerce on the early web. **SSL 1.0 was never released** — Phil Karlton, Paul Kocher, and others tore it apart in internal review at Netscape (1994). SSL 2.0 (1995) shipped instead but had its own flaws; **SSL 3.0 (1996)** was rewritten from scratch by Paul Kocher and survived for over a decade.
 
-In 1999 the IETF took ownership and renamed it [[tls|TLS]] 1.0 ([[rfc:2246|RFC 2246]], January 1999). **The rename was Microsoft's price** for IETF participation. In Tim Dierks's words: "a face-saving rename so it didn't look like the IETF was rubber-stamping Netscape." [[tls|TLS]] 1.0 was, in practice, "really SSL 3.1." Then 1.1 (2006), 1.2 (2008), and **1.3 ([[rfc:8446|RFC 8446]], August 2018)**.
+In 1999 the {{ietf|IETF}} took ownership and renamed it [[tls|TLS]] 1.0 ([[rfc:2246|RFC 2246]], January 1999). **The rename was Microsoft's price** for {{ietf|IETF}} participation. In Tim Dierks's words: "a face-saving rename so it didn't look like the {{ietf|IETF}} was rubber-stamping Netscape." [[tls|TLS]] 1.0 was, in practice, "really SSL 3.1." Then 1.1 (2006), 1.2 (2008), and **1.3 ([[rfc:8446|RFC 8446]], August 2018)**.
 
 [[tls|TLS]] 1.3 was the first version to break wire compatibility — it cut every weak cipher (RC4, 3DES, MD5, SHA-1, RSA key {{exchange|exchange}}), reduced the {{handshake|handshake}} from 2 round-trips to 1 (or 0 for resumption), and adopted authenticated {{encryption|encryption}} ({{aead|AEAD}}) as the only legal cipher mode.`
 						},
@@ -159,7 +159,7 @@ Two more historical incidents to name: **goto fail (CVE-2014-1266)** — a dupli
 							title: 'A Replacement for Telnet, Born in Helsinki',
 							text: `**Tatu Ylönen** at Helsinki University of Technology wrote **[[ssh|SSH]] in July 1995** after a password-sniffing attack on the university network. Released as freeware; **~20,000 users in 50 countries by year-end**. The attack worked because Telnet, RSH, [[ftp|FTP]] — the standard remote-access protocols of the time — sent everything in cleartext. [[ssh|SSH]] was designed to be a drop-in replacement that nobody could sniff.
 
-**Port 22 origin story**: Ylönen chose 22 because it sat between **telnet/23 and ftp/21**. On **10 July 1995** he emailed IANA's Joyce K. Reynolds; she replied next day assigning port 22 with him as point of contact. The reasoning was aesthetic — telnet, [[ftp|FTP]], and [[ssh|SSH]] form a contiguous range — and it has not been seriously questioned in 30 years.
+**Port 22 origin story**: Ylönen chose 22 because it sat between **telnet/23 and ftp/21**. On **10 July 1995** he emailed {{iana|IANA}}'s Joyce K. Reynolds; she replied next day assigning port 22 with him as point of contact. The reasoning was aesthetic — telnet, [[ftp|FTP]], and [[ssh|SSH]] form a contiguous range — and it has not been seriously questioned in 30 years.
 
 The protocol uses **public-key cryptography** for host and user authentication, **Diffie-Hellman** for key {{exchange|exchange}}, and a **symmetric cipher** for the actual session (originally 3DES, now ChaCha20-Poly1305 or AES-GCM). Once authenticated, the [[ssh|SSH]] connection multiplexes multiple **channels**: an interactive shell, a port-forwarded [[tcp|TCP]] connection, an SCP file transfer, an X11 display.
 
@@ -188,7 +188,7 @@ The protocol uses **public-key cryptography** for host and user authentication, 
 
 [[ssh|SSH]] was the **first widely-deployed protocol to ship post-quantum crypto by default** — six months before [[tls|TLS]] X25519MLKEM768 reached default-on in iOS 26. The deployment story is the same: NIST FIPS 203 in August 2024 let the OpenSSH team standardise the codepoint, and OpenBSD ships the upstream that downstream Linux distros consume.
 
-**The IETF Secure Shell Maintenance (sshm) WG was chartered August 2024** with chairs Job Snijders (Fastly) and Stephen Farrell (Trinity College Dublin) — first WG dedicated to [[ssh|SSH]] in over a decade. Active drafts include \`draft-ietf-sshm-mlkem-hybrid-kex\` (Kampanakis/Stebila/Hansen) for \`mlkem768x25519-sha256\` and an experimental \`draft-michel-ssh3\` (UCLouvain) re-implementing an [[ssh|SSH]]-equivalent on [[http3|HTTP/3]]+[[quic|QUIC]], claiming 3-{{rtt|RTT}} session establishment vs [[ssh|SSH]]'s 5-7 (research prototype only).
+**The {{ietf|IETF}} Secure Shell Maintenance (sshm) WG was chartered August 2024** with chairs Job Snijders (Fastly) and Stephen Farrell (Trinity College Dublin) — first WG dedicated to [[ssh|SSH]] in over a decade. Active drafts include \`draft-ietf-sshm-mlkem-hybrid-kex\` (Kampanakis/Stebila/Hansen) for \`mlkem768x25519-sha256\` and an experimental \`draft-michel-ssh3\` (UCLouvain) re-implementing an [[ssh|SSH]]-equivalent on [[http3|HTTP/3]]+[[quic|QUIC]], claiming 3-{{rtt|RTT}} session establishment vs [[ssh|SSH]]'s 5-7 (research prototype only).
 
 **GitHub host-key exposure (24 March 2023)**: GitHub's RSA [[ssh|SSH]] host {{private-key|private key}} was briefly inadvertently published in a public GitHub repo; users worldwide had to \`ssh-keygen -R github.com\` and re-trust. The remediation cost was the user-visible part; the deeper lesson was about secret-handling in shared development infrastructure.
 
@@ -217,7 +217,7 @@ The protocol uses **public-key cryptography** for host and user authentication, 
 						{
 							type: 'narrative',
 							title: 'David Mills, Father Time of the Internet',
-							text: `**[[pioneer:david-mills|David L. Mills]] (1938-2024)** designed [[ntp|NTP]] at the University of Delaware with DARPA funding. **Died 17 January 2024 in Newark, Delaware, age 85.** [[pioneer:vint-cerf|Vint Cerf]] wrote the obituary on the Internet History mailing list. Poul-Henning Kamp called Mills *"the grandfather of the Internet."*
+							text: `**[[pioneer:david-mills|David L. Mills]] (1938-2024)** designed [[ntp|NTP]] at the University of Delaware with {{darpa|DARPA}} funding. **Died 17 January 2024 in Newark, Delaware, age 85.** [[pioneer:vint-cerf|Vint Cerf]] wrote the obituary on the Internet History mailing list. Poul-Henning Kamp called Mills *"the grandfather of the Internet."*
 
 **Mills was visually impaired from birth** (glaucoma); childhood surgery preserved partial vision in one eye. His vision deteriorated from 2012; **completely blind by 2022**, but continued [[ntp|NTP]] work using large displays and screen readers.
 
@@ -228,7 +228,7 @@ A client samples the {{rtt|round-trip time}} to a server (call it δ) and the ap
 						{
 							type: 'callout',
 							title: 'Era rollover: 7 February 2036 at 06:28:16 UTC',
-							text: '[[ntp|NTP]]\'s 64-bit timestamp uses the **[[ntp|NTP]] prime epoch, 1900-01-01 00:00:00 UTC** — older than ARPANET, older than UNIX, older than every other timestamp standard in computing. Span = 2³² s = **136.19 years per era**. **Era rollover is 7 February 2036 at 06:28:16 UTC.** The protocol handles eras correctly via 64-bit math; many client implementations assume 32-bit and will need fixes before 2036. The Y2036 work has been quietly underway since 2020.'
+							text: '[[ntp|NTP]]\'s 64-bit timestamp uses the **[[ntp|NTP]] prime epoch, 1900-01-01 00:00:00 UTC** — older than {{arpanet|ARPANET}}, older than UNIX, older than every other timestamp standard in computing. Span = 2³² s = **136.19 years per era**. **Era rollover is 7 February 2036 at 06:28:16 UTC.** The protocol handles eras correctly via 64-bit math; many client implementations assume 32-bit and will need fixes before 2036. The Y2036 work has been quietly underway since 2020.'
 						},
 						{
 							type: 'narrative',
@@ -271,7 +271,7 @@ A client samples the {{rtt|round-trip time}} to a server (call it δ) and the ap
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: '[[oauth2|OAuth]] 2.0 and the Road to Hell. WS-* bad. The two slogans Eran Hammer used in his July 2012 resignation are still the most-cited critique of any IETF standard.',
+					text: '[[oauth2|OAuth]] 2.0 and the Road to Hell. WS-* bad. The two slogans Eran Hammer used in his July 2012 resignation are still the most-cited critique of any {{ietf|IETF}} standard.',
 					attribution: 'Author'
 				},
 				{
@@ -289,7 +289,7 @@ Before [[oauth2|OAuth]], an app that wanted access to your Google calendar asked
 						{
 							type: 'callout',
 							title: 'The Road to Hell resignation',
-							text: '**The "Road to Hell" resignation (26 July 2012)**: Eran Hammer published *"[[oauth2|OAuth]] 2.0 and the Road to Hell"* — most famous resignation in modern protocol history. His core line: *"WS-\* bad"* — shorthand among IETF veterans for any standard sunk by enterprise committee design. The "everyone gets it wrong" framework fact: **[[oauth2|OAuth]] 2.0 is technically a framework, not a protocol.** [[rfc:6749|RFC 6749]]\'s abstract itself warns *"this specification is likely to produce a wide range of non-interoperable implementations"* — language Hammer fought to insert.'
+							text: '**The "Road to Hell" resignation (26 July 2012)**: Eran Hammer published *"[[oauth2|OAuth]] 2.0 and the Road to Hell"* — most famous resignation in modern protocol history. His core line: *"WS-\* bad"* — shorthand among {{ietf|IETF}} veterans for any standard sunk by enterprise committee design. The "everyone gets it wrong" framework fact: **[[oauth2|OAuth]] 2.0 is technically a framework, not a protocol.** [[rfc:6749|RFC 6749]]\'s abstract itself warns *"this specification is likely to produce a wide range of non-interoperable implementations"* — language Hammer fought to insert.'
 						},
 						{
 							type: 'narrative',
@@ -349,7 +349,7 @@ Before [[oauth2|OAuth]], an app that wanted access to your Google calendar asked
 						{
 							type: 'narrative',
 							title: 'Ray Tomlinson Picked the @',
-							text: `Email is the longest-running application of the internet. **\`@\` was chosen by Ray Tomlinson at BBN in 1971**, modifying SNDMSG for ARPANET — the symbol that is now everywhere from email to social media handles to AWS resources started with one engineer picking a separator that wasn't in any name.
+							text: `Email is the longest-running application of the internet. **\`@\` was chosen by Ray Tomlinson at {{bbn|BBN}} in 1971**, modifying SNDMSG for {{arpanet|ARPANET}} — the symbol that is now everywhere from email to social media handles to AWS resources started with one engineer picking a separator that wasn't in any name.
 
 **[[smtp|SMTP]]** was born from RFC 788 (November 1981) and **[[rfc:5321|RFC 821]] (August 1982)** by [[pioneer:jon-postel|Jon Postel]], assigning **port 25** ("contact socket 25 (31 octal)"). Dave Crocker's [[rfc:822|RFC 822]] same month defined the message header format we still use.
 

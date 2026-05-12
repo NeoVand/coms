@@ -161,7 +161,7 @@ for await (const elem of parser) {
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/ARPA_Network%2C_Logical_Map%2C_September_1973.jpg/500px-ARPA_Network%2C_Logical_Map%2C_September_1973.jpg',
 		alt: 'ARPA Network logical map from September 1973 showing network nodes and satellite links',
 		caption:
-			'ARPANET logical map, September 1973 — showing the early internet backbone topology including satellite links to Hawaii and London. [[bgp|BGP]] was created in 1989 to replace the original routing protocols that managed networks like this one.',
+			'{{arpanet|ARPANET}} logical map, September 1973 — showing the early internet backbone topology including satellite links to Hawaii and London. [[bgp|BGP]] was created in 1989 to replace the original routing protocols that managed networks like this one.',
 		credit: 'Image: Bolt Beranek and Newman Inc. / Public Domain, via Wikimedia Commons'
 	},
 
@@ -211,7 +211,7 @@ for await (const elem of parser) {
 	funFacts: [
 		{
 			title: 'BGP was sketched on three napkins',
-			text: 'In January 1989, [[pioneer:yakov-rekhter|Yakov Rekhter]] and Kirk Lougheed met at lunch during an IETF meeting in Austin. The previous routing protocol (EGP) was unmanageable. They sketched a replacement on three napkins. That sketch became [[bgp|BGP]]-1 ([[rfc:1105|RFC 1105]]) six months later.'
+			text: 'In January 1989, [[pioneer:yakov-rekhter|Yakov Rekhter]] and Kirk Lougheed met at lunch during an {{ietf|IETF}} meeting in Austin. The previous routing protocol (EGP) was unmanageable. They sketched a replacement on three napkins. That sketch became [[bgp|BGP]]-1 ([[rfc:1105|RFC 1105]]) six months later.'
 		},
 		{
 			title: 'BGP has no built-in authentication',

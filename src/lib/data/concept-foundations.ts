@@ -18,7 +18,7 @@ export const foundationSections: FoundationSection[] = [
 
 When you load a web page, dozens of protocols cooperate without you noticing. [[ethernet|Ethernet]] carries the bits across your office network. [[ip|IP]] gets the packets to the right city. [[tcp|TCP]] makes sure none are lost. [[tls|TLS]] encrypts the contents. [[dns|DNS]] turned the URL into an address. [[http1|HTTP]] is the request the server actually answers. Each one minds its own job; each one trusts the others to do theirs.
 
-The deeper trick is that protocols are **public**. They are described in plain text in documents called RFCs (Requests for Comments), published openly by the IETF. Anyone can read [[rfc:9293|RFC 9293]] and write a [[tcp|TCP]] stack. No single company owns the rules. This is the fact that made the internet possible — there is no Microsoft Internet, no Apple Internet, no Google Internet. There is the internet, defined in documents, implemented by everyone who needs to.`
+The deeper trick is that protocols are **public**. They are described in plain text in documents called RFCs (Requests for Comments), published openly by the {{ietf|IETF}}. Anyone can read [[rfc:9293|RFC 9293]] and write a [[tcp|TCP]] stack. No single company owns the rules. This is the fact that made the internet possible — there is no Microsoft Internet, no Apple Internet, no Google Internet. There is the internet, defined in documents, implemented by everyone who needs to.`
 			},
 			{
 				type: 'diagram',
@@ -60,9 +60,9 @@ The deeper trick is that protocols are **public**. They are described in plain t
 				title: 'Where Protocols Come From',
 				text: `Protocols are not born in committees. They are usually written by one or two engineers solving a specific problem, deployed for a few years, then standardised once the design has survived production.
 
-[[tcp|TCP]] was designed by [[pioneer:vint-cerf|Vint Cerf]] and [[pioneer:bob-kahn|Bob Kahn]] in 1974 to connect three networks that did not share a fabric. [[ethernet|Ethernet]] was sketched by [[pioneer:bob-metcalfe|Bob Metcalfe]] and [[pioneer:david-boggs|David Boggs]] at Xerox PARC in 1973 to connect Alto workstations on a coaxial cable. The Web was a memo by [[pioneer:tim-berners-lee|Tim Berners-Lee]] at CERN in 1989. [[ssh|SSH]] was Tatu Ylönen's response to a password-sniffing attack at Helsinki University. [[mcp|MCP]] was Anthropic's response to N×M tool integrations in 2024.
+[[tcp|TCP]] was designed by [[pioneer:vint-cerf|Vint Cerf]] and [[pioneer:bob-kahn|Bob Kahn]] in 1974 to connect three networks that did not share a fabric. [[ethernet|Ethernet]] was sketched by [[pioneer:bob-metcalfe|Bob Metcalfe]] and [[pioneer:david-boggs|David Boggs]] at {{xerox-parc|Xerox PARC}} in 1973 to connect Alto workstations on a coaxial cable. The Web was a memo by [[pioneer:tim-berners-lee|Tim Berners-Lee]] at CERN in 1989. [[ssh|SSH]] was Tatu Ylönen's response to a password-sniffing attack at Helsinki University. [[mcp|MCP]] was Anthropic's response to N×M tool integrations in 2024.
 
-The IETF's job is not to invent these protocols. It is to **document them**, **review them**, and (often years later) **anoint them as standards**. The motto is **rough consensus and running code** — a phrase from [[pioneer:david-clark|David Clark]] at IETF 24 in 1992. The "running code" half is doing most of the work. A protocol nobody has implemented is not a real protocol.`
+The {{ietf|IETF}}'s job is not to invent these protocols. It is to **document them**, **review them**, and (often years later) **anoint them as standards**. The motto is **rough consensus and running code** — a phrase from [[pioneer:david-clark|David Clark]] at {{ietf|IETF}} 24 in 1992. The "running code" half is doing most of the work. A protocol nobody has implemented is not a real protocol.`
 			},
 			{
 				type: 'pioneers',
@@ -84,7 +84,7 @@ The IETF's job is not to invent these protocols. It is to **document them**, **r
 						title: 'RFC editor, IANA steward',
 						org: 'ISI',
 						contribution:
-							'Edited or co-edited every foundational [[tcp|TCP]]/[[ip|IP]] RFC. Coined the Robustness Principle. Ran the IANA single-handedly from his office at ISI for over a decade.',
+							'Edited or co-edited every foundational [[tcp|TCP]]/[[ip|IP]] RFC. Coined the Robustness Principle. Ran the {{iana|IANA}} single-handedly from his office at ISI for over a decade.',
 						imagePath:
 							'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Jon_Postel_sitting_in_office_%28cropped%29.jpg/330px-Jon_Postel_sitting_in_office_%28cropped%29.jpg'
 					}
@@ -99,9 +99,9 @@ The IETF's job is not to invent these protocols. It is to **document them**, **r
 			{
 				type: 'narrative',
 				title: 'The Problem Layers Solve',
-				text: `In late 1972, [[pioneer:bob-kahn|Bob Kahn]] at DARPA was sketching a problem nobody had solved: how do you let a computer on the ARPANET talk to one on a packet-radio network, or a satellite link, when those networks know nothing about each other? He brought in [[pioneer:vint-cerf|Vint Cerf]] at Stanford, and in May 1974 they published "A Protocol for Packet Network Intercommunication" in IEEE Transactions on Communications — the paper that coined the word "internet" and described a single, monolithic protocol they called [[tcp|TCP]] that did everything: routing hints, sequencing, {{flow-control|flow control}}, reliability.
+				text: `In late 1972, [[pioneer:bob-kahn|Bob Kahn]] at {{darpa|DARPA}} was sketching a problem nobody had solved: how do you let a computer on the {{arpanet|ARPANET}} talk to one on a packet-radio network, or a satellite link, when those networks know nothing about each other? He brought in [[pioneer:vint-cerf|Vint Cerf]] at Stanford, and in May 1974 they published "A Protocol for Packet Network Intercommunication" in IEEE Transactions on Communications — the paper that coined the word "internet" and described a single, monolithic protocol they called [[tcp|TCP]] that did everything: routing hints, sequencing, {{flow-control|flow control}}, reliability.
 
-By 1978, repeated implementation work at Stanford, BBN, and University College London revealed the flaw. Some applications — packet voice, in particular — needed **speed** more than **reliability**. Forcing every application through the same reliable byte-stream was wrong. [[pioneer:jon-postel|Jon Postel]] and David Reed argued for splitting the monolith: a thin internetworking layer ([[ip|IP]]) underneath, and an end-to-end transport layer above it. That single architectural decision is the reason [[udp|UDP]], [[icmp|ICMP]], and decades later [[quic|QUIC]] could exist without renegotiating with every router on the planet.
+By 1978, repeated implementation work at Stanford, {{bbn|BBN}}, and University College London revealed the flaw. Some applications — packet voice, in particular — needed **speed** more than **reliability**. Forcing every application through the same reliable byte-stream was wrong. [[pioneer:jon-postel|Jon Postel]] and David Reed argued for splitting the monolith: a thin internetworking layer ([[ip|IP]]) underneath, and an end-to-end transport layer above it. That single architectural decision is the reason [[udp|UDP]], [[icmp|ICMP]], and decades later [[quic|QUIC]] could exist without renegotiating with every router on the planet.
 
 The deeper principle is older than networking: separate what changes together from what doesn't. The wire (copper, fibre, radio) changes every decade. The routing algorithm changes every few years. The web changes every Tuesday. Layered protocols let each move on its own clock — and let an engineer reason about one layer without holding the other six in their head.`
 			},
@@ -145,7 +145,7 @@ The deeper principle is older than networking: separate what changes together fr
 
 **L5–7 — Session, Presentation, Application.** OSI's three top layers. In practice the line between them is a fiction: [[http1|HTTP]] does session, presentation, and application at once. [[tls|TLS]] is "kind of L5/6" but on [[quic|QUIC]] it's fused into L4. [[smtp|SMTP]], [[dns|DNS]], [[ssh|SSH]], [[websockets|WebSockets]], [[grpc|gRPC]], [[mcp|MCP]] — everything an engineer touches sits up here.
 
-The IETF stack pragmatically collapses 5–7 into one Application layer. That's the four-layer [[tcp|TCP]]/[[ip|IP]] model: Link, Internet, Transport, Application. It maps to OSI but doesn't pretend the upper three are usefully distinct.`
+The {{ietf|IETF}} stack pragmatically collapses 5–7 into one Application layer. That's the four-layer [[tcp|TCP]]/[[ip|IP]] model: Link, Internet, Transport, Application. It maps to OSI but doesn't pretend the upper three are usefully distinct.`
 			},
 			{
 				type: 'diagram',
@@ -181,14 +181,14 @@ The IETF stack pragmatically collapses 5–7 into one Application layer. That's 
 				title: 'How TCP/IP Won the Standards War',
 				text: `Through the 1980s the official future of networking was OSI. ISO and the ITU promoted the seven-layer suite — TP4 transport, CLNP networking — with full institutional backing: European PTTs, the U.S. government's GOSIP mandate, the prestige of a global standards body. [[tcp|TCP]]/[[ip|IP]] was, in those rooms, considered a research project that would be replaced.
 
-It was not. By July 1992, when [[pioneer:david-clark|David D. Clark]] gave his "A Cloudy Crystal Ball" plenary at the 24th IETF meeting in Cambridge, MA, he could distill the IETF's working culture into the sentence that decided the question: **"We reject: kings, presidents and voting. We believe in: rough consensus and running code."** OSI shipped specifications. The IETF shipped code. Code won.
+It was not. By July 1992, when [[pioneer:david-clark|David D. Clark]] gave his "A Cloudy Crystal Ball" plenary at the 24th {{ietf|IETF}} meeting in Cambridge, MA, he could distill the {{ietf|IETF}}'s working culture into the sentence that decided the question: **"We reject: kings, presidents and voting. We believe in: rough consensus and running code."** OSI shipped specifications. The {{ietf|IETF}} shipped code. Code won.
 
-The win was never about elegance — OSI's seven layers are arguably cleaner. It was about deployment economics. By 1992, [[tcp|TCP]]/[[ip|IP]] was already running on every Unix box in every university, every BSD-derived workstation, every router on the NSFNET backbone. Switching to OSI would have required a coordinated global flag day. The internet had quietly become too big to migrate.`
+The win was never about elegance — OSI's seven layers are arguably cleaner. It was about deployment economics. By 1992, [[tcp|TCP]]/[[ip|IP]] was already running on every Unix box in every university, every BSD-derived workstation, every router on the NSFNET backbone. Switching to OSI would have required a coordinated global {{flag-day-1983|flag day}}. The internet had quietly become too big to migrate.`
 			},
 			{
 				type: 'callout',
 				title: 'Rough Consensus and Running Code',
-				text: 'David Clark\'s 1992 IETF quote is the closest thing the internet community has to a national anthem. It says: standards are documents about behavior we have already shipped, not theories we hope someone will adopt. It is the reason new protocols appear as Internet Drafts with reference implementations, not as ISO documents. And it is why — even in 2026 — every protocol in this lab traces back to a draft someone could install and run.'
+				text: 'David Clark\'s 1992 {{ietf|IETF}} quote is the closest thing the internet community has to a national anthem. It says: standards are documents about behavior we have already shipped, not theories we hope someone will adopt. It is the reason new protocols appear as Internet Drafts with reference implementations, not as ISO documents. And it is why — even in 2026 — every protocol in this lab traces back to a draft someone could install and run.'
 			},
 			{
 				type: 'narrative',
@@ -279,7 +279,7 @@ This division of labour — [[ip|IP]] for end-to-end identity, MAC for hop-to-ho
 			{
 				type: 'narrative',
 				title: 'NAT Changed Everything',
-				text: `In 1993, the IETF realised [[ip|IPv4]]'s 4.3 billion addresses would not last. Three responses landed nearly simultaneously: **{{cidr|CIDR}}** (RFC 1519, 1993) abolished the rigid Class A/B/C boundaries; **private address ranges** ([[rfc:1918|RFC 1918]], 1996) gave every organisation 10.0.0.0/8 to use internally; and **{{nat|Network Address Translation}}** (RFC 1631, 1994) let one public [[ip|IP]] front for thousands of private hosts.
+				text: `In 1993, the {{ietf|IETF}} realised [[ip|IPv4]]'s 4.3 billion addresses would not last. Three responses landed nearly simultaneously: **{{cidr|CIDR}}** (RFC 1519, 1993) abolished the rigid Class A/B/C boundaries; **private address ranges** ([[rfc:1918|RFC 1918]], 1996) gave every organisation 10.0.0.0/8 to use internally; and **{{nat|Network Address Translation}}** (RFC 1631, 1994) let one public [[ip|IP]] front for thousands of private hosts.
 
 {{nat|NAT}} is the reason your home network's printer is at 192.168.1.10 and Google's nginx is at 142.250.80.46 even though no router on the public internet has any idea where 192.168.1.10 lives. Your home router rewrites the source [[ip|IP]] and source port of every outbound packet, keeps a table of (private [[ip|IP]], private port) → (public [[ip|IP]], public port) mappings, and reverses the rewrite on the response. From outside, every device in your home shares a single public [[ip|IP]].
 
@@ -301,7 +301,7 @@ This division of labour — [[ip|IP]] for end-to-end identity, MAC for hop-to-ho
 				title: 'Why Packet Switching Won',
 				text: `Until the late 1960s, every long-distance computer communication used **circuit switching** — the model the telephone network ran on. To send data from A to B, the network reserved a continuous channel between them for the duration of the call. The capacity was guaranteed but locked. Two hosts that exchanged a burst of data once a minute would tie up a circuit the other 59 seconds.
 
-Paul Baran at RAND (1962-1964) and Donald Davies at NPL (1965-1967) independently proposed a different idea: chop the data into small **packets**, label each one with its destination, and let intermediate nodes forward each packet independently along whichever path is least busy. No reservation, no per-call setup, no wasted capacity. The 1969 ARPANET implemented this and never looked back.
+Paul Baran at RAND (1962-1964) and Donald Davies at NPL (1965-1967) independently proposed a different idea: chop the data into small **packets**, label each one with its destination, and let intermediate nodes forward each packet independently along whichever path is least busy. No reservation, no per-call setup, no wasted capacity. The 1969 {{arpanet|ARPANET}} implemented this and never looked back.
 
 A {{packet|packet}} is a **self-contained unit** with a **header** (control information — addresses, length, {{checksum|checksum}}) and a **{{payload|payload}}** (the bytes the application actually sent). Routers along the path read only the header; they never need to look at the payload, and they certainly never need to remember anything about previous packets in the same conversation. That statelessness is what lets the internet route trillions of packets per second through equipment that costs less than a car.`
 			},
@@ -378,7 +378,7 @@ The eternal trade-off is **expressiveness vs overhead**. A header that names the
 
 That something is the **port**. A {{port|port}} is a 16-bit unsigned integer (0-65535) that lives in the [[tcp|TCP]] or [[udp|UDP]] header, alongside a similar field naming the source. When a packet arrives at the host, the OS looks up the (protocol, destination port) pair in its socket table and hands the {{payload|payload}} to the matching process. Different processes own different ports; ports are the OS's way of carving one network identity into many independent endpoints.
 
-Three conventional ranges. **Well-known ports** (0–1023) are reserved for standard protocols and require root/admin privileges to bind on Unix: 22 for [[ssh|SSH]], 53 for [[dns|DNS]], 80 for [[http1|HTTP]], 443 for HTTPS, 25 for [[smtp|SMTP]]. **Registered ports** (1024–49151) are conventionally assigned to specific applications by IANA: 5432 for PostgreSQL, 6379 for Redis, 8080 for HTTP-alt. **Ephemeral ports** (49152–65535, on most OSes) are assigned temporarily to the client side of a connection — your browser picks a random one when it dials out.`
+Three conventional ranges. **Well-known ports** (0–1023) are reserved for standard protocols and require root/admin privileges to bind on Unix: 22 for [[ssh|SSH]], 53 for [[dns|DNS]], 80 for [[http1|HTTP]], 443 for HTTPS, 25 for [[smtp|SMTP]]. **Registered ports** (1024–49151) are conventionally assigned to specific applications by {{iana|IANA}}: 5432 for PostgreSQL, 6379 for Redis, 8080 for HTTP-alt. **Ephemeral ports** (49152–65535, on most OSes) are assigned temporarily to the client side of a connection — your browser picks a random one when it dials out.`
 			},
 			{
 				type: 'diagram',
@@ -426,7 +426,7 @@ Run \`ss -t\` (or \`netstat -t\`) on a busy server and you can see the table. Hu
 			{
 				type: 'narrative',
 				title: 'Why Port 80, Port 443, Port 22',
-				text: `The well-known ports look arbitrary, and many of them are. **Port 80** for HTTP was picked by [[pioneer:tim-berners-lee|Tim Berners-Lee]] in 1991 — the comment in his early code reads "80 because that was available and we needed a number." **Port 22** for [[ssh|SSH]] was picked by Tatu Ylönen in 1995 because it sat between Telnet (23) and [[ftp|FTP]] (21). **Port 443** for HTTPS was assigned by IANA in 1994 when Netscape introduced SSL.
+				text: `The well-known ports look arbitrary, and many of them are. **Port 80** for HTTP was picked by [[pioneer:tim-berners-lee|Tim Berners-Lee]] in 1991 — the comment in his early code reads "80 because that was available and we needed a number." **Port 22** for [[ssh|SSH]] was picked by Tatu Ylönen in 1995 because it sat between Telnet (23) and [[ftp|FTP]] (21). **Port 443** for HTTPS was assigned by {{iana|IANA}} in 1994 when Netscape introduced SSL.
 
 Once chosen, well-known ports are **impossible to change**. Every {{firewall|firewall}} in the world has a rule allowing outbound 443. Every {{cdn|CDN}}, every load balancer, every browser bookmark, every \`<a href>\` written without an explicit port assumes 443 for HTTPS. A protocol that wanted to switch ports today would have to coordinate the rewrite across the entire deployed internet — which is why nobody seriously tries.
 
@@ -465,7 +465,7 @@ This tradeoff drives the entire protocol ecosystem. Web pages need reliability �
 			{
 				type: 'narrative',
 				title: 'October 1986: The First Collapse',
-				text: `In October 1986 the internet broke for the first time. Throughput between Lawrence Berkeley Laboratory and UC Berkeley — three IMP hops apart, about 400 yards on the same site — collapsed from 32 kbps to 40 bps. A factor of 800. Multiple cascading collapses followed across the NSFNET backbone.
+				text: `In October 1986 the internet broke for the first time. Throughput between Lawrence Berkeley Laboratory and UC Berkeley — three {{imp|IMP}} hops apart, about 400 yards on the same site — collapsed from 32 kbps to 40 bps. A factor of 800. Multiple cascading collapses followed across the NSFNET backbone.
 
 The cause was [[tcp|TCP]] itself. Early BSD [[tcp|TCP]] retransmitted aggressively when it saw loss. When the network was actually congested, every {{retransmission|retransmission}} generated more loss, which generated more retransmissions. The network was eating itself.
 
@@ -529,7 +529,7 @@ BBRv1 hit ~4% mean throughput improvement on YouTube globally, more than 14% in 
 				title: 'L4S: Sub-Millisecond Queuing',
 				text: `Even {{bbr|BBR}} can't fix {{bufferbloat|bufferbloat}} caused by other senders' classic [[tcp|TCP]] filling the same buffer. The buffer is in the network, not in {{bbr|BBR}}. The network needs to start helping.
 
-{{l4s|L4S}} — Low {{latency|Latency}}, Low Loss, Scalable throughput — is the IETF's answer ([[rfc:9330|RFC 9330]] / 9331 / 9332, January 2023). The mechanism: cooperating senders mark every packet {{ecn|ECN}}-Capable and react to {{ecn|ECN}} marks like minor losses without backing off as hard. Routers running the DualQ Coupled {{aqm|AQM}} mark instead of dropping when congestion is incipient. Classic [[tcp|TCP]] shares the same path and converges to fair throughput, but {{l4s|L4S}} traffic gets sub-millisecond queuing latency at the same time.
+{{l4s|L4S}} — Low {{latency|Latency}}, Low Loss, Scalable throughput — is the {{ietf|IETF}}'s answer ([[rfc:9330|RFC 9330]] / 9331 / 9332, January 2023). The mechanism: cooperating senders mark every packet {{ecn|ECN}}-Capable and react to {{ecn|ECN}} marks like minor losses without backing off as hard. Routers running the DualQ Coupled {{aqm|AQM}} mark instead of dropping when congestion is incipient. Classic [[tcp|TCP]] shares the same path and converges to fair throughput, but {{l4s|L4S}} traffic gets sub-millisecond queuing latency at the same time.
 
 [[frontier:l4s-comcast-launch|Comcast launched L4S in production]] in late January 2025 in six US cities, with Apple, NVIDIA GeForce NOW, Meta, and Valve as launch partners. Apple shipped {{l4s|L4S}} in iOS 17 / macOS Sonoma and turned it on by default for [[quic|QUIC]] in newer releases. The same architecture works for cloud gaming, video calls, and AI assistant audio at the same time as a 4K download — without {{bufferbloat|bufferbloat}}, without classic-[[tcp|TCP]] getting starved.`
 			},
