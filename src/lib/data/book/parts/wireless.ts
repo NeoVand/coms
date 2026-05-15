@@ -806,8 +806,114 @@ Every chapter in this Part has security stories. This chapter ties them together
 			id: 'spectrum-and-the-frontier',
 			title: 'Spectrum, regulation, and what comes next',
 			synopsis:
-				'6 GHz Wi-Fi, mmWave, Ligado/L-band, the 47-day-cert cliff, WRC-27, Ambient IoT, Wi-Fi 8, 6G targets, and Starlink Direct-to-Cell. The wireless frontier through 2030.',
-			slots: []
+				'The non-technical layer that decides where every wireless protocol may live — 6 GHz Wi-Fi, mmWave, CBRS, WRC-27, Wi-Fi 8, Ambient IoT, 6G targets, and Starlink Direct-to-Cell. The wireless frontier through 2030.',
+			slots: [
+				{
+					kind: 'pull-quote',
+					text: 'Spectrum policy moves on a four-year clock; the technology runs ten years faster. Every wireless protocol\'s deployment is gated by a regulator nobody on the engineering team has met.',
+					attribution: 'Author'
+				},
+				{
+					kind: 'prose',
+					sections: [
+						{
+							type: 'narrative',
+							title: 'Why spectrum is the protocol everyone forgets about',
+							text: `Every wireless protocol in this Part has a chapter about its radio, its frame format, its security history. Almost none of them have a chapter about **the regulator who decides where the radio is allowed to transmit, at what power, with what interference protection, in which country.** That regulator is the protocol that decides whether anything in the rest of this Part can ship.
+
+The {{spectrum|spectrum}} layer is the *real* foundation of wireless. It is allocated globally by the **ITU-R** (the radio sector of the International Telecommunication Union, ~190 member states) on a treaty schedule called the **{{wrc|World Radiocommunication Conference}}** every 3–4 years. It is regionally harmonised by **CEPT** (Europe), **APT** (Asia-Pacific), and **CITEL** (the Americas). And it is *nationally* enforced by regulators like the {{fcc|FCC}} (US), Ofcom (UK), the Bundesnetzagentur (Germany), and the MIC (Japan).
+
+The result is that *the same physical radio* is legal in some countries, restricted in others, and banned outright in a few. **Apple's iPhone disables [[uwb|UWB]] Precision Finding in Japan, Indonesia, parts of the Middle East, and a few smaller markets** because of regional power-mask differences. The {{cbrs|CBRS}} band that powers Private 5G in the United States does not exist in Europe. The 6 GHz upper band that the FCC opened for Wi-Fi in 2020 may yet be reassigned to mobile carriers in the EU. Every protocol chapter has a wire-format story; this chapter is about the *policy* story underneath all of them.`
+						},
+						{
+							type: 'narrative',
+							title: 'The 6 GHz fight — the largest single bandwidth grant in 20 years',
+							text: `**On 23 April 2020, the {{fcc|FCC}} freed 1,200 MHz of 6 GHz spectrum** (5.925–7.125 GHz) for unlicensed use — the largest single bandwidth grant the United States has authorised in 20 years. Wi-Fi 6E and Wi-Fi 7 were the immediate consumers. The decision essentially **tripled the unlicensed spectrum available for [[wifi|Wi-Fi]]**, easing the 2.4 GHz and 5 GHz crowding that had bedevilled apartment buildings and convention centres for two decades.
+
+The lower 6 GHz band (5.925–6.425 GHz) is **Low-Power Indoor (LPI)** — license-exempt for indoor use only, up to 30 dBm EIRP. The upper 6 GHz band (6.525–7.125 GHz) is **Standard Power** — up to 36 dBm EIRP outdoors, but arbitrated by an **{{afc|Automated Frequency Coordination}}** cloud service that checks the AP's location against a database of incumbent licensees (fixed microwave links, satellite services) before granting a channel. The FCC approved seven AFC operators on 23 February 2024; the first AFC-certified Wi-Fi 7 access point (RUCKUS R770) shipped in April 2024.
+
+**Then the EU went the other way.** On **12 November 2025**, the European Radio Spectrum Policy Group recommended assigning the **upper 6 GHz band (6585–7125 MHz) to mobile/5G**, holding 6425–6585 MHz pending {{wrc|WRC-27}}. The {{wifi|Wi-Fi}} Alliance "strongly disagrees" and is lobbying hard. {{wrc|WRC-23}} (Dubai, November–December 2023) had already added 6 GHz to IMT-2020 (the {{cellular|cellular}} side) on a *co-primary* basis, opening the door to this exact contest.
+
+**This is what spectrum policy actually looks like** — the same physical band, same physical radios, allocated differently by different regional treaty bodies, with billion-dollar industry alignments fighting it out at WRC every four years. Wi-Fi shipping millions of 6 GHz devices in the US is one fact; whether those devices can use the upper-6-GHz band in Europe is a separate fact decided by a different process.`
+						},
+						{
+							type: 'callout',
+							title: 'CBRS and the three-tier sharing experiment',
+							text: 'The US **{{cbrs|Citizens Broadband Radio Service}}** band — 3.55–3.7 GHz — is the US regulator\'s **experiment in dynamic spectrum sharing**. Three tiers coexist: **Incumbent** (US Navy radars get absolute priority), **Priority Access Licensees** (PALs, auctioned in 2020 for ~$4.5B), and **General Authorized Access** (anyone with a certified device). A cloud service called the **Spectrum Access System** arbitrates in real time — telling each device which channels and power levels it may use right now based on Navy radar activity. Powers Private 4G LTE / 5G deployments at ports (Port of Long Beach), mines, hospitals, manufacturing plants, and stadiums. The largest production use of *database-arbitrated coexistence* anywhere on Earth. Europe has experimented with similar concepts (PMSE in the UK, LSA in some EU pilots) but has not deployed at CBRS scale.'
+						},
+						{
+							type: 'narrative',
+							title: 'mmWave — the band that under-delivered',
+							text: `**{{mmwave|Millimetre-wave}}** bands — 24–52 GHz for 5G NR FR2, plus 60 GHz for WiGig and 28/39 GHz for fixed wireless — were the *headline feature* of every 5G keynote slide between 2018 and 2021. Hundreds of MHz of contiguous bandwidth! Gigabit speeds! Sub-millimetre wavelengths! The reality has been more complicated.
+
+mmWave is **line-of-sight only**, attenuates ~20 dB through a wet leaf, and is absorbed by glass-coated buildings, human bodies, and pretty much anything thicker than dry air. Carriers deployed it in dense urban hotspots (Verizon Manhattan, AT&T Manhattan, T-Mobile Stadium of America) but failed to make it the everyday 5G experience anyone advertised. The current honest assessment is that mmWave is **wonderful in a stadium, useful in a dense business district, irrelevant in a suburb, and unworkable in a basement**.
+
+Where mmWave *has* won is **fixed wireless access (FWA)** — Verizon 5G Home, T-Mobile Home Internet, Starry — point-to-point links from a base station to a window-mounted antenna at a specific home or business. No mobility, no body shadowing, line-of-sight by design. FWA is now the fastest-growing residential broadband category in the US, eating into legacy cable and DSL share. The future of mmWave is **fixed access plus dense urban capacity**, not the universal smartphone radio its marketing once promised.
+
+5G's *real* contribution to coverage and capacity has come from mid-band sub-6 GHz NR (FR1) — the 2.5 GHz, 3.7 GHz C-band, 3.55 GHz CBRS spectrum that carriers deployed widely from 2021 onward. That is the band underneath your "5G UC" or "5G+" icon.`
+						},
+						{
+							type: 'narrative',
+							title: 'The Wi-Fi 8 reliability turn',
+							text: `[[wifi|Wi-Fi]] 7 (802.11be, ratified 22 July 2025) was the last "make Wi-Fi much faster" upgrade. The peak rate hit ~46 Gbit/s, the 320 MHz channels arrived, the {{mlo|Multi-Link Operation}} feature shipped. The question facing the working group from ~2023 onward was: **what comes next?**
+
+The answer is **Wi-Fi 8 / 802.11bn — Ultra High Reliability**. It is explicitly *not* a peak-speed upgrade: same bands as Wi-Fi 7, same 320 MHz max, same ~46 Gbit/s PHY peak. The PAR objectives are quantitative: **+25% throughput at a given SINR, −25% 95th-percentile {{latency|latency}}, −25% MPDU loss across BSS transitions.** Every Wi-Fi 8 feature — **Multi-AP Coordination** (Co-BF, Co-SR, Co-TDMA), **Seamless Roaming Domain** (SMD), **Enhanced Long Range PPDU**, **Distributed Resource Units**, **Non-Primary Channel Access** — is in service of tail latency and reliability, not headline throughput.
+
+The pattern across the last two generations is the same: squeeze the existing speed budget for *consistency*, not for the marketing-friendly peak. **Wi-Fi 8 is targeted for ratification September 2028**. Broadcom announced a Wi-Fi 8 chipset in October 2025; ASUS demoed a draft router at CES 2026; consumer launches expected mid-to-late 2026. A "Wi-Fi 9" successor study group started January 2026 already.
+
+The takeaway for someone designing on top of Wi-Fi: **the 99th-percentile latency you can rely on between 2027 and 2030 will be much better than what you have today**, even though the peak number on the box will not change.`
+						},
+						{
+							type: 'narrative',
+							title: 'Direct-to-Cell and the redefinition of "coverage"',
+							text: `For 50 years, "no signal" on a cell phone meant *no signal*. For most of the next 50, "no signal" will mean *no terrestrial signal — try walking outside.* The protocol family driving that change is **{{ntn|Non-Terrestrial Networks}}**, added to 3GPP Release 17 in March 2022 as a first-class radio access type alongside NR-Uu and LTE-Uu.
+
+**On 27 January 2025**, **T-Mobile + SpaceX Starlink launched the first commercial {{direct-to-cell|Direct-to-Cell}} service** in the United States: SMS, MMS, and emergency messaging from ordinary phones, with the satellite acting as a base station in standard {{cellular|cellular}} bands n255/n256. **AT&T's AST SpaceMobile partnership** demonstrated 5G voice from a standard phone in mid-2023 (technical proof) and is rolling out commercial service through 2025–2026. **Apple's Globalstar-based Emergency SOS** has been live since the iPhone 14 (September 2022) — your phone, no special hardware, automatic fallback when terrestrial coverage drops.
+
+The architectural change is the *band*. Older satellite phones (Iridium, Inmarsat) used dedicated satellite bands and required special handsets. Direct-to-Cell uses **standard terrestrial cellular bands**, so any phone with the right modem firmware can connect. The satellite is, from the phone's perspective, just another base station — albeit one orbiting at ~550 km and moving at ~7 km/s. {{harq|HARQ}} on a 5 ms terrestrial round-trip is one engineering problem; HARQ on a 30 ms satellite round-trip with continuous Doppler shift is another. 3GPP Release 18 + 19 + 20 contain the timing-and-Doppler patches that make it work.
+
+The implications run well beyond emergency messaging. **Maritime communications**, **aviation passenger Wi-Fi**, **rural broadband**, **disaster recovery** — all reshaped by a phone that can fall back to satellite without the user ever knowing. The next decade of {{cellular|cellular}} growth is going to come from the half of the planet that has never had reliable mobile coverage.`
+						},
+						{
+							type: 'narrative',
+							title: 'Ambient IoT — when the IoT device has no battery',
+							text: `The most experimental piece of the [[cellular|cellular]] frontier is **{{ambient-iot|Ambient IoT}}**: battery-less or near-battery-less {{cellular|cellular}} devices that harvest energy from RF, light, or motion and transmit tiny payloads. Currently {{3gpp|3GPP}} study items in **Release 19** (frozen in flight) and **Release 20** (kicking off in 2025). Target use cases: logistics tagging, retail inventory, agricultural sensors, healthcare patient bands — the niches that **passive {{rfid|RFID}}** currently owns.
+
+The protocol-design problem is hard. A battery-less device cannot wake up on a paging cycle, cannot maintain a clock, cannot run a {{handshake|handshake}}. The Release 19 design uses an *interrogator-driven* model that resembles 13.56 MHz {{nfc|NFC}} (or 900 MHz UHF RFID) more than it resembles a normal phone. The base station emits a carrier; the device backscatters a tiny modulated reply when interrogated. The data rates are kilobits per second; the range is metres to tens of metres.
+
+Whether {{cellular|cellular}} Ambient IoT actually displaces the UHF RFID and {{lpwan|LPWAN}} ecosystems that already serve those niches is an open commercial question. The technical groundwork is in place. The deployment economics — who pays for the interrogators, who runs the inventory backend — will decide it. Expect first commercial trials in late 2027, mass adoption (if it happens) in the early 2030s.`
+						},
+						{
+							type: 'narrative',
+							title: 'The other frontier — Wi-Fi sensing, sub-second media, and 6G',
+							text: `Three smaller frontiers are worth naming for completeness.
+
+**{{wifi-sensing|Wi-Fi sensing}}** (IEEE 802.11bf, published 26 September 2025) uses the Channel State Information that [[wifi|Wi-Fi]] radios already compute for {{multipath|multipath}} equalisation to *detect* people, motion, and breathing — radio waves as occupancy sensors. Standardised across 1–7.125 GHz and >45 GHz bands. Lets a home Wi-Fi mesh do presence detection without a camera or PIR sensor. Early consumer deployments through 2026.
+
+**Sub-second live media** is the [[wifi|Wi-Fi]] and {{cellular|cellular}} side of the [[rtp|RTP]]-over-[[quic|QUIC]] / MoQ-Transport story. The {{cellular|cellular}} network has had ~99.999% link reliability via {{harq|HARQ}} for fifteen years; the application layer is finally building on top of it. Cloudflare deployed MoQ relays across 330+ cities in 2025; Twitch's *Warp* QUIC-based live-streaming pilot is the canonical use case. The 2026 Super Bowl, AFC Wild Card, and Paris 2024 Olympics measurements all show OTT streaming still 40–80 seconds behind broadcast. The next five years collapse most of that gap.
+
+**6G** is the next-generation cellular standard, currently in pre-standardisation. {{3gpp|3GPP}}'s **Release 20 study items** for 6G began in 2025. Targets include sub-THz radio (above 100 GHz), AI-native air-interface design, integrated sensing-and-communication (your phone *also* doing radar), and {{ntn|NTN}} as a first-class deployment mode from day one. First commercial 6G expected 2030–2032. Treat any 2026–2027 marketing copy that mentions specific 6G features as speculation; the spec does not exist yet.`
+						},
+						{
+							type: 'callout',
+							title: 'The four-year clock and the two-year clock',
+							text: 'Two clocks set the pace of wireless. The first is the **{{wrc|World Radiocommunication Conference}}**, every 3–4 years, where the world\'s spectrum allocations are renegotiated by treaty. **{{wrc|WRC-27}}** is the next major event — terahertz bands for 6G, harmonisation of {{direct-to-cell|Direct-to-Cell}} bands, the 6 GHz EU upper-band decision. The second is the **{{3gpp|3GPP}} Release cycle**, every ~18 months — Release 19 in flight, Release 20 (6G study items) kicking off. Together they decide what wireless protocols you can build, where, when. The IETF model — *rough consensus and running code, two-week sprints* — does not apply at this layer. Spectrum and cellular standards run on geological time, and that is the constraint every wireless engineer eventually meets.'
+						},
+						{
+							type: 'narrative',
+							title: 'Reading the frontier honestly',
+							text: `The frontier section of any technical book is the part that ages worst. This one will, too — in five years, three of the deployments named in this chapter will have stalled, two will have shipped widely, and at least one not-yet-named protocol will have emerged from a standards backwater to consumer ubiquity (the pattern that {{ble|BLE}}, {{matter|Matter}}, and {{direct-to-cell|Direct-to-Cell}} all followed).
+
+What can be said confidently about wireless in 2030: **{{wifi|Wi-Fi 8}}** will be shipping in mid-range routers, **{{wpa3|WPA3}}** will be near-universal, **post-quantum crypto** will be running in the [[tls|TLS]] handshakes over every wireless network. **{{cellular|6G}}** will be in *pre-deployment* trials, not yet consumer-available. **{{direct-to-cell|Direct-to-Cell}}** will be the default fallback for any phone in any country with a clear sky. **{{matter|Matter}}** will own the smart-home commissioning story, with {{thread|Thread}} and Wi-Fi underneath. {{uwb|**UWB**}} will be in roughly half of new phones globally, gating digital car keys and hands-free door unlock for hundreds of millions of users.
+
+What cannot be said confidently: which {{cellular|cellular}} bands will be unlicensed by 2030, whether 6 GHz Wi-Fi survives in Europe, whether {{ambient-iot|Ambient IoT}} eats the {{lpwan|LPWAN}} market, whether {{wifi-sensing|Wi-Fi sensing}} becomes a privacy disaster or a useful feature. The answers depend on regulators in Brussels, Geneva, and Washington — not on any wireless engineer.
+
+That is the right note to end Part V on. **Wireless is the only chapter in this book where the protocol stops at the silicon and starts again at the regulator.** Read every other Part top-down from the application. Read this one bottom-up from the spectrum allocation chart — the one nobody on your team has framed on the wall.`
+						}
+					]
+				},
+				{ kind: 'frontier', id: 'wifi-7-ratified' }
+			]
 		}
 	]
 };
