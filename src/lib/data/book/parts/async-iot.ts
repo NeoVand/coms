@@ -12,13 +12,14 @@ export const asyncIot: BookPart = {
 	id: 'async-iot',
 	title: 'Async / IoT',
 	label: 'VII',
-	description: 'Decoupled, message-oriented protocols for sensors, microservices, and event streams.',
+	description:
+		'Decoupled, {{pub-sub|message-oriented}} protocols for sensors, microservices, and event streams — [[mqtt|MQTT]], [[amqp|AMQP]], [[kafka|Kafka]], [[coap|CoAP]].',
 	chapters: [
 		// ────────────────────────────────────────────────────────────
 		{
 			id: 'mqtt',
 			title: 'MQTT',
-			synopsis: 'Sensors, satellites, and 2-byte publish overhead — designed in 1999 to instrument oil pipelines.',
+			synopsis: 'Sensors, satellites, and [[mqtt|2-byte publish overhead]] — designed in 1999 to instrument oil pipelines.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -63,6 +64,14 @@ IBM released **[[mqtt|MQTT]] 3.1 royalty-free in 2010**; **[[mqtt|MQTT]] 3.1.1**
 **Google Cloud IoT Core was retired 16 August 2023** — the deprecation still drives 2024-2026 architecture decisions and migrations to AWS IoT, Azure Event Grid [[mqtt|MQTT]], EMQX, and HiveMQ. The lesson for IoT operators: hyperscaler-managed IoT services have higher churn risk than the protocol itself.
 
 **[[mqtt|MQTT]]-over-[[quic|QUIC]]** has *no* ratified OASIS standard as of May 2026; **EMQX 5.x ships production support** and is "preparing a draft proposal" through the OASIS [[mqtt|MQTT]] TC. The frontier is vendor-led, not standardised. A new [[mqtt|MQTT]]-SN OASIS working draft was uploaded **1 May 2025** by chair Ian Craggs.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/MQTT_protocol_example_without_QoS.svg/500px-MQTT_protocol_example_without_QoS.svg.png',
+							alt: 'MQTT publish-subscribe diagram — sensor publishes to a topic on a broker; subscriber receives.',
+							caption:
+								'**[[mqtt|MQTT]]** publish/subscribe in one picture: a sensor publishes to topic `farm/north/soil-moisture`; the broker forwards to every subscriber. **2-byte fixed header**, smallest control packet (PINGREQ) is 2 bytes total. Designed in 1999 by Andy Stanford-Clark and Arlen Nipper to instrument oil pipelines over kilobit-per-second satellite — the per-byte thrift makes it the protocol underneath every Tesla, Ring doorbell, Facebook Messenger (since 2011), and ~5B IoT devices.',
+							credit: 'Image: Wikimedia Commons / CC BY-SA 3.0'
 						}
 					]
 				},
@@ -75,7 +84,7 @@ IBM released **[[mqtt|MQTT]] 3.1 royalty-free in 2010**; **[[mqtt|MQTT]] 3.1.1**
 		{
 			id: 'amqp',
 			title: 'AMQP',
-			synopsis: 'Banking-grade messaging — JPMorgan Chase, John O\'Hara, and "two billion dollars in collateral calls before he could blink."',
+			synopsis: '[[amqp|Banking-grade messaging]] — JPMorgan Chase, John O\'Hara, and "two billion dollars in collateral calls before he could blink."',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -118,6 +127,14 @@ The 0-9-1 working group was dead by 2010 — Pieter Hintjens (iMatix CEO) circul
 **Microsoft Azure Service Bus uses [[amqp|AMQP]] 1.0 as its primary protocol**; Service Bus over [[amqp|AMQP]]-[[websockets|WebSockets]] tunnels through [[tcp|TCP]]/443 to be "equivalent to [[amqp|AMQP]] 5671 connections." This is the dominant cloud-managed [[amqp|AMQP]] deployment by message volume.
 
 The trade-off versus [[mqtt|MQTT]] remains operational complexity. An [[amqp|AMQP]] broker is a database — you size it, replicate it, monitor it. An [[mqtt|MQTT]] broker is closer to a router — {{stateless|stateless}} and small. Banks use [[amqp|AMQP]] for trade messaging, where {{exactly-once-delivery|exactly-once delivery}} and audit trails are non-negotiable. Microservice architectures use it for command queues and asynchronous task dispatch. Choose [[amqp|AMQP]] when transactions matter; choose [[mqtt|MQTT]] when scale and simplicity matter.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/77/RabbitMQ_%2848853375337%29.jpg/500px-RabbitMQ_%2848853375337%29.jpg',
+							alt: 'RabbitMQ logo / branding shown at a conference.',
+							caption:
+								'**RabbitMQ** — the most-deployed [[amqp|AMQP]] broker on Earth. The 4.0 GA release (18 September 2024) made AMQP 1.0 a *core* protocol, doubled throughput over 3.13, and removed classic mirrored queues. RabbitMQ 4.3 (April 2026) makes **Khepri** (Raft metadata) mandatory — Mnesia is gone. The protocol is two decades old; the implementation churn around it has not slowed down.',
+							credit: 'Photo: Wikimedia Commons / CC BY-SA 2.0'
 						}
 					]
 				},
@@ -130,7 +147,7 @@ The trade-off versus [[mqtt|MQTT]] remains operational complexity. An [[amqp|AMQ
 		{
 			id: 'kafka',
 			title: 'Kafka',
-			synopsis: 'A distributed commit log as architecture unit — LinkedIn, 2010, named after Franz [[kafka|Kafka]] because "it\'s a system optimized for writing."',
+			synopsis: '[[kafka|A distributed commit log]] as architecture unit — LinkedIn, 2010, named after Franz [[kafka|Kafka]] because "it\'s a system optimized for writing."',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -175,6 +192,14 @@ The wire-level details that matter operationally: [[kafka|Kafka]]'s reference co
 2024-2025 CVE wave: **CVE-2024-56128** (SCRAM skipped server-{{nonce|nonce}} check, fixed 3.7.2/3.8.1/3.9.0); **CVE-2025-27817** (SASL/OAUTHBEARER arbitrary file read/SSRF, fixed 3.9.1/4.0.0); the older **CVE-2023-25194** JndiLoginModule RCE in Connect [[rest|REST]] API was the field's Log4Shell moment.
 
 **Datadog 8 March 2023** outage (~24h, multi-region) was triggered when an Ubuntu 22.04 systemd-networkd update deleted Cilium-managed [[ip|IP]] routes on Kubernetes nodes hosting Datadog's [[kafka|Kafka]]/ZK pipeline — the canonical "messaging tier ripple effect" post-mortem of the period.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Kafka_Job_Queue_Architecture_diagram.svg/500px-Kafka_Job_Queue_Architecture_diagram.svg.png',
+							alt: 'Kafka job-queue architecture diagram — producers writing to topics, brokers persisting partitions, consumer groups reading.',
+							caption:
+								'A **[[kafka|Kafka]]** topology: producers fan out into partitioned topics on brokers; consumer groups read from offsets independently. **LinkedIn runs >7 trillion messages/day** across this architecture. Kafka 4.0 (18 March 2025) removed ZooKeeper after a six-year migration; **Diskless Topics (KIP-1150)** accepted March 2026 blesses the S3-as-primary-storage architecture (WarpStream, AutoMQ, Aiven Inkless, Bufstream) that could drop cost 10-20× for high-retention workloads.',
+							credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 						}
 					]
 				},
@@ -187,7 +212,7 @@ The wire-level details that matter operationally: [[kafka|Kafka]]'s reference co
 		{
 			id: 'coap',
 			title: 'CoAP',
-			synopsis: '[[rest|REST]] shrunk for microcontrollers — and one of the most-deployed-at-scale uses turned out to be Chinese smartphones.',
+			synopsis: '[[coap|REST shrunk for microcontrollers]] — and one of the most-deployed-at-scale uses turned out to be Chinese smartphones.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -230,6 +255,14 @@ The wire-level details that matter operationally: [[kafka|Kafka]]'s reference co
 2024 CVE: **CVE-2024-0962** (libcoap OSCORE stack overflow); 2026: **CVE-2026-29013** (libcoap OSCORE Appendix-B.2 CBOR unwrap OOB read, disclosed 17 April 2026, CVSS 8.8). The [[coap|CoAP]] implementation surface is small but the cryptographic library underneath (libcoap, libcose) is intricate — the same pattern as every other small protocol with a serious crypto add-on.
 
 [[coap|CoAP]] has not displaced [[mqtt|MQTT]] in IoT, mostly because pub/sub is a more useful pattern for sensor networks than request/response. But where you need RESTful resource semantics on a constrained device — Matter (smart-home devices), Thread mesh networks, OMA LwM2M (mobile device management) — [[coap|CoAP]] is the answer.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Arduino_Uno_-_R3.jpg/500px-Arduino_Uno_-_R3.jpg',
+							alt: 'An Arduino Uno R3 microcontroller board.',
+							caption:
+								'An **Arduino Uno** — the genre of constrained device [[coap|CoAP]] was designed for. 32 kB of flash, 2 kB of RAM, single-digit-milliamp budget. Running [[http1|HTTP/1.1]] on this is impossible; running [[coap|CoAP]] is comfortable — **4-byte header**, minimal Empty message is 4 bytes total, typical GET 10-20 bytes. The trick is fitting [[rest|REST]] semantics under the {{ieee-802-15-4|802.15.4}} {{frame|frame}} limit while [[ipv6|IPv6]] fragmentation works for you.',
+							credit: 'Photo: SparkFun Electronics / Wikimedia Commons, CC BY 2.0'
 						}
 					]
 				},
