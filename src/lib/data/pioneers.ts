@@ -414,6 +414,27 @@ Also invented the Elgamal encryption algorithm (1985), one of the earliest pract
 		}
 	},
 	{
+		id: 'henning-schulzrinne',
+		name: 'Henning Schulzrinne',
+		years: '1959–',
+		title: 'Author of RTP, RTCP, RTSP, SIP, SDP',
+		org: 'Columbia University / FCC',
+		contribution: `Authored or co-authored the protocols that carry essentially all real-time interactive media on the internet. **[[rtp|RTP]]** and **RTCP** ([[rfc:3550|RFC 3550]], 2003 — original RFC 1889 in 1996) are the transport for streaming audio and video; **RTSP** (RFC 2326, 1998; updated as RFC 7826, 2016) is the control plane; **[[sip|SIP]]** ([[rfc:3261|RFC 3261]], 2002) is the signalling protocol that the entire {{voip|VoIP}} industry runs on; **[[sdp|SDP]]** (RFC 4566, 2006) is the session-description format [[sip|SIP]] and [[webrtc|WebRTC]] both use to negotiate {{codec|codecs}} and media endpoints.
+
+A Columbia University professor since 1996, Schulzrinne has authored more than 70 RFCs across two decades — one of the most prolific contributors in the {{ietf|IETF}}'s history. Served as the {{fcc|FCC}}'s Chief Technology Officer three separate times (2012–2014, 2017, 2024). Inducted into the Internet Hall of Fame in 2013.`,
+		protocols: ['rtp', 'sip', 'sdp', 'webrtc'],
+		categories: ['realtime-av'],
+		awards: [
+			{ name: 'Internet Hall of Fame', year: 2013 },
+			{ name: 'IEEE Internet Award', year: 2016 },
+			{ name: 'ACM SIGCOMM Award', year: 2020 }
+		],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/Henning_Schulzrinne',
+			homepage: 'https://www.cs.columbia.edu/~hgs/'
+		}
+	},
+	{
 		id: 'ian-hickson',
 		name: 'Ian Hickson',
 		years: 'c. 1980–',

@@ -261,6 +261,126 @@ export const outages: Outage[] = [
 		]
 	},
 	{
+		id: 'china-telecom-2010',
+		title: 'China Telecom — 18 Minutes of the Internet',
+		date: '2010-04-08',
+		duration: '~18 minutes',
+		scale: 'Global — ~50,000 prefixes (~15% of all internet routes) re-routed via AS 23724',
+		oneLiner:
+			"For 18 minutes, China Telecom advertised tens of thousands of prefixes it did not own — and a meaningful slice of the world's internet traffic took an unscheduled detour through Beijing.",
+		category: 'configuration',
+		affectedProtocols: ['bgp'],
+		cast: [
+			{ name: 'China Telecom (AS 23724)', role: 'Origin of the leaked routes' },
+			{
+				name: 'US-China Economic and Security Review Commission',
+				role: 'Post-incident reporter'
+			}
+		],
+		setup:
+			'In 2010 [[bgp|BGP]] still ran on a near-universal trust model. Tier-1 transit providers were expected to filter what their customers announced — many did, many did not, and there was no cryptographic check at the protocol level. Any {{autonomous-system|AS}} could announce any prefix; the network would believe the most-specific advertisement that reached it.',
+		mistake:
+			'On 8 April 2010 at 15:50 UTC, AS 23724 (China Telecom) announced roughly 50,000 prefixes belonging to other networks — about 15% of the global {{routing-table|routing table}}. The advertisements propagated to several large international transit peers that did not have inbound filters in place.',
+		cascade: [
+			{
+				time: '15:50 UTC',
+				title: 'Mass announcement',
+				description:
+					'AS 23724 begins originating ~50,000 prefixes it does not own — covering networks operated by Dell, Apple, large US government agencies, and many others.',
+				protocols: ['bgp']
+			},
+			{
+				time: '15:50–16:08 UTC',
+				title: 'Global propagation',
+				description:
+					'The leaked routes travel through unfiltered transit relationships. For the next ~18 minutes, traffic for the affected prefixes that traverses certain paths is steered through China Telecom infrastructure before being delivered (or, in some cases, dropped).',
+				protocols: ['bgp']
+			},
+			{
+				time: '16:08 UTC',
+				title: 'Withdrawal',
+				description:
+					'The bogus announcements are withdrawn. Routing convergence drains the bad paths over the next several minutes.'
+			}
+		],
+		consequence:
+			'For an 18-minute window, a measurable share of internet traffic — including traffic to and from US government and military networks — followed paths that included China Telecom AS 23724. Whether the event was a misconfiguration, a deliberate test, or something else has never been definitively settled. The 2010 US-China Economic and Security Review Commission report made the incident widely known.',
+		resolution:
+			'No technical resolution beyond the withdrawal itself. The structural fix — RPKI Route Origin Authorisations and ROV enforcement at peering points — was already specified but a decade away from broad deployment.',
+		lesson:
+			"Plain [[bgp|BGP]] advertises trust. A single {{autonomous-system|AS}} can globally redirect an arbitrary slice of internet traffic in minutes, with no protocol-level barrier to detection. China Telecom 2010 became one of the most-cited examples in the slow industry case for [[frontier:rpki-rov-50-percent|RPKI/ROV]], which finally crossed 50% of advertised IP space in 2024 — fourteen years later.",
+		sources: [
+			{
+				url: 'https://www.uscc.gov/sites/default/files/annual_reports/2010-Report-to-Congress.pdf',
+				label: 'US-China Economic and Security Review Commission — 2010 Report to Congress (§5)'
+			},
+			{
+				url: 'https://en.wikipedia.org/wiki/IP_hijacking#Notable_cases',
+				label: 'Wikipedia — IP hijacking (notable cases)'
+			},
+			{
+				url: 'https://blog.thousandeyes.com/the-2010-china-telecom-bgp-incident/',
+				label: 'ThousandEyes — The 2010 China Telecom BGP incident'
+			}
+		]
+	},
+	{
+		id: 'nsfnet-1986-collapse',
+		title: 'The 1986 Congestion Collapse',
+		date: '1986-10',
+		duration: 'Recurrent through October 1986; root cause fixed in 4.3BSD-Tahoe (1988)',
+		scale:
+			'NSFNET — three-IMP-hop path between Lawrence Berkeley Lab and UC Berkeley dropped from 32 kbps to 40 bps (1000× degradation)',
+		oneLiner:
+			'The first time the internet broke under its own weight — and the six algorithms [[pioneer:van-jacobson|Van Jacobson]] published in 1988 to keep it from happening again.',
+		category: 'protocol-design',
+		affectedProtocols: ['tcp'],
+		cast: [
+			{ name: 'Van Jacobson (LBL)', role: "Co-author of the SIGCOMM '88 fix" },
+			{ name: 'Mike Karels (UC Berkeley CSRG)', role: 'Co-author; shipped the fixes in 4.3BSD-Tahoe' }
+		],
+		setup:
+			'In 1986 the early internet ran [[tcp|TCP]] without any {{congestion-control|congestion-control}} feedback loop. The original BSD [[tcp|TCP]] retransmitted aggressively when {{ack|ACKs}} were late: a missing {{ack|ACK}} at time *t* meant "the packet is probably gone, send again." Across the link from Lawrence Berkeley Lab to UC Berkeley — a path of three IMP hops, less than 400 yards of physical distance — that policy worked fine until traffic levels rose.',
+		mistake:
+			'There was no mistake — the protocol itself was the bug. As load grew, queues at the IMPs filled, {{ack|ACKs}} took longer, senders interpreted the delay as loss and {{retransmission|retransmitted}}, the {{retransmission|retransmissions}} filled queues further, and the network entered a positive-feedback loop where every additional packet made delivery less likely. Throughput on the LBL-to-UCB path collapsed from 32 kbps to 40 bps — a 1000× degradation across a 400-yard path.',
+		cascade: [
+			{
+				title: 'Senders retransmit on timeout',
+				description:
+					"BSD [[tcp|TCP]]'s retransmission timer fires aggressively when {{ack|ACKs}} are late. Each retransmit adds load to an already-saturated path.",
+				protocols: ['tcp']
+			},
+			{
+				title: 'Queues fill; ACKs delay further',
+				description:
+					'Queues at the IMPs grow. Round-trip times increase. Senders\' notion of "late" is now itself late — every packet looks lost.',
+				protocols: ['tcp']
+			},
+			{
+				title: 'Throughput collapse',
+				description:
+					'The network is doing nothing but carrying duplicates. Goodput approaches zero. The LBL-UCB path measures 40 bps where it had measured 32 kbps.'
+			}
+		],
+		consequence:
+			'The first proof that a protocol designed for a small, lightly-loaded research network could fail catastrophically under production load. NSFNET regional links became unusable for hours at a time through October 1986. The internet engineering community accepted that an end-to-end {{congestion-control|congestion-control}} loop was not optional.',
+		resolution:
+			"[[pioneer:van-jacobson|Van Jacobson]] and Mike Karels at Berkeley spent six months instrumenting the wire and reading the BSD source. Their 1988 SIGCOMM paper — *Congestion Avoidance and Control* — introduced six algorithms in one document: **{{slow-start|slow start}}**, **{{aimd|AIMD}} {{congestion-avoidance|congestion avoidance}}**, **fast retransmit**, **fast recovery**, **{{exponential-backoff|exponential RTO backoff}}**, and a refined **{{rtt|RTT}} estimator**. The fixes shipped in 4.3BSD-Tahoe and propagated to every [[tcp|TCP]] stack on earth.",
+		lesson:
+			"Conservation of packets — put one packet into the network only when an {{ack|ACK}} confirms a previous one has left it — is the load-bearing principle that has held for forty years. Every later {{congestion-control|congestion-control}} algorithm (Reno, NewReno, Vegas, [[rfc:9438|CUBIC]], Compound, {{bbr|BBR}} v1/v2/v3, Prague over [[frontier:l4s-comcast-launch|L4S]]) is a refinement of Jacobson's six.",
+		sources: [
+			{
+				url: 'https://ee.lbl.gov/papers/congavoid.pdf',
+				label: "Jacobson — Congestion Avoidance and Control (SIGCOMM '88)"
+			},
+			{
+				url: 'https://en.wikipedia.org/wiki/Network_congestion#Congestive_collapse',
+				label: 'Wikipedia — Congestive collapse'
+			},
+			{ url: 'https://www.rfc-editor.org/rfc/rfc5681', label: 'RFC 5681 — TCP Congestion Control' }
+		]
+	},
+	{
 		id: 'centurylink-flowspec-2020',
 		title: 'CenturyLink / Level 3 — The Flowspec Loop',
 		date: '2020-08-30',
