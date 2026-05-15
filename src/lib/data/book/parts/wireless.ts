@@ -498,15 +498,98 @@ This is why [[nfc|NFC]] survives despite its painful slow data rate. Nobody uses
 			synopsis:
 				'IEEE 802.15.4z, FiRa, CCC Digital Key 3.0, Apple U1 / U2, the 2022 Tesla BLE relay attack that motivated the move to UWB, and the Ghost Peak STS residual.',
 			slots: [
+				{
+					kind: 'pull-quote',
+					text: 'UWB is not a data radio — it is a clock. Modern UWB transmits sub-nanosecond impulses across ≥500 MHz of spectrum so two devices can measure the time-of-flight of a radio pulse with 10–30 cm accuracy. The point in 2026 is the *security* of the measurement, not just the precision.',
+					attribution: 'Author'
+				},
+				{
+					kind: 'prose',
+					sections: [
+						{
+							type: 'narrative',
+							title: 'A radio that is really a stopwatch',
+							text: `Every other wireless protocol in this Part is fundamentally a *data radio* — it modulates a carrier to carry bytes. **[[uwb|UWB]] is fundamentally a *stopwatch*.** It transmits sub-nanosecond Gaussian-monocycle impulses across ≥500 MHz of bandwidth, and the two endpoints measure **{{tof-ranging|the round-trip time}}** of those impulses with picosecond precision. Multiplied by *c* ≈ 0.299 m/ns, that converts to **10–30 cm of distance accuracy** under normal conditions. The data it carries is almost incidental — a few kilobits per second is plenty when the *measurement* is the product.
+
+The bandwidth is the whole game. **A 1 ns timing error is 30 cm of range error.** UWB chips routinely timestamp pulse arrival to 15–60 picoseconds, which the rest of the radio bandwidth turns into single-digit centimetre accuracy. [[bluetooth|Bluetooth]] RSSI cannot do this; [[wifi|Wi-Fi]] FTM ([[wifi|802.11mc / az]]) gets to ~1–2 m. UWB's 499.2 MHz channel width is the physics that makes single-digit centimetres possible.
+
+The spectrum legacy: **the FCC's First Report and Order on Valentine's Day 2002** authorised UWB under Part 15.519 at **−41.3 dBm/MHz** across **3.1–10.6 GHz** — an *unlicensed underlay* on top of every other service in those bands. The trick is the noise floor. UWB transmits at such a low average power that no incumbent licensee notices, but it spreads its energy across so much bandwidth that the cumulative pulse energy is detectable at the receiver. The two channels everyone actually uses are **Channel 5** (6489.6 MHz) and **Channel 9** (7987.2 MHz), each 499.2 MHz wide.`
+						},
+						{
+							type: 'narrative',
+							title: 'From DARPA radar to AirTag — the 70-year lineage',
+							text: `Impulse radio is older than most wireless engineers realise. Henry Hertz's original 1887 experiments produced impulses, not modulated carriers. The 1950s–60s saw spread-spectrum impulse work for ground-penetrating radar; **[[pioneer:robert-scholtz|Robert Scholtz]]** at USC wrote the foundational academic papers in the 1990s; **Larry Fullerton** at Time Domain Corporation built the first commercial UWB radios in the late 1990s.
+
+The consumer story begins on **10 September 2019**, when Apple shipped the **U1 chip** in the iPhone 11. It went mass-market on **30 April 2021** with the $29 **AirTag**, whose Precision Finding feature swept the world's awareness of UWB into one product. Samsung followed with the **Galaxy SmartTag+** in April 2021. **{{ccc-digital-key|CCC Digital Key 3.0}}** (July 2021) made UWB the fine-ranging leg of phone-as-a-key for vehicles — BMW iX shipped first; Mercedes EQS, Hyundai/Kia, and VW ID.7 followed.
+
+UWB silicon has consolidated to five suppliers: **Apple captive** (U1 16 nm, **U2** 7 nm from iPhone 15), **Qorvo** (acquired Decawave's DW1000/DW3000 line), **NXP** (Trimension SR040/SR150/SR250), **Samsung captive** (Exynos Connect U100), and a long tail (STMicroelectronics, Microchip, Spark Microsystems, Infineon's 2024-acquired 3db Access). ABI projects UWB phone penetration rising from **27% in 2025 to 52% by 2030** — UWB is on the same adoption curve [[nfc|NFC]] followed a decade earlier.`
+						},
+						{
+							type: 'callout',
+							title: 'Why time-of-flight cannot be cheated',
+							text: 'The speed of light is the upper bound on radio propagation. **Nothing can shorten the apparent distance between two devices** — a relay attack with a satellite uplink can amplify the signal but cannot reduce the time of flight. {{rssi|RSSI}}-based proximity (which {{ble|BLE}}, [[wifi|Wi-Fi]], and {{rfid|RFID}} all use as a proxy) *can* be cheated — a relay with enough TX power makes a distant device look near. Time-of-flight is the only physical primitive that gives you a real, cryptographically-defendable distance bound. This is the entire reason UWB exists in consumer products in 2026.'
+						},
+						{
+							type: 'narrative',
+							title: 'TWR, DS-TWR, TDoA, AoA — four ways to measure distance',
+							text: `The simplest ranging method is **{{twr|SS-TWR}}** (Single-Sided Two-Way Ranging): the initiator sends a Poll, the responder sends a Response after a known reply delay, the initiator subtracts the reply delay from the round-trip and divides by 2. The trouble is *clock drift* — a 20 ppm crystal mismatch over a 200 µs reply window adds ~4 ns of timing error, which is ~1.2 m of distance error. Unacceptable.
+
+The production method is **{{twr|DS-TWR}}** (Double-Sided Two-Way Ranging) — three messages: Poll → Response → Final. The cross-product \`(T_round1 × T_round2 − T_reply1 × T_reply2) / (T_round1 + T_round2 + T_reply1 + T_reply2)\` cancels clock drift to first order. This is the method [[uwb|802.15.4z]] standardised and that every consumer product (AirTag, BMW Digital Key, Apple Vision Pro) uses today. Centimetre-accurate without per-device clock calibration.
+
+**TDoA** (Time Difference of Arrival) is the alternative for indoor positioning: a tag chirps once, ≥3 time-synchronised anchors receive the chirp at slightly different moments, and a server computes the difference of arrival to triangulate. Used in warehouse and hospital RTLS where anchors are wired and clock-synchronised. **AoA / PDoA** (Angle of Arrival / Phase Difference of Arrival) uses two antennas spaced ~λ/2 (≈1.9 cm at 8 GHz) on the receiver — the phase difference between the two antennas reveals the direction the pulse came from. AirTag Precision Finding combines DS-TWR distance with PDoA direction to display "1.8 m to your left."
+
+Four primitives, one chip, every ranging product on Earth.`
+						},
+						{
+							type: 'narrative',
+							title: 'STS — the cryptographic distance commitment',
+							text: `**{{sts|STS}}** (Scrambled Timestamp Sequence) is the cryptographic primitive that makes [[uwb|UWB]] ranging *secure*, not just precise. The reason it had to be invented is sobering.
+
+[[uwb|802.15.4a]] (2007), the original UWB standard, used a *public* preamble and SFD pattern for ranging. An attacker watching the radio could predict the next pulse and inject a small early copy that the receiver's correlator would lock onto — shortening the apparent distance by tens of metres. The family of attacks (Cicada, Early-Detect/Late-Commit) made pre-STS UWB unsuitable for any security-critical application. This is the reason the early-2010s "UWB for digital keys" pitches went nowhere — the protocol was not secure enough.
+
+**[[uwb|IEEE 802.15.4z]]** (ratified 31 August 2020) fixed it. The {{sts|STS}} block injects a **32–2048-chip pulse sequence whose positions are generated by AES-128 in Counter mode**, keyed by a per-session **STS_KEY** and a per-frame {{nonce|nonce}}. The receiver, holding the same key, generates the *expected* sequence locally and cross-correlates with a sharp autocorrelation peak. An attacker without the key sees noise. They cannot predict the next chip, cannot reliably early-replay, and cannot shorten the apparent distance.
+
+The STS block is the **distance commitment** that defeats the entire {{ble|BLE}}-RSSI {{replay-attack|relay}} class of attack. {{ccc-digital-key|CCC Digital Key 3.0}}, {{aliro|Aliro 1.0}}, AirTag Precision Finding, and every modern UWB product depend on it.`
+						},
+						{
+							type: 'callout',
+							title: 'Ghost Peak — even STS is not perfect',
+							text: 'At **USENIX Security 2022**, Patrick Leu, Giovanni Camurati, and colleagues at ETH Zürich published **Ghost Peak** — an attack that biased an STS correlator\'s peak earlier with ~4% success using a $65 device. The trick was injecting STS-like-but-random noise that happened to correlate enough to skew the receiver\'s timestamp by a few nanoseconds — enough to falsely shorten the measured distance into the "unlock allowed" zone. **The fix is IEEE 802.15.4ab** (Draft D03 September 2025, ratification expected early 2026), which adds **NBA-MMS** (narrowband-assisted multi-millisecond) ranging and a redesigned STS receiver. The arc is the same one we have seen everywhere in this Part — the cryptography is sound, the negotiation/correlation logic gets patched generation after generation.'
+						},
+						{
+							type: 'narrative',
+							title: 'BLE bootstraps every UWB session — the indispensable on-ramp',
+							text: `Almost no consumer [[uwb|UWB]] session ever opens *without* {{ble|BLE}} first. The reason is power and discovery: BLE has ubiquitous always-on advertising and standardised pairing; UWB has neither. A UWB radio is power-hungry to keep listening, has no advertising channel, and its receiver needs to know exactly when to wake up to catch a sub-nanosecond pulse. The canonical bootstrap pattern in **{{ccc-digital-key|CCC Digital Key 3.0}}** and **{{aliro|Aliro 1.0}}** has five steps:
+
+**(1)** BLE GAP advertising with the application's service UUID (the lock advertises; the phone scans). **(2)** {{gatt|GATT}} service discovery + authentication — SPAKE2+/PAKE for Digital Key, OOB pairing for AirTag. **(3)** Session-key transport over the BLE encrypted channel — phone and reader exchange the **STS_KEY** and ranging parameters via {{apdu|APDU-over-GATT}}. **(4)** BLE-signalled UWB ranging start at a scheduled time slot — both radios power on their UWB stacks. **(5)** Ranging happens (Poll/Response/Final); results returned over BLE for application-layer policy enforcement.
+
+The Schlage FCC waiver (ET Docket 22-248, granted 2023) describes this exact sequence in regulator-vetted form. It is also why BLE Channel Sounding — Bluetooth 6.0's cm-class ranging built into the BLE link itself — is interesting: it might collapse the five-step dance into one radio.`
+						},
+						{
+							type: 'narrative',
+							title: 'CCC Digital Key — the canonical unlock flow',
+							text: `BMW iX shipped the first {{ccc-digital-key|CCC Digital Key 3.0}} vehicle in early 2022. The vehicle has multiple **UWB anchors** (typically one in each B-pillar and one per door handle) plus a BLE radio. The phone has Apple U1/U2 or NXP/Qorvo UWB silicon plus its own BLE.
+
+The unlock dance: BLE advertising from the car → BLE pairing + {{gatt|GATT}} authentication → APDU exchange where the car authenticates the Digital Key applet in the phone's {{ese|Secure Element}} and derives session keys → BLE transfers the **STS_KEY** and ranging schedule → UWB DS-TWR ranging fires across multiple anchors simultaneously → the car computes time-of-flight on each anchor, checks the distance is below threshold *and* the credential is valid → BLE returns Unlock granted/denied. The whole exchange takes well under a second. NFC remains the fallback when the phone's battery is dead.
+
+**{{ccc-digital-key|CCC Digital Key 4.0}}** (announced July 2025, tested at the 13th Plugfest hosted by Apple) adds cross-platform key sharing — you can send an Android friend a Digital Key to your BMW from an iPhone, and the friend's phone can unlock the car. **115 vehicle / module products were CCC-certified in 2025**: BMW (first, late 2024 4.0), Mercedes, Hyundai/Kia, Audi (2025), Volvo, Porsche, GM, Ford, plus Chinese OEMs (NIO, XPENG, Geely group).`
+						},
+						{
+							type: 'narrative',
+							title: "Regional masks, Japan, and the global-product problem",
+							text: `FCC Part 15.519 caps average power-spectral-density at **−41.3 dBm/MHz** across 3.1–10.6 GHz. ETSI EN 302 065 in Europe is similar but with stricter Detect-and-Avoid requirements in some sub-bands. **Japan** applies a different mask with restrictions in 7.25–7.75 GHz that overlap Channel 9 — Apple's iPhone reduces or disables UWB features (Precision Finding, Find People) in Japan and a handful of other countries.
+
+The practical effect for a global consumer product: **(a)** geo-fence UWB features based on locale, **(b)** default to **Channel 5** in Japan and a handful of other restricted jurisdictions, **(c)** support a *no-UWB* mode entirely for countries where UWB is not permitted (a few small markets). This is one of the underappreciated reasons UWB consumer adoption is slower than {{ble|BLE}} or [[wifi|Wi-Fi]] — *the regulatory map is fragmented*, and every iPhone software release ships a different list of countries where Precision Finding works.
+
+The contrast with [[nfc|NFC]] is instructive: NFC operates in the globally-harmonised 13.56 MHz {{ism-band|ISM}} band, and you can ship one product globally. UWB ships into a patchwork of regional masks, regulator opinions, and government-licensing oddities (Russia, China, several Middle Eastern countries) that engineers spend real effort working around. The radio is the easy part; the spectrum policy is the hard part.`
+						}
+					]
+				},
 				{ kind: 'protocol', id: 'uwb', facets: ['overview', 'header'] },
 				{ kind: 'pioneer', id: 'robert-scholtz' },
 				{ kind: 'pioneer', id: 'moe-win' },
+				{ kind: 'pioneer', id: 'larry-fullerton' },
 				{ kind: 'pioneer', id: 'srdjan-capkun' },
-				{
-					kind: 'pull-quote',
-					text: 'UWB is not a data radio — it is a clock. Modern UWB transmits sub-nanosecond impulses across ≥500 MHz of spectrum so two devices can measure the time-of-flight of a radio pulse with 10–30 cm accuracy. The point in 2026 is the security of the measurement, not just the precision.',
-					attribution: 'UWB protocol page'
-				},
 				{ kind: 'simulation', protocolId: 'uwb' }
 			]
 		},

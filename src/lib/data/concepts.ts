@@ -2798,6 +2798,21 @@ export const concepts: Concept[] = [
 		definition:
 			"Using the Channel State Information (CSI) that {{wifi|Wi-Fi}} radios already compute for {{multipath|multipath}} equalisation to *detect* people, motion, and breathing — radio waves as occupancy sensors. Standardised in **IEEE 802.11bf-2025** (published 26 September 2025), covering 1–7.125 GHz and >45 GHz bands. Lets a home Wi-Fi mesh do presence detection without a camera or PIR sensor.",
 		category: 'protocol-mechanics'
+	},
+	{
+		id: 'rssi',
+		term: 'RSSI (Received Signal Strength Indicator)',
+		definition:
+			"A receiver's estimate of the power level of a received radio signal, in dBm. The cheap default for proximity heuristics — a higher RSSI is *correlated* with closer distance — but is **fundamentally untrustworthy** as a security primitive because a relay attacker can re-transmit at higher power and make a distant device look near. The 2022 Tesla Model 3 BLE relay attack made this textbook. Modern secure-proximity protocols ({{ccc-digital-key|CCC Digital Key 3.0+}}, {{channel-sounding|Bluetooth Channel Sounding}}, [[uwb|UWB]] {{sts|STS}}) replaced RSSI heuristics with {{tof-ranging|time-of-flight}} measurements because *the speed of light is the hard upper bound that no relay can shorten*.",
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'rfid',
+		term: 'RFID (Radio Frequency Identification)',
+		definition:
+			"The umbrella term for passive transponder systems that respond to a reader's RF field — the parent technology of [[nfc|NFC]]. The 1973 Charles Walton US Patent 3,752,960 is the foundational reference. Modern variants span LF (125 kHz, old proximity cards), HF (13.56 MHz — the same {{ism-band|ISM band}} NFC uses, ISO 14443 + 15693), and UHF (860–960 MHz, EPC Gen2 — the labels on retail clothing and warehouse pallets). NFC is *one specific HF variant* of RFID with bidirectional data flow and an application-layer stack on top.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Radio-frequency_identification',
+		category: 'networking-basics'
 	}
 ];
 
