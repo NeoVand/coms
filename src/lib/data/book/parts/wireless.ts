@@ -188,10 +188,98 @@ The single thing the upper layers do notice is **{{tail-latency|tail latency}}**
 			id: 'bluetooth',
 			title: 'Bluetooth — Classic, LE, and the 6.0 ranging future',
 			synopsis:
-				'BR/EDR, BLE, GATT, LE Audio + Auracast, and Channel Sounding. Plus the KNOB / BIAS / BLUFFS lineage that broke session security three times in five years.',
+				'A 1994 cable-replacement project that became GATT, AirTags, Auracast, and Channel Sounding — plus the KNOB / BIAS / BLUFFS lineage that broke session security three times in five years.',
 			slots: [
+				{
+					kind: 'pull-quote',
+					text: 'Bluetooth was supposed to be the wire that replaced the RS-232 cable to a mobile-phone headset. Thirty-two years later it bootstraps Matter, unlocks BMWs, and broadcasts public hearing-loops across Frankfurt Airport. The most over-achieving cable replacement in computing.',
+					attribution: 'Author'
+				},
+				{
+					kind: 'prose',
+					sections: [
+						{
+							type: 'narrative',
+							title: 'A wireless headset cable, 1994',
+							text: `In 1989, Nils Rydbeck, the CTO of Ericsson Mobile in Lund, Sweden, asked Tord Wingren to spec a short-range radio that could replace the RS-232 cable between a mobile phone and a headset. Wingren brought in two engineers: a Dutch electrical engineer named [[pioneer:jaap-haartsen|Jaap Haartsen]] (Delft PhD 1990, Ericsson from 1991) and a Swedish RF specialist named [[pioneer:sven-mattisson|Sven Mattisson]]. Haartsen later said it was *"not a eureka moment"* but a methodical search for a radio that would survive in the noisy 2.4 GHz {{ism-band|ISM}} band. He landed on **GFSK modulation** at a fast 1,600 hops per second across 79 narrow channels — designed to ride straight through Wi-Fi spillover and microwave-oven leakage by spending so little time on any one frequency that interference statistically averaged out. Ericsson filed the foundational patent in 1997.
+
+The cross-industry alliance came next. IBM (Adalio Sanchez) and Ericsson (Rydbeck) agreed the radio should be an open standard so neither company could be locked out. Sanchez recruited Stephen Nachtsheim at Intel; Intel pulled in Toshiba and Nokia. On a windy Toronto pub crawl, [[pioneer:jim-kardach|Jim Kardach]] of Intel and Mattisson talked Viking history — Mattisson had been reading *The Longships*, Kardach had brought *The Vikings*. Kardach pitched the name **"Bluetooth"** as a code name after Harald "Blåtand" Gormsson, the 10th-century Danish king who united Denmark and Norway. It was supposed to be a placeholder. It stuck. The **Bluetooth Special Interest Group** launched on 20 May 1998 with five Promoter members: Ericsson, IBM, Intel, Nokia, Toshiba. The logo is a bind-rune combining Hagall (ᚼ = H) and Bjarkan (ᛒ = B) — Harald's initials in Younger Futhark.
+
+The first commercial product — a hands-free headset — shipped in 1999. The first phone was the Ericsson T39 in June 2001.`
+						},
+						{
+							type: 'narrative',
+							title: 'Two protocols braided into one brand',
+							text: `[[bluetooth|Bluetooth]] in 2026 is **two protocols sharing a logo**. **BR/EDR** ("Classic") is the original 1999 master/{{piconet|peripheral}} wire-replacement system — 79 × 1 MHz channels, 1,600 hops per second, GFSK + DPSK modulation. It still carries A2DP audio, HFP voice, HID (every wireless keyboard and mouse), and RFCOMM serial emulation. {{ble|**BLE (Bluetooth Low Energy)**}} was added in Core 4.0 (December 2009), derived from Nokia Research's *Wibree* project. **Different radio** (40 × 2 MHz channels), **different link layer**, **different framing** ({{l2cap|L2CAP}}), **different security** (SMP), **different application protocol** ({{gatt|GATT}}). Both share the 2.4 GHz {{ism-band|ISM}} band and a SIG, but they share **no bits over the air** — a dual-mode chip runs both stacks side by side.
+
+The split is why every BLE primer warns readers not to read 2000s-era Bluetooth tutorials: master/slave became Central/Peripheral, A2DP became LE Audio, GATT replaced SDP, and connection setup got an order of magnitude faster. The two protocols are at the *brand-level* one thing and at the *implementation-level* two completely different stacks.
+
+Production silicon hides the seam. Apple's H1/H2 chips, Broadcom's combo dies, Qualcomm's QCAxxxx — all run BR/EDR + BLE + Wi-Fi on the same package and time-slice between them in firmware. Your AirPods Pro charging case implements BR/EDR for the audio (A2DP) and BLE for the *find-my* network, both from the same antenna. You do not notice because you are not supposed to.`
+						},
+						{
+							type: 'callout',
+							title: 'GATT is a tiny REST API embedded in every BLE peripheral',
+							text: 'A {{gatt|GATT}} server (the Peripheral) exposes a tree of **services → characteristics → descriptors**, each with a 16- or 128-bit UUID and a numeric handle. A {{gatt|GATT}} client (the Central) discovers them, reads/writes/subscribes-to-notifications. It is, structurally, a tiny REST API embedded in every BLE device — services are endpoints, characteristics are the actual values. Every fitness sensor, smart lock, hearing aid, AirTag, electric toothbrush, and smart light bulb speaks this same shape. The 2010 design that makes a wearable battery last a week.'
+						},
+						{
+							type: 'narrative',
+							title: 'Why frequency hopping was the right answer',
+							text: `[[bluetooth|Bluetooth]]'s **{{frequency-hopping|frequency-hopping spread spectrum}}** is one of those design choices that aged spectacularly well. BR/EDR hops 1,600 times per second across 79 × 1 MHz channels under a pseudo-random sequence keyed to the {{piconet|piconet}} master's clock and BD_ADDR. **AFH** (Adaptive Frequency Hopping, introduced in Core 1.2 in 2003) extends the trick: noisy channels get blacklisted from the hop set, so a microwave oven on its own narrow leakage frequency only knocks out a handful of hops instead of the whole link.
+
+The architectural consequences run deep. **Collision avoidance is statistical** — two piconets in the same room would have to land on the same channel at the same hop instant to collide, and they almost never do. **Sniffing is hard** — to capture a Bluetooth conversation, an attacker must follow the hop pattern, which is keyed to the master's clock and address; off-the-shelf SDRs can do it, but it is much harder than capturing Wi-Fi where everyone sits on a single channel. **Interference resistance is automatic** — even before AFH, a 5% busy channel only drops 5% of hops; FEC handles the rest.
+
+{{ble|BLE}} kept the hopping idea but simplified the channel plan. **40 × 2 MHz channels**. Three of them — 37, 38, 39 — sit at 2402, 2426, and 2480 MHz, deliberately placed between [[wifi|Wi-Fi]] channels 1/6/11, and serve as the **primary advertising channels**. The remaining 37 (numbered 0–36) carry data inside an established connection, hopping once per connection event.`
+						},
+						{
+							type: 'narrative',
+							title: 'BLE became the universal IoT bootstrap',
+							text: `If [[wifi|Wi-Fi]] is the radio that does not know what it is for, **{{ble|BLE}} is the radio that knows it is a bootstrap**. Almost every consumer wireless interaction in 2026 chains *multiple* radios, and BLE is the one that does the discovery.
+
+**{{matter|Matter}} commissioning** uses BLE to hand Wi-Fi or [[zigbee|Thread]] credentials to a new device — the QR code on the side of a smart bulb encodes a BLE pairing payload, the phone runs the SPAKE2+ pairing dance over BLE, and only then does the device join the Wi-Fi or Thread network it will actually operate on.
+
+**{{ccc-digital-key|CCC Digital Key 3.0}}** uses BLE for proximity and then bootstraps a {{uwb|UWB}} session — the phone advertises a service UUID over BLE, the car authenticates, the encrypted GATT channel transfers the STS_KEY for the UWB ranging round, and only then does the UWB radio power on for the three-message DS-TWR exchange. **Aliro 1.0**, the access-control credential standard the CSA finalised on 26 February 2026, follows the same pattern for doors.
+
+**Apple AirTags** advertise BLE packets every couple of seconds; nearby iPhones report them through the *Find My* network so the AirTag's owner can locate it without any cellular hardware. **Hue bulbs** (and almost every smart light shipped after 2020) accept Wi-Fi/Thread credentials over BLE during commissioning. **Hearing aids** use BLE for the control plane and {{le-audio|LE Audio}} for the stream.
+
+The pattern is simple: BLE has the **right discovery + power profile** to be the always-on radio. The actual session moves to whichever radio has the right property for the workload — Wi-Fi for throughput, UWB for ranging, Thread for mesh.`
+						},
+						{
+							type: 'narrative',
+							title: "LE Audio, Auracast, and the hearing-loop replacement story",
+							text: `**{{le-audio|LE Audio}}** is the 2020+ rebuild of Bluetooth audio, defined across Core 5.2+ and a stack of profiles (BAP, PBP, TMAP, HAP). It runs over **Isochronous Channels** — Connected Isochronous Streams (CIS) for {{unicast|unicast}} earbuds and hearing aids, Broadcast Isochronous Streams (BIS) for one-to-many. The mandatory {{codec|codec}} is **{{lc3|LC3}}** (SIG + Fraunhofer IIS + Ericsson, January 2020), roughly 2× more battery-efficient than the 1990s SBC codec at equivalent quality.
+
+The cultural moment is **{{auracast|Auracast}}** — the SIG's brand for **Broadcast Isochronous Streams** (BIS) over LE Audio + LC3, one transmitter to unlimited listeners. Public venues replace analog hearing-loops with an Auracast broadcast; nearby listeners scan, pick a stream, and tune in. **Frankfurt Airport became the first airport in the world to broadcast all gate announcements over Auracast on 28 January 2026**. Cinemas, theatres, gyms, lecture halls, and houses of worship are deploying similar setups through 2026 and 2027.
+
+The Auracast accessibility story is the killer app, not "free wireless audio in the airport." For hard-of-hearing listeners, Auracast turns every public-address system into something their hearing aids can listen to directly — no analog loop, no battery-eating Bluetooth pair with a wall-mounted transmitter, just a scan-and-select. The SIG positions it as the *largest accessibility upgrade in consumer audio history*, and the deployment math (every hearing-aid manufacturer ships LE Audio in 2026 hardware) backs that up.`
+						},
+						{
+							type: 'narrative',
+							title: 'Channel Sounding — taking the fight to UWB',
+							text: `For the last five years the secure-distance-measurement niche has belonged to [[uwb|UWB]]: BMW, Mercedes, and Apple use UWB for cm-class digital car keys precisely *because* {{ble|BLE}}'s RSSI-based proximity is broken under relay attacks. **{{channel-sounding|Channel Sounding}}**, added in **Bluetooth 6.0** (adopted 3 September 2024), is the SIG's reply.
+
+Two devices in a normal LL connection schedule Channel Sounding events on a new **LE 2M 2BT PHY** specifically designed for ranging. They measure both signal **phase** across many frequencies (Phase-Based Ranging) and **round-trip time** of timestamped packets; the combination yields **centimetre-class distance accuracy up to ~150 m**. The intended use: digital car keys, smart locks, anti-stalking tags, and proximity-aware payment terminals — all of which need to know if the peer is actually *here* and not relayed through a radio.
+
+Whether Channel Sounding actually displaces UWB for digital-key applications is still an open question in 2026. UWB has a five-year head start in CCC Digital Key, a tighter timing precision (~30 cm at the silicon level versus ~5–10 cm cm-claimed for Channel Sounding under good conditions), and dedicated cryptography ({{sts|STS}}) that was designed for adversarial environments from day one. Channel Sounding has the deployment advantage: it ships on every new Bluetooth 6.0 chip, which means every new smartphone. The next two years of car-key product announcements will tell.`
+						},
+						{
+							type: 'callout',
+							title: 'The KNOB / BIAS / BLUFFS lineage',
+							text: 'Three BR/EDR session-security breaks by the same author (Daniele Antonioli) in five years: **KNOB** (CVE-2019-9506) downgraded the entropy of the negotiated session key to 1 byte. **BIAS** (CVE-2020-10135) impersonated a previously-bonded peer by abusing role-switch in Legacy Secure Connections. **BLUFFS** (CVE-2023-24023) broke forward secrecy by forcing reuse of a session-key derivation across reconnections. Every BR/EDR device shipped before mid-2024 is affected; the Core 5.4 / 6.0 patches add explicit minimum-entropy and key-diversification checks. Each attack hit a different part of the *state machine* around the cryptography — the AES core was fine; the negotiation logic around it was the bug. **The same pattern as {{krack|KRACK}} in Wi-Fi and SS7/Diameter abuse in cellular.** Every wireless protocol in this Part has now had its negotiation logic publicly broken at least once.'
+						},
+						{
+							type: 'narrative',
+							title: 'The 2022 Tesla relay attack — and why physics is the only fix',
+							text: `On 15 May 2022, Sultan Qasim Khan at NCC Group disclosed a **link-layer relay attack** against Tesla Model 3 phone-as-a-key. Two ~$25 dev boards (one near the phone, one near the car), a few hundred metres of cellular link between them, and ~8 ms of added latency was enough to make the Tesla believe the phone was in proximity when it was actually at the supermarket. The attack worked because **{{ble|BLE}} RSSI is fundamentally untrustworthy** — signal strength can be amplified arbitrarily by a relay, and the link-layer round-trip-time check in classic BLE was too coarse (~30 ms) to catch an 8 ms relay.
+
+The industry conclusion: **proximity-by-radio-signal-strength is unfixable.** A relay with enough TX power and enough patience defeats any RSSI threshold. The only way to verify physical proximity is to measure **time-of-flight**, because *the speed of light is the hard upper bound that no relay can shorten*. That insight pushed the secure-access industry toward UWB (where {{tof-ranging|ToF}} is the entire point) and motivated Bluetooth Channel Sounding's RTT mode to use much tighter timing than legacy BLE.
+
+The 2022 attack is the canonical case study for why every credential standard since — {{ccc-digital-key|CCC Digital Key 3.0}}, {{aliro|Aliro}}, Bluetooth 6.0 ranging — explicitly mandates physics-based proximity, not radio-strength heuristics. RSSI was a workable shortcut for a decade. Then it stopped being one.`
+						}
+					]
+				},
 				{ kind: 'protocol', id: 'bluetooth', facets: ['overview', 'header', 'incidents'] },
 				{ kind: 'pioneer', id: 'jaap-haartsen' },
+				{ kind: 'pioneer', id: 'sven-mattisson' },
 				{ kind: 'pioneer', id: 'jim-kardach' },
 				{ kind: 'simulation', protocolId: 'bluetooth' }
 			]
