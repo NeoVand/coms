@@ -290,16 +290,104 @@ The 2022 attack is the canonical case study for why every credential standard si
 			id: 'cellular',
 			title: 'Cellular — 4G LTE + 5G NR + the 3GPP machine',
 			synopsis:
-				'One node for the radio (LTE-Uu, NR-Uu) and the core (EPC → 5GC SBA) because the release calendar is the same. VoLTE/Wi-Fi calling, NB-IoT/LTE-M, and the SS7/Diameter failure case.',
+				'One chapter for the radio (LTE-Uu, NR-Uu) and the core (EPC → 5GC SBA) because the 3GPP release calendar is one calendar. VoLTE / Wi-Fi calling, NB-IoT / LTE-M, satellite direct-to-cell, and the SS7 / Diameter trust holdover.',
 			slots: [
-				{ kind: 'protocol', id: 'cellular', facets: ['overview', 'header'] },
-				{ kind: 'pioneer', id: 'marty-cooper' },
-				{ kind: 'pioneer', id: 'andrew-viterbi' },
 				{
 					kind: 'pull-quote',
 					text: 'The control plane of every modern carrier on Earth is now an HTTP/2 microservice fabric — and every backhaul hop is wrapped in IPsec ESP per 3GPP TS 33.501. The single largest enterprise IPsec deployment on Earth runs inside this layer.',
-					attribution: 'Cellular protocol page'
+					attribution: 'Author'
 				},
+				{
+					kind: 'prose',
+					sections: [
+						{
+							type: 'narrative',
+							title: 'Cooper, Bell Labs, and a phone call from Sixth Avenue',
+							text: `On 3 April 1973, **Marty Cooper** of Motorola stood on Sixth Avenue in Manhattan with a 2.5-pound prototype handset called the DynaTAC, and dialled **Joel Engel** at AT&T Bell Labs — his direct competitor in the cellular race. *"Joel, this is Marty. I'm calling you from a cell phone, a real handheld portable cell phone."* The DynaTAC gave 35 minutes of talk after 10 hours of charging. The base station was in midtown. The infrastructure to support it commercially did not exist yet.
+
+That call started the **53-year arc** from Cooper's prototype to the ~9 billion {{cellular|cellular}} subscriptions running 4G LTE and 5G NR in 2026. Three generations of analog (1G AMPS / TACS / NMT, ~1983–2000), three generations of digital (2G GSM / IS-95, ~1991; 3G WCDMA / CDMA2000, ~2001; 4G LTE, ~2010), and now 5G NR (~2018) — each one redrawing both the air interface and the core network on roughly a decade's cadence.
+
+The transition that defined the modern era was 2G to 3G. **GSM**, launched commercially in Finland by Radiolinja in 1991, was the European digital standard that became the global one through sheer deployment momentum. **CDMA** (Andrew Viterbi at Qualcomm) was the technically-superior US challenger that won the underlying maths and lost the deployment war: when 3G ratified WCDMA inside UMTS, Viterbi's CDMA principles were what made the *radio* work, but the *system* was built on the GSM operator ecosystem. The pattern is one we have seen elsewhere — SCTP being technically superior to TCP, OSI to TCP/IP — the better protocol that lost on deployment economics.`
+						},
+						{
+							type: 'narrative',
+							title: 'Why one chapter for "4G + 5G"',
+							text: `Cellular is the only protocol in this book that gets a single chapter for what looks like *two* protocols. The reason is that {{3gpp|3GPP}}, the standards body, ships both on a single Release schedule, and a 5G phone in 2026 is also an LTE phone falling back the moment 5G coverage drops. **LTE** is {{lte|3GPP Release 8}}, frozen December 2008. **5G NR** is {{5g-nr|3GPP Release 15}}, frozen June 2018. Both share the same air-interface design philosophy ({{ofdma|OFDMA}} + flexible numerology + {{harq|HARQ}}), the mandatory [[ipsec|IPsec]] envelope on every backhaul link, and an [[ipv6|IPv6]] mandate that has quietly migrated every major carrier's user-plane to IPv6-only since ~2020.
+
+The 5G *air interface* extended LTE's {{ofdma|OFDMA}} with scalable numerology — five subcarrier spacings (15, 30, 60, 120, 240 kHz) that let the same protocol address sub-6 GHz mid-band (FR1) and {{mmwave|mmWave}} 24–52 GHz (FR2). The 5G *core network* threw out 4G's EPC zoo of monolithic boxes (MME, SGW, PGW, HSS, PCRF) glued by GTP and {{diameter|Diameter}}, and replaced it with **{{sba|Service-Based Architecture}}**: dozens of named network functions ({{aaa|AMF}}, SMF, UPF, AUSF, UDM, PCF, NRF, NEF, NSSF, AF) talking to each other over **[[http2|HTTP/2]] with {{json|JSON}} payloads protected by [[tls|TLS]]**.
+
+Read that sentence again. **The control plane of every 5G carrier on Earth is now an [[http2|HTTP/2]] {{service-mesh|microservice fabric}}.** Cloud-native engineers can read the 3GPP TS 23.501 architecture diagrams and recognise their own world — service registry (NRF), API gateway (NEF), policy engine (PCF), token authentication (AUSF). The plumbing under your phone call uses the same patterns as a Kubernetes deployment.`
+						},
+						{
+							type: 'callout',
+							title: 'The largest enterprise IPsec deployment on Earth',
+							text: 'Every interface between the [[cellular|cellular]] {{ran|radio access network}} and the core (N2/N3 in 5G, S1 in LTE) is wrapped in [[ipsec|IPsec ESP]] per 3GPP TS 33.501. With ~9 billion subscribers and tens of millions of base stations worldwide, the {{cellular|cellular}} backhaul is the single largest production [[ipsec|IPsec]] deployment that exists. Andreas Steffen\'s strongSwan, Cisco IOS, and Juniper Junos run more [[ipsec|IPsec]] tunnels inside one [[cellular|cellular]] operator than the entire enterprise VPN market combined.'
+						},
+						{
+							type: 'narrative',
+							title: 'The radio stack, in five layers',
+							text: `Every 5G phone runs a five-layer stack inside the modem chip. **PHY** (3GPP TS 38.211–214) carries {{ofdma|OFDMA}} with five numerologies. **MAC** does **{{harq|hybrid ARQ}}** — combining forward error correction with {{retransmission|retransmission}}, where the receiver stores soft-decoded log-likelihood ratios from failed transmissions and combines them with the retransmitted copy. Eight parallel stop-and-wait HARQ processes per UE keep the pipe full. **RLC** handles {{fragmentation|segmentation and reassembly}} across 10- or 16-bit {{sequence-number|sequence numbers}}. **PDCP** above it does ROHC {{header|header compression}} (squashing the 40-byte IPv6+TCP/UDP header to 1–4 bytes), AES-CTR {{encryption|ciphering}}, and 32-bit {{anti-replay|anti-replay}}. **RRC** drives the connection state machine — \`RRC_IDLE → CONNECTED → INACTIVE\` for 5G — and **NAS** carries mobility, {{handshake|authentication}}, and session management end-to-end between the UE and the core.
+
+Above all that, the user plane is just [[ip|IP]] — almost always [[ipv6|IPv6]] now. Above *that*, the application runs whatever ordinary internet applications run. {{harq|HARQ}} is the reason {{cellular|cellular}} reaches ~99.999% link reliability without [[tcp|TCP]]'s retransmit cost on the air. ROHC is the reason a 56-kbps narrowband IoT bearer can carry an IPv6 + TLS 1.3 connection without spending all its bytes on headers.`
+						},
+						{
+							type: 'narrative',
+							title: 'Voice as packets — VoLTE, VoNR, Wi-Fi Calling',
+							text: `Until the late 2010s, "voice" on a phone meant a circuit-switched call routed through 2G/3G fallback even on an LTE device. **{{volte|VoLTE}}** (Voice over LTE, mass deployments from ~2014) finally packetised carrier voice — every call is a [[sip|SIP]] INVITE inside an {{ims|IMS}} bearer, with audio carried over [[rtp|RTP]] using AMR-WB or EVS {{codec|codecs}}. {{volte|**VoNR**}} (Voice over New Radio, mass deployments from ~2022) does the same over 5G.
+
+GSMA reports **310+ commercial VoLTE operators in 140+ countries** and **45+ commercial VoNR networks** by 2025. Every modern carrier voice call is now a SIP INVITE — the largest [[sip|SIP]] deployment on Earth runs inside the {{cellular|cellular}} {{ims|IMS}} stack.
+
+**Wi-Fi Calling** is the same IMS stack tunnelled to the carrier over [[ipsec|IPsec]] from any IP network. Your phone in the basement, on the hotel Wi-Fi, places calls through the carrier's *ePDG* (Evolved Packet Data Gateway) — an [[ipsec|IPsec]] head-end the size of a small data centre that terminates millions of IKEv2 tunnels and feeds the inner IMS traffic into the EPC. From the network's perspective, your basement phone looks like any other LTE phone; it just happened to attach through Wi-Fi instead of an eNodeB.`
+						},
+						{
+							type: 'narrative',
+							title: 'Tunnels and addresses — how your IP follows you',
+							text: `The architectural trick that makes {{cellular|cellular}} look like a normal IP network from the application's perspective is **{{gtp-u|GTP-U}}** — the GPRS Tunnelling Protocol — User plane. Every PDU session has a 32-bit **Tunnel Endpoint Identifier (TEID)**. User-plane packets travel from the gNB to the User Plane Function over [[udp|UDP]]/2152, wrapped in GTP-U headers that preserve the UE's inner [[ip|IP]] address regardless of which base station the UE is camping on.
+
+This is the mechanism behind one of {{cellular|cellular}}'s most under-appreciated features: **your phone keeps its [[ip|IP]] address across handovers**. As you drive from one cell tower's coverage to the next, the GTP-U tunnel terminates at a different base station, but the same UPF anchors the same IPv6 prefix to your device. Your YouTube stream does not have to renegotiate; your video call does not drop. The reason TCP-on-cellular works at all is that the network hides the radio handover from the IP layer.
+
+**NAS** (Non-Access Stratum) signalling runs end-to-end between the UE and the core through the gNB transparently. **Registration Request** with **SUCI** — the {{public-key|public-key-encrypted}} SUPI ({{sim-usim|Subscription Permanent Identifier}}) — starts the AKA {{handshake|handshake}} after the device powers on. The UDM decrypts to SUPI, generates an authentication vector, and the USIM verifies AUTN and computes RES*. After **Security Mode Command**, all subsequent NAS messages are integrity-protected and ciphered with K_NASint / K_NASenc. The {{sim-usim|SIM}} is the long-term key K; everything else is derived from it for the device's lifetime.`
+						},
+						{
+							type: 'callout',
+							title: 'The 2024 AT&T outage — 125 million devices, 25,000 failed 911 calls',
+							text: 'On **22 February 2024 at 03:30 ET**, AT&T Mobility customers across the United States lost service for up to twelve hours. A routine network upgrade was misconfigured and pushed simultaneously across the production wireless core. **An estimated 25,000 emergency calls were not connected.** AT&T paid affected customers a $5 service credit (about $625 million in aggregate) and reached a $13 million FCC settlement in November 2024 — the largest single-incident penalty for a US wireless outage. The structural lesson — **never push a config change to the entire fleet at once** — is the same one the industry was supposed to have learned from [[outage:rogers-2022|Rogers 2022]]. Canary deployments are now post-incident table stakes in carrier networks.'
+						},
+						{
+							type: 'narrative',
+							title: 'IoT cellular — NB-IoT, LTE-M, RedCap',
+							text: `Most {{cellular|cellular}} subscriptions on Earth are phones. The growing minority is **IoT modules** — asset trackers, fleet telematics, smart meters, agricultural sensors, GPS pet collars. These devices are battery-powered, send a few kilobytes a day, and need years of operation per charge. Standard 5G NR is wildly overkill for them; the 3GPP answer is a family of *cat-down* radio profiles inside LTE/NR spectrum.
+
+**NB-IoT** (Cat-NB1, Release 13, 2016) gives ~250 kbit/s peak in a single 200 kHz channel — narrower than a Wi-Fi block, broader than nothing. **LTE-M / Cat-M1** (Release 13, 2016) gives ~1 Mbit/s in 1.4 MHz, enough for voice over LTE for connected wearables. **RedCap** (Reduced Capability NR, Release 17, 2022) is the 5G equivalent — bandwidth-constrained 5G NR for wearables and industrial sensors. **Ambient IoT** ({{ambient-iot|study items in Release 19/20}}) is the next step: battery-less or near-battery-less cellular devices that harvest RF or motion and transmit tiny payloads.
+
+The {{lpwan|LPWAN}} story is broader than cellular — **LoRaWAN** (sub-GHz unlicensed, 125M+ devices by end-2025) and **Sigfox** (slow-modulation 100 bit/s ultra-narrowband) own much of the metering and agriculture market. But cellular's NB-IoT/LTE-M can run on existing carrier infrastructure, which makes deployment trivial for operators and competitive for everyone else.`
+						},
+						{
+							type: 'narrative',
+							title: 'Direct-to-cell — when the satellite is the tower',
+							text: `In **January 2025**, T-Mobile + SpaceX Starlink launched the first commercial **{{direct-to-cell|Direct-to-Cell}}** service: SMS and emergency messaging from ordinary smartphones, with the satellite acting as a base station in standard {{cellular|cellular}} bands n255/n256. Apple's Globalstar-based Emergency SOS, AT&T's AST SpaceMobile partnership, and Iridium's NTN-ready successors follow similar patterns.
+
+The 3GPP framing is **{{ntn|Non-Terrestrial Networks}}** — added in Release 17 (March 2022) as a first-class radio access type, split into NB-IoT NTN, NR NTN, and the Direct-to-Cell profile. The phone does not need a special radio; it does need to be in line-of-sight of a satellite, which means open sky.
+
+What changes about the {{cellular|cellular}} mental model is the word "coverage." For 50 years, "no signal" meant *no signal*. For most of the next 50, "no signal" will mean *no terrestrial signal — try walking outside*. The implications for emergency services, maritime communications, and the half of the planet that has never had reliable mobile coverage are still being worked out.`
+						},
+						{
+							type: 'narrative',
+							title: 'The SS7 / Diameter trust holdover',
+							text: `Modern {{cellular|cellular}} security inside one carrier's network is strong. The cryptography is sound, the air interface is encrypted, the IMS signalling runs over TLS. But the **interconnect layer between carriers** — how a roaming visitor authenticates, how SMS routes globally, how location is queried for billing — runs on **{{ss7|SS7}}** (designed 1975) and **{{diameter|Diameter}}** (RFC 6733, 2012), both designed in an era of implicit trust between carrier peers.
+
+Modern surveillance actors exploit this trust. **SS7 routing** can silently track mobile users worldwide — Citizen Lab's 2024–25 disclosures and CISA's 2024 testimony to the {{fcc|FCC}} document active commercial-grade surveillance using exactly this vector. Diameter abuse (DoS, location-tracking, SMS interception) by malicious peers remains a real-world problem. The 5G SBI authenticated interconnect (3GPP TS 33.521) is the long-term fix; it is partially deployed and still has decades of SS7-shaped tail to migrate.
+
+The shape rhymes with the rest of this Part. Every wireless protocol's cryptography has held up. Every wireless protocol's *negotiation logic*, *roaming model*, or *trust assumptions between operators* has been broken at the protocol level by now. The 1990s and 2000s patched the cryptography; the 2020s are patching the architecture around it.`
+						}
+					]
+				},
+				{ kind: 'protocol', id: 'cellular', facets: ['overview', 'header'] },
+				{ kind: 'pioneer', id: 'marty-cooper' },
+				{ kind: 'pioneer', id: 'andrew-viterbi' },
+				{ kind: 'pioneer', id: 'irwin-jacobs' },
+				{ kind: 'pioneer', id: 'erik-dahlman' },
+				{ kind: 'outage', id: 'att-mobility-2024' },
 				{ kind: 'simulation', protocolId: 'cellular' }
 			]
 		},
