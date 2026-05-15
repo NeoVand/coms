@@ -14,13 +14,13 @@ export const realtimeAv: BookPart = {
 	title: 'Real-time A/V',
 	label: 'VIII',
 	description:
-		'Protocols that prioritise low {{latency|latency}} over perfect delivery — voice, video, and live media.',
+		'Protocols that prioritise low {{latency|latency}} over perfect delivery — [[sip|voice]], [[webrtc|video]], and [[hls|live media]].',
 	chapters: [
 		// ────────────────────────────────────────────────────────────
 		{
 			id: 'rtp-and-rtcp',
 			title: 'RTP and RTCP',
-			synopsis: 'Carrying media on top of [[udp|UDP]] — the protocol born from MBone in 1992.',
+			synopsis: '[[rtp|Carrying media on top of UDP]] — the protocol born from MBone in 1992.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -68,6 +68,14 @@ Asterisk had its own [[rtp|RTP]] security incident in 2017: **AST-2017-008/-012 
 							text: `**[[rtp|RTP]]-over-[[quic|QUIC]] (RoQ)** — \`draft-ietf-avtcore-rtp-over-quic-14\` — entered Working Group Last Call in **July 2025**. {{alpn|ALPN}} token \`roq\`. Multiplexes [[rtp|RTP]] sessions over one [[quic|QUIC]] connection; preserves the entire [[rtp|RTP]] ecosystem while gaining [[quic|QUIC]]'s {{encryption|encryption}}, {{nat|NAT}}-friendliness, and {{zero-rtt|0-RTT}}.
 
 Active 2025-2026 work in the {{ietf|IETF}} AVTCORE WG: **RFC 9628 (2024)** finally promoted the VP9 [[rtp|RTP]] {{payload|payload}} format to Standards Track. Drafts in flight cover haptics, V3C volumetric video, JPEG XS 3rd edition, APV {{codec|codec}}, and an HEVC/H.265 [[webrtc|WebRTC]] profile (\`draft-ietf-avtcore-hevc-webrtc-08\`, March 2026). [[rtp|RTP]] keeps acquiring new payload formats forty years after Casner first audio-cast {{ietf|IETF}} San Diego.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Polycom_VSX_7000_with_2_video_conferencing_screens.JPG/500px-Polycom_VSX_7000_with_2_video_conferencing_screens.JPG',
+							alt: 'A Polycom VSX 7000 video-conferencing system with two screens.',
+							caption:
+								'A **Polycom VSX 7000** video-conferencing system — the early-2000s enterprise hardware whose audio and video both rode [[rtp|RTP]] under the hood. From the 1992 MBone audio-cast that produced [[rtp|RTP]]\'s wire format to today\'s ~2.5M-concurrent Discord voice fleet, the same Sequence Number + Timestamp + Payload Type fields have carried voice and video across every generation of conferencing hardware.',
+							credit: 'Photo: Wikimedia Commons / CC BY-SA'
 						}
 					]
 				},
@@ -132,6 +140,14 @@ A Kubernetes scale-down of Elixir voice-syncer pods caused massive HTTPS reconne
 The lesson — repeated across the field — is that **the media plane in [[webrtc|WebRTC]] is robust; the {{signaling|signaling}} plane is where outages happen**. [[rtp|RTP]] keeps flowing once a connection is established; getting connections established and re-established is where every production [[webrtc|WebRTC]] deployment burns most of its operational complexity.
 
 Plan B [[sdp|SDP]] is fully gone now: deprecation-warned in Chrome M89 (Feb 2021), removed in M93 (Aug 2021) with a Reverse Origin Trial through M96 (Jan 2022). All \`sdpSemantics\` flag handling was finally removed from Chromium in 2024. Unified Plan is the only remaining [[sdp|SDP]] semantics.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Video_Conference_Using_Laptop.jpg/500px-Video_Conference_Using_Laptop.jpg',
+							alt: 'A laptop with a video conferencing application showing multiple participants.',
+							caption:
+								'A laptop video call — what the [[webrtc|WebRTC]] stack actually produces in the user\'s seat. Underneath: a {{ble|BLE}}-discovered camera, ICE candidate gathering, a {{dtls|DTLS}}-keyed {{srtp|SRTP}} flow over [[udp|UDP]], NetEQ in the audio path, libwebrtc compiled into the browser. **1.21 million lines of code** in libwebrtc — three times the size of the Space Shuttle\'s onboard software, and it boots in under a second.',
+							credit: 'Photo: Wikimedia Commons / CC BY-SA'
 						}
 					]
 				},
@@ -144,7 +160,7 @@ Plan B [[sdp|SDP]] is fully gone now: deprecation-warned in Chrome M89 (Feb 2021
 		{
 			id: 'sip-and-sdp',
 			title: 'SIP and SDP',
-			synopsis: 'Henning Schulzrinne wrote three protocols that carry the world\'s phone calls.',
+			synopsis: 'Henning Schulzrinne wrote three protocols ([[sip|SIP]], [[sdp|SDP]], [[rtp|RTP]]) that carry the world\'s phone calls.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -194,6 +210,14 @@ But the 2026 reality check is mixed: TNS's 2026 report finds **85% of inter-Tier
 **ZRTP (RFC 6189)** is the only protocol named for its inventor — **Phil "Z" Zimmermann** (PGP). Its **Short Authentication Strings** are read aloud between humans to detect MITMs: the two callers speak the same 4-digit hash; if they match, the channel is authenticated. ZRTP remains the standard against which other end-to-end voice security schemes are measured.
 
 The cryptography is slowly tightening: **RFC 8760 (March 2020)** finally deprecated MD5 in [[sip|SIP]] digest auth in favor of SHA-256 / SHA-512-256. But PJSIP/Asterisk only added SHA-256 outbound support in 2023-2024, so most real deployments still negotiate MD5. The protocol is modern; the deployed installed base is two decades behind.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/SIP_session_setup_example.svg/500px-SIP_session_setup_example.svg.png',
+							alt: 'SIP session setup example — INVITE, 100 Trying, 180 Ringing, 200 OK, ACK, media, BYE.',
+							caption:
+								'A canonical **[[sip|SIP]]** session: INVITE → 100 Trying → 180 Ringing → 200 OK → ACK → media flows → BYE. The same shape as an HTTP {{request-response|request/response}}, with a few extra status codes for telephony semantics. By 2025 GSMA reported **310+ commercial VoLTE operators** in 140+ countries — the largest [[sip|SIP]] deployment on Earth runs inside [[cellular|cellular]] {{ims|IMS}} cores.',
+							credit: 'Image: Wikimedia Commons / CC BY-SA 3.0'
 						}
 					]
 				},
@@ -207,7 +231,7 @@ The cryptography is slowly tightening: **RFC 8760 (March 2020)** finally depreca
 		{
 			id: 'hls-and-dash',
 			title: 'HLS and DASH',
-			synopsis: 'Adaptive bitrate over plain HTTP — and the M3U playlist Winamp left behind.',
+			synopsis: '[[hls|HLS]] and [[dash|DASH]] — adaptive bitrate over plain HTTP, and the M3U playlist Winamp left behind.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -261,6 +285,14 @@ The 2026 cryptographic milestone: **\`draft-pantos-hls-rfc8216bis-22\` (May 2026
 **BOLA** (Spiteri/Urgaonkar/Sitaraman) just won the **2026 IEEE INFOCOM Test of Time Award**. The Lyapunov-optimization ABR algorithm has been the dash.js default for years and is "near-optimal" without requiring throughput prediction. **CMCD/CMSD (CTA-5004) became universal** in 2024: native CMCD support shipped in AVPlayer with iOS 18 (WWDC 2024), and **CMCDv2 (CTA-5004-A) was published in February 2026** — letting servers see what their clients are actually doing without the player having to roll a custom telemetry pipeline.
 
 The post-Flash reality: **Adobe Flash Player retired on 31 December 2020**, killing [[rtmp|RTMP]] for delivery. [[rtmp|RTMP]] survives only as the dominant *contribution/ingest* protocol, while Haivision's 2025 broadcast survey found **SRT adoption among professionals reached 77% in 2025** (up from 68% in 2024), surpassing [[rtmp|RTMP]]'s 58%.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Zpracovani_videa_HTTP_Live_Streaming.png/500px-Zpracovani_videa_HTTP_Live_Streaming.png',
+							alt: 'HLS architecture diagram — encoder produces multi-bitrate segments, CDN serves them, player adapts bitrate.',
+							caption:
+								'**[[hls|HLS]]** architecture: an encoder produces parallel multi-bitrate ladders of small .ts (or now .mp4 / CMAF) segments; a CDN serves them over plain HTTP; the client adapts bitrate between segments. Shipped 17 June 2009 with iPhone OS 3.0 / iPhone 3GS — Apple\'s play to dodge Flash and survive the 2008 3G {{firewall|firewall}} reality by reusing HTTP/443.',
+							credit: 'Image: Wikimedia Commons / CC BY-SA'
 						}
 					]
 				},
@@ -325,6 +357,14 @@ The honest 2025 {{latency|latency}} landscape:
 But Phenix's 2025 Super Bowl study shows the *best* OTT stream (Tubi) was 41 s behind play and the worst (Fubo) was 78 s, vs cable's 50 s and over-the-air's 22 s. **MoQ has no consumer-scale deployment as of May 2026**; Cloudflare, Bitmovin, and nanocosmos have shipped early production paths but Apple has notably not endorsed MoQ.
 
 The conservative alternative: **[[rtp|RTP]]-over-[[quic|QUIC]] (RoQ)**. \`draft-ietf-avtcore-rtp-over-quic-14\` entered Working Group Last Call July 2025, keeping the entire [[rtp|RTP]]/{{rtcp|RTCP}} ecosystem intact while swapping [[udp|UDP]] for [[quic|QUIC]]. The fork in the road is real.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/AT%26T_Picturephone_%2812721549765%29.jpg/500px-AT%26T_Picturephone_%2812721549765%29.jpg',
+							alt: 'The 1964 AT&T Picturephone — an early commercial video-call device.',
+							caption:
+								'The **AT&T Picturephone**, demonstrated at the 1964 World\'s Fair — the first commercial live video over a telecommunications network. Sixty years and four wholesale rewrites later (analog → ISDN → [[rtp|RTP]]/H.323 → [[webrtc|WebRTC]]), **MoQ over [[quic|QUIC]]** is the latest answer to the question the Picturephone asked: *how do you carry one-to-many live video at scale, in real time, over a network you do not own?* The current draft is `draft-ietf-moq-transport-17`; Cloudflare deployed MoQ relays across 330+ cities through 2025.',
+							credit: 'Photo: AT&T Archives / Wikimedia Commons, public domain'
 						}
 					]
 				},
