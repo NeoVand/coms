@@ -14,14 +14,14 @@ export const patternsFailures: BookPart = {
 	title: 'How Networks Actually Behave',
 	label: 'X',
 	description:
-		'Recurring patterns and the failure modes they cause — handshakes, sliding windows, ossification, {{mtu|MTU}} black holes.',
+		'Recurring patterns and the failure modes they cause — {{handshake|handshakes}}, {{sliding-window|sliding windows}}, ossification, {{mtu|MTU}} black holes.',
 	chapters: [
 		// ────────────────────────────────────────────────────────────
 		{
 			id: 'patterns',
 			title: 'Recurring Patterns',
 			synopsis:
-				'Handshakes, sliding windows, keepalives, {{ecn|ECN}}, hashing — the Lego pieces every protocol uses.',
+				'{{handshake|Handshakes}}, {{sliding-window|sliding windows}}, {{keep-alive|keepalives}}, {{ecn|ECN}}, hashing — the Lego pieces every protocol uses.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -71,6 +71,14 @@ Modern protocols inherit the same idea. [[quic|QUIC]] has per-stream and per-con
 							type: 'callout',
 							title: 'Patterns are why protocol literacy compounds',
 							text: 'Knowing the {{handshake|handshake}} pattern means you understand 80% of [[tls|TLS]], [[ssh|SSH]], [[mqtt|MQTT]], and [[sctp|SCTP]] setup before reading their specs. The remaining 20% is the part worth investing time in. Read the patterns first; protocol-specific details slot in around them.'
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/TCP_Three-Way_Handshake.svg/500px-TCP_Three-Way_Handshake.svg.png',
+							alt: 'TCP three-way handshake — SYN, SYN-ACK, ACK between client and server.',
+							caption:
+								'The canonical **{{handshake|handshake}}**: [[tcp|TCP]]\'s **SYN → SYN-ACK → ACK** dance from [[rfc:9293|RFC 793]] in 1981. Every other handshake in this book — [[tls|TLS]] ClientHello/ServerHello/Finished, [[ssh|SSH]] KEX, [[mqtt|MQTT]] CONNECT/CONNACK, [[sctp|SCTP]]\'s four-way Cookie exchange — is a variation on this shape. Recognise the pattern once; recognise it in every other protocol you ever read.',
+							credit: 'Image: Wikimedia Commons / public domain'
 						}
 					]
 				},
@@ -85,7 +93,7 @@ Modern protocols inherit the same idea. [[quic|QUIC]] has per-stream and per-con
 			id: 'failure-modes',
 			title: 'Failure Modes',
 			synopsis:
-				'{{bufferbloat|Bufferbloat}}, ossification, head-of-line, microloops, {{mtu|MTU}} black holes — the bestiary every operator learns by being burned.',
+				'{{bufferbloat|Bufferbloat}}, ossification, {{head-of-line-blocking|head-of-line}}, microloops, {{mtu|MTU}} black holes — the bestiary every operator learns by being burned.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -143,6 +151,14 @@ The fix is the only fix — tunnel inside something the middleboxes already acce
 							type: 'callout',
 							title: 'Reading a stack trace vs. reading a network',
 							text: 'When code crashes, the stack trace tells you where. When a network misbehaves, there is no stack trace — just a histogram of {{latency|latencies}}, a packet capture, and the question "which of the patterns in the bestiary is this?" Naming the failure modes is most of the diagnosis. Once you can say "this is {{bufferbloat|bufferbloat}}" or "this is {{mtu-black-hole|MTU black hole}}," the fix is mechanical.'
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/NAT_Concept-en.svg/500px-NAT_Concept-en.svg.png',
+							alt: 'NAT diagram showing private addresses translated to a single public address.',
+							caption:
+								'**{{nat|NAT}}** — Network Address Translation, ([[rfc:1918|RFC 1918]] + RFC 1631) — the middlebox that bought [[ip|IPv4]] a 30-year reprieve and also became the canonical *protocol ossification* device. New transports ([[sctp|SCTP]], [[mptcp|MPTCP]]) cannot traverse NATs that do not understand them; [[quic|QUIC]] tunnels inside [[udp|UDP]] specifically to escape this. Every protocol-failure-mode in this chapter has a NAT-shaped contribution somewhere in its origin story.',
+							credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 						}
 					]
 				},
@@ -206,6 +222,14 @@ The arc: react to loss → react to delay → model the network → use explicit
 							type: 'callout',
 							title: 'The unsolved problem: heterogeneous fairness',
 							text: 'Every congestion-control algorithm is fair to itself. Mix {{bbr|BBR}} with {{cubic|CUBIC}} on a shared bottleneck and {{bbr|BBR}} takes the lion\'s share. Mix {{l4s|L4S}} with classic flows in the wrong queue and {{l4s|L4S}} starves. Each new algorithm has had to fight not just for performance but for **coexistence** with the deployed base — a constraint that consumes most of the engineering effort. BBRv3 spent two years on coexistence work before it was production-ready.'
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/TCP_Slow-Start_and_Congestion_Avoidance.svg/500px-TCP_Slow-Start_and_Congestion_Avoidance.svg.png',
+							alt: 'TCP slow-start and congestion-avoidance graph — cwnd doubling exponentially then linear AIMD.',
+							caption:
+								'**{{slow-start|Slow start}} and {{aimd|congestion avoidance}}** — the {{congestion-window|cwnd}} doubles exponentially until *ssthresh*, then climbs linearly under {{aimd|AIMD}}, and halves on loss. [[pioneer:van-jacobson|Van Jacobson]] and Mike Karels published this in 1988 after the [[outage:as-7007-1997|1986 NSFNET collapse]]; every subsequent algorithm — Reno, NewReno, Vegas, {{cubic|CUBIC}}, Compound, {{bbr|BBR}}, {{l4s|L4S}} with TCP Prague — is a variation on this curve.',
+							credit: 'Image: Wikimedia Commons / public domain'
 						}
 					]
 				},
