@@ -20,7 +20,7 @@ export const transport: BookPart = {
 		{
 			id: 'tcp',
 			title: 'TCP',
-			synopsis: 'Reliable byte streams, four decades of {{congestion-control|congestion control}}.',
+			synopsis: '[[tcp|Reliable byte streams]], four decades of {{congestion-control|congestion control}}.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -72,6 +72,14 @@ The most recent paradigm shift: {{l4s|L4S}} replaces loss-as-signal with **expli
 **Linux 6.15 (mid-2025)** landed **io_uring zero-copy receive** (\`io_uring zcrx\`) integrated with the kernel [[tcp|TCP]] stack. Single-flow throughput jumped from ~74 Gb/s (epoll) to **~106 Gb/s (io_uring zcrx)** — a ~40% throughput improvement for high-{{bandwidth|bandwidth}} servers without any application changes.
 
 The vulnerability surface keeps producing CVEs. **CVE-2019-11477 ({{sack|SACK}} Panic)** was the canonical case — a single [[tcp|TCP]] packet, no authentication, would crash any vulnerable Linux host across kernels 2.6.29 through 5.1, ten years of unpatched code in the heart of every Linux server. Modern kernel networking is now fuzzed continuously by **syzkaller**; most [[tcp|TCP]] CVEs since 2020 have been found by fuzzing rather than by humans.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Tcp_state_diagram.svg/500px-Tcp_state_diagram.svg.png',
+							alt: 'The TCP connection state machine showing all 11 states and their transitions.',
+							caption:
+								'The **[[tcp|TCP]] state machine** — eleven states, every arc labelled with the segment that triggers the transition and the segment sent in response. Memorise it once and every connection establishment, graceful close, simultaneous close, half-closed read, and {{time-wait|TIME_WAIT}} timer in production [[tcp|TCP]] traffic snaps into place. The diagram in [[rfc:9293|RFC 9293]] §3.3.2 has not changed since 1981.',
+							credit: 'Image: Wikimedia Commons / public domain'
 						}
 					]
 				},
@@ -89,7 +97,7 @@ The vulnerability surface keeps producing CVEs. **CVE-2019-11477 ({{sack|SACK}} 
 		{
 			id: 'udp',
 			title: 'UDP',
-			synopsis: 'Three pages of RFC, no guarantees, ubiquitous.',
+			synopsis: '[[udp|Three pages of RFC]], no guarantees, ubiquitous — and the substrate beneath [[quic|QUIC]].',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -134,6 +142,14 @@ The single thing [[udp|UDP]] gives you above raw [[ip|IP]] is **ports** — the 
 The longer arc: **in-kernel [[quic|QUIC]]** (Xin Long's 9,000-line patch series, July 2025) puts [[quic|QUIC]] into the kernel as \`IPPROTO_QUIC\`, mirroring \`IPPROTO_MPTCP\`. Mainline merge expected 2026. When that ships, [[quic|QUIC]] will run alongside [[tcp|TCP]] at kernel speeds — and [[udp|UDP]] will become an even larger share of the internet's transport mix.
 
 The protocol itself has not changed. The role it plays has been reshaped by what was built on top of it.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/UDP_encapsulation.svg/500px-UDP_encapsulation.svg.png',
+							alt: 'UDP encapsulation diagram showing an IP packet containing a UDP datagram containing application data.',
+							caption:
+								'**[[udp|UDP]] encapsulation** — 8 bytes of header (source port, destination port, length, checksum) wrapping an application payload, inside an [[ip|IP]] packet, inside an [[ethernet|Ethernet]] frame. The smallest viable transport on the internet. [[rfc:768|RFC 768]] (1980) is **three pages long** and has not been updated since — there has been nothing to update.',
+							credit: 'Image: Wikimedia Commons / public domain'
 						}
 					]
 				},
@@ -148,7 +164,7 @@ The protocol itself has not changed. The role it plays has been reshaped by what
 		{
 			id: 'sctp',
 			title: 'SCTP',
-			synopsis: 'Multi-stream, multi-homed — niche but architecturally important.',
+			synopsis: '[[sctp|Multi-stream, multi-homed]] — niche but architecturally important.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -191,6 +207,14 @@ The deeper lesson [[sctp|SCTP]] teaches is the lesson [[quic|QUIC]] applied: **i
 							text: `Most of [[sctp|SCTP]]'s good ideas survived through descendants. Multi-streaming and {{connection-migration|connection migration}} are core to [[quic|QUIC]]. Multi-homing is what [[mptcp|MPTCP]] approximates for [[tcp|TCP]] and what [[frontier:multipath-quic|multipath QUIC]] is generalising. Message-orientation is the default in modern application protocols ([[http2|HTTP/2]] and [[http3|HTTP/3]] frame the bytes; [[grpc|gRPC]] adds length prefixes; [[websockets|WebSocket]] has explicit message boundaries).
 
 The protocol itself remains specialised. It is the canonical example of a technically-superior transport that lost on deployment economics — and the canonical justification for [[quic|QUIC]]'s choice to tunnel inside [[udp|UDP]]. Knowing why [[sctp|SCTP]] failed makes every modern transport-design decision clearer.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/SCTP-Multihoming.png/500px-SCTP-Multihoming.png',
+							alt: 'SCTP multi-homing diagram showing one association bound to multiple IP addresses on each endpoint.',
+							caption:
+								'[[sctp|SCTP]] **multi-homing**: a single association is bound to multiple [[ip|IP]] addresses on each side, and traffic seamlessly moves to a healthy path when one fails. The architectural idea was a generation ahead of [[mptcp|MPTCP]] — [[sctp|SCTP]] just could not traverse middleboxes to make it useful on the public internet. The lesson sits underneath every later transport: *if you want a new transport on the deployed internet, you must tunnel inside [[udp|UDP]]*.',
+							credit: 'Image: Wikimedia Commons / CC BY-SA'
 						}
 					]
 				},
@@ -246,6 +270,14 @@ Multipath [[quic|QUIC]] inherits [[mptcp|MPTCP]]'s algorithmic ideas — subflow
 **Apple, Alibaba, and Tessares have already deployed predecessors** (gQUIC multipath at Google, Apple's iCloud sync, Alibaba's mobile e-commerce). Once multipath [[quic|QUIC]] ships in mainline implementations (quiche, mvfst, quinn, msquic), it becomes the natural multipath transport for [[http3|HTTP/3]].
 
 [[mptcp|MPTCP]] itself will remain in production for the use cases it currently serves. But the architectural arc — same idea, ported to a more deployable transport — is the same arc [[quic|QUIC]] followed for everything else.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/DifferenceTCP_MPTCP-en.png/500px-DifferenceTCP_MPTCP-en.png',
+							alt: 'Side-by-side diagram of plain TCP versus Multipath TCP — TCP uses one path, MPTCP uses multiple subflows.',
+							caption:
+								'**Plain [[tcp|TCP]] vs [[mptcp|Multipath TCP]]** — same socket interface on the application side, dramatically different reality on the wire. {{mptcp|MPTCP}} negotiates *subflows* over multiple paths (your phone\'s [[wifi|Wi-Fi]] + cellular) and aggregates their throughput. Apple shipped this in iOS 7 (2013) for Siri to fix the visible "Sorry, I didn\'t catch that" failures during Wi-Fi-to-cellular handoff.',
+							credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 						}
 					]
 				},
@@ -310,6 +342,14 @@ The {{ietf|IETF}} [[quic|QUIC]] Working Group, formed in 2016, took Google's exp
 **[[rtp|RTP]]-over-[[quic|QUIC]] (RoQ)** (\`draft-ietf-avtcore-rtp-over-quic-14\`) entered Working Group Last Call in July 2025 — preserves the entire [[rtp|RTP]] ecosystem while gaining [[quic|QUIC]]'s {{encryption|encryption}}, {{nat|NAT}}-friendliness, and {{zero-rtt|0-RTT}}.
 
 By 2026, **Meta reports >75% of internet-facing traffic on [[quic|QUIC]]**; **Cloudflare** serves [[quic|QUIC]] universally; **Apple Network.framework** offers native [[quic|QUIC]] since iOS 18; **Safari 18** enables [[http3|HTTP/3]] by default. The transport reshaped its deployment ecosystem in five years.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Google_Corkboard_Server_Rack.jpg/500px-Google_Corkboard_Server_Rack.jpg',
+							alt: 'Early Google "corkboard" server rack — bare motherboards mounted on cork backing, displayed at the Computer History Museum.',
+							caption:
+								'An early **Google corkboard server** — the company that designed [[quic|QUIC]] in 2012 because it could no longer ship [[tcp|TCP]] improvements through kernel rollouts fast enough for its fleet. [[pioneer:jim-roskind|Jim Roskind]]\'s answer was to put a brand-new transport in *user space* on top of [[udp|UDP]], where it could iterate monthly and middleboxes would forward it unchanged.',
+							credit: 'Photo: Wikimedia Commons / CC BY-SA'
 						}
 					]
 				},
