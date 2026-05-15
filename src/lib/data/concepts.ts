@@ -2440,6 +2440,364 @@ export const concepts: Concept[] = [
 		definition:
 			'The independent US federal regulator of interstate communications by radio, television, wire, satellite, and cable. For networking, the FCC sets {{spectrum|spectrum}} allocation policy (which bands are licensed vs unlicensed, and at what power), administers ISP and broadband regulations, and runs the National Broadband Map. Internet engineers usually meet the FCC through Part 15 unlicensed-radio rules ([[wifi|Wi-Fi]], [[bluetooth|Bluetooth]], [[uwb|UWB]]) and through ISP-tier policy debates around net neutrality and broadband subsidies.',
 		category: 'infrastructure'
+	},
+
+	// ── Wireless propagation and shared medium ─────────────────────────
+	{
+		id: 'spectrum',
+		term: 'Spectrum',
+		definition:
+			"The frequency range a wireless protocol is allowed to transmit on. Allocated globally by the **ITU-R**, regionally by **CEPT** (Europe) or **APT** (Asia-Pacific), and nationally by regulators like the {{fcc|FCC}} (US) or Ofcom (UK). Licensed spectrum (auctioned to carriers, predictable QoS) carries [[cellular|cellular]]; unlicensed bands ({{ism-band|ISM}}, U-NII) host [[wifi|Wi-Fi]], [[bluetooth|Bluetooth]], [[zigbee|Zigbee]], [[uwb|UWB]]. Spectrum is the most contested resource in wireless — every gigahertz freed (or reclaimed) is a multi-billion-dollar policy fight.",
+		analogy:
+			'Real estate on an invisible map. Some plots are auctioned for billions to single carriers; some plots are public parks anyone may build on if they obey the noise ordinance.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Radio_spectrum',
+		category: 'networking-basics'
+	},
+	{
+		id: 'csma-ca',
+		term: 'CSMA/CA (Collision Avoidance)',
+		definition:
+			"Carrier Sense Multiple Access with **Collision Avoidance** — the listen-before-talk MAC every wireless protocol uses. A station senses the channel; if busy, it picks a random back-off slot from a contention window and waits. If the channel is still clear when the back-off counter expires, it transmits; if not, it doubles the window and tries again. Every {{unicast|unicast}} {{frame|frame}} must be {{ack|ACKed}} within microseconds — no ACK is presumed to mean collision. Different from wired [[ethernet|Ethernet]]'s CSMA/CD (Collision *Detection*), which is impossible on radio because a transmitter saturates its own receiver and cannot hear another station while sending.",
+		analogy:
+			'Polite conversation at a dinner party. You pause until nobody is talking, you wait a random extra moment so two polite people do not start at exactly the same time, and if you cannot hear an acknowledgement you assume you were drowned out and try again.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Carrier-sense_multiple_access_with_collision_avoidance',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'hidden-terminal',
+		term: 'Hidden terminal problem',
+		definition:
+			"In a wireless network, station A and station C may both be in range of {{access-point|AP}} B but **out of range of each other** — so neither hears the other's transmission and both think the channel is clear. The result is repeated collisions at B that the senders cannot detect or back off from. {{csma-ca|CSMA/CA}}'s **RTS/CTS** {{handshake|handshake}} is the optional fix: A sends a tiny *Request To Send* to B, B replies with *Clear To Send*, and every station that hears either falls silent for the announced duration. The same physics motivates [[bluetooth|Bluetooth]]'s master-clocked frequency hopping, [[zigbee|Zigbee]]'s coordinator-led scheduling, and every [[cellular|cellular]] base station's centralised uplink scheduler.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Hidden_node_problem',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'multipath',
+		term: 'Multipath',
+		definition:
+			"A radio signal that arrives at a receiver via two or more paths (one direct, others reflected off walls/floors/cars) interferes with itself — the copies add constructively or destructively depending on their relative phase, producing rapid fading as the receiver or environment moves. The same physics that ruined 1990s analog cellular calls is the *foundation* of every modern wireless system: **MIMO** (multiple-input multiple-output) treats each reflected path as a separate spatial stream, and **OFDM** ({{ofdma|/OFDMA}}) spreads each symbol across hundreds of narrow subcarriers so only a handful are nulled by a deep fade. Wireless went from \"multipath is the enemy\" to \"multipath is the bandwidth\" in one generation.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Multipath_propagation',
+		category: 'networking-basics'
+	},
+	{
+		id: 'airtime',
+		term: 'Airtime',
+		definition:
+			"The fraction of a wireless channel's wall-clock time consumed by a station's transmissions, including all the protocol overhead — DIFS/SIFS gaps, {{ack|ACK}} frames, contention back-off, beacons, and management traffic. The right unit for measuring fairness on a shared medium: two stations with the *same* throughput target consume very different airtime if one is on a slow MCS at the cell edge. Modern access points implement **airtime fairness** so a slow client cannot starve fast ones — the alternative is the *slow-station throughput collapse* that classic 802.11 was famous for.",
+		category: 'networking-basics'
+	},
+
+	// ── Wi-Fi specifics ────────────────────────────────────────────────
+	{
+		id: 'ofdma',
+		term: 'OFDMA (Orthogonal Frequency-Division Multiple Access)',
+		definition:
+			"The multi-user upgrade to OFDM. Where plain OFDM splits one transmission across many orthogonal subcarriers, OFDMA lets the {{access-point|AP}} assign **subsets of subcarriers** (called Resource Units) to *different* clients in the same symbol — like turning a single highway into multiple narrower lanes. Introduced to [[wifi|Wi-Fi]] in 802.11ax ([[wifi|Wi-Fi]] 6, 2020); the core multiple-access method of [[cellular|4G LTE]] and [[cellular|5G NR]] since 2008. The reason a Wi-Fi 6 {{access-point|AP}} can serve 30 phones in a coffee shop without each one paying the full per-transmission overhead the way Wi-Fi 5 did.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Orthogonal_frequency-division_multiple_access',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'mlo',
+		term: 'MLO (Multi-Link Operation)',
+		definition:
+			"The flagship feature of [[wifi|Wi-Fi]] 7 (802.11be, 2024). A single client connection spans 2.4 + 5 + 6 GHz radios simultaneously — frames can be sent on whichever band is least congested, and {{tail-latency|tail latency}} on a busy network drops sharply. The catch in shipping silicon is that most MLO is **eMLSR** (Enhanced Multi-Link Single Radio): one radio time-sliced across bands. True simultaneous transmit-receive (STR) across bands is rare. The win is *latency consistency*, not raw aggregate throughput.",
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'bss-coloring',
+		term: 'BSS Coloring',
+		definition:
+			"A 6-bit *Basic Service Set Color* field added to 802.11ax ([[wifi|Wi-Fi]] 6) frames so stations can distinguish their own AP's transmissions from a neighbour's on the same channel. If an incoming frame's color differs, the receiver can apply a relaxed clear-channel threshold and transmit anyway — recovering airtime that classic carrier sense would have forfeited. The fix for the *2.4 GHz death spiral* in dense apartment buildings where 20+ APs share three non-overlapping channels.",
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'target-wake-time',
+		term: 'Target Wake Time (TWT)',
+		definition:
+			"802.11ax mechanism that lets a client and {{access-point|AP}} pre-negotiate exact wake-up windows so the client's radio can stay deeply asleep between scheduled appointments. Originally for low-power IoT (years on a coin cell); now also used by smartphones to extend battery life on busy networks. The Wi-Fi analogue of [[cellular|cellular]]'s DRX paging cycle.",
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'wpa3',
+		term: 'WPA3',
+		definition:
+			"[[wifi|Wi-Fi]] Protected Access 3, announced by the [[wifi|Wi-Fi]] Alliance in January 2018, mandatory for [[wifi|Wi-Fi]] CERTIFIED 6 products from July 2020. Replaces WPA2's PSK with {{sae|SAE}} (Simultaneous Authentication of Equals) — a {{pfs|forward-secret}} dragonfly {{handshake|handshake}} that resists the offline dictionary attacks that broke WPA2 after {{krack|KRACK}}. Also adds 192-bit Enterprise mode, Easy Connect (DPP) for QR-code provisioning, and OWE (Opportunistic Wireless Encryption) for open networks.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Wi-Fi_Protected_Access#WPA3',
+		category: 'security'
+	},
+	{
+		id: 'sae',
+		term: 'SAE (Simultaneous Authentication of Equals)',
+		definition:
+			"The {{handshake|handshake}} at the heart of {{wpa3|WPA3}}-Personal. A *dragonfly* key {{exchange|exchange}} (RFC 7664) where both parties prove knowledge of the passphrase without ever sending it or anything derived from it that an eavesdropper could grind against a dictionary. Each session derives a fresh Pairwise Master Key with {{pfs|forward secrecy}}. Replaces WPA2-PSK's four-way {{handshake|handshake}} that {{krack|KRACK}} broke in 2017.",
+		category: 'security'
+	},
+	{
+		id: 'krack',
+		term: 'KRACK (Key Reinstallation Attack)',
+		definition:
+			"Mathy Vanhoef and Frank Piessens, USENIX Security 2017. The WPA2 four-way {{handshake|handshake}} could be tricked into reinstalling an already-used encryption key, resetting the per-packet {{iv|nonce}} counter and defeating CCMP integrity. **Universal — every WPA2 client on Earth needed firmware updates.** Drove the {{wpa3|WPA3}} / {{sae|SAE}} replacement, which is immune by construction. First entry in Vanhoef's biennial schedule of breaking [[wifi|Wi-Fi]] in public (Dragonblood 2019, FragAttacks 2021, Framing Frames 2023, SSID Confusion 2024).",
+		wikiUrl: 'https://en.wikipedia.org/wiki/KRACK',
+		category: 'security'
+	},
+	{
+		id: 'afc',
+		term: 'AFC (Automated Frequency Coordination)',
+		definition:
+			"A cloud service that arbitrates [[wifi|Wi-Fi]] use of the 6 GHz Standard-Power band against existing incumbent licensees (fixed microwave links, satellite services). A 6 GHz Wi-Fi {{access-point|AP}} queries an AFC operator with its location and antenna parameters; the AFC returns the channels and EIRP limits it may use without interfering with incumbents. The {{fcc|FCC}} approved seven AFC operators (Qualcomm, Federated Wireless, Sony, Comsearch, [[wifi|Wi-Fi]] Alliance Services, WBA, Broadcom) on 23 February 2024 — the regulatory machinery without which 6 GHz Standard Power would not exist.",
+		category: 'infrastructure'
+	},
+
+	// ── Bluetooth specifics ────────────────────────────────────────────
+	{
+		id: 'frequency-hopping',
+		term: 'Frequency-Hopping Spread Spectrum (FHSS)',
+		definition:
+			"Splitting a transmission across many narrow channels and hopping rapidly between them on a pseudo-random schedule both sides know. Invented (and patented) by Hedy Lamarr and George Antheil in 1941 as a torpedo-guidance scheme. [[bluetooth|Bluetooth]] BR/EDR uses 79 × 1 MHz channels at 1,600 hops/sec; {{ble|BLE}} hops 40 × 2 MHz channels once per connection event. Two consequences: (1) microwave-oven leakage on a single frequency only knocks out a fraction of hops, and (2) sniffing the traffic requires following the hop pattern, which is keyed to the master's address and clock.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Frequency-hopping_spread_spectrum',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'le-audio',
+		term: 'LE Audio',
+		definition:
+			"The 2020+ [[bluetooth|Bluetooth]] audio architecture, defined across Core 5.2+ and a stack of profiles (BAP, PBP, TMAP, HAP). Replaces Classic A2DP/HFP with **Isochronous Channels** — Connected Isochronous Streams (CIS) for {{unicast|unicast}} earbuds and hearing aids, Broadcast Isochronous Streams (BIS) for {{auracast|Auracast}} one-to-many. Mandatory {{codec|codec}} is {{lc3|LC3}}. Cuts audio power by roughly half versus A2DP and brings true stereo, multi-stream, and hearing-aid-grade reliability under one umbrella.",
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'lc3',
+		term: 'LC3 (Low Complexity Communications Codec)',
+		definition:
+			"Mandatory {{codec|codec}} of {{le-audio|LE Audio}}, standardised by the [[bluetooth|Bluetooth]] SIG in January 2020 (Ericsson + Fraunhofer IIS). Replaces 1990s SBC. Roughly 2× more battery-efficient than SBC at equivalent quality, 8–48 kHz sample rates, 16–320 kbit/s. The codec underneath every modern earbud and hearing aid shipping {{le-audio|LE Audio}}.",
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'auracast',
+		term: 'Auracast',
+		definition:
+			"The [[bluetooth|Bluetooth]] SIG's brand for **Broadcast Isochronous Streams** (BIS) — one transmitter to unlimited listeners over {{le-audio|LE Audio}} + {{lc3|LC3}}. Public venues (airports, theatres, gyms, lecture halls) replace analog hearing-loops with an Auracast broadcast; nearby listeners scan, pick a stream, and tune in. **Frankfurt Airport became the first airport to broadcast all gate announcements over Auracast on 28 January 2026.** The hearing-aid accessibility story is the killer app.",
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'channel-sounding',
+		term: 'Channel Sounding',
+		definition:
+			"Centimetre-class distance measurement added to [[bluetooth|Bluetooth]] 6.0 (adopted 3 September 2024). Two devices in a normal LL connection schedule Channel Sounding events on a new LE 2M 2BT PHY and measure both signal **phase** across many frequencies (Phase-Based Ranging) and **round-trip time** of timestamped packets; the combination yields cm-accurate distance up to ~150 m. The protocol-level reply to [[uwb|UWB]] for digital car keys, anti-stalking tags, and proximity-aware locks.",
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'rpa',
+		term: 'RPA (Resolvable Private Address)',
+		definition:
+			"A 48-bit Bluetooth LE address that *looks* random but is derivable from a long-lived Identity Resolving Key (IRK) the two paired devices share. Rotated every ~15 minutes by default. A bonded peer recomputes the expected RPA from the IRK and recognises its partner; a stranger sees only noise. The mechanism that prevents long-term tracking of {{ble|BLE}} devices by sniffers — important for AirTags, AirPods, fitness wearables, and any device a person carries on their body all day.",
+		category: 'security'
+	},
+	{
+		id: 'knob-attack',
+		term: 'KNOB / BIAS / BLUFFS',
+		definition:
+			"Three [[bluetooth|Bluetooth]] BR/EDR session-security breaks by the same author (Daniele Antonioli) in five years. **KNOB** (CVE-2019-9506) downgrades the entropy of the negotiated session key to 1 byte — brute-forceable. **BIAS** (CVE-2020-10135) impersonates a previously-bonded peer by abusing role-switch in Legacy Secure Connections. **BLUFFS** (CVE-2023-24023) breaks forward secrecy by forcing reuse of a session-key derivation across reconnections. Every BR/EDR device shipped before mid-2024 is affected; the Core 5.4 / 6.0 patches add explicit minimum-entropy and key-diversification checks.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/KNOB_attack',
+		category: 'security'
+	},
+
+	// ── Cellular specifics ────────────────────────────────────────────
+	{
+		id: '3gpp',
+		term: '3GPP (3rd Generation Partnership Project)',
+		definition:
+			"The umbrella standards body that owns the [[cellular|cellular]] family from GSM through 5G NR and (soon) 6G. Founded December 1998 as a partnership of regional SDOs (ETSI/Europe, ATIS/USA, TTA/Korea, ARIB+TTC/Japan, CCSA/China, TSDSI/India). Specifications are organised by *Release*: Release 8 (LTE, 2008), Release 15 (5G NR, 2018), Release 18 (5G-Advanced, frozen June 2024), Release 19/20 in flight. Every spec is free to download from 3gpp.org — the largest free technical library in telecommunications.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/3GPP',
+		category: 'infrastructure'
+	},
+	{
+		id: 'gsma',
+		term: 'GSMA (GSM Association)',
+		definition:
+			"The trade association of mobile network operators — ~750 carriers plus ~400 ecosystem members. Distinct from {{3gpp|3GPP}}, which writes the technical specs; the GSMA owns the *commercial* layer: IR.21 roaming agreements, BA.51 RCS, FS.36 SS7/Diameter security, the eSIM Architecture, and Mobile World Congress every February in Barcelona. The body operators belong to; 3GPP is the body engineers contribute specs to.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/GSMA',
+		category: 'infrastructure'
+	},
+	{
+		id: 'lte',
+		term: 'LTE (Long Term Evolution / 4G)',
+		definition:
+			"{{3gpp|3GPP}} Release 8, frozen December 2008. Abandoned WCDMA's spreading codes for an {{ofdma|OFDMA}}+SC-FDMA air interface that scales linearly with spectrum width — the clean-sheet radio that every 5G NR design choice evolves from. Still the universal floor in 2026: a 5G phone falls back to LTE everywhere 5G coverage is patchy, and **NB-IoT / LTE-M / Cat-M1** continue to run on LTE for low-bandwidth, long-battery-life IoT.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/LTE_(telecommunication)',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: '5g-nr',
+		term: '5G NR (New Radio)',
+		definition:
+			"{{3gpp|3GPP}} Release 15, frozen June 2018. The 5G air interface: scalable {{ofdma|OFDMA}} numerology (15/30/60/120/240 kHz subcarrier spacing) addressing sub-6 GHz (FR1) and {{mmwave|mmWave}} (FR2), service-based 5G Core, network slicing, ultra-reliable low-latency (URLLC), and mMTC for massive IoT. **5G Standalone** (no LTE anchor) deployments arrived 2020–2021; **5G-Advanced** is Release 18 (June 2024).",
+		wikiUrl: 'https://en.wikipedia.org/wiki/5G_NR',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'mmwave',
+		term: 'mmWave',
+		definition:
+			"Millimetre-wave radio bands — typically 24–52 GHz for 5G NR FR2, plus 60 GHz for WiGig and 28/39 GHz for fixed wireless. Enormous bandwidth (hundreds of MHz of contiguous spectrum), gigabit speeds, line-of-sight only, ~20 dB attenuation through a wet leaf. Deployed mostly in stadiums, dense urban hotspots, and fixed-wireless backhaul rather than wide-area mobile.",
+		category: 'networking-basics'
+	},
+	{
+		id: 'ran',
+		term: 'RAN (Radio Access Network)',
+		definition:
+			"The set of base stations and the protocol stack between them and the carrier core — the *radio side* of a [[cellular|cellular]] network. In 5G the base station is the **gNB** (gNodeB), in 4G it was the **eNB** (eNodeB). The RAN handles the PHY/MAC/RLC/PDCP/RRC stack on the air interface and tunnels user traffic into the core over **GTP-U** on the N3 interface. **Open RAN** is the disaggregated alternative where vendor-neutral hardware and software replace vertically-integrated boxes (Vodafone UK, Rakuten Symphony, DISH on AWS Wavelength).",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Radio_access_network',
+		category: 'infrastructure'
+	},
+	{
+		id: 'harq',
+		term: 'HARQ (Hybrid ARQ)',
+		definition:
+			"How a [[cellular|cellular]] radio combines forward error correction with {{retransmission|retransmission}}. The receiver stores soft-decoded log-likelihood ratios (LLRs) from a failed transmission and combines them with the retransmitted copy (chase-combining) or with additional parity bits (incremental-redundancy). 8 parallel stop-and-wait HARQ processes per UE keep the pipe full without {{head-of-line-blocking|head-of-line blocking}}. The reason cellular reaches ~99.999% link reliability without [[tcp|TCP]]'s retransmit cost on the air.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Hybrid_automatic_repeat_request',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'ims',
+		term: 'IMS (IP Multimedia Subsystem)',
+		definition:
+			"{{3gpp|3GPP}}'s [[sip|SIP]]-based voice/video framework — the protocol stack that carries every carrier voice call in 2026 over IP rather than the legacy circuit-switched core. Defined originally for 3G (TS 23.228, 2002). Today it underpins **{{volte|VoLTE}}**, **VoNR** (Voice over New Radio), **Wi-Fi Calling** (via the ePDG IPsec gateway), and **RCS** (Rich Communication Services). The largest [[sip|SIP]] deployment on Earth — every carrier voice call is a SIP INVITE inside an IMS bearer.",
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'volte',
+		term: 'VoLTE / VoNR',
+		definition:
+			"**Voice over LTE** and **Voice over New Radio** — packetised carrier voice over the LTE or 5G data bearer, signalled by {{ims|IMS}} {{sip|SIP}} and carried over [[rtp|RTP]] using the AMR-WB or EVS {{codec|codec}}. Replaces the legacy 2G/3G circuit-switched voice fallback. GSMA reports 310+ commercial VoLTE operators in 140+ countries and 45+ commercial VoNR networks by 2025. **Wi-Fi Calling** is the same IMS stack tunneled to the carrier over [[ipsec|IPsec]] from any IP network.",
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'sba',
+		term: 'SBA (Service-Based Architecture)',
+		definition:
+			"The 5G Core architecture — dozens of named **network functions** (AMF, SMF, UPF, AUSF, UDM, PCF, NRF, NEF, NSSF, AF…) talking to each other over [[http2|HTTP/2]] with {{json|JSON}} payloads protected by [[tls|TLS]]. Replaces 4G's EPC zoo of monolithic boxes (MME/SGW/PGW/HSS/PCRF) glued by GTP and {{diameter|Diameter}}. **The control plane of every modern 5G carrier on Earth is now an [[http2|HTTP/2]] {{service-mesh|microservice fabric}}** — and every backhaul {{hop|hop}} between RAN and core is wrapped in [[ipsec|IPsec ESP]] per 3GPP TS 33.501.",
+		category: 'infrastructure'
+	},
+	{
+		id: 'gtp-u',
+		term: 'GTP-U (GPRS Tunnelling Protocol — User plane)',
+		definition:
+			"The tunnel that carries user-plane [[ip|IP]] packets from the [[cellular|cellular]] base station to the User Plane Function (UPF) in the core, over [[udp|UDP]]/2152. Each PDU session has a 32-bit **Tunnel Endpoint Identifier (TEID)** that lets the UPF demultiplex millions of phones over one tunnel-aggregating UDP socket. GTP-U preserves the UE's [[ip|IP]] address as the inner-packet source/destination *regardless* of which base station the UE is camping on — this is how your phone keeps its IP across handovers between cells.",
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'ss7',
+		term: 'SS7 (Signalling System No. 7)',
+		definition:
+			"The 1975 ITU-T signalling stack that runs between carrier switches — for half a century the protocol that set up your voice calls, routed your SMS, and handled your roaming. Designed in an era of implicit trust between carriers. Modern surveillance actors exploit SS7 routing to silently track mobile users worldwide (Citizen Lab 2024–25, CISA testimony to {{fcc|FCC}} 2024). Partially replaced by {{diameter|Diameter}} for LTE and by 5GC's authenticated SBI for 5G — but the SS7 layer below is still everywhere underneath.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Signalling_System_No._7',
+		category: 'infrastructure'
+	},
+	{
+		id: 'diameter',
+		term: 'Diameter',
+		definition:
+			"The {{aaa|AAA}} (authentication, authorisation, accounting) protocol used by LTE's EPC, the LTE/5G interconnect between carriers, and IMS. {{ietf|IETF}} RFC 6733 (2012) — the successor to RADIUS, with TCP/SCTP transport, mandatory [[tls|TLS]]/[[ipsec|IPsec]] options, and a richer attribute system. Carries the post-{{ss7|SS7}} signalling that handles roaming charging, online charging, and policy control. Like SS7, it was designed for trusted carrier-to-carrier links — abuse (DoS, location-tracking, SMS interception) by malicious peers remains a real-world problem.",
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'aaa',
+		term: 'AAA (Authentication, Authorisation, Accounting)',
+		definition:
+			"The three-question framework every access network asks: who are you, what may you do, what did you do? RADIUS (RFC 2865, 1997) was the original; {{diameter|Diameter}} replaced it for [[cellular|cellular]]; modern OIDC/[[oauth2|OAuth]] flows generalise it for web applications. The protocol-shaped hole every enterprise authentication system fills.",
+		category: 'security'
+	},
+	{
+		id: 'sim-usim',
+		term: 'SIM / USIM / eSIM',
+		definition:
+			"The cryptographic root of trust in every [[cellular|cellular]] device. The **SIM** (Subscriber Identity Module) was a contact smart card that stored the IMSI, the long-term key K, and the AKA authentication algorithm. The **USIM** is its 3G/4G/5G successor with mutual authentication. **eSIM** (embedded SIM) replaces the physical card with a chip soldered to the phone, provisioned over-the-air via GSMA RSP. **iSIM** integrates the SIM directly into the main SoC. The K is the secret that, when burned, lets a carrier authenticate a subscriber for the device's lifetime — and was the target of the 2015 Gemalto SIM-key heist.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/SIM_card',
+		category: 'security'
+	},
+
+	// ── Zigbee / Thread / Matter ──────────────────────────────────────
+	{
+		id: 'thread',
+		term: 'Thread',
+		definition:
+			"An [[ipv6|IPv6]]-native low-power mesh protocol on {{ieee-802-15-4|IEEE 802.15.4}} radios, governed by the Thread Group (Nest/Google, Apple, Samsung, ARM, Silicon Labs, NXP, +). Where [[zigbee|Zigbee]] grew its own application layer ({{zcl|ZCL}}), Thread carries native IPv6 over **6LoWPAN** {{header|header compression}} and **MLE** (Mesh Link Establishment) routing — so a Thread device gets an IPv6 address and is reachable like any other host. Thread 1.4 (December 2024) introduced **Thread Border Routers** as multi-vendor commodity hardware. The radio layer of {{matter|Matter}} that is not Wi-Fi.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Thread_(network_protocol)',
+		category: 'networking-basics'
+	},
+	{
+		id: 'border-router',
+		term: 'Border Router (Thread)',
+		definition:
+			"A bilingual device — typically a HomePod, Apple TV 4K, Google Nest Hub, Amazon Echo Hub, or Aqara M3 — that bridges a {{thread|Thread}} mesh to your home [[ipv6|IPv6]] network. Routes packets between the 802.15.4 mesh and Wi-Fi/Ethernet, hands out IPv6 prefixes via SLAAC, runs DNS-SD ({{mdns|mDNS}}) for service discovery, and (in Thread 1.4) supports multi-vendor mesh extension. The hardware story of {{matter|Matter}}'s 2022 launch was: every smart-speaker line had to become a Thread Border Router.",
+		category: 'infrastructure'
+	},
+	{
+		id: 'dynamic-link-key',
+		term: 'Dynamic Link Key (DLK)',
+		definition:
+			"The 2023 [[zigbee|Zigbee]] R23 (Pro 2023) improvement that closes the *ZigBeeAlliance09* default-key sniffer-at-join hole. New joining devices and the {{trust-center|Trust Center}} run a **SPEKE** (Simple Password-Authenticated Key Exchange) handshake over Curve25519, deriving a unique link key per device without any pre-shared secret. Mandatory for Coordinators in R23, optional for end devices. The Zigbee analogue of WPA3's {{sae|SAE}} replacement of WPA2-PSK.",
+		category: 'security'
+	},
+	{
+		id: 'mdns',
+		term: 'mDNS / DNS-SD',
+		definition:
+			"Multicast DNS (RFC 6762) and DNS Service Discovery (RFC 6763). Lets a device on a local link discover services without any configured resolver — the device queries `_googlecast._tcp.local`, `_airplay._tcp.local`, `_matter._tcp.local`, etc., over multicast UDP/5353, and any host providing the service answers. Designed by [[pioneer:stuart-cheshire|Stuart Cheshire]] at Apple. Underneath Bonjour, AirPlay, Matter device discovery, and {{thread|Thread}} Border Router service advertisement.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Multicast_DNS',
+		category: 'protocol-mechanics'
+	},
+
+	// ── Spectrum frontier ─────────────────────────────────────────────
+	{
+		id: 'wrc',
+		term: 'WRC (World Radiocommunication Conference)',
+		definition:
+			"The ITU-R conference held every 3–4 years where the world's spectrum allocations are renegotiated by treaty. **WRC-23** (Dubai, November–December 2023) added 6 GHz to {{cellular|IMT-2020}} on a co-primary basis with Wi-Fi — kicking off the EU's contested 6 GHz upper-band decision. **WRC-27** is targeted to study terahertz bands for 6G and harmonise satellite direct-to-cell. Spectrum policy moves on a four-year clock; the technology runs ten years faster.",
+		category: 'infrastructure'
+	},
+	{
+		id: 'ntn',
+		term: 'NTN (Non-Terrestrial Networks)',
+		definition:
+			"{{3gpp|3GPP}}'s normalised vocabulary for satellite components of [[cellular|cellular]] networks. Release 17 (March 2022) added NTN as a first-class radio access type. Splits into **NB-IoT NTN** (narrowband, low-data IoT terminals), **NR NTN** (standard 5G phones), and **Direct-to-Cell** (satellites act as base stations for ordinary handsets in standard bands n255/n256). The frame that contains Starlink Direct-to-Cell, AST SpaceMobile, and Iridium NTN-ready successors.",
+		category: 'infrastructure'
+	},
+	{
+		id: 'direct-to-cell',
+		term: 'Direct-to-Cell',
+		definition:
+			"Satellite-to-standard-phone connectivity using ordinary [[cellular|cellular]] terrestrial bands (typically n25/n26) rather than handheld satellite-terminal hardware. T-Mobile + SpaceX Starlink launched commercial Direct-to-Cell in **January 2025** for SMS and emergency, with voice and data on a roadmap. AT&T's AST SpaceMobile and Apple's Globalstar Emergency SOS partnership follow similar patterns. Reshapes \"coverage\" as a concept: \"no signal\" no longer means *no signal*.",
+		category: 'infrastructure'
+	},
+	{
+		id: 'ambient-iot',
+		term: 'Ambient IoT',
+		definition:
+			"{{3gpp|3GPP}}'s working name (Release 19/20 study items) for battery-less or near-battery-less {{cellular|cellular}} IoT — devices that harvest energy from RF, light, or motion and transmit tiny payloads. Targets logistics tagging, inventory, agriculture sensing — the niches passive RFID owns today. Expected to ship in late-2020s 6G releases.",
+		category: 'networking-basics'
+	},
+	{
+		id: 'lpwan',
+		term: 'LPWAN (Low-Power Wide-Area Network)',
+		definition:
+			"The family of long-range, low-data-rate, multi-year-battery wireless protocols that sit between [[wifi|Wi-Fi]] and [[cellular|cellular]]. **LoRaWAN** (sub-GHz, ALOHA-style, 125M+ devices deployed by end-2025), **Sigfox** (slow-modulation 100 bit/s ultra-narrowband, France-originated), **NB-IoT** and **LTE-M** ({{cellular|cellular}}-licensed alternatives inside [[cellular|LTE]] spectrum). All trade throughput for kilometres of range and years of battery life.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/LPWAN',
+		category: 'networking-basics'
+	},
+	{
+		id: 'cbrs',
+		term: 'CBRS (Citizens Broadband Radio Service)',
+		definition:
+			"The US 3.55–3.7 GHz band ({{fcc|FCC}} Part 96, 2015) governed by a three-tier **Spectrum Access System**: incumbent Navy radars get priority, Priority Access Licensees (PALs) auctioned in 2020, and General Authorized Access for anyone else with a certified device. Powers Private 4G LTE / 5G deployments at ports, mines, hospitals, and stadiums — the largest production use of *dynamic spectrum sharing* anywhere. The US regulator's experiment in moving from static licensing to database-arbitrated coexistence.",
+		category: 'infrastructure'
+	},
+	{
+		id: 'wifi-sensing',
+		term: 'Wi-Fi sensing (802.11bf)',
+		definition:
+			"Using the Channel State Information (CSI) that {{wifi|Wi-Fi}} radios already compute for {{multipath|multipath}} equalisation to *detect* people, motion, and breathing — radio waves as occupancy sensors. Standardised in **IEEE 802.11bf-2025** (published 26 September 2025), covering 1–7.125 GHz and >45 GHz bands. Lets a home Wi-Fi mesh do presence detection without a camera or PIR sensor.",
+		category: 'protocol-mechanics'
 	}
 ];
 
