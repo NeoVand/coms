@@ -697,8 +697,108 @@ For the home-automation hobbyist, the **{{matter|Matter}} bridge** is the right 
 			id: 'security-across-the-wireless-family',
 			title: 'Security across the wireless family',
 			synopsis:
-				'KRACK, BLUFFS, KNOB/BIAS, FragAttacks, SS7 / Diameter abuse, MIFARE Crypto1, the 2022 Tesla BLE relay, and the Ghost Peak UWB STS attack — one chapter tying the wireless attack lineage together.',
-			slots: []
+				'One arc covering KRACK, KNOB/BIAS/BLUFFS, FragAttacks, MIFARE Crypto1, the 2022 Tesla BLE relay, the Ghost Peak UWB STS attack, and the SS7 / Diameter trust holdover — every wireless protocol\'s negotiation logic, broken on stage at least once.',
+			slots: [
+				{
+					kind: 'pull-quote',
+					text: 'Every spec that depends on a secret algorithm or a trust assumption between operators eventually gets broken in public. Every spec that depends on cryptographic primitives + open analysis survives the next attack. The pattern is identical across Wi-Fi, Bluetooth, NFC, UWB, and cellular — and it has held for thirty years.',
+					attribution: 'Author'
+				},
+				{
+					kind: 'prose',
+					sections: [
+						{
+							type: 'narrative',
+							title: 'One pattern, six protocols',
+							text: `Every wireless protocol in this Part has been broken on stage in public, multiple times, by the same handful of researchers, with strikingly similar shapes of bug. **It is never the cryptography itself.** AES-128, AES-GCM, ECDSA, ChaCha20, Curve25519 — the primitives hold up. What gets broken is the **negotiation logic**, the **state machine**, the **roaming model**, the **trust assumptions between operators** — the *protocol surface around* the cryptography.
+
+The lesson is the central one of this Part. Wireless is the only major networking category where the *physical layer is adversarial by default*. Wired networks fail when something breaks; wireless networks fail because the medium is shared with everything else operating in the same band — including, sometimes, an attacker. Every architectural choice in this category — frequency hopping, CSMA/CA, scheduled access, STS, cryptographic distance bounds — exists to make a hostile medium predictable. The attacks in this chapter are the unfinished parts of that project.
+
+Reading order: we start with the [[wifi|Wi-Fi]] arc because it is the most public, walk through [[bluetooth|Bluetooth]] BR/EDR because it has been broken three times by the same author, look at [[nfc|NFC]]'s one canonical security-by-obscurity disaster (MIFARE Crypto1), the 2022 [[bluetooth|BLE]] relay attack and the [[uwb|UWB]] STS response, and finish with the {{ss7|SS7}} / {{diameter|Diameter}} trust holdover that runs underneath the cellular network you are using to read this.`
+						},
+						{
+							type: 'narrative',
+							title: 'The Wi-Fi arc — KRACK, Dragonblood, FragAttacks, SSID Confusion',
+							text: `**WPA2 was published in 2004** and looked solid for thirteen years. On **16 October 2017**, Mathy Vanhoef and Frank Piessens at KU Leuven released **{{krack|KRACK}}** — Key Reinstallation AttaCK. By replaying message 3 of WPA2's four-way {{handshake|handshake}}, an attacker tricked a client into reinstalling an already-used session key, resetting the per-packet {{iv|nonce}} counter and defeating CCMP integrity. **Every WPA2 client on Earth needed firmware updates.** The patches shipped within weeks, but the architectural fix took a full generation — {{wpa3|**WPA3**}} with {{sae|**SAE**}} (Simultaneous Authentication of Equals), which is the *dragonfly* {{handshake|handshake}} that derives a fresh Pairwise Master Key per session with {{pfs|forward secrecy}}.
+
+The Vanhoef cadence has continued biennially since. **Dragonblood** (April 2019) found side channels in WPA3-SAE's password-derivation function — fixed in WPA3-Personal-revision-2. **FragAttacks** (May 2021) broke 802.11 *fragmentation and aggregation* design itself — not implementation bugs but spec flaws — and affected every Wi-Fi device shipped since 1997. **Framing Frames** (March 2023) abused Wi-Fi's power-save framing to inject malicious frames into a client's queue. **SSID Confusion / CVE-2023-52424** (May 2024) showed the 802.11 standard does *not* require the SSID to enter PMK or session-key derivation in many config paths, enabling a downgrade-style trick against any client OS.
+
+What every Wi-Fi attack since KRACK has had in common: **the AES primitive is fine**; the *handshake state machine around it* is the bug. Replay, downgrade, side channel, framing — variations on a theme. The Wi-Fi WG ships fixes; the next August Vanhoef finds the next attack; the cycle continues. This is the field's most reliable two-year clock.`
+						},
+						{
+							type: 'narrative',
+							title: 'Bluetooth — three breaks in five years, by the same author',
+							text: `[[bluetooth|Bluetooth]] BR/EDR has been broken at the spec level three times in five years, by the same author, each time on a different piece of the {{handshake|handshake}} state machine.
+
+**KNOB** (CVE-2019-9506, August 2019) downgraded the entropy of the BR/EDR negotiated session key to **1 byte**. The Encryption Key Negotiation Protocol allowed a man-in-the-middle to coerce both peers into agreeing on an encryption key of 7 bytes' length (the minimum the spec permitted), then reduce that further during the negotiation. Brute-forceable in real time. Patched by tightening minimum-entropy checks; ~2 billion devices needed firmware updates.
+
+**BIAS** (CVE-2020-10135, May 2020) impersonated a previously-bonded peer by abusing role-switch in Legacy Secure Connections. An attacker could re-establish the encrypted session of a device they had never bonded with, simply by claiming to be the bonded peer and triggering a role switch that the older link manager did not authenticate. Patched in Core 5.2.
+
+**BLUFFS** (CVE-2023-24023, November 2023) broke forward secrecy by forcing reuse of session-key derivation across reconnections. Two reconnections to the same device produced the same session key — so an attacker who recorded one encrypted session and later compromised the long-term key could replay or decrypt traffic from earlier sessions. Patched by adding key-diversification across reconnections in Core 5.4 and 6.0.
+
+Every BR/EDR device shipped before mid-2024 is affected by at least one of these. {{ble|BLE Secure Connections}} uses different cryptography (ECDH on Curve P-256) and a different pairing flow, and has held up better — but its own pairing-method downgrade (Just Works ↔ Numeric Comparison) has had its share of disclosures. The pattern matches Wi-Fi exactly: **AES is fine; the handshake around it is where the bugs live**.`
+						},
+						{
+							type: 'callout',
+							title: 'MIFARE Crypto1 — the security-by-obscurity disaster',
+							text: 'In December 2007 at 24C3, **[[pioneer:karsten-nohl|Karsten Nohl]]** and **[[pioneer:henryk-plotz|Henryk Plötz]]** ("Starbug") presented a result that became the field\'s textbook case for *why proprietary cryptography fails*. Philips\'s **Crypto1** stream cipher on MIFARE Classic cards — a 48-bit cipher kept secret as the entire security model — had been **decapped, photographed under a microscope, and reverse-engineered from the ~10,000 gates on the silicon die**. The cipher proved cryptographically weak on inspection; attacks reduced effective security to seconds of cloning time. **The Dutch OV-chipkaart kept shipping affected cards until 2024**, the London Oyster card variant was deprecated mid-2010s, but the world had to migrate billions of contactless cards to MIFARE DESFire (open AES-128) over a decade. Every NFC standard since uses open peer-reviewed cryptography. This is the canonical "security by obscurity does not scale" lesson in deployed wireless silicon.'
+						},
+						{
+							type: 'narrative',
+							title: 'The 2022 Tesla relay — and the rise of cryptographic distance',
+							text: `On **15 May 2022**, Sultan Qasim Khan at NCC Group disclosed a **link-layer relay attack** against Tesla Model 3 phone-as-a-key. Two ~$25 dev boards (one near the phone, one near the car), a few hundred metres of cellular tunnel between them, and ~8 ms of added {{latency|latency}}. The Tesla believed the phone was in BLE proximity when it was actually at the supermarket. CVSS 6.8. The attacker could unlock and drive away a parked Model 3 from 25 metres.
+
+The flaw was not Tesla's. The flaw is that **{{ble|BLE}} {{rssi|RSSI}} is fundamentally untrustworthy** as a proximity primitive — signal strength can be amplified arbitrarily by a relay, and the link-layer round-trip-time check in classic BLE was too coarse (~30 ms) to catch an 8 ms relay. Any BLE-based digital-key product on the market in 2022 was vulnerable to the same class of attack.
+
+The industry conclusion was structural: **proximity-by-radio-signal-strength is unfixable**. A relay with enough TX power and enough patience defeats any RSSI threshold. The only way to verify physical proximity is to measure **{{tof-ranging|time-of-flight}}**, because *the speed of light is the hard upper bound that no relay can shorten*. That insight pushed every credential standard since to mandate physics-based proximity: {{ccc-digital-key|CCC Digital Key 3.0}} (UWB ranging), {{aliro|Aliro 1.0}} (UWB or {{channel-sounding|Bluetooth Channel Sounding}}), and the Bluetooth 6.0 ranging mode that uses much tighter RTT than legacy BLE.
+
+The 2022 attack is the proximate cause of the entire 2024–2026 wave of UWB silicon, ranging-capable Bluetooth 6.0 chipsets, and the new "physics-as-proof" security architecture across the secure-access industry.`
+						},
+						{
+							type: 'narrative',
+							title: 'Ghost Peak — even STS is not perfect',
+							text: `If the Tesla BLE relay made the case for [[uwb|UWB]], **Ghost Peak** made the case that UWB itself was not finished. At **USENIX Security 2022**, Patrick Leu, Giovanni Camurati, and colleagues at ETH Zürich published a result that bent {{sts|STS}} (the cryptographic distance commitment that 802.15.4z added in 2020) at ~4% success with a $65 device.
+
+The attack injected STS-like-but-random noise into the UWB channel. With enough trials, some of that noise happened to correlate with the legitimate STS sequence well enough to bias the receiver's correlation peak earlier — falsely shortening the measured distance into the "unlock allowed" zone. The fix is **IEEE 802.15.4ab** (Draft D03, September 2025, ratification expected early 2026), which adds **NBA-MMS** (narrowband-assisted multi-millisecond ranging) and a redesigned STS receiver that is much harder to bias.
+
+Ghost Peak's lesson is the same one [[bluetooth|Bluetooth]] taught: **the cryptography is sound; the negotiation/correlation logic is where the bugs live**. AES-128-CTR for STS generation is fine; the receiver's peak-detection algorithm needed work. Every secure-ranging primitive since has been audited specifically for these correlation-bias attacks — and the next wave (802.15.4ab + Channel Sounding + 11az) is being designed with those audits in mind from day one.`
+						},
+						{
+							type: 'narrative',
+							title: 'The cellular interconnect — SS7 / Diameter still trusts',
+							text: `Inside one carrier's network, modern [[cellular|cellular]] security is strong. The cryptography is sound, the air interface is encrypted, the {{ims|IMS}} signalling runs over [[tls|TLS]]. **But the interconnect layer between carriers** — how a roaming visitor authenticates, how SMS routes globally, how location is queried for billing, how voice calls cross borders — runs on **{{ss7|SS7}}** (designed 1975) and **{{diameter|Diameter}}** (RFC 6733, 2012), both designed in an era of implicit trust between carrier peers.
+
+Modern surveillance actors exploit this trust at scale. **Citizen Lab's 2024–25 disclosures** and **CISA's 2024 testimony to the {{fcc|FCC}}** document active commercial-grade surveillance using exactly this vector. Two threat actors (publicly labelled STA1 and STA2) operate SS7-routing services that silently track mobile users worldwide — *no malware on the target's phone is required*. An attacker who can rent access to an SS7 endpoint can issue a routing query for any phone number on the planet and receive the device's approximate cell-tower location in seconds.
+
+The {{cellular|cellular}} industry's response has been the **5GC service-based interconnect** (3GPP TS 33.521) — authenticated SBI between carriers, with cryptographic identity for each network function. It is partially deployed inside 5G core networks but does not yet reach the global interconnect layer. The SS7 layer below is still everywhere underneath, carrying SMS, voice routing, and roaming handshakes for billions of subscribers. **It is the largest, oldest, most deeply-embedded "trust assumption that turned out to be wrong" anywhere on the public internet.**
+
+The shape rhymes with every other story in this chapter. Wi-Fi: KRACK in 2017, fix shipping by 2020. Bluetooth: KNOB/BIAS/BLUFFS, fixes in 5.4/6.0. NFC: Crypto1 in 2007, migration to AES by 2020s. UWB: Ghost Peak in 2022, 802.15.4ab in 2026. Cellular: SS7 exploitation public since the early 2010s, 5GC SBI partial fix arriving in the late 2020s. Every wireless protocol's cryptography has held; every wireless protocol's *architecture around the cryptography* has been broken and patched and broken and patched.`
+						},
+						{
+							type: 'callout',
+							title: 'The takeaway, in one paragraph',
+							text: 'Across every wireless protocol in this Part: the **AES primitives, ECDH key exchanges, and signature algorithms have all held up under twenty years of public attack**. What gets broken on stage every other year is the *negotiation, state machine, roaming model, or trust assumption between operators* — the *protocol surface around* the cryptography. The fix is always the same: **make every negotiation step cryptographically authenticated, every key derivation forward-secret, every proximity claim physics-based, and every inter-operator interface mutually authenticated.** {{wpa3|WPA3}} did it for Wi-Fi; Bluetooth 5.4/6.0 is doing it for BR/EDR; CCC Digital Key 3.0 did it for proximity; 5GC SBA is doing it for carrier interconnect. The job is half-finished, on a thirty-year clock.'
+						},
+						{
+							type: 'narrative',
+							title: 'What the engineering reader should take from this',
+							text: `Three rules-of-thumb fall out of the pattern in this chapter, and they apply to *any* protocol with crypto in it, not just wireless.
+
+**Audit the state machine, not the cipher.** The crypto in your protocol is almost certainly fine — AES-128, AES-GCM, ChaCha20-Poly1305, Curve25519, NIST P-256 have all survived two decades of attack. The bugs live in *what your protocol does around the crypto* — key reinstallation, entropy negotiation, role switching, session resumption, downgrade handling. Spend most of your security review there.
+
+**Treat radio-signal-strength as untrusted.** If your security model depends on "the device is close", measure *time-of-flight*, not signal strength. The Tesla 2022 attack is the canonical example. RSSI is a routing hint, not a security primitive.
+
+**Public peer-reviewed cryptography beats proprietary every time.** MIFARE Crypto1 lasted 14 years (1994–2008) before being decapped and broken. Open AES-128 has held up since 1998 without a known practical break. The migration cost is brutal; the survival cost of *not* migrating is brutaler.
+
+Every chapter in this Part has security stories. This chapter ties them together as one arc — and the arc is **roughly the same arc as every other security-critical protocol family in this book**. The pattern is not unique to wireless; it is just *most visible* there, because the medium itself is adversarial.`
+						}
+					]
+				},
+				{ kind: 'protocol', id: 'wifi', facets: ['incidents'] },
+				{ kind: 'protocol', id: 'bluetooth', facets: ['incidents'] },
+				{ kind: 'protocol', id: 'nfc', facets: ['incidents'] },
+				{ kind: 'protocol', id: 'zigbee', facets: ['incidents'] }
+			]
 		},
 
 		// ────────────────────────────────────────────────────────────
