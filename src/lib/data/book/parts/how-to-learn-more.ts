@@ -43,6 +43,14 @@ export const howToLearnMore: BookPart = {
 **RFC 1958 — Architectural Principles of the Internet**. Brian Carpenter's 7-page summary of **why** the internet is the way it is. End-to-end principle, layering, robustness — all in one short document.
 
 **[[rfc:9110|RFC 9110]] — HTTP Semantics**. The clean separation of "what HTTP means" (verbs, headers, status codes, {{content-negotiation|content negotiation}}) from "how it's encoded on the wire." Reading this once makes [[http1|HTTP/1.1]], [[http2|HTTP/2]], and [[http3|HTTP/3]] all click.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Arpanet_1974.svg/500px-Arpanet_1974.svg.png',
+							alt: 'ARPANET in 1974 — the network the first RFCs documented.',
+							caption:
+								'The {{arpanet|ARPANET}} in 1974 — the small research network the first few hundred **RFCs** documented. By 2026 the {{ietf|IETF}} RFC series exceeds **9,800 documents**. The seven RFCs in the reading list above are the ones that most pay back the time investment for an engineer trying to be conversant with the modern stack.',
+							credit: 'Image: Wikimedia Commons / public domain'
 						}
 					]
 				},
@@ -77,6 +85,14 @@ export const howToLearnMore: BookPart = {
 **Ilya Grigorik, "High Performance Browser Networking" (O'Reilly, 2013).** The book on what actually matters for web performance. [[tcp|TCP]], [[tls|TLS]], [[http1|HTTP/1.1]], [[http2|HTTP/2]] (no [[http3|HTTP/3]] — it predates the spec), [[webrtc|WebRTC]], browser networking APIs. The single most useful book for full-stack web developers who want to debug {{latency|latency}}.
 
 For specialised areas: **Olivier Bonaventure, "Computer Networking: Principles, Protocols and Practice"** (free online) — a lighter alternative to Tanenbaum. **[[pioneer:radia-perlman|Radia Perlman]], "Interconnections" (2nd ed., 2000)** — the routing/switching deep-dive by the inventor of spanning tree. **Marc Greis, "RFC 1180: A [[tcp|TCP]]/[[ip|IP]] Tutorial" (1991)** — 28 pages, free, 35 years old, still the cleanest introduction to the basics.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0c/Library_book_stacks.jpg/500px-Library_book_stacks.jpg',
+							alt: 'Library book stacks — long aisles of shelves.',
+							caption:
+								'A library stack. The five books in the list above plus the four follow-ups are enough to make any engineer genuinely fluent in this field — a few months of evenings spent on **Stevens** and **CS144** is the highest-leverage networking education you can give yourself.',
+							credit: 'Photo: Wikimedia Commons / CC BY-SA'
 						}
 					]
 				},
@@ -105,6 +121,14 @@ For specialised areas: **Olivier Bonaventure, "Computer Networking: Principles, 
 **Princeton COS 461 — Computer Networks**. Jennifer Rexford's course; particularly strong on SDN, [[bgp|BGP]], and inter-domain routing. The instructor is a major contributor to those areas of research.
 
 For a self-paced path: read **RFC 1180** (28 pages), then take **CS144**, then read **Stevens [[tcp|TCP]]/[[ip|IP]] Illustrated Vol 1**. Three months of evenings will make you genuinely fluent in the field.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/View_of_Stanford_University_campus.JPG/500px-View_of_Stanford_University_campus.JPG',
+							alt: 'View of Stanford University campus.',
+							caption:
+								'**Stanford University** — home of **CS144**, the single most useful networking course on this topic. The labs walk you through implementing a working [[tcp|TCP]]/[[ip|IP]] stack from scratch — your code goes from sending raw [[ip|IP]] datagrams to running a full reliable transport with {{congestion-control|congestion control}}. Materials are public; the labs run on Linux and produce a stack that interoperates with the real internet.',
+							credit: 'Photo: Wikimedia Commons / CC BY-SA'
 						}
 					]
 				}
@@ -136,6 +160,14 @@ For a self-paced path: read **RFC 1180** (28 pages), then take **CS144**, then r
 **Hacker News networking tag** — for breaking news. Set up a saved search. The discussions are usually more useful than the articles.
 
 **The {{ietf|IETF}} mailing lists themselves** — datatracker.ietf.org. If you want to see protocols being designed in real time, subscribe to a working group whose work interests you. Be ready for high traffic.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Cloudflare_Logo.svg/500px-Cloudflare_Logo.svg.png',
+							alt: 'The Cloudflare logo — a stylised orange cloud.',
+							caption:
+								'The **Cloudflare** logo. Their engineering blog (blog.cloudflare.com) is the most consistently good operationally-grounded networking content on the internet — they run a global {{anycast|anycast}} network, see real production traffic, and write about both the engineering and the security incidents in detail. If you read one networking blog, read this one.',
+							credit: 'Image: Cloudflare Inc. trademark, via Wikimedia Commons'
 						}
 					]
 				}
@@ -171,6 +203,14 @@ For a self-paced path: read **RFC 1180** (28 pages), then take **CS144**, then r
 **iperf3** — {{bandwidth|bandwidth}} measurement between two endpoints. The standard for "how fast can these two hosts actually talk to each other."
 
 **ngrep** — like grep for live packet captures. \`ngrep -d any "GET /api"\` shows every HTTP GET on the wire matching the pattern.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Wireshark_screenshot.png/500px-Wireshark_screenshot.png',
+							alt: 'Wireshark — packet capture with protocol dissector pane.',
+							caption:
+								'**Wireshark** — the single highest-leverage tool in this entire list. Captures from any interface, dissects 3,000+ protocols, lets you trace any flow byte by byte. Learning Wireshark is the most useful hour any networking engineer ever spends. Use it the next time something is wrong; you will never debug networking the same way again.',
+							credit: 'Image: Wireshark Foundation / Wikimedia Commons, GPL'
 						}
 					]
 				}
