@@ -95,16 +95,90 @@ They coexist by a series of small accommodations. **Modern combo chips** (Apple 
 		// ────────────────────────────────────────────────────────────
 		{
 			id: 'wifi',
-			title: 'Wi-Fi',
+			title: 'Wi-Fi from the airwaves',
 			synopsis:
-				'802.11 from 1997 to Wi-Fi 8 — CSMA/CA, the move to 5 / 6 GHz, OFDMA, MLO, and the KRACK story that put WPA2 on every CTO\'s radar.',
+				'The radio side of 802.11 — CSMA/CA in practice, MIMO → OFDMA → MLO, and the KRACK-to-WPA3 arc that finally fixed the wireless handshake.',
 			slots: [
-				{ kind: 'protocol', id: 'wifi', facets: ['overview', 'header', 'incidents'] },
 				{
 					kind: 'pull-quote',
-					text: "Wi-Fi shares the 2.4 GHz ISM band with Bluetooth. Modern combo chips do time-division arbitration at the silicon level so the two don't starve each other. The escape to 5 and 6 GHz on the Wi-Fi side has eased the crowding; Bluetooth stays at 2.4 GHz where every battery-powered consumer device already lives — and so do Zigbee and Thread.",
-					attribution: 'Wi-Fi protocol page'
+					text: 'Wi-Fi 6\'s nominal 9.6 Gbit/s shows up as 1–2 Gbit/s of real throughput in a crowded room, because more than half of the airtime is spent on DIFS gaps, ACK frames, beacons, and back-off. The headline number is a physics fact; the delivered number is an airtime budget.',
+					attribution: 'Author'
 				},
+				{
+					kind: 'prose',
+					sections: [
+						{
+							type: 'narrative',
+							title: 'Part III meets Part V',
+							text: `Part III's chapter on Wi-Fi treated 802.11 as a Layer-2 fabric — the bit that bridges wireless frames to [[ethernet|Ethernet]], the regulatory big bang that opened the {{ism-band|ISM}} bands, and the 6 GHz / Wi-Fi 7 / Wi-Fi 8 generational arc. That framing is correct for someone reading bottom-up from the cable.
+
+This chapter reads top-down from the *air*. The frame format and history we leave to Part III; here we look at what actually goes on inside the {{csma-ca|CSMA/CA}} loop, how MIMO and {{ofdma|OFDMA}} turned the original physics problem ({{multipath|multipath}}) into the bandwidth, what the headline "Wi-Fi 7 multi-link" feature really means in shipping silicon, and why every {{wpa3|WPA3}} access point in 2026 exists because Mathy Vanhoef sent three packets in 2017.
+
+If you read Part III's Wi-Fi chapter first, this one is the second pass. If you skipped it, this one will send you back to it for the layer-2 frame mechanics.`
+						},
+						{
+							type: 'narrative',
+							title: "The CSMA/CA loop in real time",
+							text: `Every 802.11 transmission begins with a station deciding the channel is idle. The procedure (DCF — Distributed Coordination Function) is mechanical: sense the channel for a **DIFS** interval of 28–34 µs, pick a random slot from a contention window starting at CW = 15, count it down (each slot = 9 or 20 µs depending on PHY), and transmit if the channel is still idle when the counter hits zero. If two stations pick the same slot, they collide; both double their CW (up to 1023) and try again.
+
+Every {{unicast|unicast}} frame must be {{ack|ACKed}} after a **SIFS** gap of ~10 µs. No ACK means assumed collision and retransmit from a larger CW. {{ack|ACK}} frames are themselves unprotected by CSMA — they fire SIFS-fast precisely so no other station has time to seize the channel between data and ACK.
+
+The visible cost is **{{airtime|airtime}} overhead**. Add up DIFS + SIFS + ACK frames + beacons + management traffic and you spend ~50% of channel time on protocol housekeeping at typical loads. Real engineers measure Wi-Fi performance in {{airtime|airtime}}, not bits per second — two clients with the *same* throughput target consume very different airtime if one is on a slow MCS at cell edge. Modern access points implement **airtime fairness** so a slow client cannot starve fast ones; classic 802.11 was famous for letting one device at the edge of the cell drag the entire network down to its rate.`
+						},
+						{
+							type: 'callout',
+							title: 'RTS/CTS is the hidden-terminal escape hatch',
+							text: 'When two stations cannot hear each other but both hear the {{access-point|AP}}, they need the {{hidden-terminal|hidden-terminal}} fix: send a tiny **Request To Send**, wait for the AP\'s **Clear To Send** which every other station within range will also hear, then transmit during the announced duration. RTS/CTS is *optional* and trades latency for airtime certainty — it adds two extra frames to every transmission, so it is on by default only for frames larger than a configurable threshold (often 2,346 bytes — i.e., never in practice). Networks that turn it on aggressively tend to be airport halls and convention centres where dozens of clients are routinely behind a column from each other.'
+						},
+						{
+							type: 'narrative',
+							title: 'How MIMO turned multipath from enemy into bandwidth',
+							text: `The original 1997 802.11 standard ran at 1–2 Mbit/s and treated {{multipath|multipath}} as a bug: reflections off the floor and ceiling produced rapid fading that you compensated for with painful equalisation circuits. Two ideas reversed the framing.
+
+**MIMO** (multiple-input multiple-output) arrived in 802.11n ([[wifi|Wi-Fi]] 4, 2009). Put two or three antennas at each end and the receiver can treat the reflected paths as *independent spatial streams* — multiplying throughput by the number of streams the channel can support. The same physics that made analog cellular calls stutter now multiplies your bandwidth.
+
+**OFDM**, which 802.11a/g introduced in 1999 and 2003, spreads each symbol across hundreds of orthogonal subcarriers so a deep fade only kills a handful of them — the rest are decoded normally and forward error correction patches the gaps. **{{ofdma|OFDMA}}**, the multi-user upgrade in 802.11ax ([[wifi|Wi-Fi]] 6, 2020), assigns *different subsets of subcarriers* to different clients in the same symbol — the {{access-point|AP}} no longer has to give one client an entire transmission opportunity at a time. The combination of MIMO + OFDMA is what lets a modern AP serve thirty phones in a coffee shop without each one paying the full per-transmission overhead the way Wi-Fi 5 did.
+
+By [[wifi|Wi-Fi]] 7 (802.11be, ratified 22 July 2025) the air interface supports 320 MHz channels, 4096-QAM, and four-stream MIMO routinely — the theoretical peak is around 46 Gbit/s. The same channel, with the same antennas, that carried 11 Mbit/s in 1999.`
+						},
+						{
+							type: 'narrative',
+							title: 'Multi-Link Operation — and what really shipped',
+							text: `**{{mlo|Multi-Link Operation}}** is the flagship feature of [[wifi|Wi-Fi]] 7. A single client connection spans 2.4 + 5 + 6 GHz radios simultaneously — frames can be sent on whichever band is least congested, and {{tail-latency|tail latency}} on a busy network drops sharply. That is the spec story.
+
+The shipping-silicon story is subtler. Most Wi-Fi 7 client chips implement **eMLSR** (Enhanced Multi-Link Single Radio): one RF chain time-sliced across bands. True simultaneous transmit-receive across bands (STR-MLO) requires multiple full RF chains and shows up only in high-end {{access-point|AP}} hardware. **Throughput does NOT add across bands** for eMLSR clients — what they get is **latency consistency**, not raw aggregate throughput. Marketing material that talks about 46 Gbit/s aggregated across three bands is talking about an AP-side capability that almost no consumer client can use.
+
+The real headline feature of [[wifi|Wi-Fi]] 8 / 802.11bn is more honest about this. **Wi-Fi 8 is not a peak-speed upgrade**: same bands as Wi-Fi 7, same 320 MHz max, same ~46 Gbit/s PHY peak. The PAR objectives are **+25% throughput at given SINR, −25% 95th-percentile latency, −25% MPDU loss across BSS transitions**. The trend across the last two generations is the same — squeeze the existing speed budget for tail latency and reliability, not the headline marketing number.`
+						},
+						{
+							type: 'callout',
+							title: 'Power management is the hidden battery story',
+							text: '802.11ax introduced **{{target-wake-time|Target Wake Time}}** — a client and {{access-point|AP}} pre-negotiate exact wake-up windows, so the client\'s radio stays deeply asleep between scheduled appointments. Originally aimed at low-power IoT (years on a coin cell), it is now what extends smartphone battery life on busy networks. **{{bss-coloring|BSS Coloring}}** added a 6-bit color field so a station can tell its own AP\'s transmissions from a neighbour\'s on the same channel, and apply a relaxed clear-channel threshold — recovering airtime that classic carrier sense would have forfeited. Both features are why Wi-Fi 6/7 outperforms Wi-Fi 5 in *exactly the apartment buildings and shopping centres* where Wi-Fi 5 used to grind to a halt.'
+						},
+						{
+							type: 'narrative',
+							title: 'KRACK, Dragonblood, and the road to WPA3',
+							text: `WPA2's four-way {{handshake|handshake}}, specified in 2004, looked solid until 16 October 2017. On that morning, Mathy Vanhoef and Frank Piessens released **{{krack|KRACK}}** — Key Reinstallation AttaCK. The flaw was conceptually small: by replaying message 3 of the handshake, an attacker could trick a client into reinstalling an already-used session key, resetting the per-packet {{iv|nonce}} counter and defeating CCMP integrity. **Every WPA2 client on Earth needed firmware updates.**
+
+KRACK forced the {{wpa3|WPA3}} replacement that had been waiting in the wings. WPA3-Personal uses **{{sae|SAE}}** (Simultaneous Authentication of Equals) — a *dragonfly* {{handshake|handshake}} from RFC 7664 where both sides prove knowledge of the passphrase without ever sending anything an eavesdropper could grind against a dictionary. Each session derives a fresh Pairwise Master Key with {{pfs|forward secrecy}}. WPA3 was announced January 2018 and made mandatory for Wi-Fi CERTIFIED 6 products from July 2020.
+
+The story did not end there. Vanhoef's group at KU Leuven has broken Wi-Fi roughly every two years since: **Dragonblood** (April 2019, side-channels in WPA3-SAE), **FragAttacks** (May 2021, fragmentation/aggregation bugs in 802.11 design itself), **Framing Frames** (March 2023), **SSID Confusion / CVE-2023-52424** (May 2024 — the 802.11 standard does NOT require the SSID to enter PMK or session-key derivation in many config paths). The cadence is so reliable that the field plans security audits around his summer talks.
+
+What Wi-Fi gets right after eight years of public attack is that **the attacks are *not* against the cryptographic primitives** — AES-CCMP and AES-GCMP have held up cleanly. The attacks are against the *protocol mechanics* of negotiation, key reinstallation, and middleware downgrade. The same shape recurs in [[bluetooth|Bluetooth]] ({{knob-attack|KNOB/BIAS/BLUFFS}}) and [[cellular|cellular]] (SS7/Diameter abuse): the cryptographic engine is sound; the **state machine around it** is where the bugs live.`
+						},
+						{
+							type: 'narrative',
+							title: 'Wi-Fi as the radio that does not know what it is for',
+							text: `Most internet protocols are designed for a workload. [[grpc|gRPC]] is service-to-service RPC; [[mqtt|MQTT]] is sensor telemetry; [[rtp|RTP]] is conversational media. [[wifi|Wi-Fi]] is none of those — it is a *generic radio* underneath everything. The same 2.4 GHz {{frame|frame}} carries a [[tcp|TCP]] segment for an SSH session, a [[udp|UDP]] datagram for a video call, a [[mdns|Bonjour]] multicast for AirPlay discovery, and a {{matter|Matter}} commissioning message.
+
+That genericity is why Wi-Fi has had to evolve so much at the **PHY** and **MAC** layers and so little above them. The IP stack on top is the same one [[ethernet|Ethernet]] uses — the 802.11 driver bridges 802.11 frames to 802.3 frames before [[ip|IP]] ever sees them. Every architectural choice in this chapter ({{ofdma|OFDMA}}, {{mlo|MLO}}, {{target-wake-time|TWT}}, {{wpa3|WPA3}}) is in the service of carrying *somebody else's traffic* across a hostile shared medium without those upper layers having to know.
+
+The single thing the upper layers do notice is **{{tail-latency|tail latency}}** — the 99th-percentile delay that makes video calls stutter and games lag. From Wi-Fi 4 (2009) to Wi-Fi 8 (2028 target), the protocol's main job has been bending the tail latency distribution back toward the median while the headline throughput tripled three times.`
+						}
+					]
+				},
+				{ kind: 'protocol', id: 'wifi', facets: ['overview', 'header', 'incidents'] },
+				{ kind: 'frontier', id: 'wifi-7-ratified' },
 				{ kind: 'simulation', protocolId: 'wifi' }
 			]
 		},
