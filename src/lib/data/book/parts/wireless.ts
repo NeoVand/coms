@@ -601,14 +601,93 @@ The contrast with [[nfc|NFC]] is instructive: NFC operates in the globally-harmo
 			synopsis:
 				'IEEE 802.15.4 mesh, Zigbee PRO R23 (Dynamic Link Key, Trust Center Swap-Out), the Hue installed base, and how Matter bridges Zigbee semantics onto IP.',
 			slots: [
-				{ kind: 'protocol', id: 'zigbee', facets: ['overview', 'header', 'incidents'] },
-				{ kind: 'pioneer', id: 'bob-heile' },
-				{ kind: 'pioneer', id: 'tobin-richardson' },
 				{
 					kind: 'pull-quote',
 					text: "Philips Hue's 2012 Apple Store launch never said \"Zigbee\" out loud. The press release mentioned ZigBee LightLink exactly once; the in-store materials, packaging, and iOS app strenuously avoided the term. The customer was sold *web-enabled* lighting. The canonical example of a successful protocol whose user-visible brand is the product, not the standard.",
-					attribution: 'Zigbee protocol page'
+					attribution: 'Author'
 				},
+				{
+					kind: 'prose',
+					sections: [
+						{
+							type: 'narrative',
+							title: 'The lighting protocol that became the IoT default',
+							text: `[[zigbee|Zigbee]] is the upper-layer protocol stack — NWK, APS, ZDO, {{zcl|ZCL}} — that the Connectivity Standards Alliance (founded August 2002 as the **Zigbee Alliance** by Invensys, Mitsubishi, Motorola, Philips, Samsung, and Honeywell) built on top of the {{ieee-802-15-4|IEEE 802.15.4}} PHY/MAC. The 2.4 GHz {{ism-band|ISM band}} offers 16 channels of 250 kbit/s O-QPSK; sub-GHz PHYs at 868 MHz (Europe) and 902–928 MHz (North America) give longer range at lower bit rates. Topologies are star, tree, and — the one everyone uses — **mesh**: every mains-powered device routes for its sleepy battery-powered neighbours, and the network heals itself when a router drops out. 127-byte PHY {{payload|payloads}}, ~80–100 byte usable APS payloads, AES-128-CCM* security across both network and application layers.
+
+The deployment story is unusually concentrated. **Philips Hue** launched on 29 October 2012 at Apple Stores for $199, branded as *"Web-enabled lighting"* with the word Zigbee deliberately hidden, and grew to roughly **30 million bulbs lifetime** — the largest Zigbee installed base on Earth. **IKEA Trådfri** (2017), **SmartThings**, **Amazon Echo Plus**, **Hubitat**, and most commercial-lighting systems (Acuity nLight AIR, Eaton, Lutron Vive) all run Zigbee. The under-reported giant is **VusionGroup electronic shelf labels** — 350 million units shipped in 2023 alone, with **Walmart's December 2024 announcement** to roll Vusion ESLs out across 4,600 US stores. More Zigbee-family devices in one retailer than Hue has ever sold.`
+						},
+						{
+							type: 'callout',
+							title: 'Zigbee is a brand the customer never sees',
+							text: 'Hue\'s October 2012 launch is the canonical example of a successful protocol whose user-visible brand is the product, not the standard. Press releases mentioned *ZigBee LightLink* exactly once. In-store displays, packaging, and the iOS app strenuously avoided the term. Consumers bought "Web-enabled lighting", which is what they wanted. The CSA renamed itself away from "Zigbee Alliance" in 2021 partly to acknowledge that the brand had been a marketing liability for a decade. Every successful low-power mesh protocol learned this lesson: name the *product*, not the wireless standard underneath.'
+						},
+						{
+							type: 'narrative',
+							title: 'The mesh, the trust center, and the install code',
+							text: `A Zigbee network has three classes of device. **The Coordinator** (one per network) starts the mesh, holds the network key, and acts as the {{trust-center|Trust Center}} — the single trust root that authenticates every join. **Routers** are mains-powered devices (light bulbs, plugs, switches) that forward traffic for their neighbours and keep the mesh self-healing. **End devices** are battery-powered (sensors, buttons) that sleep most of the time and wake briefly to send a packet through their parent router.
+
+At commissioning time, a new device joins by exchanging a 16-byte AES-128 **pre-configured link key** with the Trust Center. The Trust Center then sends the **network key** in an APS Transport-Key command encrypted under that link key. So far so good — except that for fifteen years the default link key was a publicly known sixteen-byte string: \`5A:69:67:42:65:65:41:6C:6C:69:61:6E:63:65:30:39\` = ASCII **ZigBeeAlliance09**. Generations of Wireshark users memorised the hex; any attacker sniffing a join with that default key could read the network key in plaintext.
+
+**{{install-code|Install codes}}** — a per-device 128-bit secret printed on the device's packaging or QR-encoded on the box, mandatory in Zigbee 3.0 commissioning — closed that hole. **{{dynamic-link-key|Dynamic Link Key}}** in **Zigbee PRO 2023 (R23)** went further: a SPEKE-over-Curve25519 {{handshake|handshake}} that derives a unique link key per device with no pre-shared secret at all. Zigbee's equivalent of the {{wpa3|WPA3}}/{{sae|SAE}} replacement of WPA2-PSK.`
+						},
+						{
+							type: 'narrative',
+							title: 'ZCL — a tiny REST API for light bulbs',
+							text: `What makes [[zigbee|Zigbee]] a *consumer* protocol rather than a generic mesh is the **{{zcl|Zigbee Cluster Library}}** — an object model that gives every device a small, predictable, attribute-and-command vocabulary. Each **cluster** is a tiny object: **OnOff = 0x0006** has the boolean attribute OnOff and the commands On (0x00), Off (0x01), Toggle (0x02). **Level Control = 0x0008** has dim level and the commands Move-to-Level, Step, Stop. **Color Control = 0x0300** has hue, saturation, and the commands Move-to-Color, Move-to-Hue, and so on. **OTA Upgrade = 0x0019** lets the bulb pull a firmware update from the coordinator.
+
+A modern Hue bulb implements roughly a dozen clusters. The Hue Hub turns "set living-room scene to *Concentrate*" into a Color-Control Move-to-Color groupcast that fans out to every bulb in the room. The bulb does not know it is in a living room or that there is a scene — it just runs the cluster commands it was told to run.
+
+The deeper consequence is that {{matter|**Matter**}} reuses {{zcl|ZCL}} as its data model directly. **Matter is essentially ZCL on [[ipv6|IPv6]].** Every cluster ID, every attribute, every command from Zigbee maps one-to-one to its Matter equivalent. This is the reason the **Hue Bridge Matter firmware** that Signify shipped on 19 September 2023 worked at all — it did not have to re-model Hue's behaviour for Matter; it just had to translate the transport.`
+						},
+						{
+							type: 'narrative',
+							title: 'Thread — the IPv6-native successor',
+							text: `{{thread|**Thread**}} is the sibling that took a different architectural turn. Same {{ieee-802-15-4|802.15.4}} radio as Zigbee, same 2.4 GHz channels, same mesh topology — but where Zigbee carries application traffic in its own NWK / APS stack, Thread carries native **[[ipv6|IPv6]] over 6LoWPAN** {{header|header compression}} and uses **MLE** (Mesh Link Establishment) for routing. Every Thread device gets a real IPv6 address and is reachable like any other host on your home network.
+
+The Thread Group was founded in **July 2014** by Nest (then a Google subsidiary), Samsung, ARM, Silicon Labs, NXP, and a few others. The pitch was: "Zigbee is a closed application stack with a non-IP wire format; we want IPv6 mesh." Adoption was slow — the killer app that needed *another* low-power mesh was missing — until {{matter|**Matter**}} arrived in 2022 and made Thread the radio of choice for sensors and switches that should not run Wi-Fi.
+
+**Thread 1.4** (December 2024) made **{{border-router|Thread Border Routers}}** a multi-vendor commodity. Apple's HomePod and Apple TV 4K, Google's Nest Hub, Amazon Echo Hub, Aqara M3, eero 6+, and others all act as Thread Border Routers — bridging the 802.15.4 mesh to your home [[wifi|Wi-Fi]] network. The border router runs **{{mdns|DNS-SD}}** for service discovery, hands out [[ipv6|IPv6]] prefixes via SLAAC to the Thread mesh, and forwards packets between the radios. From your phone, a Thread sensor looks like any other IPv6 host — you can ping it.
+
+In 2026, **new device design has bifurcated**. Lighting and sensors are increasingly Thread (Matter-native, low power, IPv6-addressable). Cameras and high-bandwidth devices are [[wifi|Wi-Fi]] (Matter 1.5 added camera streaming via RTSP). Zigbee is the *bridged legacy radio* — preserved for the installed base, no longer the default for new designs.`
+						},
+						{
+							type: 'callout',
+							title: "Matter's commitment, in three sentences",
+							text: 'The CSA launched **{{matter|Matter}} 1.0 on 4 October 2022** as an IP-native smart-home standard, running over [[wifi|Wi-Fi]], [[ethernet|Ethernet]], and {{thread|Thread}}. Matter does **not** run over [[zigbee|Zigbee]] on the wire — but it reuses Zigbee\'s {{zcl|ZCL}} data model directly, which lets a *Matter Bridge for non-Matter devices* (Hue Bridge, Aqara Hub M3) translate Matter operations to Zigbee one-to-one. Now at **v1.5 (20 November 2025)**, with camera streaming via RTSP, removing the last category that previously required Zigbee bridging.'
+						},
+						{
+							type: 'narrative',
+							title: 'The Wi-Fi coexistence headache, and the fixes',
+							text: `Zigbee and [[wifi|Wi-Fi]] both live on 2.4 GHz, and Zigbee always loses. Wi-Fi uses 20 MHz channels centred at 2412/2437/2462 MHz (channels 1/6/11). Zigbee channels are 2 MHz wide, centred at 2405 + 5·(k−11) MHz. **Zigbee channels 11–14 sit under Wi-Fi 1; 15 partially clears it; 20 sits in the gap between Wi-Fi 6 and 11; 25 and 26 sit above Wi-Fi 11.** A Wi-Fi network can fill several Zigbee channels with broadband noise loud enough that a Zigbee router cannot win a CSMA-CA back-off.
+
+The standard advice — choose channel 15, 20, 25, or 26 — works when you have one well-placed coordinator and a single Wi-Fi network to dodge. In dense apartment buildings with ~20 Wi-Fi APs visible, no single Zigbee channel is reliably clear. The R23 spec added **frequency-agility** so the coordinator can order the whole mesh to {{hop|hop}} to a new channel when interference exceeds a threshold. Newer multi-radio bridges (Aqara M3, Apple HomePod gen 4, Amazon Echo Hub) put the Zigbee antenna **physically separated from the Wi-Fi antenna** in the case design, which sounds trivial but is the single biggest improvement in real-world reliability over the previous decade of "USB stick plugged into the back of a router."
+
+The single most common cause of unreliable Zigbee in any forum thread you will ever read: **the coordinator dongle is plugged directly into the back of the Wi-Fi router**. Move the dongle to a USB extension cable, three feet away. Half the complaints disappear.`
+						},
+						{
+							type: 'narrative',
+							title: 'The 350-million-unit shelf-label deployment nobody talks about',
+							text: `Discussion of Zigbee in 2026 is usually about consumer smart-home — Hue, SmartThings, Aqara. The numbers say something else. **VusionGroup** (formerly SES-imagotag) shipped **350 million Zigbee-family ESL units in 2023** alone, and is rolling out an additional 60M+ across Walmart's 4,600 US stores from late 2024 through 2026. Carrefour, Tesco, Auchan, Mercadona, and most European hypermarket chains are also Vusion deployments at planetary scale.
+
+Each ESL is a tiny e-paper display with a Zigbee-family radio (Vusion uses a proprietary variant on {{ieee-802-15-4|802.15.4}}) that updates its price text from a central server multiple times per day. The radio is always on, the display only when content changes — the e-paper holds its image without power. From the protocol's perspective, it is the same NWK + APS + cluster-library shape as a Hue bulb; from the deployment's perspective, it is the largest production {{ieee-802-15-4|802.15.4}} network anywhere on Earth.
+
+The dynamic-pricing implications are still controversial — Walmart's December 2024 announcement was met with consumer-pricing concerns about real-time price changes — but the *protocol* deployment proceeds either way. ESLs are the quiet, planet-scale, never-quite-mentioned-in-tech-press Zigbee success story.`
+						},
+						{
+							type: 'narrative',
+							title: 'Where Zigbee goes from here',
+							text: `New 2026 device design is not Zigbee — it is {{thread|Thread}} or [[wifi|Wi-Fi]] with Matter on top. New Hue bulbs and IKEA Trådfri devices continue to ship Zigbee because the installed base is huge and the radios are cheap; **Aqara has been shipping Thread + Matter-native sensors since 2024**. Most major manufacturer roadmaps treat Zigbee as a *bridged legacy* — the radio that will be supported through 2030+, but not the radio future devices will default to.
+
+The mass-scale exceptions remain commercial: ESLs, industrial lighting controls, and the Walmart-class deployments where Zigbee's per-device cost and zero-router-required architecture still beat anything else. The CSA's R23 work (Dynamic Link Key, Trust Center Swap-Out, Zigbee Direct, sub-GHz PHYs) is explicitly aimed at *preserving* the installed base, not growing it.
+
+For the home-automation hobbyist, the **{{matter|Matter}} bridge** is the right framing in 2026. A Hue bulb is a Zigbee device; through the Hue Bridge's Matter firmware, it appears as a Matter accessory; from your iPhone or Google Home, it is "a light bulb." The Zigbee protocol is doing its job — exactly the job Hue's 2012 marketing copy promised: *web-enabled lighting*, with the word *Zigbee* still off the box.`
+						}
+					]
+				},
+				{ kind: 'protocol', id: 'zigbee', facets: ['overview', 'header', 'incidents'] },
+				{ kind: 'pioneer', id: 'bob-heile' },
+				{ kind: 'pioneer', id: 'tobin-richardson' },
+				{ kind: 'pioneer', id: 'skip-ashton' },
 				{ kind: 'simulation', protocolId: 'zigbee' }
 			]
 		},
