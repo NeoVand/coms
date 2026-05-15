@@ -20,7 +20,7 @@ export const famousOutages: BookPart = {
 		{
 			id: 'arpanet-1980',
 			title: 'ARPANET 1980 — The First Major Crash',
-			synopsis: 'A garbled status message brings the network down.',
+			synopsis: 'A garbled status message brings {{arpanet|ARPANET}} down.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -211,7 +211,7 @@ The technical legacy outlived the celebrity. **[[rfc:1948|RFC 1948]]** (Steve Be
 		{
 			id: 'pakistan-youtube-2008',
 			title: 'Pakistan/YouTube 2008',
-			synopsis: 'A domestic block leaks globally.',
+			synopsis: 'A domestic block leaks globally via [[bgp|BGP]].',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -545,7 +545,7 @@ The first [[bgp|BGP]] fix went in around 21:00 UTC. Recovery took until 22:30 �
 		{
 			id: 'rogers-2022',
 			title: 'Rogers 2022 — A Country Disconnected',
-			synopsis: 'Fifteen hours, half of Canada offline.',
+			synopsis: 'Fifteen hours, half of Canada offline — one [[bgp|BGP]]/OSPF redistribution mistake.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -617,7 +617,7 @@ These requirements are unusual in their specificity for a private telecommunicat
 		{
 			id: 'att-mobility-2024',
 			title: 'AT&T Mobility 2024',
-			synopsis: '125 million devices, 25,000 failed 911 calls.',
+			synopsis: '[[cellular|125 million devices]], 25,000 failed 911 calls.',
 			slots: [
 				{
 					kind: 'pull-quote',

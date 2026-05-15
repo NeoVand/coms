@@ -19,7 +19,7 @@ export const layer23: BookPart = {
 		{
 			id: 'ethernet',
 			title: 'Ethernet',
-			synopsis: 'From PARC coaxial cable to 800 GbE in AI training fabrics.',
+			synopsis: 'From {{xerox-parc|PARC}} coaxial cable to [[ethernet|800 GbE]] in AI training fabrics.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -62,6 +62,14 @@ The naming history is its own joke: **802.3 letter suffixes ran out at "z"** (10
 The **[[frontier:ultra-ethernet-1-0|Ultra Ethernet Consortium]] Specification 1.0** was published 11 June 2025 (~560 pages) — the first ground-up rethink of how [[ethernet|Ethernet]] carries RDMA traffic for AI/HPC workloads. Defines **Ultra [[ethernet|Ethernet]] Transport (UET)**: packet spraying with multipath, selective {{retransmission|retransmission}}, in-network telemetry-driven {{congestion-control|congestion control}}, ephemeral/{{connectionless|connectionless}} transport state for millions of endpoints.
 
 **650 Group estimates 91% of AI workloads will run on [[ethernet|Ethernet]] by 2029**; NVIDIA Spectrum-X delivers ~95% effective throughput vs ~60% on best-effort [[ethernet|Ethernet]] for AI workloads. The architectural significance is that AI training is now important enough to drive a new datacenter transport — the same kind of pressure that produced [[ethernet|Ethernet]] in 1973 for office networking, [[tcp|TCP/IP]] in 1981 for inter-network research, and [[quic|QUIC]] in 2012 for the modern web.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Ethernet_Type_II_Frame_format.svg/500px-Ethernet_Type_II_Frame_format.svg.png',
+							alt: 'The Ethernet Type II frame format showing preamble, destination MAC, source MAC, EtherType, payload, and FCS.',
+							caption:
+								'The **[[ethernet|Ethernet]] Type II frame format** — six bytes of destination MAC, six of source, two of EtherType, up to 1500 bytes of payload, four bytes of CRC. **Forty-five years** of {{bandwidth|bandwidth}} growth from 2.94 Mbit/s to 800 Gbit/s have slid in around this little wire format without changing it. Almost every architectural decision in Layer 2–3 is downstream of this picture staying still.',
+							credit: 'Image: Wikimedia Commons / public domain'
 						}
 					]
 				},
@@ -78,7 +86,7 @@ The **[[frontier:ultra-ethernet-1-0|Ultra Ethernet Consortium]] Specification 1.
 		{
 			id: 'wifi',
 			title: 'Wi-Fi',
-			synopsis: 'CSMA/{{certificate-authority|CA}} on the airwaves; from FCC Docket 81-413 to [[wifi|Wi-Fi]] 8.',
+			synopsis: '{{csma-ca|CSMA/CA}} on the airwaves; from FCC Docket 81-413 to [[wifi|Wi-Fi]] 8.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -123,6 +131,14 @@ But on **12 November 2025**, the EU Radio Spectrum Policy Group recommended assi
 The breach that changed everything: **TJX (disclosed 17 January 2007)** — attackers war-drove a poorly-secured **WEP-protected** [[wifi|Wi-Fi]] at a Marshalls store in Miami starting July 2005; **~94 million customer card records exfiltrated**. TJX settled with 41 state AGs for $9.75M. Drove WPA2 mandates and effectively ended WEP deployment in retail.
 
 **[[wifi|Wi-Fi]] sensing standardised**: 802.11bf-2025 published 26 September 2025, allows CSI-based presence/motion/breathing detection across 1-7.125 GHz and >45 GHz — radio waves as occupancy sensors.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/MAC-48_Address.svg/500px-MAC-48_Address.svg.png',
+							alt: 'MAC-48 address structure — 48 bits split into a 24-bit OUI vendor prefix and 24 bits of unique vendor-assigned identifier.',
+							caption:
+								'A **MAC-48 address** — 48 bits, written as six colon-separated hex bytes. The top 24 bits are the **OUI** (vendor prefix, assigned by the IEEE); the bottom 24 bits are the per-device serial. Every [[ethernet|Ethernet]], [[wifi|Wi-Fi]], and [[bluetooth|Bluetooth]] interface in the world has one of these — the unique identifier that 802.3, 802.11, and [[arp|ARP]] all depend on.',
+							credit: 'Image: Wikimedia Commons / public domain'
 						}
 					]
 				},
@@ -136,7 +152,7 @@ The breach that changed everything: **TJX (disclosed 17 January 2007)** — atta
 		{
 			id: 'arp-and-ndp',
 			title: 'ARP and NDP',
-			synopsis: 'How a packet finds the next physical hop — STD 37 has not been obsoleted in 44 years.',
+			synopsis: 'How a {{packet|packet}} finds the next physical hop — [[arp|STD 37]] has not been obsoleted in 44 years.',
 			slots: [
 				{
 					kind: 'prose',
@@ -180,6 +196,14 @@ Two {{ndp|NDP}} CVEs deserve naming.
 **iOS 18 / macOS Sequoia (September 2024) introduced "Rotate [[wifi|Wi-Fi]] Address" mode** that changes MAC every 14 days on weak/open networks, breaking captive portals, MAC-based [[dhcp|DHCP]] reservations, and [[arp|ARP]]-cache freshness assumptions. Many enterprise [[wifi|Wi-Fi]] deployments needed reconfiguration.
 
 **Frontier — [[ipv6|IPv6]]-mostly is going mainstream**: [[rfc:8925|RFC 8925]] + [[rfc:8781|RFC 8781]] + {{four-six-four-xlat|464XLAT}} lets a single SSID/{{vlan|VLAN}} serve dual-stack laptops AND [[ipv6|IPv6]]-only-capable phones simultaneously, with the [[ipv6|IPv6]]-only-capable hosts **never running [[arp|ARP]]**. Apple iOS/macOS, Android, and recent macOS request [[dhcp|DHCP]] option 108 by default; Windows is lagging. The day [[arp|ARP]] becomes vestigial is approaching.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Ethernet_Switch_%28Front_View%29.jpg/500px-Ethernet_Switch_%28Front_View%29.jpg',
+							alt: 'A rack-mounted Ethernet switch with rows of RJ-45 ports.',
+							caption:
+								'An [[ethernet|Ethernet]] switch — the physical thing that builds and maintains a MAC-address-to-port table for every device plugged in. Every entry in that table is a successful [[arp|ARP]] request: *who has 192.0.2.5? I do, at ab:cd:ef:01:02:03.* The switch caches; the host caches; the entire seam between the [[ip|IP]] layer\'s 32-bit addresses and the [[ethernet|Ethernet]] layer\'s 48-bit ones lives in those two caches.',
+							credit: 'Photo: Wikimedia Commons / CC BY-SA'
 						}
 					]
 				},
@@ -194,7 +218,7 @@ Two {{ndp|NDP}} CVEs deserve naming.
 		{
 			id: 'ipv4',
 			title: 'IPv4',
-			synopsis: 'The 32-bit address that ran fifty years longer than planned.',
+			synopsis: 'The [[ip|32-bit address]] that ran fifty years longer than planned.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -243,6 +267,14 @@ Together these stretched [[ip|IPv4]] from "exhausted in 1995" to "still ~50% of 
 **[[outage:pakistan-youtube-2008|Pakistan Telecom's YouTube hijack (24 February 2008)]]** — PTCL announced 208.65.153.0/24 (more-specific of YouTube's /22), PCCW Global propagated, YouTube went dark globally for ~2 hours. Drove {{rpki|RPKI}} / BGPsec / MANRS work that finally accelerated in 2024-2025.
 
 **Linux 6.3 (April 2023, deployed in 2024)** shipped **BIG [[tcp|TCP]] for [[ip|IPv4]]** — TSO/GRO superpackets above 64 KB on 100/200 Gb NICs. **Cloudflare blocked 47.1 million DDoS attacks in 2025**; peaked at **31.4 Tbps for one 35-second burst** (Aisuru-Kimwolf Android-TV botnet, December 2025).`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/60/IPv4_Packet-en.svg/500px-IPv4_Packet-en.svg.png',
+							alt: 'The IPv4 packet header diagram showing all 20 bytes of fields.',
+							caption:
+								'The **[[ip|IPv4]] packet header** — twenty bytes of structure that has barely changed since [[rfc:791|RFC 791]] (September 1981). The 32-bit Source and Destination addresses on the bottom two rows are the field [[pioneer:vint-cerf|Vint Cerf]] said in 2011 he was "a little embarrassed about" — *"My only defense is that the choice was made in 1977, and I thought it was an experiment."* The experiment is still running.',
+							credit: 'Image: Wikimedia Commons / public domain'
 						}
 					]
 				},
@@ -257,7 +289,7 @@ Together these stretched [[ip|IPv4]] from "exhausted in 1995" to "still ~50% of 
 		{
 			id: 'ipv6',
 			title: 'IPv6',
-			synopsis: 'A 28-year transition that just crossed 50% on 28 March 2026.',
+			synopsis: 'A 28-year [[ipv6|IPv6]] transition that just crossed 50% on 28 March 2026.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -304,6 +336,14 @@ The 2024 {{ietf|IETF}} backlog tells the story of where [[ipv6|IPv6]] work is ha
 **Frontier**: SoftBank (Dec 2025) announced the world's first commercial 5G deployment using **SRv6 MUP**; Microsoft Azure Fairwater (OCP 2025) uses **SRv6 as fabric** for what Microsoft calls the largest AI back-end network in the world.
 
 **Apple iCloud Private Relay** (Oct 2021+) prefers [[ipv6|IPv6]] egress when AAAA exists; pure [[ip|IPv4]]-only enterprise networks frequently break Private Relay — its own forcing function for [[ipv6|IPv6]] deployment in enterprises that want Apple-device compatibility.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Ipv6_address_leading_zeros.svg/500px-Ipv6_address_leading_zeros.svg.png',
+							alt: 'IPv6 address structure showing the eight 16-bit groups and the double-colon zero-compression rule.',
+							caption:
+								'An [[ipv6|IPv6]] address — **128 bits**, written as eight colon-separated 16-bit groups, with one run of zeros collapsed to `::`. The field grew from [[ip|IPv4]]\'s 32 bits to enough that every grain of sand on Earth could have its own {{subnet|subnet}}. On 28 March 2026 Google\'s [[ipv6|IPv6]] dashboard crossed **50.1%** for the first time — 28 years after [[rfc:2460|RFC 2460]] was published.',
+							credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 						}
 					]
 				},
@@ -318,7 +358,7 @@ The 2024 {{ietf|IETF}} backlog tells the story of where [[ipv6|IPv6]] work is ha
 		{
 			id: 'icmp',
 			title: 'ICMP',
-			synopsis: 'Ping, traceroute, and the diagnostic backplane.',
+			synopsis: '[[icmp|Ping, traceroute]], and the diagnostic backplane.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -363,6 +403,14 @@ The most famous [[icmp|ICMP]] message is **Echo Request / Echo Reply** — what 
 **Frontier**: Tsinghua's \`draft-xu-intarea-challenge-icmpv4-02\` (February 2025) proposes a challenge-confirm scheme using [[ip|IP]] options so receivers can verify a router actually saw the original packet — the most concrete proposal in years to fix [[icmp|ICMP]]'s "anyone-can-spoof-any-error" weakness. \`draft-ietf-6man-icmpv6-reflection-19\` (December 2025) defines a {{stateless|stateless}} probe-and-reflect ICMPv6 utility, currently active.
 
 **GGP (RFC 823, September 1982)** is [[icmp|ICMP]]'s parent — the Gateway-to-Gateway Protocol on {{bbn|BBN}}'s LSI-11 gateways, predecessor of EGP (1984) and grand-uncle of [[bgp|BGP]]. The diagnostic mechanism predates the routing protocol.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/ICMPv4_Echo_and_Echo_replay_message-en.svg/500px-ICMPv4_Echo_and_Echo_replay_message-en.svg.png',
+							alt: 'ICMPv4 Echo Request and Echo Reply message exchange diagram.',
+							caption:
+								'**[[icmp|ICMP]] Echo Request / Echo Reply** — the wire format underneath `ping`. Mike Muuss wrote ping in a single night at BRL Aberdeen in December 1983, named after the sound a sonar makes: *"Had everything working well before sunrise."* The same Echo/Reply pair, drawn here in a 21st-century diagram, has been carrying *"is this host alive?"* for forty-three years.',
+							credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 						}
 					]
 				},
@@ -375,7 +423,7 @@ The most famous [[icmp|ICMP]] message is **Echo Request / Echo Reply** — what 
 		{
 			id: 'bgp',
 			title: 'BGP',
-			synopsis: 'Three napkins, every {{transit|transit}} relationship, no built-in trust.',
+			synopsis: '[[bgp|Three napkins]], every {{transit|transit}} relationship, no built-in trust.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -430,6 +478,14 @@ That sketch became [[rfc:4271|BGP-1]] ([[rfc:1105|RFC 1105]], June 1989), then [
 **The June 2024 FCC NPRM** is the first-ever U.S. federal proposal to compel the nine largest BIAS providers (AT&T, Altice, Charter, Comcast, Cox, Lumen, T-Mobile, TDS/US Cellular, Verizon) to file [[bgp|BGP]] Routing Security Risk Management Plans and quarterly {{rpki|RPKI}} deployment reports. As of March 2024, only **~22% of US-originated routes had ROAs**.
 
 **2026 {{rpki|RPKI}} scale**: ~54% of [[ip|IPv4]] prefixes and ~54% of [[ipv6|IPv6]] prefixes are ROA-covered; **~74% of [[ip|IP]] traffic** is destined to ROA-covered networks (Kentik). [[frontier:rpki-rov-50-percent|IPv4 first crossed 50% ROA coverage in May 2024.]] **BIRD 3.0 (January 2025)** was the first stable multithreaded [[bgp|BGP]] implementation, scaling to 5,000+ peers. The protocol is finally being given the security guardrails it should have had thirty years ago.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Arpanet_logical_map%2C_march_1977.png/500px-Arpanet_logical_map%2C_march_1977.png',
+							alt: 'ARPANET logical map, March 1977 — predecessor topology to today\'s BGP-routed internet.',
+							caption:
+								'The {{arpanet|ARPANET}} logical map, March 1977 — every node fits on a single sheet of paper. Today\'s [[bgp|BGP]] global {{routing-table|routing table}} has crossed **a million prefixes**, advertised by ~46,800 {{autonomous-system|ASes}}. [[pioneer:yakov-rekhter|Yakov Rekhter]] and Kirk Lougheed sketched the *Two-Napkin Protocol* in 1989 — three handwritten sheets that became the protocol every {{transit|transit}} provider on Earth still speaks.',
+							credit: 'Image: DARPA / public domain, via Wikimedia Commons'
 						}
 					]
 				},
