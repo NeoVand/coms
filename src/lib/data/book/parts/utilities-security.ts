@@ -18,7 +18,7 @@ export const utilitiesSecurity: BookPart = {
 		{
 			id: 'dns',
 			title: 'DNS',
-			synopsis: "The internet's distributed phone book — designed by [[pioneer:paul-mockapetris|Paul Mockapetris]] in 1983.",
+			synopsis: "[[dns|The internet's distributed phone book]] — designed by [[pioneer:paul-mockapetris|Paul Mockapetris]] in 1983.",
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -63,6 +63,14 @@ The first six TLDs were **\`.edu, .gov, .com, .mil, .org, .net\`**, with **\`.in
 **2025 incidents to know**: AWS Route 53 / DynamoDB [[dns|DNS]] race (19-20 October 2025); Microsoft Azure Front Door [[dns|DNS]] outage (29 October 2025).
 
 **Frontier**: **DELEG WG (\`draft-ietf-deleg-08\`, March 2026)** introduces new **DELEG and DELEGPARAM RR types** meant to make delegations extensible — specifically to let parents express that a child speaks DoT/DoQ on a non-default port. **Post-quantum {{dnssec|DNSSEC}}** prototypes in BIND/Unbound/NSD/CoreDNS were measured at {{ietf|IETF}} 123 (July 2025) hackathon; NIST finalised ML-DSA/{{ml-kem|ML-KEM}}/SLH-DSA on **13 August 2024** and FN-DSA (Falcon) draft FIPS 206 was submitted **28 August 2025**.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Example_of_an_iterative_DNS_resolver.svg/500px-Example_of_an_iterative_DNS_resolver.svg.png',
+							alt: 'Iterative DNS resolution diagram — client → recursive resolver → root → TLD → authoritative servers.',
+							caption:
+								'Iterative **[[dns|DNS]]** resolution: client → recursive resolver → root server → TLD server → authoritative server. The same hierarchy [[pioneer:paul-mockapetris|Paul Mockapetris]] designed in **[[rfc:882|RFC 882]]/883 in November 1983** is what powers ~14 trillion queries per day on Google Public DNS alone. The first server was named *Jeeves* and ran on TOPS-20.',
+							credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 						}
 					]
 				},
@@ -78,7 +86,7 @@ The first six TLDs were **\`.edu, .gov, .com, .mil, .org, .net\`**, with **\`.in
 		{
 			id: 'tls',
 			title: 'TLS',
-			synopsis: 'From SSL 1.0 (never released) to post-quantum hybrid by default in iOS 26.',
+			synopsis: '[[tls|From SSL 1.0]] (never released) to post-quantum hybrid by default in iOS 26.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -127,6 +135,14 @@ Two more historical incidents to name: **goto fail (CVE-2014-1266)** — a dupli
 **Frontier — 47-day cert lifetimes**: {{certificate-authority|CA}}/Browser Forum **Ballot SC-081v3 (11 April 2025, Apple-sponsored, 29-yes-0-no)** phases certs to **200 days on 15 March 2026, 100 days on 15 March 2027, 47 days on 15 March 2029**, with DCV reuse falling to **10 days** in the same window. **Manual renewal is no longer an option.** Every {{certificate|certificate}} operation must be automated by 2029.
 
 **Let's Encrypt DST Root {{certificate-authority|CA}} X3 expiry (30 September 2021)** broke older Android, OpenSSL <1.1.0, Sophos UTM, Stripe webhook clients, Roku, Heroku Redis. Root expiration is a **calendar-driven incident** that should have been forecast — and now serves as the canonical case for why root rollovers must be scheduled like rocket launches.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Digital_certificates_chain_of_trust.png/500px-Digital_certificates_chain_of_trust.png',
+							alt: 'Digital certificate chain of trust diagram — root CA, intermediate CA, end-entity certificate.',
+							caption:
+								'A **[[tls|TLS]] certificate chain of trust**: a root {{certificate-authority|CA}} signs an intermediate CA, which signs the end-entity certificate your browser actually sees. Every HTTPS connection ends at a chain like this; DigiNotar\'s August 2011 compromise (531 fraudulent certs for 344 domains) is what forced **{{certificate-transparency|Certificate Transparency}}** into existence as a structural fix. The current frontier is 47-day cert lifetimes, mandatory by 15 March 2029.',
+							credit: 'Image: Wikimedia Commons / CC BY-SA'
 						}
 					]
 				},
@@ -144,7 +160,7 @@ Two more historical incidents to name: **goto fail (CVE-2014-1266)** — a dupli
 		{
 			id: 'ssh',
 			title: 'SSH',
-			synopsis: 'Encrypted shells, port forwards, and SCP — written by Tatu Ylönen in Helsinki, July 1995.',
+			synopsis: '[[ssh|Encrypted shells]], port forwards, and SCP — written by Tatu Ylönen in Helsinki, July 1995.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -193,6 +209,14 @@ The protocol uses **public-key cryptography** for host and user authentication, 
 **GitHub host-key exposure (24 March 2023)**: GitHub's RSA [[ssh|SSH]] host {{private-key|private key}} was briefly inadvertently published in a public GitHub repo; users worldwide had to \`ssh-keygen -R github.com\` and re-trust. The remediation cost was the user-visible part; the deeper lesson was about secret-handling in shared development infrastructure.
 
 **Heninger et al. "Mining Your Ps and Qs" (USENIX Security 2012)** found **0.03% of RSA [[ssh|SSH]] host keys and 1.03% of DSA keys exposed** because of weak entropy at first boot; computed thousands of private keys via batch-GCD. The reason DSA is finally being removed in OpenSSH 10.0 is that DSA's per-signature random number is too easy to get wrong.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Ssh_binary_packet_alt.svg/500px-Ssh_binary_packet_alt.svg.png',
+							alt: 'SSH binary packet format showing length, padding, payload, and MAC fields.',
+							caption:
+								'The **[[ssh|SSH]] binary packet**: 4-byte length, 1-byte padding length, the payload, random padding, and an integrity MAC at the end — all encrypted under the negotiated symmetric cipher. Tatu Ylönen wrote this protocol in **July 1995** after a password sniffer at Helsinki University of Technology; thirty years and one OpenBSD-led fork later, OpenSSH 10.0 (April 2025) ships **post-quantum {{ml-kem|ML-KEM}}-768 + X25519** as the default key {{exchange|exchange}} — the first widely-deployed protocol to ship PQ crypto by default.',
+							credit: 'Image: Wikimedia Commons / CC BY-SA'
 						}
 					]
 				},
@@ -204,7 +228,7 @@ The protocol uses **public-key cryptography** for host and user authentication, 
 		{
 			id: 'ntp',
 			title: 'NTP',
-			synopsis: 'Why your timestamp is correct to within milliseconds — and the era rollover on 7 February 2036.',
+			synopsis: '[[ntp|Why your timestamp is correct]] to within milliseconds — and the era rollover on 7 February 2036.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -255,6 +279,14 @@ A client samples the {{rtt|round-trip time}} to a server (call it δ) and the ap
 **Galileo PTF outage (11-18 July 2019)**: Six-day complete service loss — Precise Timing Facility upgrade gone wrong with redundant standby in Oberpfaffenhofen unavailable. Cautionary tale for stratum-0 GNSS users — need holdover oscillators (rubidium, OCXO).
 
 **Regulatory drivers**: **MiFID II RTS 25 (January 2018)** mandates clock divergence from UTC of **≤100 µs for HFT and ≤1 ms for non-HFT**. [[ntp|NTP]] is now a regulated function in financial services — operating an [[ntp|NTP]] server with insufficient accuracy is a compliance violation.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Nist-f1.jpg/500px-Nist-f1.jpg',
+							alt: 'NIST-F1 caesium fountain atomic clock — the US primary frequency standard.',
+							caption:
+								'**NIST-F1**, the caesium fountain atomic clock that has served as the US primary frequency standard since 1999. Accurate to about one second in 100 million years. [[pioneer:david-mills|David Mills]]\'s **[[ntp|NTP]]** (1985 — Mills died 17 January 2024) is the protocol that flows this kind of accuracy out to every laptop, phone, and server on the internet, with Marzullo\'s 1984 consensus algorithm picking a sane median from a flock of stratum-1 sources.',
+							credit: 'Photo: NIST / public domain, via Wikimedia Commons'
 						}
 					]
 				},
@@ -267,7 +299,7 @@ A client samples the {{rtt|round-trip time}} to a server (call it δ) and the ap
 		{
 			id: 'oauth-and-jwt',
 			title: 'OAuth 2.1 and JWT',
-			synopsis: 'How modern apps delegate access — and the most famous resignation in protocol history.',
+			synopsis: '[[oauth2|How modern apps delegate access]] — and the most famous resignation in protocol history.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -324,6 +356,14 @@ Before [[oauth2|OAuth]], an app that wanted access to your Google calendar asked
 **Frontier**: SD-{{jwt|JWT}}-VC (\`draft-ietf-oauth-sd-jwt-vc-16\`, April 2026) for selective-disclosure verifiable credentials underpinning the **EU Digital Identity Wallet**.
 
 **Vittorio Bertocci** — Principal Architect at Okta, host of *Identity, Unlocked* podcast, co-author of RFC 9470 — passed away from pancreatic cancer 7 October 2023; the podcast has not produced new episodes since. The [[oauth2|OAuth]] community lost its most prolific public educator at a critical moment.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Oauth_logo.svg/500px-Oauth_logo.svg.png',
+							alt: 'The OAuth logo — a stylised "O" rendered as a key.',
+							caption:
+								'The **[[oauth2|OAuth]]** logo. The framework was sketched at CitizenSpace in late 2006, [[oauth2|OAuth 2.0]] published as [[rfc:6749|RFC 6749]] in October 2012, [[oauth2|OAuth 2.1]] cleanups currently in draft. Eran Hammer\'s 2012 resignation essay *"OAuth 2.0 and the Road to Hell"* is still the field\'s most-cited critique of any {{ietf|IETF}} standard — and yet OAuth now powers >1.2 billion daily sign-ins through Microsoft Entra ID alone.',
+							credit: 'Image: Chris Messina / Wikimedia Commons, public domain'
 						}
 					]
 				},
@@ -389,6 +429,14 @@ His "Ten Commandments of How to Write an [[imap|IMAP]] client" still circulates;
 **Microsoft 365 basic-auth retirement**: Phased disablement began **1 October 2022** across worldwide multi-tenant Microsoft 365 for EAS, EWS, [[imap|IMAP]], POP, RPS, MAPI/RPC, OAB, Autodiscover. **[[smtp|SMTP]] AUTH basic auth retiring in two phases starting 1 March 2026 with full rejection by 30 April 2026**; default-disable for new tenants in December 2026. **The era of "give me a 16-character password and [[imap|IMAP]] works forever" is over.**
 
 **Frontier**: **JMAP** (RFC 8620 / 8621, July/August 2019) by Neil Jenkins and Bron Gondwana (Fastmail) — {{json|JSON}}-over-HTTPS replacement for [[imap|IMAP]]; designed inside Fastmail starting ~2014. **Stalwart Mail Server** (Rust, AGPL, 2023+) reached "feature complete" 2025 with native JMAP plus IMAP4rev1+rev2, POP3, ManageSieve, CalDAV, CardDAV, WebDAV — funded in part by NLnet via EU NGI0 Entrust Fund. **DKIM2** (\`draft-ietf-dkim-dkim2-motivation\`, November 2025) responds to the DKIM replay-attack epidemic by adding per-hop signatures with timestamps.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Email.svg/500px-Email.svg.png',
+							alt: 'Email envelope icon — stylised mail handler.',
+							caption:
+								'**Email** — the longest-running application of the internet. Ray Tomlinson at {{bbn|BBN}} picked the **@** sign in 1971 modifying SNDMSG. [[pioneer:jon-postel|Jon Postel]] published [[rfc:5321|RFC 821]] on port 25 in August 1982. Forty-four years later [[smtp|SMTP]] still relays your mail, [[imap|IMAP]] still serves your folders, and **DMARC enforcement** at Google + Yahoo (from 1 February 2024) finally killed the easy spoofed-From address. The protocol is older than [[arpanet|ARPANET]]\'s flag day; the standards work is not done.',
+							credit: 'Image: Wikimedia Commons / public domain'
 						}
 					]
 				},
