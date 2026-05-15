@@ -99,6 +99,14 @@ In parallel, the IEEE 802.3 working group ratified its [[ethernet|Ethernet]] sta
 The decision to peel [[ip|IP]] off as a thin internetworking layer underneath [[tcp|TCP]] is the reason the modern internet has more than one transport protocol. Without that separation, every new transport would have had to renegotiate with every router on the planet. With it, [[udp|UDP]] could ship in 1980 over the same [[ip|IP]] fabric without changing anything below it.
 
 This is the deepest principle of the era: **separate what changes together from what doesn't**. Transports change; addressing doesn't. Wires change; packets don't. The architecture that survived four decades was the one that made each layer free to evolve on its own clock.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Jon_Postel.jpg/500px-Jon_Postel.jpg',
+							alt: 'Jon Postel — editor of RFC 791, 792, and 793, and the IANA function for over a decade.',
+							caption:
+								'[[pioneer:jon-postel|Jon Postel]] at ISI. He edited [[rfc:791|RFC 791]] ([[ip|IP]]), [[rfc:792|RFC 792]] ([[icmp|ICMP]]), and [[rfc:9293|RFC 793]] ([[tcp|TCP]]) in a single burst in September 1981, and ran the {{iana|IANA}} function single-handedly from this office for over a decade. Few engineers have shaped a global system this much from this small a room.',
+							credit: 'Photo: Irene Fertik, USC News Service / public domain, via Wikimedia Commons'
 						}
 					]
 				},
@@ -174,6 +182,14 @@ The 1986 collapse is the moment [[tcp|TCP]] went from working-most-of-the-time t
 The trouble was, OSI shipped specifications. The {{ietf|IETF}} shipped code.
 
 In July 1992, **[[pioneer:david-clark|David Clark]]** gave a talk at the 24th {{ietf|IETF}} meeting in Cambridge titled **"A Cloudy Crystal Ball — Visions of the Future."** Halfway through, he distilled the working culture of the {{ietf|IETF}} into a sentence that decided the question:`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/OSI_Model_v1.svg/500px-OSI_Model_v1.svg.png',
+							alt: 'The seven-layer OSI Reference Model diagram.',
+							caption:
+								'The seven-layer **OSI Reference Model** — the architecture every textbook still teaches, every standards body in the late 1980s endorsed, and every commercial deployment quietly bypassed. The [[tcp|TCP/IP]] stack that actually won shipped four layers, not seven, and was running production traffic before OSI finished writing the spec for its session layer.',
+							credit: 'Image: Wikimedia Commons / public domain'
 						}
 					]
 				},
@@ -262,6 +278,14 @@ The fix took fifteen years. **{{aqm|Active queue management}}** (CoDel, fq_codel
 							type: 'callout',
 							title: 'Bufferbloat is the canonical example of well-meaning engineering creating a network-wide pathology.',
 							text: 'Adding more buffer seemed obviously good — bursts wouldn\'t cause loss. But [[tcp|TCP]]\'s congestion-control loop **needed** loss as its signal. The fix was to push buffers back down and add explicit signalling ({{ecn|ECN}}) instead.'
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Steve_Jobs_presents_iPhone.jpg/500px-Steve_Jobs_presents_iPhone.jpg',
+							alt: 'Steve Jobs at Macworld 2007 announcing the original iPhone.',
+							caption:
+								'Steve Jobs unveils the original iPhone at Macworld San Francisco, **9 January 2007**. The device shipped on 29 June 2007 with [[wifi|Wi-Fi]] + EDGE; the App Store followed in July 2008; LTE in 2010. Within a decade, mobile traffic dwarfed fixed-line traffic almost everywhere — and {{bufferbloat|bufferbloat}}, the AQM revolution, and eventually [[quic|QUIC]] are all downstream of the device in this photograph.',
+							credit: 'Photo: Wikimedia Commons / fair use, public-relations release'
 						}
 					]
 				},
@@ -296,6 +320,14 @@ A new [[ip|IP]] protocol number — like [[sctp|SCTP]] got — would have been t
 [[quic|QUIC]]'s designers had watched [[sctp|SCTP]] die in production for fifteen years. They picked [[udp|UDP]] — a protocol every {{nat|NAT}}, {{firewall|firewall}}, and middlebox already had to forward unchanged — and accepted the cost of putting a fully-encrypted reliable transport inside it. The cost was real (every byte of a [[quic|QUIC]] packet is processed in user space; the kernel sees only opaque [[udp|UDP]]) but the benefit was deployment.
 
 This is the structural lesson of the late-2010s protocol-design era: **{{encryption|encryption}} is what keeps a protocol evolvable, and [[udp|UDP]] is what makes encryption deployable**. Anything not encrypted gets ossified by middlebox inspection within a decade. Anything not on [[udp|UDP]] cannot traverse the deployed internet. Future transports — multipath [[quic|QUIC]], [[rtp|RTP]]-over-[[quic|QUIC]], MoQ — all sit inside the same envelope for the same reasons.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Google_Data_Center%2C_The_Dalles.jpg/500px-Google_Data_Center%2C_The_Dalles.jpg',
+							alt: 'Google data center in The Dalles, Oregon — where the gQUIC traffic was first deployed.',
+							caption:
+								'Google\'s data center in **The Dalles, Oregon**. By 2014, every connection to *chrome.com* / *youtube.com* from a Chrome client was speaking experimental gQUIC over [[udp|UDP]] to one of these buildings. The fleet of users plus the fleet of servers is what gave Google the leverage to design a new transport — and the leverage to *iterate* on it monthly instead of waiting decades for kernel rollouts.',
+							credit: 'Photo: Tony Webster, CC BY 2.0, via Wikimedia Commons'
 						}
 					]
 				},
@@ -325,6 +357,14 @@ In November 2024, Anthropic published the **Model Context Protocol** — [[mcp|M
 In April 2025, Google followed with **Agent2Agent Protocol** — [[a2a|A2A]] — for agent-to-agent collaboration: capability discovery, task delegation, asynchronous event streams. [[a2a|A2A]] moved into the [[frontier:a2a-linux-foundation|Linux Foundation]] in mid-2025.
 
 These protocols are recognisably **internet**. They run over [[http3|HTTP/3]]. They use [[json-rpc|JSON-RPC]] for message framing. They lean on [[oauth2|OAuth 2.1]] for authentication. They are built by treating "an autonomous program that reasons" as a first-class network participant — the way the original web treated "a document on another machine" as a first-class participant. Whether they last, or get replaced by something better in five years, is the open question of the moment.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/d/d5/Model_Context_Protocol_Component_diagram.svg',
+							alt: 'The Model Context Protocol component diagram — Host, Client, Server, and Tools.',
+							caption:
+								'The **[[mcp|Model Context Protocol]]** component model. A Host runs one or more Clients; each Client connects to one Server; each Server exposes some combination of **Tools** (functions the agent can call), **Resources** (data the agent can read), and **Prompts** (templates the agent can invoke). Anthropic published the spec in November 2024; by 2026 every major AI host (Claude, ChatGPT, Cursor, Windsurf) speaks it and thousands of servers exist in the registry. The first genuinely new L7 protocol since [[websockets|WebSockets]] in 2011.',
+							credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 						}
 					]
 				},
