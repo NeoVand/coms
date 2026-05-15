@@ -123,7 +123,7 @@ What broke the deadlock was a series of high-profile incidents (2018 Amazon Rout
 						}
 					]
 				},
-				{ kind: 'frontier', id: '{{rpki|rpki}}-rov-50-percent' }
+				{ kind: 'frontier', id: 'rpki-rov-50-percent' }
 			]
 		},
 
@@ -221,7 +221,7 @@ YouTube was offline globally for two hours. PCCW Global eventually identified th
 					]
 				},
 				{ kind: 'outage', id: 'pakistan-youtube-2008' },
-				{ kind: 'frontier', id: '{{rpki|rpki}}-rov-50-percent' },
+				{ kind: 'frontier', id: 'rpki-rov-50-percent' },
 				{
 					kind: 'prose',
 					sections: [
@@ -273,7 +273,7 @@ The technical fact is unambiguous: 15% of the global internet's traffic had a br
 						}
 					]
 				},
-				{ kind: 'frontier', id: '{{rpki|rpki}}-rov-50-percent' },
+				{ kind: 'frontier', id: 'rpki-rov-50-percent' },
 				{ kind: 'frontier', id: 'ech-rfc-9849' },
 				{
 					kind: 'prose',
@@ -335,7 +335,7 @@ Looney found it by writing a fuzzer that combined {{sack|SACK}} with [[tcp|TCP]]
 						}
 					]
 				},
-				{ kind: 'outage', id: '{{sack|sack}}-panic-2019' },
+				{ kind: 'outage', id: 'sack-panic-2019' },
 				{ kind: 'protocol', id: 'tcp' },
 				{
 					kind: 'prose',

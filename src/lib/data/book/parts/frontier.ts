@@ -246,7 +246,7 @@ The regulatory layer is moving too. **The FCC issued a Notice of Proposed Rulema
 						}
 					]
 				},
-				{ kind: 'frontier', id: '{{rpki|rpki}}-rov-50-percent' },
+				{ kind: 'frontier', id: 'rpki-rov-50-percent' },
 				{ kind: 'protocol', id: 'bgp' }
 			]
 		},

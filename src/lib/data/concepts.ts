@@ -2398,6 +2398,48 @@ export const concepts: Concept[] = [
 		definition:
 			"*Fine Ranging.* Founded **1 August 2019** by NXP, Samsung, HID Global, and Bosch to certify [[uwb|UWB]] interoperability on top of IEEE 802.15.4z. Defines the **FiRa MAC profile** for application-layer ranging configuration (session setup, ranging-round structure, multi-node ranging, result reporting via the UWB Command Interface). ~200 members. The UWB-side analogue of what the [[bluetooth|Bluetooth]] SIG does for BLE or the NFC Forum does for NFC.",
 		category: 'infrastructure'
+	},
+	{
+		id: 'llcp',
+		term: 'LLCP (Logical Link Control Protocol)',
+		definition:
+			'The link-layer protocol that NFC Forum devices used for peer-to-peer mode (one phone talking directly to another) — defined by the NFC Forum on top of NFCIP-1. LLCP carried the connection-oriented or connectionless data plane that {{snep|SNEP}} sat on top of for things like Android Beam. P2P mode was effectively retired in 2019 when Android dropped Android Beam, in favour of Connection Handover to [[bluetooth|Bluetooth]] or [[wifi|Wi-Fi]] for any meaningful payload.',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'snep',
+		term: 'SNEP (Simple NDEF Exchange Protocol)',
+		definition:
+			"NFC Forum's simple request/response protocol layered over {{llcp|LLCP}} that let one device PUT or GET an {{ndef|NDEF}} message to another in P2P mode. The protocol that powered Android Beam (2011 — 2019). Deprecated in current NFC Forum specs alongside the rest of the P2P stack; modern apps use Connection Handover to switch the actual payload onto [[bluetooth|Bluetooth]] or [[wifi|Wi-Fi]].",
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'atc',
+		term: 'ATC (Application Transaction Counter)',
+		definition:
+			'A monotonically incrementing per-card-instance counter inside an EMV payment application. Every contactless tap binds the per-transaction cryptogram to the current ATC value plus the terminal-supplied Unpredictable Number, making each cryptogram one-time-use: even a perfectly captured tap cannot be replayed because the issuer has already advanced past that ATC. The mechanism that lets contactless payments survive a hostile RF environment.',
+		category: 'security'
+	},
+	{
+		id: 'peer',
+		term: 'Peer (in WireGuard / VPN context)',
+		definition:
+			'In [[wireguard|WireGuard]] and similar peer-to-peer VPN designs, a *peer* is one endpoint of a tunnel — identified by its long-lived public key, with associated state for `AllowedIPs`, current endpoint address, last-handshake time, and per-peer transfer counters. Unlike client/server VPNs, both ends of a WireGuard tunnel are peers; either can initiate. The model generalises to mesh VPNs (Tailscale, Nebula, Innernet) where every node is a peer to every other.',
+		category: 'networking-basics'
+	},
+	{
+		id: 'voip',
+		term: 'VoIP (Voice over IP)',
+		definition:
+			'Carrying voice telephony over IP networks instead of the legacy circuit-switched PSTN. Signalling is typically [[sip|SIP]] (or older H.323); media is typically [[rtp|RTP]] over [[udp|UDP]] using {{codec|codecs}} like Opus, G.711, or AMR-WB. The transition from PSTN to VoIP is largely complete in the developed world: by 2026 essentially all carrier voice rides on IP somewhere on the path, even when the endpoints are still analog.',
+		category: 'infrastructure'
+	},
+	{
+		id: 'fcc',
+		term: 'FCC (Federal Communications Commission)',
+		definition:
+			'The independent US federal regulator of interstate communications by radio, television, wire, satellite, and cable. For networking, the FCC sets {{spectrum|spectrum}} allocation policy (which bands are licensed vs unlicensed, and at what power), administers ISP and broadband regulations, and runs the National Broadband Map. Internet engineers usually meet the FCC through Part 15 unlicensed-radio rules ([[wifi|Wi-Fi]], [[bluetooth|Bluetooth]], [[uwb|UWB]]) and through ISP-tier policy debates around net neutrality and broadband subsidies.',
+		category: 'infrastructure'
 	}
 ];
 

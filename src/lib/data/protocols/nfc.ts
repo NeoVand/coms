@@ -313,7 +313,7 @@ Total airtime from field-on to ARQC: ~300–800 ms on a real terminal.`
 			date: '2025-06',
 			title: 'NFC Forum Release 15 — operating volume quadrupled',
 			description:
-				"On **17 June 2025** the NFC Forum opened Release 15 to its members. Headline change: the certified operating volume quadrupled from 5 mm to **20 mm** — a geometrically harder problem the Forum's chair {{preeti-ohri-khemani|Preeti Ohri Khemani}} called the most demanding standardisation effort to date. Digital Protocol moves to v2.4, Activity to v2.3, Analog to v3.0 (the new operating volume). Certification Release 15 (CR15) accepts applications by early 2026; full public availability fall 2025.",
+				"On **17 June 2025** the NFC Forum opened Release 15 to its members. Headline change: the certified operating volume quadrupled from 5 mm to **20 mm** — a geometrically harder problem the Forum's chair [[pioneer:preeti-ohri-khemani|Preeti Ohri Khemani]] called the most demanding standardisation effort to date. Digital Protocol moves to v2.4, Activity to v2.3, Analog to v3.0 (the new operating volume). Certification Release 15 (CR15) accepts applications by early 2026; full public availability fall 2025.",
 			source: {
 				url: 'https://nfc-forum.org/news/2025-06-nfc-release-15-the-what-why-and-how/',
 				label: 'NFC Forum: NFC Release 15 — the what, why and how'

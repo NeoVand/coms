@@ -146,7 +146,7 @@ The fix is the only fix — tunnel inside something the middleboxes already acce
 						}
 					]
 				},
-				{ kind: 'outage', id: '{{sack|sack}}-panic-2019' },
+				{ kind: 'outage', id: 'sack-panic-2019' },
 				{ kind: 'outage', id: 'centurylink-flowspec-2020' },
 				{ kind: 'outage', id: 'facebook-2021' },
 				{ kind: 'frontier', id: 'l4s-comcast-launch' }

@@ -80,7 +80,7 @@ The vulnerability surface keeps producing CVEs. **CVE-2019-11477 ({{sack|SACK}} 
 				{ kind: 'rfc', number: '9293' },
 				{ kind: 'rfc', number: '5681' },
 				{ kind: 'rfc', number: '9438' },
-				{ kind: 'outage', id: '{{sack|sack}}-panic-2019' },
+				{ kind: 'outage', id: 'sack-panic-2019' },
 				{ kind: 'simulation', protocolId: 'tcp' }
 			]
 		},

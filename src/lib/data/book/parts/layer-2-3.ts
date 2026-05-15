@@ -439,7 +439,7 @@ That sketch became [[rfc:4271|BGP-1]] ([[rfc:1105|RFC 1105]], June 1989), then [
 				{ kind: 'outage', id: 'facebook-2021' },
 				{ kind: 'outage', id: 'as-7007-1997' },
 				{ kind: 'outage', id: 'pakistan-youtube-2008' },
-				{ kind: 'frontier', id: '{{rpki|rpki}}-rov-50-percent' }
+				{ kind: 'frontier', id: 'rpki-rov-50-percent' }
 			]
 		}
 	]
