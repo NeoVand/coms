@@ -13,13 +13,13 @@ export const frontier: BookPart = {
 	title: 'The Modern Frontier (2024–2026)',
 	label: 'XII',
 	description:
-		'What is actively shipping or being standardised right now — the things that will date this book in five years.',
+		'What is actively shipping or being {{ietf|standardised}} right now — the things that will date this book in five years.',
 	chapters: [
 		// ────────────────────────────────────────────────────────────
 		{
 			id: 'post-quantum',
 			title: 'Post-Quantum TLS',
-			synopsis: 'X25519MLKEM768 default in iOS 26 and Chrome — the first deployed post-quantum protocol on the public web.',
+			synopsis: 'X25519MLKEM768 default in iOS 26 and Chrome — the first deployed post-quantum [[tls|TLS]] handshake on the public web.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -67,6 +67,14 @@ The cost: **{{ml-kem|ML-KEM}} ciphertext is 1088 bytes, {{public-key|public key}
 **{{ech|Encrypted Client Hello}}** was published as **[[frontier:ech-rfc-9849|RFC 9849]] in 2025** after 25 drafts. Cloudflare deploys {{ech|ECH}} for ~70% of websites it fronts. **Russia is already partly blocking {{ech|ECH}}** via \`ClientHelloOuter\` {{sni|SNI}} inspection (PETS FOCI 2025) — censorship resistance and metadata privacy are the same problem.
 
 The **47-day-cert cliff**: {{certificate-authority|CA}}/Browser Forum **Ballot SC-081v3** (passed 11 April 2025, Apple-sponsored, 29-yes / 0-no) phases [[tls|TLS]] cert validity from 398 days to **200 on 15 March 2026**, **100 on 15 March 2027**, **47 on 15 March 2029**, with DCV reuse falling to 10 days. Manual renewal is no longer an option — the entire web is moving to ACME-style automation. The deployment story for cryptography in the next five years is automation as much as algorithms.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Asymmetric_Cryptography.svg/500px-Asymmetric_Cryptography.svg.png',
+							alt: 'Asymmetric cryptography diagram — public key encrypts, private key decrypts.',
+							caption:
+								'**Asymmetric cryptography** — the public-key / private-key dance underneath every [[tls|TLS]] connection. The classical primitives (RSA, ECDH on Curve25519, ECDSA) all break in polynomial time on a useful quantum computer. **NIST published FIPS 203 ({{ml-kem|ML-KEM}}) on 13 August 2024**; by end-2025 **>50% of TLS 1.3 connections to Cloudflare** carried PQ-hybrid X25519MLKEM768 key {{exchange|exchange}}. Within four days of Apple shipping iOS 26 in September 2025, the iPhone PQ share jumped from <2% to 11%.',
+							credit: 'Image: Wikimedia Commons / public domain'
 						}
 					]
 				},
@@ -80,7 +88,7 @@ The **47-day-cert cliff**: {{certificate-authority|CA}}/Browser Forum **Ballot S
 		{
 			id: 'l4s-everywhere',
 			title: 'L4S Everywhere',
-			synopsis: 'Sub-millisecond queuing {{latency|latency}} for cooperating flows — Comcast launched in production January 2025.',
+			synopsis: '{{l4s|L4S}}: sub-millisecond queuing {{latency|latency}} for cooperating flows — Comcast launched in production January 2025.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -123,6 +131,14 @@ Apple also added {{l4s|L4S}} signalling into APIs surfaced through **Network.fra
 The unresolved political fight is **{{l4s|L4S}}-vs-classic fairness**: Scalable {{congestion-control|Congestion Control}} flows starve out {{cubic|CUBIC}}/Reno in the same queue, which is why **Dual-Queue {{aqm|AQM}} is required** — the bottleneck must classify and isolate. The **BBRv3** community continues to publish papers on whether "scalable" and "classic" can ever share a single FIFO fairly.
 
 {{l4s|L4S}} deployment as of mid-2026 is **infrastructure-shaped**: clients (Apple, Chrome [[webrtc|WebRTC]]) and ISPs (Comcast DOCSIS) are ahead of the middle of the network. The long pole is server-side {{ecn|ECN}} handling and {{cdn|CDN}} {{aqm|AQM}} upgrades. The next 24 months will tell whether {{l4s|L4S}} is the new default or stays a niche feature for gaming and live media.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Cable_Modem.JPG/500px-Cable_Modem.JPG',
+							alt: 'A DOCSIS cable modem — the kind of last-mile device that ships L4S-capable AQM in 2024-2025.',
+							caption:
+								'A consumer **cable modem** — the bit of hardware Comcast turned into the world\'s first production **{{l4s|L4S}}** deployment in **January 2025** across six US metros (Atlanta, Chicago, Colorado Springs, Philadelphia, Rockville MD, San Francisco). DOCSIS 4.0 modems ship L4S-capable Dual-Queue {{aqm|AQM}}; Apple iOS 17 / macOS Sonoma added L4S support in 2023. Sub-millisecond queuing delay at full link utilisation, finally, after 15 years of {{bufferbloat|bufferbloat}}.',
+							credit: 'Photo: Wikimedia Commons / CC BY-SA'
 						}
 					]
 				},
@@ -136,7 +152,7 @@ The unresolved political fight is **{{l4s|L4S}}-vs-classic fairness**: Scalable 
 		{
 			id: 'ipv6-mostly',
 			title: 'IPv6-Mostly',
-			synopsis: 'On 28 March 2026, Google\'s [[ipv6|IPv6]] dashboard recorded 50.1% for the first time.',
+			synopsis: 'On 28 March 2026, Google\'s [[ipv6|IPv6]] dashboard recorded 50.1% for the first time — and [[ip|IPv4]] crossed under.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -182,6 +198,14 @@ The 2024 RFC backlog tells the story of where [[ipv6|IPv6]] work is happening:
 **Apple iCloud Private Relay** (October 2021 onward) prefers [[ipv6|IPv6]] egress when AAAA exists; pure [[ip|IPv4]]-only enterprise networks frequently break Private Relay — the documented response is per-network opt-out, which is its own forcing function for [[ipv6|IPv6]] deployment in enterprises that want Apple device compatibility.
 
 The "everyone gets this wrong" detail: [[ipv6|IPv6]]'s mandatory-to-implement IPsec requirement was **demoted to optional in [[rfc:6434|RFC 6434]] (2011)** — a frequent source of "but [[ipv6|IPv6]] is encrypted by default!" myth. [[ipv6|IPv6]] is not encrypted by default. The {{encryption|encryption}} story for [[ipv6|IPv6]] is the same as for [[ip|IPv4]]: [[tls|TLS]] at the application layer.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Internet_map_1024.jpg/500px-Internet_map_1024.jpg',
+							alt: 'A 2005 visualisation of the global internet topology with each line a BGP peering relationship.',
+							caption:
+								'A snapshot of the global internet, each line a [[bgp|BGP]] {{peering|peering}} relationship. The 28-year migration of this graph to [[ipv6|IPv6]] addressing finally crossed **50.1%** of Google\'s measured user base on **28 March 2026**. The driver was not advocacy; it was *economics* — AWS\'s **$0.005/IP/hour charge from 1 February 2024** did more for v6 deployment in a year than two decades of standards work.',
+							credit: 'Image: The Opte Project / Wikimedia Commons, CC BY 2.5'
 						}
 					]
 				},
@@ -194,7 +218,7 @@ The "everyone gets this wrong" detail: [[ipv6|IPv6]]'s mandatory-to-implement IP
 		{
 			id: 'rpki-aspa',
 			title: 'RPKI + ASPA',
-			synopsis: 'Cryptographic [[bgp|BGP]], finally arriving — 50% of [[ip|IPv4]] covered May 2024.',
+			synopsis: '{{rpki|Cryptographic BGP}}, finally arriving — 50% of [[ip|IPv4]] covered May 2024.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -243,6 +267,14 @@ The "everyone gets this wrong" detail: [[ipv6|IPv6]]'s mandatory-to-implement IP
 The regulatory layer is moving too. **The FCC issued a Notice of Proposed Rulemaking on [[bgp|BGP]] Routing Security in June 2024** — the first US federal proposal to compel the nine largest BIAS providers (AT&T, Comcast, Verizon, T-Mobile, etc.) to file [[bgp|BGP]] Routing Security Risk Management Plans and quarterly {{rpki|RPKI}} reports. As of March 2024, only **~22% of US-originated routes had ROAs**.
 
 **BIRD 3.0 (January 2025)** was the first stable multithreaded [[bgp|BGP]] implementation, scaling to 5,000+ peers; BIRD 2.16 (December 2024) shipped {{aspa|ASPA}} support. The [[ip|IPv4]] DFZ exceeded **~1.0 million prefixes** by late 2025; Geoff Huston's vantage point reported ~1.2M prefixes seen by 1,026 [[bgp|BGP]] peers at the start of 2026.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Arpanet_logical_map%2C_march_1977.png/500px-Arpanet_logical_map%2C_march_1977.png',
+							alt: 'ARPANET logical map, March 1977 — the predecessor topology to BGP.',
+							caption:
+								'The {{arpanet|ARPANET}} in 1977 — a network small enough to print on one page and route through trust. The {{rpki|RPKI}} + {{rov|ROV}} + {{aspa|ASPA}} cleanup happening in 2024–2026 is finally giving [[bgp|BGP]] the *cryptographic* security guardrails its 1989 Two-Napkin Protocol sketch never had — half a century after the original design and 30 years into the commercial internet.',
+							credit: 'Image: DARPA / public domain, via Wikimedia Commons'
 						}
 					]
 				},
@@ -255,7 +287,7 @@ The regulatory layer is moving too. **The FCC issued a Notice of Proposed Rulema
 		{
 			id: 'ultra-ethernet',
 			title: 'Ultra Ethernet',
-			synopsis: 'Replacing RoCEv2 in AI training fabrics — Specification 1.0 published 11 June 2025.',
+			synopsis: 'Replacing RoCEv2 in AI training fabrics — [[ethernet|Ultra Ethernet]] Specification 1.0 published 11 June 2025.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -298,6 +330,14 @@ The Jensen Huang argument: scaling 1M GPUs with traditional pluggable optics wou
 **Google Jupiter** (SIGCOMM 2022 "Jupiter Evolving") moved from a Clos with electrical spine to a **direct-connect mesh of aggregation blocks via MEMS Optical Circuit Switches with SDN** — yielding **5× speed/capacity, 30% lower CapEx, 41% lower power**, supporting >13 Pb/s of bisection {{bandwidth|bandwidth}} as of 2024.
 
 The commercial scale: **[[ethernet|Ethernet]] switching market exceeded $30B in 2021**; Dell'Oro forecasts ~$80B over five years driven by AI fabrics — the *commercial* reason UEC matters even more than the technical one. The architectural significance is that AI training is now important enough to drive a new datacenter transport — the same kind of pressure that produced [[ethernet|Ethernet]] in 1973 for office networking, [[tcp|TCP/IP]] in 1981 for inter-network research, and [[quic|QUIC]] in 2012 for the modern web.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Eindr%C3%BCcke_von_der_COMPUTEX_2024_%28_%E6%9E%81%E5%AE%A2%E6%B9%BEGeekerwan%29_22.png/500px-Eindr%C3%BCcke_von_der_COMPUTEX_2024_%28_%E6%9E%81%E5%AE%A2%E6%B9%BEGeekerwan%29_22.png',
+							alt: 'NVIDIA GB200 NVL72 GPU rack on display at COMPUTEX 2024.',
+							caption:
+								'The **NVIDIA GB200 NVL72** Blackwell-architecture rack on display at COMPUTEX 2024 — the kind of AI-training endpoint that drives the **[[frontier:ultra-ethernet-1-0|Ultra Ethernet Consortium]] 1.0** specification (published 11 June 2025). Hundreds of thousands of GPUs talking at terabits per second with microsecond {{tail-latency|tail latency}}; 650 Group estimates **91% of AI workloads on [[ethernet|Ethernet]] by 2029**.',
+							credit: 'Photo: Geekerwan / Wikimedia Commons, CC BY-SA 4.0'
 						}
 					]
 				},
@@ -311,7 +351,7 @@ The commercial scale: **[[ethernet|Ethernet]] switching market exceeded $30B in 
 		{
 			id: 'wifi-7-and-8',
 			title: 'Wi-Fi 7 and 8',
-			synopsis: '320 MHz, then a 25% better {{tail-latency|tail latency}} target — and the politics of 6 GHz.',
+			synopsis: '[[wifi|Wi-Fi]] 7\'s 320 MHz, then [[wifi|Wi-Fi]] 8\'s 25% better {{tail-latency|tail latency}} target — and the politics of 6 GHz.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -358,6 +398,14 @@ Headline features: **Multi-{{access-point|AP}} Coordination (Co-BF, Co-SR, Co-TD
 The 2024 security news: **SSID Confusion (CVE-2023-52424, May 2024)**: Gollier & Vanhoef (WiSec 2024) showed the SSID is not part of the 4-way-{{handshake|handshake}} key derivation in many configurations, allowing downgrade-style trickery against any client OS — the most important new [[wifi|Wi-Fi]] flaw since FragAttacks.
 
 The 5.9 GHz transition: **FCC's Second Report and Order (FCC 24-106, November 2024)** finalised C-V2X for ITS and **mandated retirement of DSRC by 14 December 2026** — ending the 1999 DSRC monopoly that 802.11p was built on.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/802.11_MAC_Frame.svg/500px-802.11_MAC_Frame.svg.png',
+							alt: 'The 802.11 Wi-Fi MAC frame format diagram.',
+							caption:
+								'The **802.11 MAC frame** has carried [[wifi|Wi-Fi]] since 1997. [[wifi|Wi-Fi]] 7 (802.11be, ratified 22 July 2025) adds 320 MHz channels, 4096-QAM, and {{mlo|MLO}}; [[wifi|Wi-Fi]] 8 (802.11bn, targeted September 2028) keeps the same peak speed and squeezes for **+25% throughput at given SINR, −25% 95th-percentile {{latency|latency}}, −25% MPDU loss across BSS transitions**. Headline numbers are over; tail-latency consistency is the new frontier.',
+							credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 						}
 					]
 				},
