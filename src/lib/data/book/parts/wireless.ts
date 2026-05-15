@@ -397,17 +397,96 @@ The shape rhymes with the rest of this Part. Every wireless protocol's cryptogra
 			id: 'nfc',
 			title: 'NFC — 4 cm of wireless that runs the global payment rails',
 			synopsis:
-				'ISO 18092, Type 1–5 tags, EMV, transit, Apple Pay, CCC Digital Key, Aliro 1.0, and the Charles Walton-to-Apple-Pay arc that took 31 years.',
+				'13.56 MHz inductive coupling, ISO 18092, EMV contactless, Apple Pay, transit cards, CCC Digital Key, Aliro 1.0, and the Charles Walton-to-Apple-Pay arc that took 31 years.',
 			slots: [
+				{
+					kind: 'pull-quote',
+					text: 'The protocol that runs the British contactless economy was published in 2000. The protocol your phone uses to pay your barista was published as ISO/IEC 18092 in December 2003 — three years before the iPhone existed. NFC is one of the rare wireless stacks where the wire format has not changed in 20 years. Every iteration has been at the certification, security, and application-layer level.',
+					attribution: 'Author'
+				},
+				{
+					kind: 'prose',
+					sections: [
+						{
+							type: 'narrative',
+							title: '1973 — a patent, a decade ahead of the band',
+							text: `In 1973, an IBM engineer named [[pioneer:charles-walton|Charles Walton]] filed **US Patent 3,752,960** — *"Electronic Identification & Recognition System"*. It described a passive transponder that responded to an interrogator's RF field by modulating its load impedance — the foundational mechanism behind RFID and, eventually, every contactless payment terminal on Earth. Walton would file 50 more patents over his career; the 1973 patent is the one historians point to as the parent of [[nfc|NFC]].
+
+Walton received small but steady royalties for thirty years. Then his patent expired in 1993 — eleven years *before* the [[nfc|NFC]] Forum was founded and seventeen years before contactless payments became a consumer phenomenon. The arc from Walton's 1973 patent to **Apple Pay's launch on 9 September 2014** is one of the longest deployment lags in computing: 41 years from the underlying physics to the consumer product that finally made it ubiquitous.
+
+The middle of that arc is the **NXP / Philips / Sony alliance**. Philips Semiconductors (later NXP) and Sony's FeliCa team co-developed the technology that became **ISO/IEC 18092** in December 2003. **[[pioneer:franz-amtmann|Franz Amtmann]]** at NXP and **[[pioneer:philippe-maugars|Philippe Maugars]]** are the names attached to the IEEE-historian record as co-inventors. The **NFC Forum** was founded in 2004 by Sony, Philips, and Nokia — Nokia, in particular, championed [[nfc|NFC]] as a feature for its phones a decade before anyone else cared.`
+						},
+						{
+							type: 'narrative',
+							title: 'Why 13.56 MHz and 4 cm — physics by design',
+							text: `Every [[nfc|NFC]] variant operates at a carrier of **13.56 MHz ± 7 kHz**, the unlicensed {{ism-band|ISM}} allocation that ISO 14443 inherited. The coupling is **{{inductive-coupling|inductive (magnetic)}}**, not radiative — two loop antennas brought close together share their *near field*, and the magnetic component of that field falls off as **1/r³**, vs the 1/r² of normal radio. The cubic falloff is why [[nfc|NFC]]'s ≤10 cm range is a *feature*, not a bug: it makes physical proximity an inherent security property.
+
+The reader (the **PCD** — Proximity Coupling Device) energises its loop antenna and transmits the 13.56 MHz carrier. The card (the **PICC** — Proximity Integrated Circuit Card) is passive: it harvests power from the field — microwatts is enough — and communicates back via **{{load-modulation|load modulation}}**, switching a resistor on its own antenna at an 847.5 kHz subcarrier (which is 13.56 MHz / 16). The reader perceives this as small amplitude or phase changes in its *own* resonant loop. The PICC has no battery, no transmitter, and no clock of its own — it borrows all three from the reader.
+
+Modern phones use **active load modulation** instead, generating a small reflected carrier from a battery-powered transmitter. This is why an iPhone can be read across a metal-backed case where a plain plastic card cannot — the active emission has enough headroom to overcome the metal's eddy-current attenuation.`
+						},
+						{
+							type: 'callout',
+							title: 'Three flavours on the air',
+							text: '**NFC-A** (ISO 14443-A): PCD→PICC is 100% ASK modified-Miller; PICC→PCD is OOK Manchester on the 847.5 kHz subcarrier. Base rate 106 kbit/s, scaling to 848. **NFC-B** (ISO 14443-B): PCD→PICC is 10% ASK NRZ-L; PICC→PCD is BPSK on the subcarrier — used by some EMV cards and many ICAO e-passports. **NFC-F** (FeliCa / JIS X 6319-4): 212/424 kbit/s Manchester-coded ASK, *no subcarrier* — dominant in Japan transit (Suica, PASMO) and Hong Kong (Octopus). **NFC-V** (ISO/IEC 15693) is a fourth, longer-range vicinity-coupling mode at lower data rates — used in industrial tagging, library books, and the Apple Vision Pro Light Seal NFC tag. All four coexist in the same reader silicon.'
+						},
+						{
+							type: 'narrative',
+							title: 'The contactless payment dance, in seven APDUs',
+							text: `Once an [[nfc|NFC]] PICC enters the reader's field, the anti-collision dance begins. The reader broadcasts a 7-bit **REQA** (0x26) or **WUPA** (0x52) short frame; the card responds with **ATQA** (2 bytes) declaring its UID size (4/7/10 bytes). The reader then runs the **bit-frame anti-collision** loop with SEL+NVB frames, converging on each byte of the UID one bit at a time when multiple cards are in the field. When the UID is complete, the card answers with **SAK**; if bit 6 of SAK is set, the card supports ISO 14443-4 and the reader proceeds with RATS → ATS to negotiate frame size and timing.
+
+Now the reader speaks **{{apdu|APDUs}}** (ISO 7816-4) — the same command/response unit every smart card has used since the 1980s. The first command is **SELECT {{ppse|PPSE}}** — the Proximity Payment System Environment AID \`2PAY.SYS.DDF01\` — and the card returns an FCI listing all supported payment {{aid|AIDs}} in priority order. The reader picks one (e.g. Mastercard \`A0000000041010\`), SELECTs it, gets back a PDOL listing the parameters the card needs (amount, currency, country, terminal type, unpredictable number), then sends **GET PROCESSING OPTIONS** with those parameters. The card returns AIP+AFL telling the reader which files to read; READ RECORDs pull the PAN, expiry, and public-key certificate chain. Finally **GENERATE AC** with CDOL1 data asks the card for an **{{emv-cryptogram|Application Cryptogram}}** — either an ARQC (online) or TC (offline). The cryptogram is signed in the {{ese|Secure Element}} or {{hce|HCE}} app, and is what proves the transaction to the issuer.
+
+Seven APDUs, ~300 ms, and the latte is paid for.`
+						},
+						{
+							type: 'narrative',
+							title: "Tokenisation — why your real card number never leaves the bank",
+							text: `Apple's 9 September 2014 launch was not just "we added an [[nfc|NFC]] chip to the iPhone." It was a *tokenisation revolution* baked into the architecture. The cardholder's real **Funding PAN (FPAN)** never reaches the device. The bank issues a **Device PAN (DPAN)** instead, provisioned via the Token Service Provider (Visa Token Service or Mastercard Digital Enablement Service) into the {{ese|embedded Secure Element}} or the {{hce|HCE}} keystore.
+
+Every tap generates a per-transaction {{emv-cryptogram|cryptogram}} bound to the DPAN, the **{{atc|ATC}}** (Application Transaction Counter), and the **Unpredictable Number** from the terminal. A stolen DPAN is worthless without the keys in the SE; a stolen cryptogram is worthless because the ATC has already moved on. This is the reason **Apple Pay fraud rates in 2026 are broadly in line with card-not-present rates** — much better than physical-card-present fraud at unattended terminals — despite the initial 2015 *"yellow path"* enrolment disaster where social-engineered phone agents over-approved fraudulent provisioning.
+
+The same tokenisation mechanism powers Google Wallet and Samsung Pay. The hardware varies — Apple uses {{ese|eSE}} exclusively for payment; Google uses a mix of HCE and Android StrongBox; Samsung uses Knox-isolated payment paths. The cryptography and the protocol on the wire are the same EMVCo specification.`
+						},
+						{
+							type: 'narrative',
+							title: 'NDEF — the small data format for everything that is not a payment',
+							text: `Not every NFC interaction is a payment. The other big use is **{{ndef|NDEF}}** — NFC Data Exchange Format — the binary record container that lives in passive tags and rides over LLCP/SNEP. Each record begins with a 1-byte header (MB/ME/CF/SR/IL + 3-bit TNF) plus variable type/id/payload-length fields and a payload.
+
+The **TNF** (Type Name Format) picks the namespace: 1 = Well-Known (URI, Text, Smart Poster), 2 = MIME, 3 = Absolute URI, 4 = External, 5 = Unknown. The URI Well-Known record uses a single-byte prefix shorthand — \`0x03\` for \`https://\` saves eight bytes per record on tags as small as 48 bytes. This is why a tap on a museum exhibit's NFC plaque can fit a URL, a description, and a localised string into ~100 bytes of tag memory.
+
+**{{ndef|NDEF}} was formally adopted as an IEC standard in March 2026**, alongside the NFC Forum Wireless Charging (WLC) extension. The data format is now an international standard 23 years after the underlying radio protocol was standardised.`
+						},
+						{
+							type: 'narrative',
+							title: 'Three transports, one tap — bootstrap to BLE / Wi-Fi / Matter',
+							text: `For higher-throughput sessions [[nfc|NFC]] is almost always a *bootstrap*. The **Connection Handover** spec (v1.5) defines NDEF records of TNF = 0x02 with MIME \`application/vnd.bluetooth.le.oob\` carrying the [[bluetooth|Bluetooth]] MAC address, name, and Security Manager OOB key — a single tap replaces a discovery/pairing dialog on speakers, headphones, printers, and AirPods-class earbuds. The parallel Wi-Fi handover record carries SSID/key/security mode — used for tap-to-join on printers and some smart-plug commissioning.
+
+**{{matter|Matter}} 1.3+** adds [[nfc|NFC]] as one of the three permitted commissioning paths alongside QR code and BLE. Place a Matter-NFC-capable device near your phone, and it onboards onto your home Thread/Wi-Fi mesh without ever opening an app. **{{ccc-digital-key|CCC Digital Key 3.0/4.0}}** uses NFC to bootstrap a credential into a phone, then BLE for proximity, then [[uwb|UWB]] for centimetre-accurate ranging. **{{aliro|Aliro 1.0}}** likewise spans NFC tap-to-access + BLE proximity + BLE/UWB ranged — three transports, one credential. The Connection Handover pattern is now the *default* on-ramp to nearly every other consumer wireless protocol.
+
+This is why [[nfc|NFC]] survives despite its painful slow data rate. Nobody uses NFC to *carry* a session; everyone uses it to *start* one. The 4 cm physical-presence requirement is exactly the security property the bootstrap needs — you cannot accidentally pair with a device you cannot physically touch.`
+						},
+						{
+							type: 'callout',
+							title: 'MIFARE Crypto1 — the security-by-obscurity object lesson',
+							text: '**[[pioneer:karsten-nohl|Karsten Nohl]]** and **[[pioneer:henryk-plotz|Henryk Plötz]]** ("Starbug") presented at 24C3 in December 2007: Philips\'s proprietary 48-bit Crypto1 stream cipher on MIFARE Classic cards — "secure" by virtue of being secret — had been dismantled by **decapping a chip and photographing ~10,000 gates with an optical microscope**. The cipher proved weak on inspection; attacks reduced effective security to seconds of cloning time. **The Dutch OV-chipkaart kept shipping affected cards until 2024.** The lesson — *security by obscurity does not scale* — became canonical in wireless silicon design. Every NFC standard since has used open, peer-reviewed cryptography (AES-128 on MIFARE DESFire, ECDSA on {{ccc-digital-key|CCC Digital Key}}, post-quantum primitives in the Aliro roadmap).'
+						},
+						{
+							type: 'narrative',
+							title: 'Transit, identity, and the niches NFC quietly owns',
+							text: `Most of the world's daily [[nfc|NFC]] interactions are not at coffee shops. **Transit fare media** alone — Suica, PASMO, ICOCA, Octopus, TfL contactless, Korean T-money, Brazilian Bilhete Único — process well over **2 billion taps per year on TfL contactless alone**. Japan's Suica/PASMO system has been running on FeliCa (NFC-F) since 2001. Most of these systems run on stored-value cards or open-loop EMV contactless — the line between "transit card" and "payment card" has blurred almost completely in the last five years.
+
+**Electronic passports (eMRTDs)** under **ICAO Doc 9303 Part 11** put roughly **a billion of them in circulation**. The chip embedded in the cover holds your biographical data, your photograph, fingerprints (optional), and a digital signature chain rooted at the issuing country's Public Key Directory at ICAO. The reader at passport control speaks {{apdu|APDUs}} over [[nfc|NFC]]-A or NFC-B to authenticate the chip via BAC/PACE before reading anything — your data is encrypted at rest on the chip, decrypted with a key derived from the MRZ line that the reader scans optically.
+
+**Access control** — corporate building entry, hotel keys, residential and multi-family doors — used to run on cloneable LF and 13.56 MHz proximity cards. The new **{{aliro|Aliro 1.0}}** standard (CSA, finalised 26 February 2026) is "Matter for doors": ECDSA mutual authentication; NFC tap-to-access, BLE proximity, and BLE+UWB ranged hands-free, all under one credential. 220+ companies including Apple, Google, Samsung, ASSA ABLOY, HID, Allegion, Kwikset, Nuki are behind it.`
+						}
+					]
+				},
 				{ kind: 'protocol', id: 'nfc', facets: ['overview', 'header', 'incidents'] },
 				{ kind: 'pioneer', id: 'charles-walton' },
 				{ kind: 'pioneer', id: 'franz-amtmann' },
+				{ kind: 'pioneer', id: 'philippe-maugars' },
 				{ kind: 'pioneer', id: 'karsten-nohl' },
-				{
-					kind: 'pull-quote',
-					text: 'Sixteen bytes of ASCII — ZigBeeAlliance09, the default Zigbee Trust Center link key — baked into the specification of one of the most widely deployed wireless protocols on Earth. Generations of Wireshark users have memorised that hex string.',
-					attribution: 'Zigbee protocol page — but the moral applies across wireless'
-				},
 				{ kind: 'simulation', protocolId: 'nfc' }
 			]
 		},
