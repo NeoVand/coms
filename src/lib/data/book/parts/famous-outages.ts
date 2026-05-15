@@ -67,6 +67,14 @@ The fix was to install patched {{imp|IMP}} software that rejected sequence numbe
 **Public post-mortems became the norm.** [[rfc:789|RFC 789]] established that engineering organisations publish detailed root-cause analyses of their incidents. The Google SRE book, the Cloudflare incident reports, the Facebook 2021 write-up — all descendants of this practice.
 
 **Sequence-number arithmetic is paranoid by default.** Modern protocols reject any {{sequence-number|sequence number}} that is impossibly far in the past or future, instead of trusting wall-clock-style ordering. [[tcp|TCP]]\'s [[rfc:9293|PAWS]] (Protection Against Wrapped Sequences, [[rfc:7323|RFC 7323]]) is one example.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/ARPA_Network%2C_Logical_Map%2C_September_1973.jpg/500px-ARPA_Network%2C_Logical_Map%2C_September_1973.jpg',
+							alt: 'ARPANET logical map, September 1973 — a few dozen sites linked by IMPs across the United States.',
+							caption:
+								'The {{arpanet|ARPANET}} logical map, September 1973. Seven years later, this same network — by then a few hundred host machines — went dark for a full day when three bits flipped in a single periodic status update at one Harvard {{imp|IMP}}. Every {{bgp|BGP}} keepalive, every OSPF LSA, every Cloudflare incident report is in some sense a descendant of [[rfc:789|RFC 789]], the post-mortem Eric Rosen at {{bbn|BBN}} wrote after this network spent six hours diagnosing itself.',
+							credit: 'Image: DARPA / public domain, via Wikimedia Commons'
 						}
 					]
 				}
@@ -120,6 +128,14 @@ What made the recovery so painful was that there was no way to tell [[bgp|BGP]] 
 For {{rpki|RPKI}} to fix the {{autonomous-system|AS}} 7007 problem, two parties have to participate: the prefix-holder must publish a Route Origin Authorisation (ROA), and the receiving router must enforce {{rov|Route Origin Validation}} ({{rov|ROV}}). For the first decade after specification, only a handful of large networks ran {{rov|ROV}}. Smaller operators pointed out — correctly — that running {{rov|ROV}} with low ROA coverage means dropping legitimate routes from peers who haven\'t signed yet. So nobody enforced. Without enforcement, signing your prefixes had no upside. Classic chicken-and-egg.
 
 What broke the deadlock was a series of high-profile incidents (2018 Amazon Route 53 / MyEtherWallet hijack, 2018 Iranian Telegram hijack, 2019 SafeHost / China Telecom leak) that made unsigned networks look negligent. By 2022, the major hyperscalers and tier-1s were enforcing. By 2026, [[frontier:rpki-rov-50-percent|over 50%]] of advertised [[ip|IP]] space was covered. {{aspa|ASPA}} — the {{autonomous-system|AS}}-path validation extension — is the next chapter.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Internet_map_1024.jpg/500px-Internet_map_1024.jpg',
+							alt: 'A 2005 visualisation of the global internet routing topology — each line a BGP peering relationship.',
+							caption:
+								'The global [[bgp|BGP]] routing topology, visualised. Every line is a peering relationship; every node an {{autonomous-system|AS}}. **{{autonomous-system|AS}} 7007** in Florida did not hijack anything on purpose — it simply announced *every prefix in the global table* as a /24 originating from itself, and "most-specific wins" did the rest. For a few hours in April 1997 every line in a picture like this pointed at a single underpowered router in Florida.',
+							credit: 'Image: The Opte Project / Wikimedia Commons, CC BY 2.5'
 						}
 					]
 				},
@@ -163,6 +179,14 @@ Mitnick used this to land a forged connection from a host listed in Shimomura's 
 							text: `Shimomura, a security researcher, took the intrusion personally. He spent two months tracing the attack back to Mitnick — using passive monitoring of compromised hosts, traffic analysis to triangulate Mitnick's dial-up POPs, and ultimately direction-finding equipment to locate his physical address in Raleigh, North Carolina. Mitnick was arrested on 15 February 1995. The story became Shimomura's 1996 book *Takedown* and a Hollywood movie.
 
 The technical legacy outlived the celebrity. **[[rfc:1948|RFC 1948]]** (Steve Bellovin, 1996) replaced the predictable ISN formula with a hashed function of the connection four-tuple plus a per-boot secret. **RFC 6528** (Larry Joncheray + Fernando Gont, 2012) tightened it further. Modern stacks use cryptographically-random ISNs per [[rfc:9293|RFC 9293]] §3.4.1; predicting them is computationally infeasible.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Kevin_Mitnick.jpg/500px-Kevin_Mitnick.jpg',
+							alt: 'Kevin Mitnick, 1990s-era hacker convicted in 1995, later a security consultant.',
+							caption:
+								'Kevin Mitnick — the attacker. Arrested 15 February 1995 in Raleigh, North Carolina after a two-month manhunt by Tsutomu Shimomura. By the late 2000s Mitnick had become a security consultant and author; he died on 16 July 2023. The technical legacy of his Christmas 1994 [[tcp|TCP]] sequence-prediction attack lives on in **[[rfc:1948|RFC 1948]]** and the cryptographically-random ISNs every modern stack uses.',
+							credit: 'Photo: Wikimedia Commons / CC BY-SA 3.0'
 						}
 					]
 				},
@@ -233,6 +257,14 @@ YouTube was offline globally for two hours. PCCW Global eventually identified th
 The same rule is what made Pakistan/YouTube possible. A /24 inside YouTube\'s /22 wins, regardless of who is announcing it. The combination of "most specific wins" + "no origin validation" + "global propagation" turned every upstream provider into a single point of failure for every downstream customer\'s prefix integrity.
 
 This is the structural reason [[bgp|BGP]] needs cryptography to fix it, not just better operational hygiene. Hygiene catches typos; cryptography catches deliberate hijacks. {{rpki|RPKI}} provides the cryptography. {{aspa|ASPA}} (the {{autonomous-system|AS}}-path validation extension, in {{ietf|IETF}} draft) closes the route-leak hole that origin validation alone cannot fix — where {{autonomous-system|AS}} X **does** legitimately originate the prefix, but its upstream then leaks the route through an unintended path.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Arpanet_logical_map%2C_march_1977.png/500px-Arpanet_logical_map%2C_march_1977.png',
+							alt: 'ARPANET logical map, March 1977 — sites in the US plus a node at London.',
+							caption:
+								'The {{arpanet|ARPANET}} in March 1977 — a network small enough that one Pakistan-Telecom-class misconfiguration would have been caught manually within minutes. By 2008 the global [[bgp|BGP]] routing table had grown to ~250,000 prefixes, and Pakistan Telecom\'s null-route on a single /24 of YouTube space silently became the world\'s outage in **three minutes flat**. Scale changes what counts as a recoverable error.',
+							credit: 'Image: DARPA / public domain, via Wikimedia Commons'
 						}
 					]
 				}
@@ -284,6 +316,14 @@ The technical fact is unambiguous: 15% of the global internet's traffic had a br
 							text: `China Telecom 2010 was a turning point for U.S. government interest in **secure routing** infrastructure. The Department of Homeland Security funded several {{rpki|RPKI}} deployment efforts in the years following. The .gov and .mil top-level domains became some of the earliest large-scale ROA signers — a politically straightforward action that materially improved the security of U.S. federal traffic.
 
 The deeper challenge was always private-sector adoption. Government agencies could mandate {{rpki|RPKI}} for their own networks, but the bulk of internet traffic flows through commercial ISPs and content networks. The shift came in 2018-2022 when major hyperscalers (Cloudflare, Google, Amazon, Meta) made {{rpki|RPKI}} a publicly-stated requirement for their {{peering|peering}} arrangements. Networks that wanted to peer at scale had to sign their prefixes; those that wouldn't became increasingly isolated. By 2026, [[frontier:rpki-rov-50-percent|over 50%]] of advertised [[ip|IP]] space is covered.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Arpanet_1974.svg/500px-Arpanet_1974.svg.png',
+							alt: 'ARPANET in 1974 — early packet-switched network topology.',
+							caption:
+								'The {{arpanet|ARPANET}} in 1974, when "the routing table" was a handful of dozens of nodes you could fit on one printed page. By April 2010, China Telecom\'s 18-minute leak of **37,000 prefixes** — ~15% of the global {{routing-table|routing table}} — meant US military traffic, .gov traffic, and traffic to Yahoo / Microsoft / IBM was transiently observable through a single {{autonomous-system|AS}} in Beijing. The architecture of [[bgp|BGP]] makes this possible, accidentally or on purpose, in *seconds*.',
+							credit: 'Image: Wikimedia Commons / public domain'
 						}
 					]
 				}
@@ -350,6 +390,14 @@ Looney found it by writing a fuzzer that combined {{sack|SACK}} with [[tcp|TCP]]
 **Faster CVE response in distributed Linux environments.** Pre-2019, large fleets often took weeks to roll out a kernel patch — full reboot rotations, slow validation cycles. {{sack|SACK}} Panic forced the industry to invest in **live patching** (Red Hat\'s kpatch, Canonical\'s Livepatch, SUSE\'s kGraft) that can apply security fixes to a running kernel without reboot. By 2026, hyperscalers routinely live-patch kernel CVEs across millions of hosts within hours.
 
 **Per-feature kill switches.** The {{sack|SACK}} Panic patch is gated behind a sysctl (\`net.ipv4.tcp_sack\`) so operators can disable {{sack|SACK}} entirely if a future bug surfaces — without waiting for a kernel update. Modern kernel networking is full of such switches: an emergency lever for every major optional feature.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Tux.svg/250px-Tux.svg.png',
+							alt: 'Tux — the Linux mascot, a chubby cartoon penguin.',
+							caption:
+								'**Tux**, the Linux mascot, drawn by Larry Ewing in 1996. Behind that cheerful penguin sits a [[tcp|TCP]] stack on every internet-facing Linux server on Earth — and from 2009 to 2019 every one of them was a single crafted [[tcp|TCP]] packet away from \`kernel panic\`. The fix shipped 17 June 2019; the lesson — **code stability is not code correctness** — has reshaped Linux kernel networking testing since.',
+							credit: 'Image: Larry Ewing / lewing@isc.tamu.edu, public domain, via Wikimedia Commons'
 						}
 					]
 				}
@@ -405,6 +453,14 @@ Recovery took **five hours**. During that window, approximately **3.5% of all gl
 [[bgp|BGP]] is the universal control plane for internet routing. Flowspec rides on [[bgp|BGP]] because that\'s what every router already speaks. The alternative — a separate out-of-band protocol for distributing filter rules — would require new infrastructure on every router on the internet. The economic friction is too high; nobody is going to deploy it.
 
 So we live with the architectural fragility and add operational guards. Every modern router\'s Flowspec implementation now refuses to install rules that would drop [[bgp|BGP]]\'s own ports (179) or the matching peer addresses. Each new generation of routers adds more such guards. The lesson is incremental rather than fundamental: when you build a control plane on top of itself, every change to the control plane needs to be reviewed for self-consistency — manually, before it ships.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/ARPANET_first_router.jpg/500px-ARPANET_first_router.jpg',
+							alt: 'A BBN Interface Message Processor — the original ARPANET router, ancestor of every BGP-speaking device on the modern internet.',
+							caption:
+								'A {{bbn|BBN}} {{imp|Interface Message Processor}} — the original {{arpanet|ARPANET}} router. Every modern [[bgp|BGP]]-speaking router carries the same architectural DNA: a control plane that builds the {{routing-table|forwarding table}} from messages it receives over the *same wires* it eventually forwards user data over. CenturyLink\'s 2020 Flowspec self-block is the canonical example of how that elegant unification can blow up when a single rule disables its own delivery mechanism.',
+							credit: 'Photo: Steve Jurvetson, CC BY 2.0, via Wikimedia Commons'
 						}
 					]
 				}
@@ -471,6 +527,14 @@ The first [[bgp|BGP]] fix went in around 21:00 UTC. Recovery took until 22:30 �
 **Physical access systems on independent networks.** Badge readers, door locks, environmental controls, fire suppression — anything that needs to work during a network outage — now runs on dedicated, isolated networks at most hyperscalers. The lesson: physical security cannot depend on the network whose data centre it secures.
 
 **Maintenance command audit.** The [[bgp|BGP]] withdrawal command was supposed to be limited in scope but the safety check did not catch the broader effect. Facebook (and others) added a **"blast radius preview"** layer to all maintenance tooling — show me, in plain English, what this command will affect across the global network, and require explicit confirmation if the answer is more than a small number of devices.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Facebook_Headquarters_Menlo_Park.jpg/500px-Facebook_Headquarters_Menlo_Park.jpg',
+							alt: 'Facebook (Meta) Headquarters campus in Menlo Park, California.',
+							caption:
+								'**Meta\'s Menlo Park campus** — the building whose [[bgp|BGP]] advertisements vanished from the global routing table for nearly six hours on **4 October 2021**. Engineers had to physically reach the data centres to fix the problem; once there, they discovered the badge readers were offline too, because the access-control system depended on the same Facebook [[dns|DNS]] that no longer resolved. The outage is the canonical reference for *"what depends on the network you are about to break?"*',
+							credit: 'Photo: LPS.1, CC0, via Wikimedia Commons'
 						}
 					]
 				}
@@ -535,6 +599,14 @@ Recovery required Rogers engineers to log in to individual core routers (over ou
 4. Conduct **annual outage simulations** with the federal government, including coordinated emergency-services failover.
 
 These requirements are unusual in their specificity for a private telecommunications regulator. They reflect the structural change the Rogers outage forced: the recognition that some private companies have grown into roles that historically belonged to public utilities, with the same operational obligations.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Rogers_AT%26T_Centre.JPG/500px-Rogers_AT%26T_Centre.JPG',
+							alt: 'The Rogers Communications Centre building in Toronto.',
+							caption:
+								'The **Rogers Communications Centre** in Toronto — the headquarters of the ISP whose 15-hour 8 July 2022 outage took **half of Canada** offline: no mobile, no Interac debit, no 911 in many regions, no landline for the millions of customers on Rogers VoIP bundles. The CRTC ruling that followed is one of the strongest examples of a national regulator treating a private telecom as critical infrastructure with utility-grade operational obligations.',
+							credit: 'Photo: Wikimedia Commons / CC BY-SA 3.0'
 						}
 					]
 				}
@@ -594,6 +666,14 @@ The FCC opened a formal investigation under the 2018 911 Reliability Rules. AT&T
 Reasons for the lag are structural. Wireless networks have **strong global consistency requirements** that don\'t align cleanly with canary deployment — you can\'t have one cell tower running a different version of the radio access network protocol than the towers next to it without breaking handoff. Some configuration changes are necessarily global. Some changes are necessarily simultaneous (e.g., security updates that close a known vulnerability).
 
 Post-AT&T-2024, the industry consensus is that **most changes can be canaried** — even in wireless cores — and the small number that genuinely cannot should receive correspondingly more pre-deployment review. The architectural debate, ongoing, is whether the same caution should apply to security patches that need to ship fast: a mass-deployment outage and an unpatched-CVE outage are both bad in different ways, and the correct trade-off is not obvious.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/AT%26T_logo_2016.svg/500px-AT%26T_logo_2016.svg.png',
+							alt: 'The AT&T globe logo.',
+							caption:
+								'**AT&T** — the carrier behind 22 February 2024 outage: a single misconfigured network upgrade pushed simultaneously across the production wireless core left **125 million devices** without service and **25,000 emergency 911 calls** unconnected. AT&T paid $625M in customer credits and $13M in FCC settlement — the largest single-incident penalty for a US wireless outage. The structural lesson — *never push a config change to the entire fleet at once* — was the same one [[outage:rogers-2022|Rogers 2022]] had taught two years earlier.',
+							credit: 'Logo: AT&T Inc. / Wikimedia Commons (trademark)'
 						}
 					]
 				}
