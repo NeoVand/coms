@@ -15,7 +15,7 @@ export const storyOfTheInternet: BookPart = {
 	title: 'The Story of the Internet',
 	label: 'II',
 	description:
-		'The narrative arc from packet switching as research idea to a global commons that AI agents now talk through.',
+		'The narrative arc from {{packet|packet switching}} as research idea to a global commons that [[mcp|AI agents]] now talk through.',
 	chapters: [
 		{
 			id: 'before-the-internet',
@@ -215,7 +215,7 @@ By 1995, OSI was effectively dead in production networks. CLNP survived in IS-IS
 		{
 			id: 'the-web-arrives',
 			title: 'The Web Is Built On Top',
-			synopsis: 'CERN, hypertext, and a NeXT cube in the corner.',
+			synopsis: 'CERN, [[http1|hypertext]], and a NeXT cube in the corner.',
 			slots: [
 				{
 					kind: 'prose',
@@ -260,7 +260,7 @@ The architectural lesson the web carried forward: an application that succeeds a
 		{
 			id: 'mobile-and-bufferbloat',
 			title: 'The Mobile and Bufferbloat Decade',
-			synopsis: '3G, 4G, the iPhone, and why your home internet is laggy under load.',
+			synopsis: '3G, 4G, the iPhone, and why your home internet is {{bufferbloat|laggy under load}}.',
 			slots: [
 				{
 					kind: 'prose',

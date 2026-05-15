@@ -17,14 +17,14 @@ export const wireless: BookPart = {
 	title: 'Wireless',
 	label: 'V',
 	description:
-		'Bits through the air — from ALOHAnet to Wi-Fi 8, from a 1994 Ericsson headset cable to billions of AirPods, and from a 1973 patent to the NFC tap on every payment terminal.',
+		'Bits through the air — from ALOHAnet to [[wifi|Wi-Fi]] 8, from a 1994 Ericsson [[bluetooth|headset cable]] to billions of AirPods, and from a 1973 patent to the [[nfc|NFC]] tap on every payment terminal.',
 	chapters: [
 		// ────────────────────────────────────────────────────────────
 		{
 			id: 'the-shared-medium',
 			title: 'The shared medium',
 			synopsis:
-				'Why wireless is a fundamentally different problem from wired — the medium is shared, signals fade, and physics actively conspires against you.',
+				'Why wireless is a fundamentally different problem from wired — the medium is shared, signals fade, and {{csma-ca|CSMA/CA}} replaces the cable.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -67,6 +67,14 @@ They coexist by a series of small accommodations. **Modern combo chips** (Apple 
 [[cellular|Cellular]] bands are **licensed**, which is why your phone's 4G/5G radio does not fight with your Wi-Fi even in the same physical space — different spectrum entirely. The price of that predictability is the billions paid at every national spectrum auction.`
 						},
 						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/68/United_States_Frequency_Allocations_Chart_2003_-_The_Radio_Spectrum.svg/500px-United_States_Frequency_Allocations_Chart_2003_-_The_Radio_Spectrum.svg.png',
+							alt: 'The US frequency allocations chart — a dense, multicoloured map of every band from 9 kHz to 300 GHz.',
+							caption:
+								'The **United States Frequency Allocations Chart**, NTIA. Every coloured stripe is a *service* — broadcast, aeronautical, maritime, mobile, fixed, satellite, radioastronomy — and every wireless protocol in this Part has to fit between them. The 2.4 GHz {{ism-band|ISM}} band where Wi-Fi, Bluetooth, Zigbee, microwave ovens, and baby monitors all live is one small unlicensed sliver near the middle.',
+							credit: 'Image: NTIA / public domain, via Wikimedia Commons'
+						},
+						{
 							type: 'narrative',
 							title: 'The power–range–throughput triangle',
 							text: `Every wireless protocol picks two corners of a three-way trade-off: **transmit power, range, and throughput**. You can have any two cheaply; the third is what the spec is really negotiating, and that triangle is why we have six wireless protocols in this Part instead of one.
@@ -97,7 +105,7 @@ They coexist by a series of small accommodations. **Modern combo chips** (Apple 
 			id: 'wifi',
 			title: 'Wi-Fi from the airwaves',
 			synopsis:
-				'The radio side of 802.11 — CSMA/CA in practice, MIMO → OFDMA → MLO, and the KRACK-to-WPA3 arc that finally fixed the wireless handshake.',
+				'The radio side of [[wifi|802.11]] — {{csma-ca|CSMA/CA}} in practice, MIMO → {{ofdma|OFDMA}} → MLO, and the {{krack|KRACK}}-to-{{wpa3|WPA3}} arc that finally fixed the wireless {{handshake|handshake}}.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -174,6 +182,14 @@ What Wi-Fi gets right after eight years of public attack is that **the attacks a
 That genericity is why Wi-Fi has had to evolve so much at the **PHY** and **MAC** layers and so little above them. The IP stack on top is the same one [[ethernet|Ethernet]] uses — the 802.11 driver bridges 802.11 frames to 802.3 frames before [[ip|IP]] ever sees them. Every architectural choice in this chapter ({{ofdma|OFDMA}}, {{mlo|MLO}}, {{target-wake-time|TWT}}, {{wpa3|WPA3}}) is in the service of carrying *somebody else's traffic* across a hostile shared medium without those upper layers having to know.
 
 The single thing the upper layers do notice is **{{tail-latency|tail latency}}** — the 99th-percentile delay that makes video calls stutter and games lag. From Wi-Fi 4 (2009) to Wi-Fi 8 (2028 target), the protocol's main job has been bending the tail latency distribution back toward the median while the headline throughput tripled three times.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/802.11_MAC_Frame.svg/500px-802.11_MAC_Frame.svg.png',
+							alt: 'The 802.11 Wi-Fi MAC frame format showing frame control, duration, four address fields, sequence control, and FCS.',
+							caption:
+								'The **802.11 MAC frame** — *up to four* MAC addresses (receiver / transmitter / destination / source), a 2-byte Duration field that announces how long the medium will be busy, and a Sequence Control field for reordering and {{retransmission|retransmission}}. Compare this to the 14-byte [[ethernet|Ethernet]] header. Almost every extra field is an accommodation to the fact that the medium is shared, the access is contended, and every frame needs an explicit {{ack|ACK}}.',
+							credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 						}
 					]
 				},
@@ -188,7 +204,7 @@ The single thing the upper layers do notice is **{{tail-latency|tail latency}}**
 			id: 'bluetooth',
 			title: 'Bluetooth — Classic, LE, and the 6.0 ranging future',
 			synopsis:
-				'A 1994 cable-replacement project that became GATT, AirTags, Auracast, and Channel Sounding — plus the KNOB / BIAS / BLUFFS lineage that broke session security three times in five years.',
+				'[[bluetooth|A 1994 cable-replacement project]] that became GATT, AirTags, Auracast, and Channel Sounding — plus the KNOB / BIAS / BLUFFS lineage that broke session security three times in five years.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -274,6 +290,14 @@ Whether Channel Sounding actually displaces UWB for digital-key applications is 
 The industry conclusion: **proximity-by-radio-signal-strength is unfixable.** A relay with enough TX power and enough patience defeats any RSSI threshold. The only way to verify physical proximity is to measure **time-of-flight**, because *the speed of light is the hard upper bound that no relay can shorten*. That insight pushed the secure-access industry toward UWB (where {{tof-ranging|ToF}} is the entire point) and motivated Bluetooth Channel Sounding's RTT mode to use much tighter timing than legacy BLE.
 
 The 2022 attack is the canonical case study for why every credential standard since — {{ccc-digital-key|CCC Digital Key 3.0}}, {{aliro|Aliro}}, Bluetooth 6.0 ranging — explicitly mandates physics-based proximity, not radio-strength heuristics. RSSI was a workable shortcut for a decade. Then it stopped being one.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Bluetooth.svg/250px-Bluetooth.svg.png',
+							alt: 'The Bluetooth logo — a bind-rune combining Hagall and Bjarkan, the initials of Harald Blåtand.',
+							caption:
+								'The **[[bluetooth|Bluetooth]]** logo: a bind-rune combining **Hagall** (ᚼ = H) and **Bjarkan** (ᛒ = B) — *Harald Blåtand*\'s initials in Younger Futhark. [[pioneer:jim-kardach|Jim Kardach]] of Intel proposed the name on a Toronto pub crawl in 1997 after the 10th-century Danish king who united Denmark and Norway. It was supposed to be a placeholder.',
+							credit: 'Image: Bluetooth SIG trademark, via Wikimedia Commons'
 						}
 					]
 				},
@@ -290,7 +314,7 @@ The 2022 attack is the canonical case study for why every credential standard si
 			id: 'cellular',
 			title: 'Cellular — 4G LTE + 5G NR + the 3GPP machine',
 			synopsis:
-				'One chapter for the radio (LTE-Uu, NR-Uu) and the core (EPC → 5GC SBA) because the 3GPP release calendar is one calendar. VoLTE / Wi-Fi calling, NB-IoT / LTE-M, satellite direct-to-cell, and the SS7 / Diameter trust holdover.',
+				'One chapter for [[cellular|the radio (LTE-Uu, NR-Uu)]] and the core (EPC → 5GC SBA) because the 3GPP release calendar is one calendar. VoLTE / [[wifi|Wi-Fi]] calling, NB-IoT / LTE-M, satellite direct-to-cell, and the SS7 / Diameter trust holdover.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -379,6 +403,14 @@ What changes about the {{cellular|cellular}} mental model is the word "coverage.
 Modern surveillance actors exploit this trust. **SS7 routing** can silently track mobile users worldwide — Citizen Lab's 2024–25 disclosures and CISA's 2024 testimony to the {{fcc|FCC}} document active commercial-grade surveillance using exactly this vector. Diameter abuse (DoS, location-tracking, SMS interception) by malicious peers remains a real-world problem. The 5G SBI authenticated interconnect (3GPP TS 33.521) is the long-term fix; it is partially deployed and still has decades of SS7-shaped tail to migrate.
 
 The shape rhymes with the rest of this Part. Every wireless protocol's cryptography has held up. Every wireless protocol's *negotiation logic*, *roaming model*, or *trust assumptions between operators* has been broken at the protocol level by now. The 1990s and 2000s patched the cryptography; the 2020s are patching the architecture around it.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Cellular_network_standards_and_generation_timeline.svg/500px-Cellular_network_standards_and_generation_timeline.svg.png',
+							alt: 'Timeline of cellular network standards from 1G through 5G, by generation.',
+							caption:
+								'**Fifty years of [[cellular|cellular]]** — from 1G analog AMPS / TACS / NMT in the early 1980s through 2G GSM / IS-95, 3G WCDMA / CDMA2000, 4G LTE, and 5G NR. Each generation redrew both the air interface and the core network on roughly a decade\'s cadence, while the {{3gpp|3GPP}} Release calendar kept ticking every ~18 months. **6G** is in pre-standardisation now; first commercial deployments expected around 2030.',
+							credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 						}
 					]
 				},
@@ -397,7 +429,7 @@ The shape rhymes with the rest of this Part. Every wireless protocol's cryptogra
 			id: 'nfc',
 			title: 'NFC — 4 cm of wireless that runs the global payment rails',
 			synopsis:
-				'13.56 MHz inductive coupling, ISO 18092, EMV contactless, Apple Pay, transit cards, CCC Digital Key, Aliro 1.0, and the Charles Walton-to-Apple-Pay arc that took 31 years.',
+				'[[nfc|13.56 MHz inductive coupling]], ISO 18092, EMV contactless, Apple Pay, transit cards, CCC Digital Key, Aliro 1.0, and the Charles Walton-to-Apple-Pay arc that took 31 years.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -479,6 +511,14 @@ This is why [[nfc|NFC]] survives despite its painful slow data rate. Nobody uses
 **Electronic passports (eMRTDs)** under **ICAO Doc 9303 Part 11** put roughly **a billion of them in circulation**. The chip embedded in the cover holds your biographical data, your photograph, fingerprints (optional), and a digital signature chain rooted at the issuing country's Public Key Directory at ICAO. The reader at passport control speaks {{apdu|APDUs}} over [[nfc|NFC]]-A or NFC-B to authenticate the chip via BAC/PACE before reading anything — your data is encrypted at rest on the chip, decrypted with a key derived from the MRZ line that the reader scans optically.
 
 **Access control** — corporate building entry, hotel keys, residential and multi-family doors — used to run on cloneable LF and 13.56 MHz proximity cards. The new **{{aliro|Aliro 1.0}}** standard (CSA, finalised 26 February 2026) is "Matter for doors": ECDSA mutual authentication; NFC tap-to-access, BLE proximity, and BLE+UWB ranged hands-free, all under one credential. 220+ companies including Apple, Google, Samsung, ASSA ABLOY, HID, Allegion, Kwikset, Nuki are behind it.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/NFC_logo.svg/330px-NFC_logo.svg.png',
+							alt: 'The Near Field Communication (NFC) logo — a stylised radio-wave symbol.',
+							caption:
+								'The **[[nfc|NFC]] Forum** logo. The Forum was founded in 2004 by Sony, Philips, and Nokia. Today over a billion taps a day fan out from this symbol on every Apple Pay terminal, Suica turnstile, e-passport reader, hotel-room door, and shelf label. Four centimetres of {{inductive-coupling|inductive coupling}} at 13.56 MHz, behind almost the entire global payment rail.',
+							credit: 'Image: NFC Forum trademark, via Wikimedia Commons'
 						}
 					]
 				},
@@ -496,7 +536,7 @@ This is why [[nfc|NFC]] survives despite its painful slow data rate. Nobody uses
 			id: 'uwb',
 			title: 'UWB — nanosecond pulses for centimetre ranging',
 			synopsis:
-				'IEEE 802.15.4z, FiRa, CCC Digital Key 3.0, Apple U1 / U2, the 2022 Tesla BLE relay attack that motivated the move to UWB, and the Ghost Peak STS residual.',
+				'[[uwb|IEEE 802.15.4z]], FiRa, CCC Digital Key 3.0, Apple U1 / U2, the 2022 Tesla [[bluetooth|BLE]] relay attack that motivated the move to [[uwb|UWB]], and the Ghost Peak STS residual.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -582,6 +622,14 @@ The unlock dance: BLE advertising from the car → BLE pairing + {{gatt|GATT}} a
 The practical effect for a global consumer product: **(a)** geo-fence UWB features based on locale, **(b)** default to **Channel 5** in Japan and a handful of other restricted jurisdictions, **(c)** support a *no-UWB* mode entirely for countries where UWB is not permitted (a few small markets). This is one of the underappreciated reasons UWB consumer adoption is slower than {{ble|BLE}} or [[wifi|Wi-Fi]] — *the regulatory map is fragmented*, and every iPhone software release ships a different list of countries where Precision Finding works.
 
 The contrast with [[nfc|NFC]] is instructive: NFC operates in the globally-harmonised 13.56 MHz {{ism-band|ISM}} band, and you can ship one product globally. UWB ships into a patchwork of regional masks, regulator opinions, and government-licensing oddities (Russia, China, several Middle Eastern countries) that engineers spend real effort working around. The radio is the easy part; the spectrum policy is the hard part.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Apple_AirTag.svg/330px-Apple_AirTag.svg.png',
+							alt: 'An Apple AirTag — a small round white tracker with the Apple logo.',
+							caption:
+								'The **Apple AirTag**, $29, shipped 30 April 2021. Inside: a battery, a {{ble|BLE}} radio, a speaker, and the **Apple U1 chip** — the {{uwb|UWB}} silicon that gave consumer UWB its first mass-market product. Precision Finding\'s arrow-and-distance display swept the world\'s awareness of UWB into one purchase. ABI projects UWB phone penetration rising from 27% in 2025 to 52% by 2030 — the same adoption curve [[nfc|NFC]] followed a decade earlier.',
+							credit: 'Image: Apple Inc. trademark / Wikimedia Commons'
 						}
 					]
 				},
@@ -599,7 +647,7 @@ The contrast with [[nfc|NFC]] is instructive: NFC operates in the globally-harmo
 			id: 'zigbee',
 			title: 'Zigbee, Thread, and the Matter bridge',
 			synopsis:
-				'IEEE 802.15.4 mesh, Zigbee PRO R23 (Dynamic Link Key, Trust Center Swap-Out), the Hue installed base, and how Matter bridges Zigbee semantics onto IP.',
+				'[[zigbee|IEEE 802.15.4 mesh]], Zigbee PRO R23 (Dynamic Link Key, Trust Center Swap-Out), the Hue installed base, and how {{matter|Matter}} bridges [[zigbee|Zigbee]] semantics onto [[ip|IP]].',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -681,6 +729,14 @@ The dynamic-pricing implications are still controversial — Walmart's December 
 The mass-scale exceptions remain commercial: ESLs, industrial lighting controls, and the Walmart-class deployments where Zigbee's per-device cost and zero-router-required architecture still beat anything else. The CSA's R23 work (Dynamic Link Key, Trust Center Swap-Out, Zigbee Direct, sub-GHz PHYs) is explicitly aimed at *preserving* the installed base, not growing it.
 
 For the home-automation hobbyist, the **{{matter|Matter}} bridge** is the right framing in 2026. A Hue bulb is a Zigbee device; through the Hue Bridge's Matter firmware, it appears as a Matter accessory; from your iPhone or Google Home, it is "a light bulb." The Zigbee protocol is doing its job — exactly the job Hue's 2012 marketing copy promised: *web-enabled lighting*, with the word *Zigbee* still off the box.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Zigbee_logo.svg/330px-Zigbee_logo.svg.png',
+							alt: 'The Zigbee logo — a stylised zigzag pattern around the word Zigbee.',
+							caption:
+								'The **[[zigbee|Zigbee]]** logo. The Connectivity Standards Alliance (formerly Zigbee Alliance) was founded in August 2002; the spec sits on top of {{ieee-802-15-4|IEEE 802.15.4}} as NWK + APS + ZDO + {{zcl|ZCL}}. Despite the brand being deliberately hidden from consumers, the same {{zcl|ZCL}} data model now powers {{matter|Matter}} — Matter is essentially ZCL on [[ipv6|IPv6]].',
+							credit: 'Image: Connectivity Standards Alliance trademark, via Wikimedia Commons'
 						}
 					]
 				},
@@ -697,7 +753,7 @@ For the home-automation hobbyist, the **{{matter|Matter}} bridge** is the right 
 			id: 'security-across-the-wireless-family',
 			title: 'Security across the wireless family',
 			synopsis:
-				'One arc covering KRACK, KNOB/BIAS/BLUFFS, FragAttacks, MIFARE Crypto1, the 2022 Tesla BLE relay, the Ghost Peak UWB STS attack, and the SS7 / Diameter trust holdover — every wireless protocol\'s negotiation logic, broken on stage at least once.',
+				'One arc covering {{krack|KRACK}}, KNOB/BIAS/BLUFFS, FragAttacks, MIFARE Crypto1, the 2022 Tesla [[bluetooth|BLE]] relay, the Ghost Peak [[uwb|UWB]] STS attack, and the SS7 / Diameter trust holdover — every wireless protocol\'s negotiation logic, broken on stage at least once.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -791,6 +847,14 @@ The shape rhymes with every other story in this chapter. Wi-Fi: KRACK in 2017, f
 **Public peer-reviewed cryptography beats proprietary every time.** MIFARE Crypto1 lasted 14 years (1994–2008) before being decapped and broken. Open AES-128 has held up since 1998 without a known practical break. The migration cost is brutal; the survival cost of *not* migrating is brutaler.
 
 Every chapter in this Part has security stories. This chapter ties them together as one arc — and the arc is **roughly the same arc as every other security-critical protocol family in this book**. The pattern is not unique to wireless; it is just *most visible* there, because the medium itself is adversarial.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Wireshark_screenshot.png/500px-Wireshark_screenshot.png',
+							alt: 'Wireshark screen capture showing a packet trace with protocol decoder windows.',
+							caption:
+								'**Wireshark** — every wireless-security disclosure in this chapter started with a researcher running this (or a similar) packet dissector against captured traffic. The cryptographic primitives in [[wifi|Wi-Fi]], [[bluetooth|Bluetooth]], [[nfc|NFC]], [[uwb|UWB]], and [[cellular|cellular]] have held up; the **negotiation logic** around them — visible right here in the protocol-decoder pane — is where {{krack|KRACK}}, {{knob-attack|KNOB/BIAS/BLUFFS}}, MIFARE Crypto1, Ghost Peak, and SS7 abuse all lived.',
+							credit: 'Image: Wireshark Foundation / Wikimedia Commons, GPL'
 						}
 					]
 				},
@@ -806,7 +870,7 @@ Every chapter in this Part has security stories. This chapter ties them together
 			id: 'spectrum-and-the-frontier',
 			title: 'Spectrum, regulation, and what comes next',
 			synopsis:
-				'The non-technical layer that decides where every wireless protocol may live — 6 GHz Wi-Fi, mmWave, CBRS, WRC-27, Wi-Fi 8, Ambient IoT, 6G targets, and Starlink Direct-to-Cell. The wireless frontier through 2030.',
+				'The non-technical layer that decides where every wireless protocol may live — 6 GHz [[wifi|Wi-Fi]], mmWave, CBRS, WRC-27, [[wifi|Wi-Fi]] 8, Ambient IoT, 6G targets, and Starlink Direct-to-Cell. The wireless frontier through 2030.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -909,6 +973,14 @@ What can be said confidently about wireless in 2030: **{{wifi|Wi-Fi 8}}** will b
 What cannot be said confidently: which {{cellular|cellular}} bands will be unlicensed by 2030, whether 6 GHz Wi-Fi survives in Europe, whether {{ambient-iot|Ambient IoT}} eats the {{lpwan|LPWAN}} market, whether {{wifi-sensing|Wi-Fi sensing}} becomes a privacy disaster or a useful feature. The answers depend on regulators in Brussels, Geneva, and Washington — not on any wireless engineer.
 
 That is the right note to end Part V on. **Wireless is the only chapter in this book where the protocol stops at the silicon and starts again at the regulator.** Read every other Part top-down from the application. Read this one bottom-up from the spectrum allocation chart — the one nobody on your team has framed on the wall.`
+						},
+						{
+							type: 'image',
+							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Starlink_SpaceX_1584_satellites_72_Planes_22each.png/500px-Starlink_SpaceX_1584_satellites_72_Planes_22each.png',
+							alt: 'Diagram of 1,584 Starlink satellites distributed across 72 orbital planes of 22 satellites each, at 53° inclination.',
+							caption:
+								'The **Starlink constellation** — 1,584 first-shell satellites in 72 orbital planes at 53° inclination. On 27 January 2025, T-Mobile + SpaceX launched the first commercial **{{direct-to-cell|Direct-to-Cell}}** service: SMS and emergency messaging from ordinary phones to satellites acting as base stations in standard {{cellular|cellular}} bands n255/n256. *"No signal"* will increasingly mean *"no terrestrial signal — try walking outside"*. The frontier where the {{cellular|cellular}} network grows is upward.',
+							credit: 'Image: SpaceX / Wikimedia Commons, CC0'
 						}
 					]
 				},
