@@ -351,7 +351,7 @@ The deeper challenge was always private-sector adoption. Government agencies cou
 
 The bug, **CVE-2019-11477** ("{{sack|SACK}} Panic"), affected every {{linux|Linux}} kernel from 2.6.29 (2009) through 5.1 (2019) — **ten years of unpatched code in the heart of every {{linux|Linux}} server on the internet**. A single [[tcp|TCP]] packet, no authentication required, would crash any vulnerable host. Service providers, cloud hyperscalers, container hosts, embedded systems — all simultaneously vulnerable.
 
-The disclosure was coordinated across Red Hat, Canonical, SUSE, Debian, AWS, {{google|Google}}, and the Linux kernel team. Patches shipped within hours of public disclosure on 17 June 2019, but the full deployment took weeks across the global Linux fleet.`
+The disclosure was coordinated across Red Hat, Canonical, SUSE, Debian, AWS, {{google|Google}}, and the {{linux|Linux}} kernel team. Patches shipped within hours of public disclosure on 17 June 2019, but the full deployment took weeks across the global {{linux|Linux}} fleet.`
 						},
 						{
 							type: 'narrative',

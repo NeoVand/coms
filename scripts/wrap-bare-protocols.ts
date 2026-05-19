@@ -205,6 +205,11 @@ for (const file of walk(DATA_DIR)) {
 	const selfMatch = file.match(/\/protocols\/([a-z0-9-]+)\.ts$/);
 	const selfProtoId = selfMatch ? selfMatch[1] : null;
 
+	// In diagram-definitions.ts the `definition` field holds Mermaid
+	// sequence-diagram syntax, not prose. Skip it so the captions and
+	// per-step explanations are the only places that get wrapped.
+	const isDiagramFile = file.endsWith('diagram-definitions.ts');
+
 	const allHits: Hit[] = [];
 	for (const p of allProtocols) {
 		if (p.id === selfProtoId) continue; // skip self-references
@@ -226,7 +231,11 @@ for (const file of walk(DATA_DIR)) {
 
 	// Filter to wrappable (parsed-field, not in skip list).
 	const wrappable = allHits.filter(
-		(h) => h.field && PARSED_FIELDS.has(h.field) && !SKIP_FIELDS.has(h.field)
+		(h) =>
+			h.field &&
+			PARSED_FIELDS.has(h.field) &&
+			!SKIP_FIELDS.has(h.field) &&
+			!(isDiagramFile && h.field === 'definition')
 	);
 
 	// Resolve overlap: if two protocols match overlapping spans, keep

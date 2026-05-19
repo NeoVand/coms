@@ -40,9 +40,9 @@ VLANs are essential for security (isolating guest [[wifi|WiFi]] from the corpora
     end
 
     subgraph L3["Layer 3 Switch / Router"]
-        SVI10["SVI VLAN 10<br/>10.1.10.1/24"]
-        SVI20["SVI VLAN 20<br/>10.1.20.1/24"]
-        SVI30["SVI VLAN 30<br/>10.1.30.1/24"]
+        SVI10["SVI {{vlan|VLAN}} 10<br/>10.1.10.1/24"]
+        SVI20["SVI {{vlan|VLAN}} 20<br/>10.1.20.1/24"]
+        SVI30["SVI {{vlan|VLAN}} 30<br/>10.1.30.1/24"]
     end
 
     A_AP1 --- A_TRUNK
@@ -395,7 +395,7 @@ The trick is **exactly-once processing**, not {{exactly-once-delivery|exactly-on
     end
 
     subgraph Player["Client-Side ABR Algorithm"]
-        MAN --> FETCH["Fetch manifest"]
+        MAN --> FETCH["Fetch {{manifest|manifest}}"]
         FETCH --> MON["Monitor:<br/>Download speed<br/>Buffer level<br/>RTT"]
         MON --> ALG{"ABR Decision<br/>(BBA / Throughput / BOLA)"}
         ALG -- "High {{bandwidth|bandwidth}}<br/>Full buffer" --> HIGH["Request 1080p segment"]
@@ -470,7 +470,7 @@ OCSP (Online {{certificate|Certificate}} Status Protocol) and CRL ({{certificate
 
 **Server Hello + Encrypted Extensions**: The server picks a {{cipher-suite|cipher suite}}, sends its key share, and immediately switches to {{encryption|encrypted}} communication. The server's {{certificate|certificate}}, {{certificate|certificate}} verify (signature), and {{tls-finished|Finished message}} are all encrypted.
 
-**Client Finished**: The client verifies the {{certificate-chain|certificate chain}}, sends its Finished message, and application data can begin flowing immediately.
+**Client Finished**: The client verifies the {{certificate-chain|certificate chain}}, sends its {{tls-finished|Finished message}}, and application data can begin flowing immediately.
 
 [[tls|TLS]] 1.3 also supports **{{zero-rtt|0-RTT}} resumption**: if the client has connected before, it can send encrypted application data in the very first {{packet|packet}}. The tradeoff: {{zero-rtt|0-RTT}} data can be replayed by an attacker, so it must be {{idempotent|idempotent}} (safe to process twice).`
 			},
@@ -521,9 +521,9 @@ The numbers below are typical 2026 production values; spec maxima are higher, re
         CELL["[[cellular|Cellular]]<br/>1-50 km, 1-10 Gbit/s<br/>licensed {{spectrum|spectrum}}"]
     end
 
-    NFC -.->|tap-to-pair bootstrap| BLE
-    NFC -.->|tap-to-pair bootstrap| WIFI
-    BLE -.->|session-key bootstrap| UWB
+    [[nfc|NFC]] -.->|tap-to-pair bootstrap| BLE
+    [[nfc|NFC]] -.->|tap-to-pair bootstrap| WIFI
+    BLE -.->|session-key bootstrap| [[uwb|UWB]]
     BLE -.->|commissioning| ZIGBEE
     WIFI -.->|offload| CELL`
 			},
@@ -570,7 +570,7 @@ How they coexist:
 				title: 'The BLE-bootstrap pattern',
 				text: `Almost every consumer wireless interaction in 2026 chains *multiple* radios. The pattern is everywhere once you see it:
 
-**[[uwb|UWB]] ranging** never starts without [[bluetooth|BLE]] first. The lock or car advertises a service UUID over BLE; the phone connects, runs SPAKE2+/PAKE authentication, transfers the **STS_KEY** for the [[uwb|UWB]] session over the BLE encrypted channel, and only then powers up its UWB radio for a three-message DS-TWR ranging round. UWB has no power-efficient discovery mechanism of its own — BLE provides it. ({{ccc-digital-key|CCC Digital Key 3.0}}, {{aliro|Aliro 1.0}}, every {{apple|Apple}} AirTag Precision Finding round.)
+**[[uwb|UWB]] ranging** never starts without [[bluetooth|BLE]] first. The lock or car advertises a service UUID over BLE; the phone connects, runs SPAKE2+/PAKE authentication, transfers the **STS_KEY** for the [[uwb|UWB]] session over the BLE encrypted channel, and only then powers up its [[uwb|UWB]] radio for a three-message DS-TWR ranging round. [[uwb|UWB]] has no power-efficient discovery mechanism of its own — BLE provides it. ({{ccc-digital-key|CCC Digital Key 3.0}}, {{aliro|Aliro 1.0}}, every {{apple|Apple}} AirTag Precision Finding round.)
 
 **[[bluetooth|Bluetooth]] / [[wifi|Wi-Fi]] handover** is bootstrapped by [[nfc|NFC]]. The [[nfc|NFC]] Forum Connection Handover spec defines {{ndef|NDEF}} records carrying the BLE MAC + SMP OOB key or the Wi-Fi SSID + {{wpa2|WPA2}} key. A single 4 cm tap replaces the entire discovery + pairing dialog on Bluetooth speakers, printers, and {{matter|Matter}} device commissioning.
 

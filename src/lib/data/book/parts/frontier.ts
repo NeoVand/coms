@@ -169,7 +169,7 @@ The unresolved political fight is **{{l4s|L4S}}-vs-classic fairness**: Scalable 
 
 **[[ipv6|IPv6]]** was specified in 1995. For most of the next twenty-eight years, deployment was painful — early adopters had to maintain dual stacks, the operational cost was double, and the upside was mostly future-proofing.
 
-Adoption inflected when **mobile carriers** went [[ipv6|IPv6]]-mostly for cellular subscribers. **T-Mobile US** moved its mobile core to [[ipv6|IPv6]]-only with {{four-six-four-xlat|464XLAT}} (Cameron Byrne, NANOG 61, 2014) — the production case study that defined the pattern. Verizon and AT&T followed. By 2026, **US mobile [[ipv6|IPv6]] averages ~87%**; **France 86%** (Google, Feb 2026); **India 67-80%** largely on the back of Reliance Jio's [[ipv6|IPv6]]-first launch in 2016 (>237M [[ipv6|IPv6]] users by 2017); **China 865M [[ipv6|IPv6]] users (77% of users); 34% of traffic** (Sept 2025).`
+Adoption inflected when **mobile carriers** went [[ipv6|IPv6]]-mostly for cellular subscribers. **T-Mobile US** moved its mobile core to [[ipv6|IPv6]]-only with {{four-six-four-xlat|464XLAT}} (Cameron Byrne, NANOG 61, 2014) — the production case study that defined the pattern. Verizon and AT&T followed. By 2026, **US mobile [[ipv6|IPv6]] averages ~87%**; **France 86%** ({{google|Google}}, Feb 2026); **India 67-80%** largely on the back of Reliance Jio's [[ipv6|IPv6]]-first launch in 2016 (>237M [[ipv6|IPv6]] users by 2017); **China 865M [[ipv6|IPv6]] users (77% of users); 34% of traffic** (Sept 2025).`
 						},
 						{
 							type: 'narrative',

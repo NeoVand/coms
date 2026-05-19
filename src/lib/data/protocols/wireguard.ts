@@ -90,7 +90,7 @@ sudo wg show
 #     latest handshake: 23 seconds ago
 #     transfer: 142.3 KiB received, 89.7 KiB sent
 #     persistent keepalive: every 25 seconds`,
-		caption: 'A complete [[wireguard|WireGuard]] tunnel in 12 lines of config. Same on {{linux|Linux}}, BSD, macOS, Android, Windows. The simplicity is the feature.',
+		caption: 'A complete [[wireguard|WireGuard]] tunnel in 12 lines of config. Same on {{linux|Linux}}, BSD, macOS, {{android|Android}}, Windows. The simplicity is the feature.',
 		alternatives: [
 			{
 				language: 'python',
@@ -331,11 +331,11 @@ Around 4% data inflation for typical 1400-byte inner packets.`
 		pitfalls: [
 			{
 				title: 'AllowedIPs is your routing table AND your ACL',
-				text: 'A single `AllowedIPs` field on each {{peer|peer}} does two jobs: outbound it picks which {{peer|peer}} to send packets through for a given destination prefix, and inbound it filters which inner source IPs the {{peer|peer}} is allowed to send. Forgetting this is the most common config bug. **Cure:** when a {{peer|peer}} is supposed to be a "remote {{subnet|subnet}}", put the {{subnet|subnet}} in `AllowedIPs`. When a peer is supposed to be a "single roadwarrior", put just its `/32`. When a peer is "default route everything", use `0.0.0.0/0, ::/0` — and add `PostUp` rules for masquerading.'
+				text: 'A single `AllowedIPs` field on each {{peer|peer}} does two jobs: outbound it picks which {{peer|peer}} to send packets through for a given destination prefix, and inbound it filters which inner source IPs the {{peer|peer}} is allowed to send. Forgetting this is the most common config bug. **Cure:** when a {{peer|peer}} is supposed to be a "remote {{subnet|subnet}}", put the {{subnet|subnet}} in `AllowedIPs`. When a {{peer|peer}} is supposed to be a "single roadwarrior", put just its `/32`. When a {{peer|peer}} is "default route everything", use `0.0.0.0/0, ::/0` — and add `PostUp` rules for masquerading.'
 		},
 			{
 				title: 'No dynamic IPs out of the box',
-				text: 'Vanilla WireGuard refuses to do [[dns|DNS]] lookups on `Endpoint =` (the kernel module is keep-it-simple, no DNS). The plumbing for "the {{peer|peer}}\'s endpoint changed because their ISP rebooted them" is **not in the kernel**. `wg-quick(8)` resolves hostnames at interface-up time only. **Cure:** for road-warriors, the {{peer|peer}} connects *out* to a fixed endpoint and uses `PersistentKeepalive` to hold the NAT binding. For dynamic-IP servers, run `reresolve-dns.timer` (Donenfeld\'s own systemd timer) to re-resolve `Endpoint =` periodically.'
+				text: 'Vanilla WireGuard refuses to do [[dns|DNS]] lookups on `Endpoint =` (the kernel module is keep-it-simple, no [[dns|DNS]]). The plumbing for "the {{peer|peer}}\'s endpoint changed because their ISP rebooted them" is **not in the kernel**. `wg-quick(8)` resolves hostnames at interface-up time only. **Cure:** for road-warriors, the {{peer|peer}} connects *out* to a fixed endpoint and uses `PersistentKeepalive` to hold the NAT binding. For dynamic-IP servers, run `reresolve-dns.timer` (Donenfeld\'s own systemd timer) to re-resolve `Endpoint =` periodically.'
 			},
 			{
 				title: 'DPI-resistance is not in the protocol',

@@ -229,6 +229,13 @@ for (const file of walk(DATA_DIR)) {
 	const stripped = strip(orig);
 	const litMap = buildLiteralMap(orig);
 
+	// Per-file skip overrides. In diagram-definitions.ts the `definition`
+	// field holds Mermaid sequence-diagram syntax, not prose — wrapping
+	// inside it pollutes the diagram with tooltip markup the renderer
+	// doesn't process. Captions and per-step explanations stay wrappable.
+	const isDiagramFile = file.endsWith('diagram-definitions.ts');
+	const skipDefinition = isDiagramFile;
+
 	const allHits: Hit[] = [];
 
 	for (const c of concepts) {
@@ -255,6 +262,7 @@ for (const file of walk(DATA_DIR)) {
 			if (lstart < 0) continue;
 			const field = findFieldForOffset(orig, m.index);
 			if (!field || !PARSED_FIELDS.has(field) || SKIP_FIELDS.has(field)) continue;
+			if (skipDefinition && field === 'definition') continue;
 			allHits.push({ off: m.index, len: m[0].length, id: c.id, surface: m[0] });
 		}
 	}

@@ -383,7 +383,7 @@ Inner packet:
 		pitfalls: [
 			{
 				title: 'IPv6-only carriers + IPv4-literal apps',
-				text: "On modern carriers (T-Mobile USA, Reliance Jio, parts of Verizon and DT), the UE receives **only an [[ipv6|IPv6]] prefix**. Legacy [[ip|IPv4]] destinations are reached via **{{four-six-four-xlat|464XLAT}}** ([[rfc:6877|RFC 6877]]) — CLAT on the UE, PLAT/{{nat64|NAT64}} at the operator. **Pitfall:** apps with hardcoded IPv4 literals (`socket.connect(\"8.8.8.8\")`) silently fail. **Cure:** always resolve via [[dns|DNS]], always prefer IPv6 (`getaddrinfo`, `AF_UNSPEC`); use `IPv4v6` PDU session type, never `IPv4 only`."
+				text: "On modern carriers (T-Mobile USA, Reliance Jio, parts of Verizon and DT), the UE receives **only an [[ipv6|IPv6]] prefix**. Legacy [[ip|IPv4]] destinations are reached via **{{four-six-four-xlat|464XLAT}}** ([[rfc:6877|RFC 6877]]) — CLAT on the UE, PLAT/{{nat64|NAT64}} at the operator. **Pitfall:** apps with hardcoded [[ip|IPv4]] literals (`socket.connect(\"8.8.8.8\")`) silently fail. **Cure:** always resolve via [[dns|DNS]], always prefer [[ipv6|IPv6]] (`getaddrinfo`, `AF_UNSPEC`); use `IPv4v6` PDU session type, never `[[ip|IPv4]] only`."
 			},
 			{
 				title: 'PMTUD black holes on the GTP tunnel',

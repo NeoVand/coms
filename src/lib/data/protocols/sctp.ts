@@ -8,8 +8,8 @@ export const sctp: Protocol = {
 	port: undefined,
 	year: 2000,
 	rfc: 'RFC 9260',
-	oneLiner: "Multi-streaming, multi-homing transport — [[tcp|TCP]]'s more capable but less popular cousin.",
-	overview: `[[sctp|SCTP]] was designed for telecom {{signaling|signaling}} but offers features that both [[tcp|TCP]] and [[udp|UDP]] lack. It supports {{multiplexing|multiple independent streams}} within a single connection (like [[quic|QUIC]], but decades earlier), multi-homing (a connection can span multiple network interfaces for redundancy), and message boundaries (unlike [[tcp|TCP]]'s byte stream).
+	oneLiner: "Multi-streaming, {{multi-homing|multi-homing}} transport — [[tcp|TCP]]'s more capable but less popular cousin.",
+	overview: `[[sctp|SCTP]] was designed for telecom {{signaling|signaling}} but offers features that both [[tcp|TCP]] and [[udp|UDP]] lack. It supports {{multiplexing|multiple independent streams}} within a single connection (like [[quic|QUIC]], but decades earlier), {{multi-homing|multi-homing}} (a connection can span multiple network interfaces for redundancy), and message boundaries (unlike [[tcp|TCP]]'s byte stream).
 
 Despite its technical superiority in many aspects, [[sctp|SCTP]] never gained widespread adoption on the public internet because {{nat|NATs}} and {{firewall|firewalls}} typically don't understand it. However, it's widely used in telecom infrastructure (4G/5G networks use it extensively) and is used by [[webrtc|WebRTC]]'s data channels — though in [[webrtc|WebRTC]], [[sctp|SCTP]] doesn't run as a raw OS-level transport; instead it runs over {{dtls|DTLS}} over [[udp|UDP]], with the [[sctp|SCTP]] implementation in userspace.
 
@@ -158,7 +158,7 @@ SCTP INIT-ACK Chunk:
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/SCTP-Multihoming.png/500px-SCTP-Multihoming.png',
 		alt: 'Diagram showing SCTP multi-homing with a host connected to two different network paths for redundancy',
 		caption:
-			'[[sctp|SCTP]] multi-homing in action — a single [[sctp|SCTP]] association can span multiple [[ip|IP]] addresses and network interfaces. If one path fails, traffic seamlessly shifts to another, making [[sctp|SCTP]] the backbone of telecom {{signaling|signaling}} (4G/5G).',
+			'[[sctp|SCTP]] {{multi-homing|multi-homing}} in action — a single [[sctp|SCTP]] association can span multiple [[ip|IP]] addresses and network interfaces. If one path fails, traffic seamlessly shifts to another, making [[sctp|SCTP]] the backbone of telecom {{signaling|signaling}} (4G/5G).',
 		credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 	}
 };

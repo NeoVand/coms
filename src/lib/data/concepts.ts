@@ -3288,6 +3288,72 @@ export const concepts: Concept[] = [
 			"The shortest-path-first algorithm invented by [[pioneer:edsger-dijkstra|Edsger W. Dijkstra]] in 1956. Run by every [[ospf|OSPF]] router across its LSDB to compute the routing table — *every node's shortest path to every other node*. Runs in O((V+E) log V) with a binary heap; in practice it converges in milliseconds on an enterprise topology and seconds on a tier-1 ISP backbone.",
 		wikiUrl: 'https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm',
 		category: 'protocol-mechanics'
+	},
+
+	// ── Filled stubs (referenced from diagram captions) ─────────────────
+	{
+		id: 'multi-homing',
+		term: 'Multi-homing',
+		definition:
+			"A host (or autonomous system) reachable through *multiple* network paths or {{ip-address|IP addresses}} simultaneously. [[sctp|SCTP]] negotiates multiple address pairs per association so a path failure switches transparently; [[mptcp|MPTCP]] does the same for TCP via subflows; [[bgp|BGP]]-speaking networks multi-home by announcing the same prefix from multiple upstream providers for redundancy.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Multihoming',
+		category: 'networking-basics'
+	},
+	{
+		id: 'pipelining',
+		term: 'Pipelining',
+		definition:
+			"Sending the next request before the previous response arrives, so multiple {{request-response|request-response}} pairs are in flight at once. Standardised in [[http1|HTTP/1.1]] ([[rfc:9112|RFC 9112]]) but never reliably deployed because most servers responded *in order* — one slow response stalled everything behind it ({{head-of-line-blocking|head-of-line blocking}}). [[http2|HTTP/2]] solved this with binary {{multiplexing|multiplexing}}; [[smtp|SMTP]] PIPELINING is one place it works well.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/HTTP_pipelining',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'doh',
+		term: 'DoH (DNS over HTTPS)',
+		definition:
+			"[[dns|DNS]] queries tunneled over [[http2|HTTP/2]] / [[http3|HTTP/3]] to a resolver (RFC 8484, 2018). Encrypts and authenticates DNS lookups against on-path eavesdroppers and tampering — closes the metadata leak that {{dnssec|DNSSEC}} alone could not. Default in Firefox since 2020 (Cloudflare 1.1.1.1, NextDNS); enterprises sometimes block DoH to retain DNS-based filtering.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/DNS_over_HTTPS',
+		category: 'security'
+	},
+	{
+		id: 'dot',
+		term: 'DoT (DNS over TLS)',
+		definition:
+			"[[dns|DNS]] queries over a dedicated [[tls|TLS]] connection on port 853 (RFC 7858, 2016). Same goal as {{doh|DoH}} — encrypt and authenticate the resolver path — but uses its own port so middleboxes can distinguish DNS from web traffic. {{android|Android}} 9+ ships Private DNS that speaks DoT; the Knot, Unbound, and CoreDNS resolvers expose it server-side.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/DNS_over_TLS',
+		category: 'security'
+	},
+	{
+		id: 'stream-processing',
+		term: 'Stream processing',
+		definition:
+			"Compute over an unbounded data stream as records arrive — window, aggregate, join, alert — rather than batching a finite dataset. Built on top of distributed log brokers like [[kafka|Kafka]], [[amqp|AMQP]], or Pulsar. Frameworks: Flink, [[kafka|Kafka]] Streams, Spark Structured Streaming, ksqlDB. The processing model behind real-time fraud detection, telemetry, and CDC pipelines.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Stream_processing',
+		category: 'messaging'
+	},
+	{
+		id: 'anthropic',
+		term: 'Anthropic',
+		definition:
+			"AI safety company (founded 2021) and operator of the **Claude** family of large language models. Authored the Model Context Protocol ([[mcp|MCP]], November 2024), the open standard that lets LLM applications connect to outside tools and resources over [[json-rpc|JSON-RPC]] 2.0.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Anthropic',
+		category: 'infrastructure'
+	},
+	{
+		id: 'linkedin',
+		term: 'LinkedIn',
+		definition:
+			"Professional-network site acquired by [[microsoft|Microsoft]] in 2016. Originator of Apache [[kafka|Kafka]] (open-sourced 2011); the company runs the largest publicly documented Kafka deployment on earth — **>7 trillion messages/day** as of the 2020s — and was the reference architecture every other Kafka deployment scaled against.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/LinkedIn',
+		category: 'infrastructure'
+	},
+	{
+		id: 'android',
+		term: 'Android',
+		definition:
+			"[[google|Google]]'s mobile operating system (acquired from Android Inc. in 2005, first release 2008). Drives ~70% of global smartphone share. The reference platform that adopted [[quic|QUIC]], {{doh|DoH}}/{{dot|DoT}} (\"Private DNS\"), [[mptcp|MPTCP]], post-quantum [[tls|TLS]], and {{matter|Matter}} for the consumer device fleet.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Android_(operating_system)',
+		category: 'infrastructure'
 	}
 ];
 

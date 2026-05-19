@@ -9,7 +9,7 @@ export const ipsec: Protocol = {
 	year: 1995,
 	rfc: 'RFC 4301 / 7296',
 	oneLiner:
-		'The {{ietf|IETF}}\'s Layer-3 cryptographic envelope — every site-to-site VPN, every {{3gpp|3GPP}} mobile-core backhaul, every IKEv2 client tunnel on macOS / iOS / Windows / Android runs IPsec.',
+		'The {{ietf|IETF}}\'s Layer-3 cryptographic envelope — every site-to-site VPN, every {{3gpp|3GPP}} mobile-core backhaul, every IKEv2 client tunnel on macOS / iOS / Windows / {{android|Android}} runs IPsec.',
 	overview: `[[ipsec|IPsec]] is the {{ietf|IETF}}'s **network-layer** security architecture. Where [[tls|TLS]] wraps a single [[tcp|TCP]] stream and [[ssh|SSH]] wraps a single remote session, [[ipsec|IPsec]] {{encryption|encrypts}} entire [[ip|IP]] {{packet|packets}} — host-to-host, gateway-to-gateway, or both — and is the only mainstream cryptographic protocol that lives *inside* the network stack rather than above it. **{{ah-authentication-header|AH}}** ([[rfc:4302|RFC 4302]]) authenticates the [[ip|IP]] {{header|header}} and {{payload|payload}}; **{{esp|ESP}}** ([[rfc:4303|RFC 4303]], the part everyone actually deploys) encrypts and authenticates payloads using {{aead|AEAD ciphers}} like {{aes-gcm|AES-GCM}} and {{chacha20-poly1305|ChaCha20-Poly1305}}. **{{ike|IKEv2}}** ([[rfc:7296|RFC 7296]], the modern key-management protocol, edited across decades by [[pioneer:charlie-kaufman|Charlie Kaufman]] and [[pioneer:tero-kivinen|Tero Kivinen]]) negotiates the {{cipher-suite|cipher suite}} and establishes the {{security-association|Security Associations}} the data plane uses.
 
 The architecture began in 1995 with [[pioneer:randall-atkinson|Randall Atkinson]] at the U.S. Naval Research Lab (RFC 1825/1826/1827); [[pioneer:phil-karn|Phil Karn]] influenced the design from Qualcomm and was, in parallel, the plaintiff in *Karn v. U.S. State Department* — the export-control case that helped establish "code is speech." [[ipsec|IPsec]] has been re-architected twice ([[rfc:4301|RFC 4301]], 2005) and survived a 2003 architectural critique from Ferguson and Schneier (whose paper concluded it was, despite its complexity, "the best [[ip|IP]] security protocol available at the moment"). It is the **only** widely-deployed VPN that natively carries [[bgp|BGP]] / [[ospf|OSPF]] / {{multicast|multicast}} on tunnel interfaces — the reason {{3gpp|3GPP}} picked it for LTE S1/X2 and 5G N2/N3 backhaul, and the reason every carrier on Earth runs it whether they want to or not.
@@ -39,12 +39,12 @@ As of May 2026, [[ipsec|IPsec]] is also the first mainstream VPN with a real, de
 		{
 			title: 'Rekey before the SA expires',
 			description:
-				'Each {{child-sa|Child SA}} has a time-and-byte lifetime (default ~8 hours / ~100 GB). Before either limit is hit, peers run **CREATE_CHILD_SA** to derive a fresh key from the {{ike-sa|IKE SA}} — usually invisible. The IKE SA itself rekeys with **IKE_SA_REKEY**; every 24 hours is a common production policy.'
+				'Each {{child-sa|Child SA}} has a time-and-byte lifetime (default ~8 hours / ~100 GB). Before either limit is hit, peers run **CREATE_CHILD_SA** to derive a fresh key from the {{ike-sa|IKE SA}} — usually invisible. The {{ike-sa|IKE SA}} itself rekeys with **IKE_SA_REKEY**; every 24 hours is a common production policy.'
 		},
 		{
 			title: 'NAT-T, MOBIKE, MOBIKE-X — survive the real internet',
 			description:
-				'Once outside the lab, NAT and mobility appear. **NAT-T** (UDP/4500) wraps ESP in [[udp|UDP]] so home routers don\'t corrupt the packet. **MOBIKE** ([[rfc:4555|RFC 4555]]) lets a roadwarrior survive Wi-Fi-to-LTE handoff. **RFC 8229 (IKE/ESP over [[tcp|TCP]])** is the last-resort fallback for hostile networks (hotel Wi-Fi, captive portals) that drop UDP.'
+				'Once outside the lab, NAT and mobility appear. **NAT-T** (UDP/4500) wraps ESP in [[udp|UDP]] so home routers don\'t corrupt the packet. **MOBIKE** ([[rfc:4555|RFC 4555]]) lets a roadwarrior survive Wi-Fi-to-LTE handoff. **RFC 8229 (IKE/ESP over [[tcp|TCP]])** is the last-resort fallback for hostile networks (hotel Wi-Fi, captive portals) that drop [[udp|UDP]].'
 		}
 	],
 	useCases: [
@@ -304,7 +304,7 @@ Payloads:
 			org: 'Operating-system native clients',
 			scale: 'Every modern OS ships an IKEv2 client',
 			description:
-				'{{apple|Apple}} iOS / macOS: native IKEv2 since iOS 9 / OS X 10.11 (configured via `.mobileconfig`). {{microsoft|Microsoft}} Always-On VPN: IKEv2 + EAP-TLS profile baseline. Android: native IKEv2/IPsec PSK + EAP since Android 12. {{linux|Linux}}: NetworkManager + strongSwan. OpenBSD: clean-room `iked` since OpenBSD 4.8 (2010), by Reyk Floeter.'
+				'{{apple|Apple}} iOS / macOS: native IKEv2 since iOS 9 / OS X 10.11 (configured via `.mobileconfig`). {{microsoft|Microsoft}} Always-On VPN: IKEv2 + EAP-TLS profile baseline. {{android|Android}}: native IKEv2/IPsec PSK + EAP since Android 12. {{linux|Linux}}: NetworkManager + strongSwan. OpenBSD: clean-room `iked` since OpenBSD 4.8 (2010), by Reyk Floeter.'
 		}
 	],
 

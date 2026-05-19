@@ -152,7 +152,7 @@ export const transportStory: CategoryStory = {
 					year: 2000,
 					title: 'SCTP Published \u2014 RFC 2960',
 					description:
-						'Stream Control Transmission Protocol brings multi-streaming and multi-homing to transport, originally designed for telephony {{signaling|signaling}}.',
+						'Stream Control Transmission Protocol brings multi-streaming and {{multi-homing|multi-homing}} to transport, originally designed for telephony {{signaling|signaling}}.',
 					protocolId: 'sctp'
 				},
 				{
@@ -226,12 +226,12 @@ export const transportStory: CategoryStory = {
 			type: 'diagram',
 			definition: `graph TD
   subgraph Traditional["Traditional [[tcp|TCP]]"]
-    T1[Application] --> T2[TCP]
+    T1[Application] --> T2[[[tcp|TCP]]]
     T2 --> T3{{"Middlebox"}}
     T3 -->|"inspects headers"| T4[Network]
   end
   subgraph Modern["[[quic|QUIC]] Approach"]
-    Q1[Application] --> Q2["QUIC — encrypted"]
+    Q1[Application] --> Q2["[[quic|QUIC]] — encrypted"]
     Q2 --> Q3[[[udp|UDP]]]
     Q3 --> Q4{{"Middlebox"}}
     Q4 -->|"passes through"| Q5[Network]

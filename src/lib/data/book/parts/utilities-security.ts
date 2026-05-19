@@ -119,7 +119,7 @@ In 1999 the {{ietf|IETF}} took ownership and renamed it [[tls|TLS]] 1.0 ([[rfc:2
 
 **DigiNotar (August 2011)**: Iran-linked attacker issued **531 fraudulent certs for 344 domains** including \`*.{{google|google}}.com\`, used in {{man-in-the-middle|MITM}} against ~300,000 Iranian Gmail users. **DigiNotar bankrupt within a month.** Forced **{{certificate-transparency|Certificate Transparency}}** into existence as a structural fix.
 
-**GREASE ([[rfc:8446|RFC 8701]], January 2020)**: David Benjamin (Google) reserved values like \`0x0A0A, 0x1A1A, ..., 0xFAFA\` in the cipher-suite, named-group, signature, {{alpn|ALPN}}, and version registries. **Chrome injects one at random into every {{client-hello|ClientHello}}** so any server or middlebox that crashes on unknown values is detected before that brittleness ossifies. GREASE is the entire reason [[tls|TLS]] 1.3 deployment did not get blocked by another decade of middlebox ossification.
+**GREASE ([[rfc:8446|RFC 8701]], January 2020)**: David Benjamin ({{google|Google}}) reserved values like \`0x0A0A, 0x1A1A, ..., 0xFAFA\` in the cipher-suite, named-group, signature, {{alpn|ALPN}}, and version registries. **Chrome injects one at random into every {{client-hello|ClientHello}}** so any server or middlebox that crashes on unknown values is detected before that brittleness ossifies. GREASE is the entire reason [[tls|TLS]] 1.3 deployment did not get blocked by another decade of middlebox ossification.
 
 Two more historical incidents to name: **goto fail (CVE-2014-1266)** — a duplicated \`goto fail;\` line in iOS/OS X 10.9 made Safari silently accept any server's signed key {{exchange|exchange}} — full {{man-in-the-middle|MITM}} on every Safari HTTPS connection for ~17 months. **ROBOT (December 2017)** — 19-year-old Bleichenbacher attack still let researchers sign messages with **facebook.com's {{private-key|private key}}** in 2017, affecting F5, Citrix, {{cisco|Cisco}}, Radware, BouncyCastle, WolfSSL.`
 						},
@@ -134,7 +134,7 @@ Two more historical incidents to name: **goto fail (CVE-2014-1266)** — a dupli
 
 **Frontier — 47-day cert lifetimes**: {{certificate-authority|CA}}/Browser Forum **Ballot SC-081v3 (11 April 2025, {{apple|Apple}}-sponsored, 29-yes-0-no)** phases certs to **200 days on 15 March 2026, 100 days on 15 March 2027, 47 days on 15 March 2029**, with DCV reuse falling to **10 days** in the same window. **Manual renewal is no longer an option.** Every {{certificate|certificate}} operation must be automated by 2029.
 
-**Let's Encrypt DST Root {{certificate-authority|CA}} X3 expiry (30 September 2021)** broke older Android, OpenSSL <1.1.0, Sophos UTM, Stripe webhook clients, Roku, Heroku Redis. Root expiration is a **calendar-driven incident** that should have been forecast — and now serves as the canonical case for why root rollovers must be scheduled like rocket launches.`
+**Let's Encrypt DST Root {{certificate-authority|CA}} X3 expiry (30 September 2021)** broke older {{android|Android}}, OpenSSL <1.1.0, Sophos UTM, Stripe webhook clients, Roku, Heroku Redis. Root expiration is a **calendar-driven incident** that should have been forecast — and now serves as the canonical case for why root rollovers must be scheduled like rocket launches.`
 						},
 						{
 							type: 'image',
@@ -257,7 +257,7 @@ A client samples the {{rtt|round-trip time}} to a server (call it δ) and the ap
 						{
 							type: 'narrative',
 							title: 'The 2012 Leap-Second Bug, And the End of Leap Seconds',
-							text: `**2012 leap-second {{linux|Linux}} kernel bug (30 June → 1 July 2012)**: The kernel's leap-second handler updated \`xtime\` without calling \`clock_was_set()\` to notify hrtimer; tasks waiting on futexes with absolute deadlines pegged CPUs at 100%. Affected **Reddit, LinkedIn, Mozilla, Yelp, Foursquare, Amadeus airline reservation** (causing flight delays at Qantas and others). Workaround: \`date -s "$(date)"\` reset the clock and unblocked the futex queue.
+							text: `**2012 leap-second {{linux|Linux}} kernel bug (30 June → 1 July 2012)**: The kernel's leap-second handler updated \`xtime\` without calling \`clock_was_set()\` to notify hrtimer; tasks waiting on futexes with absolute deadlines pegged CPUs at 100%. Affected **Reddit, {{linkedin|LinkedIn}}, Mozilla, Yelp, Foursquare, Amadeus airline reservation** (causing flight delays at Qantas and others). Workaround: \`date -s "$(date)"\` reset the clock and unblocked the futex queue.
 
 **2014 [[ntp|NTP]] DDoS amplification disaster**: \`monlist\` mode-7 query in pre-4.2.7 ntpd — 234-byte request returned up to 600 [[ip|IP]]-address entries = up to 48 KB. **Amplification factor ~206×.** **10 February 2014: ~400 Gbps attack on a {{cloudflare|Cloudflare}} customer** — at the time, the largest DDoS ever recorded. Black Lotus reported 69% of all DDoS traffic in early January 2014 was [[ntp|NTP]] reflection.
 
@@ -326,7 +326,7 @@ Before [[oauth2|OAuth]], an app that wanted access to your {{google|Google}} cal
 						{
 							type: 'narrative',
 							title: 'The Famous Incidents',
-							text: `**{{google|Google}} "[[oauth2|OAuth]] worm" (May 2017)**: Fake "{{google|Google}} Docs" app harvested mailbox + contacts; **~1 million users affected** before {{google|Google}} killed it within ~1 hour. No exploit, just a malicious app named literally *"Google Docs"*. Google added client-name validation afterwards.
+							text: `**{{google|Google}} "[[oauth2|OAuth]] worm" (May 2017)**: Fake "{{google|Google}} Docs" app harvested mailbox + contacts; **~1 million users affected** before {{google|Google}} killed it within ~1 hour. No exploit, just a malicious app named literally *"{{google|Google}} Docs"*. {{google|Google}} added client-name validation afterwards.
 
 **Storm-0558 (May-July 2023)**: ~25 organisations including US State Dept and Commerce had Outlook Web Access mailboxes read for ~one month after the China-aligned actor forged authentication tokens. {{microsoft|Microsoft}} consumer (MSA) signing key from 2016 leaked into a crash dump in April 2021, was moved to a debug environment; an engineer's account was later compromised; a separate flaw caused {{microsoft|Microsoft}} 365 to accept consumer-key-signed tokens for enterprise OWA. The CSRB's April 2024 report called the breach **"preventable"** and {{microsoft|Microsoft}}'s security culture **"inadequate."**
 
@@ -362,7 +362,7 @@ Before [[oauth2|OAuth]], an app that wanted access to your {{google|Google}} cal
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Oauth_logo.svg/500px-Oauth_logo.svg.png',
 							alt: 'The OAuth logo — a stylised "O" rendered as a key.',
 							caption:
-								'The **[[oauth2|OAuth]]** logo. The framework was sketched at CitizenSpace in late 2006, [[oauth2|OAuth 2.0]] published as [[rfc:6749|RFC 6749]] in October 2012, [[oauth2|OAuth 2.1]] cleanups currently in draft. Eran Hammer\'s 2012 resignation essay *"[[oauth2|OAuth]] 2.0 and the Road to Hell"* is still the field\'s most-cited critique of any {{ietf|IETF}} standard — and yet OAuth now powers >1.2 billion daily sign-ins through {{microsoft|Microsoft}} Entra ID alone.',
+								'The **[[oauth2|OAuth]]** logo. The framework was sketched at CitizenSpace in late 2006, [[oauth2|OAuth 2.0]] published as [[rfc:6749|RFC 6749]] in October 2012, [[oauth2|OAuth 2.1]] cleanups currently in draft. Eran Hammer\'s 2012 resignation essay *"[[oauth2|OAuth]] 2.0 and the Road to Hell"* is still the field\'s most-cited critique of any {{ietf|IETF}} standard — and yet [[oauth2|OAuth]] now powers >1.2 billion daily sign-ins through {{microsoft|Microsoft}} Entra ID alone.',
 							credit: 'Image: Chris Messina / Wikimedia Commons, public domain'
 						}
 					]
@@ -400,7 +400,7 @@ Before [[oauth2|OAuth]], an app that wanted access to your {{google|Google}} cal
 						{
 							type: 'callout',
 							title: 'Port 25 vs 587 vs 465',
-							text: '**The "everyone gets it wrong" port fact**: Port **25** is MTA-to-MTA relay; **587** is Submission with {{starttls|STARTTLS}} ([[rfc:6409|RFC 6409]]); **465** is **Submissions** with implicit [[tls|TLS]] (formally restored to that role by [[rfc:8314|RFC 8314]], January 2018). **465 is preferred for new client integrations because STARTTLS is strippable** by an active attacker who can downgrade the connection. The "submission" vs "relay" distinction is what enterprise mail admins burn most of their time on.'
+							text: '**The "everyone gets it wrong" port fact**: Port **25** is MTA-to-MTA relay; **587** is Submission with {{starttls|STARTTLS}} ([[rfc:6409|RFC 6409]]); **465** is **Submissions** with implicit [[tls|TLS]] (formally restored to that role by [[rfc:8314|RFC 8314]], January 2018). **465 is preferred for new client integrations because {{starttls|STARTTLS}} is strippable** by an active attacker who can downgrade the connection. The "submission" vs "relay" distinction is what enterprise mail admins burn most of their time on.'
 						},
 						{
 							type: 'narrative',

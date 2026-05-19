@@ -60,7 +60,7 @@ The deeper trick is that protocols are **public**. They are described in plain t
 				title: 'Where Protocols Come From',
 				text: `Protocols are not born in committees. They are usually written by one or two engineers solving a specific problem, deployed for a few years, then standardised once the design has survived production.
 
-[[tcp|TCP]] was designed by [[pioneer:vint-cerf|Vint Cerf]] and [[pioneer:bob-kahn|Bob Kahn]] in 1974 to connect three networks that did not share a fabric. [[ethernet|Ethernet]] was sketched by [[pioneer:bob-metcalfe|Bob Metcalfe]] and [[pioneer:david-boggs|David Boggs]] at {{xerox-parc|Xerox PARC}} in 1973 to connect Alto workstations on a coaxial cable. The Web was a memo by [[pioneer:tim-berners-lee|Tim Berners-Lee]] at CERN in 1989. [[ssh|SSH]] was Tatu Ylönen's response to a password-sniffing attack at Helsinki University. [[mcp|MCP]] was Anthropic's response to N×M tool integrations in 2024.
+[[tcp|TCP]] was designed by [[pioneer:vint-cerf|Vint Cerf]] and [[pioneer:bob-kahn|Bob Kahn]] in 1974 to connect three networks that did not share a fabric. [[ethernet|Ethernet]] was sketched by [[pioneer:bob-metcalfe|Bob Metcalfe]] and [[pioneer:david-boggs|David Boggs]] at {{xerox-parc|Xerox PARC}} in 1973 to connect Alto workstations on a coaxial cable. The Web was a memo by [[pioneer:tim-berners-lee|Tim Berners-Lee]] at CERN in 1989. [[ssh|SSH]] was Tatu Ylönen's response to a password-sniffing attack at Helsinki University. [[mcp|MCP]] was {{anthropic|Anthropic}}'s response to N×M tool integrations in 2024.
 
 The {{ietf|IETF}}'s job is not to invent these protocols. It is to **document them**, **review them**, and (often years later) **anoint them as standards**. The motto is **rough consensus and running code** — a phrase from [[pioneer:david-clark|David Clark]] at {{ietf|IETF}} 24 in 1992. The "running code" half is doing most of the work. A protocol nobody has implemented is not a real protocol.`
 			},
@@ -116,9 +116,9 @@ The deeper principle is older than networking: separate what changes together fr
   ETH["<b>L2 Data Link</b><br/>[[ethernet|Ethernet]] — adds src/dst MAC, FCS"]
   PHY["<b>L1 Physical</b><br/>Bits on copper / fibre / radio"]
 
-  APP -->|"each layer wraps the one above"| TLS
-  TLS --> TCP
-  TCP --> IP
+  APP -->|"each layer wraps the one above"| [[tls|TLS]]
+  [[tls|TLS]] --> [[tcp|TCP]]
+  [[tcp|TCP]] --> IP
   IP --> ETH
   ETH --> PHY`,
 				caption:
@@ -237,7 +237,7 @@ Together: [[dns|DNS]] resolves the hostname → [[ip|IP]] routes the packet to t
   IP["{{ip-address|IP address}}<br/><b>142.250.80.46</b><br/>routes across the internet"]
   MAC["{{mac-address|MAC address}}<br/><b>f4:5c:89:9c:1a:30</b><br/>delivers on the local segment"]
   Port["Port<br/><b>:443</b><br/>delivers to the right process"]
-  [[dns|DNS]] -->|"DNS resolves"| IP
+  [[dns|DNS]] -->|"[[dns|DNS]] resolves"| IP
   IP -->|"[[arp|ARP]] / NDP resolves"| MAC
   MAC -->|"OS demuxes"| Port`,
 				caption: 'Each address layer answers a different question. [[dns|DNS]]: who. [[ip|IP]]: where. MAC: which port on this switch. Port: which program.'
@@ -459,7 +459,7 @@ This tradeoff drives the entire protocol ecosystem. Web pages need reliability �
 				title: 'The Reliability Spectrum',
 				definition: `graph LR
   [[udp|UDP]]["<b>[[udp|UDP]]</b><br/>No guarantees<br/>8-byte header"] ---|"+ {{encryption|encryption}} + {{multiplexing|multiplexing}}"| [[quic|QUIC]]["<b>[[quic|QUIC]]</b><br/>Per-stream reliability<br/>0/{{one-rtt|1-RTT}} {{handshake|handshake}}"]
-  QUIC ---|"+ ordered byte stream"| [[tcp|TCP]]["<b>[[tcp|TCP]]</b><br/>Full reliability<br/>{{one-rtt|1-RTT}} {{handshake|handshake}}"]`,
+  [[quic|QUIC]] ---|"+ ordered byte stream"| [[tcp|TCP]]["<b>[[tcp|TCP]]</b><br/>Full reliability<br/>{{one-rtt|1-RTT}} {{handshake|handshake}}"]`,
 				caption: 'Protocols sit on a {{spectrum|spectrum}} from raw speed ([[udp|UDP]]) to guaranteed delivery ([[tcp|TCP]]). [[quic|QUIC]] sits in between by giving each multiplexed stream its own reliability — so a lost packet only blocks one stream.'
 			},
 			{
@@ -704,7 +704,7 @@ The fix is **{{certificate|certificates}}**. A {{certificate|certificate}} is a 
 
 The {{certificate-chain|certificate chain}} is usually two or three deep: \`example.com → DigiCert [[tls|TLS]] Hybrid ECC SHA384 → DigiCert Global Root G3\`. Only the bottom (root) {{certificate-authority|CA}}'s {{certificate|certificate}} is shipped pre-installed; the intermediate is in the chain the server sends; the leaf is the actual hostname {{certificate|certificate}}. Each link signs the next. The {{pki|PKI}} ({{pki|Public Key Infrastructure}}) is the entire global apparatus that makes this work — root CAs, audit requirements, browser inclusion programs, {{certificate-transparency|certificate transparency}} logs.
 
-When the system breaks (and it has, repeatedly: DigiNotar 2011, Symantec 2017, multiple smaller incidents), the consequences are network-wide. A compromised {{certificate-authority|CA}} can issue a valid-looking certificate for any domain. This is why **{{certificate-transparency|Certificate Transparency}}** logs (RFC 6962) now require every issued certificate to be publicly logged — making rogue issuance discoverable, even if not preventable.`
+When the system breaks (and it has, repeatedly: DigiNotar 2011, Symantec 2017, multiple smaller incidents), the consequences are network-wide. A compromised {{certificate-authority|CA}} can issue a valid-looking {{certificate|certificate}} for any domain. This is why **{{certificate-transparency|Certificate Transparency}}** logs (RFC 6962) now require every issued {{certificate|certificate}} to be publicly logged — making rogue issuance discoverable, even if not preventable.`
 			},
 			{
 				type: 'callout',
@@ -731,7 +731,7 @@ The fix is rolling out fast. NIST finalised post-quantum standards in August 202
 				title: 'The First New Application Layer in Fifteen Years',
 				text: `For fifteen years after [[websockets|WebSockets]] in 2011, the application layer of the internet was settled. [[http1|HTTP]] in three versions, [[grpc|gRPC]] for service-to-service, [[graphql|GraphQL]] for flexible queries, [[sse|SSE]] for streaming — these and a few older protocols ([[smtp|SMTP]], [[imap|IMAP]], [[xmpp|XMPP]], [[mqtt|MQTT]]) covered every meaningful application. Nothing genuinely new appeared in this window.
 
-In November 2024, Anthropic published the **Model Context Protocol** — [[mcp|MCP]]. The premise was simple: AI coding assistants and chat agents needed a standard way to talk to tools (file systems, databases, APIs, internal systems) without each pair re-inventing the integration. With N AI hosts and M tools, the industry was building N×M bespoke connectors. [[mcp|MCP]] collapsed it to N+M.
+In November 2024, {{anthropic|Anthropic}} published the **Model Context Protocol** — [[mcp|MCP]]. The premise was simple: AI coding assistants and chat agents needed a standard way to talk to tools (file systems, databases, APIs, internal systems) without each pair re-inventing the integration. With N AI hosts and M tools, the industry was building N×M bespoke connectors. [[mcp|MCP]] collapsed it to N+M.
 
 In April 2025, {{google|Google}} published **Agent-to-Agent Protocol** — [[a2a|A2A]] — for collaboration **between** agents: capability discovery, task delegation, asynchronous event streams. Six months later both protocols moved into the [[frontier:a2a-linux-foundation|Linux Foundation]] alongside open governance. As of 2026, [[mcp|MCP]] servers number in the thousands, [[a2a|A2A]] is supported by every major agent framework, and both protocols are recognisably the new layer that earlier decades never had.`
 			},
@@ -776,7 +776,7 @@ For a brand-new protocol layer where adoption is the existential risk, picking t
 
 When the agent starts, it spawns the server and exchanges an \`initialize\` request — the server responds with its capabilities (which tools, prompts, and resources it offers). The agent calls \`tools/list\` to learn the names and schemas; later it calls \`tools/call\` with a tool name and arguments to actually invoke. The server runs the work, returns the result, and the agent decides what to do next.
 
-This shape is intentionally small. A filesystem [[mcp|MCP]] server has tools like \`read_file\`, \`write_file\`, \`list_directory\`. A GitHub [[mcp|MCP]] server has \`list_issues\`, \`create_pr\`, \`merge_pr\`. A Postgres [[mcp|MCP]] server has \`query\`, \`execute\`, \`describe_table\`. None of them know anything about Anthropic, Cursor, or any specific agent — they just expose a contract. Any [[mcp|MCP]]-aware client can use any [[mcp|MCP]]-aware server.
+This shape is intentionally small. A filesystem [[mcp|MCP]] server has tools like \`read_file\`, \`write_file\`, \`list_directory\`. A GitHub [[mcp|MCP]] server has \`list_issues\`, \`create_pr\`, \`merge_pr\`. A Postgres [[mcp|MCP]] server has \`query\`, \`execute\`, \`describe_table\`. None of them know anything about {{anthropic|Anthropic}}, Cursor, or any specific agent — they just expose a contract. Any [[mcp|MCP]]-aware client can use any [[mcp|MCP]]-aware server.
 
 The architecture's resemblance to the original [[http1|HTTP]] story is not accidental. Berners-Lee invented HTTP as a small, composable contract that any client could speak to any server. [[mcp|MCP]] is the same shape, applied to agents and tools instead of browsers and documents — and like HTTP, the most interesting question is what gets built on top of it.`
 			},

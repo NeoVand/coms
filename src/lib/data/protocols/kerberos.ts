@@ -380,7 +380,7 @@ server.listen(443);`
 			},
 			{
 				title: 'Service Principal Names (SPNs) must match exactly',
-				text: 'The SPN in the ticket (`HTTP/web1.example.com@EXAMPLE.COM`) must match the hostname the client connected to — including capitalisation and [[dns|DNS]] canonicalisation. A client typing `web1` will request a ticket for `HTTP/web1.example.com`; if the keytab only has `HTTP/web1` registered, the AP-REQ fails. **Cure:** register both short and FQDN SPNs in the keytab; set `dns_canonicalize_hostname = false` in `krb5.conf` if your DNS rewrites unpredictably; use `kvno HTTP/web1.example.com` to force-test SPN resolution.'
+				text: 'The SPN in the ticket (`HTTP/web1.example.com@EXAMPLE.COM`) must match the hostname the client connected to — including capitalisation and [[dns|DNS]] canonicalisation. A client typing `web1` will request a ticket for `HTTP/web1.example.com`; if the keytab only has `HTTP/web1` registered, the AP-REQ fails. **Cure:** register both short and FQDN SPNs in the keytab; set `dns_canonicalize_hostname = false` in `krb5.conf` if your [[dns|DNS]] rewrites unpredictably; use `kvno HTTP/web1.example.com` to force-test SPN resolution.'
 			},
 			{
 				title: 'Weak encryption types still lurk in old keytabs',

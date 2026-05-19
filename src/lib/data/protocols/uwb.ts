@@ -39,7 +39,7 @@ The reason UWB matters more than its raw precision is that it can **prove proxim
 		{
 			title: 'CCC Digital Key 3.0 — the canonical UWB unlock flow',
 			description:
-				"BMW iX shipped first in early 2022. The vehicle has multiple **UWB anchors** (typically B-pillar and one per door) plus a BLE radio; the phone has U1/U2 ({{apple|Apple}}) or NXP/Qorvo silicon plus its BLE radio. The unlock sequence: BLE Advertising → BLE pairing + {{gatt|GATT}} auth → {{apdu|APDU}} {{exchange|exchange}} where the vehicle authenticates the Digital Key applet in the phone's {{ese|Secure Element}} and derives session keys → BLE transfers the UWB session key (STS_KEY) and ranging schedule → UWB Poll/Response/Final DS-TWR ranging fires across multiple anchors → vehicle computes ToF on each anchor, checks the distance is below threshold *and* the credential is valid → BLE returns Unlock granted/denied. [[nfc|NFC]] remains the fallback for battery-dead phones. **{{ccc-digital-key|CCC Digital Key}} 4.0** (announced July 2025, tested at the 13th Plugfest hosted by {{apple|Apple}}) adds cross-platform key sharing across Android and iOS."
+				"BMW iX shipped first in early 2022. The vehicle has multiple **UWB anchors** (typically B-pillar and one per door) plus a BLE radio; the phone has U1/U2 ({{apple|Apple}}) or NXP/Qorvo silicon plus its BLE radio. The unlock sequence: BLE Advertising → BLE pairing + {{gatt|GATT}} auth → {{apdu|APDU}} {{exchange|exchange}} where the vehicle authenticates the Digital Key applet in the phone's {{ese|Secure Element}} and derives session keys → BLE transfers the UWB session key (STS_KEY) and ranging schedule → UWB Poll/Response/Final DS-TWR ranging fires across multiple anchors → vehicle computes ToF on each anchor, checks the distance is below threshold *and* the credential is valid → BLE returns Unlock granted/denied. [[nfc|NFC]] remains the fallback for battery-dead phones. **{{ccc-digital-key|CCC Digital Key}} 4.0** (announced July 2025, tested at the 13th Plugfest hosted by {{apple|Apple}}) adds cross-platform key sharing across {{android|Android}} and iOS."
 		},
 		{
 			title: 'The competition — Wi-Fi FTM (802.11mc/11az) and the honest verdict',
@@ -102,7 +102,7 @@ class RangingSession: NSObject, NISessionDelegate {
   }
 }`,
 		caption:
-			"{{apple|Apple}}'s Nearby Interaction framework is the public API every iOS UWB app uses. The U1/U2 silicon handles DS-TWR + PDoA; the framework returns distance in metres and a 3D direction vector at ~10 Hz. AirTag Precision Finding, BMW Digital Key, and the AR experiences in {{apple|Apple}} Vision Pro accessories all sit on top of this. The same NIDiscoveryToken-over-BLE pattern is what {{aliro|Aliro}} 1.0 generalises across Android and Samsung wallets.",
+			"{{apple|Apple}}'s Nearby Interaction framework is the public API every iOS UWB app uses. The U1/U2 silicon handles DS-TWR + PDoA; the framework returns distance in metres and a 3D direction vector at ~10 Hz. AirTag Precision Finding, BMW Digital Key, and the AR experiences in {{apple|Apple}} Vision Pro accessories all sit on top of this. The same NIDiscoveryToken-over-BLE pattern is what {{aliro|Aliro}} 1.0 generalises across {{android|Android}} and Samsung wallets.",
 		alternatives: [
 			{
 				language: 'python',
@@ -332,7 +332,7 @@ Continuous Precision Finding refreshes at ~10 Hz on Apple silicon.`
 			date: '2025-07',
 			title: 'CCC Digital Key 4.0 announced — cross-platform key sharing',
 			description:
-				"The **Car Connectivity Consortium** announced Digital Key 4.0 in July 2025 and validated it at the **13th Plugfest hosted by {{apple|Apple}}**. Adds **device-to-device key sharing across Android and iOS**, validates backward compatibility with 3.0 vehicles, and keeps the requirement that devices support at least one of [[nfc|NFC]], BLE, or UWB. HRP UWB under 802.15.4z remains the secure default. **115 vehicle/module products** were certified across 2025 alone; BMW (first cert late 2024), Mercedes, Hyundai/Kia, Audi (new for 2025), VW, Porsche, GM, Ford, and Chinese OEMs (NIO, XPENG, Geely brands).",
+				"The **Car Connectivity Consortium** announced Digital Key 4.0 in July 2025 and validated it at the **13th Plugfest hosted by {{apple|Apple}}**. Adds **device-to-device key sharing across {{android|Android}} and iOS**, validates backward compatibility with 3.0 vehicles, and keeps the requirement that devices support at least one of [[nfc|NFC]], BLE, or UWB. HRP UWB under 802.15.4z remains the secure default. **115 vehicle/module products** were certified across 2025 alone; BMW (first cert late 2024), Mercedes, Hyundai/Kia, Audi (new for 2025), VW, Porsche, GM, Ford, and Chinese OEMs (NIO, XPENG, Geely brands).",
 			source: {
 				url: 'https://carconnectivity.org/',
 				label: 'Car Connectivity Consortium'
@@ -342,7 +342,7 @@ Continuous Precision Finding refreshes at ~10 Hz on Apple silicon.`
 			date: '2026-02',
 			title: 'Aliro 1.0 finalised — "Matter for door locks" with UWB',
 			description:
-				"On **26 February 2026** the CSA published **{{aliro|Aliro 1.0}}**, a PKI-based access-control credential standard with **[[nfc|NFC]] (tap) + BLE (proximity) + BLE+UWB (ranged, hands-free)** as its three transports. ECDSA mutual authentication; credentials provisioned into {{apple|Apple}}, {{google|Google}}, and Samsung wallets. First products: **Aqara U400** (first smart lock with UWB; {{aliro|Aliro}} coming via firmware update) and **Kwikset Halo Select Plus**. Launch partners include {{apple|Apple}}, {{google|Google}}, Samsung, ASSA ABLOY, NXP, Infineon, STMicroelectronics, Silicon Labs, Nordic Semiconductor, plus smart-lock makers Schlage, Avia, Nuki, Xthings. {{aliro|Aliro}} generalises the {{apple|Apple}} Home Key UX across Android — the most consequential UWB-related deployment of 2026.",
+				"On **26 February 2026** the CSA published **{{aliro|Aliro 1.0}}**, a PKI-based access-control credential standard with **[[nfc|NFC]] (tap) + BLE (proximity) + BLE+UWB (ranged, hands-free)** as its three transports. ECDSA mutual authentication; credentials provisioned into {{apple|Apple}}, {{google|Google}}, and Samsung wallets. First products: **Aqara U400** (first smart lock with UWB; {{aliro|Aliro}} coming via firmware update) and **Kwikset Halo Select Plus**. Launch partners include {{apple|Apple}}, {{google|Google}}, Samsung, ASSA ABLOY, NXP, Infineon, STMicroelectronics, Silicon Labs, Nordic Semiconductor, plus smart-lock makers Schlage, Avia, Nuki, Xthings. {{aliro|Aliro}} generalises the {{apple|Apple}} Home Key UX across {{android|Android}} — the most consequential UWB-related deployment of 2026.",
 			source: {
 				url: 'https://csa-iot.org/all-solutions/aliro/',
 				label: 'CSA: Aliro 1.0'
@@ -373,7 +373,7 @@ Continuous Precision Finding refreshes at ~10 Hz on Apple silicon.`
 			org: 'Aqara U400 + Apple Home Key + Aliro',
 			scale: 'First smart lock shipped with UWB support (2025); Aliro 1.0 firmware update post-CES 2026',
 			description:
-				"**Aqara U400** is the first commercial smart lock to ship with UWB. Initially {{apple|Apple}}-Home-Key-only — meaning the experience worked only for iPhone owners. With **{{aliro|Aliro}} 1.0** (CSA, 26 February 2026) coming via firmware update — announced at CES 2026 — the same lock will work hands-free with Android, Samsung, and any {{aliro|Aliro}}-compliant wallet. The {{apple|Apple}} Home Key experience (tap or walk up; door unlocks if your iPhone is the authenticated bearer) is what {{aliro|Aliro}} generalises across vendors."
+				"**Aqara U400** is the first commercial smart lock to ship with UWB. Initially {{apple|Apple}}-Home-Key-only — meaning the experience worked only for iPhone owners. With **{{aliro|Aliro}} 1.0** (CSA, 26 February 2026) coming via firmware update — announced at CES 2026 — the same lock will work hands-free with {{android|Android}}, Samsung, and any {{aliro|Aliro}}-compliant wallet. The {{apple|Apple}} Home Key experience (tap or walk up; door unlocks if your iPhone is the authenticated bearer) is what {{aliro|Aliro}} generalises across vendors."
 		},
 		{
 			org: 'Samsung Galaxy SmartTag+ + Galaxy S21+ family',

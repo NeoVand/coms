@@ -271,7 +271,7 @@ The evolution from [[http1]] to [[http2]] to [[http3]] tells a story of learning
 			title: 'The AI Protocol Revolution',
 			text: `In late 2024, a new class of protocols emerged \u2014 not for humans calling APIs, but for AI agents using tools and collaborating with each other. The catalyst was a deceptively simple problem: every AI application needed custom code for every integration. Connecting Claude to your database was a different project than connecting it to GitHub, which was different from Slack. An N\u00D7M matrix of bespoke integrations that didn't scale.
 
-Anthropic's answer was [[mcp|MCP]] (Model Context Protocol) \u2014 a universal interface built on [[json-rpc|JSON-RPC]] 2.0 that lets any AI host discover and use any tool through a standard protocol. Define a tool once as an [[mcp|MCP]] server, and Claude, ChatGPT, Cursor, and VS Code can all use it. [[mcp|MCP]] collapsed the integration matrix from N\u00D7M to N+M. Within months, thousands of [[mcp|MCP]] servers existed for everything from databases to cloud infrastructure.
+{{anthropic|Anthropic}}'s answer was [[mcp|MCP]] (Model Context Protocol) \u2014 a universal interface built on [[json-rpc|JSON-RPC]] 2.0 that lets any AI host discover and use any tool through a standard protocol. Define a tool once as an [[mcp|MCP]] server, and Claude, ChatGPT, Cursor, and VS Code can all use it. [[mcp|MCP]] collapsed the integration matrix from N\u00D7M to N+M. Within months, thousands of [[mcp|MCP]] servers existed for everything from databases to cloud infrastructure.
 
 But [[mcp|MCP]] solved only half the puzzle. It connected agents to tools \u2014 what about connecting agents to *each other*? {{google|Google}}'s [[a2a|A2A]] (Agent-to-Agent Protocol), announced in April 2025, addressed this. Where [[mcp|MCP]] is vertical (agent \u2192 tools), [[a2a|A2A]] is horizontal (agent \u2192 agent). A travel coordinator agent uses [[a2a|A2A]] to delegate to flight, hotel, and car rental agents \u2014 each of which uses [[mcp|MCP]] internally to access their own tools and databases. Both protocols chose [[json-rpc|JSON-RPC]] 2.0 as their wire format, and both moved to the {{linux|Linux}} Foundation by the end of 2025, cementing them as open industry standards.`
 		},
@@ -280,10 +280,10 @@ But [[mcp|MCP]] solved only half the puzzle. It connected agents to tools \u2014
 			definition: `graph TD
   U["User / AI App"]
   U -->|"[[mcp|MCP]]"| T1["Database Tool"]
-  U -->|"MCP"| T2["GitHub Tool"]
-  U -->|"MCP"| T3["Slack Tool"]
+  U -->|"[[mcp|MCP]]"| T2["GitHub Tool"]
+  U -->|"[[mcp|MCP]]"| T3["Slack Tool"]
   U -->|"[[a2a|A2A]]"| A1["Travel Agent"]
-  U -->|"A2A"| A2["Research Agent"]
+  U -->|"[[a2a|A2A]]"| A2["Research Agent"]
   A1 -->|"MCP"| T4["Flight API"]
   A1 -->|"MCP"| T5["Hotel API"]
   A2 -->|"MCP"| T6["Web Search"]`,
@@ -304,7 +304,7 @@ But [[mcp|MCP]] solved only half the puzzle. It connected agents to tools \u2014
 					year: 2024,
 					title: 'MCP \u2014 Model Context Protocol',
 					description:
-						'Anthropic releases [[mcp|MCP]], a universal interface for connecting AI applications to tools and data. Claude Desktop ships with [[mcp|MCP]] support.',
+						'{{anthropic|Anthropic}} releases [[mcp|MCP]], a universal interface for connecting AI applications to tools and data. Claude Desktop ships with [[mcp|MCP]] support.',
 					protocolId: 'mcp'
 				},
 				{

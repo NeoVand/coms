@@ -159,7 +159,7 @@ export const asyncIotStory: CategoryStory = {
 					year: 2011,
 					title: 'Apache Kafka Open-Sourced',
 					description:
-						'LinkedIn open-sources its distributed event streaming platform. [[kafka|Kafka]] redefines messaging: an immutable, replayable log instead of transient queues.',
+						'{{linkedin|LinkedIn}} open-sources its distributed event streaming platform. [[kafka|Kafka]] redefines messaging: an immutable, replayable log instead of transient queues.',
 					protocolId: 'kafka'
 				},
 				{
@@ -208,12 +208,12 @@ export const asyncIotStory: CategoryStory = {
 		{
 			type: 'narrative',
 			title: 'The Event Streaming Revolution',
-			text: `Traditional message brokers like [[amqp]] and [[mqtt]] treat messages as transient: once consumed, they're gone. [[kafka]] inverted this model entirely. Created at LinkedIn in 2011 by Jay Kreps, Neha Narkhede, and Jun Rao, [[kafka|Kafka]] treats messages as an immutable, ordered log that consumers can replay at will. A consumer can read from the beginning, skip ahead, or maintain multiple read positions independently.\n\nThis seemingly simple change unlocked an entirely new architecture: event sourcing. Instead of storing current state in a database and publishing notifications as a side effect, systems could treat the event stream itself as the source of truth. [[kafka]] now processes trillions of messages per day across companies like Netflix, Uber, and Airbnb — forming the backbone of modern data infrastructure.`
+			text: `Traditional message brokers like [[amqp]] and [[mqtt]] treat messages as transient: once consumed, they're gone. [[kafka]] inverted this model entirely. Created at {{linkedin|LinkedIn}} in 2011 by Jay Kreps, Neha Narkhede, and Jun Rao, [[kafka|Kafka]] treats messages as an immutable, ordered log that consumers can replay at will. A consumer can read from the beginning, skip ahead, or maintain multiple read positions independently.\n\nThis seemingly simple change unlocked an entirely new architecture: event sourcing. Instead of storing current state in a database and publishing notifications as a side effect, systems could treat the event stream itself as the source of truth. [[kafka]] now processes trillions of messages per day across companies like Netflix, Uber, and Airbnb — forming the backbone of modern data infrastructure.`
 		},
 		{
 			type: 'diagram',
 			definition: `graph TD
-  subgraph [[kafka|Kafka]]["Kafka Log"]
+  subgraph [[kafka|Kafka]]["[[kafka|Kafka]] Log"]
     K1[Producer] --> K2[Append-Only Log]
     K2 -->|"{{offset|offset}} 0"| K3[Consumer A]
     K2 -->|"{{offset|offset}} 42"| K4[Consumer B]
@@ -223,7 +223,7 @@ export const asyncIotStory: CategoryStory = {
     TQ1[Producer] --> TQ2[Queue]
     TQ2 -->|"consumed → deleted"| TQ3[Consumer]
   end
-  Kafka ~~~ Traditional`,
+  [[kafka|Kafka]] ~~~ Traditional`,
 			caption:
 				"Traditional queues delete messages after consumption. [[kafka|Kafka]]'s immutable log lets multiple consumers read independently and replay at will."
 		},

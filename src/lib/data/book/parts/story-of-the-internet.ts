@@ -315,7 +315,7 @@ The [[quic|QUIC]] project, started by **[[pioneer:jim-roskind|Jim Roskind]]** at
 							title: 'Why UDP, Not a New Protocol Number',
 							text: `The choice to tunnel inside [[udp|UDP]] rather than ship as a new [[ip|IP]] protocol number (51, 132, anything not yet assigned) was the most important deployment decision [[quic|QUIC]] made.
 
-A new [[ip|IP]] protocol number — like [[sctp|SCTP]] got — would have been the architecturally cleaner choice. [[sctp|SCTP]] ([[rfc:4960|RFC 4960]], 2000) is the better transport on paper: multi-streaming, multi-homing, message-oriented. [[sctp|SCTP]] cannot traverse the public internet. Middleboxes drop unknown protocol numbers; [[sctp|SCTP]] packets between Internet endpoints disappear within milliseconds.
+A new [[ip|IP]] protocol number — like [[sctp|SCTP]] got — would have been the architecturally cleaner choice. [[sctp|SCTP]] ([[rfc:4960|RFC 4960]], 2000) is the better transport on paper: multi-streaming, {{multi-homing|multi-homing}}, message-oriented. [[sctp|SCTP]] cannot traverse the public internet. Middleboxes drop unknown protocol numbers; [[sctp|SCTP]] packets between Internet endpoints disappear within milliseconds.
 
 [[quic|QUIC]]'s designers had watched [[sctp|SCTP]] die in production for fifteen years. They picked [[udp|UDP]] — a protocol every {{nat|NAT}}, {{firewall|firewall}}, and middlebox already had to forward unchanged — and accepted the cost of putting a fully-encrypted reliable transport inside it. The cost was real (every byte of a [[quic|QUIC]] packet is processed in user space; the kernel sees only opaque [[udp|UDP]]) but the benefit was deployment.
 
@@ -352,7 +352,7 @@ This is the structural lesson of the late-2010s protocol-design era: **{{encrypt
 							title: 'A Protocol Layer Designed for Software That Reasons',
 							text: `For fifteen years after [[websockets|WebSockets]] (2011), the application layer of the internet was settled. [[http1|HTTP]] (in three versions), [[grpc|gRPC]] for service-to-service RPC, [[graphql|GraphQL]] when you needed a flexible query model, and a long tail of older protocols ([[smtp|SMTP]], [[imap|IMAP]], [[xmpp|XMPP]], [[mqtt|MQTT]]) holding their niches. Nothing genuinely new happened at L7 between 2011 and 2024.
 
-In November 2024, Anthropic published the **Model Context Protocol** — [[mcp|MCP]]. The premise was simple: AI coding assistants and chat agents needed a standard way to talk to tools (file systems, databases, APIs, internal systems) without each pair re-inventing the integration. Within a year, [[mcp|MCP]] had streaming HTTP transport ([[frontier:mcp-streamable-http|MCP-streamable-HTTP]]), thousands of [[mcp|MCP]] servers in the registry, and first-class support across major model providers.
+In November 2024, {{anthropic|Anthropic}} published the **Model Context Protocol** — [[mcp|MCP]]. The premise was simple: AI coding assistants and chat agents needed a standard way to talk to tools (file systems, databases, APIs, internal systems) without each pair re-inventing the integration. Within a year, [[mcp|MCP]] had streaming HTTP transport ([[frontier:mcp-streamable-http|MCP-streamable-HTTP]]), thousands of [[mcp|MCP]] servers in the registry, and first-class support across major model providers.
 
 In April 2025, {{google|Google}} followed with **Agent2Agent Protocol** — [[a2a|A2A]] — for agent-to-agent collaboration: capability discovery, task delegation, asynchronous event streams. [[a2a|A2A]] moved into the [[frontier:a2a-linux-foundation|Linux Foundation]] in mid-2025.
 
@@ -363,7 +363,7 @@ These protocols are recognisably **internet**. They run over [[http3|HTTP/3]]. T
 							src: 'https://upload.wikimedia.org/wikipedia/commons/d/d5/Model_Context_Protocol_Component_diagram.svg',
 							alt: 'The Model Context Protocol component diagram — Host, Client, Server, and Tools.',
 							caption:
-								'The **[[mcp|Model Context Protocol]]** component model. A Host runs one or more Clients; each Client connects to one Server; each Server exposes some combination of **Tools** (functions the agent can call), **Resources** (data the agent can read), and **Prompts** (templates the agent can invoke). Anthropic published the spec in November 2024; by 2026 every major AI host (Claude, ChatGPT, Cursor, Windsurf) speaks it and thousands of servers exist in the registry. The first genuinely new L7 protocol since [[websockets|WebSockets]] in 2011.',
+								'The **[[mcp|Model Context Protocol]]** component model. A Host runs one or more Clients; each Client connects to one Server; each Server exposes some combination of **Tools** (functions the agent can call), **Resources** (data the agent can read), and **Prompts** (templates the agent can invoke). {{anthropic|Anthropic}} published the spec in November 2024; by 2026 every major AI host (Claude, ChatGPT, Cursor, Windsurf) speaks it and thousands of servers exist in the registry. The first genuinely new L7 protocol since [[websockets|WebSockets]] in 2011.',
 							credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 						}
 					]

@@ -192,13 +192,13 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
     S1 --> S2 --> S3 --> S4
   end
   subgraph Router["Router"]
-    R1["Strip Ethernet header"]
+    R1["Strip [[ethernet|Ethernet]] header"]
     R2["Decrement TTL, route lookup"]
-    R3["New Ethernet: src=Router MAC dst=Next-hop MAC"]
+    R3["New [[ethernet|Ethernet]]: src=Router MAC dst=Next-hop MAC"]
     R1 --> R2 --> R3
   end
   subgraph Dest["Destination"]
-    D1["Ethernet → IP → TCP → Application"]
+    D1["Ethernet → IP → [[tcp|TCP]] → Application"]
   end
   S4 -->|"Frame on wire"| R1
   R3 -->|"New frame, same IP packet"| D1`,

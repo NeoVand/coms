@@ -140,7 +140,7 @@ The pattern: each CVE breaks an assumption that earlier mitigations had baked in
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/HTTP_pipelining2.svg/500px-HTTP_pipelining2.svg.png',
 							alt: 'HTTP/1.1 pipelining vs HTTP/2 multiplexing diagram, showing how multiple streams share one connection.',
 							caption:
-								'[[http1|HTTP/1.1]] pipelining vs [[http2|HTTP/2]] {{multiplexing|multiplexing}}. The 6-connection cap on [[http1|HTTP/1.1]] meant browsers paid the cost of [[tcp|TCP]] setup repeatedly; [[http2|HTTP/2]]\'s many-streams-on-one-connection model dropped page loads 30-40% in real-world measurements. The trade-off: a single {{retransmission|TCP retransmit}} now stalls *all* streams — which is the {{head-of-line-blocking|head-of-line blocking}} problem [[http3|HTTP/3]] finally fixed.',
+								'[[http1|HTTP/1.1]] {{pipelining|pipelining}} vs [[http2|HTTP/2]] {{multiplexing|multiplexing}}. The 6-connection cap on [[http1|HTTP/1.1]] meant browsers paid the cost of [[tcp|TCP]] setup repeatedly; [[http2|HTTP/2]]\'s many-streams-on-one-connection model dropped page loads 30-40% in real-world measurements. The trade-off: a single {{retransmission|TCP retransmit}} now stalls *all* streams — which is the {{head-of-line-blocking|head-of-line blocking}} problem [[http3|HTTP/3]] finally fixed.',
 							credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 						}
 					]
@@ -358,7 +358,7 @@ Active 2024-2026 work in the [[grpc|gRPC]] working group includes: native [[http
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: 'For most of its life [[sse|SSE]] lost mindshare to [[websockets|WebSocket]]. It is now the de facto wire format for LLM token streaming — OpenAI, Anthropic, Gemini, {{cloudflare|Cloudflare}} Workers AI all stream tokens as `text/event-stream`.',
+					text: 'For most of its life [[sse|SSE]] lost mindshare to [[websockets|WebSocket]]. It is now the de facto wire format for LLM token streaming — OpenAI, {{anthropic|Anthropic}}, Gemini, {{cloudflare|Cloudflare}} Workers AI all stream tokens as `text/event-stream`.',
 					attribution: 'Author'
 				},
 				{
@@ -380,7 +380,7 @@ Two protocols solved this on top of HTTP, with very different tradeoffs.
 							title: 'The SSE Renaissance',
 							text: `For most of its life [[sse|SSE]] lost mindshare to [[websockets|WebSocket]]. The 2010s narrative was *"[[websockets|WebSockets]] are the future of real-time."*
 
-That changed when LLMs started streaming tokens. **OpenAI, Anthropic, {{google|Google}} Gemini, {{cloudflare|Cloudflare}} Workers AI all stream tokens as \`text/event-stream\`** — [[sse|SSE]] is now the de facto wire format for streaming inference. The reasons are practical:
+That changed when LLMs started streaming tokens. **OpenAI, {{anthropic|Anthropic}}, {{google|Google}} Gemini, {{cloudflare|Cloudflare}} Workers AI all stream tokens as \`text/event-stream\`** — [[sse|SSE]] is now the de facto wire format for streaming inference. The reasons are practical:
 
 - It is **HTTP**. {{cors|CORS}}, auth, caching, proxies, CDNs all just work.
 - It **auto-reconnects**, with **\`Last-Event-ID\`** as a built-in resume mechanism — the browser sends the last event ID it received as a request header on reconnect; the server resumes from there.
@@ -437,7 +437,7 @@ The choice between [[websockets|WebSocket]], [[sse|SSE]], and {{webtransport|Web
 						{
 							type: 'narrative',
 							title: 'A Standard Way For Agents To Reach Tools',
-							text: `Until 2024, an AI assistant that wanted to read your files, query your database, or call your APIs needed a custom integration per tool per assistant. Anthropic shipped Claude with file access, Cursor shipped with editor integration, every developer rebuilt the same plumbing. With N AI hosts and M tools, the industry was building **N×M bespoke connectors**. The combinatorics did not scale.
+							text: `Until 2024, an AI assistant that wanted to read your files, query your database, or call your APIs needed a custom integration per tool per assistant. {{anthropic|Anthropic}} shipped Claude with file access, Cursor shipped with editor integration, every developer rebuilt the same plumbing. With N AI hosts and M tools, the industry was building **N×M bespoke connectors**. The combinatorics did not scale.
 
 [[mcp|MCP]] — the **Model Context Protocol**, published by Anthropic on **25 November 2024** — collapses N×M to N+M. The premise: a tool server (filesystem, database, CRM, anything) speaks [[mcp|MCP]]; any [[mcp|MCP]]-aware client (Claude, Cursor, ChatGPT, your own agent) can use it. **Capability discovery, tool calling, prompt templates, and resources** are first-class concepts. The transport is **[[json-rpc|JSON-RPC]] 2.0** over either standard input/output for local tools or HTTP for remote ones.`
 						},

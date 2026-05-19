@@ -147,11 +147,11 @@ The trade-off versus [[mqtt|MQTT]] remains operational complexity. An [[amqp|AMQ
 		{
 			id: 'kafka',
 			title: 'Kafka',
-			synopsis: '[[kafka|A distributed commit log]] as architecture unit — LinkedIn, 2010, named after Franz [[kafka|Kafka]] because "it\'s a system optimized for writing."',
+			synopsis: '[[kafka|A distributed commit log]] as architecture unit — {{linkedin|LinkedIn}}, 2010, named after Franz [[kafka|Kafka]] because "it\'s a system optimized for writing."',
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: 'Jay Kreps named [[kafka|Kafka]] after Franz [[kafka|Kafka]] because "it\'s a system optimized for writing" and he liked the writer. LinkedIn now runs >7 trillion messages/day across 4,000+ brokers and ~7M partitions.',
+					text: 'Jay Kreps named [[kafka|Kafka]] after Franz [[kafka|Kafka]] because "it\'s a system optimized for writing" and he liked the writer. {{linkedin|LinkedIn}} now runs >7 trillion messages/day across 4,000+ brokers and ~7M partitions.',
 					attribution: 'Author'
 				},
 				{
@@ -160,11 +160,11 @@ The trade-off versus [[mqtt|MQTT]] remains operational complexity. An [[amqp|AMQ
 						{
 							type: 'narrative',
 							title: 'The Log Is the Database',
-							text: `[[kafka|Apache Kafka]] was built at LinkedIn around 2010 by **Jay Kreps, Neha Narkhede, and Jun Rao**; named after **Franz [[kafka|Kafka]]** because, per Kreps on Quora, "it's a system optimized for writing" and he liked the writer. Open-sourced 2011; graduated from Apache Incubator **23 October 2012**.
+							text: `[[kafka|Apache Kafka]] was built at {{linkedin|LinkedIn}} around 2010 by **Jay Kreps, Neha Narkhede, and Jun Rao**; named after **Franz [[kafka|Kafka]]** because, per Kreps on Quora, "it's a system optimized for writing" and he liked the writer. Open-sourced 2011; graduated from Apache Incubator **23 October 2012**.
 
 The architectural insight, articulated by Jay Kreps in his essay *"The Log: What every software engineer should know about real-time data's unifying abstraction,"* is that **a distributed, append-only log is the right primitive for asynchronous communication at scale**.
 
-A [[kafka|Kafka]] **{{topic|topic}}** is a partitioned log. Producers append records; consumers read them at their own pace, tracking their position by {{offset|offset}}. The log is **persistent** — records are not deleted when consumed, they age out by retention policy (often days or weeks). That persistence enables **event sourcing**, **stream processing**, **replay**, and **multiple independent consumer groups** reading the same log for different purposes.`
+A [[kafka|Kafka]] **{{topic|topic}}** is a partitioned log. Producers append records; consumers read them at their own pace, tracking their position by {{offset|offset}}. The log is **persistent** — records are not deleted when consumed, they age out by retention policy (often days or weeks). That persistence enables **event sourcing**, **{{stream-processing|stream processing}}**, **replay**, and **multiple independent consumer groups** reading the same log for different purposes.`
 						},
 						{
 							type: 'narrative',
@@ -175,7 +175,7 @@ A [[kafka|Kafka]] **{{topic|topic}}** is a partitioned log. Producers append rec
 
 **[[kafka|Kafka]] 3.9 (6 November 2024)** made **Tiered Storage GA** (KIP-405) — letting brokers offload old segments to S3 while keeping recent data on local disk. **[[kafka|Kafka]] 4.1 (4 September 2025)** promoted **KIP-932 Queues for [[kafka|Kafka]]** (share groups — per-record acknowledgement, [[amqp|AMQP]]-like semantics) to preview, with GA in 4.2. [[kafka|Kafka]] is finally adding the per-message acknowledgement model [[amqp|AMQP]] has had for two decades.
 
-**LinkedIn runs the largest publicly disclosed deployment**: 100+ clusters, 4,000+ brokers, ~7M partitions, **>7 trillion messages/day** (2019 LinkedIn engineering blog; floor figure, never updated downward).`
+**{{linkedin|LinkedIn}} runs the largest publicly disclosed deployment**: 100+ clusters, 4,000+ brokers, ~7M partitions, **>7 trillion messages/day** (2019 LinkedIn engineering blog; floor figure, never updated downward).`
 						},
 						{
 							type: 'callout',
@@ -198,7 +198,7 @@ The wire-level details that {{matter|matter}} operationally: [[kafka|Kafka]]'s r
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Kafka_Job_Queue_Architecture_diagram.svg/500px-Kafka_Job_Queue_Architecture_diagram.svg.png',
 							alt: 'Kafka job-queue architecture diagram — producers writing to topics, brokers persisting partitions, consumer groups reading.',
 							caption:
-								'A **[[kafka|Kafka]]** topology: producers fan out into partitioned topics on brokers; consumer groups read from offsets independently. **LinkedIn runs >7 trillion messages/day** across this architecture. [[kafka|Kafka]] 4.0 (18 March 2025) removed ZooKeeper after a six-year migration; **Diskless Topics (KIP-1150)** accepted March 2026 blesses the S3-as-primary-storage architecture (WarpStream, AutoMQ, Aiven Inkless, Bufstream) that could drop cost 10-20× for high-retention workloads.',
+								'A **[[kafka|Kafka]]** topology: producers fan out into partitioned topics on brokers; consumer groups read from offsets independently. **{{linkedin|LinkedIn}} runs >7 trillion messages/day** across this architecture. [[kafka|Kafka]] 4.0 (18 March 2025) removed ZooKeeper after a six-year migration; **Diskless Topics (KIP-1150)** accepted March 2026 blesses the S3-as-primary-storage architecture (WarpStream, AutoMQ, Aiven Inkless, Bufstream) that could drop cost 10-20× for high-retention workloads.',
 							credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 						}
 					]

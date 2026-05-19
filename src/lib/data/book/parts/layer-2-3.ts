@@ -195,7 +195,7 @@ Two {{ndp|NDP}} CVEs deserve naming.
 
 **iOS 18 / macOS Sequoia (September 2024) introduced "Rotate [[wifi|Wi-Fi]] Address" mode** that changes MAC every 14 days on weak/open networks, breaking captive portals, MAC-based [[dhcp|DHCP]] reservations, and [[arp|ARP]]-cache freshness assumptions. Many enterprise [[wifi|Wi-Fi]] deployments needed reconfiguration.
 
-**Frontier — [[ipv6|IPv6]]-mostly is going mainstream**: [[rfc:8925|RFC 8925]] + [[rfc:8781|RFC 8781]] + {{four-six-four-xlat|464XLAT}} lets a single SSID/{{vlan|VLAN}} serve dual-stack laptops AND [[ipv6|IPv6]]-only-capable phones simultaneously, with the [[ipv6|IPv6]]-only-capable hosts **never running [[arp|ARP]]**. {{apple|Apple}} iOS/macOS, Android, and recent macOS request [[dhcp|DHCP]] option 108 by default; Windows is lagging. The day [[arp|ARP]] becomes vestigial is approaching.`
+**Frontier — [[ipv6|IPv6]]-mostly is going mainstream**: [[rfc:8925|RFC 8925]] + [[rfc:8781|RFC 8781]] + {{four-six-four-xlat|464XLAT}} lets a single SSID/{{vlan|VLAN}} serve dual-stack laptops AND [[ipv6|IPv6]]-only-capable phones simultaneously, with the [[ipv6|IPv6]]-only-capable hosts **never running [[arp|ARP]]**. {{apple|Apple}} iOS/macOS, {{android|Android}}, and recent macOS request [[dhcp|DHCP]] option 108 by default; Windows is lagging. The day [[arp|ARP]] becomes vestigial is approaching.`
 						},
 						{
 							type: 'image',
@@ -266,7 +266,7 @@ Together these stretched [[ip|IPv4]] from "exhausted in 1995" to "still ~50% of 
 
 **[[outage:pakistan-youtube-2008|Pakistan Telecom's YouTube hijack (24 February 2008)]]** — PTCL announced 208.65.153.0/24 (more-specific of YouTube's /22), PCCW Global propagated, YouTube went dark globally for ~2 hours. Drove {{rpki|RPKI}} / BGPsec / MANRS work that finally accelerated in 2024-2025.
 
-**{{linux|Linux}} 6.3 (April 2023, deployed in 2024)** shipped **BIG [[tcp|TCP]] for [[ip|IPv4]]** — TSO/GRO superpackets above 64 KB on 100/200 Gb NICs. **{{cloudflare|Cloudflare}} blocked 47.1 million DDoS attacks in 2025**; peaked at **31.4 Tbps for one 35-second burst** (Aisuru-Kimwolf Android-TV botnet, December 2025).`
+**{{linux|Linux}} 6.3 (April 2023, deployed in 2024)** shipped **BIG [[tcp|TCP]] for [[ip|IPv4]]** — TSO/GRO superpackets above 64 KB on 100/200 Gb NICs. **{{cloudflare|Cloudflare}} blocked 47.1 million DDoS attacks in 2025**; peaked at **31.4 Tbps for one 35-second burst** (Aisuru-Kimwolf {{android|Android}}-TV botnet, December 2025).`
 						},
 						{
 							type: 'image',
@@ -320,7 +320,7 @@ It then took **twenty-eight years** to reach 50% adoption. The reason is not tec
 
 Adoption inflected when **mobile carriers** went [[ipv6|IPv6]]-mostly for cellular subscribers. **T-Mobile US** moved its mobile core to [[ipv6|IPv6]]-only with {{four-six-four-xlat|464XLAT}} (Cameron Byrne, NANOG 61, 2014) — the production case study that defined the pattern. **Reliance Jio (India)** launched [[ipv6|IPv6]]-first in 2016 — >237M [[ipv6|IPv6]] users by 2017 — single biggest reason India's [[ipv6|IPv6]] share now runs 67-80%. **{{meta|Meta}}** runs >99% of internal datacenter traffic over [[ipv6|IPv6]]; entire new clusters are [[ipv6|IPv6]]-only. {{meta|Meta}} says **internal [[ipv6|IPv6]] is 10-15% faster than [[ip|IPv4]]** (and on one carrier mobile measurement, 40% faster).
 
-By 2026: **US mobile [[ipv6|IPv6]] averages ~87%**; **France 86%** (Google, Feb 2026); **Germany 68%**; **China 865M [[ipv6|IPv6]] users (77% of users); 34% of traffic** (Sept 2025).`
+By 2026: **US mobile [[ipv6|IPv6]] averages ~87%**; **France 86%** ({{google|Google}}, Feb 2026); **Germany 68%**; **China 865M [[ipv6|IPv6]] users (77% of users); 34% of traffic** (Sept 2025).`
 						},
 						{
 							type: 'narrative',
@@ -335,7 +335,7 @@ The 2024 {{ietf|IETF}} backlog tells the story of where [[ipv6|IPv6]] work is ha
 
 **Frontier**: SoftBank (Dec 2025) announced the world's first commercial 5G deployment using **SRv6 MUP**; {{microsoft|Microsoft}} Azure Fairwater (OCP 2025) uses **SRv6 as fabric** for what {{microsoft|Microsoft}} calls the largest AI back-end network in the world.
 
-**{{apple|Apple}} iCloud Private Relay** (Oct 2021+) prefers [[ipv6|IPv6]] egress when AAAA exists; pure [[ip|IPv4]]-only enterprise networks frequently break Private Relay — its own forcing function for [[ipv6|IPv6]] deployment in enterprises that want Apple-device compatibility.`
+**{{apple|Apple}} iCloud Private Relay** (Oct 2021+) prefers [[ipv6|IPv6]] egress when AAAA exists; pure [[ip|IPv4]]-only enterprise networks frequently break Private Relay — its own forcing function for [[ipv6|IPv6]] deployment in enterprises that want {{apple|Apple}}-device compatibility.`
 						},
 						{
 							type: 'image',

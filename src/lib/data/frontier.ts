@@ -63,7 +63,7 @@ export const frontierEntries: FrontierEntry[] = [
 		protocols: ['ipv6', 'ip'],
 		description: `{{google|Google}}'s [[ipv6|IPv6]] statistics dashboard recorded the milestone on 28 March 2026: weekly average ~45-48%, peak 50.1%. {{cloudflare|Cloudflare}} measured 40.1% of HTTP requests; APNIC Labs measured 43.13% [[ipv6|IPv6]]-capable networks — same trend, different vantage points. Mobile carriers are the leading edge: US averages around 87%, T-Mobile ~93%, France ~86%, India >75%.
 
-The economics that finally tipped it: AWS started charging $0.005/hour per public [[ip|IPv4]] address in February 2024, making [[ipv6|IPv6]]-only architectures financially compelling at scale. Combined with {{four-six-four-xlat|464XLAT}} being a first-class citizen in modern Android, iOS 9+, macOS 13+, and Windows 11, [[ipv6|IPv6]]-only access networks now Just Work for [[ip|IPv4]] applications too.`,
+The economics that finally tipped it: AWS started charging $0.005/hour per public [[ip|IPv4]] address in February 2024, making [[ipv6|IPv6]]-only architectures financially compelling at scale. Combined with {{four-six-four-xlat|464XLAT}} being a first-class citizen in modern {{android|Android}}, iOS 9+, macOS 13+, and Windows 11, [[ipv6|IPv6]]-only access networks now Just Work for [[ip|IPv4]] applications too.`,
 		metrics: [
 			{ label: "Google peak", value: '50.1%', date: '2026-03-28' },
 			{ label: 'Cloudflare HTTP', value: '40%', date: '2026-04' },
@@ -146,7 +146,7 @@ The mechanism: cooperating senders mark packets {{ecn|ECN}}-Capable; routers run
 		protocols: ['tls'],
 		description: `{{ech|ECH}} ({{ech|Encrypted Client Hello}}) hides the {{sni|SNI}} and other {{client-hello|ClientHello}} fields that previously let middleboxes and ISPs see which site you were visiting. Specified through 25 {{ietf|IETF}} drafts and finally published as [[rfc:9849|RFC 9849]] in 2025.
 
-{{cloudflare|Cloudflare}} deploys {{ech|ECH}} for ~70% of websites it fronts; Chrome and Firefox both support it. The architecture: the server publishes an ECHConfig in [[dns|DNS]] (HTTPS RR); the client encrypts the inner ClientHello to that key and wraps it in an outer ClientHello that uses a generic "{{cloudflare|cloudflare}}-ech.com" {{sni|SNI}}. From the network's perspective, every fronted site looks the same.`,
+{{cloudflare|Cloudflare}} deploys {{ech|ECH}} for ~70% of websites it fronts; Chrome and Firefox both support it. The architecture: the server publishes an ECHConfig in [[dns|DNS]] (HTTPS RR); the client encrypts the inner {{client-hello|ClientHello}} to that key and wraps it in an outer {{client-hello|ClientHello}} that uses a generic "{{cloudflare|cloudflare}}-ech.com" {{sni|SNI}}. From the network's perspective, every fronted site looks the same.`,
 		sources: [
 			{ url: 'https://www.feistyduck.com/newsletter/issue_127_encrypted_client_hello_approved_for_publication.html', label: 'Feisty Duck — ECH approved for publication' },
 			{ url: 'https://www.cisecurity.org/insights/blog/security-control-changes-due-to-tls-encrypted-clienthello', label: 'CISecurity — security control changes due to ECH' }
@@ -265,12 +265,12 @@ The architecture: publishers send named objects to MoQ relays; subscribers fetch
 		id: 'mcp-streamable-http',
 		title: 'MCP Streamable HTTP Transport',
 		oneLiner:
-			'Anthropic deprecates the original HTTP+[[sse|SSE]] [[mcp|MCP]] transport in favour of Streamable HTTP (March 2025).',
+			'{{anthropic|Anthropic}} deprecates the original HTTP+[[sse|SSE]] [[mcp|MCP]] transport in favour of Streamable HTTP (March 2025).',
 		topic: 'ai-agents',
 		status: 'shipped',
 		date: '2025-03',
 		protocols: ['mcp'],
-		description: `The Model Context Protocol (Anthropic, November 2024) shipped with two transports: stdio for local subprocess servers, and HTTP+[[sse|SSE]] for remote servers (an HTTP POST per request, an [[sse|SSE]] stream for server-initiated messages). The HTTP+[[sse|SSE]] transport had operational issues — long-lived [[sse|SSE]] connections behind proxies, two-channel state to manage — and was deprecated in March 2025 in favour of Streamable HTTP.
+		description: `The Model Context Protocol ({{anthropic|Anthropic}}, November 2024) shipped with two transports: stdio for local subprocess servers, and HTTP+[[sse|SSE]] for remote servers (an HTTP POST per request, an [[sse|SSE]] stream for server-initiated messages). The HTTP+[[sse|SSE]] transport had operational issues — long-lived [[sse|SSE]] connections behind proxies, two-channel state to manage — and was deprecated in March 2025 in favour of Streamable HTTP.
 
 Streamable HTTP is one HTTP endpoint that can return either a single [[json-rpc|JSON-RPC]] response or upgrade to [[sse|SSE]] for streaming. Single channel, simpler proxy story, easier to deploy on serverless. Combined with the 2025-03-26 spec adding [[oauth2|OAuth]] 2.1 with {{pkce|PKCE}} and dynamic client registration plus Resource Indicators (RFC 8707) for token scoping, [[mcp|MCP]] is now a real internet protocol — not just a local stdio convention.`,
 		sources: [
@@ -289,7 +289,7 @@ Streamable HTTP is one HTTP endpoint that can return either a single [[json-rpc|
 		protocols: ['a2a', 'mcp'],
 		description: `{{google|Google}} unveiled Agent2Agent ([[a2a|A2A]]) on 9 April 2025 at Cloud Next with 50+ partners and donated it to the {{linux|Linux}} Foundation in June 2025. [[a2a|A2A]] is the *agent-to-agent* layer above [[mcp|MCP]]: where [[mcp|MCP]] wires an agent to its tools and data, [[a2a|A2A]] wires agents to each other so they can collaborate or delegate tasks across vendors.
 
-In December 2025 Anthropic donated [[mcp|MCP]] to the Agentic AI Foundation (AAIF), a {{linux|Linux}} Foundation directed fund co-founded by Anthropic, Block, and OpenAI. [[mcp|MCP]] and [[a2a|A2A]] are now under the same umbrella. Mid-2026 industry analyses report [[mcp|MCP]] at ~78% enterprise adoption vs [[a2a|A2A]] at ~23% — the boundary between "agent" and "tool" remains fuzzy and the multi-agent collaboration use cases are still emerging.`,
+In December 2025 {{anthropic|Anthropic}} donated [[mcp|MCP]] to the Agentic AI Foundation (AAIF), a {{linux|Linux}} Foundation directed fund co-founded by Anthropic, Block, and OpenAI. [[mcp|MCP]] and [[a2a|A2A]] are now under the same umbrella. Mid-2026 industry analyses report [[mcp|MCP]] at ~78% enterprise adoption vs [[a2a|A2A]] at ~23% — the boundary between "agent" and "tool" remains fuzzy and the multi-agent collaboration use cases are still emerging.`,
 		sources: [
 			{ url: 'https://www.linuxfoundation.org/press/linux-foundation-launches-the-agent2agent-protocol-project-to-enable-secure-intelligent-communication-between-ai-agents', label: 'Linux Foundation — A2A project' },
 			{ url: 'https://en.wikipedia.org/wiki/Model_Context_Protocol', label: 'Wikipedia — MCP' }

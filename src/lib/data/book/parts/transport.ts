@@ -71,7 +71,7 @@ The most recent paradigm shift: {{l4s|L4S}} replaces loss-as-signal with **expli
 
 **{{linux|Linux}} 6.15 (mid-2025)** landed **io_uring zero-copy receive** (\`io_uring zcrx\`) integrated with the kernel [[tcp|TCP]] stack. Single-flow throughput jumped from ~74 Gb/s (epoll) to **~106 Gb/s (io_uring zcrx)** — a ~40% throughput improvement for high-{{bandwidth|bandwidth}} servers without any application changes.
 
-The vulnerability surface keeps producing CVEs. **CVE-2019-11477 ({{sack|SACK}} Panic)** was the canonical case — a single [[tcp|TCP]] packet, no authentication, would crash any vulnerable Linux host across kernels 2.6.29 through 5.1, ten years of unpatched code in the heart of every Linux server. Modern kernel networking is now fuzzed continuously by **syzkaller**; most [[tcp|TCP]] CVEs since 2020 have been found by fuzzing rather than by humans.`
+The vulnerability surface keeps producing CVEs. **CVE-2019-11477 ({{sack|SACK}} Panic)** was the canonical case — a single [[tcp|TCP]] packet, no authentication, would crash any vulnerable {{linux|Linux}} host across kernels 2.6.29 through 5.1, ten years of unpatched code in the heart of every {{linux|Linux}} server. Modern kernel networking is now fuzzed continuously by **syzkaller**; most [[tcp|TCP]] CVEs since 2020 have been found by fuzzing rather than by humans.`
 						},
 						{
 							type: 'image',
@@ -183,7 +183,7 @@ The protocol itself has not changed. The role it plays has been reshaped by what
 
 **Multi-streaming** — a single [[sctp|SCTP]] association carries multiple independent streams that do not block each other on loss. This is the head-of-line-blocking fix [[quic|QUIC]] would later adopt.
 
-**Multi-homing** — an association can be bound to multiple [[ip|IP]] addresses on each side, and traffic seamlessly moves to a healthy path when one fails. [[mptcp|MPTCP]] would later approximate this for [[tcp|TCP]].
+**{{multi-homing|Multi-homing}}** — an association can be bound to multiple [[ip|IP]] addresses on each side, and traffic seamlessly moves to a healthy path when one fails. [[mptcp|MPTCP]] would later approximate this for [[tcp|TCP]].
 
 **Message-orientation** — data is delivered as discrete messages, not a stream of bytes that the application has to re-frame. The application's send is the application's recv on the other side.`
 						},
@@ -194,7 +194,7 @@ The protocol itself has not changed. The role it plays has been reshaped by what
 
 A [[sctp|SCTP]] packet between Internet endpoints is dropped almost immediately. Home routers, corporate firewalls, mobile carriers, and most cloud load balancers either silently discard [[sctp|SCTP]] or have explicit rules treating non-[[tcp|TCP]]/[[udp|UDP]] traffic as suspicious. The protocol is technically right and operationally invisible.
 
-The deeper lesson [[sctp|SCTP]] teaches is the lesson [[quic|QUIC]] applied: **if you want a new transport on the deployed internet, you must tunnel inside [[udp|UDP]]**. [[sctp|SCTP]] did not, and was confined to controlled networks. [[quic|QUIC]] did, and is rapidly becoming the default. {{multipath|Multipath}} [[quic|QUIC]] ([[frontier:multipath-quic|IETF Last Call December 2025]]) brings [[sctp|SCTP]]-style multi-homing into a transport that actually traverses middleboxes.`
+The deeper lesson [[sctp|SCTP]] teaches is the lesson [[quic|QUIC]] applied: **if you want a new transport on the deployed internet, you must tunnel inside [[udp|UDP]]**. [[sctp|SCTP]] did not, and was confined to controlled networks. [[quic|QUIC]] did, and is rapidly becoming the default. {{multipath|Multipath}} [[quic|QUIC]] ([[frontier:multipath-quic|IETF Last Call December 2025]]) brings [[sctp|SCTP]]-style {{multi-homing|multi-homing}} into a transport that actually traverses middleboxes.`
 						},
 						{
 							type: 'callout',
@@ -204,7 +204,7 @@ The deeper lesson [[sctp|SCTP]] teaches is the lesson [[quic|QUIC]] applied: **i
 						{
 							type: 'narrative',
 							title: 'What Survived',
-							text: `Most of [[sctp|SCTP]]'s good ideas survived through descendants. Multi-streaming and {{connection-migration|connection migration}} are core to [[quic|QUIC]]. Multi-homing is what [[mptcp|MPTCP]] approximates for [[tcp|TCP]] and what [[frontier:multipath-quic|multipath QUIC]] is generalising. Message-orientation is the default in modern application protocols ([[http2|HTTP/2]] and [[http3|HTTP/3]] frame the bytes; [[grpc|gRPC]] adds length prefixes; [[websockets|WebSocket]] has explicit message boundaries).
+							text: `Most of [[sctp|SCTP]]'s good ideas survived through descendants. Multi-streaming and {{connection-migration|connection migration}} are core to [[quic|QUIC]]. {{multi-homing|Multi-homing}} is what [[mptcp|MPTCP]] approximates for [[tcp|TCP]] and what [[frontier:multipath-quic|multipath QUIC]] is generalising. Message-orientation is the default in modern application protocols ([[http2|HTTP/2]] and [[http3|HTTP/3]] frame the bytes; [[grpc|gRPC]] adds length prefixes; [[websockets|WebSocket]] has explicit message boundaries).
 
 The protocol itself remains specialised. It is the canonical example of a technically-superior transport that lost on deployment economics — and the canonical justification for [[quic|QUIC]]'s choice to tunnel inside [[udp|UDP]]. Knowing why [[sctp|SCTP]] failed makes every modern transport-design decision clearer.`
 						},
@@ -213,7 +213,7 @@ The protocol itself remains specialised. It is the canonical example of a techni
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/SCTP-Multihoming.png/500px-SCTP-Multihoming.png',
 							alt: 'SCTP multi-homing diagram showing one association bound to multiple IP addresses on each endpoint.',
 							caption:
-								'[[sctp|SCTP]] **multi-homing**: a single association is bound to multiple [[ip|IP]] addresses on each side, and traffic seamlessly moves to a healthy path when one fails. The architectural idea was a generation ahead of [[mptcp|MPTCP]] — [[sctp|SCTP]] just could not traverse middleboxes to make it useful on the public internet. The lesson sits underneath every later transport: *if you want a new transport on the deployed internet, you must tunnel inside [[udp|UDP]]*.',
+								'[[sctp|SCTP]] **{{multi-homing|multi-homing}}**: a single association is bound to multiple [[ip|IP]] addresses on each side, and traffic seamlessly moves to a healthy path when one fails. The architectural idea was a generation ahead of [[mptcp|MPTCP]] — [[sctp|SCTP]] just could not traverse middleboxes to make it useful on the public internet. The lesson sits underneath every later transport: *if you want a new transport on the deployed internet, you must tunnel inside [[udp|UDP]]*.',
 							credit: 'Image: Wikimedia Commons / CC BY-SA'
 						}
 					]
@@ -251,7 +251,7 @@ The application has no idea any of this is happening. The socket interface is id
 							title: 'The Apple iOS 7 Deployment',
 							text: `**{{apple|Apple}} shipped [[mptcp|MPTCP]] in iOS 7 (September 2013)** for **Siri**. The choice was forced by user experience: Siri's voice recognition did a round-trip to {{apple|Apple}}'s servers, and the half-second handoff between [[wifi|Wi-Fi]] and cellular was producing visible "Sorry, I didn't catch that" failures during normal walking-out-of-the-house transitions. [[mptcp|MPTCP]] let Siri's connection keep working through the handoff.
 
-{{apple|Apple}} expanded [[mptcp|MPTCP]] in iOS 11 (2017) to a public API for any app, and in iOS 12+ to additional system services (Apple Maps, Apple Music). By 2026 every Apple device with both [[wifi|Wi-Fi]] and cellular uses [[mptcp|MPTCP]] for the OS-managed services. Notably, Apple did **not** open up [[mptcp|MPTCP]] for third-party app traffic by default — most app developers do not know they could use it.
+{{apple|Apple}} expanded [[mptcp|MPTCP]] in iOS 11 (2017) to a public API for any app, and in iOS 12+ to additional system services ({{apple|Apple}} Maps, {{apple|Apple}} Music). By 2026 every {{apple|Apple}} device with both [[wifi|Wi-Fi]] and cellular uses [[mptcp|MPTCP]] for the OS-managed services. Notably, Apple did **not** open up [[mptcp|MPTCP]] for third-party app traffic by default — most app developers do not know they could use it.
 
 **{{linux|Linux}} merged the upstream [[mptcp|MPTCP]] implementation in kernel 5.6 (March 2020)** after years of out-of-tree patches. **South Korea's Korea Telecom built a "GIGA Path" service** that used [[mptcp|MPTCP]] to bond LTE and [[wifi|Wi-Fi]] for 1 Gbps mobile downloads — the first commercial network operator to position [[mptcp|MPTCP]] as a consumer feature.`
 						},
@@ -265,9 +265,9 @@ The application has no idea any of this is happening. The socket interface is id
 							title: 'The Multipath QUIC Succession',
 							text: `The future of {{multipath|multipath}} transport is {{multipath|multipath}} [[quic|QUIC]] (\`draft-{{ietf|ietf}}-quic-{{multipath|multipath}}\`, [[frontier:multipath-quic|currently in IETF Last Call December 2025]]). Latest draft -21 dated 17 March 2026.
 
-{{multipath|Multipath}} [[quic|QUIC]] inherits [[mptcp|MPTCP]]'s algorithmic ideas — subflows, coupled {{congestion-control|congestion control}}, packet scheduling across paths — but operates inside [[quic|QUIC]]'s much more deployable carrier ([[udp|UDP]]). Where [[mptcp|MPTCP]] had to fight middleboxes that didn't understand [[tcp|TCP]] options, multipath [[quic|QUIC]] encrypts everything except a handful of public bits inside the [[udp|UDP]] envelope. Middleboxes see [[udp|UDP]]; the multipath logic is invisible.
+{{multipath|Multipath}} [[quic|QUIC]] inherits [[mptcp|MPTCP]]'s algorithmic ideas — subflows, coupled {{congestion-control|congestion control}}, packet scheduling across paths — but operates inside [[quic|QUIC]]'s much more deployable carrier ([[udp|UDP]]). Where [[mptcp|MPTCP]] had to fight middleboxes that didn't understand [[tcp|TCP]] options, {{multipath|multipath}} [[quic|QUIC]] encrypts everything except a handful of public bits inside the [[udp|UDP]] envelope. Middleboxes see [[udp|UDP]]; the {{multipath|multipath}} logic is invisible.
 
-**{{apple|Apple}}, Alibaba, and Tessares have already deployed predecessors** (gQUIC multipath at {{google|Google}}, {{apple|Apple}}'s iCloud sync, Alibaba's mobile e-commerce). Once multipath [[quic|QUIC]] ships in mainline implementations (quiche, mvfst, quinn, msquic), it becomes the natural multipath transport for [[http3|HTTP/3]].
+**{{apple|Apple}}, Alibaba, and Tessares have already deployed predecessors** (gQUIC {{multipath|multipath}} at {{google|Google}}, {{apple|Apple}}'s iCloud sync, Alibaba's mobile e-commerce). Once multipath [[quic|QUIC]] ships in mainline implementations (quiche, mvfst, quinn, msquic), it becomes the natural multipath transport for [[http3|HTTP/3]].
 
 [[mptcp|MPTCP]] itself will remain in production for the use cases it currently serves. But the architectural arc — same idea, ported to a more deployable transport — is the same arc [[quic|QUIC]] followed for everything else.`
 						},

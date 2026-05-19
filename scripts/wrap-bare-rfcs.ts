@@ -149,6 +149,11 @@ for (const file of walk(DATA_DIR)) {
 	const orig = readFileSync(file, 'utf8');
 	const stripped = strip(orig);
 
+	// In diagram-definitions.ts the `definition` field holds Mermaid
+	// sequence-diagram syntax — wraps inside it pollute the diagram, so
+	// the captions and per-step text are the only places that get wrapped.
+	const isDiagramFile = file.endsWith('diagram-definitions.ts');
+
 	// Find every bare RFC mention in stripped (so wrapped ones are skipped).
 	const hits: Hit[] = [];
 	const re = /\bRFC[\s-]?(\d{1,5})\b/g;
@@ -172,6 +177,7 @@ for (const file of walk(DATA_DIR)) {
 		else if (!field) hit.skip = 'unwrappedField';
 		else if (SKIP_FIELDS.has(field)) hit.skip = 'unwrappedField';
 		else if (!PARSED_FIELDS.has(field)) hit.skip = 'unwrappedField';
+		else if (isDiagramFile && field === 'definition') hit.skip = 'unwrappedField';
 		hits.push(hit);
 	}
 

@@ -125,7 +125,7 @@ curl --http2 -v https://example.com 2>&1 | grep "< HTTP"`
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/HTTP_pipelining2.svg/500px-HTTP_pipelining2.svg.png',
 		alt: 'Diagram comparing HTTP/1.1 sequential requests, pipelining, and HTTP/2 multiplexing over a single connection',
 		caption:
-			'The evolution from [[http1|HTTP/1.1]] to [[http2|HTTP/2]] — sequential requests waste time waiting, pipelining helped but still suffered {{head-of-line-blocking|head-of-line blocking}}. [[http2|HTTP/2]] {{multiplexing|multiplexing}} sends multiple requests and responses simultaneously over a single connection using {{binary-framing|binary framing}}.',
+			'The evolution from [[http1|HTTP/1.1]] to [[http2|HTTP/2]] — sequential requests waste time waiting, {{pipelining|pipelining}} helped but still suffered {{head-of-line-blocking|head-of-line blocking}}. [[http2|HTTP/2]] {{multiplexing|multiplexing}} sends multiple requests and responses simultaneously over a single connection using {{binary-framing|binary framing}}.',
 		credit: 'Image: Wikimedia Commons / Public Domain'
 	}
 };

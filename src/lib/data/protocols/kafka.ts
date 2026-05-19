@@ -9,8 +9,8 @@ export const kafka: Protocol = {
 	year: 2011,
 	rfc: undefined,
 	oneLiner:
-		"The distributed event streaming wire protocol — LinkedIn's answer to real-time data at massive scale.",
-	overview: `Apache [[kafka|Kafka]] started as LinkedIn's internal project to handle the firehose of activity data — page views, searches, metrics — that their existing message queues couldn't keep up with. Jay Kreps, Neha Narkhede, and Jun Rao open-sourced it in 2011, and it quickly became the de facto platform for event streaming at scale.
+		"The distributed event streaming wire protocol — {{linkedin|LinkedIn}}'s answer to real-time data at massive scale.",
+	overview: `Apache [[kafka|Kafka]] started as {{linkedin|LinkedIn}}'s internal project to handle the firehose of activity data — page views, searches, metrics — that their existing message queues couldn't keep up with. Jay Kreps, Neha Narkhede, and Jun Rao open-sourced it in 2011, and it quickly became the de facto platform for event streaming at scale.
 
 Unlike traditional message queues where messages are pushed to consumers and deleted after delivery, [[kafka|Kafka]] uses an append-only log model: producers append records to {{topic|topic}} {{partition|partitions}}, and consumers read at their own pace using offsets. Multiple consumers can independently read the same data, and messages persist for a configurable retention period. Because consumers control their own read rate, {{backpressure|backpressure}} is handled naturally — slow consumers simply fall behind in the log without affecting producers or other consumer groups.
 

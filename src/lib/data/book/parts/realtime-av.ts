@@ -262,7 +262,7 @@ The trick was breaking the stream into **2-10 second segments**, each a regular 
 
 The "everyone gets this wrong" detail: **{{apple|Apple}} devices have never natively played [[dash|DASH]]**, and **FairPlay still does not work with [[dash|DASH]]** ({{apple|Apple}}'s own developer {{thread|thread}} confirms it). Every iOS app must use [[hls|HLS]] through AVPlayer — [[dash|DASH]] on iOS is a custom-decoder situation. This is the structural reason [[hls|HLS]] won the format war: {{apple|Apple}} wouldn't switch.
 
-**CMAF (ISO/IEC 23000-19)** — the joint Apple+{{microsoft|Microsoft}} fMP4 proposal at MPEG #114 (San Diego, Feb 2016), first published 2018, 4th edition published 2024 — is what finally lets one set of fMP4 segments serve both [[hls|HLS]] and [[dash|DASH]]. **Disney+ runs 100% [[hls|HLS]]+CMAF end-to-end**.
+**CMAF (ISO/IEC 23000-19)** — the joint {{apple|Apple}}+{{microsoft|Microsoft}} fMP4 proposal at MPEG #114 (San Diego, Feb 2016), first published 2018, 4th edition published 2024 — is what finally lets one set of fMP4 segments serve both [[hls|HLS]] and [[dash|DASH]]. **Disney+ runs 100% [[hls|HLS]]+CMAF end-to-end**.
 
 **[[dash|DASH]]-IF merged into the Streaming Video Technology Alliance (SVTA) on 23 July 2024**, ending its independent existence as a standards organisation.`
 						},
