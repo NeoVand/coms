@@ -5,10 +5,16 @@
 	import { prefersReducedMotion } from 'svelte/motion';
 	import { AppState } from '$lib/state/app-state.svelte';
 	import { setAppState } from '$lib/state/context';
+	import { setupHistoryTracking } from '$lib/state/history.svelte';
 	import { buildGraphNodes } from '$lib/data';
 	import { getJourneyById } from '$lib/data/journeys';
 	import { navigateToNode, navigateToJourney, navigateToHub } from '$lib/utils/navigation';
 	import DesktopView from './desktop/DesktopView.svelte';
+
+	// Track in-app history so the panel chrome can disable Back/Forward
+	// when there's nowhere to go inside the app. Must run during component
+	// init — `afterNavigate` requires it.
+	setupHistoryTracking();
 
 	let { children }: { children?: Snippet } = $props();
 

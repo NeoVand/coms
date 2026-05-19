@@ -104,8 +104,9 @@
 	import ComparisonCard from '$lib/components/comparison/ComparisonCard.svelte';
 	import RelationshipCard from '$lib/components/comparison/RelationshipCard.svelte';
 	import { getPair } from '$lib/data/comparison/pairs';
-	import { X, Home, Lightbulb, Compass, BookOpen, Microscope } from 'lucide-svelte';
+	import { Home, Lightbulb, Compass, BookOpen, Microscope } from 'lucide-svelte';
 	import ViewTabs from './ViewTabs.svelte';
+	import PanelChrome from './PanelChrome.svelte';
 	// Concepts/foundation accordion is gone; the Glossary tab now uses
 	// GlossaryView (searchable atomic-term reference). Foundation
 	// chapters live behind /book/foundations/[id] and render via
@@ -238,26 +239,20 @@
 		</div>
 	{/if}
 
-	{#if isMobile}
-		<!-- Drag handle (mobile only) -->
-		<div class="flex justify-center pt-3">
-			<div class="h-1 w-8 rounded-full bg-s-border"></div>
-		</div>
-	{/if}
-
-	<!-- Close button -->
-	<button
-		class="close-btn absolute top-3 right-3 z-10 flex h-8 w-8 items-center justify-center rounded-lg text-t-secondary transition-colors hover:bg-s-glass-hover hover:text-t-primary"
-		onclick={() => navigateToHub()}
-		aria-label="Close panel"
-	>
-		<X size={16} />
-	</button>
-	<!-- Background layer -->
+	<!-- Background layer (below everything) -->
 	<div class="panel-bg pointer-events-none absolute inset-0 shadow-2xl backdrop-blur-xl"></div>
+
+	<!-- Chrome: back / forward / close. Sits above the scroller so it
+	     stays put as the user reads. Replaces the old floating X. Same
+	     bar on desktop and mobile — the old drag-pill was decorative
+	     only (no swipe handling) and added a noisy second row. -->
+	<div class="relative z-10 shrink-0">
+		<PanelChrome />
+	</div>
+
 	<!-- Content layer -->
 	<div
-		class="custom-scrollbar relative flex h-full w-full flex-col overflow-y-auto"
+		class="custom-scrollbar relative flex w-full min-h-0 flex-1 flex-col overflow-y-auto"
 		bind:this={scrollerEl}
 	>
 		{#if appState.activeJourney}
@@ -696,6 +691,9 @@
 		height: 100%;
 		max-width: 90vw;
 		min-width: 360px;
+		display: flex;
+		flex-direction: column;
+		overflow: hidden;
 		animation: slideInRight 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
 	}
 
@@ -711,13 +709,6 @@
 		display: flex;
 		flex-direction: column;
 		overflow: hidden;
-	}
-
-	/* Let the scrollable content area fill remaining space in the mobile flex container */
-	.detail-panel--mobile :global(.custom-scrollbar) {
-		flex: 1;
-		min-height: 0;
-		height: auto;
 	}
 
 	.detail-panel--desktop .panel-bg {
@@ -752,12 +743,5 @@
 		to {
 			transform: translateY(0);
 		}
-	}
-
-	.close-btn :global(svg) {
-		transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-	}
-	.close-btn:hover :global(svg) {
-		transform: rotate(90deg);
 	}
 </style>
