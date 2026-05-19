@@ -32,16 +32,23 @@ import { howToLearnMore } from './parts/how-to-learn-more';
  */
 const FOUNDATION_SYNOPSIS: Record<string, string> = {
 	'what-is-a-protocol':
-		'What a protocol is, and why every machine on the planet agrees to follow them.',
+		'What a {{protocol|protocol}} is, and why every machine on the planet agrees to follow them.',
 	'layer-model':
-		'Seven layers, the standards war that decided their fate, and where the layers blur.',
-	addressing: 'How a packet finds your laptop — hostnames, IPs, MACs, and ports.',
-	packets: 'Encapsulation in pictures — frames inside packets inside segments.',
-	'ports-sockets': 'How one machine runs a hundred services without confusing them.',
-	'reliability-speed': 'The defining tradeoff: TCP vs UDP, and why QUIC tries to have both.',
-	'client-server-p2p': 'Two communication patterns and what each makes easy or hard.',
-	'encryption-basics': "What HTTPS actually protects — and what it doesn't.",
-	'ai-protocols': 'MCP and A2A — the new layer of protocols designed for AI agents.'
+		'{{osi-model|Seven layers}}, the standards war that decided their fate, and where the layers blur.',
+	addressing:
+		'How a {{packet|packet}} finds your laptop — hostnames, {{ip-address|IPs}}, {{mac-address|MACs}}, and {{port|ports}}.',
+	packets:
+		'{{encapsulation|Encapsulation}} in pictures — {{frame|frames}} inside {{packet|packets}} inside {{segment|segments}}.',
+	'ports-sockets':
+		'How one machine runs a hundred services without confusing them — {{port|ports}} and {{socket|sockets}}.',
+	'reliability-speed':
+		'The defining tradeoff: [[tcp|TCP]] vs [[udp|UDP]], and why [[quic|QUIC]] tries to have both.',
+	'client-server-p2p':
+		'Two communication patterns — {{client-server|client/server}} and {{peer-to-peer|peer-to-peer}} — and what each makes easy or hard.',
+	'encryption-basics':
+		"What HTTPS actually protects — and what it doesn't. [[tls|TLS]] at the boundary.",
+	'ai-protocols':
+		'[[mcp|MCP]] and [[a2a|A2A]] — the new layer of protocols designed for AI agents.'
 };
 
 const partI: BookPart = {
