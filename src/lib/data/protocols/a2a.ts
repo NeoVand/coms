@@ -19,7 +19,7 @@ Discovery happens through **Agent Cards** — {{json|JSON}} metadata documents s
 		{
 			title: 'Agent discovery',
 			description:
-				"A client agent fetches the remote agent's Agent Card from /.well-known/agent.{{json|json}}. The card describes the agent's name, skills, supported capabilities (streaming, push notifications), and authentication requirements (API key, [[oauth2|OAuth]] 2.0, OpenID Connect)."
+				"A client agent fetches the remote agent's {{agent-card|Agent Card}} from /.well-known/agent.{{json|json}}. The card describes the agent's name, skills, supported capabilities (streaming, push notifications), and authentication requirements (API key, [[oauth2|OAuth]] 2.0, OpenID Connect)."
 		},
 		{
 			title: 'Send a message',
@@ -81,7 +81,7 @@ card = AgentCard(
     capabilities={"streaming": True}
 )`,
 		caption:
-			'An [[a2a|A2A]] agent publishes its skills in an Agent Card and handles tasks via an executor — the SDK manages [[json-rpc|JSON-RPC]], streaming, and task lifecycle.',
+			'An [[a2a|A2A]] agent publishes its skills in an {{agent-card|Agent Card}} and handles tasks via an executor — the SDK manages [[json-rpc|JSON-RPC]], streaming, and task lifecycle.',
 		alternatives: [
 			{
 				language: 'javascript',

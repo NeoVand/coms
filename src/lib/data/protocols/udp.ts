@@ -8,7 +8,7 @@ export const udp: Protocol = {
 	port: undefined,
 	year: 1980,
 	rfc: 'RFC 768',
-	oneLiner: 'Fire-and-forget delivery — fast but with no guarantees.',
+	oneLiner: '{{fire-and-forget|Fire-and-forget}} delivery — fast but with no guarantees.',
 	overview: `[[udp|UDP]] is [[tcp|TCP]]'s carefree sibling. It sends data {{connectionless|without establishing a connection}}, without checking if it arrived, and without caring about order. This sounds unreliable (and it is), but that's exactly why it's useful — sometimes speed matters more than perfection.
 
 Think of a live video call: if one frame is lost, it's better to show the next frame than to pause and wait for {{retransmission|retransmission}}. [[udp|UDP]] enables this by stripping away all of [[tcp|TCP]]'s reliability mechanisms, leaving a bare-minimum 8-byte header. Applications that use [[udp|UDP]] typically implement their own reliability on top (like [[quic|QUIC]] does) or simply tolerate some loss.
@@ -175,7 +175,7 @@ ss -un  # or: netstat -un`
 			org: 'DNS root + recursive resolvers',
 			scale: '~14 trillion queries/day (Google 8.8.8.8 alone)',
 			description:
-				'Every [[dns|DNS]] query/response is one [[udp|UDP]] datagram each way. The recursive resolver fleet is the largest [[udp|UDP]] application by query count.'
+				'Every [[dns|DNS]] query/response is one [[udp|UDP]] datagram each way. The {{recursive-resolver|recursive resolver}} fleet is the largest [[udp|UDP]] application by query count.'
 		},
 		{
 			org: 'NTP pool',

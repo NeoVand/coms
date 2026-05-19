@@ -12,7 +12,7 @@ export const ospf: Protocol = {
 		'Link-state interior gateway protocol: every router builds an identical topology database, then runs Dijkstra to compute its {{routing-table|routing table}}.',
 	overview: `[[ospf|OSPF]] is the dominant link-state {{igp|Interior Gateway Protocol}} on [[ip|IP]] networks. Where [[bgp|BGP]] is the *external* protocol that stitches the internet's {{autonomous-system|autonomous systems}} together, [[ospf|OSPF]] is what each AS uses *inside* to compute paths between its own routers — every enterprise core, every MPLS PE-CE link, every mid-tier carrier IGP. The trick is elegant: every router floods a description of its own links to every other router in the area, every router holds an **identical** {{lsdb|Link State Database (LSDB)}}, and every router independently runs **Dijkstra's shortest-path-first algorithm** on that database to compute its {{routing-table|routing table}}. No router trusts another's path computation; they all derive the same answer from the same graph.
 
-[[ospf|OSPFv2]] ([[rfc:2328|RFC 2328]], April 1998, edited by [[pioneer:john-moy|John Moy]] at Ascend) is **STD 54** — still the canonical [[ip|IPv4]] spec, 244 pages, unchanged at the level of {{frame|frame}} format. OSPFv3 ([[rfc:5340|RFC 5340]], 2008) carries [[ipv6|IPv6]] and — via RFC 5838 — [[ip|IPv4]] as separate address families. Everything modern (Segment Routing, Flex-Algo, SRv6, BFD Strict-Mode) is layered on through Opaque {{lsa|LSAs}} and Router Information LSA TLVs, not by rewriting the protocol. [[ospf|OSPF]] runs directly on [[ip|IP]] as protocol number 89 — no [[tcp|TCP]], no [[udp|UDP]] — and uses {{link-local|link-local}} {{multicast|multicast}} \`224.0.0.5\` / \`FF02::5\` for adjacency.
+[[ospf|OSPFv2]] ([[rfc:2328|RFC 2328]], April 1998, edited by [[pioneer:john-moy|John Moy]] at Ascend) is **STD 54** — still the canonical [[ip|IPv4]] spec, 244 pages, unchanged at the level of {{frame|frame}} format. OSPFv3 ([[rfc:5340|RFC 5340]], 2008) carries [[ipv6|IPv6]] and — via RFC 5838 — [[ip|IPv4]] as separate address families. Everything modern (Segment Routing, Flex-Algo, SRv6, BFD Strict-Mode) is layered on through Opaque {{lsa|LSAs}} and Router Information LSA TLVs, not by rewriting the protocol. [[ospf|OSPF]] runs directly on [[ip|IP]] as protocol number 89 — no [[tcp|TCP]], no [[udp|UDP]] — and uses {{link-local|link-local}} {{multicast|multicast}} \`224.0.0.5\` / \`FF02::5\` for {{adjacency|adjacency}}.
 
 [[pioneer:radia-perlman|Radia Perlman]]'s parallel design **IS-IS** dominates tier-1 ISP backbones; hyperscaler data-center fabrics increasingly skip both in favour of EBGP everywhere (RFC 7938). But for the campus, the branch, the enterprise WAN, and the mid-tier provider — [[ospf|OSPF]] is the protocol that draws the map.`,
 	howItWorks: [
@@ -24,12 +24,12 @@ export const ospf: Protocol = {
 		{
 			title: 'Adjacency state machine',
 			description:
-				'Neighbours progress through eight states: **Down → Init → 2-Way → ExStart → {{exchange|Exchange}} → Loading → Full** (with **Attempt** for NBMA). On {{broadcast|broadcast}} networks (e.g. [[ethernet|Ethernet]]) routers elect a **Designated Router (DR)** and Backup DR — the DR is the only neighbour every router on the segment becomes Full with, cutting the adjacency mesh from O(n²) to O(n).'
+				'Neighbours progress through eight states: **Down → Init → 2-Way → ExStart → {{exchange|Exchange}} → Loading → Full** (with **Attempt** for NBMA). On {{broadcast|broadcast}} networks (e.g. [[ethernet|Ethernet]]) routers elect a **Designated Router (DR)** and Backup DR — the DR is the only neighbour every router on the segment becomes Full with, cutting the {{adjacency|adjacency}} mesh from O(n²) to O(n).'
 		},
 		{
 			title: 'Synchronise the LSDB',
 			description:
-				'Routers {{exchange|exchange}} **Database Description (DBD)** packets carrying {{lsa|LSA}} *headers* (sequence/age/length), then send **Link State Request (LSR)** packets asking for the LSAs they don\'t have, and receive them in **Link State Update (LSU)** packets. **LSAck** packets explicitly acknowledge receipt — [[ospf|OSPF]] has {{retransmission|reliable delivery}} without [[tcp|TCP]].'
+				'Routers {{exchange|exchange}} **Database Description (DBD)** packets carrying {{lsa|LSA}} *headers* (sequence/age/length), then send **Link State Request (LSR)** packets asking for the LSAs they don\'t have, and receive them in **Link State Update (LSU)** packets. **{{lsack|LSAck}}** packets explicitly acknowledge receipt — [[ospf|OSPF]] has {{retransmission|reliable delivery}} without [[tcp|TCP]].'
 		},
 		{
 			title: 'Flood, throttle, age',
@@ -44,7 +44,7 @@ export const ospf: Protocol = {
 		{
 			title: 'Stay converged — BFD, authentication, segment routing',
 			description:
-				'Modern deployments pair [[ospf|OSPF]] with **BFD** (300 ms × 3 multipliers for sub-second loss detection — RFC 9355 Strict-Mode requires BFD up before adjacency forms) and **{{hmac|HMAC}}-SHA-256** authentication (RFC 5709 for v2, RFC 7166 Authentication Trailer for v3). Segment Routing (RFC 8665/8666) and SRv6 (RFC 9513) ride on top via Opaque LSAs; Flex-Algo ([[rfc:9350|RFC 9350]]) lets operators compute multiple parallel SPF planes — by IGP cost, by min-delay, by SRLG exclusion.'
+				'Modern deployments pair [[ospf|OSPF]] with **BFD** (300 ms × 3 multipliers for sub-second loss detection — RFC 9355 Strict-Mode requires BFD up before {{adjacency|adjacency}} forms) and **{{hmac|HMAC}}-SHA-256** authentication (RFC 5709 for v2, RFC 7166 Authentication Trailer for v3). Segment Routing (RFC 8665/8666) and SRv6 (RFC 9513) ride on top via Opaque LSAs; Flex-Algo ([[rfc:9350|RFC 9350]]) lets operators compute multiple parallel SPF planes — by IGP cost, by min-delay, by SRLG exclusion.'
 		}
 	],
 	useCases: [
@@ -199,7 +199,7 @@ Total time on a tuned network: < 100 ms.`
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/OSPF-Adjacency-process.drawio.png/500px-OSPF-Adjacency-process.drawio.png',
 		alt: 'OSPF adjacency process diagram showing the eight neighbour states from Down through Full',
 		caption:
-			'The [[ospf|OSPF]] adjacency process — eight states from `Down` to `Full`. Every adjacency on every router walks this diagram every time a link comes up. Sticking in `ExStart` or `Loading` is the classic [[ospf|OSPF]] debugging signature.',
+			'The [[ospf|OSPF]] {{adjacency|adjacency}} process — eight states from `Down` to `Full`. Every adjacency on every router walks this diagram every time a link comes up. Sticking in `ExStart` or `Loading` is the classic [[ospf|OSPF]] debugging signature.',
 		credit: 'Image: Wikimedia Commons / CC BY-SA'
 	},
 
@@ -279,7 +279,7 @@ Total time on a tuned network: < 100 ms.`
 		},
 		{
 			title: 'OSPF has reliable delivery without TCP',
-			text: '[[ospf|OSPF]] runs **directly on [[ip|IP]]** as protocol number 89. There is no [[tcp|TCP]] underneath. Reliability is implemented in [[ospf|OSPF]] itself: every LSU is explicitly acknowledged with an LSAck; LSAs carry sequence numbers and checksums; the DBD {{exchange|exchange}} uses an Init/More/Master-Slave bit. [[ospf|OSPF]] is one of the few production protocols to re-implement transport-layer guarantees above raw [[ip|IP]].'
+			text: '[[ospf|OSPF]] runs **directly on [[ip|IP]]** as protocol number 89. There is no [[tcp|TCP]] underneath. Reliability is implemented in [[ospf|OSPF]] itself: every LSU is explicitly acknowledged with an {{lsack|LSAck}}; LSAs carry sequence numbers and checksums; the DBD {{exchange|exchange}} uses an Init/More/Master-Slave bit. [[ospf|OSPF]] is one of the few production protocols to re-implement transport-layer guarantees above raw [[ip|IP]].'
 		},
 		{
 			title: 'Radia Perlman designed the competitor, not OSPF',
@@ -295,7 +295,7 @@ Total time on a tuned network: < 100 ms.`
 			},
 			{
 				title: 'Default 40-second DeadInterval is a 1990s artefact',
-				text: 'A 40 s DeadInterval means a link failure takes ~40 s to detect — unacceptable on any modern backbone. **Cure:** pair [[ospf|OSPF]] with **BFD** (default 300 ms × 3 multiplier = ~900 ms detection), or use RFC 9355 BFD Strict-Mode which refuses adjacency until BFD is up. Sub-second failover is the modern baseline.'
+				text: 'A 40 s DeadInterval means a link failure takes ~40 s to detect — unacceptable on any modern backbone. **Cure:** pair [[ospf|OSPF]] with **BFD** (default 300 ms × 3 multiplier = ~900 ms detection), or use RFC 9355 BFD Strict-Mode which refuses {{adjacency|adjacency}} until BFD is up. Sub-second {{failover|failover}} is the modern baseline.'
 			},
 			{
 				title: 'LSA flooding storms in spine-leaf fabrics',

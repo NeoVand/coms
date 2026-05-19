@@ -12,7 +12,7 @@ export const natTraversal: Protocol = {
 		'Lets two peers behind home routers find each other: {{stun|STUN}} learns your public address, {{turn|TURN}} relays when direct paths fail, and ICE picks the best working path.',
 	overview: `[[nat-traversal|NAT traversal]] is the reason a [[webrtc|WebRTC]] call between two laptops on home Wi-Fi works at all. The public internet only routes between public {{ip-address|IP addresses}}, but most devices live behind {{nat|NAT}} routers that share one address across many hosts. [[nat-traversal|NAT traversal]] is a three-protocol bundle — {{stun|STUN}}, {{turn|TURN}}, and ICE — that lets two such devices discover each other's public-facing address, probe every possible path between them, and fall back to a relay when nothing direct works.
 
-**{{stun|STUN}}** ([[rfc:8489|RFC 8489]], the modern revision of [[pioneer:jonathan-rosenberg|Jonathan Rosenberg]]'s 2003 [[rfc:8489|RFC 3489]]) is the wire format and the reflexive-address probe. A client sends a 20-byte Binding Request to a public {{stun|STUN}} server; the server replies with the address it saw, encoded as \`XOR-MAPPED-ADDRESS\`. That tells the client what the rest of the internet sees through its {{nat|NAT}}. **{{turn|TURN}}** ([[rfc:8656|RFC 8656]]) is {{stun|STUN}}'s relay extension: when the path is blocked or both sides are behind symmetric {{nat|NATs}}, peers \`Allocate\` a public \`ip:port\` on a {{turn|TURN}} server and route media through it. **ICE** ([[rfc:8445|RFC 8445]]) is the algorithm that orchestrates everything — it gathers every candidate address (host, server-reflexive via {{stun|STUN}}, relayed via {{turn|TURN}}), pairs them with the {{peer|peer}}'s, runs {{stun|STUN}} connectivity checks across every pair, and nominates the highest-priority working one.
+**{{stun|STUN}}** ([[rfc:8489|RFC 8489]], the modern revision of [[pioneer:jonathan-rosenberg|Jonathan Rosenberg]]'s 2003 [[rfc:8489|RFC 3489]]) is the wire format and the reflexive-address probe. A client sends a 20-byte Binding Request to a public {{stun|STUN}} server; the server replies with the address it saw, encoded as \`{{xor-mapped-address|XOR-MAPPED-ADDRESS}}\`. That tells the client what the rest of the internet sees through its {{nat|NAT}}. **{{turn|TURN}}** ([[rfc:8656|RFC 8656]]) is {{stun|STUN}}'s relay extension: when the path is blocked or both sides are behind symmetric {{nat|NATs}}, peers \`Allocate\` a public \`ip:port\` on a {{turn|TURN}} server and route media through it. **ICE** ([[rfc:8445|RFC 8445]]) is the algorithm that orchestrates everything — it gathers every candidate address (host, server-reflexive via {{stun|STUN}}, relayed via {{turn|TURN}}), pairs them with the {{peer|peer}}'s, runs {{stun|STUN}} connectivity checks across every pair, and nominates the highest-priority working one.
 
 All three protocols share the same 20-byte {{stun|STUN}} header, transaction IDs, TLV attribute encoding, and the magic {{cookie|cookie}} \`0x2112A442\` that lets receivers demultiplex {{stun|STUN}}, [[rtp|RTP]], and [[tls|DTLS]] on a shared {{port|port}}. Every modern real-time application — [[webrtc|WebRTC]] in browsers, [[sip|SIP]] over the public internet, Tailscale's mesh VPN, gaming P2P — uses some form of this stack.`,
 	howItWorks: [
@@ -24,12 +24,12 @@ All three protocols share the same 20-byte {{stun|STUN}} header, transaction IDs
 		{
 			title: 'STUN: learn your public address',
 			description:
-				"The agent sends a Binding Request to a public {{stun|STUN}} server (e.g. `{{stun|stun}}.l.{{google|google}}.com:19302`). The server replies with the source `ip:port` it observed, encoded in `XOR-MAPPED-ADDRESS`. That's the agent's **server-reflexive candidate** — what peers will see when packets exit the {{nat|NAT}}."
+				"The agent sends a Binding Request to a public {{stun|STUN}} server (e.g. `{{stun|stun}}.l.{{google|google}}.com:19302`). The server replies with the source `ip:port` it observed, encoded in `{{xor-mapped-address|XOR-MAPPED-ADDRESS}}`. That's the agent's **server-reflexive candidate** — what peers will see when packets exit the {{nat|NAT}}."
 		},
 		{
 			title: 'TURN: allocate a relay (fallback)',
 			description:
-				"If direct paths might fail, the agent also `Allocate`s a port on a {{turn|TURN}} server using long-term credentials. The {{turn|TURN}} server returns `XOR-RELAYED-ADDRESS` — a public `ip:port` the {{peer|peer}} can hit. The default allocation lifetime is 600 seconds; clients refresh at ~450 s."
+				"If direct paths might fail, the agent also `Allocate`s a port on a {{turn|TURN}} server using long-term credentials. The {{turn|TURN}} server returns `{{xor-relayed-address|XOR-RELAYED-ADDRESS}}` — a public `ip:port` the {{peer|peer}} can hit. The default allocation lifetime is 600 seconds; clients refresh at ~450 s."
 		},
 		{
 			title: 'Trickle and pair',
@@ -39,7 +39,7 @@ All three protocols share the same 20-byte {{stun|STUN}} header, transaction IDs
 		{
 			title: 'Connectivity checks',
 			description:
-				"Both agents send {{stun|STUN}} Binding Requests across every pair using short-term ICE credentials (`ufrag`/`pwd` from the [[sdp|SDP]]). The first pair to round-trip successfully becomes a *valid pair*; the controlling agent then nominates one with `USE-CANDIDATE`."
+				"Both agents send {{stun|STUN}} Binding Requests across every pair using short-term ICE credentials (`ufrag`/`pwd` from the [[sdp|SDP]]). The first pair to round-trip successfully becomes a *valid pair*; the controlling agent then nominates one with `{{use-candidate|USE-CANDIDATE}}`."
 		},
 		{
 			title: 'Keep the path alive',

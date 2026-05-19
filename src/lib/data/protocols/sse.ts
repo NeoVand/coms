@@ -11,14 +11,14 @@ export const sse: Protocol = {
 	oneLiner: 'One-way real-time streaming from server to browser over plain HTTP.',
 	overview: `[[sse|Server-Sent Events]] ([[sse|SSE]]) provide a simple, standardized way for servers to push updates to web clients over a single [[http1|HTTP]] connection. Unlike [[websockets|WebSockets]], [[sse|SSE]] is unidirectional — the server sends events, and the client listens. This simplicity is its strength.
 
-[[sse|SSE]] uses plain [[http1|HTTP]], which means it works through {{proxy|proxies}}, {{load-balancing|load balancers}}, and {{firewall|firewalls}} without any special configuration. The browser's EventSource API automatically handles reconnection, event IDs for resuming after disconnects, and {{content-negotiation|content type negotiation}}.
+[[sse|SSE]] uses plain [[http1|HTTP]], which means it works through {{proxy|proxies}}, {{load-balancing|load balancers}}, and {{firewall|firewalls}} without any special configuration. The browser's {{eventsource|EventSource API}} automatically handles reconnection, event IDs for resuming after disconnects, and {{content-negotiation|content type negotiation}}.
 
 Each event is a text block with optional fields: event type, data {{payload|payload}}, ID, and retry interval. The format is deliberately simple — just UTF-8 text with newline separators. This makes [[sse|SSE]] ideal for live feeds, notifications, and {{stream|streaming}} AI responses where the server needs to push data but doesn't need to receive a stream back.`,
 	howItWorks: [
 		{
 			title: 'HTTP connection',
 			description:
-				'Client opens a standard HTTP request with Accept: text/event-stream. The server responds with Content-Type: text/event-stream and keeps the connection open.'
+				'Client opens a standard HTTP request with Accept: text/event-stream. The server responds with {{content-type|Content-Type}}: text/event-stream and keeps the connection open.'
 		},
 		{
 			title: 'Event stream',
@@ -28,12 +28,12 @@ Each event is a text block with optional fields: event type, data {{payload|payl
 		{
 			title: 'Auto-reconnection',
 			description:
-				'If the connection drops, the browser automatically reconnects and sends the last event ID in a Last-Event-ID header, allowing the server to resume from where it left off.'
+				'If the connection drops, the browser automatically reconnects and sends the last event ID in a {{last-event-id|Last-Event-ID}} header, allowing the server to resume from where it left off.'
 		},
 		{
 			title: 'Client processing',
 			description:
-				'The EventSource API fires message events (or named events) that JavaScript handlers process. No polling, no complexity — just native browser event handling.'
+				'The {{eventsource|EventSource API}} fires message events (or named events) that JavaScript handlers process. No polling, no complexity — just native browser event handling.'
 		}
 	],
 	useCases: [
@@ -61,7 +61,7 @@ def stream():
     return Response(generate(),
                     mimetype='text/event-stream')`,
 		caption:
-			'The EventSource API handles connection management, reconnection, and event parsing automatically.',
+			'The {{eventsource|EventSource API}} handles connection management, reconnection, and event parsing automatically.',
 		alternatives: [
 			{
 				language: 'javascript',

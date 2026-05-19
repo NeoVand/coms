@@ -23,7 +23,7 @@ It uses [[http2|HTTP/2]] for transport, gaining {{multiplexing|multiplexing}} an
 		{
 			title: 'Generate code',
 			description:
-				'The protoc compiler generates client stubs and server interfaces in your language. Types are enforced at compile time.'
+				'The {{protoc|protoc}} compiler generates client stubs and server interfaces in your language. Types are enforced at compile time.'
 		},
 		{
 			title: 'Call like a local function',

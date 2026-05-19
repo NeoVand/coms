@@ -14,7 +14,7 @@ export const cellular: Protocol = {
 
 The radio stack is the headline. **PHY** ({{3gpp|3GPP}} TS 38.211–214) carries {{ofdma|OFDMA}} with five numerologies — subcarrier spacings of 15, 30, 60, 120, and 240 kHz — letting the same protocol address sub-6 GHz mid-band (FR1) and {{mmwave|mmWave}} (FR2). **MAC** does hybrid ARQ over 8-process stop-and-wait {{retransmission|retransmission}}. **RLC** handles {{fragmentation|segmentation and reassembly}} across 10/16-bit {{sequence-number|sequence numbers}}. **PDCP** does {{header|header compression}} (ROHC) and AES-CTR {{encryption|ciphering}}. **RRC** drives the connection state machine — \`RRC_IDLE → CONNECTED → INACTIVE\` for 5G — and **NAS** carries mobility, {{handshake|authentication}}, and session management end-to-end between the UE and the core. Above all that, the user plane is just [[ip|IP]] (almost always [[ipv6|IPv6]] now); above *that*, the application runs whatever protocols ordinary internet applications run.
 
-The Core Network is where the architectural revolution between 4G and 5G actually lives. **EPC** (Evolved Packet Core, LTE) is a small zoo of named monolithic boxes — MME, SGW, PGW, HSS, PCRF, all glued together by GTP and {{diameter|Diameter}}. **5GC** (5G Core, NR-SA) is a **{{service-mesh|service-based architecture}}** where dozens of network functions (AMF, SMF, UPF, AUSF, UDM, PCF, NRF, NEF, NSSF, AF…) talk to each other over **[[http2|HTTP/2]] with {{json|JSON}} {{payload|payloads}} protected by [[tls|TLS]]**. The control plane of every modern carrier on Earth is now an [[http2|HTTP/2]] microservice fabric. Every N2/N3 interface between the radio access network and the core is wrapped in [[ipsec|IPsec ESP]] per {{3gpp|3GPP}} TS 33.501 — the single largest enterprise [[ipsec|IPsec]] deployment on Earth runs inside this layer.
+The Core Network is where the architectural revolution between 4G and 5G actually lives. **EPC** (Evolved Packet Core, LTE) is a small zoo of named monolithic boxes — MME, SGW, PGW, HSS, PCRF, all glued together by GTP and {{diameter|Diameter}}. **5GC** ({{5g-core|5G Core}}, NR-SA) is a **{{service-mesh|service-based architecture}}** where dozens of network functions (AMF, SMF, UPF, {{ausf|AUSF}}, UDM, PCF, NRF, NEF, NSSF, AF…) talk to each other over **[[http2|HTTP/2]] with {{json|JSON}} {{payload|payloads}} protected by [[tls|TLS]]**. The control plane of every modern carrier on Earth is now an [[http2|HTTP/2]] microservice fabric. Every N2/N3 interface between the radio access network and the core is wrapped in [[ipsec|IPsec ESP]] per {{3gpp|3GPP}} TS 33.501 — the single largest enterprise [[ipsec|IPsec]] deployment on Earth runs inside this layer.
 
 The frontier in 2026 is **5G-Advanced** (Release 18, frozen June 2024; Release 19 in progress; Release 20 study items for 6G already kicking off in 2025), **Open RAN** deployments (Vodafone UK, Deutsche Telekom, Rakuten Symphony, DISH on AWS Wavelength), and **satellite {{direct-to-cell|direct-to-cell}}** — T-Mobile + SpaceX {{starlink|Starlink}} launched commercial service in January 2025; AT&T's AST SpaceMobile partnership and {{apple|Apple}}'s Globalstar-based Emergency SOS are reshaping what "no signal" means.`,
 	howItWorks: [
@@ -41,17 +41,17 @@ The frontier in 2026 is **5G-Advanced** (Release 18, frozen June 2024; Release 1
 		{
 			title: 'NAS — authentication, mobility, session management',
 			description:
-				"**Non-Access Stratum** signalling (TS 24.501) carries end-to-end between UE and core, transparently through the gNB. **Registration Request** (with **SUCI** — the {{public-key|public-key-encrypted}} SUPI) starts the AKA {{handshake|handshake}}; the UDM decrypts to SUPI, generates an authentication vector, and the UE's USIM verifies AUTN and computes RES*. After Security Mode Command, NAS is integrity-protected and ciphered with K_NASint / K_NASenc."
+				"**Non-Access Stratum** signalling (TS 24.501) carries end-to-end between UE and core, transparently through the gNB. **Registration Request** (with **{{suci|SUCI}}** — the {{public-key|public-key-encrypted}} {{supi|SUPI}}) starts the AKA {{handshake|handshake}}; the UDM decrypts to SUPI, generates an authentication vector, and the UE's USIM verifies AUTN and computes RES*. After Security Mode Command, NAS is integrity-protected and ciphered with K_NASint / K_NASenc."
 		},
 		{
 			title: '5GC service-based architecture',
 			description:
-				"The 5G Core is a {{service-mesh|microservice fabric}}. AMF, SMF, UPF, AUSF, UDM, PCF, NRF, NEF, NSSF, AF — each is a **network function** with an [[http2|HTTP/2]]+{{json|JSON}} API protected by [[tls|TLS]]. Service-based interfaces are named Nausf, Nudm, Namf, Nsmf, Npcf, Nnrf, Nnef, Nnssf, Naf. The control plane of every 5G carrier on Earth is now an [[http2|HTTP/2]] microservice fabric — and every backhaul {{hop|hop}} is wrapped in [[ipsec|IPsec ESP]]."
+				"The {{5g-core|5G Core}} is a {{service-mesh|microservice fabric}}. AMF, SMF, UPF, {{ausf|AUSF}}, UDM, PCF, NRF, NEF, NSSF, AF — each is a **network function** with an [[http2|HTTP/2]]+{{json|JSON}} API protected by [[tls|TLS]]. Service-based interfaces are named Nausf, Nudm, Namf, Nsmf, Npcf, Nnrf, Nnef, Nnssf, Naf. The control plane of every 5G carrier on Earth is now an [[http2|HTTP/2]] microservice fabric — and every backhaul {{hop|hop}} is wrapped in [[ipsec|IPsec ESP]]."
 		},
 		{
 			title: 'GTP-U on N3 — the user-plane tunnel',
 			description:
-				"User-plane {{packet|packets}} between the gNB and the UPF travel over **{{gtp-u|GTP-U}}** (GPRS Tunnelling Protocol — User plane) on [[udp|UDP]]/2152. Each PDU session gets a {{tunnel|Tunnel Endpoint Identifier (TEID)}}. The tunnel preserves the UE's [[ip|IP]] {{ip-address|address}} as the inner packet's source/destination regardless of which gNB the UE is camping on — this is how a phone keeps its [[ip|IP]] across handovers between base stations."
+				"User-plane {{packet|packets}} between the gNB and the UPF travel over **{{gtp-u|GTP-U}}** (GPRS Tunnelling Protocol — User plane) on [[udp|UDP]]/2152. Each {{pdu-session|PDU session}} gets a {{tunnel|Tunnel Endpoint Identifier (TEID)}}. The tunnel preserves the UE's [[ip|IP]] {{ip-address|address}} as the inner packet's source/destination regardless of which gNB the UE is camping on — this is how a phone keeps its [[ip|IP]] across handovers between base stations."
 		}
 	],
 	useCases: [
@@ -305,7 +305,7 @@ Inner packet:
 			date: '2025-09',
 			title: 'Reliance Jio 5G-SA crosses 24M subscribers — largest pan-national SA deployment',
 			description:
-				'Reliance Jio (India) reported 23.7M 5G-SA subscribers on its in-house cloud-native 5G core by Q3 2025; the network averages 6.5 PB/day. The first proof that a hyperscale cloud-native 5G core can run a national-scale carrier without legacy EPC dependencies.',
+				'Reliance Jio (India) reported 23.7M 5G-SA subscribers on its in-house cloud-native {{5g-core|5G core}} by Q3 2025; the network averages 6.5 PB/day. The first proof that a hyperscale cloud-native 5G core can run a national-scale carrier without legacy EPC dependencies.',
 			source: {
 				url: 'https://www.ril.com/InvestorRelations/FinancialReporting.aspx',
 				label: 'Reliance Industries investor reports'
@@ -344,7 +344,7 @@ Inner packet:
 			org: 'Reliance Jio',
 			scale: '~24M 5G-SA subscribers (Q3 2025); ~470M total cellular subscribers',
 			description:
-				"India's Reliance Jio operates the largest single-operator 5G-SA deployment on the planet, running a cloud-native, in-house-built 5G core. ~6.5 PB/day average traffic. The economic experiment: can a hyperscale cloud-native core run a national carrier without legacy EPC?"
+				"India's Reliance Jio operates the largest single-operator 5G-SA deployment on the planet, running a cloud-native, in-house-built {{5g-core|5G core}}. ~6.5 PB/day average traffic. The economic experiment: can a hyperscale cloud-native core run a national carrier without legacy EPC?"
 		},
 		{
 			org: 'T-Mobile USA + SpaceX',
@@ -356,7 +356,7 @@ Inner packet:
 			org: 'DISH Wireless / EchoStar',
 			scale: '5G-SA on public cloud (AWS Wavelength)',
 			description:
-				"The first commercial 5G-SA network running on **public-cloud infrastructure** (AWS Wavelength + AWS Local Zones). Proves the cloud-native 5G core architecture works in production. Rakuten Symphony (Japan) and Open5GS-based deployments worldwide follow the same pattern."
+				"The first commercial 5G-SA network running on **public-cloud infrastructure** (AWS Wavelength + AWS Local Zones). Proves the cloud-native {{5g-core|5G core}} architecture works in production. Rakuten Symphony (Japan) and Open5GS-based deployments worldwide follow the same pattern."
 		}
 	],
 
@@ -383,7 +383,7 @@ Inner packet:
 		pitfalls: [
 			{
 				title: 'IPv6-only carriers + IPv4-literal apps',
-				text: "On modern carriers (T-Mobile USA, Reliance Jio, parts of Verizon and DT), the UE receives **only an [[ipv6|IPv6]] prefix**. Legacy [[ip|IPv4]] destinations are reached via **{{four-six-four-xlat|464XLAT}}** ([[rfc:6877|RFC 6877]]) — CLAT on the UE, PLAT/{{nat64|NAT64}} at the operator. **Pitfall:** apps with hardcoded [[ip|IPv4]] literals (`socket.connect(\"8.8.8.8\")`) silently fail. **Cure:** always resolve via [[dns|DNS]], always prefer [[ipv6|IPv6]] (`getaddrinfo`, `AF_UNSPEC`); use `IPv4v6` PDU session type, never `[[ip|IPv4]] only`."
+				text: "On modern carriers (T-Mobile USA, Reliance Jio, parts of Verizon and DT), the UE receives **only an [[ipv6|IPv6]] prefix**. Legacy [[ip|IPv4]] destinations are reached via **{{four-six-four-xlat|464XLAT}}** ([[rfc:6877|RFC 6877]]) — CLAT on the UE, PLAT/{{nat64|NAT64}} at the operator. **Pitfall:** apps with hardcoded [[ip|IPv4]] literals (`socket.connect(\"8.8.8.8\")`) silently fail. **Cure:** always resolve via [[dns|DNS]], always prefer [[ipv6|IPv6]] (`getaddrinfo`, `AF_UNSPEC`); use `IPv4v6` {{pdu-session|PDU session}} type, never `[[ip|IPv4]] only`."
 			},
 			{
 				title: 'PMTUD black holes on the GTP tunnel',

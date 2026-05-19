@@ -25,7 +25,7 @@ When you see the lock icon in your browser, [[tls|TLS]] is at work. It sits betw
 		{
 			title: 'ServerHello + Certificate',
 			description:
-				'Server selects a {{cipher-suite|cipher suite}}, sends its {{certificate-chain|certificate chain}} (proving identity), and in [[tls|TLS]] 1.3, sends its key share. {{handshake|Handshake}} keys are now derived.'
+				'Server selects a {{cipher-suite|cipher suite}}, sends its {{certificate-chain|certificate chain}} (proving identity), and in [[tls|TLS]] 1.3, sends its {{key-share|key share}}. {{handshake|Handshake}} keys are now derived.'
 		},
 		{
 			title: 'Certificate verification',
@@ -202,7 +202,7 @@ openssl req -x509 -newkey rsa:2048 -nodes \\
 			date: '2024-08',
 			title: 'NIST finalises ML-KEM, ML-DSA, SLH-DSA',
 			description:
-				'FIPS 203, 204, 205 published — the post-quantum cryptography primitives that [[tls|TLS]] would depend on. {{ml-kem|ML-KEM}}-768 (formerly Kyber-768) becomes the foundation for hybrid key {{exchange|exchange}}.',
+				'FIPS 203, 204, 205 published — the {{post-quantum|post-quantum cryptography}} primitives that [[tls|TLS]] would depend on. {{ml-kem|ML-KEM}}-768 (formerly Kyber-768) becomes the foundation for hybrid key {{exchange|exchange}}.',
 			source: { url: 'https://csrc.nist.gov/publications/detail/fips/203/final', label: 'NIST FIPS 203' }
 		},
 		{

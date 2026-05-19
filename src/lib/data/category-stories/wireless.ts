@@ -148,7 +148,7 @@ Together — Wi-Fi for local broadband, Bluetooth for personal-area, Cellular fo
 					year: 2018,
 					title: '5G NR Release 15 freeze',
 					description:
-						"{{3gpp|3GPP}} Release 15 — the **first {{5g-nr|5G NR}} specification** — is frozen on 14 June 2018. Service-based 5G Core, flexible numerology, {{mmwave|mmWave}} (FR2) support, network slicing. First commercial 5G networks light up in 2019; first 5G-Standalone (no LTE anchor) deployments arrive in 2020–2021.",
+						"{{3gpp|3GPP}} Release 15 — the **first {{5g-nr|5G NR}} specification** — is frozen on 14 June 2018. Service-based {{5g-core|5G Core}}, flexible numerology, {{mmwave|mmWave}} (FR2) support, network slicing. First commercial 5G networks light up in 2019; first 5G-Standalone (no LTE anchor) deployments arrive in 2020–2021.",
 					protocolId: 'cellular'
 				},
 				{

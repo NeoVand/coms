@@ -33,7 +33,7 @@ This simplicity is [[stomp|STOMP]]'s superpower. You can literally telnet to a [
 		{
 			title: 'MESSAGE delivery',
 			description:
-				'Broker delivers matching messages to subscribers as MESSAGE frames. Client can {{ack|ACK}}/NACK for reliable delivery.'
+				'Broker delivers matching messages to subscribers as MESSAGE frames. Client can {{ack|ACK}}/{{nack|NACK}} for reliable delivery.'
 		}
 	],
 	useCases: [

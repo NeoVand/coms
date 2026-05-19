@@ -57,7 +57,7 @@ That readability is the entire reason every developer can debug an HTTP problem 
 						{
 							type: 'callout',
 							title: 'The 6-connection cap is why HTTP/2 exists',
-							text: 'By 2009, web pages were averaging 90 requests across 15 origins. With 6 connections per origin, every page paid the cost of [[tcp|TCP]] setup repeatedly, and connections were idle most of the time. {{google|Google}}\'s {{spdy|SPDY}} experiment proposed {{multiplexing|multiplexing}} many requests over a single connection, with {{binary-framing|binary framing}}. {{spdy|SPDY}} became the seed of [[http2|HTTP/2]].'
+							text: 'By 2009, web pages were averaging 90 requests across 15 origins. With 6 connections per origin, every page paid the cost of [[tcp|TCP]] setup repeatedly, and connections were {{imap-idle|idle}} most of the time. {{google|Google}}\'s {{spdy|SPDY}} experiment proposed {{multiplexing|multiplexing}} many requests over a single connection, with {{binary-framing|binary framing}}. {{spdy|SPDY}} became the seed of [[http2|HTTP/2]].'
 						},
 						{
 							type: 'narrative',
@@ -75,7 +75,7 @@ That readability is the entire reason every developer can debug an HTTP problem 
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/HTTP_persistent_connection.svg/500px-HTTP_persistent_connection.svg.png',
 							alt: 'HTTP persistent connection diagram — multiple request/response pairs reusing the same TCP connection.',
 							caption:
-								'**[[http1|HTTP/1.1]] persistent connections** — request, response, request, response, all on the *same* [[tcp|TCP]] socket. The default in [[http1|HTTP/1.1]] (1997), and a quiet revolution after [[http1|HTTP/1.0]]\'s one-connection-per-request model. The reason a 1990s page-load of 90 small assets did not have to pay 90 SYN/SYN-ACK/ACK handshakes.',
+								'**[[http1|HTTP/1.1]] persistent connections** — request, response, request, response, all on the *same* [[tcp|TCP]] socket. The default in [[http1|HTTP/1.1]] (1997), and a quiet revolution after [[http1|HTTP/1.0]]\'s one-connection-per-request model. The reason a 1990s page-load of 90 small assets did not have to pay 90 SYN/{{syn-ack|SYN-ACK}}/ACK handshakes.',
 							credit: 'Image: Wikimedia Commons / CC BY-SA 3.0'
 						}
 					]
@@ -120,7 +120,7 @@ The unsolvable structural flaw: [[http2|HTTP/2]] still runs over [[tcp|TCP]], an
 						{
 							type: 'callout',
 							title: 'Server Push is gone',
-							text: '[[http2|HTTP/2]] {{server-push|Server Push}} was supposed to let servers preemptively send resources the client would need next. **Chrome 106 (October 2022) disabled it by default**; only ~1.25% of [[http2|HTTP/2]] sites had ever used it. **Firefox 132 (October 29, 2024) removed support entirely.** No major browser implements [[http2|HTTP/2]] {{server-push|Server Push}} as of 2026. The replacement pattern is the **`103 {{early-hints|Early Hints}}`** informational status combined with `Link: rel=preload`.'
+							text: '[[http2|HTTP/2]] {{server-push|Server Push}} was supposed to let servers preemptively send resources the client would need next. **Chrome 106 (October 2022) disabled it by default**; only ~1.25% of [[http2|HTTP/2]] sites had ever used it. **Firefox 132 (October 29, 2024) removed support entirely.** No major browser implements [[http2|HTTP/2]] {{server-push|Server Push}} as of 2026. The replacement pattern is the **`103 {{early-hints|Early Hints}}`** {{ipsec-informational|informational}} status combined with `Link: rel=preload`.'
 						},
 						{
 							type: 'narrative',
@@ -169,7 +169,7 @@ The pattern: each CVE breaks an assumption that earlier mitigations had baked in
 						{
 							type: 'narrative',
 							title: 'Same HTTP, A New Transport',
-							text: `[[http3|HTTP/3]] (**[[rfc:9114|RFC 9114]]**, June 2022, M. Bishop ed., Akamai) is the third major version of HTTP — defined as a binary mapping of HTTP semantics ([[rfc:9110|RFC 9110]]) onto [[quic|QUIC]] ([[rfc:9000|RFC 9000]]). The visible HTTP behaviour is unchanged: same verbs, same status codes, same header semantics. The wire encoding changes — **QPACK** (RFC 9204) replaces {{hpack|HPACK}} because [[quic|QUIC]]'s stream ordering differs from [[tcp|TCP]]'s byte ordering — but applications need not care.
+							text: `[[http3|HTTP/3]] (**[[rfc:9114|RFC 9114]]**, June 2022, M. Bishop ed., Akamai) is the third major version of HTTP — defined as a binary mapping of HTTP semantics ([[rfc:9110|RFC 9110]]) onto [[quic|QUIC]] ([[rfc:9000|RFC 9000]]). The visible HTTP behaviour is unchanged: same verbs, same status codes, same header semantics. The wire encoding changes — **{{qpack|QPACK}}** (RFC 9204) replaces {{hpack|HPACK}} because [[quic|QUIC]]'s stream ordering differs from [[tcp|TCP]]'s byte ordering — but applications need not care.
 
 What changes underneath is everything. Multiplexed streams in [[http3|HTTP/3]] are **truly independent at the transport layer** — a lost [[udp|UDP]] packet only stalls the stream that owned the lost data, not all streams. Connection setup folds into the [[tls|TLS 1.3]] {{handshake|handshake}} at zero or one round-trip. **Connection IDs** survive network changes, so a phone moving between [[wifi|Wi-Fi]] and cellular keeps its [[http3|HTTP/3]] sessions alive without re-handshaking.
 
@@ -371,9 +371,9 @@ Active 2024-2026 work in the [[grpc|gRPC]] working group includes: native [[http
 
 Two protocols solved this on top of HTTP, with very different tradeoffs.
 
-**[[websockets|WebSockets]]** ([[rfc:6455|RFC 6455]], December 2011, edited by Ian Fette of {{google|Google}} and Alexey Melnikov of Isode) hijack an [[http1|HTTP/1.1]] connection with an \`Upgrade: websocket\` request and switch the connection to a bidirectional binary frame protocol. After the upgrade, neither side waits for the other — both can send any time. **~99% of browsers support it since 2012.** Slack, Discord, Figma, and most live-collaboration apps use [[websockets|WebSockets]]. **Slack documents 5M+ concurrent [[websockets|WebSocket]] sessions** in production; **{{cloudflare|Cloudflare}}'s [[websockets|WebSocket]] Hibernation API** for Durable Objects bills only when JS executes and survives idle [[websockets|WebSocket]] connections without server cost.
+**[[websockets|WebSockets]]** ([[rfc:6455|RFC 6455]], December 2011, edited by Ian Fette of {{google|Google}} and Alexey Melnikov of Isode) hijack an [[http1|HTTP/1.1]] connection with an \`Upgrade: websocket\` request and switch the connection to a bidirectional binary frame protocol. After the upgrade, neither side waits for the other — both can send any time. **~99% of browsers support it since 2012.** Slack, Discord, Figma, and most live-collaboration apps use [[websockets|WebSockets]]. **Slack documents 5M+ concurrent [[websockets|WebSocket]] sessions** in production; **{{cloudflare|Cloudflare}}'s [[websockets|WebSocket]] Hibernation API** for Durable Objects bills only when JS executes and survives {{imap-idle|idle}} [[websockets|WebSocket]] connections without server cost.
 
-**[[sse|Server-Sent Events]]** is the simpler one-way version, specified by **[[pioneer:ian-hickson|Ian Hickson]] and first shipped in Opera 9 in September 2006**. The server holds open an HTTP response and writes \`data:\` frames over time. No protocol switch, no {{binary-framing|binary framing}} — just a long-lived response stream with \`Content-Type: text/event-stream\`. Currently defined in **§9.2 of the HTML Living Standard**.`
+**[[sse|Server-Sent Events]]** is the simpler one-way version, specified by **[[pioneer:ian-hickson|Ian Hickson]] and first shipped in Opera 9 in September 2006**. The server holds open an HTTP response and writes \`data:\` frames over time. No protocol switch, no {{binary-framing|binary framing}} — just a long-lived response stream with \`{{content-type|Content-Type}}: text/event-stream\`. Currently defined in **§9.2 of the HTML Living Standard**.`
 						},
 						{
 							type: 'narrative',
@@ -383,7 +383,7 @@ Two protocols solved this on top of HTTP, with very different tradeoffs.
 That changed when LLMs started streaming tokens. **OpenAI, {{anthropic|Anthropic}}, {{google|Google}} Gemini, {{cloudflare|Cloudflare}} Workers AI all stream tokens as \`text/event-stream\`** — [[sse|SSE]] is now the de facto wire format for streaming inference. The reasons are practical:
 
 - It is **HTTP**. {{cors|CORS}}, auth, caching, proxies, CDNs all just work.
-- It **auto-reconnects**, with **\`Last-Event-ID\`** as a built-in resume mechanism — the browser sends the last event ID it received as a request header on reconnect; the server resumes from there.
+- It **auto-reconnects**, with **\`{{last-event-id|Last-Event-ID}}\`** as a built-in resume mechanism — the browser sends the last event ID it received as a request header on reconnect; the server resumes from there.
 - It **composes with [[http2|HTTP/2]] {{multiplexing|multiplexing}}** — many [[sse|SSE]] streams share one [[tcp|TCP]] connection.
 - The browser gives you **\`new EventSource(url)\`** — three lines of JavaScript and you have a streaming consumer.
 
@@ -446,7 +446,7 @@ The choice between [[websockets|WebSocket]], [[sse|SSE]], and {{webtransport|Web
 							title: 'The Transport Churn',
 							text: `[[mcp|MCP]] shipped on 25 November 2024 with two transports:
 
-- **stdio** — process-local, used for local [[mcp|MCP]] servers spawned as subprocesses by the host
+- **{{stdio|stdio}}** — process-local, used for local [[mcp|MCP]] servers spawned as subprocesses by the host
 - **HTTP+[[sse|SSE]]** — two endpoints (\`/sse\` for the long-lived server→client stream, \`/messages\` for client→server POSTs)
 
 The two-endpoint HTTP+[[sse|SSE]] design was awkward — clients had to maintain two connections, session affinity was hard, the resume story across reconnects was unspecified.
@@ -458,7 +458,7 @@ The **2025-03-26 [[mcp|MCP]] spec** replaced HTTP+[[sse|SSE]] with **[[frontier:
 						{
 							type: 'callout',
 							title: 'Why JSON-RPC 2.0',
-							text: 'Both [[mcp|MCP]] and [[a2a|A2A]] picked [[json-rpc|JSON-RPC]] 2.0 as their wire format — a 6-page spec. **The boringness is the point.** The Language Server Protocol uses [[json-rpc|JSON-RPC]]. Ethereum nodes use it. The Chrome DevTools Protocol uses it. Every editor tooling system from VS Code to Neovim speaks it. For a brand-new protocol layer where adoption is the existential risk, picking the lowest-overhead, highest-interoperability RPC format that already works in every language was the right move. [[mcp|MCP]] and [[a2a|A2A]] could have invented binary protocols with schemas; instead they let the message shape be a transport-level concern and put their innovation in **what** the messages mean.'
+							text: 'Both [[mcp|MCP]] and [[a2a|A2A]] picked [[json-rpc|JSON-RPC]] 2.0 as their wire format — a 6-page spec. **The boringness is the point.** The {{lsp|Language Server Protocol}} uses [[json-rpc|JSON-RPC]]. Ethereum nodes use it. The Chrome DevTools Protocol uses it. Every editor tooling system from VS Code to Neovim speaks it. For a brand-new protocol layer where adoption is the existential risk, picking the lowest-overhead, highest-interoperability RPC format that already works in every language was the right move. [[mcp|MCP]] and [[a2a|A2A]] could have invented binary protocols with schemas; instead they let the message shape be a transport-level concern and put their innovation in **what** the messages mean.'
 						},
 						{
 							type: 'narrative',

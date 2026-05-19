@@ -255,7 +255,7 @@ Use cases: aggregating [[wifi|Wi-Fi]] and cellular {{bandwidth|bandwidth}} on a 
 		protocols: ['quic', 'http3'],
 		description: `\`draft-{{ietf|ietf}}-moq-transport-17\` (March 2026) is the {{ietf|IETF}}'s Media-over-[[quic|QUIC]] Transport — sub-second live streaming over [[quic|QUIC]], designed to replace the [[rtmp|RTMP]]-into-[[hls|HLS]] pipeline that streamers use today. {{cloudflare|Cloudflare}} and {{meta|Meta}} have public MoQ relay implementations; Twitch and YouTube are evaluating.
 
-The architecture: publishers send named objects to MoQ relays; subscribers fetch named objects from the nearest relay, with hop-by-hop [[quic|QUIC]]. Object naming + [[quic|QUIC]] stream {{multiplexing|multiplexing}} mean a relay can drop objects under congestion (preserve key frames over delta frames) without the publisher coordinating. [[webrtc|WebRTC]]'s lunch may finally be eaten for one-to-many use cases.`,
+The architecture: publishers send named objects to MoQ relays; subscribers {{imap-fetch|fetch}} named objects from the nearest relay, with hop-by-hop [[quic|QUIC]]. Object naming + [[quic|QUIC]] stream {{multiplexing|multiplexing}} mean a relay can drop objects under congestion (preserve key frames over delta frames) without the publisher coordinating. [[webrtc|WebRTC]]'s lunch may finally be eaten for one-to-many use cases.`,
 		sources: [
 			{ url: 'https://datatracker.ietf.org/doc/draft-ietf-moq-transport/', label: 'IETF — draft-ietf-moq-transport' },
 			{ url: 'https://blog.cloudflare.com/moq/', label: 'Cloudflare — MoQ' }
@@ -270,7 +270,7 @@ The architecture: publishers send named objects to MoQ relays; subscribers fetch
 		status: 'shipped',
 		date: '2025-03',
 		protocols: ['mcp'],
-		description: `The Model Context Protocol ({{anthropic|Anthropic}}, November 2024) shipped with two transports: stdio for local subprocess servers, and HTTP+[[sse|SSE]] for remote servers (an HTTP POST per request, an [[sse|SSE]] stream for server-initiated messages). The HTTP+[[sse|SSE]] transport had operational issues — long-lived [[sse|SSE]] connections behind proxies, two-channel state to manage — and was deprecated in March 2025 in favour of Streamable HTTP.
+		description: `The Model Context Protocol ({{anthropic|Anthropic}}, November 2024) shipped with two transports: {{stdio|stdio}} for local subprocess servers, and HTTP+[[sse|SSE]] for remote servers (an HTTP POST per request, an [[sse|SSE]] stream for server-initiated messages). The HTTP+[[sse|SSE]] transport had operational issues — long-lived [[sse|SSE]] connections behind proxies, two-channel state to manage — and was deprecated in March 2025 in favour of Streamable HTTP.
 
 Streamable HTTP is one HTTP endpoint that can return either a single [[json-rpc|JSON-RPC]] response or upgrade to [[sse|SSE]] for streaming. Single channel, simpler proxy story, easier to deploy on serverless. Combined with the 2025-03-26 spec adding [[oauth2|OAuth]] 2.1 with {{pkce|PKCE}} and dynamic client registration plus Resource Indicators (RFC 8707) for token scoping, [[mcp|MCP]] is now a real internet protocol — not just a local stdio convention.`,
 		sources: [

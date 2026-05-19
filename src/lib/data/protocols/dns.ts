@@ -13,14 +13,14 @@ export const dns: Protocol = {
 
 [[dns|DNS]] is a distributed, hierarchical database. At the top are 13 root server clusters. Below them are TLD servers (.com, .org, .net). Below those are authoritative servers for individual domains. Your query cascades down this tree, with aggressive caching at every level to keep things fast.
 
-A typical {{dns-resolution|DNS lookup}} takes 10-50ms and involves your device's stub resolver → your ISP's recursive resolver → root servers → TLD servers → authoritative servers. But caching means most lookups are answered in under 1ms from a nearby cache. [[dns|DNS]] also carries more than just [[ip|IP]] addresses: MX records for email, TXT records for verification, CNAME records for aliases, and many more.
+A typical {{dns-resolution|DNS lookup}} takes 10-50ms and involves your device's stub resolver → your ISP's {{recursive-resolver|recursive resolver}} → root servers → TLD servers → authoritative servers. But caching means most lookups are answered in under 1ms from a nearby cache. [[dns|DNS]] also carries more than just [[ip|IP]] addresses: MX records for email, TXT records for verification, CNAME records for aliases, and many more.
 
 Security is a growing concern: {{dnssec|DNSSEC}} ([[dns|DNS]] Security Extensions) adds cryptographic signatures to [[dns|DNS]] responses, authenticating their origin and preventing cache poisoning attacks where an attacker injects forged records. For privacy, [[dns|DNS]] over [[tls|TLS]] (DoT, port 853) and {{dns-over-https|DNS over HTTPS}} (DoH) encrypt [[dns|DNS]] queries so eavesdroppers can't see which domains you're resolving.`,
 	howItWorks: [
 		{
 			title: 'Query sent',
 			description:
-				'Your device asks the configured recursive resolver (e.g., 8.8.8.8 or 1.1.1.1): "What is the [[ip|IP]] for example.com?" Usually sent over [[udp|UDP]] for speed.'
+				'Your device asks the configured {{recursive-resolver|recursive resolver}} (e.g., 8.8.8.8 or 1.1.1.1): "What is the [[ip|IP]] for example.com?" Usually sent over [[udp|UDP]] for speed.'
 		},
 		{
 			title: 'Recursive resolution',
@@ -178,7 +178,7 @@ curl -sH 'accept: application/dns-json' \\
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Example_of_an_iterative_DNS_resolver.svg/500px-Example_of_an_iterative_DNS_resolver.svg.png',
 		alt: 'Diagram showing iterative DNS resolution: client queries recursive resolver, which queries root, TLD, and authoritative nameservers in sequence',
 		caption:
-			'How {{dns-resolution|DNS resolution}} works — your device asks a recursive resolver, which iteratively queries root servers, TLD servers (.com, .org), and authoritative nameservers to translate a domain name like "example.com" into an {{ip-address|IP address}}.',
+			'How {{dns-resolution|DNS resolution}} works — your device asks a {{recursive-resolver|recursive resolver}}, which iteratively queries root servers, TLD servers (.com, .org), and authoritative nameservers to translate a domain name like "example.com" into an {{ip-address|IP address}}.',
 		credit: 'Image: Wikimedia Commons / Public Domain'
 	},
 
@@ -232,7 +232,7 @@ curl -sH 'accept: application/dns-json' \\
 		},
 		{
 			title: 'Caching does almost all the work',
-			text: 'A typical recursive resolver answers **95%+ of queries from cache** without contacting any other server. The "distributed hierarchy" is mostly an availability and authority story; the operational hot path is local memory. {{ttl|TTL}} fields let zone administrators control how long records can be cached.'
+			text: 'A typical {{recursive-resolver|recursive resolver}} answers **95%+ of queries from cache** without contacting any other server. The "distributed hierarchy" is mostly an availability and authority story; the operational hot path is local memory. {{ttl|TTL}} fields let zone administrators control how long records can be cached.'
 		},
 		{
 			title: 'There are only 13 root server letters',

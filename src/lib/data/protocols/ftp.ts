@@ -13,7 +13,7 @@ export const ftp: Protocol = {
 
 The control channel ({{port|port}} 21) carries text commands like USER, PASS, LIST, RETR (download), and STOR (upload). When a file transfer begins, a separate data connection opens on a different port. In "active" mode, the server connects back to the client; in "passive" mode (PASV), the client initiates both connections, which works better with {{firewall|firewalls}} and {{nat|NAT}}.
 
-While [[ftp|FTP]]'s {{plaintext|plain-text}} design makes it insecure by modern standards, FTPS ([[ftp|FTP]] over [[tls|TLS]]) adds {{encryption|encryption}}. SFTP ([[ssh|SSH]] File Transfer Protocol) is a completely different protocol that runs over [[ssh|SSH]]. Despite being largely superseded by SFTP, SCP, and [[http1|HTTP]]-based file transfer, [[ftp|FTP]] remains in use for legacy systems, firmware updates, and bulk file hosting.`,
+While [[ftp|FTP]]'s {{plaintext|plain-text}} design makes it insecure by modern standards, {{ftps|FTPS}} ([[ftp|FTP]] over [[tls|TLS]]) adds {{encryption|encryption}}. {{sftp|SFTP}} ([[ssh|SSH]] File Transfer Protocol) is a completely different protocol that runs over [[ssh|SSH]]. Despite being largely superseded by SFTP, SCP, and [[http1|HTTP]]-based file transfer, [[ftp|FTP]] remains in use for legacy systems, firmware updates, and bulk file hosting.`,
 	howItWorks: [
 		{
 			title: 'Control connection',

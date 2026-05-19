@@ -11,7 +11,7 @@ export const ssh: Protocol = {
 	oneLiner: 'Encrypted remote access — how developers securely connect to servers.',
 	overview: `[[ssh|SSH]] replaced the insecure telnet and rlogin protocols by providing {{encryption|encrypted}} remote shell access. When you connect to a server, push code to GitHub, or tunnel a database connection, you're likely using [[ssh|SSH]].
 
-[[ssh|SSH]] provides an encrypted tunnel between {{client-server|client and server}} that can carry interactive shell sessions, file transfers (SCP/SFTP), and {{port-forwarding|port forwarding}}. Authentication can use passwords, but the preferred method is {{public-key|public key}} authentication: your {{private-key|private key}} stays on your machine, and the server has your {{public-key|public key}} — no passwords transmitted over the network.
+[[ssh|SSH]] provides an encrypted tunnel between {{client-server|client and server}} that can carry interactive shell sessions, file transfers (SCP/{{sftp|SFTP}}), and {{port-forwarding|port forwarding}}. Authentication can use passwords, but the preferred method is {{public-key|public key}} authentication: your {{private-key|private key}} stays on your machine, and the server has your {{public-key|public key}} — no passwords transmitted over the network.
 
 Beyond shell access, [[ssh|SSH]]'s {{port-forwarding|port forwarding}} capability is remarkably powerful. You can create {{tunnel|tunnels}} that securely expose remote services locally, bypass {{firewall|firewalls}}, and create ad-hoc {{vpn|VPNs}} — making [[ssh|SSH]] one of the most versatile networking tools in a developer's toolkit.`,
 	howItWorks: [

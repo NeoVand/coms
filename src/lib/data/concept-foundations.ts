@@ -25,7 +25,7 @@ The deeper trick is that protocols are **public**. They are described in plain t
 				title: 'A Protocol Defines a Sequence',
 				definition: `graph LR
   A["Client"] -->|"1. SYN"| B["Server"]
-  B -->|"2. SYN-ACK"| A
+  B -->|"2. {{syn-ack|SYN-ACK}}"| A
   A -->|"3. ACK"| B
   A -->|"4. Request"| B
   B -->|"5. Response"| A`,
@@ -141,7 +141,7 @@ The deeper principle is older than networking: separate what changes together fr
 
 **L3 — Network.** [[ip|IP]] addresses, hop-by-hop forwarding, longest-prefix-match routing. [[ipv6|IPv6]], [[icmp|ICMP]], [[bgp|BGP]] for inter-domain routing. Routers operate at L3 — they decrement {{ttl|TTL}} and forward across networks.
 
-**L4 — Transport.** End-to-end semantics. [[tcp|TCP]] (reliable, ordered byte stream), [[udp|UDP]] (fire-and-forget datagrams), [[sctp|SCTP]] (multi-streamed), [[mptcp|MPTCP]] (multi-path), and now [[quic|QUIC]] which folds in {{encryption|encryption}}. The first layer with a **port** — the demux that picks which application gets the bytes.
+**L4 — Transport.** End-to-end semantics. [[tcp|TCP]] (reliable, ordered byte stream), [[udp|UDP]] ({{fire-and-forget|fire-and-forget}} datagrams), [[sctp|SCTP]] (multi-streamed), [[mptcp|MPTCP]] (multi-path), and now [[quic|QUIC]] which folds in {{encryption|encryption}}. The first layer with a **port** — the demux that picks which application gets the bytes.
 
 **L5–7 — Session, Presentation, Application.** OSI's three top layers. In practice the line between them is a fiction: [[http1|HTTP]] does session, presentation, and application at once. [[tls|TLS]] is "kind of L5/6" but on [[quic|QUIC]] it's fused into L4. [[smtp|SMTP]], [[dns|DNS]], [[ssh|SSH]], [[websockets|WebSockets]], [[grpc|gRPC]], [[mcp|MCP]] — everything an engineer touches sits up here.
 
@@ -508,7 +508,7 @@ The principle they articulated — **conservation of packets** — has held up f
 
 In 2008, Sangtae Ha, Injong Rhee, and Lisong Xu at NC State published {{cubic|CUBIC}}: replace {{aimd|AIMD}}'s linear function with a **{{cubic|cubic}}** function of time since the last loss. Far from the previous {{congestion-window|cwnd}}, {{cubic|CUBIC}} ramps fast; near it, it slows down and probes carefully; if the probe doesn't trigger loss, it accelerates past the previous max. The {{cubic|cubic}} curve is symmetric so two flows with different RTTs converge to fairness.
 
-{{cubic|CUBIC}} shipped as the {{linux|Linux}} default in kernel 2.6.19 (2006), before any RFC blessed it. Windows 10 1709 / Server 2019 made it Windows's default. macOS uses it. [[rfc:9438|RFC 9438]] (August 2023) finally moved {{cubic|CUBIC}} to Standards Track, replacing the 2018 Informational [[rfc:8312|RFC 8312]]. Most [[tcp|TCP]] traffic on the internet today is {{cubic|CUBIC}}.`
+{{cubic|CUBIC}} shipped as the {{linux|Linux}} default in kernel 2.6.19 (2006), before any RFC blessed it. Windows 10 1709 / Server 2019 made it Windows's default. macOS uses it. [[rfc:9438|RFC 9438]] (August 2023) finally moved {{cubic|CUBIC}} to Standards Track, replacing the 2018 {{ipsec-informational|Informational}} [[rfc:8312|RFC 8312]]. Most [[tcp|TCP]] traffic on the internet today is {{cubic|CUBIC}}.`
 			},
 			{
 				type: 'narrative',
@@ -709,12 +709,12 @@ When the system breaks (and it has, repeatedly: DigiNotar 2011, Symantec 2017, m
 			{
 				type: 'callout',
 				title: 'Why TLS 1.3 banned everything weak',
-				text: '[[tls|TLS 1.3]] ([[rfc:8446|RFC 8446]], 2018) was the first version to break wire compatibility with its predecessors. It removed RC4, 3DES, MD5, SHA-1, RSA key {{exchange|exchange}}, and every CBC-mode cipher — keeping only {{chacha20-poly1305|ChaCha20-Poly1305}} and {{aes-gcm|AES-GCM}}, with X25519 / ECDH for key {{exchange|exchange}}. The cleanup was overdue: every weak cipher [[tls|TLS]] still allowed had been weaponised in a published attack (BEAST, CRIME, BREACH, Lucky 13, FREAK, Logjam, ROBOT, …). [[tls|TLS]] 1.3 also reduced the {{handshake|handshake}} to **1 round-trip for new connections, 0 for resumptions** — substantially faster than 1.2.'
+				text: '[[tls|TLS 1.3]] ([[rfc:8446|RFC 8446]], 2018) was the first version to break wire compatibility with its predecessors. It removed RC4, 3DES, MD5, SHA-1, RSA key {{exchange|exchange}}, and every CBC-mode cipher — keeping only {{chacha20-poly1305|ChaCha20-Poly1305}} and {{aes-gcm|AES-GCM}}, with X25519 / {{ecdh|ECDH}} for key {{exchange|exchange}}. The cleanup was overdue: every weak cipher [[tls|TLS]] still allowed had been weaponised in a published attack (BEAST, CRIME, BREACH, Lucky 13, FREAK, Logjam, ROBOT, …). [[tls|TLS]] 1.3 also reduced the {{handshake|handshake}} to **1 round-trip for new connections, 0 for resumptions** — substantially faster than 1.2.'
 			},
 			{
 				type: 'narrative',
 				title: 'The Post-Quantum Frontier',
-				text: `The cryptography securing every [[tls|TLS]] connection today (X25519 ECDH for key {{exchange|exchange}}, EdDSA / RSA for signatures) is **vulnerable to quantum computers** that can run Shor's algorithm at scale. No such machine exists yet — current devices are at a few thousand noisy qubits; you need millions of error-corrected qubits to break X25519. But the threat is not future tense.
+				text: `The cryptography securing every [[tls|TLS]] connection today (X25519 {{ecdh|ECDH}} for key {{exchange|exchange}}, EdDSA / RSA for signatures) is **vulnerable to quantum computers** that can run Shor's algorithm at scale. No such machine exists yet — current devices are at a few thousand noisy qubits; you need millions of error-corrected qubits to break X25519. But the threat is not future tense.
 
 An adversary recording your encrypted traffic **today** can store it indefinitely and decrypt it whenever a working quantum computer arrives — a strategy known as **harvest now, decrypt later**. For data that needs to stay secret for decades (state secrets, medical records, long-lived contracts), the threat is real now.
 
@@ -748,10 +748,10 @@ In April 2025, {{google|Google}} published **Agent-to-Agent Protocol** — [[a2a
   end
   subgraph Transport["Transport Layer"]
     HTTP["HTTP + [[sse|SSE]]"]
-    STDIO["stdio (local)"]
+    {{stdio|STDIO}}["stdio (local)"]
   end
   Wire -.-> Transport`,
-				caption: 'AI protocols sit at the application layer, using [[json-rpc|JSON-RPC]] 2.0 as their wire format and HTTP (or stdio) as their transport. [[mcp|MCP]] connects agents to tools; [[a2a|A2A]] connects agents to each other.'
+				caption: 'AI protocols sit at the application layer, using [[json-rpc|JSON-RPC]] 2.0 as their wire format and HTTP (or {{stdio|stdio}}) as their transport. [[mcp|MCP]] connects agents to tools; [[a2a|A2A]] connects agents to each other.'
 			},
 			{
 				type: 'narrative',
@@ -760,7 +760,7 @@ In April 2025, {{google|Google}} published **Agent-to-Agent Protocol** — [[a2a
 
 [[json-rpc|JSON-RPC]] 2.0 is, by application-protocol standards, **boring**. It is a 6-page specification (compared to [[grpc|gRPC]]'s 50+ pages, [[graphql|GraphQL]]'s 200+, [[mqtt|MQTT]] 5's 130+). A request is a {{json|JSON}} object with a method name, parameters, and an id. A response is a {{json|JSON}} object with the same id and either a result or an error. That is the entire protocol.
 
-The boringness is the point. The Language Server Protocol uses [[json-rpc|JSON-RPC]]. Ethereum's node [[json-rpc|JSON-RPC]] uses it. The Chrome DevTools Protocol uses it. Every editor tooling system from VS Code to JetBrains to Neovim speaks it. It is the **lowest-overhead, highest-interoperability RPC format** that supports both request/response and notifications, encodes neatly for human reading, and works without a code generator.
+The boringness is the point. The {{lsp|Language Server Protocol}} uses [[json-rpc|JSON-RPC]]. Ethereum's node [[json-rpc|JSON-RPC]] uses it. The Chrome DevTools Protocol uses it. Every editor tooling system from VS Code to JetBrains to Neovim speaks it. It is the **lowest-overhead, highest-interoperability RPC format** that supports both request/response and notifications, encodes neatly for human reading, and works without a code generator.
 
 For a brand-new protocol layer where adoption is the existential risk, picking the format that already works in every language and every developer's mental model is the right move. [[mcp|MCP]] and [[a2a|A2A]] could have invented a binary protocol with schemas; instead they let the message shape be a transport-level concern and put their innovation in **what** the messages mean.`
 			},

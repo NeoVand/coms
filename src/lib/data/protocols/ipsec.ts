@@ -14,17 +14,17 @@ export const ipsec: Protocol = {
 
 The architecture began in 1995 with [[pioneer:randall-atkinson|Randall Atkinson]] at the U.S. Naval Research Lab (RFC 1825/1826/1827); [[pioneer:phil-karn|Phil Karn]] influenced the design from Qualcomm and was, in parallel, the plaintiff in *Karn v. U.S. State Department* — the export-control case that helped establish "code is speech." [[ipsec|IPsec]] has been re-architected twice ([[rfc:4301|RFC 4301]], 2005) and survived a 2003 architectural critique from Ferguson and Schneier (whose paper concluded it was, despite its complexity, "the best [[ip|IP]] security protocol available at the moment"). It is the **only** widely-deployed VPN that natively carries [[bgp|BGP]] / [[ospf|OSPF]] / {{multicast|multicast}} on tunnel interfaces — the reason {{3gpp|3GPP}} picked it for LTE S1/X2 and 5G N2/N3 backhaul, and the reason every carrier on Earth runs it whether they want to or not.
 
-As of May 2026, [[ipsec|IPsec]] is also the first mainstream VPN with a real, deployable **post-quantum** story: [[rfc:8784|RFC 8784]] mixes a post-quantum pre-shared key into IKEv2; [[rfc:9242|RFC 9242]] adds the IKE_INTERMEDIATE {{exchange|exchange}} so large PQ public keys can be transferred before authentication; [[rfc:9370|RFC 9370]] allows multiple chained key exchanges per SA negotiation. strongSwan 6.0 (December 2024) ships native {{ml-kem|ML-KEM}}. The much-loved [[wifi|WireGuard]] caught up to IPsec on simplicity but is still behind on PQ, on EAP, on carrier certifications (FIPS, Common Criteria, BSI SINA), and on the ability to carry a full routing protocol — which is why [[ipsec|IPsec]] still owns the enterprise/carrier market.`,
+As of May 2026, [[ipsec|IPsec]] is also the first mainstream VPN with a real, deployable **post-quantum** story: [[rfc:8784|RFC 8784]] mixes a post-quantum pre-shared key into IKEv2; [[rfc:9242|RFC 9242]] adds the {{ipsec-ike-intermediate|IKE_INTERMEDIATE}} {{exchange|exchange}} so large PQ public keys can be transferred before authentication; [[rfc:9370|RFC 9370]] allows multiple chained key exchanges per SA negotiation. strongSwan 6.0 (December 2024) ships native {{ml-kem|ML-KEM}}. The much-loved [[wifi|WireGuard]] caught up to IPsec on simplicity but is still behind on PQ, on EAP, on carrier certifications (FIPS, Common Criteria, BSI SINA), and on the ability to carry a full routing protocol — which is why [[ipsec|IPsec]] still owns the enterprise/carrier market.`,
 	howItWorks: [
 		{
 			title: 'IKE_SA_INIT — negotiate crypto, exchange DH/ECDH/ML-KEM, detect NAT',
 			description:
-				'Two peers {{exchange|exchange}} {{diffie-hellman|Diffie-Hellman}} (or ECDH, or **{{ml-kem|ML-KEM}}** since 2024) {{public-key|public keys}}, {{nonce|nonces}}, and the {{cipher-suite|cipher suite}} they support. NAT detection happens here: if either {{peer|peer}} is behind {{nat|NAT}}, the SA switches to UDP/4500 {{encapsulation|encapsulation}}. Two messages total; the resulting *{{ike|IKE SA}}* protects every subsequent {{exchange|exchange}}.'
+				'Two peers {{exchange|exchange}} {{diffie-hellman|Diffie-Hellman}} (or {{ecdh|ECDH}}, or **{{ml-kem|ML-KEM}}** since 2024) {{public-key|public keys}}, {{nonce|nonces}}, and the {{cipher-suite|cipher suite}} they support. NAT detection happens here: if either {{peer|peer}} is behind {{nat|NAT}}, the SA switches to UDP/4500 {{encapsulation|encapsulation}}. Two messages total; the resulting *{{ike|IKE SA}}* protects every subsequent {{exchange|exchange}}.'
 		},
 		{
 			title: 'IKE_AUTH — prove identity, authorize the Child SA',
 			description:
-				'Each {{peer|peer}} presents its identity ({{certificate|certificate}}, raw {{public-key|public key}}, PSK, or EAP method) and signs the IKE_SA_INIT messages with it. Traffic Selectors negotiate *which* {{ip-address|IP address ranges}} flow over the {{tunnel|tunnel}}. The first **{{child-sa|Child SA}}** (a one-direction {{esp|ESP}} key) is set up in the same {{exchange|exchange}}.'
+				'Each {{peer|peer}} presents its identity ({{certificate|certificate}}, raw {{public-key|public key}}, PSK, or EAP method) and signs the {{ipsec-ike-sa-init|IKE_SA_INIT}} messages with it. Traffic Selectors negotiate *which* {{ip-address|IP address ranges}} flow over the {{tunnel|tunnel}}. The first **{{child-sa|Child SA}}** (a one-direction {{esp|ESP}} key) is set up in the same {{exchange|exchange}}.'
 		},
 		{
 			title: 'ESP — encrypt and authenticate every packet',
@@ -39,7 +39,7 @@ As of May 2026, [[ipsec|IPsec]] is also the first mainstream VPN with a real, de
 		{
 			title: 'Rekey before the SA expires',
 			description:
-				'Each {{child-sa|Child SA}} has a time-and-byte lifetime (default ~8 hours / ~100 GB). Before either limit is hit, peers run **CREATE_CHILD_SA** to derive a fresh key from the {{ike-sa|IKE SA}} — usually invisible. The {{ike-sa|IKE SA}} itself rekeys with **IKE_SA_REKEY**; every 24 hours is a common production policy.'
+				'Each {{child-sa|Child SA}} has a time-and-byte lifetime (default ~8 hours / ~100 GB). Before either limit is hit, peers run **{{ipsec-create-child-sa|CREATE_CHILD_SA}}** to derive a fresh key from the {{ike-sa|IKE SA}} — usually invisible. The {{ike-sa|IKE SA}} itself rekeys with **IKE_SA_REKEY**; every 24 hours is a common production policy.'
 		},
 		{
 			title: 'NAT-T, MOBIKE, MOBIKE-X — survive the real internet',
@@ -259,7 +259,7 @@ Payloads:
 			date: '2025-02',
 			title: 'Libreswan 5.2 — IP-TFS and PPK-in-INTERMEDIATE',
 			description:
-				'26 February 2025. Libreswan 5.2 ships [[rfc:9347|RFC 9347]] IP-TFS (Traffic Flow Security — fixed-size aggregated packets to defeat traffic analysis) and post-quantum pre-shared key carriage in the IKE_INTERMEDIATE {{exchange|exchange}}.',
+				'26 February 2025. Libreswan 5.2 ships [[rfc:9347|RFC 9347]] IP-TFS (Traffic Flow Security — fixed-size aggregated packets to defeat traffic analysis) and post-quantum pre-shared key carriage in the {{ipsec-ike-intermediate|IKE_INTERMEDIATE}} {{exchange|exchange}}.',
 			source: { url: 'https://libreswan.org/security/CVE-2025/', label: 'Libreswan 5.x changelog' }
 		},
 		{
@@ -298,7 +298,7 @@ Payloads:
 			org: 'Cloud hyperscalers (AWS / Azure / GCP / Oracle)',
 			scale: 'Every Site-to-Site VPN SKU; 5–10 Gbps per tunnel',
 			description:
-				'AWS Site-to-Site VPN (IKEv2, AES-256-GCM, ECDH groups 19–24, 5 Gbps/tunnel), Azure VPN Gateway (10 Gbps aggregate on the AZ-redundant SKU), GCP Cloud VPN, OCI Site-to-Site VPN. [[ipsec|IPsec]] is the universal "connect my on-prem to my VPC" sku across every cloud.'
+				'AWS Site-to-Site VPN (IKEv2, AES-256-GCM, {{ecdh|ECDH}} groups 19–24, 5 Gbps/tunnel), Azure VPN Gateway (10 Gbps aggregate on the AZ-redundant SKU), GCP Cloud VPN, OCI Site-to-Site VPN. [[ipsec|IPsec]] is the universal "connect my on-prem to my VPC" sku across every cloud.'
 		},
 		{
 			org: 'Operating-system native clients',

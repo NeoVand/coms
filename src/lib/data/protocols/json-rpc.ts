@@ -12,9 +12,9 @@ export const jsonRpc: Protocol = {
 		'A minimal RPC protocol encoded in {{json|JSON}} — call a method by name, get a result back. Nothing more.',
 	overview: `{{json|JSON}}-RPC is the protocol that proves less is more. The entire specification fits on a single page: send a {{json|JSON}} object with a method name, parameters, and an ID — get back a {{json|JSON}} object with the result and the same ID. That's it. No URL routing, no HTTP verb semantics, no schema compilation step. Just structured function calls over the wire.
 
-Created in 2005 as a lightweight alternative to {{xml|XML}}-based [[soap|SOAP]], [[json-rpc|JSON-RPC]] stayed deliberately simple while the web API world exploded with complexity. Version 2.0 (2010) refined the format: it added a mandatory \`"jsonrpc": "2.0"\` field, standardized error codes (borrowed from {{xml|XML}}-RPC's tradition), introduced {{notification|notifications}} (requests without an \`id\` that expect no response), and added batch requests (send an array of calls, get an array of results). The spec is transport-agnostic — [[json-rpc|JSON-RPC]] works over [[http1|HTTP]], [[websockets|WebSockets]], raw [[tcp|TCP]], or even stdio pipes between processes.
+Created in 2005 as a lightweight alternative to {{xml|XML}}-based [[soap|SOAP]], [[json-rpc|JSON-RPC]] stayed deliberately simple while the web API world exploded with complexity. Version 2.0 (2010) refined the format: it added a mandatory \`"jsonrpc": "2.0"\` field, standardized error codes (borrowed from {{xml|XML}}-RPC's tradition), introduced {{notification|notifications}} (requests without an \`id\` that expect no response), and added batch requests (send an array of calls, get an array of results). The spec is transport-agnostic — [[json-rpc|JSON-RPC]] works over [[http1|HTTP]], [[websockets|WebSockets]], raw [[tcp|TCP]], or even {{stdio|stdio}} pipes between processes.
 
-[[json-rpc|JSON-RPC]] found its biggest audience not in traditional web development but in infrastructure and AI. Ethereum's entire blockchain API is [[json-rpc|JSON-RPC]]. Bitcoin Core speaks [[json-rpc|JSON-RPC]]. {{microsoft|Microsoft}}'s Language Server Protocol (LSP) — which powers code intelligence in VS Code, Neovim, and virtually every modern editor — uses [[json-rpc|JSON-RPC]] 2.0 over stdio. And most recently, both {{anthropic|Anthropic}}'s Model Context Protocol ([[mcp|MCP]]) and {{google|Google}}'s Agent-to-Agent Protocol ([[a2a|A2A]]) chose [[json-rpc|JSON-RPC]] 2.0 as their wire format, making it the de facto standard for AI agent communication.`,
+[[json-rpc|JSON-RPC]] found its biggest audience not in traditional web development but in infrastructure and AI. Ethereum's entire blockchain API is [[json-rpc|JSON-RPC]]. Bitcoin Core speaks [[json-rpc|JSON-RPC]]. {{microsoft|Microsoft}}'s {{lsp|Language Server Protocol}} (LSP) — which powers code intelligence in VS Code, Neovim, and virtually every modern editor — uses [[json-rpc|JSON-RPC]] 2.0 over stdio. And most recently, both {{anthropic|Anthropic}}'s Model Context Protocol ([[mcp|MCP]]) and {{google|Google}}'s Agent-to-Agent Protocol ([[a2a|A2A]]) chose [[json-rpc|JSON-RPC]] 2.0 as their wire format, making it the de facto standard for AI agent communication.`,
 	howItWorks: [
 		{
 			title: 'Client builds a request',
@@ -39,7 +39,7 @@ Created in 2005 as a lightweight alternative to {{xml|XML}}-based [[soap|SOAP]],
 		{
 			title: 'Notifications & batches',
 			description:
-				'If the request omits the "id" field, it is a {{notification|notification}} — fire-and-forget, no response expected. Multiple requests can be batched in a {{json|JSON}} array, and the server returns an array of responses (skipping notifications).'
+				'If the request omits the "id" field, it is a {{notification|notification}} — {{fire-and-forget|fire-and-forget}}, no response expected. Multiple requests can be batched in a {{json|JSON}} array, and the server returns an array of responses (skipping notifications).'
 		}
 	],
 	useCases: [

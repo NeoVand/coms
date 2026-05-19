@@ -114,7 +114,7 @@ export const utilitiesStory: CategoryStory = {
   B -->|"where is .com?"| C[Root Server]
   C -.->|"ask the .com server"| B
   B -->|"where is example.com?"| D[.com TLD Server]
-  D -.->|"ask its nameserver"| B
+  D -.->|"ask its {{nameserver|nameserver}}"| B
   B -->|"IP for example.com?"| E[Authoritative Server]
   E -.->|"93.184.216.34"| B
   B -.->|"93.184.216.34"| A`,
@@ -245,7 +245,7 @@ export const utilitiesStory: CategoryStory = {
 		{
 			type: 'narrative',
 			title: 'The Security Imperative',
-			text: `The internet was built on trust. Early protocols sent everything in plaintext — passwords, emails, file transfers — because the network was small and its users were known. As the internet grew from hundreds to millions of hosts, this trust model shattered.\n\nIn 1994, Netscape needed to enable secure credit card transactions on the web. [[pioneer:taher-elgamal|Taher Elgamal]] led the creation of SSL (Secure Sockets Layer), wrapping [[tcp]] connections in {{encryption|encryption}}. SSL 2.0 shipped with Netscape Navigator, and suddenly e-commerce was possible. The {{ietf|IETF}} later standardized it as [[tls]], which now encrypts the vast majority of web traffic.\n\nMeanwhile in Finland, Tatu Ylönen had a more personal motivation. In 1995, a password-sniffing attack compromised accounts at his university. He wrote [[ssh]] — Secure Shell — essentially in a weekend, replacing the completely unencrypted telnet and rlogin. [[ssh|SSH]] didn't just encrypt remote access; it provided a secure tunnel for anything: file transfers (replacing [[ftp]] with SFTP), {{port-forwarding|port forwarding}}, and eventually even Git transport.`
+			text: `The internet was built on trust. Early protocols sent everything in plaintext — passwords, emails, file transfers — because the network was small and its users were known. As the internet grew from hundreds to millions of hosts, this trust model shattered.\n\nIn 1994, Netscape needed to enable secure credit card transactions on the web. [[pioneer:taher-elgamal|Taher Elgamal]] led the creation of SSL (Secure Sockets Layer), wrapping [[tcp]] connections in {{encryption|encryption}}. SSL 2.0 shipped with Netscape Navigator, and suddenly e-commerce was possible. The {{ietf|IETF}} later standardized it as [[tls]], which now encrypts the vast majority of web traffic.\n\nMeanwhile in Finland, Tatu Ylönen had a more personal motivation. In 1995, a password-sniffing attack compromised accounts at his university. He wrote [[ssh]] — Secure Shell — essentially in a weekend, replacing the completely unencrypted telnet and rlogin. [[ssh|SSH]] didn't just encrypt remote access; it provided a secure tunnel for anything: file transfers (replacing [[ftp]] with {{sftp|SFTP}}), {{port-forwarding|port forwarding}}, and eventually even Git transport.`
 		},
 		{
 			type: 'image',

@@ -21,7 +21,7 @@ The enterprise predecessor is **[[kerberos|Kerberos]]** — ticket-based mutual 
 		{
 			title: 'Authorization request',
 			description:
-				'App redirects the user to the authorization server with client_id, requested scope, a random state parameter for CSRF protection, and a {{pkce|PKCE}} code_challenge derived from a secret code_verifier.'
+				'App redirects the user to the authorization server with client_id, requested scope, a random state parameter for {{csrf|CSRF}} protection, and a {{pkce|PKCE}} code_challenge derived from a secret code_verifier.'
 		},
 		{
 			title: 'User consent',
@@ -31,7 +31,7 @@ The enterprise predecessor is **[[kerberos|Kerberos]]** — ticket-based mutual 
 		{
 			title: 'Authorization code',
 			description:
-				"After the user consents, the authorization server redirects back to the app's redirect_uri with a short-lived authorization code and the original state parameter for CSRF verification."
+				"After the user consents, the authorization server redirects back to the app's redirect_uri with a short-lived authorization code and the original state parameter for {{csrf|CSRF}} verification."
 		},
 		{
 			title: 'Token exchange',

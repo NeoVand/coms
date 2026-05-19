@@ -24,7 +24,7 @@ The single biggest change in the last 24 months is **Bluetooth 6.0** (adopted 3 
 		{
 			title: 'Advertising and discovery (BLE)',
 			description:
-				'A BLE Peripheral {{broadcast|broadcasts}} ADV_IND {{packet|packets}} on ch 37/38/39 every 20 ms to 10.24 s. A Central scans those channels. A connection begins with the Central sending CONNECT_IND, which contains the Access Address, CRC seed, hop pattern, and connection-interval parameters (7.5 ms–4 s).'
+				'A BLE Peripheral {{broadcast|broadcasts}} {{adv-ind|ADV_IND}} {{packet|packets}} on ch 37/38/39 every 20 ms to 10.24 s. A Central scans those channels. A connection begins with the Central sending {{connect-ind|CONNECT_IND}}, which contains the Access Address, CRC seed, hop pattern, and connection-interval parameters (7.5 ms–4 s).'
 		},
 		{
 			title: 'L2CAP framing and ATT/GATT (BLE)',
@@ -319,7 +319,7 @@ CRC: x^24 + x^10 + x^9 + x^6 + x^4 + x^3 + x + 1, seeded by Access Address.`
 		pitfalls: [
 			{
 				title: 'The default ATT MTU is 23 bytes',
-				text: "Every BLE connection starts with ATT MTU = 23, which means only **20 bytes of {{payload|payload}} per Notify** after the 3-byte ATT header. If you ship that default, your sensor stream is throughput-bound on overhead. **Cure:** request an MTU {{exchange|exchange}} (`ATT_Exchange_MTU_Request`) to 247 (one LL PDU with Data Length Extension) or 517 (the BLE maximum) as the first ATT operation after pairing. Most platforms now do this automatically — but verify with an nRF Sniffer capture."
+				text: "Every BLE connection starts with {{att-mtu|ATT MTU}} = 23, which means only **20 bytes of {{payload|payload}} per Notify** after the 3-byte ATT header. If you ship that default, your sensor stream is throughput-bound on overhead. **Cure:** request an MTU {{exchange|exchange}} (`ATT_Exchange_MTU_Request`) to 247 (one LL PDU with Data Length Extension) or 517 (the BLE maximum) as the first ATT operation after pairing. Most platforms now do this automatically — but verify with an nRF Sniffer capture."
 			},
 			{
 				title: 'Connection interval × Slave latency × Supervision timeout',

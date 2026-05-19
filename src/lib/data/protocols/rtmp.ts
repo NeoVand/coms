@@ -33,12 +33,12 @@ Today, [[rtmp|RTMP]] is the de facto standard for live stream ingest. Twitch, Yo
 		{
 			title: 'Publish or play',
 			description:
-				'For ingest, the encoder sends "publish" and begins streaming audio/video chunks. For playback, the client sends "play" and receives chunks.'
+				'For ingest, the encoder sends "{{mqtt-publish|publish}}" and begins streaming audio/video chunks. For playback, the client sends "play" and receives chunks.'
 		},
 		{
 			title: 'Teardown',
 			description:
-				'Either side sends "deleteStream" followed by closing the [[tcp|TCP]] connection. The server can also disconnect idle clients or reject unauthorized publishers.'
+				'Either side sends "deleteStream" followed by closing the [[tcp|TCP]] connection. The server can also disconnect {{imap-idle|idle}} clients or reject unauthorized publishers.'
 		}
 	],
 	useCases: [

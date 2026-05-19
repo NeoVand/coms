@@ -10,18 +10,18 @@ export const imap: Protocol = {
 	rfc: 'RFC 9051',
 	oneLiner:
 		'Access and manage email on the server — read, search, and organize without downloading.',
-	overview: `[[imap|IMAP]] is how your email client reads messages from the server while keeping them stored remotely. Unlike POP3 (which downloads and deletes), [[imap|IMAP]] keeps all mail on the server — so your phone, laptop, and webmail all see the same inbox, the same folders, and the same read/unread state. [[imap|IMAP]] uses port 143 for plaintext connections (with optional {{starttls|STARTTLS}} upgrade) or port 993 for IMAPS (implicit [[tls|TLS]]).
+	overview: `[[imap|IMAP]] is how your email client reads messages from the server while keeping them stored remotely. Unlike {{pop3|POP3}} (which downloads and deletes), [[imap|IMAP]] keeps all mail on the server — so your phone, laptop, and webmail all see the same inbox, the same folders, and the same read/unread state. [[imap|IMAP]] uses port 143 for plaintext connections (with optional {{starttls|STARTTLS}} upgrade) or port 993 for {{imaps|IMAPS}} (implicit [[tls|TLS]]).
 
 The key insight is [[imap|IMAP]]'s tagged command-response {{protocol|protocol}}. Every command gets a unique tag (A001, A002...) and the server's response includes the same tag. This means you can pipeline commands — send A002 before A001's response arrives — because tags match responses to commands unambiguously.
 
-[[imap|IMAP]]'s FETCH command is remarkably flexible: you can request just message {{header|headers}}, just the text body, or individual MIME attachments — without downloading the entire message. Server-side SEARCH lets you find messages by sender, date, subject, or full-text content without transferring anything. The IDLE command keeps a persistent connection open for push notifications when new mail arrives.
+[[imap|IMAP]]'s {{imap-fetch|FETCH}} command is remarkably flexible: you can request just message {{header|headers}}, just the text body, or individual MIME attachments — without downloading the entire message. Server-side SEARCH lets you find messages by sender, date, subject, or full-text content without transferring anything. The {{imap-idle|IDLE}} command keeps a persistent connection open for push notifications when new mail arrives.
 
 [[smtp|SMTP]] sends email, [[imap|IMAP]] receives it — together they form the complete email system. [[imap|IMAP]] connections are {{encryption|encrypted}} with [[tls|TLS]] (IMAPS on {{port|port}} 993) and ride over [[tcp|TCP]] for reliable delivery of the tagged command-response dialogue.`,
 	howItWorks: [
 		{
 			title: 'Connect & authenticate',
 			description:
-				"Client connects to port 993 (IMAPS with [[tls|TLS]]) and authenticates with LOGIN or a SASL mechanism like OAUTH2. The server grants access to the user's mailboxes."
+				"Client connects to port 993 ({{imaps|IMAPS}} with [[tls|TLS]]) and authenticates with LOGIN or a {{sasl|SASL}} mechanism like OAUTH2. The server grants access to the user's mailboxes."
 		},
 		{
 			title: 'SELECT mailbox',
@@ -31,7 +31,7 @@ The key insight is [[imap|IMAP]]'s tagged command-response {{protocol|protocol}}
 		{
 			title: 'FETCH messages',
 			description:
-				'Client requests message envelopes, headers, or full bodies. [[imap|IMAP]] can fetch parts of messages — just headers, just text, or individual attachments — without downloading everything.'
+				'Client requests message envelopes, headers, or full bodies. [[imap|IMAP]] can {{imap-fetch|fetch}} parts of messages — just headers, just text, or individual attachments — without downloading everything.'
 		},
 		{
 			title: 'SEARCH & STORE',
@@ -41,7 +41,7 @@ The key insight is [[imap|IMAP]]'s tagged command-response {{protocol|protocol}}
 		{
 			title: 'IDLE for push',
 			description:
-				'Client enters IDLE mode — server pushes notifications when new mail arrives or flags change. This is how "push email" works on [[imap|IMAP]], keeping the connection open for real-time updates.'
+				'Client enters {{imap-idle|IDLE}} mode — server pushes notifications when new mail arrives or flags change. This is how "push email" works on [[imap|IMAP]], keeping the connection open for real-time updates.'
 		}
 	],
 	useCases: [
@@ -67,7 +67,7 @@ with imaplib.IMAP4_SSL('imap.example.com') as mail:
         print(data[0][1])
 
     mail.logout()`,
-		caption: '[[imap|IMAP]] lets you search and fetch email on the server — no need to download everything',
+		caption: '[[imap|IMAP]] lets you search and {{imap-fetch|fetch}} email on the server — no need to download everything',
 		alternatives: [
 			{
 				language: 'javascript',

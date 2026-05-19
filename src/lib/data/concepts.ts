@@ -3354,7 +3354,2667 @@ export const concepts: Concept[] = [
 			"[[google|Google]]'s mobile operating system (acquired from Android Inc. in 2005, first release 2008). Drives ~70% of global smartphone share. The reference platform that adopted [[quic|QUIC]], {{doh|DoH}}/{{dot|DoT}} (\"Private DNS\"), [[mptcp|MPTCP]], post-quantum [[tls|TLS]], and {{matter|Matter}} for the consumer device fleet.",
 		wikiUrl: 'https://en.wikipedia.org/wiki/Android_(operating_system)',
 		category: 'infrastructure'
-	}
+	},
+
+	// ── Sequence-diagram densification (agent-merged) ─────────────────
+	{
+	  id: 'syn',
+	  term: 'SYN (Synchronize)',
+	  definition:
+	    "TCP control flag that opens a connection. The first packet of the {{three-way-handshake|three-way handshake}} carries SYN plus the sender's initial {{sequence-number|sequence number}}. A flood of SYNs without ACKs is the basis of a {{syn-flood|SYN-flood attack}}.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Transmission_Control_Protocol#Connection_establishment',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'syn-ack',
+	  term: 'SYN-ACK',
+	  definition:
+	    "Second message of the [[tcp|TCP]] {{three-way-handshake|three-way handshake}}: the server's reply that combines its own {{syn|SYN}} (with a fresh {{sequence-number|sequence number}}) and an {{ack|ACK}} of the client's SYN.",
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'initial-sequence-number',
+	  term: 'Initial Sequence Number (ISN)',
+	  definition:
+	    "The randomly chosen {{sequence-number|sequence number}} each [[tcp|TCP]] endpoint picks at connection setup. Randomness defends against blind injection attacks ([[rfc:1948|RFC 1948]]).",
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'piggyback-ack',
+	  term: 'Piggyback ACK',
+	  definition:
+	    "Combining an {{ack|ACK}} into an outgoing data segment in the opposite direction, saving a round trip. Common in [[tcp|TCP]] bidirectional traffic.",
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'init-chunk',
+	  term: 'INIT chunk',
+	  definition:
+	    "First chunk of an [[sctp|SCTP]] {{four-way-handshake|4-way handshake}}. Carries the initiator's address list (for {{multi-homing|multi-homing}}) and verification tag.",
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'init-ack-chunk',
+	  term: 'INIT-ACK chunk',
+	  definition:
+	    "[[sctp|SCTP]]'s reply to an {{init-chunk|INIT}}. Carries a stateless {{cookie|cookie}} so the responder commits no resources until the {{cookie-echo|COOKIE-ECHO}} returns — defeats {{syn-flood|SYN-flood}}-style attacks.",
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'cookie-echo',
+	  term: 'COOKIE-ECHO chunk',
+	  definition:
+	    "Third chunk of the [[sctp|SCTP]] {{four-way-handshake|4-way handshake}}. The client echoes back the signed {{cookie|cookie}} it received in the {{init-ack-chunk|INIT-ACK}}; only at this point does the server allocate association state.",
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'cookie-ack',
+	  term: 'COOKIE-ACK chunk',
+	  definition:
+	    "Final chunk of the [[sctp|SCTP]] {{four-way-handshake|4-way handshake}}, confirming the association is established and immune to {{syn-flood|SYN-flood}} DoS.",
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'sctp-association',
+	  term: 'SCTP Association',
+	  definition:
+	    "[[sctp|SCTP]]'s connection-equivalent: a single logical session between two endpoints that may use multiple {{multi-homing|IP addresses}} and carries any number of independent {{stream|streams}}.",
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'verification-tag',
+	  term: 'Verification Tag',
+	  definition:
+	    "A random 32-bit value carried in every [[sctp|SCTP]] packet, chosen at association setup. Packets bearing the wrong tag are dropped, blocking blind injection.",
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'mp-capable',
+	  term: 'MP_CAPABLE',
+	  definition:
+	    "[[mptcp|MPTCP]] [[tcp|TCP]] option exchanged during the initial {{three-way-handshake|handshake}} that signals *I can do multipath* and carries each side's per-host key — used later to authenticate additional {{subflow|subflows}}.",
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'mp-join',
+	  term: 'MP_JOIN',
+	  definition:
+	    "[[mptcp|MPTCP]] [[tcp|TCP]] option that attaches a new {{subflow|subflow}} to an existing connection. Uses a token + {{nonce|nonce}} + {{hmac|HMAC}} to prove the new path belongs to the original session.",
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'subflow',
+	  term: 'Subflow (MPTCP)',
+	  definition:
+	    "An individual [[tcp|TCP]] connection carried over one network path that belongs to a larger [[mptcp|MPTCP]] session. A single MPTCP connection can have many subflows running in parallel over WiFi, cellular, ethernet, etc.",
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'add-addr',
+	  term: 'ADD_ADDR',
+	  definition:
+	    "[[mptcp|MPTCP]] option that advertises a newly available [[ip|IP]] address to the peer, inviting it to open a new {{subflow|subflow}} over that path.",
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'failover',
+	  term: 'Failover',
+	  definition:
+	    "Automatic re-routing of traffic onto a healthy path when the active one dies. Built into [[mptcp|MPTCP]] (subflow switching) and [[sctp|SCTP]] ({{multi-homing|multi-homing}}); often invisible to the application.",
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'unreliable-delivery',
+	  term: 'Unreliable Delivery',
+	  definition:
+	    "Best-effort delivery with no retransmission, ordering, or acknowledgment. [[udp|UDP]]'s default — packets may be lost, duplicated, or reordered, and the application must handle it.",
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'fire-and-forget',
+	  term: 'Fire-and-Forget',
+	  definition:
+	    "Send a message and don't wait for confirmation. Characterizes [[udp|UDP]] datagrams and many event-driven systems — fast, but the sender never knows if it arrived.",
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'key-share',
+	  term: 'Key Share',
+	  definition:
+	    "{{tls-handshake|TLS}} extension where each side sends an ephemeral {{diffie-hellman|Diffie-Hellman}} public key in its first flight, enabling shared-secret derivation in 1-RTT and {{pfs|forward secrecy}}.",
+	  category: 'security'
+	},
+
+	{
+	  id: 'stream-independence',
+	  term: 'Stream Independence',
+	  definition:
+	    "Property of [[quic|QUIC]] and [[sctp|SCTP]] where each {{stream|stream}} has its own ordering and loss-recovery, so a missing packet on one stream doesn't pause delivery on the others — avoids {{head-of-line-blocking|head-of-line blocking}}.",
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'initial-packet',
+	  term: 'Initial Packet (QUIC)',
+	  definition:
+	    "First packet type in a [[quic|QUIC]] handshake. Carries the [[tls|TLS]] {{client-hello|ClientHello}} or {{server-hello|ServerHello}} plus QUIC transport parameters, protected with derived initial keys ([[rfc:9000|RFC 9000]]).",
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'n-plus-one',
+	  term: 'N+1 Query Problem',
+	  definition:
+	    "Anti-pattern where fetching one parent resource then N children needs N+1 round trips (1 list + N detail calls). Common in {{request-response|request-response}} APIs over [[rest|REST]]; [[graphql|GraphQL]] mitigates it by letting clients request nested fields in a single query.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/N%2B1_query_problem',
+	  category: 'web'
+	},
+
+	{
+	  id: 'over-fetching',
+	  term: 'Over-fetching',
+	  definition:
+	    "When an API response includes more fields than the client needs — wasting bandwidth and CPU. The flip side is *under-fetching*, when one call doesn't return enough and forces another round trip. [[graphql|GraphQL]] was designed to eliminate both by letting clients specify exactly the shape they want.",
+	  category: 'web'
+	},
+
+	{
+	  id: 'domain-sharding',
+	  term: 'Domain Sharding',
+	  definition:
+	    "A 2010s-era [[http1|HTTP/1.1]] workaround: serve assets from multiple subdomains (`static1.example.com`, `static2.example.com`...) so the browser's 6-connections-per-origin limit multiplies. Made obsolete by [[http2|HTTP/2]] {{multiplexing|multiplexing}}, which actually hurts when you shard.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Domain_sharding',
+	  category: 'web'
+	},
+
+	{
+	  id: 'content-encoding',
+	  term: 'Content-Encoding',
+	  definition:
+	    "[[http1|HTTP]] response header naming the compression applied to the body — usually `gzip`, `br` (Brotli), or `zstd` ({{zstd|Zstandard}}). The client advertises support via `Accept-Encoding` and the server picks one. Shrinks payloads 60-90% for text.",
+	  wikiUrl: 'https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Encoding',
+	  category: 'web'
+	},
+
+	{
+	  id: 'content-type',
+	  term: 'Content-Type',
+	  definition:
+	    "[[http1|HTTP]] header naming the {{mime|MIME}} type of the message body (e.g., `text/html`, `application/json`, `text/event-stream`). Tells the receiver how to parse the bytes that follow.",
+	  wikiUrl: 'https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Type',
+	  category: 'web'
+	},
+
+	{
+	  id: 'mime',
+	  term: 'MIME Type',
+	  definition:
+	    "Multipurpose Internet Mail Extensions — the `type/subtype` labelling system ({{content-type|Content-Type}}) used by [[http1|HTTP]], [[smtp|SMTP]], and other protocols to declare what's in a message body. Examples: `text/html`, `application/json`, `image/png`.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Media_type',
+	  category: 'web'
+	},
+
+	{
+	  id: 'protocol-upgrade',
+	  term: 'Protocol Upgrade',
+	  definition:
+	    "[[http1|HTTP]]'s mechanism for switching the same [[tcp|TCP]] connection to a different protocol mid-stream. Client sends `Upgrade: <name>` and `Connection: Upgrade`; the server replies **`101 Switching Protocols`** and both sides start speaking the new wire format. Used by [[websockets|WebSockets]] and HTTP/2 over cleartext (h2c).",
+	  wikiUrl: 'https://developer.mozilla.org/en-US/docs/Web/HTTP/Protocol_upgrade_mechanism',
+	  category: 'web'
+	},
+
+	{
+	  id: 'websocket-frame',
+	  term: 'WebSocket Frame',
+	  definition:
+	    "The minimal unit of a [[websockets|WebSocket]] message. A small header (opcode = text/binary/close/ping/pong, masking flag, length) followed by payload bytes. Replaces [[http1|HTTP]]'s request/response framing once the {{protocol-upgrade|Upgrade}} completes.",
+	  category: 'web'
+	},
+
+	{
+	  id: 'eventsource',
+	  term: 'EventSource API',
+	  definition:
+	    "The browser JavaScript interface for [[sse|Server-Sent Events]]. `new EventSource(url)` opens a streaming [[http1|HTTP]] connection, auto-reconnects on drop, and fires `message`/named events. Sends the `Last-Event-ID` header on reconnect so the server can resume.",
+	  wikiUrl: 'https://developer.mozilla.org/en-US/docs/Web/API/EventSource',
+	  category: 'web'
+	},
+
+	{
+	  id: 'last-event-id',
+	  term: 'Last-Event-ID',
+	  definition:
+	    "[[http1|HTTP]] header the browser sends when reconnecting an [[sse|SSE]] stream, carrying the `id:` of the last event it received. Lets the server resume the stream from where it left off — built into the {{eventsource|EventSource API}}.",
+	  category: 'web'
+	},
+
+	{
+	  id: 'graphql-query',
+	  term: 'GraphQL Query',
+	  definition:
+	    "A read operation in [[graphql|GraphQL]] — the client describes a nested field selection and the server returns exactly that shape. Counterpart to **mutations** (writes) and **subscriptions** (push streams, often over [[websockets|WebSockets]]).",
+	  wikiUrl: 'https://graphql.org/learn/queries/',
+	  category: 'web'
+	},
+
+	{
+	  id: 'graphql-mutation',
+	  term: 'GraphQL Mutation',
+	  definition:
+	    "A write operation in [[graphql|GraphQL]] — creates, updates, or deletes data. Same syntax as a {{graphql-query|query}} but the server treats fields as side-effecting and runs them sequentially.",
+	  category: 'web'
+	},
+
+	{
+	  id: 'graphql-subscription',
+	  term: 'GraphQL Subscription',
+	  definition:
+	    "A long-lived push channel in [[graphql|GraphQL]] — the client subscribes to events and the server streams matching payloads. Usually delivered over [[websockets|WebSockets]] (graphql-ws) or [[sse|SSE]].",
+	  category: 'web'
+	},
+
+	{
+	  id: 'graphql-schema',
+	  term: 'GraphQL Schema',
+	  definition:
+	    "The typed contract of a [[graphql|GraphQL]] API — defines every object type, field, argument, query/mutation/subscription root, and how they connect. Both client and server share it; tooling generates types from it.",
+	  category: 'web'
+	},
+
+	{
+	  id: 'graphql-resolver',
+	  term: 'GraphQL Resolver',
+	  definition:
+	    "A server-side function that produces the value for a single {{graphql-schema|schema}} field. [[graphql|GraphQL]] walks the query, calling one resolver per field — the runtime that turns a query into a response.",
+	  category: 'web'
+	},
+
+	{
+	  id: 'rpc',
+	  term: 'RPC (Remote Procedure Call)',
+	  definition:
+	    "An API style where the client calls a *named function* on the server with arguments and gets a result — as if it were local. Contrast with [[rest|REST]] (resources + verbs) and [[graphql|GraphQL]] (typed field selection). Modern examples: [[grpc|gRPC]], [[json-rpc|JSON-RPC]], [[mcp|MCP]].",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Remote_procedure_call',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'protoc',
+	  term: 'protoc',
+	  definition:
+	    "The {{protocol-buffers|Protocol Buffers}} compiler. Reads `.proto` schema files and generates type-safe client + server stubs in C++, Go, Java, Python, Rust, and a dozen other languages — the build step behind [[grpc|gRPC]].",
+	  wikiUrl: 'https://protobuf.dev/reference/protoc/',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'json-schema',
+	  term: 'JSON Schema',
+	  definition:
+	    "A vocabulary for describing the shape and constraints of {{json|JSON}} documents — types, required fields, enums, patterns. Used by [[mcp|MCP]] to declare tool input shapes and by [[a2a|A2A]] Agent Cards to declare skill inputs, so an LLM can call the tool correctly.",
+	  wikiUrl: 'https://json-schema.org/',
+	  category: 'web'
+	},
+
+	{
+	  id: 'lsp',
+	  term: 'Language Server Protocol (LSP)',
+	  definition:
+	    "Microsoft's [[json-rpc|JSON-RPC]] standard letting code editors talk to language servers for autocomplete, jump-to-definition, diagnostics, etc. The transport pattern (JSON-RPC over stdio) directly inspired [[mcp|MCP]].",
+	  wikiUrl: 'https://microsoft.github.io/language-server-protocol/',
+	  category: 'web'
+	},
+
+	{
+	  id: 'stdio',
+	  term: 'stdio (Standard I/O)',
+	  definition:
+	    "The standard input/output streams of a process. Used as a transport by [[mcp|MCP]] and the {{lsp|Language Server Protocol}}: parent launches a child process and exchanges [[json-rpc|JSON-RPC]] messages over its stdin/stdout — zero network setup, fully local.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Standard_streams',
+	  category: 'infrastructure'
+	},
+
+	{
+	  id: 'well-known-uri',
+	  term: 'Well-Known URI',
+	  definition:
+	    "A standardized URL path under `/.well-known/` that hosts machine-readable metadata about a server. Examples: `/.well-known/openid-configuration` ([[oauth2|OAuth]]), `/.well-known/agent.json` ([[a2a|A2A]] Agent Card). Specified in [[rfc:8615|RFC 8615]].",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Well-known_URI',
+	  category: 'web'
+	},
+
+	{
+	  id: 'agent-card',
+	  term: 'Agent Card',
+	  definition:
+	    "An [[a2a|A2A]] agent's public profile document, served at `/.well-known/agent.json` ({{well-known-uri|well-known URI}}). Lists the agent's name, skills, input/output schemas ({{json-schema|JSON Schema}}), authentication, and API endpoint — the file other agents fetch to learn how to delegate to it.",
+	  category: 'web'
+	},
+
+	{
+	  id: 'mcp-tool',
+	  term: 'MCP Tool',
+	  definition:
+	    "An executable function an [[mcp|MCP]] server exposes to a host. Each tool advertises a name, description, and {{json-schema|JSON Schema}} for its arguments. The host calls `tools/call` and the server runs the underlying code.",
+	  category: 'web'
+	},
+
+	{
+	  id: 'mcp-resource',
+	  term: 'MCP Resource',
+	  definition:
+	    "A readable data source an [[mcp|MCP]] server exposes — addressed by URI (files, database rows, API endpoints). The host calls `resources/read` to fetch contents and may subscribe to change notifications.",
+	  category: 'web'
+	},
+
+	{
+	  id: 'mcp-host',
+	  term: 'MCP Host',
+	  definition:
+	    "The AI application (e.g., Claude Desktop, an IDE assistant) on the user's side of an [[mcp|MCP]] connection. It launches or connects to MCP servers, runs the LLM, and orchestrates {{mcp-tool|tool}} calls and {{mcp-resource|resource}} reads.",
+	  category: 'web'
+	},
+
+	{
+	  id: 'soap-envelope',
+	  term: 'SOAP Envelope',
+	  definition:
+	    "The outer [[xml|XML]] element wrapping every [[soap|SOAP]] message: `<Envelope>` containing an optional `<Header>` (auth, routing, transaction info) and a required `<Body>` (the actual call or response payload, or a {{soap-fault|Fault}}).",
+	  category: 'web'
+	},
+
+	{
+	  id: 'soap-fault',
+	  term: 'SOAP Fault',
+	  definition:
+	    "A structured error inside a [[soap|SOAP]] response `<Body>` — carries a fault code (`Client`/`Server`/`VersionMismatch`/`MustUnderstand`), a human-readable string, and optional details. Returned with HTTP 500 but parsed as protocol-level error info regardless of transport.",
+	  category: 'web'
+	},
+
+	{
+	  id: 'soapaction',
+	  term: 'SOAPAction Header',
+	  definition:
+	    "[[http1|HTTP]] header on a [[soap|SOAP]] request naming the operation being invoked. Pre-{{wsdl|WSDL}} servers used it for fast dispatch without parsing the XML body; modern SOAP 1.2 puts the action in `Content-Type` instead.",
+	  category: 'web'
+	},
+
+	{
+	  id: 'task-lifecycle-a2a',
+	  term: 'A2A Task Lifecycle',
+	  definition:
+	    "The state machine an [[a2a|A2A]] task moves through: `submitted` → `working` → (`input-required` → `working` ...) → `completed` / `failed` / `canceled`. Lets a client agent track long-running work and stream intermediate progress.",
+	  category: 'web'
+	},
+
+	{
+	  id: 'http2-frame',
+	  term: 'HTTP/2 Frame',
+	  definition:
+	    "The smallest unit of [[http2|HTTP/2]] communication. A 9-byte header (length, type, flags, stream ID) plus payload. Frame types include **HEADERS** (request/response headers, {{hpack|HPACK}}-encoded), **DATA** (body), **SETTINGS** (connection params), **WINDOW_UPDATE** ({{flow-control|flow control}}), **PING**, **RST_STREAM** (cancel a stream), **GOAWAY** (close connection), and **PUSH_PROMISE** ({{server-push|server push}}).",
+	  category: 'web'
+	},
+
+	{
+	  id: 'qpack',
+	  term: 'QPACK',
+	  definition:
+	    "[[http3|HTTP/3]]'s header-compression scheme — the [[quic|QUIC]] equivalent of {{hpack|HPACK}}. Redesigned so header decoding doesn't stall when streams arrive out of order, which is essential since QUIC streams are independent ([[rfc:9204|RFC 9204]]).",
+	  wikiUrl: 'https://datatracker.ietf.org/doc/html/rfc9204',
+	  category: 'web'
+	},
+
+	{
+	  id: 'mqtt-connect',
+	  term: 'CONNECT / CONNACK (MQTT)',
+	  definition:
+	    "First two messages of every [[mqtt|MQTT]] session. The client sends `CONNECT` with its client ID, optional credentials, keepalive interval, and last-will message; the {{broker|broker}} replies `CONNACK` with a return code (0 = accepted). Until CONNACK arrives, no PUBLISH or SUBSCRIBE is allowed.",
+	  category: 'messaging'
+	},
+
+	{
+	  id: 'mqtt-subscribe',
+	  term: 'SUBSCRIBE / SUBACK (MQTT)',
+	  definition:
+	    "Client registers interest in one or more {{topic|topic}} filters with a `SUBSCRIBE` packet; the {{broker|broker}} responds `SUBACK` listing the granted {{qos|QoS}} level per filter. Topic filters may use the `+` (one-level) and `#` (multi-level) wildcards.",
+	  category: 'messaging'
+	},
+
+	{
+	  id: 'mqtt-publish',
+	  term: 'PUBLISH (MQTT)',
+	  definition:
+	    "Packet carrying an application message from publisher to {{broker|broker}}, or {{broker|broker}} to subscriber. Contains the {{topic|topic}} name, {{qos|QoS}} level, retain flag, and payload. At QoS > 0 a PUBLISH is matched by `PUBACK` (QoS 1) or `PUBREC`/`PUBREL`/`PUBCOMP` (QoS 2).",
+	  category: 'messaging'
+	},
+
+	{
+	  id: 'topic-wildcard',
+	  term: 'Topic wildcard (+, #)',
+	  definition:
+	    "Pattern syntax in [[mqtt|MQTT]] {{topic|topic}} filters. `+` matches exactly one level (`sensor/+/temp` covers `sensor/kitchen/temp` but not `sensor/kitchen/inner/temp`); `#` matches zero or more remaining levels and must be the final character (`sensor/#`).",
+	  category: 'messaging'
+	},
+
+	{
+	  id: 'fanout-exchange',
+	  term: 'Fanout exchange',
+	  definition:
+	    "[[amqp|AMQP]] {{exchange|exchange}} type that ignores the {{routing-key|routing key}} and delivers every published message to every queue bound to it. Use it for broadcast notifications where each consumer needs its own copy.",
+	  category: 'messaging'
+	},
+
+	{
+	  id: 'direct-exchange',
+	  term: 'Direct exchange',
+	  definition:
+	    "[[amqp|AMQP]] {{exchange|exchange}} type that delivers a message to queues whose binding key exactly matches the message's {{routing-key|routing key}}. Default routing for point-to-point work queues.",
+	  category: 'messaging'
+	},
+
+	{
+	  id: 'topic-exchange',
+	  term: 'Topic exchange',
+	  definition:
+	    "[[amqp|AMQP]] {{exchange|exchange}} type that matches dotted {{routing-key|routing keys}} against patterns with `*` (one word) and `#` (zero or more words). Lets consumers subscribe to slices of a hierarchical event stream.",
+	  category: 'messaging'
+	},
+
+	{
+	  id: 'headers-exchange',
+	  term: 'Headers exchange',
+	  definition:
+	    "[[amqp|AMQP]] {{exchange|exchange}} type that routes on a dictionary of message headers instead of the {{routing-key|routing key}}. Bindings specify `x-match=all` (every header must match) or `x-match=any`.",
+	  category: 'messaging'
+	},
+
+	{
+	  id: 'durable-queue',
+	  term: 'Durable queue',
+	  definition:
+	    "A queue whose definition survives a {{broker|broker}} restart. Paired with persistent messages (written to disk), it provides at-least-once delivery across crashes — at the cost of disk I/O on every publish.",
+	  category: 'messaging'
+	},
+
+	{
+	  id: 'nack',
+	  term: 'NACK (Negative Acknowledgement)',
+	  definition:
+	    "Signal that a consumer could not process a message. In [[amqp|AMQP]] (`basic.nack`) the {{broker|broker}} may requeue the message or route it to a {{dead-letter-queue|dead-letter queue}}; in [[mqtt|MQTT]] 5 a PUBACK can carry a non-success reason code. Opposite of {{ack|ACK}}.",
+	  category: 'messaging'
+	},
+
+	{
+	  id: 'stomp-frame',
+	  term: 'STOMP frame',
+	  definition:
+	    "Wire unit of [[stomp|STOMP]]: a command word (`CONNECT`, `SEND`, `SUBSCRIBE`, ...), zero or more `Header: value` lines, a blank line, an optional body, and a terminating `\\0` (null) byte. Plain text — debuggable with `telnet`.",
+	  category: 'messaging'
+	},
+
+	{
+	  id: 'sasl',
+	  term: 'SASL (Simple Authentication and Security Layer)',
+	  definition:
+	    "Framework defining a family of authentication mechanisms (PLAIN, SCRAM, GSSAPI, OAUTHBEARER, ...) that protocols like [[xmpp|XMPP]], [[smtp|SMTP]], [[imap|IMAP]] and LDAP can negotiate. Separates *how to prove identity* from the application protocol.",
+	  category: 'security'
+	},
+
+	{
+	  id: 'scram',
+	  term: 'SCRAM (Salted Challenge Response Auth)',
+	  definition:
+	    "{{sasl|SASL}} mechanism in which the server stores a salted hash of the password and proves knowledge via a challenge-response exchange. The plaintext password never crosses the wire and the server never learns it. Default for modern [[xmpp|XMPP]], MongoDB, and PostgreSQL.",
+	  category: 'security'
+	},
+
+	{
+	  id: 'xmpp-stream',
+	  term: 'XML stream (XMPP)',
+	  definition:
+	    "An [[xmpp|XMPP]] session is a single long-lived XML document. Each side opens with `<stream:stream>` and appends `<message>`, `<presence>`, and `<iq>` stanzas until shutdown. The document is closed with `</stream:stream>`.",
+	  category: 'messaging'
+	},
+
+	{
+	  id: 'xmpp-presence',
+	  term: 'Presence stanza (XMPP)',
+	  definition:
+	    "An [[xmpp|XMPP]] `<presence/>` stanza broadcasts a user's availability (online, away, do-not-disturb) to subscribed contacts. The mechanism behind buddy-list status indicators.",
+	  category: 'messaging'
+	},
+
+	{
+	  id: 'xmpp-resource',
+	  term: 'JID resource binding',
+	  definition:
+	    "After [[xmpp|XMPP]] authentication the server assigns a per-connection *resource* suffix to the bare JID (`alice@example.com` → `alice@example.com/phone`). Lets one account stay connected from multiple devices and routes stanzas to the right one.",
+	  category: 'messaging'
+	},
+
+	{
+	  id: 'federation',
+	  term: 'Federation',
+	  definition:
+	    "Architecture where independent servers in different domains interoperate by relaying messages directly to each other — no central hub. Used by [[smtp|SMTP]] email, [[xmpp|XMPP]], Matrix, and ActivityPub.",
+	  category: 'messaging'
+	},
+
+	{
+	  id: 'omemo',
+	  term: 'OMEMO',
+	  definition:
+	    "End-to-end encryption extension for [[xmpp|XMPP]] based on the Signal Double Ratchet. Provides forward secrecy and multi-device support layered on top of the normal {{starttls|TLS}}-protected stream.",
+	  category: 'security'
+	},
+
+	{
+	  id: 'coap-confirmable',
+	  term: 'Confirmable / Non-confirmable (CoAP)',
+	  definition:
+	    "[[coap|CoAP]] message types. `CON` requires an explicit {{ack|ACK}} from the peer — reliable like [[tcp|TCP]] but per-message. `NON` is fire-and-forget, used for repeating sensor readings where a single drop is harmless.",
+	  category: 'messaging'
+	},
+
+	{
+	  id: 'coap-observe',
+	  term: 'Observe (CoAP)',
+	  definition:
+	    "[[coap|CoAP]] extension where a client registers interest in a resource and the server pushes a new representation each time the value changes, with a monotonically-increasing sequence number. Lets battery-powered devices sleep instead of polling.",
+	  category: 'messaging'
+	},
+
+	{
+	  id: 'kafka-partition-leader',
+	  term: 'Partition leader (Kafka)',
+	  definition:
+	    "One broker per {{partition|partition}} that serves all reads and writes for that partition; the others are followers that replicate it. Failure of the leader triggers an election so a replica takes over. Producers and consumers are routed to leaders via the cluster metadata.",
+	  category: 'messaging'
+	},
+
+	{
+	  id: 'kafka-acks',
+	  term: 'acks=0/1/all (Kafka)',
+	  definition:
+	    "Kafka producer durability setting. `acks=0` — fire-and-forget, no acknowledgement; `acks=1` — leader has written; `acks=all` — every in-sync replica has written. Pick the durability vs latency trade-off explicitly.",
+	  category: 'messaging'
+	},
+
+	{
+	  id: 'kafka-offset-commit',
+	  term: 'OffsetCommit (Kafka)',
+	  definition:
+	    "Kafka consumer message that records *group X has processed up to offset N in partition P*. Stored in the internal `__consumer_offsets` topic. On consumer crash, another member of the {{consumer-group|consumer group}} resumes from the committed offset.",
+	  category: 'messaging'
+	},
+
+	{
+	  id: 'consumer-rebalance',
+	  term: 'Consumer rebalance',
+	  definition:
+	    "When a Kafka {{consumer-group|consumer group}} gains or loses members, partition assignments are redistributed so every {{partition|partition}} is owned by exactly one consumer. Each consumer resumes from the last committed {{offset|offset}}.",
+	  category: 'messaging'
+	},
+
+	{
+	  id: 'log-replay',
+	  term: 'Log replay',
+	  definition:
+	    "Reading messages from a position earlier than the current tail of an append-only log (e.g. [[kafka|Kafka]]). Because the log is immutable, replay is just *reset the {{offset|offset}}* — used for re-processing, debugging, and bootstrapping new consumers.",
+	  category: 'messaging'
+	},
+
+	{
+	  id: 'mta',
+	  term: 'MTA (Mail Transfer Agent)',
+	  definition:
+	    "A server that accepts, queues, and forwards [[smtp|SMTP]] mail — Postfix, Sendmail, Exim, MS Exchange. Mail hops MTA-to-MTA until it reaches the recipient's mailbox.",
+	  category: 'messaging'
+	},
+
+	{
+	  id: 'mx-record',
+	  term: 'MX record',
+	  definition:
+	    "[[dns|DNS]] record type listing the {{mta|mail servers}} responsible for a domain, each with a priority. Sending {{mta|MTAs}} look up the recipient's MX before delivering [[smtp|SMTP]] mail.",
+	  category: 'messaging'
+	},
+
+	{
+	  id: 'ptr-record',
+	  term: 'PTR record',
+	  definition:
+	    "[[dns|DNS]] record mapping a name to another name. In reverse DNS, PTRs map an IP back to a hostname; in [[mdns-dns-sd|DNS-SD]], a PTR for `_service._tcp.local` lists the instance names offering that service.",
+	  category: 'infrastructure'
+	},
+
+	{
+	  id: 'srv-record',
+	  term: 'SRV record',
+	  definition:
+	    "[[dns|DNS]] record giving the hostname and port for a named service plus priority and weight. Used by [[mdns-dns-sd|DNS-SD]], [[sip|SIP]], [[xmpp|XMPP]] server-to-server lookup, and Active Directory.",
+	  category: 'infrastructure'
+	},
+
+	{
+	  id: 'txt-record',
+	  term: 'TXT record',
+	  definition:
+	    "[[dns|DNS]] record carrying arbitrary text. Used to publish SPF/DKIM/DMARC email-authentication policies, [[mdns-dns-sd|DNS-SD]] service metadata, and ownership-verification tokens.",
+	  category: 'infrastructure'
+	},
+
+	{
+	  id: 'spf',
+	  term: 'SPF (Sender Policy Framework)',
+	  definition:
+	    "Email-authentication mechanism in which a domain publishes a {{txt-record|TXT record}} listing the IPs allowed to send mail on its behalf. Receiving {{mta|MTAs}} reject or flag messages from other sources.",
+	  category: 'security'
+	},
+
+	{
+	  id: 'dkim',
+	  term: 'DKIM (DomainKeys Identified Mail)',
+	  definition:
+	    "Sending {{mta|MTA}} signs selected headers + body with a private key; receivers fetch the public key from a {{txt-record|TXT record}} and verify. Proves the message wasn't modified in transit and really came from the claimed domain.",
+	  category: 'security'
+	},
+
+	{
+	  id: 'dmarc',
+	  term: 'DMARC',
+	  definition:
+	    "Policy layer on top of {{spf|SPF}} and {{dkim|DKIM}}. A domain publishes a {{txt-record|TXT record}} telling receivers *reject / quarantine / monitor* mail that fails authentication and aggregates failure reports back to the domain owner.",
+	  category: 'security'
+	},
+
+	{
+	  id: 'smtp-envelope',
+	  term: 'SMTP envelope',
+	  definition:
+	    "The `MAIL FROM` and `RCPT TO` addresses used by [[smtp|SMTP]] to deliver a message. Separate from the `From:` / `To:` headers shown to humans — like the address on a letter's envelope vs the heading inside.",
+	  category: 'messaging'
+	},
+
+	{
+	  id: 'store-and-forward',
+	  term: 'Store-and-forward',
+	  definition:
+	    "Each hop accepts full responsibility for a message: it commits it to durable storage, then attempts to forward to the next hop with retries. Originating from telegraph relay, it's how [[smtp|SMTP]] email, [[xmpp|XMPP]] federation, and many message queues survive intermittent links.",
+	  category: 'messaging'
+	},
+
+	{
+	  id: 'pop3',
+	  term: 'POP3 (Post Office Protocol)',
+	  definition:
+	    "Pre-[[imap|IMAP]] mail-retrieval protocol that downloads messages and (by default) deletes them from the server. Simple but offers no server-side state, so multiple clients see different mailboxes.",
+	  category: 'messaging'
+	},
+
+	{
+	  id: 'imap-idle',
+	  term: 'IDLE (IMAP)',
+	  definition:
+	    "[[imap|IMAP]] command that parks a connection in waiting mode. The server may then push untagged updates (new message arrived, flags changed) without the client polling. Foundation of *push email* on mobile.",
+	  category: 'messaging'
+	},
+
+	{
+	  id: 'imap-fetch',
+	  term: 'FETCH (IMAP)',
+	  definition:
+	    "[[imap|IMAP]] command to download specific parts of a message (`ENVELOPE`, `BODY[HEADER]`, `BODY[TEXT]`, a particular MIME part) without pulling the whole thing. Lets clients show headers fast and load attachments on demand.",
+	  category: 'messaging'
+	},
+
+	{
+	  id: 'imap-select',
+	  term: 'SELECT (IMAP)',
+	  definition:
+	    "[[imap|IMAP]] command that opens a mailbox (e.g. `INBOX`) for read-write access. The server immediately pushes its current state — message count, recent count, validity tags.",
+	  category: 'messaging'
+	},
+
+	{
+	  id: 'imap-tag',
+	  term: 'IMAP tag',
+	  definition:
+	    "Client-chosen identifier (`A001`, `A002`, ...) prefixed to each [[imap|IMAP]] command. The server's tagged response uses the same tag, so responses can come back out of order without confusion. Untagged responses (starting with `*`) are server-initiated.",
+	  category: 'messaging'
+	},
+
+	{
+	  id: 'imaps',
+	  term: 'IMAPS',
+	  definition:
+	    "[[imap|IMAP]] wrapped in [[tls|TLS]] from the first byte, conventionally on port 993. The implicit-TLS alternative to negotiating {{starttls|STARTTLS}} on port 143.",
+	  category: 'security'
+	},
+
+	{
+	  id: 'ftp-active-passive',
+	  term: 'FTP active vs passive mode',
+	  definition:
+	    "How [[ftp|FTP]] sets up the data channel. *Active* — server opens a TCP connection back to the client (broken behind {{nat|NAT}} or {{firewall|firewall}}). *Passive* (`PASV`) — server listens on a new port and tells the client to connect to it. PASV is the modern default.",
+	  category: 'messaging'
+	},
+
+	{
+	  id: 'ftps',
+	  term: 'FTPS',
+	  definition:
+	    "[[ftp|FTP]] over [[tls|TLS]]. The control channel is encrypted via {{starttls|AUTH TLS}}, and the data channel is opened inside TLS as well. Not to be confused with SFTP, which is file transfer over [[ssh|SSH]] and shares only the name.",
+	  category: 'security'
+	},
+
+	{
+	  id: 'sftp',
+	  term: 'SFTP',
+	  definition:
+	    "SSH File Transfer Protocol — a file-management subsystem of [[ssh|SSH]], unrelated to [[ftp|FTP]] despite the name. Single port (22), no separate data channel, authenticated by SSH keys.",
+	  category: 'security'
+	},
+
+	{
+	  id: 'mdns-probe',
+	  term: 'mDNS probe',
+	  definition:
+	    "First step of joining an [[mdns-dns-sd|mDNS]] link: the host sends three Query messages 250 ms apart for its candidate name. If any host claims that name, the prober picks a different one (`-2`, `-3`) and starts over.",
+	  category: 'infrastructure'
+	},
+
+	{
+	  id: 'mdns-announce',
+	  term: 'mDNS announce',
+	  definition:
+	    "After a successful probe an [[mdns-dns-sd|mDNS]] host sends two Response messages 1 s apart with the cache-flush bit set, so every listener replaces any stale entries for the new owner's records.",
+	  category: 'infrastructure'
+	},
+
+	{
+	  id: 'mdns-goodbye',
+	  term: 'mDNS goodbye',
+	  definition:
+	    "At graceful shutdown an [[mdns-dns-sd|mDNS]] host sends a Response with `TTL=0` for every record it owns; receivers flush those entries immediately instead of waiting for the normal {{ttl|TTL}} to expire.",
+	  category: 'infrastructure'
+	},
+
+	{
+	  id: 'cache-flush-bit',
+	  term: 'Cache-flush bit (mDNS)',
+	  definition:
+	    "Per-record bit in [[mdns-dns-sd|mDNS]] responses that tells receivers *replace any cached records with this name and type with this new one*. Used during announce so a renaming or moving service is reflected everywhere on the link immediately.",
+	  category: 'infrastructure'
+	},
+
+	{
+	  id: 'ipp',
+	  term: 'IPP (Internet Printing Protocol)',
+	  definition:
+	    "[[http1|HTTP]]-based protocol (port 631) for submitting print jobs and querying printer status. Discovered on local networks via [[mdns-dns-sd|DNS-SD]] under `_ipp._tcp.local`.",
+	  category: 'infrastructure'
+	},
+
+	{
+	  id: 'mpeg-ts',
+	  term: 'MPEG-2 Transport Stream (.ts)',
+	  definition:
+	    "Container format originally for digital broadcast TV that packs audio, video, and metadata into 188-byte packets. In [[hls|HLS]] streaming, each ~6-second segment is a `.ts` file delivered as a standalone {{http-method|HTTP GET}} — cacheable by any {{cdn|CDN}}.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/MPEG_transport_stream',
+	  category: 'web'
+	},
+
+	{
+	  id: 'abr-segment-switch',
+	  term: 'ABR Segment Boundary Switch',
+	  definition:
+	    "In {{adaptive-bitrate|adaptive bitrate}} streaming ([[hls|HLS]] / [[dash|DASH]]), the player can switch quality levels only at segment boundaries — never mid-segment. Each segment is a fully-decodable, self-contained chunk, so swapping in a different bitrate for the next segment is seamless to the viewer.",
+	  category: 'web'
+	},
+
+	{
+	  id: 'rtmp-c0-c1-c2',
+	  term: 'RTMP C0 / C1 / C2',
+	  definition:
+	    "The three client-to-server messages of the [[rtmp|RTMP]] {{handshake|handshake}}. **C0** = a single protocol-version byte (0x03 for plain [[rtmp|RTMP]], 0x06 for RTMPE). **C1** = 1,536 random bytes plus the client timestamp. **C2** is a verbatim echo of {{rtmp-s0-s1-s2|S1}} — proving the client received it.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Real-Time_Messaging_Protocol',
+	  category: 'web'
+	},
+
+	{
+	  id: 'rtmp-s0-s1-s2',
+	  term: 'RTMP S0 / S1 / S2',
+	  definition:
+	    "Server-side counterparts of {{rtmp-c0-c1-c2|C0/C1/C2}} in the [[rtmp|RTMP]] {{handshake|handshake}}. **S0** = protocol version byte, **S1** = 1,536 random bytes plus server timestamp, **S2** = echo of {{rtmp-c0-c1-c2|C1}}. Once both sides have verified the echoes match, the {{handshake|handshake}} completes.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Real-Time_Messaging_Protocol',
+	  category: 'web'
+	},
+
+	{
+	  id: 'rtmp-connect',
+	  term: 'RTMP connect',
+	  definition:
+	    "First AMF0-encoded command after the [[rtmp|RTMP]] {{handshake|handshake}}. Specifies the application path on the server (e.g., `live`) and may carry optional auth parameters. The server replies with `_result` (success) or `_error`.",
+	  category: 'web'
+	},
+
+	{
+	  id: 'rtmp-create-stream',
+	  term: 'RTMP createStream',
+	  definition:
+	    "AMF0 command sent after [[rtmp|RTMP]] {{rtmp-connect|connect}}. Allocates a logical stream ID within the connection — [[rtmp|RTMP]] can {{multiplexing|multiplex}} multiple streams, though {{live-stream-ingest|live ingest}} typically uses one.",
+	  category: 'web'
+	},
+
+	{
+	  id: 'rtmp-publish',
+	  term: 'RTMP publish',
+	  definition:
+	    "AMF0 command that begins pushing audio/video to the server. Takes a {{rtmp-stream-key|stream key}} (the secret token authorising the upload) and a publish type (`live`, `record`, or `append`).",
+	  category: 'web'
+	},
+
+	{
+	  id: 'rtmp-stream-key',
+	  term: 'RTMP Stream Key',
+	  definition:
+	    "The opaque secret token your live encoder (OBS, Wirecast) embeds in the [[rtmp|RTMP]] {{rtmp-publish|publish}} request. Identifies *which channel* the encoder is pushing to and authorises the upload — treat it like a password; anyone with the key can hijack your stream.",
+	  category: 'web'
+	},
+
+	{
+	  id: 'live-stream-ingest',
+	  term: 'Live-Stream Ingest',
+	  definition:
+	    "The pipeline that accepts a live video feed from an encoder and prepares it for distribution. The encoder pushes via [[rtmp|RTMP]] (or SRT/WebRTC) to a {{cdn|CDN}} ingest endpoint; the server then {{transcoding|transcodes}} into [[hls|HLS]] / [[dash|DASH]] segments for viewer playback.",
+	  category: 'web'
+	},
+
+	{
+	  id: 'transcoding',
+	  term: 'Transcoding',
+	  definition:
+	    "Re-encoding a media stream from one {{codec|codec}} or bitrate to another. In live streaming, a {{cdn|CDN}} typically transcodes the [[rtmp|RTMP]] ingest into multiple [[hls|HLS]] / [[dash|DASH]] quality variants ({{adaptive-bitrate|adaptive bitrate}}) so players can switch based on {{bandwidth|bandwidth}}.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Transcoding',
+	  category: 'web'
+	},
+
+	{
+	  id: 'aac',
+	  term: 'AAC (Advanced Audio Coding)',
+	  definition:
+	    "Lossy audio {{codec|codec}} that superseded MP3 — used by virtually every modern streaming service (YouTube, Apple Music, Spotify Connect) and the default audio in [[rtmp|RTMP]] / [[hls|HLS]] / [[dash|DASH]] pipelines. Defined in MPEG-4 Part 3 (ISO/IEC 14496-3).",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Advanced_Audio_Coding',
+	  category: 'web'
+	},
+
+	{
+	  id: 'h264',
+	  term: 'H.264 / AVC',
+	  definition:
+	    "The dominant video {{codec|codec}} of the 2010s — Advanced Video Coding, MPEG-4 Part 10. Ships in virtually every camera, phone, browser, and streaming pipeline. Carried inside [[hls|HLS]] `.ts` segments and [[rtmp|RTMP]] chunks.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Advanced_Video_Coding',
+	  category: 'web'
+	},
+
+	{
+	  id: 'h265',
+	  term: 'H.265 / HEVC',
+	  definition:
+	    "High Efficiency Video Coding — successor to {{h264|H.264}} delivering roughly 2x compression at the same quality. Widely used for 4K [[hls|HLS]] / [[dash|DASH]] but with patent-licensing friction that opened the door for royalty-free alternatives like {{av1|AV1}}.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/High_Efficiency_Video_Coding',
+	  category: 'web'
+	},
+
+	{
+	  id: 'vp9',
+	  term: 'VP9',
+	  definition:
+	    "Royalty-free video {{codec|codec}} developed by {{google|Google}}. Comparable compression to {{h265|H.265}} but free of patent licensing; used heavily by YouTube. Carried in WebM and {{fragmented-mp4|fMP4}} containers for [[dash|DASH]] streaming.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/VP9',
+	  category: 'web'
+	},
+
+	{
+	  id: 'av1',
+	  term: 'AV1',
+	  definition:
+	    "Open, royalty-free video {{codec|codec}} from the Alliance for Open Media (Google, Netflix, Amazon, Apple). Roughly 30% better compression than {{h265|H.265}}. Native support in Chrome, Firefox, Safari 17+, and modern Android/iOS hardware decoders.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/AV1',
+	  category: 'web'
+	},
+
+	{
+	  id: 'fragmented-mp4',
+	  term: 'Fragmented MP4 (fMP4)',
+	  definition:
+	    "An MP4 file split into independently-decodable fragments. Each `.m4s` segment in a [[dash|DASH]] stream (and modern [[hls|HLS]]) is one fragment — small enough to {{cdn|CDN}}-cache and quality-switch at the boundary. Built on {{isobmff|ISOBMFF}}.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/ISO_base_media_file_format',
+	  category: 'web'
+	},
+
+	{
+	  id: 'isobmff',
+	  term: 'ISOBMFF (ISO Base Media File Format)',
+	  definition:
+	    "ISO/IEC 14496-12 — the box-based container that underlies MP4, {{fragmented-mp4|fMP4}}, QuickTime, 3GP, and the segment format used by [[dash|DASH]] and CMAF [[hls|HLS]]. {{codec|Codec}}-agnostic: stores video, audio, subtitles, and metadata in nested boxes.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/ISO_base_media_file_format',
+	  category: 'web'
+	},
+
+	{
+	  id: 'dash-period',
+	  term: 'DASH Period',
+	  definition:
+	    "Top-level segment of a [[dash|DASH]] {{mpd|MPD}} timeline — a single chapter of the presentation (e.g., main feature vs. ad break). Each Period contains one or more {{dash-adaptation-set|AdaptationSets}}.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Dynamic_Adaptive_Streaming_over_HTTP',
+	  category: 'web'
+	},
+
+	{
+	  id: 'dash-adaptation-set',
+	  term: 'DASH AdaptationSet',
+	  definition:
+	    "A track within a [[dash|DASH]] {{dash-period|Period}} — typically *video*, *audio*, or *subtitle*. Contains multiple {{dash-representation|Representations}} that are alternative quality variants the player chooses between.",
+	  category: 'web'
+	},
+
+	{
+	  id: 'dash-representation',
+	  term: 'DASH Representation',
+	  definition:
+	    "A single quality variant inside a {{dash-adaptation-set|DASH AdaptationSet}} — e.g., the 720p version of the video track. The {{adaptive-bitrate|ABR}} algorithm switches between Representations as {{bandwidth|bandwidth}} changes.",
+	  category: 'web'
+	},
+
+	{
+	  id: 'abr-bola',
+	  term: 'BOLA (Buffer Occupancy based Lyapunov Algorithm)',
+	  definition:
+	    "Buffer-based {{adaptive-bitrate|ABR}} algorithm that picks the next segment's quality based on how full the player's buffer is — not on measured throughput. The default in dash.js since 2016. More robust than throughput-only methods under variable network conditions.",
+	  category: 'web'
+	},
+
+	{
+	  id: 'sdp-offer-answer',
+	  term: 'SDP Offer/Answer Model',
+	  definition:
+	    "The negotiation pattern used by [[sip|SIP]] and [[webrtc|WebRTC]] (RFC 3264). Side A sends an [[sdp|SDP]] *offer* listing every {{codec|codec}}/transport it supports; side B replies with an *answer* that contains only the intersection. One round trip — no haggling, no renegotiation under steady state.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Session_Description_Protocol',
+	  category: 'web'
+	},
+
+	{
+	  id: 'sip-invite',
+	  term: 'SIP INVITE',
+	  definition:
+	    "The [[sip|SIP]] request that initiates a session — please ring this user. Body carries an [[sdp|SDP]] offer describing what audio/video the caller can send. Uses a {{three-way-handshake|three-way pattern}} (INVITE -> final response -> {{sip-ack|ACK}}) to be safe over [[udp|UDP]].",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Session_Initiation_Protocol',
+	  category: 'web'
+	},
+
+	{
+	  id: 'sip-register',
+	  term: 'SIP REGISTER',
+	  definition:
+	    "[[sip|SIP]] request that maps a SIP URI (`bob@example.com`) to the device's current {{ip-address|IP}} and {{port|port}}. The {{sip-registrar|registrar}} stores this binding so future {{sip-invite|INVITEs}} can be routed to the right device.",
+	  category: 'web'
+	},
+
+	{
+	  id: 'sip-ack',
+	  term: 'SIP ACK',
+	  definition:
+	    "Third leg of the [[sip|SIP]] {{sip-invite|INVITE}} {{three-way-handshake|three-way handshake}}. The caller confirms it received the `{{sip-200-ok|200 OK}}`. Unlike most [[sip|SIP]] requests, the ACK to a 2xx response is hop-by-hop generated by the end user agent — not by the proxy.",
+	  category: 'web'
+	},
+
+	{
+	  id: 'sip-bye',
+	  term: 'SIP BYE',
+	  definition:
+	    "[[sip|SIP]] request that ends an established session. Either side can send BYE; the receiver replies `{{sip-200-ok|200 OK}}` and tears down the dialog. Media flow stops immediately.",
+	  category: 'web'
+	},
+
+	{
+	  id: 'sip-180-ringing',
+	  term: 'SIP 180 Ringing',
+	  definition:
+	    "[[sip|SIP]] {{sip-provisional-response|provisional response}} (1xx) meaning *the callee's phone is being alerted*. May arrive multiple times as the {{sip-proxy|proxy}} forks the {{sip-invite|INVITE}} to multiple devices. Not a final response — the call isn't answered yet.",
+	  category: 'web'
+	},
+
+	{
+	  id: 'sip-200-ok',
+	  term: 'SIP 200 OK',
+	  definition:
+	    "[[sip|SIP]] final response (2xx) — the callee answered. The 200 OK to an {{sip-invite|INVITE}} carries the [[sdp|SDP]] *answer*, completing {{codec|codec}}/{{port|port}} negotiation. Caller responds with {{sip-ack|ACK}}.",
+	  category: 'web'
+	},
+
+	{
+	  id: 'sip-provisional-response',
+	  term: 'SIP Provisional Response (1xx)',
+	  definition:
+	    "Any [[sip|SIP]] response in the 100-199 range — informational, not final. Common: `100 Trying`, `{{sip-180-ringing|180 Ringing}}`, `183 Session Progress`. Lets the caller know the request is being processed before a final 2xx/4xx/5xx/6xx response arrives.",
+	  category: 'web'
+	},
+
+	{
+	  id: 'sip-proxy',
+	  term: 'SIP Proxy',
+	  definition:
+	    "Intermediary server that routes [[sip|SIP]] requests towards the callee — like an SMTP relay for VoIP. May fork an {{sip-invite|INVITE}} to multiple registered devices ({{sip-forking|forking}}). Once the session establishes, media usually bypasses the proxy and flows {{peer-to-peer|peer-to-peer}}.",
+	  category: 'web'
+	},
+
+	{
+	  id: 'sip-registrar',
+	  term: 'SIP Registrar',
+	  definition:
+	    "[[sip|SIP]] server that accepts {{sip-register|REGISTER}} requests and stores the binding between a SIP URI (`bob@example.com`) and the device's current {{ip-address|IP}} and {{port|port}}. The {{sip-proxy|proxy}} queries the registrar to find where to route incoming calls.",
+	  category: 'web'
+	},
+
+	{
+	  id: 'sip-forking',
+	  term: 'SIP Forking',
+	  definition:
+	    "A {{sip-proxy|SIP proxy}} feature: when Bob has multiple devices registered to the same SIP URI, the proxy can fan the {{sip-invite|INVITE}} out to all of them in parallel — so every phone he owns rings at once. The first to answer wins; the others get a CANCEL.",
+	  category: 'web'
+	},
+
+	{
+	  id: 'ssh-kex-init',
+	  term: 'SSH KEX_INIT',
+	  definition:
+	    "The opening message of the [[ssh|SSH]] {{ssh-key-exchange|key exchange}}. Each side lists the algorithms it supports for {{ssh-key-exchange|key exchange}}, host-key, {{encryption|encryption}}, {{hmac|MAC}}, and compression. Both ends then pick the strongest mutual choice.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Secure_Shell',
+	  category: 'security'
+	},
+
+	{
+	  id: 'ssh-key-exchange',
+	  term: 'SSH Key Exchange',
+	  definition:
+	    "Phase of the [[ssh|SSH]] connection that derives a shared session key — typically via {{diffie-hellman|Diffie-Hellman}} or {{ecdh|ECDH}} on Curve25519. The session key encrypts every byte that follows; an eavesdropper with the full transcript still can't recover it.",
+	  category: 'security'
+	},
+
+	{
+	  id: 'ssh-host-key',
+	  term: 'SSH Host Key',
+	  definition:
+	    "Long-term {{asymmetric-encryption|asymmetric}} key pair that identifies an [[ssh|SSH]] server across reboots. The client pins the public half in `known_hosts`; on later connections it verifies the server signs the {{ssh-key-exchange|KEX}} transcript with the matching {{private-key|private key}}. Defeats {{man-in-the-middle|MITM}}.",
+	  category: 'security'
+	},
+
+	{
+	  id: 'ssh-tofu',
+	  term: 'TOFU (Trust on First Use)',
+	  definition:
+	    "Security model used by [[ssh|SSH]] and many other protocols: trust the public key the *first* time you see it, pin it locally, alert loudly if it ever changes. Pragmatic compromise — no {{pki|PKI}} needed, but the first connection is unauthenticated.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Trust_on_first_use',
+	  category: 'security'
+	},
+
+	{
+	  id: 'ssh-publickey-auth',
+	  term: 'SSH publickey Authentication',
+	  definition:
+	    "[[ssh|SSH]] auth method where the client proves possession of a {{private-key|private key}} matching a {{public-key|public key}} the server has authorised (in `~/.ssh/authorized_keys`). The de-facto standard for server access; replaces password auth entirely in modern deployments.",
+	  category: 'security'
+	},
+
+	{
+	  id: 'ssh-keyboard-interactive',
+	  term: 'SSH keyboard-interactive',
+	  definition:
+	    "[[ssh|SSH]] auth method (RFC 4256) that lets the server prompt the client for arbitrary challenges — used for 2FA, OTP tokens, and PAM-driven flows. The server sends a list of prompts; the client returns responses.",
+	  category: 'security'
+	},
+
+	{
+	  id: 'ssh-channels',
+	  term: 'SSH Channels',
+	  definition:
+	    "Logical streams inside one [[ssh|SSH]] connection. {{multiplexing|Multiplexes}} interactive shells, file transfer ({{sftp|SFTP}}), {{port-forwarding|port forwarding}}, and X11 forwarding — all on the same encrypted [[tcp|TCP]] {{socket|socket}}.",
+	  category: 'security'
+	},
+
+	{
+	  id: 'tls-certificate-verify',
+	  term: 'TLS CertificateVerify',
+	  definition:
+	    "[[tls|TLS]] 1.3 {{tls-handshake|handshake}} message in which the server signs the entire transcript with the {{private-key|private key}} matching its {{certificate|certificate}}. Proves the server actually owns the cert — without this step a {{man-in-the-middle|MITM}} could replay someone else's cert.",
+	  category: 'security'
+	},
+
+	{
+	  id: 'csrf',
+	  term: 'CSRF (Cross-Site Request Forgery)',
+	  definition:
+	    "Attack class where a malicious site tricks a logged-in user's browser into making an unwanted request to a target site, riding on the user's session {{cookie|cookies}}. Defences: {{oauth-state|state}} tokens, SameSite cookies, double-submit headers.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Cross-site_request_forgery',
+	  category: 'security'
+	},
+
+	{
+	  id: 'oauth-state',
+	  term: 'OAuth state parameter',
+	  definition:
+	    "Opaque, unpredictable token included in an [[oauth2|OAuth]] authorization request and echoed back in the redirect. Lets the client verify the response matches a request *it* initiated — preventing {{csrf|CSRF}} on the callback endpoint. Always required.",
+	  category: 'security'
+	},
+
+	{
+	  id: 'oauth-auth-code',
+	  term: 'OAuth Authorization Code',
+	  definition:
+	    "Short-lived (~30 s), single-use token returned by the [[oauth2|OAuth]] authorization server after user {{oauth-consent|consent}}. The client exchanges it (plus {{pkce|PKCE}} `code_verifier`) at the token endpoint for an {{access-token|access token}} + {{oauth-refresh-token|refresh token}}.",
+	  category: 'security'
+	},
+
+	{
+	  id: 'oauth-consent',
+	  term: 'OAuth Consent Screen',
+	  definition:
+	    "The page where the user reviews and approves which {{oauth-scope|scopes}} a client app is requesting access to. Run by the [[oauth2|OAuth]] authorization server — the client never sees the user's password.",
+	  category: 'security'
+	},
+
+	{
+	  id: 'oauth-scope',
+	  term: 'OAuth Scope',
+	  definition:
+	    "String identifying a specific permission requested by an [[oauth2|OAuth]] client (e.g., `read:user`, `repo`, `email`). Shown on the {{oauth-consent|consent screen}} so the user knows what they're granting. The {{access-token|access token}} is bound to the approved scopes.",
+	  category: 'security'
+	},
+
+	{
+	  id: 'oauth-client-id',
+	  term: 'OAuth client_id',
+	  definition:
+	    "Public identifier the [[oauth2|OAuth]] authorization server uses to recognise a registered client application. Sent in every request (`/authorize`, `/token`). Not a secret — paired with {{pkce|PKCE}} or a `client_secret` for confidential clients.",
+	  category: 'security'
+	},
+
+	{
+	  id: 'oauth-refresh-token',
+	  term: 'OAuth Refresh Token',
+	  definition:
+	    "Long-lived [[oauth2|OAuth]] token used to obtain new {{access-token|access tokens}} without re-prompting the user. Must be stored confidentially (server-side only for web apps). Rotated by the auth server on each use in modern implementations.",
+	  category: 'security'
+	},
+
+	{
+	  id: 'rsa',
+	  term: 'RSA',
+	  definition:
+	    "{{asymmetric-encryption|Asymmetric}} algorithm (Rivest-Shamir-Adleman, 1977) for signatures and key encapsulation. Security rests on the difficulty of factoring large integers. Still common in [[tls|TLS]] / [[ipsec|IPsec]] {{certificate|certificates}}, though {{ecdsa|ECDSA}} and Ed25519 are now preferred.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/RSA_(cryptosystem)',
+	  category: 'security'
+	},
+
+	{
+	  id: 'ecdsa',
+	  term: 'ECDSA (Elliptic Curve Digital Signature Algorithm)',
+	  definition:
+	    "Digital signature scheme over elliptic curves — much shorter keys/signatures than {{rsa|RSA}} for equivalent security. Used in [[tls|TLS]] / [[ssh|SSH]] / [[ipsec|IPsec]] {{certificate|certificates}}, and as the signature algorithm in Bitcoin and Ethereum.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm',
+	  category: 'security'
+	},
+
+	{
+	  id: 'ecdh',
+	  term: 'ECDH (Elliptic Curve Diffie-Hellman)',
+	  definition:
+	    "Variant of {{diffie-hellman|Diffie-Hellman}} key exchange over elliptic curves (commonly Curve25519 or P-256). Much smaller keys, faster computation, same shared-secret derivation. The default {{ssh-key-exchange|key exchange}} in modern [[tls|TLS]] 1.3 and [[ssh|SSH]].",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Elliptic-curve_Diffie%E2%80%93Hellman',
+	  category: 'security'
+	},
+
+	{
+	  id: 'psk',
+	  term: 'PSK (Pre-Shared Key)',
+	  definition:
+	    "Authentication mode where both parties share a long-term symmetric secret out of band — no {{certificate|certificates}}, no {{pki|PKI}}. Used in [[ipsec|IPsec]] site-to-site VPNs, [[wireguard|WireGuard]] (optional mix), and consumer Wi-Fi (WPA-PSK).",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Pre-shared_key',
+	  category: 'security'
+	},
+
+	{
+	  id: 'curve25519',
+	  term: 'Curve25519',
+	  definition:
+	    "Modern elliptic curve designed by [[pioneer:dan-bernstein|Daniel J. Bernstein]] (2005). Used for {{ecdh|ECDH}} in [[tls|TLS]] 1.3, [[ssh|SSH]], [[wireguard|WireGuard]], Signal — fast, side-channel-resistant, and free of suspect NIST parameters.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Curve25519',
+	  category: 'security'
+	},
+
+	{
+	  id: 'poly1305',
+	  term: 'Poly1305',
+	  definition:
+	    "One-time authenticator (Bernstein, 2005) used as the integrity tag in the {{chacha20-poly1305|ChaCha20-Poly1305}} {{aead|AEAD}}. Appends a 16-byte tag the receiver verifies before accepting the ciphertext. Replay-safe when paired with a unique {{nonce|nonce}} per message.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Poly1305',
+	  category: 'security'
+	},
+
+	{
+	  id: 'noise-ik',
+	  term: 'Noise_IK pattern',
+	  definition:
+	    "One of the {{noise-protocol|Noise Protocol Framework}} handshake patterns. *I* = initiator's static key sent immediately, *K* = responder's static key already known. The [[wireguard|WireGuard]] handshake is `Noise_IKpsk2` — Noise_IK with an optional pre-shared key mixed in at step 2.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Noise_Protocol_Framework',
+	  category: 'security'
+	},
+
+	{
+	  id: 'noise-protocol',
+	  term: 'Noise Protocol Framework',
+	  definition:
+	    "Family of cryptographic handshake patterns by [[pioneer:trevor-perrin|Trevor Perrin]] — pick a pattern (IK, XX, NK), plug in DH curve + cipher + hash, get a complete handshake. Powers [[wireguard|WireGuard]], WhatsApp, Signal, and Lightning Network.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Noise_Protocol_Framework',
+	  category: 'security'
+	},
+
+	{
+	  id: 'wg-handshake-initiation',
+	  term: 'WireGuard Handshake Initiation (type=1)',
+	  definition:
+	    "First message of the [[wireguard|WireGuard]] {{noise-ik|Noise_IKpsk2}} handshake — 148 bytes. Carries the initiator's ephemeral pubkey, an {{aead|AEAD}}-encrypted copy of its static pubkey, a {{wg-tai64n|TAI64N}} timestamp, and the {{wg-mac1|MAC1}}/{{wg-mac2|MAC2}} cookie pair.",
+	  category: 'security'
+	},
+
+	{
+	  id: 'wg-handshake-response',
+	  term: 'WireGuard Handshake Response (type=2)',
+	  definition:
+	    "Second message of the [[wireguard|WireGuard]] handshake — 92 bytes. The responder's ephemeral pubkey, an {{aead|AEAD}}-encrypted empty payload (proves key agreement), and {{wg-mac1|MAC1}}/{{wg-mac2|MAC2}}. After this, both peers hold matching {{chacha20-poly1305|ChaCha20-Poly1305}} keys.",
+	  category: 'security'
+	},
+
+	{
+	  id: 'wg-transport-data',
+	  term: 'WireGuard Transport Data (type=4)',
+	  definition:
+	    "Steady-state [[wireguard|WireGuard]] {{packet|packet}} carrying an encrypted inner [[ip|IP]] payload. 16-byte header (type + receiver-index + 64-bit counter) + {{aead|AEAD}} ciphertext + 16-byte {{poly1305|Poly1305}} tag. Counter doubles as both the nonce and {{anti-replay|anti-replay}} sequence number.",
+	  category: 'security'
+	},
+
+	{
+	  id: 'wg-ephemeral-key',
+	  term: 'Ephemeral Key (WireGuard)',
+	  definition:
+	    "Single-use Curve25519 key pair generated fresh for each [[wireguard|WireGuard]] {{handshake|handshake}}. Provides {{forward-secrecy|forward secrecy}}: even if the long-term static key leaks later, past session keys cannot be recovered.",
+	  category: 'security'
+	},
+
+	{
+	  id: 'wg-tai64n',
+	  term: 'TAI64N timestamp',
+	  definition:
+	    "12-byte time-of-day stamp embedded in the [[wireguard|WireGuard]] {{wg-handshake-initiation|Handshake Initiation}}. Lets the responder reject replayed initiations that are older than the most recent one seen — without keeping per-peer replay tables.",
+	  wikiUrl: 'https://cr.yp.to/libtai/tai64.html',
+	  category: 'security'
+	},
+
+	{
+	  id: 'wg-mac1',
+	  term: 'WireGuard MAC1',
+	  definition:
+	    "First message authentication code in every [[wireguard|WireGuard]] handshake packet. Computed over the message using the responder's static public key — proves the sender already knows that pubkey. Cheap anti-amplification check.",
+	  category: 'security'
+	},
+
+	{
+	  id: 'wg-mac2',
+	  term: 'WireGuard MAC2 (Cookie)',
+	  definition:
+	    "Second [[wireguard|WireGuard]] handshake MAC, normally zero but populated with a server-issued cookie when the responder is under DoS load. Acts as a stateless rate-limiter — initiators must prove reachability before the responder spends CPU verifying signatures.",
+	  category: 'security'
+	},
+
+	{
+	  id: 'post-quantum',
+	  term: 'Post-Quantum Cryptography (PQC)',
+	  definition:
+	    "Algorithms believed to resist attacks by future large-scale quantum computers — e.g., {{ml-kem|ML-KEM}}, ML-DSA, SLH-DSA (NIST FIPS 203/204/205, 2024). Being added to [[tls|TLS]], [[ssh|SSH]], [[ipsec|IPsec]] via hybrid handshakes that mix PQC with classical {{ecdh|ECDH}}.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Post-quantum_cryptography',
+	  category: 'security'
+	},
+
+	{
+	  id: 'kem',
+	  term: 'KEM (Key Encapsulation Mechanism)',
+	  definition:
+	    "Cryptographic primitive for transmitting a symmetric key under a recipient's {{public-key|public key}}. {{post-quantum|Post-quantum}} {{ml-kem|ML-KEM}} is a KEM, as is classical RSA-KEM. KEMs replace ephemeral {{diffie-hellman|DH}} in PQC-era [[tls|TLS]] / [[ipsec|IPsec]] handshakes.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Key_encapsulation_mechanism',
+	  category: 'security'
+	},
+
+	{
+	  id: 'ipsec-ike-sa-init',
+	  term: 'IKE_SA_INIT',
+	  definition:
+	    "First [[ipsec|IPsec]] {{ike|IKEv2}} exchange — proposes a {{cipher-suite|cipher suite}}, runs {{diffie-hellman|Diffie-Hellman}} / {{ecdh|ECDH}} / {{kem|KEM}}, exchanges {{nonce|Nonces}}, and runs {{ipsec-nat-detection|NAT_DETECTION}}. No {{encryption|encryption}} yet — keys don't exist until this completes.",
+	  category: 'security'
+	},
+
+	{
+	  id: 'ipsec-ike-intermediate',
+	  term: 'IKE_INTERMEDIATE',
+	  definition:
+	    "[[ipsec|IPsec]] {{ike|IKEv2}} exchange added by [[rfc:9242|RFC 9242]] to ship large {{post-quantum|post-quantum}} keys ({{ml-kem|ML-KEM-1024}} ~ 1.5 KB) that won't fit in a single {{ipsec-ike-sa-init|IKE_SA_INIT}} [[udp|UDP]] datagram. Runs encrypted, before identity is revealed; can chain extra {{kem|KEMs}} per [[rfc:9370|RFC 9370]].",
+	  category: 'security'
+	},
+
+	{
+	  id: 'ipsec-ike-auth',
+	  term: 'IKE_AUTH',
+	  definition:
+	    "Second [[ipsec|IPsec]] {{ike|IKEv2}} exchange. Carries the identities (`IDi`, `IDr`), authenticates the {{ipsec-ike-sa-init|IKE_SA_INIT}} transcript (with {{rsa|RSA}}/{{ecdsa|ECDSA}} {{certificate|certs}}, {{psk|PSK}}, or {{eap|EAP}}), and negotiates the first {{child-sa|Child SA}}.",
+	  category: 'security'
+	},
+
+	{
+	  id: 'ipsec-create-child-sa',
+	  term: 'CREATE_CHILD_SA',
+	  definition:
+	    "[[ipsec|IPsec]] {{ike|IKEv2}} exchange used both to add new {{child-sa|Child SAs}} and to rekey existing ones (with the `REKEY_SA` notify). Optional fresh {{diffie-hellman|DH}}/{{kem|KEM}} provides {{pfs|Perfect Forward Secrecy}}.",
+	  category: 'security'
+	},
+
+	{
+	  id: 'ipsec-informational',
+	  term: 'INFORMATIONAL (IKEv2)',
+	  definition:
+	    "Encrypted [[ipsec|IPsec]] {{ike|IKEv2}} exchange for housekeeping — DELETE notifications when a {{security-association|SA}} expires, dead-peer-detection liveness probes, MOBIKE address updates, error messages.",
+	  category: 'security'
+	},
+
+	{
+	  id: 'ipsec-nat-detection',
+	  term: 'NAT_DETECTION (IKEv2)',
+	  definition:
+	    "Pair of hash payloads exchanged in {{ipsec-ike-sa-init|IKE_SA_INIT}}: each side hashes its own and peer's IP/port and compares with what arrived. A mismatch means one of them is behind {{nat|NAT}} — triggers UDP-encapsulation of {{esp|ESP}} on port 4500 (NAT-T).",
+	  category: 'security'
+	},
+
+	{
+	  id: 'ipsec-skeyseed',
+	  term: 'SKEYSEED',
+	  definition:
+	    "The seed value [[ipsec|IPsec]] {{ike|IKEv2}} derives from the {{ipsec-ike-sa-init|IKE_SA_INIT}} Diffie-Hellman shared secret plus the two {{nonce|Nonces}}. All subsequent {{ike-sa|IKE SA}} keys (`SK_d`, `SK_e`, `SK_a`, `SK_p`) are expanded from SKEYSEED via the prf.",
+	  category: 'security'
+	},
+
+	{
+	  id: 'kerberos-kdc',
+	  term: 'KDC (Key Distribution Center)',
+	  definition:
+	    "Central trusted server in [[kerberos|Kerberos]] — split into the Authentication Service (AS, issues {{kerberos-tgt|TGTs}}) and the {{kerberos-tgs|Ticket Granting Service}} (TGS, issues service tickets). Knows every principal's long-term key; never speaks to services directly.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Key_distribution_center',
+	  category: 'security'
+	},
+
+	{
+	  id: 'kerberos-tgs',
+	  term: 'Ticket Granting Service (TGS)',
+	  definition:
+	    "Half of the [[kerberos|Kerberos]] {{kerberos-kdc|KDC}}. Accepts a {{kerberos-tgt|TGT}} + {{kerberos-authenticator|authenticator}} ({{kerberos-tgs-req|TGS-REQ}}) and returns a {{kerberos-service-ticket|service ticket}} for the requested service ({{kerberos-tgs-rep|TGS-REP}}).",
+	  category: 'security'
+	},
+
+	{
+	  id: 'kerberos-tgt',
+	  term: 'TGT (Ticket Granting Ticket)',
+	  definition:
+	    "Time-bounded [[kerberos|Kerberos]] credential issued by the Authentication Service in {{kerberos-as-rep|AS-REP}}. {{encryption|Encrypted}} under the {{kerberos-krbtgt|krbtgt}} key (only the KDC reads it). Lets the client request {{kerberos-service-ticket|service tickets}} without re-entering its password — typically valid 10 hours.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Ticket_Granting_Ticket',
+	  category: 'security'
+	},
+
+	{
+	  id: 'kerberos-krbtgt',
+	  term: 'krbtgt',
+	  definition:
+	    "Special [[kerberos|Kerberos]] {{kerberos-principal|principal}} whose long-term key encrypts every {{kerberos-tgt|TGT}}. Compromise of the krbtgt password hash = the famous *Golden Ticket* attack: an attacker can mint TGTs for any user in the realm.",
+	  category: 'security'
+	},
+
+	{
+	  id: 'kerberos-principal',
+	  term: 'Kerberos Principal',
+	  definition:
+	    "Named identity in a [[kerberos|Kerberos]] realm — either a user (`alice@EXAMPLE.COM`) or a service (`HTTP/web1.example.com@EXAMPLE.COM`). Each principal has a long-term key derived from its password (users) or stored in a {{kerberos-keytab|keytab}} (services).",
+	  category: 'security'
+	},
+
+	{
+	  id: 'kerberos-authenticator',
+	  term: 'Kerberos Authenticator',
+	  definition:
+	    "Small encrypted blob the client builds fresh per request — typically containing a timestamp and the client's principal. {{encryption|Encrypted}} under the session key inside whichever ticket it accompanies. Proves the client *just now* holds the key — not just that it once did.",
+	  category: 'security'
+	},
+
+	{
+	  id: 'kerberos-keytab',
+	  term: 'Kerberos Keytab',
+	  definition:
+	    "File on a service host that stores the long-term keys for service {{kerberos-principal|principals}}. The service uses its keytab to decrypt incoming {{kerberos-service-ticket|service tickets}} in {{kerberos-ap-req|AP-REQ}} — without contacting the {{kerberos-kdc|KDC}}.",
+	  category: 'security'
+	},
+
+	{
+	  id: 'kerberos-service-ticket',
+	  term: 'Kerberos Service Ticket',
+	  definition:
+	    "Per-service [[kerberos|Kerberos]] credential returned in {{kerberos-tgs-rep|TGS-REP}}. {{encryption|Encrypted}} under the target service's long-term key (so only that service can read it), containing the client identity and a fresh client<->service session key.",
+	  category: 'security'
+	},
+
+	{
+	  id: 'kerberos-pa-enc-timestamp',
+	  term: 'PA-ENC-TIMESTAMP',
+	  definition:
+	    "Pre-authentication data attached to a [[kerberos|Kerberos]] {{kerberos-as-req|AS-REQ}}: a fresh timestamp {{encryption|encrypted}} under the user's password-derived key. Lets the {{kerberos-kdc|KDC}} verify the user knows their password before issuing a {{kerberos-tgt|TGT}} — blocks offline-cracking attacks on AS-REP.",
+	  category: 'security'
+	},
+
+	{
+	  id: 'kerberos-as-req',
+	  term: 'Kerberos AS-REQ',
+	  definition:
+	    "First [[kerberos|Kerberos]] message — client to {{kerberos-kdc|KDC}} Authentication Service. Carries the client's {{kerberos-principal|principal}} name, requested {{kerberos-tgt|TGT}} options, and {{kerberos-pa-enc-timestamp|PA-ENC-TIMESTAMP}}.",
+	  category: 'security'
+	},
+
+	{
+	  id: 'kerberos-as-rep',
+	  term: 'Kerberos AS-REP',
+	  definition:
+	    "{{kerberos-kdc|KDC}} response to a successful {{kerberos-as-req|AS-REQ}}. Carries the {{kerberos-tgt|TGT}} ({{encryption|encrypted}} under {{kerberos-krbtgt|krbtgt}}) and the new session key (encrypted under the user's long-term key).",
+	  category: 'security'
+	},
+
+	{
+	  id: 'kerberos-tgs-req',
+	  term: 'Kerberos TGS-REQ',
+	  definition:
+	    "Request from a [[kerberos|Kerberos]] client to the {{kerberos-tgs|Ticket Granting Service}}: give me a ticket for service X. Carries the {{kerberos-tgt|TGT}} and a fresh {{kerberos-authenticator|authenticator}} encrypted under the TGT's session key.",
+	  category: 'security'
+	},
+
+	{
+	  id: 'kerberos-tgs-rep',
+	  term: 'Kerberos TGS-REP',
+	  definition:
+	    "{{kerberos-tgs|TGS}} response to a successful {{kerberos-tgs-req|TGS-REQ}}: returns a {{kerberos-service-ticket|service ticket}} (encrypted under the service's long-term key) plus the new client<->service session key.",
+	  category: 'security'
+	},
+
+	{
+	  id: 'kerberos-ap-req',
+	  term: 'Kerberos AP-REQ',
+	  definition:
+	    "Message the client sends *to the service* (not the KDC): the {{kerberos-service-ticket|service ticket}} plus a fresh {{kerberos-authenticator|authenticator}}. The service decrypts with its {{kerberos-keytab|keytab}}, verifies the authenticator's timestamp is within ±5 min, and authenticates the client.",
+	  category: 'security'
+	},
+
+	{
+	  id: 'kerberos-ap-rep',
+	  term: 'Kerberos AP-REP',
+	  definition:
+	    "Optional reply from the service to the client — an encrypted timestamp proving the service also knows the session key. Provides mutual authentication: client now knows the service is genuine, not an impostor with a stolen ticket.",
+	  category: 'security'
+	},
+
+	{
+	  id: 'nameserver',
+	  term: 'Nameserver',
+	  definition:
+	    "A [[dns|DNS]] server that holds and serves zone data. Three flavors matter: **root** (knows the {{tld|TLDs}}), **TLD** (knows the registrars' authoritative servers), and **authoritative** (the final source of truth for a domain's records).",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Name_server',
+	  category: 'infrastructure'
+	},
+
+	{
+	  id: 'tld',
+	  term: 'TLD (Top-Level Domain)',
+	  definition:
+	    "The rightmost label of a domain name — `.com`, `.org`, `.net`, country codes like `.uk`. Run by registries (Verisign for `.com`); their {{nameserver|nameservers}} know which {{authoritative-nameserver|authoritative server}} owns each second-level domain.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Top-level_domain',
+	  category: 'infrastructure'
+	},
+
+	{
+	  id: 'root-server',
+	  term: 'Root Nameserver',
+	  definition:
+	    "One of 13 logical {{nameserver|nameservers}} (`a.root-servers.net` … `m.root-servers.net`, replicated globally via {{anycast|anycast}}) that anchor the [[dns|DNS]] hierarchy. They don't know specific domains — they just know which {{tld|TLD}} server to ask next.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Root_name_server',
+	  category: 'infrastructure'
+	},
+
+	{
+	  id: 'authoritative-nameserver',
+	  term: 'Authoritative Nameserver',
+	  definition:
+	    "A {{nameserver|nameserver}} that holds the definitive records for a domain (set by the registrant). Returns *answers*, not referrals — the final stop in {{iterative-resolution|iterative resolution}}.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Name_server#Authoritative_name_server',
+	  category: 'infrastructure'
+	},
+
+	{
+	  id: 'recursive-resolver',
+	  term: 'Recursive Resolver',
+	  definition:
+	    "A [[dns|DNS]] server that does the legwork of resolution on the client's behalf — walks the hierarchy ({{root-server|root}} → {{tld|TLD}} → {{authoritative-nameserver|authoritative}}) and returns the final answer. Caches aggressively. Operated by ISPs and public services like `1.1.1.1` or `8.8.8.8`.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Domain_Name_System#DNS_resolvers',
+	  category: 'infrastructure'
+	},
+
+	{
+	  id: 'iterative-resolution',
+	  term: 'Iterative Resolution',
+	  definition:
+	    "DNS lookup strategy where the {{recursive-resolver|resolver}} walks the hierarchy itself — each {{nameserver|nameserver}} answers *go ask this other server* (a referral), not the final answer, until an {{authoritative-nameserver|authoritative}} server replies with the record.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Domain_Name_System#DNS_resolvers',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'a-record',
+	  term: 'A Record',
+	  definition:
+	    "Address record — maps a domain name to a 32-bit IPv4 address. The most basic [[dns|DNS]] record type; the answer to *what's `example.com`'s IP?*.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/List_of_DNS_record_types',
+	  category: 'infrastructure'
+	},
+
+	{
+	  id: 'aaaa-record',
+	  term: 'AAAA Record',
+	  definition:
+	    "Quad-A record — maps a domain name to a 128-bit [[ipv6|IPv6]] address. The [[ipv6|IPv6]] counterpart to the {{a-record|A record}}.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/IPv6_address#Domain_Name_System',
+	  category: 'infrastructure'
+	},
+
+	{
+	  id: 'cname-record',
+	  term: 'CNAME Record',
+	  definition:
+	    "Canonical Name record. A [[dns|DNS]] alias — *`www.example.com` is really called `example.com`*. Resolvers chase the chain until they hit an {{a-record|A}}/{{aaaa-record|AAAA}}.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/CNAME_record',
+	  category: 'infrastructure'
+	},
+
+	{
+	  id: 'ns-record',
+	  term: 'NS Record',
+	  definition:
+	    "Nameserver record. Delegates a [[dns|DNS]] zone to a set of {{authoritative-nameserver|authoritative nameservers}}. How the parent zone (e.g. `.com`) points to the child zone's nameservers.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/List_of_DNS_record_types#NS',
+	  category: 'infrastructure'
+	},
+
+	{
+	  id: 'dora',
+	  term: 'DORA (Discover, Offer, Request, Ack)',
+	  definition:
+	    "The mnemonic for the four-message [[dhcp|DHCP]] {{handshake|exchange}}: **D**ISCOVER (client broadcasts), **O**FFER (server proposes), **R**EQUEST (client accepts), **A**CK (server confirms). Yields an {{ip-address|IP address}}, gateway, [[dns|DNS]] settings, and {{dhcp-lease|lease}}.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Dynamic_Host_Configuration_Protocol#Operation',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'dhcp-discover',
+	  term: 'DHCPDISCOVER',
+	  definition:
+	    "The first message of the {{dora|DORA}} {{handshake|exchange}}. A new client {{broadcast|broadcasts}} *I need an IP* from `0.0.0.0` to `255.255.255.255` so any [[dhcp|DHCP]] server on the {{lan|LAN}} can hear it.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Dynamic_Host_Configuration_Protocol',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'dhcp-offer',
+	  term: 'DHCPOFFER',
+	  definition:
+	    "The server's reply in the {{dora|DORA}} {{handshake|exchange}}: *here's a candidate {{ip-address|IP}} from my pool, plus a {{dhcp-lease|lease}} time*. Multiple servers may offer; the client picks one.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Dynamic_Host_Configuration_Protocol',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'dhcp-request',
+	  term: 'DHCPREQUEST',
+	  definition:
+	    "Third message of {{dora|DORA}}: client confirms *I'll take this offer*. Also {{broadcast|broadcast}} so other [[dhcp|DHCP]] servers know to release their offers.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Dynamic_Host_Configuration_Protocol',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'dhcp-ack',
+	  term: 'DHCPACK',
+	  definition:
+	    "Final message of {{dora|DORA}}: server confirms the {{dhcp-lease|lease}} and ships the full network config (subnet mask, default gateway, [[dns|DNS]] servers).",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Dynamic_Host_Configuration_Protocol',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'dhcp-lease',
+	  term: 'DHCP Lease',
+	  definition:
+	    "A time-bounded grant of an {{ip-address|IP address}} by a [[dhcp|DHCP]] server. Clients renew at T1 (~50%) and T2 (~87.5%) of the lease duration; if neither succeeds, they re-{{dhcp-discover|DISCOVER}} before expiry.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Dynamic_Host_Configuration_Protocol#Lease',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'clock-drift',
+	  term: 'Clock Drift',
+	  definition:
+	    "The tendency of a hardware clock to deviate from true time. Crystal oscillators in computers gain or lose seconds per day; [[ntp|NTP]] and PTP correct for this continuously.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Clock_drift',
+	  category: 'networking-basics'
+	},
+
+	{
+	  id: 'marzullos-algorithm',
+	  term: "Marzullo's Algorithm",
+	  definition:
+	    "Algorithm that finds the smallest interval consistent with the largest number of estimates, used by [[ntp|NTP]] to discard outlier time samples and converge on a single accurate offset.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Marzullo%27s_algorithm',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'nts',
+	  term: 'NTS (Network Time Security)',
+	  definition:
+	    "Cryptographic extension to [[ntp|NTP]] ([[rfc:8915|RFC 8915]]) that authenticates time replies — defeats {{man-in-the-middle|MITM}} attackers who would otherwise manipulate clocks to break certificate validation.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Network_Time_Security',
+	  category: 'security'
+	},
+
+	{
+	  id: 'ping',
+	  term: 'ping',
+	  definition:
+	    "The simplest reachability test on the internet. Sends an [[icmp|ICMP]] {{echo-request|Echo Request}} and times the {{echo-reply|Echo Reply}} — gives you {{rtt|round-trip time}} and packet-loss percentage.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Ping_(networking_utility)',
+	  category: 'infrastructure'
+	},
+
+	{
+	  id: 'traceroute',
+	  term: 'traceroute',
+	  definition:
+	    "Diagnostic that maps the {{hop|hops}} between you and a destination. Sends packets with increasing {{ttl|TTL}} (1, 2, 3 …); each router whose TTL hits 0 returns an [[icmp|ICMP]] {{time-exceeded|Time Exceeded}}, revealing its address.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Traceroute',
+	  category: 'infrastructure'
+	},
+
+	{
+	  id: 'echo-request',
+	  term: 'Echo Request (ICMP Type 8)',
+	  definition:
+	    "The [[icmp|ICMP]] message {{ping|ping}} sends. Type 8 for IPv4, Type 128 for [[ipv6|IPv6]] ({{icmpv6|ICMPv6}}). Carries an identifier + sequence number; the {{echo-reply|Echo Reply}} copies them back.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Internet_Control_Message_Protocol#Echo_request',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'echo-reply',
+	  term: 'Echo Reply (ICMP Type 0)',
+	  definition:
+	    "The [[icmp|ICMP]] response to an {{echo-request|Echo Request}}. Type 0 for IPv4, Type 129 for [[ipv6|IPv6]]. The send/receive timestamps give you {{rtt|round-trip time}}.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Internet_Control_Message_Protocol#Echo_reply',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'time-exceeded',
+	  term: 'Time Exceeded (ICMP Type 11)',
+	  definition:
+	    "[[icmp|ICMP]] error sent by a router when a packet's {{ttl|TTL}} hits 0. {{traceroute|traceroute}} relies on this — each TTL value reveals one more {{hop|hop}} along the path.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Internet_Control_Message_Protocol#Time_exceeded',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'arp-cache',
+	  term: 'ARP Cache',
+	  definition:
+	    "Per-host table of recently-learned IP→{{mac-address|MAC}} mappings. [[arp|ARP]] consults it before broadcasting a request; entries expire after 1–5 minutes (OS-dependent) so changes propagate.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Address_Resolution_Protocol#ARP_cache',
+	  category: 'networking-basics'
+	},
+
+	{
+	  id: 'arp-request',
+	  term: 'ARP Request',
+	  definition:
+	    "The *who has this {{ip-address|IP}}?* {{broadcast|broadcast}} sent to destination [[ethernet|Ethernet]] address `FF:FF:FF:FF:FF:FF` so every host on the {{lan|LAN}} receives and processes it.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Address_Resolution_Protocol',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'arp-reply',
+	  term: 'ARP Reply',
+	  definition:
+	    "The {{unicast|unicast}} response to an {{arp-request|ARP Request}} carrying the answering host's {{mac-address|MAC address}}. Only the matching host responds.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Address_Resolution_Protocol',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'bgp-open',
+	  term: 'BGP OPEN',
+	  definition:
+	    "First [[bgp|BGP]] message after the [[tcp|TCP]] connection forms — peers exchange their {{asn|AS number}}, BGP version, {{hold-timer|hold time}}, and a router ID. Failure aborts the session.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Border_Gateway_Protocol',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'bgp-update',
+	  term: 'BGP UPDATE',
+	  definition:
+	    "The workhorse [[bgp|BGP]] message — announces new routes (NLRI + path attributes like {{as-path|AS_PATH}}, NEXT_HOP, LOCAL_PREF, MED) or withdraws previously announced ones.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Border_Gateway_Protocol',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'bgp-keepalive',
+	  term: 'BGP KEEPALIVE',
+	  definition:
+	    "Tiny 19-byte heartbeat sent every ~30s on quiet [[bgp|BGP]] sessions. Proves the peer is alive even when there's nothing to {{bgp-update|UPDATE}}. Resets the {{hold-timer|hold timer}}.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Border_Gateway_Protocol',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'hold-timer',
+	  term: 'Hold Timer',
+	  definition:
+	    "How long a [[bgp|BGP]] peer waits without receiving a {{bgp-keepalive|KEEPALIVE}} or {{bgp-update|UPDATE}} before declaring the neighbor dead. Default 90s, negotiated in {{bgp-open|OPEN}}.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Border_Gateway_Protocol',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'router-solicitation',
+	  term: 'Router Solicitation (ICMPv6 Type 133)',
+	  definition:
+	    "{{ndp|NDP}} message a new host sends to find any routers on the link. Multicast to `ff02::2` (all-routers). Routers reply with {{router-advertisement|Router Advertisements}}.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Neighbor_Discovery_Protocol',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'router-advertisement',
+	  term: 'Router Advertisement (ICMPv6 Type 134)',
+	  definition:
+	    "{{ndp|NDP}} message routers send (periodically or in response to {{router-solicitation|Router Solicitation}}) carrying the link prefix, MTU, default gateway, and flags that drive [[ipv6|IPv6]] autoconfiguration ({{slaac|SLAAC}}).",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Neighbor_Discovery_Protocol',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'neighbor-solicitation',
+	  term: 'Neighbor Solicitation (ICMPv6 Type 135)',
+	  definition:
+	    "{{ndp|NDP}} message — the [[ipv6|IPv6]] equivalent of [[arp|ARP Request]]. Asks *who has this address?*, sent to a {{solicited-node-multicast|solicited-node multicast}} address so only candidate matches process it.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Neighbor_Discovery_Protocol',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'neighbor-advertisement',
+	  term: 'Neighbor Advertisement (ICMPv6 Type 136)',
+	  definition:
+	    "{{ndp|NDP}} message — the [[ipv6|IPv6]] equivalent of [[arp|ARP Reply]]. Carries the responder's link-layer address. Also sent unsolicited when an address changes.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Neighbor_Discovery_Protocol',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'solicited-node-multicast',
+	  term: 'Solicited-Node Multicast',
+	  definition:
+	    "An [[ipv6|IPv6]] {{multicast|multicast}} address derived from the last 24 bits of a host's address (`ff02::1:ffXX:XXXX`). {{ndp|NDP}} uses it instead of {{broadcast|broadcast}} so only ~1 of 2²⁴ hosts processes each query.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Solicited-node_multicast_address',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'hop-limit',
+	  term: 'Hop Limit',
+	  definition:
+	    "[[ipv6|IPv6]]'s rename of {{ttl|TTL}}. Decremented by 1 at every router; hits 0 → packet dropped + {{icmpv6|ICMPv6}} Time Exceeded returned. Loop prevention.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/IPv6_packet#Fixed_header',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'icmpv6',
+	  term: 'ICMPv6',
+	  definition:
+	    "[[icmp|ICMP]] for [[ipv6|IPv6]]. Same role — diagnostics and errors — but also carries {{ndp|NDP}}, MLD, and Router Renumbering. Mandatory; firewalls must not block it blindly.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Internet_Control_Message_Protocol_for_IPv6',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'router-id',
+	  term: 'Router ID (RID)',
+	  definition:
+	    "32-bit identifier (formatted like an IPv4 address) that uniquely identifies a router in [[ospf|OSPF]] / [[bgp|BGP]]. Usually the highest loopback or active interface address.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Open_Shortest_Path_First#Router_ID',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'ospf-hello',
+	  term: 'OSPF Hello',
+	  definition:
+	    "[[ospf|OSPF]] message multicast to `224.0.0.5` every 10s on point-to-point links. Carries router ID, HelloInterval, DeadInterval, neighbors seen — must match exactly for {{adjacency|adjacency}} to form.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Open_Shortest_Path_First',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'dbd',
+	  term: 'DBD (Database Description)',
+	  definition:
+	    "[[ospf|OSPF]] message exchanged in the ExStart/{{exchange|Exchange}} state. Master/slave is elected by router ID; each side sends {{lsa|LSA}} headers (not full LSAs) so peers learn what they're missing.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Open_Shortest_Path_First',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'lsr',
+	  term: 'LSR (Link State Request)',
+	  definition:
+	    "[[ospf|OSPF]] message: *send me these {{lsa|LSAs}}*. Used during the Loading state to fetch full link-state records the router doesn't have or has older copies of.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Open_Shortest_Path_First',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'lsu',
+	  term: 'LSU (Link State Update)',
+	  definition:
+	    "[[ospf|OSPF]] message carrying one or more {{lsa|LSAs}}. The actual link-state data — checksummed, age-stamped, sequence-numbered. Acknowledged by {{lsack|LSAck}}.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Open_Shortest_Path_First',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'lsack',
+	  term: 'LSAck (Link State Acknowledgment)',
+	  definition:
+	    "[[ospf|OSPF]] message that acknowledges receipt of an {{lsu|LSU}}. Required because [[ospf|OSPF]] runs directly on [[ip|IP]] (protocol 89) without [[tcp|TCP]] — it implements its own reliable delivery.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Open_Shortest_Path_First',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'adjacency',
+	  term: 'Adjacency',
+	  definition:
+	    "An [[ospf|OSPF]] relationship between two neighboring routers that has progressed through the eight-state machine (Down → Init → 2-Way → ExStart → {{exchange|Exchange}} → Loading → Full) and now exchanges link-state info.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Open_Shortest_Path_First',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'fib',
+	  term: 'FIB (Forwarding Information Base)',
+	  definition:
+	    "The compiled, fast-lookup table that the data plane actually uses to forward packets. Derived from the {{routing-table|RIB}} but optimized for line-rate {{ip-address|IP}} matching (typically TCAM in hardware routers).",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Forwarding_information_base',
+	  category: 'infrastructure'
+	},
+
+	{
+	  id: 'beacon',
+	  term: 'Beacon Frame',
+	  definition:
+	    "[[wifi|Wi-Fi]] management frame broadcast by an {{access-point|AP}} ~10× per second. Carries the {{ssid|SSID}}, supported rates, security mode (WPA2/WPA3), and capabilities — how clients discover the network.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Beacon_frame',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'ssid',
+	  term: 'SSID (Service Set Identifier)',
+	  definition:
+	    "The human-readable network name advertised by a [[wifi|Wi-Fi]] {{access-point|AP}} (e.g. `MyNetwork`). Up to 32 bytes; multiple APs can share the same SSID to form an ESS.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Service_set_(802.11_network)#SSID',
+	  category: 'networking-basics'
+	},
+
+	{
+	  id: 'authentication-frame',
+	  term: '802.11 Authentication Frame',
+	  definition:
+	    "Legacy [[wifi|802.11]] management frame from before WPA. Today it's a formality — modern security happens in the {{wpa2-handshake|WPA2/3 4-way handshake}}. Originally for WEP shared-key auth.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/IEEE_802.11',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'association-request',
+	  term: 'Association Request',
+	  definition:
+	    "[[wifi|Wi-Fi]] management frame — *I want to use this network*. Carries the client's capabilities and the {{ssid|SSID}}. The {{access-point|AP}} replies with an {{association-response|Association Response}} carrying an {{aid|AID}}.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/IEEE_802.11',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'association-response',
+	  term: 'Association Response',
+	  definition:
+	    "[[wifi|Wi-Fi]] management frame from the {{access-point|AP}} accepting (or rejecting) an {{association-request|Association Request}}. On success, it carries the assigned {{aid|AID}} (1–2007).",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/IEEE_802.11',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'wpa2-handshake',
+	  term: 'WPA2 4-way Handshake',
+	  definition:
+	    "The post-association {{handshake|exchange}} that derives session keys from the {{pmk|PMK}} (passphrase): {{anonce|ANonce}} → {{snonce|SNonce}}+{{mic|MIC}} → {{gtk|GTK}}+{{mic|MIC}} → {{ack|ACK}}. Both sides prove they know the passphrase without sending it.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/IEEE_802.11i-2004#The_four-way_handshake',
+	  category: 'security'
+	},
+
+	{
+	  id: 'anonce',
+	  term: 'ANonce',
+	  definition:
+	    "Authenticator Nonce — the random number the {{access-point|AP}} sends in step 1 of the {{wpa2-handshake|WPA2 4-way handshake}}. Combined with the {{snonce|SNonce}} and both {{mac-address|MAC}} addresses to derive the {{ptk|PTK}}.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/IEEE_802.11i-2004',
+	  category: 'security'
+	},
+
+	{
+	  id: 'snonce',
+	  term: 'SNonce',
+	  definition:
+	    "Supplicant Nonce — the random number the client sends in step 2 of the {{wpa2-handshake|WPA2 4-way handshake}}. Lets each side independently derive the {{ptk|PTK}} from the {{pmk|PMK}} + nonces + MACs.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/IEEE_802.11i-2004',
+	  category: 'security'
+	},
+
+	{
+	  id: 'adv-ind',
+	  term: 'ADV_IND',
+	  definition:
+	    "[[bluetooth|BLE]] connectable, undirected advertising packet — the default *I'm here, talk to me* beacon. Broadcast on channels 37/38/39 at the advertising interval. Carries Flags + Service UUIDs + local name (≤31 bytes).",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Bluetooth_Low_Energy',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'connect-ind',
+	  term: 'CONNECT_IND',
+	  definition:
+	    "[[bluetooth|BLE]] link-layer packet a Central sends in response to {{adv-ind|ADV_IND}} to open a connection. Carries the 32-bit Access Address, channel-hop pattern, connection interval, and supervision timeout.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Bluetooth_Low_Energy',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'att-mtu',
+	  term: 'ATT MTU',
+	  definition:
+	    "The maximum payload size of an {{gatt|ATT}} PDU on a [[bluetooth|BLE]] link. Defaults to 23 (only 20 bytes usable) — the *first thing to fix on every new BLE connection* via an ATT MTU Exchange (up to 247 or 517).",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Bluetooth_Low_Energy',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'att-read',
+	  term: 'ATT Read',
+	  definition:
+	    "{{gatt|GATT}} operation that retrieves a characteristic's value by handle or UUID. Read by Type lets a Central skip the handle-discovery step when it already knows the UUID.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Bluetooth_Low_Energy',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'att-write',
+	  term: 'ATT Write',
+	  definition:
+	    "{{gatt|GATT}} operation that sets a characteristic's value. *Write Request* expects a confirmation; *Write Without Response* (fire-and-forget) is the high-throughput variant.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Bluetooth_Low_Energy',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'att-notify',
+	  term: 'ATT Notify',
+	  definition:
+	    "Unsolicited {{gatt|GATT}} push from a Peripheral to a Central — no ACK at the ATT layer. Enabled by writing `0x0001` to the {{cccd|CCCD}}. The mechanism behind every push-based BLE sensor.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Bluetooth_Low_Energy',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'cccd',
+	  term: 'CCCD (Client Characteristic Configuration Descriptor)',
+	  definition:
+	    "{{gatt|GATT}} descriptor (UUID 0x2902) attached to notifiable characteristics. Write `0x0001` to enable {{att-notify|notifications}}, `0x0002` for indications, `0x0000` to disable.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Bluetooth_Low_Energy',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'smp-pairing',
+	  term: 'SMP Pairing',
+	  definition:
+	    "Security Manager Protocol — [[bluetooth|BLE]]'s pairing layer. Modern devices use **LE Secure Connections** (ECDH on Curve P-256) to derive a Long-Term Key; legacy *Just-Works* is vulnerable to relay attacks.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Bluetooth_Low_Energy#Security',
+	  category: 'security'
+	},
+
+	{
+	  id: 'll-enc-req',
+	  term: 'LL_ENC_REQ',
+	  definition:
+	    "[[bluetooth|BLE]] Link Layer Control PDU that initiates link encryption. After {{smp-pairing|SMP pairing}} establishes the Long-Term Key, LL_ENC_REQ turns on AES-CCM for every subsequent PDU.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Bluetooth_Low_Energy',
+	  category: 'security'
+	},
+
+	{
+	  id: 'pcd',
+	  term: 'PCD (Proximity Coupling Device)',
+	  definition:
+	    "The {{rfid|RFID}}/[[nfc|NFC]] reader side — the *terminal* that energizes the 13.56 MHz field and initiates commands. ISO/IEC 14443 nomenclature.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/ISO/IEC_14443',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'picc',
+	  term: 'PICC (Proximity Integrated Circuit Card)',
+	  definition:
+	    "The {{rfid|RFID}}/[[nfc|NFC]] *card* side — passive (powered by {{inductive-coupling|inductive coupling}} from the {{pcd|PCD}}'s field) or active (phone in card-emulation mode).",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/ISO/IEC_14443',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'reqa',
+	  term: 'REQA / WUPA',
+	  definition:
+	    "7-bit short frame ([[nfc|NFC]] Type A): REQA `0x26` wakes IDLE {{picc|PICCs}}, WUPA `0x52` wakes both IDLE and HALT. First message of the [[nfc|NFC]] anti-collision dance.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/ISO/IEC_14443',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'atqa',
+	  term: 'ATQA (Answer to Request, Type A)',
+	  definition:
+	    "The {{picc|PICC}}'s reply to {{reqa|REQA}}/WUPA. 16 bits indicating the UID size (4/7/10 bytes) and which anti-collision bit-frame to use.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/ISO/IEC_14443',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'rats',
+	  term: 'RATS / ATS',
+	  definition:
+	    "Request for Answer To Select — the [[nfc|NFC]] command that promotes a card from raw ISO 14443-3 anti-collision to the higher-layer ISO 14443-4 protocol. The ATS response declares Frame Size and Frame Waiting Time.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/ISO/IEC_14443',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'anti-collision',
+	  term: 'Anti-Collision',
+	  definition:
+	    "The bit-by-bit loop ([[nfc|NFC]] Type A: SEL + NVB cascade) that singles out exactly one card when multiple {{picc|PICCs}} share the {{pcd|PCD}}'s field. Resolves the UID one bit at a time.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/ISO/IEC_14443',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'select-aid',
+	  term: 'SELECT AID',
+	  definition:
+	    "ISO 7816-4 command (`00 A4 04 00 …`) that selects an application by its {{aid|AID}}. In contactless payment: first SELECT {{ppse|PPSE}}, then SELECT the chosen card AID (Visa, Mastercard, AmEx).",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Smart_card_application_protocol_data_unit',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'pdol',
+	  term: 'PDOL (Processing Data Object List)',
+	  definition:
+	    "List of EMV tags the card needs filled in by the terminal before {{gpo|GPO}}: amount, currency, country, transaction date, terminal verification results, unpredictable number, etc.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/EMV',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'gpo',
+	  term: 'GPO (Get Processing Options)',
+	  definition:
+	    "EMV contactless command that hands the {{pdol|PDOL}}-filled data to the card. The card replies with AIP (modes supported) and {{afl|AFL}} (which records the terminal should next {{read-record|READ}}).",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/EMV',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'afl',
+	  term: 'AFL (Application File Locator)',
+	  definition:
+	    "EMV record map returned in the {{gpo|GPO}} response — tells the terminal exactly which records to {{read-record|READ RECORD}} to assemble the cardholder data, certificate chain, and CDOL.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/EMV',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'read-record',
+	  term: 'READ RECORD',
+	  definition:
+	    "ISO 7816-4 command that retrieves one record from a file on the card. EMV terminals issue several READ RECORDs (one per {{afl|AFL}} entry) to pull DPAN, expiry, CDOL1, and the offline data-authentication certificate chain.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Smart_card_application_protocol_data_unit',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'generate-ac',
+	  term: 'GENERATE AC',
+	  definition:
+	    "The EMV command that asks the card to produce an Application Cryptogram from the CDOL1 inputs. Yields the {{arqc|ARQC}} (online) or TC (offline-approved). MAC'd under the per-DPAN key.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/EMV',
+	  category: 'security'
+	},
+
+	{
+	  id: 'arqc',
+	  term: 'ARQC (Authorisation Request Cryptogram)',
+	  definition:
+	    "EMV cryptogram returned by {{generate-ac|GENERATE AC}}. The terminal forwards it via acquirer → payment network → issuer; the issuer's HSM verifies and returns an ARPC = APPROVED/DECLINED.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/EMV',
+	  category: 'security'
+	},
+
+	{
+	  id: 'dpan',
+	  term: 'DPAN (Device PAN)',
+	  definition:
+	    "The tokenized card number stored on a phone or wearable for contactless payments — *not* the real PAN. Real PAN lives only at the issuer; the DPAN is unique per device + per merchant network.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Tokenization_(data_security)',
+	  category: 'security'
+	},
+
+	{
+	  id: 'binding-request',
+	  term: 'STUN Binding Request',
+	  definition:
+	    "20-byte {{stun|STUN}} packet — magic cookie `0x2112A442` + 96-bit transaction ID. Sent to a STUN server (learns server-reflexive address) or peer (ICE connectivity check).",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/STUN',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'xor-mapped-address',
+	  term: 'XOR-MAPPED-ADDRESS',
+	  definition:
+	    "{{stun|STUN}} attribute in a Binding Response carrying the source `ip:port` the server observed, XORed against the magic cookie so {{nat|NAT}} middleboxes can't rewrite it. Your server-reflexive candidate.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/STUN',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'xor-relayed-address',
+	  term: 'XOR-RELAYED-ADDRESS',
+	  definition:
+	    "{{turn|TURN}} attribute in an Allocate Response — the public `ip:port` the relay reserved for the client. The fallback path when neither host nor server-reflexive {{ice-candidate|candidates}} work.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Traversal_Using_Relays_around_NAT',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'use-candidate',
+	  term: 'USE-CANDIDATE',
+	  definition:
+	    "{{stun|STUN}} attribute the {{ice|ICE}} controlling agent sets on the connectivity check it wants the other side to use. Nominates the winning candidate pair; media starts flowing on it.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Interactive_Connectivity_Establishment',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'interface-id',
+	  term: 'Interface ID',
+	  definition:
+	    "Lower 64 bits of an [[ipv6|IPv6]] address — identifies a specific interface on a link. Built from the {{mac-address|MAC}} via EUI-64, generated randomly (privacy addresses), or assigned via DHCPv6.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/IPv6_address#Modified_EUI-64',
+	  category: 'networking-basics'
+	},
+
+	{
+	  id: 'mac-table',
+	  term: 'MAC Address Table',
+	  definition:
+	    "Per-switch table mapping {{mac-address|MAC addresses}} to switch ports. Learned by snooping the source MAC of frames as they arrive. Entries time out after a few minutes if unused. The reason a switch is faster than a hub.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Forwarding_information_base',
+	  category: 'networking-basics'
+	},
+
+	{
+	  id: 'prach',
+	  term: 'PRACH (Physical Random Access Channel)',
+	  definition:
+	    "The {{5g-nr|5G NR}} / {{lte|LTE}} uplink channel a {{ue|UE}} uses to first contact a {{gnb|base station}}. The UE transmits a PRACH preamble (Msg1) in a contention-based slot; the base station replies with a Random Access Response (RAR / Msg2) carrying initial timing advance and a temporary identifier ({{c-rnti|C-RNTI}}).",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Physical_layer_(LTE)',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'ue',
+	  term: 'UE (User Equipment)',
+	  definition:
+	    "{{3gpp|3GPP}} term for the [[cellular|cellular]] subscriber device — phone, tablet, modem, IoT module. The UE pairs with the {{sim-usim|USIM}} to authenticate to the network and runs the {{rrc|RRC}} and {{nas|NAS}} stacks against the {{gnb|gNB}} and {{amf|AMF}}.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/User_equipment',
+	  category: 'networking-basics'
+	},
+
+	{
+	  id: 'gnb',
+	  term: 'gNB (Next-Generation NodeB)',
+	  definition:
+	    "The {{5g-nr|5G}} base station — the radio access node a {{ue|UE}} attaches to. Speaks {{rrc|RRC}} to UEs over the air and NGAP to the {{amf|AMF}} over the N2 interface. Successor to the {{lte|LTE}} eNB.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/GNodeB',
+	  category: 'networking-basics'
+	},
+
+	{
+	  id: 'rrc',
+	  term: 'RRC (Radio Resource Control)',
+	  definition:
+	    "The signalling protocol between a {{ue|UE}} and a {{gnb|gNB}} that sets up, reconfigures, and tears down radio bearers. Walks the UE through an eight-state machine: Idle → RRCSetupRequest → RRCSetup → RRCReconfiguration. Carries security mode, measurement reports, and handover commands.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Radio_Resource_Control',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'nas',
+	  term: 'NAS (Non-Access Stratum)',
+	  definition:
+	    "The [[cellular|cellular]] signalling layer that runs end-to-end between a {{ue|UE}} and the {{amf|AMF}}, transparent to the {{gnb|gNB}}. Carries Registration, Authentication, Security Mode Command, and PDU Session messages. NAS ciphering (128-NEA) and integrity (128-NIA) sit here.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Non-access_stratum',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'amf',
+	  term: 'AMF (Access and Mobility Management Function)',
+	  definition:
+	    "The {{5g-core|5G core}} function that terminates {{nas|NAS}} signalling for a {{ue|UE}}: handles Registration, mobility, paging, and authentication orchestration with {{ausf|AUSF}} / {{udm|UDM}}. Equivalent role to the {{lte|LTE}} MME.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/5G_network_slicing',
+	  category: 'infrastructure'
+	},
+
+	{
+	  id: 'smf',
+	  term: 'SMF (Session Management Function)',
+	  definition:
+	    "The {{5g-core|5G core}} function that creates and manages {{pdu-session|PDU sessions}} — assigns [[ip|IP]] addresses, programs the {{upf|UPF}} via {{pfcp|PFCP}}, enforces {{qos|QoS}} rules. Control-plane counterpart to UPF under {{cups|CUPS}}.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/5G_network_slicing',
+	  category: 'infrastructure'
+	},
+
+	{
+	  id: 'upf',
+	  term: 'UPF (User Plane Function)',
+	  definition:
+	    "The {{5g-core|5G core}} data-plane forwarder. Receives user packets from {{gnb|gNB}} via N3 ({{gtp-u|GTP-U}}), applies the PDR/FAR/QER/URR rules installed by the {{smf|SMF}} over {{pfcp|PFCP}}, and forwards to the data network. The packet processor in the {{cups|CUPS}} split.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/5G_network_slicing',
+	  category: 'infrastructure'
+	},
+
+	{
+	  id: 'ausf',
+	  term: 'AUSF (Authentication Server Function)',
+	  definition:
+	    "The {{5g-core|5G core}} function that runs the authentication exchange with a {{ue|UE}}. Receives the authentication vector from {{udm|UDM}}, sends RAND/AUTN to the UE via {{amf|AMF}}, compares the returned RES* against HRES*. The 5G-AKA decision point.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/5G_security',
+	  category: 'security'
+	},
+
+	{
+	  id: 'udm',
+	  term: 'UDM (Unified Data Management)',
+	  definition:
+	    "The {{5g-core|5G core}} subscriber database — holds long-term keys K, subscription profiles, and policy data. Hosts the SIDF (Subscription Identifier De-concealing Function) that decrypts {{suci|SUCI}} back into {{supi|SUPI}}. Equivalent role to the {{lte|LTE}} HSS.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/5G_security',
+	  category: 'infrastructure'
+	},
+
+	{
+	  id: '5g-core',
+	  term: '5G Core (5GC)',
+	  definition:
+	    "The service-based architecture that replaced the {{lte|LTE}} EPC in {{5g-nr|5G}}. Decomposes mobility, sessions, authentication, and policy into discrete network functions ({{amf|AMF}}, {{smf|SMF}}, {{upf|UPF}}, {{ausf|AUSF}}, {{udm|UDM}}, PCF, NRF) that talk over HTTP/2 service APIs ({{sba|SBA}}).",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/5G',
+	  category: 'infrastructure'
+	},
+
+	{
+	  id: 'suci',
+	  term: 'SUCI (Subscription Concealed Identifier)',
+	  definition:
+	    "The encrypted form of a subscriber's permanent [[cellular|cellular]] identity. The {{sim-usim|USIM}} encrypts the {{supi|SUPI}} with the home network's public key (ECIES on Curve25519, Profile A) before any transmission — so the long-term IMSI is never sent in clear over the air. Introduced in {{5g-nr|5G}} to defeat IMSI catchers.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Subscription_Concealed_Identifier',
+	  category: 'security'
+	},
+
+	{
+	  id: 'supi',
+	  term: 'SUPI (Subscription Permanent Identifier)',
+	  definition:
+	    "The long-term [[cellular|cellular]] subscriber identity stored on the {{sim-usim|USIM}}. Usually an IMSI (MCC + MNC + MSIN). Never sent in clear in {{5g-nr|5G}} — always concealed as a {{suci|SUCI}} on the air interface, decrypted only at the {{udm|UDM}}'s SIDF.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/International_mobile_subscriber_identity',
+	  category: 'security'
+	},
+
+	{
+	  id: '5g-aka',
+	  term: '5G-AKA (Authentication and Key Agreement)',
+	  definition:
+	    "The mutual authentication and key derivation protocol between a {{ue|UE}} and the home network in {{5g-nr|5G}}. {{ausf|AUSF}} sends RAND + AUTN; the {{sim-usim|USIM}} verifies AUTN.MAC = f1(K, SQN, RAND), computes RES* via KDF(CK || IK); AUSF compares HRES*. Successor to {{lte|LTE}} EPS-AKA with hash-based RES* and {{suci|SUCI}} integration.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Authentication_and_Key_Agreement_(protocol)',
+	  category: 'security'
+	},
+
+	{
+	  id: 'guti',
+	  term: '5G-GUTI (Globally Unique Temporary Identifier)',
+	  definition:
+	    "The temporary [[cellular|cellular]] identity assigned to a {{ue|UE}} by the {{amf|AMF}} after successful Registration. Used in place of the {{supi|SUPI}} for subsequent paging and signalling, rotated on a per-network policy to prevent tracking.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/GUTI',
+	  category: 'security'
+	},
+
+	{
+	  id: 'nssai',
+	  term: 'NSSAI / S-NSSAI (Network Slice Selection)',
+	  definition:
+	    "The {{5g-nr|5G}} identifier that selects which network slice a {{ue|UE}} attaches to. A single S-NSSAI is one slice (SST + SD); NSSAI is the set requested or allowed. Lets one physical [[cellular|cellular]] network present multiple isolated logical networks (eMBB, URLLC, mMTC).",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/5G_network_slicing',
+	  category: 'infrastructure'
+	},
+
+	{
+	  id: 'pdu-session',
+	  term: 'PDU Session',
+	  definition:
+	    "The {{5g-nr|5G}} equivalent of \"give me an [[ip|IP]] address.\" A logical connection between the {{ue|UE}} and the data network (identified by {{dnn|DNN}}), set up by the {{smf|SMF}} programming the {{upf|UPF}} via {{pfcp|PFCP}}. Carries one or more {{drb|Data Radio Bearers}} with {{qos|QoS}} flows.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/5G',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'dnn',
+	  term: 'DNN (Data Network Name)',
+	  definition:
+	    "The {{5g-nr|5G}} successor to {{lte|LTE}} APN. A string (\"internet\", \"ims\", \"private.acme\") that identifies which data network a {{pdu-session|PDU session}} terminates in. The {{smf|SMF}} uses it to pick the {{upf|UPF}} and IP pool.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Access_Point_Name',
+	  category: 'networking-basics'
+	},
+
+	{
+	  id: 'c-rnti',
+	  term: 'C-RNTI (Cell Radio Network Temporary Identifier)',
+	  definition:
+	    "The 16-bit temporary identifier a {{gnb|gNB}} assigns to a {{ue|UE}} in its cell. Assigned in the RAR (Msg2) right after the {{prach|PRACH}} preamble succeeds. Addresses the UE in every subsequent radio scheduling command.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/RNTI',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'drb',
+	  term: 'DRB (Data Radio Bearer)',
+	  definition:
+	    "A {{5g-nr|5G}} / {{lte|LTE}} radio-layer pipe for user data, set up by {{rrc|RRCReconfiguration}}. Each DRB carries one or more {{qos|QoS}} flows ({{qfi|QFI}}-tagged) of a {{pdu-session|PDU session}}. The signalling counterpart is the SRB.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/E-UTRA',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'qfi',
+	  term: 'QFI (QoS Flow Identifier)',
+	  definition:
+	    "The 6-bit tag a {{5g-nr|5G}} {{upf|UPF}} stamps on every uplink/downlink packet to identify which {{qos|QoS}} flow of a {{pdu-session|PDU session}} it belongs to. The {{gnb|gNB}} maps QFIs to {{drb|Data Radio Bearers}}.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/5G',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'ngap',
+	  term: 'NGAP (NG Application Protocol)',
+	  definition:
+	    "The control-plane signalling protocol between a {{gnb|gNB}} and the {{amf|AMF}} on the N2 interface in {{5g-nr|5G}}. Carries Initial UE Message, NAS PDUs, UE Context Setup, handover requests. Sibling of the {{lte|LTE}} S1AP.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/NG_Application_Protocol',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'pfcp',
+	  term: 'PFCP (Packet Forwarding Control Protocol)',
+	  definition:
+	    "The {{3gpp|3GPP}} protocol over UDP/8805 that lets {{smf|SMF}} program {{upf|UPF}} forwarding state: PDR (Packet Detection Rule), FAR (Forwarding Action Rule), QER ({{qos|QoS}} Enforcement Rule), URR (Usage Reporting Rule). The wire between control and data plane under {{cups|CUPS}}.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Packet_Forwarding_Control_Protocol',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'cups',
+	  term: 'CUPS (Control and User Plane Separation)',
+	  definition:
+	    "The {{3gpp|3GPP}} architecture, mandatory in {{5g-nr|5G}}, that splits session-management signalling ({{smf|SMF}}) from packet forwarding ({{upf|UPF}}) and connects them with {{pfcp|PFCP}}. Lets operators scale data plane independently and deploy UPFs at the edge.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/5G_network_slicing',
+	  category: 'infrastructure'
+	},
+
+	{
+	  id: 'ssb',
+	  term: 'SSB (Synchronization Signal Block)',
+	  definition:
+	    "The {{5g-nr|5G}} beacon a {{gnb|gNB}} radiates so {{ue|UEs}} can find it: a periodic burst containing PSS, SSS, and PBCH. UEs measure RSRP/RSRQ on the SSB to pick the best cell before sending a {{prach|PRACH}} preamble.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/5G_NR_frequency_bands',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'pan-id',
+	  term: 'PAN ID (Personal Area Network Identifier)',
+	  definition:
+	    "The 16-bit identifier of an {{ieee-802-15-4|IEEE 802.15.4}} {{piconet|PAN}}. [[zigbee|Zigbee]] and Thread networks use the PAN ID to filter frames at the {{mac-address|MAC}} layer — devices only process frames matching their PAN ID. Picked by the {{zigbee-coordinator|Coordinator}} at network formation.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Personal_area_network',
+	  category: 'networking-basics'
+	},
+
+	{
+	  id: 'zigbee-coordinator',
+	  term: 'Zigbee Coordinator',
+	  definition:
+	    "The single mandatory device that forms a [[zigbee|Zigbee]] network — picks the channel and {{pan-id|PAN ID}}, distributes the network key as the {{trust-center|Trust Center}}, and owns short address 0x0000. Usually mains-powered and always a {{ffd|Full Function Device}}.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Zigbee',
+	  category: 'infrastructure'
+	},
+
+	{
+	  id: 'zigbee-router',
+	  term: 'Zigbee Router',
+	  definition:
+	    "A mains-powered [[zigbee|Zigbee]] {{ffd|FFD}} that forwards frames on behalf of neighbours, enabling {{mesh-network|mesh}} routing via AODV. Routers also let new devices join the network by forwarding their Association Requests to the {{trust-center|Trust Center}}.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Zigbee',
+	  category: 'infrastructure'
+	},
+
+	{
+	  id: 'ffd',
+	  term: 'FFD (Full Function Device)',
+	  definition:
+	    "An {{ieee-802-15-4|IEEE 802.15.4}} device that implements the full MAC and can route, act as a {{zigbee-coordinator|Coordinator}} or {{zigbee-router|Router}}, and talk to any other device. Contrast with {{rfd|RFD}} which can only talk to its parent.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/IEEE_802.15.4',
+	  category: 'networking-basics'
+	},
+
+	{
+	  id: 'rfd',
+	  term: 'RFD (Reduced Function Device)',
+	  definition:
+	    "An {{ieee-802-15-4|IEEE 802.15.4}} End Device that implements only the minimum MAC needed to talk to its parent. Typically battery-powered ([[zigbee|Zigbee]] sensors, buttons, end-line bulbs) and sleeps most of the time.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/IEEE_802.15.4',
+	  category: 'networking-basics'
+	},
+
+	{
+	  id: 'zigbee-joiner',
+	  term: 'Zigbee Joiner',
+	  definition:
+	    "A new [[zigbee|Zigbee]] device attempting to join an existing network. Broadcasts a Beacon Request, picks a parent ({{zigbee-router|Router}} or {{zigbee-coordinator|Coordinator}}), sends an Association Request, and receives the network key encrypted under its pre-configured link key (often an {{install-code|install code}}).",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Zigbee',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'aps-layer',
+	  term: 'APS (Application Support Sub-layer)',
+	  definition:
+	    "The [[zigbee|Zigbee]] layer sitting between {{zigbee-nwk|NWK}} and the application. Handles end-to-end addressing of clusters, APS-level encryption (Transport-Key commands carry the network key encrypted under the link key), and bindings. Frame format: APS header + ZCL payload.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Zigbee',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'zigbee-nwk',
+	  term: 'NWK (Zigbee Network Layer)',
+	  definition:
+	    "The [[zigbee|Zigbee]] layer responsible for {{mesh-network|mesh}} routing (AODV-based), short-address allocation, and Device Announce broadcasts. Sits between {{ieee-802-15-4|802.15.4 MAC}} and {{aps-layer|APS}}; every NWK frame is encrypted with the network key.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Zigbee',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'network-key',
+	  term: 'Network Key (Zigbee)',
+	  definition:
+	    "The 128-bit AES key shared by every device on a [[zigbee|Zigbee]] network. Encrypts every {{zigbee-nwk|NWK}} frame in transit. Delivered to a new joiner by the {{trust-center|Trust Center}} via an {{aps-layer|APS}} Transport-Key command, itself encrypted under the joiner's pre-configured link key.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Zigbee',
+	  category: 'security'
+	},
+
+	{
+	  id: 'short-address',
+	  term: 'Short address (16-bit)',
+	  definition:
+	    "A 16-bit address assigned by the {{zigbee-coordinator|Coordinator}} to each [[zigbee|Zigbee]] device after Association. Used in every {{zigbee-nwk|NWK}} header instead of the full 8-byte {{eui-64|EUI-64}} to save airtime on the constrained {{ieee-802-15-4|802.15.4}} radio.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/IEEE_802.15.4',
+	  category: 'networking-basics'
+	},
+
+	{
+	  id: 'eui-64',
+	  term: 'EUI-64',
+	  definition:
+	    "A 64-bit globally unique identifier assigned by IEEE OUI to {{ieee-802-15-4|802.15.4}}, [[bluetooth|Bluetooth]], and [[ipv6|IPv6]] devices. The long-term factory-burned identity, exchanged once at join time, then replaced by a {{short-address|short address}} for normal traffic in [[zigbee|Zigbee]].",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/MAC_address',
+	  category: 'networking-basics'
+	},
+
+	{
+	  id: 'zigbee-zdo',
+	  term: 'ZDO (Zigbee Device Object)',
+	  definition:
+	    "Cluster 0x0013 on every [[zigbee|Zigbee]] device — handles device announcement, service discovery, binding, and network management. The Device Announce broadcast lets routers update their routing tables when a new device joins.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Zigbee',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'aodv',
+	  term: 'AODV (Ad-hoc On-demand Distance Vector)',
+	  definition:
+	    "The reactive {{mesh-network|mesh}} routing algorithm used by [[zigbee|Zigbee]] and other low-power meshes. Routes are discovered on demand via Route Request / Route Reply broadcasts; intermediate nodes cache routes and age them out. Trades convergence speed for low memory footprint.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Ad_hoc_On-Demand_Distance_Vector_Routing',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'ds-twr',
+	  term: 'DS-TWR (Double-Sided Two-Way Ranging)',
+	  definition:
+	    "The three-message [[uwb|UWB]] ranging exchange (Poll, Response, Final) whose cross-product cancels relative clock drift between initiator and responder to first order. Achieves 10–30 cm distance accuracy where SS-TWR would drift with ppm clock error. Standardised in {{ieee-802-15-4|IEEE 802.15.4z}}.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Real-time_locating_system',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'sfd',
+	  term: 'SFD (Start of Frame Delimiter)',
+	  definition:
+	    "The reference symbol an {{ieee-802-15-4|IEEE 802.15.4}} / [[uwb|UWB]] receiver locks onto to timestamp a frame's arrival. UWB DW3000-class chips resolve the SFD to ~15 picosecond precision — the foundation of {{tof-ranging|ToF}} distance measurement.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/IEEE_802.15.4',
+	  category: 'protocol-mechanics'
+	},
+
+	{
+	  id: 'pake',
+	  term: 'PAKE (Password-Authenticated Key Exchange)',
+	  definition:
+	    "A class of key-exchange protocols (SPAKE2+, OPAQUE, J-PAKE) that derive a strong shared key from a low-entropy password without leaking the password to an eavesdropper or active MITM. Used by {{ccc-digital-key|CCC Digital Key}}, {{matter|Matter}} commissioning, and WPA3 SAE.",
+	  wikiUrl: 'https://en.wikipedia.org/wiki/Password-authenticated_key_agreement',
+	  category: 'security'
+	},
+
+	{
+	  id: 'nearby-interaction',
+	  term: 'Nearby Interaction (Apple)',
+	  definition:
+	    "Apple's framework that exposes [[uwb|UWB]] {{ds-twr|DS-TWR}} ranging on iPhone (U1/U2 chip) and Apple Watch to apps. Bootstraps the session over [[bluetooth|BLE]], runs UWB on Channel 9, refreshes distance and angle at ~10 Hz. The mechanism under AirTag Precision Finding.",
+	  wikiUrl: 'https://developer.apple.com/nearbyinteraction/',
+	  category: 'protocol-mechanics'
+	},
 ];
 
 export const conceptMap = new Map(concepts.map((c) => [c.id, c]));

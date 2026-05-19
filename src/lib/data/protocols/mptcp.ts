@@ -11,34 +11,34 @@ export const mptcp: Protocol = {
 		'[[tcp|TCP]] that uses multiple network paths simultaneously — [[wifi|WiFi]] and cellular at the same time.',
 	overview: `{{multipath|Multipath}} [[tcp|TCP]] solves a fundamental limitation of regular [[tcp|TCP]]: a connection is locked to a single pair of {{ip-address|IP addresses}}. If your phone is connected to both [[wifi|WiFi]] and cellular, standard [[tcp|TCP]] can only use one at a time. [[mptcp|MPTCP]] allows a single connection to spread across multiple network interfaces simultaneously, combining their {{bandwidth|bandwidth}} and seamlessly failing over when one path drops.
 
-The protocol works by establishing "subflows" — each subflow is a regular [[tcp|TCP]] connection on a different network path. A shim layer sits between the application and these subflows, distributing data across paths and reassembling it on the other end. The application sees a single, normal [[tcp|TCP]] {{socket|socket}}; the magic happens entirely at the transport layer.
+The protocol works by establishing "subflows" — each {{subflow|subflow}} is a regular [[tcp|TCP]] connection on a different network path. A shim layer sits between the application and these subflows, distributing data across paths and reassembling it on the other end. The application sees a single, normal [[tcp|TCP]] {{socket|socket}}; the magic happens entirely at the transport layer.
 
 {{apple|Apple}} was the first major adopter, shipping [[mptcp|MPTCP]] in iOS 7 (2013) for Siri — so your voice command wouldn't drop when walking from [[wifi|WiFi]] to cellular range. Since then, {{apple|Apple}} has extended it to Maps, Music, and third-party apps. {{linux|Linux}} has native [[mptcp|MPTCP]] support since kernel 5.6 (2020).`,
 	howItWorks: [
 		{
 			title: 'Initial handshake with MP_CAPABLE',
 			description:
-				'The first subflow is established like a normal [[tcp|TCP]] {{handshake|handshake}}, but SYN packets carry the MP_CAPABLE option. Both sides {{exchange|exchange}} keys that identify this [[mptcp|MPTCP]] connection.'
+				'The first {{subflow|subflow}} is established like a normal [[tcp|TCP]] {{handshake|handshake}}, but SYN packets carry the {{mp-capable|MP_CAPABLE}} option. Both sides {{exchange|exchange}} keys that identify this [[mptcp|MPTCP]] connection.'
 		},
 		{
 			title: 'Additional subflows via MP_JOIN',
 			description:
-				'Either endpoint can open additional [[tcp|TCP]] subflows over different network paths (e.g., [[wifi|WiFi]] + cellular). The SYN carries an MP_JOIN option linking it to the existing connection.'
+				'Either endpoint can open additional [[tcp|TCP]] subflows over different network paths (e.g., [[wifi|WiFi]] + cellular). The SYN carries an {{mp-join|MP_JOIN}} option linking it to the existing connection.'
 		},
 		{
 			title: 'Data-level sequencing',
 			description:
-				'Each subflow has its own [[tcp|TCP]] sequence numbers. A separate Data {{sequence-number|Sequence Number}} (DSN) ensures correct ordering across all subflows before delivering to the application.'
+				'Each {{subflow|subflow}} has its own [[tcp|TCP]] sequence numbers. A separate Data {{sequence-number|Sequence Number}} (DSN) ensures correct ordering across all subflows before delivering to the application.'
 		},
 		{
 			title: 'Scheduler distributes data',
 			description:
-				'The [[mptcp|MPTCP]] scheduler decides which subflow carries each chunk — round-robin, lowest-{{latency|latency}}-first, or redundant. This is transparent to the application.'
+				'The [[mptcp|MPTCP]] scheduler decides which {{subflow|subflow}} carries each chunk — round-robin, lowest-{{latency|latency}}-first, or redundant. This is transparent to the application.'
 		},
 		{
 			title: 'Seamless failover',
 			description:
-				'If a subflow fails ([[wifi|WiFi]] drops), data is automatically redirected to remaining subflows. New subflows can be added on-the-fly. The application never sees a disconnection.'
+				'If a {{subflow|subflow}} fails ([[wifi|WiFi]] drops), data is automatically redirected to remaining subflows. New subflows can be added on-the-fly. The application never sees a disconnection.'
 		}
 	],
 	useCases: [
@@ -175,7 +175,7 @@ TCP SYN-ACK + MP_JOIN:
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/DifferenceTCP_MPTCP-en.png/500px-DifferenceTCP_MPTCP-en.png',
 		alt: 'Comparison diagram showing regular TCP using a single path versus MPTCP using multiple simultaneous paths between two hosts',
 		caption:
-			'[[tcp|TCP]] vs [[mptcp|Multipath TCP]] — regular [[tcp|TCP]] sends data over a single path, while [[mptcp|MPTCP]] splits traffic across multiple interfaces ([[wifi|WiFi]] + cellular, dual [[ethernet|Ethernet]]) simultaneously, boosting throughput and providing seamless failover.',
+			'[[tcp|TCP]] vs [[mptcp|Multipath TCP]] — regular [[tcp|TCP]] sends data over a single path, while [[mptcp|MPTCP]] splits traffic across multiple interfaces ([[wifi|WiFi]] + cellular, dual [[ethernet|Ethernet]]) simultaneously, boosting throughput and providing seamless {{failover|failover}}.',
 		credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 	}
 };

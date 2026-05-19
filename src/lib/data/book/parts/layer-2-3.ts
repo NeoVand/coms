@@ -90,7 +90,7 @@ The **[[frontier:ultra-ethernet-1-0|Ultra Ethernet Consortium]] Specification 1.
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: 'Mathy Vanhoef has broken [[wifi|Wi-Fi]] every two years on stage: {{krack|KRACK}} (2017), Dragonblood (2019), FragAttacks (2021), Framing Frames (2023), SSID Confusion (2024). The cadence is so reliable that the field plans security audits around his summer talks.',
+					text: 'Mathy Vanhoef has broken [[wifi|Wi-Fi]] every two years on stage: {{krack|KRACK}} (2017), Dragonblood (2019), FragAttacks (2021), Framing Frames (2023), {{ssid|SSID}} Confusion (2024). The cadence is so reliable that the field plans security audits around his summer talks.',
 					attribution: 'Author'
 				},
 				{
@@ -119,7 +119,7 @@ The fundamental problem: radios cannot listen and transmit simultaneously, so yo
 						{
 							type: 'callout',
 							title: 'Vanhoef every two years',
-							text: '**Mathy Vanhoef and the KU Leuven team have broken [[wifi|Wi-Fi]] on stage every ~2 years**: **{{krack|KRACK}}** (October 2017, key reinstallation), **Dragonblood** (April 2019, {{wpa3|WPA3}} SAE side channels), **FragAttacks** (May 2021, {{fragmentation|fragmentation}}/aggregation), **Framing Frames** (March 2023), **SSID Confusion / CVE-2023-52424** (May 2024 — the [[wifi|802.11]] standard does NOT require the SSID to enter PMK or session-key derivation in many config paths). The cadence is so reliable that the field plans security audits around his summer talks.'
+							text: '**Mathy Vanhoef and the KU Leuven team have broken [[wifi|Wi-Fi]] on stage every ~2 years**: **{{krack|KRACK}}** (October 2017, key reinstallation), **Dragonblood** (April 2019, {{wpa3|WPA3}} SAE side channels), **FragAttacks** (May 2021, {{fragmentation|fragmentation}}/aggregation), **Framing Frames** (March 2023), **{{ssid|SSID}} Confusion / CVE-2023-52424** (May 2024 — the [[wifi|802.11]] standard does NOT require the SSID to enter PMK or session-key derivation in many config paths). The cadence is so reliable that the field plans security audits around his summer talks.'
 						},
 						{
 							type: 'narrative',
@@ -182,7 +182,7 @@ Two {{ndp|NDP}} CVEs deserve naming.
 
 **CVE-2024-38063 ({{microsoft|Microsoft}}, August 2024)** — \`tcpip.sys\` integer underflow in [[ipv6|IPv6]] fragment reassembly. CVSS 9.8, "exploitable from anywhere on the link." Patched 13 August 2024.
 
-**CVE-2020-16898 "Bad Neighbor" (13 October 2020)** — Windows \`tcpip.sys\` mishandled an ICMPv6 RA with even-length RDNSS option. CVSS 8.8; remote-code-execution claimed wormable. The [[ipv6|IPv6]] stack was supposed to be cleaner than [[ip|IPv4]]'s; the CVE history shows the implementations are no less intricate.
+**CVE-2020-16898 "Bad Neighbor" (13 October 2020)** — Windows \`tcpip.sys\` mishandled an {{icmpv6|ICMPv6}} RA with even-length RDNSS option. CVSS 8.8; remote-code-execution claimed wormable. The [[ipv6|IPv6]] stack was supposed to be cleaner than [[ip|IPv4]]'s; the CVE history shows the implementations are no less intricate.
 
 **SEND (RFC 3971) remains stillborn**: NIST SP 800-119 §5.4.3 acknowledged in 2010 that cryptographic {{ndp|NDP}} isn't deployed; nothing has changed in 2024-2026.`
 						},
@@ -195,7 +195,7 @@ Two {{ndp|NDP}} CVEs deserve naming.
 
 **iOS 18 / macOS Sequoia (September 2024) introduced "Rotate [[wifi|Wi-Fi]] Address" mode** that changes MAC every 14 days on weak/open networks, breaking captive portals, MAC-based [[dhcp|DHCP]] reservations, and [[arp|ARP]]-cache freshness assumptions. Many enterprise [[wifi|Wi-Fi]] deployments needed reconfiguration.
 
-**Frontier — [[ipv6|IPv6]]-mostly is going mainstream**: [[rfc:8925|RFC 8925]] + [[rfc:8781|RFC 8781]] + {{four-six-four-xlat|464XLAT}} lets a single SSID/{{vlan|VLAN}} serve dual-stack laptops AND [[ipv6|IPv6]]-only-capable phones simultaneously, with the [[ipv6|IPv6]]-only-capable hosts **never running [[arp|ARP]]**. {{apple|Apple}} iOS/macOS, {{android|Android}}, and recent macOS request [[dhcp|DHCP]] option 108 by default; Windows is lagging. The day [[arp|ARP]] becomes vestigial is approaching.`
+**Frontier — [[ipv6|IPv6]]-mostly is going mainstream**: [[rfc:8925|RFC 8925]] + [[rfc:8781|RFC 8781]] + {{four-six-four-xlat|464XLAT}} lets a single {{ssid|SSID}}/{{vlan|VLAN}} serve dual-stack laptops AND [[ipv6|IPv6]]-only-capable phones simultaneously, with the [[ipv6|IPv6]]-only-capable hosts **never running [[arp|ARP]]**. {{apple|Apple}} iOS/macOS, {{android|Android}}, and recent macOS request [[dhcp|DHCP]] option 108 by default; Windows is lagging. The day [[arp|ARP]] becomes vestigial is approaching.`
 						},
 						{
 							type: 'image',
@@ -371,9 +371,9 @@ The 2024 {{ietf|IETF}} backlog tells the story of where [[ipv6|IPv6]] work is ha
 						{
 							type: 'narrative',
 							title: 'Mike Muuss\'s One-Night Tool',
-							text: `[[icmp|ICMP]] ([[rfc:792|RFC 792]], September 1981) is the protocol that lets the network tell you something is wrong without opening a connection. When a router drops your packet because the **{{ttl|TTL}}** hit zero, it sends an [[icmp|ICMP]] **Time Exceeded** back to you — the mechanism that **traceroute** exploits to map every hop along a path. When a destination is unreachable, you get **Destination Unreachable**. When a router has too small an {{mtu|MTU}} for your packet and the **Don't Fragment** bit is set, it sends **{{fragmentation|Fragmentation}} Needed**, which is what **{{path-mtu-discovery|Path MTU Discovery}}** depends on.
+							text: `[[icmp|ICMP]] ([[rfc:792|RFC 792]], September 1981) is the protocol that lets the network tell you something is wrong without opening a connection. When a router drops your packet because the **{{ttl|TTL}}** hit zero, it sends an [[icmp|ICMP]] **{{time-exceeded|Time Exceeded}}** back to you — the mechanism that **{{traceroute|traceroute}}** exploits to map every hop along a path. When a destination is unreachable, you get **Destination Unreachable**. When a router has too small an {{mtu|MTU}} for your packet and the **Don't Fragment** bit is set, it sends **{{fragmentation|Fragmentation}} Needed**, which is what **{{path-mtu-discovery|Path MTU Discovery}}** depends on.
 
-The most famous [[icmp|ICMP]] message is **Echo Request / Echo Reply** — what **ping** sends. **Mike Muuss** wrote ping at BRL Aberdeen **in December 1983 in a single night** after hearing Dave Mills describe Fuzzball {{latency|latency}}-timing experiments. He had to write the kernel raw-[[icmp|ICMP]] socket support too because it didn't exist. *"Had everything working well before sunrise."*
+The most famous [[icmp|ICMP]] message is **{{echo-request|Echo Request}} / {{echo-reply|Echo Reply}}** — what **{{ping|ping}}** sends. **Mike Muuss** wrote ping at BRL Aberdeen **in December 1983 in a single night** after hearing Dave Mills describe Fuzzball {{latency|latency}}-timing experiments. He had to write the kernel raw-[[icmp|ICMP]] socket support too because it didn't exist. *"Had everything working well before sunrise."*
 
 **"Ping" is named after sonar**, not an acronym. Mike Muuss explicitly debunked the "Packet INternet Groper" backronym himself: *"I named it after the sound that sonar makes, inspired by the whole principle of echo-location."* He also coined "default route" / "{{gateway|default gateway}}." **Mike Muuss died on 20 November 2000** in an automobile collision on Interstate 95, age 42.`
 						},
@@ -387,7 +387,7 @@ The most famous [[icmp|ICMP]] message is **Echo Request / Echo Reply** — what 
 							title: 'Two Famous Attacks That Renamed the Field',
 							text: `**Smurf attack (1997-1998)**: Tool \`smurf.c\` written by Dan Moschuk (alias TFreak); [[icmp|ICMP]] Echo Requests with spoofed source to a network's directed {{broadcast|broadcast}} address; first high-profile incident University of Minnesota, 1998. **RFC 2644 (August 1999)** changed router default from "forward directed broadcasts" to "drop." Every modern router has the fix; Smurf is now a museum piece, but it is the reason directed-{{broadcast|broadcast}} forwarding is off by default everywhere.
 
-**Ping of Death (1996-1997)**: Oversized fragmented [[icmp|ICMP]] packets, when reassembled, exceeded 65,535 bytes and crashed Windows 95/NT, early {{linux|Linux}}/BSD, {{cisco|Cisco}} IOS, and classic Mac. **CERT advisory {{certificate-authority|CA}}-1996-26 (16 December 1996)**. Modern stacks check for total length overflow before reassembly; the bug is closed but the lesson — that fragment reassembly is one of the most critical security paths in any [[ip|IP]] stack — survives in the **CVE-2024-38063** Windows [[ipv6|IPv6]] fragment integer underflow disclosed 13 August 2024 (CVSS 9.8, "exploitable from anywhere on the link").
+**{{ping|Ping}} of Death (1996-1997)**: Oversized fragmented [[icmp|ICMP]] packets, when reassembled, exceeded 65,535 bytes and crashed Windows 95/NT, early {{linux|Linux}}/BSD, {{cisco|Cisco}} IOS, and classic Mac. **CERT advisory {{certificate-authority|CA}}-1996-26 (16 December 1996)**. Modern stacks check for total length overflow before reassembly; the bug is closed but the lesson — that fragment reassembly is one of the most critical security paths in any [[ip|IP]] stack — survives in the **CVE-2024-38063** Windows [[ipv6|IPv6]] fragment integer underflow disclosed 13 August 2024 (CVSS 9.8, "exploitable from anywhere on the link").
 
 **{{cloudflare|Cloudflare}} 2014 PMTUD black-hole**: {{cloudflare|Cloudflare}}'s blog *"{{path-mtu-discovery|Path MTU Discovery}} in Practice"* documented [[icmp|ICMP]] Type 3/Code 4 messages getting filtered before reaching servers — [[tcp|TCP]] handshakes complete, then HTTP responses hang forever. Drove industry rollout of **[[rfc:4821|RFC 4821]] PLPMTUD** (Packetisation-Layer PMTUD) which probes path {{mtu|MTU}} at the application layer instead of relying on routers to send [[icmp|ICMP]] back.`
 						},
@@ -400,7 +400,7 @@ The most famous [[icmp|ICMP]] message is **Echo Request / Echo Reply** — what 
 
 **2020 Internet-wide measurement (SMap study)**: **69.8% of ASes still don't filter spoofed packets at ingress** — substrate that makes [[icmp|ICMP]] reflection still feasible.
 
-**Frontier**: Tsinghua's \`draft-xu-intarea-challenge-icmpv4-02\` (February 2025) proposes a challenge-confirm scheme using [[ip|IP]] options so receivers can verify a router actually saw the original packet — the most concrete proposal in years to fix [[icmp|ICMP]]'s "anyone-can-spoof-any-error" weakness. \`draft-{{ietf|ietf}}-6man-icmpv6-reflection-19\` (December 2025) defines a {{stateless|stateless}} probe-and-reflect ICMPv6 utility, currently active.
+**Frontier**: Tsinghua's \`draft-xu-intarea-challenge-icmpv4-02\` (February 2025) proposes a challenge-confirm scheme using [[ip|IP]] options so receivers can verify a router actually saw the original packet — the most concrete proposal in years to fix [[icmp|ICMP]]'s "anyone-can-spoof-any-error" weakness. \`draft-{{ietf|ietf}}-6man-{{icmpv6|icmpv6}}-reflection-19\` (December 2025) defines a {{stateless|stateless}} probe-and-reflect ICMPv6 utility, currently active.
 
 **GGP (RFC 823, September 1982)** is [[icmp|ICMP]]'s parent — the Gateway-to-Gateway Protocol on {{bbn|BBN}}'s LSI-11 gateways, predecessor of EGP (1984) and grand-uncle of [[bgp|BGP]]. The diagnostic mechanism predates the routing protocol.`
 						},
@@ -409,7 +409,7 @@ The most famous [[icmp|ICMP]] message is **Echo Request / Echo Reply** — what 
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/ICMPv4_Echo_and_Echo_replay_message-en.svg/500px-ICMPv4_Echo_and_Echo_replay_message-en.svg.png',
 							alt: 'ICMPv4 Echo Request and Echo Reply message exchange diagram.',
 							caption:
-								'**[[icmp|ICMP]] Echo Request / Echo Reply** — the wire format underneath `ping`. Mike Muuss wrote ping in a single night at BRL Aberdeen in December 1983, named after the sound a sonar makes: *"Had everything working well before sunrise."* The same Echo/Reply pair, drawn here in a 21st-century diagram, has been carrying *"is this host alive?"* for forty-three years.',
+								'**[[icmp|ICMP]] {{echo-request|Echo Request}} / {{echo-reply|Echo Reply}}** — the wire format underneath `{{ping|ping}}`. Mike Muuss wrote ping in a single night at BRL Aberdeen in December 1983, named after the sound a sonar makes: *"Had everything working well before sunrise."* The same Echo/Reply pair, drawn here in a 21st-century diagram, has been carrying *"is this host alive?"* for forty-three years.',
 							credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 						}
 					]

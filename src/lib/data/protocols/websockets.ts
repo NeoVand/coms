@@ -33,7 +33,7 @@ The connection starts as a normal [[http1|HTTP]] request with an "Upgrade: webso
 		{
 			title: 'Ping/pong keepalive',
 			description:
-				'Either side can send ping frames; the other must respond with pong. This keeps the connection alive through firewalls and proxies.'
+				'Either side can send {{ping|ping}} frames; the other must respond with pong. This keeps the connection alive through firewalls and proxies.'
 		}
 	],
 	useCases: [

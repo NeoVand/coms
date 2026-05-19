@@ -7,7 +7,7 @@ export const asyncIotStory: CategoryStory = {
 		{
 			type: 'narrative',
 			title: 'Oil Pipelines in the Desert',
-			text: `Somewhere in a remote oil field, a sensor measures pipeline pressure. The data needs to reach a monitoring station hundreds of miles away, over a satellite link that drops packets and costs per byte. It's 1999, and Andy Stanford-Clark at IBM has a problem: [[http1]] is too heavy, [[tcp]] connections are too chatty, and {{bandwidth|bandwidth}} is precious. Together with Arlen Nipper of Arcom, he designs a protocol so lightweight it can run on the most constrained devices imaginable. They call it [[mqtt|MQTT]] — a publish-subscribe protocol with a tiny 2-byte header overhead. A sensor publishes data to a {{topic|topic}}; any number of subscribers can listen. The broker handles all the routing. It was designed for a world that didn't exist yet — the Internet of Things.`
+			text: `Somewhere in a remote oil field, a sensor measures pipeline pressure. The data needs to reach a monitoring station hundreds of miles away, over a satellite link that drops packets and costs per byte. It's 1999, and Andy Stanford-Clark at IBM has a problem: [[http1]] is too heavy, [[tcp]] connections are too chatty, and {{bandwidth|bandwidth}} is precious. Together with Arlen Nipper of Arcom, he designs a protocol so lightweight it can run on the most constrained devices imaginable. They call it [[mqtt|MQTT]] — a {{mqtt-publish|publish}}-subscribe protocol with a tiny 2-byte header overhead. A sensor publishes data to a {{topic|topic}}; any number of subscribers can listen. The broker handles all the routing. It was designed for a world that didn't exist yet — the Internet of Things.`
 		},
 		{
 			type: 'image',
@@ -44,14 +44,14 @@ export const asyncIotStory: CategoryStory = {
 		{
 			type: 'diagram',
 			definition: `graph TD
-  P1[Sensor A] -->|publish| B((Broker))
+  P1[Sensor A] -->|{{mqtt-publish|publish}}| B((Broker))
   P2[Sensor B] -->|publish| B
   P3[Sensor C] -->|publish| B
   B -->|subscribe| S1[Dashboard]
   B -->|subscribe| S2[Alert System]
   B -->|subscribe| S3[Database]`,
 			caption:
-				'The publish-subscribe pattern: publishers and subscribers are fully decoupled through a central broker.'
+				'The {{mqtt-publish|publish}}-subscribe pattern: publishers and subscribers are fully decoupled through a central broker.'
 		},
 		{
 			type: 'timeline',
@@ -66,7 +66,7 @@ export const asyncIotStory: CategoryStory = {
 					year: 1999,
 					title: 'MQTT Created',
 					description:
-						'Stanford-Clark and Nipper design [[mqtt|MQTT]] for oil pipeline telemetry over satellite links. Lightweight, publish-subscribe, minimal overhead.',
+						'Stanford-Clark and Nipper design [[mqtt|MQTT]] for oil pipeline telemetry over satellite links. Lightweight, {{mqtt-publish|publish}}-subscribe, minimal overhead.',
 					protocolId: 'mqtt'
 				},
 				{
@@ -195,7 +195,7 @@ export const asyncIotStory: CategoryStory = {
 		{
 			type: 'narrative',
 			title: 'The IoT Explosion',
-			text: `The Internet of Things turned [[mqtt|MQTT]] from a niche protocol into a global standard. Smart homes, industrial sensors, connected cars, agricultural monitors — billions of devices needed to send small messages reliably over constrained networks. [[mqtt]] was built for exactly this.\n\nBut some devices are even more constrained — 8-bit microcontrollers with kilobytes of RAM, running on coin-cell batteries. For these, even [[mqtt]] over [[tcp]] was too heavy. [[coap|CoAP]] was designed as the HTTP of the constrained world: it uses [[udp]] instead of [[tcp|TCP]], supports GET/PUT/POST/DELETE like [[rest|REST]], but with a compact binary format. A [[coap|CoAP]] message can be as small as 4 bytes. It even supports observe — a lightweight subscription mechanism — and can be proxied to HTTP, bridging the constrained and web worlds.`
+			text: `The Internet of Things turned [[mqtt|MQTT]] from a niche protocol into a global standard. Smart homes, industrial sensors, connected cars, agricultural monitors — billions of devices needed to send small messages reliably over constrained networks. [[mqtt]] was built for exactly this.\n\nBut some devices are even more constrained — 8-bit microcontrollers with kilobytes of RAM, running on coin-cell batteries. For these, even [[mqtt]] over [[tcp]] was too heavy. [[coap|CoAP]] was designed as the HTTP of the constrained world: it uses [[udp]] instead of [[tcp|TCP]], supports GET/PUT/POST/DELETE like [[rest|REST]], but with a compact binary format. A [[coap|CoAP]] message can be as small as 4 bytes. It even supports {{coap-observe|observe}} — a lightweight subscription mechanism — and can be proxied to HTTP, bridging the constrained and web worlds.`
 		},
 		{
 			type: 'image',
@@ -260,7 +260,7 @@ export const asyncIotStory: CategoryStory = {
 		{
 			type: 'callout',
 			title: 'The Pub/Sub Pattern',
-			text: "The publish-subscribe pattern — where senders don't know their receivers and receivers don't know their senders — dates back to academic research in the 1980s. It journeyed from Wall Street trading floors (TIBCO) to IoT sensors ([[mqtt|MQTT]]) to cloud-native microservices ([[amqp]], NATS, [[kafka]]). Today, it's one of the most important patterns in distributed systems, decoupling producers and consumers at global scale."
+			text: "The {{mqtt-publish|publish}}-subscribe pattern — where senders don't know their receivers and receivers don't know their senders — dates back to academic research in the 1980s. It journeyed from Wall Street trading floors (TIBCO) to IoT sensors ([[mqtt|MQTT]]) to cloud-native microservices ([[amqp]], NATS, [[kafka]]). Today, it's one of the most important patterns in distributed systems, decoupling producers and consumers at global scale."
 		}
 	]
 };

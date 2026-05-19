@@ -120,7 +120,7 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
 					year: 1980,
 					title: 'DIX Ethernet Standard Published',
 					description:
-						'Digital Equipment Corporation, {{intel|Intel}}, and Xerox publish the DIX standard ([[ethernet|Ethernet]] II), defining the frame format still used today.'
+						'Digital Equipment Corporation, {{intel|Intel}}, and Xerox {{mqtt-publish|publish}} the DIX standard ([[ethernet|Ethernet]] II), defining the frame format still used today.'
 				},
 				{
 					year: 1981,
@@ -133,7 +133,7 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
 					year: 1981,
 					title: 'ICMP Published — RFC 792',
 					description:
-						'[[pioneer:jon-postel|Jon Postel]] defines the Internet Control Message Protocol. The network can now report errors and answer "are you there?" — ping is born, and traceroute follows.',
+						'[[pioneer:jon-postel|Jon Postel]] defines the Internet Control Message Protocol. The network can now report errors and answer "are you there?" — {{ping|ping}} is born, and {{traceroute|traceroute}} follows.',
 					protocolId: 'icmp'
 				},
 				{
@@ -161,7 +161,7 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
 					year: 1998,
 					title: 'IPv6 Specified — RFC 2460',
 					description:
-						'[[pioneer:steve-deering|Steve Deering]] and Rob Hinden publish [[ipv6|IPv6]] with 128-bit addresses, a simplified header, and no more {{broadcast|broadcast}}. The long transition from [[ip|IPv4]] begins.',
+						'[[pioneer:steve-deering|Steve Deering]] and Rob Hinden {{mqtt-publish|publish}} [[ipv6|IPv6]] with 128-bit addresses, a simplified header, and no more {{broadcast|broadcast}}. The long transition from [[ip|IPv4]] begins.',
 					protocolId: 'ipv6'
 				},
 				{
@@ -230,7 +230,7 @@ The shift from hubs to switches in the 1990s was transformative. A hub was just 
 			title: 'Diagnostics, Routing, and the Next Generation',
 			text: `With framing, addressing, and routing in place, three more protocols completed the network foundation.
 
-In 1981, [[pioneer:jon-postel|Jon Postel]] defined [[icmp|ICMP]] — the Internet Control Message Protocol. [[icmp|ICMP]] is the network's built-in diagnostic system: it reports errors ("destination unreachable," "time exceeded," "redirect") and enables the two most essential troubleshooting tools in networking. Ping sends an Echo Request and waits for an Echo Reply, telling you if a host is alive and how fast the path is. Traceroute sends packets with incrementing {{ttl|TTL}} values, collecting "Time Exceeded" responses from each router along the path — revealing every hop between you and a destination.
+In 1981, [[pioneer:jon-postel|Jon Postel]] defined [[icmp|ICMP]] — the Internet Control Message Protocol. [[icmp|ICMP]] is the network's built-in diagnostic system: it reports errors ("destination unreachable," "{{time-exceeded|time exceeded}}," "redirect") and enables the two most essential troubleshooting tools in networking. {{ping|Ping}} sends an {{echo-request|Echo Request}} and waits for an {{echo-reply|Echo Reply}}, telling you if a host is alive and how fast the path is. {{traceroute|Traceroute}} sends packets with incrementing {{ttl|TTL}} values, collecting "Time Exceeded" responses from each router along the path — revealing every hop between you and a destination.
 
 By 1989, the internet was outgrowing its routing. The original {{arpanet|ARPANET}} had a single backbone — routing was simple. But as multiple networks connected, someone had to decide how traffic flows between them. [[pioneer:yakov-rekhter|Yakov Rekhter]] and Kirk Lougheed created [[bgp|BGP]], the Border Gateway Protocol, which treats each network as an "{{autonomous-system|autonomous system}}" and exchanges route advertisements between them. Today, [[bgp|BGP]] is literally the protocol that holds the internet together — every path your data takes across network boundaries is decided by [[bgp|BGP]] route advertisements exchanged on [[tcp|TCP]] port 179.
 
@@ -252,7 +252,7 @@ The most ambitious chapter began in the 1990s. [[ip|IPv4]]'s 32-bit address spac
   end
   subgraph V6["[[ipv6|IPv6]] Header (40 bytes, fixed)"]
     V6A["Version (4b) + Traffic Class (8b) + Flow Label (20b)"]
-    V6B["{{payload|Payload}} Length + Next Header + Hop Limit"]
+    V6B["{{payload|Payload}} Length + Next Header + {{hop-limit|Hop Limit}}"]
     V6C["Source IP (128-bit)"]
     V6D["Destination IP (128-bit)"]
     V6A --- V6B --- V6C --- V6D

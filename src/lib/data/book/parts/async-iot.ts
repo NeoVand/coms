@@ -43,7 +43,7 @@ The constraint was brutal: kilobits-per-second satellite links priced per byte, 
 							title: 'How It Works — and the Sparkplug ISO Standard',
 							text: `[[mqtt|MQTT]] defines three quality-of-service levels (at-most-once, at-least-once, exactly-once) that let the application trade reliability for {{bandwidth|bandwidth}}. A persistent **session** survives disconnections — when a sleeping sensor wakes up an hour later and reconnects, the broker delivers any messages it missed.
 
-The architecture is **publish-subscribe** through a central **broker**. Sensors publish to topics like \`farm/north/soil-moisture\`; subscribers (a dashboard, an irrigation controller) get every message published to topics matching their subscription. Producers and consumers do not need to know about each other.
+The architecture is **{{mqtt-publish|publish}}-subscribe** through a central **broker**. Sensors publish to topics like \`farm/north/soil-moisture\`; subscribers (a dashboard, an irrigation controller) get every message published to topics matching their subscription. Producers and consumers do not need to know about each other.
 
 [[mqtt|MQTT]] is also the historical template for two patterns now considered universal: **{{last-will|Last Will}} & Testament** (a message the broker sends on the device's behalf when it dies) and **retained messages** (the latest value on a {{topic|topic}}, kept by the broker for late subscribers). Both were invented in 1999.
 
@@ -169,7 +169,7 @@ A [[kafka|Kafka]] **{{topic|topic}}** is a partitioned log. Producers append rec
 						{
 							type: 'narrative',
 							title: 'Kafka 4.0 — The End of ZooKeeper',
-							text: `**[[kafka|Kafka]] 4.0 (18 March 2025) removed ZooKeeper entirely** — the end of a 10-year migration that began with KIP-500 in 2019. **KRaft** ([[kafka|Kafka]] Raft metadata) is now the only metadata mode. KIP-848 (new consumer rebalance protocol) GA shipped in the same release.
+							text: `**[[kafka|Kafka]] 4.0 (18 March 2025) removed ZooKeeper entirely** — the end of a 10-year migration that began with KIP-500 in 2019. **KRaft** ([[kafka|Kafka]] Raft metadata) is now the only metadata mode. KIP-848 (new {{consumer-rebalance|consumer rebalance}} protocol) GA shipped in the same release.
 
 **KIP-848 cuts rebalance times by an order of magnitude**: 10 consumers and 900 partitions take **5 seconds with KIP-848 versus 103 seconds with the classic protocol**.
 
@@ -189,7 +189,7 @@ A [[kafka|Kafka]] **{{topic|topic}}** is a partitioned log. Producers append rec
 
 The wire-level details that {{matter|matter}} operationally: [[kafka|Kafka]]'s reference congestion and storage stack is **CRC32C (Castagnoli)** for batch integrity, **gzip/snappy/lz4/zstd** compression, and **\`sendfile(2)\` zero-copy** fetches from page cache — its raw throughput edge over [[amqp|AMQP]]/RabbitMQ.
 
-2024-2025 CVE wave: **CVE-2024-56128** (SCRAM skipped server-{{nonce|nonce}} check, fixed 3.7.2/3.8.1/3.9.0); **CVE-2025-27817** (SASL/OAUTHBEARER arbitrary file read/SSRF, fixed 3.9.1/4.0.0); the older **CVE-2023-25194** JndiLoginModule RCE in Connect [[rest|REST]] API was the field's Log4Shell moment.
+2024-2025 CVE wave: **CVE-2024-56128** ({{scram|SCRAM}} skipped server-{{nonce|nonce}} check, fixed 3.7.2/3.8.1/3.9.0); **CVE-2025-27817** ({{sasl|SASL}}/OAUTHBEARER arbitrary file read/SSRF, fixed 3.9.1/4.0.0); the older **CVE-2023-25194** JndiLoginModule RCE in Connect [[rest|REST]] API was the field's Log4Shell moment.
 
 **Datadog 8 March 2023** outage (~24h, multi-region) was triggered when an Ubuntu 22.04 systemd-networkd update deleted Cilium-managed [[ip|IP]] routes on Kubernetes nodes hosting Datadog's [[kafka|Kafka]]/ZK pipeline — the canonical "messaging tier ripple effect" post-mortem of the period.`
 						},

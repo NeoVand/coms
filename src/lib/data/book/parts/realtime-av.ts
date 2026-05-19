@@ -94,7 +94,7 @@ Active 2025-2026 work in the {{ietf|IETF}} AVTCORE WG: **RFC 9628 (2024)** final
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: '[[webrtc|WebRTC]] is the only way for a web browser to send a [[udp|UDP]] packet. Every [[websockets|WebSocket]], fetch, {{http2-stream|HTTP/2 stream}}, and even {{webtransport|WebTransport}} datagram before March 2026 was either [[tcp|TCP]] or [[quic|QUIC]] under browser control with no {{peer-to-peer|peer-to-peer}} mode.',
+					text: '[[webrtc|WebRTC]] is the only way for a web browser to send a [[udp|UDP]] packet. Every [[websockets|WebSocket]], {{imap-fetch|fetch}}, {{http2-stream|HTTP/2 stream}}, and even {{webtransport|WebTransport}} datagram before March 2026 was either [[tcp|TCP]] or [[quic|QUIC]] under browser control with no {{peer-to-peer|peer-to-peer}} mode.',
 					attribution: 'Cloudflare engineering blog'
 				},
 				{
@@ -282,7 +282,7 @@ The 2026 cryptographic milestone: **\`draft-pantos-hls-rfc8216bis-22\` (May 2026
 
 **Peacock's AFC Wild Card game (Chiefs-Dolphins, 13 January 2024)** reached 27.6 million total viewers (~24.6 M concurrent), the most-streamed live event in U.S. history, consuming ~30% of U.S. internet traffic. The **Paris 2024 Olympics on Peacock** delivered 23.5 billion streamed minutes — 40% more than all prior Olympics combined.
 
-**BOLA** (Spiteri/Urgaonkar/Sitaraman) just won the **2026 IEEE INFOCOM Test of Time Award**. The Lyapunov-optimization ABR algorithm has been the dash.js default for years and is "near-optimal" without requiring throughput prediction. **CMCD/CMSD (CTA-5004) became universal** in 2024: native CMCD support shipped in AVPlayer with iOS 18 (WWDC 2024), and **CMCDv2 (CTA-5004-A) was published in February 2026** — letting servers see what their clients are actually doing without the player having to roll a custom telemetry pipeline.
+**{{abr-bola|BOLA}}** (Spiteri/Urgaonkar/Sitaraman) just won the **2026 IEEE INFOCOM Test of Time Award**. The Lyapunov-optimization ABR algorithm has been the dash.js default for years and is "near-optimal" without requiring throughput prediction. **CMCD/CMSD (CTA-5004) became universal** in 2024: native CMCD support shipped in AVPlayer with iOS 18 (WWDC 2024), and **CMCDv2 (CTA-5004-A) was published in February 2026** — letting servers see what their clients are actually doing without the player having to roll a custom telemetry pipeline.
 
 The post-Flash reality: **Adobe Flash Player retired on 31 December 2020**, killing [[rtmp|RTMP]] for delivery. [[rtmp|RTMP]] survives only as the dominant *contribution/ingest* protocol, while Haivision's 2025 {{broadcast|broadcast}} survey found **SRT adoption among professionals reached 77% in 2025** (up from 68% in 2024), surpassing [[rtmp|RTMP]]'s 58%.`
 						},

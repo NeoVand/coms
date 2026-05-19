@@ -45,11 +45,11 @@ The first six TLDs were **\`.edu, .gov, .com, .mil, .org, .net\`**, with **\`.in
 						{
 							type: 'narrative',
 							title: 'The Kaminsky Moment, And Modern DNSSEC',
-							text: `**Dan Kaminsky\'s CVE-2008-1447 (July 2008)** turned every recursive resolver in the world into a cache-poisoning target by abusing in-bailiwick referrals + the small (16-bit) [[dns|DNS]] transaction ID. The disclosure was coordinated across all major [[dns|DNS]] vendors; patches added **source-port randomisation** as the immediate mitigation. The deeper fix is **{{dnssec|DNSSEC}}**, which has been deploying glacially.
+							text: `**Dan Kaminsky\'s CVE-2008-1447 (July 2008)** turned every {{recursive-resolver|recursive resolver}} in the world into a cache-poisoning target by abusing in-bailiwick referrals + the small (16-bit) [[dns|DNS]] transaction ID. The disclosure was coordinated across all major [[dns|DNS]] vendors; patches added **source-port randomisation** as the immediate mitigation. The deeper fix is **{{dnssec|DNSSEC}}**, which has been deploying glacially.
 
 **KeyTrap (CVE-2023-50387, February 2024)**: ATHENE researchers (Heftrig, Schulmann, Vogel, Waidner) disclosed inherent {{dnssec|DNSSEC}} validation complexity attacks — CVSS 7.5. BIND, Unbound, PowerDNS, Knot all patched, but the underlying {{dnssec|DNSSEC}} RFCs themselves are the issue. {{dnssec|DNSSEC}} is conceptually right and operationally fragile.
 
-**2023-2024 milestone**: \`.com\`, \`.net\`, \`.edu\` rolled {{dnssec|DNSSEC}} algorithm 8 → 13 (ECDSA P-256) in Q3-Q4 2023. **ZONEMD** (RFC 8976) added to root zone in September 2023 with SHA-384 from 6 December 2023. **RFC 9619 (2024) "QDCOUNT Is (Usually) One"** formally constrains a 38-year ambiguity in [[rfc:1035|RFC 1035]].
+**2023-2024 milestone**: \`.com\`, \`.net\`, \`.edu\` rolled {{dnssec|DNSSEC}} algorithm 8 → 13 ({{ecdsa|ECDSA}} P-256) in Q3-Q4 2023. **ZONEMD** (RFC 8976) added to root zone in September 2023 with SHA-384 from 6 December 2023. **RFC 9619 (2024) "QDCOUNT Is (Usually) One"** formally constrains a 38-year ambiguity in [[rfc:1035|RFC 1035]].
 
 **[[rfc:9460|RFC 9460]] (November 2023): SVCB / HTTPS RRs** enable apex aliasing, [[http3|HTTP/3]] advertisement, and (critically) {{ech|ECH}} key publication. {{cloudflare|Cloudflare}} turned {{ech|ECH}} on by default in 2023; Firefox 119 enabled {{ech|ECH}} by default. The HTTPS RR is what tells the browser "this site speaks h3" before the first connection.`
 						},
@@ -69,7 +69,7 @@ The first six TLDs were **\`.edu, .gov, .com, .mil, .org, .net\`**, with **\`.in
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Example_of_an_iterative_DNS_resolver.svg/500px-Example_of_an_iterative_DNS_resolver.svg.png',
 							alt: 'Iterative DNS resolution diagram — client → recursive resolver → root → TLD → authoritative servers.',
 							caption:
-								'Iterative **[[dns|DNS]]** resolution: client → recursive resolver → root server → TLD server → authoritative server. The same hierarchy [[pioneer:paul-mockapetris|Paul Mockapetris]] designed in **[[rfc:882|RFC 882]]/883 in November 1983** is what powers ~14 trillion queries per day on {{google|Google}} Public [[dns|DNS]] alone. The first server was named *Jeeves* and ran on TOPS-20.',
+								'Iterative **[[dns|DNS]]** resolution: client → {{recursive-resolver|recursive resolver}} → root server → TLD server → authoritative server. The same hierarchy [[pioneer:paul-mockapetris|Paul Mockapetris]] designed in **[[rfc:882|RFC 882]]/883 in November 1983** is what powers ~14 trillion queries per day on {{google|Google}} Public [[dns|DNS]] alone. The first server was named *Jeeves* and ran on TOPS-20.',
 							credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 						}
 					]
@@ -164,7 +164,7 @@ Two more historical incidents to name: **goto fail (CVE-2014-1266)** — a dupli
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: 'OpenSSH 9.0 (April 2022) switched the `scp` command to use SFTP under the hood by default. After 27 years, the SCP wire protocol is finally being replaced by the protocol that was supposed to replace it from the beginning.',
+					text: 'OpenSSH 9.0 (April 2022) switched the `scp` command to use {{sftp|SFTP}} under the hood by default. After 27 years, the SCP wire protocol is finally being replaced by the protocol that was supposed to replace it from the beginning.',
 					attribution: 'Author'
 				},
 				{
@@ -184,7 +184,7 @@ The protocol uses **public-key cryptography** for host and user authentication, 
 						{
 							type: 'callout',
 							title: 'SFTP is not "FTP over SSH"',
-							text: 'The "everyone gets it wrong" SCP fact: **SFTP is not "[[ftp|FTP]] over [[ssh|SSH]]"** — it\'s a wholly distinct file-transfer protocol that runs as a *subsystem* request inside an [[ssh|SSH]] session channel. Spec is `draft-{{ietf|ietf}}-secsh-filexfer-13` from 2006, never published as an RFC. **OpenSSH 9.0 (April 2022) switched the `scp` command to use SFTP under the hood by default.** RHEL 9 deprecated the SCP wire protocol entirely. After 27 years, the protocol that was supposed to replace SCP is finally replacing it.'
+							text: 'The "everyone gets it wrong" SCP fact: **{{sftp|SFTP}} is not "[[ftp|FTP]] over [[ssh|SSH]]"** — it\'s a wholly distinct file-transfer protocol that runs as a *subsystem* request inside an [[ssh|SSH]] session channel. Spec is `draft-{{ietf|ietf}}-secsh-filexfer-13` from 2006, never published as an RFC. **OpenSSH 9.0 (April 2022) switched the `scp` command to use SFTP under the hood by default.** RHEL 9 deprecated the SCP wire protocol entirely. After 27 years, the protocol that was supposed to replace SCP is finally replacing it.'
 						},
 						{
 							type: 'narrative',
@@ -245,7 +245,7 @@ The protocol uses **public-key cryptography** for host and user authentication, 
 
 **Mills was visually impaired from birth** (glaucoma); childhood surgery preserved partial vision in one eye. His vision deteriorated from 2012; **completely blind by 2022**, but continued [[ntp|NTP]] work using large displays and screen readers.
 
-The [[ntp|NTP]] family tree: **RFC 778 (1981)** DCNET Internet Clock Service; **[[rfc:958|RFC 958]] (1985)** first [[ntp|NTP]]; **RFC 1305 (1992)** NTPv3 with Marzullo's algorithm; **[[rfc:5905|RFC 5905]] (June 2010) NTPv4** is the current canonical spec.
+The [[ntp|NTP]] family tree: **RFC 778 (1981)** DCNET Internet Clock Service; **[[rfc:958|RFC 958]] (1985)** first [[ntp|NTP]]; **RFC 1305 (1992)** NTPv3 with {{marzullos-algorithm|Marzullo's algorithm}}; **[[rfc:5905|RFC 5905]] (June 2010) NTPv4** is the current canonical spec.
 
 A client samples the {{rtt|round-trip time}} to a server (call it δ) and the apparent {{offset|offset}} (call it θ), then assumes the server's true time was **θ ± δ/2**. Multiple servers are queried; outliers are clustered out; the surviving median is the new local time. **Marzullo's algorithm** (1984) is the consensus computation; it has not changed in 40 years.`
 						},
@@ -411,14 +411,14 @@ Before [[oauth2|OAuth]], an app that wanted access to your {{google|Google}} cal
 
 **Crispin's two April Fools' RFCs**: **RFC 1437 (1993)** on MIME body parts; **RFC 4042 (2005)** describing UTF-9 and UTF-18 — Unicode encodings optimised for the **PDP-10's 36-bit words**. Crispin reportedly still ran TOPS-20 systems in his home in 2009.
 
-His "Ten Commandments of How to Write an [[imap|IMAP]] client" still circulates; *"Thou shalt not fetch the entire mailbox at once"* might as well be Commandment 1.
+His "Ten Commandments of How to Write an [[imap|IMAP]] client" still circulates; *"Thou shalt not {{imap-fetch|fetch}} the entire mailbox at once"* might as well be Commandment 1.
 
 **2025 deployment statistic**: **Dovecot ≈ 76.9% of all observable [[imap|IMAP]] servers globally** (Open Email Survey 2020, ~2.9 million instances). When you connect to an [[imap|IMAP]] server today, three out of four times you are talking to Dovecot.`
 						},
 						{
 							type: 'narrative',
 							title: 'The Trust Layer and the 2024-2026 Enforcement Cliff',
-							text: `Because [[smtp|SMTP]] was designed in 1982 with no notion that senders might lie about who they were, spammers could spoof any From address with no friction. The fix took two decades and three layered protocols: **SPF** (Sender Policy Framework, RFC 7208, 2014) — [[dns|DNS]] records declaring which IPs may send for a domain. **DKIM** (DomainKeys Identified Mail, RFC 6376, 2011) — cryptographic signatures over messages, {{public-key|public key}} in [[dns|DNS]]. **DMARC** (RFC 7489, 2015) — a policy on top that tells receivers what to do when SPF or DKIM fails for your domain.
+							text: `Because [[smtp|SMTP]] was designed in 1982 with no notion that senders might lie about who they were, spammers could spoof any From address with no friction. The fix took two decades and three layered protocols: **SPF** (Sender Policy Framework, RFC 7208, 2014) — [[dns|DNS]] records declaring which IPs may send for a domain. **{{dkim|DKIM}}** (DomainKeys Identified Mail, RFC 6376, 2011) — cryptographic signatures over messages, {{public-key|public key}} in [[dns|DNS]]. **{{dmarc|DMARC}}** (RFC 7489, 2015) — a policy on top that tells receivers what to do when SPF or DKIM fails for your domain.
 
 **The enforcement cliff started 1 February 2024**. **Yahoo / {{google|Google}} bulk-sender requirements**: senders of >5,000 messages/day to Gmail or Yahoo addresses must implement SPF, DKIM, AND DMARC with at least p=none, RFC 8058 one-click List-Unsubscribe (deadline pushed to 1 June 2024), valid PTR/forward-confirmed reverse [[dns|DNS]], spam-complaint rate <0.30%. **Gmail moved from 4xx soft errors (Feb 2024) to 5xx permanent rejections in November 2025.** {{microsoft|Microsoft}} Outlook/Hotmail added equivalent requirements with hard [[smtp|SMTP]] rejection (error 550 5.7.515) starting **5 May 2025**.
 
@@ -428,14 +428,14 @@ His "Ten Commandments of How to Write an [[imap|IMAP]] client" still circulates;
 
 **{{microsoft|Microsoft}} 365 basic-auth retirement**: Phased disablement began **1 October 2022** across worldwide multi-tenant {{microsoft|Microsoft}} 365 for EAS, EWS, [[imap|IMAP]], POP, RPS, MAPI/RPC, OAB, Autodiscover. **[[smtp|SMTP]] AUTH basic auth retiring in two phases starting 1 March 2026 with full rejection by 30 April 2026**; default-disable for new tenants in December 2026. **The era of "give me a 16-character password and [[imap|IMAP]] works forever" is over.**
 
-**Frontier**: **JMAP** (RFC 8620 / 8621, July/August 2019) by Neil Jenkins and Bron Gondwana (Fastmail) — {{json|JSON}}-over-HTTPS replacement for [[imap|IMAP]]; designed inside Fastmail starting ~2014. **Stalwart Mail Server** (Rust, AGPL, 2023+) reached "feature complete" 2025 with native JMAP plus IMAP4rev1+rev2, POP3, ManageSieve, CalDAV, CardDAV, WebDAV — funded in part by NLnet via EU NGI0 Entrust Fund. **DKIM2** (\`draft-{{ietf|ietf}}-dkim-dkim2-motivation\`, November 2025) responds to the DKIM replay-attack epidemic by adding per-hop signatures with timestamps.`
+**Frontier**: **JMAP** (RFC 8620 / 8621, July/August 2019) by Neil Jenkins and Bron Gondwana (Fastmail) — {{json|JSON}}-over-HTTPS replacement for [[imap|IMAP]]; designed inside Fastmail starting ~2014. **Stalwart Mail Server** (Rust, AGPL, 2023+) reached "feature complete" 2025 with native JMAP plus IMAP4rev1+rev2, {{pop3|POP3}}, ManageSieve, CalDAV, CardDAV, WebDAV — funded in part by NLnet via EU NGI0 Entrust Fund. **DKIM2** (\`draft-{{ietf|ietf}}-dkim-dkim2-motivation\`, November 2025) responds to the DKIM replay-attack epidemic by adding per-hop signatures with timestamps.`
 						},
 						{
 							type: 'image',
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Email.svg/500px-Email.svg.png',
 							alt: 'Email envelope icon — stylised mail handler.',
 							caption:
-								'**Email** — the longest-running application of the internet. Ray Tomlinson at {{bbn|BBN}} picked the **@** sign in 1971 modifying SNDMSG. [[pioneer:jon-postel|Jon Postel]] published [[rfc:5321|RFC 821]] on port 25 in August 1982. Forty-four years later [[smtp|SMTP]] still relays your mail, [[imap|IMAP]] still serves your folders, and **DMARC enforcement** at {{google|Google}} + Yahoo (from 1 February 2024) finally killed the easy spoofed-From address. The protocol is older than {{arpanet|ARPANET}}\'s {{flag-day-1983|flag day}}; the standards work is not done.',
+								'**Email** — the longest-running application of the internet. Ray Tomlinson at {{bbn|BBN}} picked the **@** sign in 1971 modifying SNDMSG. [[pioneer:jon-postel|Jon Postel]] published [[rfc:5321|RFC 821]] on port 25 in August 1982. Forty-four years later [[smtp|SMTP]] still relays your mail, [[imap|IMAP]] still serves your folders, and **{{dmarc|DMARC}} enforcement** at {{google|Google}} + Yahoo (from 1 February 2024) finally killed the easy spoofed-From address. The protocol is older than {{arpanet|ARPANET}}\'s {{flag-day-1983|flag day}}; the standards work is not done.',
 							credit: 'Image: Wikimedia Commons / public domain'
 						}
 					]

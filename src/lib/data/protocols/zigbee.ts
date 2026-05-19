@@ -14,7 +14,7 @@ export const zigbee: Protocol = {
 
 The deployment story is unusually concentrated. **Philips Hue** launched on 29 October 2012 at {{apple|Apple}} Stores for $199 — branded as "Web-enabled lighting", with the word *Zigbee* deliberately invisible. Hue went on to become the largest Zigbee installed base on Earth at ~30 million bulbs lifetime. **IKEA Trådfri** (2017), **SmartThings**, **Amazon Echo Plus**, **Hubitat**, and most commercial-lighting systems (Acuity nLight AIR, Eaton, Lutron Vive) all run Zigbee. The under-reported giant: **VusionGroup electronic shelf labels** shipped 350 million units in 2023 alone and the **Walmart US 4,600-store rollout** announced 23 December 2024 will put more Zigbee-family devices in one retailer than Hue has ever sold.
 
-The current spec is **Zigbee PRO 2023 (R23)**, document 05-3474-23, ratified 15 March 2023. Headline additions: **{{dynamic-link-key|Dynamic Link Key}}** negotiation using SPEKE over Curve25519 (no more "ZigBeeAlliance09" default key as the only fallback), **{{trust-center|Trust Center}} Swap-Out** so a hub failure no longer means re-joining every device, **Device Interview** for policy-gated joins, sub-GHz support, and **Zigbee Direct** (a phone-as-coordinator {{ble|BLE}} bootstrap, mandatory in R23 Coordinators). Above the radio, the CSA has spent the last six years migrating Zigbee's application semantics — the **{{zcl|ZCL}}** data model, originally renamed "Dotdot" in 2017 — onto IP, producing **{{matter|Matter}}** (October 2022). {{matter|Matter}} does not replace Zigbee on the wire; it *bridges* it. Signify's September 2023 Hue Bridge {{matter|Matter}} firmware turned ~30M Hue bulbs into {{matter|Matter}} accessories overnight while keeping the Zigbee mesh underneath. The right framing in 2026: Zigbee is being preserved as a bridged legacy radio while new device design moves to [[wifi|Wi-Fi]] or {{thread|Thread}}.`,
+The current spec is **Zigbee PRO 2023 (R23)**, document 05-3474-23, ratified 15 March 2023. Headline additions: **{{dynamic-link-key|Dynamic Link Key}}** negotiation using SPEKE over {{curve25519|Curve25519}} (no more "ZigBeeAlliance09" default key as the only fallback), **{{trust-center|Trust Center}} Swap-Out** so a hub failure no longer means re-joining every device, **Device Interview** for policy-gated joins, sub-GHz support, and **Zigbee Direct** (a phone-as-coordinator {{ble|BLE}} bootstrap, mandatory in R23 Coordinators). Above the radio, the CSA has spent the last six years migrating Zigbee's application semantics — the **{{zcl|ZCL}}** data model, originally renamed "Dotdot" in 2017 — onto IP, producing **{{matter|Matter}}** (October 2022). {{matter|Matter}} does not replace Zigbee on the wire; it *bridges* it. Signify's September 2023 Hue Bridge {{matter|Matter}} firmware turned ~30M Hue bulbs into {{matter|Matter}} accessories overnight while keeping the Zigbee mesh underneath. The right framing in 2026: Zigbee is being preserved as a bridged legacy radio while new device design moves to [[wifi|Wi-Fi]] or {{thread|Thread}}.`,
 	howItWorks: [
 		{
 			title: 'IEEE 802.15.4 PHY — 2.4 GHz O-QPSK at 250 kbit/s + sub-GHz',
@@ -24,7 +24,7 @@ The current spec is **Zigbee PRO 2023 (R23)**, document 05-3474-23, ratified 15 
 		{
 			title: 'NWK layer — mesh routing with AODV',
 			description:
-				"Zigbee's Network layer sits on top of 802.15.4 MAC and runs **AODV-style on-demand mesh {{routing-table|routing}}** (since R20, 2007). Every mains-powered router maintains a route table and can repair broken paths reactively; concentrators (typical: the Coordinator) use source routing for many-to-one traffic, eliminating per-route discovery on each upstream send. The 8-bit Radius field acts as a {{ttl|TTL}}. **Frequency-agility** lets the Coordinator order the whole network to {{hop|hop}} to a new channel if interference exceeds threshold — invaluable for [[wifi|Wi-Fi]] coexistence on 2.4 GHz. Frames are addressed by 16-bit short addresses (locally unique) or 64-bit EUI-64 (globally unique, modelled on a {{mac-address|MAC address}})."
+				"Zigbee's Network layer sits on top of 802.15.4 MAC and runs **{{aodv|AODV}}-style on-demand mesh {{routing-table|routing}}** (since R20, 2007). Every mains-powered router maintains a route table and can repair broken paths reactively; concentrators (typical: the Coordinator) use source routing for many-to-one traffic, eliminating per-route discovery on each upstream send. The 8-bit Radius field acts as a {{ttl|TTL}}. **Frequency-agility** lets the Coordinator order the whole network to {{hop|hop}} to a new channel if interference exceeds threshold — invaluable for [[wifi|Wi-Fi]] coexistence on 2.4 GHz. Frames are addressed by 16-bit short addresses (locally unique) or 64-bit {{eui-64|EUI-64}} (globally unique, modelled on a {{mac-address|MAC address}})."
 		},
 		{
 			title: 'APS layer — Application Support Sublayer with endpoints and clusters',
@@ -39,7 +39,7 @@ The current spec is **Zigbee PRO 2023 (R23)**, document 05-3474-23, ratified 15 
 		{
 			title: 'Trust Center + install codes — securing the join',
 			description:
-				"At commissioning time a new device joins by exchanging a 16-byte AES-128 **pre-configured link key** with the **{{trust-center|Trust Center}}** (usually the Coordinator). The {{trust-center|Trust Center}} then sends the network key in an APS Transport-Key command {{encryption|encrypted}} under that link key. The default link key — `5A:69:67:42:65:65:41:6C:6C:69:61:6E:63:65:30:39` = ASCII *ZigBeeAlliance09* — is universally known, which is why sniffer-at-join attacks recover the network key from any default-key join. **{{install-code|Install codes}}** (a per-device 128-bit secret printed on the device, mandatory in Zigbee 3.0 commissioning) close that hole; **R23's {{dynamic-link-key|Dynamic Link Key}}** with SPEKE over Curve25519 eliminates {{pfs|pre-shared secrets}} entirely."
+				"At commissioning time a new device joins by exchanging a 16-byte AES-128 **pre-configured link key** with the **{{trust-center|Trust Center}}** (usually the Coordinator). The {{trust-center|Trust Center}} then sends the {{network-key|network key}} in an APS Transport-Key command {{encryption|encrypted}} under that link key. The default link key — `5A:69:67:42:65:65:41:6C:6C:69:61:6E:63:65:30:39` = ASCII *ZigBeeAlliance09* — is universally known, which is why sniffer-at-join attacks recover the network key from any default-key join. **{{install-code|Install codes}}** (a per-device 128-bit secret printed on the device, mandatory in Zigbee 3.0 commissioning) close that hole; **R23's {{dynamic-link-key|Dynamic Link Key}}** with SPEKE over {{curve25519|Curve25519}} eliminates {{pfs|pre-shared secrets}} entirely."
 		},
 		{
 			title: 'Matter bridge — how Zigbee gets to the rest of the building',
@@ -256,7 +256,7 @@ That entire on-the-wire dump fits in roughly 40 bytes — a single Hue bulb comm
 			date: '2023-03',
 			title: 'Zigbee PRO 2023 (R23) ratified',
 			description:
-				"Document 05-3474-23, ratified **15 March 2023** by the CSA. Headline additions: **{{dynamic-link-key|Dynamic Link Key}}** negotiation using SPEKE over Curve25519 with AES-MMO-128 (kills the *ZigBeeAlliance09* default-key sniff-at-join attack), **{{trust-center|Trust Center}} Swap-Out** (a failed Coordinator can be replaced without re-joining every device), **Device Interview** (TC policy gate before granting full access), **Works With All Hubs** phase 1, sub-GHz support for Europe (863–870 MHz) and North America (902–928 MHz), and absorbs **Zigbee Direct**. Silicon Labs, Texas Instruments, and ubisys are the named *golden units*. Backward-compatible with Zigbee 3.0 certification.",
+				"Document 05-3474-23, ratified **15 March 2023** by the CSA. Headline additions: **{{dynamic-link-key|Dynamic Link Key}}** negotiation using SPEKE over {{curve25519|Curve25519}} with AES-MMO-128 (kills the *ZigBeeAlliance09* default-key sniff-at-join attack), **{{trust-center|Trust Center}} Swap-Out** (a failed Coordinator can be replaced without re-joining every device), **Device Interview** (TC policy gate before granting full access), **Works With All Hubs** phase 1, sub-GHz support for Europe (863–870 MHz) and North America (902–928 MHz), and absorbs **Zigbee Direct**. Silicon Labs, Texas Instruments, and ubisys are the named *golden units*. Backward-compatible with Zigbee 3.0 certification.",
 			source: {
 				url: 'https://csa-iot.org/newsroom/zigbee-pro-2023-released/',
 				label: 'CSA: Zigbee PRO 2023 release announcement'
@@ -276,7 +276,7 @@ That entire on-the-wire dump fits in roughly 40 bytes — a single Hue bulb comm
 			date: '2024-05',
 			title: 'Aqara Hub M3 ships globally — Zigbee + Thread + Matter in one box',
 			description:
-				"Announced at CES on **8 January 2024**; shipped **8 May 2024**. Triple-protocol — **Zigbee 3.0 + {{thread|Thread}} {{border-router|border router}} + {{matter|Matter}} controller + {{matter|Matter}} Bridge** — with dual-band [[wifi|Wi-Fi]], Power-over-Ethernet, USB-C, IR blaster, **8 GB encrypted local storage**, and *no microphone or camera* (deliberate privacy stance). Up to 127 Zigbee + 127 {{thread|Thread}} devices. Aqara published a multi-hub-failover architecture (up to 10 M3s mirroring automations) in mid-2024 — the canonical 2024–25 form factor for a privacy-forward smart-home bridge.",
+				"Announced at CES on **8 January 2024**; shipped **8 May 2024**. Triple-protocol — **Zigbee 3.0 + {{thread|Thread}} {{border-router|border router}} + {{matter|Matter}} controller + {{matter|Matter}} Bridge** — with dual-band [[wifi|Wi-Fi]], Power-over-Ethernet, USB-C, IR blaster, **8 GB encrypted local storage**, and *no microphone or camera* (deliberate privacy stance). Up to 127 Zigbee + 127 {{thread|Thread}} devices. Aqara published a multi-hub-{{failover|failover}} architecture (up to 10 M3s mirroring automations) in mid-2024 — the canonical 2024–25 form factor for a privacy-forward smart-home bridge.",
 			source: {
 				url: 'https://www.aqara.com/en/news/aqara-hub-m3-globally',
 				label: 'Aqara: Hub M3 global launch'
@@ -337,13 +337,13 @@ That entire on-the-wire dump fits in roughly 40 bytes — a single Hue bulb comm
 			org: 'Samsung SmartThings',
 			scale: 'Tens of millions of hubs across Hub v1–v3 and Station',
 			description:
-				"SmartThings shipped the original Hub in 2013; Samsung acquired the company in August 2014. Carries Zigbee + Z-Wave from day one; later generations added {{thread|Thread}} and {{matter|Matter}}. SmartThings is the most common single Zigbee Coordinator outside of Hue. Samsung sits on the CSA board."
+				"SmartThings shipped the original Hub in 2013; Samsung acquired the company in August 2014. Carries Zigbee + Z-Wave from day one; later generations added {{thread|Thread}} and {{matter|Matter}}. SmartThings is the most common single {{zigbee-coordinator|Zigbee Coordinator}} outside of Hue. Samsung sits on the CSA board."
 		},
 		{
 			org: 'Amazon Echo Plus / Echo 4th gen / Echo Hub',
 			scale: 'Tens of millions of units 2017+',
 			description:
-				"Amazon shipped a built-in Zigbee Coordinator inside the Echo Plus in 2017 — the first time a mass-market smart speaker pretended to be a Zigbee hub. Echo (4th gen) and Echo Show 10 also carry a Zigbee radio; the Echo Hub (2024) is positioned as a smart-home control panel with Zigbee inside. Amazon Sidewalk overlaps mostly at sub-GHz (900 MHz) rather than competing with Zigbee directly."
+				"Amazon shipped a built-in {{zigbee-coordinator|Zigbee Coordinator}} inside the Echo Plus in 2017 — the first time a mass-market smart speaker pretended to be a Zigbee hub. Echo (4th gen) and Echo Show 10 also carry a Zigbee radio; the Echo Hub (2024) is positioned as a smart-home control panel with Zigbee inside. Amazon Sidewalk overlaps mostly at sub-GHz (900 MHz) rather than competing with Zigbee directly."
 		},
 		{
 			org: 'Acuity Brands nLight AIR + Atrius',
@@ -370,11 +370,11 @@ That entire on-the-wire dump fits in roughly 40 bytes — a single Hue bulb comm
 		},
 		{
 			title: 'The default Trust Center link key is literally "ZigBeeAlliance09"',
-			text: "Sixteen bytes of ASCII — `5A:69:67:42:65:65:41:6C:6C:69:61:6E:63:65:30:39` — baked into the specification of one of the most widely deployed wireless protocols on Earth, used as the fallback when a device has no {{install-code|install code}}. Generations of {{wireshark|Wireshark}} users have memorised that hex string. The fact that Zigbee 3.0 requires install codes for proper commissioning while simultaneously retaining this key for compatibility is the protocol's most-quoted security cautionary tale. R23's {{dynamic-link-key|Dynamic Link Key}} with SPEKE/Curve25519 finally retires the pre-shared default."
+			text: "Sixteen bytes of ASCII — `5A:69:67:42:65:65:41:6C:6C:69:61:6E:63:65:30:39` — baked into the specification of one of the most widely deployed wireless protocols on Earth, used as the fallback when a device has no {{install-code|install code}}. Generations of {{wireshark|Wireshark}} users have memorised that hex string. The fact that Zigbee 3.0 requires install codes for proper commissioning while simultaneously retaining this key for compatibility is the protocol's most-quoted security cautionary tale. R23's {{dynamic-link-key|Dynamic Link Key}} with SPEKE/{{curve25519|Curve25519}} finally retires the pre-shared default."
 		},
 		{
 			title: 'zigbee2mqtt supports 5,390 devices from 568 vendors',
-			text: "A single GPL-licensed Node.js project — maintained primarily by Koen Kanters — keeps a more complete decoder database of Zigbee Cluster Library quirks than any single commercial hub vendor. zigbee2mqtt is the de-facto interoperability spec for the FOSS smart-home community. The most common Zigbee Coordinator in 2026 is a $20 Sonoff ZBDongle-E plugged into a Raspberry Pi running Home Assistant."
+			text: "A single GPL-licensed Node.js project — maintained primarily by Koen Kanters — keeps a more complete decoder database of Zigbee Cluster Library quirks than any single commercial hub vendor. zigbee2mqtt is the de-facto interoperability spec for the FOSS smart-home community. The most common {{zigbee-coordinator|Zigbee Coordinator}} in 2026 is a $20 Sonoff ZBDongle-E plugged into a Raspberry Pi running Home Assistant."
 		},
 		{
 			title: 'Walmart\'s shelf labels will outnumber every Hue bulb ever sold',

@@ -10,21 +10,21 @@ export const wireguard: Protocol = {
 	rfc: 'WireGuard whitepaper (NDSS 2017)',
 	oneLiner:
 		'A ~4,000-line in-kernel VPN that does one thing — encrypted, authenticated, packet-routed IP tunnels — with a single, opinionated, modern crypto suite. The deliberate anti-[[ipsec|IPsec]].',
-	overview: `[[wireguard|WireGuard]] is a Layer-3 secure-{{tunnel|tunnel}} protocol that encapsulates [[ip|IP]] {{packet|packets}} inside [[udp|UDP]] after a single round-trip Noise_IKpsk2 {{handshake|handshake}}. It collapses ACL and routing into one mechanism — **cryptokey routing** — where each {{peer|peer}}'s Curve25519 {{public-key|public key}} is bound to a set of \`AllowedIPs\` prefixes. There are *exactly* four message types and *exactly* one {{cipher-suite|ciphersuite}} (\`Noise_IKpsk2_25519_ChaChaPoly_BLAKE2s\`). No negotiation, no extensibility, no algorithmic agility, and deliberately **no {{ietf|IETF}} standardisation**.
+	overview: `[[wireguard|WireGuard]] is a Layer-3 secure-{{tunnel|tunnel}} protocol that encapsulates [[ip|IP]] {{packet|packets}} inside [[udp|UDP]] after a single round-trip Noise_IKpsk2 {{handshake|handshake}}. It collapses ACL and routing into one mechanism — **cryptokey routing** — where each {{peer|peer}}'s {{curve25519|Curve25519}} {{public-key|public key}} is bound to a set of \`AllowedIPs\` prefixes. There are *exactly* four message types and *exactly* one {{cipher-suite|ciphersuite}} (\`Noise_IKpsk2_25519_ChaChaPoly_BLAKE2s\`). No negotiation, no extensibility, no algorithmic agility, and deliberately **no {{ietf|IETF}} standardisation**.
 
 Created as a side project by [[pioneer:jason-donenfeld|Jason A. Donenfeld]] in 2015 after a long pen-testing frustration with [[ipsec|IPsec]] and OpenVPN, the first public code snapshot is dated **30 June 2016**. Donenfeld presented the whitepaper at NDSS 2017. Linus Torvalds endorsed it on the kernel mailing list in August 2018 as *"a work of art… compared to the horrors that are OpenVPN and [[ipsec|IPsec]]"*; the module was mainlined in **{{linux|Linux}} 5.6 on 29 March 2020**. The whole kernel module weighs in at around **4,000 lines of code**, versus 100,000+ for OpenVPN's core and the six-figure footprint of strongSwan + {{linux|Linux}} XFRM.
 
-The crypto choices are a victory lap for the Daniel J. Bernstein stack — **Curve25519** (2006), **ChaCha20** (2008), **Poly1305** (2005), **BLAKE2s** — wrapped in the **Noise Protocol Framework** ([[pioneer:trevor-perrin|Trevor Perrin]], 2016). The {{handshake|handshake}} is formally verified (Donenfeld & Milner 2018, Tamarin) and has been cryptographically analysed (Dowling & Paterson 2018, Bellet et al. NDSS 2024). Today it underpins {{cloudflare|Cloudflare}} WARP (>50M daily clients via {{cloudflare|Cloudflare}}'s BoringTun Rust implementation), **Tailscale** ([[pioneer:avery-pennarun|Avery Pennarun]] et al., mesh networking on top of WireGuard), NordVPN's NordLynx, Mullvad, Mozilla {{vpn|VPN}}, ProtonVPN, and an uncountable long tail of self-hosted deployments. The post-quantum companion **Rosenpass** (Hülsing/Varner 2022) hands a PQ-secure {{pfs|pre-shared key}} to WireGuard every 120 s, giving harvest-now-decrypt-later resistance without touching the kernel module.`,
+The crypto choices are a victory lap for the Daniel J. Bernstein stack — **Curve25519** (2006), **ChaCha20** (2008), **{{poly1305|Poly1305}}** (2005), **BLAKE2s** — wrapped in the **{{noise-protocol|Noise Protocol Framework}}** ([[pioneer:trevor-perrin|Trevor Perrin]], 2016). The {{handshake|handshake}} is formally verified (Donenfeld & Milner 2018, Tamarin) and has been cryptographically analysed (Dowling & Paterson 2018, Bellet et al. NDSS 2024). Today it underpins {{cloudflare|Cloudflare}} WARP (>50M daily clients via {{cloudflare|Cloudflare}}'s BoringTun Rust implementation), **Tailscale** ([[pioneer:avery-pennarun|Avery Pennarun]] et al., mesh networking on top of WireGuard), NordVPN's NordLynx, Mullvad, Mozilla {{vpn|VPN}}, ProtonVPN, and an uncountable long tail of self-hosted deployments. The post-quantum companion **Rosenpass** (Hülsing/Varner 2022) hands a PQ-secure {{pfs|pre-shared key}} to WireGuard every 120 s, giving harvest-now-decrypt-later resistance without touching the kernel module.`,
 	howItWorks: [
 		{
 			title: 'Identity = public key',
 			description:
-				'Each {{peer|peer}} holds a 32-byte Curve25519 long-term keypair. There are no certificates, no PKI, no IDs — the {{public-key|public key}} *is* the identity. You {{exchange|exchange}} them out of band (`scp`, GitHub, a Tailscale control plane).'
+				'Each {{peer|peer}} holds a 32-byte {{curve25519|Curve25519}} long-term keypair. There are no certificates, no PKI, no IDs — the {{public-key|public key}} *is* the identity. You {{exchange|exchange}} them out of band (`scp`, GitHub, a Tailscale control plane).'
 		},
 		{
 			title: 'Handshake Initiation (148 bytes, type=1)',
 			description:
-				"Initiator sends an ephemeral Curve25519 pubkey, an {{aead|AEAD-encrypted}} copy of its **static** pubkey (hiding sender identity from passive observers), and a TAI64N timestamp. Plus MAC1 (proves the initiator knows the responder's pubkey) and MAC2 ({{cookie|cookie}} under load, DoS shield)."
+				"Initiator sends an ephemeral {{curve25519|Curve25519}} pubkey, an {{aead|AEAD-encrypted}} copy of its **static** pubkey (hiding sender identity from passive observers), and a {{wg-tai64n|TAI64N timestamp}}. Plus MAC1 (proves the initiator knows the responder's pubkey) and MAC2 ({{cookie|cookie}} under load, DoS shield)."
 		},
 		{
 			title: 'Handshake Response (92 bytes, type=2)',
@@ -39,7 +39,7 @@ The crypto choices are a victory lap for the Daniel J. Bernstein stack — **Cur
 		{
 			title: 'Transport Data (type=4)',
 			description:
-				'{{encryption|Encrypted}} [[ip|IP]] {{packet|packets}} are wrapped in a 16-byte WireGuard {{header|header}} (type, receiver-index, 64-bit counter) plus the {{aead|AEAD}} ciphertext + 16-byte Poly1305 tag. The 64-bit counter doubles as the {{aead|AEAD}} {{nonce|nonce}} and the {{anti-replay|anti-replay sequence number}}.'
+				'{{encryption|Encrypted}} [[ip|IP]] {{packet|packets}} are wrapped in a 16-byte WireGuard {{header|header}} (type, receiver-index, 64-bit counter) plus the {{aead|AEAD}} ciphertext + 16-byte {{poly1305|Poly1305}} tag. The 64-bit counter doubles as the {{aead|AEAD}} {{nonce|nonce}} and the {{anti-replay|anti-replay sequence number}}.'
 		},
 		{
 			title: 'Rekey every 120 seconds',

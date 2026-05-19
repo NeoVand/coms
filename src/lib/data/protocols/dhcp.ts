@@ -67,7 +67,7 @@ ans = srp1(dhcp_discover, timeout=5, verbose=0)
 if ans:
     offered_ip = ans[BOOTP].yiaddr
     print(f"Offered IP: {offered_ip}")`,
-		caption: 'Scapy lets you construct and send raw [[dhcp|DHCP]] packets — see the DORA process in action',
+		caption: 'Scapy lets you construct and send raw [[dhcp|DHCP]] packets — see the {{dora|DORA}} process in action',
 		alternatives: [
 			{
 				language: 'javascript',
@@ -192,7 +192,7 @@ DHCP ACK:
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/DHCP_session.svg/500px-DHCP_session.svg.png',
 		alt: 'Sequence diagram of the DHCP DORA process: Discover, Offer, Request, and Acknowledge messages between client and server',
 		caption:
-			'The [[dhcp|DHCP]] DORA process — Discover (client broadcasts "I need an [[ip|IP]]"), Offer (server proposes an address), Request (client accepts), Acknowledge (server confirms the {{lease|lease}}). This four-step {{handshake|handshake}} happens every time a device joins a network.',
+			'The [[dhcp|DHCP]] {{dora|DORA}} process — Discover (client broadcasts "I need an [[ip|IP]]"), Offer (server proposes an address), Request (client accepts), Acknowledge (server confirms the {{lease|lease}}). This four-step {{handshake|handshake}} happens every time a device joins a network.',
 		credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 	}
 };

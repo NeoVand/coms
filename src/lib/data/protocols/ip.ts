@@ -29,7 +29,7 @@ The [[ip|IPv4]] header is 20 bytes (plus options) and carries critical fields: S
 		{
 			title: 'Router forwarding and TTL decrement',
 			description:
-				'Each router examines the destination [[ip|IP]], consults its {{routing-table|routing table}}, decrements the {{ttl|TTL}} by 1, recalculates the header {{checksum|checksum}}, and forwards the packet out the appropriate interface. If {{ttl|TTL}} reaches 0, the packet is dropped and an [[icmp|ICMP]] Time Exceeded message is sent back (this is how traceroute works).'
+				'Each router examines the destination [[ip|IP]], consults its {{routing-table|routing table}}, decrements the {{ttl|TTL}} by 1, recalculates the header {{checksum|checksum}}, and forwards the packet out the appropriate interface. If {{ttl|TTL}} reaches 0, the packet is dropped and an [[icmp|ICMP]] {{time-exceeded|Time Exceeded}} message is sent back (this is how {{traceroute|traceroute}} works).'
 		},
 		{
 			title: 'Fragmentation if needed',

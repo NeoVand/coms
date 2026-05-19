@@ -313,7 +313,7 @@ Each RR's CLASS field:
 		pitfalls: [
 			{
 				title: 'IGMP/MLD snooping is mDNS\'s #1 enemy on enterprise Wi-Fi',
-				text: 'Access points forward {{multicast|multicast}} at the lowest basic rate (often 6 Mbps); managed switches with IGMP snooping enabled drop frames whose listeners haven\'t joined the group; per-SSID/per-{{vlan|VLAN}} isolation breaks the link-local scope assumption. **Cure:** deploy an [[mdns-dns-sd|mDNS]] gateway ({{cisco|Cisco}} WLC `mdns-sd` profile, Aruba AirGroup, Aerohive Bonjour Gateway). Whitelist exactly `224.0.0.251` and `FF02::FB`; rate-limit UDP/5353 to ~50 pps per client; never enable {{multicast|multicast}}-to-{{unicast|unicast}} conversion blindly.'
+				text: 'Access points forward {{multicast|multicast}} at the lowest basic rate (often 6 Mbps); managed switches with IGMP snooping enabled drop frames whose listeners haven\'t joined the group; per-{{ssid|SSID}}/per-{{vlan|VLAN}} isolation breaks the link-local scope assumption. **Cure:** deploy an [[mdns-dns-sd|mDNS]] gateway ({{cisco|Cisco}} WLC `mdns-sd` profile, Aruba AirGroup, Aerohive Bonjour Gateway). Whitelist exactly `224.0.0.251` and `FF02::FB`; rate-limit UDP/5353 to ~50 pps per client; never enable {{multicast|multicast}}-to-{{unicast|unicast}} conversion blindly.'
 			},
 			{
 				title: 'mDNS responders exposed to the WAN are a DDoS reflector',

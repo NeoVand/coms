@@ -181,7 +181,7 @@ Conditional requests avoid re-downloading unchanged resources. The server sends 
 			{
 				type: 'narrative',
 				title: 'CORS Mechanics',
-				text: `{{cors|Cross-Origin Resource Sharing}} ({{cors|CORS}}) is the browser's security mechanism for controlling cross-origin {{http-method|HTTP}} requests. When JavaScript on example.com tries to fetch from api.other.com, the browser intervenes.
+				text: `{{cors|Cross-Origin Resource Sharing}} ({{cors|CORS}}) is the browser's security mechanism for controlling cross-origin {{http-method|HTTP}} requests. When JavaScript on example.com tries to {{imap-fetch|fetch}} from api.other.com, the browser intervenes.
 
 **Simple requests** (GET, POST with standard {{header|headers}}) send the request directly with an Origin header. The server responds with Access-Control-Allow-Origin -- if it matches, the browser allows JavaScript to read the response.
 
@@ -194,7 +194,7 @@ The preflight result is cached (Access-Control-Max-Age), but misconfigured {{cor
 				title: 'CORS Preflight Flow',
 				caption: `The browser's decision process for cross-origin requests. Simple requests go directly, while requests with custom headers or non-standard methods trigger a preflight OPTIONS check.`,
 				definition: `graph TD
-    REQ["JavaScript makes<br/>cross-origin fetch()"] --> CHECK{"Simple request?<br/>GET/POST, standard headers,<br/>no custom Content-Type"}
+    REQ["JavaScript makes<br/>cross-origin {{imap-fetch|fetch}}()"] --> CHECK{"Simple request?<br/>GET/POST, standard headers,<br/>no custom {{content-type|Content-Type}}"}
 
     CHECK -- "Yes" --> SIMPLE["Send request directly<br/>with Origin header"]
     SIMPLE --> SRES{"Server responds with<br/>Access-Control-Allow-Origin?"}
@@ -215,7 +215,7 @@ The preflight result is cached (Access-Control-Max-Age), but misconfigured {{cor
 
 {{hpack|HPACK}} maintains a dynamic table shared between {{client-server|client and server}}. Previously-seen header key-value pairs are referenced by index instead of retransmitted. A static table of 61 common headers (like ":method: GET") is pre-populated. Huffman coding further compresses literal values.
 
-[[http3|HTTP/3]] couldn't use {{hpack|HPACK}} because it requires in-order delivery (the dynamic table is a {{stream|stream}} of updates). QPACK solves this with a separate, unidirectional stream for table updates, allowing header blocks to be decoded independently -- eliminating {{head-of-line-blocking|head-of-line blocking}} in header decompression.
+[[http3|HTTP/3]] couldn't use {{hpack|HPACK}} because it requires in-order delivery (the dynamic table is a {{stream|stream}} of updates). {{qpack|QPACK}} solves this with a separate, unidirectional stream for table updates, allowing header blocks to be decoded independently -- eliminating {{head-of-line-blocking|head-of-line blocking}} in header decompression.
 
 This matters because [[http2|HTTP/2]] over [[tcp|TCP]] still suffers from transport-level {{head-of-line-blocking|head-of-line blocking}} -- a single lost {{packet|packet}} stalls all {{multiplexing|multiplexed}} streams. [[http3|HTTP/3]] over [[quic|QUIC]] solves this at the transport layer, and QPACK ensures header decompression doesn't reintroduce it.`
 			},
@@ -241,7 +241,7 @@ The **host** is the AI application the user interacts with — Claude Desktop, C
 
 The session lifecycle follows a strict sequence: the client sends \`initialize\` with its capabilities, the server responds with its own capabilities (supported primitives, protocol version), then the client sends an \`initialized\` {{notification|notification}}. Only after this three-step {{handshake|handshake}} can tools be listed, resources read, or prompts invoked. The {{handshake|handshake}} uses capability negotiation — if a server doesn't declare tool support, the client won't attempt tool calls.
 
-Transport is pluggable: **stdio** for local processes (the server is a subprocess communicating over stdin/stdout), **Streamable HTTP** for remote servers (a single HTTP endpoint that handles both {{request-response|request-response}} and server-initiated events via [[sse|SSE]] streams). The protocol is transport-agnostic by design — the same [[json-rpc|JSON-RPC]] messages work identically over either transport.`
+Transport is pluggable: **{{stdio|stdio}}** for local processes (the server is a subprocess communicating over stdin/stdout), **Streamable HTTP** for remote servers (a single HTTP endpoint that handles both {{request-response|request-response}} and server-initiated events via [[sse|SSE]] streams). The protocol is transport-agnostic by design — the same [[json-rpc|JSON-RPC]] messages work identically over either transport.`
 			},
 			{
 				type: 'diagram',
@@ -263,7 +263,7 @@ Transport is pluggable: **stdio** for local processes (the server is a subproces
 				title: 'A2A — Agent Discovery and Task Delegation',
 				text: `[[a2a|A2A]]'s design solves a different problem than [[mcp|MCP]]: not "how does an agent use a tool?" but "how does one agent find and delegate work to another agent it has never interacted with?"
 
-Discovery centers on the **Agent Card** — a {{json|JSON}} document served at \`/.well-known/agent.{{json|json}}\`. It declares the agent's name, description, supported skills, authentication requirements, and the [[a2a|A2A]] endpoint URL. A client agent fetches the card, inspects the skills array, and decides whether this remote agent can help with the task at hand. This is analogous to how [[dns|DNS]] TXT records or [[oauth2|OAuth]] discovery documents work — a well-known URL that bootstraps trust.
+Discovery centers on the **{{agent-card|Agent Card}}** — a {{json|JSON}} document served at \`/.well-known/agent.{{json|json}}\`. It declares the agent's name, description, supported skills, authentication requirements, and the [[a2a|A2A]] endpoint URL. A client agent fetches the card, inspects the skills array, and decides whether this remote agent can help with the task at hand. This is analogous to how [[dns|DNS]] TXT records or [[oauth2|OAuth]] discovery documents work — a well-known URL that bootstraps trust.
 
 The interaction model is task-based. The client sends a message (containing text, files, or structured data as "Parts"), and the server creates a Task with a lifecycle: \`submitted → working → input-required → completed\` (or \`failed\` / \`canceled\`). The \`input-required\` state is what makes [[a2a|A2A]] conversational — the remote agent can ask for clarification before proceeding, and the client can send follow-up messages.
 
@@ -276,7 +276,7 @@ For long-running tasks, [[a2a|A2A]] supports **[[sse|SSE]] streaming**. The clie
 
 Consider a travel booking system. A coordinator agent receives "book me a trip to Tokyo." It uses [[a2a|A2A]] to discover and delegate to a flight agent, a hotel agent, and a car rental agent. Each specialist agent uses [[mcp|MCP]] internally to connect to its own tools — the flight agent's [[mcp|MCP]] servers talk to airline APIs, fare databases, and seat maps. The coordinator doesn't know or care about these internal tools; it only sees [[a2a|A2A]] task results.
 
-Both protocols chose [[json-rpc|JSON-RPC]] 2.0 as their wire format for the same reasons: transport independence, built-in request correlation (via id fields), first-class {{notification|notifications}} for fire-and-forget events, and batch support. Both use [[sse|SSE]] for server-to-client streaming. Both moved to the {{linux|Linux}} Foundation for open governance.
+Both protocols chose [[json-rpc|JSON-RPC]] 2.0 as their wire format for the same reasons: transport independence, built-in request correlation (via id fields), first-class {{notification|notifications}} for {{fire-and-forget|fire-and-forget}} events, and batch support. Both use [[sse|SSE]] for server-to-client streaming. Both moved to the {{linux|Linux}} Foundation for open governance.
 
 The key architectural insight is that [[mcp|MCP]] and [[a2a|A2A]] operate at different levels of abstraction. [[mcp|MCP]] is like a function call — "execute this tool with these parameters and return the result." [[a2a|A2A]] is like a work order — "here's what I need done; figure out how to do it and get back to me." This distinction maps cleanly to the difference between deterministic tool execution and autonomous agent reasoning.`
 			}
@@ -296,7 +296,7 @@ The key architectural insight is that [[mcp|MCP]] and [[a2a|A2A]] operate at dif
 
 **QoS 1 (At Least Once)**: The {{broker|broker}} acknowledges with PUBACK. If the publisher doesn't receive it, it retransmits. Guarantees delivery but may deliver duplicates. The subscriber must handle {{idempotent|idempotency}} -- or accept occasional duplicate processing.
 
-**QoS 2 (Exactly Once)**: A four-step {{handshake|handshake}} (PUBLISH, PUBREC, PUBREL, PUBCOMP) ensures no duplicates and no loss. The most reliable but 4x the overhead. Used for billing events, financial transactions, and control commands where duplicates are unacceptable.`
+**QoS 2 (Exactly Once)**: A four-step {{handshake|handshake}} ({{mqtt-publish|PUBLISH}}, PUBREC, PUBREL, PUBCOMP) ensures no duplicates and no loss. The most reliable but 4x the overhead. Used for billing events, financial transactions, and control commands where duplicates are unacceptable.`
 			},
 			{
 				type: 'diagram',
@@ -395,9 +395,9 @@ The trick is **exactly-once processing**, not {{exactly-once-delivery|exactly-on
     end
 
     subgraph Player["Client-Side ABR Algorithm"]
-        MAN --> FETCH["Fetch {{manifest|manifest}}"]
+        MAN --> {{imap-fetch|FETCH}}["Fetch {{manifest|manifest}}"]
         FETCH --> MON["Monitor:<br/>Download speed<br/>Buffer level<br/>RTT"]
-        MON --> ALG{"ABR Decision<br/>(BBA / Throughput / BOLA)"}
+        MON --> ALG{"ABR Decision<br/>(BBA / Throughput / {{abr-bola|BOLA}})"}
         ALG -- "High {{bandwidth|bandwidth}}<br/>Full buffer" --> HIGH["Request 1080p segment"]
         ALG -- "Low {{bandwidth|bandwidth}}<br/>Buffer draining" --> LOW["Request 360p segment"]
         ALG -- "Medium" --> MED["Request 720p segment"]
@@ -417,7 +417,7 @@ The ABR algorithm runs in the client's player. It monitors download speed, buffe
 
 **Throughput-based**: Measures recent download speed and picks the highest quality that fits. Fast to adapt but prone to oscillation between quality levels.
 
-**Hybrid (BOLA, MPC)**: Combines buffer and throughput signals with mathematical optimization. Netflix's MPC (Model Predictive Control) looks multiple segments ahead to minimize rebuffering while maximizing quality. These achieve near-optimal quality with minimal stalls.`
+**Hybrid ({{abr-bola|BOLA}}, MPC)**: Combines buffer and throughput signals with mathematical optimization. Netflix's MPC (Model Predictive Control) looks multiple segments ahead to minimize rebuffering while maximizing quality. These achieve near-optimal quality with minimal stalls.`
 			}
 		]
 	},
@@ -443,7 +443,7 @@ OCSP (Online {{certificate|Certificate}} Status Protocol) and CRL ({{certificate
 				caption: `The complete [[tls|TLS]] 1.3 {{handshake|handshake}} in a single round trip. The client sends key shares upfront, eliminating the extra round trip that [[tls|TLS]] 1.2 needed.`,
 				definition: `graph TD
     subgraph RTT1["{{one-rtt|1-RTT}} {{handshake|Handshake}}"]
-        CH["Client Hello<br/>Supported cipher suites<br/>Random {{nonce|nonce}}<br/>Key shares (X25519, P-256)"] -- "Flight 1" --> SH["Server Hello<br/>Chosen {{cipher-suite|cipher suite}}<br/>Server key share"]
+        CH["Client Hello<br/>Supported cipher suites<br/>Random {{nonce|nonce}}<br/>Key shares (X25519, P-256)"] -- "Flight 1" --> SH["Server Hello<br/>Chosen {{cipher-suite|cipher suite}}<br/>Server {{key-share|key share}}"]
         SH --> ENC_ON["{{encryption|Encryption}} begins"]
         ENC_ON --> EE["Encrypted Extensions<br/>Server parameters"]
         EE --> CERT["{{certificate|Certificate}}<br/>(encrypted)"]
@@ -468,7 +468,7 @@ OCSP (Online {{certificate|Certificate}} Status Protocol) and CRL ({{certificate
 
 **Client Hello**: The client sends supported {{cipher-suite|cipher suites}}, a random {{nonce|nonce}}, and **key shares** for all supported key {{exchange|exchange}} algorithms (usually X25519 and P-256). By sending keys upfront, the client gambles that the server will accept one -- eliminating the extra round trip that [[tls|TLS]] 1.2 needed.
 
-**Server Hello + Encrypted Extensions**: The server picks a {{cipher-suite|cipher suite}}, sends its key share, and immediately switches to {{encryption|encrypted}} communication. The server's {{certificate|certificate}}, {{certificate|certificate}} verify (signature), and {{tls-finished|Finished message}} are all encrypted.
+**Server Hello + Encrypted Extensions**: The server picks a {{cipher-suite|cipher suite}}, sends its {{key-share|key share}}, and immediately switches to {{encryption|encrypted}} communication. The server's {{certificate|certificate}}, {{certificate|certificate}} verify (signature), and {{tls-finished|Finished message}} are all encrypted.
 
 **Client Finished**: The client verifies the {{certificate-chain|certificate chain}}, sends its {{tls-finished|Finished message}}, and application data can begin flowing immediately.
 
@@ -479,7 +479,7 @@ OCSP (Online {{certificate|Certificate}} Status Protocol) and CRL ({{certificate
 				title: 'DNS Resolution Chain',
 				text: `When your browser needs to resolve "example.com," the query travels through a carefully designed hierarchy:
 
-**Stub resolver** (your OS): Checks the local cache, the hosts file, then forwards the query to a configured recursive resolver (usually your ISP's or a public one like 8.8.8.8).
+**Stub resolver** (your OS): Checks the local cache, the hosts file, then forwards the query to a configured {{recursive-resolver|recursive resolver}} (usually your ISP's or a public one like 8.8.8.8).
 
 **Recursive resolver**: Does the hard work. If not cached, it starts at the root -- querying one of the 13 root server clusters for ".com." The root points to the .com TLD servers. The TLD server points to example.com's authoritative nameservers. The authoritative server returns the actual {{ip-address|IP address}}.
 
@@ -532,7 +532,7 @@ The numbers below are typical 2026 production values; spec maxima are higher, re
 				title: 'CSMA/CA — collision avoidance in a medium you can\'t monitor',
 				text: `Wired [[ethernet|Ethernet]] uses **CSMA/CD** (Collision Detection): a station listens while it transmits and aborts the moment another station's signal collides with its own. That trick is impossible on radio — your own transmitter saturates your own receiver, so a wireless NIC literally cannot hear another station while it is sending. Every wireless MAC therefore uses **{{csma-ca|CSMA/CA}}** (Collision *Avoidance*): listen-before-talk, plus a randomised back-off if the channel was busy.
 
-[[wifi|Wi-Fi]]'s flavour is DCF (Distributed Coordination Function). Before each {{frame|frame}}, the station senses the channel for a DIFS interval (28–34 µs), then picks a random slot from a contention window (initial CW=15, doubled on collision up to 1023), then transmits if still idle. Every successful frame is {{ack|ACKed}} after a SIFS gap (~10 µs); no ACK in time = the sender assumes collision and {{retransmission|retransmits}} from a larger CW. RTS/CTS is the optional defence against hidden terminals: the sender first asks "may I?" with a tiny RTS, the receiver responds with CTS, and every station that heard either falls silent for the negotiated duration.
+[[wifi|Wi-Fi]]'s flavour is DCF (Distributed Coordination Function). Before each {{frame|frame}}, the station senses the channel for a DIFS interval (28–34 µs), then picks a random slot from a contention window (initial CW=15, doubled on collision up to 1023), then transmits if still {{imap-idle|idle}}. Every successful frame is {{ack|ACKed}} after a SIFS gap (~10 µs); no ACK in time = the sender assumes collision and {{retransmission|retransmits}} from a larger CW. RTS/CTS is the optional defence against hidden terminals: the sender first asks "may I?" with a tiny RTS, the receiver responds with CTS, and every station that heard either falls silent for the negotiated duration.
 
 [[zigbee|Zigbee]] and {{thread|Thread}} use a similar unslotted CSMA-CA on {{ieee-802-15-4|IEEE 802.15.4}}. [[bluetooth|Bluetooth]] sidesteps the whole problem by **frequency hopping** — 1,600 hops/sec on BR/EDR — so collisions on a single channel are statistically rare. [[cellular|Cellular]] doesn't contend at all on the downlink: the base station schedules every slot.
 
@@ -570,9 +570,9 @@ How they coexist:
 				title: 'The BLE-bootstrap pattern',
 				text: `Almost every consumer wireless interaction in 2026 chains *multiple* radios. The pattern is everywhere once you see it:
 
-**[[uwb|UWB]] ranging** never starts without [[bluetooth|BLE]] first. The lock or car advertises a service UUID over BLE; the phone connects, runs SPAKE2+/PAKE authentication, transfers the **STS_KEY** for the [[uwb|UWB]] session over the BLE encrypted channel, and only then powers up its [[uwb|UWB]] radio for a three-message DS-TWR ranging round. [[uwb|UWB]] has no power-efficient discovery mechanism of its own — BLE provides it. ({{ccc-digital-key|CCC Digital Key 3.0}}, {{aliro|Aliro 1.0}}, every {{apple|Apple}} AirTag Precision Finding round.)
+**[[uwb|UWB]] ranging** never starts without [[bluetooth|BLE]] first. The lock or car advertises a service UUID over BLE; the phone connects, runs SPAKE2+/{{pake|PAKE}} authentication, transfers the **STS_KEY** for the [[uwb|UWB]] session over the BLE encrypted channel, and only then powers up its [[uwb|UWB]] radio for a three-message {{ds-twr|DS-TWR}} ranging round. [[uwb|UWB]] has no power-efficient discovery mechanism of its own — BLE provides it. ({{ccc-digital-key|CCC Digital Key 3.0}}, {{aliro|Aliro 1.0}}, every {{apple|Apple}} AirTag Precision Finding round.)
 
-**[[bluetooth|Bluetooth]] / [[wifi|Wi-Fi]] handover** is bootstrapped by [[nfc|NFC]]. The [[nfc|NFC]] Forum Connection Handover spec defines {{ndef|NDEF}} records carrying the BLE MAC + SMP OOB key or the Wi-Fi SSID + {{wpa2|WPA2}} key. A single 4 cm tap replaces the entire discovery + pairing dialog on Bluetooth speakers, printers, and {{matter|Matter}} device commissioning.
+**[[bluetooth|Bluetooth]] / [[wifi|Wi-Fi]] handover** is bootstrapped by [[nfc|NFC]]. The [[nfc|NFC]] Forum Connection Handover spec defines {{ndef|NDEF}} records carrying the BLE MAC + SMP OOB key or the Wi-Fi {{ssid|SSID}} + {{wpa2|WPA2}} key. A single 4 cm tap replaces the entire discovery + pairing dialog on Bluetooth speakers, printers, and {{matter|Matter}} device commissioning.
 
 **[[cellular|Cellular]] data** falls back to [[wifi|Wi-Fi]] calling when the carrier signal is weak — [[ipsec|IPsec]] ePDG tunnel from the UE to the carrier core over any IP link. The reverse is now true too: **Wi-Fi 8 and the {{3gpp|3GPP}} "Wi-Fi RAN" work** is exploring Wi-Fi as a fully {{3gpp|3GPP}}-managed access network so the phone never has to know which radio it's on.
 

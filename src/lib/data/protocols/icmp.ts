@@ -8,8 +8,8 @@ export const icmp: Protocol = {
 	port: undefined,
 	year: 1981,
 	rfc: 'RFC 792',
-	oneLiner: 'The diagnostic protocol behind ping and traceroute — how the network reports errors.',
-	overview: `[[icmp|ICMP]] is the internet's error-reporting and diagnostic protocol. When you type \`ping {{google|google}}.com\`, [[icmp|ICMP]] Echo Request and Reply messages measure whether the target is reachable and how long the {{rtt|round trip}} takes. When you run \`traceroute\`, [[icmp|ICMP]] Time Exceeded messages reveal each {{hop|hop}} along the path. [[icmp|ICMP]] is arguably the most universally used protocol in network troubleshooting.
+	oneLiner: 'The diagnostic protocol behind {{ping|ping}} and {{traceroute|traceroute}} — how the network reports errors.',
+	overview: `[[icmp|ICMP]] is the internet's error-reporting and diagnostic protocol. When you type \`{{ping|ping}} {{google|google}}.com\`, [[icmp|ICMP]] {{echo-request|Echo Request}} and Reply messages measure whether the target is reachable and how long the {{rtt|round trip}} takes. When you run \`{{traceroute|traceroute}}\`, [[icmp|ICMP]] {{time-exceeded|Time Exceeded}} messages reveal each {{hop|hop}} along the path. [[icmp|ICMP]] is arguably the most universally used protocol in network troubleshooting.
 
 Unlike [[tcp|TCP]] or [[udp|UDP]], [[icmp|ICMP]] doesn't use {{port|ports}}. It's {{encapsulation|encapsulated}} directly in [[ip|IP]] {{packet|packets}} with protocol number 1 — sitting at the network layer, not the transport layer. This means [[icmp|ICMP]] can report problems that [[tcp|TCP]] and [[udp|UDP]] can't even see: unreachable networks, expired {{ttl|TTLs}}, {{fragmentation|fragmentation}} issues, and routing redirects.
 
@@ -17,7 +17,7 @@ Every router on the internet speaks [[icmp|ICMP]]. When a router can't deliver a
 
 [[icmp|ICMP]] is also controversial. Many {{firewall|firewalls}} block [[icmp|ICMP]] to prevent reconnaissance, but this breaks legitimate diagnostics and can cause subtle problems like {{path-mtu-discovery|Path MTU Discovery}} failures. The debate over whether to filter [[icmp|ICMP]] has been going on for decades — and [[icmp|ICMP]]'s designers would argue it should never be blocked.
 
-[[ipv6|IPv6]] uses a separate specification called ICMPv6 (RFC 4443) with different type numbers and additional functionality. ICMPv6 is more critical than its [[ip|IPv4]] counterpart because it incorporates {{ndp|Neighbor Discovery Protocol}} ({{ndp|NDP}}), which replaces [[arp|ARP]] for address resolution and handles router discovery, address autoconfiguration, and duplicate address detection.`,
+[[ipv6|IPv6]] uses a separate specification called {{icmpv6|ICMPv6}} (RFC 4443) with different type numbers and additional functionality. ICMPv6 is more critical than its [[ip|IPv4]] counterpart because it incorporates {{ndp|Neighbor Discovery Protocol}} ({{ndp|NDP}}), which replaces [[arp|ARP]] for address resolution and handles router discovery, address autoconfiguration, and duplicate address detection.`,
 	howItWorks: [
 		{
 			title: 'Echo Request (ping)',
@@ -37,7 +37,7 @@ Every router on the internet speaks [[icmp|ICMP]]. When a router can't deliver a
 		{
 			title: 'Time Exceeded (traceroute)',
 			description:
-				"When a packet's {{ttl|TTL}} reaches zero, the router sends Type 11 back. Traceroute exploits this by sending packets with incrementing {{ttl|TTL}} values (1, 2, 3...) to discover each {{hop|hop}}."
+				"When a packet's {{ttl|TTL}} reaches zero, the router sends Type 11 back. {{traceroute|Traceroute}} exploits this by sending packets with incrementing {{ttl|TTL}} values (1, 2, 3...) to discover each {{hop|hop}}."
 		},
 		{
 			title: 'Redirect',
@@ -189,7 +189,7 @@ ICMP Echo Reply:
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/99/DEC_VT100_terminal.jpg/500px-DEC_VT100_terminal.jpg',
 		alt: 'DEC VT100 terminal at the Living Computer Museum, connected to a DEC PDP-11/70',
 		caption:
-			'A DEC VT100 terminal — the type of terminal where early network administrators ran ping and traceroute, the quintessential [[icmp|ICMP]] diagnostic tools. [[icmp|ICMP]] was defined in 1981, and these terminals were the window into the network.',
+			'A DEC VT100 terminal — the type of terminal where early network administrators ran {{ping|ping}} and {{traceroute|traceroute}}, the quintessential [[icmp|ICMP]] diagnostic tools. [[icmp|ICMP]] was defined in 1981, and these terminals were the window into the network.',
 		credit: 'Photo: Jason Scott / CC BY 2.0, via Wikimedia Commons'
 	}
 };

@@ -73,7 +73,7 @@ The **47-day-cert cliff**: {{certificate-authority|CA}}/Browser Forum **Ballot S
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Asymmetric_Cryptography.svg/500px-Asymmetric_Cryptography.svg.png',
 							alt: 'Asymmetric cryptography diagram — public key encrypts, private key decrypts.',
 							caption:
-								'**Asymmetric cryptography** — the public-key / private-key dance underneath every [[tls|TLS]] connection. The classical primitives (RSA, ECDH on Curve25519, ECDSA) all break in polynomial time on a useful quantum computer. **NIST published FIPS 203 ({{ml-kem|ML-KEM}}) on 13 August 2024**; by end-2025 **>50% of [[tls|TLS]] 1.3 connections to {{cloudflare|Cloudflare}}** carried PQ-hybrid X25519MLKEM768 key {{exchange|exchange}}. Within four days of {{apple|Apple}} shipping iOS 26 in September 2025, the iPhone PQ share jumped from <2% to 11%.',
+								'**Asymmetric cryptography** — the public-key / private-key dance underneath every [[tls|TLS]] connection. The classical primitives (RSA, {{ecdh|ECDH}} on {{curve25519|Curve25519}}, {{ecdsa|ECDSA}}) all break in polynomial time on a useful quantum computer. **NIST published FIPS 203 ({{ml-kem|ML-KEM}}) on 13 August 2024**; by end-2025 **>50% of [[tls|TLS]] 1.3 connections to {{cloudflare|Cloudflare}}** carried PQ-hybrid X25519MLKEM768 key {{exchange|exchange}}. Within four days of {{apple|Apple}} shipping iOS 26 in September 2025, the iPhone PQ share jumped from <2% to 11%.',
 							credit: 'Image: Wikimedia Commons / public domain'
 						}
 					]
@@ -128,7 +128,7 @@ The reference scalable {{congestion-control|congestion control}} is **[[tcp|TCP]
 
 {{apple|Apple}} also added {{l4s|L4S}} signalling into APIs surfaced through **Network.framework** so apps inherit it without code changes — a deliberate strategy to bypass the slow uptake of new transport features.
 
-The unresolved political fight is **{{l4s|L4S}}-vs-classic fairness**: Scalable {{congestion-control|Congestion Control}} flows starve out {{cubic|CUBIC}}/Reno in the same queue, which is why **Dual-Queue {{aqm|AQM}} is required** — the bottleneck must classify and isolate. The **{{bbrv3|BBRv3}}** community continues to publish papers on whether "scalable" and "classic" can ever share a single FIFO fairly.
+The unresolved political fight is **{{l4s|L4S}}-vs-classic fairness**: Scalable {{congestion-control|Congestion Control}} flows starve out {{cubic|CUBIC}}/Reno in the same queue, which is why **Dual-Queue {{aqm|AQM}} is required** — the bottleneck must classify and isolate. The **{{bbrv3|BBRv3}}** community continues to {{mqtt-publish|publish}} papers on whether "scalable" and "classic" can ever share a single FIFO fairly.
 
 {{l4s|L4S}} deployment as of mid-2026 is **infrastructure-shaped**: clients ({{apple|Apple}}, Chrome [[webrtc|WebRTC]]) and ISPs (Comcast DOCSIS) are ahead of the middle of the network. The long pole is server-side {{ecn|ECN}} handling and {{cdn|CDN}} {{aqm|AQM}} upgrades. The next 24 months will tell whether {{l4s|L4S}} is the new default or stays a niche feature for gaming and live media.`
 						},
@@ -233,7 +233,7 @@ The "everyone gets this wrong" detail: [[ipv6|IPv6]]'s mandatory-to-implement [[
 							title: 'The Decade-Long Slow Win',
 							text: `[[bgp|BGP]] without origin authentication is the architectural reason every [[bgp|BGP]] hijack of the last 25 years was possible: [[outage:as-7007-1997|AS 7007]], [[outage:pakistan-youtube-2008|Pakistan/YouTube]], [[outage:china-telecom-2010|China Telecom 2010]], [[outage:facebook-2021|Facebook 2021]] all worked because no router could verify whether an {{autonomous-system|AS}} was entitled to announce a prefix.
 
-**{{rpki|RPKI}}** (Resource {{public-key|Public Key}} Infrastructure) lets prefix-holders publish cryptographically signed Route Origin Authorisations declaring "{{autonomous-system|AS}} X is authorised to originate prefix Y." **{{rov|ROV}}** ({{rov|Route Origin Validation}}) is the [[bgp|BGP]] router check that drops or de-preferences advertisements that fail {{rpki|RPKI}} validation.
+**{{rpki|RPKI}}** (Resource {{public-key|Public Key}} Infrastructure) lets prefix-holders {{mqtt-publish|publish}} cryptographically signed Route Origin Authorisations declaring "{{autonomous-system|AS}} X is authorised to originate prefix Y." **{{rov|ROV}}** ({{rov|Route Origin Validation}}) is the [[bgp|BGP]] router check that drops or de-preferences advertisements that fail {{rpki|RPKI}} validation.
 
 **{{rpki|RPKI}} ROA coverage crossed 50% of [[ip|IPv4]] prefixes for the first time in May 2024** ([[ipv6|IPv6]] had crossed earlier, in late 2023). By December 2024: **~54% of [[ip|IPv4]] and [[ipv6|IPv6]] prefixes ROA-covered, ~74% of [[ip|IP]] traffic destined to ROA-covered networks** (MANRS / Kentik). The coverage curve is finally accelerating.`
 						},
@@ -395,7 +395,7 @@ Headline features: **Multi-{{access-point|AP}} Coordination (Co-BF, Co-SR, Co-TD
 
 **The CSIRO patent windfall**: Australia's CSIRO held US Patent 5,487,069 (granted 23 January 1996) on radio-astronomy-derived OFDM/{{multipath|multipath}}. After Buffalo lost in 2005, CSIRO settled with 14 majors in 2009 (~US$205M) and again with AT&T/Verizon/T-Mobile in 2012 (~US$220M) — **lifetime royalties reportedly ~US$430M+, near US$1 billion by some industry estimates**. Patents expired 30 November 2013. Most of [[wifi|Wi-Fi]]'s mid-2010s deployment happened in the post-CSIRO-royalty era.
 
-The 2024 security news: **SSID Confusion (CVE-2023-52424, May 2024)**: Gollier & Vanhoef (WiSec 2024) showed the SSID is not part of the 4-way-{{handshake|handshake}} key derivation in many configurations, allowing downgrade-style trickery against any client OS — the most important new [[wifi|Wi-Fi]] flaw since FragAttacks.
+The 2024 security news: **{{ssid|SSID}} Confusion (CVE-2023-52424, May 2024)**: Gollier & Vanhoef (WiSec 2024) showed the SSID is not part of the 4-way-{{handshake|handshake}} key derivation in many configurations, allowing downgrade-style trickery against any client OS — the most important new [[wifi|Wi-Fi]] flaw since FragAttacks.
 
 The 5.9 GHz transition: **FCC's Second Report and Order (FCC 24-106, November 2024)** finalised C-V2X for ITS and **mandated retirement of DSRC by 14 December 2026** — ending the 1999 DSRC monopoly that 802.11p was built on.`
 						},

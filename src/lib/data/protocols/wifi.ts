@@ -21,12 +21,12 @@ The differences from [[ethernet|Ethernet]] are deeper than just "no cable." Beca
 		{
 			title: 'Beacon scanning',
 			description:
-				'Access points {{broadcast|broadcast}} beacon frames every ~100 ms announcing their SSID, supported rates, {{encryption|encryption}} type, and channel. Clients scan channels (passively listening or actively sending probe requests) to discover available networks.'
+				'Access points {{broadcast|broadcast}} beacon frames every ~100 ms announcing their {{ssid|SSID}}, supported rates, {{encryption|encryption}} type, and channel. Clients scan channels (passively listening or actively sending probe requests) to discover available networks.'
 		},
 		{
 			title: 'Authentication and association',
 			description:
-				'The client authenticates with the {{access-point|AP}} (Open System or SAE for {{wpa3|WPA3}}), then sends an Association Request specifying desired parameters. The {{access-point|AP}} responds with an Association Response, assigning the client an Association ID and granting network access.'
+				'The client authenticates with the {{access-point|AP}} (Open System or SAE for {{wpa3|WPA3}}), then sends an {{association-request|Association Request}} specifying desired parameters. The {{access-point|AP}} responds with an {{association-response|Association Response}}, assigning the client an Association ID and granting network access.'
 		},
 		{
 			title: '4-way handshake (WPA2/WPA3)',

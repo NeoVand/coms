@@ -13,7 +13,7 @@ export const smtp: Protocol = {
 
 [[smtp|SMTP]] is a text-based {{protocol|protocol}} with a simple command vocabulary: HELO/{{ehlo|EHLO}} to greet, MAIL FROM to specify the sender, RCPT TO for recipients, DATA to send the message body, and QUIT to disconnect. Modern [[smtp|SMTP]] uses {{starttls|STARTTLS}} to upgrade plain connections to [[tls|TLS]]-encrypted ones, and authentication ([[smtp|SMTP]] AUTH) to prevent unauthorized sending.
 
-Despite being over 40 years old, [[smtp|SMTP]] remains the universal standard for email delivery. It's been extended with SPF, DKIM, and DMARC to fight spam and phishing. While newer protocols handle retrieval ([[imap|IMAP]], POP3), [[smtp|SMTP]] still handles every email's journey from sender to destination.`,
+Despite being over 40 years old, [[smtp|SMTP]] remains the universal standard for email delivery. It's been extended with SPF, {{dkim|DKIM}}, and {{dmarc|DMARC}} to fight spam and phishing. While newer protocols handle retrieval ([[imap|IMAP]], {{pop3|POP3}}), [[smtp|SMTP]] still handles every email's journey from sender to destination.`,
 	howItWorks: [
 		{
 			title: 'Connection & greeting',

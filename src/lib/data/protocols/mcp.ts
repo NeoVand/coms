@@ -12,14 +12,14 @@ export const mcp: Protocol = {
 		'A universal interface that lets AI applications discover and use tools, data, and prompts from any server.',
 	overview: `[[mcp|MCP]] is the protocol that solved the AI integration problem. Before [[mcp|MCP]], every AI application needed custom code for every data source — connecting Claude to your database was a different project than connecting it to GitHub, which was different again from connecting it to Slack. An N-clients × M-tools matrix of bespoke integrations. [[mcp|MCP]] collapses this to N + M: each AI host implements the [[mcp|MCP]] client once, each tool implements the [[mcp|MCP]] server once, and they all interoperate.
 
-{{anthropic|Anthropic}} released [[mcp|MCP]] in November 2024, and it was quickly adopted across the industry — Claude, ChatGPT, Copilot, Cursor, VS Code, and Replit all speak [[mcp|MCP]]. The protocol uses [[json-rpc|JSON-RPC]] 2.0 as its wire format, running over two transports: stdio (for local tools spawned as subprocesses) and Streamable HTTP (for remote servers, where responses can upgrade to [[sse|SSE]] streams). A three-step initialization {{handshake|handshake}} negotiates capabilities: the client declares what it supports ({{sampling|sampling}}, roots, elicitation), the server declares what it offers (tools, resources, prompts), and both sides confirm readiness.
+{{anthropic|Anthropic}} released [[mcp|MCP]] in November 2024, and it was quickly adopted across the industry — Claude, ChatGPT, Copilot, Cursor, VS Code, and Replit all speak [[mcp|MCP]]. The protocol uses [[json-rpc|JSON-RPC]] 2.0 as its wire format, running over two transports: {{stdio|stdio}} (for local tools spawned as subprocesses) and Streamable HTTP (for remote servers, where responses can upgrade to [[sse|SSE]] streams). A three-step initialization {{handshake|handshake}} negotiates capabilities: the client declares what it supports ({{sampling|sampling}}, roots, elicitation), the server declares what it offers (tools, resources, prompts), and both sides confirm readiness.
 
 The architecture has three roles: the **Host** (the AI application you interact with), the **Client** (a protocol handler inside the host that manages one session), and the **Server** (a lightweight process exposing tools, resources, and prompts). A single host can connect to many servers simultaneously. In December 2025, {{anthropic|Anthropic}} donated [[mcp|MCP]] to the Agentic AI Foundation under the {{linux|Linux}} Foundation, co-founded with Block and OpenAI. By early 2026, the protocol was processing over 97 million SDK downloads per month. [[a2a|A2A]] complements [[mcp|MCP]] — where [[mcp|MCP]] connects an agent to its tools, [[a2a|A2A]] connects agents to each other.`,
 	howItWorks: [
 		{
 			title: 'Transport connection',
 			description:
-				'The host starts the [[mcp|MCP]] server — either spawning it as a local subprocess (stdio transport) or connecting to a remote HTTP endpoint (Streamable HTTP transport). No protocol messages flow yet.'
+				'The host starts the [[mcp|MCP]] server — either spawning it as a local subprocess ({{stdio|stdio}} transport) or connecting to a remote HTTP endpoint (Streamable HTTP transport). No protocol messages flow yet.'
 		},
 		{
 			title: 'Initialize handshake',
@@ -39,7 +39,7 @@ The architecture has three roles: the **Host** (the AI application you interact 
 		{
 			title: 'Session lifecycle',
 			description:
-				'The session stays open for multiple interactions. The server can send notifications (progress updates, resource changes). Either side can close the transport — for stdio, the host terminates the subprocess; for HTTP, the connection is closed.'
+				'The session stays open for multiple interactions. The server can send notifications (progress updates, resource changes). Either side can close the transport — for {{stdio|stdio}}, the host terminates the subprocess; for HTTP, the connection is closed.'
 		}
 	],
 	useCases: [

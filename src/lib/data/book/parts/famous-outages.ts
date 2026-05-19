@@ -64,7 +64,7 @@ The fix was to install patched {{imp|IMP}} software that rejected sequence numbe
 
 **Periodic background traffic gets first-class testing.** Before 1980, routing keepalives were considered "infrastructure" — they ran in the background and engineers debugged them only when things broke. After 1980, every routing protocol's keepalive path was instrumented and fuzzed alongside the main code paths. Modern equivalents: [[bgp|BGP]] route-refresh, [[ospf|OSPF]] link-state advertisements, BFD keepalives — all heavily tested.
 
-**Public post-mortems became the norm.** [[rfc:789|RFC 789]] established that engineering organisations publish detailed root-cause analyses of their incidents. The {{google|Google}} SRE book, the {{cloudflare|Cloudflare}} incident reports, the Facebook 2021 write-up — all descendants of this practice.
+**Public post-mortems became the norm.** [[rfc:789|RFC 789]] established that engineering organisations {{mqtt-publish|publish}} detailed root-cause analyses of their incidents. The {{google|Google}} SRE book, the {{cloudflare|Cloudflare}} incident reports, the Facebook 2021 write-up — all descendants of this practice.
 
 **Sequence-number arithmetic is paranoid by default.** Modern protocols reject any {{sequence-number|sequence number}} that is impossibly far in the past or future, instead of trusting wall-clock-style ordering. [[tcp|TCP]]\'s [[rfc:9293|PAWS]] (Protection Against Wrapped Sequences, [[rfc:7323|RFC 7323]]) is one example.`
 						},
@@ -125,7 +125,7 @@ What made the recovery so painful was that there was no way to tell [[bgp|BGP]] 
 							title: 'Why It Took Twenty-Five Years to Fix',
 							text: `{{rpki|RPKI}} was specified in 2008. It took until 2026 to cross **50% of advertised [[ip|IP]] space covered**. The reason is the structure of [[bgp|BGP]] deployment.
 
-For {{rpki|RPKI}} to fix the {{autonomous-system|AS}} 7007 problem, two parties have to participate: the prefix-holder must publish a Route Origin Authorisation (ROA), and the receiving router must enforce {{rov|Route Origin Validation}} ({{rov|ROV}}). For the first decade after specification, only a handful of large networks ran {{rov|ROV}}. Smaller operators pointed out — correctly — that running {{rov|ROV}} with low ROA coverage means dropping legitimate routes from peers who haven\'t signed yet. So nobody enforced. Without enforcement, signing your prefixes had no upside. Classic chicken-and-egg.
+For {{rpki|RPKI}} to fix the {{autonomous-system|AS}} 7007 problem, two parties have to participate: the prefix-holder must {{mqtt-publish|publish}} a Route Origin Authorisation (ROA), and the receiving router must enforce {{rov|Route Origin Validation}} ({{rov|ROV}}). For the first decade after specification, only a handful of large networks ran {{rov|ROV}}. Smaller operators pointed out — correctly — that running {{rov|ROV}} with low ROA coverage means dropping legitimate routes from peers who haven\'t signed yet. So nobody enforced. Without enforcement, signing your prefixes had no upside. Classic chicken-and-egg.
 
 What broke the deadlock was a series of high-profile incidents (2018 Amazon Route 53 / MyEtherWallet hijack, 2018 Iranian Telegram hijack, 2019 SafeHost / China Telecom leak) that made unsigned networks look negligent. By 2022, the major hyperscalers and tier-1s were enforcing. By 2026, [[frontier:rpki-rov-50-percent|over 50%]] of advertised [[ip|IP]] space was covered. {{aspa|ASPA}} — the {{autonomous-system|AS}}-path validation extension — is the next chapter.`
 						},
@@ -596,7 +596,7 @@ Recovery required Rogers engineers to log in to individual core routers (over ou
 1. Implement **reciprocal roaming for emergency calls** within six months — so that a phone unable to reach its own carrier can still complete 911 calls through any competing carrier\'s tower.
 2. Submit **detailed network architecture and dependency reports** annually, including every system that depends on the carrier\'s network for life-safety functions.
 3. Maintain **out-of-band management** independent of the production network for all core routing infrastructure.
-4. Conduct **annual outage simulations** with the federal government, including coordinated emergency-services failover.
+4. Conduct **annual outage simulations** with the federal government, including coordinated emergency-services {{failover|failover}}.
 
 These requirements are unusual in their specificity for a private telecommunications regulator. They reflect the structural change the Rogers outage forced: the recognition that some private companies have grown into roles that historically belonged to public utilities, with the same operational obligations.`
 						},

@@ -11,7 +11,7 @@ export const coap: Protocol = {
 	oneLiner: 'HTTP for tiny devices — [[rest|REST]] semantics over [[udp|UDP]] for constrained IoT.',
 	overview: `[[coap|CoAP]] brings the familiar [[rest|REST]] model (GET, POST, PUT, DELETE) to the world of constrained IoT devices — think microcontrollers with 10KB of RAM on lossy, low-power wireless networks. It runs over [[udp|UDP]] instead of [[tcp|TCP]], uses a compact binary format, and adds built-in support for resource observation (subscribe to changes).
 
-The design mirrors [[http1|HTTP]] closely enough that translating between [[coap|CoAP]] and [[http1|HTTP]] is straightforward, enabling IoT devices to integrate with web infrastructure through simple {{gateway|proxies}}. But unlike [[http1|HTTP]], [[coap|CoAP]] supports {{multicast|multicast}} (discover all devices on a network), observation (a GET with an Observe option that lets clients receive push notifications when a resource changes), and block-wise transfer (for large payloads on constrained links).
+The design mirrors [[http1|HTTP]] closely enough that translating between [[coap|CoAP]] and [[http1|HTTP]] is straightforward, enabling IoT devices to integrate with web infrastructure through simple {{gateway|proxies}}. But unlike [[http1|HTTP]], [[coap|CoAP]] supports {{multicast|multicast}} (discover all devices on a network), observation (a GET with an {{coap-observe|Observe}} option that lets clients receive push notifications when a resource changes), and block-wise transfer (for large payloads on constrained links).
 
 For security, [[coap|CoAP]] relies on {{dtls|DTLS}} (Datagram [[tls|TLS]]) — the [[udp|UDP]] equivalent of [[tls|TLS]] — to provide {{encryption|encryption}}, authentication, and integrity. {{dtls|DTLS}} is defined as [[coap|CoAP]]'s primary security mechanism in the specification ([[rfc:7252|RFC 7252]]), with the secure port being 5684.
 
@@ -30,7 +30,7 @@ For security, [[coap|CoAP]] relies on {{dtls|DTLS}} (Datagram [[tls|TLS]]) — t
 		{
 			title: 'Observe pattern',
 			description:
-				'Client sends GET with an "Observe" option. Server then pushes notifications whenever the resource changes — like [[websockets|WebSockets]] but for constrained devices.'
+				'Client sends GET with an "{{coap-observe|Observe}}" option. Server then pushes notifications whenever the resource changes — like [[websockets|WebSockets]] but for constrained devices.'
 		},
 		{
 			title: 'Resource discovery',

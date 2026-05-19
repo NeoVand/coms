@@ -59,7 +59,7 @@ Modern protocols inherit the same idea. [[quic|QUIC]] has per-stream and per-con
 						{
 							type: 'narrative',
 							title: 'Keepalives, ECN, Consistent Hashing',
-							text: `**Keepalives** detect a dead {{peer|peer}} when no data is flowing. [[ssh|SSH]] sends a 1-byte ping every 30 seconds. [[websockets|WebSocket]] has explicit Ping/Pong frames. [[http2|HTTP/2]] has PING frames. [[bgp|BGP]] sessions {{exchange|exchange}} KEEPALIVEs every 60 seconds; if no message arrives within 180 seconds (HoldTime), the session resets and routes are withdrawn — which is what cascaded into [[outage:centurylink-flowspec-2020|CenturyLink 2020]]. Without keepalives, a {{stateful|stateful}} {{firewall|firewall}} might silently drop the connection state and you'd notice only when you tried to send.
+							text: `**Keepalives** detect a dead {{peer|peer}} when no data is flowing. [[ssh|SSH]] sends a 1-byte {{ping|ping}} every 30 seconds. [[websockets|WebSocket]] has explicit Ping/Pong frames. [[http2|HTTP/2]] has PING frames. [[bgp|BGP]] sessions {{exchange|exchange}} KEEPALIVEs every 60 seconds; if no message arrives within 180 seconds (HoldTime), the session resets and routes are withdrawn — which is what cascaded into [[outage:centurylink-flowspec-2020|CenturyLink 2020]]. Without keepalives, a {{stateful|stateful}} {{firewall|firewall}} might silently drop the connection state and you'd notice only when you tried to send.
 
 **{{ecn|ECN}}** (Explicit Congestion {{notification|Notification}}, RFC 3168) lets routers signal congestion **without dropping packets**. Mark a 2-bit field in the [[ip|IP]] header, the receiver echoes it, the sender slows down. The future of low-{{latency|latency}} networking ([[frontier:l4s-comcast-launch|L4S]], RFCs 9330/9331/9332) depends entirely on {{ecn|ECN}} being widely supported. Comcast launched {{l4s|L4S}} in production in January 2025 across six US metros.
 
@@ -77,7 +77,7 @@ Modern protocols inherit the same idea. [[quic|QUIC]] has per-stream and per-con
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/TCP_Three-Way_Handshake.svg/500px-TCP_Three-Way_Handshake.svg.png',
 							alt: 'TCP three-way handshake — SYN, SYN-ACK, ACK between client and server.',
 							caption:
-								'The canonical **{{handshake|handshake}}**: [[tcp|TCP]]\'s **SYN → SYN-ACK → ACK** dance from [[rfc:9293|RFC 793]] in 1981. Every other {{handshake|handshake}} in this book — [[tls|TLS]] {{client-hello|ClientHello}}/{{server-hello|ServerHello}}/Finished, [[ssh|SSH]] KEX, [[mqtt|MQTT]] CONNECT/CONNACK, [[sctp|SCTP]]\'s four-way {{cookie|Cookie}} {{exchange|exchange}} — is a variation on this shape. Recognise the pattern once; recognise it in every other protocol you ever read.',
+								'The canonical **{{handshake|handshake}}**: [[tcp|TCP]]\'s **SYN → {{syn-ack|SYN-ACK}} → ACK** dance from [[rfc:9293|RFC 793]] in 1981. Every other {{handshake|handshake}} in this book — [[tls|TLS]] {{client-hello|ClientHello}}/{{server-hello|ServerHello}}/Finished, [[ssh|SSH]] KEX, [[mqtt|MQTT]] CONNECT/CONNACK, [[sctp|SCTP]]\'s four-way {{cookie|Cookie}} {{exchange|exchange}} — is a variation on this shape. Recognise the pattern once; recognise it in every other protocol you ever read.',
 							credit: 'Image: Wikimedia Commons / public domain'
 						}
 					]
@@ -139,7 +139,7 @@ The fix is the only fix — tunnel inside something the middleboxes already acce
 
 **{{mtu|MTU}} black holes** — a path drops large packets but does not return the [[icmp|ICMP]] "{{fragmentation|Fragmentation}} Needed" needed to signal Path {{mtu|MTU}}. The connection hangs because retransmits also fail. Cure: enable PLPMTUD (Packetisation Layer {{path-mtu-discovery|Path MTU Discovery}}, [[rfc:4821|RFC 4821]]) which probes packet sizes at the application layer; or set [[tcp|TCP]] {{mss|MSS}} clamping at network edges.
 
-**Slowloris-style attacks** — hold connections open with minimal data, exhausting the server's connection table without burning attacker {{bandwidth|bandwidth}}. Defended by per-[[ip|IP]] connection limits, idle timeouts, and reverse proxies that buffer slow clients.
+**Slowloris-style attacks** — hold connections open with minimal data, exhausting the server's connection table without burning attacker {{bandwidth|bandwidth}}. Defended by per-[[ip|IP]] connection limits, {{imap-idle|idle}} timeouts, and reverse proxies that buffer slow clients.
 
 **Cache poisoning** — inject malicious answers into a [[dns|DNS]] resolver's cache so subsequent lookups go to the attacker's site. Largely cured by source-port randomisation (Dan Kaminsky's 2008 fix) and {{dnssec|DNSSEC}}.
 

@@ -10,7 +10,7 @@ export const xmpp: Protocol = {
 	rfc: 'RFC 6120',
 	oneLiner:
 		'The open, {{xml|XML}}-based messaging protocol born as Jabber — federated chat before it was cool.',
-	overview: `In January 1999, Jeremie Miller was tired of juggling four different instant messaging clients for four different walled-garden services. So he built Jabber — an open, federated messaging system where anyone could run a server and talk to anyone on any other server. That system became [[xmpp|XMPP]], and its ideas about federation and open standards shaped the future of messaging.
+	overview: `In January 1999, Jeremie Miller was tired of juggling four different instant messaging clients for four different walled-garden services. So he built Jabber — an open, federated messaging system where anyone could run a server and talk to anyone on any other server. That system became [[xmpp|XMPP]], and its ideas about {{federation|federation}} and open standards shaped the future of messaging.
 
 [[xmpp|XMPP]] uses persistent {{xml|XML}} streams between {{client-server|clients and servers}} over [[tcp|TCP]]. Messages, presence updates ("Alice is online"), and IQ (info/query) stanzas flow as {{xml|XML}} fragments over these streams. The {{protocol|protocol}} is designed to be extensible — hundreds of XEPs ([[xmpp|XMPP]] Extension Protocols) add capabilities from file transfer and multi-user chat to IoT device management.
 
@@ -24,7 +24,7 @@ export const xmpp: Protocol = {
 		{
 			title: 'Authentication and resource binding',
 			description:
-				'Client authenticates via SASL (typically SCRAM-SHA-1). After auth, the client binds a "resource" to distinguish multiple devices for the same account.'
+				'Client authenticates via {{sasl|SASL}} (typically {{scram|SCRAM}}-SHA-1). After auth, the client binds a "resource" to distinguish multiple devices for the same account.'
 		},
 		{
 			title: 'Stanza exchange',
@@ -39,7 +39,7 @@ export const xmpp: Protocol = {
 		{
 			title: 'Extensions (XEPs)',
 			description:
-				'The base protocol is minimal. Hundreds of XEPs add features: multi-user chat, HTTP file upload, message carbons, end-to-end {{encryption|encryption}} (OMEMO), and more.'
+				'The base protocol is minimal. Hundreds of XEPs add features: multi-user chat, HTTP file upload, message carbons, end-to-end {{encryption|encryption}} ({{omemo|OMEMO}}), and more.'
 		}
 	],
 	useCases: [
@@ -209,7 +209,7 @@ Server → Contacts (broadcast):
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/JabberNetwork.svg/500px-JabberNetwork.svg.png',
 		alt: 'Diagram of the XMPP/Jabber federated network showing multiple servers interconnected with clients on each server',
 		caption:
-			'[[xmpp|XMPP]] federation — just like email, anyone can run their own [[xmpp|XMPP]] server and communicate with users on any other server. This decentralized architecture means no single company controls the network.',
+			'[[xmpp|XMPP]] {{federation|federation}} — just like email, anyone can run their own [[xmpp|XMPP]] server and communicate with users on any other server. This decentralized architecture means no single company controls the network.',
 		credit: 'Image: Wikimedia Commons / CC BY-SA 3.0'
 	}
 };

@@ -21,17 +21,17 @@ The famous architectural decision: Kerberos requires **time synchronisation** ac
 		{
 			title: 'AS-REQ → AS-REP — get a Ticket Granting Ticket',
 			description:
-				'Client sends an **AS-REQ** to the KDC\'s Authentication Service with its principal name (`alice@EXAMPLE.COM`). KDC looks up Alice\'s long-term key in its database, generates a fresh session key, and returns an **AS-REP** containing: (a) a **Ticket Granting Ticket (TGT)** {{encryption|encrypted}} under the **krbtgt** principal\'s key (so only the KDC can later decrypt it), and (b) the session key encrypted under Alice\'s long-term key (so only Alice can decrypt it). Alice never sends her password.'
+				'Client sends an **AS-REQ** to the KDC\'s Authentication Service with its principal name (`alice@EXAMPLE.COM`). KDC looks up Alice\'s long-term key in its database, generates a fresh session key, and returns an **AS-REP** containing: (a) a **Ticket Granting Ticket (TGT)** {{encryption|encrypted}} under the **{{kerberos-krbtgt|krbtgt}}** principal\'s key (so only the KDC can later decrypt it), and (b) the session key encrypted under Alice\'s long-term key (so only Alice can decrypt it). Alice never sends her password.'
 		},
 		{
 			title: 'Pre-authentication (the modern default)',
 			description:
-				"Modern KDCs reject an unauthenticated AS-REQ. The client must include a **PA-ENC-TIMESTAMP** — a fresh timestamp encrypted under its long-term key — so the KDC can verify the client actually knows the password before issuing a TGT. (The old behaviour of returning the AS-REP without pre-auth is what enables **AS-REP roasting** — an attacker harvests the {{encryption|encrypted}} blob and brute-forces it offline.)"
+				"Modern KDCs reject an unauthenticated AS-REQ. The client must include a **{{kerberos-pa-enc-timestamp|PA-ENC-TIMESTAMP}}** — a fresh timestamp encrypted under its long-term key — so the KDC can verify the client actually knows the password before issuing a TGT. (The old behaviour of returning the AS-REP without pre-auth is what enables **AS-REP roasting** — an attacker harvests the {{encryption|encrypted}} blob and brute-forces it offline.)"
 		},
 		{
 			title: 'TGS-REQ → TGS-REP — get a service ticket',
 			description:
-				'When Alice wants to access \`HTTP/web1.example.com\`, she sends a **TGS-REQ** to the KDC\'s Ticket Granting Service, presenting her TGT plus a fresh authenticator (an {{anti-replay|anti-replay}} timestamp encrypted under the TGT session key). KDC decrypts the TGT (it knows krbtgt\'s key), validates the authenticator, mints a new session key for Alice↔web1, and returns a **TGS-REP** with a **service ticket** encrypted under web1\'s long-term key.'
+				'When Alice wants to access \`HTTP/web1.example.com\`, she sends a **TGS-REQ** to the KDC\'s {{kerberos-tgs|Ticket Granting Service}}, presenting her TGT plus a fresh authenticator (an {{anti-replay|anti-replay}} timestamp encrypted under the TGT session key). KDC decrypts the TGT (it knows {{kerberos-krbtgt|krbtgt}}\'s key), validates the authenticator, mints a new session key for Alice↔web1, and returns a **TGS-REP** with a **service ticket** encrypted under web1\'s long-term key.'
 		},
 		{
 			title: 'AP-REQ — present the service ticket',
@@ -41,12 +41,12 @@ The famous architectural decision: Kerberos requires **time synchronisation** ac
 		{
 			title: 'Cross-realm referrals',
 			description:
-				"When Alice in EXAMPLE.COM wants to access a service in PARTNER.COM, her KDC issues a **referral TGT** for the krbtgt/PARTNER.COM principal (encrypted under a cross-realm shared key). Alice presents that to the PARTNER.COM KDC, gets a service ticket. The trust topology is a graph of shared keys between krbtgt principals — the same mechanism Active Directory uses to scale to forests."
+				"When Alice in EXAMPLE.COM wants to access a service in PARTNER.COM, her KDC issues a **referral TGT** for the {{kerberos-krbtgt|krbtgt}}/PARTNER.COM principal (encrypted under a cross-realm shared key). Alice presents that to the PARTNER.COM KDC, gets a service ticket. The trust topology is a graph of shared keys between krbtgt principals — the same mechanism Active Directory uses to scale to forests."
 		},
 		{
 			title: 'GSS-API and SPNEGO — the application bindings',
 			description:
-				'Applications rarely speak Kerberos directly. They speak **GSS-API** (Generic Security Service API, [[rfc:2743|RFC 2743]]), which abstracts authentication mechanisms behind \`gss_init_sec_context\` / \`gss_accept_sec_context\`. **SPNEGO** ([[rfc:4178|RFC 4178]]) is the protocol negotiation layer that lets [[http1|HTTP]] (`Authorization: Negotiate <base64>`), SMB, LDAP, and other applications transparently use Kerberos when available and fall back to [[oauth2|OAuth]] / NTLM otherwise. Every "Windows Integrated Authentication" prompt in Internet Explorer / Edge / Chrome is SPNEGO over HTTP wrapping a Kerberos AP-REQ.'
+				'Applications rarely speak Kerberos directly. They speak **GSS-API** (Generic Security Service API, [[rfc:2743|RFC 2743]]), which abstracts authentication mechanisms behind \`gss_init_sec_context\` / \`gss_accept_sec_context\`. **SPNEGO** ([[rfc:4178|RFC 4178]]) is the protocol negotiation layer that lets [[http1|HTTP]] (`Authorization: Negotiate <base64>`), SMB, LDAP, and other applications transparently use Kerberos when available and fall back to [[oauth2|OAuth]] / NTLM otherwise. Every "Windows Integrated Authentication" prompt in Internet Explorer / Edge / Chrome is SPNEGO over HTTP wrapping a {{kerberos-ap-req|Kerberos AP-REQ}}.'
 		}
 	],
 	useCases: [
@@ -291,7 +291,7 @@ server.listen(443);`
 			date: '2025-08',
 			title: 'MIT krb5 1.22 — PKINIT ECDH, IAKerb, Unix-domain transport',
 			description:
-				'5 August 2025 release. Headline features: **PKINIT ECDH/EC certs** (smart-card auth on Curve25519 / P-384), **paChecksum2** support (longer FAST-armored {{checksum|checksum}} to retire SHA-1), **IAKerb** for realm discovery without [[dns|DNS]], and the first **Unix-domain socket transport** for in-host KDC traffic. Initial release was withdrawn on 17 August for a critical vuln; re-issued as 1.22.2.',
+				'5 August 2025 release. Headline features: **PKINIT {{ecdh|ECDH}}/EC certs** (smart-card auth on {{curve25519|Curve25519}} / P-384), **paChecksum2** support (longer FAST-armored {{checksum|checksum}} to retire SHA-1), **IAKerb** for realm discovery without [[dns|DNS]], and the first **Unix-domain socket transport** for in-host KDC traffic. Initial release was withdrawn on 17 August for a critical vuln; re-issued as 1.22.2.',
 			source: { url: 'https://web.mit.edu/kerberos/krb5-1.22/', label: 'MIT krb5 1.22 release notes' }
 		},
 		{

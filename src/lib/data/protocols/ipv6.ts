@@ -14,7 +14,7 @@ export const ipv6: Protocol = {
 
 But [[ipv6|IPv6]] isn't just "bigger addresses." The protocol was redesigned from scratch with decades of operational experience. The header was simplified: [[ip|IPv4]]'s variable-length header with a {{checksum|checksum}} and options field became a fixed 40-byte header with no {{checksum|checksum}} (upper layers handle integrity) and an elegant extension {{header|header}} chain for optional features. {{fragmentation|Fragmentation}} was removed from routers entirely — only the source host fragments, discovered through {{path-mtu-discovery|Path MTU Discovery}} using [[icmp|ICMPv6]].
 
-[[ipv6|IPv6]] eliminates {{broadcast|broadcast}} entirely, replacing it with {{multicast|multicast}} and {{anycast|anycast}}. Instead of [[arp|ARP]] broadcasts to resolve addresses, [[ipv6|IPv6]] uses {{ndp|Neighbor Discovery Protocol}} ({{ndp|NDP}}), which runs over ICMPv6 and uses solicited-node {{multicast|multicast}} — far more efficient than flooding every device on the network. {{ndp|NDP}} also handles {{stateless|stateless}} address autoconfiguration ({{slaac|SLAAC}}), where a device can configure its own globally unique address without a [[dhcp|DHCP]] server.
+[[ipv6|IPv6]] eliminates {{broadcast|broadcast}} entirely, replacing it with {{multicast|multicast}} and {{anycast|anycast}}. Instead of [[arp|ARP]] broadcasts to resolve addresses, [[ipv6|IPv6]] uses {{ndp|Neighbor Discovery Protocol}} ({{ndp|NDP}}), which runs over {{icmpv6|ICMPv6}} and uses solicited-node {{multicast|multicast}} — far more efficient than flooding every device on the network. {{ndp|NDP}} also handles {{stateless|stateless}} address autoconfiguration ({{slaac|SLAAC}}), where a device can configure its own globally unique address without a [[dhcp|DHCP]] server.
 
 The primary [[ip|IPv4]]-to-[[ipv6|IPv6]] transition mechanism is dual-stack operation, where hosts and routers run both protocols simultaneously and prefer [[ipv6|IPv6]] when available. This avoids a hard cutover and allows gradual migration.
 
@@ -38,12 +38,12 @@ On 28 March 2026, [[ipv6|IPv6]] carried 50.1% of {{google|Google}}'s traffic for
 		{
 			title: 'Neighbor Discovery (NDP)',
 			description:
-				'Replaces [[arp|ARP]], [[icmp|ICMP]] Router Discovery, and [[icmp|ICMP]] Redirect. Uses ICMPv6 messages: Router Solicitation/Advertisement (find routers), Neighbor Solicitation/Advertisement (resolve addresses via solicited-node {{multicast|multicast}}).'
+				'Replaces [[arp|ARP]], [[icmp|ICMP]] Router Discovery, and [[icmp|ICMP]] Redirect. Uses {{icmpv6|ICMPv6}} messages: {{router-solicitation|Router Solicitation}}/Advertisement (find routers), {{neighbor-solicitation|Neighbor Solicitation}}/Advertisement (resolve addresses via solicited-node {{multicast|multicast}}).'
 		},
 		{
 			title: 'Stateless autoconfiguration (SLAAC)',
 			description:
-				'Hosts generate their own global address from the network prefix (learned via Router Advertisement) and their interface identifier. No [[dhcp|DHCP]] server needed — plug in and go. Note: by default {{stateless|SLAAC}} embeds the {{mac-address|MAC address}} in the [[ipv6|IPv6]] address, which is a privacy concern — Privacy Extensions ([[rfc:8981|RFC 8981]]) replace this with randomized, temporary interface identifiers that rotate periodically.'
+				'Hosts generate their own global address from the network prefix (learned via {{router-advertisement|Router Advertisement}}) and their interface identifier. No [[dhcp|DHCP]] server needed — plug in and go. Note: by default {{stateless|SLAAC}} embeds the {{mac-address|MAC address}} in the [[ipv6|IPv6]] address, which is a privacy concern — Privacy Extensions ([[rfc:8981|RFC 8981]]) replace this with randomized, temporary interface identifiers that rotate periodically.'
 		}
 	],
 	useCases: [

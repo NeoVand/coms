@@ -13,7 +13,7 @@ export const arp: Protocol = {
 
 Under the hood, [[arp|ARP]] uses EtherType 0x0806 and operates directly on [[ethernet|Ethernet]] — it has no [[ip|IP]] header. The request is {{broadcast|broadcast}} to \`FF:FF:FF:FF:FF:FF\`, so every device on the segment receives it, but only the target replies. That reply is {{unicast|unicast}} directly back to the requester. The resulting [[ip|IP]]-to-MAC mapping is stored in the [[arp|ARP]] cache (also called the [[arp|ARP]] table) with a {{ttl|time-to-live}} — typically 15-45 seconds on modern systems (randomized per [[rfc:4861|RFC 4861]]) — after which the entry expires and must be re-resolved.
 
-[[arp|ARP]]'s simplicity is both its strength and its weakness. There is zero authentication — any device can claim to own any {{ip-address|IP address}}. This makes {{spoofing|ARP spoofing}} (or [[arp|ARP]] poisoning) trivial: an attacker sends fake [[arp|ARP]] replies to redirect traffic through their machine, enabling {{man-in-the-middle|man-in-the-middle}} attacks. Countermeasures include Dynamic [[arp|ARP]] Inspection (DAI) on managed switches, static [[arp|ARP]] entries for critical hosts, and protocols like [[dhcp|DHCP]] snooping. Gratuitous [[arp|ARP]] — where a host announces its own [[ip|IP]]/MAC mapping without being asked — is used for duplicate [[ip|IP]] detection and for updating caches after a {{mac-address|MAC address}} change (e.g., during failover). On [[wifi|Wi-Fi]] networks, [[arp|ARP]] works the same way but traverses the wireless medium, with the {{access-point|access point}} bridging requests between wired and wireless segments.`,
+[[arp|ARP]]'s simplicity is both its strength and its weakness. There is zero authentication — any device can claim to own any {{ip-address|IP address}}. This makes {{spoofing|ARP spoofing}} (or [[arp|ARP]] poisoning) trivial: an attacker sends fake [[arp|ARP]] replies to redirect traffic through their machine, enabling {{man-in-the-middle|man-in-the-middle}} attacks. Countermeasures include Dynamic [[arp|ARP]] Inspection (DAI) on managed switches, static [[arp|ARP]] entries for critical hosts, and protocols like [[dhcp|DHCP]] snooping. Gratuitous [[arp|ARP]] — where a host announces its own [[ip|IP]]/MAC mapping without being asked — is used for duplicate [[ip|IP]] detection and for updating caches after a {{mac-address|MAC address}} change (e.g., during {{failover|failover}}). On [[wifi|Wi-Fi]] networks, [[arp|ARP]] works the same way but traverses the wireless medium, with the {{access-point|access point}} bridging requests between wired and wireless segments.`,
 	howItWorks: [
 		{
 			title: 'Check ARP cache',
@@ -38,7 +38,7 @@ Under the hood, [[arp|ARP]] uses EtherType 0x0806 and operates directly on [[eth
 		{
 			title: 'Gratuitous ARP',
 			description:
-				"A host can {{broadcast|broadcast}} an unsolicited [[arp|ARP]] reply announcing its own [[ip|IP]]/MAC mapping. This is used at boot time for duplicate [[ip|IP]] detection, after a NIC replacement to update neighbors' caches, and during failover in high-availability setups to redirect traffic to a new machine."
+				"A host can {{broadcast|broadcast}} an unsolicited [[arp|ARP]] reply announcing its own [[ip|IP]]/MAC mapping. This is used at boot time for duplicate [[ip|IP]] detection, after a NIC replacement to update neighbors' caches, and during {{failover|failover}} in high-availability setups to redirect traffic to a new machine."
 		}
 	],
 	useCases: [

@@ -11,9 +11,9 @@ export const mqtt: Protocol = {
 	oneLiner: 'Lightweight {{pub-sub|publish/subscribe}} messaging — the lingua franca of IoT.',
 	overview: `[[mqtt|MQTT]] was invented at IBM in 1999 for monitoring oil pipelines over unreliable satellite links. Originally called "MQ Telemetry Transport," the name was dropped as a formal acronym when [[mqtt|MQTT]] became an OASIS standard in 2014 — it's now just "[[mqtt|MQTT]]." Its design goals — minimal {{bandwidth|bandwidth}}, tiny code footprint, and unreliable network tolerance — make it perfect for IoT devices with limited resources.
 
-The pattern is {{pub-sub|publish/subscribe}}: devices publish messages to named "{{topic|topics}}," and other devices subscribe to topics they care about. A central {{broker|broker}} handles routing. A temperature sensor publishes to "home/kitchen/temperature," and any interested dashboard or automation system subscribes to that {{topic|topic}}.
+The pattern is {{pub-sub|publish/subscribe}}: devices {{mqtt-publish|publish}} messages to named "{{topic|topics}}," and other devices subscribe to topics they care about. A central {{broker|broker}} handles routing. A temperature sensor publishes to "home/kitchen/temperature," and any interested dashboard or automation system subscribes to that {{topic|topic}}.
 
-[[mqtt|MQTT]]'s fixed header is just 2 bytes. It supports three {{qos|quality-of-service}} levels (fire-and-forget, at-least-once, exactly-once), retained messages (new subscribers get the last value immediately), and "{{last-will|last will}}" messages (the broker publishes a message if a device disconnects unexpectedly).`,
+[[mqtt|MQTT]]'s fixed header is just 2 bytes. It supports three {{qos|quality-of-service}} levels ({{fire-and-forget|fire-and-forget}}, at-least-once, exactly-once), retained messages (new subscribers get the last value immediately), and "{{last-will|last will}}" messages (the broker publishes a message if a device disconnects unexpectedly).`,
 	howItWorks: [
 		{
 			title: 'Connect to broker',
@@ -28,12 +28,12 @@ The pattern is {{pub-sub|publish/subscribe}}: devices publish messages to named 
 		{
 			title: 'Publish messages',
 			description:
-				"Any client can publish a message to a {{topic|topic}}. The broker receives it and forwards it to all matching subscribers. The publisher doesn't need to know who subscribes."
+				"Any client can {{mqtt-publish|publish}} a message to a {{topic|topic}}. The broker receives it and forwards it to all matching subscribers. The publisher doesn't need to know who subscribes."
 		},
 		{
 			title: 'QoS delivery',
 			description:
-				'QoS 0: fire-and-forget. QoS 1: acknowledged (at-least-once). QoS 2: four-step {{handshake|handshake}} (exactly-once). Choose based on data criticality.'
+				'QoS 0: {{fire-and-forget|fire-and-forget}}. QoS 1: acknowledged (at-least-once). QoS 2: four-step {{handshake|handshake}} (exactly-once). Choose based on data criticality.'
 		}
 	],
 	useCases: [

@@ -119,7 +119,7 @@ The vulnerability surface keeps producing CVEs. **CVE-2019-11477 ({{sack|SACK}} 
 							title: 'Why Half the Internet Runs On It',
 							text: `That minimalism is why [[udp|UDP]] is the foundation of:
 
-- **[[dns|DNS]]** — every lookup is one datagram each way. ~14 trillion queries per day on {{google|Google}} Public [[dns|DNS]] alone. The persistent connection model [[tcp|TCP]] gives you is overhead a recursive resolver does not need; the connection per query model [[udp|UDP]] gives you scales to root-server volumes.
+- **[[dns|DNS]]** — every lookup is one datagram each way. ~14 trillion queries per day on {{google|Google}} Public [[dns|DNS]] alone. The persistent connection model [[tcp|TCP]] gives you is overhead a {{recursive-resolver|recursive resolver}} does not need; the connection per query model [[udp|UDP]] gives you scales to root-server volumes.
 - **[[ntp|NTP]]** — time correction has to be precise to the microsecond. You cannot tolerate {{handshake|handshake}} delay; you cannot tolerate {{retransmission|retransmission}} timing variance. [[udp|UDP]] delivers a packet in a few milliseconds and lets the protocol math figure out clock {{offset|offset}} from {{rtt|RTT}}.
 - **[[dhcp|DHCP]]** — you do not have an {{ip-address|IP address}} yet. You cannot do [[tcp|TCP]]. [[udp|UDP]] {{broadcast|broadcast}} is the only way a host without an address can ask the network for one.
 - **[[rtp|RTP]]** — a dropped audio packet should be ignored, not retransmitted. Late audio is worse than missing audio.
@@ -130,7 +130,7 @@ The single thing [[udp|UDP]] gives you above raw [[ip|IP]] is **ports** — the 
 						{
 							type: 'callout',
 							title: 'NAT pinholes are a UDP-specific concern',
-							text: 'A {{nat|NAT}} router opens a "pinhole" for outbound [[udp|UDP]] keyed by (src [[ip|IP]], src port). The pinhole closes after a few minutes of silence. For long-lived [[udp|UDP]] applications — {{voip|VoIP}}, IoT keepalives, [[quic|QUIC]] connections that have gone idle — you must send a keepalive every 30-60 seconds to keep the pinhole open, or the next inbound packet will be dropped at the {{nat|NAT}}. This is one of the reasons [[webrtc|WebRTC]] and [[sip|SIP]] both have explicit keepalive timers despite their underlying transports having no need for them.'
+							text: 'A {{nat|NAT}} router opens a "pinhole" for outbound [[udp|UDP]] keyed by (src [[ip|IP]], src port). The pinhole closes after a few minutes of silence. For long-lived [[udp|UDP]] applications — {{voip|VoIP}}, IoT keepalives, [[quic|QUIC]] connections that have gone {{imap-idle|idle}} — you must send a keepalive every 30-60 seconds to keep the pinhole open, or the next inbound packet will be dropped at the {{nat|NAT}}. This is one of the reasons [[webrtc|WebRTC]] and [[sip|SIP]] both have explicit keepalive timers despite their underlying transports having no need for them.'
 						},
 						{
 							type: 'narrative',
@@ -177,7 +177,7 @@ The protocol itself has not changed. The role it plays has been reshaped by what
 						{
 							type: 'narrative',
 							title: 'A Protocol Born From Telephony',
-							text: `In the late 1990s, the **SS7 telephony signalling protocol** was being moved onto [[ip|IP]]. The PSTN's reliability requirements — sub-second failover when a link dies — embarrassed [[tcp|TCP]]. A [[tcp|TCP]] connection bound to a single source/destination pair will hang indefinitely when its path fails, regardless of whether other paths to the same endpoint are working. **Randall Stewart at {{cisco|Cisco}}**, working with the {{ietf|IETF}} SIGTRAN group, designed a replacement.
+							text: `In the late 1990s, the **SS7 telephony signalling protocol** was being moved onto [[ip|IP]]. The PSTN's reliability requirements — sub-second {{failover|failover}} when a link dies — embarrassed [[tcp|TCP]]. A [[tcp|TCP]] connection bound to a single source/destination pair will hang indefinitely when its path fails, regardless of whether other paths to the same endpoint are working. **Randall Stewart at {{cisco|Cisco}}**, working with the {{ietf|IETF}} SIGTRAN group, designed a replacement.
 
 [[sctp|SCTP]] (Stream Control Transmission Protocol, [[rfc:2960|RFC 2960]] in October 2000, current [[rfc:9260|RFC 9260]] in June 2022) was [[tcp|TCP]] redesigned with three improvements:
 
@@ -242,7 +242,7 @@ The protocol itself remains specialised. It is the canonical example of a techni
 							title: 'Two Paths, One Connection',
 							text: `Your phone has two radios. **[[wifi|Wi-Fi]]** is fast and free; **cellular** is everywhere. The naive approach — pick one, fall back to the other if it fails — wastes capacity and visibly stutters the moment you walk out of range of your home router. What if a single connection could use both at the same time?
 
-That is the [[mptcp|Multipath TCP]] proposition. **[[mptcp|MPTCP]]** ([[rfc:6824|RFC 6824]] in January 2013, current [[rfc:8684|RFC 8684]] in March 2020) presents a normal [[tcp|TCP]] socket to applications, but underneath it negotiates **subflows** over multiple paths and aggregates their throughput. Sequence numbers and ACKs are coordinated at the [[mptcp|MPTCP]] layer; {{congestion-control|congestion control}} runs per subflow but is coupled (RFC 6356, "LIA" — Linked Increases Algorithm) to prevent over-allocating capacity to the better path.
+That is the [[mptcp|Multipath TCP]] proposition. **[[mptcp|MPTCP]]** ([[rfc:6824|RFC 6824]] in January 2013, current [[rfc:8684|RFC 8684]] in March 2020) presents a normal [[tcp|TCP]] socket to applications, but underneath it negotiates **subflows** over multiple paths and aggregates their throughput. Sequence numbers and ACKs are coordinated at the [[mptcp|MPTCP]] layer; {{congestion-control|congestion control}} runs per {{subflow|subflow}} but is coupled (RFC 6356, "LIA" — Linked Increases Algorithm) to prevent over-allocating capacity to the better path.
 
 The application has no idea any of this is happening. The socket interface is identical to a regular [[tcp|TCP]] socket. The kernel does the {{multipath|multipath}} bookkeeping; the wire format uses [[tcp|TCP]] options that legacy middleboxes mostly forward unchanged.`
 						},
@@ -267,7 +267,7 @@ The application has no idea any of this is happening. The socket interface is id
 
 {{multipath|Multipath}} [[quic|QUIC]] inherits [[mptcp|MPTCP]]'s algorithmic ideas — subflows, coupled {{congestion-control|congestion control}}, packet scheduling across paths — but operates inside [[quic|QUIC]]'s much more deployable carrier ([[udp|UDP]]). Where [[mptcp|MPTCP]] had to fight middleboxes that didn't understand [[tcp|TCP]] options, {{multipath|multipath}} [[quic|QUIC]] encrypts everything except a handful of public bits inside the [[udp|UDP]] envelope. Middleboxes see [[udp|UDP]]; the {{multipath|multipath}} logic is invisible.
 
-**{{apple|Apple}}, Alibaba, and Tessares have already deployed predecessors** (gQUIC {{multipath|multipath}} at {{google|Google}}, {{apple|Apple}}'s iCloud sync, Alibaba's mobile e-commerce). Once {{multipath|multipath}} [[quic|QUIC]] ships in mainline implementations (quiche, mvfst, quinn, msquic), it becomes the natural multipath transport for [[http3|HTTP/3]].
+**{{apple|Apple}}, Alibaba, and Tessares have already deployed predecessors** (gQUIC {{multipath|multipath}} at {{google|Google}}, {{apple|Apple}}'s iCloud sync, Alibaba's mobile e-commerce). Once {{multipath|multipath}} [[quic|QUIC]] ships in mainline implementations (quiche, mvfst, quinn, msquic), it becomes the natural {{multipath|multipath}} transport for [[http3|HTTP/3]].
 
 [[mptcp|MPTCP]] itself will remain in production for the use cases it currently serves. But the architectural arc — same idea, ported to a more deployable transport — is the same arc [[quic|QUIC]] followed for everything else.`
 						},
