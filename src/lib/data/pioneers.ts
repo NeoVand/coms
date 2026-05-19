@@ -162,6 +162,8 @@ Founded 3Com in 1979 to commercialize [[ethernet|Ethernet]]. Today, four decades
 		contribution: `Invented the Spanning Tree Protocol (IEEE 802.1D, 1985), which made redundant [[ethernet|Ethernet]] topologies possible by automatically discovering and disabling loops without operator intervention. Without STP, every backbone [[ethernet|Ethernet]] network in the world would broadcast-storm itself to death. Later designed TRILL (Transparent Interconnection of Lots of Links) and contributed to the IS-IS routing protocol.
 
 Holds over 100 patents. Often called the "Mother of the Internet" for the loop-prevention work that made every multi-switch [[ethernet|Ethernet]] network possible. Wrote the textbook *Interconnections: Bridges, Routers, Switches and Internetworking Protocols*, the gold standard on bridging vs routing.`,
+		imagePath:
+			'https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/Radia_Perlman_2009.jpg/330px-Radia_Perlman_2009.jpg',
 		protocols: ['ethernet', 'ospf'],
 		categories: ['network-foundations'],
 		awards: [
@@ -376,6 +378,8 @@ Author of *SSL and [[tls|TLS]]: Designing and Building Secure Systems* (2000), t
 		contribution: `Chief Protocol Architect of the Internet from 1981 to 1989, when most of the architectural decisions that shape the internet today were made: the end-to-end principle, the four-layer model, the separation of mechanism from policy. Continues at MIT CSAIL.
 
 Distilled the {{ietf|IETF}}'s working culture into the sentence that decided the OSI vs [[tcp|TCP]]/[[ip|IP]] standards war at {{ietf|IETF}} 24 in Cambridge, MA in July 1992: "We reject: kings, presidents and voting. We believe in: rough consensus and running code." That single quote is the closest thing the {{ietf|IETF}} has to a national anthem.`,
+		imagePath:
+			'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/David_D_Clark_in_office_%28cropped%29.jpg/330px-David_D_Clark_in_office_%28cropped%29.jpg',
 		protocols: ['tcp', 'ip'],
 		categories: ['transport', 'network-foundations'],
 		awards: [{ name: 'IEEE Internet Award', year: 1990 }],
@@ -422,6 +426,8 @@ Also invented the Elgamal encryption algorithm (1985), one of the earliest pract
 		contribution: `Authored or co-authored the protocols that carry essentially all real-time interactive media on the internet. **[[rtp|RTP]]** and **RTCP** ([[rfc:3550|RFC 3550]], 2003 — original RFC 1889 in 1996) are the transport for streaming audio and video; **RTSP** (RFC 2326, 1998; updated as RFC 7826, 2016) is the control plane; **[[sip|SIP]]** ([[rfc:3261|RFC 3261]], 2002) is the signalling protocol that the entire {{voip|VoIP}} industry runs on; **[[sdp|SDP]]** (RFC 4566, 2006) is the session-description format [[sip|SIP]] and [[webrtc|WebRTC]] both use to negotiate {{codec|codecs}} and media endpoints.
 
 A Columbia University professor since 1996, Schulzrinne has authored more than 70 RFCs across two decades — one of the most prolific contributors in the {{ietf|IETF}}'s history. Served as the {{fcc|FCC}}'s Chief Technology Officer three separate times (2012–2014, 2017, 2024). Inducted into the Internet Hall of Fame in 2013.`,
+		imagePath:
+			'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/SIPNOC_2012_-_FCC_CTO_Henning_Schulzrinne_%287838924022%29.jpg/330px-SIPNOC_2012_-_FCC_CTO_Henning_Schulzrinne_%287838924022%29.jpg',
 		protocols: ['rtp', 'sip', 'sdp', 'webrtc'],
 		categories: ['realtime-av'],
 		awards: [
@@ -543,6 +549,8 @@ Author of two definitive books: *[[ospf|OSPF]]: Anatomy of an Internet Routing P
 Awarded the **ACM Turing Award in 1972** "for fundamental contributions to programming as a high, intellectual challenge; for eloquent insistence and practical demonstration that programs should be composed correctly, not just debugged into correctness." Also authored the celebrated "GOTO Considered Harmful" letter (CACM 11(3), 1968), the THE operating system, semaphores, guarded commands, structured programming. At UT Austin from 1984 until his death on 6 August 2002.
 
 His work is the substrate of *every* link-state routing protocol: [[ospf|OSPF]], IS-IS, PNNI, even modern Flex-Algo planes still run Dijkstra under the hood.`,
+		imagePath:
+			'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Edsger_Wybe_Dijkstra.jpg/330px-Edsger_Wybe_Dijkstra.jpg',
 		protocols: ['ospf'],
 		categories: ['network-foundations'],
 		awards: [
@@ -614,6 +622,8 @@ Adjunct Professor at Lund University; long-running editor of *IEEE Journal of So
 		contribution: `Intel engineer who proposed the name **Bluetooth** at a 1997 SIG planning meeting — after Harald "Blåtand" Gormsson, the 10th-century Danish king who united Denmark and Norway. Kardach was reading Frans G. Bengtsson's novel *The Long Ships* on a flight and made the analogy: just as Harald united warring tribes, the SIG was trying to unite Ericsson, IBM, Intel, Nokia, and Toshiba behind one wireless standard. The name was supposed to be a placeholder. It stuck.
 
 Beyond the name, Kardach drove much of Intel's early [[bluetooth|Bluetooth]] silicon strategy and was instrumental in landing the May 1998 SIG founding charter. The logo — a bind-rune of Hagall (ᚼ) and Bjarkan (ᛒ) in Younger Futhark — also came out of the original branding work.`,
+		imagePath:
+			'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Jim_Kardach_Mr_Bluetooh.png/330px-Jim_Kardach_Mr_Bluetooh.png',
 		protocols: ['bluetooth'],
 		categories: ['wireless'],
 		links: {
@@ -669,10 +679,7 @@ The 2005 second-generation rewrite ([[rfc:4301|RFC 4301]] / [[rfc:4302|4302]] / 
 
 Career across DEC, Lotus, Iris Associates (Lotus Notes security architecture), IBM, and Microsoft. Pragmatic voice in IETF security debates; the kind of editor whose name on a draft means it actually works in production.`,
 		protocols: ['ipsec'],
-		categories: ['utilities'],
-		links: {
-			wikipedia: 'https://en.wikipedia.org/wiki/Charlie_Kaufman'
-		}
+		categories: ['utilities']
 	},
 	{
 		id: 'tero-kivinen',
@@ -785,6 +792,8 @@ Steward of MIT krb5 releases through the entire 1.18 → 1.22 era (2020–2025),
 		contribution: `Motorola engineer who led the **DynaTAC** team and placed the **first public handheld cellular call** on 3 April 1973, from Sixth Avenue in Manhattan to Joel Engel at AT&T Bell Labs — his direct rival. *"Joel, this is Marty. I'm calling you from a cell phone, a real handheld portable cell phone."* The DynaTAC weighed 2.5 lb and gave 35 minutes of talk after 10 hours of charging. As Cooper later put it: *"The battery lifetime wasn't really a problem because you couldn't hold that phone up for that long!"*
 
 Patent "radio telephone system" filed 17 October 1973. **2013 Charles Stark Draper Prize**; **2015 IEEE Masaru Ibuka Consumer Electronics Award**. Considered the *father of the handheld cell phone*. Now 96 and still active in spectrum-policy advocacy.`,
+		imagePath:
+			'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Martin_Cooper%2C_Two_Antennas%2C_October_2010.jpg/330px-Martin_Cooper%2C_Two_Antennas%2C_October_2010.jpg',
 		protocols: ['cellular'],
 		categories: ['wireless'],
 		awards: [
@@ -813,6 +822,8 @@ Patent "radio telephone system" filed 17 October 1973. **2013 Charles Stark Drap
 		contribution: `Italian-born American electrical engineer. **Invented the Viterbi algorithm (1967)** for decoding convolutional codes — used in essentially every digital communications system on Earth: every cellular phone, every disk-drive read channel, every GPS receiver, every speech recognizer. *On advice of a lawyer, Viterbi did not patent the algorithm.* It made nothing for him directly; it made Qualcomm everything.
 
 Co-founded **Linkabit** (1968) with [[pioneer:irwin-jacobs|Irwin Jacobs]] and Leonard Kleinrock, then **Qualcomm** on 1 July 1985 — the company that turned CDMA from a research curiosity into a global cellular standard. **National Medal of Science 2007**; **IEEE Medal of Honor 2010**. The USC Viterbi School of Engineering is named for him after a $52M gift in 2004.`,
+		imagePath:
+			'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/10-08ViterbiBIG.jpg/330px-10-08ViterbiBIG.jpg',
 		protocols: ['cellular'],
 		categories: ['wireless'],
 		awards: [
@@ -833,6 +844,8 @@ Co-founded **Linkabit** (1968) with [[pioneer:irwin-jacobs|Irwin Jacobs]] and Le
 		contribution: `MIT-trained engineer who co-founded **Linkabit** with [[pioneer:andrew-viterbi|Andrew Viterbi]] (1968) and then **Qualcomm** (1985). Led the commercial fight for **CDMA** against the TDMA establishment after the CTIA's January 1989 vote *against* CDMA — *"no one found a hole in the technical presentation"* but the political fight took a decade. Hong Kong (1995), Korea, then the US were the first to ship cdmaOne. CDMA's mathematical foundation eventually became the basis of **WCDMA in UMTS** — the GSM camp ended up adopting it, closing the fork.
 
 **National Medal of Technology 1994**; **IEEE Alexander Graham Bell Medal 1995**. Co-author with John Wozencraft of *Principles of Communication Engineering* (1965) — still in print sixty years later.`,
+		imagePath:
+			'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Irwin_Jacobs.jpg/330px-Irwin_Jacobs.jpg',
 		protocols: ['cellular'],
 		categories: ['wireless'],
 		awards: [
@@ -884,6 +897,8 @@ Co-author of *Zero Configuration Networking: The Definitive Guide* (O'Reilly, 20
 		contribution: `Born 15 October 1980 in Guatemala City; raised in Rio de Janeiro and Hamburg. Initial author or co-author of more than 40 free-software projects, including **PulseAudio** (2004 — the dominant Linux sound server), **[[mdns-dns-sd|Avahi]]** (2004–2005, with Trent Lloyd — the dominant Linux/BSD mDNS implementation), and **systemd** (2010 — the dominant Linux init system).
 
 At Red Hat from at least 2008 until joining Microsoft in 2022. Known in the Linux community for sharp opinions on init systems and Linux distribution architecture; the systemd debates were occasionally vitriolic and Poettering himself has spoken publicly about the difficulty of working in open-source under sustained personal attack. Avahi was his contribution to the [[mdns-dns-sd|mDNS]] world before he moved on to PulseAudio and systemd full-time.`,
+		imagePath:
+			'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2e/Lennart_Poettering.jpg/330px-Lennart_Poettering.jpg',
 		protocols: ['mdns-dns-sd'],
 		categories: ['utilities'],
 		links: {
@@ -915,6 +930,8 @@ At Red Hat from at least 2008 until joining Microsoft in 2022. Known in the Linu
 		contribution: `Co-founded **Tailscale** in 2019 with David Crawshaw, David Carney, and (Jan 2020) Brad Fitzpatrick. Tailscale wraps [[wireguard|WireGuard]] with a control plane that handles key exchange, NAT-traversal coordination (STUN-style hole-punching with the proprietary DERP relay as a TURN-analogue), and ACL-style "tailnet" policy. The single biggest reason engineering teams encounter [[wireguard|WireGuard]] in 2026 is via Tailscale, not via raw \`wg-quick\`.
 
 Toronto-based. Ex-Google staff engineer. Public spokesperson for the "BeyondCorp + [[wireguard|WireGuard]]" thesis: that mesh networking + zero-trust auth obsoletes the corporate VPN. Tailscale crossed 10,000 paying customers and raised its Series C in 2025.`,
+		imagePath:
+			'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4c/BarCamp_Montr%C3%A9al_2_-_Avery_Pennarun_%28501987168%29.jpg/330px-BarCamp_Montr%C3%A9al_2_-_Avery_Pennarun_%28501987168%29.jpg',
 		protocols: ['wireguard', 'nat-traversal'],
 		categories: ['utilities'],
 		links: {
@@ -991,6 +1008,8 @@ Where Amtmann owned the physical-layer and IC architecture in Gratkorn, Maugars 
 They had **decapped the chip, photographed ~10 000 gates with an optical microscope**, recognised that only ~70 unique gates were used, and isolated the ~10 % of gates dedicated to Crypto1. They also noticed the weak 16-bit PRNG seeded from a free-running power-up counter. The follow-on academic paper *Reverse-Engineering a Cryptographic RFID Tag* (USENIX Security 2008) is the canonical citation.
 
 Founded **SRLabs in Berlin**; later work covered SIM-card cloning, SS7 attacks, and contactless banking-app analyses. The Crypto1 story is now textbook material for "why open peer review is not optional."`,
+		imagePath:
+			'https://upload.wikimedia.org/wikipedia/commons/thumb/8/87/Karsten_Nohl.jpg/330px-Karsten_Nohl.jpg',
 		protocols: ['nfc'],
 		categories: ['wireless'],
 		links: {
