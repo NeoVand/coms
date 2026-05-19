@@ -106,7 +106,7 @@ Apple iOS 26 / macOS Tahoe 26 (September 2025) turned X25519MLKEM768 on by defau
 		status: 'shipped',
 		date: '2023 (default through 2024-2025)',
 		protocols: ['tcp', 'quic'],
-		description: `{{bbr|BBR}} (Bottleneck {{bandwidth|Bandwidth}} and Round-trip propagation time) is Google's {{congestion-control|congestion control}} that abandons loss as the primary signal and instead models the path's bottleneck bandwidth and {{rtt|RTT}}. Cardwell, Cheng, Gunn, Yeganeh, and Jacobson published it at ACM Queue in 2016 (CACM Feb 2017). BBRv1's gain over {{cubic|CUBIC}} was ~4% globally on YouTube, more than 14% in some countries, and a 33% reduction in median {{rtt|RTT}}.
+		description: `{{bbr|BBR}} (Bottleneck {{bandwidth|Bandwidth}} and Round-trip propagation time) is Google's {{congestion-control|congestion control}} that abandons loss as the primary signal and instead models the path's bottleneck {{bandwidth|bandwidth}} and {{rtt|RTT}}. Cardwell, Cheng, Gunn, Yeganeh, and Jacobson published it at ACM Queue in 2016 (CACM Feb 2017). BBRv1's gain over {{cubic|CUBIC}} was ~4% globally on YouTube, more than 14% in some countries, and a 33% reduction in median {{rtt|RTT}}.
 
 BBRv3 is now \`draft-ietf-ccwg-bbr\` inside the {{ietf|IETF}}'s {{congestion-control|Congestion Control}} Working Group. Google has been running it as the default for google.com and YouTube traffic since 2023. The draft (-04 / -05 in 2025-2026) refines the bandwidth probing, packet conservation, and convergence properties that earlier {{bbr|BBR}} versions had open issues with. Available in Linux via \`sysctl net.ipv4.tcp_congestion_control=bbr\` (paired with the FQ qdisc, which {{bbr|BBR}} {{pacing|pacing}} requires).`,
 		metrics: [
@@ -127,7 +127,7 @@ BBRv3 is now \`draft-ietf-ccwg-bbr\` inside the {{ietf|IETF}}'s {{congestion-con
 		status: 'rolling-out',
 		date: '2025-01-29',
 		protocols: ['tcp', 'quic'],
-		description: `{{l4s|L4S}} (Low {{latency|Latency}}, Low Loss, Scalable throughput) — RFCs 9330/9331/9332, January 2023 — is the architecture for sub-millisecond queuing latency. Comcast launched it in production in late January 2025 in Atlanta, Chicago, Colorado Springs, Philadelphia, Rockville (MD) and San Francisco, with Apple, NVIDIA GeForce NOW, Meta and Valve as launch partners.
+		description: `{{l4s|L4S}} (Low {{latency|Latency}}, Low Loss, Scalable throughput) — RFCs 9330/9331/9332, January 2023 — is the architecture for sub-millisecond queuing {{latency|latency}}. Comcast launched it in production in late January 2025 in Atlanta, Chicago, Colorado Springs, Philadelphia, Rockville (MD) and San Francisco, with Apple, NVIDIA GeForce NOW, Meta and Valve as launch partners.
 
 The mechanism: cooperating senders mark packets {{ecn|ECN}}-Capable; routers running the DualQ Coupled {{aqm|AQM}} mark instead of dropping when congestion is incipient; senders react to marks like minor losses without backing off as hard. The result is {{bufferbloat|bufferbloat}} avoided in real time: latency-sensitive apps (cloud gaming, video calls) get the headroom they need without starving classic [[tcp|TCP]]. Apple shipped {{l4s|L4S}} support in iOS 17, iPadOS 17, macOS Sonoma and tvOS 17 in 2023, on by default for [[quic|QUIC]] in newer releases.`,
 		sources: [
@@ -182,7 +182,7 @@ Cloudflare's separate measurement of *enforcement* (ASes that drop invalids) put
 		status: 'shipped',
 		date: '2025-07-22',
 		protocols: ['wifi'],
-		description: `IEEE 802.11be was published 22 July 2025 after 5+ years of drafting. Headline features: 320-MHz channels in the 6 GHz band, 4096-QAM (12 bits per symbol), Multi-Link Operation (a single device association across 2.4/5/6 GHz simultaneously), preamble puncturing (skip interfered subcarriers without losing the whole channel), restricted Target Wake Time.
+		description: `IEEE 802.11be was published 22 July 2025 after 5+ years of drafting. Headline features: 320-MHz channels in the 6 GHz band, 4096-QAM (12 bits per symbol), Multi-Link Operation (a single device association across 2.4/5/6 GHz simultaneously), preamble puncturing (skip interfered subcarriers without losing the whole channel), restricted {{target-wake-time|Target Wake Time}}.
 
 The [[wifi|Wi-Fi]] Alliance opened certification on 8 January 2024. As of late April 2026, the Alliance reports >500M [[wifi|Wi-Fi]] 7-certified devices shipped; IDC projects 120M [[wifi|Wi-Fi]] 7 access-point shipments by end-2026. [[wifi|Wi-Fi]] 8 (802.11bn / Ultra High Reliability) Draft 1.0 reached July 2025 — not faster, but 25% better at 95th-percentile {{latency|latency}} and 25% fewer dropped packets during roaming. Final ratification scheduled March 2028.`,
 		metrics: [
@@ -215,12 +215,12 @@ AI training fabrics are the demand engine. "Lossless [[ethernet|Ethernet]]" with
 		id: 'ultra-ethernet-1-0',
 		title: 'Ultra Ethernet Consortium 1.0 Spec',
 		oneLiner:
-			'A 562-page open spec for AI/HPC scale-out — {{connectionless|connectionless}}, multipath, packet-trimming — designed to replace RoCEv2 and InfiniBand.',
+			'A 562-page open spec for AI/HPC scale-out — {{connectionless|connectionless}}, {{multipath|multipath}}, packet-trimming — designed to replace RoCEv2 and InfiniBand.',
 		topic: 'datacenter',
 		status: 'shipped',
 		date: '2025-06',
 		protocols: ['ethernet'],
-		description: `UEC 1.0, released June 2025, is the Ultra [[ethernet|Ethernet]] Consortium's transport specification — a 562-page open spec by AMD, Arista, Broadcom, Cisco, HPE, Intel, Meta, Microsoft and dozens of partners for AI/HPC scale-out fabrics. {{connectionless|Connectionless}}, unordered, multipath (intelligent packet spray instead of single-path), packet-trimming, selective {{retransmission|retransmission}}.
+		description: `UEC 1.0, released June 2025, is the Ultra [[ethernet|Ethernet]] Consortium's transport specification — a 562-page open spec by AMD, Arista, Broadcom, Cisco, HPE, Intel, Meta, Microsoft and dozens of partners for AI/HPC scale-out fabrics. {{connectionless|Connectionless}}, unordered, {{multipath|multipath}} (intelligent packet spray instead of single-path), packet-trimming, selective {{retransmission|retransmission}}.
 
 AMD's Pensando Pollara 400 is the first shipping NIC. The likely RoCEv2 successor for the next generation of GPU clusters — at the scale of 100K+ accelerators training a single model, the assumptions baked into RoCEv2 (single-path, lossless via PFC, no out-of-order) become liabilities.`,
 		sources: [
@@ -239,7 +239,7 @@ AMD's Pensando Pollara 400 is the first shipping NIC. The likely RoCEv2 successo
 		protocols: ['quic'],
 		description: `\`draft-ietf-quic-multipath\` is in {{ietf|IETF}} last-call as of late 2025 / early 2026. The protocol extends [[quic|QUIC]] with multiple concurrent paths between endpoints, the same way [[mptcp|MPTCP]] extended [[tcp|TCP]] — but built into [[quic|QUIC]]'s connection-ID architecture rather than bolted on as [[tcp|TCP]] options.
 
-Use cases: aggregating [[wifi|Wi-Fi]] and cellular {{bandwidth|bandwidth}} on a phone (Apple already does this with [[mptcp|MPTCP]] for Siri), seamless network handover when the user changes interfaces, reaching a multi-homed server through whichever path is fastest. The 3GPP ATSSS standard for 5G already specifies [[mptcp|MPTCP]] and MPQUIC for traffic steering between cellular and [[wifi|Wi-Fi]].`,
+Use cases: aggregating [[wifi|Wi-Fi]] and cellular {{bandwidth|bandwidth}} on a phone (Apple already does this with [[mptcp|MPTCP]] for Siri), seamless network handover when the user changes interfaces, reaching a multi-homed server through whichever path is fastest. The {{3gpp|3GPP}} ATSSS standard for 5G already specifies [[mptcp|MPTCP]] and MPQUIC for traffic steering between cellular and [[wifi|Wi-Fi]].`,
 		sources: [
 			{ url: 'https://datatracker.ietf.org/doc/html/draft-ietf-quic-multipath', label: 'IETF — draft-ietf-quic-multipath' }
 		]

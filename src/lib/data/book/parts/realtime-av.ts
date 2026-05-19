@@ -51,7 +51,7 @@ The companion **{{rtcp|RTCP}}** ([[rtp|RTP]] Control Protocol) flows alongside, 
 						{
 							type: 'callout',
 							title: 'SFrame finally standardized in August 2024',
-							text: '**[[rfc:9605|RFC 9605]] (August 2024)** finally standardized **SFrame** — end-to-end frame-level {{encryption|encryption}} that travels through SFUs without decryption. Justin Uberti and Emad Omara "scribbled the original idea on a whiteboard in 2018." Discord\'s **DAVE protocol** (deployed 1 March 2026) layers MLS keys + SFrame on top of [[rtp|RTP]]/{{srtp|SRTP}} for E2EE voice across **2.5 million concurrent users**.'
+							text: '**[[rfc:9605|RFC 9605]] (August 2024)** finally standardized **SFrame** — end-to-end frame-level {{encryption|encryption}} that travels through SFUs without decryption. [[pioneer:justin-uberti|Justin Uberti]] and Emad Omara "scribbled the original idea on a whiteboard in 2018." Discord\'s **DAVE protocol** (deployed 1 March 2026) layers MLS keys + SFrame on top of [[rtp|RTP]]/{{srtp|SRTP}} for E2EE voice across **2.5 million concurrent users**.'
 						},
 						{
 							type: 'narrative',
@@ -67,14 +67,14 @@ Asterisk had its own [[rtp|RTP]] security incident in 2017: **AST-2017-008/-012 
 							title: 'RTP-over-QUIC — The Frontier',
 							text: `**[[rtp|RTP]]-over-[[quic|QUIC]] (RoQ)** — \`draft-ietf-avtcore-rtp-over-quic-14\` — entered Working Group Last Call in **July 2025**. {{alpn|ALPN}} token \`roq\`. Multiplexes [[rtp|RTP]] sessions over one [[quic|QUIC]] connection; preserves the entire [[rtp|RTP]] ecosystem while gaining [[quic|QUIC]]'s {{encryption|encryption}}, {{nat|NAT}}-friendliness, and {{zero-rtt|0-RTT}}.
 
-Active 2025-2026 work in the {{ietf|IETF}} AVTCORE WG: **RFC 9628 (2024)** finally promoted the VP9 [[rtp|RTP]] {{payload|payload}} format to Standards Track. Drafts in flight cover haptics, V3C volumetric video, JPEG XS 3rd edition, APV {{codec|codec}}, and an HEVC/H.265 [[webrtc|WebRTC]] profile (\`draft-ietf-avtcore-hevc-webrtc-08\`, March 2026). [[rtp|RTP]] keeps acquiring new payload formats forty years after Casner first audio-cast {{ietf|IETF}} San Diego.`
+Active 2025-2026 work in the {{ietf|IETF}} AVTCORE WG: **RFC 9628 (2024)** finally promoted the VP9 [[rtp|RTP]] {{payload|payload}} format to Standards Track. Drafts in flight cover haptics, V3C volumetric video, JPEG XS 3rd edition, APV {{codec|codec}}, and an HEVC/H.265 [[webrtc|WebRTC]] profile (\`draft-ietf-avtcore-hevc-webrtc-08\`, March 2026). [[rtp|RTP]] keeps acquiring new {{payload|payload}} formats forty years after Casner first audio-cast {{ietf|IETF}} San Diego.`
 						},
 						{
 							type: 'image',
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Polycom_VSX_7000_with_2_video_conferencing_screens.JPG/500px-Polycom_VSX_7000_with_2_video_conferencing_screens.JPG',
 							alt: 'A Polycom VSX 7000 video-conferencing system with two screens.',
 							caption:
-								'A **Polycom VSX 7000** video-conferencing system — the early-2000s enterprise hardware whose audio and video both rode [[rtp|RTP]] under the hood. From the 1992 MBone audio-cast that produced [[rtp|RTP]]\'s wire format to today\'s ~2.5M-concurrent Discord voice fleet, the same Sequence Number + Timestamp + Payload Type fields have carried voice and video across every generation of conferencing hardware.',
+								'A **Polycom VSX 7000** video-conferencing system — the early-2000s enterprise hardware whose audio and video both rode [[rtp|RTP]] under the hood. From the 1992 MBone audio-cast that produced [[rtp|RTP]]\'s wire format to today\'s ~2.5M-concurrent Discord voice fleet, the same {{sequence-number|Sequence Number}} + Timestamp + {{payload|Payload}} Type fields have carried voice and video across every generation of conferencing hardware.',
 							credit: 'Photo: Wikimedia Commons / CC BY-SA'
 						}
 					]
@@ -90,7 +90,7 @@ Active 2025-2026 work in the {{ietf|IETF}} AVTCORE WG: **RFC 9628 (2024)** final
 		{
 			id: 'webrtc',
 			title: 'WebRTC',
-			synopsis: '{{peer-to-peer|Peer-to-peer}} in the browser, ICE/STUN/TURN, {{dtls|DTLS}}, {{srtp|SRTP}} — and the only way for a browser to send a [[udp|UDP]] packet.',
+			synopsis: '{{peer-to-peer|Peer-to-peer}} in the browser, ICE/{{stun|STUN}}/{{turn|TURN}}, {{dtls|DTLS}}, {{srtp|SRTP}} — and the only way for a browser to send a [[udp|UDP]] packet.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -110,7 +110,7 @@ The audio engine was bought, not built: in **May 2010 Google paid USD 68.2 milli
 						{
 							type: 'narrative',
 							title: 'NAT Traversal — The Hard Part',
-							text: `Two browsers behind home routers cannot just open a connection to each other; their public-facing addresses are different from their private ones. [[webrtc|WebRTC]] uses **ICE** (Interactive Connectivity Establishment, RFC 8445) — a coordinated dance where each peer gathers candidate addresses from STUN servers (RFC 8489), sends them to the other peer via a signalling channel (the developer's choice — often [[websockets|WebSocket]]), and probes connectivity over each candidate pair. When direct [[udp|UDP]] fails, **TURN** (RFC 8656) relays through a third party.
+							text: `Two browsers behind home routers cannot just open a connection to each other; their public-facing addresses are different from their private ones. [[webrtc|WebRTC]] uses **ICE** (Interactive Connectivity Establishment, [[rfc:8445|RFC 8445]]) — a coordinated dance where each {{peer|peer}} gathers candidate addresses from {{stun|STUN}} servers ([[rfc:8489|RFC 8489]]), sends them to the other peer via a signalling channel (the developer's choice — often [[websockets|WebSocket]]), and probes connectivity over each candidate pair. When direct [[udp|UDP]] fails, **{{turn|TURN}}** ([[rfc:8656|RFC 8656]]) relays through a third party.
 
 The media itself is [[rtp|RTP]] wrapped in **{{srtp|SRTP}}** (Secure [[rtp|RTP]], RFC 3711), with keys established through **{{dtls|DTLS}}** (Datagram [[tls|TLS]]) over the same connection. [[webrtc|WebRTC]] also offers **DataChannel** for arbitrary application data over the same connection — useful for in-game state sync alongside voice chat.
 
@@ -146,7 +146,7 @@ Plan B [[sdp|SDP]] is fully gone now: deprecation-warned in Chrome M89 (Feb 2021
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Video_Conference_Using_Laptop.jpg/500px-Video_Conference_Using_Laptop.jpg',
 							alt: 'A laptop with a video conferencing application showing multiple participants.',
 							caption:
-								'A laptop video call — what the [[webrtc|WebRTC]] stack actually produces in the user\'s seat. Underneath: a {{ble|BLE}}-discovered camera, ICE candidate gathering, a {{dtls|DTLS}}-keyed {{srtp|SRTP}} flow over [[udp|UDP]], NetEQ in the audio path, libwebrtc compiled into the browser. **1.21 million lines of code** in libwebrtc — three times the size of the Space Shuttle\'s onboard software, and it boots in under a second.',
+								'A laptop video call — what the [[webrtc|WebRTC]] stack actually produces in the user\'s seat. Underneath: a {{ble|BLE}}-discovered camera, {{ice-candidate|ICE candidate}} gathering, a {{dtls|DTLS}}-keyed {{srtp|SRTP}} flow over [[udp|UDP]], NetEQ in the audio path, libwebrtc compiled into the browser. **1.21 million lines of code** in libwebrtc — three times the size of the Space Shuttle\'s onboard software, and it boots in under a second.',
 							credit: 'Photo: Wikimedia Commons / CC BY-SA'
 						}
 					]
@@ -160,7 +160,7 @@ Plan B [[sdp|SDP]] is fully gone now: deprecation-warned in Chrome M89 (Feb 2021
 		{
 			id: 'sip-and-sdp',
 			title: 'SIP and SDP',
-			synopsis: 'Henning Schulzrinne wrote three protocols ([[sip|SIP]], [[sdp|SDP]], [[rtp|RTP]]) that carry the world\'s phone calls.',
+			synopsis: '[[pioneer:henning-schulzrinne|Henning Schulzrinne]] wrote three protocols ([[sip|SIP]], [[sdp|SDP]], [[rtp|RTP]]) that carry the world\'s phone calls.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -173,7 +173,7 @@ Plan B [[sdp|SDP]] is fully gone now: deprecation-warned in Chrome M89 (Feb 2021
 						{
 							type: 'narrative',
 							title: 'The Phone Call as an HTTP Conversation',
-							text: `When you place a VoIP call, two protocols work in tandem before any audio flows. **[[sip|SIP]]** (Session Initiation Protocol) is the signalling layer — text-based, request/response shaped like [[http1|HTTP]], with verbs like INVITE, {{ack|ACK}}, BYE, REGISTER. [[sip|SIP]] locates the callee (through registration servers and proxies that resolve \`sip:alice@example.com\`), negotiates capability, and sets up or tears down the session.
+							text: `When you place a {{voip|VoIP}} call, two protocols work in tandem before any audio flows. **[[sip|SIP]]** (Session Initiation Protocol) is the signalling layer — text-based, request/response shaped like [[http1|HTTP]], with verbs like INVITE, {{ack|ACK}}, BYE, REGISTER. [[sip|SIP]] locates the callee (through registration servers and proxies that resolve \`sip:alice@example.com\`), negotiates capability, and sets up or tears down the session.
 
 Both [[sip|SIP]] and [[sdp|SDP]] — and [[rtp|RTP]] above them — were authored by **[[pioneer:henning-schulzrinne|Henning Schulzrinne]]**, a Columbia University professor who has authored more than 70 RFCs, served as FCC CTO three times, and was inducted into the Internet Hall of Fame in 2013.
 
@@ -189,7 +189,7 @@ Twenty-eight years in, the protocol-version line is still \`v=0\`. The [[sdp|SDP
 						{
 							type: 'callout',
 							title: 'The 911 outages keep happening',
-							text: 'The **AT&T 22 February 2024 outage** disconnected 125 million devices and blocked ~25,000 911 calls — caused by a single misconfigured network element during expansion, surfacing as IMS/[[sip|SIP]] registration failures. The **CenturyLink December 2018 911 outage** lost 911 service for 7.4 million Washington residents for 49 hours; 24,000 calls failed; Washington UTC fined them $7.2 M. **VoLTE/VoNR is the world\'s largest [[sip|SIP]] deployment** — GSMA reports 310+ VoLTE operators in 140+ countries and 45+ commercial VoNR networks by 2025 — and the failure modes ripple straight into emergency services.'
+							text: 'The **AT&T 22 February 2024 outage** disconnected 125 million devices and blocked ~25,000 911 calls — caused by a single misconfigured network element during expansion, surfacing as IMS/[[sip|SIP]] registration failures. The **CenturyLink December 2018 911 outage** lost 911 service for 7.4 million Washington residents for 49 hours; 24,000 calls failed; Washington UTC fined them $7.2 M. **VoLTE/VoNR is the world\'s largest [[sip|SIP]] deployment** — {{gsma|GSMA}} reports 310+ VoLTE operators in 140+ countries and 45+ commercial VoNR networks by 2025 — and the failure modes ripple straight into emergency services.'
 						},
 						{
 							type: 'narrative',
@@ -216,7 +216,7 @@ The cryptography is slowly tightening: **RFC 8760 (March 2020)** finally depreca
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/SIP_session_setup_example.svg/500px-SIP_session_setup_example.svg.png',
 							alt: 'SIP session setup example — INVITE, 100 Trying, 180 Ringing, 200 OK, ACK, media, BYE.',
 							caption:
-								'A canonical **[[sip|SIP]]** session: INVITE → 100 Trying → 180 Ringing → 200 OK → ACK → media flows → BYE. The same shape as an HTTP {{request-response|request/response}}, with a few extra status codes for telephony semantics. By 2025 GSMA reported **310+ commercial VoLTE operators** in 140+ countries — the largest [[sip|SIP]] deployment on Earth runs inside [[cellular|cellular]] {{ims|IMS}} cores.',
+								'A canonical **[[sip|SIP]]** session: INVITE → 100 Trying → 180 Ringing → 200 OK → ACK → media flows → BYE. The same shape as an HTTP {{request-response|request/response}}, with a few extra status codes for telephony semantics. By 2025 {{gsma|GSMA}} reported **310+ commercial VoLTE operators** in 140+ countries — the largest [[sip|SIP]] deployment on Earth runs inside [[cellular|cellular]] {{ims|IMS}} cores.',
 							credit: 'Image: Wikimedia Commons / CC BY-SA 3.0'
 						}
 					]
@@ -269,7 +269,7 @@ The "everyone gets this wrong" detail: **Apple devices have never natively playe
 						{
 							type: 'narrative',
 							title: 'Low-Latency, And The "Apple Took It Away" Drama',
-							text: `**Apple announced Low-{{latency|Latency}} [[hls|HLS]] at WWDC 2019 session 502** with a Sydney→Cupertino live demo by Roger Pantos at sub-2-second latency. The original spec required **[[http2|HTTP/2]] push** — a hard dependency on a feature most CDNs supported poorly.
+							text: `**Apple announced Low-{{latency|Latency}} [[hls|HLS]] at WWDC 2019 session 502** with a Sydney→Cupertino live demo by Roger Pantos at sub-2-second {{latency|latency}}. The original spec required **[[http2|HTTP/2]] push** — a hard dependency on a feature most CDNs supported poorly.
 
 On **30 April 2020**, after Mux's "the community gave us low-latency live streaming, then Apple took it away" backlash, Apple replaced the [[http2|HTTP/2]] push requirement with **\`EXT-X-PRELOAD-HINT\`** — a simpler, {{cdn|CDN}}-friendly hint that didn't require {{server-push|server push}}. The community had been pushing back for almost a year by that point. The protocol design evolves; the politics of who designs it evolves more slowly.
 
@@ -284,7 +284,7 @@ The 2026 cryptographic milestone: **\`draft-pantos-hls-rfc8216bis-22\` (May 2026
 
 **BOLA** (Spiteri/Urgaonkar/Sitaraman) just won the **2026 IEEE INFOCOM Test of Time Award**. The Lyapunov-optimization ABR algorithm has been the dash.js default for years and is "near-optimal" without requiring throughput prediction. **CMCD/CMSD (CTA-5004) became universal** in 2024: native CMCD support shipped in AVPlayer with iOS 18 (WWDC 2024), and **CMCDv2 (CTA-5004-A) was published in February 2026** — letting servers see what their clients are actually doing without the player having to roll a custom telemetry pipeline.
 
-The post-Flash reality: **Adobe Flash Player retired on 31 December 2020**, killing [[rtmp|RTMP]] for delivery. [[rtmp|RTMP]] survives only as the dominant *contribution/ingest* protocol, while Haivision's 2025 broadcast survey found **SRT adoption among professionals reached 77% in 2025** (up from 68% in 2024), surpassing [[rtmp|RTMP]]'s 58%.`
+The post-Flash reality: **Adobe Flash Player retired on 31 December 2020**, killing [[rtmp|RTMP]] for delivery. [[rtmp|RTMP]] survives only as the dominant *contribution/ingest* protocol, while Haivision's 2025 {{broadcast|broadcast}} survey found **SRT adoption among professionals reached 77% in 2025** (up from 68% in 2024), surpassing [[rtmp|RTMP]]'s 58%.`
 						},
 						{
 							type: 'image',
@@ -319,7 +319,7 @@ The post-Flash reality: **Adobe Flash Player retired on 31 December 2020**, kill
 						{
 							type: 'narrative',
 							title: 'The Sub-Second Frontier',
-							text: `[[hls|HLS]] and [[dash|DASH]] traded {{latency|latency}} for compatibility with the web. For sports, gaming streams, auctions, and interactive broadcasting, that 40-80 second end-to-end delay is intolerable — viewers see the goal scored on Twitter before they see it on their TV. Decade-old solutions ([[rtmp|RTMP]] for ingest, low-latency [[hls|HLS]], custom [[webrtc|WebRTC]]-based stacks) each solved part of the problem.
+							text: `[[hls|HLS]] and [[dash|DASH]] traded {{latency|latency}} for compatibility with the web. For sports, gaming streams, auctions, and interactive broadcasting, that 40-80 second end-to-end delay is intolerable — viewers see the goal scored on Twitter before they see it on their TV. Decade-old solutions ([[rtmp|RTMP]] for ingest, low-{{latency|latency}} [[hls|HLS]], custom [[webrtc|WebRTC]]-based stacks) each solved part of the problem.
 
 **Media over [[quic|QUIC]] (MoQ)** is the first {{ietf|IETF}} media transport that intentionally **is not [[rtp|RTP]]**. \`draft-ietf-moq-transport-17\` was published **March 2026**, with co-editors Suhas Nandakumar (Cisco), Victor Vasiliev (Google), Ian Swett (Google), and Alan Frindell (Meta).
 

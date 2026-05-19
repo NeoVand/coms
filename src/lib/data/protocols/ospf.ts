@@ -9,10 +9,10 @@ export const ospf: Protocol = {
 	year: 1989,
 	rfc: 'RFC 2328',
 	oneLiner:
-		'Link-state interior gateway protocol: every router builds an identical topology database, then runs Dijkstra to compute its routing table.',
+		'Link-state interior gateway protocol: every router builds an identical topology database, then runs Dijkstra to compute its {{routing-table|routing table}}.',
 	overview: `[[ospf|OSPF]] is the dominant link-state {{igp|Interior Gateway Protocol}} on [[ip|IP]] networks. Where [[bgp|BGP]] is the *external* protocol that stitches the internet's {{autonomous-system|autonomous systems}} together, [[ospf|OSPF]] is what each AS uses *inside* to compute paths between its own routers — every enterprise core, every MPLS PE-CE link, every mid-tier carrier IGP. The trick is elegant: every router floods a description of its own links to every other router in the area, every router holds an **identical** {{lsdb|Link State Database (LSDB)}}, and every router independently runs **Dijkstra's shortest-path-first algorithm** on that database to compute its {{routing-table|routing table}}. No router trusts another's path computation; they all derive the same answer from the same graph.
 
-[[ospf|OSPFv2]] ([[rfc:2328|RFC 2328]], April 1998, edited by [[pioneer:john-moy|John Moy]] at Ascend) is **STD 54** — still the canonical [[ip|IPv4]] spec, 244 pages, unchanged at the level of {{frame|frame}} format. OSPFv3 ([[rfc:5340|RFC 5340]], 2008) carries [[ipv6|IPv6]] and — via RFC 5838 — IPv4 as separate address families. Everything modern (Segment Routing, Flex-Algo, SRv6, BFD Strict-Mode) is layered on through Opaque {{lsa|LSAs}} and Router Information LSA TLVs, not by rewriting the protocol. [[ospf|OSPF]] runs directly on [[ip|IP]] as protocol number 89 — no [[tcp|TCP]], no [[udp|UDP]] — and uses {{link-local|link-local}} {{multicast|multicast}} \`224.0.0.5\` / \`FF02::5\` for adjacency.
+[[ospf|OSPFv2]] ([[rfc:2328|RFC 2328]], April 1998, edited by [[pioneer:john-moy|John Moy]] at Ascend) is **STD 54** — still the canonical [[ip|IPv4]] spec, 244 pages, unchanged at the level of {{frame|frame}} format. OSPFv3 ([[rfc:5340|RFC 5340]], 2008) carries [[ipv6|IPv6]] and — via RFC 5838 — [[ip|IPv4]] as separate address families. Everything modern (Segment Routing, Flex-Algo, SRv6, BFD Strict-Mode) is layered on through Opaque {{lsa|LSAs}} and Router Information LSA TLVs, not by rewriting the protocol. [[ospf|OSPF]] runs directly on [[ip|IP]] as protocol number 89 — no [[tcp|TCP]], no [[udp|UDP]] — and uses {{link-local|link-local}} {{multicast|multicast}} \`224.0.0.5\` / \`FF02::5\` for adjacency.
 
 [[pioneer:radia-perlman|Radia Perlman]]'s parallel design **IS-IS** dominates tier-1 ISP backbones; hyperscaler data-center fabrics increasingly skip both in favour of EBGP everywhere (RFC 7938). But for the campus, the branch, the enterprise WAN, and the mid-tier provider — [[ospf|OSPF]] is the protocol that draws the map.`,
 	howItWorks: [
@@ -24,12 +24,12 @@ export const ospf: Protocol = {
 		{
 			title: 'Adjacency state machine',
 			description:
-				'Neighbours progress through eight states: **Down → Init → 2-Way → ExStart → Exchange → Loading → Full** (with **Attempt** for NBMA). On {{broadcast|broadcast}} networks (e.g. [[ethernet|Ethernet]]) routers elect a **Designated Router (DR)** and Backup DR — the DR is the only neighbour every router on the segment becomes Full with, cutting the adjacency mesh from O(n²) to O(n).'
+				'Neighbours progress through eight states: **Down → Init → 2-Way → ExStart → {{exchange|Exchange}} → Loading → Full** (with **Attempt** for NBMA). On {{broadcast|broadcast}} networks (e.g. [[ethernet|Ethernet]]) routers elect a **Designated Router (DR)** and Backup DR — the DR is the only neighbour every router on the segment becomes Full with, cutting the adjacency mesh from O(n²) to O(n).'
 		},
 		{
 			title: 'Synchronise the LSDB',
 			description:
-				'Routers exchange **Database Description (DBD)** packets carrying {{lsa|LSA}} *headers* (sequence/age/length), then send **Link State Request (LSR)** packets asking for the LSAs they don\'t have, and receive them in **Link State Update (LSU)** packets. **LSAck** packets explicitly acknowledge receipt — [[ospf|OSPF]] has {{retransmission|reliable delivery}} without [[tcp|TCP]].'
+				'Routers {{exchange|exchange}} **Database Description (DBD)** packets carrying {{lsa|LSA}} *headers* (sequence/age/length), then send **Link State Request (LSR)** packets asking for the LSAs they don\'t have, and receive them in **Link State Update (LSU)** packets. **LSAck** packets explicitly acknowledge receipt — [[ospf|OSPF]] has {{retransmission|reliable delivery}} without [[tcp|TCP]].'
 		},
 		{
 			title: 'Flood, throttle, age',
@@ -39,12 +39,12 @@ export const ospf: Protocol = {
 		{
 			title: 'Run Dijkstra',
 			description:
-				'Once the LSDB is identical on every router, each runs the **shortest-path-first algorithm** ([[pioneer:edsger-dijkstra|Edsger Dijkstra]], 1956) on its own copy and installs the resulting tree into its forwarding table. Areas (Area 0 is the backbone) keep LSDBs scoped so the SPF computation stays tractable — typical campus areas are 100–200 routers, LSDB < 1 MB.'
+				'Once the {{lsdb|LSDB}} is identical on every router, each runs the **shortest-path-first algorithm** ([[pioneer:edsger-dijkstra|Edsger Dijkstra]], 1956) on its own copy and installs the resulting tree into its forwarding table. Areas (Area 0 is the backbone) keep LSDBs scoped so the SPF computation stays tractable — typical campus areas are 100–200 routers, LSDB < 1 MB.'
 		},
 		{
 			title: 'Stay converged — BFD, authentication, segment routing',
 			description:
-				'Modern deployments pair [[ospf|OSPF]] with **BFD** (300 ms × 3 multipliers for sub-second loss detection — RFC 9355 Strict-Mode requires BFD up before adjacency forms) and **HMAC-SHA-256** authentication (RFC 5709 for v2, RFC 7166 Authentication Trailer for v3). Segment Routing (RFC 8665/8666) and SRv6 (RFC 9513) ride on top via Opaque LSAs; Flex-Algo (RFC 9350) lets operators compute multiple parallel SPF planes — by IGP cost, by min-delay, by SRLG exclusion.'
+				'Modern deployments pair [[ospf|OSPF]] with **BFD** (300 ms × 3 multipliers for sub-second loss detection — RFC 9355 Strict-Mode requires BFD up before adjacency forms) and **{{hmac|HMAC}}-SHA-256** authentication (RFC 5709 for v2, RFC 7166 Authentication Trailer for v3). Segment Routing (RFC 8665/8666) and SRv6 (RFC 9513) ride on top via Opaque LSAs; Flex-Algo ([[rfc:9350|RFC 9350]]) lets operators compute multiple parallel SPF planes — by IGP cost, by min-delay, by SRLG exclusion.'
 		}
 	],
 	useCases: [
@@ -229,7 +229,7 @@ Total time on a tuned network: < 100 ms.`
 			date: '2024-08',
 			title: 'Junos OS Evolved 24.2R1 ships HMAC-SHA-2 keychains + Flex-Algo on hardware',
 			description:
-				'Juniper\'s Junos OS Evolved 24.2R1 (Aug 2024) added [[ospf|OSPFv2]] HMAC-SHA-2 keychain authentication, Flex-Algo FAD with SRLG-exclude, and link-delay normalisation on ACX/PTX hardware — bringing Flex-Algo from "shipped in IOS-XR" to "shipped at multi-vendor parity."',
+				'Juniper\'s Junos OS Evolved 24.2R1 (Aug 2024) added [[ospf|OSPFv2]] {{hmac|HMAC}}-SHA-2 keychain authentication, Flex-Algo FAD with SRLG-exclude, and link-delay normalisation on ACX/PTX hardware — bringing Flex-Algo from "shipped in IOS-XR" to "shipped at multi-vendor parity."',
 			source: { url: 'https://supportportal.juniper.net/s/article/Junos-OS-Evolved-24-2R1-Release-Notes', label: 'Junos OS Evolved 24.2R1' }
 		},
 		{
@@ -264,7 +264,7 @@ Total time on a tuned network: < 100 ms.`
 			org: 'Cisco IOS-XR / Juniper Junos',
 			scale: 'The two dominant tier-2-and-up vendor stacks',
 			description:
-				"Both ship [[ospf|OSPF]] with full Segment Routing (RFC 8665/8666), Flex-Algo (RFC 9350), and BFD Strict-Mode (RFC 9355). Cisco's IOS-XR has shipped Flex-Algo since 2019; Junos OS Evolved caught up in 24.2R1 (Aug 2024)."
+				"Both ship [[ospf|OSPF]] with full Segment Routing (RFC 8665/8666), Flex-Algo ([[rfc:9350|RFC 9350]]), and BFD Strict-Mode (RFC 9355). Cisco's IOS-XR has shipped Flex-Algo since 2019; Junos OS Evolved caught up in 24.2R1 (Aug 2024)."
 		}
 	],
 
@@ -279,7 +279,7 @@ Total time on a tuned network: < 100 ms.`
 		},
 		{
 			title: 'OSPF has reliable delivery without TCP',
-			text: '[[ospf|OSPF]] runs **directly on [[ip|IP]]** as protocol number 89. There is no [[tcp|TCP]] underneath. Reliability is implemented in [[ospf|OSPF]] itself: every LSU is explicitly acknowledged with an LSAck; LSAs carry sequence numbers and checksums; the DBD exchange uses an Init/More/Master-Slave bit. [[ospf|OSPF]] is one of the few production protocols to re-implement transport-layer guarantees above raw [[ip|IP]].'
+			text: '[[ospf|OSPF]] runs **directly on [[ip|IP]]** as protocol number 89. There is no [[tcp|TCP]] underneath. Reliability is implemented in [[ospf|OSPF]] itself: every LSU is explicitly acknowledged with an LSAck; LSAs carry sequence numbers and checksums; the DBD {{exchange|exchange}} uses an Init/More/Master-Slave bit. [[ospf|OSPF]] is one of the few production protocols to re-implement transport-layer guarantees above raw [[ip|IP]].'
 		},
 		{
 			title: 'Radia Perlman designed the competitor, not OSPF',

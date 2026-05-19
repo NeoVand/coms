@@ -42,7 +42,7 @@ Forty-five years after [[rfc:9293|RFC 793]] (September 1981), [[tcp|TCP]] is sti
 							title: 'Three Costs You Pay for Reliability',
 							text: `The cost of [[tcp|TCP]]'s reliability is captured by three numbers.
 
-**The {{handshake|handshake}}** adds a round-trip before any data flows. SYN → SYN-{{ack|ACK}} → {{ack|ACK}} is one full {{rtt|RTT}} of delay between client and server before the first byte of {{payload|payload}} is allowed to move. On a transcontinental link with 100 ms {{rtt|RTT}}, that is 100 ms of {{latency|latency}} built into every new connection. [[tls|TLS]] 1.2 added another 1-2 RTTs for crypto setup; [[tls|TLS]] 1.3 cut it to one. The accumulated round-trips are the entire reason [[quic|QUIC]] folded crypto setup into the transport handshake.
+**The {{handshake|handshake}}** adds a round-trip before any data flows. SYN → SYN-{{ack|ACK}} → {{ack|ACK}} is one full {{rtt|RTT}} of delay between client and server before the first byte of {{payload|payload}} is allowed to move. On a transcontinental link with 100 ms {{rtt|RTT}}, that is 100 ms of {{latency|latency}} built into every new connection. [[tls|TLS]] 1.2 added another 1-2 RTTs for crypto setup; [[tls|TLS]] 1.3 cut it to one. The accumulated round-trips are the entire reason [[quic|QUIC]] folded crypto setup into the transport {{handshake|handshake}}.
 
 **{{head-of-line-blocking|Head-of-line blocking}}** stalls every byte behind a single lost segment. Multiplexed application protocols ([[http2|HTTP/2]], [[grpc|gRPC]] over [[http2|HTTP/2]]) feel this most acutely — one dropped [[tcp|TCP]] packet stalls all streams on the connection until {{retransmission|retransmission}}. Unmultiplexed protocols ([[http1|HTTP/1.1]], [[ssh|SSH]] terminal sessions) feel it less because there is only one logical stream to stall.
 
@@ -130,7 +130,7 @@ The single thing [[udp|UDP]] gives you above raw [[ip|IP]] is **ports** — the 
 						{
 							type: 'callout',
 							title: 'NAT pinholes are a UDP-specific concern',
-							text: 'A {{nat|NAT}} router opens a "pinhole" for outbound [[udp|UDP]] keyed by (src [[ip|IP]], src port). The pinhole closes after a few minutes of silence. For long-lived [[udp|UDP]] applications — VoIP, IoT keepalives, [[quic|QUIC]] connections that have gone idle — you must send a keepalive every 30-60 seconds to keep the pinhole open, or the next inbound packet will be dropped at the {{nat|NAT}}. This is one of the reasons [[webrtc|WebRTC]] and [[sip|SIP]] both have explicit keepalive timers despite their underlying transports having no need for them.'
+							text: 'A {{nat|NAT}} router opens a "pinhole" for outbound [[udp|UDP]] keyed by (src [[ip|IP]], src port). The pinhole closes after a few minutes of silence. For long-lived [[udp|UDP]] applications — {{voip|VoIP}}, IoT keepalives, [[quic|QUIC]] connections that have gone idle — you must send a keepalive every 30-60 seconds to keep the pinhole open, or the next inbound packet will be dropped at the {{nat|NAT}}. This is one of the reasons [[webrtc|WebRTC]] and [[sip|SIP]] both have explicit keepalive timers despite their underlying transports having no need for them.'
 						},
 						{
 							type: 'narrative',
@@ -148,7 +148,7 @@ The protocol itself has not changed. The role it plays has been reshaped by what
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3b/UDP_encapsulation.svg/500px-UDP_encapsulation.svg.png',
 							alt: 'UDP encapsulation diagram showing an IP packet containing a UDP datagram containing application data.',
 							caption:
-								'**[[udp|UDP]] encapsulation** — 8 bytes of header (source port, destination port, length, checksum) wrapping an application payload, inside an [[ip|IP]] packet, inside an [[ethernet|Ethernet]] frame. The smallest viable transport on the internet. [[rfc:768|RFC 768]] (1980) is **three pages long** and has not been updated since — there has been nothing to update.',
+								'**[[udp|UDP]] {{encapsulation|encapsulation}}** — 8 bytes of header (source port, destination port, length, {{checksum|checksum}}) wrapping an application {{payload|payload}}, inside an [[ip|IP]] packet, inside an [[ethernet|Ethernet]] frame. The smallest viable transport on the internet. [[rfc:768|RFC 768]] (1980) is **three pages long** and has not been updated since — there has been nothing to update.',
 							credit: 'Image: Wikimedia Commons / public domain'
 						}
 					]
@@ -190,11 +190,11 @@ The protocol itself has not changed. The role it plays has been reshaped by what
 						{
 							type: 'narrative',
 							title: 'Why It Failed Deployment',
-							text: `[[sctp|SCTP]] is, on paper, the better protocol. It powers SS7-over-[[ip|IP]] and **Diameter** (the LTE/5G signalling stack) and a few specialised use cases. But it failed to displace [[tcp|TCP]] for general use because **{{nat|NAT}} and {{firewall|firewall}} middleboxes do not understand it**.
+							text: `[[sctp|SCTP]] is, on paper, the better protocol. It powers SS7-over-[[ip|IP]] and **{{diameter|Diameter}}** (the LTE/5G signalling stack) and a few specialised use cases. But it failed to displace [[tcp|TCP]] for general use because **{{nat|NAT}} and {{firewall|firewall}} middleboxes do not understand it**.
 
 A [[sctp|SCTP]] packet between Internet endpoints is dropped almost immediately. Home routers, corporate firewalls, mobile carriers, and most cloud load balancers either silently discard [[sctp|SCTP]] or have explicit rules treating non-[[tcp|TCP]]/[[udp|UDP]] traffic as suspicious. The protocol is technically right and operationally invisible.
 
-The deeper lesson [[sctp|SCTP]] teaches is the lesson [[quic|QUIC]] applied: **if you want a new transport on the deployed internet, you must tunnel inside [[udp|UDP]]**. [[sctp|SCTP]] did not, and was confined to controlled networks. [[quic|QUIC]] did, and is rapidly becoming the default. Multipath [[quic|QUIC]] ([[frontier:multipath-quic|IETF Last Call December 2025]]) brings [[sctp|SCTP]]-style multi-homing into a transport that actually traverses middleboxes.`
+The deeper lesson [[sctp|SCTP]] teaches is the lesson [[quic|QUIC]] applied: **if you want a new transport on the deployed internet, you must tunnel inside [[udp|UDP]]**. [[sctp|SCTP]] did not, and was confined to controlled networks. [[quic|QUIC]] did, and is rapidly becoming the default. {{multipath|Multipath}} [[quic|QUIC]] ([[frontier:multipath-quic|IETF Last Call December 2025]]) brings [[sctp|SCTP]]-style multi-homing into a transport that actually traverses middleboxes.`
 						},
 						{
 							type: 'callout',
@@ -231,7 +231,7 @@ The protocol itself remains specialised. It is the canonical example of a techni
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: 'Apple shipped [[mptcp|MPTCP]] in iOS 7 (2013) for Siri because the half-second handoff between [[wifi|Wi-Fi]] and cellular was visibly degrading user experience. Twelve years later, the same multipath idea is moving to [[quic|QUIC]].',
+					text: 'Apple shipped [[mptcp|MPTCP]] in iOS 7 (2013) for Siri because the half-second handoff between [[wifi|Wi-Fi]] and cellular was visibly degrading user experience. Twelve years later, the same {{multipath|multipath}} idea is moving to [[quic|QUIC]].',
 					attribution: 'Author'
 				},
 				{
@@ -244,7 +244,7 @@ The protocol itself remains specialised. It is the canonical example of a techni
 
 That is the [[mptcp|Multipath TCP]] proposition. **[[mptcp|MPTCP]]** ([[rfc:6824|RFC 6824]] in January 2013, current [[rfc:8684|RFC 8684]] in March 2020) presents a normal [[tcp|TCP]] socket to applications, but underneath it negotiates **subflows** over multiple paths and aggregates their throughput. Sequence numbers and ACKs are coordinated at the [[mptcp|MPTCP]] layer; {{congestion-control|congestion control}} runs per subflow but is coupled (RFC 6356, "LIA" — Linked Increases Algorithm) to prevent over-allocating capacity to the better path.
 
-The application has no idea any of this is happening. The socket interface is identical to a regular [[tcp|TCP]] socket. The kernel does the multipath bookkeeping; the wire format uses [[tcp|TCP]] options that legacy middleboxes mostly forward unchanged.`
+The application has no idea any of this is happening. The socket interface is identical to a regular [[tcp|TCP]] socket. The kernel does the {{multipath|multipath}} bookkeeping; the wire format uses [[tcp|TCP]] options that legacy middleboxes mostly forward unchanged.`
 						},
 						{
 							type: 'narrative',
@@ -263,7 +263,7 @@ Apple expanded [[mptcp|MPTCP]] in iOS 11 (2017) to a public API for any app, and
 						{
 							type: 'narrative',
 							title: 'The Multipath QUIC Succession',
-							text: `The future of multipath transport is multipath [[quic|QUIC]] (\`draft-ietf-quic-multipath\`, [[frontier:multipath-quic|currently in IETF Last Call December 2025]]). Latest draft -21 dated 17 March 2026.
+							text: `The future of {{multipath|multipath}} transport is multipath [[quic|QUIC]] (\`draft-ietf-quic-multipath\`, [[frontier:multipath-quic|currently in IETF Last Call December 2025]]). Latest draft -21 dated 17 March 2026.
 
 Multipath [[quic|QUIC]] inherits [[mptcp|MPTCP]]'s algorithmic ideas — subflows, coupled {{congestion-control|congestion control}}, packet scheduling across paths — but operates inside [[quic|QUIC]]'s much more deployable carrier ([[udp|UDP]]). Where [[mptcp|MPTCP]] had to fight middleboxes that didn't understand [[tcp|TCP]] options, multipath [[quic|QUIC]] encrypts everything except a handful of public bits inside the [[udp|UDP]] envelope. Middleboxes see [[udp|UDP]]; the multipath logic is invisible.
 
@@ -315,7 +315,7 @@ The {{ietf|IETF}} [[quic|QUIC]] Working Group, formed in 2016, took Google's exp
 							title: 'Four Problems Solved',
 							text: `**{{head-of-line-blocking|Head-of-line blocking}}** in [[tcp|TCP]] means a single lost segment stalls every byte behind it. [[quic|QUIC]] carries multiple **streams** in a single connection, with independent sequence numbers per stream — a lost packet on stream 7 does not block delivery on streams 1-6. The fix that [[http2|HTTP/2]] could not provide because [[http2|HTTP/2]] inherited [[tcp|TCP]]'s stream model.
 
-**Connection setup** in [[tcp|TCP]]+[[tls|TLS]] takes 2-3 round-trips. [[quic|QUIC]] folds the [[tls|TLS 1.3]] {{handshake|handshake}} into the [[quic|QUIC]] handshake, achieving **{{one-rtt|1-RTT}} setup for new connections and {{zero-rtt|0-RTT}} for resumptions**. Critical when a typical mobile request is bottlenecked by {{latency|latency}}, not {{bandwidth|bandwidth}} — every round-trip eliminated is real user-visible improvement.
+**Connection setup** in [[tcp|TCP]]+[[tls|TLS]] takes 2-3 round-trips. [[quic|QUIC]] folds the [[tls|TLS 1.3]] {{handshake|handshake}} into the [[quic|QUIC]] {{handshake|handshake}}, achieving **{{one-rtt|1-RTT}} setup for new connections and {{zero-rtt|0-RTT}} for resumptions**. Critical when a typical mobile request is bottlenecked by {{latency|latency}}, not {{bandwidth|bandwidth}} — every round-trip eliminated is real user-visible improvement.
 
 **Network change** (your phone moving between [[wifi|Wi-Fi]] and cellular) breaks [[tcp|TCP]] because the connection is bound to a 4-tuple of (src [[ip|IP]], src port, dst [[ip|IP]], dst port) — change any element and the connection is gone. [[quic|QUIC]] uses a **64-bit connection ID** that is independent of the underlying [[ip|IP]]/[[udp|UDP]]. The receiver matches arriving packets by connection ID; an address change is invisible to the application.
 

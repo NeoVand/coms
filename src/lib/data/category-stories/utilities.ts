@@ -110,7 +110,7 @@ export const utilitiesStory: CategoryStory = {
 		{
 			type: 'diagram',
 			definition: `graph TD
-  A[Your Browser] -->|"who is example.com?"| B[DNS Resolver]
+  A[Your Browser] -->|"who is example.com?"| B[[[dns|DNS]] Resolver]
   B -->|"where is .com?"| C[Root Server]
   C -.->|"ask the .com server"| B
   B -->|"where is example.com?"| D[.com TLD Server]

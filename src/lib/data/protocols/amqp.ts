@@ -28,7 +28,7 @@ RabbitMQ, the most popular [[amqp|AMQP]] {{broker|broker}}, powers message-drive
 		{
 			title: 'Publish to exchange',
 			description:
-				'Producer sends messages to an {{exchange|exchange}} with a {{routing-key|routing key}}. The exchange copies the message to all bound queues whose binding rules match.'
+				'Producer sends messages to an {{exchange|exchange}} with a {{routing-key|routing key}}. The {{exchange|exchange}} copies the message to all bound queues whose binding rules match.'
 		},
 		{
 			title: 'Consume and acknowledge',

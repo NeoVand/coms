@@ -13,7 +13,7 @@ export const websockets: Protocol = {
 
 This is perfect for real-time applications: chat, live sports scores, collaborative editing, multiplayer games, financial tickers. Instead of the client repeatedly polling "any updates?" (wasteful), the server simply pushes data when it's available. Unlike [[http1|HTTP]]'s {{request-response|request-response}} model, [[websockets|WebSockets]] maintain a {{stateful|stateful}} connection where both sides can track context across messages without re-establishing identity on every {{exchange|exchange}}.
 
-The connection starts as a normal [[http1|HTTP]] request with an "Upgrade: websocket" {{header|header}}. If the server agrees, the connection switches protocols. From that point on, both sides exchange lightweight binary or text {{frame|frames}} with just 2-14 bytes of overhead per message (vs hundreds of bytes for [[http1|HTTP]] headers).`,
+The connection starts as a normal [[http1|HTTP]] request with an "Upgrade: websocket" {{header|header}}. If the server agrees, the connection switches protocols. From that point on, both sides {{exchange|exchange}} lightweight binary or text {{frame|frames}} with just 2-14 bytes of overhead per message (vs hundreds of bytes for [[http1|HTTP]] headers).`,
 	howItWorks: [
 		{
 			title: 'HTTP upgrade request',

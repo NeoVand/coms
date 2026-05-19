@@ -25,23 +25,23 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
 			definition: `graph TD
   subgraph L7["Layer 7 — Application"]
     A1[HTTP]
-    A2[DNS]
-    A3[SSH]
-    A4[SMTP]
+    A2[[[dns|DNS]]]
+    A3[[[ssh|SSH]]]
+    A4[[[smtp|SMTP]]]
   end
   subgraph L4["Layer 4 — Transport"]
-    B1["TCP — reliable streams"]
-    B2["UDP — fast datagrams"]
+    B1["[[tcp|TCP]] — reliable streams"]
+    B2["[[udp|UDP]] — fast datagrams"]
   end
   subgraph L3["Layer 3 — Network"]
-    C["IPv4 / IPv6 — addressing & routing"]
-    C2["ARP / NDP — address resolution"]
-    C3["ICMP — diagnostics & errors"]
-    C4["BGP — inter-domain routing"]
+    C["[[ip|IPv4]] / [[ipv6|IPv6]] — addressing & routing"]
+    C2["[[arp|ARP]] / NDP — address resolution"]
+    C3["[[icmp|ICMP]] — diagnostics & errors"]
+    C4["[[bgp|BGP]] — inter-domain routing"]
   end
   subgraph L2["Layer 2 — Data Link"]
-    D1["Ethernet — wired frames"]
-    D2["Wi-Fi (802.11) — wireless frames"]
+    D1["[[ethernet|Ethernet]] — wired frames"]
+    D2["Wi-Fi ([[wifi|802.11]]) — wireless frames"]
   end
   subgraph L1["Layer 1 — Physical"]
     E1["Copper / Fiber / Radio waves"]
@@ -186,9 +186,9 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
 			definition: `graph LR
   subgraph Source["Source Host"]
     S1["Application: GET /index.html"]
-    S2["TCP: src=49152 dst=80"]
+    S2["[[tcp|TCP]]: src=49152 dst=80"]
     S3["IP: src=192.168.1.100 dst=93.184.216.34"]
-    S4["Ethernet: src=AA:BB:CC dst=Router MAC"]
+    S4["[[ethernet|Ethernet]]: src=AA:BB:CC dst=Router MAC"]
     S1 --> S2 --> S3 --> S4
   end
   subgraph Router["Router"]
@@ -234,25 +234,25 @@ In 1981, [[pioneer:jon-postel|Jon Postel]] defined [[icmp|ICMP]] — the Interne
 
 By 1989, the internet was outgrowing its routing. The original {{arpanet|ARPANET}} had a single backbone — routing was simple. But as multiple networks connected, someone had to decide how traffic flows between them. [[pioneer:yakov-rekhter|Yakov Rekhter]] and Kirk Lougheed created [[bgp|BGP]], the Border Gateway Protocol, which treats each network as an "{{autonomous-system|autonomous system}}" and exchanges route advertisements between them. Today, [[bgp|BGP]] is literally the protocol that holds the internet together — every path your data takes across network boundaries is decided by [[bgp|BGP]] route advertisements exchanged on [[tcp|TCP]] port 179.
 
-The most ambitious chapter began in the 1990s. [[ip|IPv4]]'s 32-bit address space — 4.3 billion addresses — was running out. [[pioneer:steve-deering|Steve Deering]] led the design of [[ipv6|IPv6]], published as [[rfc:2460|RFC 2460]] in 1998 (later updated as [[rfc:8200|RFC 8200]] in 2017). [[ipv6|IPv6]] didn't just add more addresses; it rethought the protocol entirely. The header was simplified to a fixed 40 bytes — no {{checksum|checksum}}, no variable-length options. {{broadcast|Broadcast}} was eliminated in favor of {{multicast|multicast}}. [[arp|ARP]]'s broadcast-based address resolution was replaced by {{ndp|NDP}} ({{ndp|Neighbor Discovery Protocol}}), which uses efficient solicited-node multicast. Hosts can autoconfigure globally unique addresses via {{slaac|SLAAC}} without any server. On 28 March 2026, [[ipv6|IPv6]] crossed 50% of Google's traffic for the first time, 28 years after the spec — a transition that was supposed to take a few years and is still ongoing, a testament to how deeply embedded [[ip|IPv4]] became.`
+The most ambitious chapter began in the 1990s. [[ip|IPv4]]'s 32-bit address space — 4.3 billion addresses — was running out. [[pioneer:steve-deering|Steve Deering]] led the design of [[ipv6|IPv6]], published as [[rfc:2460|RFC 2460]] in 1998 (later updated as [[rfc:8200|RFC 8200]] in 2017). [[ipv6|IPv6]] didn't just add more addresses; it rethought the protocol entirely. The header was simplified to a fixed 40 bytes — no {{checksum|checksum}}, no variable-length options. {{broadcast|Broadcast}} was eliminated in favor of {{multicast|multicast}}. [[arp|ARP]]'s {{broadcast|broadcast}}-based address resolution was replaced by {{ndp|NDP}} ({{ndp|Neighbor Discovery Protocol}}), which uses efficient solicited-node {{multicast|multicast}}. Hosts can autoconfigure globally unique addresses via {{slaac|SLAAC}} without any server. On 28 March 2026, [[ipv6|IPv6]] crossed 50% of Google's traffic for the first time, 28 years after the spec — a transition that was supposed to take a few years and is still ongoing, a testament to how deeply embedded [[ip|IPv4]] became.`
 		},
 		{
 			type: 'diagram',
 			title: 'IPv4 vs IPv6 — Header Comparison',
 			definition: `graph TD
-  subgraph V4["IPv4 Header (20-60 bytes, variable)"]
+  subgraph V4["[[ip|IPv4]] Header (20-60 bytes, variable)"]
     V4A["Version (4b) + IHL (4b)"]
-    V4B["DSCP + ECN + Total Length"]
-    V4C["Identification + Flags + Fragment Offset"]
-    V4D["TTL + Protocol + Header Checksum"]
+    V4B["{{dscp|DSCP}} + ECN + Total Length"]
+    V4C["Identification + Flags + Fragment {{offset|Offset}}"]
+    V4D["TTL + Protocol + Header {{checksum|Checksum}}"]
     V4E["Source IP (32-bit)"]
     V4F["Destination IP (32-bit)"]
     V4G["Options (0-40 bytes, variable)"]
     V4A --- V4B --- V4C --- V4D --- V4E --- V4F --- V4G
   end
-  subgraph V6["IPv6 Header (40 bytes, fixed)"]
+  subgraph V6["[[ipv6|IPv6]] Header (40 bytes, fixed)"]
     V6A["Version (4b) + Traffic Class (8b) + Flow Label (20b)"]
-    V6B["Payload Length + Next Header + Hop Limit"]
+    V6B["{{payload|Payload}} Length + Next Header + Hop Limit"]
     V6C["Source IP (128-bit)"]
     V6D["Destination IP (128-bit)"]
     V6A --- V6B --- V6C --- V6D

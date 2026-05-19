@@ -146,7 +146,7 @@ export const journeys: Journey[] = [
 				protocolId: 'tls',
 				title: 'TLS: The Encryption Layer',
 				description:
-					'In the early internet, everything traveled in plaintext — passwords, credit cards, personal emails, all visible to anyone on the network path. [[tls|TLS]] changed everything by wrapping [[tcp|TCP]] connections in {{encryption|encryption}}. During the {{handshake|handshake}}, the server proves its identity with a {{certificate|certificate}} signed by a trusted authority, both sides agree on cipher suites, and an ephemeral key {{exchange|exchange}} (ECDHE) creates shared session keys that even a passive observer who recorded every byte cannot derive. [[tls|TLS]] 1.3 stripped out legacy cruft, removing insecure algorithms and reducing the handshake to a single round trip. Today, over 95% of web traffic runs through [[tls|TLS]].',
+					'In the early internet, everything traveled in plaintext — passwords, credit cards, personal emails, all visible to anyone on the network path. [[tls|TLS]] changed everything by wrapping [[tcp|TCP]] connections in {{encryption|encryption}}. During the {{handshake|handshake}}, the server proves its identity with a {{certificate|certificate}} signed by a trusted authority, both sides agree on cipher suites, and an ephemeral key {{exchange|exchange}} (ECDHE) creates shared session keys that even a passive observer who recorded every byte cannot derive. [[tls|TLS]] 1.3 stripped out legacy cruft, removing insecure algorithms and reducing the {{handshake|handshake}} to a single round trip. Today, over 95% of web traffic runs through [[tls|TLS]].',
 				transition: '[[tls|TLS]] secures client-to-server connections beautifully, but system administrators need more than encrypted web traffic — they need to log into remote servers, transfer files, and tunnel network connections, all securely. A different protocol emerged for this exact purpose...'
 			},
 			{
@@ -154,7 +154,7 @@ export const journeys: Journey[] = [
 				title: 'SSH: Secure Shell',
 				description:
 					'Before [[ssh|SSH]], administrators used Telnet to manage remote servers — sending passwords and commands in cleartext. [[ssh|SSH]] replaced it with a fully encrypted channel that supports public-key authentication (no passwords to steal), secure file transfer (SCP and SFTP), and {{port-forwarding|port forwarding}} that can tunnel any [[tcp|TCP]] connection through the encrypted link. [[ssh|SSH]] uses its own key {{exchange|exchange}} and {{encryption|encryption}} layer independent of [[tls|TLS]], and its agent forwarding feature lets you chain [[ssh|SSH]] connections through jump hosts without exposing your {{private-key|private key}}. It became the universal tool for server management, Git operations, and secure automation.',
-				transition: 'With [[tls|TLS]] protecting web connections and [[ssh|SSH]] securing server access, the foundations of internet security were in place. But there was still a problem: HTTP {{encryption|encryption}} was optional, and most sites did not bother. The web needed a forcing function to make encryption the default, not the exception...'
+				transition: 'With [[tls|TLS]] protecting web connections and [[ssh|SSH]] securing server access, the foundations of internet security were in place. But there was still a problem: HTTP {{encryption|encryption}} was optional, and most sites did not bother. The web needed a forcing function to make {{encryption|encryption}} the default, not the exception...'
 			},
 			{
 				protocolId: 'http2',
@@ -177,14 +177,14 @@ export const journeys: Journey[] = [
 				protocolId: 'ethernet',
 				title: 'Ethernet Framing',
 				description:
-					'Every packet\'s journey begins at the network interface card (NIC), which constructs an [[ethernet|Ethernet]] frame. The NIC stamps on its own 48-bit {{mac-address|MAC address}} as the source, adds the destination MAC, a type field (0x0800 for [[ip|IPv4]], 0x0806 for [[arp|ARP]]), the {{payload|payload}}, and a 4-byte Frame Check Sequence (CRC-32) that lets the receiver detect bit errors caused by electrical interference. If any bits are corrupted in {{transit|transit}}, the FCS check fails and the frame is silently discarded — no correction, just detection. This is the foundation of all local network communication.',
+					'Every packet\'s journey begins at the network interface card (NIC), which constructs an [[ethernet|Ethernet]] frame. The NIC stamps on its own 48-bit {{mac-address|MAC address}} as the source, adds the destination MAC, a type field (0x0800 for [[ip|IPv4]], 0x0806 for [[arp|ARP]]), the {{payload|payload}}, and a 4-byte Frame Check Sequence (CRC-32) that lets the receiver detect bit errors caused by electrical interference. If any bits are corrupted in transit, the FCS check fails and the frame is silently discarded — no correction, just detection. This is the foundation of all local network communication.',
 				transition: 'The [[ethernet|Ethernet]] frame is ready to send, but there is a chicken-and-egg problem: your application knows the destination {{ip-address|IP address}} (192.168.1.100), not the destination {{mac-address|MAC address}}. You cannot build an [[ethernet|Ethernet]] frame without a MAC. The network needs a way to translate between these two addressing systems...'
 			},
 			{
 				protocolId: 'arp',
 				title: 'ARP Resolution',
 				description:
-					'[[arp|ARP]] solves the [[ip|IP]]-to-MAC translation with an elegant {{broadcast|broadcast}} mechanism. Your machine sends an [[arp|ARP]] request to the broadcast address (FF:FF:FF:FF:FF:FF) asking "Who has 192.168.1.100? Tell 192.168.1.1." Every device on the LAN segment hears this, but only the owner of that [[ip|IP]] replies with its {{mac-address|MAC address}}. The mapping is cached in your [[arp|ARP]] table (typically for 20 minutes) so subsequent packets skip the broadcast entirely. You can see your own [[arp|ARP]] cache by running "arp -a" in a terminal. [[arp|ARP]] {{spoofing|spoofing}} — where an attacker sends fake [[arp|ARP]] replies to redirect traffic — is why network security often relies on higher-layer {{encryption|encryption}}.',
+					'[[arp|ARP]] solves the [[ip|IP]]-to-MAC translation with an elegant {{broadcast|broadcast}} mechanism. Your machine sends an [[arp|ARP]] request to the {{broadcast|broadcast}} address (FF:FF:FF:FF:FF:FF) asking "Who has 192.168.1.100? Tell 192.168.1.1." Every device on the LAN segment hears this, but only the owner of that [[ip|IP]] replies with its {{mac-address|MAC address}}. The mapping is cached in your [[arp|ARP]] table (typically for 20 minutes) so subsequent packets skip the broadcast entirely. You can see your own [[arp|ARP]] cache by running "arp -a" in a terminal. [[arp|ARP]] {{spoofing|spoofing}} — where an attacker sends fake [[arp|ARP]] replies to redirect traffic — is why network security often relies on higher-layer {{encryption|encryption}}.',
 				transition: 'With the destination MAC resolved, the [[ethernet|Ethernet]] frame can be properly addressed for the local segment. Now the [[ip|IP]] layer needs to make a critical decision: is this packet destined for a machine on the same local network, or does it need to be forwarded to the {{gateway|default gateway}} for routing across the internet?'
 			},
 			{
@@ -238,7 +238,7 @@ export const journeys: Journey[] = [
 		id: 'reliable-delivery',
 		title: 'Evolution of Reliable Delivery',
 		description:
-			'How transport protocols evolved from [[tcp|TCP]] to modern multipath and multiplexed solutions.',
+			'How transport protocols evolved from [[tcp|TCP]] to modern {{multipath|multipath}} and multiplexed solutions.',
 		color: '#39FF14',
 		scope: 'transport',
 		steps: [
@@ -260,7 +260,7 @@ export const journeys: Journey[] = [
 				protocolId: 'mptcp',
 				title: 'MPTCP: Multiple Paths',
 				description:
-					'Multipath [[tcp|TCP]] extends standard [[tcp|TCP]] to use multiple network interfaces simultaneously. Your phone can send data over both [[wifi|WiFi]] and cellular at the same time, aggregating their {{bandwidth|bandwidth}}. If you walk out of [[wifi|WiFi]] range, the cellular subflow keeps going seamlessly — no connection drop, no reconnection delay. [[mptcp|MPTCP]] works by establishing multiple [[tcp|TCP]] subflows and distributing data across them using a coupled {{congestion-control|congestion control}} algorithm that balances load fairly. Apple uses [[mptcp|MPTCP]] in iOS for Siri and Maps, and it powers the seamless [[wifi|WiFi]]-to-cellular transitions you experience daily without noticing. The tradeoff is complexity: schedulers must decide which path gets which data, and reordering at the receiver adds {{latency|latency}}.',
+					'{{multipath|Multipath}} [[tcp|TCP]] extends standard [[tcp|TCP]] to use multiple network interfaces simultaneously. Your phone can send data over both [[wifi|WiFi]] and cellular at the same time, aggregating their {{bandwidth|bandwidth}}. If you walk out of [[wifi|WiFi]] range, the cellular subflow keeps going seamlessly — no connection drop, no reconnection delay. [[mptcp|MPTCP]] works by establishing multiple [[tcp|TCP]] subflows and distributing data across them using a coupled {{congestion-control|congestion control}} algorithm that balances load fairly. Apple uses [[mptcp|MPTCP]] in iOS for Siri and Maps, and it powers the seamless [[wifi|WiFi]]-to-cellular transitions you experience daily without noticing. The tradeoff is complexity: schedulers must decide which path gets which data, and reordering at the receiver adds {{latency|latency}}.',
 				transition: '[[mptcp|MPTCP]] showed the power of using multiple paths, but it still inherits [[tcp|TCP]]\'s fundamental constraints — the {{three-way-handshake|three-way handshake}}, the kernel implementation that is hard to update, and middlebox interference. A completely new transport protocol, designed with all these lessons in mind, would soon arrive...'
 			},
 			{
@@ -284,7 +284,7 @@ export const journeys: Journey[] = [
 				protocolId: 'tcp',
 				title: 'TCP + TLS: The Old Way',
 				description:
-					'To load a web page over HTTPS, a browser traditionally needs three sequential round trips before any page data flows: one for the [[tcp|TCP]] {{handshake|handshake}} (SYN, SYN-{{ack|ACK}}, {{ack|ACK}}), one or two more for [[tls|TLS]] (exchanging cipher suites, certificates, and key material). On a connection with 100ms {{latency|latency}}, that is 200-300ms of pure handshake overhead before a single byte of HTML arrives. Even worse, [[http2|HTTP/2]] multiplexes all its streams over a single [[tcp|TCP]] connection, so when one packet is lost, [[tcp|TCP]]\'s {{head-of-line-blocking|head-of-line blocking}} stalls every request — even though the lost data might belong to an unrelated resource like a tiny favicon.',
+					'To load a web page over HTTPS, a browser traditionally needs three sequential round trips before any page data flows: one for the [[tcp|TCP]] {{handshake|handshake}} (SYN, SYN-{{ack|ACK}}, {{ack|ACK}}), one or two more for [[tls|TLS]] (exchanging cipher suites, certificates, and key material). On a connection with 100ms {{latency|latency}}, that is 200-300ms of pure {{handshake|handshake}} overhead before a single byte of HTML arrives. Even worse, [[http2|HTTP/2]] multiplexes all its streams over a single [[tcp|TCP]] connection, so when one packet is lost, [[tcp|TCP]]\'s {{head-of-line-blocking|head-of-line blocking}} stalls every request — even though the lost data might belong to an unrelated resource like a tiny favicon.',
 				transition: 'Google measured this cost at scale across billions of Chrome connections and realized the overhead was enormous. They wanted {{one-rtt|1-RTT}} connections, {{encryption|encryption}} by default, and no {{head-of-line-blocking|head-of-line blocking}}. But deploying a new transport protocol through the existing internet — full of NATs, firewalls, and middleboxes that drop anything that is not [[tcp|TCP]] or [[udp|UDP]] — seemed impossible. Unless they built on top of something that already works everywhere...'
 			},
 			{
@@ -460,7 +460,7 @@ export const journeys: Journey[] = [
 				protocolId: 'sdp',
 				title: 'SDP: Session Description',
 				description:
-					'Before a single frame of video can flow, both peers need to agree on the ground rules: which codecs they support (VP8, H.264, Opus), what transport addresses to use, which media types to {{exchange|exchange}} (audio, video, or both), and their {{bandwidth|bandwidth}} capabilities. [[sdp|SDP]] (Session Description Protocol) is a structured text format that encodes all of this into an "offer" from one peer and an "answer" from the other. This offer/answer exchange happens through a {{signaling|signaling}} server (which could use [[websockets|WebSockets]], HTTP, or even copy-pasting text), and it is the critical negotiation step that makes two arbitrary devices mutually intelligible. Without [[sdp|SDP]], neither peer would know how to decode the other\'s media.',
+					'Before a single frame of video can flow, both peers need to agree on the ground rules: which codecs they support (VP8, H.264, Opus), what transport addresses to use, which media types to {{exchange|exchange}} (audio, video, or both), and their {{bandwidth|bandwidth}} capabilities. [[sdp|SDP]] (Session Description Protocol) is a structured text format that encodes all of this into an "offer" from one {{peer|peer}} and an "answer" from the other. This offer/answer {{exchange|exchange}} happens through a {{signaling|signaling}} server (which could use [[websockets|WebSockets]], HTTP, or even copy-pasting text), and it is the critical negotiation step that makes two arbitrary devices mutually intelligible. Without [[sdp|SDP]], neither peer would know how to decode the other\'s media.',
 				transition:
 					'Both peers have agreed on codecs, formats, and transport parameters through [[sdp|SDP]] negotiation. The {{signaling|signaling}} is complete — but now the actual audio and video data needs a way to travel between them in real time, with timestamps for synchronization and sequence numbers for detecting loss...'
 			},
@@ -476,7 +476,7 @@ export const journeys: Journey[] = [
 				protocolId: 'webrtc',
 				title: 'WebRTC: The Full Stack',
 				description:
-					'[[webrtc|WebRTC]] is the browser-native framework that makes {{peer-to-peer|peer-to-peer}} video calls possible without plugins. It orchestrates an entire stack: ICE (Interactive Connectivity Establishment) punches through NATs by testing multiple connection candidates (local addresses, server-reflexive via STUN, relay via TURN) and selecting the best path. {{dtls|DTLS}} (Datagram [[tls|TLS]]) encrypts the connection, and {{srtp|SRTP}} (Secure [[rtp|RTP]]) encrypts the media streams. The getUserMedia API accesses cameras and microphones, RTCPeerConnection manages the connection lifecycle, and RTCDataChannel provides a reliable or unreliable channel for arbitrary data (file sharing, game state, text chat) alongside the media. All of this happens {{peer-to-peer|peer-to-peer}} — video data flows directly between browsers without passing through a server, reducing {{latency|latency}} and server costs.'
+					'[[webrtc|WebRTC]] is the browser-native framework that makes {{peer-to-peer|peer-to-peer}} video calls possible without plugins. It orchestrates an entire stack: ICE (Interactive Connectivity Establishment) punches through NATs by testing multiple connection candidates (local addresses, server-reflexive via {{stun|STUN}}, relay via {{turn|TURN}}) and selecting the best path. {{dtls|DTLS}} (Datagram [[tls|TLS]]) encrypts the connection, and {{srtp|SRTP}} (Secure [[rtp|RTP]]) encrypts the media streams. The getUserMedia API accesses cameras and microphones, RTCPeerConnection manages the connection lifecycle, and RTCDataChannel provides a reliable or unreliable channel for arbitrary data (file sharing, game state, text chat) alongside the media. All of this happens {{peer-to-peer|peer-to-peer}} — video data flows directly between browsers without passing through a server, reducing {{latency|latency}} and server costs.'
 			}
 		]
 	},
@@ -500,7 +500,7 @@ export const journeys: Journey[] = [
 				protocolId: 'hls',
 				title: 'HLS: Adaptive HTTP',
 				description:
-					'[[hls|HLS]] (HTTP Live Streaming), created by Apple in 2009, broke video streaming wide open. The encoder splits the video into small segments (typically 6-10 seconds each), encodes each segment at multiple quality levels (360p, 720p, 1080p, 4K), and generates a playlist file (.m3u8) listing the available segments and qualities. The player downloads the playlist, starts fetching segments, and continuously monitors download speed — if {{bandwidth|bandwidth}} drops, it seamlessly switches to a lower quality; when bandwidth recovers, it ramps back up. Because everything is plain HTTP, it works through any {{cdn|CDN}}, proxy, or cache, making it massively scalable. [[hls|HLS]] is natively supported in Safari and iOS, and nearly every streaming platform uses it as their primary delivery format.',
+					'[[hls|HLS]] (HTTP Live Streaming), created by Apple in 2009, broke video streaming wide open. The encoder splits the video into small segments (typically 6-10 seconds each), encodes each segment at multiple quality levels (360p, 720p, 1080p, 4K), and generates a playlist file (.m3u8) listing the available segments and qualities. The player downloads the playlist, starts fetching segments, and continuously monitors download speed — if {{bandwidth|bandwidth}} drops, it seamlessly switches to a lower quality; when {{bandwidth|bandwidth}} recovers, it ramps back up. Because everything is plain HTTP, it works through any {{cdn|CDN}}, proxy, or cache, making it massively scalable. [[hls|HLS]] is natively supported in Safari and iOS, and nearly every streaming platform uses it as their primary delivery format.',
 				transition:
 					'[[hls|HLS]] transformed video delivery but is an Apple-developed technology. The internet standards community wanted an open, vendor-neutral alternative that could offer the same adaptive streaming benefits while supporting a wider range of codecs and DRM systems without patent encumbrances...'
 			},
@@ -508,7 +508,7 @@ export const journeys: Journey[] = [
 				protocolId: 'dash',
 				title: 'DASH: Open Standard',
 				description:
-					'[[dash|DASH]] (Dynamic Adaptive Streaming over HTTP) is the ISO-standardized answer to [[hls|HLS]]. Instead of an Apple-specific playlist format, [[dash|DASH]] uses an {{xml|XML}}-based Media Presentation Description (MPD) that describes available representations — each with its {{codec|codec}}, resolution, bitrate, and segment URLs. Being codec-agnostic, [[dash|DASH]] supports H.264, H.265/HEVC, VP9, AV1, and any future codec without protocol changes. It offers more flexible segment addressing (template-based URLs, byte-range requests, timeline-based indexing) and supports features like multi-period presentations (inserting ads as separate periods) and content protection descriptors for DRM integration. Netflix, YouTube, and most major streaming services use [[dash|DASH]] for non-Apple devices, often running both [[dash|DASH]] and [[hls|HLS]] in parallel to cover the entire device ecosystem.'
+					'[[dash|DASH]] (Dynamic Adaptive Streaming over HTTP) is the ISO-standardized answer to [[hls|HLS]]. Instead of an Apple-specific playlist format, [[dash|DASH]] uses an {{xml|XML}}-based Media Presentation Description (MPD) that describes available representations — each with its {{codec|codec}}, resolution, bitrate, and segment URLs. Being {{codec|codec}}-agnostic, [[dash|DASH]] supports H.264, H.265/HEVC, VP9, AV1, and any future codec without protocol changes. It offers more flexible segment addressing (template-based URLs, byte-range requests, timeline-based indexing) and supports features like multi-period presentations (inserting ads as separate periods) and content protection descriptors for DRM integration. Netflix, YouTube, and most major streaming services use [[dash|DASH]] for non-Apple devices, often running both [[dash|DASH]] and [[hls|HLS]] in parallel to cover the entire device ecosystem.'
 			}
 		]
 	},
@@ -534,7 +534,7 @@ export const journeys: Journey[] = [
 				protocolId: 'tls',
 				title: 'TLS: Encryption',
 				description:
-					'[[tls|TLS]] is the {{encryption|encryption}} layer that makes secure internet communication possible. During the {{handshake|handshake}}, the server presents a {{certificate|certificate}} signed by a trusted {{certificate-authority|Certificate Authority}}, proving it is who it claims to be (authentication). Both sides negotiate a {{cipher-suite|cipher suite}} and perform a key {{exchange|exchange}} (typically ECDHE — Elliptic Curve Diffie-Hellman Ephemeral) to create shared session keys that provide {{forward-secrecy|forward secrecy}}: even if the server\'s long-term {{private-key|private key}} is later compromised, past recorded sessions cannot be decrypted. Every byte of application data is then encrypted (confidentiality) and authenticated with a MAC (integrity). [[tls|TLS]] 1.3 simplified the protocol dramatically, removing insecure legacy algorithms, reducing the handshake to one round trip, and making {{zero-rtt|0-RTT}} resumption possible for repeat connections.',
+					'[[tls|TLS]] is the {{encryption|encryption}} layer that makes secure internet communication possible. During the {{handshake|handshake}}, the server presents a {{certificate|certificate}} signed by a trusted {{certificate-authority|Certificate Authority}}, proving it is who it claims to be (authentication). Both sides negotiate a {{cipher-suite|cipher suite}} and perform a key {{exchange|exchange}} (typically ECDHE — Elliptic Curve Diffie-Hellman Ephemeral) to create shared session keys that provide {{forward-secrecy|forward secrecy}}: even if the server\'s long-term {{private-key|private key}} is later compromised, past recorded sessions cannot be decrypted. Every byte of application data is then encrypted (confidentiality) and authenticated with a MAC (integrity). [[tls|TLS]] 1.3 simplified the protocol dramatically, removing insecure legacy algorithms, reducing the {{handshake|handshake}} to one round trip, and making {{zero-rtt|0-RTT}} resumption possible for repeat connections.',
 				transition:
 					'[[tls|TLS]] protects the data flowing over network connections, but server administrators need more than encrypted web traffic — they need to securely log into remote machines, transfer configuration files, and set up encrypted tunnels. A purpose-built protocol for secure remote access emerged to fill this gap...'
 			},
@@ -558,7 +558,7 @@ export const journeys: Journey[] = [
 				protocolId: 'dhcp',
 				title: 'DHCP: Get an Address',
 				description:
-					'When your device joins a network, it literally has no identity — no {{ip-address|IP address}}, no {{subnet|subnet}} mask, no idea where the gateway is. [[dhcp|DHCP]] (Dynamic Host Configuration Protocol) solves this bootstrap problem through a four-step dance called DORA: your device broadcasts a Discover message to the entire LAN (since it cannot address anyone specifically), a [[dhcp|DHCP]] server responds with an Offer containing an available [[ip|IP]], your device formally Requests that address, and the server sends an {{ack|Acknowledgment}} confirming the {{lease|lease}}. Along with the [[ip|IP]], [[dhcp|DHCP]] provides the subnet mask, {{gateway|default gateway}}, [[dns|DNS]] server addresses, lease duration, and often additional options like [[ntp|NTP]] servers and domain search suffixes. Without [[dhcp|DHCP]], every device on every network would need manual [[ip|IP]] configuration — a nightmare at any scale.',
+					'When your device joins a network, it literally has no identity — no {{ip-address|IP address}}, no {{subnet|subnet}} mask, no idea where the gateway is. [[dhcp|DHCP]] (Dynamic Host Configuration Protocol) solves this bootstrap problem through a four-step dance called DORA: your device broadcasts a Discover message to the entire LAN (since it cannot address anyone specifically), a [[dhcp|DHCP]] server responds with an Offer containing an available [[ip|IP]], your device formally Requests that address, and the server sends an {{ack|Acknowledgment}} confirming the {{lease|lease}}. Along with the [[ip|IP]], [[dhcp|DHCP]] provides the {{subnet|subnet}} mask, {{gateway|default gateway}}, [[dns|DNS]] server addresses, {{lease|lease}} duration, and often additional options like [[ntp|NTP]] servers and domain search suffixes. Without [[dhcp|DHCP]], every device on every network would need manual [[ip|IP]] configuration — a nightmare at any scale.',
 				transition:
 					'Your device has an {{ip-address|IP address}} and can send packets, but its internal clock might be hours or even years off — set to a factory default or drifted during a long power-off period. This matters more than you might think: [[tls|TLS]] certificates have validity windows, log timestamps must be accurate for debugging, and Kerberos authentication fails with more than 5 minutes of clock skew...'
 			},
@@ -635,8 +635,8 @@ export const journeys: Journey[] = [
 				protocolId: 'tls',
 				title: 'TLS: Encrypted Channels',
 				description:
-					'[[tls|TLS]] protects every [[oauth2|OAuth]] token, every API key, and every password in {{transit|transit}}. During the {{handshake|handshake}}, the server proves its identity with a {{certificate|certificate}} signed by a trusted {{certificate-authority|Certificate Authority}}, and both sides negotiate {{encryption|encryption}} parameters. The key {{exchange|exchange}} (ECDHE) generates ephemeral session keys that provide {{forward-secrecy|forward secrecy}} — even if the server\'s {{private-key|private key}} is later compromised, past sessions remain secure. [[tls|TLS]] 1.3 streamlined this to a single round trip and removed all insecure legacy algorithms. Without [[tls|TLS]], [[oauth2|OAuth]] tokens would be visible to anyone on the network path.',
-				transition: '[[tls|TLS]] secures data in {{transit|transit}} over the network. But system administrators need a different kind of secure access — interactive shell sessions, file transfers, and tunnels to remote machines. A purpose-built protocol provides this with a different trust model...'
+					'[[tls|TLS]] protects every [[oauth2|OAuth]] token, every API key, and every password in transit. During the {{handshake|handshake}}, the server proves its identity with a {{certificate|certificate}} signed by a trusted {{certificate-authority|Certificate Authority}}, and both sides negotiate {{encryption|encryption}} parameters. The key {{exchange|exchange}} (ECDHE) generates ephemeral session keys that provide {{forward-secrecy|forward secrecy}} — even if the server\'s {{private-key|private key}} is later compromised, past sessions remain secure. [[tls|TLS]] 1.3 streamlined this to a single round trip and removed all insecure legacy algorithms. Without [[tls|TLS]], [[oauth2|OAuth]] tokens would be visible to anyone on the network path.',
+				transition: '[[tls|TLS]] secures data in transit over the network. But system administrators need a different kind of secure access — interactive shell sessions, file transfers, and tunnels to remote machines. A purpose-built protocol provides this with a different trust model...'
 			},
 			{
 				protocolId: 'ssh',
@@ -695,14 +695,14 @@ export const journeys: Journey[] = [
 				protocolId: 'mptcp',
 				title: 'MPTCP: Multiple Paths',
 				description:
-					'Multipath [[tcp|TCP]] extends [[tcp|TCP]] to use multiple network paths simultaneously. A phone can send data over both [[wifi|Wi-Fi]] and cellular at the same time, seamlessly shifting traffic when one path degrades. When you walk out of [[wifi|Wi-Fi]] range, [[mptcp|MPTCP]] gracefully migrates the connection to cellular without dropping a single byte — the application sees one uninterrupted [[tcp|TCP]] stream. Apple has used [[mptcp|MPTCP]] in iOS since 2013 (for Siri and Apple Maps) and it is enabled system-wide in iOS 17+. [[mptcp|MPTCP]] is backward-compatible: it falls back to regular [[tcp|TCP]] when the other endpoint does not support it. The trade-off is complexity — middleboxes (firewalls, NATs) sometimes strip the [[mptcp|MPTCP]] options they do not understand.',
+					'{{multipath|Multipath}} [[tcp|TCP]] extends [[tcp|TCP]] to use multiple network paths simultaneously. A phone can send data over both [[wifi|Wi-Fi]] and cellular at the same time, seamlessly shifting traffic when one path degrades. When you walk out of [[wifi|Wi-Fi]] range, [[mptcp|MPTCP]] gracefully migrates the connection to cellular without dropping a single byte — the application sees one uninterrupted [[tcp|TCP]] stream. Apple has used [[mptcp|MPTCP]] in iOS since 2013 (for Siri and Apple Maps) and it is enabled system-wide in iOS 17+. [[mptcp|MPTCP]] is backward-compatible: it falls back to regular [[tcp|TCP]] when the other endpoint does not support it. The trade-off is complexity — middleboxes (firewalls, NATs) sometimes strip the [[mptcp|MPTCP]] options they do not understand.',
 				transition: '[[mptcp|MPTCP]] adds resilience to [[tcp|TCP]], but it inherits [[tcp|TCP]]\'s fundamental limitations: {{head-of-line-blocking|head-of-line blocking}}, ossified middleboxes, and a kernel-level implementation that is slow to deploy. A ground-up redesign built on [[udp|UDP]] avoids all of these constraints...'
 			},
 			{
 				protocolId: 'quic',
 				title: 'QUIC: Connection Migration',
 				description:
-					'[[quic|QUIC]] was designed from the start for mobile networks. Instead of identifying connections by [[ip|IP]] addresses and ports, [[quic|QUIC]] uses a variable-length Connection ID — a token that both endpoints recognize regardless of the underlying network path. When your phone switches from [[wifi|Wi-Fi]] to cellular, the {{ip-address|IP address}} changes but the Connection ID stays the same, so the [[quic|QUIC]] connection continues without interruption — no re-{{handshake|handshake}}, no re-authentication, no lost data. [[quic|QUIC]] also eliminates {{head-of-line-blocking|head-of-line blocking}} (a lost packet only affects its own stream, not all streams), and its {{one-rtt|1-RTT}} handshake integrates transport and {{encryption|encryption}} setup into a single round trip. Google reports that [[quic|QUIC]] reduces video rebuffering by 18% on mobile networks compared to [[tcp|TCP]].'
+					'[[quic|QUIC]] was designed from the start for mobile networks. Instead of identifying connections by [[ip|IP]] addresses and ports, [[quic|QUIC]] uses a variable-length Connection ID — a token that both endpoints recognize regardless of the underlying network path. When your phone switches from [[wifi|Wi-Fi]] to cellular, the {{ip-address|IP address}} changes but the Connection ID stays the same, so the [[quic|QUIC]] connection continues without interruption — no re-{{handshake|handshake}}, no re-authentication, no lost data. [[quic|QUIC]] also eliminates {{head-of-line-blocking|head-of-line blocking}} (a lost packet only affects its own stream, not all streams), and its {{one-rtt|1-RTT}} {{handshake|handshake}} integrates transport and {{encryption|encryption}} setup into a single round trip. Google reports that [[quic|QUIC]] reduces video rebuffering by 18% on mobile networks compared to [[tcp|TCP]].'
 			}
 		]
 	},
@@ -835,42 +835,42 @@ export const journeys: Journey[] = [
 				protocolId: 'nfc',
 				title: 'Field on — phone harvests power inductively',
 				description:
-					"The terminal's antenna is radiating a 13.56 MHz magnetic field continuously. When you bring your phone within ~4 cm, the phone's NFC controller and {{ese|embedded Secure Element}} harvest microwatts directly from the field — no battery contribution needed on the SE side. This is the {{inductive-coupling|inductive coupling}} that makes [[nfc|NFC]] work: magnetic field falls off as 1/r³, which is exactly why 10 cm is a feature, not a bug. The biometric release (Face ID / Touch ID) had to happen *before* this point — the eSE applet is now armed and waiting.",
+					"The terminal's antenna is radiating a 13.56 MHz magnetic field continuously. When you bring your phone within ~4 cm, the phone's [[nfc|NFC]] controller and {{ese|embedded Secure Element}} harvest microwatts directly from the field — no battery contribution needed on the SE side. This is the {{inductive-coupling|inductive coupling}} that makes [[nfc|NFC]] work: magnetic field falls off as 1/r³, which is exactly why 10 cm is a feature, not a bug. The biometric release (Face ID / Touch ID) had to happen *before* this point — the eSE applet is now armed and waiting.",
 				transition: 'The phone is powered and the terminal needs to discover what kind of card is in the field. ISO 14443-3 defines a tight anti-collision sequence — REQA / ATQA / SEL / SAK — that completes in under 20 ms...'
 			},
 			{
 				protocolId: 'nfc',
 				title: 'Anti-collision + RATS/ATS — negotiate framing',
 				description:
-					"The terminal sends a 7-bit `0x26` REQA. The eSE replies with **ATQA** declaring a 4-byte UID and standard anti-collision. The terminal then runs the bit-frame anti-collision loop (`SEL=0x93`, `NVB=0x20` → UID → `NVB=0x70`) to converge on the {{frame|frame}} UID, ending in **SAK** = `0x28` — bit 6 set means *I speak ISO 14443-4*. The terminal sends **RATS**, the eSE replies with **ATS** declaring its frame-size budget (FSCI=5 = 64 bytes max). Both ends now know how to {{packet|packet}}ise the EMV exchange.",
-				transition: "With 14443-4 framing established, the terminal switches into ISO 7816-4 APDU mode and asks the canonical EMV opening question: *which payment networks do you support?*"
+					"The terminal sends a 7-bit `0x26` REQA. The eSE replies with **ATQA** declaring a 4-byte UID and standard anti-collision. The terminal then runs the bit-frame anti-collision loop (`SEL=0x93`, `NVB=0x20` → UID → `NVB=0x70`) to converge on the {{frame|frame}} UID, ending in **SAK** = `0x28` — bit 6 set means *I speak ISO 14443-4*. The terminal sends **RATS**, the eSE replies with **ATS** declaring its frame-size budget (FSCI=5 = 64 bytes max). Both ends now know how to {{packet|packet}}ise the EMV {{exchange|exchange}}.",
+				transition: "With 14443-4 framing established, the terminal switches into ISO 7816-4 {{apdu|APDU}} mode and asks the canonical EMV opening question: *which payment networks do you support?*"
 			},
 			{
 				protocolId: 'nfc',
 				title: 'SELECT PPSE → SELECT AID — enumerate payment apps',
 				description:
-					"The terminal sends `00 A4 04 00 0E 32 50 41 59 2E 53 59 53 2E 44 44 46 30 31` — SELECT **PPSE** (Proximity Payment System Environment, the magic {{aid|AID}} `2PAY.SYS.DDF01`). The eSE returns an FCI Template listing every payment {{aid|AID}} it supports in priority order — Mastercard `A0000000041010`, Visa `A0000000031010`, etc. The terminal picks the highest-priority one and SELECTs it; the card returns its **PDOL** — the list of EMV tags the card needs filled in to compute the cryptogram (amount, currency, country, terminal type, Unpredictable Number).",
-				transition: 'The card now knows what payment network it is on; the terminal knows what data the card wants. Time to bind the transaction: amount, currency, a fresh random nonce.'
+					"The terminal sends `00 A4 04 00 0E 32 50 41 59 2E 53 59 53 2E 44 44 46 30 31` — SELECT **{{ppse|PPSE}}** (Proximity Payment System Environment, the magic {{aid|AID}} `2PAY.SYS.DDF01`). The eSE returns an FCI Template listing every payment {{aid|AID}} it supports in priority order — Mastercard `A0000000041010`, Visa `A0000000031010`, etc. The terminal picks the highest-priority one and SELECTs it; the card returns its **PDOL** — the list of EMV tags the card needs filled in to compute the cryptogram (amount, currency, country, terminal type, Unpredictable Number).",
+				transition: 'The card now knows what payment network it is on; the terminal knows what data the card wants. Time to bind the transaction: amount, currency, a fresh random {{nonce|nonce}}.'
 			},
 			{
 				protocolId: 'nfc',
 				title: 'GENERATE AC — the cryptogram',
 				description:
-					"After GET PROCESSING OPTIONS (returning AIP+AFL) and READ RECORD ×N (pulling the **DPAN**, expiry, certificate chain), the terminal sends `80 AE 80 00` GENERATE AC with the filled CDOL1 data. The eSE composes the inputs (amount, currency, country, TVR, ATC, Unpredictable Number, AIP) and runs them through AES-MAC under the per-DPAN key, producing the **{{emv-cryptogram|Application Cryptogram (ARQC)}}**. The {{anti-replay|ATC}} (Application Transaction Counter) has already incremented by 1; the cryptogram is unforgeable without the eSE key.",
+					"After GET PROCESSING OPTIONS (returning AIP+AFL) and READ RECORD ×N (pulling the **DPAN**, expiry, {{certificate-chain|certificate chain}}), the terminal sends `80 AE 80 00` GENERATE AC with the filled CDOL1 data. The eSE composes the inputs (amount, currency, country, TVR, ATC, Unpredictable Number, AIP) and runs them through AES-MAC under the per-DPAN key, producing the **{{emv-cryptogram|Application Cryptogram (ARQC)}}**. The {{anti-replay|ATC}} (Application Transaction Counter) has already incremented by 1; the cryptogram is unforgeable without the eSE key.",
 				transition: "The cryptogram is now in the terminal's hand. But the eSE has no online connection — it can't authorise the transaction itself. The terminal needs to send the ARQC to the issuer bank, which is somewhere on the other end of the carrier network..."
 			},
 			{
 				protocolId: 'cellular',
 				title: 'Backhaul over LTE / 5G to the acquirer',
 				description:
-					"Modern wireless POS terminals (Square, Stripe, Verifone Engage) send the ARQC to the acquirer over [[cellular|cellular]] data — LTE Cat-1 or 5G in 2026. The terminal opens a [[tls|TLS]] connection to the acquirer's API endpoint, posts a JSON body containing the cryptogram + transaction details. The carrier core wraps the [[ip|IP]] traffic in **GTP-U over [[ipsec|IPsec ESP]]** between the gNB and UPF — per 3GPP TS 33.501, every backhaul {{hop|hop}} is IPsec-wrapped. The single largest enterprise IPsec deployment on Earth lives inside this layer.",
+					"Modern wireless POS terminals (Square, Stripe, Verifone Engage) send the ARQC to the acquirer over [[cellular|cellular]] data — LTE Cat-1 or 5G in 2026. The terminal opens a [[tls|TLS]] connection to the acquirer's API endpoint, posts a {{json|JSON}} body containing the cryptogram + transaction details. The carrier core wraps the [[ip|IP]] traffic in **{{gtp-u|GTP-U}} over [[ipsec|IPsec ESP]]** between the gNB and UPF — per {{3gpp|3GPP}} TS 33.501, every backhaul {{hop|hop}} is IPsec-wrapped. The single largest enterprise [[ipsec|IPsec]] deployment on Earth lives inside this layer.",
 				transition: "The cryptogram reaches the acquirer; the acquirer routes it through the payment network (Mastercard / Visa) to the issuing bank's HSM..."
 			},
 			{
 				protocolId: 'tls',
 				title: 'Issuer verification + ARPC return',
 				description:
-					"The **issuer bank's HSM** decrypts the cryptogram inputs using the per-DPAN key it minted at tokenisation time, re-derives the ARQC, and compares. Match + sufficient balance + no fraud flag = **APPROVED**. The issuer returns an **ARPC** (Authorisation Response Cryptogram) over its own [[tls|TLS]]-protected connection back through the payment network to the acquirer, then back over [[cellular|cellular]] to the terminal. Total time including the round-trip: typically **300–800 ms**. The terminal beeps green; the phone vibrates with the Apple Pay success animation. Total NFC airtime in the field was less than half a second — but the cryptographic chain stretched from the eSE through IPsec, cellular, TLS, and back."
+					"The **issuer bank's HSM** decrypts the cryptogram inputs using the per-DPAN key it minted at tokenisation time, re-derives the ARQC, and compares. Match + sufficient balance + no fraud flag = **APPROVED**. The issuer returns an **ARPC** (Authorisation Response Cryptogram) over its own [[tls|TLS]]-protected connection back through the payment network to the acquirer, then back over [[cellular|cellular]] to the terminal. Total time including the round-trip: typically **300–800 ms**. The terminal beeps green; the phone vibrates with the Apple Pay success animation. Total [[nfc|NFC]] {{airtime|airtime}} in the field was less than half a second — but the cryptographic chain stretched from the eSE through [[ipsec|IPsec]], cellular, [[tls|TLS]], and back."
 			}
 		]
 	},
@@ -879,7 +879,7 @@ export const journeys: Journey[] = [
 		id: 'wireless-phone-as-key',
 		title: 'A phone unlocks a car — BLE bootstrap → UWB ranging → unlock',
 		description:
-			'The 2022 Tesla BLE relay made it clear that RSSI proximity is fundamentally broken. CCC Digital Key 3.0 is the industry response: [[bluetooth|BLE]] for discovery and credential exchange, [[uwb|UWB]] for the cryptographic distance bound that the speed of light cannot lie about.',
+			'The 2022 Tesla BLE relay made it clear that {{rssi|RSSI}} proximity is fundamentally broken. {{ccc-digital-key|CCC Digital Key}} 3.0 is the industry response: [[bluetooth|BLE]] for discovery and credential {{exchange|exchange}}, [[uwb|UWB]] for the cryptographic distance bound that the speed of light cannot lie about.',
 		color: '#FBBF24',
 		scope: 'wireless',
 		steps: [
@@ -888,27 +888,27 @@ export const journeys: Journey[] = [
 				title: 'BLE advertising — the car says hello on ch 37/38/39',
 				description:
 					"The car's BLE radio broadcasts `ADV_IND` on advertising channels 37 (2402 MHz), 38 (2426 MHz), and 39 (2480 MHz) every 100 ms or so — three channels carefully chosen to avoid [[wifi|Wi-Fi]]'s 1/6/11. The advert carries the {{ccc-digital-key|CCC Digital Key}} service UUID and an ephemeral identifier. Your iPhone (or Galaxy, or Android phone with {{aliro|Aliro}}) scans those channels continuously. When the phone sees the car's UUID, it sends `CONNECT_IND` — switching both radios from advertising channels to one of the 37 data channels — and the BLE link is up.",
-				transition: 'BLE is now connected, but BLE alone proved insecure in 2022 — Sultan Qasim Khan unlocked a parked Tesla from 25 m using $50 of dev boards by relaying the BLE signals. CCC Digital Key 3.0 fixes this with a layered cryptographic + physical defence...'
+				transition: 'BLE is now connected, but BLE alone proved insecure in 2022 — Sultan Qasim Khan unlocked a parked Tesla from 25 m using $50 of dev boards by relaying the BLE signals. {{ccc-digital-key|CCC Digital Key}} 3.0 fixes this with a layered cryptographic + physical defence...'
 			},
 			{
 				protocolId: 'bluetooth',
 				title: 'GATT pairing + SPAKE2+ authentication',
 				description:
-					"Over the BLE encrypted channel, the car and the phone run **SPAKE2+ / PAKE** authentication — the car proves it has the right vehicle key, the phone proves it has the right Digital Key applet in its {{ese|embedded Secure Element}}. {{apdu|APDUs}} flow over {{gatt|GATT}} carrying the EMV-style certificate chain. Both sides now share session keys. The next critical message: the car sends the phone the **STS_KEY** — a 128-bit AES key for the upcoming UWB ranging session — over the now-encrypted BLE channel. UWB has no power-efficient discovery of its own; BLE provides the on-ramp.",
-				transition: 'The phone has the STS_KEY. The car has the STS_KEY. Both fire up their UWB radios for the ranging round that proves *the phone is actually here*, not relayed from across the parking lot...'
+					"Over the BLE encrypted channel, the car and the phone run **SPAKE2+ / PAKE** authentication — the car proves it has the right vehicle key, the phone proves it has the right Digital Key applet in its {{ese|embedded Secure Element}}. {{apdu|APDUs}} flow over {{gatt|GATT}} carrying the EMV-style {{certificate-chain|certificate chain}}. Both sides now share session keys. The next critical message: the car sends the phone the **STS_KEY** — a 128-bit AES key for the upcoming [[uwb|UWB]] ranging session — over the now-encrypted BLE channel. UWB has no power-efficient discovery of its own; BLE provides the on-ramp.",
+				transition: 'The phone has the STS_KEY. The car has the STS_KEY. Both fire up their [[uwb|UWB]] radios for the ranging round that proves *the phone is actually here*, not relayed from across the parking lot...'
 			},
 			{
 				protocolId: 'uwb',
 				title: 'UWB DS-TWR — three messages, six timestamps, cm-class distance',
 				description:
-					"The phone transmits a **Poll** RFRAME on UWB Channel 9 (7987.2 MHz, 499.2 MHz bandwidth, BPRF mode, 6.81 Mbps). The frame carries a 32-chip **{{sts|STS}}** (Scrambled Timestamp Sequence) generated by `AES-128-CTR(STS_KEY, nonce)` — the AES-keyed pulse pattern an attacker without STS_KEY cannot predict. The phone records `t1 = TX timestamp` at the SFD with ~15 ps resolution. The car (multiple anchors typically) RX-timestamps at t2, delays by `T_reply1` (~200 µs), transmits **Response** carrying t2 + t3. Phone records t4 = RX. Phone delays by T_reply2, transmits **Final** carrying t1, t4, t5. Car records t6 = RX. All six timestamps now exist.",
-				transition: 'The car can now compute time-of-flight. The cross-product formula cancels relative clock drift to first order — DS-TWR is insensitive to 20 ppm crystal offsets. Multiply ToF by the speed of light and you have distance...'
+					"The phone transmits a **Poll** RFRAME on [[uwb|UWB]] Channel 9 (7987.2 MHz, 499.2 MHz {{bandwidth|bandwidth}}, BPRF mode, 6.81 Mbps). The frame carries a 32-chip **{{sts|STS}}** (Scrambled Timestamp Sequence) generated by `AES-128-CTR(STS_KEY, {{nonce|nonce}})` — the AES-keyed pulse pattern an attacker without STS_KEY cannot predict. The phone records `t1 = TX timestamp` at the SFD with ~15 ps resolution. The car (multiple anchors typically) RX-timestamps at t2, delays by `T_reply1` (~200 µs), transmits **Response** carrying t2 + t3. Phone records t4 = RX. Phone delays by T_reply2, transmits **Final** carrying t1, t4, t5. Car records t6 = RX. All six timestamps now exist.",
+				transition: 'The car can now compute {{tof-ranging|time-of-flight}}. The cross-product formula cancels relative clock drift to first order — DS-TWR is insensitive to 20 ppm crystal offsets. Multiply ToF by the speed of light and you have distance...'
 			},
 			{
 				protocolId: 'uwb',
 				title: 'Distance check — and the unlock decision',
 				description:
-					"Using the **{{twr|DS-TWR}} cross-product** `ToF = (T_round1·T_round2 − T_reply1·T_reply2) / (T_round1+T_round2+T_reply1+T_reply2)`, the car computes time-of-flight to 1 ns precision — about 30 cm. Multiple anchors give an x/y/z position around the car. If `distance ≤ threshold` *and* the BLE credential is valid *and* the STS validation passed (no Ghost Peak-style injection detected), the car unlocks the side you're approaching, lights the welcome animation, and adjusts your seat. The key property: **{{tof-ranging|time-of-flight}} cannot be shortened by a relay** — the speed of light is the hard upper bound. The 2022 BLE relay attack does not work against UWB ranging. [[nfc|NFC]] remains the fallback for when your phone's battery is dead."
+					"Using the **{{twr|DS-TWR}} cross-product** `ToF = (T_round1·T_round2 − T_reply1·T_reply2) / (T_round1+T_round2+T_reply1+T_reply2)`, the car computes {{tof-ranging|time-of-flight}} to 1 ns precision — about 30 cm. Multiple anchors give an x/y/z position around the car. If `distance ≤ threshold` *and* the BLE credential is valid *and* the STS validation passed (no Ghost Peak-style injection detected), the car unlocks the side you're approaching, lights the welcome animation, and adjusts your seat. The key property: **{{tof-ranging|time-of-flight}} cannot be shortened by a relay** — the speed of light is the hard upper bound. The 2022 BLE relay attack does not work against [[uwb|UWB]] ranging. [[nfc|NFC]] remains the fallback for when your phone's battery is dead."
 			}
 		]
 	},
@@ -917,7 +917,7 @@ export const journeys: Journey[] = [
 		id: 'wireless-hue-bulb',
 		title: 'A Hue bulb joins the mesh — Zigbee commissioning in 4 messages',
 		description:
-			'You unbox a new Philips Hue bulb, plug it in, and the Hue app on your phone walks it through Zigbee Trust Center commissioning. Behind that simple UX is a four-message join sequence with one critical secret transfer.',
+			'You unbox a new Philips Hue bulb, plug it in, and the Hue app on your phone walks it through Zigbee {{trust-center|Trust Center}} commissioning. Behind that simple UX is a four-message join sequence with one critical secret transfer.',
 		color: '#FBBF24',
 		scope: 'wireless',
 		steps: [
@@ -925,7 +925,7 @@ export const journeys: Journey[] = [
 				protocolId: 'zigbee',
 				title: 'Beacon Request — joiner asks "any networks?"',
 				description:
-					"The new bulb powers on, has no parent yet, and broadcasts an {{ieee-802-15-4|IEEE 802.15.4}} MAC Command `0x07` (**Beacon Request**) on its channel — picked from {15, 20, 25, 26} to dodge [[wifi|Wi-Fi]] 1/6/11 at 2412/2437/2462 MHz. Every Zigbee router with permit-joining enabled responds with a **Beacon**: the PAN ID, the Coordinator's short address (0x0000), the Stack Profile (Zigbee PRO), and the Permit-Joining flag. The joiner picks the best parent by RSSI + LQI. This is the slowest step — beacon scanning can take 2–4 seconds across all candidate channels.",
+					"The new bulb powers on, has no parent yet, and broadcasts an {{ieee-802-15-4|IEEE 802.15.4}} MAC Command `0x07` (**Beacon Request**) on its channel — picked from {15, 20, 25, 26} to dodge [[wifi|Wi-Fi]] 1/6/11 at 2412/2437/2462 MHz. Every Zigbee router with permit-joining enabled responds with a **Beacon**: the PAN ID, the Coordinator's short address (0x0000), the Stack Profile (Zigbee PRO), and the Permit-Joining flag. The joiner picks the best parent by {{rssi|RSSI}} + LQI. This is the slowest step — beacon scanning can take 2–4 seconds across all candidate channels.",
 				transition: 'The bulb has picked a parent. Now it needs a short address — a 16-bit local identifier much cheaper than its 64-bit EUI-64 on every frame for the rest of its life on this network...'
 			},
 			{
@@ -939,14 +939,14 @@ export const journeys: Journey[] = [
 				protocolId: 'zigbee',
 				title: 'APS Transport-Key — the network key, encrypted at the application layer',
 				description:
-					"The Coordinator sends an **APS Transport-Key** command (cmd `0x05`) containing the 128-bit AES network key, **{{encryption|encrypted}} under the joiner's pre-configured link key**. With a per-device {{install-code|install code}} (printed on the Hue bulb's box as a QR code), that link key is unique and an eavesdropper at join cannot decrypt this frame. With the default *ZigBeeAlliance09* link key (universally known: `5A:69:67:42:65:65:41:6C:6C:69:61:6E:63:65:30:39`), an eavesdropper *can* — this is the canonical Zigbee sniffer-at-join attack. Zigbee R23's **Dynamic Link Key** with SPEKE-over-Curve25519 removes the question entirely.",
+					"The Coordinator sends an **APS Transport-Key** command (cmd `0x05`) containing the 128-bit AES network key, **{{encryption|encrypted}} under the joiner's pre-configured link key**. With a per-device {{install-code|install code}} (printed on the Hue bulb's box as a QR code), that link key is unique and an eavesdropper at join cannot decrypt this frame. With the default *ZigBeeAlliance09* link key (universally known: `5A:69:67:42:65:65:41:6C:6C:69:61:6E:63:65:30:39`), an eavesdropper *can* — this is the canonical Zigbee sniffer-at-join attack. Zigbee R23's **{{dynamic-link-key|Dynamic Link Key}}** with SPEKE-over-Curve25519 removes the question entirely.",
 				transition: "The bulb now has both a short address and the network key. It can encrypt frames and join the mesh as a router for its neighbours. Time to announce its arrival..."
 			},
 			{
 				protocolId: 'zigbee',
 				title: 'Device Announce + first ZCL command',
 				description:
-					"The bulb NWK-broadcasts a **Device Announce** ZDO message (cluster `0x0013`): *I am 0x3F4E, EUI-64 = …, capability = mains-powered router*. Every router on the mesh adds the new bulb to its {{routing-table|routing}} and binding tables. The Hue app now appears to discover the bulb. Tapping the on/off toggle sends a single **{{zcl|ZCL}} OnOff.Toggle** command — APS profile `0x0104` (Home Automation), cluster `0x0006` (OnOff), command `0x02` (Toggle). The whole on-the-wire payload, including all 802.15.4 + NWK + APS + ZCL {{header|headers}} + AES-CCM* MIC, fits in ~40 bytes. The bulb turns on. From boot to first command: ~4 seconds."
+					"The bulb NWK-broadcasts a **Device Announce** ZDO message (cluster `0x0013`): *I am 0x3F4E, EUI-64 = …, capability = mains-powered router*. Every router on the mesh adds the new bulb to its {{routing-table|routing}} and binding tables. The Hue app now appears to discover the bulb. Tapping the on/off toggle sends a single **{{zcl|ZCL}} OnOff.Toggle** command — APS profile `0x0104` (Home Automation), cluster `0x0006` (OnOff), command `0x02` (Toggle). The whole on-the-wire {{payload|payload}}, including all 802.15.4 + NWK + APS + ZCL {{header|headers}} + AES-CCM* MIC, fits in ~40 bytes. The bulb turns on. From boot to first command: ~4 seconds."
 			}
 		]
 	}

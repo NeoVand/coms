@@ -8,7 +8,7 @@ export const sdp: Protocol = {
 	year: 1998,
 	rfc: 'RFC 8866',
 	oneLiner:
-		'The universal format for describing multimedia sessions — the matchmaker behind every [[webrtc|WebRTC]] and VoIP call.',
+		'The universal format for describing multimedia sessions — the matchmaker behind every [[webrtc|WebRTC]] and {{voip|VoIP}} call.',
 	overview: `[[sdp|SDP]] doesn't carry a single byte of audio or video. Instead, it's the language that endpoints use to describe what they can do — {{codec|codecs}} they support, [[ip|IP]] addresses they're reachable at, {{bandwidth|bandwidth}} they expect, and {{encryption|encryption}} keys they'll use. Think of it as a dating profile for media sessions.
 
 Originally published in 1998 as [[rfc:2327|RFC 2327]] for the Mbone ({{multicast|multicast}} backbone) conferencing community, [[sdp|SDP]] found its true calling as the session description format for [[sip|SIP]] and later [[webrtc|WebRTC]]. Every time you join a video call in your browser, an [[sdp|SDP]] "offer" and "answer" are exchanged behind the scenes to {{content-negotiation|negotiate}} what media will flow and how.
@@ -33,7 +33,7 @@ The format is deceptively simple — plain text with single-letter field identif
 		{
 			title: 'Offer/answer exchange',
 			description:
-				'One peer sends an [[sdp|SDP]] "offer" and the other responds with an [[sdp|SDP]] "answer." Each side picks compatible codecs and transport parameters.'
+				'One {{peer|peer}} sends an [[sdp|SDP]] "offer" and the other responds with an [[sdp|SDP]] "answer." Each side picks compatible codecs and transport parameters.'
 		},
 		{
 			title: 'Session established',

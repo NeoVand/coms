@@ -291,14 +291,14 @@ server.listen(443);`
 			date: '2025-08',
 			title: 'MIT krb5 1.22 — PKINIT ECDH, IAKerb, Unix-domain transport',
 			description:
-				'5 August 2025 release. Headline features: **PKINIT ECDH/EC certs** (smart-card auth on Curve25519 / P-384), **paChecksum2** support (longer FAST-armored checksum to retire SHA-1), **IAKerb** for realm discovery without DNS, and the first **Unix-domain socket transport** for in-host KDC traffic. Initial release was withdrawn on 17 August for a critical vuln; re-issued as 1.22.2.',
+				'5 August 2025 release. Headline features: **PKINIT ECDH/EC certs** (smart-card auth on Curve25519 / P-384), **paChecksum2** support (longer FAST-armored {{checksum|checksum}} to retire SHA-1), **IAKerb** for realm discovery without [[dns|DNS]], and the first **Unix-domain socket transport** for in-host KDC traffic. Initial release was withdrawn on 17 August for a critical vuln; re-issued as 1.22.2.',
 			source: { url: 'https://web.mit.edu/kerberos/krb5-1.22/', label: 'MIT krb5 1.22 release notes' }
 		},
 		{
 			date: '2025-09',
 			title: 'Microsoft enforces strong certificate binding (CVE-2022-37967 long-tail)',
 			description:
-				"9 September 2025 — Microsoft's permanent enforcement deadline for **strong certificate binding** on Active Directory Domain Controllers, closing the long-tail of the 2022 *Bronze Bit* / certificate-spoofing class. After this date, AD DCs refuse Kerberos PKINIT with weakly-bound certs by default.",
+				"9 September 2025 — Microsoft's permanent enforcement deadline for **strong {{certificate|certificate}} binding** on Active Directory Domain Controllers, closing the long-tail of the 2022 *Bronze Bit* / certificate-{{spoofing|spoofing}} class. After this date, AD DCs refuse Kerberos PKINIT with weakly-bound certs by default.",
 			source: {
 				url: 'https://msrc.microsoft.com/update-guide/vulnerability/CVE-2022-37967',
 				label: 'MSRC CVE-2022-37967'
@@ -331,13 +331,13 @@ server.listen(443);`
 			org: 'Microsoft Active Directory',
 			scale: 'Every AD domain on Earth (>500M Windows endpoints, every Fortune 1000)',
 			description:
-				'Kerberos has been AD\'s primary authentication since Windows 2000. Every domain-joined Windows machine, every AD-integrated Exchange / Outlook, every SharePoint, every SQL Server with Windows Authentication runs Kerberos under the hood. The single largest [[kerberos|Kerberos]] deployment ever.'
+				'Kerberos has been AD\'s primary authentication since Windows 2000. Every domain-joined Windows machine, every AD-integrated {{exchange|Exchange}} / Outlook, every SharePoint, every SQL Server with Windows Authentication runs Kerberos under the hood. The single largest [[kerberos|Kerberos]] deployment ever.'
 		},
 		{
 			org: 'MIT Kerberos (krb5)',
 			scale: 'The canonical C codebase; ships in every Linux distro',
 			description:
-				'Maintained by the MIT Kerberos Consortium ([[pioneer:greg-hudson|Greg Hudson]] as lead). Used by every Linux distribution, FreeIPA, Hadoop, Spark, Kafka, and a long tail of enterprise auth. The reference implementation behind RFC 4120.'
+				'Maintained by the MIT Kerberos Consortium ([[pioneer:greg-hudson|Greg Hudson]] as lead). Used by every Linux distribution, FreeIPA, Hadoop, Spark, [[kafka|Kafka]], and a long tail of enterprise auth. The reference implementation behind RFC 4120.'
 		},
 		{
 			org: 'Heimdal',
@@ -368,7 +368,7 @@ server.listen(443);`
 		},
 		{
 			title: 'Clock skew is the silent killer',
-			text: 'Default `clockskew` in `krb5.conf` is **±5 minutes**. If a client\'s clock drifts more than that, every authentication fails with `KRB_AP_ERR_SKEW`. Every enterprise Kerberos outage of the 2010s eventually traced back to [[ntp|NTP]] — broken NTP servers, firewalls blocking UDP/123, virtualised hosts with drift. The protocol\'s most operationally fragile dependency isn\'t crypto; it\'s time.'
+			text: 'Default `clockskew` in `krb5.conf` is **±5 minutes**. If a client\'s clock drifts more than that, every authentication fails with `KRB_AP_ERR_SKEW`. Every enterprise Kerberos outage of the 2010s eventually traced back to [[ntp|NTP]] — broken [[ntp|NTP]] servers, firewalls blocking UDP/123, virtualised hosts with drift. The protocol\'s most operationally fragile dependency isn\'t crypto; it\'s time.'
 		}
 	],
 
@@ -376,15 +376,15 @@ server.listen(443);`
 		pitfalls: [
 			{
 				title: 'Time skew kills authentication silently',
-				text: 'A client whose clock has drifted past `clockskew` (default ±5 minutes) gets `KRB_AP_ERR_SKEW` on every auth attempt — but applications often surface this as a generic "auth failed", and operators end up debugging keytabs and DNS for hours. **Cure:** every Kerberos host MUST run [[ntp|NTP]] with a tight sync; monitor for skew >1 min; never run KDCs on virtualised hardware without paravirtualised clocks; if clock skew is genuinely unavoidable, widen `clockskew` to ±10 min in `krb5.conf` rather than disabling it.'
+				text: 'A client whose clock has drifted past `clockskew` (default ±5 minutes) gets `KRB_AP_ERR_SKEW` on every auth attempt — but applications often surface this as a generic "auth failed", and operators end up debugging keytabs and [[dns|DNS]] for hours. **Cure:** every Kerberos host MUST run [[ntp|NTP]] with a tight sync; monitor for skew >1 min; never run KDCs on virtualised hardware without paravirtualised clocks; if clock skew is genuinely unavoidable, widen `clockskew` to ±10 min in `krb5.conf` rather than disabling it.'
 			},
 			{
 				title: 'Service Principal Names (SPNs) must match exactly',
-				text: 'The SPN in the ticket (`HTTP/web1.example.com@EXAMPLE.COM`) must match the hostname the client connected to — including capitalisation and DNS canonicalisation. A client typing `web1` will request a ticket for `HTTP/web1.example.com`; if the keytab only has `HTTP/web1` registered, the AP-REQ fails. **Cure:** register both short and FQDN SPNs in the keytab; set `dns_canonicalize_hostname = false` in `krb5.conf` if your DNS rewrites unpredictably; use `kvno HTTP/web1.example.com` to force-test SPN resolution.'
+				text: 'The SPN in the ticket (`HTTP/web1.example.com@EXAMPLE.COM`) must match the hostname the client connected to — including capitalisation and [[dns|DNS]] canonicalisation. A client typing `web1` will request a ticket for `HTTP/web1.example.com`; if the keytab only has `HTTP/web1` registered, the AP-REQ fails. **Cure:** register both short and FQDN SPNs in the keytab; set `dns_canonicalize_hostname = false` in `krb5.conf` if your DNS rewrites unpredictably; use `kvno HTTP/web1.example.com` to force-test SPN resolution.'
 			},
 			{
 				title: 'Weak encryption types still lurk in old keytabs',
-				text: "Every keytab includes a list of encryption types the principal supports. Old AD environments have **RC4 (NEA1)** still enabled — the encryption type **Kerberoasting** specifically targets, because RC4 keys are derived from NT hash and brute-force in hours. **Cure:** set `default_tkt_enctypes = aes256-cts-hmac-sha384-192 aes128-cts-hmac-sha256-128` in `krb5.conf`; remove RC4 from the supported list with `Set-ADUser -KerberosEncryptionType AES128,AES256`; audit with Wireshark filter `kerberos.etype == 23` to find any remaining RC4 traffic."
+				text: "Every keytab includes a list of {{encryption|encryption}} types the principal supports. Old AD environments have **RC4 (NEA1)** still enabled — the encryption type **Kerberoasting** specifically targets, because RC4 keys are derived from NT hash and brute-force in hours. **Cure:** set `default_tkt_enctypes = aes256-cts-{{hmac|hmac}}-sha384-192 aes128-cts-hmac-sha256-128` in `krb5.conf`; remove RC4 from the supported list with `Set-ADUser -KerberosEncryptionType AES128,AES256`; audit with Wireshark filter `kerberos.etype == 23` to find any remaining RC4 traffic."
 			}
 		]
 	}

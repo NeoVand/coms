@@ -9,7 +9,7 @@ export const mptcp: Protocol = {
 	rfc: 'RFC 8684',
 	oneLiner:
 		'[[tcp|TCP]] that uses multiple network paths simultaneously — [[wifi|WiFi]] and cellular at the same time.',
-	overview: `Multipath [[tcp|TCP]] solves a fundamental limitation of regular [[tcp|TCP]]: a connection is locked to a single pair of {{ip-address|IP addresses}}. If your phone is connected to both [[wifi|WiFi]] and cellular, standard [[tcp|TCP]] can only use one at a time. [[mptcp|MPTCP]] allows a single connection to spread across multiple network interfaces simultaneously, combining their {{bandwidth|bandwidth}} and seamlessly failing over when one path drops.
+	overview: `{{multipath|Multipath}} [[tcp|TCP]] solves a fundamental limitation of regular [[tcp|TCP]]: a connection is locked to a single pair of {{ip-address|IP addresses}}. If your phone is connected to both [[wifi|WiFi]] and cellular, standard [[tcp|TCP]] can only use one at a time. [[mptcp|MPTCP]] allows a single connection to spread across multiple network interfaces simultaneously, combining their {{bandwidth|bandwidth}} and seamlessly failing over when one path drops.
 
 The protocol works by establishing "subflows" — each subflow is a regular [[tcp|TCP]] connection on a different network path. A shim layer sits between the application and these subflows, distributing data across paths and reassembling it on the other end. The application sees a single, normal [[tcp|TCP]] {{socket|socket}}; the magic happens entirely at the transport layer.
 

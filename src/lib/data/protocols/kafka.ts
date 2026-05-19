@@ -24,12 +24,12 @@ The protocol handles producer requests, fetch requests, metadata discovery, {{of
 		{
 			title: 'Produce records',
 			description:
-				'Producer batches records by {{topic|topic}}-{{partition|partition}}, compresses the batch, and sends a Produce request to the partition leader. The leader writes to its log and replicates before acknowledging.'
+				'Producer batches records by {{topic|topic}}-{{partition|partition}}, compresses the batch, and sends a Produce request to the {{partition|partition}} leader. The leader writes to its log and replicates before acknowledging.'
 		},
 		{
 			title: 'Consume with offsets',
 			description:
-				'Consumer sends Fetch requests specifying {{topic|topic}}, {{partition|partition}}, and {{offset|offset}}. The broker returns records from that offset forward. The consumer tracks its own position.'
+				'Consumer sends Fetch requests specifying {{topic|topic}}, {{partition|partition}}, and {{offset|offset}}. The broker returns records from that {{offset|offset}} forward. The consumer tracks its own position.'
 		},
 		{
 			title: 'Consumer groups coordinate',

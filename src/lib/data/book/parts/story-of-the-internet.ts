@@ -236,7 +236,7 @@ That is the deepest lesson of the web's success. It was an **application** — a
 
 The 1993 release is the reason there is no Microsoft web, no Apple web, no IBM web. Within twelve months, **Mosaic** (NCSA, Marc Andreessen + Eric Bina, January 1993) had become the first popular graphical browser. Andreessen co-founded Netscape later that year. Microsoft licensed the Spyglass / Mosaic codebase as the seed of Internet Explorer in 1995. By 1996, the browser wars were under way — but every combatant was building on the public-domain CERN spec.
 
-The architectural lesson the web carried forward: an application that succeeds at internet scale must be **open enough that competitors can implement it**. HTTP succeeded for the same reason [[tcp|TCP]]/[[ip|IP]] succeeded — the spec was public, the reference implementation was free, and anyone could build a compatible peer. Every walled-garden alternative (Microsoft's MSN, AOL's keywords, Compuserve, even Apple's later eWorld) lost to the open web.`
+The architectural lesson the web carried forward: an application that succeeds at internet scale must be **open enough that competitors can implement it**. HTTP succeeded for the same reason [[tcp|TCP]]/[[ip|IP]] succeeded — the spec was public, the reference implementation was free, and anyone could build a compatible {{peer|peer}}. Every walled-garden alternative (Microsoft's MSN, AOL's keywords, Compuserve, even Apple's later eWorld) lost to the open web.`
 						},
 						{
 							type: 'image',
@@ -272,7 +272,7 @@ The architectural lesson the web carried forward: an application that succeeds a
 
 That changed two assumptions in [[tcp|TCP]] design. First, the **last-mile {{bandwidth|bandwidth}} varied wildly** — a hand turning the user 90° could change throughput by 10×. Second, **buffers grew enormously**. Cheap memory meant routers and home modems were shipped with multi-megabyte queues, ostensibly to absorb bursts but actually to hide congestion from the senders that needed to see it. The result was **{{bufferbloat|bufferbloat}}**: queues that grew to seconds of {{latency|latency}} under load, defeating the entire {{aimd|AIMD}} signalling mechanism Jacobson had built. Your video call stuttered because someone in the next room started a download.
 
-The fix took fifteen years. **{{aqm|Active queue management}}** (CoDel, fq_codel, PIE — RFCs 8290, 8033) shrank queues by dropping packets early when latency rose. **Smart queue management** (SQM) appeared in router firmware. And eventually [[quic|QUIC]] gave applications fine-grained control over their own {{pacing|pacing}}, sidestepping the kernel's ossified [[tcp|TCP]] stack entirely.`
+The fix took fifteen years. **{{aqm|Active queue management}}** (CoDel, fq_codel, PIE — RFCs 8290, 8033) shrank queues by dropping packets early when {{latency|latency}} rose. **Smart queue management** (SQM) appeared in router firmware. And eventually [[quic|QUIC]] gave applications fine-grained control over their own {{pacing|pacing}}, sidestepping the kernel's ossified [[tcp|TCP]] stack entirely.`
 						},
 						{
 							type: 'callout',
@@ -319,7 +319,7 @@ A new [[ip|IP]] protocol number — like [[sctp|SCTP]] got — would have been t
 
 [[quic|QUIC]]'s designers had watched [[sctp|SCTP]] die in production for fifteen years. They picked [[udp|UDP]] — a protocol every {{nat|NAT}}, {{firewall|firewall}}, and middlebox already had to forward unchanged — and accepted the cost of putting a fully-encrypted reliable transport inside it. The cost was real (every byte of a [[quic|QUIC]] packet is processed in user space; the kernel sees only opaque [[udp|UDP]]) but the benefit was deployment.
 
-This is the structural lesson of the late-2010s protocol-design era: **{{encryption|encryption}} is what keeps a protocol evolvable, and [[udp|UDP]] is what makes encryption deployable**. Anything not encrypted gets ossified by middlebox inspection within a decade. Anything not on [[udp|UDP]] cannot traverse the deployed internet. Future transports — multipath [[quic|QUIC]], [[rtp|RTP]]-over-[[quic|QUIC]], MoQ — all sit inside the same envelope for the same reasons.`
+This is the structural lesson of the late-2010s protocol-design era: **{{encryption|encryption}} is what keeps a protocol evolvable, and [[udp|UDP]] is what makes {{encryption|encryption}} deployable**. Anything not encrypted gets ossified by middlebox inspection within a decade. Anything not on [[udp|UDP]] cannot traverse the deployed internet. Future transports — {{multipath|multipath}} [[quic|QUIC]], [[rtp|RTP]]-over-[[quic|QUIC]], MoQ — all sit inside the same envelope for the same reasons.`
 						},
 						{
 							type: 'image',

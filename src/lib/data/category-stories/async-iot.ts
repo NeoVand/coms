@@ -213,9 +213,9 @@ export const asyncIotStory: CategoryStory = {
 		{
 			type: 'diagram',
 			definition: `graph TD
-  subgraph Kafka["Kafka Log"]
+  subgraph [[kafka|Kafka]]["Kafka Log"]
     K1[Producer] --> K2[Append-Only Log]
-    K2 -->|"offset 0"| K3[Consumer A]
+    K2 -->|"{{offset|offset}} 0"| K3[Consumer A]
     K2 -->|"offset 42"| K4[Consumer B]
     K2 -->|"replay"| K5[Consumer C]
   end

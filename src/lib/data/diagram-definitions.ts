@@ -90,7 +90,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     Note over C,S: Combined transport + [[tls|TLS]] in one {{handshake|handshake}}
     C->>S: Initial (ClientHello + crypto)
     S->>C: Initial (ServerHello + crypto)
-    S->>C: Handshake ({{certificate|certificate}} + finished)
+    S->>C: {{handshake|Handshake}} ({{certificate|certificate}} + finished)
     C->>S: Handshake finished
     Note over C,S: 1 RTT — data can flow
     C->>S: Stream 1: GET /page (encrypted)
@@ -118,7 +118,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     participant B as Host B
     Note over A,B: 4-way {{handshake|handshake}} with {{cookie|cookie}} (anti-{{spoofing|spoofing}})
     A->>B: INIT
-    B->>A: INIT-ACK (cookie)
+    B->>A: INIT-ACK ({{cookie|cookie}})
     A->>B: COOKIE-ECHO
     B->>A: COOKIE-ACK
     Note over A,B: Multiple independent streams
@@ -154,14 +154,14 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     Note over C,S: Add second subflow (cellular)
     C->>S: SYN + MP_JOIN (token, {{nonce|nonce}})
     S->>C: SYN-ACK + MP_JOIN ({{hmac|HMAC}})
-    C->>S: ACK + MP_JOIN (HMAC)
+    C->>S: ACK + MP_JOIN ({{hmac|HMAC}})
     Note over C,S: Two paths active simultaneously
     C->>S: Data (subflow 1 — WiFi)
     C->>S: Data (subflow 2 — cellular)
     Note over C,S: WiFi drops — seamless failover
     C->>S: Data (subflow 2 only — no interruption)`,
 		caption:
-			'**[[mptcp|MPTCP]]** = Multipath [[tcp|TCP]]. One logical [[tcp|TCP]] connection spread across **multiple network paths** — same socket, but data flows over WiFi *and* cellular at once. Survives losing either path ([[rfc:8684|RFC 8684]]).',
+			'**[[mptcp|MPTCP]]** = {{multipath|Multipath}} [[tcp|TCP]]. One logical [[tcp|TCP]] connection spread across **multiple network paths** — same socket, but data flows over WiFi *and* cellular at once. Survives losing either path ([[rfc:8684|RFC 8684]]).',
 		steps: {
 			0: 'MPTCP starts looking exactly like a regular TCP handshake. The trick is the new **`MP_CAPABLE`** option that signals *I can do multipath*.',
 			1: 'Looks like a normal **SYN**, but carries an `MP_CAPABLE` option with `key_A` — a per-host key used later to authenticate additional subflows.',
@@ -237,8 +237,8 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     participant C as Client
     participant S as Server
     C->>S: [[quic|QUIC]] {{handshake|handshake}} + {{alpn|ALPN}} (h3)
-    S->>C: Handshake complete (1 RTT)
-    Note over C,S: Independent QUIC streams
+    S->>C: {{handshake|Handshake}} complete (1 RTT)
+    Note over C,S: Independent [[quic|QUIC]] streams
     par Stream 1
         C->>S: GET /page (stream 1)
     and Stream 2
@@ -428,7 +428,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     R->>C: Task {state: "completed", artifacts: [...]}
     Note over C,R: Or stream via [[sse|SSE]]
     C->>R: message/stream {text: "..."}
-    R-->>C: SSE: TaskStatusUpdate
+    R-->>C: [[sse|SSE]]: TaskStatusUpdate
     R-->>C: SSE: TaskArtifactUpdate
     Note over C,R: [[json-rpc|JSON-RPC]] 2.0 over HTTP(S)`,
 		caption:
@@ -512,10 +512,10 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     B->>B: Route to matching queue(s)
     B->>C: Deliver message
     C->>B: ACK (processed successfully)
-    P->>B: Publish message (routing key: "order.cancel")
+    P->>B: Publish message ({{routing-key|routing key}}: "order.cancel")
     B->>C: Deliver message
     C-xB: NACK (processing failed)
-    Note over B: Route to dead-letter exchange
+    Note over B: Route to dead-letter {{exchange|exchange}}
     Note over P,C: Durable queues survive broker restarts`,
 		caption:
 			'**[[amqp|AMQP]]** = Advanced Message Queuing Protocol. Producers send to an **{{exchange|exchange}}**, which uses **binding rules** to route into named **queues**. Consumers acknowledge each message — failures can be redirected to a {{dead-letter-queue|dead-letter queue}} ([[amqp|AMQP]] 0-9-1).',
@@ -617,9 +617,9 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     P->>B: Metadata request
     B->>P: Cluster map (brokers, topics, partitions)
     P->>B: Produce ({{topic|topic}}, {{partition|partition}}, batch)
-    Note over B: Append to partition log + replicate
+    Note over B: Append to {{partition|partition}} log + replicate
     B->>P: ACK ({{offset|offset}}=42)
-    C->>B: Fetch (topic, partition, offset=0)
+    C->>B: Fetch ({{topic|topic}}, partition, {{offset|offset}}=0)
     B->>C: Records (offsets 0–42)
     C->>B: OffsetCommit (offset=42, group=analytics)
     Note over B: {{consumer-group|Consumer group}} tracks position
@@ -646,22 +646,22 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
 
 	webrtc: {
 		definition: `sequenceDiagram
-    participant A as Peer A
+    participant A as {{peer|Peer}} A
     participant S as Server
     participant B as Peer B
     A->>S: [[sdp|SDP]] Offer (codecs, media)
-    S->>B: SDP Offer (forwarded)
+    S->>B: [[sdp|SDP]] Offer (forwarded)
     B->>S: SDP Answer (accepted codecs)
     S->>A: SDP Answer (forwarded)
-    Note over A,B: ICE — discover public IPs via STUN
+    Note over A,B: ICE — discover public IPs via {{stun|STUN}}
     A->>S: ICE candidates
     B->>S: ICE candidates
     Note over A,B: Direct {{peer-to-peer|peer-to-peer}} connection
     A->>B: Audio/Video ({{srtp|SRTP}})
-    B->>A: Audio/Video (SRTP)
+    B->>A: Audio/Video ({{srtp|SRTP}})
     Note over A,B: Server only assists setup — media flows P2P`,
 		caption:
-			'**[[webrtc|WebRTC]]** = real-time video, audio, and data **directly between browsers**. The server only helps peers find each other ({{signaling|signaling}}) — once connected, **media flows {{peer-to-peer|peer-to-peer}}** with no hop through your servers (W3C / IETF).',
+			'**[[webrtc|WebRTC]]** = real-time video, audio, and data **directly between browsers**. The server only helps peers find each other ({{signaling|signaling}}) — once connected, **media flows {{peer-to-peer|peer-to-peer}}** with no hop through your servers (W3C / {{ietf|IETF}}).',
 		steps: {
 			0: '**SDP** = Session Description Protocol. Peer A\'s offer lists the codecs it supports, ports, encryption keys, and ICE candidates.',
 			1: 'Browsers can\'t talk directly until they know each other\'s addresses. Your **signaling server** (any transport — WebSocket is typical) just forwards messages between them.',
@@ -678,14 +678,14 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     participant S as Sender
     participant R as Receiver
     Note over S,R: [[rtp|RTP]] media packet stream
-    S->>R: RTP (seq=100, ts=0, {{payload|payload}})
-    S->>R: RTP (seq=101, ts=160, payload)
+    S->>R: [[rtp|RTP]] (seq=100, ts=0, {{payload|payload}})
+    S->>R: RTP (seq=101, ts=160, {{payload|payload}})
     S->>R: RTP (seq=102, ts=320, payload)
     S-xR: RTP (seq=103 — lost!)
     S->>R: RTP (seq=104, ts=640, payload)
     Note over R: Reorder buffer + {{jitter|jitter}} compensation
     Note over S,R: {{rtcp|RTCP}} feedback (separate channel)
-    R->>S: Receiver Report (loss=1, jitter=5ms)
+    R->>S: Receiver Report (loss=1, {{jitter|jitter}}=5ms)
     S->>R: RTP (lower bitrate — adapting)`,
 		caption:
 			'**[[rtp|RTP]]** = Real-time Transport Protocol. Carries audio/video over [[udp|UDP]] with sequence numbers and timestamps for reordering. **{{rtcp|RTCP}}** is the companion control channel that reports loss back so the sender can adapt ([[rfc:3550|RFC 3550]]).',
@@ -708,7 +708,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     B->>P: REGISTER sip:bob@example.com
     P->>B: 200 OK (registered)
     A->>P: INVITE ([[sdp|SDP]] offer)
-    P->>B: INVITE (SDP offer)
+    P->>B: INVITE ([[sdp|SDP]] offer)
     B->>P: 180 Ringing
     P->>A: 180 Ringing
     B->>P: 200 OK (SDP answer)
@@ -718,7 +718,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     A->>B: BYE
     B->>A: 200 OK`,
 		caption:
-			'**[[sip|SIP]]** = Session Initiation Protocol. The {{signaling|signaling}} that sets up VoIP calls — sounds like HTTP, looks like email addresses (`sip:bob@example.com`). Once a call is established, the actual audio/video flows separately over **[[rtp|RTP]]** ([[rfc:3261|RFC 3261]]).',
+			'**[[sip|SIP]]** = Session Initiation Protocol. The {{signaling|signaling}} that sets up {{voip|VoIP}} calls — sounds like HTTP, looks like email addresses (`sip:bob@example.com`). Once a call is established, the actual audio/video flows separately over **[[rtp|RTP]]** ([[rfc:3261|RFC 3261]]).',
 		steps: {
 			0: '**REGISTER** maps a SIP address (`bob@example.com`) to the device\'s current IP. The registrar is how the proxy knows where to ring Bob.',
 			2: '**INVITE** is the call request. Body carries an **SDP offer** describing what audio/video the caller can send.',
@@ -745,7 +745,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     Note over P: {{bandwidth|Bandwidth}} dropping...
     P->>S: GET 720p/segment_003.ts
     S->>P: Segment data (smaller)
-    Note over S,P: Quality adapts to available bandwidth`,
+    Note over S,P: Quality adapts to available {{bandwidth|bandwidth}}`,
 		caption:
 			'**[[hls|HLS]]** = HTTP Live Streaming (Apple). Video is pre-chopped into ~6-second `.ts` segments at multiple quality levels; the player picks a level per segment based on {{bandwidth|bandwidth}} — **adaptive bitrate** over plain HTTP ([[rfc:8216|RFC 8216]]).',
 		steps: {
@@ -762,7 +762,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
 		definition: `sequenceDiagram
     participant E as Encoder (OBS)
     participant S as [[rtmp|RTMP]] Server
-    Note over E,S: [[tcp|TCP]] + RTMP {{handshake|handshake}}
+    Note over E,S: [[tcp|TCP]] + [[rtmp|RTMP]] {{handshake|handshake}}
     E->>S: C0/C1 (version + timestamp)
     S->>E: S0/S1/S2 (version + timestamp)
     E->>S: C2 (echo)
@@ -793,12 +793,12 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
 
 	sdp: {
 		definition: `sequenceDiagram
-    participant A as Peer A
+    participant A as {{peer|Peer}} A
     participant Sig as {{signaling|Signaling}}
     participant B as Peer B
     A->>A: Create [[sdp|SDP]] offer
     Note over A: v=0, m=audio/video, codecs, ICE
-    A->>Sig: Send SDP offer
+    A->>Sig: Send [[sdp|SDP]] offer
     Sig->>B: Forward SDP offer
     B->>B: Parse offer, select codecs
     B->>B: Create SDP answer
@@ -807,7 +807,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     Sig->>A: Forward SDP answer
     Note over A,B: Both sides agree on parameters
     A->>B: Media streams ([[rtp|RTP]]) begin
-    B->>A: Media streams (RTP) begin
+    B->>A: Media streams ([[rtp|RTP]]) begin
     Note over A,B: SDP negotiated codecs, ports, {{encryption|encryption}}`,
 		caption:
 			'**[[sdp|SDP]]** = Session Description Protocol. A plain-text format that describes a media session — codecs, ports, IPs, {{encryption|encryption}} keys. Used inside [[sip|SIP]] and [[webrtc|WebRTC]] to negotiate *what\'s about to be streamed* ([[rfc:8866|RFC 8866]]).',
@@ -833,7 +833,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     Note over P: {{bandwidth|Bandwidth}} drops...
     P->>S: GET segment_003.m4s (720p)
     S->>P: Segment data (smaller)
-    Note over P: Bandwidth recovers
+    Note over P: {{bandwidth|Bandwidth}} recovers
     P->>S: GET segment_004.m4s (1080p)
     S->>P: Segment data
     Note over S,P: Adaptive bitrate — seamless quality switching`,
@@ -914,7 +914,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     Note over C,S: Key {{exchange|exchange}} (Diffie-Hellman)
     C->>S: KEX_INIT (algorithms list)
     S->>C: KEX_INIT (algorithms list)
-    C->>S: DH key exchange
+    C->>S: DH key {{exchange|exchange}}
     S->>C: DH reply + host key
     Note over C: Verify server fingerprint
     C->>S: Auth request (publickey)
@@ -944,7 +944,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     D->>S: REQUEST 192.168.1.42 ("I'll take it")
     S->>D: ACK (IP + gateway + [[dns|DNS]] + {{subnet|subnet}})
     Note over D,S: Device configured — ready to communicate
-    Note over D,S: Lease renewal at 50% expiry (12h mark)`,
+    Note over D,S: {{lease|Lease}} renewal at 50% expiry (12h mark)`,
 		caption:
 			'**[[dhcp|DHCP]]** = Dynamic Host Configuration Protocol. Plug a device into a network, it gets an {{ip-address|IP address}}, gateway, [[dns|DNS]], and {{subnet|subnet}} mask without manual config. The four messages spell **DORA**: Discover, Offer, Request, Ack ([[rfc:2131|RFC 2131]]).',
 		steps: {
@@ -962,7 +962,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     participant C as Client
     participant S as [[ntp|NTP]] Server
     Note over C: Clock may have drifted
-    C->>S: NTP Request (T1=send time)
+    C->>S: [[ntp|NTP]] Request (T1=send time)
     Note over S: T2=receive, T3=reply time
     S->>C: NTP Response (T1, T2, T3)
     Note over C: T4=receive time
@@ -1131,8 +1131,8 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     participant SW as Switch
     participant B as Host B
     Note over A,B: [[arp|ARP]] resolves IP → MAC first
-    A->>SW: ARP {{broadcast|Broadcast}} (who has 192.168.1.50?)
-    SW->>B: ARP Broadcast (flooded to all ports)
+    A->>SW: [[arp|ARP]] {{broadcast|Broadcast}} (who has 192.168.1.50?)
+    SW->>B: ARP {{broadcast|Broadcast}} (flooded to all ports)
     B->>SW: ARP Reply (I'm 00:1B:2C:3D:4E:5F)
     SW->>A: ARP Reply (forwarded, MAC learned)
     Note over SW: MAC table: Port 1→Host A, Port 3→Host B
@@ -1174,8 +1174,8 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     Note over L,S: Encrypted data flow
     L->>AP: [[wifi|802.11]] encrypted data frame
     AP->>S: Bridged to [[ethernet|Ethernet]] frame
-    S->>AP: Ethernet response
-    AP->>L: 802.11 encrypted response`,
+    S->>AP: [[ethernet|Ethernet]] response
+    AP->>L: [[wifi|802.11]] encrypted response`,
 		caption:
 			'**WiFi** = wireless [[ethernet|Ethernet]] (IEEE [[wifi|802.11]]). After discovering the network, the device authenticates and associates, then runs the **WPA2 4-way {{handshake|handshake}}** to derive {{encryption|encryption}} keys. Wireless frames are then bridged to the wired LAN by the **AP** ({{access-point|Access Point}}).',
 		steps: {
@@ -1196,7 +1196,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     participant B as Host B (192.168.1.50)
     Note over A: Need to send IP packet to 192.168.1.50
     Note over A: [[arp|ARP]] cache miss — MAC unknown
-    A->>B: ARP Request ({{broadcast|broadcast}} FF:FF:FF:FF:FF:FF)
+    A->>B: [[arp|ARP]] Request ({{broadcast|broadcast}} FF:FF:FF:FF:FF:FF)
     Note right of A: Who has 192.168.1.50? Tell 192.168.1.100
     Note over B: That's my IP — reply with my MAC
     B->>A: ARP Reply ({{unicast|unicast}} to Host A's MAC)
@@ -1246,7 +1246,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
 	soap: {
 		definition: `sequenceDiagram
     participant C as [[soap|SOAP]] Client
-    participant S as SOAP Service
+    participant S as [[soap|SOAP]] Service
     Note over C,S: {{service-discovery|Service discovery}}
     C->>S: GET /UserService?wsdl
     S->>C: WSDL document (operations, schemas, endpoint)
@@ -1282,7 +1282,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     S->>R: Neighbor Solicitation (ff02::1:ff00:1)
     R->>S: Neighbor Advertisement (MAC: CC:DD:EE:FF:00:01)
     Note over S,D: [[ipv6|IPv6]] packet — fixed 40-byte header
-    S->>R: IPv6 packet (Hop Limit=64, Next Header=[[tcp|TCP]])
+    S->>R: [[ipv6|IPv6]] packet (Hop Limit=64, Next Header=[[tcp|TCP]])
     Note over R: Hop Limit: 64→63 (no {{checksum|checksum}} to recalculate)
     R->>D: Forward (new MACs, same IPs, Hop Limit=63)
     D->>R: Response (IPs swapped, Hop Limit=64)
@@ -1312,7 +1312,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     AS->>A: Redirect: /callback?code=SplxlOBez&state=xYz123
     Note over A: Verify state matches (CSRF protection)
     A->>AS: POST /token (code + code_verifier)
-    Note over AS: Verify PKCE: SHA256(verifier) == challenge
+    Note over AS: Verify {{pkce|PKCE}}: SHA256(verifier) == challenge
     AS->>A: {access_token: "eyJhbG...", refresh_token: "tGzv3J..."}
     A->>API: GET /api/user (Authorization: Bearer eyJhbG...)
     API->>A: {id: 42, name: "Alice", email: "alice@..."}
@@ -1391,12 +1391,12 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     A->>S: Nsmf_PDUSession_CreateSMContext
     S->>P: PFCP Session Est Req (PDR/FAR/QER/URR)
     P->>S: PFCP Session Est Resp
-    S->>A: SM Context (UE IP, DNS)
+    S->>A: SM Context (UE IP, [[dns|DNS]])
     A->>G: NGAP N2 (DRB setup, QFI→DRB mapping)
     G->>U: RRCReconfiguration (DRB up)
-    Note over U,P: N3 GTP-U tunnel live — first user packet flows`,
+    Note over U,P: N3 {{gtp-u|GTP-U}} tunnel live — first user packet flows`,
 		caption:
-			'**[[cellular|Cellular 5G SA]]** initial registration + PDU session establishment. The eight beats every phone walks every time it leaves airplane mode. Every NGAP hop and every GTP-U packet between gNB and UPF is wrapped in [[ipsec|IPsec ESP]] per 3GPP TS 33.501.',
+			'**[[cellular|Cellular 5G SA]]** initial registration + PDU session establishment. The eight beats every phone walks every time it leaves airplane mode. Every NGAP hop and every {{gtp-u|GTP-U}} packet between gNB and UPF is wrapped in [[ipsec|IPsec ESP]] per {{3gpp|3GPP}} TS 33.501.',
 		steps: {
 			0: '**Random Access** — UE chose a cell from SSB measurements, sent a PRACH preamble (Msg1). Base station replied with a Random Access Response (Msg2) carrying timing advance and a temporary identifier (C-RNTI).',
 			2: 'UE sends **RRCSetupRequest** with an establishment cause. Base station responds with **RRCSetup**. UE now has SRB1 (signalling radio bearer) but no security yet.',
@@ -1424,7 +1424,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     N->>L: Announce (PTR + SRV + TXT + A, cache-flush bit set)
     N->>L: Announce #2 (1 s later)
     Note over C: User taps "Find printer"
-    C->>L: PTR Query _ipp._tcp.local (unicast-response bit)
+    C->>L: PTR Query _ipp._tcp.local ({{unicast|unicast}}-response bit)
     N-->>C: PTR Response → Office Printer._ipp._tcp.local
     C->>L: SRV + TXT + A query for that instance
     N-->>C: host=office-printer.local:631, rp=ipp/print, A=192.168.1.42
@@ -1432,7 +1432,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     Note over N: At shutdown
     N->>L: Goodbye (PTR with TTL=0)`,
 		caption:
-			'**[[mdns-dns-sd|mDNS]] + [[mdns-dns-sd|DNS-SD]]** = the [[dns|DNS]] you already know, sent to a link-local multicast group on UDP/5353, with a probe/announce/respond/goodbye lifecycle. [[rfc:6762|RFC 6762]] + [[rfc:6763|RFC 6763]] (2013) — but shipped by [[pioneer:stuart-cheshire|Apple as Bonjour]] in macOS 10.2 (2002).',
+			'**[[mdns-dns-sd|mDNS]] + [[mdns-dns-sd|DNS-SD]]** = the [[dns|DNS]] you already know, sent to a link-local {{multicast|multicast}} group on UDP/5353, with a probe/announce/respond/goodbye lifecycle. [[rfc:6762|RFC 6762]] + [[rfc:6763|RFC 6763]] (2013) — but shipped by [[pioneer:stuart-cheshire|Apple as Bonjour]] in macOS 10.2 (2002).',
 		steps: {
 			0: 'A new printer wants to join the link. It picks a candidate name (`office-printer.local`) and is about to claim it — but first it has to check nobody else already owns it.',
 			1: '**Probe** — three Query messages 250 ms apart. *"Is anyone already using `office-printer.local`?"* If any host responds with a matching record, the prober picks `office-printer-2.local` and starts over.',
@@ -1446,9 +1446,9 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
 
 	wireguard: {
 		definition: `sequenceDiagram
-    participant I as Initiator (peer A)
+    participant I as Initiator ({{peer|peer}} A)
     participant R as Responder (peer B)
-    Note over I,R: Handshake — Noise_IKpsk2, one round trip
+    Note over I,R: {{handshake|Handshake}} — Noise_IKpsk2, one round trip
     I->>R: Handshake Initiation (148 B)
     Note right of I: type=1, ephemeral pub,<br/>encrypted static, TAI64N,<br/>MAC1 + MAC2
     R->>I: Handshake Response (92 B)
@@ -1461,7 +1461,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     R->>I: Handshake Response
     Note over I,R: Fresh keys; old session wiped at REJECT_AFTER_TIME (180 s)`,
 		caption:
-			'**[[wireguard|WireGuard]]** = one round-trip Noise_IKpsk2 handshake → encrypted [[ip|IP]] packets over [[udp|UDP]]. Exactly four message types, exactly one ciphersuite (`Noise_IKpsk2_25519_ChaChaPoly_BLAKE2s`). Designed by [[pioneer:jason-donenfeld|Jason Donenfeld]] (2015–2016), mainlined in Linux 5.6 (29 March 2020).',
+			'**[[wireguard|WireGuard]]** = one round-trip Noise_IKpsk2 {{handshake|handshake}} → encrypted [[ip|IP]] packets over [[udp|UDP]]. Exactly four message types, exactly one ciphersuite (`Noise_IKpsk2_25519_ChaChaPoly_BLAKE2s`). Designed by [[pioneer:jason-donenfeld|Jason Donenfeld]] (2015–2016), mainlined in Linux 5.6 (29 March 2020).',
 		steps: {
 			0: 'Before any traffic flows, each peer already knows the other\'s **32-byte Curve25519 public key**. There is no certificate exchange, no PKI, no negotiation. The public key *is* the identity.',
 			1: '**Handshake Initiation** — 148 bytes. Carries the initiator\'s ephemeral pubkey, an AEAD-encrypted copy of its static pubkey (hides sender identity from passive observers), and a TAI64N timestamp. `MAC1` proves the initiator knows the responder\'s pubkey (anti-amplification). `MAC2` is a cookie under DoS load.',
@@ -1478,16 +1478,16 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     participant I as Initiator (HQ Gateway)
     participant R as Responder (Branch Gateway)
     Note over I,R: IKE_SA_INIT — establish IKE SA
-    I->>R: HDR, SAi1 (proposals), KEi (ML-KEM + ECDH), Ni, NAT_DETECTION_*
+    I->>R: HDR, SAi1 (proposals), KEi ({{ml-kem|ML-KEM}} + ECDH), Ni, NAT_DETECTION_*
     R->>I: HDR, SAr1 (chosen), KEr, Nr, NAT_DETECTION_*, CERT_REQ
-    Note over I,R: IKE_INTERMEDIATE — transfer large PQ keys (RFC 9242)
+    Note over I,R: IKE_INTERMEDIATE — transfer large PQ keys ([[rfc:9242|RFC 9242]])
     I->>R: HDR(IKE-encrypted), KE_ADDITIONAL (FrodoKEM, optional)
     R->>I: HDR(IKE-encrypted), KE_ADDITIONAL response
     Note over I,R: IKE_AUTH — identity + first Child SA
     I->>R: HDR(IKE-encrypted), IDi, CERT, AUTH, SAi2, TSi, TSr, CP(req)
     R->>I: HDR(IKE-encrypted), IDr, CERT, AUTH, SAr2, TSi, TSr, CP(reply)
     Note over I,R: Child SA up — ESP starts flowing
-    I-->>R: ESP (SPI=0xC0FFEE, seq=1, AES-GCM payload)
+    I-->>R: ESP (SPI=0xC0FFEE, seq=1, AES-GCM {{payload|payload}})
     R-->>I: ESP (SPI=0xDEADBEEF, seq=1, AES-GCM payload)
     Note over I,R: CREATE_CHILD_SA — rekey before lifetime
     I->>R: HDR(IKE-encrypted), N(REKEY_SA), SA, Nonces, KE (PFS)
@@ -1517,7 +1517,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     P->>C: ATT MTU Response (negotiated MTU)
     C->>P: SMP Pairing Request (LE Secure Conn)
     P->>C: SMP Pairing Response
-    Note over C,P: ECDH key exchange (Curve P-256)
+    Note over C,P: ECDH key {{exchange|exchange}} (Curve P-256)
     C->>P: LL_ENC_REQ → link encrypted (AES-CCM)
     C->>P: ATT Read by Type Request (HRM characteristic)
     P->>C: ATT Read Response (value)
@@ -1525,7 +1525,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     P-->>C: ATT Notify (HR=72 bpm)
     P-->>C: ATT Notify (HR=73 bpm) every 1s`,
 		caption:
-			'**[[bluetooth|BLE]]** = Bluetooth Low Energy. Advertising → connection → pairing → GATT — the same flow for every fitness tracker, AirTag, hearing aid, and Matter device commissioning over [[bluetooth|Bluetooth]] (Bluetooth Core Spec 6.0).',
+			'**[[bluetooth|BLE]]** = Bluetooth Low Energy. Advertising → connection → pairing → {{gatt|GATT}} — the same flow for every fitness tracker, AirTag, hearing aid, and {{matter|Matter}} device commissioning over [[bluetooth|Bluetooth]] (Bluetooth Core Spec 6.0).',
 		steps: {
 			0: 'The peripheral spends most of its life **off**. Every advertising interval (20 ms to 10.24 s, configurable) it wakes, transmits ADV_IND on each of channels 37/38/39, then goes back to sleep — sub-microamp average current.',
 			1: '**ADV_IND** is the most common advertising PDU. The 31-byte payload carries Flags (general-discoverable, BR/EDR-not-supported), a list of 16-bit Service UUIDs (e.g. 0x180D = Heart Rate), and the device local name.',
@@ -1551,7 +1551,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     Note over R1,R2: ExStart — elect Master/Slave
     R2->>R1: DBD (I=1, M=1, MS=1, Seq=X)
     R1->>R2: DBD (I=1, M=1, MS=0, Seq=X)
-    Note over R1,R2: Exchange — swap LSA headers
+    Note over R1,R2: {{exchange|Exchange}} — swap LSA headers
     R2->>R1: DBD (I=0, M=1, MS=1, hdrs)
     R1->>R2: DBD (I=0, M=1, MS=0, hdrs)
     Note over R1,R2: Loading — fetch missing LSAs
@@ -1560,7 +1560,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     R1->>R2: LSAck
     Note over R1,R2: Full — run Dijkstra, install routes`,
 		caption:
-			'**[[ospf|OSPF]]** = Open Shortest Path First. Two routers walk the eight-state adjacency machine — **Down → Init → 2-Way → ExStart → Exchange → Loading → Full** — synchronise an identical link-state database, then independently run [[pioneer:edsger-dijkstra|Dijkstra]] ([[rfc:2328|RFC 2328]] / STD 54).',
+			'**[[ospf|OSPF]]** = Open Shortest Path First. Two routers walk the eight-state adjacency machine — **Down → Init → 2-Way → ExStart → {{exchange|Exchange}} → Loading → Full** — synchronise an identical link-state database, then independently run [[pioneer:edsger-dijkstra|Dijkstra]] ([[rfc:2328|RFC 2328]] / STD 54).',
 		steps: {
 			0: '**Hello** packets are multicast to `224.0.0.5` ([[ipv6|IPv6]]: `FF02::5`) every 10 s on point-to-point links. They carry the router\'s ID, the neighbours it currently sees, and the HelloInterval / DeadInterval that the other side must match exactly.',
 			1: 'R1 sees the Hello but R2 isn\'t listed in its neighbours field yet — adjacency is **one-way**. State: `Init`.',
@@ -1577,8 +1577,8 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
 	'nat-traversal': {
 		definition: `sequenceDiagram
     participant A as Alice (browser)
-    participant SS as STUN server
-    participant TS as TURN server
+    participant SS as {{stun|STUN}} server
+    participant TS as {{turn|TURN}} server
     participant SG as Signalling
     participant B as Bob (browser)
     Note over A,B: ICE gather — find every possible address
@@ -1586,16 +1586,16 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     SS->>A: XOR-MAPPED-ADDRESS = server-reflexive
     A->>TS: Allocate (long-term credentials)
     TS->>A: XOR-RELAYED-ADDRESS = 203.0.113.5:62000
-    A->>SG: SDP offer + candidates (trickle)
+    A->>SG: [[sdp|SDP]] offer + candidates (trickle)
     SG->>B: Forward to Bob
     Note over A,B: ICE checks — probe every candidate pair
     A->>B: STUN Binding (short-term creds, PRIORITY)
     B->>A: STUN Binding Response
     A->>B: USE-CANDIDATE on winning pair
     Note over A,B: Media flows on the chosen pair
-    A-->>B: SRTP media (every ~15s: consent-freshness ping)`,
+    A-->>B: {{srtp|SRTP}} media (every ~15s: consent-freshness ping)`,
 		caption:
-			'**[[nat-traversal|NAT traversal]]** = the three-protocol stack that lets two browsers behind home routers find each other. **STUN** learns your public address; **TURN** relays when nothing direct works; **ICE** picks the path ([[rfc:8489|RFC 8489]] / [[rfc:8656|RFC 8656]] / [[rfc:8445|RFC 8445]]).',
+			'**[[nat-traversal|NAT traversal]]** = the three-protocol stack that lets two browsers behind home routers find each other. **{{stun|STUN}}** learns your public address; **{{turn|TURN}}** relays when nothing direct works; **ICE** picks the path ([[rfc:8489|RFC 8489]] / [[rfc:8656|RFC 8656]] / [[rfc:8445|RFC 8445]]).',
 		steps: {
 			0: 'Before any check fires, each peer enumerates **every** address it might be reachable on: local LAN interfaces (host), the public address it reaches the world through (server-reflexive via STUN), and a TURN-allocated public relay (relayed).',
 			1: '**STUN Binding Request** — 20-byte header, magic cookie `0x2112A442`, random 96-bit transaction ID, zero attributes. The smallest useful packet on the modern internet.',
@@ -1614,9 +1614,9 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
 		definition: `sequenceDiagram
     participant B as New Bulb (Joiner)
     participant R as Router
-    participant C as Coordinator + Trust Center
+    participant C as Coordinator + {{trust-center|Trust Center}}
     Note over B: Power on — no parent yet
-    B->>R: Beacon Request (MAC Cmd 0x07, broadcast)
+    B->>R: Beacon Request (MAC Cmd 0x07, {{broadcast|broadcast}})
     C->>B: Beacon — PAN=0x1A62, Permit-Join=1
     B->>C: Association Request (Capability=0x8E)
     C->>B: Association Response — short=0x3F4E
@@ -1627,7 +1627,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     C->>B: ZCL OnOff.Toggle (cluster=0x0006, cmd=0x02)
     Note over B: Bulb turns on`,
 		caption:
-			"**[[zigbee|Zigbee]] join** = the beacon → Association → Transport-Key → Device-Announce flow every Hue bulb, Trådfri light, and Aqara sensor runs the first time it pairs. The critical step is the **APS Transport-Key**: the network key is delivered encrypted under the joiner's pre-configured link key — either an **install code** (secure) or the default *ZigBeeAlliance09* (sniffable at join).",
+			"**[[zigbee|Zigbee]] join** = the beacon → Association → Transport-Key → Device-Announce flow every Hue bulb, Trådfri light, and Aqara sensor runs the first time it pairs. The critical step is the **APS Transport-Key**: the network key is delivered encrypted under the joiner's pre-configured link key — either an **{{install-code|install code}}** (secure) or the default *ZigBeeAlliance09* (sniffable at join).",
 		steps: {
 			0: 'The new bulb has no parent. It broadcasts a **Beacon Request** (MAC Cmd 0x07) on the chosen channel. Pick 15, 20, 25, or 26 to avoid [[wifi|Wi-Fi]] channels 1/6/11.',
 			1: 'Every router and the Coordinator that permits joining replies with a **Beacon** advertising the PAN ID, the Coordinator short address (0x0000), Stack Profile (Zigbee PRO), and the Permit-Joining flag. The joiner picks by RSSI + LQI + capability.',
@@ -1645,16 +1645,16 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     participant A as Anchor (Responder)
     Note over P,A: BLE bootstrap
     A->>P: BLE ADV_NONCONN_IND (service UUID)
-    P->>A: BLE GATT pairing + PAKE auth
+    P->>A: BLE {{gatt|GATT}} pairing + PAKE auth
     P->>A: BLE: STS_KEY transport + ranging schedule
-    Note over P,A: UWB DS-TWR — Ch 9, 7987.2 MHz, BPRF, 6.81 Mbps
+    Note over P,A: [[uwb|UWB]] DS-TWR — Ch 9, 7987.2 MHz, BPRF, 6.81 Mbps
     P->>A: UWB Poll — RFRAME with STS (t1)
     A->>P: UWB Response — STS (t2, t3)
     P->>A: UWB Final — STS (t1, t4, t5)
     Note over A: Compute ToF via DS-TWR cross-product<br/>distance ≈ 1.41 m
     A->>P: BLE: distance + bearing → Unlock`,
 		caption:
-			"**[[uwb|UWB]] DS-TWR** = the secure ranging flow under AirTag Precision Finding, BMW Digital Key, and Aliro hands-free unlock. [[bluetooth|BLE]] does the bootstrap (auth + STS_KEY transport); UWB does the three-message ranging exchange; the cross-product cancels clock drift; **STS** is the AES-CTR-generated pulse pattern that makes the distance measurement unforgeable.",
+			"**[[uwb|UWB]] DS-TWR** = the secure ranging flow under AirTag Precision Finding, BMW Digital Key, and {{aliro|Aliro}} hands-free unlock. [[bluetooth|BLE]] does the bootstrap (auth + STS_KEY transport); [[uwb|UWB]] does the three-message ranging {{exchange|exchange}}; the cross-product cancels clock drift; **STS** is the AES-CTR-generated pulse pattern that makes the distance measurement unforgeable.",
 		steps: {
 			0: 'Every consumer UWB session starts on [[bluetooth|BLE]]. The anchor advertises its service UUID; the phone discovers it. UWB is not yet powered — saves battery.',
 			1: 'BLE GATT pairing + application-specific authentication. **SPAKE2+/PAKE** for {{ccc-digital-key|CCC Digital Key}}; Apple\'s proprietary handshake for Find My; ECDSA mutual auth for {{aliro|Aliro 1.0}}.',
@@ -1678,7 +1678,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     Note over T,P: ISO 14443-4 negotiated
     T->>P: RATS 0xE0 0x80
     P->>T: ATS (FSCI=5, FWI=3)
-    T->>P: SELECT PPSE 2PAY.SYS.DDF01
+    T->>P: SELECT {{ppse|PPSE}} 2PAY.SYS.DDF01
     P->>T: FCI (Mastercard AID A0000000041010)
     T->>P: SELECT AID A0000000041010
     P->>T: FCI + PDOL
@@ -1690,7 +1690,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     P->>T: ARQC + ATC + IAD
     Note over T,P: Terminal → acquirer → issuer → ARPC: APPROVED`,
 		caption:
-			"**[[nfc|NFC]]** = Near Field Communication. The same nine beats — anti-collision → RATS/ATS → SELECT PPSE → SELECT AID → GPO → READ RECORD → GENERATE AC — that every Apple Pay, Google Wallet, transit gate, and plastic contactless card runs through in under half a second (ISO/IEC 14443 + ISO/IEC 7816-4 + EMVCo Contactless Book C-2).",
+			"**[[nfc|NFC]]** = Near Field Communication. The same nine beats — anti-collision → RATS/ATS → SELECT {{ppse|PPSE}} → SELECT AID → GPO → READ RECORD → GENERATE AC — that every Apple Pay, Google Wallet, {{transit|transit}} gate, and plastic contactless card runs through in under half a second (ISO/IEC 14443 + ISO/IEC 7816-4 + EMVCo Contactless Book C-2).",
 		steps: {
 			0: 'The terminal energises the **13.56 MHz** magnetic carrier continuously. When the phone is within ~4 cm, the {{ese|eSE}} harvests power inductively and wakes — no battery contribution needed.',
 			1: '**REQA** = `0x26`, a 7-bit short frame. Any IDLE Type A PICC in the field transitions to READY.',

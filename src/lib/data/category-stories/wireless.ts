@@ -10,11 +10,11 @@ export const wirelessStory: CategoryStory = {
 			title: 'When the Air Became a Wire',
 			text: `Wired networking is a problem with a known solution: run a copper or fibre line, agree on a frame format, and you're done. Wireless networking is a problem with no clean solution — the medium is shared, every transmission reaches every receiver in range, and the laws of physics actively conspire against you. Echoes, fading, hidden terminals, interference from microwave ovens. Yet wireless is what makes the modern internet feel personal: you don't carry a Cat-6 cable in your pocket.
 
-Two technologies broke through. **[[wifi|Wi-Fi]]** (IEEE 802.11, 1997) took [[ethernet|Ethernet]]'s shared-medium model — CSMA/CD on coax — and adapted it for radio: CSMA/CA (Collision *Avoidance*, because radios can't detect collisions while transmitting), RTS/CTS handshakes for hidden terminals, encryption built in because the air can't be physically secured. Today it carries most consumer traffic.
+Two technologies broke through. **[[wifi|Wi-Fi]]** (IEEE [[wifi|802.11]], 1997) took [[ethernet|Ethernet]]'s shared-medium model — CSMA/CD on coax — and adapted it for radio: {{csma-ca|CSMA/CA}} (Collision *Avoidance*, because radios can't detect collisions while transmitting), RTS/CTS handshakes for hidden terminals, {{encryption|encryption}} built in because the air can't be physically secured. Today it carries most consumer traffic.
 
 **[[bluetooth|Bluetooth]]** (1999) took the *opposite* approach: tiny piconets, frequency-hopping 1,600 times per second to dodge interference, master-slave (now Central/Peripheral) topology, microamp-scale power budgets. Different goals, different design.
 
-And, sitting beside both of them in this category, **[[cellular|Cellular]]** — 4G LTE and 5G NR, the 3GPP family that the rest of the world calls "the phone network." About 9 billion subscriptions in 2026. Where [[wifi|Wi-Fi]] is unlicensed and operated by whoever owns the building and [[bluetooth|Bluetooth]] is a personal-area network you carry in your pocket, [[cellular|cellular]] is **licensed spectrum, carrier-operated, wide-area, mobile** — and architecturally it is one of the largest [[ipsec|IPsec]] + [[http2|HTTP/2]] microservice fabrics on Earth.
+And, sitting beside both of them in this category, **[[cellular|Cellular]]** — 4G LTE and {{5g-nr|5G NR}}, the {{3gpp|3GPP}} family that the rest of the world calls "the phone network." About 9 billion subscriptions in 2026. Where [[wifi|Wi-Fi]] is unlicensed and operated by whoever owns the building and [[bluetooth|Bluetooth]] is a personal-area network you carry in your pocket, [[cellular|cellular]] is **licensed {{spectrum|spectrum}}, carrier-operated, wide-area, mobile** — and architecturally it is one of the largest [[ipsec|IPsec]] + [[http2|HTTP/2]] microservice fabrics on Earth.
 
 Together — Wi-Fi for local broadband, Bluetooth for personal-area, Cellular for wide-area — the three cover every wireless surface from streaming 4K video to a hearing aid sipping power from a coin cell to a phone connecting to a Starlink satellite 600 km overhead.`
 		},
@@ -52,7 +52,7 @@ Together — Wi-Fi for local broadband, Bluetooth for personal-area, Cellular fo
 					title: 'Inventor of Bluetooth',
 					org: 'Ericsson Mobile (Lund) / Plantronics',
 					contribution:
-						"Dutch engineer who designed the [[bluetooth|Bluetooth]] radio at Ericsson Lund in 1994–97. Tasked with replacing the RS-232 cable to a mobile-phone headset; his frequency-hopping piconet design became the foundation of every [[bluetooth|Bluetooth]] chip ever made. European Inventor Award Lifetime Achievement finalist (2015)."
+						"Dutch engineer who designed the [[bluetooth|Bluetooth]] radio at Ericsson Lund in 1994–97. Tasked with replacing the RS-232 cable to a mobile-phone headset; his frequency-hopping {{piconet|piconet}} design became the foundation of every [[bluetooth|Bluetooth]] chip ever made. European Inventor Award Lifetime Achievement finalist (2015)."
 				},
 				{
 					name: 'Sven Mattisson',
@@ -79,7 +79,7 @@ Together — Wi-Fi for local broadband, Bluetooth for personal-area, Cellular fo
 					year: 1971,
 					title: 'ALOHAnet — the conceptual ancestor',
 					description:
-						'Norman Abramson at the University of Hawaii builds ALOHAnet, the first wireless packet network — connecting islands via radio at 9.6 kbps. The "random access" idea (transmit whenever you have data; retransmit on collision) directly inspired [[ethernet|Ethernet]] CSMA/CD and, by extension, [[wifi|Wi-Fi]] CSMA/CA.'
+						'Norman Abramson at the University of Hawaii builds ALOHAnet, the first wireless packet network — connecting islands via radio at 9.6 kbps. The "random access" idea (transmit whenever you have data; retransmit on collision) directly inspired [[ethernet|Ethernet]] CSMA/CD and, by extension, [[wifi|Wi-Fi]] {{csma-ca|CSMA/CA}}.'
 				},
 				{
 					year: 1973,
@@ -127,35 +127,35 @@ Together — Wi-Fi for local broadband, Bluetooth for personal-area, Cellular fo
 					year: 2010,
 					title: 'Bluetooth 4.0 / BLE',
 					description:
-						'[[bluetooth|Bluetooth]] Core 4.0 (December 2009 → 2010 products) adds **Bluetooth Low Energy** (originally Nokia\'s *Wibree*). Different radio, different framing (L2CAP/ATT/GATT) — wearables, beacons, AirTag-class trackers all sit on top of this layer.',
+						'[[bluetooth|Bluetooth]] Core 4.0 (December 2009 → 2010 products) adds **Bluetooth Low Energy** (originally Nokia\'s *Wibree*). Different radio, different framing ({{l2cap|L2CAP}}/ATT/{{gatt|GATT}}) — wearables, beacons, AirTag-class trackers all sit on top of this layer.',
 					protocolId: 'bluetooth'
 				},
 				{
 					year: 2020,
 					title: 'Wi-Fi 6 (802.11ax) — efficiency era',
 					description:
-						'OFDMA, BSS Coloring, Target Wake Time. Not faster per-link — better at hundreds of devices sharing the airwaves. The architecture that finally fits stadium / convention-hall density.',
+						'{{ofdma|OFDMA}}, {{bss-coloring|BSS Coloring}}, {{target-wake-time|Target Wake Time}}. Not faster per-link — better at hundreds of devices sharing the airwaves. The architecture that finally fits stadium / convention-hall density.',
 					protocolId: 'wifi'
 				},
 				{
 					year: 2008,
 					title: '4G LTE Release 8 frozen — OFDMA arrives',
 					description:
-						"3GPP freezes Release 8 in December 2008. **Long Term Evolution** abandons WCDMA's spreading codes for an OFDMA + SC-FDMA air interface — the clean-sheet radio design that scales linearly with spectrum width. The architectural substrate every 5G NR design choice is later evolved from.",
+						"{{3gpp|3GPP}} freezes Release 8 in December 2008. **Long Term Evolution** abandons WCDMA's spreading codes for an {{ofdma|OFDMA}} + SC-FDMA air interface — the clean-sheet radio design that scales linearly with {{spectrum|spectrum}} width. The architectural substrate every {{5g-nr|5G NR}} design choice is later evolved from.",
 					protocolId: 'cellular'
 				},
 				{
 					year: 2018,
 					title: '5G NR Release 15 freeze',
 					description:
-						"3GPP Release 15 — the **first 5G NR specification** — is frozen on 14 June 2018. Service-based 5G Core, flexible numerology, mmWave (FR2) support, network slicing. First commercial 5G networks light up in 2019; first 5G-Standalone (no LTE anchor) deployments arrive in 2020–2021.",
+						"{{3gpp|3GPP}} Release 15 — the **first {{5g-nr|5G NR}} specification** — is frozen on 14 June 2018. Service-based 5G Core, flexible numerology, {{mmwave|mmWave}} (FR2) support, network slicing. First commercial 5G networks light up in 2019; first 5G-Standalone (no LTE anchor) deployments arrive in 2020–2021.",
 					protocolId: 'cellular'
 				},
 				{
 					year: 2024,
 					title: 'Bluetooth 6.0 — Channel Sounding',
 					description:
-						'Adopted 3 September 2024. Phase-based + RTT distance measurement on a new LE 2M 2BT PHY — centimetre-class accuracy up to ~150 m. The protocol-level answer to UWB for digital keys, anti-stalking, and finder applications.',
+						'Adopted 3 September 2024. Phase-based + RTT distance measurement on a new LE 2M 2BT PHY — centimetre-class accuracy up to ~150 m. The protocol-level answer to [[uwb|UWB]] for digital keys, anti-stalking, and finder applications.',
 					protocolId: 'bluetooth'
 				},
 				{
@@ -169,7 +169,7 @@ Together — Wi-Fi for local broadband, Bluetooth for personal-area, Cellular fo
 					year: 2026,
 					title: 'Frankfurt Airport — first Auracast deployment',
 					description:
-						'On 28 January 2026 Frankfurt Airport became the first airport to broadcast all gate announcements over **Auracast** — LC3-based one-to-many LE Audio. The first real-world replacement for analog hearing loops.',
+						'On 28 January 2026 Frankfurt Airport became the first airport to {{broadcast|broadcast}} all gate announcements over **{{auracast|Auracast}}** — LC3-based one-to-many {{le-audio|LE Audio}}. The first real-world replacement for analog hearing loops.',
 					protocolId: 'bluetooth'
 				},
 				{
@@ -184,17 +184,17 @@ Together — Wi-Fi for local broadband, Bluetooth for personal-area, Cellular fo
 		{
 			type: 'callout',
 			title: 'Definitive members list (ranked by deployment priority)',
-			text: `Three are already in this category, four more are queued for the next research wave:\n\n1. **Wi-Fi** (802.11) — universal local broadband. *Shipped.*\n2. **Bluetooth** (BR/EDR + BLE) — personal-area + IoT commissioning. *Shipped.*\n3. **Cellular** (4G LTE + 5G NR) — wide-area, licensed, mobile. ~9B subs. *Shipped.*\n4. **NFC** (ISO/IEC 18092) — contactless payment + transit cards. *Queued.*\n5. **UWB** (IEEE 802.15.4z) — sub-decimetre ranging, AirTag Precision Finding, CCC Digital Key. *Queued.*\n6. **Thread** (IEEE 802.15.4 + 6LoWPAN) — the IPv6-native smart-home mesh under Matter. *Coming with Matter+Thread bundle.*\n7. **LoRaWAN** — sub-GHz LPWAN for metering, agriculture, smart cities; 125M+ devices deployed by end-2025. *Queued.*\n8. **Zigbee** (CSA) — the legacy mesh that still runs the Philips Hue installed base. *Queued.*\n\n**Sidebars** rather than full pages: NB-IoT / LTE-M (inside the Cellular page), Z-Wave (inside Zigbee/Thread), GNSS / NMEA 0183 (positioning, not a network). **Callouts only**: DECT NR+, WirelessHART/ISA100.11a, broadcast (AM/FM/DAB+/ATSC 3.0), passive RFID, IrDA.`
+			text: `Three are already in this category, four more are queued for the next research wave:\n\n1. **Wi-Fi** ([[wifi|802.11]]) — universal local broadband. *Shipped.*\n2. **Bluetooth** (BR/EDR + BLE) — personal-area + IoT commissioning. *Shipped.*\n3. **Cellular** (4G LTE + {{5g-nr|5G NR}}) — wide-area, licensed, mobile. ~9B subs. *Shipped.*\n4. **[[nfc|NFC]]** (ISO/IEC 18092) — contactless payment + {{transit|transit}} cards. *Queued.*\n5. **[[uwb|UWB]]** (IEEE 802.15.4z) — sub-decimetre ranging, AirTag Precision Finding, {{ccc-digital-key|CCC Digital Key}}. *Queued.*\n6. **{{thread|Thread}}** ({{ieee-802-15-4|IEEE 802.15.4}} + 6LoWPAN) — the IPv6-native smart-home mesh under {{matter|Matter}}. *Coming with Matter+Thread bundle.*\n7. **LoRaWAN** — sub-GHz {{lpwan|LPWAN}} for metering, agriculture, smart cities; 125M+ devices deployed by end-2025. *Queued.*\n8. **Zigbee** (CSA) — the legacy mesh that still runs the Philips Hue installed base. *Queued.*\n\n**Sidebars** rather than full pages: NB-IoT / LTE-M (inside the Cellular page), Z-Wave (inside Zigbee/Thread), GNSS / NMEA 0183 (positioning, not a network). **Callouts only**: DECT NR+, WirelessHART/ISA100.11a, {{broadcast|broadcast}} (AM/FM/DAB+/ATSC 3.0), passive {{rfid|RFID}}, IrDA.`
 		},
 		{
 			type: 'callout',
 			title: 'Spectrum at a glance',
-			text: `Every wireless protocol picks a band, and the band picks the trade-offs:\n\n- **Sub-GHz (433/868/915 MHz)** — long range, low data rate. Unlicensed in most regions. *LoRaWAN, Sigfox, Z-Wave, NB-IoT in 700 MHz.*\n- **2.4 GHz ISM** — global, unlicensed, crowded. *Wi-Fi b/g/n/ax, Bluetooth BR/EDR + BLE, Zigbee, Thread, microwave-oven leakage, baby monitors.* Modern combo chips (Apple H-series, Broadcom, Qualcomm) do time-division arbitration to keep them all alive on one antenna.\n- **5 GHz / 6 GHz** — fast, less crowded. *Wi-Fi a/n/ac/ax/be (6E and 7).* The 6 GHz expansion in the US (FCC 2020) and EU (CEPT 2021) added 1200 MHz of unlicensed spectrum — the biggest single bandwidth grant in 20 years.\n- **24–52 GHz mmWave** — line-of-sight, gigabits. *Wi-Fi WiGig, 5G NR FR2.* Loses 20 dB on a wet leaf; deployed mostly in stadiums and dense urban hotspots.\n- **Licensed cellular (600 MHz – 3.7 GHz mid-band)** — predictable QoS, carrier-operated. *4G LTE FR1, 5G NR FR1.* Spectrum auctioned for billions.\n- **UWB (6–8.5 GHz)** — wide bandwidth, ultra-low power, sub-decimetre ranging. *FiRa Consortium, IEEE 802.15.4z.*\n- **Satellite L/S/Ka band** — global coverage. *Starlink Direct-to-Cell on n25/n26, AST SpaceMobile, Apple Globalstar Emergency SOS.*`
+			text: `Every wireless protocol picks a band, and the band picks the trade-offs:\n\n- **Sub-GHz (433/868/915 MHz)** — long range, low data rate. Unlicensed in most regions. *LoRaWAN, Sigfox, Z-Wave, NB-IoT in 700 MHz.*\n- **2.4 GHz ISM** — global, unlicensed, crowded. *Wi-Fi b/g/n/ax, Bluetooth BR/EDR + BLE, Zigbee, {{thread|Thread}}, microwave-oven leakage, baby monitors.* Modern combo chips (Apple H-series, Broadcom, Qualcomm) do time-division arbitration to keep them all alive on one antenna.\n- **5 GHz / 6 GHz** — fast, less crowded. *Wi-Fi a/n/ac/ax/be (6E and 7).* The 6 GHz expansion in the US (FCC 2020) and EU (CEPT 2021) added 1200 MHz of unlicensed {{spectrum|spectrum}} — the biggest single {{bandwidth|bandwidth}} grant in 20 years.\n- **24–52 GHz {{mmwave|mmWave}}** — line-of-sight, gigabits. *Wi-Fi WiGig, {{5g-nr|5G NR}} FR2.* Loses 20 dB on a wet leaf; deployed mostly in stadiums and dense urban hotspots.\n- **Licensed cellular (600 MHz – 3.7 GHz mid-band)** — predictable QoS, carrier-operated. *4G LTE FR1, 5G NR FR1.* Spectrum auctioned for billions.\n- **[[uwb|UWB]] (6–8.5 GHz)** — wide bandwidth, ultra-low power, sub-decimetre ranging. *{{fira|FiRa Consortium}}, IEEE 802.15.4z.*\n- **Satellite L/S/Ka band** — global coverage. *Starlink {{direct-to-cell|Direct-to-Cell}} on n25/n26, AST SpaceMobile, Apple Globalstar Emergency SOS.*`
 		},
 		{
 			type: 'narrative',
 			title: 'Cutting the Cord — How Wi-Fi Works',
-			text: `[[wifi|Wi-Fi]] brought [[ethernet|Ethernet]]'s shared-medium model to the airwaves, but radio introduced challenges that cables never had. The wireless medium is shared — you can't run a dedicated cable to each device — so [[wifi|Wi-Fi]] uses **CSMA/CA** (Collision *Avoidance*) instead of CSMA/CD: devices announce intent to transmit and wait for clear airtime rather than detecting collisions after the fact.
+			text: `[[wifi|Wi-Fi]] brought [[ethernet|Ethernet]]'s shared-medium model to the airwaves, but radio introduced challenges that cables never had. The wireless medium is shared — you can't run a dedicated cable to each device — so [[wifi|Wi-Fi]] uses **{{csma-ca|CSMA/CA}}** (Collision *Avoidance*) instead of CSMA/CD: devices announce intent to transmit and wait for clear {{airtime|airtime}} rather than detecting collisions after the fact.
 
 An [[wifi|802.11]] frame carries three or four MAC addresses (receiver, transmitter, destination, and sometimes source) compared to [[ethernet|Ethernet]]'s two. The {{access-point|access point}} bridges between worlds: it receives encrypted [[wifi|Wi-Fi]] frames from wireless clients, decrypts and strips the [[wifi|802.11]] header, then wraps the {{payload|payload}} in a standard [[ethernet|Ethernet]] frame for the wired network. This seamless bridging is why your laptop doesn't care whether it's plugged in or on [[wifi|Wi-Fi]] — [[ip|IP]] works the same either way.`
 		},
@@ -202,15 +202,15 @@ An [[wifi|802.11]] frame carries three or four MAC addresses (receiver, transmit
 			type: 'diagram',
 			title: 'Wired vs Wireless — Ethernet and Wi-Fi Frame Comparison',
 			definition: `graph TD
-  subgraph EthFrame["Ethernet Frame (Layer 2 — Wired)"]
+  subgraph EthFrame["[[ethernet|Ethernet]] Frame (Layer 2 — Wired)"]
     E1["Dst MAC — 6 bytes"]
     E2["Src MAC — 6 bytes"]
     E3["EtherType — 2 bytes"]
-    E4["Payload — 46-1500 bytes"]
+    E4["{{payload|Payload}} — 46-1500 bytes"]
     E5["FCS — 4 bytes"]
     E1 --- E2 --- E3 --- E4 --- E5
   end
-  subgraph WiFiFrame["802.11 Frame (Layer 2 — Wireless)"]
+  subgraph WiFiFrame["[[wifi|802.11]] Frame (Layer 2 — Wireless)"]
     W1["Frame Control — 2 bytes"]
     W2["Duration — 2 bytes"]
     W3["Addr 1: Receiver — 6 bytes"]
@@ -228,16 +228,16 @@ An [[wifi|802.11]] frame carries three or four MAC addresses (receiver, transmit
 		{
 			type: 'narrative',
 			title: 'Bluetooth — Personal Area, Personal Power Budget',
-			text: `Where [[wifi|Wi-Fi]] reaches across rooms at hundreds of megabits, [[bluetooth|Bluetooth]] is *personal*. Its design lives within 10 metres and microamps. **BR/EDR** ("Classic") hops 1,600 times per second across 79 × 1 MHz channels in the 2.4 GHz ISM band, dodging interference from microwave ovens and Wi-Fi by design — the cost is a slightly chaotic radio that's hard to capture cleanly. It still carries the A2DP audio in every set of wireless headphones.
+			text: `Where [[wifi|Wi-Fi]] reaches across rooms at hundreds of megabits, [[bluetooth|Bluetooth]] is *personal*. Its design lives within 10 metres and microamps. **BR/EDR** ("Classic") hops 1,600 times per second across 79 × 1 MHz channels in the 2.4 GHz {{ism-band|ISM band}}, dodging interference from microwave ovens and Wi-Fi by design — the cost is a slightly chaotic radio that's hard to capture cleanly. It still carries the A2DP audio in every set of wireless headphones.
 
-**Bluetooth Low Energy** is a completely different radio bolted onto the same brand. 40 × 2 MHz channels, three primary advertising channels (37/38/39) chosen specifically to avoid [[wifi|Wi-Fi]] channels 1/6/11, GFSK-only modulation, attribute-protocol GATT layered on L2CAP. The 2010 redesign that makes AirPods last six hours, AirTags last a year, and hearing aids last a week per battery. The two stacks share no bits over the air — a dual-mode chip runs both side by side.
+**Bluetooth Low Energy** is a completely different radio bolted onto the same brand. 40 × 2 MHz channels, three primary advertising channels (37/38/39) chosen specifically to avoid [[wifi|Wi-Fi]] channels 1/6/11, GFSK-only modulation, attribute-protocol {{gatt|GATT}} layered on {{l2cap|L2CAP}}. The 2010 redesign that makes AirPods last six hours, AirTags last a year, and hearing aids last a week per battery. The two stacks share no bits over the air — a dual-mode chip runs both side by side.
 
-The future of [[bluetooth|Bluetooth]] in 2026 is **Channel Sounding** (centimetre-class distance ranging for digital car keys and anti-stalking) and **Auracast** (broadcast LE Audio replacing analog hearing loops). Both shipped in the last 24 months. The 1994 cable-replacement project is now load-bearing for keyless entry, hearing accessibility, and the smart-home commissioning bootstrap that hands Wi-Fi credentials to every new IoT device.`
+The future of [[bluetooth|Bluetooth]] in 2026 is **{{channel-sounding|Channel Sounding}}** (centimetre-class distance ranging for digital car keys and anti-stalking) and **{{auracast|Auracast}}** ({{broadcast|broadcast}} {{le-audio|LE Audio}} replacing analog hearing loops). Both shipped in the last 24 months. The 1994 cable-replacement project is now load-bearing for keyless entry, hearing accessibility, and the smart-home commissioning bootstrap that hands Wi-Fi credentials to every new IoT device.`
 		},
 		{
 			type: 'callout',
 			title: 'Why are Wi-Fi and Bluetooth on the same band?',
-			text: 'Both [[wifi|Wi-Fi]] and [[bluetooth|Bluetooth]] live in the 2.4 GHz **ISM (Industrial, Scientific, Medical)** band — globally unlicensed, free for any device to transmit on. The crowding is real: a microwave oven leaks 2.4 GHz energy strong enough to mute nearby [[bluetooth|Bluetooth]] earbuds. Modern coexistence in combo chips (e.g. Broadcom, Qualcomm, Apple H1/H2) uses **time-division arbitration** at the silicon level — [[bluetooth|Bluetooth]] gives up airtime when [[wifi|Wi-Fi]] needs it, and vice versa. [[wifi|Wi-Fi]] 6E and 7 escape to 6 GHz; [[bluetooth|Bluetooth]] does not — it stays at 2.4 GHz where every consumer device with a battery already lives.'
+			text: 'Both [[wifi|Wi-Fi]] and [[bluetooth|Bluetooth]] live in the 2.4 GHz **ISM (Industrial, Scientific, Medical)** band — globally unlicensed, free for any device to transmit on. The crowding is real: a microwave oven leaks 2.4 GHz energy strong enough to mute nearby [[bluetooth|Bluetooth]] earbuds. Modern coexistence in combo chips (e.g. Broadcom, Qualcomm, Apple H1/H2) uses **time-division arbitration** at the silicon level — [[bluetooth|Bluetooth]] gives up {{airtime|airtime}} when [[wifi|Wi-Fi]] needs it, and vice versa. [[wifi|Wi-Fi]] 6E and 7 escape to 6 GHz; [[bluetooth|Bluetooth]] does not — it stays at 2.4 GHz where every consumer device with a battery already lives.'
 		},
 		{
 			type: 'image',

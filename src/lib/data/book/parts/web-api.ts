@@ -213,7 +213,7 @@ The fix in flight is **in-kernel [[quic|QUIC]]**. Xin Long posted the first ~9,0
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Full_TLS_1.3_Handshake.svg/500px-Full_TLS_1.3_Handshake.svg.png',
 							alt: 'TLS 1.3 full handshake diagram showing ClientHello, ServerHello, certificate, finished messages in one round-trip.',
 							caption:
-								'The **[[tls|TLS]] 1.3** {{handshake|handshake}} — one round-trip ([[rfc:8446|RFC 8446]], 2018), down from two in [[tls|TLS]] 1.2. [[http3|HTTP/3]]\'s headline win is *folding this entire handshake into the [[quic|QUIC]] transport handshake*, achieving **{{one-rtt|1-RTT}}** connection setup for new sessions and **{{zero-rtt|0-RTT}}** for resumption — a flat 1-2 round-trips eliminated from every page load on mobile, where {{latency|latency}}, not {{bandwidth|bandwidth}}, is the bottleneck.',
+								'The **[[tls|TLS]] 1.3** {{handshake|handshake}} — one round-trip ([[rfc:8446|RFC 8446]], 2018), down from two in [[tls|TLS]] 1.2. [[http3|HTTP/3]]\'s headline win is *folding this entire {{handshake|handshake}} into the [[quic|QUIC]] transport handshake*, achieving **{{one-rtt|1-RTT}}** connection setup for new sessions and **{{zero-rtt|0-RTT}}** for resumption — a flat 1-2 round-trips eliminated from every page load on mobile, where {{latency|latency}}, not {{bandwidth|bandwidth}}, is the bottleneck.',
 							credit: 'Image: Wikimedia Commons / CC0'
 						}
 					]
@@ -340,7 +340,7 @@ Active 2024-2026 work in the [[grpc|gRPC]] working group includes: native [[http
 							src: 'https://upload.wikimedia.org/wikipedia/commons/1/18/RPC_overview.png',
 							alt: 'RPC overview diagram — client stub, network, server stub, marshalling and unmarshalling parameters.',
 							caption:
-								'The **RPC** model that [[grpc|gRPC]] inherits from a 40-year lineage of Sun RPC / DCE / CORBA / Thrift. The client *stub* serialises arguments, sends them over the network, and pretends to the caller that nothing happened. [[grpc|gRPC]]\'s contribution is **Protocol Buffers** (compact binary schema) + **[[http2|HTTP/2]] streams** as the transport. The model dominates service-to-service traffic inside every large engineering org since ~2019.',
+								'The **RPC** model that [[grpc|gRPC]] inherits from a 40-year lineage of Sun RPC / DCE / CORBA / Thrift. The client *stub* serialises arguments, sends them over the network, and pretends to the caller that nothing happened. [[grpc|gRPC]]\'s contribution is **{{protocol-buffers|Protocol Buffers}}** (compact binary schema) + **[[http2|HTTP/2]] streams** as the transport. The model dominates service-to-service traffic inside every large engineering org since ~2019.',
 							credit: 'Image: Wikimedia Commons / CC BY-SA'
 						}
 					]
@@ -476,7 +476,7 @@ These protocols are recognisably *internet*. They run over [[http3|HTTP/3]] when
 							src: 'https://upload.wikimedia.org/wikipedia/commons/b/b7/IntelligentAgent-Learning.svg',
 							alt: 'Intelligent agent diagram — agent senses environment, learns, and acts.',
 							caption:
-								'The **intelligent agent** abstraction from AI textbooks: sense, learn, act. [[mcp|MCP]] and [[a2a|A2A]] are the protocol-shaped answer to a single architectural question — *what wire format lets a reasoning program reach the world?* MCP handles agent-to-tool; A2A handles agent-to-agent. Both are deliberately boring: [[json-rpc|JSON-RPC 2.0]] + HTTP(S) + [[sse|SSE]] + [[oauth2|OAuth]]. The first genuinely new L7 protocol layer in 15 years.',
+								'The **intelligent agent** abstraction from AI textbooks: sense, learn, act. [[mcp|MCP]] and [[a2a|A2A]] are the protocol-shaped answer to a single architectural question — *what wire format lets a reasoning program reach the world?* [[mcp|MCP]] handles agent-to-tool; [[a2a|A2A]] handles agent-to-agent. Both are deliberately boring: [[json-rpc|JSON-RPC 2.0]] + HTTP(S) + [[sse|SSE]] + [[oauth2|OAuth]]. The first genuinely new L7 protocol layer in 15 years.',
 							credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 						}
 					]

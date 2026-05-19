@@ -8,8 +8,8 @@ export const sip: Protocol = {
 	port: 5060,
 	year: 1999,
 	rfc: 'RFC 3261',
-	oneLiner: 'The "dialing" protocol for VoIP — establishes, modifies, and tears down calls.',
-	overview: `[[sip|SIP]] is the {{signaling|signaling}} {{protocol|protocol}} that makes VoIP calls happen. It doesn't carry the actual audio or video (that's [[rtp|RTP]]'s job). Instead, [[sip|SIP]] handles the "control plane": inviting someone to a call, ringing, answering, putting on hold, transferring, and hanging up.
+	oneLiner: 'The "dialing" protocol for {{voip|VoIP}} — establishes, modifies, and tears down calls.',
+	overview: `[[sip|SIP]] is the {{signaling|signaling}} {{protocol|protocol}} that makes {{voip|VoIP}} calls happen. It doesn't carry the actual audio or video (that's [[rtp|RTP]]'s job). Instead, [[sip|SIP]] handles the "control plane": inviting someone to a call, ringing, answering, putting on hold, transferring, and hanging up.
 
 [[sip|SIP]]'s design was inspired by [[http1|HTTP]] — it uses text-based {{request-response|request/response}} messages with methods like INVITE, {{ack|ACK}}, BYE, and REGISTER. URIs identify users (sip:alice@example.com). This [[http1|HTTP]]-like design made it easier to implement and debug compared to the ITU's H.323 alternative.
 

@@ -118,7 +118,7 @@ export const realtimeAvStory: CategoryStory = {
 					title: 'SIP Ecosystem Architect',
 					org: 'dynamicsoft / Cisco / Five9',
 					contribution:
-						'Designed critical [[sip|SIP]] infrastructure: STUN, TURN, and ICE for {{nat|NAT}} traversal, plus {{srtp|SRTP}} for encrypting media streams.'
+						'Designed critical [[sip|SIP]] infrastructure: {{stun|STUN}}, {{turn|TURN}}, and ICE for {{nat|NAT}} traversal, plus {{srtp|SRTP}} for encrypting media streams.'
 				}
 			]
 		},
@@ -136,7 +136,7 @@ export const realtimeAvStory: CategoryStory = {
 					year: 2003,
 					title: 'Skype Launches',
 					description:
-						'{{peer-to-peer|Peer-to-peer}} VoIP goes mainstream. Skype proves massive consumer demand for internet voice and video calling.'
+						'{{peer-to-peer|Peer-to-peer}} {{voip|VoIP}} goes mainstream. Skype proves massive consumer demand for internet voice and video calling.'
 				},
 				{
 					year: 2009,
@@ -190,7 +190,7 @@ export const realtimeAvStory: CategoryStory = {
 		{
 			type: 'narrative',
 			title: 'WebRTC \u2014 The Browser Revolution',
-			text: `In 2010, Google made a $68.2 million bet on real-time communication. They acquired Global [[ip|IP]] Solutions (GIPS), a Swedish company whose audio and video codecs powered Skype and dozens of other VoIP applications. Then they did something remarkable: they open-sourced everything and began building it into Chrome.\n\n[[webrtc]] didn't invent new protocols \u2014 it combined existing ones. [[rtp]] for media transport, {{srtp|SRTP}} for {{encryption|encryption}}, ICE/STUN/TURN for {{nat|NAT}} traversal, [[sdp]] for session negotiation, and [[sctp]] for data channels. The genius was packaging all of this into a browser API that any web developer could use. No plugins, no installs, no special servers. Just JavaScript.\n\nJustin Uberti and Harald Alvestrand led the effort, navigating both the {{w3c|W3C}} (for the browser API) and the {{ietf|IETF}} (for the underlying protocols). The result was a platform that powers everything from Google Meet to telehealth appointments.`
+			text: `In 2010, Google made a $68.2 million bet on real-time communication. They acquired Global [[ip|IP]] Solutions (GIPS), a Swedish company whose audio and video codecs powered Skype and dozens of other {{voip|VoIP}} applications. Then they did something remarkable: they open-sourced everything and began building it into Chrome.\n\n[[webrtc]] didn't invent new protocols \u2014 it combined existing ones. [[rtp]] for media transport, {{srtp|SRTP}} for {{encryption|encryption}}, ICE/{{stun|STUN}}/{{turn|TURN}} for {{nat|NAT}} traversal, [[sdp]] for session negotiation, and [[sctp]] for data channels. The genius was packaging all of this into a browser API that any web developer could use. No plugins, no installs, no special servers. Just JavaScript.\n\nJustin Uberti and Harald Alvestrand led the effort, navigating both the {{w3c|W3C}} (for the browser API) and the {{ietf|IETF}} (for the underlying protocols). The result was a platform that powers everything from Google Meet to telehealth appointments.`
 		},
 		{
 			type: 'image',
@@ -203,12 +203,12 @@ export const realtimeAvStory: CategoryStory = {
 		{
 			type: 'diagram',
 			definition: `graph TD
-  A["JavaScript API\n(getUserMedia, RTCPeerConnection)"] --> B[SDP \u2014 session negotiation]
-  A --> C[ICE / STUN / TURN \u2014 NAT traversal]
-  C --> D[DTLS \u2014 key exchange]
-  D --> E[SRTP \u2014 encrypted audio & video]
-  D --> F[SCTP \u2014 data channels]
-  E --> G[UDP]
+  A["JavaScript API\n(getUserMedia, RTCPeerConnection)"] --> B[[[sdp|SDP]] \u2014 session negotiation]
+  A --> C[ICE / {{stun|STUN}} / {{turn|TURN}} \u2014 NAT traversal]
+  C --> D[{{dtls|DTLS}} \u2014 key {{exchange|exchange}}]
+  D --> E[{{srtp|SRTP}} \u2014 encrypted audio & video]
+  D --> F[[[sctp|SCTP]] \u2014 data channels]
+  E --> G[[[udp|UDP]]]
   F --> G`,
 			caption:
 				"[[webrtc|WebRTC]] didn't invent new protocols \u2014 it orchestrated existing ones into a browser API."

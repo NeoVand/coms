@@ -69,7 +69,7 @@ The first six TLDs were **\`.edu, .gov, .com, .mil, .org, .net\`**, with **\`.in
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Example_of_an_iterative_DNS_resolver.svg/500px-Example_of_an_iterative_DNS_resolver.svg.png',
 							alt: 'Iterative DNS resolution diagram — client → recursive resolver → root → TLD → authoritative servers.',
 							caption:
-								'Iterative **[[dns|DNS]]** resolution: client → recursive resolver → root server → TLD server → authoritative server. The same hierarchy [[pioneer:paul-mockapetris|Paul Mockapetris]] designed in **[[rfc:882|RFC 882]]/883 in November 1983** is what powers ~14 trillion queries per day on Google Public DNS alone. The first server was named *Jeeves* and ran on TOPS-20.',
+								'Iterative **[[dns|DNS]]** resolution: client → recursive resolver → root server → TLD server → authoritative server. The same hierarchy [[pioneer:paul-mockapetris|Paul Mockapetris]] designed in **[[rfc:882|RFC 882]]/883 in November 1983** is what powers ~14 trillion queries per day on Google Public [[dns|DNS]] alone. The first server was named *Jeeves* and ran on TOPS-20.',
 							credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 						}
 					]
@@ -141,7 +141,7 @@ Two more historical incidents to name: **goto fail (CVE-2014-1266)** — a dupli
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Digital_certificates_chain_of_trust.png/500px-Digital_certificates_chain_of_trust.png',
 							alt: 'Digital certificate chain of trust diagram — root CA, intermediate CA, end-entity certificate.',
 							caption:
-								'A **[[tls|TLS]] certificate chain of trust**: a root {{certificate-authority|CA}} signs an intermediate CA, which signs the end-entity certificate your browser actually sees. Every HTTPS connection ends at a chain like this; DigiNotar\'s August 2011 compromise (531 fraudulent certs for 344 domains) is what forced **{{certificate-transparency|Certificate Transparency}}** into existence as a structural fix. The current frontier is 47-day cert lifetimes, mandatory by 15 March 2029.',
+								'A **[[tls|TLS]] {{certificate-chain|certificate chain}} of trust**: a root {{certificate-authority|CA}} signs an intermediate CA, which signs the end-entity {{certificate|certificate}} your browser actually sees. Every HTTPS connection ends at a chain like this; DigiNotar\'s August 2011 compromise (531 fraudulent certs for 344 domains) is what forced **{{certificate-transparency|Certificate Transparency}}** into existence as a structural fix. The current frontier is 47-day cert lifetimes, mandatory by 15 March 2029.',
 							credit: 'Image: Wikimedia Commons / CC BY-SA'
 						}
 					]
@@ -215,7 +215,7 @@ The protocol uses **public-key cryptography** for host and user authentication, 
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/Ssh_binary_packet_alt.svg/500px-Ssh_binary_packet_alt.svg.png',
 							alt: 'SSH binary packet format showing length, padding, payload, and MAC fields.',
 							caption:
-								'The **[[ssh|SSH]] binary packet**: 4-byte length, 1-byte padding length, the payload, random padding, and an integrity MAC at the end — all encrypted under the negotiated symmetric cipher. Tatu Ylönen wrote this protocol in **July 1995** after a password sniffer at Helsinki University of Technology; thirty years and one OpenBSD-led fork later, OpenSSH 10.0 (April 2025) ships **post-quantum {{ml-kem|ML-KEM}}-768 + X25519** as the default key {{exchange|exchange}} — the first widely-deployed protocol to ship PQ crypto by default.',
+								'The **[[ssh|SSH]] binary packet**: 4-byte length, 1-byte padding length, the {{payload|payload}}, random padding, and an integrity MAC at the end — all encrypted under the negotiated symmetric cipher. Tatu Ylönen wrote this protocol in **July 1995** after a password sniffer at Helsinki University of Technology; thirty years and one OpenBSD-led fork later, OpenSSH 10.0 (April 2025) ships **post-quantum {{ml-kem|ML-KEM}}-768 + X25519** as the default key {{exchange|exchange}} — the first widely-deployed protocol to ship PQ crypto by default.',
 							credit: 'Image: Wikimedia Commons / CC BY-SA'
 						}
 					]
@@ -362,7 +362,7 @@ Before [[oauth2|OAuth]], an app that wanted access to your Google calendar asked
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Oauth_logo.svg/500px-Oauth_logo.svg.png',
 							alt: 'The OAuth logo — a stylised "O" rendered as a key.',
 							caption:
-								'The **[[oauth2|OAuth]]** logo. The framework was sketched at CitizenSpace in late 2006, [[oauth2|OAuth 2.0]] published as [[rfc:6749|RFC 6749]] in October 2012, [[oauth2|OAuth 2.1]] cleanups currently in draft. Eran Hammer\'s 2012 resignation essay *"OAuth 2.0 and the Road to Hell"* is still the field\'s most-cited critique of any {{ietf|IETF}} standard — and yet OAuth now powers >1.2 billion daily sign-ins through Microsoft Entra ID alone.',
+								'The **[[oauth2|OAuth]]** logo. The framework was sketched at CitizenSpace in late 2006, [[oauth2|OAuth 2.0]] published as [[rfc:6749|RFC 6749]] in October 2012, [[oauth2|OAuth 2.1]] cleanups currently in draft. Eran Hammer\'s 2012 resignation essay *"[[oauth2|OAuth]] 2.0 and the Road to Hell"* is still the field\'s most-cited critique of any {{ietf|IETF}} standard — and yet OAuth now powers >1.2 billion daily sign-ins through Microsoft Entra ID alone.',
 							credit: 'Image: Chris Messina / Wikimedia Commons, public domain'
 						}
 					]
@@ -435,7 +435,7 @@ His "Ten Commandments of How to Write an [[imap|IMAP]] client" still circulates;
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Email.svg/500px-Email.svg.png',
 							alt: 'Email envelope icon — stylised mail handler.',
 							caption:
-								'**Email** — the longest-running application of the internet. Ray Tomlinson at {{bbn|BBN}} picked the **@** sign in 1971 modifying SNDMSG. [[pioneer:jon-postel|Jon Postel]] published [[rfc:5321|RFC 821]] on port 25 in August 1982. Forty-four years later [[smtp|SMTP]] still relays your mail, [[imap|IMAP]] still serves your folders, and **DMARC enforcement** at Google + Yahoo (from 1 February 2024) finally killed the easy spoofed-From address. The protocol is older than [[arpanet|ARPANET]]\'s flag day; the standards work is not done.',
+								'**Email** — the longest-running application of the internet. Ray Tomlinson at {{bbn|BBN}} picked the **@** sign in 1971 modifying SNDMSG. [[pioneer:jon-postel|Jon Postel]] published [[rfc:5321|RFC 821]] on port 25 in August 1982. Forty-four years later [[smtp|SMTP]] still relays your mail, [[imap|IMAP]] still serves your folders, and **DMARC enforcement** at Google + Yahoo (from 1 February 2024) finally killed the easy spoofed-From address. The protocol is older than [[arpanet|ARPANET]]\'s {{flag-day-1983|flag day}}; the standards work is not done.',
 							credit: 'Image: Wikimedia Commons / public domain'
 						}
 					]

@@ -127,7 +127,7 @@ For a self-paced path: read **RFC 1180** (28 pages), then take **CS144**, then r
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/View_of_Stanford_University_campus.JPG/500px-View_of_Stanford_University_campus.JPG',
 							alt: 'View of Stanford University campus.',
 							caption:
-								'**Stanford University** — home of **CS144**, the single most useful networking course on this topic. The labs walk you through implementing a working [[tcp|TCP]]/[[ip|IP]] stack from scratch — your code goes from sending raw [[ip|IP]] datagrams to running a full reliable transport with {{congestion-control|congestion control}}. Materials are public; the labs run on Linux and produce a stack that interoperates with the real internet.',
+								'**Stanford University** — home of **CS144**, the single most useful networking course on this {{topic|topic}}. The labs walk you through implementing a working [[tcp|TCP]]/[[ip|IP]] stack from scratch — your code goes from sending raw [[ip|IP]] datagrams to running a full reliable transport with {{congestion-control|congestion control}}. Materials are public; the labs run on Linux and produce a stack that interoperates with the real internet.',
 							credit: 'Photo: Wikimedia Commons / CC BY-SA'
 						}
 					]
@@ -159,7 +159,7 @@ For a self-paced path: read **RFC 1180** (28 pages), then take **CS144**, then r
 
 **Hacker News networking tag** — for breaking news. Set up a saved search. The discussions are usually more useful than the articles.
 
-**The {{ietf|IETF}} mailing lists themselves** — datatracker.ietf.org. If you want to see protocols being designed in real time, subscribe to a working group whose work interests you. Be ready for high traffic.`
+**The {{ietf|IETF}} mailing lists themselves** — datatracker.{{ietf|ietf}}.org. If you want to see protocols being designed in real time, subscribe to a working group whose work interests you. Be ready for high traffic.`
 						},
 						{
 							type: 'image',
@@ -192,7 +192,7 @@ For a self-paced path: read **RFC 1180** (28 pages), then take **CS144**, then r
 
 **scapy** (Python) — when you need to craft a packet that no normal tool will produce. The standard for protocol research, fuzzing, and unusual diagnostics. Steep learning curve, deep payoff.
 
-**FRRouting** (frrouting.org) — open-source routing stack ([[bgp|BGP]], OSPF, IS-IS, RIP, etc.) that runs on Linux. Used in containerlab simulations and in some production small-scale ISPs.
+**FRRouting** (frrouting.org) — open-source routing stack ([[bgp|BGP]], [[ospf|OSPF]], IS-IS, RIP, etc.) that runs on Linux. Used in containerlab simulations and in some production small-scale ISPs.
 
 **Containerlab** (containerlab.dev) — orchestrates network labs of containerised network operating systems. Spin up a 50-router [[bgp|BGP]] topology in under a minute on your laptop. The standard for hands-on routing learning today.
 

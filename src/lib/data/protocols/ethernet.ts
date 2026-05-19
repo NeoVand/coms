@@ -19,7 +19,7 @@ The evolution from shared media to switched networks was transformative. Hubs ga
 		{
 			title: 'Frame construction',
 			description:
-				'The sender wraps the {{payload|payload}} in an [[ethernet|Ethernet]] {{frame|frame}}: a 7-byte preamble and 1-byte Start Frame Delimiter for clock sync, followed by a 6-byte destination {{mac-address|MAC}}, 6-byte source MAC, 2-byte EtherType (identifying the {{payload|payload}} protocol), the payload itself (46-1500 bytes), and a 4-byte Frame Check Sequence (FCS) for error detection.'
+				'The sender wraps the {{payload|payload}} in an [[ethernet|Ethernet]] {{frame|frame}}: a 7-byte preamble and 1-byte Start Frame Delimiter for clock sync, followed by a 6-byte destination {{mac-address|MAC}}, 6-byte source MAC, 2-byte EtherType (identifying the {{payload|payload}} protocol), the {{payload|payload}} itself (46-1500 bytes), and a 4-byte Frame Check Sequence (FCS) for error detection.'
 		},
 		{
 			title: 'MAC addressing',

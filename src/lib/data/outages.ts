@@ -278,9 +278,9 @@ export const outages: Outage[] = [
 			}
 		],
 		setup:
-			'In 2010 [[bgp|BGP]] still ran on a near-universal trust model. Tier-1 transit providers were expected to filter what their customers announced — many did, many did not, and there was no cryptographic check at the protocol level. Any {{autonomous-system|AS}} could announce any prefix; the network would believe the most-specific advertisement that reached it.',
+			'In 2010 [[bgp|BGP]] still ran on a near-universal trust model. Tier-1 {{transit|transit}} providers were expected to filter what their customers announced — many did, many did not, and there was no cryptographic check at the protocol level. Any {{autonomous-system|AS}} could announce any prefix; the network would believe the most-specific advertisement that reached it.',
 		mistake:
-			'On 8 April 2010 at 15:50 UTC, AS 23724 (China Telecom) announced roughly 50,000 prefixes belonging to other networks — about 15% of the global {{routing-table|routing table}}. The advertisements propagated to several large international transit peers that did not have inbound filters in place.',
+			'On 8 April 2010 at 15:50 UTC, AS 23724 (China Telecom) announced roughly 50,000 prefixes belonging to other networks — about 15% of the global {{routing-table|routing table}}. The advertisements propagated to several large international {{transit|transit}} peers that did not have inbound filters in place.',
 		cascade: [
 			{
 				time: '15:50 UTC',
@@ -293,7 +293,7 @@ export const outages: Outage[] = [
 				time: '15:50–16:08 UTC',
 				title: 'Global propagation',
 				description:
-					'The leaked routes travel through unfiltered transit relationships. For the next ~18 minutes, traffic for the affected prefixes that traverses certain paths is steered through China Telecom infrastructure before being delivered (or, in some cases, dropped).',
+					'The leaked routes travel through unfiltered {{transit|transit}} relationships. For the next ~18 minutes, traffic for the affected prefixes that traverses certain paths is steered through China Telecom infrastructure before being delivered (or, in some cases, dropped).',
 				protocols: ['bgp']
 			},
 			{
@@ -306,7 +306,7 @@ export const outages: Outage[] = [
 		consequence:
 			'For an 18-minute window, a measurable share of internet traffic — including traffic to and from US government and military networks — followed paths that included China Telecom AS 23724. Whether the event was a misconfiguration, a deliberate test, or something else has never been definitively settled. The 2010 US-China Economic and Security Review Commission report made the incident widely known.',
 		resolution:
-			'No technical resolution beyond the withdrawal itself. The structural fix — RPKI Route Origin Authorisations and ROV enforcement at peering points — was already specified but a decade away from broad deployment.',
+			'No technical resolution beyond the withdrawal itself. The structural fix — {{rpki|RPKI}} Route Origin Authorisations and ROV enforcement at {{peering|peering}} points — was already specified but a decade away from broad deployment.',
 		lesson:
 			"Plain [[bgp|BGP]] advertises trust. A single {{autonomous-system|AS}} can globally redirect an arbitrary slice of internet traffic in minutes, with no protocol-level barrier to detection. China Telecom 2010 became one of the most-cited examples in the slow industry case for [[frontier:rpki-rov-50-percent|RPKI/ROV]], which finally crossed 50% of advertised IP space in 2024 — fourteen years later.",
 		sources: [
@@ -347,7 +347,7 @@ export const outages: Outage[] = [
 			{
 				title: 'Senders retransmit on timeout',
 				description:
-					"BSD [[tcp|TCP]]'s retransmission timer fires aggressively when {{ack|ACKs}} are late. Each retransmit adds load to an already-saturated path.",
+					"BSD [[tcp|TCP]]'s {{retransmission|retransmission}} timer fires aggressively when {{ack|ACKs}} are late. Each retransmit adds load to an already-saturated path.",
 				protocols: ['tcp']
 			},
 			{
@@ -365,7 +365,7 @@ export const outages: Outage[] = [
 		consequence:
 			'The first proof that a protocol designed for a small, lightly-loaded research network could fail catastrophically under production load. NSFNET regional links became unusable for hours at a time through October 1986. The internet engineering community accepted that an end-to-end {{congestion-control|congestion-control}} loop was not optional.',
 		resolution:
-			"[[pioneer:van-jacobson|Van Jacobson]] and Mike Karels at Berkeley spent six months instrumenting the wire and reading the BSD source. Their 1988 SIGCOMM paper — *Congestion Avoidance and Control* — introduced six algorithms in one document: **{{slow-start|slow start}}**, **{{aimd|AIMD}} {{congestion-avoidance|congestion avoidance}}**, **fast retransmit**, **fast recovery**, **{{exponential-backoff|exponential RTO backoff}}**, and a refined **{{rtt|RTT}} estimator**. The fixes shipped in 4.3BSD-Tahoe and propagated to every [[tcp|TCP]] stack on earth.",
+			"[[pioneer:van-jacobson|Van Jacobson]] and Mike Karels at Berkeley spent six months instrumenting the wire and reading the BSD source. Their 1988 SIGCOMM paper — *{{congestion-avoidance|Congestion Avoidance}} and Control* — introduced six algorithms in one document: **{{slow-start|slow start}}**, **{{aimd|AIMD}} {{congestion-avoidance|congestion avoidance}}**, **fast retransmit**, **fast recovery**, **{{exponential-backoff|exponential RTO backoff}}**, and a refined **{{rtt|RTT}} estimator**. The fixes shipped in 4.3BSD-Tahoe and propagated to every [[tcp|TCP]] stack on earth.",
 		lesson:
 			"Conservation of packets — put one packet into the network only when an {{ack|ACK}} confirms a previous one has left it — is the load-bearing principle that has held for forty years. Every later {{congestion-control|congestion-control}} algorithm (Reno, NewReno, Vegas, [[rfc:9438|CUBIC]], Compound, {{bbr|BBR}} v1/v2/v3, Prague over [[frontier:l4s-comcast-launch|L4S]]) is a refinement of Jacobson's six.",
 		sources: [
@@ -425,7 +425,7 @@ export const outages: Outage[] = [
 			{
 				title: 'Manual de-peering needed',
 				description:
-					"Level 3 has to ask other tier-1s to de-peer with them temporarily to drain the [[bgp|BGP]]-update queue and let the bad rule be removed."
+					"Level 3 has to ask other tier-1s to de-{{peer|peer}} with them temporarily to drain the [[bgp|BGP]]-update queue and let the bad rule be removed."
 			}
 		],
 		consequence:
@@ -452,19 +452,19 @@ export const outages: Outage[] = [
 		duration: '~15 hours',
 		scale: '12+ million Canadians lost wireless, wireline, internet, and Interac debit-card service',
 		oneLiner:
-			"A maintenance change to [[bgp|BGP]] route policy in the [[ip|IP]] core inadvertently allowed a full [[bgp|BGP]] table redistribution into OSPF — overwhelming the core router CPUs and crashing the entire network.",
+			"A maintenance change to [[bgp|BGP]] route policy in the [[ip|IP]] core inadvertently allowed a full [[bgp|BGP]] table redistribution into [[ospf|OSPF]] — overwhelming the core router CPUs and crashing the entire network.",
 		category: 'configuration',
 		affectedProtocols: ['bgp'],
 		cast: [{ name: 'Rogers Communications (AS 812)', role: 'Operator' }],
 		setup:
-			"Rogers ran one of Canada's three national telecom networks — wireless, wireline, internet, and the Interac point-of-sale debit card system that runs Canadian retail. The [[ip|IP]] core used [[bgp|BGP]] for inter-{{autonomous-system|AS}} routing and OSPF for intra-{{autonomous-system|AS}} routing — the standard separation.",
+			"Rogers ran one of Canada's three national telecom networks — wireless, wireline, internet, and the Interac point-of-sale debit card system that runs Canadian retail. The [[ip|IP]] core used [[bgp|BGP]] for inter-{{autonomous-system|AS}} routing and [[ospf|OSPF]] for intra-{{autonomous-system|AS}} routing — the standard separation.",
 		mistake:
-			"A maintenance change to [[bgp|BGP]] route policy in the [[ip|IP]] core was meant to apply to a small set of routes. A missing filter let the entire [[bgp|BGP]] table — nearly a million prefixes — redistribute into OSPF, the intra-{{autonomous-system|AS}} routing protocol.",
+			"A maintenance change to [[bgp|BGP]] route policy in the [[ip|IP]] core was meant to apply to a small set of routes. A missing filter let the entire [[bgp|BGP]] table — nearly a million prefixes — redistribute into [[ospf|OSPF]], the intra-{{autonomous-system|AS}} routing protocol.",
 		cascade: [
 			{
 				title: 'BGP-into-OSPF flood',
 				description:
-					"OSPF was never designed to carry a million routes. Every core router started flooding link-state updates trying to compute shortest-path trees over routes it shouldn't have known about.",
+					"[[ospf|OSPF]] was never designed to carry a million routes. Every core router started flooding link-state updates trying to compute shortest-path trees over routes it shouldn't have known about.",
 				protocols: ['bgp']
 			},
 			{
@@ -542,7 +542,7 @@ export const outages: Outage[] = [
 			}
 		],
 		consequence:
-			"125M+ devices affected. 92M+ blocked voice calls. 25K+ failed 911 calls. The FCC report reads like every [[bgp|BGP]] outage post-mortem: insufficient peer review, missing controls, unscanned changes.",
+			"125M+ devices affected. 92M+ blocked voice calls. 25K+ failed 911 calls. The FCC report reads like every [[bgp|BGP]] outage post-mortem: insufficient {{peer|peer}} review, missing controls, unscanned changes.",
 		resolution:
 			'Configuration rollback and gradual reconnection of subscribers to avoid signalling overload.',
 		lesson:
@@ -575,7 +575,7 @@ export const outages: Outage[] = [
 		setup:
 			"[[tcp|TCP]] {{sack|Selective Acknowledgment}} ({{sack|SACK}}, [[rfc:2018|RFC 2018]]) lets the receiver tell the sender exactly which non-contiguous byte ranges have arrived. The Linux kernel tracks these as a queue of skb (socket buffer) ranges. The data structure includes a 16-bit gso_segs counter for the segments-in-flight on a single sk_buff.",
 		mistake:
-			"With a small enough {{mss|MSS}} — easily set by a remote peer — a single sk_buff could be split into more than 65,535 GSO segments. The 16-bit counter overflowed. The kernel hit an integer overflow in tcp_skb_cb, triggering a panic.",
+			"With a small enough {{mss|MSS}} — easily set by a remote {{peer|peer}} — a single sk_buff could be split into more than 65,535 GSO segments. The 16-bit counter overflowed. The kernel hit an integer overflow in tcp_skb_cb, triggering a panic.",
 		cascade: [
 			{
 				title: 'Patch crafted',

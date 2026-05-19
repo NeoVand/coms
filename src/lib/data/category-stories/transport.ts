@@ -124,19 +124,19 @@ export const transportStory: CategoryStory = {
 			definition: `graph TD
   subgraph Application Layer
     A1[HTTP]
-    A2[SSH]
-    A3[DNS]
-    A4[RTP]
+    A2[[[ssh|SSH]]]
+    A3[[[dns|DNS]]]
+    A4[[[rtp|RTP]]]
   end
   subgraph Transport Layer
-    B1["TCP \u2014 reliable, ordered"]
-    B2["UDP \u2014 fast, minimal"]
+    B1["[[tcp|TCP]] \u2014 reliable, ordered"]
+    B2["[[udp|UDP]] \u2014 fast, minimal"]
   end
   subgraph Network Layer
     C[IP \u2014 routes packets across networks]
   end
   subgraph Link Layer
-    D[Ethernet / Wi-Fi / Fiber]
+    D[[[ethernet|Ethernet]] / Wi-Fi / Fiber]
   end
   A1 & A2 --> B1
   A3 & A4 --> B2
@@ -159,7 +159,7 @@ export const transportStory: CategoryStory = {
 					year: 2013,
 					title: 'MPTCP Published — RFC 6824',
 					description:
-						'Multipath [[tcp|TCP]] allows a single connection to use multiple network paths simultaneously. Apple deploys it in iOS 7 for Siri, its first major real-world adoption.',
+						'{{multipath|Multipath}} [[tcp|TCP]] allows a single connection to use multiple network paths simultaneously. Apple deploys it in iOS 7 for Siri, its first major real-world adoption.',
 					protocolId: 'mptcp'
 				},
 				{
@@ -225,14 +225,14 @@ export const transportStory: CategoryStory = {
 		{
 			type: 'diagram',
 			definition: `graph TD
-  subgraph Traditional["Traditional TCP"]
+  subgraph Traditional["Traditional [[tcp|TCP]]"]
     T1[Application] --> T2[TCP]
     T2 --> T3{{"Middlebox"}}
     T3 -->|"inspects headers"| T4[Network]
   end
-  subgraph Modern["QUIC Approach"]
+  subgraph Modern["[[quic|QUIC]] Approach"]
     Q1[Application] --> Q2["QUIC — encrypted"]
-    Q2 --> Q3[UDP]
+    Q2 --> Q3[[[udp|UDP]]]
     Q3 --> Q4{{"Middlebox"}}
     Q4 -->|"passes through"| Q5[Network]
   end

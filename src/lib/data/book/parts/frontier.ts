@@ -19,7 +19,7 @@ export const frontier: BookPart = {
 		{
 			id: 'post-quantum',
 			title: 'Post-Quantum TLS',
-			synopsis: 'X25519MLKEM768 default in iOS 26 and Chrome — the first deployed post-quantum [[tls|TLS]] handshake on the public web.',
+			synopsis: 'X25519MLKEM768 default in iOS 26 and Chrome — the first deployed post-quantum [[tls|TLS]] {{handshake|handshake}} on the public web.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -73,7 +73,7 @@ The **47-day-cert cliff**: {{certificate-authority|CA}}/Browser Forum **Ballot S
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Asymmetric_Cryptography.svg/500px-Asymmetric_Cryptography.svg.png',
 							alt: 'Asymmetric cryptography diagram — public key encrypts, private key decrypts.',
 							caption:
-								'**Asymmetric cryptography** — the public-key / private-key dance underneath every [[tls|TLS]] connection. The classical primitives (RSA, ECDH on Curve25519, ECDSA) all break in polynomial time on a useful quantum computer. **NIST published FIPS 203 ({{ml-kem|ML-KEM}}) on 13 August 2024**; by end-2025 **>50% of TLS 1.3 connections to Cloudflare** carried PQ-hybrid X25519MLKEM768 key {{exchange|exchange}}. Within four days of Apple shipping iOS 26 in September 2025, the iPhone PQ share jumped from <2% to 11%.',
+								'**Asymmetric cryptography** — the public-key / private-key dance underneath every [[tls|TLS]] connection. The classical primitives (RSA, ECDH on Curve25519, ECDSA) all break in polynomial time on a useful quantum computer. **NIST published FIPS 203 ({{ml-kem|ML-KEM}}) on 13 August 2024**; by end-2025 **>50% of [[tls|TLS]] 1.3 connections to Cloudflare** carried PQ-hybrid X25519MLKEM768 key {{exchange|exchange}}. Within four days of Apple shipping iOS 26 in September 2025, the iPhone PQ share jumped from <2% to 11%.',
 							credit: 'Image: Wikimedia Commons / public domain'
 						}
 					]
@@ -197,7 +197,7 @@ The 2024 RFC backlog tells the story of where [[ipv6|IPv6]] work is happening:
 
 **Apple iCloud Private Relay** (October 2021 onward) prefers [[ipv6|IPv6]] egress when AAAA exists; pure [[ip|IPv4]]-only enterprise networks frequently break Private Relay — the documented response is per-network opt-out, which is its own forcing function for [[ipv6|IPv6]] deployment in enterprises that want Apple device compatibility.
 
-The "everyone gets this wrong" detail: [[ipv6|IPv6]]'s mandatory-to-implement IPsec requirement was **demoted to optional in [[rfc:6434|RFC 6434]] (2011)** — a frequent source of "but [[ipv6|IPv6]] is encrypted by default!" myth. [[ipv6|IPv6]] is not encrypted by default. The {{encryption|encryption}} story for [[ipv6|IPv6]] is the same as for [[ip|IPv4]]: [[tls|TLS]] at the application layer.`
+The "everyone gets this wrong" detail: [[ipv6|IPv6]]'s mandatory-to-implement [[ipsec|IPsec]] requirement was **demoted to optional in [[rfc:6434|RFC 6434]] (2011)** — a frequent source of "but [[ipv6|IPv6]] is encrypted by default!" myth. [[ipv6|IPv6]] is not encrypted by default. The {{encryption|encryption}} story for [[ipv6|IPv6]] is the same as for [[ip|IPv4]]: [[tls|TLS]] at the application layer.`
 						},
 						{
 							type: 'image',
@@ -304,7 +304,7 @@ The regulatory layer is moving too. **The FCC issued a Notice of Proposed Rulema
 
 The **Ultra [[ethernet|Ethernet]] Consortium** was founded **19 July 2023** under the Linux Foundation by **AMD, Arista, Broadcom, Cisco, Eviden (Atos), HPE, Intel, Meta, and Microsoft**. **NVIDIA joined later** despite its InfiniBand allegiance. By mid-2025: 97+ members.
 
-**UEC Specification 1.0 was published 11 June 2025** — ~560 pages, the first major ground-up rethink of how [[ethernet|Ethernet]] carries RDMA traffic. Defines **Ultra [[ethernet|Ethernet]] Transport (UET)**: packet spraying with multipath, selective {{retransmission|retransmission}}, in-network telemetry-driven {{congestion-control|congestion control}}, optional credit-based {{flow-control|flow control}}, ephemeral/{{connectionless|connectionless}} transport state for millions of endpoints.`
+**UEC Specification 1.0 was published 11 June 2025** — ~560 pages, the first major ground-up rethink of how [[ethernet|Ethernet]] carries RDMA traffic. Defines **Ultra [[ethernet|Ethernet]] Transport (UET)**: packet spraying with {{multipath|multipath}}, selective {{retransmission|retransmission}}, in-network telemetry-driven {{congestion-control|congestion control}}, optional credit-based {{flow-control|flow control}}, ephemeral/{{connectionless|connectionless}} transport state for millions of endpoints.`
 						},
 						{
 							type: 'narrative',
@@ -384,7 +384,7 @@ Headline features: **Multi-{{access-point|AP}} Coordination (Co-BF, Co-SR, Co-TD
 						{
 							type: 'callout',
 							title: 'The 6 GHz political fight',
-							text: '**The US FCC freed 1,200 MHz on 23 April 2020**; on **23 February 2024** the FCC OET approved **seven AFC system operators** (Qualcomm, Federated Wireless, Sony, Comsearch, [[wifi|Wi-Fi]] Alliance Services, Wireless Broadband Alliance, Broadcom) for commercial Standard-Power AFC operation. **First AFC-certified [[wifi|Wi-Fi]] 7 {{access-point|AP}} (RUCKUS R770) was certified 16 April 2024.** But on **12 November 2025** the EU Radio Spectrum Policy Group recommended assigning the **upper 6 GHz band (6585-7125 MHz) to mobile/5G**, holding 6425-6585 MHz pending WRC-27 — **effectively closing the upper band to [[wifi|Wi-Fi]] in the EU for the medium term**. The [[wifi|Wi-Fi]] Alliance "strongly disagrees."'
+							text: '**The US FCC freed 1,200 MHz on 23 April 2020**; on **23 February 2024** the FCC OET approved **seven AFC system operators** (Qualcomm, Federated Wireless, Sony, Comsearch, [[wifi|Wi-Fi]] Alliance Services, Wireless Broadband Alliance, Broadcom) for commercial Standard-Power AFC operation. **First AFC-certified [[wifi|Wi-Fi]] 7 {{access-point|AP}} (RUCKUS R770) was certified 16 April 2024.** But on **12 November 2025** the EU Radio {{spectrum|Spectrum}} Policy Group recommended assigning the **upper 6 GHz band (6585-7125 MHz) to mobile/5G**, holding 6425-6585 MHz pending WRC-27 — **effectively closing the upper band to [[wifi|Wi-Fi]] in the EU for the medium term**. The [[wifi|Wi-Fi]] Alliance "strongly disagrees."'
 						},
 						{
 							type: 'narrative',
@@ -393,7 +393,7 @@ Headline features: **Multi-{{access-point|AP}} Coordination (Co-BF, Co-SR, Co-TD
 
 **"[[wifi|Wi-Fi]]" was chosen by Interbrand from 10 candidate names and does NOT stand for "Wireless Fidelity"** — that was a tagline retrofitted briefly by the WECA board and dropped. Phil Belanger's 2005 Boing Boing confession is the canonical source. The yin-yang logo is also Interbrand's work.
 
-**The CSIRO patent windfall**: Australia's CSIRO held US Patent 5,487,069 (granted 23 January 1996) on radio-astronomy-derived OFDM/multipath. After Buffalo lost in 2005, CSIRO settled with 14 majors in 2009 (~US$205M) and again with AT&T/Verizon/T-Mobile in 2012 (~US$220M) — **lifetime royalties reportedly ~US$430M+, near US$1 billion by some industry estimates**. Patents expired 30 November 2013. Most of [[wifi|Wi-Fi]]'s mid-2010s deployment happened in the post-CSIRO-royalty era.
+**The CSIRO patent windfall**: Australia's CSIRO held US Patent 5,487,069 (granted 23 January 1996) on radio-astronomy-derived OFDM/{{multipath|multipath}}. After Buffalo lost in 2005, CSIRO settled with 14 majors in 2009 (~US$205M) and again with AT&T/Verizon/T-Mobile in 2012 (~US$220M) — **lifetime royalties reportedly ~US$430M+, near US$1 billion by some industry estimates**. Patents expired 30 November 2013. Most of [[wifi|Wi-Fi]]'s mid-2010s deployment happened in the post-CSIRO-royalty era.
 
 The 2024 security news: **SSID Confusion (CVE-2023-52424, May 2024)**: Gollier & Vanhoef (WiSec 2024) showed the SSID is not part of the 4-way-{{handshake|handshake}} key derivation in many configurations, allowing downgrade-style trickery against any client OS — the most important new [[wifi|Wi-Fi]] flaw since FragAttacks.
 
@@ -404,7 +404,7 @@ The 5.9 GHz transition: **FCC's Second Report and Order (FCC 24-106, November 20
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/802.11_MAC_Frame.svg/500px-802.11_MAC_Frame.svg.png',
 							alt: 'The 802.11 Wi-Fi MAC frame format diagram.',
 							caption:
-								'The **802.11 MAC frame** has carried [[wifi|Wi-Fi]] since 1997. [[wifi|Wi-Fi]] 7 (802.11be, ratified 22 July 2025) adds 320 MHz channels, 4096-QAM, and {{mlo|MLO}}; [[wifi|Wi-Fi]] 8 (802.11bn, targeted September 2028) keeps the same peak speed and squeezes for **+25% throughput at given SINR, −25% 95th-percentile {{latency|latency}}, −25% MPDU loss across BSS transitions**. Headline numbers are over; tail-latency consistency is the new frontier.',
+								'The **[[wifi|802.11]] MAC frame** has carried [[wifi|Wi-Fi]] since 1997. [[wifi|Wi-Fi]] 7 (802.11be, ratified 22 July 2025) adds 320 MHz channels, 4096-QAM, and {{mlo|MLO}}; [[wifi|Wi-Fi]] 8 (802.11bn, targeted September 2028) keeps the same peak speed and squeezes for **+25% throughput at given SINR, −25% 95th-percentile {{latency|latency}}, −25% MPDU loss across BSS transitions**. Headline numbers are over; tail-{{latency|latency}} consistency is the new frontier.',
 							credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 						}
 					]

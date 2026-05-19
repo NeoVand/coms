@@ -41,7 +41,7 @@ The point of this chapter is to enumerate those patterns, name them, and note wh
 						{
 							type: 'narrative',
 							title: 'Handshakes — Establishing Mutual State',
-							text: `**Handshakes** establish state on both sides. SYN/SYN-{{ack|ACK}}/{{ack|ACK}} in [[tcp|TCP]]; ClientHello/ServerHello/Finished in [[tls|TLS]] 1.2 (RFC 5246) and the streamlined {{one-rtt|1-RTT}} {{handshake|handshake}} in [[tls|TLS]] 1.3 ([[rfc:8446|RFC 8446]], 2018); CONNECT/CONNACK in [[mqtt|MQTT]] 5; the [[sctp|SCTP]] four-way handshake (INIT, INIT-{{ack|ACK}}, {{cookie|COOKIE}}-ECHO, COOKIE-{{ack|ACK}}).
+							text: `**Handshakes** establish state on both sides. SYN/SYN-{{ack|ACK}}/{{ack|ACK}} in [[tcp|TCP]]; ClientHello/ServerHello/Finished in [[tls|TLS]] 1.2 (RFC 5246) and the streamlined {{one-rtt|1-RTT}} {{handshake|handshake}} in [[tls|TLS]] 1.3 ([[rfc:8446|RFC 8446]], 2018); CONNECT/CONNACK in [[mqtt|MQTT]] 5; the [[sctp|SCTP]] four-way {{handshake|handshake}} (INIT, INIT-{{ack|ACK}}, {{cookie|COOKIE}}-ECHO, {{cookie|COOKIE}}-{{ack|ACK}}).
 
 The shape is always the same: party A proposes, party B confirms with its own proposal, party A acknowledges. The number of round-trips defines the connection setup {{latency|latency}}, and shrinking it is one of the recurring optimisations in protocol design. [[tls|TLS]] 1.3 went from two round-trips ([[tls|TLS]] 1.2) to one. [[quic|QUIC]] went from three round-trips for [[tcp|TCP]]+[[tls|TLS]] down to one — and to **zero** for resumption (sending application data in the very first packet, encrypted under a previously-established key).
 
@@ -59,7 +59,7 @@ Modern protocols inherit the same idea. [[quic|QUIC]] has per-stream and per-con
 						{
 							type: 'narrative',
 							title: 'Keepalives, ECN, Consistent Hashing',
-							text: `**Keepalives** detect a dead peer when no data is flowing. [[ssh|SSH]] sends a 1-byte ping every 30 seconds. [[websockets|WebSocket]] has explicit Ping/Pong frames. [[http2|HTTP/2]] has PING frames. [[bgp|BGP]] sessions {{exchange|exchange}} KEEPALIVEs every 60 seconds; if no message arrives within 180 seconds (HoldTime), the session resets and routes are withdrawn — which is what cascaded into [[outage:centurylink-flowspec-2020|CenturyLink 2020]]. Without keepalives, a {{stateful|stateful}} {{firewall|firewall}} might silently drop the connection state and you'd notice only when you tried to send.
+							text: `**Keepalives** detect a dead {{peer|peer}} when no data is flowing. [[ssh|SSH]] sends a 1-byte ping every 30 seconds. [[websockets|WebSocket]] has explicit Ping/Pong frames. [[http2|HTTP/2]] has PING frames. [[bgp|BGP]] sessions {{exchange|exchange}} KEEPALIVEs every 60 seconds; if no message arrives within 180 seconds (HoldTime), the session resets and routes are withdrawn — which is what cascaded into [[outage:centurylink-flowspec-2020|CenturyLink 2020]]. Without keepalives, a {{stateful|stateful}} {{firewall|firewall}} might silently drop the connection state and you'd notice only when you tried to send.
 
 **{{ecn|ECN}}** (Explicit Congestion {{notification|Notification}}, RFC 3168) lets routers signal congestion **without dropping packets**. Mark a 2-bit field in the [[ip|IP]] header, the receiver echoes it, the sender slows down. The future of low-{{latency|latency}} networking ([[frontier:l4s-comcast-launch|L4S]], RFCs 9330/9331/9332) depends entirely on {{ecn|ECN}} being widely supported. Comcast launched {{l4s|L4S}} in production in January 2025 across six US metros.
 
@@ -77,7 +77,7 @@ Modern protocols inherit the same idea. [[quic|QUIC]] has per-stream and per-con
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/TCP_Three-Way_Handshake.svg/500px-TCP_Three-Way_Handshake.svg.png',
 							alt: 'TCP three-way handshake — SYN, SYN-ACK, ACK between client and server.',
 							caption:
-								'The canonical **{{handshake|handshake}}**: [[tcp|TCP]]\'s **SYN → SYN-ACK → ACK** dance from [[rfc:9293|RFC 793]] in 1981. Every other handshake in this book — [[tls|TLS]] ClientHello/ServerHello/Finished, [[ssh|SSH]] KEX, [[mqtt|MQTT]] CONNECT/CONNACK, [[sctp|SCTP]]\'s four-way Cookie exchange — is a variation on this shape. Recognise the pattern once; recognise it in every other protocol you ever read.',
+								'The canonical **{{handshake|handshake}}**: [[tcp|TCP]]\'s **SYN → SYN-ACK → ACK** dance from [[rfc:9293|RFC 793]] in 1981. Every other {{handshake|handshake}} in this book — [[tls|TLS]] ClientHello/ServerHello/Finished, [[ssh|SSH]] KEX, [[mqtt|MQTT]] CONNECT/CONNACK, [[sctp|SCTP]]\'s four-way {{cookie|Cookie}} {{exchange|exchange}} — is a variation on this shape. Recognise the pattern once; recognise it in every other protocol you ever read.',
 							credit: 'Image: Wikimedia Commons / public domain'
 						}
 					]
@@ -228,7 +228,7 @@ The arc: react to loss → react to delay → model the network → use explicit
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/TCP_Slow-Start_and_Congestion_Avoidance.svg/500px-TCP_Slow-Start_and_Congestion_Avoidance.svg.png',
 							alt: 'TCP slow-start and congestion-avoidance graph — cwnd doubling exponentially then linear AIMD.',
 							caption:
-								'**{{slow-start|Slow start}} and {{aimd|congestion avoidance}}** — the {{congestion-window|cwnd}} doubles exponentially until *ssthresh*, then climbs linearly under {{aimd|AIMD}}, and halves on loss. [[pioneer:van-jacobson|Van Jacobson]] and Mike Karels published this in 1988 after the [[outage:as-7007-1997|1986 NSFNET collapse]]; every subsequent algorithm — Reno, NewReno, Vegas, {{cubic|CUBIC}}, Compound, {{bbr|BBR}}, {{l4s|L4S}} with TCP Prague — is a variation on this curve.',
+								'**{{slow-start|Slow start}} and {{aimd|congestion avoidance}}** — the {{congestion-window|cwnd}} doubles exponentially until *ssthresh*, then climbs linearly under {{aimd|AIMD}}, and halves on loss. [[pioneer:van-jacobson|Van Jacobson]] and Mike Karels published this in 1988 after the [[outage:as-7007-1997|1986 NSFNET collapse]]; every subsequent algorithm — Reno, NewReno, Vegas, {{cubic|CUBIC}}, Compound, {{bbr|BBR}}, {{l4s|L4S}} with [[tcp|TCP]] Prague — is a variation on this curve.',
 							credit: 'Image: Wikimedia Commons / public domain'
 						}
 					]

@@ -62,7 +62,7 @@ The fix was to install patched {{imp|IMP}} software that rejected sequence numbe
 							title: 'What This Incident Taught the Industry',
 							text: `Three changes that are now standard date back to lessons from this incident.
 
-**Periodic background traffic gets first-class testing.** Before 1980, routing keepalives were considered "infrastructure" — they ran in the background and engineers debugged them only when things broke. After 1980, every routing protocol's keepalive path was instrumented and fuzzed alongside the main code paths. Modern equivalents: [[bgp|BGP]] route-refresh, OSPF link-state advertisements, BFD keepalives — all heavily tested.
+**Periodic background traffic gets first-class testing.** Before 1980, routing keepalives were considered "infrastructure" — they ran in the background and engineers debugged them only when things broke. After 1980, every routing protocol's keepalive path was instrumented and fuzzed alongside the main code paths. Modern equivalents: [[bgp|BGP]] route-refresh, [[ospf|OSPF]] link-state advertisements, BFD keepalives — all heavily tested.
 
 **Public post-mortems became the norm.** [[rfc:789|RFC 789]] established that engineering organisations publish detailed root-cause analyses of their incidents. The Google SRE book, the Cloudflare incident reports, the Facebook 2021 write-up — all descendants of this practice.
 
@@ -73,7 +73,7 @@ The fix was to install patched {{imp|IMP}} software that rejected sequence numbe
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/ARPA_Network%2C_Logical_Map%2C_September_1973.jpg/500px-ARPA_Network%2C_Logical_Map%2C_September_1973.jpg',
 							alt: 'ARPANET logical map, September 1973 — a few dozen sites linked by IMPs across the United States.',
 							caption:
-								'The {{arpanet|ARPANET}} logical map, September 1973. Seven years later, this same network — by then a few hundred host machines — went dark for a full day when three bits flipped in a single periodic status update at one Harvard {{imp|IMP}}. Every {{bgp|BGP}} keepalive, every OSPF LSA, every Cloudflare incident report is in some sense a descendant of [[rfc:789|RFC 789]], the post-mortem Eric Rosen at {{bbn|BBN}} wrote after this network spent six hours diagnosing itself.',
+								'The {{arpanet|ARPANET}} logical map, September 1973. Seven years later, this same network — by then a few hundred host machines — went dark for a full day when three bits flipped in a single periodic status update at one Harvard {{imp|IMP}}. Every {{bgp|BGP}} keepalive, every [[ospf|OSPF]] LSA, every Cloudflare incident report is in some sense a descendant of [[rfc:789|RFC 789]], the post-mortem Eric Rosen at {{bbn|BBN}} wrote after this network spent six hours diagnosing itself.',
 							credit: 'Image: DARPA / public domain, via Wikimedia Commons'
 						}
 					]
@@ -134,7 +134,7 @@ What broke the deadlock was a series of high-profile incidents (2018 Amazon Rout
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Internet_map_1024.jpg/500px-Internet_map_1024.jpg',
 							alt: 'A 2005 visualisation of the global internet routing topology — each line a BGP peering relationship.',
 							caption:
-								'The global [[bgp|BGP]] routing topology, visualised. Every line is a peering relationship; every node an {{autonomous-system|AS}}. **{{autonomous-system|AS}} 7007** in Florida did not hijack anything on purpose — it simply announced *every prefix in the global table* as a /24 originating from itself, and "most-specific wins" did the rest. For a few hours in April 1997 every line in a picture like this pointed at a single underpowered router in Florida.',
+								'The global [[bgp|BGP]] routing topology, visualised. Every line is a {{peering|peering}} relationship; every node an {{autonomous-system|AS}}. **{{autonomous-system|AS}} 7007** in Florida did not hijack anything on purpose — it simply announced *every prefix in the global table* as a /24 originating from itself, and "most-specific wins" did the rest. For a few hours in April 1997 every line in a picture like this pointed at a single underpowered router in Florida.',
 							credit: 'Image: The Opte Project / Wikimedia Commons, CC BY 2.5'
 						}
 					]
@@ -231,7 +231,7 @@ This is fine — **as long as you don't propagate the route outside your network
 						{
 							type: 'narrative',
 							title: 'The Leak',
-							text: `Pakistan Telecom's upstream provider was PCCW Global ({{autonomous-system|AS}} 3491), a major Hong Kong-based {{transit|transit}}. PCCW Global was not filtering incoming [[bgp|BGP]] from Pakistan Telecom — they accepted the bogus, more-specific YouTube route and propagated it onward to every PCCW peer. From there it went global.
+							text: `Pakistan Telecom's upstream provider was PCCW Global ({{autonomous-system|AS}} 3491), a major Hong Kong-based {{transit|transit}}. PCCW Global was not filtering incoming [[bgp|BGP]] from Pakistan Telecom — they accepted the bogus, more-specific YouTube route and propagated it onward to every PCCW {{peer|peer}}. From there it went global.
 
 Within three minutes of the original injection, the entire internet believed the best path to YouTube\'s prefix was through Pakistan Telecom. Every YouTube request anywhere on the planet was being null-routed by a router in Karachi. YouTube\'s authoritative [[dns|DNS]] continued to resolve correctly; the actual [[tcp|TCP]] connections just disappeared into a black hole.
 
@@ -263,7 +263,7 @@ This is the structural reason [[bgp|BGP]] needs cryptography to fix it, not just
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Arpanet_logical_map%2C_march_1977.png/500px-Arpanet_logical_map%2C_march_1977.png',
 							alt: 'ARPANET logical map, March 1977 — sites in the US plus a node at London.',
 							caption:
-								'The {{arpanet|ARPANET}} in March 1977 — a network small enough that one Pakistan-Telecom-class misconfiguration would have been caught manually within minutes. By 2008 the global [[bgp|BGP]] routing table had grown to ~250,000 prefixes, and Pakistan Telecom\'s null-route on a single /24 of YouTube space silently became the world\'s outage in **three minutes flat**. Scale changes what counts as a recoverable error.',
+								'The {{arpanet|ARPANET}} in March 1977 — a network small enough that one Pakistan-Telecom-class misconfiguration would have been caught manually within minutes. By 2008 the global [[bgp|BGP]] {{routing-table|routing table}} had grown to ~250,000 prefixes, and Pakistan Telecom\'s null-route on a single /24 of YouTube space silently became the world\'s outage in **three minutes flat**. Scale changes what counts as a recoverable error.',
 							credit: 'Image: DARPA / public domain, via Wikimedia Commons'
 						}
 					]
@@ -315,14 +315,14 @@ The technical fact is unambiguous: 15% of the global internet's traffic had a br
 							title: 'Why This Incident Funded RPKI Deployment',
 							text: `China Telecom 2010 was a turning point for U.S. government interest in **secure routing** infrastructure. The Department of Homeland Security funded several {{rpki|RPKI}} deployment efforts in the years following. The .gov and .mil top-level domains became some of the earliest large-scale ROA signers — a politically straightforward action that materially improved the security of U.S. federal traffic.
 
-The deeper challenge was always private-sector adoption. Government agencies could mandate {{rpki|RPKI}} for their own networks, but the bulk of internet traffic flows through commercial ISPs and content networks. The shift came in 2018-2022 when major hyperscalers (Cloudflare, Google, Amazon, Meta) made {{rpki|RPKI}} a publicly-stated requirement for their {{peering|peering}} arrangements. Networks that wanted to peer at scale had to sign their prefixes; those that wouldn't became increasingly isolated. By 2026, [[frontier:rpki-rov-50-percent|over 50%]] of advertised [[ip|IP]] space is covered.`
+The deeper challenge was always private-sector adoption. Government agencies could mandate {{rpki|RPKI}} for their own networks, but the bulk of internet traffic flows through commercial ISPs and content networks. The shift came in 2018-2022 when major hyperscalers (Cloudflare, Google, Amazon, Meta) made {{rpki|RPKI}} a publicly-stated requirement for their {{peering|peering}} arrangements. Networks that wanted to {{peer|peer}} at scale had to sign their prefixes; those that wouldn't became increasingly isolated. By 2026, [[frontier:rpki-rov-50-percent|over 50%]] of advertised [[ip|IP]] space is covered.`
 						},
 						{
 							type: 'image',
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Arpanet_1974.svg/500px-Arpanet_1974.svg.png',
 							alt: 'ARPANET in 1974 — early packet-switched network topology.',
 							caption:
-								'The {{arpanet|ARPANET}} in 1974, when "the routing table" was a handful of dozens of nodes you could fit on one printed page. By April 2010, China Telecom\'s 18-minute leak of **37,000 prefixes** — ~15% of the global {{routing-table|routing table}} — meant US military traffic, .gov traffic, and traffic to Yahoo / Microsoft / IBM was transiently observable through a single {{autonomous-system|AS}} in Beijing. The architecture of [[bgp|BGP]] makes this possible, accidentally or on purpose, in *seconds*.',
+								'The {{arpanet|ARPANET}} in 1974, when "the {{routing-table|routing table}}" was a handful of dozens of nodes you could fit on one printed page. By April 2010, China Telecom\'s 18-minute leak of **37,000 prefixes** — ~15% of the global {{routing-table|routing table}} — meant US military traffic, .gov traffic, and traffic to Yahoo / Microsoft / IBM was transiently observable through a single {{autonomous-system|AS}} in Beijing. The architecture of [[bgp|BGP]] makes this possible, accidentally or on purpose, in *seconds*.',
 							credit: 'Image: Wikimedia Commons / public domain'
 						}
 					]
@@ -452,7 +452,7 @@ Recovery took **five hours**. During that window, approximately **3.5% of all gl
 
 [[bgp|BGP]] is the universal control plane for internet routing. Flowspec rides on [[bgp|BGP]] because that\'s what every router already speaks. The alternative — a separate out-of-band protocol for distributing filter rules — would require new infrastructure on every router on the internet. The economic friction is too high; nobody is going to deploy it.
 
-So we live with the architectural fragility and add operational guards. Every modern router\'s Flowspec implementation now refuses to install rules that would drop [[bgp|BGP]]\'s own ports (179) or the matching peer addresses. Each new generation of routers adds more such guards. The lesson is incremental rather than fundamental: when you build a control plane on top of itself, every change to the control plane needs to be reviewed for self-consistency — manually, before it ships.`
+So we live with the architectural fragility and add operational guards. Every modern router\'s Flowspec implementation now refuses to install rules that would drop [[bgp|BGP]]\'s own ports (179) or the matching {{peer|peer}} addresses. Each new generation of routers adds more such guards. The lesson is incremental rather than fundamental: when you build a control plane on top of itself, every change to the control plane needs to be reviewed for self-consistency — manually, before it ships.`
 						},
 						{
 							type: 'image',
@@ -533,7 +533,7 @@ The first [[bgp|BGP]] fix went in around 21:00 UTC. Recovery took until 22:30 �
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Facebook_Headquarters_Menlo_Park.jpg/500px-Facebook_Headquarters_Menlo_Park.jpg',
 							alt: 'Facebook (Meta) Headquarters campus in Menlo Park, California.',
 							caption:
-								'**Meta\'s Menlo Park campus** — the building whose [[bgp|BGP]] advertisements vanished from the global routing table for nearly six hours on **4 October 2021**. Engineers had to physically reach the data centres to fix the problem; once there, they discovered the badge readers were offline too, because the access-control system depended on the same Facebook [[dns|DNS]] that no longer resolved. The outage is the canonical reference for *"what depends on the network you are about to break?"*',
+								'**Meta\'s Menlo Park campus** — the building whose [[bgp|BGP]] advertisements vanished from the global {{routing-table|routing table}} for nearly six hours on **4 October 2021**. Engineers had to physically reach the data centres to fix the problem; once there, they discovered the badge readers were offline too, because the access-control system depended on the same Facebook [[dns|DNS]] that no longer resolved. The outage is the canonical reference for *"what depends on the network you are about to break?"*',
 							credit: 'Photo: LPS.1, CC0, via Wikimedia Commons'
 						}
 					]
@@ -558,7 +558,7 @@ The first [[bgp|BGP]] fix went in around 21:00 UTC. Recovery took until 22:30 �
 						{
 							type: 'narrative',
 							title: 'When the ISP Is the Country',
-							text: `On 8 July 2022 at 04:45 EDT, Rogers Communications — the largest ISP and mobile carrier in Canada, serving over **11 million subscribers** — went down nationally. For 15 hours, Rogers customers had no internet, no mobile signal, no landline (Rogers also runs Canada\'s largest VoIP-based home phone service through its Hi-Speed Internet bundles), no Interac debit transactions (Interac\'s national network runs over Rogers connectivity), and **no 911 service** in many regions.
+							text: `On 8 July 2022 at 04:45 EDT, Rogers Communications — the largest ISP and mobile carrier in Canada, serving over **11 million subscribers** — went down nationally. For 15 hours, Rogers customers had no internet, no mobile signal, no landline (Rogers also runs Canada\'s largest {{voip|VoIP}}-based home phone service through its Hi-Speed Internet bundles), no Interac debit transactions (Interac\'s national network runs over Rogers connectivity), and **no 911 service** in many regions.
 
 The trigger was a misconfiguration during a planned maintenance update to the Rogers [[ip|IP]]/MPLS core. A bad route policy caused control-plane CPU exhaustion across Rogers\' core routers — they spent so much CPU recomputing routes in response to the bad policy that they had no cycles left to actually forward traffic.`
 						},
@@ -569,7 +569,7 @@ The trigger was a misconfiguration during a planned maintenance update to the Ro
 
 **Banking and payments**: Interac\'s e-Transfer service stopped working nationwide. Most debit-card transactions failed. Some ATMs went offline. Several major retailers had to close because they could not accept payment.
 
-**Healthcare**: Several hospital systems lost connectivity to Rogers-hosted services. Telehealth platforms that depended on Rogers VoIP failed.
+**Healthcare**: Several hospital systems lost connectivity to Rogers-hosted services. Telehealth platforms that depended on Rogers {{voip|VoIP}} failed.
 
 **Government services**: Service Canada\'s online portals were unreachable from Rogers networks. The Canada Border Services Agency reported delays at land crossings.
 
@@ -605,7 +605,7 @@ These requirements are unusual in their specificity for a private telecommunicat
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/Rogers_AT%26T_Centre.JPG/500px-Rogers_AT%26T_Centre.JPG',
 							alt: 'The Rogers Communications Centre building in Toronto.',
 							caption:
-								'The **Rogers Communications Centre** in Toronto — the headquarters of the ISP whose 15-hour 8 July 2022 outage took **half of Canada** offline: no mobile, no Interac debit, no 911 in many regions, no landline for the millions of customers on Rogers VoIP bundles. The CRTC ruling that followed is one of the strongest examples of a national regulator treating a private telecom as critical infrastructure with utility-grade operational obligations.',
+								'The **Rogers Communications Centre** in Toronto — the headquarters of the ISP whose 15-hour 8 July 2022 outage took **half of Canada** offline: no mobile, no Interac debit, no 911 in many regions, no landline for the millions of customers on Rogers {{voip|VoIP}} bundles. The CRTC ruling that followed is one of the strongest examples of a national regulator treating a private telecom as critical infrastructure with utility-grade operational obligations.',
 							credit: 'Photo: Wikimedia Commons / CC BY-SA 3.0'
 						}
 					]

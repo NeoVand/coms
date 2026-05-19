@@ -41,7 +41,7 @@ The IEEE standardised it as **802.3** in 1983, the same year as {{arpanet|ARPANE
 						{
 							type: 'callout',
 							title: 'Why the 64-byte minimum frame size still exists in 800 GbE',
-							text: 'The minimum [[ethernet|Ethernet]] frame is **64 bytes** because the original 10 Mbps coaxial [[ethernet|Ethernet]] had to detect collisions before completing a frame transmission — {{rtt|round-trip time}} across the maximum 2.5 km / 4-repeater diameter is 51.2 µs = 64 bytes at 10 Mbps. Modern switched {{full-duplex|full-duplex}} [[ethernet|Ethernet]] has no collisions, but the minimum stays for backwards compatibility. Forty-five years later, every 800 GbE frame still respects the slot-time math from a 10 Mbps shared coax in 1980.'
+							text: 'The minimum [[ethernet|Ethernet]] frame is **64 bytes** because the original 10 Mbps coaxial [[ethernet|Ethernet]] had to detect collisions before completing a frame transmission — {{rtt|round-trip time}} across the maximum 2.5 km / 4-repeater {{diameter|diameter}} is 51.2 µs = 64 bytes at 10 Mbps. Modern switched {{full-duplex|full-duplex}} [[ethernet|Ethernet]] has no collisions, but the minimum stays for backwards compatibility. Forty-five years later, every 800 GbE frame still respects the slot-time math from a 10 Mbps shared coax in 1980.'
 						},
 						{
 							type: 'narrative',
@@ -59,7 +59,7 @@ The naming history is its own joke: **802.3 letter suffixes ran out at "z"** (10
 
 **2025 milestone**: **Broadcom Tomahawk 6** — world's first **102.4 Tbps single-chip switch** — shipped 3 June 2025; **Tomahawk 6-Davisson with co-packaged optics** shipped October 2025. A single chip can drive 64×1.6T, 128×800G, 256×400G, or 512×200G ports.
 
-The **[[frontier:ultra-ethernet-1-0|Ultra Ethernet Consortium]] Specification 1.0** was published 11 June 2025 (~560 pages) — the first ground-up rethink of how [[ethernet|Ethernet]] carries RDMA traffic for AI/HPC workloads. Defines **Ultra [[ethernet|Ethernet]] Transport (UET)**: packet spraying with multipath, selective {{retransmission|retransmission}}, in-network telemetry-driven {{congestion-control|congestion control}}, ephemeral/{{connectionless|connectionless}} transport state for millions of endpoints.
+The **[[frontier:ultra-ethernet-1-0|Ultra Ethernet Consortium]] Specification 1.0** was published 11 June 2025 (~560 pages) — the first ground-up rethink of how [[ethernet|Ethernet]] carries RDMA traffic for AI/HPC workloads. Defines **Ultra [[ethernet|Ethernet]] Transport (UET)**: packet spraying with {{multipath|multipath}}, selective {{retransmission|retransmission}}, in-network telemetry-driven {{congestion-control|congestion control}}, ephemeral/{{connectionless|connectionless}} transport state for millions of endpoints.
 
 **650 Group estimates 91% of AI workloads will run on [[ethernet|Ethernet]] by 2029**; NVIDIA Spectrum-X delivers ~95% effective throughput vs ~60% on best-effort [[ethernet|Ethernet]] for AI workloads. The architectural significance is that AI training is now important enough to drive a new datacenter transport — the same kind of pressure that produced [[ethernet|Ethernet]] in 1973 for office networking, [[tcp|TCP/IP]] in 1981 for inter-network research, and [[quic|QUIC]] in 2012 for the modern web.`
 						},
@@ -68,7 +68,7 @@ The **[[frontier:ultra-ethernet-1-0|Ultra Ethernet Consortium]] Specification 1.
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Ethernet_Type_II_Frame_format.svg/500px-Ethernet_Type_II_Frame_format.svg.png',
 							alt: 'The Ethernet Type II frame format showing preamble, destination MAC, source MAC, EtherType, payload, and FCS.',
 							caption:
-								'The **[[ethernet|Ethernet]] Type II frame format** — six bytes of destination MAC, six of source, two of EtherType, up to 1500 bytes of payload, four bytes of CRC. **Forty-five years** of {{bandwidth|bandwidth}} growth from 2.94 Mbit/s to 800 Gbit/s have slid in around this little wire format without changing it. Almost every architectural decision in Layer 2–3 is downstream of this picture staying still.',
+								'The **[[ethernet|Ethernet]] Type II frame format** — six bytes of destination MAC, six of source, two of EtherType, up to 1500 bytes of {{payload|payload}}, four bytes of CRC. **Forty-five years** of {{bandwidth|bandwidth}} growth from 2.94 Mbit/s to 800 Gbit/s have slid in around this little wire format without changing it. Almost every architectural decision in Layer 2–3 is downstream of this picture staying still.',
 							credit: 'Image: Wikimedia Commons / public domain'
 						}
 					]
@@ -90,7 +90,7 @@ The **[[frontier:ultra-ethernet-1-0|Ultra Ethernet Consortium]] Specification 1.
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: 'Mathy Vanhoef has broken [[wifi|Wi-Fi]] every two years on stage: KRACK (2017), Dragonblood (2019), FragAttacks (2021), Framing Frames (2023), SSID Confusion (2024). The cadence is so reliable that the field plans security audits around his summer talks.',
+					text: 'Mathy Vanhoef has broken [[wifi|Wi-Fi]] every two years on stage: {{krack|KRACK}} (2017), Dragonblood (2019), FragAttacks (2021), Framing Frames (2023), SSID Confusion (2024). The cadence is so reliable that the field plans security audits around his summer talks.',
 					attribution: 'Author'
 				},
 				{
@@ -99,7 +99,7 @@ The **[[frontier:ultra-ethernet-1-0|Ultra Ethernet Consortium]] Specification 1.
 						{
 							type: 'narrative',
 							title: 'The Regulatory Big Bang',
-							text: `[[wifi|Wi-Fi]] exists because of **FCC Docket 81-413 (9 May 1985)**, championed by **Michael Marcus**, which opened the **902 MHz / 2.4 GHz / 5.8 GHz ISM bands** for unlicensed spread-spectrum use. Without that regulatory action, no consumer wireless networking could have existed. The IEEE [[wifi|802.11]] working group started in 1990; **the first standard, [[wifi|802.11]] (1997)**, shipped at 1 and 2 Mbps. The big consumer breakthroughs were 802.11b (1999) at 11 Mbps and 802.11g (2003) at 54 Mbps.
+							text: `[[wifi|Wi-Fi]] exists because of **FCC Docket 81-413 (9 May 1985)**, championed by **Michael Marcus**, which opened the **902 MHz / 2.4 GHz / 5.8 GHz ISM bands** for unlicensed spread-{{spectrum|spectrum}} use. Without that regulatory action, no consumer wireless networking could have existed. The IEEE [[wifi|802.11]] working group started in 1990; **the first standard, [[wifi|802.11]] (1997)**, shipped at 1 and 2 Mbps. The big consumer breakthroughs were 802.11b (1999) at 11 Mbps and 802.11g (2003) at 54 Mbps.
 
 The fundamental problem: radios cannot listen and transmit simultaneously, so you cannot detect collisions the way wired [[ethernet|Ethernet]] does. [[wifi|Wi-Fi]] instead uses **CSMA/{{certificate-authority|CA}}** — collision **avoidance**. Before transmitting, a station waits a random backoff window scaled by traffic congestion. Acknowledgements are explicit: every {{unicast|unicast}} frame must be ACKed within microseconds, or the sender retransmits. Half-duplex, mandatory ACKs, and shared spectrum together cap real-world [[wifi|Wi-Fi]] throughput at roughly 60% of the headline number.
 
@@ -112,19 +112,19 @@ The fundamental problem: radios cannot listen and transmit simultaneously, so yo
 
 **The "everyone gets it wrong" technical fact on Multi-Link Operation**: MLO in shipping silicon is mostly **eMLSR** (Enhanced Multi-Link Single Radio), not true STR. **Throughput does NOT add across bands** — eMLSR uses one radio time-sliced across multiple bands. **{{latency|Latency}} consistency is the actual win**, not raw aggregate throughput.
 
-**[[wifi|Wi-Fi]] 8 / 802.11bn** is **NOT a peak-speed upgrade**. Same bands as [[wifi|Wi-Fi]] 7, same 320 MHz max, same ~46 Gb/s PHY peak. PAR objectives: **+25% throughput at given SINR, −25% 95th-percentile latency, −25% MPDU loss across BSS transitions**. Headline features: Multi-{{access-point|AP}} Coordination, Seamless Roaming Domain, Distributed Resource Units. Targeted for ratification September 2028.
+**[[wifi|Wi-Fi]] 8 / 802.11bn** is **NOT a peak-speed upgrade**. Same bands as [[wifi|Wi-Fi]] 7, same 320 MHz max, same ~46 Gb/s PHY peak. PAR objectives: **+25% throughput at given SINR, −25% 95th-percentile {{latency|latency}}, −25% MPDU loss across BSS transitions**. Headline features: Multi-{{access-point|AP}} Coordination, Seamless Roaming Domain, Distributed Resource Units. Targeted for ratification September 2028.
 
 **2025 deployment**: **583 million [[wifi|Wi-Fi]] 7 devices shipped in 2025**; 3.9 billion [[wifi|Wi-Fi]] devices shipped that year for cumulative 48.8 billion lifetime; $4.9 trillion annual global economic value.`
 						},
 						{
 							type: 'callout',
 							title: 'Vanhoef every two years',
-							text: '**Mathy Vanhoef and the KU Leuven team have broken [[wifi|Wi-Fi]] on stage every ~2 years**: **KRACK** (October 2017, key reinstallation), **Dragonblood** (April 2019, WPA3 SAE side channels), **FragAttacks** (May 2021, {{fragmentation|fragmentation}}/aggregation), **Framing Frames** (March 2023), **SSID Confusion / CVE-2023-52424** (May 2024 — the [[wifi|802.11]] standard does NOT require the SSID to enter PMK or session-key derivation in many config paths). The cadence is so reliable that the field plans security audits around his summer talks.'
+							text: '**Mathy Vanhoef and the KU Leuven team have broken [[wifi|Wi-Fi]] on stage every ~2 years**: **{{krack|KRACK}}** (October 2017, key reinstallation), **Dragonblood** (April 2019, {{wpa3|WPA3}} SAE side channels), **FragAttacks** (May 2021, {{fragmentation|fragmentation}}/aggregation), **Framing Frames** (March 2023), **SSID Confusion / CVE-2023-52424** (May 2024 — the [[wifi|802.11]] standard does NOT require the SSID to enter PMK or session-key derivation in many config paths). The cadence is so reliable that the field plans security audits around his summer talks.'
 						},
 						{
 							type: 'narrative',
 							title: 'The 6 GHz Politics, And the TJX Story That Changed Everything',
-							text: `**The US FCC freed 1,200 MHz of 6 GHz spectrum on 23 April 2020**; on **23 February 2024** the FCC OET approved **seven AFC system operators** (Qualcomm, Federated Wireless, Sony, Comsearch, [[wifi|Wi-Fi]] Alliance Services, WBA, Broadcom) for commercial **Standard Power AFC** operation. **First AFC-certified [[wifi|Wi-Fi]] 7 {{access-point|AP}} (RUCKUS R770) was certified 16 April 2024.**
+							text: `**The US FCC freed 1,200 MHz of 6 GHz {{spectrum|spectrum}} on 23 April 2020**; on **23 February 2024** the FCC OET approved **seven AFC system operators** (Qualcomm, Federated Wireless, Sony, Comsearch, [[wifi|Wi-Fi]] Alliance Services, WBA, Broadcom) for commercial **Standard Power AFC** operation. **First AFC-certified [[wifi|Wi-Fi]] 7 {{access-point|AP}} (RUCKUS R770) was certified 16 April 2024.**
 
 But on **12 November 2025**, the EU Radio Spectrum Policy Group recommended assigning the **upper 6 GHz band (6585-7125 MHz) to mobile/5G**, holding 6425-6585 MHz pending WRC-27 — **effectively closing the upper band to [[wifi|Wi-Fi]] in the EU for the medium term**. The [[wifi|Wi-Fi]] Alliance "strongly disagrees."
 
@@ -137,7 +137,7 @@ The breach that changed everything: **TJX (disclosed 17 January 2007)** — atta
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/MAC-48_Address.svg/500px-MAC-48_Address.svg.png',
 							alt: 'MAC-48 address structure — 48 bits split into a 24-bit OUI vendor prefix and 24 bits of unique vendor-assigned identifier.',
 							caption:
-								'A **MAC-48 address** — 48 bits, written as six colon-separated hex bytes. The top 24 bits are the **OUI** (vendor prefix, assigned by the IEEE); the bottom 24 bits are the per-device serial. Every [[ethernet|Ethernet]], [[wifi|Wi-Fi]], and [[bluetooth|Bluetooth]] interface in the world has one of these — the unique identifier that 802.3, 802.11, and [[arp|ARP]] all depend on.',
+								'A **MAC-48 address** — 48 bits, written as six colon-separated hex bytes. The top 24 bits are the **OUI** (vendor prefix, assigned by the IEEE); the bottom 24 bits are the per-device serial. Every [[ethernet|Ethernet]], [[wifi|Wi-Fi]], and [[bluetooth|Bluetooth]] interface in the world has one of these — the unique identifier that 802.3, [[wifi|802.11]], and [[arp|ARP]] all depend on.',
 							credit: 'Image: Wikimedia Commons / public domain'
 						}
 					]
@@ -311,7 +311,7 @@ It then took **twenty-eight years** to reach 50% adoption. The reason is not tec
 						{
 							type: 'callout',
 							title: 'IPv6 is NOT encrypted by default',
-							text: 'IPsec was originally mandatory-to-implement in [[ipv6|IPv6]], but **demoted to optional by [[rfc:6434|RFC 6434]] (2011)**. A frequent source of myth that [[ipv6|IPv6]] has built-in security. It does not. The {{encryption|encryption}} story for [[ipv6|IPv6]] is the same as for [[ip|IPv4]]: [[tls|TLS]] at the application layer.'
+							text: '[[ipsec|IPsec]] was originally mandatory-to-implement in [[ipv6|IPv6]], but **demoted to optional by [[rfc:6434|RFC 6434]] (2011)**. A frequent source of myth that [[ipv6|IPv6]] has built-in security. It does not. The {{encryption|encryption}} story for [[ipv6|IPv6]] is the same as for [[ip|IPv4]]: [[tls|TLS]] at the application layer.'
 						},
 						{
 							type: 'narrative',
@@ -385,7 +385,7 @@ The most famous [[icmp|ICMP]] message is **Echo Request / Echo Reply** — what 
 						{
 							type: 'narrative',
 							title: 'Two Famous Attacks That Renamed the Field',
-							text: `**Smurf attack (1997-1998)**: Tool \`smurf.c\` written by Dan Moschuk (alias TFreak); [[icmp|ICMP]] Echo Requests with spoofed source to a network's directed {{broadcast|broadcast}} address; first high-profile incident University of Minnesota, 1998. **RFC 2644 (August 1999)** changed router default from "forward directed broadcasts" to "drop." Every modern router has the fix; Smurf is now a museum piece, but it is the reason directed-broadcast forwarding is off by default everywhere.
+							text: `**Smurf attack (1997-1998)**: Tool \`smurf.c\` written by Dan Moschuk (alias TFreak); [[icmp|ICMP]] Echo Requests with spoofed source to a network's directed {{broadcast|broadcast}} address; first high-profile incident University of Minnesota, 1998. **RFC 2644 (August 1999)** changed router default from "forward directed broadcasts" to "drop." Every modern router has the fix; Smurf is now a museum piece, but it is the reason directed-{{broadcast|broadcast}} forwarding is off by default everywhere.
 
 **Ping of Death (1996-1997)**: Oversized fragmented [[icmp|ICMP]] packets, when reassembled, exceeded 65,535 bytes and crashed Windows 95/NT, early Linux/BSD, Cisco IOS, and classic Mac. **CERT advisory {{certificate-authority|CA}}-1996-26 (16 December 1996)**. Modern stacks check for total length overflow before reassembly; the bug is closed but the lesson — that fragment reassembly is one of the most critical security paths in any [[ip|IP]] stack — survives in the **CVE-2024-38063** Windows [[ipv6|IPv6]] fragment integer underflow disclosed 13 August 2024 (CVSS 9.8, "exploitable from anywhere on the link").
 
@@ -456,7 +456,7 @@ That sketch became [[rfc:4271|BGP-1]] ([[rfc:1105|RFC 1105]], June 1989), then [
 
 **Verizon × DQE × Allegheny Technologies (24 June 2019)**: A steel mill rerouted 20,000 prefixes for ~2,400 networks via Noction [[bgp|BGP]] optimizer leak. **Cloudflare lost 15% of global traffic at peak.** Cloudflare's blog became canonical reading.
 
-**[[outage:rogers-2022|Rogers Communications outage (8 July 2022, 26 hours, 12M Canadians)]]**: Removal of an ACL filter from a distribution router redistributed the full [[bgp|BGP]] table into OSPF, overloading core router CPU/RAM. Shared wireline+wireless [[ip|IP]] core meant **everything (including 911) fell**. Staff couldn't communicate because internal management network depended on the same data plane.
+**[[outage:rogers-2022|Rogers Communications outage (8 July 2022, 26 hours, 12M Canadians)]]**: Removal of an ACL filter from a distribution router redistributed the full [[bgp|BGP]] table into [[ospf|OSPF]], overloading core router CPU/RAM. Shared wireline+wireless [[ip|IP]] core meant **everything (including 911) fell**. Staff couldn't communicate because internal management network depended on the same data plane.
 
 **The 512K Day (12 August 2014)**: When [[ip|IPv4]] DFZ crossed 512,000 prefixes, older Cisco line cards with default 512K-route TCAMs failed silently; eBay, LastPass, Microsoft Azure had visible outages. Hardware capacity is part of routing-table economics.
 

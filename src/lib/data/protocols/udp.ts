@@ -13,7 +13,7 @@ export const udp: Protocol = {
 
 Think of a live video call: if one frame is lost, it's better to show the next frame than to pause and wait for {{retransmission|retransmission}}. [[udp|UDP]] enables this by stripping away all of [[tcp|TCP]]'s reliability mechanisms, leaving a bare-minimum 8-byte header. Applications that use [[udp|UDP]] typically implement their own reliability on top (like [[quic|QUIC]] does) or simply tolerate some loss.
 
-[[udp|UDP]] is essential for [[dns|DNS]] lookups (where speed matters and the {{payload|payload}} fits in one {{datagram|packet}}), online gaming (where stale data is useless), live streaming, and VoIP. It operates at {{osi-model|Layer 4}} alongside [[tcp|TCP]] and is identified by protocol number 17.`,
+[[udp|UDP]] is essential for [[dns|DNS]] lookups (where speed matters and the {{payload|payload}} fits in one {{datagram|packet}}), online gaming (where stale data is useless), live streaming, and {{voip|VoIP}}. It operates at {{osi-model|Layer 4}} alongside [[tcp|TCP]] and is identified by protocol number 17.`,
 	howItWorks: [
 		{
 			title: 'No handshake',
@@ -224,7 +224,7 @@ ss -un  # or: netstat -un`
 			},
 			{
 				title: 'Source port matters for NAT pinholes',
-				text: 'A {{nat|NAT}} router opens a "pinhole" for outbound [[udp|UDP]] keyed by (src [[ip|IP]], src port). The pinhole closes after a few minutes of silence. For long-lived [[udp|UDP]] applications (VoIP, IoT keepalives), send a keepalive every 30-60 seconds to keep the pinhole open.'
+				text: 'A {{nat|NAT}} router opens a "pinhole" for outbound [[udp|UDP]] keyed by (src [[ip|IP]], src port). The pinhole closes after a few minutes of silence. For long-lived [[udp|UDP]] applications ({{voip|VoIP}}, IoT keepalives), send a keepalive every 30-60 seconds to keep the pinhole open.'
 			}
 		]
 	}

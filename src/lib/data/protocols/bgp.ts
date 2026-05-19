@@ -14,7 +14,7 @@ export const bgp: Protocol = {
 
 When you visit a website, your {{packet|packets}} may cross 5-10 different autonomous systems. [[bgp|BGP]] is the protocol that calculated that path. Each [[bgp|BGP]] router maintains a {{routing-table|table}} of every reachable [[ip|IP]] prefix on the internet (~1 million entries) along with the AS_PATH — the sequence of autonomous systems to traverse. [[bgp|BGP]] is a path-vector protocol: it doesn't just know the next hop, it knows the entire {{autonomous-system|AS}}-level path.
 
-[[bgp|BGP]] runs over [[tcp|TCP]] port 179, relying on [[tcp|TCP]]'s reliable delivery because routing information must never be lost or corrupted. Two [[bgp|BGP]] routers ("peers") establish a session by exchanging OPEN messages, then continuously {{exchange|exchange}} UPDATE messages as routes are announced or withdrawn. {{keep-alive|KEEPALIVE}} messages every ~30 seconds prove the peer is still alive.
+[[bgp|BGP]] runs over [[tcp|TCP]] port 179, relying on [[tcp|TCP]]'s reliable delivery because routing information must never be lost or corrupted. Two [[bgp|BGP]] routers ("peers") establish a session by exchanging OPEN messages, then continuously {{exchange|exchange}} UPDATE messages as routes are announced or withdrawn. {{keep-alive|KEEPALIVE}} messages every ~30 seconds prove the {{peer|peer}} is still alive.
 
 A fundamental distinction in [[bgp|BGP]] is between eBGP (External [[bgp|BGP]]) and iBGP (Internal [[bgp|BGP]]). eBGP runs between routers in different autonomous systems — this is the inter-domain routing that connects the internet. iBGP runs between routers within the same {{autonomous-system|AS}}, distributing externally learned routes internally. The two behave differently: eBGP modifies the AS_PATH on each hop, while iBGP does not, requiring either a full mesh of iBGP peers or route reflectors to prevent loops.
 
@@ -194,7 +194,7 @@ for await (const elem of parser) {
 			org: 'Tier-1 transit (Lumen, Telia, NTT, GTT, Cogent, Tata)',
 			scale: '~1M IPv4 + 200k IPv6 routes',
 			description:
-				'Every tier-1 backbone runs [[bgp|BGP]] with the full global {{routing-table|routing table}} on every border router. Memory and route-processor capacity is the binding constraint.'
+				'Every tier-1 backbone runs [[bgp|BGP]] with the full global {{routing-table|routing table}} on every {{border-router|border router}}. Memory and route-processor capacity is the binding constraint.'
 		},
 		{
 			org: 'Cloudflare',
@@ -221,7 +221,7 @@ for await (const elem of parser) {
 		},
 		{
 			title: 'TCP keepalives keep BGP sessions alive',
-			text: 'A [[bgp|BGP]] session is just a long-lived [[tcp|TCP]] connection on port 179. KEEPALIVE messages every 60 seconds prove the peer is still there; if no message arrives within 180 seconds (HoldTime), the session resets and all routes through that peer are withdrawn — which is what cascaded into [[outage:centurylink-flowspec-2020|CenturyLink 2020]].'
+			text: 'A [[bgp|BGP]] session is just a long-lived [[tcp|TCP]] connection on port 179. KEEPALIVE messages every 60 seconds prove the {{peer|peer}} is still there; if no message arrives within 180 seconds (HoldTime), the session resets and all routes through that peer are withdrawn — which is what cascaded into [[outage:centurylink-flowspec-2020|CenturyLink 2020]].'
 		}
 	],
 
@@ -237,7 +237,7 @@ for await (const elem of parser) {
 			},
 			{
 				title: 'TTL security gotcha',
-				text: 'Some operators enable GTSM (Generalised {{ttl|TTL}} Security Mechanism, [[rfc:5082|RFC 5082]]) requiring incoming [[bgp|BGP]] packets to have {{ttl|TTL}}=255 — defending against off-path injection. If your peer does not also enable it, the session simply never establishes. Check both ends.'
+				text: 'Some operators enable GTSM (Generalised {{ttl|TTL}} Security Mechanism, [[rfc:5082|RFC 5082]]) requiring incoming [[bgp|BGP]] packets to have {{ttl|TTL}}=255 — defending against off-path injection. If your {{peer|peer}} does not also enable it, the session simply never establishes. Check both ends.'
 			}
 		]
 	}
