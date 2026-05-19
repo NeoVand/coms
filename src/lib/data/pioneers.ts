@@ -1146,6 +1146,8 @@ Co-authored the foundational **Dardari, Conti, Ferner, Giorgetti, Win — *"Rang
 		contribution: `Founded **Time Domain Corporation** in Huntsville, Alabama in 1987. Holder of foundational US patents on **impulse-radio modulation, time-hopping codes, and pulse-position encoding** from the late 1980s and 1990s. Co-author with [[pioneer:moe-win|Win]] and [[pioneer:robert-scholtz|Scholtz]] on early-1990s impulse-radio papers (e.g. *"Time-hopping SSMA techniques for impulse radio with an analog modulated data subcarrier,"* IEEE Spread Spectrum Tech. Symp., 1996).
 
 Time Domain was the canonical 1990s [[uwb|UWB]] start-up: patent-heavy from the start, technically influential well beyond the size of its products. The company pivoted through the 2000s toward military / intelligence-grade radar and metrology, eventually becoming **Humatics**. Fullerton's patents underpinned much of the early-2000s UWB licensing landscape and the early FCC proceedings that opened the 3.1–10.6 GHz band.`,
+		imagePath:
+			'https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/Larry_Fullerton_in_his_lab.jpg/330px-Larry_Fullerton_in_his_lab.jpg',
 		protocols: ['uwb'],
 		categories: ['wireless']
 	},
