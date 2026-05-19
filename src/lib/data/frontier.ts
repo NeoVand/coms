@@ -289,7 +289,7 @@ Streamable HTTP is one HTTP endpoint that can return either a single [[json-rpc|
 		protocols: ['a2a', 'mcp'],
 		description: `{{google|Google}} unveiled Agent2Agent ([[a2a|A2A]]) on 9 April 2025 at Cloud Next with 50+ partners and donated it to the {{linux|Linux}} Foundation in June 2025. [[a2a|A2A]] is the *agent-to-agent* layer above [[mcp|MCP]]: where [[mcp|MCP]] wires an agent to its tools and data, [[a2a|A2A]] wires agents to each other so they can collaborate or delegate tasks across vendors.
 
-In December 2025 {{anthropic|Anthropic}} donated [[mcp|MCP]] to the Agentic AI Foundation (AAIF), a {{linux|Linux}} Foundation directed fund co-founded by Anthropic, Block, and OpenAI. [[mcp|MCP]] and [[a2a|A2A]] are now under the same umbrella. Mid-2026 industry analyses report [[mcp|MCP]] at ~78% enterprise adoption vs [[a2a|A2A]] at ~23% — the boundary between "agent" and "tool" remains fuzzy and the multi-agent collaboration use cases are still emerging.`,
+In December 2025 {{anthropic|Anthropic}} donated [[mcp|MCP]] to the Agentic AI Foundation (AAIF), a {{linux|Linux}} Foundation directed fund co-founded by {{anthropic|Anthropic}}, Block, and OpenAI. [[mcp|MCP]] and [[a2a|A2A]] are now under the same umbrella. Mid-2026 industry analyses report [[mcp|MCP]] at ~78% enterprise adoption vs [[a2a|A2A]] at ~23% — the boundary between "agent" and "tool" remains fuzzy and the multi-agent collaboration use cases are still emerging.`,
 		sources: [
 			{ url: 'https://www.linuxfoundation.org/press/linux-foundation-launches-the-agent2agent-protocol-project-to-enable-secure-intelligent-communication-between-ai-agents', label: 'Linux Foundation — A2A project' },
 			{ url: 'https://en.wikipedia.org/wiki/Model_Context_Protocol', label: 'Wikipedia — MCP' }

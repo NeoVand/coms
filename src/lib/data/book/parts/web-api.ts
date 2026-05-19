@@ -439,7 +439,7 @@ The choice between [[websockets|WebSocket]], [[sse|SSE]], and {{webtransport|Web
 							title: 'A Standard Way For Agents To Reach Tools',
 							text: `Until 2024, an AI assistant that wanted to read your files, query your database, or call your APIs needed a custom integration per tool per assistant. {{anthropic|Anthropic}} shipped Claude with file access, Cursor shipped with editor integration, every developer rebuilt the same plumbing. With N AI hosts and M tools, the industry was building **N×M bespoke connectors**. The combinatorics did not scale.
 
-[[mcp|MCP]] — the **Model Context Protocol**, published by Anthropic on **25 November 2024** — collapses N×M to N+M. The premise: a tool server (filesystem, database, CRM, anything) speaks [[mcp|MCP]]; any [[mcp|MCP]]-aware client (Claude, Cursor, ChatGPT, your own agent) can use it. **Capability discovery, tool calling, prompt templates, and resources** are first-class concepts. The transport is **[[json-rpc|JSON-RPC]] 2.0** over either standard input/output for local tools or HTTP for remote ones.`
+[[mcp|MCP]] — the **Model Context Protocol**, published by {{anthropic|Anthropic}} on **25 November 2024** — collapses N×M to N+M. The premise: a tool server (filesystem, database, CRM, anything) speaks [[mcp|MCP]]; any [[mcp|MCP]]-aware client (Claude, Cursor, ChatGPT, your own agent) can use it. **Capability discovery, tool calling, prompt templates, and resources** are first-class concepts. The transport is **[[json-rpc|JSON-RPC]] 2.0** over either standard input/output for local tools or HTTP for remote ones.`
 						},
 						{
 							type: 'narrative',

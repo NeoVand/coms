@@ -304,7 +304,7 @@ Payloads:
 			org: 'Operating-system native clients',
 			scale: 'Every modern OS ships an IKEv2 client',
 			description:
-				'{{apple|Apple}} iOS / macOS: native IKEv2 since iOS 9 / OS X 10.11 (configured via `.mobileconfig`). {{microsoft|Microsoft}} Always-On VPN: IKEv2 + EAP-TLS profile baseline. {{android|Android}}: native IKEv2/IPsec PSK + EAP since Android 12. {{linux|Linux}}: NetworkManager + strongSwan. OpenBSD: clean-room `iked` since OpenBSD 4.8 (2010), by Reyk Floeter.'
+				'{{apple|Apple}} iOS / macOS: native IKEv2 since iOS 9 / OS X 10.11 (configured via `.mobileconfig`). {{microsoft|Microsoft}} Always-On VPN: IKEv2 + EAP-TLS profile baseline. {{android|Android}}: native IKEv2/IPsec PSK + EAP since {{android|Android}} 12. {{linux|Linux}}: NetworkManager + strongSwan. OpenBSD: clean-room `iked` since OpenBSD 4.8 (2010), by Reyk Floeter.'
 		}
 	],
 

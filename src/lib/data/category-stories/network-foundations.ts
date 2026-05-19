@@ -198,7 +198,7 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
     R1 --> R2 --> R3
   end
   subgraph Dest["Destination"]
-    D1["Ethernet → IP → [[tcp|TCP]] → Application"]
+    D1["[[ethernet|Ethernet]] → IP → [[tcp|TCP]] → Application"]
   end
   S4 -->|"Frame on wire"| R1
   R3 -->|"New frame, same IP packet"| D1`,

@@ -175,7 +175,7 @@ A [[kafka|Kafka]] **{{topic|topic}}** is a partitioned log. Producers append rec
 
 **[[kafka|Kafka]] 3.9 (6 November 2024)** made **Tiered Storage GA** (KIP-405) — letting brokers offload old segments to S3 while keeping recent data on local disk. **[[kafka|Kafka]] 4.1 (4 September 2025)** promoted **KIP-932 Queues for [[kafka|Kafka]]** (share groups — per-record acknowledgement, [[amqp|AMQP]]-like semantics) to preview, with GA in 4.2. [[kafka|Kafka]] is finally adding the per-message acknowledgement model [[amqp|AMQP]] has had for two decades.
 
-**{{linkedin|LinkedIn}} runs the largest publicly disclosed deployment**: 100+ clusters, 4,000+ brokers, ~7M partitions, **>7 trillion messages/day** (2019 LinkedIn engineering blog; floor figure, never updated downward).`
+**{{linkedin|LinkedIn}} runs the largest publicly disclosed deployment**: 100+ clusters, 4,000+ brokers, ~7M partitions, **>7 trillion messages/day** (2019 {{linkedin|LinkedIn}} engineering blog; floor figure, never updated downward).`
 						},
 						{
 							type: 'callout',

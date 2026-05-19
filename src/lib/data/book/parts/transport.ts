@@ -251,7 +251,7 @@ The application has no idea any of this is happening. The socket interface is id
 							title: 'The Apple iOS 7 Deployment',
 							text: `**{{apple|Apple}} shipped [[mptcp|MPTCP]] in iOS 7 (September 2013)** for **Siri**. The choice was forced by user experience: Siri's voice recognition did a round-trip to {{apple|Apple}}'s servers, and the half-second handoff between [[wifi|Wi-Fi]] and cellular was producing visible "Sorry, I didn't catch that" failures during normal walking-out-of-the-house transitions. [[mptcp|MPTCP]] let Siri's connection keep working through the handoff.
 
-{{apple|Apple}} expanded [[mptcp|MPTCP]] in iOS 11 (2017) to a public API for any app, and in iOS 12+ to additional system services ({{apple|Apple}} Maps, {{apple|Apple}} Music). By 2026 every {{apple|Apple}} device with both [[wifi|Wi-Fi]] and cellular uses [[mptcp|MPTCP]] for the OS-managed services. Notably, Apple did **not** open up [[mptcp|MPTCP]] for third-party app traffic by default — most app developers do not know they could use it.
+{{apple|Apple}} expanded [[mptcp|MPTCP]] in iOS 11 (2017) to a public API for any app, and in iOS 12+ to additional system services ({{apple|Apple}} Maps, {{apple|Apple}} Music). By 2026 every {{apple|Apple}} device with both [[wifi|Wi-Fi]] and cellular uses [[mptcp|MPTCP]] for the OS-managed services. Notably, {{apple|Apple}} did **not** open up [[mptcp|MPTCP]] for third-party app traffic by default — most app developers do not know they could use it.
 
 **{{linux|Linux}} merged the upstream [[mptcp|MPTCP]] implementation in kernel 5.6 (March 2020)** after years of out-of-tree patches. **South Korea's Korea Telecom built a "GIGA Path" service** that used [[mptcp|MPTCP]] to bond LTE and [[wifi|Wi-Fi]] for 1 Gbps mobile downloads — the first commercial network operator to position [[mptcp|MPTCP]] as a consumer feature.`
 						},
@@ -267,7 +267,7 @@ The application has no idea any of this is happening. The socket interface is id
 
 {{multipath|Multipath}} [[quic|QUIC]] inherits [[mptcp|MPTCP]]'s algorithmic ideas — subflows, coupled {{congestion-control|congestion control}}, packet scheduling across paths — but operates inside [[quic|QUIC]]'s much more deployable carrier ([[udp|UDP]]). Where [[mptcp|MPTCP]] had to fight middleboxes that didn't understand [[tcp|TCP]] options, {{multipath|multipath}} [[quic|QUIC]] encrypts everything except a handful of public bits inside the [[udp|UDP]] envelope. Middleboxes see [[udp|UDP]]; the {{multipath|multipath}} logic is invisible.
 
-**{{apple|Apple}}, Alibaba, and Tessares have already deployed predecessors** (gQUIC {{multipath|multipath}} at {{google|Google}}, {{apple|Apple}}'s iCloud sync, Alibaba's mobile e-commerce). Once multipath [[quic|QUIC]] ships in mainline implementations (quiche, mvfst, quinn, msquic), it becomes the natural multipath transport for [[http3|HTTP/3]].
+**{{apple|Apple}}, Alibaba, and Tessares have already deployed predecessors** (gQUIC {{multipath|multipath}} at {{google|Google}}, {{apple|Apple}}'s iCloud sync, Alibaba's mobile e-commerce). Once {{multipath|multipath}} [[quic|QUIC]] ships in mainline implementations (quiche, mvfst, quinn, msquic), it becomes the natural multipath transport for [[http3|HTTP/3]].
 
 [[mptcp|MPTCP]] itself will remain in production for the use cases it currently serves. But the architectural arc — same idea, ported to a more deployable transport — is the same arc [[quic|QUIC]] followed for everything else.`
 						},

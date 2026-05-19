@@ -284,7 +284,7 @@ But [[mcp|MCP]] solved only half the puzzle. It connected agents to tools \u2014
   U -->|"[[mcp|MCP]]"| T3["Slack Tool"]
   U -->|"[[a2a|A2A]]"| A1["Travel Agent"]
   U -->|"[[a2a|A2A]]"| A2["Research Agent"]
-  A1 -->|"MCP"| T4["Flight API"]
+  A1 -->|"[[mcp|MCP]]"| T4["Flight API"]
   A1 -->|"MCP"| T5["Hotel API"]
   A2 -->|"MCP"| T6["Web Search"]`,
 			caption:

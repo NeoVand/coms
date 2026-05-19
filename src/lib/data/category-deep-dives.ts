@@ -48,7 +48,7 @@ VLANs are essential for security (isolating guest [[wifi|WiFi]] from the corpora
     A_AP1 --- A_TRUNK
     A_AP2 --- A_TRUNK
     A_AP3 --- A_TRUNK
-    A_TRUNK -- "Tagged Frames<br/>(VLAN ID in 802.1Q header)" --- B_TRUNK
+    A_TRUNK -- "Tagged Frames<br/>({{vlan|VLAN}} ID in 802.1Q header)" --- B_TRUNK
     B_TRUNK --- B_AP1
     B_TRUNK --- B_AP2
     A_TRUNK --- L3
