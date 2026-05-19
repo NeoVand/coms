@@ -259,6 +259,47 @@
 		prevSelected = selected;
 	});
 
+	/**
+	 * React to standalone reading surfaces opening or closing — pioneer
+	 * bios, RFCs, outages, frontier entries, book chapters, etc. These
+	 * never set `selectedNode`, so the selection-driven effect above
+	 * misses them. Without this effect, closing the panel from a pioneer
+	 * (or any other reading surface) leaves the graph framed wherever it
+	 * was last positioned instead of resetting to the bare-graph view.
+	 */
+	let prevReadingSurfaceOpen = false;
+
+	$effect(() => {
+		const open = Boolean(
+			appState.activeBookChapter ||
+				appState.activeBookPart ||
+				appState.activeBookPartToc ||
+				appState.activePioneer ||
+				appState.activeRfc ||
+				appState.activeOutage ||
+				appState.activeFrontier ||
+				appState.activeRegistryIndex
+		);
+		const selected = appState.selectedNode;
+
+		if (open && !prevReadingSurfaceOpen && !selected) {
+			// Opening a reading surface with no node selected — frame the
+			// full graph in the panel-offset visible area so the graph is
+			// still readable beside the panel.
+			untrack(() => {
+				appState.focusOnSubgraph(nodes, width, height);
+			});
+		} else if (!open && prevReadingSurfaceOpen && !selected) {
+			// All reading surfaces closed and no node is selected — return
+			// to the bare-graph zero state (full viewport, no panel offset).
+			untrack(() => {
+				appState.focusOnSubgraph(nodes, width, height, 0);
+			});
+		}
+
+		prevReadingSurfaceOpen = open;
+	});
+
 	// React to comparison target changes — focus on just the two compared nodes
 	let prevCompareTargetId: string | null = null;
 
