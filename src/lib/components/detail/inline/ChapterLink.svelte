@@ -25,7 +25,8 @@
 		href="{base}/book/{partId}/{chapterId}"
 		class="inline font-medium transition-colors hover:underline"
 		style="color: {color}"
-		title={tooltip}>{label}</a
+		title={tooltip}
+		onclick={(e) => e.stopPropagation()}>{label}</a
 	>
 {:else}
 	<span class="inline italic" style="color: {color}; opacity: 0.85;" title={tooltip}>{label}</span>

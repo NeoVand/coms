@@ -27,5 +27,6 @@
 	rel={isExternal ? 'noopener noreferrer' : undefined}
 	class="inline font-mono text-[0.92em] tracking-tight transition-colors hover:underline"
 	style="color: {color}"
-	title={tooltip}>{label}</a
+	title={tooltip}
+	onclick={(e) => e.stopPropagation()}>{label}</a
 >

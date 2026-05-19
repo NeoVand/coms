@@ -56,7 +56,7 @@
 	bind:this={btn}
 	class="inline transition-colors hover:underline {bold ? 'font-semibold' : 'font-medium'}"
 	style="color: {color}"
-	onclick={() => navigateToProtocol(protocolId)}
+	onclick={(e) => { e.stopPropagation(); navigateToProtocol(protocolId); }}
 	onmouseenter={show}
 	onmouseleave={hide}
 	onfocus={show}

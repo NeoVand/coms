@@ -23,7 +23,8 @@
 		href="{base}/frontier/{fe.id}"
 		class="inline font-medium transition-colors hover:underline"
 		style="color: {color}"
-		title={tooltip}>{label}</a
+		title={tooltip}
+		onclick={(e) => e.stopPropagation()}>{label}</a
 	>
 {:else}
 	<!-- Registry not yet populated for this id — render as styled text so the

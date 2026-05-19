@@ -23,7 +23,8 @@
 		href="{base}/pioneer/{pioneer.id}"
 		class="inline font-medium transition-colors hover:underline"
 		style="color: {color}"
-		title={tooltip}>{label}</a
+		title={tooltip}
+		onclick={(e) => e.stopPropagation()}>{label}</a
 	>
 {:else}
 	<span class="inline font-medium" style="color: {color}; opacity: 0.85;" title={tooltip}
