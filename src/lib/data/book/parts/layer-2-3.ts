@@ -48,7 +48,7 @@ The IEEE standardised it as **802.3** in 1983, the same year as {{arpanet|ARPANE
 							title: 'The Frame Format That Never Changed',
 							text: `Six bytes of destination MAC, six of source, two of EtherType, then up to 1500 bytes of {{payload|payload}}, then a 4-byte CRC. That is the [[ethernet|Ethernet]] II frame in 1980 and in 2025. Everything that scaled — {{bandwidth|bandwidth}}, switching, VLANs (802.1Q), jumbo frames — slid in around it without breaking the wire format.
 
-**Jumbo frames (9000 bytes)** popularised by Alteon in 1998 are still technically non-standard 28 years later. The **1500-byte {{mtu|MTU}}** from the 1980 DIX (DEC/Intel/Xerox) choice still rules in production internet links. Routers MUST support 1500; jumbo frames MAY be supported per {{peering|peering}} agreement. The conservative default has held because changing it requires every device on a path to agree, and one device that does not is a black hole.
+**Jumbo frames (9000 bytes)** popularised by Alteon in 1998 are still technically non-standard 28 years later. The **1500-byte {{mtu|MTU}}** from the 1980 DIX (DEC/{{intel|Intel}}/Xerox) choice still rules in production internet links. Routers MUST support 1500; jumbo frames MAY be supported per {{peering|peering}} agreement. The conservative default has held because changing it requires every device on a path to agree, and one device that does not is a black hole.
 
 The naming history is its own joke: **802.3 letter suffixes ran out at "z"** (1000BASE-X), forcing 802.3aa, ab, …, eventually **df (800 GbE) and dj (1.6 TbE)**. The standards process kept producing letters faster than the alphabet could supply them.`
 						},
@@ -57,11 +57,11 @@ The naming history is its own joke: **802.3 letter suffixes ran out at "z"** (10
 							title: 'AI Training Fabrics — The Current Gold Rush',
 							text: `**IEEE 802.3df-2024 (800 GbE)** was approved 16 February 2024 and published March 2024. **IEEE P802.3dj (1.6 TbE at 200 Gb/s/lane PAM-4)** passed its 3rd Working Group recirculation ballot **16 December 2025 with 87% approval** — expected ratification mid-2026.
 
-**2025 milestone**: **Broadcom Tomahawk 6** — world's first **102.4 Tbps single-chip switch** — shipped 3 June 2025; **Tomahawk 6-Davisson with co-packaged optics** shipped October 2025. A single chip can drive 64×1.6T, 128×800G, 256×400G, or 512×200G ports.
+**2025 milestone**: **{{broadcom|Broadcom}} Tomahawk 6** — world's first **102.4 Tbps single-chip switch** — shipped 3 June 2025; **Tomahawk 6-Davisson with co-packaged optics** shipped October 2025. A single chip can drive 64×1.6T, 128×800G, 256×400G, or 512×200G ports.
 
 The **[[frontier:ultra-ethernet-1-0|Ultra Ethernet Consortium]] Specification 1.0** was published 11 June 2025 (~560 pages) — the first ground-up rethink of how [[ethernet|Ethernet]] carries RDMA traffic for AI/HPC workloads. Defines **Ultra [[ethernet|Ethernet]] Transport (UET)**: packet spraying with {{multipath|multipath}}, selective {{retransmission|retransmission}}, in-network telemetry-driven {{congestion-control|congestion control}}, ephemeral/{{connectionless|connectionless}} transport state for millions of endpoints.
 
-**650 Group estimates 91% of AI workloads will run on [[ethernet|Ethernet]] by 2029**; NVIDIA Spectrum-X delivers ~95% effective throughput vs ~60% on best-effort [[ethernet|Ethernet]] for AI workloads. The architectural significance is that AI training is now important enough to drive a new datacenter transport — the same kind of pressure that produced [[ethernet|Ethernet]] in 1973 for office networking, [[tcp|TCP/IP]] in 1981 for inter-network research, and [[quic|QUIC]] in 2012 for the modern web.`
+**650 Group estimates 91% of AI workloads will run on [[ethernet|Ethernet]] by 2029**; {{nvidia|NVIDIA}} {{spectrum|Spectrum}}-X delivers ~95% effective throughput vs ~60% on best-effort [[ethernet|Ethernet]] for AI workloads. The architectural significance is that AI training is now important enough to drive a new datacenter transport — the same kind of pressure that produced [[ethernet|Ethernet]] in 1973 for office networking, [[tcp|TCP/IP]] in 1981 for inter-network research, and [[quic|QUIC]] in 2012 for the modern web.`
 						},
 						{
 							type: 'image',
@@ -101,7 +101,7 @@ The **[[frontier:ultra-ethernet-1-0|Ultra Ethernet Consortium]] Specification 1.
 							title: 'The Regulatory Big Bang',
 							text: `[[wifi|Wi-Fi]] exists because of **FCC Docket 81-413 (9 May 1985)**, championed by **Michael Marcus**, which opened the **902 MHz / 2.4 GHz / 5.8 GHz ISM bands** for unlicensed spread-{{spectrum|spectrum}} use. Without that regulatory action, no consumer wireless networking could have existed. The IEEE [[wifi|802.11]] working group started in 1990; **the first standard, [[wifi|802.11]] (1997)**, shipped at 1 and 2 Mbps. The big consumer breakthroughs were 802.11b (1999) at 11 Mbps and 802.11g (2003) at 54 Mbps.
 
-The fundamental problem: radios cannot listen and transmit simultaneously, so you cannot detect collisions the way wired [[ethernet|Ethernet]] does. [[wifi|Wi-Fi]] instead uses **CSMA/{{certificate-authority|CA}}** — collision **avoidance**. Before transmitting, a station waits a random backoff window scaled by traffic congestion. Acknowledgements are explicit: every {{unicast|unicast}} frame must be ACKed within microseconds, or the sender retransmits. Half-duplex, mandatory ACKs, and shared spectrum together cap real-world [[wifi|Wi-Fi]] throughput at roughly 60% of the headline number.
+The fundamental problem: radios cannot listen and transmit simultaneously, so you cannot detect collisions the way wired [[ethernet|Ethernet]] does. [[wifi|Wi-Fi]] instead uses **CSMA/{{certificate-authority|CA}}** — collision **avoidance**. Before transmitting, a station waits a random backoff window scaled by traffic congestion. Acknowledgements are explicit: every {{unicast|unicast}} frame must be ACKed within microseconds, or the sender retransmits. Half-duplex, mandatory ACKs, and shared {{spectrum|spectrum}} together cap real-world [[wifi|Wi-Fi]] throughput at roughly 60% of the headline number.
 
 **"[[wifi|Wi-Fi]]" is not an acronym.** Phil Belanger of the [[wifi|Wi-Fi]] Alliance confirmed in 2005 that **Interbrand chose the name from 10 candidates**. *"Wireless Fidelity"* was a tagline retrofitted briefly by the WECA board and dropped. The yin-yang logo is also Interbrand's work.`
 						},
@@ -124,11 +124,11 @@ The fundamental problem: radios cannot listen and transmit simultaneously, so yo
 						{
 							type: 'narrative',
 							title: 'The 6 GHz Politics, And the TJX Story That Changed Everything',
-							text: `**The US FCC freed 1,200 MHz of 6 GHz {{spectrum|spectrum}} on 23 April 2020**; on **23 February 2024** the FCC OET approved **seven AFC system operators** (Qualcomm, Federated Wireless, Sony, Comsearch, [[wifi|Wi-Fi]] Alliance Services, WBA, Broadcom) for commercial **Standard Power AFC** operation. **First AFC-certified [[wifi|Wi-Fi]] 7 {{access-point|AP}} (RUCKUS R770) was certified 16 April 2024.**
+							text: `**The US FCC freed 1,200 MHz of 6 GHz {{spectrum|spectrum}} on 23 April 2020**; on **23 February 2024** the FCC OET approved **seven AFC system operators** (Qualcomm, Federated Wireless, Sony, Comsearch, [[wifi|Wi-Fi]] Alliance Services, WBA, {{broadcom|Broadcom}}) for commercial **Standard Power AFC** operation. **First AFC-certified [[wifi|Wi-Fi]] 7 {{access-point|AP}} (RUCKUS R770) was certified 16 April 2024.**
 
-But on **12 November 2025**, the EU Radio Spectrum Policy Group recommended assigning the **upper 6 GHz band (6585-7125 MHz) to mobile/5G**, holding 6425-6585 MHz pending WRC-27 — **effectively closing the upper band to [[wifi|Wi-Fi]] in the EU for the medium term**. The [[wifi|Wi-Fi]] Alliance "strongly disagrees."
+But on **12 November 2025**, the EU Radio {{spectrum|Spectrum}} Policy Group recommended assigning the **upper 6 GHz band (6585-7125 MHz) to mobile/5G**, holding 6425-6585 MHz pending WRC-27 — **effectively closing the upper band to [[wifi|Wi-Fi]] in the EU for the medium term**. The [[wifi|Wi-Fi]] Alliance "strongly disagrees."
 
-The breach that changed everything: **TJX (disclosed 17 January 2007)** — attackers war-drove a poorly-secured **WEP-protected** [[wifi|Wi-Fi]] at a Marshalls store in Miami starting July 2005; **~94 million customer card records exfiltrated**. TJX settled with 41 state AGs for $9.75M. Drove WPA2 mandates and effectively ended WEP deployment in retail.
+The breach that changed everything: **TJX (disclosed 17 January 2007)** — attackers war-drove a poorly-secured **WEP-protected** [[wifi|Wi-Fi]] at a Marshalls store in Miami starting July 2005; **~94 million customer card records exfiltrated**. TJX settled with 41 state AGs for $9.75M. Drove {{wpa2|WPA2}} mandates and effectively ended WEP deployment in retail.
 
 **[[wifi|Wi-Fi]] sensing standardised**: 802.11bf-2025 published 26 September 2025, allows CSI-based presence/motion/breathing detection across 1-7.125 GHz and >45 GHz — radio waves as occupancy sensors.`
 						},
@@ -180,7 +180,7 @@ David C. Plummer at Symbolics/MIT-AI wrote [[rfc:826|RFC 826]] from address \`DC
 
 Two {{ndp|NDP}} CVEs deserve naming.
 
-**CVE-2024-38063 (Microsoft, August 2024)** — \`tcpip.sys\` integer underflow in [[ipv6|IPv6]] fragment reassembly. CVSS 9.8, "exploitable from anywhere on the link." Patched 13 August 2024.
+**CVE-2024-38063 ({{microsoft|Microsoft}}, August 2024)** — \`tcpip.sys\` integer underflow in [[ipv6|IPv6]] fragment reassembly. CVSS 9.8, "exploitable from anywhere on the link." Patched 13 August 2024.
 
 **CVE-2020-16898 "Bad Neighbor" (13 October 2020)** — Windows \`tcpip.sys\` mishandled an ICMPv6 RA with even-length RDNSS option. CVSS 8.8; remote-code-execution claimed wormable. The [[ipv6|IPv6]] stack was supposed to be cleaner than [[ip|IPv4]]'s; the CVE history shows the implementations are no less intricate.
 
@@ -191,11 +191,11 @@ Two {{ndp|NDP}} CVEs deserve naming.
 							title: 'Three Operational Footguns to Know',
 							text: `**AWS does not run [[arp|ARP]].** Per AWS *Logical Separation* whitepaper, *"[[arp|ARP]] packets never hit the network as they are not needed for discovery of the virtual network topology"* — every [[arp|ARP]] request inside a VPC is intercepted and answered by the hypervisor from an authenticated central database. If you have ever wondered why \`arp -a\` looks weird in EC2, that is why.
 
-**Linux \`gc_thresh3=1024\` default silently drops traffic on cloud hosts with >700 neighbors.** Symptom: \`dmesg\` floods with \`neighbour: arp_cache: neighbor table overflow!\` Documented as Ubuntu/OpenStack bug 1780348 (still relevant in 2026). Cure: bump \`net.ipv4.neigh.default.gc_thresh3\` and friends.
+**{{linux|Linux}} \`gc_thresh3=1024\` default silently drops traffic on cloud hosts with >700 neighbors.** Symptom: \`dmesg\` floods with \`neighbour: arp_cache: neighbor table overflow!\` Documented as Ubuntu/OpenStack bug 1780348 (still relevant in 2026). Cure: bump \`net.ipv4.neigh.default.gc_thresh3\` and friends.
 
 **iOS 18 / macOS Sequoia (September 2024) introduced "Rotate [[wifi|Wi-Fi]] Address" mode** that changes MAC every 14 days on weak/open networks, breaking captive portals, MAC-based [[dhcp|DHCP]] reservations, and [[arp|ARP]]-cache freshness assumptions. Many enterprise [[wifi|Wi-Fi]] deployments needed reconfiguration.
 
-**Frontier — [[ipv6|IPv6]]-mostly is going mainstream**: [[rfc:8925|RFC 8925]] + [[rfc:8781|RFC 8781]] + {{four-six-four-xlat|464XLAT}} lets a single SSID/{{vlan|VLAN}} serve dual-stack laptops AND [[ipv6|IPv6]]-only-capable phones simultaneously, with the [[ipv6|IPv6]]-only-capable hosts **never running [[arp|ARP]]**. Apple iOS/macOS, Android, and recent macOS request [[dhcp|DHCP]] option 108 by default; Windows is lagging. The day [[arp|ARP]] becomes vestigial is approaching.`
+**Frontier — [[ipv6|IPv6]]-mostly is going mainstream**: [[rfc:8925|RFC 8925]] + [[rfc:8781|RFC 8781]] + {{four-six-four-xlat|464XLAT}} lets a single SSID/{{vlan|VLAN}} serve dual-stack laptops AND [[ipv6|IPv6]]-only-capable phones simultaneously, with the [[ipv6|IPv6]]-only-capable hosts **never running [[arp|ARP]]**. {{apple|Apple}} iOS/macOS, Android, and recent macOS request [[dhcp|DHCP]] option 108 by default; Windows is lagging. The day [[arp|ARP]] becomes vestigial is approaching.`
 						},
 						{
 							type: 'image',
@@ -258,7 +258,7 @@ Together these stretched [[ip|IPv4]] from "exhausted in 1995" to "still ~50% of 
 						{
 							type: 'narrative',
 							title: 'The 2024 AWS Forcing Function and the IPv4 Market',
-							text: `**AWS began charging $0.005/[[ip|IP]]/hour for every public [[ip|IPv4]] address on 1 February 2024** — $43.80/year per address. AWS owns ~1.7% of the entire [[ip|IPv4]] space (~100M addresses). Cloudflare estimated this as a ~$2B "tax on the Internet." Within months, AWS workloads at scale began migrating to [[ipv6|IPv6]]-only architectures with {{nat64|NAT64}} gateways for legacy [[ip|IPv4]] destinations. The economic forcing function did more for [[ipv6|IPv6]] deployment in 2024 than two decades of advocacy.
+							text: `**AWS began charging $0.005/[[ip|IP]]/hour for every public [[ip|IPv4]] address on 1 February 2024** — $43.80/year per address. AWS owns ~1.7% of the entire [[ip|IPv4]] space (~100M addresses). {{cloudflare|Cloudflare}} estimated this as a ~$2B "tax on the Internet." Within months, AWS workloads at scale began migrating to [[ipv6|IPv6]]-only architectures with {{nat64|NAT64}} gateways for legacy [[ip|IPv4]] destinations. The economic forcing function did more for [[ipv6|IPv6]] deployment in 2024 than two decades of advocacy.
 
 **The [[ip|IPv4]] secondary market**: mid-2024 averages were $32-36/[[ip|IP]]; in **June 2025 /16 prices fell below $20/[[ip|IP]] for the first time since 2019**; January 2026 mean: $22/[[ip|IP]], with a /14 block transferred at $9/[[ip|IP]]. The market has inverted from "exhaustion-driven scarcity premium" to "post-exhaustion oversupply" as [[ipv6|IPv6]]-mostly deployment frees v4 blocks.
 
@@ -266,7 +266,7 @@ Together these stretched [[ip|IPv4]] from "exhausted in 1995" to "still ~50% of 
 
 **[[outage:pakistan-youtube-2008|Pakistan Telecom's YouTube hijack (24 February 2008)]]** — PTCL announced 208.65.153.0/24 (more-specific of YouTube's /22), PCCW Global propagated, YouTube went dark globally for ~2 hours. Drove {{rpki|RPKI}} / BGPsec / MANRS work that finally accelerated in 2024-2025.
 
-**Linux 6.3 (April 2023, deployed in 2024)** shipped **BIG [[tcp|TCP]] for [[ip|IPv4]]** — TSO/GRO superpackets above 64 KB on 100/200 Gb NICs. **Cloudflare blocked 47.1 million DDoS attacks in 2025**; peaked at **31.4 Tbps for one 35-second burst** (Aisuru-Kimwolf Android-TV botnet, December 2025).`
+**{{linux|Linux}} 6.3 (April 2023, deployed in 2024)** shipped **BIG [[tcp|TCP]] for [[ip|IPv4]]** — TSO/GRO superpackets above 64 KB on 100/200 Gb NICs. **{{cloudflare|Cloudflare}} blocked 47.1 million DDoS attacks in 2025**; peaked at **31.4 Tbps for one 35-second burst** (Aisuru-Kimwolf Android-TV botnet, December 2025).`
 						},
 						{
 							type: 'image',
@@ -316,24 +316,24 @@ It then took **twenty-eight years** to reach 50% adoption. The reason is not tec
 						{
 							type: 'narrative',
 							title: 'The 50.1% Crossing — And Why It Inflected',
-							text: `**On 28 March 2026, Google\'s [[ipv6|IPv6]] dashboard recorded 50.1% for the first time** — [[ipv6|IPv6]] briefly surpassed [[ip|IPv4]] in Google's measured user base. APNIC Labs and Cloudflare Radar still place global [[ipv6|IPv6]] capability in the **40-43%** range; the 50% number is a Google-specific snapshot. But it is a milestone the community has been waiting for since 1995.
+							text: `**On 28 March 2026, {{google|Google}}\'s [[ipv6|IPv6]] dashboard recorded 50.1% for the first time** — [[ipv6|IPv6]] briefly surpassed [[ip|IPv4]] in {{google|Google}}'s measured user base. APNIC Labs and {{cloudflare|Cloudflare}} Radar still place global [[ipv6|IPv6]] capability in the **40-43%** range; the 50% number is a Google-specific snapshot. But it is a milestone the community has been waiting for since 1995.
 
-Adoption inflected when **mobile carriers** went [[ipv6|IPv6]]-mostly for cellular subscribers. **T-Mobile US** moved its mobile core to [[ipv6|IPv6]]-only with {{four-six-four-xlat|464XLAT}} (Cameron Byrne, NANOG 61, 2014) — the production case study that defined the pattern. **Reliance Jio (India)** launched [[ipv6|IPv6]]-first in 2016 — >237M [[ipv6|IPv6]] users by 2017 — single biggest reason India's [[ipv6|IPv6]] share now runs 67-80%. **Meta** runs >99% of internal datacenter traffic over [[ipv6|IPv6]]; entire new clusters are [[ipv6|IPv6]]-only. Meta says **internal [[ipv6|IPv6]] is 10-15% faster than [[ip|IPv4]]** (and on one carrier mobile measurement, 40% faster).
+Adoption inflected when **mobile carriers** went [[ipv6|IPv6]]-mostly for cellular subscribers. **T-Mobile US** moved its mobile core to [[ipv6|IPv6]]-only with {{four-six-four-xlat|464XLAT}} (Cameron Byrne, NANOG 61, 2014) — the production case study that defined the pattern. **Reliance Jio (India)** launched [[ipv6|IPv6]]-first in 2016 — >237M [[ipv6|IPv6]] users by 2017 — single biggest reason India's [[ipv6|IPv6]] share now runs 67-80%. **{{meta|Meta}}** runs >99% of internal datacenter traffic over [[ipv6|IPv6]]; entire new clusters are [[ipv6|IPv6]]-only. {{meta|Meta}} says **internal [[ipv6|IPv6]] is 10-15% faster than [[ip|IPv4]]** (and on one carrier mobile measurement, 40% faster).
 
 By 2026: **US mobile [[ipv6|IPv6]] averages ~87%**; **France 86%** (Google, Feb 2026); **Germany 68%**; **China 865M [[ipv6|IPv6]] users (77% of users); 34% of traffic** (Sept 2025).`
 						},
 						{
 							type: 'narrative',
 							title: 'The KAME Turtle, And the 2024 RFC Backlog',
-							text: `**The KAME Project (1998-March 2006)** — joint Fujitsu / Hitachi / IIJ / NEC / Toshiba / Yokogawa / Keio U. / U.Tokyo — produced the free reference [[ipv6|IPv6]]/IPsec stack underlying **FreeBSD, macOS, and iOS**. The dancing turtle still appears at kame.net for [[ipv6|IPv6]]-reachable visitors. If you ever wondered where Apple's [[ipv6|IPv6]] stack came from, the answer is "a Japanese collaboration from 1998 named after a turtle." (Most modern Apple [[ipv6|IPv6]] work has long since moved past KAME, but the lineage is real.)
+							text: `**The KAME Project (1998-March 2006)** — joint Fujitsu / Hitachi / IIJ / NEC / Toshiba / Yokogawa / Keio U. / U.Tokyo — produced the free reference [[ipv6|IPv6]]/IPsec stack underlying **FreeBSD, macOS, and iOS**. The dancing turtle still appears at kame.net for [[ipv6|IPv6]]-reachable visitors. If you ever wondered where {{apple|Apple}}'s [[ipv6|IPv6]] stack came from, the answer is "a Japanese collaboration from 1998 named after a turtle." (Most modern {{apple|Apple}} [[ipv6|IPv6]] work has long since moved past KAME, but the lineage is real.)
 
 The 2024 {{ietf|IETF}} backlog tells the story of where [[ipv6|IPv6]] work is happening:
 - **RFC 9637 (August 2024)** added \`3fff::/20\` as a second [[ipv6|IPv6]] documentation prefix on top of \`2001:db8::/32\`, large enough to model multi-{{autonomous-system|AS}} networks.
 - **RFC 9673 (October 2024)** finally relaxed {{hop|Hop}}-by-{{hop|Hop}} Options handling so HBH options are deployable on real router silicon.
 - **RFC 9602 (2024)** reserved \`5f00::/16\` for SRv6 SIDs.
-- **\`face:b00c\` was removed from Linux kernel traces in 2024** because the example prefix from RFC 5514 was being mistaken for a real prefix in copy-pasted configs.
+- **\`face:b00c\` was removed from {{linux|Linux}} kernel traces in 2024** because the example prefix from RFC 5514 was being mistaken for a real prefix in copy-pasted configs.
 
-**Frontier**: SoftBank (Dec 2025) announced the world's first commercial 5G deployment using **SRv6 MUP**; Microsoft Azure Fairwater (OCP 2025) uses **SRv6 as fabric** for what Microsoft calls the largest AI back-end network in the world.
+**Frontier**: SoftBank (Dec 2025) announced the world's first commercial 5G deployment using **SRv6 MUP**; {{microsoft|Microsoft}} Azure Fairwater (OCP 2025) uses **SRv6 as fabric** for what {{microsoft|Microsoft}} calls the largest AI back-end network in the world.
 
 **Apple iCloud Private Relay** (Oct 2021+) prefers [[ipv6|IPv6]] egress when AAAA exists; pure [[ip|IPv4]]-only enterprise networks frequently break Private Relay — its own forcing function for [[ipv6|IPv6]] deployment in enterprises that want Apple-device compatibility.`
 						},
@@ -342,7 +342,7 @@ The 2024 {{ietf|IETF}} backlog tells the story of where [[ipv6|IPv6]] work is ha
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Ipv6_address_leading_zeros.svg/500px-Ipv6_address_leading_zeros.svg.png',
 							alt: 'IPv6 address structure showing the eight 16-bit groups and the double-colon zero-compression rule.',
 							caption:
-								'An [[ipv6|IPv6]] address — **128 bits**, written as eight colon-separated 16-bit groups, with one run of zeros collapsed to `::`. The field grew from [[ip|IPv4]]\'s 32 bits to enough that every grain of sand on Earth could have its own {{subnet|subnet}}. On 28 March 2026 Google\'s [[ipv6|IPv6]] dashboard crossed **50.1%** for the first time — 28 years after [[rfc:2460|RFC 2460]] was published.',
+								'An [[ipv6|IPv6]] address — **128 bits**, written as eight colon-separated 16-bit groups, with one run of zeros collapsed to `::`. The field grew from [[ip|IPv4]]\'s 32 bits to enough that every grain of sand on Earth could have its own {{subnet|subnet}}. On 28 March 2026 {{google|Google}}\'s [[ipv6|IPv6]] dashboard crossed **50.1%** for the first time — 28 years after [[rfc:2460|RFC 2460]] was published.',
 							credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 						}
 					]
@@ -387,20 +387,20 @@ The most famous [[icmp|ICMP]] message is **Echo Request / Echo Reply** — what 
 							title: 'Two Famous Attacks That Renamed the Field',
 							text: `**Smurf attack (1997-1998)**: Tool \`smurf.c\` written by Dan Moschuk (alias TFreak); [[icmp|ICMP]] Echo Requests with spoofed source to a network's directed {{broadcast|broadcast}} address; first high-profile incident University of Minnesota, 1998. **RFC 2644 (August 1999)** changed router default from "forward directed broadcasts" to "drop." Every modern router has the fix; Smurf is now a museum piece, but it is the reason directed-{{broadcast|broadcast}} forwarding is off by default everywhere.
 
-**Ping of Death (1996-1997)**: Oversized fragmented [[icmp|ICMP]] packets, when reassembled, exceeded 65,535 bytes and crashed Windows 95/NT, early Linux/BSD, Cisco IOS, and classic Mac. **CERT advisory {{certificate-authority|CA}}-1996-26 (16 December 1996)**. Modern stacks check for total length overflow before reassembly; the bug is closed but the lesson — that fragment reassembly is one of the most critical security paths in any [[ip|IP]] stack — survives in the **CVE-2024-38063** Windows [[ipv6|IPv6]] fragment integer underflow disclosed 13 August 2024 (CVSS 9.8, "exploitable from anywhere on the link").
+**Ping of Death (1996-1997)**: Oversized fragmented [[icmp|ICMP]] packets, when reassembled, exceeded 65,535 bytes and crashed Windows 95/NT, early {{linux|Linux}}/BSD, {{cisco|Cisco}} IOS, and classic Mac. **CERT advisory {{certificate-authority|CA}}-1996-26 (16 December 1996)**. Modern stacks check for total length overflow before reassembly; the bug is closed but the lesson — that fragment reassembly is one of the most critical security paths in any [[ip|IP]] stack — survives in the **CVE-2024-38063** Windows [[ipv6|IPv6]] fragment integer underflow disclosed 13 August 2024 (CVSS 9.8, "exploitable from anywhere on the link").
 
-**Cloudflare 2014 PMTUD black-hole**: Cloudflare's blog *"{{path-mtu-discovery|Path MTU Discovery}} in Practice"* documented [[icmp|ICMP]] Type 3/Code 4 messages getting filtered before reaching servers — [[tcp|TCP]] handshakes complete, then HTTP responses hang forever. Drove industry rollout of **[[rfc:4821|RFC 4821]] PLPMTUD** (Packetisation-Layer PMTUD) which probes path {{mtu|MTU}} at the application layer instead of relying on routers to send [[icmp|ICMP]] back.`
+**{{cloudflare|Cloudflare}} 2014 PMTUD black-hole**: {{cloudflare|Cloudflare}}'s blog *"{{path-mtu-discovery|Path MTU Discovery}} in Practice"* documented [[icmp|ICMP]] Type 3/Code 4 messages getting filtered before reaching servers — [[tcp|TCP]] handshakes complete, then HTTP responses hang forever. Drove industry rollout of **[[rfc:4821|RFC 4821]] PLPMTUD** (Packetisation-Layer PMTUD) which probes path {{mtu|MTU}} at the application layer instead of relying on routers to send [[icmp|ICMP]] back.`
 						},
 						{
 							type: 'narrative',
 							title: 'The 2024 CVE Wave and the Frontier',
-							text: `**2024 scale**: Cloudflare mitigated **21.3 million DDoS attacks in 2024** (53% YoY), single biggest 5.6 Tbps Mirai-variant flood. [[icmp|ICMP]] reflection still ranked among network-layer DDoS vectors, though the protocol's role has shrunk as [[dns|DNS]]/[[ntp|NTP]]/[[udp|UDP]]-amplification attacks dominate the headlines.
+							text: `**2024 scale**: {{cloudflare|Cloudflare}} mitigated **21.3 million DDoS attacks in 2024** (53% YoY), single biggest 5.6 Tbps Mirai-variant flood. [[icmp|ICMP]] reflection still ranked among network-layer DDoS vectors, though the protocol's role has shrunk as [[dns|DNS]]/[[ntp|NTP]]/[[udp|UDP]]-amplification attacks dominate the headlines.
 
-**Linux became its own CVE Numbering Authority on 13 February 2024** — **3,108-3,529 kernel CVEs in 2024** (NIST/CIQ) — a 79% YoY increase, mostly from process change not real bug rate. [[icmp|ICMP]]-tagged kernel CVEs include CVE-2024-47678 (icmp rate limit ordering) and CVE-2024-56647 ([[icmp|ICMP]] host re-lookup triggering ip_rt_bug).
+**{{linux|Linux}} became its own CVE Numbering Authority on 13 February 2024** — **3,108-3,529 kernel CVEs in 2024** (NIST/CIQ) — a 79% YoY increase, mostly from process change not real bug rate. [[icmp|ICMP]]-tagged kernel CVEs include CVE-2024-47678 (icmp rate limit ordering) and CVE-2024-56647 ([[icmp|ICMP]] host re-lookup triggering ip_rt_bug).
 
 **2020 Internet-wide measurement (SMap study)**: **69.8% of ASes still don't filter spoofed packets at ingress** — substrate that makes [[icmp|ICMP]] reflection still feasible.
 
-**Frontier**: Tsinghua's \`draft-xu-intarea-challenge-icmpv4-02\` (February 2025) proposes a challenge-confirm scheme using [[ip|IP]] options so receivers can verify a router actually saw the original packet — the most concrete proposal in years to fix [[icmp|ICMP]]'s "anyone-can-spoof-any-error" weakness. \`draft-ietf-6man-icmpv6-reflection-19\` (December 2025) defines a {{stateless|stateless}} probe-and-reflect ICMPv6 utility, currently active.
+**Frontier**: Tsinghua's \`draft-xu-intarea-challenge-icmpv4-02\` (February 2025) proposes a challenge-confirm scheme using [[ip|IP]] options so receivers can verify a router actually saw the original packet — the most concrete proposal in years to fix [[icmp|ICMP]]'s "anyone-can-spoof-any-error" weakness. \`draft-{{ietf|ietf}}-6man-icmpv6-reflection-19\` (December 2025) defines a {{stateless|stateless}} probe-and-reflect ICMPv6 utility, currently active.
 
 **GGP (RFC 823, September 1982)** is [[icmp|ICMP]]'s parent — the Gateway-to-Gateway Protocol on {{bbn|BBN}}'s LSI-11 gateways, predecessor of EGP (1984) and grand-uncle of [[bgp|BGP]]. The diagnostic mechanism predates the routing protocol.`
 						},
@@ -436,7 +436,7 @@ The most famous [[icmp|ICMP]] message is **Echo Request / Echo Reply** — what 
 						{
 							type: 'narrative',
 							title: 'The Two-Napkin Protocol',
-							text: `**The "Two-Napkin Protocol" was sketched at {{ietf|IETF}} 12, Austin, Texas, January 1989**: **[[pioneer:yakov-rekhter|Yakov Rekhter]]** (IBM Watson) and **Kirk Lougheed** (Cisco) over cafeteria napkins. The previous routing protocol (EGP) had become unmanageable; the internet was about to outgrow it. The originals went in the trash; **Cisco's archivist preserved photocopies that hang in Milpitas**. Expanded to three handwritten sheets — hence "Three-Napkin Protocol."
+							text: `**The "Two-Napkin Protocol" was sketched at {{ietf|IETF}} 12, Austin, Texas, January 1989**: **[[pioneer:yakov-rekhter|Yakov Rekhter]]** (IBM Watson) and **Kirk Lougheed** ({{cisco|Cisco}}) over cafeteria napkins. The previous routing protocol (EGP) had become unmanageable; the internet was about to outgrow it. The originals went in the trash; **{{cisco|Cisco}}'s archivist preserved photocopies that hang in Milpitas**. Expanded to three handwritten sheets — hence "Three-Napkin Protocol."
 
 That sketch became [[rfc:4271|BGP-1]] ([[rfc:1105|RFC 1105]], June 1989), then [[bgp|BGP]]-4 (RFC 1771, 1995), then the current [[rfc:4271|RFC 4271]] (2006). The protocol has been backwards-compatible for over thirty years across more than 100,000 ASes.
 
@@ -454,11 +454,11 @@ That sketch became [[rfc:4271|BGP-1]] ([[rfc:1105|RFC 1105]], June 1989), then [
 
 **KlaySwap (3 February 2022)**: First known live attack that leveraged [[bgp|BGP]] to break the WebPKI. Attackers [[bgp|BGP]]-hijacked Kakao's prefix to obtain a valid [[tls|TLS]] cert for \`developers.kakao.com\` via DCV; replaced JS to authorise user wallets to attacker contracts. **Loss ~$1.9M.** A new failure class — *DCV-via-[[bgp|BGP]]-hijack* — that argues for ACME's "multi-perspective" issuance now used by Let's Encrypt.
 
-**Verizon × DQE × Allegheny Technologies (24 June 2019)**: A steel mill rerouted 20,000 prefixes for ~2,400 networks via Noction [[bgp|BGP]] optimizer leak. **Cloudflare lost 15% of global traffic at peak.** Cloudflare's blog became canonical reading.
+**Verizon × DQE × Allegheny Technologies (24 June 2019)**: A steel mill rerouted 20,000 prefixes for ~2,400 networks via Noction [[bgp|BGP]] optimizer leak. **{{cloudflare|Cloudflare}} lost 15% of global traffic at peak.** {{cloudflare|Cloudflare}}'s blog became canonical reading.
 
 **[[outage:rogers-2022|Rogers Communications outage (8 July 2022, 26 hours, 12M Canadians)]]**: Removal of an ACL filter from a distribution router redistributed the full [[bgp|BGP]] table into [[ospf|OSPF]], overloading core router CPU/RAM. Shared wireline+wireless [[ip|IP]] core meant **everything (including 911) fell**. Staff couldn't communicate because internal management network depended on the same data plane.
 
-**The 512K Day (12 August 2014)**: When [[ip|IPv4]] DFZ crossed 512,000 prefixes, older Cisco line cards with default 512K-route TCAMs failed silently; eBay, LastPass, Microsoft Azure had visible outages. Hardware capacity is part of routing-table economics.
+**The 512K Day (12 August 2014)**: When [[ip|IPv4]] DFZ crossed 512,000 prefixes, older {{cisco|Cisco}} line cards with default 512K-route TCAMs failed silently; eBay, LastPass, {{microsoft|Microsoft}} Azure had visible outages. Hardware capacity is part of routing-table economics.
 
 **JunOS/Arista session-reset incident (20 May 2025)**: A malformed [[bgp|BGP]] UPDATE with all-zero RFC 8669 Prefix-SID attribute (40), originated by AS9304 Hutchison or AS135338 Starcloud, leaked to public DFZ. **JunOS and Arista EOS crashed sessions.** IOS-XR, Nokia SR OS, BIRD correctly applied RFC 7606 "treat-as-withdraw." Implementation diversity matters.`
 						},
@@ -473,7 +473,7 @@ That sketch became [[rfc:4271|BGP-1]] ([[rfc:1105|RFC 1105]], June 1989), then [
 
 **RFC 9774 (May 2025)** formally **deprecates \`AS_SET\` and \`AS_CONFED_SET\`** with a normative MUST NOT — speakers must "treat-as-withdraw" any UPDATE containing them.
 
-**{{aspa|ASPA}} ({{autonomous-system|AS}} Provider Authorization)** is *still* an Internet-Draft as of May 2026 — \`draft-ietf-sidrops-aspa-verification-25\` (October 2025) and \`draft-ietf-sidrops-aspa-profile-26\` (April 2026). Cisco ran an **Early Field Trial of {{aspa|ASPA}} on IOS-XR in 2025**. SIDROPS chair Job Snijders has signalled the WG is "close to last call."
+**{{aspa|ASPA}} ({{autonomous-system|AS}} Provider Authorization)** is *still* an Internet-Draft as of May 2026 — \`draft-{{ietf|ietf}}-sidrops-{{aspa|aspa}}-verification-25\` (October 2025) and \`draft-{{ietf|ietf}}-sidrops-{{aspa|aspa}}-profile-26\` (April 2026). {{cisco|Cisco}} ran an **Early Field Trial of {{aspa|ASPA}} on IOS-XR in 2025**. SIDROPS chair Job Snijders has signalled the WG is "close to last call."
 
 **The June 2024 FCC NPRM** is the first-ever U.S. federal proposal to compel the nine largest BIAS providers (AT&T, Altice, Charter, Comcast, Cox, Lumen, T-Mobile, TDS/US Cellular, Verizon) to file [[bgp|BGP]] Routing Security Risk Management Plans and quarterly {{rpki|RPKI}} deployment reports. As of March 2024, only **~22% of US-originated routes had ROAs**.
 

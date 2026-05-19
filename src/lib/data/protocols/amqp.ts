@@ -9,7 +9,7 @@ export const amqp: Protocol = {
 	year: 2006,
 	rfc: undefined,
 	oneLiner: 'Enterprise message queuing with routing, persistence, and guaranteed delivery.',
-	overview: `[[amqp|AMQP]] is the heavyweight champion of message queuing protocols. While [[mqtt|MQTT]] is designed for constrained IoT devices, [[amqp|AMQP]] is designed for enterprise backends where reliability and sophisticated routing matter more than minimal overhead.
+	overview: `[[amqp|AMQP]] is the heavyweight champion of message queuing protocols. While [[mqtt|MQTT]] is designed for constrained IoT devices, [[amqp|AMQP]] is designed for enterprise backends where reliability and sophisticated routing {{matter|matter}} more than minimal overhead.
 
 The protocol separates concerns beautifully: producers send messages to "{{exchange|exchanges}}," exchanges route messages to "queues" based on rules, and consumers read from queues. This decoupling means you can change routing logic without touching producers or consumers. [[amqp|AMQP]] defines four {{exchange|exchange}} types: **direct** (routes by exact {{routing-key|routing key}} match), **{{topic|topic}}** (routes by wildcard pattern matching on routing keys), **fanout** (broadcasts to all bound queues regardless of {{routing-key|routing key}}), and **headers** (routes based on message header attributes instead of routing keys).
 

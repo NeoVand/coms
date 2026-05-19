@@ -166,7 +166,7 @@ ss -un  # or: netstat -un`
 			date: '2025',
 			title: 'Linux io_uring + UDP zero-copy',
 			description:
-				'io_uring zero-copy send/receive paths land for [[udp|UDP]] in Linux 6.13, dramatically improving [[quic|QUIC]] performance on high-throughput servers.'
+				'io_uring zero-copy send/receive paths land for [[udp|UDP]] in {{linux|Linux}} 6.13, dramatically improving [[quic|QUIC]] performance on high-throughput servers.'
 		}
 	],
 

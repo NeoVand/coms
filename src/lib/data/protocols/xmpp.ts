@@ -14,7 +14,7 @@ export const xmpp: Protocol = {
 
 [[xmpp|XMPP]] uses persistent {{xml|XML}} streams between {{client-server|clients and servers}} over [[tcp|TCP]]. Messages, presence updates ("Alice is online"), and IQ (info/query) stanzas flow as {{xml|XML}} fragments over these streams. The {{protocol|protocol}} is designed to be extensible — hundreds of XEPs ([[xmpp|XMPP]] Extension Protocols) add capabilities from file transfer and multi-user chat to IoT device management.
 
-Google Talk, the early versions of WhatsApp, Facebook Messenger (originally), and Apple's iChat (their desktop chat client) all used [[xmpp|XMPP]] at some point. iChat supported [[xmpp|XMPP]] federation briefly, though Apple's later iMessage system uses a completely proprietary push {{notification|notification}} service (APNs). While many moved to proprietary protocols for scale, [[xmpp|XMPP]] remains the backbone of countless enterprise chat systems, IoT platforms, and the federated messaging movement.`,
+{{google|Google}} Talk, the early versions of WhatsApp, Facebook Messenger (originally), and {{apple|Apple}}'s iChat (their desktop chat client) all used [[xmpp|XMPP]] at some point. iChat supported [[xmpp|XMPP]] federation briefly, though {{apple|Apple}}'s later iMessage system uses a completely proprietary push {{notification|notification}} service (APNs). While many moved to proprietary protocols for scale, [[xmpp|XMPP]] remains the backbone of countless enterprise chat systems, IoT platforms, and the federated messaging movement.`,
 	howItWorks: [
 		{
 			title: 'TCP connection + stream negotiation',

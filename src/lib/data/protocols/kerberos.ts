@@ -14,7 +14,7 @@ export const kerberos: Protocol = {
 
 Designed at **MIT Project Athena** (1983–1991) by Steve Miller, [[pioneer:clifford-neuman|Clifford Neuman]], Jerome Saltzer, and Jeffrey Schiller — *the three-headed dog* in Greek mythology (Cerberus → Kerberos) that guards the gates of Hades. Version 4 was MIT-only and closed-source for export-control reasons; **Version 5** ([[rfc:4120|RFC 4120]], current since 2005) is what every implementation actually deploys.
 
-The protocol's reach in 2026 is colossal: **every Active Directory domain on Earth** (Microsoft has used Kerberos as AD's primary auth since Windows 2000), **every Hadoop / HDFS / Hive / Impala cluster**, **NFSv4 with sec=krb5**, FreeIPA, Apple Open Directory historically, and "enterprise SSO" in nearly every university research network (MIT Athena still runs on it). Two reference implementations dominate: **MIT Kerberos** (the canonical C codebase, [[pioneer:greg-hudson|Greg Hudson]] as lead since the mid-2010s) and **Heimdal** (BSD-licensed, Love Hörnquist Åstrand and Jelmer Vernooij; what Apple shipped in macOS).
+The protocol's reach in 2026 is colossal: **every Active Directory domain on Earth** ({{microsoft|Microsoft}} has used Kerberos as AD's primary auth since Windows 2000), **every Hadoop / HDFS / Hive / Impala cluster**, **NFSv4 with sec=krb5**, FreeIPA, {{apple|Apple}} Open Directory historically, and "enterprise SSO" in nearly every university research network (MIT Athena still runs on it). Two reference implementations dominate: **MIT Kerberos** (the canonical C codebase, [[pioneer:greg-hudson|Greg Hudson]] as lead since the mid-2010s) and **Heimdal** (BSD-licensed, Love Hörnquist Åstrand and Jelmer Vernooij; what {{apple|Apple}} shipped in macOS).
 
 The famous architectural decision: Kerberos requires **time synchronisation** across all participants (default ±5 minutes), and runs almost everything over **{{well-known-port|UDP/88}} with [[tcp|TCP]]/88 fallback** when the response exceeds the \`udp_preference_limit\`. The {{replay-attack|replay defence}} is the encrypted timestamp in the **authenticator** — if your client clock is wrong, every auth attempt fails. The result: every enterprise Kerberos deployment depends on [[ntp|NTP]] as much as it depends on AES.`,
 	howItWorks: [
@@ -284,7 +284,7 @@ server.listen(443);`
 			date: '2024-06',
 			title: 'MIT krb5 1.21.3 — CVE-2024-37370 / CVE-2024-37371',
 			description:
-				'Critical GSS message-token handling bugs in the MIT codebase. CVE-2024-37370 was an out-of-bounds write in `gss_unwrap` triggerable by a malformed token; CVE-2024-37371 was a related integrity-bypass. Patched in 1.21.3, picked up downstream by every Linux distro within days.',
+				'Critical GSS message-token handling bugs in the MIT codebase. CVE-2024-37370 was an out-of-bounds write in `gss_unwrap` triggerable by a malformed token; CVE-2024-37371 was a related integrity-bypass. Patched in 1.21.3, picked up downstream by every {{linux|Linux}} distro within days.',
 			source: { url: 'https://nvd.nist.gov/vuln/detail/CVE-2024-37370', label: 'NVD CVE-2024-37370' }
 		},
 		{
@@ -298,7 +298,7 @@ server.listen(443);`
 			date: '2025-09',
 			title: 'Microsoft enforces strong certificate binding (CVE-2022-37967 long-tail)',
 			description:
-				"9 September 2025 — Microsoft's permanent enforcement deadline for **strong {{certificate|certificate}} binding** on Active Directory Domain Controllers, closing the long-tail of the 2022 *Bronze Bit* / certificate-{{spoofing|spoofing}} class. After this date, AD DCs refuse Kerberos PKINIT with weakly-bound certs by default.",
+				"9 September 2025 — {{microsoft|Microsoft}}'s permanent enforcement deadline for **strong {{certificate|certificate}} binding** on Active Directory Domain Controllers, closing the long-tail of the 2022 *Bronze Bit* / {{certificate|certificate}}-{{spoofing|spoofing}} class. After this date, AD DCs refuse Kerberos PKINIT with weakly-bound certs by default.",
 			source: {
 				url: 'https://msrc.microsoft.com/update-guide/vulnerability/CVE-2022-37967',
 				label: 'MSRC CVE-2022-37967'
@@ -308,7 +308,7 @@ server.listen(443);`
 			date: '2026-04',
 			title: 'Windows Server 2025 / Win11 24H2 — IAKerb + Local KDC GA',
 			description:
-				'Phase 2 of Microsoft\'s NTLM phase-out. **IAKerb** (Initial and Pass-Through Authentication using Kerberos) lets clients authenticate through a proxy when they cannot reach a KDC directly. **Local KDC** for workgroup machines (no domain join needed). Together they cover the residual use cases NTLM was holding onto.',
+				'Phase 2 of {{microsoft|Microsoft}}\'s NTLM phase-out. **IAKerb** (Initial and Pass-Through Authentication using Kerberos) lets clients authenticate through a proxy when they cannot reach a KDC directly. **Local KDC** for workgroup machines (no domain join needed). Together they cover the residual use cases NTLM was holding onto.',
 			source: {
 				url: 'https://techcommunity.microsoft.com/t5/windows-it-pro-blog/the-evolution-of-windows-authentication/ba-p/3926341',
 				label: 'Microsoft Windows IT Pro blog'
@@ -318,7 +318,7 @@ server.listen(443);`
 			date: '2026-10',
 			title: 'NTLMv1 SSO blocked by default — BlockNTLMv1SSO enforce',
 			description:
-				'The `BlockNTLMv1SSO` registry-key default flips from Audit to Enforce on Windows Server 2025 / Win11 24H2 (Phase 3 of NTLM phase-out). NTLMv1 single-sign-on is disabled by default; NTLMv2 remains available but audited. Kerberos is now the only auth Microsoft actually recommends.',
+				'The `BlockNTLMv1SSO` registry-key default flips from Audit to Enforce on Windows Server 2025 / Win11 24H2 (Phase 3 of NTLM phase-out). NTLMv1 single-sign-on is disabled by default; NTLMv2 remains available but audited. Kerberos is now the only auth {{microsoft|Microsoft}} actually recommends.',
 			source: {
 				url: 'https://techcommunity.microsoft.com/t5/windows-it-pro-blog/the-evolution-of-windows-authentication/ba-p/3926341',
 				label: 'Microsoft Windows IT Pro blog'
@@ -337,13 +337,13 @@ server.listen(443);`
 			org: 'MIT Kerberos (krb5)',
 			scale: 'The canonical C codebase; ships in every Linux distro',
 			description:
-				'Maintained by the MIT Kerberos Consortium ([[pioneer:greg-hudson|Greg Hudson]] as lead). Used by every Linux distribution, FreeIPA, Hadoop, Spark, [[kafka|Kafka]], and a long tail of enterprise auth. The reference implementation behind RFC 4120.'
+				'Maintained by the MIT Kerberos Consortium ([[pioneer:greg-hudson|Greg Hudson]] as lead). Used by every {{linux|Linux}} distribution, FreeIPA, Hadoop, Spark, [[kafka|Kafka]], and a long tail of enterprise auth. The reference implementation behind RFC 4120.'
 		},
 		{
 			org: 'Heimdal',
 			scale: 'Apple\'s macOS, Samba, FreeBSD',
 			description:
-				'BSD-licensed alternative to MIT Kerberos, originated at SU/KTH in Sweden. Apple shipped Heimdal in every macOS from 10.5 (2007) onward; Samba 4 uses it for AD compatibility. Love Hörnquist Åstrand has been the long-running maintainer.'
+				'BSD-licensed alternative to MIT Kerberos, originated at SU/KTH in Sweden. {{apple|Apple}} shipped Heimdal in every macOS from 10.5 (2007) onward; Samba 4 uses it for AD compatibility. Love Hörnquist Åstrand has been the long-running maintainer.'
 		},
 		{
 			org: 'Hadoop / Spark / Kafka',
@@ -384,7 +384,7 @@ server.listen(443);`
 			},
 			{
 				title: 'Weak encryption types still lurk in old keytabs',
-				text: "Every keytab includes a list of {{encryption|encryption}} types the principal supports. Old AD environments have **RC4 (NEA1)** still enabled — the encryption type **Kerberoasting** specifically targets, because RC4 keys are derived from NT hash and brute-force in hours. **Cure:** set `default_tkt_enctypes = aes256-cts-{{hmac|hmac}}-sha384-192 aes128-cts-hmac-sha256-128` in `krb5.conf`; remove RC4 from the supported list with `Set-ADUser -KerberosEncryptionType AES128,AES256`; audit with Wireshark filter `kerberos.etype == 23` to find any remaining RC4 traffic."
+				text: "Every keytab includes a list of {{encryption|encryption}} types the principal supports. Old AD environments have **RC4 (NEA1)** still enabled — the {{encryption|encryption}} type **Kerberoasting** specifically targets, because RC4 keys are derived from NT hash and brute-force in hours. **Cure:** set `default_tkt_enctypes = aes256-cts-{{hmac|hmac}}-sha384-192 aes128-cts-{{hmac|hmac}}-sha256-128` in `krb5.conf`; remove RC4 from the supported list with `Set-ADUser -KerberosEncryptionType AES128,AES256`; audit with {{wireshark|Wireshark}} filter `kerberos.etype == 23` to find any remaining RC4 traffic."
 			}
 		]
 	}

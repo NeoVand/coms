@@ -97,7 +97,7 @@ export const utilitiesStory: CategoryStory = {
 		{
 			type: 'narrative',
 			title: 'The Naming Crisis',
-			text: `In the early internet, every computer on the network maintained a file called HOSTS.TXT — a simple list mapping hostnames to [[ip|IP]] addresses. The Stanford Research Institute maintained the master copy, and everyone downloaded updates periodically. This worked when there were a hundred hosts. By 1983, with thousands of hosts joining, it was falling apart.\n\n[[pioneer:paul-mockapetris|Paul Mockapetris]] solved this with [[dns]], the Domain Name System. Instead of one file, [[dns|DNS]] distributed the naming across a hierarchical system of servers. Ask for 'google.com' and your query cascades: root servers direct you to .com servers, which direct you to Google's name servers, which return the {{ip-address|IP address}}. This hierarchy handles billions of queries per day and translates every URL you type into the numbers the network actually uses.\n\nDavid Mills tackled an equally fundamental problem: time. How do you keep clocks synchronized across thousands of computers separated by unpredictable network delays? [[ntp]], the Network Time Protocol, uses a hierarchical system of time sources (stratum 0 from atomic clocks, cascading down) and sophisticated algorithms to compensate for network {{jitter|jitter}}. Mills maintained [[ntp|NTP]] for over 30 years — one person, one protocol, keeping the world's computers in sync.`
+			text: `In the early internet, every computer on the network maintained a file called HOSTS.TXT — a simple list mapping hostnames to [[ip|IP]] addresses. The Stanford Research Institute maintained the master copy, and everyone downloaded updates periodically. This worked when there were a hundred hosts. By 1983, with thousands of hosts joining, it was falling apart.\n\n[[pioneer:paul-mockapetris|Paul Mockapetris]] solved this with [[dns]], the Domain Name System. Instead of one file, [[dns|DNS]] distributed the naming across a hierarchical system of servers. Ask for '{{google|google}}.com' and your query cascades: root servers direct you to .com servers, which direct you to {{google|Google}}'s name servers, which return the {{ip-address|IP address}}. This hierarchy handles billions of queries per day and translates every URL you type into the numbers the network actually uses.\n\nDavid Mills tackled an equally fundamental problem: time. How do you keep clocks synchronized across thousands of computers separated by unpredictable network delays? [[ntp]], the Network Time Protocol, uses a hierarchical system of time sources (stratum 0 from atomic clocks, cascading down) and sophisticated algorithms to compensate for network {{jitter|jitter}}. Mills maintained [[ntp|NTP]] for over 30 years — one person, one protocol, keeping the world's computers in sync.`
 		},
 		{
 			type: 'image',
@@ -223,7 +223,7 @@ export const utilitiesStory: CategoryStory = {
 					year: 2012,
 					title: 'OAuth 2.0 Published — RFC 6749',
 					description:
-						'The authorization framework that makes "Sign in with Google" possible. Apps get scoped tokens instead of passwords, and the modern API ecosystem gets its security layer.',
+						'The authorization framework that makes "Sign in with {{google|Google}}" possible. Apps get scoped tokens instead of passwords, and the modern API ecosystem gets its security layer.',
 					protocolId: 'oauth2'
 				},
 				{

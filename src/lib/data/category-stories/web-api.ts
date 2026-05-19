@@ -77,7 +77,7 @@ The first version, HTTP/0.9, supported just one command: GET. No headers, no con
 					year: 1998,
 					title: 'SOAP — XML Web Services',
 					description:
-						'Microsoft, IBM, and others introduce [[soap|SOAP]]: {{xml|XML}}-wrapped RPC calls with formal WSDL contracts. Enterprise web services become the dominant integration pattern.',
+						'{{microsoft|Microsoft}}, IBM, and others introduce [[soap|SOAP]]: {{xml|XML}}-wrapped RPC calls with formal {{wsdl|WSDL}} contracts. Enterprise web services become the dominant integration pattern.',
 					protocolId: 'soap'
 				},
 				{
@@ -96,7 +96,7 @@ The first version, HTTP/0.9, supported just one command: GET. No headers, no con
 
 The API economy exploded. Every startup, every tech giant began exposing [[rest]] APIs. But [[rest|REST]] had limitations: over-fetching (getting more data than you need) and under-fetching (needing multiple requests). Facebook's mobile team felt this acutely \u2014 their News Feed required dozens of endpoints per page load. In 2012, Lee Byron, Dan Schafer, and Nick Schrock began building [[graphql]], a query language that let clients ask for exactly the data they needed.
 
-Meanwhile, Google's internal RPC system 'Stubby' was handling billions of requests per day. When they open-sourced it as [[grpc]] in 2016, it brought efficient binary {{serialization|serialization}} ({{protocol-buffers|Protocol Buffers}}), streaming, and [[http2|HTTP/2]] {{multiplexing|multiplexing}} to the microservices world.`
+Meanwhile, {{google|Google}}'s internal RPC system 'Stubby' was handling billions of requests per day. When they open-sourced it as [[grpc]] in 2016, it brought efficient binary {{serialization|serialization}} ({{protocol-buffers|Protocol Buffers}}), streaming, and [[http2|HTTP/2]] {{multiplexing|multiplexing}} to the microservices world.`
 		},
 		{
 			type: 'image',
@@ -131,7 +131,7 @@ GET /friends"]
 					title: 'Co-creator of SPDY',
 					org: 'Google',
 					contribution:
-						'Led the development of SPDY, the experimental protocol that proved {{multiplexing|multiplexing}} could dramatically speed up the web, directly leading to [[http2|HTTP/2]].',
+						'Led the development of {{spdy|SPDY}}, the experimental protocol that proved {{multiplexing|multiplexing}} could dramatically speed up the web, directly leading to [[http2|HTTP/2]].',
 					imagePath:
 						'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Mike_Belshe_SALT_Conference.jpg/330px-Mike_Belshe_SALT_Conference.jpg'
 				},
@@ -141,7 +141,7 @@ GET /friends"]
 					title: 'Co-creator of SPDY & HPACK',
 					org: 'Google',
 					contribution:
-						"Co-designed SPDY and created {{hpack|HPACK}} header compression, solving [[http1|HTTP/1.1]]'s header bloat problem for [[http2|HTTP/2]]."
+						"Co-designed {{spdy|SPDY}} and created {{hpack|HPACK}} header compression, solving [[http1|HTTP/1.1]]'s header bloat problem for [[http2|HTTP/2]]."
 				},
 				{
 					name: 'Ian Fette',
@@ -160,7 +160,7 @@ GET /friends"]
 					year: 2009,
 					title: 'Google Begins SPDY',
 					description:
-						"Frustrated by [[http1|HTTP/1.1]]'s limitations, Google experiments with a multiplexed, compressed alternative. It works."
+						"Frustrated by [[http1|HTTP/1.1]]'s limitations, {{google|Google}} experiments with a multiplexed, compressed alternative. It works."
 				},
 				{
 					year: 2011,
@@ -180,7 +180,7 @@ GET /friends"]
 					year: 2015,
 					title: 'HTTP/2 \u2014 RFC 7540',
 					description:
-						"SPDY's ideas become an official standard: {{binary-framing|binary framing}}, {{multiplexing|multiplexing}}, {{server-push|server push}}, header compression.",
+						"{{spdy|SPDY}}'s ideas become an official standard: {{binary-framing|binary framing}}, {{multiplexing|multiplexing}}, {{server-push|server push}}, header compression.",
 					protocolId: 'http2'
 				},
 				{
@@ -194,7 +194,7 @@ GET /friends"]
 					year: 2016,
 					title: 'gRPC 1.0 Released',
 					description:
-						'Google open-sources its internal RPC framework, built on [[http2|HTTP/2]] and {{protocol-buffers|Protocol Buffers}}.',
+						'{{google|Google}} open-sources its internal RPC framework, built on [[http2|HTTP/2]] and {{protocol-buffers|Protocol Buffers}}.',
 					protocolId: 'grpc'
 				},
 				{
@@ -257,7 +257,7 @@ The evolution from [[http1]] to [[http2]] to [[http3]] tells a story of learning
 					title: 'gRPC Technical Lead',
 					org: 'Google',
 					contribution:
-						"Led the development of [[grpc|gRPC]] from Google's internal Stubby system to an open-source RPC framework used across the industry."
+						"Led the development of [[grpc|gRPC]] from {{google|Google}}'s internal Stubby system to an open-source RPC framework used across the industry."
 				}
 			]
 		},
@@ -273,7 +273,7 @@ The evolution from [[http1]] to [[http2]] to [[http3]] tells a story of learning
 
 Anthropic's answer was [[mcp|MCP]] (Model Context Protocol) \u2014 a universal interface built on [[json-rpc|JSON-RPC]] 2.0 that lets any AI host discover and use any tool through a standard protocol. Define a tool once as an [[mcp|MCP]] server, and Claude, ChatGPT, Cursor, and VS Code can all use it. [[mcp|MCP]] collapsed the integration matrix from N\u00D7M to N+M. Within months, thousands of [[mcp|MCP]] servers existed for everything from databases to cloud infrastructure.
 
-But [[mcp|MCP]] solved only half the puzzle. It connected agents to tools \u2014 what about connecting agents to *each other*? Google's [[a2a|A2A]] (Agent-to-Agent Protocol), announced in April 2025, addressed this. Where [[mcp|MCP]] is vertical (agent \u2192 tools), [[a2a|A2A]] is horizontal (agent \u2192 agent). A travel coordinator agent uses [[a2a|A2A]] to delegate to flight, hotel, and car rental agents \u2014 each of which uses [[mcp|MCP]] internally to access their own tools and databases. Both protocols chose [[json-rpc|JSON-RPC]] 2.0 as their wire format, and both moved to the Linux Foundation by the end of 2025, cementing them as open industry standards.`
+But [[mcp|MCP]] solved only half the puzzle. It connected agents to tools \u2014 what about connecting agents to *each other*? {{google|Google}}'s [[a2a|A2A]] (Agent-to-Agent Protocol), announced in April 2025, addressed this. Where [[mcp|MCP]] is vertical (agent \u2192 tools), [[a2a|A2A]] is horizontal (agent \u2192 agent). A travel coordinator agent uses [[a2a|A2A]] to delegate to flight, hotel, and car rental agents \u2014 each of which uses [[mcp|MCP]] internally to access their own tools and databases. Both protocols chose [[json-rpc|JSON-RPC]] 2.0 as their wire format, and both moved to the {{linux|Linux}} Foundation by the end of 2025, cementing them as open industry standards.`
 		},
 		{
 			type: 'diagram',
@@ -311,14 +311,14 @@ But [[mcp|MCP]] solved only half the puzzle. It connected agents to tools \u2014
 					year: 2025,
 					title: 'A2A \u2014 Agent-to-Agent Protocol',
 					description:
-						'Google announces [[a2a|A2A]] at Cloud Next, backed by 100+ partners. AI agents can now discover and collaborate with each other across vendors.',
+						'{{google|Google}} announces [[a2a|A2A]] at Cloud Next, backed by 100+ partners. AI agents can now discover and collaborate with each other across vendors.',
 					protocolId: 'a2a'
 				},
 				{
 					year: 2025,
 					title: 'Both Protocols Join the Linux Foundation',
 					description:
-						'[[mcp|MCP]] moves to the Agentic AI Foundation (AAIF) and [[a2a|A2A]] launches as a Linux Foundation project, establishing open governance for AI protocols.'
+						'[[mcp|MCP]] moves to the Agentic AI Foundation (AAIF) and [[a2a|A2A]] launches as a {{linux|Linux}} Foundation project, establishing open governance for AI protocols.'
 				},
 				{
 					year: 2026,

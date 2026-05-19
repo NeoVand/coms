@@ -10,7 +10,7 @@ export const bgp: Protocol = {
 	rfc: 'RFC 4271',
 	oneLiner:
 		'The routing protocol of the internet — how autonomous systems find paths to each other.',
-	overview: `[[bgp|BGP]] is the protocol that holds the internet together. The internet isn't a single network — it's a network of networks, each called an {{autonomous-system|Autonomous System}} ({{autonomous-system|AS}}). Your ISP is an {{autonomous-system|AS}}. Google is an {{autonomous-system|AS}}. Amazon, universities, governments — each is an {{autonomous-system|AS}} with its own number. [[bgp|BGP]] is how they learn to reach each other.
+	overview: `[[bgp|BGP]] is the protocol that holds the internet together. The internet isn't a single network — it's a network of networks, each called an {{autonomous-system|Autonomous System}} ({{autonomous-system|AS}}). Your ISP is an {{autonomous-system|AS}}. {{google|Google}} is an {{autonomous-system|AS}}. Amazon, universities, governments — each is an {{autonomous-system|AS}} with its own number. [[bgp|BGP]] is how they learn to reach each other.
 
 When you visit a website, your {{packet|packets}} may cross 5-10 different autonomous systems. [[bgp|BGP]] is the protocol that calculated that path. Each [[bgp|BGP]] router maintains a {{routing-table|table}} of every reachable [[ip|IP]] prefix on the internet (~1 million entries) along with the AS_PATH — the sequence of autonomous systems to traverse. [[bgp|BGP]] is a path-vector protocol: it doesn't just know the next hop, it knows the entire {{autonomous-system|AS}}-level path.
 
@@ -172,7 +172,7 @@ for await (const elem of parser) {
 			date: '2026',
 			title: 'RPKI/ROV crosses 50% of advertised IP space',
 			description:
-				'NIST {{rov|Route Origin Validation}} Monitor and Cloudflare\'s isbgpsafeyet.com show over 50% of advertised [[ip|IPv4]] space now covered by signed Route Origin Authorisations. Most tier-1 transits enforce {{rov|ROV}} on incoming announcements.'
+				'NIST {{rov|Route Origin Validation}} Monitor and {{cloudflare|Cloudflare}}\'s isbgpsafeyet.com show over 50% of advertised [[ip|IPv4]] space now covered by signed Route Origin Authorisations. Most tier-1 transits enforce {{rov|ROV}} on incoming announcements.'
 		},
 		{
 			date: '2024-2025',
@@ -185,7 +185,7 @@ for await (const elem of parser) {
 			date: '2024-01',
 			title: 'TCP-AO ships in Linux 6.7 for BGP',
 			description:
-				'Native [[tcp|TCP]] Authentication Option ([[rfc:5925|RFC 5925]]) lands in Linux, finally giving [[bgp|BGP]] sessions a modern replacement for the deprecated [[tcp|TCP]]-MD5. Cisco IOS-XR and Junos already supported it; Linux was the long-pole.'
+				'Native [[tcp|TCP]] Authentication Option ([[rfc:5925|RFC 5925]]) lands in {{linux|Linux}}, finally giving [[bgp|BGP]] sessions a modern replacement for the deprecated [[tcp|TCP]]-MD5. {{cisco|Cisco}} IOS-XR and Junos already supported it; {{linux|Linux}} was the long-pole.'
 		}
 	],
 
@@ -200,13 +200,13 @@ for await (const elem of parser) {
 			org: 'Cloudflare',
 			scale: '335+ cities, anycast everywhere',
 			description:
-				'Cloudflare announces the same prefixes from hundreds of POPs via [[bgp|BGP]] {{anycast|anycast}}; users hit the nearest PoP based on routing policy.'
+				'{{cloudflare|Cloudflare}} announces the same prefixes from hundreds of POPs via [[bgp|BGP]] {{anycast|anycast}}; users hit the nearest PoP based on routing policy.'
 		},
 		{
 			org: 'Hyperscalers (AWS, GCP, Azure)',
 			scale: 'Massive AS holdings',
 			description:
-				'AWS ({{autonomous-system|AS}} 16509), Google ({{autonomous-system|AS}} 15169), Microsoft ({{autonomous-system|AS}} 8075) operate some of the largest [[bgp|BGP]] networks in the world. AWS Direct Connect, Azure ExpressRoute, GCP Cloud Interconnect all use [[bgp|BGP]] for customer {{peering|peering}}.'
+				'AWS ({{autonomous-system|AS}} 16509), {{google|Google}} ({{autonomous-system|AS}} 15169), {{microsoft|Microsoft}} ({{autonomous-system|AS}} 8075) operate some of the largest [[bgp|BGP]] networks in the world. AWS Direct Connect, Azure ExpressRoute, GCP Cloud Interconnect all use [[bgp|BGP]] for customer {{peering|peering}}.'
 		}
 	],
 
@@ -221,7 +221,7 @@ for await (const elem of parser) {
 		},
 		{
 			title: 'TCP keepalives keep BGP sessions alive',
-			text: 'A [[bgp|BGP]] session is just a long-lived [[tcp|TCP]] connection on port 179. KEEPALIVE messages every 60 seconds prove the {{peer|peer}} is still there; if no message arrives within 180 seconds (HoldTime), the session resets and all routes through that peer are withdrawn — which is what cascaded into [[outage:centurylink-flowspec-2020|CenturyLink 2020]].'
+			text: 'A [[bgp|BGP]] session is just a long-lived [[tcp|TCP]] connection on port 179. KEEPALIVE messages every 60 seconds prove the {{peer|peer}} is still there; if no message arrives within 180 seconds (HoldTime), the session resets and all routes through that {{peer|peer}} are withdrawn — which is what cascaded into [[outage:centurylink-flowspec-2020|CenturyLink 2020]].'
 		}
 	],
 

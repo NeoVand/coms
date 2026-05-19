@@ -89,7 +89,7 @@ In **September 1981**, [[pioneer:jon-postel|Jon Postel]] at ISI shipped three RF
 
 On **1 January 1983**, {{arpanet|ARPANET}} executed its famous "{{flag-day-1983|flag day}}": {{ncp|NCP}} was switched off, and [[tcp|TCP]]/[[ip|IP]] became the only protocol allowed on the network. Roughly 400 hosts had to convert; sites that missed the deadline simply lost connectivity. Survivors got buttons reading **I survived the [[tcp|TCP]]/[[ip|IP]] transition**. Most historians treat this date as the birthday of the modern internet.
 
-In parallel, the IEEE 802.3 working group ratified its [[ethernet|Ethernet]] standard (originally a Xerox/DEC/Intel collaboration). LAN technology and WAN technology now had a clean interface — the [[ip|IP]] packet — and could evolve independently. That separation has held for forty-three years.`
+In parallel, the IEEE 802.3 working group ratified its [[ethernet|Ethernet]] standard (originally a Xerox/DEC/{{intel|Intel}} collaboration). LAN technology and WAN technology now had a clean interface — the [[ip|IP]] packet — and could evolve independently. That separation has held for forty-three years.`
 						},
 						{
 							type: 'narrative',
@@ -135,7 +135,7 @@ This is the deepest principle of the era: **separate what changes together from 
 
 [[pioneer:van-jacobson|Van Jacobson]] and Mike Karels at Berkeley spent six months instrumenting the wire and reading the BSD source. Their 1988 SIGCOMM paper, **"{{congestion-avoidance|Congestion Avoidance}} and Control,"** introduced six algorithms in one paper: **{{slow-start|slow start}}**, **{{aimd|AIMD}} {{congestion-avoidance|congestion avoidance}}**, **fast retransmit**, **fast recovery**, **exponential RTO backoff**, and a refined **{{rtt|RTT}} estimator**. The fixes shipped in 4.3BSD-Tahoe and saved the internet.
 
-The deeper principle they articulated — **conservation of packets** — has held up for nearly forty years. A sender should put one packet into the network only when an {{ack|ACK}} confirms a previous packet has left it. Everything since, including [[quic|QUIC]] in 2021 and Google's {{bbr|BBR}} in 2016, is variations on that theme.`
+The deeper principle they articulated — **conservation of packets** — has held up for nearly forty years. A sender should put one packet into the network only when an {{ack|ACK}} confirms a previous packet has left it. Everything since, including [[quic|QUIC]] in 2021 and {{google|Google}}'s {{bbr|BBR}} in 2016, is variations on that theme.`
 						},
 						{
 							type: 'narrative',
@@ -146,7 +146,7 @@ The intuition is reordering tolerance. A single duplicate {{ack|ACK}} could mean
 
 Forty years later, three duplicate ACKs is still the trigger. The number is hard-coded into [[rfc:5681|RFC 5681]] and every modern [[tcp|TCP]] implementation. **{{cubic|CUBIC}}, {{bbr|BBR}}, NewReno** all inherit it unchanged. The mechanism is so universal that it now has a name everyone knows — *fast retransmit* — and a paper-trail back to a single 1988 design choice.
 
-The 1986 collapse is the moment [[tcp|TCP]] went from working-most-of-the-time to **a protocol you could trust at scale**. Every later congestion-control algorithm — Reno, NewReno, Vegas, {{cubic|CUBIC}}, Compound, {{bbr|BBR}}, BBRv3, [[frontier:l4s-comcast-launch|L4S]] — is a refinement of Jacobson's six. The branch point of the field is one paper.`
+The 1986 collapse is the moment [[tcp|TCP]] went from working-most-of-the-time to **a protocol you could trust at scale**. Every later congestion-control algorithm — Reno, NewReno, Vegas, {{cubic|CUBIC}}, Compound, {{bbr|BBR}}, {{bbrv3|BBRv3}}, [[frontier:l4s-comcast-launch|L4S]] — is a refinement of Jacobson's six. The branch point of the field is one paper.`
 						},
 						{
 							type: 'image',
@@ -234,9 +234,9 @@ That is the deepest lesson of the web's success. It was an **application** — a
 							title: 'CERN Released It Royalty-Free',
 							text: `On **30 April 1993**, CERN released the World Wide Web technology — server, browser, line-mode reader, and the protocol specifications — into the public domain. The document is one of the most consequential pieces of paper in computing history. It was a deliberate decision by CERN's management, against the institutional instinct to license the research, that the web should be free for anyone to implement.
 
-The 1993 release is the reason there is no Microsoft web, no Apple web, no IBM web. Within twelve months, **Mosaic** (NCSA, Marc Andreessen + Eric Bina, January 1993) had become the first popular graphical browser. Andreessen co-founded Netscape later that year. Microsoft licensed the Spyglass / Mosaic codebase as the seed of Internet Explorer in 1995. By 1996, the browser wars were under way — but every combatant was building on the public-domain CERN spec.
+The 1993 release is the reason there is no {{microsoft|Microsoft}} web, no {{apple|Apple}} web, no IBM web. Within twelve months, **Mosaic** (NCSA, Marc Andreessen + Eric Bina, January 1993) had become the first popular graphical browser. Andreessen co-founded Netscape later that year. {{microsoft|Microsoft}} licensed the Spyglass / Mosaic codebase as the seed of Internet Explorer in 1995. By 1996, the browser wars were under way — but every combatant was building on the public-domain CERN spec.
 
-The architectural lesson the web carried forward: an application that succeeds at internet scale must be **open enough that competitors can implement it**. HTTP succeeded for the same reason [[tcp|TCP]]/[[ip|IP]] succeeded — the spec was public, the reference implementation was free, and anyone could build a compatible {{peer|peer}}. Every walled-garden alternative (Microsoft's MSN, AOL's keywords, Compuserve, even Apple's later eWorld) lost to the open web.`
+The architectural lesson the web carried forward: an application that succeeds at internet scale must be **open enough that competitors can implement it**. HTTP succeeded for the same reason [[tcp|TCP]]/[[ip|IP]] succeeded — the spec was public, the reference implementation was free, and anyone could build a compatible {{peer|peer}}. Every walled-garden alternative (Microsoft's MSN, AOL's keywords, Compuserve, even {{apple|Apple}}'s later eWorld) lost to the open web.`
 						},
 						{
 							type: 'image',
@@ -304,11 +304,11 @@ The fix took fifteen years. **{{aqm|Active queue management}}** (CoDel, fq_codel
 						{
 							type: 'narrative',
 							title: 'Why a New Transport in 2012',
-							text: `By 2012, [[tcp|TCP]] had a problem nobody could fix. Operating-system kernels shipped its implementation. Middleboxes — firewalls, {{nat|NAT}} routers, transparent proxies — inspected and modified its headers. Anything you wanted to add to [[tcp|TCP]] (TFO, [[mptcp|MPTCP]], {{sack|SACK}} Permitted) had to survive being mangled by every intermediate device on the planet. The protocol had **ossified**: even Google, with its enormous deployment leverage, could not roll out new [[tcp|TCP]] features in less than a decade.
+							text: `By 2012, [[tcp|TCP]] had a problem nobody could fix. Operating-system kernels shipped its implementation. Middleboxes — firewalls, {{nat|NAT}} routers, transparent proxies — inspected and modified its headers. Anything you wanted to add to [[tcp|TCP]] (TFO, [[mptcp|MPTCP]], {{sack|SACK}} Permitted) had to survive being mangled by every intermediate device on the planet. The protocol had **ossified**: even {{google|Google}}, with its enormous deployment leverage, could not roll out new [[tcp|TCP]] features in less than a decade.
 
-The [[quic|QUIC]] project, started by **[[pioneer:jim-roskind|Jim Roskind]]** at Google in 2012, took a radically different bet. Instead of fighting the middleboxes, [[quic|QUIC]] would tunnel a brand-new transport inside [[udp|UDP]] datagrams that middleboxes already had to forward unchanged. Inside that tunnel: a [[tls|TLS]] 1.3 {{handshake|handshake}} that combined transport and crypto setup into a single round-trip; per-stream sequencing that eliminated {{head-of-line-blocking|head-of-line blocking}}; and the entire protocol implemented in user space, where applications could deploy improvements monthly instead of waiting for the next OS release.
+The [[quic|QUIC]] project, started by **[[pioneer:jim-roskind|Jim Roskind]]** at {{google|Google}} in 2012, took a radically different bet. Instead of fighting the middleboxes, [[quic|QUIC]] would tunnel a brand-new transport inside [[udp|UDP]] datagrams that middleboxes already had to forward unchanged. Inside that tunnel: a [[tls|TLS]] 1.3 {{handshake|handshake}} that combined transport and crypto setup into a single round-trip; per-stream sequencing that eliminated {{head-of-line-blocking|head-of-line blocking}}; and the entire protocol implemented in user space, where applications could deploy improvements monthly instead of waiting for the next OS release.
 
-[[rfc:9000|RFC 9000]] standardised [[quic|QUIC]] in May 2021. By 2025, [[quic|QUIC]] carried 35% of all websites and over 75% of Meta's internet traffic. [[http3|HTTP/3]] — HTTP over [[quic|QUIC]] — became the default transport choice for most large platforms. The same architectural move that made [[quic|QUIC]] possible (user-space transport on [[udp|UDP]]) is now what makes [[mptcp|multipath QUIC]], MoQ live streaming, and [[http3|HTTP/3]] datagrams possible. Ossification, finally, has a release valve.`
+[[rfc:9000|RFC 9000]] standardised [[quic|QUIC]] in May 2021. By 2025, [[quic|QUIC]] carried 35% of all websites and over 75% of {{meta|Meta}}'s internet traffic. [[http3|HTTP/3]] — HTTP over [[quic|QUIC]] — became the default transport choice for most large platforms. The same architectural move that made [[quic|QUIC]] possible (user-space transport on [[udp|UDP]]) is now what makes [[mptcp|multipath QUIC]], MoQ live streaming, and [[http3|HTTP/3]] datagrams possible. Ossification, finally, has a release valve.`
 						},
 						{
 							type: 'narrative',
@@ -326,7 +326,7 @@ This is the structural lesson of the late-2010s protocol-design era: **{{encrypt
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Google_Data_Center%2C_The_Dalles.jpg/500px-Google_Data_Center%2C_The_Dalles.jpg',
 							alt: 'Google data center in The Dalles, Oregon — where the gQUIC traffic was first deployed.',
 							caption:
-								'Google\'s data center in **The Dalles, Oregon**. By 2014, every connection to *chrome.com* / *youtube.com* from a Chrome client was speaking experimental gQUIC over [[udp|UDP]] to one of these buildings. The fleet of users plus the fleet of servers is what gave Google the leverage to design a new transport — and the leverage to *iterate* on it monthly instead of waiting decades for kernel rollouts.',
+								'{{google|Google}}\'s data center in **The Dalles, Oregon**. By 2014, every connection to *chrome.com* / *youtube.com* from a Chrome client was speaking experimental gQUIC over [[udp|UDP]] to one of these buildings. The fleet of users plus the fleet of servers is what gave {{google|Google}} the leverage to design a new transport — and the leverage to *iterate* on it monthly instead of waiting decades for kernel rollouts.',
 							credit: 'Photo: Tony Webster, CC BY 2.0, via Wikimedia Commons'
 						}
 					]
@@ -354,7 +354,7 @@ This is the structural lesson of the late-2010s protocol-design era: **{{encrypt
 
 In November 2024, Anthropic published the **Model Context Protocol** — [[mcp|MCP]]. The premise was simple: AI coding assistants and chat agents needed a standard way to talk to tools (file systems, databases, APIs, internal systems) without each pair re-inventing the integration. Within a year, [[mcp|MCP]] had streaming HTTP transport ([[frontier:mcp-streamable-http|MCP-streamable-HTTP]]), thousands of [[mcp|MCP]] servers in the registry, and first-class support across major model providers.
 
-In April 2025, Google followed with **Agent2Agent Protocol** — [[a2a|A2A]] — for agent-to-agent collaboration: capability discovery, task delegation, asynchronous event streams. [[a2a|A2A]] moved into the [[frontier:a2a-linux-foundation|Linux Foundation]] in mid-2025.
+In April 2025, {{google|Google}} followed with **Agent2Agent Protocol** — [[a2a|A2A]] — for agent-to-agent collaboration: capability discovery, task delegation, asynchronous event streams. [[a2a|A2A]] moved into the [[frontier:a2a-linux-foundation|Linux Foundation]] in mid-2025.
 
 These protocols are recognisably **internet**. They run over [[http3|HTTP/3]]. They use [[json-rpc|JSON-RPC]] for message framing. They lean on [[oauth2|OAuth 2.1]] for authentication. They are built by treating "an autonomous program that reasons" as a first-class network participant — the way the original web treated "a document on another machine" as a first-class participant. Whether they last, or get replaced by something better in five years, is the open question of the moment.`
 						},

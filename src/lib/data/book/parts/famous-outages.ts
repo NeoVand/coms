@@ -64,7 +64,7 @@ The fix was to install patched {{imp|IMP}} software that rejected sequence numbe
 
 **Periodic background traffic gets first-class testing.** Before 1980, routing keepalives were considered "infrastructure" — they ran in the background and engineers debugged them only when things broke. After 1980, every routing protocol's keepalive path was instrumented and fuzzed alongside the main code paths. Modern equivalents: [[bgp|BGP]] route-refresh, [[ospf|OSPF]] link-state advertisements, BFD keepalives — all heavily tested.
 
-**Public post-mortems became the norm.** [[rfc:789|RFC 789]] established that engineering organisations publish detailed root-cause analyses of their incidents. The Google SRE book, the Cloudflare incident reports, the Facebook 2021 write-up — all descendants of this practice.
+**Public post-mortems became the norm.** [[rfc:789|RFC 789]] established that engineering organisations publish detailed root-cause analyses of their incidents. The {{google|Google}} SRE book, the {{cloudflare|Cloudflare}} incident reports, the Facebook 2021 write-up — all descendants of this practice.
 
 **Sequence-number arithmetic is paranoid by default.** Modern protocols reject any {{sequence-number|sequence number}} that is impossibly far in the past or future, instead of trusting wall-clock-style ordering. [[tcp|TCP]]\'s [[rfc:9293|PAWS]] (Protection Against Wrapped Sequences, [[rfc:7323|RFC 7323]]) is one example.`
 						},
@@ -73,7 +73,7 @@ The fix was to install patched {{imp|IMP}} software that rejected sequence numbe
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/ARPA_Network%2C_Logical_Map%2C_September_1973.jpg/500px-ARPA_Network%2C_Logical_Map%2C_September_1973.jpg',
 							alt: 'ARPANET logical map, September 1973 — a few dozen sites linked by IMPs across the United States.',
 							caption:
-								'The {{arpanet|ARPANET}} logical map, September 1973. Seven years later, this same network — by then a few hundred host machines — went dark for a full day when three bits flipped in a single periodic status update at one Harvard {{imp|IMP}}. Every {{bgp|BGP}} keepalive, every [[ospf|OSPF]] LSA, every Cloudflare incident report is in some sense a descendant of [[rfc:789|RFC 789]], the post-mortem Eric Rosen at {{bbn|BBN}} wrote after this network spent six hours diagnosing itself.',
+								'The {{arpanet|ARPANET}} logical map, September 1973. Seven years later, this same network — by then a few hundred host machines — went dark for a full day when three bits flipped in a single periodic status update at one Harvard {{imp|IMP}}. Every [[bgp|BGP]] keepalive, every [[ospf|OSPF]] LSA, every {{cloudflare|Cloudflare}} incident report is in some sense a descendant of [[rfc:789|RFC 789]], the post-mortem Eric Rosen at {{bbn|BBN}} wrote after this network spent six hours diagnosing itself.',
 							credit: 'Image: DARPA / public domain, via Wikimedia Commons'
 						}
 					]
@@ -245,7 +245,7 @@ YouTube was offline globally for two hours. PCCW Global eventually identified th
 					]
 				},
 				{ kind: 'outage', id: 'pakistan-youtube-2008' },
-				{ kind: 'frontier', id: 'rpki-rov-50-percent' },
+				{ kind: 'frontier', id: '{{rpki|rpki}}-rov-50-percent' },
 				{
 					kind: 'prose',
 					sections: [
@@ -283,7 +283,7 @@ This is the structural reason [[bgp|BGP]] needs cryptography to fix it, not just
 						{
 							type: 'narrative',
 							title: 'Brief, Massive, Unexplained',
-							text: `On 8 April 2010 at 15:54 UTC, China Telecom ({{autonomous-system|AS}} 23724) announced [[bgp|BGP]] routes for approximately **37,000 prefixes** — about **15% of the global {{routing-table|routing table}}** — claiming to be the best path. For 18 minutes, traffic destined for U.S. military networks (.mil), several .gov domains, and major commercial sites (Dell, Yahoo, IBM, Microsoft) was traversing China Telecom's network on its way to the legitimate destination.
+							text: `On 8 April 2010 at 15:54 UTC, China Telecom ({{autonomous-system|AS}} 23724) announced [[bgp|BGP]] routes for approximately **37,000 prefixes** — about **15% of the global {{routing-table|routing table}}** — claiming to be the best path. For 18 minutes, traffic destined for U.S. military networks (.mil), several .gov domains, and major commercial sites (Dell, Yahoo, IBM, {{microsoft|Microsoft}}) was traversing China Telecom's network on its way to the legitimate destination.
 
 The leak was caught by automated monitoring (BGPmon, RIPE RIS, RouteViews) within minutes. China Telecom\'s upstreams installed filters around 16:12 UTC, and [[bgp|BGP]] convergence restored normal routing by 16:18.`
 						},
@@ -301,11 +301,11 @@ The technical fact is unambiguous: 15% of the global internet's traffic had a br
 						{
 							type: 'callout',
 							title: 'The "everything is encrypted" reply does not hold',
-							text: 'A natural reaction to {{bgp-hijack|BGP hijack}} incidents is "but the data is encrypted, so what does it matter if a third party sees it?" Two reasons it matters. First, **cryptographic metadata** ({{tls-handshake|TLS handshake}} fingerprints, {{certificate-chain|certificate chains}}, {{sni|SNI}} hostnames) reveals more than people realise. Second, **traffic analysis** — even on encrypted flows, packet sizes and timing leak intent. A connection burst between a Pentagon [[ip|IP]] and a defence contractor [[ip|IP]], observed by a foreign {{autonomous-system|AS}}, is intelligence regardless of cipher. This is part of why {{ech|ECH (Encrypted Client Hello)}} is a current [[tls|TLS]] frontier.'
+							text: 'A natural reaction to {{bgp-hijack|BGP hijack}} incidents is "but the data is encrypted, so what does it {{matter|matter}} if a third party sees it?" Two reasons it matters. First, **cryptographic metadata** ({{tls-handshake|TLS handshake}} fingerprints, {{certificate-chain|certificate chains}}, {{sni|SNI}} hostnames) reveals more than people realise. Second, **traffic analysis** — even on encrypted flows, packet sizes and timing leak intent. A connection burst between a Pentagon [[ip|IP]] and a defence contractor [[ip|IP]], observed by a foreign {{autonomous-system|AS}}, is intelligence regardless of cipher. This is part of why {{ech|ECH (Encrypted Client Hello)}} is a current [[tls|TLS]] frontier.'
 						}
 					]
 				},
-				{ kind: 'frontier', id: 'rpki-rov-50-percent' },
+				{ kind: 'frontier', id: '{{rpki|rpki}}-rov-50-percent' },
 				{ kind: 'frontier', id: 'ech-rfc-9849' },
 				{
 					kind: 'prose',
@@ -315,14 +315,14 @@ The technical fact is unambiguous: 15% of the global internet's traffic had a br
 							title: 'Why This Incident Funded RPKI Deployment',
 							text: `China Telecom 2010 was a turning point for U.S. government interest in **secure routing** infrastructure. The Department of Homeland Security funded several {{rpki|RPKI}} deployment efforts in the years following. The .gov and .mil top-level domains became some of the earliest large-scale ROA signers — a politically straightforward action that materially improved the security of U.S. federal traffic.
 
-The deeper challenge was always private-sector adoption. Government agencies could mandate {{rpki|RPKI}} for their own networks, but the bulk of internet traffic flows through commercial ISPs and content networks. The shift came in 2018-2022 when major hyperscalers (Cloudflare, Google, Amazon, Meta) made {{rpki|RPKI}} a publicly-stated requirement for their {{peering|peering}} arrangements. Networks that wanted to {{peer|peer}} at scale had to sign their prefixes; those that wouldn't became increasingly isolated. By 2026, [[frontier:rpki-rov-50-percent|over 50%]] of advertised [[ip|IP]] space is covered.`
+The deeper challenge was always private-sector adoption. Government agencies could mandate {{rpki|RPKI}} for their own networks, but the bulk of internet traffic flows through commercial ISPs and content networks. The shift came in 2018-2022 when major hyperscalers ({{cloudflare|Cloudflare}}, {{google|Google}}, Amazon, {{meta|Meta}}) made {{rpki|RPKI}} a publicly-stated requirement for their {{peering|peering}} arrangements. Networks that wanted to {{peer|peer}} at scale had to sign their prefixes; those that wouldn't became increasingly isolated. By 2026, [[frontier:rpki-rov-50-percent|over 50%]] of advertised [[ip|IP]] space is covered.`
 						},
 						{
 							type: 'image',
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/00/Arpanet_1974.svg/500px-Arpanet_1974.svg.png',
 							alt: 'ARPANET in 1974 — early packet-switched network topology.',
 							caption:
-								'The {{arpanet|ARPANET}} in 1974, when "the {{routing-table|routing table}}" was a handful of dozens of nodes you could fit on one printed page. By April 2010, China Telecom\'s 18-minute leak of **37,000 prefixes** — ~15% of the global {{routing-table|routing table}} — meant US military traffic, .gov traffic, and traffic to Yahoo / Microsoft / IBM was transiently observable through a single {{autonomous-system|AS}} in Beijing. The architecture of [[bgp|BGP]] makes this possible, accidentally or on purpose, in *seconds*.',
+								'The {{arpanet|ARPANET}} in 1974, when "the {{routing-table|routing table}}" was a handful of dozens of nodes you could fit on one printed page. By April 2010, China Telecom\'s 18-minute leak of **37,000 prefixes** — ~15% of the global {{routing-table|routing table}} — meant US military traffic, .gov traffic, and traffic to Yahoo / {{microsoft|Microsoft}} / IBM was transiently observable through a single {{autonomous-system|AS}} in Beijing. The architecture of [[bgp|BGP]] makes this possible, accidentally or on purpose, in *seconds*.',
 							credit: 'Image: Wikimedia Commons / public domain'
 						}
 					]
@@ -334,7 +334,7 @@ The deeper challenge was always private-sector adoption. Government agencies cou
 		{
 			id: 'sack-panic-2019',
 			title: 'SACK Panic 2019',
-			synopsis: 'A single [[tcp|TCP]] packet panics the Linux kernel.',
+			synopsis: 'A single [[tcp|TCP]] packet panics the {{linux|Linux}} kernel.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -347,11 +347,11 @@ The deeper challenge was always private-sector adoption. Government agencies cou
 						{
 							type: 'narrative',
 							title: 'Integer Overflow in the Most Critical Data Path',
-							text: `In June 2019, Netflix security researcher Jonathan Looney found that a maliciously crafted [[tcp|TCP]] packet with carefully chosen Selective Acknowledgement ({{sack|SACK}}) options could trigger an integer overflow in the Linux kernel's [[tcp|TCP]] stack, leading to a kernel panic.
+							text: `In June 2019, Netflix security researcher Jonathan Looney found that a maliciously crafted [[tcp|TCP]] packet with carefully chosen Selective Acknowledgement ({{sack|SACK}}) options could trigger an integer overflow in the {{linux|Linux}} kernel's [[tcp|TCP]] stack, leading to a kernel panic.
 
-The bug, **CVE-2019-11477** ("{{sack|SACK}} Panic"), affected every Linux kernel from 2.6.29 (2009) through 5.1 (2019) — **ten years of unpatched code in the heart of every Linux server on the internet**. A single [[tcp|TCP]] packet, no authentication required, would crash any vulnerable host. Service providers, cloud hyperscalers, container hosts, embedded systems — all simultaneously vulnerable.
+The bug, **CVE-2019-11477** ("{{sack|SACK}} Panic"), affected every {{linux|Linux}} kernel from 2.6.29 (2009) through 5.1 (2019) — **ten years of unpatched code in the heart of every Linux server on the internet**. A single [[tcp|TCP]] packet, no authentication required, would crash any vulnerable host. Service providers, cloud hyperscalers, container hosts, embedded systems — all simultaneously vulnerable.
 
-The disclosure was coordinated across Red Hat, Canonical, SUSE, Debian, AWS, Google, and the Linux kernel team. Patches shipped within hours of public disclosure on 17 June 2019, but the full deployment took weeks across the global Linux fleet.`
+The disclosure was coordinated across Red Hat, Canonical, SUSE, Debian, AWS, {{google|Google}}, and the Linux kernel team. Patches shipped within hours of public disclosure on 17 June 2019, but the full deployment took weeks across the global Linux fleet.`
 						},
 						{
 							type: 'narrative',
@@ -362,7 +362,7 @@ When {{sack|SACK}} indicated a large number of non-contiguous holes in the recei
 
 The bug had been present in production code since 2009. It survived because:
 1. The trigger required a specific combination of [[tcp|TCP]] options that no real client sent in normal traffic.
-2. The Linux test suite did not fuzz {{sack|SACK}} option boundaries.
+2. The {{linux|Linux}} test suite did not fuzz {{sack|SACK}} option boundaries.
 3. Most performance benchmarks did not exercise the path.
 4. {{sack|SACK}} was considered "battle-tested" — engineers focused new attention on newer code paths instead.
 
@@ -371,11 +371,11 @@ Looney found it by writing a fuzzer that combined {{sack|SACK}} with [[tcp|TCP]]
 						{
 							type: 'callout',
 							title: 'Code stability ≠ code correctness',
-							text: '**Code that has not changed in years is code that has not been re-tested in years.** The networking community before 2019 had implicitly trusted "battle-tested" code more than freshly-shipped code. {{sack|SACK}} Panic reversed that intuition. Modern Linux kernel development now includes continuous fuzzing of the network stack (syzkaller is the Google-led effort). Most CVE-quality bugs found since 2019 in the kernel\'s [[tcp|TCP]] path have come from this fuzzing infrastructure, not from human review.'
+							text: '**Code that has not changed in years is code that has not been re-tested in years.** The networking community before 2019 had implicitly trusted "battle-tested" code more than freshly-shipped code. {{sack|SACK}} Panic reversed that intuition. Modern {{linux|Linux}} kernel development now includes continuous fuzzing of the network stack (syzkaller is the {{google|Google}}-led effort). Most CVE-quality bugs found since 2019 in the kernel\'s [[tcp|TCP]] path have come from this fuzzing infrastructure, not from human review.'
 						}
 					]
 				},
-				{ kind: 'outage', id: 'sack-panic-2019' },
+				{ kind: 'outage', id: '{{sack|sack}}-panic-2019' },
 				{ kind: 'protocol', id: 'tcp' },
 				{
 					kind: 'prose',
@@ -383,9 +383,9 @@ Looney found it by writing a fuzzer that combined {{sack|SACK}} with [[tcp|TCP]]
 						{
 							type: 'narrative',
 							title: 'What Changed After SACK Panic',
-							text: `Three operational changes are now standard in production Linux fleets.
+							text: `Three operational changes are now standard in production {{linux|Linux}} fleets.
 
-**Continuous fuzzing of network code paths.** syzkaller runs against every Linux kernel commit, generating millions of random syscall + packet sequences per day. Most CVEs in the kernel\'s [[tcp|TCP]]/[[ip|IP]] stack since 2019 have been found this way, not by humans.
+**Continuous fuzzing of network code paths.** syzkaller runs against every {{linux|Linux}} kernel commit, generating millions of random syscall + packet sequences per day. Most CVEs in the kernel\'s [[tcp|TCP]]/[[ip|IP]] stack since 2019 have been found this way, not by humans.
 
 **Faster CVE response in distributed Linux environments.** Pre-2019, large fleets often took weeks to roll out a kernel patch — full reboot rotations, slow validation cycles. {{sack|SACK}} Panic forced the industry to invest in **live patching** (Red Hat\'s kpatch, Canonical\'s Livepatch, SUSE\'s kGraft) that can apply security fixes to a running kernel without reboot. By 2026, hyperscalers routinely live-patch kernel CVEs across millions of hosts within hours.
 
@@ -396,7 +396,7 @@ Looney found it by writing a fuzzer that combined {{sack|SACK}} with [[tcp|TCP]]
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Tux.svg/250px-Tux.svg.png',
 							alt: 'Tux — the Linux mascot, a chubby cartoon penguin.',
 							caption:
-								'**Tux**, the Linux mascot, drawn by Larry Ewing in 1996. Behind that cheerful penguin sits a [[tcp|TCP]] stack on every internet-facing Linux server on Earth — and from 2009 to 2019 every one of them was a single crafted [[tcp|TCP]] packet away from \`kernel panic\`. The fix shipped 17 June 2019; the lesson — **code stability is not code correctness** — has reshaped Linux kernel networking testing since.',
+								'**Tux**, the {{linux|Linux}} mascot, drawn by Larry Ewing in 1996. Behind that cheerful penguin sits a [[tcp|TCP]] stack on every internet-facing {{linux|Linux}} server on Earth — and from 2009 to 2019 every one of them was a single crafted [[tcp|TCP]] packet away from \`kernel panic\`. The fix shipped 17 June 2019; the lesson — **code stability is not code correctness** — has reshaped Linux kernel networking testing since.',
 							credit: 'Image: Larry Ewing / lewing@isc.tamu.edu, public domain, via Wikimedia Commons'
 						}
 					]
@@ -432,7 +432,7 @@ The catastrophic mistake: the rule\'s match criteria included [[bgp|BGP]] contro
 							title: 'Five Hours of Manual Recovery',
 							text: `Once the bad rule had propagated, there was no automated way to retract it — the very mechanism for retracting Flowspec rules ([[bgp|BGP]]) was the mechanism the rule had broken. Every router needed to be touched manually, either via out-of-band management or by physically connecting a console.
 
-Recovery took **five hours**. During that window, approximately **3.5% of all global internet traffic dropped** — a massive number for a single backbone. Cloudflare, Amazon, Microsoft, and most of the U.S. tier-1 customers reported downtime. Cloudflare\'s detailed write-up the next day became required reading in [[bgp|BGP]] operations.`
+Recovery took **five hours**. During that window, approximately **3.5% of all global internet traffic dropped** — a massive number for a single backbone. {{cloudflare|Cloudflare}}, Amazon, {{microsoft|Microsoft}}, and most of the U.S. tier-1 customers reported downtime. {{cloudflare|Cloudflare}}\'s detailed write-up the next day became required reading in [[bgp|BGP]] operations.`
 						},
 						{
 							type: 'callout',
@@ -522,7 +522,7 @@ The first [[bgp|BGP]] fix went in around 21:00 UTC. Recovery took until 22:30 �
 							title: 'What Changed After Facebook 2021',
 							text: `Three structural changes rolled through the industry in the eighteen months after the outage.
 
-**Out-of-band recovery for authoritative [[dns|DNS]].** Facebook (and others) moved to a model where authoritative [[dns|DNS]] for their critical domains is reachable through multiple independent network paths — including paths that do not depend on the company\'s own backbone. Cloudflare and AWS Route 53 both saw enterprise growth as customers moved [[dns|DNS]] to "if our network is down, our [[dns|DNS]] is still up."
+**Out-of-band recovery for authoritative [[dns|DNS]].** Facebook (and others) moved to a model where authoritative [[dns|DNS]] for their critical domains is reachable through multiple independent network paths — including paths that do not depend on the company\'s own backbone. {{cloudflare|Cloudflare}} and AWS Route 53 both saw enterprise growth as customers moved [[dns|DNS]] to "if our network is down, our [[dns|DNS]] is still up."
 
 **Physical access systems on independent networks.** Badge readers, door locks, environmental controls, fire suppression — anything that needs to work during a network outage — now runs on dedicated, isolated networks at most hyperscalers. The lesson: physical security cannot depend on the network whose data centre it secures.
 
@@ -533,7 +533,7 @@ The first [[bgp|BGP]] fix went in around 21:00 UTC. Recovery took until 22:30 �
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Facebook_Headquarters_Menlo_Park.jpg/500px-Facebook_Headquarters_Menlo_Park.jpg',
 							alt: 'Facebook (Meta) Headquarters campus in Menlo Park, California.',
 							caption:
-								'**Meta\'s Menlo Park campus** — the building whose [[bgp|BGP]] advertisements vanished from the global {{routing-table|routing table}} for nearly six hours on **4 October 2021**. Engineers had to physically reach the data centres to fix the problem; once there, they discovered the badge readers were offline too, because the access-control system depended on the same Facebook [[dns|DNS]] that no longer resolved. The outage is the canonical reference for *"what depends on the network you are about to break?"*',
+								'**{{meta|Meta}}\'s Menlo Park campus** — the building whose [[bgp|BGP]] advertisements vanished from the global {{routing-table|routing table}} for nearly six hours on **4 October 2021**. Engineers had to physically reach the data centres to fix the problem; once there, they discovered the badge readers were offline too, because the access-control system depended on the same Facebook [[dns|DNS]] that no longer resolved. The outage is the canonical reference for *"what depends on the network you are about to break?"*',
 							credit: 'Photo: LPS.1, CC0, via Wikimedia Commons'
 						}
 					]

@@ -10,7 +10,7 @@ export const oauth2: Protocol = {
 	rfc: 'RFC 6749',
 	oneLiner:
 		'Delegated authorization for the modern web — let apps access your data without sharing your password.',
-	overview: `[[oauth2|OAuth 2.0]] is the authorization framework that powers "Sign in with Google," "Connect your GitHub," and virtually every third-party integration on the modern web. Instead of handing your password to an application, [[oauth2|OAuth]] lets you grant it a scoped, time-limited {{access-token|access token}} — the app can read your repos but not delete them, view your calendar but not your email. Your credentials never leave the identity provider.
+	overview: `[[oauth2|OAuth 2.0]] is the authorization framework that powers "Sign in with {{google|Google}}," "Connect your GitHub," and virtually every third-party integration on the modern web. Instead of handing your password to an application, [[oauth2|OAuth]] lets you grant it a scoped, time-limited {{access-token|access token}} — the app can read your repos but not delete them, view your calendar but not your email. Your credentials never leave the identity provider.
 
 The core mechanism is the authorization code flow. When you click "Sign in with GitHub," you're redirected to GitHub's authorization server. You authenticate there (not on the app), review what permissions the app is requesting, and consent. GitHub redirects you back to the app with a short-lived authorization code. The app exchanges this code — along with a {{pkce|PKCE}} (Proof Key for Code {{exchange|Exchange}}) code verifier to prevent interception — for an {{access-token|access token}} and a refresh token. Access tokens are short-lived (minutes to hours); when they expire, the app uses the refresh token to silently obtain a new one without bothering the user.
 
@@ -237,7 +237,7 @@ Cache-Control: no-store
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Oauth_logo.svg/500px-Oauth_logo.svg.png',
 		alt: 'The OAuth open authorization protocol logo',
 		caption:
-			'The [[oauth2|OAuth]] logo. [[oauth2|OAuth 2.0]] ([[rfc:6749|RFC 6749]], 2012) became the industry standard for delegated authorization — "Sign in with Google," GitHub Apps, and API access tokens all use [[oauth2|OAuth]].',
+			'The [[oauth2|OAuth]] logo. [[oauth2|OAuth 2.0]] ([[rfc:6749|RFC 6749]], 2012) became the industry standard for delegated authorization — "Sign in with {{google|Google}}," GitHub Apps, and API access tokens all use [[oauth2|OAuth]].',
 		credit: 'Image: Chris Messina / CC BY-SA 3.0, via Wikimedia Commons'
 	}
 };

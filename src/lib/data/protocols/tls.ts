@@ -9,13 +9,13 @@ export const tls: Protocol = {
 	year: 1999,
 	rfc: 'RFC 8446',
 	oneLiner: 'Encrypts everything between client and server — the lock icon in your browser.',
-	overview: `[[tls|TLS]] (and its predecessor SSL) is the security layer that makes the modern internet possible. Every HTTPS website, every secure API call, every {{encryption|encrypted}} email — they all rely on [[tls|TLS]] to ensure that data can't be read or modified in transit.
+	overview: `[[tls|TLS]] (and its predecessor SSL) is the security layer that makes the modern internet possible. Every HTTPS website, every secure API call, every {{encryption|encrypted}} email — they all rely on [[tls|TLS]] to ensure that data can't be read or modified in {{transit|transit}}.
 
 [[tls|TLS]] provides three guarantees: confidentiality (data is encrypted, so eavesdroppers see gibberish), integrity (data can't be modified without detection), and authentication (you're actually talking to who you think you are, verified by {{certificate|certificates}}). [[tls|TLS]] 1.3 (2018) dramatically simplified the {{tls-handshake|handshake}}, reducing it from 2 {{rtt|round trips}} to 1, and removed support for legacy insecure algorithms.
 
 When you see the lock icon in your browser, [[tls|TLS]] is at work. It sits between the application layer ([[http1|HTTP]]) and the transport layer ([[tcp|TCP]]), transparently encrypting everything. Application code doesn't need to change — "http://" becomes "https://" and [[tls|TLS]] handles the rest.
 
-[[tls|TLS]] is the Layer-4 (transport) {{encryption|encryption}} story. Its Layer-3 (network) counterpart is **[[ipsec|IPsec]]** — same goal (confidentiality + integrity + authentication), different scope (entire [[ip|IP]] packets instead of single [[tcp|TCP]] streams). Where [[tls|TLS]] wraps one connection that one application can see, [[ipsec|IPsec]] encrypts every [[ip|IP]] packet between two endpoints — host-to-host or gateway-to-gateway — and is the substrate of every site-to-site VPN, every {{3gpp|3GPP}} [[cellular|mobile-core]] backhaul, and every IKEv2 client tunnel on macOS, iOS, Windows, and Android. The lighter-weight cousin **[[wireguard|WireGuard]]** picks the same Noise-protocol crypto stack and ships in ~4,000 lines of kernel code. Below the transport layer entirely, short-range wireless protocols like [[nfc|NFC]] (Apple Pay), [[bluetooth|BLE]] ({{ccc-digital-key|CCC Digital Key}}), and [[uwb|UWB]] ({{aliro|Aliro}}) negotiate their own session keys and never traverse [[tls|TLS]] until the cryptogram reaches the payment-network back-end.`,
+[[tls|TLS]] is the Layer-4 (transport) {{encryption|encryption}} story. Its Layer-3 (network) counterpart is **[[ipsec|IPsec]]** — same goal (confidentiality + integrity + authentication), different scope (entire [[ip|IP]] packets instead of single [[tcp|TCP]] streams). Where [[tls|TLS]] wraps one connection that one application can see, [[ipsec|IPsec]] encrypts every [[ip|IP]] packet between two endpoints — host-to-host or gateway-to-gateway — and is the substrate of every site-to-site VPN, every {{3gpp|3GPP}} [[cellular|mobile-core]] backhaul, and every IKEv2 client tunnel on macOS, iOS, Windows, and Android. The lighter-weight cousin **[[wireguard|WireGuard]]** picks the same Noise-protocol crypto stack and ships in ~4,000 lines of kernel code. Below the transport layer entirely, short-range wireless protocols like [[nfc|NFC]] ({{apple|Apple}} Pay), [[bluetooth|BLE]] ({{ccc-digital-key|CCC Digital Key}}), and [[uwb|UWB]] ({{aliro|Aliro}}) negotiate their own session keys and never traverse [[tls|TLS]] until the cryptogram reaches the payment-network back-end.`,
 	howItWorks: [
 		{
 			title: 'ClientHello',
@@ -209,20 +209,20 @@ openssl req -x509 -newkey rsa:2048 -nodes \\
 			date: '2024-Q2',
 			title: 'X25519MLKEM768 default in Chrome 124',
 			description:
-				'Chrome enables hybrid post-quantum key agreement by default for all [[tls|TLS]] 1.3 connections. Cloudflare and major CDNs follow within months.',
+				'Chrome enables hybrid post-quantum key agreement by default for all [[tls|TLS]] 1.3 connections. {{cloudflare|Cloudflare}} and major CDNs follow within months.',
 			source: { url: 'https://chromestatus.com/feature/5572538108870656', label: 'Chrome Status' }
 		},
 		{
 			date: '2025-Q3',
 			title: '~70% of TLS 1.3 handshakes are post-quantum',
 			description:
-				'{{cdn|CDN}} measurements show majority of [[tls|TLS]] 1.3 connections now negotiate X25519MLKEM768 hybrid. Apple iOS 26 ships with PQ on by default.'
+				'{{cdn|CDN}} measurements show majority of [[tls|TLS]] 1.3 connections now negotiate X25519MLKEM768 hybrid. {{apple|Apple}} iOS 26 ships with PQ on by default.'
 		},
 		{
 			date: '2024-09',
 			title: 'ECH (Encrypted Client Hello) progresses',
 			description:
-				'draft-ietf-tls-esni-23 advanced toward RFC; {{ech|ECH}} hides the {{sni|SNI}} from on-path observers, closing a long-standing [[tls|TLS]] metadata leak. Cloudflare and Mozilla running joint deployments.'
+				'draft-{{ietf|ietf}}-tls-esni-23 advanced toward RFC; {{ech|ECH}} hides the {{sni|SNI}} from on-path observers, closing a long-standing [[tls|TLS]] metadata leak. {{cloudflare|Cloudflare}} and Mozilla running joint deployments.'
 		}
 	],
 
@@ -231,7 +231,7 @@ openssl req -x509 -newkey rsa:2048 -nodes \\
 			org: 'Cloudflare',
 			scale: '100% of HTTPS edge',
 			description:
-				'[[tls|TLS]] 1.3 with X25519MLKEM768 hybrid key {{exchange|exchange}} and {{ech|ECH}} support enabled by default for every site fronted by Cloudflare.'
+				'[[tls|TLS]] 1.3 with X25519MLKEM768 hybrid key {{exchange|exchange}} and {{ech|ECH}} support enabled by default for every site fronted by {{cloudflare|Cloudflare}}.'
 		},
 		{
 			org: 'Apple',
@@ -272,7 +272,7 @@ openssl req -x509 -newkey rsa:2048 -nodes \\
 		pitfalls: [
 			{
 				title: 'Certificate expiry takes down major sites',
-				text: 'Even huge organisations forget to renew. Microsoft Teams (2020), Spotify (2020), Cisco WebEx (2018) all had hours-long outages because a single {{certificate|certificate}} expired. Cure: monitor expiries (cert-monitor, AWS ACM, Let\'s Encrypt automation), and never have an "important" cert that someone has to renew by hand.'
+				text: 'Even huge organisations forget to renew. {{microsoft|Microsoft}} Teams (2020), Spotify (2020), {{cisco|Cisco}} WebEx (2018) all had hours-long outages because a single {{certificate|certificate}} expired. Cure: monitor expiries (cert-monitor, AWS ACM, Let\'s Encrypt automation), and never have an "important" cert that someone has to renew by hand.'
 			},
 			{
 				title: 'Resumption tickets enable replay on 0-RTT',

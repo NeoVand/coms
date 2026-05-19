@@ -12,9 +12,9 @@ export const nfc: Protocol = {
 		'13.56 MHz inductively-coupled short-range (≤10 cm) protocol family for payments, {{transit|transit}}, identity, access, and tap-to-pair commissioning.',
 	overview: `[[nfc|NFC]] is the umbrella name for a tightly defined family of contactless protocols operating in the 13.56 MHz {{ism-band|ISM}} band over {{inductive-coupling|inductive coupling}} at typically ≤10 cm — extended to a 20 mm operating volume in **NFC Forum Release 15** (June 2025). It encompasses ISO/IEC 14443 Type A/B (proximity), ISO/IEC 15693 (vicinity, ~1 m), and JIS X 6319-4 FeliCa (Type F — the parallel Asian {{transit|transit}} standard), unified by ISO/IEC 18092 (NFCIP-1, 2003/2013) and ISO/IEC 21481 (NFCIP-2, 2012). The **NFC Forum** (founded 2004 by Sony, Philips, and Nokia) adds the application layer: {{ndef|NDEF}} data format, Tag Types T2T–T5T (T1T retired 2021), {{llcp|LLCP}}/{{snep|SNEP}} {{peer-to-peer|peer-to-peer}} (deprecated in practice), Connection Handover to [[bluetooth|Bluetooth]]/[[wifi|Wi-Fi]], NCI for host-controller interface, and NFC Wireless Charging (WLC, up to 1 W).
 
-[[nfc|NFC]] supports **four operating modes**: *Reader/Writer* (phone reads a passive tag), *Card Emulation* (phone presents itself as a card via {{ese|Secure Element}} on Apple Pay or via {{hce|Host Card Emulation}} on Android 4.4+ / iOS 17.4+ EEA), *Peer-to-Peer* (largely deprecated), and *Wireless Charging* (added 2020). On top of NFC's transport sit several full vertical stacks: ISO/IEC 7816-4 {{apdu|APDUs}} and **EMVCo Contactless** Books C-1 through C-7 + Book E (cards and payments); **ICAO Doc 9303 Part 11** BAC/PACE (e-passports); {{ccc-digital-key|CCC Digital Key}} (vehicles); {{aliro|Aliro 1.0}} (access control, finalised Feb 2026); NFC Forum WLC (wireless charging); and {{matter|Matter}} 1.3+ NFC commissioning.
+[[nfc|NFC]] supports **four operating modes**: *Reader/Writer* (phone reads a passive tag), *Card Emulation* (phone presents itself as a card via {{ese|Secure Element}} on {{apple|Apple}} Pay or via {{hce|Host Card Emulation}} on Android 4.4+ / iOS 17.4+ EEA), *{{peer-to-peer|Peer-to-Peer}}* (largely deprecated), and *Wireless Charging* (added 2020). On top of NFC's transport sit several full vertical stacks: ISO/IEC 7816-4 {{apdu|APDUs}} and **EMVCo Contactless** Books C-1 through C-7 + Book E (cards and payments); **ICAO Doc 9303 Part 11** BAC/PACE (e-passports); {{ccc-digital-key|CCC Digital Key}} (vehicles); {{aliro|Aliro 1.0}} (access control, finalised Feb 2026); NFC Forum WLC (wireless charging); and {{matter|Matter}} 1.3+ NFC commissioning.
 
-The hinge of the modern story is **9 September 2014**, when Tim Cook announced Apple Pay at Flint Center, Cupertino — three pillars: NFC, {{ese|embedded Secure Element}}, and Touch ID, all built atop EMVCo Payment Tokenisation so the real PAN never leaves the card issuer. The protocol that runs the British contactless economy was published in 2000; the protocol your phone uses to pay your barista was published as ISO/IEC 18092 in December 2003 — three years before the iPhone existed. NFC is rare among software stacks in that **the wire format has not changed in 20 years** — every iteration has been at the certification, security, and application-layer level. [[wifi|Wi-Fi]] is the protocol you stream from; [[bluetooth|Bluetooth]] is the protocol you carry with you; [[nfc|NFC]] is the protocol you tap with.`,
+The hinge of the modern story is **9 September 2014**, when Tim Cook announced {{apple|Apple}} Pay at Flint Center, Cupertino — three pillars: NFC, {{ese|embedded Secure Element}}, and Touch ID, all built atop EMVCo Payment Tokenisation so the real PAN never leaves the card issuer. The protocol that runs the British contactless economy was published in 2000; the protocol your phone uses to pay your barista was published as ISO/IEC 18092 in December 2003 — three years before the iPhone existed. NFC is rare among software stacks in that **the wire format has not changed in 20 years** — every iteration has been at the certification, security, and application-layer level. [[wifi|Wi-Fi]] is the protocol you stream from; [[bluetooth|Bluetooth]] is the protocol you carry with you; [[nfc|NFC]] is the protocol you tap with.`,
 	howItWorks: [
 		{
 			title: '13.56 MHz inductive coupling in the ISM band',
@@ -24,7 +24,7 @@ The hinge of the modern story is **9 September 2014**, when Tim Cook announced A
 		{
 			title: 'Three flavours of NFC on the air',
 			description:
-				'**NFC-A** (ISO 14443-A): PCD→PICC is 100 % ASK modified-Miller; PICC→PCD is OOK Manchester on the 847.5 kHz subcarrier. Base rate 106 kbit/s, scaling to 848. This is what MIFARE, EMV Mastercard, and most access cards use. **NFC-B** (ISO 14443-B): PCD→PICC is 10 % ASK NRZ-L; PICC→PCD is BPSK on the subcarrier — used by some EMV cards and many ICAO e-passports. **NFC-F** (FeliCa / JIS X 6319-4): 212/424 kbit/s Manchester-coded ASK, *no subcarrier* — dominant in Japan {{transit|transit}} (Suica, PASMO) and Hong Kong Octopus, present on iPhones since the iPhone 7 (Sep 2016, Japan-only) and globally from iPhone 8. **NFC-V** (ISO/IEC 15693) is a fourth, longer-range vicinity-coupling mode at lower data rates — used in industrial tagging, library books, and the Apple Vision Pro Light Seal NFC tag.'
+				'**NFC-A** (ISO 14443-A): PCD→PICC is 100 % ASK modified-Miller; PICC→PCD is OOK Manchester on the 847.5 kHz subcarrier. Base rate 106 kbit/s, scaling to 848. This is what MIFARE, EMV Mastercard, and most access cards use. **NFC-B** (ISO 14443-B): PCD→PICC is 10 % ASK NRZ-L; PICC→PCD is BPSK on the subcarrier — used by some EMV cards and many ICAO e-passports. **NFC-F** (FeliCa / JIS X 6319-4): 212/424 kbit/s Manchester-coded ASK, *no subcarrier* — dominant in Japan {{transit|transit}} (Suica, PASMO) and Hong Kong Octopus, present on iPhones since the iPhone 7 (Sep 2016, Japan-only) and globally from iPhone 8. **NFC-V** (ISO/IEC 15693) is a fourth, longer-range vicinity-coupling mode at lower data rates — used in industrial tagging, library books, and the {{apple|Apple}} Vision Pro Light Seal NFC tag.'
 		},
 		{
 			title: 'Anti-collision: REQA → ATQA → SEL/NVB → SAK',
@@ -34,12 +34,12 @@ The hinge of the modern story is **9 September 2014**, when Tim Cook announced A
 		{
 			title: 'Card Emulation: SELECT PPSE → SELECT AID → GET PROCESSING OPTIONS → GENERATE AC',
 			description:
-				"For card-emulation mode (Apple Pay, {{transit|transit}}, access), once 14443-4 is established the reader speaks **ISO 7816-4 APDUs**: 4-byte header `CLA INS P1 P2` + optional command body. The first command is *SELECT {{ppse|PPSE}}* — the Proximity Payment System Environment AID `2PAY.SYS.DDF01` — and the card returns an FCI listing all supported {{aid|payment AIDs}} in priority order. The reader picks one (e.g. Mastercard `A0000000041010`), SELECTs it, gets back a PDOL listing parameters the card needs (amount, currency, country, terminal-type, unpredictable number), then sends *GET PROCESSING OPTIONS* with those parameters. The card returns AIP+AFL telling the reader which files to read; READ RECORDs pull the PAN, expiry, and public-key {{certificate-chain|certificate chain}}. Finally *GENERATE AC* with CDOL1 data asks the card for an {{emv-cryptogram|Application Cryptogram}} — either an ARQC (online) or TC (offline). The cryptogram is signed in the eSE/HCE app and is what proves the transaction to the issuer."
+				"For card-emulation mode ({{apple|Apple}} Pay, {{transit|transit}}, access), once 14443-4 is established the reader speaks **ISO 7816-4 APDUs**: 4-byte header `CLA INS P1 P2` + optional command body. The first command is *SELECT {{ppse|PPSE}}* — the Proximity Payment System Environment AID `2PAY.SYS.DDF01` — and the card returns an FCI listing all supported {{aid|payment AIDs}} in priority order. The reader picks one (e.g. Mastercard `A0000000041010`), SELECTs it, gets back a PDOL listing parameters the card needs (amount, currency, country, terminal-type, unpredictable number), then sends *GET PROCESSING OPTIONS* with those parameters. The card returns AIP+AFL telling the reader which files to read; READ RECORDs pull the PAN, expiry, and public-key {{certificate-chain|certificate chain}}. Finally *GENERATE AC* with CDOL1 data asks the card for an {{emv-cryptogram|Application Cryptogram}} — either an ARQC (online) or TC (offline). The cryptogram is signed in the eSE/HCE app and is what proves the transaction to the issuer."
 		},
 		{
 			title: 'NDEF: the data format for everything that is not a payment',
 			description:
-				"NFC Forum **{{ndef|NDEF}}** (NFC Data {{exchange|Exchange}} Format) is the binary record container that lives in tags and rides over {{llcp|LLCP}}/{{snep|SNEP}}. Each record begins with a 1-byte header — bits MB/ME (Message Begin/End), CF (Chunk Flag), SR (Short Record — 1-byte length vs 4), IL (ID Length present), and a 3-bit TNF (Type Name Format: 0=Empty, 1=Well-Known like `U` for URI or `T` for Text, 2=MIME media, 3=Absolute URI, 4=External, 5=Unknown). The URI Well-Known record uses a single-byte prefix shorthand — 0x03 for `https://` saves 8 bytes per record on tags as small as 48 bytes. NDEF was formally adopted as an IEC standard in **March 2026** alongside NFC-WLC."
+				"NFC Forum **{{ndef|NDEF}}** (NFC Data {{exchange|Exchange}} Format) is the binary record container that lives in tags and rides over {{llcp|LLCP}}/{{snep|SNEP}}. Each record begins with a 1-byte header — bits MB/ME (Message Begin/End), CF (Chunk Flag), SR (Short Record — 1-byte length vs 4), IL (ID Length present), and a 3-bit TNF (Type Name Format: 0=Empty, 1=Well-Known like `U` for URI or `T` for Text, 2=MIME media, 3=Absolute URI, 4=External, 5=Unknown). The URI Well-Known record uses a single-byte prefix shorthand — 0x03 for `https://` saves 8 bytes per record on tags as small as 48 bytes. {{ndef|NDEF}} was formally adopted as an IEC standard in **March 2026** alongside NFC-WLC."
 		},
 		{
 			title: 'Three transports, one tap: Connection Handover to Bluetooth / Wi-Fi / Matter',
@@ -49,7 +49,7 @@ The hinge of the modern story is **9 September 2014**, when Tim Cook announced A
 		{
 			title: 'Tokenisation: why your real card number never leaves the bank',
 			description:
-				"The 2014 Apple Pay launch did not just add an NFC chip to the iPhone — it baked **EMVCo Payment Tokenisation** into the architecture. The cardholder's real Funding PAN (FPAN) is never stored on the device; instead the bank issues a **Device PAN (DPAN)** that is provisioned (via the Token Service Provider, typically Visa Token Service or Mastercard Digital Enablement Service) into the {{ese|embedded Secure Element}} or the HCE keystore. Every tap generates a per-transaction cryptogram bound to the DPAN, the {{atc|ATC}} (Application Transaction Counter), and the Unpredictable Number from the terminal. A stolen DPAN is worthless without the keys in the SE; a stolen cryptogram is worthless because the ATC has already moved on. This is the reason Apple Pay fraud rates are now broadly in line with card-not-present rates, despite the initial 2015 'yellow path' enrolment disaster."
+				"The 2014 {{apple|Apple}} Pay launch did not just add an NFC chip to the iPhone — it baked **EMVCo Payment Tokenisation** into the architecture. The cardholder's real Funding PAN (FPAN) is never stored on the device; instead the bank issues a **Device PAN (DPAN)** that is provisioned (via the Token Service Provider, typically Visa Token Service or Mastercard Digital Enablement Service) into the {{ese|embedded Secure Element}} or the HCE keystore. Every tap generates a per-transaction cryptogram bound to the DPAN, the {{atc|ATC}} (Application Transaction Counter), and the Unpredictable Number from the terminal. A stolen DPAN is worthless without the keys in the SE; a stolen cryptogram is worthless because the ATC has already moved on. This is the reason {{apple|Apple}} Pay fraud rates are now broadly in line with card-not-present rates, despite the initial 2015 'yellow path' enrolment disaster."
 		}
 	],
 	useCases: [
@@ -84,7 +84,7 @@ reader.onreading = ({ message, serialNumber }) => {
 };
 reader.onreadingerror = () => console.warn('cannot read — tag empty or unsupported');`,
 		caption:
-			"The Web NFC API exposes only {{ndef|NDEF}} read/write — no card emulation, no raw 14443 — and only on Android Chromium. Apple has not implemented it. The {{handshake|handshake}} (REQA → ATQA → SEL → SAK → RATS → ATS → READ NDEF TLV) happens inside the platform's NFC controller; the page sees only the NDEF abstraction.",
+			"The Web NFC API exposes only {{ndef|NDEF}} read/write — no card emulation, no raw 14443 — and only on Android Chromium. {{apple|Apple}} has not implemented it. The {{handshake|handshake}} (REQA → ATQA → SEL → SAK → RATS → ATS → READ {{ndef|NDEF}} TLV) happens inside the platform's NFC controller; the page sees only the {{ndef|NDEF}} abstraction.",
 		alternatives: [
 			{
 				language: 'python',
@@ -293,7 +293,7 @@ Total airtime from field-on to ARQC: ~300–800 ms on a real terminal.`
 			date: '2024-03',
 			title: 'iOS 17.4 opens NFC HCE to EEA wallets (DMA)',
 			description:
-				"On 25 January 2024 Apple announced — and in March 2024 iOS 17.4 shipped — the **NFC & Secure Element Platform** entitlement for the European Economic Area. For the first time on iPhone, third-party wallets can do {{hce|Host Card Emulation}} contactless payments without going through Apple Pay. PayPal Germany was the first to ship; the entitlement covers HCE access, side-button shortcut, Face/Touch ID, and Field-Detect. Available **only inside the EEA** (27 EU states + Iceland, Liechtenstein, Norway) and **only on iPhone** — not Apple Watch, not iPad.",
+				"On 25 January 2024 {{apple|Apple}} announced — and in March 2024 iOS 17.4 shipped — the **NFC & Secure Element Platform** entitlement for the European Economic Area. For the first time on iPhone, third-party wallets can do {{hce|Host Card Emulation}} contactless payments without going through {{apple|Apple}} Pay. PayPal Germany was the first to ship; the entitlement covers HCE access, side-button shortcut, Face/Touch ID, and Field-Detect. Available **only inside the EEA** (27 EU states + Iceland, Liechtenstein, Norway) and **only on iPhone** — not Apple Watch, not iPad.",
 			source: {
 				url: 'https://www.apple.com/newsroom/2024/01/apple-announces-changes-to-ios-safari-and-the-app-store-in-the-european-union/',
 				label: 'Apple newsroom, 25 Jan 2024'
@@ -303,7 +303,7 @@ Total airtime from field-on to ARQC: ~300–800 ms on a real terminal.`
 			date: '2024-07',
 			title: 'EU Commission accepts Apple\'s 10-year NFC opening commitments',
 			description:
-				"On **17 July 2024** the European Commission's commitments decision IP/24/3706 made Apple's NFC opening legally binding for **ten years**, monitored by an independent trustee. The first time any regulator has compelled an OEM to open NFC card emulation. The pattern is now templated and the watch-items are the UK CMA, Japan JFTC, and Australian ACCC.",
+				"On **17 July 2024** the European Commission's commitments decision IP/24/3706 made {{apple|Apple}}'s NFC opening legally binding for **ten years**, monitored by an independent trustee. The first time any regulator has compelled an OEM to open NFC card emulation. The pattern is now templated and the watch-items are the UK CMA, Japan JFTC, and Australian ACCC.",
 			source: {
 				url: 'https://ec.europa.eu/commission/presscorner/detail/en/ip_24_3706',
 				label: 'EC press release IP/24/3706'
@@ -323,7 +323,7 @@ Total airtime from field-on to ARQC: ~300–800 ms on a real terminal.`
 			date: '2025-07',
 			title: 'CCC Digital Key 4.0 announced',
 			description:
-				"The Car Connectivity Consortium announced **Digital Key 4.0** in July 2025 and tested it at the 13th Plugfest, hosted by Apple. Headline: *cross-version compatibility* — a DK3 phone unlocks a DK4 car and vice versa. **115 vehicle/module products** were certified in 2025 alone, including the first Chinese OEMs (NIO, XPENG, Geely group brands). Devices must support at least one of NFC, BLE, or [[uwb|UWB]]; NFC remains the fallback that works even on a phone with a dead battery (>5 hours on iPhone reserve power).",
+				"The Car Connectivity Consortium announced **Digital Key 4.0** in July 2025 and tested it at the 13th Plugfest, hosted by {{apple|Apple}}. Headline: *cross-version compatibility* — a DK3 phone unlocks a DK4 car and vice versa. **115 vehicle/module products** were certified in 2025 alone, including the first Chinese OEMs (NIO, XPENG, Geely group brands). Devices must support at least one of NFC, BLE, or [[uwb|UWB]]; NFC remains the fallback that works even on a phone with a dead battery (>5 hours on iPhone reserve power).",
 			source: {
 				url: 'https://carconnectivity.org/',
 				label: 'Car Connectivity Consortium'
@@ -333,7 +333,7 @@ Total airtime from field-on to ARQC: ~300–800 ms on a real terminal.`
 			date: '2026-02',
 			title: 'Aliro 1.0 finalised — "Matter for doors"',
 			description:
-				"On **26 February 2026** the Connectivity Standards Alliance — the same group that runs {{matter|Matter}} — finalised {{aliro|Aliro 1.0}}, a PKI-based access-control credential standard. ECDSA mutual authentication, support for NFC tap-to-access, BLE proximity, and BLE+[[uwb|UWB]] ranged unlock, with credentials provisioned into Apple/Google/Samsung wallets. First certifications: Apple, Allegion, Aqara, Google, HID, Kastle, Kwikset, Last Lock, Nordic, Nuki, NXP, Qorvo, Samsung, STMicro. Target verticals: corporate, hospitality, residential, multi-family, university.",
+				"On **26 February 2026** the Connectivity Standards Alliance — the same group that runs {{matter|Matter}} — finalised {{aliro|Aliro 1.0}}, a PKI-based access-control credential standard. ECDSA mutual authentication, support for NFC tap-to-access, BLE proximity, and BLE+[[uwb|UWB]] ranged unlock, with credentials provisioned into {{apple|Apple}}/{{google|Google}}/Samsung wallets. First certifications: {{apple|Apple}}, Allegion, Aqara, {{google|Google}}, HID, Kastle, Kwikset, Last Lock, Nordic, Nuki, NXP, Qorvo, Samsung, STMicro. Target verticals: corporate, hospitality, residential, multi-family, university.",
 			source: {
 				url: 'https://csa-iot.org/newsroom/introducing-aliro-1-0/',
 				label: 'CSA: Introducing Aliro 1.0'
@@ -343,7 +343,7 @@ Total airtime from field-on to ARQC: ~300–800 ms on a real terminal.`
 			date: '2026-03',
 			title: 'NFC WLC and NDEF adopted as IEC standards',
 			description:
-				"In **March 2026** the IEC formally adopted two NFC Forum specs as international standards: **NFC Wireless Charging** (WLC 2.0, up to 1 W) and **{{ndef|NDEF}}** (the data record format). NDEF being standardised removes one barrier for regulators integrating NFC tags into product passports under the EU's Ecodesign for Sustainable Products Regulation (ESPR).",
+				"In **March 2026** the IEC formally adopted two NFC Forum specs as international standards: **NFC Wireless Charging** (WLC 2.0, up to 1 W) and **{{ndef|NDEF}}** (the data record format). {{ndef|NDEF}} being standardised removes one barrier for regulators integrating NFC tags into product passports under the EU's Ecodesign for Sustainable Products Regulation (ESPR).",
 			source: {
 				url: 'https://nfc-forum.org/news/2026-03-two-nfc-forum-specifications-adopted-as-iec-standards/',
 				label: 'NFC Forum: two specs adopted by IEC'
@@ -356,25 +356,25 @@ Total airtime from field-on to ARQC: ~300–800 ms on a real terminal.`
 			org: 'Apple Pay',
 			scale: 'Available in 85+ countries; ~$9.4 B revenue 2025 (3.4 % of all Apple); ~54 % share of US in-store mobile wallet',
 			description:
-				"Announced 9 September 2014 at Flint Center, Cupertino — the same hall where Steve Jobs unveiled the original Macintosh in 1984. Tim Cook held up a leather wallet: 'Our vision is to replace this — we're going to start with payments.' Launched in the US on 20 October 2014 with American Express, Bank of America, Capital One, Chase, Citi, and Wells Fargo. The three pillars — NFC, {{ese|embedded Secure Element}}, and Touch ID — set the template every mobile wallet has followed since. Apple Pay generated ~\\$7.6 trillion in annualised transaction volume by 2025."
+				"Announced 9 September 2014 at Flint Center, Cupertino — the same hall where Steve Jobs unveiled the original Macintosh in 1984. Tim Cook held up a leather wallet: 'Our vision is to replace this — we're going to start with payments.' Launched in the US on 20 October 2014 with American Express, Bank of America, Capital One, Chase, Citi, and Wells Fargo. The three pillars — NFC, {{ese|embedded Secure Element}}, and Touch ID — set the template every mobile wallet has followed since. {{apple|Apple}} Pay generated ~\\$7.6 trillion in annualised transaction volume by 2025."
 		},
 		{
 			org: 'Tap to Pay on iPhone',
 			scale: 'More than 50 countries and regions by Q1 2026; available on iPhone XS or newer; no extra hardware',
 			description:
-				"Apple acquired Mobeewave in 2020 and launched Tap to Pay on iPhone in the US in February 2022 via Stripe. By April 2026 Apple stated availability in **more than 50 countries and regions** — 18 European countries on 27 May 2025, 5 Nordic + Baltic + Monaco on 23 September 2025, Singapore 2 December 2025, Malaysia 22 April 2026. Turns the merchant's iPhone into a contactless terminal — the protocol shift is that the iPhone is now usually on **both ends** of the tap."
+				"{{apple|Apple}} acquired Mobeewave in 2020 and launched Tap to Pay on iPhone in the US in February 2022 via Stripe. By April 2026 {{apple|Apple}} stated availability in **more than 50 countries and regions** — 18 European countries on 27 May 2025, 5 Nordic + Baltic + Monaco on 23 September 2025, Singapore 2 December 2025, Malaysia 22 April 2026. Turns the merchant's iPhone into a contactless terminal — the protocol shift is that the iPhone is now usually on **both ends** of the tap."
 		},
 		{
 			org: 'JR East Suica + Hong Kong Octopus',
 			scale: '95.64 M Suica issued (Oct 2023), 6.6 M daily taps; >35 M Octopus cards on a population of 7.5 M',
 			description:
-				"Sony's FeliCa team began work in the late 1980s; the protocol shipped commercially as the **Hong Kong Octopus card on 1 September 1997** — four years before NFC was named, seven before the NFC Forum existed. **Suica** launched on **18 November 2001** at 424 metropolitan Tokyo stations. Apple Pay Suica became available on 7 September 2016 with the iPhone 7 (Japan-only), then went global on the iPhone 8. By 2021 Japan had ~200 M IC cards across nine mutually-usable regional schemes — more cards than people."
+				"Sony's FeliCa team began work in the late 1980s; the protocol shipped commercially as the **Hong Kong Octopus card on 1 September 1997** — four years before NFC was named, seven before the NFC Forum existed. **Suica** launched on **18 November 2001** at 424 metropolitan Tokyo stations. {{apple|Apple}} Pay Suica became available on 7 September 2016 with the iPhone 7 (Japan-only), then went global on the iPhone 8. By 2021 Japan had ~200 M IC cards across nine mutually-usable regional schemes — more cards than people."
 		},
 		{
 			org: 'Transport for London contactless EMV',
 			scale: '>2 billion taps per year; largest contactless EMV deployment globally',
 			description:
-				"TfL added EMV contactless on **buses in 2012** and the **Tube in 2014** — and the UK contactless economy lifted off behind it. Where the rest of the world's {{transit|transit}} operators issued proprietary smart cards (MIFARE, FeliCa, CIPURSE), TfL bet on **bank-issued EMV** as the fare media. The bet paid: by 2023 UK contactless accounted for over 80 % of in-person Visa transactions. In the US, contactless went from 1 % of Visa face-to-face transactions in 2017 to roughly one-in-three by 2023 — Apple Pay is widely credited as the demand driver."
+				"TfL added EMV contactless on **buses in 2012** and the **Tube in 2014** — and the UK contactless economy lifted off behind it. Where the rest of the world's {{transit|transit}} operators issued proprietary smart cards (MIFARE, FeliCa, CIPURSE), TfL bet on **bank-issued EMV** as the fare media. The bet paid: by 2023 UK contactless accounted for over 80 % of in-person Visa transactions. In the US, contactless went from 1 % of Visa face-to-face transactions in 2017 to roughly one-in-three by 2023 — {{apple|Apple}} Pay is widely credited as the demand driver."
 		},
 		{
 			org: 'ICAO eMRTD passports + DTC',
@@ -399,7 +399,7 @@ Total airtime from field-on to ARQC: ~300–800 ms on a real terminal.`
 	funFacts: [
 		{
 			title: 'Charles Walton died the same year Google Wallet launched',
-			text: "[[pioneer:charles-walton|Charles Walton]], the IBM disk-drive engineer who founded **Proximity Devices in 1970** and holds the canonical {{rfid|RFID}} ancestor patent (US 4,384,288, 1983, *Portable Radio Frequency Emitting Identifier*) plus 50+ others, earned several million dollars in royalties before the bulk of his patents expired in the mid-1990s — just before the wave of RFID adoption from Walmart and the US Department of Defense. He died in Los Gatos on **6 November 2011**, three months after Google launched **Google Wallet 1.0** on the Nexus S 4G in May 2011. Two pioneers of the same field, separated by 60 years, in the same calendar year."
+			text: "[[pioneer:charles-walton|Charles Walton]], the IBM disk-drive engineer who founded **Proximity Devices in 1970** and holds the canonical {{rfid|RFID}} ancestor patent (US 4,384,288, 1983, *Portable Radio Frequency Emitting Identifier*) plus 50+ others, earned several million dollars in royalties before the bulk of his patents expired in the mid-1990s — just before the wave of {{rfid|RFID}} adoption from Walmart and the US Department of Defense. He died in Los Gatos on **6 November 2011**, three months after {{google|Google}} launched **{{google|Google}} Wallet 1.0** on the Nexus S 4G in May 2011. Two pioneers of the same field, separated by 60 years, in the same calendar year."
 		},
 		{
 			title: 'FeliCa beat the NFC Forum to commercial deployment by seven years',
@@ -415,7 +415,7 @@ Total airtime from field-on to ARQC: ~300–800 ms on a real terminal.`
 		},
 		{
 			title: '"We are going to start with payments"',
-			text: "On **9 September 2014** at the Flint Center in Cupertino — the same hall where Steve Jobs unveiled the original Macintosh in 1984 — Tim Cook held up a leather wallet and said: 'Our vision is to replace this — we're going to start with payments.' Eleven years later, the Apple Wallet holds driver's licences, hotel and home keys, car keys (CCC), {{transit|transit}} cards, event tickets, vaccine cards, employee badges, and {{aliro|Aliro}} residential credentials — and every one of them rides the same 13.56 MHz inductive link defined in **ISO/IEC 18092 in December 2003**, three years before the iPhone existed."
+			text: "On **9 September 2014** at the Flint Center in Cupertino — the same hall where Steve Jobs unveiled the original Macintosh in 1984 — Tim Cook held up a leather wallet and said: 'Our vision is to replace this — we're going to start with payments.' Eleven years later, the {{apple|Apple}} Wallet holds driver's licences, hotel and home keys, car keys (CCC), {{transit|transit}} cards, event tickets, vaccine cards, employee badges, and {{aliro|Aliro}} residential credentials — and every one of them rides the same 13.56 MHz inductive link defined in **ISO/IEC 18092 in December 2003**, three years before the iPhone existed."
 		},
 		{
 			title: 'The "switch off NFC to save battery" myth',
@@ -439,7 +439,7 @@ Total airtime from field-on to ARQC: ~300–800 ms on a real terminal.`
 			},
 			{
 				title: 'HCE relay attacks: the protocol does not know if the phone is in the room',
-				text: "{{hce|HCE}} terminates {{apdu|APDUs}} in a normal application, which means a malicious app or an attacker phone close to the victim can relay the entire {{apdu|APDU}} stream over the internet to a confederate's phone at a terminal. TU Darmstadt's **NFCGate** (2015+) made this trivial. The protocol cannot tell the difference — an APDU stream tunnelled over IP is structurally indistinguishable from a local tap. **Mitigations:** EMV **Relay Resistance Protocol (RRP)** in Kernel 2 v2.6+ binds round-trip timing into the cryptogram (real NFC ≤ 5 ms, internet relay ≥ 50 ms); Apple Pay's eSE architecture sidesteps it entirely. If you ship HCE without RRP, your safety net is *back-end velocity and geo-anomaly monitoring* — not phone-side time bounds."
+				text: "{{hce|HCE}} terminates {{apdu|APDUs}} in a normal application, which means a malicious app or an attacker phone close to the victim can relay the entire {{apdu|APDU}} stream over the internet to a confederate's phone at a terminal. TU Darmstadt's **NFCGate** (2015+) made this trivial. The protocol cannot tell the difference — an {{apdu|APDU}} stream tunnelled over IP is structurally indistinguishable from a local tap. **Mitigations:** EMV **Relay Resistance Protocol (RRP)** in Kernel 2 v2.6+ binds round-trip timing into the cryptogram (real NFC ≤ 5 ms, internet relay ≥ 50 ms); {{apple|Apple}} Pay's eSE architecture sidesteps it entirely. If you ship HCE without RRP, your safety net is *back-end velocity and geo-anomaly monitoring* — not phone-side time bounds."
 			}
 		]
 	}

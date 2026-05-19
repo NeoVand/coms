@@ -75,7 +75,7 @@ export const outages: Outage[] = [
 		duration: '~6 hours',
 		scale: 'Global — 3 billion users; Facebook, Instagram, WhatsApp, Oculus all dark',
 		oneLiner:
-			'A routine maintenance command on Meta\'s global backbone took down its [[dns|DNS]], then its websites, then its employees\' badge readers — all because the safety mechanism worked exactly as designed.',
+			'A routine maintenance command on {{meta|Meta}}\'s global backbone took down its [[dns|DNS]], then its websites, then its employees\' badge readers — all because the safety mechanism worked exactly as designed.',
 		category: 'configuration',
 		affectedProtocols: ['bgp', 'dns', 'tcp'],
 		cast: [
@@ -84,22 +84,22 @@ export const outages: Outage[] = [
 			{ name: 'ThousandEyes', role: 'External monitor' }
 		],
 		setup:
-			"Meta runs tens of thousands of miles of fibre between its data centres — a global private backbone. Its [[dns|DNS]] servers live in smaller \"edge\" facilities, programmed with a defensive safety: if a [[dns|DNS]] server cannot reach the data centres (and therefore cannot answer authoritatively), it withdraws its own [[bgp|BGP]] advertisements so nobody routes queries to it. The reasoning was sound: a [[dns|DNS]] server that can't answer shouldn't be reached.",
+			"{{meta|Meta}} runs tens of thousands of miles of fibre between its data centres — a global private backbone. Its [[dns|DNS]] servers live in smaller \"edge\" facilities, programmed with a defensive safety: if a [[dns|DNS]] server cannot reach the data centres (and therefore cannot answer authoritatively), it withdraws its own [[bgp|BGP]] advertisements so nobody routes queries to it. The reasoning was sound: a [[dns|DNS]] server that can't answer shouldn't be reached.",
 		mistake:
-			"During routine maintenance an engineer issued a command intended to assess the availability of global backbone capacity. Meta's audit tooling — designed to catch destructive commands — had a bug, and didn't stop it. The command took down the entire backbone.",
+			"During routine maintenance an engineer issued a command intended to assess the availability of global backbone capacity. {{meta|Meta}}'s audit tooling — designed to catch destructive commands — had a bug, and didn't stop it. The command took down the entire backbone.",
 		cascade: [
 			{
 				time: '15:39 UTC',
 				title: 'Backbone collapse',
 				description:
-					"The maintenance command disconnected Meta's data centres from each other. The [[dns|DNS]] edge servers, isolated, did exactly what they were designed to do.",
+					"The maintenance command disconnected {{meta|Meta}}'s data centres from each other. The [[dns|DNS]] edge servers, isolated, did exactly what they were designed to do.",
 				protocols: ['bgp']
 			},
 			{
 				time: '15:40 UTC',
 				title: 'BGP withdrawals',
 				description:
-					"Cloudflare and other observers detect a flood of [[bgp|BGP]] UPDATE messages from {{autonomous-system|AS}} 32934 — and then a wave of WITHDRAWALs of the [[ip|IPv4]] and [[ipv6|IPv6]] prefixes covering Facebook's [[dns|DNS]] servers. From the outside, Facebook ceases to exist.",
+					"{{cloudflare|Cloudflare}} and other observers detect a flood of [[bgp|BGP]] UPDATE messages from {{autonomous-system|AS}} 32934 — and then a wave of WITHDRAWALs of the [[ip|IPv4]] and [[ipv6|IPv6]] prefixes covering Facebook's [[dns|DNS]] servers. From the outside, Facebook ceases to exist.",
 				protocols: ['bgp', 'dns']
 			},
 			{
@@ -120,20 +120,20 @@ export const outages: Outage[] = [
 				time: '~16:00 UTC',
 				title: "Internal tools disappear too",
 				description:
-					"Meta engineers cannot get into the network to fix it because their internal tools depend on the same [[dns|DNS]], and their physical badge readers depend on the same network. Engineers are reportedly dispatched to data centres with bolt cutters."
+					"{{meta|Meta}} engineers cannot get into the network to fix it because their internal tools depend on the same [[dns|DNS]], and their physical badge readers depend on the same network. Engineers are reportedly dispatched to data centres with bolt cutters."
 			},
 			{
 				time: '21:00 UTC',
 				title: 'Backbone restored',
 				description:
-					'After roughly six hours, Meta re-establishes backbone connectivity. [[dns|DNS]] prefix advertisements return at 21:05 UTC. Cached [[dns|DNS]] clears worldwide over the next several hours.',
+					'After roughly six hours, {{meta|Meta}} re-establishes backbone connectivity. [[dns|DNS]] prefix advertisements return at 21:05 UTC. Cached [[dns|DNS]] clears worldwide over the next several hours.',
 				protocols: ['bgp', 'dns']
 			}
 		],
 		consequence:
 			"Estimated revenue impact crosses $60M. Mark Zuckerberg's net worth drops by more than $6B in a day. In developing countries where Facebook's \"Free Basics\" program is the de-facto internet, communication, business, and humanitarian work pause for seven hours.",
 		resolution:
-			"Meta's post-mortem the next day acknowledges configuration tooling and audit-bypass as the root cause; the [[bgp|BGP]] withdrawal was the *symptom* of the larger backbone failure, not its cause.",
+			"{{meta|Meta}}'s post-mortem the next day acknowledges configuration tooling and audit-bypass as the root cause; the [[bgp|BGP]] withdrawal was the *symptom* of the larger backbone failure, not its cause.",
 		lesson:
 			"Three layers — [[bgp|BGP]], [[dns|DNS]], and physical access — fail in cascade because each one trusts the layer below it. Never have a single dependency chain run through your own product. The defensive safety ([[dns|DNS]] withdraws on failure) is sound; the issue is that *every* product, including badge readers and audit tools, depended on the same [[dns|DNS]].",
 		sources: [
@@ -286,7 +286,7 @@ export const outages: Outage[] = [
 				time: '15:50 UTC',
 				title: 'Mass announcement',
 				description:
-					'AS 23724 begins originating ~50,000 prefixes it does not own — covering networks operated by Dell, Apple, large US government agencies, and many others.',
+					'AS 23724 begins originating ~50,000 prefixes it does not own — covering networks operated by Dell, {{apple|Apple}}, large US government agencies, and many others.',
 				protocols: ['bgp']
 			},
 			{
@@ -420,7 +420,7 @@ export const outages: Outage[] = [
 			{
 				title: 'Tier-1 collapse',
 				description:
-					"The continuous churn means routes never converge. Customers across the Level 3 footprint experience massive packet loss. Cloudflare measures a 3.5% drop in *global* internet traffic."
+					"The continuous churn means routes never converge. Customers across the Level 3 footprint experience massive packet loss. {{cloudflare|Cloudflare}} measures a 3.5% drop in *global* internet traffic."
 			},
 			{
 				title: 'Manual de-peering needed',
@@ -429,7 +429,7 @@ export const outages: Outage[] = [
 			}
 		],
 		consequence:
-			"~5 hours of severe disruption across one of the world's largest backbones. Cloudflare publicly reported a 3.5% drop in global internet traffic. Many SaaS providers, video calls, and games hit by the cascading failures.",
+			"~5 hours of severe disruption across one of the world's largest backbones. {{cloudflare|Cloudflare}} publicly reported a 3.5% drop in global internet traffic. Many SaaS providers, video calls, and games hit by the cascading failures.",
 		resolution:
 			"Level 3 manually de-peered with other tier-1s to break the [[bgp|BGP]]-update loop, removed the bad Flowspec rule, then re-peered.",
 		lesson:
@@ -565,7 +565,7 @@ export const outages: Outage[] = [
 		duration: 'Disclosed; many systems exposed for weeks while patching',
 		scale: 'Most Linux servers on the internet (CVSS 7.5)',
 		oneLiner:
-			"Netflix's Jonathan Looney found that the right [[tcp|TCP]] {{sack|SACK}} option pattern would crash the Linux kernel — a single [[tcp|TCP]] packet, no authentication, instant remote denial of service.",
+			"Netflix's Jonathan Looney found that the right [[tcp|TCP]] {{sack|SACK}} option pattern would crash the {{linux|Linux}} kernel — a single [[tcp|TCP]] packet, no authentication, instant remote denial of service.",
 		category: 'software-bug',
 		affectedProtocols: ['tcp'],
 		cast: [
@@ -573,7 +573,7 @@ export const outages: Outage[] = [
 			{ name: 'Linux Kernel TCP maintainers', role: 'Vendors' }
 		],
 		setup:
-			"[[tcp|TCP]] {{sack|Selective Acknowledgment}} ({{sack|SACK}}, [[rfc:2018|RFC 2018]]) lets the receiver tell the sender exactly which non-contiguous byte ranges have arrived. The Linux kernel tracks these as a queue of skb (socket buffer) ranges. The data structure includes a 16-bit gso_segs counter for the segments-in-flight on a single sk_buff.",
+			"[[tcp|TCP]] {{sack|Selective Acknowledgment}} ({{sack|SACK}}, [[rfc:2018|RFC 2018]]) lets the receiver tell the sender exactly which non-contiguous byte ranges have arrived. The {{linux|Linux}} kernel tracks these as a queue of skb (socket buffer) ranges. The data structure includes a 16-bit gso_segs counter for the segments-in-flight on a single sk_buff.",
 		mistake:
 			"With a small enough {{mss|MSS}} — easily set by a remote {{peer|peer}} — a single sk_buff could be split into more than 65,535 GSO segments. The 16-bit counter overflowed. The kernel hit an integer overflow in tcp_skb_cb, triggering a panic.",
 		cascade: [
@@ -594,7 +594,7 @@ export const outages: Outage[] = [
 			}
 		],
 		consequence:
-			"Most Linux servers on the public internet were vulnerable. CVSS 7.5 (high). Operators scrambled to patch; many disabled {{sack|SACK}} as an interim mitigation, accepting performance degradation to avoid the crash.",
+			"Most {{linux|Linux}} servers on the public internet were vulnerable. CVSS 7.5 (high). Operators scrambled to patch; many disabled {{sack|SACK}} as an interim mitigation, accepting performance degradation to avoid the crash.",
 		resolution:
 			'Mainline kernel patch shipped within days. Mitigations: disable {{sack|SACK}} (`net.ipv4.tcp_sack=0`) or enforce a minimum {{mss|MSS}} via the new `net.ipv4.tcp_min_snd_mss` sysctl.',
 		lesson:

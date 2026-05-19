@@ -54,14 +54,14 @@ IBM released **[[mqtt|MQTT]] 3.1 royalty-free in 2010**; **[[mqtt|MQTT]] 3.1.1**
 						{
 							type: 'callout',
 							title: 'Facebook Messenger has used MQTT since 2011',
-							text: '**Facebook Messenger has used [[mqtt|MQTT]] since 2011** — chosen with "just a few weeks until launch" by Lucy Zhang\'s team — to drop perceived send {{latency|latency}} from seconds to "hundreds of milliseconds" on mobile. Tesla\'s vehicles use [[mqtt|MQTT]] to phone home. Ring doorbells, AWS IoT Core (until 16 August 2023, when Google Cloud IoT Core was retired), the {{matter|Matter}} smart-home standard, all run on [[mqtt|MQTT]] or its variants.'
+							text: '**Facebook Messenger has used [[mqtt|MQTT]] since 2011** — chosen with "just a few weeks until launch" by Lucy Zhang\'s team — to drop perceived send {{latency|latency}} from seconds to "hundreds of milliseconds" on mobile. Tesla\'s vehicles use [[mqtt|MQTT]] to phone home. Ring doorbells, AWS IoT Core (until 16 August 2023, when {{google|Google}} Cloud IoT Core was retired), the {{matter|Matter}} smart-home standard, all run on [[mqtt|MQTT]] or its variants.'
 						},
 						{
 							type: 'narrative',
 							title: 'The 2024 CVE Wave and the QUIC Frontier',
 							text: `2024 brought a CVE wave: **CVE-2024-10525** (libmosquitto OOB read on crafted SUBACK; affects 1.3.2-2.0.18; fixed in 2.0.19, October 2024) plus a 2024 broker double-free in bridge {{topic|topic}} remapping. The lesson is the same one [[mqtt|MQTT]] 5.0 already embedded — the protocol surface is intentionally small but the implementations are intricate.
 
-**Google Cloud IoT Core was retired 16 August 2023** — the deprecation still drives 2024-2026 architecture decisions and migrations to AWS IoT, Azure Event Grid [[mqtt|MQTT]], EMQX, and HiveMQ. The lesson for IoT operators: hyperscaler-managed IoT services have higher churn risk than the protocol itself.
+**{{google|Google}} Cloud IoT Core was retired 16 August 2023** — the deprecation still drives 2024-2026 architecture decisions and migrations to AWS IoT, Azure Event Grid [[mqtt|MQTT]], EMQX, and HiveMQ. The lesson for IoT operators: hyperscaler-managed IoT services have higher churn risk than the protocol itself.
 
 **[[mqtt|MQTT]]-over-[[quic|QUIC]]** has *no* ratified OASIS standard as of May 2026; **EMQX 5.x ships production support** and is "preparing a draft proposal" through the OASIS [[mqtt|MQTT]] TC. The frontier is vendor-led, not standardised. A new [[mqtt|MQTT]]-SN OASIS working draft was uploaded **1 May 2025** by chair Ian Craggs.`
 						},
@@ -122,11 +122,11 @@ The 0-9-1 working group was dead by 2010 — Pieter Hintjens (iMatix CEO) circul
 						{
 							type: 'narrative',
 							title: 'The Broadcom Acquisition, And Where AMQP Goes Now',
-							text: `**Broadcom acquired VMware in November 2023**; on **31 May 2024 the RabbitMQ team announced 3.12.x and older "will no longer receive patches through community support"** — non-paying users must upgrade. License remains MPL-2.0.
+							text: `**{{broadcom|Broadcom}} acquired VMware in November 2023**; on **31 May 2024 the RabbitMQ team announced 3.12.x and older "will no longer receive patches through community support"** — non-paying users must upgrade. License remains MPL-2.0.
 
-**Microsoft Azure Service Bus uses [[amqp|AMQP]] 1.0 as its primary protocol**; Service Bus over [[amqp|AMQP]]-[[websockets|WebSockets]] tunnels through [[tcp|TCP]]/443 to be "equivalent to [[amqp|AMQP]] 5671 connections." This is the dominant cloud-managed [[amqp|AMQP]] deployment by message volume.
+**{{microsoft|Microsoft}} Azure Service Bus uses [[amqp|AMQP]] 1.0 as its primary protocol**; Service Bus over [[amqp|AMQP]]-[[websockets|WebSockets]] tunnels through [[tcp|TCP]]/443 to be "equivalent to [[amqp|AMQP]] 5671 connections." This is the dominant cloud-managed [[amqp|AMQP]] deployment by message volume.
 
-The trade-off versus [[mqtt|MQTT]] remains operational complexity. An [[amqp|AMQP]] broker is a database — you size it, replicate it, monitor it. An [[mqtt|MQTT]] broker is closer to a router — {{stateless|stateless}} and small. Banks use [[amqp|AMQP]] for trade messaging, where {{exactly-once-delivery|exactly-once delivery}} and audit trails are non-negotiable. Microservice architectures use it for command queues and asynchronous task dispatch. Choose [[amqp|AMQP]] when transactions matter; choose [[mqtt|MQTT]] when scale and simplicity matter.`
+The trade-off versus [[mqtt|MQTT]] remains operational complexity. An [[amqp|AMQP]] broker is a database — you size it, replicate it, monitor it. An [[mqtt|MQTT]] broker is closer to a router — {{stateless|stateless}} and small. Banks use [[amqp|AMQP]] for trade messaging, where {{exactly-once-delivery|exactly-once delivery}} and audit trails are non-negotiable. Microservice architectures use it for command queues and asynchronous task dispatch. Choose [[amqp|AMQP]] when transactions {{matter|matter}}; choose [[mqtt|MQTT]] when scale and simplicity {{matter|matter}}.`
 						},
 						{
 							type: 'image',
@@ -187,7 +187,7 @@ A [[kafka|Kafka]] **{{topic|topic}}** is a partitioned log. Producers append rec
 							title: 'Confluent Was Acquired by IBM',
 							text: `**Confluent acquired WarpStream on 9 September 2024**. **IBM agreed to acquire Confluent for $11B at $31/share on 8 December 2025**, deal closed **17 March 2026**. Apache [[kafka|Kafka]] itself remains independent at the ASF.
 
-The wire-level details that matter operationally: [[kafka|Kafka]]'s reference congestion and storage stack is **CRC32C (Castagnoli)** for batch integrity, **gzip/snappy/lz4/zstd** compression, and **\`sendfile(2)\` zero-copy** fetches from page cache — its raw throughput edge over [[amqp|AMQP]]/RabbitMQ.
+The wire-level details that {{matter|matter}} operationally: [[kafka|Kafka]]'s reference congestion and storage stack is **CRC32C (Castagnoli)** for batch integrity, **gzip/snappy/lz4/zstd** compression, and **\`sendfile(2)\` zero-copy** fetches from page cache — its raw throughput edge over [[amqp|AMQP]]/RabbitMQ.
 
 2024-2025 CVE wave: **CVE-2024-56128** (SCRAM skipped server-{{nonce|nonce}} check, fixed 3.7.2/3.8.1/3.9.0); **CVE-2025-27817** (SASL/OAUTHBEARER arbitrary file read/SSRF, fixed 3.9.1/4.0.0); the older **CVE-2023-25194** JndiLoginModule RCE in Connect [[rest|REST]] API was the field's Log4Shell moment.
 
@@ -239,7 +239,7 @@ The wire-level details that matter operationally: [[kafka|Kafka]]'s reference co
 						{
 							type: 'narrative',
 							title: 'Where CoAP Actually Runs — And the Matter Misconception',
-							text: `The "everyone gets this wrong" fact: **{{matter|Matter}} does NOT use [[coap|CoAP]]** for its main payloads. Matter has its own Message Reliability Protocol on [[udp|UDP]]/5540. [[coap|CoAP]] is only used in **{{thread|Thread}} network management** (the "[[coap|CoAP]]-TMF" Wireshark dissector). Older blog posts saying "Thread uses [[coap|CoAP]]" are imprecise.
+							text: `The "everyone gets this wrong" fact: **{{matter|Matter}} does NOT use [[coap|CoAP]]** for its main payloads. {{matter|Matter}} has its own Message Reliability Protocol on [[udp|UDP]]/5540. [[coap|CoAP]] is only used in **{{thread|Thread}} network management** (the "[[coap|CoAP]]-TMF" {{wireshark|Wireshark}} dissector). Older blog posts saying "{{thread|Thread}} uses [[coap|CoAP]]" are imprecise.
 
 **The QLC Chain surprise**: NETSCOUT's January 2019 scan found **388,344 publicly-reachable [[coap|CoAP]] endpoints, 81% in China**, but most were *not* IoT devices — they were **Chinese smartphones running the QLC Chain {{peer-to-peer|peer-to-peer}} crypto stack**. [[coap|CoAP]]'s largest-deployed-at-scale use case for years was, embarrassingly, {{peer-to-peer|P2P}} crypto on phones.
 
@@ -248,9 +248,9 @@ The wire-level details that matter operationally: [[kafka|Kafka]]'s reference co
 						{
 							type: 'narrative',
 							title: 'The Frontier — Pub/Sub, And Tooling Decay',
-							text: `**\`draft-ietf-core-coap-pubsub\`** advanced from -15 (Oct 2024) to -19 (Mar 2026) — a [[coap|CoAP]] {{pub-sub|publish/subscribe}} broker is now stable and approaching RFC publication, the WG's belated answer to [[mqtt|MQTT]] brokers. [[coap|CoAP]] catching up to [[mqtt|MQTT]]'s pattern shows how late the constrained-IoT ecosystem moves.
+							text: `**\`draft-{{ietf|ietf}}-core-coap-pubsub\`** advanced from -15 (Oct 2024) to -19 (Mar 2026) — a [[coap|CoAP]] {{pub-sub|publish/subscribe}} broker is now stable and approaching RFC publication, the WG's belated answer to [[mqtt|MQTT]] brokers. [[coap|CoAP]] catching up to [[mqtt|MQTT]]'s pattern shows how late the constrained-IoT ecosystem moves.
 
-**The Copper (Cu) Firefox plugin is dead** (since Firefox 57 killed XUL extensions in Nov 2017); successor Copper4Cr requires a Chrome App, which Google deprecated — leaving most [[coap|CoAP]] debugging on CLI clients (libcoap, aiocoap, coap-cli). The browser-based [[coap|CoAP]] debugger is gone; if you are debugging [[coap|CoAP]] in 2026, you are doing it in a terminal.
+**The Copper (Cu) Firefox plugin is dead** (since Firefox 57 killed XUL extensions in Nov 2017); successor Copper4Cr requires a Chrome App, which {{google|Google}} deprecated — leaving most [[coap|CoAP]] debugging on CLI clients (libcoap, aiocoap, coap-cli). The browser-based [[coap|CoAP]] debugger is gone; if you are debugging [[coap|CoAP]] in 2026, you are doing it in a terminal.
 
 2024 CVE: **CVE-2024-0962** (libcoap OSCORE stack overflow); 2026: **CVE-2026-29013** (libcoap OSCORE Appendix-B.2 CBOR unwrap OOB read, disclosed 17 April 2026, CVSS 8.8). The [[coap|CoAP]] implementation surface is small but the cryptographic library underneath (libcoap, libcose) is intricate — the same pattern as every other small protocol with a serious crypto add-on.
 

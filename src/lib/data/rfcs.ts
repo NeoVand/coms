@@ -81,7 +81,7 @@ Edited by [[pioneer:jon-postel|Jon Postel]] at ISI in September 1981 alongside [
 		status: 'internet-standard',
 		url: 'https://www.rfc-editor.org/rfc/rfc826',
 		protocols: ['arp'],
-		abstract: `Defines [[arp|ARP]] — the elegantly simple {{broadcast|broadcast}} protocol that maps a 32-bit [[ip|IPv4]] address to the 48-bit [[ethernet|Ethernet]] [[mac-address|MAC address]] needed to actually deliver a frame on a local link. A host that wants to send to \`192.0.2.5\` broadcasts "who has 192.0.2.5?"; the owner replies with its MAC; the result is cached for a few minutes.
+		abstract: `Defines [[arp|ARP]] — the elegantly simple {{broadcast|broadcast}} protocol that maps a 32-bit [[ip|IPv4]] address to the 48-bit [[ethernet|Ethernet]] {{mac-address|MAC address}} needed to actually deliver a frame on a local link. A host that wants to send to \`192.0.2.5\` broadcasts "who has 192.0.2.5?"; the owner replies with its MAC; the result is cached for a few minutes.
 
 David Plummer wrote it at MIT-AI in November 1982. **STD 37 has not been obsoleted in over 40 years** — the wire format outlived Token Ring, FDDI, ATM, and Frame Relay because HLEN/PLEN are variable on purpose. [[arp|ARP]] has no checksum and no authentication, which is why [[arp|ARP]] {{spoofing|spoofing}} remains a textbook layer-2 attack and why every enterprise switch ships *Dynamic [[arp|ARP]] Inspection*.`
 	},
@@ -272,7 +272,7 @@ Defines connection setup (single-{{rtt|RTT}} {{handshake|handshake}}, {{zero-rtt
 		status: 'proposed-standard',
 		url: 'https://datatracker.ietf.org/doc/rfc9221/',
 		protocols: ['quic'],
-		abstract: `Adds a *DATAGRAM* frame to [[quic|QUIC]] for unreliable, unordered messages that share the connection's {{handshake|handshake}}, {{encryption|encryption}}, and {{congestion-control|congestion control}} but skip the reliability machinery — essentially "{{udp|UDP}} payloads inside an authenticated [[quic|QUIC]] connection." Used by {{webtransport|WebTransport}}, {{masque|MASQUE}} proxies (CONNECT-[[udp|UDP]]), and {{ietf|IETF}} media transport drafts that need [[udp|UDP]] semantics over a connection that already exists.`
+		abstract: `Adds a *DATAGRAM* frame to [[quic|QUIC]] for unreliable, unordered messages that share the connection's {{handshake|handshake}}, {{encryption|encryption}}, and {{congestion-control|congestion control}} but skip the reliability machinery — essentially "[[udp|UDP]] payloads inside an authenticated [[quic|QUIC]] connection." Used by {{webtransport|WebTransport}}, {{masque|MASQUE}} proxies (CONNECT-[[udp|UDP]]), and {{ietf|IETF}} media transport drafts that need [[udp|UDP]] semantics over a connection that already exists.`
 	},
 	{
 		number: '9330',
@@ -352,7 +352,7 @@ Adoption is brisk: by 2025 ~35% of top-10M sites support [[http3|HTTP/3]]; Cloud
 		protocols: ['websockets'],
 		abstract: `Defines [[websockets|WebSockets]] — a {{full-duplex|full-duplex}}, persistent message-based channel between a browser and a server, bootstrapped over a regular [[http1|HTTP]] request. The handshake is an HTTP \`Upgrade: websocket\` exchange that, on success, leaves the underlying [[tcp|TCP]] connection in [[websockets|WebSocket]] framing mode forever after.
 
-Edited by Ian Fette (Google) and Alexey Melnikov; the design was driven by [[pioneer:ian-hickson|Ian Hickson]] in the WHATWG. Solved the early-2000s "comet / long-poll" hacks that web apps used for {{server-push|server push}}. Frame format is small (2–14 byte overhead), supports binary or text, and is the foundation of every browser-side real-time app — chat, multiplayer games, collaborative editing, live tickers — that doesn't go through {{webrtc|WebRTC}}.`
+Edited by Ian Fette (Google) and Alexey Melnikov; the design was driven by [[pioneer:ian-hickson|Ian Hickson]] in the WHATWG. Solved the early-2000s "comet / long-poll" hacks that web apps used for {{server-push|server push}}. Frame format is small (2–14 byte overhead), supports binary or text, and is the foundation of every browser-side real-time app — chat, multiplayer games, collaborative editing, live tickers — that doesn't go through [[webrtc|WebRTC]].`
 	},
 
 	// ── Utilities / Security ──────────────────────────────────────────
@@ -578,7 +578,7 @@ Same wire protocol; cleaner spec. [[sctp|SCTP]]'s largest production deployment 
 		protocols: ['sctp'],
 		abstract: `Defines how to wrap [[sctp|SCTP]] packets inside [[udp|UDP]] {{datagram|datagrams}} so [[sctp|SCTP]] can traverse the {{nat|NAT}}s and {{firewall|firewalls}} that don't pass [[ip|IP]] protocol 132. Without this, [[sctp|SCTP]] is essentially undeployable on the open internet — it works inside telco networks but dies at every consumer router.
 
-The same trick that {{quic|QUIC}} would later generalise: ride on top of [[udp|UDP]] because [[udp|UDP]] is the lowest common denominator everything passes. Used by [[webrtc|WebRTC]] Data Channels and a handful of telco-over-internet deployments.`
+The same trick that [[quic|QUIC]] would later generalise: ride on top of [[udp|UDP]] because [[udp|UDP]] is the lowest common denominator everything passes. Used by [[webrtc|WebRTC]] Data Channels and a handful of telco-over-internet deployments.`
 	},
 
 	// Original IPv6 / IP utilities
@@ -639,7 +639,7 @@ The standard recipe for "[[ipv6|IPv6]]-Mostly" mobile and enterprise networks. F
 		status: 'proposed-standard',
 		url: 'https://www.rfc-editor.org/rfc/rfc8305',
 		protocols: ['ipv6'],
-		abstract: `*Happy Eyeballs v2* — the algorithm a dual-stack client uses to race [[ip|IPv4]] and [[ipv6|IPv6]] connection attempts in parallel and pick whichever wins, instead of trying [[ipv6|IPv6]] first and waiting for a long timeout when it fails. Originally [[rfc:6555|RFC 6555]] (2012, v1); v2 adds [[dns|DNS]] resolution races, parallel address-family attempts with small staggers (typically 250 ms), and explicit support for {{tls|TLS}} where the OS doesn't manage that.
+		abstract: `*Happy Eyeballs v2* — the algorithm a dual-stack client uses to race [[ip|IPv4]] and [[ipv6|IPv6]] connection attempts in parallel and pick whichever wins, instead of trying [[ipv6|IPv6]] first and waiting for a long timeout when it fails. Originally [[rfc:6555|RFC 6555]] (2012, v1); v2 adds [[dns|DNS]] resolution races, parallel address-family attempts with small staggers (typically 250 ms), and explicit support for [[tls|TLS]] where the OS doesn't manage that.
 
 Without Happy Eyeballs the [[ipv6|IPv6]] transition would have been visibly painful for end users on networks with broken [[ipv6|IPv6]] connectivity — every page load would hang. Now standard in every major browser and OS.`
 	},
@@ -1031,7 +1031,7 @@ The two-channel design is responsible for [[ftp|FTP]]'s well-known {{nat|NAT}}/{
 		status: 'standards-track',
 		url: 'https://www.rfc-editor.org/rfc/rfc4251',
 		protocols: ['ssh'],
-		abstract: `The architectural overview of [[ssh|SSH-2]] — the design Tatu Ylönen wrote in 1995 (after his Helsinki University machine was passively sniffed for credentials), formalised by the {{ietf|IETF}} as RFC 4251–4254 in 2006. Three layers: a {{tls|TLS}}-style transport for confidentiality and integrity, a user-authentication layer (password, {{public-key|public key}}, GSSAPI), and a connection layer that multiplexes channels (interactive shell, X11 forwarding, SCP/SFTP, {{port-forwarding|port forwarding}}).
+		abstract: `The architectural overview of [[ssh|SSH-2]] — the design Tatu Ylönen wrote in 1995 (after his Helsinki University machine was passively sniffed for credentials), formalised by the {{ietf|IETF}} as RFC 4251–4254 in 2006. Three layers: a [[tls|TLS]]-style transport for confidentiality and integrity, a user-authentication layer (password, {{public-key|public key}}, GSSAPI), and a connection layer that multiplexes channels (interactive shell, X11 forwarding, SCP/SFTP, {{port-forwarding|port forwarding}}).
 
 The reason the modern world has *only* [[ssh|SSH]] and not Telnet+rsh+rlogin is this RFC suite plus OpenSSH's nearly-universal adoption.`
 	},
@@ -1294,7 +1294,7 @@ Co-authored by Zach Shelby, Klaus Hartke, and Carsten Bormann. Used in *Thread* 
 		status: 'proposed-standard',
 		url: 'https://www.rfc-editor.org/rfc/rfc8613',
 		protocols: ['coap'],
-		abstract: `*OSCORE* — wraps the [[coap|CoAP]] message payload in *COSE_Encrypt0* (CBOR Object Signing and {{encryption|Encryption}}) using AES-CCM, providing **end-to-end** confidentiality and integrity even when the message traverses [[coap|CoAP]]↔HTTP proxies. Unlike {{dtls|DTLS}}, OSCORE protects the application object itself, not the transport — so proxies can route without seeing the contents and without having to terminate {{tls|DTLS}}.
+		abstract: `*OSCORE* — wraps the [[coap|CoAP]] message payload in *COSE_Encrypt0* (CBOR Object Signing and {{encryption|Encryption}}) using AES-CCM, providing **end-to-end** confidentiality and integrity even when the message traverses [[coap|CoAP]]↔HTTP proxies. Unlike {{dtls|DTLS}}, OSCORE protects the application object itself, not the transport — so proxies can route without seeing the contents and without having to terminate [[tls|DTLS]].
 
 The constrained-device counterpart to fitting [[tls|TLS]] into a battery-powered sensor — much smaller footprint, no per-message asymmetric crypto. Pair with [[rfc:9528|EDHOC]] for the full mutual-authentication + forward-secrecy story.`
 	},
@@ -1596,6 +1596,79 @@ Independent of the transport. Works equally well over multicast DNS on the link 
 			{ ref: '§7', description: 'Service Names registered with IANA' },
 			{ ref: '§6', description: 'Data syntax for DNS-SD TXT records' }
 		]
+	},
+
+	// ── Outage / post-mortem classics ─────────────────────────────────
+	{
+		number: '789',
+		title: 'Vulnerabilities of Network Control Protocols: An Example',
+		year: 1981,
+		authors: 'Eric C. Rosen',
+		status: 'informational',
+		url: 'https://www.rfc-editor.org/rfc/rfc789',
+		abstract: `Eric Rosen's post-mortem of the **27 October 1980 {{arpanet|ARPANET}} collapse** — three flipped bits in a single Harvard {{imp|IMP}}'s routing update produced *three apparently-valid versions* of the same announcement, every IMP picked a different one, and the network spent a full day in a routing-loop death spiral.
+
+The earliest detailed network-engineering post-mortem published openly. Established the cultural pattern — root cause, mechanism, timeline, lessons — that every later Cloudflare incident report, Google SRE chapter, and Facebook 2021 write-up inherits. Also the founding text for "be strict in what you accept" as a counterweight to Postel's Law (be conservative in what you send, be liberal in what you accept).`
+	},
+
+	// ── Real-time A/V & WebRTC ────────────────────────────────────────
+	{
+		number: '9605',
+		title: 'Secure Frame (SFrame)',
+		year: 2024,
+		authors: 'E. Omara, J. Uberti, S. G. Murillo, R. Barnes, Y. Fablet',
+		status: 'proposed-standard',
+		url: 'https://www.rfc-editor.org/rfc/rfc9605',
+		protocols: ['webrtc', 'rtp'],
+		abstract: `Defines **SFrame** — end-to-end frame-level {{encryption|encryption}} for real-time media that travels through Selective Forwarding Units (SFUs) **without** giving the SFU access to plaintext media. Each [[rtp|RTP]] payload is encrypted with a per-sender AES-GCM key derived from a group key; only sending and receiving clients hold keys, so the SFU is a forwarder, not a trusted middlebox.
+
+The protocol foundation for Discord's **DAVE** end-to-end-encrypted voice (deployed 1 March 2026, ~2.5 million concurrent users), Cisco Webex E2EE, and Zoom's E2EE meetings. Co-authored by [[pioneer:justin-uberti|Justin Uberti]] and Emad Omara who "scribbled the original idea on a whiteboard in 2018."`
+	},
+
+	// ── Congestion control ────────────────────────────────────────────
+	{
+		number: '6582',
+		title: 'The NewReno Modification to TCP\'s Fast Recovery Algorithm',
+		year: 2012,
+		authors: 'T. Henderson, S. Floyd, A. Gurtov, Y. Nishida',
+		status: 'proposed-standard',
+		obsoletes: ['3782'],
+		url: 'https://www.rfc-editor.org/rfc/rfc6582',
+		protocols: ['tcp'],
+		abstract: `Specifies **{{tcp-newreno|NewReno}}** — a {{tcp-reno|Reno}} refinement that handles multiple packet losses within a single congestion window by *staying* in fast-recovery until **all** losses in the window have been acknowledged, rather than dropping out as soon as the first ACK arrives. The default congestion-control algorithm on Windows pre-2008 and many BSD stacks for two decades.`
+	},
+
+	// ── Compression ───────────────────────────────────────────────────
+	{
+		number: '8478',
+		title: 'Zstandard Compression and the application/zstd Media Type',
+		year: 2018,
+		authors: 'Y. Collet, M. Kucherawy',
+		status: 'informational',
+		url: 'https://www.rfc-editor.org/rfc/rfc8478',
+		abstract: `Documents **{{zstd|Zstandard}}** (zstd) as an IETF-registered compression format — a lossless algorithm developed by Yann Collet at {{meta|Meta}} that trades a small throughput cost vs. zlib for substantially better ratios. Now the default compressor for several [[kafka|Kafka]] producers, container image registries (OCI 1.0+), Linux kernel modules, and the Brotli-style \`Content-Encoding: zstd\` HTTP option.`
+	},
+
+	// ── Authentication & PQ (referenced in pioneer/concept abstracts) ─
+	{
+		number: '7539',
+		title: 'ChaCha20 and Poly1305 for IETF Protocols',
+		year: 2015,
+		authors: 'Y. Nir, A. Langley',
+		status: 'informational',
+		obsoletedBy: ['8439'],
+		url: 'https://www.rfc-editor.org/rfc/rfc7539',
+		abstract: `Standardises [[pioneer:dan-bernstein|Daniel J. Bernstein]]'s **ChaCha20** stream cipher and **Poly1305** one-time authenticator as an AEAD construction for IETF protocols. Performant in software on platforms without AES hardware (mobile, embedded), and now the default cipher suite in [[tls|TLS]] 1.3, [[ssh|SSH]], [[wireguard|WireGuard]], and many [[quic|QUIC]] stacks. Obsoleted by [[rfc:8439|RFC 8439]] (2018) with minor clarifications.`
+	},
+	{
+		number: '8439',
+		title: 'ChaCha20 and Poly1305 for IETF Protocols',
+		year: 2018,
+		authors: 'Y. Nir, A. Langley',
+		status: 'informational',
+		obsoletes: ['7539'],
+		url: 'https://www.rfc-editor.org/rfc/rfc8439',
+		abstract: `Errata-corrected revision of [[rfc:7539|RFC 7539]] specifying **ChaCha20-Poly1305** as the lightweight AEAD construction used in [[tls|TLS]] 1.3, [[ssh|SSH]], [[wireguard|WireGuard]], and [[quic|QUIC]]. The standard cipher suite when the platform lacks AES-NI hardware.`
 	}
 ];
 

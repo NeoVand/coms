@@ -73,7 +73,7 @@ export const asyncIotStory: CategoryStory = {
 					year: 1999,
 					title: 'Jabber (XMPP) Created',
 					description:
-						'Jeremie Miller creates an open instant messaging protocol. Jabber would become [[xmpp|XMPP]], powering Google Talk, Facebook Chat, and billions of messages.',
+						'Jeremie Miller creates an open instant messaging protocol. Jabber would become [[xmpp|XMPP]], powering {{google|Google}} Talk, Facebook Chat, and billions of messages.',
 					protocolId: 'xmpp'
 				},
 				{
@@ -102,7 +102,7 @@ export const asyncIotStory: CategoryStory = {
 		{
 			type: 'narrative',
 			title: "Wall Street's Messaging Problem",
-			text: `While [[mqtt|MQTT]] was solving IoT telemetry and [[xmpp]] was revolutionizing instant messaging — powering Jabber, and later Google Talk and Facebook Chat — a different messaging crisis was unfolding on Wall Street. JPMorgan Chase was spending hundreds of millions on proprietary messaging middleware — TIBCO, IBM MQ, Microsoft MSMQ — with no interoperability between them. John O'Hara saw the absurdity: why should the wire format be proprietary? In 2003, he began designing [[amqp]], the Advanced Message Queuing Protocol.\n\n[[amqp]] was ambitious: a complete wire-level protocol with exchanges, queues, bindings, and sophisticated routing. Unlike [[mqtt]], which was minimal by design, [[amqp|AMQP]] tried to be comprehensive. This made it powerful for enterprise messaging but complex to implement. The creation of RabbitMQ in 2007 gave [[amqp|AMQP]] its killer app — a robust, open-source broker that could handle millions of messages per second.\n\nFor developers who wanted something even simpler, [[stomp|STOMP]] emerged in 2009 — a text-based protocol so simple you could debug it with telnet. Where [[amqp|AMQP]] was the enterprise heavyweight and [[mqtt|MQTT]] the IoT specialist, [[stomp|STOMP]] was the developer-friendly option for web applications, often running over [[websockets]].`
+			text: `While [[mqtt|MQTT]] was solving IoT telemetry and [[xmpp]] was revolutionizing instant messaging — powering Jabber, and later {{google|Google}} Talk and Facebook Chat — a different messaging crisis was unfolding on Wall Street. JPMorgan Chase was spending hundreds of millions on proprietary messaging middleware — TIBCO, IBM MQ, {{microsoft|Microsoft}} MSMQ — with no interoperability between them. John O'Hara saw the absurdity: why should the wire format be proprietary? In 2003, he began designing [[amqp]], the Advanced Message Queuing Protocol.\n\n[[amqp]] was ambitious: a complete wire-level protocol with exchanges, queues, bindings, and sophisticated routing. Unlike [[mqtt]], which was minimal by design, [[amqp|AMQP]] tried to be comprehensive. This made it powerful for enterprise messaging but complex to implement. The creation of RabbitMQ in 2007 gave [[amqp|AMQP]] its killer app — a robust, open-source broker that could handle millions of messages per second.\n\nFor developers who wanted something even simpler, [[stomp|STOMP]] emerged in 2009 — a text-based protocol so simple you could debug it with telnet. Where [[amqp|AMQP]] was the enterprise heavyweight and [[mqtt|MQTT]] the IoT specialist, [[stomp|STOMP]] was the developer-friendly option for web applications, often running over [[websockets]].`
 		},
 		{
 			type: 'pioneers',
@@ -216,7 +216,7 @@ export const asyncIotStory: CategoryStory = {
   subgraph [[kafka|Kafka]]["Kafka Log"]
     K1[Producer] --> K2[Append-Only Log]
     K2 -->|"{{offset|offset}} 0"| K3[Consumer A]
-    K2 -->|"offset 42"| K4[Consumer B]
+    K2 -->|"{{offset|offset}} 42"| K4[Consumer B]
     K2 -->|"replay"| K5[Consumer C]
   end
   subgraph Traditional["Traditional Queue"]

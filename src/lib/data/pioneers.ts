@@ -1150,6 +1150,56 @@ Apple's published reference STS receiver (Luo, Kalkanli, Zhou, Zhan, Cohen — a
 		links: {
 			homepage: 'https://syssec.ethz.ch/'
 		}
+	},
+	{
+		id: 'ray-tomlinson',
+		name: 'Ray Tomlinson',
+		years: '1941–2016',
+		title: 'Inventor of network email',
+		org: 'BBN',
+		contribution: `Wrote the first email program that crossed machine boundaries on {{arpanet|ARPANET}} at {{bbn|BBN}} in late 1971 — combining BBN's local **SNDMSG** and **CPYNET** experimental file-copy program — and chose the **\`@\`** character to separate the user from the host name. The decision was utilitarian: \`@\` was a printable ASCII symbol that did not appear in any username, so parsing was unambiguous. Half a century later, every email address on earth still uses the same syntax.
+
+He also worked on TENEX, contributed to early {{arpanet|ARPANET}} mail conventions that became RFC 561 (1973) and eventually [[smtp|SMTP]] (RFC 821, 1982), and stayed at {{bbn|BBN}} for the rest of his career.`,
+		imagePath:
+			'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a4/Ray_Tomlinson.jpg/330px-Ray_Tomlinson.jpg',
+		protocols: ['smtp'],
+		categories: ['utilities'],
+		awards: [
+			{ name: 'Internet Hall of Fame', year: 2012 },
+			{ name: 'IEEE Internet Award', year: 2004 }
+		],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/Ray_Tomlinson'
+		},
+		quotes: [
+			{
+				text: "Don't tell anyone! This isn't what we're supposed to be working on.",
+				source: {
+					url: 'https://www.bbc.com/news/technology-35723203',
+					label: 'On showing his colleague the first email between two computers'
+				}
+			}
+		]
+	},
+	{
+		id: 'dan-bernstein',
+		name: 'Daniel J. Bernstein (djb)',
+		years: '1971–',
+		title: 'Cryptographer & protocol designer',
+		org: 'University of Illinois at Chicago / Ruhr-Universität Bochum',
+		contribution: `Designed **SYN cookies** in September 1996 — a stateless way for [[tcp|TCP]] servers to verify a returning {{ack|ACK}} without storing per-connection state until the third handshake step, defusing {{syn-flood|SYN flood}} denial-of-service attacks. The technique is now standard in every major OS kernel.
+
+Designed **Curve25519** (2005), an elliptic curve that became the default key-exchange primitive in [[tls|TLS]] 1.3, [[ssh|SSH]], Signal, [[wireguard|WireGuard]], and post-quantum hybrids. Co-designed **Ed25519** signatures, the **ChaCha20** stream cipher and **Poly1305** MAC ([[rfc:7539|RFC 7539]] / [[rfc:8439|RFC 8439]]) — the AEAD construction that protects most modern [[tls|TLS]] and [[quic|QUIC]] traffic.
+
+Authored **qmail** and **djbdns** in the late 1990s — uncompromising secure alternatives to sendmail and BIND that pioneered privilege-separation patterns now standard in mail and DNS daemons. A long-running NIST post-quantum cryptography contributor (SPHINCS+/SLH-DSA, McEliece).`,
+		imagePath:
+			'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Daniel_J._Bernstein.jpg/330px-Daniel_J._Bernstein.jpg',
+		protocols: ['tcp', 'tls', 'ssh'],
+		categories: ['security', 'transport'],
+		links: {
+			wikipedia: 'https://en.wikipedia.org/wiki/Daniel_J._Bernstein',
+			homepage: 'https://cr.yp.to/'
+		}
 	}
 ];
 

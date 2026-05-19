@@ -18,7 +18,7 @@ export const foundationSections: FoundationSection[] = [
 
 When you load a web page, dozens of protocols cooperate without you noticing. [[ethernet|Ethernet]] carries the bits across your office network. [[ip|IP]] gets the packets to the right city. [[tcp|TCP]] makes sure none are lost. [[tls|TLS]] encrypts the contents. [[dns|DNS]] turned the URL into an address. [[http1|HTTP]] is the request the server actually answers. Each one minds its own job; each one trusts the others to do theirs.
 
-The deeper trick is that protocols are **public**. They are described in plain text in documents called RFCs (Requests for Comments), published openly by the {{ietf|IETF}}. Anyone can read [[rfc:9293|RFC 9293]] and write a [[tcp|TCP]] stack. No single company owns the rules. This is the fact that made the internet possible — there is no Microsoft Internet, no Apple Internet, no Google Internet. There is the internet, defined in documents, implemented by everyone who needs to.`
+The deeper trick is that protocols are **public**. They are described in plain text in documents called RFCs (Requests for Comments), published openly by the {{ietf|IETF}}. Anyone can read [[rfc:9293|RFC 9293]] and write a [[tcp|TCP]] stack. No single company owns the rules. This is the fact that made the internet possible — there is no {{microsoft|Microsoft}} Internet, no {{apple|Apple}} Internet, no {{google|Google}} Internet. There is the internet, defined in documents, implemented by everyone who needs to.`
 			},
 			{
 				type: 'diagram',
@@ -217,9 +217,9 @@ The model is a **map**, not the territory. The map is invaluable: it lets you re
 			{
 				type: 'narrative',
 				title: 'Four Layers of Identity, At Once',
-				text: `When your browser loads google.com, four different identifiers cooperate. Each one identifies the destination at a different level of abstraction; each one is essential, and none can do the others' job.
+				text: `When your browser loads {{google|google}}.com, four different identifiers cooperate. Each one identifies the destination at a different level of abstraction; each one is essential, and none can do the others' job.
 
-**Hostnames** (\`google.com\`) are for humans. They are stable, memorable, and meaningless to the network. Before any traffic flows, [[dns|DNS]] translates the hostname into a network address.
+**Hostnames** (\`{{google|google}}.com\`) are for humans. They are stable, memorable, and meaningless to the network. Before any traffic flows, [[dns|DNS]] translates the hostname into a network address.
 
 **{{ip-address|IP addresses}}** (\`142.250.80.46\` or the [[ipv6|IPv6]] \`2607:f8b0:4004:c1b::64\`) identify endpoints across the internet. They are what routers use to choose a path. They stay constant from source to destination.
 
@@ -233,7 +233,7 @@ Together: [[dns|DNS]] resolves the hostname → [[ip|IP]] routes the packet to t
 				type: 'diagram',
 				title: 'The Address Stack — Top to Bottom',
 				definition: `graph TD
-  [[dns|DNS]]["Hostname<br/><b>google.com</b><br/>for humans"]
+  [[dns|DNS]]["Hostname<br/><b>{{google|google}}.com</b><br/>for humans"]
   IP["{{ip-address|IP address}}<br/><b>142.250.80.46</b><br/>routes across the internet"]
   MAC["{{mac-address|MAC address}}<br/><b>f4:5c:89:9c:1a:30</b><br/>delivers on the local segment"]
   Port["Port<br/><b>:443</b><br/>delivers to the right process"]
@@ -245,13 +245,13 @@ Together: [[dns|DNS]] resolves the hostname → [[ip|IP]] routes the packet to t
 			{
 				type: 'narrative',
 				title: 'How an Address Survives the Trip',
-				text: `Watch a single packet travel from your laptop to a Google server, focusing only on the addresses.
+				text: `Watch a single packet travel from your laptop to a {{google|Google}} server, focusing only on the addresses.
 
 At your laptop: the packet has a destination [[ip|IP]] of 142.250.80.46 and a destination MAC of your home router's WAN-side address. Your router strips the [[ethernet|Ethernet]] frame, rewrites the source [[ip|IP]] via {{nat|NAT}} to its own public address, picks a new next-hop MAC (its ISP's gateway), and forwards.
 
 At every router along the path — typically 10-20 hops — the same thing happens. The [[ip|IP]] destination is left untouched; the source [[ip|IP]] is left untouched; the **MAC pair is rewritten at every single hop**. The router is doing all the work of finding the next hop via [[bgp|BGP]] or its internal {{routing-table|routing table}}; the [[ip|IP]] packet never knows about any of it.
 
-When the packet finally reaches the Google server, its {{ttl|TTL}} has decremented from 64 (Linux's default) to perhaps 50, the source MAC is the last router's MAC, and the destination MAC is the server's network interface. The OS strips the [[ethernet|Ethernet]] header, validates the [[ip|IP]] destination matches its own, looks up the destination port (443) in its socket table, and hands the {{payload|payload}} to the nginx process.
+When the packet finally reaches the {{google|Google}} server, its {{ttl|TTL}} has decremented from 64 ({{linux|Linux}}'s default) to perhaps 50, the source MAC is the last router's MAC, and the destination MAC is the server's network interface. The OS strips the [[ethernet|Ethernet]] header, validates the [[ip|IP]] destination matches its own, looks up the destination port (443) in its socket table, and hands the {{payload|payload}} to the nginx process.
 
 This division of labour — [[ip|IP]] for end-to-end identity, MAC for hop-to-hop delivery — is the architectural choice that lets you build a network from heterogeneous links. The wire format on the [[ethernet|Ethernet]] between you and your router can be different from the wire format on the fibre between continents, because at every router the L2 envelope is thrown away and re-written for the next link.`
 			},
@@ -265,7 +265,7 @@ This division of labour — [[ip|IP]] for end-to-end identity, MAC for hop-to-ho
 				src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/MAC-48_Address.svg/500px-MAC-48_Address.svg.png',
 				alt: 'Bit-field structure of a 48-bit MAC address — 24-bit OUI + 24-bit NIC, with multicast and locally-administered flag bits.',
 				caption:
-					'A 48-bit {{mac-address|MAC address}} is structured: the first 24 bits are the OUI (Organisationally Unique Identifier — Apple = ac:de:48, Cisco = 00:1b:54, etc.), the last 24 bits are assigned by the manufacturer per device. Two flag bits in the first octet mark {{multicast|multicast}} and locally-administered addresses.',
+					'A 48-bit {{mac-address|MAC address}} is structured: the first 24 bits are the OUI (Organisationally Unique Identifier — {{apple|Apple}} = ac:de:48, {{cisco|Cisco}} = 00:1b:54, etc.), the last 24 bits are assigned by the manufacturer per device. Two flag bits in the first octet mark {{multicast|multicast}} and locally-administered addresses.',
 				credit: 'Diagram: Wikimedia Commons / CC BY-SA 2.5'
 			},
 			{
@@ -281,7 +281,7 @@ This division of labour — [[ip|IP]] for end-to-end identity, MAC for hop-to-ho
 				title: 'NAT Changed Everything',
 				text: `In 1993, the {{ietf|IETF}} realised [[ip|IPv4]]'s 4.3 billion addresses would not last. Three responses landed nearly simultaneously: **{{cidr|CIDR}}** (RFC 1519, 1993) abolished the rigid Class A/B/C boundaries; **private address ranges** ([[rfc:1918|RFC 1918]], 1996) gave every organisation 10.0.0.0/8 to use internally; and **{{nat|Network Address Translation}}** (RFC 1631, 1994) let one public [[ip|IP]] front for thousands of private hosts.
 
-{{nat|NAT}} is the reason your home network's printer is at 192.168.1.10 and Google's nginx is at 142.250.80.46 even though no router on the public internet has any idea where 192.168.1.10 lives. Your home router rewrites the source [[ip|IP]] and source port of every outbound packet, keeps a table of (private [[ip|IP]], private port) → (public [[ip|IP]], public port) mappings, and reverses the rewrite on the response. From outside, every device in your home shares a single public [[ip|IP]].
+{{nat|NAT}} is the reason your home network's printer is at 192.168.1.10 and {{google|Google}}'s nginx is at 142.250.80.46 even though no router on the public internet has any idea where 192.168.1.10 lives. Your home router rewrites the source [[ip|IP]] and source port of every outbound packet, keeps a table of (private [[ip|IP]], private port) → (public [[ip|IP]], public port) mappings, and reverses the rewrite on the response. From outside, every device in your home shares a single public [[ip|IP]].
 
 {{nat|NAT}} bought [[ip|IPv4]] thirty extra years. It also broke a foundational property of the internet: **end-to-end addressability**. Two hosts behind separate NATs can no longer simply open a [[tcp|TCP]] connection to each other; they need a third-party relay ({{stun|STUN}}/{{turn|TURN}}), elaborate hole-punching ([[webrtc|WebRTC]]), or a long-lived outbound connection (which is why everything is now polled or webhooks instead of pushed). The [[ipv6|IPv6]] transition ([[frontier:ipv6-50-percent|crossed 50% on Google in 2026]]) is what eventually fixes this.`
 			},
@@ -412,7 +412,7 @@ Three conventional ranges. **Well-known ports** (0–1023) are reserved for stan
 			{
 				type: 'narrative',
 				title: 'Sockets, and the Magic Four-Tuple',
-				text: `A **{{socket|socket}}** is the OS abstraction that ties a network endpoint to a file descriptor. On Linux, you create one with the \`socket()\` system call, configure the protocol ([[tcp|TCP]] or [[udp|UDP]]) and address family ([[ip|IPv4]] or [[ipv6|IPv6]]), \`bind()\` it to a local address and port, and then either \`listen()\` for incoming connections (server side) or \`connect()\` to a remote endpoint (client side). Once established, you read and write bytes from the socket like a file.
+				text: `A **{{socket|socket}}** is the OS abstraction that ties a network endpoint to a file descriptor. On {{linux|Linux}}, you create one with the \`socket()\` system call, configure the protocol ([[tcp|TCP]] or [[udp|UDP]]) and address family ([[ip|IPv4]] or [[ipv6|IPv6]]), \`bind()\` it to a local address and port, and then either \`listen()\` for incoming connections (server side) or \`connect()\` to a remote endpoint (client side). Once established, you read and write bytes from the socket like a file.
 
 A [[tcp|TCP]] connection is uniquely identified by a **four-tuple**: \`(source [[ip|IP]], source port, destination [[ip|IP]], destination port)\`. This is the deepest insight in the [[tcp|TCP]] design. A web server bound to port 443 can serve thousands of clients simultaneously, because each client connection has a different source [[ip|IP]] or source port — all of them legitimately distinguishable as separate connections to the same listening socket.
 
@@ -478,7 +478,7 @@ The principle they articulated — **conservation of packets** — has held up f
 				src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Van_Jacobson.jpg/330px-Van_Jacobson.jpg',
 				alt: 'Van Jacobson — co-author of the 1988 paper that saved the internet from congestion collapse and, decades later, of BBR.',
 				caption:
-					'[[pioneer:van-jacobson|Van Jacobson]], co-author with Mike Karels of "{{congestion-avoidance|Congestion Avoidance}} and Control" (SIGCOMM \'88) — the paper whose {{slow-start|slow start}}, {{aimd|AIMD}}, and fast retransmit fixes shipped in 4.3BSD-Tahoe and stopped the 1986 cascade. Three decades later he was a co-author of the {{bbr|BBR}} paper at Google.',
+					'[[pioneer:van-jacobson|Van Jacobson]], co-author with Mike Karels of "{{congestion-avoidance|Congestion Avoidance}} and Control" (SIGCOMM \'88) — the paper whose {{slow-start|slow start}}, {{aimd|AIMD}}, and fast retransmit fixes shipped in 4.3BSD-Tahoe and stopped the 1986 cascade. Three decades later he was a co-author of the {{bbr|BBR}} paper at {{google|Google}}.',
 				credit: 'Photo: Wikimedia Commons / public domain'
 			},
 			{
@@ -506,18 +506,18 @@ The principle they articulated — **conservation of packets** — has held up f
 				title: 'CUBIC: A Curve That Scales',
 				text: `By the mid-2000s networks had outgrown Reno's polite linear ramp. On a fat long pipe — say a 1 Gbps transcontinental link with a 100 ms {{rtt|RTT}}, a {{bdp|bandwidth-delay product}} of 12.5 MB — adding one packet per {{rtt|RTT}} was glacial. After a single loss it could take hundreds of RTTs to refill the pipe. The network's {{bandwidth|bandwidth}} was sitting unused while [[tcp|TCP]] slowly tiptoed back up.
 
-In 2008, Sangtae Ha, Injong Rhee, and Lisong Xu at NC State published {{cubic|CUBIC}}: replace {{aimd|AIMD}}'s linear function with a **{{cubic|cubic}}** function of time since the last loss. Far from the previous {{congestion-window|cwnd}}, {{cubic|CUBIC}} ramps fast; near it, it slows down and probes carefully; if the probe doesn't trigger loss, it accelerates past the previous max. The cubic curve is symmetric so two flows with different RTTs converge to fairness.
+In 2008, Sangtae Ha, Injong Rhee, and Lisong Xu at NC State published {{cubic|CUBIC}}: replace {{aimd|AIMD}}'s linear function with a **{{cubic|cubic}}** function of time since the last loss. Far from the previous {{congestion-window|cwnd}}, {{cubic|CUBIC}} ramps fast; near it, it slows down and probes carefully; if the probe doesn't trigger loss, it accelerates past the previous max. The {{cubic|cubic}} curve is symmetric so two flows with different RTTs converge to fairness.
 
-{{cubic|CUBIC}} shipped as the Linux default in kernel 2.6.19 (2006), before any RFC blessed it. Windows 10 1709 / Server 2019 made it Windows's default. macOS uses it. [[rfc:9438|RFC 9438]] (August 2023) finally moved {{cubic|CUBIC}} to Standards Track, replacing the 2018 Informational [[rfc:8312|RFC 8312]]. Most [[tcp|TCP]] traffic on the internet today is {{cubic|CUBIC}}.`
+{{cubic|CUBIC}} shipped as the {{linux|Linux}} default in kernel 2.6.19 (2006), before any RFC blessed it. Windows 10 1709 / Server 2019 made it Windows's default. macOS uses it. [[rfc:9438|RFC 9438]] (August 2023) finally moved {{cubic|CUBIC}} to Standards Track, replacing the 2018 Informational [[rfc:8312|RFC 8312]]. Most [[tcp|TCP]] traffic on the internet today is {{cubic|CUBIC}}.`
 			},
 			{
 				type: 'narrative',
 				title: 'BBR: Stop Treating Loss as the Signal',
 				text: `Loss is a terrible primary signal because modern paths often drop packets for reasons that have nothing to do with congestion — a wireless retry budget exhausted, a lossy fibre amplifier, a buffer overflowing somewhere a thousand miles away. {{cubic|CUBIC}} backs off in all those cases too, even when the bottleneck wasn't actually full.
 
-[[pioneer:van-jacobson|Van Jacobson]] (returning, decades later, to the same problem) and a Google team published **"{{bbr|BBR}}: Congestion-Based {{congestion-control|Congestion Control}}"** in 2016. Instead of treating loss as the signal, {{bbr|BBR}} continuously **models** the path: it estimates the bottleneck {{bandwidth|bandwidth}} and the minimum {{rtt|RTT}}, and paces packets to fill exactly the {{bdp|bandwidth-delay product}} — no more, no less. Buffers stay empty. Loss is irrelevant unless something physical actually fails.
+[[pioneer:van-jacobson|Van Jacobson]] (returning, decades later, to the same problem) and a {{google|Google}} team published **"{{bbr|BBR}}: Congestion-Based {{congestion-control|Congestion Control}}"** in 2016. Instead of treating loss as the signal, {{bbr|BBR}} continuously **models** the path: it estimates the bottleneck {{bandwidth|bandwidth}} and the minimum {{rtt|RTT}}, and paces packets to fill exactly the {{bdp|bandwidth-delay product}} — no more, no less. Buffers stay empty. Loss is irrelevant unless something physical actually fails.
 
-BBRv1 hit ~4% mean throughput improvement on YouTube globally, more than 14% in some countries, and a 33% reduction in median {{rtt|RTT}}. BBRv3 has been the default for google.com and YouTube traffic since 2023. Linux supports it via \`sysctl net.ipv4.tcp_congestion_control=bbr\` paired with the FQ qdisc that {{bbr|BBR}}'s {{pacing|pacing}} requires. See [[frontier:bbrv3-default|BBRv3 default for Google + YouTube]].`
+BBRv1 hit ~4% mean throughput improvement on YouTube globally, more than 14% in some countries, and a 33% reduction in median {{rtt|RTT}}. {{bbrv3|BBRv3}} has been the default for {{google|google}}.com and YouTube traffic since 2023. {{linux|Linux}} supports it via \`sysctl net.ipv4.tcp_congestion_control=bbr\` paired with the FQ qdisc that {{bbr|BBR}}'s {{pacing|pacing}} requires. See [[frontier:bbrv3-default|BBRv3 default for Google + YouTube]].`
 			},
 			{
 				type: 'callout',
@@ -531,7 +531,7 @@ BBRv1 hit ~4% mean throughput improvement on YouTube globally, more than 14% in 
 
 {{l4s|L4S}} — Low {{latency|Latency}}, Low Loss, Scalable throughput — is the {{ietf|IETF}}'s answer ([[rfc:9330|RFC 9330]] / 9331 / 9332, January 2023). The mechanism: cooperating senders mark every packet {{ecn|ECN}}-Capable and react to {{ecn|ECN}} marks like minor losses without backing off as hard. Routers running the DualQ Coupled {{aqm|AQM}} mark instead of dropping when congestion is incipient. Classic [[tcp|TCP]] shares the same path and converges to fair throughput, but {{l4s|L4S}} traffic gets sub-millisecond queuing {{latency|latency}} at the same time.
 
-[[frontier:l4s-comcast-launch|Comcast launched L4S in production]] in late January 2025 in six US cities, with Apple, NVIDIA GeForce NOW, Meta, and Valve as launch partners. Apple shipped {{l4s|L4S}} in iOS 17 / macOS Sonoma and turned it on by default for [[quic|QUIC]] in newer releases. The same architecture works for cloud gaming, video calls, and AI assistant audio at the same time as a 4K download — without {{bufferbloat|bufferbloat}}, without classic-[[tcp|TCP]] getting starved.`
+[[frontier:l4s-comcast-launch|Comcast launched L4S in production]] in late January 2025 in six US cities, with {{apple|Apple}}, {{nvidia|NVIDIA}} GeForce NOW, {{meta|Meta}}, and Valve as launch partners. {{apple|Apple}} shipped {{l4s|L4S}} in iOS 17 / macOS Sonoma and turned it on by default for [[quic|QUIC]] in newer releases. The same architecture works for cloud gaming, video calls, and AI assistant audio at the same time as a 4K download — without {{bufferbloat|bufferbloat}}, without classic-[[tcp|TCP]] getting starved.`
 			},
 			{
 				type: 'diagram',
@@ -540,10 +540,10 @@ BBRv1 hit ~4% mean throughput improvement on YouTube globally, more than 14% in 
   C1981["<b>1981</b><br/>[[rfc:793|RFC 793]]<br/>[[tcp|TCP]] basics"] --> C1986["<b>Oct 1986</b><br/>Congestion collapse<br/>32 kbps → 40 bps"]
   C1986 --> C1988["<b>1988</b><br/>Jacobson + Karels<br/>{{slow-start|Slow start}}, {{aimd|AIMD}},<br/>fast retransmit"]
   C1988 --> C1996["<b>1996</b><br/>{{sack|SACK}}<br/>[[rfc:2018|RFC 2018]]"]
-  C1996 --> C2006["<b>2006</b><br/>{{cubic|CUBIC}}<br/>Linux default"]
+  C1996 --> C2006["<b>2006</b><br/>{{cubic|CUBIC}}<br/>{{linux|Linux}} default"]
   C2006 --> C2016["<b>2016</b><br/>BBR v1<br/>Model {{bandwidth|bandwidth}}, not loss"]
   C2016 --> C2021["<b>2021</b><br/>RACK-TLP<br/>[[rfc:8985|RFC 8985]]"]
-  C2021 --> C2023a["<b>2023</b><br/>BBRv3 default<br/>for google.com / YouTube"]
+  C2021 --> C2023a["<b>2023</b><br/>{{bbrv3|BBRv3}} default<br/>for {{google|google}}.com / YouTube"]
   C2021 --> C2023b["<b>Jan 2023</b><br/>L4S<br/>[[rfc:9330|RFC 9330]]/9331/9332"]
   C2023b --> C2025["<b>Jan 2025</b><br/>Comcast L4S<br/>in production"]`,
 				caption: 'Every [[tcp|TCP]] congestion controller is a chapter in the story Jacobson started. Modern transports — {{cubic|CUBIC}}, {{bbr|BBR}}, {{l4s|L4S}}, RACK-TLP — are each refinements of the same conservation-of-packets principle, adapted to different network realities.'
@@ -577,7 +577,7 @@ A [[quic|QUIC]] connection carries multiple independent streams. Each stream has
 
 First, **discovery is trivial**. The client has the server's hostname; the server has a static [[ip|IP]]; that is the entire discovery story. No coordination required.
 
-Second, **trust is concentrated**. The server can be hardened, audited, monitored, scaled, and upgraded as one unit. Clients can be lighter, dumber, more numerous. This is why your browser is a few hundred MB and Google's web infrastructure is many warehouses of servers — the asymmetry of trust and capability is built into the model.`
+Second, **trust is concentrated**. The server can be hardened, audited, monitored, scaled, and upgraded as one unit. Clients can be lighter, dumber, more numerous. This is why your browser is a few hundred MB and {{google|Google}}'s web infrastructure is many warehouses of servers — the asymmetry of trust and capability is built into the model.`
 			},
 			{
 				type: 'diagram',
@@ -587,8 +587,8 @@ Second, **trust is concentrated**. The server can be hardened, audited, monitore
     C1["Client A"] & C2["Client B"] & C3["Client C"] -->|request| SRV["Server"]
   end
   subgraph P2P["{{peer-to-peer|Peer-to-Peer}}"]
-    P1["{{peer|Peer}} A"] <--> P2["Peer B"]
-    P2 <--> P3["Peer C"]
+    P1["{{peer|Peer}} A"] <--> P2["{{peer|Peer}} B"]
+    P2 <--> P3["{{peer|Peer}} C"]
     P3 <--> P1
   end
   CS ~~~ P2P`,
@@ -635,7 +635,7 @@ Second, **trust is concentrated**. The server can be hardened, audited, monitore
 
 **Federated systems** (Mastodon, ActivityPub, [[smtp|SMTP]] email) are client-server within each instance but **{{peer-to-peer|peer-to-peer}} at the server level** — your Mastodon server federates with thousands of others to expose a global social graph without a central operator.
 
-**Edge compute** (Cloudflare Workers, AWS Lambda@Edge) pushes server logic out to the same edge points the {{cdn|CDN}} uses. The "server" is not in one place; it is a function that runs wherever the user happens to be.
+**Edge compute** ({{cloudflare|Cloudflare}} Workers, AWS Lambda@Edge) pushes server logic out to the same edge points the {{cdn|CDN}} uses. The "server" is not in one place; it is a function that runs wherever the user happens to be.
 
 The choice — pure client-server, pure {{peer-to-peer|P2P}}, or one of these hybrids — depends on the scale you need, the trust you can assume, and the privacy you are willing to sacrifice. Twenty years ago, "is this app client-server or {{peer-to-peer|P2P}}" was a coherent question. Today the answer is almost always "yes, both, in different ratios at different layers."`
 			}
@@ -652,7 +652,7 @@ The choice — pure client-server, pure {{peer-to-peer|P2P}}, or one of these hy
 
 What it does **not** mean is anything about the server you connected to. The padlock confirms that traffic is encrypted to **some** server that proved it owned the {{certificate|certificate}} for the hostname. It says nothing about whether that server is honest, whether your data is secure once it arrives, or whether the operator might be a phishing site that obtained a valid {{certificate|certificate}}. **{{encryption|Encryption}} is a property of the channel, not of either endpoint.**
 
-[[tls|TLS]] (the protocol behind HTTPS) provides three things, all of them precisely defined: **confidentiality** — nobody on the path can read your bytes; **integrity** — nobody can modify your bytes without you noticing; **authenticity** — you can verify the server is who its certificate claims it is. It does not provide non-repudiation, end-to-end {{encryption|encryption}} beyond the channel, or any guarantee about how the server stores or processes your data after decryption. Knowing exactly what [[tls|TLS]] gives you is the first step in not over-trusting it.`
+[[tls|TLS]] (the protocol behind HTTPS) provides three things, all of them precisely defined: **confidentiality** — nobody on the path can read your bytes; **integrity** — nobody can modify your bytes without you noticing; **authenticity** — you can verify the server is who its {{certificate|certificate}} claims it is. It does not provide non-repudiation, end-to-end {{encryption|encryption}} beyond the channel, or any guarantee about how the server stores or processes your data after decryption. Knowing exactly what [[tls|TLS]] gives you is the first step in not over-trusting it.`
 			},
 			{
 				type: 'narrative',
@@ -698,11 +698,11 @@ The combination is what makes the modern web tractable. You use slow asymmetric 
 			{
 				type: 'narrative',
 				title: 'Certificates and the Trust Chain',
-				text: `{{asymmetric-encryption|Asymmetric encryption}} alone is not enough. If a server hands you "here is my {{public-key|public key}}, encrypt to me," nothing prevents an attacker from intercepting the connection and handing you their own {{public-key|public key}} — a classic **{{man-in-the-middle|man-in-the-middle attack}}**. You would encrypt to the attacker, who would decrypt, re-encrypt to the real server, and read everything in transit.
+				text: `{{asymmetric-encryption|Asymmetric encryption}} alone is not enough. If a server hands you "here is my {{public-key|public key}}, encrypt to me," nothing prevents an attacker from intercepting the connection and handing you their own {{public-key|public key}} — a classic **{{man-in-the-middle|man-in-the-middle attack}}**. You would encrypt to the attacker, who would decrypt, re-encrypt to the real server, and read everything in {{transit|transit}}.
 
-The fix is **{{certificate|certificates}}**. A {{certificate|certificate}} is a {{public-key|public key}} plus identity information (the hostname \`example.com\`, an expiration date, etc.) signed by a **{{certificate-authority|Certificate Authority}}** ({{certificate-authority|CA}}) using the {{certificate-authority|CA}}'s {{private-key|private key}}. Your browser ships with the public keys of around 100 trusted root CAs. When example.com hands you a {{certificate|certificate}}, your browser verifies the signature using the {{certificate-authority|CA}}'s {{public-key|public key}} — if the signature is valid, you know the certificate genuinely binds the {{public-key|public key}} to the hostname.
+The fix is **{{certificate|certificates}}**. A {{certificate|certificate}} is a {{public-key|public key}} plus identity information (the hostname \`example.com\`, an expiration date, etc.) signed by a **{{certificate-authority|Certificate Authority}}** ({{certificate-authority|CA}}) using the {{certificate-authority|CA}}'s {{private-key|private key}}. Your browser ships with the public keys of around 100 trusted root CAs. When example.com hands you a {{certificate|certificate}}, your browser verifies the signature using the {{certificate-authority|CA}}'s {{public-key|public key}} — if the signature is valid, you know the {{certificate|certificate}} genuinely binds the {{public-key|public key}} to the hostname.
 
-The {{certificate-chain|certificate chain}} is usually two or three deep: \`example.com → DigiCert [[tls|TLS]] Hybrid ECC SHA384 → DigiCert Global Root G3\`. Only the bottom (root) {{certificate-authority|CA}}'s certificate is shipped pre-installed; the intermediate is in the chain the server sends; the leaf is the actual hostname certificate. Each link signs the next. The {{pki|PKI}} ({{pki|Public Key Infrastructure}}) is the entire global apparatus that makes this work — root CAs, audit requirements, browser inclusion programs, {{certificate-transparency|certificate transparency}} logs.
+The {{certificate-chain|certificate chain}} is usually two or three deep: \`example.com → DigiCert [[tls|TLS]] Hybrid ECC SHA384 → DigiCert Global Root G3\`. Only the bottom (root) {{certificate-authority|CA}}'s {{certificate|certificate}} is shipped pre-installed; the intermediate is in the chain the server sends; the leaf is the actual hostname certificate. Each link signs the next. The {{pki|PKI}} ({{pki|Public Key Infrastructure}}) is the entire global apparatus that makes this work — root CAs, audit requirements, browser inclusion programs, {{certificate-transparency|certificate transparency}} logs.
 
 When the system breaks (and it has, repeatedly: DigiNotar 2011, Symantec 2017, multiple smaller incidents), the consequences are network-wide. A compromised {{certificate-authority|CA}} can issue a valid-looking certificate for any domain. This is why **{{certificate-transparency|Certificate Transparency}}** logs (RFC 6962) now require every issued certificate to be publicly logged — making rogue issuance discoverable, even if not preventable.`
 			},
@@ -718,7 +718,7 @@ When the system breaks (and it has, repeatedly: DigiNotar 2011, Symantec 2017, m
 
 An adversary recording your encrypted traffic **today** can store it indefinitely and decrypt it whenever a working quantum computer arrives — a strategy known as **harvest now, decrypt later**. For data that needs to stay secret for decades (state secrets, medical records, long-lived contracts), the threat is real now.
 
-The fix is rolling out fast. NIST finalised post-quantum standards in August 2024 ({{ml-kem|ML-KEM}}, ML-DSA, SLH-DSA). The deployed solution is **hybrid** — combine the existing X25519 with the new {{ml-kem|ML-KEM}}-768 such that an attacker has to break **both** to recover the key. The named cipher [[frontier:pq-tls-x25519mlkem768|X25519MLKEM768]] is now the default in Chrome 124+, Cloudflare's [[tls|TLS]] termination, and iOS 26. By the end of 2026, most [[tls|TLS]] handshakes on the internet will be post-quantum-secure. The deployment lesson: the cryptography community shipped useful primitives years before the hardware threat materialised, and the deployment ecosystem rolled them out in months.`
+The fix is rolling out fast. NIST finalised post-quantum standards in August 2024 ({{ml-kem|ML-KEM}}, ML-DSA, SLH-DSA). The deployed solution is **hybrid** — combine the existing X25519 with the new {{ml-kem|ML-KEM}}-768 such that an attacker has to break **both** to recover the key. The named cipher [[frontier:pq-tls-x25519mlkem768|X25519MLKEM768]] is now the default in Chrome 124+, {{cloudflare|Cloudflare}}'s [[tls|TLS]] termination, and iOS 26. By the end of 2026, most [[tls|TLS]] handshakes on the internet will be post-quantum-secure. The deployment lesson: the cryptography community shipped useful primitives years before the hardware threat materialised, and the deployment ecosystem rolled them out in months.`
 			}
 		]
 	},
@@ -733,7 +733,7 @@ The fix is rolling out fast. NIST finalised post-quantum standards in August 202
 
 In November 2024, Anthropic published the **Model Context Protocol** — [[mcp|MCP]]. The premise was simple: AI coding assistants and chat agents needed a standard way to talk to tools (file systems, databases, APIs, internal systems) without each pair re-inventing the integration. With N AI hosts and M tools, the industry was building N×M bespoke connectors. [[mcp|MCP]] collapsed it to N+M.
 
-In April 2025, Google published **Agent-to-Agent Protocol** — [[a2a|A2A]] — for collaboration **between** agents: capability discovery, task delegation, asynchronous event streams. Six months later both protocols moved into the [[frontier:a2a-linux-foundation|Linux Foundation]] alongside open governance. As of 2026, [[mcp|MCP]] servers number in the thousands, [[a2a|A2A]] is supported by every major agent framework, and both protocols are recognisably the new layer that earlier decades never had.`
+In April 2025, {{google|Google}} published **Agent-to-Agent Protocol** — [[a2a|A2A]] — for collaboration **between** agents: capability discovery, task delegation, asynchronous event streams. Six months later both protocols moved into the [[frontier:a2a-linux-foundation|Linux Foundation]] alongside open governance. As of 2026, [[mcp|MCP]] servers number in the thousands, [[a2a|A2A]] is supported by every major agent framework, and both protocols are recognisably the new layer that earlier decades never had.`
 			},
 			{
 				type: 'diagram',
@@ -798,7 +798,7 @@ The architecture's resemblance to the original [[http1|HTTP]] story is not accid
 						title: 'A2A architects',
 						org: 'Google',
 						contribution:
-							'Published Agent-to-Agent Protocol in April 2025 to handle the collaboration-between-agents case [[mcp|MCP]] did not address. Moved both protocols into the Linux Foundation in mid-2025 to prevent any single company from controlling the agent layer.'
+							'Published Agent-to-Agent Protocol in April 2025 to handle the collaboration-between-agents case [[mcp|MCP]] did not address. Moved both protocols into the {{linux|Linux}} Foundation in mid-2025 to prevent any single company from controlling the agent layer.'
 					}
 				]
 			}

@@ -2668,7 +2668,7 @@ export const concepts: Concept[] = [
 		id: 'volte',
 		term: 'VoLTE / VoNR',
 		definition:
-			"**Voice over LTE** and **Voice over New Radio** — packetised carrier voice over the LTE or 5G data bearer, signalled by {{ims|IMS}} {{sip|SIP}} and carried over [[rtp|RTP]] using the AMR-WB or EVS {{codec|codec}}. Replaces the legacy 2G/3G circuit-switched voice fallback. GSMA reports 310+ commercial VoLTE operators in 140+ countries and 45+ commercial VoNR networks by 2025. **Wi-Fi Calling** is the same IMS stack tunneled to the carrier over [[ipsec|IPsec]] from any IP network.",
+			"**Voice over LTE** and **Voice over New Radio** — packetised carrier voice over the LTE or 5G data bearer, signalled by {{ims|IMS}} [[sip|SIP]] and carried over [[rtp|RTP]] using the AMR-WB or EVS {{codec|codec}}. Replaces the legacy 2G/3G circuit-switched voice fallback. GSMA reports 310+ commercial VoLTE operators in 140+ countries and 45+ commercial VoNR networks by 2025. **Wi-Fi Calling** is the same IMS stack tunneled to the carrier over [[ipsec|IPsec]] from any IP network.",
 		category: 'protocol-mechanics'
 	},
 	{
@@ -2753,7 +2753,7 @@ export const concepts: Concept[] = [
 		id: 'wrc',
 		term: 'WRC (World Radiocommunication Conference)',
 		definition:
-			"The ITU-R conference held every 3–4 years where the world's spectrum allocations are renegotiated by treaty. **WRC-23** (Dubai, November–December 2023) added 6 GHz to {{cellular|IMT-2020}} on a co-primary basis with Wi-Fi — kicking off the EU's contested 6 GHz upper-band decision. **WRC-27** is targeted to study terahertz bands for 6G and harmonise satellite direct-to-cell. Spectrum policy moves on a four-year clock; the technology runs ten years faster.",
+			"The ITU-R conference held every 3–4 years where the world's spectrum allocations are renegotiated by treaty. **WRC-23** (Dubai, November–December 2023) added 6 GHz to [[cellular|IMT-2020]] on a co-primary basis with Wi-Fi — kicking off the EU's contested 6 GHz upper-band decision. **WRC-27** is targeted to study terahertz bands for 6G and harmonise satellite direct-to-cell. Spectrum policy moves on a four-year clock; the technology runs ten years faster.",
 		category: 'infrastructure'
 	},
 	{
@@ -2774,14 +2774,14 @@ export const concepts: Concept[] = [
 		id: 'ambient-iot',
 		term: 'Ambient IoT',
 		definition:
-			"{{3gpp|3GPP}}'s working name (Release 19/20 study items) for battery-less or near-battery-less {{cellular|cellular}} IoT — devices that harvest energy from RF, light, or motion and transmit tiny payloads. Targets logistics tagging, inventory, agriculture sensing — the niches passive RFID owns today. Expected to ship in late-2020s 6G releases.",
+			"{{3gpp|3GPP}}'s working name (Release 19/20 study items) for battery-less or near-battery-less [[cellular|cellular]] IoT — devices that harvest energy from RF, light, or motion and transmit tiny payloads. Targets logistics tagging, inventory, agriculture sensing — the niches passive RFID owns today. Expected to ship in late-2020s 6G releases.",
 		category: 'networking-basics'
 	},
 	{
 		id: 'lpwan',
 		term: 'LPWAN (Low-Power Wide-Area Network)',
 		definition:
-			"The family of long-range, low-data-rate, multi-year-battery wireless protocols that sit between [[wifi|Wi-Fi]] and [[cellular|cellular]]. **LoRaWAN** (sub-GHz, ALOHA-style, 125M+ devices deployed by end-2025), **Sigfox** (slow-modulation 100 bit/s ultra-narrowband, France-originated), **NB-IoT** and **LTE-M** ({{cellular|cellular}}-licensed alternatives inside [[cellular|LTE]] spectrum). All trade throughput for kilometres of range and years of battery life.",
+			"The family of long-range, low-data-rate, multi-year-battery wireless protocols that sit between [[wifi|Wi-Fi]] and [[cellular|cellular]]. **LoRaWAN** (sub-GHz, ALOHA-style, 125M+ devices deployed by end-2025), **Sigfox** (slow-modulation 100 bit/s ultra-narrowband, France-originated), **NB-IoT** and **LTE-M** ([[cellular|cellular]]-licensed alternatives inside [[cellular|LTE]] spectrum). All trade throughput for kilometres of range and years of battery life.",
 		wikiUrl: 'https://en.wikipedia.org/wiki/LPWAN',
 		category: 'networking-basics'
 	},
@@ -2796,7 +2796,7 @@ export const concepts: Concept[] = [
 		id: 'wifi-sensing',
 		term: 'Wi-Fi sensing (802.11bf)',
 		definition:
-			"Using the Channel State Information (CSI) that {{wifi|Wi-Fi}} radios already compute for {{multipath|multipath}} equalisation to *detect* people, motion, and breathing — radio waves as occupancy sensors. Standardised in **IEEE 802.11bf-2025** (published 26 September 2025), covering 1–7.125 GHz and >45 GHz bands. Lets a home Wi-Fi mesh do presence detection without a camera or PIR sensor.",
+			"Using the Channel State Information (CSI) that [[wifi|Wi-Fi]] radios already compute for {{multipath|multipath}} equalisation to *detect* people, motion, and breathing — radio waves as occupancy sensors. Standardised in **IEEE 802.11bf-2025** (published 26 September 2025), covering 1–7.125 GHz and >45 GHz bands. Lets a home Wi-Fi mesh do presence detection without a camera or PIR sensor.",
 		category: 'protocol-mechanics'
 	},
 	{
@@ -2813,6 +2813,289 @@ export const concepts: Concept[] = [
 			"The umbrella term for passive transponder systems that respond to a reader's RF field — the parent technology of [[nfc|NFC]]. The 1973 Charles Walton US Patent 3,752,960 is the foundational reference. Modern variants span LF (125 kHz, old proximity cards), HF (13.56 MHz — the same {{ism-band|ISM band}} NFC uses, ISO 14443 + 15693), and UHF (860–960 MHz, EPC Gen2 — the labels on retail clothing and warehouse pallets). NFC is *one specific HF variant* of RFID with bidirectional data flow and an application-layer stack on top.",
 		wikiUrl: 'https://en.wikipedia.org/wiki/Radio-frequency_identification',
 		category: 'networking-basics'
+	},
+
+	// ── Major operators, vendors & products ─────────────────────────────
+	{
+		id: 'cloudflare',
+		term: 'Cloudflare',
+		definition:
+			"Major CDN, DDoS-mitigation, and reverse-proxy operator founded 2009. Runs ~330 PoPs, serves ~20% of all websites by some measures, and authored or co-authored several internet standards ([[quic|QUIC]] adoption, {{ech|ECH}}, {{rpki|RPKI}} measurement at radar.cloudflare.com). Runs the **1.1.1.1** public DNS resolver. Their post-mortems are a major source of public outage learning.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Cloudflare',
+		category: 'infrastructure'
+	},
+	{
+		id: 'google',
+		term: 'Google',
+		definition:
+			"Search, YouTube, and Android operator that has driven a disproportionate share of post-2008 internet protocol design. Authored {{spdy|SPDY}} (became [[http2|HTTP/2]]), [[quic|QUIC]] (became [[http3|HTTP/3]]), {{bbr|BBR}}, [[webrtc|WebRTC]] adoption, the public **8.8.8.8** DNS resolver, and runs **Jupiter** — one of the largest internal datacenter fabrics on earth.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Google',
+		category: 'infrastructure'
+	},
+	{
+		id: 'apple',
+		term: 'Apple',
+		definition:
+			"Largest single force shaping client-side wireless and codec choices: [[hls|HLS]] (2009), {{airdrop|AirDrop}}, AirPlay, the **U1 / U2 ultra-wideband** chips (2019/2024) that drove {{ccc-digital-key|CCC Digital Key}} and AirTag, the iCloud Private Relay [[quic|QUIC]] deployment, and the first {{matter|Matter}} thread-border-router shipments. Their device share gives any default they pick (X25519MLKEM768, post-quantum [[tls|TLS]], etc.) immediate global reach.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Apple_Inc.',
+		category: 'infrastructure'
+	},
+	{
+		id: 'microsoft',
+		term: 'Microsoft',
+		definition:
+			"Operator of Azure, GitHub, and the Windows networking stack. Co-author of [[websockets|WebSockets]] adoption, [[mptcp|MPTCP]] early experiments, the Azure Service Bus [[amqp|AMQP]] deployment, and the SMB/SMB-Direct file-sharing protocols. Owns LinkedIn (the largest documented [[kafka|Kafka]] deployment on earth, >7 trillion messages/day).",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Microsoft',
+		category: 'infrastructure'
+	},
+	{
+		id: 'meta',
+		term: 'Meta',
+		definition:
+			"Operator of Facebook, Instagram, WhatsApp, and Messenger (the largest [[mqtt|MQTT]] deployment in the world). Major contributor to **mvfst** (open-source [[quic|QUIC]]), {{zstd|zstd}} compression, RDMA-over-Ethernet at scale, and several {{ietf|IETF}} working groups around Media-over-QUIC and {{l4s|L4S}}.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Meta_Platforms',
+		category: 'infrastructure'
+	},
+	{
+		id: 'amazon',
+		term: 'Amazon / AWS',
+		definition:
+			"Amazon Web Services is the largest public-cloud operator and a major IETF participant via the **s2n** [[tls|TLS]] library, the **Nitro** SmartNIC line, and S3's role as the substrate underneath Diskless [[kafka|Kafka]] (KIP-1150) and WarpStream. AWS IoT Core is one of the largest managed [[mqtt|MQTT]] deployments.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Amazon_Web_Services',
+		category: 'infrastructure'
+	},
+	{
+		id: 'nvidia',
+		term: 'NVIDIA',
+		definition:
+			"GPU and networking-silicon vendor (acquired Mellanox 2020) that drives modern AI-fabric design. Ships InfiniBand and **Spectrum-X** [[ethernet|Ethernet]] switches, Quantum-X / Spectrum-X co-packaged-optics chips, and BlueField DPUs. Joined the {{uec|Ultra Ethernet Consortium}} after long InfiniBand allegiance — a turning point for AI datacenter networking.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Nvidia',
+		category: 'infrastructure'
+	},
+	{
+		id: 'cisco',
+		term: 'Cisco',
+		definition:
+			"The dominant enterprise router and switch vendor since the 1990s. Built **IOS**, the canonical CLI networking-equipment shell, ran some of the most influential [[bgp|BGP]] reference implementations, and authored or co-authored major early {{ietf|IETF}} routing-protocol work. Acquired Webex (2007) and Meraki (2012); 2023–2025 spent rebuilding its security stack around Splunk and Robust Intelligence.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Cisco',
+		category: 'infrastructure'
+	},
+	{
+		id: 'juniper',
+		term: 'Juniper Networks',
+		definition:
+			"Carrier-grade router vendor founded 1996, the second pillar of internet backbone routing alongside [[cisco|Cisco]]. **Junos OS** is the canonical FreeBSD-derived router OS. Acquired by HPE in **1 July 2025** for $14 billion.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Juniper_Networks',
+		category: 'infrastructure'
+	},
+	{
+		id: 'broadcom',
+		term: 'Broadcom',
+		definition:
+			"Switch-silicon and connectivity-chip vendor that ships **Tomahawk**, **Trident**, and **Jericho** Ethernet ASICs — the building blocks under most hyperscale datacenter switches. Acquired VMware in 2023. Tomahawk 6 (June 2025) was the first 102.4 Tbps single-chip Ethernet switch.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Broadcom',
+		category: 'infrastructure'
+	},
+	{
+		id: 'intel',
+		term: 'Intel',
+		definition:
+			"Made one half of the DIX [[ethernet|Ethernet]] specification with [[pioneer:bob-metcalfe|Bob Metcalfe]]'s Xerox and DEC (1980), and has shipped the dominant server NIC line (E810, E830) ever since. Co-author of [[quic|QUIC]]-hardware-offload designs and a long-time {{ietf|IETF}} participant.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Intel',
+		category: 'infrastructure'
+	},
+	{
+		id: 'starlink',
+		term: 'Starlink',
+		definition:
+			"SpaceX's low-Earth-orbit satellite internet constellation, commercial since 2020. ~7,000 active satellites by 2026, end-user terminals priced for individuals rather than enterprises, and the **Direct-to-Cell** partnership (T-Mobile, KDDI, Optus, Rogers) is rolling out unmodified-handset SMS and slow-data over LEO using [[cellular|cellular]] band n25/n26 — a structural change to the cellular dead-zone problem.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Starlink',
+		category: 'infrastructure'
+	},
+
+	// ── Operating systems & tools ───────────────────────────────────────
+	{
+		id: 'linux',
+		term: 'Linux',
+		definition:
+			"The dominant server, router, and embedded operating system, started by Linus Torvalds in 1991. Owns the canonical implementations of [[tcp|TCP]] {{cubic|CUBIC}} (2.6.19+), {{bbr|BBR}} (4.9+), [[wireguard|WireGuard]] (5.6+), eBPF, XDP, and {{l4s|L4S}}. The reference platform every other OS measures itself against on the network stack.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Linux',
+		category: 'infrastructure'
+	},
+	{
+		id: 'bsd',
+		term: 'BSD (Berkeley Software Distribution)',
+		definition:
+			"The UC-Berkeley UNIX descendant whose **4.2BSD** (1983) shipped the original [[tcp|TCP]]/[[ip|IP]] reference implementation that almost every later stack inherited. Living descendants: **FreeBSD** (Netflix CDN, WhatsApp), **OpenBSD** (OpenSSH, [[wireguard|WireGuard]]'s userland), **NetBSD**, **DragonFly BSD**, and macOS / iOS (XNU's Mach + FreeBSD core).",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Berkeley_Software_Distribution',
+		category: 'infrastructure'
+	},
+	{
+		id: 'wireshark',
+		term: 'Wireshark',
+		definition:
+			"The de-facto open-source packet analyser, originally **Ethereal** (1998). Reads pcap/pcapng files, decodes hundreds of protocols (TCP, TLS, QUIC, BGP, SIP, MQTT, CoAP, EMV — almost everything in this catalogue), and is the universal tool when a protocol does not do what its spec says. Recent releases (4.4, late 2024) added decryption for [[tls|TLS]] 1.3 with key-log files and pcap-over-[[quic|QUIC]] capture.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Wireshark',
+		category: 'infrastructure'
+	},
+
+	// ── Networking basics ───────────────────────────────────────────────
+	{
+		id: 'iot',
+		term: 'IoT (Internet of Things)',
+		definition:
+			"The umbrella term for networked physical objects — sensors, actuators, smart-home devices, industrial controllers — that talk over [[mqtt|MQTT]], [[coap|CoAP]], {{thread|Thread}}, [[zigbee|Zigbee]], {{matter|Matter}}, or constrained [[cellular|cellular]] radios (NB-IoT, LTE-M). The defining constraints are *small RAM, small power budgets, intermittent connectivity, and a 10+ year deployment lifetime* — which is why every IoT protocol obsesses about byte counts and battery-friendly handshakes.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Internet_of_things',
+		category: 'networking-basics'
+	},
+	{
+		id: 'lan',
+		term: 'LAN (Local Area Network)',
+		definition:
+			"A network confined to a building or campus — usually [[ethernet|Ethernet]] + [[wifi|Wi-Fi]] under a single {{broadcast|broadcast}} domain or {{vlan|VLAN}}. LANs are where [[arp|ARP]], [[dhcp|DHCP]], and link-layer discovery protocols ([[mdns-dns-sd|mDNS]]/{{ssdp|SSDP}}) actually work; cross a router and you're in {{wan|WAN}} territory.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Local_area_network',
+		category: 'networking-basics'
+	},
+	{
+		id: 'wan',
+		term: 'WAN (Wide Area Network)',
+		definition:
+			"Any network spanning multiple physical locations or administrative domains — the public internet, an MPLS-VPN backbone, an SD-WAN overlay. WANs are where [[bgp|BGP]] routes, {{nat|NAT}} translates, [[tls|TLS]] protects, and the latency budget jumps from microseconds to tens or hundreds of milliseconds.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Wide_area_network',
+		category: 'networking-basics'
+	},
+
+	// ── Congestion control variants ─────────────────────────────────────
+	{
+		id: 'tcp-tahoe',
+		term: 'TCP Tahoe',
+		definition:
+			"The original [[tcp|TCP]] congestion-control algorithm, introduced by [[pioneer:van-jacobson|Van Jacobson]] in 1988. Adds **slow start**, **congestion avoidance**, **fast retransmit**, and full window reset on loss. Named for the 4.3BSD-Tahoe release. Superseded by {{tcp-reno|Reno}} (which keeps the window on duplicate {{ack|ACKs}}) within two years.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/TCP_congestion_control#TCP_Tahoe_and_Reno',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'tcp-reno',
+		term: 'TCP Reno',
+		definition:
+			"The 1990 evolution of [[tcp|TCP]] {{tcp-tahoe|Tahoe}} that added **fast recovery** — on triple-duplicate {{ack|ACKs}}, halve the window and continue rather than dropping to one segment. The textbook congestion-control algorithm and the reference every later variant compares against.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/TCP_congestion_control',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'tcp-newreno',
+		term: 'TCP NewReno',
+		definition:
+			"An incremental refinement of {{tcp-reno|Reno}} that handles **multiple packet losses in one window** by staying in fast-recovery until *all* losses in the window have been acknowledged. Specified in [[rfc:6582|RFC 6582]] (2012, obsoleting RFC 3782). The default on Windows pre-2008 and on many BSD stacks for two decades.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/TCP_congestion_control#TCP_NewReno',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'bbrv3',
+		term: 'BBRv3',
+		definition:
+			"The 2023+ revision of {{bbr|BBR}} that addresses the v1 fairness problems with {{cubic|CUBIC}} and packet-conservation gaps. Now \`draft-ietf-ccwg-bbr\` (-04 / -05, 2025–2026); Google has run it as the default on google.com and YouTube traffic since 2023. Available in Linux via \`sysctl net.ipv4.tcp_congestion_control=bbr\` paired with FQ qdisc.",
+		category: 'protocol-mechanics'
+	},
+
+	// ── Web / messaging tech ─────────────────────────────────────────────
+	{
+		id: 'wsdl',
+		term: 'WSDL (Web Services Description Language)',
+		definition:
+			"An XML format that describes a [[soap|SOAP]] service — its endpoint, operations, message types, and bindings — so that client toolchains can generate stubs automatically. WSDL 1.1 (2001) was the practical version; WSDL 2.0 (2007) was a more rigorous redesign that hardly anyone adopted. The 'formal contract you can validate at compile time' that gave [[soap|SOAP]] its enterprise foothold.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Web_Services_Description_Language',
+		category: 'web'
+	},
+	{
+		id: 'moq',
+		term: 'MoQ (Media over QUIC)',
+		definition:
+			"The {{ietf|IETF}} working group and protocol family designing the next-generation sub-second live streaming transport on top of [[quic|QUIC]]. \`draft-ietf-moq-transport\` (-17 in March 2026) is the core protocol — co-edited by Suhas Nandakumar (Cisco), Victor Vasiliev (Google), Ian Swett (Google), and Alan Frindell (Meta). Designed to replace the [[rtmp|RTMP]]→[[hls|HLS]] pipeline. Cloudflare runs production MoQ relays across 330+ cities.",
+		category: 'protocol-mechanics'
+	},
+
+	// ── Wireless ────────────────────────────────────────────────────────
+	{
+		id: 'wpa2',
+		term: 'WPA2',
+		definition:
+			"The 2004 IEEE 802.11i amendment that made AES-CCMP and the **4-way handshake** mandatory for [[wifi|Wi-Fi]] security, ending WEP and TKIP. WPA2-Personal (PSK) is the universal home-router default 2004–2018; WPA2-Enterprise pairs it with {{eap|EAP}}-TLS / PEAP. Replaced by {{wpa3|WPA3}} starting 2018 after KRACK (2017) exposed protocol-level flaws in the 4-way handshake.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Wi-Fi_Protected_Access#WPA2',
+		category: 'security'
+	},
+	{
+		id: 'mesh-network',
+		term: 'Mesh network',
+		definition:
+			"A multi-hop wireless topology where every node forwards frames for its neighbours — no central access point owns the airtime. {{thread|Thread}} (802.15.4 + IPv6), [[zigbee|Zigbee]] (802.15.4 + ZCL), Bluetooth Mesh (BR/EDR + GATT proxy), and Wi-Fi 802.11s are the four common families. The trade-off versus star topologies: longer reach and better resilience, but harder commissioning and worse battery life on relay nodes.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Mesh_networking',
+		category: 'networking-basics'
+	},
+	{
+		id: 'beacon-frame',
+		term: 'Beacon frame',
+		definition:
+			"In [[wifi|Wi-Fi]] (and {{ble|BLE}}, in a different sense), the periodic management frame an {{access-point|access point}} broadcasts to announce its presence — SSID, supported rates, capabilities, and timing. Default beacon interval is **100 ms** in Wi-Fi; this is one of the bigger sources of idle airtime in dense environments and is what Target Wake Time (TWT) tries to eliminate.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Beacon_frame',
+		category: 'protocol-mechanics'
+	},
+
+	// ── Filled stubs (referenced by other entries) ────────────────────
+	{
+		id: 'spdy',
+		term: 'SPDY',
+		definition:
+			"Google's 2009 experimental protocol that multiplexed many HTTP requests over a single TLS connection, with binary framing and {{hpack|HPACK}}-style header compression. Deployed in Chrome and Twitter; became the seed of [[http2|HTTP/2]] (RFC 7540, May 2015) which superseded it. SPDY was retired in Chrome 51 (May 2016).",
+		wikiUrl: 'https://en.wikipedia.org/wiki/SPDY',
+		category: 'web'
+	},
+	{
+		id: 'airdrop',
+		term: 'AirDrop',
+		definition:
+			"{{apple|Apple}}'s peer-to-peer file-transfer protocol that bootstraps over [[bluetooth|Bluetooth LE]] (discovery and contact-hash matching) and then bursts the file over a peer-to-peer [[wifi|Wi-Fi]] link using {{awdl|AWDL}} or, since 2021, Wi-Fi Direct. Has been the subject of repeated privacy research showing the discovery hashes can be reversed to phone numbers under realistic assumptions.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/AirDrop',
+		category: 'web'
+	},
+	{
+		id: 'zstd',
+		term: 'Zstandard (zstd)',
+		definition:
+			"A lossless data compression algorithm developed by Yann Collet at {{meta|Meta}} (open-sourced 2016). Trades a tiny throughput cost vs. zlib for a sizeable ratio improvement, and is now an {{ietf|IETF}} standard ([[rfc:8478|RFC 8478]]) and the default codec for several [[kafka|Kafka]] producers, container image registries, and Linux kernel modules.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Zstd',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'uec',
+		term: 'UEC (Ultra Ethernet Consortium)',
+		definition:
+			"Linux Foundation hosted consortium founded **19 July 2023** by AMD, Arista, Broadcom, Cisco, Eviden, HPE, Intel, Meta, and Microsoft (NVIDIA joined later) to redesign [[ethernet|Ethernet]] for AI fabrics. **UEC Specification 1.0** was published 11 June 2025 — defines **Ultra Ethernet Transport (UET)** with packet spraying, selective {{retransmission|retransmission}}, in-network telemetry, and ephemeral/{{connectionless|connectionless}} state for millions of endpoints.",
+		category: 'infrastructure'
+	},
+	{
+		id: 'ssdp',
+		term: 'SSDP (Simple Service Discovery Protocol)',
+		definition:
+			"The UPnP discovery protocol — multicast HTTP-over-[[udp|UDP]] to **239.255.255.250:1900** for finding devices on the {{lan|LAN}}. Routers, smart TVs, printers, game consoles, and media-server software (Plex, DLNA) all speak it. A long-standing security headache: open SSDP reflectors have been used in DDoS amplification attacks since 2014.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Simple_Service_Discovery_Protocol',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'eap',
+		term: 'EAP (Extensible Authentication Protocol)',
+		definition:
+			"A framework ([[rfc:3748|RFC 3748]], 2004) for plugging different authentication methods into the same Layer-2 transport. **EAP-TLS** (certificate-based, RFC 5216 / 9190) and **EAP-PEAP** (TLS-tunnelled inner-method) are the dominant choices in [[wifi|WPA2/WPA3-Enterprise]], and **EAP-AKA'** (RFC 5448) carries [[cellular|cellular]] SIM-based authentication into Wi-Fi via Passpoint.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Extensible_Authentication_Protocol',
+		category: 'security'
+	},
+	{
+		id: 'awdl',
+		term: 'AWDL (Apple Wireless Direct Link)',
+		definition:
+			"{{apple|Apple}}'s proprietary peer-to-peer Wi-Fi protocol that powers {{airdrop|AirDrop}}, AirPlay, Sidecar, and Continuity features. Runs alongside an infrastructure Wi-Fi connection by time-slicing the radio. Reverse-engineered in academic papers (Stute et al., USENIX Security 2018+).",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Apple_Wireless_Direct_Link',
+		category: 'protocol-mechanics'
 	}
 ];
 

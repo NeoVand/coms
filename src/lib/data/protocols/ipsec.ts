@@ -19,7 +19,7 @@ As of May 2026, [[ipsec|IPsec]] is also the first mainstream VPN with a real, de
 		{
 			title: 'IKE_SA_INIT — negotiate crypto, exchange DH/ECDH/ML-KEM, detect NAT',
 			description:
-				'Two peers {{exchange|exchange}} {{diffie-hellman|Diffie-Hellman}} (or ECDH, or **{{ml-kem|ML-KEM}}** since 2024) {{public-key|public keys}}, {{nonce|nonces}}, and the {{cipher-suite|cipher suite}} they support. NAT detection happens here: if either {{peer|peer}} is behind {{nat|NAT}}, the SA switches to UDP/4500 {{encapsulation|encapsulation}}. Two messages total; the resulting *{{ike|IKE SA}}* protects every subsequent exchange.'
+				'Two peers {{exchange|exchange}} {{diffie-hellman|Diffie-Hellman}} (or ECDH, or **{{ml-kem|ML-KEM}}** since 2024) {{public-key|public keys}}, {{nonce|nonces}}, and the {{cipher-suite|cipher suite}} they support. NAT detection happens here: if either {{peer|peer}} is behind {{nat|NAT}}, the SA switches to UDP/4500 {{encapsulation|encapsulation}}. Two messages total; the resulting *{{ike|IKE SA}}* protects every subsequent {{exchange|exchange}}.'
 		},
 		{
 			title: 'IKE_AUTH — prove identity, authorize the Child SA',
@@ -89,7 +89,7 @@ swanctl --initiate --child office-net
 swanctl --list-sas
 ip -s xfrm state                          # kernel data-plane counters
 ip -s xfrm policy                         # SPD entries`,
-		caption: 'A site-to-site [[ipsec|IPsec]] tunnel in strongSwan with **{{ml-kem|ML-KEM}}-768 hybrid post-quantum** key {{exchange|exchange}} — production-deployable today on Linux 6.x.',
+		caption: 'A site-to-site [[ipsec|IPsec]] tunnel in strongSwan with **{{ml-kem|ML-KEM}}-768 hybrid post-quantum** key {{exchange|exchange}} — production-deployable today on {{linux|Linux}} 6.x.',
 		alternatives: [
 			{
 				language: 'python',
@@ -242,14 +242,14 @@ Payloads:
 			date: '2024-08',
 			title: 'NIST finalises ML-KEM (FIPS 203)',
 			description:
-				'On 13 August 2024 NIST published FIPS 203 — the standardised form of CRYSTALS-Kyber. This is the post-quantum KEM that [[ipsec|IPsec]] implementations are wiring into IKEv2 via `draft-ietf-ipsecme-ikev2-mlkem`. The first deployable PQ VPN story.',
+				'On 13 August 2024 NIST published FIPS 203 — the standardised form of CRYSTALS-Kyber. This is the post-quantum KEM that [[ipsec|IPsec]] implementations are wiring into IKEv2 via `draft-{{ietf|ietf}}-ipsecme-ikev2-mlkem`. The first deployable PQ VPN story.',
 			source: { url: 'https://csrc.nist.gov/pubs/fips/203/final', label: 'NIST FIPS 203' }
 		},
 		{
 			date: '2024-12',
 			title: 'strongSwan 6.0 — native ML-KEM + RFC 9370 multi-KE',
 			description:
-				'3 December 2024. strongSwan 6.0.0 ships native {{ml-kem|ML-KEM}} key {{exchange|exchange}} and [[rfc:9370|RFC 9370]] multiple-KE — meaning two or more KEMs (e.g. classical ecp384 + post-quantum ML-KEM-768) can be chained inside one IKEv2 negotiation. The first production-quality hybrid PQ VPN.',
+				'3 December 2024. strongSwan 6.0.0 ships native {{ml-kem|ML-KEM}} key {{exchange|exchange}} and [[rfc:9370|RFC 9370]] multiple-KE — meaning two or more KEMs (e.g. classical ecp384 + post-quantum {{ml-kem|ML-KEM}}-768) can be chained inside one IKEv2 negotiation. The first production-quality hybrid PQ VPN.',
 			source: {
 				url: 'https://strongswan.org/blog/2024/12/03/strongswan-6.0.0-released.html',
 				label: 'strongSwan 6.0 release notes'
@@ -292,7 +292,7 @@ Payloads:
 			org: 'strongSwan / Libreswan',
 			scale: 'The two reference open-source implementations',
 			description:
-				'strongSwan (originally HSR Rapperswil, now under [[pioneer:andreas-steffen|Andreas Steffen]] and the OST team; owned by secunet AG since June 2022, central to the BSI SINA high-security solution) and Libreswan (descendent of FreeS/WAN → Openswan, maintained by [[pioneer:paul-wouters|Paul Wouters]] at Aiven, ships in Red Hat Enterprise Linux). Together they run almost every Linux-based [[ipsec|IPsec]] deployment.'
+				'strongSwan (originally HSR Rapperswil, now under [[pioneer:andreas-steffen|Andreas Steffen]] and the OST team; owned by secunet AG since June 2022, central to the BSI SINA high-security solution) and Libreswan (descendent of FreeS/WAN → Openswan, maintained by [[pioneer:paul-wouters|Paul Wouters]] at Aiven, ships in Red Hat Enterprise {{linux|Linux}}). Together they run almost every {{linux|Linux}}-based [[ipsec|IPsec]] deployment.'
 		},
 		{
 			org: 'Cloud hyperscalers (AWS / Azure / GCP / Oracle)',
@@ -304,7 +304,7 @@ Payloads:
 			org: 'Operating-system native clients',
 			scale: 'Every modern OS ships an IKEv2 client',
 			description:
-				'Apple iOS / macOS: native IKEv2 since iOS 9 / OS X 10.11 (configured via `.mobileconfig`). Microsoft Always-On VPN: IKEv2 + EAP-TLS profile baseline. Android: native IKEv2/IPsec PSK + EAP since Android 12. Linux: NetworkManager + strongSwan. OpenBSD: clean-room `iked` since OpenBSD 4.8 (2010), by Reyk Floeter.'
+				'{{apple|Apple}} iOS / macOS: native IKEv2 since iOS 9 / OS X 10.11 (configured via `.mobileconfig`). {{microsoft|Microsoft}} Always-On VPN: IKEv2 + EAP-TLS profile baseline. Android: native IKEv2/IPsec PSK + EAP since Android 12. {{linux|Linux}}: NetworkManager + strongSwan. OpenBSD: clean-room `iked` since OpenBSD 4.8 (2010), by Reyk Floeter.'
 		}
 	],
 
@@ -319,11 +319,11 @@ Payloads:
 		},
 		{
 			title: 'The NSA exploit and the working group meet in the same building',
-			text: 'The Shadow Brokers leak (August 2016) revealed BENIGNCERTAIN — an NSA exploit that extracted Cisco PIX VPN private keys from IKEv1 (CVE-2016-6415). The [[ipsec|IPSECME]] working group routinely seats Cisco, Microsoft, AWS, and NSA Cybersecurity Directorate engineers at the same table. [[rfc:8784|RFC 8784]] (PQ-PPK) is co-authored by Cisco, AWS, and ELVIS-PLUS engineers — [[ipsec|IPsec]] has always been multi-government.'
+			text: 'The Shadow Brokers leak (August 2016) revealed BENIGNCERTAIN — an NSA exploit that extracted {{cisco|Cisco}} PIX VPN private keys from IKEv1 (CVE-2016-6415). The [[ipsec|IPSECME]] working group routinely seats {{cisco|Cisco}}, {{microsoft|Microsoft}}, AWS, and NSA Cybersecurity Directorate engineers at the same table. [[rfc:8784|RFC 8784]] (PQ-PPK) is co-authored by Cisco, AWS, and ELVIS-PLUS engineers — [[ipsec|IPsec]] has always been multi-government.'
 		},
 		{
 			title: 'WireGuard is ~4,000 lines; the IPsec stack is six digits',
-			text: '[[pioneer:jason-donenfeld|Jason Donenfeld]]\'s 2017 NDSS WireGuard paper counted 116,730 LoC across OpenVPN + Linux XFRM + strongSwan + SoftEther. The comparison is biased — XFRM does more — but the order of magnitude is correct. WireGuard\'s minimalism is a direct response to [[ipsec|IPsec]]\'s architectural sprawl; [[ipsec|IPsec]]\'s sprawl is a direct response to thirty years of interop requirements no clean-slate design has yet had to face.'
+			text: '[[pioneer:jason-donenfeld|Jason Donenfeld]]\'s 2017 NDSS WireGuard paper counted 116,730 LoC across OpenVPN + {{linux|Linux}} XFRM + strongSwan + SoftEther. The comparison is biased — XFRM does more — but the order of magnitude is correct. WireGuard\'s minimalism is a direct response to [[ipsec|IPsec]]\'s architectural sprawl; [[ipsec|IPsec]]\'s sprawl is a direct response to thirty years of interop requirements no clean-slate design has yet had to face.'
 		}
 	],
 
@@ -331,7 +331,7 @@ Payloads:
 		pitfalls: [
 			{
 				title: 'Anti-replay window is 32 by default — drop legitimate packets at 10 Gbps',
-				text: '[[rfc:4303|RFC 4303]] §3.4.3 sets the {{anti-replay|anti-replay window}} default to **32 entries**. On a 10 Gbps+ ECMP-parallel tunnel (Linux XFRM default), packets routinely arrive out of order beyond that window and get dropped. **Cure:** `ip xfrm state ... replay-window 1024` on every Linux gateway carrying >1 Gbps. The single most-common reason a "tuned" site-to-site tunnel mysteriously loses 0.01% of packets.'
+				text: '[[rfc:4303|RFC 4303]] §3.4.3 sets the {{anti-replay|anti-replay window}} default to **32 entries**. On a 10 Gbps+ ECMP-parallel tunnel ({{linux|Linux}} XFRM default), packets routinely arrive out of order beyond that window and get dropped. **Cure:** `ip xfrm state ... replay-window 1024` on every {{linux|Linux}} gateway carrying >1 Gbps. The single most-common reason a "tuned" site-to-site tunnel mysteriously loses 0.01% of packets.'
 			},
 			{
 				title: 'PMTU black holes drop large packets silently',
@@ -339,7 +339,7 @@ Payloads:
 			},
 			{
 				title: 'Roadwarriors die on Wi-Fi → LTE handoff without MOBIKE',
-				text: 'A roadwarrior session that comes up on hotel Wi-Fi will tear down the moment the laptop switches to LTE — the IKE SA is bound to the source `ip:port` and reconnects from scratch. **Cure:** enable **MOBIKE** ([[rfc:4555|RFC 4555]]) on both ends (`mobike=yes` in strongSwan). The session migrates seamlessly to the new {{ip-address|address}} without re-authenticating. Built into Apple\'s native client; opt-in on strongSwan/Libreswan.'
+				text: 'A roadwarrior session that comes up on hotel Wi-Fi will tear down the moment the laptop switches to LTE — the IKE SA is bound to the source `ip:port` and reconnects from scratch. **Cure:** enable **MOBIKE** ([[rfc:4555|RFC 4555]]) on both ends (`mobike=yes` in strongSwan). The session migrates seamlessly to the new {{ip-address|address}} without re-authenticating. Built into {{apple|Apple}}\'s native client; opt-in on strongSwan/Libreswan.'
 			}
 		]
 	}

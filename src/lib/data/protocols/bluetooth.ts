@@ -10,11 +10,11 @@ export const bluetooth: Protocol = {
 	rfc: 'Bluetooth Core Spec 6.0',
 	oneLiner:
 		'Short-range 2.4 GHz wireless with two protocol stacks: Classic BR/EDR for streaming audio, and BLE for low-power sensors, trackers, hearing aids, and IoT commissioning.',
-	overview: `[[bluetooth|Bluetooth]] is the most ubiquitous short-range wireless protocol on Earth — roughly 4.7 billion ICs shipped per year. It started as a 1994 Ericsson project in Lund, Sweden to replace the RS-232 cable to a mobile-phone headset; [[pioneer:jaap-haartsen|Jaap Haartsen]] and [[pioneer:sven-mattisson|Sven Mattisson]] did the original radio design, [[pioneer:jim-kardach|Jim Kardach]] at Intel proposed the name (after Harald "Blåtand" Gormsson, the 10th-century Danish king who united Denmark and Norway), and the [[bluetooth|Bluetooth]] Special Interest Group was founded in May 1998 by Ericsson, IBM, Intel, Nokia, and Toshiba. The first commercial product was a hands-free headset at COMDEX 1999; the first phone was the Ericsson T39 in 2001.
+	overview: `[[bluetooth|Bluetooth]] is the most ubiquitous short-range wireless protocol on Earth — roughly 4.7 billion ICs shipped per year. It started as a 1994 Ericsson project in Lund, Sweden to replace the RS-232 cable to a mobile-phone headset; [[pioneer:jaap-haartsen|Jaap Haartsen]] and [[pioneer:sven-mattisson|Sven Mattisson]] did the original radio design, [[pioneer:jim-kardach|Jim Kardach]] at {{intel|Intel}} proposed the name (after Harald "Blåtand" Gormsson, the 10th-century Danish king who united Denmark and Norway), and the [[bluetooth|Bluetooth]] Special Interest Group was founded in May 1998 by Ericsson, IBM, {{intel|Intel}}, Nokia, and Toshiba. The first commercial product was a hands-free headset at COMDEX 1999; the first phone was the Ericsson T39 in 2001.
 
 [[bluetooth|Bluetooth]] in 2026 is *two protocols braided into one brand*. **BR/EDR ("Classic")** is the 1999 frequency-hopping master/{{piconet|slave}} wire-replacement system — 79 × 1 MHz channels, 1,600 hops per second, GFSK + DPSK modulation. It still carries A2DP audio, HFP voice, HID (every wireless keyboard and mouse), and RFCOMM. **{{ble|BLE (Bluetooth Low Energy)}}** was added in Core 4.0 (December 2009), derived from Nokia's *Wibree* design. Different radio (40 × 2 MHz channels), different link layer, different framing ({{l2cap|L2CAP}}), different security (SMP), different application protocol ({{gatt|GATT}}). Both share the 2.4 GHz {{ism-band|ISM band}} and a SIG, but they share **no bits over the air**.
 
-The single biggest change in the last 24 months is **Bluetooth 6.0** (adopted 3 September 2024), which introduced **{{channel-sounding|Channel Sounding}}** — phase-based + round-trip-time ranging delivering centimetre-class accuracy and explicitly targeting [[uwb|UWB]]'s secure-access and digital-key niche. Simultaneously, **{{auracast|Auracast}}** ({{codec|LC3-based}} {{broadcast|broadcast}} {{le-audio|LE Audio}}) went from spec to real deployments — Frankfurt Airport became the first airport to broadcast all gate announcements over Auracast on 28 January 2026. The Apple-Google **DULT** anti-stalking standard moved into {{ietf|IETF}} working-group drafts in 2024–2026. [[wifi|Wi-Fi]] is the protocol you stream from; [[bluetooth|Bluetooth]] is the protocol you carry with you.`,
+The single biggest change in the last 24 months is **Bluetooth 6.0** (adopted 3 September 2024), which introduced **{{channel-sounding|Channel Sounding}}** — phase-based + round-trip-time ranging delivering centimetre-class accuracy and explicitly targeting [[uwb|UWB]]'s secure-access and digital-key niche. Simultaneously, **{{auracast|Auracast}}** ({{codec|LC3-based}} {{broadcast|broadcast}} {{le-audio|LE Audio}}) went from spec to real deployments — Frankfurt Airport became the first airport to {{broadcast|broadcast}} all gate announcements over {{auracast|Auracast}} on 28 January 2026. The {{apple|Apple}}-{{google|Google}} **DULT** anti-stalking standard moved into {{ietf|IETF}} working-group drafts in 2024–2026. [[wifi|Wi-Fi]] is the protocol you stream from; [[bluetooth|Bluetooth]] is the protocol you carry with you.`,
 	howItWorks: [
 		{
 			title: 'Frequency-hopping in the 2.4 GHz ISM band',
@@ -39,7 +39,7 @@ The single biggest change in the last 24 months is **Bluetooth 6.0** (adopted 3 
 		{
 			title: 'LE Audio and Auracast (5.2+)',
 			description:
-				'{{le-audio|LE Audio}} runs over **Isochronous Channels** — Connected Isochronous Streams (CIS) for {{unicast|unicast}} earbuds/hearing aids, and {{broadcast|Broadcast}} Isochronous Streams (BIS) for one-to-many public {{broadcast|broadcast}}. **LC3** is the mandatory {{codec|codec}} (replacing SBC and saving ~50% battery vs A2DP). **{{auracast|Auracast}}** is the SIG brand for BIS-based public-venue broadcast — airports, theatres, gyms, hearing-loop replacement.'
+				'{{le-audio|LE Audio}} runs over **Isochronous Channels** — Connected Isochronous Streams (CIS) for {{unicast|unicast}} earbuds/hearing aids, and {{broadcast|Broadcast}} Isochronous Streams (BIS) for one-to-many public {{broadcast|broadcast}}. **LC3** is the mandatory {{codec|codec}} (replacing SBC and saving ~50% battery vs A2DP). **{{auracast|Auracast}}** is the SIG brand for BIS-based public-venue {{broadcast|broadcast}} — airports, theatres, gyms, hearing-loop replacement.'
 		},
 		{
 			title: 'Channel Sounding (6.0+)',
@@ -212,7 +212,7 @@ CRC: x^24 + x^10 + x^9 + x^6 + x^4 + x^3 + x + 1, seeded by Access Address.`
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Bluetooth.svg/250px-Bluetooth.svg.png',
 		alt: 'The Bluetooth logo — a bind-rune combining Hagall (ᚼ) and Bjarkan (ᛒ), the initials of Harald Bluetooth in Younger Futhark',
 		caption:
-			"The Bluetooth logo is a bind-rune combining **Hagall** (ᚼ) and **Bjarkan** (ᛒ) — the initials of *Harald Blåtand*, the 10th-century Danish king who united Denmark and Norway. Jim Kardach at Intel proposed the name as a placeholder during a 1997 SIG meeting; it was never supposed to ship.",
+			"The Bluetooth logo is a bind-rune combining **Hagall** (ᚼ) and **Bjarkan** (ᛒ) — the initials of *Harald Blåtand*, the 10th-century Danish king who united Denmark and Norway. Jim Kardach at {{intel|Intel}} proposed the name as a placeholder during a 1997 SIG meeting; it was never supposed to ship.",
 		credit: 'Image: Wikimedia Commons / Public Domain (Bluetooth SIG trademark)'
 	},
 
@@ -241,7 +241,7 @@ CRC: x^24 + x^10 + x^9 + x^6 + x^4 + x^3 + x + 1, seeded by Access Address.`
 			date: '2026-01',
 			title: 'Frankfurt Airport — first airport-wide Auracast deployment',
 			description:
-				'On 28 January 2026 Frankfurt Airport became the first airport to {{broadcast|broadcast}} all gate announcements over **{{auracast|Auracast}}** — LC3-based one-to-many BLE Audio. Travellers with Auracast-capable hearing aids or earbuds tune in directly; no infrastructure handoff, no app required. The first major real-world replacement for the analog hearing loop.',
+				'On 28 January 2026 Frankfurt Airport became the first airport to {{broadcast|broadcast}} all gate announcements over **{{auracast|Auracast}}** — LC3-based one-to-many BLE Audio. Travellers with {{auracast|Auracast}}-capable hearing aids or earbuds tune in directly; no infrastructure handoff, no app required. The first major real-world replacement for the analog hearing loop.',
 			source: {
 				url: 'https://www.gn.com/Newsroom/News/2026/January/Frankfurt-Airport-Becomes-the-First-Airport-Worldwide-to-Use-Auracast',
 				label: 'GN Group newsroom'
@@ -251,7 +251,7 @@ CRC: x^24 + x^10 + x^9 + x^6 + x^4 + x^3 + x + 1, seeded by Access Address.`
 			date: '2024-12',
 			title: 'Apple-Google DULT anti-stalking draft → IETF',
 			description:
-				"The Detecting Unwanted Location Trackers (DULT) standard — born from the AirTag stalking saga — moved into {{ietf|IETF}} working-group drafts in late 2024. Standardises a 'Tracker has been with you' alert across Apple's Find My and Google's Find My Device networks regardless of vendor.",
+				"The Detecting Unwanted Location Trackers (DULT) standard — born from the AirTag stalking saga — moved into {{ietf|IETF}} working-group drafts in late 2024. Standardises a 'Tracker has been with you' alert across {{apple|Apple}}'s Find My and {{google|Google}}'s Find My Device networks regardless of vendor.",
 			source: {
 				url: 'https://datatracker.ietf.org/wg/dult/about/',
 				label: 'IETF DULT working group'
@@ -274,7 +274,7 @@ CRC: x^24 + x^10 + x^9 + x^6 + x^4 + x^3 + x + 1, seeded by Access Address.`
 			org: 'Apple AirPods + Find My network',
 			scale: '>1 billion AirPod units shipped lifetime; ~3 billion Find My nodes',
 			description:
-				'The single largest commercial BLE deployment. AirPods use proprietary Apple H1/H2 chip extensions on top of BR/EDR + BLE; the Find My network turns every iPhone, iPad, and Mac into a relay for any nearby [[bluetooth|Bluetooth]] beacon (AirTag, AirPods, third-party Find My-certified accessories).'
+				'The single largest commercial BLE deployment. AirPods use proprietary {{apple|Apple}} H1/H2 chip extensions on top of BR/EDR + BLE; the Find My network turns every iPhone, iPad, and Mac into a relay for any nearby [[bluetooth|Bluetooth]] beacon (AirTag, AirPods, third-party Find My-certified accessories).'
 		},
 		{
 			org: 'Bluetooth Special Interest Group',
@@ -292,18 +292,18 @@ CRC: x^24 + x^10 + x^9 + x^6 + x^4 + x^3 + x + 1, seeded by Access Address.`
 			org: 'Hearing-aid industry (Sonova, GN ReSound, Demant)',
 			scale: 'LE Audio + ASHA shipping in every major hearing-aid brand 2024+',
 			description:
-				"{{le-audio|LE Audio}}'s CIS ({{unicast|unicast}}) + BIS ({{broadcast|broadcast}}) carry hearing-aid audio at battery costs ~50% lower than the previous proprietary protocols. Combined with {{auracast|Auracast}} for public-venue broadcast, it is the largest functional change in hearing-aid connectivity in two decades."
+				"{{le-audio|LE Audio}}'s CIS ({{unicast|unicast}}) + BIS ({{broadcast|broadcast}}) carry hearing-aid audio at battery costs ~50% lower than the previous proprietary protocols. Combined with {{auracast|Auracast}} for public-venue {{broadcast|broadcast}}, it is the largest functional change in hearing-aid connectivity in two decades."
 		}
 	],
 
 	funFacts: [
 		{
 			title: 'The name was a placeholder',
-			text: 'Jim Kardach at Intel proposed "Bluetooth" in 1997 at a SIG meeting as a temporary working name — after **Harald "Blåtand" Gormsson**, the 10th-century Danish king who united Denmark and Norway, just as the SIG was trying to unite Ericsson, IBM, Intel, Nokia, and Toshiba behind one short-range wireless standard. The name was never supposed to ship. It did. The logo is a bind-rune of Harald\'s initials in Younger Futhark — ᚼ + ᛒ.'
+			text: 'Jim Kardach at {{intel|Intel}} proposed "Bluetooth" in 1997 at a SIG meeting as a temporary working name — after **Harald "Blåtand" Gormsson**, the 10th-century Danish king who united Denmark and Norway, just as the SIG was trying to unite Ericsson, IBM, {{intel|Intel}}, Nokia, and Toshiba behind one short-range wireless standard. The name was never supposed to ship. It did. The logo is a bind-rune of Harald\'s initials in Younger Futhark — ᚼ + ᛒ.'
 		},
 		{
 			title: 'The "AirTag stalking" saga produced an IETF standard',
-			text: "Starting in 2021, dozens of cases emerged of [[bluetooth|Bluetooth]] AirTags being slipped into bags, cars, and clothing to track people. Apple and Google — direct competitors — quietly co-authored the **DULT** (Detecting Unwanted Location Trackers) protocol, which moved into {{ietf|IETF}} working-group drafts in 2024. The result: cross-vendor 'a tracker has been moving with you' alerts that work across Apple's Find My and Google's Find My Device networks."
+			text: "Starting in 2021, dozens of cases emerged of [[bluetooth|Bluetooth]] AirTags being slipped into bags, cars, and clothing to track people. {{apple|Apple}} and {{google|Google}} — direct competitors — quietly co-authored the **DULT** (Detecting Unwanted Location Trackers) protocol, which moved into {{ietf|IETF}} working-group drafts in 2024. The result: cross-vendor 'a tracker has been moving with you' alerts that work across {{apple|Apple}}'s Find My and {{google|Google}}'s Find My Device networks."
 		},
 		{
 			title: 'KNOB, BIAS, BLUFFS — the same author broke Bluetooth three times',
@@ -323,7 +323,7 @@ CRC: x^24 + x^10 + x^9 + x^6 + x^4 + x^3 + x + 1, seeded by Access Address.`
 			},
 			{
 				title: 'Connection interval × Slave latency × Supervision timeout',
-				text: 'These three parameters interact in surprising ways. `Supervision Timeout ≥ (1 + Slave {{latency|Latency}}) × Connection Interval × 2` per the spec, or the connection drops at the worst possible moment. **Cure:** for fitness wearables that talk every 100 ms, use connection-interval=15 ms, slave-latency=4, supervision-timeout=4 s. For battery-life-critical sensors, push interval longer (1 s+) and let slave-latency=0; never set both to extremes.'
+				text: 'These three parameters interact in surprising ways. `Supervision Timeout ≥ (1 + Slave {{latency|Latency}}) × Connection Interval × 2` per the spec, or the connection drops at the worst possible moment. **Cure:** for fitness wearables that talk every 100 ms, use connection-interval=15 ms, slave-{{latency|latency}}=4, supervision-timeout=4 s. For battery-life-critical sensors, push interval longer (1 s+) and let slave-{{latency|latency}}=0; never set both to extremes.'
 			},
 			{
 				title: 'Wi-Fi coexistence on 2.4 GHz',

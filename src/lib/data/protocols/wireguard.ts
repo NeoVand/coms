@@ -12,9 +12,9 @@ export const wireguard: Protocol = {
 		'A ~4,000-line in-kernel VPN that does one thing — encrypted, authenticated, packet-routed IP tunnels — with a single, opinionated, modern crypto suite. The deliberate anti-[[ipsec|IPsec]].',
 	overview: `[[wireguard|WireGuard]] is a Layer-3 secure-{{tunnel|tunnel}} protocol that encapsulates [[ip|IP]] {{packet|packets}} inside [[udp|UDP]] after a single round-trip Noise_IKpsk2 {{handshake|handshake}}. It collapses ACL and routing into one mechanism — **cryptokey routing** — where each {{peer|peer}}'s Curve25519 {{public-key|public key}} is bound to a set of \`AllowedIPs\` prefixes. There are *exactly* four message types and *exactly* one {{cipher-suite|ciphersuite}} (\`Noise_IKpsk2_25519_ChaChaPoly_BLAKE2s\`). No negotiation, no extensibility, no algorithmic agility, and deliberately **no {{ietf|IETF}} standardisation**.
 
-Created as a side project by [[pioneer:jason-donenfeld|Jason A. Donenfeld]] in 2015 after a long pen-testing frustration with [[ipsec|IPsec]] and OpenVPN, the first public code snapshot is dated **30 June 2016**. Donenfeld presented the whitepaper at NDSS 2017. Linus Torvalds endorsed it on the kernel mailing list in August 2018 as *"a work of art… compared to the horrors that are OpenVPN and [[ipsec|IPsec]]"*; the module was mainlined in **Linux 5.6 on 29 March 2020**. The whole kernel module weighs in at around **4,000 lines of code**, versus 100,000+ for OpenVPN's core and the six-figure footprint of strongSwan + Linux XFRM.
+Created as a side project by [[pioneer:jason-donenfeld|Jason A. Donenfeld]] in 2015 after a long pen-testing frustration with [[ipsec|IPsec]] and OpenVPN, the first public code snapshot is dated **30 June 2016**. Donenfeld presented the whitepaper at NDSS 2017. Linus Torvalds endorsed it on the kernel mailing list in August 2018 as *"a work of art… compared to the horrors that are OpenVPN and [[ipsec|IPsec]]"*; the module was mainlined in **{{linux|Linux}} 5.6 on 29 March 2020**. The whole kernel module weighs in at around **4,000 lines of code**, versus 100,000+ for OpenVPN's core and the six-figure footprint of strongSwan + {{linux|Linux}} XFRM.
 
-The crypto choices are a victory lap for the Daniel J. Bernstein stack — **Curve25519** (2006), **ChaCha20** (2008), **Poly1305** (2005), **BLAKE2s** — wrapped in the **Noise Protocol Framework** ([[pioneer:trevor-perrin|Trevor Perrin]], 2016). The {{handshake|handshake}} is formally verified (Donenfeld & Milner 2018, Tamarin) and has been cryptographically analysed (Dowling & Paterson 2018, Bellet et al. NDSS 2024). Today it underpins Cloudflare WARP (>50M daily clients via Cloudflare's BoringTun Rust implementation), **Tailscale** ([[pioneer:avery-pennarun|Avery Pennarun]] et al., mesh networking on top of WireGuard), NordVPN's NordLynx, Mullvad, Mozilla {{vpn|VPN}}, ProtonVPN, and an uncountable long tail of self-hosted deployments. The post-quantum companion **Rosenpass** (Hülsing/Varner 2022) hands a PQ-secure {{pfs|pre-shared key}} to WireGuard every 120 s, giving harvest-now-decrypt-later resistance without touching the kernel module.`,
+The crypto choices are a victory lap for the Daniel J. Bernstein stack — **Curve25519** (2006), **ChaCha20** (2008), **Poly1305** (2005), **BLAKE2s** — wrapped in the **Noise Protocol Framework** ([[pioneer:trevor-perrin|Trevor Perrin]], 2016). The {{handshake|handshake}} is formally verified (Donenfeld & Milner 2018, Tamarin) and has been cryptographically analysed (Dowling & Paterson 2018, Bellet et al. NDSS 2024). Today it underpins {{cloudflare|Cloudflare}} WARP (>50M daily clients via {{cloudflare|Cloudflare}}'s BoringTun Rust implementation), **Tailscale** ([[pioneer:avery-pennarun|Avery Pennarun]] et al., mesh networking on top of WireGuard), NordVPN's NordLynx, Mullvad, Mozilla {{vpn|VPN}}, ProtonVPN, and an uncountable long tail of self-hosted deployments. The post-quantum companion **Rosenpass** (Hülsing/Varner 2022) hands a PQ-secure {{pfs|pre-shared key}} to WireGuard every 120 s, giving harvest-now-decrypt-later resistance without touching the kernel module.`,
 	howItWorks: [
 		{
 			title: 'Identity = public key',
@@ -34,7 +34,7 @@ The crypto choices are a victory lap for the Daniel J. Bernstein stack — **Cur
 		{
 			title: 'Cryptokey routing',
 			description:
-				"`AllowedIPs` on each {{peer|peer}} says *which inner [[ip|IP]] prefixes* may travel through this {{peer|peer}}'s tunnel. It is simultaneously the {{routing-table|routing table}} (outbound: which peer for which destination prefix) **and** the ACL (inbound: only accept packets from this peer if the inner source IP falls in its allowed prefixes). One mechanism, both jobs."
+				"`AllowedIPs` on each {{peer|peer}} says *which inner [[ip|IP]] prefixes* may travel through this {{peer|peer}}'s tunnel. It is simultaneously the {{routing-table|routing table}} (outbound: which {{peer|peer}} for which destination prefix) **and** the ACL (inbound: only accept packets from this {{peer|peer}} if the inner source IP falls in its allowed prefixes). One mechanism, both jobs."
 		},
 		{
 			title: 'Transport Data (type=4)',
@@ -44,7 +44,7 @@ The crypto choices are a victory lap for the Daniel J. Bernstein stack — **Cur
 		{
 			title: 'Rekey every 120 seconds',
 			description:
-				'`REKEY_AFTER_TIME = 120 s` and `REKEY_AFTER_MESSAGES = 2^60 - 2^16` force a fresh {{handshake|handshake}}. Old keys are wiped — **per-message {{forward-secrecy|forward secrecy}}** within a session, **per-handshake {{forward-secrecy|forward secrecy}}** across sessions. After `REJECT_AFTER_TIME = 180 s` of silence the session is torn down.'
+				'`REKEY_AFTER_TIME = 120 s` and `REKEY_AFTER_MESSAGES = 2^60 - 2^16` force a fresh {{handshake|handshake}}. Old keys are wiped — **per-message {{forward-secrecy|forward secrecy}}** within a session, **per-{{handshake|handshake}} {{forward-secrecy|forward secrecy}}** across sessions. After `REJECT_AFTER_TIME = 180 s` of silence the session is torn down.'
 		}
 	],
 	useCases: [
@@ -90,7 +90,7 @@ sudo wg show
 #     latest handshake: 23 seconds ago
 #     transfer: 142.3 KiB received, 89.7 KiB sent
 #     persistent keepalive: every 25 seconds`,
-		caption: 'A complete [[wireguard|WireGuard]] tunnel in 12 lines of config. Same on Linux, BSD, macOS, Android, Windows. The simplicity is the feature.',
+		caption: 'A complete [[wireguard|WireGuard]] tunnel in 12 lines of config. Same on {{linux|Linux}}, BSD, macOS, Android, Windows. The simplicity is the feature.',
 		alternatives: [
 			{
 				language: 'python',
@@ -286,7 +286,7 @@ Around 4% data inflation for typical 1400-byte inner packets.`
 			org: 'Cloudflare WARP',
 			scale: '>50 million daily active clients',
 			description:
-				"Cloudflare's consumer VPN (1.1.1.1 + WARP app) runs on **BoringTun**, Cloudflare's pure-Rust WireGuard implementation (released 2019). Routes user traffic over WireGuard to Cloudflare's edge for security and (with WARP+) {{latency|latency}} improvements. The single largest WireGuard deployment by user count."
+				"{{cloudflare|Cloudflare}}'s consumer VPN (1.1.1.1 + WARP app) runs on **BoringTun**, {{cloudflare|Cloudflare}}'s pure-Rust WireGuard implementation (released 2019). Routes user traffic over WireGuard to Cloudflare's edge for security and (with WARP+) {{latency|latency}} improvements. The single largest WireGuard deployment by user count."
 		},
 		{
 			org: 'Tailscale',
@@ -311,11 +311,11 @@ Around 4% data inflation for typical 1400-byte inner packets.`
 	funFacts: [
 		{
 			title: 'The "4,000 lines of code" number is in the whitepaper itself',
-			text: "From the [[pioneer:jason-donenfeld|Donenfeld]] NDSS 2017 paper: *\"WireGuard can be simply implemented for Linux in less than 4,000 lines of code, making it easily audited and verified.\"* For comparison, OpenVPN's core (not counting OpenSSL) is north of 100,000 lines, and the equivalent Linux [[ipsec|IPsec]] stack (XFRM + strongSwan + libraries) is in the six digits. The order-of-magnitude has not changed in the 9 years since."
+			text: "From the [[pioneer:jason-donenfeld|Donenfeld]] NDSS 2017 paper: *\"WireGuard can be simply implemented for {{linux|Linux}} in less than 4,000 lines of code, making it easily audited and verified.\"* For comparison, OpenVPN's core (not counting OpenSSL) is north of 100,000 lines, and the equivalent {{linux|Linux}} [[ipsec|IPsec]] stack (XFRM + strongSwan + libraries) is in the six digits. The order-of-magnitude has not changed in the 9 years since."
 		},
 		{
 			title: 'Linus said it was "a work of art"',
-			text: 'On 2 August 2018, in a postscript to a Linux 4.18 networking pull-request, Linus Torvalds wrote: *"I see that Jason actually made the pull request to have wireguard included in the kernel. Can I just once again state my love for it and hope it gets merged soon? Maybe the code isn\'t perfect, but I\'ve skimmed it, and compared to the horrors that are OpenVPN and [[ipsec|IPsec]], it\'s a work of art."* It took another 19 months for the merge to land (Linux 5.6, March 2020) but the endorsement set the trajectory.'
+			text: 'On 2 August 2018, in a postscript to a {{linux|Linux}} 4.18 networking pull-request, Linus Torvalds wrote: *"I see that Jason actually made the pull request to have wireguard included in the kernel. Can I just once again state my love for it and hope it gets merged soon? Maybe the code isn\'t perfect, but I\'ve skimmed it, and compared to the horrors that are OpenVPN and [[ipsec|IPsec]], it\'s a work of art."* It took another 19 months for the merge to land ({{linux|Linux}} 5.6, March 2020) but the endorsement set the trajectory.'
 		},
 		{
 			title: 'No IETF RFC — by design',
@@ -331,11 +331,11 @@ Around 4% data inflation for typical 1400-byte inner packets.`
 		pitfalls: [
 			{
 				title: 'AllowedIPs is your routing table AND your ACL',
-				text: 'A single `AllowedIPs` field on each {{peer|peer}} does two jobs: outbound it picks which peer to send packets through for a given destination prefix, and inbound it filters which inner source IPs the peer is allowed to send. Forgetting this is the most common config bug. **Cure:** when a peer is supposed to be a "remote {{subnet|subnet}}", put the subnet in `AllowedIPs`. When a peer is supposed to be a "single roadwarrior", put just its `/32`. When a peer is "default route everything", use `0.0.0.0/0, ::/0` — and add `PostUp` rules for masquerading.'
+				text: 'A single `AllowedIPs` field on each {{peer|peer}} does two jobs: outbound it picks which {{peer|peer}} to send packets through for a given destination prefix, and inbound it filters which inner source IPs the {{peer|peer}} is allowed to send. Forgetting this is the most common config bug. **Cure:** when a peer is supposed to be a "remote {{subnet|subnet}}", put the {{subnet|subnet}} in `AllowedIPs`. When a peer is supposed to be a "single roadwarrior", put just its `/32`. When a peer is "default route everything", use `0.0.0.0/0, ::/0` — and add `PostUp` rules for masquerading.'
 		},
 			{
 				title: 'No dynamic IPs out of the box',
-				text: 'Vanilla WireGuard refuses to do [[dns|DNS]] lookups on `Endpoint =` (the kernel module is keep-it-simple, no DNS). The plumbing for "the {{peer|peer}}\'s endpoint changed because their ISP rebooted them" is **not in the kernel**. `wg-quick(8)` resolves hostnames at interface-up time only. **Cure:** for road-warriors, the peer connects *out* to a fixed endpoint and uses `PersistentKeepalive` to hold the NAT binding. For dynamic-IP servers, run `reresolve-dns.timer` (Donenfeld\'s own systemd timer) to re-resolve `Endpoint =` periodically.'
+				text: 'Vanilla WireGuard refuses to do [[dns|DNS]] lookups on `Endpoint =` (the kernel module is keep-it-simple, no DNS). The plumbing for "the {{peer|peer}}\'s endpoint changed because their ISP rebooted them" is **not in the kernel**. `wg-quick(8)` resolves hostnames at interface-up time only. **Cure:** for road-warriors, the {{peer|peer}} connects *out* to a fixed endpoint and uses `PersistentKeepalive` to hold the NAT binding. For dynamic-IP servers, run `reresolve-dns.timer` (Donenfeld\'s own systemd timer) to re-resolve `Endpoint =` periodically.'
 			},
 			{
 				title: 'DPI-resistance is not in the protocol',

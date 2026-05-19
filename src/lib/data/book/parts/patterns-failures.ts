@@ -117,7 +117,7 @@ The interesting failures are the ones where everything is "working" but nothing 
 
 The result: your video call stutters because someone in the next room started a download. The download is happily filling a 200 ms buffer with bursts; your video, sharing the same buffer, sits behind 200 ms of someone else's traffic.
 
-Jim Gettys named the problem in 2010 and spent the next decade getting it fixed. The cure was **{{aqm|active queue management}}** — CoDel (RFC 8289), PIE (RFC 8033), fq_codel (the Linux default since kernel 4.x). These shrink queues by dropping packets early when {{latency|latency}} rises, signalling congestion to senders before the queue grows. The deeper fix is [[frontier:l4s-comcast-launch|L4S]], which uses {{ecn|ECN}} signalling to keep queues sub-millisecond even at full link utilisation.
+Jim Gettys named the problem in 2010 and spent the next decade getting it fixed. The cure was **{{aqm|active queue management}}** — CoDel (RFC 8289), PIE (RFC 8033), fq_codel (the {{linux|Linux}} default since kernel 4.x). These shrink queues by dropping packets early when {{latency|latency}} rises, signalling congestion to senders before the queue grows. The deeper fix is [[frontier:l4s-comcast-launch|L4S]], which uses {{ecn|ECN}} signalling to keep queues sub-millisecond even at full link utilisation.
 
 {{bufferbloat|Bufferbloat}} took fifteen years to deploy at scale because every cheap home router on the planet had to be replaced or firmware-updated. We are mostly there now.`
 						},
@@ -199,29 +199,29 @@ This worked when the internet was small. By 1986, with the NSFNET backbone scali
 
 **Reno (1990)** — added fast recovery: when fast retransmit fires, halve the {{congestion-window|congestion window}} instead of dropping it to 1 {{mss|MSS}}. Less brutal on the sender; faster to recover.
 
-**NewReno (1996, [[rfc:5681|RFC 5681]])** — handles the case where multiple packets are lost from the same window without falling out of fast recovery prematurely. Default in Linux until 2006.
+**NewReno (1996, [[rfc:5681|RFC 5681]])** — handles the case where multiple packets are lost from the same window without falling out of fast recovery prematurely. Default in {{linux|Linux}} until 2006.
 
 **Vegas (1995)** — proactive instead of reactive: monitor {{rtt|RTT}} directly, slow down when {{rtt|RTT}} starts climbing (signalling congestion before loss). Brilliant in a homogeneous network, terrible mixed with Reno (it always loses to a more aggressive flow). Never widely deployed.
 
-**[[rfc:9438|CUBIC]] (2008, deployed in Linux 2.6, Standards Track in [[rfc:9438|RFC 9438]] in August 2023)** — replaces linear additive-increase with a {{cubic|cubic}} function of time since the last loss. Recovers throughput much faster on long fat pipes (gigabit transcontinental, etc.). Default in Linux, Windows, and macOS for over a decade.
+**[[rfc:9438|CUBIC]] (2008, deployed in {{linux|Linux}} 2.6, Standards Track in [[rfc:9438|RFC 9438]] in August 2023)** — replaces linear additive-increase with a {{cubic|cubic}} function of time since the last loss. Recovers throughput much faster on long fat pipes (gigabit transcontinental, etc.). Default in Linux, Windows, and macOS for over a decade.
 
-**Compound (Microsoft, 2007)** — combined loss-based and delay-based components. Used in Windows. Withdrawn in newer versions.`
+**Compound ({{microsoft|Microsoft}}, 2007)** — combined loss-based and delay-based components. Used in Windows. Withdrawn in newer versions.`
 						},
 						{
 							type: 'narrative',
 							title: 'Model-Based and Signal-Based — The New Paradigm',
-							text: `**{{bbr|BBR}} (Google, 2016)** — fundamentally different from everything before. Model the bottleneck {{bandwidth|bandwidth}} and minimum {{rtt|RTT}} directly, then send at a paced rate just below the model. Robust to the random-loss problem (where {{cubic|CUBIC}} over-reacts). Deployed by default for google.com and YouTube outbound traffic from 2016. **BBRv3** ([[frontier:bbrv3-default|currently shipping default in production]] from 2024) addresses fairness issues v1 had with non-{{bbr|BBR}} flows on shared bottlenecks.
+							text: `**{{bbr|BBR}} ({{google|Google}}, 2016)** — fundamentally different from everything before. Model the bottleneck {{bandwidth|bandwidth}} and minimum {{rtt|RTT}} directly, then send at a paced rate just below the model. Robust to the random-loss problem (where {{cubic|CUBIC}} over-reacts). Deployed by default for {{google|google}}.com and YouTube outbound traffic from 2016. **{{bbrv3|BBRv3}}** ([[frontier:bbrv3-default|currently shipping default in production]] from 2024) addresses fairness issues v1 had with non-{{bbr|BBR}} flows on shared bottlenecks.
 
 **[[frontier:l4s-comcast-launch|L4S]] (RFCs 9330/9331/9332, January 2023)** — the next paradigm. Instead of inferring congestion from loss or {{rtt|RTT}}, use **{{ecn|ECN}} as a per-packet explicit signal**. Cooperating senders mark packets ECT(1); routers with {{l4s|L4S}} support put those packets in a separate, isolated queue and mark CE (congestion experienced) early — before the queue grows. Senders react with paced back-off rather than half-the-window slash.
 
-The result: **sub-millisecond queuing {{latency|latency}}** even at 100% link utilisation, for flows that participate. Comcast launched {{l4s|L4S}} in production in January 2025 across six US metros, with Apple, NVIDIA GeForce NOW, Meta, and Valve as launch partners. Apple shipped {{l4s|L4S}} support in iOS 17 / macOS Sonoma in 2023, default for [[quic|QUIC]] in newer releases.
+The result: **sub-millisecond queuing {{latency|latency}}** even at 100% link utilisation, for flows that participate. Comcast launched {{l4s|L4S}} in production in January 2025 across six US metros, with {{apple|Apple}}, {{nvidia|NVIDIA}} GeForce NOW, {{meta|Meta}}, and Valve as launch partners. {{apple|Apple}} shipped {{l4s|L4S}} support in iOS 17 / macOS Sonoma in 2023, default for [[quic|QUIC]] in newer releases.
 
 The arc: react to loss → react to delay → model the network → use explicit signalling. Each generation reduced the cost of being a good citizen on the internet.`
 						},
 						{
 							type: 'callout',
 							title: 'The unsolved problem: heterogeneous fairness',
-							text: 'Every congestion-control algorithm is fair to itself. Mix {{bbr|BBR}} with {{cubic|CUBIC}} on a shared bottleneck and {{bbr|BBR}} takes the lion\'s share. Mix {{l4s|L4S}} with classic flows in the wrong queue and {{l4s|L4S}} starves. Each new algorithm has had to fight not just for performance but for **coexistence** with the deployed base — a constraint that consumes most of the engineering effort. BBRv3 spent two years on coexistence work before it was production-ready.'
+							text: 'Every congestion-control algorithm is fair to itself. Mix {{bbr|BBR}} with {{cubic|CUBIC}} on a shared bottleneck and {{bbr|BBR}} takes the lion\'s share. Mix {{l4s|L4S}} with classic flows in the wrong queue and {{l4s|L4S}} starves. Each new algorithm has had to fight not just for performance but for **coexistence** with the deployed base — a constraint that consumes most of the engineering effort. {{bbrv3|BBRv3}} spent two years on coexistence work before it was production-ready.'
 						},
 						{
 							type: 'image',

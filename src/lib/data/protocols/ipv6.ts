@@ -18,7 +18,7 @@ But [[ipv6|IPv6]] isn't just "bigger addresses." The protocol was redesigned fro
 
 The primary [[ip|IPv4]]-to-[[ipv6|IPv6]] transition mechanism is dual-stack operation, where hosts and routers run both protocols simultaneously and prefer [[ipv6|IPv6]] when available. This avoids a hard cutover and allows gradual migration.
 
-On 28 March 2026, [[ipv6|IPv6]] carried 50.1% of Google's traffic for the first time in its history — 28 years after [[rfc:2460|RFC 2460]]. Cloudflare and APNIC measure 40-43% from their own vantage points, so the milestone is real but uneven. Mobile carriers are the leading edge: US averages around 87%, T-Mobile ~93%, France ~86%, India >75%. The transition from [[ip|IPv4]] is happening — just slower than anyone predicted.`,
+On 28 March 2026, [[ipv6|IPv6]] carried 50.1% of {{google|Google}}'s traffic for the first time in its history — 28 years after [[rfc:2460|RFC 2460]]. {{cloudflare|Cloudflare}} and APNIC measure 40-43% from their own vantage points, so the milestone is real but uneven. Mobile carriers are the leading edge: US averages around 87%, T-Mobile ~93%, France ~86%, India >75%. The transition from [[ip|IPv4]] is happening — just slower than anyone predicted.`,
 	howItWorks: [
 		{
 			title: 'Addressing (128-bit)',

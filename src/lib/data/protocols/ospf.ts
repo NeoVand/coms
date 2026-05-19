@@ -39,7 +39,7 @@ export const ospf: Protocol = {
 		{
 			title: 'Run Dijkstra',
 			description:
-				'Once the {{lsdb|LSDB}} is identical on every router, each runs the **shortest-path-first algorithm** ([[pioneer:edsger-dijkstra|Edsger Dijkstra]], 1956) on its own copy and installs the resulting tree into its forwarding table. Areas (Area 0 is the backbone) keep LSDBs scoped so the SPF computation stays tractable — typical campus areas are 100–200 routers, LSDB < 1 MB.'
+				'Once the {{lsdb|LSDB}} is identical on every router, each runs the **shortest-path-first algorithm** ([[pioneer:edsger-dijkstra|Edsger Dijkstra]], 1956) on its own copy and installs the resulting tree into its forwarding table. Areas (Area 0 is the backbone) keep LSDBs scoped so the SPF computation stays tractable — typical campus areas are 100–200 routers, {{lsdb|LSDB}} < 1 MB.'
 		},
 		{
 			title: 'Stay converged — BFD, authentication, segment routing',
@@ -215,7 +215,7 @@ Total time on a tuned network: < 100 ms.`
 			date: '2023-12',
 			title: 'RFC 9513 — OSPFv3 extensions for SRv6',
 			description:
-				'Adds SRv6 Capabilities TLV, SRv6 Locator advertisement, and SRv6 End SID encoding to [[ospf|OSPFv3]]. Edited by Peter Psenak (Cisco), the most prolific author of modern [[ospf|OSPF]] extensions.',
+				'Adds SRv6 Capabilities TLV, SRv6 Locator advertisement, and SRv6 End SID encoding to [[ospf|OSPFv3]]. Edited by Peter Psenak ({{cisco|Cisco}}), the most prolific author of modern [[ospf|OSPF]] extensions.',
 			source: { url: 'https://www.rfc-editor.org/rfc/rfc9513', label: 'RFC 9513' }
 		},
 		{
@@ -236,7 +236,7 @@ Total time on a tuned network: < 100 ms.`
 			date: '2025-10',
 			title: 'FRRouting OSPF NULL-pointer DoS — CVE-2025-61103 / 61106',
 			description:
-				'A malformed Extended Prefix Opaque LSA could crash the [[ospf|OSPF]] daemon in `ospf_ext.c` (FRR v4.0 through v10.4.1). Fixed upstream in PR #19480. Affects every Linux distribution shipping FRR — patch immediately if your edge routers run FRR.',
+				'A malformed Extended Prefix Opaque LSA could crash the [[ospf|OSPF]] daemon in `ospf_ext.c` (FRR v4.0 through v10.4.1). Fixed upstream in PR #19480. Affects every {{linux|Linux}} distribution shipping FRR — patch immediately if your edge routers run FRR.',
 			source: { url: 'https://github.com/FRRouting/frr/pull/19480', label: 'FRR PR #19480' }
 		}
 	],
@@ -252,19 +252,19 @@ Total time on a tuned network: < 100 ms.`
 			org: 'Cumulus Networks / NVIDIA SONiC',
 			scale: 'Default IGP option for tier-2 data-center fabrics',
 			description:
-				'Both Cumulus Linux and NVIDIA SONiC ship [[ospf|OSPF]] via FRR as the canonical alternative to "BGP-in-the-DC" (RFC 7938) — common in mid-scale fabrics where operators want a topology-aware IGP without learning IS-IS.'
+				'Both Cumulus {{linux|Linux}} and {{nvidia|NVIDIA}} SONiC ship [[ospf|OSPF]] via FRR as the canonical alternative to "BGP-in-the-DC" (RFC 7938) — common in mid-scale fabrics where operators want a topology-aware IGP without learning IS-IS.'
 		},
 		{
 			org: 'FRRouting',
 			scale: 'The dominant open-source IGP implementation',
 			description:
-				"Forked from Quagga in 2017 and now stewarded by the Linux Foundation. Ships [[ospf|OSPFv2]] and [[ospf|OSPFv3]] daemons (`ospfd`, `ospf6d`) used everywhere from Vyatta/VyOS edge routers to enterprise SD-WAN appliances. Public CVE traffic (e.g. CVE-2025-61103) tracks its prevalence."
+				"Forked from Quagga in 2017 and now stewarded by the {{linux|Linux}} Foundation. Ships [[ospf|OSPFv2]] and [[ospf|OSPFv3]] daemons (`ospfd`, `ospf6d`) used everywhere from Vyatta/VyOS edge routers to enterprise SD-WAN appliances. Public CVE traffic (e.g. CVE-2025-61103) tracks its prevalence."
 		},
 		{
 			org: 'Cisco IOS-XR / Juniper Junos',
 			scale: 'The two dominant tier-2-and-up vendor stacks',
 			description:
-				"Both ship [[ospf|OSPF]] with full Segment Routing (RFC 8665/8666), Flex-Algo ([[rfc:9350|RFC 9350]]), and BFD Strict-Mode (RFC 9355). Cisco's IOS-XR has shipped Flex-Algo since 2019; Junos OS Evolved caught up in 24.2R1 (Aug 2024)."
+				"Both ship [[ospf|OSPF]] with full Segment Routing (RFC 8665/8666), Flex-Algo ([[rfc:9350|RFC 9350]]), and BFD Strict-Mode (RFC 9355). {{cisco|Cisco}}'s IOS-XR has shipped Flex-Algo since 2019; Junos OS Evolved caught up in 24.2R1 (Aug 2024)."
 		}
 	],
 
@@ -299,7 +299,7 @@ Total time on a tuned network: < 100 ms.`
 			},
 			{
 				title: 'LSA flooding storms in spine-leaf fabrics',
-				text: "A single Type-1 LSA from one leaf in a 1024-spine fabric multicasts to every other leaf — and [[ospf|OSPF]]'s default flooding is N-to-N. In an AI training cluster this melts the control plane. **Cure:** RFC 9667 Dynamic Flooding lets the area elect a flooding subgraph; FRR and IOS-XR both implement it. Or skip [[ospf|OSPF]] entirely and use eBGP everywhere (RFC 7938) as Microsoft, Meta, and Google's DC fabrics do."
+				text: "A single Type-1 LSA from one leaf in a 1024-spine fabric multicasts to every other leaf — and [[ospf|OSPF]]'s default flooding is N-to-N. In an AI training cluster this melts the control plane. **Cure:** RFC 9667 Dynamic Flooding lets the area elect a flooding subgraph; FRR and IOS-XR both implement it. Or skip [[ospf|OSPF]] entirely and use eBGP everywhere (RFC 7938) as {{microsoft|Microsoft}}, {{meta|Meta}}, and {{google|Google}}'s DC fabrics do."
 			}
 		]
 	}

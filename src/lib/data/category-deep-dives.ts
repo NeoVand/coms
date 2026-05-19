@@ -19,7 +19,7 @@ export const categoryDeepDives: CategoryDeepDive[] = [
 
 {{vlan|VLAN}} tagging inserts a 4-byte header into {{frame|Ethernet frames}}, containing a 12-bit {{vlan|VLAN}} ID (1-4094). Trunk ports carry frames from multiple VLANs between switches; access ports strip the tag and connect to end devices. Inter-{{vlan|VLAN}} {{routing-table|routing}} requires a Layer 3 device -- either a router on a stick or a Layer 3 switch.
 
-VLANs are essential for security (isolating guest [[wifi|WiFi]] from the corporate network), performance (reducing broadcast storms), and compliance (PCI DSS requires cardholder data on its own {{subnet|subnet}}).`
+VLANs are essential for security (isolating guest [[wifi|WiFi]] from the corporate network), performance (reducing {{broadcast|broadcast}} storms), and compliance (PCI DSS requires cardholder data on its own {{subnet|subnet}}).`
 			},
 			{
 				type: 'diagram',
@@ -29,13 +29,13 @@ VLANs are essential for security (isolating guest [[wifi|WiFi]] from the corpora
     subgraph Switch_A["Switch A"]
         A_AP1["Access Port<br/>{{vlan|VLAN}} 10<br/>Engineering"]
         A_AP2["Access Port<br/>{{vlan|VLAN}} 20<br/>Marketing"]
-        A_AP3["Access Port<br/>VLAN 30<br/>Guest WiFi"]
+        A_AP3["Access Port<br/>{{vlan|VLAN}} 30<br/>Guest WiFi"]
         A_TRUNK["Trunk Port<br/>802.1Q Tagged<br/>VLANs 10,20,30"]
     end
 
     subgraph Switch_B["Switch B"]
         B_TRUNK["Trunk Port<br/>802.1Q Tagged<br/>VLANs 10,20,30"]
-        B_AP1["Access Port<br/>VLAN 10<br/>Engineering"]
+        B_AP1["Access Port<br/>{{vlan|VLAN}} 10<br/>Engineering"]
         B_AP2["Access Port<br/>VLAN 20<br/>Marketing"]
     end
 
@@ -80,7 +80,7 @@ Dynamic [[arp|ARP]] Inspection (DAI) is the primary defense. It intercepts [[arp
 
 802.11k (Radio Resource Management) helps clients discover nearby APs without scanning every channel. 802.11v (BSS Transition Management) lets APs steer clients toward less-congested access points. Together, 802.11r/k/v enable enterprise-grade seamless roaming.
 
-[[wifi|Wi-Fi]] mesh networks (802.11s) take this further -- APs connect to each other wirelessly, forming a self-healing fabric. Each {{access-point|AP}} acts as both an {{access-point|access point}} and a relay, automatically routing traffic along the best path. Consumer mesh systems (Eero, Google [[wifi|WiFi]]) use proprietary versions of this concept.`
+[[wifi|Wi-Fi]] mesh networks (802.11s) take this further -- APs connect to each other wirelessly, forming a self-healing fabric. Each {{access-point|AP}} acts as both an {{access-point|access point}} and a relay, automatically routing traffic along the best path. Consumer mesh systems (Eero, {{google|Google}} [[wifi|WiFi]]) use proprietary versions of this concept.`
 			},
 			{
 				type: 'narrative',
@@ -109,9 +109,9 @@ Dynamic [[arp|ARP]] Inspection (DAI) is the primary defense. It intercepts [[arp
 
 **[[tcp|TCP]] Reno** (1990) added fast recovery: on triple duplicate {{ack|ACKs}}, halve the window instead of resetting to 1. This simple change dramatically improved throughput.
 
-**{{cubic|CUBIC}}** (2006, Linux default since 2.6.19) uses a {{cubic|cubic}} function for window growth -- aggressive probing for {{bandwidth|bandwidth}} followed by a gentle approach near the last-known capacity. It's the most widely deployed algorithm today.
+**{{cubic|CUBIC}}** (2006, {{linux|Linux}} default since 2.6.19) uses a {{cubic|cubic}} function for window growth -- aggressive probing for {{bandwidth|bandwidth}} followed by a gentle approach near the last-known capacity. It's the most widely deployed algorithm today.
 
-**{{bbr|BBR}}** (2016, Google) took a fundamentally different approach. Instead of reacting to loss, {{bbr|BBR}} actively measures the bottleneck {{bandwidth|bandwidth}} and minimum {{rtt|RTT}}, then paces {{segment|packets}} to match the path capacity. It performs dramatically better on long-distance, high-{{bandwidth|bandwidth}} links.`
+**{{bbr|BBR}}** (2016, {{google|Google}}) took a fundamentally different approach. Instead of reacting to loss, {{bbr|BBR}} actively measures the bottleneck {{bandwidth|bandwidth}} and minimum {{rtt|RTT}}, then paces {{segment|packets}} to match the path capacity. It performs dramatically better on long-distance, high-{{bandwidth|bandwidth}} links.`
 			},
 			{
 				type: 'diagram',
@@ -158,7 +158,7 @@ Window scaling ([[rfc:7323|RFC 7323]]) extends the 16-bit window field beyond 65
 
 On the first {{connection-oriented|connection}}, the server sends a {{cookie|cookie}} in the SYN-{{ack|ACK}}. On subsequent connections, the client includes this {{cookie|cookie}} and application data in the SYN. The server can process the data immediately, saving one full {{rtt|RTT}}.
 
-TFO is widely deployed (Linux, macOS, iOS) but faces challenges: middleboxes sometimes strip the TFO option, and {{idempotent|idempotency}} is required (the SYN data might be delivered twice). Despite this, it provides measurable {{latency|latency}} improvements for short-lived connections like web requests.`
+TFO is widely deployed ({{linux|Linux}}, macOS, iOS) but faces challenges: middleboxes sometimes strip the TFO option, and {{idempotent|idempotency}} is required (the SYN data might be delivered twice). Despite this, it provides measurable {{latency|latency}} improvements for short-lived connections like web requests.`
 			}
 		]
 	},
@@ -276,7 +276,7 @@ For long-running tasks, [[a2a|A2A]] supports **[[sse|SSE]] streaming**. The clie
 
 Consider a travel booking system. A coordinator agent receives "book me a trip to Tokyo." It uses [[a2a|A2A]] to discover and delegate to a flight agent, a hotel agent, and a car rental agent. Each specialist agent uses [[mcp|MCP]] internally to connect to its own tools — the flight agent's [[mcp|MCP]] servers talk to airline APIs, fare databases, and seat maps. The coordinator doesn't know or care about these internal tools; it only sees [[a2a|A2A]] task results.
 
-Both protocols chose [[json-rpc|JSON-RPC]] 2.0 as their wire format for the same reasons: transport independence, built-in request correlation (via id fields), first-class {{notification|notifications}} for fire-and-forget events, and batch support. Both use [[sse|SSE]] for server-to-client streaming. Both moved to the Linux Foundation for open governance.
+Both protocols chose [[json-rpc|JSON-RPC]] 2.0 as their wire format for the same reasons: transport independence, built-in request correlation (via id fields), first-class {{notification|notifications}} for fire-and-forget events, and batch support. Both use [[sse|SSE]] for server-to-client streaming. Both moved to the {{linux|Linux}} Foundation for open governance.
 
 The key architectural insight is that [[mcp|MCP]] and [[a2a|A2A]] operate at different levels of abstraction. [[mcp|MCP]] is like a function call — "execute this tool with these parameters and return the result." [[a2a|A2A]] is like a work order — "here's what I need done; figure out how to do it and get back to me." This distinction maps cleanly to the difference between deterministic tool execution and autonomous agent reasoning.`
 			}
@@ -316,7 +316,7 @@ The key architectural insight is that [[mcp|MCP]] and [[a2a|A2A]] operate at dif
     end
 
     subgraph Distributed["Distributed Commit Log ([[kafka|Kafka]])"]
-        KP1["Producer A"] --> T["{{topic|Topic}}: orders<br/>{{partition|Partition}} 0 | {{partition|Partition}} 1 | Partition 2"]
+        KP1["Producer A"] --> T["{{topic|Topic}}: orders<br/>{{partition|Partition}} 0 | {{partition|Partition}} 1 | {{partition|Partition}} 2"]
         KP2["Producer B"] --> T
         T --> CG1["{{consumer-group|Consumer Group}} A<br/>{{offset|offset}}: 42, 38, 50"]
         T --> CG2["{{consumer-group|Consumer Group}} B<br/>{{offset|offset}}: 10, 12, 15<br/>(can replay)"]
@@ -360,7 +360,7 @@ The trick is **exactly-once processing**, not {{exactly-once-delivery|exactly-on
 
 {{jitter|Jitter}} buffers smooth this out by introducing a small, intentional delay. Incoming packets are held in a buffer and released at regular intervals, absorbing timing variations. The tradeoff: larger buffers handle more {{jitter|jitter}} but add {{latency|latency}}.
 
-**Static jitter buffers** use a fixed delay (e.g., 60ms). Simple but suboptimal -- too small and you get dropouts; too large and the {{latency|latency}} is noticeable. **Adaptive jitter buffers** dynamically adjust their size based on observed network conditions, growing during high jitter and shrinking when the network is stable. [[webrtc|WebRTC]]'s NetEQ is a sophisticated adaptive jitter buffer that also handles packet loss concealment.`
+**Static {{jitter|jitter}} buffers** use a fixed delay (e.g., 60ms). Simple but suboptimal -- too small and you get dropouts; too large and the {{latency|latency}} is noticeable. **Adaptive {{jitter|jitter}} buffers** dynamically adjust their size based on observed network conditions, growing during high jitter and shrinking when the network is stable. [[webrtc|WebRTC]]'s NetEQ is a sophisticated adaptive jitter buffer that also handles packet loss concealment.`
 			},
 			{
 				type: 'narrative',
@@ -448,7 +448,7 @@ OCSP (Online {{certificate|Certificate}} Status Protocol) and CRL ({{certificate
         ENC_ON --> EE["Encrypted Extensions<br/>Server parameters"]
         EE --> CERT["{{certificate|Certificate}}<br/>(encrypted)"]
         CERT --> CV["{{certificate|Certificate}} Verify<br/>Signature over {{handshake|handshake}}"]
-        CV --> SF["Server Finished<br/>MAC over handshake"]
+        CV --> SF["Server Finished<br/>MAC over {{handshake|handshake}}"]
         SF -- "Flight 2" --> VERIFY["Client verifies<br/>{{certificate-chain|certificate chain}}"]
         VERIFY --> CF["Client Finished"]
         CF --> APP["Application Data Flows"]
@@ -501,7 +501,7 @@ OCSP (Online {{certificate|Certificate}} Status Protocol) and CRL ({{certificate
 
 [[nfc|NFC]] picks **low power + low range** — passive cards harvest microwatts from the reader's field at ≤10 cm and trade everything for a 13.56 MHz carrier that physics caps at ~424 kbit/s. [[bluetooth|BLE]] picks **low power + medium throughput** — coin-cell devices at 1–2 Mbps over 10 m. [[wifi|Wi-Fi]] picks **high throughput + medium range** — gigabit speeds at 30 m but with hundreds of milliwatts of TX power. [[cellular|Cellular]] picks **range + throughput** at the cost of power and licensed {{spectrum|spectrum}} — 50 km with the right base station, ~1–10 Gbps in FR1, but you don't run a base station on a coin cell. [[uwb|UWB]] sits in a corner of its own: **wide {{bandwidth|bandwidth}} + low average power** by trading {{tof-ranging|time-of-flight}} precision for any meaningful data rate — it is a clock, not a data radio.
 
-The numbers below are typical 2026 production values; spec maxima are higher, real-world is usually lower. **Edholm's law of bandwidth** — wireless data rates double roughly every 18 months — is what keeps the table moving.`
+The numbers below are typical 2026 production values; spec maxima are higher, real-world is usually lower. **Edholm's law of {{bandwidth|bandwidth}}** — wireless data rates double roughly every 18 months — is what keeps the table moving.`
 			},
 			{
 				type: 'diagram',
@@ -536,7 +536,7 @@ The numbers below are typical 2026 production values; spec maxima are higher, re
 
 [[zigbee|Zigbee]] and {{thread|Thread}} use a similar unslotted CSMA-CA on {{ieee-802-15-4|IEEE 802.15.4}}. [[bluetooth|Bluetooth]] sidesteps the whole problem by **frequency hopping** — 1,600 hops/sec on BR/EDR — so collisions on a single channel are statistically rare. [[cellular|Cellular]] doesn't contend at all on the downlink: the base station schedules every slot.
 
-The cost of CSMA/CA is **{{airtime|airtime}} overhead**. At Wi-Fi 6's nominal 9.6 Gbit/s, real throughput on a busy AP is closer to 1–2 Gbit/s because half the airtime is DIFS, SIFS, ACKs, beacons, and CW back-off. The Wi-Fi 8 work on **MLO (Multi-Link Operation)** lets one device use 2.4 + 5 + 6 GHz radios simultaneously precisely to dodge contention on any one band.`
+The cost of {{csma-ca|CSMA/CA}} is **{{airtime|airtime}} overhead**. At Wi-Fi 6's nominal 9.6 Gbit/s, real throughput on a busy AP is closer to 1–2 Gbit/s because half the {{airtime|airtime}} is DIFS, SIFS, ACKs, beacons, and CW back-off. The Wi-Fi 8 work on **MLO (Multi-Link Operation)** lets one device use 2.4 + 5 + 6 GHz radios simultaneously precisely to dodge contention on any one band.`
 			},
 			{
 				type: 'callout',
@@ -550,7 +550,7 @@ The cost of CSMA/CA is **{{airtime|airtime}} overhead**. At Wi-Fi 6's nominal 9.
 
 How they coexist:
 
-**Modern combo chips** (Apple H-series, Broadcom, Qualcomm) put [[wifi|Wi-Fi]] and [[bluetooth|Bluetooth]] radios on the same die and arbitrate {{airtime|airtime}} in firmware — time-slicing so one starves the other only briefly. The same silicon usually handles [[bluetooth|BLE]] and Thread too.
+**Modern combo chips** ({{apple|Apple}} H-series, {{broadcom|Broadcom}}, Qualcomm) put [[wifi|Wi-Fi]] and [[bluetooth|Bluetooth]] radios on the same die and arbitrate {{airtime|airtime}} in firmware — time-slicing so one starves the other only briefly. The same silicon usually handles [[bluetooth|BLE]] and {{thread|Thread}} too.
 
 **Zigbee dodges Wi-Fi.** Zigbee channels 11–14 sit under Wi-Fi 1; 15, 20, 25, and 26 fit in the gaps between Wi-Fi 1/6/11. The single most common cause of unreliable Zigbee is a coordinator dongle plugged directly into a Wi-Fi router's USB port — the router's switched-mode PSU radiates broadband 2.4 GHz noise.
 
@@ -558,25 +558,25 @@ How they coexist:
 
 **The 5/6 GHz escape valve.** Modern Wi-Fi (5, 6, 7, 8) is increasingly pushed up to 5 GHz and 6 GHz where it has the {{spectrum|spectrum}} to itself. 2.4 GHz remains the universal floor — battery-powered devices still live there because 2.4 GHz penetrates walls better than 5 GHz at the same power.
 
-**Cellular bands are licensed**, which is why your phone's 4G/5G radio doesn't fight with your Wi-Fi even in the same physical space — different spectrum entirely.`
+**Cellular bands are licensed**, which is why your phone's 4G/5G radio doesn't fight with your Wi-Fi even in the same physical space — different {{spectrum|spectrum}} entirely.`
 			},
 			{
 				type: 'callout',
 				title: 'The 2.4 GHz death spiral',
-				text: 'As {{airtime|airtime}} utilisation rises, retries rise, which raises airtime utilisation, which raises retries. Dense apartment buildings have measurable 2.4 GHz collapse — when 20+ Wi-Fi APs share three non-overlapping channels, throughput drops by an order of magnitude. The fix is to move every modern client to 5 / 6 GHz and leave 2.4 GHz to IoT.'
+				text: 'As {{airtime|airtime}} utilisation rises, retries rise, which raises {{airtime|airtime}} utilisation, which raises retries. Dense apartment buildings have measurable 2.4 GHz collapse — when 20+ Wi-Fi APs share three non-overlapping channels, throughput drops by an order of magnitude. The fix is to move every modern client to 5 / 6 GHz and leave 2.4 GHz to IoT.'
 			},
 			{
 				type: 'narrative',
 				title: 'The BLE-bootstrap pattern',
 				text: `Almost every consumer wireless interaction in 2026 chains *multiple* radios. The pattern is everywhere once you see it:
 
-**[[uwb|UWB]] ranging** never starts without [[bluetooth|BLE]] first. The lock or car advertises a service UUID over BLE; the phone connects, runs SPAKE2+/PAKE authentication, transfers the **STS_KEY** for the [[uwb|UWB]] session over the BLE encrypted channel, and only then powers up its UWB radio for a three-message DS-TWR ranging round. UWB has no power-efficient discovery mechanism of its own — BLE provides it. ({{ccc-digital-key|CCC Digital Key 3.0}}, {{aliro|Aliro 1.0}}, every Apple AirTag Precision Finding round.)
+**[[uwb|UWB]] ranging** never starts without [[bluetooth|BLE]] first. The lock or car advertises a service UUID over BLE; the phone connects, runs SPAKE2+/PAKE authentication, transfers the **STS_KEY** for the [[uwb|UWB]] session over the BLE encrypted channel, and only then powers up its UWB radio for a three-message DS-TWR ranging round. UWB has no power-efficient discovery mechanism of its own — BLE provides it. ({{ccc-digital-key|CCC Digital Key 3.0}}, {{aliro|Aliro 1.0}}, every {{apple|Apple}} AirTag Precision Finding round.)
 
-**[[bluetooth|Bluetooth]] / [[wifi|Wi-Fi]] handover** is bootstrapped by [[nfc|NFC]]. The [[nfc|NFC]] Forum Connection Handover spec defines {{ndef|NDEF}} records carrying the BLE MAC + SMP OOB key or the Wi-Fi SSID + WPA2 key. A single 4 cm tap replaces the entire discovery + pairing dialog on Bluetooth speakers, printers, and {{matter|Matter}} device commissioning.
+**[[bluetooth|Bluetooth]] / [[wifi|Wi-Fi]] handover** is bootstrapped by [[nfc|NFC]]. The [[nfc|NFC]] Forum Connection Handover spec defines {{ndef|NDEF}} records carrying the BLE MAC + SMP OOB key or the Wi-Fi SSID + {{wpa2|WPA2}} key. A single 4 cm tap replaces the entire discovery + pairing dialog on Bluetooth speakers, printers, and {{matter|Matter}} device commissioning.
 
-**[[cellular|Cellular]] data** falls back to [[wifi|Wi-Fi]] calling when the carrier signal is weak — [[ipsec|IPsec]] ePDG tunnel from the UE to the carrier core over any IP link. The reverse is now true too: **Wi-Fi 8 and the {{3gpp|3GPP}} "Wi-Fi RAN" work** is exploring Wi-Fi as a fully 3GPP-managed access network so the phone never has to know which radio it's on.
+**[[cellular|Cellular]] data** falls back to [[wifi|Wi-Fi]] calling when the carrier signal is weak — [[ipsec|IPsec]] ePDG tunnel from the UE to the carrier core over any IP link. The reverse is now true too: **Wi-Fi 8 and the {{3gpp|3GPP}} "Wi-Fi RAN" work** is exploring Wi-Fi as a fully {{3gpp|3GPP}}-managed access network so the phone never has to know which radio it's on.
 
-**Zigbee + {{thread|Thread}}** are commissioned over BLE (Zigbee Direct, R23 mandatory in Coordinators) or Wi-Fi (Matter setup). Once commissioned they run their own mesh; BLE is just the on-ramp.
+**Zigbee + {{thread|Thread}}** are commissioned over BLE (Zigbee Direct, R23 mandatory in Coordinators) or Wi-Fi ({{matter|Matter}} setup). Once commissioned they run their own mesh; BLE is just the on-ramp.
 
 The architectural rule: the radio with the **best discovery + power profile** does the bootstrap; the radio with the **right property for the workload** (range, throughput, precision, security) does the actual session. No single protocol does both well.`
 			},
@@ -587,7 +587,7 @@ The architectural rule: the radio with the **best discovery + power profile** do
 
 **MIFARE Crypto1 — 24C3, December 2007** ([[pioneer:karsten-nohl|Karsten Nohl]], [[pioneer:henryk-plotz|Henryk Plötz]], "Starbug"). Philips's proprietary 48-bit stream cipher, "secure" by virtue of being secret, dismantled by decapping a chip and photographing ~10 000 gates with an optical microscope. The first canonical "security-by-obscurity does not scale" lesson in deployed wireless silicon. Dutch OV-chipkaart kept shipping affected cards until **2024**.
 
-**{{krack|KRACK}} — USENIX Security 2017** (Mathy Vanhoef, Frank Piessens). The WPA2 four-way {{handshake|handshake}} permitted {{nonce|nonce}} reuse on key reinstall, defeating CCMP integrity. Universal — every WPA2 client on Earth needed firmware updates. The [[wifi|802.11]] working group's response was {{wpa3|WPA3}} (SAE handshake, immune by construction).
+**{{krack|KRACK}} — USENIX Security 2017** (Mathy Vanhoef, Frank Piessens). The {{wpa2|WPA2}} four-way {{handshake|handshake}} permitted {{nonce|nonce}} reuse on key reinstall, defeating CCMP integrity. Universal — every {{wpa2|WPA2}} client on Earth needed firmware updates. The [[wifi|802.11]] working group's response was {{wpa3|WPA3}} (SAE {{handshake|handshake}}, immune by construction).
 
 **{{knob-attack|KNOB / BIAS / BLUFFS}} — 2019 / 2020 / 2023** (Daniele Antonioli et al., CVE-2019-9506 / CVE-2020-10135 / CVE-2023-24023). The same author broke [[bluetooth|Bluetooth]] BR/EDR session security three times in five years — key-negotiation forcing 1-byte entropy, impersonation across bonding, and forward-secrecy breakage on cross-session key derivation. Every BR/EDR device shipped before mid-2024 affected.
 
@@ -595,9 +595,9 @@ The architectural rule: the radio with the **best discovery + power profile** do
 
 **Ghost Peak — USENIX Security 2022** (Leu, Camurati et al.). Even [[uwb|UWB]]'s STS distance commitment was attackable at ~4 % success with a $65 device — random STS-like signal injection biased the correlation peak earlier. Motivated **IEEE 802.15.4ab** (Draft D03 Sept 2025) with NBA-MMS narrowband-assist and a redesigned receiver.
 
-**SS7 / {{diameter|Diameter}} abuse — ongoing** (Citizen Lab 2024–25, CISA testimony to FCC 2024). The cellular signalling plane was designed in 1975 with implicit trust between carriers. Modern surveillance actors (STA1, STA2) exploit SS7 / Diameter routing to silently track mobile users worldwide. The fix is a multi-year migration to authenticated SBI and signature-checked roaming — partially complete in 5GC but the SS7 layer below is still everywhere.
+**SS7 / {{diameter|Diameter}} abuse — ongoing** (Citizen Lab 2024–25, CISA testimony to FCC 2024). The cellular signalling plane was designed in 1975 with implicit trust between carriers. Modern surveillance actors (STA1, STA2) exploit SS7 / {{diameter|Diameter}} routing to silently track mobile users worldwide. The fix is a multi-year migration to authenticated SBI and signature-checked roaming — partially complete in 5GC but the SS7 layer below is still everywhere.
 
-**The pattern:** every spec that depends on a *secret algorithm* or a *trust assumption between operators* eventually gets broken in public. Every spec that depends on *cryptographic primitives + open analysis* (WPA3, CCMP-256, EMV cryptograms, IEEE 802.15.4z STS as redesigned) survives the next attack.`
+**The pattern:** every spec that depends on a *secret algorithm* or a *trust assumption between operators* eventually gets broken in public. Every spec that depends on *cryptographic primitives + open analysis* ({{wpa3|WPA3}}, CCMP-256, EMV cryptograms, IEEE 802.15.4z STS as redesigned) survives the next attack.`
 			},
 			{
 				type: 'callout',

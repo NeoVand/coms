@@ -11,7 +11,7 @@ export const tcp: Protocol = {
 	oneLiner: 'Guarantees ordered, reliable delivery of data between applications.',
 	overview: `[[tcp|TCP]] is the backbone of the internet. When you load a webpage, send an email, or download a file, [[tcp|TCP]] ensures every single byte arrives correctly and in order. It does this by {{connection-oriented|establishing a connection}} between sender and receiver before any data flows — like a phone call where both sides confirm they can hear each other. [[tcp|TCP]] is inherently {{stateful|stateful}}: each connection tracks sequence numbers, acknowledgments, window sizes, and {{retransmission|retransmission}} timers throughout its lifetime.
 
-Unlike [[udp|UDP]], [[tcp|TCP]] will detect lost {{packet|packets}} and {{retransmission|retransmit}} them. It also implements {{flow-control|flow control}} (so a fast sender doesn't overwhelm a slow receiver) and {{congestion-control|congestion control}} (so the network itself doesn't get overloaded). [[tcp|TCP]]'s {{congestion-control|congestion control}} has evolved over the decades — from the original Tahoe and Reno algorithms through {{cubic|CUBIC}} (still the Linux default) to Google's {{bbr|BBR}}, which models the path's bottleneck {{bandwidth|bandwidth}} and {{rtt|RTT}} instead of treating loss as the only signal. BBRv3 has been the default for google.com and YouTube since 2023. This reliability comes at a cost: extra round trips and overhead, which is why {{latency|latency}}-sensitive applications sometimes prefer [[udp|UDP]].
+Unlike [[udp|UDP]], [[tcp|TCP]] will detect lost {{packet|packets}} and {{retransmission|retransmit}} them. It also implements {{flow-control|flow control}} (so a fast sender doesn't overwhelm a slow receiver) and {{congestion-control|congestion control}} (so the network itself doesn't get overloaded). [[tcp|TCP]]'s {{congestion-control|congestion control}} has evolved over the decades — from the original Tahoe and Reno algorithms through {{cubic|CUBIC}} (still the {{linux|Linux}} default) to {{google|Google}}'s {{bbr|BBR}}, which models the path's bottleneck {{bandwidth|bandwidth}} and {{rtt|RTT}} instead of treating loss as the only signal. {{bbrv3|BBRv3}} has been the default for {{google|google}}.com and YouTube since 2023. This reliability comes at a cost: extra round trips and overhead, which is why {{latency|latency}}-sensitive applications sometimes prefer [[udp|UDP]].
 
 [[tcp|TCP]] operates at Layer 4 (Transport) of the {{osi-model|OSI model}} and is identified by protocol number 6 in the [[ip|IP]] header. Nearly every major internet application — [[http1|HTTP]], [[ssh|SSH]], [[ftp|FTP]], [[smtp|SMTP]] — runs on top of [[tcp|TCP]].`,
 	howItWorks: [
@@ -192,14 +192,14 @@ Client → Server  [ACK]
 			date: '2024-01',
 			title: 'Linux 6.7 ships native TCP-AO (RFC 5925)',
 			description:
-				'Five thousand lines of new networking code finally give Linux a modern replacement for the deprecated [[tcp|TCP]]-MD5 used by [[bgp|BGP]]/LDP. Same release added microsecond-resolution [[tcp|TCP]] timestamps.',
+				'Five thousand lines of new networking code finally give {{linux|Linux}} a modern replacement for the deprecated [[tcp|TCP]]-MD5 used by [[bgp|BGP]]/LDP. Same release added microsecond-resolution [[tcp|TCP]] timestamps.',
 			source: { url: 'https://kernelnewbies.org/Linux_6.7', label: 'kernelnewbies.org' }
 		},
 		{
 			date: '2025-01',
 			title: 'Comcast launches L4S in production',
 			description:
-				'Sub-millisecond queuing {{latency|latency}} for cooperating flows in six US metros, with Apple, NVIDIA GeForce NOW, Meta, and Valve as launch partners. The first large-scale deployment of the {{l4s|L4S}} architecture ([[rfc:9330|RFC 9330]]/9331/9332) on a production access network.',
+				'Sub-millisecond queuing {{latency|latency}} for cooperating flows in six US metros, with {{apple|Apple}}, {{nvidia|NVIDIA}} GeForce NOW, {{meta|Meta}}, and Valve as launch partners. The first large-scale deployment of the {{l4s|L4S}} architecture ([[rfc:9330|RFC 9330]]/9331/9332) on a production access network.',
 			source: { url: 'https://www.rcrwireless.com/20250129/uncategorized/comcast-l4s', label: 'RCR Wireless' }
 		},
 		{
@@ -213,7 +213,7 @@ Client → Server  [ACK]
 			date: '2025-03',
 			title: 'AccECN advances to draft-34',
 			description:
-				'Accurate {{ecn|ECN}} (draft-ietf-tcpm-accurate-ecn) reallocates the old {{ecn|ECN}}-{{nonce|Nonce}} bit to deliver more than one congestion signal per {{rtt|RTT}} — the precondition {{l4s|L4S}} over [[tcp|TCP]] needs for fine-grained congestion response.',
+				'Accurate {{ecn|ECN}} (draft-{{ietf|ietf}}-tcpm-accurate-ecn) reallocates the old {{ecn|ECN}}-{{nonce|Nonce}} bit to deliver more than one congestion signal per {{rtt|RTT}} — the precondition {{l4s|L4S}} over [[tcp|TCP]] needs for fine-grained congestion response.',
 			source: {
 				url: 'https://datatracker.ietf.org/doc/draft-ietf-tcpm-accurate-ecn/',
 				label: 'IETF Datatracker'
@@ -226,19 +226,19 @@ Client → Server  [ACK]
 			org: 'Linux kernel',
 			scale: 'CUBIC default since 2.6.19',
 			description:
-				'{{cubic|CUBIC}} has been the default [[tcp|TCP]] {{congestion-control|congestion control}} on Linux since 2006. Most large-scale Linux servers (web, database, file) run it.'
+				'{{cubic|CUBIC}} has been the default [[tcp|TCP]] {{congestion-control|congestion control}} on {{linux|Linux}} since 2006. Most large-scale {{linux|Linux}} servers (web, database, file) run it.'
 		},
 		{
 			org: 'Google',
 			scale: 'BBR for google.com / YouTube',
 			description:
-				'BBRv1 deployed in 2016, BBRv3 has rolled out as the default since 2024. Replaces {{cubic|CUBIC}} for outbound traffic from Google\'s edge.'
+				'BBRv1 deployed in 2016, {{bbrv3|BBRv3}} has rolled out as the default since 2024. Replaces {{cubic|CUBIC}} for outbound traffic from {{google|Google}}\'s edge.'
 		},
 		{
 			org: 'Meta',
 			scale: '>50% of traffic still TCP',
 			description:
-				'Despite >75% of Meta\'s internet-facing traffic moving to [[quic|QUIC]], [[tcp|TCP]] remains the default for service-to-service inside the datacenter and for backwards-compatible client paths.'
+				'Despite >75% of {{meta|Meta}}\'s internet-facing traffic moving to [[quic|QUIC]], [[tcp|TCP]] remains the default for service-to-service inside the datacenter and for backwards-compatible client paths.'
 		},
 		{
 			org: 'Apple',
@@ -263,7 +263,7 @@ Client → Server  [ACK]
 		},
 		{
 			title: 'TIME_WAIT exists because of stragglers',
-			text: 'After active close, a socket sits in **{{time-wait|TIME_WAIT}}** for ~60 seconds (2× MSL) on Linux. Why? A delayed segment from the old connection could otherwise re-enter a freshly-opened connection on the same four-tuple and be misinterpreted as legitimate data. This is the most paranoid 60 seconds in networking.'
+			text: 'After active close, a socket sits in **{{time-wait|TIME_WAIT}}** for ~60 seconds (2× MSL) on {{linux|Linux}}. Why? A delayed segment from the old connection could otherwise re-enter a freshly-opened connection on the same four-tuple and be misinterpreted as legitimate data. This is the most paranoid 60 seconds in networking.'
 		}
 	],
 
@@ -275,7 +275,7 @@ Client → Server  [ACK]
 			},
 			{
 				title: 'Ephemeral port exhaustion',
-				text: 'On a server doing many short-lived outbound connections (e.g., to upstream APIs), the local OS exhausts the {{ephemeral-port|ephemeral port}} range (default 32768-60999 on Linux). Sockets sit in {{time-wait|TIME_WAIT}} for ~60s, blocking the four-tuple. Cure: enable connection reuse (HTTP {{keep-alive|keep-alive}}, [[grpc|gRPC]] pooling), or widen the range with net.ipv4.ip_local_port_range.'
+				text: 'On a server doing many short-lived outbound connections (e.g., to upstream APIs), the local OS exhausts the {{ephemeral-port|ephemeral port}} range (default 32768-60999 on {{linux|Linux}}). Sockets sit in {{time-wait|TIME_WAIT}} for ~60s, blocking the four-tuple. Cure: enable connection reuse (HTTP {{keep-alive|keep-alive}}, [[grpc|gRPC]] pooling), or widen the range with net.ipv4.ip_local_port_range.'
 			},
 			{
 				title: 'PMTU black holes',

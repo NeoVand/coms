@@ -13,7 +13,7 @@ export const sip: Protocol = {
 
 [[sip|SIP]]'s design was inspired by [[http1|HTTP]] — it uses text-based {{request-response|request/response}} messages with methods like INVITE, {{ack|ACK}}, BYE, and REGISTER. URIs identify users (sip:alice@example.com). This [[http1|HTTP]]-like design made it easier to implement and debug compared to the ITU's H.323 alternative.
 
-[[sip|SIP]] is the backbone of virtually every modern phone system: enterprise PBX systems, VoIP carriers (like Twilio), and telecom infrastructure. When you make a phone call today, [[sip|SIP]] is almost certainly involved somewhere in the chain.`,
+[[sip|SIP]] is the backbone of virtually every modern phone system: enterprise PBX systems, {{voip|VoIP}} carriers (like Twilio), and telecom infrastructure. When you make a phone call today, [[sip|SIP]] is almost certainly involved somewhere in the chain.`,
 	howItWorks: [
 		{
 			title: 'REGISTER',

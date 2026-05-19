@@ -110,13 +110,13 @@ For specialised areas: **Olivier Bonaventure, "Computer Networking: Principles, 
 						{
 							type: 'narrative',
 							title: 'Where to Learn by Doing',
-							text: `**Stanford CS144 — Introduction to Computer Networking**. The single most useful course on this {{topic|topic}}. The labs walk you through implementing a working [[tcp|TCP]]/[[ip|IP]] stack from scratch — your code goes from sending raw [[ip|IP]] datagrams to running a full reliable transport with {{congestion-control|congestion control}}. Materials are public; the labs run on Linux and produce a stack that interoperates with the real internet.
+							text: `**Stanford CS144 — Introduction to Computer Networking**. The single most useful course on this {{topic|topic}}. The labs walk you through implementing a working [[tcp|TCP]]/[[ip|IP]] stack from scratch — your code goes from sending raw [[ip|IP]] datagrams to running a full reliable transport with {{congestion-control|congestion control}}. Materials are public; the labs run on {{linux|Linux}} and produce a stack that interoperates with the real internet.
 
 **MIT 6.829 — Computer Networks**. Graduate-level, with a focus on the research-paper canon — Jacobson 1988, Cardwell {{bbr|BBR}} 2016, Cerf & Kahn 1974. Strong on routing and {{congestion-control|congestion control}}. Materials and lecture videos public.
 
 **Berkeley CS168 — Introduction to the Internet**. Newer than CS144 and more focused on operational reality ([[bgp|BGP]], {{cdn|CDN}} architecture, [[dns|DNS]], real-world security incidents). Materials online; the projects involve building a small [[bgp|BGP]] simulator and a {{cdn|CDN}}.
 
-**Coursera / Stanford "Networking in Google Cloud" specialisation**. If you want production-grade datacenter and cloud networking content rather than the academic treatment, this is the one to take. Practical, hands-on, well-paced.
+**Coursera / Stanford "Networking in {{google|Google}} Cloud" specialisation**. If you want production-grade datacenter and cloud networking content rather than the academic treatment, this is the one to take. Practical, hands-on, well-paced.
 
 **Princeton COS 461 — Computer Networks**. Jennifer Rexford's course; particularly strong on SDN, [[bgp|BGP]], and inter-domain routing. The instructor is a major contributor to those areas of research.
 
@@ -127,7 +127,7 @@ For a self-paced path: read **RFC 1180** (28 pages), then take **CS144**, then r
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/View_of_Stanford_University_campus.JPG/500px-View_of_Stanford_University_campus.JPG',
 							alt: 'View of Stanford University campus.',
 							caption:
-								'**Stanford University** — home of **CS144**, the single most useful networking course on this {{topic|topic}}. The labs walk you through implementing a working [[tcp|TCP]]/[[ip|IP]] stack from scratch — your code goes from sending raw [[ip|IP]] datagrams to running a full reliable transport with {{congestion-control|congestion control}}. Materials are public; the labs run on Linux and produce a stack that interoperates with the real internet.',
+								'**Stanford University** — home of **CS144**, the single most useful networking course on this {{topic|topic}}. The labs walk you through implementing a working [[tcp|TCP]]/[[ip|IP]] stack from scratch — your code goes from sending raw [[ip|IP]] datagrams to running a full reliable transport with {{congestion-control|congestion control}}. Materials are public; the labs run on {{linux|Linux}} and produce a stack that interoperates with the real internet.',
 							credit: 'Photo: Wikimedia Commons / CC BY-SA'
 						}
 					]
@@ -137,7 +137,7 @@ For a self-paced path: read **RFC 1180** (28 pages), then take **CS144**, then r
 		{
 			id: 'blogs',
 			title: 'Blogs',
-			synopsis: 'Cloudflare, Meta Engineering, APNIC Labs, ipSpace.net.',
+			synopsis: '{{cloudflare|Cloudflare}}, {{meta|Meta}} Engineering, APNIC Labs, ipSpace.net.',
 			slots: [
 				{
 					kind: 'prose',
@@ -145,9 +145,9 @@ For a self-paced path: read **RFC 1180** (28 pages), then take **CS144**, then r
 						{
 							type: 'narrative',
 							title: 'Where the Field Talks to Itself',
-							text: `**Cloudflare blog** (blog.cloudflare.com) — the most consistently good source of operationally-grounded networking content on the internet. They run a global {{anycast|anycast}} network, see real production traffic, and write about both the engineering and the security incidents in detail. If you read one networking blog, read this one.
+							text: `**{{cloudflare|Cloudflare}} blog** (blog.{{cloudflare|cloudflare}}.com) — the most consistently good source of operationally-grounded networking content on the internet. They run a global {{anycast|anycast}} network, see real production traffic, and write about both the engineering and the security incidents in detail. If you read one networking blog, read this one.
 
-**Meta Engineering blog** (engineering.fb.com) — periodic deep-dives on the protocols and infrastructure powering Facebook/Instagram/WhatsApp. Strong on [[quic|QUIC]] deployment, [[bgp|BGP]] operations, datacenter networking.
+**{{meta|Meta}} Engineering blog** (engineering.fb.com) — periodic deep-dives on the protocols and infrastructure powering Facebook/Instagram/WhatsApp. Strong on [[quic|QUIC]] deployment, [[bgp|BGP]] operations, datacenter networking.
 
 **APNIC Labs** (blog.apnic.net) — Geoff Huston's writing, in particular, is the best long-form analysis of internet measurement and policy out there. Long, dense, worth the time.
 
@@ -166,7 +166,7 @@ For a self-paced path: read **RFC 1180** (28 pages), then take **CS144**, then r
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/Cloudflare_Logo.svg/500px-Cloudflare_Logo.svg.png',
 							alt: 'The Cloudflare logo — a stylised orange cloud.',
 							caption:
-								'The **Cloudflare** logo. Their engineering blog (blog.cloudflare.com) is the most consistently good operationally-grounded networking content on the internet — they run a global {{anycast|anycast}} network, see real production traffic, and write about both the engineering and the security incidents in detail. If you read one networking blog, read this one.',
+								'The **{{cloudflare|Cloudflare}}** logo. Their engineering blog (blog.{{cloudflare|cloudflare}}.com) is the most consistently good operationally-grounded networking content on the internet — they run a global {{anycast|anycast}} network, see real production traffic, and write about both the engineering and the security incidents in detail. If you read one networking blog, read this one.',
 							credit: 'Image: Cloudflare Inc. trademark, via Wikimedia Commons'
 						}
 					]
@@ -176,7 +176,7 @@ For a self-paced path: read **RFC 1180** (28 pages), then take **CS144**, then r
 		{
 			id: 'tools',
 			title: 'Tools',
-			synopsis: 'Wireshark, scapy, FRRouting, Containerlab, RIPE Atlas.',
+			synopsis: '{{wireshark|Wireshark}}, scapy, FRRouting, Containerlab, RIPE Atlas.',
 			slots: [
 				{
 					kind: 'prose',
@@ -184,7 +184,7 @@ For a self-paced path: read **RFC 1180** (28 pages), then take **CS144**, then r
 						{
 							type: 'narrative',
 							title: 'The Operating Toolkit',
-							text: `**Wireshark** (wireshark.org) — the canonical packet analyser. If you do not know Wireshark, learning it is the highest-leverage hour you will ever spend in this field. Captures from any interface, dissects 3000+ protocols, lets you trace any flow byte by byte. Use it the next time something is wrong; you will never debug networking the same way again.
+							text: `**{{wireshark|Wireshark}}** ({{wireshark|wireshark}}.org) — the canonical packet analyser. If you do not know Wireshark, learning it is the highest-leverage hour you will ever spend in this field. Captures from any interface, dissects 3000+ protocols, lets you trace any flow byte by byte. Use it the next time something is wrong; you will never debug networking the same way again.
 
 **curl** (curl.se) — the command-line HTTP client and Swiss-army knife of the protocol world. \`curl -v\` shows you the entire request and response with headers; \`--http3\` forces [[quic|QUIC]]; \`--resolve\` overrides [[dns|DNS]] for one request; \`-w\` formats timing information.
 
@@ -192,7 +192,7 @@ For a self-paced path: read **RFC 1180** (28 pages), then take **CS144**, then r
 
 **scapy** (Python) — when you need to craft a packet that no normal tool will produce. The standard for protocol research, fuzzing, and unusual diagnostics. Steep learning curve, deep payoff.
 
-**FRRouting** (frrouting.org) — open-source routing stack ([[bgp|BGP]], [[ospf|OSPF]], IS-IS, RIP, etc.) that runs on Linux. Used in containerlab simulations and in some production small-scale ISPs.
+**FRRouting** (frrouting.org) — open-source routing stack ([[bgp|BGP]], [[ospf|OSPF]], IS-IS, RIP, etc.) that runs on {{linux|Linux}}. Used in containerlab simulations and in some production small-scale ISPs.
 
 **Containerlab** (containerlab.dev) — orchestrates network labs of containerised network operating systems. Spin up a 50-router [[bgp|BGP]] topology in under a minute on your laptop. The standard for hands-on routing learning today.
 
@@ -209,7 +209,7 @@ For a self-paced path: read **RFC 1180** (28 pages), then take **CS144**, then r
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/Wireshark_screenshot.png/500px-Wireshark_screenshot.png',
 							alt: 'Wireshark — packet capture with protocol dissector pane.',
 							caption:
-								'**Wireshark** — the single highest-leverage tool in this entire list. Captures from any interface, dissects 3,000+ protocols, lets you trace any flow byte by byte. Learning Wireshark is the most useful hour any networking engineer ever spends. Use it the next time something is wrong; you will never debug networking the same way again.',
+								'**{{wireshark|Wireshark}}** — the single highest-leverage tool in this entire list. Captures from any interface, dissects 3,000+ protocols, lets you trace any flow byte by byte. Learning {{wireshark|Wireshark}} is the most useful hour any networking engineer ever spends. Use it the next time something is wrong; you will never debug networking the same way again.',
 							credit: 'Image: Wireshark Foundation / Wikimedia Commons, GPL'
 						}
 					]

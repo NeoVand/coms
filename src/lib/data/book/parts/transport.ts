@@ -46,7 +46,7 @@ Forty-five years after [[rfc:9293|RFC 793]] (September 1981), [[tcp|TCP]] is sti
 
 **{{head-of-line-blocking|Head-of-line blocking}}** stalls every byte behind a single lost segment. Multiplexed application protocols ([[http2|HTTP/2]], [[grpc|gRPC]] over [[http2|HTTP/2]]) feel this most acutely — one dropped [[tcp|TCP]] packet stalls all streams on the connection until {{retransmission|retransmission}}. Unmultiplexed protocols ([[http1|HTTP/1.1]], [[ssh|SSH]] terminal sessions) feel it less because there is only one logical stream to stall.
 
-**{{congestion-control|Congestion control}}** cuts your sending rate the moment a packet is lost, even if the loss was unrelated to congestion. On wireless networks where packets drop from radio interference rather than queue overflow, classic [[tcp|TCP]] overreacts — which is why **{{bbr|BBR}}** (Google, 2016) modelled the network instead of inferring from loss, and why **{{l4s|L4S}}** ([[frontier:l4s-comcast-launch|RFC 9330/31/32]], 2023) replaced loss with explicit {{ecn|ECN}} signalling for cooperating flows.`
+**{{congestion-control|Congestion control}}** cuts your sending rate the moment a packet is lost, even if the loss was unrelated to congestion. On wireless networks where packets drop from radio interference rather than queue overflow, classic [[tcp|TCP]] overreacts — which is why **{{bbr|BBR}}** ({{google|Google}}, 2016) modelled the network instead of inferring from loss, and why **{{l4s|L4S}}** ([[frontier:l4s-comcast-launch|RFC 9330/31/32]], 2023) replaced loss with explicit {{ecn|ECN}} signalling for cooperating flows.`
 						},
 						{
 							type: 'callout',
@@ -56,18 +56,18 @@ Forty-five years after [[rfc:9293|RFC 793]] (September 1981), [[tcp|TCP]] is sti
 						{
 							type: 'narrative',
 							title: 'Congestion Control: Tahoe Through BBR Through L4S',
-							text: `The single most important change in [[tcp|TCP]]'s history is the **1988 {{congestion-avoidance|congestion avoidance}}** work by [[pioneer:van-jacobson|Van Jacobson]] and Mike Karels — {{slow-start|slow start}}, {{aimd|AIMD}}, fast retransmit, {{exponential-backoff|exponential backoff}} — that prevented the [[outage:nsfnet-1986-collapse|1986 collapse]] from repeating. The single most important change since is **{{cubic|CUBIC}}** ([[rfc:9438|RFC 9438]], default in Linux/Windows/Apple stacks since the late 2000s) and **{{bbr|BBR}}** (Google, 2016, [[frontier:bbrv3-default|now BBRv3]] for google.com and YouTube traffic).
+							text: `The single most important change in [[tcp|TCP]]'s history is the **1988 {{congestion-avoidance|congestion avoidance}}** work by [[pioneer:van-jacobson|Van Jacobson]] and Mike Karels — {{slow-start|slow start}}, {{aimd|AIMD}}, fast retransmit, {{exponential-backoff|exponential backoff}} — that prevented the [[outage:nsfnet-1986-collapse|1986 collapse]] from repeating. The single most important change since is **{{cubic|CUBIC}}** ([[rfc:9438|RFC 9438]], default in {{linux|Linux}}/Windows/{{apple|Apple}} stacks since the late 2000s) and **{{bbr|BBR}}** ({{google|Google}}, 2016, [[frontier:bbrv3-default|now BBRv3]] for {{google|google}}.com and YouTube traffic).
 
 The story of [[tcp|TCP]], more than any other transport, is the story of {{congestion-control|congestion control}}. Everything else — {{flow-control|flow control}}, error recovery, connection state — settled by 1988. The active research has moved through Reno, NewReno, Vegas, {{cubic|CUBIC}}, Compound, {{bbr|BBR}} v1/v2/v3, and now [[frontier:l4s-comcast-launch|L4S]] with [[tcp|TCP]] Prague. Each generation refined the inference about network state from increasingly sparse signals.
 
-The most recent paradigm shift: {{l4s|L4S}} replaces loss-as-signal with **explicit {{ecn|ECN}} marking**. Cooperating senders mark packets ECT(1); routers put them in a separate isolated queue and mark Congestion Experienced *early*, before the queue grows. The result is sub-millisecond queuing {{latency|latency}} at full link utilisation. **Comcast launched {{l4s|L4S}} in production January 2025**; Apple iOS 17 / macOS Sonoma defaulted {{l4s|L4S}} support for [[quic|QUIC]].`
+The most recent paradigm shift: {{l4s|L4S}} replaces loss-as-signal with **explicit {{ecn|ECN}} marking**. Cooperating senders mark packets ECT(1); routers put them in a separate isolated queue and mark Congestion Experienced *early*, before the queue grows. The result is sub-millisecond queuing {{latency|latency}} at full link utilisation. **Comcast launched {{l4s|L4S}} in production January 2025**; {{apple|Apple}} iOS 17 / macOS Sonoma defaulted {{l4s|L4S}} support for [[quic|QUIC]].`
 						},
 						{
 							type: 'narrative',
 							title: 'What Shipped in 2024-2026',
-							text: `**Linux 6.7 (January 2024)** merged native **[[tcp|TCP]]-AO ([[rfc:9000|RFC 5925]])** — five thousand lines of new networking code finally giving Linux a modern replacement for the deprecated [[tcp|TCP]]-MD5 used by [[bgp|BGP]] and LDP. The same release added microsecond-resolution [[tcp|TCP]] timestamps.
+							text: `**{{linux|Linux}} 6.7 (January 2024)** merged native **[[tcp|TCP]]-AO ([[rfc:9000|RFC 5925]])** — five thousand lines of new networking code finally giving {{linux|Linux}} a modern replacement for the deprecated [[tcp|TCP]]-MD5 used by [[bgp|BGP]] and LDP. The same release added microsecond-resolution [[tcp|TCP]] timestamps.
 
-**AccECN** (\`draft-ietf-tcpm-accurate-ecn-34\`, March 2025) is on the Standards Track path. It reallocates the old {{ecn|ECN}}-{{nonce|Nonce}} bit to deliver more than one congestion signal per {{rtt|RTT}} — the precondition {{l4s|L4S}} over [[tcp|TCP]] needs for fine-grained congestion response.
+**AccECN** (\`draft-{{ietf|ietf}}-tcpm-accurate-ecn-34\`, March 2025) is on the Standards Track path. It reallocates the old {{ecn|ECN}}-{{nonce|Nonce}} bit to deliver more than one congestion signal per {{rtt|RTT}} — the precondition {{l4s|L4S}} over [[tcp|TCP]] needs for fine-grained congestion response.
 
 **Linux 6.15 (mid-2025)** landed **io_uring zero-copy receive** (\`io_uring zcrx\`) integrated with the kernel [[tcp|TCP]] stack. Single-flow throughput jumped from ~74 Gb/s (epoll) to **~106 Gb/s (io_uring zcrx)** — a ~40% throughput improvement for high-{{bandwidth|bandwidth}} servers without any application changes.
 
@@ -119,11 +119,11 @@ The vulnerability surface keeps producing CVEs. **CVE-2019-11477 ({{sack|SACK}} 
 							title: 'Why Half the Internet Runs On It',
 							text: `That minimalism is why [[udp|UDP]] is the foundation of:
 
-- **[[dns|DNS]]** — every lookup is one datagram each way. ~14 trillion queries per day on Google Public [[dns|DNS]] alone. The persistent connection model [[tcp|TCP]] gives you is overhead a recursive resolver does not need; the connection per query model [[udp|UDP]] gives you scales to root-server volumes.
+- **[[dns|DNS]]** — every lookup is one datagram each way. ~14 trillion queries per day on {{google|Google}} Public [[dns|DNS]] alone. The persistent connection model [[tcp|TCP]] gives you is overhead a recursive resolver does not need; the connection per query model [[udp|UDP]] gives you scales to root-server volumes.
 - **[[ntp|NTP]]** — time correction has to be precise to the microsecond. You cannot tolerate {{handshake|handshake}} delay; you cannot tolerate {{retransmission|retransmission}} timing variance. [[udp|UDP]] delivers a packet in a few milliseconds and lets the protocol math figure out clock {{offset|offset}} from {{rtt|RTT}}.
 - **[[dhcp|DHCP]]** — you do not have an {{ip-address|IP address}} yet. You cannot do [[tcp|TCP]]. [[udp|UDP]] {{broadcast|broadcast}} is the only way a host without an address can ask the network for one.
 - **[[rtp|RTP]]** — a dropped audio packet should be ignored, not retransmitted. Late audio is worse than missing audio.
-- **[[quic|QUIC]]** — the entire next-generation transport runs *inside* [[udp|UDP]] datagrams to escape kernel ossification. By 2026, [[quic|QUIC]] carries ~21% of Cloudflare-observed web traffic and >75% of Meta's internet bytes. [[udp|UDP]]'s role as the [[quic|QUIC]] substrate has made it the fastest-growing protocol on the internet by relative volume.
+- **[[quic|QUIC]]** — the entire next-generation transport runs *inside* [[udp|UDP]] datagrams to escape kernel ossification. By 2026, [[quic|QUIC]] carries ~21% of {{cloudflare|Cloudflare}}-observed web traffic and >75% of {{meta|Meta}}'s internet bytes. [[udp|UDP]]'s role as the [[quic|QUIC]] substrate has made it the fastest-growing protocol on the internet by relative volume.
 
 The single thing [[udp|UDP]] gives you above raw [[ip|IP]] is **ports** — the 16-bit demux that picks which application receives the packet on a given host. That is the entire reason multiple applications can share a host's network adapter. It is most of what L4 needs to be.`
 						},
@@ -135,9 +135,9 @@ The single thing [[udp|UDP]] gives you above raw [[ip|IP]] is **ports** — the 
 						{
 							type: 'narrative',
 							title: 'The QUIC Renaissance',
-							text: `Almost all internet [[udp|UDP]] traffic growth in the last five years has been [[quic|QUIC]]. Where [[udp|UDP]] used to be a niche transport ([[dns|DNS]], [[ntp|NTP]], [[rtp|RTP]]), it now carries the majority of [[http3|HTTP/3]] traffic plus the entire next generation of media transports — [[frontier:moq-transport|MoQ Transport]] over [[quic|QUIC]], [[rtp|RTP]]-over-[[quic|QUIC]] (\`draft-ietf-avtcore-rtp-over-quic-14\` in WG Last Call July 2025), [[http3|HTTP/3]] datagrams (RFC 9297), {{masque|MASQUE}} (RFCs 9298/9484).
+							text: `Almost all internet [[udp|UDP]] traffic growth in the last five years has been [[quic|QUIC]]. Where [[udp|UDP]] used to be a niche transport ([[dns|DNS]], [[ntp|NTP]], [[rtp|RTP]]), it now carries the majority of [[http3|HTTP/3]] traffic plus the entire next generation of media transports — [[frontier:moq-transport|MoQ Transport]] over [[quic|QUIC]], [[rtp|RTP]]-over-[[quic|QUIC]] (\`draft-{{ietf|ietf}}-avtcore-rtp-over-quic-14\` in WG Last Call July 2025), [[http3|HTTP/3]] datagrams (RFC 9297), {{masque|MASQUE}} (RFCs 9298/9484).
 
-**Linux 6.13 (early 2025)** landed **io_uring zero-copy send/receive paths for [[udp|UDP]]**, dramatically improving [[quic|QUIC]] server performance. The kernel-vs-userspace performance gap — the basis of the 2024 ACM paper showing 45% throughput regressions for [[quic|QUIC]] over fast networks — is being closed.
+**{{linux|Linux}} 6.13 (early 2025)** landed **io_uring zero-copy send/receive paths for [[udp|UDP]]**, dramatically improving [[quic|QUIC]] server performance. The kernel-vs-userspace performance gap — the basis of the 2024 ACM paper showing 45% throughput regressions for [[quic|QUIC]] over fast networks — is being closed.
 
 The longer arc: **in-kernel [[quic|QUIC]]** (Xin Long's 9,000-line patch series, July 2025) puts [[quic|QUIC]] into the kernel as \`IPPROTO_QUIC\`, mirroring \`IPPROTO_MPTCP\`. Mainline merge expected 2026. When that ships, [[quic|QUIC]] will run alongside [[tcp|TCP]] at kernel speeds — and [[udp|UDP]] will become an even larger share of the internet's transport mix.
 
@@ -177,7 +177,7 @@ The protocol itself has not changed. The role it plays has been reshaped by what
 						{
 							type: 'narrative',
 							title: 'A Protocol Born From Telephony',
-							text: `In the late 1990s, the **SS7 telephony signalling protocol** was being moved onto [[ip|IP]]. The PSTN's reliability requirements — sub-second failover when a link dies — embarrassed [[tcp|TCP]]. A [[tcp|TCP]] connection bound to a single source/destination pair will hang indefinitely when its path fails, regardless of whether other paths to the same endpoint are working. **Randall Stewart at Cisco**, working with the {{ietf|IETF}} SIGTRAN group, designed a replacement.
+							text: `In the late 1990s, the **SS7 telephony signalling protocol** was being moved onto [[ip|IP]]. The PSTN's reliability requirements — sub-second failover when a link dies — embarrassed [[tcp|TCP]]. A [[tcp|TCP]] connection bound to a single source/destination pair will hang indefinitely when its path fails, regardless of whether other paths to the same endpoint are working. **Randall Stewart at {{cisco|Cisco}}**, working with the {{ietf|IETF}} SIGTRAN group, designed a replacement.
 
 [[sctp|SCTP]] (Stream Control Transmission Protocol, [[rfc:2960|RFC 2960]] in October 2000, current [[rfc:9260|RFC 9260]] in June 2022) was [[tcp|TCP]] redesigned with three improvements:
 
@@ -231,7 +231,7 @@ The protocol itself remains specialised. It is the canonical example of a techni
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: 'Apple shipped [[mptcp|MPTCP]] in iOS 7 (2013) for Siri because the half-second handoff between [[wifi|Wi-Fi]] and cellular was visibly degrading user experience. Twelve years later, the same {{multipath|multipath}} idea is moving to [[quic|QUIC]].',
+					text: '{{apple|Apple}} shipped [[mptcp|MPTCP]] in iOS 7 (2013) for Siri because the half-second handoff between [[wifi|Wi-Fi]] and cellular was visibly degrading user experience. Twelve years later, the same {{multipath|multipath}} idea is moving to [[quic|QUIC]].',
 					attribution: 'Author'
 				},
 				{
@@ -249,25 +249,25 @@ The application has no idea any of this is happening. The socket interface is id
 						{
 							type: 'narrative',
 							title: 'The Apple iOS 7 Deployment',
-							text: `**Apple shipped [[mptcp|MPTCP]] in iOS 7 (September 2013)** for **Siri**. The choice was forced by user experience: Siri's voice recognition did a round-trip to Apple's servers, and the half-second handoff between [[wifi|Wi-Fi]] and cellular was producing visible "Sorry, I didn't catch that" failures during normal walking-out-of-the-house transitions. [[mptcp|MPTCP]] let Siri's connection keep working through the handoff.
+							text: `**{{apple|Apple}} shipped [[mptcp|MPTCP]] in iOS 7 (September 2013)** for **Siri**. The choice was forced by user experience: Siri's voice recognition did a round-trip to {{apple|Apple}}'s servers, and the half-second handoff between [[wifi|Wi-Fi]] and cellular was producing visible "Sorry, I didn't catch that" failures during normal walking-out-of-the-house transitions. [[mptcp|MPTCP]] let Siri's connection keep working through the handoff.
 
 Apple expanded [[mptcp|MPTCP]] in iOS 11 (2017) to a public API for any app, and in iOS 12+ to additional system services (Apple Maps, Apple Music). By 2026 every Apple device with both [[wifi|Wi-Fi]] and cellular uses [[mptcp|MPTCP]] for the OS-managed services. Notably, Apple did **not** open up [[mptcp|MPTCP]] for third-party app traffic by default — most app developers do not know they could use it.
 
-**Linux merged the upstream [[mptcp|MPTCP]] implementation in kernel 5.6 (March 2020)** after years of out-of-tree patches. **South Korea's Korea Telecom built a "GIGA Path" service** that used [[mptcp|MPTCP]] to bond LTE and [[wifi|Wi-Fi]] for 1 Gbps mobile downloads — the first commercial network operator to position [[mptcp|MPTCP]] as a consumer feature.`
+**{{linux|Linux}} merged the upstream [[mptcp|MPTCP]] implementation in kernel 5.6 (March 2020)** after years of out-of-tree patches. **South Korea's Korea Telecom built a "GIGA Path" service** that used [[mptcp|MPTCP]] to bond LTE and [[wifi|Wi-Fi]] for 1 Gbps mobile downloads — the first commercial network operator to position [[mptcp|MPTCP]] as a consumer feature.`
 						},
 						{
 							type: 'callout',
 							title: 'Adoption is real but limited',
-							text: 'The same {{nat|NAT}}/{{firewall|firewall}} friction that confines [[sctp|SCTP]] hits [[mptcp|MPTCP]]. Many middleboxes strip the [[mptcp|MPTCP]] option from the SYN, falling the connection back to plain [[tcp|TCP]]. Where [[mptcp|MPTCP]] works (Apple OS services, Korea Telecom GIGA Path, some specialised enterprise WANs) it works well. Where it does not work (the long tail of public-internet middleboxes), it falls back transparently. The deployment story is "successful in controlled paths, invisible everywhere else."'
+							text: 'The same {{nat|NAT}}/{{firewall|firewall}} friction that confines [[sctp|SCTP]] hits [[mptcp|MPTCP]]. Many middleboxes strip the [[mptcp|MPTCP]] option from the SYN, falling the connection back to plain [[tcp|TCP]]. Where [[mptcp|MPTCP]] works ({{apple|Apple}} OS services, Korea Telecom GIGA Path, some specialised enterprise WANs) it works well. Where it does not work (the long tail of public-internet middleboxes), it falls back transparently. The deployment story is "successful in controlled paths, invisible everywhere else."'
 						},
 						{
 							type: 'narrative',
 							title: 'The Multipath QUIC Succession',
-							text: `The future of {{multipath|multipath}} transport is multipath [[quic|QUIC]] (\`draft-ietf-quic-multipath\`, [[frontier:multipath-quic|currently in IETF Last Call December 2025]]). Latest draft -21 dated 17 March 2026.
+							text: `The future of {{multipath|multipath}} transport is {{multipath|multipath}} [[quic|QUIC]] (\`draft-{{ietf|ietf}}-quic-{{multipath|multipath}}\`, [[frontier:multipath-quic|currently in IETF Last Call December 2025]]). Latest draft -21 dated 17 March 2026.
 
 Multipath [[quic|QUIC]] inherits [[mptcp|MPTCP]]'s algorithmic ideas — subflows, coupled {{congestion-control|congestion control}}, packet scheduling across paths — but operates inside [[quic|QUIC]]'s much more deployable carrier ([[udp|UDP]]). Where [[mptcp|MPTCP]] had to fight middleboxes that didn't understand [[tcp|TCP]] options, multipath [[quic|QUIC]] encrypts everything except a handful of public bits inside the [[udp|UDP]] envelope. Middleboxes see [[udp|UDP]]; the multipath logic is invisible.
 
-**Apple, Alibaba, and Tessares have already deployed predecessors** (gQUIC multipath at Google, Apple's iCloud sync, Alibaba's mobile e-commerce). Once multipath [[quic|QUIC]] ships in mainline implementations (quiche, mvfst, quinn, msquic), it becomes the natural multipath transport for [[http3|HTTP/3]].
+**{{apple|Apple}}, Alibaba, and Tessares have already deployed predecessors** (gQUIC multipath at {{google|Google}}, {{apple|Apple}}'s iCloud sync, Alibaba's mobile e-commerce). Once multipath [[quic|QUIC]] ships in mainline implementations (quiche, mvfst, quinn, msquic), it becomes the natural multipath transport for [[http3|HTTP/3]].
 
 [[mptcp|MPTCP]] itself will remain in production for the use cases it currently serves. But the architectural arc — same idea, ported to a more deployable transport — is the same arc [[quic|QUIC]] followed for everything else.`
 						},
@@ -276,7 +276,7 @@ Multipath [[quic|QUIC]] inherits [[mptcp|MPTCP]]'s algorithmic ideas — subflow
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/DifferenceTCP_MPTCP-en.png/500px-DifferenceTCP_MPTCP-en.png',
 							alt: 'Side-by-side diagram of plain TCP versus Multipath TCP — TCP uses one path, MPTCP uses multiple subflows.',
 							caption:
-								'**Plain [[tcp|TCP]] vs [[mptcp|Multipath TCP]]** — same socket interface on the application side, dramatically different reality on the wire. {{mptcp|MPTCP}} negotiates *subflows* over multiple paths (your phone\'s [[wifi|Wi-Fi]] + cellular) and aggregates their throughput. Apple shipped this in iOS 7 (2013) for Siri to fix the visible "Sorry, I didn\'t catch that" failures during Wi-Fi-to-cellular handoff.',
+								'**Plain [[tcp|TCP]] vs [[mptcp|Multipath TCP]]** — same socket interface on the application side, dramatically different reality on the wire. [[mptcp|MPTCP]] negotiates *subflows* over multiple paths (your phone\'s [[wifi|Wi-Fi]] + cellular) and aggregates their throughput. {{apple|Apple}} shipped this in iOS 7 (2013) for Siri to fix the visible "Sorry, I didn\'t catch that" failures during Wi-Fi-to-cellular handoff.',
 							credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 						}
 					]
@@ -304,7 +304,7 @@ Multipath [[quic|QUIC]] inherits [[mptcp|MPTCP]]'s algorithmic ideas — subflow
 						{
 							type: 'narrative',
 							title: 'A Transport That Can Ship Updates',
-							text: `[[quic|QUIC]] began as **gQUIC** at Google in 2012, written by [[pioneer:jim-roskind|Jim Roskind]] to address a specific frustration: every [[tcp|TCP]] improvement Google wanted to deploy had to wait years for kernel rollout across the heterogeneous internet, and many were stripped or blocked by middleboxes that had ossified on the existing wire format.
+							text: `[[quic|QUIC]] began as **gQUIC** at {{google|Google}} in 2012, written by [[pioneer:jim-roskind|Jim Roskind]] to address a specific frustration: every [[tcp|TCP]] improvement {{google|Google}} wanted to deploy had to wait years for kernel rollout across the heterogeneous internet, and many were stripped or blocked by middleboxes that had ossified on the existing wire format.
 
 The {{ietf|IETF}} [[quic|QUIC]] Working Group, formed in 2016, took Google's experiment and modularised it. **[[rfc:9000|RFC 9000]]** standardised [[quic|QUIC]] v1 in May 2021. **[[rfc:9114|RFC 9114]]** defined [[http3|HTTP/3]] as HTTP semantics on top of [[quic|QUIC]], published one year later. **[[quic|QUIC]] v2 (RFC 9369, May 2023)** is now a Standards-Track template for new [[quic|QUIC]] versions; its wire-image version number is **0x6b3343cf** — the first 4 bytes of \`sha256("QUICv2 version number")\` — chosen specifically to exercise version negotiation and break middleboxes that ossified on v1's Initial-packet {{salt|salt}}.
 
@@ -319,36 +319,36 @@ The {{ietf|IETF}} [[quic|QUIC]] Working Group, formed in 2016, took Google's exp
 
 **Network change** (your phone moving between [[wifi|Wi-Fi]] and cellular) breaks [[tcp|TCP]] because the connection is bound to a 4-tuple of (src [[ip|IP]], src port, dst [[ip|IP]], dst port) — change any element and the connection is gone. [[quic|QUIC]] uses a **64-bit connection ID** that is independent of the underlying [[ip|IP]]/[[udp|UDP]]. The receiver matches arriving packets by connection ID; an address change is invisible to the application.
 
-**Deployability** is the deepest improvement. [[quic|QUIC]] runs over [[udp|UDP]], which middleboxes already forward unchanged. Implementations live in **user space**, so an application can ship a transport bug fix in a binary update — no kernel reboot, no waiting for an OS release. Google could deploy [[quic|QUIC]] features for chrome.com on a weekly cadence; with [[tcp|TCP]] they would have waited five years per change.`
+**Deployability** is the deepest improvement. [[quic|QUIC]] runs over [[udp|UDP]], which middleboxes already forward unchanged. Implementations live in **user space**, so an application can ship a transport bug fix in a binary update — no kernel reboot, no waiting for an OS release. {{google|Google}} could deploy [[quic|QUIC]] features for chrome.com on a weekly cadence; with [[tcp|TCP]] they would have waited five years per change.`
 						},
 						{
 							type: 'callout',
 							title: 'The 21% plateau and the in-kernel push',
-							text: 'As of Q1 2026, [[quic|QUIC]] carries roughly **21% of Cloudflare-observed web requests** — flat or slightly declining for several months. The plateau correlates with the **2024 ACM Web Conference paper "[[quic|QUIC]] is not Quick Enough over Fast Internet"** (Zhang et al., doi:10.1145/3589334.3645323) showing **up-to-45.2% throughput regressions** vs [[http2|HTTP/2]] above ~500 Mbps, due to receiver-side userspace {{ack|ACK}} and copy overhead. The fix in flight is **in-kernel [[quic|QUIC]]** — Xin Long\'s ~9,000-line patch series for Linux landed July 2025; mainline merge expected 2026. When in-kernel [[quic|QUIC]] ships, the throughput gap with kernel [[tcp|TCP]] closes.'
+							text: 'As of Q1 2026, [[quic|QUIC]] carries roughly **21% of {{cloudflare|Cloudflare}}-observed web requests** — flat or slightly declining for several months. The plateau correlates with the **2024 ACM Web Conference paper "[[quic|QUIC]] is not Quick Enough over Fast Internet"** (Zhang et al., doi:10.1145/3589334.3645323) showing **up-to-45.2% throughput regressions** vs [[http2|HTTP/2]] above ~500 Mbps, due to receiver-side userspace {{ack|ACK}} and copy overhead. The fix in flight is **in-kernel [[quic|QUIC]]** — Xin Long\'s ~9,000-line patch series for {{linux|Linux}} landed July 2025; mainline merge expected 2026. When in-kernel [[quic|QUIC]] ships, the throughput gap with kernel [[tcp|TCP]] closes.'
 						},
 						{
 							type: 'narrative',
 							title: 'What\'s On the Frontier',
 							text: `The next ten years of transport innovation are all riding on [[quic|QUIC]].
 
-**[[frontier:multipath-quic|Multipath QUIC]]** (\`draft-ietf-quic-multipath\`) entered IESG Last Call in December 2025. Inherits [[mptcp|MPTCP]]'s algorithmic ideas inside a transport that actually traverses middleboxes.
+**[[frontier:multipath-quic|Multipath QUIC]]** (\`draft-{{ietf|ietf}}-quic-{{multipath|multipath}}\`) entered IESG Last Call in December 2025. Inherits [[mptcp|MPTCP]]'s algorithmic ideas inside a transport that actually traverses middleboxes.
 
 **HTTP Datagrams and Capsules** ([[rfc:9000|RFC 9297]], August 2022) standardised unreliable datagrams over [[http3|HTTP/3]], enabling {{masque|MASQUE}} and {{webtransport|WebTransport}}.
 
-**{{masque|MASQUE}} WG** (RFC 9298 — Proxying [[udp|UDP]] in HTTP, August 2022; RFC 9484 — Proxying [[ip|IP]] in HTTP, October 2023) ships CONNECT-[[udp|UDP]] and CONNECT-[[ip|IP]]. Apple Private Relay and Cloudflare's WARP-related proxy services use these.
+**{{masque|MASQUE}} WG** (RFC 9298 — Proxying [[udp|UDP]] in HTTP, August 2022; RFC 9484 — Proxying [[ip|IP]] in HTTP, October 2023) ships CONNECT-[[udp|UDP]] and CONNECT-[[ip|IP]]. {{apple|Apple}} Private Relay and {{cloudflare|Cloudflare}}'s WARP-related proxy services use these.
 
-**[[frontier:moq-transport|MoQ Transport]]** (\`draft-ietf-moq-transport-17\`, March 2026) is the first {{ietf|IETF}} media transport that intentionally is not [[rtp|RTP]] — sub-second live streaming with one-to-many {{pub-sub|publish/subscribe}} at {{cdn|CDN}} scale.
+**[[frontier:moq-transport|MoQ Transport]]** (\`draft-{{ietf|ietf}}-moq-transport-17\`, March 2026) is the first {{ietf|IETF}} media transport that intentionally is not [[rtp|RTP]] — sub-second live streaming with one-to-many {{pub-sub|publish/subscribe}} at {{cdn|CDN}} scale.
 
 **[[rtp|RTP]]-over-[[quic|QUIC]] (RoQ)** (\`draft-ietf-avtcore-rtp-over-quic-14\`) entered Working Group Last Call in July 2025 — preserves the entire [[rtp|RTP]] ecosystem while gaining [[quic|QUIC]]'s {{encryption|encryption}}, {{nat|NAT}}-friendliness, and {{zero-rtt|0-RTT}}.
 
-By 2026, **Meta reports >75% of internet-facing traffic on [[quic|QUIC]]**; **Cloudflare** serves [[quic|QUIC]] universally; **Apple Network.framework** offers native [[quic|QUIC]] since iOS 18; **Safari 18** enables [[http3|HTTP/3]] by default. The transport reshaped its deployment ecosystem in five years.`
+By 2026, **{{meta|Meta}} reports >75% of internet-facing traffic on [[quic|QUIC]]**; **{{cloudflare|Cloudflare}}** serves [[quic|QUIC]] universally; **{{apple|Apple}} Network.framework** offers native [[quic|QUIC]] since iOS 18; **Safari 18** enables [[http3|HTTP/3]] by default. The transport reshaped its deployment ecosystem in five years.`
 						},
 						{
 							type: 'image',
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Google_Corkboard_Server_Rack.jpg/500px-Google_Corkboard_Server_Rack.jpg',
 							alt: 'Early Google "corkboard" server rack — bare motherboards mounted on cork backing, displayed at the Computer History Museum.',
 							caption:
-								'An early **Google corkboard server** — the company that designed [[quic|QUIC]] in 2012 because it could no longer ship [[tcp|TCP]] improvements through kernel rollouts fast enough for its fleet. [[pioneer:jim-roskind|Jim Roskind]]\'s answer was to put a brand-new transport in *user space* on top of [[udp|UDP]], where it could iterate monthly and middleboxes would forward it unchanged.',
+								'An early **{{google|Google}} corkboard server** — the company that designed [[quic|QUIC]] in 2012 because it could no longer ship [[tcp|TCP]] improvements through kernel rollouts fast enough for its fleet. [[pioneer:jim-roskind|Jim Roskind]]\'s answer was to put a brand-new transport in *user space* on top of [[udp|UDP]], where it could iterate monthly and middleboxes would forward it unchanged.',
 							credit: 'Photo: Wikimedia Commons / CC BY-SA'
 						}
 					]

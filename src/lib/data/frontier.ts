@@ -56,12 +56,12 @@ export const frontierEntries: FrontierEntry[] = [
 		id: 'ipv6-50-percent',
 		title: "IPv6 Crosses 50% of Google's Traffic",
 		oneLiner:
-			"On 28 March 2026, [[ipv6|IPv6]] carried 50.1% of Google's traffic for the first time — 28 years after [[rfc:2460|RFC 2460]].",
+			"On 28 March 2026, [[ipv6|IPv6]] carried 50.1% of {{google|Google}}'s traffic for the first time — 28 years after [[rfc:2460|RFC 2460]].",
 		topic: 'standards',
 		status: 'shipped',
 		date: '2026-03-28',
 		protocols: ['ipv6', 'ip'],
-		description: `Google's [[ipv6|IPv6]] statistics dashboard recorded the milestone on 28 March 2026: weekly average ~45-48%, peak 50.1%. Cloudflare measured 40.1% of HTTP requests; APNIC Labs measured 43.13% [[ipv6|IPv6]]-capable networks — same trend, different vantage points. Mobile carriers are the leading edge: US averages around 87%, T-Mobile ~93%, France ~86%, India >75%.
+		description: `{{google|Google}}'s [[ipv6|IPv6]] statistics dashboard recorded the milestone on 28 March 2026: weekly average ~45-48%, peak 50.1%. {{cloudflare|Cloudflare}} measured 40.1% of HTTP requests; APNIC Labs measured 43.13% [[ipv6|IPv6]]-capable networks — same trend, different vantage points. Mobile carriers are the leading edge: US averages around 87%, T-Mobile ~93%, France ~86%, India >75%.
 
 The economics that finally tipped it: AWS started charging $0.005/hour per public [[ip|IPv4]] address in February 2024, making [[ipv6|IPv6]]-only architectures financially compelling at scale. Combined with {{four-six-four-xlat|464XLAT}} being a first-class citizen in modern Android, iOS 9+, macOS 13+, and Windows 11, [[ipv6|IPv6]]-only access networks now Just Work for [[ip|IPv4]] applications too.`,
 		metrics: [
@@ -79,14 +79,14 @@ The economics that finally tipped it: AWS started charging $0.005/hour per publi
 		id: 'pq-tls-x25519mlkem768',
 		title: 'Post-Quantum Hybrid TLS (X25519MLKEM768)',
 		oneLiner:
-			'~52% of [[tls|TLS]] 1.3 connections to Cloudflare carry post-quantum hybrid key {{exchange|exchange}} by end of 2025; on by default in iOS 26 and macOS Tahoe.',
+			'~52% of [[tls|TLS]] 1.3 connections to {{cloudflare|Cloudflare}} carry post-quantum hybrid key {{exchange|exchange}} by end of 2025; on by default in iOS 26 and macOS Tahoe.',
 		topic: 'security',
 		status: 'rolling-out',
 		date: '2025-09 (default in Apple platforms)',
 		protocols: ['tls', 'quic'],
 		description: `Chrome 116 (Aug 2023) shipped X25519Kyber768 behind a flag; Chrome 124 (Apr 2024) made it default. NIST published FIPS 203 ({{ml-kem|ML-KEM}}, formerly Kyber) on 13 August 2024, forcing a new [[tls|TLS]] codepoint 0x11EC for X25519MLKEM768; Chrome 131 (Nov 2024) switched to it. Firefox 132, Edge 131, and OpenJDK (JEP 527) followed.
 
-Apple iOS 26 / macOS Tahoe 26 (September 2025) turned X25519MLKEM768 on by default for all [[tls|TLS]] 1.3 in Apple's Network.framework — within four days iOS PQ traffic share went from <2% to 11%, and to >25% by December 2025. By end of 2025, ~52% of all [[tls|TLS]] 1.3 requests to Cloudflare carried PQ key agreement. The lattice-based KEM is twice the size of X25519 alone, so the {{handshake|handshake}} costs a few extra [[tcp|TCP]] packets — measurable but not user-visible.`,
+{{apple|Apple}} iOS 26 / macOS Tahoe 26 (September 2025) turned X25519MLKEM768 on by default for all [[tls|TLS]] 1.3 in {{apple|Apple}}'s Network.framework — within four days iOS PQ traffic share went from <2% to 11%, and to >25% by December 2025. By end of 2025, ~52% of all [[tls|TLS]] 1.3 requests to {{cloudflare|Cloudflare}} carried PQ key agreement. The lattice-based KEM is twice the size of X25519 alone, so the {{handshake|handshake}} costs a few extra [[tcp|TCP]] packets — measurable but not user-visible.`,
 		metrics: [
 			{ label: 'Cloudflare TLS 1.3 with PQ', value: '~52%', date: '2025-12' },
 			{ label: 'iOS PQ share (4 days post-launch)', value: '11%', date: '2025-09' },
@@ -101,14 +101,14 @@ Apple iOS 26 / macOS Tahoe 26 (September 2025) turned X25519MLKEM768 on by defau
 		id: 'bbrv3-default',
 		title: 'BBRv3 Default for Google + YouTube',
 		oneLiner:
-			"Google's model-based {{congestion-control|congestion control}} replaced {{cubic|CUBIC}} for google.com and YouTube traffic from 2023 — and is the default on Google Cloud.",
+			"{{google|Google}}'s model-based {{congestion-control|congestion control}} replaced {{cubic|CUBIC}} for {{google|google}}.com and YouTube traffic from 2023 — and is the default on Google Cloud.",
 		topic: 'transport',
 		status: 'shipped',
 		date: '2023 (default through 2024-2025)',
 		protocols: ['tcp', 'quic'],
-		description: `{{bbr|BBR}} (Bottleneck {{bandwidth|Bandwidth}} and Round-trip propagation time) is Google's {{congestion-control|congestion control}} that abandons loss as the primary signal and instead models the path's bottleneck {{bandwidth|bandwidth}} and {{rtt|RTT}}. Cardwell, Cheng, Gunn, Yeganeh, and Jacobson published it at ACM Queue in 2016 (CACM Feb 2017). BBRv1's gain over {{cubic|CUBIC}} was ~4% globally on YouTube, more than 14% in some countries, and a 33% reduction in median {{rtt|RTT}}.
+		description: `{{bbr|BBR}} (Bottleneck {{bandwidth|Bandwidth}} and Round-trip propagation time) is {{google|Google}}'s {{congestion-control|congestion control}} that abandons loss as the primary signal and instead models the path's bottleneck {{bandwidth|bandwidth}} and {{rtt|RTT}}. Cardwell, Cheng, Gunn, Yeganeh, and Jacobson published it at ACM Queue in 2016 (CACM Feb 2017). BBRv1's gain over {{cubic|CUBIC}} was ~4% globally on YouTube, more than 14% in some countries, and a 33% reduction in median {{rtt|RTT}}.
 
-BBRv3 is now \`draft-ietf-ccwg-bbr\` inside the {{ietf|IETF}}'s {{congestion-control|Congestion Control}} Working Group. Google has been running it as the default for google.com and YouTube traffic since 2023. The draft (-04 / -05 in 2025-2026) refines the bandwidth probing, packet conservation, and convergence properties that earlier {{bbr|BBR}} versions had open issues with. Available in Linux via \`sysctl net.ipv4.tcp_congestion_control=bbr\` (paired with the FQ qdisc, which {{bbr|BBR}} {{pacing|pacing}} requires).`,
+{{bbrv3|BBRv3}} is now \`draft-{{ietf|ietf}}-ccwg-bbr\` inside the {{ietf|IETF}}'s {{congestion-control|Congestion Control}} Working Group. {{google|Google}} has been running it as the default for google.com and YouTube traffic since 2023. The draft (-04 / -05 in 2025-2026) refines the {{bandwidth|bandwidth}} probing, packet conservation, and convergence properties that earlier {{bbr|BBR}} versions had open issues with. Available in {{linux|Linux}} via \`sysctl net.ipv4.tcp_congestion_control=bbr\` (paired with the FQ qdisc, which {{bbr|BBR}} {{pacing|pacing}} requires).`,
 		metrics: [
 			{ label: 'Google YouTube throughput gain (BBRv1)', value: '+4%', date: '2017' },
 			{ label: 'Google median RTT reduction', value: '−33%', date: '2017' }
@@ -127,9 +127,9 @@ BBRv3 is now \`draft-ietf-ccwg-bbr\` inside the {{ietf|IETF}}'s {{congestion-con
 		status: 'rolling-out',
 		date: '2025-01-29',
 		protocols: ['tcp', 'quic'],
-		description: `{{l4s|L4S}} (Low {{latency|Latency}}, Low Loss, Scalable throughput) — RFCs 9330/9331/9332, January 2023 — is the architecture for sub-millisecond queuing {{latency|latency}}. Comcast launched it in production in late January 2025 in Atlanta, Chicago, Colorado Springs, Philadelphia, Rockville (MD) and San Francisco, with Apple, NVIDIA GeForce NOW, Meta and Valve as launch partners.
+		description: `{{l4s|L4S}} (Low {{latency|Latency}}, Low Loss, Scalable throughput) — RFCs 9330/9331/9332, January 2023 — is the architecture for sub-millisecond queuing {{latency|latency}}. Comcast launched it in production in late January 2025 in Atlanta, Chicago, Colorado Springs, Philadelphia, Rockville (MD) and San Francisco, with {{apple|Apple}}, {{nvidia|NVIDIA}} GeForce NOW, {{meta|Meta}} and Valve as launch partners.
 
-The mechanism: cooperating senders mark packets {{ecn|ECN}}-Capable; routers running the DualQ Coupled {{aqm|AQM}} mark instead of dropping when congestion is incipient; senders react to marks like minor losses without backing off as hard. The result is {{bufferbloat|bufferbloat}} avoided in real time: latency-sensitive apps (cloud gaming, video calls) get the headroom they need without starving classic [[tcp|TCP]]. Apple shipped {{l4s|L4S}} support in iOS 17, iPadOS 17, macOS Sonoma and tvOS 17 in 2023, on by default for [[quic|QUIC]] in newer releases.`,
+The mechanism: cooperating senders mark packets {{ecn|ECN}}-Capable; routers running the DualQ Coupled {{aqm|AQM}} mark instead of dropping when congestion is incipient; senders react to marks like minor losses without backing off as hard. The result is {{bufferbloat|bufferbloat}} avoided in real time: {{latency|latency}}-sensitive apps (cloud gaming, video calls) get the headroom they need without starving classic [[tcp|TCP]]. {{apple|Apple}} shipped {{l4s|L4S}} support in iOS 17, iPadOS 17, macOS Sonoma and tvOS 17 in 2023, on by default for [[quic|QUIC]] in newer releases.`,
 		sources: [
 			{ url: 'https://www.rcrwireless.com/20250129/uncategorized/comcast-l4s', label: 'RCR Wireless — Comcast L4S launch' },
 			{ url: 'https://www.nokia.com/bell-labs/research/l4s/', label: 'Nokia Bell Labs — L4S' }
@@ -139,14 +139,14 @@ The mechanism: cooperating senders mark packets {{ecn|ECN}}-Capable; routers run
 		id: 'ech-rfc-9849',
 		title: 'Encrypted Client Hello Published as RFC 9849',
 		oneLiner:
-			'[[tls|TLS]] 1.3 ClientHello — including the {{sni|SNI}} — is finally encrypted; Cloudflare deploys {{ech|ECH}} for ~70% of fronted sites.',
+			'[[tls|TLS]] 1.3 ClientHello — including the {{sni|SNI}} — is finally encrypted; {{cloudflare|Cloudflare}} deploys {{ech|ECH}} for ~70% of fronted sites.',
 		topic: 'security',
 		status: 'shipped',
 		date: '2025',
 		protocols: ['tls'],
 		description: `{{ech|ECH}} ({{ech|Encrypted Client Hello}}) hides the {{sni|SNI}} and other ClientHello fields that previously let middleboxes and ISPs see which site you were visiting. Specified through 25 {{ietf|IETF}} drafts and finally published as [[rfc:9849|RFC 9849]] in 2025.
 
-Cloudflare deploys {{ech|ECH}} for ~70% of websites it fronts; Chrome and Firefox both support it. The architecture: the server publishes an ECHConfig in [[dns|DNS]] (HTTPS RR); the client encrypts the inner ClientHello to that key and wraps it in an outer ClientHello that uses a generic "cloudflare-ech.com" {{sni|SNI}}. From the network's perspective, every fronted site looks the same.`,
+{{cloudflare|Cloudflare}} deploys {{ech|ECH}} for ~70% of websites it fronts; Chrome and Firefox both support it. The architecture: the server publishes an ECHConfig in [[dns|DNS]] (HTTPS RR); the client encrypts the inner ClientHello to that key and wraps it in an outer ClientHello that uses a generic "{{cloudflare|cloudflare}}-ech.com" {{sni|SNI}}. From the network's perspective, every fronted site looks the same.`,
 		sources: [
 			{ url: 'https://www.feistyduck.com/newsletter/issue_127_encrypted_client_hello_approved_for_publication.html', label: 'Feisty Duck — ECH approved for publication' },
 			{ url: 'https://www.cisecurity.org/insights/blog/security-control-changes-due-to-tls-encrypted-clienthello', label: 'CISecurity — security control changes due to ECH' }
@@ -163,7 +163,7 @@ Cloudflare deploys {{ech|ECH}} for ~70% of websites it fronts; Chrome and Firefo
 		protocols: ['bgp'],
 		description: `By May 2024, more than 50% of [[ip|IPv4]] routes had ROAs (Route Origin Authorisations); roughly three-quarters of [[ip|IP]] traffic was bound for {{rpki|RPKI}}-secured destinations. MANRS surpassed 1,190 participants in 2024 and continued growing through 2025 under Global Cyber Alliance stewardship.
 
-Cloudflare's separate measurement of *enforcement* (ASes that drop invalids) puts the directly-protected user population at ~261M (~6.5%), but because almost every Tier-1 {{transit|transit}} drops invalids, *indirect* validation suppresses invalid-route propagation by a factor of two to three. {{aspa|ASPA}} (the path-hijack defence beyond {{rpki|RPKI}}'s origin defence) is in {{ietf|IETF}} SIDROPS last call as of April 2026.`,
+{{cloudflare|Cloudflare}}'s separate measurement of *enforcement* (ASes that drop invalids) puts the directly-protected user population at ~261M (~6.5%), but because almost every Tier-1 {{transit|transit}} drops invalids, *indirect* validation suppresses invalid-route propagation by a factor of two to three. {{aspa|ASPA}} (the path-hijack defence beyond {{rpki|RPKI}}'s origin defence) is in {{ietf|IETF}} SIDROPS last call as of April 2026.`,
 		metrics: [
 			{ label: 'IPv4 prefixes with ROAs', value: '>50%', date: '2024-05' },
 			{ label: 'Traffic bound for RPKI-secured destinations', value: '~75%', date: '2024' }
@@ -220,7 +220,7 @@ AI training fabrics are the demand engine. "Lossless [[ethernet|Ethernet]]" with
 		status: 'shipped',
 		date: '2025-06',
 		protocols: ['ethernet'],
-		description: `UEC 1.0, released June 2025, is the Ultra [[ethernet|Ethernet]] Consortium's transport specification — a 562-page open spec by AMD, Arista, Broadcom, Cisco, HPE, Intel, Meta, Microsoft and dozens of partners for AI/HPC scale-out fabrics. {{connectionless|Connectionless}}, unordered, {{multipath|multipath}} (intelligent packet spray instead of single-path), packet-trimming, selective {{retransmission|retransmission}}.
+		description: `UEC 1.0, released June 2025, is the Ultra [[ethernet|Ethernet]] Consortium's transport specification — a 562-page open spec by AMD, Arista, {{broadcom|Broadcom}}, {{cisco|Cisco}}, HPE, {{intel|Intel}}, {{meta|Meta}}, {{microsoft|Microsoft}} and dozens of partners for AI/HPC scale-out fabrics. {{connectionless|Connectionless}}, unordered, {{multipath|multipath}} (intelligent packet spray instead of single-path), packet-trimming, selective {{retransmission|retransmission}}.
 
 AMD's Pensando Pollara 400 is the first shipping NIC. The likely RoCEv2 successor for the next generation of GPU clusters — at the scale of 100K+ accelerators training a single model, the assumptions baked into RoCEv2 (single-path, lossless via PFC, no out-of-order) become liabilities.`,
 		sources: [
@@ -237,9 +237,9 @@ AMD's Pensando Pollara 400 is the first shipping NIC. The likely RoCEv2 successo
 		status: 'standardizing',
 		date: 'late 2025 / early 2026',
 		protocols: ['quic'],
-		description: `\`draft-ietf-quic-multipath\` is in {{ietf|IETF}} last-call as of late 2025 / early 2026. The protocol extends [[quic|QUIC]] with multiple concurrent paths between endpoints, the same way [[mptcp|MPTCP]] extended [[tcp|TCP]] — but built into [[quic|QUIC]]'s connection-ID architecture rather than bolted on as [[tcp|TCP]] options.
+		description: `\`draft-{{ietf|ietf}}-quic-{{multipath|multipath}}\` is in {{ietf|IETF}} last-call as of late 2025 / early 2026. The protocol extends [[quic|QUIC]] with multiple concurrent paths between endpoints, the same way [[mptcp|MPTCP]] extended [[tcp|TCP]] — but built into [[quic|QUIC]]'s connection-ID architecture rather than bolted on as [[tcp|TCP]] options.
 
-Use cases: aggregating [[wifi|Wi-Fi]] and cellular {{bandwidth|bandwidth}} on a phone (Apple already does this with [[mptcp|MPTCP]] for Siri), seamless network handover when the user changes interfaces, reaching a multi-homed server through whichever path is fastest. The {{3gpp|3GPP}} ATSSS standard for 5G already specifies [[mptcp|MPTCP]] and MPQUIC for traffic steering between cellular and [[wifi|Wi-Fi]].`,
+Use cases: aggregating [[wifi|Wi-Fi]] and cellular {{bandwidth|bandwidth}} on a phone ({{apple|Apple}} already does this with [[mptcp|MPTCP]] for Siri), seamless network handover when the user changes interfaces, reaching a multi-homed server through whichever path is fastest. The {{3gpp|3GPP}} ATSSS standard for 5G already specifies [[mptcp|MPTCP]] and MPQUIC for traffic steering between cellular and [[wifi|Wi-Fi]].`,
 		sources: [
 			{ url: 'https://datatracker.ietf.org/doc/html/draft-ietf-quic-multipath', label: 'IETF — draft-ietf-quic-multipath' }
 		]
@@ -253,7 +253,7 @@ Use cases: aggregating [[wifi|Wi-Fi]] and cellular {{bandwidth|bandwidth}} on a 
 		status: 'standardizing',
 		date: '2026-03 (draft -17)',
 		protocols: ['quic', 'http3'],
-		description: `\`draft-ietf-moq-transport-17\` (March 2026) is the {{ietf|IETF}}'s Media-over-[[quic|QUIC]] Transport — sub-second live streaming over [[quic|QUIC]], designed to replace the [[rtmp|RTMP]]-into-[[hls|HLS]] pipeline that streamers use today. Cloudflare and Meta have public MoQ relay implementations; Twitch and YouTube are evaluating.
+		description: `\`draft-{{ietf|ietf}}-moq-transport-17\` (March 2026) is the {{ietf|IETF}}'s Media-over-[[quic|QUIC]] Transport — sub-second live streaming over [[quic|QUIC]], designed to replace the [[rtmp|RTMP]]-into-[[hls|HLS]] pipeline that streamers use today. {{cloudflare|Cloudflare}} and {{meta|Meta}} have public MoQ relay implementations; Twitch and YouTube are evaluating.
 
 The architecture: publishers send named objects to MoQ relays; subscribers fetch named objects from the nearest relay, with hop-by-hop [[quic|QUIC]]. Object naming + [[quic|QUIC]] stream {{multiplexing|multiplexing}} mean a relay can drop objects under congestion (preserve key frames over delta frames) without the publisher coordinating. [[webrtc|WebRTC]]'s lunch may finally be eaten for one-to-many use cases.`,
 		sources: [
@@ -282,14 +282,14 @@ Streamable HTTP is one HTTP endpoint that can return either a single [[json-rpc|
 		id: 'a2a-linux-foundation',
 		title: 'A2A Donated to the Linux Foundation',
 		oneLiner:
-			'Google\'s Agent2Agent protocol joins [[mcp|MCP]] under open governance — the second AI-agent protocol to find a foundation home.',
+			'{{google|Google}}\'s Agent2Agent protocol joins [[mcp|MCP]] under open governance — the second AI-agent protocol to find a foundation home.',
 		topic: 'ai-agents',
 		status: 'shipped',
 		date: '2025-06',
 		protocols: ['a2a', 'mcp'],
-		description: `Google unveiled Agent2Agent ([[a2a|A2A]]) on 9 April 2025 at Cloud Next with 50+ partners and donated it to the Linux Foundation in June 2025. [[a2a|A2A]] is the *agent-to-agent* layer above [[mcp|MCP]]: where [[mcp|MCP]] wires an agent to its tools and data, [[a2a|A2A]] wires agents to each other so they can collaborate or delegate tasks across vendors.
+		description: `{{google|Google}} unveiled Agent2Agent ([[a2a|A2A]]) on 9 April 2025 at Cloud Next with 50+ partners and donated it to the {{linux|Linux}} Foundation in June 2025. [[a2a|A2A]] is the *agent-to-agent* layer above [[mcp|MCP]]: where [[mcp|MCP]] wires an agent to its tools and data, [[a2a|A2A]] wires agents to each other so they can collaborate or delegate tasks across vendors.
 
-In December 2025 Anthropic donated [[mcp|MCP]] to the Agentic AI Foundation (AAIF), a Linux Foundation directed fund co-founded by Anthropic, Block, and OpenAI. [[mcp|MCP]] and [[a2a|A2A]] are now under the same umbrella. Mid-2026 industry analyses report [[mcp|MCP]] at ~78% enterprise adoption vs [[a2a|A2A]] at ~23% — the boundary between "agent" and "tool" remains fuzzy and the multi-agent collaboration use cases are still emerging.`,
+In December 2025 Anthropic donated [[mcp|MCP]] to the Agentic AI Foundation (AAIF), a {{linux|Linux}} Foundation directed fund co-founded by Anthropic, Block, and OpenAI. [[mcp|MCP]] and [[a2a|A2A]] are now under the same umbrella. Mid-2026 industry analyses report [[mcp|MCP]] at ~78% enterprise adoption vs [[a2a|A2A]] at ~23% — the boundary between "agent" and "tool" remains fuzzy and the multi-agent collaboration use cases are still emerging.`,
 		sources: [
 			{ url: 'https://www.linuxfoundation.org/press/linux-foundation-launches-the-agent2agent-protocol-project-to-enable-secure-intelligent-communication-between-ai-agents', label: 'Linux Foundation — A2A project' },
 			{ url: 'https://en.wikipedia.org/wiki/Model_Context_Protocol', label: 'Wikipedia — MCP' }

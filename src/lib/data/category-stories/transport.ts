@@ -159,7 +159,7 @@ export const transportStory: CategoryStory = {
 					year: 2013,
 					title: 'MPTCP Published — RFC 6824',
 					description:
-						'{{multipath|Multipath}} [[tcp|TCP]] allows a single connection to use multiple network paths simultaneously. Apple deploys it in iOS 7 for Siri, its first major real-world adoption.',
+						'{{multipath|Multipath}} [[tcp|TCP]] allows a single connection to use multiple network paths simultaneously. {{apple|Apple}} deploys it in iOS 7 for Siri, its first major real-world adoption.',
 					protocolId: 'mptcp'
 				},
 				{
@@ -173,7 +173,7 @@ export const transportStory: CategoryStory = {
 					year: 2013,
 					title: 'QUIC Deployed in Chrome',
 					description:
-						'Google begins experimenting with [[quic|QUIC]] in Chrome, carrying Google search and YouTube traffic. A real-world proving ground.',
+						'{{google|Google}} begins experimenting with [[quic|QUIC]] in Chrome, carrying {{google|Google}} search and YouTube traffic. A real-world proving ground.',
 					protocolId: 'quic'
 				},
 				{
@@ -205,7 +205,7 @@ export const transportStory: CategoryStory = {
 					title: 'QUIC Standardization Lead',
 					org: 'Google / Fastly',
 					contribution:
-						'Led the {{ietf|IETF}} standardization effort that transformed [[quic|QUIC]] from a Google experiment into [[rfc:9000|RFC 9000]], navigating the complex process of building industry consensus around a new transport protocol.'
+						'Led the {{ietf|IETF}} standardization effort that transformed [[quic|QUIC]] from a {{google|Google}} experiment into [[rfc:9000|RFC 9000]], navigating the complex process of building industry consensus around a new transport protocol.'
 				},
 				{
 					name: 'Randall Stewart',
@@ -220,7 +220,7 @@ export const transportStory: CategoryStory = {
 		{
 			type: 'narrative',
 			title: 'The Ossification Problem',
-			text: `Why didn't we just improve [[tcp]]? The answer is ossification \u2014 one of the most frustrating phenomena in networked systems.\n\nOver decades, an entire ecosystem of middleboxes grew up around [[tcp|TCP]]: firewalls that inspect [[tcp|TCP]] headers, NATs that rewrite port numbers, load balancers that track connection state, and intrusion detection systems that parse [[tcp|TCP]] options. These devices learned the exact byte layout of [[tcp|TCP]] segments and made assumptions about what they'd see. Any change to [[tcp|TCP]]'s wire format \u2014 even one permitted by the specification \u2014 risked being silently dropped or mangled by some middlebox along the path.\n\n[[mptcp]] tried a different approach: extending [[tcp|TCP]] itself to use multiple network paths simultaneously, improving resilience and {{bandwidth|bandwidth}}. Apple adopted it for Siri in 2013, but [[mptcp|MPTCP]]'s reliance on [[tcp|TCP]] options meant middleboxes could still interfere.\n\n[[quic]] solved the ossification problem radically. Instead of trying to change [[tcp|TCP]], it built an entirely new transport protocol on top of [[udp]], which middleboxes pass through without inspection. Then [[quic|QUIC]] went a step further: it encrypts nearly everything, including its own transport headers. Middleboxes can't interfere with what they can't read. It's transport evolution through camouflage \u2014 hiding innovation inside a packet format that the existing infrastructure already knows how to ignore.`
+			text: `Why didn't we just improve [[tcp]]? The answer is ossification \u2014 one of the most frustrating phenomena in networked systems.\n\nOver decades, an entire ecosystem of middleboxes grew up around [[tcp|TCP]]: firewalls that inspect [[tcp|TCP]] headers, NATs that rewrite port numbers, load balancers that track connection state, and intrusion detection systems that parse [[tcp|TCP]] options. These devices learned the exact byte layout of [[tcp|TCP]] segments and made assumptions about what they'd see. Any change to [[tcp|TCP]]'s wire format \u2014 even one permitted by the specification \u2014 risked being silently dropped or mangled by some middlebox along the path.\n\n[[mptcp]] tried a different approach: extending [[tcp|TCP]] itself to use multiple network paths simultaneously, improving resilience and {{bandwidth|bandwidth}}. {{apple|Apple}} adopted it for Siri in 2013, but [[mptcp|MPTCP]]'s reliance on [[tcp|TCP]] options meant middleboxes could still interfere.\n\n[[quic]] solved the ossification problem radically. Instead of trying to change [[tcp|TCP]], it built an entirely new transport protocol on top of [[udp]], which middleboxes pass through without inspection. Then [[quic|QUIC]] went a step further: it encrypts nearly everything, including its own transport headers. Middleboxes can't interfere with what they can't read. It's transport evolution through camouflage \u2014 hiding innovation inside a packet format that the existing infrastructure already knows how to ignore.`
 		},
 		{
 			type: 'diagram',
@@ -243,7 +243,7 @@ export const transportStory: CategoryStory = {
 		{
 			type: 'callout',
 			title: 'The Numbers',
-			text: '[[tcp|TCP]] and [[udp|UDP]] together carry virtually 100% of internet traffic. As of 2024, [[quic|QUIC]] (which runs over [[udp|UDP]]) carries over 30% of global web traffic \u2014 primarily through Google services and Cloudflare. The transport layer is the most fundamental, and least visible, part of the internet.'
+			text: '[[tcp|TCP]] and [[udp|UDP]] together carry virtually 100% of internet traffic. As of 2024, [[quic|QUIC]] (which runs over [[udp|UDP]]) carries over 30% of global web traffic \u2014 primarily through {{google|Google}} services and {{cloudflare|Cloudflare}}. The transport layer is the most fundamental, and least visible, part of the internet.'
 		}
 	]
 };

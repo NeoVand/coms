@@ -10,23 +10,23 @@ export const cellular: Protocol = {
 	rfc: '3GPP TS 36.300 / 38.300',
 	oneLiner:
 		'The {{3gpp|3GPP}} radio family that gets a phone an {{ip-address|IP address}} from a base station 50 km away — every modern smartphone, every IoT cellular module, ~9 billion subscriptions, the largest wireless deployment on Earth.',
-	overview: `**Cellular** in 2026 is two protocols braided into one ecosystem: **4G LTE** ({{3gpp|3GPP}} Release 8, December 2008 — still the universal floor) and **{{5g-nr|5G NR}}** (Release 15, June 2018 — the current normative baseline). Both share the 3GPP standards body, the same air-interface design philosophy ({{ofdma|OFDMA}} + flexible numerology + {{harq|HARQ}}), the mandatory [[ipsec|IPsec]] envelope on every backhaul link, and an [[ipv6|IPv6]] mandate that has been quietly migrating every major carrier's user-plane to IPv6-only since ~2020. We treat them as one encyclopedia node the way [[bluetooth|Bluetooth Classic + BLE]] is one node — the SIG and the radio diverge but the consumer story is unified.
+	overview: `**Cellular** in 2026 is two protocols braided into one ecosystem: **4G LTE** ({{3gpp|3GPP}} Release 8, December 2008 — still the universal floor) and **{{5g-nr|5G NR}}** (Release 15, June 2018 — the current normative baseline). Both share the {{3gpp|3GPP}} standards body, the same air-interface design philosophy ({{ofdma|OFDMA}} + flexible numerology + {{harq|HARQ}}), the mandatory [[ipsec|IPsec]] envelope on every backhaul link, and an [[ipv6|IPv6]] mandate that has been quietly migrating every major carrier's user-plane to IPv6-only since ~2020. We treat them as one encyclopedia node the way [[bluetooth|Bluetooth Classic + BLE]] is one node — the SIG and the radio diverge but the consumer story is unified.
 
-The radio stack is the headline. **PHY** (3GPP TS 38.211–214) carries OFDMA with five numerologies — subcarrier spacings of 15, 30, 60, 120, and 240 kHz — letting the same protocol address sub-6 GHz mid-band (FR1) and {{mmwave|mmWave}} (FR2). **MAC** does hybrid ARQ over 8-process stop-and-wait {{retransmission|retransmission}}. **RLC** handles {{fragmentation|segmentation and reassembly}} across 10/16-bit {{sequence-number|sequence numbers}}. **PDCP** does {{header|header compression}} (ROHC) and AES-CTR {{encryption|ciphering}}. **RRC** drives the connection state machine — \`RRC_IDLE → CONNECTED → INACTIVE\` for 5G — and **NAS** carries mobility, {{handshake|authentication}}, and session management end-to-end between the UE and the core. Above all that, the user plane is just [[ip|IP]] (almost always [[ipv6|IPv6]] now); above *that*, the application runs whatever protocols ordinary internet applications run.
+The radio stack is the headline. **PHY** ({{3gpp|3GPP}} TS 38.211–214) carries {{ofdma|OFDMA}} with five numerologies — subcarrier spacings of 15, 30, 60, 120, and 240 kHz — letting the same protocol address sub-6 GHz mid-band (FR1) and {{mmwave|mmWave}} (FR2). **MAC** does hybrid ARQ over 8-process stop-and-wait {{retransmission|retransmission}}. **RLC** handles {{fragmentation|segmentation and reassembly}} across 10/16-bit {{sequence-number|sequence numbers}}. **PDCP** does {{header|header compression}} (ROHC) and AES-CTR {{encryption|ciphering}}. **RRC** drives the connection state machine — \`RRC_IDLE → CONNECTED → INACTIVE\` for 5G — and **NAS** carries mobility, {{handshake|authentication}}, and session management end-to-end between the UE and the core. Above all that, the user plane is just [[ip|IP]] (almost always [[ipv6|IPv6]] now); above *that*, the application runs whatever protocols ordinary internet applications run.
 
 The Core Network is where the architectural revolution between 4G and 5G actually lives. **EPC** (Evolved Packet Core, LTE) is a small zoo of named monolithic boxes — MME, SGW, PGW, HSS, PCRF, all glued together by GTP and {{diameter|Diameter}}. **5GC** (5G Core, NR-SA) is a **{{service-mesh|service-based architecture}}** where dozens of network functions (AMF, SMF, UPF, AUSF, UDM, PCF, NRF, NEF, NSSF, AF…) talk to each other over **[[http2|HTTP/2]] with {{json|JSON}} {{payload|payloads}} protected by [[tls|TLS]]**. The control plane of every modern carrier on Earth is now an [[http2|HTTP/2]] microservice fabric. Every N2/N3 interface between the radio access network and the core is wrapped in [[ipsec|IPsec ESP]] per 3GPP TS 33.501 — the single largest enterprise [[ipsec|IPsec]] deployment on Earth runs inside this layer.
 
-The frontier in 2026 is **5G-Advanced** (Release 18, frozen June 2024; Release 19 in progress; Release 20 study items for 6G already kicking off in 2025), **Open RAN** deployments (Vodafone UK, Deutsche Telekom, Rakuten Symphony, DISH on AWS Wavelength), and **satellite {{direct-to-cell|direct-to-cell}}** — T-Mobile + SpaceX Starlink launched commercial service in January 2025; AT&T's AST SpaceMobile partnership and Apple's Globalstar-based Emergency SOS are reshaping what "no signal" means.`,
+The frontier in 2026 is **5G-Advanced** (Release 18, frozen June 2024; Release 19 in progress; Release 20 study items for 6G already kicking off in 2025), **Open RAN** deployments (Vodafone UK, Deutsche Telekom, Rakuten Symphony, DISH on AWS Wavelength), and **satellite {{direct-to-cell|direct-to-cell}}** — T-Mobile + SpaceX {{starlink|Starlink}} launched commercial service in January 2025; AT&T's AST SpaceMobile partnership and {{apple|Apple}}'s Globalstar-based Emergency SOS are reshaping what "no signal" means.`,
 	howItWorks: [
 		{
 			title: 'PHY — OFDMA with five numerologies',
 			description:
-				"{{5g-nr|5G NR}} carries data on **Orthogonal Frequency-Division Multiple Access** subcarriers spaced at 15, 30, 60, 120, or 240 kHz ({{3gpp|3GPP}} TS 38.211). The choice is the *numerology* — smaller spacing = longer symbols = more robust at low frequencies; larger spacing = shorter symbols = required at {{mmwave|mmWave}}. One framework, two very different deployment regimes (FR1 sub-6 GHz, FR2 mmWave 24–52 GHz)."
+				"{{5g-nr|5G NR}} carries data on **Orthogonal Frequency-Division Multiple Access** subcarriers spaced at 15, 30, 60, 120, or 240 kHz ({{3gpp|3GPP}} TS 38.211). The choice is the *numerology* — smaller spacing = longer symbols = more robust at low frequencies; larger spacing = shorter symbols = required at {{mmwave|mmWave}}. One framework, two very different deployment regimes (FR1 sub-6 GHz, FR2 {{mmwave|mmWave}} 24–52 GHz)."
 		},
 		{
 			title: 'MAC — Hybrid ARQ',
 			description:
-				"**{{harq|HARQ}}** combines forward error correction with {{retransmission|retransmission}}. The receiver stores soft-decoded LLRs from failed transmissions and combines them with the retransmitted copy (chase-combining or incremental-redundancy). 8 parallel stop-and-wait processes per UE (HARQ process ID is 3 bits) keep the pipe full without {{head-of-line-blocking|head-of-line blocking}}. Why cellular gets 99.999% reliability without [[tcp|TCP]]'s retransmit cost on the link."
+				"**{{harq|HARQ}}** combines forward error correction with {{retransmission|retransmission}}. The receiver stores soft-decoded LLRs from failed transmissions and combines them with the retransmitted copy (chase-combining or incremental-redundancy). 8 parallel stop-and-wait processes per UE ({{harq|HARQ}} process ID is 3 bits) keep the pipe full without {{head-of-line-blocking|head-of-line blocking}}. Why cellular gets 99.999% reliability without [[tcp|TCP]]'s retransmit cost on the link."
 		},
 		{
 			title: 'RLC + PDCP — sequence numbers, ciphering, header compression',
@@ -110,7 +110,7 @@ sudo tshark -i lo -f 'sctp port 38412' -V
 # Decode NAS Registration Request, NAS Authentication, Security Mode,
 # Registration Accept, PDU Session Establishment Request, all in
 # real time. Wireshark NGAP/NAS-5GS dissectors handle the whole thing.`,
-		caption: 'A locally-runnable 5G testbed in three commands — srsRAN gNB + Open5GS 5GC + Wireshark. Used by every cellular-protocol researcher in 2026.',
+		caption: 'A locally-runnable 5G testbed in three commands — srsRAN gNB + Open5GS 5GC + {{wireshark|Wireshark}}. Used by every cellular-protocol researcher in 2026.',
 		alternatives: [
 			{
 				language: 'python',
@@ -295,7 +295,7 @@ Inner packet:
 			date: '2025-01',
 			title: 'T-Mobile + SpaceX Starlink Direct-to-Cell launches commercially',
 			description:
-				'After 18 months of beta, **T-Satellite by T-Mobile** opened to the public in January 2025 — every modern phone with band n25/n26 can connect to a low-Earth-orbit Starlink satellite for SMS and emergency messaging without any app. AT&T + AST SpaceMobile and Apple\'s Globalstar Emergency SOS round out the satellite-{{direct-to-cell|direct-to-cell}} story. The first time "no signal" stops meaning *no signal*.',
+				'After 18 months of beta, **T-Satellite by T-Mobile** opened to the public in January 2025 — every modern phone with band n25/n26 can connect to a low-Earth-orbit {{starlink|Starlink}} satellite for SMS and emergency messaging without any app. AT&T + AST SpaceMobile and {{apple|Apple}}\'s Globalstar Emergency SOS round out the satellite-{{direct-to-cell|direct-to-cell}} story. The first time "no signal" stops meaning *no signal*.',
 			source: {
 				url: 'https://www.t-mobile.com/coverage/satellite',
 				label: 'T-Satellite product page'
@@ -325,7 +325,7 @@ Inner packet:
 			date: '2024-12',
 			title: 'NTN (Non-Terrestrial Network) Release 17/18 features hit deployment',
 			description:
-				'After being specified in Release 17 (2022), the first NR-NTN deployments shipped in late 2024 — the radio-layer protocol that lets standard {{5g-nr|5G NR}} talk to a satellite at 600 km without proprietary modulation. Combined with Apple\'s announced iPhone 17 satellite-NR support (2025), this closes the gap between "phone radio" and "satellite radio" for the first time.',
+				'After being specified in Release 17 (2022), the first NR-NTN deployments shipped in late 2024 — the radio-layer protocol that lets standard {{5g-nr|5G NR}} talk to a satellite at 600 km without proprietary modulation. Combined with {{apple|Apple}}\'s announced iPhone 17 satellite-NR support (2025), this closes the gap between "phone radio" and "satellite radio" for the first time.',
 			source: {
 				url: 'https://www.3gpp.org/news-events/3gpp-news/sa-aug21-mtg',
 				label: '3GPP SA NTN status'
@@ -338,7 +338,7 @@ Inner packet:
 			org: '3GPP / every mobile carrier on Earth',
 			scale: '~9 billion subscriptions (GSMA, 2024)',
 			description:
-				"The largest wireless protocol family by user count. Specified collectively by {{3gpp|3GPP}} — a partnership of ETSI (Europe), ARIB + TTC (Japan), ATIS (North America), CCSA (China), TSDSI (India), TTA (Korea). Every cellular phone on Earth runs 3GPP protocols at the radio layer."
+				"The largest wireless protocol family by user count. Specified collectively by {{3gpp|3GPP}} — a partnership of ETSI (Europe), ARIB + TTC (Japan), ATIS (North America), CCSA (China), TSDSI (India), TTA (Korea). Every cellular phone on Earth runs {{3gpp|3GPP}} protocols at the radio layer."
 		},
 		{
 			org: 'Reliance Jio',
@@ -350,7 +350,7 @@ Inner packet:
 			org: 'T-Mobile USA + SpaceX',
 			scale: 'T-Satellite commercial since Jan 2025; ~100M+ T-Mobile US subscribers',
 			description:
-				'The first commercial **satellite {{direct-to-cell|direct-to-cell}}** service. Standard band n25/n26 phones connect to Starlink satellites in low-Earth orbit for SMS and emergency. Apple\'s Globalstar partnership and AT&T\'s AST SpaceMobile follow similar patterns. Reshapes "coverage" as a concept.'
+				'The first commercial **satellite {{direct-to-cell|direct-to-cell}}** service. Standard band n25/n26 phones connect to {{starlink|Starlink}} satellites in low-Earth orbit for SMS and emergency. {{apple|Apple}}\'s Globalstar partnership and AT&T\'s AST SpaceMobile follow similar patterns. Reshapes "coverage" as a concept.'
 		},
 		{
 			org: 'DISH Wireless / EchoStar',
@@ -387,7 +387,7 @@ Inner packet:
 			},
 			{
 				title: 'PMTUD black holes on the GTP tunnel',
-				text: "Many cellular networks drop ICMPv4 Type 3 Code 4 (Frag Needed) messages on the SGi/N6 side. The MTU on a {{gtp-u|GTP-U}} tunnel is 1500 − 8 ([[udp|UDP]]) − 20/40 (IP) − 8 (GTP-U) − overhead = typically 1430–1452 inner bytes. **Cure:** [[tcp|TCP]] MSS clamping at the PGW/UPF saves [[tcp|TCP]]; [[quic|QUIC]] and other UDP-based protocols must implement PLPMTUD (RFC 8899)."
+				text: "Many cellular networks drop ICMPv4 Type 3 Code 4 (Frag Needed) messages on the SGi/N6 side. The MTU on a {{gtp-u|GTP-U}} tunnel is 1500 − 8 ([[udp|UDP]]) − 20/40 (IP) − 8 ({{gtp-u|GTP-U}}) − overhead = typically 1430–1452 inner bytes. **Cure:** [[tcp|TCP]] MSS clamping at the PGW/UPF saves [[tcp|TCP]]; [[quic|QUIC]] and other UDP-based protocols must implement PLPMTUD (RFC 8899)."
 			},
 			{
 				title: 'IPsec is mandatory on every backhaul hop',

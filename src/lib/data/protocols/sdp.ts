@@ -188,7 +188,7 @@ a=rtcp-fb:96 nack pli`
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Early_CTS-3000_Prototype.jpg/500px-Early_CTS-3000_Prototype.jpg',
 		alt: 'Early Cisco TelePresence CTS-3000 prototype, a high-end video conferencing system',
 		caption:
-			'The Cisco TelePresence CTS-3000 prototype — the kind of immersive video conferencing system that relies on [[sdp|SDP]] to negotiate media capabilities. [[sdp|SDP]] describes codecs, network addresses, and media types so endpoints can agree on how to communicate.',
+			'The {{cisco|Cisco}} TelePresence CTS-3000 prototype — the kind of immersive video conferencing system that relies on [[sdp|SDP]] to negotiate media capabilities. [[sdp|SDP]] describes codecs, network addresses, and media types so endpoints can agree on how to communicate.',
 		credit: 'Photo: Cisco Systems / CC BY 2.0, via Wikimedia Commons'
 	}
 };

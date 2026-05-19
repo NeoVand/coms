@@ -9,7 +9,7 @@ export const dns: Protocol = {
 	year: 1983,
 	rfc: 'RFC 1035',
 	oneLiner: "The internet's phone book — translates domain names to [[ip|IP]] addresses.",
-	overview: `[[dns|DNS]] is arguably the most critical infrastructure protocol on the internet. Every time you type a URL, your device asks [[dns|DNS]] "what {{ip-address|IP address}} is google.com?" without this translation, the web as we know it couldn't exist.
+	overview: `[[dns|DNS]] is arguably the most critical infrastructure protocol on the internet. Every time you type a URL, your device asks [[dns|DNS]] "what {{ip-address|IP address}} is {{google|google}}.com?" without this translation, the web as we know it couldn't exist.
 
 [[dns|DNS]] is a distributed, hierarchical database. At the top are 13 root server clusters. Below them are TLD servers (.com, .org, .net). Below those are authoritative servers for individual domains. Your query cascades down this tree, with aggressive caching at every level to keep things fast.
 
@@ -187,7 +187,7 @@ curl -sH 'accept: application/dns-json' \\
 			date: '2025',
 			title: 'DNS-over-HTTPS adoption past 30%',
 			description:
-				'Cloudflare, Google Public [[dns|DNS]], and Quad9 collectively report over 30% of global [[dns|DNS]] queries now arriving via DoH ([[rfc:8484|RFC 8484]]). Browser-level DoH (Firefox, Chrome) drives most of the growth.'
+				'{{cloudflare|Cloudflare}}, {{google|Google}} Public [[dns|DNS]], and Quad9 collectively report over 30% of global [[dns|DNS]] queries now arriving via DoH ([[rfc:8484|RFC 8484]]). Browser-level DoH (Firefox, Chrome) drives most of the growth.'
 		},
 		{
 			date: '2024',
@@ -215,7 +215,7 @@ curl -sH 'accept: application/dns-json' \\
 			org: 'Google 8.8.8.8',
 			scale: '~14 trillion queries/day',
 			description:
-				'The original public resolver, {{anycast|anycast}} across Google\'s edge network. Backbone of much of the modern internet\'s name resolution.'
+				'The original public resolver, {{anycast|anycast}} across {{google|Google}}\'s edge network. Backbone of much of the modern internet\'s name resolution.'
 		},
 		{
 			org: 'Root server system',

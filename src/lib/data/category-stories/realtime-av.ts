@@ -149,7 +149,7 @@ export const realtimeAvStory: CategoryStory = {
 					year: 2010,
 					title: 'Google Acquires GIPS for $68.2M',
 					description:
-						'Global [[ip|IP]] Solutions makes the audio/video codecs that will become [[webrtc|WebRTC]]\u2019s core. Google open-sources them.',
+						'Global [[ip|IP]] Solutions makes the audio/video codecs that will become [[webrtc|WebRTC]]\u2019s core. {{google|Google}} open-sources them.',
 					protocolId: 'webrtc'
 				},
 				{
@@ -163,14 +163,14 @@ export const realtimeAvStory: CategoryStory = {
 					year: 2012,
 					title: 'MPEG-DASH Published',
 					description:
-						"The open standard alternative to Apple's [[hls|HLS]]. [[dash|DASH]] uses the same adaptive bitrate principle but with {{codec|codec}} flexibility and industry-wide backing.",
+						"The open standard alternative to {{apple|Apple}}'s [[hls|HLS]]. [[dash|DASH]] uses the same adaptive bitrate principle but with {{codec|codec}} flexibility and industry-wide backing.",
 					protocolId: 'dash'
 				},
 				{
 					year: 2017,
 					title: 'Safari Adds WebRTC Support',
 					description:
-						'With Apple\u2019s browser on board, [[webrtc|WebRTC]] reaches all major platforms. Browser-native real-time communication is universal.',
+						'With {{apple|Apple}}\u2019s browser on board, [[webrtc|WebRTC]] reaches all major platforms. Browser-native real-time communication is universal.',
 					protocolId: 'webrtc'
 				},
 				{
@@ -190,7 +190,7 @@ export const realtimeAvStory: CategoryStory = {
 		{
 			type: 'narrative',
 			title: 'WebRTC \u2014 The Browser Revolution',
-			text: `In 2010, Google made a $68.2 million bet on real-time communication. They acquired Global [[ip|IP]] Solutions (GIPS), a Swedish company whose audio and video codecs powered Skype and dozens of other {{voip|VoIP}} applications. Then they did something remarkable: they open-sourced everything and began building it into Chrome.\n\n[[webrtc]] didn't invent new protocols \u2014 it combined existing ones. [[rtp]] for media transport, {{srtp|SRTP}} for {{encryption|encryption}}, ICE/{{stun|STUN}}/{{turn|TURN}} for {{nat|NAT}} traversal, [[sdp]] for session negotiation, and [[sctp]] for data channels. The genius was packaging all of this into a browser API that any web developer could use. No plugins, no installs, no special servers. Just JavaScript.\n\nJustin Uberti and Harald Alvestrand led the effort, navigating both the {{w3c|W3C}} (for the browser API) and the {{ietf|IETF}} (for the underlying protocols). The result was a platform that powers everything from Google Meet to telehealth appointments.`
+			text: `In 2010, {{google|Google}} made a $68.2 million bet on real-time communication. They acquired Global [[ip|IP]] Solutions (GIPS), a Swedish company whose audio and video codecs powered Skype and dozens of other {{voip|VoIP}} applications. Then they did something remarkable: they open-sourced everything and began building it into Chrome.\n\n[[webrtc]] didn't invent new protocols \u2014 it combined existing ones. [[rtp]] for media transport, {{srtp|SRTP}} for {{encryption|encryption}}, ICE/{{stun|STUN}}/{{turn|TURN}} for {{nat|NAT}} traversal, [[sdp]] for session negotiation, and [[sctp]] for data channels. The genius was packaging all of this into a browser API that any web developer could use. No plugins, no installs, no special servers. Just JavaScript.\n\nJustin Uberti and Harald Alvestrand led the effort, navigating both the {{w3c|W3C}} (for the browser API) and the {{ietf|IETF}} (for the underlying protocols). The result was a platform that powers everything from {{google|Google}} Meet to telehealth appointments.`
 		},
 		{
 			type: 'image',
@@ -223,7 +223,7 @@ export const realtimeAvStory: CategoryStory = {
 					title: 'WebRTC Technical Lead',
 					org: 'Google',
 					contribution:
-						'Led the technical development of [[webrtc|WebRTC]] at Google. Drove the integration of real-time communication directly into web browsers.'
+						'Led the technical development of [[webrtc|WebRTC]] at {{google|Google}}. Drove the integration of real-time communication directly into web browsers.'
 				},
 				{
 					name: 'Harald Alvestrand',

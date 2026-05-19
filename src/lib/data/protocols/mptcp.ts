@@ -13,7 +13,7 @@ export const mptcp: Protocol = {
 
 The protocol works by establishing "subflows" — each subflow is a regular [[tcp|TCP]] connection on a different network path. A shim layer sits between the application and these subflows, distributing data across paths and reassembling it on the other end. The application sees a single, normal [[tcp|TCP]] {{socket|socket}}; the magic happens entirely at the transport layer.
 
-Apple was the first major adopter, shipping [[mptcp|MPTCP]] in iOS 7 (2013) for Siri — so your voice command wouldn't drop when walking from [[wifi|WiFi]] to cellular range. Since then, Apple has extended it to Maps, Music, and third-party apps. Linux has native [[mptcp|MPTCP]] support since kernel 5.6 (2020).`,
+{{apple|Apple}} was the first major adopter, shipping [[mptcp|MPTCP]] in iOS 7 (2013) for Siri — so your voice command wouldn't drop when walking from [[wifi|WiFi]] to cellular range. Since then, {{apple|Apple}} has extended it to Maps, Music, and third-party apps. {{linux|Linux}} has native [[mptcp|MPTCP]] support since kernel 5.6 (2020).`,
 	howItWorks: [
 		{
 			title: 'Initial handshake with MP_CAPABLE',

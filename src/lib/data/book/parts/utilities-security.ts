@@ -51,25 +51,25 @@ The first six TLDs were **\`.edu, .gov, .com, .mil, .org, .net\`**, with **\`.in
 
 **2023-2024 milestone**: \`.com\`, \`.net\`, \`.edu\` rolled {{dnssec|DNSSEC}} algorithm 8 → 13 (ECDSA P-256) in Q3-Q4 2023. **ZONEMD** (RFC 8976) added to root zone in September 2023 with SHA-384 from 6 December 2023. **RFC 9619 (2024) "QDCOUNT Is (Usually) One"** formally constrains a 38-year ambiguity in [[rfc:1035|RFC 1035]].
 
-**[[rfc:9460|RFC 9460]] (November 2023): SVCB / HTTPS RRs** enable apex aliasing, [[http3|HTTP/3]] advertisement, and (critically) {{ech|ECH}} key publication. Cloudflare turned {{ech|ECH}} on by default in 2023; Firefox 119 enabled {{ech|ECH}} by default. The HTTPS RR is what tells the browser "this site speaks h3" before the first connection.`
+**[[rfc:9460|RFC 9460]] (November 2023): SVCB / HTTPS RRs** enable apex aliasing, [[http3|HTTP/3]] advertisement, and (critically) {{ech|ECH}} key publication. {{cloudflare|Cloudflare}} turned {{ech|ECH}} on by default in 2023; Firefox 119 enabled {{ech|ECH}} by default. The HTTPS RR is what tells the browser "this site speaks h3" before the first connection.`
 						},
 						{
 							type: 'narrative',
 							title: 'The Facebook 2021 Cascade and the DoH Centralisation Debate',
-							text: `**[[outage:facebook-2021|Facebook/Meta outage 4 October 2021]]**: Meta's edge [[dns|DNS]] servers were configured to withdraw their [[bgp|BGP]] advertisements when they couldn't reach the data centres. A backbone change took down [[dns|DNS]], \`facebook.com\` returned SERVFAIL globally, employees couldn't badge into offices because access systems also depended on internal Facebook [[dns|DNS]]. **~7-hour outage**; Cloudflare's 1.1.1.1 saw **30× normal query load** as resolvers retried. Canonical case study in [[dns|DNS]]-as-single-point-of-failure.
+							text: `**[[outage:facebook-2021|Facebook/Meta outage 4 October 2021]]**: {{meta|Meta}}'s edge [[dns|DNS]] servers were configured to withdraw their [[bgp|BGP]] advertisements when they couldn't reach the data centres. A backbone change took down [[dns|DNS]], \`facebook.com\` returned SERVFAIL globally, employees couldn't badge into offices because access systems also depended on internal Facebook [[dns|DNS]]. **~7-hour outage**; {{cloudflare|Cloudflare}}'s 1.1.1.1 saw **30× normal query load** as resolvers retried. Canonical case study in [[dns|DNS]]-as-single-point-of-failure.
 
-**The DoH centralisation debate**: In 2018 the UK ISPA briefly nominated Mozilla *"Internet Villain"* over [[dns|DNS]]-over-HTTPS, because application-controlled DoH shifts [[dns|DNS]] visibility from local ISPs to a small number of large public resolvers (Cloudflare 1.1.1.1, Google 8.8.8.8, Quad9, NextDNS). The privacy benefit is real; the centralisation tradeoff is also real. Most browsers now ship DoH on by default with user opt-out.
+**The DoH centralisation debate**: In 2018 the UK ISPA briefly nominated Mozilla *"Internet Villain"* over [[dns|DNS]]-over-HTTPS, because application-controlled DoH shifts [[dns|DNS]] visibility from local ISPs to a small number of large public resolvers ({{cloudflare|Cloudflare}} 1.1.1.1, {{google|Google}} 8.8.8.8, Quad9, NextDNS). The privacy benefit is real; the centralisation tradeoff is also real. Most browsers now ship DoH on by default with user opt-out.
 
-**2025 incidents to know**: AWS Route 53 / DynamoDB [[dns|DNS]] race (19-20 October 2025); Microsoft Azure Front Door [[dns|DNS]] outage (29 October 2025).
+**2025 incidents to know**: AWS Route 53 / DynamoDB [[dns|DNS]] race (19-20 October 2025); {{microsoft|Microsoft}} Azure Front Door [[dns|DNS]] outage (29 October 2025).
 
-**Frontier**: **DELEG WG (\`draft-ietf-deleg-08\`, March 2026)** introduces new **DELEG and DELEGPARAM RR types** meant to make delegations extensible — specifically to let parents express that a child speaks DoT/DoQ on a non-default port. **Post-quantum {{dnssec|DNSSEC}}** prototypes in BIND/Unbound/NSD/CoreDNS were measured at {{ietf|IETF}} 123 (July 2025) hackathon; NIST finalised ML-DSA/{{ml-kem|ML-KEM}}/SLH-DSA on **13 August 2024** and FN-DSA (Falcon) draft FIPS 206 was submitted **28 August 2025**.`
+**Frontier**: **DELEG WG (\`draft-{{ietf|ietf}}-deleg-08\`, March 2026)** introduces new **DELEG and DELEGPARAM RR types** meant to make delegations extensible — specifically to let parents express that a child speaks DoT/DoQ on a non-default port. **Post-quantum {{dnssec|DNSSEC}}** prototypes in BIND/Unbound/NSD/CoreDNS were measured at {{ietf|IETF}} 123 (July 2025) hackathon; NIST finalised ML-DSA/{{ml-kem|ML-KEM}}/SLH-DSA on **13 August 2024** and FN-DSA (Falcon) draft FIPS 206 was submitted **28 August 2025**.`
 						},
 						{
 							type: 'image',
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Example_of_an_iterative_DNS_resolver.svg/500px-Example_of_an_iterative_DNS_resolver.svg.png',
 							alt: 'Iterative DNS resolution diagram — client → recursive resolver → root → TLD → authoritative servers.',
 							caption:
-								'Iterative **[[dns|DNS]]** resolution: client → recursive resolver → root server → TLD server → authoritative server. The same hierarchy [[pioneer:paul-mockapetris|Paul Mockapetris]] designed in **[[rfc:882|RFC 882]]/883 in November 1983** is what powers ~14 trillion queries per day on Google Public [[dns|DNS]] alone. The first server was named *Jeeves* and ran on TOPS-20.',
+								'Iterative **[[dns|DNS]]** resolution: client → recursive resolver → root server → TLD server → authoritative server. The same hierarchy [[pioneer:paul-mockapetris|Paul Mockapetris]] designed in **[[rfc:882|RFC 882]]/883 in November 1983** is what powers ~14 trillion queries per day on {{google|Google}} Public [[dns|DNS]] alone. The first server was named *Jeeves* and ran on TOPS-20.',
 							credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 						}
 					]
@@ -90,7 +90,7 @@ The first six TLDs were **\`.edu, .gov, .com, .mil, .org, .net\`**, with **\`.in
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: '"[[tls|TLS]] not SSL" was Microsoft\'s price for {{ietf|IETF}} participation — a face-saving rename so it didn\'t look like the {{ietf|IETF}} was rubber-stamping Netscape.',
+					text: '"[[tls|TLS]] not SSL" was {{microsoft|Microsoft}}\'s price for {{ietf|IETF}} participation — a face-saving rename so it didn\'t look like the {{ietf|IETF}} was rubber-stamping Netscape.',
 					attribution: 'Tim Dierks, 2014'
 				},
 				{
@@ -101,7 +101,7 @@ The first six TLDs were **\`.edu, .gov, .com, .mil, .org, .net\`**, with **\`.in
 							title: 'SSL 1.0 Never Shipped',
 							text: `**Netscape's [[pioneer:taher-elgamal|Taher Elgamal]] designed SSL** in 1994 to encrypt e-commerce on the early web. **SSL 1.0 was never released** — Phil Karlton, Paul Kocher, and others tore it apart in internal review at Netscape (1994). SSL 2.0 (1995) shipped instead but had its own flaws; **SSL 3.0 (1996)** was rewritten from scratch by Paul Kocher and survived for over a decade.
 
-In 1999 the {{ietf|IETF}} took ownership and renamed it [[tls|TLS]] 1.0 ([[rfc:2246|RFC 2246]], January 1999). **The rename was Microsoft's price** for {{ietf|IETF}} participation. In Tim Dierks's words: "a face-saving rename so it didn't look like the {{ietf|IETF}} was rubber-stamping Netscape." [[tls|TLS]] 1.0 was, in practice, "really SSL 3.1." Then 1.1 (2006), 1.2 (2008), and **1.3 ([[rfc:8446|RFC 8446]], August 2018)**.
+In 1999 the {{ietf|IETF}} took ownership and renamed it [[tls|TLS]] 1.0 ([[rfc:2246|RFC 2246]], January 1999). **The rename was {{microsoft|Microsoft}}'s price** for {{ietf|IETF}} participation. In Tim Dierks's words: "a face-saving rename so it didn't look like the {{ietf|IETF}} was rubber-stamping Netscape." [[tls|TLS]] 1.0 was, in practice, "really SSL 3.1." Then 1.1 (2006), 1.2 (2008), and **1.3 ([[rfc:8446|RFC 8446]], August 2018)**.
 
 [[tls|TLS]] 1.3 was the first version to break wire compatibility — it cut every weak cipher (RC4, 3DES, MD5, SHA-1, RSA key {{exchange|exchange}}), reduced the {{handshake|handshake}} from 2 round-trips to 1 (or 0 for resumption), and adopted authenticated {{encryption|encryption}} ({{aead|AEAD}}) as the only legal cipher mode.`
 						},
@@ -115,24 +115,24 @@ In 1999 the {{ietf|IETF}} took ownership and renamed it [[tls|TLS]] 1.0 ([[rfc:2
 							title: 'Heartbleed, DigiNotar, GREASE',
 							text: `Three [[tls|TLS]] incidents that shaped the modern field.
 
-**Heartbleed (CVE-2014-0160, April 2014)**: Independent discovery by Neel Mehta of Google Security and the Codenomicon team in Finland. **One missing length check** in OpenSSL's Heartbeat extension let any client read up to **64 KiB of server memory per request** — including private keys, session keys, passwords. **~17% of the trusted web was vulnerable.** Direct cause of the **Core Infrastructure Initiative**, Google's BoringSSL fork, OpenBSD's LibreSSL fork, and Amazon's s2n-tls.
+**Heartbleed (CVE-2014-0160, April 2014)**: Independent discovery by Neel Mehta of {{google|Google}} Security and the Codenomicon team in Finland. **One missing length check** in OpenSSL's Heartbeat extension let any client read up to **64 KiB of server memory per request** — including private keys, session keys, passwords. **~17% of the trusted web was vulnerable.** Direct cause of the **Core Infrastructure Initiative**, {{google|Google}}'s BoringSSL fork, OpenBSD's LibreSSL fork, and Amazon's s2n-tls.
 
 **DigiNotar (August 2011)**: Iran-linked attacker issued **531 fraudulent certs for 344 domains** including \`*.google.com\`, used in {{man-in-the-middle|MITM}} against ~300,000 Iranian Gmail users. **DigiNotar bankrupt within a month.** Forced **{{certificate-transparency|Certificate Transparency}}** into existence as a structural fix.
 
 **GREASE ([[rfc:8446|RFC 8701]], January 2020)**: David Benjamin (Google) reserved values like \`0x0A0A, 0x1A1A, ..., 0xFAFA\` in the cipher-suite, named-group, signature, {{alpn|ALPN}}, and version registries. **Chrome injects one at random into every ClientHello** so any server or middlebox that crashes on unknown values is detected before that brittleness ossifies. GREASE is the entire reason [[tls|TLS]] 1.3 deployment did not get blocked by another decade of middlebox ossification.
 
-Two more historical incidents to name: **goto fail (CVE-2014-1266)** — a duplicated \`goto fail;\` line in iOS/OS X 10.9 made Safari silently accept any server's signed key {{exchange|exchange}} — full {{man-in-the-middle|MITM}} on every Safari HTTPS connection for ~17 months. **ROBOT (December 2017)** — 19-year-old Bleichenbacher attack still let researchers sign messages with **facebook.com's {{private-key|private key}}** in 2017, affecting F5, Citrix, Cisco, Radware, BouncyCastle, WolfSSL.`
+Two more historical incidents to name: **goto fail (CVE-2014-1266)** — a duplicated \`goto fail;\` line in iOS/OS X 10.9 made Safari silently accept any server's signed key {{exchange|exchange}} — full {{man-in-the-middle|MITM}} on every Safari HTTPS connection for ~17 months. **ROBOT (December 2017)** — 19-year-old Bleichenbacher attack still let researchers sign messages with **facebook.com's {{private-key|private key}}** in 2017, affecting F5, Citrix, {{cisco|Cisco}}, Radware, BouncyCastle, WolfSSL.`
 						},
 						{
 							type: 'narrative',
 							title: 'The Post-Quantum Migration Is Mostly Done',
-							text: `**>50% of all [[tls|TLS]] 1.3 connections to Cloudflare carried post-quantum hybrid (X25519MLKEM768) by end of 2025**. Within four days of Apple shipping iOS 26 in September 2025, share of PQ-secured iPhone requests jumped from **<2% to 11%, and >25% by December 2025**.
+							text: `**>50% of all [[tls|TLS]] 1.3 connections to {{cloudflare|Cloudflare}} carried post-quantum hybrid (X25519MLKEM768) by end of 2025**. Within four days of {{apple|Apple}} shipping iOS 26 in September 2025, share of PQ-secured iPhone requests jumped from **<2% to 11%, and >25% by December 2025**.
 
 **The 2024 Kyber → {{ml-kem|ML-KEM}} rename literally invalidated [[tls|TLS]] code point 0x6399** in favor of **0x11EC ({{ml-kem|ML-KEM}}-768)** after NIST published FIPS 203 on 13 August 2024. Every browser, server, and load balancer had to re-deploy because the wire format changed.
 
-**OpenSSL 3.5 LTS (8 April 2025)** made X25519MLKEM768 + X25519 the default keyshare; supported until April 2030. **{{ech|Encrypted Client Hello}} published as [[frontier:ech-rfc-9849|RFC 9849]]** in 2025 after 25 drafts; Cloudflare deploys {{ech|ECH}} for ~70% of websites it fronts.
+**OpenSSL 3.5 LTS (8 April 2025)** made X25519MLKEM768 + X25519 the default keyshare; supported until April 2030. **{{ech|Encrypted Client Hello}} published as [[frontier:ech-rfc-9849|RFC 9849]]** in 2025 after 25 drafts; {{cloudflare|Cloudflare}} deploys {{ech|ECH}} for ~70% of websites it fronts.
 
-**Frontier — 47-day cert lifetimes**: {{certificate-authority|CA}}/Browser Forum **Ballot SC-081v3 (11 April 2025, Apple-sponsored, 29-yes-0-no)** phases certs to **200 days on 15 March 2026, 100 days on 15 March 2027, 47 days on 15 March 2029**, with DCV reuse falling to **10 days** in the same window. **Manual renewal is no longer an option.** Every {{certificate|certificate}} operation must be automated by 2029.
+**Frontier — 47-day cert lifetimes**: {{certificate-authority|CA}}/Browser Forum **Ballot SC-081v3 (11 April 2025, {{apple|Apple}}-sponsored, 29-yes-0-no)** phases certs to **200 days on 15 March 2026, 100 days on 15 March 2027, 47 days on 15 March 2029**, with DCV reuse falling to **10 days** in the same window. **Manual renewal is no longer an option.** Every {{certificate|certificate}} operation must be automated by 2029.
 
 **Let's Encrypt DST Root {{certificate-authority|CA}} X3 expiry (30 September 2021)** broke older Android, OpenSSL <1.1.0, Sophos UTM, Stripe webhook clients, Roku, Heroku Redis. Root expiration is a **calendar-driven incident** that should have been forecast — and now serves as the canonical case for why root rollovers must be scheduled like rocket launches.`
 						},
@@ -184,16 +184,16 @@ The protocol uses **public-key cryptography** for host and user authentication, 
 						{
 							type: 'callout',
 							title: 'SFTP is not "FTP over SSH"',
-							text: 'The "everyone gets it wrong" SCP fact: **SFTP is not "[[ftp|FTP]] over [[ssh|SSH]]"** — it\'s a wholly distinct file-transfer protocol that runs as a *subsystem* request inside an [[ssh|SSH]] session channel. Spec is `draft-ietf-secsh-filexfer-13` from 2006, never published as an RFC. **OpenSSH 9.0 (April 2022) switched the `scp` command to use SFTP under the hood by default.** RHEL 9 deprecated the SCP wire protocol entirely. After 27 years, the protocol that was supposed to replace SCP is finally replacing it.'
+							text: 'The "everyone gets it wrong" SCP fact: **SFTP is not "[[ftp|FTP]] over [[ssh|SSH]]"** — it\'s a wholly distinct file-transfer protocol that runs as a *subsystem* request inside an [[ssh|SSH]] session channel. Spec is `draft-{{ietf|ietf}}-secsh-filexfer-13` from 2006, never published as an RFC. **OpenSSH 9.0 (April 2022) switched the `scp` command to use SFTP under the hood by default.** RHEL 9 deprecated the SCP wire protocol entirely. After 27 years, the protocol that was supposed to replace SCP is finally replacing it.'
 						},
 						{
 							type: 'narrative',
 							title: 'The 2024 Year of CVEs',
 							text: `Two [[ssh|SSH]] events from 2024 deserve their own paragraph each.
 
-**CVE-2024-3094 — XZ Utils backdoor (29 March 2024)**: Andres Freund (Microsoft/PostgreSQL) found a multi-stage backdoor in \`liblzma\` 5.6.0/5.6.1 introduced by maintainer **"Jia Tan"** while investigating a **500ms regression in [[ssh|SSH]] login {{latency|latency}} on Debian sid**. Jia Tan spent over **two years (Nov 2021 → Feb 2024)** gaining maintainer status through apparent sock-puppetry. The hook examined the RSA modulus N of the {{public-key|public key}} supplied during pubkey auth and, if it contained a {{payload|payload}} signed by attacker's Ed448 key, **executed arbitrary commands via system() *before* authentication completed**. CVSS 10.0. **No stable distro shipped it** — caught in development. The closest call open-source supply chain has had.
+**CVE-2024-3094 — XZ Utils backdoor (29 March 2024)**: Andres Freund ({{microsoft|Microsoft}}/PostgreSQL) found a multi-stage backdoor in \`liblzma\` 5.6.0/5.6.1 introduced by maintainer **"Jia Tan"** while investigating a **500ms regression in [[ssh|SSH]] login {{latency|latency}} on Debian sid**. Jia Tan spent over **two years (Nov 2021 → Feb 2024)** gaining maintainer status through apparent sock-puppetry. The hook examined the RSA modulus N of the {{public-key|public key}} supplied during pubkey auth and, if it contained a {{payload|payload}} signed by attacker's Ed448 key, **executed arbitrary commands via system() *before* authentication completed**. CVSS 10.0. **No stable distro shipped it** — caught in development. The closest call open-source supply chain has had.
 
-**CVE-2024-6387 "regreSSHion" (1 July 2024)**: Qualys disclosed pre-auth, unauthenticated **RCE as root** in \`sshd\` on glibc-based Linux. Signal-handler race: \`SIGALRM\` handler calls \`syslog()\` (not async-signal-safe). **Lineage**: regression of CVE-2006-5051 (Mark Dowd's original 2006 report) — the original 2006 fix was wrapped in \`#ifdef DO_LOG_SAFE_IN_SIGHAND\`; in October 2020 OpenSSH 8.5p1's logging refactor accidentally dropped the directive. Qualys identified **~14 million internet-exposed OpenSSH instances potentially in scope**.
+**CVE-2024-6387 "regreSSHion" (1 July 2024)**: Qualys disclosed pre-auth, unauthenticated **RCE as root** in \`sshd\` on glibc-based {{linux|Linux}}. Signal-handler race: \`SIGALRM\` handler calls \`syslog()\` (not async-signal-safe). **Lineage**: regression of CVE-2006-5051 (Mark Dowd's original 2006 report) — the original 2006 fix was wrapped in \`#ifdef DO_LOG_SAFE_IN_SIGHAND\`; in October 2020 OpenSSH 8.5p1's logging refactor accidentally dropped the directive. Qualys identified **~14 million internet-exposed OpenSSH instances potentially in scope**.
 
 **CVE-2023-48795 — Terrapin (18 December 2023)**: Bäumer/Brinkmann/Schwenk at Ruhr University Bochum (USENIX Security 2024 best paper). {{man-in-the-middle|MITM}} can delete chosen number of encrypted packets from the start of an [[ssh|SSH]] channel without detection because per-direction sequence numbers begin counting before the first encrypted message. Mitigation: **"Strict KEX" extension implemented in OpenSSH 9.6 (December 2023)**.`
 						},
@@ -202,9 +202,9 @@ The protocol uses **public-key cryptography** for host and user authentication, 
 							title: 'Post-Quantum SSH Shipped Before TLS',
 							text: `**OpenSSH 10.0 (9 April 2025)**: **Removed DSA entirely**; made **\`mlkem768x25519-sha256\`** the default key {{exchange|exchange}}; split user-auth into \`sshd-auth\`; disabled finite-field DH on the server side by default. **OpenSSH 10.1 (October 2025)** warns when a non-PQ KEX is selected; OpenSSH 10.2 (10 October 2025), 10.3 (2 April 2026) followed.
 
-[[ssh|SSH]] was the **first widely-deployed protocol to ship post-quantum crypto by default** — six months before [[tls|TLS]] X25519MLKEM768 reached default-on in iOS 26. The deployment story is the same: NIST FIPS 203 in August 2024 let the OpenSSH team standardise the codepoint, and OpenBSD ships the upstream that downstream Linux distros consume.
+[[ssh|SSH]] was the **first widely-deployed protocol to ship post-quantum crypto by default** — six months before [[tls|TLS]] X25519MLKEM768 reached default-on in iOS 26. The deployment story is the same: NIST FIPS 203 in August 2024 let the OpenSSH team standardise the codepoint, and OpenBSD ships the upstream that downstream {{linux|Linux}} distros consume.
 
-**The {{ietf|IETF}} Secure Shell Maintenance (sshm) WG was chartered August 2024** with chairs Job Snijders (Fastly) and Stephen Farrell (Trinity College Dublin) — first WG dedicated to [[ssh|SSH]] in over a decade. Active drafts include \`draft-ietf-sshm-mlkem-hybrid-kex\` (Kampanakis/Stebila/Hansen) for \`mlkem768x25519-sha256\` and an experimental \`draft-michel-ssh3\` (UCLouvain) re-implementing an [[ssh|SSH]]-equivalent on [[http3|HTTP/3]]+[[quic|QUIC]], claiming 3-{{rtt|RTT}} session establishment vs [[ssh|SSH]]'s 5-7 (research prototype only).
+**The {{ietf|IETF}} Secure Shell Maintenance (sshm) WG was chartered August 2024** with chairs Job Snijders (Fastly) and Stephen Farrell (Trinity College Dublin) — first WG dedicated to [[ssh|SSH]] in over a decade. Active drafts include \`draft-{{ietf|ietf}}-sshm-mlkem-hybrid-kex\` (Kampanakis/Stebila/Hansen) for \`mlkem768x25519-sha256\` and an experimental \`draft-michel-ssh3\` (UCLouvain) re-implementing an [[ssh|SSH]]-equivalent on [[http3|HTTP/3]]+[[quic|QUIC]], claiming 3-{{rtt|RTT}} session establishment vs [[ssh|SSH]]'s 5-7 (research prototype only).
 
 **GitHub host-key exposure (24 March 2023)**: GitHub's RSA [[ssh|SSH]] host {{private-key|private key}} was briefly inadvertently published in a public GitHub repo; users worldwide had to \`ssh-keygen -R github.com\` and re-trust. The remediation cost was the user-visible part; the deeper lesson was about secret-handling in shared development infrastructure.
 
@@ -257,16 +257,16 @@ A client samples the {{rtt|round-trip time}} to a server (call it δ) and the ap
 						{
 							type: 'narrative',
 							title: 'The 2012 Leap-Second Bug, And the End of Leap Seconds',
-							text: `**2012 leap-second Linux kernel bug (30 June → 1 July 2012)**: The kernel's leap-second handler updated \`xtime\` without calling \`clock_was_set()\` to notify hrtimer; tasks waiting on futexes with absolute deadlines pegged CPUs at 100%. Affected **Reddit, LinkedIn, Mozilla, Yelp, Foursquare, Amadeus airline reservation** (causing flight delays at Qantas and others). Workaround: \`date -s "$(date)"\` reset the clock and unblocked the futex queue.
+							text: `**2012 leap-second {{linux|Linux}} kernel bug (30 June → 1 July 2012)**: The kernel's leap-second handler updated \`xtime\` without calling \`clock_was_set()\` to notify hrtimer; tasks waiting on futexes with absolute deadlines pegged CPUs at 100%. Affected **Reddit, LinkedIn, Mozilla, Yelp, Foursquare, Amadeus airline reservation** (causing flight delays at Qantas and others). Workaround: \`date -s "$(date)"\` reset the clock and unblocked the futex queue.
 
-**2014 [[ntp|NTP]] DDoS amplification disaster**: \`monlist\` mode-7 query in pre-4.2.7 ntpd — 234-byte request returned up to 600 [[ip|IP]]-address entries = up to 48 KB. **Amplification factor ~206×.** **10 February 2014: ~400 Gbps attack on a Cloudflare customer** — at the time, the largest DDoS ever recorded. Black Lotus reported 69% of all DDoS traffic in early January 2014 was [[ntp|NTP]] reflection.
+**2014 [[ntp|NTP]] DDoS amplification disaster**: \`monlist\` mode-7 query in pre-4.2.7 ntpd — 234-byte request returned up to 600 [[ip|IP]]-address entries = up to 48 KB. **Amplification factor ~206×.** **10 February 2014: ~400 Gbps attack on a {{cloudflare|Cloudflare}} customer** — at the time, the largest DDoS ever recorded. Black Lotus reported 69% of all DDoS traffic in early January 2014 was [[ntp|NTP]] reflection.
 
 **The end of leap seconds**: **CGPM Resolution 4 of the 27th General Conference (18 November 2022)** decided "the maximum value for the difference (UT1 − UTC) will be increased in, or before, **2035**" — leap seconds will be abandoned. WRC-23 (Dubai, December 2023) formally recognised the resolution. **Russia opposed** (GLONASS uses leap seconds in its protocol). Most distributed systems engineers consider this a major win — leap-second smearing has caused more outages over 50 years than the time accuracy was worth.`
 						},
 						{
 							type: 'narrative',
 							title: 'The 2024 Modernisation — Rust, SPTP, NTPv5',
-							text: `**Meta open-sourced SPTP (Simple PTP) in February 2024** — same accuracy as PTPv2 {{unicast|unicast}} but **~40% CPU, ~70% memory, ~50% network savings**. Powers Meta's datacenter time fabric serving **100,000+ clients**.
+							text: `**{{meta|Meta}} open-sourced SPTP (Simple PTP) in February 2024** — same accuracy as PTPv2 {{unicast|unicast}} but **~40% CPU, ~70% memory, ~50% network savings**. Powers {{meta|Meta}}'s datacenter time fabric serving **100,000+ clients**.
 
 **AWS Nitro PTP Hardware Clock** (since November 2023, expanded since): **Microsecond-level accuracy** vs ~1 ms via [[ntp|NTP]]. PHC does NOT smear leap seconds — it follows UTC standards.
 
@@ -274,7 +274,7 @@ A client samples the {{rtt|round-trip time}} to a server (call it δ) and the ap
 
 **RFC 9523 — Khronos (February 2024)**: secure outlier-rejection watchdog (Rozen-Schiff, Dolev, Mizrahi, Schapira) — provably resists up to **~1/3 compromised servers**.
 
-**Frontier — NTPv5**: \`draft-ietf-ntp-ntpv5-08\` (March 2026, Lichvar/Mizrahi). **Removes modes 1, 2, 5, 6, 7** — only client/server remain. Adds explicit 16-bit era number, **extending unambiguous range to ~35,000 years**. The first ground-up [[ntp|NTP]] redesign since 1992.
+**Frontier — NTPv5**: \`draft-{{ietf|ietf}}-ntp-ntpv5-08\` (March 2026, Lichvar/Mizrahi). **Removes modes 1, 2, 5, 6, 7** — only client/server remain. Adds explicit 16-bit era number, **extending unambiguous range to ~35,000 years**. The first ground-up [[ntp|NTP]] redesign since 1992.
 
 **Galileo PTF outage (11-18 July 2019)**: Six-day complete service loss — Precise Timing Facility upgrade gone wrong with redundant standby in Oberpfaffenhofen unavailable. Cautionary tale for stratum-0 GNSS users — need holdover oscillators (rubidium, OCXO).
 
@@ -314,7 +314,7 @@ A client samples the {{rtt|round-trip time}} to a server (call it δ) and the ap
 							title: 'Born at CitizenSpace, Late 2006',
 							text: `Late 2006: **Blaine Cook** (Twitter chief architect), **Chris Messina, David Recordon, Larry Halff** (Ma.gnolia) met at a CitizenSpace OpenID gathering and concluded no open API-delegation standard existed. Eran Hammer (Yahoo) took over as community chair; **[[oauth2|OAuth]] Core 1.0** released October 2007. **[[oauth2|OAuth 2.0]]** as [[rfc:6749|RFC 6749]] in October 2012.
 
-Before [[oauth2|OAuth]], an app that wanted access to your Google calendar asked you for your Google password. You gave it. The app stored it. When the password was breached, every app that had it was breached. This was *normal* in 2007.
+Before [[oauth2|OAuth]], an app that wanted access to your {{google|Google}} calendar asked you for your {{google|Google}} password. You gave it. The app stored it. When the password was breached, every app that had it was breached. This was *normal* in 2007.
 
 [[oauth2|OAuth]]'s insight was to separate **authentication** (proving who you are, done by the identity provider) from **authorisation** (granting an app some scope of access, done by you, in the identity provider's UI, with no password leaving the IdP). The app receives a **{{bearer-token|bearer token}}** that lets it act on your behalf within the granted scope, with an expiry, with the option to revoke at any time.`
 						},
@@ -326,11 +326,11 @@ Before [[oauth2|OAuth]], an app that wanted access to your Google calendar asked
 						{
 							type: 'narrative',
 							title: 'The Famous Incidents',
-							text: `**Google "[[oauth2|OAuth]] worm" (May 2017)**: Fake "Google Docs" app harvested mailbox + contacts; **~1 million users affected** before Google killed it within ~1 hour. No exploit, just a malicious app named literally *"Google Docs"*. Google added client-name validation afterwards.
+							text: `**{{google|Google}} "[[oauth2|OAuth]] worm" (May 2017)**: Fake "{{google|Google}} Docs" app harvested mailbox + contacts; **~1 million users affected** before Google killed it within ~1 hour. No exploit, just a malicious app named literally *"Google Docs"*. Google added client-name validation afterwards.
 
-**Storm-0558 (May-July 2023)**: ~25 organisations including US State Dept and Commerce had Outlook Web Access mailboxes read for ~one month after the China-aligned actor forged authentication tokens. Microsoft consumer (MSA) signing key from 2016 leaked into a crash dump in April 2021, was moved to a debug environment; an engineer's account was later compromised; a separate flaw caused Microsoft 365 to accept consumer-key-signed tokens for enterprise OWA. The CSRB's April 2024 report called the breach **"preventable"** and Microsoft's security culture **"inadequate."**
+**Storm-0558 (May-July 2023)**: ~25 organisations including US State Dept and Commerce had Outlook Web Access mailboxes read for ~one month after the China-aligned actor forged authentication tokens. {{microsoft|Microsoft}} consumer (MSA) signing key from 2016 leaked into a crash dump in April 2021, was moved to a debug environment; an engineer's account was later compromised; a separate flaw caused {{microsoft|Microsoft}} 365 to accept consumer-key-signed tokens for enterprise OWA. The CSRB's April 2024 report called the breach **"preventable"** and Microsoft's security culture **"inadequate."**
 
-**Sign-in-with-Apple {{jwt|JWT}} forgery (May 2020, Bhavuk Jain)**: Apple would issue valid JWTs for arbitrary email IDs, signed by Apple's key. **Bounty: $100,000.** A single missing check.
+**Sign-in-with-{{apple|Apple}} {{jwt|JWT}} forgery (May 2020, Bhavuk Jain)**: {{apple|Apple}} would issue valid JWTs for arbitrary email IDs, signed by Apple's key. **Bounty: $100,000.** A single missing check.
 
 **Booking.com "Pass-The-Token" (2023, {{salt|Salt}} Labs)**: [[oauth2|OAuth]] misconfiguration could have enabled account takeover for any user using "Continue with Facebook" — \`redirect_uri\` path manipulation. Also affected Vidio (~100M MAU), Bukalapak, Grammarly, Expo (CVE-2023-28131), Codecademy.
 
@@ -345,15 +345,15 @@ Before [[oauth2|OAuth]], an app that wanted access to your Google calendar asked
 
 **RFC 9700 (January 2025) — [[oauth2|OAuth 2.0]] Security BCP** formally **deprecates the Implicit grant and Resource Owner Password Credentials grant**, mandates Authorization Code + {{pkce|PKCE}} for public clients, requires exact redirect-URI matching.
 
-**[[oauth2|OAuth]] 2.1 status (May 2026)**: \`draft-ietf-oauth-v2-1-15\` (Hardt, Parecki, Lodderstedt; 2 March 2026). **Mandates {{pkce|PKCE}} for ALL clients; exact redirect-URI matching; removes Implicit and ROPC.** Spring Authorization Server, Cloudflare Workers, and major IdPs already enforce its rules.
+**[[oauth2|OAuth]] 2.1 status (May 2026)**: \`draft-{{ietf|ietf}}-oauth-v2-1-15\` (Hardt, Parecki, Lodderstedt; 2 March 2026). **Mandates {{pkce|PKCE}} for ALL clients; exact redirect-URI matching; removes Implicit and ROPC.** Spring Authorization Server, {{cloudflare|Cloudflare}} Workers, and major IdPs already enforce its rules.
 
 **DPoP (RFC 9449, September 2023)** re-introduces **sender-constraining 11+ years after Hammer's lasting bearer-token complaint** — vindicating his original objection that bearer tokens are too easy to steal and replay.
 
 **FAPI 2.0 approved as Final 22 February 2025** (OpenID Foundation) — mandates either DPoP or {{mtls|mTLS}}; **regulator-mandated in Colombia (Circular 004 2024) and Australian CDR**; formally analyzed by University of Stuttgart.
 
-**2025 deployment scale**: Microsoft Entra ID authenticates **>1.2 billion sign-ins per day**; April 2024 spike of **11,000 Entra-blocked attacks per second**. AWS Cognito processes **100 billion+ authentications per month**.
+**2025 deployment scale**: {{microsoft|Microsoft}} Entra ID authenticates **>1.2 billion sign-ins per day**; April 2024 spike of **11,000 Entra-blocked attacks per second**. AWS Cognito processes **100 billion+ authentications per month**.
 
-**Frontier**: SD-{{jwt|JWT}}-VC (\`draft-ietf-oauth-sd-jwt-vc-16\`, April 2026) for selective-disclosure verifiable credentials underpinning the **EU Digital Identity Wallet**.
+**Frontier**: SD-{{jwt|JWT}}-VC (\`draft-{{ietf|ietf}}-oauth-sd-jwt-vc-16\`, April 2026) for selective-disclosure verifiable credentials underpinning the **EU Digital Identity Wallet**.
 
 **Vittorio Bertocci** — Principal Architect at Okta, host of *Identity, Unlocked* podcast, co-author of RFC 9470 — passed away from pancreatic cancer 7 October 2023; the podcast has not produced new episodes since. The [[oauth2|OAuth]] community lost its most prolific public educator at a critical moment.`
 						},
@@ -362,7 +362,7 @@ Before [[oauth2|OAuth]], an app that wanted access to your Google calendar asked
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Oauth_logo.svg/500px-Oauth_logo.svg.png',
 							alt: 'The OAuth logo — a stylised "O" rendered as a key.',
 							caption:
-								'The **[[oauth2|OAuth]]** logo. The framework was sketched at CitizenSpace in late 2006, [[oauth2|OAuth 2.0]] published as [[rfc:6749|RFC 6749]] in October 2012, [[oauth2|OAuth 2.1]] cleanups currently in draft. Eran Hammer\'s 2012 resignation essay *"[[oauth2|OAuth]] 2.0 and the Road to Hell"* is still the field\'s most-cited critique of any {{ietf|IETF}} standard — and yet OAuth now powers >1.2 billion daily sign-ins through Microsoft Entra ID alone.',
+								'The **[[oauth2|OAuth]]** logo. The framework was sketched at CitizenSpace in late 2006, [[oauth2|OAuth 2.0]] published as [[rfc:6749|RFC 6749]] in October 2012, [[oauth2|OAuth 2.1]] cleanups currently in draft. Eran Hammer\'s 2012 resignation essay *"[[oauth2|OAuth]] 2.0 and the Road to Hell"* is still the field\'s most-cited critique of any {{ietf|IETF}} standard — and yet OAuth now powers >1.2 billion daily sign-ins through {{microsoft|Microsoft}} Entra ID alone.',
 							credit: 'Image: Chris Messina / Wikimedia Commons, public domain'
 						}
 					]
@@ -380,7 +380,7 @@ Before [[oauth2|OAuth]], an app that wanted access to your Google calendar asked
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: 'The era of "give me a 16-character password and [[imap|IMAP]] works forever" is over. Microsoft 365 [[smtp|SMTP]] AUTH basic auth retires in two phases starting March 2026 with full rejection by April 2026. Google "Less Secure Apps" was removed for personal accounts May 2022; Workspace deadline September 2024.',
+					text: 'The era of "give me a 16-character password and [[imap|IMAP]] works forever" is over. {{microsoft|Microsoft}} 365 [[smtp|SMTP]] AUTH basic auth retires in two phases starting March 2026 with full rejection by April 2026. {{google|Google}} "Less Secure Apps" was removed for personal accounts May 2022; Workspace deadline September 2024.',
 					attribution: 'Author'
 				},
 				{
@@ -420,22 +420,22 @@ His "Ten Commandments of How to Write an [[imap|IMAP]] client" still circulates;
 							title: 'The Trust Layer and the 2024-2026 Enforcement Cliff',
 							text: `Because [[smtp|SMTP]] was designed in 1982 with no notion that senders might lie about who they were, spammers could spoof any From address with no friction. The fix took two decades and three layered protocols: **SPF** (Sender Policy Framework, RFC 7208, 2014) — [[dns|DNS]] records declaring which IPs may send for a domain. **DKIM** (DomainKeys Identified Mail, RFC 6376, 2011) — cryptographic signatures over messages, {{public-key|public key}} in [[dns|DNS]]. **DMARC** (RFC 7489, 2015) — a policy on top that tells receivers what to do when SPF or DKIM fails for your domain.
 
-**The enforcement cliff started 1 February 2024**. **Yahoo / Google bulk-sender requirements**: senders of >5,000 messages/day to Gmail or Yahoo addresses must implement SPF, DKIM, AND DMARC with at least p=none, RFC 8058 one-click List-Unsubscribe (deadline pushed to 1 June 2024), valid PTR/forward-confirmed reverse [[dns|DNS]], spam-complaint rate <0.30%. **Gmail moved from 4xx soft errors (Feb 2024) to 5xx permanent rejections in November 2025.** Microsoft Outlook/Hotmail added equivalent requirements with hard [[smtp|SMTP]] rejection (error 550 5.7.515) starting **5 May 2025**.
+**The enforcement cliff started 1 February 2024**. **Yahoo / {{google|Google}} bulk-sender requirements**: senders of >5,000 messages/day to Gmail or Yahoo addresses must implement SPF, DKIM, AND DMARC with at least p=none, RFC 8058 one-click List-Unsubscribe (deadline pushed to 1 June 2024), valid PTR/forward-confirmed reverse [[dns|DNS]], spam-complaint rate <0.30%. **Gmail moved from 4xx soft errors (Feb 2024) to 5xx permanent rejections in November 2025.** {{microsoft|Microsoft}} Outlook/Hotmail added equivalent requirements with hard [[smtp|SMTP]] rejection (error 550 5.7.515) starting **5 May 2025**.
 
 **[[smtp|SMTP]] smuggling (December 2023 / January 2024)**: Timo Longin (SEC Consult) at 37C3 — outbound and inbound [[smtp|SMTP]] servers disagree on end-of-data sequences, allowing forged messages that pass SPF/DKIM/DMARC. CVE-2023-51764 (Postfix), CVE-2023-51765 (Sendmail), CVE-2023-51766 (Exim).
 
 **EFAIL (USENIX Security 2018)**: CBC/CFB malleability gadgets in S/MIME and OpenPGP plus HTML/CSS/X.509 backchannels in [[imap|IMAP]]-fetched HTML email exfiltrate decrypted plaintext. **23/35 S/MIME and 10/28 OpenPGP clients vulnerable**; ten CVEs.
 
-**Microsoft 365 basic-auth retirement**: Phased disablement began **1 October 2022** across worldwide multi-tenant Microsoft 365 for EAS, EWS, [[imap|IMAP]], POP, RPS, MAPI/RPC, OAB, Autodiscover. **[[smtp|SMTP]] AUTH basic auth retiring in two phases starting 1 March 2026 with full rejection by 30 April 2026**; default-disable for new tenants in December 2026. **The era of "give me a 16-character password and [[imap|IMAP]] works forever" is over.**
+**{{microsoft|Microsoft}} 365 basic-auth retirement**: Phased disablement began **1 October 2022** across worldwide multi-tenant Microsoft 365 for EAS, EWS, [[imap|IMAP]], POP, RPS, MAPI/RPC, OAB, Autodiscover. **[[smtp|SMTP]] AUTH basic auth retiring in two phases starting 1 March 2026 with full rejection by 30 April 2026**; default-disable for new tenants in December 2026. **The era of "give me a 16-character password and [[imap|IMAP]] works forever" is over.**
 
-**Frontier**: **JMAP** (RFC 8620 / 8621, July/August 2019) by Neil Jenkins and Bron Gondwana (Fastmail) — {{json|JSON}}-over-HTTPS replacement for [[imap|IMAP]]; designed inside Fastmail starting ~2014. **Stalwart Mail Server** (Rust, AGPL, 2023+) reached "feature complete" 2025 with native JMAP plus IMAP4rev1+rev2, POP3, ManageSieve, CalDAV, CardDAV, WebDAV — funded in part by NLnet via EU NGI0 Entrust Fund. **DKIM2** (\`draft-ietf-dkim-dkim2-motivation\`, November 2025) responds to the DKIM replay-attack epidemic by adding per-hop signatures with timestamps.`
+**Frontier**: **JMAP** (RFC 8620 / 8621, July/August 2019) by Neil Jenkins and Bron Gondwana (Fastmail) — {{json|JSON}}-over-HTTPS replacement for [[imap|IMAP]]; designed inside Fastmail starting ~2014. **Stalwart Mail Server** (Rust, AGPL, 2023+) reached "feature complete" 2025 with native JMAP plus IMAP4rev1+rev2, POP3, ManageSieve, CalDAV, CardDAV, WebDAV — funded in part by NLnet via EU NGI0 Entrust Fund. **DKIM2** (\`draft-{{ietf|ietf}}-dkim-dkim2-motivation\`, November 2025) responds to the DKIM replay-attack epidemic by adding per-hop signatures with timestamps.`
 						},
 						{
 							type: 'image',
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Email.svg/500px-Email.svg.png',
 							alt: 'Email envelope icon — stylised mail handler.',
 							caption:
-								'**Email** — the longest-running application of the internet. Ray Tomlinson at {{bbn|BBN}} picked the **@** sign in 1971 modifying SNDMSG. [[pioneer:jon-postel|Jon Postel]] published [[rfc:5321|RFC 821]] on port 25 in August 1982. Forty-four years later [[smtp|SMTP]] still relays your mail, [[imap|IMAP]] still serves your folders, and **DMARC enforcement** at Google + Yahoo (from 1 February 2024) finally killed the easy spoofed-From address. The protocol is older than [[arpanet|ARPANET]]\'s {{flag-day-1983|flag day}}; the standards work is not done.',
+								'**Email** — the longest-running application of the internet. Ray Tomlinson at {{bbn|BBN}} picked the **@** sign in 1971 modifying SNDMSG. [[pioneer:jon-postel|Jon Postel]] published [[rfc:5321|RFC 821]] on port 25 in August 1982. Forty-four years later [[smtp|SMTP]] still relays your mail, [[imap|IMAP]] still serves your folders, and **DMARC enforcement** at {{google|Google}} + Yahoo (from 1 February 2024) finally killed the easy spoofed-From address. The protocol is older than {{arpanet|ARPANET}}\'s {{flag-day-1983|flag day}}; the standards work is not done.',
 							credit: 'Image: Wikimedia Commons / public domain'
 						}
 					]

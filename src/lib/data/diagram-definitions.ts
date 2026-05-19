@@ -91,7 +91,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     C->>S: Initial (ClientHello + crypto)
     S->>C: Initial (ServerHello + crypto)
     S->>C: {{handshake|Handshake}} ({{certificate|certificate}} + finished)
-    C->>S: Handshake finished
+    C->>S: {{handshake|Handshake}} finished
     Note over C,S: 1 RTT — data can flow
     C->>S: Stream 1: GET /page (encrypted)
     C->>S: Stream 2: GET /style.css (encrypted)
@@ -119,8 +119,8 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     Note over A,B: 4-way {{handshake|handshake}} with {{cookie|cookie}} (anti-{{spoofing|spoofing}})
     A->>B: INIT
     B->>A: INIT-ACK ({{cookie|cookie}})
-    A->>B: COOKIE-ECHO
-    B->>A: COOKIE-ACK
+    A->>B: {{cookie|COOKIE}}-ECHO
+    B->>A: {{cookie|COOKIE}}-ACK
     Note over A,B: Multiple independent streams
     A->>B: Stream 1 — control data
     A->>B: Stream 2 — file chunk
@@ -298,7 +298,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     S->>C: Bidirectional stream
     Note over C,S: Code generated from .proto service definitions`,
 		caption:
-			'**[[grpc|gRPC]]** = Google\'s high-performance **RPC** framework. Methods defined in `.proto` files become typed client and server stubs in your language; messages travel as compact **Protobuf** binary over [[http2|HTTP/2]].',
+			'**[[grpc|gRPC]]** = {{google|Google}}\'s high-performance **RPC** framework. Methods defined in `.proto` files become typed client and server stubs in your language; messages travel as compact **Protobuf** binary over [[http2|HTTP/2]].',
 		steps: {
 			0: '**RPC** = Remote Procedure Call. Looks like a function call but actually crosses the network. The strong typing comes from the **`.proto`** schema both sides share.',
 			1: 'Method invocation. Note this **isn\'t JSON** — Protobuf serializes the call by field-number, omitting names and types from the wire format.',
@@ -619,11 +619,11 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     P->>B: Produce ({{topic|topic}}, {{partition|partition}}, batch)
     Note over B: Append to {{partition|partition}} log + replicate
     B->>P: ACK ({{offset|offset}}=42)
-    C->>B: Fetch ({{topic|topic}}, partition, {{offset|offset}}=0)
+    C->>B: Fetch ({{topic|topic}}, {{partition|partition}}, {{offset|offset}}=0)
     B->>C: Records (offsets 0–42)
-    C->>B: OffsetCommit (offset=42, group=analytics)
+    C->>B: OffsetCommit ({{offset|offset}}=42, group=analytics)
     Note over B: {{consumer-group|Consumer group}} tracks position
-    C->>B: Fetch (offset=43)
+    C->>B: Fetch ({{offset|offset}}=43)
     B->>C: Records (offsets 43–50)
     Note over P,C: Log is immutable — consumers replay at any offset`,
 		caption:
@@ -648,7 +648,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
 		definition: `sequenceDiagram
     participant A as {{peer|Peer}} A
     participant S as Server
-    participant B as Peer B
+    participant B as {{peer|Peer}} B
     A->>S: [[sdp|SDP]] Offer (codecs, media)
     S->>B: [[sdp|SDP]] Offer (forwarded)
     B->>S: SDP Answer (accepted codecs)
@@ -680,9 +680,9 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     Note over S,R: [[rtp|RTP]] media packet stream
     S->>R: [[rtp|RTP]] (seq=100, ts=0, {{payload|payload}})
     S->>R: RTP (seq=101, ts=160, {{payload|payload}})
-    S->>R: RTP (seq=102, ts=320, payload)
+    S->>R: RTP (seq=102, ts=320, {{payload|payload}})
     S-xR: RTP (seq=103 — lost!)
-    S->>R: RTP (seq=104, ts=640, payload)
+    S->>R: RTP (seq=104, ts=640, {{payload|payload}})
     Note over R: Reorder buffer + {{jitter|jitter}} compensation
     Note over S,R: {{rtcp|RTCP}} feedback (separate channel)
     R->>S: Receiver Report (loss=1, {{jitter|jitter}}=5ms)
@@ -747,7 +747,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     S->>P: Segment data (smaller)
     Note over S,P: Quality adapts to available {{bandwidth|bandwidth}}`,
 		caption:
-			'**[[hls|HLS]]** = HTTP Live Streaming (Apple). Video is pre-chopped into ~6-second `.ts` segments at multiple quality levels; the player picks a level per segment based on {{bandwidth|bandwidth}} — **adaptive bitrate** over plain HTTP ([[rfc:8216|RFC 8216]]).',
+			'**[[hls|HLS]]** = HTTP Live Streaming ({{apple|Apple}}). Video is pre-chopped into ~6-second `.ts` segments at multiple quality levels; the player picks a level per segment based on {{bandwidth|bandwidth}} — **adaptive bitrate** over plain HTTP ([[rfc:8216|RFC 8216]]).',
 		steps: {
 			0: '**Pre-encoding** is the magic. The same content is encoded ahead of time at e.g. 1080p, 720p, 360p — so any quality can be served instantly.',
 			1: '**`.m3u8`** is a plain text playlist (the *master manifest*). Lists the variant playlists for each quality level.',
@@ -795,7 +795,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
 		definition: `sequenceDiagram
     participant A as {{peer|Peer}} A
     participant Sig as {{signaling|Signaling}}
-    participant B as Peer B
+    participant B as {{peer|Peer}} B
     A->>A: Create [[sdp|SDP]] offer
     Note over A: v=0, m=audio/video, codecs, ICE
     A->>Sig: Send [[sdp|SDP]] offer
@@ -1166,7 +1166,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     AP->>L: Authentication Response (OK)
     L->>AP: Association Request (capabilities)
     AP->>L: Association Response (AID assigned)
-    Note over L,AP: WPA2 4-way {{handshake|handshake}}
+    Note over L,AP: {{wpa2|WPA2}} 4-way {{handshake|handshake}}
     AP->>L: ANonce (AP's random value)
     L->>AP: SNonce + MIC (derive PTK)
     AP->>L: GTK + MIC (group key)
@@ -1177,7 +1177,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     S->>AP: [[ethernet|Ethernet]] response
     AP->>L: [[wifi|802.11]] encrypted response`,
 		caption:
-			'**WiFi** = wireless [[ethernet|Ethernet]] (IEEE [[wifi|802.11]]). After discovering the network, the device authenticates and associates, then runs the **WPA2 4-way {{handshake|handshake}}** to derive {{encryption|encryption}} keys. Wireless frames are then bridged to the wired LAN by the **AP** ({{access-point|Access Point}}).',
+			'**WiFi** = wireless [[ethernet|Ethernet]] (IEEE [[wifi|802.11]]). After discovering the network, the device authenticates and associates, then runs the **{{wpa2|WPA2}} 4-way {{handshake|handshake}}** to derive {{encryption|encryption}} keys. Wireless frames are then bridged to the wired LAN by the **AP** ({{access-point|Access Point}}).',
 		steps: {
 			1: '**Beacon** = the AP\'s broadcast announcement, ~10× per second. Carries the **SSID** (network name), supported rates, security mode, and capabilities.',
 			2: 'Legacy step (predates WPA): used to allow shared-key auth in WEP. Today it\'s just a formality — security happens in the 4-way handshake.',
@@ -1248,8 +1248,8 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     participant C as [[soap|SOAP]] Client
     participant S as [[soap|SOAP]] Service
     Note over C,S: {{service-discovery|Service discovery}}
-    C->>S: GET /UserService?wsdl
-    S->>C: WSDL document (operations, schemas, endpoint)
+    C->>S: GET /UserService?{{wsdl|wsdl}}
+    S->>C: {{wsdl|WSDL}} document (operations, schemas, endpoint)
     Note over C,S: SOAP request/response
     C->>S: POST /UserService (SOAPAction: GetUser)
     Note right of C: Envelope → Header + Body(GetUser id=42)
@@ -1261,7 +1261,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     S->>C: 500 — SOAP Fault Envelope
     Note right of S: faultcode=Client, faultstring="Invalid ID"`,
 		caption:
-			'**[[soap|SOAP]]** = Simple Object Access Protocol. Strict XML messaging for enterprise services. Every message is an **Envelope** with a Header and Body; the contract is described by **WSDL**. Heavy compared to [[rest|REST]], but typed and tooling-friendly (W3C [[soap|SOAP]] 1.2).',
+			'**[[soap|SOAP]]** = Simple Object Access Protocol. Strict XML messaging for enterprise services. Every message is an **Envelope** with a Header and Body; the contract is described by **{{wsdl|WSDL}}**. Heavy compared to [[rest|REST]], but typed and tooling-friendly (W3C [[soap|SOAP]] 1.2).',
 		steps: {
 			1: '**WSDL** = Web Services Description Language. Machine-readable contract — operations, parameter types, endpoint URLs. Tools generate client stubs from it.',
 			4: 'Always **POST** with a **`SOAPAction`** header naming the operation. Pre-WSDL clients keyed off this header to dispatch.',
@@ -1447,11 +1447,11 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
 	wireguard: {
 		definition: `sequenceDiagram
     participant I as Initiator ({{peer|peer}} A)
-    participant R as Responder (peer B)
+    participant R as Responder ({{peer|peer}} B)
     Note over I,R: {{handshake|Handshake}} — Noise_IKpsk2, one round trip
-    I->>R: Handshake Initiation (148 B)
+    I->>R: {{handshake|Handshake}} Initiation (148 B)
     Note right of I: type=1, ephemeral pub,<br/>encrypted static, TAI64N,<br/>MAC1 + MAC2
-    R->>I: Handshake Response (92 B)
+    R->>I: {{handshake|Handshake}} Response (92 B)
     Note left of R: type=2, ephemeral pub,<br/>encrypted empty, MAC1 + MAC2
     Note over I,R: Both sides derive ChaCha20-Poly1305 keys;<br/>ephemeral state wiped
     I-->>R: Transport Data (type=4, encrypted IP packet)
@@ -1461,7 +1461,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     R->>I: Handshake Response
     Note over I,R: Fresh keys; old session wiped at REJECT_AFTER_TIME (180 s)`,
 		caption:
-			'**[[wireguard|WireGuard]]** = one round-trip Noise_IKpsk2 {{handshake|handshake}} → encrypted [[ip|IP]] packets over [[udp|UDP]]. Exactly four message types, exactly one ciphersuite (`Noise_IKpsk2_25519_ChaChaPoly_BLAKE2s`). Designed by [[pioneer:jason-donenfeld|Jason Donenfeld]] (2015–2016), mainlined in Linux 5.6 (29 March 2020).',
+			'**[[wireguard|WireGuard]]** = one round-trip Noise_IKpsk2 {{handshake|handshake}} → encrypted [[ip|IP]] packets over [[udp|UDP]]. Exactly four message types, exactly one ciphersuite (`Noise_IKpsk2_25519_ChaChaPoly_BLAKE2s`). Designed by [[pioneer:jason-donenfeld|Jason Donenfeld]] (2015–2016), mainlined in {{linux|Linux}} 5.6 (29 March 2020).',
 		steps: {
 			0: 'Before any traffic flows, each peer already knows the other\'s **32-byte Curve25519 public key**. There is no certificate exchange, no PKI, no negotiation. The public key *is* the identity.',
 			1: '**Handshake Initiation** — 148 bytes. Carries the initiator\'s ephemeral pubkey, an AEAD-encrypted copy of its static pubkey (hides sender identity from passive observers), and a TAI64N timestamp. `MAC1` proves the initiator knows the responder\'s pubkey (anti-amplification). `MAC2` is a cookie under DoS load.',
@@ -1488,7 +1488,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     R->>I: HDR(IKE-encrypted), IDr, CERT, AUTH, SAr2, TSi, TSr, CP(reply)
     Note over I,R: Child SA up — ESP starts flowing
     I-->>R: ESP (SPI=0xC0FFEE, seq=1, AES-GCM {{payload|payload}})
-    R-->>I: ESP (SPI=0xDEADBEEF, seq=1, AES-GCM payload)
+    R-->>I: ESP (SPI=0xDEADBEEF, seq=1, AES-GCM {{payload|payload}})
     Note over I,R: CREATE_CHILD_SA — rekey before lifetime
     I->>R: HDR(IKE-encrypted), N(REKEY_SA), SA, Nonces, KE (PFS)
     R->>I: HDR(IKE-encrypted), SA (new), Nonces, KE`,
@@ -1582,14 +1582,14 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     participant SG as Signalling
     participant B as Bob (browser)
     Note over A,B: ICE gather — find every possible address
-    A->>SS: STUN Binding Request (host socket)
+    A->>SS: {{stun|STUN}} Binding Request (host socket)
     SS->>A: XOR-MAPPED-ADDRESS = server-reflexive
     A->>TS: Allocate (long-term credentials)
     TS->>A: XOR-RELAYED-ADDRESS = 203.0.113.5:62000
     A->>SG: [[sdp|SDP]] offer + candidates (trickle)
     SG->>B: Forward to Bob
     Note over A,B: ICE checks — probe every candidate pair
-    A->>B: STUN Binding (short-term creds, PRIORITY)
+    A->>B: {{stun|STUN}} Binding (short-term creds, PRIORITY)
     B->>A: STUN Binding Response
     A->>B: USE-CANDIDATE on winning pair
     Note over A,B: Media flows on the chosen pair
@@ -1622,7 +1622,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     C->>B: Association Response — short=0x3F4E
     Note over C,B: APS Transport-Key (encrypted under pre-conf link key)
     C->>B: Network Key delivered
-    B->>R: NWK Device Announce broadcast — "I am 0x3F4E"
+    B->>R: NWK Device Announce {{broadcast|broadcast}} — "I am 0x3F4E"
     Note over R,C: Routers add 0x3F4E to routing tables
     C->>B: ZCL OnOff.Toggle (cluster=0x0006, cmd=0x02)
     Note over B: Bulb turns on`,
@@ -1690,7 +1690,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     P->>T: ARQC + ATC + IAD
     Note over T,P: Terminal → acquirer → issuer → ARPC: APPROVED`,
 		caption:
-			"**[[nfc|NFC]]** = Near Field Communication. The same nine beats — anti-collision → RATS/ATS → SELECT {{ppse|PPSE}} → SELECT AID → GPO → READ RECORD → GENERATE AC — that every Apple Pay, Google Wallet, {{transit|transit}} gate, and plastic contactless card runs through in under half a second (ISO/IEC 14443 + ISO/IEC 7816-4 + EMVCo Contactless Book C-2).",
+			"**[[nfc|NFC]]** = Near Field Communication. The same nine beats — anti-collision → RATS/ATS → SELECT {{ppse|PPSE}} → SELECT AID → GPO → READ RECORD → GENERATE AC — that every {{apple|Apple}} Pay, {{google|Google}} Wallet, {{transit|transit}} gate, and plastic contactless card runs through in under half a second (ISO/IEC 14443 + ISO/IEC 7816-4 + EMVCo Contactless Book C-2).",
 		steps: {
 			0: 'The terminal energises the **13.56 MHz** magnetic carrier continuously. When the phone is within ~4 cm, the {{ese|eSE}} harvests power inductively and wakes — no battery contribution needed.',
 			1: '**REQA** = `0x26`, a 7-bit short frame. Any IDLE Type A PICC in the field transitions to READY.',

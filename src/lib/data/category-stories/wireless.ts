@@ -16,7 +16,7 @@ Two technologies broke through. **[[wifi|Wi-Fi]]** (IEEE [[wifi|802.11]], 1997) 
 
 And, sitting beside both of them in this category, **[[cellular|Cellular]]** — 4G LTE and {{5g-nr|5G NR}}, the {{3gpp|3GPP}} family that the rest of the world calls "the phone network." About 9 billion subscriptions in 2026. Where [[wifi|Wi-Fi]] is unlicensed and operated by whoever owns the building and [[bluetooth|Bluetooth]] is a personal-area network you carry in your pocket, [[cellular|cellular]] is **licensed {{spectrum|spectrum}}, carrier-operated, wide-area, mobile** — and architecturally it is one of the largest [[ipsec|IPsec]] + [[http2|HTTP/2]] microservice fabrics on Earth.
 
-Together — Wi-Fi for local broadband, Bluetooth for personal-area, Cellular for wide-area — the three cover every wireless surface from streaming 4K video to a hearing aid sipping power from a coin cell to a phone connecting to a Starlink satellite 600 km overhead.`
+Together — Wi-Fi for local broadband, Bluetooth for personal-area, Cellular for wide-area — the three cover every wireless surface from streaming 4K video to a hearing aid sipping power from a coin cell to a phone connecting to a {{starlink|Starlink}} satellite 600 km overhead.`
 		},
 		{
 			type: 'pioneers',
@@ -68,7 +68,7 @@ Together — Wi-Fi for local broadband, Bluetooth for personal-area, Cellular fo
 					title: 'Named Bluetooth',
 					org: 'Intel',
 					contribution:
-						'Proposed the name "[[bluetooth|Bluetooth]]" at a 1997 SIG meeting after Harald "Blåtand" Gormsson, the 10th-century Danish king who united Denmark and Norway — analogous to the SIG\'s goal of uniting Ericsson, IBM, Intel, Nokia, and Toshiba behind one short-range wireless standard. The name was supposed to be a placeholder. It stuck.'
+						'Proposed the name "[[bluetooth|Bluetooth]]" at a 1997 SIG meeting after Harald "Blåtand" Gormsson, the 10th-century Danish king who united Denmark and Norway — analogous to the SIG\'s goal of uniting Ericsson, IBM, {{intel|Intel}}, Nokia, and Toshiba behind one short-range wireless standard. The name was supposed to be a placeholder. It stuck.'
 				}
 			]
 		},
@@ -113,7 +113,7 @@ Together — Wi-Fi for local broadband, Bluetooth for personal-area, Cellular fo
 					year: 1998,
 					title: 'Bluetooth SIG founded',
 					description:
-						'Ericsson, IBM, Intel, Nokia, and Toshiba sign the [[bluetooth|Bluetooth]] Special Interest Group charter in May 1998 to standardise short-range wireless. The first commercial product (a hands-free headset) ships at COMDEX 1999.',
+						'Ericsson, IBM, {{intel|Intel}}, Nokia, and Toshiba sign the [[bluetooth|Bluetooth]] Special Interest Group charter in May 1998 to standardise short-range wireless. The first commercial product (a hands-free headset) ships at COMDEX 1999.',
 					protocolId: 'bluetooth'
 				},
 				{
@@ -176,7 +176,7 @@ Together — Wi-Fi for local broadband, Bluetooth for personal-area, Cellular fo
 					year: 2025,
 					title: 'T-Mobile + SpaceX Direct-to-Cell launches commercially',
 					description:
-						"The first commercial **satellite-to-cell** service. Standard band n25/n26 phones connect to low-Earth-orbit Starlink satellites for SMS and emergency. Apple\'s Globalstar partnership and AT&T's AST SpaceMobile follow similar patterns. Reshapes \"coverage\" as a concept: \"no signal\" no longer means *no signal*.",
+						"The first commercial **satellite-to-cell** service. Standard band n25/n26 phones connect to low-Earth-orbit {{starlink|Starlink}} satellites for SMS and emergency. {{apple|Apple}}\'s Globalstar partnership and AT&T's AST SpaceMobile follow similar patterns. Reshapes \"coverage\" as a concept: \"no signal\" no longer means *no signal*.",
 					protocolId: 'cellular'
 				}
 			]
@@ -184,12 +184,12 @@ Together — Wi-Fi for local broadband, Bluetooth for personal-area, Cellular fo
 		{
 			type: 'callout',
 			title: 'Definitive members list (ranked by deployment priority)',
-			text: `Three are already in this category, four more are queued for the next research wave:\n\n1. **Wi-Fi** ([[wifi|802.11]]) — universal local broadband. *Shipped.*\n2. **Bluetooth** (BR/EDR + BLE) — personal-area + IoT commissioning. *Shipped.*\n3. **Cellular** (4G LTE + {{5g-nr|5G NR}}) — wide-area, licensed, mobile. ~9B subs. *Shipped.*\n4. **[[nfc|NFC]]** (ISO/IEC 18092) — contactless payment + {{transit|transit}} cards. *Queued.*\n5. **[[uwb|UWB]]** (IEEE 802.15.4z) — sub-decimetre ranging, AirTag Precision Finding, {{ccc-digital-key|CCC Digital Key}}. *Queued.*\n6. **{{thread|Thread}}** ({{ieee-802-15-4|IEEE 802.15.4}} + 6LoWPAN) — the IPv6-native smart-home mesh under {{matter|Matter}}. *Coming with Matter+Thread bundle.*\n7. **LoRaWAN** — sub-GHz {{lpwan|LPWAN}} for metering, agriculture, smart cities; 125M+ devices deployed by end-2025. *Queued.*\n8. **Zigbee** (CSA) — the legacy mesh that still runs the Philips Hue installed base. *Queued.*\n\n**Sidebars** rather than full pages: NB-IoT / LTE-M (inside the Cellular page), Z-Wave (inside Zigbee/Thread), GNSS / NMEA 0183 (positioning, not a network). **Callouts only**: DECT NR+, WirelessHART/ISA100.11a, {{broadcast|broadcast}} (AM/FM/DAB+/ATSC 3.0), passive {{rfid|RFID}}, IrDA.`
+			text: `Three are already in this category, four more are queued for the next research wave:\n\n1. **Wi-Fi** ([[wifi|802.11]]) — universal local broadband. *Shipped.*\n2. **Bluetooth** (BR/EDR + BLE) — personal-area + IoT commissioning. *Shipped.*\n3. **Cellular** (4G LTE + {{5g-nr|5G NR}}) — wide-area, licensed, mobile. ~9B subs. *Shipped.*\n4. **[[nfc|NFC]]** (ISO/IEC 18092) — contactless payment + {{transit|transit}} cards. *Queued.*\n5. **[[uwb|UWB]]** (IEEE 802.15.4z) — sub-decimetre ranging, AirTag Precision Finding, {{ccc-digital-key|CCC Digital Key}}. *Queued.*\n6. **{{thread|Thread}}** ({{ieee-802-15-4|IEEE 802.15.4}} + 6LoWPAN) — the IPv6-native smart-home mesh under {{matter|Matter}}. *Coming with {{matter|Matter}}+{{thread|Thread}} bundle.*\n7. **LoRaWAN** — sub-GHz {{lpwan|LPWAN}} for metering, agriculture, smart cities; 125M+ devices deployed by end-2025. *Queued.*\n8. **Zigbee** (CSA) — the legacy mesh that still runs the Philips Hue installed base. *Queued.*\n\n**Sidebars** rather than full pages: NB-IoT / LTE-M (inside the Cellular page), Z-Wave (inside Zigbee/{{thread|Thread}}), GNSS / NMEA 0183 (positioning, not a network). **Callouts only**: DECT NR+, WirelessHART/ISA100.11a, {{broadcast|broadcast}} (AM/FM/DAB+/ATSC 3.0), passive {{rfid|RFID}}, IrDA.`
 		},
 		{
 			type: 'callout',
 			title: 'Spectrum at a glance',
-			text: `Every wireless protocol picks a band, and the band picks the trade-offs:\n\n- **Sub-GHz (433/868/915 MHz)** — long range, low data rate. Unlicensed in most regions. *LoRaWAN, Sigfox, Z-Wave, NB-IoT in 700 MHz.*\n- **2.4 GHz ISM** — global, unlicensed, crowded. *Wi-Fi b/g/n/ax, Bluetooth BR/EDR + BLE, Zigbee, {{thread|Thread}}, microwave-oven leakage, baby monitors.* Modern combo chips (Apple H-series, Broadcom, Qualcomm) do time-division arbitration to keep them all alive on one antenna.\n- **5 GHz / 6 GHz** — fast, less crowded. *Wi-Fi a/n/ac/ax/be (6E and 7).* The 6 GHz expansion in the US (FCC 2020) and EU (CEPT 2021) added 1200 MHz of unlicensed {{spectrum|spectrum}} — the biggest single {{bandwidth|bandwidth}} grant in 20 years.\n- **24–52 GHz {{mmwave|mmWave}}** — line-of-sight, gigabits. *Wi-Fi WiGig, {{5g-nr|5G NR}} FR2.* Loses 20 dB on a wet leaf; deployed mostly in stadiums and dense urban hotspots.\n- **Licensed cellular (600 MHz – 3.7 GHz mid-band)** — predictable QoS, carrier-operated. *4G LTE FR1, 5G NR FR1.* Spectrum auctioned for billions.\n- **[[uwb|UWB]] (6–8.5 GHz)** — wide bandwidth, ultra-low power, sub-decimetre ranging. *{{fira|FiRa Consortium}}, IEEE 802.15.4z.*\n- **Satellite L/S/Ka band** — global coverage. *Starlink {{direct-to-cell|Direct-to-Cell}} on n25/n26, AST SpaceMobile, Apple Globalstar Emergency SOS.*`
+			text: `Every wireless protocol picks a band, and the band picks the trade-offs:\n\n- **Sub-GHz (433/868/915 MHz)** — long range, low data rate. Unlicensed in most regions. *LoRaWAN, Sigfox, Z-Wave, NB-IoT in 700 MHz.*\n- **2.4 GHz ISM** — global, unlicensed, crowded. *Wi-Fi b/g/n/ax, Bluetooth BR/EDR + BLE, Zigbee, {{thread|Thread}}, microwave-oven leakage, baby monitors.* Modern combo chips ({{apple|Apple}} H-series, {{broadcom|Broadcom}}, Qualcomm) do time-division arbitration to keep them all alive on one antenna.\n- **5 GHz / 6 GHz** — fast, less crowded. *Wi-Fi a/n/ac/ax/be (6E and 7).* The 6 GHz expansion in the US (FCC 2020) and EU (CEPT 2021) added 1200 MHz of unlicensed {{spectrum|spectrum}} — the biggest single {{bandwidth|bandwidth}} grant in 20 years.\n- **24–52 GHz {{mmwave|mmWave}}** — line-of-sight, gigabits. *Wi-Fi WiGig, {{5g-nr|5G NR}} FR2.* Loses 20 dB on a wet leaf; deployed mostly in stadiums and dense urban hotspots.\n- **Licensed cellular (600 MHz – 3.7 GHz mid-band)** — predictable QoS, carrier-operated. *4G LTE FR1, {{5g-nr|5G NR}} FR1.* {{spectrum|Spectrum}} auctioned for billions.\n- **[[uwb|UWB]] (6–8.5 GHz)** — wide {{bandwidth|bandwidth}}, ultra-low power, sub-decimetre ranging. *{{fira|FiRa Consortium}}, IEEE 802.15.4z.*\n- **Satellite L/S/Ka band** — global coverage. *{{starlink|Starlink}} {{direct-to-cell|Direct-to-Cell}} on n25/n26, AST SpaceMobile, {{apple|Apple}} Globalstar Emergency SOS.*`
 		},
 		{
 			type: 'narrative',
@@ -217,7 +217,7 @@ An [[wifi|802.11]] frame carries three or four MAC addresses (receiver, transmit
     W4["Addr 2: Transmitter — 6 bytes"]
     W5["Addr 3: Destination — 6 bytes"]
     W6["Seq Control — 2 bytes"]
-    W7["Encrypted Payload"]
+    W7["Encrypted {{payload|Payload}}"]
     W8["FCS — 4 bytes"]
     W1 --- W2 --- W3 --- W4 --- W5 --- W6 --- W7 --- W8
   end
@@ -237,7 +237,7 @@ The future of [[bluetooth|Bluetooth]] in 2026 is **{{channel-sounding|Channel So
 		{
 			type: 'callout',
 			title: 'Why are Wi-Fi and Bluetooth on the same band?',
-			text: 'Both [[wifi|Wi-Fi]] and [[bluetooth|Bluetooth]] live in the 2.4 GHz **ISM (Industrial, Scientific, Medical)** band — globally unlicensed, free for any device to transmit on. The crowding is real: a microwave oven leaks 2.4 GHz energy strong enough to mute nearby [[bluetooth|Bluetooth]] earbuds. Modern coexistence in combo chips (e.g. Broadcom, Qualcomm, Apple H1/H2) uses **time-division arbitration** at the silicon level — [[bluetooth|Bluetooth]] gives up {{airtime|airtime}} when [[wifi|Wi-Fi]] needs it, and vice versa. [[wifi|Wi-Fi]] 6E and 7 escape to 6 GHz; [[bluetooth|Bluetooth]] does not — it stays at 2.4 GHz where every consumer device with a battery already lives.'
+			text: 'Both [[wifi|Wi-Fi]] and [[bluetooth|Bluetooth]] live in the 2.4 GHz **ISM (Industrial, Scientific, Medical)** band — globally unlicensed, free for any device to transmit on. The crowding is real: a microwave oven leaks 2.4 GHz energy strong enough to mute nearby [[bluetooth|Bluetooth]] earbuds. Modern coexistence in combo chips (e.g. {{broadcom|Broadcom}}, Qualcomm, {{apple|Apple}} H1/H2) uses **time-division arbitration** at the silicon level — [[bluetooth|Bluetooth]] gives up {{airtime|airtime}} when [[wifi|Wi-Fi]] needs it, and vice versa. [[wifi|Wi-Fi]] 6E and 7 escape to 6 GHz; [[bluetooth|Bluetooth]] does not — it stays at 2.4 GHz where every consumer device with a battery already lives.'
 		},
 		{
 			type: 'image',

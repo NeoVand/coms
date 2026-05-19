@@ -120,7 +120,7 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
 					year: 1980,
 					title: 'DIX Ethernet Standard Published',
 					description:
-						'Digital Equipment Corporation, Intel, and Xerox publish the DIX standard ([[ethernet|Ethernet]] II), defining the frame format still used today.'
+						'Digital Equipment Corporation, {{intel|Intel}}, and Xerox publish the DIX standard ([[ethernet|Ethernet]] II), defining the frame format still used today.'
 				},
 				{
 					year: 1981,
@@ -175,7 +175,7 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
 					year: 2026,
 					title: 'IPv6 Crosses 50% on Google',
 					description:
-						'On 28 March 2026, [[ipv6|IPv6]] carried 50.1% of Google\'s traffic for the first time — 28 years after [[rfc:2460|RFC 2460]]. Cloudflare and APNIC measure 40-43% from their vantage points, so the milestone is real but uneven.',
+						'On 28 March 2026, [[ipv6|IPv6]] carried 50.1% of {{google|Google}}\'s traffic for the first time — 28 years after [[rfc:2460|RFC 2460]]. {{cloudflare|Cloudflare}} and APNIC measure 40-43% from their vantage points, so the milestone is real but uneven.',
 					protocolId: 'ipv6'
 				}
 			]
@@ -234,7 +234,7 @@ In 1981, [[pioneer:jon-postel|Jon Postel]] defined [[icmp|ICMP]] — the Interne
 
 By 1989, the internet was outgrowing its routing. The original {{arpanet|ARPANET}} had a single backbone — routing was simple. But as multiple networks connected, someone had to decide how traffic flows between them. [[pioneer:yakov-rekhter|Yakov Rekhter]] and Kirk Lougheed created [[bgp|BGP]], the Border Gateway Protocol, which treats each network as an "{{autonomous-system|autonomous system}}" and exchanges route advertisements between them. Today, [[bgp|BGP]] is literally the protocol that holds the internet together — every path your data takes across network boundaries is decided by [[bgp|BGP]] route advertisements exchanged on [[tcp|TCP]] port 179.
 
-The most ambitious chapter began in the 1990s. [[ip|IPv4]]'s 32-bit address space — 4.3 billion addresses — was running out. [[pioneer:steve-deering|Steve Deering]] led the design of [[ipv6|IPv6]], published as [[rfc:2460|RFC 2460]] in 1998 (later updated as [[rfc:8200|RFC 8200]] in 2017). [[ipv6|IPv6]] didn't just add more addresses; it rethought the protocol entirely. The header was simplified to a fixed 40 bytes — no {{checksum|checksum}}, no variable-length options. {{broadcast|Broadcast}} was eliminated in favor of {{multicast|multicast}}. [[arp|ARP]]'s {{broadcast|broadcast}}-based address resolution was replaced by {{ndp|NDP}} ({{ndp|Neighbor Discovery Protocol}}), which uses efficient solicited-node {{multicast|multicast}}. Hosts can autoconfigure globally unique addresses via {{slaac|SLAAC}} without any server. On 28 March 2026, [[ipv6|IPv6]] crossed 50% of Google's traffic for the first time, 28 years after the spec — a transition that was supposed to take a few years and is still ongoing, a testament to how deeply embedded [[ip|IPv4]] became.`
+The most ambitious chapter began in the 1990s. [[ip|IPv4]]'s 32-bit address space — 4.3 billion addresses — was running out. [[pioneer:steve-deering|Steve Deering]] led the design of [[ipv6|IPv6]], published as [[rfc:2460|RFC 2460]] in 1998 (later updated as [[rfc:8200|RFC 8200]] in 2017). [[ipv6|IPv6]] didn't just add more addresses; it rethought the protocol entirely. The header was simplified to a fixed 40 bytes — no {{checksum|checksum}}, no variable-length options. {{broadcast|Broadcast}} was eliminated in favor of {{multicast|multicast}}. [[arp|ARP]]'s {{broadcast|broadcast}}-based address resolution was replaced by {{ndp|NDP}} ({{ndp|Neighbor Discovery Protocol}}), which uses efficient solicited-node {{multicast|multicast}}. Hosts can autoconfigure globally unique addresses via {{slaac|SLAAC}} without any server. On 28 March 2026, [[ipv6|IPv6]] crossed 50% of {{google|Google}}'s traffic for the first time, 28 years after the spec — a transition that was supposed to take a few years and is still ongoing, a testament to how deeply embedded [[ip|IPv4]] became.`
 		},
 		{
 			type: 'diagram',

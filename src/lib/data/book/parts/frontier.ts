@@ -48,32 +48,32 @@ Browser deployment moved fast. **Chrome 124 (April 2024)** made X25519Kyber768 d
 						{
 							type: 'callout',
 							title: 'Apple iOS 26 cliff: <2% to 25% in 90 days',
-							text: '**Apple iOS 26 / iPadOS 26 / macOS Tahoe 26 / visionOS 26 (September 2025)** turned X25519MLKEM768 on by default for all [[tls|TLS]] 1.3 in Network.framework. Within **four days** the iOS post-quantum traffic share went from <2% to 11%. By December 2025 it was >25%. Apple\'s scale plus the default-on shipping pattern is the fastest deployment of a new [[tls|TLS]] feature in the protocol\'s history.'
+							text: '**{{apple|Apple}} iOS 26 / iPadOS 26 / macOS Tahoe 26 / visionOS 26 (September 2025)** turned X25519MLKEM768 on by default for all [[tls|TLS]] 1.3 in Network.framework. Within **four days** the iOS post-quantum traffic share went from <2% to 11%. By December 2025 it was >25%. {{apple|Apple}}\'s scale plus the default-on shipping pattern is the fastest deployment of a new [[tls|TLS]] feature in the protocol\'s history.'
 						},
 						{
 							type: 'narrative',
 							title: 'The Asymmetry — Browsers Ahead, Origins Behind',
-							text: `**By the end of 2025, ~52% of all [[tls|TLS]] 1.3 connections to Cloudflare carried post-quantum hybrid key agreement** — but only **~3.7% of *origins*** support X25519MLKEM768. The asymmetry is the story.
+							text: `**By the end of 2025, ~52% of all [[tls|TLS]] 1.3 connections to {{cloudflare|Cloudflare}} carried post-quantum hybrid key agreement** — but only **~3.7% of *origins*** support X25519MLKEM768. The asymmetry is the story.
 
-The browser→edge {{handshake|handshake}} is now PQ on a majority of human traffic. The edge→origin leg is the new frontier. **Akamai rolled out PQ to-origin on 30 June 2025**; Cloudflare enabled PQ key agreement by default in October 2022 for client connections. The long pole is the server side: every nginx, Apache, IIS, and proprietary HTTP server eventually needs an OpenSSL 3.5+ build with X25519MLKEM768 support, then explicit configuration to enable it.
+The browser→edge {{handshake|handshake}} is now PQ on a majority of human traffic. The edge→origin leg is the new frontier. **Akamai rolled out PQ to-origin on 30 June 2025**; {{cloudflare|Cloudflare}} enabled PQ key agreement by default in October 2022 for client connections. The long pole is the server side: every nginx, Apache, IIS, and proprietary HTTP server eventually needs an OpenSSL 3.5+ build with X25519MLKEM768 support, then explicit configuration to enable it.
 
 The cost: **{{ml-kem|ML-KEM}} ciphertext is 1088 bytes, {{public-key|public key}} 1184 bytes**. Most compatibility pain is from larger ClientHellos exceeding a single [[tcp|TCP]] {{mss|MSS}}. {{ml-kem|ML-KEM}}-768 shared-secret derivation runs in ~30µs on a modern x86 core — performance is not the concern; wire compatibility is.`
 						},
 						{
 							type: 'narrative',
 							title: 'What Comes After Key Agreement',
-							text: `Pure-PQ signatures are not yet feasible for the web: an ML-DSA-44 cert is ~5 KB and ML-DSA-65 ~9 KB. **Cloudflare's Merkle Tree Certificates** (PLANTS WG) experiment is the most-discussed path; expect 2027-2028 before pure-PQ [[tls|TLS]] auth is realistic at scale.
+							text: `Pure-PQ signatures are not yet feasible for the web: an ML-DSA-44 cert is ~5 KB and ML-DSA-65 ~9 KB. **{{cloudflare|Cloudflare}}'s Merkle Tree Certificates** (PLANTS WG) experiment is the most-discussed path; expect 2027-2028 before pure-PQ [[tls|TLS]] auth is realistic at scale.
 
-**{{ech|Encrypted Client Hello}}** was published as **[[frontier:ech-rfc-9849|RFC 9849]] in 2025** after 25 drafts. Cloudflare deploys {{ech|ECH}} for ~70% of websites it fronts. **Russia is already partly blocking {{ech|ECH}}** via \`ClientHelloOuter\` {{sni|SNI}} inspection (PETS FOCI 2025) — censorship resistance and metadata privacy are the same problem.
+**{{ech|Encrypted Client Hello}}** was published as **[[frontier:ech-rfc-9849|RFC 9849]] in 2025** after 25 drafts. {{cloudflare|Cloudflare}} deploys {{ech|ECH}} for ~70% of websites it fronts. **Russia is already partly blocking {{ech|ECH}}** via \`ClientHelloOuter\` {{sni|SNI}} inspection (PETS FOCI 2025) — censorship resistance and metadata privacy are the same problem.
 
-The **47-day-cert cliff**: {{certificate-authority|CA}}/Browser Forum **Ballot SC-081v3** (passed 11 April 2025, Apple-sponsored, 29-yes / 0-no) phases [[tls|TLS]] cert validity from 398 days to **200 on 15 March 2026**, **100 on 15 March 2027**, **47 on 15 March 2029**, with DCV reuse falling to 10 days. Manual renewal is no longer an option — the entire web is moving to ACME-style automation. The deployment story for cryptography in the next five years is automation as much as algorithms.`
+The **47-day-cert cliff**: {{certificate-authority|CA}}/Browser Forum **Ballot SC-081v3** (passed 11 April 2025, {{apple|Apple}}-sponsored, 29-yes / 0-no) phases [[tls|TLS]] cert validity from 398 days to **200 on 15 March 2026**, **100 on 15 March 2027**, **47 on 15 March 2029**, with DCV reuse falling to 10 days. Manual renewal is no longer an option — the entire web is moving to ACME-style automation. The deployment story for cryptography in the next five years is automation as much as algorithms.`
 						},
 						{
 							type: 'image',
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Asymmetric_Cryptography.svg/500px-Asymmetric_Cryptography.svg.png',
 							alt: 'Asymmetric cryptography diagram — public key encrypts, private key decrypts.',
 							caption:
-								'**Asymmetric cryptography** — the public-key / private-key dance underneath every [[tls|TLS]] connection. The classical primitives (RSA, ECDH on Curve25519, ECDSA) all break in polynomial time on a useful quantum computer. **NIST published FIPS 203 ({{ml-kem|ML-KEM}}) on 13 August 2024**; by end-2025 **>50% of [[tls|TLS]] 1.3 connections to Cloudflare** carried PQ-hybrid X25519MLKEM768 key {{exchange|exchange}}. Within four days of Apple shipping iOS 26 in September 2025, the iPhone PQ share jumped from <2% to 11%.',
+								'**Asymmetric cryptography** — the public-key / private-key dance underneath every [[tls|TLS]] connection. The classical primitives (RSA, ECDH on Curve25519, ECDSA) all break in polynomial time on a useful quantum computer. **NIST published FIPS 203 ({{ml-kem|ML-KEM}}) on 13 August 2024**; by end-2025 **>50% of [[tls|TLS]] 1.3 connections to {{cloudflare|Cloudflare}}** carried PQ-hybrid X25519MLKEM768 key {{exchange|exchange}}. Within four days of {{apple|Apple}} shipping iOS 26 in September 2025, the iPhone PQ share jumped from <2% to 11%.',
 							credit: 'Image: Wikimedia Commons / public domain'
 						}
 					]
@@ -114,30 +114,30 @@ For 35 years, {{congestion-control|congestion control}} on the internet has been
 
 The result: **sub-millisecond queuing delay** even at 100% link utilisation, for flows that participate. Non-{{l4s|L4S}} flows in the classic queue see no degradation. It is the first congestion-control change that delivers an order-of-magnitude {{latency|latency}} improvement without coordination across all senders.
 
-The reference scalable {{congestion-control|congestion control}} is **[[tcp|TCP]] Prague**. Apple shipped **{{l4s|L4S}} support in iOS 17 / macOS Sonoma at WWDC June 2023** — the first mass-market client deployment.`
+The reference scalable {{congestion-control|congestion control}} is **[[tcp|TCP]] Prague**. {{apple|Apple}} shipped **{{l4s|L4S}} support in iOS 17 / macOS Sonoma at WWDC June 2023** — the first mass-market client deployment.`
 						},
 						{
 							type: 'callout',
 							title: 'Comcast launched L4S in production January 2025',
-							text: '**Comcast launched {{l4s|L4S}} in production in late January 2025**, in six US metros (Atlanta, Chicago, Colorado Springs, Philadelphia, Rockville MD, San Francisco), with Apple, NVIDIA GeForce NOW, Meta, and Valve as launch partners. **DOCSIS 4.0 cable modems are shipping {{l4s|L4S}}-capable {{aqm|AQM}} in 2024-2025**. This is the first large-scale deployment of the {{l4s|L4S}} architecture on a production access network.'
+							text: '**Comcast launched {{l4s|L4S}} in production in late January 2025**, in six US metros (Atlanta, Chicago, Colorado Springs, Philadelphia, Rockville MD, San Francisco), with {{apple|Apple}}, {{nvidia|NVIDIA}} GeForce NOW, {{meta|Meta}}, and Valve as launch partners. **DOCSIS 4.0 cable modems are shipping {{l4s|L4S}}-capable {{aqm|AQM}} in 2024-2025**. This is the first large-scale deployment of the {{l4s|L4S}} architecture on a production access network.'
 						},
 						{
 							type: 'narrative',
 							title: 'WebRTC, AI, and the Active Spread',
 							text: `**[[webrtc|WebRTC]] field trials are live in Chromium** behind the field trial flags \`[[webrtc|WebRTC]]-RFC8888CongestionControlFeedback/Enabled\` and \`[[webrtc|WebRTC]]-Bwe-ScreamV2/Enabled\`. Combined with [[rtp|RFC 8888]] feedback, {{l4s|L4S}} delivers **sub-1 ms queuing delay** for cooperating real-time flows. Benchmarked in IFIP Networking 2025 ("Performance Evaluation of {{l4s|L4S}} in XR Scenarios").
 
-Apple also added {{l4s|L4S}} signalling into APIs surfaced through **Network.framework** so apps inherit it without code changes — a deliberate strategy to bypass the slow uptake of new transport features.
+{{apple|Apple}} also added {{l4s|L4S}} signalling into APIs surfaced through **Network.framework** so apps inherit it without code changes — a deliberate strategy to bypass the slow uptake of new transport features.
 
-The unresolved political fight is **{{l4s|L4S}}-vs-classic fairness**: Scalable {{congestion-control|Congestion Control}} flows starve out {{cubic|CUBIC}}/Reno in the same queue, which is why **Dual-Queue {{aqm|AQM}} is required** — the bottleneck must classify and isolate. The **BBRv3** community continues to publish papers on whether "scalable" and "classic" can ever share a single FIFO fairly.
+The unresolved political fight is **{{l4s|L4S}}-vs-classic fairness**: Scalable {{congestion-control|Congestion Control}} flows starve out {{cubic|CUBIC}}/Reno in the same queue, which is why **Dual-Queue {{aqm|AQM}} is required** — the bottleneck must classify and isolate. The **{{bbrv3|BBRv3}}** community continues to publish papers on whether "scalable" and "classic" can ever share a single FIFO fairly.
 
-{{l4s|L4S}} deployment as of mid-2026 is **infrastructure-shaped**: clients (Apple, Chrome [[webrtc|WebRTC]]) and ISPs (Comcast DOCSIS) are ahead of the middle of the network. The long pole is server-side {{ecn|ECN}} handling and {{cdn|CDN}} {{aqm|AQM}} upgrades. The next 24 months will tell whether {{l4s|L4S}} is the new default or stays a niche feature for gaming and live media.`
+{{l4s|L4S}} deployment as of mid-2026 is **infrastructure-shaped**: clients ({{apple|Apple}}, Chrome [[webrtc|WebRTC]]) and ISPs (Comcast DOCSIS) are ahead of the middle of the network. The long pole is server-side {{ecn|ECN}} handling and {{cdn|CDN}} {{aqm|AQM}} upgrades. The next 24 months will tell whether {{l4s|L4S}} is the new default or stays a niche feature for gaming and live media.`
 						},
 						{
 							type: 'image',
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Cable_Modem.JPG/500px-Cable_Modem.JPG',
 							alt: 'A DOCSIS cable modem — the kind of last-mile device that ships L4S-capable AQM in 2024-2025.',
 							caption:
-								'A consumer **cable modem** — the bit of hardware Comcast turned into the world\'s first production **{{l4s|L4S}}** deployment in **January 2025** across six US metros (Atlanta, Chicago, Colorado Springs, Philadelphia, Rockville MD, San Francisco). DOCSIS 4.0 modems ship L4S-capable Dual-Queue {{aqm|AQM}}; Apple iOS 17 / macOS Sonoma added L4S support in 2023. Sub-millisecond queuing delay at full link utilisation, finally, after 15 years of {{bufferbloat|bufferbloat}}.',
+								'A consumer **cable modem** — the bit of hardware Comcast turned into the world\'s first production **{{l4s|L4S}}** deployment in **January 2025** across six US metros (Atlanta, Chicago, Colorado Springs, Philadelphia, Rockville MD, San Francisco). DOCSIS 4.0 modems ship L4S-capable Dual-Queue {{aqm|AQM}}; {{apple|Apple}} iOS 17 / macOS Sonoma added L4S support in 2023. Sub-millisecond queuing delay at full link utilisation, finally, after 15 years of {{bufferbloat|bufferbloat}}.',
 							credit: 'Photo: Wikimedia Commons / CC BY-SA'
 						}
 					]
@@ -152,7 +152,7 @@ The unresolved political fight is **{{l4s|L4S}}-vs-classic fairness**: Scalable 
 		{
 			id: 'ipv6-mostly',
 			title: 'IPv6-Mostly',
-			synopsis: 'On 28 March 2026, Google\'s [[ipv6|IPv6]] dashboard recorded 50.1% for the first time — and [[ip|IPv4]] crossed under.',
+			synopsis: 'On 28 March 2026, {{google|Google}}\'s [[ipv6|IPv6]] dashboard recorded 50.1% for the first time — and [[ip|IPv4]] crossed under.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -165,7 +165,7 @@ The unresolved political fight is **{{l4s|L4S}}-vs-classic fairness**: Scalable 
 						{
 							type: 'narrative',
 							title: 'The 50% Crossing',
-							text: `**On 28 March 2026, Google's [[ipv6|IPv6]] dashboard recorded 50.1% for the first time** — [[ipv6|IPv6]] briefly surpassed [[ip|IPv4]] in Google's measured user base. APNIC Labs and Cloudflare Radar still place global [[ipv6|IPv6]] capability in the **40-43%** range; the 50% number is a Google-specific snapshot. But it is a milestone the community has been waiting for since 1995.
+							text: `**On 28 March 2026, {{google|Google}}'s [[ipv6|IPv6]] dashboard recorded 50.1% for the first time** — [[ipv6|IPv6]] briefly surpassed [[ip|IPv4]] in {{google|Google}}'s measured user base. APNIC Labs and {{cloudflare|Cloudflare}} Radar still place global [[ipv6|IPv6]] capability in the **40-43%** range; the 50% number is a Google-specific snapshot. But it is a milestone the community has been waiting for since 1995.
 
 **[[ipv6|IPv6]]** was specified in 1995. For most of the next twenty-eight years, deployment was painful — early adopters had to maintain dual stacks, the operational cost was double, and the upside was mostly future-proofing.
 
@@ -178,7 +178,7 @@ Adoption inflected when **mobile carriers** went [[ipv6|IPv6]]-mostly for cellul
 
 Within months, AWS workloads at scale began migrating to [[ipv6|IPv6]]-only architectures with {{nat64|NAT64}} gateways for legacy [[ip|IPv4]] destinations. The economic forcing function did more for [[ipv6|IPv6]] deployment in 2024 than two decades of advocacy.
 
-**Meta** runs >99% of internal datacenter traffic over [[ipv6|IPv6]]; entire new clusters are [[ipv6|IPv6]]-only, serving [[ip|IPv4]] via L4/L7 load balancers. Meta says **internal [[ipv6|IPv6]] is 10-15% faster than [[ip|IPv4]]** (and on one carrier mobile measurement, 40% faster), driven mostly by {{nat|NAT}} removal and caching.`
+**{{meta|Meta}}** runs >99% of internal datacenter traffic over [[ipv6|IPv6]]; entire new clusters are [[ipv6|IPv6]]-only, serving [[ip|IPv4]] via L4/L7 load balancers. {{meta|Meta}} says **internal [[ipv6|IPv6]] is 10-15% faster than [[ip|IPv4]]** (and on one carrier mobile measurement, 40% faster), driven mostly by {{nat|NAT}} removal and caching.`
 						},
 						{
 							type: 'callout',
@@ -195,7 +195,7 @@ The 2024 RFC backlog tells the story of where [[ipv6|IPv6]] work is happening:
 - **RFC 9673 (October 2024)** finally relaxed {{hop|Hop}}-by-{{hop|Hop}} Options handling so HBH options are deployable on real router silicon.
 - **RFC 9602 (2024)** reserved \`5f00::/16\` for SRv6 SIDs.
 
-**Apple iCloud Private Relay** (October 2021 onward) prefers [[ipv6|IPv6]] egress when AAAA exists; pure [[ip|IPv4]]-only enterprise networks frequently break Private Relay — the documented response is per-network opt-out, which is its own forcing function for [[ipv6|IPv6]] deployment in enterprises that want Apple device compatibility.
+**{{apple|Apple}} iCloud Private Relay** (October 2021 onward) prefers [[ipv6|IPv6]] egress when AAAA exists; pure [[ip|IPv4]]-only enterprise networks frequently break Private Relay — the documented response is per-network opt-out, which is its own forcing function for [[ipv6|IPv6]] deployment in enterprises that want {{apple|Apple}} device compatibility.
 
 The "everyone gets this wrong" detail: [[ipv6|IPv6]]'s mandatory-to-implement [[ipsec|IPsec]] requirement was **demoted to optional in [[rfc:6434|RFC 6434]] (2011)** — a frequent source of "but [[ipv6|IPv6]] is encrypted by default!" myth. [[ipv6|IPv6]] is not encrypted by default. The {{encryption|encryption}} story for [[ipv6|IPv6]] is the same as for [[ip|IPv4]]: [[tls|TLS]] at the application layer.`
 						},
@@ -204,7 +204,7 @@ The "everyone gets this wrong" detail: [[ipv6|IPv6]]'s mandatory-to-implement [[
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Internet_map_1024.jpg/500px-Internet_map_1024.jpg',
 							alt: 'A 2005 visualisation of the global internet topology with each line a BGP peering relationship.',
 							caption:
-								'A snapshot of the global internet, each line a [[bgp|BGP]] {{peering|peering}} relationship. The 28-year migration of this graph to [[ipv6|IPv6]] addressing finally crossed **50.1%** of Google\'s measured user base on **28 March 2026**. The driver was not advocacy; it was *economics* — AWS\'s **$0.005/IP/hour charge from 1 February 2024** did more for v6 deployment in a year than two decades of standards work.',
+								'A snapshot of the global internet, each line a [[bgp|BGP]] {{peering|peering}} relationship. The 28-year migration of this graph to [[ipv6|IPv6]] addressing finally crossed **50.1%** of {{google|Google}}\'s measured user base on **28 March 2026**. The driver was not advocacy; it was *economics* — AWS\'s **$0.005/IP/hour charge from 1 February 2024** did more for v6 deployment in a year than two decades of standards work.',
 							credit: 'Image: The Opte Project / Wikimedia Commons, CC BY 2.5'
 						}
 					]
@@ -248,7 +248,7 @@ The "everyone gets this wrong" detail: [[ipv6|IPv6]]'s mandatory-to-implement [[
 
 **RFC 9774 (May 2025)** formally **deprecates \`AS_SET\` and \`AS_CONFED_SET\`** with a normative MUST NOT — speakers must "treat-as-withdraw" any UPDATE containing them.
 
-**{{aspa|ASPA}} ({{autonomous-system|Autonomous System}} Provider Authorization)** is *still* an Internet-Draft as of May 2026 — \`draft-ietf-sidrops-aspa-verification-25\` (Oct 2025) and \`draft-ietf-sidrops-aspa-profile-26\` (Apr 2026). Cisco ran an **Early Field Trial of {{aspa|ASPA}} on IOS-XR in 2025**; OpenBGPD, BIRD 2.16+, and Routinator have {{aspa|ASPA}} support. SIDROPS chair Job Snijders has signalled the WG is "close to last call."
+**{{aspa|ASPA}} ({{autonomous-system|Autonomous System}} Provider Authorization)** is *still* an Internet-Draft as of May 2026 — \`draft-{{ietf|ietf}}-sidrops-{{aspa|aspa}}-verification-25\` (Oct 2025) and \`draft-{{ietf|ietf}}-sidrops-{{aspa|aspa}}-profile-26\` (Apr 2026). {{cisco|Cisco}} ran an **Early Field Trial of {{aspa|ASPA}} on IOS-XR in 2025**; OpenBGPD, BIRD 2.16+, and Routinator have {{aspa|ASPA}} support. SIDROPS chair Job Snijders has signalled the WG is "close to last call."
 
 {{aspa|ASPA}} closes the route-leak hole that origin validation alone cannot fix — where {{autonomous-system|AS}} X *does* legitimately originate the prefix, but its upstream then leaks the route through an unintended path.`
 						},
@@ -262,7 +262,7 @@ The "everyone gets this wrong" detail: [[ipv6|IPv6]]'s mandatory-to-implement [[
 							title: 'When RPKI Backfires, And When It Doesn\'t',
 							text: `**Orange España, 3 January 2024**: a threat actor "Snow" used infostealer-harvested credentials to log in to Orange Spain's RIPE NCC account and edited ROAs to make legitimate prefixes {{rpki|RPKI}}-invalid — the first major outage caused by **{{rpki|RPKI}} being too strict against an attacker-modified ROA set**. Lesson: enforce 2FA on RIR portals. The vulnerability is not in {{rpki|RPKI}}; it is in the human-facing authentication surface around {{rpki|RPKI}}.
 
-**Cloudflare 1.1.1.1 hijack (27 June 2024)**: Brazilian ISP Eletronet (AS267613) announced **1.1.1.1/32**. Cloudflare had a valid /24 ROA, but ROAs cover up to maxLength /24, so a /32 announcement is not {{rpki|RPKI}}-invalid. Tier-1 PEER 1 (AS1031) accepted and propagated. **300 networks in 70 countries lost 1.1.1.1.** The lesson: maxLength matters; sloppy ROA configuration creates loopholes {{aspa|ASPA}} cannot close.
+**{{cloudflare|Cloudflare}} 1.1.1.1 hijack (27 June 2024)**: Brazilian ISP Eletronet (AS267613) announced **1.1.1.1/32**. {{cloudflare|Cloudflare}} had a valid /24 ROA, but ROAs cover up to maxLength /24, so a /32 announcement is not {{rpki|RPKI}}-invalid. Tier-1 {{peer|PEER}} 1 (AS1031) accepted and propagated. **300 networks in 70 countries lost 1.1.1.1.** The lesson: maxLength matters; sloppy ROA configuration creates loopholes {{aspa|ASPA}} cannot close.
 
 The regulatory layer is moving too. **The FCC issued a Notice of Proposed Rulemaking on [[bgp|BGP]] Routing Security in June 2024** — the first US federal proposal to compel the nine largest BIAS providers (AT&T, Comcast, Verizon, T-Mobile, etc.) to file [[bgp|BGP]] Routing Security Risk Management Plans and quarterly {{rpki|RPKI}} reports. As of March 2024, only **~22% of US-originated routes had ROAs**.
 
@@ -291,7 +291,7 @@ The regulatory layer is moving too. **The FCC issued a Notice of Proposed Rulema
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: 'Scaling 1M GPUs with traditional pluggable optics would consume ~180 MW of power for the optics alone. That is why NVIDIA pivoted to co-packaged optics in Quantum-X Photonics and Spectrum-X Photonics.',
+					text: 'Scaling 1M GPUs with traditional pluggable optics would consume ~180 MW of power for the optics alone. That is why {{nvidia|NVIDIA}} pivoted to co-packaged optics in Quantum-X Photonics and {{spectrum|Spectrum}}-X Photonics.',
 					attribution: 'Jensen Huang argument, Computex 2024'
 				},
 				{
@@ -302,14 +302,14 @@ The regulatory layer is moving too. **The FCC issued a Notice of Proposed Rulema
 							title: 'A New Transport for AI Datacenters',
 							text: `Training a large language model requires **hundreds of thousands of GPUs talking to each other at terabits per second** with microsecond {{tail-latency|tail latency}}. The dominant transport — **RoCEv2** (RDMA over Converged [[ethernet|Ethernet]]) — was designed for HPC clusters of a few thousand nodes and shows its age at GPT-scale: {{head-of-line-blocking|head-of-line blocking}}, congestion-control issues, and operational complexity.
 
-The **Ultra [[ethernet|Ethernet]] Consortium** was founded **19 July 2023** under the Linux Foundation by **AMD, Arista, Broadcom, Cisco, Eviden (Atos), HPE, Intel, Meta, and Microsoft**. **NVIDIA joined later** despite its InfiniBand allegiance. By mid-2025: 97+ members.
+The **Ultra [[ethernet|Ethernet]] Consortium** was founded **19 July 2023** under the {{linux|Linux}} Foundation by **AMD, Arista, {{broadcom|Broadcom}}, {{cisco|Cisco}}, Eviden (Atos), HPE, {{intel|Intel}}, {{meta|Meta}}, and {{microsoft|Microsoft}}**. **{{nvidia|NVIDIA}} joined later** despite its InfiniBand allegiance. By mid-2025: 97+ members.
 
 **UEC Specification 1.0 was published 11 June 2025** — ~560 pages, the first major ground-up rethink of how [[ethernet|Ethernet]] carries RDMA traffic. Defines **Ultra [[ethernet|Ethernet]] Transport (UET)**: packet spraying with {{multipath|multipath}}, selective {{retransmission|retransmission}}, in-network telemetry-driven {{congestion-control|congestion control}}, optional credit-based {{flow-control|flow control}}, ephemeral/{{connectionless|connectionless}} transport state for millions of endpoints.`
 						},
 						{
 							type: 'narrative',
 							title: 'What RoCEv2 Looks Like at GPT Scale',
-							text: `**RoCEv2** encapsulates InfiniBand transport in [[udp|UDP]]/[[ip|IP]]/[[ethernet|Ethernet]] ([[udp|UDP]] port 4791). It is what **Meta runs on its 24,000-GPU clusters to train Llama 3** (SIGCOMM 2024 paper). The paper details job-aware traffic engineering and the operational decision to abandon **DCQCN** (Datacenter Quantized Congestion {{notification|Notification}}) in favor of **collective-library-driven receiver {{pacing|pacing}}** — moving {{congestion-control|congestion control}} out of the network and into the AI framework.
+							text: `**RoCEv2** encapsulates InfiniBand transport in [[udp|UDP]]/[[ip|IP]]/[[ethernet|Ethernet]] ([[udp|UDP]] port 4791). It is what **{{meta|Meta}} runs on its 24,000-GPU clusters to train Llama 3** (SIGCOMM 2024 paper). The paper details job-aware traffic engineering and the operational decision to abandon **DCQCN** (Datacenter Quantized Congestion {{notification|Notification}}) in favor of **collective-library-driven receiver {{pacing|pacing}}** — moving {{congestion-control|congestion control}} out of the network and into the AI framework.
 
 UEC's design comes from collective lessons of running RoCEv2 at this scale: per-flow ECMP collapsing onto hot links, congestion-control oscillations, the cost of {{stateful|stateful}} per-connection transport in a fabric with 100k+ endpoints. Ultra [[ethernet|Ethernet]]'s **packet spraying** spreads flows across all paths automatically; **selective {{retransmission|retransmission}}** keeps a single dropped packet from stalling a collective; **{{connectionless|connectionless}} transport state** lets a single switch track millions of endpoints without per-flow tables.
 
@@ -318,16 +318,16 @@ UEC's design comes from collective lessons of running RoCEv2 at this scale: per-
 						{
 							type: 'callout',
 							title: 'Switch silicon is moving fast',
-							text: '**Broadcom Tomahawk 6 (102.4 Tbps single-chip)** shipped June 2025; **Tomahawk 6-Davisson with co-packaged optics** shipped October 2025 — a single chip can drive 64×1.6T, 128×800G, 256×400G, or 512×200G ports. **NVIDIA Spectrum-X**, announced Computex 2024 and deployed by xAI Colossus, Microsoft, and CoreWeave, reportedly delivers **~95% effective throughput vs ~60% on best-effort [[ethernet|Ethernet]]** for AI workloads. **Spectrum-X1600 (102.4 Tbps)** is expected 2H 2026.'
+							text: '**{{broadcom|Broadcom}} Tomahawk 6 (102.4 Tbps single-chip)** shipped June 2025; **Tomahawk 6-Davisson with co-packaged optics** shipped October 2025 — a single chip can drive 64×1.6T, 128×800G, 256×400G, or 512×200G ports. **{{nvidia|NVIDIA}} {{spectrum|Spectrum}}-X**, announced Computex 2024 and deployed by xAI Colossus, {{microsoft|Microsoft}}, and CoreWeave, reportedly delivers **~95% effective throughput vs ~60% on best-effort [[ethernet|Ethernet]]** for AI workloads. **{{spectrum|Spectrum}}-X1600 (102.4 Tbps)** is expected 2H 2026.'
 						},
 						{
 							type: 'narrative',
 							title: 'IEEE 802.3 — The Underlying Speed Bumps',
 							text: `**IEEE 802.3df-2024 (800 GbE)** was approved 16 February 2024 and published March 2024. **IEEE P802.3dj (1.6 TbE at 200 Gb/s/lane PAM-4)** passed its 3rd Working Group recirculation ballot **16 December 2025 with 87% approval** — expected ratified 2026.
 
-The Jensen Huang argument: scaling 1M GPUs with traditional pluggable optics would consume **~180 MW** of power for the optics alone. That is why NVIDIA pivoted to **co-packaged optics** in Quantum-X Photonics and Spectrum-X Photonics — the optics moves into the switch package itself, eliminating the per-port pluggable transceiver and its power overhead.
+The Jensen Huang argument: scaling 1M GPUs with traditional pluggable optics would consume **~180 MW** of power for the optics alone. That is why {{nvidia|NVIDIA}} pivoted to **co-packaged optics** in Quantum-X Photonics and {{spectrum|Spectrum}}-X Photonics — the optics moves into the switch package itself, eliminating the per-port pluggable transceiver and its power overhead.
 
-**Google Jupiter** (SIGCOMM 2022 "Jupiter Evolving") moved from a Clos with electrical spine to a **direct-connect mesh of aggregation blocks via MEMS Optical Circuit Switches with SDN** — yielding **5× speed/capacity, 30% lower CapEx, 41% lower power**, supporting >13 Pb/s of bisection {{bandwidth|bandwidth}} as of 2024.
+**{{google|Google}} Jupiter** (SIGCOMM 2022 "Jupiter Evolving") moved from a Clos with electrical spine to a **direct-connect mesh of aggregation blocks via MEMS Optical Circuit Switches with SDN** — yielding **5× speed/capacity, 30% lower CapEx, 41% lower power**, supporting >13 Pb/s of bisection {{bandwidth|bandwidth}} as of 2024.
 
 The commercial scale: **[[ethernet|Ethernet]] switching market exceeded $30B in 2021**; Dell'Oro forecasts ~$80B over five years driven by AI fabrics — the *commercial* reason UEC matters even more than the technical one. The architectural significance is that AI training is now important enough to drive a new datacenter transport — the same kind of pressure that produced [[ethernet|Ethernet]] in 1973 for office networking, [[tcp|TCP/IP]] in 1981 for inter-network research, and [[quic|QUIC]] in 2012 for the modern web.`
 						},
@@ -336,7 +336,7 @@ The commercial scale: **[[ethernet|Ethernet]] switching market exceeded $30B in 
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b6/Eindr%C3%BCcke_von_der_COMPUTEX_2024_%28_%E6%9E%81%E5%AE%A2%E6%B9%BEGeekerwan%29_22.png/500px-Eindr%C3%BCcke_von_der_COMPUTEX_2024_%28_%E6%9E%81%E5%AE%A2%E6%B9%BEGeekerwan%29_22.png',
 							alt: 'NVIDIA GB200 NVL72 GPU rack on display at COMPUTEX 2024.',
 							caption:
-								'The **NVIDIA GB200 NVL72** Blackwell-architecture rack on display at COMPUTEX 2024 — the kind of AI-training endpoint that drives the **[[frontier:ultra-ethernet-1-0|Ultra Ethernet Consortium]] 1.0** specification (published 11 June 2025). Hundreds of thousands of GPUs talking at terabits per second with microsecond {{tail-latency|tail latency}}; 650 Group estimates **91% of AI workloads on [[ethernet|Ethernet]] by 2029**.',
+								'The **{{nvidia|NVIDIA}} GB200 NVL72** Blackwell-architecture rack on display at COMPUTEX 2024 — the kind of AI-training endpoint that drives the **[[frontier:ultra-ethernet-1-0|Ultra Ethernet Consortium]] 1.0** specification (published 11 June 2025). Hundreds of thousands of GPUs talking at terabits per second with microsecond {{tail-latency|tail latency}}; 650 Group estimates **91% of AI workloads on [[ethernet|Ethernet]] by 2029**.',
 							credit: 'Photo: Geekerwan / Wikimedia Commons, CC BY-SA 4.0'
 						}
 					]
@@ -379,12 +379,12 @@ PAR objectives: **+25% throughput at given SINR, −25% 95th-percentile {{latenc
 
 Headline features: **Multi-{{access-point|AP}} Coordination (Co-BF, Co-SR, Co-TDMA), Seamless Roaming Domain (SMD), Enhanced Long Range PPDU, Distributed Resource Units, Non-Primary Channel Access**. The pattern across all of these: optimise the existing speed budget for **{{tail-latency|tail latency}} and reliability** instead of headline throughput.
 
-**[[wifi|Wi-Fi]] 8 is targeted for ratification September 2028**. As of the March 2026 plenary, TGbn was at Draft 1.3, with Draft 2.0 ballot targeted for May 2026 (Antwerp). **Broadcom announced a [[wifi|Wi-Fi]] 8 chipset in October 2025**; **ASUS demoed a draft router at CES 2026**; consumer launches expected mid-to-late 2026. A "[[wifi|Wi-Fi]] 9" successor study group started January 2026.`
+**[[wifi|Wi-Fi]] 8 is targeted for ratification September 2028**. As of the March 2026 plenary, TGbn was at Draft 1.3, with Draft 2.0 ballot targeted for May 2026 (Antwerp). **{{broadcom|Broadcom}} announced a [[wifi|Wi-Fi]] 8 chipset in October 2025**; **ASUS demoed a draft router at CES 2026**; consumer launches expected mid-to-late 2026. A "[[wifi|Wi-Fi]] 9" successor study group started January 2026.`
 						},
 						{
 							type: 'callout',
 							title: 'The 6 GHz political fight',
-							text: '**The US FCC freed 1,200 MHz on 23 April 2020**; on **23 February 2024** the FCC OET approved **seven AFC system operators** (Qualcomm, Federated Wireless, Sony, Comsearch, [[wifi|Wi-Fi]] Alliance Services, Wireless Broadband Alliance, Broadcom) for commercial Standard-Power AFC operation. **First AFC-certified [[wifi|Wi-Fi]] 7 {{access-point|AP}} (RUCKUS R770) was certified 16 April 2024.** But on **12 November 2025** the EU Radio {{spectrum|Spectrum}} Policy Group recommended assigning the **upper 6 GHz band (6585-7125 MHz) to mobile/5G**, holding 6425-6585 MHz pending WRC-27 — **effectively closing the upper band to [[wifi|Wi-Fi]] in the EU for the medium term**. The [[wifi|Wi-Fi]] Alliance "strongly disagrees."'
+							text: '**The US FCC freed 1,200 MHz on 23 April 2020**; on **23 February 2024** the FCC OET approved **seven AFC system operators** (Qualcomm, Federated Wireless, Sony, Comsearch, [[wifi|Wi-Fi]] Alliance Services, Wireless Broadband Alliance, {{broadcom|Broadcom}}) for commercial Standard-Power AFC operation. **First AFC-certified [[wifi|Wi-Fi]] 7 {{access-point|AP}} (RUCKUS R770) was certified 16 April 2024.** But on **12 November 2025** the EU Radio {{spectrum|Spectrum}} Policy Group recommended assigning the **upper 6 GHz band (6585-7125 MHz) to mobile/5G**, holding 6425-6585 MHz pending WRC-27 — **effectively closing the upper band to [[wifi|Wi-Fi]] in the EU for the medium term**. The [[wifi|Wi-Fi]] Alliance "strongly disagrees."'
 						},
 						{
 							type: 'narrative',

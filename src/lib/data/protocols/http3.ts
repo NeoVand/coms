@@ -13,7 +13,7 @@ export const http3: Protocol = {
 
 The API for developers is identical — same methods, headers, and status codes. The difference is entirely at the transport level. [[http3|HTTP/3]] uses [[quic|QUIC]]'s independent {{stream|streams}} to solve the {{head-of-line-blocking|head-of-line blocking}} that plagued [[http2|HTTP/2]] over [[tcp|TCP]]. Each HTTP request maps to a [[quic|QUIC]] stream; if one packet is lost, only that stream waits for {{retransmission|retransmission}}.
 
-Adoption is accelerating: Google, Cloudflare, Facebook, and most {{cdn|CDNs}} support it. By 2025, ~35% of web traffic uses [[http3|HTTP/3]].`,
+Adoption is accelerating: {{google|Google}}, {{cloudflare|Cloudflare}}, Facebook, and most {{cdn|CDNs}} support it. By 2025, ~35% of web traffic uses [[http3|HTTP/3]].`,
 	howItWorks: [
 		{
 			title: 'QUIC handshake (1 RTT)',
@@ -132,7 +132,7 @@ asyncio.run(fetch_h3())`
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/0e/Googleplex-Patio-Aug-2014.JPG/500px-Googleplex-Patio-Aug-2014.JPG',
 		alt: 'The Googleplex campus in Mountain View, California, where QUIC and HTTP/3 were developed',
 		caption:
-			"The Googleplex in Mountain View — birthplace of [[quic|QUIC]] and [[http3|HTTP/3]]. Google engineers designed these protocols to eliminate [[tcp|TCP]]'s {{head-of-line-blocking|head-of-line blocking}} and speed up the web for billions of users.",
+			"The Googleplex in Mountain View — birthplace of [[quic|QUIC]] and [[http3|HTTP/3]]. {{google|Google}} engineers designed these protocols to eliminate [[tcp|TCP]]'s {{head-of-line-blocking|head-of-line blocking}} and speed up the web for billions of users.",
 		credit: 'Photo: The Pancake of Heaven! / CC BY-SA 4.0, via Wikimedia Commons'
 	},
 
@@ -162,13 +162,13 @@ asyncio.run(fetch_h3())`
 			org: 'Cloudflare',
 			scale: 'All HTTPS traffic',
 			description:
-				'[[http3|HTTP/3]] enabled by default for every site behind Cloudflare. Roughly 30% of HTTPS bytes served negotiate [[http3|HTTP/3]].'
+				'[[http3|HTTP/3]] enabled by default for every site behind {{cloudflare|Cloudflare}}. Roughly 30% of HTTPS bytes served negotiate [[http3|HTTP/3]].'
 		},
 		{
 			org: 'Google',
 			scale: 'google.com / YouTube',
 			description:
-				'Default for chrome.com, youtube.com, and most Google web properties. Google\'s investment is what drove [[quic|QUIC]] + [[http3|HTTP/3]] standardisation.'
+				'Default for chrome.com, youtube.com, and most {{google|Google}} web properties. {{google|Google}}\'s investment is what drove [[quic|QUIC]] + [[http3|HTTP/3]] standardisation.'
 		},
 		{
 			org: 'Meta',
@@ -201,11 +201,11 @@ asyncio.run(fetch_h3())`
 			},
 			{
 				title: 'CDN coverage is much better than origin coverage',
-				text: 'Cloudflare/Fastly/Akamai serve [[http3|HTTP/3]] universally; origin servers running older nginx, Apache, or IIS often do not. If your site sits behind a {{cdn|CDN}}, you have [[http3|HTTP/3]] for free. If you serve directly from origin, you need to deploy a recent nginx/Caddy/h2o build.'
+				text: '{{cloudflare|Cloudflare}}/Fastly/Akamai serve [[http3|HTTP/3]] universally; origin servers running older nginx, Apache, or IIS often do not. If your site sits behind a {{cdn|CDN}}, you have [[http3|HTTP/3]] for free. If you serve directly from origin, you need to deploy a recent nginx/Caddy/h2o build.'
 			},
 			{
 				title: 'Some debugging tools have limited QUIC support',
-				text: 'Wireshark dissects [[http3|HTTP/3]] (since 4.0), but only when you have the [[quic|QUIC]] session secrets. curl supports [[http3|HTTP/3]] with --http3 (in builds compiled with quiche or msh3). If you rely on tcpdump to debug [[http2|HTTP/2]], expect more friction with [[http3|HTTP/3]].'
+				text: '{{wireshark|Wireshark}} dissects [[http3|HTTP/3]] (since 4.0), but only when you have the [[quic|QUIC]] session secrets. curl supports [[http3|HTTP/3]] with --http3 (in builds compiled with quiche or msh3). If you rely on tcpdump to debug [[http2|HTTP/2]], expect more friction with [[http3|HTTP/3]].'
 			}
 		]
 	}

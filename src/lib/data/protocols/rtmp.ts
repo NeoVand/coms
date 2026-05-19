@@ -13,7 +13,7 @@ export const rtmp: Protocol = {
 
 The protocol works by {{multiplexing|multiplexing}} audio, video, and data streams over a single [[tcp|TCP]] connection, chunking large messages into smaller fragments for interleaved delivery. It maintains persistent {{keep-alive|connections}} with low-overhead {{handshake|handshakes}}, making it ideal for the "ingest" side of live streaming — the path from encoder (OBS, Wirecast) to the first server.
 
-Today, [[rtmp|RTMP]] is the de facto standard for live stream ingest. Twitch, YouTube Live, Facebook Live, and virtually every streaming platform accept [[rtmp|RTMP]] input. The stream typically gets transcoded on the server side and delivered to viewers via [[hls|HLS]] or [[dash|DASH]]. [[rtmp|RTMP]] handles the first mile; [[http1|HTTP]] streaming handles the last mile. For security, the RTMPS variant wraps [[rtmp|RTMP]] in a [[tls|TLS]] connection — Facebook/Meta has required RTMPS for all live streaming ingest since 2019, and most major platforms now prefer or mandate it.`,
+Today, [[rtmp|RTMP]] is the de facto standard for live stream ingest. Twitch, YouTube Live, Facebook Live, and virtually every streaming platform accept [[rtmp|RTMP]] input. The stream typically gets transcoded on the server side and delivered to viewers via [[hls|HLS]] or [[dash|DASH]]. [[rtmp|RTMP]] handles the first mile; [[http1|HTTP]] streaming handles the last mile. For security, the RTMPS variant wraps [[rtmp|RTMP]] in a [[tls|TLS]] connection — Facebook/{{meta|Meta}} has required RTMPS for all live streaming ingest since 2019, and most major platforms now prefer or mandate it.`,
 	howItWorks: [
 		{
 			title: 'TCP handshake + RTMP handshake',
