@@ -12,7 +12,7 @@ export const bgp: Protocol = {
 		'The routing protocol of the internet — how autonomous systems find paths to each other.',
 	overview: `[[bgp|BGP]] is the protocol that holds the internet together. The internet isn't a single network — it's a network of networks, each called an {{autonomous-system|Autonomous System}} ({{autonomous-system|AS}}). Your ISP is an {{autonomous-system|AS}}. {{google|Google}} is an {{autonomous-system|AS}}. Amazon, universities, governments — each is an {{autonomous-system|AS}} with its own number. [[bgp|BGP]] is how they learn to reach each other.
 
-When you visit a website, your {{packet|packets}} may cross 5-10 different autonomous systems. [[bgp|BGP]] is the protocol that calculated that path. Each [[bgp|BGP]] router maintains a {{routing-table|table}} of every reachable [[ip|IP]] prefix on the internet (~1 million entries) along with the AS_PATH — the sequence of autonomous systems to traverse. [[bgp|BGP]] is a path-vector protocol: it doesn't just know the next hop, it knows the entire {{autonomous-system|AS}}-level path.
+When you visit a website, your {{packet|packets}} may cross 5-10 different autonomous systems. [[bgp|BGP]] is the protocol that calculated that path. Each [[bgp|BGP]] router maintains a {{routing-table|table}} of every reachable [[ip|IP]] prefix on the internet (~1 million entries) along with the {{as-path|AS_PATH}} — the sequence of autonomous systems to traverse. [[bgp|BGP]] is a path-vector protocol: it doesn't just know the next hop, it knows the entire {{autonomous-system|AS}}-level path.
 
 [[bgp|BGP]] runs over [[tcp|TCP]] port 179, relying on [[tcp|TCP]]'s reliable delivery because routing information must never be lost or corrupted. Two [[bgp|BGP]] routers ("peers") establish a session by exchanging OPEN messages, then continuously {{exchange|exchange}} UPDATE messages as routes are announced or withdrawn. {{keep-alive|KEEPALIVE}} messages every ~30 seconds prove the {{peer|peer}} is still alive.
 
@@ -40,7 +40,7 @@ The consequences of [[bgp|BGP]] mistakes are enormous. The Facebook outage of Oc
 		{
 			title: 'UPDATE announcements',
 			description:
-				'Routers {{exchange|exchange}} UPDATE messages containing reachable prefixes (NLRI) with path attributes: AS_PATH, NEXT_HOP, LOCAL_PREF, MED. Each UPDATE can announce new routes or withdraw old ones.'
+				'Routers {{exchange|exchange}} UPDATE messages containing reachable prefixes (NLRI) with path attributes: {{as-path|AS_PATH}}, NEXT_HOP, LOCAL_PREF, MED. Each UPDATE can announce new routes or withdraw old ones.'
 		},
 		{
 			title: 'Ongoing operation',

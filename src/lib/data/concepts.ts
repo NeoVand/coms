@@ -3096,6 +3096,198 @@ export const concepts: Concept[] = [
 			"{{apple|Apple}}'s proprietary peer-to-peer Wi-Fi protocol that powers {{airdrop|AirDrop}}, AirPlay, Sidecar, and Continuity features. Runs alongside an infrastructure Wi-Fi connection by time-slicing the radio. Reverse-engineered in academic papers (Stute et al., USENIX Security 2018+).",
 		wikiUrl: 'https://en.wikipedia.org/wiki/Apple_Wireless_Direct_Link',
 		category: 'protocol-mechanics'
+	},
+
+	// ── TLS 1.3 handshake messages ──────────────────────────────────────
+	{
+		id: 'client-hello',
+		term: 'ClientHello',
+		definition:
+			"The first [[tls|TLS]] handshake message. Carries the supported {{cipher-suite|cipher suites}}, supported groups (named elliptic curves / KEMs), the {{sni|SNI}} extension naming the target server, and — under [[tls|TLS]] 1.3 — a *key share* (the client's half of the Diffie-Hellman exchange). The key share is the {{one-rtt|1-RTT}} trick: sending it speculatively in the very first message removes a round trip from the {{handshake|handshake}}.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Transport_Layer_Security#TLS_handshake',
+		category: 'security'
+	},
+	{
+		id: 'server-hello',
+		term: 'ServerHello',
+		definition:
+			"The server's first [[tls|TLS]] reply. Picks one {{cipher-suite|cipher suite}} from the {{client-hello|ClientHello}} list, returns its own key share, and (under [[tls|TLS]] 1.3) switches everything after this message to encrypted form. The server still has to send {{certificate|Certificate}} + Finished before the client can verify identity, but those frames are already protected.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Transport_Layer_Security#TLS_handshake',
+		category: 'security'
+	},
+	{
+		id: 'tls-finished',
+		term: 'Finished message',
+		definition:
+			"The handshake-completion message in [[tls|TLS]]. A keyed MAC over the entire {{handshake|handshake}} transcript so far — both sides send one to prove they computed the same keys and saw the same messages. Detects downgrade attacks: anyone who tampered with the cipher-suite list, the key shares, or the {{certificate|certificate}} chain would fail the Finished check.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Transport_Layer_Security',
+		category: 'security'
+	},
+
+	// ── AEAD ciphers ────────────────────────────────────────────────────
+	{
+		id: 'aes-gcm',
+		term: 'AES-GCM',
+		definition:
+			"The dominant {{aead|AEAD}} construction in the post-2010 internet: AES in counter mode for {{encryption|encryption}}, GHASH (Galois MAC) for authentication, all under one key. Used by [[tls|TLS]] 1.2/1.3, [[ipsec|IPsec ESP]], [[ssh|SSH]], [[wireguard|WireGuard]] (in AES variants), {{srtp|SRTP}}. Hardware AES-NI / VAES support makes it the fastest mainstream cipher on x86 and ARMv8.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Galois/Counter_Mode',
+		category: 'security'
+	},
+	{
+		id: 'chacha20-poly1305',
+		term: 'ChaCha20-Poly1305',
+		definition:
+			"[[pioneer:dan-bernstein|Daniel J. Bernstein]]'s {{aead|AEAD}} pairing — ChaCha20 stream cipher + Poly1305 one-time authenticator, standardised in [[rfc:7539|RFC 7539]] / [[rfc:8439|RFC 8439]]. The default AEAD on platforms without AES hardware (mobile, embedded, older CPUs). Mandatory in [[tls|TLS]] 1.3 and [[wireguard|WireGuard]]; widely used in [[ssh|SSH]] and [[quic|QUIC]].",
+		wikiUrl: 'https://en.wikipedia.org/wiki/ChaCha20-Poly1305',
+		category: 'security'
+	},
+
+	// ── WPA2 / WPA3 four-way handshake ──────────────────────────────────
+	{
+		id: 'four-way-handshake',
+		term: '4-way handshake',
+		definition:
+			"The {{wpa2|WPA2}} key-establishment dance after authentication and association. The {{access-point|AP}} sends **ANonce** → station replies with **SNonce + MIC** (computed from PMK + nonces + MAC addresses) → AP sends the **{{gtk|GTK}}** encrypted with the freshly derived PTK → station confirms. KRACK (2017) exploited the third message's re-transmission to reset the per-packet {{nonce|nonce}} and decrypt frames — the bug that motivated {{wpa3|WPA3}}'s SAE handshake.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/IEEE_802.11i-2004#The_four-way_handshake',
+		category: 'security'
+	},
+	{
+		id: 'pmk',
+		term: 'PMK (Pairwise Master Key)',
+		definition:
+			"The long-lived secret shared between a [[wifi|Wi-Fi]] station and the {{access-point|AP}}. In WPA2-Personal it is derived from the passphrase via PBKDF2(SSID, passphrase, 4096); in WPA2-Enterprise it falls out of the {{eap|EAP}} method. Both endpoints know the PMK *before* the {{four-way-handshake|4-way handshake}}; the handshake then mixes it with nonces to derive the per-session {{ptk|PTK}}.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/IEEE_802.11i-2004',
+		category: 'security'
+	},
+	{
+		id: 'ptk',
+		term: 'PTK (Pairwise Transient Key)',
+		definition:
+			"The per-session session key in [[wifi|Wi-Fi]] WPA2/WPA3, derived during the {{four-way-handshake|4-way handshake}} from PMK + ANonce + SNonce + both MAC addresses. The PTK is split into KCK (key-confirmation), KEK (key-encryption), and TK (the temporal key that actually encrypts data frames with AES-CCMP or GCMP). Rotated whenever the station re-associates.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/IEEE_802.11i-2004',
+		category: 'security'
+	},
+	{
+		id: 'gtk',
+		term: 'GTK (Group Temporal Key)',
+		definition:
+			"The shared key in [[wifi|Wi-Fi]] used to encrypt {{broadcast|broadcast}} and {{multicast|multicast}} frames so every station on the BSS can decrypt them. Distributed by the {{access-point|AP}} during the {{four-way-handshake|4-way handshake}}, wrapped with the {{ptk|PTK}}'s KEK. Rotated on a timer or whenever a station leaves to keep ex-members from continuing to decrypt group traffic.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/IEEE_802.11i-2004',
+		category: 'security'
+	},
+	{
+		id: 'mic',
+		term: 'MIC (Message Integrity Code)',
+		definition:
+			"A short authenticator appended to encrypted frames in [[wifi|Wi-Fi]] (and [[bluetooth|Bluetooth LE]]) to prove integrity. In WPA2 CCMP it is 8 bytes; in GCMP it is 16. Different from a CRC: a CRC catches transmission errors; a MIC catches *adversarial* tampering because it depends on a secret key.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Message_authentication_code',
+		category: 'security'
+	},
+
+	// ── IPsec wire-level terms ──────────────────────────────────────────
+	{
+		id: 'spi',
+		term: 'SPI (Security Parameters Index)',
+		definition:
+			"A 32-bit identifier in the [[ipsec|IPsec]] ESP header that names *which Security Association* to use to decrypt this packet. The receiver looks up the SPI in its SAD (Security Association Database) to find the key, cipher, replay window, and counters. Each direction of an IPsec tunnel has its own SPI; they are negotiated in the {{ike-sa|IKE_SA_INIT}} exchange.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Security_Parameter_Index',
+		category: 'security'
+	},
+	{
+		id: 'ike-sa',
+		term: 'IKE SA',
+		definition:
+			"The control-plane Security Association in [[ipsec|IKEv2]] — the encrypted, authenticated channel that the two peers use to *negotiate* the data-plane Child SAs. Established by the **IKE_SA_INIT** + **IKE_AUTH** exchanges (two round trips) and lives for hours; rekeyed before lifetime expiry with **CREATE_CHILD_SA**.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Internet_Key_Exchange',
+		category: 'security'
+	},
+	{
+		id: 'child-sa',
+		term: 'Child SA',
+		definition:
+			"A unidirectional data-plane Security Association in [[ipsec|IKEv2]]. Carries the ESP key, cipher choice, sequence-number window, and traffic selectors for one direction of a tunnel. Two Child SAs (one each way) are negotiated inside the {{ike-sa|IKE SA}} during IKE_AUTH and rekeyed via **CREATE_CHILD_SA** before their byte/time limits.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Internet_Key_Exchange',
+		category: 'security'
+	},
+
+	// ── Streaming media ──────────────────────────────────────────────────
+	{
+		id: 'manifest',
+		term: 'Manifest',
+		definition:
+			"The top-level playlist file in adaptive-bitrate streaming. In [[hls|HLS]] this is an **`.m3u8`** text file; in [[dash|DASH]] it is an XML **MPD** (Media Presentation Description). Lists the available bitrate ladders, codec profiles, audio/subtitle tracks, and the URLs (or URL templates) for each segment. The player downloads the manifest first, then fetches segments per its {{adaptive-bitrate|adaptive-bitrate}} logic.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/HTTP_Live_Streaming',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'mpd',
+		term: 'MPD (Media Presentation Description)',
+		definition:
+			"The XML manifest format used by [[dash|MPEG-DASH]]. Describes the timeline as **Periods** (top-level segments), each with **AdaptationSets** (one per content kind — video, audio, subtitle), each with **Representations** (per-bitrate variants). More flexible than [[hls|HLS]]'s `.m3u8` text format but verbose; widely used by Netflix, YouTube, and the BBC.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Dynamic_Adaptive_Streaming_over_HTTP',
+		category: 'protocol-mechanics'
+	},
+
+	// ── Real-time A/V ────────────────────────────────────────────────────
+	{
+		id: 'jitter-buffer',
+		term: 'Jitter buffer',
+		definition:
+			"A small (10–200 ms) playout queue at the receiver in [[rtp|RTP]] / {{voip|VoIP}} systems that absorbs network {{jitter|jitter}}. Buffers a few packets before starting playback so out-of-order arrivals can be re-ordered by [[rtp|RTP]] {{sequence-number|sequence number}}, and late packets can be dropped without an audible gap. Trades a tiny added {{latency|latency}} for smooth audio/video.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Jitter#Jitter_buffer',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'forward-error-correction',
+		term: 'FEC (Forward Error Correction)',
+		definition:
+			"Add redundancy on the *sender* side so the receiver can reconstruct lost packets without asking for a {{retransmission|retransmission}}. Common in real-time media where round-trip {{retransmission|retransmissions}} are too slow. Schemes range from simple parity (send 4 packets + 1 parity packet, survive 1 loss) to Reed-Solomon and Raptor codes. [[rtp|RTP]] payload format defined in [[rfc:5109|RFC 5109]] / [[rfc:8627|RFC 8627]].",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Forward_error_correction',
+		category: 'protocol-mechanics'
+	},
+
+	// ── Mail ─────────────────────────────────────────────────────────────
+	{
+		id: 'ehlo',
+		term: 'EHLO',
+		definition:
+			"The opening command of an Extended [[smtp|SMTP]] session ([[rfc:5321|RFC 5321]]). Replaces the legacy `HELO` and lets the server advertise capabilities it supports — {{starttls|STARTTLS}}, SIZE limits, PIPELINING, AUTH mechanisms, DSN, 8BITMIME, SMTPUTF8. Every modern mail exchange starts with `EHLO <client hostname>`.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Extended_SMTP',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'starttls',
+		term: 'STARTTLS',
+		definition:
+			"The opportunistic-{{encryption|encryption}} upgrade verb in [[smtp|SMTP]], [[imap|IMAP]], POP3, [[xmpp|XMPP]], and LDAP. Client sends `STARTTLS` over the plaintext session; server replies `220 Ready`; both sides perform a [[tls|TLS]] {{handshake|handshake}} on the same TCP connection. Vulnerable to **stripping attacks** where an active attacker removes the capability advertisement — closed by **MTA-STS** ([[rfc:8461|RFC 8461]]) and DANE.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Opportunistic_TLS',
+		category: 'security'
+	},
+
+	// ── DNS records & routing ───────────────────────────────────────────
+	{
+		id: 'dns-record-types',
+		term: 'DNS record types',
+		definition:
+			"The kinds of resource records [[dns|DNS]] serves. The common set: **A** ([[ip|IPv4]] address), **AAAA** ([[ipv6|IPv6]] address), **CNAME** (alias), **MX** (mail exchange), **NS** (authoritative name servers), **SOA** (zone authority), **TXT** (free-form text, used for SPF/DKIM/DMARC), **SRV** (service location, used by [[mdns-dns-sd|DNS-SD]] and Active Directory), **PTR** (reverse lookup), **CAA** (which {{certificate-authority|CAs}} may issue for a zone), and the {{dnssec|DNSSEC}} chain (DS, DNSKEY, RRSIG, NSEC).",
+		wikiUrl: 'https://en.wikipedia.org/wiki/List_of_DNS_record_types',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'as-path',
+		term: 'AS_PATH',
+		definition:
+			"A [[bgp|BGP]] path attribute listing every {{autonomous-system|AS}} a route has passed through, in reverse-chronological order. Used both for *loop prevention* (a router rejects routes whose AS_PATH contains its own AS) and as the primary tie-breaker in best-path selection — shorter paths win. The path-vector mechanism is what makes [[bgp|BGP]] **policy-routable** in a way that pure link-state protocols are not.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Border_Gateway_Protocol#Routes',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'dijkstra',
+		term: 'Dijkstra algorithm',
+		definition:
+			"The shortest-path-first algorithm invented by [[pioneer:edsger-dijkstra|Edsger W. Dijkstra]] in 1956. Run by every [[ospf|OSPF]] router across its LSDB to compute the routing table — *every node's shortest path to every other node*. Runs in O((V+E) log V) with a binary heap; in practice it converges in milliseconds on an enterprise topology and seconds on a tier-1 ISP backbone.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm',
+		category: 'protocol-mechanics'
 	}
 ];
 

@@ -58,7 +58,7 @@ The companion **{{rtcp|RTCP}}** ([[rtp|RTP]] Control Protocol) flows alongside, 
 							title: 'Discord, Zoom, and the SFU Reality',
 							text: `Discord's homegrown C++ SFU forwards [[rtp|RTP]] for **2.5 million concurrent voice users across 850+ voice servers in 13 regions and 30+ data centers**. That is the largest publicly documented [[rtp|RTP]] fleet on the internet. To save CPU at that scale, Discord **swapped {{dtls|DTLS}}-{{srtp|SRTP}} for libsodium's xsalsa20_poly1305** in their custom libwebrtc fork — illustrating the field axiom that **the standard is the floor, not the ceiling**.
 
-The 2020 Citizen Lab **Zoom disclosure** revealed Zoom wrapped [[rtp|RTP]] in a custom transport over [[udp|UDP]]/8801 and encrypted it with **AES-128-ECB** — leaking patterns in encrypted video frames. Industry pressure forced a switch to AES-GCM and ultimately E2EE.
+The 2020 Citizen Lab **Zoom disclosure** revealed Zoom wrapped [[rtp|RTP]] in a custom transport over [[udp|UDP]]/8801 and encrypted it with **AES-128-ECB** — leaking patterns in encrypted video frames. Industry pressure forced a switch to {{aes-gcm|AES-GCM}} and ultimately E2EE.
 
 Asterisk had its own [[rtp|RTP]] security incident in 2017: **AST-2017-008/-012 ("Asterisk [[rtp|RTP]] Bleed")** showed that Asterisk's \`strictrtp\` port-latching had no authentication, so flooding the [[udp|UDP]] port range at 28-168 MB/s could "re-train" the media flow to an attacker. The first patch missed {{rtcp|RTCP}} and a race condition, requiring a second advisory.`
 						},
@@ -246,7 +246,7 @@ The cryptography is slowly tightening: **RFC 8760 (March 2020)** finally depreca
 							title: 'Streaming Without Streaming Servers',
 							text: `Until 2008, live video streaming required specialised streaming servers and protocols ([[rtmp|RTMP]], MMS, RTSP) — separate infrastructure from the web servers that delivered everything else.
 
-{{apple|Apple}} changed that with **[[hls|HLS]]** (HTTP Live Streaming), which **shipped on 17 June 2009 with iPhone OS 3.0 / iPhone 3GS** — created at {{apple|Apple}} by Roger Pantos and William May Jr. The 2007/2008 iPhone had no Flash, and Apple needed something that survived {{nat|NAT}}/firewalls on 3G. Reusing HTTP/443 was a deliberate {{firewall|firewall}}-traversal play.
+{{apple|Apple}} changed that with **[[hls|HLS]]** (HTTP Live Streaming), which **shipped on 17 June 2009 with iPhone OS 3.0 / iPhone 3GS** — created at {{apple|Apple}} by Roger Pantos and William May Jr. The 2007/2008 iPhone had no Flash, and {{apple|Apple}} needed something that survived {{nat|NAT}}/firewalls on 3G. Reusing HTTP/443 was a deliberate {{firewall|firewall}}-traversal play.
 
 The trick was breaking the stream into **2-10 second segments**, each a regular .ts (or later .mp4/CMAF) file accessible via plain [[http1|HTTP]]. A small **playlist** file (.m3u8) lists the segments in order. The client downloads the playlist, fetches segments, and plays them. To support multiple bitrates, the server publishes parallel playlists (240p, 480p, 1080p, 4K) and a master playlist; the client switches bitrates between segments based on observed {{bandwidth|bandwidth}}.`
 						},
@@ -258,9 +258,9 @@ The trick was breaking the stream into **2-10 second segments**, each a regular 
 						{
 							type: 'narrative',
 							title: 'DASH — The IETF/MPEG Alternative',
-							text: `**MPEG-[[dash|DASH]] (ISO/IEC 23009-1)** was first published in **2012** as the standardised version of the same idea. The differences from [[hls|HLS]] are {{codec|codec}} restrictions, manifest format ({{xml|XML}} MPD vs M3U8), and licensing. The **5th edition (23009-1:2022)** is freely available via ISO ITTF; the **6th edition (FDIS 23009-1)** reached stage 50.00 by April 2025 and adds **L3D-[[dash|DASH]]/SSR** for sub-second join times.
+							text: `**MPEG-[[dash|DASH]] (ISO/IEC 23009-1)** was first published in **2012** as the standardised version of the same idea. The differences from [[hls|HLS]] are {{codec|codec}} restrictions, {{manifest|manifest}} format ({{xml|XML}} MPD vs M3U8), and licensing. The **5th edition (23009-1:2022)** is freely available via ISO ITTF; the **6th edition (FDIS 23009-1)** reached stage 50.00 by April 2025 and adds **L3D-[[dash|DASH]]/SSR** for sub-second join times.
 
-The "everyone gets this wrong" detail: **{{apple|Apple}} devices have never natively played [[dash|DASH]]**, and **FairPlay still does not work with [[dash|DASH]]** ({{apple|Apple}}'s own developer {{thread|thread}} confirms it). Every iOS app must use [[hls|HLS]] through AVPlayer — [[dash|DASH]] on iOS is a custom-decoder situation. This is the structural reason [[hls|HLS]] won the format war: Apple wouldn't switch.
+The "everyone gets this wrong" detail: **{{apple|Apple}} devices have never natively played [[dash|DASH]]**, and **FairPlay still does not work with [[dash|DASH]]** ({{apple|Apple}}'s own developer {{thread|thread}} confirms it). Every iOS app must use [[hls|HLS]] through AVPlayer — [[dash|DASH]] on iOS is a custom-decoder situation. This is the structural reason [[hls|HLS]] won the format war: {{apple|Apple}} wouldn't switch.
 
 **CMAF (ISO/IEC 23000-19)** — the joint Apple+{{microsoft|Microsoft}} fMP4 proposal at MPEG #114 (San Diego, Feb 2016), first published 2018, 4th edition published 2024 — is what finally lets one set of fMP4 segments serve both [[hls|HLS]] and [[dash|DASH]]. **Disney+ runs 100% [[hls|HLS]]+CMAF end-to-end**.
 
@@ -271,7 +271,7 @@ The "everyone gets this wrong" detail: **{{apple|Apple}} devices have never nati
 							title: 'Low-Latency, And The "Apple Took It Away" Drama',
 							text: `**{{apple|Apple}} announced Low-{{latency|Latency}} [[hls|HLS]] at WWDC 2019 session 502** with a Sydney→Cupertino live demo by Roger Pantos at sub-2-second {{latency|latency}}. The original spec required **[[http2|HTTP/2]] push** — a hard dependency on a feature most CDNs supported poorly.
 
-On **30 April 2020**, after Mux's "the community gave us low-{{latency|latency}} live streaming, then {{apple|Apple}} took it away" backlash, Apple replaced the [[http2|HTTP/2]] push requirement with **\`EXT-X-PRELOAD-HINT\`** — a simpler, {{cdn|CDN}}-friendly hint that didn't require {{server-push|server push}}. The community had been pushing back for almost a year by that point. The protocol design evolves; the politics of who designs it evolves more slowly.
+On **30 April 2020**, after Mux's "the community gave us low-{{latency|latency}} live streaming, then {{apple|Apple}} took it away" backlash, {{apple|Apple}} replaced the [[http2|HTTP/2]] push requirement with **\`EXT-X-PRELOAD-HINT\`** — a simpler, {{cdn|CDN}}-friendly hint that didn't require {{server-push|server push}}. The community had been pushing back for almost a year by that point. The protocol design evolves; the politics of who designs it evolves more slowly.
 
 The 2026 cryptographic milestone: **\`draft-pantos-hls-rfc8216bis-22\` (May 2026) added AES-256-GCM as a permissible [[hls|HLS]] {{encryption|encryption}} method** — the most consequential cryptographic change in nearly a decade, and the bis draft also renamed the "master playlist" to "**Multivariant Playlist**."`
 						},
@@ -337,7 +337,7 @@ MoQT's data model is **{{pub-sub|publish/subscribe}} with relay caches**: media 
 
 This is unusual: a working group co-author publishing a competing draft inside the same WG. The fork suggests the design is not converging. As of the March 2026 {{ietf|IETF}} meeting, MoQ-Lite has support from a small group of implementers; the main draft has the institutional weight. Whether they merge, one wins, or both ship and the market chooses — open question.
 
-The spec has nonetheless attracted serious implementation effort. **NAB 2026 (28 April 2026)** demoed MoQ interop across **eleven vendors** — Ant Media, AWS, Bitmovin, Broadpeak, CacheFly, {{cloudflare|Cloudflare}}, Nomad Media, Oracle, Norsk, Synamedia, Red5 — under a new "OpenMOQ Software Consortium." **{{cloudflare|Cloudflare}} deployed an MoQ relay at every Cloudflare edge across 330+ cities in 2025** as a beta managed service — the first global MoQ relay network.`
+The spec has nonetheless attracted serious implementation effort. **NAB 2026 (28 April 2026)** demoed MoQ interop across **eleven vendors** — Ant Media, AWS, Bitmovin, Broadpeak, CacheFly, {{cloudflare|Cloudflare}}, Nomad Media, Oracle, Norsk, Synamedia, Red5 — under a new "OpenMOQ Software Consortium." **{{cloudflare|Cloudflare}} deployed an MoQ relay at every {{cloudflare|Cloudflare}} edge across 330+ cities in 2025** as a beta managed service — the first global MoQ relay network.`
 						},
 						{
 							type: 'narrative',

@@ -9,7 +9,7 @@ export const hls: Protocol = {
 	year: 2009,
 	rfc: 'RFC 8216',
 	oneLiner: "{{apple|Apple}}'s adaptive streaming protocol — video delivered as small HTTP file downloads.",
-	overview: `[[hls|HLS]] takes a clever approach to streaming: instead of a continuous real-time stream, it chops video into small files (typically 2-10 second segments) and serves them as ordinary [[http1|HTTP]] downloads. A manifest file (.m3u8) lists the available segments and quality levels.
+	overview: `[[hls|HLS]] takes a clever approach to streaming: instead of a continuous real-time stream, it chops video into small files (typically 2-10 second segments) and serves them as ordinary [[http1|HTTP]] downloads. A {{manifest|manifest}} file (.m3u8) lists the available segments and quality levels.
 
 This design is brilliant for several reasons: it works through any {{firewall|firewall}} (it's just [[http1|HTTP]]), it scales trivially with {{cdn|CDNs}} (segments are cacheable files), and it enables {{adaptive-bitrate|adaptive bitrate}} — the player switches between quality levels based on {{bandwidth|bandwidth}}, providing smooth playback even on unstable connections. Increasingly, [[hls|HLS]] and [[dash|DASH]] are converging on CMAF (Common Media Application Format), which defines a unified segment format (fragmented MP4) so content providers can encode once and serve both [[hls|HLS]] and [[dash|DASH]] from the same segments.
 

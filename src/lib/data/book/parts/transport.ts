@@ -69,7 +69,7 @@ The most recent paradigm shift: {{l4s|L4S}} replaces loss-as-signal with **expli
 
 **AccECN** (\`draft-{{ietf|ietf}}-tcpm-accurate-ecn-34\`, March 2025) is on the Standards Track path. It reallocates the old {{ecn|ECN}}-{{nonce|Nonce}} bit to deliver more than one congestion signal per {{rtt|RTT}} — the precondition {{l4s|L4S}} over [[tcp|TCP]] needs for fine-grained congestion response.
 
-**Linux 6.15 (mid-2025)** landed **io_uring zero-copy receive** (\`io_uring zcrx\`) integrated with the kernel [[tcp|TCP]] stack. Single-flow throughput jumped from ~74 Gb/s (epoll) to **~106 Gb/s (io_uring zcrx)** — a ~40% throughput improvement for high-{{bandwidth|bandwidth}} servers without any application changes.
+**{{linux|Linux}} 6.15 (mid-2025)** landed **io_uring zero-copy receive** (\`io_uring zcrx\`) integrated with the kernel [[tcp|TCP]] stack. Single-flow throughput jumped from ~74 Gb/s (epoll) to **~106 Gb/s (io_uring zcrx)** — a ~40% throughput improvement for high-{{bandwidth|bandwidth}} servers without any application changes.
 
 The vulnerability surface keeps producing CVEs. **CVE-2019-11477 ({{sack|SACK}} Panic)** was the canonical case — a single [[tcp|TCP]] packet, no authentication, would crash any vulnerable Linux host across kernels 2.6.29 through 5.1, ten years of unpatched code in the heart of every Linux server. Modern kernel networking is now fuzzed continuously by **syzkaller**; most [[tcp|TCP]] CVEs since 2020 have been found by fuzzing rather than by humans.`
 						},
@@ -251,7 +251,7 @@ The application has no idea any of this is happening. The socket interface is id
 							title: 'The Apple iOS 7 Deployment',
 							text: `**{{apple|Apple}} shipped [[mptcp|MPTCP]] in iOS 7 (September 2013)** for **Siri**. The choice was forced by user experience: Siri's voice recognition did a round-trip to {{apple|Apple}}'s servers, and the half-second handoff between [[wifi|Wi-Fi]] and cellular was producing visible "Sorry, I didn't catch that" failures during normal walking-out-of-the-house transitions. [[mptcp|MPTCP]] let Siri's connection keep working through the handoff.
 
-Apple expanded [[mptcp|MPTCP]] in iOS 11 (2017) to a public API for any app, and in iOS 12+ to additional system services (Apple Maps, Apple Music). By 2026 every Apple device with both [[wifi|Wi-Fi]] and cellular uses [[mptcp|MPTCP]] for the OS-managed services. Notably, Apple did **not** open up [[mptcp|MPTCP]] for third-party app traffic by default — most app developers do not know they could use it.
+{{apple|Apple}} expanded [[mptcp|MPTCP]] in iOS 11 (2017) to a public API for any app, and in iOS 12+ to additional system services (Apple Maps, Apple Music). By 2026 every Apple device with both [[wifi|Wi-Fi]] and cellular uses [[mptcp|MPTCP]] for the OS-managed services. Notably, Apple did **not** open up [[mptcp|MPTCP]] for third-party app traffic by default — most app developers do not know they could use it.
 
 **{{linux|Linux}} merged the upstream [[mptcp|MPTCP]] implementation in kernel 5.6 (March 2020)** after years of out-of-tree patches. **South Korea's Korea Telecom built a "GIGA Path" service** that used [[mptcp|MPTCP]] to bond LTE and [[wifi|Wi-Fi]] for 1 Gbps mobile downloads — the first commercial network operator to position [[mptcp|MPTCP]] as a consumer feature.`
 						},
@@ -265,7 +265,7 @@ Apple expanded [[mptcp|MPTCP]] in iOS 11 (2017) to a public API for any app, and
 							title: 'The Multipath QUIC Succession',
 							text: `The future of {{multipath|multipath}} transport is {{multipath|multipath}} [[quic|QUIC]] (\`draft-{{ietf|ietf}}-quic-{{multipath|multipath}}\`, [[frontier:multipath-quic|currently in IETF Last Call December 2025]]). Latest draft -21 dated 17 March 2026.
 
-Multipath [[quic|QUIC]] inherits [[mptcp|MPTCP]]'s algorithmic ideas — subflows, coupled {{congestion-control|congestion control}}, packet scheduling across paths — but operates inside [[quic|QUIC]]'s much more deployable carrier ([[udp|UDP]]). Where [[mptcp|MPTCP]] had to fight middleboxes that didn't understand [[tcp|TCP]] options, multipath [[quic|QUIC]] encrypts everything except a handful of public bits inside the [[udp|UDP]] envelope. Middleboxes see [[udp|UDP]]; the multipath logic is invisible.
+{{multipath|Multipath}} [[quic|QUIC]] inherits [[mptcp|MPTCP]]'s algorithmic ideas — subflows, coupled {{congestion-control|congestion control}}, packet scheduling across paths — but operates inside [[quic|QUIC]]'s much more deployable carrier ([[udp|UDP]]). Where [[mptcp|MPTCP]] had to fight middleboxes that didn't understand [[tcp|TCP]] options, multipath [[quic|QUIC]] encrypts everything except a handful of public bits inside the [[udp|UDP]] envelope. Middleboxes see [[udp|UDP]]; the multipath logic is invisible.
 
 **{{apple|Apple}}, Alibaba, and Tessares have already deployed predecessors** (gQUIC multipath at {{google|Google}}, {{apple|Apple}}'s iCloud sync, Alibaba's mobile e-commerce). Once multipath [[quic|QUIC]] ships in mainline implementations (quiche, mvfst, quinn, msquic), it becomes the natural multipath transport for [[http3|HTTP/3]].
 
@@ -306,7 +306,7 @@ Multipath [[quic|QUIC]] inherits [[mptcp|MPTCP]]'s algorithmic ideas — subflow
 							title: 'A Transport That Can Ship Updates',
 							text: `[[quic|QUIC]] began as **gQUIC** at {{google|Google}} in 2012, written by [[pioneer:jim-roskind|Jim Roskind]] to address a specific frustration: every [[tcp|TCP]] improvement {{google|Google}} wanted to deploy had to wait years for kernel rollout across the heterogeneous internet, and many were stripped or blocked by middleboxes that had ossified on the existing wire format.
 
-The {{ietf|IETF}} [[quic|QUIC]] Working Group, formed in 2016, took Google's experiment and modularised it. **[[rfc:9000|RFC 9000]]** standardised [[quic|QUIC]] v1 in May 2021. **[[rfc:9114|RFC 9114]]** defined [[http3|HTTP/3]] as HTTP semantics on top of [[quic|QUIC]], published one year later. **[[quic|QUIC]] v2 (RFC 9369, May 2023)** is now a Standards-Track template for new [[quic|QUIC]] versions; its wire-image version number is **0x6b3343cf** — the first 4 bytes of \`sha256("QUICv2 version number")\` — chosen specifically to exercise version negotiation and break middleboxes that ossified on v1's Initial-packet {{salt|salt}}.
+The {{ietf|IETF}} [[quic|QUIC]] Working Group, formed in 2016, took {{google|Google}}'s experiment and modularised it. **[[rfc:9000|RFC 9000]]** standardised [[quic|QUIC]] v1 in May 2021. **[[rfc:9114|RFC 9114]]** defined [[http3|HTTP/3]] as HTTP semantics on top of [[quic|QUIC]], published one year later. **[[quic|QUIC]] v2 (RFC 9369, May 2023)** is now a Standards-Track template for new [[quic|QUIC]] versions; its wire-image version number is **0x6b3343cf** — the first 4 bytes of \`sha256("QUICv2 version number")\` — chosen specifically to exercise version negotiation and break middleboxes that ossified on v1's Initial-packet {{salt|salt}}.
 
 [[quic|QUIC]] solves four problems at once.`
 						},
@@ -339,7 +339,7 @@ The {{ietf|IETF}} [[quic|QUIC]] Working Group, formed in 2016, took Google's exp
 
 **[[frontier:moq-transport|MoQ Transport]]** (\`draft-{{ietf|ietf}}-moq-transport-17\`, March 2026) is the first {{ietf|IETF}} media transport that intentionally is not [[rtp|RTP]] — sub-second live streaming with one-to-many {{pub-sub|publish/subscribe}} at {{cdn|CDN}} scale.
 
-**[[rtp|RTP]]-over-[[quic|QUIC]] (RoQ)** (\`draft-ietf-avtcore-rtp-over-quic-14\`) entered Working Group Last Call in July 2025 — preserves the entire [[rtp|RTP]] ecosystem while gaining [[quic|QUIC]]'s {{encryption|encryption}}, {{nat|NAT}}-friendliness, and {{zero-rtt|0-RTT}}.
+**[[rtp|RTP]]-over-[[quic|QUIC]] (RoQ)** (\`draft-{{ietf|ietf}}-avtcore-rtp-over-quic-14\`) entered Working Group Last Call in July 2025 — preserves the entire [[rtp|RTP]] ecosystem while gaining [[quic|QUIC]]'s {{encryption|encryption}}, {{nat|NAT}}-friendliness, and {{zero-rtt|0-RTT}}.
 
 By 2026, **{{meta|Meta}} reports >75% of internet-facing traffic on [[quic|QUIC]]**; **{{cloudflare|Cloudflare}}** serves [[quic|QUIC]] universally; **{{apple|Apple}} Network.framework** offers native [[quic|QUIC]] since iOS 18; **Safari 18** enables [[http3|HTTP/3]] by default. The transport reshaped its deployment ecosystem in five years.`
 						},

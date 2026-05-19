@@ -36,7 +36,7 @@ VLANs are essential for security (isolating guest [[wifi|WiFi]] from the corpora
     subgraph Switch_B["Switch B"]
         B_TRUNK["Trunk Port<br/>802.1Q Tagged<br/>VLANs 10,20,30"]
         B_AP1["Access Port<br/>{{vlan|VLAN}} 10<br/>Engineering"]
-        B_AP2["Access Port<br/>VLAN 20<br/>Marketing"]
+        B_AP2["Access Port<br/>{{vlan|VLAN}} 20<br/>Marketing"]
     end
 
     subgraph L3["Layer 3 Switch / Router"]
@@ -360,7 +360,7 @@ The trick is **exactly-once processing**, not {{exactly-once-delivery|exactly-on
 
 {{jitter|Jitter}} buffers smooth this out by introducing a small, intentional delay. Incoming packets are held in a buffer and released at regular intervals, absorbing timing variations. The tradeoff: larger buffers handle more {{jitter|jitter}} but add {{latency|latency}}.
 
-**Static {{jitter|jitter}} buffers** use a fixed delay (e.g., 60ms). Simple but suboptimal -- too small and you get dropouts; too large and the {{latency|latency}} is noticeable. **Adaptive {{jitter|jitter}} buffers** dynamically adjust their size based on observed network conditions, growing during high jitter and shrinking when the network is stable. [[webrtc|WebRTC]]'s NetEQ is a sophisticated adaptive jitter buffer that also handles packet loss concealment.`
+**Static {{jitter|jitter}} buffers** use a fixed delay (e.g., 60ms). Simple but suboptimal -- too small and you get dropouts; too large and the {{latency|latency}} is noticeable. **Adaptive {{jitter|jitter}} buffers** dynamically adjust their size based on observed network conditions, growing during high {{jitter|jitter}} and shrinking when the network is stable. [[webrtc|WebRTC]]'s NetEQ is a sophisticated adaptive {{jitter-buffer|jitter buffer}} that also handles packet loss concealment.`
 			},
 			{
 				type: 'narrative',
@@ -388,7 +388,7 @@ The trick is **exactly-once processing**, not {{exactly-once-delivery|exactly-on
         R2 --> SEG2["2-10s segments"]
         R3 --> SEG3["2-10s segments"]
         R4 --> SEG4["2-10s segments"]
-        SEG1 --> MAN["Manifest / Playlist<br/>(M3U8 or MPD)"]
+        SEG1 --> MAN["{{manifest|Manifest}} / Playlist<br/>(M3U8 or MPD)"]
         SEG2 --> MAN
         SEG3 --> MAN
         SEG4 --> MAN
@@ -468,7 +468,7 @@ OCSP (Online {{certificate|Certificate}} Status Protocol) and CRL ({{certificate
 
 **Client Hello**: The client sends supported {{cipher-suite|cipher suites}}, a random {{nonce|nonce}}, and **key shares** for all supported key {{exchange|exchange}} algorithms (usually X25519 and P-256). By sending keys upfront, the client gambles that the server will accept one -- eliminating the extra round trip that [[tls|TLS]] 1.2 needed.
 
-**Server Hello + Encrypted Extensions**: The server picks a {{cipher-suite|cipher suite}}, sends its key share, and immediately switches to {{encryption|encrypted}} communication. The server's {{certificate|certificate}}, {{certificate|certificate}} verify (signature), and Finished message are all encrypted.
+**Server Hello + Encrypted Extensions**: The server picks a {{cipher-suite|cipher suite}}, sends its key share, and immediately switches to {{encryption|encrypted}} communication. The server's {{certificate|certificate}}, {{certificate|certificate}} verify (signature), and {{tls-finished|Finished message}} are all encrypted.
 
 **Client Finished**: The client verifies the {{certificate-chain|certificate chain}}, sends its Finished message, and application data can begin flowing immediately.
 

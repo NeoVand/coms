@@ -184,7 +184,7 @@ For a self-paced path: read **RFC 1180** (28 pages), then take **CS144**, then r
 						{
 							type: 'narrative',
 							title: 'The Operating Toolkit',
-							text: `**{{wireshark|Wireshark}}** ({{wireshark|wireshark}}.org) — the canonical packet analyser. If you do not know Wireshark, learning it is the highest-leverage hour you will ever spend in this field. Captures from any interface, dissects 3000+ protocols, lets you trace any flow byte by byte. Use it the next time something is wrong; you will never debug networking the same way again.
+							text: `**{{wireshark|Wireshark}}** ({{wireshark|wireshark}}.org) — the canonical packet analyser. If you do not know {{wireshark|Wireshark}}, learning it is the highest-leverage hour you will ever spend in this field. Captures from any interface, dissects 3000+ protocols, lets you trace any flow byte by byte. Use it the next time something is wrong; you will never debug networking the same way again.
 
 **curl** (curl.se) — the command-line HTTP client and Swiss-army knife of the protocol world. \`curl -v\` shows you the entire request and response with headers; \`--http3\` forces [[quic|QUIC]]; \`--resolve\` overrides [[dns|DNS]] for one request; \`-w\` formats timing information.
 

@@ -108,7 +108,7 @@ In 1999 the {{ietf|IETF}} took ownership and renamed it [[tls|TLS]] 1.0 ([[rfc:2
 						{
 							type: 'callout',
 							title: 'TLS 1.3 has middlebox-compatibility hacks built in',
-							text: 'The "everyone gets it wrong" wire fact: **[[tls|TLS]] 1.3 ClientHello.legacy_version = 0x0303** ([[tls|TLS]] 1.2); the real version goes in the \`supported_versions\` extension. **legacy_session_id is non-empty** (faking {{session-resumption|session resumption}}). Both sides send a no-op **ChangeCipherSpec record** after their first flight. All of this is because middleboxes broke when they saw real [[tls|TLS]] 1.3 wire format. The protocol is technically clean; the wire encoding is a deliberate camouflage.'
+							text: 'The "everyone gets it wrong" wire fact: **[[tls|TLS]] 1.3 {{client-hello|ClientHello}}.legacy_version = 0x0303** ([[tls|TLS]] 1.2); the real version goes in the \`supported_versions\` extension. **legacy_session_id is non-empty** (faking {{session-resumption|session resumption}}). Both sides send a no-op **ChangeCipherSpec record** after their first flight. All of this is because middleboxes broke when they saw real [[tls|TLS]] 1.3 wire format. The protocol is technically clean; the wire encoding is a deliberate camouflage.'
 						},
 						{
 							type: 'narrative',
@@ -117,9 +117,9 @@ In 1999 the {{ietf|IETF}} took ownership and renamed it [[tls|TLS]] 1.0 ([[rfc:2
 
 **Heartbleed (CVE-2014-0160, April 2014)**: Independent discovery by Neel Mehta of {{google|Google}} Security and the Codenomicon team in Finland. **One missing length check** in OpenSSL's Heartbeat extension let any client read up to **64 KiB of server memory per request** — including private keys, session keys, passwords. **~17% of the trusted web was vulnerable.** Direct cause of the **Core Infrastructure Initiative**, {{google|Google}}'s BoringSSL fork, OpenBSD's LibreSSL fork, and Amazon's s2n-tls.
 
-**DigiNotar (August 2011)**: Iran-linked attacker issued **531 fraudulent certs for 344 domains** including \`*.google.com\`, used in {{man-in-the-middle|MITM}} against ~300,000 Iranian Gmail users. **DigiNotar bankrupt within a month.** Forced **{{certificate-transparency|Certificate Transparency}}** into existence as a structural fix.
+**DigiNotar (August 2011)**: Iran-linked attacker issued **531 fraudulent certs for 344 domains** including \`*.{{google|google}}.com\`, used in {{man-in-the-middle|MITM}} against ~300,000 Iranian Gmail users. **DigiNotar bankrupt within a month.** Forced **{{certificate-transparency|Certificate Transparency}}** into existence as a structural fix.
 
-**GREASE ([[rfc:8446|RFC 8701]], January 2020)**: David Benjamin (Google) reserved values like \`0x0A0A, 0x1A1A, ..., 0xFAFA\` in the cipher-suite, named-group, signature, {{alpn|ALPN}}, and version registries. **Chrome injects one at random into every ClientHello** so any server or middlebox that crashes on unknown values is detected before that brittleness ossifies. GREASE is the entire reason [[tls|TLS]] 1.3 deployment did not get blocked by another decade of middlebox ossification.
+**GREASE ([[rfc:8446|RFC 8701]], January 2020)**: David Benjamin (Google) reserved values like \`0x0A0A, 0x1A1A, ..., 0xFAFA\` in the cipher-suite, named-group, signature, {{alpn|ALPN}}, and version registries. **Chrome injects one at random into every {{client-hello|ClientHello}}** so any server or middlebox that crashes on unknown values is detected before that brittleness ossifies. GREASE is the entire reason [[tls|TLS]] 1.3 deployment did not get blocked by another decade of middlebox ossification.
 
 Two more historical incidents to name: **goto fail (CVE-2014-1266)** — a duplicated \`goto fail;\` line in iOS/OS X 10.9 made Safari silently accept any server's signed key {{exchange|exchange}} — full {{man-in-the-middle|MITM}} on every Safari HTTPS connection for ~17 months. **ROBOT (December 2017)** — 19-year-old Bleichenbacher attack still let researchers sign messages with **facebook.com's {{private-key|private key}}** in 2017, affecting F5, Citrix, {{cisco|Cisco}}, Radware, BouncyCastle, WolfSSL.`
 						},
@@ -177,7 +177,7 @@ Two more historical incidents to name: **goto fail (CVE-2014-1266)** — a dupli
 
 **Port 22 origin story**: Ylönen chose 22 because it sat between **telnet/23 and ftp/21**. On **10 July 1995** he emailed {{iana|IANA}}'s Joyce K. Reynolds; she replied next day assigning port 22 with him as point of contact. The reasoning was aesthetic — telnet, [[ftp|FTP]], and [[ssh|SSH]] form a contiguous range — and it has not been seriously questioned in 30 years.
 
-The protocol uses **public-key cryptography** for host and user authentication, **Diffie-Hellman** for key {{exchange|exchange}}, and a **symmetric cipher** for the actual session (originally 3DES, now ChaCha20-Poly1305 or AES-GCM). Once authenticated, the [[ssh|SSH]] connection multiplexes multiple **channels**: an interactive shell, a port-forwarded [[tcp|TCP]] connection, an SCP file transfer, an X11 display.
+The protocol uses **public-key cryptography** for host and user authentication, **Diffie-Hellman** for key {{exchange|exchange}}, and a **symmetric cipher** for the actual session (originally 3DES, now {{chacha20-poly1305|ChaCha20-Poly1305}} or {{aes-gcm|AES-GCM}}). Once authenticated, the [[ssh|SSH]] connection multiplexes multiple **channels**: an interactive shell, a port-forwarded [[tcp|TCP]] connection, an SCP file transfer, an X11 display.
 
 **OpenSSH was forked 26 September 1999** by the OpenBSD team (Theo de Raadt, Markus Friedl, Niels Provos, Bob Beck, Aaron Campbell, Dug Song; for portability Damien Miller and Darren Tucker) from Björn Grönvall's OSSH (re-derivation of Ylönen's last freely-licensed \`ssh-1.2.12\`).`
 						},
@@ -326,11 +326,11 @@ Before [[oauth2|OAuth]], an app that wanted access to your {{google|Google}} cal
 						{
 							type: 'narrative',
 							title: 'The Famous Incidents',
-							text: `**{{google|Google}} "[[oauth2|OAuth]] worm" (May 2017)**: Fake "{{google|Google}} Docs" app harvested mailbox + contacts; **~1 million users affected** before Google killed it within ~1 hour. No exploit, just a malicious app named literally *"Google Docs"*. Google added client-name validation afterwards.
+							text: `**{{google|Google}} "[[oauth2|OAuth]] worm" (May 2017)**: Fake "{{google|Google}} Docs" app harvested mailbox + contacts; **~1 million users affected** before {{google|Google}} killed it within ~1 hour. No exploit, just a malicious app named literally *"Google Docs"*. Google added client-name validation afterwards.
 
-**Storm-0558 (May-July 2023)**: ~25 organisations including US State Dept and Commerce had Outlook Web Access mailboxes read for ~one month after the China-aligned actor forged authentication tokens. {{microsoft|Microsoft}} consumer (MSA) signing key from 2016 leaked into a crash dump in April 2021, was moved to a debug environment; an engineer's account was later compromised; a separate flaw caused {{microsoft|Microsoft}} 365 to accept consumer-key-signed tokens for enterprise OWA. The CSRB's April 2024 report called the breach **"preventable"** and Microsoft's security culture **"inadequate."**
+**Storm-0558 (May-July 2023)**: ~25 organisations including US State Dept and Commerce had Outlook Web Access mailboxes read for ~one month after the China-aligned actor forged authentication tokens. {{microsoft|Microsoft}} consumer (MSA) signing key from 2016 leaked into a crash dump in April 2021, was moved to a debug environment; an engineer's account was later compromised; a separate flaw caused {{microsoft|Microsoft}} 365 to accept consumer-key-signed tokens for enterprise OWA. The CSRB's April 2024 report called the breach **"preventable"** and {{microsoft|Microsoft}}'s security culture **"inadequate."**
 
-**Sign-in-with-{{apple|Apple}} {{jwt|JWT}} forgery (May 2020, Bhavuk Jain)**: {{apple|Apple}} would issue valid JWTs for arbitrary email IDs, signed by Apple's key. **Bounty: $100,000.** A single missing check.
+**Sign-in-with-{{apple|Apple}} {{jwt|JWT}} forgery (May 2020, Bhavuk Jain)**: {{apple|Apple}} would issue valid JWTs for arbitrary email IDs, signed by {{apple|Apple}}'s key. **Bounty: $100,000.** A single missing check.
 
 **Booking.com "Pass-The-Token" (2023, {{salt|Salt}} Labs)**: [[oauth2|OAuth]] misconfiguration could have enabled account takeover for any user using "Continue with Facebook" — \`redirect_uri\` path manipulation. Also affected Vidio (~100M MAU), Bukalapak, Grammarly, Expo (CVE-2023-28131), Codecademy.
 
@@ -400,7 +400,7 @@ Before [[oauth2|OAuth]], an app that wanted access to your {{google|Google}} cal
 						{
 							type: 'callout',
 							title: 'Port 25 vs 587 vs 465',
-							text: '**The "everyone gets it wrong" port fact**: Port **25** is MTA-to-MTA relay; **587** is Submission with STARTTLS ([[rfc:6409|RFC 6409]]); **465** is **Submissions** with implicit [[tls|TLS]] (formally restored to that role by [[rfc:8314|RFC 8314]], January 2018). **465 is preferred for new client integrations because STARTTLS is strippable** by an active attacker who can downgrade the connection. The "submission" vs "relay" distinction is what enterprise mail admins burn most of their time on.'
+							text: '**The "everyone gets it wrong" port fact**: Port **25** is MTA-to-MTA relay; **587** is Submission with {{starttls|STARTTLS}} ([[rfc:6409|RFC 6409]]); **465** is **Submissions** with implicit [[tls|TLS]] (formally restored to that role by [[rfc:8314|RFC 8314]], January 2018). **465 is preferred for new client integrations because STARTTLS is strippable** by an active attacker who can downgrade the connection. The "submission" vs "relay" distinction is what enterprise mail admins burn most of their time on.'
 						},
 						{
 							type: 'narrative',
@@ -426,7 +426,7 @@ His "Ten Commandments of How to Write an [[imap|IMAP]] client" still circulates;
 
 **EFAIL (USENIX Security 2018)**: CBC/CFB malleability gadgets in S/MIME and OpenPGP plus HTML/CSS/X.509 backchannels in [[imap|IMAP]]-fetched HTML email exfiltrate decrypted plaintext. **23/35 S/MIME and 10/28 OpenPGP clients vulnerable**; ten CVEs.
 
-**{{microsoft|Microsoft}} 365 basic-auth retirement**: Phased disablement began **1 October 2022** across worldwide multi-tenant Microsoft 365 for EAS, EWS, [[imap|IMAP]], POP, RPS, MAPI/RPC, OAB, Autodiscover. **[[smtp|SMTP]] AUTH basic auth retiring in two phases starting 1 March 2026 with full rejection by 30 April 2026**; default-disable for new tenants in December 2026. **The era of "give me a 16-character password and [[imap|IMAP]] works forever" is over.**
+**{{microsoft|Microsoft}} 365 basic-auth retirement**: Phased disablement began **1 October 2022** across worldwide multi-tenant {{microsoft|Microsoft}} 365 for EAS, EWS, [[imap|IMAP]], POP, RPS, MAPI/RPC, OAB, Autodiscover. **[[smtp|SMTP]] AUTH basic auth retiring in two phases starting 1 March 2026 with full rejection by 30 April 2026**; default-disable for new tenants in December 2026. **The era of "give me a 16-character password and [[imap|IMAP]] works forever" is over.**
 
 **Frontier**: **JMAP** (RFC 8620 / 8621, July/August 2019) by Neil Jenkins and Bron Gondwana (Fastmail) — {{json|JSON}}-over-HTTPS replacement for [[imap|IMAP]]; designed inside Fastmail starting ~2014. **Stalwart Mail Server** (Rust, AGPL, 2023+) reached "feature complete" 2025 with native JMAP plus IMAP4rev1+rev2, POP3, ManageSieve, CalDAV, CardDAV, WebDAV — funded in part by NLnet via EU NGI0 Entrust Fund. **DKIM2** (\`draft-{{ietf|ietf}}-dkim-dkim2-motivation\`, November 2025) responds to the DKIM replay-attack epidemic by adding per-hop signatures with timestamps.`
 						},

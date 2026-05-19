@@ -19,7 +19,7 @@ Every [[soap|SOAP]] message is an {{xml|XML}} Envelope containing an optional {{
 		{
 			title: 'WSDL discovery',
 			description:
-				'Client fetches the {{wsdl|WSDL}} document from the service endpoint (typically at ?{{wsdl|wsdl}}). The WSDL describes all available operations, their input/output message schemas, data types, and the endpoint URL — everything needed to generate client code.'
+				'Client fetches the {{wsdl|WSDL}} document from the service endpoint (typically at ?{{wsdl|wsdl}}). The {{wsdl|WSDL}} describes all available operations, their input/output message schemas, data types, and the endpoint URL — everything needed to generate client code.'
 		},
 		{
 			title: 'Envelope construction',

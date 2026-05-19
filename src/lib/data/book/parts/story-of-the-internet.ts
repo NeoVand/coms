@@ -236,7 +236,7 @@ That is the deepest lesson of the web's success. It was an **application** — a
 
 The 1993 release is the reason there is no {{microsoft|Microsoft}} web, no {{apple|Apple}} web, no IBM web. Within twelve months, **Mosaic** (NCSA, Marc Andreessen + Eric Bina, January 1993) had become the first popular graphical browser. Andreessen co-founded Netscape later that year. {{microsoft|Microsoft}} licensed the Spyglass / Mosaic codebase as the seed of Internet Explorer in 1995. By 1996, the browser wars were under way — but every combatant was building on the public-domain CERN spec.
 
-The architectural lesson the web carried forward: an application that succeeds at internet scale must be **open enough that competitors can implement it**. HTTP succeeded for the same reason [[tcp|TCP]]/[[ip|IP]] succeeded — the spec was public, the reference implementation was free, and anyone could build a compatible {{peer|peer}}. Every walled-garden alternative (Microsoft's MSN, AOL's keywords, Compuserve, even {{apple|Apple}}'s later eWorld) lost to the open web.`
+The architectural lesson the web carried forward: an application that succeeds at internet scale must be **open enough that competitors can implement it**. HTTP succeeded for the same reason [[tcp|TCP]]/[[ip|IP]] succeeded — the spec was public, the reference implementation was free, and anyone could build a compatible {{peer|peer}}. Every walled-garden alternative ({{microsoft|Microsoft}}'s MSN, AOL's keywords, Compuserve, even {{apple|Apple}}'s later eWorld) lost to the open web.`
 						},
 						{
 							type: 'image',

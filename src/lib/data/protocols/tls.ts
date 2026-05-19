@@ -193,7 +193,7 @@ openssl req -x509 -newkey rsa:2048 -nodes \\
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Full_TLS_1.3_Handshake.svg/500px-Full_TLS_1.3_Handshake.svg.png',
 		alt: 'Sequence diagram of the full TLS 1.3 handshake showing ClientHello, ServerHello, certificate exchange, and encrypted data flow',
 		caption:
-			'The [[tls|TLS]] 1.3 {{handshake|handshake}} — reduced from two round trips ([[tls|TLS]] 1.2) to just one. The client sends supported cipher suites and key shares in ClientHello; the server responds with its choices, {{certificate|certificate}}, and finished message — then encrypted data flows immediately.',
+			'The [[tls|TLS]] 1.3 {{handshake|handshake}} — reduced from two round trips ([[tls|TLS]] 1.2) to just one. The client sends supported cipher suites and key shares in {{client-hello|ClientHello}}; the server responds with its choices, {{certificate|certificate}}, and {{tls-finished|finished message}} — then encrypted data flows immediately.',
 		credit: 'Image: Wikimedia Commons / Public Domain'
 	},
 

@@ -10,7 +10,7 @@ export const ipsec: Protocol = {
 	rfc: 'RFC 4301 / 7296',
 	oneLiner:
 		'The {{ietf|IETF}}\'s Layer-3 cryptographic envelope — every site-to-site VPN, every {{3gpp|3GPP}} mobile-core backhaul, every IKEv2 client tunnel on macOS / iOS / Windows / Android runs IPsec.',
-	overview: `[[ipsec|IPsec]] is the {{ietf|IETF}}'s **network-layer** security architecture. Where [[tls|TLS]] wraps a single [[tcp|TCP]] stream and [[ssh|SSH]] wraps a single remote session, [[ipsec|IPsec]] {{encryption|encrypts}} entire [[ip|IP]] {{packet|packets}} — host-to-host, gateway-to-gateway, or both — and is the only mainstream cryptographic protocol that lives *inside* the network stack rather than above it. **{{ah-authentication-header|AH}}** ([[rfc:4302|RFC 4302]]) authenticates the [[ip|IP]] {{header|header}} and {{payload|payload}}; **{{esp|ESP}}** ([[rfc:4303|RFC 4303]], the part everyone actually deploys) encrypts and authenticates payloads using {{aead|AEAD ciphers}} like AES-GCM and ChaCha20-Poly1305. **{{ike|IKEv2}}** ([[rfc:7296|RFC 7296]], the modern key-management protocol, edited across decades by [[pioneer:charlie-kaufman|Charlie Kaufman]] and [[pioneer:tero-kivinen|Tero Kivinen]]) negotiates the {{cipher-suite|cipher suite}} and establishes the {{security-association|Security Associations}} the data plane uses.
+	overview: `[[ipsec|IPsec]] is the {{ietf|IETF}}'s **network-layer** security architecture. Where [[tls|TLS]] wraps a single [[tcp|TCP]] stream and [[ssh|SSH]] wraps a single remote session, [[ipsec|IPsec]] {{encryption|encrypts}} entire [[ip|IP]] {{packet|packets}} — host-to-host, gateway-to-gateway, or both — and is the only mainstream cryptographic protocol that lives *inside* the network stack rather than above it. **{{ah-authentication-header|AH}}** ([[rfc:4302|RFC 4302]]) authenticates the [[ip|IP]] {{header|header}} and {{payload|payload}}; **{{esp|ESP}}** ([[rfc:4303|RFC 4303]], the part everyone actually deploys) encrypts and authenticates payloads using {{aead|AEAD ciphers}} like {{aes-gcm|AES-GCM}} and {{chacha20-poly1305|ChaCha20-Poly1305}}. **{{ike|IKEv2}}** ([[rfc:7296|RFC 7296]], the modern key-management protocol, edited across decades by [[pioneer:charlie-kaufman|Charlie Kaufman]] and [[pioneer:tero-kivinen|Tero Kivinen]]) negotiates the {{cipher-suite|cipher suite}} and establishes the {{security-association|Security Associations}} the data plane uses.
 
 The architecture began in 1995 with [[pioneer:randall-atkinson|Randall Atkinson]] at the U.S. Naval Research Lab (RFC 1825/1826/1827); [[pioneer:phil-karn|Phil Karn]] influenced the design from Qualcomm and was, in parallel, the plaintiff in *Karn v. U.S. State Department* — the export-control case that helped establish "code is speech." [[ipsec|IPsec]] has been re-architected twice ([[rfc:4301|RFC 4301]], 2005) and survived a 2003 architectural critique from Ferguson and Schneier (whose paper concluded it was, despite its complexity, "the best [[ip|IP]] security protocol available at the moment"). It is the **only** widely-deployed VPN that natively carries [[bgp|BGP]] / [[ospf|OSPF]] / {{multicast|multicast}} on tunnel interfaces — the reason {{3gpp|3GPP}} picked it for LTE S1/X2 and 5G N2/N3 backhaul, and the reason every carrier on Earth runs it whether they want to or not.
 
@@ -24,12 +24,12 @@ As of May 2026, [[ipsec|IPsec]] is also the first mainstream VPN with a real, de
 		{
 			title: 'IKE_AUTH — prove identity, authorize the Child SA',
 			description:
-				'Each {{peer|peer}} presents its identity ({{certificate|certificate}}, raw {{public-key|public key}}, PSK, or EAP method) and signs the IKE_SA_INIT messages with it. Traffic Selectors negotiate *which* {{ip-address|IP address ranges}} flow over the {{tunnel|tunnel}}. The first **Child SA** (a one-direction {{esp|ESP}} key) is set up in the same {{exchange|exchange}}.'
+				'Each {{peer|peer}} presents its identity ({{certificate|certificate}}, raw {{public-key|public key}}, PSK, or EAP method) and signs the IKE_SA_INIT messages with it. Traffic Selectors negotiate *which* {{ip-address|IP address ranges}} flow over the {{tunnel|tunnel}}. The first **{{child-sa|Child SA}}** (a one-direction {{esp|ESP}} key) is set up in the same {{exchange|exchange}}.'
 		},
 		{
 			title: 'ESP — encrypt and authenticate every packet',
 			description:
-				"Once the Child SA is up, every outbound [[ip|IP]] {{packet|packet}} matching the Security Policy Database (SPD) is wrapped in an **{{esp|ESP}} {{header|header}}** (32-bit SPI + 32-bit {{sequence-number|sequence number}}), {{aead|AEAD-encrypted}} with the negotiated key, and forwarded. In **tunnel mode** (the default for gateways) the original [[ip|IP]] packet is {{encapsulation|encapsulated}} inside a new outer [[ip|IP]] header. In **transport mode** (host-to-host) the [[ip|IP]] header is preserved and only the {{payload|payload}} is encrypted."
+				"Once the {{child-sa|Child SA}} is up, every outbound [[ip|IP]] {{packet|packet}} matching the Security Policy Database (SPD) is wrapped in an **{{esp|ESP}} {{header|header}}** (32-bit SPI + 32-bit {{sequence-number|sequence number}}), {{aead|AEAD-encrypted}} with the negotiated key, and forwarded. In **tunnel mode** (the default for gateways) the original [[ip|IP]] packet is {{encapsulation|encapsulated}} inside a new outer [[ip|IP]] header. In **transport mode** (host-to-host) the [[ip|IP]] header is preserved and only the {{payload|payload}} is encrypted."
 		},
 		{
 			title: 'Anti-replay window',
@@ -39,7 +39,7 @@ As of May 2026, [[ipsec|IPsec]] is also the first mainstream VPN with a real, de
 		{
 			title: 'Rekey before the SA expires',
 			description:
-				'Each Child SA has a time-and-byte lifetime (default ~8 hours / ~100 GB). Before either limit is hit, peers run **CREATE_CHILD_SA** to derive a fresh key from the IKE SA — usually invisible. The IKE SA itself rekeys with **IKE_SA_REKEY**; every 24 hours is a common production policy.'
+				'Each {{child-sa|Child SA}} has a time-and-byte lifetime (default ~8 hours / ~100 GB). Before either limit is hit, peers run **CREATE_CHILD_SA** to derive a fresh key from the {{ike-sa|IKE SA}} — usually invisible. The IKE SA itself rekeys with **IKE_SA_REKEY**; every 24 hours is a common production policy.'
 		},
 		{
 			title: 'NAT-T, MOBIKE, MOBIKE-X — survive the real internet',
@@ -319,7 +319,7 @@ Payloads:
 		},
 		{
 			title: 'The NSA exploit and the working group meet in the same building',
-			text: 'The Shadow Brokers leak (August 2016) revealed BENIGNCERTAIN — an NSA exploit that extracted {{cisco|Cisco}} PIX VPN private keys from IKEv1 (CVE-2016-6415). The [[ipsec|IPSECME]] working group routinely seats {{cisco|Cisco}}, {{microsoft|Microsoft}}, AWS, and NSA Cybersecurity Directorate engineers at the same table. [[rfc:8784|RFC 8784]] (PQ-PPK) is co-authored by Cisco, AWS, and ELVIS-PLUS engineers — [[ipsec|IPsec]] has always been multi-government.'
+			text: 'The Shadow Brokers leak (August 2016) revealed BENIGNCERTAIN — an NSA exploit that extracted {{cisco|Cisco}} PIX VPN private keys from IKEv1 (CVE-2016-6415). The [[ipsec|IPSECME]] working group routinely seats {{cisco|Cisco}}, {{microsoft|Microsoft}}, AWS, and NSA Cybersecurity Directorate engineers at the same table. [[rfc:8784|RFC 8784]] (PQ-PPK) is co-authored by {{cisco|Cisco}}, AWS, and ELVIS-PLUS engineers — [[ipsec|IPsec]] has always been multi-government.'
 		},
 		{
 			title: 'WireGuard is ~4,000 lines; the IPsec stack is six digits',
@@ -339,7 +339,7 @@ Payloads:
 			},
 			{
 				title: 'Roadwarriors die on Wi-Fi → LTE handoff without MOBIKE',
-				text: 'A roadwarrior session that comes up on hotel Wi-Fi will tear down the moment the laptop switches to LTE — the IKE SA is bound to the source `ip:port` and reconnects from scratch. **Cure:** enable **MOBIKE** ([[rfc:4555|RFC 4555]]) on both ends (`mobike=yes` in strongSwan). The session migrates seamlessly to the new {{ip-address|address}} without re-authenticating. Built into {{apple|Apple}}\'s native client; opt-in on strongSwan/Libreswan.'
+				text: 'A roadwarrior session that comes up on hotel Wi-Fi will tear down the moment the laptop switches to LTE — the {{ike-sa|IKE SA}} is bound to the source `ip:port` and reconnects from scratch. **Cure:** enable **MOBIKE** ([[rfc:4555|RFC 4555]]) on both ends (`mobike=yes` in strongSwan). The session migrates seamlessly to the new {{ip-address|address}} without re-authenticating. Built into {{apple|Apple}}\'s native client; opt-in on strongSwan/Libreswan.'
 			}
 		]
 	}

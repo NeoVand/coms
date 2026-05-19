@@ -88,8 +88,8 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     participant C as Client
     participant S as Server
     Note over C,S: Combined transport + [[tls|TLS]] in one {{handshake|handshake}}
-    C->>S: Initial (ClientHello + crypto)
-    S->>C: Initial (ServerHello + crypto)
+    C->>S: Initial ({{client-hello|ClientHello}} + crypto)
+    S->>C: Initial ({{server-hello|ServerHello}} + crypto)
     S->>C: {{handshake|Handshake}} ({{certificate|certificate}} + finished)
     C->>S: {{handshake|Handshake}} finished
     Note over C,S: 1 RTT — data can flow
@@ -584,7 +584,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     participant S as Server A
     participant R as Server B
     C->>S: [[tcp|TCP]] connect + XML stream open
-    S->>C: Stream features (STARTTLS, SASL)
+    S->>C: Stream features ({{starttls|STARTTLS}}, SASL)
     C->>S: STARTTLS → [[tls|TLS]] negotiation
     C->>S: SASL auth (SCRAM-SHA-1)
     S->>C: Auth success
@@ -625,7 +625,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     Note over B: {{consumer-group|Consumer group}} tracks position
     C->>B: Fetch ({{offset|offset}}=43)
     B->>C: Records (offsets 43–50)
-    Note over P,C: Log is immutable — consumers replay at any offset`,
+    Note over P,C: Log is immutable — consumers replay at any {{offset|offset}}`,
 		caption:
 			'**[[kafka|Kafka]]** = a distributed **append-only log**. Producers append; consumers read by **{{offset|offset}}** at their own pace. Multi-day retention means anyone can replay history. The backbone of modern event streaming (Apache [[kafka|Kafka]]).',
 		steps: {
@@ -736,7 +736,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     participant S as Server (CDN)
     participant P as Player
     Note over S: Pre-encoded: 1080p, 720p, 360p segments
-    P->>S: GET master.m3u8 (manifest)
+    P->>S: GET master.m3u8 ({{manifest|manifest}})
     S->>P: Playlist with quality variants
     P->>S: GET 1080p/segment_001.ts
     S->>P: Segment data
@@ -823,7 +823,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
 		definition: `sequenceDiagram
     participant S as Server (CDN)
     participant P as Player
-    P->>S: GET manifest.mpd
+    P->>S: GET {{manifest|manifest}}.mpd
     S->>P: MPD (XML: periods, adaptations, representations)
     Note over P: Parse quality levels (1080p, 720p, 360p)
     P->>S: GET segment_001.m4s (1080p)
@@ -885,8 +885,8 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     participant C as Client
     participant S as Server
     Note over C,S: [[tls|TLS]] 1.3 — one round trip
-    C->>S: ClientHello (ciphers, key share)
-    S->>C: ServerHello (chosen cipher, key share)
+    C->>S: {{client-hello|ClientHello}} (ciphers, key share)
+    S->>C: {{server-hello|ServerHello}} (chosen cipher, key share)
     S->>C: {{certificate|Certificate}} + CertificateVerify
     S->>C: Finished
     C->>S: Finished
@@ -987,7 +987,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     participant C as Mail Client
     participant S as Sender MTA
     participant R as Recipient MTA
-    C->>S: EHLO + STARTTLS
+    C->>S: {{ehlo|EHLO}} + {{starttls|STARTTLS}}
     S->>C: 250 OK (capabilities)
     C->>S: MAIL FROM + RCPT TO + DATA
     S->>C: 250 OK — queued for delivery
@@ -1453,11 +1453,11 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     Note right of I: type=1, ephemeral pub,<br/>encrypted static, TAI64N,<br/>MAC1 + MAC2
     R->>I: {{handshake|Handshake}} Response (92 B)
     Note left of R: type=2, ephemeral pub,<br/>encrypted empty, MAC1 + MAC2
-    Note over I,R: Both sides derive ChaCha20-Poly1305 keys;<br/>ephemeral state wiped
+    Note over I,R: Both sides derive {{chacha20-poly1305|ChaCha20-Poly1305}} keys;<br/>ephemeral state wiped
     I-->>R: Transport Data (type=4, encrypted IP packet)
     R-->>I: Transport Data (type=4, encrypted IP packet)
     Note over I,R: Every 120 s — REKEY_AFTER_TIME
-    I->>R: Handshake Initiation (new ephemeral)
+    I->>R: {{handshake|Handshake}} Initiation (new ephemeral)
     R->>I: Handshake Response
     Note over I,R: Fresh keys; old session wiped at REJECT_AFTER_TIME (180 s)`,
 		caption:
@@ -1477,17 +1477,17 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
 		definition: `sequenceDiagram
     participant I as Initiator (HQ Gateway)
     participant R as Responder (Branch Gateway)
-    Note over I,R: IKE_SA_INIT — establish IKE SA
+    Note over I,R: IKE_SA_INIT — establish {{ike-sa|IKE SA}}
     I->>R: HDR, SAi1 (proposals), KEi ({{ml-kem|ML-KEM}} + ECDH), Ni, NAT_DETECTION_*
     R->>I: HDR, SAr1 (chosen), KEr, Nr, NAT_DETECTION_*, CERT_REQ
     Note over I,R: IKE_INTERMEDIATE — transfer large PQ keys ([[rfc:9242|RFC 9242]])
     I->>R: HDR(IKE-encrypted), KE_ADDITIONAL (FrodoKEM, optional)
     R->>I: HDR(IKE-encrypted), KE_ADDITIONAL response
-    Note over I,R: IKE_AUTH — identity + first Child SA
+    Note over I,R: IKE_AUTH — identity + first {{child-sa|Child SA}}
     I->>R: HDR(IKE-encrypted), IDi, CERT, AUTH, SAi2, TSi, TSr, CP(req)
     R->>I: HDR(IKE-encrypted), IDr, CERT, AUTH, SAr2, TSi, TSr, CP(reply)
     Note over I,R: Child SA up — ESP starts flowing
-    I-->>R: ESP (SPI=0xC0FFEE, seq=1, AES-GCM {{payload|payload}})
+    I-->>R: ESP (SPI=0xC0FFEE, seq=1, {{aes-gcm|AES-GCM}} {{payload|payload}})
     R-->>I: ESP (SPI=0xDEADBEEF, seq=1, AES-GCM {{payload|payload}})
     Note over I,R: CREATE_CHILD_SA — rekey before lifetime
     I->>R: HDR(IKE-encrypted), N(REKEY_SA), SA, Nonces, KE (PFS)
@@ -1590,7 +1590,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     SG->>B: Forward to Bob
     Note over A,B: ICE checks — probe every candidate pair
     A->>B: {{stun|STUN}} Binding (short-term creds, PRIORITY)
-    B->>A: STUN Binding Response
+    B->>A: {{stun|STUN}} Binding Response
     A->>B: USE-CANDIDATE on winning pair
     Note over A,B: Media flows on the chosen pair
     A-->>B: {{srtp|SRTP}} media (every ~15s: consent-freshness ping)`,

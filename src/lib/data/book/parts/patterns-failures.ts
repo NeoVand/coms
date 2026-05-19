@@ -41,7 +41,7 @@ The point of this chapter is to enumerate those patterns, name them, and note wh
 						{
 							type: 'narrative',
 							title: 'Handshakes — Establishing Mutual State',
-							text: `**Handshakes** establish state on both sides. SYN/SYN-{{ack|ACK}}/{{ack|ACK}} in [[tcp|TCP]]; ClientHello/ServerHello/Finished in [[tls|TLS]] 1.2 (RFC 5246) and the streamlined {{one-rtt|1-RTT}} {{handshake|handshake}} in [[tls|TLS]] 1.3 ([[rfc:8446|RFC 8446]], 2018); CONNECT/CONNACK in [[mqtt|MQTT]] 5; the [[sctp|SCTP]] four-way {{handshake|handshake}} (INIT, INIT-{{ack|ACK}}, {{cookie|COOKIE}}-ECHO, {{cookie|COOKIE}}-{{ack|ACK}}).
+							text: `**Handshakes** establish state on both sides. SYN/SYN-{{ack|ACK}}/{{ack|ACK}} in [[tcp|TCP]]; {{client-hello|ClientHello}}/{{server-hello|ServerHello}}/Finished in [[tls|TLS]] 1.2 (RFC 5246) and the streamlined {{one-rtt|1-RTT}} {{handshake|handshake}} in [[tls|TLS]] 1.3 ([[rfc:8446|RFC 8446]], 2018); CONNECT/CONNACK in [[mqtt|MQTT]] 5; the [[sctp|SCTP]] four-way {{handshake|handshake}} (INIT, INIT-{{ack|ACK}}, {{cookie|COOKIE}}-ECHO, {{cookie|COOKIE}}-{{ack|ACK}}).
 
 The shape is always the same: party A proposes, party B confirms with its own proposal, party A acknowledges. The number of round-trips defines the connection setup {{latency|latency}}, and shrinking it is one of the recurring optimisations in protocol design. [[tls|TLS]] 1.3 went from two round-trips ([[tls|TLS]] 1.2) to one. [[quic|QUIC]] went from three round-trips for [[tcp|TCP]]+[[tls|TLS]] down to one — and to **zero** for resumption (sending application data in the very first packet, encrypted under a previously-established key).
 
@@ -77,7 +77,7 @@ Modern protocols inherit the same idea. [[quic|QUIC]] has per-stream and per-con
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/TCP_Three-Way_Handshake.svg/500px-TCP_Three-Way_Handshake.svg.png',
 							alt: 'TCP three-way handshake — SYN, SYN-ACK, ACK between client and server.',
 							caption:
-								'The canonical **{{handshake|handshake}}**: [[tcp|TCP]]\'s **SYN → SYN-ACK → ACK** dance from [[rfc:9293|RFC 793]] in 1981. Every other {{handshake|handshake}} in this book — [[tls|TLS]] ClientHello/ServerHello/Finished, [[ssh|SSH]] KEX, [[mqtt|MQTT]] CONNECT/CONNACK, [[sctp|SCTP]]\'s four-way {{cookie|Cookie}} {{exchange|exchange}} — is a variation on this shape. Recognise the pattern once; recognise it in every other protocol you ever read.',
+								'The canonical **{{handshake|handshake}}**: [[tcp|TCP]]\'s **SYN → SYN-ACK → ACK** dance from [[rfc:9293|RFC 793]] in 1981. Every other {{handshake|handshake}} in this book — [[tls|TLS]] {{client-hello|ClientHello}}/{{server-hello|ServerHello}}/Finished, [[ssh|SSH]] KEX, [[mqtt|MQTT]] CONNECT/CONNACK, [[sctp|SCTP]]\'s four-way {{cookie|Cookie}} {{exchange|exchange}} — is a variation on this shape. Recognise the pattern once; recognise it in every other protocol you ever read.',
 							credit: 'Image: Wikimedia Commons / public domain'
 						}
 					]
@@ -203,7 +203,7 @@ This worked when the internet was small. By 1986, with the NSFNET backbone scali
 
 **Vegas (1995)** — proactive instead of reactive: monitor {{rtt|RTT}} directly, slow down when {{rtt|RTT}} starts climbing (signalling congestion before loss). Brilliant in a homogeneous network, terrible mixed with Reno (it always loses to a more aggressive flow). Never widely deployed.
 
-**[[rfc:9438|CUBIC]] (2008, deployed in {{linux|Linux}} 2.6, Standards Track in [[rfc:9438|RFC 9438]] in August 2023)** — replaces linear additive-increase with a {{cubic|cubic}} function of time since the last loss. Recovers throughput much faster on long fat pipes (gigabit transcontinental, etc.). Default in Linux, Windows, and macOS for over a decade.
+**[[rfc:9438|CUBIC]] (2008, deployed in {{linux|Linux}} 2.6, Standards Track in [[rfc:9438|RFC 9438]] in August 2023)** — replaces linear additive-increase with a {{cubic|cubic}} function of time since the last loss. Recovers throughput much faster on long fat pipes (gigabit transcontinental, etc.). Default in {{linux|Linux}}, Windows, and macOS for over a decade.
 
 **Compound ({{microsoft|Microsoft}}, 2007)** — combined loss-based and delay-based components. Used in Windows. Withdrawn in newer versions.`
 						},

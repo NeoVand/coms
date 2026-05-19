@@ -268,7 +268,7 @@ Each RR's CLASS field:
 			org: 'Apple (mDNSResponder)',
 			scale: '>2 billion active devices',
 			description:
-				"{{apple|Apple}}'s reference implementation, written in C, Apache 2.0-licensed at `opensource.{{apple|apple}}.com/source/mDNSResponder/`. Built into every macOS, iOS, iPadOS, tvOS, watchOS, visionOS device shipped since 2002. Apple's January 2024 earnings call disclosed >2 billion active devices — every one runs mDNSResponder by default."
+				"{{apple|Apple}}'s reference implementation, written in C, Apache 2.0-licensed at `opensource.{{apple|apple}}.com/source/mDNSResponder/`. Built into every macOS, iOS, iPadOS, tvOS, watchOS, visionOS device shipped since 2002. {{apple|Apple}}'s January 2024 earnings call disclosed >2 billion active devices — every one runs mDNSResponder by default."
 		},
 		{
 			org: 'Avahi',

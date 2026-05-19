@@ -19,7 +19,7 @@ The key insight is combining the transport {{handshake|handshake}} with the [[tl
 		{
 			title: 'Initial handshake (1 RTT)',
 			description:
-				'Client sends a [[quic|QUIC]] Initial packet containing a [[tls|TLS]] ClientHello. Server responds with its Initial + {{handshake|Handshake}} packets. Connection is established in a single round trip with {{encryption|encryption}} from the start.'
+				'Client sends a [[quic|QUIC]] Initial packet containing a [[tls|TLS]] {{client-hello|ClientHello}}. Server responds with its Initial + {{handshake|Handshake}} packets. Connection is established in a single round trip with {{encryption|encryption}} from the start.'
 		},
 		{
 			title: '0-RTT resumption',

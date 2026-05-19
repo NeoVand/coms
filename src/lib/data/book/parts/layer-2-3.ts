@@ -316,7 +316,7 @@ It then took **twenty-eight years** to reach 50% adoption. The reason is not tec
 						{
 							type: 'narrative',
 							title: 'The 50.1% Crossing — And Why It Inflected',
-							text: `**On 28 March 2026, {{google|Google}}\'s [[ipv6|IPv6]] dashboard recorded 50.1% for the first time** — [[ipv6|IPv6]] briefly surpassed [[ip|IPv4]] in {{google|Google}}'s measured user base. APNIC Labs and {{cloudflare|Cloudflare}} Radar still place global [[ipv6|IPv6]] capability in the **40-43%** range; the 50% number is a Google-specific snapshot. But it is a milestone the community has been waiting for since 1995.
+							text: `**On 28 March 2026, {{google|Google}}\'s [[ipv6|IPv6]] dashboard recorded 50.1% for the first time** — [[ipv6|IPv6]] briefly surpassed [[ip|IPv4]] in {{google|Google}}'s measured user base. APNIC Labs and {{cloudflare|Cloudflare}} Radar still place global [[ipv6|IPv6]] capability in the **40-43%** range; the 50% number is a {{google|Google}}-specific snapshot. But it is a milestone the community has been waiting for since 1995.
 
 Adoption inflected when **mobile carriers** went [[ipv6|IPv6]]-mostly for cellular subscribers. **T-Mobile US** moved its mobile core to [[ipv6|IPv6]]-only with {{four-six-four-xlat|464XLAT}} (Cameron Byrne, NANOG 61, 2014) — the production case study that defined the pattern. **Reliance Jio (India)** launched [[ipv6|IPv6]]-first in 2016 — >237M [[ipv6|IPv6]] users by 2017 — single biggest reason India's [[ipv6|IPv6]] share now runs 67-80%. **{{meta|Meta}}** runs >99% of internal datacenter traffic over [[ipv6|IPv6]]; entire new clusters are [[ipv6|IPv6]]-only. {{meta|Meta}} says **internal [[ipv6|IPv6]] is 10-15% faster than [[ip|IPv4]]** (and on one carrier mobile measurement, 40% faster).
 
@@ -335,7 +335,7 @@ The 2024 {{ietf|IETF}} backlog tells the story of where [[ipv6|IPv6]] work is ha
 
 **Frontier**: SoftBank (Dec 2025) announced the world's first commercial 5G deployment using **SRv6 MUP**; {{microsoft|Microsoft}} Azure Fairwater (OCP 2025) uses **SRv6 as fabric** for what {{microsoft|Microsoft}} calls the largest AI back-end network in the world.
 
-**Apple iCloud Private Relay** (Oct 2021+) prefers [[ipv6|IPv6]] egress when AAAA exists; pure [[ip|IPv4]]-only enterprise networks frequently break Private Relay — its own forcing function for [[ipv6|IPv6]] deployment in enterprises that want Apple-device compatibility.`
+**{{apple|Apple}} iCloud Private Relay** (Oct 2021+) prefers [[ipv6|IPv6]] egress when AAAA exists; pure [[ip|IPv4]]-only enterprise networks frequently break Private Relay — its own forcing function for [[ipv6|IPv6]] deployment in enterprises that want Apple-device compatibility.`
 						},
 						{
 							type: 'image',

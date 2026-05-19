@@ -29,7 +29,7 @@ The crypto choices are a victory lap for the Daniel J. Bernstein stack — **Cur
 		{
 			title: 'Handshake Response (92 bytes, type=2)',
 			description:
-				'Responder sends its own ephemeral pubkey, finishing the four-{{diffie-hellman|DH}} **Noise_IK** pattern (plus optional PSK mix). At the end of these two messages both sides hold matching ChaCha20-Poly1305 sending and receiving keys; all ephemeral state is wiped.'
+				'Responder sends its own ephemeral pubkey, finishing the four-{{diffie-hellman|DH}} **Noise_IK** pattern (plus optional PSK mix). At the end of these two messages both sides hold matching {{chacha20-poly1305|ChaCha20-Poly1305}} sending and receiving keys; all ephemeral state is wiped.'
 		},
 		{
 			title: 'Cryptokey routing',
@@ -286,7 +286,7 @@ Around 4% data inflation for typical 1400-byte inner packets.`
 			org: 'Cloudflare WARP',
 			scale: '>50 million daily active clients',
 			description:
-				"{{cloudflare|Cloudflare}}'s consumer VPN (1.1.1.1 + WARP app) runs on **BoringTun**, {{cloudflare|Cloudflare}}'s pure-Rust WireGuard implementation (released 2019). Routes user traffic over WireGuard to Cloudflare's edge for security and (with WARP+) {{latency|latency}} improvements. The single largest WireGuard deployment by user count."
+				"{{cloudflare|Cloudflare}}'s consumer VPN (1.1.1.1 + WARP app) runs on **BoringTun**, {{cloudflare|Cloudflare}}'s pure-Rust WireGuard implementation (released 2019). Routes user traffic over WireGuard to {{cloudflare|Cloudflare}}'s edge for security and (with WARP+) {{latency|latency}} improvements. The single largest WireGuard deployment by user count."
 		},
 		{
 			org: 'Tailscale',
@@ -331,7 +331,7 @@ Around 4% data inflation for typical 1400-byte inner packets.`
 		pitfalls: [
 			{
 				title: 'AllowedIPs is your routing table AND your ACL',
-				text: 'A single `AllowedIPs` field on each {{peer|peer}} does two jobs: outbound it picks which {{peer|peer}} to send packets through for a given destination prefix, and inbound it filters which inner source IPs the {{peer|peer}} is allowed to send. Forgetting this is the most common config bug. **Cure:** when a peer is supposed to be a "remote {{subnet|subnet}}", put the {{subnet|subnet}} in `AllowedIPs`. When a peer is supposed to be a "single roadwarrior", put just its `/32`. When a peer is "default route everything", use `0.0.0.0/0, ::/0` — and add `PostUp` rules for masquerading.'
+				text: 'A single `AllowedIPs` field on each {{peer|peer}} does two jobs: outbound it picks which {{peer|peer}} to send packets through for a given destination prefix, and inbound it filters which inner source IPs the {{peer|peer}} is allowed to send. Forgetting this is the most common config bug. **Cure:** when a {{peer|peer}} is supposed to be a "remote {{subnet|subnet}}", put the {{subnet|subnet}} in `AllowedIPs`. When a peer is supposed to be a "single roadwarrior", put just its `/32`. When a peer is "default route everything", use `0.0.0.0/0, ::/0` — and add `PostUp` rules for masquerading.'
 		},
 			{
 				title: 'No dynamic IPs out of the box',

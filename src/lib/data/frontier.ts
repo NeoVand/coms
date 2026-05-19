@@ -101,14 +101,14 @@ The economics that finally tipped it: AWS started charging $0.005/hour per publi
 		id: 'bbrv3-default',
 		title: 'BBRv3 Default for Google + YouTube',
 		oneLiner:
-			"{{google|Google}}'s model-based {{congestion-control|congestion control}} replaced {{cubic|CUBIC}} for {{google|google}}.com and YouTube traffic from 2023 — and is the default on Google Cloud.",
+			"{{google|Google}}'s model-based {{congestion-control|congestion control}} replaced {{cubic|CUBIC}} for {{google|google}}.com and YouTube traffic from 2023 — and is the default on {{google|Google}} Cloud.",
 		topic: 'transport',
 		status: 'shipped',
 		date: '2023 (default through 2024-2025)',
 		protocols: ['tcp', 'quic'],
 		description: `{{bbr|BBR}} (Bottleneck {{bandwidth|Bandwidth}} and Round-trip propagation time) is {{google|Google}}'s {{congestion-control|congestion control}} that abandons loss as the primary signal and instead models the path's bottleneck {{bandwidth|bandwidth}} and {{rtt|RTT}}. Cardwell, Cheng, Gunn, Yeganeh, and Jacobson published it at ACM Queue in 2016 (CACM Feb 2017). BBRv1's gain over {{cubic|CUBIC}} was ~4% globally on YouTube, more than 14% in some countries, and a 33% reduction in median {{rtt|RTT}}.
 
-{{bbrv3|BBRv3}} is now \`draft-{{ietf|ietf}}-ccwg-bbr\` inside the {{ietf|IETF}}'s {{congestion-control|Congestion Control}} Working Group. {{google|Google}} has been running it as the default for google.com and YouTube traffic since 2023. The draft (-04 / -05 in 2025-2026) refines the {{bandwidth|bandwidth}} probing, packet conservation, and convergence properties that earlier {{bbr|BBR}} versions had open issues with. Available in {{linux|Linux}} via \`sysctl net.ipv4.tcp_congestion_control=bbr\` (paired with the FQ qdisc, which {{bbr|BBR}} {{pacing|pacing}} requires).`,
+{{bbrv3|BBRv3}} is now \`draft-{{ietf|ietf}}-ccwg-bbr\` inside the {{ietf|IETF}}'s {{congestion-control|Congestion Control}} Working Group. {{google|Google}} has been running it as the default for {{google|google}}.com and YouTube traffic since 2023. The draft (-04 / -05 in 2025-2026) refines the {{bandwidth|bandwidth}} probing, packet conservation, and convergence properties that earlier {{bbr|BBR}} versions had open issues with. Available in {{linux|Linux}} via \`sysctl net.ipv4.tcp_congestion_control=bbr\` (paired with the FQ qdisc, which {{bbr|BBR}} {{pacing|pacing}} requires).`,
 		metrics: [
 			{ label: 'Google YouTube throughput gain (BBRv1)', value: '+4%', date: '2017' },
 			{ label: 'Google median RTT reduction', value: '−33%', date: '2017' }
@@ -139,12 +139,12 @@ The mechanism: cooperating senders mark packets {{ecn|ECN}}-Capable; routers run
 		id: 'ech-rfc-9849',
 		title: 'Encrypted Client Hello Published as RFC 9849',
 		oneLiner:
-			'[[tls|TLS]] 1.3 ClientHello — including the {{sni|SNI}} — is finally encrypted; {{cloudflare|Cloudflare}} deploys {{ech|ECH}} for ~70% of fronted sites.',
+			'[[tls|TLS]] 1.3 {{client-hello|ClientHello}} — including the {{sni|SNI}} — is finally encrypted; {{cloudflare|Cloudflare}} deploys {{ech|ECH}} for ~70% of fronted sites.',
 		topic: 'security',
 		status: 'shipped',
 		date: '2025',
 		protocols: ['tls'],
-		description: `{{ech|ECH}} ({{ech|Encrypted Client Hello}}) hides the {{sni|SNI}} and other ClientHello fields that previously let middleboxes and ISPs see which site you were visiting. Specified through 25 {{ietf|IETF}} drafts and finally published as [[rfc:9849|RFC 9849]] in 2025.
+		description: `{{ech|ECH}} ({{ech|Encrypted Client Hello}}) hides the {{sni|SNI}} and other {{client-hello|ClientHello}} fields that previously let middleboxes and ISPs see which site you were visiting. Specified through 25 {{ietf|IETF}} drafts and finally published as [[rfc:9849|RFC 9849]] in 2025.
 
 {{cloudflare|Cloudflare}} deploys {{ech|ECH}} for ~70% of websites it fronts; Chrome and Firefox both support it. The architecture: the server publishes an ECHConfig in [[dns|DNS]] (HTTPS RR); the client encrypts the inner ClientHello to that key and wraps it in an outer ClientHello that uses a generic "{{cloudflare|cloudflare}}-ech.com" {{sni|SNI}}. From the network's perspective, every fronted site looks the same.`,
 		sources: [

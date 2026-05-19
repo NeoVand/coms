@@ -292,7 +292,7 @@ Continuous Precision Finding refreshes at ~10 Hz on Apple silicon.`
 			date: '2023-09',
 			title: 'Apple U2 chip ships in iPhone 15 — 1.5× longer Precision Finding range',
 			description:
-				"{{apple|Apple}} introduced the **U2 ultra-wideband chip** alongside the iPhone 15 family on **12 September 2023**. 7 nm (vs U1's 16 nm), internal codename T2024, part number 339M00298. **1.5× longer Precision Finding range** vs the U1. The U2 also shipped in {{apple|Apple}} Watch Series 9 / Watch Ultra 2 — the first time an Apple Watch could itself act as a UWB initiator for Precision Finding. AirTag 2 (January 2026) carries the U2 alongside the anti-stalking hardware updates.",
+				"{{apple|Apple}} introduced the **U2 ultra-wideband chip** alongside the iPhone 15 family on **12 September 2023**. 7 nm (vs U1's 16 nm), internal codename T2024, part number 339M00298. **1.5× longer Precision Finding range** vs the U1. The U2 also shipped in {{apple|Apple}} Watch Series 9 / Watch Ultra 2 — the first time an {{apple|Apple}} Watch could itself act as a UWB initiator for Precision Finding. AirTag 2 (January 2026) carries the U2 alongside the anti-stalking hardware updates.",
 			source: {
 				url: 'https://www.apple.com/newsroom/2023/09/apple-debuts-iphone-15-and-iphone-15-plus/',
 				label: 'Apple newsroom: iPhone 15 launch'
@@ -342,7 +342,7 @@ Continuous Precision Finding refreshes at ~10 Hz on Apple silicon.`
 			date: '2026-02',
 			title: 'Aliro 1.0 finalised — "Matter for door locks" with UWB',
 			description:
-				"On **26 February 2026** the CSA published **{{aliro|Aliro 1.0}}**, a PKI-based access-control credential standard with **[[nfc|NFC]] (tap) + BLE (proximity) + BLE+UWB (ranged, hands-free)** as its three transports. ECDSA mutual authentication; credentials provisioned into {{apple|Apple}}, {{google|Google}}, and Samsung wallets. First products: **Aqara U400** (first smart lock with UWB; {{aliro|Aliro}} coming via firmware update) and **Kwikset Halo Select Plus**. Launch partners include {{apple|Apple}}, {{google|Google}}, Samsung, ASSA ABLOY, NXP, Infineon, STMicroelectronics, Silicon Labs, Nordic Semiconductor, plus smart-lock makers Schlage, Avia, Nuki, Xthings. {{aliro|Aliro}} generalises the Apple Home Key UX across Android — the most consequential UWB-related deployment of 2026.",
+				"On **26 February 2026** the CSA published **{{aliro|Aliro 1.0}}**, a PKI-based access-control credential standard with **[[nfc|NFC]] (tap) + BLE (proximity) + BLE+UWB (ranged, hands-free)** as its three transports. ECDSA mutual authentication; credentials provisioned into {{apple|Apple}}, {{google|Google}}, and Samsung wallets. First products: **Aqara U400** (first smart lock with UWB; {{aliro|Aliro}} coming via firmware update) and **Kwikset Halo Select Plus**. Launch partners include {{apple|Apple}}, {{google|Google}}, Samsung, ASSA ABLOY, NXP, Infineon, STMicroelectronics, Silicon Labs, Nordic Semiconductor, plus smart-lock makers Schlage, Avia, Nuki, Xthings. {{aliro|Aliro}} generalises the {{apple|Apple}} Home Key UX across Android — the most consequential UWB-related deployment of 2026.",
 			source: {
 				url: 'https://csa-iot.org/all-solutions/aliro/',
 				label: 'CSA: Aliro 1.0'
@@ -355,7 +355,7 @@ Continuous Precision Finding refreshes at ~10 Hz on Apple silicon.`
 			org: 'Apple AirTag',
 			scale: 'Tens of millions of units annually 2022–2025 (Apple does not publish official figures)',
 			description:
-				"Launched **30 April 2021** at $29 single / $99 four-pack. BLE for the Find My network ping + U1 UWB for the cm-class Precision Finding when you are within ~5 m. The Find My network of approaching ~1 billion participating {{apple|Apple}} devices is the world's largest crowdsourced locator. AirTag is, per {{apple|Apple}}'s own marketing, the best-selling item tracker on Earth. The second-generation AirTag shipped **January 2026** with U2, 1.5× longer Precision Finding range, a louder and harder-to-remove speaker (hardware anti-stalking), and Apple Watch Series 9+ Precision Finding support."
+				"Launched **30 April 2021** at $29 single / $99 four-pack. BLE for the Find My network ping + U1 UWB for the cm-class Precision Finding when you are within ~5 m. The Find My network of approaching ~1 billion participating {{apple|Apple}} devices is the world's largest crowdsourced locator. AirTag is, per {{apple|Apple}}'s own marketing, the best-selling item tracker on Earth. The second-generation AirTag shipped **January 2026** with U2, 1.5× longer Precision Finding range, a louder and harder-to-remove speaker (hardware anti-stalking), and {{apple|Apple}} Watch Series 9+ Precision Finding support."
 		},
 		{
 			org: 'BMW Digital Key Plus',
@@ -406,7 +406,7 @@ Continuous Precision Finding refreshes at ~10 Hz on Apple silicon.`
 		},
 		{
 			title: 'The "U" in Apple\'s U1 / U2 stands for Ultra-Wideband',
-			text: "{{apple|Apple}}'s silicon naming convention runs by family letter — **A**-series application processor, **M**-series Mac, **W**-series wireless, **H**-series headphone, **T**-series secure enclave/T2, **S**-series watch SiP, **R**-series Vision Pro. **U1** (shipped iPhone 11, September 2019) was the first {{apple|Apple}}-designed UWB chip. **U2** (announced 12 September 2023, internal codename T2024, part number 339M00298) moved from 16 nm to 7 nm and was the first Apple silicon other than the A/M-series to receive its own keynote slide."
+			text: "{{apple|Apple}}'s silicon naming convention runs by family letter — **A**-series application processor, **M**-series Mac, **W**-series wireless, **H**-series headphone, **T**-series secure enclave/T2, **S**-series watch SiP, **R**-series Vision Pro. **U1** (shipped iPhone 11, September 2019) was the first {{apple|Apple}}-designed UWB chip. **U2** (announced 12 September 2023, internal codename T2024, part number 339M00298) moved from 16 nm to 7 nm and was the first {{apple|Apple}} silicon other than the A/M-series to receive its own keynote slide."
 		},
 		{
 			title: 'AirTag spawned its own pop-culture genre on Twitter / X',

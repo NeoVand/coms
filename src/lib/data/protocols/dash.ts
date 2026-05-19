@@ -10,11 +10,11 @@ export const dash: Protocol = {
 	rfc: 'ISO 23009-1',
 	oneLiner:
 		'The open standard for adaptive video streaming — MPEG-[[dash|DASH]] powers Netflix, YouTube, and the open web.',
-	overview: `MPEG-[[dash|DASH]] is the vendor-neutral answer to {{apple|Apple}}'s proprietary [[hls|HLS]]. Ratified as an ISO standard in 2012, [[dash|DASH]] uses the same fundamental approach — chop video into segments, serve them over plain [[http1|HTTP]], and let the client adapt quality based on {{bandwidth|bandwidth}} — but with an open, extensible {{xml|XML}} manifest format called the Media Presentation Description (MPD).
+	overview: `MPEG-[[dash|DASH]] is the vendor-neutral answer to {{apple|Apple}}'s proprietary [[hls|HLS]]. Ratified as an ISO standard in 2012, [[dash|DASH]] uses the same fundamental approach — chop video into segments, serve them over plain [[http1|HTTP]], and let the client adapt quality based on {{bandwidth|bandwidth}} — but with an open, extensible {{xml|XML}} {{manifest|manifest}} format called the Media Presentation Description (MPD).
 
 Where [[hls|HLS]] uses {{apple|Apple}}'s M3U8 playlists, [[dash|DASH]] uses MPD files with a rich hierarchy: Periods (time spans), Adaptation Sets (different languages or camera angles), Representations (quality levels), and Segments (the actual media chunks). This gives [[dash|DASH]] more flexibility for complex use cases like ad insertion, multiple audio tracks, and subtitle streams.
 
-Netflix, YouTube, Disney+, and most major streaming services use [[dash|DASH]] (often alongside [[hls|HLS]] for Apple compatibility). The protocol supports both on-demand and live {{stream|streaming}}, and works with any {{codec|codec}}.`,
+Netflix, YouTube, Disney+, and most major streaming services use [[dash|DASH]] (often alongside [[hls|HLS]] for {{apple|Apple}} compatibility). The protocol supports both on-demand and live {{stream|streaming}}, and works with any {{codec|codec}}.`,
 	howItWorks: [
 		{
 			title: 'Encode and segment',
@@ -24,7 +24,7 @@ Netflix, YouTube, Disney+, and most major streaming services use [[dash|DASH]] (
 		{
 			title: 'MPD manifest generation',
 			description:
-				'An {{xml|XML}} manifest (MPD) describes the content hierarchy: Periods, Adaptation Sets, Representations (bitrates/resolutions), and segment URLs or templates.'
+				'An {{xml|XML}} {{manifest|manifest}} (MPD) describes the content hierarchy: Periods, Adaptation Sets, Representations (bitrates/resolutions), and segment URLs or templates.'
 		},
 		{
 			title: 'Client fetches MPD',

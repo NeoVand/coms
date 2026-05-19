@@ -293,7 +293,7 @@ Total airtime from field-on to ARQC: ~300–800 ms on a real terminal.`
 			date: '2024-03',
 			title: 'iOS 17.4 opens NFC HCE to EEA wallets (DMA)',
 			description:
-				"On 25 January 2024 {{apple|Apple}} announced — and in March 2024 iOS 17.4 shipped — the **NFC & Secure Element Platform** entitlement for the European Economic Area. For the first time on iPhone, third-party wallets can do {{hce|Host Card Emulation}} contactless payments without going through {{apple|Apple}} Pay. PayPal Germany was the first to ship; the entitlement covers HCE access, side-button shortcut, Face/Touch ID, and Field-Detect. Available **only inside the EEA** (27 EU states + Iceland, Liechtenstein, Norway) and **only on iPhone** — not Apple Watch, not iPad.",
+				"On 25 January 2024 {{apple|Apple}} announced — and in March 2024 iOS 17.4 shipped — the **NFC & Secure Element Platform** entitlement for the European Economic Area. For the first time on iPhone, third-party wallets can do {{hce|Host Card Emulation}} contactless payments without going through {{apple|Apple}} Pay. PayPal Germany was the first to ship; the entitlement covers HCE access, side-button shortcut, Face/Touch ID, and Field-Detect. Available **only inside the EEA** (27 EU states + Iceland, Liechtenstein, Norway) and **only on iPhone** — not {{apple|Apple}} Watch, not iPad.",
 			source: {
 				url: 'https://www.apple.com/newsroom/2024/01/apple-announces-changes-to-ios-safari-and-the-app-store-in-the-european-union/',
 				label: 'Apple newsroom, 25 Jan 2024'

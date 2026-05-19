@@ -349,7 +349,7 @@ The deeper challenge was always private-sector adoption. Government agencies cou
 							title: 'Integer Overflow in the Most Critical Data Path',
 							text: `In June 2019, Netflix security researcher Jonathan Looney found that a maliciously crafted [[tcp|TCP]] packet with carefully chosen Selective Acknowledgement ({{sack|SACK}}) options could trigger an integer overflow in the {{linux|Linux}} kernel's [[tcp|TCP]] stack, leading to a kernel panic.
 
-The bug, **CVE-2019-11477** ("{{sack|SACK}} Panic"), affected every {{linux|Linux}} kernel from 2.6.29 (2009) through 5.1 (2019) — **ten years of unpatched code in the heart of every Linux server on the internet**. A single [[tcp|TCP]] packet, no authentication required, would crash any vulnerable host. Service providers, cloud hyperscalers, container hosts, embedded systems — all simultaneously vulnerable.
+The bug, **CVE-2019-11477** ("{{sack|SACK}} Panic"), affected every {{linux|Linux}} kernel from 2.6.29 (2009) through 5.1 (2019) — **ten years of unpatched code in the heart of every {{linux|Linux}} server on the internet**. A single [[tcp|TCP]] packet, no authentication required, would crash any vulnerable host. Service providers, cloud hyperscalers, container hosts, embedded systems — all simultaneously vulnerable.
 
 The disclosure was coordinated across Red Hat, Canonical, SUSE, Debian, AWS, {{google|Google}}, and the Linux kernel team. Patches shipped within hours of public disclosure on 17 June 2019, but the full deployment took weeks across the global Linux fleet.`
 						},
@@ -387,7 +387,7 @@ Looney found it by writing a fuzzer that combined {{sack|SACK}} with [[tcp|TCP]]
 
 **Continuous fuzzing of network code paths.** syzkaller runs against every {{linux|Linux}} kernel commit, generating millions of random syscall + packet sequences per day. Most CVEs in the kernel\'s [[tcp|TCP]]/[[ip|IP]] stack since 2019 have been found this way, not by humans.
 
-**Faster CVE response in distributed Linux environments.** Pre-2019, large fleets often took weeks to roll out a kernel patch — full reboot rotations, slow validation cycles. {{sack|SACK}} Panic forced the industry to invest in **live patching** (Red Hat\'s kpatch, Canonical\'s Livepatch, SUSE\'s kGraft) that can apply security fixes to a running kernel without reboot. By 2026, hyperscalers routinely live-patch kernel CVEs across millions of hosts within hours.
+**Faster CVE response in distributed {{linux|Linux}} environments.** Pre-2019, large fleets often took weeks to roll out a kernel patch — full reboot rotations, slow validation cycles. {{sack|SACK}} Panic forced the industry to invest in **live patching** (Red Hat\'s kpatch, Canonical\'s Livepatch, SUSE\'s kGraft) that can apply security fixes to a running kernel without reboot. By 2026, hyperscalers routinely live-patch kernel CVEs across millions of hosts within hours.
 
 **Per-feature kill switches.** The {{sack|SACK}} Panic patch is gated behind a sysctl (\`net.ipv4.tcp_sack\`) so operators can disable {{sack|SACK}} entirely if a future bug surfaces — without waiting for a kernel update. Modern kernel networking is full of such switches: an emergency lever for every major optional feature.`
 						},
@@ -396,7 +396,7 @@ Looney found it by writing a fuzzer that combined {{sack|SACK}} with [[tcp|TCP]]
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Tux.svg/250px-Tux.svg.png',
 							alt: 'Tux — the Linux mascot, a chubby cartoon penguin.',
 							caption:
-								'**Tux**, the {{linux|Linux}} mascot, drawn by Larry Ewing in 1996. Behind that cheerful penguin sits a [[tcp|TCP]] stack on every internet-facing {{linux|Linux}} server on Earth — and from 2009 to 2019 every one of them was a single crafted [[tcp|TCP]] packet away from \`kernel panic\`. The fix shipped 17 June 2019; the lesson — **code stability is not code correctness** — has reshaped Linux kernel networking testing since.',
+								'**Tux**, the {{linux|Linux}} mascot, drawn by Larry Ewing in 1996. Behind that cheerful penguin sits a [[tcp|TCP]] stack on every internet-facing {{linux|Linux}} server on Earth — and from 2009 to 2019 every one of them was a single crafted [[tcp|TCP]] packet away from \`kernel panic\`. The fix shipped 17 June 2019; the lesson — **code stability is not code correctness** — has reshaped {{linux|Linux}} kernel networking testing since.',
 							credit: 'Image: Larry Ewing / lewing@isc.tamu.edu, public domain, via Wikimedia Commons'
 						}
 					]

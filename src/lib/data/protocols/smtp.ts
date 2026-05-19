@@ -11,19 +11,19 @@ export const smtp: Protocol = {
 	oneLiner: 'The protocol that delivers email across the internet — store and forward, hop by hop.',
 	overview: `[[smtp|SMTP]] is the backbone of email. Every email you've ever sent was delivered via [[smtp|SMTP]] — from your mail client to your provider's server, then relayed across the internet to the recipient's mail server. It's a "store and forward" protocol: each server along the path accepts responsibility for the message and forwards it to the next {{hop|hop}}.
 
-[[smtp|SMTP]] is a text-based {{protocol|protocol}} with a simple command vocabulary: HELO/EHLO to greet, MAIL FROM to specify the sender, RCPT TO for recipients, DATA to send the message body, and QUIT to disconnect. Modern [[smtp|SMTP]] uses STARTTLS to upgrade plain connections to [[tls|TLS]]-encrypted ones, and authentication ([[smtp|SMTP]] AUTH) to prevent unauthorized sending.
+[[smtp|SMTP]] is a text-based {{protocol|protocol}} with a simple command vocabulary: HELO/{{ehlo|EHLO}} to greet, MAIL FROM to specify the sender, RCPT TO for recipients, DATA to send the message body, and QUIT to disconnect. Modern [[smtp|SMTP]] uses {{starttls|STARTTLS}} to upgrade plain connections to [[tls|TLS]]-encrypted ones, and authentication ([[smtp|SMTP]] AUTH) to prevent unauthorized sending.
 
 Despite being over 40 years old, [[smtp|SMTP]] remains the universal standard for email delivery. It's been extended with SPF, DKIM, and DMARC to fight spam and phishing. While newer protocols handle retrieval ([[imap|IMAP]], POP3), [[smtp|SMTP]] still handles every email's journey from sender to destination.`,
 	howItWorks: [
 		{
 			title: 'Connection & greeting',
 			description:
-				'Client connects to the mail server on port 587 (submission) or 25 (relay) and sends EHLO with its hostname. Server responds with supported extensions like STARTTLS and AUTH.'
+				'Client connects to the mail server on port 587 (submission) or 25 (relay) and sends {{ehlo|EHLO}} with its hostname. Server responds with supported extensions like {{starttls|STARTTLS}} and AUTH.'
 		},
 		{
 			title: 'TLS & authentication',
 			description:
-				'Client issues STARTTLS to upgrade to an encrypted connection, then authenticates with username/password via AUTH LOGIN or AUTH PLAIN.'
+				'Client issues {{starttls|STARTTLS}} to upgrade to an encrypted connection, then authenticates with username/password via AUTH LOGIN or AUTH PLAIN.'
 		},
 		{
 			title: 'Envelope & message',
@@ -57,7 +57,7 @@ with smtplib.SMTP("smtp.example.com", 587) as server:
     server.starttls()
     server.login("sender@example.com", "password")
     server.send_message(msg)`,
-		caption: '[[smtp|SMTP]] delivers email hop by hop — STARTTLS encrypts the connection.',
+		caption: '[[smtp|SMTP]] delivers email hop by hop — {{starttls|STARTTLS}} encrypts the connection.',
 		alternatives: [
 			{
 				language: 'javascript',

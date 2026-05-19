@@ -180,7 +180,7 @@ What changes underneath is everything. Multiplexed streams in [[http3|HTTP/3]] a
 							title: 'Adoption — And the Plateau',
 							text: `By 2018, [[http3|HTTP/3]] progenitor gQUIC was carrying meaningful {{google|Google}} traffic. **Chrome enabled [[http3|HTTP/3]] by default in April 2020.** Firefox followed in May 2021. **{{apple|Apple}} shipped Safari 14 with experimental [[http3|HTTP/3]] in September 2020 and turned it on by default in Safari 16 (September 2024).** {{cloudflare|Cloudflare}} announced [[http3|HTTP/3]] edge support in September 2019 and serves it universally. {{cloudflare|Cloudflare}}, Fastly, Akamai serve [[http3|HTTP/3]] universally.
 
-But adoption has plateaued. As of Q1 2026, [[http3|HTTP/3]] carries roughly **21% of Cloudflare-observed web requests** — flat or slightly declining for several months. [[http2|HTTP/2]] still dominates at ~51%; [[http1|HTTP/1]].x persists near 28%.
+But adoption has plateaued. As of Q1 2026, [[http3|HTTP/3]] carries roughly **21% of {{cloudflare|Cloudflare}}-observed web requests** — flat or slightly declining for several months. [[http2|HTTP/2]] still dominates at ~51%; [[http1|HTTP/1]].x persists near 28%.
 
 The plateau correlates with **the 2024 ACM Web Conference paper "[[quic|QUIC]] is not Quick Enough over Fast Internet"** (Zhang et al., doi:10.1145/3589334.3645323) showing **up-to-45.2% throughput regressions** vs [[http2|HTTP/2]] above ~500 Mbps. The cause: receiver-side userspace {{ack|ACK}} and copy overhead — [[quic|QUIC]] implementations live above the kernel and pay for every packet a context switch the kernel [[tcp|TCP]] stack does not.
 
@@ -206,7 +206,7 @@ The fix in flight is **in-kernel [[quic|QUIC]]**. Xin Long posted the first ~9,0
 
 **[[frontier:ech-rfc-9849|Encrypted Client Hello (ECH)]]** was approved by the [[tls|TLS]] WG and entered the RFC editor queue in 2025 ([[rfc:9849|RFC 9849]]-track, {{iana|IANA}} registry allocated 2025-07-30). {{cloudflare|Cloudflare}} turned it on for ~70% of its zones; Russia began censoring {{ech|ECH}} connections; major browsers ship {{ech|ECH}} gated by HTTPS [[dns|DNS]] records ([[rfc:9460|RFC 9460]]).
 
-**Reliable Stream Resets** (draft-ietf-quic-reliable-stream-reset, M. Seemann & K. Oku, latest -07 in June 2025) defines RESET_STREAM_AT for {{webtransport|WebTransport}}'s reliable initial bytes.`
+**Reliable Stream Resets** (draft-{{ietf|ietf}}-quic-reliable-stream-reset, M. Seemann & K. Oku, latest -07 in June 2025) defines RESET_STREAM_AT for {{webtransport|WebTransport}}'s reliable initial bytes.`
 						},
 						{
 							type: 'image',
