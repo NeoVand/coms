@@ -16,7 +16,7 @@ export const foundationSections: FoundationSection[] = [
 				title: 'Rules Two Machines Agree On',
 				text: `A {{protocol|protocol}} is a set of rules that two systems agree to follow so they can {{exchange|exchange}} information. The dictionary definition would tell you it is a sequence of moves; the engineering one is sharper. A protocol is a **shared specification** — a document that any third party can read and implement, such that two implementations written by people who have never met can interoperate on the first try.
 
-When you load a web page, dozens of protocols cooperate without you noticing. [[ethernet|Ethernet]] carries the bits across your office network. [[ip|IP]] gets the packets to the right city. [[tcp|TCP]] makes sure none are lost. [[tls|TLS]] encrypts the contents. [[dns|DNS]] turned the URL into an address. [[http1|HTTP]] is the request the server actually answers. Each one minds its own job; each one trusts the others to do theirs.
+When you load a web page, dozens of protocols cooperate without you noticing. [[ethernet|Ethernet]] carries the bits across your office network. [[ip|IP]] gets the packets to the right city. [[tcp|TCP]] makes sure none are lost. [[tls|TLS]] encrypts the contents. [[dns|DNS]] turned the {{url|URL}} into an address. [[http1|HTTP]] is the request the server actually answers. Each one minds its own job; each one trusts the others to do theirs.
 
 The deeper trick is that protocols are **public**. They are described in plain text in documents called RFCs (Requests for Comments), published openly by the {{ietf|IETF}}. Anyone can read [[rfc:9293|RFC 9293]] and write a [[tcp|TCP]] stack. No single company owns the rules. This is the fact that made the internet possible — there is no {{microsoft|Microsoft}} Internet, no {{apple|Apple}} Internet, no {{google|Google}} Internet. There is the internet, defined in documents, implemented by everyone who needs to.`
 			},
@@ -24,9 +24,9 @@ The deeper trick is that protocols are **public**. They are described in plain t
 				type: 'diagram',
 				title: 'A Protocol Defines a Sequence',
 				definition: `graph LR
-  A["Client"] -->|"1. SYN"| B["Server"]
+  A["Client"] -->|"1. {{syn-cookies|SYN}}"| B["Server"]
   B -->|"2. {{syn-ack|SYN-ACK}}"| A
-  A -->|"3. ACK"| B
+  A -->|"3. {{ack|ACK}}"| B
   A -->|"4. Request"| B
   B -->|"5. Response"| A`,
 				caption: '[[tcp|TCP]] requires a {{three-way-handshake|three-way handshake}} before any data can flow. The order matters — both sides have to confirm the connection in writing before either can speak its mind.'
@@ -36,7 +36,7 @@ The deeper trick is that protocols are **public**. They are described in plain t
 				src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/TCP_Three-Way_Handshake.svg/500px-TCP_Three-Way_Handshake.svg.png',
 				alt: 'TCP three-way handshake sequence diagram — client SYN, server SYN-ACK, client ACK.',
 				caption:
-					'The same [[tcp|TCP]] {{handshake|handshake}} drawn as a sequence diagram with the wall-clock arrows. SYN proposes a connection; SYN-{{ack|ACK}} accepts and proposes back; {{ack|ACK}} seals it. After this 1.5 round-trip {{exchange|exchange}}, both sides have synchronised sequence numbers and can begin sending real data.',
+					'The same [[tcp|TCP]] {{handshake|handshake}} drawn as a sequence diagram with the wall-clock arrows. {{syn-cookies|SYN}} proposes a connection; {{syn-cookies|SYN}}-{{ack|ACK}} accepts and proposes back; {{ack|ACK}} seals it. After this 1.5 round-trip {{exchange|exchange}}, both sides have synchronised sequence numbers and can begin sending real data.',
 				credit: 'Image: Wikimedia Commons / public domain'
 			},
 			{
@@ -44,11 +44,11 @@ The deeper trick is that protocols are **public**. They are described in plain t
 				title: 'Three Things Every Protocol Specifies',
 				text: `Read enough protocol specifications and the same three concerns repeat.
 
-**Format.** What does a message on the wire look like? [[tcp|TCP]] says: 16 bits source port, 16 bits destination port, 32 bits {{sequence-number|sequence number}}, 32 bits acknowledgement number, then 4 bits header length, then six flag bits in a fixed order, then a 16-bit window. HTTP says: a verb, a space, a URI, a space, a version string, then a CRLF, then headers, then a blank line, then the body. The format defines what is legal.
+**Format.** What does a message on the wire look like? [[tcp|TCP]] says: 16 bits source port, 16 bits destination port, 32 bits {{sequence-number|sequence number}}, 32 bits acknowledgement number, then 4 bits header length, then six flag bits in a fixed order, then a 16-bit window. {{http-method|HTTP}} says: a verb, a space, a {{uri|URI}}, a space, a version string, then a CRLF, then headers, then a blank line, then the body. The format defines what is legal.
 
-**Sequence.** What order are messages exchanged in? [[tcp|TCP]]'s {{three-way-handshake|three-way handshake}} is a sequence — SYN before SYN-{{ack|ACK}} before {{ack|ACK}}, and a server that receives an {{ack|ACK}} without a preceding SYN simply drops it. [[tls|TLS]] has a similar choreography ({{client-hello|ClientHello}} → {{server-hello|ServerHello}} → {{certificate|Certificate}} → KeyExchange → Finished). The sequence defines what is meaningful at any point in the conversation.
+**Sequence.** What order are messages exchanged in? [[tcp|TCP]]'s {{three-way-handshake|three-way handshake}} is a sequence — {{syn-cookies|SYN}} before {{syn-cookies|SYN}}-{{ack|ACK}} before {{ack|ACK}}, and a server that receives an {{ack|ACK}} without a preceding {{syn-cookies|SYN}} simply drops it. [[tls|TLS]] has a similar choreography ({{client-hello|ClientHello}} → {{server-hello|ServerHello}} → {{certificate|Certificate}} → KeyExchange → Finished). The sequence defines what is meaningful at any point in the conversation.
 
-**Failure handling.** What happens when a message is lost, corrupted, duplicated, or arrives out of order? [[tcp|TCP]] retransmits after a timeout. HTTP returns a 5xx status. [[tls|TLS]] aborts the connection on a bad MAC. The failure handling is what separates a working protocol from one that hangs the first time the network hiccups — and historically it is where most of the engineering work has gone.`
+**Failure handling.** What happens when a message is lost, corrupted, duplicated, or arrives out of order? [[tcp|TCP]] retransmits after a timeout. {{http-method|HTTP}} returns a 5xx status. [[tls|TLS]] aborts the connection on a bad {{mac-address|MAC}}. The failure handling is what separates a working protocol from one that hangs the first time the network hiccups — and historically it is where most of the engineering work has gone.`
 			},
 			{
 				type: 'callout',
@@ -60,7 +60,7 @@ The deeper trick is that protocols are **public**. They are described in plain t
 				title: 'Where Protocols Come From',
 				text: `Protocols are not born in committees. They are usually written by one or two engineers solving a specific problem, deployed for a few years, then standardised once the design has survived production.
 
-[[tcp|TCP]] was designed by [[pioneer:vint-cerf|Vint Cerf]] and [[pioneer:bob-kahn|Bob Kahn]] in 1974 to connect three networks that did not share a fabric. [[ethernet|Ethernet]] was sketched by [[pioneer:bob-metcalfe|Bob Metcalfe]] and [[pioneer:david-boggs|David Boggs]] at {{xerox-parc|Xerox PARC}} in 1973 to connect Alto workstations on a coaxial cable. The Web was a memo by [[pioneer:tim-berners-lee|Tim Berners-Lee]] at CERN in 1989. [[ssh|SSH]] was Tatu Ylönen's response to a password-sniffing attack at Helsinki University. [[mcp|MCP]] was {{anthropic|Anthropic}}'s response to N×M tool integrations in 2024.
+[[tcp|TCP]] was designed by [[pioneer:vint-cerf|Vint Cerf]] and [[pioneer:bob-kahn|Bob Kahn]] in 1974 to {{mqtt-connect|connect}} three networks that did not share a fabric. [[ethernet|Ethernet]] was sketched by [[pioneer:bob-metcalfe|Bob Metcalfe]] and [[pioneer:david-boggs|David Boggs]] at {{xerox-parc|Xerox PARC}} in 1973 to {{mqtt-connect|connect}} Alto workstations on a coaxial cable. The Web was a memo by [[pioneer:tim-berners-lee|Tim Berners-Lee]] at {{cern|CERN}} in 1989. [[ssh|SSH]] was Tatu Ylönen's response to a password-sniffing attack at Helsinki University. [[mcp|MCP]] was {{anthropic|Anthropic}}'s response to N×M tool integrations in 2024.
 
 The {{ietf|IETF}}'s job is not to invent these protocols. It is to **document them**, **review them**, and (often years later) **anoint them as standards**. The motto is **rough consensus and running code** — a phrase from [[pioneer:david-clark|David Clark]] at {{ietf|IETF}} 24 in 1992. The "running code" half is doing most of the work. A protocol nobody has implemented is not a real protocol.`
 			},
@@ -84,7 +84,7 @@ The {{ietf|IETF}}'s job is not to invent these protocols. It is to **document th
 						title: 'RFC editor, IANA steward',
 						org: 'ISI',
 						contribution:
-							'Edited or co-edited every foundational [[tcp|TCP]]/[[ip|IP]] RFC. Coined the Robustness Principle. Ran the {{iana|IANA}} single-handedly from his office at ISI for over a decade.',
+							'Edited or co-edited every foundational [[tcp|TCP]]/[[ip|IP]] {{rfc-doc|RFC}}. Coined the Robustness Principle. Ran the {{iana|IANA}} single-handedly from his office at ISI for over a decade.',
 						imagePath:
 							'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Jon_Postel_sitting_in_office_%28cropped%29.jpg/330px-Jon_Postel_sitting_in_office_%28cropped%29.jpg'
 					}
@@ -99,7 +99,7 @@ The {{ietf|IETF}}'s job is not to invent these protocols. It is to **document th
 			{
 				type: 'narrative',
 				title: 'The Problem Layers Solve',
-				text: `In late 1972, [[pioneer:bob-kahn|Bob Kahn]] at {{darpa|DARPA}} was sketching a problem nobody had solved: how do you let a computer on the {{arpanet|ARPANET}} talk to one on a packet-radio network, or a satellite link, when those networks know nothing about each other? He brought in [[pioneer:vint-cerf|Vint Cerf]] at Stanford, and in May 1974 they published "A Protocol for Packet Network Intercommunication" in IEEE Transactions on Communications — the paper that coined the word "internet" and described a single, monolithic protocol they called [[tcp|TCP]] that did everything: routing hints, sequencing, {{flow-control|flow control}}, reliability.
+				text: `In late 1972, [[pioneer:bob-kahn|Bob Kahn]] at {{darpa|DARPA}} was sketching a problem nobody had solved: how do you let a computer on the {{arpanet|ARPANET}} talk to one on a packet-radio network, or a satellite link, when those networks know nothing about each other? He brought in [[pioneer:vint-cerf|Vint Cerf]] at Stanford, and in May 1974 they published "A Protocol for Packet Network Intercommunication" in {{ieee-802-15-4|IEEE}} Transactions on Communications — the paper that coined the word "internet" and described a single, monolithic protocol they called [[tcp|TCP]] that did everything: routing hints, sequencing, {{flow-control|flow control}}, reliability.
 
 By 1978, repeated implementation work at Stanford, {{bbn|BBN}}, and University College London revealed the flaw. Some applications — packet voice, in particular — needed **speed** more than **reliability**. Forcing every application through the same reliable byte-stream was wrong. [[pioneer:jon-postel|Jon Postel]] and David Reed argued for splitting the monolith: a thin internetworking layer ([[ip|IP]]) underneath, and an end-to-end transport layer above it. That single architectural decision is the reason [[udp|UDP]], [[icmp|ICMP]], and decades later [[quic|QUIC]] could exist without renegotiating with every router on the planet.
 
@@ -109,49 +109,49 @@ The deeper principle is older than networking: separate what changes together fr
 				type: 'diagram',
 				title: 'What Each Layer Adds — A Single Web Request',
 				definition: `graph TD
-  APP["<b>L7 Application</b><br/>HTTP — GET /index.html"]
+  APP["<b>L7 Application</b><br/>{{http-method|HTTP}} — GET /index.html"]
   [[tls|TLS]]["<b>L5-7 Security</b><br/>[[tls|TLS]] — wraps + encrypts"]
   [[tcp|TCP]]["<b>L4 Transport</b><br/>[[tcp|TCP]] — adds ports, seq #, ACKs"]
-  IP["<b>L3 Internet</b><br/>IP — adds src/dst addresses, TTL"]
-  ETH["<b>L2 Data Link</b><br/>[[ethernet|Ethernet]] — adds src/dst MAC, FCS"]
-  PHY["<b>L1 Physical</b><br/>Bits on copper / fibre / radio"]
+  {{ip-address|IP}}["<b>L3 Internet</b><br/>{{ip-address|IP}} — adds src/dst addresses, {{ttl|TTL}}"]
+  ETH["<b>L2 Data Link</b><br/>[[ethernet|Ethernet]] — adds src/dst {{mac-address|MAC}}, {{fcs|FCS}}"]
+  {{phy|PHY}}["<b>L1 Physical</b><br/>Bits on copper / fibre / radio"]
 
   APP -->|"each layer wraps the one above"| [[tls|TLS]]
   [[tls|TLS]] --> [[tcp|TCP]]
-  [[tcp|TCP]] --> IP
-  IP --> ETH
-  ETH --> PHY`,
+  [[tcp|TCP]] --> {{ip-address|IP}}
+  {{ip-address|IP}} --> ETH
+  ETH --> {{phy|PHY}}`,
 				caption:
-					'Going down the stack, each layer wraps the previous {{payload|payload}} with its own header — {{encapsulation|encapsulation}}. Going up, each layer strips its header and hands the rest to the next. This is why the same HTTP request rides unchanged across [[wifi|Wi-Fi]] at home, [[ethernet|Ethernet]] in the office, and a satellite link to a server in Iowa.'
+					'Going down the stack, each layer wraps the previous {{payload|payload}} with its own header — {{encapsulation|encapsulation}}. Going up, each layer strips its header and hands the rest to the next. This is why the same {{http-method|HTTP}} request rides unchanged across [[wifi|Wi-Fi]] at home, [[ethernet|Ethernet]] in the office, and a satellite link to a server in Iowa.'
 			},
 			{
 				type: 'image',
 				src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/OSI_Model_v1.svg/500px-OSI_Model_v1.svg.png',
 				alt: 'The OSI 7-layer reference model — Physical, Data Link, Network, Transport, Session, Presentation, Application.',
 				caption:
-					'The OSI 7-layer reference model, ratified by ISO in 1984. Forty years later it still shapes how every networking textbook teaches the stack — even though the internet itself runs the simpler 4-layer {{tcp-ip-model|TCP/IP model}}.',
+					'The {{osi-model|OSI}} 7-layer reference model, ratified by {{iso|ISO}} in 1984. Forty years later it still shapes how every networking textbook teaches the stack — even though the internet itself runs the simpler 4-layer {{tcp-ip-model|TCP/IP model}}.',
 				credit: 'Diagram: Wikimedia Commons / public domain'
 			},
 			{
 				type: 'narrative',
 				title: 'The Seven Layers, Honestly',
-				text: `**L1 — Physical.** Volts on a wire, photons in a fibre, modulated radio. Specified by IEEE 802.3 ([[ethernet|Ethernet]] PHYs), [[wifi|802.11]] ([[wifi|Wi-Fi]]), DOCSIS, fibre-optic standards, and the radio rules from the ITU. If your problem is "the cable is unplugged," it's L1.
+				text: `**L1 — Physical.** Volts on a wire, photons in a fibre, modulated radio. Specified by {{ieee-802-15-4|IEEE}} 802.3 ([[ethernet|Ethernet]] PHYs), [[wifi|802.11]] ([[wifi|Wi-Fi]]), {{docsis|DOCSIS}}, fibre-optic standards, and the radio rules from the ITU. If your problem is "the cable is unplugged," it's L1.
 
-**L2 — Data Link.** Frames addressed by 48-bit {{mac-address|MAC addresses}}. Reaches one hop on a single segment. [[ethernet|Ethernet]] (RFC-less; IEEE 802.3) and [[wifi|Wi-Fi]] ([[wifi|802.11]]) live here, alongside [[arp|ARP]], the spanning tree protocol, and {{vlan|VLAN}} tags. Switches operate at L2.
+**L2 — Data Link.** Frames addressed by 48-bit {{mac-address|MAC addresses}}. Reaches one hop on a single segment. [[ethernet|Ethernet]] ({{rfc-doc|RFC}}-less; {{ieee-802-15-4|IEEE}} 802.3) and [[wifi|Wi-Fi]] ([[wifi|802.11]]) live here, alongside [[arp|ARP]], the spanning tree protocol, and {{vlan|VLAN}} tags. Switches operate at L2.
 
 **L3 — Network.** [[ip|IP]] addresses, hop-by-hop forwarding, longest-prefix-match routing. [[ipv6|IPv6]], [[icmp|ICMP]], [[bgp|BGP]] for inter-domain routing. Routers operate at L3 — they decrement {{ttl|TTL}} and forward across networks.
 
 **L4 — Transport.** End-to-end semantics. [[tcp|TCP]] (reliable, ordered byte stream), [[udp|UDP]] ({{fire-and-forget|fire-and-forget}} datagrams), [[sctp|SCTP]] (multi-streamed), [[mptcp|MPTCP]] (multi-path), and now [[quic|QUIC]] which folds in {{encryption|encryption}}. The first layer with a **port** — the demux that picks which application gets the bytes.
 
-**L5–7 — Session, Presentation, Application.** OSI's three top layers. In practice the line between them is a fiction: [[http1|HTTP]] does session, presentation, and application at once. [[tls|TLS]] is "kind of L5/6" but on [[quic|QUIC]] it's fused into L4. [[smtp|SMTP]], [[dns|DNS]], [[ssh|SSH]], [[websockets|WebSockets]], [[grpc|gRPC]], [[mcp|MCP]] — everything an engineer touches sits up here.
+**L5–7 — Session, Presentation, Application.** {{osi-model|OSI}}'s three top layers. In practice the line between them is a fiction: [[http1|HTTP]] does session, presentation, and application at once. [[tls|TLS]] is "kind of L5/6" but on [[quic|QUIC]] it's fused into L4. [[smtp|SMTP]], [[dns|DNS]], [[ssh|SSH]], [[websockets|WebSockets]], [[grpc|gRPC]], [[mcp|MCP]] — everything an engineer touches sits up here.
 
-The {{ietf|IETF}} stack pragmatically collapses 5–7 into one Application layer. That's the four-layer [[tcp|TCP]]/[[ip|IP]] model: Link, Internet, Transport, Application. It maps to OSI but doesn't pretend the upper three are usefully distinct.`
+The {{ietf|IETF}} stack pragmatically collapses 5–7 into one Application layer. That's the four-layer [[tcp|TCP]]/[[ip|IP]] model: Link, Internet, Transport, Application. It maps to {{osi-model|OSI}} but doesn't pretend the upper three are usefully distinct.`
 			},
 			{
 				type: 'diagram',
 				title: 'OSI vs TCP/IP — Side by Side',
 				definition: `graph TD
-  subgraph OSI["OSI — 7 layers (1984, ISO 7498)"]
+  subgraph {{osi-model|OSI}}["{{osi-model|OSI}} — 7 layers (1984, {{iso|ISO}} 7498)"]
     direction TB
     O7["L7 Application"] --- O6["L6 Presentation"]
     O6 --- O5["L5 Session"]
@@ -160,10 +160,10 @@ The {{ietf|IETF}} stack pragmatically collapses 5–7 into one Application layer
     O3 --- O2["L2 Data Link"]
     O2 --- O1["L1 Physical"]
   end
-  subgraph TCPIP["TCP/IP — 4 layers ([[rfc:1122|RFC 1122]], 1989)"]
+  subgraph TCPIP["{{tcp-ip-model|TCP/IP}} — 4 layers ([[rfc:1122|RFC 1122]], 1989)"]
     direction TB
-    T4["Application — HTTP, [[dns|DNS]], [[ssh|SSH]], [[tls|TLS]]"] --- T3["Transport — [[tcp|TCP]], [[udp|UDP]], [[quic|QUIC]]"]
-    T3 --- T2["Internet — IP, [[icmp|ICMP]], [[bgp|BGP]]"]
+    T4["Application — {{http-method|HTTP}}, [[dns|DNS]], [[ssh|SSH]], [[tls|TLS]]"] --- T3["Transport — [[tcp|TCP]], [[udp|UDP]], [[quic|QUIC]]"]
+    T3 --- T2["Internet — {{ip-address|IP}}, [[icmp|ICMP]], [[bgp|BGP]]"]
     T2 --- T1["Link — [[ethernet|Ethernet]], Wi-Fi, [[arp|ARP]]"]
   end
   O7 -.->|maps| T4
@@ -174,21 +174,21 @@ The {{ietf|IETF}} stack pragmatically collapses 5–7 into one Application layer
   O2 -.->|maps| T1
   O1 -.->|maps| T1`,
 				caption:
-					'OSI is a teaching tool with seven crisp boxes. [[tcp|TCP]]/[[ip|IP]] is what the internet actually runs and collapses the three top boxes into one practical "Application" layer. Both end at the wire — only the bookkeeping above differs.'
+					'{{osi-model|OSI}} is a teaching tool with seven crisp boxes. [[tcp|TCP]]/[[ip|IP]] is what the internet actually runs and collapses the three top boxes into one practical "Application" layer. Both end at the wire — only the bookkeeping above differs.'
 			},
 			{
 				type: 'narrative',
 				title: 'How TCP/IP Won the Standards War',
-				text: `Through the 1980s the official future of networking was OSI. ISO and the ITU promoted the seven-layer suite — TP4 transport, CLNP networking — with full institutional backing: European PTTs, the U.S. government's GOSIP mandate, the prestige of a global standards body. [[tcp|TCP]]/[[ip|IP]] was, in those rooms, considered a research project that would be replaced.
+				text: `Through the 1980s the official future of networking was {{osi-model|OSI}}. {{iso|ISO}} and the ITU promoted the seven-layer suite — TP4 transport, CLNP networking — with full institutional backing: European PTTs, the U.S. government's GOSIP mandate, the prestige of a global standards body. [[tcp|TCP]]/[[ip|IP]] was, in those rooms, considered a research project that would be replaced.
 
-It was not. By July 1992, when [[pioneer:david-clark|David D. Clark]] gave his "A Cloudy Crystal Ball" plenary at the 24th {{ietf|IETF}} meeting in Cambridge, MA, he could distill the {{ietf|IETF}}'s working culture into the sentence that decided the question: **"We reject: kings, presidents and voting. We believe in: rough consensus and running code."** OSI shipped specifications. The {{ietf|IETF}} shipped code. Code won.
+It was not. By July 1992, when [[pioneer:david-clark|David D. Clark]] gave his "A Cloudy Crystal Ball" plenary at the 24th {{ietf|IETF}} meeting in Cambridge, MA, he could distill the {{ietf|IETF}}'s working culture into the sentence that decided the question: **"We reject: kings, presidents and voting. We believe in: rough consensus and running code."** {{osi-model|OSI}} shipped specifications. The {{ietf|IETF}} shipped code. Code won.
 
-The win was never about elegance — OSI's seven layers are arguably cleaner. It was about deployment economics. By 1992, [[tcp|TCP]]/[[ip|IP]] was already running on every Unix box in every university, every BSD-derived workstation, every router on the NSFNET backbone. Switching to OSI would have required a coordinated global {{flag-day-1983|flag day}}. The internet had quietly become too big to migrate.`
+The win was never about elegance — {{osi-model|OSI}}'s seven layers are arguably cleaner. It was about deployment economics. By 1992, [[tcp|TCP]]/[[ip|IP]] was already running on every Unix box in every university, every {{bsd|BSD}}-derived workstation, every router on the NSFNET backbone. Switching to {{osi-model|OSI}} would have required a coordinated global {{flag-day-1983|flag day}}. The internet had quietly become too big to migrate.`
 			},
 			{
 				type: 'callout',
 				title: 'Rough Consensus and Running Code',
-				text: 'David Clark\'s 1992 {{ietf|IETF}} quote is the closest thing the internet community has to a national anthem. It says: standards are documents about behavior we have already shipped, not theories we hope someone will adopt. It is the reason new protocols appear as Internet Drafts with reference implementations, not as ISO documents. And it is why — even in 2026 — every protocol in this lab traces back to a draft someone could install and run.'
+				text: 'David Clark\'s 1992 {{ietf|IETF}} quote is the closest thing the internet community has to a national anthem. It says: standards are documents about behavior we have already shipped, not theories we hope someone will adopt. It is the reason new protocols appear as Internet Drafts with reference implementations, not as {{iso|ISO}} documents. And it is why — even in 2026 — every protocol in this lab traces back to a draft someone could install and run.'
 			},
 			{
 				type: 'narrative',
@@ -219,13 +219,13 @@ The model is a **map**, not the territory. The map is invaluable: it lets you re
 				title: 'Four Layers of Identity, At Once',
 				text: `When your browser loads {{google|google}}.com, four different identifiers cooperate. Each one identifies the destination at a different level of abstraction; each one is essential, and none can do the others' job.
 
-**Hostnames** (\`{{google|google}}.com\`) are for humans. They are stable, memorable, and meaningless to the network. Before any traffic flows, [[dns|DNS]] translates the hostname into a network address.
+**Hostnames** (\`google.com\`) are for humans. They are stable, memorable, and meaningless to the network. Before any traffic flows, [[dns|DNS]] translates the hostname into a network address.
 
 **{{ip-address|IP addresses}}** (\`142.250.80.46\` or the [[ipv6|IPv6]] \`2607:f8b0:4004:c1b::64\`) identify endpoints across the internet. They are what routers use to choose a path. They stay constant from source to destination.
 
-**{{mac-address|MAC addresses}}** (\`f4:5c:89:9c:1a:30\`) identify hardware on a single local network — the wire your laptop is on, or the [[wifi|Wi-Fi]] {{access-point|access point}} you are associated with. Crucially, the {{mac-address|MAC address}} in a packet **changes at every router hop**. The [[ip|IP]] destination stays the same; the next-hop MAC is rewritten as the packet moves from segment to segment.
+**{{mac-address|MAC addresses}}** (\`f4:5c:89:9c:1a:30\`) identify hardware on a single local network — the wire your laptop is on, or the [[wifi|Wi-Fi]] {{access-point|access point}} you are associated with. Crucially, the {{mac-address|MAC address}} in a packet **changes at every router hop**. The [[ip|IP]] destination stays the same; the next-hop {{mac-address|MAC}} is rewritten as the packet moves from segment to segment.
 
-**{{port|Ports}}** (\`443\`) identify the application on a host. The OS uses the port number to deliver an arriving packet to the right process — port 443 to your browser, port 22 to your [[ssh|SSH]] daemon, port 5432 to PostgreSQL.
+**{{port|Ports}}** (\`443\`) identify the application on a host. The {{os|OS}} uses the port number to deliver an arriving packet to the right process — port 443 to your browser, port 22 to your [[ssh|SSH]] daemon, port 5432 to PostgreSQL.
 
 Together: [[dns|DNS]] resolves the hostname → [[ip|IP]] routes the packet to the host → [[arp|ARP]] (or [[ipv6|IPv6 NDP]]) resolves the next-hop [[ip|IP]] to a MAC → the port delivers the payload to the right application.`
 			},
@@ -234,38 +234,38 @@ Together: [[dns|DNS]] resolves the hostname → [[ip|IP]] routes the packet to t
 				title: 'The Address Stack — Top to Bottom',
 				definition: `graph TD
   [[dns|DNS]]["Hostname<br/><b>{{google|google}}.com</b><br/>for humans"]
-  IP["{{ip-address|IP address}}<br/><b>142.250.80.46</b><br/>routes across the internet"]
-  MAC["{{mac-address|MAC address}}<br/><b>f4:5c:89:9c:1a:30</b><br/>delivers on the local segment"]
+  {{ip-address|IP}}["{{ip-address|IP address}}<br/><b>142.250.80.46</b><br/>routes across the internet"]
+  {{mac-address|MAC}}["{{mac-address|MAC address}}<br/><b>f4:5c:89:9c:1a:30</b><br/>delivers on the local segment"]
   Port["Port<br/><b>:443</b><br/>delivers to the right process"]
-  [[dns|DNS]] -->|"[[dns|DNS]] resolves"| IP
-  IP -->|"[[arp|ARP]] / NDP resolves"| MAC
-  MAC -->|"OS demuxes"| Port`,
-				caption: 'Each address layer answers a different question. [[dns|DNS]]: who. [[ip|IP]]: where. MAC: which port on this switch. Port: which program.'
+  [[dns|DNS]] -->|"[[dns|DNS]] resolves"| {{ip-address|IP}}
+  {{ip-address|IP}} -->|"[[arp|ARP]] / {{ndp|NDP}} resolves"| {{mac-address|MAC}}
+  {{mac-address|MAC}} -->|"{{os|OS}} demuxes"| Port`,
+				caption: 'Each address layer answers a different question. [[dns|DNS]]: who. [[ip|IP]]: where. {{mac-address|MAC}}: which port on this switch. Port: which program.'
 			},
 			{
 				type: 'narrative',
 				title: 'How an Address Survives the Trip',
 				text: `Watch a single packet travel from your laptop to a {{google|Google}} server, focusing only on the addresses.
 
-At your laptop: the packet has a destination [[ip|IP]] of 142.250.80.46 and a destination MAC of your home router's WAN-side address. Your router strips the [[ethernet|Ethernet]] frame, rewrites the source [[ip|IP]] via {{nat|NAT}} to its own public address, picks a new next-hop MAC (its ISP's gateway), and forwards.
+At your laptop: the packet has a destination [[ip|IP]] of 142.250.80.46 and a destination {{mac-address|MAC}} of your home router's {{wan|WAN}}-side address. Your router strips the [[ethernet|Ethernet]] frame, rewrites the source [[ip|IP]] via {{nat|NAT}} to its own public address, picks a new next-hop {{mac-address|MAC}} (its {{isp|ISP}}'s gateway), and forwards.
 
-At every router along the path — typically 10-20 hops — the same thing happens. The [[ip|IP]] destination is left untouched; the source [[ip|IP]] is left untouched; the **MAC pair is rewritten at every single hop**. The router is doing all the work of finding the next hop via [[bgp|BGP]] or its internal {{routing-table|routing table}}; the [[ip|IP]] packet never knows about any of it.
+At every router along the path — typically 10-20 hops — the same thing happens. The [[ip|IP]] destination is left untouched; the source [[ip|IP]] is left untouched; the **{{mac-address|MAC}} pair is rewritten at every single hop**. The router is doing all the work of finding the next hop via [[bgp|BGP]] or its internal {{routing-table|routing table}}; the [[ip|IP]] packet never knows about any of it.
 
-When the packet finally reaches the {{google|Google}} server, its {{ttl|TTL}} has decremented from 64 ({{linux|Linux}}'s default) to perhaps 50, the source MAC is the last router's MAC, and the destination MAC is the server's network interface. The OS strips the [[ethernet|Ethernet]] header, validates the [[ip|IP]] destination matches its own, looks up the destination port (443) in its socket table, and hands the {{payload|payload}} to the nginx process.
+When the packet finally reaches the {{google|Google}} server, its {{ttl|TTL}} has decremented from 64 ({{linux|Linux}}'s default) to perhaps 50, the source {{mac-address|MAC}} is the last router's {{mac-address|MAC}}, and the destination MAC is the server's network interface. The {{os|OS}} strips the [[ethernet|Ethernet]] header, validates the [[ip|IP]] destination matches its own, looks up the destination port (443) in its socket table, and hands the {{payload|payload}} to the nginx process.
 
 This division of labour — [[ip|IP]] for end-to-end identity, MAC for hop-to-hop delivery — is the architectural choice that lets you build a network from heterogeneous links. The wire format on the [[ethernet|Ethernet]] between you and your router can be different from the wire format on the fibre between continents, because at every router the L2 envelope is thrown away and re-written for the next link.`
 			},
 			{
 				type: 'callout',
 				title: 'Address scope is what matters most',
-				text: 'A {{mac-address|MAC}} is only meaningful inside one {{broadcast|broadcast}} domain. An {{ip-address|IP}} is globally unique (or unique within a private space behind {{nat|NAT}}). A port is meaningful only on one host. A hostname is meaningful to the entire [[dns|DNS]] namespace. **The scope of an address determines what infrastructure has to keep state about it** — which is why the internet can scale to billions of hosts without any single device knowing all of them.'
+				text: 'A {{mac-address|MAC}} is only meaningful inside one {{broadcast|broadcast}} domain. An {{ip-address|IP}} is globally unique (or unique within a private space behind {{nat|NAT}}). A port is meaningful only on one host. A hostname is meaningful to the entire [[dns|DNS]] namespace. **The scope of an address determines what infrastructure has to keep state about it** — which is why the internet can scale to billions of {{hosts-bare|hosts}} without any single device knowing all of them.'
 			},
 			{
 				type: 'image',
 				src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/MAC-48_Address.svg/500px-MAC-48_Address.svg.png',
 				alt: 'Bit-field structure of a 48-bit MAC address — 24-bit OUI + 24-bit NIC, with multicast and locally-administered flag bits.',
 				caption:
-					'A 48-bit {{mac-address|MAC address}} is structured: the first 24 bits are the OUI (Organisationally Unique Identifier — {{apple|Apple}} = ac:de:48, {{cisco|Cisco}} = 00:1b:54, etc.), the last 24 bits are assigned by the manufacturer per device. Two flag bits in the first octet mark {{multicast|multicast}} and locally-administered addresses.',
+					'A 48-bit {{mac-address|MAC address}} is structured: the first 24 bits are the {{oui|OUI}} (Organisationally Unique Identifier — {{apple|Apple}} = ac:de:48, {{cisco|Cisco}} = 00:1b:54, etc.), the last 24 bits are assigned by the manufacturer per device. Two flag bits in the first octet mark {{multicast|multicast}} and locally-administered addresses.',
 				credit: 'Diagram: Wikimedia Commons / CC BY-SA 2.5'
 			},
 			{
@@ -279,7 +279,7 @@ This division of labour — [[ip|IP]] for end-to-end identity, MAC for hop-to-ho
 			{
 				type: 'narrative',
 				title: 'NAT Changed Everything',
-				text: `In 1993, the {{ietf|IETF}} realised [[ip|IPv4]]'s 4.3 billion addresses would not last. Three responses landed nearly simultaneously: **{{cidr|CIDR}}** (RFC 1519, 1993) abolished the rigid Class A/B/C boundaries; **private address ranges** ([[rfc:1918|RFC 1918]], 1996) gave every organisation 10.0.0.0/8 to use internally; and **{{nat|Network Address Translation}}** (RFC 1631, 1994) let one public [[ip|IP]] front for thousands of private hosts.
+				text: `In 1993, the {{ietf|IETF}} realised [[ip|IPv4]]'s 4.3 billion addresses would not last. Three responses landed nearly simultaneously: **{{cidr|CIDR}}** ({{rfc-doc|RFC}} 1519, 1993) abolished the rigid Class A/B/C boundaries; **private address ranges** ([[rfc:1918|RFC 1918]], 1996) gave every organisation 10.0.0.0/8 to use internally; and **{{nat|Network Address Translation}}** ({{rfc-doc|RFC}} 1631, 1994) let one public [[ip|IP]] front for thousands of private {{hosts-bare|hosts}}.
 
 {{nat|NAT}} is the reason your home network's printer is at 192.168.1.10 and {{google|Google}}'s nginx is at 142.250.80.46 even though no router on the public internet has any idea where 192.168.1.10 lives. Your home router rewrites the source [[ip|IP]] and source port of every outbound packet, keeps a table of (private [[ip|IP]], private port) → (public [[ip|IP]], public port) mappings, and reverses the rewrite on the response. From outside, every device in your home shares a single public [[ip|IP]].
 
@@ -299,7 +299,7 @@ This division of labour — [[ip|IP]] for end-to-end identity, MAC for hop-to-ho
 			{
 				type: 'narrative',
 				title: 'Why Packet Switching Won',
-				text: `Until the late 1960s, every long-distance computer communication used **circuit switching** — the model the telephone network ran on. To send data from A to B, the network reserved a continuous channel between them for the duration of the call. The capacity was guaranteed but locked. Two hosts that exchanged a burst of data once a minute would tie up a circuit the other 59 seconds.
+				text: `Until the late 1960s, every long-distance computer communication used **circuit switching** — the model the telephone network ran on. To send data from A to B, the network reserved a continuous channel between them for the duration of the call. The capacity was guaranteed but locked. Two {{hosts-bare|hosts}} that exchanged a burst of data once a minute would tie up a circuit the other 59 seconds.
 
 Paul Baran at RAND (1962-1964) and Donald Davies at NPL (1965-1967) independently proposed a different idea: chop the data into small **packets**, label each one with its destination, and let intermediate nodes forward each packet independently along whichever path is least busy. No reservation, no per-call setup, no wasted capacity. The 1969 {{arpanet|ARPANET}} implemented this and never looked back.
 
@@ -309,14 +309,14 @@ A {{packet|packet}} is a **self-contained unit** with a **header** (control info
 				type: 'diagram',
 				title: 'Encapsulation — Layer by Layer',
 				definition: `graph TD
-  D["<b>HTTP Data</b><br/>GET /index.html"]
+  D["<b>{{http-method|HTTP}} Data</b><br/>GET /index.html"]
   S["<b>[[tcp|TCP]] Segment</b><br/>+ src/dst port, seq#"]
-  P["<b>IP Packet</b><br/>+ src/dst IP, TTL"]
-  F["<b>[[ethernet|Ethernet]] Frame</b><br/>+ src/dst MAC, CRC"]
+  P["<b>{{ip-address|IP}} Packet</b><br/>+ src/dst {{ip-address|IP}}, {{ttl|TTL}}"]
+  F["<b>[[ethernet|Ethernet]] Frame</b><br/>+ src/dst {{mac-address|MAC}}, {{crc|CRC}}"]
   D -->|"[[tcp|TCP]] wraps"| S
-  S -->|"IP wraps"| P
+  S -->|"{{ip-address|IP}} wraps"| P
   P -->|"[[ethernet|Ethernet]] wraps"| F`,
-				caption: 'Each layer adds its own header around the {{payload|payload}} from above. At the destination, headers are stripped in reverse order, and the original HTTP request is delivered to the application.'
+				caption: 'Each layer adds its own header around the {{payload|payload}} from above. At the destination, headers are stripped in reverse order, and the original {{http-method|HTTP}} request is delivered to the application.'
 			},
 			{
 				type: 'image',
@@ -339,17 +339,17 @@ A {{packet|packet}} is a **self-contained unit** with a **header** (control info
 				src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/Ethernet_Type_II_Frame_format.svg/500px-Ethernet_Type_II_Frame_format.svg.png',
 				alt: 'Ethernet II frame structure: 6-byte destination MAC, 6-byte source MAC, 2-byte EtherType, payload, 4-byte FCS.',
 				caption:
-					'The [[ethernet|Ethernet]] II frame format that has not changed since 1980. 14 bytes of header (destination MAC, source MAC, EtherType), then up to 1500 bytes of {{payload|payload}}, then a 4-byte CRC frame check sequence. Everything else — {{vlan|VLAN}} tags, jumbo frames, 800 GbE — slid in around it.',
+					'The [[ethernet|Ethernet]] II frame format that has not changed since 1980. 14 bytes of header (destination {{mac-address|MAC}}, source {{mac-address|MAC}}, EtherType), then up to 1500 bytes of {{payload|payload}}, then a 4-byte {{crc|CRC}} frame check sequence. Everything else — {{vlan|VLAN}} tags, jumbo frames, 800 GbE — slid in around it.',
 				credit: 'Diagram: Wikimedia Commons / public domain'
 			},
 			{
 				type: 'narrative',
 				title: 'Why Layers Have Different Names For The Same Thing',
-				text: `**{{frame|Frames}}** at Layer 2 ([[ethernet|Ethernet]], [[wifi|Wi-Fi]]). **{{packet|Packets}}** at Layer 3 ([[ip|IP]]). **{{segment|Segments}}** ([[tcp|TCP]]) or **{{datagram|datagrams}}** ([[udp|UDP]]) at Layer 4. **Messages** at Layer 7 (HTTP).
+				text: `**{{frame|Frames}}** at Layer 2 ([[ethernet|Ethernet]], [[wifi|Wi-Fi]]). **{{packet|Packets}}** at Layer 3 ([[ip|IP]]). **{{segment|Segments}}** ([[tcp|TCP]]) or **{{datagram|datagrams}}** ([[udp|UDP]]) at Layer 4. **Messages** at Layer 7 ({{http-method|HTTP}}).
 
 The names look like jargon for jargon's sake, but they encode something useful: the **scope** of the unit. A frame only matters between two devices on the same wire. A packet only matters end-to-end across the internet. A segment only matters to the two [[tcp|TCP]] endpoints. A message only matters to the application. When a packet is dropped at L3, the L2 frame that carried it is irrelevant; when a segment is retransmitted, the L7 message it was part of has to be reassembled. Naming each unit makes it possible to talk about loss, {{latency|latency}}, and corruption at the right level.
 
-The same data is all of these things at once, of course. Right now, on this page load, the byte that says "G" in your "GET /index.html" is part of an HTTP message, inside a [[tcp|TCP]] segment numbered 42017, inside an [[ip|IP]] packet with {{ttl|TTL}} 60, inside an [[ethernet|Ethernet]] frame with a 32-bit CRC. The byte does not change; the wrappers around it change at every layer boundary.`
+The same data is all of these things at once, of course. Right now, on this page load, the byte that says "G" in your "GET /index.html" is part of an {{http-method|HTTP}} message, inside a [[tcp|TCP]] segment numbered 42017, inside an [[ip|IP]] packet with {{ttl|TTL}} 60, inside an [[ethernet|Ethernet]] frame with a 32-bit {{crc|CRC}}. The byte does not change; the wrappers around it change at every layer boundary.`
 			},
 			{
 				type: 'callout',
@@ -359,9 +359,9 @@ The same data is all of these things at once, of course. Right now, on this page
 			{
 				type: 'narrative',
 				title: 'The Conservation of Bytes',
-				text: `Headers cost something. A 1500-byte [[ethernet|Ethernet]] frame might carry only 1448 bytes of useful [[tcp|TCP]] {{payload|payload}} (40 bytes of [[tcp|TCP]] options, 20 of [[ip|IP]], plus the 14-byte [[ethernet|Ethernet]] header and 4-byte CRC). On a satellite link priced per byte, those overheads are real money — which is why [[mqtt|MQTT]] designed a 2-byte minimum header and [[coap|CoAP]] designed a 4-byte one for IoT.
+				text: `Headers cost something. A 1500-byte [[ethernet|Ethernet]] frame might carry only 1448 bytes of useful [[tcp|TCP]] {{payload|payload}} (40 bytes of [[tcp|TCP]] options, 20 of [[ip|IP]], plus the 14-byte [[ethernet|Ethernet]] header and 4-byte {{crc|CRC}}). On a satellite link priced per byte, those overheads are real money — which is why [[mqtt|MQTT]] designed a 2-byte minimum header and [[coap|CoAP]] designed a 4-byte one for IoT.
 
-Headers also cost time. Every byte added to a packet is a byte that has to be sent, propagated, received, and parsed. For [[quic|QUIC]] and [[http3|HTTP/3]] running over [[tls|TLS 1.3]], the per-packet header is around 25-30 bytes — small enough to fit roughly 50 packets in a single {{mtu|MTU}}, large enough to encode a connection ID, packet number, and authenticated {{encryption|encryption}} tag.
+Headers also cost time. Every byte added to a packet is a byte that has to be sent, propagated, received, and parsed. For [[quic|QUIC]] and [[http3|HTTP/3]] running over [[tls|TLS 1.3]], the per-packet header is around 25-30 bytes — small enough to fit roughly 50 packets in a single {{mtu|MTU}}, large enough to encode a connection {{id-identifier|ID}}, packet number, and authenticated {{encryption|encryption}} tag.
 
 The eternal trade-off is **expressiveness vs overhead**. A header that names the source [[ip|IP]], destination [[ip|IP]], source port, destination port, {{sequence-number|sequence number}}, {{ack|ACK}} number, window size, options, {{checksum|checksum}}, and [[tls|TLS]] metadata gives the receiver enough information to do reliability, {{congestion-control|congestion control}}, and security correctly. A header that says only "this is a 1500-byte chunk, somewhere" is faster to transmit but useless for anything beyond raw throughput. Forty years of protocol design is the search for the right balance at each layer of the stack.`
 			}
@@ -376,29 +376,29 @@ The eternal trade-off is **expressiveness vs overhead**. A header that names the
 				title: 'A Hundred Services On One Wire',
 				text: `Your laptop has one [[wifi|Wi-Fi]] card, one [[ip|IP]] address from your router, one [[ethernet|Ethernet]] cable to your switch — yet it runs a web browser, an [[ssh|SSH]] client, a Slack daemon, a Spotify player, half a dozen background updaters, and a Postgres server, all talking to the network at the same time. Something has to demultiplex the incoming packets to the right process.
 
-That something is the **port**. A {{port|port}} is a 16-bit unsigned integer (0-65535) that lives in the [[tcp|TCP]] or [[udp|UDP]] header, alongside a similar field naming the source. When a packet arrives at the host, the OS looks up the (protocol, destination port) pair in its socket table and hands the {{payload|payload}} to the matching process. Different processes own different ports; ports are the OS's way of carving one network identity into many independent endpoints.
+That something is the **port**. A {{port|port}} is a 16-bit unsigned integer (0-65535) that lives in the [[tcp|TCP]] or [[udp|UDP]] header, alongside a similar field naming the source. When a packet arrives at the host, the {{os|OS}} looks up the (protocol, destination port) pair in its socket table and hands the {{payload|payload}} to the matching process. Different processes own different ports; ports are the {{os|OS}}'s way of carving one network identity into many independent endpoints.
 
-Three conventional ranges. **Well-known ports** (0–1023) are reserved for standard protocols and require root/admin privileges to bind on Unix: 22 for [[ssh|SSH]], 53 for [[dns|DNS]], 80 for [[http1|HTTP]], 443 for HTTPS, 25 for [[smtp|SMTP]]. **Registered ports** (1024–49151) are conventionally assigned to specific applications by {{iana|IANA}}: 5432 for PostgreSQL, 6379 for Redis, 8080 for HTTP-alt. **Ephemeral ports** (49152–65535, on most OSes) are assigned temporarily to the client side of a connection — your browser picks a random one when it dials out.`
+Three conventional ranges. **Well-known ports** (0–1023) are reserved for standard protocols and require root/admin privileges to bind on Unix: 22 for [[ssh|SSH]], 53 for [[dns|DNS]], 80 for [[http1|HTTP]], 443 for HTTPS, 25 for [[smtp|SMTP]]. **Registered ports** (1024–49151) are conventionally assigned to specific applications by {{iana|IANA}}: 5432 for PostgreSQL, 6379 for Redis, 8080 for {{http-method|HTTP}}-alt. **Ephemeral ports** (49152–65535, on most OSes) are assigned temporarily to the client side of a connection — your browser picks a random one when it dials out.`
 			},
 			{
 				type: 'diagram',
 				title: 'Ports Multiplex Applications',
 				definition: `graph TD
   Net["Incoming Packet<br/>dst: 10.0.0.5"]
-  OS["Operating System"]
-  Net --> OS
-  OS -->|":80"| W["Web Server"]
-  OS -->|":443"| S["HTTPS Server"]
-  OS -->|":22"| [[ssh|SSH]]["[[ssh|SSH]] Daemon"]
+  {{os|OS}}["Operating System"]
+  Net --> {{os|OS}}
+  {{os|OS}} -->|":80"| W["Web Server"]
+  {{os|OS}} -->|":443"| S["HTTPS Server"]
+  {{os|OS}} -->|":22"| [[ssh|SSH]]["[[ssh|SSH]] Daemon"]
   OS -->|":5432"| DB["Database"]`,
-				caption: 'The OS uses the destination port to deliver each packet to the right process. Multiple services share one [[ip|IP]] address; the port disambiguates.'
+				caption: 'The {{os|OS}} uses the destination port to deliver each packet to the right process. Multiple services share one [[ip|IP]] address; the port disambiguates.'
 			},
 			{
 				type: 'image',
 				src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fd/TCP_Header.svg/500px-TCP_Header.svg.png',
 				alt: 'Bit-field layout of the TCP segment header — source/destination ports, sequence/ACK numbers, flags, window, checksum.',
 				caption:
-					'The [[tcp|TCP]] segment header. The first row is the two 16-bit port fields — these are what the OS uses to demultiplex an arriving segment to a process. Below them: 32-bit {{sequence-number|sequence number}}, 32-bit {{ack|ACK}} number, header length, control flags, window size, {{checksum|checksum}}, urgent pointer, and optional fields.',
+					'The [[tcp|TCP]] segment header. The first row is the two 16-bit port fields — these are what the {{os|OS}} uses to demultiplex an arriving segment to a process. Below them: 32-bit {{sequence-number|sequence number}}, 32-bit {{ack|ACK}} number, header length, control flags, window size, {{checksum|checksum}}, urgent pointer, and optional fields.',
 				credit: 'Diagram: Wikimedia Commons / CC BY-SA 3.0'
 			},
 			{
@@ -406,27 +406,27 @@ Three conventional ranges. **Well-known ports** (0–1023) are reserved for stan
 				src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a1/InternetSocketBasicDiagram_zhtw.png/500px-InternetSocketBasicDiagram_zhtw.png',
 				alt: 'Berkeley sockets API flow: server calls socket/bind/listen/accept, client calls socket/connect, then both send/recv.',
 				caption:
-					'The Berkeley sockets API has been the universal Unix interface for network I/O since 1983. Server calls socket() → bind(port) → listen() → accept() and blocks until a client arrives. Client calls socket() → connect(server, port). Once the four-tuple is bound, both sides read and write bytes like a file.',
+					'The Berkeley sockets {{api|API}} has been the universal Unix interface for network I/O since 1983. Server calls socket() → bind(port) → listen() → accept() and blocks until a client arrives. Client calls socket() → {{mqtt-connect|connect}}(server, port). Once the four-tuple is bound, both sides read and write bytes like a file.',
 				credit: 'Diagram: Wikimedia Commons / public domain'
 			},
 			{
 				type: 'narrative',
 				title: 'Sockets, and the Magic Four-Tuple',
-				text: `A **{{socket|socket}}** is the OS abstraction that ties a network endpoint to a file descriptor. On {{linux|Linux}}, you create one with the \`socket()\` system call, configure the protocol ([[tcp|TCP]] or [[udp|UDP]]) and address family ([[ip|IPv4]] or [[ipv6|IPv6]]), \`bind()\` it to a local address and port, and then either \`listen()\` for incoming connections (server side) or \`connect()\` to a remote endpoint (client side). Once established, you read and write bytes from the socket like a file.
+				text: `A **{{socket|socket}}** is the {{os|OS}} abstraction that ties a network endpoint to a file descriptor. On {{linux|Linux}}, you create one with the \`socket()\` system call, configure the protocol ([[tcp|TCP]] or [[udp|UDP]]) and address family ([[ip|IPv4]] or [[ipv6|IPv6]]), \`bind()\` it to a local address and port, and then either \`listen()\` for incoming connections (server side) or \`connect()\` to a remote endpoint (client side). Once established, you read and write bytes from the socket like a file.
 
-A [[tcp|TCP]] connection is uniquely identified by a **four-tuple**: \`(source [[ip|IP]], source port, destination [[ip|IP]], destination port)\`. This is the deepest insight in the [[tcp|TCP]] design. A web server bound to port 443 can serve thousands of clients simultaneously, because each client connection has a different source [[ip|IP]] or source port — all of them legitimately distinguishable as separate connections to the same listening socket.
+A [[tcp|TCP]] connection is uniquely identified by a **four-tuple**: \`(source IP, source port, destination IP, destination port)\`. This is the deepest insight in the [[tcp|TCP]] design. A web server bound to port 443 can serve thousands of clients simultaneously, because each client connection has a different source [[ip|IP]] or source port — all of them legitimately distinguishable as separate connections to the same listening socket.
 
 Run \`ss -t\` (or \`netstat -t\`) on a busy server and you can see the table. Hundreds of ESTABLISHED rows, all sharing the local \`*:443\` endpoint, each pointing at a different remote ([[ip|IP]], port). The kernel maintains a hash table indexed on the four-tuple; every arriving segment is dispatched in O(1) to its connection.`
 			},
 			{
 				type: 'callout',
 				title: 'Why TIME_WAIT lives for 60 seconds',
-				text: 'After a [[tcp|TCP]] connection closes, the local OS holds the four-tuple in **{{time-wait|TIME_WAIT}}** state for ~60 seconds (2× the maximum segment lifetime). The reason is paranoia about stragglers — a packet from the old connection that was delayed in the network for 30 seconds could otherwise re-enter a freshly-opened connection on the same four-tuple and be misinterpreted as legitimate data. On servers with thousands of short-lived connections per second this can exhaust the {{ephemeral-port|ephemeral port}} range; the cure is connection reuse (HTTP {{keep-alive|keep-alive}}, [[http2|HTTP/2]] {{multiplexing|multiplexing}}, [[grpc|gRPC]] connection pooling).'
+				text: 'After a [[tcp|TCP]] connection closes, the local {{os|OS}} holds the four-tuple in **{{time-wait|TIME_WAIT}}** state for ~60 seconds (2× the maximum segment lifetime). The reason is paranoia about stragglers — a packet from the old connection that was delayed in the network for 30 seconds could otherwise re-enter a freshly-opened connection on the same four-tuple and be misinterpreted as legitimate data. On servers with thousands of short-lived connections per second this can exhaust the {{ephemeral-port|ephemeral port}} range; the cure is connection reuse ({{http-method|HTTP}} {{keep-alive|keep-alive}}, [[http2|HTTP/2]] {{multiplexing|multiplexing}}, [[grpc|gRPC]] connection pooling).'
 			},
 			{
 				type: 'narrative',
 				title: 'Why Port 80, Port 443, Port 22',
-				text: `The well-known ports look arbitrary, and many of them are. **Port 80** for HTTP was picked by [[pioneer:tim-berners-lee|Tim Berners-Lee]] in 1991 — the comment in his early code reads "80 because that was available and we needed a number." **Port 22** for [[ssh|SSH]] was picked by Tatu Ylönen in 1995 because it sat between Telnet (23) and [[ftp|FTP]] (21). **Port 443** for HTTPS was assigned by {{iana|IANA}} in 1994 when Netscape introduced SSL.
+				text: `The well-known ports look arbitrary, and many of them are. **Port 80** for {{http-method|HTTP}} was picked by [[pioneer:tim-berners-lee|Tim Berners-Lee]] in 1991 — the comment in his early code reads "80 because that was available and we needed a number." **Port 22** for [[ssh|SSH]] was picked by Tatu Ylönen in 1995 because it sat between Telnet (23) and [[ftp|FTP]] (21). **Port 443** for HTTPS was assigned by {{iana|IANA}} in 1994 when Netscape introduced {{ssl|SSL}}.
 
 Once chosen, well-known ports are **impossible to change**. Every {{firewall|firewall}} in the world has a rule allowing outbound 443. Every {{cdn|CDN}}, every load balancer, every browser bookmark, every \`<a href>\` written without an explicit port assumes 443 for HTTPS. A protocol that wanted to switch ports today would have to coordinate the rewrite across the entire deployed internet — which is why nobody seriously tries.
 
@@ -467,9 +467,9 @@ This tradeoff drives the entire protocol ecosystem. Web pages need reliability �
 				title: 'October 1986: The First Collapse',
 				text: `In October 1986 the internet broke for the first time. Throughput between Lawrence Berkeley Laboratory and UC Berkeley — three {{imp|IMP}} hops apart, about 400 yards on the same site — collapsed from 32 kbps to 40 bps. A factor of 800. Multiple cascading collapses followed across the NSFNET backbone.
 
-The cause was [[tcp|TCP]] itself. Early BSD [[tcp|TCP]] retransmitted aggressively when it saw loss. When the network was actually congested, every {{retransmission|retransmission}} generated more loss, which generated more retransmissions. The network was eating itself.
+The cause was [[tcp|TCP]] itself. Early {{bsd|BSD}} [[tcp|TCP]] retransmitted aggressively when it saw loss. When the network was actually congested, every {{retransmission|retransmission}} generated more loss, which generated more retransmissions. The network was eating itself.
 
-[[pioneer:van-jacobson|Van Jacobson]] and Mike Karels at Berkeley spent the next eighteen months on the fix. Their 1988 SIGCOMM paper, **"{{congestion-avoidance|Congestion Avoidance}} and Control,"** gave the world {{slow-start|slow start}}, {{aimd|AIMD}} {{congestion-avoidance|congestion avoidance}}, fast retransmit, fast recovery, and Karn's algorithm for {{rtt|round-trip-time}} estimation under {{retransmission|retransmission}} ambiguity. Six algorithms in one paper. The fixes shipped in 4.3BSD-Tahoe and saved the internet.
+[[pioneer:van-jacobson|Van Jacobson]] and Mike Karels at Berkeley spent the next eighteen months on the fix. Their 1988 {{sigcomm-conf|SIGCOMM}} paper, **"{{congestion-avoidance|Congestion Avoidance}} and Control,"** gave the world {{slow-start|slow start}}, {{aimd|AIMD}} {{congestion-avoidance|congestion avoidance}}, fast retransmit, fast recovery, and Karn's algorithm for {{rtt|round-trip-time}} estimation under {{retransmission|retransmission}} ambiguity. Six algorithms in one paper. The fixes shipped in 4.3BSD-Tahoe and saved the internet.
 
 The principle they articulated — **conservation of packets** — has held up for forty years. A sender should put one packet into the network only when an {{ack|ACK}} confirms a previous packet has left it. Everything since is variations on that theme.`
 			},
@@ -478,7 +478,7 @@ The principle they articulated — **conservation of packets** — has held up f
 				src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Van_Jacobson.jpg/330px-Van_Jacobson.jpg',
 				alt: 'Van Jacobson — co-author of the 1988 paper that saved the internet from congestion collapse and, decades later, of BBR.',
 				caption:
-					'[[pioneer:van-jacobson|Van Jacobson]], co-author with Mike Karels of "{{congestion-avoidance|Congestion Avoidance}} and Control" (SIGCOMM \'88) — the paper whose {{slow-start|slow start}}, {{aimd|AIMD}}, and fast retransmit fixes shipped in 4.3BSD-Tahoe and stopped the 1986 cascade. Three decades later he was a co-author of the {{bbr|BBR}} paper at {{google|Google}}.',
+					'[[pioneer:van-jacobson|Van Jacobson]], co-author with Mike Karels of "{{congestion-avoidance|Congestion Avoidance}} and Control" ({{sigcomm-conf|SIGCOMM}} \'88) — the paper whose {{slow-start|slow start}}, {{aimd|AIMD}}, and fast retransmit fixes shipped in 4.3BSD-Tahoe and stopped the 1986 cascade. Three decades later he was a co-author of the {{bbr|BBR}} paper at {{google|Google}}.',
 				credit: 'Photo: Wikimedia Commons / public domain'
 			},
 			{
@@ -486,7 +486,7 @@ The principle they articulated — **conservation of packets** — has held up f
 				src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/ARPA_Network%2C_Logical_Map%2C_September_1973.jpg/500px-ARPA_Network%2C_Logical_Map%2C_September_1973.jpg',
 				alt: 'ARPA Network logical map, September 1973 — the network whose successor would melt down in 1986.',
 				caption:
-					'The ARPA Network in September 1973, a few dozen IMPs and hosts. By 1986 the same architecture was carrying NSFNET traffic across the country — and the buffers between Lawrence Berkeley Lab and UC Berkeley, three hops apart, were where Jacobson watched throughput collapse from 32 kbps to 40 bps.',
+					'The ARPA Network in September 1973, a few dozen IMPs and {{hosts-bare|hosts}}. By 1986 the same architecture was carrying NSFNET traffic across the country — and the buffers between Lawrence Berkeley Lab and UC Berkeley, three hops apart, were where Jacobson watched throughput collapse from 32 kbps to 40 bps.',
 				credit: 'Image: ARPA / public domain, via Wikimedia Commons'
 			},
 			{
@@ -494,9 +494,9 @@ The principle they articulated — **conservation of packets** — has held up f
 				title: 'The Jacobson Recipe (1988)',
 				definition: `graph TD
   S0["<b>{{slow-start|Slow Start}}</b><br/>cwnd doubles each RTT<br/>until first loss"] -->|"loss detected"| FR["<b>Fast Retransmit</b><br/>3 duplicate ACKs →<br/>retransmit immediately"]
-  S0 -->|"reach ssthresh"| CA["<b>{{congestion-avoidance|Congestion Avoidance}}</b><br/>cwnd += 1 MSS / RTT<br/>(linear growth)"]
+  S0 -->|"reach ssthresh"| CA["<b>{{congestion-avoidance|Congestion Avoidance}}</b><br/>cwnd += 1 {{mss|MSS}} / RTT<br/>(linear growth)"]
   FR --> RC["<b>Fast Recovery</b><br/>cwnd /= 2,<br/>continue, don't restart"]
-  RC -->|"new ACK"| CA
+  RC -->|"new {{ack|ACK}}"| CA
   CA -->|"loss detected"| FR
   CA -->|"timeout"| S0`,
 				caption: 'The four-phase loop every [[tcp|TCP]] {{congestion-control|congestion controller}} has used since 1988. Modern algorithms ({{cubic|CUBIC}}, {{bbr|BBR}}) replace the linear growth in {{congestion-avoidance|Congestion Avoidance}} with their own curves, but the overall shape is unchanged.'
@@ -508,7 +508,7 @@ The principle they articulated — **conservation of packets** — has held up f
 
 In 2008, Sangtae Ha, Injong Rhee, and Lisong Xu at NC State published {{cubic|CUBIC}}: replace {{aimd|AIMD}}'s linear function with a **{{cubic|cubic}}** function of time since the last loss. Far from the previous {{congestion-window|cwnd}}, {{cubic|CUBIC}} ramps fast; near it, it slows down and probes carefully; if the probe doesn't trigger loss, it accelerates past the previous max. The {{cubic|cubic}} curve is symmetric so two flows with different RTTs converge to fairness.
 
-{{cubic|CUBIC}} shipped as the {{linux|Linux}} default in kernel 2.6.19 (2006), before any RFC blessed it. Windows 10 1709 / Server 2019 made it Windows's default. macOS uses it. [[rfc:9438|RFC 9438]] (August 2023) finally moved {{cubic|CUBIC}} to Standards Track, replacing the 2018 {{ipsec-informational|Informational}} [[rfc:8312|RFC 8312]]. Most [[tcp|TCP]] traffic on the internet today is {{cubic|CUBIC}}.`
+{{cubic|CUBIC}} shipped as the {{linux|Linux}} default in kernel 2.6.19 (2006), before any {{rfc-doc|RFC}} blessed it. Windows 10 1709 / Server 2019 made it Windows's default. macOS uses it. [[rfc:9438|RFC 9438]] (August 2023) finally moved {{cubic|CUBIC}} to Standards Track, replacing the 2018 {{ipsec-informational|Informational}} [[rfc:8312|RFC 8312]]. Most [[tcp|TCP]] traffic on the internet today is {{cubic|CUBIC}}.`
 			},
 			{
 				type: 'narrative',
@@ -522,7 +522,7 @@ BBRv1 hit ~4% mean throughput improvement on YouTube globally, more than 14% in 
 			{
 				type: 'callout',
 				title: 'Why Pacing Matters',
-				text: 'Classic [[tcp|TCP]] sends packets in bursts — whatever cwnd allows, into the wire as fast as the NIC can clock them out. {{bbr|BBR}} sends every packet at exactly the estimated bottleneck rate. The bursts disappear. {{aqm|AQM}} drops disappear with them. Buffers stay nearly empty, {{latency|latency}} stays near base {{rtt|RTT}}, and throughput stays at the bottleneck. The single change from "fire bursts and react to loss" to "pace at the actual bottleneck rate" is what made {{bbr|BBR}} possible.'
+				text: 'Classic [[tcp|TCP]] sends packets in bursts — whatever cwnd allows, into the wire as fast as the {{nic|NIC}} can clock them out. {{bbr|BBR}} sends every packet at exactly the estimated bottleneck rate. The bursts disappear. {{aqm|AQM}} drops disappear with them. Buffers stay nearly empty, {{latency|latency}} stays near base {{rtt|RTT}}, and throughput stays at the bottleneck. The single change from "fire bursts and react to loss" to "pace at the actual bottleneck rate" is what made {{bbr|BBR}} possible.'
 			},
 			{
 				type: 'narrative',
@@ -531,7 +531,7 @@ BBRv1 hit ~4% mean throughput improvement on YouTube globally, more than 14% in 
 
 {{l4s|L4S}} — Low {{latency|Latency}}, Low Loss, Scalable throughput — is the {{ietf|IETF}}'s answer ([[rfc:9330|RFC 9330]] / 9331 / 9332, January 2023). The mechanism: cooperating senders mark every packet {{ecn|ECN}}-Capable and react to {{ecn|ECN}} marks like minor losses without backing off as hard. Routers running the DualQ Coupled {{aqm|AQM}} mark instead of dropping when congestion is incipient. Classic [[tcp|TCP]] shares the same path and converges to fair throughput, but {{l4s|L4S}} traffic gets sub-millisecond queuing {{latency|latency}} at the same time.
 
-[[frontier:l4s-comcast-launch|Comcast launched L4S in production]] in late January 2025 in six US cities, with {{apple|Apple}}, {{nvidia|NVIDIA}} GeForce NOW, {{meta|Meta}}, and Valve as launch partners. {{apple|Apple}} shipped {{l4s|L4S}} in iOS 17 / macOS Sonoma and turned it on by default for [[quic|QUIC]] in newer releases. The same architecture works for cloud gaming, video calls, and AI assistant audio at the same time as a 4K download — without {{bufferbloat|bufferbloat}}, without classic-[[tcp|TCP]] getting starved.`
+[[frontier:l4s-comcast-launch|Comcast launched L4S in production]] in late January 2025 in six US cities, with {{apple|Apple}}, {{nvidia|NVIDIA}} GeForce NOW, {{meta|Meta}}, and Valve as launch partners. {{apple|Apple}} shipped {{l4s|L4S}} in iOS 17 / macOS Sonoma and turned it on by default for [[quic|QUIC]] in newer releases. The same architecture works for cloud gaming, video calls, and {{ai|AI}} assistant audio at the same time as a 4K download — without {{bufferbloat|bufferbloat}}, without classic-[[tcp|TCP]] getting starved.`
 			},
 			{
 				type: 'diagram',
@@ -541,11 +541,11 @@ BBRv1 hit ~4% mean throughput improvement on YouTube globally, more than 14% in 
   C1986 --> C1988["<b>1988</b><br/>Jacobson + Karels<br/>{{slow-start|Slow start}}, {{aimd|AIMD}},<br/>fast retransmit"]
   C1988 --> C1996["<b>1996</b><br/>{{sack|SACK}}<br/>[[rfc:2018|RFC 2018]]"]
   C1996 --> C2006["<b>2006</b><br/>{{cubic|CUBIC}}<br/>{{linux|Linux}} default"]
-  C2006 --> C2016["<b>2016</b><br/>BBR v1<br/>Model {{bandwidth|bandwidth}}, not loss"]
+  C2006 --> C2016["<b>2016</b><br/>{{bbr|BBR}} v1<br/>Model {{bandwidth|bandwidth}}, not loss"]
   C2016 --> C2021["<b>2021</b><br/>RACK-TLP<br/>[[rfc:8985|RFC 8985]]"]
   C2021 --> C2023a["<b>2023</b><br/>{{bbrv3|BBRv3}} default<br/>for {{google|google}}.com / YouTube"]
-  C2021 --> C2023b["<b>Jan 2023</b><br/>L4S<br/>[[rfc:9330|RFC 9330]]/9331/9332"]
-  C2023b --> C2025["<b>Jan 2025</b><br/>Comcast L4S<br/>in production"]`,
+  C2021 --> C2023b["<b>Jan 2023</b><br/>{{l4s|L4S}}<br/>[[rfc:9330|RFC 9330]]/9331/9332"]
+  C2023b --> C2025["<b>Jan 2025</b><br/>Comcast {{l4s|L4S}}<br/>in production"]`,
 				caption: 'Every [[tcp|TCP]] congestion controller is a chapter in the story Jacobson started. Modern transports — {{cubic|CUBIC}}, {{bbr|BBR}}, {{l4s|L4S}}, RACK-TLP — are each refinements of the same conservation-of-packets principle, adapted to different network realities.'
 			},
 			{
@@ -560,7 +560,7 @@ A [[quic|QUIC]] connection carries multiple independent streams. Each stream has
 			{
 				type: 'callout',
 				title: 'Where the Tradeoff Goes Next',
-				text: 'The next round will be in the datacenter. Inside a single GPU cluster training a frontier model, the assumptions baked into [[tcp|TCP]] and even [[quic|QUIC]] start to creak. The Ultra [[ethernet|Ethernet]] Consortium spec (June 2025) builds a new transport layer on plain [[ethernet|Ethernet]]+[[ip|IP]] for AI/HPC scale-out: {{connectionless|connectionless}}, {{multipath|multipath}} with intelligent packet spray, packet-trimming, selective {{retransmission|retransmission}}. The principle Jacobson articulated in 1988 — match what you put in to what the network can carry — is unchanged. The implementation gets re-derived for every new generation of hardware.'
+				text: 'The next round will be in the datacenter. Inside a single {{gpu|GPU}} cluster training a frontier model, the assumptions baked into [[tcp|TCP]] and even [[quic|QUIC]] start to creak. The Ultra [[ethernet|Ethernet]] Consortium spec (June 2025) builds a new transport layer on plain [[ethernet|Ethernet]]+[[ip|IP]] for {{ai|AI}}/HPC scale-out: {{connectionless|connectionless}}, {{multipath|multipath}} with intelligent packet spray, packet-trimming, selective {{retransmission|retransmission}}. The principle Jacobson articulated in 1988 — match what you put in to what the network can carry — is unchanged. The implementation gets re-derived for every new generation of hardware.'
 			}
 		]
 	},
@@ -573,7 +573,7 @@ A [[quic|QUIC]] connection carries multiple independent streams. Each stream has
 				title: 'The Pattern Most of the Internet Runs On',
 				text: `The {{client-server|client-server model}} is the dominant communication pattern on the internet, and has been since the web shipped. A **client** (your browser, your phone app, your terminal) initiates a request to a **server** (a process on a known host at a known address) which processes it and sends a response. The server has a stable identity (a hostname, an [[ip|IP]], a port); the client's identity is ephemeral (a transient [[tcp|TCP]] connection from a random {{ephemeral-port|ephemeral port}}).
 
-[[http1|HTTP]], [[dns|DNS]], [[smtp|SMTP]], [[ssh|SSH]], every database protocol, every [[rest|REST]] API, [[grpc|gRPC]], [[graphql|GraphQL]] — all client-server. The model wins for two structural reasons.
+[[http1|HTTP]], [[dns|DNS]], [[smtp|SMTP]], [[ssh|SSH]], every database protocol, every [[rest|REST]] {{api|API}}, [[grpc|gRPC]], [[graphql|GraphQL]] — all client-server. The model wins for two structural reasons.
 
 First, **discovery is trivial**. The client has the server's hostname; the server has a static [[ip|IP]]; that is the entire discovery story. No coordination required.
 
@@ -584,7 +584,7 @@ Second, **trust is concentrated**. The server can be hardened, audited, monitore
 				title: 'Client-Server vs Peer-to-Peer',
 				definition: `graph TD
   subgraph CS["Client-Server"]
-    C1["Client A"] & C2["Client B"] & C3["Client C"] -->|request| SRV["Server"]
+    C1["Client A"] & C2["Client B"] & C3["Client C"] -->|request| {{srv-record|SRV}}["Server"]
   end
   subgraph P2P["{{peer-to-peer|Peer-to-Peer}}"]
     P1["{{peer|Peer}} A"] <--> P2["{{peer|Peer}} B"]
@@ -613,16 +613,16 @@ Second, **trust is concentrated**. The server can be hardened, audited, monitore
 			{
 				type: 'narrative',
 				title: 'When Peer-to-Peer Is The Right Answer',
-				text: `The {{peer-to-peer|peer-to-peer model}} is fundamentally different. Every participant is **simultaneously client and server**. Nodes connect directly to each other; there is no central authority that knows the full membership of the network. BitTorrent, [[webrtc|WebRTC]], blockchain consensus, IPFS, the original Napster's data plane (though not its discovery), and Gnutella all use {{peer-to-peer|P2P}}.
+				text: `The {{peer-to-peer|peer-to-peer model}} is fundamentally different. Every participant is **simultaneously client and server**. Nodes {{mqtt-connect|connect}} directly to each other; there is no central authority that knows the full membership of the network. BitTorrent, [[webrtc|WebRTC]], blockchain consensus, IPFS, the original Napster's data plane (though not its discovery), and Gnutella all use {{peer-to-peer|P2P}}.
 
 {{peer-to-peer|P2P}} wins when one of three conditions holds. **No central server can scale to the load** — BitTorrent for large files turns every downloader into an uploader, so popularity becomes capacity. **End-to-end privacy is required** — a [[webrtc|WebRTC]] call between two phones in the same room ideally never touches a relay; the audio is between the two endpoints only. **No party can be trusted to mediate** — blockchain protocols specifically refuse the existence of a central authority and replace it with consensus.
 
-{{peer-to-peer|P2P}} is harder to build than client-server in three specific ways. **Discovery**: how do peers find each other when there is no directory? Tracker servers, DHTs (distributed hash tables), gossip protocols. **{{nat|NAT}} traversal**: how do two peers behind home routers initiate a connection when neither has a public address? {{stun|STUN}}, {{turn|TURN}}, ICE, hole-punching. **Trust**: how do you verify peers are who they claim to be without a central {{certificate-authority|CA}}? Public-key crypto, web-of-trust, blockchain identity, content-addressing.`
+{{peer-to-peer|P2P}} is harder to build than client-server in three specific ways. **Discovery**: how do peers find each other when there is no directory? Tracker servers, DHTs (distributed hash tables), gossip protocols. **{{nat|NAT}} traversal**: how do two peers behind home routers initiate a connection when neither has a public address? {{stun|STUN}}, {{turn|TURN}}, {{ice|ICE}}, hole-punching. **Trust**: how do you verify peers are who they claim to be without a central {{certificate-authority|CA}}? Public-key crypto, web-of-trust, blockchain identity, content-addressing.`
 			},
 			{
 				type: 'callout',
 				title: 'Most "P2P" systems are actually hybrid',
-				text: 'Zoom uses a central server for group calls but {{peer-to-peer|P2P}} for one-on-one. Discord uses a server-based SFU (Selective Forwarding Unit) for all voice/video — they route through servers to handle groups efficiently and to hide users\' IPs from each other. BitTorrent uses centralised trackers (or a DHT, which is a decentralised tracker) to bootstrap {{peer|peer}} discovery. The pure {{peer-to-peer|P2P}} systems are the exception; **most "decentralised" architectures retain a small centralised piece for discovery or trust**, with the {{bandwidth|bandwidth}}-heavy data plane being {{peer-to-peer|peer-to-peer}}.'
+				text: 'Zoom uses a central server for group calls but {{peer-to-peer|P2P}} for one-on-one. Discord uses a server-based {{sfu|SFU}} (Selective Forwarding Unit) for all voice/video — they route through servers to handle groups efficiently and to hide users\' IPs from each other. BitTorrent uses centralised trackers (or a DHT, which is a decentralised tracker) to bootstrap {{peer|peer}} discovery. The pure {{peer-to-peer|P2P}} systems are the exception; **most "decentralised" architectures retain a small centralised piece for discovery or trust**, with the {{bandwidth|bandwidth}}-heavy data plane being {{peer-to-peer|peer-to-peer}}.'
 			},
 			{
 				type: 'narrative',
@@ -635,7 +635,7 @@ Second, **trust is concentrated**. The server can be hardened, audited, monitore
 
 **Federated systems** (Mastodon, ActivityPub, [[smtp|SMTP]] email) are client-server within each instance but **{{peer-to-peer|peer-to-peer}} at the server level** — your Mastodon server federates with thousands of others to expose a global social graph without a central operator.
 
-**Edge compute** ({{cloudflare|Cloudflare}} Workers, AWS Lambda@Edge) pushes server logic out to the same edge points the {{cdn|CDN}} uses. The "server" is not in one place; it is a function that runs wherever the user happens to be.
+**Edge compute** ({{cloudflare|Cloudflare}} Workers, {{aws|AWS}} Lambda@Edge) pushes server logic out to the same edge points the {{cdn|CDN}} uses. The "server" is not in one place; it is a function that runs wherever the user happens to be.
 
 The choice — pure client-server, pure {{peer-to-peer|P2P}}, or one of these hybrids — depends on the scale you need, the trust you can assume, and the privacy you are willing to sacrifice. Twenty years ago, "is this app client-server or {{peer-to-peer|P2P}}" was a coherent question. Today the answer is almost always "yes, both, in different ratios at different layers."`
 			}
@@ -648,7 +648,7 @@ The choice — pure client-server, pure {{peer-to-peer|P2P}}, or one of these hy
 			{
 				type: 'narrative',
 				title: 'What HTTPS Actually Protects',
-				text: `Without {{encryption|encryption}}, every byte you send across the internet is readable by anyone on the path: your ISP, the coffee shop's [[wifi|Wi-Fi]] router, every backbone carrier in between. The padlock icon in your browser bar means a single thing: the bytes between your browser and the server are unreadable to anyone else.
+				text: `Without {{encryption|encryption}}, every byte you send across the internet is readable by anyone on the path: your {{isp|ISP}}, the coffee shop's [[wifi|Wi-Fi]] router, every backbone carrier in between. The padlock icon in your browser bar means a single thing: the bytes between your browser and the server are unreadable to anyone else.
 
 What it does **not** mean is anything about the server you connected to. The padlock confirms that traffic is encrypted to **some** server that proved it owned the {{certificate|certificate}} for the hostname. It says nothing about whether that server is honest, whether your data is secure once it arrives, or whether the operator might be a phishing site that obtained a valid {{certificate|certificate}}. **{{encryption|Encryption}} is a property of the channel, not of either endpoint.**
 
@@ -659,9 +659,9 @@ What it does **not** mean is anything about the server you connected to. The pad
 				title: 'Symmetric vs Asymmetric — The Core Distinction',
 				text: `Two families of {{encryption|encryption}} exist, with opposite trade-offs.
 
-**{{symmetric-encryption|Symmetric encryption}}** uses **one key** for both encrypting and decrypting. AES-256 and {{chacha20-poly1305|ChaCha20-Poly1305}} are the modern standards. Both are extraordinarily fast — a current x86 CPU with AES-NI hardware acceleration encrypts at over 10 Gbps per core. The catch is **key distribution**: both endpoints have to know the same secret key without an attacker learning it. If two parties have never met, they cannot just send the key over the network — anyone watching would steal it.
+**{{symmetric-encryption|Symmetric encryption}}** uses **one key** for both encrypting and decrypting. {{aes|AES}}-256 and {{chacha20-poly1305|ChaCha20-Poly1305}} are the modern standards. Both are extraordinarily fast — a current x86 {{cpu|CPU}} with {{aes|AES}}-NI hardware acceleration encrypts at over 10 Gbps per core. The catch is **key distribution**: both endpoints have to know the same secret key without an attacker learning it. If two parties have never met, they cannot just send the key over the network — anyone watching would steal it.
 
-**{{asymmetric-encryption|Asymmetric encryption}}** uses **two keys** that are mathematically paired: a {{public-key|public key}} you give out freely, and a {{private-key|private key}} you keep on your server. Anything encrypted with the {{public-key|public key}} can only be decrypted with the {{private-key|private key}}, and vice versa. RSA-2048, X25519 (elliptic curve), and (post-quantum) {{ml-kem|ML-KEM}}-768 are the modern examples. The strength of asymmetric crypto is that **two strangers can establish trust** — I send you my {{public-key|public key}} over an open channel; you encrypt your secret with it; only I can read what you sent. The cost: {{asymmetric-encryption|asymmetric encryption}} is roughly **1000× slower** than symmetric for the same security level.
+**{{asymmetric-encryption|Asymmetric encryption}}** uses **two keys** that are mathematically paired: a {{public-key|public key}} you give out freely, and a {{private-key|private key}} you keep on your server. Anything encrypted with the {{public-key|public key}} can only be decrypted with the {{private-key|private key}}, and vice versa. {{rsa|RSA}}-2048, {{x25519|X25519}} (elliptic curve), and (post-quantum) {{ml-kem|ML-KEM}}-768 are the modern examples. The strength of asymmetric crypto is that **two strangers can establish trust** — I send you my {{public-key|public key}} over an open channel; you encrypt your secret with it; only I can read what you sent. The cost: {{asymmetric-encryption|asymmetric encryption}} is roughly **1000× slower** than symmetric for the same security level.
 
 The combination is what makes the modern web tractable. You use slow asymmetric crypto **once** at the start of the connection to safely agree on a fast symmetric key, then use the symmetric key for all the bulk data. The slow operation is amortised across the whole conversation.`
 			},
@@ -682,7 +682,7 @@ The combination is what makes the modern web tractable. You use slow asymmetric 
     S -->|"{{certificate|certificate}} + key"| C
   end
   subgraph Data["Data Transfer — Symmetric"]
-    C2["Client"] <-->|"AES / ChaCha20 encrypted"| S2["Server"]
+    C2["Client"] <-->|"{{aes|AES}} / ChaCha20 encrypted"| S2["Server"]
   end
   {{handshake|Handshake}} -->|"shared secret"| Data`,
 				caption: '[[tls|TLS]] uses slow {{asymmetric-encryption|asymmetric crypto}} to safely {{exchange|exchange}} a session key, then switches to fast {{symmetric-encryption|symmetric encryption}} for all data. The {{handshake|handshake}} is a few hundred bytes; the data can be gigabytes.'
@@ -692,7 +692,7 @@ The combination is what makes the modern web tractable. You use slow asymmetric 
 				src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Digital_certificates_chain_of_trust.png/500px-Digital_certificates_chain_of_trust.png',
 				alt: 'X.509 chain of trust: root CA signs intermediate CA, which signs the leaf certificate.',
 				caption:
-					'The X.509 {{certificate-chain|certificate chain of trust}}. Your browser ships with the public keys of around 100 root {{certificate-authority|CAs}}. The site you connect to presents a leaf {{certificate|certificate}} signed by an intermediate {{certificate-authority|CA}}, which is itself signed by a trusted root. Each link is a digital signature your browser verifies.',
+					'The X.509 {{certificate-chain|certificate chain of trust}}. Your browser ships with the public keys of around 100 root {{certificate-authority|CAs}}. The site you {{mqtt-connect|connect}} to presents a leaf {{certificate|certificate}} signed by an intermediate {{certificate-authority|CA}}, which is itself signed by a trusted root. Each link is a digital signature your browser verifies.',
 				credit: 'Diagram: Wikimedia Commons / CC BY-SA 4.0'
 			},
 			{
@@ -702,23 +702,23 @@ The combination is what makes the modern web tractable. You use slow asymmetric 
 
 The fix is **{{certificate|certificates}}**. A {{certificate|certificate}} is a {{public-key|public key}} plus identity information (the hostname \`example.com\`, an expiration date, etc.) signed by a **{{certificate-authority|Certificate Authority}}** ({{certificate-authority|CA}}) using the {{certificate-authority|CA}}'s {{private-key|private key}}. Your browser ships with the public keys of around 100 trusted root CAs. When example.com hands you a {{certificate|certificate}}, your browser verifies the signature using the {{certificate-authority|CA}}'s {{public-key|public key}} — if the signature is valid, you know the {{certificate|certificate}} genuinely binds the {{public-key|public key}} to the hostname.
 
-The {{certificate-chain|certificate chain}} is usually two or three deep: \`example.com → DigiCert [[tls|TLS]] Hybrid ECC SHA384 → DigiCert Global Root G3\`. Only the bottom (root) {{certificate-authority|CA}}'s {{certificate|certificate}} is shipped pre-installed; the intermediate is in the chain the server sends; the leaf is the actual hostname {{certificate|certificate}}. Each link signs the next. The {{pki|PKI}} ({{pki|Public Key Infrastructure}}) is the entire global apparatus that makes this work — root CAs, audit requirements, browser inclusion programs, {{certificate-transparency|certificate transparency}} logs.
+The {{certificate-chain|certificate chain}} is usually two or three deep: \`example.com → DigiCert TLS Hybrid ECC SHA384 → DigiCert Global Root G3\`. Only the bottom (root) {{certificate-authority|CA}}'s {{certificate|certificate}} is shipped pre-installed; the intermediate is in the chain the server sends; the leaf is the actual hostname {{certificate|certificate}}. Each link signs the next. The {{pki|PKI}} ({{pki|Public Key Infrastructure}}) is the entire global apparatus that makes this work — root CAs, audit requirements, browser inclusion programs, {{certificate-transparency|certificate transparency}} logs.
 
-When the system breaks (and it has, repeatedly: DigiNotar 2011, Symantec 2017, multiple smaller incidents), the consequences are network-wide. A compromised {{certificate-authority|CA}} can issue a valid-looking {{certificate|certificate}} for any domain. This is why **{{certificate-transparency|Certificate Transparency}}** logs (RFC 6962) now require every issued {{certificate|certificate}} to be publicly logged — making rogue issuance discoverable, even if not preventable.`
+When the system breaks (and it has, repeatedly: DigiNotar 2011, Symantec 2017, multiple smaller incidents), the consequences are network-wide. A compromised {{certificate-authority|CA}} can issue a valid-looking {{certificate|certificate}} for any domain. This is why **{{certificate-transparency|Certificate Transparency}}** logs ({{rfc-doc|RFC}} 6962) now require every issued {{certificate|certificate}} to be publicly logged — making rogue issuance discoverable, even if not preventable.`
 			},
 			{
 				type: 'callout',
 				title: 'Why TLS 1.3 banned everything weak',
-				text: '[[tls|TLS 1.3]] ([[rfc:8446|RFC 8446]], 2018) was the first version to break wire compatibility with its predecessors. It removed RC4, 3DES, MD5, SHA-1, RSA key {{exchange|exchange}}, and every CBC-mode cipher — keeping only {{chacha20-poly1305|ChaCha20-Poly1305}} and {{aes-gcm|AES-GCM}}, with X25519 / {{ecdh|ECDH}} for key {{exchange|exchange}}. The cleanup was overdue: every weak cipher [[tls|TLS]] still allowed had been weaponised in a published attack (BEAST, CRIME, BREACH, Lucky 13, FREAK, Logjam, ROBOT, …). [[tls|TLS]] 1.3 also reduced the {{handshake|handshake}} to **1 round-trip for new connections, 0 for resumptions** — substantially faster than 1.2.'
+				text: '[[tls|TLS 1.3]] ([[rfc:8446|RFC 8446]], 2018) was the first version to break wire compatibility with its predecessors. It removed {{rc4|RC4}}, 3DES, {{md5|MD5}}, {{sha1|SHA-1}}, {{rsa|RSA}} key {{exchange|exchange}}, and every CBC-mode cipher — keeping only {{chacha20-poly1305|ChaCha20-Poly1305}} and {{aes-gcm|AES-GCM}}, with {{x25519|X25519}} / {{ecdh|ECDH}} for key {{exchange|exchange}}. The cleanup was overdue: every weak cipher [[tls|TLS]] still allowed had been weaponised in a published attack (BEAST, CRIME, BREACH, Lucky 13, FREAK, Logjam, ROBOT, …). [[tls|TLS]] 1.3 also reduced the {{handshake|handshake}} to **1 round-trip for new connections, 0 for resumptions** — substantially faster than 1.2.'
 			},
 			{
 				type: 'narrative',
 				title: 'The Post-Quantum Frontier',
-				text: `The cryptography securing every [[tls|TLS]] connection today (X25519 {{ecdh|ECDH}} for key {{exchange|exchange}}, EdDSA / RSA for signatures) is **vulnerable to quantum computers** that can run Shor's algorithm at scale. No such machine exists yet — current devices are at a few thousand noisy qubits; you need millions of error-corrected qubits to break X25519. But the threat is not future tense.
+				text: `The cryptography securing every [[tls|TLS]] connection today ({{x25519|X25519}} {{ecdh|ECDH}} for key {{exchange|exchange}}, EdDSA / {{rsa|RSA}} for signatures) is **vulnerable to quantum computers** that can run Shor's algorithm at scale. No such machine exists yet — current devices are at a few thousand noisy qubits; you need millions of error-corrected qubits to break {{x25519|X25519}}. But the threat is not future tense.
 
 An adversary recording your encrypted traffic **today** can store it indefinitely and decrypt it whenever a working quantum computer arrives — a strategy known as **harvest now, decrypt later**. For data that needs to stay secret for decades (state secrets, medical records, long-lived contracts), the threat is real now.
 
-The fix is rolling out fast. NIST finalised post-quantum standards in August 2024 ({{ml-kem|ML-KEM}}, ML-DSA, SLH-DSA). The deployed solution is **hybrid** — combine the existing X25519 with the new {{ml-kem|ML-KEM}}-768 such that an attacker has to break **both** to recover the key. The named cipher [[frontier:pq-tls-x25519mlkem768|X25519MLKEM768]] is now the default in Chrome 124+, {{cloudflare|Cloudflare}}'s [[tls|TLS]] termination, and iOS 26. By the end of 2026, most [[tls|TLS]] handshakes on the internet will be post-quantum-secure. The deployment lesson: the cryptography community shipped useful primitives years before the hardware threat materialised, and the deployment ecosystem rolled them out in months.`
+The fix is rolling out fast. {{nist|NIST}} finalised post-quantum standards in August 2024 ({{ml-kem|ML-KEM}}, ML-DSA, SLH-DSA). The deployed solution is **hybrid** — combine the existing {{x25519|X25519}} with the new {{ml-kem|ML-KEM}}-768 such that an attacker has to break **both** to recover the key. The named cipher [[frontier:pq-tls-x25519mlkem768|X25519MLKEM768]] is now the default in Chrome 124+, {{cloudflare|Cloudflare}}'s [[tls|TLS]] termination, and iOS 26. By the end of 2026, most [[tls|TLS]] handshakes on the internet will be post-quantum-secure. The deployment lesson: the cryptography community shipped useful primitives years before the hardware threat materialised, and the deployment ecosystem rolled them out in months.`
 			}
 		]
 	},
@@ -731,7 +731,7 @@ The fix is rolling out fast. NIST finalised post-quantum standards in August 202
 				title: 'The First New Application Layer in Fifteen Years',
 				text: `For fifteen years after [[websockets|WebSockets]] in 2011, the application layer of the internet was settled. [[http1|HTTP]] in three versions, [[grpc|gRPC]] for service-to-service, [[graphql|GraphQL]] for flexible queries, [[sse|SSE]] for streaming — these and a few older protocols ([[smtp|SMTP]], [[imap|IMAP]], [[xmpp|XMPP]], [[mqtt|MQTT]]) covered every meaningful application. Nothing genuinely new appeared in this window.
 
-In November 2024, {{anthropic|Anthropic}} published the **Model Context Protocol** — [[mcp|MCP]]. The premise was simple: AI coding assistants and chat agents needed a standard way to talk to tools (file systems, databases, APIs, internal systems) without each pair re-inventing the integration. With N AI hosts and M tools, the industry was building N×M bespoke connectors. [[mcp|MCP]] collapsed it to N+M.
+In November 2024, {{anthropic|Anthropic}} published the **Model Context Protocol** — [[mcp|MCP]]. The premise was simple: {{ai|AI}} coding assistants and chat agents needed a standard way to talk to tools (file systems, databases, APIs, internal systems) without each pair re-inventing the integration. With N {{ai|AI}} {{hosts-bare|hosts}} and M tools, the industry was building N×M bespoke connectors. [[mcp|MCP]] collapsed it to N+M.
 
 In April 2025, {{google|Google}} published **Agent-to-Agent Protocol** — [[a2a|A2A]] — for collaboration **between** agents: capability discovery, task delegation, asynchronous event streams. Six months later both protocols moved into the [[frontier:a2a-linux-foundation|Linux Foundation]] alongside open governance. As of 2026, [[mcp|MCP]] servers number in the thousands, [[a2a|A2A]] is supported by every major agent framework, and both protocols are recognisably the new layer that earlier decades never had.`
 			},
@@ -739,19 +739,19 @@ In April 2025, {{google|Google}} published **Agent-to-Agent Protocol** — [[a2a
 				type: 'diagram',
 				title: 'The AI Protocol Stack',
 				definition: `graph TD
-  U["User / AI Application"]
+  U["User / {{ai|AI}} Application"]
   U -->|"[[mcp|MCP]]"| T["Tools & Data Sources"]
-  U -->|"[[a2a|A2A]]"| A["Other AI Agents"]
+  U -->|"[[a2a|A2A]]"| A["Other {{ai|AI}} Agents"]
   A -->|"[[mcp|MCP]]"| T2["Agent's Own Tools"]
   subgraph Wire["Wire Format"]
     JR["[[json-rpc|JSON-RPC]] 2.0"]
   end
   subgraph Transport["Transport Layer"]
-    HTTP["HTTP + [[sse|SSE]]"]
-    {{stdio|STDIO}}["stdio (local)"]
+    {{http-method|HTTP}}["{{http-method|HTTP}} + [[sse|SSE]]"]
+    {{stdio|STDIO}}["{{stdio|stdio}} (local)"]
   end
   Wire -.-> Transport`,
-				caption: 'AI protocols sit at the application layer, using [[json-rpc|JSON-RPC]] 2.0 as their wire format and HTTP (or {{stdio|stdio}}) as their transport. [[mcp|MCP]] connects agents to tools; [[a2a|A2A]] connects agents to each other.'
+				caption: '{{ai|AI}} protocols sit at the application layer, using [[json-rpc|JSON-RPC]] 2.0 as their wire format and {{http-method|HTTP}} (or {{stdio|stdio}}) as their transport. [[mcp|MCP]] connects agents to tools; [[a2a|A2A]] connects agents to each other.'
 			},
 			{
 				type: 'narrative',
@@ -760,25 +760,25 @@ In April 2025, {{google|Google}} published **Agent-to-Agent Protocol** — [[a2a
 
 [[json-rpc|JSON-RPC]] 2.0 is, by application-protocol standards, **boring**. It is a 6-page specification (compared to [[grpc|gRPC]]'s 50+ pages, [[graphql|GraphQL]]'s 200+, [[mqtt|MQTT]] 5's 130+). A request is a {{json|JSON}} object with a method name, parameters, and an id. A response is a {{json|JSON}} object with the same id and either a result or an error. That is the entire protocol.
 
-The boringness is the point. The {{lsp|Language Server Protocol}} uses [[json-rpc|JSON-RPC]]. Ethereum's node [[json-rpc|JSON-RPC]] uses it. The Chrome DevTools Protocol uses it. Every editor tooling system from VS Code to JetBrains to Neovim speaks it. It is the **lowest-overhead, highest-interoperability RPC format** that supports both request/response and notifications, encodes neatly for human reading, and works without a code generator.
+The boringness is the point. The {{lsp|Language Server Protocol}} uses [[json-rpc|JSON-RPC]]. Ethereum's node [[json-rpc|JSON-RPC]] uses it. The Chrome DevTools Protocol uses it. Every editor tooling system from VS Code to JetBrains to Neovim speaks it. It is the **lowest-overhead, highest-interoperability {{rpc|RPC}} format** that supports both request/response and notifications, encodes neatly for human reading, and works without a code generator.
 
 For a brand-new protocol layer where adoption is the existential risk, picking the format that already works in every language and every developer's mental model is the right move. [[mcp|MCP]] and [[a2a|A2A]] could have invented a binary protocol with schemas; instead they let the message shape be a transport-level concern and put their innovation in **what** the messages mean.`
 			},
 			{
 				type: 'callout',
 				title: 'Same engineering principles, new domain',
-				text: 'AI protocols follow patterns that look very familiar. **Capability discovery** like [[dns|DNS]]: a server lists what it can do; the client queries the list. **Request/response messaging** like [[http1|HTTP]]: each call has a method, parameters, a result. **{{stateful|Stateful}} sessions** like [[tcp|TCP]]: a connection has an initialisation {{handshake|handshake}}; subsequent calls share that context. **Streaming** like [[sse|SSE]]: long-running operations stream progress events. The engineering vocabulary is the same; the **{{payload|payload}} domain** — describing tools, agents, capabilities, prompts, resources — is what is new.'
+				text: '{{ai|AI}} protocols follow patterns that look very familiar. **Capability discovery** like [[dns|DNS]]: a server lists what it can do; the client queries the list. **Request/response messaging** like [[http1|HTTP]]: each call has a method, parameters, a result. **{{stateful|Stateful}} sessions** like [[tcp|TCP]]: a connection has an initialisation {{handshake|handshake}}; subsequent calls share that context. **Streaming** like [[sse|SSE]]: long-running operations stream progress events. The engineering vocabulary is the same; the **{{payload|payload}} domain** — describing tools, agents, capabilities, prompts, resources — is what is new.'
 			},
 			{
 				type: 'narrative',
 				title: 'What An MCP Server Actually Looks Like',
-				text: `A minimal [[mcp|MCP]] server is a single executable, often under 100 lines of code, that speaks [[json-rpc|JSON-RPC]] over stdin/stdout (for local servers) or HTTP+[[sse|SSE]] (for remote ones, via the [[frontier:mcp-streamable-http|streamable HTTP]] transport finalised in 2025).
+				text: `A minimal [[mcp|MCP]] server is a single executable, often under 100 lines of code, that speaks [[json-rpc|JSON-RPC]] over stdin/stdout (for local servers) or {{http-method|HTTP}}+[[sse|SSE]] (for remote ones, via the [[frontier:mcp-streamable-http|streamable HTTP]] transport finalised in 2025).
 
 When the agent starts, it spawns the server and exchanges an \`initialize\` request — the server responds with its capabilities (which tools, prompts, and resources it offers). The agent calls \`tools/list\` to learn the names and schemas; later it calls \`tools/call\` with a tool name and arguments to actually invoke. The server runs the work, returns the result, and the agent decides what to do next.
 
 This shape is intentionally small. A filesystem [[mcp|MCP]] server has tools like \`read_file\`, \`write_file\`, \`list_directory\`. A GitHub [[mcp|MCP]] server has \`list_issues\`, \`create_pr\`, \`merge_pr\`. A Postgres [[mcp|MCP]] server has \`query\`, \`execute\`, \`describe_table\`. None of them know anything about {{anthropic|Anthropic}}, Cursor, or any specific agent — they just expose a contract. Any [[mcp|MCP]]-aware client can use any [[mcp|MCP]]-aware server.
 
-The architecture's resemblance to the original [[http1|HTTP]] story is not accidental. Berners-Lee invented HTTP as a small, composable contract that any client could speak to any server. [[mcp|MCP]] is the same shape, applied to agents and tools instead of browsers and documents — and like HTTP, the most interesting question is what gets built on top of it.`
+The architecture's resemblance to the original [[http1|HTTP]] story is not accidental. Berners-Lee invented {{http-method|HTTP}} as a small, composable contract that any client could speak to any server. [[mcp|MCP]] is the same shape, applied to agents and tools instead of browsers and documents — and like {{http-method|HTTP}}, the most interesting question is what gets built on top of it.`
 			},
 			{
 				type: 'pioneers',

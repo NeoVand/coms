@@ -11,29 +11,29 @@ export const smtp: Protocol = {
 	oneLiner: 'The protocol that delivers email across the internet — store and forward, hop by hop.',
 	overview: `[[smtp|SMTP]] is the backbone of email. Every email you've ever sent was delivered via [[smtp|SMTP]] — from your mail client to your provider's server, then relayed across the internet to the recipient's mail server. It's a "store and forward" protocol: each server along the path accepts responsibility for the message and forwards it to the next {{hop|hop}}.
 
-[[smtp|SMTP]] is a text-based {{protocol|protocol}} with a simple command vocabulary: HELO/{{ehlo|EHLO}} to greet, MAIL FROM to specify the sender, RCPT TO for recipients, DATA to send the message body, and QUIT to disconnect. Modern [[smtp|SMTP]] uses {{starttls|STARTTLS}} to upgrade plain connections to [[tls|TLS]]-encrypted ones, and authentication ([[smtp|SMTP]] AUTH) to prevent unauthorized sending.
+[[smtp|SMTP]] is a text-based {{protocol|protocol}} with a simple command vocabulary: HELO/{{ehlo|EHLO}} to greet, {{smtp-mail-from|MAIL FROM}} to specify the sender, {{smtp-rcpt-to|RCPT TO}} for recipients, {{smtp-data|DATA}} to send the message body, and QUIT to disconnect. Modern [[smtp|SMTP]] uses {{starttls|STARTTLS}} to upgrade plain connections to [[tls|TLS]]-encrypted ones, and authentication ([[smtp|SMTP]] {{smtp-auth|AUTH}}) to prevent unauthorized sending.
 
-Despite being over 40 years old, [[smtp|SMTP]] remains the universal standard for email delivery. It's been extended with SPF, {{dkim|DKIM}}, and {{dmarc|DMARC}} to fight spam and phishing. While newer protocols handle retrieval ([[imap|IMAP]], {{pop3|POP3}}), [[smtp|SMTP]] still handles every email's journey from sender to destination.`,
+Despite being over 40 years old, [[smtp|SMTP]] remains the universal standard for email delivery. It's been extended with {{spf|SPF}}, {{dkim|DKIM}}, and {{dmarc|DMARC}} to fight spam and phishing. While newer protocols handle retrieval ([[imap|IMAP]], {{pop3|POP3}}), [[smtp|SMTP]] still handles every email's journey from sender to destination.`,
 	howItWorks: [
 		{
 			title: 'Connection & greeting',
 			description:
-				'Client connects to the mail server on port 587 (submission) or 25 (relay) and sends {{ehlo|EHLO}} with its hostname. Server responds with supported extensions like {{starttls|STARTTLS}} and AUTH.'
+				'Client connects to the mail server on port 587 (submission) or 25 (relay) and sends {{ehlo|EHLO}} with its hostname. Server responds with supported extensions like {{starttls|STARTTLS}} and {{smtp-auth|AUTH}}.'
 		},
 		{
 			title: 'TLS & authentication',
 			description:
-				'Client issues {{starttls|STARTTLS}} to upgrade to an encrypted connection, then authenticates with username/password via AUTH LOGIN or AUTH PLAIN.'
+				'Client issues {{starttls|STARTTLS}} to upgrade to an encrypted connection, then authenticates with username/password via {{smtp-auth|AUTH}} {{login-auth|LOGIN}} or {{smtp-auth|AUTH}} PLAIN.'
 		},
 		{
 			title: 'Envelope & message',
 			description:
-				'Client specifies sender (MAIL FROM), recipients (RCPT TO), then sends the message body after DATA command. The message includes headers (From, To, Subject) and the body text.'
+				'Client specifies sender ({{smtp-mail-from|MAIL FROM}}), recipients ({{smtp-rcpt-to|RCPT TO}}), then sends the message body after {{smtp-data|DATA}} command. The message includes headers (From, To, Subject) and the body text.'
 		},
 		{
 			title: 'Relay & delivery',
 			description:
-				"The server accepts the message (250 OK) and relays it to the recipient's mail server by looking up MX records in [[dns|DNS]]. Each hop stores and forwards until the message reaches the destination mailbox."
+				"The server accepts the message (250 OK) and relays it to the recipient's mail server by looking up {{mx-record|MX}} records in [[dns|DNS]]. Each hop stores and forwards until the message reaches the destination mailbox."
 		}
 	],
 	useCases: [
@@ -74,7 +74,7 @@ await transporter.sendMail({
   from: 'sender@example.com',
   to: 'recipient@example.com',
   subject: 'Test Email',
-  text: 'Hello from SMTP!'
+  text: 'Hello from {{smtp-envelope|SMTP}}!'
 });`
 			},
 			{
@@ -156,7 +156,7 @@ Server: 221 2.0.0 Bye`
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Email.svg/500px-Email.svg.png',
 		alt: 'Diagram showing the flow of email from sender through SMTP servers and DNS MX lookups to the recipient mailbox',
 		caption:
-			"How email flows across the internet — the sender's mail client submits to an [[smtp|SMTP]] server, which looks up the recipient's domain via [[dns|DNS]] MX records and relays the message hop by hop until it reaches the destination mailbox.",
+			"How email flows across the internet — the sender's mail client submits to an [[smtp|SMTP]] server, which looks up the recipient's domain via [[dns|DNS]] {{mx-record|MX}} records and relays the message hop by hop until it reaches the destination mailbox.",
 		credit: 'Image: Wikimedia Commons / CC BY-SA 3.0'
 	}
 };

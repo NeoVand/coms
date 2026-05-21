@@ -27,7 +27,7 @@ export const utilitiesStory: CategoryStory = {
 					title: "The Internet's Conscience",
 					org: 'USC Information Sciences Institute',
 					contribution:
-						'Authored the RFCs for [[smtp|SMTP]], contributed to [[ftp|FTP]] and [[dns|DNS]], served as RFC Editor for 28 years, and administered {{iana|IANA}}. Perhaps the single most important figure in internet protocol development.',
+						'Authored the RFCs for [[smtp|SMTP]], contributed to [[ftp|FTP]] and [[dns|DNS]], served as {{rfc-doc|RFC}} Editor for 28 years, and administered {{iana|IANA}}. Perhaps the single most important figure in internet protocol development.',
 					imagePath:
 						'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Jon_Postel_sitting_in_office_%28cropped%29.jpg/330px-Jon_Postel_sitting_in_office_%28cropped%29.jpg'
 				},
@@ -48,7 +48,7 @@ export const utilitiesStory: CategoryStory = {
 					year: 1971,
 					title: 'FTP — RFC 114',
 					description:
-						"One of the internet's first application protocols. Researchers can now transfer files between {{arpanet|ARPANET}} hosts.",
+						"One of the internet's first application protocols. Researchers can now transfer files between {{arpanet|ARPANET}} {{hosts-bare|hosts}}.",
 					protocolId: 'ftp'
 				},
 				{
@@ -200,7 +200,7 @@ export const utilitiesStory: CategoryStory = {
 		{
 			type: 'narrative',
 			title: 'The Security Imperative',
-			text: `The internet was built on trust. Early protocols sent everything in plaintext — passwords, emails, file transfers — because the network was small and its users were known. As the internet grew from hundreds to millions of hosts, this trust model shattered.\n\nIn 1994, Netscape needed to enable secure credit card transactions on the web. [[pioneer:taher-elgamal|Taher Elgamal]] led the creation of {{ssl|SSL}} (Secure Sockets Layer), wrapping [[tcp]] connections in {{encryption|encryption}}. {{ssl|SSL}} 2.0 shipped with Netscape Navigator, and suddenly e-commerce was possible. The {{ietf|IETF}} later standardized it as [[tls]], which now encrypts the vast majority of web traffic.\n\nMeanwhile in Finland, Tatu Ylönen had a more personal motivation. In 1995, a password-sniffing attack compromised accounts at his university. He wrote [[ssh]] — Secure Shell — essentially in a weekend, replacing the completely unencrypted telnet and rlogin. [[ssh|SSH]] didn't just encrypt remote access; it provided a secure tunnel for anything: file transfers (replacing [[ftp]] with {{sftp|SFTP}}), {{port-forwarding|port forwarding}}, and eventually even Git transport.`
+			text: `The internet was built on trust. Early protocols sent everything in plaintext — passwords, emails, file transfers — because the network was small and its users were known. As the internet grew from hundreds to millions of {{hosts-bare|hosts}}, this trust model shattered.\n\nIn 1994, Netscape needed to enable secure credit card transactions on the web. [[pioneer:taher-elgamal|Taher Elgamal]] led the creation of {{ssl|SSL}} (Secure Sockets Layer), wrapping [[tcp]] connections in {{encryption|encryption}}. {{ssl|SSL}} 2.0 shipped with Netscape Navigator, and suddenly e-commerce was possible. The {{ietf|IETF}} later standardized it as [[tls]], which now encrypts the vast majority of web traffic.\n\nMeanwhile in Finland, Tatu Ylönen had a more personal motivation. In 1995, a password-sniffing attack compromised accounts at his university. He wrote [[ssh]] — Secure Shell — essentially in a weekend, replacing the completely unencrypted telnet and rlogin. [[ssh|SSH]] didn't just encrypt remote access; it provided a secure tunnel for anything: file transfers (replacing [[ftp]] with {{sftp|SFTP}}), {{port-forwarding|port forwarding}}, and eventually even Git transport.`
 		},
 		{
 			type: 'image',
@@ -255,7 +255,7 @@ export const utilitiesStory: CategoryStory = {
 		{
 			type: 'callout',
 			title: "Jon Postel — The Internet's Most Important Person You've Never Heard Of",
-			text: "[[pioneer:jon-postel|Jon Postel]] edited the RFC series for 28 years, wrote or co-wrote over 200 RFCs, edited foundational RFCs for [[tcp|TCP]], [[smtp|SMTP]], and other core protocols, served as {{iana|IANA}} administrator. When he died in 1998 at age 55, [[pioneer:vint-cerf|Vint Cerf]] wrote [[rfc:2468|RFC 2468]] as a memorial. His robustness principle — 'Be conservative in what you send, be liberal in what you accept' — remains one of the internet's guiding philosophies."
+			text: "[[pioneer:jon-postel|Jon Postel]] edited the {{rfc-doc|RFC}} series for 28 years, wrote or co-wrote over 200 RFCs, edited foundational RFCs for [[tcp|TCP]], [[smtp|SMTP]], and other core protocols, served as {{iana|IANA}} administrator. When he died in 1998 at age 55, [[pioneer:vint-cerf|Vint Cerf]] wrote [[rfc:2468|RFC 2468]] as a memorial. His robustness principle — 'Be conservative in what you send, be liberal in what you accept' — remains one of the internet's guiding philosophies."
 		}
 	]
 };

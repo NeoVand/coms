@@ -4,6 +4,8 @@
 	import StepTimeline from './StepTimeline.svelte';
 	import PlaybackControls from './PlaybackControls.svelte';
 	import SimulationInputs from './SimulationInputs.svelte';
+	import { parseRichText } from '$lib/utils/text-parser';
+	import RichText from '$lib/components/detail/inline/RichText.svelte';
 
 	interface Props {
 		protocolId: string;
@@ -24,7 +26,9 @@
 		<!-- Title -->
 		<div>
 			<h3 class="text-sm font-semibold text-t-primary">{config.title}</h3>
-			<p class="mt-0.5 text-xs text-t-secondary">{config.description}</p>
+			<p class="mt-0.5 text-xs text-t-secondary">
+				<RichText segments={parseRichText(config.description)} {color} />
+			</p>
 		</div>
 
 		<!-- User inputs -->

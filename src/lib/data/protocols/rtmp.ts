@@ -23,7 +23,7 @@ Today, [[rtmp|RTMP]] is the de facto standard for live stream ingest. Twitch, Yo
 		{
 			title: 'Connect and create stream',
 			description:
-				'Client sends a "connect" command to the application (e.g., /live). Server responds with connection acknowledgment. Client then sends "createStream" to get a stream ID.'
+				'Client sends a "{{mqtt-connect|connect}}" command to the application (e.g., /live). Server responds with connection acknowledgment. Client then sends "createStream" to get a stream {{id-identifier|ID}}.'
 		},
 		{
 			title: 'Chunk and multiplex',

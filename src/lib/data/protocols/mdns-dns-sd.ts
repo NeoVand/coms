@@ -9,12 +9,12 @@ export const mdnsDnsSd: Protocol = {
 	year: 2013,
 	rfc: 'RFC 6762 / 6763',
 	oneLiner:
-		'[[dns|DNS]], shouted to a link-local {{multicast|multicast}} group, so every printer, Chromecast, AirPlay speaker, and {{matter|Matter}} device on your LAN can find each other with zero configuration.',
+		'[[dns|DNS]], shouted to a link-local {{multicast|multicast}} group, so every printer, Chromecast, AirPlay speaker, and {{matter|Matter}} device on your {{lan|LAN}} can find each other with zero configuration.',
 	overview: `[[mdns-dns-sd|mDNS]] is the [[dns|DNS]] you already know, sent to a {{link-local|link-local}} {{multicast|multicast}} group on [[udp|UDP]]/5353. Same 12-byte {{header|header}}, same RR types, same wire format — but instead of {{unicast|unicasting}} to a {{dns-resolution|recursive resolver}}, every host on the link both *asks* and *answers* on \`224.0.0.251\` ([[ipv6|IPv6]]: \`FF02::FB\`). Two flag bits get repurposed: the high bit of QCLASS becomes the **{{unicast|unicast}}-response** bit ("answer me directly to save {{multicast|multicast}} {{bandwidth|bandwidth}}"), and the high bit of RRCLASS becomes the **cache-flush** bit ("my answer supersedes anything you {{cache-hit-miss|cached}} for this name"). Add a probe/announce/respond/defend/goodbye lifecycle and you have a self-organising, conflict-resolving name registry for the local link.
 
-**DNS-SD** ([[rfc:6763|RFC 6763]]) is a naming convention layered on top. A {{service-discovery|service instance}} is named \`<Instance>._<service>._<proto>.local\` — e.g., \`Office Printer._ipp._tcp.local\` for an AirPrint printer. A **PTR** record lists all instances of a service type; an **SRV** record gives the host and {{port|port}}; **TXT** carries key-value metadata; **A/AAAA** resolves the hostname. Discovery is "send a PTR query for \`_ipp._tcp.local\`, then resolve each instance's SRV+TXT+A/AAAA." Same [[dns|DNS]], link-local scope, self-organising registry.
+**{{dns-resolution|DNS}}-SD** ([[rfc:6763|RFC 6763]]) is a naming convention layered on top. A {{service-discovery|service instance}} is named \`<Instance>._<service>._<proto>.local\` — e.g., \`Office Printer._ipp._tcp.local\` for an AirPrint printer. A **{{ptr-record|PTR}}** record lists all instances of a service type; an **{{srv-record|SRV}}** record gives the host and {{port|port}}; **{{txt-record|TXT}}** carries key-value metadata; **A/{{aaaa-record|AAAA}}** resolves the hostname. Discovery is "send a {{ptr-record|PTR}} query for \`_ipp._tcp.local\`, then resolve each instance's {{srv-record|SRV}}+{{txt-record|TXT}}+A/{{aaaa-record|AAAA}}." Same [[dns|DNS]], link-local scope, self-organising registry.
 
-Stuart Cheshire and Marc Krochmal at {{apple|Apple}} shipped this as **Rendezvous** (later renamed **Bonjour** in 2005 after a Tibco trademark dispute) starting in **macOS 10.2 in 2002** — eleven years before [[rfc:6762|RFC 6762]] and [[rfc:6763|RFC 6763]] standardised what was already running on millions of Macs. Today every iPhone, iPad, Mac, {{apple|Apple}} TV, HomePod, Chromecast, AirPlay speaker, AirPrint printer, Sonos, Plex server, {{matter|Matter}} device, and Spotify Connect speaker on the planet speaks it. The 2020s frontier is wide-area mDNS via **SRP / Service Registration Protocol** (RFC 9665, June 2025) — {{thread|Thread}} Border Routers and {{matter|Matter}} ecosystems are about to make link-local discovery a global-scoped story.`,
+Stuart Cheshire and Marc Krochmal at {{apple|Apple}} shipped this as **Rendezvous** (later renamed **Bonjour** in 2005 after a Tibco trademark dispute) starting in **macOS 10.2 in 2002** — eleven years before [[rfc:6762|RFC 6762]] and [[rfc:6763|RFC 6763]] standardised what was already running on millions of Macs. Today every iPhone, iPad, Mac, {{apple|Apple}} TV, HomePod, Chromecast, AirPlay speaker, AirPrint printer, Sonos, Plex server, {{matter|Matter}} device, and Spotify {{mqtt-connect|Connect}} speaker on the planet speaks it. The 2020s frontier is wide-area mDNS via **SRP / Service Registration Protocol** ({{rfc-doc|RFC}} 9665, June 2025) — {{thread|Thread}} Border Routers and {{matter|Matter}} ecosystems are about to make link-local discovery a global-scoped story.`,
 	howItWorks: [
 		{
 			title: 'Probe — three queries, 250 ms apart',
@@ -24,7 +24,7 @@ Stuart Cheshire and Marc Krochmal at {{apple|Apple}} shipped this as **Rendezvou
 		{
 			title: 'Announce — two responses with cache-flush',
 			description:
-				"On winning the probe, the host sends two Response messages 1 second apart, each with the **cache-flush** bit set on its A/AAAA/SRV/TXT records. Every receiver replaces any stale entries for that name with the new ones. The host is now *live* on the link."
+				"On winning the probe, the host sends two Response messages 1 second apart, each with the **cache-flush** bit set on its A/{{aaaa-record|AAAA}}/{{srv-record|SRV}}/{{txt-record|TXT}} records. Every receiver replaces any stale entries for that name with the new ones. The host is now *live* on the link."
 		},
 		{
 			title: 'Respond — multicast queries, 20–120 ms random delay',
@@ -34,7 +34,7 @@ Stuart Cheshire and Marc Krochmal at {{apple|Apple}} shipped this as **Rendezvou
 		{
 			title: 'Service discovery — PTR → SRV → TXT → A/AAAA',
 			description:
-				"A DNS-SD client looking for printers sends a PTR query for `_ipp._tcp.local`. Each printer responds with a PTR pointing to its instance name. The client then sends SRV + TXT + A/AAAA queries for each instance — usually combined in one Question section with the *known-answer suppression* trick: the client lists records it already has so responders only send what's new."
+				"A {{dns-resolution|DNS}}-SD client looking for printers sends a {{ptr-record|PTR}} query for `_ipp._tcp.local`. Each printer responds with a {{ptr-record|PTR}} pointing to its instance name. The client then sends {{srv-record|SRV}} + {{txt-record|TXT}} + A/{{aaaa-record|AAAA}} queries for each instance — usually combined in one Question section with the *known-answer suppression* trick: the client lists records it already has so responders only send what's new."
 		},
 		{
 			title: 'Defend — re-probe on conflict',
@@ -221,7 +221,7 @@ Each RR's CLASS field:
 			date: '2025-06',
 			title: 'RFC 9665 — SRP (Service Registration Protocol) published',
 			description:
-				'**SRP** (RFC 9665, Lemon + [[pioneer:stuart-cheshire|Cheshire]], June 2025) extends [[mdns-dns-sd|DNS-SD]] from link-local to wide-area via {{thread|Thread}} Border Routers and {{matter|Matter}} ecosystems. A device sends one [[dns|DNS]] UPDATE per service to a registrar (typically a {{thread|Thread}} {{border-router|Border Router}}); the registrar pushes it into both wide-area [[dns|DNS]] and link-local [[mdns-dns-sd|mDNS]]. Also allocated `2001:1::3/128` as the **SRP {{anycast|anycast}} address** — so your IoT device can register at a fixed [[ipv6|IPv6]] address with zero prior configuration.',
+				'**SRP** ({{rfc-doc|RFC}} 9665, Lemon + [[pioneer:stuart-cheshire|Cheshire]], June 2025) extends [[mdns-dns-sd|DNS-SD]] from link-local to wide-area via {{thread|Thread}} Border Routers and {{matter|Matter}} ecosystems. A device sends one [[dns|DNS]] {{bgp-update|UPDATE}} per service to a registrar (typically a {{thread|Thread}} {{border-router|Border Router}}); the registrar pushes it into both wide-area [[dns|DNS]] and link-local [[mdns-dns-sd|mDNS]]. Also allocated `2001:1::3/128` as the **SRP {{anycast|anycast}} address** — so your IoT device can register at a fixed [[ipv6|IPv6]] address with zero prior configuration.',
 			source: { url: 'https://www.rfc-editor.org/rfc/rfc9665', label: 'RFC 9665' }
 		},
 		{
@@ -238,7 +238,7 @@ Each RR's CLASS field:
 			date: '2024-11',
 			title: 'Avahi CVE-2024-52616 — predictable DNS transaction IDs',
 			description:
-				'Evgeny Vereshchagin disclosed a class of reachable-assertion DoS bugs (CVE-2023-1981, CVE-2023-38469 through 38473) plus predictable transaction IDs (CVE-2024-52616) in **Avahi**, the dominant {{linux|Linux}}/BSD [[mdns-dns-sd|mDNS]] implementation. Patched in Debian DLA-3990 (December 2024); still under active maintenance — a 2025 unbounded-clients DoS in 0.9-rc2 was fixed in PR #808.',
+				'Evgeny Vereshchagin disclosed a class of reachable-assertion DoS bugs ({{cve|CVE}}-2023-1981, {{cve|CVE}}-2023-38469 through 38473) plus predictable transaction IDs ({{cve|CVE}}-2024-52616) in **Avahi**, the dominant {{linux|Linux}}/{{bsd|BSD}} [[mdns-dns-sd|mDNS]] implementation. Patched in Debian DLA-3990 (December 2024); still under active maintenance — a 2025 unbounded-clients DoS in 0.9-rc2 was fixed in PR #808.',
 			source: {
 				url: 'https://nvd.nist.gov/vuln/detail/CVE-2024-52616',
 				label: 'NVD CVE-2024-52616'
@@ -248,7 +248,7 @@ Each RR's CLASS field:
 			date: '2024-03',
 			title: 'Cisco WLC mDNS DoS — cisco-sa-wlc-mdns-dos-4hv6pBGf',
 			description:
-				'A continuous stream of [[mdns-dns-sd|mDNS]] packets pegs {{cisco|Cisco}} Wireless LAN Controller CPU at 100% and Access Points lose their CAPWAP tunnel. The latest in a decade-long pattern of [[mdns-dns-sd|mDNS]] gateway DoS bugs on {{cisco|Cisco}} hardware (CVE-2014-3358, CVE-2015-0650, 2019 Aironet FlexConnect bug, this one). The cost of being the LAN protocol everyone implements differently.',
+				'A continuous stream of [[mdns-dns-sd|mDNS]] packets pegs {{cisco|Cisco}} Wireless {{lan|LAN}} Controller {{cpu|CPU}} at 100% and Access Points lose their CAPWAP tunnel. The latest in a decade-long pattern of [[mdns-dns-sd|mDNS]] gateway DoS bugs on {{cisco|Cisco}} hardware ({{cve|CVE}}-2014-3358, {{cve|CVE}}-2015-0650, 2019 Aironet FlexConnect bug, this one). The cost of being the {{lan|LAN}} protocol everyone implements differently.',
 			source: {
 				url: 'https://sec.cloudapps.cisco.com/security/center/content/CiscoSecurityAdvisory/cisco-sa-wlc-mdns-dos-4hv6pBGf',
 				label: 'Cisco PSIRT advisory'
@@ -258,7 +258,7 @@ Each RR's CLASS field:
 			date: '2022-10',
 			title: 'Matter 1.0 ships — every Matter device speaks mDNS',
 			description:
-				'{{matter|Matter}} 1.0 (Connectivity Standards Alliance, October 2022) standardises [[mdns-dns-sd|mDNS]]+[[mdns-dns-sd|DNS-SD]] as the discovery protocol for smart-home devices. `_matterc._udp.local` for commissioning, `_matter._tcp.local` for operational. By end of 2024 CSA had certified >2,000 {{matter|Matter}} device SKUs across {{matter|Matter}} 1.0–1.3. Every one of them runs an [[mdns-dns-sd|mDNS]] responder.',
+				'{{matter|Matter}} 1.0 (Connectivity Standards Alliance, October 2022) standardises [[mdns-dns-sd|mDNS]]+[[mdns-dns-sd|DNS-SD]] as the discovery protocol for smart-home devices. `_matterc._udp.local` for commissioning, `_matter._tcp.local` for operational. By end of 2024 {{sig-bluetooth-acronym|CSA}} had certified >2,000 {{matter|Matter}} device SKUs across {{matter|Matter}} 1.0–1.3. Every one of them runs an [[mdns-dns-sd|mDNS]] responder.',
 			source: { url: 'https://csa-iot.org/all-solutions/matter/', label: 'Matter standard' }
 		}
 	],
@@ -274,7 +274,7 @@ Each RR's CLASS field:
 			org: 'Avahi',
 			scale: 'Default on every major Linux distro',
 			description:
-				"The dominant {{linux|Linux}}/BSD implementation, LGPL, maintained by Trent Lloyd. Bundled by Debian, Ubuntu, Fedora, RHEL, openSUSE. Co-authored by [[pioneer:lennart-poettering|Lennart Poettering]] in 2004 (before he moved on to PulseAudio and systemd). The Avahi name is the genus of a Madagascar woolly lemur — freedesktop.org's whimsical-animal-codename pattern at work."
+				"The dominant {{linux|Linux}}/{{bsd|BSD}} implementation, LGPL, maintained by Trent Lloyd. Bundled by Debian, Ubuntu, Fedora, {{rhel|RHEL}}, openSUSE. Co-authored by [[pioneer:lennart-poettering|Lennart Poettering]] in 2004 (before he moved on to PulseAudio and systemd). The Avahi name is the genus of a Madagascar woolly lemur — freedesktop.org's whimsical-animal-codename pattern at work."
 		},
 		{
 			org: 'Google Chromecast + Cast ecosystem',
@@ -297,7 +297,7 @@ Each RR's CLASS field:
 		},
 		{
 			title: '`.local` is an act of IETF jurisdiction over ICANN',
-			text: 'RFC 6761 (February 2013) uses {{iana|IANA}}\'s Special-Use Domain Names registry to *take a TLD off the table* permanently. There is no legal way for {{icann|ICANN}} to delegate `.local` to a registry — this is one of the cleanest examples of the {{ietf|IETF}} asserting authority over names {{icann|ICANN}} normally controls. The legitimisation of a de-facto practice that had been running on every Mac for 11 years.'
+			text: '{{rfc-doc|RFC}} 6761 (February 2013) uses {{iana|IANA}}\'s Special-Use Domain Names registry to *take a {{tld|TLD}} off the table* permanently. There is no legal way for {{icann|ICANN}} to delegate `.local` to a registry — this is one of the cleanest examples of the {{ietf|IETF}} asserting authority over names {{icann|ICANN}} normally controls. The legitimisation of a de-facto practice that had been running on every Mac for 11 years.'
 		},
 		{
 			title: 'Stuart Cheshire also wrote a tank game',
@@ -317,11 +317,11 @@ Each RR's CLASS field:
 			},
 			{
 				title: 'mDNS responders exposed to the WAN are a DDoS reflector',
-				text: 'Many home routers shipped with [[mdns-dns-sd|mDNS]] responders that answered queries on their WAN interface — a misconfiguration violating [[rfc:6762|RFC 6762]]\'s "link-local only" intent. **Christian Rossow\'s "Amplification Hell" (NDSS 2014)** measured BAF up to ~10× for mDNS. **CERT/CC VU#550620 (March 2015)** and **Akamai (December 2016)** documented in-the-wild abuse. **Cure:** {{firewall|firewall}} UDP/5353 at the WAN edge; ensure your responder refuses non-link-local {{unicast|unicast}} queries; deploy BCP 38 ingress filtering.'
+				text: 'Many home routers shipped with [[mdns-dns-sd|mDNS]] responders that answered queries on their {{wan|WAN}} interface — a misconfiguration violating [[rfc:6762|RFC 6762]]\'s "link-local only" intent. **Christian Rossow\'s "Amplification Hell" ({{ndss-conf|NDSS}} 2014)** measured BAF up to ~10× for mDNS. **CERT/CC VU#550620 (March 2015)** and **Akamai (December 2016)** documented in-the-wild abuse. **Cure:** {{firewall|firewall}} UDP/5353 at the {{wan|WAN}} edge; ensure your responder refuses non-link-local {{unicast|unicast}} queries; deploy BCP 38 ingress filtering.'
 			},
 			{
 				title: 'Stadium / large-venue mDNS storms',
-				text: 'Tens of thousands of phones on one {{vlan|VLAN}}, each chattering Bonjour. APs without IGMP snooping (or with snooping miscalibrated) rebroadcast every [[mdns-dns-sd|mDNS]] packet at 6 Mbps. Result: air-time exhaustion, failed authentications, user complaints. **Cure:** disable {{broadcast|broadcast}}/{{multicast|multicast}} on stadium SSIDs entirely, or deploy [[mdns-dns-sd|mDNS]] gateways with rate limits. The lesson is in {{cisco|Cisco}} / Aruba / Meraki blog posts rather than CVE records — operators treat these incidents as embarrassments.'
+				text: 'Tens of thousands of phones on one {{vlan|VLAN}}, each chattering Bonjour. APs without IGMP snooping (or with snooping miscalibrated) rebroadcast every [[mdns-dns-sd|mDNS]] packet at 6 Mbps. Result: air-time exhaustion, failed authentications, user complaints. **Cure:** disable {{broadcast|broadcast}}/{{multicast|multicast}} on stadium SSIDs entirely, or deploy [[mdns-dns-sd|mDNS]] gateways with rate limits. The lesson is in {{cisco|Cisco}} / Aruba / Meraki blog posts rather than {{cve|CVE}} records — operators treat these incidents as embarrassments.'
 			}
 		]
 	}

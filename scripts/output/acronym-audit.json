@@ -1,0 +1,4699 @@
+{
+  "unknown": [
+    {
+      "stem": "FF",
+      "count": 12,
+      "files": [
+        "src/lib/data/journeys.ts",
+        "src/lib/data/protocols/arp.ts"
+      ],
+      "sample": "to the {{broadcast|broadcast}} address (FF:FF:FF:FF:FF:FF) asking \"Who has 192.168"
+    },
+    {
+      "stem": "BMW",
+      "count": 9,
+      "files": [
+        "src/lib/data/book/parts/wireless.ts",
+        "src/lib/data/diagram-definitions.ts",
+        "src/lib/data/protocols/nfc.ts",
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "t bootstraps {{matter|Matter}}, unlocks BMWs, and broadcasts public hearing-loops ac"
+    },
+    {
+      "stem": "R23",
+      "count": 9,
+      "files": [
+        "src/lib/data/book/parts/wireless.ts",
+        "src/lib/data/journeys.ts",
+        "src/lib/data/protocols/zigbee.ts"
+      ],
+      "sample": "zigbee|IEEE 802.15.4 mesh]], Zigbee PRO R23 ({{dynamic-link-key|Dynamic Link Key}},"
+    },
+    {
+      "stem": "AIP",
+      "count": 6,
+      "files": [
+        "src/lib/data/journeys.ts",
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "After GET PROCESSING OPTIONS (returning AIP+{{afl|AFL}}) and {{read-record|READ REC"
+    },
+    {
+      "stem": "GB",
+      "count": 6,
+      "files": [
+        "src/lib/data/protocols/ipsec.ts",
+        "src/lib/data/protocols/nat-traversal.ts",
+        "src/lib/data/protocols/tcp.ts",
+        "src/lib/data/protocols/zigbee.ts"
+      ],
+      "sample": "-byte lifetime (default ~8 hours / ~100 GB). Before either limit is hit, peers run"
+    },
+    {
+      "stem": "Q1",
+      "count": 5,
+      "files": [
+        "src/lib/data/book/parts/transport.ts",
+        "src/lib/data/book/parts/web-api.ts",
+        "src/lib/data/protocols/uwb.ts",
+        "src/lib/data/protocols/zigbee.ts"
+      ],
+      "sample": "he in-kernel push', text: 'As of Q1 2026, [[quic|QUIC]] carries roughly **2"
+    },
+    {
+      "stem": "OV",
+      "count": 5,
+      "files": [
+        "src/lib/data/book/parts/wireless.ts",
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "to seconds of cloning time. **The Dutch OV-chipkaart kept shipping affected cards"
+    },
+    {
+      "stem": "M3",
+      "count": 5,
+      "files": [
+        "src/lib/data/book/parts/wireless.ts",
+        "src/lib/data/protocols/zigbee.ts"
+      ],
+      "sample": "atter}} devices* (Hue Bridge, Aqara Hub M3) translate {{matter|Matter}} operations"
+    },
+    {
+      "stem": "II",
+      "count": 4,
+      "files": [
+        "src/lib/data/book/parts/layer-2-3.ts",
+        "src/lib/data/category-stories/network-foundations.ts",
+        "src/lib/data/concept-foundations.ts",
+        "src/lib/data/protocols/zigbee.ts"
+      ],
+      "sample": "'The **[[ethernet|Ethernet]] Type II frame format** — six bytes of destinati"
+    },
+    {
+      "stem": "F1",
+      "count": 4,
+      "files": [
+        "src/lib/data/book/parts/utilities-security.ts",
+        "src/lib/data/protocols/cellular.ts",
+        "src/lib/data/protocols/ipsec.ts",
+        "src/lib/data/protocols/ntp.ts"
+      ],
+      "sample": "caption: '**{{nist|NIST}}-F1**, the caesium fountain atomic clock th"
+    },
+    {
+      "stem": "SPEKE",
+      "count": 4,
+      "files": [
+        "src/lib/data/journeys.ts",
+        "src/lib/data/protocols/zigbee.ts"
+      ],
+      "sample": "amic-link-key|Dynamic Link Key}}** with SPEKE-over-{{curve25519|Curve25519}} removes"
+    },
+    {
+      "stem": "MAI",
+      "count": 4,
+      "files": [
+        "src/lib/data/outages.ts"
+      ],
+      "sample": "the upstream took it.\", mistake: \"MAI Network Services ({{autonomous-system|A"
+    },
+    {
+      "stem": "PCCW",
+      "count": 4,
+      "files": [
+        "src/lib/data/outages.ts"
+      ],
+      "sample": "ocally. But Pakistan Telecom's upstream PCCW ({{autonomous-system|AS}} 3491) had no"
+    },
+    {
+      "stem": "IKEA",
+      "count": 4,
+      "files": [
+        "src/lib/data/protocols/mdns-dns-sd.ts",
+        "src/lib/data/protocols/zigbee.ts"
+      ],
+      "sample": "azon, Samsung, Aqara, Eve, Philips Hue, IKEA, Schlage, Yale, and dozens more.' }"
+    },
+    {
+      "stem": "MUST",
+      "count": 3,
+      "files": [
+        "src/lib/data/book/parts/layer-2-3.ts",
+        "src/lib/data/protocols/kerberos.ts"
+      ],
+      "sample": "t of [[ip|IP]].\"** Every [[ip|IP]] host MUST answer Echo Requests by spec. Dropping"
+    },
+    {
+      "stem": "RS-232",
+      "count": 3,
+      "files": [
+        "src/lib/data/book/parts/wireless.ts",
+        "src/lib/data/category-stories/wireless.ts"
+      ],
+      "sample": "pposed to be the wire that replaced the RS-232 cable to a mobile-phone headset. Thirty"
+    },
+    {
+      "stem": "S1",
+      "count": 3,
+      "files": [
+        "src/lib/data/book/parts/wireless.ts",
+        "src/lib/data/protocols/cellular.ts",
+        "src/lib/data/protocols/ipsec.ts"
+      ],
+      "sample": "ss network}} and the core (N2/N3 in 5G, S1 in {{lte|LTE}}) is wrapped in [[ipsec|I"
+    },
+    {
+      "stem": "CONNECTED",
+      "count": 3,
+      "files": [
+        "src/lib/data/book/parts/wireless.ts",
+        "src/lib/data/protocols/cellular.ts",
+        "src/lib/data/protocols/stomp.ts"
+      ],
+      "sample": "connection state machine — \\`RRC_IDLE → CONNECTED → INACTIVE\\` for 5G — and **{{nas|NAS}}"
+    },
+    {
+      "stem": "ET",
+      "count": 3,
+      "files": [
+        "src/lib/data/book/parts/wireless.ts",
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "text: 'On **22 February 2024 at 03:30 ET**, AT&T Mobility customers across the U"
+    },
+    {
+      "stem": "AST",
+      "count": 3,
+      "files": [
+        "src/lib/data/category-stories/wireless.ts",
+        "src/lib/data/protocols/cellular.ts"
+      ],
+      "sample": "}}\\'s Globalstar partnership and AT&T's AST SpaceMobile follow similar patterns. Re"
+    },
+    {
+      "stem": "UDP/5353",
+      "count": 3,
+      "files": [
+        "src/lib/data/diagram-definitions.ts",
+        "src/lib/data/protocols/mdns-dns-sd.ts"
+      ],
+      "sample": "-local {{multicast|multicast}} group on UDP/5353, with a probe/announce/respond/goodbye"
+    },
+    {
+      "stem": "RX",
+      "count": 3,
+      "files": [
+        "src/lib/data/journeys.ts"
+      ],
+      "sample": "n. The car (multiple anchors typically) RX-timestamps at t2, delays by `T_reply1`"
+    },
+    {
+      "stem": "PARTNER.COM",
+      "count": 3,
+      "files": [
+        "src/lib/data/protocols/kerberos.ts"
+      ],
+      "sample": "XAMPLE.COM wants to access a service in PARTNER.COM, her {{kerberos-kdc|KDC}} issues a **re"
+    },
+    {
+      "stem": "PR",
+      "count": 3,
+      "files": [
+        "src/lib/data/protocols/mdns-dns-sd.ts",
+        "src/lib/data/protocols/ospf.ts",
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "ded-clients DoS in 0.9-rc2 was fixed in PR #808.', source: { url: 'https://"
+    },
+    {
+      "stem": "NIO",
+      "count": 3,
+      "files": [
+        "src/lib/data/protocols/nfc.ts",
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "lone, including the first Chinese OEMs (NIO, XPENG, Geely group brands). Devices mu"
+    },
+    {
+      "stem": "XPENG",
+      "count": 3,
+      "files": [
+        "src/lib/data/protocols/nfc.ts",
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "including the first Chinese OEMs (NIO, XPENG, Geely group brands). Devices must supp"
+    },
+    {
+      "stem": "T2",
+      "count": 3,
+      "files": [
+        "src/lib/data/protocols/ntp.ts",
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "Server records when the packet arrives (T2) and when it sends the reply (T3). Both"
+    },
+    {
+      "stem": "SIZE",
+      "count": 2,
+      "files": [
+        "src/lib/data/book/parts/async-iot.ts",
+        "src/lib/data/journeys.ts"
+      ],
+      "sample": "he sentinel and uses an authoritative \\`SIZE\\` field. [[amqp|AMQP]] itself adds no a"
+    },
+    {
+      "stem": "GA",
+      "count": 2,
+      "files": [
+        "src/lib/data/book/parts/async-iot.ts"
+      ],
+      "sample": "protocol', text: '**RabbitMQ 4.0 GA (18 September 2024)** made [[amqp|AMQP]"
+    },
+    {
+      "stem": "KIP-1150",
+      "count": 2,
+      "files": [
+        "src/lib/data/book/parts/async-iot.ts"
+      ],
+      "sample": "ess Topics — KIP-1150', text: '**KIP-1150 \"Diskless Topics\"** was accepted by the"
+    },
+    {
+      "stem": "S3",
+      "count": 2,
+      "files": [
+        "src/lib/data/book/parts/async-iot.ts"
+      ],
+      "sample": "less / Bufstream architecture that uses S3 as primary storage. Brokers become {{st"
+    },
+    {
+      "stem": "MD",
+      "count": 2,
+      "files": [
+        "src/lib/data/book/parts/frontier.ts"
+      ],
+      "sample": "lorado Springs, Philadelphia, Rockville MD, San Francisco), with {{apple|Apple}},"
+    },
+    {
+      "stem": "VSX",
+      "count": 2,
+      "files": [
+        "src/lib/data/book/parts/realtime-av.ts",
+        "src/lib/data/category-stories/realtime-av.ts"
+      ],
+      "sample": "', caption: 'A **Polycom VSX 7000** video-conferencing system — the"
+    },
+    {
+      "stem": "IIS",
+      "count": 2,
+      "files": [
+        "src/lib/data/book/parts/realtime-av.ts",
+        "src/lib/data/protocols/http3.ts"
+      ],
+      "sample": "which was created in 1995 by Fraunhofer IIS for **WinPlay3** and popularised by **N"
+    },
+    {
+      "stem": "TV",
+      "count": 2,
+      "files": [
+        "src/lib/data/book/parts/realtime-av.ts",
+        "src/lib/data/protocols/mdns-dns-sd.ts"
+      ],
+      "sample": "y Netflix stream, every {{apple|Apple}} TV {{broadcast|broadcast}} — still starts"
+    },
+    {
+      "stem": "EXT-X-PRELOAD-HINT",
+      "count": 2,
+      "files": [
+        "src/lib/data/book/parts/realtime-av.ts",
+        "src/lib/data/protocols/hls.ts"
+      ],
+      "sample": "ttp2|HTTP/2]] push requirement with **\\`EXT-X-PRELOAD-HINT\\`** — a simpler, {{cdn|CDN}}-friendly h"
+    },
+    {
+      "stem": "UCLA",
+      "count": 2,
+      "files": [
+        "src/lib/data/book/parts/story-of-the-internet.ts",
+        "src/lib/data/category-stories/transport.ts"
+      ],
+      "sample": "-node network that became the internet. UCLA, SRI, UCSB, and Utah; one {{imp|IMP}} p"
+    },
+    {
+      "stem": "SRI",
+      "count": 2,
+      "files": [
+        "src/lib/data/book/parts/story-of-the-internet.ts",
+        "src/lib/data/category-stories/transport.ts"
+      ],
+      "sample": "network that became the internet. UCLA, SRI, UCSB, and Utah; one {{imp|IMP}} per si"
+    },
+    {
+      "stem": "ISI",
+      "count": 2,
+      "files": [
+        "src/lib/data/book/parts/story-of-the-internet.ts",
+        "src/lib/data/concept-foundations.ts"
+      ],
+      "sample": "'[[pioneer:jon-postel|Jon Postel]] at ISI. He edited [[rfc:791|RFC 791]] ([[ip|IP"
+    },
+    {
+      "stem": "L7",
+      "count": 2,
+      "files": [
+        "src/lib/data/book/parts/story-of-the-internet.ts",
+        "src/lib/data/book/parts/web-api.ts"
+      ],
+      "sample": "n the registry. The first genuinely new L7 protocol since [[websockets|WebSockets]"
+    },
+    {
+      "stem": "WS",
+      "count": 2,
+      "files": [
+        "src/lib/data/book/parts/utilities-security.ts",
+        "src/lib/data/comparison/pairs.ts"
+      ],
+      "sample": "dern protocol history. His core line: *\"WS-\\* bad\"* — shorthand among {{ietf|IETF}"
+    },
+    {
+      "stem": "INACTIVE",
+      "count": 2,
+      "files": [
+        "src/lib/data/book/parts/wireless.ts",
+        "src/lib/data/protocols/cellular.ts"
+      ],
+      "sample": "tate machine — \\`RRC_IDLE → CONNECTED → INACTIVE\\` for 5G — and **{{nas|NAS}}** carries"
+    },
+    {
+      "stem": "AMPS",
+      "count": 2,
+      "files": [
+        "src/lib/data/book/parts/wireless.ts",
+        "src/lib/data/protocols/cellular.ts"
+      ],
+      "sample": "[cellular|cellular]]** — from 1G analog AMPS / TACS / NMT in the early 1980s through"
+    },
+    {
+      "stem": "NFC-A",
+      "count": 2,
+      "files": [
+        "src/lib/data/book/parts/wireless.ts",
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "e flavours on the air', text: '**NFC-A** ({{iso|ISO}} 14443-A): {{pcd|PCD}}→{{"
+    },
+    {
+      "stem": "OOK",
+      "count": 2,
+      "files": [
+        "src/lib/data/book/parts/wireless.ts",
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "ed-Miller; {{picc|PICC}}→{{pcd|PCD}} is OOK Manchester on the 847.5 kHz subcarrier."
+    },
+    {
+      "stem": "NFC-B",
+      "count": 2,
+      "files": [
+        "src/lib/data/book/parts/wireless.ts",
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "Base rate 106 kbit/s, scaling to 848. **NFC-B** ({{iso|ISO}} 14443-B): {{pcd|PCD}}→{{"
+    },
+    {
+      "stem": "NRZ-L",
+      "count": 2,
+      "files": [
+        "src/lib/data/book/parts/wireless.ts",
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "cc|PICC}} is 10% {{ask-modulation|ASK}} NRZ-L; {{picc|PICC}}→{{pcd|PCD}} is {{bpsk|BP"
+    },
+    {
+      "stem": "JIS",
+      "count": 2,
+      "files": [
+        "src/lib/data/book/parts/wireless.ts",
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "assports. **{{nfc-f|NFC-F}}** (FeliCa / JIS X 6319-4): 212/424 kbit/s Manchester-co"
+    },
+    {
+      "stem": "PASMO",
+      "count": 2,
+      "files": [
+        "src/lib/data/book/parts/wireless.ts",
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "nt in Japan {{transit|transit}} (Suica, PASMO) and Hong Kong (Octopus). **{{nfc-v|NFC"
+    },
+    {
+      "stem": "ETH",
+      "count": 2,
+      "files": [
+        "src/lib/data/book/parts/wireless.ts",
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "u, Giovanni Camurati, and colleagues at ETH Zürich published **Ghost Peak** — an at"
+    },
+    {
+      "stem": "D03",
+      "count": 2,
+      "files": [
+        "src/lib/data/book/parts/wireless.ts",
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "eee-802-15-4|IEEE}} 802.15.4ab** (Draft D03 September 2025, ratification expected e"
+    },
+    {
+      "stem": "ABI",
+      "count": 2,
+      "files": [
+        "src/lib/data/book/parts/wireless.ts",
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "eness of [[uwb|UWB]] into one purchase. ABI projects [[uwb|UWB]] phone penetration"
+    },
+    {
+      "stem": "PRO",
+      "count": 2,
+      "files": [
+        "src/lib/data/book/parts/wireless.ts",
+        "src/lib/data/journeys.ts"
+      ],
+      "sample": "'[[zigbee|IEEE 802.15.4 mesh]], Zigbee PRO R23 ({{dynamic-link-key|Dynamic Link Ke"
+    },
+    {
+      "stem": "RTSP",
+      "count": 2,
+      "files": [
+        "src/lib/data/book/parts/wireless.ts",
+        "src/lib/data/protocols/zigbee.ts"
+      ],
+      "sample": "mber 2025)**, with camera streaming via RTSP, removing the last category that previo"
+    },
+    {
+      "stem": "OASIS",
+      "count": 2,
+      "files": [
+        "src/lib/data/category-stories/async-iot.ts",
+        "src/lib/data/diagram-definitions.ts"
+      ],
+      "sample": "ce the protocol and shepherd it through OASIS standardization.', imagePath:"
+    },
+    {
+      "stem": "CEO",
+      "count": 2,
+      "files": [
+        "src/lib/data/category-stories/async-iot.ts",
+        "src/lib/data/protocols/amqp.ts"
+      ],
+      "sample": "oyed [[amqp|AMQP]] broker. Later became CEO of Weaveworks, bringing messaging patte"
+    },
+    {
+      "stem": "TIBCO",
+      "count": 2,
+      "files": [
+        "src/lib/data/category-stories/async-iot.ts",
+        "src/lib/data/protocols/mdns-dns-sd.ts"
+      ],
+      "sample": "rneyed from Wall Street trading floors (TIBCO) to IoT sensors ([[mqtt|MQTT]]) to clou"
+    },
+    {
+      "stem": "DIX",
+      "count": 2,
+      "files": [
+        "src/lib/data/category-stories/network-foundations.ts"
+      ],
+      "sample": "c|Xerox PARC}} in 1973, co-authored the DIX [[ethernet|Ethernet]] standard (1980),"
+    },
+    {
+      "stem": "DEC",
+      "count": 2,
+      "files": [
+        "src/lib/data/category-stories/utilities.ts",
+        "src/lib/data/protocols/icmp.ts"
+      ],
+      "sample": "t infrastructure', caption: \"The DEC PDP-11 — machines like these ran early"
+    },
+    {
+      "stem": "BIND",
+      "count": 2,
+      "files": [
+        "src/lib/data/category-stories/utilities.ts",
+        "src/lib/data/protocols/dns.ts"
+      ],
+      "sample": "urity', contribution: 'Wrote BIND, the most widely deployed [[dns|DNS]] s"
+    },
+    {
+      "stem": "HTML5",
+      "count": 2,
+      "files": [
+        "src/lib/data/category-stories/web-api.ts",
+        "src/lib/data/protocols/sse.ts"
+      ],
+      "sample": "sse|Server-Sent Events]] as part of the HTML5 specification, enabling simple server-t"
+    },
+    {
+      "stem": "CMOS",
+      "count": 2,
+      "files": [
+        "src/lib/data/category-stories/wireless.ts",
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "sh engineer who owned the analog RF and CMOS implementation work that paired with Ja"
+    },
+    {
+      "stem": "IC",
+      "count": 2,
+      "files": [
+        "src/lib/data/category-stories/wireless.ts",
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "Jaap Haartsen\\'s digital baseband. The IC-level decisions that made [[bluetooth|B"
+    },
+    {
+      "stem": "FR2",
+      "count": 2,
+      "files": [
+        "src/lib/data/category-stories/wireless.ts",
+        "src/lib/data/protocols/cellular.ts"
+      ],
+      "sample": "flexible numerology, {{mmwave|mmWave}} (FR2) support, network slicing. First commer"
+    },
+    {
+      "stem": "RTT",
+      "count": 2,
+      "files": [
+        "src/lib/data/category-stories/wireless.ts",
+        "src/lib/data/protocols/quic.ts"
+      ],
+      "sample": "Adopted 3 September 2024. Phase-based + RTT distance measurement on a new {{le-audi"
+    },
+    {
+      "stem": "H1/H2",
+      "count": 2,
+      "files": [
+        "src/lib/data/category-stories/wireless.ts",
+        "src/lib/data/protocols/bluetooth.ts"
+      ],
+      "sample": "m|Broadcom}}, Qualcomm, {{apple|Apple}} H1/H2) uses **time-division arbitration** at"
+    },
+    {
+      "stem": "SMTPS",
+      "count": 2,
+      "files": [
+        "src/lib/data/comparison/pairs.ts"
+      ],
+      "sample": "ication protocols transparently (HTTPS, SMTPS); [[ssh|SSH]] provides an encrypted cha"
+    },
+    {
+      "stem": "RTMPS",
+      "count": 2,
+      "files": [
+        "src/lib/data/comparison/pairs.ts",
+        "src/lib/data/diagram-definitions.ts"
+      ],
+      "sample": "aps [[rtmp|RTMP]] connections to create RTMPS, encrypting live stream ingest traffic"
+    },
+    {
+      "stem": "MB",
+      "count": 2,
+      "files": [
+        "src/lib/data/concept-foundations.ts",
+        "src/lib/data/protocols/ospf.ts"
+      ],
+      "sample": "r packet is **1460 bytes**. Sending a 1 MB file means roughly 685 packets. {{path-"
+    },
+    {
+      "stem": "NSFNET",
+      "count": 2,
+      "files": [
+        "src/lib/data/concept-foundations.ts",
+        "src/lib/data/outages.ts"
+      ],
+      "sample": "1986 the same architecture was carrying NSFNET traffic across the country — and the bu"
+    },
+    {
+      "stem": "UC",
+      "count": 2,
+      "files": [
+        "src/lib/data/concept-foundations.ts",
+        "src/lib/data/outages.ts"
+      ],
+      "sample": "ffers between Lawrence Berkeley Lab and UC Berkeley, three hops apart, were where"
+    },
+    {
+      "stem": "RACK-TLP",
+      "count": 2,
+      "files": [
+        "src/lib/data/concept-foundations.ts",
+        "src/lib/data/outages.ts"
+      ],
+      "sample": "ubic|CUBIC}}, {{bbr|BBR}}, {{l4s|L4S}}, RACK-TLP — are each refinements of the same cons"
+    },
+    {
+      "stem": "HPC",
+      "count": 2,
+      "files": [
+        "src/lib/data/concept-foundations.ts",
+        "src/lib/data/frontier.ts"
+      ],
+      "sample": "rnet|Ethernet]]+[[ip|IP]] for {{ai|AI}}/HPC scale-out: {{connectionless|connectionl"
+    },
+    {
+      "stem": "CBC",
+      "count": 2,
+      "files": [
+        "src/lib/data/concept-foundations.ts",
+        "src/lib/data/protocols/tls.ts"
+      ],
+      "sample": "}} key {{exchange|exchange}}, and every CBC-mode cipher — keeping only {{chacha20-p"
+    },
+    {
+      "stem": "BEAST",
+      "count": 2,
+      "files": [
+        "src/lib/data/concept-foundations.ts",
+        "src/lib/data/protocols/tls.ts"
+      ],
+      "sample": "been weaponised in a published attack (BEAST, CRIME, BREACH, Lucky 13, FREAK, Logjam"
+    },
+    {
+      "stem": "CRIME",
+      "count": 2,
+      "files": [
+        "src/lib/data/concept-foundations.ts",
+        "src/lib/data/protocols/tls.ts"
+      ],
+      "sample": "eaponised in a published attack (BEAST, CRIME, BREACH, Lucky 13, FREAK, Logjam, ROBOT"
+    },
+    {
+      "stem": "BREACH",
+      "count": 2,
+      "files": [
+        "src/lib/data/concept-foundations.ts",
+        "src/lib/data/protocols/tls.ts"
+      ],
+      "sample": "ed in a published attack (BEAST, CRIME, BREACH, Lucky 13, FREAK, Logjam, ROBOT, …). [["
+    },
+    {
+      "stem": "FREAK",
+      "count": 2,
+      "files": [
+        "src/lib/data/concept-foundations.ts",
+        "src/lib/data/protocols/tls.ts"
+      ],
+      "sample": "attack (BEAST, CRIME, BREACH, Lucky 13, FREAK, Logjam, ROBOT, …). [[tls|TLS]] 1.3 als"
+    },
+    {
+      "stem": "ROBOT",
+      "count": 2,
+      "files": [
+        "src/lib/data/concept-foundations.ts",
+        "src/lib/data/protocols/tls.ts"
+      ],
+      "sample": "CRIME, BREACH, Lucky 13, FREAK, Logjam, ROBOT, …). [[tls|TLS]] 1.3 also reduced the {"
+    },
+    {
+      "stem": "OBS",
+      "count": 2,
+      "files": [
+        "src/lib/data/diagram-definitions.ts",
+        "src/lib/data/journeys.ts"
+      ],
+      "sample": "eam ingest}}** protocol — your encoder (OBS, Wirecast) pushes a long-lived [[tcp|TC"
+    },
+    {
+      "stem": "STD",
+      "count": 2,
+      "files": [
+        "src/lib/data/diagram-definitions.ts",
+        "src/lib/data/protocols/ospf.ts"
+      ],
+      "sample": "tra|Dijkstra]] ([[rfc:2328|RFC 2328]] / STD 54).', steps: { 0: '{{ospf-hello|H"
+    },
+    {
+      "stem": "CTR",
+      "count": 2,
+      "files": [
+        "src/lib/data/diagram-definitions.ts",
+        "src/lib/data/protocols/cellular.ts"
+      ],
+      "sample": "t}}; **{{sts|STS}}** is the {{aes|AES}}-CTR-generated pulse pattern that makes the"
+    },
+    {
+      "stem": "WHERE",
+      "count": 2,
+      "files": [
+        "src/lib/data/journeys.ts"
+      ],
+      "sample": "transition: 'The browser now knows WHERE the server lives — but packets on the i"
+    },
+    {
+      "stem": "FSCI",
+      "count": 2,
+      "files": [
+        "src/lib/data/journeys.ts",
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "TS}}** declaring its frame-size budget (FSCI=5 = 64 bytes max). Both ends now know h"
+    },
+    {
+      "stem": "FCI",
+      "count": 2,
+      "files": [
+        "src/lib/data/journeys.ts",
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "} `2PAY.SYS.DDF01`). The eSE returns an FCI Template listing every payment {{aid|AI"
+    },
+    {
+      "stem": "PROCESSING",
+      "count": 2,
+      "files": [
+        "src/lib/data/journeys.ts",
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "gram', description: \"After GET PROCESSING OPTIONS (returning AIP+{{afl|AFL}}) and"
+    },
+    {
+      "stem": "CDOL1",
+      "count": 2,
+      "files": [
+        "src/lib/data/journeys.ts",
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "nerate-ac|GENERATE AC}} with the filled CDOL1 data. The eSE composes the inputs (amou"
+    },
+    {
+      "stem": "QR",
+      "count": 2,
+      "files": [
+        "src/lib/data/journeys.ts",
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "e}} (printed on the Hue bulb's box as a QR code), that link key is unique and an e"
+    },
+    {
+      "stem": "CVSS",
+      "count": 2,
+      "files": [
+        "src/lib/data/outages.ts",
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "on the public internet were vulnerable. CVSS 7.5 (high). Operators scrambled to patc"
+    },
+    {
+      "stem": "CID",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/bluetooth.ts"
+      ],
+      "sample": "att-mtu|ATT}}) lives on {{l2cap|L2CAP}} CID 0x0004 and provides read/write/notify/i"
+    },
+    {
+      "stem": "LTK",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/bluetooth.ts"
+      ],
+      "sample": "Curve P-256 to derive a Long-Term Key (LTK); the link is then {{encryption|encrypt"
+    },
+    {
+      "stem": "CIS",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/bluetooth.ts"
+      ],
+      "sample": "nels** — Connected Isochronous Streams (CIS) for {{unicast|unicast}} earbuds/hearin"
+    },
+    {
+      "stem": "LL",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/bluetooth.ts"
+      ],
+      "sample": "scription: 'Two devices in a normal LL connection schedule **{{channel-soundin"
+    },
+    {
+      "stem": "NCC",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/bluetooth.ts",
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "s the protocol-level answer to the 2022 NCC Group {{ble|BLE}} relay attack that ope"
+    },
+    {
+      "stem": "GFSK",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/bluetooth.ts"
+      ],
+      "sample": "s over the air**. Different modulation (GFSK + DPSK for Classic, GFSK only for {{ble"
+    },
+    {
+      "stem": "PB",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/cellular.ts"
+      ],
+      "sample": "}} by Q3 2025; the network averages 6.5 PB/day. The first proof that a hyperscale"
+    },
+    {
+      "stem": "NR",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/cellular.ts"
+      ],
+      "sample": "ecified in Release 17 (2022), the first NR-{{ntn|NTN}} deployments shipped in late"
+    },
+    {
+      "stem": "USA",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/cellular.ts"
+      ],
+      "sample": "numbering plan: 234/235 = UK, 310–316 = USA, 460 = China, 405 = India, 440–441 = Ja"
+    },
+    {
+      "stem": "X2",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/cellular.ts",
+        "src/lib/data/protocols/ipsec.ts"
+      ],
+      "sample": "*mandate** [[ipsec|IPsec]] on every S1, X2, N2, N3, Xn, F1, and E1 interface. Forg"
+    },
+    {
+      "stem": "N2",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/cellular.ts",
+        "src/lib/data/protocols/ipsec.ts"
+      ],
+      "sample": "date** [[ipsec|IPsec]] on every S1, X2, N2, N3, Xn, F1, and E1 interface. Forgetti"
+    },
+    {
+      "stem": "N3",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/cellular.ts",
+        "src/lib/data/protocols/ipsec.ts"
+      ],
+      "sample": "** [[ipsec|IPsec]] on every S1, X2, N2, N3, Xn, F1, and E1 interface. Forgetting t"
+    },
+    {
+      "stem": "E1",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/cellular.ts",
+        "src/lib/data/protocols/ipsec.ts"
+      ],
+      "sample": "]] on every S1, X2, N2, N3, Xn, F1, and E1 interface. Forgetting this in a private"
+    },
+    {
+      "stem": "SOA",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/dns.ts"
+      ],
+      "sample": "pex must also have {{ns-record|NS}} and SOA records. Some [[dns|DNS]] providers off"
+    },
+    {
+      "stem": "NXDOMAIN",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/dns.ts"
+      ],
+      "sample": "g can hurt', text: 'Resolvers cache NXDOMAIN responses based on the SOA minimum fiel"
+    },
+    {
+      "stem": "UDP/4500",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/ipsec.ts"
+      ],
+      "sample": "{{security-association|SA}} switches to UDP/4500 {{encapsulation|encapsulation}}. Two me"
+    },
+    {
+      "stem": "MOBIKE",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/ipsec.ts"
+      ],
+      "sample": "me routers don\\'t corrupt the packet. **MOBIKE** ([[rfc:4555|RFC 4555]]) lets a roadwa"
+    },
+    {
+      "stem": "SKU",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/ipsec.ts",
+        "src/lib/data/protocols/mdns-dns-sd.ts"
+      ],
+      "sample": "(10 Gbps aggregate on the AZ-redundant SKU), {{gcp|GCP}} Cloud {{vpn|VPN}}, OCI Si"
+    },
+    {
+      "stem": "AS-REQ",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/kerberos.ts"
+      ],
+      "sample": "description: 'Client sends an **AS-REQ** to the {{kerberos-kdc|KDC}}\\'s Authen"
+    },
+    {
+      "stem": "TGS-REP",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/kerberos.ts"
+      ],
+      "sample": "ion key for Alice↔web1, and returns a **TGS-REP** with a **service ticket** encrypted u"
+    },
+    {
+      "stem": "GSS",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/kerberos.ts"
+      ],
+      "sample": "y speak Kerberos directly. They speak **GSS-{{api|API}}** (Generic Security Service"
+    },
+    {
+      "stem": "SPNEGO",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/kerberos.ts"
+      ],
+      "sample": "ntext\\` / \\`gss_accept_sec_context\\`. **SPNEGO** ([[rfc:4178|RFC 4178]]) is the protoc"
+    },
+    {
+      "stem": "PKINIT",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/kerberos.ts"
+      ],
+      "sample": "gust 2025 release. Headline features: **PKINIT {{ecdh|ECDH}}/EC certs** (smart-card au"
+    },
+    {
+      "stem": "DES",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/kerberos.ts"
+      ],
+      "sample": "IT}}-internal for years because it used DES — and DES exports required State Depart"
+    },
+    {
+      "stem": "FF02",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/mdns-dns-sd.ts",
+        "src/lib/data/protocols/ospf.ts"
+      ],
+      "sample": "s* on \\`224.0.0.251\\` ([[ipv6|IPv6]]: \\`FF02::FB\\`). Two flag bits get repurposed: t"
+    },
+    {
+      "stem": "SD",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/mdns-dns-sd.ts",
+        "src/lib/data/protocols/ospf.ts"
+      ],
+      "sample": "cription: \"A {{dns-resolution|DNS}}-SD client looking for printers sends a {{p"
+    },
+    {
+      "stem": "SRP",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/mdns-dns-sd.ts"
+      ],
+      "sample": "col) published', description: '**SRP** ({{rfc-doc|RFC}} 9665, Lemon + [[pion"
+    },
+    {
+      "stem": "LLMNR",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/mdns-dns-sd.ts"
+      ],
+      "sample": "th [[mdns-dns-sd|mDNS]] **enabled** and LLMNR **disabled** in the security baseline."
+    },
+    {
+      "stem": "IGMP",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/mdns-dns-sd.ts"
+      ],
+      "sample": "e (often 6 Mbps); managed switches with IGMP snooping enabled drop frames whose list"
+    },
+    {
+      "stem": "WLC",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/mdns-dns-sd.ts",
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "-dns-sd|mDNS]] gateway ({{cisco|Cisco}} WLC `mdns-sd` profile, Aruba AirGroup, Aero"
+    },
+    {
+      "stem": "DERP",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/nat-traversal.ts",
+        "src/lib/data/protocols/wireguard.ts"
+      ],
+      "sample": "path between peers; their proprietary **DERP** relays absorb the rest as a {{turn|TU"
+    },
+    {
+      "stem": "CTO",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/nat-traversal.ts",
+        "src/lib/data/protocols/rtp.ts"
+      ],
+      "sample": "turn|TURN}}, and {{ice|ICE}}. Currently CTO + Head of {{ai|AI}} at Five9.' } ],"
+    },
+    {
+      "stem": "T2T",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "ate frame size (FSCI) and timing (FWI). T2T cards skip {{rats|RATS}} and go straigh"
+    },
+    {
+      "stem": "TC",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/nfc.ts",
+        "src/lib/data/protocols/zigbee.ts"
+      ],
+      "sample": "} — either an {{arqc|ARQC}} (online) or TC (offline). The cryptogram is signed in"
+    },
+    {
+      "stem": "TNF",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "ifier|ID}} Length present), and a 3-bit TNF (Type Name Format: 0=Empty, 1=Well-Know"
+    },
+    {
+      "stem": "IEC",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "{ndef|NDEF}} was formally adopted as an IEC standard in **March 2026** alongside NF"
+    },
+    {
+      "stem": "HID",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/nfc.ts",
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "}}, Allegion, Aqara, {{google|Google}}, HID, Kastle, Kwikset, Last Lock, Nordic, Nu"
+    },
+    {
+      "stem": "EV3",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "Plus in **2011**, DESFire EV2 in 2016, EV3 in the early 2020s. The Classic Crypto1"
+    },
+    {
+      "stem": "GM",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/nfc.ts",
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "is, Audi (new in 2025), Volvo, Porsche, GM, Ford, plus a wave of Chinese OEMs (NIO"
+    },
+    {
+      "stem": "DDA/CDA",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "eturns an AIP byte that signals whether DDA/CDA is supported. A common custom-{{hce|HCE"
+    },
+    {
+      "stem": "RRP",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "gram|EMV}} **Relay Resistance Protocol (RRP)** in Kernel 2 v2.6+ binds round-trip t"
+    },
+    {
+      "stem": "T1",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/ntp.ts"
+      ],
+      "sample": "DP]] packet with its current timestamp (T1). The packet is tiny — 48 bytes.' },"
+    },
+    {
+      "stem": "T3",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/ntp.ts"
+      ],
+      "sample": "rives (T2) and when it sends the reply (T3). Both timestamps are included in the r"
+    },
+    {
+      "stem": "T4",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/ntp.ts"
+      ],
+      "sample": "ient records when the response arrives (T4). Now it has four timestamps: T1 (sent)"
+    },
+    {
+      "stem": "NBMA",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/ospf.ts"
+      ],
+      "sample": "default 10 s on point-to-point, 30 s on NBMA). Hellos carry the router\\'s {{id-ident"
+    },
+    {
+      "stem": "HPRF",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "Hz** in the default 802.15.4z mode or **HPRF 124.8 / 249.6 MHz** in higher-power mod"
+    },
+    {
+      "stem": "RTLS",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "f arrival — used for warehouse/hospital RTLS where anchors are wired. **AoA / PDoA:*"
+    },
+    {
+      "stem": "EN",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "Hz** across 3.1–10.6 GHz. {{etsi|ETSI}} EN 302 065 in Europe is similar with stric"
+    },
+    {
+      "stem": "AR",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "ision Finding, BMW Digital Key, and the AR experiences in {{apple|Apple}} Vision P"
+    },
+    {
+      "stem": "T2024",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "1-chip|U1}}'s 16 nm), internal codename T2024, part number 339M00298. **1.5× longer P"
+    },
+    {
+      "stem": "U400",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "amsung wallets. First products: **Aqara U400** (first smart lock with UWB; {{aliro|A"
+    },
+    {
+      "stem": "S21",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "|Apple}} UWB tracker. Works with Galaxy S21+ / S21 Ultra / Note 20 Ultra / S22/S23/"
+    },
+    {
+      "stem": "DW3000",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "upports only Channel 5; everything from DW3000 / {{nxp|NXP}} SR150 / {{apple|Apple}} {"
+    },
+    {
+      "stem": "SR150",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "5; everything from DW3000 / {{nxp|NXP}} SR150 / {{apple|Apple}} {{u1-chip|U1}} onward"
+    },
+    {
+      "stem": "NLOS",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "ns = 30 cm, but in **non-line-of-sight (NLOS)** conditions through walls/people/meta"
+    },
+    {
+      "stem": "ACL",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/wireguard.ts"
+      ],
+      "sample": "r which destination prefix) **and** the ACL (inbound: only accept packets from this"
+    },
+    {
+      "stem": "TSPU",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/wireguard.ts"
+      ],
+      "sample": "mimicry', description: \"Russia's TSPU boxes learned to fingerprint and drop s"
+    },
+    {
+      "stem": "S1/S2",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/wireguard.ts"
+      ],
+      "sample": "H4 ranges instead of fixed 1–4), random S1/S2 padding. AWG 2.0 adds optional QUIC/{{d"
+    },
+    {
+      "stem": "WARP",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/wireguard.ts"
+      ],
+      "sample": "are}}'s consumer {{vpn|VPN}} (1.1.1.1 + WARP app) runs on **BoringTun**, {{cloudflar"
+    },
+    {
+      "stem": "OTA",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/zigbee.ts"
+      ],
+      "sample": "ntrol = 0x0008, Color Control = 0x0300, OTA Upgrade = 0x0019), and an **APSCounter*"
+    },
+    {
+      "stem": "FOSS",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/zigbee.ts"
+      ],
+      "sample": "and *no* microphone or camera. For the FOSS path the answer is **zigbee2mqtt** by K"
+    },
+    {
+      "stem": "PSU",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/zigbee.ts"
+      ],
+      "sample": "ble Zigbee — the router's switched-mode PSU emits broadband 2.4 GHz noise.\" } ],"
+    },
+    {
+      "stem": "CC2652",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/zigbee.ts"
+      ],
+      "sample": "dresden elektronik ConBee II, or any TI CC2652 stick — the radio is abstracted behind"
+    },
+    {
+      "stem": "SES",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/zigbee.ts"
+      ],
+      "sample": "3 December 2024** VusionGroup (formerly SES-imagotag) announced acceleration of dig"
+    },
+    {
+      "stem": "ESL",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/zigbee.ts"
+      ],
+      "sample": "500 stores. Vusion shipped 350 million ESLs in 2023 alone; the EdgeSense platform r"
+    },
+    {
+      "stem": "AIR",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/zigbee.ts"
+      ],
+      "sample": "', description: \"Acuity's nLight AIR and Atrius lines are the dominant Zigbe"
+    },
+    {
+      "stem": "SUN",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/zigbee.ts"
+      ],
+      "sample": "and later directed standards at the Wi-SUN Alliance. Almost every low-power 802.15"
+    },
+    {
+      "stem": "VSAT",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/async-iot.ts"
+      ],
+      "sample": "llips 66 oil pipelines over a brand-new VSAT satellite link. The 2-byte fixed header"
+    },
+    {
+      "stem": "PINGREQ",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/async-iot.ts"
+      ],
+      "sample": "ixed header**, smallest control packet (PINGREQ) is 2 bytes total. Designed in 1999 by"
+    },
+    {
+      "stem": "JMS",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/async-iot.ts"
+      ],
+      "sample": "sia is removed. RabbitMQ 4.3 also added JMS-style queues with {{sql|SQL}} message s"
+    },
+    {
+      "stem": "NETSCOUT",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/async-iot.ts"
+      ],
+      "sample": "{ kind: 'pull-quote', text: 'NETSCOUT\\'s January 2019 scan found 388,344 publ"
+    },
+    {
+      "stem": "QLC",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/async-iot.ts"
+      ],
+      "sample": "ey were Chinese smartphones running the QLC Chain {{peer-to-peer|peer-to-peer}} cry"
+    },
+    {
+      "stem": "EDHOC",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/async-iot.ts"
+      ],
+      "sample": "messages, ~100 bytes', text: '**EDHOC ([[rfc:9000|RFC 9528]], March 2024)** —"
+    },
+    {
+      "stem": "DH",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/async-iot.ts"
+      ],
+      "sample": "sages totalling ~100 bytes** for static-DH credentials, vs **~700+ bytes for a {{d"
+    },
+    {
+      "stem": "OSCORE",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/async-iot.ts"
+      ],
+      "sample": "years* of additional life. Companion: **OSCORE ([[rfc:8613|RFC 8613]])** wraps the [[c"
+    },
+    {
+      "stem": "DNA",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/famous-outages.ts"
+      ],
+      "sample": "g router carries the same architectural DNA: a control plane that builds the {{rout"
+    },
+    {
+      "stem": "PREF64",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/frontier.ts"
+      ],
+      "sample": "clients \"skip [[ip|IPv4]] entirely,\" **PREF64 in Router Advertisements ([[rfc:8781|RF"
+    },
+    {
+      "stem": "RIR",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/frontier.ts"
+      ],
+      "sample": "{{roa|ROA}} set. Lesson: enforce 2FA on RIR portals.', attribution: 'Author'"
+    },
+    {
+      "stem": "OTC",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/frontier.ts"
+      ],
+      "sample": "fc:9234|RFC 9234]] ([[bgp|BGP]] Roles + OTC) ate its lunch. The lesson: a security"
+    },
+    {
+      "stem": "MW",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/frontier.ts"
+      ],
+      "sample": "nal pluggable optics would consume ~180 MW of power for the optics alone. That is"
+    },
+    {
+      "stem": "X1600",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/frontier.ts"
+      ],
+      "sample": "AI}} workloads. **{{spectrum|Spectrum}}-X1600 (102.4 Tbps)** is expected 2H 2026.'"
+    },
+    {
+      "stem": "GB200",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/frontier.ts"
+      ],
+      "sample": "ption: 'The **{{nvidia|NVIDIA}} GB200 NVL72** Blackwell-architecture rack on"
+    },
+    {
+      "stem": "NVL72",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/frontier.ts"
+      ],
+      "sample": "'The **{{nvidia|NVIDIA}} GB200 NVL72** Blackwell-architecture rack on displa"
+    },
+    {
+      "stem": "COMPUTEX",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/frontier.ts"
+      ],
+      "sample": "ackwell-architecture rack on display at COMPUTEX 2024 — the kind of {{ai|AI}}-training e"
+    },
+    {
+      "stem": "WECA",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/frontier.ts"
+      ],
+      "sample": "as a tagline retrofitted briefly by the WECA board and dropped. The yin-yang logo is"
+    },
+    {
+      "stem": "OET",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/frontier.ts"
+      ],
+      "sample": "on **23 February 2024** the {{fcc|FCC}} OET approved **seven {{afc|AFC}} system ope"
+    },
+    {
+      "stem": "RUCKUS",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/frontier.ts"
+      ],
+      "sample": "d [[wifi|Wi-Fi]] 7 {{access-point|AP}} (RUCKUS R770) was certified 16 April 2024.** Bu"
+    },
+    {
+      "stem": "R770",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/frontier.ts"
+      ],
+      "sample": "i|Wi-Fi]] 7 {{access-point|AP}} (RUCKUS R770) was certified 16 April 2024.** But on"
+    },
+    {
+      "stem": "SINR",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/frontier.ts"
+      ],
+      "sample": "squeezes for **+25% throughput at given SINR, −25% 95th-percentile {{latency|latency"
+    },
+    {
+      "stem": "MPDU",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/frontier.ts"
+      ],
+      "sample": "th-percentile {{latency|latency}}, −25% MPDU loss across {{bss-coloring|BSS}} transi"
+    },
+    {
+      "stem": "CS168",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/how-to-learn-more.ts"
+      ],
+      "sample": "P]] stack), {{mit|MIT}} 6.829, Berkeley CS168.', slots: [ { kind: 'prose'"
+    },
+    {
+      "stem": "PARC",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/layer-2-3.ts"
+      ],
+      "sample": "still runs the original spec. The 1973 PARC sketch and a 2025 Ultra [[ethernet|Ethe"
+    },
+    {
+      "stem": "KU",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/layer-2-3.ts"
+      ],
+      "sample": ", text: '**Mathy Vanhoef and the KU Leuven team have broken [[wifi|Wi-Fi]]"
+    },
+    {
+      "stem": "DCP",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/layer-2-3.ts"
+      ],
+      "sample": "rote [[rfc:826|RFC 826]] from address \\`DCP@{{mit|MIT}}-MC\\` in November 1982. **ST"
+    },
+    {
+      "stem": "MC",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/layer-2-3.ts"
+      ],
+      "sample": "FC 826]] from address \\`DCP@{{mit|MIT}}-MC\\` in November 1982. **STD 37 has never"
+    },
+    {
+      "stem": "L2",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/layer-2-3.ts"
+      ],
+      "sample": "xt: '[[arp|ARP]] relies entirely on the L2 {{checksum|frame check sequence}} — no"
+    },
+    {
+      "stem": "BRL",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/layer-2-3.ts"
+      ],
+      "sample": "rote {{ping|ping}} in a single night at BRL Aberdeen in December 1983, named after"
+    },
+    {
+      "stem": "TOPS-20",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/layer-2-3.ts"
+      ],
+      "sample": "st server was named *Jeeves* and ran on TOPS-20.', credit: 'Image: Wikimedia Com"
+    },
+    {
+      "stem": "KEX",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/patterns-failures.ts"
+      ],
+      "sample": "llo|ServerHello}}/Finished, [[ssh|SSH]] KEX, [[mqtt|MQTT]] {{mqtt-connect|CONNECT}}"
+    },
+    {
+      "stem": "CONNACK",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/patterns-failures.ts"
+      ],
+      "sample": "[[mqtt|MQTT]] {{mqtt-connect|CONNECT}}/CONNACK, [[sctp|SCTP]]\\'s four-way {{cookie|Coo"
+    },
+    {
+      "stem": "DAVE",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/realtime-av.ts"
+      ],
+      "sample": "on a whiteboard in 2018.\" Discord\\'s **DAVE protocol** (deployed 1 March 2026) laye"
+    },
+    {
+      "stem": "MLS",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/realtime-av.ts"
+      ],
+      "sample": "otocol** (deployed 1 March 2026) layers MLS keys + SFrame on top of [[rtp|RTP]]/{{s"
+    },
+    {
+      "stem": "E2EE",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/realtime-av.ts"
+      ],
+      "sample": "on top of [[rtp|RTP]]/{{srtp|SRTP}} for E2EE voice across **2.5 million concurrent u"
+    },
+    {
+      "stem": "M120",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/realtime-av.ts"
+      ],
+      "sample": "AV1}} hardware encode shipped in Chrome M120 (Dec 2023). Firefox 125 added {{av1|AV1"
+    },
+    {
+      "stem": "EME",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/realtime-av.ts"
+      ],
+      "sample": "ec 2023). Firefox 125 added {{av1|AV1}}+EME in April 2024. But the royalty-free cla"
+    },
+    {
+      "stem": "CMAF",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/realtime-av.ts"
+      ],
+      "sample": "ate ladders of small .ts (or now .mp4 / CMAF) segments; a {{cdn|CDN}} serves them ov"
+    },
+    {
+      "stem": "ISDN",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/realtime-av.ts"
+      ],
+      "sample": "four wholesale rewrites later (analog → ISDN → [[rtp|RTP]]/H.323 → [[webrtc|WebRTC]]"
+    },
+    {
+      "stem": "PRNET/SATNET",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/story-of-the-internet.ts"
+      ],
+      "sample": "et|ARPANET}}), and unreliable wireless (PRNET/SATNET) each forced different design pressures"
+    },
+    {
+      "stem": "UCSB",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/story-of-the-internet.ts"
+      ],
+      "sample": "rk that became the internet. UCLA, SRI, UCSB, and Utah; one {{imp|IMP}} per site.',"
+    },
+    {
+      "stem": "EDGE",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/story-of-the-internet.ts"
+      ],
+      "sample": "d on 29 June 2007 with [[wifi|Wi-Fi]] + EDGE; the App Store followed in July 2008; {"
+    },
+    {
+      "stem": "GIGA",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/transport.ts"
+      ],
+      "sample": "ple}} {{os|OS}} services, Korea Telecom GIGA Path, some specialised enterprise WANs)"
+    },
+    {
+      "stem": "CA",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/utilities-security.ts"
+      ],
+      "sample": "te-authority|CA}} signs an intermediate CA, which signs the end-entity {{certifica"
+    },
+    {
+      "stem": "SIGALRM",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/utilities-security.ts"
+      ],
+      "sample": "{{linux|Linux}}. Signal-handler race: \\`SIGALRM\\` handler calls \\`syslog()\\` (not async"
+    },
+    {
+      "stem": "UNIX",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/utilities-security.ts"
+      ],
+      "sample": "er than {{arpanet|ARPANET}}, older than UNIX, older than every other timestamp stand"
+    },
+    {
+      "stem": "Y2036",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/utilities-security.ts"
+      ],
+      "sample": "it and will need fixes before 2036. The Y2036 work has been quietly underway since 20"
+    },
+    {
+      "stem": "SNDMSG",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/utilities-security.ts"
+      ],
+      "sample": "picked the **@** sign in 1971 modifying SNDMSG. [[pioneer:jon-postel|Jon Postel]] publ"
+    },
+    {
+      "stem": "DCE",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/web-api.ts"
+      ],
+      "sample": "a 40-year lineage of Sun {{rpc|RPC}} / DCE / CORBA / Thrift. The client *stub* ser"
+    },
+    {
+      "stem": "CORBA",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/web-api.ts"
+      ],
+      "sample": "year lineage of Sun {{rpc|RPC}} / DCE / CORBA / Thrift. The client *stub* serialises"
+    },
+    {
+      "stem": "NTIA",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/wireless.ts"
+      ],
+      "sample": "d States Frequency Allocations Chart**, NTIA. Every coloured stripe is a *service* —"
+    },
+    {
+      "stem": "WPA",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/wireless.ts"
+      ],
+      "sample": "|OOB}} key or the Wi-Fi {{ssid|SSID}} + WPA key in an {{ndef|NDEF}} record. **[[zig"
+    },
+    {
+      "stem": "MIMO",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/wireless.ts"
+      ],
+      "sample": "11]] — {{csma-ca|CSMA/CA}} in practice, MIMO → {{ofdma|OFDMA}} → {{mlo|MLO}}, and th"
+    },
+    {
+      "stem": "DIFS",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/wireless.ts"
+      ],
+      "sample": "of the {{airtime|airtime}} is spent on DIFS gaps, {{ack|ACK}} frames, beacons, and"
+    },
+    {
+      "stem": "NB",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/wireless.ts"
+      ],
+      "sample": "volte|VoLTE}} / [[wifi|Wi-Fi]] calling, NB-IoT / {{lte|LTE}}-M, satellite {{direct"
+    },
+    {
+      "stem": "N2/N3",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/wireless.ts"
+      ],
+      "sample": "an|radio access network}} and the core (N2/N3 in 5G, S1 in {{lte|LTE}}) is wrapped in"
+    },
+    {
+      "stem": "IOS",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/wireless.ts"
+      ],
+      "sample": "teffen]]\\'s strongSwan, {{cisco|Cisco}} IOS, and Juniper {{junos|Junos}} run more ["
+    },
+    {
+      "stem": "TACS",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/wireless.ts"
+      ],
+      "sample": "ar|cellular]]** — from 1G analog AMPS / TACS / NMT in the early 1980s through 2G {{g"
+    },
+    {
+      "stem": "NMT",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/wireless.ts"
+      ],
+      "sample": "ular]]** — from 1G analog AMPS / TACS / NMT in the early 1980s through 2G {{gsm|GSM"
+    },
+    {
+      "stem": "IS-95",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/wireless.ts"
+      ],
+      "sample": "he early 1980s through 2G {{gsm|GSM}} / IS-95, 3G {{wcdma|WCDMA}} / CDMA2000, 4G {{lt"
+    },
+    {
+      "stem": "CDMA2000",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/wireless.ts"
+      ],
+      "sample": "gsm|GSM}} / IS-95, 3G {{wcdma|WCDMA}} / CDMA2000, 4G {{lte|LTE}}, and {{5g-nr|5G NR}}. E"
+    },
+    {
+      "stem": "SYS.DDF01",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/wireless.ts"
+      ],
+      "sample": "t System Environment {{aid|AID}} \\`2PAY.SYS.DDF01\\` — and the card returns an FCI listing"
+    },
+    {
+      "stem": "A0000000041010",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/wireless.ts"
+      ],
+      "sample": "The reader picks one (e.g. Mastercard \\`A0000000041010\\`), SELECTs it, gets back a {{pdol|PDOL"
+    },
+    {
+      "stem": "TX",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/wireless.ts"
+      ],
+      "sample": "*can* be cheated — a relay with enough TX power makes a distant device look near."
+    },
+    {
+      "stem": "PAL",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/wireless.ts"
+      ],
+      "sample": "iority), **Priority Access Licensees** (PALs, auctioned in 2020 for ~$4.5B), and **G"
+    },
+    {
+      "stem": "PMSE",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/wireless.ts"
+      ],
+      "sample": "has experimented with similar concepts (PMSE in the UK, {{lsa|LSA}} in some EU pilot"
+    },
+    {
+      "stem": "PIE",
+      "count": 1,
+      "files": [
+        "src/lib/data/category-deep-dives.ts"
+      ],
+      "sample": "{{aqm|Active Queue Management}} (CoDel, PIE, fq_codel) and algorithms like {{bbr|BB"
+    },
+    {
+      "stem": "SCADA",
+      "count": 1,
+      "files": [
+        "src/lib/data/category-stories/async-iot.ts"
+      ],
+      "sample": "on: \"Brought embedded systems and SCADA expertise to [[mqtt|MQTT]]'s design. Co"
+    },
+    {
+      "stem": "CBOR",
+      "count": 1,
+      "files": [
+        "src/lib/data/category-stories/async-iot.ts"
+      ],
+      "sample": "oap|CoAP]] specification and co-created CBOR, the efficient binary {{serialization|s"
+    },
+    {
+      "stem": "NATS",
+      "count": 1,
+      "files": [
+        "src/lib/data/category-stories/async-iot.ts"
+      ],
+      "sample": "o cloud-native microservices ([[amqp]], NATS, [[kafka]]). Today, it's one of the mos"
+    },
+    {
+      "stem": "P802",
+      "count": 1,
+      "files": [
+        "src/lib/data/category-stories/network-foundations.ts"
+      ],
+      "sample": "on 100 G lanes). The 1.6 TbE follow-up (P802.3dj, 200 G/lane) targets July 2026 — dr"
+    },
+    {
+      "stem": "LO",
+      "count": 1,
+      "files": [
+        "src/lib/data/category-stories/transport.ts"
+      ],
+      "sample": "two months before the first successful \"LO\" transmission to SRI.', credit: 'Pho"
+    },
+    {
+      "stem": "PDP-11",
+      "count": 1,
+      "files": [
+        "src/lib/data/category-stories/utilities.ts"
+      ],
+      "sample": "frastructure', caption: \"The DEC PDP-11 — machines like these ran early [[ntp|N"
+    },
+    {
+      "stem": "POWER",
+      "count": 1,
+      "files": [
+        "src/lib/data/category-stories/web-api.ts"
+      ],
+      "sample": "reads \"This machine is a server. DO NOT POWER IT DOWN!!\"', credit: 'Photo: Coolcae"
+    },
+    {
+      "stem": "DOWN",
+      "count": 1,
+      "files": [
+        "src/lib/data/category-stories/web-api.ts"
+      ],
+      "sample": "is machine is a server. DO NOT POWER IT DOWN!!\"', credit: 'Photo: Coolcaesar / CC"
+    },
+    {
+      "stem": "AAIF",
+      "count": 1,
+      "files": [
+        "src/lib/data/category-stories/web-api.ts"
+      ],
+      "sample": "es to the Agentic {{ai|AI}} Foundation (AAIF) and [[a2a|A2A]] launches as a {{linux|"
+    },
+    {
+      "stem": "RF",
+      "count": 1,
+      "files": [
+        "src/lib/data/category-stories/wireless.ts"
+      ],
+      "sample": "'Swedish engineer who owned the analog RF and CMOS implementation work that paire"
+    },
+    {
+      "stem": "COMDEX",
+      "count": 1,
+      "files": [
+        "src/lib/data/category-stories/wireless.ts"
+      ],
+      "sample": "product (a hands-free headset) ships at COMDEX 1999.', protocolId: 'bluetooth'"
+    },
+    {
+      "stem": "SC-FDMA",
+      "count": 1,
+      "files": [
+        "src/lib/data/category-stories/wireless.ts"
+      ],
+      "sample": "preading codes for an {{ofdma|OFDMA}} + SC-FDMA air interface — the clean-sheet radio d"
+    },
+    {
+      "stem": "IQ",
+      "count": 1,
+      "files": [
+        "src/lib/data/comparison/pairs.ts"
+      ],
+      "sample": "ble delivery of presence, messages, and IQ queries.', howTheyWork: 'An [[xmpp"
+    },
+    {
+      "stem": "AMQPS",
+      "count": 1,
+      "files": [
+        "src/lib/data/comparison/pairs.ts"
+      ],
+      "sample": "aps [[amqp|AMQP]] connections to create AMQPS, encrypting all {{broker|message broker"
+    },
+    {
+      "stem": "MQTTS",
+      "count": 1,
+      "files": [
+        "src/lib/data/comparison/pairs.ts"
+      ],
+      "sample": "aps [[mqtt|MQTT]] connections to create MQTTS, encrypting all pub/sub messaging betwe"
+    },
+    {
+      "stem": "SIPS",
+      "count": 1,
+      "files": [
+        "src/lib/data/comparison/pairs.ts"
+      ],
+      "sample": "SIP]] {{signaling|signaling}} to create SIPS, encrypting call setup, authentication,"
+    },
+    {
+      "stem": "WSS",
+      "count": 1,
+      "files": [
+        "src/lib/data/comparison/pairs.ts"
+      ],
+      "sample": "ckets|WebSocket]] connections to create WSS (wss://), encrypting the {{full-duplex|"
+    },
+    {
+      "stem": "M3U8",
+      "count": 1,
+      "files": [
+        "src/lib/data/comparison/pairs.ts"
+      ],
+      "sample": "LS]] delivers adaptive video by serving M3U8 playlists and media segments as standar"
+    },
+    {
+      "stem": "BOSH",
+      "count": 1,
+      "files": [
+        "src/lib/data/comparison/pairs.ts"
+      ],
+      "sample": "network without long-polling hacks like BOSH.', howTheyWork: 'The browser opens"
+    },
+    {
+      "stem": "PROXY",
+      "count": 1,
+      "files": [
+        "src/lib/data/concept-foundations.ts"
+      ],
+      "sample": "ess you explicitly forward it via the **PROXY protocol** or an {{header|HTTP header}}"
+    },
+    {
+      "stem": "ARPA",
+      "count": 1,
+      "files": [
+        "src/lib/data/concept-foundations.ts"
+      ],
+      "sample": "down in 1986.', caption: 'The ARPA Network in September 1973, a few dozen"
+    },
+    {
+      "stem": "DHT",
+      "count": 1,
+      "files": [
+        "src/lib/data/concept-foundations.ts"
+      ],
+      "sample": "Torrent uses centralised trackers (or a DHT, which is a decentralised tracker) to b"
+    },
+    {
+      "stem": "SHA384",
+      "count": 1,
+      "files": [
+        "src/lib/data/concept-foundations.ts"
+      ],
+      "sample": "DigiCert [[tls|TLS]] Hybrid {{ecc|ECC}} SHA384 → DigiCert Global Root G3\\`. Only the b"
+    },
+    {
+      "stem": "G3",
+      "count": 1,
+      "files": [
+        "src/lib/data/concept-foundations.ts"
+      ],
+      "sample": "ecc|ECC}} SHA384 → DigiCert Global Root G3\\`. Only the bottom (root) {{certificate"
+    },
+    {
+      "stem": "SIGTRAN",
+      "count": 1,
+      "files": [
+        "src/lib/data/diagram-definitions.ts"
+      ],
+      "sample": "under telecom {{signaling|signaling}} (SIGTRAN) and [[webrtc|WebRTC]] data channels (["
+    },
+    {
+      "stem": "WHATWG",
+      "count": 1,
+      "files": [
+        "src/lib/data/diagram-definitions.ts"
+      ],
+      "sample": "only need {{server-push|server push}} (WHATWG).', steps: { 0: 'Standard [[http1|"
+    },
+    {
+      "stem": "OMA",
+      "count": 1,
+      "files": [
+        "src/lib/data/diagram-definitions.ts"
+      ],
+      "sample": "App, and the {{matter|Matter}}-adjacent OMA-LwM2M IoT stack. Encrypted via {{startt"
+    },
+    {
+      "stem": "CQRS",
+      "count": 1,
+      "files": [
+        "src/lib/data/diagram-definitions.ts"
+      ],
+      "sample": "tream processing}}, event sourcing, and CQRS. **{{exactly-once-delivery|Exactly-once"
+    },
+    {
+      "stem": "T1/T2/T3/T4",
+      "count": 1,
+      "files": [
+        "src/lib/data/diagram-definitions.ts"
+      ],
+      "sample": "timestamps per {{exchange|exchange}}** (T1/T2/T3/T4) which cancel out network {{latency|lat"
+    },
+    {
+      "stem": "TGS",
+      "count": 1,
+      "files": [
+        "src/lib/data/diagram-definitions.ts"
+      ],
+      "sample": "ey Distribution Center, split into AS + TGS), and Service. Two {{encryption|encrypt"
+    },
+    {
+      "stem": "SEND",
+      "count": 1,
+      "files": [
+        "src/lib/data/journeys.ts"
+      ],
+      "sample": "ONNECT}}, {{mqtt-subscribe|SUBSCRIBE}}, SEND, and {{ack|ACK}} are self-explanatory,"
+    },
+    {
+      "stem": "ERP",
+      "count": 1,
+      "files": [
+        "src/lib/data/journeys.ts"
+      ],
+      "sample": "ing queue, maintenance data goes to the ERP integration queue, and raw telemetry go"
+    },
+    {
+      "stem": "VP8",
+      "count": 1,
+      "files": [
+        "src/lib/data/journeys.ts"
+      ],
+      "sample": "round rules: which codecs they support (VP8, H.264, Opus), what transport addresses"
+    },
+    {
+      "stem": "DANE",
+      "count": 1,
+      "files": [
+        "src/lib/data/journeys.ts"
+      ],
+      "sample": "d [[dns|DNS]]-based authentication like DANE which allows domain owners to {{mqtt-pu"
+    },
+    {
+      "stem": "TVR",
+      "count": 1,
+      "files": [
+        "src/lib/data/journeys.ts"
+      ],
+      "sample": "the inputs (amount, currency, country, TVR, {{atc|ATC}}, Unpredictable Number, AIP"
+    },
+    {
+      "stem": "POS",
+      "count": 1,
+      "files": [
+        "src/lib/data/journeys.ts"
+      ],
+      "sample": "description: \"Modern wireless POS terminals (Square, Stripe, Verifone Eng"
+    },
+    {
+      "stem": "APPROVED",
+      "count": 1,
+      "files": [
+        "src/lib/data/journeys.ts"
+      ],
+      "sample": "sufficient balance + no fraud flag = **APPROVED**. The issuer returns an **ARPC** (Auth"
+    },
+    {
+      "stem": "ARPC",
+      "count": 1,
+      "files": [
+        "src/lib/data/journeys.ts"
+      ],
+      "sample": "= **APPROVED**. The issuer returns an **ARPC** (Authorisation Response Cryptogram) o"
+    },
+    {
+      "stem": "RFRAME",
+      "count": 1,
+      "files": [
+        "src/lib/data/journeys.ts"
+      ],
+      "sample": "n: \"The phone transmits a **Poll** RFRAME on [[uwb|UWB]] Channel 9 (7987.2 MHz, 4"
+    },
+    {
+      "stem": "LQI",
+      "count": 1,
+      "files": [
+        "src/lib/data/journeys.ts"
+      ],
+      "sample": "icks the best parent by {{rssi|RSSI}} + LQI. This is the slowest step — beacon scan"
+    },
+    {
+      "stem": "WITHDRAWAL",
+      "count": 1,
+      "files": [
+        "src/lib/data/outages.ts"
+      ],
+      "sample": "-system|AS}} 32934 — and then a wave of WITHDRAWALs of the [[ip|IPv4]] and [[ipv6|IPv6]] pr"
+    },
+    {
+      "stem": "SERVFAIL",
+      "count": 1,
+      "files": [
+        "src/lib/data/outages.ts"
+      ],
+      "sample": "ike 1.1.1.1 and 8.8.8.8 start returning SERVFAIL for facebook.com. Apps and humans retry"
+    },
+    {
+      "stem": "NANOG",
+      "count": 1,
+      "files": [
+        "src/lib/data/outages.ts"
+      ],
+      "sample": "tion: \"Vince Bono's apology email to NANOG that day is preserved in the archives —"
+    },
+    {
+      "stem": "RIS",
+      "count": 1,
+      "files": [
+        "src/lib/data/outages.ts"
+      ],
+      "sample": "ally for hours. {{ripe-ncc|RIPE NCC}}'s RIS data became the canonical post-mortem s"
+    },
+    {
+      "stem": "LBL",
+      "count": 1,
+      "files": [
+        "src/lib/data/outages.ts"
+      ],
+      "sample": "delivery less likely. Throughput on the LBL-to-UCB path collapsed from 32 kbps to 4"
+    },
+    {
+      "stem": "UCB",
+      "count": 1,
+      "files": [
+        "src/lib/data/outages.ts"
+      ],
+      "sample": "y less likely. Throughput on the LBL-to-UCB path collapsed from 32 kbps to 40 bps —"
+    },
+    {
+      "stem": "LBL-UCB",
+      "count": 1,
+      "files": [
+        "src/lib/data/outages.ts"
+      ],
+      "sample": "uplicates. Goodput approaches zero. The LBL-UCB path measures 40 bps where it had measu"
+    },
+    {
+      "stem": "CT",
+      "count": 1,
+      "files": [
+        "src/lib/data/outages.ts"
+      ],
+      "sample": "limit damage.\", mistake: \"At 02:42 CT, a network change with an equipment con"
+    },
+    {
+      "stem": "GSO",
+      "count": 1,
+      "files": [
+        "src/lib/data/outages.ts"
+      ],
+      "sample": "ff could be split into more than 65,535 GSO segments. The 16-bit counter overflowed"
+    },
+    {
+      "stem": "OPEN",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/bgp.ts"
+      ],
+      "sample": "'Both routers {{exchange|exchange}} OPEN messages containing their {{autonomous-"
+    },
+    {
+      "stem": "NLRI",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/bgp.ts"
+      ],
+      "sample": "messages containing reachable prefixes (NLRI) with path attributes: {{as-path|AS_PAT"
+    },
+    {
+      "stem": "EGP",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/bgp.ts"
+      ],
+      "sample": "Austin. The previous routing protocol (EGP) was unmanageable. They sketched a repl"
+    },
+    {
+      "stem": "GTSM",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/bgp.ts"
+      ],
+      "sample": "tcha', text: 'Some operators enable GTSM (Generalised {{ttl|TTL}} Security Mecha"
+    },
+    {
+      "stem": "SBC",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/bluetooth.ts"
+      ],
+      "sample": "he mandatory {{codec|codec}} (replacing SBC and saving ~50% battery vs A2DP). **{{a"
+    },
+    {
+      "stem": "A2DP",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/bluetooth.ts"
+      ],
+      "sample": "eplacing SBC and saving ~50% battery vs A2DP). **{{auracast|Auracast}}** is the {{si"
+    },
+    {
+      "stem": "ISOAL",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/bluetooth.ts"
+      ],
+      "sample": "privacy against long-term tracking) and ISOAL improvements for {{le-audio|LE Audio}}"
+    },
+    {
+      "stem": "EURECOM",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/bluetooth.ts"
+      ],
+      "sample": "mes', text: \"Daniele Antonioli (then EURECOM, now PostDoc-and-faculty) is the lead a"
+    },
+    {
+      "stem": "DPSK",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/bluetooth.ts"
+      ],
+      "sample": "the air**. Different modulation (GFSK + DPSK for Classic, GFSK only for {{ble|BLE}}"
+    },
+    {
+      "stem": "FR1",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/cellular.ts"
+      ],
+      "sample": "two very different deployment regimes (FR1 sub-6 GHz, FR2 {{mmwave|mmWave}} 24–52"
+    },
+    {
+      "stem": "LLR",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/cellular.ts"
+      ],
+      "sample": "ion}}. The receiver stores soft-decoded LLRs from failed transmissions and combines"
+    },
+    {
+      "stem": "RLC",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/cellular.ts"
+      ],
+      "sample": "er compression', description: '**RLC** runs in TM (transparent), UM (unackno"
+    },
+    {
+      "stem": "TM",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/cellular.ts"
+      ],
+      "sample": "', description: '**RLC** runs in TM (transparent), UM (unacknowledged), or"
+    },
+    {
+      "stem": "UM",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/cellular.ts"
+      ],
+      "sample": "'**RLC** runs in TM (transparent), UM (unacknowledged), or AM (acknowledged)"
+    },
+    {
+      "stem": "AM",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/cellular.ts"
+      ],
+      "sample": "(transparent), UM (unacknowledged), or AM (acknowledged) mode with 10- or 16-bit"
+    },
+    {
+      "stem": "PDCP",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/cellular.ts"
+      ],
+      "sample": "ce numbers}} ({{ts-3gpp|TS}} 38.322). **PDCP** above it ({{ts-3gpp|TS}} 38.323) does"
+    },
+    {
+      "stem": "ROHC",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/cellular.ts"
+      ],
+      "sample": "* above it ({{ts-3gpp|TS}} 38.323) does ROHC {{header|header compression}} (squashin"
+    },
+    {
+      "stem": "USIM",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/cellular.ts"
+      ],
+      "sample": "hentication vector, and the {{ue|UE}}'s USIM verifies AUTN and computes RES*. After"
+    },
+    {
+      "stem": "AUTN",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/cellular.ts"
+      ],
+      "sample": "ctor, and the {{ue|UE}}'s USIM verifies AUTN and computes RES*. After Security Mode"
+    },
+    {
+      "stem": "RES",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/cellular.ts"
+      ],
+      "sample": "|UE}}'s USIM verifies AUTN and computes RES*. After Security Mode Command, {{nas|NA"
+    },
+    {
+      "stem": "PCF",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/cellular.ts"
+      ],
+      "sample": "{upf|UPF}}, {{ausf|AUSF}}, {{udm|UDM}}, PCF, NRF, NEF, NSSF, AF — each is a **netwo"
+    },
+    {
+      "stem": "NRF",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/cellular.ts"
+      ],
+      "sample": "UPF}}, {{ausf|AUSF}}, {{udm|UDM}}, PCF, NRF, NEF, NSSF, AF — each is a **network fu"
+    },
+    {
+      "stem": "NEF",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/cellular.ts"
+      ],
+      "sample": ", {{ausf|AUSF}}, {{udm|UDM}}, PCF, NRF, NEF, NSSF, AF — each is a **network functio"
+    },
+    {
+      "stem": "NSSF",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/cellular.ts"
+      ],
+      "sample": "usf|AUSF}}, {{udm|UDM}}, PCF, NRF, NEF, NSSF, AF — each is a **network function** wi"
+    },
+    {
+      "stem": "AF",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/cellular.ts"
+      ],
+      "sample": "SF}}, {{udm|UDM}}, PCF, NRF, NEF, NSSF, AF — each is a **network function** with a"
+    },
+    {
+      "stem": "GPRS",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/cellular.ts"
+      ],
+      "sample": "|UPF}} travel over **{{gtp-u|GTP-U}}** (GPRS Tunnelling Protocol — User plane) on [["
+    },
+    {
+      "stem": "ML",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/cellular.ts"
+      ],
+      "sample": "vanced release. New features: {{ai|AI}}/ML in the air interface (CSI feedback comp"
+    },
+    {
+      "stem": "CSI",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/cellular.ts"
+      ],
+      "sample": "res: {{ai|AI}}/ML in the air interface (CSI feedback compression, beam management),"
+    },
+    {
+      "stem": "SOS",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/cellular.ts"
+      ],
+      "sample": "{{apple|Apple}}\\'s Globalstar Emergency SOS round out the satellite-{{direct-to-cel"
+    },
+    {
+      "stem": "Q3",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/cellular.ts"
+      ],
+      "sample": "use cloud-native {{5g-core|5G core}} by Q3 2025; the network averages 6.5 PB/day."
+    },
+    {
+      "stem": "NEC",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/cellular.ts"
+      ],
+      "sample": "land. Multi-vendor mix: Samsung radios, NEC baseband, Wind River cloud platform. Th"
+    },
+    {
+      "stem": "ARIB",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/cellular.ts"
+      ],
+      "sample": "partnership of {{etsi|ETSI}} (Europe), ARIB + TTC (Japan), ATIS (North America), CC"
+    },
+    {
+      "stem": "TTC",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/cellular.ts"
+      ],
+      "sample": "rship of {{etsi|ETSI}} (Europe), ARIB + TTC (Japan), ATIS (North America), CCSA (Ch"
+    },
+    {
+      "stem": "ATIS",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/cellular.ts"
+      ],
+      "sample": "si|ETSI}} (Europe), ARIB + TTC (Japan), ATIS (North America), CCSA (China), TSDSI (I"
+    },
+    {
+      "stem": "CCSA",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/cellular.ts"
+      ],
+      "sample": "IB + TTC (Japan), ATIS (North America), CCSA (China), TSDSI (India), TTA (Korea). Ev"
+    },
+    {
+      "stem": "TSDSI",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/cellular.ts"
+      ],
+      "sample": "n), ATIS (North America), CCSA (China), TSDSI (India), TTA (Korea). Every cellular ph"
+    },
+    {
+      "stem": "TTA",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/cellular.ts"
+      ],
+      "sample": "America), CCSA (China), TSDSI (India), TTA (Korea). Every cellular phone on Earth"
+    },
+    {
+      "stem": "IMSI",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/cellular.ts"
+      ],
+      "sample": "obile Country Code at the start of your IMSI is the protocol\\'s private numbering pl"
+    },
+    {
+      "stem": "MCC/MNC",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/cellular.ts"
+      ],
+      "sample": "ce. Your roaming bill itemises calls by MCC/MNC pair.' }, { title: \"The CDMA-vs-"
+    },
+    {
+      "stem": "CTIA",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/cellular.ts"
+      ],
+      "sample": "tial\", text: 'In January 1989 the US CTIA voted for {{tdma|TDMA}}; later that yea"
+    },
+    {
+      "stem": "DT",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/cellular.ts"
+      ],
+      "sample": "USA, Reliance Jio, parts of Verizon and DT), the {{ue|UE}} receives **only an [[ip"
+    },
+    {
+      "stem": "PLAT",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/cellular.ts"
+      ],
+      "sample": ") — {{clat-acr|CLAT}} on the {{ue|UE}}, PLAT/{{nat64|NAT64}} at the operator. **Pitf"
+    },
+    {
+      "stem": "N6",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/cellular.ts"
+      ],
+      "sample": "ode 4 (Frag Needed) messages on the SGi/N6 side. The {{mtu|MTU}} on a {{gtp-u|GTP-"
+    },
+    {
+      "stem": "EDNS",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/dns.ts"
+      ],
+      "sample": "byte response. Today the limit is moot (EDNS allows larger responses), but the 13-le"
+    },
+    {
+      "stem": "ALIAS",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/dns.ts"
+      ],
+      "sample": "ords. Some [[dns|DNS]] providers offer \"ALIAS\" or \"ANAME\" pseudo-records that work ar"
+    },
+    {
+      "stem": "ANAME",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/dns.ts"
+      ],
+      "sample": "[[dns|DNS]] providers offer \"ALIAS\" or \"ANAME\" pseudo-records that work around this;"
+    },
+    {
+      "stem": "USER",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/ftp.ts"
+      ],
+      "sample": "o server port 21 and authenticates with USER and PASS commands. This connection stay"
+    },
+    {
+      "stem": "PASS",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/ftp.ts"
+      ],
+      "sample": "port 21 and authenticates with USER and PASS commands. This connection stays open fo"
+    },
+    {
+      "stem": "CWD",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/ftp.ts"
+      ],
+      "sample": "ient browses the remote filesystem with CWD (change directory), PWD (print working"
+    },
+    {
+      "stem": "PWD",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/ftp.ts"
+      ],
+      "sample": "filesystem with CWD (change directory), PWD (print working directory), and LIST (di"
+    },
+    {
+      "stem": "LIST",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/ftp.ts"
+      ],
+      "sample": "ry), PWD (print working directory), and LIST (directory listing). All commands are h"
+    },
+    {
+      "stem": "PASV",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/ftp.ts"
+      ],
+      "sample": "CP]] connection opens. In passive mode (PASV), the server tells the client which por"
+    },
+    {
+      "stem": "RETR",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/ftp.ts"
+      ],
+      "sample": "er', description: 'Client issues RETR (download) or STOR (upload). Data flows"
+    },
+    {
+      "stem": "STOR",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/ftp.ts"
+      ],
+      "sample": ": 'Client issues RETR (download) or STOR (upload). Data flows on the data connec"
+    },
+    {
+      "stem": "SETTINGS",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/http2.ts"
+      ],
+      "sample": "client and server {{exchange|exchange}} SETTINGS frames establishing max concurrent stre"
+    },
+    {
+      "stem": "RR",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/http3.ts"
+      ],
+      "sample": "st. The HTTPS [[dns|DNS]] record (HTTPS RR, [[rfc:9460|RFC 9460]]) closes this gap"
+    },
+    {
+      "stem": "VT100",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/icmp.ts"
+      ],
+      "sample": "a DEC PDP-11/70', caption: 'A DEC VT100 terminal — the type of terminal where e"
+    },
+    {
+      "stem": "INBOX",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/imap.ts"
+      ],
+      "sample": "ription: 'Client selects a mailbox (INBOX, Drafts, Sent, etc.). Server reports me"
+    },
+    {
+      "stem": "UIDVALIDITY",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/imap.ts"
+      ],
+      "sample": ", recent messages, available flags, and UIDVALIDITY for cache validation.' }, { titl"
+    },
+    {
+      "stem": "SEARCH",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/imap.ts"
+      ],
+      "sample": "tion: 'Client searches server-side (SEARCH FROM \"alice\" SINCE 1-Mar-2024) and modi"
+    },
+    {
+      "stem": "FROM",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/imap.ts"
+      ],
+      "sample": "'Client searches server-side (SEARCH FROM \"alice\" SINCE 1-Mar-2024) and modifies"
+    },
+    {
+      "stem": "SINCE",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/imap.ts"
+      ],
+      "sample": "arches server-side (SEARCH FROM \"alice\" SINCE 1-Mar-2024) and modifies flags (\\\\Seen,"
+    },
+    {
+      "stem": "SPD",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/ipsec.ts"
+      ],
+      "sample": "matching the Security Policy Database (SPD) is wrapped in an **{{esp|ESP}} {{heade"
+    },
+    {
+      "stem": "CRYSTALS",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/ipsec.ts"
+      ],
+      "sample": "s|FIPS}} 203 — the standardised form of CRYSTALS-Kyber. This is the post-quantum {{kem|K"
+    },
+    {
+      "stem": "KE",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/ipsec.ts"
+      ],
+      "sample": "ge}} and [[rfc:9370|RFC 9370]] multiple-KE — meaning two or more KEMs (e.g. classi"
+    },
+    {
+      "stem": "TFS",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/ipsec.ts"
+      ],
+      "sample": "[[rfc:9347|RFC 9347]] {{ip-address|IP}}-TFS (Traffic Flow Security — fixed-size agg"
+    },
+    {
+      "stem": "WG",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/ipsec.ts"
+      ],
+      "sample": ". Fifth revision of the [[ipsec|IPsec]] WG draft that bakes {{ml-kem|ML-KEM}} into"
+    },
+    {
+      "stem": "HSR",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/ipsec.ts"
+      ],
+      "sample": "escription: 'strongSwan (originally HSR Rapperswil, now under [[pioneer:andreas"
+    },
+    {
+      "stem": "OST",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/ipsec.ts"
+      ],
+      "sample": "dreas-steffen|Andreas Steffen]] and the OST team; owned by secunet AG since June 20"
+    },
+    {
+      "stem": "AG",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/ipsec.ts"
+      ],
+      "sample": "en]] and the OST team; owned by secunet AG since June 2022, central to the BSI SIN"
+    },
+    {
+      "stem": "BSI",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/ipsec.ts"
+      ],
+      "sample": "unet AG since June 2022, central to the BSI SINA high-security solution) and Libres"
+    },
+    {
+      "stem": "SINA",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/ipsec.ts"
+      ],
+      "sample": "AG since June 2022, central to the BSI SINA high-security solution) and Libreswan ("
+    },
+    {
+      "stem": "GCM",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/ipsec.ts"
+      ],
+      "sample": "VPN}} ({{ikev2|IKEv2}}, {{aes|AES}}-256-GCM, {{ecdh|ECDH}} groups 19–24, 5 Gbps/tun"
+    },
+    {
+      "stem": "AZ",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/ipsec.ts"
+      ],
+      "sample": "VPN}} Gateway (10 Gbps aggregate on the AZ-redundant SKU), {{gcp|GCP}} Cloud {{vpn"
+    },
+    {
+      "stem": "OCI",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/ipsec.ts"
+      ],
+      "sample": "nt SKU), {{gcp|GCP}} Cloud {{vpn|VPN}}, OCI Site-to-Site {{vpn|VPN}}. [[ipsec|IPsec"
+    },
+    {
+      "stem": "VPC",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/ipsec.ts"
+      ],
+      "sample": "mqtt-connect|connect}} my on-prem to my VPC\" sku across every cloud.' }, { o"
+    },
+    {
+      "stem": "ITAR",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/ipsec.ts"
+      ],
+      "sample": "same code as a regulated munition under ITAR. *Karn v. U.S. State Department* became"
+    },
+    {
+      "stem": "BENIGNCERTAIN",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/ipsec.ts"
+      ],
+      "sample": "dow Brokers leak (August 2016) revealed BENIGNCERTAIN — an NSA exploit that extracted {{cisco"
+    },
+    {
+      "stem": "PIX",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/ipsec.ts"
+      ],
+      "sample": "exploit that extracted {{cisco|Cisco}} PIX {{vpn|VPN}} private keys from IKEv1 ({{"
+    },
+    {
+      "stem": "PPK",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/ipsec.ts"
+      ],
+      "sample": "table. [[rfc:8784|RFC 8784]] ({{pq|PQ}}-PPK) is co-authored by {{cisco|Cisco}}, {{a"
+    },
+    {
+      "stem": "ELVIS-PLUS",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/ipsec.ts"
+      ],
+      "sample": "ed by {{cisco|Cisco}}, {{aws|AWS}}, and ELVIS-PLUS engineers — [[ipsec|IPsec]] has always"
+    },
+    {
+      "stem": "ECMP",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/ipsec.ts"
+      ],
+      "sample": "efault to **32 entries**. On a 10 Gbps+ ECMP-parallel tunnel ({{linux|Linux}} {{xfrm"
+    },
+    {
+      "stem": "KB",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/ipsec.ts"
+      ],
+      "sample": "he connection hangs after the first few KB. **Cure:** [[tcp|TCP]] {{mss|MSS}} clam"
+    },
+    {
+      "stem": "IDL",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/json-rpc.ts"
+      ],
+      "sample": "] strips this to pure {{json|JSON}}: no IDL, no code generation, no binary encoding"
+    },
+    {
+      "stem": "TGS-REQ",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/kerberos.ts"
+      ],
+      "sample": "TTP}}/web1.example.com\\`, she sends a **TGS-REQ** to the {{kerberos-kdc|KDC}}\\'s {{kerb"
+    },
+    {
+      "stem": "REP",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/kerberos.ts"
+      ],
+      "sample": "eb1 returns an **{{ap-access-point|AP}}-REP** with its own timestamp for {{mtls|mut"
+    },
+    {
+      "stem": "EXAMPLE.COM",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/kerberos.ts"
+      ],
+      "sample": "ls', description: \"When Alice in EXAMPLE.COM wants to access a service in PARTNER.CO"
+    },
+    {
+      "stem": "SMB",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/kerberos.ts"
+      ],
+      "sample": "(`Authorization: Negotiate <base64>`), SMB, LDAP, and other applications transpare"
+    },
+    {
+      "stem": "LDAP",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/kerberos.ts"
+      ],
+      "sample": "thorization: Negotiate <base64>`), SMB, LDAP, and other applications transparently u"
+    },
+    {
+      "stem": "EC",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/kerberos.ts"
+      ],
+      "sample": "adline features: **PKINIT {{ecdh|ECDH}}/EC certs** (smart-card auth on {{curve2551"
+    },
+    {
+      "stem": "FAST",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/kerberos.ts"
+      ],
+      "sample": "P-384), **paChecksum2** support (longer FAST-armored {{checksum|checksum}} to retire"
+    },
+    {
+      "stem": "SU/KTH",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/kerberos.ts"
+      ],
+      "sample": "to {{mit|MIT}} Kerberos, originated at SU/KTH in Sweden. {{apple|Apple}} shipped Heim"
+    },
+    {
+      "stem": "KER",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/kerberos.ts"
+      ],
+      "sample": "g crosses without a ticket. Pronounced *KER-ber-os* in English; *KEHR-ber-os* in mo"
+    },
+    {
+      "stem": "KEHR",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/kerberos.ts"
+      ],
+      "sample": "t. Pronounced *KER-ber-os* in English; *KEHR-ber-os* in modern Greek.' }, { t"
+    },
+    {
+      "stem": "V5",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/kerberos.ts"
+      ],
+      "sample": "ld ship Kerberos-shaped applications. **V5** ([[rfc:4120|RFC 4120]], 2005) was des"
+    },
+    {
+      "stem": "UDP/123",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/kerberos.ts"
+      ],
+      "sample": "[[ntp|NTP]] servers, firewalls blocking UDP/123, virtualised {{hosts-bare|hosts}} with"
+    },
+    {
+      "stem": "FQDN",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/kerberos.ts"
+      ],
+      "sample": "ails. **Cure:** register both short and FQDN SPNs in the keytab; set `dns_canonicali"
+    },
+    {
+      "stem": "NEA1",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/kerberos.ts"
+      ],
+      "sample": "y|AD}} environments have **{{rc4|RC4}} (NEA1)** still enabled — the {{encryption|enc"
+    },
+    {
+      "stem": "NT",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/kerberos.ts"
+      ],
+      "sample": "cause {{rc4|RC4}} keys are derived from NT hash and brute-force in hours. **Cure:*"
+    },
+    {
+      "stem": "FB",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/mdns-dns-sd.ts"
+      ],
+      "sample": "\\`224.0.0.251\\` ([[ipv6|IPv6]]: \\`FF02::FB\\`). Two flag bits get repurposed: the h"
+    },
+    {
+      "stem": "DLA-3990",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/mdns-dns-sd.ts"
+      ],
+      "sample": "DNS]] implementation. Patched in Debian DLA-3990 (December 2024); still under active mai"
+    },
+    {
+      "stem": "CAPWAP",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/mdns-dns-sd.ts"
+      ],
+      "sample": "}} at 100% and Access Points lose their CAPWAP tunnel. The latest in a decade-long pat"
+    },
+    {
+      "stem": "LGPL",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/mdns-dns-sd.ts"
+      ],
+      "sample": "nux|Linux}}/{{bsd|BSD}} implementation, LGPL, maintained by Trent Lloyd. Bundled by"
+    },
+    {
+      "stem": "BBC",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/mdns-dns-sd.ts"
+      ],
+      "sample": "a 16-player networked tank game on the BBC Micro in 1987 and ported it to the Mac."
+    },
+    {
+      "stem": "COBS",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/mdns-dns-sd.ts"
+      ],
+      "sample": "ed **Consistent Overhead Byte Stuffing (COBS)** — the framing algorithm now widely u"
+    },
+    {
+      "stem": "BAF",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/mdns-dns-sd.ts"
+      ],
+      "sample": "l\" ({{ndss-conf|NDSS}} 2014)** measured BAF up to ~10× for mDNS. **CERT/CC VU#55062"
+    },
+    {
+      "stem": "CERT/CC",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/mdns-dns-sd.ts"
+      ],
+      "sample": ")** measured BAF up to ~10× for mDNS. **CERT/CC VU#550620 (March 2015)** and **Akamai ("
+    },
+    {
+      "stem": "VU",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/mdns-dns-sd.ts"
+      ],
+      "sample": "ured BAF up to ~10× for mDNS. **CERT/CC VU#550620 (March 2015)** and **Akamai (Dec"
+    },
+    {
+      "stem": "BCP",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/mdns-dns-sd.ts"
+      ],
+      "sample": "cal {{unicast|unicast}} queries; deploy BCP 38 ingress filtering.' }, { t"
+    },
+    {
+      "stem": "DSN",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/mptcp.ts"
+      ],
+      "sample": "ta {{sequence-number|Sequence Number}} (DSN) ensures correct ordering across all su"
+    },
+    {
+      "stem": "TB",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/nat-traversal.ts"
+      ],
+      "sample": "5+ locations with $0.05/GB egress and 1 TB free per month — the first major price"
+    },
+    {
+      "stem": "FINGERPRINT",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/nat-traversal.ts"
+      ],
+      "sample": "p-address|IP}} version field, but the **FINGERPRINT** attribute {{checksum|checksum}} is XO"
+    },
+    {
+      "stem": "SOCKS",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/nat-traversal.ts"
+      ],
+      "sample": "l`/`Frida` and use the server as a free SOCKS-style proxy into your private network."
+    },
+    {
+      "stem": "NFC-A/B/F",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "range is ≤10 cm for {{iso|ISO}} 14443 (NFC-A/B/F) and historically ≤1 m for {{iso|ISO}}"
+    },
+    {
+      "stem": "ALM",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "e {{load-modulation|load modulation}}* (ALM) instead, generating a small reflected"
+    },
+    {
+      "stem": "WUPA",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "adcasts a 7-bit {{reqa|REQA}} (0x26) or WUPA (0x52) short frame; the card responds w"
+    },
+    {
+      "stem": "NVB",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "collision}}** loop with {{sel-iso|SEL}}+NVB frames ({{sel-iso|SEL}}=0x93 for cascad"
+    },
+    {
+      "stem": "CL2",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "EL}}=0x93 for cascade level 1, 0x95 for CL2, 0x97 for CL3), converging on each byte"
+    },
+    {
+      "stem": "CL3",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "cascade level 1, 0x95 for CL2, 0x97 for CL3), converging on each byte of the {{uid|"
+    },
+    {
+      "stem": "FWI",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "negotiate frame size (FSCI) and timing (FWI). T2T cards skip {{rats|RATS}} and go s"
+    },
+    {
+      "stem": "RECORD",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "ich files to read; {{read-record|READ}} RECORDs pull the {{pan-id|PAN}}, expiry, and pu"
+    },
+    {
+      "stem": "MB/ME",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "cord begins with a 1-byte header — bits MB/ME (Message Begin/End), CF (Chunk Flag), S"
+    },
+    {
+      "stem": "CF",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "eader — bits MB/ME (Message Begin/End), CF (Chunk Flag), SR (Short Record — 1-byte"
+    },
+    {
+      "stem": "SR",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "E (Message Begin/End), CF (Chunk Flag), SR (Short Record — 1-byte length vs 4), IL"
+    },
+    {
+      "stem": "IL",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "SR (Short Record — 1-byte length vs 4), IL ({{id-identifier|ID}} Length present),"
+    },
+    {
+      "stem": "NFC-WLC",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "EC standard in **March 2026** alongside NFC-WLC.\" }, { title: 'Three transports,"
+    },
+    {
+      "stem": "FPAN",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "rdholder's real Funding {{pan-id|PAN}} (FPAN) is never stored on the device; instead"
+    },
+    {
+      "stem": "EEA",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "eld-Detect. Available **only inside the EEA** (27 EU states + Iceland, Liechtenstei"
+    },
+    {
+      "stem": "CMA",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "emplated and the watch-items are the UK CMA, Japan JFTC, and Australian ACCC.\","
+    },
+    {
+      "stem": "JFTC",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "d the watch-items are the UK CMA, Japan JFTC, and Australian ACCC.\", source: {"
+    },
+    {
+      "stem": "ACCC",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "the UK CMA, Japan JFTC, and Australian ACCC.\", source: { url: 'https://ec.eu"
+    },
+    {
+      "stem": "CR15",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "ting volume). Certification Release 15 (CR15) accepts applications by early 2026; fu"
+    },
+    {
+      "stem": "DK3",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "line: *cross-version compatibility* — a DK3 phone unlocks a DK4 car and vice versa."
+    },
+    {
+      "stem": "DK4",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "compatibility* — a DK3 phone unlocks a DK4 car and vice versa. **115 vehicle/modul"
+    },
+    {
+      "stem": "ESPR",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "gn for Sustainable Products Regulation (ESPR).\", source: { url: 'https://nfc-"
+    },
+    {
+      "stem": "CIPURSE",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "smart cards ({{mifare|MIFARE}}, FeliCa, CIPURSE), TfL bet on **bank-issued {{emv-crypto"
+    },
+    {
+      "stem": "DG1",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "with a small {{icao|ICAO}} file system (DG1 {{mrz|MRZ}}, DG2 photo, EF.SOD signatur"
+    },
+    {
+      "stem": "DG2",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "ao|ICAO}} file system (DG1 {{mrz|MRZ}}, DG2 photo, EF.SOD signature, EF.COM index,"
+    },
+    {
+      "stem": "EF.SOD",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "ile system (DG1 {{mrz|MRZ}}, DG2 photo, EF.SOD signature, EF.COM index, plus optional"
+    },
+    {
+      "stem": "EF.COM",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "mrz|MRZ}}, DG2 photo, EF.SOD signature, EF.COM index, plus optional DG3 fingerprints /"
+    },
+    {
+      "stem": "DG3",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "signature, EF.COM index, plus optional DG3 fingerprints / DG4 iris). The reader ca"
+    },
+    {
+      "stem": "DG4",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "index, plus optional DG3 fingerprints / DG4 iris). The reader cannot get any data w"
+    },
+    {
+      "stem": "BAC",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "he reader cannot get any data without **BAC** (legacy 3DES from MRZ) or **PACE** (m"
+    },
+    {
+      "stem": "PACE",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "out **BAC** (legacy 3DES from MRZ) or **PACE** (modern {{ecdh|ECDH}} from MRZ or 6-d"
+    },
+    {
+      "stem": "DTC-PC/VC",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "it CAN). The Digital Travel Credential (DTC-PC/VC) — passport on phone — is in airport pi"
+    },
+    {
+      "stem": "EV1",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "e|MIFARE}} Classic in **1994**, DESFire EV1 in **2006**, {{mifare|MIFARE}} Plus in"
+    },
+    {
+      "stem": "EV2",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "fare|MIFARE}} Plus in **2011**, DESFire EV2 in 2016, EV3 in the early 2020s. The Cl"
+    },
+    {
+      "stem": "EAL5",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "nts — full {{aes|AES}}, Common Criteria EAL5+, side-channel hardened. Dutch OV-chipk"
+    },
+    {
+      "stem": "ZEEKR",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": ", XPENG, Geely group — Volvo, Polestar, ZEEKR, Lynk & Co., smart, Lotus).\" } ],"
+    },
+    {
+      "stem": "LC",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "PCD}} and {{picc|PICC}} each present an LC resonant tank around 13.56 MHz; small d"
+    },
+    {
+      "stem": "PN553",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "lation}} in the controller ({{nxp|NXP}} PN553 onward). Q factor: lower Q broadens the"
+    },
+    {
+      "stem": "CDA",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "am|EMV}} Mode** (normal 'fast tap' with CDA). The card returns an AIP byte that sig"
+    },
+    {
+      "stem": "TU",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/nfc.ts"
+      ],
+      "sample": "to a confederate's phone at a terminal. TU Darmstadt's **NFCGate** (2015+) made th"
+    },
+    {
+      "stem": "T2-T1",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/ntp.ts"
+      ],
+      "sample": "description: '{{offset|Offset}} = ((T2-T1) + (T3-T4)) / 2. Delay = (T4-T1) - (T3-"
+    },
+    {
+      "stem": "T3-T4",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/ntp.ts"
+      ],
+      "sample": "n: '{{offset|Offset}} = ((T2-T1) + (T3-T4)) / 2. Delay = (T4-T1) - (T3-T2). The c"
+    },
+    {
+      "stem": "T4-T1",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/ntp.ts"
+      ],
+      "sample": "t}} = ((T2-T1) + (T3-T4)) / 2. Delay = (T4-T1) - (T3-T2). The clock is adjusted gradu"
+    },
+    {
+      "stem": "T3-T2",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/ntp.ts"
+      ],
+      "sample": "-T1) + (T3-T4)) / 2. Delay = (T4-T1) - (T3-T2). The clock is adjusted gradually to av"
+    },
+    {
+      "stem": "INITIAL",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/ospf.ts"
+      ],
+      "sample": "fc-doc|RFC}} 8405 {{spf|SPF}} back-off (INITIAL/SHORT_WAIT/LONG_WAIT) throttles {{spf|S"
+    },
+    {
+      "stem": "TE",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/ospf.ts"
+      ],
+      "sample": "with its own metric ({{igp|IGP}} cost, TE cost, min-delay) and constraints (inclu"
+    },
+    {
+      "stem": "SID",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/ospf.ts"
+      ],
+      "sample": "Rv6 Locator advertisement, and SRv6 End SID encoding to [[ospf|OSPFv3]]. Edited by"
+    },
+    {
+      "stem": "FAD",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/ospf.ts"
+      ],
+      "sample": "-2}} keychain authentication, Flex-Algo FAD with {{srlg|SRLG}}-exclude, and link-de"
+    },
+    {
+      "stem": "ACX/PTX",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/ospf.ts"
+      ],
+      "sample": "xclude, and link-delay normalisation on ACX/PTX hardware — bringing Flex-Algo from \"shi"
+    },
+    {
+      "stem": "C0/S0",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/rtmp.ts"
+      ],
+      "sample": "[[rtmp|RTMP]] {{handshake|handshake}} (C0/S0, C1/S1, C2/S2) exchanging timestamps an"
+    },
+    {
+      "stem": "C1/S1",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/rtmp.ts"
+      ],
+      "sample": "|RTMP]] {{handshake|handshake}} (C0/S0, C1/S1, C2/S2) exchanging timestamps and rando"
+    },
+    {
+      "stem": "C2/S2",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/rtmp.ts"
+      ],
+      "sample": "{{handshake|handshake}} (C0/S0, C1/S1, C2/S2) exchanging timestamps and random bytes"
+    },
+    {
+      "stem": "ECHO",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/sctp.ts"
+      ],
+      "sample": "k|INIT}}-{{ack|ACK}}, {{cookie|COOKIE}}-ECHO, {{cookie|COOKIE}}-{{ack|ACK}}) that pr"
+    },
+    {
+      "stem": "SAVPF",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/sdp.ts"
+      ],
+      "sample": "video), transport protocol ([[rtp|RTP]]/SAVPF), port number, and list of supported {{"
+    },
+    {
+      "stem": "CTS-3000",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/sdp.ts"
+      ],
+      "sample": "n: 'The {{cisco|Cisco}} TelePresence CTS-3000 prototype — the kind of immersive video"
+    },
+    {
+      "stem": "PJSIP",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/sip.ts"
+      ],
+      "sample": "fg) # Sends SIP REGISTER`, caption: 'PJSIP registers with a [[sip|SIP]] server — t"
+    },
+    {
+      "stem": "PLAIN",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/smtp.ts"
+      ],
+      "sample": "ogin-auth|LOGIN}} or {{smtp-auth|AUTH}} PLAIN.' }, { title: 'Envelope & messag"
+    },
+    {
+      "stem": "USDA",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/soap.ts"
+      ],
+      "sample": ": 'The {{ibm|IBM}} System/360 at the USDA (1966). Mainframes like these laid the"
+    },
+    {
+      "stem": "MESSAGE",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/stomp.ts"
+      ],
+      "sample": "ers matching messages to subscribers as MESSAGE frames. Client can {{ack|ACK}}/{{nack|N"
+    },
+    {
+      "stem": "LDP",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/tcp.ts"
+      ],
+      "sample": "p|TCP]]-{{md5|MD5}} used by [[bgp|BGP]]/LDP. Same release added microsecond-resolut"
+    },
+    {
+      "stem": "MSL",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/tcp.ts"
+      ],
+      "sample": "-wait|TIME_WAIT}}** for ~60 seconds (2× MSL) on {{linux|Linux}}. Why? A delayed seg"
+    },
+    {
+      "stem": "ACME",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/tls.ts"
+      ],
+      "sample": "or the web. All certificates issued via ACME. ~3M certificates renewed daily.' }"
+    },
+    {
+      "stem": "IR-UWB",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "d of modulating a continuous carrier, **IR-UWB** transmits sub-nanosecond Gaussian-mon"
+    },
+    {
+      "stem": "BPM",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "lses at one of two time-slot positions (BPM) with chosen polarity ({{bpsk|BPSK}}) —"
+    },
+    {
+      "stem": "GAP",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "liro|Aliro 1.0}}**: **(1)** {{ble|BLE}} GAP advertising with the application's serv"
+    },
+    {
+      "stem": "TB/NTB",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "10–30 cm. *Secure ranging:* Wi-Fi 11az TB/NTB with PASN vs. UWB {{sts|STS}}. *Infrast"
+    },
+    {
+      "stem": "PASN",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "Secure ranging:* Wi-Fi 11az TB/NTB with PASN vs. UWB {{sts|STS}}. *Infrastructure:*"
+    },
+    {
+      "stem": "PSD",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "\"{{fcc|FCC}} Part 15.519 caps average PSD at **−41.3 dBm/MHz** across 3.1–10.6 GH"
+    },
+    {
+      "stem": "AV",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "la Model 3 / Y phone-as-a-key (CVSS 6.8 AV:A/AC:H/PR:N/{{ui|UI}}:N/S:U/C:H/I:H/A:N"
+    },
+    {
+      "stem": "AC",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "del 3 / Y phone-as-a-key (CVSS 6.8 AV:A/AC:H/PR:N/{{ui|UI}}:N/S:U/C:H/I:H/A:N). ~$"
+    },
+    {
+      "stem": "PIN",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "Kwikset/Weiser Kevo. Tesla recommended PIN-to-Drive as a stopgap; the deeper indus"
+    },
+    {
+      "stem": "D02",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "sed to **Draft D03 in September 2025** (D02 March 2025), with ratification expected"
+    },
+    {
+      "stem": "NCAP",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "d-presence detection (driven by EU Euro NCAP rules from 2025); LRP+{{hrp-uwb|HRP}} d"
+    },
+    {
+      "stem": "LRP",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "riven by EU Euro NCAP rules from 2025); LRP+{{hrp-uwb|HRP}} dual-mode hardware supp"
+    },
+    {
+      "stem": "ST64UWB",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "ound {{sts|STS}}. STMicroelectronics' **ST64UWB** (announced Q1 2026, 18 nm FD-SOI) is"
+    },
+    {
+      "stem": "FD-SOI",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "' **ST64UWB** (announced Q1 2026, 18 nm FD-SOI) is the first commercial 4ab silicon, w"
+    },
+    {
+      "stem": "VW",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "edes, Hyundai/Kia, Audi (new for 2025), VW, Porsche, GM, Ford, and Chinese OEMs (N"
+    },
+    {
+      "stem": "ASSA",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "le|Apple}}, {{google|Google}}, Samsung, ASSA ABLOY, {{nxp|NXP}}, Infineon, STMicroel"
+    },
+    {
+      "stem": "ABLOY",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "ple}}, {{google|Google}}, Samsung, ASSA ABLOY, {{nxp|NXP}}, Infineon, STMicroelectron"
+    },
+    {
+      "stem": "EQS",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "on the Wallet-based Digital Key for the EQS and S-Class from 2022. **{{nxp|NXP}} SR"
+    },
+    {
+      "stem": "S22/S23/S24",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "laxy S21+ / S21 Ultra / Note 20 Ultra / S22/S23/S24 (UWB-equipped models) for AR-based dire"
+    },
+    {
+      "stem": "U100",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "ung's **Exynos {{mqtt-connect|Connect}} U100** in-house UWB silicon also shipped in"
+    },
+    {
+      "stem": "PTP",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "} over wired [[ethernet|Ethernet]] with PTP-grade clock distribution. **{{cisco|Cis"
+    },
+    {
+      "stem": "L1",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "d-won against {{gps|GPS}} (operating at L1=1575.42 MHz), avionics, and DoD interes"
+    },
+    {
+      "stem": "EIRP",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "-of-life systems. The **−41.3 dBm/MHz** EIRP limit is essentially the §15.209 backgr"
+    },
+    {
+      "stem": "MB-OFDM",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "After three years of deadlock between **MB-OFDM** ({{intel|Intel}} + WiMedia Alliance)"
+    },
+    {
+      "stem": "DS-UWB",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "intel|Intel}} + WiMedia Alliance) and **DS-UWB** (Freescale + UWB Forum), neither side"
+    },
+    {
+      "stem": "HI",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "ty required to ratify. At the Waikoloa, HI interim on **19 January 2006** the task"
+    },
+    {
+      "stem": "DW1000",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "Hz wide. Older silicon ({{qorvo|Qorvo}} DW1000) supports only Channel 5; everything fr"
+    },
+    {
+      "stem": "PCB",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "handle UWB anchors typically use planar PCB patches with carefully controlled groun"
+    },
+    {
+      "stem": "BLE/UWB",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "eeps the user in their car. **(d)** Log BLE/UWB transition failures separately for diag"
+    },
+    {
+      "stem": "CIR",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "rection using channel-impulse-response (CIR) features; recent Adaptive Kalman Filte"
+    },
+    {
+      "stem": "LOS",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "lace infrastructure anchors to maximise LOS to the working volume; ceiling mounts a"
+    },
+    {
+      "stem": "PRF",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/uwb.ts"
+      ],
+      "sample": "**(b)** Use {{bprf|BPRF}} (~64 MHz mean PRF) for tag-side rather than HPRF. **(c)**"
+    },
+    {
+      "stem": "EAPOL",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/wifi.ts"
+      ],
+      "sample": "{{access-point|AP}} perform a 4-message EAPOL {{handshake|handshake}} to derive per-s"
+    },
+    {
+      "stem": "RA",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/wifi.ts"
+      ],
+      "sample": "AC}} addresses (three typically used) — RA, TA, and DA — and are encrypted with th"
+    },
+    {
+      "stem": "TA",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/wifi.ts"
+      ],
+      "sample": "addresses (three typically used) — RA, TA, and DA — and are encrypted with the se"
+    },
+    {
+      "stem": "DA",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/wifi.ts"
+      ],
+      "sample": "es (three typically used) — RA, TA, and DA — and are encrypted with the session ke"
+    },
+    {
+      "stem": "BSSID",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/wifi.ts"
+      ],
+      "sample": "capy in monitor mode — revealing SSIDs, BSSIDs, and channels', alternatives: [ {"
+    },
+    {
+      "stem": "MAC1",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/wireguard.ts"
+      ],
+      "sample": "a {{wg-tai64n|TAI64N timestamp}}. Plus MAC1 (proves the initiator knows the respond"
+    },
+    {
+      "stem": "MAC2",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/wireguard.ts"
+      ],
+      "sample": "iator knows the responder's pubkey) and MAC2 ({{cookie|cookie}} under load, DoS shie"
+    },
+    {
+      "stem": "H1",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/wireguard.ts"
+      ],
+      "sample": "et sizes, randomised header type bytes (H1–H4 ranges instead of fixed 1–4), random"
+    },
+    {
+      "stem": "H4",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/wireguard.ts"
+      ],
+      "sample": "sizes, randomised header type bytes (H1–H4 ranges instead of fixed 1–4), random S1"
+    },
+    {
+      "stem": "AWG",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/wireguard.ts"
+      ],
+      "sample": "ad of fixed 1–4), random S1/S2 padding. AWG 2.0 adds optional QUIC/{{dns-resolution"
+    },
+    {
+      "stem": "XEP",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/xmpp.ts"
+      ],
+      "sample": "e base protocol is minimal. Hundreds of XEPs add features: multi-user chat, {{http-m"
+    },
+    {
+      "stem": "QPSK",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/zigbee.ts"
+      ],
+      "sample": "The dominant {{phy|PHY}} is **2.4 GHz O-QPSK** with 16 channels (11–26), 5 MHz spaci"
+    },
+    {
+      "stem": "NA",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/zigbee.ts"
+      ],
+      "sample": "kbit/s {{bpsk|BPSK}}) and 902–928 MHz (NA, 40 kbit/s {{bpsk|BPSK}}) give better w"
+    },
+    {
+      "stem": "FSK",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/zigbee.ts"
+      ],
+      "sample": "terference at lower bit rates; R23 adds FSK PHYs in those same bands. {{frame|Frame"
+    },
+    {
+      "stem": "PSDU",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/zigbee.ts"
+      ],
+      "sample": "me|Frames}} are bounded at **127 octets PSDU** with a **16-bit {{checksum|FCS}}**. T"
+    },
+    {
+      "stem": "CSMA-CA",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/zigbee.ts"
+      ],
+      "sample": "The {{mac-address|MAC}} uses unslotted CSMA-CA in most deployments (FFDs as routers, R"
+    },
+    {
+      "stem": "R20",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/zigbee.ts"
+      ],
+      "sample": "mesh {{routing-table|routing}}** (since R20, 2007). Every mains-powered router main"
+    },
+    {
+      "stem": "TI",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/zigbee.ts"
+      ],
+      "sample": "t, dresden elektronik ConBee II, or any TI CC2652 stick — the radio is abstracted"
+    },
+    {
+      "stem": "MMO-128",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/zigbee.ts"
+      ],
+      "sample": "urve25519|Curve25519}} with {{aes|AES}}-MMO-128 (kills the *ZigBeeAlliance09* default-k"
+    },
+    {
+      "stem": "IR",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/zigbee.ts"
+      ],
+      "sample": "]], Power-over-Ethernet, {{usb|USB}}-C, IR blaster, **8 GB encrypted local storage"
+    },
+    {
+      "stem": "BOM",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/zigbee.ts"
+      ],
+      "sample": "a Bluetooth Low Energy radio, reducing BOM cost for cheaper {{matter|Matter}}-brid"
+    },
+    {
+      "stem": "ZLL",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/zigbee.ts"
+      ],
+      "sample": "sy that nudged Signify back to standard ZLL compatibility. IKEA remains an active {"
+    },
+    {
+      "stem": "ROAM",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/zigbee.ts"
+      ],
+      "sample": "ns covering Atrius, nLight, nLight AIR, ROAM, SensorSwitch, Synergy, and XPoint Wire"
+    },
+    {
+      "stem": "GPL",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/zigbee.ts"
+      ],
+      "sample": "s from 568 vendors', text: \"A single GPL-licensed Node.js project — maintained p"
+    },
+    {
+      "stem": "NV",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/zigbee.ts"
+      ],
+      "sample": "ke regular backups of the coordinator's NV (zigbee2mqtt writes `coordinator_backup"
+    },
+    {
+      "stem": "UPS",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/zigbee.ts"
+      ],
+      "sample": "cally); **(b)** keep the Coordinator on UPS or PoE; **(c)** use a {{usb|USB}} exten"
+    },
+    {
+      "stem": "SSD",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/zigbee.ts"
+      ],
+      "sample": "gle away from {{usb|USB}} 3.0 ports and SSDs, which emit 2.4 GHz noise; **(d)** cons"
+    },
+    {
+      "stem": "EFR32",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/zigbee.ts"
+      ],
+      "sample": "child-table size on a typical CC2652 / EFR32 firmware is **32**; the Sonoff ZBDongle"
+    }
+  ],
+  "concept": [
+    {
+      "stem": "API",
+      "suggestedId": "api",
+      "count": 32,
+      "files": [
+        "src/lib/data/book/parts/web-api.ts",
+        "src/lib/data/category-deep-dives.ts",
+        "src/lib/data/category-stories/web-api.ts",
+        "src/lib/data/comparison/pairs.ts",
+        "src/lib/data/diagram-definitions.ts",
+        "src/lib/data/journeys.ts",
+        "src/lib/data/protocols/graphql.ts",
+        "src/lib/data/protocols/oauth2.ts",
+        "src/lib/data/protocols/rest.ts",
+        "src/lib/data/protocols/tcp.ts"
+      ]
+    },
+    {
+      "stem": "NAT",
+      "suggestedId": "nat",
+      "count": 13,
+      "files": [
+        "src/lib/data/book/parts/patterns-failures.ts",
+        "src/lib/data/comparison/pairs.ts",
+        "src/lib/data/journeys.ts",
+        "src/lib/data/protocols/nat-traversal.ts"
+      ]
+    },
+    {
+      "stem": "URL",
+      "suggestedId": "url",
+      "count": 11,
+      "files": [
+        "src/lib/data/category-stories/web-api.ts",
+        "src/lib/data/comparison/pairs.ts",
+        "src/lib/data/diagram-definitions.ts",
+        "src/lib/data/journeys.ts",
+        "src/lib/data/protocols/dash.ts",
+        "src/lib/data/protocols/hls.ts",
+        "src/lib/data/protocols/nat-traversal.ts",
+        "src/lib/data/protocols/tls.ts"
+      ]
+    },
+    {
+      "stem": "RFC",
+      "suggestedId": "rfc-doc",
+      "count": 10,
+      "files": [
+        "src/lib/data/book/parts/how-to-learn-more.ts",
+        "src/lib/data/category-stories/utilities.ts",
+        "src/lib/data/protocols/nat-traversal.ts",
+        "src/lib/data/protocols/ospf.ts"
+      ]
+    },
+    {
+      "stem": "CDN",
+      "suggestedId": "cdn-acr",
+      "count": 8,
+      "files": [
+        "src/lib/data/category-stories/realtime-av.ts",
+        "src/lib/data/comparison/pairs.ts",
+        "src/lib/data/journeys.ts",
+        "src/lib/data/protocols/hls.ts",
+        "src/lib/data/protocols/quic.ts",
+        "src/lib/data/protocols/tls.ts"
+      ]
+    },
+    {
+      "stem": "LSA",
+      "suggestedId": "lsa",
+      "count": 6,
+      "files": [
+        "src/lib/data/protocols/ospf.ts"
+      ]
+    },
+    {
+      "stem": "IMP",
+      "suggestedId": "imp",
+      "count": 4,
+      "files": [
+        "src/lib/data/book/parts/story-of-the-internet.ts",
+        "src/lib/data/concept-foundations.ts",
+        "src/lib/data/outages.ts"
+      ]
+    },
+    {
+      "stem": "AP",
+      "suggestedId": "ap-access-point",
+      "count": 4,
+      "files": [
+        "src/lib/data/category-deep-dives.ts",
+        "src/lib/data/protocols/bluetooth.ts",
+        "src/lib/data/protocols/mdns-dns-sd.ts",
+        "src/lib/data/protocols/uwb.ts"
+      ]
+    },
+    {
+      "stem": "MAC",
+      "suggestedId": "mac-media",
+      "count": 4,
+      "files": [
+        "src/lib/data/comparison/pairs.ts",
+        "src/lib/data/journeys.ts",
+        "src/lib/data/protocols/ethernet.ts"
+      ]
+    },
+    {
+      "stem": "ISP",
+      "suggestedId": "isp",
+      "count": 3,
+      "files": [
+        "src/lib/data/diagram-definitions.ts",
+        "src/lib/data/journeys.ts",
+        "src/lib/data/outages.ts"
+      ]
+    },
+    {
+      "stem": "ACK",
+      "suggestedId": "ack",
+      "count": 3,
+      "files": [
+        "src/lib/data/outages.ts",
+        "src/lib/data/protocols/coap.ts",
+        "src/lib/data/protocols/tcp.ts"
+      ]
+    },
+    {
+      "stem": "OEM",
+      "suggestedId": "oem",
+      "count": 3,
+      "files": [
+        "src/lib/data/protocols/nfc.ts",
+        "src/lib/data/protocols/uwb.ts"
+      ]
+    },
+    {
+      "stem": "CLAT",
+      "suggestedId": "clat-acr",
+      "count": 2,
+      "files": [
+        "src/lib/data/book/parts/frontier.ts"
+      ]
+    },
+    {
+      "stem": "GPU",
+      "suggestedId": "gpu",
+      "count": 2,
+      "files": [
+        "src/lib/data/book/parts/frontier.ts"
+      ]
+    },
+    {
+      "stem": "ASK",
+      "suggestedId": "ask-modulation",
+      "count": 2,
+      "files": [
+        "src/lib/data/book/parts/wireless.ts",
+        "src/lib/data/protocols/nfc.ts"
+      ]
+    },
+    {
+      "stem": "POP",
+      "suggestedId": "pop-acr",
+      "count": 2,
+      "files": [
+        "src/lib/data/category-stories/utilities.ts",
+        "src/lib/data/protocols/bgp.ts"
+      ]
+    },
+    {
+      "stem": "LAN",
+      "suggestedId": "lan-acr",
+      "count": 2,
+      "files": [
+        "src/lib/data/comparison/pairs.ts",
+        "src/lib/data/journeys.ts"
+      ]
+    },
+    {
+      "stem": "TLD",
+      "suggestedId": "tld",
+      "count": 2,
+      "files": [
+        "src/lib/data/diagram-definitions.ts"
+      ]
+    },
+    {
+      "stem": "URI",
+      "suggestedId": "uri",
+      "count": 2,
+      "files": [
+        "src/lib/data/journeys.ts",
+        "src/lib/data/protocols/coap.ts"
+      ]
+    },
+    {
+      "stem": "SELECT",
+      "suggestedId": "imap-select",
+      "count": 2,
+      "files": [
+        "src/lib/data/journeys.ts",
+        "src/lib/data/protocols/nfc.ts"
+      ]
+    },
+    {
+      "stem": "CPU",
+      "suggestedId": "cpu",
+      "count": 2,
+      "files": [
+        "src/lib/data/outages.ts"
+      ]
+    },
+    {
+      "stem": "KEM",
+      "suggestedId": "kem-acr",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/ipsec.ts"
+      ]
+    },
+    {
+      "stem": "KDC",
+      "suggestedId": "kerberos-kdc",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/kerberos.ts"
+      ]
+    },
+    {
+      "stem": "ID",
+      "suggestedId": "id-identifier",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/mdns-dns-sd.ts",
+        "src/lib/data/protocols/wireguard.ts"
+      ]
+    },
+    {
+      "stem": "SSID",
+      "suggestedId": "ssid",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/mdns-dns-sd.ts",
+        "src/lib/data/protocols/wifi.ts"
+      ]
+    },
+    {
+      "stem": "MRZ",
+      "suggestedId": "mrz",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/nfc.ts"
+      ]
+    },
+    {
+      "stem": "DR",
+      "suggestedId": "ospf-dr",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/ospf.ts"
+      ]
+    },
+    {
+      "stem": "FTM",
+      "suggestedId": "ftm",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/uwb.ts"
+      ]
+    },
+    {
+      "stem": "PHY",
+      "suggestedId": "phy",
+      "count": 2,
+      "files": [
+        "src/lib/data/protocols/zigbee.ts"
+      ]
+    },
+    {
+      "stem": "ISN",
+      "suggestedId": "isn",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/famous-outages.ts"
+      ]
+    },
+    {
+      "stem": "X25519MLKEM768",
+      "suggestedId": "pq-ciphersuite",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/frontier.ts"
+      ]
+    },
+    {
+      "stem": "ROA",
+      "suggestedId": "roa",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/frontier.ts"
+      ]
+    },
+    {
+      "stem": "MED",
+      "suggestedId": "med",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/layer-2-3.ts"
+      ]
+    },
+    {
+      "stem": "SFU",
+      "suggestedId": "sfu",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/realtime-av.ts"
+      ]
+    },
+    {
+      "stem": "WAN",
+      "suggestedId": "wan-acr",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/transport.ts"
+      ]
+    },
+    {
+      "stem": "SCP",
+      "suggestedId": "scp-copy",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/utilities-security.ts"
+      ]
+    },
+    {
+      "stem": "CVE",
+      "suggestedId": "cve",
+      "count": 1,
+      "files": [
+        "src/lib/data/book/parts/web-api.ts"
+      ]
+    },
+    {
+      "stem": "VLAN",
+      "suggestedId": "vlan",
+      "count": 1,
+      "files": [
+        "src/lib/data/category-deep-dives.ts"
+      ]
+    },
+    {
+      "stem": "UI",
+      "suggestedId": "ui",
+      "count": 1,
+      "files": [
+        "src/lib/data/journeys.ts"
+      ]
+    },
+    {
+      "stem": "LLM",
+      "suggestedId": "llm",
+      "count": 1,
+      "files": [
+        "src/lib/data/journeys.ts"
+      ]
+    },
+    {
+      "stem": "KEEPALIVE",
+      "suggestedId": "bgp-keepalive",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/bgp.ts"
+      ]
+    },
+    {
+      "stem": "UPDATE",
+      "suggestedId": "bgp-update",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/bgp.ts"
+      ]
+    },
+    {
+      "stem": "UUID",
+      "suggestedId": "uuid",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/bluetooth.ts"
+      ]
+    },
+    {
+      "stem": "DC",
+      "suggestedId": "dc-domain-controller",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/kerberos.ts"
+      ]
+    },
+    {
+      "stem": "SPN",
+      "suggestedId": "spn",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/kerberos.ts"
+      ]
+    },
+    {
+      "stem": "APDU",
+      "suggestedId": "apdu",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/nfc.ts"
+      ]
+    },
+    {
+      "stem": "LSDB",
+      "suggestedId": "lsdb",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/ospf.ts"
+      ]
+    },
+    {
+      "stem": "SRLG",
+      "suggestedId": "srlg",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/ospf.ts"
+      ]
+    },
+    {
+      "stem": "TLV",
+      "suggestedId": "tlv",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/ospf.ts"
+      ]
+    },
+    {
+      "stem": "NIC",
+      "suggestedId": "nic",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/quic.ts"
+      ]
+    },
+    {
+      "stem": "BLE",
+      "suggestedId": "ble",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/uwb.ts"
+      ]
+    },
+    {
+      "stem": "U2",
+      "suggestedId": "u2-chip",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/uwb.ts"
+      ]
+    },
+    {
+      "stem": "U1",
+      "suggestedId": "u1-chip",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/uwb.ts"
+      ]
+    },
+    {
+      "stem": "FFD",
+      "suggestedId": "ffd",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/zigbee.ts"
+      ]
+    },
+    {
+      "stem": "RFD",
+      "suggestedId": "rfd",
+      "count": 1,
+      "files": [
+        "src/lib/data/protocols/zigbee.ts"
+      ]
+    }
+  ],
+  "protocol": [
+    {
+      "stem": "UWB",
+      "suggestedId": "uwb",
+      "count": 74
+    },
+    {
+      "stem": "NFC",
+      "suggestedId": "nfc",
+      "count": 37
+    },
+    {
+      "stem": "HTTPS",
+      "suggestedId": "http1",
+      "count": 19
+    },
+    {
+      "stem": "IP",
+      "suggestedId": "ip",
+      "count": 9
+    },
+    {
+      "stem": "UDP",
+      "suggestedId": "udp",
+      "count": 2
+    },
+    {
+      "stem": "QUIC",
+      "suggestedId": "quic",
+      "count": 2
+    },
+    {
+      "stem": "OAUTH2",
+      "suggestedId": "oauth2",
+      "count": 1
+    }
+  ]
+}

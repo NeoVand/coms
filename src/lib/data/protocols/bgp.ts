@@ -10,15 +10,15 @@ export const bgp: Protocol = {
 	rfc: 'RFC 4271',
 	oneLiner:
 		'The routing protocol of the internet — how autonomous systems find paths to each other.',
-	overview: `[[bgp|BGP]] is the protocol that holds the internet together. The internet isn't a single network — it's a network of networks, each called an {{autonomous-system|Autonomous System}} ({{autonomous-system|AS}}). Your ISP is an {{autonomous-system|AS}}. {{google|Google}} is an {{autonomous-system|AS}}. Amazon, universities, governments — each is an {{autonomous-system|AS}} with its own number. [[bgp|BGP]] is how they learn to reach each other.
+	overview: `[[bgp|BGP]] is the protocol that holds the internet together. The internet isn't a single network — it's a network of networks, each called an {{autonomous-system|Autonomous System}} ({{autonomous-system|AS}}). Your {{isp|ISP}} is an {{autonomous-system|AS}}. {{google|Google}} is an {{autonomous-system|AS}}. Amazon, universities, governments — each is an {{autonomous-system|AS}} with its own number. [[bgp|BGP]] is how they learn to reach each other.
 
 When you visit a website, your {{packet|packets}} may cross 5-10 different autonomous systems. [[bgp|BGP]] is the protocol that calculated that path. Each [[bgp|BGP]] router maintains a {{routing-table|table}} of every reachable [[ip|IP]] prefix on the internet (~1 million entries) along with the {{as-path|AS_PATH}} — the sequence of autonomous systems to traverse. [[bgp|BGP]] is a path-vector protocol: it doesn't just know the next hop, it knows the entire {{autonomous-system|AS}}-level path.
 
-[[bgp|BGP]] runs over [[tcp|TCP]] port 179, relying on [[tcp|TCP]]'s reliable delivery because routing information must never be lost or corrupted. Two [[bgp|BGP]] routers ("peers") establish a session by exchanging OPEN messages, then continuously {{exchange|exchange}} UPDATE messages as routes are announced or withdrawn. {{keep-alive|KEEPALIVE}} messages every ~30 seconds prove the {{peer|peer}} is still alive.
+[[bgp|BGP]] runs over [[tcp|TCP]] port 179, relying on [[tcp|TCP]]'s reliable delivery because routing information must never be lost or corrupted. Two [[bgp|BGP]] routers ("peers") establish a session by exchanging OPEN messages, then continuously {{exchange|exchange}} {{bgp-update|UPDATE}} messages as routes are announced or withdrawn. {{keep-alive|KEEPALIVE}} messages every ~30 seconds prove the {{peer|peer}} is still alive.
 
 A fundamental distinction in [[bgp|BGP]] is between eBGP (External [[bgp|BGP]]) and iBGP (Internal [[bgp|BGP]]). eBGP runs between routers in different autonomous systems — this is the inter-domain routing that connects the internet. iBGP runs between routers within the same {{autonomous-system|AS}}, distributing externally learned routes internally. The two behave differently: eBGP modifies the {{as-path|AS_PATH}} on each hop, while iBGP does not, requiring either a full mesh of iBGP peers or route reflectors to prevent loops.
 
-[[bgp|BGP]] is the *exterior* protocol. The *interior* gateway protocol — what each {{autonomous-system|AS}} runs internally to compute shortest paths between its own routers — is usually **[[ospf|OSPF]]** (campus, enterprise, mid-tier ISP) or IS-IS (tier-1 ISP backbones). [[bgp|BGP]] routes are recursively resolved through the IGP: a [[bgp|BGP]] next-hop typically isn't directly connected, so [[ospf|OSPF]] tells the router how to reach it. Every modern internet packet that crosses AS boundaries was routed by both protocols in concert.
+[[bgp|BGP]] is the *exterior* protocol. The *interior* gateway protocol — what each {{autonomous-system|AS}} runs internally to compute shortest paths between its own routers — is usually **[[ospf|OSPF]]** (campus, enterprise, mid-tier {{isp|ISP}}) or {{isis|IS-IS}} (tier-1 {{isp|ISP}} backbones). [[bgp|BGP]] routes are recursively resolved through the {{igp|IGP}}: a [[bgp|BGP]] next-hop typically isn't directly connected, so [[ospf|OSPF]] tells the router how to reach it. Every modern internet packet that crosses AS boundaries was routed by both protocols in concert.
 
 The consequences of [[bgp|BGP]] mistakes are enormous. The Facebook outage of October 2021 — which took down Facebook, Instagram, and WhatsApp for six hours — was caused by a [[bgp|BGP]] misconfiguration that withdrew all of Facebook's routes from the internet. [[bgp|BGP]] route hijacks, where an {{autonomous-system|AS}} announces routes it doesn't own, can redirect traffic through malicious networks.`,
 	howItWorks: [
@@ -35,12 +35,12 @@ The consequences of [[bgp|BGP]] mistakes are enormous. The Facebook outage of Oc
 		{
 			title: 'KEEPALIVE confirmation',
 			description:
-				'Each router confirms the session with a KEEPALIVE (the smallest [[bgp|BGP]] message — just 19 bytes). The session enters the Established state and route {{exchange|exchange}} begins.'
+				'Each router confirms the session with a {{bgp-keepalive|KEEPALIVE}} (the smallest [[bgp|BGP]] message — just 19 bytes). The session enters the Established state and route {{exchange|exchange}} begins.'
 		},
 		{
 			title: 'UPDATE announcements',
 			description:
-				'Routers {{exchange|exchange}} UPDATE messages containing reachable prefixes (NLRI) with path attributes: {{as-path|AS_PATH}}, NEXT_HOP, LOCAL_PREF, MED. Each UPDATE can announce new routes or withdraw old ones.'
+				'Routers {{exchange|exchange}} {{bgp-update|UPDATE}} messages containing reachable prefixes (NLRI) with path attributes: {{as-path|AS_PATH}}, NEXT_HOP, LOCAL_PREF, {{med|MED}}. Each {{bgp-update|UPDATE}} can announce new routes or withdraw old ones.'
 		},
 		{
 			title: 'Ongoing operation',
@@ -172,7 +172,7 @@ for await (const elem of parser) {
 			date: '2026',
 			title: 'RPKI/ROV crosses 50% of advertised IP space',
 			description:
-				'NIST {{rov|Route Origin Validation}} Monitor and {{cloudflare|Cloudflare}}\'s isbgpsafeyet.com show over 50% of advertised [[ip|IPv4]] space now covered by signed Route Origin Authorisations. Most tier-1 transits enforce {{rov|ROV}} on incoming announcements.'
+				'{{nist|NIST}} {{rov|Route Origin Validation}} Monitor and {{cloudflare|Cloudflare}}\'s isbgpsafeyet.com show over 50% of advertised [[ip|IPv4]] space now covered by signed Route Origin Authorisations. Most tier-1 transits enforce {{rov|ROV}} on incoming announcements.'
 		},
 		{
 			date: '2024-2025',
@@ -185,7 +185,7 @@ for await (const elem of parser) {
 			date: '2024-01',
 			title: 'TCP-AO ships in Linux 6.7 for BGP',
 			description:
-				'Native [[tcp|TCP]] Authentication Option ([[rfc:5925|RFC 5925]]) lands in {{linux|Linux}}, finally giving [[bgp|BGP]] sessions a modern replacement for the deprecated [[tcp|TCP]]-MD5. {{cisco|Cisco}} IOS-XR and Junos already supported it; {{linux|Linux}} was the long-pole.'
+				'Native [[tcp|TCP]] Authentication Option ([[rfc:5925|RFC 5925]]) lands in {{linux|Linux}}, finally giving [[bgp|BGP]] sessions a modern replacement for the deprecated [[tcp|TCP]]-{{md5|MD5}}. {{cisco|Cisco}} {{ios-xr|IOS-XR}} and {{junos|Junos}} already supported it; {{linux|Linux}} was the long-pole.'
 		}
 	],
 
@@ -206,7 +206,7 @@ for await (const elem of parser) {
 			org: 'Hyperscalers (AWS, GCP, Azure)',
 			scale: 'Massive AS holdings',
 			description:
-				'AWS ({{autonomous-system|AS}} 16509), {{google|Google}} ({{autonomous-system|AS}} 15169), {{microsoft|Microsoft}} ({{autonomous-system|AS}} 8075) operate some of the largest [[bgp|BGP]] networks in the world. AWS Direct Connect, Azure ExpressRoute, GCP Cloud Interconnect all use [[bgp|BGP]] for customer {{peering|peering}}.'
+				'{{aws|AWS}} ({{autonomous-system|AS}} 16509), {{google|Google}} ({{autonomous-system|AS}} 15169), {{microsoft|Microsoft}} ({{autonomous-system|AS}} 8075) operate some of the largest [[bgp|BGP]] networks in the world. {{aws|AWS}} Direct {{mqtt-connect|Connect}}, {{azure|Azure}} ExpressRoute, {{gcp|GCP}} Cloud Interconnect all use [[bgp|BGP]] for customer {{peering|peering}}.'
 		}
 	],
 
@@ -221,7 +221,7 @@ for await (const elem of parser) {
 		},
 		{
 			title: 'TCP keepalives keep BGP sessions alive',
-			text: 'A [[bgp|BGP]] session is just a long-lived [[tcp|TCP]] connection on port 179. KEEPALIVE messages every 60 seconds prove the {{peer|peer}} is still there; if no message arrives within 180 seconds (HoldTime), the session resets and all routes through that {{peer|peer}} are withdrawn — which is what cascaded into [[outage:centurylink-flowspec-2020|CenturyLink 2020]].'
+			text: 'A [[bgp|BGP]] session is just a long-lived [[tcp|TCP]] connection on port 179. {{bgp-keepalive|KEEPALIVE}} messages every 60 seconds prove the {{peer|peer}} is still there; if no message arrives within 180 seconds (HoldTime), the session resets and all routes through that {{peer|peer}} are withdrawn — which is what cascaded into [[outage:centurylink-flowspec-2020|CenturyLink 2020]].'
 		}
 	],
 

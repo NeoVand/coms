@@ -58,7 +58,20 @@ const PARSED_FIELDS = new Set([
 	'abstract',
 	'synopsis',
 	'oneLiner',
-	'transition'
+	'transition',
+	// Comparison pairs.ts fields.
+	'summary',
+	'howTheyWork',
+	'leftRole',
+	'rightRole',
+	'left',
+	'right',
+	'aspect',
+	// Catch-all extras used by misc data shapes.
+	'subtitle',
+	'tagline',
+	'body',
+	'content'
 ]);
 const SKIP_FIELDS = new Set([
 	'alt',
@@ -118,16 +131,22 @@ function blankOut(s: string, re: RegExp) {
 	return s.replace(re, (m) => ' '.repeat(m.length));
 }
 function strip(src: string) {
-	// Blank already-wrapped markup. We do NOT strip backtick code spans
+	// Blank already-wrapped markup. We do NOT strip *outer* backtick spans
 	// here because most prose in this codebase lives inside backtick
 	// TEMPLATE LITERALS — a naive `[^`]*` strip would terminate at the
 	// first escaped \` and blank the entire paragraph. The literal-map
 	// check (buildLiteralMap) prevents bad matches in code.
+	//
+	// We DO blank ESCAPED backtick spans (`\\`...\\``) inside template
+	// literals — those are markdown inline-code regions like the
+	// `draft-ietf-foo` example, where a wrap would corrupt the literal.
 	let s = blankOut(src, /\*\*\[\[[^\]]+\]\]\*\*/g);
 	s = blankOut(s, /\[\[[^\]]+\]\]/g);
 	s = blankOut(s, /\*\*\{\{[^}]+\}\}\*\*/g);
 	s = blankOut(s, /\{\{[^}]+\}\}/g);
 	s = blankOut(s, /https?:\/\/\S+/g);
+	// Escaped-backtick markdown code spans (preferred inside template literals).
+	s = blankOut(s, /\\`[^`]*?\\`/g);
 	return s;
 }
 
@@ -241,29 +260,58 @@ for (const file of walk(DATA_DIR)) {
 	for (const c of concepts) {
 		// Skip: too short, low-priority, or term containing characters
 		// the auto-wrap can't safely use as a label.
-		if (c.term.length < 4) continue;
+		if (c.term.length < 4 && !/^[A-Z][A-Z0-9-]+$/.test(c.term)) continue;
 		if (LOW_PRIORITY.has(c.term.toLowerCase())) continue;
 
 		// Some `term` strings are decorated, e.g. "MTU (Maximum
 		// Transmission Unit)" — the parenthesised expansion should not
 		// be part of the regex. Use the *first word group* before any
 		// `(`, ` — `, or `,`.
-		const surface = c.term.split(/\s+\(|—| — |, /)[0].trim();
-		if (!surface || surface.length < 4) continue;
-		if (LOW_PRIORITY.has(surface.toLowerCase())) continue;
+		const fullSurface = c.term.split(/\s+\(|—| — |, /)[0].trim();
+		if (!fullSurface) continue;
 
-		const re = wholeWordRegex(surface, 'gi');
-		let m: RegExpExecArray | null;
-		while ((m = re.exec(stripped)) !== null) {
-			if (orig.slice(m.index, m.index + m[0].length) !== m[0]) continue;
-			// CRITICAL: only wrap if the match is genuinely inside a string
-			// literal (not bare TypeScript code like `topic: FrontierTopic`).
-			const lstart = literalStartFor(litMap, m.index);
-			if (lstart < 0) continue;
-			const field = findFieldForOffset(orig, m.index);
-			if (!field || !PARSED_FIELDS.has(field) || SKIP_FIELDS.has(field)) continue;
-			if (skipDefinition && field === 'definition') continue;
-			allHits.push({ off: m.index, len: m[0].length, id: c.id, surface: m[0] });
+		// Build list of surfaces to try. Start with the full one. If the
+		// term begins with an ALL-CAPS acronym followed by another word
+		// (e.g. "AAAA record", "MX record", "MAC Address"), also try the
+		// bare acronym — `[[#concept|AAAA]]` is what readers actually
+		// see in prose like "DNS AAAA records map...".
+		const surfaces: string[] = [];
+		if (fullSurface.length >= 4 && !LOW_PRIORITY.has(fullSurface.toLowerCase())) {
+			surfaces.push(fullSurface);
+		}
+		const acronymMatch = fullSurface.match(/^([A-Z][A-Z0-9/-]{1,})\s+\S/);
+		if (acronymMatch) {
+			const acr = acronymMatch[1];
+			if (
+				acr.length >= 2 &&
+				!LOW_PRIORITY.has(acr.toLowerCase()) &&
+				!surfaces.includes(acr)
+			)
+				surfaces.push(acr);
+		}
+		// Also if the term itself is a bare 2-3 char acronym, surface it
+		if (
+			/^[A-Z][A-Z0-9/-]{1,7}$/.test(fullSurface) &&
+			fullSurface.length >= 2 &&
+			!surfaces.includes(fullSurface)
+		) {
+			surfaces.push(fullSurface);
+		}
+
+		for (const surface of surfaces) {
+			const re = wholeWordRegex(surface, surface.length <= 4 ? 'g' : 'gi');
+			let m: RegExpExecArray | null;
+			while ((m = re.exec(stripped)) !== null) {
+				if (orig.slice(m.index, m.index + m[0].length) !== m[0]) continue;
+				// CRITICAL: only wrap if the match is genuinely inside a string
+				// literal (not bare TypeScript code like `topic: FrontierTopic`).
+				const lstart = literalStartFor(litMap, m.index);
+				if (lstart < 0) continue;
+				const field = findFieldForOffset(orig, m.index);
+				if (!field || !PARSED_FIELDS.has(field) || SKIP_FIELDS.has(field)) continue;
+				if (skipDefinition && field === 'definition') continue;
+				allHits.push({ off: m.index, len: m[0].length, id: c.id, surface: m[0] });
+			}
 		}
 	}
 

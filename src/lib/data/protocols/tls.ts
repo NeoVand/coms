@@ -9,13 +9,13 @@ export const tls: Protocol = {
 	year: 1999,
 	rfc: 'RFC 8446',
 	oneLiner: 'Encrypts everything between client and server — the lock icon in your browser.',
-	overview: `[[tls|TLS]] (and its predecessor SSL) is the security layer that makes the modern internet possible. Every HTTPS website, every secure API call, every {{encryption|encrypted}} email — they all rely on [[tls|TLS]] to ensure that data can't be read or modified in {{transit|transit}}.
+	overview: `[[tls|TLS]] (and its predecessor {{ssl|SSL}}) is the security layer that makes the modern internet possible. Every HTTPS website, every secure {{api|API}} call, every {{encryption|encrypted}} email — they all rely on [[tls|TLS]] to ensure that data can't be read or modified in {{transit|transit}}.
 
 [[tls|TLS]] provides three guarantees: confidentiality (data is encrypted, so eavesdroppers see gibberish), integrity (data can't be modified without detection), and authentication (you're actually talking to who you think you are, verified by {{certificate|certificates}}). [[tls|TLS]] 1.3 (2018) dramatically simplified the {{tls-handshake|handshake}}, reducing it from 2 {{rtt|round trips}} to 1, and removed support for legacy insecure algorithms.
 
 When you see the lock icon in your browser, [[tls|TLS]] is at work. It sits between the application layer ([[http1|HTTP]]) and the transport layer ([[tcp|TCP]]), transparently encrypting everything. Application code doesn't need to change — "http://" becomes "https://" and [[tls|TLS]] handles the rest.
 
-[[tls|TLS]] is the Layer-4 (transport) {{encryption|encryption}} story. Its Layer-3 (network) counterpart is **[[ipsec|IPsec]]** — same goal (confidentiality + integrity + authentication), different scope (entire [[ip|IP]] packets instead of single [[tcp|TCP]] streams). Where [[tls|TLS]] wraps one connection that one application can see, [[ipsec|IPsec]] encrypts every [[ip|IP]] packet between two endpoints — host-to-host or gateway-to-gateway — and is the substrate of every site-to-site VPN, every {{3gpp|3GPP}} [[cellular|mobile-core]] backhaul, and every IKEv2 client tunnel on macOS, iOS, Windows, and {{android|Android}}. The lighter-weight cousin **[[wireguard|WireGuard]]** picks the same Noise-protocol crypto stack and ships in ~4,000 lines of kernel code. Below the transport layer entirely, short-range wireless protocols like [[nfc|NFC]] ({{apple|Apple}} Pay), [[bluetooth|BLE]] ({{ccc-digital-key|CCC Digital Key}}), and [[uwb|UWB]] ({{aliro|Aliro}}) negotiate their own session keys and never traverse [[tls|TLS]] until the cryptogram reaches the payment-network back-end.`,
+[[tls|TLS]] is the Layer-4 (transport) {{encryption|encryption}} story. Its Layer-3 (network) counterpart is **[[ipsec|IPsec]]** — same goal (confidentiality + integrity + authentication), different scope (entire [[ip|IP]] packets instead of single [[tcp|TCP]] streams). Where [[tls|TLS]] wraps one connection that one application can see, [[ipsec|IPsec]] encrypts every [[ip|IP]] packet between two endpoints — host-to-host or gateway-to-gateway — and is the substrate of every site-to-site {{vpn|VPN}}, every {{3gpp|3GPP}} [[cellular|mobile-core]] backhaul, and every {{ikev2|IKEv2}} client tunnel on macOS, iOS, Windows, and {{android|Android}}. The lighter-weight cousin **[[wireguard|WireGuard]]** picks the same Noise-protocol crypto stack and ships in ~4,000 lines of kernel code. Below the transport layer entirely, short-range wireless protocols like [[nfc|NFC]] ({{apple|Apple}} Pay), [[bluetooth|BLE]] ({{ccc-digital-key|CCC Digital Key}}), and [[uwb|UWB]] ({{aliro|Aliro}}) negotiate their own session keys and never traverse [[tls|TLS]] until the cryptogram reaches the payment-network back-end.`,
 	howItWorks: [
 		{
 			title: 'ClientHello',
@@ -202,7 +202,7 @@ openssl req -x509 -newkey rsa:2048 -nodes \\
 			date: '2024-08',
 			title: 'NIST finalises ML-KEM, ML-DSA, SLH-DSA',
 			description:
-				'FIPS 203, 204, 205 published — the {{post-quantum|post-quantum cryptography}} primitives that [[tls|TLS]] would depend on. {{ml-kem|ML-KEM}}-768 (formerly Kyber-768) becomes the foundation for hybrid key {{exchange|exchange}}.',
+				'{{fips|FIPS}} 203, 204, 205 published — the {{post-quantum|post-quantum cryptography}} primitives that [[tls|TLS]] would depend on. {{ml-kem|ML-KEM}}-768 (formerly Kyber-768) becomes the foundation for hybrid key {{exchange|exchange}}.',
 			source: { url: 'https://csrc.nist.gov/publications/detail/fips/203/final', label: 'NIST FIPS 203' }
 		},
 		{
@@ -216,13 +216,13 @@ openssl req -x509 -newkey rsa:2048 -nodes \\
 			date: '2025-Q3',
 			title: '~70% of TLS 1.3 handshakes are post-quantum',
 			description:
-				'{{cdn|CDN}} measurements show majority of [[tls|TLS]] 1.3 connections now negotiate X25519MLKEM768 hybrid. {{apple|Apple}} iOS 26 ships with PQ on by default.'
+				'{{cdn|CDN}} measurements show majority of [[tls|TLS]] 1.3 connections now negotiate {{pq-ciphersuite|X25519MLKEM768}} hybrid. {{apple|Apple}} iOS 26 ships with {{pq|PQ}} on by default.'
 		},
 		{
 			date: '2024-09',
 			title: 'ECH (Encrypted Client Hello) progresses',
 			description:
-				'draft-{{ietf|ietf}}-tls-esni-23 advanced toward RFC; {{ech|ECH}} hides the {{sni|SNI}} from on-path observers, closing a long-standing [[tls|TLS]] metadata leak. {{cloudflare|Cloudflare}} and Mozilla running joint deployments.'
+				'draft-{{ietf|ietf}}-tls-esni-23 advanced toward {{rfc-doc|RFC}}; {{ech|ECH}} hides the {{sni|SNI}} from on-path observers, closing a long-standing [[tls|TLS]] metadata leak. {{cloudflare|Cloudflare}} and Mozilla running joint deployments.'
 		}
 	],
 
@@ -231,13 +231,13 @@ openssl req -x509 -newkey rsa:2048 -nodes \\
 			org: 'Cloudflare',
 			scale: '100% of HTTPS edge',
 			description:
-				'[[tls|TLS]] 1.3 with X25519MLKEM768 hybrid key {{exchange|exchange}} and {{ech|ECH}} support enabled by default for every site fronted by {{cloudflare|Cloudflare}}.'
+				'[[tls|TLS]] 1.3 with {{pq-ciphersuite|X25519MLKEM768}} hybrid key {{exchange|exchange}} and {{ech|ECH}} support enabled by default for every site fronted by {{cloudflare|Cloudflare}}.'
 		},
 		{
 			org: 'Apple',
 			scale: 'iOS 26 / macOS 15+',
 			description:
-				'Network.framework defaults to [[tls|TLS]] 1.3; X25519MLKEM768 enabled by default in iOS 26.'
+				'Network.framework defaults to [[tls|TLS]] 1.3; {{pq-ciphersuite|X25519MLKEM768}} enabled by default in iOS 26.'
 		},
 		{
 			org: 'Google Chrome',
@@ -256,11 +256,11 @@ openssl req -x509 -newkey rsa:2048 -nodes \\
 	funFacts: [
 		{
 			title: 'SSL 1.0 was never released',
-			text: 'Netscape\'s [[pioneer:taher-elgamal|Taher Elgamal]] designed SSL 1.0 in 1994 — but a flaw was found before public release that let an attacker recover the session key. SSL 2.0 (1995) shipped instead. SSL 3.0 (1996) was rewritten from scratch by Paul Kocher and survived for over a decade.'
+			text: 'Netscape\'s [[pioneer:taher-elgamal|Taher Elgamal]] designed {{ssl|SSL}} 1.0 in 1994 — but a flaw was found before public release that let an attacker recover the session key. {{ssl|SSL}} 2.0 (1995) shipped instead. {{ssl|SSL}} 3.0 (1996) was rewritten from scratch by Paul Kocher and survived for over a decade.'
 		},
 		{
 			title: 'TLS 1.3 cut every weak cipher',
-			text: '[[tls|TLS]] 1.3 ([[rfc:8446|RFC 8446]]) was the first version to break wire compatibility — it removed RC4, 3DES, MD5, SHA-1, RSA key {{exchange|exchange}}, and every CBC-mode cipher. Each one had been weaponised in a published attack: BEAST, CRIME, BREACH, Lucky 13, FREAK, Logjam, ROBOT.'
+			text: '[[tls|TLS]] 1.3 ([[rfc:8446|RFC 8446]]) was the first version to break wire compatibility — it removed {{rc4|RC4}}, 3DES, {{md5|MD5}}, {{sha1|SHA-1}}, {{rsa|RSA}} key {{exchange|exchange}}, and every CBC-mode cipher. Each one had been weaponised in a published attack: BEAST, CRIME, BREACH, Lucky 13, FREAK, Logjam, ROBOT.'
 		},
 		{
 			title: 'Harvest now, decrypt later',
@@ -272,7 +272,7 @@ openssl req -x509 -newkey rsa:2048 -nodes \\
 		pitfalls: [
 			{
 				title: 'Certificate expiry takes down major sites',
-				text: 'Even huge organisations forget to renew. {{microsoft|Microsoft}} Teams (2020), Spotify (2020), {{cisco|Cisco}} WebEx (2018) all had hours-long outages because a single {{certificate|certificate}} expired. Cure: monitor expiries (cert-monitor, AWS ACM, Let\'s Encrypt automation), and never have an "important" cert that someone has to renew by hand.'
+				text: 'Even huge organisations forget to renew. {{microsoft|Microsoft}} Teams (2020), Spotify (2020), {{cisco|Cisco}} WebEx (2018) all had hours-long outages because a single {{certificate|certificate}} expired. Cure: monitor expiries (cert-monitor, {{aws|AWS}} {{acm-org|ACM}}, Let\'s Encrypt automation), and never have an "important" cert that someone has to renew by hand.'
 			},
 			{
 				title: 'Resumption tickets enable replay on 0-RTT',
@@ -280,7 +280,7 @@ openssl req -x509 -newkey rsa:2048 -nodes \\
 			},
 			{
 				title: 'Mixed content breaks the padlock',
-				text: 'A page loaded over HTTPS that includes a single script over HTTP triggers the browser\'s mixed-content blocker. The page either fails to load assets or shows a warning. Cure: use protocol-relative URLs or strict HTTPS-only resources.'
+				text: 'A page loaded over HTTPS that includes a single script over {{http-method|HTTP}} triggers the browser\'s mixed-content blocker. The page either fails to load assets or shows a warning. Cure: use protocol-relative URLs or strict HTTPS-only resources.'
 			}
 		]
 	}

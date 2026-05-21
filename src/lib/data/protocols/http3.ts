@@ -8,10 +8,10 @@ export const http3: Protocol = {
 	port: 443,
 	year: 2022,
 	rfc: 'RFC 9114',
-	oneLiner: 'HTTP over [[quic|QUIC]] — faster connections, no {{head-of-line-blocking|head-of-line blocking}}, built-in {{encryption|encryption}}.',
-	overview: `[[http3|HTTP/3]] is the latest evolution of HTTP, replacing [[tcp|TCP]] with [[quic|QUIC]] as its transport layer. This seemingly simple swap has profound implications: connections establish faster (1 {{rtt|RTT}} vs 2-3), lost {{packet|packets}} don't block unrelated streams, and connections survive network changes ([[wifi|Wi-Fi]] to cellular).
+	oneLiner: '{{http-method|HTTP}} over [[quic|QUIC]] — faster connections, no {{head-of-line-blocking|head-of-line blocking}}, built-in {{encryption|encryption}}.',
+	overview: `[[http3|HTTP/3]] is the latest evolution of {{http-method|HTTP}}, replacing [[tcp|TCP]] with [[quic|QUIC]] as its transport layer. This seemingly simple swap has profound implications: connections establish faster (1 {{rtt|RTT}} vs 2-3), lost {{packet|packets}} don't block unrelated streams, and connections survive network changes ([[wifi|Wi-Fi]] to cellular).
 
-The API for developers is identical — same methods, headers, and status codes. The difference is entirely at the transport level. [[http3|HTTP/3]] uses [[quic|QUIC]]'s independent {{stream|streams}} to solve the {{head-of-line-blocking|head-of-line blocking}} that plagued [[http2|HTTP/2]] over [[tcp|TCP]]. Each HTTP request maps to a [[quic|QUIC]] stream; if one packet is lost, only that stream waits for {{retransmission|retransmission}}.
+The {{api|API}} for developers is identical — same methods, headers, and status codes. The difference is entirely at the transport level. [[http3|HTTP/3]] uses [[quic|QUIC]]'s independent {{stream|streams}} to solve the {{head-of-line-blocking|head-of-line blocking}} that plagued [[http2|HTTP/2]] over [[tcp|TCP]]. Each {{http-method|HTTP}} request maps to a [[quic|QUIC]] stream; if one packet is lost, only that stream waits for {{retransmission|retransmission}}.
 
 Adoption is accelerating: {{google|Google}}, {{cloudflare|Cloudflare}}, Facebook, and most {{cdn|CDNs}} support it. By 2025, ~35% of web traffic uses [[http3|HTTP/3]].`,
 	howItWorks: [
@@ -153,7 +153,7 @@ asyncio.run(fetch_h3())`
 			date: '2024',
 			title: 'WebTransport API ships in Chrome',
 			description:
-				'{{webtransport|WebTransport}} (the JavaScript API on top of [[http3|HTTP/3]] datagrams and streams) reached Chrome stable. Replaces [[websockets|WebSockets]] for low-{{latency|latency}} client-server use cases.'
+				'{{webtransport|WebTransport}} (the JavaScript {{api|API}} on top of [[http3|HTTP/3]] datagrams and streams) reached Chrome stable. Replaces [[websockets|WebSockets]] for low-{{latency|latency}} client-server use cases.'
 		}
 	],
 
@@ -181,7 +181,7 @@ asyncio.run(fetch_h3())`
 	funFacts: [
 		{
 			title: 'HTTP/3 has the same semantics as HTTP/1.1',
-			text: 'A GET request in [[http3|HTTP/3]] means exactly what it meant in [[http1|HTTP/1.1]] (1997). The verbs, status codes, headers, {{content-negotiation|content negotiation}}, and caching semantics are identical. Only the **wire encoding** changed — from text framing (1.1) to binary frames (2) to [[quic|QUIC]] streams (3). Reading [[rfc:9110|RFC 9110]] (HTTP Semantics) explains all three at once.'
+			text: 'A GET request in [[http3|HTTP/3]] means exactly what it meant in [[http1|HTTP/1.1]] (1997). The verbs, status codes, headers, {{content-negotiation|content negotiation}}, and caching semantics are identical. Only the **wire encoding** changed — from text framing (1.1) to binary frames (2) to [[quic|QUIC]] streams (3). Reading [[rfc:9110|RFC 9110]] ({{http-method|HTTP}} Semantics) explains all three at once.'
 		},
 		{
 			title: 'No more head-of-line blocking',
@@ -189,7 +189,7 @@ asyncio.run(fetch_h3())`
 		},
 		{
 			title: 'Connection migration survives Wi-Fi/cellular handoff',
-			text: 'When your phone moves between [[wifi|Wi-Fi]] and cellular, the underlying [[ip|IP]] changes — but the [[http3|HTTP/3]] connection survives because [[quic|QUIC]] identifies it by Connection ID, not [[ip|IP]]. A video call or live stream does not stutter on handoff.'
+			text: 'When your phone moves between [[wifi|Wi-Fi]] and cellular, the underlying [[ip|IP]] changes — but the [[http3|HTTP/3]] connection survives because [[quic|QUIC]] identifies it by Connection {{id-identifier|ID}}, not [[ip|IP]]. A video call or live stream does not stutter on handoff.'
 		}
 	],
 

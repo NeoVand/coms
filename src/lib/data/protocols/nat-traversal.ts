@@ -9,17 +9,17 @@ export const natTraversal: Protocol = {
 	year: 2003,
 	rfc: 'RFC 8489 / 8656 / 8445',
 	oneLiner:
-		'Lets two peers behind home routers find each other: {{stun|STUN}} learns your public address, {{turn|TURN}} relays when direct paths fail, and ICE picks the best working path.',
-	overview: `[[nat-traversal|NAT traversal]] is the reason a [[webrtc|WebRTC]] call between two laptops on home Wi-Fi works at all. The public internet only routes between public {{ip-address|IP addresses}}, but most devices live behind {{nat|NAT}} routers that share one address across many hosts. [[nat-traversal|NAT traversal]] is a three-protocol bundle — {{stun|STUN}}, {{turn|TURN}}, and ICE — that lets two such devices discover each other's public-facing address, probe every possible path between them, and fall back to a relay when nothing direct works.
+		'Lets two peers behind home routers find each other: {{stun|STUN}} learns your public address, {{turn|TURN}} relays when direct paths fail, and {{ice|ICE}} picks the best working path.',
+	overview: `[[nat-traversal|NAT traversal]] is the reason a [[webrtc|WebRTC]] call between two laptops on home Wi-Fi works at all. The public internet only routes between public {{ip-address|IP addresses}}, but most devices live behind {{nat|NAT}} routers that share one address across many {{hosts-bare|hosts}}. [[nat-traversal|NAT traversal]] is a three-protocol bundle — {{stun|STUN}}, {{turn|TURN}}, and {{ice|ICE}} — that lets two such devices discover each other's public-facing address, probe every possible path between them, and fall back to a relay when nothing direct works.
 
-**{{stun|STUN}}** ([[rfc:8489|RFC 8489]], the modern revision of [[pioneer:jonathan-rosenberg|Jonathan Rosenberg]]'s 2003 [[rfc:8489|RFC 3489]]) is the wire format and the reflexive-address probe. A client sends a 20-byte Binding Request to a public {{stun|STUN}} server; the server replies with the address it saw, encoded as \`{{xor-mapped-address|XOR-MAPPED-ADDRESS}}\`. That tells the client what the rest of the internet sees through its {{nat|NAT}}. **{{turn|TURN}}** ([[rfc:8656|RFC 8656]]) is {{stun|STUN}}'s relay extension: when the path is blocked or both sides are behind symmetric {{nat|NATs}}, peers \`Allocate\` a public \`ip:port\` on a {{turn|TURN}} server and route media through it. **ICE** ([[rfc:8445|RFC 8445]]) is the algorithm that orchestrates everything — it gathers every candidate address (host, server-reflexive via {{stun|STUN}}, relayed via {{turn|TURN}}), pairs them with the {{peer|peer}}'s, runs {{stun|STUN}} connectivity checks across every pair, and nominates the highest-priority working one.
+**{{stun|STUN}}** ([[rfc:8489|RFC 8489]], the modern revision of [[pioneer:jonathan-rosenberg|Jonathan Rosenberg]]'s 2003 [[rfc:8489|RFC 3489]]) is the wire format and the reflexive-address probe. A client sends a 20-byte Binding Request to a public {{stun|STUN}} server; the server replies with the address it saw, encoded as \`XOR-MAPPED-ADDRESS\`. That tells the client what the rest of the internet sees through its {{nat|NAT}}. **{{turn|TURN}}** ([[rfc:8656|RFC 8656]]) is {{stun|STUN}}'s relay extension: when the path is blocked or both sides are behind symmetric {{nat|NATs}}, peers \`Allocate\` a public \`ip:port\` on a {{turn|TURN}} server and route media through it. **{{ice|ICE}}** ([[rfc:8445|RFC 8445]]) is the algorithm that orchestrates everything — it gathers every candidate address (host, server-reflexive via {{stun|STUN}}, relayed via {{turn|TURN}}), pairs them with the {{peer|peer}}'s, runs {{stun|STUN}} connectivity checks across every pair, and nominates the highest-priority working one.
 
-All three protocols share the same 20-byte {{stun|STUN}} header, transaction IDs, TLV attribute encoding, and the magic {{cookie|cookie}} \`0x2112A442\` that lets receivers demultiplex {{stun|STUN}}, [[rtp|RTP]], and [[tls|DTLS]] on a shared {{port|port}}. Every modern real-time application — [[webrtc|WebRTC]] in browsers, [[sip|SIP]] over the public internet, Tailscale's mesh VPN, gaming P2P — uses some form of this stack.`,
+All three protocols share the same 20-byte {{stun|STUN}} header, transaction IDs, {{tlv|TLV}} attribute encoding, and the magic {{cookie|cookie}} \`0x2112A442\` that lets receivers demultiplex {{stun|STUN}}, [[rtp|RTP]], and [[tls|DTLS]] on a shared {{port|port}}. Every modern real-time application — [[webrtc|WebRTC]] in browsers, [[sip|SIP]] over the public internet, Tailscale's mesh {{vpn|VPN}}, gaming P2P — uses some form of this stack.`,
 	howItWorks: [
 		{
 			title: 'Gather host candidates',
 			description:
-				'Each ICE agent enumerates its local interfaces and binds [[udp|UDP]] {{socket|sockets}} on every routable address. These "host candidates" are tried first — they win when both peers are on the same LAN or a VPN that already routed them together.'
+				'Each {{ice|ICE}} agent enumerates its local interfaces and binds [[udp|UDP]] {{socket|sockets}} on every routable address. These "host candidates" are tried first — they win when both peers are on the same {{lan|LAN}} or a {{vpn|VPN}} that already routed them together.'
 		},
 		{
 			title: 'STUN: learn your public address',
@@ -34,17 +34,17 @@ All three protocols share the same 20-byte {{stun|STUN}} header, transaction IDs
 		{
 			title: 'Trickle and pair',
 			description:
-				'Candidates are signalled to the other {{peer|peer}} as they arrive ([[rfc:8838|RFC 8838]] Trickle ICE) over the application\'s signalling channel ([[websockets|WebSocket]], [[sip|SIP]], etc.). Each side pairs every local candidate with every remote candidate and assigns a priority — host (126) > {{peer|peer}}-reflexive (110) > server-reflexive (100) > relay (0).'
+				'Candidates are signalled to the other {{peer|peer}} as they arrive ([[rfc:8838|RFC 8838]] Trickle {{ice|ICE}}) over the application\'s signalling channel ([[websockets|WebSocket]], [[sip|SIP]], etc.). Each side pairs every local candidate with every remote candidate and assigns a priority — host (126) > {{peer|peer}}-reflexive (110) > server-reflexive (100) > relay (0).'
 		},
 		{
 			title: 'Connectivity checks',
 			description:
-				"Both agents send {{stun|STUN}} Binding Requests across every pair using short-term ICE credentials (`ufrag`/`pwd` from the [[sdp|SDP]]). The first pair to round-trip successfully becomes a *valid pair*; the controlling agent then nominates one with `{{use-candidate|USE-CANDIDATE}}`."
+				"Both agents send {{stun|STUN}} Binding Requests across every pair using short-term {{ice|ICE}} credentials (`ufrag`/`pwd` from the [[sdp|SDP]]). The first pair to round-trip successfully becomes a *valid pair*; the controlling agent then nominates one with `{{use-candidate|USE-CANDIDATE}}`."
 		},
 		{
 			title: 'Keep the path alive',
 			description:
-				'Consent freshness ([[rfc:7675|RFC 7675]]) fires a Binding Indication every ~15 seconds on the selected pair — if no response in ~30 s, the agent tears down and triggers an ICE restart. {{turn|TURN}} allocations refresh every ~450 s to stay below the 600 s timeout.'
+				'Consent freshness ([[rfc:7675|RFC 7675]]) fires a Binding Indication every ~15 seconds on the selected pair — if no response in ~30 s, the agent tears down and triggers an {{ice|ICE}} restart. {{turn|TURN}} allocations refresh every ~450 s to stay below the 600 s timeout.'
 		}
 	],
 	useCases: [
@@ -78,7 +78,7 @@ const offer = await pc.createOffer();
 await pc.setLocalDescription(offer);
 signal({ sdp: offer });`,
 		caption:
-			"A browser ICE agent: {{stun|STUN}} + {{turn|TURN}} URLs go in, candidates trickle out. The {{nat|NAT traversal}} is invisible — but every event firing here corresponds to a {{stun|STUN}} message on the wire.",
+			"A browser {{ice|ICE}} agent: {{stun|STUN}} + {{turn|TURN}} URLs go in, candidates trickle out. The {{nat|NAT traversal}} is invisible — but every event firing here corresponds to a {{stun|STUN}} message on the wire.",
 		alternatives: [
 			{
 				language: 'python',
@@ -206,7 +206,7 @@ Attributes:
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/NAT_Concept-en.svg/500px-NAT_Concept-en.svg.png',
 		alt: 'NAT concept diagram showing internal private IP addresses behind a router translated to a single public IP address',
 		caption:
-			'The reason {{nat|NAT traversal}} exists. A {{nat|NAT}} router rewrites the 5-tuple of every outbound flow, mapping many internal addresses onto one public {{ip-address|IP}}. {{stun|STUN}} reveals what the world sees; {{turn|TURN}} relays when nothing direct works; ICE picks the path.',
+			'The reason {{nat|NAT traversal}} exists. A {{nat|NAT}} router rewrites the 5-tuple of every outbound flow, mapping many internal addresses onto one public {{ip-address|IP}}. {{stun|STUN}} reveals what the world sees; {{turn|TURN}} relays when nothing direct works; {{ice|ICE}} picks the path.',
 		credit: 'Image: Wikimedia Commons / CC BY-SA'
 	},
 
@@ -215,7 +215,7 @@ Attributes:
 			date: '2024-09',
 			title: 'Cloudflare Realtime TURN GA',
 			description:
-				'{{cloudflare|Cloudflare}} opened its {{anycast|anycast}} {{turn|TURN}} service (`{{turn|turn}}.{{cloudflare|cloudflare}}.com`) at 335+ locations with $0.05/GB egress and 1 TB free per month — the first major price drop in managed [[nat-traversal|NAT traversal]] in years. Free entirely when paired with {{cloudflare|Cloudflare}}\'s SFU.',
+				'{{cloudflare|Cloudflare}} opened its {{anycast|anycast}} {{turn|TURN}} service (`{{turn|turn}}.{{cloudflare|cloudflare}}.com`) at 335+ locations with $0.05/GB egress and 1 TB free per month — the first major price drop in managed [[nat-traversal|NAT traversal]] in years. Free entirely when paired with {{cloudflare|Cloudflare}}\'s {{sfu|SFU}}.',
 			source: {
 				url: 'https://developers.cloudflare.com/realtime/turn/',
 				label: 'Cloudflare Realtime TURN docs'
@@ -225,7 +225,7 @@ Attributes:
 			date: '2024-11',
 			title: 'Justin Uberti joins OpenAI to lead Real-Time AI',
 			description:
-				'After a decade as the architect of [[webrtc|WebRTC]] at {{google|Google}} (Meet, Duo, Stadia), [[pioneer:justin-uberti|Justin Uberti]] joined OpenAI on 25 November 2024 — signalling that the ICE/{{stun|STUN}}/{{turn|TURN}} stack is now load-bearing for low-{{latency|latency}} voice agents, not just video calls.',
+				'After a decade as the architect of [[webrtc|WebRTC]] at {{google|Google}} (Meet, Duo, Stadia), [[pioneer:justin-uberti|Justin Uberti]] joined OpenAI on 25 November 2024 — signalling that the {{ice|ICE}}/{{stun|STUN}}/{{turn|TURN}} stack is now load-bearing for low-{{latency|latency}} voice agents, not just video calls.',
 			source: {
 				url: 'https://x.com/juberti/status/1861144466168987756',
 				label: '@juberti on X'
@@ -235,7 +235,7 @@ Attributes:
 			date: '2024-12',
 			title: 'coturn 4.9.0 closes the IPv4-mapped-IPv6 bypass',
 			description:
-				'The fix for [[nat-traversal|TURN]] {{loopback|loopback}} escape (CVE-2020-26262) had checked `127.x.x.x` and `::1` but not `::ffff:127.0.0.1`. 4.9.0 hardens `ioa_addr_is_loopback` and friends.',
+				'The fix for [[nat-traversal|TURN]] {{loopback|loopback}} escape ({{cve|CVE}}-2020-26262) had checked `127.x.x.x` and `::1` but not `::ffff:127.0.0.1`. 4.9.0 hardens `ioa_addr_is_loopback` and friends.',
 			source: {
 				url: 'https://github.com/coturn/coturn/releases/tag/4.9.0',
 				label: 'coturn 4.9.0 release notes'
@@ -264,7 +264,7 @@ Attributes:
 			org: 'Cloudflare Realtime',
 			scale: '335+ anycast locations; $0.05/GB egress; 1 TB free/month',
 			description:
-				'{{anycast|Anycast}} {{turn|TURN}} + {{stun|STUN}} bundle launched late 2024, the first credible challenger to Twilio NTS. Per-allocation guards rate-limit >5 new IPs/s and >50–100 Mbps, defending against {{turn|TURN}}-as-open-proxy abuse.'
+				'{{anycast|Anycast}} {{turn|TURN}} + {{stun|STUN}} bundle launched late 2024, the first credible challenger to Twilio {{nts|NTS}}. Per-allocation guards rate-limit >5 new IPs/s and >50–100 Mbps, defending against {{turn|TURN}}-as-open-proxy abuse.'
 		},
 		{
 			org: 'Tailscale',
@@ -283,19 +283,19 @@ Attributes:
 	funFacts: [
 		{
 			title: 'The magic cookie spells "STUN"',
-			text: '{{stun|STUN}}\'s `0x2112A442` is the {{ietf|IETF}}\'s nod to the IP version field, but the **FINGERPRINT** attribute {{checksum|checksum}} is XORed with `0x5354554E` — the ASCII bytes for `{{stun|STUN}}`. The protocol literally signs its own name on every packet.'
+			text: '{{stun|STUN}}\'s `0x2112A442` is the {{ietf|IETF}}\'s nod to the {{ip-address|IP}} version field, but the **FINGERPRINT** attribute {{checksum|checksum}} is XORed with `0x5354554E` — the {{ascii|ASCII}} bytes for `{{stun|STUN}}`. The protocol literally signs its own name on every packet.'
 		},
 		{
 			title: 'STUN changed what its own acronym means',
-			text: '[[rfc:8489|RFC 3489]] (2003) expanded {{stun|STUN}} as **Simple Traversal of [[udp|UDP]] through NATs** — a tool that classified NATs into four neat types. [[rfc:8489|RFC 5389]] (2008) re-expanded it as **Session Traversal Utilities for NAT** after [[pioneer:bryan-ford|Bryan Ford]], [[pioneer:saikat-guha|Saikat Guha]], and Paul Francis showed the four-flavours model was a myth: NATs lie, drift, and behave differently per {{peer|peer}}. {{stun|STUN}} became a *toolkit*, not a *solution*.'
+			text: '[[rfc:8489|RFC 3489]] (2003) expanded {{stun|STUN}} as **Simple Traversal of [[udp|UDP]] through NATs** — a tool that classified NATs into four neat types. [[rfc:8489|RFC 5389]] (2008) re-expanded it as **Session Traversal Utilities for {{nat|NAT}}** after [[pioneer:bryan-ford|Bryan Ford]], [[pioneer:saikat-guha|Saikat Guha]], and Paul Francis showed the four-flavours model was a myth: NATs lie, drift, and behave differently per {{peer|peer}}. {{stun|STUN}} became a *toolkit*, not a *solution*.'
 		},
 		{
 			title: '80–90% of WebRTC calls never need TURN',
-			text: '[[pioneer:justin-uberti|Justin Uberti]] and Mozilla reported on `discuss-webrtc` in 2019 that 80–90% of calls succeed on host or server-reflexive paths. "{{turn|TURN}} is expensive… and lowers quality." Tailscale\'s mesh hits >90% direct as well — but every cloud-default NAT (AWS, GCP, Azure) is symmetric and forces relays.'
+			text: '[[pioneer:justin-uberti|Justin Uberti]] and Mozilla reported on `discuss-webrtc` in 2019 that 80–90% of calls succeed on host or server-reflexive paths. "{{turn|TURN}} is expensive… and lowers quality." Tailscale\'s mesh hits >90% direct as well — but every cloud-default {{nat|NAT}} ({{aws|AWS}}, {{gcp|GCP}}, {{azure|Azure}}) is symmetric and forces relays.'
 		},
 		{
 			title: 'Jonathan Rosenberg is a top-10 RFC author of all time',
-			text: 'Counts vary by year, but [[pioneer:jonathan-rosenberg|Jonathan Rosenberg]] has authored 56–71 RFCs — including [[sip|SIP]] itself ([[rfc:3261|RFC 3261]]), [[sdp|SDP]] offer/answer (RFC 3264), and **every** revision of {{stun|STUN}}, {{turn|TURN}}, and ICE. Currently CTO + Head of AI at Five9.'
+			text: 'Counts vary by year, but [[pioneer:jonathan-rosenberg|Jonathan Rosenberg]] has authored 56–71 RFCs — including [[sip|SIP]] itself ([[rfc:3261|RFC 3261]]), [[sdp|SDP]] offer/answer ({{rfc-doc|RFC}} 3264), and **every** revision of {{stun|STUN}}, {{turn|TURN}}, and {{ice|ICE}}. Currently CTO + Head of {{ai|AI}} at Five9.'
 		}
 	],
 
@@ -303,15 +303,15 @@ Attributes:
 		pitfalls: [
 			{
 				title: 'TURN credentials in mobile binaries = open SOCKS proxy',
-				text: 'Hard-coding {{turn|TURN}} long-term credentials in a shipped app is a class incident: attackers extract them with `apktool`/`Frida` and use the server as a free SOCKS-style proxy into your private network. Cure: mint **short-lived credentials server-side per session** via the [[rest|REST]] API {{hmac|HMAC}} pattern, or use third-party authorization ([[rfc:7635|RFC 7635]]).'
+				text: 'Hard-coding {{turn|TURN}} long-term credentials in a shipped app is a class incident: attackers extract them with `apktool`/`Frida` and use the server as a free SOCKS-style proxy into your private network. Cure: mint **short-lived credentials server-side per session** via the [[rest|REST]] {{api|API}} {{hmac|HMAC}} pattern, or use third-party authorization ([[rfc:7635|RFC 7635]]).'
 			},
 			{
 				title: 'Cloud NATs are symmetric — TURN is mandatory',
-				text: 'AWS, default Azure, and default GCP Cloud NAT all randomise source port per destination — the worst case for hole punching. Two peers behind cloud NATs almost never form a direct [[udp|UDP]] path. Only GCP\'s "Endpoint-Independent Mapping" mode opts out. Budget for relayed traffic when either side is in a public cloud.'
+				text: '{{aws|AWS}}, default {{azure|Azure}}, and default {{gcp|GCP}} Cloud {{nat|NAT}} all randomise source port per destination — the worst case for hole punching. Two peers behind cloud NATs almost never form a direct [[udp|UDP]] path. Only {{gcp|GCP}}\'s "Endpoint-Independent Mapping" mode opts out. Budget for relayed traffic when either side is in a public cloud.'
 			},
 			{
 				title: 'Forgetting consent freshness causes mystery hangups',
-				text: '[[rfc:7675|RFC 7675]] requires the agent to send a Binding Indication every ~15 s; if no response in ~30 s the connection is declared dead. A common bug: NAT bindings on aggressive home routers time out faster than the keepalive cadence. Cure: tune the consent interval down, or fall back to relayed mode.'
+				text: '[[rfc:7675|RFC 7675]] requires the agent to send a Binding Indication every ~15 s; if no response in ~30 s the connection is declared dead. A common bug: {{nat|NAT}} bindings on aggressive home routers time out faster than the {{bgp-keepalive|keepalive}} cadence. Cure: tune the consent interval down, or fall back to relayed mode.'
 			}
 		]
 	}

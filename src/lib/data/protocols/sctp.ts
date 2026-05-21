@@ -11,14 +11,14 @@ export const sctp: Protocol = {
 	oneLiner: "Multi-streaming, {{multi-homing|multi-homing}} transport — [[tcp|TCP]]'s more capable but less popular cousin.",
 	overview: `[[sctp|SCTP]] was designed for telecom {{signaling|signaling}} but offers features that both [[tcp|TCP]] and [[udp|UDP]] lack. It supports {{multiplexing|multiple independent streams}} within a single connection (like [[quic|QUIC]], but decades earlier), {{multi-homing|multi-homing}} (a connection can span multiple network interfaces for redundancy), and message boundaries (unlike [[tcp|TCP]]'s byte stream).
 
-Despite its technical superiority in many aspects, [[sctp|SCTP]] never gained widespread adoption on the public internet because {{nat|NATs}} and {{firewall|firewalls}} typically don't understand it. However, it's widely used in telecom infrastructure (4G/5G networks use it extensively) and is used by [[webrtc|WebRTC]]'s data channels — though in [[webrtc|WebRTC]], [[sctp|SCTP]] doesn't run as a raw OS-level transport; instead it runs over {{dtls|DTLS}} over [[udp|UDP]], with the [[sctp|SCTP]] implementation in userspace.
+Despite its technical superiority in many aspects, [[sctp|SCTP]] never gained widespread adoption on the public internet because {{nat|NATs}} and {{firewall|firewalls}} typically don't understand it. However, it's widely used in telecom infrastructure (4G/5G networks use it extensively) and is used by [[webrtc|WebRTC]]'s data channels — though in [[webrtc|WebRTC]], [[sctp|SCTP]] doesn't run as a raw {{os|OS}}-level transport; instead it runs over {{dtls|DTLS}} over [[udp|UDP]], with the [[sctp|SCTP]] implementation in userspace.
 
 [[sctp|SCTP]] provides the reliability of [[tcp|TCP]], the message-oriented nature of [[udp|UDP]], and several features that neither has — making it an interesting study in {{protocol|protocol}} design trade-offs and the power of network effects.`,
 	howItWorks: [
 		{
 			title: '4-way handshake',
 			description:
-				"[[sctp|SCTP]] uses a 4-step {{handshake|handshake}} (INIT, INIT-{{ack|ACK}}, {{cookie|COOKIE}}-ECHO, {{cookie|COOKIE}}-{{ack|ACK}}) that prevents {{syn-flood|SYN flood}} attacks by design — no server state is allocated until the client proves it's real."
+				"[[sctp|SCTP]] uses a 4-step {{handshake|handshake}} ({{init-chunk|INIT}}, {{init-chunk|INIT}}-{{ack|ACK}}, {{cookie|COOKIE}}-ECHO, {{cookie|COOKIE}}-{{ack|ACK}}) that prevents {{syn-flood|SYN flood}} attacks by design — no server state is allocated until the client proves it's real."
 		},
 		{
 			title: 'Multi-streaming',

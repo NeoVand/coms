@@ -8,8 +8,8 @@ export const coap: Protocol = {
 	port: 5683,
 	year: 2014,
 	rfc: 'RFC 7252',
-	oneLiner: 'HTTP for tiny devices — [[rest|REST]] semantics over [[udp|UDP]] for constrained IoT.',
-	overview: `[[coap|CoAP]] brings the familiar [[rest|REST]] model (GET, POST, PUT, DELETE) to the world of constrained IoT devices — think microcontrollers with 10KB of RAM on lossy, low-power wireless networks. It runs over [[udp|UDP]] instead of [[tcp|TCP]], uses a compact binary format, and adds built-in support for resource observation (subscribe to changes).
+	oneLiner: '{{http-method|HTTP}} for tiny devices — [[rest|REST]] semantics over [[udp|UDP]] for constrained IoT.',
+	overview: `[[coap|CoAP]] brings the familiar [[rest|REST]] model (GET, POST, PUT, DELETE) to the world of constrained IoT devices — think microcontrollers with 10KB of {{ram|RAM}} on lossy, low-power wireless networks. It runs over [[udp|UDP]] instead of [[tcp|TCP]], uses a compact binary format, and adds built-in support for resource observation ({{mqtt-subscribe|subscribe}} to changes).
 
 The design mirrors [[http1|HTTP]] closely enough that translating between [[coap|CoAP]] and [[http1|HTTP]] is straightforward, enabling IoT devices to integrate with web infrastructure through simple {{gateway|proxies}}. But unlike [[http1|HTTP]], [[coap|CoAP]] supports {{multicast|multicast}} (discover all devices on a network), observation (a GET with an {{coap-observe|Observe}} option that lets clients receive push notifications when a resource changes), and block-wise transfer (for large payloads on constrained links).
 
@@ -25,7 +25,7 @@ For security, [[coap|CoAP]] relies on {{dtls|DTLS}} (Datagram [[tls|TLS]]) — t
 		{
 			title: 'REST methods',
 			description:
-				'Supports GET, POST, PUT, DELETE just like HTTP. URIs identify resources. {{content-negotiation|Content negotiation}} works via options (like HTTP headers but binary-encoded).'
+				'Supports GET, POST, PUT, DELETE just like {{http-method|HTTP}}. URIs identify resources. {{content-negotiation|Content negotiation}} works via options (like {{http-method|HTTP}} headers but binary-encoded).'
 		},
 		{
 			title: 'Observe pattern',
@@ -169,7 +169,7 @@ coap-client -m get coap://sensor.local/.well-known/core`
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/38/Arduino_Uno_-_R3.jpg/500px-Arduino_Uno_-_R3.jpg',
 		alt: 'Arduino Uno microcontroller board, representative of the constrained IoT devices CoAP was designed for',
 		caption:
-			'An Arduino Uno — the kind of constrained device [[coap|CoAP]] was designed for. With limited RAM and processing power, these microcontrollers need a protocol lighter than HTTP. [[coap|CoAP]] delivers [[rest|REST]] semantics in as little as 4 bytes of header.',
+			'An Arduino Uno — the kind of constrained device [[coap|CoAP]] was designed for. With limited {{ram|RAM}} and processing power, these microcontrollers need a protocol lighter than {{http-method|HTTP}}. [[coap|CoAP]] delivers [[rest|REST]] semantics in as little as 4 bytes of header.',
 		credit: 'Photo: SparkFun Electronics / CC BY 2.0, via Wikimedia Commons'
 	}
 };

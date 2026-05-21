@@ -7,16 +7,16 @@ export const webApiStory: CategoryStory = {
 		{
 			type: 'narrative',
 			title: 'A Proposal That Changed Everything',
-			text: `March 1989, CERN, Geneva. [[pioneer:tim-berners-lee|Tim Berners-Lee]] writes a proposal titled 'Information Management: A Proposal.' His boss writes 'Vague, but exciting' on the cover. This modest document describes a system of linked documents accessible over the network \u2014 the World Wide Web. At its heart: HTTP, a simple protocol where a client sends a request and a server sends a response.
+			text: `March 1989, {{cern|CERN}}, Geneva. [[pioneer:tim-berners-lee|Tim Berners-Lee]] writes a proposal titled 'Information Management: A Proposal.' His boss writes 'Vague, but exciting' on the cover. This modest document describes a system of linked documents accessible over the network \u2014 the World Wide Web. At its heart: {{http-method|HTTP}}, a simple protocol where a client sends a request and a server sends a response.
 
-The first version, HTTP/0.9, supported just one command: GET. No headers, no content types, no status codes. Just 'give me this document.' It was beautifully simple, and it was enough to start a revolution. [[http1]]`
+The first version, {{http-method|HTTP}}/0.9, supported just one command: GET. No headers, no content types, no status codes. Just 'give me this document.' It was beautifully simple, and it was enough to start a revolution. [[http1]]`
 		},
 		{
 			type: 'image',
 			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/First_Web_Server.jpg/500px-First_Web_Server.jpg',
 			alt: 'The NeXT computer used by Tim Berners-Lee at CERN, the world\'s first web server',
 			caption:
-				'The NeXT cube at CERN — the first web server and web browser, built by [[pioneer:tim-berners-lee|Tim Berners-Lee]] in 1990. The handwritten label reads "This machine is a server. DO NOT POWER IT DOWN!!"',
+				'The NeXT cube at {{cern|CERN}} — the first web server and web browser, built by [[pioneer:tim-berners-lee|Tim Berners-Lee]] in 1990. The handwritten label reads "This machine is a server. DO NOT POWER IT DOWN!!"',
 			credit: 'Photo: Coolcaesar / CC BY-SA 3.0, via Wikimedia Commons'
 		},
 		{
@@ -29,7 +29,7 @@ The first version, HTTP/0.9, supported just one command: GET. No headers, no con
 					title: 'Inventor of the World Wide Web',
 					org: 'CERN / W3C',
 					contribution:
-						'Created HTTP, HTML, and URLs \u2014 the three pillars of the web. Built the first web browser and server in 1990.',
+						'Created {{http-method|HTTP}}, {{html|HTML}}, and URLs \u2014 the three pillars of the web. Built the first web browser and server in 1990.',
 					imagePath:
 						'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/LS3_4919_%28cropped%29.jpg/330px-LS3_4919_%28cropped%29.jpg'
 				},
@@ -52,13 +52,13 @@ The first version, HTTP/0.9, supported just one command: GET. No headers, no con
 					year: 1989,
 					title: 'Tim Berners-Lee Proposes the WWW',
 					description:
-						'A CERN internal proposal describes a distributed hypertext system. The internet is about to become accessible to everyone.'
+						'A {{cern|CERN}} internal proposal describes a distributed hypertext system. The internet is about to become accessible to everyone.'
 				},
 				{
 					year: 1991,
 					title: 'HTTP/0.9 and the First Web Page',
 					description:
-						'The first web server goes live at CERN. HTTP/0.9 supports only GET \u2014 no headers, no POST, no status codes.'
+						'The first web server goes live at {{cern|CERN}}. {{http-method|HTTP}}/0.9 supports only GET \u2014 no headers, no POST, no status codes.'
 				},
 				{
 					year: 1996,
@@ -77,7 +77,7 @@ The first version, HTTP/0.9, supported just one command: GET. No headers, no con
 					year: 1998,
 					title: 'SOAP — XML Web Services',
 					description:
-						'{{microsoft|Microsoft}}, IBM, and others introduce [[soap|SOAP]]: {{xml|XML}}-wrapped RPC calls with formal {{wsdl|WSDL}} contracts. Enterprise web services become the dominant integration pattern.',
+						'{{microsoft|Microsoft}}, {{ibm|IBM}}, and others introduce [[soap|SOAP]]: {{xml|XML}}-wrapped {{rpc|RPC}} calls with formal {{wsdl|WSDL}} contracts. Enterprise web services become the dominant integration pattern.',
 					protocolId: 'soap'
 				},
 				{
@@ -92,18 +92,18 @@ The first version, HTTP/0.9, supported just one command: GET. No headers, no con
 		{
 			type: 'narrative',
 			title: 'The API Revolution',
-			text: `[[pioneer:roy-fielding|Roy Fielding]] didn't set out to change how software was built. His dissertation was about understanding the web's architecture. But Chapter 5 \u2014 'Representational State Transfer' \u2014 described a set of constraints that, when followed, made web services scalable, simple, and loosely coupled. [[rest]] wasn't a protocol or a standard; it was a style. Use HTTP verbs (GET, POST, PUT, DELETE), use URLs as resource identifiers, make interactions {{stateless|stateless}}. It was the anti-[[soap|SOAP]] \u2014 no {{xml|XML}} envelopes, no complex schemas, just clean HTTP.
+			text: `[[pioneer:roy-fielding|Roy Fielding]] didn't set out to change how software was built. His dissertation was about understanding the web's architecture. But Chapter 5 \u2014 'Representational State Transfer' \u2014 described a set of constraints that, when followed, made web services scalable, simple, and loosely coupled. [[rest]] wasn't a protocol or a standard; it was a style. Use {{http-method|HTTP}} verbs (GET, POST, PUT, DELETE), use URLs as resource identifiers, make interactions {{stateless|stateless}}. It was the anti-[[soap|SOAP]] \u2014 no {{xml|XML}} envelopes, no complex schemas, just clean {{http-method|HTTP}}.
 
-The API economy exploded. Every startup, every tech giant began exposing [[rest]] APIs. But [[rest|REST]] had limitations: {{over-fetching|over-fetching}} (getting more data than you need) and under-fetching (needing multiple requests). Facebook's mobile team felt this acutely \u2014 their News Feed required dozens of endpoints per page load. In 2012, Lee Byron, Dan Schafer, and Nick Schrock began building [[graphql]], a query language that let clients ask for exactly the data they needed.
+The {{api|API}} economy exploded. Every startup, every tech giant began exposing [[rest]] APIs. But [[rest|REST]] had limitations: {{over-fetching|over-fetching}} (getting more data than you need) and under-fetching (needing multiple requests). Facebook's mobile team felt this acutely \u2014 their News Feed required dozens of endpoints per page load. In 2012, Lee Byron, Dan Schafer, and Nick Schrock began building [[graphql]], a query language that let clients ask for exactly the data they needed.
 
-Meanwhile, {{google|Google}}'s internal RPC system 'Stubby' was handling billions of requests per day. When they open-sourced it as [[grpc]] in 2016, it brought efficient binary {{serialization|serialization}} ({{protocol-buffers|Protocol Buffers}}), streaming, and [[http2|HTTP/2]] {{multiplexing|multiplexing}} to the microservices world.`
+Meanwhile, {{google|Google}}'s internal {{rpc|RPC}} system 'Stubby' was handling billions of requests per day. When they open-sourced it as [[grpc]] in 2016, it brought efficient binary {{serialization|serialization}} ({{protocol-buffers|Protocol Buffers}}), streaming, and [[http2|HTTP/2]] {{multiplexing|multiplexing}} to the microservices world.`
 		},
 		{
 			type: 'image',
 			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Ginevra%2C_centro_visitatori_del_cern%2C_primo_server_della_storia_%281989%29%2C_02.JPG/500px-Ginevra%2C_centro_visitatori_del_cern%2C_primo_server_della_storia_%281989%29%2C_02.JPG',
 			alt: "Tim Berners-Lee's 1989 proposal 'Information Management: A Proposal' displayed at the CERN visitors center",
 			caption:
-				"Berners-Lee's 1989 proposal on display at CERN — the document his supervisor Mike Sendall marked \"Vague, but exciting.\" It described HTTP, HTML, and URLs before any of them existed.",
+				"Berners-Lee's 1989 proposal on display at {{cern|CERN}} — the document his supervisor Mike Sendall marked \"Vague, but exciting.\" It described {{http-method|HTTP}}, {{html|HTML}}, and URLs before any of them existed.",
 			credit: 'Photo: Sailko / CC BY 3.0, via Wikimedia Commons'
 		},
 		{
@@ -194,14 +194,14 @@ GET /friends"]
 					year: 2016,
 					title: 'gRPC 1.0 Released',
 					description:
-						'{{google|Google}} open-sources its internal RPC framework, built on [[http2|HTTP/2]] and {{protocol-buffers|Protocol Buffers}}.',
+						'{{google|Google}} open-sources its internal {{rpc|RPC}} framework, built on [[http2|HTTP/2]] and {{protocol-buffers|Protocol Buffers}}.',
 					protocolId: 'grpc'
 				},
 				{
 					year: 2022,
 					title: 'HTTP/3 \u2014 RFC 9114',
 					description:
-						'HTTP moves from [[tcp|TCP]] to [[quic|QUIC]]. {{multiplexing|Multiplexing}} without {{head-of-line-blocking|head-of-line blocking}}. The transport layer is finally fixed.',
+						'{{http-method|HTTP}} moves from [[tcp|TCP]] to [[quic|QUIC]]. {{multiplexing|Multiplexing}} without {{head-of-line-blocking|head-of-line blocking}}. The transport layer is finally fixed.',
 					protocolId: 'http3'
 				}
 			]
@@ -209,7 +209,7 @@ GET /friends"]
 		{
 			type: 'narrative',
 			title: 'The Real-Time Web',
-			text: `The original web was {{request-response|request-response}}: click a link, wait for a page. But modern applications need live data \u2014 chat messages, stock tickers, collaborative editing. [[websockets]] solved this by upgrading an HTTP connection into a persistent, {{full-duplex|full-duplex}} channel. For simpler use cases where only the server needs to push updates, [[sse|Server-Sent Events]] offered a lighter alternative over plain HTTP.
+			text: `The original web was {{request-response|request-response}}: click a link, wait for a page. But modern applications need live data \u2014 chat messages, stock tickers, collaborative editing. [[websockets]] solved this by upgrading an {{http-method|HTTP}} connection into a persistent, {{full-duplex|full-duplex}} channel. For simpler use cases where only the server needs to push updates, [[sse|Server-Sent Events]] offered a lighter alternative over plain {{http-method|HTTP}}.
 
 The evolution from [[http1]] to [[http2]] to [[http3]] tells a story of learning from real-world pain. Each generation addressed specific bottlenecks: persistent connections, {{multiplexing|multiplexing}}, and finally, fixing the transport layer itself with [[quic]].`
 		},
@@ -247,7 +247,7 @@ The evolution from [[http1]] to [[http2]] to [[http3]] tells a story of learning
 					title: 'Creator of Server-Sent Events',
 					org: 'Opera / Google / WHATWG',
 					contribution:
-						'Defined [[sse|Server-Sent Events]] as part of the HTML5 specification, enabling simple server-to-client push over HTTP.',
+						'Defined [[sse|Server-Sent Events]] as part of the HTML5 specification, enabling simple server-to-client push over {{http-method|HTTP}}.',
 					imagePath:
 						'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ed/Ian_Hickson_at_CSS_Working_Group_Meeting_Day_Three.jpeg/120px-Ian_Hickson_at_CSS_Working_Group_Meeting_Day_Three.jpeg'
 				},
@@ -257,36 +257,36 @@ The evolution from [[http1]] to [[http2]] to [[http3]] tells a story of learning
 					title: 'gRPC Technical Lead',
 					org: 'Google',
 					contribution:
-						"Led the development of [[grpc|gRPC]] from {{google|Google}}'s internal Stubby system to an open-source RPC framework used across the industry."
+						"Led the development of [[grpc|gRPC]] from {{google|Google}}'s internal Stubby system to an open-source {{rpc|RPC}} framework used across the industry."
 				}
 			]
 		},
 		{
 			type: 'callout',
 			title: 'From 1 Command to Millions',
-			text: 'HTTP/0.9 had exactly one command: GET. Today, the web handles over 5 billion HTTP requests per second globally. Each generation of HTTP addressed real bottlenecks discovered through massive scale deployment \u2014 from connection reuse in [[http1|HTTP/1.1]], to {{multiplexing|multiplexing}} in [[http2|HTTP/2]], to transport-layer {{encryption|encryption}} in [[http3|HTTP/3]].'
+			text: '{{http-method|HTTP}}/0.9 had exactly one command: GET. Today, the web handles over 5 billion {{http-method|HTTP}} requests per second globally. Each generation of {{http-method|HTTP}} addressed real bottlenecks discovered through massive scale deployment \u2014 from connection reuse in [[http1|HTTP/1.1]], to {{multiplexing|multiplexing}} in [[http2|HTTP/2]], to transport-layer {{encryption|encryption}} in [[http3|HTTP/3]].'
 		},
 		{
 			type: 'narrative',
 			title: 'The AI Protocol Revolution',
-			text: `In late 2024, a new class of protocols emerged \u2014 not for humans calling APIs, but for AI agents using tools and collaborating with each other. The catalyst was a deceptively simple problem: every AI application needed custom code for every integration. Connecting Claude to your database was a different project than connecting it to GitHub, which was different from Slack. An N\u00D7M matrix of bespoke integrations that didn't scale.
+			text: `In late 2024, a new class of protocols emerged \u2014 not for humans calling APIs, but for {{ai|AI}} agents using tools and collaborating with each other. The catalyst was a deceptively simple problem: every {{ai|AI}} application needed custom code for every integration. Connecting Claude to your database was a different project than connecting it to GitHub, which was different from Slack. An N\u00D7M matrix of bespoke integrations that didn't scale.
 
-{{anthropic|Anthropic}}'s answer was [[mcp|MCP]] (Model Context Protocol) \u2014 a universal interface built on [[json-rpc|JSON-RPC]] 2.0 that lets any AI host discover and use any tool through a standard protocol. Define a tool once as an [[mcp|MCP]] server, and Claude, ChatGPT, Cursor, and VS Code can all use it. [[mcp|MCP]] collapsed the integration matrix from N\u00D7M to N+M. Within months, thousands of [[mcp|MCP]] servers existed for everything from databases to cloud infrastructure.
+{{anthropic|Anthropic}}'s answer was [[mcp|MCP]] (Model Context Protocol) \u2014 a universal interface built on [[json-rpc|JSON-RPC]] 2.0 that lets any {{ai|AI}} host discover and use any tool through a standard protocol. Define a tool once as an [[mcp|MCP]] server, and Claude, ChatGPT, Cursor, and VS Code can all use it. [[mcp|MCP]] collapsed the integration matrix from N\u00D7M to N+M. Within months, thousands of [[mcp|MCP]] servers existed for everything from databases to cloud infrastructure.
 
 But [[mcp|MCP]] solved only half the puzzle. It connected agents to tools \u2014 what about connecting agents to *each other*? {{google|Google}}'s [[a2a|A2A]] (Agent-to-Agent Protocol), announced in April 2025, addressed this. Where [[mcp|MCP]] is vertical (agent \u2192 tools), [[a2a|A2A]] is horizontal (agent \u2192 agent). A travel coordinator agent uses [[a2a|A2A]] to delegate to flight, hotel, and car rental agents \u2014 each of which uses [[mcp|MCP]] internally to access their own tools and databases. Both protocols chose [[json-rpc|JSON-RPC]] 2.0 as their wire format, and both moved to the {{linux|Linux}} Foundation by the end of 2025, cementing them as open industry standards.`
 		},
 		{
 			type: 'diagram',
 			definition: `graph TD
-  U["User / AI App"]
+  U["User / {{ai|AI}} App"]
   U -->|"[[mcp|MCP]]"| T1["Database Tool"]
   U -->|"[[mcp|MCP]]"| T2["GitHub Tool"]
   U -->|"[[mcp|MCP]]"| T3["Slack Tool"]
   U -->|"[[a2a|A2A]]"| A1["Travel Agent"]
   U -->|"[[a2a|A2A]]"| A2["Research Agent"]
-  A1 -->|"[[mcp|MCP]]"| T4["Flight API"]
-  A1 -->|"MCP"| T5["Hotel API"]
-  A2 -->|"MCP"| T6["Web Search"]`,
+  A1 -->|"[[mcp|MCP]]"| T4["Flight {{api|API}}"]
+  A1 -->|"{{mcp-tool|MCP}}"| T5["Hotel {{api|API}}"]
+  A2 -->|"[[mcp|MCP]]"| T6["Web Search"]`,
 			caption:
 				'[[mcp|MCP]] connects agents to tools (vertical). [[a2a|A2A]] connects agents to agents (horizontal). Each agent uses [[mcp|MCP]] internally for its own tools.'
 		},
@@ -297,34 +297,34 @@ But [[mcp|MCP]] solved only half the puzzle. It connected agents to tools \u2014
 					year: 2005,
 					title: 'JSON-RPC 2.0',
 					description:
-						'A minimal RPC protocol using {{json|JSON}} \u2014 method calls, results, notifications, and batches. The wire format that [[mcp|MCP]] and [[a2a|A2A]] would later build upon.',
+						'A minimal {{rpc|RPC}} protocol using {{json|JSON}} \u2014 method calls, results, notifications, and batches. The wire format that [[mcp|MCP]] and [[a2a|A2A]] would later build upon.',
 					protocolId: 'json-rpc'
 				},
 				{
 					year: 2024,
 					title: 'MCP \u2014 Model Context Protocol',
 					description:
-						'{{anthropic|Anthropic}} releases [[mcp|MCP]], a universal interface for connecting AI applications to tools and data. Claude Desktop ships with [[mcp|MCP]] support.',
+						'{{anthropic|Anthropic}} releases [[mcp|MCP]], a universal interface for connecting {{ai|AI}} applications to tools and data. Claude Desktop ships with [[mcp|MCP]] support.',
 					protocolId: 'mcp'
 				},
 				{
 					year: 2025,
 					title: 'A2A \u2014 Agent-to-Agent Protocol',
 					description:
-						'{{google|Google}} announces [[a2a|A2A]] at Cloud Next, backed by 100+ partners. AI agents can now discover and collaborate with each other across vendors.',
+						'{{google|Google}} announces [[a2a|A2A]] at Cloud Next, backed by 100+ partners. {{ai|AI}} agents can now discover and collaborate with each other across vendors.',
 					protocolId: 'a2a'
 				},
 				{
 					year: 2025,
 					title: 'Both Protocols Join the Linux Foundation',
 					description:
-						'[[mcp|MCP]] moves to the Agentic AI Foundation (AAIF) and [[a2a|A2A]] launches as a {{linux|Linux}} Foundation project, establishing open governance for AI protocols.'
+						'[[mcp|MCP]] moves to the Agentic {{ai|AI}} Foundation (AAIF) and [[a2a|A2A]] launches as a {{linux|Linux}} Foundation project, establishing open governance for {{ai|AI}} protocols.'
 				},
 				{
 					year: 2026,
 					title: 'A2A v1.0 and the Agentic Era',
 					description:
-						'[[a2a|A2A]] reaches v1.0 stability. [[mcp|MCP]] surpasses 97 million monthly SDK downloads. The two-protocol foundation of agentic AI is established.',
+						'[[a2a|A2A]] reaches v1.0 stability. [[mcp|MCP]] surpasses 97 million monthly {{sdk|SDK}} downloads. The two-protocol foundation of agentic {{ai|AI}} is established.',
 					protocolId: 'a2a'
 				}
 			]

@@ -41,7 +41,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     C->>S: ACK (ack=302)
     Note over C: TIME_WAIT (~60s)`,
 		caption:
-			'**[[tcp|TCP]]** = Transmission Control Protocol. A {{three-way-handshake|three-way handshake}} opens the connection, **`seq`**/**`ack`** numbers track every byte, and **FIN** closes it cleanly — the foundation of reliable delivery ([[rfc:793|RFC 793]] / [[rfc:9293|RFC 9293]]).',
+			'**[[tcp|TCP]]** = Transmission Control Protocol. A {{three-way-handshake|three-way handshake}} opens the connection, **`seq`**/**`ack`** numbers track every byte, and **{{fin|FIN}}** closes it cleanly — the foundation of reliable delivery ([[rfc:793|RFC 793]] / [[rfc:9293|RFC 9293]]).',
 		steps: {
 			0: 'Before any data flows, both sides must agree they\'re talking. The next three messages — {{syn|SYN}}, {{syn-ack|SYN-ACK}}, **{{ack|ACK}}** — establish that agreement and sync their {{sequence-number|sequence number}} counters.',
 			1: '{{syn|SYN}} = synchronize. The client picks a random {{initial-sequence-number|initial sequence number}} (here `100`) and sends it. The *Hey, can we talk?* step.',
@@ -224,7 +224,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     S->>C: HEADERS + DATA (stream 3)
     Note over C,S: Header compression (HPACK) + server push`,
 		caption:
-			'**[[http2|HTTP/2]]** = HTTP rebuilt over **multiplexed streams**. All requests share one [[tcp|TCP]] connection and interleave freely as numbered streams. Headers are compressed via {{hpack|HPACK}} ([[rfc:9113|RFC 9113]]).',
+			'**[[http2|HTTP/2]]** = {{http-method|HTTP}} rebuilt over **multiplexed streams**. All requests share one [[tcp|TCP]] connection and interleave freely as numbered streams. Headers are compressed via {{hpack|HPACK}} ([[rfc:9113|RFC 9113]]).',
 		steps: {
 			0: '**{{alpn|ALPN}}** = Application-Layer Protocol Negotiation. Inside the {{tls-handshake|TLS handshake}}, the client lists protocols it supports and the server picks one. **`h2`** = [[http2|HTTP/2]].',
 			3: 'All three {{http-method|GETs}} go out in parallel as separate {{http2-stream|streams}} (odd-numbered streams are client-initiated). No waiting for the first response. Each [[http2|HTTP/2]] message is carried in {{http2-frame|frames}} like **`HEADERS`** (request/response {{header|headers}}) and **`DATA`** (body).',
@@ -251,7 +251,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     S->>C: DATA (stream 3) — unaffected!
     Note over C,S: No head-of-line blocking across streams`,
 		caption:
-			'**[[http3|HTTP/3]]** = HTTP over **[[quic|QUIC]]** (which runs on [[udp|UDP]]). Same {{multiplexing|multiplexing}} as [[http2|HTTP/2]], but streams are independent at the *transport* layer too — a lost packet on one stream cannot block others ([[rfc:9114|RFC 9114]]).',
+			'**[[http3|HTTP/3]]** = {{http-method|HTTP}} over **[[quic|QUIC]]** (which runs on [[udp|UDP]]). Same {{multiplexing|multiplexing}} as [[http2|HTTP/2]], but streams are independent at the *transport* layer too — a lost packet on one stream cannot block others ([[rfc:9114|RFC 9114]]).',
 		steps: {
 			0: '**`h3`** = [[http3|HTTP/3]] identifier negotiated via {{alpn|ALPN}} inside [[quic|QUIC]]\'s combined {{tls-handshake|TLS handshake}}. [[http3|HTTP/3]] uses {{qpack|QPACK}} instead of {{hpack|HPACK}} for {{header|header}} compression — redesigned so streams arriving out of order don\'t stall decoding.',
 			1: '[[quic|QUIC]]\'s {{handshake|handshake}} setup + crypto in one {{rtt|round trip}}. Returning clients can do **{{zero-rtt|0-RTT}}**.',
@@ -276,7 +276,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     C->>S: Close frame
     S->>C: Close frame`,
 		caption:
-			'**[[websockets|WebSockets]]** = a persistent **{{full-duplex|full-duplex}}** channel built on top of [[http1|HTTP]]. Begins with an HTTP **`101 Switching Protocols`** {{handshake|handshake}}, then both sides {{exchange|exchange}} binary or text **frames** over the same [[tcp|TCP]] connection. Server can push at any time without the client asking — the foundation of live chat, multiplayer games, and collaborative editing ([[rfc:6455|RFC 6455]]).',
+			'**[[websockets|WebSockets]]** = a persistent **{{full-duplex|full-duplex}}** channel built on top of [[http1|HTTP]]. Begins with an {{http-method|HTTP}} **`101 Switching Protocols`** {{handshake|handshake}}, then both sides {{exchange|exchange}} binary or text **frames** over the same [[tcp|TCP]] connection. Server can push at any time without the client asking — the foundation of live chat, multiplayer games, and collaborative editing ([[rfc:6455|RFC 6455]]).',
 		steps: {
 			0: 'Starts as a regular [[http1|HTTP]] request with the **`Upgrade: websocket`** {{header|header}} — the {{protocol-upgrade|protocol upgrade}} mechanism. Lets [[websockets|WebSockets]] share {{port|port}} 443 with HTTPS and pass through {{firewall|firewalls}}.',
 			1: '**`101 Switching Protocols`** = the only [[http1|HTTP]] {{status-code|status code}} most people see for [[websockets|WebSockets]]. After this, the [[tcp|TCP]] connection is no longer speaking [[http1|HTTP]] — both sides switch to the {{websocket-frame|WebSocket framing}} protocol.'
@@ -298,7 +298,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     S->>C: Bidirectional stream
     Note over C,S: Code generated from .proto service definitions`,
 		caption:
-			'**[[grpc|gRPC]]** = {{google|Google}}\'s high-performance **RPC** framework (2015). Methods defined in `.proto` files become typed client and server stubs in 11+ languages; messages travel as compact **Protobuf** {{binary-framing|binary}} over [[http2|HTTP/2]] with {{hpack|HPACK}}-compressed headers and [[tls|TLS]] by default. Four call patterns: unary {{request-response|request-response}}, server-stream, client-stream, bidirectional-stream.',
+			'**[[grpc|gRPC]]** = {{google|Google}}\'s high-performance **{{rpc|RPC}}** framework (2015). Methods defined in `.proto` files become typed client and server stubs in 11+ languages; messages travel as compact **Protobuf** {{binary-framing|binary}} over [[http2|HTTP/2]] with {{hpack|HPACK}}-compressed headers and [[tls|TLS]] by default. Four call patterns: unary {{request-response|request-response}}, server-stream, client-stream, bidirectional-stream.',
 		steps: {
 			0: '**{{rpc|RPC}}** = Remote Procedure Call. Looks like a function call but actually crosses the network. The strong typing comes from the **`.proto`** schema both sides share.',
 			1: 'Method invocation. Note this isn\'t {{json|JSON}} — **{{protocol-buffers|Protobuf}}** {{serialization|serializes}} the call by field-number, omitting names and types from the wire format.',
@@ -370,7 +370,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     C->>S: {"method":"bad","id":2}
     S->>C: {"error":{"code":-32601},"id":2}`,
 		caption:
-			'**[[json-rpc|JSON-RPC]]** = a tiny RPC protocol where every message is a {{json|JSON}} object. Calls have an `id` and get a result; notifications omit `id` and get nothing back. Used by Bitcoin, Ethereum, [[mcp|MCP]], and the {{lsp|Language Server Protocol}} (jsonrpc.org 2.0).',
+			'**[[json-rpc|JSON-RPC]]** = a tiny {{rpc|RPC}} protocol where every message is a {{json|JSON}} object. Calls have an `id` and get a result; notifications omit `id` and get nothing back. Used by Bitcoin, Ethereum, [[mcp|MCP]], and the {{lsp|Language Server Protocol}} (jsonrpc.org 2.0).',
 		steps: {
 			0: 'A call: includes `method` name, `params` array or object, and an `id`. The id pairs the eventual response with this request.',
 			1: 'Response with the matching `id` and a `result` field. Calls and responses don\'t have to arrive in order — the id is what matches them.',
@@ -400,7 +400,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     S->>H: {content: [{type: "text", text: "72°F, sunny"}]}
     Note over H,S: JSON-RPC 2.0 over stdio or Streamable HTTP`,
 		caption:
-			'**[[mcp|MCP]]** = Model Context Protocol ({{anthropic|Anthropic}}, 2024). The standard way for AI applications (the **host**) to connect to outside **tools** and **resources** — file systems, databases, APIs. [[json-rpc|JSON-RPC]] 2.0 over **{{stdio|stdio}}** (local subprocess) or [[http1|HTTP]] / [[sse|SSE]] (remote). Capabilities are negotiated up front so the host knows what each server can do (modelcontextprotocol.io).',
+			'**[[mcp|MCP]]** = Model Context Protocol ({{anthropic|Anthropic}}, 2024). The standard way for {{ai|AI}} applications (the **host**) to {{mqtt-connect|connect}} to outside **tools** and **resources** — file systems, databases, APIs. [[json-rpc|JSON-RPC]] 2.0 over **{{stdio|stdio}}** (local subprocess) or [[http1|HTTP]] / [[sse|SSE]] (remote). Capabilities are negotiated up front so the host knows what each server can do (modelcontextprotocol.io).',
 		steps: {
 			0: 'Every [[mcp|MCP]] session starts with a **{{handshake|handshake}}** so both sides agree on protocol version and what features each supports.',
 			1: '{{mcp-host|Host}} opens with **`initialize`** — sends its protocol version, capabilities (e.g., supports streaming?), and basic info about itself.',
@@ -432,7 +432,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     R-->>C: SSE: TaskArtifactUpdate
     Note over C,R: JSON-RPC 2.0 over HTTP(S)`,
 		caption:
-			'**[[a2a|A2A]]** = Agent-to-Agent. The standard for one AI agent to **discover** and **delegate work** to another over [[http1|HTTP]]. Built on [[json-rpc|JSON-RPC]] 2.0 with optional [[sse|Server-Sent Events]] streams. Tasks have an explicit lifecycle (`submitted` → `working` → `completed`/`failed`), and agents {{mqtt-publish|publish}} their skills in a public {{agent-card|Agent Card}} at `/.well-known/agent.{{json|json}}` (a2a-protocol.org).',
+			'**[[a2a|A2A]]** = Agent-to-Agent. The standard for one {{ai|AI}} agent to **discover** and **delegate work** to another over [[http1|HTTP]]. Built on [[json-rpc|JSON-RPC]] 2.0 with optional [[sse|Server-Sent Events]] streams. Tasks have an explicit lifecycle (`submitted` → `working` → `completed`/`failed`), and agents {{mqtt-publish|publish}} their skills in a public {{agent-card|Agent Card}} at `/.well-known/agent.{{json|json}}` (a2a-protocol.org).',
 		steps: {
 			1: 'Discovery is just a **{{well-known-uri|well-known URL}}** — `/.well-known/agent.json`. Anyone can fetch it without authentication to learn what an agent does.',
 			2: 'The **{{agent-card|Agent Card}}** is the agent\'s public profile: name, what it can do (skills), what it accepts (input schemas, often {{json-schema|JSON Schema}}), how to authenticate, and the API endpoint.',
@@ -461,7 +461,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     Note over C,S: Stateless — each request carries all context
     Note over C,S: Resources as URLs, actions as HTTP verbs`,
 		caption:
-			'**[[rest|REST]]** = Representational State Transfer ([[pioneer:roy-fielding|Roy Fielding]], 2000). Resources are URLs; **CRUD** maps to [[http1|HTTP]] verbs (GET, POST, PUT, DELETE). Each request is **{{stateless|stateless}}** — the server keeps no per-client memory between requests. **{{idempotent|Idempotent}}** verbs can be safely retried; success is reported via HTTP {{status-code|status codes}}.',
+			'**[[rest|REST]]** = Representational State Transfer ([[pioneer:roy-fielding|Roy Fielding]], 2000). Resources are URLs; **{{crud|CRUD}}** maps to [[http1|HTTP]] verbs (GET, POST, PUT, DELETE). Each request is **{{stateless|stateless}}** — the server keeps no per-client memory between requests. **{{idempotent|Idempotent}}** verbs can be safely retried; success is reported via {{http-method|HTTP}} {{status-code|status codes}}.',
 		steps: {
 			0: '**`GET` = read. Safe (no side effects) and {{idempotent|idempotent}}** (calling it twice = calling it once). Cacheable by intermediaries (browsers, {{cdn|CDNs}}, {{proxy|proxies}}).',
 			2: '**`POST` = create. Not {{idempotent|idempotent}} — calling twice creates two resources. Returns `201 Created`** with a `Location` {{header|header}} pointing to the new URL.',
@@ -567,7 +567,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     S->>C: 2.05 Content: 24.8C (observe seq 3)
     Note over C,S: No polling — server notifies on change`,
 		caption:
-			'**[[coap|CoAP]]** = Constrained Application Protocol. HTTP\'s design, shrunk for tiny IoT devices: 4-byte header, runs over **[[udp|UDP]]**, optional reliability per message. Same [[rest|REST]] verbs and status codes ([[rfc:7252|RFC 7252]]).',
+			'**[[coap|CoAP]]** = Constrained Application Protocol. {{http-method|HTTP}}\'s design, shrunk for tiny IoT devices: 4-byte header, runs over **[[udp|UDP]]**, optional reliability per message. Same [[rest|REST]] verbs and status codes ([[rfc:7252|RFC 7252]]).',
 		steps: {
 			0: '**`CON` = {{coap-confirmable|Confirmable}}.** The request asks for an explicit **{{ack|ACK}}** back. The cheap counterpart is **{{coap-confirmable|`NON`}}** (non-confirmable, fire-and-forget).',
 			1: '[[http1|HTTP]]\'s {{header|headers}} can run hundreds of bytes; [[coap|CoAP]] packs everything into 4 bytes plus compact options. Critical for battery-powered radios.',
@@ -661,7 +661,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     B->>A: Audio/Video (SRTP)
     Note over A,B: Server only assists setup — media flows P2P`,
 		caption:
-			'**[[webrtc|WebRTC]]** = real-time video, audio, and data **directly between browsers**. The server only helps peers find each other ({{signaling|signaling}}) — once connected, **media flows {{peer-to-peer|peer-to-peer}}** with no hop through your servers (W3C / {{ietf|IETF}}).',
+			'**[[webrtc|WebRTC]]** = real-time video, audio, and data **directly between browsers**. The server only helps peers find each other ({{signaling|signaling}}) — once connected, **media flows {{peer-to-peer|peer-to-peer}}** with no hop through your servers ({{w3c|W3C}} / {{ietf|IETF}}).',
 		steps: {
 			0: '**[[sdp|SDP]]** = Session Description Protocol. Peer A\'s offer lists the {{codec|codecs}} it supports, {{port|ports}}, {{encryption|encryption}} keys, and {{ice-candidate|ICE candidates}}.',
 			1: 'Browsers can\'t talk directly until they know each other\'s addresses. Your {{signaling|signaling}} server (any transport — [[websockets|WebSocket]] is typical) just forwards messages between them.',
@@ -718,7 +718,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     A->>B: BYE
     B->>A: 200 OK`,
 		caption:
-			'**[[sip|SIP]]** = Session Initiation Protocol. The {{signaling|signaling}} that sets up {{voip|VoIP}} calls — sounds like HTTP, looks like email addresses (`sip:bob@example.com`). Once a call is established, the actual audio/video flows separately over **[[rtp|RTP]]** ([[rfc:3261|RFC 3261]]).',
+			'**[[sip|SIP]]** = Session Initiation Protocol. The {{signaling|signaling}} that sets up {{voip|VoIP}} calls — sounds like {{http-method|HTTP}}, looks like email addresses (`sip:bob@example.com`). Once a call is established, the actual audio/video flows separately over **[[rtp|RTP]]** ([[rfc:3261|RFC 3261]]).',
 		steps: {
 			0: '{{sip-register|REGISTER}} maps a [[sip|SIP]] address (`bob@example.com`) to the device\'s current {{ip-address|IP}}. The {{sip-registrar|registrar}} is how the {{sip-proxy|proxy}} knows where to ring Bob.',
 			2: '{{sip-invite|INVITE}} is the call request. Body carries an [[sdp|SDP]] offer describing what audio/video the caller can send.',
@@ -747,7 +747,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     S->>P: Segment data (smaller)
     Note over S,P: Quality adapts to available bandwidth`,
 		caption:
-			'**[[hls|HLS]]** = HTTP Live Streaming ({{apple|Apple}}). Video is pre-chopped into ~6-second `.ts` segments at multiple quality levels; the player picks a level per segment based on {{bandwidth|bandwidth}} — **adaptive bitrate** over plain HTTP ([[rfc:8216|RFC 8216]]).',
+			'**[[hls|HLS]]** = {{http-method|HTTP}} Live Streaming ({{apple|Apple}}). Video is pre-chopped into ~6-second `.ts` segments at multiple quality levels; the player picks a level per segment based on {{bandwidth|bandwidth}} — **adaptive bitrate** over plain {{http-method|HTTP}} ([[rfc:8216|RFC 8216]]).',
 		steps: {
 			0: 'Pre-{{codec|encoding}} is the magic. The same content is encoded ahead of time at e.g. 1080p, 720p, 360p — so any quality can be served instantly.',
 			1: '**`.m3u8`** is a plain text playlist (the *master {{manifest|manifest}}*). Lists the variant playlists for each quality level.',
@@ -838,7 +838,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     S->>P: Segment data
     Note over S,P: Adaptive bitrate — seamless quality switching`,
 		caption:
-			'**[[dash|DASH]]** = Dynamic Adaptive Streaming over HTTP (MPEG, ISO 23009-1). Same idea as [[hls|HLS]] — segmented video at multiple bitrates over plain HTTP — but **{{codec|codec}}-agnostic** and an open standard.',
+			'**[[dash|DASH]]** = Dynamic Adaptive Streaming over {{http-method|HTTP}} ({{mpeg-org|MPEG}}, {{iso|ISO}} 23009-1). Same idea as [[hls|HLS]] — segmented video at multiple bitrates over plain {{http-method|HTTP}} — but **{{codec|codec}}-agnostic** and an open standard.',
 		steps: {
 			0: '**`.mpd`** = {{mpd|Media Presentation Description}}, an [[xml|XML]] {{manifest|manifest}} describing the whole presentation hierarchy.',
 			1: 'Hierarchy: {{dash-period|Period}} (a chapter) → {{dash-adaptation-set|AdaptationSet}} (a track: video, audio, subtitle) → {{dash-representation|Representation}} (a quality variant). Cleaner abstraction than [[hls|HLS]]\'s nested playlists.',
@@ -868,7 +868,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     R->>C: 93.184.216.34 (cached for TTL)
     Note over C,R: Iterative resolution: Root, TLD, Authoritative`,
 		caption:
-			'**[[dns|DNS]]** = Domain Name System ([[pioneer:paul-mockapetris|Paul Mockapetris]], 1983). Translates human names (`example.com`) into {{ip-address|IP addresses}}. Hierarchical: 13 **Root** servers know the **TLDs** (`.com`, `.org`...), TLDs know the **Authoritative** servers, those know the actual {{dns-record-types|records}} (A, AAAA, MX, TXT, …). Recursive resolvers cache aggressively to amortise lookup cost; modern variants DoH / DoT encrypt the query path ([[rfc:1035|RFC 1035]]).',
+			'**[[dns|DNS]]** = Domain Name System ([[pioneer:paul-mockapetris|Paul Mockapetris]], 1983). Translates human names (`example.com`) into {{ip-address|IP addresses}}. Hierarchical: 13 **Root** servers know the **TLDs** (`.com`, `.org`...), TLDs know the **Authoritative** servers, those know the actual {{dns-record-types|records}} (A, {{aaaa-record|AAAA}}, {{mx-record|MX}}, {{txt-record|TXT}}, …). Recursive resolvers cache aggressively to amortise lookup cost; modern variants DoH / DoT encrypt the query path ([[rfc:1035|RFC 1035]]).',
 		steps: {
 			0: 'Client asks its configured {{recursive-resolver|resolver}} (typically your ISP or a public one like `1.1.1.1` or `8.8.8.8`).',
 			1: 'First, the {{recursive-resolver|resolver}} checks its cache. Roughly 80% of real-world queries are answered here without a single network packet.',
@@ -971,7 +971,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     Note over C,S: Offset = ((T2-T1)+(T3-T4))/2
     Note over C,S: Multiple samples — accuracy within 1-10ms`,
 		caption:
-			'**[[ntp|NTP]]** = Network Time Protocol ([[pioneer:david-mills|David L. Mills]], 1985). Keeps every device\'s clock within milliseconds of true time — the foundation of logs, [[tls|TLS]] {{certificate|certificates}}, and distributed systems. The trick is **four timestamps per {{exchange|exchange}}** (T1/T2/T3/T4) which cancel out network {{latency|latency}} and recover the one-way {{offset|offset}}. Runs over [[udp|UDP]]/123; modern hardening via **NTS** (Network Time Security, [[rfc:8915|RFC 8915]]).',
+			'**[[ntp|NTP]]** = Network Time Protocol ([[pioneer:david-mills|David L. Mills]], 1985). Keeps every device\'s clock within milliseconds of true time — the foundation of logs, [[tls|TLS]] {{certificate|certificates}}, and distributed systems. The trick is **four timestamps per {{exchange|exchange}}** (T1/T2/T3/T4) which cancel out network {{latency|latency}} and recover the one-way {{offset|offset}}. Runs over [[udp|UDP]]/123; modern hardening via **{{nts|NTS}}** (Network Time Security, [[rfc:8915|RFC 8915]]).',
 		steps: {
 			0: 'Crystal oscillators {{clock-drift|drift}} — even good ones gain or lose seconds per day. Without [[ntp|NTP]], your machine\'s clock would be hours off after a few months.',
 			1: 'Client records **`T1`** when it sends the request. T1 travels in the packet.',
@@ -996,7 +996,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     R->>S: 250 OK — delivered to mailbox
     Note over C,R: Store-and-forward: email hops through MTAs`,
 		caption:
-			'**[[smtp|SMTP]]** = Simple Mail Transfer Protocol. The protocol that **sends** email between mail servers, designed by [[pioneer:jon-postel|Jon Postel]] in 1982 ([[rfc:5321|RFC 5321]]). Each server is an **MTA** (Mail Transfer Agent); the message hops along — {{ehlo|EHLO}} → MAIL FROM → RCPT TO → DATA — until it reaches the recipient. Modern hops are encrypted via {{starttls|STARTTLS}} and authenticated by SPF / {{dkim|DKIM}} / {{dmarc|DMARC}}.',
+			'**[[smtp|SMTP]]** = Simple Mail Transfer Protocol. The protocol that **sends** email between mail servers, designed by [[pioneer:jon-postel|Jon Postel]] in 1982 ([[rfc:5321|RFC 5321]]). Each server is an **{{mta|MTA}}** (Mail Transfer Agent); the message hops along — {{ehlo|EHLO}} → {{smtp-mail-from|MAIL FROM}} → {{smtp-rcpt-to|RCPT TO}} → {{smtp-data|DATA}} — until it reaches the recipient. Modern hops are encrypted via {{starttls|STARTTLS}} and authenticated by {{spf|SPF}} / {{dkim|DKIM}} / {{dmarc|DMARC}}.',
 		steps: {
 			0: '**{{ehlo|EHLO}}** = Extended HELLO (introduces the client). **{{starttls|STARTTLS}}** upgrades the {{plaintext|plaintext}} connection to [[tls|TLS]] — modern {{mta|MTAs}} require it.',
 			1: 'Server replies with the capabilities it supports ({{pipelining|PIPELINING}}, AUTH methods, max message size, etc.) — discovered, not assumed.',
@@ -1026,7 +1026,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     S->>C: 226 Transfer complete
     Note over C,S: Dual-channel: commands on 21, data on separate port`,
 		caption:
-			'**[[ftp|FTP]]** = File Transfer Protocol (1971 — older than email). Unique in using **two [[tcp|TCP]] connections**: one for commands, a separate one for the actual file bytes. That dual-channel design predates NAT and causes endless {{firewall|firewall}} headaches today ([[rfc:959|RFC 959]]).',
+			'**[[ftp|FTP]]** = File Transfer Protocol (1971 — older than email). Unique in using **two [[tcp|TCP]] connections**: one for commands, a separate one for the actual file bytes. That dual-channel design predates {{nat|NAT}} and causes endless {{firewall|firewall}} headaches today ([[rfc:959|RFC 959]]).',
 		steps: {
 			1: '**`USER` + `PASS`** is {{plaintext|plaintext}} authentication. Modern alternatives: **{{ftps|FTPS}}** ([[ftp|FTP]] over [[tls|TLS]]) or **{{sftp|SFTP}}** (file transfer over [[ssh|SSH]] — totally different protocol).',
 			5: '**`PASV`** = {{ftp-active-passive|passive mode}}. The default *{{ftp-active-passive|active}}* mode has the server connecting back to the client — broken behind {{nat|NAT}}. `PASV` flips it: client opens both connections.',
@@ -1143,7 +1143,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     SW->>A: Frame forwarded to Port 1 only
     Note over SW: No flooding — switch knows both MACs`,
 		caption:
-			'**[[ethernet|Ethernet]]** = the physical-and-link layer that moves **frames** between machines on a {{lan|LAN}} (IEEE 802.3, invented by [[pioneer:bob-metcalfe|Bob Metcalfe]] and [[pioneer:david-boggs|David Boggs]] at {{xerox-parc|Xerox PARC}}, 1973). A **switch** learns which **{{mac-address|MAC address}}** lives on which port by watching frame source addresses, then forwards only to the right port. {{full-duplex|Full-duplex}} switched [[ethernet|Ethernet]] replaced the original CSMA/CD shared-bus design.',
+			'**[[ethernet|Ethernet]]** = the physical-and-link layer that moves **frames** between machines on a {{lan|LAN}} ({{ieee-802-15-4|IEEE}} 802.3, invented by [[pioneer:bob-metcalfe|Bob Metcalfe]] and [[pioneer:david-boggs|David Boggs]] at {{xerox-parc|Xerox PARC}}, 1973). A **switch** learns which **{{mac-address|MAC address}}** lives on which port by watching frame source addresses, then forwards only to the right port. {{full-duplex|Full-duplex}} switched [[ethernet|Ethernet]] replaced the original {{csma-cd|CSMA/CD}} shared-bus design.',
 		steps: {
 			1: '**[[arp|ARP]]** asks *who has {{ip-address|IP}} `192.168.1.50`?* — sent as an [[ethernet|Ethernet]] {{broadcast|broadcast}} (destination {{mac-address|MAC}} `FF:FF:FF:FF:FF:FF`).',
 			2: 'Switch floods {{broadcast|broadcasts}} to every port — it has no choice; the destination {{mac-address|MAC}} is unknown and the request must reach everyone.',
@@ -1177,7 +1177,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     S->>AP: Ethernet response
     AP->>L: 802.11 encrypted response`,
 		caption:
-			'**WiFi** = wireless [[ethernet|Ethernet]] (IEEE [[wifi|802.11]]). After discovering the network, the device authenticates and associates, then runs the **{{wpa2|WPA2}} 4-way {{handshake|handshake}}** to derive {{encryption|encryption}} keys. Wireless frames are then bridged to the wired LAN by the **AP** ({{access-point|Access Point}}).',
+			'**WiFi** = wireless [[ethernet|Ethernet]] ({{ieee-802-15-4|IEEE}} [[wifi|802.11]]). After discovering the network, the device authenticates and associates, then runs the **{{wpa2|WPA2}} 4-way {{handshake|handshake}}** to derive {{encryption|encryption}} keys. Wireless frames are then bridged to the wired {{lan|LAN}} by the **{{ap-access-point|AP}}** ({{access-point|Access Point}}).',
 		steps: {
 			1: '{{beacon|Beacon}} = the {{access-point|AP}}\'s {{broadcast|broadcast}} announcement, ~10× per second. Carries the {{ssid|SSID}} (network name), supported rates, security mode, and capabilities.',
 			2: '{{authentication-frame|Legacy step}} (predates {{wpa2|WPA}}): used to allow shared-key auth in WEP. Today it\'s just a formality — security happens in the {{wpa2-handshake|4-way handshake}}.',
@@ -1207,7 +1207,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     Note over A: Subsequent packets use cached MAC
     Note over A,B: Cache entry expires after ~60-300 seconds`,
 		caption:
-			'**[[arp|ARP]]** = Address Resolution Protocol ([[ip|IPv4]] only). To send an IP packet to a host on the same LAN, you need its **MAC** address. [[arp|ARP]] shouts to the whole network asking who owns an IP — only the matching host answers ([[rfc:826|RFC 826]]).',
+			'**[[arp|ARP]]** = Address Resolution Protocol ([[ip|IPv4]] only). To send an {{ip-address|IP}} packet to a host on the same {{lan|LAN}}, you need its **{{mac-address|MAC}}** address. [[arp|ARP]] shouts to the whole network asking who owns an {{ip-address|IP}} — only the matching host answers ([[rfc:826|RFC 826]]).',
 		steps: {
 			1: '{{arp-cache|ARP cache}} stores recent {{ip-address|IP}}→{{mac-address|MAC}} mappings. A miss means we have to ask the network.',
 			2: 'Sent as a **{{broadcast|broadcast}}** — destination {{mac-address|MAC}} `FF:FF:FF:FF:FF:FF`. Every device on the {{lan|LAN}} receives and processes it.',
@@ -1261,7 +1261,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     S->>C: 500 — SOAP Fault Envelope
     Note right of S: faultcode=Client, faultstring="Invalid ID"`,
 		caption:
-			'**[[soap|SOAP]]** = Simple Object Access Protocol. Strict XML messaging for enterprise services. Every message is an **Envelope** with a Header and Body; the contract is described by **{{wsdl|WSDL}}**. Heavy compared to [[rest|REST]], but typed and tooling-friendly (W3C [[soap|SOAP]] 1.2).',
+			'**[[soap|SOAP]]** = Simple Object Access Protocol. Strict {{xml|XML}} messaging for enterprise services. Every message is an **Envelope** with a Header and Body; the contract is described by **{{wsdl|WSDL}}**. Heavy compared to [[rest|REST]], but typed and tooling-friendly ({{w3c|W3C}} [[soap|SOAP]] 1.2).',
 		steps: {
 			1: '**{{wsdl|WSDL}}** = Web Services Description Language. Machine-readable {{xml|XML}} contract — operations, parameter types, endpoint URLs. Tools generate client stubs from it.',
 			4: 'Always `POST` with a **{{soapaction|`SOAPAction`}}** {{header|header}} naming the operation. Pre-{{wsdl|WSDL}} clients keyed off this header to dispatch.',
@@ -1289,7 +1289,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     R->>S: Return (Hop Limit=63)
     Note over S,D: 128-bit addresses — no NAT needed`,
 		caption:
-			'**[[ipv6|IPv6]]** = the next-generation IP. **128-bit addresses** (so many that NAT becomes unnecessary), a fixed 40-byte header, and built-in autoconfiguration. NDP replaces [[arp|ARP]] using [[ipv6|IPv6]] {{multicast|multicast}} ([[rfc:8200|RFC 8200]]).',
+			'**[[ipv6|IPv6]]** = the next-generation {{ip-address|IP}}. **128-bit addresses** (so many that {{nat|NAT}} becomes unnecessary), a fixed 40-byte header, and built-in autoconfiguration. {{ndp|NDP}} replaces [[arp|ARP]] using [[ipv6|IPv6]] {{multicast|multicast}} ([[rfc:8200|RFC 8200]]).',
 		steps: {
 			1: '{{router-solicitation|Router Solicitation}} asks any router on the link to advertise itself. {{icmpv6|ICMPv6}} type 133, sent to the all-routers {{multicast|multicast}} address (`ff02::2`).',
 			2: '{{router-advertisement|Router Advertisement}} carries the network\'s `/64` prefix. The host builds its own address by combining the prefix with its {{interface-id|interface ID}} — no [[dhcp|DHCP]] needed (**{{slaac|SLAAC}}**).',
@@ -1352,7 +1352,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     S->>C: AP-REP (mutual auth: encrypted server timestamp)
     Note over C,S: Authenticated. Optionally use K_svc to wrap KRB-PRIV / KRB-SAFE`,
 		caption:
-			'**[[kerberos|Kerberos]]** = three-headed dog: Client, **KDC** (Key Distribution Center, split into AS + TGS), and Service. Two {{encryption|encrypted}} blobs per ticket, **zero passwords on the wire**. Time-bounded **TGT** (Ticket Granting Ticket) gates further service tickets so the password is only used once per session. Designed at MIT Project Athena (1983–1991), [[rfc:4120|RFC 4120]] (2005). Powers every {{microsoft|Active Directory}} domain on Earth.',
+			'**[[kerberos|Kerberos]]** = three-headed dog: Client, **{{kerberos-kdc|KDC}}** (Key Distribution Center, split into AS + TGS), and Service. Two {{encryption|encrypted}} blobs per ticket, **zero passwords on the wire**. Time-bounded **{{kerberos-tgt|TGT}}** (Ticket Granting Ticket) gates further service tickets so the password is only used once per session. Designed at {{mit|MIT}} Project Athena (1983–1991), [[rfc:4120|RFC 4120]] (2005). Powers every {{microsoft|Active Directory}} domain on Earth.',
 		steps: {
 			0: 'Alice wants to log in. She sends an {{kerberos-as-req|AS-REQ}} to the {{kerberos-kdc|Key Distribution Center}}\'s Authentication Service with her {{kerberos-principal|principal}} name and a {{kerberos-pa-enc-timestamp|PA-ENC-TIMESTAMP}} — a fresh timestamp {{encryption|encrypted}} under her long-term key — proving she knows the password before the {{kerberos-kdc|KDC}} bothers responding.',
 			1: '{{kerberos-as-rep|AS-REP}} carries two things: a {{kerberos-tgt|Ticket Granting Ticket}} {{encryption|encrypted}} under the {{kerberos-krbtgt|krbtgt}} {{kerberos-principal|principal}}\'s key (only the {{kerberos-kdc|KDC}} can decrypt it later), and the session key encrypted under Alice\'s long-term key (only Alice can decrypt). Alice never sends her password.',
@@ -1396,7 +1396,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     G->>U: RRCReconfiguration (DRB up)
     Note over U,P: N3 GTP-U tunnel live — first user packet flows`,
 		caption:
-			'**[[cellular|Cellular 5G SA]]** initial registration + {{pdu-session|PDU session}} establishment. The eight beats every phone walks every time it leaves airplane mode. Every {{ngap|NGAP}} hop and every {{gtp-u|GTP-U}} packet between gNB and UPF is wrapped in [[ipsec|IPsec ESP]] per {{3gpp|3GPP}} TS 33.501.',
+			'**[[cellular|Cellular 5G SA]]** initial registration + {{pdu-session|PDU session}} establishment. The eight beats every phone walks every time it leaves airplane mode. Every {{ngap|NGAP}} hop and every {{gtp-u|GTP-U}} packet between gNB and {{upf|UPF}} is wrapped in [[ipsec|IPsec ESP]] per {{3gpp|3GPP}} {{ts-3gpp|TS}} 33.501.',
 		steps: {
 			0: 'Random Access — {{ue|UE}} chose a cell from {{ssb|SSB}} measurements, sent a {{prach|PRACH}} preamble (Msg1). {{gnb|Base station}} replied with a Random Access Response (Msg2) carrying timing advance and a temporary identifier ({{c-rnti|C-RNTI}}).',
 			2: '{{ue|UE}} sends RRCSetupRequest with an establishment cause. {{gnb|Base station}} responds with RRCSetup. UE now has SRB1 (signalling radio bearer) but no security yet — {{rrc|RRC}} signalling is established but unprotected.',
@@ -1493,7 +1493,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     I->>R: HDR(IKE-encrypted), N(REKEY_SA), SA, Nonces, KE (PFS)
     R->>I: HDR(IKE-encrypted), SA (new), Nonces, KE`,
 		caption:
-			'**[[ipsec|IPsec]]** = network-layer cryptographic envelope. **IKEv2** negotiates keys ([[rfc:7296|RFC 7296]]); **ESP** carries encrypted/authenticated [[ip|IP]] packets ([[rfc:4303|RFC 4303]]). Two round trips bring a tunnel up; **{{ipsec-create-child-sa|CREATE_CHILD_SA}}** rekeys before the lifetime expires.',
+			'**[[ipsec|IPsec]]** = network-layer cryptographic envelope. **{{ikev2|IKEv2}}** negotiates keys ([[rfc:7296|RFC 7296]]); **{{esp|ESP}}** carries encrypted/authenticated [[ip|IP]] packets ([[rfc:4303|RFC 4303]]). Two round trips bring a tunnel up; **{{ipsec-create-child-sa|CREATE_CHILD_SA}}** rekeys before the lifetime expires.',
 		steps: {
 			0: '{{ipsec-ike-sa-init|IKE_SA_INIT}} is the first exchange — no {{encryption|encryption}} yet because keys don\'t exist. The initiator proposes a {{cipher-suite|cipher suite}}, sends its {{diffie-hellman|Diffie-Hellman}} / {{ecdh|ECDH}} / {{ml-kem|ML-KEM}} {{public-key|public key}}, a random {{nonce|Nonce}}, and {{ipsec-nat-detection|NAT_DETECTION}} hashes that detect whether either {{peer|peer}} is behind {{nat|NAT}}.',
 			1: 'Responder picks one proposal from `SAi1`, replies with its own KE / {{nonce|Nonce}}, and optionally requests a {{certificate|certificate}} (`CERT_REQ`). After this exchange both sides derive {{ipsec-skeyseed|SKEYSEED}} and the {{ike-sa|IKE SA}} key material — every subsequent exchange is {{ike|IKE}}-{{encryption|encrypted}}.',
@@ -1595,7 +1595,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     Note over A,B: Media flows on the chosen pair
     A-->>B: SRTP media (every ~15s: consent-freshness ping)`,
 		caption:
-			'**[[nat-traversal|NAT traversal]]** = the three-protocol stack that lets two browsers behind home routers find each other. **{{stun|STUN}}** learns your public address; **{{turn|TURN}}** relays when nothing direct works; **ICE** picks the path ([[rfc:8489|RFC 8489]] / [[rfc:8656|RFC 8656]] / [[rfc:8445|RFC 8445]]).',
+			'**[[nat-traversal|NAT traversal]]** = the three-protocol stack that lets two browsers behind home routers find each other. **{{stun|STUN}}** learns your public address; **{{turn|TURN}}** relays when nothing direct works; **{{ice|ICE}}** picks the path ([[rfc:8489|RFC 8489]] / [[rfc:8656|RFC 8656]] / [[rfc:8445|RFC 8445]]).',
 		steps: {
 			0: 'Before any check fires, each peer enumerates every address it might be reachable on: local {{lan|LAN}} interfaces (host), the {{public-ip-address|public address}} it reaches the world through (server-reflexive via {{stun|STUN}}), and a {{turn|TURN}}-allocated public relay (relayed).',
 			1: '{{binding-request|STUN Binding Request}} — 20-byte header, magic cookie `0x2112A442`, random 96-bit transaction ID, zero attributes. The smallest useful packet on the modern internet.',
@@ -1627,7 +1627,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     C->>B: ZCL OnOff.Toggle (cluster=0x0006, cmd=0x02)
     Note over B: Bulb turns on`,
 		caption:
-			"**[[zigbee|Zigbee]] join** = the beacon → Association → Transport-Key → Device-Announce flow every Hue bulb, Trådfri light, and Aqara sensor runs the first time it pairs. The critical step is the **APS Transport-Key**: the {{network-key|network key}} is delivered encrypted under the joiner's pre-configured link key — either an **{{install-code|install code}}** (secure) or the default *ZigBeeAlliance09* (sniffable at join).",
+			"**[[zigbee|Zigbee]] join** = the beacon → Association → Transport-Key → Device-Announce flow every Hue bulb, Trådfri light, and Aqara sensor runs the first time it pairs. The critical step is the **{{aps-layer|APS}} Transport-Key**: the {{network-key|network key}} is delivered encrypted under the joiner's pre-configured link key — either an **{{install-code|install code}}** (secure) or the default *ZigBeeAlliance09* (sniffable at join).",
 		steps: {
 			0: 'The new bulb has no parent. It {{broadcast|broadcasts}} a {{beacon-frame|Beacon Request}} (MAC Cmd 0x07) on the chosen channel. Pick 15, 20, 25, or 26 to avoid [[wifi|Wi-Fi]] channels 1/6/11.',
 			1: 'Every {{zigbee-router|router}} and the {{zigbee-coordinator|Coordinator}} that permits joining replies with a {{beacon-frame|Beacon}} advertising the {{pan-id|PAN ID}}, the Coordinator {{short-address|short address}} (0x0000), Stack Profile (Zigbee PRO), and the Permit-Joining flag. The {{zigbee-joiner|joiner}} picks by {{rssi|RSSI}} + LQI + capability.',
@@ -1654,7 +1654,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     Note over A: Compute ToF via DS-TWR cross-product<br/>distance ≈ 1.41 m
     A->>P: BLE: distance + bearing → Unlock`,
 		caption:
-			"**[[uwb|UWB]] {{ds-twr|DS-TWR}}** = the secure ranging flow under AirTag Precision Finding, BMW Digital Key, and {{aliro|Aliro}} hands-free unlock. [[bluetooth|BLE]] does the bootstrap (auth + STS_KEY transport); [[uwb|UWB]] does the three-message ranging {{exchange|exchange}}; the cross-product cancels {{clock-drift|clock drift}}; **STS** is the AES-CTR-generated pulse pattern that makes the distance measurement unforgeable.",
+			"**[[uwb|UWB]] {{ds-twr|DS-TWR}}** = the secure ranging flow under AirTag Precision Finding, BMW Digital Key, and {{aliro|Aliro}} hands-free unlock. [[bluetooth|BLE]] does the bootstrap (auth + STS_KEY transport); [[uwb|UWB]] does the three-message ranging {{exchange|exchange}}; the cross-product cancels {{clock-drift|clock drift}}; **{{sts|STS}}** is the {{aes|AES}}-CTR-generated pulse pattern that makes the distance measurement unforgeable.",
 		steps: {
 			0: 'Every consumer [[uwb|UWB]] session starts on [[bluetooth|BLE]]. The anchor advertises its service UUID; the phone discovers it. UWB is not yet powered — saves battery.',
 			1: '[[bluetooth|BLE]] {{gatt|GATT}} pairing + application-specific authentication. SPAKE2+/{{pake|PAKE}} for {{ccc-digital-key|CCC Digital Key}}; {{apple|Apple}}\'s proprietary {{handshake|handshake}} for Find My; ECDSA {{mtls|mutual auth}} for {{aliro|Aliro 1.0}}.',
@@ -1690,7 +1690,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     P->>T: ARQC + ATC + IAD
     Note over T,P: Terminal → acquirer → issuer → ARPC: APPROVED`,
 		caption:
-			"**[[nfc|NFC]]** = Near Field Communication. The same nine beats — {{anti-collision|anti-collision}} → RATS/ATS → {{imap-select|SELECT}} {{ppse|PPSE}} → {{select-aid|SELECT AID}} → GPO → {{read-record|READ RECORD}} → {{generate-ac|GENERATE AC}} — that every {{apple|Apple}} Pay, {{google|Google}} Wallet, {{transit|transit}} gate, and plastic contactless card runs through in under half a second (ISO/IEC 14443 + ISO/IEC 7816-4 + EMVCo Contactless Book C-2).",
+			"**[[nfc|NFC]]** = Near Field Communication. The same nine beats — {{anti-collision|anti-collision}} → {{rats|RATS}}/{{ats-nfc|ATS}} → {{imap-select|SELECT}} {{ppse|PPSE}} → {{select-aid|SELECT AID}} → {{gpo|GPO}} → {{read-record|READ RECORD}} → {{generate-ac|GENERATE AC}} — that every {{apple|Apple}} Pay, {{google|Google}} Wallet, {{transit|transit}} gate, and plastic contactless card runs through in under half a second ({{iso-iec|ISO/IEC}} 14443 + {{iso-iec|ISO/IEC}} 7816-4 + EMVCo Contactless Book C-2).",
 		steps: {
 			0: 'The terminal energises the 13.56 MHz magnetic carrier continuously. When the phone is within ~4 cm, the {{ese|eSE}} harvests power inductively and wakes — no battery contribution needed.',
 			1: '{{reqa|REQA}} = `0x26`, a 7-bit short {{frame|frame}}. Any IDLE Type A {{picc|PICC}} in the field transitions to READY.',

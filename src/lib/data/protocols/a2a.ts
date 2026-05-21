@@ -9,17 +9,17 @@ export const a2a: Protocol = {
 	year: 2025,
 	rfc: undefined,
 	oneLiner:
-		'An open protocol that lets AI agents discover each other, delegate tasks, and collaborate — even across different frameworks and vendors.',
-	overview: `[[a2a|A2A]] solves the problem that [[mcp|MCP]] doesn't: how do AI agents talk to *each other*? [[mcp|MCP]] connects an agent to its tools and data sources, but modern AI systems increasingly need multiple specialized agents working together — a travel agent delegating to flight, hotel, and car rental agents; an HR agent coordinating with payroll, benefits, and IT provisioning agents. [[a2a|A2A]] provides the standard protocol for this multi-agent collaboration.
+		'An open protocol that lets {{ai|AI}} agents discover each other, delegate tasks, and collaborate — even across different frameworks and vendors.',
+	overview: `[[a2a|A2A]] solves the problem that [[mcp|MCP]] doesn't: how do {{ai|AI}} agents talk to *each other*? [[mcp|MCP]] connects an agent to its tools and data sources, but modern {{ai|AI}} systems increasingly need multiple specialized agents working together — a travel agent delegating to flight, hotel, and car rental agents; an HR agent coordinating with payroll, benefits, and IT provisioning agents. [[a2a|A2A]] provides the standard protocol for this multi-agent collaboration.
 
 {{google|Google}} announced [[a2a|A2A]] in April 2025 at Cloud Next, backed by over 100 technology partners including Atlassian, {{microsoft|Microsoft}}, Salesforce, SAP, and LangChain. The protocol uses [[json-rpc|JSON-RPC]] 2.0 over [[http1|HTTP]], with [[sse|SSE]] for streaming and webhooks for push notifications. A key design principle is {{opacity|opacity}}: agents are treated as black boxes. You don't see their internal reasoning, tool usage, or prompt chains — you see their **skills** (what they can do) and their **artifacts** (what they produce). This is fundamentally different from [[mcp|MCP]], where the server's tools and resources are fully transparent.
 
-Discovery happens through **Agent Cards** — {{json|JSON}} metadata documents served at \`/.well-known/agent.{{json|json}}\` that describe an agent's identity, capabilities, skills, and authentication requirements. The fundamental unit of work is a **Task**, which progresses through a defined lifecycle: submitted → working → completed (or failed, canceled, or input-required when the agent needs more information). In June 2025, [[a2a|A2A]] moved to the {{linux|Linux}} Foundation, and version 1.0 shipped in early 2026. Together with [[mcp|MCP]], [[a2a|A2A]] forms the two-protocol foundation of the agentic AI era — [[mcp|MCP]] for tool use, [[a2a|A2A]] for agent collaboration.`,
+Discovery happens through **Agent Cards** — {{json|JSON}} metadata documents served at \`/.well-known/agent.json\` that describe an agent's identity, capabilities, skills, and authentication requirements. The fundamental unit of work is a **Task**, which progresses through a defined lifecycle: submitted → working → completed (or failed, canceled, or input-required when the agent needs more information). In June 2025, [[a2a|A2A]] moved to the {{linux|Linux}} Foundation, and version 1.0 shipped in early 2026. Together with [[mcp|MCP]], [[a2a|A2A]] forms the two-protocol foundation of the agentic {{ai|AI}} era — [[mcp|MCP]] for tool use, [[a2a|A2A]] for agent collaboration.`,
 	howItWorks: [
 		{
 			title: 'Agent discovery',
 			description:
-				"A client agent fetches the remote agent's {{agent-card|Agent Card}} from /.well-known/agent.{{json|json}}. The card describes the agent's name, skills, supported capabilities (streaming, push notifications), and authentication requirements (API key, [[oauth2|OAuth]] 2.0, OpenID Connect)."
+				"A client agent fetches the remote agent's {{agent-card|Agent Card}} from /.well-known/agent.{{json|json}}. The card describes the agent's name, skills, supported capabilities (streaming, push notifications), and authentication requirements ({{api|API}} key, [[oauth2|OAuth]] 2.0, OpenID {{mqtt-connect|Connect}})."
 		},
 		{
 			title: 'Send a message',
@@ -39,7 +39,7 @@ Discovery happens through **Agent Cards** — {{json|JSON}} metadata documents s
 		{
 			title: 'Async & push',
 			description:
-				'For long-running tasks, the agent can send push notifications to a client-provided webhook URL, allowing the client to disconnect and receive updates later. Tasks can also be canceled or queried for status.'
+				'For long-running tasks, the agent can send push notifications to a client-provided webhook {{url|URL}}, allowing the client to disconnect and receive updates later. Tasks can also be canceled or queried for status.'
 		}
 	],
 	useCases: [
@@ -81,7 +81,7 @@ card = AgentCard(
     capabilities={"streaming": True}
 )`,
 		caption:
-			'An [[a2a|A2A]] agent publishes its skills in an {{agent-card|Agent Card}} and handles tasks via an executor — the SDK manages [[json-rpc|JSON-RPC]], streaming, and task lifecycle.',
+			'An [[a2a|A2A]] agent publishes its skills in an {{agent-card|Agent Card}} and handles tasks via an executor — the {{sdk|SDK}} manages [[json-rpc|JSON-RPC]], streaming, and task lifecycle.',
 		alternatives: [
 			{
 				language: 'javascript',
@@ -96,7 +96,7 @@ console.log('Skills:', agentCard.skills);
 const response = await fetch(agentCard.url, {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({
+  body: {{json|JSON}}.stringify({
     jsonrpc: '2.0',
     method: 'message/send',
     params: {

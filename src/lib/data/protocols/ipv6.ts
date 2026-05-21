@@ -16,9 +16,9 @@ But [[ipv6|IPv6]] isn't just "bigger addresses." The protocol was redesigned fro
 
 [[ipv6|IPv6]] eliminates {{broadcast|broadcast}} entirely, replacing it with {{multicast|multicast}} and {{anycast|anycast}}. Instead of [[arp|ARP]] broadcasts to resolve addresses, [[ipv6|IPv6]] uses {{ndp|Neighbor Discovery Protocol}} ({{ndp|NDP}}), which runs over {{icmpv6|ICMPv6}} and uses solicited-node {{multicast|multicast}} — far more efficient than flooding every device on the network. {{ndp|NDP}} also handles {{stateless|stateless}} address autoconfiguration ({{slaac|SLAAC}}), where a device can configure its own globally unique address without a [[dhcp|DHCP]] server.
 
-The primary [[ip|IPv4]]-to-[[ipv6|IPv6]] transition mechanism is dual-stack operation, where hosts and routers run both protocols simultaneously and prefer [[ipv6|IPv6]] when available. This avoids a hard cutover and allows gradual migration.
+The primary [[ip|IPv4]]-to-[[ipv6|IPv6]] transition mechanism is dual-stack operation, where {{hosts-bare|hosts}} and routers run both protocols simultaneously and prefer [[ipv6|IPv6]] when available. This avoids a hard cutover and allows gradual migration.
 
-On 28 March 2026, [[ipv6|IPv6]] carried 50.1% of {{google|Google}}'s traffic for the first time in its history — 28 years after [[rfc:2460|RFC 2460]]. {{cloudflare|Cloudflare}} and APNIC measure 40-43% from their own vantage points, so the milestone is real but uneven. Mobile carriers are the leading edge: US averages around 87%, T-Mobile ~93%, France ~86%, India >75%. The transition from [[ip|IPv4]] is happening — just slower than anyone predicted.`,
+On 28 March 2026, [[ipv6|IPv6]] carried 50.1% of {{google|Google}}'s traffic for the first time in its history — 28 years after [[rfc:2460|RFC 2460]]. {{cloudflare|Cloudflare}} and {{apnic|APNIC}} measure 40-43% from their own vantage points, so the milestone is real but uneven. Mobile carriers are the leading edge: US averages around 87%, T-Mobile ~93%, France ~86%, India >75%. The transition from [[ip|IPv4]] is happening — just slower than anyone predicted.`,
 	howItWorks: [
 		{
 			title: 'Addressing (128-bit)',
@@ -43,7 +43,7 @@ On 28 March 2026, [[ipv6|IPv6]] carried 50.1% of {{google|Google}}'s traffic for
 		{
 			title: 'Stateless autoconfiguration (SLAAC)',
 			description:
-				'Hosts generate their own global address from the network prefix (learned via {{router-advertisement|Router Advertisement}}) and their interface identifier. No [[dhcp|DHCP]] server needed — plug in and go. Note: by default {{stateless|SLAAC}} embeds the {{mac-address|MAC address}} in the [[ipv6|IPv6]] address, which is a privacy concern — Privacy Extensions ([[rfc:8981|RFC 8981]]) replace this with randomized, temporary interface identifiers that rotate periodically.'
+				'{{hosts-bare|Hosts}} {{generate-ac|generate}} their own global address from the network prefix (learned via {{router-advertisement|Router Advertisement}}) and their interface identifier. No [[dhcp|DHCP]] server needed — plug in and go. Note: by default {{stateless|SLAAC}} embeds the {{mac-address|MAC address}} in the [[ipv6|IPv6]] address, which is a privacy concern — Privacy Extensions ([[rfc:8981|RFC 8981]]) replace this with randomized, temporary interface identifiers that rotate periodically.'
 		}
 	],
 	useCases: [

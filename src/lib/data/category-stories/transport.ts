@@ -2,7 +2,7 @@ import type { CategoryStory } from './types';
 
 export const transportStory: CategoryStory = {
 	categoryId: 'transport',
-	tagline: 'From ARPANET to the modern web \u2014 the plumbing that makes it all work',
+	tagline: 'From {{arpanet|ARPANET}} to the modern web \u2014 the plumbing that makes it all work',
 	sections: [
 		{
 			type: 'narrative',
@@ -47,7 +47,7 @@ export const transportStory: CategoryStory = {
 					title: 'RFC Editor & Protocol Architect',
 					org: 'USC Information Sciences Institute',
 					contribution:
-						'Wrote the definitive RFC specifications for both [[tcp|TCP]] ([[rfc:793|RFC 793]]) and [[udp|UDP]] ([[rfc:768|RFC 768]]), and served as the RFC Editor for nearly three decades, shaping the standards process that governs the internet.',
+						'Wrote the definitive {{rfc-doc|RFC}} specifications for both [[tcp|TCP]] ([[rfc:793|RFC 793]]) and [[udp|UDP]] ([[rfc:768|RFC 768]]), and served as the {{rfc-doc|RFC}} Editor for nearly three decades, shaping the standards process that governs the internet.',
 					imagePath:
 						'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Jon_Postel_sitting_in_office_%28cropped%29.jpg/330px-Jon_Postel_sitting_in_office_%28cropped%29.jpg'
 				},
@@ -123,7 +123,7 @@ export const transportStory: CategoryStory = {
 			title: 'The Layered Architecture',
 			definition: `graph TD
   subgraph Application Layer
-    A1[HTTP]
+    A1[{{http-method|HTTP}}]
     A2[[[ssh|SSH]]]
     A3[[[dns|DNS]]]
     A4[[[rtp|RTP]]]
@@ -133,7 +133,7 @@ export const transportStory: CategoryStory = {
     B2["[[udp|UDP]] \u2014 fast, minimal"]
   end
   subgraph Network Layer
-    C[IP \u2014 routes packets across networks]
+    C[{{ip-address|IP}} \u2014 routes packets across networks]
   end
   subgraph Link Layer
     D[[[ethernet|Ethernet]] / Wi-Fi / Fiber]
@@ -213,7 +213,7 @@ export const transportStory: CategoryStory = {
 					title: 'SCTP Architect',
 					org: 'Cisco',
 					contribution:
-						'Designed [[sctp|SCTP]] to provide reliable multi-stream transport, enabling telephony {{signaling|signaling}} networks to transition from legacy SS7 to [[ip|IP]]-based infrastructure.'
+						'Designed [[sctp|SCTP]] to provide reliable multi-stream transport, enabling telephony {{signaling|signaling}} networks to transition from legacy {{ss7|SS7}} to [[ip|IP]]-based infrastructure.'
 				}
 			]
 		},

@@ -11,14 +11,14 @@ export const webrtc: Protocol = {
 	oneLiner: '{{peer-to-peer|Peer-to-peer}} audio, video, and data — directly between browsers, no plugins needed.',
 	overview: `[[webrtc|WebRTC]] is the technology that makes browser-based video calls possible. Before [[webrtc|WebRTC]], real-time communication required plugins (Flash, Java applets) or native apps. Now, two browsers can establish a direct, encrypted, {{peer-to-peer|peer-to-peer}} connection for audio, video, and arbitrary data.
 
-The key insight is "{{peer-to-peer|peer-to-peer}}" — once the connection is established, data flows directly between users without passing through a server. This reduces {{latency|latency}} and server costs. However, establishing that connection requires a {{signaling|signaling server}} (to {{exchange|exchange}} connection offers) and the [[nat-traversal|STUN / TURN / ICE]] stack to navigate {{nat|NATs}} and {{firewall|firewalls}}. **{{stun|STUN}}** discovers the {{peer|peer}}'s {{public-ip-address|public IP address}}; **{{turn|TURN}}** relays media through a server when a direct connection fails (about 10–15% of cases); **ICE** coordinates both to find the best working path. See the [[nat-traversal|NAT-traversal]] page for the full wire format and history.
+The key insight is "{{peer-to-peer|peer-to-peer}}" — once the connection is established, data flows directly between users without passing through a server. This reduces {{latency|latency}} and server costs. However, establishing that connection requires a {{signaling|signaling server}} (to {{exchange|exchange}} connection offers) and the [[nat-traversal|STUN / TURN / ICE]] stack to navigate {{nat|NATs}} and {{firewall|firewalls}}. **{{stun|STUN}}** discovers the {{peer|peer}}'s {{public-ip-address|public IP address}}; **{{turn|TURN}}** relays media through a server when a direct connection fails (about 10–15% of cases); **{{ice|ICE}}** coordinates both to find the best working path. See the [[nat-traversal|NAT-traversal]] page for the full wire format and history.
 
-Under the hood, [[webrtc|WebRTC]] is actually a bundle of protocols: ICE for connectivity establishment, {{dtls|DTLS}} (based on [[tls|TLS]]) for {{encryption|encryption}}, {{srtp|SRTP}} (secured [[rtp|RTP]]) for media, and [[sctp|SCTP]] for data channels. The browser API abstracts all of this into a relatively simple JavaScript interface.`,
+Under the hood, [[webrtc|WebRTC]] is actually a bundle of protocols: {{ice|ICE}} for connectivity establishment, {{dtls|DTLS}} (based on [[tls|TLS]]) for {{encryption|encryption}}, {{srtp|SRTP}} (secured [[rtp|RTP]]) for media, and [[sctp|SCTP]] for data channels. The browser {{api|API}} abstracts all of this into a relatively simple JavaScript interface.`,
 	howItWorks: [
 		{
 			title: 'Signaling',
 			description:
-				'Peers {{exchange|exchange}} "offers" and "answers" ([[sdp|SDP]] descriptions of their capabilities) through a {{signaling|signaling}} server ([[websockets|WebSocket]], HTTP, or even carrier pigeon — [[webrtc|WebRTC]] doesn\'t care how).'
+				'Peers {{exchange|exchange}} "offers" and "answers" ([[sdp|SDP]] descriptions of their capabilities) through a {{signaling|signaling}} server ([[websockets|WebSocket]], {{http-method|HTTP}}, or even carrier pigeon — [[webrtc|WebRTC]] doesn\'t care how).'
 		},
 		{
 			title: 'ICE candidate gathering',

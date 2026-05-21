@@ -61,9 +61,9 @@ export const frontierEntries: FrontierEntry[] = [
 		status: 'shipped',
 		date: '2026-03-28',
 		protocols: ['ipv6', 'ip'],
-		description: `{{google|Google}}'s [[ipv6|IPv6]] statistics dashboard recorded the milestone on 28 March 2026: weekly average ~45-48%, peak 50.1%. {{cloudflare|Cloudflare}} measured 40.1% of HTTP requests; APNIC Labs measured 43.13% [[ipv6|IPv6]]-capable networks — same trend, different vantage points. Mobile carriers are the leading edge: US averages around 87%, T-Mobile ~93%, France ~86%, India >75%.
+		description: `{{google|Google}}'s [[ipv6|IPv6]] statistics dashboard recorded the milestone on 28 March 2026: weekly average ~45-48%, peak 50.1%. {{cloudflare|Cloudflare}} measured 40.1% of {{http-method|HTTP}} requests; {{apnic|APNIC}} Labs measured 43.13% [[ipv6|IPv6]]-capable networks — same trend, different vantage points. Mobile carriers are the leading edge: US averages around 87%, T-Mobile ~93%, France ~86%, India >75%.
 
-The economics that finally tipped it: AWS started charging $0.005/hour per public [[ip|IPv4]] address in February 2024, making [[ipv6|IPv6]]-only architectures financially compelling at scale. Combined with {{four-six-four-xlat|464XLAT}} being a first-class citizen in modern {{android|Android}}, iOS 9+, macOS 13+, and Windows 11, [[ipv6|IPv6]]-only access networks now Just Work for [[ip|IPv4]] applications too.`,
+The economics that finally tipped it: {{aws|AWS}} started charging $0.005/hour per public [[ip|IPv4]] address in February 2024, making [[ipv6|IPv6]]-only architectures financially compelling at scale. Combined with {{four-six-four-xlat|464XLAT}} being a first-class citizen in modern {{android|Android}}, iOS 9+, macOS 13+, and Windows 11, [[ipv6|IPv6]]-only access networks now Just Work for [[ip|IPv4]] applications too.`,
 		metrics: [
 			{ label: "Google peak", value: '50.1%', date: '2026-03-28' },
 			{ label: 'Cloudflare HTTP', value: '40%', date: '2026-04' },
@@ -84,9 +84,9 @@ The economics that finally tipped it: AWS started charging $0.005/hour per publi
 		status: 'rolling-out',
 		date: '2025-09 (default in Apple platforms)',
 		protocols: ['tls', 'quic'],
-		description: `Chrome 116 (Aug 2023) shipped X25519Kyber768 behind a flag; Chrome 124 (Apr 2024) made it default. NIST published FIPS 203 ({{ml-kem|ML-KEM}}, formerly Kyber) on 13 August 2024, forcing a new [[tls|TLS]] codepoint 0x11EC for X25519MLKEM768; Chrome 131 (Nov 2024) switched to it. Firefox 132, Edge 131, and OpenJDK (JEP 527) followed.
+		description: `Chrome 116 (Aug 2023) shipped X25519Kyber768 behind a flag; Chrome 124 (Apr 2024) made it default. {{nist|NIST}} published {{fips|FIPS}} 203 ({{ml-kem|ML-KEM}}, formerly Kyber) on 13 August 2024, forcing a new [[tls|TLS]] codepoint 0x11EC for {{pq-ciphersuite|X25519MLKEM768}}; Chrome 131 (Nov 2024) switched to it. Firefox 132, Edge 131, and OpenJDK (JEP 527) followed.
 
-{{apple|Apple}} iOS 26 / macOS Tahoe 26 (September 2025) turned X25519MLKEM768 on by default for all [[tls|TLS]] 1.3 in {{apple|Apple}}'s Network.framework — within four days iOS PQ traffic share went from <2% to 11%, and to >25% by December 2025. By end of 2025, ~52% of all [[tls|TLS]] 1.3 requests to {{cloudflare|Cloudflare}} carried PQ key agreement. The lattice-based KEM is twice the size of X25519 alone, so the {{handshake|handshake}} costs a few extra [[tcp|TCP]] packets — measurable but not user-visible.`,
+{{apple|Apple}} iOS 26 / macOS Tahoe 26 (September 2025) turned {{pq-ciphersuite|X25519MLKEM768}} on by default for all [[tls|TLS]] 1.3 in {{apple|Apple}}'s Network.framework — within four days iOS {{pq|PQ}} traffic share went from <2% to 11%, and to >25% by December 2025. By end of 2025, ~52% of all [[tls|TLS]] 1.3 requests to {{cloudflare|Cloudflare}} carried {{pq|PQ}} key agreement. The lattice-based {{kem|KEM}} is twice the size of {{x25519|X25519}} alone, so the {{handshake|handshake}} costs a few extra [[tcp|TCP]] packets — measurable but not user-visible.`,
 		metrics: [
 			{ label: 'Cloudflare TLS 1.3 with PQ', value: '~52%', date: '2025-12' },
 			{ label: 'iOS PQ share (4 days post-launch)', value: '11%', date: '2025-09' },
@@ -106,9 +106,9 @@ The economics that finally tipped it: AWS started charging $0.005/hour per publi
 		status: 'shipped',
 		date: '2023 (default through 2024-2025)',
 		protocols: ['tcp', 'quic'],
-		description: `{{bbr|BBR}} (Bottleneck {{bandwidth|Bandwidth}} and Round-trip propagation time) is {{google|Google}}'s {{congestion-control|congestion control}} that abandons loss as the primary signal and instead models the path's bottleneck {{bandwidth|bandwidth}} and {{rtt|RTT}}. Cardwell, Cheng, Gunn, Yeganeh, and Jacobson published it at ACM Queue in 2016 (CACM Feb 2017). BBRv1's gain over {{cubic|CUBIC}} was ~4% globally on YouTube, more than 14% in some countries, and a 33% reduction in median {{rtt|RTT}}.
+		description: `{{bbr|BBR}} (Bottleneck {{bandwidth|Bandwidth}} and Round-trip propagation time) is {{google|Google}}'s {{congestion-control|congestion control}} that abandons loss as the primary signal and instead models the path's bottleneck {{bandwidth|bandwidth}} and {{rtt|RTT}}. Cardwell, Cheng, Gunn, Yeganeh, and Jacobson published it at {{acm-org|ACM}} Queue in 2016 (CACM Feb 2017). BBRv1's gain over {{cubic|CUBIC}} was ~4% globally on YouTube, more than 14% in some countries, and a 33% reduction in median {{rtt|RTT}}.
 
-{{bbrv3|BBRv3}} is now \`draft-{{ietf|ietf}}-ccwg-bbr\` inside the {{ietf|IETF}}'s {{congestion-control|Congestion Control}} Working Group. {{google|Google}} has been running it as the default for {{google|google}}.com and YouTube traffic since 2023. The draft (-04 / -05 in 2025-2026) refines the {{bandwidth|bandwidth}} probing, packet conservation, and convergence properties that earlier {{bbr|BBR}} versions had open issues with. Available in {{linux|Linux}} via \`sysctl net.ipv4.tcp_congestion_control=bbr\` (paired with the FQ qdisc, which {{bbr|BBR}} {{pacing|pacing}} requires).`,
+{{bbrv3|BBRv3}} is now \`draft-ietf-ccwg-bbr\` inside the {{ietf|IETF}}'s {{congestion-control|Congestion Control}} Working Group. {{google|Google}} has been running it as the default for {{google|google}}.com and YouTube traffic since 2023. The draft (-04 / -05 in 2025-2026) refines the {{bandwidth|bandwidth}} probing, packet conservation, and convergence properties that earlier {{bbr|BBR}} versions had open issues with. Available in {{linux|Linux}} via \`sysctl net.ipv4.tcp_congestion_control=bbr\` (paired with the FQ qdisc, which {{bbr|BBR}} {{pacing|pacing}} requires).`,
 		metrics: [
 			{ label: 'Google YouTube throughput gain (BBRv1)', value: '+4%', date: '2017' },
 			{ label: 'Google median RTT reduction', value: '−33%', date: '2017' }
@@ -122,7 +122,7 @@ The economics that finally tipped it: AWS started charging $0.005/hour per publi
 		id: 'l4s-comcast-launch',
 		title: 'L4S Launches in Production at Comcast',
 		oneLiner:
-			'Sub-millisecond queuing {{latency|latency}} on a residential ISP — {{l4s|L4S}} goes from spec to deployed reality in January 2025.',
+			'Sub-millisecond queuing {{latency|latency}} on a residential {{isp|ISP}} — {{l4s|L4S}} goes from spec to deployed reality in January 2025.',
 		topic: 'transport',
 		status: 'rolling-out',
 		date: '2025-01-29',
@@ -177,12 +177,12 @@ The mechanism: cooperating senders mark packets {{ecn|ECN}}-Capable; routers run
 		id: 'wifi-7-ratified',
 		title: 'Wi-Fi 7 (IEEE 802.11be) Ratified',
 		oneLiner:
-			'320-MHz channels in 6 GHz, 4096-QAM, Multi-Link Operation; [[wifi|Wi-Fi]] 7 is the link-layer that AI training fabrics over wireless want.',
+			'320-MHz channels in 6 GHz, 4096-{{qam|QAM}}, Multi-Link Operation; [[wifi|Wi-Fi]] 7 is the link-layer that {{ai|AI}} training fabrics over wireless want.',
 		topic: 'wireless',
 		status: 'shipped',
 		date: '2025-07-22',
 		protocols: ['wifi'],
-		description: `IEEE 802.11be was published 22 July 2025 after 5+ years of drafting. Headline features: 320-MHz channels in the 6 GHz band, 4096-QAM (12 bits per symbol), Multi-Link Operation (a single device association across 2.4/5/6 GHz simultaneously), preamble puncturing (skip interfered subcarriers without losing the whole channel), restricted {{target-wake-time|Target Wake Time}}.
+		description: `{{ieee-802-15-4|IEEE}} 802.11be was published 22 July 2025 after 5+ years of drafting. Headline features: 320-MHz channels in the 6 GHz band, 4096-{{qam|QAM}} (12 bits per symbol), Multi-Link Operation (a single device association across 2.4/5/6 GHz simultaneously), preamble puncturing (skip interfered subcarriers without losing the whole channel), restricted {{target-wake-time|Target Wake Time}}.
 
 The [[wifi|Wi-Fi]] Alliance opened certification on 8 January 2024. As of late April 2026, the Alliance reports >500M [[wifi|Wi-Fi]] 7-certified devices shipped; IDC projects 120M [[wifi|Wi-Fi]] 7 access-point shipments by end-2026. [[wifi|Wi-Fi]] 8 (802.11bn / Ultra High Reliability) Draft 1.0 reached July 2025 — not faster, but 25% better at 95th-percentile {{latency|latency}} and 25% fewer dropped packets during roaming. Final ratification scheduled March 2028.`,
 		metrics: [
@@ -198,14 +198,14 @@ The [[wifi|Wi-Fi]] Alliance opened certification on 8 January 2024. As of late A
 		id: 'ethernet-800g',
 		title: '800 GbE Standardised — IEEE 802.3df-2024',
 		oneLiner:
-			'[[ethernet|Ethernet]] at 800 Gbps shipped to standard in February 2024; 1.6 TbE coming July 2026; AI training fabrics are the demand engine.',
+			'[[ethernet|Ethernet]] at 800 Gbps shipped to standard in February 2024; 1.6 TbE coming July 2026; {{ai|AI}} training fabrics are the demand engine.',
 		topic: 'datacenter',
 		status: 'shipped',
 		date: '2024-02-16',
 		protocols: ['ethernet'],
-		description: `IEEE 802.3df-2024 was approved 16 February 2024 and published in 2024, defining 800 GbE (and 400 GbE on 100 G lanes). IEEE P802.3dj — covering 200 G/lane, 1.6 TbE, and updates for 200/400/800 G — is targeting completion in July 2026, though slip risk has been publicly noted.
+		description: `{{ieee-802-15-4|IEEE}} 802.3df-2024 was approved 16 February 2024 and published in 2024, defining 800 GbE (and 400 GbE on 100 G lanes). {{ieee-802-15-4|IEEE}} P802.3dj — covering 200 G/lane, 1.6 TbE, and updates for 200/400/800 G — is targeting completion in July 2026, though slip risk has been publicly noted.
 
-AI training fabrics are the demand engine. "Lossless [[ethernet|Ethernet]]" with RoCEv2 — [[ethernet|Ethernet]] plus PFC + DCQCN for losslessness — is replacing InfiniBand in many large GPU clusters because the operational tooling, vendor diversity, and per-port economics are all better. The Ultra [[ethernet|Ethernet]] Consortium's UEC 1.0 spec (June 2025) is the next step: a new transport for AI/HPC scale-out built on plain [[ethernet|Ethernet]]+[[ip|IP]] that explicitly competes with InfiniBand and RoCEv2.`,
+{{ai|AI}} training fabrics are the demand engine. "Lossless [[ethernet|Ethernet]]" with RoCEv2 — [[ethernet|Ethernet]] plus PFC + DCQCN for losslessness — is replacing InfiniBand in many large {{gpu|GPU}} clusters because the operational tooling, vendor diversity, and per-port economics are all better. The Ultra [[ethernet|Ethernet]] Consortium's {{uec|UEC}} 1.0 spec (June 2025) is the next step: a new transport for {{ai|AI}}/HPC scale-out built on plain [[ethernet|Ethernet]]+[[ip|IP]] that explicitly competes with InfiniBand and RoCEv2.`,
 		sources: [
 			{ url: 'https://www.ieee802.org/3/dj/index.html', label: 'IEEE P802.3dj task force' },
 			{ url: 'https://en.wikipedia.org/wiki/Terabit_Ethernet', label: 'Wikipedia — Terabit Ethernet' }
@@ -215,14 +215,14 @@ AI training fabrics are the demand engine. "Lossless [[ethernet|Ethernet]]" with
 		id: 'ultra-ethernet-1-0',
 		title: 'Ultra Ethernet Consortium 1.0 Spec',
 		oneLiner:
-			'A 562-page open spec for AI/HPC scale-out — {{connectionless|connectionless}}, {{multipath|multipath}}, packet-trimming — designed to replace RoCEv2 and InfiniBand.',
+			'A 562-page open spec for {{ai|AI}}/HPC scale-out — {{connectionless|connectionless}}, {{multipath|multipath}}, packet-trimming — designed to replace RoCEv2 and InfiniBand.',
 		topic: 'datacenter',
 		status: 'shipped',
 		date: '2025-06',
 		protocols: ['ethernet'],
-		description: `UEC 1.0, released June 2025, is the Ultra [[ethernet|Ethernet]] Consortium's transport specification — a 562-page open spec by AMD, Arista, {{broadcom|Broadcom}}, {{cisco|Cisco}}, HPE, {{intel|Intel}}, {{meta|Meta}}, {{microsoft|Microsoft}} and dozens of partners for AI/HPC scale-out fabrics. {{connectionless|Connectionless}}, unordered, {{multipath|multipath}} (intelligent packet spray instead of single-path), packet-trimming, selective {{retransmission|retransmission}}.
+		description: `{{uec|UEC}} 1.0, released June 2025, is the Ultra [[ethernet|Ethernet]] Consortium's transport specification — a 562-page open spec by AMD, Arista, {{broadcom|Broadcom}}, {{cisco|Cisco}}, HPE, {{intel|Intel}}, {{meta|Meta}}, {{microsoft|Microsoft}} and dozens of partners for {{ai|AI}}/HPC scale-out fabrics. {{connectionless|Connectionless}}, unordered, {{multipath|multipath}} (intelligent packet spray instead of single-path), packet-trimming, selective {{retransmission|retransmission}}.
 
-AMD's Pensando Pollara 400 is the first shipping NIC. The likely RoCEv2 successor for the next generation of GPU clusters — at the scale of 100K+ accelerators training a single model, the assumptions baked into RoCEv2 (single-path, lossless via PFC, no out-of-order) become liabilities.`,
+AMD's Pensando Pollara 400 is the first shipping {{nic|NIC}}. The likely RoCEv2 successor for the next generation of {{gpu|GPU}} clusters — at the scale of 100K+ accelerators training a single model, the assumptions baked into RoCEv2 (single-path, lossless via PFC, no out-of-order) become liabilities.`,
 		sources: [
 			{ url: 'https://ultraethernet.org/', label: 'Ultra Ethernet Consortium' },
 			{ url: 'https://arxiv.org/html/2508.08906v1', label: 'Hoefler et al. — Ultra Ethernet design principles' }
@@ -237,7 +237,7 @@ AMD's Pensando Pollara 400 is the first shipping NIC. The likely RoCEv2 successo
 		status: 'standardizing',
 		date: 'late 2025 / early 2026',
 		protocols: ['quic'],
-		description: `\`draft-{{ietf|ietf}}-quic-{{multipath|multipath}}\` is in {{ietf|IETF}} last-call as of late 2025 / early 2026. The protocol extends [[quic|QUIC]] with multiple concurrent paths between endpoints, the same way [[mptcp|MPTCP]] extended [[tcp|TCP]] — but built into [[quic|QUIC]]'s connection-ID architecture rather than bolted on as [[tcp|TCP]] options.
+		description: `\`draft-ietf-quic-multipath\` is in {{ietf|IETF}} last-call as of late 2025 / early 2026. The protocol extends [[quic|QUIC]] with multiple concurrent paths between endpoints, the same way [[mptcp|MPTCP]] extended [[tcp|TCP]] — but built into [[quic|QUIC]]'s connection-{{id-identifier|ID}} architecture rather than bolted on as [[tcp|TCP]] options.
 
 Use cases: aggregating [[wifi|Wi-Fi]] and cellular {{bandwidth|bandwidth}} on a phone ({{apple|Apple}} already does this with [[mptcp|MPTCP]] for Siri), seamless network handover when the user changes interfaces, reaching a multi-homed server through whichever path is fastest. The {{3gpp|3GPP}} ATSSS standard for 5G already specifies [[mptcp|MPTCP]] and MPQUIC for traffic steering between cellular and [[wifi|Wi-Fi]].`,
 		sources: [
@@ -253,7 +253,7 @@ Use cases: aggregating [[wifi|Wi-Fi]] and cellular {{bandwidth|bandwidth}} on a 
 		status: 'standardizing',
 		date: '2026-03 (draft -17)',
 		protocols: ['quic', 'http3'],
-		description: `\`draft-{{ietf|ietf}}-moq-transport-17\` (March 2026) is the {{ietf|IETF}}'s Media-over-[[quic|QUIC]] Transport — sub-second live streaming over [[quic|QUIC]], designed to replace the [[rtmp|RTMP]]-into-[[hls|HLS]] pipeline that streamers use today. {{cloudflare|Cloudflare}} and {{meta|Meta}} have public MoQ relay implementations; Twitch and YouTube are evaluating.
+		description: `\`draft-ietf-moq-transport-17\` (March 2026) is the {{ietf|IETF}}'s Media-over-[[quic|QUIC]] Transport — sub-second live streaming over [[quic|QUIC]], designed to replace the [[rtmp|RTMP]]-into-[[hls|HLS]] pipeline that streamers use today. {{cloudflare|Cloudflare}} and {{meta|Meta}} have public MoQ relay implementations; Twitch and YouTube are evaluating.
 
 The architecture: publishers send named objects to MoQ relays; subscribers {{imap-fetch|fetch}} named objects from the nearest relay, with hop-by-hop [[quic|QUIC]]. Object naming + [[quic|QUIC]] stream {{multiplexing|multiplexing}} mean a relay can drop objects under congestion (preserve key frames over delta frames) without the publisher coordinating. [[webrtc|WebRTC]]'s lunch may finally be eaten for one-to-many use cases.`,
 		sources: [
@@ -265,14 +265,14 @@ The architecture: publishers send named objects to MoQ relays; subscribers {{ima
 		id: 'mcp-streamable-http',
 		title: 'MCP Streamable HTTP Transport',
 		oneLiner:
-			'{{anthropic|Anthropic}} deprecates the original HTTP+[[sse|SSE]] [[mcp|MCP]] transport in favour of Streamable HTTP (March 2025).',
+			'{{anthropic|Anthropic}} deprecates the original {{http-method|HTTP}}+[[sse|SSE]] [[mcp|MCP]] transport in favour of Streamable {{http-method|HTTP}} (March 2025).',
 		topic: 'ai-agents',
 		status: 'shipped',
 		date: '2025-03',
 		protocols: ['mcp'],
-		description: `The Model Context Protocol ({{anthropic|Anthropic}}, November 2024) shipped with two transports: {{stdio|stdio}} for local subprocess servers, and HTTP+[[sse|SSE]] for remote servers (an HTTP POST per request, an [[sse|SSE]] stream for server-initiated messages). The HTTP+[[sse|SSE]] transport had operational issues — long-lived [[sse|SSE]] connections behind proxies, two-channel state to manage — and was deprecated in March 2025 in favour of Streamable HTTP.
+		description: `The Model Context Protocol ({{anthropic|Anthropic}}, November 2024) shipped with two transports: {{stdio|stdio}} for local subprocess servers, and {{http-method|HTTP}}+[[sse|SSE]] for remote servers (an {{http-method|HTTP}} POST per request, an [[sse|SSE]] stream for server-initiated messages). The {{http-method|HTTP}}+[[sse|SSE]] transport had operational issues — long-lived [[sse|SSE]] connections behind proxies, two-channel state to manage — and was deprecated in March 2025 in favour of Streamable {{http-method|HTTP}}.
 
-Streamable HTTP is one HTTP endpoint that can return either a single [[json-rpc|JSON-RPC]] response or upgrade to [[sse|SSE]] for streaming. Single channel, simpler proxy story, easier to deploy on serverless. Combined with the 2025-03-26 spec adding [[oauth2|OAuth]] 2.1 with {{pkce|PKCE}} and dynamic client registration plus Resource Indicators (RFC 8707) for token scoping, [[mcp|MCP]] is now a real internet protocol — not just a local stdio convention.`,
+Streamable {{http-method|HTTP}} is one HTTP endpoint that can return either a single [[json-rpc|JSON-RPC]] response or upgrade to [[sse|SSE]] for streaming. Single channel, simpler proxy story, easier to deploy on serverless. Combined with the 2025-03-26 spec adding [[oauth2|OAuth]] 2.1 with {{pkce|PKCE}} and dynamic client registration plus Resource Indicators ({{rfc-doc|RFC}} 8707) for token scoping, [[mcp|MCP]] is now a real internet protocol — not just a local {{stdio|stdio}} convention.`,
 		sources: [
 			{ url: 'https://modelcontextprotocol.io/specification/2025-11-25/basic/transports', label: 'MCP spec — transports' },
 			{ url: 'https://stackoverflow.blog/2026/01/21/is-that-allowed-authentication-and-authorization-in-model-context-protocol/', label: 'Stack Overflow blog — MCP auth' }
@@ -282,14 +282,14 @@ Streamable HTTP is one HTTP endpoint that can return either a single [[json-rpc|
 		id: 'a2a-linux-foundation',
 		title: 'A2A Donated to the Linux Foundation',
 		oneLiner:
-			'{{google|Google}}\'s Agent2Agent protocol joins [[mcp|MCP]] under open governance — the second AI-agent protocol to find a foundation home.',
+			'{{google|Google}}\'s Agent2Agent protocol joins [[mcp|MCP]] under open governance — the second {{ai|AI}}-agent protocol to find a foundation home.',
 		topic: 'ai-agents',
 		status: 'shipped',
 		date: '2025-06',
 		protocols: ['a2a', 'mcp'],
 		description: `{{google|Google}} unveiled Agent2Agent ([[a2a|A2A]]) on 9 April 2025 at Cloud Next with 50+ partners and donated it to the {{linux|Linux}} Foundation in June 2025. [[a2a|A2A]] is the *agent-to-agent* layer above [[mcp|MCP]]: where [[mcp|MCP]] wires an agent to its tools and data, [[a2a|A2A]] wires agents to each other so they can collaborate or delegate tasks across vendors.
 
-In December 2025 {{anthropic|Anthropic}} donated [[mcp|MCP]] to the Agentic AI Foundation (AAIF), a {{linux|Linux}} Foundation directed fund co-founded by {{anthropic|Anthropic}}, Block, and OpenAI. [[mcp|MCP]] and [[a2a|A2A]] are now under the same umbrella. Mid-2026 industry analyses report [[mcp|MCP]] at ~78% enterprise adoption vs [[a2a|A2A]] at ~23% — the boundary between "agent" and "tool" remains fuzzy and the multi-agent collaboration use cases are still emerging.`,
+In December 2025 {{anthropic|Anthropic}} donated [[mcp|MCP]] to the Agentic {{ai|AI}} Foundation (AAIF), a {{linux|Linux}} Foundation directed fund co-founded by {{anthropic|Anthropic}}, Block, and OpenAI. [[mcp|MCP]] and [[a2a|A2A]] are now under the same umbrella. Mid-2026 industry analyses report [[mcp|MCP]] at ~78% enterprise adoption vs [[a2a|A2A]] at ~23% — the boundary between "agent" and "tool" remains fuzzy and the multi-agent collaboration use cases are still emerging.`,
 		sources: [
 			{ url: 'https://www.linuxfoundation.org/press/linux-foundation-launches-the-agent2agent-protocol-project-to-enable-secure-intelligent-communication-between-ai-agents', label: 'Linux Foundation — A2A project' },
 			{ url: 'https://en.wikipedia.org/wiki/Model_Context_Protocol', label: 'Wikipedia — MCP' }

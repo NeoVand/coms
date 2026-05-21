@@ -9,7 +9,7 @@ export const http1: Protocol = {
 	year: 1997,
 	rfc: 'RFC 9112',
 	oneLiner: 'The original language of the web — one request at a time, in plain text.',
-	overview: `[[http1|HTTP/1.1]] is the protocol that built the web as we know it. Every time you click a link, submit a form, or load an image, your browser speaks HTTP to a server. It's a {{request-response|request-response}} protocol: the client asks for something, the server responds.
+	overview: `[[http1|HTTP/1.1]] is the protocol that built the web as we know it. Every time you click a link, submit a form, or load an image, your browser speaks {{http-method|HTTP}} to a server. It's a {{request-response|request-response}} protocol: the client asks for something, the server responds.
 
 [[http1|HTTP/1.1]] improved on [[http1|HTTP/1.0]] by adding persistent connections ({{keep-alive|keep-alive}}), chunked transfer encoding, and {{header|host headers}} (allowing multiple websites on one [[ip|IP]]). But it has a fundamental limitation: requests on a single connection are serialized. The browser must wait for each response before sending the next request — called "{{head-of-line-blocking|head-of-line blocking}}."
 
@@ -18,7 +18,7 @@ To work around this, browsers open 6 parallel [[tcp|TCP]] connections per domain
 		{
 			title: 'TCP connection',
 			description:
-				'Client establishes a [[tcp|TCP]] connection to the server (and [[tls|TLS]] if HTTPS). This takes 1-3 round trips before any HTTP data flows.'
+				'Client establishes a [[tcp|TCP]] connection to the server (and [[tls|TLS]] if HTTPS). This takes 1-3 round trips before any {{http-method|HTTP}} data flows.'
 		},
 		{
 			title: 'Request sent',
@@ -71,7 +71,7 @@ console.log(user);  // {id: 42, name: "Alice"}
 const newUser = await fetch('https://example.com/api/users', {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ name: 'Alice', role: 'admin' })
+  body: {{json|JSON}}.stringify({ name: 'Alice', role: 'admin' })
 });`
 			},
 			{
@@ -131,7 +131,7 @@ curl -v https://example.com/api/users/42`
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/HTTP_persistent_connection.svg/500px-HTTP_persistent_connection.svg.png',
 		alt: 'Diagram comparing HTTP non-persistent and persistent connections, showing how keep-alive reduces round trips',
 		caption:
-			"HTTP persistent connections ({{keep-alive|keep-alive}}) vs non-persistent — [[http1|HTTP/1.0]] opened a new [[tcp|TCP]] connection for every request, while [[http1|HTTP/1.1]]'s {{keep-alive|keep-alive}} reuses the same connection, saving the overhead of repeated [[tcp|TCP]] {{handshake|handshakes}}.",
+			"{{http-method|HTTP}} persistent connections ({{keep-alive|keep-alive}}) vs non-persistent — [[http1|HTTP/1.0]] opened a new [[tcp|TCP]] connection for every request, while [[http1|HTTP/1.1]]'s {{keep-alive|keep-alive}} reuses the same connection, saving the overhead of repeated [[tcp|TCP]] {{handshake|handshakes}}.",
 		credit: 'Image: Wikimedia Commons / Public Domain'
 	}
 };

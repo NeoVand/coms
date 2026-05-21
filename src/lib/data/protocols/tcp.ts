@@ -18,12 +18,12 @@ Unlike [[udp|UDP]], [[tcp|TCP]] will detect lost {{packet|packets}} and {{retran
 		{
 			title: 'SYN — Client initiates',
 			description:
-				'The client sends a SYN (synchronize) packet to the server, proposing an initial {{sequence-number|sequence number}}. This is the "Hey, can we talk?" message.'
+				'The client sends a {{syn-cookies|SYN}} (synchronize) packet to the server, proposing an initial {{sequence-number|sequence number}}. This is the "Hey, can we talk?" message.'
 		},
 		{
 			title: 'SYN-ACK — Server responds',
 			description:
-				'The server responds with SYN-{{ack|ACK}}, acknowledging the client\'s {{sequence-number|sequence number}} and proposing its own. "Yes, I hear you. Can you hear me?"'
+				'The server responds with {{syn-cookies|SYN}}-{{ack|ACK}}, acknowledging the client\'s {{sequence-number|sequence number}} and proposing its own. "Yes, I hear you. Can you hear me?"'
 		},
 		{
 			title: 'ACK — Connection established',
@@ -38,7 +38,7 @@ Unlike [[udp|UDP]], [[tcp|TCP]] will detect lost {{packet|packets}} and {{retran
 		{
 			title: 'FIN — Graceful close',
 			description:
-				'Either side sends a FIN to close the connection. The other side acknowledges and sends its own FIN. Both sides confirm — connection closed cleanly.'
+				'Either side sends a {{fin|FIN}} to close the connection. The other side acknowledges and sends its own {{fin|FIN}}. Both sides confirm — connection closed cleanly.'
 		}
 	],
 	useCases: [
@@ -183,7 +183,7 @@ Client → Server  [ACK]
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e4/Tcp_state_diagram.svg/500px-Tcp_state_diagram.svg.png',
 		alt: 'TCP finite state machine diagram showing all connection states from CLOSED through ESTABLISHED to TIME_WAIT',
 		caption:
-			'The [[tcp|TCP]] state machine — every [[tcp|TCP]] connection transitions through these states. From the {{three-way-handshake|three-way handshake}} (SYN → SYN-{{ack|ACK}} → {{ack|ACK}}) to graceful teardown (FIN → FIN-{{ack|ACK}}), this diagram maps the full lifecycle of a [[tcp|TCP]] connection.',
+			'The [[tcp|TCP]] state machine — every [[tcp|TCP]] connection transitions through these states. From the {{three-way-handshake|three-way handshake}} ({{syn-cookies|SYN}} → {{syn-cookies|SYN}}-{{ack|ACK}} → {{ack|ACK}}) to graceful teardown ({{fin|FIN}} → {{fin|FIN}}-{{ack|ACK}}), this diagram maps the full lifecycle of a [[tcp|TCP]] connection.',
 		credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 	},
 
@@ -192,7 +192,7 @@ Client → Server  [ACK]
 			date: '2024-01',
 			title: 'Linux 6.7 ships native TCP-AO (RFC 5925)',
 			description:
-				'Five thousand lines of new networking code finally give {{linux|Linux}} a modern replacement for the deprecated [[tcp|TCP]]-MD5 used by [[bgp|BGP]]/LDP. Same release added microsecond-resolution [[tcp|TCP]] timestamps.',
+				'Five thousand lines of new networking code finally give {{linux|Linux}} a modern replacement for the deprecated [[tcp|TCP]]-{{md5|MD5}} used by [[bgp|BGP]]/LDP. Same release added microsecond-resolution [[tcp|TCP]] timestamps.',
 			source: { url: 'https://kernelnewbies.org/Linux_6.7', label: 'kernelnewbies.org' }
 		},
 		{
@@ -255,7 +255,7 @@ Client → Server  [ACK]
 		},
 		{
 			title: 'TCP\'s sequence numbers used to be guessable',
-			text: 'Early [[tcp|TCP]] picked the initial {{sequence-number|sequence number}} from a counter incremented at a fixed rate per second. Kevin Mitnick used this in 1994 to forge a connection to Tsutomu Shimomura\'s host. Modern stacks use a cryptographically-random ISN per [[rfc:9293|RFC 9293]] §3.4.1.'
+			text: 'Early [[tcp|TCP]] picked the initial {{sequence-number|sequence number}} from a counter incremented at a fixed rate per second. Kevin Mitnick used this in 1994 to forge a connection to Tsutomu Shimomura\'s host. Modern stacks use a cryptographically-random {{isn|ISN}} per [[rfc:9293|RFC 9293]] §3.4.1.'
 		},
 		{
 			title: 'The window field is only 16 bits',
@@ -275,11 +275,11 @@ Client → Server  [ACK]
 			},
 			{
 				title: 'Ephemeral port exhaustion',
-				text: 'On a server doing many short-lived outbound connections (e.g., to upstream APIs), the local OS exhausts the {{ephemeral-port|ephemeral port}} range (default 32768-60999 on {{linux|Linux}}). Sockets sit in {{time-wait|TIME_WAIT}} for ~60s, blocking the four-tuple. Cure: enable connection reuse (HTTP {{keep-alive|keep-alive}}, [[grpc|gRPC]] pooling), or widen the range with net.ipv4.ip_local_port_range.'
+				text: 'On a server doing many short-lived outbound connections (e.g., to upstream APIs), the local {{os|OS}} exhausts the {{ephemeral-port|ephemeral port}} range (default 32768-60999 on {{linux|Linux}}). Sockets sit in {{time-wait|TIME_WAIT}} for ~60s, blocking the four-tuple. Cure: enable connection reuse ({{http-method|HTTP}} {{keep-alive|keep-alive}}, [[grpc|gRPC]] pooling), or widen the range with net.ipv4.ip_local_port_range.'
 			},
 			{
 				title: 'PMTU black holes',
-				text: 'A path drops large packets but does not return [[icmp|ICMP]] {{fragmentation|Fragmentation}} Needed — usually because some intermediate {{firewall|firewall}} rate-limits or blocks [[icmp|ICMP]]. The connection hangs because retransmits also fail. Cure: enable PLPMTUD ([[rfc:4821|RFC 4821]]) or set [[tcp|TCP]] {{mss|MSS}} clamping at the edge.'
+				text: 'A path drops large packets but does not return [[icmp|ICMP]] {{fragmentation|Fragmentation}} Needed — usually because some intermediate {{firewall|firewall}} rate-limits or blocks [[icmp|ICMP]]. The connection hangs because retransmits also fail. Cure: enable {{plpmtud|PLPMTUD}} ([[rfc:4821|RFC 4821]]) or set [[tcp|TCP]] {{mss|MSS}} clamping at the edge.'
 			}
 		]
 	}

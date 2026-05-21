@@ -10,13 +10,13 @@ export const oauth2: Protocol = {
 	rfc: 'RFC 6749',
 	oneLiner:
 		'Delegated authorization for the modern web — let apps access your data without sharing your password.',
-	overview: `[[oauth2|OAuth 2.0]] is the authorization framework that powers "Sign in with {{google|Google}}," "Connect your GitHub," and virtually every third-party integration on the modern web. Instead of handing your password to an application, [[oauth2|OAuth]] lets you grant it a scoped, time-limited {{access-token|access token}} — the app can read your repos but not delete them, view your calendar but not your email. Your credentials never leave the identity provider.
+	overview: `[[oauth2|OAuth 2.0]] is the authorization framework that powers "Sign in with {{google|Google}}," "{{mqtt-connect|Connect}} your GitHub," and virtually every third-party integration on the modern web. Instead of handing your password to an application, [[oauth2|OAuth]] lets you grant it a scoped, time-limited {{access-token|access token}} — the app can read your repos but not delete them, view your calendar but not your email. Your credentials never leave the identity provider.
 
 The core mechanism is the authorization code flow. When you click "Sign in with GitHub," you're redirected to GitHub's authorization server. You authenticate there (not on the app), review what permissions the app is requesting, and consent. GitHub redirects you back to the app with a short-lived authorization code. The app exchanges this code — along with a {{pkce|PKCE}} (Proof Key for Code {{exchange|Exchange}}) code verifier to prevent interception — for an {{access-token|access token}} and a refresh token. Access tokens are short-lived (minutes to hours); when they expire, the app uses the refresh token to silently obtain a new one without bothering the user.
 
-A critical distinction: [[oauth2|OAuth]] is an authorization {{protocol|protocol}} (what you can access), not an authentication protocol (who you are). Knowing that a token grants read access to someone's repos doesn't tell you who that someone is. OpenID Connect (OIDC) is a thin identity layer built on top of [[oauth2|OAuth]] that adds authentication — it returns an ID token (a {{jwt|JWT}}) containing the user's identity. Together, [[oauth2|OAuth]] + OIDC secure [[rest|REST]] APIs across the web, all running over [[tls|TLS]] on top of [[http1|HTTP]] and [[tcp|TCP]].
+A critical distinction: [[oauth2|OAuth]] is an authorization {{protocol|protocol}} (what you can access), not an authentication protocol (who you are). Knowing that a token grants read access to someone's repos doesn't tell you who that someone is. OpenID {{mqtt-connect|Connect}} (OIDC) is a thin identity layer built on top of [[oauth2|OAuth]] that adds authentication — it returns an {{id-identifier|ID}} token (a {{jwt|JWT}}) containing the user's identity. Together, [[oauth2|OAuth]] + OIDC secure [[rest|REST]] APIs across the web, all running over [[tls|TLS]] on top of [[http1|HTTP]] and [[tcp|TCP]].
 
-The enterprise predecessor is **[[kerberos|Kerberos]]** — ticket-based mutual authentication for Active Directory domains, Hadoop clusters, and NFSv4 mounts — which still wins on properties [[oauth2|OAuth]] does not address (offline service-to-service auth, no online identity-provider round trip per request, native mutual auth). The two coexist in the wild via SPNEGO: a browser's *Authorization: Negotiate* header chains Kerberos when on a corporate network and falls back to NTLM / [[oauth2|OAuth]] otherwise.`,
+The enterprise predecessor is **[[kerberos|Kerberos]]** — ticket-based mutual authentication for Active Directory domains, Hadoop clusters, and NFSv4 mounts — which still wins on properties [[oauth2|OAuth]] does not address (offline service-to-service auth, no online identity-provider round trip per request, native mutual auth). The two coexist in the wild via SPNEGO: a browser's *Authorization: Negotiate* header chains Kerberos when on a corporate network and falls back to {{ntlm|NTLM}} / [[oauth2|OAuth]] otherwise.`,
 	howItWorks: [
 		{
 			title: 'Authorization request',
@@ -26,7 +26,7 @@ The enterprise predecessor is **[[kerberos|Kerberos]]** — ticket-based mutual 
 		{
 			title: 'User consent',
 			description:
-				"The authorization server authenticates the user (login page) and presents a consent screen showing what the app is requesting. The app never sees the user's credentials."
+				"The authorization server authenticates the user ({{login-auth|login}} page) and presents a consent screen showing what the app is requesting. The app never sees the user's credentials."
 		},
 		{
 			title: 'Authorization code',
@@ -41,7 +41,7 @@ The enterprise predecessor is **[[kerberos|Kerberos]]** — ticket-based mutual 
 		{
 			title: 'API access',
 			description:
-				'The app calls resource APIs with an "Authorization: Bearer {token}" header. The API server validates the token\'s signature, expiry, and scopes before returning protected data.'
+				'The app calls resource APIs with an "Authorization: Bearer {token}" header. The {{api|API}} server validates the token\'s signature, expiry, and scopes before returning protected data.'
 		}
 	],
 	useCases: [
@@ -237,7 +237,7 @@ Cache-Control: no-store
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Oauth_logo.svg/500px-Oauth_logo.svg.png',
 		alt: 'The OAuth open authorization protocol logo',
 		caption:
-			'The [[oauth2|OAuth]] logo. [[oauth2|OAuth 2.0]] ([[rfc:6749|RFC 6749]], 2012) became the industry standard for delegated authorization — "Sign in with {{google|Google}}," GitHub Apps, and API access tokens all use [[oauth2|OAuth]].',
+			'The [[oauth2|OAuth]] logo. [[oauth2|OAuth 2.0]] ([[rfc:6749|RFC 6749]], 2012) became the industry standard for delegated authorization — "Sign in with {{google|Google}}," GitHub Apps, and {{api|API}} access tokens all use [[oauth2|OAuth]].',
 		credit: 'Image: Chris Messina / CC BY-SA 3.0, via Wikimedia Commons'
 	}
 };

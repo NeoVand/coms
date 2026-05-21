@@ -27,7 +27,7 @@ export const realtimeAvStory: CategoryStory = {
 					title: 'Co-creator of RTP and SIP',
 					org: 'Columbia University / AT&T Bell Labs',
 					contribution:
-						'The most central figure in internet real-time communication. Co-created both [[rtp|RTP]] and [[sip|SIP]], and later served as FCC Chief Technology Officer.',
+						'The most central figure in internet real-time communication. Co-created both [[rtp|RTP]] and [[sip|SIP]], and later served as {{fcc|FCC}} Chief Technology Officer.',
 					imagePath:
 						'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/SIPNOC_2012_-_FCC_CTO_Henning_Schulzrinne_%287838924022%29.jpg/330px-SIPNOC_2012_-_FCC_CTO_Henning_Schulzrinne_%287838924022%29.jpg'
 				},
@@ -82,7 +82,7 @@ export const realtimeAvStory: CategoryStory = {
 					year: 1999,
 					title: 'SIP Published \u2014 RFC 2543',
 					description:
-						'The Session Initiation Protocol takes an HTTP-inspired approach to call {{signaling|signaling}}. Text-based, extensible, and easier to debug than H.323.',
+						'The Session Initiation Protocol takes an {{http-method|HTTP}}-inspired approach to call {{signaling|signaling}}. Text-based, extensible, and easier to debug than H.323.',
 					protocolId: 'sip'
 				}
 			]
@@ -90,7 +90,7 @@ export const realtimeAvStory: CategoryStory = {
 		{
 			type: 'narrative',
 			title: 'The VoIP Standards War',
-			text: `The late 1990s saw a battle between two fundamentally different visions for internet telephony. H.323, backed by the ITU-T (the telecom standards body), brought the full complexity of the telephone network to [[ip|IP]]. It worked, but it was enormous \u2014 hundreds of pages of specifications, binary encoding, and tight coupling between components.\n\n[[sip]] took the opposite approach. Designed by Henning Schulzrinne, Mark Handley, and Eve Schooler, [[sip|SIP]] was modeled on [[http1]] \u2014 text-based, simple headers, {{stateless|stateless}} by default. Want to make a call? Send an INVITE. Want to hang up? Send a BYE. The protocol was so simple that you could debug it by reading the packets.\n\n[[sip|SIP]] won. Not because it was technically superior in every way, but because it was easier to understand, implement, and extend. The HTTP-inspired design meant web developers could grasp it quickly, and the loose coupling between {{signaling|signaling}} ([[sip]]), session description ([[sdp]]), and media transport ([[rtp]]) allowed each to evolve independently.`
+			text: `The late 1990s saw a battle between two fundamentally different visions for internet telephony. H.323, backed by the ITU-T (the telecom standards body), brought the full complexity of the telephone network to [[ip|IP]]. It worked, but it was enormous \u2014 hundreds of pages of specifications, binary encoding, and tight coupling between components.\n\n[[sip]] took the opposite approach. Designed by Henning Schulzrinne, Mark Handley, and Eve Schooler, [[sip|SIP]] was modeled on [[http1]] \u2014 text-based, simple headers, {{stateless|stateless}} by default. Want to make a call? Send an {{sip-invite|INVITE}}. Want to hang up? Send a BYE. The protocol was so simple that you could debug it by reading the packets.\n\n[[sip|SIP]] won. Not because it was technically superior in every way, but because it was easier to understand, implement, and extend. The {{http-method|HTTP}}-inspired design meant web developers could grasp it quickly, and the loose coupling between {{signaling|signaling}} ([[sip]]), session description ([[sdp]]), and media transport ([[rtp]]) allowed each to evolve independently.`
 		},
 		{
 			type: 'pioneers',
@@ -118,7 +118,7 @@ export const realtimeAvStory: CategoryStory = {
 					title: 'SIP Ecosystem Architect',
 					org: 'dynamicsoft / Cisco / Five9',
 					contribution:
-						'Designed critical [[sip|SIP]] infrastructure: {{stun|STUN}}, {{turn|TURN}}, and ICE for {{nat|NAT}} traversal, plus {{srtp|SRTP}} for encrypting media streams.'
+						'Designed critical [[sip|SIP]] infrastructure: {{stun|STUN}}, {{turn|TURN}}, and {{ice|ICE}} for {{nat|NAT}} traversal, plus {{srtp|SRTP}} for encrypting media streams.'
 				}
 			]
 		},
@@ -142,7 +142,7 @@ export const realtimeAvStory: CategoryStory = {
 					year: 2009,
 					title: 'HLS Announced by Apple',
 					description:
-						'HTTP Live Streaming reinvents media delivery. Instead of specialized streaming servers, use ordinary HTTP and CDNs.',
+						'{{http-method|HTTP}} Live Streaming reinvents media delivery. Instead of specialized streaming servers, use ordinary {{http-method|HTTP}} and CDNs.',
 					protocolId: 'hls'
 				},
 				{
@@ -190,7 +190,7 @@ export const realtimeAvStory: CategoryStory = {
 		{
 			type: 'narrative',
 			title: 'WebRTC \u2014 The Browser Revolution',
-			text: `In 2010, {{google|Google}} made a $68.2 million bet on real-time communication. They acquired Global [[ip|IP]] Solutions (GIPS), a Swedish company whose audio and video codecs powered Skype and dozens of other {{voip|VoIP}} applications. Then they did something remarkable: they open-sourced everything and began building it into Chrome.\n\n[[webrtc]] didn't invent new protocols \u2014 it combined existing ones. [[rtp]] for media transport, {{srtp|SRTP}} for {{encryption|encryption}}, ICE/{{stun|STUN}}/{{turn|TURN}} for {{nat|NAT}} traversal, [[sdp]] for session negotiation, and [[sctp]] for data channels. The genius was packaging all of this into a browser API that any web developer could use. No plugins, no installs, no special servers. Just JavaScript.\n\nJustin Uberti and Harald Alvestrand led the effort, navigating both the {{w3c|W3C}} (for the browser API) and the {{ietf|IETF}} (for the underlying protocols). The result was a platform that powers everything from {{google|Google}} Meet to telehealth appointments.`
+			text: `In 2010, {{google|Google}} made a $68.2 million bet on real-time communication. They acquired Global [[ip|IP]] Solutions (GIPS), a Swedish company whose audio and video codecs powered Skype and dozens of other {{voip|VoIP}} applications. Then they did something remarkable: they open-sourced everything and began building it into Chrome.\n\n[[webrtc]] didn't invent new protocols \u2014 it combined existing ones. [[rtp]] for media transport, {{srtp|SRTP}} for {{encryption|encryption}}, {{ice|ICE}}/{{stun|STUN}}/{{turn|TURN}} for {{nat|NAT}} traversal, [[sdp]] for session negotiation, and [[sctp]] for data channels. The genius was packaging all of this into a browser {{api|API}} that any web developer could use. No plugins, no installs, no special servers. Just JavaScript.\n\nJustin Uberti and Harald Alvestrand led the effort, navigating both the {{w3c|W3C}} (for the browser {{api|API}}) and the {{ietf|IETF}} (for the underlying protocols). The result was a platform that powers everything from {{google|Google}} Meet to telehealth appointments.`
 		},
 		{
 			type: 'image',
@@ -203,15 +203,15 @@ export const realtimeAvStory: CategoryStory = {
 		{
 			type: 'diagram',
 			definition: `graph TD
-  A["JavaScript API\n(getUserMedia, RTCPeerConnection)"] --> B[[[sdp|SDP]] \u2014 session negotiation]
-  A --> C[ICE / {{stun|STUN}} / {{turn|TURN}} \u2014 NAT traversal]
+  A["JavaScript {{api|API}}\n(getUserMedia, RTCPeerConnection)"] --> B[[[sdp|SDP]] \u2014 session negotiation]
+  A --> C[{{ice|ICE}} / {{stun|STUN}} / {{turn|TURN}} \u2014 {{nat|NAT}} traversal]
   C --> D[{{dtls|DTLS}} \u2014 key {{exchange|exchange}}]
   D --> E[{{srtp|SRTP}} \u2014 encrypted audio & video]
   D --> F[[[sctp|SCTP]] \u2014 data channels]
   E --> G[[[udp|UDP]]]
   F --> G`,
 			caption:
-				"[[webrtc|WebRTC]] didn't invent new protocols \u2014 it orchestrated existing ones into a browser API."
+				"[[webrtc|WebRTC]] didn't invent new protocols \u2014 it orchestrated existing ones into a browser {{api|API}}."
 		},
 		{
 			type: 'pioneers',
@@ -241,14 +241,14 @@ export const realtimeAvStory: CategoryStory = {
 					title: 'Creator of HLS',
 					org: 'Apple',
 					contribution:
-						'Designed HTTP Live Streaming, which reimagined media delivery by using standard HTTP and {{cdn|CDN}} infrastructure instead of specialized streaming servers.'
+						'Designed {{http-method|HTTP}} Live Streaming, which reimagined media delivery by using standard {{http-method|HTTP}} and {{cdn|CDN}} infrastructure instead of specialized streaming servers.'
 				}
 			]
 		},
 		{
 			type: 'callout',
 			title: 'Adaptive Streaming',
-			text: '[[hls|HLS]] transformed video delivery with a simple insight: chop a video into small HTTP-downloadable segments at multiple quality levels, and let the client switch qualities based on network conditions. No special servers needed \u2014 just a standard web server and {{cdn|CDN}}. Where [[rtmp]] once required Flash and specialized servers, today [[hls|HLS]] and [[dash|DASH]] deliver the majority of the world\u2019s streaming video, from Netflix to live sports.'
+			text: '[[hls|HLS]] transformed video delivery with a simple insight: chop a video into small {{http-method|HTTP}}-downloadable segments at multiple quality levels, and let the client switch qualities based on network conditions. No special servers needed \u2014 just a standard web server and {{cdn|CDN}}. Where [[rtmp]] once required Flash and specialized servers, today [[hls|HLS]] and [[dash|DASH]] deliver the majority of the world\u2019s streaming video, from Netflix to live sports.'
 		}
 	]
 };

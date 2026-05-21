@@ -41,7 +41,7 @@ The point of this chapter is to enumerate those patterns, name them, and note wh
 						{
 							type: 'narrative',
 							title: 'Handshakes — Establishing Mutual State',
-							text: `**Handshakes** establish state on both sides. SYN/SYN-{{ack|ACK}}/{{ack|ACK}} in [[tcp|TCP]]; {{client-hello|ClientHello}}/{{server-hello|ServerHello}}/Finished in [[tls|TLS]] 1.2 (RFC 5246) and the streamlined {{one-rtt|1-RTT}} {{handshake|handshake}} in [[tls|TLS]] 1.3 ([[rfc:8446|RFC 8446]], 2018); CONNECT/CONNACK in [[mqtt|MQTT]] 5; the [[sctp|SCTP]] four-way {{handshake|handshake}} (INIT, INIT-{{ack|ACK}}, {{cookie|COOKIE}}-ECHO, {{cookie|COOKIE}}-{{ack|ACK}}).
+							text: `**Handshakes** establish state on both sides. {{syn-cookies|SYN}}/{{syn-cookies|SYN}}-{{ack|ACK}}/{{ack|ACK}} in [[tcp|TCP]]; {{client-hello|ClientHello}}/{{server-hello|ServerHello}}/Finished in [[tls|TLS]] 1.2 ({{rfc-doc|RFC}} 5246) and the streamlined {{one-rtt|1-RTT}} {{handshake|handshake}} in [[tls|TLS]] 1.3 ([[rfc:8446|RFC 8446]], 2018); {{mqtt-connect|CONNECT}}/CONNACK in [[mqtt|MQTT]] 5; the [[sctp|SCTP]] four-way {{handshake|handshake}} ({{init-chunk|INIT}}, {{init-chunk|INIT}}-{{ack|ACK}}, {{cookie|COOKIE}}-ECHO, {{cookie|COOKIE}}-{{ack|ACK}}).
 
 The shape is always the same: party A proposes, party B confirms with its own proposal, party A acknowledges. The number of round-trips defines the connection setup {{latency|latency}}, and shrinking it is one of the recurring optimisations in protocol design. [[tls|TLS]] 1.3 went from two round-trips ([[tls|TLS]] 1.2) to one. [[quic|QUIC]] went from three round-trips for [[tcp|TCP]]+[[tls|TLS]] down to one — and to **zero** for resumption (sending application data in the very first packet, encrypted under a previously-established key).
 
@@ -61,9 +61,9 @@ Modern protocols inherit the same idea. [[quic|QUIC]] has per-stream and per-con
 							title: 'Keepalives, ECN, Consistent Hashing',
 							text: `**Keepalives** detect a dead {{peer|peer}} when no data is flowing. [[ssh|SSH]] sends a 1-byte {{ping|ping}} every 30 seconds. [[websockets|WebSocket]] has explicit Ping/Pong frames. [[http2|HTTP/2]] has PING frames. [[bgp|BGP]] sessions {{exchange|exchange}} KEEPALIVEs every 60 seconds; if no message arrives within 180 seconds (HoldTime), the session resets and routes are withdrawn — which is what cascaded into [[outage:centurylink-flowspec-2020|CenturyLink 2020]]. Without keepalives, a {{stateful|stateful}} {{firewall|firewall}} might silently drop the connection state and you'd notice only when you tried to send.
 
-**{{ecn|ECN}}** (Explicit Congestion {{notification|Notification}}, RFC 3168) lets routers signal congestion **without dropping packets**. Mark a 2-bit field in the [[ip|IP]] header, the receiver echoes it, the sender slows down. The future of low-{{latency|latency}} networking ([[frontier:l4s-comcast-launch|L4S]], RFCs 9330/9331/9332) depends entirely on {{ecn|ECN}} being widely supported. Comcast launched {{l4s|L4S}} in production in January 2025 across six US metros.
+**{{ecn|ECN}}** (Explicit Congestion {{notification|Notification}}, {{rfc-doc|RFC}} 3168) lets routers signal congestion **without dropping packets**. Mark a 2-bit field in the [[ip|IP]] header, the receiver echoes it, the sender slows down. The future of low-{{latency|latency}} networking ([[frontier:l4s-comcast-launch|L4S]], RFCs 9330/9331/9332) depends entirely on {{ecn|ECN}} being widely supported. Comcast launched {{l4s|L4S}} in production in January 2025 across six US metros.
 
-**Consistent hashing** distributes load across a fleet so that adding or removing a node only re-routes a fraction of traffic. Used in [[dns|DNS]] {{anycast|anycast}}, in {{cdn|CDN}} cache placement, in distributed databases like Cassandra and DynamoDB. The MIT 1997 paper by Karger et al. invented it; nearly every internet-scale system uses it now.
+**Consistent hashing** distributes load across a fleet so that adding or removing a node only re-routes a fraction of traffic. Used in [[dns|DNS]] {{anycast|anycast}}, in {{cdn|CDN}} cache placement, in distributed databases like Cassandra and DynamoDB. The {{mit|MIT}} 1997 paper by Karger et al. invented it; nearly every internet-scale system uses it now.
 
 **Idempotency keys** make retries safe — a request with the same key, sent twice, has the effect of being processed once. Stripe pioneered this for payments in 2015; it is now standard in [[rest|REST]] APIs, [[kafka|Kafka]] producers, and any system that needs at-least-once semantics without duplicate side effects.`
 						},
@@ -77,7 +77,7 @@ Modern protocols inherit the same idea. [[quic|QUIC]] has per-stream and per-con
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/TCP_Three-Way_Handshake.svg/500px-TCP_Three-Way_Handshake.svg.png',
 							alt: 'TCP three-way handshake — SYN, SYN-ACK, ACK between client and server.',
 							caption:
-								'The canonical **{{handshake|handshake}}**: [[tcp|TCP]]\'s **SYN → {{syn-ack|SYN-ACK}} → ACK** dance from [[rfc:9293|RFC 793]] in 1981. Every other {{handshake|handshake}} in this book — [[tls|TLS]] {{client-hello|ClientHello}}/{{server-hello|ServerHello}}/Finished, [[ssh|SSH]] KEX, [[mqtt|MQTT]] CONNECT/CONNACK, [[sctp|SCTP]]\'s four-way {{cookie|Cookie}} {{exchange|exchange}} — is a variation on this shape. Recognise the pattern once; recognise it in every other protocol you ever read.',
+								'The canonical **{{handshake|handshake}}**: [[tcp|TCP]]\'s **{{syn-cookies|SYN}} → {{syn-ack|SYN-ACK}} → {{ack|ACK}}** dance from [[rfc:9293|RFC 793]] in 1981. Every other {{handshake|handshake}} in this book — [[tls|TLS]] {{client-hello|ClientHello}}/{{server-hello|ServerHello}}/Finished, [[ssh|SSH]] KEX, [[mqtt|MQTT]] {{mqtt-connect|CONNECT}}/CONNACK, [[sctp|SCTP]]\'s four-way {{cookie|Cookie}} {{exchange|exchange}} — is a variation on this shape. Recognise the pattern once; recognise it in every other protocol you ever read.',
 							credit: 'Image: Wikimedia Commons / public domain'
 						}
 					]
@@ -117,7 +117,7 @@ The interesting failures are the ones where everything is "working" but nothing 
 
 The result: your video call stutters because someone in the next room started a download. The download is happily filling a 200 ms buffer with bursts; your video, sharing the same buffer, sits behind 200 ms of someone else's traffic.
 
-Jim Gettys named the problem in 2010 and spent the next decade getting it fixed. The cure was **{{aqm|active queue management}}** — CoDel (RFC 8289), PIE (RFC 8033), fq_codel (the {{linux|Linux}} default since kernel 4.x). These shrink queues by dropping packets early when {{latency|latency}} rises, signalling congestion to senders before the queue grows. The deeper fix is [[frontier:l4s-comcast-launch|L4S]], which uses {{ecn|ECN}} signalling to keep queues sub-millisecond even at full link utilisation.
+Jim Gettys named the problem in 2010 and spent the next decade getting it fixed. The cure was **{{aqm|active queue management}}** — CoDel ({{rfc-doc|RFC}} 8289), PIE ({{rfc-doc|RFC}} 8033), fq_codel (the {{linux|Linux}} default since kernel 4.x). These shrink queues by dropping packets early when {{latency|latency}} rises, signalling congestion to senders before the queue grows. The deeper fix is [[frontier:l4s-comcast-launch|L4S]], which uses {{ecn|ECN}} signalling to keep queues sub-millisecond even at full link utilisation.
 
 {{bufferbloat|Bufferbloat}} took fifteen years to deploy at scale because every cheap home router on the planet had to be replaced or firmware-updated. We are mostly there now.`
 						},
@@ -137,7 +137,7 @@ The fix is the only fix — tunnel inside something the middleboxes already acce
 
 **Microloops** — a routing convergence event temporarily creates a loop where two routers think the path goes through each other. Packets bounce until {{ttl|TTL}} hits zero. Lasts a few seconds; usually invisible unless you're tcpdumping.
 
-**{{mtu|MTU}} black holes** — a path drops large packets but does not return the [[icmp|ICMP]] "{{fragmentation|Fragmentation}} Needed" needed to signal Path {{mtu|MTU}}. The connection hangs because retransmits also fail. Cure: enable PLPMTUD (Packetisation Layer {{path-mtu-discovery|Path MTU Discovery}}, [[rfc:4821|RFC 4821]]) which probes packet sizes at the application layer; or set [[tcp|TCP]] {{mss|MSS}} clamping at network edges.
+**{{mtu|MTU}} black holes** — a path drops large packets but does not return the [[icmp|ICMP]] "{{fragmentation|Fragmentation}} Needed" needed to signal Path {{mtu|MTU}}. The connection hangs because retransmits also fail. Cure: enable {{plpmtud|PLPMTUD}} (Packetisation Layer {{path-mtu-discovery|Path MTU Discovery}}, [[rfc:4821|RFC 4821]]) which probes packet sizes at the application layer; or set [[tcp|TCP]] {{mss|MSS}} clamping at network edges.
 
 **Slowloris-style attacks** — hold connections open with minimal data, exhausting the server's connection table without burning attacker {{bandwidth|bandwidth}}. Defended by per-[[ip|IP]] connection limits, {{imap-idle|idle}} timeouts, and reverse proxies that buffer slow clients.
 
@@ -157,7 +157,7 @@ The fix is the only fix — tunnel inside something the middleboxes already acce
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/NAT_Concept-en.svg/500px-NAT_Concept-en.svg.png',
 							alt: 'NAT diagram showing private addresses translated to a single public address.',
 							caption:
-								'**{{nat|NAT}}** — Network Address Translation, ([[rfc:1918|RFC 1918]] + RFC 1631) — the middlebox that bought [[ip|IPv4]] a 30-year reprieve and also became the canonical *protocol ossification* device. New transports ([[sctp|SCTP]], [[mptcp|MPTCP]]) cannot traverse NATs that do not understand them; [[quic|QUIC]] tunnels inside [[udp|UDP]] specifically to escape this. Every protocol-failure-mode in this chapter has a NAT-shaped contribution somewhere in its origin story.',
+								'**{{nat|NAT}}** — Network Address Translation, ([[rfc:1918|RFC 1918]] + {{rfc-doc|RFC}} 1631) — the middlebox that bought [[ip|IPv4]] a 30-year reprieve and also became the canonical *protocol ossification* device. New transports ([[sctp|SCTP]], [[mptcp|MPTCP]]) cannot traverse NATs that do not understand them; [[quic|QUIC]] tunnels inside [[udp|UDP]] specifically to escape this. Every protocol-failure-mode in this chapter has a {{nat|NAT}}-shaped contribution somewhere in its origin story.',
 							credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 						}
 					]
@@ -190,12 +190,12 @@ The fix is the only fix — tunnel inside something the middleboxes already acce
 
 This worked when the internet was small. By 1986, with the NSFNET backbone scaling, it stopped working. In October 1986, throughput between Lawrence Berkeley Lab and UC Berkeley — three {{imp|IMP}} hops apart — collapsed from 32 kbps to 40 bps. A 1000× degradation. Senders kept retransmitting; the network melted.
 
-[[pioneer:van-jacobson|Van Jacobson]] and Mike Karels at Berkeley spent six months instrumenting and reading the BSD source. Their 1988 SIGCOMM paper, *"{{congestion-avoidance|Congestion Avoidance}} and Control,"* was the inflection point. Six algorithms in one paper. Saved the internet.`
+[[pioneer:van-jacobson|Van Jacobson]] and Mike Karels at Berkeley spent six months instrumenting and reading the {{bsd|BSD}} source. Their 1988 {{sigcomm-conf|SIGCOMM}} paper, *"{{congestion-avoidance|Congestion Avoidance}} and Control,"* was the inflection point. Six algorithms in one paper. Saved the internet.`
 						},
 						{
 							type: 'narrative',
 							title: 'Loss-Based Algorithms — The Long Lineage',
-							text: `**Tahoe (1988)**, by [[pioneer:van-jacobson|Van Jacobson]] and Mike Karels — the original. {{slow-start|Slow start}} (double cwnd every {{rtt|RTT}}), {{aimd|AIMD}} {{congestion-avoidance|congestion avoidance}} ({{aimd|additive increase, multiplicative decrease}}), fast retransmit on three duplicate ACKs, exponential RTO backoff. Shipped in 4.3BSD-Tahoe.
+							text: `**Tahoe (1988)**, by [[pioneer:van-jacobson|Van Jacobson]] and Mike Karels — the original. {{slow-start|Slow start}} (double cwnd every {{rtt|RTT}}), {{aimd|AIMD}} {{congestion-avoidance|congestion avoidance}} ({{aimd|additive increase, multiplicative decrease}}), fast retransmit on three duplicate ACKs, exponential {{rto-recovery|RTO}} backoff. Shipped in 4.3BSD-Tahoe.
 
 **Reno (1990)** — added fast recovery: when fast retransmit fires, halve the {{congestion-window|congestion window}} instead of dropping it to 1 {{mss|MSS}}. Less brutal on the sender; faster to recover.
 

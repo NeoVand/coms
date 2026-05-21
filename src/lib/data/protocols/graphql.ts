@@ -13,12 +13,12 @@ export const graphql: Protocol = {
 
 [[graphql|GraphQL]] has three operation types: queries (read data), mutations (write data), and subscriptions (real-time updates pushed from the server, typically over [[websockets|WebSockets]]). It operates over [[http1|HTTP]] (typically a single /graphql endpoint accepting both {{http-method|GET and POST}} requests). The query language lets you traverse relationships, request nested data, and combine what would be multiple [[rest|REST]] requests into a single query. It also has a strong type system — the schema defines every type, field, and relationship.
 
-It shines for complex frontends (mobile apps, SPAs) that need flexible data fetching. It's less ideal for simple CRUD operations where [[rest|REST]]'s simplicity wins.`,
+It shines for complex frontends (mobile apps, SPAs) that need flexible data fetching. It's less ideal for simple {{crud|CRUD}} operations where [[rest|REST]]'s simplicity wins.`,
 	howItWorks: [
 		{
 			title: 'Define schema',
 			description:
-				'Server defines a typed schema: types, fields, relationships, and resolvers. This is the API contract.'
+				'Server defines a typed schema: types, fields, relationships, and resolvers. This is the {{api|API}} contract.'
 		},
 		{
 			title: 'Client writes query',
@@ -84,7 +84,7 @@ print(data["user"]["name"], data["user"]["posts"])`,
 const response = await fetch('https://api.example.com/graphql', {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({
+  body: {{json|JSON}}.stringify({
     query,
     variables: { id: '42' }
   })

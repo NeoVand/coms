@@ -37,7 +37,7 @@ export const storyOfTheInternet: BookPart = {
 
 At {{xerox-parc|Xerox PARC}}, **[[pioneer:bob-metcalfe|Bob Metcalfe]]** and **[[pioneer:david-boggs|David Boggs]]** were building [[ethernet|Ethernet]] — a local-area network on coaxial cable where every host shouted onto the same wire and used carrier sensing to back off when collisions happened. The PARC Universal Packet (PUP), running over [[ethernet|Ethernet]], anticipated almost every architectural idea the internet would later canonise: variable-length packets, a thin internetworking layer, separate transport protocols above it.
 
-The third tradition was packet radio. ARPA's Packet Radio Network (PRNET, 1973) and the Atlantic Packet Satellite Network (SATNET, 1975) had to deal with hosts moving, links flickering, and {{bandwidth|bandwidth}} that varied by orders of magnitude. They could not assume an {{imp|IMP}}-style fabric beneath them. The question — how do you let a packet hop from [[ethernet|Ethernet]] to {{arpanet|ARPANET}} to a satellite link without any of them knowing about the others? — was the question that produced the internet.`
+The third tradition was packet radio. ARPA's Packet Radio Network (PRNET, 1973) and the Atlantic Packet Satellite Network (SATNET, 1975) had to deal with {{hosts-bare|hosts}} moving, links flickering, and {{bandwidth|bandwidth}} that varied by orders of magnitude. They could not assume an {{imp|IMP}}-style fabric beneath them. The question — how do you let a packet hop from [[ethernet|Ethernet]] to {{arpanet|ARPANET}} to a satellite link without any of them knowing about the others? — was the question that produced the internet.`
 						},
 						{
 							type: 'callout',
@@ -75,7 +75,7 @@ The third tradition was packet radio. ARPA's Packet Radio Network (PRNET, 1973) 
 		{
 			id: 'the-1981-burst',
 			title: 'The 1981–83 Standardisation Burst',
-			synopsis: '[[rfc:791|RFC 791]]/792/793, the {{arpanet|ARPANET}} {{flag-day-1983|flag day}}, and IEEE 802.3 ratified — three years that locked in the stack.',
+			synopsis: '[[rfc:791|RFC 791]]/792/793, the {{arpanet|ARPANET}} {{flag-day-1983|flag day}}, and {{ieee-802-15-4|IEEE}} 802.3 ratified — three years that locked in the stack.',
 			slots: [
 				{
 					kind: 'prose',
@@ -83,13 +83,13 @@ The third tradition was packet radio. ARPA's Packet Radio Network (PRNET, 1973) 
 						{
 							type: 'narrative',
 							title: 'Three Years That Decided Everything',
-							text: `Between January 1980 and January 1983, the internet went from a research curiosity to a system you could rely on. The architectural decision had already been made — split the original combined Transmission Control Program into a thin internetworking layer ([[ip|IP]]) underneath and an end-to-end transport ([[tcp|TCP]]) above it — but the **specifications** needed to harden, and a critical mass of hosts had to actually convert.
+							text: `Between January 1980 and January 1983, the internet went from a research curiosity to a system you could rely on. The architectural decision had already been made — split the original combined Transmission Control Program into a thin internetworking layer ([[ip|IP]]) underneath and an end-to-end transport ([[tcp|TCP]]) above it — but the **specifications** needed to harden, and a critical mass of {{hosts-bare|hosts}} had to actually convert.
 
 In **September 1981**, [[pioneer:jon-postel|Jon Postel]] at ISI shipped three RFCs in rapid succession: [[rfc:791|RFC 791]] (Internet Protocol), [[rfc:792|RFC 792]] ([[icmp|ICMP]]), and [[rfc:9293|RFC 793]] (Transmission Control Protocol). These are the documents the modern internet still cites — [[rfc:793|RFC 793]] was the canonical [[tcp|TCP]] specification for the next 41 years, until [[rfc:9293|RFC 9293]] obsoleted it in 2022.
 
 On **1 January 1983**, {{arpanet|ARPANET}} executed its famous "{{flag-day-1983|flag day}}": {{ncp|NCP}} was switched off, and [[tcp|TCP]]/[[ip|IP]] became the only protocol allowed on the network. Roughly 400 hosts had to convert; sites that missed the deadline simply lost connectivity. Survivors got buttons reading **I survived the [[tcp|TCP]]/[[ip|IP]] transition**. Most historians treat this date as the birthday of the modern internet.
 
-In parallel, the IEEE 802.3 working group ratified its [[ethernet|Ethernet]] standard (originally a Xerox/DEC/{{intel|Intel}} collaboration). LAN technology and WAN technology now had a clean interface — the [[ip|IP]] packet — and could evolve independently. That separation has held for forty-three years.`
+In parallel, the {{ieee-802-15-4|IEEE}} 802.3 working group ratified its [[ethernet|Ethernet]] standard (originally a Xerox/DEC/{{intel|Intel}} collaboration). {{lan|LAN}} technology and {{wan|WAN}} technology now had a clean interface — the [[ip|IP]] packet — and could evolve independently. That separation has held for forty-three years.`
 						},
 						{
 							type: 'narrative',
@@ -131,9 +131,9 @@ This is the deepest principle of the era: **separate what changes together from 
 						{
 							type: 'narrative',
 							title: 'The First Collapse',
-							text: `In October 1986, the internet broke for the first time. Throughput between Lawrence Berkeley Lab and UC Berkeley — three {{imp|IMP}} hops apart, less than 400 yards of physical distance — collapsed from 32 kbps to 40 bps. A 1000× degradation. The cause was [[tcp|TCP]] itself: early BSD [[tcp|TCP]] retransmitted aggressively when ACKs were late, and as the network filled up, every {{retransmission|retransmission}} only added to the congestion. The senders kept piling on; the network kept melting.
+							text: `In October 1986, the internet broke for the first time. Throughput between Lawrence Berkeley Lab and UC Berkeley — three {{imp|IMP}} hops apart, less than 400 yards of physical distance — collapsed from 32 kbps to 40 bps. A 1000× degradation. The cause was [[tcp|TCP]] itself: early {{bsd|BSD}} [[tcp|TCP]] retransmitted aggressively when ACKs were late, and as the network filled up, every {{retransmission|retransmission}} only added to the congestion. The senders kept piling on; the network kept melting.
 
-[[pioneer:van-jacobson|Van Jacobson]] and Mike Karels at Berkeley spent six months instrumenting the wire and reading the BSD source. Their 1988 SIGCOMM paper, **"{{congestion-avoidance|Congestion Avoidance}} and Control,"** introduced six algorithms in one paper: **{{slow-start|slow start}}**, **{{aimd|AIMD}} {{congestion-avoidance|congestion avoidance}}**, **fast retransmit**, **fast recovery**, **exponential RTO backoff**, and a refined **{{rtt|RTT}} estimator**. The fixes shipped in 4.3BSD-Tahoe and saved the internet.
+[[pioneer:van-jacobson|Van Jacobson]] and Mike Karels at Berkeley spent six months instrumenting the wire and reading the {{bsd|BSD}} source. Their 1988 {{sigcomm-conf|SIGCOMM}} paper, **"{{congestion-avoidance|Congestion Avoidance}} and Control,"** introduced six algorithms in one paper: **{{slow-start|slow start}}**, **{{aimd|AIMD}} {{congestion-avoidance|congestion avoidance}}**, **fast retransmit**, **fast recovery**, **exponential {{rto-recovery|RTO}} backoff**, and a refined **{{rtt|RTT}} estimator**. The fixes shipped in 4.3BSD-Tahoe and saved the internet.
 
 The deeper principle they articulated — **conservation of packets** — has held up for nearly forty years. A sender should put one packet into the network only when an {{ack|ACK}} confirms a previous packet has left it. Everything since, including [[quic|QUIC]] in 2021 and {{google|Google}}'s {{bbr|BBR}} in 2016, is variations on that theme.`
 						},
@@ -142,7 +142,7 @@ The deeper principle they articulated — **conservation of packets** — has he
 							title: 'Why "Three Duplicate ACKs"?',
 							text: `One mechanical detail from the 1988 paper deserves a paragraph because it shows up in every [[tcp|TCP]] stack today. Jacobson's **fast retransmit** triggers when the sender sees **three duplicate ACKs** — three acknowledgements all naming the same next-expected-byte. Why three?
 
-The intuition is reordering tolerance. A single duplicate {{ack|ACK}} could mean a packet was reordered by the network and arrived out of sequence. Two duplicates is suspicious but still possibly reordering. Three duplicates means the packet is almost certainly *lost*, not just reordered — the receiver has seen three later packets without seeing the one in question. Jacobson chose three as the threshold that minimised false retransmits in the BSD measurements.
+The intuition is reordering tolerance. A single duplicate {{ack|ACK}} could mean a packet was reordered by the network and arrived out of sequence. Two duplicates is suspicious but still possibly reordering. Three duplicates means the packet is almost certainly *lost*, not just reordered — the receiver has seen three later packets without seeing the one in question. Jacobson chose three as the threshold that minimised false retransmits in the {{bsd|BSD}} measurements.
 
 Forty years later, three duplicate ACKs is still the trigger. The number is hard-coded into [[rfc:5681|RFC 5681]] and every modern [[tcp|TCP]] implementation. **{{cubic|CUBIC}}, {{bbr|BBR}}, NewReno** all inherit it unchanged. The mechanism is so universal that it now has a name everyone knows — *fast retransmit* — and a paper-trail back to a single 1988 design choice.
 
@@ -177,9 +177,9 @@ The 1986 collapse is the moment [[tcp|TCP]] went from working-most-of-the-time t
 						{
 							type: 'narrative',
 							title: 'A Standards War Decided by Implementation',
-							text: `Through the late 1980s and early 1990s, almost everyone official believed [[tcp|TCP/IP]] was a research project that would soon be replaced by the **real** networking future: the OSI suite. ISO and the ITU-T were promoting a seven-layer stack with proper transport (TP4), proper internetworking (CLNP), and proper application protocols (X.400 mail, X.500 directory). The U.S. government had a procurement mandate called GOSIP that **required** OSI for federal systems. European PTTs threw their weight behind it. Universities taught it from textbooks.
+							text: `Through the late 1980s and early 1990s, almost everyone official believed [[tcp|TCP/IP]] was a research project that would soon be replaced by the **real** networking future: the {{osi-model|OSI}} suite. {{iso|ISO}} and the ITU-T were promoting a seven-layer stack with proper transport (TP4), proper internetworking (CLNP), and proper application protocols (X.400 mail, X.500 directory). The U.S. government had a procurement mandate called GOSIP that **required** {{osi-model|OSI}} for federal systems. European PTTs threw their weight behind it. Universities taught it from textbooks.
 
-The trouble was, OSI shipped specifications. The {{ietf|IETF}} shipped code.
+The trouble was, {{osi-model|OSI}} shipped specifications. The {{ietf|IETF}} shipped code.
 
 In July 1992, **[[pioneer:david-clark|David Clark]]** gave a talk at the 24th {{ietf|IETF}} meeting in Cambridge titled **"A Cloudy Crystal Ball — Visions of the Future."** Halfway through, he distilled the working culture of the {{ietf|IETF}} into a sentence that decided the question:`
 						},
@@ -188,7 +188,7 @@ In July 1992, **[[pioneer:david-clark|David Clark]]** gave a talk at the 24th {{
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/OSI_Model_v1.svg/500px-OSI_Model_v1.svg.png',
 							alt: 'The seven-layer OSI Reference Model diagram.',
 							caption:
-								'The seven-layer **OSI Reference Model** — the architecture every textbook still teaches, every standards body in the late 1980s endorsed, and every commercial deployment quietly bypassed. The [[tcp|TCP/IP]] stack that actually won shipped four layers, not seven, and was running production traffic before OSI finished writing the spec for its session layer.',
+								'The seven-layer **{{osi-model|OSI}} Reference Model** — the architecture every textbook still teaches, every standards body in the late 1980s endorsed, and every commercial deployment quietly bypassed. The [[tcp|TCP/IP]] stack that actually won shipped four layers, not seven, and was running production traffic before {{osi-model|OSI}} finished writing the spec for its session layer.',
 							credit: 'Image: Wikimedia Commons / public domain'
 						}
 					]
@@ -203,9 +203,9 @@ In July 1992, **[[pioneer:david-clark|David Clark]]** gave a talk at the 24th {{
 					sections: [
 						{
 							type: 'narrative',
-							text: `That line travels well because it is precise. **Rough** consensus, not unanimous — small minorities cannot block. **Running** code, not just specifications — your idea must be implementable and demonstrable. Together they describe a process that ships things, accepts that some of them are wrong, and iterates. OSI's process did the opposite: write the perfect specification, ratify it through votes, deploy it once.
+							text: `That line travels well because it is precise. **Rough** consensus, not unanimous — small minorities cannot block. **Running** code, not just specifications — your idea must be implementable and demonstrable. Together they describe a process that ships things, accepts that some of them are wrong, and iterates. {{osi-model|OSI}}'s process did the opposite: write the perfect specification, ratify it through votes, deploy it once.
 
-By 1995, OSI was effectively dead in production networks. CLNP survived in IS-IS routing and as the trace heritage in [[ipv6|IPv6]]'s addressing model. X.500 became LDAP. X.400 lost to [[smtp|SMTP]]. The lesson was generalised across the industry: the {{ietf|IETF}}'s **running code** test became the default expectation everywhere standards were made, including the {{w3c|W3C}} and later the WHATWG.`
+By 1995, {{osi-model|OSI}} was effectively dead in production networks. CLNP survived in {{isis|IS-IS}} routing and as the trace heritage in [[ipv6|IPv6]]'s addressing model. X.500 became LDAP. X.400 lost to [[smtp|SMTP]]. The lesson was generalised across the industry: the {{ietf|IETF}}'s **running code** test became the default expectation everywhere standards were made, including the {{w3c|W3C}} and later the WHATWG.`
 						}
 					]
 				},
@@ -215,7 +215,7 @@ By 1995, OSI was effectively dead in production networks. CLNP survived in IS-IS
 		{
 			id: 'the-web-arrives',
 			title: 'The Web Is Built On Top',
-			synopsis: 'CERN, [[http1|hypertext]], and a NeXT cube in the corner.',
+			synopsis: '{{cern|CERN}}, [[http1|hypertext]], and a NeXT cube in the corner.',
 			slots: [
 				{
 					kind: 'prose',
@@ -223,27 +223,27 @@ By 1995, OSI was effectively dead in production networks. CLNP survived in IS-IS
 						{
 							type: 'narrative',
 							title: 'A Manager\'s Side Project',
-							text: `In March 1989, **[[pioneer:tim-berners-lee|Tim Berners-Lee]]** circulated a memo at CERN titled **"Information Management: A Proposal."** His manager, Mike Sendall, scribbled "vague but exciting" on the cover. The proposal described a system where documents on different machines could link to each other through hypertext, retrieved by a uniform addressing scheme.
+							text: `In March 1989, **[[pioneer:tim-berners-lee|Tim Berners-Lee]]** circulated a memo at {{cern|CERN}} titled **"Information Management: A Proposal."** His manager, Mike Sendall, scribbled "vague but exciting" on the cover. The proposal described a system where documents on different machines could link to each other through hypertext, retrieved by a uniform addressing scheme.
 
-By Christmas 1990, on a NeXT workstation in his office, Berners-Lee had built the first **web server** (info.cern.ch), the first **web browser** (also a WYSIWYG editor), and the first three protocols he needed: HTTP for transport, HTML for markup, and URLs for addressing. The whole system rode on top of [[tcp|TCP]] — that was the entire architectural assumption. It did not have to invent transport, ordering, {{retransmission|retransmission}}, or addressing. The internet had already solved those.
+By Christmas 1990, on a NeXT workstation in his office, Berners-Lee had built the first **web server** (info.cern.ch), the first **web browser** (also a WYSIWYG editor), and the first three protocols he needed: {{http-method|HTTP}} for transport, {{html|HTML}} for markup, and URLs for addressing. The whole system rode on top of [[tcp|TCP]] — that was the entire architectural assumption. It did not have to invent transport, ordering, {{retransmission|retransmission}}, or addressing. The internet had already solved those.
 
 That is the deepest lesson of the web's success. It was an **application** — an application that benefited from a layered stack underneath that worked. [[http1|HTTP/1.0]] (1996), [[http1|HTTP/1.1]] (1997), [[http2|HTTP/2]] (2015), and [[http3|HTTP/3]] (2022) have all evolved within that frame, and every one of them is still 'just' a way to ask one host to send another some bytes.`
 						},
 						{
 							type: 'narrative',
 							title: 'CERN Released It Royalty-Free',
-							text: `On **30 April 1993**, CERN released the World Wide Web technology — server, browser, line-mode reader, and the protocol specifications — into the public domain. The document is one of the most consequential pieces of paper in computing history. It was a deliberate decision by CERN's management, against the institutional instinct to license the research, that the web should be free for anyone to implement.
+							text: `On **30 April 1993**, {{cern|CERN}} released the World Wide Web technology — server, browser, line-mode reader, and the protocol specifications — into the public domain. The document is one of the most consequential pieces of paper in computing history. It was a deliberate decision by {{cern|CERN}}'s management, against the institutional instinct to license the research, that the web should be free for anyone to implement.
 
-The 1993 release is the reason there is no {{microsoft|Microsoft}} web, no {{apple|Apple}} web, no IBM web. Within twelve months, **Mosaic** (NCSA, Marc Andreessen + Eric Bina, January 1993) had become the first popular graphical browser. Andreessen co-founded Netscape later that year. {{microsoft|Microsoft}} licensed the Spyglass / Mosaic codebase as the seed of Internet Explorer in 1995. By 1996, the browser wars were under way — but every combatant was building on the public-domain CERN spec.
+The 1993 release is the reason there is no {{microsoft|Microsoft}} web, no {{apple|Apple}} web, no {{ibm|IBM}} web. Within twelve months, **Mosaic** (NCSA, Marc Andreessen + Eric Bina, January 1993) had become the first popular graphical browser. Andreessen co-founded Netscape later that year. {{microsoft|Microsoft}} licensed the Spyglass / Mosaic codebase as the seed of Internet Explorer in 1995. By 1996, the browser wars were under way — but every combatant was building on the public-domain {{cern|CERN}} spec.
 
-The architectural lesson the web carried forward: an application that succeeds at internet scale must be **open enough that competitors can implement it**. HTTP succeeded for the same reason [[tcp|TCP]]/[[ip|IP]] succeeded — the spec was public, the reference implementation was free, and anyone could build a compatible {{peer|peer}}. Every walled-garden alternative ({{microsoft|Microsoft}}'s MSN, AOL's keywords, Compuserve, even {{apple|Apple}}'s later eWorld) lost to the open web.`
+The architectural lesson the web carried forward: an application that succeeds at internet scale must be **open enough that competitors can implement it**. {{http-method|HTTP}} succeeded for the same reason [[tcp|TCP]]/[[ip|IP]] succeeded — the spec was public, the reference implementation was free, and anyone could build a compatible {{peer|peer}}. Every walled-garden alternative ({{microsoft|Microsoft}}'s MSN, AOL's keywords, Compuserve, even {{apple|Apple}}'s later eWorld) lost to the open web.`
 						},
 						{
 							type: 'image',
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d1/First_Web_Server.jpg/500px-First_Web_Server.jpg',
 							alt: 'Tim Berners-Lee\'s NeXTcube — the world\'s first web server, displayed at CERN with a "do not power down" note on the front.',
 							caption:
-								'The NeXTcube on which [[pioneer:tim-berners-lee|Berners-Lee]] ran the world\'s first web server (info.cern.ch) at CERN in 1990. The "Do not power down" sticker is original — for years this single machine was the entire web.',
+								'The NeXTcube on which [[pioneer:tim-berners-lee|Berners-Lee]] ran the world\'s first web server (info.cern.ch) at {{cern|CERN}} in 1990. The "Do not power down" sticker is original — for years this single machine was the entire web.',
 							credit: 'Photo: Coolcaesar, CC BY-SA 3.0, via Wikimedia Commons'
 						}
 					]
@@ -268,7 +268,7 @@ The architectural lesson the web carried forward: an application that succeeds a
 						{
 							type: 'narrative',
 							title: 'When the Network Got Personal',
-							text: `From 2007 onward, the internet stopped being a thing you logged into from a desktop and became a thing in your pocket. The iPhone shipped in June 2007 with a [[wifi|Wi-Fi]]/EDGE radio; the App Store followed in 2008; LTE in 2010. Within a decade, mobile traffic dwarfed fixed-line traffic almost everywhere.
+							text: `From 2007 onward, the internet stopped being a thing you logged into from a desktop and became a thing in your pocket. The iPhone shipped in June 2007 with a [[wifi|Wi-Fi]]/EDGE radio; the App Store followed in 2008; {{lte|LTE}} in 2010. Within a decade, mobile traffic dwarfed fixed-line traffic almost everywhere.
 
 That changed two assumptions in [[tcp|TCP]] design. First, the **last-mile {{bandwidth|bandwidth}} varied wildly** — a hand turning the user 90° could change throughput by 10×. Second, **buffers grew enormously**. Cheap memory meant routers and home modems were shipped with multi-megabyte queues, ostensibly to absorb bursts but actually to hide congestion from the senders that needed to see it. The result was **{{bufferbloat|bufferbloat}}**: queues that grew to seconds of {{latency|latency}} under load, defeating the entire {{aimd|AIMD}} signalling mechanism Jacobson had built. Your video call stuttered because someone in the next room started a download.
 
@@ -284,7 +284,7 @@ The fix took fifteen years. **{{aqm|Active queue management}}** (CoDel, fq_codel
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Steve_Jobs_presents_iPhone.jpg/500px-Steve_Jobs_presents_iPhone.jpg',
 							alt: 'Steve Jobs at Macworld 2007 announcing the original iPhone.',
 							caption:
-								'Steve Jobs unveils the original iPhone at Macworld San Francisco, **9 January 2007**. The device shipped on 29 June 2007 with [[wifi|Wi-Fi]] + EDGE; the App Store followed in July 2008; LTE in 2010. Within a decade, mobile traffic dwarfed fixed-line traffic almost everywhere — and {{bufferbloat|bufferbloat}}, the AQM revolution, and eventually [[quic|QUIC]] are all downstream of the device in this photograph.',
+								'Steve Jobs unveils the original iPhone at Macworld San Francisco, **9 January 2007**. The device shipped on 29 June 2007 with [[wifi|Wi-Fi]] + EDGE; the App Store followed in July 2008; {{lte|LTE}} in 2010. Within a decade, mobile traffic dwarfed fixed-line traffic almost everywhere — and {{bufferbloat|bufferbloat}}, the {{aqm|AQM}} revolution, and eventually [[quic|QUIC]] are all downstream of the device in this photograph.',
 							credit: 'Photo: Wikimedia Commons / fair use, public-relations release'
 						}
 					]
@@ -306,9 +306,9 @@ The fix took fifteen years. **{{aqm|Active queue management}}** (CoDel, fq_codel
 							title: 'Why a New Transport in 2012',
 							text: `By 2012, [[tcp|TCP]] had a problem nobody could fix. Operating-system kernels shipped its implementation. Middleboxes — firewalls, {{nat|NAT}} routers, transparent proxies — inspected and modified its headers. Anything you wanted to add to [[tcp|TCP]] (TFO, [[mptcp|MPTCP]], {{sack|SACK}} Permitted) had to survive being mangled by every intermediate device on the planet. The protocol had **ossified**: even {{google|Google}}, with its enormous deployment leverage, could not roll out new [[tcp|TCP]] features in less than a decade.
 
-The [[quic|QUIC]] project, started by **[[pioneer:jim-roskind|Jim Roskind]]** at {{google|Google}} in 2012, took a radically different bet. Instead of fighting the middleboxes, [[quic|QUIC]] would tunnel a brand-new transport inside [[udp|UDP]] datagrams that middleboxes already had to forward unchanged. Inside that tunnel: a [[tls|TLS]] 1.3 {{handshake|handshake}} that combined transport and crypto setup into a single round-trip; per-stream sequencing that eliminated {{head-of-line-blocking|head-of-line blocking}}; and the entire protocol implemented in user space, where applications could deploy improvements monthly instead of waiting for the next OS release.
+The [[quic|QUIC]] project, started by **[[pioneer:jim-roskind|Jim Roskind]]** at {{google|Google}} in 2012, took a radically different bet. Instead of fighting the middleboxes, [[quic|QUIC]] would tunnel a brand-new transport inside [[udp|UDP]] datagrams that middleboxes already had to forward unchanged. Inside that tunnel: a [[tls|TLS]] 1.3 {{handshake|handshake}} that combined transport and crypto setup into a single round-trip; per-stream sequencing that eliminated {{head-of-line-blocking|head-of-line blocking}}; and the entire protocol implemented in user space, where applications could deploy improvements monthly instead of waiting for the next {{os|OS}} release.
 
-[[rfc:9000|RFC 9000]] standardised [[quic|QUIC]] in May 2021. By 2025, [[quic|QUIC]] carried 35% of all websites and over 75% of {{meta|Meta}}'s internet traffic. [[http3|HTTP/3]] — HTTP over [[quic|QUIC]] — became the default transport choice for most large platforms. The same architectural move that made [[quic|QUIC]] possible (user-space transport on [[udp|UDP]]) is now what makes [[mptcp|multipath QUIC]], MoQ live streaming, and [[http3|HTTP/3]] datagrams possible. Ossification, finally, has a release valve.`
+[[rfc:9000|RFC 9000]] standardised [[quic|QUIC]] in May 2021. By 2025, [[quic|QUIC]] carried 35% of all websites and over 75% of {{meta|Meta}}'s internet traffic. [[http3|HTTP/3]] — {{http-method|HTTP}} over [[quic|QUIC]] — became the default transport choice for most large platforms. The same architectural move that made [[quic|QUIC]] possible (user-space transport on [[udp|UDP]]) is now what makes [[mptcp|multipath QUIC]], MoQ live streaming, and [[http3|HTTP/3]] datagrams possible. Ossification, finally, has a release valve.`
 						},
 						{
 							type: 'narrative',
@@ -350,9 +350,9 @@ This is the structural lesson of the late-2010s protocol-design era: **{{encrypt
 						{
 							type: 'narrative',
 							title: 'A Protocol Layer Designed for Software That Reasons',
-							text: `For fifteen years after [[websockets|WebSockets]] (2011), the application layer of the internet was settled. [[http1|HTTP]] (in three versions), [[grpc|gRPC]] for service-to-service RPC, [[graphql|GraphQL]] when you needed a flexible query model, and a long tail of older protocols ([[smtp|SMTP]], [[imap|IMAP]], [[xmpp|XMPP]], [[mqtt|MQTT]]) holding their niches. Nothing genuinely new happened at L7 between 2011 and 2024.
+							text: `For fifteen years after [[websockets|WebSockets]] (2011), the application layer of the internet was settled. [[http1|HTTP]] (in three versions), [[grpc|gRPC]] for service-to-service {{rpc|RPC}}, [[graphql|GraphQL]] when you needed a flexible query model, and a long tail of older protocols ([[smtp|SMTP]], [[imap|IMAP]], [[xmpp|XMPP]], [[mqtt|MQTT]]) holding their niches. Nothing genuinely new happened at L7 between 2011 and 2024.
 
-In November 2024, {{anthropic|Anthropic}} published the **Model Context Protocol** — [[mcp|MCP]]. The premise was simple: AI coding assistants and chat agents needed a standard way to talk to tools (file systems, databases, APIs, internal systems) without each pair re-inventing the integration. Within a year, [[mcp|MCP]] had streaming HTTP transport ([[frontier:mcp-streamable-http|MCP-streamable-HTTP]]), thousands of [[mcp|MCP]] servers in the registry, and first-class support across major model providers.
+In November 2024, {{anthropic|Anthropic}} published the **Model Context Protocol** — [[mcp|MCP]]. The premise was simple: {{ai|AI}} coding assistants and chat agents needed a standard way to talk to tools (file systems, databases, APIs, internal systems) without each pair re-inventing the integration. Within a year, [[mcp|MCP]] had streaming {{http-method|HTTP}} transport ([[frontier:mcp-streamable-http|MCP-streamable-HTTP]]), thousands of [[mcp|MCP]] servers in the registry, and first-class support across major model providers.
 
 In April 2025, {{google|Google}} followed with **Agent2Agent Protocol** — [[a2a|A2A]] — for agent-to-agent collaboration: capability discovery, task delegation, asynchronous event streams. [[a2a|A2A]] moved into the [[frontier:a2a-linux-foundation|Linux Foundation]] in mid-2025.
 
@@ -363,7 +363,7 @@ These protocols are recognisably **internet**. They run over [[http3|HTTP/3]]. T
 							src: 'https://upload.wikimedia.org/wikipedia/commons/d/d5/Model_Context_Protocol_Component_diagram.svg',
 							alt: 'The Model Context Protocol component diagram — Host, Client, Server, and Tools.',
 							caption:
-								'The **[[mcp|Model Context Protocol]]** component model. A Host runs one or more Clients; each Client connects to one Server; each Server exposes some combination of **Tools** (functions the agent can call), **Resources** (data the agent can read), and **Prompts** (templates the agent can invoke). {{anthropic|Anthropic}} published the spec in November 2024; by 2026 every major AI host (Claude, ChatGPT, Cursor, Windsurf) speaks it and thousands of servers exist in the registry. The first genuinely new L7 protocol since [[websockets|WebSockets]] in 2011.',
+								'The **[[mcp|Model Context Protocol]]** component model. A Host runs one or more Clients; each Client connects to one Server; each Server exposes some combination of **Tools** (functions the agent can call), **Resources** (data the agent can read), and **Prompts** (templates the agent can invoke). {{anthropic|Anthropic}} published the spec in November 2024; by 2026 every major {{ai|AI}} host (Claude, ChatGPT, Cursor, Windsurf) speaks it and thousands of servers exist in the registry. The first genuinely new L7 protocol since [[websockets|WebSockets]] in 2011.',
 							credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 						}
 					]
@@ -374,7 +374,7 @@ These protocols are recognisably **internet**. They run over [[http3|HTTP/3]]. T
 				{ kind: 'frontier', id: 'a2a-linux-foundation' },
 				{
 					kind: 'pull-quote',
-					text: 'The protocols of the AI age are not separate from the internet. They are the internet, applied to a new kind of client.',
+					text: 'The protocols of the {{ai|AI}} age are not separate from the internet. They are the internet, applied to a new kind of client.',
 					attribution: 'Author'
 				}
 			]

@@ -8,7 +8,7 @@ export const grpc: Protocol = {
 	port: 443,
 	year: 2015,
 	rfc: undefined,
-	oneLiner: 'High-performance RPC framework using {{protocol-buffers|Protocol Buffers}} over [[http2|HTTP/2]].',
+	oneLiner: 'High-performance {{rpc|RPC}} framework using {{protocol-buffers|Protocol Buffers}} over [[http2|HTTP/2]].',
 	overview: `[[grpc|gRPC]] is {{google|Google}}'s open-source framework for remote procedure calls. Instead of designing [[rest|REST]] endpoints and manually serializing {{json|JSON}}, you define your service and messages in {{protocol-buffers|Protocol Buffers}} (.proto files), and [[grpc|gRPC]] generates strongly-typed client and server code in 11 languages.
 
 It uses [[http2|HTTP/2]] for transport, gaining {{multiplexing|multiplexing}} and {{header|header}} compression for free. Messages are serialized as {{protocol-buffers|Protocol Buffers}} — a binary format that's 3-10x smaller and 3-10x faster to parse than {{json|JSON}}. [[grpc|gRPC]] also natively supports {{stream|streaming}}: server-streaming, client-streaming, and bidirectional streaming.
@@ -18,7 +18,7 @@ It uses [[http2|HTTP/2]] for transport, gaining {{multiplexing|multiplexing}} an
 		{
 			title: 'Define service in .proto',
 			description:
-				'You write a .proto file defining your service methods and message types. This is the single source of truth for your API contract.'
+				'You write a .proto file defining your service methods and message types. This is the single source of truth for your {{api|API}} contract.'
 		},
 		{
 			title: 'Generate code',

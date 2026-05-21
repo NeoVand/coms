@@ -9,17 +9,17 @@ export const mcp: Protocol = {
 	year: 2024,
 	rfc: undefined,
 	oneLiner:
-		'A universal interface that lets AI applications discover and use tools, data, and prompts from any server.',
-	overview: `[[mcp|MCP]] is the protocol that solved the AI integration problem. Before [[mcp|MCP]], every AI application needed custom code for every data source — connecting Claude to your database was a different project than connecting it to GitHub, which was different again from connecting it to Slack. An N-clients × M-tools matrix of bespoke integrations. [[mcp|MCP]] collapses this to N + M: each AI host implements the [[mcp|MCP]] client once, each tool implements the [[mcp|MCP]] server once, and they all interoperate.
+		'A universal interface that lets {{ai|AI}} applications discover and use tools, data, and prompts from any server.',
+	overview: `[[mcp|MCP]] is the protocol that solved the {{ai|AI}} integration problem. Before [[mcp|MCP]], every {{ai|AI}} application needed custom code for every data source — connecting Claude to your database was a different project than connecting it to GitHub, which was different again from connecting it to Slack. An N-clients × M-tools matrix of bespoke integrations. [[mcp|MCP]] collapses this to N + M: each {{ai|AI}} host implements the [[mcp|MCP]] client once, each tool implements the [[mcp|MCP]] server once, and they all interoperate.
 
-{{anthropic|Anthropic}} released [[mcp|MCP]] in November 2024, and it was quickly adopted across the industry — Claude, ChatGPT, Copilot, Cursor, VS Code, and Replit all speak [[mcp|MCP]]. The protocol uses [[json-rpc|JSON-RPC]] 2.0 as its wire format, running over two transports: {{stdio|stdio}} (for local tools spawned as subprocesses) and Streamable HTTP (for remote servers, where responses can upgrade to [[sse|SSE]] streams). A three-step initialization {{handshake|handshake}} negotiates capabilities: the client declares what it supports ({{sampling|sampling}}, roots, elicitation), the server declares what it offers (tools, resources, prompts), and both sides confirm readiness.
+{{anthropic|Anthropic}} released [[mcp|MCP]] in November 2024, and it was quickly adopted across the industry — Claude, ChatGPT, Copilot, Cursor, VS Code, and Replit all speak [[mcp|MCP]]. The protocol uses [[json-rpc|JSON-RPC]] 2.0 as its wire format, running over two transports: {{stdio|stdio}} (for local tools spawned as subprocesses) and Streamable {{http-method|HTTP}} (for remote servers, where responses can upgrade to [[sse|SSE]] streams). A three-step initialization {{handshake|handshake}} negotiates capabilities: the client declares what it supports ({{sampling|sampling}}, roots, elicitation), the server declares what it offers (tools, resources, prompts), and both sides confirm readiness.
 
-The architecture has three roles: the **Host** (the AI application you interact with), the **Client** (a protocol handler inside the host that manages one session), and the **Server** (a lightweight process exposing tools, resources, and prompts). A single host can connect to many servers simultaneously. In December 2025, {{anthropic|Anthropic}} donated [[mcp|MCP]] to the Agentic AI Foundation under the {{linux|Linux}} Foundation, co-founded with Block and OpenAI. By early 2026, the protocol was processing over 97 million SDK downloads per month. [[a2a|A2A]] complements [[mcp|MCP]] — where [[mcp|MCP]] connects an agent to its tools, [[a2a|A2A]] connects agents to each other.`,
+The architecture has three roles: the **Host** (the {{ai|AI}} application you interact with), the **Client** (a protocol handler inside the host that manages one session), and the **Server** (a lightweight process exposing tools, resources, and prompts). A single host can {{mqtt-connect|connect}} to many servers simultaneously. In December 2025, {{anthropic|Anthropic}} donated [[mcp|MCP]] to the Agentic {{ai|AI}} Foundation under the {{linux|Linux}} Foundation, co-founded with Block and OpenAI. By early 2026, the protocol was processing over 97 million {{sdk|SDK}} downloads per month. [[a2a|A2A]] complements [[mcp|MCP]] — where [[mcp|MCP]] connects an agent to its tools, [[a2a|A2A]] connects agents to each other.`,
 	howItWorks: [
 		{
 			title: 'Transport connection',
 			description:
-				'The host starts the [[mcp|MCP]] server — either spawning it as a local subprocess ({{stdio|stdio}} transport) or connecting to a remote HTTP endpoint (Streamable HTTP transport). No protocol messages flow yet.'
+				'The host starts the [[mcp|MCP]] server — either spawning it as a local subprocess ({{stdio|stdio}} transport) or connecting to a remote {{http-method|HTTP}} endpoint (Streamable {{http-method|HTTP}} transport). No protocol messages flow yet.'
 		},
 		{
 			title: 'Initialize handshake',
@@ -29,17 +29,17 @@ The architecture has three roles: the **Host** (the AI application you interact 
 		{
 			title: 'Discovery',
 			description:
-				'The client calls "tools/list" to discover available tools (with {{json|JSON}} Schema input definitions), "resources/list" to find data sources, and "prompts/list" to find prompt templates. The LLM uses these to decide what to invoke.'
+				'The client calls "tools/list" to discover available tools (with {{json|JSON}} Schema input definitions), "resources/list" to find data sources, and "prompts/list" to find prompt templates. The {{llm|LLM}} uses these to decide what to invoke.'
 		},
 		{
 			title: 'Tool invocation',
 			description:
-				'When the LLM decides to use a tool, the client sends "tools/call" with the tool name and arguments. The server executes the tool and returns results as text, images, or structured data. Resources are read with "resources/read."'
+				'When the {{llm|LLM}} decides to use a tool, the client sends "tools/call" with the tool name and arguments. The server executes the tool and returns results as text, images, or structured data. Resources are read with "resources/read."'
 		},
 		{
 			title: 'Session lifecycle',
 			description:
-				'The session stays open for multiple interactions. The server can send notifications (progress updates, resource changes). Either side can close the transport — for {{stdio|stdio}}, the host terminates the subprocess; for HTTP, the connection is closed.'
+				'The session stays open for multiple interactions. The server can send notifications (progress updates, resource changes). Either side can close the transport — for {{stdio|stdio}}, the host terminates the subprocess; for {{http-method|HTTP}}, the connection is closed.'
 		}
 	],
 	useCases: [
@@ -73,7 +73,7 @@ def review_code(code: str) -> str:
 # Run with: mcp run server.py
 # Or: mcp dev server.py (for inspector UI)`,
 		caption:
-			'Three lines of decorator code expose a tool, a resource, and a prompt — the [[mcp|MCP]] SDK handles all the [[json-rpc|JSON-RPC]] plumbing.',
+			'Three lines of decorator code expose a tool, a resource, and a prompt — the [[mcp|MCP]] {{sdk|SDK}} handles all the [[json-rpc|JSON-RPC]] plumbing.',
 		alternatives: [
 			{
 				language: 'javascript',
@@ -108,7 +108,7 @@ server.setRequestHandler(CallToolRequestSchema, async (req) => ({
 }));
 
 const transport = new StdioServerTransport();
-await server.connect(transport);`
+await server.{{mqtt-connect|connect}}(transport);`
 			},
 			{
 				language: 'cli',
@@ -163,7 +163,7 @@ curl -X POST http://localhost:3000/mcp \\
 		src: 'https://upload.wikimedia.org/wikipedia/commons/d/d5/Model_Context_Protocol_Component_diagram.svg',
 		alt: 'Model Context Protocol component diagram showing the Host, Client, and Server architecture with tool, resource, and prompt primitives',
 		caption:
-			'The [[mcp|MCP]] architecture — a Host (AI application) creates Clients that connect 1:1 to Servers. Each Server exposes tools, resources, and prompts through a standard [[json-rpc|JSON-RPC]] interface. Created by {{anthropic|Anthropic}} in 2024 and donated to the {{linux|Linux}} Foundation in 2025.',
+			'The [[mcp|MCP]] architecture — a Host ({{ai|AI}} application) creates Clients that {{mqtt-connect|connect}} 1:1 to Servers. Each Server exposes tools, resources, and prompts through a standard [[json-rpc|JSON-RPC]] interface. Created by {{anthropic|Anthropic}} in 2024 and donated to the {{linux|Linux}} Foundation in 2025.',
 		credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 	}
 };

@@ -9,10 +9,10 @@ export const dash: Protocol = {
 	year: 2012,
 	rfc: 'ISO 23009-1',
 	oneLiner:
-		'The open standard for adaptive video streaming — MPEG-[[dash|DASH]] powers Netflix, YouTube, and the open web.',
-	overview: `MPEG-[[dash|DASH]] is the vendor-neutral answer to {{apple|Apple}}'s proprietary [[hls|HLS]]. Ratified as an ISO standard in 2012, [[dash|DASH]] uses the same fundamental approach — chop video into segments, serve them over plain [[http1|HTTP]], and let the client adapt quality based on {{bandwidth|bandwidth}} — but with an open, extensible {{xml|XML}} {{manifest|manifest}} format called the Media Presentation Description (MPD).
+		'The open standard for adaptive video streaming — {{mpeg-org|MPEG}}-[[dash|DASH]] powers Netflix, YouTube, and the open web.',
+	overview: `{{mpeg-org|MPEG}}-[[dash|DASH]] is the vendor-neutral answer to {{apple|Apple}}'s proprietary [[hls|HLS]]. Ratified as an {{iso|ISO}} standard in 2012, [[dash|DASH]] uses the same fundamental approach — chop video into segments, serve them over plain [[http1|HTTP]], and let the client adapt quality based on {{bandwidth|bandwidth}} — but with an open, extensible {{xml|XML}} {{manifest|manifest}} format called the Media Presentation Description ({{mpd|MPD}}).
 
-Where [[hls|HLS]] uses {{apple|Apple}}'s M3U8 playlists, [[dash|DASH]] uses MPD files with a rich hierarchy: Periods (time spans), Adaptation Sets (different languages or camera angles), Representations (quality levels), and Segments (the actual media chunks). This gives [[dash|DASH]] more flexibility for complex use cases like ad insertion, multiple audio tracks, and subtitle streams.
+Where [[hls|HLS]] uses {{apple|Apple}}'s M3U8 playlists, [[dash|DASH]] uses {{mpd|MPD}} files with a rich hierarchy: Periods (time spans), Adaptation Sets (different languages or camera angles), Representations (quality levels), and Segments (the actual media chunks). This gives [[dash|DASH]] more flexibility for complex use cases like ad insertion, multiple audio tracks, and subtitle streams.
 
 Netflix, YouTube, Disney+, and most major streaming services use [[dash|DASH]] (often alongside [[hls|HLS]] for {{apple|Apple}} compatibility). The protocol supports both on-demand and live {{stream|streaming}}, and works with any {{codec|codec}}.`,
 	howItWorks: [
@@ -24,22 +24,22 @@ Netflix, YouTube, Disney+, and most major streaming services use [[dash|DASH]] (
 		{
 			title: 'MPD manifest generation',
 			description:
-				'An {{xml|XML}} {{manifest|manifest}} (MPD) describes the content hierarchy: Periods, Adaptation Sets, Representations (bitrates/resolutions), and segment URLs or templates.'
+				'An {{xml|XML}} {{manifest|manifest}} ({{mpd|MPD}}) describes the content hierarchy: Periods, Adaptation Sets, Representations (bitrates/resolutions), and segment URLs or templates.'
 		},
 		{
 			title: 'Client fetches MPD',
 			description:
-				'The [[dash|DASH]] player downloads the MPD, parses the available options, and selects an initial quality level based on estimated {{bandwidth|bandwidth}}.'
+				'The [[dash|DASH]] player downloads the {{mpd|MPD}}, parses the available options, and selects an initial quality level based on estimated {{bandwidth|bandwidth}}.'
 		},
 		{
 			title: 'Adaptive segment fetching',
 			description:
-				'The player downloads segments via HTTP GET. After each download, it measures throughput and may switch quality for the next segment — seamless adaptation.'
+				'The player downloads segments via {{http-method|HTTP}} GET. After each download, it measures throughput and may switch quality for the next segment — seamless adaptation.'
 		},
 		{
 			title: 'Live streaming with MPD updates',
 			description:
-				'For live content, the MPD includes a minimumUpdatePeriod. The player periodically re-fetches the MPD to discover new segments.'
+				'For live content, the {{mpd|MPD}} includes a minimumUpdatePeriod. The player periodically re-fetches the {{mpd|MPD}} to discover new segments.'
 		}
 	],
 	useCases: [
@@ -68,7 +68,7 @@ for period in mpd.periods:
             # Download segments via HTTP GET
             # for seg_url in rep.base_urls:
             #     data = requests.get(seg_url.base_url_value).content`,
-		caption: 'dash.js plays MPEG-[[dash|DASH]] content with automatic adaptive bitrate',
+		caption: 'dash.js plays {{mpeg-org|MPEG}}-[[dash|DASH]] content with automatic adaptive bitrate',
 		alternatives: [
 			{
 				language: 'javascript',
@@ -189,7 +189,7 @@ Content-Length: 1802400
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/100_Winchester_Circle.jpg/500px-100_Winchester_Circle.jpg',
 		alt: 'Netflix headquarters building at 100 Winchester Circle in Los Gatos, California',
 		caption:
-			'Netflix headquarters in Los Gatos, California. Netflix was instrumental in driving the adoption of MPEG-[[dash|DASH]] (2012), the open-standard {{adaptive-bitrate|adaptive bitrate streaming}} protocol that dynamically adjusts video quality based on network conditions.',
+			'Netflix headquarters in Los Gatos, California. Netflix was instrumental in driving the adoption of {{mpeg-org|MPEG}}-[[dash|DASH]] (2012), the open-standard {{adaptive-bitrate|adaptive bitrate streaming}} protocol that dynamically adjusts video quality based on network conditions.',
 		credit: 'Photo: Coolcaesar / CC BY-SA 4.0, via Wikimedia Commons'
 	}
 };

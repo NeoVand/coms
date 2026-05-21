@@ -14,7 +14,7 @@ export const quic: Protocol = {
 
 The key insight is combining the transport {{handshake|handshake}} with the [[tls|TLS]] {{handshake|handshake}}. [[tcp|TCP]]+[[tls|TLS 1.3]] requires 2 round trips before data flows (1 {{rtt|RTT}} for [[tcp|TCP]] {{handshake|handshake}} + 1 {{rtt|RTT}} for [[tls|TLS]]); [[quic|QUIC]] does it in 1 {{rtt|RTT}} (or 0 {{rtt|RTT}} for repeat connections). It also solves [[tcp|TCP]]'s {{head-of-line-blocking|head-of-line blocking}} problem: in [[http2|HTTP/2]] over [[tcp|TCP]], a single lost packet blocks ALL streams. In [[quic|QUIC]], streams are independent — a lost packet only affects its own stream.
 
-[[quic|QUIC]] powers [[http3|HTTP/3]], which is the latest version of HTTP. Major browsers and services ({{google|Google}}, Facebook, {{cloudflare|Cloudflare}}) already use it heavily. It's the most significant transport protocol innovation in decades.`,
+[[quic|QUIC]] powers [[http3|HTTP/3]], which is the latest version of {{http-method|HTTP}}. Major browsers and services ({{google|Google}}, Facebook, {{cloudflare|Cloudflare}}) already use it heavily. It's the most significant transport protocol innovation in decades.`,
 	howItWorks: [
 		{
 			title: 'Initial handshake (1 RTT)',
@@ -229,15 +229,15 @@ sudo tcpdump -i any udp port 443`
 	funFacts: [
 		{
 			title: 'QUIC was originally an internal Google name',
-			text: '[[quic|QUIC]] stood for "Quick [[udp|UDP]] Internet Connections" inside {{google|Google}}. The {{ietf|IETF}} working group dropped the expansion entirely — [[rfc:9000|RFC 9000]] just calls it "[[quic|QUIC]]" with no expansion. The protocol\'s name is now an unexplained four-letter word, like "HTTP" or "[[tcp|TCP]]."'
+			text: '[[quic|QUIC]] stood for "Quick [[udp|UDP]] Internet Connections" inside {{google|Google}}. The {{ietf|IETF}} working group dropped the expansion entirely — [[rfc:9000|RFC 9000]] just calls it "[[quic|QUIC]]" with no expansion. The protocol\'s name is now an unexplained four-letter word, like "{{http-method|HTTP}}" or "[[tcp|TCP]]."'
 		},
 		{
 			title: 'Connection IDs let your phone roam',
-			text: 'A [[quic|QUIC]] connection is identified by a **64-bit Connection ID**, not by the (src [[ip|IP]], src port, dst [[ip|IP]], dst port) four-tuple [[tcp|TCP]] uses. When your phone moves between [[wifi|Wi-Fi]] and cellular, the underlying [[ip|IP]] changes — but the [[quic|QUIC]] connection survives. The receiver matches the new packet by Connection ID. This is why [[http3|HTTP/3]] video calls do not stutter on handoff.'
+			text: 'A [[quic|QUIC]] connection is identified by a **64-bit Connection {{id-identifier|ID}}**, not by the (src [[ip|IP]], src port, dst [[ip|IP]], dst port) four-tuple [[tcp|TCP]] uses. When your phone moves between [[wifi|Wi-Fi]] and cellular, the underlying [[ip|IP]] changes — but the [[quic|QUIC]] connection survives. The receiver matches the new packet by Connection {{id-identifier|ID}}. This is why [[http3|HTTP/3]] video calls do not stutter on handoff.'
 		},
 		{
 			title: 'QUIC encrypts almost the entire packet',
-			text: '[[tcp|TCP]] segment headers are visible to anyone on the path — sequence numbers, {{ack|ACK}} numbers, window sizes. [[quic|QUIC]] encrypts almost everything except the Connection ID, packet number, and a few framing bits. This blocks decades of network-side observation tools (and is why some operators still resist [[quic|QUIC]]).'
+			text: '[[tcp|TCP]] segment headers are visible to anyone on the path — sequence numbers, {{ack|ACK}} numbers, window sizes. [[quic|QUIC]] encrypts almost everything except the Connection {{id-identifier|ID}}, packet number, and a few framing bits. This blocks decades of network-side observation tools (and is why some operators still resist [[quic|QUIC]]).'
 		}
 	],
 
@@ -253,7 +253,7 @@ sudo tcpdump -i any udp port 443`
 			},
 			{
 				title: 'Higher CPU than kernel TCP',
-				text: '[[quic|QUIC]] {{encryption|encryption}} + user-space implementation costs roughly 2× CPU per byte versus a tuned kernel [[tcp|TCP]] stack. CDNs offload to [[tls|TLS]]-acceleration NICs (kTLS); plain servers should expect higher load.'
+				text: '[[quic|QUIC]] {{encryption|encryption}} + user-space implementation costs roughly 2× {{cpu|CPU}} per byte versus a tuned kernel [[tcp|TCP]] stack. CDNs offload to [[tls|TLS]]-acceleration NICs (kTLS); plain servers should expect higher load.'
 			}
 		]
 	}

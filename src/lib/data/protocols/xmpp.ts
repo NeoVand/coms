@@ -14,7 +14,7 @@ export const xmpp: Protocol = {
 
 [[xmpp|XMPP]] uses persistent {{xml|XML}} streams between {{client-server|clients and servers}} over [[tcp|TCP]]. Messages, presence updates ("Alice is online"), and IQ (info/query) stanzas flow as {{xml|XML}} fragments over these streams. The {{protocol|protocol}} is designed to be extensible — hundreds of XEPs ([[xmpp|XMPP]] Extension Protocols) add capabilities from file transfer and multi-user chat to IoT device management.
 
-{{google|Google}} Talk, the early versions of WhatsApp, Facebook Messenger (originally), and {{apple|Apple}}'s iChat (their desktop chat client) all used [[xmpp|XMPP]] at some point. iChat supported [[xmpp|XMPP]] federation briefly, though {{apple|Apple}}'s later iMessage system uses a completely proprietary push {{notification|notification}} service (APNs). While many moved to proprietary protocols for scale, [[xmpp|XMPP]] remains the backbone of countless enterprise chat systems, IoT platforms, and the federated messaging movement.`,
+{{google|Google}} Talk, the early versions of WhatsApp, Facebook Messenger (originally), and {{apple|Apple}}'s iChat (their desktop chat client) all used [[xmpp|XMPP]] at some point. iChat supported [[xmpp|XMPP]] {{federation|federation}} briefly, though {{apple|Apple}}'s later iMessage system uses a completely proprietary push {{notification|notification}} service (APNs). While many moved to proprietary protocols for scale, [[xmpp|XMPP]] remains the backbone of countless enterprise chat systems, IoT platforms, and the federated messaging movement.`,
 	howItWorks: [
 		{
 			title: 'TCP connection + stream negotiation',
@@ -24,7 +24,7 @@ export const xmpp: Protocol = {
 		{
 			title: 'Authentication and resource binding',
 			description:
-				'Client authenticates via {{sasl|SASL}} (typically {{scram|SCRAM}}-SHA-1). After auth, the client binds a "resource" to distinguish multiple devices for the same account.'
+				'Client authenticates via {{sasl|SASL}} (typically {{scram|SCRAM}}-{{sha1|SHA-1}}). After auth, the client binds a "resource" to distinguish multiple devices for the same account.'
 		},
 		{
 			title: 'Stanza exchange',
@@ -39,7 +39,7 @@ export const xmpp: Protocol = {
 		{
 			title: 'Extensions (XEPs)',
 			description:
-				'The base protocol is minimal. Hundreds of XEPs add features: multi-user chat, HTTP file upload, message carbons, end-to-end {{encryption|encryption}} ({{omemo|OMEMO}}), and more.'
+				'The base protocol is minimal. Hundreds of XEPs add features: multi-user chat, {{http-method|HTTP}} file upload, message carbons, end-to-end {{encryption|encryption}} ({{omemo|OMEMO}}), and more.'
 		}
 	],
 	useCases: [
@@ -72,7 +72,7 @@ class ChatBot(slixmpp.ClientXMPP):
 bot = ChatBot("alice@example.com", "secret")
 bot.connect()
 bot.process()`,
-		caption: '[[xmpp|XMPP]] client — connect, announce presence, and send messages as {{xml|XML}} stanzas',
+		caption: '[[xmpp|XMPP]] client — {{mqtt-connect|connect}}, announce presence, and send messages as {{xml|XML}} stanzas',
 		alternatives: [
 			{
 				language: 'javascript',

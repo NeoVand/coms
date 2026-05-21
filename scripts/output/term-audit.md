@@ -1,11 +1,11 @@
 # Term densification audit
 
-Generated: 2026-05-19T06:21:47.372Z
+Generated: 2026-05-21T14:48:17.867Z
 
 - Files scanned: **86**
 - Distinct RFC numbers mentioned but **not in registry**: **20**
 - Distinct pioneers mentioned without `[[pioneer:…]]` wrap: **30** (of 63 catalogued)
-- Distinct concepts mentioned without `{{…}}` wrap: **134** (of 362 catalogued)
+- Distinct concepts mentioned without `{{…}}` wrap: **193** (of 703 catalogued)
 
 ## 1. RFCs mentioned in prose but missing from the registry
 
@@ -47,7 +47,6 @@ Each row is the first unwrapped mention in a file. Apply once per section, not e
 | Henning Schulzrinne | 2 |
 | Jonathan Rosenberg | 2 |
 | Justin Uberti | 2 |
-| Roy Fielding | 2 |
 | Ian Hickson | 2 |
 | Jim Kardach | 2 |
 | Marty Cooper | 2 |
@@ -61,6 +60,7 @@ Each row is the first unwrapped mention in a file. Apply once per section, not e
 | Paul Mockapetris | 1 |
 | Eric Rescorla | 1 |
 | Taher Elgamal | 1 |
+| Roy Fielding | 1 |
 | Mike Belshe | 1 |
 | Jaap Haartsen | 1 |
 | Sven Mattisson | 1 |
@@ -127,9 +127,6 @@ Each row is the first unwrapped mention in a file. Apply once per section, not e
 - L82:14 — `[[pioneer:jon-postel|Jon Postel]]`  · _' }, { name: 'Jon Postel', years: '1943 – 1998',_
 - L479:11 — `[[pioneer:van-jacobson|Van Jacobson]]`  · _-Van_Jacobson.jpg', alt: 'Van Jacobson — co-author of the 1988 paper_
 
-**`src/lib/data/diagram-definitions.ts`**
-- L464:58 — `[[pioneer:roy-fielding|Roy Fielding]]`  · _resentational State Transfer (Roy Fielding, 2000). Resources are URLs; *_
-
 **`src/lib/data/outages.ts`**
 - L339:13 — `[[pioneer:van-jacobson|Van Jacobson]]`  · _'tcp'], cast: [ { name: 'Van Jacobson (LBL)', role: "Co-author of t_
 
@@ -177,62 +174,62 @@ Editorial rule: wrap on first appearance per section, not every time. `low` prio
 | Latency | 61 |
 | Packet | 43 |
 | Frame | 26 |
-| Google | 25 |
-| Apple | 22 |
+| Google | 24 |
 | Stream | 22 |
+| Apple | 21 |
 | Handshake | 20 |
 | Segment | 17 |
 | Hop | 17 |
-| Encryption | 14 |
 | Linux | 14 |
+| Encryption | 13 |
 | Payload | 12 |
 | Cloudflare | 11 |
-| Certificate | 10 |
 | Socket | 9 |
+| Certificate | 9 |
 | Bandwidth | 9 |
 | Cisco | 9 |
 | Matter | 8 |
 | ARPANET | 8 |
 | DARPA | 8 |
 | Meta | 7 |
-| Checksum | 7 |
 | Datagram | 7 |
 | Multipath | 7 |
-| Signaling | 7 |
-| Topic | 6 |
-| Congestion Control | 6 |
+| Checksum | 6 |
+| Signaling | 6 |
+| Topic | 5 |
 | Peering | 5 |
+| Congestion Control | 5 |
 | Encapsulation | 5 |
-| Stateless | 5 |
 | Microsoft | 5 |
 | Public Key | 4 |
 | Bufferbloat | 4 |
+| RSA | 4 |
+| ping | 4 |
+| Multi-homing | 4 |
 | DNS Resolution | 4 |
-| Multiplexing | 4 |
+| SFTP | 4 |
+| Stateless | 4 |
 | CCC Digital Key | 4 |
-| Codec | 4 |
-| HPACK | 4 |
-| Unicast | 4 |
-| Multicast | 4 |
-| Broadcast | 4 |
 | Anycast | 4 |
 | Fragmentation | 4 |
-| Request-Response | 4 |
-| Private Key | 3 |
+| Failover | 4 |
 | BBRv3 | 3 |
 | Three-Way Handshake | 3 |
+| SYN-ACK | 3 |
+| AV1 | 3 |
+| Multiplexing | 3 |
+| Pipelining | 3 |
 | Spectrum | 3 |
 | WPA3 | 3 |
 | Auracast | 3 |
 | Channel Sounding | 3 |
 | Thread | 3 |
 | Direct-to-Cell | 3 |
-| Jitter | 3 |
+| Codec | 3 |
+| HPACK | 3 |
 | CUBIC | 3 |
-| Intel | 3 |
-| Subnet | 3 |
-| Cookie | 3 |
-| _…74 more_ | |
+| QPACK | 3 |
+| _…133 more_ | |
 
 ### Per-file concept hits (high priority)
 
@@ -251,7 +248,7 @@ Editorial rule: wrap on first appearance per section, not every time. `low` prio
 - L534 — `{{meta|Meta}}`  · _.jpg', alt: 'Facebook (Meta) Headquarters campus in Menlo_
 - L397 — `{{linux|Linux}}`  · _.png', alt: 'Tux — the Linux mascot, a chubby cartoon peng_
 
-**`src/lib/data/book/parts/frontier.ts`** — 9 term(s)
+**`src/lib/data/book/parts/frontier.ts`** — 10 term(s)
 - L274 — `{{arpanet|ARPANET}}`  · _march_1977.png', alt: 'ARPANET logical map, March 1977 — the_
 - L277 — `{{darpa|DARPA}}`  · _net.', credit: 'Image: DARPA / public domain, via Wikimedi_
 - L74 — `{{public-key|public key}}`  · _metric cryptography diagram — public key encrypts, private key decrypt_
@@ -261,13 +258,14 @@ Editorial rule: wrap on first appearance per section, not every time. `low` prio
 - L50 — `{{apple|Apple}}`  · _pe: 'callout', title: 'Apple iOS 26 cliff: <2% to 25% in 9_
 - L337 — `{{nvidia|NVIDIA}}`  · _rwan%29_22.png', alt: 'NVIDIA GB200 NVL72 GPU rack on displ_
 - L147 — `{{bbrv3|bbrv3}}`  · _{ kind: 'frontier', id: 'bbrv3-default' } ] }, // ──_
+- L76 — `{{rsa|RSA}}`  · _on. The classical primitives (RSA, {{ecdh\|ECDH}} on {{curve2551_
 
 **`src/lib/data/book/parts/how-to-learn-more.ts`** — 3 term(s)
 - L50 — `{{arpanet|ARPANET}}`  · _t_1974.svg.png', alt: 'ARPANET in 1974 — the network the fir_
 - L167 — `{{cloudflare|Cloudflare}}`  · _go.svg.png', alt: 'The Cloudflare logo — a stylised orange clou_
 - L210 — `{{wireshark|Wireshark}}`  · _screenshot.png', alt: 'Wireshark — packet capture with protoco_
 
-**`src/lib/data/book/parts/layer-2-3.ts`** — 7 term(s)
+**`src/lib/data/book/parts/layer-2-3.ts`** — 8 term(s)
 - L485 — `{{arpanet|ARPANET}}`  · _march_1977.png', alt: 'ARPANET logical map, March 1977 — pre_
 - L488 — `{{darpa|DARPA}}`  · _aks.', credit: 'Image: DARPA / public domain, via Wikimedi_
 - L382 — `{{firewall|firewall}}`  · _title: 'Dropping ICMP at the firewall is partially refusing to impl_
@@ -275,20 +273,23 @@ Editorial rule: wrap on first appearance per section, not every time. `low` prio
 - L69 — `{{payload|payload}}`  · _n MAC, source MAC, EtherType, payload, and FCS.', caption:_
 - L155 — `{{hop|hop}}`  · _ket}} finds the next physical hop — [[arp\|STD 37]] has not been_
 - L226 — `{{linux|Linux}}`  · _attribution: 'Vint Cerf, Linux.conf.au 2011' }, {_
+- L366 — `{{ping|ping}}`  · _tion: 'Mike Muuss, on writing ping in December 1983' },_
 
-**`src/lib/data/book/parts/patterns-failures.ts`** — 6 term(s)
+**`src/lib/data/book/parts/patterns-failures.ts`** — 7 term(s)
 - L115 — `{{latency|Latency}}`  · _title: 'Bufferbloat — Latency Without Loss', text: `_
 - L78 — `{{handshake|handshake}}`  · _', alt: 'TCP three-way handshake — SYN, SYN-ACK, ACK between c_
 - L175 — `{{congestion-control|Congestion Control}}`  · _ory', title: 'A History of Congestion Control', synopsis: 'Tahoe → Reno_
 - L78 — `{{three-way-handshake|three-way handshake}}`  · _ke.svg.png', alt: 'TCP three-way handshake — SYN, SYN-ACK, ACK between c_
 - L115 — `{{bufferbloat|Bufferbloat}}`  · _: 'narrative', title: 'Bufferbloat — Latency Without Loss',_
 - L239 — `{{bbrv3|bbrv3}}`  · _{ kind: 'frontier', id: 'bbrv3-default' }, { kind: 'fron_
+- L78 — `{{syn-ack|SYN-ACK}}`  · _CP three-way handshake — SYN, SYN-ACK, ACK between client and serve_
 
-**`src/lib/data/book/parts/realtime-av.ts`** — 4 term(s)
+**`src/lib/data/book/parts/realtime-av.ts`** — 5 term(s)
 - L4 — `{{latency|latency}}`  · _Protocols that prioritise low latency over perfect delivery — * vo_
 - L167 — `{{hop|hop}}`  · _URI scheme means [[tls\|TLS]] hop-by-hop only, NOT end-to-end l_
 - L98 — `{{cloudflare|Cloudflare}}`  · _}} mode.', attribution: 'Cloudflare engineering blog' },_
 - L271 — `{{apple|Apple}}`  · _title: 'Low-Latency, And The "Apple Took It Away" Drama',_
+- L121 — `{{av1|AV1}}`  · _pe: 'callout', title: 'AV1 came from screen-share',_
 
 **`src/lib/data/book/parts/story-of-the-internet.ts`** — 5 term(s)
 - L55 — `{{arpanet|ARPANET}}`  · _alt: 'Hand-drawn sketch of ARPANET, December 1969 — the original_
@@ -297,22 +298,24 @@ Editorial rule: wrap on first appearance per section, not every time. `low` prio
 - L327 — `{{google|Google}}`  · _The_Dalles.jpg', alt: 'Google data center in The Dalles, Or_
 - L374 — `{{linux|linux}}`  · _{ kind: 'frontier', id: 'a2a-linux-foundation' }, { kin_
 
-**`src/lib/data/book/parts/transport.ts`** — 5 term(s)
+**`src/lib/data/book/parts/transport.ts`** — 6 term(s)
 - L149 — `{{encapsulation|encapsulation}}`  · _on.svg.png', alt: 'UDP encapsulation diagram showing an IP packet_
 - L58 — `{{congestion-control|Congestion Control}}`  · _: 'narrative', title: 'Congestion Control: Tahoe Through BBR Through L4_
 - L265 — `{{multipath|Multipath}}`  · _arrative', title: 'The Multipath QUIC Succession', text_
 - L349 — `{{google|Google}}`  · _Rack.jpg', alt: 'Early Google "corkboard" server rack — bar_
 - L251 — `{{apple|Apple}}`  · _arrative', title: 'The Apple iOS 7 Deployment', tex_
+- L214 — `{{multi-homing|multi-homing}}`  · _oming.png', alt: 'SCTP multi-homing diagram showing one associati_
 
-**`src/lib/data/book/parts/utilities-security.ts`** — 6 term(s)
+**`src/lib/data/book/parts/utilities-security.ts`** — 7 term(s)
 - L142 — `{{certificate|certificate}}`  · _st.png', alt: 'Digital certificate chain of trust diagram — root_
 - L142 — `{{certificate-chain|certificate chain}}`  · _st.png', alt: 'Digital certificate chain of trust diagram — root CA, i_
 - L70 — `{{dns-resolution|DNS resolution}}`  · _.png', alt: 'Iterative DNS resolution diagram — client → recursive_
 - L47 — `{{dnssec|DNSSEC}}`  · _e Kaminsky Moment, And Modern DNSSEC', text: `**Dan Kaminsk_
 - L216 — `{{payload|payload}}`  · _rmat showing length, padding, payload, and MAC fields.', cap_
-- L120 — `{{google|google}}`  · _r 344 domains** including \`*.google.com\`, used in {{man-in-the-m_
+- L186 — `{{sftp|SFTP}}`  · _pe: 'callout', title: 'SFTP is not "FTP over SSH"',_
+- L70 — `{{recursive-resolver|recursive resolver}}`  · _resolution diagram — client → recursive resolver → root → TLD → authoritative_
 
-**`src/lib/data/book/parts/web-api.ts`** — 9 term(s)
+**`src/lib/data/book/parts/web-api.ts`** — 12 term(s)
 - L280 — `{{client-server|Client-server model}}`  · _del-en.svg.png', alt: 'Client-server model diagram — multiple clients se_
 - L214 — `{{handshake|handshake}}`  · _g', alt: 'TLS 1.3 full handshake diagram showing ClientHello,_
 - L141 — `{{multiplexing|multiplexing}}`  · _HTTP/1.1 pipelining vs HTTP/2 multiplexing diagram, showing how multiple_
@@ -322,6 +325,9 @@ Editorial rule: wrap on first appearance per section, not every time. `low` prio
 - L399 — `{{webtransport|WebTransport}}`  · _: 'narrative', title: 'WebTransport, and the Transport Future',_
 - L223 — `{{multipath|multipath}}`  · _{ kind: 'frontier', id: 'multipath-quic' }, { kind: 'frontie_
 - L487 — `{{linux|linux}}`  · _{ kind: 'frontier', id: 'a2a-linux-foundation' }, { kind: 's_
+- L214 — `{{client-hello|ClientHello}}`  · _ull handshake diagram showing ClientHello, ServerHello, certificate, fi_
+- L214 — `{{server-hello|ServerHello}}`  · _diagram showing ClientHello, ServerHello, certificate, finished messag_
+- L141 — `{{pipelining|pipelining}}`  · _g.png', alt: 'HTTP/1.1 pipelining vs HTTP/2 multiplexing diagra_
 
 **`src/lib/data/book/parts/wireless.ts`** — 22 term(s)
 - L560 — `{{darpa|DARPA}}`  · _rrative', title: 'From DARPA radar to AirTag — the 70-year_
@@ -347,7 +353,7 @@ Editorial rule: wrap on first appearance per section, not every time. `low` prio
 - L5 — `{{starlink|Starlink}}`  · _ooth 6.0, * 5G-Advanced, and Starlink Direct-to-Cell. Nine chapters_
 - L854 — `{{wireshark|Wireshark}}`  · _screenshot.png', alt: 'Wireshark screen capture showing a pack_
 
-**`src/lib/data/category-deep-dives.ts`** — 14 term(s)
+**`src/lib/data/category-deep-dives.ts`** — 15 term(s)
 - L354 — `{{jitter|Jitter}}`  · _'realtime-av', tagline: 'Jitter buffers, error correction, ad_
 - L427 — `{{handshake|handshake}}`  · _e: 'PKI internals, TLS 1.3 handshake walkthrough, cryptographic pr_
 - L101 — `{{flow-control|flow control}}`  · _ongestion control algorithms, flow control mechanics, and the subtle eng_
@@ -362,6 +368,7 @@ Editorial rule: wrap on first appearance per section, not every time. `low` prio
 - L151 — `{{bufferbloat|Bufferbloat}}`  · _e: 'callout', title: 'The Bufferbloat Problem', text: 'Oversize_
 - L288 — `{{exactly-once-delivery|exactly-once delivery}}`  · _antics, broker architectures, exactly-once delivery, and event sourcing patterns_
 - L156 — `{{tcp-fast-open|TCP Fast Open}}`  · _ype: 'narrative', title: 'TCP Fast Open', text: `Standard [[tcp\|T_
+- L213 — `{{qpack|QPACK}}`  · _ative', title: 'HPACK and QPACK Compression', text: `{{he_
 
 **`src/lib/data/category-stories/network-foundations.ts`** — 6 term(s)
 - L77 — `{{darpa|DARPA}}`  · _CP/IP', org: 'Stanford / DARPA / Google', contribution:_
@@ -403,7 +410,7 @@ Editorial rule: wrap on first appearance per section, not every time. `low` prio
 - L177 — `{{direct-to-cell|Direct-to-Cell}}`  · _title: 'T-Mobile + SpaceX Direct-to-Cell launches commercially',_
 - L69 — `{{intel|Intel}}`  · _'Named Bluetooth', org: 'Intel', contribution: 'P_
 
-**`src/lib/data/comparison/pairs.ts`** — 33 term(s)
+**`src/lib/data/comparison/pairs.ts`** — 65 term(s)
 - L43 — `{{bandwidth|bandwidth}}`  · _Throughput', left: 'Aggregate bandwidth of all paths', right: 'Limite_
 - L14 — `{{latency|latency}}`  · _rives in order at the cost of latency; [[udp\|UDP]] prioritizes spee_
 - L16 — `{{handshake|handshake}}`  · _\|Connection-oriented}} (3-way handshake)', right: '{{connectionless\|C_
@@ -429,9 +436,9 @@ Editorial rule: wrap on first appearance per section, not every time. `low` prio
 - L1304 — `{{payload|payload}}`  · _ence numbers, timestamps, and payload type identifiers, then sends_
 - L1487 — `{{hop|hop}}`  · _(sips:) mandates [[tls\|TLS]] hop-by-hop across the signaling p_
 - L757 — `{{fragmentation|Fragmentation}}`  · _eader chain' }, { aspect: 'Fragmentation', left: 'Routers and hosts ca_
-- _…8 more in this file_
+- _…40 more in this file_
 
-**`src/lib/data/concept-foundations.ts`** — 17 term(s)
+**`src/lib/data/concept-foundations.ts`** — 20 term(s)
 - L75 — `{{darpa|DARPA}}`  · _P/IP', org: 'Stanford → DARPA → Google', contribution_
 - L266 — `{{mac-address|MAC address}}`  · _t-field structure of a 48-bit MAC address — 24-bit OUI + 24-bit NIC, wi_
 - L37 — `{{handshake|handshake}}`  · _png', alt: 'TCP three-way handshake sequence diagram — client SYN_
@@ -449,34 +456,25 @@ Editorial rule: wrap on first appearance per section, not every time. `low` prio
 - L524 — `{{pacing|Pacing}}`  · _e: 'callout', title: 'Why Pacing Matters', text: 'Classic_
 - L459 — `{{spectrum|Spectrum}}`  · _, title: 'The Reliability Spectrum', definition: `graph LR_
 - L75 — `{{google|Google}}`  · _org: 'Stanford → DARPA → Google', contribution:_
+- L788 — `{{anthropic|Anthropic}}`  · _people: [ { name: 'Anthropic team', years: '2024 –',_
+- L37 — `{{syn-ack|SYN-ACK}}`  · _diagram — client SYN, server SYN-ACK, client ACK.', caption:_
+- L712 — `{{rsa|RSA}}`  · _emoved RC4, 3DES, MD5, SHA-1, RSA key {{exchange\|exchange}}, an_
 
-**`src/lib/data/diagram-definitions.ts`** — 47 term(s)
-- L203 — `{{bandwidth|bandwidth}}`  · _when nothing changed — saves bandwidth on repeat visits. **Compressi_
-- L169 — `{{latency|latency}}`  · _OS heuristics (signal, cost, latency).', 6: '**`MP_JOIN`** open_
-- L696 — `{{jitter|jitter}}`  · _out-of-order) and to **smooth jitter** (variable arrival times). C_
-- L49 — `{{handshake|handshake}}`  · _arting sequence numbers — the handshake is complete.', 4: 'The con_
-- L82 — `{{flow-control|flow control}}`  · _ACKs, no sequence numbers, no flow control, no congestion control. The h_
-- L82 — `{{congestion-control|congestion control}}`  · _numbers, no flow control, no congestion control. The header is just src/dst p_
-- L204 — `{{multiplexing|multiplexing}}`  · _ale. **HTTP/2** fixed this by multiplexing all requests as numbered stre_
-- L109 — `{{head-of-line-blocking|head-of-line blocking}}`  · _*every* stream behind it — **head-of-line blocking** at the transport layer.',_
-- L200 — `{{keep-alive|keep-alive}}`  · _ake** on every fetch. Without keep-alive, each resource would need a b_
-- L55 — `{{retransmission|retransmission}}`  · _iable**. Missing ACKs trigger retransmission, and out-of-order bytes are r_
-- L47 — `{{sequence-number|sequence number}}`  · _client picks a random initial sequence number (here `100`) and sends it. Th_
-- L53 — `{{sliding-window|sliding window}}`  · _or individual ACKs — TCP\'s **sliding window** lets multiple segments be i_
-- L197 — `{{idempotent|idempotent}}`  · _rver-side side effects) and **idempotent** (calling twice = calling on_
-- L135 — `{{stateless|stateless}}`  · _with **INIT-ACK** carrying a stateless **cookie** — a signed token._
-- L104 — `{{encryption|encryption}}`  · _them** — connection setup and encryption happen in the same exchange,_
-- L107 — `{{certificate|Certificate}}`  · _.', 3: 'Server sends its **Certificate** and a `Finished` message —_
-- L1498 — `{{cipher-suite|cipher suite}}`  · _ist. The initiator proposes a cipher suite, sends its Diffie-Hellman / E_
+**`src/lib/data/diagram-definitions.ts`** — 14 term(s)
+- L203 — `{{bandwidth|bandwidth}}`  · _when nothing changed — saves bandwidth on repeat visits. {{content-e_
+- L1532 — `{{latency|latency}}`  · _l connection-interval / slave-latency / supervision-timeout.', 4_
+- L1471 — `{{handshake|handshake}}`  · _crecy}} within a session, per-handshake {{forward-secrecy\|forward sec_
+- L200 — `{{keep-alive|keep-alive}}`  · _e}}** on every fetch. Without keep-alive, each resource would need a b_
 - L1403 — `{{public-key|public key}}`  · _pted with the home network\'s public key (ECIES Profile A on Curve2551_
-- L902 — `{{private-key|private key}}`  · _e transcript with the cert\'s private key — proves the server actually_
-- L1703 — `{{certificate-chain|certificate chain}}`  · _suer), expiry, CDOL1, and the certificate chain for offline CDA verification._
-- L104 — `{{tls-handshake|TLS handshake}}`  · _: 'Where TCP needs a separate TLS handshake on top, **QUIC merges them**_
-- L282 — `{{status-code|HTTP status code}}`  · _ching Protocols`** = the only HTTP status code most people see for WebSocket_
-- L728 — `{{request-response|request-response}}`  · _the 200 was received. SIP is request-response *except* for INVITE, which us_
-- L498 — `{{topic|topic}}`  · _BE`** registers interest in a topic pattern. Wildcards: **`+`** m_
-- L955 — `{{subnet|subnet}}`  · _includes the network config: subnet mask, default gateway, DNS se_
-- _…22 more in this file_
+- L203 — `{{payload|payload}}`  · _or `br` (Brotli) shrinks the payload further.', 7: 'Each reques_
+- L664 — `{{hop|hop}}`  · _peer\|peer-to-peer}}** with no hop through your servers (W3C / {_
+- L1467 — `{{cookie|cookie}}`  · _ion). {{wg-mac2\|`MAC2`}} is a cookie under DoS load.', 3: '{{wg_
+- L1665 — `{{multipath|multipath}}`  · _solved to ~1 ns ≈ 30 cm; with multipath and {{sts\|STS}} valid, real-w_
+- L377 — `{{fire-and-forget|fire-and-forget}}`  · _onse will come back. Used for fire-and-forget events (logging, telemetry).'_
+- L900 — `{{key-share|key share}}`  · _}} the client supports plus a key share (its half of a {{diffie-hellm_
+- L1403 — `{{curve25519|Curve25519}}`  · _ublic key (ECIES Profile A on Curve25519 — never sent in clear).',_
+- L1665 — `{{clock-drift|clock drift}}`  · _ross-product cancels relative clock drift to first order. {{tof-ranging_
+- L1634 — `{{association-request|Association Request}}`  · _+ LQI + capability.', 2: 'Association Request — the {{zigbee-joiner\|joiner}_
 
 **`src/lib/data/frontier.ts`** — 8 term(s)
 - L41 — `{{topic|topic}}`  · _: string; oneLiner: string; topic: FrontierTopic; status: Fron_
@@ -488,7 +486,7 @@ Editorial rule: wrap on first appearance per section, not every time. `low` prio
 - L282 — `{{linux|linux}}`  · _auth' } ] }, { id: 'a2a-linux-foundation', title: 'A2A Do_
 - L9 — `{{bbrv3|BBRv3}}`  · _ntum TLS (X25519MLKEM768), * BBRv3, L4S, ECH (RFC 9849), RPKI/RO_
 
-**`src/lib/data/journeys.ts`** — 7 term(s)
+**`src/lib/data/journeys.ts`** — 14 term(s)
 - L38 — `{{handshake|Handshake}}`  · _colId: 'tcp', title: 'TCP Handshake', description: 'The_
 - L147 — `{{encryption|Encryption}}`  · _: 'tls', title: 'TLS: The Encryption Layer', description:_
 - L352 — `{{request-response|Request-Response}}`  · _Id: 'rest', title: 'REST: Request-Response', description: '[[re_
@@ -496,6 +494,13 @@ Editorial rule: wrap on first appearance per section, not every time. `low` prio
 - L84 — `{{hop|hop}}`  · _ion address, then forwards it hop by hop toward its target. Eac_
 - L703 — `{{connection-migration|Connection Migration}}`  · _Id: 'quic', title: 'QUIC: Connection Migration', description: '[[qu_
 - L479 — `{{ice|ICE (Interactive Connectivity Establishment)}}`  · _orchestrates an entire stack: ICE (Interactive Connectivity Establishment) punches through NATs by testi_
+- L511 — `{{vp9|VP9}}`  · _] supports H.264, H.265/HEVC, VP9, AV1, and any future {{codec\|_
+- L511 — `{{av1|AV1}}`  · _ports H.264, H.265/HEVC, VP9, AV1, and any future {{codec\|codec_
+- L545 — `{{rsa|RSA}}`  · _sword, public-key (Ed25519 or RSA), {{certificate\|certificate}}_
+- L933 — `{{association-request|Association Request}}`  · _ocolId: 'zigbee', title: 'Association Request + Response — get a short addr_
+- L843 — `{{anti-collision|Anti-collision}}`  · _rotocolId: 'nfc', title: 'Anti-collision + RATS/ATS — negotiate framin_
+- L850 — `{{select-aid|SELECT AID}}`  · _c', title: 'SELECT PPSE → SELECT AID — enumerate payment apps',_
+- L857 — `{{generate-ac|GENERATE AC}}`  · _rotocolId: 'nfc', title: 'GENERATE AC — the cryptogram', descri_
 
 **`src/lib/data/outages.ts`** — 7 term(s)
 - L380 — `{{congestion-control|Congestion Control}}`  · _5681', label: 'RFC 5681 — TCP Congestion Control' } ] }, { id: 'centuryl_
@@ -506,27 +511,33 @@ Editorial rule: wrap on first appearance per section, not every time. `low` prio
 - L82 — `{{meta|Meta}}`  · _'tcp'], cast: [ { name: 'Meta (AS 32934)', role: 'Operator'_
 - L563 — `{{linux|Linux}}`  · _e: 'SACK Panic — A One-Packet Linux Kernel Crash', date: '2019-_
 
-**`src/lib/data/protocols/a2a.ts`** — 1 term(s)
+**`src/lib/data/protocols/a2a.ts`** — 2 term(s)
 - L164 — `{{latency|latency}}`  · _} ] }, performance: { latency: 'HTTP round-trip latency_
+- L152 — `{{agent-card|Agent Card}}`  · _tions: [ { title: 'Agent Card (/.well-known/agent.json)',_
 
 **`src/lib/data/protocols/amqp.ts`** — 1 term(s)
 - L158 — `{{latency|latency}}`  · _} ] }, performance: { latency: 'Connection setup is heav_
 
-**`src/lib/data/protocols/arp.ts`** — 4 term(s)
+**`src/lib/data/protocols/arp.ts`** — 8 term(s)
 - L169 — `{{latency|latency}}`  · _} ] }, performance: { latency: 'Single broadcast + unica_
 - L29 — `{{unicast|Unicast}}`  · _segment.' }, { title: 'Unicast ARP reply', description:_
 - L24 — `{{broadcast|Broadcast}}`  · _process.' }, { title: 'Broadcast ARP request', description:_
 - L173 — `{{payload|payload}}`  · _, overhead: '28-byte ARP payload inside a 42-byte Ethernet hea_
+- L48 — `{{failover|Failover}}`  · _s detection at boot time', 'Failover and high-availability (gratui_
+- L19 — `{{arp-cache|ARP cache}}`  · _Works: [ { title: 'Check ARP cache', description: 'Before_
+- L24 — `{{arp-request|ARP request}}`  · _}, { title: 'Broadcast ARP request', description: 'If no_
+- L29 — `{{arp-reply|ARP reply}}`  · _' }, { title: 'Unicast ARP reply', description: "The de_
 
-**`src/lib/data/protocols/bgp.ts`** — 6 term(s)
+**`src/lib/data/protocols/bgp.ts`** — 7 term(s)
 - L150 — `{{latency|latency}}`  · _} ] }, performance: { latency: 'Session setup: seconds (_
 - L56 — `{{anycast|anycast}}`  · _ivery network}} ({{cdn\|CDN}}) anycast routing' ], codeExample: {_
 - L54 — `{{peering|peering}}`  · _)', 'Cloud provider network peering (AWS, Google, Azure edge netw_
 - L200 — `{{cloudflare|Cloudflare}}`  · _onstraint.' }, { org: 'Cloudflare', scale: '335+ cities, any_
 - L54 — `{{google|Google}}`  · _rovider network peering (AWS, Google, Azure edge networks)', '{{_
 - L186 — `{{linux|Linux}}`  · _', title: 'TCP-AO ships in Linux 6.7 for BGP', description:_
+- L53 — `{{multi-homing|multi-homing}}`  · _ent providers', 'Enterprise multi-homing (connecting to multiple ISPs_
 
-**`src/lib/data/protocols/bluetooth.ts`** — 12 term(s)
+**`src/lib/data/protocols/bluetooth.ts`** — 14 term(s)
 - L199 — `{{latency|latency}}`  · _} ] }, performance: { latency: 'BLE connection event lat_
 - L35 — `{{encryption|encryption}}`  · _}, { title: 'Pairing and encryption (SMP)', description: '_
 - L204 — `{{payload|payload}}`  · _fault ATT MTU = 23 → 20 bytes payload per Notify; negotiate up to 2_
@@ -539,8 +550,10 @@ Editorial rule: wrap on first appearance per section, not every time. `low` prio
 - L54 — `{{thread|Thread}}`  · _strap for {{matter\|Matter}} / Thread / [[wifi\|Wi-Fi]] IoT devices'_
 - L252 — `{{google|Google}}`  · _: '2024-12', title: 'Apple-Google DULT anti-stalking draft → IE_
 - L53 — `{{apple|Apple}}`  · _artwatches', 'Item finders: Apple AirTag, Samsung SmartTag, Til_
+- L167 — `{{adv-ind|ADV_IND}}`  · _title: 'BLE Advertisement (ADV_IND on ch 37)', code: `ADV__
+- L204 — `{{att-mtu|ATT MTU}}`  · _4-byte L2CAP header. Default ATT MTU = 23 → 20 bytes payload per N_
 
-**`src/lib/data/protocols/cellular.ts`** — 7 term(s)
+**`src/lib/data/protocols/cellular.ts`** — 8 term(s)
 - L263 — `{{latency|latency}}`  · _} ] }, performance: { latency: 'Air-interface RTT: ~1 ms_
 - L268 — `{{hop|hop}}`  · _ys an IPsec round on every N3 hop. ROHC header compression brin_
 - L264 — `{{mmwave|mmWave}}`  · _cal mid-band 5G FR1, ~5–10 ms mmWave with retransmits, ~30–50 ms L_
@@ -548,57 +561,66 @@ Editorial rule: wrap on first appearance per section, not every time. `low` prio
 - L63 — `{{direct-to-cell|direct-to-cell}}`  · _alling handoff', 'Satellite direct-to-cell — T-Mobile + Starlink, AT&T +_
 - L63 — `{{apple|Apple}}`  · _link, AT&T + AST SpaceMobile, Apple + Globalstar' ], codeExampl_
 - L63 — `{{starlink|Starlink}}`  · _e direct-to-cell — T-Mobile + Starlink, AT&T + AST SpaceMobile, Appl_
+- L264 — `{{pdu-session|PDU Session}}`  · _e setup (RRC → Registration → PDU Session): ~200–400 ms on 5G-SA; ~50 m_
 
 **`src/lib/data/protocols/coap.ts`** — 1 term(s)
 - L159 — `{{latency|latency}}`  · _} ] }, performance: { latency: 'No connection setup (UDP) —_
 
-**`src/lib/data/protocols/dash.ts`** — 1 term(s)
+**`src/lib/data/protocols/dash.ts`** — 2 term(s)
 - L178 — `{{latency|latency}}`  · _} ] }, performance: { latency: 'Standard: 10-30 seconds._
+- L25 — `{{manifest|manifest}}`  · _mat.' }, { title: 'MPD manifest generation', description:_
 
 **`src/lib/data/protocols/dhcp.ts`** — 2 term(s)
 - L181 — `{{latency|latency}}`  · _} ] }, performance: { latency: 'Full DORA cycle: ~100-500ms_
 - L21 — `{{broadcast|broadcast}}`  · _s: [ { title: 'DISCOVER (broadcast)', description: 'New d_
 
-**`src/lib/data/protocols/dns.ts`** — 6 term(s)
+**`src/lib/data/protocols/dns.ts`** — 9 term(s)
 - L167 — `{{latency|latency}}`  · _} ] }, performance: { latency: 'Cached: <1ms. Uncached:_
 - L179 — `{{dns-resolution|DNS resolution}}`  · _t: 'Diagram showing iterative DNS resolution: client queries recursive res_
 - L222 — `{{anycast|anycast}}`  · _13 root server letters, ~1500 anycast instances', description:_
 - L194 — `{{dnssec|DNSSEC}}`  · _{ date: '2024', title: 'DNSSEC validation reaches 38%', d_
 - L209 — `{{cloudflare|Cloudflare}}`  · _ldDeployments: [ { org: 'Cloudflare 1.1.1.1', scale: '~1 trill_
 - L215 — `{{google|Google}}`  · _surements.' }, { org: 'Google 8.8.8.8', scale: '~14 tril_
+- L43 — `{{mx-record|MX record}}`  · _slation)', 'Email delivery (MX record lookups)', 'Domain verifica_
+- L44 — `{{dmarc|DMARC}}`  · _n (TXT records for SPF, DKIM, DMARC)', '{{load-balancing\|Load b_
+- L179 — `{{recursive-resolver|recursive resolver}}`  · _NS resolution: client queries recursive resolver, which queries root, TLD, and_
 
-**`src/lib/data/protocols/ethernet.ts`** — 2 term(s)
+**`src/lib/data/protocols/ethernet.ts`** — 3 term(s)
 - L145 — `{{latency|latency}}`  · _} ] }, performance: { latency: 'Sub-microsecond latency_
 - L158 — `{{payload|payload}}`  · _le, MAC addresses, EtherType, payload, and FCS fields', caption:_
+- L146 — `{{store-and-forward|store-and-forward}}`  · _ng at high speeds (25+ Gbps); store-and-forward at 1 Gbps takes ~12 \u00b5s f_
 
 **`src/lib/data/protocols/ftp.ts`** — 1 term(s)
 - L148 — `{{latency|latency}}`  · _} ] }, performance: { latency: 'Connection setup + transfer_
 
-**`src/lib/data/protocols/graphql.ts`** — 3 term(s)
+**`src/lib/data/protocols/graphql.ts`** — 4 term(s)
 - L40 — `{{bandwidth|bandwidth}}`  · _Mobile applications (minimize bandwidth)', 'Complex dashboard UIs w_
 - L133 — `{{latency|latency}}`  · _} ] }, performance: { latency: 'Single HTTP round trip for_
 - L134 — `{{payload|payload}}`  · _ut: 'No over-fetching reduces payload size; but complex queries can_
+- L134 — `{{over-fetching|over-fetching}}`  · _ST calls)', throughput: 'No over-fetching reduces payload size; but com_
 
 **`src/lib/data/protocols/grpc.ts`** — 3 term(s)
 - L119 — `{{latency|latency}}`  · _} ] }, performance: { latency: 'HTTP/2 connection reuse + b_
 - L119 — `{{serialization|serialization}}`  · _P/2 connection reuse + binary serialization = very low latency per call',_
 - L130 — `{{google|Google}}`  · _ard_Server_Rack.jpg', alt: "Google's original corkboard server r_
 
-**`src/lib/data/protocols/hls.ts`** — 2 term(s)
+**`src/lib/data/protocols/hls.ts`** — 3 term(s)
 - L153 — `{{latency|latency}}`  · _} ] }, performance: { latency: 'Standard: 10-30 seconds._
 - L40 — `{{apple|Apple}}`  · _'Video on demand (Disney+, Apple TV+, and as fallback on Netfl_
+- L24 — `{{manifest|Manifest}}`  · _ne file.' }, { title: 'Manifest playlist', description:_
 
 **`src/lib/data/protocols/http1.ts`** — 2 term(s)
 - L108 — `{{latency|latency}}`  · _} ] }, performance: { latency: '1 RTT per {{request-resp_
 - L132 — `{{keep-alive|keep-alive}}`  · _tent connections, showing how keep-alive reduces round trips', capti_
 
-**`src/lib/data/protocols/http2.ts`** — 4 term(s)
+**`src/lib/data/protocols/http2.ts`** — 5 term(s)
 - L113 — `{{latency|latency}}`  · _} ] }, performance: { latency: 'Same connection setup as_
 - L126 — `{{multiplexing|multiplexing}}`  · _uests, pipelining, and HTTP/2 multiplexing over a single connection',_
 - L117 — `{{hpack|HPACK}}`  · _rhead waste', overhead: 'HPACK compresses headers by 30-76%_
 - L26 — `{{binary-framing|Binary framing}}`  · _es, etc.' }, { title: 'Binary framing', description: 'All co_
+- L126 — `{{pipelining|pipelining}}`  · _HTTP/1.1 sequential requests, pipelining, and HTTP/2 multiplexing over_
 
-**`src/lib/data/protocols/http3.ts`** — 9 term(s)
+**`src/lib/data/protocols/http3.ts`** — 10 term(s)
 - L42 — `{{latency|latency}}`  · _-first applications', 'High-latency networks (satellite, remote a_
 - L19 — `{{handshake|handshake}}`  · _tWorks: [ { title: 'QUIC handshake (1 RTT)', description:_
 - L187 — `{{head-of-line-blocking|head-of-line blocking}}`  · _' }, { title: 'No more head-of-line blocking', text: 'In [[http2\|HTTP/2_
@@ -608,12 +630,15 @@ Editorial rule: wrap on first appearance per section, not every time. `low` prio
 - L162 — `{{cloudflare|Cloudflare}}`  · _ldDeployments: [ { org: 'Cloudflare', scale: 'All HTTPS traffi_
 - L168 — `{{google|Google}}`  · _\|HTTP/3]].' }, { org: 'Google', scale: 'google.com / You_
 - L174 — `{{meta|Meta}}`  · _rdisation.' }, { org: 'Meta', scale: '>75% of internet_
+- L24 — `{{qpack|QPACK}}`  · _\|RTT}}).' }, { title: 'QPACK header compression', descr_
 
-**`src/lib/data/protocols/icmp.ts`** — 4 term(s)
+**`src/lib/data/protocols/icmp.ts`** — 6 term(s)
 - L50 — `{{latency|latency}}`  · _ping)', 'Path discovery and latency measurement (traceroute/trace_
 - L181 — `{{checksum|Checksum}}`  · _byte ICMP header (Type, Code, Checksum, Id, Seq) encapsulated in IP._
 - L53 — `{{signaling|signaling}}`  · _Too Big messages)', 'Router signaling and redirect optimization' ]_
 - L45 — `{{hop|hop}}`  · _s a host to use a better next-hop router. If a router receives_
+- L23 — `{{ping|ping}}`  · _{ title: 'Echo Request (ping)', description: 'Sourc_
+- L38 — `{{traceroute|traceroute}}`  · _{ title: 'Time Exceeded (traceroute)', description: "When_
 
 **`src/lib/data/protocols/imap.ts`** — 1 term(s)
 - L148 — `{{latency|latency}}`  · _} ] }, performance: { latency: 'LOGIN + SELECT: ~200ms._
@@ -627,7 +652,7 @@ Editorial rule: wrap on first appearance per section, not every time. `low` prio
 - L35 — `{{fragmentation|Fragmentation}}`  · _works).' }, { title: 'Fragmentation if needed', description:_
 - L99 — `{{loopback|loopback}}`  · _\`\${addr.internal ? '(loopback)' : '(external)'}\` );_
 
-**`src/lib/data/protocols/ipsec.ts`** — 9 term(s)
+**`src/lib/data/protocols/ipsec.ts`** — 14 term(s)
 - L219 — `{{latency|latency}}`  · _} ] }, performance: { latency: '2 round trips for IKE_SA_
 - L56 — `{{encryption|encryption}}`  · _y networks', 'Opportunistic encryption between cooperating networks_
 - L141 — `{{certificate|Certificate}}`  · _enticationMethod</key><string>Certificate</string> <key>RemoteIdent_
@@ -637,6 +662,11 @@ Editorial rule: wrap on first appearance per section, not every time. `low` prio
 - L53 — `{{microsoft|Microsoft}}`  · _Apple iOS/macOS native IKEv2, Microsoft Always-On VPN, strongSwan / N_
 - L52 — `{{cisco|Cisco}}`  · _o-site VPN between firewalls (Cisco ASA, Juniper SRX, Fortinet, O_
 - L222 — `{{intel|Intel}}`  · _pto NICs (Mellanox BlueField, Intel QAT). AWS Site-to-Site VPN: 5_
+- L182 — `{{aes-gcm|AES-GCM}}`  · _le: 'ESP packet (tunnel mode, AES-GCM-256)', code: `Outer IP_
+- L25 — `{{child-sa|Child SA}}`  · _prove identity, authorize the Child SA', description: 'Each {_
+- L20 — `{{ipsec-ike-sa-init|IKE_SA_INIT}}`  · _howItWorks: [ { title: 'IKE_SA_INIT — negotiate crypto, exchange_
+- L25 — `{{ipsec-ike-auth|IKE_AUTH}}`  · _hange}}.' }, { title: 'IKE_AUTH — prove identity, authorize t_
+- L196 — `{{ipsec-create-child-sa|CREATE_CHILD_SA}}`  · _}, { title: 'CREATE_CHILD_SA — rekey before lifetime expir_
 
 **`src/lib/data/protocols/ipv6.ts`** — 5 term(s)
 - L168 — `{{latency|latency}}`  · _} ] }, performance: { latency: 'Same as IPv4 for most pa_
@@ -645,14 +675,16 @@ Editorial rule: wrap on first appearance per section, not every time. `low` prio
 - L169 — `{{hop|hop}}`  · _checksum computation at each hop, and some ISPs have shorter I_
 - L171 — `{{fragmentation|fragmentation}}`  · _ksum recalculation, no router fragmentation, and fixed header size enable_
 
-**`src/lib/data/protocols/json-rpc.ts`** — 1 term(s)
+**`src/lib/data/protocols/json-rpc.ts`** — 2 term(s)
 - L158 — `{{latency|latency}}`  · _} ] }, performance: { latency: 'Same as the underlying t_
+- L47 — `{{lsp|Language Server Protocol (LSP)}}`  · _tcoin, Solana, Polkadot)', 'Language Server Protocol (LSP) for code editors', 'AI agen_
 
-**`src/lib/data/protocols/kafka.ts`** — 2 term(s)
+**`src/lib/data/protocols/kafka.ts`** — 3 term(s)
 - L186 — `{{latency|latency}}`  · _} ] }, performance: { latency: 'End-to-end: 2-10ms typical._
 - L198 — `{{topic|topic}}`  · _ng Kafka producers writing to topic partitions across brokers, wi_
+- L50 — `{{stream-processing|Stream processing}}`  · _ure (CDC) from databases', 'Stream processing with [[kafka\|Kafka]] Streams_
 
-**`src/lib/data/protocols/kerberos.ts`** — 7 term(s)
+**`src/lib/data/protocols/kerberos.ts`** — 8 term(s)
 - L261 — `{{latency|latency}}`  · _} ] }, performance: { latency: '1 RTT for AS-REQ/AS-REP_
 - L386 — `{{encryption|encryption}}`  · _' }, { title: 'Weak encryption types still lurk in old keyta_
 - L299 — `{{certificate|certificate}}`  · _e: 'Microsoft enforces strong certificate binding (CVE-2022-37967 long-_
@@ -660,12 +692,13 @@ Editorial rule: wrap on first appearance per section, not every time. `low` prio
 - L344 — `{{apple|Apple}}`  · _org: 'Heimdal', scale: 'Apple\'s macOS, Samba, FreeBSD',_
 - L53 — `{{microsoft|Microsoft}}`  · _'**Active Directory** — every Microsoft AD domain on Earth, primary a_
 - L338 — `{{linux|Linux}}`  · _al C codebase; ships in every Linux distro', description:_
+- L44 — `{{kerberos-krbtgt|krbtgt}}`  · _graph of shared keys between krbtgt principals — the same mechani_
 
 **`src/lib/data/protocols/mcp.ts`** — 2 term(s)
 - L150 — `{{latency|latency}}`  · _} ] }, performance: { latency: 'stdio transport has near_
 - L25 — `{{handshake|handshake}}`  · _}, { title: 'Initialize handshake', description: 'The cl_
 
-**`src/lib/data/protocols/mdns-dns-sd.ts`** — 14 term(s)
+**`src/lib/data/protocols/mdns-dns-sd.ts`** — 15 term(s)
 - L299 — `{{icann|ICANN}}`  · _act of IETF jurisdiction over ICANN', text: 'RFC 6761 (Februar_
 - L202 — `{{bandwidth|bandwidth}}`  · _nnounce/resolve. Steady-state bandwidth is dominated by the announce_
 - L199 — `{{latency|latency}}`  · _} ] }, performance: { latency: '~750 ms for full probe (_
@@ -680,19 +713,23 @@ Editorial rule: wrap on first appearance per section, not every time. `low` prio
 - L249 — `{{cisco|Cisco}}`  · _date: '2024-03', title: 'Cisco WLC mDNS DoS — cisco-sa-wlc-m_
 - L275 — `{{linux|Linux}}`  · _cale: 'Default on every major Linux distro', description:_
 - L56 — `{{airdrop|AirDrop}}`  · _covery', 'Apple Continuity (AirDrop, Handoff, Universal Clipboard_
+- L162 — `{{mdns-announce|mDNS announce}}`  · _}, { title: 'mDNS announce (PTR + SRV + TXT + A, cache-f_
 
-**`src/lib/data/protocols/mptcp.ts`** — 5 term(s)
+**`src/lib/data/protocols/mptcp.ts`** — 8 term(s)
 - L164 — `{{bandwidth|bandwidth}}`  · _throughput: 'Aggregated bandwidth of all subflows. Two 100Mbps_
 - L161 — `{{latency|latency}}`  · _} ] }, performance: { latency: 'Initial: same as TCP (1_
 - L19 — `{{handshake|handshake}}`  · _rks: [ { title: 'Initial handshake with MP_CAPABLE', descript_
 - L5 — `{{multipath|Multipath}}`  · _col = { id: 'mptcp', name: 'Multipath TCP', abbreviation: 'MPTCP',_
 - L46 — `{{apple|Apple}}`  · _]] to cellular handover)', 'Apple Siri, Maps, and Music on iOS_
+- L19 — `{{mp-capable|MP_CAPABLE}}`  · _itle: 'Initial handshake with MP_CAPABLE', description: 'The fi_
+- L24 — `{{mp-join|MP_JOIN}}`  · _tle: 'Additional subflows via MP_JOIN', description: 'Either_
+- L39 — `{{failover|failover}}`  · _}, { title: 'Seamless failover', description: 'If a {_
 
 **`src/lib/data/protocols/mqtt.ts`** — 2 term(s)
 - L154 — `{{latency|latency}}`  · _} ] }, performance: { latency: 'Sub-second for QoS 0; 1-2 R_
 - L79 — `{{topic|topic}}`  · _sage) => { console.log(\`\${topic}: \${message.toString()}\`);_
 
-**`src/lib/data/protocols/nat-traversal.ts`** — 11 term(s)
+**`src/lib/data/protocols/nat-traversal.ts`** — 12 term(s)
 - L207 — `{{ip-address|IP address}}`  · _translated to a single public IP address', caption: 'The reason {_
 - L195 — `{{bandwidth|bandwidth}}`  · _ra hop of latency and re-bill bandwidth; Cloudflare Realtime charges_
 - L192 — `{{latency|latency}}`  · _} ] }, performance: { latency: '1 RTT for a STUN Binding_
@@ -704,8 +741,9 @@ Editorial rule: wrap on first appearance per section, not every time. `low` prio
 - L55 — `{{cloudflare|Cloudflare}}`  · _, DERP as TURN-analogue)', 'Cloudflare Realtime, Twilio NTS, Microso_
 - L51 — `{{google|Google}}`  · _[webrtc\|WebRTC]] video calls (Google Meet, Zoom, Teams, Discord, F_
 - L55 — `{{microsoft|Microsoft}}`  · _udflare Realtime, Twilio NTS, Microsoft Teams relay backbone' ], co_
+- L136 — `{{binding-request|STUN Binding Request}}`  · _tions: [ { title: 'STUN Binding Request (client → server)', cod_
 
-**`src/lib/data/protocols/nfc.ts`** — 9 term(s)
+**`src/lib/data/protocols/nfc.ts`** — 13 term(s)
 - L271 — `{{latency|latency}}`  · _} ] }, performance: { latency: '50–200 ms typical for ta_
 - L173 — `{{payload|payload}}`  · _rd header — the universal NFC payload container', code: `Byte_
 - L20 — `{{ism-band|ISM band}}`  · _MHz inductive coupling in the ISM band', description: "All NF_
@@ -715,6 +753,10 @@ Editorial rule: wrap on first appearance per section, not every time. `low` prio
 - L45 — `{{matter|Matter}}`  · _ndover to Bluetooth / Wi-Fi / Matter', description: "For hi_
 - L56 — `{{google|Google}}`  · _[[nfc\|NFC]] tap at Apple Pay, Google Wallet, Samsung Pay, and ever_
 - L56 — `{{apple|Apple}}`  · _payment — [[nfc\|NFC]] tap at Apple Pay, Google Wallet, Samsung P_
+- L433 — `{{android|Android}}`  · _cts and cold-start latency on Android', text: "When two install_
+- L30 — `{{anti-collision|Anti-collision}}`  · _NFC tag.' }, { title: 'Anti-collision: REQA → ATQA → SEL/NVB → SAK'_
+- L35 — `{{select-aid|SELECT AID}}`  · _Card Emulation: SELECT PPSE → SELECT AID → GET PROCESSING OPTIONS → GE_
+- L35 — `{{generate-ac|GENERATE AC}}`  · _ID → GET PROCESSING OPTIONS → GENERATE AC', description: "For ca_
 
 **`src/lib/data/protocols/ntp.ts`** — 3 term(s)
 - L154 — `{{bandwidth|bandwidth}}`  · _: 64-1024 seconds. Negligible bandwidth.', overhead: '48-byte packe_
@@ -726,12 +768,13 @@ Editorial rule: wrap on first appearance per section, not every time. `low` prio
 - L48 — `{{google|Google}}`  · _'Social login ("Sign in with Google/GitHub/Apple")', 'Third-par_
 - L48 — `{{apple|Apple}}`  · _("Sign in with Google/GitHub/Apple")', 'Third-party API access_
 
-**`src/lib/data/protocols/ospf.ts`** — 5 term(s)
+**`src/lib/data/protocols/ospf.ts`** — 6 term(s)
 - L185 — `{{latency|latency}}`  · _} ] }, performance: { latency: 'Default convergence ~40_
 - L52 — `{{peering|peering}}`  · _ackbones)', 'MPLS-VPN PE-CE peering (RFC 4577)', 'Mid-tier ISP_
 - L246 — `{{microsoft|Microsoft}}`  · _ldDeployments: [ { org: 'Microsoft Azure', scale: 'Inter-regi_
 - L252 — `{{nvidia|NVIDIA}}`  · _{ org: 'Cumulus Networks / NVIDIA SONiC', scale: 'Default IG_
 - L264 — `{{cisco|Cisco}}`  · _revalence." }, { org: 'Cisco IOS-XR / Juniper Junos', s_
+- L25 — `{{adjacency|Adjacency}}`  · _s field.' }, { title: 'Adjacency state machine', descriptio_
 
 **`src/lib/data/protocols/quic.ts`** — 9 term(s)
 - L150 — `{{latency|latency}}`  · _} ] }, performance: { latency: '1 RTT for new connection_
@@ -760,11 +803,13 @@ Editorial rule: wrap on first appearance per section, not every time. `low` prio
 - L155 — `{{jitter|jitter}}`  · _typically 50-300ms including jitter buffering.', throughput:_
 - L157 — `{{codec|codec}}`  · _, throughput: 'Adaptive: codec and bitrate adjust based on R_
 
-**`src/lib/data/protocols/sctp.ts`** — 4 term(s)
+**`src/lib/data/protocols/sctp.ts`** — 6 term(s)
 - L147 — `{{latency|latency}}`  · _} ] }, performance: { latency: '2 RTT for connection setup_
 - L19 — `{{handshake|handshake}}`  · _Works: [ { title: '4-way handshake', description: "[[sctp_
 - L40 — `{{signaling|signaling}}`  · _} ], useCases: [ 'Telecom signaling (SS7 over [[ip\|IP]], Diameter_
 - L40 — `{{diameter|Diameter}}`  · _ignaling (SS7 over [[ip\|IP]], Diameter)', '4G/5G mobile network in_
+- L19 — `{{four-way-handshake|4-way handshake}}`  · _howItWorks: [ { title: '4-way handshake', description: "[[sctp_
+- L29 — `{{multi-homing|Multi-homing}}`  · _cking}}." }, { title: 'Multi-homing', description: 'An [[s_
 
 **`src/lib/data/protocols/sdp.ts`** — 3 term(s)
 - L177 — `{{latency|latency}}`  · _} ] }, performance: { latency: 'SDP itself adds no latency_
@@ -779,23 +824,28 @@ Editorial rule: wrap on first appearance per section, not every time. `low` prio
 - L146 — `{{latency|latency}}`  · _} ] }, performance: { latency: 'Seconds to minutes (store a_
 - L11 — `{{hop|hop}}`  · _internet — store and forward, hop by hop.', overview: `[[smtp\|_
 
-**`src/lib/data/protocols/soap.ts`** — 2 term(s)
+**`src/lib/data/protocols/soap.ts`** — 3 term(s)
 - L127 — `{{latency|latency}}`  · _} ] }, performance: { latency: 'Same as HTTP — one reque_
 - L128 — `{{request-response|request-response}}`  · _tency: 'Same as HTTP — one request-response round trip. XML parsing adds_
+- L119 — `{{soap-fault|SOAP Fault}}`  · _}, { title: 'SOAP Fault', code: `HTTP/1.1 500 I_
 
 **`src/lib/data/protocols/sse.ts`** — 1 term(s)
 - L117 — `{{latency|latency}}`  · _} ] }, performance: { latency: 'Sub-second (persistent conn_
 
-**`src/lib/data/protocols/ssh.ts`** — 3 term(s)
+**`src/lib/data/protocols/ssh.ts`** — 7 term(s)
 - L175 — `{{latency|latency}}`  · _} ] }, performance: { latency: '1-2 RTTs for connection + k_
 - L176 — `{{encryption|encryption}}`  · _, throughput: 'Hardware AES encryption; limited mainly by the networ_
 - L187 — `{{payload|payload}}`  · _acket length, padding length, payload, padding, and MAC fields',_
+- L178 — `{{aes-gcm|AES-GCM}}`  · _256 = 32 bytes. AEAD ciphers (AES-GCM, ChaCha20-Poly1305) use a 16-_
+- L178 — `{{chacha20-poly1305|ChaCha20-Poly1305}}`  · _bytes. AEAD ciphers (AES-GCM, ChaCha20-Poly1305) use a 16-byte authentication_
+- L42 — `{{sftp|SFTP}}`  · _'Secure file transfer (SCP, SFTP)', '{{port-forwarding\|Port_
+- L178 — `{{poly1305|Poly1305}}`  · _AD ciphers (AES-GCM, ChaCha20-Poly1305) use a 16-byte authentication_
 
 **`src/lib/data/protocols/stomp.ts`** — 2 term(s)
 - L173 — `{{latency|latency}}`  · _} ] }, performance: { latency: 'Similar to the underlying b_
 - L184 — `{{broker|message broker}}`  · _337%29.jpg', alt: 'RabbitMQ message broker presentation at a developer c_
 
-**`src/lib/data/protocols/tcp.ts`** — 11 term(s)
+**`src/lib/data/protocols/tcp.ts`** — 14 term(s)
 - L157 — `{{latency|latency}}`  · _} ] }, performance: { latency: '1 RTT for TCP handshake_
 - L111 — `{{handshake|Handshake}}`  · _{ title: 'Three-Way Handshake', code: `Client → Serve_
 - L111 — `{{three-way-handshake|Three-Way Handshake}}`  · _tions: [ { title: 'Three-Way Handshake', code: `Client → Serve_
@@ -807,8 +857,11 @@ Editorial rule: wrap on first appearance per section, not every time. `low` prio
 - L244 — `{{apple|Apple}}`  · _ent paths.' }, { org: 'Apple', scale: 'iOS / macOS defa_
 - L238 — `{{meta|Meta}}`  · _}\'s edge.' }, { org: 'Meta', scale: '>50% of traffic_
 - L193 — `{{linux|Linux}}`  · _date: '2024-01', title: 'Linux 6.7 ships native TCP-AO (RFC_
+- L21 — `{{syn|SYN (synchronize)}}`  · _tion: 'The client sends a SYN (synchronize) packet to the server, proposi_
+- L24 — `{{syn-ack|SYN-ACK}}`  · _message.' }, { title: 'SYN-ACK — Server responds', descri_
+- L47 — `{{sftp|SFTP}}`  · _'File transfer ([[ftp\|FTP]], SFTP)', 'Remote access ([[ssh\|SS_
 
-**`src/lib/data/protocols/tls.ts`** — 8 term(s)
+**`src/lib/data/protocols/tls.ts`** — 13 term(s)
 - L170 — `{{latency|latency}}`  · _} ] }, performance: { latency: 'TLS 1.3: 1 RTT for new conn_
 - L194 — `{{handshake|handshake}}`  · _e diagram of the full TLS 1.3 handshake showing ClientHello, ServerHe_
 - L44 — `{{encryption|encryption}}`  · _API communication', 'Email encryption (SMTPS, IMAPS)', '{{vpn\|VPN_
@@ -817,8 +870,13 @@ Editorial rule: wrap on first appearance per section, not every time. `low` prio
 - L231 — `{{cloudflare|Cloudflare}}`  · _ldDeployments: [ { org: 'Cloudflare', scale: '100% of HTTPS ed_
 - L243 — `{{google|Google}}`  · _in iOS 26.' }, { org: 'Google Chrome', scale: 'Chrome 12_
 - L237 — `{{apple|Apple}}`  · _udflare}}.' }, { org: 'Apple', scale: 'iOS 26 / macOS 1_
+- L21 — `{{client-hello|ClientHello}}`  · _howItWorks: [ { title: 'ClientHello', description: 'Client_
+- L26 — `{{server-hello|ServerHello}}`  · _nd trip.' }, { title: 'ServerHello + Certificate', descriptio_
+- L172 — `{{aes-gcm|AES-GCM}}`  · _: 2 RTTs.', throughput: 'AES-GCM encryption is hardware-accele_
+- L44 — `{{imaps|IMAPS}}`  · _, 'Email encryption (SMTPS, IMAPS)', '{{vpn\|VPN}} tunneling (_
+- L263 — `{{rsa|RSA}}`  · _emoved RC4, 3DES, MD5, SHA-1, RSA key {{exchange\|exchange}}, an_
 
-**`src/lib/data/protocols/udp.ts`** — 9 term(s)
+**`src/lib/data/protocols/udp.ts`** — 10 term(s)
 - L152 — `{{arpanet|ARPANET}}`  · _.svg.png', alt: 'Map of the ARPANET in 1974, showing interconnect_
 - L141 — `{{latency|latency}}`  · _} ] }, performance: { latency: 'Zero connection setup; sing_
 - L19 — `{{handshake|handshake}}`  · _wItWorks: [ { title: 'No handshake', description: 'Unlike_
@@ -828,29 +886,33 @@ Editorial rule: wrap on first appearance per section, not every time. `low` prio
 - L176 — `{{google|Google}}`  · _e: '~14 trillion queries/day (Google 8.8.8.8 alone)', descripti_
 - L194 — `{{meta|Meta}}`  · _0% of Chrome traffic, >75% of Meta', description: 'The la_
 - L167 — `{{linux|Linux}}`  · _{ date: '2025', title: 'Linux io_uring + UDP zero-copy',_
+- L222 — `{{unreliable-delivery|unreliable delivery}}`  · _{ title: 'Fragmentation = unreliable delivery', text: '[[udp\|UDP]] data_
 
-**`src/lib/data/protocols/uwb.ts`** — 6 term(s)
+**`src/lib/data/protocols/uwb.ts`** — 7 term(s)
 - L270 — `{{latency|latency}}`  · _} ] }, performance: { latency: 'Single DS-TWR ranging ro_
 - L436 — `{{cipher-suite|cipher suite}}`  · _}, { title: 'STS / cipher suite — turn it on, and watch the r_
 - L40 — `{{ccc-digital-key|CCC Digital Key}}`  · _ed form." }, { title: 'CCC Digital Key 3.0 — the canonical UWB unloc_
 - L343 — `{{aliro|Aliro}}`  · _date: '2026-02', title: 'Aliro 1.0 finalised — "Matter for d_
 - L343 — `{{matter|Matter}}`  · _itle: 'Aliro 1.0 finalised — "Matter for door locks" with UWB',_
 - L56 — `{{apple|Apple}}`  · _ing with cm-class direction — Apple AirTag, Samsung SmartTag+, Fi_
+- L27 — `{{clock-drift|clock drift}}`  · _T_reply1 + T_reply2)` cancels clock drift to first order — the producti_
 
-**`src/lib/data/protocols/webrtc.ts`** — 5 term(s)
+**`src/lib/data/protocols/webrtc.ts`** — 6 term(s)
 - L156 — `{{latency|latency}}`  · _} ] }, performance: { latency: 'Connection setup: 2-5 secon_
 - L29 — `{{handshake|handshake}}`  · _er.' }, { title: 'DTLS handshake', description: 'Once a_
 - L19 — `{{signaling|Signaling}}`  · _howItWorks: [ { title: 'Signaling', description: 'Peers_
 - L24 — `{{ice-candidate|ICE candidate}}`  · _re how).' }, { title: 'ICE candidate gathering', description:_
 - L40 — `{{google|Google}}`  · _ses: [ 'Video conferencing (Google Meet, Zoom web client)', 'V_
+- L129 — `{{binding-request|STUN Binding Request}}`  · _}, { title: 'STUN Binding Request', code: `STUN Message:_
 
-**`src/lib/data/protocols/websockets.ts`** — 4 term(s)
+**`src/lib/data/protocols/websockets.ts`** — 5 term(s)
 - L112 — `{{latency|latency}}`  · _} ] }, performance: { latency: '1 HTTP round trip for up_
 - L100 — `{{handshake|Handshake}}`  · _{ title: 'Upgrade Handshake', code: `GET /chat HTTP_
 - L124 — `{{full-duplex|full-duplex}}`  · _upgrade handshake followed by full-duplex bidirectional communication',_
 - L42 — `{{google|Google}}`  · _s', 'Collaborative editing (Google Docs, Figma)', 'Multiplayer_
+- L34 — `{{ping|Ping}}`  · _tweight.' }, { title: 'Ping/pong keepalive', descripti_
 
-**`src/lib/data/protocols/wifi.ts`** — 7 term(s)
+**`src/lib/data/protocols/wifi.ts`** — 9 term(s)
 - L164 — `{{latency|latency}}`  · _} ] }, performance: { latency: '1-5 ms typical for local ac_
 - L32 — `{{handshake|handshake}}`  · _s.' }, { title: '4-way handshake (WPA2/WPA3)', description:_
 - L168 — `{{encryption|encryption}}`  · _flags (vs 14 for Ethernet) + encryption overhead (CCMP adds 16 bytes)_
@@ -858,20 +920,24 @@ Editorial rule: wrap on first appearance per section, not every time. `low` prio
 - L32 — `{{wpa3|WPA3}}`  · _title: '4-way handshake (WPA2/WPA3)', description: 'After_
 - L32 — `{{wpa2|WPA2}}`  · _{ title: '4-way handshake (WPA2/WPA3)', description: '_
 - L141 — `{{beacon-frame|Beacon Frame}}`  · _}, { title: 'Beacon Frame', code: `802.11 Beacon_
+- L32 — `{{four-way-handshake|4-way handshake}}`  · _access.' }, { title: '4-way handshake (WPA2/WPA3)', description:_
+- L141 — `{{beacon|Beacon Frame}}`  · _}, { title: 'Beacon Frame', code: `802.11 Beacon_
 
-**`src/lib/data/protocols/wireguard.ts`** — 6 term(s)
+**`src/lib/data/protocols/wireguard.ts`** — 7 term(s)
 - L211 — `{{latency|latency}}`  · _} ] }, performance: { latency: '1 round trip for handsha_
 - L25 — `{{handshake|Handshake}}`  · _plane).' }, { title: 'Handshake Initiation (148 bytes, type=1_
 - L20 — `{{public-key|public key}}`  · _: [ { title: 'Identity = public key', description: 'Each {_
 - L333 — `{{routing-table|routing table}}`  · _title: 'AllowedIPs is your routing table AND your ACL', text: 'A s_
 - L52 — `{{cloudflare|Cloudflare}}`  · _sumer "global VPN" services — Cloudflare WARP, Mullvad, NordVPN NordLy_
 - L212 — `{{linux|Linux}}`  · _ding-plane overhead in-kernel Linux; ~3–5 ms with BoringTun (user_
+- L216 — `{{poly1305|Poly1305}}`  · _B UDP + 20 B outer IP + 16 B Poly1305. Roughly 4% data inflation on_
 
-**`src/lib/data/protocols/xmpp.ts`** — 2 term(s)
+**`src/lib/data/protocols/xmpp.ts`** — 3 term(s)
 - L195 — `{{latency|latency}}`  · _} ] }, performance: { latency: 'Near-instant over persis_
 - L46 — `{{cisco|Cisco}}`  · _Enterprise instant messaging (Cisco Jabber, Zoom Chat backend)',_
+- L35 — `{{federation|federation}}`  · _{ title: 'Server-to-server federation', description: 'When a_
 
-**`src/lib/data/protocols/zigbee.ts`** — 7 term(s)
+**`src/lib/data/protocols/zigbee.ts`** — 9 term(s)
 - L234 — `{{latency|latency}}`  · _} ] }, performance: { latency: '~30–80 ms one-hop ZCL co_
 - L235 — `{{hop|hop}}`  · _latency: '~30–80 ms one-hop ZCL command on idle networks;_
 - L10 — `{{ieee-802-15-4|IEEE 802.15.4}}`  · _rfc: 'Zigbee PRO 2023 (R23) / IEEE 802.15.4-2020', oneLiner: '{{ieee-8_
@@ -879,4 +945,6 @@ Editorial rule: wrap on first appearance per section, not every time. `low` prio
 - L45 — `{{matter|Matter}}`  · _ntirely." }, { title: 'Matter bridge — how Zigbee gets to t_
 - L277 — `{{thread|Thread}}`  · _M3 ships globally — Zigbee + Thread + Matter in one box', desc_
 - L368 — `{{apple|Apple}}`  · _title: 'Philips Hue\'s 2012 Apple Store launch never said "Zigb_
+- L332 — `{{failover|failover}}`  · _100+ device models; multi-hub failover', description: "Shenzh_
+- L60 — `{{curve25519|Curve25519}}`  · _t\|GATT}} bootstrap with SPEKE/Curve25519)', 'Utility AMI — Zigbee Sm_
 

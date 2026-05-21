@@ -14,7 +14,7 @@ export const ip: Protocol = {
 
 The [[ip|IPv4]] header is 20 bytes (plus options) and carries critical fields: Source [[ip|IP]], Destination [[ip|IP]], {{ttl|TTL}} ({{ttl|Time to Live}}, decremented by each router to prevent infinite loops), Protocol (6 for [[tcp|TCP]], 17 for [[udp|UDP]], 1 for [[icmp|ICMP]]), and {{fragmentation|fragmentation}} fields for splitting oversized packets. [[ip|IP]] is a best-effort, {{connectionless|connectionless}} protocol — it makes no guarantees about delivery, ordering, or integrity. Those responsibilities belong to the transport layer: [[tcp|TCP]] adds reliability, [[udp|UDP]] adds... nothing (and that's the point).
 
-[[ip|IPv4]]'s 32-bit address space (about 4.3 billion addresses) seemed vast in 1981 but was effectively exhausted by 2011. {{nat|NAT}} ({{nat|Network Address Translation}}) extended its life by letting entire networks hide behind a single public [[ip|IP]], but the real solution is [[ipv6|IPv6]] with its 128-bit addresses (3.4 \u00d7 10\u00b3\u2078 addresses — enough for every atom on Earth). [[ipv6|IPv6]] adoption is growing but [[ip|IPv4]] still carries the majority of internet traffic. At the local network level, [[arp|ARP]] maps [[ip|IP]] addresses to [[ethernet|Ethernet]] MAC addresses, and [[dns|DNS]] maps human-readable domain names to [[ip|IP]] addresses.`,
+[[ip|IPv4]]'s 32-bit address space (about 4.3 billion addresses) seemed vast in 1981 but was effectively exhausted by 2011. {{nat|NAT}} ({{nat|Network Address Translation}}) extended its life by letting entire networks hide behind a single public [[ip|IP]], but the real solution is [[ipv6|IPv6]] with its 128-bit addresses (3.4 \u00d7 10\u00b3\u2078 addresses — enough for every atom on Earth). [[ipv6|IPv6]] adoption is growing but [[ip|IPv4]] still carries the majority of internet traffic. At the local network level, [[arp|ARP]] maps [[ip|IP]] addresses to [[ethernet|Ethernet]] {{mac-address|MAC}} addresses, and [[dns|DNS]] maps human-readable domain names to [[ip|IP]] addresses.`,
 	howItWorks: [
 		{
 			title: 'Packet construction',
@@ -24,7 +24,7 @@ The [[ip|IPv4]] header is 20 bytes (plus options) and carries critical fields: S
 		{
 			title: 'Local routing decision',
 			description:
-				"The sender checks if the destination [[ip|IP]] is on the same {{subnet|subnet}} (using its {{subnet|subnet}} mask). If yes, it uses [[arp|ARP]] to find the destination's {{mac-address|MAC address}} and sends directly. If no, it forwards the packet to the {{default-gateway|default gateway}} (router), whose MAC is also resolved via [[arp|ARP]]."
+				"The sender checks if the destination [[ip|IP]] is on the same {{subnet|subnet}} (using its {{subnet|subnet}} mask). If yes, it uses [[arp|ARP]] to find the destination's {{mac-address|MAC address}} and sends directly. If no, it forwards the packet to the {{default-gateway|default gateway}} (router), whose {{mac-address|MAC}} is also resolved via [[arp|ARP]]."
 		},
 		{
 			title: 'Router forwarding and TTL decrement',

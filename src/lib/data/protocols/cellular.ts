@@ -10,48 +10,48 @@ export const cellular: Protocol = {
 	rfc: '3GPP TS 36.300 / 38.300',
 	oneLiner:
 		'The {{3gpp|3GPP}} radio family that gets a phone an {{ip-address|IP address}} from a base station 50 km away — every modern smartphone, every IoT cellular module, ~9 billion subscriptions, the largest wireless deployment on Earth.',
-	overview: `**Cellular** in 2026 is two protocols braided into one ecosystem: **4G LTE** ({{3gpp|3GPP}} Release 8, December 2008 — still the universal floor) and **{{5g-nr|5G NR}}** (Release 15, June 2018 — the current normative baseline). Both share the {{3gpp|3GPP}} standards body, the same air-interface design philosophy ({{ofdma|OFDMA}} + flexible numerology + {{harq|HARQ}}), the mandatory [[ipsec|IPsec]] envelope on every backhaul link, and an [[ipv6|IPv6]] mandate that has been quietly migrating every major carrier's user-plane to IPv6-only since ~2020. We treat them as one encyclopedia node the way [[bluetooth|Bluetooth Classic + BLE]] is one node — the SIG and the radio diverge but the consumer story is unified.
+	overview: `**Cellular** in 2026 is two protocols braided into one ecosystem: **4G {{lte|LTE}}** ({{3gpp|3GPP}} Release 8, December 2008 — still the universal floor) and **{{5g-nr|5G NR}}** (Release 15, June 2018 — the current normative baseline). Both share the {{3gpp|3GPP}} standards body, the same air-interface design philosophy ({{ofdma|OFDMA}} + flexible numerology + {{harq|HARQ}}), the mandatory [[ipsec|IPsec]] envelope on every backhaul link, and an [[ipv6|IPv6]] mandate that has been quietly migrating every major carrier's user-plane to IPv6-only since ~2020. We treat them as one encyclopedia node the way [[bluetooth|Bluetooth Classic + BLE]] is one node — the {{sig|SIG}} and the radio diverge but the consumer story is unified.
 
-The radio stack is the headline. **PHY** ({{3gpp|3GPP}} TS 38.211–214) carries {{ofdma|OFDMA}} with five numerologies — subcarrier spacings of 15, 30, 60, 120, and 240 kHz — letting the same protocol address sub-6 GHz mid-band (FR1) and {{mmwave|mmWave}} (FR2). **MAC** does hybrid ARQ over 8-process stop-and-wait {{retransmission|retransmission}}. **RLC** handles {{fragmentation|segmentation and reassembly}} across 10/16-bit {{sequence-number|sequence numbers}}. **PDCP** does {{header|header compression}} (ROHC) and AES-CTR {{encryption|ciphering}}. **RRC** drives the connection state machine — \`RRC_IDLE → CONNECTED → INACTIVE\` for 5G — and **NAS** carries mobility, {{handshake|authentication}}, and session management end-to-end between the UE and the core. Above all that, the user plane is just [[ip|IP]] (almost always [[ipv6|IPv6]] now); above *that*, the application runs whatever protocols ordinary internet applications run.
+The radio stack is the headline. **{{phy|PHY}}** ({{3gpp|3GPP}} {{ts-3gpp|TS}} 38.211–214) carries {{ofdma|OFDMA}} with five numerologies — subcarrier spacings of 15, 30, 60, 120, and 240 kHz — letting the same protocol address sub-6 GHz mid-band (FR1) and {{mmwave|mmWave}} (FR2). **{{mac-address|MAC}}** does hybrid ARQ over 8-process stop-and-wait {{retransmission|retransmission}}. **RLC** handles {{fragmentation|segmentation and reassembly}} across 10/16-bit {{sequence-number|sequence numbers}}. **PDCP** does {{header|header compression}} (ROHC) and {{aes|AES}}-CTR {{encryption|ciphering}}. **{{rrc|RRC}}** drives the connection state machine — \`RRC_IDLE → CONNECTED → INACTIVE\` for 5G — and **{{nas|NAS}}** carries mobility, {{handshake|authentication}}, and session management end-to-end between the {{ue|UE}} and the core. Above all that, the user plane is just [[ip|IP]] (almost always [[ipv6|IPv6]] now); above *that*, the application runs whatever protocols ordinary internet applications run.
 
-The Core Network is where the architectural revolution between 4G and 5G actually lives. **EPC** (Evolved Packet Core, LTE) is a small zoo of named monolithic boxes — MME, SGW, PGW, HSS, PCRF, all glued together by GTP and {{diameter|Diameter}}. **5GC** ({{5g-core|5G Core}}, NR-SA) is a **{{service-mesh|service-based architecture}}** where dozens of network functions (AMF, SMF, UPF, {{ausf|AUSF}}, UDM, PCF, NRF, NEF, NSSF, AF…) talk to each other over **[[http2|HTTP/2]] with {{json|JSON}} {{payload|payloads}} protected by [[tls|TLS]]**. The control plane of every modern carrier on Earth is now an [[http2|HTTP/2]] microservice fabric. Every N2/N3 interface between the radio access network and the core is wrapped in [[ipsec|IPsec ESP]] per {{3gpp|3GPP}} TS 33.501 — the single largest enterprise [[ipsec|IPsec]] deployment on Earth runs inside this layer.
+The Core Network is where the architectural revolution between 4G and 5G actually lives. **{{epc|EPC}}** (Evolved Packet Core, {{lte|LTE}}) is a small zoo of named monolithic boxes — {{mme|MME}}, {{sgw-acr|SGW}}, {{pgw|PGW}}, HSS, PCRF, all glued together by GTP and {{diameter|Diameter}}. **5GC** ({{5g-core|5G Core}}, NR-{{security-association|SA}}) is a **{{service-mesh|service-based architecture}}** where dozens of network functions ({{amf|AMF}}, {{smf|SMF}}, {{upf|UPF}}, {{ausf|AUSF}}, {{udm|UDM}}, PCF, NRF, NEF, NSSF, AF…) talk to each other over **[[http2|HTTP/2]] with {{json|JSON}} {{payload|payloads}} protected by [[tls|TLS]]**. The control plane of every modern carrier on Earth is now an [[http2|HTTP/2]] microservice fabric. Every N2/N3 interface between the radio access network and the core is wrapped in [[ipsec|IPsec ESP]] per {{3gpp|3GPP}} {{ts-3gpp|TS}} 33.501 — the single largest enterprise [[ipsec|IPsec]] deployment on Earth runs inside this layer.
 
-The frontier in 2026 is **5G-Advanced** (Release 18, frozen June 2024; Release 19 in progress; Release 20 study items for 6G already kicking off in 2025), **Open RAN** deployments (Vodafone UK, Deutsche Telekom, Rakuten Symphony, DISH on AWS Wavelength), and **satellite {{direct-to-cell|direct-to-cell}}** — T-Mobile + SpaceX {{starlink|Starlink}} launched commercial service in January 2025; AT&T's AST SpaceMobile partnership and {{apple|Apple}}'s Globalstar-based Emergency SOS are reshaping what "no signal" means.`,
+The frontier in 2026 is **5G-Advanced** (Release 18, frozen June 2024; Release 19 in progress; Release 20 study items for 6G already kicking off in 2025), **Open {{ran|RAN}}** deployments (Vodafone UK, Deutsche Telekom, Rakuten Symphony, DISH on {{aws|AWS}} Wavelength), and **satellite {{direct-to-cell|direct-to-cell}}** — T-Mobile + SpaceX {{starlink|Starlink}} launched commercial service in January 2025; AT&T's AST SpaceMobile partnership and {{apple|Apple}}'s Globalstar-based Emergency SOS are reshaping what "no signal" means.`,
 	howItWorks: [
 		{
 			title: 'PHY — OFDMA with five numerologies',
 			description:
-				"{{5g-nr|5G NR}} carries data on **Orthogonal Frequency-Division Multiple Access** subcarriers spaced at 15, 30, 60, 120, or 240 kHz ({{3gpp|3GPP}} TS 38.211). The choice is the *numerology* — smaller spacing = longer symbols = more robust at low frequencies; larger spacing = shorter symbols = required at {{mmwave|mmWave}}. One framework, two very different deployment regimes (FR1 sub-6 GHz, FR2 {{mmwave|mmWave}} 24–52 GHz)."
+				"{{5g-nr|5G NR}} carries data on **Orthogonal Frequency-Division Multiple Access** subcarriers spaced at 15, 30, 60, 120, or 240 kHz ({{3gpp|3GPP}} {{ts-3gpp|TS}} 38.211). The choice is the *numerology* — smaller spacing = longer symbols = more robust at low frequencies; larger spacing = shorter symbols = required at {{mmwave|mmWave}}. One framework, two very different deployment regimes (FR1 sub-6 GHz, FR2 {{mmwave|mmWave}} 24–52 GHz)."
 		},
 		{
 			title: 'MAC — Hybrid ARQ',
 			description:
-				"**{{harq|HARQ}}** combines forward error correction with {{retransmission|retransmission}}. The receiver stores soft-decoded LLRs from failed transmissions and combines them with the retransmitted copy (chase-combining or incremental-redundancy). 8 parallel stop-and-wait processes per UE ({{harq|HARQ}} process ID is 3 bits) keep the pipe full without {{head-of-line-blocking|head-of-line blocking}}. Why cellular gets 99.999% reliability without [[tcp|TCP]]'s retransmit cost on the link."
+				"**{{harq|HARQ}}** combines forward error correction with {{retransmission|retransmission}}. The receiver stores soft-decoded LLRs from failed transmissions and combines them with the retransmitted copy (chase-combining or incremental-redundancy). 8 parallel stop-and-wait processes per {{ue|UE}} ({{harq|HARQ}} process {{id-identifier|ID}} is 3 bits) keep the pipe full without {{head-of-line-blocking|head-of-line blocking}}. Why cellular gets 99.999% reliability without [[tcp|TCP]]'s retransmit cost on the link."
 		},
 		{
 			title: 'RLC + PDCP — sequence numbers, ciphering, header compression',
 			description:
-				'**RLC** runs in TM (transparent), UM (unacknowledged), or AM (acknowledged) mode with 10- or 16-bit {{sequence-number|sequence numbers}} (TS 38.322). **PDCP** above it (TS 38.323) does ROHC {{header|header compression}} (squashing the 40-byte [[ipv6|IPv6]]+TCP/UDP header to 1–4 bytes), AES-CTR {{encryption|ciphering}}, and 32-bit {{anti-replay|anti-replay}}. The cipher is keyed off K_gNB, derived from the AKA authentication.'
+				'**RLC** runs in TM (transparent), UM (unacknowledged), or AM (acknowledged) mode with 10- or 16-bit {{sequence-number|sequence numbers}} ({{ts-3gpp|TS}} 38.322). **PDCP** above it ({{ts-3gpp|TS}} 38.323) does ROHC {{header|header compression}} (squashing the 40-byte [[ipv6|IPv6]]+{{tcp-rst|TCP}}/UDP header to 1–4 bytes), {{aes|AES}}-CTR {{encryption|ciphering}}, and 32-bit {{anti-replay|anti-replay}}. The cipher is keyed off K_gNB, derived from the AKA authentication.'
 		},
 		{
 			title: 'RRC — connection state machine',
 			description:
-				'The Radio Resource Control state machine (TS 38.331) has three states in 5G: \`RRC_IDLE\` (UE sleeps, only listens to {{notification|paging}}), \`RRC_INACTIVE\` (5G-only; UE keeps security context for fast resume), \`RRC_CONNECTED\` (full bearer, scheduled). State transitions cost battery — careful RRC tuning is the difference between 6-hour and 24-hour battery life on an IoT module.'
+				'The Radio Resource Control state machine ({{ts-3gpp|TS}} 38.331) has three states in 5G: \`RRC_IDLE\` ({{ue|UE}} sleeps, only listens to {{notification|paging}}), \`RRC_INACTIVE\` (5G-only; {{ue|UE}} keeps security context for fast resume), \`RRC_CONNECTED\` (full bearer, scheduled). State transitions cost battery — careful {{rrc|RRC}} tuning is the difference between 6-hour and 24-hour battery life on an IoT module.'
 		},
 		{
 			title: 'NAS — authentication, mobility, session management',
 			description:
-				"**Non-Access Stratum** signalling (TS 24.501) carries end-to-end between UE and core, transparently through the gNB. **Registration Request** (with **{{suci|SUCI}}** — the {{public-key|public-key-encrypted}} {{supi|SUPI}}) starts the AKA {{handshake|handshake}}; the UDM decrypts to SUPI, generates an authentication vector, and the UE's USIM verifies AUTN and computes RES*. After Security Mode Command, NAS is integrity-protected and ciphered with K_NASint / K_NASenc."
+				"**Non-Access Stratum** signalling ({{ts-3gpp|TS}} 24.501) carries end-to-end between {{ue|UE}} and core, transparently through the gNB. **Registration Request** (with **{{suci|SUCI}}** — the {{public-key|public-key-encrypted}} {{supi|SUPI}}) starts the AKA {{handshake|handshake}}; the {{udm|UDM}} decrypts to {{supi|SUPI}}, generates an authentication vector, and the {{ue|UE}}'s USIM verifies AUTN and computes RES*. After Security Mode Command, {{nas|NAS}} is integrity-protected and ciphered with K_NASint / K_NASenc."
 		},
 		{
 			title: '5GC service-based architecture',
 			description:
-				"The {{5g-core|5G Core}} is a {{service-mesh|microservice fabric}}. AMF, SMF, UPF, {{ausf|AUSF}}, UDM, PCF, NRF, NEF, NSSF, AF — each is a **network function** with an [[http2|HTTP/2]]+{{json|JSON}} API protected by [[tls|TLS]]. Service-based interfaces are named Nausf, Nudm, Namf, Nsmf, Npcf, Nnrf, Nnef, Nnssf, Naf. The control plane of every 5G carrier on Earth is now an [[http2|HTTP/2]] microservice fabric — and every backhaul {{hop|hop}} is wrapped in [[ipsec|IPsec ESP]]."
+				"The {{5g-core|5G Core}} is a {{service-mesh|microservice fabric}}. {{amf|AMF}}, {{smf|SMF}}, {{upf|UPF}}, {{ausf|AUSF}}, {{udm|UDM}}, PCF, NRF, NEF, NSSF, AF — each is a **network function** with an [[http2|HTTP/2]]+{{json|JSON}} {{api|API}} protected by [[tls|TLS]]. Service-based interfaces are named Nausf, Nudm, Namf, Nsmf, Npcf, Nnrf, Nnef, Nnssf, Naf. The control plane of every 5G carrier on Earth is now an [[http2|HTTP/2]] microservice fabric — and every backhaul {{hop|hop}} is wrapped in [[ipsec|IPsec ESP]]."
 		},
 		{
 			title: 'GTP-U on N3 — the user-plane tunnel',
 			description:
-				"User-plane {{packet|packets}} between the gNB and the UPF travel over **{{gtp-u|GTP-U}}** (GPRS Tunnelling Protocol — User plane) on [[udp|UDP]]/2152. Each {{pdu-session|PDU session}} gets a {{tunnel|Tunnel Endpoint Identifier (TEID)}}. The tunnel preserves the UE's [[ip|IP]] {{ip-address|address}} as the inner packet's source/destination regardless of which gNB the UE is camping on — this is how a phone keeps its [[ip|IP]] across handovers between base stations."
+				"User-plane {{packet|packets}} between the gNB and the {{upf|UPF}} travel over **{{gtp-u|GTP-U}}** (GPRS Tunnelling Protocol — User plane) on [[udp|UDP]]/2152. Each {{pdu-session|PDU session}} gets a {{tunnel|Tunnel Endpoint Identifier (TEID)}}. The tunnel preserves the {{ue|UE}}'s [[ip|IP]] {{ip-address|address}} as the inner packet's source/destination regardless of which gNB the {{ue|UE}} is camping on — this is how a phone keeps its [[ip|IP]] across handovers between base stations."
 		}
 	],
 	useCases: [
@@ -276,7 +276,7 @@ Inner packet:
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Cellular_network_standards_and_generation_timeline.svg/500px-Cellular_network_standards_and_generation_timeline.svg.png',
 		alt: 'Cellular network standards generation timeline — 1G through 5G with milestones',
 		caption:
-			"The cellular generation timeline — the {{3gpp|3GPP}} release cadence that took us from 1G analog AMPS (1979) → GSM 2G (1991) → UMTS/WCDMA 3G (2001) → **[[cellular|LTE 4G]] Release 8 (December 2008)** → **[[cellular|5G NR]] Release 15 (June 2018)** → 5G-Advanced Release 18 (June 2024) → 6G study items now. Every generation roughly doubled spectral efficiency and added a fundamentally new use case.",
+			"The cellular generation timeline — the {{3gpp|3GPP}} release cadence that took us from 1G analog AMPS (1979) → {{gsm|GSM}} 2G (1991) → {{umts|UMTS}}/{{wcdma|WCDMA}} 3G (2001) → **[[cellular|LTE 4G]] Release 8 (December 2008)** → **[[cellular|5G NR]] Release 15 (June 2018)** → 5G-Advanced Release 18 (June 2024) → 6G study items now. Every generation roughly doubled spectral efficiency and added a fundamentally new use case.",
 		credit: 'Image: Wikimedia Commons / CC BY-SA'
 	},
 
@@ -285,7 +285,7 @@ Inner packet:
 			date: '2024-06',
 			title: '5G-Advanced (Release 18) frozen',
 			description:
-				'On 18 June 2024 {{3gpp|3GPP}} froze **Release 18**, the first 5G-Advanced release. New features: AI/ML in the air interface (CSI feedback compression, beam management), Reduced Capability ("RedCap") devices for wearables, sidelink-based Vehicle-to-Everything, network energy savings, and the first concrete Non-Terrestrial Network (NTN) work items. Release 19 work began immediately.',
+				'On 18 June 2024 {{3gpp|3GPP}} froze **Release 18**, the first 5G-Advanced release. New features: {{ai|AI}}/ML in the air interface (CSI feedback compression, beam management), Reduced Capability ("RedCap") devices for wearables, sidelink-based Vehicle-to-Everything, network energy savings, and the first concrete Non-Terrestrial Network ({{ntn|NTN}}) work items. Release 19 work began immediately.',
 			source: {
 				url: 'https://www.3gpp.org/specifications-technologies/releases/release-18',
 				label: '3GPP Release 18'
@@ -295,7 +295,7 @@ Inner packet:
 			date: '2025-01',
 			title: 'T-Mobile + SpaceX Starlink Direct-to-Cell launches commercially',
 			description:
-				'After 18 months of beta, **T-Satellite by T-Mobile** opened to the public in January 2025 — every modern phone with band n25/n26 can connect to a low-Earth-orbit {{starlink|Starlink}} satellite for SMS and emergency messaging without any app. AT&T + AST SpaceMobile and {{apple|Apple}}\'s Globalstar Emergency SOS round out the satellite-{{direct-to-cell|direct-to-cell}} story. The first time "no signal" stops meaning *no signal*.',
+				'After 18 months of beta, **T-Satellite by T-Mobile** opened to the public in January 2025 — every modern phone with band n25/n26 can {{mqtt-connect|connect}} to a low-Earth-orbit {{starlink|Starlink}} satellite for {{sms|SMS}} and emergency messaging without any app. AT&T + AST SpaceMobile and {{apple|Apple}}\'s Globalstar Emergency SOS round out the satellite-{{direct-to-cell|direct-to-cell}} story. The first time "no signal" stops meaning *no signal*.',
 			source: {
 				url: 'https://www.t-mobile.com/coverage/satellite',
 				label: 'T-Satellite product page'
@@ -305,7 +305,7 @@ Inner packet:
 			date: '2025-09',
 			title: 'Reliance Jio 5G-SA crosses 24M subscribers — largest pan-national SA deployment',
 			description:
-				'Reliance Jio (India) reported 23.7M 5G-SA subscribers on its in-house cloud-native {{5g-core|5G core}} by Q3 2025; the network averages 6.5 PB/day. The first proof that a hyperscale cloud-native 5G core can run a national-scale carrier without legacy EPC dependencies.',
+				'Reliance Jio (India) reported 23.7M 5G-{{security-association|SA}} subscribers on its in-house cloud-native {{5g-core|5G core}} by Q3 2025; the network averages 6.5 PB/day. The first proof that a hyperscale cloud-native {{5g-core|5G core}} can run a national-scale carrier without legacy {{epc|EPC}} dependencies.',
 			source: {
 				url: 'https://www.ril.com/InvestorRelations/FinancialReporting.aspx',
 				label: 'Reliance Industries investor reports'
@@ -315,7 +315,7 @@ Inner packet:
 			date: '2024-11',
 			title: 'Vodafone UK Open RAN production — Samsung + NEC + Wind River',
 			description:
-				'Vodafone UK switched on the first commercial Open RAN macro network in the country in November 2024, replacing Huawei base stations across Wales and Scotland. Multi-vendor mix: Samsung radios, NEC baseband, Wind River cloud platform. The credibility test for whether Open RAN is *actually* multi-vendor.',
+				'Vodafone UK switched on the first commercial Open {{ran|RAN}} macro network in the country in November 2024, replacing Huawei base stations across Wales and Scotland. Multi-vendor mix: Samsung radios, NEC baseband, Wind River cloud platform. The credibility test for whether Open {{ran|RAN}} is *actually* multi-vendor.',
 			source: {
 				url: 'https://www.vodafone.co.uk/newscentre/press-release/vodafone-launches-uks-first-open-ran-site-bath/',
 				label: 'Vodafone UK newsroom'
@@ -325,7 +325,7 @@ Inner packet:
 			date: '2024-12',
 			title: 'NTN (Non-Terrestrial Network) Release 17/18 features hit deployment',
 			description:
-				'After being specified in Release 17 (2022), the first NR-NTN deployments shipped in late 2024 — the radio-layer protocol that lets standard {{5g-nr|5G NR}} talk to a satellite at 600 km without proprietary modulation. Combined with {{apple|Apple}}\'s announced iPhone 17 satellite-NR support (2025), this closes the gap between "phone radio" and "satellite radio" for the first time.',
+				'After being specified in Release 17 (2022), the first NR-{{ntn|NTN}} deployments shipped in late 2024 — the radio-layer protocol that lets standard {{5g-nr|5G NR}} talk to a satellite at 600 km without proprietary modulation. Combined with {{apple|Apple}}\'s announced iPhone 17 satellite-NR support (2025), this closes the gap between "phone radio" and "satellite radio" for the first time.',
 			source: {
 				url: 'https://www.3gpp.org/news-events/3gpp-news/sa-aug21-mtg',
 				label: '3GPP SA NTN status'
@@ -338,25 +338,25 @@ Inner packet:
 			org: '3GPP / every mobile carrier on Earth',
 			scale: '~9 billion subscriptions (GSMA, 2024)',
 			description:
-				"The largest wireless protocol family by user count. Specified collectively by {{3gpp|3GPP}} — a partnership of ETSI (Europe), ARIB + TTC (Japan), ATIS (North America), CCSA (China), TSDSI (India), TTA (Korea). Every cellular phone on Earth runs {{3gpp|3GPP}} protocols at the radio layer."
+				"The largest wireless protocol family by user count. Specified collectively by {{3gpp|3GPP}} — a partnership of {{etsi|ETSI}} (Europe), ARIB + TTC (Japan), ATIS (North America), CCSA (China), TSDSI (India), TTA (Korea). Every cellular phone on Earth runs {{3gpp|3GPP}} protocols at the radio layer."
 		},
 		{
 			org: 'Reliance Jio',
 			scale: '~24M 5G-SA subscribers (Q3 2025); ~470M total cellular subscribers',
 			description:
-				"India's Reliance Jio operates the largest single-operator 5G-SA deployment on the planet, running a cloud-native, in-house-built {{5g-core|5G core}}. ~6.5 PB/day average traffic. The economic experiment: can a hyperscale cloud-native core run a national carrier without legacy EPC?"
+				"India's Reliance Jio operates the largest single-operator 5G-{{security-association|SA}} deployment on the planet, running a cloud-native, in-house-built {{5g-core|5G core}}. ~6.5 PB/day average traffic. The economic experiment: can a hyperscale cloud-native core run a national carrier without legacy {{epc|EPC}}?"
 		},
 		{
 			org: 'T-Mobile USA + SpaceX',
 			scale: 'T-Satellite commercial since Jan 2025; ~100M+ T-Mobile US subscribers',
 			description:
-				'The first commercial **satellite {{direct-to-cell|direct-to-cell}}** service. Standard band n25/n26 phones connect to {{starlink|Starlink}} satellites in low-Earth orbit for SMS and emergency. {{apple|Apple}}\'s Globalstar partnership and AT&T\'s AST SpaceMobile follow similar patterns. Reshapes "coverage" as a concept.'
+				'The first commercial **satellite {{direct-to-cell|direct-to-cell}}** service. Standard band n25/n26 phones {{mqtt-connect|connect}} to {{starlink|Starlink}} satellites in low-Earth orbit for {{sms|SMS}} and emergency. {{apple|Apple}}\'s Globalstar partnership and AT&T\'s AST SpaceMobile follow similar patterns. Reshapes "coverage" as a concept.'
 		},
 		{
 			org: 'DISH Wireless / EchoStar',
 			scale: '5G-SA on public cloud (AWS Wavelength)',
 			description:
-				"The first commercial 5G-SA network running on **public-cloud infrastructure** (AWS Wavelength + AWS Local Zones). Proves the cloud-native {{5g-core|5G core}} architecture works in production. Rakuten Symphony (Japan) and Open5GS-based deployments worldwide follow the same pattern."
+				"The first commercial 5G-{{security-association|SA}} network running on **public-cloud infrastructure** ({{aws|AWS}} Wavelength + {{aws|AWS}} Local Zones). Proves the cloud-native {{5g-core|5G core}} architecture works in production. Rakuten Symphony (Japan) and Open5GS-based deployments worldwide follow the same pattern."
 		}
 	],
 
@@ -367,7 +367,7 @@ Inner packet:
 		},
 		{
 			title: "Viterbi did not patent his most famous algorithm",
-			text: "*\"On advice of a lawyer, Viterbi did not patent the algorithm.\"* The **Viterbi algorithm** — convolutional code decoding (1967) — is used in every cellular phone, every disk-drive read channel, every GPS receiver, and every speech recognizer. It made nothing for Andrew Viterbi directly; it made Qualcomm everything."
+			text: "*\"On advice of a lawyer, Viterbi did not patent the algorithm.\"* The **Viterbi algorithm** — convolutional code decoding (1967) — is used in every cellular phone, every disk-drive read channel, every {{gps|GPS}} receiver, and every speech recognizer. It made nothing for Andrew Viterbi directly; it made Qualcomm everything."
 		},
 		{
 			title: 'MCC tells you where your SIM was issued',
@@ -375,7 +375,7 @@ Inner packet:
 		},
 		{
 			title: "The CDMA-vs-GSM wars were existential",
-			text: 'In January 1989 the US CTIA voted for TDMA; later that year Irwin Jacobs presented CDMA and *"no one found a hole in the technical presentation,"* but the political fight took a decade. Hong Kong (1995), then Korea, then the US were the first to ship cdmaOne. CDMA\'s mathematical foundation eventually became the basis of WCDMA in UMTS — the GSM camp ended up adopting it.'
+			text: 'In January 1989 the US CTIA voted for {{tdma|TDMA}}; later that year Irwin Jacobs presented {{cdma|CDMA}} and *"no one found a hole in the technical presentation,"* but the political fight took a decade. Hong Kong (1995), then Korea, then the US were the first to ship cdmaOne. {{cdma|CDMA}}\'s mathematical foundation eventually became the basis of {{wcdma|WCDMA}} in {{umts|UMTS}} — the {{gsm|GSM}} camp ended up adopting it.'
 		}
 	],
 
@@ -383,15 +383,15 @@ Inner packet:
 		pitfalls: [
 			{
 				title: 'IPv6-only carriers + IPv4-literal apps',
-				text: "On modern carriers (T-Mobile USA, Reliance Jio, parts of Verizon and DT), the UE receives **only an [[ipv6|IPv6]] prefix**. Legacy [[ip|IPv4]] destinations are reached via **{{four-six-four-xlat|464XLAT}}** ([[rfc:6877|RFC 6877]]) — CLAT on the UE, PLAT/{{nat64|NAT64}} at the operator. **Pitfall:** apps with hardcoded [[ip|IPv4]] literals (`socket.connect(\"8.8.8.8\")`) silently fail. **Cure:** always resolve via [[dns|DNS]], always prefer [[ipv6|IPv6]] (`getaddrinfo`, `AF_UNSPEC`); use `IPv4v6` {{pdu-session|PDU session}} type, never `[[ip|IPv4]] only`."
+				text: "On modern carriers (T-Mobile USA, Reliance Jio, parts of Verizon and DT), the {{ue|UE}} receives **only an [[ipv6|IPv6]] prefix**. Legacy [[ip|IPv4]] destinations are reached via **{{four-six-four-xlat|464XLAT}}** ([[rfc:6877|RFC 6877]]) — {{clat-acr|CLAT}} on the {{ue|UE}}, PLAT/{{nat64|NAT64}} at the operator. **Pitfall:** apps with hardcoded [[ip|IPv4]] literals (`socket.{{mqtt-connect|connect}}(\"8.8.8.8\")`) silently fail. **Cure:** always resolve via [[dns|DNS]], always prefer [[ipv6|IPv6]] (`getaddrinfo`, `AF_UNSPEC`); use `IPv4v6` {{pdu-session|PDU session}} type, never `[[ip|IPv4]] only`."
 			},
 			{
 				title: 'PMTUD black holes on the GTP tunnel',
-				text: "Many cellular networks drop ICMPv4 Type 3 Code 4 (Frag Needed) messages on the SGi/N6 side. The MTU on a {{gtp-u|GTP-U}} tunnel is 1500 − 8 ([[udp|UDP]]) − 20/40 (IP) − 8 ({{gtp-u|GTP-U}}) − overhead = typically 1430–1452 inner bytes. **Cure:** [[tcp|TCP]] MSS clamping at the PGW/UPF saves [[tcp|TCP]]; [[quic|QUIC]] and other UDP-based protocols must implement PLPMTUD (RFC 8899)."
+				text: "Many cellular networks drop ICMPv4 Type 3 Code 4 (Frag Needed) messages on the SGi/N6 side. The {{mtu|MTU}} on a {{gtp-u|GTP-U}} tunnel is 1500 − 8 ([[udp|UDP]]) − 20/40 ({{ip-address|IP}}) − 8 ({{gtp-u|GTP-U}}) − overhead = typically 1430–1452 inner bytes. **Cure:** [[tcp|TCP]] {{mss|MSS}} clamping at the {{pgw|PGW}}/{{upf|UPF}} saves [[tcp|TCP]]; [[quic|QUIC]] and other UDP-based protocols must implement {{plpmtud|PLPMTUD}} ({{rfc-doc|RFC}} 8899)."
 			},
 			{
 				title: 'IPsec is mandatory on every backhaul hop',
-				text: "{{3gpp|3GPP}} TS 33.401 (LTE) and TS 33.501 (5G) **mandate** [[ipsec|IPsec]] on every S1, X2, N2, N3, Xn, F1, and E1 interface. Forgetting this in a private-5G deployment is the single most common compliance-audit failure. **Cure:** terminate every gNB-to-core hop in [[ipsec|IPsec]] ESP with IKEv2; do not run plain {{gtp-u|GTP-U}} on any link that leaves the secure perimeter."
+				text: "{{3gpp|3GPP}} {{ts-3gpp|TS}} 33.401 ({{lte|LTE}}) and {{ts-3gpp|TS}} 33.501 (5G) **mandate** [[ipsec|IPsec]] on every S1, X2, N2, N3, Xn, F1, and E1 interface. Forgetting this in a private-5G deployment is the single most common compliance-audit failure. **Cure:** terminate every gNB-to-core hop in [[ipsec|IPsec]] {{esp|ESP}} with {{ikev2|IKEv2}}; do not run plain {{gtp-u|GTP-U}} on any link that leaves the secure perimeter."
 			}
 		]
 	}

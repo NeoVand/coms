@@ -18,7 +18,7 @@ Think of a live video call: if one frame is lost, it's better to show the next f
 		{
 			title: 'No handshake',
 			description:
-				'Unlike [[tcp|TCP]], [[udp|UDP]] has no connection setup or {{handshake|handshake}}. The sender just starts blasting packets immediately — no SYN, no waiting.'
+				'Unlike [[tcp|TCP]], [[udp|UDP]] has no connection setup or {{handshake|handshake}}. The sender just starts blasting packets immediately — no {{syn-cookies|SYN}}, no waiting.'
 		},
 		{
 			title: 'Datagram sent',
@@ -200,7 +200,7 @@ ss -un  # or: netstat -un`
 	funFacts: [
 		{
 			title: 'RFC 768 is three pages long',
-			text: '[[udp|UDP]]\'s entire spec — header format, length field, {{checksum|checksum}}, and a paragraph of prose — fits in three pages. [[pioneer:jon-postel|Jon Postel]] wrote it in August 1980. It has not been updated since. There has been nothing to update.'
+			text: '[[udp|UDP]]\'s entire spec — header format, length field, {{checksum|checksum}}, and a paragraph of prose — fits in three pages. [[pioneer:jon-postel|Jon Postel]] wrote it in August 1980. It has not been updated since. There has been nothing to {{bgp-update|update}}.'
 		},
 		{
 			title: 'UDP gives you ports — that is most of L4',
@@ -224,7 +224,7 @@ ss -un  # or: netstat -un`
 			},
 			{
 				title: 'Source port matters for NAT pinholes',
-				text: 'A {{nat|NAT}} router opens a "pinhole" for outbound [[udp|UDP]] keyed by (src [[ip|IP]], src port). The pinhole closes after a few minutes of silence. For long-lived [[udp|UDP]] applications ({{voip|VoIP}}, IoT keepalives), send a keepalive every 30-60 seconds to keep the pinhole open.'
+				text: 'A {{nat|NAT}} router opens a "pinhole" for outbound [[udp|UDP]] keyed by (src [[ip|IP]], src port). The pinhole closes after a few minutes of silence. For long-lived [[udp|UDP]] applications ({{voip|VoIP}}, IoT keepalives), send a {{bgp-keepalive|keepalive}} every 30-60 seconds to keep the pinhole open.'
 			}
 		]
 	}

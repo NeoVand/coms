@@ -8,37 +8,37 @@ export const arp: Protocol = {
 	port: undefined,
 	year: 1982,
 	rfc: 'RFC 826',
-	oneLiner: 'Translates [[ip|IP]] addresses to MAC addresses — the bridge between Layer 3 and Layer 2.',
-	overview: `[[arp|ARP]] is the glue between [[ip|IP]] addresses and [[ethernet|Ethernet]] {{mac-address|MAC addresses}}. When your computer wants to send a {{packet|packet}} to 192.168.1.1, it knows the [[ip|IP]] but not the {{mac-address|MAC address}} of the destination. [[arp|ARP]] {{broadcast|broadcasts}} a question to the entire local network: "Who has 192.168.1.1? Tell me your {{mac-address|MAC address}}." The owner responds with a {{unicast|unicast}} reply containing its MAC, and the sender caches this mapping for future use.
+	oneLiner: 'Translates [[ip|IP]] addresses to {{mac-address|MAC}} addresses — the bridge between Layer 3 and Layer 2.',
+	overview: `[[arp|ARP]] is the glue between [[ip|IP]] addresses and [[ethernet|Ethernet]] {{mac-address|MAC addresses}}. When your computer wants to send a {{packet|packet}} to 192.168.1.1, it knows the [[ip|IP]] but not the {{mac-address|MAC address}} of the destination. [[arp|ARP]] {{broadcast|broadcasts}} a question to the entire local network: "Who has 192.168.1.1? Tell me your {{mac-address|MAC address}}." The owner responds with a {{unicast|unicast}} reply containing its {{mac-address|MAC}}, and the sender caches this mapping for future use.
 
-Under the hood, [[arp|ARP]] uses EtherType 0x0806 and operates directly on [[ethernet|Ethernet]] — it has no [[ip|IP]] header. The request is {{broadcast|broadcast}} to \`FF:FF:FF:FF:FF:FF\`, so every device on the segment receives it, but only the target replies. That reply is {{unicast|unicast}} directly back to the requester. The resulting [[ip|IP]]-to-MAC mapping is stored in the [[arp|ARP]] cache (also called the [[arp|ARP]] table) with a {{ttl|time-to-live}} — typically 15-45 seconds on modern systems (randomized per [[rfc:4861|RFC 4861]]) — after which the entry expires and must be re-resolved.
+Under the hood, [[arp|ARP]] uses EtherType 0x0806 and operates directly on [[ethernet|Ethernet]] — it has no [[ip|IP]] header. The request is {{broadcast|broadcast}} to \`FF:FF:FF:FF:FF:FF\`, so every device on the segment receives it, but only the target replies. That reply is {{unicast|unicast}} directly back to the requester. The resulting [[ip|IP]]-to-{{mac-address|MAC}} mapping is stored in the [[arp|ARP]] cache (also called the [[arp|ARP]] table) with a {{ttl|time-to-live}} — typically 15-45 seconds on modern systems (randomized per [[rfc:4861|RFC 4861]]) — after which the entry expires and must be re-resolved.
 
-[[arp|ARP]]'s simplicity is both its strength and its weakness. There is zero authentication — any device can claim to own any {{ip-address|IP address}}. This makes {{spoofing|ARP spoofing}} (or [[arp|ARP]] poisoning) trivial: an attacker sends fake [[arp|ARP]] replies to redirect traffic through their machine, enabling {{man-in-the-middle|man-in-the-middle}} attacks. Countermeasures include Dynamic [[arp|ARP]] Inspection (DAI) on managed switches, static [[arp|ARP]] entries for critical hosts, and protocols like [[dhcp|DHCP]] snooping. Gratuitous [[arp|ARP]] — where a host announces its own [[ip|IP]]/MAC mapping without being asked — is used for duplicate [[ip|IP]] detection and for updating caches after a {{mac-address|MAC address}} change (e.g., during {{failover|failover}}). On [[wifi|Wi-Fi]] networks, [[arp|ARP]] works the same way but traverses the wireless medium, with the {{access-point|access point}} bridging requests between wired and wireless segments.`,
+[[arp|ARP]]'s simplicity is both its strength and its weakness. There is zero authentication — any device can claim to own any {{ip-address|IP address}}. This makes {{spoofing|ARP spoofing}} (or [[arp|ARP]] poisoning) trivial: an attacker sends fake [[arp|ARP]] replies to redirect traffic through their machine, enabling {{man-in-the-middle|man-in-the-middle}} attacks. Countermeasures include Dynamic [[arp|ARP]] Inspection (DAI) on managed switches, static [[arp|ARP]] entries for critical {{hosts-bare|hosts}}, and protocols like [[dhcp|DHCP]] snooping. Gratuitous [[arp|ARP]] — where a host announces its own [[ip|IP]]/{{mac-address|MAC}} mapping without being asked — is used for duplicate [[ip|IP]] detection and for updating caches after a {{mac-address|MAC address}} change (e.g., during {{failover|failover}}). On [[wifi|Wi-Fi]] networks, [[arp|ARP]] works the same way but traverses the wireless medium, with the {{access-point|access point}} bridging requests between wired and wireless segments.`,
 	howItWorks: [
 		{
 			title: 'Check ARP cache',
 			description:
-				'Before sending any frame, the OS checks its local [[arp|ARP]] cache for an existing {{ip-address|IP}}-to-{{mac-address|MAC}} mapping. If a valid (non-expired) entry exists, it uses the cached {{mac-address|MAC address}} immediately and skips the rest of the process.'
+				'Before sending any frame, the {{os|OS}} checks its local [[arp|ARP]] cache for an existing {{ip-address|IP}}-to-{{mac-address|MAC}} mapping. If a valid (non-expired) entry exists, it uses the cached {{mac-address|MAC address}} immediately and skips the rest of the process.'
 		},
 		{
 			title: 'Broadcast ARP request',
 			description:
-				'If no cache entry exists, the sender crafts an [[arp|ARP]] request with its own [[ip|IP]]/MAC as the source and the target [[ip|IP]] with an empty MAC (\`00:00:00:00:00:00\`). This is sent as an [[ethernet|Ethernet]] {{broadcast|broadcast}} (\`FF:FF:FF:FF:FF:FF\`), reaching every device on the local segment.'
+				'If no cache entry exists, the sender crafts an [[arp|ARP]] request with its own [[ip|IP]]/{{mac-address|MAC}} as the source and the target [[ip|IP]] with an empty {{mac-address|MAC}} (\`00:00:00:00:00:00\`). This is sent as an [[ethernet|Ethernet]] {{broadcast|broadcast}} (\`FF:FF:FF:FF:FF:FF\`), reaching every device on the local segment.'
 		},
 		{
 			title: 'Unicast ARP reply',
 			description:
-				"The device that owns the requested {{ip-address|IP address}} responds with a {{unicast|unicast}} [[arp|ARP]] reply directly to the sender, filling in its {{mac-address|MAC address}}. All other devices on the network ignore the request (though they may update their own caches with the sender's mapping)."
+				"The device that owns the requested {{ip-address|IP address}} responds with a {{unicast|unicast}} [[arp|ARP]] reply directly to the sender, filling in its {{mac-address|MAC address}}. All other devices on the network ignore the request (though they may {{bgp-update|update}} their own caches with the sender's mapping)."
 		},
 		{
 			title: 'Cache update',
 			description:
-				'Both the sender and the responder update their [[arp|ARP]] caches with the new mapping. Entries have a {{ttl|TTL}} (typically 60s-20min depending on OS) and are evicted when they expire, triggering a fresh [[arp|ARP]] request on the next packet to that [[ip|IP]].'
+				'Both the sender and the responder {{bgp-update|update}} their [[arp|ARP]] caches with the new mapping. Entries have a {{ttl|TTL}} (typically 60s-20min depending on {{os|OS}}) and are evicted when they expire, triggering a fresh [[arp|ARP]] request on the next packet to that [[ip|IP]].'
 		},
 		{
 			title: 'Gratuitous ARP',
 			description:
-				"A host can {{broadcast|broadcast}} an unsolicited [[arp|ARP]] reply announcing its own [[ip|IP]]/MAC mapping. This is used at boot time for duplicate [[ip|IP]] detection, after a NIC replacement to update neighbors' caches, and during {{failover|failover}} in high-availability setups to redirect traffic to a new machine."
+				"A host can {{broadcast|broadcast}} an unsolicited [[arp|ARP]] reply announcing its own [[ip|IP]]/{{mac-address|MAC}} mapping. This is used at boot time for duplicate [[ip|IP]] detection, after a {{nic|NIC}} replacement to {{bgp-update|update}} neighbors' caches, and during {{failover|failover}} in high-availability setups to redirect traffic to a new machine."
 		}
 	],
 	useCases: [

@@ -9,42 +9,42 @@ export const bluetooth: Protocol = {
 	year: 1999,
 	rfc: 'Bluetooth Core Spec 6.0',
 	oneLiner:
-		'Short-range 2.4 GHz wireless with two protocol stacks: Classic BR/EDR for streaming audio, and BLE for low-power sensors, trackers, hearing aids, and IoT commissioning.',
-	overview: `[[bluetooth|Bluetooth]] is the most ubiquitous short-range wireless protocol on Earth — roughly 4.7 billion ICs shipped per year. It started as a 1994 Ericsson project in Lund, Sweden to replace the RS-232 cable to a mobile-phone headset; [[pioneer:jaap-haartsen|Jaap Haartsen]] and [[pioneer:sven-mattisson|Sven Mattisson]] did the original radio design, [[pioneer:jim-kardach|Jim Kardach]] at {{intel|Intel}} proposed the name (after Harald "Blåtand" Gormsson, the 10th-century Danish king who united Denmark and Norway), and the [[bluetooth|Bluetooth]] Special Interest Group was founded in May 1998 by Ericsson, IBM, {{intel|Intel}}, Nokia, and Toshiba. The first commercial product was a hands-free headset at COMDEX 1999; the first phone was the Ericsson T39 in 2001.
+		'Short-range 2.4 GHz wireless with two protocol stacks: Classic {{br-edr|BR/EDR}} for streaming audio, and {{ble|BLE}} for low-power sensors, trackers, hearing aids, and IoT commissioning.',
+	overview: `[[bluetooth|Bluetooth]] is the most ubiquitous short-range wireless protocol on Earth — roughly 4.7 billion ICs shipped per year. It started as a 1994 Ericsson project in Lund, Sweden to replace the RS-232 cable to a mobile-phone headset; [[pioneer:jaap-haartsen|Jaap Haartsen]] and [[pioneer:sven-mattisson|Sven Mattisson]] did the original radio design, [[pioneer:jim-kardach|Jim Kardach]] at {{intel|Intel}} proposed the name (after Harald "Blåtand" Gormsson, the 10th-century Danish king who united Denmark and Norway), and the [[bluetooth|Bluetooth]] Special Interest Group was founded in May 1998 by Ericsson, {{ibm|IBM}}, {{intel|Intel}}, Nokia, and Toshiba. The first commercial product was a hands-free headset at COMDEX 1999; the first phone was the Ericsson T39 in 2001.
 
-[[bluetooth|Bluetooth]] in 2026 is *two protocols braided into one brand*. **BR/EDR ("Classic")** is the 1999 frequency-hopping master/{{piconet|slave}} wire-replacement system — 79 × 1 MHz channels, 1,600 hops per second, GFSK + DPSK modulation. It still carries A2DP audio, HFP voice, HID (every wireless keyboard and mouse), and RFCOMM. **{{ble|BLE (Bluetooth Low Energy)}}** was added in Core 4.0 (December 2009), derived from Nokia's *Wibree* design. Different radio (40 × 2 MHz channels), different link layer, different framing ({{l2cap|L2CAP}}), different security (SMP), different application protocol ({{gatt|GATT}}). Both share the 2.4 GHz {{ism-band|ISM band}} and a SIG, but they share **no bits over the air**.
+[[bluetooth|Bluetooth]] in 2026 is *two protocols braided into one brand*. **{{br-edr|BR/EDR}} ("Classic")** is the 1999 frequency-hopping master/{{piconet|slave}} wire-replacement system — 79 × 1 MHz channels, 1,600 hops per second, GFSK + DPSK modulation. It still carries A2DP audio, HFP voice, HID (every wireless keyboard and mouse), and RFCOMM. **{{ble|BLE (Bluetooth Low Energy)}}** was added in Core 4.0 (December 2009), derived from Nokia's *Wibree* design. Different radio (40 × 2 MHz channels), different link layer, different framing ({{l2cap|L2CAP}}), different security ({{smp-pairing|SMP}}), different application protocol ({{gatt|GATT}}). Both share the 2.4 GHz {{ism-band|ISM band}} and a {{sig|SIG}}, but they share **no bits over the air**.
 
-The single biggest change in the last 24 months is **Bluetooth 6.0** (adopted 3 September 2024), which introduced **{{channel-sounding|Channel Sounding}}** — phase-based + round-trip-time ranging delivering centimetre-class accuracy and explicitly targeting [[uwb|UWB]]'s secure-access and digital-key niche. Simultaneously, **{{auracast|Auracast}}** ({{codec|LC3-based}} {{broadcast|broadcast}} {{le-audio|LE Audio}}) went from spec to real deployments — Frankfurt Airport became the first airport to {{broadcast|broadcast}} all gate announcements over {{auracast|Auracast}} on 28 January 2026. The {{apple|Apple}}-{{google|Google}} **DULT** anti-stalking standard moved into {{ietf|IETF}} working-group drafts in 2024–2026. [[wifi|Wi-Fi]] is the protocol you stream from; [[bluetooth|Bluetooth]] is the protocol you carry with you.`,
+The single biggest change in the last 24 months is **Bluetooth 6.0** (adopted 3 September 2024), which introduced **{{channel-sounding|Channel Sounding}}** — phase-based + round-trip-time ranging delivering centimetre-class accuracy and explicitly targeting [[uwb|UWB]]'s secure-access and digital-key niche. Simultaneously, **{{auracast|Auracast}}** ({{codec|LC3-based}} {{broadcast|broadcast}} {{le-audio|LE Audio}}) went from spec to real deployments — Frankfurt Airport became the first airport to {{broadcast|broadcast}} all gate announcements over {{auracast|Auracast}} on 28 January 2026. The {{apple|Apple}}-{{google|Google}} **{{dult|DULT}}** anti-stalking standard moved into {{ietf|IETF}} working-group drafts in 2024–2026. [[wifi|Wi-Fi]] is the protocol you stream from; [[bluetooth|Bluetooth]] is the protocol you carry with you.`,
 	howItWorks: [
 		{
 			title: 'Frequency-hopping in the 2.4 GHz ISM band',
 			description:
-				"Both BR/EDR (79 × 1 MHz channels) and {{ble|BLE}} (40 × 2 MHz channels) use the globally unlicensed 2.402–2.480 GHz {{ism-band|ISM band}}. BR/EDR uses a pseudo-random frequency-hopping pattern, hopping 1,600 times per second, keyed off the {{piconet|piconet}} master's clock and BD_ADDR. BLE uses three primary advertising channels (37/38/39, carefully placed to avoid [[wifi|Wi-Fi]] channels 1/6/11) and 37 data channels (0–36) that hop once per connection event."
+				"Both {{br-edr|BR/EDR}} (79 × 1 MHz channels) and {{ble|BLE}} (40 × 2 MHz channels) use the globally unlicensed 2.402–2.480 GHz {{ism-band|ISM band}}. {{br-edr|BR/EDR}} uses a pseudo-random frequency-hopping pattern, hopping 1,600 times per second, keyed off the {{piconet|piconet}} master's clock and BD_ADDR. {{ble|BLE}} uses three primary advertising channels (37/38/39, carefully placed to avoid [[wifi|Wi-Fi]] channels 1/6/11) and 37 data channels (0–36) that hop once per connection event."
 		},
 		{
 			title: 'Advertising and discovery (BLE)',
 			description:
-				'A BLE Peripheral {{broadcast|broadcasts}} {{adv-ind|ADV_IND}} {{packet|packets}} on ch 37/38/39 every 20 ms to 10.24 s. A Central scans those channels. A connection begins with the Central sending {{connect-ind|CONNECT_IND}}, which contains the Access Address, CRC seed, hop pattern, and connection-interval parameters (7.5 ms–4 s).'
+				'A {{ble|BLE}} Peripheral {{broadcast|broadcasts}} {{adv-ind|ADV_IND}} {{packet|packets}} on ch 37/38/39 every 20 ms to 10.24 s. A Central scans those channels. A connection begins with the Central sending {{connect-ind|CONNECT_IND}}, which contains the Access Address, {{crc|CRC}} seed, hop pattern, and connection-interval parameters (7.5 ms–4 s).'
 		},
 		{
 			title: 'L2CAP framing and ATT/GATT (BLE)',
 			description:
-				'Inside a connection, BLE devices {{exchange|exchange}} {{l2cap|L2CAP}} packets. The Attribute Protocol (ATT) lives on {{l2cap|L2CAP}} CID 0x0004 and provides read/write/notify/indicate operations against 16-bit handles. {{gatt|GATT}} layers semantic structure on top — services, characteristics, descriptors — with 16-bit (SIG-assigned) or 128-bit (vendor) UUIDs. Default ATT {{mtu|MTU}} is 23 (a known trap — 20 bytes of {{payload|payload}} per Notify); modern devices negotiate up to 247 or 517.'
+				'Inside a connection, {{ble|BLE}} devices {{exchange|exchange}} {{l2cap|L2CAP}} packets. The Attribute Protocol ({{att-mtu|ATT}}) lives on {{l2cap|L2CAP}} CID 0x0004 and provides read/write/notify/indicate operations against 16-bit handles. {{gatt|GATT}} layers semantic structure on top — services, characteristics, descriptors — with 16-bit ({{sig|SIG}}-assigned) or 128-bit (vendor) UUIDs. Default {{att-mtu|ATT}} {{mtu|MTU}} is 23 (a known trap — 20 bytes of {{payload|payload}} per Notify); modern devices negotiate up to 247 or 517.'
 		},
 		{
 			title: 'Pairing and encryption (SMP)',
 			description:
-				'The Security Manager Protocol (SMP, {{l2cap|L2CAP}} CID 0x0006) performs pairing: Just Works, Passkey Entry, Numeric Comparison, or Out-of-Band. LE Secure Connections (4.2+) uses {{diffie-hellman|ECDH}} on Curve P-256 to derive a Long-Term Key (LTK); the link is then {{encryption|encrypted}} with {{aead|AES-CCM}} at the Link Layer. Bonding stores the LTK for future reconnections; the address resolution scheme (RPA — Resolvable Private Address) prevents long-term tracking.'
+				'The Security Manager Protocol ({{smp-pairing|SMP}}, {{l2cap|L2CAP}} CID 0x0006) performs pairing: Just Works, Passkey Entry, Numeric Comparison, or Out-of-Band. {{le-audio|LE}} Secure Connections (4.2+) uses {{diffie-hellman|ECDH}} on Curve P-256 to derive a Long-Term Key (LTK); the link is then {{encryption|encrypted}} with {{aead|AES-CCM}} at the Link Layer. Bonding stores the LTK for future reconnections; the address resolution scheme ({{rpa|RPA}} — Resolvable Private Address) prevents long-term tracking.'
 		},
 		{
 			title: 'LE Audio and Auracast (5.2+)',
 			description:
-				'{{le-audio|LE Audio}} runs over **Isochronous Channels** — Connected Isochronous Streams (CIS) for {{unicast|unicast}} earbuds/hearing aids, and {{broadcast|Broadcast}} Isochronous Streams (BIS) for one-to-many public {{broadcast|broadcast}}. **LC3** is the mandatory {{codec|codec}} (replacing SBC and saving ~50% battery vs A2DP). **{{auracast|Auracast}}** is the SIG brand for BIS-based public-venue {{broadcast|broadcast}} — airports, theatres, gyms, hearing-loop replacement.'
+				'{{le-audio|LE Audio}} runs over **Isochronous Channels** — Connected Isochronous Streams (CIS) for {{unicast|unicast}} earbuds/hearing aids, and {{broadcast|Broadcast}} Isochronous Streams ({{bis-broadcast|BIS}}) for one-to-many public {{broadcast|broadcast}}. **{{lc3|LC3}}** is the mandatory {{codec|codec}} (replacing SBC and saving ~50% battery vs A2DP). **{{auracast|Auracast}}** is the {{sig|SIG}} brand for {{bis-broadcast|BIS}}-based public-venue {{broadcast|broadcast}} — airports, theatres, gyms, hearing-loop replacement.'
 		},
 		{
 			title: 'Channel Sounding (6.0+)',
 			description:
-				'Two devices in a normal LL connection schedule **{{channel-sounding|Channel Sounding}}** events on a new LE 2M 2BT PHY. They measure both signal **phase** across multiple frequencies (Phase-Based Ranging) and **{{rtt|round-trip time}}** of timestamped packets; the combination gives centimetre-class distance accuracy up to ~150 m. The intended use: digital car keys, smart locks, and anti-stalking tags — all of which need to know if the {{peer|peer}} is actually *here* and not {{replay-attack|relayed}} via radio.'
+				'Two devices in a normal LL connection schedule **{{channel-sounding|Channel Sounding}}** events on a new {{le-audio|LE}} 2M 2BT {{phy|PHY}}. They measure both signal **phase** across multiple frequencies (Phase-Based Ranging) and **{{rtt|round-trip time}}** of timestamped packets; the combination gives centimetre-class distance accuracy up to ~150 m. The intended use: digital car keys, smart locks, and anti-stalking tags — all of which need to know if the {{peer|peer}} is actually *here* and not {{replay-attack|relayed}} via radio.'
 		}
 	],
 	useCases: [
@@ -212,7 +212,7 @@ CRC: x^24 + x^10 + x^9 + x^6 + x^4 + x^3 + x + 1, seeded by Access Address.`
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Bluetooth.svg/250px-Bluetooth.svg.png',
 		alt: 'The Bluetooth logo — a bind-rune combining Hagall (ᚼ) and Bjarkan (ᛒ), the initials of Harald Bluetooth in Younger Futhark',
 		caption:
-			"The Bluetooth logo is a bind-rune combining **Hagall** (ᚼ) and **Bjarkan** (ᛒ) — the initials of *Harald Blåtand*, the 10th-century Danish king who united Denmark and Norway. Jim Kardach at {{intel|Intel}} proposed the name as a placeholder during a 1997 SIG meeting; it was never supposed to ship.",
+			"The Bluetooth logo is a bind-rune combining **Hagall** (ᚼ) and **Bjarkan** (ᛒ) — the initials of *Harald Blåtand*, the 10th-century Danish king who united Denmark and Norway. Jim Kardach at {{intel|Intel}} proposed the name as a placeholder during a 1997 {{sig|SIG}} meeting; it was never supposed to ship.",
 		credit: 'Image: Wikimedia Commons / Public Domain (Bluetooth SIG trademark)'
 	},
 
@@ -221,7 +221,7 @@ CRC: x^24 + x^10 + x^9 + x^6 + x^4 + x^3 + x + 1, seeded by Access Address.`
 			date: '2024-09',
 			title: 'Bluetooth 6.0 — Channel Sounding adopted',
 			description:
-				'Adopted 3 September 2024. {{channel-sounding|Channel Sounding}} adds phase-based + {{rtt|RTT}} distance measurement on a new LE 2M 2BT PHY, achieving centimetre-class accuracy up to ~150 m. The protocol-level answer to [[uwb|UWB]] for digital-key, anti-stalking, and finder applications.',
+				'Adopted 3 September 2024. {{channel-sounding|Channel Sounding}} adds phase-based + {{rtt|RTT}} distance measurement on a new {{le-audio|LE}} 2M 2BT {{phy|PHY}}, achieving centimetre-class accuracy up to ~150 m. The protocol-level answer to [[uwb|UWB]] for digital-key, anti-stalking, and finder applications.',
 			source: {
 				url: 'https://www.bluetooth.com/blog/bluetooth-6-0-released/',
 				label: 'Bluetooth SIG: 6.0 release'
@@ -241,7 +241,7 @@ CRC: x^24 + x^10 + x^9 + x^6 + x^4 + x^3 + x + 1, seeded by Access Address.`
 			date: '2026-01',
 			title: 'Frankfurt Airport — first airport-wide Auracast deployment',
 			description:
-				'On 28 January 2026 Frankfurt Airport became the first airport to {{broadcast|broadcast}} all gate announcements over **{{auracast|Auracast}}** — LC3-based one-to-many BLE Audio. Travellers with {{auracast|Auracast}}-capable hearing aids or earbuds tune in directly; no infrastructure handoff, no app required. The first major real-world replacement for the analog hearing loop.',
+				'On 28 January 2026 Frankfurt Airport became the first airport to {{broadcast|broadcast}} all gate announcements over **{{auracast|Auracast}}** — {{lc3|LC3}}-based one-to-many {{ble|BLE}} Audio. Travellers with {{auracast|Auracast}}-capable hearing aids or earbuds tune in directly; no infrastructure handoff, no app required. The first major real-world replacement for the analog hearing loop.',
 			source: {
 				url: 'https://www.gn.com/Newsroom/News/2026/January/Frankfurt-Airport-Becomes-the-First-Airport-Worldwide-to-Use-Auracast',
 				label: 'GN Group newsroom'
@@ -251,7 +251,7 @@ CRC: x^24 + x^10 + x^9 + x^6 + x^4 + x^3 + x + 1, seeded by Access Address.`
 			date: '2024-12',
 			title: 'Apple-Google DULT anti-stalking draft → IETF',
 			description:
-				"The Detecting Unwanted Location Trackers (DULT) standard — born from the AirTag stalking saga — moved into {{ietf|IETF}} working-group drafts in late 2024. Standardises a 'Tracker has been with you' alert across {{apple|Apple}}'s Find My and {{google|Google}}'s Find My Device networks regardless of vendor.",
+				"The Detecting Unwanted Location Trackers ({{dult|DULT}}) standard — born from the AirTag stalking saga — moved into {{ietf|IETF}} working-group drafts in late 2024. Standardises a 'Tracker has been with you' alert across {{apple|Apple}}'s Find My and {{google|Google}}'s Find My Device networks regardless of vendor.",
 			source: {
 				url: 'https://datatracker.ietf.org/wg/dult/about/',
 				label: 'IETF DULT working group'
@@ -261,7 +261,7 @@ CRC: x^24 + x^10 + x^9 + x^6 + x^4 + x^3 + x + 1, seeded by Access Address.`
 			date: '2023-11',
 			title: 'BLUFFS attack (CVE-2023-24023)',
 			description:
-				"Daniele Antonioli's third major architectural attack on [[bluetooth|Bluetooth]] session security (after KNOB 2019 and BIAS 2020). Forces low-entropy session keys via downgrade during cross-session key derivation, breaking forward + future secrecy in BR/EDR Secure Connections. Affects every BR/EDR device shipped before mid-2024 firmware updates.",
+				"Daniele Antonioli's third major architectural attack on [[bluetooth|Bluetooth]] session security (after {{knob-attack|KNOB}} 2019 and {{bias-attack|BIAS}} 2020). Forces low-entropy session keys via downgrade during cross-session key derivation, breaking forward + future secrecy in {{br-edr|BR/EDR}} Secure Connections. Affects every {{br-edr|BR/EDR}} device shipped before mid-2024 firmware updates.",
 			source: {
 				url: 'https://francozappa.github.io/about-bluffs/',
 				label: 'BLUFFS disclosure'
@@ -274,44 +274,44 @@ CRC: x^24 + x^10 + x^9 + x^6 + x^4 + x^3 + x + 1, seeded by Access Address.`
 			org: 'Apple AirPods + Find My network',
 			scale: '>1 billion AirPod units shipped lifetime; ~3 billion Find My nodes',
 			description:
-				'The single largest commercial BLE deployment. AirPods use proprietary {{apple|Apple}} H1/H2 chip extensions on top of BR/EDR + BLE; the Find My network turns every iPhone, iPad, and Mac into a relay for any nearby [[bluetooth|Bluetooth]] beacon (AirTag, AirPods, third-party Find My-certified accessories).'
+				'The single largest commercial {{ble|BLE}} deployment. AirPods use proprietary {{apple|Apple}} H1/H2 chip extensions on top of {{br-edr|BR/EDR}} + {{ble|BLE}}; the Find My network turns every iPhone, iPad, and Mac into a relay for any nearby [[bluetooth|Bluetooth]] beacon (AirTag, AirPods, third-party Find My-certified accessories).'
 		},
 		{
 			org: 'Bluetooth Special Interest Group',
 			scale: '~4.7 billion Bluetooth ICs shipped annually (2024)',
 			description:
-				"The Bluetooth SIG's annual market report tracks every certified chip; 2024 forecast was ~4.7 billion units, climbing toward 5+ billion by 2027. Categories: audio (earbuds, hearing aids), wearables, smart home, automotive, industrial."
+				"The Bluetooth {{sig|SIG}}'s annual market report tracks every certified chip; 2024 forecast was ~4.7 billion units, climbing toward 5+ billion by 2027. Categories: audio (earbuds, hearing aids), wearables, smart home, automotive, industrial."
 		},
 		{
 			org: 'Tesla / CCC Digital Key',
 			scale: 'Every Tesla since Model 3 (2017); all CCC-certified vehicles from 2023+',
 			description:
-				"Tesla's phone-as-key uses BLE proximity + a proprietary protocol. The CCC (Car Connectivity Consortium) Digital Key 3.0 standardises BLE + [[uwb|UWB]] for OEM-agnostic deployment — and {{channel-sounding|Channel Sounding}} (Bluetooth 6.0) is the protocol-level answer to the 2022 NCC Group BLE relay attack that opened a Model 3 from across the street."
+				"Tesla's phone-as-key uses {{ble|BLE}} proximity + a proprietary protocol. The {{ccc-digital-key|CCC}} (Car Connectivity Consortium) Digital Key 3.0 standardises {{ble|BLE}} + [[uwb|UWB]] for {{oem|OEM}}-agnostic deployment — and {{channel-sounding|Channel Sounding}} (Bluetooth 6.0) is the protocol-level answer to the 2022 NCC Group {{ble|BLE}} relay attack that opened a Model 3 from across the street."
 		},
 		{
 			org: 'Hearing-aid industry (Sonova, GN ReSound, Demant)',
 			scale: 'LE Audio + ASHA shipping in every major hearing-aid brand 2024+',
 			description:
-				"{{le-audio|LE Audio}}'s CIS ({{unicast|unicast}}) + BIS ({{broadcast|broadcast}}) carry hearing-aid audio at battery costs ~50% lower than the previous proprietary protocols. Combined with {{auracast|Auracast}} for public-venue {{broadcast|broadcast}}, it is the largest functional change in hearing-aid connectivity in two decades."
+				"{{le-audio|LE Audio}}'s CIS ({{unicast|unicast}}) + {{bis-broadcast|BIS}} ({{broadcast|broadcast}}) carry hearing-aid audio at battery costs ~50% lower than the previous proprietary protocols. Combined with {{auracast|Auracast}} for public-venue {{broadcast|broadcast}}, it is the largest functional change in hearing-aid connectivity in two decades."
 		}
 	],
 
 	funFacts: [
 		{
 			title: 'The name was a placeholder',
-			text: 'Jim Kardach at {{intel|Intel}} proposed "Bluetooth" in 1997 at a SIG meeting as a temporary working name — after **Harald "Blåtand" Gormsson**, the 10th-century Danish king who united Denmark and Norway, just as the SIG was trying to unite Ericsson, IBM, {{intel|Intel}}, Nokia, and Toshiba behind one short-range wireless standard. The name was never supposed to ship. It did. The logo is a bind-rune of Harald\'s initials in Younger Futhark — ᚼ + ᛒ.'
+			text: 'Jim Kardach at {{intel|Intel}} proposed "Bluetooth" in 1997 at a {{sig|SIG}} meeting as a temporary working name — after **Harald "Blåtand" Gormsson**, the 10th-century Danish king who united Denmark and Norway, just as the {{sig|SIG}} was trying to unite Ericsson, {{ibm|IBM}}, {{intel|Intel}}, Nokia, and Toshiba behind one short-range wireless standard. The name was never supposed to ship. It did. The logo is a bind-rune of Harald\'s initials in Younger Futhark — ᚼ + ᛒ.'
 		},
 		{
 			title: 'The "AirTag stalking" saga produced an IETF standard',
-			text: "Starting in 2021, dozens of cases emerged of [[bluetooth|Bluetooth]] AirTags being slipped into bags, cars, and clothing to track people. {{apple|Apple}} and {{google|Google}} — direct competitors — quietly co-authored the **DULT** (Detecting Unwanted Location Trackers) protocol, which moved into {{ietf|IETF}} working-group drafts in 2024. The result: cross-vendor 'a tracker has been moving with you' alerts that work across {{apple|Apple}}'s Find My and {{google|Google}}'s Find My Device networks."
+			text: "Starting in 2021, dozens of cases emerged of [[bluetooth|Bluetooth]] AirTags being slipped into bags, cars, and clothing to track people. {{apple|Apple}} and {{google|Google}} — direct competitors — quietly co-authored the **{{dult|DULT}}** (Detecting Unwanted Location Trackers) protocol, which moved into {{ietf|IETF}} working-group drafts in 2024. The result: cross-vendor 'a tracker has been moving with you' alerts that work across {{apple|Apple}}'s Find My and {{google|Google}}'s Find My Device networks."
 		},
 		{
 			title: 'KNOB, BIAS, BLUFFS — the same author broke Bluetooth three times',
-			text: "Daniele Antonioli (then EURECOM, now PostDoc-and-faculty) is the lead author of the three architectural attacks that broke BR/EDR session security at the protocol level: **KNOB** (CVE-2019-9506, key-negotiation forcing 1-byte entropy), **BIAS** (CVE-2020-10135, impersonation across bonding), and **BLUFFS** (CVE-2023-24023, forward-secrecy breakage). Each required firmware updates from every chipmaker. The SIG's response: 7-byte minimum entropy by default, Secure Connections Only mode, and renewed Authentication-after-Bonding rules — but the architectural debt is still there."
+			text: "Daniele Antonioli (then EURECOM, now PostDoc-and-faculty) is the lead author of the three architectural attacks that broke {{br-edr|BR/EDR}} session security at the protocol level: **{{knob-attack|KNOB}}** ({{cve|CVE}}-2019-9506, key-negotiation forcing 1-byte entropy), **{{bias-attack|BIAS}}** ({{cve|CVE}}-2020-10135, impersonation across bonding), and **{{bluffs-attack|BLUFFS}}** ({{cve|CVE}}-2023-24023, forward-secrecy breakage). Each required firmware updates from every chipmaker. The {{sig|SIG}}'s response: 7-byte minimum entropy by default, Secure Connections Only mode, and renewed Authentication-after-Bonding rules — but the architectural debt is still there."
 		},
 		{
 			title: 'BR/EDR and BLE share a logo but not a single bit',
-			text: "Despite the unified branding, **Bluetooth Classic and BLE share no bits over the air**. Different modulation (GFSK + DPSK for Classic, GFSK only for BLE 1M), different channel plan (79 × 1 MHz vs 40 × 2 MHz), different hopping (1,600/s vs once-per-connection-event), different framing, different security. A dual-mode chip runs both stacks side by side. The SIG estimates more than half of all shipping radios are dual-mode in 2024."
+			text: "Despite the unified branding, **Bluetooth Classic and {{ble|BLE}} share no bits over the air**. Different modulation (GFSK + DPSK for Classic, GFSK only for {{ble|BLE}} 1M), different channel plan (79 × 1 MHz vs 40 × 2 MHz), different hopping (1,600/s vs once-per-connection-event), different framing, different security. A dual-mode chip runs both stacks side by side. The {{sig|SIG}} estimates more than half of all shipping radios are dual-mode in 2024."
 		}
 	],
 
@@ -319,7 +319,7 @@ CRC: x^24 + x^10 + x^9 + x^6 + x^4 + x^3 + x + 1, seeded by Access Address.`
 		pitfalls: [
 			{
 				title: 'The default ATT MTU is 23 bytes',
-				text: "Every BLE connection starts with {{att-mtu|ATT MTU}} = 23, which means only **20 bytes of {{payload|payload}} per Notify** after the 3-byte ATT header. If you ship that default, your sensor stream is throughput-bound on overhead. **Cure:** request an MTU {{exchange|exchange}} (`ATT_Exchange_MTU_Request`) to 247 (one LL PDU with Data Length Extension) or 517 (the BLE maximum) as the first ATT operation after pairing. Most platforms now do this automatically — but verify with an nRF Sniffer capture."
+				text: "Every {{ble|BLE}} connection starts with {{att-mtu|ATT MTU}} = 23, which means only **20 bytes of {{payload|payload}} per Notify** after the 3-byte {{att-mtu|ATT}} header. If you ship that default, your sensor stream is throughput-bound on overhead. **Cure:** request an {{mtu|MTU}} {{exchange|exchange}} (`ATT_Exchange_MTU_Request`) to 247 (one LL {{pdu-session|PDU}} with Data Length Extension) or 517 (the {{ble|BLE}} maximum) as the first {{att-mtu|ATT}} operation after pairing. Most platforms now do this automatically — but verify with an nRF Sniffer capture."
 			},
 			{
 				title: 'Connection interval × Slave latency × Supervision timeout',
@@ -327,7 +327,7 @@ CRC: x^24 + x^10 + x^9 + x^6 + x^4 + x^3 + x + 1, seeded by Access Address.`
 			},
 			{
 				title: 'Wi-Fi coexistence on 2.4 GHz',
-				text: "BLE channels 37/38/39 (advertising) sit at 2402, 2426, and 2480 MHz — carefully chosen to **avoid** [[wifi|Wi-Fi]] channels 1/6/11 (2412/2437/2462 MHz). But the 37 data channels (0–36) overlap. Modern combo chips do time-division arbitration internally; on a discrete radio, a saturated [[wifi|Wi-Fi]] AP can starve BLE for tens of seconds. **Cure:** if running mission-critical BLE next to enterprise Wi-Fi, fix the Wi-Fi APs to use 5/6 GHz where possible, or use **LE Coded S=8** which trades 8× more {{airtime|airtime}} for 8× better link budget — surviving interference where LE 1M won\'t."
+				text: "{{ble|BLE}} channels 37/38/39 (advertising) sit at 2402, 2426, and 2480 MHz — carefully chosen to **avoid** [[wifi|Wi-Fi]] channels 1/6/11 (2412/2437/2462 MHz). But the 37 data channels (0–36) overlap. Modern combo chips do time-division arbitration internally; on a discrete radio, a saturated [[wifi|Wi-Fi]] {{ap-access-point|AP}} can starve {{ble|BLE}} for tens of seconds. **Cure:** if running mission-critical {{ble|BLE}} next to enterprise Wi-Fi, fix the Wi-Fi APs to use 5/6 GHz where possible, or use **{{le-audio|LE}} Coded S=8** which trades 8× more {{airtime|airtime}} for 8× better link budget — surviving interference where {{le-audio|LE}} 1M won\'t."
 			}
 		]
 	}

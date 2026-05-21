@@ -62,7 +62,7 @@ The naming history is its own joke: **802.3 letter suffixes ran out at "z"** (10
 
 The **[[frontier:ultra-ethernet-1-0|Ultra Ethernet Consortium]] Specification 1.0** was published 11 June 2025 (~560 pages) — the first ground-up rethink of how [[ethernet|Ethernet]] carries RDMA traffic for {{ai|AI}}/HPC workloads. Defines **Ultra [[ethernet|Ethernet]] Transport (UET)**: packet spraying with {{multipath|multipath}}, selective {{retransmission|retransmission}}, in-network telemetry-driven {{congestion-control|congestion control}}, ephemeral/{{connectionless|connectionless}} transport state for millions of endpoints.
 
-**650 Group estimates 91% of {{ai|AI}} workloads will run on [[ethernet|Ethernet]] by 2029**; {{nvidia|NVIDIA}} {{spectrum|Spectrum}}-X delivers ~95% effective throughput vs ~60% on best-effort [[ethernet|Ethernet]] for {{ai|AI}} workloads. The architectural significance is that AI training is now important enough to drive a new datacenter transport — the same kind of pressure that produced [[ethernet|Ethernet]] in 1973 for office networking, [[tcp|TCP/IP]] in 1981 for inter-network research, and [[quic|QUIC]] in 2012 for the modern web.`
+**650 Group estimates 91% of {{ai|AI}} workloads will run on [[ethernet|Ethernet]] by 2029**; {{nvidia|NVIDIA}} {{spectrum|Spectrum}}-X delivers ~95% effective throughput vs ~60% on best-effort [[ethernet|Ethernet]] for {{ai|AI}} workloads. The architectural significance is that {{ai|AI}} training is now important enough to drive a new datacenter transport — the same kind of pressure that produced [[ethernet|Ethernet]] in 1973 for office networking, [[tcp|TCP/IP]] in 1981 for inter-network research, and [[quic|QUIC]] in 2012 for the modern web.`
 						},
 						{
 							type: 'image',
@@ -165,7 +165,7 @@ The breach that changed everything: **TJX (disclosed 17 January 2007)** — atta
 
 The **Address Resolution Protocol** ([[arp|ARP]], **[[rfc:826|RFC 826]]**, November 1982) solves it with the simplest {{broadcast|broadcast}} you can imagine: shout "who has 192.0.2.5?" onto the wire, and the host that owns it shouts back "I do, {{mac-address|MAC}} ab:cd:..." Cache the answer for a few minutes; repeat when it expires.
 
-David C. Plummer at Symbolics/{{mit|MIT}}-{{ai|AI}} wrote [[rfc:826|RFC 826]] from address \`DCP@{{mit|MIT}}-MC\` in November 1982. **STD 37 has never been obsoleted in 44 years** — only updated by RFC 5227. The 28-byte [[arp|ARP]] packet (padded to 60 by [[ethernet|Ethernet]]) is one of the smallest standard PDUs on the Internet; HLEN/PLEN are variable on purpose so the same wire format outlived Token Ring, FDDI, ATM, and Frame Relay.`
+David C. Plummer at Symbolics/{{mit|MIT}}-{{ai|AI}} wrote [[rfc:826|RFC 826]] from address \`DCP@MIT-MC\` in November 1982. **STD 37 has never been obsoleted in 44 years** — only updated by {{rfc-doc|RFC}} 5227. The 28-byte [[arp|ARP]] packet (padded to 60 by [[ethernet|Ethernet]]) is one of the smallest standard PDUs on the Internet; HLEN/PLEN are variable on purpose so the same wire format outlived Token Ring, FDDI, ATM, and Frame Relay.`
 						},
 						{
 							type: 'callout',
@@ -175,9 +175,9 @@ David C. Plummer at Symbolics/{{mit|MIT}}-{{ai|AI}} wrote [[rfc:826|RFC 826]] fr
 						{
 							type: 'narrative',
 							title: 'The IPv6 Successor — and Its CVE Year',
-							text: `[[ipv6|IPv6]] redesigned the same idea as the **{{ndp|Neighbor Discovery Protocol}}** ([[rfc:4861|RFC 4861]]). Same shape — solicitation, advertisement — but on top of [[icmp|ICMPv6]], with optional **Secure Neighbor Discovery** (SEND, RFC 3971) using cryptographic addresses to defeat {{spoofing|spoofing}}.
+							text: `[[ipv6|IPv6]] redesigned the same idea as the **{{ndp|Neighbor Discovery Protocol}}** ([[rfc:4861|RFC 4861]]). Same shape — solicitation, advertisement — but on top of [[icmp|ICMPv6]], with optional **Secure Neighbor Discovery** (SEND, {{rfc-doc|RFC}} 3971) using cryptographic addresses to defeat {{spoofing|spoofing}}.
 
-{{ndp|NDP}} also folds in router discovery and {{stateless|stateless}} autoconfiguration ([[rfc:4862|SLAAC]]), so a fresh-booted [[ipv6|IPv6]] host can pick its own address and find the local router without [[dhcp|DHCP]]. **VRRPv3 reissued as RFC 9568 (April 2024)** updated gratuitous-[[arp|ARP]] behavior on master transition.
+{{ndp|NDP}} also folds in router discovery and {{stateless|stateless}} autoconfiguration ([[rfc:4862|SLAAC]]), so a fresh-booted [[ipv6|IPv6]] host can pick its own address and find the local router without [[dhcp|DHCP]]. **VRRPv3 reissued as {{rfc-doc|RFC}} 9568 (April 2024)** updated gratuitous-[[arp|ARP]] behavior on master transition.
 
 Two {{ndp|NDP}} CVEs deserve naming.
 
@@ -192,7 +192,7 @@ Two {{ndp|NDP}} CVEs deserve naming.
 							title: 'Three Operational Footguns to Know',
 							text: `**{{aws|AWS}} does not run [[arp|ARP]].** Per {{aws|AWS}} *Logical Separation* whitepaper, *"[[arp|ARP]] packets never hit the network as they are not needed for discovery of the virtual network topology"* — every [[arp|ARP]] request inside a VPC is intercepted and answered by the hypervisor from an authenticated central database. If you have ever wondered why \`arp -a\` looks weird in EC2, that is why.
 
-**{{linux|Linux}} \`gc_thresh3=1024\` default silently drops traffic on cloud hosts with >700 neighbors.** Symptom: \`dmesg\` floods with \`neighbour: arp_cache: neighbor table overflow!\` Documented as Ubuntu/OpenStack bug 1780348 (still relevant in 2026). Cure: bump \`net.ipv4.neigh.default.gc_thresh3\` and friends.
+**{{linux|Linux}} \`gc_thresh3=1024\` default silently drops traffic on cloud {{hosts-bare|hosts}} with >700 neighbors.** Symptom: \`dmesg\` floods with \`neighbour: arp_cache: neighbor table overflow!\` Documented as Ubuntu/OpenStack bug 1780348 (still relevant in 2026). Cure: bump \`net.ipv4.neigh.default.gc_thresh3\` and friends.
 
 **iOS 18 / macOS Sequoia (September 2024) introduced "Rotate [[wifi|Wi-Fi]] Address" mode** that changes {{mac-address|MAC}} every 14 days on weak/open networks, breaking captive portals, {{mac-address|MAC}}-based [[dhcp|DHCP]] reservations, and [[arp|ARP]]-cache freshness assumptions. Many enterprise [[wifi|Wi-Fi]] deployments needed reconfiguration.
 
@@ -232,7 +232,7 @@ Two {{ndp|NDP}} CVEs deserve naming.
 						{
 							type: 'narrative',
 							title: 'The 32-Bit Experiment That Became the Internet',
-							text: `When [[pioneer:vint-cerf|Vint Cerf]] picked 32 bits for the {{ip-address|IP address}} field in 1977, he was asked whether it would be enough. His honest answer: more than enough for an experiment that he expected to be replaced before it had a million hosts. The "experiment" became the global internet.
+							text: `When [[pioneer:vint-cerf|Vint Cerf]] picked 32 bits for the {{ip-address|IP address}} field in 1977, he was asked whether it would be enough. His honest answer: more than enough for an experiment that he expected to be replaced before it had a million {{hosts-bare|hosts}}. The "experiment" became the global internet.
 
 **[[rfc:791|RFC 791]] (September 1981, Postel)** is the canonical text — still cited 45 years later. **{{flag-day-1983|Flag day}} 1 January 1983**: {{arpanet|ARPANET}} cut over from {{ncp|NCP}} to [[tcp|TCP]]/[[ip|IP]]. The 4.3-billion-address space ran out for the first time in **February 2011**, when {{iana|IANA}} allocated the last five /8 blocks to the regional registries.
 
@@ -241,16 +241,16 @@ The exhaustion timeline: **{{iana|IANA}} Feb 3 2011; {{apnic|APNIC}} Apr 15 2011
 						{
 							type: 'callout',
 							title: 'Every TCP connection >6.4 Mbps technically violated RFC 791 until 2013',
-							text: 'Read literally, the original [[ip|IPv4]] spec limited any pair of hosts to ~6.4 Mbps for 1500-byte packets — because the 16-bit Identification field would have to repeat within the maximum segment lifetime. **Every [[tcp|TCP]] connection above 6.4 Mbps you have made since 1995 has technically violated [[rfc:791|RFC 791]].** **[[rfc:6864|RFC 6864]] (February 2013) retroactively legalised what every implementation was already doing**: relax the uniqueness requirement when "Don\'t Fragment" is set. Sometimes the spec catches up to reality.'
+							text: 'Read literally, the original [[ip|IPv4]] spec limited any pair of {{hosts-bare|hosts}} to ~6.4 Mbps for 1500-byte packets — because the 16-bit Identification field would have to repeat within the maximum segment lifetime. **Every [[tcp|TCP]] connection above 6.4 Mbps you have made since 1995 has technically violated [[rfc:791|RFC 791]].** **[[rfc:6864|RFC 6864]] (February 2013) retroactively legalised what every implementation was already doing**: relax the uniqueness requirement when "Don\'t Fragment" is set. Sometimes the spec catches up to reality.'
 						},
 						{
 							type: 'narrative',
 							title: 'NAT Changed Everything',
 							text: `Three engineering tricks stretched [[ip|IPv4]] a generation past what its designers planned.
 
-**{{cidr|CIDR}}** ({{cidr|Classless Inter-Domain Routing}}, RFC 1519, 1993) abolished the rigid Class A/B/C boundaries and let routes be aggregated by arbitrary prefix length — collapsing the global {{routing-table|routing table}} from 70k entries headed for the moon down to a manageable 20k.
+**{{cidr|CIDR}}** ({{cidr|Classless Inter-Domain Routing}}, {{rfc-doc|RFC}} 1519, 1993) abolished the rigid Class A/B/C boundaries and let routes be aggregated by arbitrary prefix length — collapsing the global {{routing-table|routing table}} from 70k entries headed for the moon down to a manageable 20k.
 
-**{{nat|NAT}}** ({{nat|Network Address Translation}}, RFC 1631, 1994) let one public [[ip|IP]] front for thousands of private hosts behind a router.
+**{{nat|NAT}}** ({{nat|Network Address Translation}}, {{rfc-doc|RFC}} 1631, 1994) let one public [[ip|IP]] front for thousands of private {{hosts-bare|hosts}} behind a router.
 
 **Private address ranges** ([[rfc:1918|RFC 1918]], 1996) — 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16 — gave organisations enormous internal address space without consuming any public IPs.
 
@@ -305,7 +305,7 @@ Together these stretched [[ip|IPv4]] from "exhausted in 1995" to "still ~50% of 
 							title: 'Why "v6"? Because v5 Was Already Taken',
 							text: `Why "v6"? **Version 5 was already claimed by the experimental ST/ST-II Stream Protocol** (real-time transport). SIPP took 6, and won. The IPng selection happened at the **"BigTen" retreat near Chicago, 19-20 May 1994**, where the IPng Directorate met with WG chairs. SIPP-128 was selected at the Toronto {{ietf|IETF}} on 25 July 1994 ([[pioneer:steve-deering|Steve Deering]] / Robert Hinden lineage).
 
-[[ipv6|IPv6]] was specified in 1995 (RFC 1883), revised as [[rfc:2460|RFC 2460]] in 1998, and finally became **STD 86 / [[rfc:8200|RFC 8200]] in July 2017** — 19 years after [[rfc:2460|RFC 2460]], 22 years after the original. The address field grew from 32 bits to **128 bits** — enough that every grain of sand on Earth could have its own {{subnet|subnet}}. The header was simplified, {{fragmentation|fragmentation}} was pushed to the edges, {{multicast|multicast}} and link-local autoconfiguration ([[rfc:4862|SLAAC]]) became core mechanisms.
+[[ipv6|IPv6]] was specified in 1995 ({{rfc-doc|RFC}} 1883), revised as [[rfc:2460|RFC 2460]] in 1998, and finally became **STD 86 / [[rfc:8200|RFC 8200]] in July 2017** — 19 years after [[rfc:2460|RFC 2460]], 22 years after the original. The address field grew from 32 bits to **128 bits** — enough that every grain of sand on Earth could have its own {{subnet|subnet}}. The header was simplified, {{fragmentation|fragmentation}} was pushed to the edges, {{multicast|multicast}} and link-local autoconfiguration ([[rfc:4862|SLAAC]]) became core mechanisms.
 
 It then took **twenty-eight years** to reach 50% adoption. The reason is not technical; it is the chicken-and-egg of network effects.`
 						},
@@ -329,8 +329,8 @@ By 2026: **US mobile [[ipv6|IPv6]] averages ~87%**; **France 86%** ({{google|Goo
 							text: `**The KAME Project (1998-March 2006)** — joint Fujitsu / Hitachi / IIJ / NEC / Toshiba / Yokogawa / Keio U. / U.Tokyo — produced the free reference [[ipv6|IPv6]]/IPsec stack underlying **FreeBSD, macOS, and iOS**. The dancing turtle still appears at kame.net for [[ipv6|IPv6]]-reachable visitors. If you ever wondered where {{apple|Apple}}'s [[ipv6|IPv6]] stack came from, the answer is "a Japanese collaboration from 1998 named after a turtle." (Most modern {{apple|Apple}} [[ipv6|IPv6]] work has long since moved past KAME, but the lineage is real.)
 
 The 2024 {{ietf|IETF}} backlog tells the story of where [[ipv6|IPv6]] work is happening:
-- **RFC 9637 (August 2024)** added \`3fff::/20\` as a second [[ipv6|IPv6]] documentation prefix on top of \`2001:db8::/32\`, large enough to model multi-{{autonomous-system|AS}} networks.
-- **RFC 9673 (October 2024)** finally relaxed {{hop|Hop}}-by-{{hop|Hop}} Options handling so HBH options are deployable on real router silicon.
+- **{{rfc-doc|RFC}} 9637 (August 2024)** added \`3fff::/20\` as a second [[ipv6|IPv6]] documentation prefix on top of \`2001:db8::/32\`, large enough to model multi-{{autonomous-system|AS}} networks.
+- **{{rfc-doc|RFC}} 9673 (October 2024)** finally relaxed {{hop|Hop}}-by-{{hop|Hop}} Options handling so HBH options are deployable on real router silicon.
 - **RFC 9602 (2024)** reserved \`5f00::/16\` for SRv6 SIDs.
 - **\`face:b00c\` was removed from {{linux|Linux}} kernel traces in 2024** because the example prefix from RFC 5514 was being mistaken for a real prefix in copy-pasted configs.
 
@@ -386,11 +386,11 @@ The most famous [[icmp|ICMP]] message is **{{echo-request|Echo Request}} / {{ech
 						{
 							type: 'narrative',
 							title: 'Two Famous Attacks That Renamed the Field',
-							text: `**Smurf attack (1997-1998)**: Tool \`smurf.c\` written by Dan Moschuk (alias TFreak); [[icmp|ICMP]] Echo Requests with spoofed source to a network's directed {{broadcast|broadcast}} address; first high-profile incident University of Minnesota, 1998. **RFC 2644 (August 1999)** changed router default from "forward directed broadcasts" to "drop." Every modern router has the fix; Smurf is now a museum piece, but it is the reason directed-{{broadcast|broadcast}} forwarding is off by default everywhere.
+							text: `**Smurf attack (1997-1998)**: Tool \`smurf.c\` written by Dan Moschuk (alias TFreak); [[icmp|ICMP]] Echo Requests with spoofed source to a network's directed {{broadcast|broadcast}} address; first high-profile incident University of Minnesota, 1998. **{{rfc-doc|RFC}} 2644 (August 1999)** changed router default from "forward directed broadcasts" to "drop." Every modern router has the fix; Smurf is now a museum piece, but it is the reason directed-{{broadcast|broadcast}} forwarding is off by default everywhere.
 
 **{{ping|Ping}} of Death (1996-1997)**: Oversized fragmented [[icmp|ICMP]] packets, when reassembled, exceeded 65,535 bytes and crashed Windows 95/NT, early {{linux|Linux}}/{{bsd|BSD}}, {{cisco|Cisco}} IOS, and classic Mac. **CERT advisory {{certificate-authority|CA}}-1996-26 (16 December 1996)**. Modern stacks check for total length overflow before reassembly; the bug is closed but the lesson — that fragment reassembly is one of the most critical security paths in any [[ip|IP]] stack — survives in the **{{cve|CVE}}-2024-38063** Windows [[ipv6|IPv6]] fragment integer underflow disclosed 13 August 2024 (CVSS 9.8, "exploitable from anywhere on the link").
 
-**{{cloudflare|Cloudflare}} 2014 PMTUD black-hole**: {{cloudflare|Cloudflare}}'s blog *"{{path-mtu-discovery|Path MTU Discovery}} in Practice"* documented [[icmp|ICMP]] Type 3/Code 4 messages getting filtered before reaching servers — [[tcp|TCP]] handshakes complete, then {{http-method|HTTP}} responses hang forever. Drove industry rollout of **[[rfc:4821|RFC 4821]] PLPMTUD** (Packetisation-Layer PMTUD) which probes path {{mtu|MTU}} at the application layer instead of relying on routers to send [[icmp|ICMP]] back.`
+**{{cloudflare|Cloudflare}} 2014 PMTUD black-hole**: {{cloudflare|Cloudflare}}'s blog *"{{path-mtu-discovery|Path MTU Discovery}} in Practice"* documented [[icmp|ICMP]] Type 3/Code 4 messages getting filtered before reaching servers — [[tcp|TCP]] handshakes complete, then {{http-method|HTTP}} responses hang forever. Drove industry rollout of **[[rfc:4821|RFC 4821]] {{plpmtud|PLPMTUD}}** (Packetisation-Layer PMTUD) which probes path {{mtu|MTU}} at the application layer instead of relying on routers to send [[icmp|ICMP]] back.`
 						},
 						{
 							type: 'narrative',
@@ -401,9 +401,9 @@ The most famous [[icmp|ICMP]] message is **{{echo-request|Echo Request}} / {{ech
 
 **2020 Internet-wide measurement (SMap study)**: **69.8% of ASes still don't filter spoofed packets at ingress** — substrate that makes [[icmp|ICMP]] reflection still feasible.
 
-**Frontier**: Tsinghua's \`draft-xu-intarea-challenge-icmpv4-02\` (February 2025) proposes a challenge-confirm scheme using [[ip|IP]] options so receivers can verify a router actually saw the original packet — the most concrete proposal in years to fix [[icmp|ICMP]]'s "anyone-can-spoof-any-error" weakness. \`draft-{{ietf|ietf}}-6man-{{icmpv6|icmpv6}}-reflection-19\` (December 2025) defines a {{stateless|stateless}} probe-and-reflect {{icmpv6|ICMPv6}} utility, currently active.
+**Frontier**: Tsinghua's \`draft-xu-intarea-challenge-icmpv4-02\` (February 2025) proposes a challenge-confirm scheme using [[ip|IP]] options so receivers can verify a router actually saw the original packet — the most concrete proposal in years to fix [[icmp|ICMP]]'s "anyone-can-spoof-any-error" weakness. \`draft-ietf-6man-icmpv6-reflection-19\` (December 2025) defines a {{stateless|stateless}} probe-and-reflect {{icmpv6|ICMPv6}} utility, currently active.
 
-**GGP (RFC 823, September 1982)** is [[icmp|ICMP]]'s parent — the Gateway-to-Gateway Protocol on {{bbn|BBN}}'s LSI-11 gateways, predecessor of EGP (1984) and grand-uncle of [[bgp|BGP]]. The diagnostic mechanism predates the routing protocol.`
+**GGP ({{rfc-doc|RFC}} 823, September 1982)** is [[icmp|ICMP]]'s parent — the Gateway-to-Gateway Protocol on {{bbn|BBN}}'s LSI-11 gateways, predecessor of EGP (1984) and grand-uncle of [[bgp|BGP]]. The diagnostic mechanism predates the routing protocol.`
 						},
 						{
 							type: 'image',
@@ -439,7 +439,7 @@ The most famous [[icmp|ICMP]] message is **{{echo-request|Echo Request}} / {{ech
 							title: 'The Two-Napkin Protocol',
 							text: `**The "Two-Napkin Protocol" was sketched at {{ietf|IETF}} 12, Austin, Texas, January 1989**: **[[pioneer:yakov-rekhter|Yakov Rekhter]]** ({{ibm|IBM}} Watson) and **Kirk Lougheed** ({{cisco|Cisco}}) over cafeteria napkins. The previous routing protocol (EGP) had become unmanageable; the internet was about to outgrow it. The originals went in the trash; **{{cisco|Cisco}}'s archivist preserved photocopies that hang in Milpitas**. Expanded to three handwritten sheets — hence "Three-Napkin Protocol."
 
-That sketch became [[rfc:4271|BGP-1]] ([[rfc:1105|RFC 1105]], June 1989), then [[bgp|BGP]]-4 (RFC 1771, 1995), then the current [[rfc:4271|RFC 4271]] (2006). The protocol has been backwards-compatible for over thirty years across more than 100,000 ASes.
+That sketch became [[rfc:4271|BGP-1]] ([[rfc:1105|RFC 1105]], June 1989), then [[bgp|BGP]]-4 ({{rfc-doc|RFC}} 1771, 1995), then the current [[rfc:4271|RFC 4271]] (2006). The protocol has been backwards-compatible for over thirty years across more than 100,000 ASes.
 
 **The 16-byte all-ones Marker field at the start of every [[bgp|BGP]] message** was originally a placeholder for an authentication digest — now vestigial. Modern auth is below [[bgp|BGP]] ([[tcp|TCP]]-{{md5|MD5}}/[[tcp|TCP]]-AO) or above ({{rpki|RPKI}}/BGPsec/{{aspa|ASPA}}). Source of the running joke "[[bgp|BGP]] doesn't have a real authentication story for 30+ years."`
 						},
@@ -461,20 +461,20 @@ That sketch became [[rfc:4271|BGP-1]] ([[rfc:1105|RFC 1105]], June 1989), then [
 
 **The 512K Day (12 August 2014)**: When [[ip|IPv4]] DFZ crossed 512,000 prefixes, older {{cisco|Cisco}} line cards with default 512K-route TCAMs failed silently; eBay, LastPass, {{microsoft|Microsoft}} {{azure|Azure}} had visible outages. Hardware capacity is part of routing-table economics.
 
-**{{junos|JunOS}}/Arista session-reset incident (20 May 2025)**: A malformed [[bgp|BGP]] {{bgp-update|UPDATE}} with all-zero RFC 8669 Prefix-SID attribute (40), originated by AS9304 Hutchison or AS135338 Starcloud, leaked to public DFZ. **{{junos|JunOS}} and Arista EOS crashed sessions.** {{ios-xr|IOS-XR}}, Nokia SR {{os|OS}}, BIRD correctly applied RFC 7606 "treat-as-withdraw." Implementation diversity matters.`
+**{{junos|JunOS}}/Arista session-reset incident (20 May 2025)**: A malformed [[bgp|BGP]] {{bgp-update|UPDATE}} with all-zero {{rfc-doc|RFC}} 8669 Prefix-SID attribute (40), originated by AS9304 Hutchison or AS135338 Starcloud, leaked to public DFZ. **{{junos|JunOS}} and Arista EOS crashed sessions.** {{ios-xr|IOS-XR}}, Nokia SR {{os|OS}}, BIRD correctly applied {{rfc-doc|RFC}} 7606 "treat-as-withdraw." Implementation diversity matters.`
 						},
 						{
 							type: 'narrative',
 							title: 'The 2024-2026 Cleanup Wave',
 							text: `Several long-pending RFCs landed in the past two years.
 
-**[[rfc:4271|RFC 9582 (May 2024)]]** replaced RFC 6482 as the current {{roa|ROA}} profile (Snijders, Maddison, Lepinski, Kong, Kent — clarifies X.509 extensions, fixes errata, mandates canonicalisation).
+**[[rfc:4271|RFC 9582 (May 2024)]]** replaced {{rfc-doc|RFC}} 6482 as the current {{roa|ROA}} profile (Snijders, Maddison, Lepinski, Kong, Kent — clarifies X.509 extensions, fixes errata, mandates canonicalisation).
 
-**RFC 9687 (November 2024)** added the **\`SendHoldTimer\`** to the [[bgp|BGP]] FSM — closing the **"[[bgp|BGP]] zombie" failure mode** where a [[tcp|TCP]] socket stops draining and withdrawn routes linger forever.
+**{{rfc-doc|RFC}} 9687 (November 2024)** added the **\`SendHoldTimer\`** to the [[bgp|BGP]] FSM — closing the **"[[bgp|BGP]] zombie" failure mode** where a [[tcp|TCP]] socket stops draining and withdrawn routes linger forever.
 
 **RFC 9774 (May 2025)** formally **deprecates \`AS_SET\` and \`AS_CONFED_SET\`** with a normative MUST NOT — speakers must "treat-as-withdraw" any {{bgp-update|UPDATE}} containing them.
 
-**{{aspa|ASPA}} ({{autonomous-system|AS}} Provider Authorization)** is *still* an Internet-Draft as of May 2026 — \`draft-{{ietf|ietf}}-sidrops-{{aspa|aspa}}-verification-25\` (October 2025) and \`draft-{{ietf|ietf}}-sidrops-{{aspa|aspa}}-profile-26\` (April 2026). {{cisco|Cisco}} ran an **Early Field Trial of {{aspa|ASPA}} on {{ios-xr|IOS-XR}} in 2025**. SIDROPS chair Job Snijders has signalled the WG is "close to last call."
+**{{aspa|ASPA}} ({{autonomous-system|AS}} Provider Authorization)** is *still* an Internet-Draft as of May 2026 — \`draft-ietf-sidrops-aspa-verification-25\` (October 2025) and \`draft-ietf-sidrops-aspa-profile-26\` (April 2026). {{cisco|Cisco}} ran an **Early Field Trial of {{aspa|ASPA}} on {{ios-xr|IOS-XR}} in 2025**. SIDROPS chair Job Snijders has signalled the WG is "close to last call."
 
 **The June 2024 {{fcc|FCC}} NPRM** is the first-ever U.S. federal proposal to compel the nine largest {{bias-attack|BIAS}} providers (AT&T, Altice, Charter, Comcast, Cox, Lumen, T-Mobile, TDS/US Cellular, Verizon) to file [[bgp|BGP]] Routing Security Risk Management Plans and quarterly {{rpki|RPKI}} deployment reports. As of March 2024, only **~22% of US-originated routes had ROAs**.
 
@@ -517,7 +517,7 @@ That sketch became [[rfc:4271|BGP-1]] ([[rfc:1105|RFC 1105]], June 1989), then [
 						{
 							type: 'narrative',
 							title: 'A Hierarchy You Cannot See',
-							text: `When you type \`example.com\` into a browser, the operating system needs an {{ip-address|IP address}}. Until 1983 every host on {{arpanet|ARPANET}} maintained a flat **HOSTS.{{txt-record|TXT}}** file with all the mappings, distributed by [[ftp|FTP]] from the SRI-{{nic|NIC}}. As the network grew past a few hundred hosts, that became absurd — every change required every host to download the whole file.
+							text: `When you type \`example.com\` into a browser, the operating system needs an {{ip-address|IP address}}. Until 1983 every host on {{arpanet|ARPANET}} maintained a flat **{{hosts-bare|HOSTS}}.{{txt-record|TXT}}** file with all the mappings, distributed by [[ftp|FTP]] from the SRI-{{nic|NIC}}. As the network grew past a few hundred hosts, that became absurd — every change required every host to download the whole file.
 
 **[[pioneer:paul-mockapetris|Paul Mockapetris]]** at USC ISI was asked by [[pioneer:jon-postel|Jon Postel]] to design a distributed naming system. He published **[[rfc:882|RFC 882]]/883 in November 1983**; the first server was *"Jeeves"* running TOPS-20. Then **[[rfc:1034|RFC 1034]]/1035 in 1987** finalised the architecture we still use.
 
@@ -535,7 +535,7 @@ The first six TLDs were **\`.edu, .gov, .com, .mil, .org, .net\`**, with **\`.in
 
 **KeyTrap ({{cve|CVE}}-2023-50387, February 2024)**: ATHENE researchers (Heftrig, Schulmann, Vogel, Waidner) disclosed inherent {{dnssec|DNSSEC}} validation complexity attacks — CVSS 7.5. BIND, Unbound, PowerDNS, Knot all patched, but the underlying {{dnssec|DNSSEC}} RFCs themselves are the issue. {{dnssec|DNSSEC}} is conceptually right and operationally fragile.
 
-**2023-2024 milestone**: \`.com\`, \`.net\`, \`.edu\` rolled {{dnssec|DNSSEC}} algorithm 8 → 13 ({{ecdsa|ECDSA}} P-256) in Q3-Q4 2023. **ZONEMD** (RFC 8976) added to root zone in September 2023 with SHA-384 from 6 December 2023. **RFC 9619 (2024) "QDCOUNT Is (Usually) One"** formally constrains a 38-year ambiguity in [[rfc:1035|RFC 1035]].
+**2023-2024 milestone**: \`.com\`, \`.net\`, \`.edu\` rolled {{dnssec|DNSSEC}} algorithm 8 → 13 ({{ecdsa|ECDSA}} P-256) in Q3-Q4 2023. **ZONEMD** ({{rfc-doc|RFC}} 8976) added to root zone in September 2023 with SHA-384 from 6 December 2023. **{{rfc-doc|RFC}} 9619 (2024) "QDCOUNT Is (Usually) One"** formally constrains a 38-year ambiguity in [[rfc:1035|RFC 1035]].
 
 **[[rfc:9460|RFC 9460]] (November 2023): SVCB / HTTPS RRs** enable apex aliasing, [[http3|HTTP/3]] advertisement, and (critically) {{ech|ECH}} key publication. {{cloudflare|Cloudflare}} turned {{ech|ECH}} on by default in 2023; Firefox 119 enabled {{ech|ECH}} by default. The HTTPS RR is what tells the browser "this site speaks h3" before the first connection.`
 						},
@@ -548,7 +548,7 @@ The first six TLDs were **\`.edu, .gov, .com, .mil, .org, .net\`**, with **\`.in
 
 **2025 incidents to know**: {{aws|AWS}} Route 53 / DynamoDB [[dns|DNS]] race (19-20 October 2025); {{microsoft|Microsoft}} {{azure|Azure}} Front Door [[dns|DNS]] outage (29 October 2025).
 
-**Frontier**: **DELEG WG (\`draft-{{ietf|ietf}}-deleg-08\`, March 2026)** introduces new **DELEG and DELEGPARAM RR types** meant to make delegations extensible — specifically to let parents express that a child speaks DoT/DoQ on a non-default port. **Post-quantum {{dnssec|DNSSEC}}** prototypes in BIND/Unbound/NSD/CoreDNS were measured at {{ietf|IETF}} 123 (July 2025) hackathon; {{nist|NIST}} finalised ML-DSA/{{ml-kem|ML-KEM}}/SLH-DSA on **13 August 2024** and FN-DSA (Falcon) draft {{fips|FIPS}} 206 was submitted **28 August 2025**.`
+**Frontier**: **DELEG WG (\`draft-ietf-deleg-08\`, March 2026)** introduces new **DELEG and DELEGPARAM RR types** meant to make delegations extensible — specifically to let parents express that a child speaks DoT/DoQ on a non-default port. **Post-quantum {{dnssec|DNSSEC}}** prototypes in BIND/Unbound/NSD/CoreDNS were measured at {{ietf|IETF}} 123 (July 2025) hackathon; {{nist|NIST}} finalised ML-DSA/{{ml-kem|ML-KEM}}/SLH-DSA on **13 August 2024** and FN-DSA (Falcon) draft {{fips|FIPS}} 206 was submitted **28 August 2025**.`
 						},
 						{
 							type: 'image',

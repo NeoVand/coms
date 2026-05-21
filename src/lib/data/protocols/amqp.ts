@@ -23,7 +23,7 @@ RabbitMQ, the most popular [[amqp|AMQP]] {{broker|broker}}, powers message-drive
 		{
 			title: 'Declare exchanges and queues',
 			description:
-				'Producers create exchanges (routing hubs). Consumers create queues (message buffers). Bindings connect exchanges to queues with routing rules.'
+				'Producers create exchanges (routing hubs). Consumers create queues (message buffers). Bindings {{mqtt-connect|connect}} exchanges to queues with routing rules.'
 		},
 		{
 			title: 'Publish to exchange',

@@ -9,16 +9,16 @@ export const mqtt: Protocol = {
 	year: 1999,
 	rfc: undefined,
 	oneLiner: 'Lightweight {{pub-sub|publish/subscribe}} messaging — the lingua franca of IoT.',
-	overview: `[[mqtt|MQTT]] was invented at IBM in 1999 for monitoring oil pipelines over unreliable satellite links. Originally called "MQ Telemetry Transport," the name was dropped as a formal acronym when [[mqtt|MQTT]] became an OASIS standard in 2014 — it's now just "[[mqtt|MQTT]]." Its design goals — minimal {{bandwidth|bandwidth}}, tiny code footprint, and unreliable network tolerance — make it perfect for IoT devices with limited resources.
+	overview: `[[mqtt|MQTT]] was invented at {{ibm|IBM}} in 1999 for monitoring oil pipelines over unreliable satellite links. Originally called "MQ Telemetry Transport," the name was dropped as a formal acronym when [[mqtt|MQTT]] became an OASIS standard in 2014 — it's now just "[[mqtt|MQTT]]." Its design goals — minimal {{bandwidth|bandwidth}}, tiny code footprint, and unreliable network tolerance — make it perfect for IoT devices with limited resources.
 
-The pattern is {{pub-sub|publish/subscribe}}: devices {{mqtt-publish|publish}} messages to named "{{topic|topics}}," and other devices subscribe to topics they care about. A central {{broker|broker}} handles routing. A temperature sensor publishes to "home/kitchen/temperature," and any interested dashboard or automation system subscribes to that {{topic|topic}}.
+The pattern is {{pub-sub|publish/subscribe}}: devices {{mqtt-publish|publish}} messages to named "{{topic|topics}}," and other devices {{mqtt-subscribe|subscribe}} to topics they care about. A central {{broker|broker}} handles routing. A temperature sensor publishes to "home/kitchen/temperature," and any interested dashboard or automation system subscribes to that {{topic|topic}}.
 
 [[mqtt|MQTT]]'s fixed header is just 2 bytes. It supports three {{qos|quality-of-service}} levels ({{fire-and-forget|fire-and-forget}}, at-least-once, exactly-once), retained messages (new subscribers get the last value immediately), and "{{last-will|last will}}" messages (the broker publishes a message if a device disconnects unexpectedly).`,
 	howItWorks: [
 		{
 			title: 'Connect to broker',
 			description:
-				'Client connects to the [[mqtt|MQTT]] broker (like Mosquitto or HiveMQ) over [[tcp|TCP]]. It can specify a client ID, credentials, {{keep-alive|keep-alive}} interval, and a "{{last-will|last will}}" message.'
+				'Client connects to the [[mqtt|MQTT]] broker (like Mosquitto or HiveMQ) over [[tcp|TCP]]. It can specify a client {{id-identifier|ID}}, credentials, {{keep-alive|keep-alive}} interval, and a "{{last-will|last will}}" message.'
 		},
 		{
 			title: 'Subscribe to topics',
@@ -59,7 +59,7 @@ client.on_message = on_message
 # client.publish("home/kitchen/temperature", "22.5")
 
 client.loop_forever()`,
-		caption: 'Subscribe to temperature readings from any room — the broker handles routing',
+		caption: '{{mqtt-subscribe|Subscribe}} to temperature readings from any room — the broker handles routing',
 		alternatives: [
 			{
 				language: 'javascript',

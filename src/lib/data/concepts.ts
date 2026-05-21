@@ -6015,6 +6015,1870 @@ export const concepts: Concept[] = [
 	  wikiUrl: 'https://developer.apple.com/nearbyinteraction/',
 	  category: 'protocol-mechanics'
 	},
+
+	// ── Acronym densification batch ────────────────────────────────────
+	// Short tooltip-friendly entries for ALL-CAPS terms that show up
+	// across protocol pages, book chapters, outage write-ups, and pioneer
+	// bios. The goal is hover-coverage: every acronym a reader sees in
+	// prose should resolve to a one-card explanation.
+
+	// Generic computing / web
+	{
+		id: 'api',
+		term: 'API (Application Programming Interface)',
+		definition:
+			'The contract a piece of software exposes for other software to call. On the web it almost always means an HTTP-spoken interface — [[rest|REST]], [[grpc|gRPC]], [[graphql|GraphQL]], [[json-rpc|JSON-RPC]] — with a published URL shape, method, request/response schema, and auth model.',
+		analogy: 'A restaurant menu: the kitchen exposes what it will cook, the rules, and the price — you order against the menu, not by walking into the kitchen.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/API',
+		category: 'web'
+	},
+	{
+		id: 'ai',
+		term: 'AI (Artificial Intelligence)',
+		definition:
+			'The umbrella term for software that exhibits behaviours associated with human intelligence — perception, reasoning, language, learning. In modern networking contexts it usually means large neural models (LLMs, vision models) and the high-bandwidth fabrics ({{rocev2|RoCEv2}}, Ultra Ethernet) that train them.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Artificial_intelligence',
+		category: 'web'
+	},
+	{
+		id: 'llm',
+		term: 'LLM (Large Language Model)',
+		definition:
+			'A neural network trained on a very large text corpus to predict the next token. The class of model that powers ChatGPT, Claude, Gemini — and the workload that revived streaming HTTP responses through [[sse|SSE]] and tool-use protocols like [[mcp|MCP]].',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Large_language_model',
+		category: 'web'
+	},
+	{
+		id: 'sdk',
+		term: 'SDK (Software Development Kit)',
+		definition:
+			'A packaged client library that hides protocol details behind language-native function calls. The aws-sdk, the OpenAI SDK, the [[mcp|MCP]] SDK — each is a thin shell around an [[rest|HTTP API]] with auth, retries, and types baked in.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Software_development_kit',
+		category: 'web'
+	},
+	{
+		id: 'cli',
+		term: 'CLI (Command-Line Interface)',
+		definition:
+			"The terminal-driven entry point to a tool — `curl`, `ssh`, `dig`, `tcpdump`. Often the highest-fidelity way to debug a protocol because it doesn't hide the wire behind a GUI.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Command-line_interface',
+		category: 'web'
+	},
+	{
+		id: 'gui',
+		term: 'GUI (Graphical User Interface)',
+		definition:
+			'Windows, buttons, menus — the visual layer most users live in. Convenient for humans, opaque for protocol debugging.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Graphical_user_interface',
+		category: 'web'
+	},
+	{
+		id: 'ui',
+		term: 'UI (User Interface)',
+		definition:
+			'The surface a person interacts with — visual or textual. Distinct from the underlying protocol or data model that the UI happens to expose.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/User_interface',
+		category: 'web'
+	},
+	{
+		id: 'ux',
+		term: 'UX (User Experience)',
+		definition:
+			"The end-to-end felt quality of using a product — how fast it responds, how forgiving it is, how easily a new user makes progress. In protocol design, UX shows up as zero-RTT handshakes, graceful retries, and 'just works' commissioning flows.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/User_experience',
+		category: 'web'
+	},
+	{
+		id: 'os',
+		term: 'OS (Operating System)',
+		definition:
+			'The software layer between hardware and applications — schedules processes, manages memory, owns the network stack. Linux, Windows, macOS, iOS, Android. Every socket you open ultimately goes through the OS kernel.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Operating_system',
+		category: 'infrastructure'
+	},
+	{
+		id: 'cpu',
+		term: 'CPU (Central Processing Unit)',
+		definition:
+			'The chip that executes general-purpose instructions. In networking, CPU is the resource you save by offloading checksums, encryption ({{aes-gcm|AES-GCM}}), and packet steering to the NIC.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Central_processing_unit',
+		category: 'infrastructure'
+	},
+	{
+		id: 'gpu',
+		term: 'GPU (Graphics Processing Unit)',
+		definition:
+			"Originally for rendering graphics, now the workhorse of [[#ai|AI]] training and inference. Modern GPUs talk to each other over [[ethernet|Ethernet]] / RoCEv2 / Ultra Ethernet fabrics — and that's why hyperscaler networking suddenly cares about microsecond tail latency.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Graphics_processing_unit',
+		category: 'infrastructure'
+	},
+	{
+		id: 'ram',
+		term: 'RAM (Random-Access Memory)',
+		definition:
+			"Volatile working memory. In constrained-device contexts ([[coap|CoAP]] sensors, [[zigbee|Zigbee]] nodes), RAM is measured in kilobytes — a hard ceiling on how much protocol state you can keep per connection.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Random-access_memory',
+		category: 'infrastructure'
+	},
+	{
+		id: 'nic',
+		term: 'NIC (Network Interface Card)',
+		definition:
+			'The hardware that puts bits on the wire — Ethernet ports, Wi-Fi radios, the bit of silicon that owns a [[ethernet|MAC]] address. Modern NICs offload checksums, segmentation, RDMA, and encryption to free the [[#cpu|CPU]].',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Network_interface_controller',
+		category: 'infrastructure'
+	},
+	{
+		id: 'usb',
+		term: 'USB (Universal Serial Bus)',
+		definition:
+			'The bus that replaced serial, parallel, PS/2, and a dozen other connectors. Carries data, power, and (since USB-C) display. Network-adjacent because USB-Ethernet adapters and USB tethering are how laptops and phones reach the wire.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/USB',
+		category: 'infrastructure'
+	},
+	{
+		id: 'html',
+		term: 'HTML (HyperText Markup Language)',
+		definition:
+			"The document format the web ships over [[http1|HTTP]]. Invented by [[pioneer:tim-berners-lee|Tim Berners-Lee]] at CERN in 1989 alongside HTTP and URLs — one of the three pillars that made the web a thing.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/HTML',
+		category: 'web'
+	},
+	{
+		id: 'css',
+		term: 'CSS (Cascading Style Sheets)',
+		definition:
+			'The styling layer for HTML — fonts, colours, layout, animation. CSS files are themselves resources fetched over [[http1|HTTP]], one of the dozens of round-trips a modern page kicks off.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/CSS',
+		category: 'web'
+	},
+	{
+		id: 'url',
+		term: 'URL (Uniform Resource Locator)',
+		definition:
+			'`https://host:port/path?query#fragment` — the addressable identifier the web is built on. A URL is a more specific [[#uri|URI]] that says *where* the resource lives, not just what its name is.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/URL',
+		category: 'web'
+	},
+	{
+		id: 'uri',
+		term: 'URI (Uniform Resource Identifier)',
+		definition:
+			'The general syntax for naming things on the internet — schemes like `https:`, `mailto:`, `urn:isbn:`, `sips:`. URLs are URIs that include a location; URNs are URIs that name without locating.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Uniform_Resource_Identifier',
+		category: 'web'
+	},
+	{
+		id: 'uuid',
+		term: 'UUID (Universally Unique Identifier)',
+		definition:
+			"128-bit identifier with enough entropy that two systems can mint them independently without collision. Used everywhere from [[bluetooth|BLE]] service IDs to database primary keys to {{matter|Matter}} fabric IDs.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Universally_unique_identifier',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'uid',
+		term: 'UID (Unique Identifier)',
+		definition:
+			"A short serial that uniquely names a thing within a system — an [[nfc|NFC]] card's 4- or 7-byte UID returned during anti-collision, a Unix user UID, a Bluetooth device address. Smaller and less universal than a [[#uuid|UUID]].",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Unique_identifier',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'id-identifier',
+		term: 'ID (Identifier)',
+		definition:
+			'A handle for naming a specific thing — a session ID, a stream ID, an Entra ID user. Just a token. Whether it is unique, scoped, or revocable depends on the issuing system.',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'iso',
+		term: 'ISO (International Organization for Standardization)',
+		definition:
+			'The global standards body that publishes everything from screw threads to networking protocols. The [[#osi|OSI Reference Model]] is ISO/IEC 7498-1; smart-card protocols live in ISO/IEC 7816 and 14443.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/International_Organization_for_Standardization',
+		category: 'infrastructure'
+	},
+	{
+		id: 'iso-iec',
+		term: 'ISO/IEC (Joint ISO + IEC Standards)',
+		definition:
+			'When a topic spans general standardisation ([[#iso|ISO]]) and electrotechnology (IEC), the two bodies publish jointly under the `ISO/IEC` prefix — ISO/IEC 7498 (OSI), ISO/IEC 14443 (NFC contactless), ISO/IEC 18092 (NFC peer mode), ISO/IEC 27001 (information security).',
+		wikiUrl: 'https://en.wikipedia.org/wiki/International_Electrotechnical_Commission',
+		category: 'infrastructure'
+	},
+	{
+		id: 'ieee',
+		term: 'IEEE (Institute of Electrical and Electronics Engineers)',
+		definition:
+			'The professional body whose 802 working groups standardise local-area networking — 802.3 [[ethernet|Ethernet]], 802.11 [[wifi|Wi-Fi]], 802.15.4 low-power mesh, 802.1X authentication. Different layer of stack than the [[ietf|IETF]] but a constant collaborator.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Institute_of_Electrical_and_Electronics_Engineers',
+		category: 'infrastructure'
+	},
+	{
+		id: 'osi',
+		term: 'OSI (Open Systems Interconnection)',
+		definition:
+			"The seven-layer reference model (Physical, Data Link, Network, Transport, Session, Presentation, Application) that the world learned networking through, even though the actual OSI protocol suite lost to [[tcp|TCP]]/[[ip|IP]]. Still the lingua franca for arguing about which layer a problem belongs to.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/OSI_model',
+		category: 'networking-basics'
+	},
+	{
+		id: 'isp',
+		term: 'ISP (Internet Service Provider)',
+		definition:
+			'The company that sells you internet access. Operates one or more [[autonomous-system|autonomous systems]] and announces routes to its customers and peers via [[bgp|BGP]]. Tier-1 ISPs reach the rest of the internet without paying anyone for transit.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Internet_service_provider',
+		category: 'infrastructure'
+	},
+	{
+		id: 'isn',
+		term: 'ISN (Initial Sequence Number)',
+		definition:
+			"The randomly-chosen 32-bit number a [[tcp|TCP]] endpoint picks for its half of a connection's sequence space at SYN time. Cryptographically random ISNs (per {{rfc:6528|RFC 6528}}) close the off-path injection attacks of the 1990s.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Transmission_Control_Protocol#Initial_sequence_number',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'mtu-acronym',
+		term: 'MTU',
+		definition:
+			"Maximum Transmission Unit — the largest [[ip|IP]] payload that fits in one [[ethernet|link-layer]] frame without fragmentation. Standard Ethernet is 1500 bytes; jumbo frames go to 9000; PMTUD and PLPMTUD find the smallest MTU on a path. See {{mtu|MTU}} for the full entry.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Maximum_transmission_unit',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'sla',
+		term: 'SLA (Service Level Agreement)',
+		definition:
+			"The contracted promise — typically a percentage uptime, a latency budget, a [[#rto|RTO]] — that a service makes to its customers. Often the lever that forces an architecture change after an outage.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Service-level_agreement',
+		category: 'infrastructure'
+	},
+	{
+		id: 'sli',
+		term: 'SLI (Service Level Indicator)',
+		definition:
+			'The actual measured number — request success rate, p99 latency — that proves whether the {{#slo|SLO}} (and behind it, the {{#sla|SLA}}) is being met. The SRE-era replacement for ad-hoc dashboards.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Service_level_indicator',
+		category: 'infrastructure'
+	},
+	{
+		id: 'slo',
+		term: 'SLO (Service Level Objective)',
+		definition:
+			'The internal target — usually tighter than the {{#sla|SLA}} — that a team commits to. SLO breaches eat your error budget and trigger release freezes.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Service-level_objective',
+		category: 'infrastructure'
+	},
+	{
+		id: 'rto-recovery',
+		term: 'RTO (Recovery Time Objective)',
+		definition:
+			'How long after an incident before service must be restored — a business-side number that drives the technical investment in failover, BCP, and on-call. Distinct from the [[tcp|TCP]] retransmission timeout that shares the acronym.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Disaster_recovery#Recovery_Time_Objective',
+		category: 'infrastructure'
+	},
+
+	// Organisations & standards bodies
+	{
+		id: 'cern',
+		term: 'CERN',
+		definition:
+			'European Organization for Nuclear Research, near Geneva. Where [[pioneer:tim-berners-lee|Tim Berners-Lee]] invented the World Wide Web in 1989–1991 — [[http1|HTTP]], [[#html|HTML]], URLs, and the first browser, all on a NeXT cube.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/CERN',
+		category: 'infrastructure'
+	},
+	{
+		id: 'mit',
+		term: 'MIT (Massachusetts Institute of Technology)',
+		definition:
+			'Cambridge, Mass. research university whose Project Athena gave us [[ssh|Kerberos]] and X11, whose CS faculty drove early ARPANET work, and whose 6.829 networking class still feeds the textbook.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Massachusetts_Institute_of_Technology',
+		category: 'infrastructure'
+	},
+	{
+		id: 'ibm',
+		term: 'IBM',
+		definition:
+			"International Business Machines. The mainframe giant whose 1970s networking (SNA) the internet replaced — and whose later research arms shipped MQTT (Andy Stanford-Clark), RSA-precursor work, and a long tail of standards committee labour.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/IBM',
+		category: 'infrastructure'
+	},
+	{
+		id: 'aws',
+		term: 'AWS (Amazon Web Services)',
+		definition:
+			"Amazon's cloud arm, the largest cloud provider by revenue. Operates massive {{bgp|BGP}}-announced address space, runs S3 / EC2 / IoT Core, and is the customer whose scale drove much of the modern push for QUIC, IPv6, and post-quantum TLS.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Amazon_Web_Services',
+		category: 'infrastructure'
+	},
+	{
+		id: 'gcp',
+		term: 'GCP (Google Cloud Platform)',
+		definition:
+			"Google's cloud arm. Operates a global private backbone that carries most of its traffic between regions, exposes Cloud Interconnect / Cloud Router (BGP), and was an early production deployer of [[quic|QUIC]] and [[http3|HTTP/3]].",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Google_Cloud_Platform',
+		category: 'infrastructure'
+	},
+	{
+		id: 'azure',
+		term: 'Azure',
+		definition:
+			"Microsoft's cloud arm. Operates ExpressRoute private circuits, Entra ID for identity, and an enormous backbone full of [[bgp|BGP]] and [[ipsec|IPsec]] tunnels. The 365 suite's [[smtp|SMTP]] gateway is one of the largest mail platforms on the internet.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Microsoft_Azure',
+		category: 'infrastructure'
+	},
+	{
+		id: 'cloudflare',
+		term: 'Cloudflare',
+		definition:
+			'A globally-distributed network and security provider whose anycast {{pop|PoPs}} sit between most of the public web and its origin servers. Heavy contributor to TLS 1.3, [[quic|QUIC]], and post-quantum standards; runs ~20% of websites by some measures.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Cloudflare',
+		category: 'infrastructure'
+	},
+	{
+		id: 'apple',
+		term: 'Apple',
+		definition:
+			'Hardware-and-OS company whose decisions ripple through protocol adoption — they shipped IPv6 first on iOS, mandated [[http2|HTTP/2]] in App Transport Security, drove [[mdns|mDNS]] / [[#dns-sd|DNS-SD]] (Bonjour), and run U1/U2 UWB chips in iPhones.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Apple_Inc.',
+		category: 'infrastructure'
+	},
+	{
+		id: 'google',
+		term: 'Google',
+		definition:
+			'Search and ad company whose engineering scale forced or accelerated many modern protocols — [[quic|QUIC]] / [[http3|HTTP/3]], SPDY → [[http2|HTTP/2]], gRPC, BBR congestion control, and the first browser-side TLS 1.3 deployment.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Google',
+		category: 'infrastructure'
+	},
+	{
+		id: 'microsoft',
+		term: 'Microsoft',
+		definition:
+			'Software and cloud company whose Windows, 365, and Azure stacks set the de-facto baseline for enterprise networking. Big contributor to [[ssh|Kerberos]] / Active Directory, the [[tls|TLS]] stack, and the long-tail [[smtp|SMTP]] ecosystem.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Microsoft',
+		category: 'infrastructure'
+	},
+	{
+		id: 'meta',
+		term: 'Meta',
+		definition:
+			'Facebook / Instagram / WhatsApp parent. Operates a private backbone, runs one of the largest [[quic|QUIC]] deployments (mvfst), publishes Wedge / Minipack switching hardware, and has been the source of multiple high-profile [[bgp|BGP]] outages (2021, 2024).',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Meta_Platforms',
+		category: 'infrastructure'
+	},
+	{
+		id: 'parc',
+		term: 'Xerox PARC',
+		definition:
+			"Palo Alto Research Center. Where Ethernet was sketched in 1973 ([[pioneer:bob-metcalfe|Bob Metcalfe]], David Boggs), where the modern GUI was invented, where the Alto workstation networked over the original 2.94 Mb/s Ethernet — a stunning concentration of firsts.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/PARC_(company)',
+		category: 'infrastructure'
+	},
+
+	// Crypto / security
+	{
+		id: 'ssl',
+		term: 'SSL (Secure Sockets Layer)',
+		definition:
+			"The 1990s [[tls|TLS]] predecessor — SSL 2.0 (1995, broken), SSL 3.0 (1996, POODLE'd in 2014). Renamed to TLS at IETF in 1999 to escape Netscape branding. Nobody runs SSL anymore but the *name* lingers — `openssl`, `https://`, 'SSL cert'.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Transport_Layer_Security#SSL_1.0,_2.0,_and_3.0',
+		category: 'security'
+	},
+	{
+		id: 'aes',
+		term: 'AES (Advanced Encryption Standard)',
+		definition:
+			"The 128-bit block cipher [[#nist|NIST]] picked in 2001 (originally Rijndael by Daemen and Rijmen). Hardware-accelerated everywhere (AES-NI, ARMv8 Crypto Extensions). The foundation of [[#aes-gcm|AES-GCM]] and {{chacha20-poly1305|ChaCha20-Poly1305}}'s rival.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Advanced_Encryption_Standard',
+		category: 'security'
+	},
+	{
+		id: 'aes-128',
+		term: 'AES-128',
+		definition:
+			"[[#aes|AES]] with a 128-bit key — 10 rounds, fast everywhere. Used by MIFARE DESFire EV2/EV3, [[wireguard|WireGuard]] (via ChaCha alternative), TLS 1.3 cipher suites, and [[ipsec|IPsec]] ESP defaults.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Advanced_Encryption_Standard',
+		category: 'security'
+	},
+	{
+		id: 'md5',
+		term: 'MD5 (Message-Digest 5)',
+		definition:
+			"The 128-bit hash function Ron Rivest published in 1991. Practical collision attacks since 2004 (Wang Xiaoyun) made it cryptographically dead, but its checksum use in `MD5SUM` files and legacy [[bgp|BGP]] / [[tcp|TCP]]-MD5 lingers.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/MD5',
+		category: 'security'
+	},
+	{
+		id: 'sha1',
+		term: 'SHA-1 (Secure Hash Algorithm 1)',
+		definition:
+			"[[#nist|NIST]]'s 160-bit hash, published 1995. SHAttered (2017) and Shambles (2020) made collisions practical; deprecated in [[tls|TLS]] 1.3, in [[ssh|SSH]] host keys, and in Git's roadmap. Still alive in HMAC-SHA-1 and a long tail of legacy file checksums.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/SHA-1',
+		category: 'security'
+	},
+	{
+		id: 'sha256',
+		term: 'SHA-256',
+		definition:
+			"256-bit member of the SHA-2 family — the workhorse hash for HMAC, [[tls|TLS]] 1.3 transcripts, Bitcoin, [[ssh|SSH]] fingerprints, and almost every modern signature scheme.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/SHA-2',
+		category: 'security'
+	},
+	{
+		id: 'sha2',
+		term: 'SHA-2',
+		definition:
+			"Family of [[#nist|NIST]] hash functions (SHA-224/256/384/512) published in 2001 to replace [[#sha1|SHA-1]]. Still considered secure in 2026, but the world is migrating to SHA-3 and post-quantum primitives in parallel.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/SHA-2',
+		category: 'security'
+	},
+	{
+		id: 'sha3',
+		term: 'SHA-3',
+		definition:
+			'The Keccak-based hash family [[#nist|NIST]] standardised in 2015 after a public competition — structurally different from SHA-2, kept in reserve in case SHA-2 ever falls.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/SHA-3',
+		category: 'security'
+	},
+	{
+		id: 'rc4',
+		term: 'RC4 (Rivest Cipher 4)',
+		definition:
+			"Ron Rivest's 1987 stream cipher — fast, ubiquitous (WEP, original [[tls|SSL/TLS]], MS-CHAPv2), and biased enough that AlFardan et al. (2013) broke its use in TLS. Banned from TLS in [[rfc:7465|RFC 7465]] (2015).",
+		wikiUrl: 'https://en.wikipedia.org/wiki/RC4',
+		category: 'security'
+	},
+	{
+		id: 'ecc',
+		term: 'ECC (Elliptic Curve Cryptography)',
+		definition:
+			"Public-key cryptography over elliptic curves — equivalent security to RSA at much smaller key sizes (256-bit ECC ≈ 3072-bit RSA). The basis of [[#ecdhe|ECDHE]], [[#ecdsa|ECDSA]], Ed25519, and [[#x25519|X25519]].",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Elliptic-curve_cryptography',
+		category: 'security'
+	},
+	{
+		id: 'ecdhe',
+		term: 'ECDHE (Elliptic Curve Diffie-Hellman Ephemeral)',
+		definition:
+			"The [[#ecc|elliptic-curve]] flavour of Diffie-Hellman key {{exchange|exchange}} where each side mints a fresh keypair per session — the source of [[tls|TLS]] 1.3's [[forward-secrecy|forward secrecy]]. Cheap, fast, and the basis of almost every modern HTTPS handshake.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Elliptic-curve_Diffie%E2%80%93Hellman',
+		category: 'security'
+	},
+	{
+		id: 'ecdsa-acr',
+		term: 'ECDSA (Elliptic Curve Digital Signature Algorithm)',
+		definition:
+			"[[#ecc|Elliptic-curve]] signature scheme used in [[tls|TLS]] server certificates, [[ssh|SSH]] host keys, and most blockchains. Smaller signatures and keys than RSA at equivalent security.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Elliptic_Curve_Digital_Signature_Algorithm',
+		category: 'security'
+	},
+	{
+		id: 'x25519',
+		term: 'X25519',
+		definition:
+			'The Curve25519 Diffie-Hellman variant — fast, constant-time, no rare-curve edge cases. The default key {{exchange|exchange}} in TLS 1.3 and the basis of the post-quantum hybrid `X25519MLKEM768`.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Curve25519',
+		category: 'security'
+	},
+	{
+		id: 'spake2',
+		term: 'SPAKE2',
+		definition:
+			"Password-authenticated key {{exchange|exchange}} — derives a strong session key from a low-entropy password without leaking it. Used by {{matter|Matter}} commissioning (SPAKE2+), {{ccc-digital-key|CCC Digital Key}}, and a growing slice of zero-trust pairing flows.",
+		wikiUrl: 'https://datatracker.ietf.org/doc/rfc9382/',
+		category: 'security'
+	},
+	{
+		id: 'pq',
+		term: 'PQ (Post-Quantum)',
+		definition:
+			"Shorthand for *post-quantum* cryptography — primitives believed to survive a sufficiently large quantum computer. Hybrid PQ key exchange (X25519 + ML-KEM) is rolling out in [[tls|TLS]] now to defeat *harvest-now-decrypt-later* adversaries.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Post-quantum_cryptography',
+		category: 'security'
+	},
+	{
+		id: 'pqc',
+		term: 'PQC (Post-Quantum Cryptography)',
+		definition:
+			'The broader programme that produced ML-KEM (key encapsulation), ML-DSA / Falcon / SLH-DSA (signatures). [[#nist|NIST]] FIPS 203/204/205 (Aug 2024) made these the new federal defaults.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Post-quantum_cryptography',
+		category: 'security'
+	},
+	{
+		id: 'nist',
+		term: 'NIST (National Institute of Standards and Technology)',
+		definition:
+			"The US standards body that runs cryptographic standardisation — [[#aes|AES]] (FIPS 197), SHA-2/SHA-3, [[#pqc|PQC]] (FIPS 203/204/205). Its calls for proposals quietly set the global crypto agenda.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/National_Institute_of_Standards_and_Technology',
+		category: 'security'
+	},
+	{
+		id: 'fips',
+		term: 'FIPS (Federal Information Processing Standards)',
+		definition:
+			"[[#nist|NIST]]-published US federal computing standards. FIPS 140-3 certifies crypto modules; FIPS 197 is [[#aes|AES]]; FIPS 203 is ML-KEM. 'FIPS-compliant' is the procurement checkbox most US-government-touching networking gear has to clear.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Federal_Information_Processing_Standards',
+		category: 'security'
+	},
+	{
+		id: 'cve',
+		term: 'CVE (Common Vulnerabilities and Exposures)',
+		definition:
+			"The MITRE-run public catalogue of disclosed security flaws — every entry has a CVE-YYYY-NNNNN identifier so vendors, scanners, and incident responders can talk about the same bug. Most protocol weaknesses you read about here (Heartbleed, KNOB, BLUFFS) have CVE numbers attached.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Common_Vulnerabilities_and_Exposures',
+		category: 'security'
+	},
+	{
+		id: 'ntlm',
+		term: 'NTLM (NT LAN Manager)',
+		definition:
+			"Microsoft's challenge-response auth protocol from the Windows NT era — still alive in Active Directory environments for legacy compatibility. Cryptographically weaker than [[ssh|Kerberos]]; the target of pass-the-hash and relay attacks.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/NTLM',
+		category: 'security'
+	},
+	{
+		id: 'ad-active-directory',
+		term: 'AD (Active Directory)',
+		definition:
+			"Microsoft's directory service — combines LDAP, [[ssh|Kerberos]], DNS, and group policy into the identity backbone of most enterprises. AD DCs (Domain Controllers) are the targets of every Windows-targeted attack chain.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Active_Directory',
+		category: 'security'
+	},
+	{
+		id: 'dc-domain-controller',
+		term: 'DC (Domain Controller)',
+		definition:
+			"A server in an [[#ad-active-directory|Active Directory]] forest that holds the directory database, issues [[ssh|Kerberos]] tickets, and authenticates logons. Losing all DCs in a site is the worst-day-of-an-AD-admin's-life scenario.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Domain_controller',
+		category: 'security'
+	},
+	{
+		id: 'spn',
+		term: 'SPN (Service Principal Name)',
+		definition:
+			"An [[#ad-active-directory|Active Directory]] identifier that names a service running as an account — `HTTP/web1.example.com`. [[ssh|Kerberos]] tickets are bound to specific SPNs; mismatches are why 'Kerberos auth works for one URL and fails for the load-balanced one'.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Service_Principal_Name',
+		category: 'security'
+	},
+	{
+		id: 'oob',
+		term: 'OOB (Out-Of-Band)',
+		definition:
+			"Communication that doesn't share the same channel or fate as the system being managed — an [[#oob|OOB]] management network reaches a switch even when its data plane is wedged. Also describes one-time pairing keys exchanged via [[nfc|NFC]] tap or QR code.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Out-of-band',
+		category: 'infrastructure'
+	},
+	{
+		id: 'hsm',
+		term: 'HSM (Hardware Security Module)',
+		definition:
+			"A tamper-resistant box (USB key, PCIe card, rack appliance) that holds private keys and signs / decrypts inside the device — keys never leave the boundary. Used for [[tls|TLS]] root CAs, payment HSMs, and modern enclave-style auth.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Hardware_security_module',
+		category: 'security'
+	},
+	{
+		id: 'sso',
+		term: 'SSO (Single Sign-On)',
+		definition:
+			"Login once, access many services — the property [[oauth2|OAuth]] / OIDC / [[ssh|Kerberos]] / SAML all deliver in different shapes. The convenience that makes federated identity worth the integration pain.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Single_sign-on',
+		category: 'security'
+	},
+
+	// HTTP / web
+	{
+		id: 'rest-acr',
+		term: 'REST',
+		definition:
+			"Representational State Transfer — Roy Fielding's 2000 PhD-thesis architectural style. As shipped: resources at URLs, HTTP verbs as operations, JSON payloads. As written: hypermedia constraints almost nobody implements (see {{hateoas|HATEOAS}}).",
+		wikiUrl: 'https://en.wikipedia.org/wiki/REST',
+		category: 'web'
+	},
+	{
+		id: 'hateoas',
+		term: 'HATEOAS',
+		definition:
+			"Hypermedia As The Engine Of Application State — the [[rest|REST]] constraint that says a response should embed the links to the next legal actions, not require client-side URL templates. Famously absent from most APIs called 'REST'.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/HATEOAS',
+		category: 'web'
+	},
+	{
+		id: 'crud',
+		term: 'CRUD',
+		definition:
+			"Create, Read, Update, Delete — the canonical four operations almost every backend resource maps onto. REST maps these to POST / GET / PUT-PATCH / DELETE.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Create,_read,_update_and_delete',
+		category: 'web'
+	},
+	{
+		id: 'mime-acr',
+		term: 'MIME',
+		definition:
+			"Multipurpose Internet Mail Extensions — the [[rfc:2045|RFC 2045]] / [[rfc:2046|RFC 2046]] machinery for tagging payload types (`text/html`, `image/png`, `application/json`) and bundling attachments. Born for [[smtp|email]], reused as the `Content-Type` system of [[http1|HTTP]] and HTTP/2/3.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/MIME',
+		category: 'web'
+	},
+	{
+		id: 'ssl-cert',
+		term: 'SSL Cert',
+		definition:
+			"Colloquial name for a [[tls|TLS]] X.509 server certificate — the file your CA issued you, even though SSL itself was retired around 1999. The acronym refuses to die.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Public_key_certificate',
+		category: 'security'
+	},
+	{
+		id: 'ascii',
+		term: 'ASCII (American Standard Code for Information Interchange)',
+		definition:
+			"The 7-bit character encoding (1963) that defined the printable Latin alphabet, digits, control characters, and — crucially — the 'wire-text' that early protocols ([[smtp|SMTP]], [[ftp|FTP]], HTTP/1) were debuggable by eyeballing. Reason you can still `nc smtp.example.org 25` and type the protocol by hand.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/ASCII',
+		category: 'infrastructure'
+	},
+	{
+		id: 'utf8',
+		term: 'UTF-8',
+		definition:
+			'Variable-length Unicode encoding ([[pioneer:rob-pike|Rob Pike]] + Ken Thompson, 1992) where 7-bit ASCII is the first 128 codepoints. The default text encoding of the modern web — HTTP, JSON, HTML.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/UTF-8',
+		category: 'web'
+	},
+	{
+		id: 'sql',
+		term: 'SQL (Structured Query Language)',
+		definition:
+			'The relational-database query language. Network-adjacent because every backend service eventually talks SQL over a wire — pg-wire, MySQL protocol, TDS — and because [[amqp|AMQP]] 4.x added SQL-style message selectors.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/SQL',
+		category: 'infrastructure'
+	},
+
+	// Network mechanics
+	{
+		id: 'fin',
+		term: 'FIN (TCP flag)',
+		definition:
+			"The 1-bit flag in a [[tcp|TCP]] header that says 'I'm done sending'. Each side sends a FIN independently; the four-way close that follows ([[tcp|FIN]] → ACK → FIN → ACK) is the canonical end-of-connection dance.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Transmission_Control_Protocol#Connection_termination',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'fcs',
+		term: 'FCS (Frame Check Sequence)',
+		definition:
+			'Trailing 32-bit CRC on every [[ethernet|Ethernet]] frame — the receiver recomputes it and silently drops the frame on mismatch. The reason a single bit-flip in transit becomes a retransmission, not corruption.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Frame_check_sequence',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'crc',
+		term: 'CRC (Cyclic Redundancy Check)',
+		definition:
+			"A polynomial checksum used at almost every protocol layer ([[ethernet|Ethernet]] FCS, IP/TCP checksums, [[zigbee|802.15.4]] PHY) to detect bit errors. Cheap to compute in hardware; defeats single- and burst-errors of bounded length.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Cyclic_redundancy_check',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'oui',
+		term: 'OUI (Organizationally Unique Identifier)',
+		definition:
+			"The top 24 bits of a [[ethernet|MAC address]] — a vendor prefix assigned by the [[#ieee|IEEE]] (`00:1a:11` = Google, `b8:27:eb` = Raspberry Pi). The bottom 24 bits are the vendor's per-device serial.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Organizationally_unique_identifier',
+		category: 'networking-basics'
+	},
+	{
+		id: 'aaaa-acr',
+		term: 'AAAA record',
+		definition:
+			"The [[dns|DNS]] record type that maps a hostname to an [[ipv6|IPv6]] address — 'quad-A' because the IPv6 address is four times the size of an IPv4 'A' record. Without an AAAA, an IPv6-only client falls back to NAT64 or CLAT.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/IPv6_address#Domain_Name_System',
+		category: 'networking-basics'
+	},
+	{
+		id: 'ns-record',
+		term: 'NS record',
+		definition:
+			"The [[dns|DNS]] record type that delegates authority for a zone — `example.com NS ns1.example.com` means 'ask `ns1` for anything under `example.com`'. NS records are how the DNS tree is glued together.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Domain_Name_System#Delegation_records',
+		category: 'networking-basics'
+	},
+	{
+		id: 'cname',
+		term: 'CNAME',
+		definition:
+			"Canonical-Name record — a [[dns|DNS]] alias. `www.example.com CNAME example.com` says 'resolve `www` by following the chain'. Cannot coexist with other records at the same name, which is why the apex domain is special.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/CNAME_record',
+		category: 'networking-basics'
+	},
+	{
+		id: 'isis',
+		term: 'IS-IS (Intermediate System to Intermediate System)',
+		definition:
+			"Link-state routing protocol from the OSI suite ([[#iso-iec|ISO/IEC]] 10589) that quietly runs inside most large ISP backbones — same family as [[ospf|OSPF]] but encoded directly on top of [[ethernet|L2]] rather than [[ip|IP]]. Loved by Tier-1s for its multi-protocol cleanliness.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/IS-IS',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'bfd',
+		term: 'BFD (Bidirectional Forwarding Detection)',
+		definition:
+			"A protocol-agnostic 'is the next hop alive?' liveness probe ([[rfc:5880|RFC 5880]]) — typically 300 ms × 3 multipliers — that lets [[ospf|OSPF]], [[bgp|BGP]], and [[isis|IS-IS]] react to link death in sub-second time instead of waiting for keepalive timeouts.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Bidirectional_Forwarding_Detection',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'med',
+		term: 'MED (Multi-Exit Discriminator)',
+		definition:
+			"A [[bgp|BGP]] attribute (path-selection step 7) that lets an AS hint to its neighbour which of multiple links is preferred for inbound traffic. Meaningful only between paths from the *same* neighbouring AS — a frequent source of policy confusion.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Border_Gateway_Protocol#MULTI_EXIT_DISC',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'sfu',
+		term: 'SFU (Selective Forwarding Unit)',
+		definition:
+			'A media server that receives each [[webrtc|WebRTC]] participant\'s stream once and forwards copies to the other participants — without transcoding. The scalable middle ground between mesh (every-to-every) and MCU (re-encode in the middle).',
+		wikiUrl: 'https://webrtcglossary.com/sfu/',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'sip-uri',
+		term: 'SIP URI',
+		definition:
+			"`sip:alice@example.com` or `sips:alice@example.com` — the addressable identifier for a [[sip|SIP]] endpoint. `sips:` requires [[tls|TLS]] hop-by-hop but does not promise end-to-end encryption (an upstream relay sees plaintext).",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Session_Initiation_Protocol#SIP_URI',
+		category: 'protocol-mechanics'
+	},
+
+	// Cellular / wireless
+	{
+		id: 'gsm',
+		term: 'GSM (Global System for Mobile Communications)',
+		definition:
+			"The 2G European cellular standard (1991) that ate the world — first to digitise voice, first to define the SIM, the only network on which texting (SMS) was an accidental afterthought. Survives in patches for fallback in 2026.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/GSM',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'cdma',
+		term: 'CDMA (Code-Division Multiple Access)',
+		definition:
+			"Spread-spectrum multiple-access scheme [[pioneer:irwin-jacobs|Irwin Jacobs]] and Qualcomm shipped commercially in IS-95 (1995) — every user transmits on the same frequency, distinguished by orthogonal codes. The math underneath 3G WCDMA and CDMA2000.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Code-division_multiple_access',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'wcdma',
+		term: 'WCDMA (Wideband CDMA)',
+		definition:
+			"The 3G air interface inside [[#umts|UMTS]] — 5 MHz channels of [[#cdma|CDMA]] for voice and data. Ran most of the world's 3G networks until LTE took over.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Wideband_Code_Division_Multiple_Access',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'umts',
+		term: 'UMTS (Universal Mobile Telecommunications System)',
+		definition:
+			"The 3GPP-defined 3G family — [[#wcdma|WCDMA]] radio + a packet core that finally treated data as a first-class citizen. Replaced by LTE in the 2010s and now shutting down worldwide.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/UMTS',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'epc',
+		term: 'EPC (Evolved Packet Core)',
+		definition:
+			"The 4G/LTE all-IP core network — MME, SGW, PGW components — replacing the circuit-switched leftovers of 3G. Replaced again in 5G by the service-based architecture (5GC SBA).",
+		wikiUrl: 'https://en.wikipedia.org/wiki/System_Architecture_Evolution',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'gps',
+		term: 'GPS (Global Positioning System)',
+		definition:
+			"US-operated satellite constellation that broadcasts time-stamped signals so a receiver can trilaterate position. Network-adjacent: GPS provides the high-precision time source many [[ntp|NTP]] / PTP stratum-1 servers discipline themselves to.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Global_Positioning_System',
+		category: 'infrastructure'
+	},
+	{
+		id: 'qam',
+		term: 'QAM (Quadrature Amplitude Modulation)',
+		definition:
+			"A modulation scheme that packs multiple bits per symbol by varying amplitude and phase. 4096-QAM (Wi-Fi 7, DOCSIS 4.0) means 12 bits/symbol — at the cost of needing a clean SNR.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Quadrature_amplitude_modulation',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'bpsk',
+		term: 'BPSK (Binary Phase Shift Keying)',
+		definition:
+			"The simplest phase-modulation scheme — one bit per symbol, two phases 180° apart. Robust to noise, used in [[nfc|NFC-A]] PICC-to-PCD return signalling, GPS, and the lowest [[wifi|Wi-Fi]] data rates.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Phase-shift_keying#Binary_phase-shift_keying_(BPSK)',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'csma-cd',
+		term: 'CSMA/CD',
+		definition:
+			"Carrier-Sense Multiple Access with Collision Detection — the original [[ethernet|Ethernet]] mediation algorithm: listen, talk, detect collisions, back off. Obsolete once switches replaced hubs; the modern descendant on Wi-Fi is {{csma-ca|CSMA/CA}}.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Carrier-sense_multiple_access_with_collision_detection',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'phy',
+		term: 'PHY (Physical Layer)',
+		definition:
+			"The actual radio/wire layer — modulation, framing, symbol timing. [[wifi|Wi-Fi]]'s PHY changes every generation; [[ethernet|Ethernet]] PHYs (1000BASE-T, 10GBASE-T, 25GBASE-LR) live behind the same MAC.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/PHY',
+		category: 'networking-basics'
+	},
+	{
+		id: 'mac-media',
+		term: 'MAC (Media Access Control)',
+		definition:
+			"The data-link sub-layer that decides *who talks next* on a shared medium — [[ethernet|Ethernet]] MAC, Wi-Fi MAC, [[zigbee|802.15.4]] MAC. Distinct from a {{mac-address|MAC address}}, which is the identifier the MAC layer uses.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Medium_access_control',
+		category: 'networking-basics'
+	},
+	{
+		id: 'ap-access-point',
+		term: 'AP (Access Point)',
+		definition:
+			"The radio that bridges [[wifi|Wi-Fi]] clients to the wired [[ethernet|Ethernet]] LAN. APs broadcast beacons announcing the SSID, do CSMA/CA arbitration, and own the BSS — the unit Wi-Fi roaming hops between.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Wireless_access_point',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'rts-cts',
+		term: 'RTS/CTS',
+		definition:
+			"Request-To-Send / Clear-To-Send — the optional [[wifi|Wi-Fi]] handshake that reserves a duration of the medium before a frame. Trades latency for protection against hidden-node collisions; mostly used at high data rates today.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/IEEE_802.11_RTS/CTS',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'sms',
+		term: 'SMS (Short Message Service)',
+		definition:
+			"160-character text messaging, born in the [[#gsm|GSM]] standard (1992) as a control-plane afterthought and accidentally becoming the most reliable global-reach messaging system on earth. Still the fallback for satellite Direct-to-Cell.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/SMS',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'docsis',
+		term: 'DOCSIS (Data Over Cable Service Interface Specification)',
+		definition:
+			"The protocol stack that turns cable-TV coax into broadband. DOCSIS 4.0 (2026 deployments) adds 4096-QAM, full-duplex, and {{l4s|L4S}} support for low-latency queueing.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/DOCSIS',
+		category: 'protocol-mechanics'
+	},
+
+	// Media / streaming
+	{
+		id: 'mpeg-org',
+		term: 'MPEG (Moving Picture Experts Group)',
+		definition:
+			"The [[#iso-iec|ISO/IEC]] working group that produced MPEG-1/2/4, H.264, H.265, AAC, and the [[dash|DASH]] adaptive-streaming standard. The committee responsible for almost every codec you've ever streamed.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Moving_Picture_Experts_Group',
+		category: 'web'
+	},
+	{
+		id: 'hevc',
+		term: 'HEVC',
+		definition:
+			"H.265 / High Efficiency Video Coding — successor to H.264, ~50% better compression for the same quality, but a patent thicket so dense that royalty-free AV1 was created to escape it.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/High_Efficiency_Video_Coding',
+		category: 'web'
+	},
+	{
+		id: 'drm',
+		term: 'DRM (Digital Rights Management)',
+		definition:
+			"The cryptographic + legal machinery that gates streamed video — Widevine, FairPlay, PlayReady. License exchanges flow over [[tls|TLS]] alongside the [[dash|DASH]] / [[hls|HLS]] media segments.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Digital_rights_management',
+		category: 'security'
+	},
+	{
+		id: 'm3u',
+		term: 'M3U',
+		definition:
+			"The 1990s Winamp playlist format that became the basis of [[hls|HLS]]'s `.m3u8` manifests — plain-text, line-oriented, debuggable with `curl`.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/M3U',
+		category: 'web'
+	},
+
+	// NFC / Smart-card / EMV
+	{
+		id: 'emv',
+		term: 'EMV (Europay, Mastercard, Visa)',
+		definition:
+			"The smart-card payment standard (and consortium) named after its founders. EMV runs on contactless and chip-and-PIN cards globally — over [[#iso-iec|ISO/IEC]] 14443 at the link layer, ISO 7816 at the application layer.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/EMV',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'mifare',
+		term: 'MIFARE',
+		definition:
+			"NXP's contactless-card family — MIFARE Classic (1994, broken Crypto1), MIFARE DESFire (AES-128, used by transit and access-control globally), MIFARE Ultralight. Built on [[#iso-iec|ISO/IEC]] 14443-A.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/MIFARE',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'pcd',
+		term: 'PCD (Proximity Coupling Device)',
+		definition:
+			"The [[#iso-iec|ISO/IEC]] 14443 name for the *reader* in an [[nfc|NFC]] / contactless-card exchange — the active side that powers the antenna and initiates communication.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/ISO/IEC_14443',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'tlv',
+		term: 'TLV (Type-Length-Value)',
+		definition:
+			"A compact, extensible encoding pattern — one byte of type, one or more bytes of length, then `length` bytes of value. Used by [[ipsec|IKE]], BGP attributes, [[nfc|NDEF]], EMV ICC data, and many constrained-device protocols.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Type%E2%80%93length%E2%80%93value',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'icao',
+		term: 'ICAO (International Civil Aviation Organization)',
+		definition:
+			"The UN agency that, alongside writing aviation rules, also defines the file structure of biometric e-passports — the data groups (DG1 MRZ, DG2 photo, EF.SOD, EF.COM) that an [[#iso-iec|ISO/IEC]] 14443-4 reader pulls off the passport chip.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/International_Civil_Aviation_Organization',
+		category: 'infrastructure'
+	},
+	{
+		id: 'se-secure-element',
+		term: 'SE (Secure Element)',
+		definition:
+			"A tamper-resistant chip inside a phone or card that holds keys and runs sensitive applets (payment, transit, access). The eSE in modern phones replaces SIM-based SE for [[nfc|NFC]] payments.",
+		wikiUrl: 'https://www.globalplatform.org/specificationsdevice.asp',
+		category: 'security'
+	},
+	{
+		id: 'ese',
+		term: 'eSE (embedded Secure Element)',
+		definition:
+			"A {{se-secure-element|Secure Element}} soldered directly onto a phone's mainboard — distinct from a SIM-based SE or a microSD SE. The home of Apple Pay / Google Wallet tokens.",
+		wikiUrl: 'https://www.globalplatform.org/specificationsdevice.asp',
+		category: 'security'
+	},
+	{
+		id: 'sak',
+		term: 'SAK (Select Acknowledge)',
+		definition:
+			"The byte an [[#iso-iec|ISO/IEC]] 14443-A card returns in response to a SELECT — encodes whether the card supports ISO 14443-4 and is the moment the reader decides which protocol stack to switch into.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/ISO/IEC_14443',
+		category: 'protocol-mechanics'
+	},
+
+	// Bluetooth / personal-area networking
+	{
+		id: 'sig',
+		term: 'SIG (Bluetooth SIG)',
+		definition:
+			"The Bluetooth Special Interest Group — the standards body that owns the [[bluetooth|Bluetooth]] specs (Core, Mesh, LE Audio, BR/EDR). Members like Apple, Google, Samsung, and Microsoft drive what ends up in a release.",
+		wikiUrl: 'https://www.bluetooth.com/about-us/',
+		category: 'infrastructure'
+	},
+	{
+		id: 'br-edr',
+		term: 'BR/EDR (Basic Rate / Enhanced Data Rate)',
+		definition:
+			"'Classic' [[bluetooth|Bluetooth]] — the original audio/file-transfer protocol stack distinct from the newer Bluetooth Low Energy (BLE). The KNOB, BIAS, and BLUFFS attacks all hit BR/EDR pairing.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Bluetooth',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'le-low-energy',
+		term: 'LE (Low Energy)',
+		definition:
+			"Short for [[bluetooth|Bluetooth Low Energy]] — the 2010 redesign for battery-constrained sensors and wearables. Different radio (BLE 2M PHY), different framing ({{l2cap|L2CAP}} / {{att-mtu|ATT}} / {{gatt|GATT}}), different threat model.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Bluetooth_Low_Energy',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'att-attribute',
+		term: 'ATT (Attribute Protocol)',
+		definition:
+			"The [[bluetooth|BLE]] mid-layer that exposes named attributes (UUIDs) for read / write / notify operations. {{gatt|GATT}} is the profile layer on top of ATT.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Bluetooth_Low_Energy#Generic_Attribute_Profile',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'smp-security-manager',
+		term: 'SMP (Security Manager Protocol)',
+		definition:
+			"The [[bluetooth|BLE]] pairing protocol — handles key exchange, OOB import, bonding storage. Distinct from BR/EDR's legacy SSP; the target of the 'method confusion' attacks of the last few years.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Bluetooth#Security',
+		category: 'security'
+	},
+	{
+		id: 'bis-broadcast',
+		term: 'BIS (Broadcast Isochronous Stream)',
+		definition:
+			"The [[bluetooth|BLE Audio]] stream type for one-to-many public audio — public Auracast hearing-loop, in-flight entertainment, gym-TV sound. The newer alternative to a {{cis|CIS}} unicast stream.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Bluetooth_LE_Audio',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'knob-attack',
+		term: 'KNOB Attack',
+		definition:
+			"Key Negotiation Of Bluetooth (CVE-2019-9506) — downgraded BR/EDR pairing to a 1-byte session key, brute-forceable in seconds. Disclosed by Daniele Antonioli et al. in 2019.",
+		wikiUrl: 'https://knobattack.com/',
+		category: 'security'
+	},
+	{
+		id: 'bias-attack',
+		term: 'BIAS Attack',
+		definition:
+			"Bluetooth Impersonation AttackS (CVE-2020-10135) — impersonated a previously-bonded BR/EDR device by exploiting the asymmetric authentication of legacy pairing. Same team as KNOB.",
+		wikiUrl: 'https://francozappa.github.io/about-bias/',
+		category: 'security'
+	},
+	{
+		id: 'bluffs-attack',
+		term: 'BLUFFS',
+		definition:
+			"Bluetooth Forward And Future Secrecy attacks (CVE-2023-24023) — broke forward secrecy on BR/EDR Secure Connections sessions by forcing key reuse. Antonioli, 2023.",
+		wikiUrl: 'https://francozappa.github.io/about-bluffs/',
+		category: 'security'
+	},
+	{
+		id: 'sig-bluetooth-acronym',
+		term: 'CSA (Connectivity Standards Alliance)',
+		definition:
+			"The standards body formerly known as the Zigbee Alliance — owners of [[zigbee|Zigbee]] PRO and (since 2022) {{matter|Matter}}. Renamed in 2021 to escape the single-protocol branding.",
+		wikiUrl: 'https://csa-iot.org/',
+		category: 'infrastructure'
+	},
+
+	// Cars / IoT / consumer
+	{
+		id: 'ccc',
+		term: 'CCC (Car Connectivity Consortium)',
+		definition:
+			"The standards body that defines Digital Key — the [[bluetooth|BLE]] + [[uwb|UWB]] protocol your phone uses to unlock and start cars from BMW, Mercedes, Hyundai, and a growing list.",
+		wikiUrl: 'https://carconnectivity.org/',
+		category: 'infrastructure'
+	},
+	{
+		id: 'ces-show',
+		term: 'CES (Consumer Electronics Show)',
+		definition:
+			"The annual Las Vegas trade show where consumer-IoT roadmaps land — Matter device announcements, Digital Key partnerships, Wi-Fi alliance demos. Where a protocol becomes a press release.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Consumer_Electronics_Show',
+		category: 'infrastructure'
+	},
+	{
+		id: 'oem',
+		term: 'OEM (Original Equipment Manufacturer)',
+		definition:
+			"The company that builds a product end customers buy — BMW, Schlage, Hue. Distinct from a chip vendor (NXP, Qualcomm) or a standards body. The OEM is who has to ship firmware for every new protocol.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Original_equipment_manufacturer',
+		category: 'infrastructure'
+	},
+
+	// Wireguard / IPsec adjacency
+	{
+		id: 'ikev2',
+		term: 'IKEv2',
+		definition:
+			"Internet Key Exchange v2 — the [[ipsec|IPsec]] key-management protocol that negotiates Security Associations between peers. Defined in [[rfc:7296|RFC 7296]].",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Internet_Key_Exchange',
+		category: 'security'
+	},
+	{
+		id: 'esp',
+		term: 'ESP (Encapsulating Security Payload)',
+		definition:
+			"The [[ipsec|IPsec]] sub-protocol ([[rfc:4303|RFC 4303]]) that actually wraps and encrypts traffic between peers — distinct from IKE (key exchange) and AH (auth without encryption).",
+		wikiUrl: 'https://en.wikipedia.org/wiki/IPsec#Encapsulating_Security_Payload',
+		category: 'security'
+	},
+	{
+		id: 'xfrm',
+		term: 'XFRM',
+		definition:
+			"The Linux kernel framework that implements [[ipsec|IPsec]] policy and SA databases — the bit `ip xfrm state` and `ip xfrm policy` poke at. {{wireguard|WireGuard}}'s 4000-LoC kernel module replaces what XFRM + IKEv2 + an SAD pile takes to do.",
+		wikiUrl: 'https://wiki.archlinux.org/title/IPsec',
+		category: 'infrastructure'
+	},
+
+	// Software-defined access / routing
+	{
+		id: 'frr',
+		term: 'FRR (Free Range Routing)',
+		definition:
+			"An open-source routing daemon ({{bgp|BGP}}, [[ospf|OSPF]], [[isis|IS-IS]], BFD) — the FreeBSD-licensed Quagga fork that runs on Linux switches and the Cumulus / SONiC ecosystem.",
+		wikiUrl: 'https://frrouting.org/',
+		category: 'infrastructure'
+	},
+	{
+		id: 'ios-xr',
+		term: 'IOS-XR',
+		definition:
+			"Cisco's modern routing OS — running on ASR 9000 / NCS 5500 / 8000 service-provider gear. Distinct from classic IOS / IOS-XE; the platform where features like TCP-AO and SR-MPLS land first.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/IOS_XR',
+		category: 'infrastructure'
+	},
+	{
+		id: 'junos',
+		term: 'Junos',
+		definition:
+			"Juniper Networks' routing OS — runs MX / PTX / QFX gear in most large service-provider and hyperscaler networks alongside Cisco IOS-XR. Common stage for [[bgp|BGP]] feature firsts.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Junos_OS',
+		category: 'infrastructure'
+	},
+	{
+		id: 'rhel',
+		term: 'RHEL (Red Hat Enterprise Linux)',
+		definition:
+			"The commercial Red Hat Linux distribution most large enterprises run servers on. RHEL's choices ripple — RHEL 9 deprecated the legacy SCP wire protocol, RHEL ships FIPS-validated TLS, RHEL 10 is where ML-KEM lands for many companies.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Red_Hat_Enterprise_Linux',
+		category: 'infrastructure'
+	},
+
+	// BGP / routing security
+	{
+		id: 'rpki-acr',
+		term: 'RPKI',
+		definition:
+			"Resource Public Key Infrastructure ([[rfc:6480|RFC 6480]]) — the cryptographic signing system that lets ASes attest 'I am authorised to announce this prefix'. {{roa|ROAs}} are the signed objects routers validate against.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Resource_Public_Key_Infrastructure',
+		category: 'security'
+	},
+	{
+		id: 'roa',
+		term: 'ROA (Route Origin Authorization)',
+		definition:
+			"A signed [[#rpki-acr|RPKI]] object that says 'AS X is authorised to originate prefix P with max-length M'. Networks running ROV ([[bgp|BGP]] route-origin validation) drop announcements that fail to match.",
+		wikiUrl: 'https://www.ripe.net/manage-ips-and-asns/resource-management/rpki/route-origin-authorisation',
+		category: 'security'
+	},
+	{
+		id: 'ripe-ncc',
+		term: 'RIPE NCC',
+		definition:
+			"Réseaux IP Européens Network Coordination Centre — the regional internet registry for Europe and the Middle East. Allocates [[ip|IPv4]] / [[ipv6|IPv6]] address space and AS numbers; runs the {{atlas|RIPE Atlas}} measurement platform.",
+		wikiUrl: 'https://www.ripe.net/about-us',
+		category: 'infrastructure'
+	},
+	{
+		id: 'apnic',
+		term: 'APNIC',
+		definition:
+			"Asia-Pacific Network Information Centre — regional internet registry for the Asia-Pacific. Famous for {{geoff-huston|Geoff Huston}}'s measurement labs and a steady stream of [[ipv6|IPv6]] / [[bgp|BGP]] deployment stats.",
+		wikiUrl: 'https://www.apnic.net/about-apnic/organization/',
+		category: 'infrastructure'
+	},
+	{
+		id: 'arin',
+		term: 'ARIN',
+		definition:
+			"American Registry for Internet Numbers — the regional internet registry for the US, Canada, and parts of the Caribbean. Sister org to {{#ripe-ncc|RIPE NCC}}, {{#apnic|APNIC}}, AFRINIC, and LACNIC.",
+		wikiUrl: 'https://www.arin.net/',
+		category: 'infrastructure'
+	},
+	{
+		id: 'ietf-acr',
+		term: 'IETF',
+		definition:
+			"Internet Engineering Task Force — the standards body that publishes [[rfc:1|RFCs]]. Open-membership, volunteer-run, 'rough consensus and running code' for everything from [[ip|IPv4]] to [[quic|QUIC]] to [[mcp|MCP]]. See {{ietf|IETF}} for the full entry.",
+		wikiUrl: 'https://www.ietf.org/',
+		category: 'infrastructure'
+	},
+
+	// SMTP commands
+	{
+		id: 'smtp-mail-from',
+		term: 'MAIL FROM',
+		definition:
+			"The [[smtp|SMTP]] command that declares the envelope sender — what bounces and 550 rejections route back to. Distinct from the `From:` *header* a user sees; mismatches between the two are how phishing makes a living.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Bounce_address',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'smtp-rcpt-to',
+		term: 'RCPT TO',
+		definition:
+			"The [[smtp|SMTP]] command that declares an envelope recipient. Issued once per recipient; each receives an independent reply. The server can accept some and reject others before any message data flows.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Simple_Mail_Transfer_Protocol#SMTP_transport_example',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'smtp-data',
+		term: 'DATA',
+		definition:
+			"The [[smtp|SMTP]] command that begins the message body — headers, MIME parts, attachments — terminated by a `.` on its own line. Everything before DATA is envelope; everything after is the user-visible message.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Simple_Mail_Transfer_Protocol#SMTP_transport_example',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'smtp-auth',
+		term: 'AUTH (SMTP)',
+		definition:
+			"The [[smtp|SMTP]] extension ([[rfc:4954|RFC 4954]]) for authenticated submission — historically AUTH LOGIN / PLAIN over [[tls|TLS]], now XOAUTH2 / [[oauth2|OAuth]] in modern providers (Microsoft 365 SMTP AUTH retires basic auth in 2026).",
+		wikiUrl: 'https://datatracker.ietf.org/doc/html/rfc4954',
+		category: 'security'
+	},
+	{
+		id: 'login-auth',
+		term: 'LOGIN',
+		definition:
+			"The legacy [[#smtp-auth|SMTP AUTH]] mechanism — base64'd username and password on the wire under [[tls|TLS]]. Being retired by every major mail provider in favour of [[oauth2|OAuth]] / XOAUTH2.",
+		wikiUrl: 'https://datatracker.ietf.org/doc/html/draft-murchison-sasl-login-00',
+		category: 'security'
+	},
+
+	// SIP / VoIP
+	{
+		id: 'sip-invite',
+		term: 'INVITE (SIP)',
+		definition:
+			"The [[sip|SIP]] method that initiates a session — `INVITE sip:bob@example.com SIP/2.0`, followed by SDP describing the proposed media. The 100/180/200 responses are the call-progression dance every SIP-stack tutorial draws.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Session_Initiation_Protocol#Methods',
+		category: 'protocol-mechanics'
+	},
+
+	// BGP messages
+	{
+		id: 'bgp-update',
+		term: 'UPDATE (BGP)',
+		definition:
+			"The [[bgp|BGP]] message type that announces or withdraws routes. A storm of UPDATE messages is the visible symptom of every famous route leak ({{as-7007-1997|AS 7007}}, Pakistan-YouTube, Facebook 2021).",
+		wikiUrl: 'https://datatracker.ietf.org/doc/html/rfc4271#section-4.3',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'bgp-keepalive',
+		term: 'KEEPALIVE (BGP)',
+		definition:
+			"The smallest [[bgp|BGP]] message — 19 bytes, no payload — sent every Hold-Time / 3 to keep a session alive. Missing for a full Hold-Time tears the session down and triggers route reconvergence.",
+		wikiUrl: 'https://datatracker.ietf.org/doc/html/rfc4271#section-4.4',
+		category: 'protocol-mechanics'
+	},
+
+	// Kerberos message types
+	{
+		id: 'kerberos-as-rep-acr',
+		term: 'AS-REP',
+		definition:
+			"The [[ssh|Kerberos]] Authentication Service reply — contains the session key and {{kerberos-tgt|Ticket Granting Ticket}}. The target of AS-REP Roasting when an account has 'do not require preauth' set.",
+		wikiUrl: 'https://datatracker.ietf.org/doc/html/rfc4120#section-3.1',
+		category: 'security'
+	},
+	{
+		id: 'kerberos-ap-req-acr',
+		term: 'AP-REQ',
+		definition:
+			"The [[ssh|Kerberos]] Application Request — what a client sends to a service, containing the service ticket + a fresh authenticator. The service decrypts with its long-term key, verifies, and grants access.",
+		wikiUrl: 'https://datatracker.ietf.org/doc/html/rfc4120#section-3.2',
+		category: 'security'
+	},
+
+	// Miscellaneous adjacent
+	{
+		id: 'sgw-acr',
+		term: 'SGW (Serving Gateway)',
+		definition:
+			"The 4G [[#epc|EPC]] component that anchors a user's IP session as they roam between cells — Source for mobility, target for lawful intercept. Replaced by UPF in 5G's user-plane.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/System_Architecture_Evolution#Serving_Gateway',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'eee',
+		term: 'CES (cellular)',
+		definition:
+			"Carrier Ethernet Services — the operator term for [[ethernet|Ethernet]] handoff between mobile networks and metro/aggregation. Different beast from the Vegas trade show CES.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Carrier_Ethernet',
+		category: 'infrastructure'
+	},
+
+	// Other recurring abbreviations
+	{
+		id: 'acm-org',
+		term: 'ACM (Association for Computing Machinery)',
+		definition:
+			"The oldest scientific computing society (1947). Runs SIGCOMM and the Web Conference; publishes the Communications of the ACM. Where most foundational networking papers land.",
+		wikiUrl: 'https://www.acm.org/',
+		category: 'infrastructure'
+	},
+	{
+		id: 'ndss-conf',
+		term: 'NDSS',
+		definition:
+			"Network and Distributed System Security Symposium — the Internet Society's annual security conference, where {{wireguard|WireGuard}}, KNOB, BIAS, and many [[tls|TLS]] downgrade attacks first appeared in print.",
+		wikiUrl: 'https://www.ndss-symposium.org/',
+		category: 'security'
+	},
+	{
+		id: 'usenix-conf',
+		term: 'USENIX',
+		definition:
+			"The systems-and-security conference family (USENIX Security, NSDI, ATC, SOSP-adjacent). Home of major networking papers (Stevens-era and beyond).",
+		wikiUrl: 'https://www.usenix.org/',
+		category: 'infrastructure'
+	},
+	{
+		id: 'sigcomm-conf',
+		term: 'SIGCOMM',
+		definition:
+			"The ACM Special Interest Group on Data Communication — and its flagship annual conference. The forum that midwifed [[tcp|TCP]] congestion control, BBR, and most of the routing-protocol literature.",
+		wikiUrl: 'https://www.sigcomm.org/',
+		category: 'infrastructure'
+	},
+	{
+		id: 'cs144-course',
+		term: 'CS144',
+		definition:
+			"Stanford's networking course — students build a working [[tcp|TCP]] stack from the [[ip|IP]] layer up. The highest-leverage networking education a six-month sprint can buy.",
+		wikiUrl: 'https://cs144.github.io/',
+		category: 'infrastructure'
+	},
+
+	// ── Round-two acronym densification ────────────────────────────────
+	// Filling the long tail of bare acronyms that survived the first pass.
+
+	{
+		id: 'rfc-doc',
+		term: 'RFC',
+		definition:
+			"Request for Comments — the document series that defines internet protocols. Published by the [[ietf|IETF]] (and historically by IAB, IRTF, Independent Stream). Every TCP/IP/HTTP/TLS rule you read about ultimately points to one. See {{ietf|IETF}} for the body that publishes them.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Request_for_Comments',
+		category: 'infrastructure'
+	},
+	{
+		id: 'scp-copy',
+		term: 'SCP (Secure Copy Protocol)',
+		definition:
+			"The file-copy command/protocol layered on [[ssh|SSH]] — `scp file user@host:/path`. Written by Tatu Ylönen with the original SSH; the wire protocol was deprecated in [[#rhel|RHEL]] 9 / OpenSSH 9.0 in favour of SFTP, though the `scp` command still works (now via SFTP under the hood).",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Secure_copy_protocol',
+		category: 'security'
+	},
+	{
+		id: 'ask-modulation',
+		term: 'ASK (Amplitude Shift Keying)',
+		definition:
+			"A modulation scheme that encodes bits by varying carrier amplitude. [[nfc|NFC]] Type-A uses 100% ASK modified-Miller from reader to card — the carrier briefly drops to zero, which is easy to demodulate with the limited silicon in a passive card.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Amplitude-shift_keying',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'ats-nfc',
+		term: 'ATS (Answer To Select)',
+		definition:
+			"The reply an [[#iso-iec|ISO/IEC]] 14443-4 card sends after the reader's RATS — declares the card's maximum frame size, supported features, and historical bytes. The moment the reader knows it is talking to a full ISO 14443-4 card rather than a memory tag.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/ISO/IEC_14443',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'sel-iso',
+		term: 'SEL (Select Command, ISO 14443)',
+		definition:
+			"The [[#iso-iec|ISO/IEC]] 14443-3 anti-collision command — the reader walks the binary tree of card UIDs by sending SEL with progressively more of the UID until a single card is selected.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/ISO/IEC_14443',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'hosts-txt',
+		term: 'HOSTS.TXT',
+		definition:
+			"The single global text file that mapped hostnames to [[ip|IP]] addresses on the [[arpanet|ARPANET]] until 1983 — maintained at SRI-NIC, distributed by FTP, hand-edited per change. Replaced by [[dns|DNS]] in 1983 ([[rfc:882|RFC 882]] / [[rfc:883|RFC 883]]).",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Hosts_(file)',
+		category: 'infrastructure'
+	},
+	{
+		id: 'aaaa-bare',
+		term: 'AAAA',
+		definition:
+			"Shorthand for {{aaaa-acr|AAAA record}} — the [[dns|DNS]] record that maps a hostname to an [[ipv6|IPv6]] address. 'Quad-A' because the record holds four times the bytes of an IPv4 A record.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/IPv6_address#Domain_Name_System',
+		category: 'networking-basics'
+	},
+	{
+		id: 'mx-bare',
+		term: 'MX',
+		definition:
+			"Shorthand for {{mx-record|MX record}} — the [[dns|DNS]] record type that tells senders 'route mail for this domain to *that* hostname'. Multiple MX records with different priorities give [[smtp|SMTP]] its primary/backup mail-server failover.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/MX_record',
+		category: 'networking-basics'
+	},
+	{
+		id: 'cname-bare',
+		term: 'CNAME',
+		definition:
+			"Canonical-Name [[dns|DNS]] record — an alias from one name to another. Resolvers follow the chain. CNAMEs cannot coexist with other records at the same name, which is why the apex of a zone often needs ALIAS / ANAME / CNAME-flattening trickery instead.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/CNAME_record',
+		category: 'networking-basics'
+	},
+	{
+		id: 'u1-chip',
+		term: 'U1 (Apple UWB Chip)',
+		definition:
+			"Apple's first {{uwb|ultra-wideband}} radio chip, shipped in iPhone 11 (2019). Enables [[uwb|UWB]] {{ds-twr|two-way ranging}} for AirDrop direction, AirTag precision finding, and {{ccc-digital-key|Digital Key 3.0}}. Replaced by U2 in iPhone 15.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Apple_U1',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'u2-chip',
+		term: 'U2 (Apple UWB Chip)',
+		definition:
+			"Apple's second-generation {{uwb|UWB}} chip, shipped with iPhone 15 (2023). Triple the range of {{#u1-chip|U1}}, lower power, and the basis of newer Precision Finding and Digital Key 3.0 deployments.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Apple_U1',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'ts-3gpp',
+		term: 'TS (3GPP Technical Specification)',
+		definition:
+			"A numbered standards document published by {{3gpp|3GPP}} — TS 23.501 (5G System Architecture), TS 33.501 (Security Architecture), TS 38.401 (RAN Architecture). Different prefix than [[rfc:1|IETF RFCs]] but plays the same role in the cellular world.",
+		wikiUrl: 'https://www.3gpp.org/specifications-technologies',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'nba-mms',
+		term: 'NBA-MMS',
+		definition:
+			"Narrowband-Assisted Multi-Millisecond Sounding — the [[bluetooth|Bluetooth]] 6.0 (early 2026) {{channel-sounding|Channel Sounding}} extension that improves ranging accuracy at distance by interleaving a narrowband tone with the wideband sounding pulse.",
+		wikiUrl: 'https://www.bluetooth.com/specifications/specs/',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'ws-star',
+		term: 'WS-*',
+		definition:
+			"The 'Web Services' protocol family — WS-Security, WS-Trust, WS-ReliableMessaging, WS-Addressing — layered on top of [[soap|SOAP]]. Famous for being the bad slogan ('WS-* bad, RESTful good') Eran Hammer used to summarise the early-2000s API wars.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Web_service_protocol_stack',
+		category: 'web'
+	},
+	{
+		id: 'aes-ccm',
+		term: 'AES-CCM',
+		definition:
+			"AES in Counter with CBC-MAC mode — an AEAD that combines encryption and authentication. Used by [[zigbee|802.15.4]] link-layer security, COSE_Encrypt0 in {{matter|Matter}}, and {{coap|CoAP}}-OSCORE. Less common than {{aes-gcm|AES-GCM}} but easier on constrained hardware.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/CCM_mode',
+		category: 'security'
+	},
+	{
+		id: 'ccm-mode',
+		term: 'CCM (Counter with CBC-MAC)',
+		definition:
+			"The block-cipher mode of operation that combines CTR encryption with a CBC-MAC tag. CCM is the {{aes-ccm|AES-CCM}} family of constructions widely used in constrained-device networking.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/CCM_mode',
+		category: 'security'
+	},
+	{
+		id: 'kem-acr',
+		term: 'KEM (Key Encapsulation Mechanism)',
+		definition:
+			"A public-key primitive that produces a random shared secret and an encapsulation of it under the recipient's public key — distinct from full Diffie-Hellman because only one side picks the secret. {{ml-kem|ML-KEM}} is the post-quantum KEM [[#nist|NIST]] standardised in FIPS 203 (2024).",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Key_encapsulation_mechanism',
+		category: 'security'
+	},
+	{
+		id: 'pq-ciphersuite',
+		term: 'X25519MLKEM768',
+		definition:
+			"The hybrid post-quantum [[tls|TLS]] 1.3 key {{exchange|exchange}} that combines classic {{#x25519|X25519}} with {{ml-kem|ML-KEM-768}}. Default key share in iOS 26 and Chrome 132+, switched on by default for Cloudflare-fronted sites in 2025.",
+		wikiUrl: 'https://blog.cloudflare.com/post-quantum-tls-with-x25519mlkem768/',
+		category: 'security'
+	},
+	{
+		id: 'nfc-v',
+		term: 'NFC-V',
+		definition:
+			"The [[#iso-iec|ISO/IEC]] 15693 long-range vicinity-coupling subtype of [[nfc|NFC]] — used for libraries, asset tags, and some access-control systems where 10–30 cm read range matters more than payment-grade security.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/ISO/IEC_15693',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'nfc-f',
+		term: 'NFC-F (FeliCa)',
+		definition:
+			"The Sony-designed [[nfc|NFC]] subtype standardised as {{#iso-iec|ISO/IEC}} 18092 — different framing from NFC-A/B, native to Japan (Suica, PASMO) and Hong Kong (Octopus) transit systems, and supported by every modern phone for Japanese-market payments.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/FeliCa',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'sgw-3gpp',
+		term: 'SGW',
+		definition:
+			"Serving Gateway — the [[#epc|EPC]] (4G) component that anchors a user's [[ip|IP]] session at the edge of the core. Mobility hand-offs pivot around the SGW; replaced by UPF in the 5G service-based architecture.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/System_Architecture_Evolution#Serving_Gateway',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'pgw',
+		term: 'PGW (PDN Gateway)',
+		definition:
+			"The [[#epc|EPC]] component that connects user-plane traffic to the outside [[ip|IP]] world — handles QoS, charging, lawful intercept, and the [[#smtp-mail-from|GTP-U]] tunnels back toward the {{#sgw-3gpp|SGW}}.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/System_Architecture_Evolution#PDN_Gateway',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'mme',
+		term: 'MME (Mobility Management Entity)',
+		definition:
+			"The 4G [[#epc|EPC]] signalling brain — handles UE attach, authentication via the HSS, paging, and bearer setup. Replaced by AMF + SMF in 5G's service-based architecture.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/System_Architecture_Evolution#Mobility_Management_Entity',
+		category: 'protocol-mechanics'
+	},
+
+	// Frequency, modulation, miscellaneous
+	{
+		id: 'utc-time',
+		term: 'UTC (Coordinated Universal Time)',
+		definition:
+			"The global atomic time standard — the basis of [[ntp|NTP]] / PTP synchronisation, of every protocol that timestamps in 'Zulu' / 'Z' form, and of the leap-second debates that periodically rattle the operations community.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Coordinated_Universal_Time',
+		category: 'infrastructure'
+	},
+	{
+		id: 'spake2-plus',
+		term: 'SPAKE2',
+		definition:
+			"Password-authenticated key {{exchange|exchange}} — derives a strong session key from a low-entropy password without leaking it. The augmented SPAKE2+ variant ([[rfc:9383|RFC 9383]]) is what {{matter|Matter}} commissioning, {{ccc-digital-key|CCC Digital Key}}, and a growing slice of zero-trust pairing flows use.",
+		wikiUrl: 'https://datatracker.ietf.org/doc/html/rfc9383',
+		category: 'security'
+	},
+	{
+		id: 'iso14443',
+		term: 'ISO/IEC 14443',
+		definition:
+			"The four-part standard for proximity contactless cards at 13.56 MHz — Type-A and Type-B physical layers, anti-collision (REQA/ATQA/SEL/SAK or ATQB/ATTRIB), block-oriented transmission. Almost every credit-card tap, transit card, and government-ID interaction passes through ISO 14443.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/ISO/IEC_14443',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'iso18092',
+		term: 'ISO/IEC 18092',
+		definition:
+			"The NFC peer-to-peer standard (December 2003) — defines NFCIP-1 for two active NFC devices to exchange data directly, not via reader/card asymmetry. Underlies older 'tap to share' phone-to-phone modes (mostly retired in modern stacks).",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Near-field_communication',
+		category: 'protocol-mechanics'
+	},
+
+	// File and historical
+	{
+		id: 'cidr-acr',
+		term: 'CIDR',
+		definition:
+			"Classless Inter-Domain Routing ([[rfc:1518|RFC 1518]] / 1519, 1993) — replaced the rigid Class A/B/C [[ip|IPv4]] partition with the `prefix/length` notation (`10.0.0.0/8`). Without CIDR, [[ipv4|IPv4]] would have exhausted in the mid-1990s.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing',
+		category: 'networking-basics'
+	},
+	{
+		id: 'wan-acr',
+		term: 'WAN (Wide-Area Network)',
+		definition:
+			"A network that spans long distances — across cities, countries, continents. Distinguished from a LAN by latency, link cost, and the BGP routing that ties WAN segments together.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Wide_area_network',
+		category: 'networking-basics'
+	},
+	{
+		id: 'lan-acr',
+		term: 'LAN (Local-Area Network)',
+		definition:
+			"The network inside one building or campus — Ethernet switches and Wi-Fi APs, usually one or two BGP-unaware autonomous systems wide.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Local_area_network',
+		category: 'networking-basics'
+	},
+	{
+		id: 'man-acr',
+		term: 'MAN (Metropolitan-Area Network)',
+		definition:
+			'A network spanning a city — bigger than a LAN, smaller than a WAN. Often a single carrier ring or a municipal fibre plant.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Metropolitan_area_network',
+		category: 'networking-basics'
+	},
+	{
+		id: 'voip-acr',
+		term: 'VoIP (Voice over IP)',
+		definition:
+			"Carrying voice telephony over [[ip|IP]] networks instead of dedicated circuits — the umbrella the [[sip|SIP]] / [[rtp|RTP]] / [[#sdp-acr|SDP]] stack lives under. Killed the PSTN over two decades.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Voice_over_IP',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'volte',
+		term: 'VoLTE (Voice over LTE)',
+		definition:
+			"Carrying voice as packets over the LTE / 5G data plane (typically via the IMS core and RTP) rather than the legacy 3G circuit-switched fallback. The modern default in most carriers as 2G/3G sunset.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Voice_over_LTE',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'vonr',
+		term: 'VoNR (Voice over New Radio)',
+		definition:
+			"5G-native voice — VoLTE's 5G successor, RTP over the 5G IMS core, removing the LTE fallback that VoLTE depended on. The endpoint of the long PSTN-to-IP migration.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Voice_over_New_Radio',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'lte-acr',
+		term: 'LTE (Long-Term Evolution)',
+		definition:
+			"The 4G radio access network — OFDMA downlink, SC-FDMA uplink, all-IP, EPC core. The slash-and-burn upgrade from 3G's circuit-switched legacy. Most networks worldwide are LTE or LTE/5G NSA in 2026.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/LTE_(telecommunication)',
+		category: 'protocol-mechanics'
+	},
+
+	// Operations / monitoring
+	{
+		id: 'sli-metric',
+		term: 'SLI',
+		definition:
+			"Service Level Indicator — the actual measured metric (success rate, p99 latency) used to validate an {{#slo|SLO}}. Distinct from a metric in general because SLIs are picked specifically to map to user pain.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Service_level_indicator',
+		category: 'infrastructure'
+	},
+	{
+		id: 'mtbf',
+		term: 'MTBF (Mean Time Between Failures)',
+		definition:
+			"Average elapsed time between unplanned outages of a system. Hardware reliability lives here; software people prefer SLOs/error budgets because MTBF stops being a useful aggregate for rapid-release systems.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Mean_time_between_failures',
+		category: 'infrastructure'
+	},
+	{
+		id: 'mttr-acr',
+		term: 'MTTR (Mean Time To Recovery)',
+		definition:
+			"How long, on average, an incident takes to resolve. A leading SRE metric — pairs with MTBF and feeds the error-budget math. Often the lever that drives investment in better tooling, deploys, and on-call.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Mean_time_to_recovery',
+		category: 'infrastructure'
+	},
+
+	// Carriers / consumer hardware tail
+	{
+		id: 'pop-acr',
+		term: 'PoP (Point of Presence)',
+		definition:
+			"A physical location where a network provider, CDN, or carrier has gear — peering routers, anycast servers, optical regen. The unit of geographic reach for [[cloudflare|Cloudflare]], Netflix Open Connect, and big AS networks.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Point_of_presence',
+		category: 'infrastructure'
+	},
+	{
+		id: 'ix-acr',
+		term: 'IX / IXP (Internet Exchange Point)',
+		definition:
+			"A physical fabric (usually a building or campus) where many networks peer with each other directly via [[bgp|BGP]] — AMS-IX, DE-CIX, LINX, NL-ix. The reason a packet from one ISP to another rarely traverses a Tier-1 transit any more.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Internet_exchange_point',
+		category: 'infrastructure'
+	},
+	{
+		id: 'cdn-acr',
+		term: 'CDN',
+		definition:
+			"Content Delivery Network — fleet of distributed cache servers that sits between origins and clients ([[cloudflare|Cloudflare]], Fastly, Akamai, Netflix Open Connect, AWS CloudFront). Cuts latency, absorbs DDoS, and terminates [[tls|TLS]] at the edge.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Content_delivery_network',
+		category: 'infrastructure'
+	},
+
+	// Misc protocol
+	{
+		id: 'l4s-acr',
+		term: 'L4S',
+		definition:
+			"Low Latency, Low Loss, Scalable throughput ([[rfc:9330|RFC 9330]]) — a new active-queue-management scheme that uses ECN signalling for prompt feedback. Shipped in iOS 26, Apple TV, and DOCSIS 4.0 cable modems in 2025–26.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/L4S',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'wifi-7',
+		term: 'Wi-Fi 7',
+		definition:
+			"IEEE 802.11be (ratified July 2024, certified mid-2025) — 320 MHz channels, 4096-QAM, MLO (multi-link operation simultaneously across bands), 5–10× the throughput of Wi-Fi 6. The first version positioning Wi-Fi as a cable-replacement for indoor 10 Gbps.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Wi-Fi_7',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'wifi-8',
+		term: 'Wi-Fi 8',
+		definition:
+			"IEEE 802.11bn (in standards work, ~2028 ratification) — focused on reliability and AI/AR workloads rather than peak throughput. Will likely keep 4096-QAM and add tighter coordination across {{ap-access-point|APs}}.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/IEEE_802.11bn',
+		category: 'protocol-mechanics'
+	},
+
+	// Final acronym catch-up batch
+	{
+		id: 'etsi',
+		term: 'ETSI (European Telecommunications Standards Institute)',
+		definition:
+			"The European standards body that co-runs {{3gpp|3GPP}} (alongside ARIB+TTC in Japan, ATIS in North America, CCSA in China, and TTA in Korea). Owns GSM, DECT, and the European side of every cellular standard since.",
+		wikiUrl: 'https://www.etsi.org/',
+		category: 'infrastructure'
+	},
+	{
+		id: 'plpmtud',
+		term: 'PLPMTUD (Packetization Layer Path MTU Discovery)',
+		definition:
+			"[[rfc:8899|RFC 8899]] — a fallback PMTU discovery scheme that uses the transport's own probes rather than {{icmp|ICMPv4/v6}} errors. The mandatory PMTUD mechanism for [[quic|QUIC]] and any UDP-based protocol that can't rely on routers returning {{#icmp|ICMP Too Big}}.",
+		wikiUrl: 'https://datatracker.ietf.org/doc/html/rfc8899',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'dult',
+		term: 'DULT (Detecting Unwanted Location Trackers)',
+		definition:
+			"Joint Apple-Google standard for tracker-stalking detection — born from the AirTag stalking incidents of 2022. Defines how iOS and Android scan for non-owner tracker beacons and warn the user.",
+		wikiUrl: 'https://datatracker.ietf.org/doc/draft-detecting-unwanted-location-trackers/',
+		category: 'security'
+	},
+	{
+		id: 'ftm',
+		term: 'FTM (Fine Timing Measurement)',
+		definition:
+			'IEEE 802.11mc Wi-Fi distance-ranging extension — round-trip-time measurement between client and {{ap-access-point|AP}} for indoor positioning. The Wi-Fi analogue of {{uwb|UWB}} {{ds-twr|two-way ranging}}.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Wi-Fi_RTT',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'mrz',
+		term: 'MRZ (Machine-Readable Zone)',
+		definition:
+			'The two- or three-line zone of OCR-B text at the bottom of a passport (or ID card). Holds the structured data (name, document number, birthdate, expiry) that {{icao|ICAO}} 9303 standardises and that the e-passport chip stores under DG1.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Machine-readable_passport',
+		category: 'security'
+	},
+	{
+		id: 'srlg',
+		term: 'SRLG (Shared Risk Link Group)',
+		definition:
+			"The set of links that share a single failure point (a fibre conduit, a card chassis). Path-computation algorithms ([[ospf|OSPF-TE]], {{isis|IS-IS-TE}}, segment routing) avoid SRLG overlap when building primary/backup pairs.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Shared_Risk_Link_Group',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'ospf-dr',
+		term: 'DR (Designated Router)',
+		definition:
+			"On a multi-access [[ospf|OSPF]] segment (Ethernet, broadcast), one router is elected DR — it sources the network LSA and lets all other routers form adjacencies only with it, not pairwise. A Backup DR (BDR) shadows it.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Open_Shortest_Path_First#Designated_router',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'clat-acr',
+		term: 'CLAT (Customer-side Translator)',
+		definition:
+			"The customer-side half of 464XLAT ([[rfc:6877|RFC 6877]]) — translates IPv4 traffic from legacy apps into IPv6 on an IPv6-only access network. Lets a phone or laptop run IPv4-only apps even when its carrier offers only IPv6.",
+		wikiUrl: 'https://datatracker.ietf.org/doc/html/rfc6877',
+		category: 'networking-basics'
+	},
+	{
+		id: 'hosts-bare',
+		term: 'HOSTS',
+		definition:
+			"The {{hosts-txt|HOSTS.TXT}} file — the single global text file that mapped hostnames to [[ip|IP]] addresses on the ARPANET before [[dns|DNS]] launched in 1983. Modern operating systems still have a tiny `/etc/hosts` for local overrides.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Hosts_(file)',
+		category: 'infrastructure'
+	},
+	{
+		id: 'hrp-uwb',
+		term: 'HRP (High Rate Pulse Repetition)',
+		definition:
+			"The high-pulse-rate UWB mode (~64–249.6 MHz pulse repetition) used by IEEE 802.15.4z secure ranging — the mode {{#u1-chip|Apple U1}} / U2 chips actually run. Distinguished from LRP (Low Rate Pulse) which optimises for power, not ranging accuracy.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Ultra-wideband',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'bprf',
+		term: 'BPRF (Base Pulse Repetition Frequency)',
+		definition:
+			"The IEEE 802.15.4z {{uwb|UWB}} HRP mode that runs at 64 MHz pulse repetition with 499.2 MHz of bandwidth and 6.81 Mbps payload — the mainline mode for Apple Nearby Interaction and CCC Digital Key 3.0 ranging.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/IEEE_802.15.4',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'nxp',
+		term: 'NXP',
+		definition:
+			"Dutch semiconductor company spun out of Philips in 2006 — the dominant supplier of NFC, MIFARE, and secure-element chips for phones, cards, and access readers.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/NXP_Semiconductors',
+		category: 'infrastructure'
+	},
+	{
+		id: 'qorvo',
+		term: 'Qorvo',
+		definition:
+			"US semiconductor company — supplies most of the {{uwb|UWB}} radios that ship in Android phones, automotive Digital Key modules, and access-control readers. Competes with NXP in the UWB/NFC space.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Qorvo',
+		category: 'infrastructure'
+	},
+	{
+		id: 'crtc',
+		term: 'CRTC',
+		definition:
+			"Canadian Radio-television and Telecommunications Commission — the national regulator that, after the 2022 Rogers outage, codified telecom networks as critical national infrastructure and forced large carriers to expose their resilience posture.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Canadian_Radio-television_and_Telecommunications_Commission',
+		category: 'infrastructure'
+	},
+	{
+		id: 'tdma',
+		term: 'TDMA (Time-Division Multiple Access)',
+		definition:
+			"Multiple-access scheme where users share a frequency by taking strict time slots — the basis of GSM. {{#cdma|CDMA}}'s rival until both lost out to OFDMA in 4G LTE.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Time-division_multiple_access',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'iso7816',
+		term: 'ISO/IEC 7816',
+		definition:
+			"The smart-card application standard family — APDU command/response framing, file structures, identification mechanisms. Underlies EMV chip-and-PIN, NFC payments, SIM cards, and government e-IDs at the application layer over ISO 14443's link layer.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/ISO/IEC_7816',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'ndef-bare',
+		term: 'NDEF',
+		definition:
+			"NFC Data Exchange Format — the [[nfc|NFC]] Forum's lightweight TLV encoding for the small payloads NFC tags carry (URLs, contact cards, Wi-Fi credentials). Read in a single tap by a phone's OS-level NFC handler.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/NFC_Data_Exchange_Format',
+		category: 'protocol-mechanics'
+	},
+
+	// 5G architecture
+	{
+		id: '5gc',
+		term: '5GC (5G Core)',
+		definition:
+			"The 5G replacement for the 4G [[#epc|EPC]] — a service-based architecture where every function (AMF, SMF, UPF, AUSF, UDM, PCF) exposes HTTP/2 + JSON APIs. Cloud-native by design, harder to operate than its EPC predecessor.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/5G_core_network',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'sba',
+		term: 'SBA (Service-Based Architecture)',
+		definition:
+			"The 5G core's organising principle — network functions communicate via HTTP/2 JSON over a service bus, not classical signalling stacks (SS7, Diameter). Lets carriers ship containerised cloud-native cores.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/5G_core_network#Service_based_architecture',
+		category: 'protocol-mechanics'
+	},
+
+	// Misc
+	{
+		id: 'rrc',
+		term: 'RRC (Radio Resource Control)',
+		definition:
+			"The cellular control-plane protocol between handset and base station — manages the RRC_IDLE → CONNECTED → INACTIVE state machine, bearer setup, paging. Distinct from {{#nas|NAS}} which signals to the core.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Radio_Resource_Control',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'nas',
+		term: 'NAS (Non-Access Stratum)',
+		definition:
+			"The cellular signalling protocols between the handset and the core network (MME in 4G, AMF in 5G) — registration, authentication, mobility, session management. The control-plane layer above {{#rrc|RRC}}.",
+		wikiUrl: 'https://en.wikipedia.org/wiki/Non-access_stratum',
+		category: 'protocol-mechanics'
+	},
 ];
 
 export const conceptMap = new Map(concepts.map((c) => [c.id, c]));

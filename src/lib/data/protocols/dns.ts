@@ -228,7 +228,7 @@ curl -sH 'accept: application/dns-json' \\
 	funFacts: [
 		{
 			title: 'DNS replaced a hand-edited text file',
-			text: 'Until 1983, every host on the {{arpanet|ARPANET}} maintained a flat HOSTS.{{txt-record|TXT}} file with all the address mappings, distributed by [[ftp|FTP]]. As the network grew past a few hundred hosts, the manual {{bgp-update|update}} process became absurd. [[pioneer:paul-mockapetris|Paul Mockapetris]] designed [[dns|DNS]] to replace it.'
+			text: 'Until 1983, every host on the {{arpanet|ARPANET}} maintained a flat {{hosts-bare|HOSTS}}.{{txt-record|TXT}} file with all the address mappings, distributed by [[ftp|FTP]]. As the network grew past a few hundred hosts, the manual {{bgp-update|update}} process became absurd. [[pioneer:paul-mockapetris|Paul Mockapetris]] designed [[dns|DNS]] to replace it.'
 		},
 		{
 			title: 'Caching does almost all the work',

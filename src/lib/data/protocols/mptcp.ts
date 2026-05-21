@@ -18,12 +18,12 @@ The protocol works by establishing "subflows" — each {{subflow|subflow}} is a 
 		{
 			title: 'Initial handshake with MP_CAPABLE',
 			description:
-				'The first {{subflow|subflow}} is established like a normal [[tcp|TCP]] {{handshake|handshake}}, but SYN packets carry the {{mp-capable|MP_CAPABLE}} option. Both sides {{exchange|exchange}} keys that identify this [[mptcp|MPTCP]] connection.'
+				'The first {{subflow|subflow}} is established like a normal [[tcp|TCP]] {{handshake|handshake}}, but {{syn-cookies|SYN}} packets carry the {{mp-capable|MP_CAPABLE}} option. Both sides {{exchange|exchange}} keys that identify this [[mptcp|MPTCP]] connection.'
 		},
 		{
 			title: 'Additional subflows via MP_JOIN',
 			description:
-				'Either endpoint can open additional [[tcp|TCP]] subflows over different network paths (e.g., [[wifi|WiFi]] + cellular). The SYN carries an {{mp-join|MP_JOIN}} option linking it to the existing connection.'
+				'Either endpoint can open additional [[tcp|TCP]] subflows over different network paths (e.g., [[wifi|WiFi]] + cellular). The {{syn-cookies|SYN}} carries an {{mp-join|MP_JOIN}} option linking it to the existing connection.'
 		},
 		{
 			title: 'Data-level sequencing',
@@ -62,7 +62,7 @@ sock.sendall(b'GET / HTTP/1.1\\r\\nHost: example.com\\r\\n\\r\\n')
 response = sock.recv(4096)
 print(response.decode())
 sock.close()`,
-		caption: '[[mptcp|MPTCP]] in Python — same API as [[tcp|TCP]], but the kernel routes data over multiple paths',
+		caption: '[[mptcp|MPTCP]] in Python — same {{api|API}} as [[tcp|TCP]], but the kernel routes data over multiple paths',
 		alternatives: [
 			{
 				language: 'javascript',

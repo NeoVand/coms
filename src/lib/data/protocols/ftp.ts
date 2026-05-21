@@ -13,7 +13,7 @@ export const ftp: Protocol = {
 
 The control channel ({{port|port}} 21) carries text commands like USER, PASS, LIST, RETR (download), and STOR (upload). When a file transfer begins, a separate data connection opens on a different port. In "active" mode, the server connects back to the client; in "passive" mode (PASV), the client initiates both connections, which works better with {{firewall|firewalls}} and {{nat|NAT}}.
 
-While [[ftp|FTP]]'s {{plaintext|plain-text}} design makes it insecure by modern standards, {{ftps|FTPS}} ([[ftp|FTP]] over [[tls|TLS]]) adds {{encryption|encryption}}. {{sftp|SFTP}} ([[ssh|SSH]] File Transfer Protocol) is a completely different protocol that runs over [[ssh|SSH]]. Despite being largely superseded by SFTP, SCP, and [[http1|HTTP]]-based file transfer, [[ftp|FTP]] remains in use for legacy systems, firmware updates, and bulk file hosting.`,
+While [[ftp|FTP]]'s {{plaintext|plain-text}} design makes it insecure by modern standards, {{ftps|FTPS}} ([[ftp|FTP]] over [[tls|TLS]]) adds {{encryption|encryption}}. {{sftp|SFTP}} ([[ssh|SSH]] File Transfer Protocol) is a completely different protocol that runs over [[ssh|SSH]]. Despite being largely superseded by {{sftp|SFTP}}, {{scp-copy|SCP}}, and [[http1|HTTP]]-based file transfer, [[ftp|FTP]] remains in use for legacy systems, firmware updates, and bulk file hosting.`,
 	howItWorks: [
 		{
 			title: 'Control connection',
@@ -28,12 +28,12 @@ While [[ftp|FTP]]'s {{plaintext|plain-text}} design makes it insecure by modern 
 		{
 			title: 'Data connection',
 			description:
-				'For file transfers, a separate [[tcp|TCP]] connection opens. In passive mode (PASV), the server tells the client which port to connect to. This separates control flow from data flow.'
+				'For file transfers, a separate [[tcp|TCP]] connection opens. In passive mode (PASV), the server tells the client which port to {{mqtt-connect|connect}} to. This separates control flow from data flow.'
 		},
 		{
 			title: 'File transfer',
 			description:
-				'Client issues RETR (download) or STOR (upload). Data flows on the data connection in binary or ASCII mode. After transfer completes, the data connection closes while control stays open.'
+				'Client issues RETR (download) or STOR (upload). Data flows on the data connection in binary or {{ascii|ASCII}} mode. After transfer completes, the data connection closes while control stays open.'
 		}
 	],
 	useCases: [
@@ -158,7 +158,7 @@ Server: 221 Goodbye`
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/84/Passive_FTP_Verbindung.svg/500px-Passive_FTP_Verbindung.svg.png',
 		alt: 'Diagram showing FTP passive mode connection flow: client connects to control port 21, then server provides a data port for the client to connect to',
 		caption:
-			"[[ftp|FTP]] passive mode — the client connects to port 21 for commands, then the server tells the client which high port to connect to for data transfer. Passive mode solved the {{nat|NAT}}/{{firewall|firewall}} problems that plagued [[ftp|FTP]]'s original active mode.",
+			"[[ftp|FTP]] passive mode — the client connects to port 21 for commands, then the server tells the client which high port to {{mqtt-connect|connect}} to for data transfer. Passive mode solved the {{nat|NAT}}/{{firewall|firewall}} problems that plagued [[ftp|FTP]]'s original active mode.",
 		credit: 'Image: Wikimedia Commons / CC BY-SA 3.0'
 	}
 };

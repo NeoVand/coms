@@ -9,17 +9,17 @@ export const wireguard: Protocol = {
 	year: 2016,
 	rfc: 'WireGuard whitepaper (NDSS 2017)',
 	oneLiner:
-		'A ~4,000-line in-kernel VPN that does one thing — encrypted, authenticated, packet-routed IP tunnels — with a single, opinionated, modern crypto suite. The deliberate anti-[[ipsec|IPsec]].',
+		'A ~4,000-line in-kernel {{vpn|VPN}} that does one thing — encrypted, authenticated, packet-routed {{ip-address|IP}} tunnels — with a single, opinionated, modern crypto suite. The deliberate anti-[[ipsec|IPsec]].',
 	overview: `[[wireguard|WireGuard]] is a Layer-3 secure-{{tunnel|tunnel}} protocol that encapsulates [[ip|IP]] {{packet|packets}} inside [[udp|UDP]] after a single round-trip Noise_IKpsk2 {{handshake|handshake}}. It collapses ACL and routing into one mechanism — **cryptokey routing** — where each {{peer|peer}}'s {{curve25519|Curve25519}} {{public-key|public key}} is bound to a set of \`AllowedIPs\` prefixes. There are *exactly* four message types and *exactly* one {{cipher-suite|ciphersuite}} (\`Noise_IKpsk2_25519_ChaChaPoly_BLAKE2s\`). No negotiation, no extensibility, no algorithmic agility, and deliberately **no {{ietf|IETF}} standardisation**.
 
-Created as a side project by [[pioneer:jason-donenfeld|Jason A. Donenfeld]] in 2015 after a long pen-testing frustration with [[ipsec|IPsec]] and OpenVPN, the first public code snapshot is dated **30 June 2016**. Donenfeld presented the whitepaper at NDSS 2017. Linus Torvalds endorsed it on the kernel mailing list in August 2018 as *"a work of art… compared to the horrors that are OpenVPN and [[ipsec|IPsec]]"*; the module was mainlined in **{{linux|Linux}} 5.6 on 29 March 2020**. The whole kernel module weighs in at around **4,000 lines of code**, versus 100,000+ for OpenVPN's core and the six-figure footprint of strongSwan + {{linux|Linux}} XFRM.
+Created as a side project by [[pioneer:jason-donenfeld|Jason A. Donenfeld]] in 2015 after a long pen-testing frustration with [[ipsec|IPsec]] and OpenVPN, the first public code snapshot is dated **30 June 2016**. Donenfeld presented the whitepaper at {{ndss-conf|NDSS}} 2017. Linus Torvalds endorsed it on the kernel mailing list in August 2018 as *"a work of art… compared to the horrors that are OpenVPN and [[ipsec|IPsec]]"*; the module was mainlined in **{{linux|Linux}} 5.6 on 29 March 2020**. The whole kernel module weighs in at around **4,000 lines of code**, versus 100,000+ for OpenVPN's core and the six-figure footprint of strongSwan + {{linux|Linux}} {{xfrm|XFRM}}.
 
-The crypto choices are a victory lap for the Daniel J. Bernstein stack — **Curve25519** (2006), **ChaCha20** (2008), **{{poly1305|Poly1305}}** (2005), **BLAKE2s** — wrapped in the **{{noise-protocol|Noise Protocol Framework}}** ([[pioneer:trevor-perrin|Trevor Perrin]], 2016). The {{handshake|handshake}} is formally verified (Donenfeld & Milner 2018, Tamarin) and has been cryptographically analysed (Dowling & Paterson 2018, Bellet et al. NDSS 2024). Today it underpins {{cloudflare|Cloudflare}} WARP (>50M daily clients via {{cloudflare|Cloudflare}}'s BoringTun Rust implementation), **Tailscale** ([[pioneer:avery-pennarun|Avery Pennarun]] et al., mesh networking on top of WireGuard), NordVPN's NordLynx, Mullvad, Mozilla {{vpn|VPN}}, ProtonVPN, and an uncountable long tail of self-hosted deployments. The post-quantum companion **Rosenpass** (Hülsing/Varner 2022) hands a PQ-secure {{pfs|pre-shared key}} to WireGuard every 120 s, giving harvest-now-decrypt-later resistance without touching the kernel module.`,
+The crypto choices are a victory lap for the Daniel J. Bernstein stack — **{{curve25519|Curve25519}}** (2006), **ChaCha20** (2008), **{{poly1305|Poly1305}}** (2005), **BLAKE2s** — wrapped in the **{{noise-protocol|Noise Protocol Framework}}** ([[pioneer:trevor-perrin|Trevor Perrin]], 2016). The {{handshake|handshake}} is formally verified (Donenfeld & Milner 2018, Tamarin) and has been cryptographically analysed (Dowling & Paterson 2018, Bellet et al. {{ndss-conf|NDSS}} 2024). Today it underpins {{cloudflare|Cloudflare}} WARP (>50M daily clients via {{cloudflare|Cloudflare}}'s BoringTun Rust implementation), **Tailscale** ([[pioneer:avery-pennarun|Avery Pennarun]] et al., mesh networking on top of WireGuard), NordVPN's NordLynx, Mullvad, Mozilla {{vpn|VPN}}, ProtonVPN, and an uncountable long tail of self-hosted deployments. The post-quantum companion **Rosenpass** (Hülsing/Varner 2022) hands a {{pq|PQ}}-secure {{pfs|pre-shared key}} to WireGuard every 120 s, giving harvest-now-decrypt-later resistance without touching the kernel module.`,
 	howItWorks: [
 		{
 			title: 'Identity = public key',
 			description:
-				'Each {{peer|peer}} holds a 32-byte {{curve25519|Curve25519}} long-term keypair. There are no certificates, no PKI, no IDs — the {{public-key|public key}} *is* the identity. You {{exchange|exchange}} them out of band (`scp`, GitHub, a Tailscale control plane).'
+				'Each {{peer|peer}} holds a 32-byte {{curve25519|Curve25519}} long-term keypair. There are no certificates, no {{pki|PKI}}, no IDs — the {{public-key|public key}} *is* the identity. You {{exchange|exchange}} them out of band (`scp`, GitHub, a Tailscale control plane).'
 		},
 		{
 			title: 'Handshake Initiation (148 bytes, type=1)',
@@ -29,12 +29,12 @@ The crypto choices are a victory lap for the Daniel J. Bernstein stack — **Cur
 		{
 			title: 'Handshake Response (92 bytes, type=2)',
 			description:
-				'Responder sends its own ephemeral pubkey, finishing the four-{{diffie-hellman|DH}} **Noise_IK** pattern (plus optional PSK mix). At the end of these two messages both sides hold matching {{chacha20-poly1305|ChaCha20-Poly1305}} sending and receiving keys; all ephemeral state is wiped.'
+				'Responder sends its own ephemeral pubkey, finishing the four-{{diffie-hellman|DH}} **Noise_IK** pattern (plus optional {{psk|PSK}} mix). At the end of these two messages both sides hold matching {{chacha20-poly1305|ChaCha20-Poly1305}} sending and receiving keys; all ephemeral state is wiped.'
 		},
 		{
 			title: 'Cryptokey routing',
 			description:
-				"`AllowedIPs` on each {{peer|peer}} says *which inner [[ip|IP]] prefixes* may travel through this {{peer|peer}}'s tunnel. It is simultaneously the {{routing-table|routing table}} (outbound: which {{peer|peer}} for which destination prefix) **and** the ACL (inbound: only accept packets from this {{peer|peer}} if the inner source IP falls in its allowed prefixes). One mechanism, both jobs."
+				"`AllowedIPs` on each {{peer|peer}} says *which inner [[ip|IP]] prefixes* may travel through this {{peer|peer}}'s tunnel. It is simultaneously the {{routing-table|routing table}} (outbound: which {{peer|peer}} for which destination prefix) **and** the ACL (inbound: only accept packets from this {{peer|peer}} if the inner source {{ip-address|IP}} falls in its allowed prefixes). One mechanism, both jobs."
 		},
 		{
 			title: 'Transport Data (type=4)',
@@ -90,7 +90,7 @@ sudo wg show
 #     latest handshake: 23 seconds ago
 #     transfer: 142.3 KiB received, 89.7 KiB sent
 #     persistent keepalive: every 25 seconds`,
-		caption: 'A complete [[wireguard|WireGuard]] tunnel in 12 lines of config. Same on {{linux|Linux}}, BSD, macOS, {{android|Android}}, Windows. The simplicity is the feature.',
+		caption: 'A complete [[wireguard|WireGuard]] tunnel in 12 lines of config. Same on {{linux|Linux}}, {{bsd|BSD}}, macOS, {{android|Android}}, Windows. The simplicity is the feature.',
 		alternatives: [
 			{
 				language: 'python',
@@ -233,7 +233,7 @@ Around 4% data inflation for typical 1400-byte inner packets.`
 			date: '2024-02',
 			title: 'NDSS 2024 — unified symbolic analysis surfaces an anonymity flaw',
 			description:
-				'Bellet et al., *A Unified Symbolic Analysis of WireGuard* (NDSS 2024), confirmed an anonymity flaw and pointed to an implementation choice that "considerably weakens" the protocol\'s identity-hiding guarantee. Not an attack-on-key-material, but the first widely-published symbolic-analysis caveat. Worth tracking — Donenfeld\'s response and possible v2 work-in-progress.',
+				'Bellet et al., *A Unified Symbolic Analysis of WireGuard* ({{ndss-conf|NDSS}} 2024), confirmed an anonymity flaw and pointed to an implementation choice that "considerably weakens" the protocol\'s identity-hiding guarantee. Not an attack-on-key-material, but the first widely-published symbolic-analysis caveat. Worth tracking — Donenfeld\'s response and possible v2 work-in-progress.',
 			source: {
 				url: 'https://www.ndss-symposium.org/wp-content/uploads/2024-364-paper.pdf',
 				label: 'NDSS 2024 paper PDF'
@@ -243,7 +243,7 @@ Around 4% data inflation for typical 1400-byte inner packets.`
 			date: '2024-04',
 			title: 'Rosenpass 1.0 — post-quantum hybrid VPN, production-ready',
 			description:
-				"Rosenpass (Andreas Hülsing's group + Karolin Varner) released 1.0. Pure-Rust daemon, runs alongside WireGuard, feeds a post-quantum-secure PSK to WireGuard's PSK slot every 120 seconds. Uses Classic McEliece + Kyber, formally verified in ProVerif. Closes the harvest-now-decrypt-later threat without changing the kernel module.",
+				"Rosenpass (Andreas Hülsing's group + Karolin Varner) released 1.0. Pure-Rust daemon, runs alongside WireGuard, feeds a post-quantum-secure {{psk|PSK}} to WireGuard's {{psk|PSK}} slot every 120 seconds. Uses Classic McEliece + Kyber, formally verified in ProVerif. Closes the harvest-now-decrypt-later threat without changing the kernel module.",
 			source: {
 				url: 'https://rosenpass.eu/',
 				label: 'Rosenpass project'
@@ -253,7 +253,7 @@ Around 4% data inflation for typical 1400-byte inner packets.`
 			date: '2024-11',
 			title: 'AmneziaWG 2.0 — DPI-resistant fork ships QUIC/DNS mimicry',
 			description:
-				"Russia's TSPU boxes learned to fingerprint and drop standard WireGuard's invariant 148/92-byte {{handshake|handshake}}. AmneziaWG (Amnezia VPN team) responds with randomised packet sizes, randomised header type bytes (H1–H4 ranges instead of fixed 1–4), random S1/S2 padding. AWG 2.0 adds optional QUIC/DNS protocol mimicry. The architectural cost of [[pioneer:jason-donenfeld|Donenfeld]]'s no-obfuscation stance, made visible.",
+				"Russia's TSPU boxes learned to fingerprint and drop standard WireGuard's invariant 148/92-byte {{handshake|handshake}}. AmneziaWG (Amnezia {{vpn|VPN}} team) responds with randomised packet sizes, randomised header type bytes (H1–H4 ranges instead of fixed 1–4), random S1/S2 padding. AWG 2.0 adds optional QUIC/{{dns-resolution|DNS}} protocol mimicry. The architectural cost of [[pioneer:jason-donenfeld|Donenfeld]]'s no-obfuscation stance, made visible.",
 			source: {
 				url: 'https://docs.amnezia.org/documentation/amnezia-wg/',
 				label: 'AmneziaWG documentation'
@@ -286,32 +286,32 @@ Around 4% data inflation for typical 1400-byte inner packets.`
 			org: 'Cloudflare WARP',
 			scale: '>50 million daily active clients',
 			description:
-				"{{cloudflare|Cloudflare}}'s consumer VPN (1.1.1.1 + WARP app) runs on **BoringTun**, {{cloudflare|Cloudflare}}'s pure-Rust WireGuard implementation (released 2019). Routes user traffic over WireGuard to {{cloudflare|Cloudflare}}'s edge for security and (with WARP+) {{latency|latency}} improvements. The single largest WireGuard deployment by user count."
+				"{{cloudflare|Cloudflare}}'s consumer {{vpn|VPN}} (1.1.1.1 + WARP app) runs on **BoringTun**, {{cloudflare|Cloudflare}}'s pure-Rust WireGuard implementation (released 2019). Routes user traffic over WireGuard to {{cloudflare|Cloudflare}}'s edge for security and (with WARP+) {{latency|latency}} improvements. The single largest WireGuard deployment by user count."
 		},
 		{
 			org: 'Tailscale',
 			scale: '10,000+ paying customers, hundreds of thousands of free users',
 			description:
-				'Mesh networking on top of WireGuard. The control plane handles key {{exchange|exchange}}, NAT-traversal coordination (via {{stun|STUN}}-style hole-punching with DERP relay fallback — analogous to [[nat-traversal|TURN]]), ACLs ("tailnet" policy). Founded 2019 by [[pioneer:avery-pennarun|Pennarun]], Crawshaw, Carney + Fitzpatrick (Jan 2020). Series C 2025.'
+				'Mesh networking on top of WireGuard. The control plane handles key {{exchange|exchange}}, {{nat|NAT}}-traversal coordination (via {{stun|STUN}}-style hole-punching with DERP relay fallback — analogous to [[nat-traversal|TURN]]), ACLs ("tailnet" policy). Founded 2019 by [[pioneer:avery-pennarun|Pennarun]], Crawshaw, Carney + Fitzpatrick (Jan 2020). Series C 2025.'
 		},
 		{
 			org: 'NordVPN NordLynx',
 			scale: '~14 million users on the NordLynx protocol',
 			description:
-				"NordVPN's flagship protocol since 2019. NordLynx wraps WireGuard with a custom NAT-style account system (since vanilla WireGuard assigns static inner IPs by design, NordVPN had to solve the dynamic-IP problem in userspace). Markets WireGuard's ~4,000 LoC vs OpenVPN's 100,000 explicitly."
+				"NordVPN's flagship protocol since 2019. NordLynx wraps WireGuard with a custom {{nat|NAT}}-style account system (since vanilla WireGuard assigns static inner IPs by design, NordVPN had to solve the dynamic-{{ip-address|IP}} problem in userspace). Markets WireGuard's ~4,000 LoC vs OpenVPN's 100,000 explicitly."
 		},
 		{
 			org: 'Linux kernel mainline',
 			scale: 'Every modern Linux distro ships WireGuard since 5.6 (March 2020)',
 			description:
-				'Mainlined 29 March 2020. Available in Debian, Ubuntu, Fedora, RHEL, Arch, openSUSE, Alpine. The kernel module is the canonical implementation; everything else (BoringTun, wireguard-go, wireguard-windows) is a userspace fallback for platforms without kernel access. ~4,000 LoC in `drivers/net/wireguard/` upstream.'
+				'Mainlined 29 March 2020. Available in Debian, Ubuntu, Fedora, {{rhel|RHEL}}, Arch, openSUSE, Alpine. The kernel module is the canonical implementation; everything else (BoringTun, wireguard-go, wireguard-windows) is a userspace fallback for platforms without kernel access. ~4,000 LoC in `drivers/net/wireguard/` upstream.'
 		}
 	],
 
 	funFacts: [
 		{
 			title: 'The "4,000 lines of code" number is in the whitepaper itself',
-			text: "From the [[pioneer:jason-donenfeld|Donenfeld]] NDSS 2017 paper: *\"WireGuard can be simply implemented for {{linux|Linux}} in less than 4,000 lines of code, making it easily audited and verified.\"* For comparison, OpenVPN's core (not counting OpenSSL) is north of 100,000 lines, and the equivalent {{linux|Linux}} [[ipsec|IPsec]] stack (XFRM + strongSwan + libraries) is in the six digits. The order-of-magnitude has not changed in the 9 years since."
+			text: "From the [[pioneer:jason-donenfeld|Donenfeld]] {{ndss-conf|NDSS}} 2017 paper: *\"WireGuard can be simply implemented for {{linux|Linux}} in less than 4,000 lines of code, making it easily audited and verified.\"* For comparison, OpenVPN's core (not counting OpenSSL) is north of 100,000 lines, and the equivalent {{linux|Linux}} [[ipsec|IPsec]] stack ({{xfrm|XFRM}} + strongSwan + libraries) is in the six digits. The order-of-magnitude has not changed in the 9 years since."
 		},
 		{
 			title: 'Linus said it was "a work of art"',
@@ -319,7 +319,7 @@ Around 4% data inflation for typical 1400-byte inner packets.`
 		},
 		{
 			title: 'No IETF RFC — by design',
-			text: '[[pioneer:jason-donenfeld|Donenfeld]] on the *Security Cryptography Whatever* podcast (Dec 2021): *"I have a very low opinion of internet standards, cryptography and internet standards… WireGuard is one of the first times in my career I\'ve seen something get this much adoption without having to get through the filter of the {{ietf|IETF}}. I worry that publishing an RFC might send the wrong message where — oh, it sends the right bits on the wire, it\'s done — that\'s not good enough."* RFC 8922 (2020) mentions WireGuard for the Transport Services document but is not normative.'
+			text: '[[pioneer:jason-donenfeld|Donenfeld]] on the *Security Cryptography Whatever* podcast (Dec 2021): *"I have a very low opinion of internet standards, cryptography and internet standards… WireGuard is one of the first times in my career I\'ve seen something get this much adoption without having to get through the filter of the {{ietf|IETF}}. I worry that publishing an {{rfc-doc|RFC}} might send the wrong message where — oh, it sends the right bits on the wire, it\'s done — that\'s not good enough."* {{rfc-doc|RFC}} 8922 (2020) mentions WireGuard for the Transport Services document but is not normative.'
 		},
 		{
 			title: 'The logo is a snake from Delphi',
@@ -335,11 +335,11 @@ Around 4% data inflation for typical 1400-byte inner packets.`
 		},
 			{
 				title: 'No dynamic IPs out of the box',
-				text: 'Vanilla WireGuard refuses to do [[dns|DNS]] lookups on `Endpoint =` (the kernel module is keep-it-simple, no [[dns|DNS]]). The plumbing for "the {{peer|peer}}\'s endpoint changed because their ISP rebooted them" is **not in the kernel**. `wg-quick(8)` resolves hostnames at interface-up time only. **Cure:** for road-warriors, the {{peer|peer}} connects *out* to a fixed endpoint and uses `PersistentKeepalive` to hold the NAT binding. For dynamic-IP servers, run `reresolve-dns.timer` (Donenfeld\'s own systemd timer) to re-resolve `Endpoint =` periodically.'
+				text: 'Vanilla WireGuard refuses to do [[dns|DNS]] lookups on `Endpoint =` (the kernel module is keep-it-simple, no [[dns|DNS]]). The plumbing for "the {{peer|peer}}\'s endpoint changed because their {{isp|ISP}} rebooted them" is **not in the kernel**. `wg-quick(8)` resolves hostnames at interface-up time only. **Cure:** for road-warriors, the {{peer|peer}} connects *out* to a fixed endpoint and uses `PersistentKeepalive` to hold the {{nat|NAT}} binding. For dynamic-{{ip-address|IP}} servers, run `reresolve-dns.timer` (Donenfeld\'s own systemd timer) to re-resolve `Endpoint =` periodically.'
 			},
 			{
 				title: 'DPI-resistance is not in the protocol',
-				text: "Standard [[wireguard|WireGuard]]'s 148-byte and 92-byte handshakes and fixed 1/2/3/4 message-type bytes form an obvious fingerprint. Russia's TSPU boxes (2024) and Iran's filtering systems (2024–2025) learned to drop WireGuard handshakes on sight. **Cure:** if you operate from or to a censorious network, deploy **AmneziaWG** (the Amnezia VPN team's fork — randomised header bytes, random S1/S2 padding, optional QUIC/DNS mimicry, retains the WireGuard crypto suite intact). Or fall back to **{{masque|MASQUE}} CONNECT-IP** over [[http3|HTTP/3]]."
+				text: "Standard [[wireguard|WireGuard]]'s 148-byte and 92-byte handshakes and fixed 1/2/3/4 message-type bytes form an obvious fingerprint. Russia's TSPU boxes (2024) and Iran's filtering systems (2024–2025) learned to drop WireGuard handshakes on sight. **Cure:** if you operate from or to a censorious network, deploy **AmneziaWG** (the Amnezia {{vpn|VPN}} team's fork — randomised header bytes, random S1/S2 padding, optional QUIC/{{dns-resolution|DNS}} mimicry, retains the WireGuard crypto suite intact). Or fall back to **{{masque|MASQUE}} {{mqtt-connect|CONNECT}}-{{ip-address|IP}}** over [[http3|HTTP/3]]."
 			}
 		]
 	}

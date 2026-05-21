@@ -804,7 +804,7 @@ Co-edited by [[pioneer:roy-fielding|Roy Fielding]] et al. Quickly obsoleted by [
 		protocols: ['http1'],
 		abstract: `The 1999 revision of [[http1|HTTP/1.1]] — for fifteen years, **the** spec every web developer, server, browser, library, and proxy was written against. [[pioneer:roy-fielding|Roy Fielding]]'s doctoral dissertation ([[rest|REST]]) was being defended in the same period, and many of the architectural constraints that came to define "[[rest|REST]] APIs" trace back to choices made here.
 
-Eventually obsoleted by the **6-RFC split** (7230–7235, 2014), which separated message syntax from semantics from caching from authentication. Then [[rfc:9110|RFC 9110]] / [[rfc:9112|9112]] re-consolidated those in 2022. Despite all this churn, the wire format you see when you \`telnet example.com 80\` and type \`GET / [[http1|HTTP/1.1]]\` has not changed since 1999.`
+Eventually obsoleted by the **6-RFC split** (7230–7235, 2014), which separated message syntax from semantics from caching from authentication. Then [[rfc:9110|RFC 9110]] / [[rfc:9112|9112]] re-consolidated those in 2022. Despite all this churn, the wire format you see when you \`telnet example.com 80\` and type \`GET / HTTP/1.1\` has not changed since 1999.`
 	},
 	{
 		number: '7540',
@@ -869,7 +869,7 @@ Authored by Jacob Appelbaum and Alec Muffett. The {{iana|IANA}} *Special-Use Dom
 		protocols: ['dns'],
 		abstract: `*DoT* — runs the regular [[dns|DNS]] wire protocol inside a [[tls|TLS]] connection on **[[tcp|TCP]] port 853**. Encrypts [[dns|DNS]] queries between stub resolver and recursive resolver so the on-path observers (your ISP, the coffee-shop [[wifi|Wi-Fi]], etc.) can't see what you're looking up.
 
-Together with [[rfc:8484|DoH]] ([[dns|DNS]] over HTTPS) this is the modern answer to the long-standing privacy gap that [[dns|DNS]] was designed in 1983 with no transport encryption. Cloudflare 1.1.1.1, Google 8.8.8.8, Quad9, NextDNS all support DoT; Android has had system-wide DoT (\`Private [[dns|DNS]]\`) since Android 9 (2018).`
+Together with [[rfc:8484|DoH]] ([[dns|DNS]] over HTTPS) this is the modern answer to the long-standing privacy gap that [[dns|DNS]] was designed in 1983 with no transport encryption. Cloudflare 1.1.1.1, Google 8.8.8.8, Quad9, NextDNS all support DoT; Android has had system-wide DoT (\`Private DNS\`) since Android 9 (2018).`
 	},
 	{
 		number: '8484',
@@ -1110,7 +1110,7 @@ Obsoleted by [[rfc:2131|RFC 2131]] in 1997, which fixed errata and added relay-a
 		obsoletes: ['1531'],
 		url: 'https://www.rfc-editor.org/rfc/rfc2131',
 		protocols: ['dhcp'],
-		abstract: `The current [[dhcp|DHCPv4]] specification — Ralph Droms's 1997 revision of [[rfc:1531|RFC 1531]]. Defines the DISCOVER → OFFER → REQUEST → {{ack|ACK}} message exchange, the lease-renewal lifecycle, the relay-agent architecture, and the format of the variable-length options field that everything from \`[[dns|DNS]] Servers\` to \`Domain Name\` to {{nat64|PREF64}}-via-RA-Option to *[[ipv6|IPv6]]-Only Preferred* ([[rfc:8925|RFC 8925]]) rides on top of.
+		abstract: `The current [[dhcp|DHCPv4]] specification — Ralph Droms's 1997 revision of [[rfc:1531|RFC 1531]]. Defines the DISCOVER → OFFER → REQUEST → {{ack|ACK}} message exchange, the lease-renewal lifecycle, the relay-agent architecture, and the format of the variable-length options field that everything from \`DNS Servers\` to \`Domain Name\` to {{nat64|PREF64}}-via-RA-Option to *[[ipv6|IPv6]]-Only Preferred* ([[rfc:8925|RFC 8925]]) rides on top of.
 
 DHCPv6 (RFC 8415) is a distinct protocol with a different message flow but the same job. Almost every router and OS implements both today.`
 	},
@@ -1140,7 +1140,7 @@ NTPv0 is purely historical; if you're running [[ntp|NTP]] today you're running N
 		obsoletes: ['2543'],
 		url: 'https://www.rfc-editor.org/rfc/rfc3261',
 		protocols: ['sip'],
-		abstract: `The current [[sip|SIP]] specification — the {{signaling|signaling}} protocol that sets up, modifies, and tears down voice/video calls between endpoints over [[ip|IP]]. Edited by Jonathan Rosenberg, Henning Schulzrinne, et al. as the 2002 revision of the original [[rfc:2543|RFC 2543]] (1999). Text-based, [[http1|HTTP]]-inspired (\`INVITE\`, \`200 OK\`, \`{{ack|ACK}}\`), pluggable through registrations and proxies.
+		abstract: `The current [[sip|SIP]] specification — the {{signaling|signaling}} protocol that sets up, modifies, and tears down voice/video calls between endpoints over [[ip|IP]]. Edited by Jonathan Rosenberg, Henning Schulzrinne, et al. as the 2002 revision of the original [[rfc:2543|RFC 2543]] (1999). Text-based, [[http1|HTTP]]-inspired (\`INVITE\`, \`200 OK\`, \`ACK\`), pluggable through registrations and proxies.
 
 [[sip|SIP]] carries essentially every business VoIP call on earth — virtually all enterprise PBXs, ITSPs, and 4G/5G voice services (VoLTE/VoNR) are [[sip|SIP]] under the hood. Pair with [[rfc:8866|SDP]] (call parameters) and [[rtp|RTP]] (the actual media).`
 	},

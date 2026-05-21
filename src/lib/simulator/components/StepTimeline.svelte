@@ -4,6 +4,8 @@
 	import { SimulatorState } from '../state.svelte';
 	import ActorStage from './ActorStage.svelte';
 	import PacketInspector from './PacketInspector.svelte';
+	import { parseRichText } from '$lib/utils/text-parser';
+	import RichText from '$lib/components/detail/inline/RichText.svelte';
 
 	interface Props {
 		config: SimulationConfig;
@@ -90,7 +92,7 @@
 							</span>
 						</div>
 						<p class="mt-1 text-xs leading-relaxed text-t-primary" in:fly={{ y: 4, duration: 250 }}>
-							{step.description}
+							<RichText segments={parseRichText(step.description)} {color} />
 						</p>
 
 						<div class="mt-3 space-y-3">
@@ -138,7 +140,7 @@
 
 							{#if isPast}
 								<p class="mt-1 text-xs leading-relaxed text-t-muted">
-									{step.description}
+									<RichText segments={parseRichText(step.description)} {color} />
 								</p>
 
 								{#if step.layers && step.layers.length > 0}

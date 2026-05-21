@@ -13,7 +13,7 @@ export const sdp: Protocol = {
 
 Originally published in 1998 as [[rfc:2327|RFC 2327]] for the Mbone ({{multicast|multicast}} backbone) conferencing community, [[sdp|SDP]] found its true calling as the session description format for [[sip|SIP]] and later [[webrtc|WebRTC]]. Every time you join a video call in your browser, an [[sdp|SDP]] "offer" and "answer" are exchanged behind the scenes to {{content-negotiation|negotiate}} what media will flow and how.
 
-The format is deceptively simple — plain text with single-letter field identifiers (v= for version, o= for origin, m= for media, a= for attributes). But this simplicity hides enormous complexity: [[sdp|SDP]] extensions handle ICE candidates, {{dtls|DTLS}} (based on [[tls|TLS]]) fingerprints, simulcast layers, {{codec|codec}} parameters, and dozens of other modern requirements.`,
+The format is deceptively simple — plain text with single-letter field identifiers (v= for version, o= for origin, m= for media, a= for attributes). But this simplicity hides enormous complexity: [[sdp|SDP]] extensions handle {{ice|ICE}} candidates, {{dtls|DTLS}} (based on [[tls|TLS]]) fingerprints, simulcast layers, {{codec|codec}} parameters, and dozens of other modern requirements.`,
 	howItWorks: [
 		{
 			title: 'Session description created',
@@ -28,7 +28,7 @@ The format is deceptively simple — plain text with single-letter field identif
 		{
 			title: 'Attributes add detail',
 			description:
-				'Attribute lines (a=) specify {{codec|codec}} parameters, ICE credentials, {{dtls|DTLS}} fingerprints, {{bandwidth|bandwidth}} limits, and direction (sendrecv, recvonly).'
+				'Attribute lines (a=) specify {{codec|codec}} parameters, {{ice|ICE}} credentials, {{dtls|DTLS}} fingerprints, {{bandwidth|bandwidth}} limits, and direction (sendrecv, recvonly).'
 		},
 		{
 			title: 'Offer/answer exchange',

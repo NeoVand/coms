@@ -7,22 +7,22 @@ export const rest: Protocol = {
 	categoryId: 'web-api',
 	year: 2000,
 	oneLiner:
-		'An architectural style for web APIs — not a protocol, but the dominant pattern for HTTP services.',
+		'An architectural style for web APIs — not a protocol, but the dominant pattern for {{http-method|HTTP}} services.',
 	overview: `[[rest|REST]] is not a protocol — it's an architectural style defined by [[pioneer:roy-fielding|Roy Fielding]] in his 2000 doctoral dissertation. It describes how to build scalable web services using the existing mechanics of [[http1|HTTP]]: URLs as resource identifiers, {{http-method|HTTP methods}} as operations, {{status-code|status codes}} as outcomes, and hypermedia as the engine of application state.
 
-A RESTful API models everything as resources (nouns, not verbs). You GET a user, POST a new order, PUT an updated profile, DELETE a session. Each request is {{stateless|stateless}} — the server doesn't remember previous requests, so every call carries all the context it needs. This makes [[rest|REST]] APIs easy to cache, scale horizontally, and reason about.
+A RESTful {{api|API}} models everything as resources (nouns, not verbs). You GET a user, POST a new order, PUT an updated profile, DELETE a session. Each request is {{stateless|stateless}} — the server doesn't remember previous requests, so every call carries all the context it needs. This makes [[rest|REST]] APIs easy to cache, scale horizontally, and reason about.
 
-[[rest|REST]]'s ubiquity comes from its simplicity: any [[http1|HTTP]] client in any language can call a [[rest|REST]] API. No special tooling, no code generation, no binary protocols. {{json|JSON}} became the de facto format, though [[rest|REST]] itself is format-agnostic. The trade-off is that [[rest|REST]] can be chatty — fetching a complex resource might require multiple round trips, which is exactly the problem [[graphql|GraphQL]] was designed to solve.`,
+[[rest|REST]]'s ubiquity comes from its simplicity: any [[http1|HTTP]] client in any language can call a [[rest|REST]] {{api|API}}. No special tooling, no code generation, no binary protocols. {{json|JSON}} became the de facto format, though [[rest|REST]] itself is format-agnostic. The trade-off is that [[rest|REST]] can be chatty — fetching a complex resource might require multiple round trips, which is exactly the problem [[graphql|GraphQL]] was designed to solve.`,
 	howItWorks: [
 		{
 			title: 'Resource identification',
 			description:
-				'Every resource has a unique URL (e.g., /api/users/42). The URL structure creates a logical hierarchy that maps to your data model.'
+				'Every resource has a unique {{url|URL}} (e.g., /api/users/42). The {{url|URL}} structure creates a logical hierarchy that maps to your data model.'
 		},
 		{
 			title: 'HTTP methods as verbs',
 			description:
-				'GET (read), POST (create), PUT (replace), PATCH (partial update), DELETE (remove). Each method has defined semantics — GET is safe and {{idempotent|idempotent}}, DELETE is {{idempotent|idempotent}} but not safe.'
+				'GET (read), POST (create), PUT (replace), PATCH (partial {{bgp-update|update}}), DELETE (remove). Each method has defined semantics — GET is safe and {{idempotent|idempotent}}, DELETE is {{idempotent|idempotent}} but not safe.'
 		},
 		{
 			title: 'Stateless requests',
@@ -60,7 +60,7 @@ requests.put('https://api.example.com/users/42',
 # DELETE — remove a resource
 requests.delete('https://api.example.com/users/42')`,
 		caption:
-			'[[rest|REST]] uses standard HTTP — any language with an HTTP client can interact with a [[rest|REST]] API.',
+			'[[rest|REST]] uses standard {{http-method|HTTP}} — any language with an {{http-method|HTTP}} client can interact with a [[rest|REST]] {{api|API}}.',
 		alternatives: [
 			{
 				language: 'javascript',
@@ -71,11 +71,11 @@ const user = await fetch('/api/users/42').then(r => r.json());
 const newUser = await fetch('/api/users', {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
-  body: JSON.stringify({ name: 'Alice', role: 'admin' })
+  body: {{json|JSON}}.stringify({ name: 'Alice', role: 'admin' })
 }).then(r => r.json());
 
 // DELETE — remove a resource
-await fetch('/api/users/42', { method: 'DELETE' });`
+await {{imap-fetch|fetch}}('/api/users/42', { method: 'DELETE' });`
 			},
 			{
 				language: 'cli',
@@ -138,7 +138,7 @@ curl -X DELETE https://api.example.com/users/42`
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Client-server_model.svg/500px-Client-server_model.svg.png',
 		alt: 'Diagram of the client-server model showing multiple clients communicating with a central server over a network',
 		caption:
-			'The {{client-server|client-server model}} — the foundation of [[rest|REST]] architecture. Clients send {{stateless|stateless}} HTTP requests to a server, which manages resources and returns representations. This separation of concerns is what makes [[rest|REST]] APIs scalable and cacheable.',
+			'The {{client-server|client-server model}} — the foundation of [[rest|REST]] architecture. Clients send {{stateless|stateless}} {{http-method|HTTP}} requests to a server, which manages resources and returns representations. This separation of concerns is what makes [[rest|REST]] APIs scalable and cacheable.',
 		credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 	}
 };

@@ -8,8 +8,8 @@ export const stomp: Protocol = {
 	port: 61613,
 	year: 2003,
 	rfc: undefined,
-	oneLiner: 'A dead-simple text protocol for message brokers — the HTTP of messaging.',
-	overview: `[[stomp|STOMP]] is to message queuing what [[http1|HTTP]] is to the web — a simple, text-based protocol that any language can implement easily. While [[amqp|AMQP]] has complex {{binary-framing|binary framing}} and [[mqtt|MQTT]] has its binary headers, [[stomp|STOMP]] uses plain text commands like CONNECT, SUBSCRIBE, SEND, and {{ack|ACK}}.
+	oneLiner: 'A dead-simple text protocol for message brokers — the {{http-method|HTTP}} of messaging.',
+	overview: `[[stomp|STOMP]] is to message queuing what [[http1|HTTP]] is to the web — a simple, text-based protocol that any language can implement easily. While [[amqp|AMQP]] has complex {{binary-framing|binary framing}} and [[mqtt|MQTT]] has its binary headers, [[stomp|STOMP]] uses plain text commands like {{mqtt-connect|CONNECT}}, {{mqtt-subscribe|SUBSCRIBE}}, SEND, and {{ack|ACK}}.
 
 This simplicity is [[stomp|STOMP]]'s superpower. You can literally telnet to a [[stomp|STOMP]] {{broker|broker}} and type messages by hand. It's supported by most major message brokers (RabbitMQ, ActiveMQ, Apollo) as an alternative to their native protocols, making it a great choice when you need messaging but don't want to learn a complex protocol.
 
@@ -18,12 +18,12 @@ This simplicity is [[stomp|STOMP]]'s superpower. You can literally telnet to a [
 		{
 			title: 'CONNECT',
 			description:
-				"Client sends a CONNECT frame with credentials. Server responds with CONNECTED. It's human-readable text — you could type it by hand."
+				"Client sends a {{mqtt-connect|CONNECT}} frame with credentials. Server responds with CONNECTED. It's human-readable text — you could type it by hand."
 		},
 		{
 			title: 'SUBSCRIBE',
 			description:
-				'Client subscribes to a destination (like a {{topic|topic}} or queue). Each subscription gets an ID for tracking.'
+				'Client subscribes to a destination (like a {{topic|topic}} or queue). Each subscription gets an {{id-identifier|ID}} for tracking.'
 		},
 		{
 			title: 'SEND',
@@ -82,7 +82,7 @@ const client = new Client({
     client.publish({
       destination: '/queue/tasks',
       headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ task: 'process-order', id: 42 })
+      body: {{json|JSON}}.stringify({ task: 'process-order', id: 42 })
     });
   }
 });

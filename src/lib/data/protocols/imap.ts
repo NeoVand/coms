@@ -14,14 +14,14 @@ export const imap: Protocol = {
 
 The key insight is [[imap|IMAP]]'s tagged command-response {{protocol|protocol}}. Every command gets a unique tag (A001, A002...) and the server's response includes the same tag. This means you can pipeline commands — send A002 before A001's response arrives — because tags match responses to commands unambiguously.
 
-[[imap|IMAP]]'s {{imap-fetch|FETCH}} command is remarkably flexible: you can request just message {{header|headers}}, just the text body, or individual MIME attachments — without downloading the entire message. Server-side SEARCH lets you find messages by sender, date, subject, or full-text content without transferring anything. The {{imap-idle|IDLE}} command keeps a persistent connection open for push notifications when new mail arrives.
+[[imap|IMAP]]'s {{imap-fetch|FETCH}} command is remarkably flexible: you can request just message {{header|headers}}, just the text body, or individual {{mime|MIME}} attachments — without downloading the entire message. Server-side SEARCH lets you find messages by sender, date, subject, or full-text content without transferring anything. The {{imap-idle|IDLE}} command keeps a persistent connection open for push notifications when new mail arrives.
 
-[[smtp|SMTP]] sends email, [[imap|IMAP]] receives it — together they form the complete email system. [[imap|IMAP]] connections are {{encryption|encrypted}} with [[tls|TLS]] (IMAPS on {{port|port}} 993) and ride over [[tcp|TCP]] for reliable delivery of the tagged command-response dialogue.`,
+[[smtp|SMTP]] sends email, [[imap|IMAP]] receives it — together they form the complete email system. [[imap|IMAP]] connections are {{encryption|encrypted}} with [[tls|TLS]] ({{imaps|IMAPS}} on {{port|port}} 993) and ride over [[tcp|TCP]] for reliable delivery of the tagged command-response dialogue.`,
 	howItWorks: [
 		{
 			title: 'Connect & authenticate',
 			description:
-				"Client connects to port 993 ({{imaps|IMAPS}} with [[tls|TLS]]) and authenticates with LOGIN or a {{sasl|SASL}} mechanism like OAUTH2. The server grants access to the user's mailboxes."
+				"Client connects to port 993 ({{imaps|IMAPS}} with [[tls|TLS]]) and authenticates with {{login-auth|LOGIN}} or a {{sasl|SASL}} mechanism like OAUTH2. The server grants access to the user's mailboxes."
 		},
 		{
 			title: 'SELECT mailbox',

@@ -24,7 +24,7 @@ export const webApi: BookPart = {
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: 'A complete [[http1|HTTP/1.1]] request is a few lines of plain ASCII you can debug with netcat. That readability is why every developer can debug an HTTP problem with curl, why every programming language has an implementation, and why every middlebox can interpret it.',
+					text: 'A complete [[http1|HTTP/1.1]] request is a few lines of plain {{ascii|ASCII}} you can debug with netcat. That readability is why every developer can debug an {{http-method|HTTP}} problem with curl, why every programming language has an implementation, and why every middlebox can interpret it.',
 					attribution: 'Author'
 				},
 				{
@@ -33,17 +33,17 @@ export const webApi: BookPart = {
 						{
 							type: 'narrative',
 							title: 'The Protocol You Can Read',
-							text: `[[http1|HTTP/1.1]] is the most successful application protocol ever shipped. It was originally specified in **[[rfc:2068|RFC 2068]] (January 1997)**, then revised through [[rfc:2616|RFC 2616]] (1999) and RFC 7230-7235 (2014). In **June 2022** the {{ietf|IETF}} replaced the entire 1997-2014 lineage in one big bang with a five-document set: **[[rfc:9110|RFC 9110]]** (HTTP Semantics), [[rfc:9112|RFC 9112]] ([[http1|HTTP/1.1]] Messaging), RFC 9111 (Caching), and the matching [[http2|HTTP/2]] ([[rfc:9113|RFC 9113]]) and [[http3|HTTP/3]] ([[rfc:9114|RFC 9114]]) updates. *The Register* called the 7 June 2022 cluster *"the day [[tcp|TCP]] stopped being assumed."*
+							text: `[[http1|HTTP/1.1]] is the most successful application protocol ever shipped. It was originally specified in **[[rfc:2068|RFC 2068]] (January 1997)**, then revised through [[rfc:2616|RFC 2616]] (1999) and {{rfc-doc|RFC}} 7230-7235 (2014). In **June 2022** the {{ietf|IETF}} replaced the entire 1997-2014 lineage in one big bang with a five-document set: **[[rfc:9110|RFC 9110]]** ({{http-method|HTTP}} Semantics), [[rfc:9112|RFC 9112]] ([[http1|HTTP/1.1]] Messaging), {{rfc-doc|RFC}} 9111 (Caching), and the matching [[http2|HTTP/2]] ([[rfc:9113|RFC 9113]]) and [[http3|HTTP/3]] ([[rfc:9114|RFC 9114]]) updates. *The Register* called the 7 June 2022 cluster *"the day [[tcp|TCP]] stopped being assumed."*
 
 Three things explain [[http1|HTTP/1.1]]'s longevity.`
 						},
 						{
 							type: 'narrative',
 							title: 'Text on the Wire, Stateless Semantics, Persistent Connections',
-							text: `**Text on the wire.** A complete [[http1|HTTP/1.1]] request is a few lines of plain US-ASCII ([[rfc:9112|RFC 9112]] §2.2 specifies the message grammar in ABNF over US-ASCII octets):
+							text: `**Text on the wire.** A complete [[http1|HTTP/1.1]] request is a few lines of plain US-{{ascii|ASCII}} ([[rfc:9112|RFC 9112]] §2.2 specifies the message grammar in ABNF over US-{{ascii|ASCII}} octets):
 
 \`\`\`
-GET /index.html [[http1|HTTP/1.1]]
+GET /index.html HTTP/1.1
 Host: example.com
 \\r\\n\\r\\n
 \`\`\`
@@ -64,18 +64,18 @@ That readability is the entire reason every developer can debug an HTTP problem 
 							title: 'Why HTTP/1.1 Is Still 28% of Traffic in 2026',
 							text: `Despite [[http2|HTTP/2]] (51%) and [[http3|HTTP/3]] (~21%) carrying the majority of modern web traffic, **[[http1|HTTP/1.1]] stubbornly persists at around 28%** of {{cloudflare|Cloudflare}}-observed requests in Q1 2026. Three reasons.
 
-**APIs and CLI tools.** \`curl\`, \`wget\`, scripting clients, server-to-server [[rest|REST]] traffic, internal microservice calls — many of these still default to [[http1|HTTP/1.1]] because the simplicity outweighs the {{multiplexing|multiplexing}} benefit. A single API call doesn't need {{binary-framing|binary framing}} or stream prioritisation.
+**APIs and {{cli|CLI}} tools.** \`curl\`, \`wget\`, scripting clients, server-to-server [[rest|REST]] traffic, internal microservice calls — many of these still default to [[http1|HTTP/1.1]] because the simplicity outweighs the {{multiplexing|multiplexing}} benefit. A single {{api|API}} call doesn't need {{binary-framing|binary framing}} or stream prioritisation.
 
-**Origin servers without [[http2|HTTP/2]].** A long tail of nginx, Apache, IIS, and embedded HTTP servers run versions older than mainstream [[http2|HTTP/2]] support. Many corporate intranets, legacy admin panels, and older IoT devices speak only [[http1|HTTP/1.1]].
+**Origin servers without [[http2|HTTP/2]].** A long tail of nginx, Apache, IIS, and embedded {{http-method|HTTP}} servers run versions older than mainstream [[http2|HTTP/2]] support. Many corporate intranets, legacy admin panels, and older IoT devices speak only [[http1|HTTP/1.1]].
 
-**Debuggability.** When something is wrong with an HTTP {{exchange|exchange}}, the fastest diagnostic path is reading the bytes on the wire. [[http1|HTTP/1.1]] is the only version where you can do that without a protocol decoder. For internal tooling and developer-facing surfaces, "I can see the request" is a feature.`
+**Debuggability.** When something is wrong with an {{http-method|HTTP}} {{exchange|exchange}}, the fastest diagnostic path is reading the bytes on the wire. [[http1|HTTP/1.1]] is the only version where you can do that without a protocol decoder. For internal tooling and developer-facing surfaces, "I can see the request" is a feature.`
 						},
 						{
 							type: 'image',
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/HTTP_persistent_connection.svg/500px-HTTP_persistent_connection.svg.png',
 							alt: 'HTTP persistent connection diagram — multiple request/response pairs reusing the same TCP connection.',
 							caption:
-								'**[[http1|HTTP/1.1]] persistent connections** — request, response, request, response, all on the *same* [[tcp|TCP]] socket. The default in [[http1|HTTP/1.1]] (1997), and a quiet revolution after [[http1|HTTP/1.0]]\'s one-connection-per-request model. The reason a 1990s page-load of 90 small assets did not have to pay 90 SYN/{{syn-ack|SYN-ACK}}/ACK handshakes.',
+								'**[[http1|HTTP/1.1]] persistent connections** — request, response, request, response, all on the *same* [[tcp|TCP]] socket. The default in [[http1|HTTP/1.1]] (1997), and a quiet revolution after [[http1|HTTP/1.0]]\'s one-connection-per-request model. The reason a 1990s page-load of 90 small assets did not have to pay 90 {{syn-cookies|SYN}}/{{syn-ack|SYN-ACK}}/{{ack|ACK}} handshakes.',
 							credit: 'Image: Wikimedia Commons / CC BY-SA 3.0'
 						}
 					]
@@ -95,7 +95,7 @@ That readability is the entire reason every developer can debug an HTTP problem 
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: '[[http2|HTTP/2]] still carries the majority of the web in 2026 — 51% of {{cloudflare|Cloudflare}}-observed traffic. The very feature that made it succeed ({{multiplexing|multiplexing}} many streams over one connection) also made it a DDoS amplifier. The CVE story is not over.',
+					text: '[[http2|HTTP/2]] still carries the majority of the web in 2026 — 51% of {{cloudflare|Cloudflare}}-observed traffic. The very feature that made it succeed ({{multiplexing|multiplexing}} many streams over one connection) also made it a DDoS amplifier. The {{cve|CVE}} story is not over.',
 					attribution: 'Author'
 				},
 				{
@@ -106,14 +106,14 @@ That readability is the entire reason every developer can debug an HTTP problem 
 							title: 'A Binary Layer Under the Same Semantics',
 							text: `By 2009, web pages averaged 90 requests across 15 origins. The 6-connection-per-origin browser cap meant every page paid [[tcp|TCP]] setup overhead repeatedly, and **{{head-of-line-blocking|head-of-line blocking}}** at the application layer was capping throughput. {{google|Google}}'s **{{spdy|SPDY}}** experiment ([[pioneer:mike-belshe|Mike Belshe]] + Roberto Peon, 2009) proposed {{multiplexing|multiplexing}} many requests over a single connection, with {{binary-framing|binary framing}} and per-frame priority.
 
-{{spdy|SPDY}} became the basis for [[http2|HTTP/2]] under HTTPbis WG chair Mark Nottingham. **[[rfc:9113|RFC 9113]]** (originally [[rfc:7540|RFC 7540]], May 2015) ships [[http2|HTTP/2]] as a binary-framed multiplexed protocol. The semantics — verbs, headers, status codes — are unchanged from [[http1|HTTP/1.1]]; only the wire format moves from text to **9-byte frame headers** (Length 24-bit, Type 8-bit, Flags 8-bit, Reserved 1-bit, Stream ID 31-bit) plus {{payload|payload}}. A single [[http2|HTTP/2]] connection carries any number of **streams**, each a logically independent request/response pair. Client streams use odd IDs; server-push streams (now extinct) used even ones.
+{{spdy|SPDY}} became the basis for [[http2|HTTP/2]] under HTTPbis WG chair Mark Nottingham. **[[rfc:9113|RFC 9113]]** (originally [[rfc:7540|RFC 7540]], May 2015) ships [[http2|HTTP/2]] as a binary-framed multiplexed protocol. The semantics — verbs, headers, status codes — are unchanged from [[http1|HTTP/1.1]]; only the wire format moves from text to **9-byte frame headers** (Length 24-bit, Type 8-bit, Flags 8-bit, Reserved 1-bit, Stream {{id-identifier|ID}} 31-bit) plus {{payload|payload}}. A single [[http2|HTTP/2]] connection carries any number of **streams**, each a logically independent request/response pair. Client streams use odd IDs; server-push streams (now extinct) used even ones.
 
-**{{hpack|HPACK}}** (RFC 7541) compresses repeated headers (cookies, user-agent) by reference instead of resending them. It uses a 61-entry static table of common header fields, a per-connection dynamic table, and Huffman-coded literals. {{hpack|HPACK}} was designed in direct response to **CRIME/BREACH-style attacks** on gzip-compressed headers — the static table prevents the attacker from inferring secrets from compression ratios.`
+**{{hpack|HPACK}}** ({{rfc-doc|RFC}} 7541) compresses repeated headers (cookies, user-agent) by reference instead of resending them. It uses a 61-entry static table of common header fields, a per-connection dynamic table, and Huffman-coded literals. {{hpack|HPACK}} was designed in direct response to **CRIME/BREACH-style attacks** on gzip-compressed headers — the static table prevents the attacker from inferring secrets from compression ratios.`
 						},
 						{
 							type: 'narrative',
 							title: 'The Deployment Win, Then the Long Tail',
-							text: `Real-world page loads dropped 30-40% with [[http2|HTTP/2]] enabled. CDNs adopted it within a year. By 2018, over 35% of all websites supported [[http2|HTTP/2]]; by 2026, it carries about **51% of {{cloudflare|Cloudflare}}-observed web requests** — still the dominant version of HTTP on the internet, even as [[http3|HTTP/3]] grows.
+							text: `Real-world page loads dropped 30-40% with [[http2|HTTP/2]] enabled. CDNs adopted it within a year. By 2018, over 35% of all websites supported [[http2|HTTP/2]]; by 2026, it carries about **51% of {{cloudflare|Cloudflare}}-observed web requests** — still the dominant version of {{http-method|HTTP}} on the internet, even as [[http3|HTTP/3]] grows.
 
 The unsolvable structural flaw: [[http2|HTTP/2]] still runs over [[tcp|TCP]], and [[tcp|TCP]] {{retransmission|retransmission}} stalls **all** streams on a connection when even one packet is lost. The very feature [[http2|HTTP/2]] added — {{multiplexing|multiplexing}} — turned a single dropped packet into a whole-connection stall. The fix had to wait for [[quic|QUIC]] and [[http3|HTTP/3]].`
 						},
@@ -127,13 +127,13 @@ The unsolvable structural flaw: [[http2|HTTP/2]] still runs over [[tcp|TCP]], an
 							title: 'The Security Saga',
 							text: `The most consequential changes in [[http2|HTTP/2]] over the last 24 months have been security disclosures.
 
-**CVE-2023-44487 "Rapid Reset" (10 October 2023)** — an attacker opens streams and immediately RST_STREAMs them, using the ratio of cheap RST frames to expensive server processing to amplify a DDoS. {{google|Google}} absorbed an attack peaking at **398 million requests per second** — the largest L7 DDoS ever recorded at that point. {{cloudflare|Cloudflare}} absorbed 201 Mrps, AWS 155 Mrps. Mitigations are now baked into every major [[http2|HTTP/2]] implementation.
+**{{cve|CVE}}-2023-44487 "Rapid Reset" (10 October 2023)** — an attacker opens streams and immediately RST_STREAMs them, using the ratio of cheap RST frames to expensive server processing to amplify a DDoS. {{google|Google}} absorbed an attack peaking at **398 million requests per second** — the largest L7 DDoS ever recorded at that point. {{cloudflare|Cloudflare}} absorbed 201 Mrps, {{aws|AWS}} 155 Mrps. Mitigations are now baked into every major [[http2|HTTP/2]] implementation.
 
-**CVE-2024-27316 "[[http2|HTTP/2]] CONTINUATION Flood" (April 3, 2024)** — disclosed by Bartek Nowotarski via CERT/CC. The attack exploits CONTINUATION frames (used for headers larger than the initial HEADERS frame) that are unbounded by default, exhausting server memory. Patched across Apache httpd, Tomcat (CVE-2024-24549), Apache Traffic Server, Envoy, Node.js, Go net/http, nghttp2, AMPHP, and Tempesta FW.
+**{{cve|CVE}}-2024-27316 "[[http2|HTTP/2]] CONTINUATION Flood" (April 3, 2024)** — disclosed by Bartek Nowotarski via CERT/CC. The attack exploits CONTINUATION frames (used for headers larger than the initial HEADERS frame) that are unbounded by default, exhausting server memory. Patched across Apache httpd, Tomcat ({{cve|CVE}}-2024-24549), Apache Traffic Server, Envoy, Node.js, Go net/http, nghttp2, AMPHP, and Tempesta FW.
 
-**CVE-2025-8671 "MadeYouReset" (August 13, 2025)** — disclosed by Tel Aviv University researchers with Imperva. The attacker uses **malformed** WINDOW_UPDATE / PRIORITY / DATA frames to make the server send RST_STREAM against itself, bypassing the client-reset rate limits added after Rapid Reset. Affects Apache Tomcat, Netty, Varnish, F5, Fastly, AMPHP, Eclipse, [[grpc|gRPC]]. {{cloudflare|Cloudflare}} and Akamai were not exposed.
+**{{cve|CVE}}-2025-8671 "MadeYouReset" (August 13, 2025)** — disclosed by Tel Aviv University researchers with Imperva. The attacker uses **malformed** WINDOW_UPDATE / PRIORITY / {{smtp-data|DATA}} frames to make the server send RST_STREAM against itself, bypassing the client-reset rate limits added after Rapid Reset. Affects Apache Tomcat, Netty, Varnish, F5, Fastly, AMPHP, Eclipse, [[grpc|gRPC]]. {{cloudflare|Cloudflare}} and Akamai were not exposed.
 
-The pattern: each CVE breaks an assumption that earlier mitigations had baked in. The [[http2|HTTP/2]] protocol surface is large, the implementations are intricate, and the DDoS economics make [[http2|HTTP/2]] servers high-value targets. New CVEs in this space should be expected for years to come.`
+The pattern: each {{cve|CVE}} breaks an assumption that earlier mitigations had baked in. The [[http2|HTTP/2]] protocol surface is large, the implementations are intricate, and the DDoS economics make [[http2|HTTP/2]] servers high-value targets. New CVEs in this space should be expected for years to come.`
 						},
 						{
 							type: 'image',
@@ -169,7 +169,7 @@ The pattern: each CVE breaks an assumption that earlier mitigations had baked in
 						{
 							type: 'narrative',
 							title: 'Same HTTP, A New Transport',
-							text: `[[http3|HTTP/3]] (**[[rfc:9114|RFC 9114]]**, June 2022, M. Bishop ed., Akamai) is the third major version of HTTP — defined as a binary mapping of HTTP semantics ([[rfc:9110|RFC 9110]]) onto [[quic|QUIC]] ([[rfc:9000|RFC 9000]]). The visible HTTP behaviour is unchanged: same verbs, same status codes, same header semantics. The wire encoding changes — **{{qpack|QPACK}}** (RFC 9204) replaces {{hpack|HPACK}} because [[quic|QUIC]]'s stream ordering differs from [[tcp|TCP]]'s byte ordering — but applications need not care.
+							text: `[[http3|HTTP/3]] (**[[rfc:9114|RFC 9114]]**, June 2022, M. Bishop ed., Akamai) is the third major version of {{http-method|HTTP}} — defined as a binary mapping of {{http-method|HTTP}} semantics ([[rfc:9110|RFC 9110]]) onto [[quic|QUIC]] ([[rfc:9000|RFC 9000]]). The visible {{http-method|HTTP}} behaviour is unchanged: same verbs, same status codes, same header semantics. The wire encoding changes — **{{qpack|QPACK}}** ({{rfc-doc|RFC}} 9204) replaces {{hpack|HPACK}} because [[quic|QUIC]]'s stream ordering differs from [[tcp|TCP]]'s byte ordering — but applications need not care.
 
 What changes underneath is everything. Multiplexed streams in [[http3|HTTP/3]] are **truly independent at the transport layer** — a lost [[udp|UDP]] packet only stalls the stream that owned the lost data, not all streams. Connection setup folds into the [[tls|TLS 1.3]] {{handshake|handshake}} at zero or one round-trip. **Connection IDs** survive network changes, so a phone moving between [[wifi|Wi-Fi]] and cellular keeps its [[http3|HTTP/3]] sessions alive without re-handshaking.
 
@@ -182,7 +182,7 @@ What changes underneath is everything. Multiplexed streams in [[http3|HTTP/3]] a
 
 But adoption has plateaued. As of Q1 2026, [[http3|HTTP/3]] carries roughly **21% of {{cloudflare|Cloudflare}}-observed web requests** — flat or slightly declining for several months. [[http2|HTTP/2]] still dominates at ~51%; [[http1|HTTP/1]].x persists near 28%.
 
-The plateau correlates with **the 2024 ACM Web Conference paper "[[quic|QUIC]] is not Quick Enough over Fast Internet"** (Zhang et al., doi:10.1145/3589334.3645323) showing **up-to-45.2% throughput regressions** vs [[http2|HTTP/2]] above ~500 Mbps. The cause: receiver-side userspace {{ack|ACK}} and copy overhead — [[quic|QUIC]] implementations live above the kernel and pay for every packet a context switch the kernel [[tcp|TCP]] stack does not.
+The plateau correlates with **the 2024 {{acm-org|ACM}} Web Conference paper "[[quic|QUIC]] is not Quick Enough over Fast Internet"** (Zhang et al., doi:10.1145/3589334.3645323) showing **up-to-45.2% throughput regressions** vs [[http2|HTTP/2]] above ~500 Mbps. The cause: receiver-side userspace {{ack|ACK}} and copy overhead — [[quic|QUIC]] implementations live above the kernel and pay for every packet a context switch the kernel [[tcp|TCP]] stack does not.
 
 The fix in flight is **in-kernel [[quic|QUIC]]**. Xin Long posted the first ~9,000-line in-kernel [[quic|QUIC]] patch series for {{linux|Linux}} on **22 July 2025** (LWN coverage). The design uses \`IPPROTO_QUIC\` (mirroring \`IPPROTO_MPTCP\`) with the [[tls|TLS]] {{handshake|handshake}} delegated to userspace via \`tlshd\`. Mainline merge is expected 2026 at earliest.`
 						},
@@ -194,17 +194,17 @@ The fix in flight is **in-kernel [[quic|QUIC]]**. Xin Long posted the first ~9,0
 						{
 							type: 'narrative',
 							title: 'The Active Frontier',
-							text: `The next ten years of HTTP innovation will be shaped by the working-group output of 2024-2026.
+							text: `The next ten years of {{http-method|HTTP}} innovation will be shaped by the working-group output of 2024-2026.
 
 **[[frontier:multipath-quic|Multipath QUIC]]** (draft-{{ietf|ietf}}-quic-{{multipath|multipath}}) entered IESG Last Call in December 2025; the latest draft -21 is dated 17 March 2026. Alibaba and {{apple|Apple}} have already deployed predecessors. {{multipath|Multipath}} [[quic|QUIC]] inherits [[mptcp|MPTCP]]'s algorithmic ideas inside a transport that actually traverses middleboxes.
 
-**HTTP Datagrams and Capsules** ([[rfc:9000|RFC 9297]], August 2022, D. Schinazi & L. Pardue) standardised unreliable datagrams over [[http3|HTTP/3]], enabling {{masque|MASQUE}} and {{webtransport|WebTransport}}.
+**{{http-method|HTTP}} Datagrams and Capsules** ([[rfc:9000|RFC 9297]], August 2022, D. Schinazi & L. Pardue) standardised unreliable datagrams over [[http3|HTTP/3]], enabling {{masque|MASQUE}} and {{webtransport|WebTransport}}.
 
-**{{masque|MASQUE}}** ([[rfc:9000|RFC 9298]], 9484) ships CONNECT-[[udp|UDP]] and CONNECT-[[ip|IP]]. {{apple|Apple}} Private Relay and {{cloudflare|Cloudflare}}'s WARP-related proxy services use these.
+**{{masque|MASQUE}}** ([[rfc:9000|RFC 9298]], 9484) ships {{mqtt-connect|CONNECT}}-[[udp|UDP]] and {{mqtt-connect|CONNECT}}-[[ip|IP]]. {{apple|Apple}} Private Relay and {{cloudflare|Cloudflare}}'s WARP-related proxy services use these.
 
 **{{webtransport|WebTransport}} over [[http3|HTTP/3]]** is at draft-{{ietf|ietf}}-webtrans-http3-15 (March 2026). Chrome and Edge ship implementations; ASP.NET Core Kestrel has experimental support.
 
-**[[frontier:ech-rfc-9849|Encrypted Client Hello (ECH)]]** was approved by the [[tls|TLS]] WG and entered the RFC editor queue in 2025 ([[rfc:9849|RFC 9849]]-track, {{iana|IANA}} registry allocated 2025-07-30). {{cloudflare|Cloudflare}} turned it on for ~70% of its zones; Russia began censoring {{ech|ECH}} connections; major browsers ship {{ech|ECH}} gated by HTTPS [[dns|DNS]] records ([[rfc:9460|RFC 9460]]).
+**[[frontier:ech-rfc-9849|Encrypted Client Hello (ECH)]]** was approved by the [[tls|TLS]] WG and entered the {{rfc-doc|RFC}} editor queue in 2025 ([[rfc:9849|RFC 9849]]-track, {{iana|IANA}} registry allocated 2025-07-30). {{cloudflare|Cloudflare}} turned it on for ~70% of its zones; Russia began censoring {{ech|ECH}} connections; major browsers ship {{ech|ECH}} gated by HTTPS [[dns|DNS]] records ([[rfc:9460|RFC 9460]]).
 
 **Reliable Stream Resets** (draft-{{ietf|ietf}}-quic-reliable-stream-reset, M. Seemann & K. Oku, latest -07 in June 2025) defines RESET_STREAM_AT for {{webtransport|WebTransport}}'s reliable initial bytes.`
 						},
@@ -231,7 +231,7 @@ The fix in flight is **in-kernel [[quic|QUIC]]**. Xin Long posted the first ~9,0
 		{
 			id: 'rest-and-graphql',
 			title: 'REST and GraphQL',
-			synopsis: '[[rest|REST]] and [[graphql|GraphQL]] — two ways to model an API, and a 25-year argument over which one Fielding actually meant.',
+			synopsis: '[[rest|REST]] and [[graphql|GraphQL]] — two ways to model an {{api|API}}, and a 25-year argument over which one Fielding actually meant.',
 			slots: [
 				{
 					kind: 'prose',
@@ -241,16 +241,16 @@ The fix in flight is **in-kernel [[quic|QUIC]]**. Xin Long posted the first ~9,0
 							title: 'The Constraint That Made the Web',
 							text: `In **June 2000**, **[[pioneer:roy-fielding|Roy Thomas Fielding]]** filed his PhD dissertation at UC Irvine: *"Architectural Styles and the Design of Network-Based Software Architectures."* Chapter 5 described the architectural style behind [[http1|HTTP]]. He named it **[[rest|REST]]** — Representational State Transfer.
 
-The popular myth that "[[rest|REST]] is named after a rest stop" is romantic but wrong. The documented etymology is the state-machine metaphor: *"a network of web pages (a virtual state-machine), where the user progresses through the application by selecting links (state transitions)."* Fielding renamed his original "HTTP object model" to [[rest|REST]] after people kept confusing it with an HTTP server's implementation model.
+The popular myth that "[[rest|REST]] is named after a rest stop" is romantic but wrong. The documented etymology is the state-machine metaphor: *"a network of web pages (a virtual state-machine), where the user progresses through the application by selecting links (state transitions)."* Fielding renamed his original "{{http-method|HTTP}} object model" to [[rest|REST]] after people kept confusing it with an {{http-method|HTTP}} server's implementation model.
 
-[[rest|REST]] has six constraints (client-server, {{stateless|stateless}}, cacheable, layered, uniform interface, optional code-on-demand). The **uniform interface** constraint is what made the web composable: every resource has a URI, every resource is acted on by a small set of HTTP verbs, and every response is a self-describing representation.
+[[rest|REST]] has six constraints (client-server, {{stateless|stateless}}, cacheable, layered, uniform interface, optional code-on-demand). The **uniform interface** constraint is what made the web composable: every resource has a {{uri|URI}}, every resource is acted on by a small set of {{http-method|HTTP}} verbs, and every response is a self-describing representation.
 
-[[rest|REST]]-style APIs became the default for web services because they inherited HTTP's caching, status codes, and tooling for free. By 2010, "[[rest|REST]] API" was the answer to "how should two services on the internet talk to each other" for nearly every problem domain.`
+[[rest|REST]]-style APIs became the default for web services because they inherited {{http-method|HTTP}}'s caching, status codes, and tooling for free. By 2010, "[[rest|REST]] {{api|API}}" was the answer to "how should two services on the internet talk to each other" for nearly every problem domain.`
 						},
 						{
 							type: 'callout',
 							title: 'Almost no REST API is REST',
-							text: '**HATEOAS — Hypermedia as the Engine of Application State** — is Fielding\'s constraint that clients should drive interactions by following links and forms in server responses, not by hard-coding URI templates. Pronounced "hate-ee-oss." Fielding has been publicly frustrated for 25 years that the vast majority of "[[rest|REST]] APIs" are not RESTful in his strict sense — they fail HATEOAS. His **2008 essay "[[rest|REST]] APIs must be hypertext-driven"** is required reading for the genre. Most modern APIs are pragmatic {{json|JSON}}-over-HTTP; [[rest|REST]] in the original sense remains rare.'
+							text: '**{{hateoas|HATEOAS}} — Hypermedia as the Engine of Application State** — is Fielding\'s constraint that clients should drive interactions by following links and forms in server responses, not by hard-coding {{uri|URI}} templates. Pronounced "hate-ee-oss." Fielding has been publicly frustrated for 25 years that the vast majority of "[[rest|REST]] APIs" are not RESTful in his strict sense — they fail {{hateoas|HATEOAS}}. His **2008 essay "[[rest|REST]] APIs must be hypertext-driven"** is required reading for the genre. Most modern APIs are pragmatic {{json|JSON}}-over-{{http-method|HTTP}}; [[rest|REST]] in the original sense remains rare.'
 						},
 						{
 							type: 'narrative',
@@ -261,25 +261,25 @@ A mobile app loading a user profile might need to call \`/users/123\`, \`/users/
 
 Facebook's mobile team hit this wall in 2012 and built [[graphql|GraphQL]] to solve it: a single endpoint where the client describes **exactly what data it wants** and the server returns exactly that, in one round-trip. Facebook open-sourced the spec in 2015. The current edition is **[[graphql|GraphQL]] September 2025** (https://spec.graphql.org/September2025/), maintained by the [[graphql|GraphQL]] Foundation under the {{linux|Linux}} Foundation.
 
-[[graphql|GraphQL]] deliberately *does not* mandate a transport. The de-facto binding is **[[graphql|GraphQL]]-over-HTTP** (https://graphql.github.io/graphql-over-http/draft/), typically POST \`/graphql\` for mutations and queries — though GET is allowed for cacheable, {{idempotent|idempotent}} queries. {{json|JSON}} ([[rfc:9110|RFC 8259]]) is the default body format.`
+[[graphql|GraphQL]] deliberately *does not* mandate a transport. The de-facto binding is **[[graphql|GraphQL]]-over-{{http-method|HTTP}}** (https://graphql.github.io/graphql-over-http/draft/), typically POST \`/graphql\` for mutations and queries — though GET is allowed for cacheable, {{idempotent|idempotent}} queries. {{json|JSON}} ([[rfc:9110|RFC 8259]]) is the default body format.`
 						},
 						{
 							type: 'narrative',
 							title: 'Subscriptions, and the Two Patterns',
 							text: `[[graphql|GraphQL]] has three operation types: query, mutation, and **subscription**. Subscriptions need a long-lived connection — the server has to push events to the client over time. Two transports compete.
 
-**graphql-ws over [[websockets|WebSocket]]** (https://github.com/enisdenjo/graphql-ws) — the original. Bidirectional [[websockets|WebSocket]] carries {{json|JSON}}-RPC-shaped messages. Works everywhere; doesn't compose well with [[http2|HTTP/2]] {{multiplexing|multiplexing}} or HTTP caches.
+**graphql-ws over [[websockets|WebSocket]]** (https://github.com/enisdenjo/graphql-ws) — the original. Bidirectional [[websockets|WebSocket]] carries {{json|JSON}}-{{rpc|RPC}}-shaped messages. Works everywhere; doesn't compose well with [[http2|HTTP/2]] {{multiplexing|multiplexing}} or {{http-method|HTTP}} caches.
 
-**[[sse|Server-Sent Events]]** (text/event-stream over HTTP) — increasingly preferred. Survives proxies that mangle [[websockets|WebSocket]] upgrades, composes with [[http2|HTTP/2]], inherits HTTP auth, supports auto-reconnection out of the box. Tools like \`gqlgen\` and \`graphql-yoga\` default to [[sse|SSE]] for new projects.
+**[[sse|Server-Sent Events]]** (text/event-stream over {{http-method|HTTP}}) — increasingly preferred. Survives proxies that mangle [[websockets|WebSocket]] upgrades, composes with [[http2|HTTP/2]], inherits {{http-method|HTTP}} auth, supports auto-reconnection out of the box. Tools like \`gqlgen\` and \`graphql-yoga\` default to [[sse|SSE]] for new projects.
 
-The choice between [[rest|REST]] and [[graphql|GraphQL]] is not strictly either/or. Most modern systems use both: [[rest|REST]] for resource CRUD where caching matters, [[graphql|GraphQL]] where clients have wildly different data needs (a watch app, a desktop app, a dashboard). The popular misconception that "[[graphql|GraphQL]] replaces [[rest|REST]]" undersells how often they coexist in the same backend.`
+The choice between [[rest|REST]] and [[graphql|GraphQL]] is not strictly either/or. Most modern systems use both: [[rest|REST]] for resource {{crud|CRUD}} where caching matters, [[graphql|GraphQL]] where clients have wildly different data needs (a watch app, a desktop app, a dashboard). The popular misconception that "[[graphql|GraphQL]] replaces [[rest|REST]]" undersells how often they coexist in the same backend.`
 						},
 						{
 							type: 'image',
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bb/Client-Server_Model-en.svg/500px-Client-Server_Model-en.svg.png',
 							alt: 'Client-server model diagram — multiple clients sending requests to a single server.',
 							caption:
-								'The **client-server** model that [[pioneer:roy-fielding|Roy Fielding]]\'s 2000 dissertation named [[rest|REST]]: a network of *web pages* (a virtual state machine) where the user transitions by selecting links. Twenty-five years later, almost no "[[rest|REST]] API" satisfies Fielding\'s strict definition (most fail HATEOAS) — but the constraint-driven architecture has held up. [[graphql|GraphQL]] (Facebook, 2012) is the orthogonal alternative for mobile workloads where one screen needs data from four endpoints.',
+								'The **client-server** model that [[pioneer:roy-fielding|Roy Fielding]]\'s 2000 dissertation named [[rest|REST]]: a network of *web pages* (a virtual state machine) where the user transitions by selecting links. Twenty-five years later, almost no "[[rest|REST]] {{api|API}}" satisfies Fielding\'s strict definition (most fail {{hateoas|HATEOAS}}) — but the constraint-driven architecture has held up. [[graphql|GraphQL]] (Facebook, 2012) is the orthogonal alternative for mobile workloads where one screen needs data from four endpoints.',
 							credit: 'Image: Wikimedia Commons / CC BY-SA 3.0'
 						}
 					]
@@ -310,12 +310,12 @@ The choice between [[rest|REST]] and [[graphql|GraphQL]] is not strictly either/
 							title: 'When You Control Both Sides',
 							text: `[[rest|REST]] and [[graphql|GraphQL]] are designed for the open web, where you cannot assume anything about the client. [[grpc|gRPC]] is designed for the closed case — your own services talking to each other inside a datacenter, where you control both sides and can assume a shared schema.
 
-[[grpc|gRPC]] was open-sourced by {{google|Google}} in **August 2015**, evolved from their internal **Stubby** RPC framework that had been in production at {{google|Google}} since the late 2000s. The wire format is **{{protocol-buffers|Protocol Buffers}}** ("protobuf") — a compact binary encoding generated from a schema file (.proto). The transport is [[http2|HTTP/2]], which gives multiplexed streams, header compression, and per-stream cancellation for free.`
+[[grpc|gRPC]] was open-sourced by {{google|Google}} in **August 2015**, evolved from their internal **Stubby** {{rpc|RPC}} framework that had been in production at {{google|Google}} since the late 2000s. The wire format is **{{protocol-buffers|Protocol Buffers}}** ("protobuf") — a compact binary encoding generated from a schema file (.proto). The transport is [[http2|HTTP/2]], which gives multiplexed streams, header compression, and per-stream cancellation for free.`
 						},
 						{
 							type: 'narrative',
 							title: 'How It Maps to HTTP/2',
-							text: `A [[grpc|gRPC]] call is a single [[http2|HTTP/2]] {{request-response|request-response}} on a stream. The request body is a sequence of **length-prefixed protobuf messages**; the response body is the same. The control metadata that traditional RPC frameworks would carry in headers — error codes, status messages, deadlines — is split across [[http2|HTTP/2]] headers (initial metadata) and [[http2|HTTP/2]] **trailers** (final \`grpc-status\`, \`grpc-message\`).
+							text: `A [[grpc|gRPC]] call is a single [[http2|HTTP/2]] {{request-response|request-response}} on a stream. The request body is a sequence of **length-prefixed protobuf messages**; the response body is the same. The control metadata that traditional {{rpc|RPC}} frameworks would carry in headers — error codes, status messages, deadlines — is split across [[http2|HTTP/2]] headers (initial metadata) and [[http2|HTTP/2]] **trailers** (final \`grpc-status\`, \`grpc-message\`).
 
 The dependence on **[[http2|HTTP/2]] trailers** is exactly why [[grpc|gRPC]] does not run cleanly in browsers. Browser [[http2|HTTP/2]] implementations expose responses as chunked bodies but do not surface trailers to JavaScript. The workaround is **[[grpc|gRPC]]-Web**, a slightly-different wire format that encodes trailers as a final framing block in the body — but [[grpc|gRPC]]-Web is awkward, requires a server-side translator, and never feels native to browser applications.
 
@@ -324,12 +324,12 @@ The model lets you describe a service as Go-like methods (\`rpc GetUser(UserRequ
 						{
 							type: 'callout',
 							title: 'gRPC versus the alternatives',
-							text: '[[grpc|gRPC]] dominates **service-to-service traffic inside the datacenter** at almost every large engineering org since 2019. Where it does not fit: **browsers** ([[grpc|gRPC]]-Web exists but is awkward), **mobile clients with constrained {{bandwidth|bandwidth}}** (the protobuf runtime is heavy compared to {{json|JSON}}+HTTP), and **public APIs** (where [[rest|REST]]\'s discoverability and curl-debuggability still win). The choice is not "[[grpc|gRPC]] vs [[rest|REST]]" in the abstract; it is "controlled both sides, performance-critical → [[grpc|gRPC]]; everything else → HTTP+{{json|JSON}}."'
+							text: '[[grpc|gRPC]] dominates **service-to-service traffic inside the datacenter** at almost every large engineering org since 2019. Where it does not fit: **browsers** ([[grpc|gRPC]]-Web exists but is awkward), **mobile clients with constrained {{bandwidth|bandwidth}}** (the protobuf runtime is heavy compared to {{json|JSON}}+{{http-method|HTTP}}), and **public APIs** (where [[rest|REST]]\'s discoverability and curl-debuggability still win). The choice is not "[[grpc|gRPC]] vs [[rest|REST]]" in the abstract; it is "controlled both sides, performance-critical → [[grpc|gRPC]]; everything else → {{http-method|HTTP}}+{{json|JSON}}."'
 						},
 						{
 							type: 'narrative',
 							title: 'The CONTINUATION Flood Cleanup',
-							text: `[[grpc|gRPC]] was one of the implementations affected by **CVE-2024-27316 "[[http2|HTTP/2]] CONTINUATION Flood"** (April 2024) and **CVE-2025-8671 "MadeYouReset"** (August 2025). Because [[grpc|gRPC]] builds on [[http2|HTTP/2]], every [[http2|HTTP/2]] vulnerability ripples through every [[grpc|gRPC]] implementation.
+							text: `[[grpc|gRPC]] was one of the implementations affected by **{{cve|CVE}}-2024-27316 "[[http2|HTTP/2]] CONTINUATION Flood"** (April 2024) and **{{cve|CVE}}-2025-8671 "MadeYouReset"** (August 2025). Because [[grpc|gRPC]] builds on [[http2|HTTP/2]], every [[http2|HTTP/2]] vulnerability ripples through every [[grpc|gRPC]] implementation.
 
 The fixes shipped in coordinated disclosures across grpc-go, grpc-java, grpc-c++, grpc-node, and the language bindings that depend on them. The lesson — same as for [[http2|HTTP/2]] generally — is that protocol surface area determines attack surface, and [[grpc|gRPC]] inherits all of [[http2|HTTP/2]]'s plus its own protobuf parsing.
 
@@ -340,7 +340,7 @@ Active 2024-2026 work in the [[grpc|gRPC]] working group includes: native [[http
 							src: 'https://upload.wikimedia.org/wikipedia/commons/1/18/RPC_overview.png',
 							alt: 'RPC overview diagram — client stub, network, server stub, marshalling and unmarshalling parameters.',
 							caption:
-								'The **RPC** model that [[grpc|gRPC]] inherits from a 40-year lineage of Sun RPC / DCE / CORBA / Thrift. The client *stub* serialises arguments, sends them over the network, and pretends to the caller that nothing happened. [[grpc|gRPC]]\'s contribution is **{{protocol-buffers|Protocol Buffers}}** (compact binary schema) + **[[http2|HTTP/2]] streams** as the transport. The model dominates service-to-service traffic inside every large engineering org since ~2019.',
+								'The **{{rpc|RPC}}** model that [[grpc|gRPC]] inherits from a 40-year lineage of Sun {{rpc|RPC}} / DCE / CORBA / Thrift. The client *stub* serialises arguments, sends them over the network, and pretends to the caller that nothing happened. [[grpc|gRPC]]\'s contribution is **{{protocol-buffers|Protocol Buffers}}** (compact binary schema) + **[[http2|HTTP/2]] streams** as the transport. The model dominates service-to-service traffic inside every large engineering org since ~2019.',
 							credit: 'Image: Wikimedia Commons / CC BY-SA'
 						}
 					]
@@ -354,11 +354,11 @@ Active 2024-2026 work in the [[grpc|gRPC]] working group includes: native [[http
 		{
 			id: 'websockets-and-sse',
 			title: 'WebSockets and SSE',
-			synopsis: '[[websockets|WebSockets]] and [[sse|SSE]] — {{server-push|server push}} two ways, and the [[sse|SSE]] renaissance via LLM streaming.',
+			synopsis: '[[websockets|WebSockets]] and [[sse|SSE]] — {{server-push|server push}} two ways, and the [[sse|SSE]] renaissance via {{llm|LLM}} streaming.',
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: 'For most of its life [[sse|SSE]] lost mindshare to [[websockets|WebSocket]]. It is now the de facto wire format for LLM token streaming — OpenAI, {{anthropic|Anthropic}}, Gemini, {{cloudflare|Cloudflare}} Workers AI all stream tokens as `text/event-stream`.',
+					text: 'For most of its life [[sse|SSE]] lost mindshare to [[websockets|WebSocket]]. It is now the de facto wire format for {{llm|LLM}} token streaming — OpenAI, {{anthropic|Anthropic}}, Gemini, {{cloudflare|Cloudflare}} Workers {{ai|AI}} all stream tokens as `text/event-stream`.',
 					attribution: 'Author'
 				},
 				{
@@ -367,23 +367,23 @@ Active 2024-2026 work in the [[grpc|gRPC]] working group includes: native [[http
 						{
 							type: 'narrative',
 							title: 'Inverting the Request/Response Model',
-							text: `HTTP is fundamentally request/response: the client asks, the server answers. For a {{notification|notification}} system, a chat app, a live dashboard, that model is wrong — the server has data the client wants *now*, and it should not wait for a poll.
+							text: `{{http-method|HTTP}} is fundamentally request/response: the client asks, the server answers. For a {{notification|notification}} system, a chat app, a live dashboard, that model is wrong — the server has data the client wants *now*, and it should not wait for a poll.
 
-Two protocols solved this on top of HTTP, with very different tradeoffs.
+Two protocols solved this on top of {{http-method|HTTP}}, with very different tradeoffs.
 
-**[[websockets|WebSockets]]** ([[rfc:6455|RFC 6455]], December 2011, edited by Ian Fette of {{google|Google}} and Alexey Melnikov of Isode) hijack an [[http1|HTTP/1.1]] connection with an \`Upgrade: websocket\` request and switch the connection to a bidirectional binary frame protocol. After the upgrade, neither side waits for the other — both can send any time. **~99% of browsers support it since 2012.** Slack, Discord, Figma, and most live-collaboration apps use [[websockets|WebSockets]]. **Slack documents 5M+ concurrent [[websockets|WebSocket]] sessions** in production; **{{cloudflare|Cloudflare}}'s [[websockets|WebSocket]] Hibernation API** for Durable Objects bills only when JS executes and survives {{imap-idle|idle}} [[websockets|WebSocket]] connections without server cost.
+**[[websockets|WebSockets]]** ([[rfc:6455|RFC 6455]], December 2011, edited by Ian Fette of {{google|Google}} and Alexey Melnikov of Isode) hijack an [[http1|HTTP/1.1]] connection with an \`Upgrade: websocket\` request and switch the connection to a bidirectional binary frame protocol. After the upgrade, neither side waits for the other — both can send any time. **~99% of browsers support it since 2012.** Slack, Discord, Figma, and most live-collaboration apps use [[websockets|WebSockets]]. **Slack documents 5M+ concurrent [[websockets|WebSocket]] sessions** in production; **{{cloudflare|Cloudflare}}'s [[websockets|WebSocket]] Hibernation {{api|API}}** for Durable Objects bills only when JS executes and survives {{imap-idle|idle}} [[websockets|WebSocket]] connections without server cost.
 
-**[[sse|Server-Sent Events]]** is the simpler one-way version, specified by **[[pioneer:ian-hickson|Ian Hickson]] and first shipped in Opera 9 in September 2006**. The server holds open an HTTP response and writes \`data:\` frames over time. No protocol switch, no {{binary-framing|binary framing}} — just a long-lived response stream with \`{{content-type|Content-Type}}: text/event-stream\`. Currently defined in **§9.2 of the HTML Living Standard**.`
+**[[sse|Server-Sent Events]]** is the simpler one-way version, specified by **[[pioneer:ian-hickson|Ian Hickson]] and first shipped in Opera 9 in September 2006**. The server holds open an {{http-method|HTTP}} response and writes \`data:\` frames over time. No protocol switch, no {{binary-framing|binary framing}} — just a long-lived response stream with \`Content-Type: text/event-stream\`. Currently defined in **§9.2 of the {{html|HTML}} Living Standard**.`
 						},
 						{
 							type: 'narrative',
 							title: 'The SSE Renaissance',
 							text: `For most of its life [[sse|SSE]] lost mindshare to [[websockets|WebSocket]]. The 2010s narrative was *"[[websockets|WebSockets]] are the future of real-time."*
 
-That changed when LLMs started streaming tokens. **OpenAI, {{anthropic|Anthropic}}, {{google|Google}} Gemini, {{cloudflare|Cloudflare}} Workers AI all stream tokens as \`text/event-stream\`** — [[sse|SSE]] is now the de facto wire format for streaming inference. The reasons are practical:
+That changed when LLMs started streaming tokens. **OpenAI, {{anthropic|Anthropic}}, {{google|Google}} Gemini, {{cloudflare|Cloudflare}} Workers {{ai|AI}} all stream tokens as \`text/event-stream\`** — [[sse|SSE]] is now the de facto wire format for streaming inference. The reasons are practical:
 
-- It is **HTTP**. {{cors|CORS}}, auth, caching, proxies, CDNs all just work.
-- It **auto-reconnects**, with **\`{{last-event-id|Last-Event-ID}}\`** as a built-in resume mechanism — the browser sends the last event ID it received as a request header on reconnect; the server resumes from there.
+- It is **{{http-method|HTTP}}**. {{cors|CORS}}, auth, caching, proxies, CDNs all just work.
+- It **auto-reconnects**, with **\`Last-Event-ID\`** as a built-in resume mechanism — the browser sends the last event {{id-identifier|ID}} it received as a request header on reconnect; the server resumes from there.
 - It **composes with [[http2|HTTP/2]] {{multiplexing|multiplexing}}** — many [[sse|SSE]] streams share one [[tcp|TCP]] connection.
 - The browser gives you **\`new EventSource(url)\`** — three lines of JavaScript and you have a streaming consumer.
 
@@ -392,23 +392,23 @@ That changed when LLMs started streaming tokens. **OpenAI, {{anthropic|Anthropic
 						{
 							type: 'callout',
 							title: 'The 2024-2026 CVE wave for WebSocket',
-							text: '[[rfc:6455|RFC 6455]] itself has not changed. The ecosystem has. Major CVEs in major implementations: **CVE-2024-37890** in Node \`ws\`; **CVE-2025-10148** in libcurl reviving the very cache-poisoning attack masking was designed to prevent; **CVE-2025-43855** in tRPC; **CVE-2025-5399** in libcurl. \`gorilla/websocket\` was archived in late 2022 and unarchived under community maintenance; \`nhooyr/websocket\` was renamed to \`coder/websocket\` in 2024. The protocol is stable; the implementations are not.'
+							text: '[[rfc:6455|RFC 6455]] itself has not changed. The ecosystem has. Major CVEs in major implementations: **{{cve|CVE}}-2024-37890** in Node \`ws\`; **{{cve|CVE}}-2025-10148** in libcurl reviving the very cache-poisoning attack masking was designed to prevent; **{{cve|CVE}}-2025-43855** in tRPC; **{{cve|CVE}}-2025-5399** in libcurl. \`gorilla/websocket\` was archived in late 2022 and unarchived under community maintenance; \`nhooyr/websocket\` was renamed to \`coder/websocket\` in 2024. The protocol is stable; the implementations are not.'
 						},
 						{
 							type: 'narrative',
 							title: 'WebTransport, and the Transport Future',
-							text: `Both [[websockets|WebSocket]] and [[sse|SSE]] were designed for [[http1|HTTP/1.1]]. The [[http2|HTTP/2]] bootstraps for both ([[rfc:6455|RFC 8441]] for [[websockets|WebSocket]], RFC 8442 for [[sse|SSE]]) ship in Firefox 65+, Chrome, and major servers, but adoption is uneven (Mattermost documented Chrome 95+ failures behind [[http2|HTTP/2]] proxies that don't translate Extended CONNECT). The [[http3|HTTP/3]] bootstrap (RFC 9220) exists but is barely deployed.
+							text: `Both [[websockets|WebSocket]] and [[sse|SSE]] were designed for [[http1|HTTP/1.1]]. The [[http2|HTTP/2]] bootstraps for both ([[rfc:6455|RFC 8441]] for [[websockets|WebSocket]], {{rfc-doc|RFC}} 8442 for [[sse|SSE]]) ship in Firefox 65+, Chrome, and major servers, but adoption is uneven (Mattermost documented Chrome 95+ failures behind [[http2|HTTP/2]] proxies that don't translate Extended {{mqtt-connect|CONNECT}}). The [[http3|HTTP/3]] bootstrap ({{rfc-doc|RFC}} 9220) exists but is barely deployed.
 
-The longer-term replacement is **{{webtransport|WebTransport}} over [[http3|HTTP/3]]** — bidirectional streams + unreliable datagrams over [[quic|QUIC]], exposed to JavaScript as a Promise-based API. Chrome and Edge ship implementations as of 2026; Safari has no support; Firefox has limited support. {{webtransport|WebTransport}} is interesting for *some* workloads (gaming, low-{{latency|latency}} bidirectional, datagrams for game state) but not a wholesale replacement for either [[websockets|WebSocket]] or [[sse|SSE]] before 2027-2028.
+The longer-term replacement is **{{webtransport|WebTransport}} over [[http3|HTTP/3]]** — bidirectional streams + unreliable datagrams over [[quic|QUIC]], exposed to JavaScript as a Promise-based {{api|API}}. Chrome and Edge ship implementations as of 2026; Safari has no support; Firefox has limited support. {{webtransport|WebTransport}} is interesting for *some* workloads (gaming, low-{{latency|latency}} bidirectional, datagrams for game state) but not a wholesale replacement for either [[websockets|WebSocket]] or [[sse|SSE]] before 2027-2028.
 
-The choice between [[websockets|WebSocket]], [[sse|SSE]], and {{webtransport|WebTransport}} for new projects in 2026 is rarely {{webtransport|WebTransport}}. [[websockets|WebSocket]] if bidirectional. [[sse|SSE]] if server→client only. The token-streaming use case has settled the [[sse|SSE]]-versus-[[websockets|WebSocket]] debate decisively in favour of [[sse|SSE]] for LLM workloads — and that is the workload reshaping the field.`
+The choice between [[websockets|WebSocket]], [[sse|SSE]], and {{webtransport|WebTransport}} for new projects in 2026 is rarely {{webtransport|WebTransport}}. [[websockets|WebSocket]] if bidirectional. [[sse|SSE]] if server→client only. The token-streaming use case has settled the [[sse|SSE]]-versus-[[websockets|WebSocket]] debate decisively in favour of [[sse|SSE]] for {{llm|LLM}} workloads — and that is the workload reshaping the field.`
 						},
 						{
 							type: 'image',
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/10/Websocket_connection.png/500px-Websocket_connection.png',
 							alt: 'WebSocket connection lifecycle — HTTP upgrade handshake, then bidirectional binary frames.',
 							caption:
-								'The **[[websockets|WebSocket]]** lifecycle. The client sends an HTTP request with `Upgrade: websocket`; the server agrees; after that, neither side waits for the other — both can send any time. **~99% browser support since 2012.** [[sse|Server-Sent Events]] is the simpler one-way alternative the LLM era brought roaring back into fashion — `new EventSource(url)` and you have a streaming consumer in three lines of JavaScript.',
+								'The **[[websockets|WebSocket]]** lifecycle. The client sends an {{http-method|HTTP}} request with `Upgrade: websocket`; the server agrees; after that, neither side waits for the other — both can send any time. **~99% browser support since 2012.** [[sse|Server-Sent Events]] is the simpler one-way alternative the {{llm|LLM}} era brought roaring back into fashion — `new EventSource(url)` and you have a streaming consumer in three lines of JavaScript.',
 							credit: 'Image: Wikimedia Commons / CC BY-SA 3.0'
 						}
 					]
@@ -424,7 +424,7 @@ The choice between [[websockets|WebSocket]], [[sse|SSE]], and {{webtransport|Web
 		{
 			id: 'mcp-and-a2a',
 			title: 'MCP and A2A',
-			synopsis: 'The protocol layer for AI agents — built deliberately boring on top of [[json-rpc|JSON-RPC]], HTTP, and [[sse|SSE]].',
+			synopsis: 'The protocol layer for {{ai|AI}} agents — built deliberately boring on top of [[json-rpc|JSON-RPC]], {{http-method|HTTP}}, and [[sse|SSE]].',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -437,9 +437,9 @@ The choice between [[websockets|WebSocket]], [[sse|SSE]], and {{webtransport|Web
 						{
 							type: 'narrative',
 							title: 'A Standard Way For Agents To Reach Tools',
-							text: `Until 2024, an AI assistant that wanted to read your files, query your database, or call your APIs needed a custom integration per tool per assistant. {{anthropic|Anthropic}} shipped Claude with file access, Cursor shipped with editor integration, every developer rebuilt the same plumbing. With N AI hosts and M tools, the industry was building **N×M bespoke connectors**. The combinatorics did not scale.
+							text: `Until 2024, an {{ai|AI}} assistant that wanted to read your files, query your database, or call your APIs needed a custom integration per tool per assistant. {{anthropic|Anthropic}} shipped Claude with file access, Cursor shipped with editor integration, every developer rebuilt the same plumbing. With N {{ai|AI}} {{hosts-bare|hosts}} and M tools, the industry was building **N×M bespoke connectors**. The combinatorics did not scale.
 
-[[mcp|MCP]] — the **Model Context Protocol**, published by {{anthropic|Anthropic}} on **25 November 2024** — collapses N×M to N+M. The premise: a tool server (filesystem, database, CRM, anything) speaks [[mcp|MCP]]; any [[mcp|MCP]]-aware client (Claude, Cursor, ChatGPT, your own agent) can use it. **Capability discovery, tool calling, prompt templates, and resources** are first-class concepts. The transport is **[[json-rpc|JSON-RPC]] 2.0** over either standard input/output for local tools or HTTP for remote ones.`
+[[mcp|MCP]] — the **Model Context Protocol**, published by {{anthropic|Anthropic}} on **25 November 2024** — collapses N×M to N+M. The premise: a tool server (filesystem, database, CRM, anything) speaks [[mcp|MCP]]; any [[mcp|MCP]]-aware client (Claude, Cursor, ChatGPT, your own agent) can use it. **Capability discovery, tool calling, prompt templates, and resources** are first-class concepts. The transport is **[[json-rpc|JSON-RPC]] 2.0** over either standard input/output for local tools or {{http-method|HTTP}} for remote ones.`
 						},
 						{
 							type: 'narrative',
@@ -447,36 +447,36 @@ The choice between [[websockets|WebSocket]], [[sse|SSE]], and {{webtransport|Web
 							text: `[[mcp|MCP]] shipped on 25 November 2024 with two transports:
 
 - **{{stdio|stdio}}** — process-local, used for local [[mcp|MCP]] servers spawned as subprocesses by the host
-- **HTTP+[[sse|SSE]]** — two endpoints (\`/sse\` for the long-lived server→client stream, \`/messages\` for client→server POSTs)
+- **{{http-method|HTTP}}+[[sse|SSE]]** — two endpoints (\`/sse\` for the long-lived server→client stream, \`/messages\` for client→server POSTs)
 
-The two-endpoint HTTP+[[sse|SSE]] design was awkward — clients had to maintain two connections, session affinity was hard, the resume story across reconnects was unspecified.
+The two-endpoint {{http-method|HTTP}}+[[sse|SSE]] design was awkward — clients had to maintain two connections, session affinity was hard, the resume story across reconnects was unspecified.
 
-The **2025-03-26 [[mcp|MCP]] spec** replaced HTTP+[[sse|SSE]] with **[[frontier:mcp-streamable-http|Streamable HTTP]]** — a single \`/mcp\` endpoint where POST responses can either be plain {{json|JSON}} or upgrade into an [[sse|SSE]] stream depending on the \`Accept\` header. The old HTTP+[[sse|SSE]] transport was explicitly deprecated. Major hosts (Atlassian Rovo, Keboola) set HTTP+[[sse|SSE]] removal deadlines for mid-2026.
+The **2025-03-26 [[mcp|MCP]] spec** replaced {{http-method|HTTP}}+[[sse|SSE]] with **[[frontier:mcp-streamable-http|Streamable HTTP]]** — a single \`/mcp\` endpoint where POST responses can either be plain {{json|JSON}} or upgrade into an [[sse|SSE]] stream depending on the \`Accept\` header. The old {{http-method|HTTP}}+[[sse|SSE]] transport was explicitly deprecated. Major {{hosts-bare|hosts}} (Atlassian Rovo, Keboola) set {{http-method|HTTP}}+[[sse|SSE]] removal deadlines for mid-2026.
 
 **[[sse|SSE]] is not gone in [[mcp|MCP]]** — it is now an *optional response mode* of Streamable HTTP. [[websockets|WebSocket]] transport is **not** an official [[mcp|MCP]] transport as of May 2026, but **SEP-1288** (August 2025) is an active proposal to add one; the controversy is around how to convey \`Mcp-Session-Id\` (browser [[websockets|WebSocket]] APIs cannot read post-{{handshake|handshake}} headers) and authentication.`
 						},
 						{
 							type: 'callout',
 							title: 'Why JSON-RPC 2.0',
-							text: 'Both [[mcp|MCP]] and [[a2a|A2A]] picked [[json-rpc|JSON-RPC]] 2.0 as their wire format — a 6-page spec. **The boringness is the point.** The {{lsp|Language Server Protocol}} uses [[json-rpc|JSON-RPC]]. Ethereum nodes use it. The Chrome DevTools Protocol uses it. Every editor tooling system from VS Code to Neovim speaks it. For a brand-new protocol layer where adoption is the existential risk, picking the lowest-overhead, highest-interoperability RPC format that already works in every language was the right move. [[mcp|MCP]] and [[a2a|A2A]] could have invented binary protocols with schemas; instead they let the message shape be a transport-level concern and put their innovation in **what** the messages mean.'
+							text: 'Both [[mcp|MCP]] and [[a2a|A2A]] picked [[json-rpc|JSON-RPC]] 2.0 as their wire format — a 6-page spec. **The boringness is the point.** The {{lsp|Language Server Protocol}} uses [[json-rpc|JSON-RPC]]. Ethereum nodes use it. The Chrome DevTools Protocol uses it. Every editor tooling system from VS Code to Neovim speaks it. For a brand-new protocol layer where adoption is the existential risk, picking the lowest-overhead, highest-interoperability {{rpc|RPC}} format that already works in every language was the right move. [[mcp|MCP]] and [[a2a|A2A]] could have invented binary protocols with schemas; instead they let the message shape be a transport-level concern and put their innovation in **what** the messages mean.'
 						},
 						{
 							type: 'narrative',
 							title: 'A2A — Agent To Agent',
 							text: `[[a2a|A2A]] — the **Agent2Agent Protocol**, published by {{google|Google}} on **9 April 2025** — handles the case [[mcp|MCP]] did not address: collaboration **between agents** rather than between an agent and a tool. Capability discovery, task delegation, asynchronous event streams, agent-to-agent authentication.
 
-[[a2a|A2A]] runs at L7 over HTTP(S) over [[tcp|TCP]]/[[ip|IP]], like [[mcp|MCP]]. It uses **[[json-rpc|JSON-RPC]] 2.0 + HTTP(S) + [[sse|SSE]]** — explicitly not [[websockets|WebSocket]]. Custom HTTP headers like \`[[a2a|A2A]]-Version\` and \`[[a2a|A2A]]-Extensions\` carry control metadata. Authentication leans on **[[tls|TLS]] 1.3 + [[oauth2|OAuth]] 2.0** ([[rfc:8446|RFC 8446]] + [[rfc:6749|RFC 6749]]) rather than defining its own scheme.
+[[a2a|A2A]] runs at L7 over {{http-method|HTTP}}(S) over [[tcp|TCP]]/[[ip|IP]], like [[mcp|MCP]]. It uses **[[json-rpc|JSON-RPC]] 2.0 + {{http-method|HTTP}}(S) + [[sse|SSE]]** — explicitly not [[websockets|WebSocket]]. Custom {{http-method|HTTP}} headers like \`A2A-Version\` and \`A2A-Extensions\` carry control metadata. Authentication leans on **[[tls|TLS]] 1.3 + [[oauth2|OAuth]] 2.0** ([[rfc:8446|RFC 8446]] + [[rfc:6749|RFC 6749]]) rather than defining its own scheme.
 
 Both protocols moved into the **[[frontier:a2a-linux-foundation|Linux Foundation]] in mid-2025** — alongside [[mcp|MCP]] — signalling that both are now multi-vendor commons rather than single-company bets. As of 2026, [[mcp|MCP]] has thousands of public servers in the registry, native support across Claude, ChatGPT, Cursor, Windsurf, and most agent frameworks. [[a2a|A2A]] is supported by every major agent framework and is being adopted as the bridge between agent ecosystems.
 
-These protocols are recognisably *internet*. They run over [[http3|HTTP/3]] when available. They use {{json|JSON}}-RPC for message framing. They lean on [[oauth2|OAuth 2.1]] for authentication. They are built by treating "an autonomous program that reasons" as a first-class network participant — the way the original web treated "a document on another machine" as a first-class participant. Whether they last, or get replaced by something better in five years, is the open question of the moment.`
+These protocols are recognisably *internet*. They run over [[http3|HTTP/3]] when available. They use {{json|JSON}}-{{rpc|RPC}} for message framing. They lean on [[oauth2|OAuth 2.1]] for authentication. They are built by treating "an autonomous program that reasons" as a first-class network participant — the way the original web treated "a document on another machine" as a first-class participant. Whether they last, or get replaced by something better in five years, is the open question of the moment.`
 						},
 						{
 							type: 'image',
 							src: 'https://upload.wikimedia.org/wikipedia/commons/b/b7/IntelligentAgent-Learning.svg',
 							alt: 'Intelligent agent diagram — agent senses environment, learns, and acts.',
 							caption:
-								'The **intelligent agent** abstraction from AI textbooks: sense, learn, act. [[mcp|MCP]] and [[a2a|A2A]] are the protocol-shaped answer to a single architectural question — *what wire format lets a reasoning program reach the world?* [[mcp|MCP]] handles agent-to-tool; [[a2a|A2A]] handles agent-to-agent. Both are deliberately boring: [[json-rpc|JSON-RPC 2.0]] + HTTP(S) + [[sse|SSE]] + [[oauth2|OAuth]]. The first genuinely new L7 protocol layer in 15 years.',
+								'The **intelligent agent** abstraction from {{ai|AI}} textbooks: sense, learn, act. [[mcp|MCP]] and [[a2a|A2A]] are the protocol-shaped answer to a single architectural question — *what wire format lets a reasoning program reach the world?* [[mcp|MCP]] handles agent-to-tool; [[a2a|A2A]] handles agent-to-agent. Both are deliberately boring: [[json-rpc|JSON-RPC 2.0]] + {{http-method|HTTP}}(S) + [[sse|SSE]] + [[oauth2|OAuth]]. The first genuinely new L7 protocol layer in 15 years.',
 							credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 						}
 					]

@@ -99,7 +99,7 @@ export const outages: Outage[] = [
 				time: '15:40 UTC',
 				title: 'BGP withdrawals',
 				description:
-					"{{cloudflare|Cloudflare}} and other observers detect a flood of [[bgp|BGP]] UPDATE messages from {{autonomous-system|AS}} 32934 — and then a wave of WITHDRAWALs of the [[ip|IPv4]] and [[ipv6|IPv6]] prefixes covering Facebook's [[dns|DNS]] servers. From the outside, Facebook ceases to exist.",
+					"{{cloudflare|Cloudflare}} and other observers detect a flood of [[bgp|BGP]] {{bgp-update|UPDATE}} messages from {{autonomous-system|AS}} 32934 — and then a wave of WITHDRAWALs of the [[ip|IPv4]] and [[ipv6|IPv6]] prefixes covering Facebook's [[dns|DNS]] servers. From the outside, Facebook ceases to exist.",
 				protocols: ['bgp', 'dns']
 			},
 			{
@@ -126,7 +126,7 @@ export const outages: Outage[] = [
 				time: '21:00 UTC',
 				title: 'Backbone restored',
 				description:
-					'After roughly six hours, {{meta|Meta}} re-establishes backbone connectivity. [[dns|DNS]] prefix advertisements return at 21:05 UTC. Cached [[dns|DNS]] clears worldwide over the next several hours.',
+					'After roughly six hours, {{meta|Meta}} re-establishes backbone connectivity. [[dns|DNS]] prefix advertisements return at 21:05 {{utc-time|UTC}}. Cached [[dns|DNS]] clears worldwide over the next several hours.',
 				protocols: ['bgp', 'dns']
 			}
 		],
@@ -158,7 +158,7 @@ export const outages: Outage[] = [
 		duration: '~2 hours, with aftershocks for days',
 		scale: 'Global — Sprint and large parts of the internet went dark',
 		oneLiner:
-			"A small Florida ISP's misconfigured router de-aggregated the entire global {{routing-table|routing table}} into /24s and re-originated them all as itself.",
+			"A small Florida {{isp|ISP}}'s misconfigured router de-aggregated the entire global {{routing-table|routing table}} into /24s and re-originated them all as itself.",
 		category: 'configuration',
 		affectedProtocols: ['bgp'],
 		setup:
@@ -174,7 +174,7 @@ export const outages: Outage[] = [
 			{
 				title: 'Sprint propagates',
 				description:
-					"MAI's upstream Sprint had no filters and propagated the routes to its peers, who propagated them onwards. Within minutes a Florida ISP was the apparent origin of much of the internet's address space."
+					"MAI's upstream Sprint had no filters and propagated the routes to its peers, who propagated them onwards. Within minutes a Florida {{isp|ISP}} was the apparent origin of much of the internet's address space."
 			},
 			{
 				title: 'Sprint melts',
@@ -244,7 +244,7 @@ export const outages: Outage[] = [
 			}
 		],
 		consequence:
-			"YouTube unreachable globally for hours. RIPE NCC's RIS data became the canonical post-mortem source. Demonstrated that a domestic political decision in one country could globally take down a major web property.",
+			"YouTube unreachable globally for hours. {{ripe-ncc|RIPE NCC}}'s RIS data became the canonical post-mortem source. Demonstrated that a domestic political decision in one country could globally take down a major web property.",
 		resolution:
 			"YouTube announced more-specific prefixes to outcompete the hijack. PCCW eventually filtered Pakistan Telecom's announcements. The whole event drained over ~2 hours.",
 		lesson:
@@ -280,7 +280,7 @@ export const outages: Outage[] = [
 		setup:
 			'In 2010 [[bgp|BGP]] still ran on a near-universal trust model. Tier-1 {{transit|transit}} providers were expected to filter what their customers announced — many did, many did not, and there was no cryptographic check at the protocol level. Any {{autonomous-system|AS}} could announce any prefix; the network would believe the most-specific advertisement that reached it.',
 		mistake:
-			'On 8 April 2010 at 15:50 UTC, AS 23724 (China Telecom) announced roughly 50,000 prefixes belonging to other networks — about 15% of the global {{routing-table|routing table}}. The advertisements propagated to several large international {{transit|transit}} peers that did not have inbound filters in place.',
+			'On 8 April 2010 at 15:50 {{utc-time|UTC}}, AS 23724 (China Telecom) announced roughly 50,000 prefixes belonging to other networks — about 15% of the global {{routing-table|routing table}}. The advertisements propagated to several large international {{transit|transit}} peers that did not have inbound filters in place.',
 		cascade: [
 			{
 				time: '15:50 UTC',
@@ -306,9 +306,9 @@ export const outages: Outage[] = [
 		consequence:
 			'For an 18-minute window, a measurable share of internet traffic — including traffic to and from US government and military networks — followed paths that included China Telecom AS 23724. Whether the event was a misconfiguration, a deliberate test, or something else has never been definitively settled. The 2010 US-China Economic and Security Review Commission report made the incident widely known.',
 		resolution:
-			'No technical resolution beyond the withdrawal itself. The structural fix — {{rpki|RPKI}} Route Origin Authorisations and ROV enforcement at {{peering|peering}} points — was already specified but a decade away from broad deployment.',
+			'No technical resolution beyond the withdrawal itself. The structural fix — {{rpki|RPKI}} Route Origin Authorisations and {{rov|ROV}} enforcement at {{peering|peering}} points — was already specified but a decade away from broad deployment.',
 		lesson:
-			"Plain [[bgp|BGP]] advertises trust. A single {{autonomous-system|AS}} can globally redirect an arbitrary slice of internet traffic in minutes, with no protocol-level barrier to detection. China Telecom 2010 became one of the most-cited examples in the slow industry case for [[frontier:rpki-rov-50-percent|RPKI/ROV]], which finally crossed 50% of advertised IP space in 2024 — fourteen years later.",
+			"Plain [[bgp|BGP]] advertises trust. A single {{autonomous-system|AS}} can globally redirect an arbitrary slice of internet traffic in minutes, with no protocol-level barrier to detection. China Telecom 2010 became one of the most-cited examples in the slow industry case for [[frontier:rpki-rov-50-percent|RPKI/ROV]], which finally crossed 50% of advertised {{ip-address|IP}} space in 2024 — fourteen years later.",
 		sources: [
 			{
 				url: 'https://www.uscc.gov/sites/default/files/annual_reports/2010-Report-to-Congress.pdf',
@@ -340,14 +340,14 @@ export const outages: Outage[] = [
 			{ name: 'Mike Karels (UC Berkeley CSRG)', role: 'Co-author; shipped the fixes in 4.3BSD-Tahoe' }
 		],
 		setup:
-			'In 1986 the early internet ran [[tcp|TCP]] without any {{congestion-control|congestion-control}} feedback loop. The original BSD [[tcp|TCP]] retransmitted aggressively when {{ack|ACKs}} were late: a missing {{ack|ACK}} at time *t* meant "the packet is probably gone, send again." Across the link from Lawrence Berkeley Lab to UC Berkeley — a path of three IMP hops, less than 400 yards of physical distance — that policy worked fine until traffic levels rose.',
+			'In 1986 the early internet ran [[tcp|TCP]] without any {{congestion-control|congestion-control}} feedback loop. The original {{bsd|BSD}} [[tcp|TCP]] retransmitted aggressively when {{ack|ACKs}} were late: a missing {{ack|ACK}} at time *t* meant "the packet is probably gone, send again." Across the link from Lawrence Berkeley Lab to UC Berkeley — a path of three {{imp|IMP}} hops, less than 400 yards of physical distance — that policy worked fine until traffic levels rose.',
 		mistake:
 			'There was no mistake — the protocol itself was the bug. As load grew, queues at the IMPs filled, {{ack|ACKs}} took longer, senders interpreted the delay as loss and {{retransmission|retransmitted}}, the {{retransmission|retransmissions}} filled queues further, and the network entered a positive-feedback loop where every additional packet made delivery less likely. Throughput on the LBL-to-UCB path collapsed from 32 kbps to 40 bps — a 1000× degradation across a 400-yard path.',
 		cascade: [
 			{
 				title: 'Senders retransmit on timeout',
 				description:
-					"BSD [[tcp|TCP]]'s {{retransmission|retransmission}} timer fires aggressively when {{ack|ACKs}} are late. Each retransmit adds load to an already-saturated path.",
+					"{{bsd|BSD}} [[tcp|TCP]]'s {{retransmission|retransmission}} timer fires aggressively when {{ack|ACKs}} are late. Each retransmit adds load to an already-saturated path.",
 				protocols: ['tcp']
 			},
 			{
@@ -365,7 +365,7 @@ export const outages: Outage[] = [
 		consequence:
 			'The first proof that a protocol designed for a small, lightly-loaded research network could fail catastrophically under production load. NSFNET regional links became unusable for hours at a time through October 1986. The internet engineering community accepted that an end-to-end {{congestion-control|congestion-control}} loop was not optional.',
 		resolution:
-			"[[pioneer:van-jacobson|Van Jacobson]] and Mike Karels at Berkeley spent six months instrumenting the wire and reading the BSD source. Their 1988 SIGCOMM paper — *{{congestion-avoidance|Congestion Avoidance}} and Control* — introduced six algorithms in one document: **{{slow-start|slow start}}**, **{{aimd|AIMD}} {{congestion-avoidance|congestion avoidance}}**, **fast retransmit**, **fast recovery**, **{{exponential-backoff|exponential RTO backoff}}**, and a refined **{{rtt|RTT}} estimator**. The fixes shipped in 4.3BSD-Tahoe and propagated to every [[tcp|TCP]] stack on earth.",
+			"[[pioneer:van-jacobson|Van Jacobson]] and Mike Karels at Berkeley spent six months instrumenting the wire and reading the {{bsd|BSD}} source. Their 1988 {{sigcomm-conf|SIGCOMM}} paper — *{{congestion-avoidance|Congestion Avoidance}} and Control* — introduced six algorithms in one document: **{{slow-start|slow start}}**, **{{aimd|AIMD}} {{congestion-avoidance|congestion avoidance}}**, **fast retransmit**, **fast recovery**, **{{exponential-backoff|exponential RTO backoff}}**, and a refined **{{rtt|RTT}} estimator**. The fixes shipped in 4.3BSD-Tahoe and propagated to every [[tcp|TCP]] stack on earth.",
 		lesson:
 			"Conservation of packets — put one packet into the network only when an {{ack|ACK}} confirms a previous one has left it — is the load-bearing principle that has held for forty years. Every later {{congestion-control|congestion-control}} algorithm (Reno, NewReno, Vegas, [[rfc:9438|CUBIC]], Compound, {{bbr|BBR}} v1/v2/v3, Prague over [[frontier:l4s-comcast-launch|L4S]]) is a refinement of Jacobson's six.",
 		sources: [
@@ -425,13 +425,13 @@ export const outages: Outage[] = [
 			{
 				title: 'Manual de-peering needed',
 				description:
-					"Level 3 has to ask other tier-1s to de-{{peer|peer}} with them temporarily to drain the [[bgp|BGP]]-update queue and let the bad rule be removed."
+					"Level 3 has to ask other tier-1s to de-{{peer|peer}} with them temporarily to drain the [[bgp|BGP]]-{{bgp-update|update}} queue and let the bad rule be removed."
 			}
 		],
 		consequence:
 			"~5 hours of severe disruption across one of the world's largest backbones. {{cloudflare|Cloudflare}} publicly reported a 3.5% drop in global internet traffic. Many SaaS providers, video calls, and games hit by the cascading failures.",
 		resolution:
-			"Level 3 manually de-peered with other tier-1s to break the [[bgp|BGP]]-update loop, removed the bad Flowspec rule, then re-peered.",
+			"Level 3 manually de-peered with other tier-1s to break the [[bgp|BGP]]-{{bgp-update|update}} loop, removed the bad Flowspec rule, then re-peered.",
 		lesson:
 			"Don't deploy a feature whose failure mode disables the channel that controls it. [[bgp|BGP]] Flowspec is powerful — and Flowspec rules that touch [[bgp|BGP]] itself can lock you out of your own network. The same lesson applies to any in-band control protocol.",
 		sources: [
@@ -484,7 +484,7 @@ export const outages: Outage[] = [
 			}
 		],
 		consequence:
-			"12+ million customers without service for a full business day. Hospitals, 911 operations, point-of-sale systems, government services impacted. CRTC's 2024 executive summary identified missing route filters and lab-testing skipped due to an algorithm down-grading risk from 'High' to 'Low' after earlier phases succeeded.",
+			"12+ million customers without service for a full business day. Hospitals, 911 operations, point-of-sale systems, government services impacted. {{crtc|CRTC}}'s 2024 executive summary identified missing route filters and lab-testing skipped due to an algorithm down-grading risk from 'High' to 'Low' after earlier phases succeeded.",
 		resolution:
 			"Manual rollback of the offending policy change, with engineers physically present at core sites.",
 		lesson:
@@ -542,7 +542,7 @@ export const outages: Outage[] = [
 			}
 		],
 		consequence:
-			"125M+ devices affected. 92M+ blocked voice calls. 25K+ failed 911 calls. The FCC report reads like every [[bgp|BGP]] outage post-mortem: insufficient {{peer|peer}} review, missing controls, unscanned changes.",
+			"125M+ devices affected. 92M+ blocked voice calls. 25K+ failed 911 calls. The {{fcc|FCC}} report reads like every [[bgp|BGP]] outage post-mortem: insufficient {{peer|peer}} review, missing controls, unscanned changes.",
 		resolution:
 			'Configuration rollback and gradual reconnection of subscribers to avoid signalling overload.',
 		lesson:
@@ -589,7 +589,7 @@ export const outages: Outage[] = [
 			{
 				title: 'CVE-2019-11477 (CVSS 7.5)',
 				description:
-					"Disclosed alongside CVE-2019-11478 ({{sack|SACK}} Slowness) and CVE-2019-11479 (excessive resource consumption from low {{mss|MSS}}) in Netflix's coordinated disclosure of June 17, 2019.",
+					"Disclosed alongside {{cve|CVE}}-2019-11478 ({{sack|SACK}} Slowness) and {{cve|CVE}}-2019-11479 (excessive resource consumption from low {{mss|MSS}}) in Netflix's coordinated disclosure of June 17, 2019.",
 				protocols: ['tcp']
 			}
 		],

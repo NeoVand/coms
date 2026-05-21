@@ -110,7 +110,7 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
 					title: 'Inventor of DNS',
 					org: 'USC Information Sciences Institute',
 					contribution:
-						'Created the Domain Name System in 1983, replacing the unsustainable HOSTS.{{txt-record|TXT}} file with a distributed, hierarchical naming layer. Every other protocol on the internet relies on [[dns|DNS]] to turn human-readable names into routable addresses. Inducted into the Internet Hall of Fame in 2012.',
+						'Created the Domain Name System in 1983, replacing the unsustainable {{hosts-bare|HOSTS}}.{{txt-record|TXT}} file with a distributed, hierarchical naming layer. Every other protocol on the internet relies on [[dns|DNS]] to turn human-readable names into routable addresses. Inducted into the Internet Hall of Fame in 2012.',
 					imagePath:
 						'https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Paul_Mockapetris.JPG/330px-Paul_Mockapetris.JPG'
 				}
@@ -164,7 +164,7 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
 					year: 1983,
 					title: 'DNS Created — RFC 882/883',
 					description:
-						'[[pioneer:paul-mockapetris|Paul Mockapetris]] invents the Domain Name System, replacing the single HOSTS.{{txt-record|TXT}} file with a distributed, hierarchical naming layer. Every other protocol on the internet depends on it to find its destination.',
+						'[[pioneer:paul-mockapetris|Paul Mockapetris]] invents the Domain Name System, replacing the single {{hosts-bare|HOSTS}}.{{txt-record|TXT}} file with a distributed, hierarchical naming layer. Every other protocol on the internet depends on it to find its destination.',
 					protocolId: 'dns'
 				},
 				{
@@ -265,7 +265,7 @@ In 1981, [[pioneer:jon-postel|Jon Postel]] defined [[icmp|ICMP]] — the Interne
 
 By 1989, the internet was outgrowing its routing. The original {{arpanet|ARPANET}} had a single backbone — routing was simple. But as multiple networks connected, someone had to decide how traffic flows between them. [[pioneer:yakov-rekhter|Yakov Rekhter]] and Kirk Lougheed created [[bgp|BGP]], the Border Gateway Protocol, which treats each network as an "{{autonomous-system|autonomous system}}" and exchanges route advertisements between them. Today, [[bgp|BGP]] is literally the protocol that holds the internet together — every path your data takes across network boundaries is decided by [[bgp|BGP]] route advertisements exchanged on [[tcp|TCP]] port 179.
 
-The most ambitious chapter began in the 1990s. [[ip|IPv4]]'s 32-bit address space — 4.3 billion addresses — was running out. [[pioneer:steve-deering|Steve Deering]] led the design of [[ipv6|IPv6]], published as [[rfc:2460|RFC 2460]] in 1998 (later updated as [[rfc:8200|RFC 8200]] in 2017). [[ipv6|IPv6]] didn't just add more addresses; it rethought the protocol entirely. The header was simplified to a fixed 40 bytes — no {{checksum|checksum}}, no variable-length options. {{broadcast|Broadcast}} was eliminated in favor of {{multicast|multicast}}. [[arp|ARP]]'s {{broadcast|broadcast}}-based address resolution was replaced by {{ndp|NDP}} ({{ndp|Neighbor Discovery Protocol}}), which uses efficient solicited-node {{multicast|multicast}}. Hosts can autoconfigure globally unique addresses via {{slaac|SLAAC}} without any server. On 28 March 2026, [[ipv6|IPv6]] crossed 50% of {{google|Google}}'s traffic for the first time, 28 years after the spec — a transition that was supposed to take a few years and is still ongoing, a testament to how deeply embedded [[ip|IPv4]] became.`
+The most ambitious chapter began in the 1990s. [[ip|IPv4]]'s 32-bit address space — 4.3 billion addresses — was running out. [[pioneer:steve-deering|Steve Deering]] led the design of [[ipv6|IPv6]], published as [[rfc:2460|RFC 2460]] in 1998 (later updated as [[rfc:8200|RFC 8200]] in 2017). [[ipv6|IPv6]] didn't just add more addresses; it rethought the protocol entirely. The header was simplified to a fixed 40 bytes — no {{checksum|checksum}}, no variable-length options. {{broadcast|Broadcast}} was eliminated in favor of {{multicast|multicast}}. [[arp|ARP]]'s {{broadcast|broadcast}}-based address resolution was replaced by {{ndp|NDP}} ({{ndp|Neighbor Discovery Protocol}}), which uses efficient solicited-node {{multicast|multicast}}. {{hosts-bare|Hosts}} can autoconfigure globally unique addresses via {{slaac|SLAAC}} without any server. On 28 March 2026, [[ipv6|IPv6]] crossed 50% of {{google|Google}}'s traffic for the first time, 28 years after the spec — a transition that was supposed to take a few years and is still ongoing, a testament to how deeply embedded [[ip|IPv4]] became.`
 		},
 		{
 			type: 'diagram',
@@ -285,7 +285,7 @@ The most ambitious chapter began in the 1990s. [[ip|IPv4]]'s 32-bit address spac
     V6A["Version (4b) + Traffic Class (8b) + Flow Label (20b)"]
     V6B["{{payload|Payload}} Length + Next Header + {{hop-limit|Hop Limit}}"]
     V6C["Source {{ip-address|IP}} (128-bit)"]
-    V6D["Destination IP (128-bit)"]
+    V6D["Destination {{ip-address|IP}} (128-bit)"]
     V6A --- V6B --- V6C --- V6D
   end
   V4 ~~~ V6`,
@@ -295,7 +295,7 @@ The most ambitious chapter began in the 1990s. [[ip|IPv4]]'s 32-bit address spac
 		{
 			type: 'narrative',
 			title: 'The Naming Layer — DNS',
-			text: `Frames, addresses, and routes get a packet from one machine to another. But humans do not type 142.250.80.46 — they type \`{{google|google}}.com\`. The translation between names and addresses is the **naming layer**, and it is just as foundational as anything below it. Without [[dns|DNS]], every other protocol in this category exists in isolation: you can route to an address, but you cannot find it.\n\nIn the early internet, every computer maintained a file called HOSTS.{{txt-record|TXT}} — a simple list mapping hostnames to [[ip|IP]] addresses. The Stanford Research Institute kept the master copy; everyone {{imap-fetch|fetched}} updates periodically. This worked for a hundred hosts. By 1983, with thousands joining and entries changing daily, it was falling apart.\n\n[[pioneer:paul-mockapetris|Paul Mockapetris]] at USC ISI solved it with [[dns]], the **Domain Name System**. Instead of one file, [[dns|DNS]] distributes naming across a hierarchical tree of servers. Ask for \`{{google|google}}.com\` and your query cascades: root servers point at the \`.com\` servers, which point at {{google|Google}}'s authoritative servers, which return the {{ip-address|IP address}}. **Aggressive caching at every level** does almost all the work — most lookups never walk the tree. The system handles billions of queries per day and has held for forty years, scaling from a few hundred hosts to billions.`
+			text: `Frames, addresses, and routes get a packet from one machine to another. But humans do not type 142.250.80.46 — they type \`google.com\`. The translation between names and addresses is the **naming layer**, and it is just as foundational as anything below it. Without [[dns|DNS]], every other protocol in this category exists in isolation: you can route to an address, but you cannot find it.\n\nIn the early internet, every computer maintained a file called {{hosts-bare|HOSTS}}.{{txt-record|TXT}} — a simple list mapping hostnames to [[ip|IP]] addresses. The Stanford Research Institute kept the master copy; everyone {{imap-fetch|fetched}} updates periodically. This worked for a hundred hosts. By 1983, with thousands joining and entries changing daily, it was falling apart.\n\n[[pioneer:paul-mockapetris|Paul Mockapetris]] at USC ISI solved it with [[dns]], the **Domain Name System**. Instead of one file, [[dns|DNS]] distributes naming across a hierarchical tree of servers. Ask for \`google.com\` and your query cascades: root servers point at the \`.com\` servers, which point at {{google|Google}}'s authoritative servers, which return the {{ip-address|IP address}}. **Aggressive caching at every level** does almost all the work — most lookups never walk the tree. The system handles billions of queries per day and has held for forty years, scaling from a few hundred hosts to billions.`
 		},
 		{
 			type: 'diagram',

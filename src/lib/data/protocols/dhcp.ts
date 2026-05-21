@@ -9,13 +9,13 @@ export const dhcp: Protocol = {
 	year: 1993,
 	rfc: 'RFC 2131',
 	oneLiner: "Automatically assigns [[ip|IP]] addresses — plug in and you're on the network.",
-	overview: `[[dhcp|DHCP]] is the reason you can connect to a [[wifi|Wi-Fi]] network and immediately start browsing. Without it, you'd have to manually configure your {{ip-address|IP address}}, {{subnet|subnet mask}}, {{gateway|gateway}}, and [[dns|DNS]] servers — for every network you join.
+	overview: `[[dhcp|DHCP]] is the reason you can {{mqtt-connect|connect}} to a [[wifi|Wi-Fi]] network and immediately start browsing. Without it, you'd have to manually configure your {{ip-address|IP address}}, {{subnet|subnet mask}}, {{gateway|gateway}}, and [[dns|DNS]] servers — for every network you join.
 
 When your device connects to a network, it {{broadcast|broadcasts}} a [[dhcp|DHCP]] Discover message ("I need an {{ip-address|IP address}}!"). A [[dhcp|DHCP]] server responds with an offer, which the client accepts. The server then confirms and assigns the [[ip|IP]], along with all the configuration your device needs: {{subnet|subnet}} mask, {{gateway|default gateway}}, [[dns|DNS]] servers, and the {{lease|lease}} duration.
 
 [[dhcp|DHCP]] leases are temporary — typically 1-24 hours. When a {{lease|lease}} expires, the device must renew it. This dynamic allocation means [[ip|IP]] addresses can be reused efficiently. [[dhcp|DHCP]] is simple, ubiquitous, and works transparently — one of those "invisible" {{protocol|protocols}} that makes networking just work.
 
-For [[ipv6|IPv6]] networks, DHCPv6 (RFC 8415) provides similar functionality but with a different message flow: Solicit/Advertise replaces Discover/Offer, and Request/Reply replaces Request/{{ack|ACK}}. DHCPv6 also supports a {{stateless|stateless}} configuration mode (via {{slaac|SLAAC}} — {{slaac|Stateless Address Autoconfiguration}}) where hosts generate their own addresses and only use DHCPv6 for additional options like [[dns|DNS]] server addresses.`,
+For [[ipv6|IPv6]] networks, DHCPv6 ({{rfc-doc|RFC}} 8415) provides similar functionality but with a different message flow: Solicit/Advertise replaces Discover/Offer, and Request/Reply replaces Request/{{ack|ACK}}. DHCPv6 also supports a {{stateless|stateless}} configuration mode (via {{slaac|SLAAC}} — {{slaac|Stateless Address Autoconfiguration}}) where {{hosts-bare|hosts}} {{generate-ac|generate}} their own addresses and only use DHCPv6 for additional options like [[dns|DNS]] server addresses.`,
 	howItWorks: [
 		{
 			title: 'DISCOVER (broadcast)',
