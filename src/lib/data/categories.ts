@@ -7,7 +7,7 @@ export const categories: Category[] = [
 		color: '#F472B6',
 		glowColor: 'rgba(244, 114, 182, 0.4)',
 		description:
-			'The physical and logical layers that make networking possible. Addressing, framing, and routing at Layers 2-3 — before any transport protocol gets involved.',
+			'The physical and logical layers that make networking possible. Frames, addresses, and routes at Layers 2-3 — plus [[dns|DNS]], the naming layer every other protocol depends on to find its destination.',
 		icon: 'network-foundations'
 	},
 	{
@@ -52,7 +52,7 @@ export const categories: Category[] = [
 		color: '#2DD4BF',
 		glowColor: 'rgba(45, 212, 191, 0.4)',
 		description:
-			'The invisible infrastructure. [[dns|DNS]] translates names to addresses, [[tls|TLS]] encrypts everything, and [[ntp|NTP]] keeps the world synchronized.',
+			'The invisible infrastructure. [[tls|TLS]] encrypts everything, [[ssh|SSH]] secures remote access, and [[ntp|NTP]] keeps the world synchronized.',
 		icon: 'utilities'
 	},
 	{

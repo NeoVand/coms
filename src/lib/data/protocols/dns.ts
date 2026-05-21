@@ -4,16 +4,16 @@ export const dns: Protocol = {
 	id: 'dns',
 	name: 'Domain Name System',
 	abbreviation: 'DNS',
-	categoryId: 'utilities',
+	categoryId: 'network-foundations',
 	port: 53,
 	year: 1983,
 	rfc: 'RFC 1035',
 	oneLiner: "The internet's phone book — translates domain names to [[ip|IP]] addresses.",
-	overview: `[[dns|DNS]] is arguably the most critical infrastructure protocol on the internet. Every time you type a URL, your device asks [[dns|DNS]] "what {{ip-address|IP address}} is {{google|google}}.com?" without this translation, the web as we know it couldn't exist.
+	overview: `[[dns|DNS]] is arguably the most critical infrastructure protocol on the internet. Every time you type a {{url|URL}}, your device asks [[dns|DNS]] "what {{ip-address|IP address}} is {{google|google}}.com?" without this translation, the web as we know it couldn't exist.
 
-[[dns|DNS]] is a distributed, hierarchical database. At the top are 13 root server clusters. Below them are TLD servers (.com, .org, .net). Below those are authoritative servers for individual domains. Your query cascades down this tree, with aggressive caching at every level to keep things fast.
+[[dns|DNS]] is a distributed, hierarchical database. At the top are 13 root server clusters. Below them are {{tld|TLD}} servers (.com, .org, .net). Below those are authoritative servers for individual domains. Your query cascades down this tree, with aggressive caching at every level to keep things fast.
 
-A typical {{dns-resolution|DNS lookup}} takes 10-50ms and involves your device's stub resolver → your ISP's {{recursive-resolver|recursive resolver}} → root servers → TLD servers → authoritative servers. But caching means most lookups are answered in under 1ms from a nearby cache. [[dns|DNS]] also carries more than just [[ip|IP]] addresses: MX records for email, TXT records for verification, CNAME records for aliases, and many more.
+A typical {{dns-resolution|DNS lookup}} takes 10-50ms and involves your device's stub resolver → your {{isp|ISP}}'s {{recursive-resolver|recursive resolver}} → root servers → {{tld|TLD}} servers → authoritative servers. But caching means most lookups are answered in under 1ms from a nearby cache. [[dns|DNS]] also carries more than just [[ip|IP]] addresses: {{mx-record|MX}} records for email, {{txt-record|TXT}} records for verification, {{cname-record|CNAME}} records for aliases, and many more.
 
 Security is a growing concern: {{dnssec|DNSSEC}} ([[dns|DNS]] Security Extensions) adds cryptographic signatures to [[dns|DNS]] responses, authenticating their origin and preventing cache poisoning attacks where an attacker injects forged records. For privacy, [[dns|DNS]] over [[tls|TLS]] (DoT, port 853) and {{dns-over-https|DNS over HTTPS}} (DoH) encrypt [[dns|DNS]] queries so eavesdroppers can't see which domains you're resolving.`,
 	howItWorks: [
@@ -25,12 +25,12 @@ Security is a growing concern: {{dnssec|DNSSEC}} ([[dns|DNS]] Security Extension
 		{
 			title: 'Recursive resolution',
 			description:
-				"The resolver walks the [[dns|DNS]] tree: asks a root server → gets referred to .com TLD → asks .com → gets referred to example.com's authoritative server → asks it → gets the answer."
+				"The resolver walks the [[dns|DNS]] tree: asks a root server → gets referred to .com {{tld|TLD}} → asks .com → gets referred to example.com's authoritative server → asks it → gets the answer."
 		},
 		{
 			title: 'Response cached',
 			description:
-				'Each answer has a {{ttl|TTL}} (time-to-live). The resolver caches the answer for that duration. Your OS and browser cache it too. Next lookup is instant.'
+				'Each answer has a {{ttl|TTL}} (time-to-live). The resolver caches the answer for that duration. Your {{os|OS}} and browser cache it too. Next lookup is instant.'
 		},
 		{
 			title: 'IP returned',
@@ -178,7 +178,7 @@ curl -sH 'accept: application/dns-json' \\
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Example_of_an_iterative_DNS_resolver.svg/500px-Example_of_an_iterative_DNS_resolver.svg.png',
 		alt: 'Diagram showing iterative DNS resolution: client queries recursive resolver, which queries root, TLD, and authoritative nameservers in sequence',
 		caption:
-			'How {{dns-resolution|DNS resolution}} works — your device asks a {{recursive-resolver|recursive resolver}}, which iteratively queries root servers, TLD servers (.com, .org), and authoritative nameservers to translate a domain name like "example.com" into an {{ip-address|IP address}}.',
+			'How {{dns-resolution|DNS resolution}} works — your device asks a {{recursive-resolver|recursive resolver}}, which iteratively queries root servers, {{tld|TLD}} servers (.com, .org), and authoritative nameservers to translate a domain name like "example.com" into an {{ip-address|IP address}}.',
 		credit: 'Image: Wikimedia Commons / Public Domain'
 	},
 
@@ -193,13 +193,13 @@ curl -sH 'accept: application/dns-json' \\
 			date: '2024',
 			title: 'DNSSEC validation reaches 38%',
 			description:
-				'APNIC measurements show 38% of users are behind a validating resolver — a steady climb from 12% a decade ago. The .gov and .mil zones are 100% {{dnssec|DNSSEC}}-signed; .com is at ~5% of leaf domains.'
+				'{{apnic|APNIC}} measurements show 38% of users are behind a validating resolver — a steady climb from 12% a decade ago. The .gov and .mil zones are 100% {{dnssec|DNSSEC}}-signed; .com is at ~5% of leaf domains.'
 		},
 		{
 			date: '2024-10',
 			title: 'KeyTrap (CVE-2023-50387) prompts cross-vendor patches',
 			description:
-				'A {{dnssec|DNSSEC}} implementation flaw in BIND, Unbound, PowerDNS, Knot, and others let a single crafted query exhaust CPU on validating resolvers. Coordinated cross-vendor patches shipped within a week.',
+				'A {{dnssec|DNSSEC}} implementation flaw in BIND, Unbound, PowerDNS, Knot, and others let a single crafted query exhaust {{cpu|CPU}} on validating resolvers. Coordinated cross-vendor patches shipped within a week.',
 			source: { url: 'https://nvd.nist.gov/vuln/detail/CVE-2023-50387', label: 'NIST NVD' }
 		}
 	],
@@ -228,7 +228,7 @@ curl -sH 'accept: application/dns-json' \\
 	funFacts: [
 		{
 			title: 'DNS replaced a hand-edited text file',
-			text: 'Until 1983, every host on the {{arpanet|ARPANET}} maintained a flat HOSTS.TXT file with all the address mappings, distributed by [[ftp|FTP]]. As the network grew past a few hundred hosts, the manual update process became absurd. [[pioneer:paul-mockapetris|Paul Mockapetris]] designed [[dns|DNS]] to replace it.'
+			text: 'Until 1983, every host on the {{arpanet|ARPANET}} maintained a flat HOSTS.{{txt-record|TXT}} file with all the address mappings, distributed by [[ftp|FTP]]. As the network grew past a few hundred hosts, the manual {{bgp-update|update}} process became absurd. [[pioneer:paul-mockapetris|Paul Mockapetris]] designed [[dns|DNS]] to replace it.'
 		},
 		{
 			title: 'Caching does almost all the work',
@@ -248,7 +248,7 @@ curl -sH 'accept: application/dns-json' \\
 			},
 			{
 				title: 'CNAME at the apex breaks email',
-				text: 'A CNAME at example.com (the zone apex) violates [[rfc:1034|RFC 1034]] because the apex must also have NS and SOA records. Some [[dns|DNS]] providers offer "ALIAS" or "ANAME" pseudo-records that work around this; the underlying limitation is in the spec.'
+				text: 'A {{cname-record|CNAME}} at example.com (the zone apex) violates [[rfc:1034|RFC 1034]] because the apex must also have {{ns-record|NS}} and SOA records. Some [[dns|DNS]] providers offer "ALIAS" or "ANAME" pseudo-records that work around this; the underlying limitation is in the spec.'
 			},
 			{
 				title: 'Negative caching can hurt',

@@ -196,7 +196,7 @@ Without [[dns|DNS]], every device would still be looking up addresses in a singl
 		imagePath:
 			'https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Paul_Mockapetris.JPG/330px-Paul_Mockapetris.JPG',
 		protocols: ['dns'],
-		categories: ['utilities'],
+		categories: ['network-foundations'],
 		awards: [
 			{ name: 'Internet Hall of Fame', year: 2012 },
 			{ name: 'IEEE Internet Award', year: 2003 },
