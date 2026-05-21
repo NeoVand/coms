@@ -222,8 +222,13 @@ export function parseParagraphs(raw: string): TextSegment[][] {
  * a hover card).
  */
 export function stripRichTextMarkup(raw: string): string {
+	// The id char classes intentionally exclude their own opening delimiter
+	// (`[` for `[[…]]`, `{` for `{{…}}`) so the regex can't greedily eat the
+	// outer brackets when an author nests a wrap inside another bracketed
+	// construct — e.g. Mermaid's `NODE[[[id|Label]]]`. A legitimate id is
+	// always a slug, so disallowing `[`/`{` inside it is strictly correct.
 	return raw
-		.replace(/\[\[[^\]|]+(?:\|([^\]]+))?\]\]/g, (_m, label) => label ?? '')
-		.replace(/\{\{[^}|]+(?:\|([^}]+))?\}\}/g, (_m, label) => label ?? '')
+		.replace(/\[\[[^\]\[|]+(?:\|([^\]]+))?\]\]/g, (_m, label) => label ?? '')
+		.replace(/\{\{[^}{|]+(?:\|([^}]+))?\}\}/g, (_m, label) => label ?? '')
 		.replace(/\*\*([^*]+)\*\*/g, '$1');
 }
