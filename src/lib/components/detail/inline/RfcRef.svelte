@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { base } from '$app/paths';
 	import { getRfcByNumber } from '$lib/data/rfcs';
+	import { getAppState } from '$lib/state/context';
+	import { themedDomColor } from '$lib/utils/colors';
 
 	interface Props {
 		number: string;
@@ -11,7 +13,9 @@
 
 	let { number, label, color }: Props = $props();
 
+	const appState = getAppState();
 	const rfc = $derived(getRfcByNumber(number));
+	const displayColor = $derived(themedDomColor(color, appState.theme));
 	/** Prefer the internal `/rfc/[number]` page once the registry is populated;
 	 *  fall back to the IETF datatracker URL so the link always works. */
 	const href = $derived(
@@ -26,7 +30,7 @@
 	target={isExternal ? '_blank' : undefined}
 	rel={isExternal ? 'noopener noreferrer' : undefined}
 	class="inline font-mono text-[0.92em] tracking-tight transition-colors hover:underline"
-	style="color: {color}"
+	style="color: {displayColor}"
 	title={tooltip}
 	onclick={(e) => e.stopPropagation()}>{label}</a
 >

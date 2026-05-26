@@ -353,7 +353,7 @@
 						</div>
 						<div data-tour="book-toc" class="space-y-1.5">
 							{#each bookParts as part (part.id)}
-								{@const accent = PART_ACCENTS[part.id] ?? '#60a5fa'}
+								{@const accent = dc(PART_ACCENTS[part.id] ?? '#60a5fa')}
 								<button
 									class="group flex w-full items-start gap-3 rounded-xl border border-s-border bg-s-glass p-3 text-left transition-all hover:bg-s-glass-hover"
 									style="border-color: {accent}30;"
@@ -376,7 +376,7 @@
 											<p class="mt-0.5 line-clamp-2 text-[11px] leading-relaxed text-t-secondary">
 												<RichText
 													segments={parseRichText(part.description)}
-													color={PART_ACCENTS[part.id] ?? '#94a3b8'}
+													color={dc(PART_ACCENTS[part.id] ?? '#94a3b8')}
 												/>
 											</p>
 										{/if}

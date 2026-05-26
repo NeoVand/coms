@@ -8,12 +8,16 @@
 	import { ChevronLeft, ChevronRight, BookOpen } from 'lucide-svelte';
 	import RichText from './inline/RichText.svelte';
 	import { parseRichText } from '$lib/utils/text-parser';
+	import { getAppState } from '$lib/state/context';
+	import { themedDomColor } from '$lib/utils/colors';
 
 	interface Props {
 		partId: string;
 	}
 
 	let { partId }: Props = $props();
+
+	const appState = getAppState();
 
 	/**
 	 * Per-part accent colors — must mirror the maps in BookTocView and
@@ -35,7 +39,8 @@
 	};
 
 	const part = $derived(bookPartMap.get(partId));
-	const accent = $derived(PART_ACCENTS[partId] ?? '#60a5fa');
+	const accentRaw = $derived(PART_ACCENTS[partId] ?? '#60a5fa');
+	const accent = $derived(themedDomColor(accentRaw, appState.theme));
 
 	const partIndex = $derived(bookParts.findIndex((p) => p.id === partId));
 	const prevPart = $derived(partIndex > 0 ? bookParts[partIndex - 1] : null);

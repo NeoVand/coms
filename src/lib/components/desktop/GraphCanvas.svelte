@@ -199,7 +199,9 @@
 
 	/** Nodes visible to the user — hub/category are hidden in mesh mode. */
 	function hitNodes(): GraphNode[] {
-		return appState.layoutMode === 'mesh' ? nodes.filter((n) => n.type === 'protocol') : nodes;
+		return appState.layoutMode === 'mesh'
+			? nodes.filter((n) => n.type === 'protocol' || n.type === 'subcategory')
+			: nodes;
 	}
 
 	/** Collect the non-dimmed nodes for a given selection (mirrors isNodeDimmed in canvas-renderer). */
@@ -456,7 +458,9 @@
 					return t ? { ...n, x: t.x, y: t.y } : n;
 				});
 				const focusNodes =
-					mode === 'mesh' ? targetNodes.filter((n) => n.type === 'protocol') : targetNodes;
+					mode === 'mesh'
+						? targetNodes.filter((n) => n.type === 'protocol' || n.type === 'subcategory')
+						: targetNodes;
 				appState.focusOnSubgraph(
 					focusNodes,
 					width,

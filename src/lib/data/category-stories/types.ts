@@ -32,6 +32,16 @@ export type StorySection =
 	| { type: 'pioneers'; title?: string; people: Pioneer[] }
 	| { type: 'callout'; title: string; text: string }
 	| { type: 'diagram'; title?: string; definition: string; caption: string }
+	| {
+			type: 'animated-sequence';
+			title?: string;
+			definition: string;
+			/** Intro caption shown when no step is active (e.g. after Restart). */
+			caption: string;
+			/** Per-step captions keyed by 0-based visible-step index (note + message
+			 *  steps only — pure declarations like `participant` don't count). */
+			steps: Record<number, string>;
+	  }
 	| { type: 'image'; src: string; alt: string; caption?: string; credit?: string; title?: string }
 	| { type: 'comparison'; title?: string; axes: string[]; rows: ComparisonRow[]; note?: string };
 

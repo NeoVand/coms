@@ -225,9 +225,13 @@ export function render(ctx: CanvasRenderingContext2D, options: RenderOptions): v
 		}
 	}
 
-	// Draw nodes (hub last so it's on top). In mesh mode, hub and category
-	// scaffolding is hidden — only protocol nodes remain.
-	const visibleNodes = layoutMode === 'mesh' ? nodes.filter((n) => n.type === 'protocol') : nodes;
+	// Draw nodes (hub last so it's on top). In mesh mode the hub and
+	// category scaffolding is hidden, but subcategories ride along as
+	// cluster anchors so the mesh still reads as topical groups.
+	const visibleNodes =
+		layoutMode === 'mesh'
+			? nodes.filter((n) => n.type === 'protocol' || n.type === 'subcategory')
+			: nodes;
 	const sortedNodes = [...visibleNodes].sort((a, b) => {
 		const order = { protocol: 0, subcategory: 1, category: 2, hub: 3 };
 		return order[a.type] - order[b.type];

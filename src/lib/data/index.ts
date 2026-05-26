@@ -225,6 +225,22 @@ export function buildMeshEdges(): GraphEdge[] {
 		}
 	}
 
+	// Sub→protocol tree edges so subcategories read as cluster anchors in
+	// the mesh alongside the cross-cluster connection strands. Coloured
+	// from the subcategory's parent category (protocols share that hue).
+	for (const sub of subcategories) {
+		const cat = categoryMap.get(sub.categoryId);
+		const color = cat?.color ?? '#FFFFFF';
+		for (const protoId of sub.protocolIds) {
+			if (!protocolMap.has(protoId)) continue;
+			edges.push({
+				source: sub.id,
+				target: protoId,
+				color
+			});
+		}
+	}
+
 	return edges;
 }
 

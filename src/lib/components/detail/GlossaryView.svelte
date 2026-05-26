@@ -2,16 +2,32 @@
 	import { concepts, conceptMap, type Concept, type ConceptCategory } from '$lib/data/concepts';
 	import { Search, X, ExternalLink } from 'lucide-svelte';
 	import { parseRichText } from '$lib/utils/text-parser';
-	import StoryNarrative from './category-story/StoryNarrative.svelte';
 	import ProtocolLink from '$lib/components/detail/inline/ProtocolLink.svelte';
 	import { onMount, tick } from 'svelte';
 	import { browser } from '$app/environment';
 
 	let query = $state('');
 	let expandedId: string | null = $state(null);
+	/**
+	 * Per-category render cap. The glossary has ~930 entries; rendering all
+	 * of them on first paint takes long enough in dev mode that the page
+	 * appears to hang (each entry adds dev-time reactive metadata). We
+	 * default-cap each section to a manageable size, then let the user
+	 * expand a section to see everything inside it. Searching bypasses the
+	 * cap because the filter already narrows the list.
+	 */
+	const INITIAL_PER_CATEGORY = 30;
+	let expandedCats: Set<string> = $state(new Set());
 
 	function toggle(id: string) {
 		expandedId = expandedId === id ? null : id;
+	}
+
+	function toggleCat(catId: string) {
+		const next = new Set(expandedCats);
+		if (next.has(catId)) next.delete(catId);
+		else next.add(catId);
+		expandedCats = next;
 	}
 
 	/**
@@ -153,15 +169,23 @@
 		</div>
 	{/if}
 
-	<!-- Grouped term list -->
+	<!-- Grouped term list. Each section is capped at INITIAL_PER_CATEGORY
+	     entries until the user clicks "Show all" — searching bypasses the
+	     cap so any match is reachable. -->
 	{#each grouped as group (group.category)}
+		{@const isSearching = query.trim().length > 0}
+		{@const isExpanded = isSearching || expandedCats.has(group.category)}
+		{@const visibleEntries = isExpanded
+			? group.entries
+			: group.entries.slice(0, INITIAL_PER_CATEGORY)}
+		{@const hiddenCount = group.entries.length - visibleEntries.length}
 		<section>
 			<h3 class="mb-2 text-[10px] font-semibold tracking-wider text-t-muted uppercase">
 				{CATEGORY_LABELS[group.category]}
 				<span class="ml-1 text-t-muted/70">{group.entries.length}</span>
 			</h3>
 			<div class="space-y-1.5">
-				{#each group.entries as concept (concept.id)}
+				{#each visibleEntries as concept (concept.id)}
 					{@const isExpanded = expandedId === concept.id}
 					{@const definitionSegments = isExpanded ? parseRichText(concept.definition) : []}
 					{@const analogySegments =
@@ -249,6 +273,21 @@
 						{/if}
 					</div>
 				{/each}
+				{#if hiddenCount > 0}
+					<button
+						class="w-full rounded-lg border border-dashed border-s-border bg-s-glass/40 py-2 text-xs text-t-secondary transition-colors hover:border-s-border hover:bg-s-glass-hover hover:text-t-primary"
+						onclick={() => toggleCat(group.category)}
+					>
+						Show {hiddenCount} more
+					</button>
+				{:else if isExpanded && !isSearching && group.entries.length > INITIAL_PER_CATEGORY}
+					<button
+						class="w-full rounded-lg border border-dashed border-s-border bg-s-glass/40 py-2 text-xs text-t-secondary transition-colors hover:border-s-border hover:bg-s-glass-hover hover:text-t-primary"
+						onclick={() => toggleCat(group.category)}
+					>
+						Show fewer
+					</button>
+				{/if}
 			</div>
 		</section>
 	{/each}

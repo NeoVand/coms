@@ -142,28 +142,42 @@ export const namingStory: SubcategoryStory = {
 			note: "All four are wire-compatible at the *DNS payload* level. The transport changed; the message format didn't. That's the depth of Mockapetris's original design."
 		},
 		{
-			type: 'diagram',
+			type: 'animated-sequence',
 			title: 'Recursive Resolution from Root',
 			definition: `sequenceDiagram
     participant C as Client
     participant R as Recursive Resolver
-    participant Root as Root Server (.)
-    participant TLD as TLD Server (.com)
-    participant Auth as Authoritative (example.com)
+    participant Root as Root Server
+    participant TLD as TLD Server
+    participant Auth as Authoritative
     Note over C: A record query for www.example.com
     C->>R: query www.example.com
     Note over R: cache miss — recurse
     R->>Root: query www.example.com
-    Root-->>R: I don't know — ask .com server at X.Y.Z.W
+    Root-->>R: I do not know — ask .com server
     R->>TLD: query www.example.com
-    TLD-->>R: I don't know — ask example.com at A.B.C.D
+    TLD-->>R: I do not know — ask example.com authoritative
     R->>Auth: query www.example.com
-    Auth-->>R: A record: 93.184.216.34 (TTL 3600)
+    Auth-->>R: A record 93.184.216.34, TTL 3600
     R-->>C: 93.184.216.34
-    Note over R: cache for TTL=3600s
-    Note over C,Auth: Subsequent queries: served from R's cache, zero round trips`,
+    Note over R: cache for TTL of 3600s
+    Note over C,Auth: Subsequent queries served from R cache, zero round trips`,
 			caption:
-				"The first query for a name walks the tree — root → TLD → authoritative. Every subsequent query within the TTL window is served from the resolver's cache. Caching is what makes DNS *fast*. Cache poisoning is what makes DNS *dangerous*."
+				"The first query for a name walks the tree — root → TLD → authoritative. Every subsequent query within the TTL window is served from the resolver's cache. Caching is what makes DNS *fast*. Cache poisoning is what makes DNS *dangerous*.",
+			steps: {
+				0: '**The query begins.** Your laptop wants to load `www.example.com`. The OS asks the configured DNS resolver — usually your ISP\'s, or 8.8.8.8, or 1.1.1.1.',
+				1: 'Client sends the query to its **recursive resolver**. (The client itself is a "stub resolver" — it does no work beyond asking once.)',
+				2: '**Cache miss.** The recursive resolver checks its cache. If it had answered this name in the last TTL window, it would serve from cache and be done. First-time queries — and rare names — recurse.',
+				3: 'Resolver asks a **root server**. There are 13 root server addresses (a-m.root-servers.net), heavily anycast-replicated worldwide. The resolver knows them from a built-in hints file.',
+				4: 'Root replies: **"I don\'t know `www.example.com`, but here are the servers for `.com`."** Root servers know only top-level delegations — they don\'t answer for individual names.',
+				5: 'Resolver follows the referral to a **.com TLD server**. Verisign runs the .com root, with massive replication.',
+				6: 'TLD server replies: **"I don\'t know `www.example.com`, but here are the authoritative servers for `example.com`."** TLDs know the next level of delegation, no further.',
+				7: 'Resolver asks the **authoritative server** for example.com (typically run by the domain owner or their DNS provider).',
+				8: 'Authoritative server replies with the actual **A record: `93.184.216.34`**, plus a TTL of 3600 seconds. The TTL is the *promise* that this answer is valid for an hour.',
+				9: 'Resolver returns the answer to the client. The client can now connect to 93.184.216.34.',
+				10: 'Resolver **caches** the answer for the next 3600 seconds. Every query in that window from any client of this resolver is served from cache — zero round trips.',
+				11: '**Subsequent queries are nearly free.** A new client asking for the same name 5 minutes later gets the cached answer instantly. This caching is what makes DNS practical — without it, every web page load would walk the tree.'
+			}
 		},
 		{
 			type: 'callout',

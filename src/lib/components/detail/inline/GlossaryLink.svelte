@@ -2,6 +2,7 @@
 	import { base } from '$app/paths';
 	import { getConceptById } from '$lib/data/concepts';
 	import { getAppState } from '$lib/state/context';
+	import { themedDomColor } from '$lib/utils/colors';
 
 	interface Props {
 		conceptId: string;
@@ -13,6 +14,9 @@
 
 	const appState = getAppState();
 	const concept = $derived(getConceptById(conceptId));
+	// Theme-aware colour — dark-mode neon hex would be unreadable on the
+	// light-mode panel background, so remap to the deeper variant in light mode.
+	const displayColor = $derived(themedDomColor(color, appState.theme));
 	const tooltip = $derived(
 		concept ? `Glossary — ${concept.term}` : `Glossary: ${conceptId} (entry coming soon)`
 	);
@@ -34,7 +38,7 @@
 		bind:this={anchorEl}
 		href="{base}/glossary#{conceptId}"
 		class="glossary-link inline cursor-help transition-colors hover:opacity-80"
-		style="color: {color}; text-decoration: underline dotted; text-underline-offset: 3px;"
+		style="color: {displayColor}; text-decoration: underline dotted; text-underline-offset: 3px;"
 		title={tooltip}
 		onmouseenter={showTooltip}
 		onmouseleave={scheduleHide}
@@ -45,7 +49,7 @@
 {:else}
 	<span
 		class="inline"
-		style="color: {color}; opacity: 0.85; text-decoration: underline dotted; text-underline-offset: 3px;"
+		style="color: {displayColor}; opacity: 0.85; text-decoration: underline dotted; text-underline-offset: 3px;"
 		title={tooltip}>{label}</span
 	>
 {/if}

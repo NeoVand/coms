@@ -6,11 +6,27 @@
 	import { parseSequenceSteps, type SequenceStep, type VisibleStep } from '$lib/utils/sequence-parser';
 	import DiagramCaption from './DiagramCaption.svelte';
 
+	export interface InlineSequence {
+		definition: string;
+		caption: string;
+		steps?: Record<number, string>;
+	}
+
 	let {
 		protocolId,
+		inline,
 		color,
 		expanded = false
-	}: { protocolId: string; color: string; expanded?: boolean } = $props();
+	}: {
+		/** Lookup a diagram by protocol id from the global registry. Mutually
+		 *  exclusive with `inline` — pass exactly one of the two. */
+		protocolId?: string;
+		/** Provide the diagram inline (used by subcategory guides where the
+		 *  diagram doesn't belong to a single protocol). */
+		inline?: InlineSequence;
+		color: string;
+		expanded?: boolean;
+	} = $props();
 
 	const appState = getAppState();
 	let containerEl: HTMLDivElement;
@@ -32,8 +48,10 @@
 	let intersectionObserver: IntersectionObserver | null = null;
 
 	const total = $derived(bound.length);
-	const overallCaption = $derived(diagramDefinitions[protocolId]?.caption ?? '');
+	const definition = $derived(inline ?? (protocolId ? diagramDefinitions[protocolId] : undefined));
+	const overallCaption = $derived(definition?.caption ?? '');
 	const currentStep = $derived(cursor >= 0 && cursor < bound.length ? bound[cursor] : null);
+	const diagramKey = $derived(protocolId ?? 'inline');
 
 	onMount(async () => {
 		const mod = await import('mermaid');
@@ -60,14 +78,12 @@
 		mermaidApi = mod.default;
 	});
 
-	const definition = $derived(diagramDefinitions[protocolId]);
-
 	$effect(() => {
 		if (!mermaidApi || !definition || !containerEl) return;
 
 		const theme = appState.theme;
 		const fullDef = buildThemedDefinition(definition.definition, color, expanded, theme);
-		const id = `seq-${protocolId}-${expanded ? 'exp' : 'inl'}-${++renderCounter}`;
+		const id = `seq-${diagramKey}-${expanded ? 'exp' : 'inl'}-${++renderCounter}`;
 
 		// Cancel any in-flight loop and reset state for the new diagram.
 		playToken++;
@@ -87,7 +103,7 @@
 				}
 			})
 			.catch((err) => {
-				console.error(`SequencePlayer render error [${protocolId}]:`, err);
+				console.error(`SequencePlayer render error [${diagramKey}]:`, err);
 				containerEl.innerHTML =
 					'<p class="text-xs text-t-muted py-4 text-center">Diagram unavailable</p>';
 				bound = [];
@@ -305,7 +321,7 @@
 
 	function captionForIndex(i: number): string {
 		if (i < 0 || i >= bound.length) return overallCaption;
-		const stepCaptions = diagramDefinitions[protocolId]?.steps;
+		const stepCaptions = definition?.steps;
 		if (stepCaptions && stepCaptions[i]) return stepCaptions[i];
 		const s = bound[i].source;
 		if (s.kind === 'note') return `**Note:** ${s.text}`;
@@ -400,7 +416,7 @@
 		bind:this={containerEl}
 		class="mermaid-container w-full"
 		role="img"
-		aria-label="Sequence diagram for {protocolId}"
+		aria-label="Sequence diagram for {diagramKey}"
 	>
 		<div class="flex h-40 items-center justify-center">
 			<span class="text-xs text-t-muted">Loading diagram...</span>
