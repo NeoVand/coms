@@ -1,5 +1,11 @@
-import type { GraphNode, GraphEdge, Protocol, Category } from './types';
+import type { GraphNode, GraphEdge, Protocol, Category, Subcategory } from './types';
 import { categories, categoryMap } from './categories';
+import {
+	subcategories,
+	subcategoryMap,
+	protocolSubcategoryMap,
+	getSubcategoriesForCategory
+} from './subcategories';
 import { allProtocols } from './protocols';
 import { themedDomColor } from '../utils/colors';
 import { pioneers as _pioneersRegistry, type Pioneer } from './pioneers';
@@ -13,6 +19,8 @@ export { allProtocols };
 export const protocolMap = new Map(allProtocols.map((p) => [p.id, p]));
 
 export { categories, categoryMap };
+export { subcategories, subcategoryMap, protocolSubcategoryMap, getSubcategoriesForCategory };
+export type { Subcategory };
 
 // ── Deep-dive registries (populated as content workstreams land) ────
 export {
@@ -106,9 +114,29 @@ export function buildGraphNodes(): GraphNode[] {
 		});
 	}
 
+	// Subcategory nodes (inherit parent category color)
+	for (const sub of subcategories) {
+		const cat = categoryMap.get(sub.categoryId);
+		nodes.push({
+			id: sub.id,
+			type: 'subcategory',
+			label: sub.name,
+			color: cat?.color ?? '#FFFFFF',
+			glowColor: cat?.glowColor ?? 'rgba(255,255,255,0.3)',
+			radius: 20,
+			categoryId: sub.categoryId,
+			subcategoryId: sub.id,
+			x: 0,
+			y: 0,
+			vx: 0,
+			vy: 0
+		});
+	}
+
 	// Protocol nodes
 	for (const proto of allProtocols) {
 		const cat = categoryMap.get(proto.categoryId);
+		const subId = protocolSubcategoryMap.get(proto.id);
 		nodes.push({
 			id: proto.id,
 			type: 'protocol',
@@ -118,6 +146,7 @@ export function buildGraphNodes(): GraphNode[] {
 			glowColor: cat?.glowColor ?? 'rgba(255,255,255,0.3)',
 			radius: 16,
 			categoryId: proto.categoryId,
+			subcategoryId: subId,
 			x: 0,
 			y: 0,
 			vx: 0,
@@ -140,11 +169,23 @@ export function buildGraphEdges(): GraphEdge[] {
 		});
 	}
 
-	// Category → Protocol edges
+	// Category → Subcategory edges
+	for (const sub of subcategories) {
+		const cat = categoryMap.get(sub.categoryId);
+		edges.push({
+			source: sub.categoryId,
+			target: sub.id,
+			color: cat?.color ?? '#FFFFFF'
+		});
+	}
+
+	// Subcategory → Protocol edges (fall back to Category → Protocol if
+	// a protocol isn't yet assigned to a subcategory)
 	for (const proto of allProtocols) {
 		const cat = categoryMap.get(proto.categoryId);
+		const subId = protocolSubcategoryMap.get(proto.id);
 		edges.push({
-			source: proto.categoryId,
+			source: subId ?? proto.categoryId,
 			target: proto.id,
 			color: cat?.color ?? '#FFFFFF'
 		});

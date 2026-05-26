@@ -5,15 +5,18 @@ import {
 	forceCenter,
 	forceCollide,
 	forceRadial,
+	forceX,
+	forceY,
 	type Simulation,
 	type SimulationNodeDatum,
 	type SimulationLinkDatum
 } from 'd3-force';
 import type { GraphNode, GraphEdge } from '$lib/data/types';
+import { categories } from '$lib/data/categories';
 
 export interface SimNode extends SimulationNodeDatum {
 	id: string;
-	type: 'hub' | 'category' | 'protocol';
+	type: 'hub' | 'category' | 'subcategory' | 'protocol';
 	radius: number;
 	categoryId?: string;
 	/**
@@ -52,6 +55,19 @@ export function createSimulation(
 		color: e.color
 	}));
 
+	// Per-category angular anchors: each category claims a fixed direction
+	// from the hub. Subcategories and protocols are pulled toward that
+	// direction so cluster identity reads visually even after the sim settles.
+	const CLUSTER_ANCHOR_RADIUS = 360;
+	const catAnchors = new Map<string, { x: number; y: number }>();
+	categories.forEach((cat, i) => {
+		const angle = (i / categories.length) * Math.PI * 2 - Math.PI / 2;
+		catAnchors.set(cat.id, {
+			x: Math.cos(angle) * CLUSTER_ANCHOR_RADIUS,
+			y: Math.sin(angle) * CLUSTER_ANCHOR_RADIUS
+		});
+	});
+
 	const simulation = forceSimulation<SimNode>(simNodes)
 		.force('center', forceCenter(0, 0).strength(0.05))
 		.force(
@@ -61,6 +77,7 @@ export function createSimulation(
 					if (d.isBorn === false) return 0;
 					if (d.type === 'hub') return -800;
 					if (d.type === 'category') return -400;
+					if (d.type === 'subcategory') return -260;
 					return -170;
 				})
 				.distanceMax(500)
@@ -72,7 +89,8 @@ export function createSimulation(
 				.distance((d) => {
 					const src = d.source as SimNode;
 					if (src.type === 'hub') return 180;
-					return 100;
+					if (src.type === 'category') return 120;
+					return 90;
 				})
 				.strength((d) => {
 					const src = d.source as SimNode;
@@ -89,10 +107,41 @@ export function createSimulation(
 			)
 		)
 		.force(
+			'radial-subcategories',
+			forceRadial<SimNode>(340, 0, 0).strength((d) =>
+				d.isBorn !== false && d.type === 'subcategory' ? 0.18 : 0
+			)
+		)
+		.force(
+			'radial-protocols',
+			forceRadial<SimNode>(470, 0, 0).strength((d) =>
+				d.isBorn !== false && d.type === 'protocol' ? 0.12 : 0
+			)
+		)
+		.force(
+			'cluster-x',
+			forceX<SimNode>((d) => catAnchors.get(d.categoryId ?? '')?.x ?? 0).strength((d) => {
+				if (d.isBorn === false) return 0;
+				if (d.type === 'subcategory') return 0.12;
+				if (d.type === 'protocol') return 0.09;
+				return 0;
+			})
+		)
+		.force(
+			'cluster-y',
+			forceY<SimNode>((d) => catAnchors.get(d.categoryId ?? '')?.y ?? 0).strength((d) => {
+				if (d.isBorn === false) return 0;
+				if (d.type === 'subcategory') return 0.12;
+				if (d.type === 'protocol') return 0.09;
+				return 0;
+			})
+		)
+		.force(
 			'collide',
 			forceCollide<SimNode>()
-				.radius((d) => (d.isBorn === false ? 0 : d.radius + 12))
-				.strength(0.8)
+				.radius((d) => (d.isBorn === false ? 0 : d.radius + 14))
+				.strength(0.95)
+				.iterations(2)
 		)
 		.alphaDecay(0.02)
 		.velocityDecay(0.3);
@@ -141,11 +190,37 @@ export function getSimNode(
 	return simulation.nodes().find((n) => n.id === nodeId);
 }
 
-export function warmUpSimulation(simulation: Simulation<SimNode, SimLink>, ticks = 300): void {
-	simulation.alpha(1).stop();
-	for (let i = 0; i < ticks; i++) {
+/**
+ * Warm up the layout in two phases so the result is genuinely settled,
+ * not just frozen at the moment the alpha hit zero.
+ *
+ *   Phase 1 — explore: slow alpha decay (0.006) for ~70% of the tick
+ *     budget. Forces stay strong long enough that the simulation can
+ *     actually find a low-energy layout instead of locking in early
+ *     clumps.
+ *   Phase 2 — settle: re-warm to alpha 0.25 with the original decay so
+ *     collisions and link tensions can clean up small overlaps without
+ *     materially moving the cluster shape.
+ *
+ * The original alphaDecay is restored before returning, so the live
+ * force-mode simulation still cools quickly when the user is interacting.
+ */
+export function warmUpSimulation(simulation: Simulation<SimNode, SimLink>, ticks = 700): void {
+	const origDecay = simulation.alphaDecay();
+	const exploreTicks = Math.floor(ticks * 0.7);
+	const settleTicks = ticks - exploreTicks;
+
+	simulation.alpha(1).alphaDecay(0.006).stop();
+	for (let i = 0; i < exploreTicks; i++) {
 		simulation.tick();
 	}
+
+	simulation.alpha(0.25).alphaDecay(origDecay);
+	for (let i = 0; i < settleTicks; i++) {
+		simulation.tick();
+	}
+
+	simulation.alphaDecay(origDecay);
 }
 
 export function syncPositions(simulation: Simulation<SimNode, SimLink>, nodes: GraphNode[]): void {

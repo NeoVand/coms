@@ -10,7 +10,7 @@ import {
 	type SimulationLinkDatum
 } from 'd3-force';
 import type { GraphNode } from '$lib/data/types';
-import { allProtocols, categories } from '$lib/data/index';
+import { allProtocols, categories, subcategories } from '$lib/data/index';
 
 export type LayoutMode = 'force' | 'radial' | 'timeline' | 'mesh';
 
@@ -22,13 +22,17 @@ export function computeRadialPositions(
 
 	const hub = nodes.find((n) => n.type === 'hub');
 	const catNodes = nodes.filter((n) => n.type === 'category');
+	const subNodes = nodes.filter((n) => n.type === 'subcategory');
 	const protoNodes = nodes.filter((n) => n.type === 'protocol');
 
 	if (hub) pos.set(hub.id, { x: 0, y: 0 });
 
-	const CAT_RADIUS = 220;
-	const PROTO_RADIUS = 400;
-	const SECTOR_FILL = 0.82;
+	const CAT_RADIUS = 180;
+	const SUB_RADIUS = 360;
+	const PROTO_RADIUS = 540;
+	const CAT_SECTOR_FILL = 0.84;
+	const SUB_SECTOR_FILL = 0.9;
+	const MIN_SUB_WEIGHT = 0.6; // floor so single-protocol subs still get visible width
 
 	catNodes.forEach((cat, i) => {
 		const catAngle = (i / catNodes.length) * Math.PI * 2 - Math.PI / 2;
@@ -37,12 +41,56 @@ export function computeRadialPositions(
 			y: Math.sin(catAngle) * CAT_RADIUS
 		});
 
-		const protos = protoNodes.filter((p) => p.categoryId === cat.id);
-		const sectorSpan = ((2 * Math.PI) / catNodes.length) * SECTOR_FILL;
+		// Subcategories spread across this category's sector, weighted
+		// by child count so a sub with 4 protocols gets more arc than one
+		// with 1. A floor (MIN_SUB_WEIGHT) prevents single-protocol subs
+		// from collapsing to invisibility.
+		const cSubs = subNodes.filter((s) => s.categoryId === cat.id);
+		const catSectorSpan = ((2 * Math.PI) / catNodes.length) * CAT_SECTOR_FILL;
 
-		protos.forEach((proto, j) => {
-			const t = protos.length === 1 ? 0.5 : j / (protos.length - 1);
-			const protoAngle = catAngle - sectorSpan / 2 + t * sectorSpan;
+		const weights = cSubs.map((sub) => {
+			const count = protoNodes.filter((p) => p.subcategoryId === sub.id).length;
+			return Math.max(count, MIN_SUB_WEIGHT);
+		});
+		const totalWeight = weights.reduce((a, b) => a + b, 0) || 1;
+
+		let runningOffset = 0;
+		cSubs.forEach((sub, j) => {
+			const subWidth = catSectorSpan * (weights[j] / totalWeight);
+			const subAngle = catAngle - catSectorSpan / 2 + runningOffset + subWidth / 2;
+			runningOffset += subWidth;
+
+			pos.set(sub.id, {
+				x: Math.cos(subAngle) * SUB_RADIUS,
+				y: Math.sin(subAngle) * SUB_RADIUS
+			});
+
+			// Protocols spread across this subcategory's slice. Use slot-centered
+			// placement (u = (k+0.5)/N) instead of edge-to-edge (u = k/(N-1)) so
+			// the last protocol of one sub and the first of the next don't end
+			// up touching across the sub boundary — each gets a half-slot of
+			// buffer on either side.
+			const sProtos = protoNodes.filter((p) => p.subcategoryId === sub.id);
+			const subSectorSpan = subWidth * SUB_SECTOR_FILL;
+
+			sProtos.forEach((proto, k) => {
+				const u = (k + 0.5) / sProtos.length;
+				const protoAngle = subAngle - subSectorSpan / 2 + u * subSectorSpan;
+				pos.set(proto.id, {
+					x: Math.cos(protoAngle) * PROTO_RADIUS,
+					y: Math.sin(protoAngle) * PROTO_RADIUS
+				});
+			});
+		});
+
+		// Fallback for protocols without a subcategory: spread them across
+		// the category sector at the protocol radius (preserves old behavior).
+		const orphans = protoNodes.filter(
+			(p) => p.categoryId === cat.id && !p.subcategoryId
+		);
+		orphans.forEach((proto, j) => {
+			const t = (j + 0.5) / orphans.length;
+			const protoAngle = catAngle - catSectorSpan / 2 + t * catSectorSpan;
 			pos.set(proto.id, {
 				x: Math.cos(protoAngle) * PROTO_RADIUS,
 				y: Math.sin(protoAngle) * PROTO_RADIUS
@@ -84,6 +132,16 @@ export function computeTimelinePositions(
 		const i = catOrder.indexOf(cat.id);
 		const laneY = (i - Math.floor(catOrder.length / 2)) * LANE_SPACING;
 		pos.set(cat.id, { x: X_LEFT - 120, y: laneY });
+	});
+
+	// Subcategories aren't shown on the timeline (no inherent year). Park
+	// them on top of their parent category node so the renderer can fade
+	// them out without them appearing as stray points off-screen.
+	const subNodes = nodes.filter((n) => n.type === 'subcategory');
+	subNodes.forEach((sub) => {
+		const i = catOrder.indexOf(sub.categoryId ?? '');
+		const laneY = (i - Math.floor(catOrder.length / 2)) * LANE_SPACING;
+		pos.set(sub.id, { x: X_LEFT - 120, y: laneY });
 	});
 
 	const protoNodes = nodes.filter((n) => n.type === 'protocol');
@@ -218,11 +276,11 @@ export function computeMeshPositions(
 		pos.set(mn.id, { x: mn.x ?? 0, y: mn.y ?? 0 });
 	}
 
-	// Hide hub & categories during mesh mode by parking them at origin —
-	// the renderer will skip drawing them, and lerping back to other modes
-	// remains smooth.
+	// Hide hub, categories, and subcategories during mesh mode by parking
+	// them at origin — the renderer skips drawing them, and lerping back
+	// to other modes remains smooth.
 	for (const n of nodes) {
-		if (n.type === 'hub' || n.type === 'category') {
+		if (n.type === 'hub' || n.type === 'category' || n.type === 'subcategory') {
 			pos.set(n.id, { x: 0, y: 0 });
 		}
 	}

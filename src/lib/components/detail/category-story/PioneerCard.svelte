@@ -61,7 +61,9 @@
 				{/if}
 			</div>
 			<div class="text-xs text-t-secondary">{pioneer.title}</div>
-			<div class="mt-0.5 text-[10px] text-t-muted">{pioneer.org}</div>
+			<div class="mt-0.5 text-[10px] text-t-muted">
+				<RichText segments={parseRichText(pioneer.org)} {color} />
+			</div>
 			<p class="mt-1.5 text-xs leading-relaxed text-t-muted">
 				<RichText segments={parseRichText(pioneer.contribution)} {color} />
 			</p>
@@ -99,7 +101,9 @@
 				{/if}
 			</div>
 			<div class="text-xs text-t-secondary">{pioneer.title}</div>
-			<div class="mt-0.5 text-[10px] text-t-muted">{pioneer.org}</div>
+			<div class="mt-0.5 text-[10px] text-t-muted">
+				<RichText segments={parseRichText(pioneer.org)} {color} />
+			</div>
 			<p class="mt-1.5 text-xs leading-relaxed text-t-muted">
 				<RichText segments={parseRichText(pioneer.contribution)} {color} />
 			</p>

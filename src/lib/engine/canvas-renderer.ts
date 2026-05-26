@@ -1,7 +1,8 @@
 import type { GraphNode, GraphEdge, Viewport } from '$lib/data/types';
-import { hexToRgba, themedColor, themedDomColor, type ThemeColors } from '$lib/utils/colors';
+import { hexToRgba, themedColor, themedDomColor, shiftHsl, type ThemeColors } from '$lib/utils/colors';
 import { getProtocolById } from '$lib/data/index';
 import { categoryMap, categories } from '$lib/data/categories';
+import { subcategoryMap } from '$lib/data/subcategories';
 import { TIMELINE_PARAMS, type LayoutMode } from '$lib/engine/layouts';
 import type { Journey } from '$lib/data/journeys';
 
@@ -105,14 +106,26 @@ function isNodeDimmed(node: GraphNode, selectedNode: GraphNode | null, compareTa
 	}
 	if (selectedNode && selectedNode.id !== node.id) {
 		if (selectedNode.type === 'category') {
-			return (node.type === 'protocol' && node.categoryId !== selectedNode.id) || node.type === 'hub';
+			const inCat = node.categoryId === selectedNode.id;
+			if (node.type === 'protocol' && !inCat) return true;
+			if (node.type === 'subcategory' && !inCat) return true;
+			if (node.type === 'hub') return true;
+			return false;
+		}
+		if (selectedNode.type === 'subcategory') {
+			// Keep self, parent category, and all protocols inside this subcategory bright
+			if (node.id === selectedNode.id) return false;
+			if (node.id === selectedNode.categoryId) return false;
+			if (node.type === 'protocol' && node.subcategoryId === selectedNode.id) return false;
+			return true;
 		}
 		if (selectedNode.type === 'protocol') {
 			// Don't dim connected/related nodes
 			if (connectedIds.has(node.id)) return false;
-			return (
-				node.id !== selectedNode.categoryId && node.id !== selectedNode.id
-			);
+			// Keep parent category and parent subcategory bright
+			if (node.id === selectedNode.categoryId) return false;
+			if (selectedNode.subcategoryId && node.id === selectedNode.subcategoryId) return false;
+			return node.id !== selectedNode.id;
 		}
 	}
 	return false;
@@ -216,7 +229,7 @@ export function render(ctx: CanvasRenderingContext2D, options: RenderOptions): v
 	// scaffolding is hidden — only protocol nodes remain.
 	const visibleNodes = layoutMode === 'mesh' ? nodes.filter((n) => n.type === 'protocol') : nodes;
 	const sortedNodes = [...visibleNodes].sort((a, b) => {
-		const order = { protocol: 0, category: 1, hub: 2 };
+		const order = { protocol: 0, subcategory: 1, category: 2, hub: 3 };
 		return order[a.type] - order[b.type];
 	});
 
@@ -690,7 +703,17 @@ function drawNode(
 	birthT: number = 1
 ): void {
 	const { x, y, radius, type } = node;
-	const color = themedColor(node.color, theme.showStars ? 'dark' : 'light');
+	const baseColor = themedColor(node.color, theme.showStars ? 'dark' : 'light');
+	// Tier the colour by hierarchy: leaves lighter+slightly more saturated,
+	// categories slightly darker+muted, subcategories untouched. Dark-mode
+	// only — in light mode the LIGHT_GRAPH_MAP already does deepening and
+	// the contrast direction would flip.
+	const color =
+		theme.showStars && type === 'protocol'
+			? shiftHsl(baseColor, 0.12, 0.04)
+			: theme.showStars && type === 'category'
+				? shiftHsl(baseColor, -0.1, -0.06)
+				: baseColor;
 	// Plant-growth birth: smoothstep S-curve, no overshoot. The bud is
 	// faintly visible from the start (small minimum scale + fast alpha)
 	// then fills out as the stem extends.
@@ -816,6 +839,15 @@ function drawNode(
 		}
 	}
 
+	// Subcategory icon inside subcategory nodes
+	if (type === 'subcategory') {
+		const sub = subcategoryMap.get(node.id);
+		if (sub) {
+			const iconSize = r * 1.1;
+			drawSubcategoryIcon(ctx, x, y, iconSize, sub.icon, dimT, theme);
+		}
+	}
+
 	// Hub icon inside hub node
 	if (type === 'hub') {
 		const iconSize = r * 1.1;
@@ -824,8 +856,8 @@ function drawNode(
 
 	// Label — show for non-dimmed nodes and connected nodes
 	if (dimT < 0.95 || isConnected) {
-		const fontSize = type === 'hub' ? 11 : type === 'category' ? 10 : 9;
-		const showLabel = scale > 0.5 || type === 'hub' || type === 'category';
+		const fontSize = type === 'hub' ? 11 : type === 'category' ? 10 : type === 'subcategory' ? 9.5 : 9;
+		const showLabel = scale > 0.5 || type === 'hub' || type === 'category' || type === 'subcategory';
 		const showAbbrev = scale <= 0.5 && scale > 0.3 && type === 'protocol';
 
 		if (showLabel || showAbbrev || isConnected) {
@@ -835,7 +867,7 @@ function drawNode(
 					: showLabel
 						? type === 'hub'
 							? 'PROTOCOLS'
-							: type === 'category'
+							: type === 'category' || type === 'subcategory'
 								? node.label
 								: node.abbreviation || node.label
 						: node.abbreviation || '';
@@ -856,7 +888,7 @@ function drawNode(
 			ctx.shadowBlur = theme.labelShadowBlur;
 
 			// Radial layout: position labels outward from center to avoid occlusion
-			if (layoutMode === 'radial' && type === 'protocol') {
+			if (layoutMode === 'radial' && (type === 'protocol' || type === 'subcategory')) {
 				const angle = Math.atan2(y, x);
 				const labelOffset = r + 8;
 				const lx = x + Math.cos(angle) * labelOffset;
@@ -1076,6 +1108,332 @@ function drawCategoryIcon(
 			break;
 		case 'wireless':
 			drawWirelessIcon(ctx);
+			break;
+	}
+
+	ctx.restore();
+}
+
+// --- Subcategory icon drawing functions (all in 24×24 coordinate space) ---
+// All paths are Lucide SVG path data, rendered via Path2D for parity with
+// the DOM tooltip icons (which use lucide-svelte at the same path source).
+
+function drawLinkLayerIcon(ctx: CanvasRenderingContext2D): void {
+	// link-2 — two interlocked link halves with a bar between them
+	ctx.stroke(new Path2D('M9 17H7A5 5 0 0 1 7 7h2'));
+	ctx.stroke(new Path2D('M15 7h2a5 5 0 1 1 0 10h-2'));
+	ctx.stroke(new Path2D('M8 12h8'));
+}
+
+function drawInternetLayerIcon(ctx: CanvasRenderingContext2D): void {
+	// globe — circle with meridian and equator
+	const c = new Path2D();
+	c.arc(12, 12, 10, 0, Math.PI * 2);
+	ctx.stroke(c);
+	ctx.stroke(new Path2D('M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20'));
+	ctx.stroke(new Path2D('M2 12h20'));
+}
+
+function drawRoutingIcon(ctx: CanvasRenderingContext2D): void {
+	// route — two circles connected by a winding path
+	const c1 = new Path2D();
+	c1.arc(6, 19, 3, 0, Math.PI * 2);
+	ctx.stroke(c1);
+	const c2 = new Path2D();
+	c2.arc(18, 5, 3, 0, Math.PI * 2);
+	ctx.stroke(c2);
+	ctx.stroke(new Path2D('M9 19h8.5a3.5 3.5 0 0 0 0-7h-11a3.5 3.5 0 0 1 0-7H15'));
+}
+
+function drawNamingIcon(ctx: CanvasRenderingContext2D): void {
+	// tag — angled price-tag silhouette with a hole
+	ctx.stroke(
+		new Path2D(
+			'M12.586 2.586A2 2 0 0 0 11.172 2H4a2 2 0 0 0-2 2v7.172a2 2 0 0 0 .586 1.414l8.704 8.704a2.426 2.426 0 0 0 3.42 0l6.58-6.58a2.426 2.426 0 0 0 0-3.42z'
+		)
+	);
+	const dot = new Path2D();
+	dot.arc(7.5, 7.5, 1.1, 0, Math.PI * 2);
+	ctx.fill(dot);
+}
+
+function drawReliableStreamsIcon(ctx: CanvasRenderingContext2D): void {
+	// git-commit-vertical — vertical line with a circle in the middle
+	ctx.stroke(new Path2D('M12 3v6'));
+	ctx.stroke(new Path2D('M12 15v6'));
+	const c = new Path2D();
+	c.arc(12, 12, 3, 0, Math.PI * 2);
+	ctx.stroke(c);
+}
+
+function drawDatagramTransportIcon(ctx: CanvasRenderingContext2D): void {
+	// package — hex-prism box with seam lines
+	ctx.stroke(
+		new Path2D(
+			'M11 21.73a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73z'
+		)
+	);
+	ctx.stroke(new Path2D('M12 22V12'));
+	ctx.stroke(new Path2D('M3.29 7L12 12l8.71-5'));
+	ctx.stroke(new Path2D('m7.5 4.27 9 5.15'));
+}
+
+function drawHttpVersionsIcon(ctx: CanvasRenderingContext2D): void {
+	// layers — three stacked sheets
+	ctx.stroke(
+		new Path2D(
+			'M12.83 2.18a2 2 0 0 0-1.66 0L2.6 6.08a1 1 0 0 0 0 1.83l8.58 3.91a2 2 0 0 0 1.66 0l8.58-3.9a1 1 0 0 0 0-1.83Z'
+		)
+	);
+	ctx.stroke(new Path2D('m22 17.65-9.17 4.16a2 2 0 0 1-1.66 0L2 17.65'));
+	ctx.stroke(new Path2D('m22 12.65-9.17 4.16a2 2 0 0 1-1.66 0L2 12.65'));
+}
+
+function drawResourceQueryApisIcon(ctx: CanvasRenderingContext2D): void {
+	// database — barrel
+	const top = new Path2D();
+	top.ellipse(12, 5, 9, 3, 0, 0, Math.PI * 2);
+	ctx.stroke(top);
+	ctx.stroke(new Path2D('M3 5v14a9 3 0 0 0 18 0V5'));
+	ctx.stroke(new Path2D('M3 12a9 3 0 0 0 18 0'));
+}
+
+function drawRpcStylesIcon(ctx: CanvasRenderingContext2D): void {
+	// terminal — chevron prompt with a horizontal cursor
+	ctx.stroke(new Path2D('M4 17 10 11 4 5'));
+	ctx.stroke(new Path2D('M12 19 H20'));
+}
+
+function drawRealtimeWebIcon(ctx: CanvasRenderingContext2D): void {
+	// zap — lightning bolt
+	ctx.stroke(
+		new Path2D(
+			'M4 14a1 1 0 0 1-.78-1.63l9.9-10.2a.5.5 0 0 1 .86.46l-1.92 6.02A1 1 0 0 0 13 10h7a1 1 0 0 1 .78 1.63l-9.9 10.2a.5.5 0 0 1-.86-.46l1.92-6.02A1 1 0 0 0 11 14z'
+		)
+	);
+}
+
+function drawAgentProtocolsIcon(ctx: CanvasRenderingContext2D): void {
+	// bot — robot head with antenna
+	ctx.stroke(new Path2D('M12 8V4H8'));
+	const body = new Path2D();
+	body.roundRect(4, 8, 16, 12, 2);
+	ctx.stroke(body);
+	ctx.stroke(new Path2D('M2 14h2'));
+	ctx.stroke(new Path2D('M20 14h2'));
+	ctx.stroke(new Path2D('M15 13v2'));
+	ctx.stroke(new Path2D('M9 13v2'));
+}
+
+function drawEnterpriseBrokersIcon(ctx: CanvasRenderingContext2D): void {
+	// inbox — tray with a notch
+	ctx.stroke(new Path2D('M22 12H16L14 15H10L8 12H2'));
+	ctx.stroke(
+		new Path2D(
+			'M5.45 5.11 2 12v6a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-6l-3.45-6.89A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z'
+		)
+	);
+}
+
+function drawIotMessagingIcon(ctx: CanvasRenderingContext2D): void {
+	// cpu — chip with pins on every side
+	const body = new Path2D();
+	body.roundRect(4, 4, 16, 16, 2);
+	ctx.stroke(body);
+	const core = new Path2D();
+	core.rect(9, 9, 6, 6);
+	ctx.stroke(core);
+	ctx.stroke(new Path2D('M9 2v2'));
+	ctx.stroke(new Path2D('M15 2v2'));
+	ctx.stroke(new Path2D('M9 20v2'));
+	ctx.stroke(new Path2D('M15 20v2'));
+	ctx.stroke(new Path2D('M2 9h2'));
+	ctx.stroke(new Path2D('M2 15h2'));
+	ctx.stroke(new Path2D('M20 9h2'));
+	ctx.stroke(new Path2D('M20 15h2'));
+}
+
+function drawFederatedMessagingIcon(ctx: CanvasRenderingContext2D): void {
+	// share-2 — three nodes connected by edges
+	const n1 = new Path2D();
+	n1.arc(18, 5, 3, 0, Math.PI * 2);
+	ctx.stroke(n1);
+	const n2 = new Path2D();
+	n2.arc(6, 12, 3, 0, Math.PI * 2);
+	ctx.stroke(n2);
+	const n3 = new Path2D();
+	n3.arc(18, 19, 3, 0, Math.PI * 2);
+	ctx.stroke(n3);
+	ctx.stroke(new Path2D('M8.59 13.51 15.42 17.49'));
+	ctx.stroke(new Path2D('M15.41 6.51 8.59 10.49'));
+}
+
+function drawStreamingDeliveryIcon(ctx: CanvasRenderingContext2D): void {
+	// monitor-play — screen with a play triangle and a stand
+	const screen = new Path2D();
+	screen.roundRect(2, 3, 20, 14, 2);
+	ctx.stroke(screen);
+	ctx.stroke(
+		new Path2D(
+			'M10 7.75a.75.75 0 0 1 1.142-.638l3.664 2.249a.75.75 0 0 1 0 1.278l-3.664 2.249a.75.75 0 0 1-1.142-.638z'
+		)
+	);
+	ctx.stroke(new Path2D('M12 17v4'));
+	ctx.stroke(new Path2D('M8 21h8'));
+}
+
+function drawConferencingCallsIcon(ctx: CanvasRenderingContext2D): void {
+	// phone — handset
+	ctx.stroke(
+		new Path2D(
+			'M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z'
+		)
+	);
+}
+
+function drawSecureChannelsVpnIcon(ctx: CanvasRenderingContext2D): void {
+	// lock — padlock body with shackle
+	const body = new Path2D();
+	body.roundRect(3, 11, 18, 11, 2);
+	ctx.stroke(body);
+	ctx.stroke(new Path2D('M7 11V7a5 5 0 0 1 10 0v4'));
+}
+
+function drawAuthenticationIcon(ctx: CanvasRenderingContext2D): void {
+	// key-round — keyhead and bit
+	ctx.stroke(
+		new Path2D(
+			'M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z'
+		)
+	);
+	const dot = new Path2D();
+	dot.arc(16.5, 7.5, 1.1, 0, Math.PI * 2);
+	ctx.fill(dot);
+}
+
+function drawMailFileTransferIcon(ctx: CanvasRenderingContext2D): void {
+	// mail — envelope with flap
+	const env = new Path2D();
+	env.roundRect(2, 4, 20, 16, 2);
+	ctx.stroke(env);
+	ctx.stroke(new Path2D('m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7'));
+}
+
+function drawNetworkServicesIcon(ctx: CanvasRenderingContext2D): void {
+	// settings/cog — gear with center circle
+	ctx.stroke(
+		new Path2D(
+			'M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z'
+		)
+	);
+	const c = new Path2D();
+	c.arc(12, 12, 3, 0, Math.PI * 2);
+	ctx.stroke(c);
+}
+
+function drawWlanWanIcon(ctx: CanvasRenderingContext2D): void {
+	// wifi — three concentric arcs facing up with a dot
+	ctx.stroke(new Path2D('M2 8.82a15 15 0 0 1 20 0'));
+	ctx.stroke(new Path2D('M5 12.86a10 10 0 0 1 14 0'));
+	ctx.stroke(new Path2D('M8.5 16.43a5 5 0 0 1 7 0'));
+	const dot = new Path2D();
+	dot.arc(12, 20, 1, 0, Math.PI * 2);
+	ctx.fill(dot);
+}
+
+function drawPanProximityIcon(ctx: CanvasRenderingContext2D): void {
+	// bluetooth — single continuous zig-zag
+	ctx.stroke(new Path2D('m7 7 10 10-5 5V2l5 5L7 17'));
+}
+
+function drawSubcategoryIcon(
+	ctx: CanvasRenderingContext2D,
+	x: number,
+	y: number,
+	size: number,
+	icon: string,
+	dimT: number,
+	theme: ThemeColors
+): void {
+	ctx.save();
+	ctx.translate(x, y);
+	const s = size / 24;
+	ctx.scale(s, s);
+	ctx.translate(-12, -12);
+
+	ctx.globalAlpha = 1 - 0.85 * dimT;
+	ctx.strokeStyle = theme.categoryIconColor;
+	ctx.fillStyle = theme.categoryIconColor;
+	ctx.lineWidth = 1.4; // a touch thicker than 1.2 so detail reads at the smaller sub radius
+	ctx.lineCap = 'round';
+	ctx.lineJoin = 'round';
+
+	switch (icon) {
+		case 'link-layer':
+			drawLinkLayerIcon(ctx);
+			break;
+		case 'internet-layer':
+			drawInternetLayerIcon(ctx);
+			break;
+		case 'routing':
+			drawRoutingIcon(ctx);
+			break;
+		case 'naming':
+			drawNamingIcon(ctx);
+			break;
+		case 'reliable-streams':
+			drawReliableStreamsIcon(ctx);
+			break;
+		case 'datagram-transport':
+			drawDatagramTransportIcon(ctx);
+			break;
+		case 'http-versions':
+			drawHttpVersionsIcon(ctx);
+			break;
+		case 'resource-query-apis':
+			drawResourceQueryApisIcon(ctx);
+			break;
+		case 'rpc-styles':
+			drawRpcStylesIcon(ctx);
+			break;
+		case 'realtime-web':
+			drawRealtimeWebIcon(ctx);
+			break;
+		case 'agent-protocols':
+			drawAgentProtocolsIcon(ctx);
+			break;
+		case 'enterprise-brokers':
+			drawEnterpriseBrokersIcon(ctx);
+			break;
+		case 'iot-messaging':
+			drawIotMessagingIcon(ctx);
+			break;
+		case 'federated-messaging':
+			drawFederatedMessagingIcon(ctx);
+			break;
+		case 'streaming-delivery':
+			drawStreamingDeliveryIcon(ctx);
+			break;
+		case 'conferencing-calls':
+			drawConferencingCallsIcon(ctx);
+			break;
+		case 'secure-channels-vpn':
+			drawSecureChannelsVpnIcon(ctx);
+			break;
+		case 'authentication':
+			drawAuthenticationIcon(ctx);
+			break;
+		case 'mail-file-transfer':
+			drawMailFileTransferIcon(ctx);
+			break;
+		case 'network-services':
+			drawNetworkServicesIcon(ctx);
+			break;
+		case 'wlan-wan':
+			drawWlanWanIcon(ctx);
+			break;
+		case 'pan-proximity':
+			drawPanProximityIcon(ctx);
 			break;
 	}
 

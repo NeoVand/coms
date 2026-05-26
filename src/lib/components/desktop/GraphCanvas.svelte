@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount, untrack } from 'svelte';
 	import { prefersReducedMotion } from 'svelte/motion';
-	import { buildGraphNodes, buildGraphEdges, buildMeshEdges, getProtocolById, allProtocols, categories } from '$lib/data/index';
+	import { buildGraphNodes, buildGraphEdges, buildMeshEdges, getProtocolById, allProtocols, categories, subcategories } from '$lib/data/index';
 	import type { GraphNode } from '$lib/data/types';
 
 	import { createSimulation, warmUpSimulation, syncPositions } from '$lib/engine/simulation';
@@ -103,6 +103,17 @@
 			const baseDelay = yearToBloomMs(minYear);
 			delays.set(cat.id, Math.max(120, baseDelay - BLOOM_CATEGORY_PRE_OFFSET_MS));
 		}
+		// Subcategories appear just before their earliest child protocol,
+		// after their parent category — slotted between the two.
+		for (const sub of subcategories) {
+			const subProtos = sub.protocolIds
+				.map((id) => allProtocols.find((p) => p.id === id))
+				.filter((p): p is NonNullable<typeof p> => Boolean(p));
+			if (subProtos.length === 0) continue;
+			const minYear = Math.min(...subProtos.map((p) => p.year));
+			const baseDelay = yearToBloomMs(minYear);
+			delays.set(sub.id, Math.max(160, baseDelay - BLOOM_CATEGORY_PRE_OFFSET_MS / 2));
+		}
 		for (const proto of allProtocols) {
 			delays.set(proto.id, yearToBloomMs(proto.year) + bloomJitterForId(proto.id));
 		}
@@ -198,16 +209,28 @@
 		}
 		if (selected.type === 'category') {
 			return nodes.filter(
-				(n) => n.id === selected.id || (n.type === 'protocol' && n.categoryId === selected.id)
+				(n) =>
+					n.id === selected.id ||
+					(n.type === 'subcategory' && n.categoryId === selected.id) ||
+					(n.type === 'protocol' && n.categoryId === selected.id)
 			);
 		}
-		// protocol — include self, parent category, and connected protocols
+		if (selected.type === 'subcategory') {
+			return nodes.filter(
+				(n) =>
+					n.id === selected.id ||
+					n.id === selected.categoryId ||
+					(n.type === 'protocol' && n.subcategoryId === selected.id)
+			);
+		}
+		// protocol — include self, parent subcategory, parent category, and connected protocols
 		const proto = getProtocolById(selected.id);
 		const connected = new Set(proto?.connections ?? []);
 		return nodes.filter(
 			(n) =>
 				n.id === selected.id ||
 				n.id === selected.categoryId ||
+				(selected.subcategoryId !== undefined && n.id === selected.subcategoryId) ||
 				connected.has(n.id)
 		);
 	}
@@ -711,7 +734,12 @@
 					// visibly attached but doesn't overlap the parent.
 					if (!bloomSpawned.has(node.id)) {
 						bloomSpawned.add(node.id);
-						const parentId = node.type === 'category' ? 'hub' : node.categoryId;
+						const parentId =
+	node.type === 'category'
+		? 'hub'
+		: node.type === 'subcategory'
+			? node.categoryId
+			: (node.subcategoryId ?? node.categoryId);
 						const parent = parentId ? nodes.find((n) => n.id === parentId) : undefined;
 						const px = parent?.x ?? 0;
 						const py = parent?.y ?? 0;

@@ -225,7 +225,16 @@ export interface Category {
 	icon: string;
 }
 
-export type GraphNodeType = 'hub' | 'category' | 'protocol';
+export interface Subcategory {
+	id: string;
+	name: string;
+	categoryId: string;
+	protocolIds: string[];
+	description: string;
+	icon: string;
+}
+
+export type GraphNodeType = 'hub' | 'category' | 'subcategory' | 'protocol';
 
 export interface GraphNode {
 	id: string;
@@ -236,6 +245,7 @@ export interface GraphNode {
 	glowColor: string;
 	radius: number;
 	categoryId?: string;
+	subcategoryId?: string;
 	x: number;
 	y: number;
 	vx: number;

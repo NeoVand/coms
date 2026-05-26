@@ -135,9 +135,14 @@ export function navigateToGlossaryIndex(opts: NavOptions = {}) {
 	return go('/glossary', opts);
 }
 
-/** Pick the right URL for any GraphNode (hub / category / protocol). */
+export function navigateToSubcategory(id: string, opts: NavOptions = {}) {
+	return go(`/s/${id}`, opts);
+}
+
+/** Pick the right URL for any GraphNode (hub / category / subcategory / protocol). */
 export function navigateToNode(node: GraphNode, opts: NavOptions = {}) {
 	if (node.type === 'hub') return navigateToHubPanel(opts);
 	if (node.type === 'category') return navigateToCategory(node.id, opts);
+	if (node.type === 'subcategory') return navigateToSubcategory(node.id, opts);
 	return navigateToProtocol(node.id, opts);
 }

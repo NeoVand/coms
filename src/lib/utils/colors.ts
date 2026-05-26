@@ -195,6 +195,47 @@ export function themedColor(color: string, theme: 'dark' | 'light'): string {
 	return LIGHT_GRAPH_MAP[color] ?? color;
 }
 
+/**
+ * Shift a hex color in HSL space. Used to tier hierarchy levels by
+ * brightness/saturation: leaves get +dl, top nodes get −dl, while hue
+ * stays locked so siblings still read as the same colour family.
+ */
+export function shiftHsl(hex: string, dl: number, ds: number = 0): string {
+	if (!hex.startsWith('#') || (hex.length !== 7 && hex.length !== 4)) return hex;
+	const h6 = hex.length === 4 ? `#${hex[1]}${hex[1]}${hex[2]}${hex[2]}${hex[3]}${hex[3]}` : hex;
+	const r = parseInt(h6.slice(1, 3), 16) / 255;
+	const g = parseInt(h6.slice(3, 5), 16) / 255;
+	const b = parseInt(h6.slice(5, 7), 16) / 255;
+	const max = Math.max(r, g, b);
+	const min = Math.min(r, g, b);
+	let hh = 0;
+	let s = 0;
+	let l = (max + min) / 2;
+	if (max !== min) {
+		const d = max - min;
+		s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+		if (max === r) hh = ((g - b) / d + (g < b ? 6 : 0)) / 6;
+		else if (max === g) hh = ((b - r) / d + 2) / 6;
+		else hh = ((r - g) / d + 4) / 6;
+	}
+	l = Math.max(0, Math.min(1, l + dl));
+	s = Math.max(0, Math.min(1, s + ds));
+	const hue2rgb = (p: number, q: number, t: number) => {
+		if (t < 0) t += 1;
+		if (t > 1) t -= 1;
+		if (t < 1 / 6) return p + (q - p) * 6 * t;
+		if (t < 1 / 2) return q;
+		if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+		return p;
+	};
+	const q2 = l < 0.5 ? l * (1 + s) : l + s - l * s;
+	const p2 = 2 * l - q2;
+	const nr = Math.round(hue2rgb(p2, q2, hh + 1 / 3) * 255);
+	const ng = Math.round(hue2rgb(p2, q2, hh) * 255);
+	const nb = Math.round(hue2rgb(p2, q2, hh - 1 / 3) * 255);
+	return `#${nr.toString(16).padStart(2, '0')}${ng.toString(16).padStart(2, '0')}${nb.toString(16).padStart(2, '0')}`;
+}
+
 /** Auto-darken a hex color for readability on light backgrounds */
 function autoDarkenForLightBg(hex: string): string {
 	const r = parseInt(hex.slice(1, 3), 16) / 255;

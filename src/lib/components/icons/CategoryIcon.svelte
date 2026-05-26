@@ -6,19 +6,66 @@
 		Play,
 		ShieldCheck,
 		Network,
-		Antenna
+		Antenna,
+		// Subcategory icons
+		Link2,
+		Globe,
+		Route,
+		Tag,
+		GitCommitVertical,
+		Package,
+		Layers,
+		Database,
+		Terminal,
+		Zap,
+		Bot,
+		Inbox,
+		Cpu,
+		Share2,
+		MonitorPlay,
+		Phone,
+		Lock,
+		KeyRound,
+		Mail,
+		Cog,
+		Wifi,
+		Bluetooth
 	} from 'lucide-svelte';
 
 	let { icon, size = 24, animate = false }: { icon: string; size?: number; animate?: boolean } = $props();
 
 	const iconMap: Record<string, typeof ArrowLeftRight> = {
+		// Categories
 		'network-foundations': Network,
 		transport: ArrowLeftRight,
 		'web-api': Orbit,
 		'async-iot': Radio,
 		'realtime-av': Play,
 		utilities: ShieldCheck,
-		wireless: Antenna
+		wireless: Antenna,
+		// Subcategories
+		'link-layer': Link2,
+		'internet-layer': Globe,
+		routing: Route,
+		naming: Tag,
+		'reliable-streams': GitCommitVertical,
+		'datagram-transport': Package,
+		'http-versions': Layers,
+		'resource-query-apis': Database,
+		'rpc-styles': Terminal,
+		'realtime-web': Zap,
+		'agent-protocols': Bot,
+		'enterprise-brokers': Inbox,
+		'iot-messaging': Cpu,
+		'federated-messaging': Share2,
+		'streaming-delivery': MonitorPlay,
+		'conferencing-calls': Phone,
+		'secure-channels-vpn': Lock,
+		authentication: KeyRound,
+		'mail-file-transfer': Mail,
+		'network-services': Cog,
+		'wlan-wan': Wifi,
+		'pan-proximity': Bluetooth
 	};
 
 	const Component = $derived(iconMap[icon]);
