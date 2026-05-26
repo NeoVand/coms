@@ -37,6 +37,7 @@
 		navigateToRfc
 	} from '$lib/utils/navigation';
 	import { getAppState } from '$lib/state/context';
+	import { themedDomColor } from '$lib/utils/colors';
 
 	interface Props {
 		partId: string;
@@ -80,7 +81,12 @@
 		frontier: '#a78bfa', // violet — future
 		'how-to-learn-more': '#94a3b8' // slate — index
 	};
-	const ACCENT = $derived(PART_ACCENTS[partId] ?? '#60a5fa');
+	// Raw accent stays the dark-mode neon hex (used downstream by inline
+	// link components that already theme themselves). ACCENT is the
+	// themed colour used directly in inline `style="color: ..."` slots
+	// throughout this view so the chapter is readable in light mode.
+	const ACCENT_RAW = $derived(PART_ACCENTS[partId] ?? '#60a5fa');
+	const ACCENT = $derived(themedDomColor(ACCENT_RAW, appState.theme));
 
 	function partLabel(id: string): string {
 		const p = bookPartMap.get(id);

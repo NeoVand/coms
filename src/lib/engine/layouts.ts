@@ -189,6 +189,7 @@ export function computeTimelinePositions(
 
 interface MeshNode extends SimulationNodeDatum {
 	id: string;
+	type: 'protocol' | 'subcategory';
 	categoryId: string;
 }
 interface MeshLink extends SimulationLinkDatum<MeshNode> {}
@@ -198,9 +199,11 @@ export function computeMeshPositions(
 ): Map<string, { x: number; y: number }> {
 	const pos = new Map<string, { x: number; y: number }>();
 	const protoNodes = nodes.filter((n) => n.type === 'protocol');
+	const subNodes = nodes.filter((n) => n.type === 'subcategory');
 
 	// Build undirected, deduplicated edges from `connections`
 	const protoIds = new Set(protoNodes.map((n) => n.id));
+	const subIds = new Set(subNodes.map((n) => n.id));
 	const edgePairs = new Set<string>();
 	const links: MeshLink[] = [];
 	for (const proto of allProtocols) {
@@ -215,16 +218,39 @@ export function computeMeshPositions(
 		}
 	}
 
+	// Sub→proto tree links so each subcategory acts as an anchor for the
+	// leaves that belong to it. These ride alongside the proto-proto
+	// connection edges; they're stronger and shorter so subs visibly
+	// hold their cluster together without overpowering cross-cluster
+	// connections.
+	for (const proto of protoNodes) {
+		if (proto.subcategoryId && subIds.has(proto.subcategoryId)) {
+			links.push({ source: proto.subcategoryId, target: proto.id });
+		}
+	}
+
 	// Seed sim nodes from current positions so the layout feels continuous
 	// when entering mesh mode from another layout.
-	const meshNodes: MeshNode[] = protoNodes.map((n) => ({
-		id: n.id,
-		categoryId: n.categoryId ?? '',
-		x: n.x,
-		y: n.y,
-		vx: 0,
-		vy: 0
-	}));
+	const meshNodes: MeshNode[] = [
+		...protoNodes.map((n) => ({
+			id: n.id,
+			type: 'protocol' as const,
+			categoryId: n.categoryId ?? '',
+			x: n.x,
+			y: n.y,
+			vx: 0,
+			vy: 0
+		})),
+		...subNodes.map((n) => ({
+			id: n.id,
+			type: 'subcategory' as const,
+			categoryId: n.categoryId ?? '',
+			x: n.x,
+			y: n.y,
+			vx: 0,
+			vy: 0
+		}))
+	];
 
 	// Gentle category clustering: pull each protocol toward a soft anchor for
 	// its category so the mesh inherits some of the topical grouping without
@@ -244,14 +270,26 @@ export function computeMeshPositions(
 		.force('center', forceCenter(0, 0).strength(0.04))
 		.force(
 			'charge',
-			forceManyBody<MeshNode>().strength(-260).distanceMax(640)
+			forceManyBody<MeshNode>()
+				.strength((d) => (d.type === 'subcategory' ? -440 : -260))
+				.distanceMax(640)
 		)
 		.force(
 			'link',
 			forceLink<MeshNode, MeshLink>(links)
 				.id((d) => d.id)
-				.distance(95)
-				.strength(0.55)
+				.distance((d) => {
+					const src = d.source as MeshNode;
+					const tgt = d.target as MeshNode;
+					// Sub→proto tree links are short anchors; proto-proto
+					// connection links are the longer cross-cluster strands.
+					return src.type === 'subcategory' || tgt.type === 'subcategory' ? 72 : 95;
+				})
+				.strength((d) => {
+					const src = d.source as MeshNode;
+					const tgt = d.target as MeshNode;
+					return src.type === 'subcategory' || tgt.type === 'subcategory' ? 0.7 : 0.5;
+				})
 		)
 		.force(
 			'cluster-x',
@@ -263,24 +301,27 @@ export function computeMeshPositions(
 		)
 		.force(
 			'collide',
-			forceCollide<MeshNode>().radius(28).strength(0.85)
+			forceCollide<MeshNode>()
+				.radius((d) => (d.type === 'subcategory' ? 34 : 24))
+				.strength(0.9)
+				.iterations(2)
 		)
 		.alpha(1)
 		.alphaDecay(0.03)
 		.stop();
 
 	// Run to convergence
-	for (let i = 0; i < 400; i++) sim.tick();
+	for (let i = 0; i < 500; i++) sim.tick();
 
 	for (const mn of meshNodes) {
 		pos.set(mn.id, { x: mn.x ?? 0, y: mn.y ?? 0 });
 	}
 
-	// Hide hub, categories, and subcategories during mesh mode by parking
-	// them at origin — the renderer skips drawing them, and lerping back
-	// to other modes remains smooth.
+	// Hide only hub and categories in mesh mode — subcategories now
+	// participate as visible cluster anchors. The renderer skips drawing
+	// hub/category, and lerping back to other modes remains smooth.
 	for (const n of nodes) {
-		if (n.type === 'hub' || n.type === 'category' || n.type === 'subcategory') {
+		if (n.type === 'hub' || n.type === 'category') {
 			pos.set(n.id, { x: 0, y: 0 });
 		}
 	}

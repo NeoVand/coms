@@ -8,6 +8,7 @@
 	import StoryDiagram from './StoryDiagram.svelte';
 	import StoryImage from './StoryImage.svelte';
 	import StoryComparison from './StoryComparison.svelte';
+	import StoryAnimatedSequence from './StoryAnimatedSequence.svelte';
 
 	let { story, cat, color = cat.color }: { story: CategoryStory; cat: Category; color?: string } = $props();
 </script>
@@ -44,6 +45,14 @@
 				axes={section.axes}
 				rows={section.rows}
 				note={section.note}
+				color={color}
+			/>
+		{:else if section.type === 'animated-sequence'}
+			<StoryAnimatedSequence
+				title={section.title}
+				definition={section.definition}
+				caption={section.caption}
+				steps={section.steps}
 				color={color}
 			/>
 		{/if}

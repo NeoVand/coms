@@ -118,11 +118,11 @@
 				</button>
 			</div>
 
-			<!-- Diagram content -->
+			<!-- Diagram content: align top so tall diagrams stay scrollable from the top -->
 			<div
-				class="custom-scrollbar flex flex-1 flex-col items-center justify-center overflow-y-auto px-8 py-6"
+				class="custom-scrollbar flex flex-1 flex-col items-stretch overflow-y-auto px-8 py-6"
 			>
-				<div class="diagram-container w-full" bind:this={containerEl}>
+				<div class="diagram-container w-full flex-shrink-0" bind:this={containerEl}>
 					<div class="flex h-24 items-center justify-center">
 						<span class="text-xs text-t-muted">Loading diagram...</span>
 					</div>

@@ -120,30 +120,49 @@ export const httpVersionsStory: SubcategoryStory = {
 			text: `Each HTTP version is, in some sense, a reaction to head-of-line blocking at a different layer.\n\n**[[http1|HTTP/1.1]]**: HoL blocking *at the application layer*. One request per connection means a slow response stalls the next request on that socket. Browsers worked around this by opening 6 parallel connections per origin.\n\n**[[http2|HTTP/2]]**: solves application-layer HoL with stream multiplexing — hundreds of concurrent requests over one connection. But it still runs over [[tcp|TCP]], and a single lost packet stalls *all* streams until TCP recovers it. HoL just moved down a layer.\n\n**[[http3|HTTP/3]]**: solves transport-layer HoL by moving streams *into* {{quic|QUIC}}. Each stream has its own loss-recovery context. One stream waiting for a retransmit doesn't block the others. The buck finally stops.`
 		},
 		{
-			type: 'diagram',
+			type: 'animated-sequence',
 			title: 'Three Pages, Three Protocols',
 			definition: `sequenceDiagram
     participant C as Client
     participant S as Server
     Note over C,S: HTTP/1.1 — one request at a time per connection
     C->>S: GET /index.html
-    S-->>C: 200 OK (HTML)
+    S-->>C: 200 OK HTML
     C->>S: GET /style.css
-    S-->>C: 200 OK (CSS)
-    C->>S: GET /app.js  (waits for CSS)
-    S-->>C: 200 OK (JS)
+    S-->>C: 200 OK CSS
+    C->>S: GET /app.js waits for CSS
+    S-->>C: 200 OK JS
     Note over C,S: HTTP/2 — multiplexed over one TCP connection
-    C->>S: Stream 1: GET /index.html
-    C->>S: Stream 3: GET /style.css
-    C->>S: Stream 5: GET /app.js
-    S-->>C: Stream 1 frames + Stream 3 frames + Stream 5 frames (interleaved)
-    Note over C,S: HTTP/3 — multiplexed over QUIC (no TCP HoL)
-    C->>S: Stream 0: GET /index.html
-    C->>S: Stream 4: GET /style.css (independent loss recovery)
-    C->>S: Stream 8: GET /app.js (independent loss recovery)
-    S-->>C: Streams delivered in any order — packet loss on one doesn't stall others`,
+    C->>S: Stream 1, GET /index.html
+    C->>S: Stream 3, GET /style.css
+    C->>S: Stream 5, GET /app.js
+    S-->>C: Frames from Stream 1, 3, 5 interleaved
+    Note over C,S: HTTP/3 — multiplexed over QUIC, no TCP HoL
+    C->>S: Stream 0, GET /index.html
+    C->>S: Stream 4, GET /style.css, independent loss recovery
+    C->>S: Stream 8, GET /app.js, independent loss recovery
+    S-->>C: Streams delivered in any order, loss on one does not stall others`,
 			caption:
-				'Same three requests, three protocols. In [[http1|HTTP/1.1]] they\'re serialized. In [[http2|HTTP/2]] they multiplex but share one TCP socket. In [[http3|HTTP/3]] each stream has its own loss recovery on top of {{quic|QUIC}}.'
+				"Same three requests, three protocols. In [[http1|HTTP/1.1]] they're serialized. In [[http2|HTTP/2]] they multiplex but share one TCP socket. In [[http3|HTTP/3]] each stream has its own loss recovery on top of {{quic|QUIC}}.",
+			steps: {
+				0: '**[[http1|HTTP/1.1]] — serial requests on one connection.** With Keep-Alive, the client can reuse a TCP connection for many requests, but only one can be in flight at a time.',
+				1: 'Client sends a **GET for the HTML**. Browser starts the page load.',
+				2: 'Server returns the **HTML**. Only now can the browser see what other resources it needs.',
+				3: 'Client sends **GET for the CSS** on the same connection.',
+				4: 'Server returns the **CSS**. The JS request had to wait.',
+				5: 'Client sends **GET for app.js** — pipelining was *specified* but in practice broken by servers and proxies, so browsers serialize. To compensate, browsers open **six parallel connections per origin**.',
+				6: 'Server returns the **JS**. Latency stacks: 3 RTTs minimum for 3 small resources.',
+				7: '**[[http2|HTTP/2]] — binary multiplexing.** All three requests fly down a single connection at once, each on its own stream ID. Server response frames are interleaved on the way back.',
+				8: 'Client opens **stream 1** for the HTML — sent immediately, no waiting for prior requests.',
+				9: 'Client opens **stream 3** for the CSS — sent in parallel with stream 1.',
+				10: 'Client opens **stream 5** for the JS — also in parallel.',
+				11: 'Server returns **interleaved frames** from all three streams. The page can start rendering as soon as the HTML frames arrive — no head-of-line blocking *at the application layer*. But all three streams share one TCP connection, and a single dropped TCP packet stalls all of them.',
+				12: '**[[http3|HTTP/3]] — multiplexing without TCP HoL.** Each stream is owned by [[quic|QUIC]] (over UDP), with its own loss-recovery context. Stream 0 stalling does not affect stream 4 or 8.',
+				13: 'Client opens **stream 0** for the HTML over QUIC.',
+				14: 'Client opens **stream 4** for the CSS — if a UDP packet carrying stream 4 is lost, QUIC retransmits only that stream\'s data.',
+				15: 'Client opens **stream 8** for the JS — same independence.',
+				16: '**Streams arrive in any order**, and packet loss on one does not stall the others. The HoL ghost that haunted HTTP for 25 years is finally exorcised — at the cost of moving reliable transport into user space.'
+			}
 		},
 		{
 			type: 'narrative',

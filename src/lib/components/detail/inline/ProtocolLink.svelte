@@ -10,6 +10,7 @@
 <script lang="ts">
 	import { navigateToProtocol } from '$lib/utils/navigation';
 	import { getAppState } from '$lib/state/context';
+	import { themedDomColor } from '$lib/utils/colors';
 
 	interface Props {
 		protocolId: string;
@@ -22,6 +23,9 @@
 
 	const appState = getAppState();
 	const node = $derived(nodeMap.get(protocolId));
+	// Theme-aware colour — dark-mode neon hex would be unreadable on the
+	// light-mode panel background, so remap to the deeper variant in light mode.
+	const displayColor = $derived(themedDomColor(color, appState.theme));
 
 	let btn: HTMLButtonElement | undefined = $state();
 
@@ -55,7 +59,7 @@
 <button
 	bind:this={btn}
 	class="inline transition-colors hover:underline {bold ? 'font-semibold' : 'font-medium'}"
-	style="color: {color}"
+	style="color: {displayColor}"
 	onclick={(e) => { e.stopPropagation(); navigateToProtocol(protocolId); }}
 	onmouseenter={show}
 	onmouseleave={hide}

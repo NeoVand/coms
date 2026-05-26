@@ -145,26 +145,40 @@ export const routingStory: SubcategoryStory = {
 			note: "[[ospf|OSPF]] optimizes for *speed and optimality* within a domain you control. [[bgp|BGP]] optimizes for *expressing business relationships* across domains you don't."
 		},
 		{
-			type: 'diagram',
+			type: 'animated-sequence',
 			title: 'BGP Path Selection Across Three ASes',
 			definition: `sequenceDiagram
-    participant A as AS 64500 (Customer)
-    participant B as AS 65001 (Transit Provider)
-    participant C as AS 65002 (Direct Peer)
+    participant A as AS 64500
+    participant B as AS 65001 Transit
+    participant C as AS 65002 Peer
     Note over A,C: AS 64500 hears the same prefix from two paths
-    B->>A: UPDATE: 192.0.2.0/24, AS_PATH = [65001, 13335]
-    C->>A: UPDATE: 192.0.2.0/24, AS_PATH = [65002, 13335]
-    Note over A: Decision process (in order):
-    Note over A: 1. Highest LOCAL_PREF? (set by import policy)
-    Note over A: 2. Shortest AS_PATH? Both length 2 — tie
-    Note over A: 3. Lowest MED? (set by neighbor — usually ignored across ASes)
-    Note over A: 4. eBGP over iBGP? — both eBGP
-    Note over A: 5. Lowest IGP cost to next-hop? Direct peer wins
-    Note over A: Selected: via AS 65002 (direct peer, free)
-    A->>A: Install route: 192.0.2.0/24 via C
-    Note over A,C: AS 64500 announces nothing back — customer doesn't transit for providers`,
+    B->>A: UPDATE 192.0.2.0/24, AS_PATH 65001 then 13335
+    C->>A: UPDATE 192.0.2.0/24, AS_PATH 65002 then 13335
+    Note over A: Decision process in order
+    Note over A: 1. Highest LOCAL_PREF — set by import policy
+    Note over A: 2. Shortest AS_PATH — both length 2, tie
+    Note over A: 3. Lowest MED — usually ignored across ASes
+    Note over A: 4. eBGP over iBGP — both eBGP
+    Note over A: 5. Lowest IGP cost to next-hop — direct peer wins
+    Note over A: Selected via AS 65002 direct peer, free
+    A->>A: Install route 192.0.2.0/24 via C
+    Note over A,C: AS 64500 announces nothing back — customer does not transit for providers`,
 			caption:
-				"BGP isn't about shortest path — it's about *policy*. The rule of thumb: prefer customer routes (you get paid), then peers (free), then transit (you pay). \"Hot potato routing\" — get the packet out your network as fast as possible — is policy expressed as IGP cost in step 5."
+				"BGP isn't about shortest path — it's about *policy*. The rule of thumb: prefer customer routes (you get paid), then peers (free), then transit (you pay). \"Hot potato routing\" — get the packet out your network as fast as possible — is policy expressed as IGP cost in step 5.",
+			steps: {
+				0: '**The setup.** AS 64500 (a small content provider) has two ways to reach AS 13335 (Cloudflare): through its paid transit provider B, or through a free direct peering with C. Which path wins?',
+				1: '**Transit provider sends an UPDATE.** B says "I can reach 192.0.2.0/24 — the AS_PATH is [65001, 13335]." (Each AS prepends itself when forwarding.)',
+				2: '**Direct peer sends an UPDATE.** C also offers the prefix. AS_PATH is [65002, 13335] — also length 2.',
+				3: '**BGP\'s decision process** is a fixed ordered tie-breaker list. Each step is evaluated only if previous steps tied. This is the core of how BGP "picks" a route.',
+				4: 'Step 1: **highest LOCAL_PREF wins.** This is set by the router operator on import — typically "customer routes get the highest preference, peers next, transit last." If LOCAL_PREF differs, decision over. If equal, move to step 2.',
+				5: 'Step 2: **shortest AS_PATH wins.** A shorter path passes through fewer organizations. Both candidates are length 2 — still tied.',
+				6: 'Step 3: **lowest MED** (Multi-Exit Discriminator). Hint set by the *neighbor* to influence which entry point you use. Usually ignored across ASes for trust reasons. Still tied.',
+				7: 'Step 4: **eBGP preferred over iBGP.** External BGP (between ASes) is preferred over internal BGP (within your AS). Both candidates are eBGP — still tied.',
+				8: 'Step 5: **lowest IGP cost to the next-hop wins.** The direct peer C is one hop away inside our network; the transit provider B is several hops further. C wins.',
+				9: '**Selected via AS 65002.** The direct peer wins because it\'s closer in our internal topology AND because crossing it is free (peering is settlement-free; transit is paid).',
+				10: 'Router **installs the route** in the forwarding table: traffic destined to 192.0.2.0/24 goes out the peering link to C.',
+				11: '**Announcement back.** AS 64500 (a customer) doesn\'t re-announce this route to its providers — customers don\'t transit for their providers. This single-line policy rule is what makes the global routing table converge.'
+			}
 		},
 		{
 			type: 'callout',
