@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { getAppState } from '$lib/state/context';
-	import { getProtocolById, getCategoryById } from '$lib/data/index';
+	import { getProtocolById, getCategoryById, subcategoryMap, categoryMap } from '$lib/data/index';
 	import { getHighlightedName } from '$lib/data/name-highlights';
 	import CategoryIcon from '$lib/components/icons/CategoryIcon.svelte';
 	import { themedDomColor } from '$lib/utils/colors';
@@ -96,6 +96,18 @@
 						icon: cat.icon
 					}
 				: null;
+		}
+
+		if (node.type === 'subcategory') {
+			const sub = subcategoryMap.get(node.id);
+			if (!sub) return null;
+			const parentCat = categoryMap.get(sub.categoryId);
+			return {
+				name: sub.name,
+				description: stripRichTextMarkup(sub.description),
+				color: parentCat?.color ?? node.color,
+				icon: sub.icon
+			};
 		}
 
 		const proto = getProtocolById(node.id);

@@ -7,6 +7,8 @@
 		allProtocols
 	} from '$lib/data/index';
 	import { categories } from '$lib/data/categories';
+	import { subcategoryMap } from '$lib/data/subcategories';
+	import { getSubcategoryStory } from '$lib/data/subcategory-stories/index';
 	import {
 		navigateToProtocol,
 		navigateToCategory,
@@ -195,6 +197,21 @@
 			if (!cat) return null;
 			const protocols = getProtocolsForCategory(node.id);
 			return { type: 'category' as const, category: cat, protocols };
+		}
+
+		if (node.type === 'subcategory') {
+			const sub = subcategoryMap.get(node.id);
+			if (!sub) return null;
+			const parentCat = getCategoryById(sub.categoryId);
+			const protocols = sub.protocolIds
+				.map((id) => getProtocolById(id))
+				.filter((p): p is NonNullable<typeof p> => Boolean(p));
+			return {
+				type: 'subcategory' as const,
+				subcategory: sub,
+				parentCategory: parentCat,
+				protocols
+			};
 		}
 
 		const proto = getProtocolById(node.id);
@@ -678,6 +695,68 @@
 					<JourneyListView scope={cat.id} {color} />
 				</div>
 			{/if}
+		{:else if selectedData?.type === 'subcategory' && selectedData.subcategory}
+			{@const sub = selectedData.subcategory}
+			{@const parentCat = selectedData.parentCategory}
+			{@const protocols = selectedData.protocols}
+			{@const story = getSubcategoryStory(sub.id)}
+			{@const color = dc(parentCat?.color ?? '#94a3b8')}
+
+			<!-- Subcategory header -->
+			<div class="p-6 pb-3">
+				<div class="flex items-center gap-3">
+					<span class="flex h-10 w-10 items-center justify-center" style="color: {color}">
+						<CategoryIcon icon={sub.icon} size={28} />
+					</span>
+					<div>
+						<h2 class="text-lg font-bold" style="color: {color}">{sub.name}</h2>
+						{#if story}
+							<p class="mt-0.5 text-xs text-t-secondary">
+								<RichText segments={parseRichText(story.tagline)} {color} />
+							</p>
+						{:else}
+							<p class="mt-0.5 text-xs text-t-secondary">{sub.description}</p>
+						{/if}
+					</div>
+				</div>
+				{#if parentCat}
+					<button
+						class="mt-3 inline-flex items-center gap-1 text-[11px] text-t-muted hover:text-t-secondary"
+						onclick={() => navigateToCategory(parentCat.id)}
+					>
+						<span>← {parentCat.name}</span>
+					</button>
+				{/if}
+			</div>
+
+			<div class="flex flex-col gap-6 p-6 pt-3">
+				{#if story && parentCat}
+					<CategoryStoryView {story} cat={parentCat} {color} />
+				{/if}
+
+				<!-- Protocols in subcategory -->
+				<section>
+					<h3 class="mb-3 text-xs font-semibold tracking-wider text-t-muted uppercase">
+						Protocols ({protocols.length})
+					</h3>
+					<div class="space-y-2">
+						{#each protocols.toSorted((a, b) => a.year - b.year) as proto (proto.id)}
+							<button
+								class="flex w-full flex-col gap-1 rounded-xl border border-s-border bg-s-glass p-3 text-left transition-all hover:border-s-border hover:bg-s-glass-hover"
+								onclick={() => navigateToProtocol(proto.id)}
+							>
+								<div class="flex items-baseline gap-2">
+									<span class="text-sm font-medium" style="color: {color}">{proto.abbreviation}</span>
+									<span class="text-[10px] text-t-muted">{proto.year}</span>
+								</div>
+								<div class="text-xs text-t-secondary">
+									<RichText segments={parseRichText(proto.oneLiner)} {color} />
+								</div>
+							</button>
+						{/each}
+					</div>
+				</section>
+			</div>
 		{/if}
 	</div>
 </div>

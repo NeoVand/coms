@@ -7,6 +7,7 @@
 	import StoryCallout from './StoryCallout.svelte';
 	import StoryDiagram from './StoryDiagram.svelte';
 	import StoryImage from './StoryImage.svelte';
+	import StoryComparison from './StoryComparison.svelte';
 
 	let { story, cat, color = cat.color }: { story: CategoryStory; cat: Category; color?: string } = $props();
 </script>
@@ -36,6 +37,14 @@
 				credit={section.credit}
 				color={color}
 				title={section.title}
+			/>
+		{:else if section.type === 'comparison'}
+			<StoryComparison
+				title={section.title}
+				axes={section.axes}
+				rows={section.rows}
+				note={section.note}
+				color={color}
 			/>
 		{/if}
 	{/each}
