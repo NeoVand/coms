@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { untrack } from 'svelte';
 	import { SimulatorState } from '../state.svelte';
 	import { getSimulation } from '../simulations/index';
 	import StepTimeline from './StepTimeline.svelte';
@@ -15,14 +16,14 @@
 	let { protocolId, color }: Props = $props();
 
 	const simState = new SimulatorState();
-	const config = $derived(getSimulation(protocolId));
 
-	// Reload whenever the resolved simulation changes. The parent also wraps
-	// this in {#key protocolId} to fully remount, so in practice this runs once
-	// per protocol — but deriving keeps it correct if that guard is ever removed.
-	$effect(() => {
-		if (config) simState.load(config);
-	});
+	// Resolve and load the simulation exactly once at mount. The parent wraps
+	// this component in {#key protocolId} so a protocol change fully remounts it
+	// — so reading protocolId once here is intentional. `untrack` documents that
+	// (and avoids loading sim state inside an effect, which Svelte flags as an
+	// unsafe mutation).
+	const config = untrack(() => getSimulation(protocolId));
+	if (config) simState.load(config);
 </script>
 
 {#if config}
