@@ -224,15 +224,19 @@ export function warmUpSimulation(simulation: Simulation<SimNode, SimLink>, ticks
 }
 
 export function syncPositions(simulation: Simulation<SimNode, SimLink>, nodes: GraphNode[]): void {
-	const simNodes = simulation.nodes();
-	for (let i = 0; i < simNodes.length; i++) {
-		const sn = simNodes[i];
-		const gn = nodes[i];
-		if (gn && sn) {
-			gn.x = sn.x ?? 0;
-			gn.y = sn.y ?? 0;
-			gn.vx = sn.vx ?? 0;
-			gn.vy = sn.vy ?? 0;
-		}
+	// Match by id, not array index. d3-force keeps its node array in creation
+	// order so index alignment usually holds, but it breaks silently the moment
+	// a caller passes a reordered or resized `nodes` array — desyncing every
+	// position. Keying on id is robust and barely more expensive.
+	const byId = new Map<string, SimNode>();
+	for (const sn of simulation.nodes()) byId.set(sn.id, sn);
+
+	for (const gn of nodes) {
+		const sn = byId.get(gn.id);
+		if (!sn) continue;
+		gn.x = sn.x ?? 0;
+		gn.y = sn.y ?? 0;
+		gn.vx = sn.vx ?? 0;
+		gn.vy = sn.vy ?? 0;
 	}
 }
