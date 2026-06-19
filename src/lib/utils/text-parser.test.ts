@@ -117,4 +117,11 @@ describe('stripRichTextMarkup', () => {
 		expect(out).not.toContain('{{');
 		expect(out.toLowerCase()).toContain('handshake');
 	});
+
+	it('leaves Mermaid node-shape syntax untouched (non-slug ids)', () => {
+		// Mermaid reuses {{…}} (hexagon) and [[…]] (subroutine) — these are not
+		// our refs and must survive stripping so diagram labels stay valid.
+		expect(stripRichTextMarkup('T3{{"Middlebox"}}')).toBe('T3{{"Middlebox"}}');
+		expect(stripRichTextMarkup('N[[Subroutine Step]]')).toBe('N[[Subroutine Step]]');
+	});
 });

@@ -243,6 +243,10 @@ function bracketFallbackLabel(rawId: string): string {
 	}
 }
 
+/** A real cross-reference id is a lowercase slug (optionally `prefix:id` or
+ *  `part/chapter`). Used to tell our refs apart from Mermaid shape syntax. */
+const REF_ID = /^[a-z0-9][a-z0-9:/-]*$/;
+
 /**
  * Strip rich-text atoms ([[…]] / {{…}} / **…**) down to their label
  * text. For surfaces that render strings as raw DOM text (screen-reader
@@ -261,12 +265,19 @@ export function stripRichTextMarkup(raw: string): string {
 	// abbreviation, concept term, …) rather than vanishing — otherwise a bare
 	// `[[tcp]]` in a stripped field (tooltip / aria-label) would silently drop
 	// the word.
+	//
+	// IMPORTANT: only resolve when the id is slug-shaped (lowercase kebab/colon).
+	// Mermaid reuses `{{…}}` (hexagon) and `[[…]]` (subroutine) for node *shapes*,
+	// e.g. `T3{{"Middlebox"}}`. Those aren't our refs — left untouched so this
+	// function (which also cleans Mermaid node labels) doesn't corrupt diagrams.
 	return raw
-		.replace(/\[\[([^\][|]+)(?:\|([^\]]+))?\]\]/g, (_m, id, label) =>
-			label != null ? label : bracketFallbackLabel(id)
-		)
-		.replace(/\{\{([^}{|]+)(?:\|([^}]+))?\}\}/g, (_m, id, label) =>
-			label != null ? label : (getConceptById(id)?.term ?? id)
-		)
+		.replace(/\[\[([^\][|]+)(?:\|([^\]]+))?\]\]/g, (m, id, label) => {
+			if (label != null) return label;
+			return REF_ID.test(id) ? bracketFallbackLabel(id) : m;
+		})
+		.replace(/\{\{([^}{|]+)(?:\|([^}]+))?\}\}/g, (m, id, label) => {
+			if (label != null) return label;
+			return REF_ID.test(id) ? (getConceptById(id)?.term ?? id) : m;
+		})
 		.replace(/\*\*([^*]+)\*\*/g, '$1');
 }
