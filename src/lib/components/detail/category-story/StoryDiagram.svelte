@@ -4,7 +4,7 @@
 
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { buildThemedDefinition } from '$lib/utils/mermaid-helpers';
+	import { buildThemedDefinition, loadMermaid } from '$lib/utils/mermaid-helpers';
 	import { getAppState } from '$lib/state/context';
 	import RichText from '$lib/components/detail/inline/RichText.svelte';
 	import { parseRichText } from '$lib/utils/text-parser';
@@ -28,20 +28,9 @@
 	let localCounter = 0;
 
 	onMount(async () => {
-		const mod = await import('mermaid');
-		mod.default.initialize({
-			startOnLoad: false,
-			theme: 'dark',
-			securityLevel: 'loose',
-			fontFamily: 'ui-sans-serif, system-ui, -apple-system, sans-serif',
-			flowchart: {
-				htmlLabels: true,
-				curve: 'basis',
-				useMaxWidth: true,
-				padding: 12
-			}
+		mermaidApi = await loadMermaid({
+			flowchart: { htmlLabels: true, curve: 'basis', useMaxWidth: true, padding: 12 }
 		});
-		mermaidApi = mod.default;
 	});
 
 	$effect(() => {

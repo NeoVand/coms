@@ -1,8 +1,37 @@
 /**
- * Shared mermaid rendering utilities used by MermaidDiagram and DiagramModal.
+ * Shared mermaid rendering utilities used by the diagram components.
  */
 
 import { stripRichTextMarkup } from '$lib/utils/text-parser';
+
+type MermaidApi = typeof import('mermaid').default;
+
+/** Per-diagram-kind config merged onto the shared base. Values are passed
+ *  straight to mermaid; kept loose so this module never statically imports
+ *  mermaid's types (which would pull the library into the initial bundle). */
+interface MermaidOverrides {
+	sequence?: Record<string, unknown>;
+	flowchart?: Record<string, unknown>;
+}
+
+/**
+ * Dynamically import mermaid (~200 KB — deliberately kept out of the initial
+ * bundle) and initialize it with the shared base config plus any per-component
+ * overrides. Every diagram component should go through this so the base theme /
+ * security / font settings live in exactly one place.
+ */
+export async function loadMermaid(overrides: MermaidOverrides = {}): Promise<MermaidApi> {
+	const mod = await import('mermaid');
+	const config = {
+		startOnLoad: false,
+		theme: 'dark',
+		securityLevel: 'loose',
+		fontFamily: 'ui-sans-serif, system-ui, -apple-system, sans-serif',
+		...overrides
+	};
+	mod.default.initialize(config as Parameters<MermaidApi['initialize']>[0]);
+	return mod.default;
+}
 
 export function buildThemedDefinition(
 	rawDef: string,

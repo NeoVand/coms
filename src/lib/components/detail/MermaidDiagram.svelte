@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { diagramDefinitions } from '$lib/data/diagram-definitions';
-	import { buildThemedDefinition, styleCrossArrows } from '$lib/utils/mermaid-helpers';
+	import { buildThemedDefinition, styleCrossArrows, loadMermaid } from '$lib/utils/mermaid-helpers';
 	import { getAppState } from '$lib/state/context';
 
 	let {
@@ -17,12 +17,7 @@
 	let renderCounter = 0;
 
 	onMount(async () => {
-		const mod = await import('mermaid');
-		mod.default.initialize({
-			startOnLoad: false,
-			theme: 'dark',
-			securityLevel: 'loose',
-			fontFamily: 'ui-sans-serif, system-ui, -apple-system, sans-serif',
+		mermaidApi = await loadMermaid({
 			sequence: {
 				actorMargin: 50,
 				messageMargin: 25,
@@ -44,7 +39,6 @@
 				padding: 12
 			}
 		});
-		mermaidApi = mod.default;
 	});
 
 	const definition = $derived(diagramDefinitions[protocolId]);
