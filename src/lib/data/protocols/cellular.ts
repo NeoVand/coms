@@ -36,7 +36,7 @@ The frontier in 2026 is **5G-Advanced** (Release 18, frozen June 2024; Release 1
 		{
 			title: 'RRC — connection state machine',
 			description:
-				'The Radio Resource Control state machine ({{ts-3gpp|TS}} 38.331) has three states in 5G: \`RRC_IDLE\` ({{ue|UE}} sleeps, only listens to {{notification|paging}}), \`RRC_INACTIVE\` (5G-only; {{ue|UE}} keeps security context for fast resume), \`RRC_CONNECTED\` (full bearer, scheduled). State transitions cost battery — careful {{rrc|RRC}} tuning is the difference between 6-hour and 24-hour battery life on an IoT module.'
+				'The Radio Resource Control state machine ({{ts-3gpp|TS}} 38.331) has three states in 5G: `RRC_IDLE` ({{ue|UE}} sleeps, only listens to {{notification|paging}}), `RRC_INACTIVE` (5G-only; {{ue|UE}} keeps security context for fast resume), `RRC_CONNECTED` (full bearer, scheduled). State transitions cost battery — careful {{rrc|RRC}} tuning is the difference between 6-hour and 24-hour battery life on an IoT module.'
 		},
 		{
 			title: 'NAS — authentication, mobility, session management',

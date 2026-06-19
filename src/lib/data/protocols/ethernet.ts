@@ -24,7 +24,7 @@ The evolution from shared media to switched networks was transformative. Hubs ga
 		{
 			title: 'MAC addressing',
 			description:
-				'Every network interface has a 48-bit {{mac-address|MAC address}} (e.g., \`AA:BB:CC:DD:EE:FF\`), typically burned into hardware. The first 24 bits identify the manufacturer ({{oui|OUI}}). {{broadcast|Broadcast}} frames use \`FF:FF:FF:FF:FF:FF\` as the destination to reach all devices on the segment.'
+				'Every network interface has a 48-bit {{mac-address|MAC address}} (e.g., `AA:BB:CC:DD:EE:FF`), typically burned into hardware. The first 24 bits identify the manufacturer ({{oui|OUI}}). {{broadcast|Broadcast}} frames use `FF:FF:FF:FF:FF:FF` as the destination to reach all devices on the segment.'
 		},
 		{
 			title: 'Switch forwarding',

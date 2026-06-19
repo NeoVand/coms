@@ -31,7 +31,7 @@ The famous architectural decision: Kerberos requires **time synchronisation** ac
 		{
 			title: 'TGS-REQ → TGS-REP — get a service ticket',
 			description:
-				'When Alice wants to access \`HTTP/web1.example.com\`, she sends a **TGS-REQ** to the {{kerberos-kdc|KDC}}\'s {{kerberos-tgs|Ticket Granting Service}}, presenting her {{kerberos-tgt|TGT}} plus a fresh authenticator (an {{anti-replay|anti-replay}} timestamp encrypted under the {{kerberos-tgt|TGT}} session key). {{kerberos-kdc|KDC}} decrypts the {{kerberos-tgt|TGT}} (it knows {{kerberos-krbtgt|krbtgt}}\'s key), validates the authenticator, mints a new session key for Alice↔web1, and returns a **TGS-REP** with a **service ticket** encrypted under web1\'s long-term key.'
+				'When Alice wants to access `HTTP/web1.example.com`, she sends a **TGS-REQ** to the {{kerberos-kdc|KDC}}\'s {{kerberos-tgs|Ticket Granting Service}}, presenting her {{kerberos-tgt|TGT}} plus a fresh authenticator (an {{anti-replay|anti-replay}} timestamp encrypted under the {{kerberos-tgt|TGT}} session key). {{kerberos-kdc|KDC}} decrypts the {{kerberos-tgt|TGT}} (it knows {{kerberos-krbtgt|krbtgt}}\'s key), validates the authenticator, mints a new session key for Alice↔web1, and returns a **TGS-REP** with a **service ticket** encrypted under web1\'s long-term key.'
 		},
 		{
 			title: 'AP-REQ — present the service ticket',
@@ -46,7 +46,7 @@ The famous architectural decision: Kerberos requires **time synchronisation** ac
 		{
 			title: 'GSS-API and SPNEGO — the application bindings',
 			description:
-				'Applications rarely speak Kerberos directly. They speak **GSS-{{api|API}}** (Generic Security Service {{api|API}}, [[rfc:2743|RFC 2743]]), which abstracts authentication mechanisms behind \`gss_init_sec_context\` / \`gss_accept_sec_context\`. **SPNEGO** ([[rfc:4178|RFC 4178]]) is the protocol negotiation layer that lets [[http1|HTTP]] (`Authorization: Negotiate <base64>`), SMB, LDAP, and other applications transparently use Kerberos when available and fall back to [[oauth2|OAuth]] / {{ntlm|NTLM}} otherwise. Every "Windows Integrated Authentication" prompt in Internet Explorer / Edge / Chrome is SPNEGO over {{http-method|HTTP}} wrapping a {{kerberos-ap-req|Kerberos AP-REQ}}.'
+				'Applications rarely speak Kerberos directly. They speak **GSS-{{api|API}}** (Generic Security Service {{api|API}}, [[rfc:2743|RFC 2743]]), which abstracts authentication mechanisms behind `gss_init_sec_context` / `gss_accept_sec_context`. **SPNEGO** ([[rfc:4178|RFC 4178]]) is the protocol negotiation layer that lets [[http1|HTTP]] (`Authorization: Negotiate <base64>`), SMB, LDAP, and other applications transparently use Kerberos when available and fall back to [[oauth2|OAuth]] / {{ntlm|NTLM}} otherwise. Every "Windows Integrated Authentication" prompt in Internet Explorer / Edge / Chrome is SPNEGO over {{http-method|HTTP}} wrapping a {{kerberos-ap-req|Kerberos AP-REQ}}.'
 		}
 	],
 	useCases: [
@@ -275,7 +275,7 @@ server.listen(443);`
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Cerberus-Blake.jpeg/500px-Cerberus-Blake.jpeg',
 		alt: 'William Blake painting of Cerberus, the three-headed dog of Greek mythology that the Kerberos protocol is named after',
 		caption:
-			"William Blake\'s **Cerberus** (c.1825). The three-headed dog from Greek mythology that guards the gates of Hades is the namesake of the protocol designed at {{mit|MIT}} Project Athena in 1983 — three heads for *client*, *server*, and *Key Distribution Center*. The protocol\'s motto could be the same as Cerberus's: nothing in, nothing out, without showing me a ticket.",
+			"William Blake's **Cerberus** (c.1825). The three-headed dog from Greek mythology that guards the gates of Hades is the namesake of the protocol designed at {{mit|MIT}} Project Athena in 1983 — three heads for *client*, *server*, and *Key Distribution Center*. The protocol's motto could be the same as Cerberus's: nothing in, nothing out, without showing me a ticket.",
 		credit: 'Image: Wikimedia Commons / Public Domain (William Blake, c.1825)'
 	},
 

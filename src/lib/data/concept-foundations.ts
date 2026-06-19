@@ -288,7 +288,7 @@ This division of labour — [[ip|IP]] for end-to-end identity, MAC for hop-to-ho
 			{
 				type: 'callout',
 				title: 'Why an IP looks like four numbers',
-				text: '[[ip|IPv4]] addresses are 32 bits, conventionally written as four decimal numbers separated by dots: \`192.0.2.5\` is just \`11000000.00000010.00000000.00000101\` in dotted-decimal. The notation is for humans. The router only sees the bits. When you write a {{cidr|CIDR}} prefix like \`192.0.2.0/24\`, the \`/24\` says "the first 24 bits are the network; the last 8 are the host" — a {{routing-table|routing table}} lookup compares those leading bits against its prefix entries to pick the next {{hop|hop}}.'
+				text: '[[ip|IPv4]] addresses are 32 bits, conventionally written as four decimal numbers separated by dots: `192.0.2.5` is just `11000000.00000010.00000000.00000101` in dotted-decimal. The notation is for humans. The router only sees the bits. When you write a {{cidr|CIDR}} prefix like `192.0.2.0/24`, the `/24` says "the first 24 bits are the network; the last 8 are the host" — a {{routing-table|routing table}} lookup compares those leading bits against its prefix entries to pick the next {{hop|hop}}.'
 			}
 		]
 	},
@@ -435,7 +435,7 @@ This is also why [[quic|QUIC]] runs over [[udp|UDP]] port 443 ([[http3|HTTP/3]])
 			{
 				type: 'callout',
 				title: 'How a load balancer works at the port level',
-				text: 'A load balancer like nginx or HAProxy binds to port 443, accepts the inbound [[tcp|TCP]]/[[tls|TLS]] connection, then opens a **separate** outbound connection to one of N backend servers. From the client\'s perspective there is one connection; from the backends\' perspective there are many. The two connections are stitched together in user space. This is why the source [[ip|IP]] at the backend is the load balancer\'s, not the original client\'s, unless you explicitly forward it via the **PROXY protocol** or an {{header|HTTP header}} like \`X-Forwarded-For\`.'
+				text: 'A load balancer like nginx or HAProxy binds to port 443, accepts the inbound [[tcp|TCP]]/[[tls|TLS]] connection, then opens a **separate** outbound connection to one of N backend servers. From the client\'s perspective there is one connection; from the backends\' perspective there are many. The two connections are stitched together in user space. This is why the source [[ip|IP]] at the backend is the load balancer\'s, not the original client\'s, unless you explicitly forward it via the **PROXY protocol** or an {{header|HTTP header}} like `X-Forwarded-For`.'
 			}
 		]
 	},

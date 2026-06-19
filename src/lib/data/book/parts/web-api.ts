@@ -392,7 +392,7 @@ That changed when LLMs started streaming tokens. **OpenAI, {{anthropic|Anthropic
 						{
 							type: 'callout',
 							title: 'The 2024-2026 CVE wave for WebSocket',
-							text: '[[rfc:6455|RFC 6455]] itself has not changed. The ecosystem has. Major CVEs in major implementations: **{{cve|CVE}}-2024-37890** in Node \`ws\`; **{{cve|CVE}}-2025-10148** in libcurl reviving the very cache-poisoning attack masking was designed to prevent; **{{cve|CVE}}-2025-43855** in tRPC; **{{cve|CVE}}-2025-5399** in libcurl. \`gorilla/websocket\` was archived in late 2022 and unarchived under community maintenance; \`nhooyr/websocket\` was renamed to \`coder/websocket\` in 2024. The protocol is stable; the implementations are not.'
+							text: '[[rfc:6455|RFC 6455]] itself has not changed. The ecosystem has. Major CVEs in major implementations: **{{cve|CVE}}-2024-37890** in Node `ws`; **{{cve|CVE}}-2025-10148** in libcurl reviving the very cache-poisoning attack masking was designed to prevent; **{{cve|CVE}}-2025-43855** in tRPC; **{{cve|CVE}}-2025-5399** in libcurl. `gorilla/websocket` was archived in late 2022 and unarchived under community maintenance; `nhooyr/websocket` was renamed to `coder/websocket` in 2024. The protocol is stable; the implementations are not.'
 						},
 						{
 							type: 'narrative',

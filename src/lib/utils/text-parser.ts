@@ -182,7 +182,7 @@ export function parseRichText(raw: string): TextSegment[] {
 			// recursively parse it and emit a bold-group; otherwise
 			// keep the cheap `bold` segment so simple cases stay flat.
 			const inner = match[9];
-			if (/[\[{`*]/.test(inner)) {
+			if (/[[{`*]/.test(inner)) {
 				segments.push({ type: 'bold-group', segments: parseRichText(inner) });
 			} else {
 				segments.push({ type: 'bold', value: inner });
@@ -228,7 +228,7 @@ export function stripRichTextMarkup(raw: string): string {
 	// construct — e.g. Mermaid's `NODE[[[id|Label]]]`. A legitimate id is
 	// always a slug, so disallowing `[`/`{` inside it is strictly correct.
 	return raw
-		.replace(/\[\[[^\]\[|]+(?:\|([^\]]+))?\]\]/g, (_m, label) => label ?? '')
+		.replace(/\[\[[^\][|]+(?:\|([^\]]+))?\]\]/g, (_m, label) => label ?? '')
 		.replace(/\{\{[^}{|]+(?:\|([^}]+))?\}\}/g, (_m, label) => label ?? '')
 		.replace(/\*\*([^*]+)\*\*/g, '$1');
 }

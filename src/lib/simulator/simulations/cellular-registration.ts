@@ -208,7 +208,7 @@ export const cellularRegistration: SimulationConfig = {
 			id: 'pdu-session-accept',
 			label: 'PDU Session Establishment Accept',
 			description:
-				"SMF allocated the UE\'s [[ipv6|IPv6]] prefix from the pool, programmed PDR/FAR/QER/URR on the UPF, set up the N3 GTP-U tunnel TEID, and returned the allocated address + DNS servers back to the UE through the AMF. The gNB issues an RRCReconfiguration to map the QoS flow → DRB. The DRB is now up.",
+				"SMF allocated the UE's [[ipv6|IPv6]] prefix from the pool, programmed PDR/FAR/QER/URR on the UPF, set up the N3 GTP-U tunnel TEID, and returned the allocated address + DNS servers back to the UE through the AMF. The gNB issues an RRCReconfiguration to map the QoS flow → DRB. The DRB is now up.",
 			fromActor: 'core',
 			toActor: 'ue',
 			duration: 1300,

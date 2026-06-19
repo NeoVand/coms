@@ -23,7 +23,7 @@ Under the hood, [[arp|ARP]] uses EtherType 0x0806 and operates directly on [[eth
 		{
 			title: 'Broadcast ARP request',
 			description:
-				'If no cache entry exists, the sender crafts an [[arp|ARP]] request with its own [[ip|IP]]/{{mac-address|MAC}} as the source and the target [[ip|IP]] with an empty {{mac-address|MAC}} (\`00:00:00:00:00:00\`). This is sent as an [[ethernet|Ethernet]] {{broadcast|broadcast}} (\`FF:FF:FF:FF:FF:FF\`), reaching every device on the local segment.'
+				'If no cache entry exists, the sender crafts an [[arp|ARP]] request with its own [[ip|IP]]/{{mac-address|MAC}} as the source and the target [[ip|IP]] with an empty {{mac-address|MAC}} (`00:00:00:00:00:00`). This is sent as an [[ethernet|Ethernet]] {{broadcast|broadcast}} (`FF:FF:FF:FF:FF:FF`), reaching every device on the local segment.'
 		},
 		{
 			title: 'Unicast ARP reply',

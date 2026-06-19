@@ -327,7 +327,7 @@ CRC: x^24 + x^10 + x^9 + x^6 + x^4 + x^3 + x + 1, seeded by Access Address.`
 			},
 			{
 				title: 'Wi-Fi coexistence on 2.4 GHz',
-				text: "{{ble|BLE}} channels 37/38/39 (advertising) sit at 2402, 2426, and 2480 MHz — carefully chosen to **avoid** [[wifi|Wi-Fi]] channels 1/6/11 (2412/2437/2462 MHz). But the 37 data channels (0–36) overlap. Modern combo chips do time-division arbitration internally; on a discrete radio, a saturated [[wifi|Wi-Fi]] {{ap-access-point|AP}} can starve {{ble|BLE}} for tens of seconds. **Cure:** if running mission-critical {{ble|BLE}} next to enterprise Wi-Fi, fix the Wi-Fi APs to use 5/6 GHz where possible, or use **{{le-audio|LE}} Coded S=8** which trades 8× more {{airtime|airtime}} for 8× better link budget — surviving interference where {{le-audio|LE}} 1M won\'t."
+				text: "{{ble|BLE}} channels 37/38/39 (advertising) sit at 2402, 2426, and 2480 MHz — carefully chosen to **avoid** [[wifi|Wi-Fi]] channels 1/6/11 (2412/2437/2462 MHz). But the 37 data channels (0–36) overlap. Modern combo chips do time-division arbitration internally; on a discrete radio, a saturated [[wifi|Wi-Fi]] {{ap-access-point|AP}} can starve {{ble|BLE}} for tens of seconds. **Cure:** if running mission-critical {{ble|BLE}} next to enterprise Wi-Fi, fix the Wi-Fi APs to use 5/6 GHz where possible, or use **{{le-audio|LE}} Coded S=8** which trades 8× more {{airtime|airtime}} for 8× better link budget — surviving interference where {{le-audio|LE}} 1M won't."
 			}
 		]
 	}

@@ -37,7 +37,7 @@ export const realtimeWebStory: SubcategoryStory = {
 					title: 'WebSocket Implementer / Node.js Core',
 					org: 'StrongLoop / npm',
 					contribution:
-						"Co-authored the \`ws\` library — the dominant Node.js [[websockets|WebSocket]] implementation — which made server-side WebSocket trivially deployable from JavaScript. Node + ws + Socket.IO turned \"real-time web\" from a Tomcat/Comet engineering project into a weekend hack. The ergonomics shift mattered as much as the protocol."
+						"Co-authored the `ws` library — the dominant Node.js [[websockets|WebSocket]] implementation — which made server-side WebSocket trivially deployable from JavaScript. Node + ws + Socket.IO turned \"real-time web\" from a Tomcat/Comet engineering project into a weekend hack. The ergonomics shift mattered as much as the protocol."
 				}
 			]
 		},
@@ -122,7 +122,7 @@ export const realtimeWebStory: SubcategoryStory = {
 					values: [
 						'Server → client only',
 						'Plain HTTP (works over [[http1|h1]], [[http2|h2]], [[http3|h3]])',
-						"Text — \`data:\` lines separated by blank lines",
+						"Text — `data:` lines separated by blank lines",
 						'Built-in — auto-reconnects with Last-Event-ID',
 						"LLM streaming, notifications, server-driven UI updates"
 					]
@@ -203,12 +203,12 @@ export const realtimeWebStory: SubcategoryStory = {
 		{
 			type: 'narrative',
 			title: 'The Failure Modes',
-			text: `[[sse|SSE]]\'s failure mode is the **stuck connection**. The protocol is one-way, so the client can\'t directly tell the server "I\'m still here." Reconnects happen on transport failure, but a half-open TCP connection — where the server has died but the network never reports it — can leave the client silently waiting for events that will never arrive. Application-level heartbeats (server sends a keepalive comment every ~15s) are the standard fix.\n\n[[websockets|WebSockets]]\'s failure mode is **state divergence**. Both client and server hold state; they must agree on it. When the connection drops mid-message, who owns the unacknowledged messages? When the client reconnects, did it miss events while disconnected? The protocol gives you no help. Every WebSocket-based app implements its own sequence numbers, replay buffers, and reconciliation. The good ones (Figma, Linear, Notion) are real distributed systems behind a simple-looking UI.\n\nBoth share a third failure mode: **server-side scalability**. Each connection costs server memory and an open file descriptor. Twitter\'s 2010 streaming firehose required dedicated servers per few thousand connections. Modern stacks (Phoenix on the BEAM, Go with goroutines) push that to ~1M connections per box, but only with careful tuning. Real-time always pays in server resources.`
+			text: `[[sse|SSE]]'s failure mode is the **stuck connection**. The protocol is one-way, so the client can't directly tell the server "I'm still here." Reconnects happen on transport failure, but a half-open TCP connection — where the server has died but the network never reports it — can leave the client silently waiting for events that will never arrive. Application-level heartbeats (server sends a keepalive comment every ~15s) are the standard fix.\n\n[[websockets|WebSockets]]'s failure mode is **state divergence**. Both client and server hold state; they must agree on it. When the connection drops mid-message, who owns the unacknowledged messages? When the client reconnects, did it miss events while disconnected? The protocol gives you no help. Every WebSocket-based app implements its own sequence numbers, replay buffers, and reconciliation. The good ones (Figma, Linear, Notion) are real distributed systems behind a simple-looking UI.\n\nBoth share a third failure mode: **server-side scalability**. Each connection costs server memory and an open file descriptor. Twitter's 2010 streaming firehose required dedicated servers per few thousand connections. Modern stacks (Phoenix on the BEAM, Go with goroutines) push that to ~1M connections per box, but only with careful tuning. Real-time always pays in server resources.`
 		},
 		{
 			type: 'narrative',
 			title: 'What\'s Next',
-			text: `Active work in 2025:\n\n- **WebTransport** is the proposed successor to [[websockets|WebSocket]] — built on [[quic|QUIC]], with native stream multiplexing, unreliable datagrams when wanted, and no proxy-Upgrade nonsense. Shipping in Chrome; slow elsewhere.\n- **HTTP/3 over QUIC** changes [[sse|SSE]]\'s scaling story — one QUIC connection can carry many SSE streams without TCP head-of-line blocking. Cloudflare and Fastly are quietly making this the default.\n- **Server-driven UI** frameworks (HTMX, Phoenix LiveView, Inertia.js, React Server Components) lean on SSE for their UI updates — the boring older protocol is having a second moment because the new use case fits it perfectly.\n- **LLM streaming** is now the dominant new use case for [[sse|SSE]]. Every chat-like AI product ships an SSE endpoint; the token-by-token effect is canonical.\n- **The death of polling** is overstated. Mobile push notifications, periodic background sync, and "check every N seconds" are still the right answer for many product surfaces. Realtime is expensive; not everything needs it.`
+			text: `Active work in 2025:\n\n- **WebTransport** is the proposed successor to [[websockets|WebSocket]] — built on [[quic|QUIC]], with native stream multiplexing, unreliable datagrams when wanted, and no proxy-Upgrade nonsense. Shipping in Chrome; slow elsewhere.\n- **HTTP/3 over QUIC** changes [[sse|SSE]]'s scaling story — one QUIC connection can carry many SSE streams without TCP head-of-line blocking. Cloudflare and Fastly are quietly making this the default.\n- **Server-driven UI** frameworks (HTMX, Phoenix LiveView, Inertia.js, React Server Components) lean on SSE for their UI updates — the boring older protocol is having a second moment because the new use case fits it perfectly.\n- **LLM streaming** is now the dominant new use case for [[sse|SSE]]. Every chat-like AI product ships an SSE endpoint; the token-by-token effect is canonical.\n- **The death of polling** is overstated. Mobile push notifications, periodic background sync, and "check every N seconds" are still the right answer for many product surfaces. Realtime is expensive; not everything needs it.`
 		}
 	]
 };

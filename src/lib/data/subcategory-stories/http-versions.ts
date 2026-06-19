@@ -21,7 +21,7 @@ export const httpVersionsStory: SubcategoryStory = {
 					title: 'Inventor of the World Wide Web',
 					org: 'CERN / W3C / MIT',
 					contribution:
-						'Wrote the first web browser, web server, and HTML specification in late 1990. The original HTTP was a single \`GET\` line returning a document — no headers, no status codes, no methods. By 1996 [[http1|HTTP/1.0]] had grown headers and \`POST\`; [[http1|HTTP/1.1]] followed in 1997 with persistent connections that kept the web from drowning in {{tcp-handshake|TCP handshakes}}.',
+						'Wrote the first web browser, web server, and HTML specification in late 1990. The original HTTP was a single `GET` line returning a document — no headers, no status codes, no methods. By 1996 [[http1|HTTP/1.0]] had grown headers and `POST`; [[http1|HTTP/1.1]] followed in 1997 with persistent connections that kept the web from drowning in {{tcp-handshake|TCP handshakes}}.',
 					imagePath:
 						'https://upload.wikimedia.org/wikipedia/commons/thumb/6/63/Tim_Berners-Lee_April_2009.jpg/330px-Tim_Berners-Lee_April_2009.jpg'
 				},
@@ -56,19 +56,19 @@ export const httpVersionsStory: SubcategoryStory = {
 					year: 1990,
 					title: 'HTTP/0.9 — The One-Line Protocol',
 					description:
-						'[[pioneer:tim-berners-lee|Berners-Lee]] writes the first web server on a NeXT cube at {{cern|CERN}}. The entire HTTP spec: \`GET /path\`. Server returns the document and closes.'
+						'[[pioneer:tim-berners-lee|Berners-Lee]] writes the first web server on a NeXT cube at {{cern|CERN}}. The entire HTTP spec: `GET /path`. Server returns the document and closes.'
 				},
 				{
 					year: 1996,
 					title: 'HTTP/1.0 (RFC 1945)',
 					description:
-						'Headers arrive. Status codes. \`POST\`. Content-Type. Each request still opens a new [[tcp|TCP]] connection — the {{three-way-handshake|three-way handshake}} happens for every image on a page.'
+						'Headers arrive. Status codes. `POST`. Content-Type. Each request still opens a new [[tcp|TCP]] connection — the {{three-way-handshake|three-way handshake}} happens for every image on a page.'
 				},
 				{
 					year: 1997,
 					title: 'HTTP/1.1 (RFC 2068, later 7230–7235)',
 					description:
-						'Persistent connections (\`Keep-Alive\`) become the default. Pipelining is *specified* but breaks in practice. Chunked encoding, virtual hosts via \`Host:\` header, range requests. This is the HTTP that ran the web for 18 years.'
+						'Persistent connections (`Keep-Alive`) become the default. Pipelining is *specified* but breaks in practice. Chunked encoding, virtual hosts via `Host:` header, range requests. This is the HTTP that ran the web for 18 years.'
 				},
 				{
 					year: 2009,
@@ -172,12 +172,12 @@ export const httpVersionsStory: SubcategoryStory = {
 		{
 			type: 'callout',
 			title: 'Why HTTP/2 Server Push Mostly Died',
-			text: `One of [[http2|HTTP/2]]\'s big features was *server push*: a server could send resources to the client before the client asked for them. The idea was that if the client requests \`/index.html\`, the server can push \`/style.css\` and \`/app.js\` proactively.\n\nIn practice: it almost never helped. Servers couldn\'t predict what the client already had cached, so they re-sent things the client didn\'t need. The browser cache and the push cache fought each other. Chrome removed server push support in 2022. [[http3|HTTP/3]] kept the feature for compatibility but nobody uses it. The lesson: a clever optimization that requires guessing client state usually loses to just letting the client ask.`
+			text: `One of [[http2|HTTP/2]]'s big features was *server push*: a server could send resources to the client before the client asked for them. The idea was that if the client requests \`/index.html\`, the server can push \`/style.css\` and \`/app.js\` proactively.\n\nIn practice: it almost never helped. Servers couldn't predict what the client already had cached, so they re-sent things the client didn't need. The browser cache and the push cache fought each other. Chrome removed server push support in 2022. [[http3|HTTP/3]] kept the feature for compatibility but nobody uses it. The lesson: a clever optimization that requires guessing client state usually loses to just letting the client ask.`
 		},
 		{
 			type: 'narrative',
 			title: 'What\'s Next',
-			text: `[[http3|HTTP/3]] is shipping but not finished. Active work in 2025:\n\n- **{{webtransport|WebTransport}}**: bidirectional streams over QUIC, exposed to browsers — a possible replacement for {{websockets|WebSockets}} where you want UDP-like semantics with TLS.\n- **{{masque|MASQUE}}**: tunnel arbitrary protocols inside QUIC, used by iCloud Private Relay and similar privacy products.\n- **HTTP/2 over QUIC**: not actually a thing, but it\'s a useful reminder that the framing layer (HTTP) and the transport (TCP/QUIC) are now genuinely separable.\n- **Multipath QUIC**: the same {{mptcp|MPTCP}} idea — use multiple network paths in parallel — but for QUIC, which is much easier to evolve than TCP.\n\nThe deeper trend: HTTP is now the universal application protocol, and the interesting evolution is happening at the *transport* layer beneath it. After 35 years, the protocol that started as \`GET /index.html\` runs more of the world\'s traffic than any other single protocol — and the next chapter is being written by the people who decided TCP wasn\'t good enough anymore.`
+			text: `[[http3|HTTP/3]] is shipping but not finished. Active work in 2025:\n\n- **{{webtransport|WebTransport}}**: bidirectional streams over QUIC, exposed to browsers — a possible replacement for {{websockets|WebSockets}} where you want UDP-like semantics with TLS.\n- **{{masque|MASQUE}}**: tunnel arbitrary protocols inside QUIC, used by iCloud Private Relay and similar privacy products.\n- **HTTP/2 over QUIC**: not actually a thing, but it's a useful reminder that the framing layer (HTTP) and the transport (TCP/QUIC) are now genuinely separable.\n- **Multipath QUIC**: the same {{mptcp|MPTCP}} idea — use multiple network paths in parallel — but for QUIC, which is much easier to evolve than TCP.\n\nThe deeper trend: HTTP is now the universal application protocol, and the interesting evolution is happening at the *transport* layer beneath it. After 35 years, the protocol that started as \`GET /index.html\` runs more of the world's traffic than any other single protocol — and the next chapter is being written by the people who decided TCP wasn't good enough anymore.`
 		}
 	]
 };

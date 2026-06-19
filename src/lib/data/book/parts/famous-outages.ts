@@ -66,7 +66,7 @@ The fix was to install patched {{imp|IMP}} software that rejected sequence numbe
 
 **Public post-mortems became the norm.** [[rfc:789|RFC 789]] established that engineering organisations {{mqtt-publish|publish}} detailed root-cause analyses of their incidents. The {{google|Google}} SRE book, the {{cloudflare|Cloudflare}} incident reports, the Facebook 2021 write-up — all descendants of this practice.
 
-**Sequence-number arithmetic is paranoid by default.** Modern protocols reject any {{sequence-number|sequence number}} that is impossibly far in the past or future, instead of trusting wall-clock-style ordering. [[tcp|TCP]]\'s [[rfc:9293|PAWS]] (Protection Against Wrapped Sequences, [[rfc:7323|RFC 7323]]) is one example.`
+**Sequence-number arithmetic is paranoid by default.** Modern protocols reject any {{sequence-number|sequence number}} that is impossibly far in the past or future, instead of trusting wall-clock-style ordering. [[tcp|TCP]]'s [[rfc:9293|PAWS]] (Protection Against Wrapped Sequences, [[rfc:7323|RFC 7323]]) is one example.`
 						},
 						{
 							type: 'image',
@@ -125,7 +125,7 @@ What made the recovery so painful was that there was no way to tell [[bgp|BGP]] 
 							title: 'Why It Took Twenty-Five Years to Fix',
 							text: `{{rpki|RPKI}} was specified in 2008. It took until 2026 to cross **50% of advertised [[ip|IP]] space covered**. The reason is the structure of [[bgp|BGP]] deployment.
 
-For {{rpki|RPKI}} to fix the {{autonomous-system|AS}} 7007 problem, two parties have to participate: the prefix-holder must {{mqtt-publish|publish}} a Route Origin Authorisation ({{roa|ROA}}), and the receiving router must enforce {{rov|Route Origin Validation}} ({{rov|ROV}}). For the first decade after specification, only a handful of large networks ran {{rov|ROV}}. Smaller operators pointed out — correctly — that running {{rov|ROV}} with low {{roa|ROA}} coverage means dropping legitimate routes from peers who haven\'t signed yet. So nobody enforced. Without enforcement, signing your prefixes had no upside. Classic chicken-and-egg.
+For {{rpki|RPKI}} to fix the {{autonomous-system|AS}} 7007 problem, two parties have to participate: the prefix-holder must {{mqtt-publish|publish}} a Route Origin Authorisation ({{roa|ROA}}), and the receiving router must enforce {{rov|Route Origin Validation}} ({{rov|ROV}}). For the first decade after specification, only a handful of large networks ran {{rov|ROV}}. Smaller operators pointed out — correctly — that running {{rov|ROV}} with low {{roa|ROA}} coverage means dropping legitimate routes from peers who haven't signed yet. So nobody enforced. Without enforcement, signing your prefixes had no upside. Classic chicken-and-egg.
 
 What broke the deadlock was a series of high-profile incidents (2018 Amazon Route 53 / MyEtherWallet hijack, 2018 Iranian Telegram hijack, 2019 SafeHost / China Telecom leak) that made unsigned networks look negligent. By 2022, the major hyperscalers and tier-1s were enforcing. By 2026, [[frontier:rpki-rov-50-percent|over 50%]] of advertised [[ip|IP]] space was covered. {{aspa|ASPA}} — the {{autonomous-system|AS}}-path validation extension — is the next chapter.`
 						},
@@ -171,7 +171,7 @@ Mitnick used this to land a forged connection from a host listed in Shimomura's 
 						{
 							type: 'callout',
 							title: 'rsh / rlogin trust was the multiplier',
-							text: '[[tcp|TCP]] sequence prediction by itself is not catastrophic — it just lets you forge a connection. The reason this attack worked is that Berkeley Unix\'s \`.rhosts\` mechanism trusted **the source {{ip-address|IP address}}** of an incoming connection as authentication. Forge the source [[ip|IP]], get the trust. [[ssh|SSH]] (which Tatu Ylönen wrote in 1995, partly in response to incidents like this one) replaced \`.rhosts\` with cryptographic identity — even a perfectly forged [[tcp|TCP]] connection cannot impersonate someone without their {{private-key|private key}}.'
+							text: '[[tcp|TCP]] sequence prediction by itself is not catastrophic — it just lets you forge a connection. The reason this attack worked is that Berkeley Unix\'s `.rhosts` mechanism trusted **the source {{ip-address|IP address}}** of an incoming connection as authentication. Forge the source [[ip|IP]], get the trust. [[ssh|SSH]] (which Tatu Ylönen wrote in 1995, partly in response to incidents like this one) replaced `.rhosts` with cryptographic identity — even a perfectly forged [[tcp|TCP]] connection cannot impersonate someone without their {{private-key|private key}}.'
 						},
 						{
 							type: 'narrative',
@@ -224,7 +224,7 @@ The technical legacy outlived the celebrity. **[[rfc:1948|RFC 1948]]** (Steve Be
 						{
 							type: 'narrative',
 							title: 'A Domestic Block, A Global Outage',
-							text: `On 24 February 2008, the Pakistan Telecommunications Authority ordered domestic ISPs to block YouTube — the immediate cause was a video the government considered blasphemous. Pakistan Telecom ({{autonomous-system|AS}} 17557) implemented the block using the standard "Remotely Triggered Blackhole" (RTBH) technique: inject a more-specific [[bgp|BGP]] route for YouTube\'s prefix into their internal network, pointing it at a null interface. Any traffic destined for YouTube would be silently dropped at the Pakistan Telecom edge.
+							text: `On 24 February 2008, the Pakistan Telecommunications Authority ordered domestic ISPs to block YouTube — the immediate cause was a video the government considered blasphemous. Pakistan Telecom ({{autonomous-system|AS}} 17557) implemented the block using the standard "Remotely Triggered Blackhole" (RTBH) technique: inject a more-specific [[bgp|BGP]] route for YouTube's prefix into their internal network, pointing it at a null interface. Any traffic destined for YouTube would be silently dropped at the Pakistan Telecom edge.
 
 This is fine — **as long as you don't propagate the route outside your network**.`
 						},
@@ -233,7 +233,7 @@ This is fine — **as long as you don't propagate the route outside your network
 							title: 'The Leak',
 							text: `Pakistan Telecom's upstream provider was PCCW Global ({{autonomous-system|AS}} 3491), a major Hong Kong-based {{transit|transit}}. PCCW Global was not filtering incoming [[bgp|BGP]] from Pakistan Telecom — they accepted the bogus, more-specific YouTube route and propagated it onward to every PCCW {{peer|peer}}. From there it went global.
 
-Within three minutes of the original injection, the entire internet believed the best path to YouTube\'s prefix was through Pakistan Telecom. Every YouTube request anywhere on the planet was being null-routed by a router in Karachi. YouTube\'s authoritative [[dns|DNS]] continued to resolve correctly; the actual [[tcp|TCP]] connections just disappeared into a black hole.
+Within three minutes of the original injection, the entire internet believed the best path to YouTube's prefix was through Pakistan Telecom. Every YouTube request anywhere on the planet was being null-routed by a router in Karachi. YouTube's authoritative [[dns|DNS]] continued to resolve correctly; the actual [[tcp|TCP]] connections just disappeared into a black hole.
 
 YouTube was offline globally for two hours. PCCW Global eventually identified the bogus route and applied filtering, after which [[bgp|BGP]] convergence took another 30 minutes to restore reachability.`
 						},
@@ -252,9 +252,9 @@ YouTube was offline globally for two hours. PCCW Global eventually identified th
 						{
 							type: 'narrative',
 							title: 'Why "Most Specific Wins" Is Both Genius and Curse',
-							text: `[[bgp|BGP]]\'s "most specific prefix wins" rule has a beautiful property: it lets traffic engineering work without coordination. If your origin announces a /16 and your {{cdn|CDN}} announces a /20 inside that block, every router automatically prefers the {{cdn|CDN}} — no negotiation needed.
+							text: `[[bgp|BGP]]'s "most specific prefix wins" rule has a beautiful property: it lets traffic engineering work without coordination. If your origin announces a /16 and your {{cdn|CDN}} announces a /20 inside that block, every router automatically prefers the {{cdn|CDN}} — no negotiation needed.
 
-The same rule is what made Pakistan/YouTube possible. A /24 inside YouTube\'s /22 wins, regardless of who is announcing it. The combination of "most specific wins" + "no origin validation" + "global propagation" turned every upstream provider into a single point of failure for every downstream customer\'s prefix integrity.
+The same rule is what made Pakistan/YouTube possible. A /24 inside YouTube's /22 wins, regardless of who is announcing it. The combination of "most specific wins" + "no origin validation" + "global propagation" turned every upstream provider into a single point of failure for every downstream customer's prefix integrity.
 
 This is the structural reason [[bgp|BGP]] needs cryptography to fix it, not just better operational hygiene. Hygiene catches typos; cryptography catches deliberate hijacks. {{rpki|RPKI}} provides the cryptography. {{aspa|ASPA}} (the {{autonomous-system|AS}}-path validation extension, in {{ietf|IETF}} draft) closes the route-leak hole that origin validation alone cannot fix — where {{autonomous-system|AS}} X **does** legitimately originate the prefix, but its upstream then leaks the route through an unintended path.`
 						},
@@ -285,7 +285,7 @@ This is the structural reason [[bgp|BGP]] needs cryptography to fix it, not just
 							title: 'Brief, Massive, Unexplained',
 							text: `On 8 April 2010 at 15:54 {{utc-time|UTC}}, China Telecom ({{autonomous-system|AS}} 23724) announced [[bgp|BGP]] routes for approximately **37,000 prefixes** — about **15% of the global {{routing-table|routing table}}** — claiming to be the best path. For 18 minutes, traffic destined for U.S. military networks (.mil), several .gov domains, and major commercial sites (Dell, Yahoo, {{ibm|IBM}}, {{microsoft|Microsoft}}) was traversing China Telecom's network on its way to the legitimate destination.
 
-The leak was caught by automated monitoring (BGPmon, {{ripe-ncc|RIPE}} RIS, RouteViews) within minutes. China Telecom\'s upstreams installed filters around 16:12 {{utc-time|UTC}}, and [[bgp|BGP]] convergence restored normal routing by 16:18.`
+The leak was caught by automated monitoring (BGPmon, {{ripe-ncc|RIPE}} RIS, RouteViews) within minutes. China Telecom's upstreams installed filters around 16:12 {{utc-time|UTC}}, and [[bgp|BGP]] convergence restored normal routing by 16:18.`
 						},
 						{
 							type: 'narrative',
@@ -356,9 +356,9 @@ The disclosure was coordinated across Red Hat, Canonical, SUSE, Debian, {{aws|AW
 						{
 							type: 'narrative',
 							title: 'How a 23-Year-Old Option Survived Undetected',
-							text: `The {{sack|SACK}} option itself ([[rfc:2018|RFC 2018]], October 1996) had been working correctly for **23 years**. The bug was not in {{sack|SACK}}\'s logic; it was in a specific edge-case interaction with the **frags_per_skb** limit, increased in 2009 to support larger send buffers.
+							text: `The {{sack|SACK}} option itself ([[rfc:2018|RFC 2018]], October 1996) had been working correctly for **23 years**. The bug was not in {{sack|SACK}}'s logic; it was in a specific edge-case interaction with the **frags_per_skb** limit, increased in 2009 to support larger send buffers.
 
-When {{sack|SACK}} indicated a large number of non-contiguous holes in the receive window, the kernel\'s logic for splitting the retransmit buffer into smaller skbs (socket buffers) miscalculated a 16-bit length field. The miscalculation overflowed, the kernel asserted, and the BUG_ON() panicked the system.
+When {{sack|SACK}} indicated a large number of non-contiguous holes in the receive window, the kernel's logic for splitting the retransmit buffer into smaller skbs (socket buffers) miscalculated a 16-bit length field. The miscalculation overflowed, the kernel asserted, and the BUG_ON() panicked the system.
 
 The bug had been present in production code since 2009. It survived because:
 1. The trigger required a specific combination of [[tcp|TCP]] options that no real client sent in normal traffic.
@@ -366,7 +366,7 @@ The bug had been present in production code since 2009. It survived because:
 3. Most performance benchmarks did not exercise the path.
 4. {{sack|SACK}} was considered "battle-tested" — engineers focused new attention on newer code paths instead.
 
-Looney found it by writing a fuzzer that combined {{sack|SACK}} with [[tcp|TCP]]\'s other options in unusual sequences. The same fuzzer found three additional related bugs ({{cve|CVE}}-2019-11478, 11479, 11479) that were patched in the same coordinated disclosure.`
+Looney found it by writing a fuzzer that combined {{sack|SACK}} with [[tcp|TCP]]'s other options in unusual sequences. The same fuzzer found three additional related bugs ({{cve|CVE}}-2019-11478, 11479, 11479) that were patched in the same coordinated disclosure.`
 						},
 						{
 							type: 'callout',
@@ -385,9 +385,9 @@ Looney found it by writing a fuzzer that combined {{sack|SACK}} with [[tcp|TCP]]
 							title: 'What Changed After SACK Panic',
 							text: `Three operational changes are now standard in production {{linux|Linux}} fleets.
 
-**Continuous fuzzing of network code paths.** syzkaller runs against every {{linux|Linux}} kernel commit, generating millions of random syscall + packet sequences per day. Most CVEs in the kernel\'s [[tcp|TCP]]/[[ip|IP]] stack since 2019 have been found this way, not by humans.
+**Continuous fuzzing of network code paths.** syzkaller runs against every {{linux|Linux}} kernel commit, generating millions of random syscall + packet sequences per day. Most CVEs in the kernel's [[tcp|TCP]]/[[ip|IP]] stack since 2019 have been found this way, not by humans.
 
-**Faster {{cve|CVE}} response in distributed {{linux|Linux}} environments.** Pre-2019, large fleets often took weeks to roll out a kernel patch — full reboot rotations, slow validation cycles. {{sack|SACK}} Panic forced the industry to invest in **live patching** (Red Hat\'s kpatch, Canonical\'s Livepatch, SUSE\'s kGraft) that can apply security fixes to a running kernel without reboot. By 2026, hyperscalers routinely live-patch kernel CVEs across millions of {{hosts-bare|hosts}} within hours.
+**Faster {{cve|CVE}} response in distributed {{linux|Linux}} environments.** Pre-2019, large fleets often took weeks to roll out a kernel patch — full reboot rotations, slow validation cycles. {{sack|SACK}} Panic forced the industry to invest in **live patching** (Red Hat's kpatch, Canonical's Livepatch, SUSE's kGraft) that can apply security fixes to a running kernel without reboot. By 2026, hyperscalers routinely live-patch kernel CVEs across millions of {{hosts-bare|hosts}} within hours.
 
 **Per-feature kill switches.** The {{sack|SACK}} Panic patch is gated behind a sysctl (\`net.ipv4.tcp_sack\`) so operators can disable {{sack|SACK}} entirely if a future bug surfaces — without waiting for a kernel {{bgp-update|update}}. Modern kernel networking is full of such switches: an emergency lever for every major optional feature.`
 						},
@@ -396,7 +396,7 @@ Looney found it by writing a fuzzer that combined {{sack|SACK}} with [[tcp|TCP]]
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/35/Tux.svg/250px-Tux.svg.png',
 							alt: 'Tux — the Linux mascot, a chubby cartoon penguin.',
 							caption:
-								'**Tux**, the {{linux|Linux}} mascot, drawn by Larry Ewing in 1996. Behind that cheerful penguin sits a [[tcp|TCP]] stack on every internet-facing {{linux|Linux}} server on Earth — and from 2009 to 2019 every one of them was a single crafted [[tcp|TCP]] packet away from \`kernel panic\`. The fix shipped 17 June 2019; the lesson — **code stability is not code correctness** — has reshaped {{linux|Linux}} kernel networking testing since.',
+								'**Tux**, the {{linux|Linux}} mascot, drawn by Larry Ewing in 1996. Behind that cheerful penguin sits a [[tcp|TCP]] stack on every internet-facing {{linux|Linux}} server on Earth — and from 2009 to 2019 every one of them was a single crafted [[tcp|TCP]] packet away from `kernel panic`. The fix shipped 17 June 2019; the lesson — **code stability is not code correctness** — has reshaped {{linux|Linux}} kernel networking testing since.',
 							credit: 'Image: Larry Ewing / lewing@isc.tamu.edu, public domain, via Wikimedia Commons'
 						}
 					]
@@ -423,16 +423,16 @@ Looney found it by writing a fuzzer that combined {{sack|SACK}} with [[tcp|TCP]]
 							title: 'A Rule That Killed Its Own Delivery Mechanism',
 							text: `On 30 August 2020, CenturyLink ({{autonomous-system|AS}} 209 — one of the largest tier-1 backbones in the U.S., now branded Lumen) propagated a [[bgp|BGP]] **Flowspec** rule across its global network.
 
-Flowspec ([[rfc:5575|RFC 5575]], {{rfc-doc|RFC}} 8955) lets operators install {{firewall|firewall}}-like rules through [[bgp|BGP]] — useful for distributing DDoS mitigation rules across thousands of routers in seconds. The rule in question was supposed to filter traffic for one customer\'s DDoS protection.
+Flowspec ([[rfc:5575|RFC 5575]], {{rfc-doc|RFC}} 8955) lets operators install {{firewall|firewall}}-like rules through [[bgp|BGP]] — useful for distributing DDoS mitigation rules across thousands of routers in seconds. The rule in question was supposed to filter traffic for one customer's DDoS protection.
 
-The catastrophic mistake: the rule\'s match criteria included [[bgp|BGP]] control traffic itself. Routers received the rule, applied it, and immediately began dropping the [[bgp|BGP]] {{bgp-keepalive|keepalive}} packets carrying the next rule. [[bgp|BGP]] sessions timed out across the network. As sessions dropped, [[bgp|BGP]] withdrew every prefix learned through them. The network entered a cascading-failure mode.`
+The catastrophic mistake: the rule's match criteria included [[bgp|BGP]] control traffic itself. Routers received the rule, applied it, and immediately began dropping the [[bgp|BGP]] {{bgp-keepalive|keepalive}} packets carrying the next rule. [[bgp|BGP]] sessions timed out across the network. As sessions dropped, [[bgp|BGP]] withdrew every prefix learned through them. The network entered a cascading-failure mode.`
 						},
 						{
 							type: 'narrative',
 							title: 'Five Hours of Manual Recovery',
 							text: `Once the bad rule had propagated, there was no automated way to retract it — the very mechanism for retracting Flowspec rules ([[bgp|BGP]]) was the mechanism the rule had broken. Every router needed to be touched manually, either via out-of-band management or by physically connecting a console.
 
-Recovery took **five hours**. During that window, approximately **3.5% of all global internet traffic dropped** — a massive number for a single backbone. {{cloudflare|Cloudflare}}, Amazon, {{microsoft|Microsoft}}, and most of the U.S. tier-1 customers reported downtime. {{cloudflare|Cloudflare}}\'s detailed write-up the next day became required reading in [[bgp|BGP]] operations.`
+Recovery took **five hours**. During that window, approximately **3.5% of all global internet traffic dropped** — a massive number for a single backbone. {{cloudflare|Cloudflare}}, Amazon, {{microsoft|Microsoft}}, and most of the U.S. tier-1 customers reported downtime. {{cloudflare|Cloudflare}}'s detailed write-up the next day became required reading in [[bgp|BGP]] operations.`
 						},
 						{
 							type: 'callout',
@@ -450,9 +450,9 @@ Recovery took **five hours**. During that window, approximately **3.5% of all gl
 							title: 'The Architectural Concern That Remains',
 							text: `CenturyLink rolled out automated controls preventing self-blocking rules. The broader industry adopted similar guards. But the underlying architectural concern — **the same protocol distributes both data and the rules governing data** — has no clean fix.
 
-[[bgp|BGP]] is the universal control plane for internet routing. Flowspec rides on [[bgp|BGP]] because that\'s what every router already speaks. The alternative — a separate out-of-band protocol for distributing filter rules — would require new infrastructure on every router on the internet. The economic friction is too high; nobody is going to deploy it.
+[[bgp|BGP]] is the universal control plane for internet routing. Flowspec rides on [[bgp|BGP]] because that's what every router already speaks. The alternative — a separate out-of-band protocol for distributing filter rules — would require new infrastructure on every router on the internet. The economic friction is too high; nobody is going to deploy it.
 
-So we live with the architectural fragility and add operational guards. Every modern router\'s Flowspec implementation now refuses to install rules that would drop [[bgp|BGP]]\'s own ports (179) or the matching {{peer|peer}} addresses. Each new generation of routers adds more such guards. The lesson is incremental rather than fundamental: when you build a control plane on top of itself, every change to the control plane needs to be reviewed for self-consistency — manually, before it ships.`
+So we live with the architectural fragility and add operational guards. Every modern router's Flowspec implementation now refuses to install rules that would drop [[bgp|BGP]]'s own ports (179) or the matching {{peer|peer}} addresses. Each new generation of routers adds more such guards. The lesson is incremental rather than fundamental: when you build a control plane on top of itself, every change to the control plane needs to be reviewed for self-consistency — manually, before it ships.`
 						},
 						{
 							type: 'image',
@@ -484,23 +484,23 @@ So we live with the architectural fragility and add operational guards. Every mo
 						{
 							type: 'narrative',
 							title: 'A Routine Maintenance Command, Then Six Hours',
-							text: `On 4 October 2021 at 15:39 {{utc-time|UTC}}, a Facebook engineer ran a routine maintenance command on the backbone connecting Facebook's data centres. The command was supposed to assess capacity by temporarily withdrawing a single backbone link\'s [[bgp|BGP]] advertisements, then restoring them.
+							text: `On 4 October 2021 at 15:39 {{utc-time|UTC}}, a Facebook engineer ran a routine maintenance command on the backbone connecting Facebook's data centres. The command was supposed to assess capacity by temporarily withdrawing a single backbone link's [[bgp|BGP]] advertisements, then restoring them.
 
-The command had a bug. It withdrew **all** of Facebook\'s [[bgp|BGP]] route advertisements globally — not just for the one link it was supposed to assess. Within minutes, every facebook.com, instagram.com, and whatsapp.com lookup returned NXDOMAIN. **3.5 billion users disconnected.**
+The command had a bug. It withdrew **all** of Facebook's [[bgp|BGP]] route advertisements globally — not just for the one link it was supposed to assess. Within minutes, every facebook.com, instagram.com, and whatsapp.com lookup returned NXDOMAIN. **3.5 billion users disconnected.**
 
 That was the easy part of the cascade.`
 						},
 						{
 							type: 'narrative',
 							title: 'The DNS Black Hole',
-							text: `Facebook\'s authoritative [[dns|DNS]] servers were inside the data centres that just lost their [[bgp|BGP]] advertisements. Resolvers around the world tried to query them — and got nothing back, because the [[ip|IP]] addresses no longer routed anywhere.
+							text: `Facebook's authoritative [[dns|DNS]] servers were inside the data centres that just lost their [[bgp|BGP]] advertisements. Resolvers around the world tried to query them — and got nothing back, because the [[ip|IP]] addresses no longer routed anywhere.
 
-After a brief period of cached responses, every cached record expired (typical TTLs are minutes, not hours). [[dns|DNS]] resolution for Facebook\'s domains failed worldwide. **Without [[dns|DNS]]**, Facebook\'s internal systems — Workplace, Calendar, internal monitoring, [[oauth2|OAuth]], the company directory — all failed. Engineers could not reach their own infrastructure remotely. They could not even verify that the outage was [[bgp|BGP]]-related, because their monitoring tools couldn\'t resolve internal hostnames.`
+After a brief period of cached responses, every cached record expired (typical TTLs are minutes, not hours). [[dns|DNS]] resolution for Facebook's domains failed worldwide. **Without [[dns|DNS]]**, Facebook's internal systems — Workplace, Calendar, internal monitoring, [[oauth2|OAuth]], the company directory — all failed. Engineers could not reach their own infrastructure remotely. They could not even verify that the outage was [[bgp|BGP]]-related, because their monitoring tools couldn't resolve internal hostnames.`
 						},
 						{
 							type: 'narrative',
 							title: 'The Badge Readers',
-							text: `The next layer of cascade was the part that made the outage famous in the broader world. Facebook\'s **physical security infrastructure** — door badge readers at the data centres — depended on the same authentication system that had just disappeared.
+							text: `The next layer of cascade was the part that made the outage famous in the broader world. Facebook's **physical security infrastructure** — door badge readers at the data centres — depended on the same authentication system that had just disappeared.
 
 Engineers headed to the data centres physically. They could not enter the buildings. The badge system was offline. They had to be physically escorted in by on-site security staff who could manually override the locks. Then, once inside, they had to find the specific machines that needed manual intervention — and the data-centre wayfinding tools were also offline.
 
@@ -522,7 +522,7 @@ The first [[bgp|BGP]] fix went in around 21:00 {{utc-time|UTC}}. Recovery took u
 							title: 'What Changed After Facebook 2021',
 							text: `Three structural changes rolled through the industry in the eighteen months after the outage.
 
-**Out-of-band recovery for authoritative [[dns|DNS]].** Facebook (and others) moved to a model where authoritative [[dns|DNS]] for their critical domains is reachable through multiple independent network paths — including paths that do not depend on the company\'s own backbone. {{cloudflare|Cloudflare}} and {{aws|AWS}} Route 53 both saw enterprise growth as customers moved [[dns|DNS]] to "if our network is down, our [[dns|DNS]] is still up."
+**Out-of-band recovery for authoritative [[dns|DNS]].** Facebook (and others) moved to a model where authoritative [[dns|DNS]] for their critical domains is reachable through multiple independent network paths — including paths that do not depend on the company's own backbone. {{cloudflare|Cloudflare}} and {{aws|AWS}} Route 53 both saw enterprise growth as customers moved [[dns|DNS]] to "if our network is down, our [[dns|DNS]] is still up."
 
 **Physical access systems on independent networks.** Badge readers, door locks, environmental controls, fire suppression — anything that needs to work during a network outage — now runs on dedicated, isolated networks at most hyperscalers. The lesson: physical security cannot depend on the network whose data centre it secures.
 
@@ -558,22 +558,22 @@ The first [[bgp|BGP]] fix went in around 21:00 {{utc-time|UTC}}. Recovery took u
 						{
 							type: 'narrative',
 							title: 'When the ISP Is the Country',
-							text: `On 8 July 2022 at 04:45 EDT, Rogers Communications — the largest {{isp|ISP}} and mobile carrier in Canada, serving over **11 million subscribers** — went down nationally. For 15 hours, Rogers customers had no internet, no mobile signal, no landline (Rogers also runs Canada\'s largest {{voip|VoIP}}-based home phone service through its Hi-Speed Internet bundles), no Interac debit transactions (Interac\'s national network runs over Rogers connectivity), and **no 911 service** in many regions.
+							text: `On 8 July 2022 at 04:45 EDT, Rogers Communications — the largest {{isp|ISP}} and mobile carrier in Canada, serving over **11 million subscribers** — went down nationally. For 15 hours, Rogers customers had no internet, no mobile signal, no landline (Rogers also runs Canada's largest {{voip|VoIP}}-based home phone service through its Hi-Speed Internet bundles), no Interac debit transactions (Interac's national network runs over Rogers connectivity), and **no 911 service** in many regions.
 
-The trigger was a misconfiguration during a planned maintenance {{bgp-update|update}} to the Rogers [[ip|IP]]/MPLS core. A bad route policy caused control-plane {{cpu|CPU}} exhaustion across Rogers\' core routers — they spent so much {{cpu|CPU}} recomputing routes in response to the bad policy that they had no cycles left to actually forward traffic.`
+The trigger was a misconfiguration during a planned maintenance {{bgp-update|update}} to the Rogers [[ip|IP]]/MPLS core. A bad route policy caused control-plane {{cpu|CPU}} exhaustion across Rogers' core routers — they spent so much {{cpu|CPU}} recomputing routes in response to the bad policy that they had no cycles left to actually forward traffic.`
 						},
 						{
 							type: 'narrative',
 							title: 'A Country-Wide Cascade',
-							text: `The downstream effects revealed how deeply a single carrier\'s connectivity had been woven into Canadian infrastructure.
+							text: `The downstream effects revealed how deeply a single carrier's connectivity had been woven into Canadian infrastructure.
 
-**Banking and payments**: Interac\'s e-Transfer service stopped working nationwide. Most debit-card transactions failed. Some ATMs went offline. Several major retailers had to close because they could not accept payment.
+**Banking and payments**: Interac's e-Transfer service stopped working nationwide. Most debit-card transactions failed. Some ATMs went offline. Several major retailers had to close because they could not accept payment.
 
 **Healthcare**: Several hospital systems lost connectivity to Rogers-hosted services. Telehealth platforms that depended on Rogers {{voip|VoIP}} failed.
 
-**Government services**: Service Canada\'s online portals were unreachable from Rogers networks. The Canada Border Services Agency reported delays at land crossings.
+**Government services**: Service Canada's online portals were unreachable from Rogers networks. The Canada Border Services Agency reported delays at land crossings.
 
-**Emergency services**: 911 calls failed in many areas. Some provinces issued public advisories telling residents to use neighbours\' phones, alternate networks, or visit fire stations directly.
+**Emergency services**: 911 calls failed in many areas. Some provinces issued public advisories telling residents to use neighbours' phones, alternate networks, or visit fire stations directly.
 
 Recovery required Rogers engineers to log in to individual core routers (over out-of-band management, which thankfully was separate) and manually roll back the change. By 21:00 EDT, partial service was restored. Full service took until 14 July — six days of intermittent issues for some customers.`
 						},
@@ -593,8 +593,8 @@ Recovery required Rogers engineers to log in to individual core routers (over ou
 							title: 'The Regulatory Aftermath',
 							text: `The {{crtc|CRTC}} (Canadian Radio-television and Telecommunications Commission) issued a formal decision on 22 March 2023 requiring all major Canadian carriers to:
 
-1. Implement **reciprocal roaming for emergency calls** within six months — so that a phone unable to reach its own carrier can still complete 911 calls through any competing carrier\'s tower.
-2. Submit **detailed network architecture and dependency reports** annually, including every system that depends on the carrier\'s network for life-safety functions.
+1. Implement **reciprocal roaming for emergency calls** within six months — so that a phone unable to reach its own carrier can still complete 911 calls through any competing carrier's tower.
+2. Submit **detailed network architecture and dependency reports** annually, including every system that depends on the carrier's network for life-safety functions.
 3. Maintain **out-of-band management** independent of the production network for all core routing infrastructure.
 4. Conduct **annual outage simulations** with the federal government, including coordinated emergency-services {{failover|failover}}.
 
@@ -641,7 +641,7 @@ Approximately **125 million devices** became unreachable for **up to twelve hour
 
 Several states issued public advisories during the outage telling AT&T customers to:
 - Use [[wifi|Wi-Fi]] calling (which routes through the home internet rather than the cellular network)
-- Switch to a different carrier\'s {{sim-usim|SIM}} if available
+- Switch to a different carrier's {{sim-usim|SIM}} if available
 - Use landlines if accessible
 - Walk or drive to the nearest fire station, police station, or hospital
 
@@ -663,7 +663,7 @@ The {{fcc|FCC}} opened a formal investigation under the 2018 911 Reliability Rul
 							title: 'The Canary-Deployment Maturity Gap',
 							text: `The web/cloud industry adopted canary deployments more than a decade ago — every meaningful change rolls out to 0.1%, then 1%, then 10%, then 100% of traffic, with automatic rollback on failure indicators. The telecom industry has lagged.
 
-Reasons for the lag are structural. Wireless networks have **strong global consistency requirements** that don\'t align cleanly with canary deployment — you can\'t have one cell tower running a different version of the radio access network protocol than the towers next to it without breaking handoff. Some configuration changes are necessarily global. Some changes are necessarily simultaneous (e.g., security updates that close a known vulnerability).
+Reasons for the lag are structural. Wireless networks have **strong global consistency requirements** that don't align cleanly with canary deployment — you can't have one cell tower running a different version of the radio access network protocol than the towers next to it without breaking handoff. Some configuration changes are necessarily global. Some changes are necessarily simultaneous (e.g., security updates that close a known vulnerability).
 
 Post-AT&T-2024, the industry consensus is that **most changes can be canaried** — even in wireless cores — and the small number that genuinely cannot should receive correspondingly more pre-deployment review. The architectural debate, ongoing, is whether the same caution should apply to security patches that need to ship fast: a mass-deployment outage and an unpatched-{{cve|CVE}} outage are both bad in different ways, and the correct trade-off is not obvious.`
 						},

@@ -176,7 +176,7 @@ Together — Wi-Fi for local broadband, Bluetooth for personal-area, Cellular fo
 					year: 2025,
 					title: 'T-Mobile + SpaceX Direct-to-Cell launches commercially',
 					description:
-						"The first commercial **satellite-to-cell** service. Standard band n25/n26 phones {{mqtt-connect|connect}} to low-Earth-orbit {{starlink|Starlink}} satellites for {{sms|SMS}} and emergency. {{apple|Apple}}\'s Globalstar partnership and AT&T's AST SpaceMobile follow similar patterns. Reshapes \"coverage\" as a concept: \"no signal\" no longer means *no signal*.",
+						"The first commercial **satellite-to-cell** service. Standard band n25/n26 phones {{mqtt-connect|connect}} to low-Earth-orbit {{starlink|Starlink}} satellites for {{sms|SMS}} and emergency. {{apple|Apple}}'s Globalstar partnership and AT&T's AST SpaceMobile follow similar patterns. Reshapes \"coverage\" as a concept: \"no signal\" no longer means *no signal*.",
 					protocolId: 'cellular'
 				}
 			]

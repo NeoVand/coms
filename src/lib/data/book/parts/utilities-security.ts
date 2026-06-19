@@ -40,7 +40,7 @@ In 1999 the {{ietf|IETF}} took ownership and renamed it [[tls|TLS]] 1.0 ([[rfc:2
 						{
 							type: 'callout',
 							title: 'TLS 1.3 has middlebox-compatibility hacks built in',
-							text: 'The "everyone gets it wrong" wire fact: **[[tls|TLS]] 1.3 {{client-hello|ClientHello}}.legacy_version = 0x0303** ([[tls|TLS]] 1.2); the real version goes in the \`supported_versions\` extension. **legacy_session_id is non-empty** (faking {{session-resumption|session resumption}}). Both sides send a no-op **ChangeCipherSpec record** after their first flight. All of this is because middleboxes broke when they saw real [[tls|TLS]] 1.3 wire format. The protocol is technically clean; the wire encoding is a deliberate camouflage.'
+							text: 'The "everyone gets it wrong" wire fact: **[[tls|TLS]] 1.3 {{client-hello|ClientHello}}.legacy_version = 0x0303** ([[tls|TLS]] 1.2); the real version goes in the `supported_versions` extension. **legacy_session_id is non-empty** (faking {{session-resumption|session resumption}}). Both sides send a no-op **ChangeCipherSpec record** after their first flight. All of this is because middleboxes broke when they saw real [[tls|TLS]] 1.3 wire format. The protocol is technically clean; the wire encoding is a deliberate camouflage.'
 						},
 						{
 							type: 'narrative',
@@ -253,7 +253,7 @@ Before [[oauth2|OAuth]], an app that wanted access to your {{google|Google}} cal
 						{
 							type: 'callout',
 							title: 'The Road to Hell resignation',
-							text: '**The "Road to Hell" resignation (26 July 2012)**: Eran Hammer published *"[[oauth2|OAuth]] 2.0 and the Road to Hell"* — most famous resignation in modern protocol history. His core line: *"WS-\* bad"* — shorthand among {{ietf|IETF}} veterans for any standard sunk by enterprise committee design. The "everyone gets it wrong" framework fact: **[[oauth2|OAuth]] 2.0 is technically a framework, not a protocol.** [[rfc:6749|RFC 6749]]\'s abstract itself warns *"this specification is likely to produce a wide range of non-interoperable implementations"* — language Hammer fought to insert.'
+							text: '**The "Road to Hell" resignation (26 July 2012)**: Eran Hammer published *"[[oauth2|OAuth]] 2.0 and the Road to Hell"* — most famous resignation in modern protocol history. His core line: *"WS-* bad"* — shorthand among {{ietf|IETF}} veterans for any standard sunk by enterprise committee design. The "everyone gets it wrong" framework fact: **[[oauth2|OAuth]] 2.0 is technically a framework, not a protocol.** [[rfc:6749|RFC 6749]]\'s abstract itself warns *"this specification is likely to produce a wide range of non-interoperable implementations"* — language Hammer fought to insert.'
 						},
 						{
 							type: 'narrative',

@@ -2072,7 +2072,7 @@ export const concepts: Concept[] = [
 		id: 'slo-sli-sla',
 		term: 'SLO / SLI / SLA',
 		definition:
-			"Three nested concepts from Google\'s SRE practice. An *SLI* (Service Level Indicator) is a measurement (e.g., 99th-percentile latency). An *SLO* (Objective) is the target you set for it (\"99.9% of requests under 200 ms over 30 days\"). An *SLA* (Agreement) is the externally-promised version with consequences if missed. The gap between an SLO and an SLA is your error budget.",
+			"Three nested concepts from Google's SRE practice. An *SLI* (Service Level Indicator) is a measurement (e.g., 99th-percentile latency). An *SLO* (Objective) is the target you set for it (\"99.9% of requests under 200 ms over 30 days\"). An *SLA* (Agreement) is the externally-promised version with consequences if missed. The gap between an SLO and an SLA is your error budget.",
 		wikiUrl: 'https://sre.google/sre-book/service-level-objectives/',
 		category: 'infrastructure'
 	},
@@ -2080,7 +2080,7 @@ export const concepts: Concept[] = [
 		id: 'tail-latency',
 		term: 'Tail Latency (p99, p999)',
 		definition:
-			"The high-percentile latencies that dominate user experience but disappear in averages. p99 is \"99% of requests are at least this fast\" — and at internet scale every user hits p99+ multiple times per session. Jeff Dean and Luiz Barroso\'s 2013 paper \"The Tail at Scale\" is the canonical text.",
+			"The high-percentile latencies that dominate user experience but disappear in averages. p99 is \"99% of requests are at least this fast\" — and at internet scale every user hits p99+ multiple times per session. Jeff Dean and Luiz Barroso's 2013 paper \"The Tail at Scale\" is the canonical text.",
 		wikiUrl: 'https://research.google/pubs/the-tail-at-scale/',
 		category: 'infrastructure'
 	},
@@ -2088,7 +2088,7 @@ export const concepts: Concept[] = [
 		id: 'trace-span',
 		term: 'Trace / Span',
 		definition:
-			"The distributed-tracing data model. A *trace* represents one request\'s end-to-end journey. Each unit of work along the way (an HTTP call, a database query, a queue publish) is a *span* with a start time, end time, and a parent span. Spans form a tree across services. OpenTelemetry is the standard wire format; Jaeger, Tempo, and Zipkin are common UIs.",
+			"The distributed-tracing data model. A *trace* represents one request's end-to-end journey. Each unit of work along the way (an HTTP call, a database query, a queue publish) is a *span* with a start time, end time, and a parent span. Spans form a tree across services. OpenTelemetry is the standard wire format; Jaeger, Tempo, and Zipkin are common UIs.",
 		wikiUrl: 'https://opentelemetry.io/docs/concepts/signals/traces/',
 		category: 'infrastructure'
 	},
@@ -2242,7 +2242,7 @@ export const concepts: Concept[] = [
 		id: 'pfs',
 		term: 'PFS (Perfect Forward Secrecy)',
 		definition:
-			"A property of a key-exchange protocol where compromising one session\'s long-term key does **not** compromise past sessions. Achieved by deriving each session key from an ephemeral Diffie-Hellman exchange. [[tls|TLS]] 1.3 enforces it; [[ipsec|IKEv2]] gets it via fresh DH/KEM in CREATE_CHILD_SA rekeys.",
+			"A property of a key-exchange protocol where compromising one session's long-term key does **not** compromise past sessions. Achieved by deriving each session key from an ephemeral Diffie-Hellman exchange. [[tls|TLS]] 1.3 enforces it; [[ipsec|IKEv2]] gets it via fresh DH/KEM in CREATE_CHILD_SA rekeys.",
 		wikiUrl: 'https://en.wikipedia.org/wiki/Forward_secrecy',
 		category: 'security'
 	},
@@ -2994,7 +2994,7 @@ export const concepts: Concept[] = [
 		id: 'bbrv3',
 		term: 'BBRv3',
 		definition:
-			"The 2023+ revision of {{bbr|BBR}} that addresses the v1 fairness problems with {{cubic|CUBIC}} and packet-conservation gaps. Now \`draft-ietf-ccwg-bbr\` (-04 / -05, 2025–2026); Google has run it as the default on google.com and YouTube traffic since 2023. Available in Linux via \`sysctl net.ipv4.tcp_congestion_control=bbr\` paired with FQ qdisc.",
+			"The 2023+ revision of {{bbr|BBR}} that addresses the v1 fairness problems with {{cubic|CUBIC}} and packet-conservation gaps. Now `draft-ietf-ccwg-bbr` (-04 / -05, 2025–2026); Google has run it as the default on google.com and YouTube traffic since 2023. Available in Linux via `sysctl net.ipv4.tcp_congestion_control=bbr` paired with FQ qdisc.",
 		category: 'protocol-mechanics'
 	},
 
@@ -3011,7 +3011,7 @@ export const concepts: Concept[] = [
 		id: 'moq',
 		term: 'MoQ (Media over QUIC)',
 		definition:
-			"The {{ietf|IETF}} working group and protocol family designing the next-generation sub-second live streaming transport on top of [[quic|QUIC]]. \`draft-ietf-moq-transport\` (-17 in March 2026) is the core protocol — co-edited by Suhas Nandakumar (Cisco), Victor Vasiliev (Google), Ian Swett (Google), and Alan Frindell (Meta). Designed to replace the [[rtmp|RTMP]]→[[hls|HLS]] pipeline. Cloudflare runs production MoQ relays across 330+ cities.",
+			"The {{ietf|IETF}} working group and protocol family designing the next-generation sub-second live streaming transport on top of [[quic|QUIC]]. `draft-ietf-moq-transport` (-17 in March 2026) is the core protocol — co-edited by Suhas Nandakumar (Cisco), Victor Vasiliev (Google), Ian Swett (Google), and Alan Frindell (Meta). Designed to replace the [[rtmp|RTMP]]→[[hls|HLS]] pipeline. Cloudflare runs production MoQ relays across 330+ cities.",
 		category: 'protocol-mechanics'
 	},
 
