@@ -76,7 +76,7 @@ export const routingStory: SubcategoryStory = {
 					year: 1995,
 					title: 'BGP-4 (RFC 1771)',
 					description:
-						'BGP-4 adds {{cidr|CIDR}} support — variable-length prefixes instead of class A/B/C boundaries. CIDR is the only thing that staved off [[ipv4|IPv4]] address exhaustion through the 1990s.'
+						'BGP-4 adds {{cidr|CIDR}} support — variable-length prefixes instead of class A/B/C boundaries. CIDR is the only thing that staved off [[ip|IPv4]] address exhaustion through the 1990s.'
 				},
 				{
 					year: 1998,
@@ -124,7 +124,7 @@ export const routingStory: SubcategoryStory = {
 				{
 					label: '[[ospf|OSPF]]',
 					values: [
-						'Within one {{as|AS}} (intra-domain)',
+						'Within one {{autonomous-system|AS}} (intra-domain)',
 						'Link-state — every router knows full topology, runs [[pioneer:edsger-dijkstra|Dijkstra]] locally',
 						'Path cost (bandwidth-derived integer)',
 						'Full trust — all routers in the same administrative domain',
@@ -134,7 +134,7 @@ export const routingStory: SubcategoryStory = {
 				{
 					label: '[[bgp|BGP]]',
 					values: [
-						'Between {{as|ASes}} (inter-domain)',
+						'Between {{autonomous-system|ASes}} (inter-domain)',
 						'Path-vector — exchange path lists, no shared topology',
 						'Local policy (LOCAL_PREF, AS_PATH length, MED, ...)',
 						'Zero trust — peers are competitors, customers, or random ISPs',

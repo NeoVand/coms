@@ -47,7 +47,7 @@ export const iotMessagingStory: SubcategoryStory = {
 					year: 1999,
 					title: 'MQTT Born at IBM',
 					description:
-						'[[pioneer:andy-stanford-clark|Stanford-Clark]] and [[pioneer:arlen-nipper|Nipper]] design [[mqtt|MQTT]] for monitoring oil pipelines via satellite links. Constraints: expensive bandwidth, frequent disconnects, tiny embedded controllers.'
+						'**Stanford-Clark** and **Nipper** design [[mqtt|MQTT]] for monitoring oil pipelines via satellite links. Constraints: expensive bandwidth, frequent disconnects, tiny embedded controllers.'
 				},
 				{
 					year: 2011,

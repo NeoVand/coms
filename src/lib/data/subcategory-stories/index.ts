@@ -29,7 +29,7 @@ import { networkServicesStory } from './network-services';
 import { wlanWanStory } from './wlan-wan';
 import { panProximityStory } from './pan-proximity';
 
-const stories: SubcategoryStory[] = [
+export const subcategoryStories: SubcategoryStory[] = [
 	linkLayerStory,
 	internetLayerStory,
 	routingStory,
@@ -54,7 +54,9 @@ const stories: SubcategoryStory[] = [
 	panProximityStory
 ];
 
-const storyMap = new Map<string, SubcategoryStory>(stories.map((s) => [s.subcategoryId, s]));
+const storyMap = new Map<string, SubcategoryStory>(
+	subcategoryStories.map((s) => [s.subcategoryId, s])
+);
 
 export function getSubcategoryStory(subcategoryId: string): SubcategoryStory | undefined {
 	return storyMap.get(subcategoryId);

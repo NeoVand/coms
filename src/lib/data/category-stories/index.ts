@@ -7,17 +7,17 @@ import { realtimeAvStory } from './realtime-av';
 import { utilitiesStory } from './utilities';
 import { wirelessStory } from './wireless';
 
-const storyMap = new Map<string, CategoryStory>(
-	[
-		networkFoundationsStory,
-		transportStory,
-		webApiStory,
-		asyncIotStory,
-		realtimeAvStory,
-		utilitiesStory,
-		wirelessStory
-	].map((s) => [s.categoryId, s])
-);
+export const categoryStories: CategoryStory[] = [
+	networkFoundationsStory,
+	transportStory,
+	webApiStory,
+	asyncIotStory,
+	realtimeAvStory,
+	utilitiesStory,
+	wirelessStory
+];
+
+const storyMap = new Map<string, CategoryStory>(categoryStories.map((s) => [s.categoryId, s]));
 
 export function getCategoryStory(categoryId: string): CategoryStory | undefined {
 	return storyMap.get(categoryId);

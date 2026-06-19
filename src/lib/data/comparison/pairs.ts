@@ -3233,7 +3233,7 @@ const relationshipPairs: ProtocolPair[] = [
 // LOOKUP
 // ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-const allPairs: ProtocolPair[] = [...vsPairs, ...relationshipPairs];
+export const allPairs: ProtocolPair[] = [...vsPairs, ...relationshipPairs];
 
 /** Map for O(1) lookup by canonical key "idA:idB" (alphabetically sorted). */
 const pairMap = new Map<string, ProtocolPair>();

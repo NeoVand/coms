@@ -28,6 +28,9 @@ jobs:
       # Type + Svelte diagnostics
       - run: npm run check
 
+      # Content integrity: every cross-referenced id must resolve
+      - run: npm run validate
+
       # Unit tests (vitest) + e2e (playwright builds + previews internally)
       - run: npm run test:unit
       - run: npx playwright install --with-deps chromium

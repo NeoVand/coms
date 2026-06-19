@@ -1216,7 +1216,7 @@ Authored **qmail** and **djbdns** in the late 1990s — uncompromising secure al
 		imagePath:
 			'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cb/Daniel_J._Bernstein.jpg/330px-Daniel_J._Bernstein.jpg',
 		protocols: ['tcp', 'tls', 'ssh'],
-		categories: ['security', 'transport'],
+		categories: ['utilities', 'transport'],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Daniel_J._Bernstein',
 			homepage: 'https://cr.yp.to/'

@@ -7883,6 +7883,78 @@ export const concepts: Concept[] = [
 			'The cellular signalling protocols between the handset and the core network (MME in 4G, AMF in 5G) — registration, authentication, mobility, session management. The control-plane layer above {{#rrc|RRC}}.',
 		wikiUrl: 'https://en.wikipedia.org/wiki/Non-access_stratum',
 		category: 'protocol-mechanics'
+	},
+	{
+		id: 'egp',
+		term: 'EGP (Exterior Gateway Protocol)',
+		definition:
+			'The original protocol for exchanging routing information between autonomous systems on the early internet (RFC 904, 1984). It assumed a simple tree-shaped network with a single core and could not handle loops, so it was replaced by [[bgp|BGP]] as the internet grew into a mesh of peers.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Exterior_Gateway_Protocol',
+		category: 'infrastructure'
+	},
+	{
+		id: 'congestion-collapse',
+		term: 'Congestion Collapse',
+		definition:
+			'A failure mode where a network becomes so overloaded that almost no useful work gets through — senders keep retransmitting packets that are already queued or dropped, which adds yet more load. The internet suffered real congestion collapses in 1986; [[tcp|TCP]]’s congestion-control algorithms (slow start, congestion avoidance) were added specifically to prevent it.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Network_congestion#Congestive_collapse',
+		category: 'networking-basics'
+	},
+	{
+		id: 'ossification',
+		term: 'Protocol Ossification',
+		definition:
+			'The loss of flexibility that happens when middleboxes (firewalls, NATs, load balancers) inspect and depend on the exact wire format of a protocol, so any change breaks in the field. [[tcp|TCP]] is heavily ossified, which is why [[quic|QUIC]] runs over [[udp|UDP]] and encrypts almost its entire header — to keep middleboxes from freezing its design.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Protocol_ossification',
+		category: 'networking-basics'
+	},
+	{
+		id: 'tcp-handshake',
+		term: 'TCP Three-Way Handshake',
+		definition:
+			'The connection-setup exchange that opens every [[tcp|TCP]] connection: the client sends SYN, the server replies SYN-ACK, the client answers ACK. It synchronizes initial sequence numbers in both directions and costs one round trip before any data flows — the latency [[quic|QUIC]] and TLS 1.3 work hard to fold away.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Transmission_Control_Protocol#Connection_establishment',
+		category: 'protocol-mechanics'
+	},
+	{
+		id: 'http-verbs',
+		term: 'HTTP Methods (Verbs)',
+		definition:
+			'The action words at the start of every [[http1|HTTP]] request — GET (read), POST (create), PUT (replace), PATCH (modify), DELETE (remove), plus HEAD and OPTIONS. [[rest|REST]] APIs lean on their defined semantics (safe, idempotent) so caches and proxies can reason about a request without understanding the application.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/HTTP#Request_methods',
+		category: 'web'
+	},
+	{
+		id: 'comet',
+		term: 'Comet (HTTP long-polling)',
+		definition:
+			'An umbrella term for the pre-[[websockets|WebSocket]] techniques that faked server push over plain [[http1|HTTP]] — long-polling (hold a request open until there is data) and hidden streaming iframes. Comet powered early live chat and dashboards but wasted connections and added latency, which motivated real bidirectional transports.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Comet_(programming)',
+		category: 'web'
+	},
+	{
+		id: 'phishing',
+		term: 'Phishing',
+		definition:
+			'A social-engineering attack that tricks a user into handing credentials to a fake site or approving a malicious request, rather than breaking the cryptography. It is the reason modern auth leans on phishing-resistant factors like WebAuthn/passkeys and hardware security keys instead of passwords and one-time codes alone.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Phishing',
+		category: 'security'
+	},
+	{
+		id: 'ttls',
+		term: 'EAP-TTLS',
+		definition:
+			'An 802.1X/EAP authentication method that first builds a [[tls|TLS]] tunnel to the authentication server, then carries the user’s credentials (often a legacy password protocol) safely inside it. Widely used on enterprise and campus [[wifi|Wi-Fi]] because it authenticates users without requiring a client certificate on every device.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/Extensible_Authentication_Protocol#EAP-TTLS',
+		category: 'security'
+	},
+	{
+		id: 'rsn',
+		term: 'RSN (Robust Security Network)',
+		definition:
+			'The security framework introduced by the 802.11i amendment (the basis of WPA2) that replaced the broken WEP scheme on [[wifi|Wi-Fi]]. An RSN negotiates strong ciphers (CCMP/AES) and the 4-way handshake that derives fresh per-session keys, advertised in the RSN Information Element of management frames.',
+		wikiUrl: 'https://en.wikipedia.org/wiki/IEEE_802.11i-2004',
+		category: 'security'
 	}
 ];
 

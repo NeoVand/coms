@@ -3,7 +3,7 @@ import type { SubcategoryStory } from './types';
 export const httpVersionsStory: SubcategoryStory = {
 	subcategoryId: 'http-versions',
 	tagline:
-		'Thirty years of one protocol — from a text-based handshake on a NeXT cube to encrypted multiplexed streams over {{quic|QUIC}}',
+		'Thirty years of one protocol — from a text-based handshake on a NeXT cube to encrypted multiplexed streams over [[quic|QUIC]]',
 	sections: [
 		{
 			type: 'narrative',
@@ -43,7 +43,7 @@ export const httpVersionsStory: SubcategoryStory = {
 					title: 'Designer of QUIC',
 					org: 'Google',
 					contribution:
-						"Designed the original {{quic|QUIC}} at Google starting in 2012 — a fundamentally new transport over [[udp|UDP]] that solved [[http2|HTTP/2]]'s transport-layer {{head-of-line-blocking|head-of-line blocking}} by giving each stream its own loss-recovery context. The {{ietf|IETF}} took over standardization in 2016; [[http3|HTTP/3]] became RFC 9114 in June 2022. Roskind's key insight: encryption belongs *inside* the transport, not above it.",
+						"Designed the original [[quic|QUIC]] at Google starting in 2012 — a fundamentally new transport over [[udp|UDP]] that solved [[http2|HTTP/2]]'s transport-layer {{head-of-line-blocking|head-of-line blocking}} by giving each stream its own loss-recovery context. The {{ietf|IETF}} took over standardization in 2016; [[http3|HTTP/3]] became RFC 9114 in June 2022. Roskind's key insight: encryption belongs *inside* the transport, not above it.",
 					imagePath:
 						'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Jim_Roskind_2016.jpg/330px-Jim_Roskind_2016.jpg'
 				}
@@ -86,7 +86,7 @@ export const httpVersionsStory: SubcategoryStory = {
 					year: 2013,
 					title: 'QUIC at Google',
 					description:
-						'[[pioneer:jim-roskind|Jim Roskind]] starts {{quic|QUIC}} — a UDP-based transport that bundles encryption, congestion control, and stream multiplexing into one. By 2017, ~7% of all Google traffic already runs on QUIC.'
+						'[[pioneer:jim-roskind|Jim Roskind]] starts [[quic|QUIC]] — a UDP-based transport that bundles encryption, congestion control, and stream multiplexing into one. By 2017, ~7% of all Google traffic already runs on QUIC.'
 				},
 				{
 					year: 2015,
@@ -117,7 +117,7 @@ export const httpVersionsStory: SubcategoryStory = {
 		{
 			type: 'callout',
 			title: 'The Head-of-Line Blocking Saga',
-			text: `Each HTTP version is, in some sense, a reaction to head-of-line blocking at a different layer.\n\n**[[http1|HTTP/1.1]]**: HoL blocking *at the application layer*. One request per connection means a slow response stalls the next request on that socket. Browsers worked around this by opening 6 parallel connections per origin.\n\n**[[http2|HTTP/2]]**: solves application-layer HoL with stream multiplexing — hundreds of concurrent requests over one connection. But it still runs over [[tcp|TCP]], and a single lost packet stalls *all* streams until TCP recovers it. HoL just moved down a layer.\n\n**[[http3|HTTP/3]]**: solves transport-layer HoL by moving streams *into* {{quic|QUIC}}. Each stream has its own loss-recovery context. One stream waiting for a retransmit doesn't block the others. The buck finally stops.`
+			text: `Each HTTP version is, in some sense, a reaction to head-of-line blocking at a different layer.\n\n**[[http1|HTTP/1.1]]**: HoL blocking *at the application layer*. One request per connection means a slow response stalls the next request on that socket. Browsers worked around this by opening 6 parallel connections per origin.\n\n**[[http2|HTTP/2]]**: solves application-layer HoL with stream multiplexing — hundreds of concurrent requests over one connection. But it still runs over [[tcp|TCP]], and a single lost packet stalls *all* streams until TCP recovers it. HoL just moved down a layer.\n\n**[[http3|HTTP/3]]**: solves transport-layer HoL by moving streams *into* [[quic|QUIC]]. Each stream has its own loss-recovery context. One stream waiting for a retransmit doesn't block the others. The buck finally stops.`
 		},
 		{
 			type: 'animated-sequence',
@@ -143,7 +143,7 @@ export const httpVersionsStory: SubcategoryStory = {
     C->>S: Stream 8, GET /app.js, independent loss recovery
     S-->>C: Streams delivered in any order, loss on one does not stall others`,
 			caption:
-				"Same three requests, three protocols. In [[http1|HTTP/1.1]] they're serialized. In [[http2|HTTP/2]] they multiplex but share one TCP socket. In [[http3|HTTP/3]] each stream has its own loss recovery on top of {{quic|QUIC}}.",
+				"Same three requests, three protocols. In [[http1|HTTP/1.1]] they're serialized. In [[http2|HTTP/2]] they multiplex but share one TCP socket. In [[http3|HTTP/3]] each stream has its own loss recovery on top of [[quic|QUIC]].",
 			steps: {
 				0: '**[[http1|HTTP/1.1]] — serial requests on one connection.** With Keep-Alive, the client can reuse a TCP connection for many requests, but only one can be in flight at a time.',
 				1: 'Client sends a **GET for the HTML**. Browser starts the page load.',
@@ -167,7 +167,7 @@ export const httpVersionsStory: SubcategoryStory = {
 		{
 			type: 'narrative',
 			title: 'The Ossification Trap',
-			text: `There's a subtle reason [[http3|HTTP/3]] runs on {{quic|QUIC}} over [[udp|UDP]] rather than on a new TCP-like protocol: **{{ossification|protocol ossification}}**. The internet's middleboxes — firewalls, NATs, deep-packet-inspection appliances — only understand [[tcp|TCP]] and [[udp|UDP]]. Anything else gets blocked. Worse, those middleboxes peek inside TCP headers and reject anything that doesn't look exactly like 1990s TCP. Try to add a new TCP option, and a few percent of the internet silently drops your packets.\n\nQUIC's defense: encrypt everything. Not just the payload — the *transport headers* too. Middleboxes can see a UDP packet going to port 443 and that's it. They can't inspect the QUIC framing, so they can't reject things they don't recognize. Future QUIC versions can change the wire format and middleboxes won't notice.\n\nThe price: implementing QUIC means re-implementing reliable transport in user space, since the kernel doesn't help. The reward: a transport that can evolve.`
+			text: `There's a subtle reason [[http3|HTTP/3]] runs on [[quic|QUIC]] over [[udp|UDP]] rather than on a new TCP-like protocol: **{{ossification|protocol ossification}}**. The internet's middleboxes — firewalls, NATs, deep-packet-inspection appliances — only understand [[tcp|TCP]] and [[udp|UDP]]. Anything else gets blocked. Worse, those middleboxes peek inside TCP headers and reject anything that doesn't look exactly like 1990s TCP. Try to add a new TCP option, and a few percent of the internet silently drops your packets.\n\nQUIC's defense: encrypt everything. Not just the payload — the *transport headers* too. Middleboxes can see a UDP packet going to port 443 and that's it. They can't inspect the QUIC framing, so they can't reject things they don't recognize. Future QUIC versions can change the wire format and middleboxes won't notice.\n\nThe price: implementing QUIC means re-implementing reliable transport in user space, since the kernel doesn't help. The reward: a transport that can evolve.`
 		},
 		{
 			type: 'callout',
@@ -177,7 +177,7 @@ export const httpVersionsStory: SubcategoryStory = {
 		{
 			type: 'narrative',
 			title: "What's Next",
-			text: `[[http3|HTTP/3]] is shipping but not finished. Active work in 2025:\n\n- **{{webtransport|WebTransport}}**: bidirectional streams over QUIC, exposed to browsers — a possible replacement for {{websockets|WebSockets}} where you want UDP-like semantics with TLS.\n- **{{masque|MASQUE}}**: tunnel arbitrary protocols inside QUIC, used by iCloud Private Relay and similar privacy products.\n- **HTTP/2 over QUIC**: not actually a thing, but it's a useful reminder that the framing layer (HTTP) and the transport (TCP/QUIC) are now genuinely separable.\n- **Multipath QUIC**: the same {{mptcp|MPTCP}} idea — use multiple network paths in parallel — but for QUIC, which is much easier to evolve than TCP.\n\nThe deeper trend: HTTP is now the universal application protocol, and the interesting evolution is happening at the *transport* layer beneath it. After 35 years, the protocol that started as \`GET /index.html\` runs more of the world's traffic than any other single protocol — and the next chapter is being written by the people who decided TCP wasn't good enough anymore.`
+			text: `[[http3|HTTP/3]] is shipping but not finished. Active work in 2025:\n\n- **{{webtransport|WebTransport}}**: bidirectional streams over QUIC, exposed to browsers — a possible replacement for [[websockets|WebSockets]] where you want UDP-like semantics with TLS.\n- **{{masque|MASQUE}}**: tunnel arbitrary protocols inside QUIC, used by iCloud Private Relay and similar privacy products.\n- **HTTP/2 over QUIC**: not actually a thing, but it's a useful reminder that the framing layer (HTTP) and the transport (TCP/QUIC) are now genuinely separable.\n- **Multipath QUIC**: the same [[mptcp|MPTCP]] idea — use multiple network paths in parallel — but for QUIC, which is much easier to evolve than TCP.\n\nThe deeper trend: HTTP is now the universal application protocol, and the interesting evolution is happening at the *transport* layer beneath it. After 35 years, the protocol that started as \`GET /index.html\` runs more of the world's traffic than any other single protocol — and the next chapter is being written by the people who decided TCP wasn't good enough anymore.`
 		}
 	]
 };

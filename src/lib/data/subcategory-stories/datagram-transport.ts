@@ -3,7 +3,7 @@ import type { SubcategoryStory } from './types';
 export const datagramTransportStory: SubcategoryStory = {
 	subcategoryId: 'datagram-transport',
 	tagline:
-		"Going raw — or building something better in user space — on top of {{ip|IP}}'s native datagrams",
+		"Going raw — or building something better in user space — on top of [[ip|IP]]'s native datagrams",
 	sections: [
 		{
 			type: 'narrative',
@@ -32,7 +32,7 @@ export const datagramTransportStory: SubcategoryStory = {
 					title: 'Designer of QUIC',
 					org: 'Google',
 					contribution:
-						"Started [[quic|QUIC]] at Google in 2012 to fix [[tcp|TCP]]'s deployment problems: kernel ossification, [[head-of-line-blocking|HoL blocking]], and the slow rollout of TLS 1.3. Roskind's key bet was that the transport layer could be *re-implemented in user space* — ship updates with the browser, escape the kernel's deployment cycle. By 2017, Google reported ~7% of all Internet traffic was already QUIC. The {{ietf|IETF}} chartered the QUIC WG in 2016; [[rfc:9000|RFC 9000]] published in 2021.",
+						"Started [[quic|QUIC]] at Google in 2012 to fix [[tcp|TCP]]'s deployment problems: kernel ossification, {{head-of-line-blocking|HoL blocking}}, and the slow rollout of TLS 1.3. Roskind's key bet was that the transport layer could be *re-implemented in user space* — ship updates with the browser, escape the kernel's deployment cycle. By 2017, Google reported ~7% of all Internet traffic was already QUIC. The {{ietf|IETF}} chartered the QUIC WG in 2016; [[rfc:9000|RFC 9000]] published in 2021.",
 					imagePath:
 						'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Jim_Roskind_2016.jpg/330px-Jim_Roskind_2016.jpg'
 				},
@@ -184,7 +184,7 @@ export const datagramTransportStory: SubcategoryStory = {
 		{
 			type: 'narrative',
 			title: "What's Next",
-			text: `Active work in 2025:\n\n- **Multipath QUIC** — bonding multiple network paths into one QUIC connection, like [[mptcp|MPTCP]] but easier because QUIC isn't bound to TCP's wire format. Draft in WG, deployment underway at Apple and Cloudflare.\n- **MASQUE** — running arbitrary protocols (TCP, UDP, IP) inside QUIC for tunneling. Powers iCloud Private Relay and similar privacy infrastructure.\n- **WebTransport** — exposes QUIC streams to browsers, a likely successor to {{websockets|WebSockets}} for low-latency bidirectional traffic.\n- **Media-over-QUIC** — a new family of standards for live and on-demand media that bypasses RTP/RTMP/HLS entirely.\n- **QUIC offload silicon** — first-generation NIC support landing in 2024–2026, closing the CPU-cost gap with TCP.\n\nUDP itself isn't evolving — that's the point. It is the stable substrate. The action is one layer up.`
+			text: `Active work in 2025:\n\n- **Multipath QUIC** — bonding multiple network paths into one QUIC connection, like [[mptcp|MPTCP]] but easier because QUIC isn't bound to TCP's wire format. Draft in WG, deployment underway at Apple and Cloudflare.\n- **MASQUE** — running arbitrary protocols (TCP, UDP, IP) inside QUIC for tunneling. Powers iCloud Private Relay and similar privacy infrastructure.\n- **WebTransport** — exposes QUIC streams to browsers, a likely successor to [[websockets|WebSockets]] for low-latency bidirectional traffic.\n- **Media-over-QUIC** — a new family of standards for live and on-demand media that bypasses RTP/RTMP/HLS entirely.\n- **QUIC offload silicon** — first-generation NIC support landing in 2024–2026, closing the CPU-cost gap with TCP.\n\nUDP itself isn't evolving — that's the point. It is the stable substrate. The action is one layer up.`
 		}
 	]
 };
