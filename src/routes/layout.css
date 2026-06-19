@@ -2,6 +2,23 @@
 @import 'driver.js/dist/driver.css';
 @plugin '@tailwindcss/typography';
 
+/* ── Reduced-motion reset ──
+   When a user asks the OS for reduced motion, collapse all CSS animations,
+   transitions, and smooth scrolling to near-instant. Covers entrance
+   animations (detail panel, modals, tooltips, simulator arrows) in one place.
+   The canvas graph honors the same preference in JS (see GraphCanvas/
+   prefersReducedMotion). */
+@media (prefers-reduced-motion: reduce) {
+	*,
+	*::before,
+	*::after {
+		animation-duration: 0.01ms !important;
+		animation-iteration-count: 1 !important;
+		transition-duration: 0.01ms !important;
+		scroll-behavior: auto !important;
+	}
+}
+
 /* ── Semantic theme variables ── */
 :root {
 	--theme-bg: #090e1a;

@@ -121,6 +121,15 @@ test.describe('registry & book pages', () => {
 	}
 });
 
+test.describe('accessibility', () => {
+	test('reduced-motion users still get the detail panel content', async ({ page }) => {
+		await page.emulateMedia({ reducedMotion: 'reduce' });
+		await page.goto('/p/tcp');
+		// The slide-in animation is collapsed to ~instant; content must still render.
+		await expect(page.getByRole('heading', { name: 'TCP', exact: true })).toBeVisible();
+	});
+});
+
 test.describe('mobile', () => {
 	test.use({ viewport: { width: 375, height: 812 } });
 
