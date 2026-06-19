@@ -38,6 +38,34 @@ const FRO = new Set(frontierEntries.map((f) => f.id));
 const CON = new Set(concepts.map((c) => c.id));
 const PART = new Set(bookParts.map((b) => b.id));
 
+// ── Duplicate ids ────────────────────────────────────────────────
+// A duplicate id silently shadows the earlier entry in the *Map lookups
+// (Map keeps the last value), so one definition becomes unreachable.
+function findDuplicates(ids: string[]): string[] {
+	const seen = new Set<string>();
+	const dup = new Set<string>();
+	for (const id of ids) {
+		if (seen.has(id)) dup.add(id);
+		seen.add(id);
+	}
+	return [...dup];
+}
+for (const [label, ids, sink] of [
+	['protocol', allProtocols.map((p) => p.id), errors],
+	['pioneer', pioneers.map((p) => p.id), errors],
+	['RFC', rfcs.map((r) => String(r.number)), errors],
+	['outage', outages.map((o) => o.id), errors],
+	['frontier', frontierEntries.map((f) => f.id), errors],
+	// Concepts have 18 known pre-existing collisions (two authored definitions
+	// share an id). They render a valid definition today, so they are surfaced
+	// as warnings for editorial review rather than breaking the build.
+	['concept', concepts.map((c) => c.id), warnings]
+] as const) {
+	for (const id of findDuplicates(ids)) {
+		sink.push(`duplicate ${label} id "${id}" — one definition shadows the other`);
+	}
+}
+
 const ref = (set: Set<string>, id: string, where: string) => {
 	if (!set.has(id)) errors.push(`${where} → unknown id "${id}"`);
 };
@@ -131,7 +159,8 @@ function resolveBracket(rawId: string, where: string) {
 			break;
 		case 'chapter': {
 			const partId = id.split('/')[0];
-			if (!PART.has(partId)) errors.push(`inline [[chapter:${id}]] in ${where} → unknown book part`);
+			if (!PART.has(partId))
+				errors.push(`inline [[chapter:${id}]] in ${where} → unknown book part`);
 			break;
 		}
 		default:
