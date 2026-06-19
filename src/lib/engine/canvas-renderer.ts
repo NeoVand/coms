@@ -269,7 +269,11 @@ export function render(ctx: CanvasRenderingContext2D, options: RenderOptions): v
 	const visibleNodes =
 		layoutMode === 'mesh'
 			? nodes.filter((n) => n.type === 'protocol' || n.type === 'subcategory')
-			: nodes;
+			: layoutMode === 'timeline'
+				? // Subcategories are parked on top of their category here, so their
+					// label just collides with the category's — drop them in the timeline.
+					nodes.filter((n) => n.type !== 'subcategory')
+				: nodes;
 	const sortedNodes = [...visibleNodes].sort((a, b) => {
 		const order = { protocol: 0, subcategory: 1, category: 2, hub: 3 };
 		return order[a.type] - order[b.type];

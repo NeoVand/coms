@@ -13,6 +13,7 @@
 	import type { GraphNode } from '$lib/data/types';
 
 	import { createSimulation, warmUpSimulation, syncPositions } from '$lib/engine/simulation';
+	import { persistLayoutMode } from '$lib/state/app-state.svelte';
 	import { render, findNodeAtPosition } from '$lib/engine/canvas-renderer';
 	import { RenderLoop } from '$lib/engine/render-loop.svelte';
 	import { getAppState } from '$lib/state/context';
@@ -454,10 +455,11 @@
 						: mode === 'timeline'
 							? computeTimelinePositions(nodes)
 							: computeMeshPositions(nodes);
-				if (!prefersReducedMotion.current) {
-					captureLayoutSource();
-				}
-				layoutTargets = positions;
+
+				// First render already in a non-force layout (e.g. refresh while in
+				// timeline) — snap straight there, no force-graph bloom/slide first.
+				const landDirectly = prevLayout === null;
+
 				// Zoom to fit the target layout (use target positions, not current)
 				// In mesh mode, only consider protocol nodes for the bounding box —
 				// hub and categories are parked at origin and don't render.
@@ -469,10 +471,35 @@
 					mode === 'mesh'
 						? targetNodes.filter((n) => n.type === 'protocol' || n.type === 'subcategory')
 						: targetNodes;
-				appState.focusOnSubgraph(focusNodes, width, height, isPanelOccupied() ? undefined : 0);
+
+				if (landDirectly) {
+					for (const n of nodes) {
+						const t = positions.get(n.id);
+						if (t) {
+							n.x = t.x;
+							n.y = t.y;
+							n.vx = 0;
+							n.vy = 0;
+						}
+					}
+					layoutTargets = null;
+					springStates.clear();
+					appState.focusOnSubgraph(focusNodes, width, height, undefined, true);
+				} else {
+					if (!prefersReducedMotion.current) {
+						captureLayoutSource();
+					}
+					layoutTargets = positions;
+					appState.focusOnSubgraph(focusNodes, width, height, isPanelOccupied() ? undefined : 0);
+				}
 			});
 		}
 		prevLayout = mode;
+	});
+
+	// Remember the chosen layout so a refresh reopens it.
+	$effect(() => {
+		persistLayoutMode(appState.layoutMode);
 	});
 
 	function handleMouseMove(e: MouseEvent) {
@@ -623,30 +650,36 @@
 		// read current positions instead of stale static x:0/y:0 values.
 		appState.registerLiveNodes(nodes);
 
-		// Warm up to compute settled target positions. With the bloom we
-		// then stash those targets, reset visible positions to (0,0), and
-		// glide each node into place — but we keep the warmed simulation
-		// frozen during the bloom so the existing graph doesn't shake.
+		// Warm up the force layout so its settled positions are ready (for the
+		// bloom, and for later switches back to force).
 		warmUpSimulation(simulation);
-		syncPositions(simulation, nodes);
 
-		if (!prefersReducedMotion.current) {
-			// Capture every node's settled position as its bloom target.
-			bloomNodeTargets = new Map<string, { x: number; y: number }>();
-			for (const node of nodes) {
-				bloomNodeTargets.set(node.id, { x: node.x, y: node.y });
-				if (node.type !== 'hub') {
-					// Park off-screen until birth — invisible thanks to
-					// birthScales[id] = 0.
-					node.x = 0;
-					node.y = 0;
-					node.vx = 0;
-					node.vy = 0;
+		// The chronological bloom is the *force* layout's intro. If the page
+		// loads straight into a non-force layout (e.g. refresh while in
+		// timeline), skip it entirely and let the layout effect land the nodes
+		// directly in that layout — so the force graph never flashes first.
+		const initialForce = appState.layoutMode === 'force';
+		if (initialForce) {
+			syncPositions(simulation, nodes);
+
+			if (!prefersReducedMotion.current) {
+				// Capture every node's settled position as its bloom target.
+				bloomNodeTargets = new Map<string, { x: number; y: number }>();
+				for (const node of nodes) {
+					bloomNodeTargets.set(node.id, { x: node.x, y: node.y });
+					if (node.type !== 'hub') {
+						// Park off-screen until birth — invisible thanks to
+						// birthScales[id] = 0.
+						node.x = 0;
+						node.y = 0;
+						node.vx = 0;
+						node.vy = 0;
+					}
+					birthScales.set(node.id, 0);
+					bloomVelocities.set(node.id, { vx: 0, vy: 0 });
 				}
-				birthScales.set(node.id, 0);
-				bloomVelocities.set(node.id, { vx: 0, vy: 0 });
+				bloomActive = true;
 			}
-			bloomActive = true;
 		}
 
 		// Register touch/wheel handlers as non-passive so preventDefault() works

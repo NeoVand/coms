@@ -3,9 +3,24 @@ import type { LayoutMode } from '$lib/engine/layouts';
 import type { Concept } from '$lib/data/concepts';
 import type { Journey } from '$lib/data/journeys';
 
+const LAYOUT_STORAGE_KEY = 'protocol-lab:layout-mode';
+const VALID_LAYOUTS: readonly LayoutMode[] = ['force', 'radial', 'timeline', 'mesh'];
+
+/** Last layout the user chose, so a refresh reopens it instead of resetting. */
+function readPersistedLayout(): LayoutMode {
+	if (typeof localStorage === 'undefined') return 'force';
+	const v = localStorage.getItem(LAYOUT_STORAGE_KEY);
+	return v && (VALID_LAYOUTS as readonly string[]).includes(v) ? (v as LayoutMode) : 'force';
+}
+
+/** Persist the chosen layout (call whenever `layoutMode` changes). */
+export function persistLayoutMode(mode: LayoutMode): void {
+	if (typeof localStorage !== 'undefined') localStorage.setItem(LAYOUT_STORAGE_KEY, mode);
+}
+
 export class AppState {
 	selectedNode: GraphNode | null = $state(null);
-	layoutMode: LayoutMode = $state('force');
+	layoutMode: LayoutMode = $state(readPersistedLayout());
 	hoveredNode: GraphNode | null = $state(null);
 	/**
 	 * When non-null, NodeTooltip anchors itself to this rect (used by
