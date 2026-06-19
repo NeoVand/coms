@@ -9,7 +9,7 @@ function gnode(id: string): GraphNode {
 }
 
 function snode(id: string, x: number, y: number): SimNode {
-	return { id, type: 'protocol', radius: 10, x, y, vx: 1, vy: 2 };
+	return { id, type: 'protocol', radius: 10, ax: 0, ay: 0, ar: 0, x, y, vx: 1, vy: 2 };
 }
 
 /** Stub d3 simulation exposing only the .nodes() syncPositions reads. */
