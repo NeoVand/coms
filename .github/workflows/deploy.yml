@@ -26,6 +26,11 @@ jobs:
           cache: npm
 
       - run: npm ci
+
+      # Quality gates — never deploy a red baseline.
+      - run: npm run lint
+      - run: npm run check
+
       - run: npm run build
         env:
           BASE_PATH: '/${{ github.event.repository.name }}'
