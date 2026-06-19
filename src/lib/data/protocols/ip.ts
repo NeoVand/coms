@@ -177,7 +177,18 @@ sudo tcpdump -i eth0 -v -c 5 ip`
 		overhead:
 			'20-byte header minimum (no options); 24-60 bytes with options. Every packet on the internet carries this.'
 	},
-	connections: ['tcp', 'udp', 'ethernet', 'arp', 'dns', 'wifi', 'ipv6', 'ospf', 'ipsec', 'nat-traversal'],
+	connections: [
+		'tcp',
+		'udp',
+		'ethernet',
+		'arp',
+		'dns',
+		'wifi',
+		'ipv6',
+		'ospf',
+		'ipsec',
+		'nat-traversal'
+	],
 	links: {
 		wikipedia: 'https://en.wikipedia.org/wiki/Internet_Protocol',
 		rfc: 'https://datatracker.ietf.org/doc/html/rfc791'

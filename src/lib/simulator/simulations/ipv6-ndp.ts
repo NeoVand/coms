@@ -6,7 +6,7 @@ export const ipv6Ndp: SimulationConfig = {
 	protocolId: 'ipv6',
 	title: 'IPv6 — Neighbor Discovery and Routing',
 	description:
-		'Watch an IPv6 packet traverse a network using Neighbor Discovery Protocol (NDP) instead of ARP. Unlike IPv4\'s broadcast-based ARP, NDP uses efficient solicited-node multicast to resolve addresses. Observe how the fixed 40-byte header simplifies router processing, and how Hop Limit (IPv6\'s TTL) decrements at each hop.',
+		"Watch an IPv6 packet traverse a network using Neighbor Discovery Protocol (NDP) instead of ARP. Unlike IPv4's broadcast-based ARP, NDP uses efficient solicited-node multicast to resolve addresses. Observe how the fixed 40-byte header simplifies router processing, and how Hop Limit (IPv6's TTL) decrements at each hop.",
 	tier: 'client',
 	actors: [
 		{ id: 'source', label: 'Source Host', icon: 'client', position: 'left' },
@@ -41,7 +41,7 @@ export const ipv6Ndp: SimulationConfig = {
 			id: 'ndp-solicitation',
 			label: 'Neighbor Solicitation (NDP)',
 			description:
-				'Before sending data, the source must resolve the router\'s IPv6 address to a MAC address. Instead of IPv4\'s ARP broadcast to FF:FF:FF:FF:FF:FF, IPv6 uses NDP Neighbor Solicitation (ICMPv6 Type 135) sent to the solicited-node multicast address ff02::1:ff00:1 — only the target and a handful of other nodes process this packet, not the entire network. This is dramatically more efficient than ARP broadcasts.',
+				"Before sending data, the source must resolve the router's IPv6 address to a MAC address. Instead of IPv4's ARP broadcast to FF:FF:FF:FF:FF:FF, IPv6 uses NDP Neighbor Solicitation (ICMPv6 Type 135) sent to the solicited-node multicast address ff02::1:ff00:1 — only the target and a handful of other nodes process this packet, not the entire network. This is dramatically more efficient than ARP broadcasts.",
 			fromActor: 'source',
 			toActor: 'router',
 			duration: 600,
@@ -64,7 +64,7 @@ export const ipv6Ndp: SimulationConfig = {
 			id: 'ndp-advertisement',
 			label: 'Neighbor Advertisement (reply)',
 			description:
-				'The router responds with a Neighbor Advertisement (ICMPv6 Type 136) containing its link-layer MAC address. The source now caches this mapping in its Neighbor Cache (IPv6\'s equivalent of the ARP cache). The Solicited flag is set, indicating this is a direct response. Unlike ARP\'s simple request/reply, NDP also supports Duplicate Address Detection (DAD) and Router Redirect.',
+				"The router responds with a Neighbor Advertisement (ICMPv6 Type 136) containing its link-layer MAC address. The source now caches this mapping in its Neighbor Cache (IPv6's equivalent of the ARP cache). The Solicited flag is set, indicating this is a direct response. Unlike ARP's simple request/reply, NDP also supports Duplicate Address Detection (DAD) and Router Redirect.",
 			fromActor: 'router',
 			toActor: 'source',
 			duration: 600,
@@ -110,7 +110,7 @@ export const ipv6Ndp: SimulationConfig = {
 			id: 'router-process',
 			label: 'Router Processes (Hop Limit 63)',
 			description:
-				'The router examines the IPv6 header. Unlike IPv4, there is no header checksum to recalculate — this was removed by design since upper layers (TCP, UDP) already have checksums. The router decrements Hop Limit from 64 to 63 (equivalent to IPv4\'s TTL). If Hop Limit reached 0, the router would send an ICMPv6 Time Exceeded message. It consults the routing table for 2001:db8:2::/64 and determines the outbound interface.',
+				"The router examines the IPv6 header. Unlike IPv4, there is no header checksum to recalculate — this was removed by design since upper layers (TCP, UDP) already have checksums. The router decrements Hop Limit from 64 to 63 (equivalent to IPv4's TTL). If Hop Limit reached 0, the router would send an ICMPv6 Time Exceeded message. It consults the routing table for 2001:db8:2::/64 and determines the outbound interface.",
 			fromActor: 'router',
 			toActor: 'router',
 			duration: 800,
@@ -133,7 +133,7 @@ export const ipv6Ndp: SimulationConfig = {
 			id: 'router-forward',
 			label: 'Forward with New MACs',
 			description:
-				'The router re-encapsulates the IPv6 packet in a new Ethernet frame for the destination\'s network segment. Just like IPv4 routing: the IPv6 addresses stay constant end-to-end, but the Ethernet MACs change at every hop. The router\'s outbound MAC becomes the new source, and the destination\'s MAC (resolved via NDP on that segment) becomes the new destination. No fragmentation by routers — IPv6 requires the source to use Path MTU Discovery.',
+				"The router re-encapsulates the IPv6 packet in a new Ethernet frame for the destination's network segment. Just like IPv4 routing: the IPv6 addresses stay constant end-to-end, but the Ethernet MACs change at every hop. The router's outbound MAC becomes the new source, and the destination's MAC (resolved via NDP on that segment) becomes the new destination. No fragmentation by routers — IPv6 requires the source to use Path MTU Discovery.",
 			fromActor: 'router',
 			toActor: 'dest',
 			duration: 600,

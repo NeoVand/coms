@@ -8,7 +8,8 @@ export const ssh: Protocol = {
 	port: 22,
 	year: 1995,
 	rfc: 'RFC 4253',
-	oneLiner: 'Encrypted remote access — how developers securely {{mqtt-connect|connect}} to servers.',
+	oneLiner:
+		'Encrypted remote access — how developers securely {{mqtt-connect|connect}} to servers.',
 	overview: `[[ssh|SSH]] replaced the insecure telnet and rlogin protocols by providing {{encryption|encrypted}} remote shell access. When you {{mqtt-connect|connect}} to a server, push code to GitHub, or tunnel a database connection, you're likely using [[ssh|SSH]].
 
 [[ssh|SSH]] provides an encrypted tunnel between {{client-server|client and server}} that can carry interactive shell sessions, file transfers ({{scp-copy|SCP}}/{{sftp|SFTP}}), and {{port-forwarding|port forwarding}}. Authentication can use passwords, but the preferred method is {{public-key|public key}} authentication: your {{private-key|private key}} stays on your machine, and the server has your {{public-key|public key}} — no passwords transmitted over the network.

@@ -3,7 +3,7 @@ import type { SubcategoryStory } from './types';
 export const federatedMessagingStory: SubcategoryStory = {
 	subcategoryId: 'federated-messaging',
 	tagline:
-		"Federated chat for an era that wanted walled gardens — the protocol that powered everyone before everyone left",
+		'Federated chat for an era that wanted walled gardens — the protocol that powered everyone before everyone left',
 	sections: [
 		{
 			type: 'narrative',
@@ -20,8 +20,7 @@ export const federatedMessagingStory: SubcategoryStory = {
 					title: 'Inventor of Jabber/XMPP',
 					org: 'Jabber.org / Jabber, Inc. / Anaerobic',
 					contribution:
-						"Started Jabber in 1998 as a side project to build an open alternative to AIM/ICQ. The original Jabber server (jabberd, written in C) launched in 2000. Miller co-founded Jabber, Inc. (commercial Jabber, eventually acquired by Cisco in 2008). The IETF standardized the protocol as [[xmpp|XMPP]] in 2002 ([[rfc:6120|RFC 3920/3921]], updated in 2011 to [[rfc:6120|RFC 6120/6121]]). After XMPP, Miller worked on TeleHash and a series of decentralized-protocol projects."
-
+						'Started Jabber in 1998 as a side project to build an open alternative to AIM/ICQ. The original Jabber server (jabberd, written in C) launched in 2000. Miller co-founded Jabber, Inc. (commercial Jabber, eventually acquired by Cisco in 2008). The IETF standardized the protocol as [[xmpp|XMPP]] in 2002 ([[rfc:6120|RFC 3920/3921]], updated in 2011 to [[rfc:6120|RFC 6120/6121]]). After XMPP, Miller worked on TeleHash and a series of decentralized-protocol projects.'
 				},
 				{
 					name: 'Peter Saint-Andre',
@@ -29,7 +28,7 @@ export const federatedMessagingStory: SubcategoryStory = {
 					title: 'XSF Executive Director / Spec Editor',
 					org: 'XMPP Standards Foundation',
 					contribution:
-						"Edited the major [[xmpp|XMPP]] specifications for nearly two decades, including the 2011 RFC 6120/6121/6122 update. Saint-Andre also led the XMPP Extensions Process (XEPs) — the document series that defines the dozens of optional protocol extensions (group chat, pub/sub, file transfer, voice, video). Most production XMPP deployments are 95% extensions and 5% core; without the XEP discipline, XMPP would have fragmented years earlier than it did."
+						'Edited the major [[xmpp|XMPP]] specifications for nearly two decades, including the 2011 RFC 6120/6121/6122 update. Saint-Andre also led the XMPP Extensions Process (XEPs) — the document series that defines the dozens of optional protocol extensions (group chat, pub/sub, file transfer, voice, video). Most production XMPP deployments are 95% extensions and 5% core; without the XEP discipline, XMPP would have fragmented years earlier than it did.'
 				},
 				{
 					name: 'Matthew Hodgson',
@@ -48,7 +47,7 @@ export const federatedMessagingStory: SubcategoryStory = {
 					year: 1999,
 					title: 'Jabber Begins',
 					description:
-						"Jeremie Miller starts the Jabber project. The first design goal: messaging that works the way email works — anyone can run a server, any server can federate with any other."
+						'Jeremie Miller starts the Jabber project. The first design goal: messaging that works the way email works — anyone can run a server, any server can federate with any other.'
 				},
 				{
 					year: 2000,
@@ -90,19 +89,19 @@ export const federatedMessagingStory: SubcategoryStory = {
 					year: 2011,
 					title: 'RFC 6120/6121 — XMPP Refresh',
 					description:
-						"The current XMPP specification, edited by Peter Saint-Andre. Cleans up TLS requirements, internationalization (JIDs in Unicode), and stream features."
+						'The current XMPP specification, edited by Peter Saint-Andre. Cleans up TLS requirements, internationalization (JIDs in Unicode), and stream features.'
 				},
 				{
 					year: 2014,
 					title: 'Google Drops XMPP Federation',
 					description:
-						"Google Talk becomes Hangouts. XMPP federation is removed. The single largest source of cross-server messages on the federated XMPP network disappears overnight."
+						'Google Talk becomes Hangouts. XMPP federation is removed. The single largest source of cross-server messages on the federated XMPP network disappears overnight.'
 				},
 				{
 					year: 2014,
 					title: 'Matrix Begins',
 					description:
-						"Matthew Hodgson and Amandine Le Pape start Matrix as an HTTP-based, decentralized chat protocol. Explicitly positioned as \"what we wish XMPP looked like in 2014.\""
+						'Matthew Hodgson and Amandine Le Pape start Matrix as an HTTP-based, decentralized chat protocol. Explicitly positioned as "what we wish XMPP looked like in 2014."'
 				},
 				{
 					year: 2017,
@@ -114,7 +113,7 @@ export const federatedMessagingStory: SubcategoryStory = {
 					year: 2024,
 					title: 'EU Digital Markets Act',
 					description:
-						"The DMA names \"gatekeeper\" platforms (WhatsApp, Messenger, iMessage) and requires they offer interoperability APIs. The protocol details are unclear; XMPP and Matrix are both being discussed as candidate bridges. The federated dream gets a regulatory comeback."
+						'The DMA names "gatekeeper" platforms (WhatsApp, Messenger, iMessage) and requires they offer interoperability APIs. The protocol details are unclear; XMPP and Matrix are both being discussed as candidate bridges. The federated dream gets a regulatory comeback.'
 				}
 			]
 		},
@@ -130,7 +129,7 @@ export const federatedMessagingStory: SubcategoryStory = {
 						'XML stanzas over long-lived TCP/TLS',
 						'OMEMO (Signal-protocol-based) or OTR; not mandatory',
 						'No — designed for desktop XMPP clients',
-						"Still running in niches (gaming, IoT, smart-home); near-zero consumer presence"
+						'Still running in niches (gaming, IoT, smart-home); near-zero consumer presence'
 					]
 				},
 				{
@@ -140,7 +139,7 @@ export const federatedMessagingStory: SubcategoryStory = {
 						'JSON events over HTTPS',
 						'Megolm (Signal-derived); on by default in newer clients',
 						'Yes — designed for modern mobile clients',
-						"Active growth — used by Element, governments (France, Germany), some Discord-alt communities"
+						'Active growth — used by Element, governments (France, Germany), some Discord-alt communities'
 					]
 				},
 				{
@@ -148,9 +147,9 @@ export const federatedMessagingStory: SubcategoryStory = {
 					values: [
 						'None (walled gardens)',
 						'Proprietary binary protocols',
-						'Signal Protocol (WhatsApp, Messenger), Apple\'s own (iMessage)',
+						"Signal Protocol (WhatsApp, Messenger), Apple's own (iMessage)",
 						'Yes — phone-number-first identity',
-						"Billions of users; effectively the messaging layer of mobile"
+						'Billions of users; effectively the messaging layer of mobile'
 					]
 				}
 			],
@@ -175,16 +174,16 @@ export const federatedMessagingStory: SubcategoryStory = {
     SB->>B: deliver message from Alice
     Note over A,B: No central authority — just two servers and DNS`,
 			caption:
-				"This is the federation pattern email pioneered and XMPP brought to chat. Any server can speak to any other server using only DNS — no central authority issues credentials, no platform brokers the connection. Beautiful in theory; commercially fragile in practice.",
+				'This is the federation pattern email pioneered and XMPP brought to chat. Any server can speak to any other server using only DNS — no central authority issues credentials, no platform brokers the connection. Beautiful in theory; commercially fragile in practice.',
 			steps: {
-				0: '**Federation in action.** Alice is on example.com\'s XMPP server, Bob is on foo.org\'s. Neither server is a "platform" — they\'re run by different operators, and any other organization could run a third without asking permission.',
-				1: 'Alice\'s client sends a `<message>` stanza to her own server, addressed to `bob@foo.org`.',
-				2: 'Server SA does not know foo.org\'s address. It asks **DNS for the SRV record** `_xmpp-server._tcp.foo.org`. (SRV records let the operator point service traffic at a specific host and port without affecting the main hostname.)',
+				0: "**Federation in action.** Alice is on example.com's XMPP server, Bob is on foo.org's. Neither server is a \"platform\" — they're run by different operators, and any other organization could run a third without asking permission.",
+				1: "Alice's client sends a `<message>` stanza to her own server, addressed to `bob@foo.org`.",
+				2: "Server SA does not know foo.org's address. It asks **DNS for the SRV record** `_xmpp-server._tcp.foo.org`. (SRV records let the operator point service traffic at a specific host and port without affecting the main hostname.)",
 				3: 'DNS replies with `xmpp.foo.org:5269` — the canonical XMPP server-to-server port. (Client-to-server is 5222; server-to-server is 5269.)',
 				4: 'SA **opens an XML stream to SB**. The first time these two servers talk, a stream is established and reused for all subsequent messages between them.',
 				5: 'SB responds with **stream features, TLS, and dialback verification**. Dialback is XMPP\'s lightweight "are you really example.com?" check — uses DNS itself to validate.',
-				6: 'SA **forwards Alice\'s message** to SB, properly tagged with the sender domain so SB can verify and route.',
-				7: 'SB **delivers the message** to Bob\'s connected client (or queues it if Bob is offline).',
+				6: "SA **forwards Alice's message** to SB, properly tagged with the sender domain so SB can verify and route.",
+				7: "SB **delivers the message** to Bob's connected client (or queues it if Bob is offline).",
 				8: '**No central authority.** ICANN does not bless XMPP servers. There is no Meta, no platform. The whole interaction relied only on DNS and the two servers agreeing on a common protocol — exactly the email model.'
 			}
 		},
@@ -200,7 +199,7 @@ export const federatedMessagingStory: SubcategoryStory = {
 		},
 		{
 			type: 'narrative',
-			title: 'What\'s Next',
+			title: "What's Next",
 			text: `Active work in 2025:\n\n- **EU Digital Markets Act interop** — the DMA names WhatsApp and Messenger as gatekeepers required to offer messaging interoperability to third parties. The technical protocol is being argued; [[xmpp|XMPP]] and Matrix are both in the conversation as candidate bridges. The first time in 20 years that regulation rather than market forces is pushing federation forward.\n- **Matrix in government** — France's government chat (Tchap), Germany's healthcare messaging (TI-Messenger), and the German Bundeswehr have all standardized on Matrix. Sovereignty concerns are driving uptake where US-based walled gardens are politically unacceptable.\n- **XMPP for IoT and gaming** — the protocol that powers Zoom's chat, every major MMO backend (League of Legends, World of Warcraft chat), Sony PlayStation Network messaging, and most XMPP-IoT smart-home stacks. The consumer-chat market is gone; the infrastructure market remains.\n- **Bridges between worlds** — Beeper (acquired by Automattic) and matrix.org bridges aim to be one app that talks to WhatsApp, iMessage, SMS, Telegram, Signal, and Matrix simultaneously. The federation-as-aggregation-layer approach when federation-as-protocol failed.\n- **The unsexy truth**: federated chat lost the consumer market and probably won't get it back. The interesting frontier is *interoperability bridges* and *sovereign-government deployments*, not the federated dream returning to displace WhatsApp.`
 		}
 	]

@@ -5,7 +5,7 @@ export const bluetoothBleGatt: SimulationConfig = {
 	protocolId: 'bluetooth',
 	title: 'BLE Connect, Pair, and GATT Read',
 	description:
-		"Watch a phone (Central) discover a heart-rate sensor (Peripheral) on a BLE advertising channel, establish a connection, exchange MTU, pair with LE Secure Connections, and subscribe to notifications. This is the flow under every fitness tracker, AirTag, hearing aid, and Matter device commissioning over Bluetooth.",
+		'Watch a phone (Central) discover a heart-rate sensor (Peripheral) on a BLE advertising channel, establish a connection, exchange MTU, pair with LE Secure Connections, and subscribe to notifications. This is the flow under every fitness tracker, AirTag, hearing aid, and Matter device commissioning over Bluetooth.',
 	tier: 'client',
 	actors: [
 		{ id: 'central', label: 'Central (Phone)', icon: 'device', position: 'left' },

@@ -11,25 +11,93 @@ function gqlRequestLayer(): ProtocolLayer {
 		osiLayer: 7,
 		color: '#00D4FF',
 		headerFields: [
-			{ name: 'Method', bits: 0, value: 'POST', editable: false, description: 'GraphQL always uses POST — the query is in the request body, not the URL' },
-			{ name: 'Path', bits: 0, value: '/graphql', editable: false, description: 'Single endpoint — unlike REST, all operations go to the same URL' },
-			{ name: 'Content-Type', bits: 0, value: 'application/json', editable: false, description: 'GraphQL request bodies are JSON-encoded' }
+			{
+				name: 'Method',
+				bits: 0,
+				value: 'POST',
+				editable: false,
+				description: 'GraphQL always uses POST — the query is in the request body, not the URL'
+			},
+			{
+				name: 'Path',
+				bits: 0,
+				value: '/graphql',
+				editable: false,
+				description: 'Single endpoint — unlike REST, all operations go to the same URL'
+			},
+			{
+				name: 'Content-Type',
+				bits: 0,
+				value: 'application/json',
+				editable: false,
+				description: 'GraphQL request bodies are JSON-encoded'
+			}
 		]
 	};
 }
 
-function gqlLayer(operation: string, name: string, variables: string, selectionSet: string, responseData: string): ProtocolLayer {
+function gqlLayer(
+	operation: string,
+	name: string,
+	variables: string,
+	selectionSet: string,
+	responseData: string
+): ProtocolLayer {
 	return {
 		name: 'GraphQL Operation',
 		abbreviation: 'GQL',
 		osiLayer: 7,
 		color: '#E535AB',
 		headerFields: [
-			{ name: 'Operation', bits: 0, value: operation, editable: false, description: 'GraphQL operation type — query (read), mutation (write), or subscription (stream)' },
-			{ name: 'Name', bits: 0, value: name, editable: false, description: 'Operation name — used for debugging and server-side logging' },
-			...(variables ? [{ name: 'Variables', bits: 0, value: variables, editable: false, description: 'Variables passed to the operation — typed inputs that parameterize the query' }] : []),
-			...(selectionSet ? [{ name: 'Selection Set', bits: 0, value: selectionSet, editable: false, description: 'The fields requested — determines the exact shape of the response' }] : []),
-			...(responseData ? [{ name: 'Response Data', bits: 0, value: responseData, editable: false, description: 'JSON response body — mirrors the selection set structure exactly' }] : [])
+			{
+				name: 'Operation',
+				bits: 0,
+				value: operation,
+				editable: false,
+				description:
+					'GraphQL operation type — query (read), mutation (write), or subscription (stream)'
+			},
+			{
+				name: 'Name',
+				bits: 0,
+				value: name,
+				editable: false,
+				description: 'Operation name — used for debugging and server-side logging'
+			},
+			...(variables
+				? [
+						{
+							name: 'Variables',
+							bits: 0,
+							value: variables,
+							editable: false,
+							description:
+								'Variables passed to the operation — typed inputs that parameterize the query'
+						}
+					]
+				: []),
+			...(selectionSet
+				? [
+						{
+							name: 'Selection Set',
+							bits: 0,
+							value: selectionSet,
+							editable: false,
+							description: 'The fields requested — determines the exact shape of the response'
+						}
+					]
+				: []),
+			...(responseData
+				? [
+						{
+							name: 'Response Data',
+							bits: 0,
+							value: responseData,
+							editable: false,
+							description: 'JSON response body — mirrors the selection set structure exactly'
+						}
+					]
+				: [])
 		]
 	};
 }
@@ -41,8 +109,22 @@ function gqlResponseLayer(status: string): ProtocolLayer {
 		osiLayer: 7,
 		color: '#00D4FF',
 		headerFields: [
-			{ name: 'Status', bits: 0, value: status, editable: false, description: 'GraphQL always returns 200 — errors are in the response body, not HTTP status codes', color: '#22c55e' },
-			{ name: 'Content-Type', bits: 0, value: 'application/json', editable: false, description: 'Response body is JSON with data and/or errors fields' }
+			{
+				name: 'Status',
+				bits: 0,
+				value: status,
+				editable: false,
+				description:
+					'GraphQL always returns 200 — errors are in the response body, not HTTP status codes',
+				color: '#22c55e'
+			},
+			{
+				name: 'Content-Type',
+				bits: 0,
+				value: 'application/json',
+				editable: false,
+				description: 'Response body is JSON with data and/or errors fields'
+			}
 		]
 	};
 }
@@ -80,9 +162,18 @@ export const graphqlOperation: SimulationConfig = {
 				createEthernetLayer(),
 				createIPv4Layer({ protocol: 6 }),
 				createTCPLayer({ srcPort: 52400, dstPort: 443, flags: 'PSH,ACK' }),
-				createTLSRecordLayer({ contentType: 'Application Data (23)', handshakeType: 'N/A (encrypted)' }),
+				createTLSRecordLayer({
+					contentType: 'Application Data (23)',
+					handshakeType: 'N/A (encrypted)'
+				}),
 				gqlRequestLayer(),
-				gqlLayer('query', 'GetUser', '{ "id": "42" }', '{ user(id: $id) { name email posts { title } } }', '')
+				gqlLayer(
+					'query',
+					'GetUser',
+					'{ "id": "42" }',
+					'{ user(id: $id) { name email posts { title } } }',
+					''
+				)
 			]
 		},
 		{
@@ -98,9 +189,18 @@ export const graphqlOperation: SimulationConfig = {
 				createEthernetLayer({ srcMac: 'AA:BB:CC:DD:EE:FF', dstMac: '00:1A:2B:3C:4D:5E' }),
 				createIPv4Layer({ srcIp: '93.184.216.34', dstIp: '192.168.1.100', protocol: 6 }),
 				createTCPLayer({ srcPort: 443, dstPort: 52400, flags: 'PSH,ACK' }),
-				createTLSRecordLayer({ contentType: 'Application Data (23)', handshakeType: 'N/A (encrypted)' }),
+				createTLSRecordLayer({
+					contentType: 'Application Data (23)',
+					handshakeType: 'N/A (encrypted)'
+				}),
 				gqlResponseLayer('200 OK'),
-				gqlLayer('query', 'GetUser', '', '', '{ user: { name: "Alice", email: "alice@...", posts: [{ title: "Getting Started" }] } }')
+				gqlLayer(
+					'query',
+					'GetUser',
+					'',
+					'',
+					'{ user: { name: "Alice", email: "alice@...", posts: [{ title: "Getting Started" }] } }'
+				)
 			]
 		},
 		{
@@ -116,9 +216,18 @@ export const graphqlOperation: SimulationConfig = {
 				createEthernetLayer(),
 				createIPv4Layer({ protocol: 6 }),
 				createTCPLayer({ srcPort: 52400, dstPort: 443, flags: 'PSH,ACK' }),
-				createTLSRecordLayer({ contentType: 'Application Data (23)', handshakeType: 'N/A (encrypted)' }),
+				createTLSRecordLayer({
+					contentType: 'Application Data (23)',
+					handshakeType: 'N/A (encrypted)'
+				}),
 				gqlRequestLayer(),
-				gqlLayer('mutation', 'CreatePost', '{ "title": "New Post", "authorId": "42" }', '{ createPost(input: $input) { id title author { name } } }', '')
+				gqlLayer(
+					'mutation',
+					'CreatePost',
+					'{ "title": "New Post", "authorId": "42" }',
+					'{ createPost(input: $input) { id title author { name } } }',
+					''
+				)
 			]
 		},
 		{
@@ -134,9 +243,18 @@ export const graphqlOperation: SimulationConfig = {
 				createEthernetLayer({ srcMac: 'AA:BB:CC:DD:EE:FF', dstMac: '00:1A:2B:3C:4D:5E' }),
 				createIPv4Layer({ srcIp: '93.184.216.34', dstIp: '192.168.1.100', protocol: 6 }),
 				createTCPLayer({ srcPort: 443, dstPort: 52400, flags: 'PSH,ACK' }),
-				createTLSRecordLayer({ contentType: 'Application Data (23)', handshakeType: 'N/A (encrypted)' }),
+				createTLSRecordLayer({
+					contentType: 'Application Data (23)',
+					handshakeType: 'N/A (encrypted)'
+				}),
 				gqlResponseLayer('200 OK'),
-				gqlLayer('mutation', 'CreatePost', '', '', '{ createPost: { id: "99", title: "New Post", author: { name: "Alice" } } }')
+				gqlLayer(
+					'mutation',
+					'CreatePost',
+					'',
+					'',
+					'{ createPost: { id: "99", title: "New Post", author: { name: "Alice" } } }'
+				)
 			]
 		}
 	]

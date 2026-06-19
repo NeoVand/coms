@@ -59,15 +59,7 @@ const PARSED_FIELDS = new Set([
 	'oneLiner',
 	'transition'
 ]);
-const SKIP_FIELDS = new Set([
-	'alt',
-	'name',
-	'title',
-	'org',
-	'label',
-	'attribution',
-	'authors'
-]);
+const SKIP_FIELDS = new Set(['alt', 'name', 'title', 'org', 'label', 'attribution', 'authors']);
 
 const dry = process.argv.includes('--dry');
 
@@ -242,7 +234,7 @@ for (const file of walk(DATA_DIR)) {
 	// the longer surface (e.g. "HTTP/2" beats "HTTP" if both could ever
 	// match the same place). Defensive — should be rare for protocols
 	// but the rule is uniform with the concept wrapper.
-	wrappable.sort((a, b) => (b.len - a.len) || (a.off - b.off));
+	wrappable.sort((a, b) => b.len - a.len || a.off - b.off);
 	const claimed: Array<[number, number]> = [];
 	const nonOverlap: Hit[] = [];
 	for (const h of wrappable) {

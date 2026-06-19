@@ -57,10 +57,7 @@
 					{CATEGORY_LABEL[outage.category] ?? outage.category}
 				</div>
 			{/if}
-			<h1
-				class="mt-2 text-2xl leading-tight font-bold tracking-tight"
-				style="color: {ACCENT};"
-			>
+			<h1 class="mt-2 text-2xl leading-tight font-bold tracking-tight" style="color: {ACCENT};">
 				{outage.title}
 			</h1>
 			<p class="mt-2 text-sm leading-relaxed text-t-primary italic">
@@ -112,9 +109,7 @@
 
 		<!-- Mistake -->
 		<section>
-			<h2 class="mb-2 text-[11px] font-semibold tracking-wider text-t-muted uppercase">
-				Mistake
-			</h2>
+			<h2 class="mb-2 text-[11px] font-semibold tracking-wider text-t-muted uppercase">Mistake</h2>
 			<p class="text-sm leading-relaxed text-t-primary">
 				<RichText segments={renderRich(outage.mistake)} color={ACCENT} />
 			</p>
@@ -134,7 +129,10 @@
 								style="background-color: {ACCENT};"
 							></div>
 							{#if beat.time}
-								<div class="text-[10px] font-bold tracking-wider uppercase" style="color: {ACCENT};">
+								<div
+									class="text-[10px] font-bold tracking-wider uppercase"
+									style="color: {ACCENT};"
+								>
 									{beat.time}
 								</div>
 							{/if}

@@ -102,7 +102,8 @@ export function createGTPULayer(
 				bits: 8,
 				value: '0x34 (v1, GTP, E=1)',
 				editable: false,
-				description: 'Version=1, Protocol Type=GTP, E flag set when an Extension Header (PDU Session Container) follows'
+				description:
+					'Version=1, Protocol Type=GTP, E flag set when an Extension Header (PDU Session Container) follows'
 			},
 			{
 				name: 'Message Type',
@@ -116,28 +117,32 @@ export function createGTPULayer(
 				bits: 16,
 				value: overrides?.length ?? 1380,
 				editable: false,
-				description: 'Length of the GTP-U payload + extension headers, excluding the 8-byte mandatory header'
+				description:
+					'Length of the GTP-U payload + extension headers, excluding the 8-byte mandatory header'
 			},
 			{
 				name: 'TEID',
 				bits: 32,
 				value: overrides?.teid ?? '0xC0FFEE01',
 				editable: false,
-				description: 'Tunnel Endpoint Identifier — identifies which PDU session this packet belongs to'
+				description:
+					'Tunnel Endpoint Identifier — identifies which PDU session this packet belongs to'
 			},
 			{
 				name: 'PDU Session Container',
 				bits: 0,
 				value: overrides?.qfi ?? 'QFI=9 (QoS flow)',
 				editable: false,
-				description: 'Extension header carrying the QoS Flow Identifier; maps to the DRB on the air interface'
+				description:
+					'Extension header carrying the QoS Flow Identifier; maps to the DRB on the air interface'
 			},
 			{
 				name: 'Inner IP Packet',
 				bits: 0,
 				value: overrides?.inner ?? 'IPv6 src=UE dst=internet — TCP/UDP/QUIC payload',
 				editable: false,
-				description: "The UE's actual IP packet — what an application sees as 'the internet connection'"
+				description:
+					"The UE's actual IP packet — what an application sees as 'the internet connection'"
 			}
 		]
 	};

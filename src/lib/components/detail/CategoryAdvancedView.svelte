@@ -14,14 +14,14 @@
 	<div class="flex flex-col gap-5">
 		{#each deepDive.sections as section, i (i)}
 			{#if section.type === 'narrative'}
-				<StoryNarrative text={section.text} color={color} title={section.title} />
+				<StoryNarrative text={section.text} {color} title={section.title} />
 			{:else if section.type === 'callout'}
-				<StoryCallout title={section.title} text={section.text} color={color} />
+				<StoryCallout title={section.title} text={section.text} {color} />
 			{:else if section.type === 'diagram'}
 				<StoryDiagram
 					definition={section.definition}
 					caption={section.caption}
-					color={color}
+					{color}
 					title={section.title}
 				/>
 			{/if}

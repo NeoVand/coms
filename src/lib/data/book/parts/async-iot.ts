@@ -19,7 +19,8 @@ export const asyncIot: BookPart = {
 		{
 			id: 'mqtt',
 			title: 'MQTT',
-			synopsis: 'Sensors, satellites, and [[mqtt|2-byte publish overhead]] — designed in 1999 to instrument oil pipelines.',
+			synopsis:
+				'Sensors, satellites, and [[mqtt|2-byte publish overhead]] — designed in 1999 to instrument oil pipelines.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -84,11 +85,12 @@ The architecture is **{{mqtt-publish|publish}}-{{mqtt-subscribe|subscribe}}** th
 		{
 			id: 'amqp',
 			title: 'AMQP',
-			synopsis: '[[amqp|Banking-grade messaging]] — JPMorgan Chase, John O\'Hara, and "two billion dollars in collateral calls before he could blink."',
+			synopsis:
+				'[[amqp|Banking-grade messaging]] — JPMorgan Chase, John O\'Hara, and "two billion dollars in collateral calls before he could blink."',
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: 'If you read [[amqp|AMQP]] 1.0, it\'s called Advanced Message Queue Protocol, but there are no queues in it.',
+					text: "If you read [[amqp|AMQP]] 1.0, it's called Advanced Message Queue Protocol, but there are no queues in it.",
 					attribution: 'Alexis Richardson, March 2025'
 				},
 				{
@@ -147,7 +149,8 @@ The trade-off versus [[mqtt|MQTT]] remains operational complexity. An [[amqp|AMQ
 		{
 			id: 'kafka',
 			title: 'Kafka',
-			synopsis: '[[kafka|A distributed commit log]] as architecture unit — {{linkedin|LinkedIn}}, 2010, named after Franz [[kafka|Kafka]] because "it\'s a system optimized for writing."',
+			synopsis:
+				'[[kafka|A distributed commit log]] as architecture unit — {{linkedin|LinkedIn}}, 2010, named after Franz [[kafka|Kafka]] because "it\'s a system optimized for writing."',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -212,11 +215,12 @@ The wire-level details that {{matter|matter}} operationally: [[kafka|Kafka]]'s r
 		{
 			id: 'coap',
 			title: 'CoAP',
-			synopsis: '[[coap|REST shrunk for microcontrollers]] — and one of the most-deployed-at-scale uses turned out to be Chinese smartphones.',
+			synopsis:
+				'[[coap|REST shrunk for microcontrollers]] — and one of the most-deployed-at-scale uses turned out to be Chinese smartphones.',
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: 'NETSCOUT\'s January 2019 scan found 388,344 publicly-reachable [[coap|CoAP]] endpoints, 81% in China, but most were not IoT devices — they were Chinese smartphones running the QLC Chain {{peer-to-peer|peer-to-peer}} crypto stack.',
+					text: "NETSCOUT's January 2019 scan found 388,344 publicly-reachable [[coap|CoAP]] endpoints, 81% in China, but most were not IoT devices — they were Chinese smartphones running the QLC Chain {{peer-to-peer|peer-to-peer}} crypto stack.",
 					attribution: 'Author'
 				},
 				{

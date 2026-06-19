@@ -43,7 +43,7 @@ export const quicConnection: SimulationConfig = {
 			id: 'handshake',
 			label: 'Handshake',
 			description:
-				'The server responds with an Initial packet (containing ServerHello) followed by a Handshake packet with its certificate and Finished message. The server\'s Initial carries the TLS ServerHello, while the Handshake packet carries encrypted certificate data. This completes the server side of the cryptographic handshake.',
+				"The server responds with an Initial packet (containing ServerHello) followed by a Handshake packet with its certificate and Finished message. The server's Initial carries the TLS ServerHello, while the Handshake packet carries encrypted certificate data. This completes the server side of the cryptographic handshake.",
 			fromActor: 'server',
 			toActor: 'client',
 			duration: 1000,
@@ -115,7 +115,7 @@ export const quicConnection: SimulationConfig = {
 			id: 'close',
 			label: 'Connection Close',
 			description:
-				'Either side can close the connection immediately with a CONNECTION_CLOSE frame. Unlike TCP\'s four-way FIN handshake, QUIC closes in a single packet. The frame includes an error code (0 = no error) and an optional reason phrase. The peer enters a draining period before freeing connection state.',
+				"Either side can close the connection immediately with a CONNECTION_CLOSE frame. Unlike TCP's four-way FIN handshake, QUIC closes in a single packet. The frame includes an error code (0 = no error) and an optional reason phrase. The peer enters a draining period before freeing connection state.",
 			fromActor: 'client',
 			toActor: 'server',
 			duration: 600,

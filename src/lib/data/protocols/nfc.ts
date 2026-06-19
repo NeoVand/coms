@@ -19,7 +19,7 @@ The hinge of the modern story is **9 September 2014**, when Tim Cook announced {
 		{
 			title: '13.56 MHz inductive coupling in the ISM band',
 			description:
-				"All NFC variants operate at a carrier of 13.56 MHz ± 7 kHz, the unlicensed {{ism-band|ISM}} allocation that is the legacy of {{iso|ISO}} 14443. Coupling is *inductive* (magnetic) between two loop antennas — the magnetic field falls off as 1/r³, vs 1/r² for far-field radiative coupling. Effective range is ≤10 cm for {{iso|ISO}} 14443 (NFC-A/B/F) and historically ≤1 m for {{iso|ISO}} 15693 ({{nfc-v|NFC-V}}). The {{pcd|PCD}} (Proximity Coupling Device — the reader) energises its loop antenna; the passive {{picc|PICC}} (Proximity Integrated Circuit Card) harvests power from the field and communicates back via {{load-modulation|load modulation}} — switching a resistor on its own antenna at an 847.5 kHz subcarrier (13.56 MHz/16), perceived by the reader as small amplitude/phase changes in its own resonant loop. Modern phones use *active {{load-modulation|load modulation}}* (ALM) instead, generating a small reflected carrier — which is why an iPhone can be read across a metal-backed case where a plain plastic card cannot."
+				'All NFC variants operate at a carrier of 13.56 MHz ± 7 kHz, the unlicensed {{ism-band|ISM}} allocation that is the legacy of {{iso|ISO}} 14443. Coupling is *inductive* (magnetic) between two loop antennas — the magnetic field falls off as 1/r³, vs 1/r² for far-field radiative coupling. Effective range is ≤10 cm for {{iso|ISO}} 14443 (NFC-A/B/F) and historically ≤1 m for {{iso|ISO}} 15693 ({{nfc-v|NFC-V}}). The {{pcd|PCD}} (Proximity Coupling Device — the reader) energises its loop antenna; the passive {{picc|PICC}} (Proximity Integrated Circuit Card) harvests power from the field and communicates back via {{load-modulation|load modulation}} — switching a resistor on its own antenna at an 847.5 kHz subcarrier (13.56 MHz/16), perceived by the reader as small amplitude/phase changes in its own resonant loop. Modern phones use *active {{load-modulation|load modulation}}* (ALM) instead, generating a small reflected carrier — which is why an iPhone can be read across a metal-backed case where a plain plastic card cannot.'
 		},
 		{
 			title: 'Three flavours of NFC on the air',
@@ -29,22 +29,22 @@ The hinge of the modern story is **9 September 2014**, when Tim Cook announced {
 		{
 			title: 'Anti-collision: REQA → ATQA → SEL/NVB → SAK',
 			description:
-				"When a {{picc|PICC}} enters the field it begins in {{imap-idle|IDLE}}. The reader broadcasts a 7-bit {{reqa|REQA}} (0x26) or WUPA (0x52) short frame; the card responds with **{{atqa|ATQA}}** (2 bytes) declaring its {{uid|UID}} size (4/7/10 bytes) and {{anti-collision|anti-collision}} support. The reader then runs the **bit-frame {{anti-collision|anti-collision}}** loop with {{sel-iso|SEL}}+NVB frames ({{sel-iso|SEL}}=0x93 for cascade level 1, 0x95 for CL2, 0x97 for CL3), converging on each byte of the {{uid|UID}} a bit at a time when multiple cards are in the field. When the {{uid|UID}} is complete the card answers with **{{sak|SAK}}**; if bit 6 of {{sak|SAK}} is set, the card supports {{iso|ISO}} 14443-4 and the reader proceeds with {{rats|RATS}}→{{ats-nfc|ATS}} to negotiate frame size (FSCI) and timing (FWI). T2T cards skip {{rats|RATS}} and go straight to T2T {{read-record|READ}} commands."
+				'When a {{picc|PICC}} enters the field it begins in {{imap-idle|IDLE}}. The reader broadcasts a 7-bit {{reqa|REQA}} (0x26) or WUPA (0x52) short frame; the card responds with **{{atqa|ATQA}}** (2 bytes) declaring its {{uid|UID}} size (4/7/10 bytes) and {{anti-collision|anti-collision}} support. The reader then runs the **bit-frame {{anti-collision|anti-collision}}** loop with {{sel-iso|SEL}}+NVB frames ({{sel-iso|SEL}}=0x93 for cascade level 1, 0x95 for CL2, 0x97 for CL3), converging on each byte of the {{uid|UID}} a bit at a time when multiple cards are in the field. When the {{uid|UID}} is complete the card answers with **{{sak|SAK}}**; if bit 6 of {{sak|SAK}} is set, the card supports {{iso|ISO}} 14443-4 and the reader proceeds with {{rats|RATS}}→{{ats-nfc|ATS}} to negotiate frame size (FSCI) and timing (FWI). T2T cards skip {{rats|RATS}} and go straight to T2T {{read-record|READ}} commands.'
 		},
 		{
 			title: 'Card Emulation: SELECT PPSE → SELECT AID → GET PROCESSING OPTIONS → GENERATE AC',
 			description:
-				"For card-emulation mode ({{apple|Apple}} Pay, {{transit|transit}}, access), once 14443-4 is established the reader speaks **{{iso|ISO}} 7816-4 APDUs**: 4-byte header `CLA INS P1 P2` + optional command body. The first command is *{{imap-select|SELECT}} {{ppse|PPSE}}* — the Proximity Payment System Environment {{aid|AID}} `2PAY.SYS.DDF01` — and the card returns an FCI listing all supported {{aid|payment AIDs}} in priority order. The reader picks one (e.g. Mastercard `A0000000041010`), SELECTs it, gets back a {{pdol|PDOL}} listing parameters the card needs (amount, currency, country, terminal-type, unpredictable number), then sends *GET PROCESSING OPTIONS* with those parameters. The card returns AIP+{{afl|AFL}} telling the reader which files to read; {{read-record|READ}} RECORDs pull the {{pan-id|PAN}}, expiry, and public-key {{certificate-chain|certificate chain}}. Finally *{{generate-ac|GENERATE AC}}* with CDOL1 data asks the card for an {{emv-cryptogram|Application Cryptogram}} — either an {{arqc|ARQC}} (online) or TC (offline). The cryptogram is signed in the eSE/{{hce|HCE}} app and is what proves the transaction to the issuer."
+				'For card-emulation mode ({{apple|Apple}} Pay, {{transit|transit}}, access), once 14443-4 is established the reader speaks **{{iso|ISO}} 7816-4 APDUs**: 4-byte header `CLA INS P1 P2` + optional command body. The first command is *{{imap-select|SELECT}} {{ppse|PPSE}}* — the Proximity Payment System Environment {{aid|AID}} `2PAY.SYS.DDF01` — and the card returns an FCI listing all supported {{aid|payment AIDs}} in priority order. The reader picks one (e.g. Mastercard `A0000000041010`), SELECTs it, gets back a {{pdol|PDOL}} listing parameters the card needs (amount, currency, country, terminal-type, unpredictable number), then sends *GET PROCESSING OPTIONS* with those parameters. The card returns AIP+{{afl|AFL}} telling the reader which files to read; {{read-record|READ}} RECORDs pull the {{pan-id|PAN}}, expiry, and public-key {{certificate-chain|certificate chain}}. Finally *{{generate-ac|GENERATE AC}}* with CDOL1 data asks the card for an {{emv-cryptogram|Application Cryptogram}} — either an {{arqc|ARQC}} (online) or TC (offline). The cryptogram is signed in the eSE/{{hce|HCE}} app and is what proves the transaction to the issuer.'
 		},
 		{
 			title: 'NDEF: the data format for everything that is not a payment',
 			description:
-				"NFC Forum **{{ndef|NDEF}}** (NFC Data {{exchange|Exchange}} Format) is the binary record container that lives in tags and rides over {{llcp|LLCP}}/{{snep|SNEP}}. Each record begins with a 1-byte header — bits MB/ME (Message Begin/End), CF (Chunk Flag), SR (Short Record — 1-byte length vs 4), IL ({{id-identifier|ID}} Length present), and a 3-bit TNF (Type Name Format: 0=Empty, 1=Well-Known like `U` for {{uri|URI}} or `T` for Text, 2={{mime|MIME}} media, 3=Absolute {{uri|URI}}, 4=External, 5=Unknown). The {{uri|URI}} Well-Known record uses a single-byte prefix shorthand — 0x03 for `https://` saves 8 bytes per record on tags as small as 48 bytes. {{ndef|NDEF}} was formally adopted as an IEC standard in **March 2026** alongside NFC-WLC."
+				'NFC Forum **{{ndef|NDEF}}** (NFC Data {{exchange|Exchange}} Format) is the binary record container that lives in tags and rides over {{llcp|LLCP}}/{{snep|SNEP}}. Each record begins with a 1-byte header — bits MB/ME (Message Begin/End), CF (Chunk Flag), SR (Short Record — 1-byte length vs 4), IL ({{id-identifier|ID}} Length present), and a 3-bit TNF (Type Name Format: 0=Empty, 1=Well-Known like `U` for {{uri|URI}} or `T` for Text, 2={{mime|MIME}} media, 3=Absolute {{uri|URI}}, 4=External, 5=Unknown). The {{uri|URI}} Well-Known record uses a single-byte prefix shorthand — 0x03 for `https://` saves 8 bytes per record on tags as small as 48 bytes. {{ndef|NDEF}} was formally adopted as an IEC standard in **March 2026** alongside NFC-WLC.'
 		},
 		{
 			title: 'Three transports, one tap: Connection Handover to Bluetooth / Wi-Fi / Matter',
 			description:
-				"For higher-throughput sessions NFC is almost always a *bootstrap*. The **Connection Handover** spec (v1.5) defines {{ndef|NDEF}} records of TNF=0x02 with {{mime|MIME}} `application/vnd.bluetooth.le.oob` carrying the [[bluetooth|Bluetooth]] {{mac-address|MAC address}}, name, and Security Manager {{oob|OOB}} key — a single tap replaces a discovery/pairing dialog. The parallel Wi-Fi handover record carries {{ssid|SSID}}/key/security mode — used for tap-to-join on printers and some smart-plug commissioning. **{{matter|Matter}} 1.3+** adds NFC as one of the three permitted commissioning paths alongside QR and {{ble|BLE}}. **{{ccc-digital-key|CCC Digital Key}} 3.0/4.0** uses NFC to bootstrap a credential into a phone, then {{ble|BLE}} for proximity and [[uwb|UWB]] for centimetre-accurate ranging. {{aliro|Aliro}} 1.0 likewise spans NFC tap-to-access + {{ble|BLE}} proximity + {{ble|BLE}}/UWB ranged — three transports, one credential."
+				'For higher-throughput sessions NFC is almost always a *bootstrap*. The **Connection Handover** spec (v1.5) defines {{ndef|NDEF}} records of TNF=0x02 with {{mime|MIME}} `application/vnd.bluetooth.le.oob` carrying the [[bluetooth|Bluetooth]] {{mac-address|MAC address}}, name, and Security Manager {{oob|OOB}} key — a single tap replaces a discovery/pairing dialog. The parallel Wi-Fi handover record carries {{ssid|SSID}}/key/security mode — used for tap-to-join on printers and some smart-plug commissioning. **{{matter|Matter}} 1.3+** adds NFC as one of the three permitted commissioning paths alongside QR and {{ble|BLE}}. **{{ccc-digital-key|CCC Digital Key}} 3.0/4.0** uses NFC to bootstrap a credential into a phone, then {{ble|BLE}} for proximity and [[uwb|UWB]] for centimetre-accurate ranging. {{aliro|Aliro}} 1.0 likewise spans NFC tap-to-access + {{ble|BLE}} proximity + {{ble|BLE}}/UWB ranged — three transports, one credential.'
 		},
 		{
 			title: 'Tokenisation: why your real card number never leaves the bank',
@@ -293,7 +293,7 @@ Total airtime from field-on to ARQC: ~300–800 ms on a real terminal.`
 			date: '2024-03',
 			title: 'iOS 17.4 opens NFC HCE to EEA wallets (DMA)',
 			description:
-				"On 25 January 2024 {{apple|Apple}} announced — and in March 2024 iOS 17.4 shipped — the **NFC & Secure Element Platform** entitlement for the European Economic Area. For the first time on iPhone, third-party wallets can do {{hce|Host Card Emulation}} contactless payments without going through {{apple|Apple}} Pay. PayPal Germany was the first to ship; the entitlement covers {{hce|HCE}} access, side-button shortcut, Face/Touch {{id-identifier|ID}}, and Field-Detect. Available **only inside the EEA** (27 EU states + Iceland, Liechtenstein, Norway) and **only on iPhone** — not {{apple|Apple}} Watch, not iPad.",
+				'On 25 January 2024 {{apple|Apple}} announced — and in March 2024 iOS 17.4 shipped — the **NFC & Secure Element Platform** entitlement for the European Economic Area. For the first time on iPhone, third-party wallets can do {{hce|Host Card Emulation}} contactless payments without going through {{apple|Apple}} Pay. PayPal Germany was the first to ship; the entitlement covers {{hce|HCE}} access, side-button shortcut, Face/Touch {{id-identifier|ID}}, and Field-Detect. Available **only inside the EEA** (27 EU states + Iceland, Liechtenstein, Norway) and **only on iPhone** — not {{apple|Apple}} Watch, not iPad.',
 			source: {
 				url: 'https://www.apple.com/newsroom/2024/01/apple-announces-changes-to-ios-safari-and-the-app-store-in-the-european-union/',
 				label: 'Apple newsroom, 25 Jan 2024'
@@ -301,7 +301,7 @@ Total airtime from field-on to ARQC: ~300–800 ms on a real terminal.`
 		},
 		{
 			date: '2024-07',
-			title: 'EU Commission accepts Apple\'s 10-year NFC opening commitments',
+			title: "EU Commission accepts Apple's 10-year NFC opening commitments",
 			description:
 				"On **17 July 2024** the European Commission's commitments decision {{ip-address|IP}}/24/3706 made {{apple|Apple}}'s NFC opening legally binding for **ten years**, monitored by an independent trustee. The first time any regulator has compelled an {{oem|OEM}} to open NFC card emulation. The pattern is now templated and the watch-items are the UK CMA, Japan JFTC, and Australian ACCC.",
 			source: {
@@ -323,7 +323,7 @@ Total airtime from field-on to ARQC: ~300–800 ms on a real terminal.`
 			date: '2025-07',
 			title: 'CCC Digital Key 4.0 announced',
 			description:
-				"The Car Connectivity Consortium announced **Digital Key 4.0** in July 2025 and tested it at the 13th Plugfest, hosted by {{apple|Apple}}. Headline: *cross-version compatibility* — a DK3 phone unlocks a DK4 car and vice versa. **115 vehicle/module products** were certified in 2025 alone, including the first Chinese OEMs (NIO, XPENG, Geely group brands). Devices must support at least one of NFC, {{ble|BLE}}, or [[uwb|UWB]]; NFC remains the fallback that works even on a phone with a dead battery (>5 hours on iPhone reserve power).",
+				'The Car Connectivity Consortium announced **Digital Key 4.0** in July 2025 and tested it at the 13th Plugfest, hosted by {{apple|Apple}}. Headline: *cross-version compatibility* — a DK3 phone unlocks a DK4 car and vice versa. **115 vehicle/module products** were certified in 2025 alone, including the first Chinese OEMs (NIO, XPENG, Geely group brands). Devices must support at least one of NFC, {{ble|BLE}}, or [[uwb|UWB]]; NFC remains the fallback that works even on a phone with a dead battery (>5 hours on iPhone reserve power).',
 			source: {
 				url: 'https://carconnectivity.org/',
 				label: 'Car Connectivity Consortium'
@@ -333,7 +333,7 @@ Total airtime from field-on to ARQC: ~300–800 ms on a real terminal.`
 			date: '2026-02',
 			title: 'Aliro 1.0 finalised — "Matter for doors"',
 			description:
-				"On **26 February 2026** the Connectivity Standards Alliance — the same group that runs {{matter|Matter}} — finalised {{aliro|Aliro 1.0}}, a {{pki|PKI}}-based access-control credential standard. {{ecdsa|ECDSA}} mutual authentication, support for NFC tap-to-access, {{ble|BLE}} proximity, and {{ble|BLE}}+[[uwb|UWB]] ranged unlock, with credentials provisioned into {{apple|Apple}}/{{google|Google}}/Samsung wallets. First certifications: {{apple|Apple}}, Allegion, Aqara, {{google|Google}}, HID, Kastle, Kwikset, Last Lock, Nordic, Nuki, {{nxp|NXP}}, {{qorvo|Qorvo}}, Samsung, STMicro. Target verticals: corporate, hospitality, residential, multi-family, university.",
+				'On **26 February 2026** the Connectivity Standards Alliance — the same group that runs {{matter|Matter}} — finalised {{aliro|Aliro 1.0}}, a {{pki|PKI}}-based access-control credential standard. {{ecdsa|ECDSA}} mutual authentication, support for NFC tap-to-access, {{ble|BLE}} proximity, and {{ble|BLE}}+[[uwb|UWB]] ranged unlock, with credentials provisioned into {{apple|Apple}}/{{google|Google}}/Samsung wallets. First certifications: {{apple|Apple}}, Allegion, Aqara, {{google|Google}}, HID, Kastle, Kwikset, Last Lock, Nordic, Nuki, {{nxp|NXP}}, {{qorvo|Qorvo}}, Samsung, STMicro. Target verticals: corporate, hospitality, residential, multi-family, university.',
 			source: {
 				url: 'https://csa-iot.org/newsroom/introducing-aliro-1-0/',
 				label: 'CSA: Introducing Aliro 1.0'
@@ -354,19 +354,22 @@ Total airtime from field-on to ARQC: ~300–800 ms on a real terminal.`
 	realWorldDeployments: [
 		{
 			org: 'Apple Pay',
-			scale: 'Available in 85+ countries; ~$9.4 B revenue 2025 (3.4 % of all Apple); ~54 % share of US in-store mobile wallet',
+			scale:
+				'Available in 85+ countries; ~$9.4 B revenue 2025 (3.4 % of all Apple); ~54 % share of US in-store mobile wallet',
 			description:
 				"Announced 9 September 2014 at Flint Center, Cupertino — the same hall where Steve Jobs unveiled the original Macintosh in 1984. Tim Cook held up a leather wallet: 'Our vision is to replace this — we're going to start with payments.' Launched in the US on 20 October 2014 with American Express, Bank of America, Capital One, Chase, Citi, and Wells Fargo. The three pillars — NFC, {{ese|embedded Secure Element}}, and Touch {{id-identifier|ID}} — set the template every mobile wallet has followed since. {{apple|Apple}} Pay generated ~\\$7.6 trillion in annualised transaction volume by 2025."
 		},
 		{
 			org: 'Tap to Pay on iPhone',
-			scale: 'More than 50 countries and regions by Q1 2026; available on iPhone XS or newer; no extra hardware',
+			scale:
+				'More than 50 countries and regions by Q1 2026; available on iPhone XS or newer; no extra hardware',
 			description:
 				"{{apple|Apple}} acquired Mobeewave in 2020 and launched Tap to Pay on iPhone in the US in February 2022 via Stripe. By April 2026 {{apple|Apple}} stated availability in **more than 50 countries and regions** — 18 European countries on 27 May 2025, 5 Nordic + Baltic + Monaco on 23 September 2025, Singapore 2 December 2025, Malaysia 22 April 2026. Turns the merchant's iPhone into a contactless terminal — the protocol shift is that the iPhone is now usually on **both ends** of the tap."
 		},
 		{
 			org: 'JR East Suica + Hong Kong Octopus',
-			scale: '95.64 M Suica issued (Oct 2023), 6.6 M daily taps; >35 M Octopus cards on a population of 7.5 M',
+			scale:
+				'95.64 M Suica issued (Oct 2023), 6.6 M daily taps; >35 M Octopus cards on a population of 7.5 M',
 			description:
 				"Sony's FeliCa team began work in the late 1980s; the protocol shipped commercially as the **Hong Kong Octopus card on 1 September 1997** — four years before NFC was named, seven before the NFC Forum existed. **Suica** launched on **18 November 2001** at 424 metropolitan Tokyo stations. {{apple|Apple}} Pay Suica became available on 7 September 2016 with the iPhone 7 (Japan-only), then went global on the iPhone 8. By 2021 Japan had ~200 M IC cards across nine mutually-usable regional schemes — more cards than people."
 		},
@@ -378,9 +381,10 @@ Total airtime from field-on to ARQC: ~300–800 ms on a real terminal.`
 		},
 		{
 			org: 'ICAO eMRTD passports + DTC',
-			scale: '~1 billion electronic passports in circulation worldwide; DTC airport pilots active 2024–26',
+			scale:
+				'~1 billion electronic passports in circulation worldwide; DTC airport pilots active 2024–26',
 			description:
-				"Belgium issued the first {{icao|ICAO}} Doc 9303-compliant eMRTD in **2004**. By 2026 ~1 billion are in circulation. The chip is an {{iso|ISO}} 14443 {{picc|PICC}} running {{iso|ISO}} 7816-4 with a small {{icao|ICAO}} file system (DG1 {{mrz|MRZ}}, DG2 photo, EF.SOD signature, EF.COM index, plus optional DG3 fingerprints / DG4 iris). The reader cannot get any data without **BAC** (legacy 3DES from MRZ) or **PACE** (modern {{ecdh|ECDH}} from MRZ or 6-digit CAN). The Digital Travel Credential (DTC-PC/VC) — passport on phone — is in airport pilots in Finland, the Netherlands, and Singapore."
+				'Belgium issued the first {{icao|ICAO}} Doc 9303-compliant eMRTD in **2004**. By 2026 ~1 billion are in circulation. The chip is an {{iso|ISO}} 14443 {{picc|PICC}} running {{iso|ISO}} 7816-4 with a small {{icao|ICAO}} file system (DG1 {{mrz|MRZ}}, DG2 photo, EF.SOD signature, EF.COM index, plus optional DG3 fingerprints / DG4 iris). The reader cannot get any data without **BAC** (legacy 3DES from MRZ) or **PACE** (modern {{ecdh|ECDH}} from MRZ or 6-digit CAN). The Digital Travel Credential (DTC-PC/VC) — passport on phone — is in airport pilots in Finland, the Netherlands, and Singapore.'
 		},
 		{
 			org: 'NXP MIFARE family',
@@ -390,7 +394,8 @@ Total airtime from field-on to ARQC: ~300–800 ms on a real terminal.`
 		},
 		{
 			org: 'CCC Digital Key',
-			scale: '115 vehicle/module products certified in 2025; BMW first to certify (late 2024); first Chinese OEMs in 2025',
+			scale:
+				'115 vehicle/module products certified in 2025; BMW first to certify (late 2024); first Chinese OEMs in 2025',
 			description:
 				"The Car Connectivity Consortium's Digital Key turns a phone into a vehicle key. v1.0 was proprietary; v2.0 standardised NFC; v3.0 added {{ble|BLE}} proximity + [[uwb|UWB]] ranging (so the car can tell *which side* of the door you are on); **v4.0** (announced July 2025) brings cross-version interoperability. BMW + {{nxp|NXP}} were the first to certify (late 2024). 115 products certified in 2025 alone; Mercedes, Hyundai/Kia/Genesis, Audi (new in 2025), Volvo, Porsche, GM, Ford, plus a wave of Chinese OEMs (NIO, XPENG, Geely group — Volvo, Polestar, ZEEKR, Lynk & Co., smart, Lotus)."
 		}
@@ -399,7 +404,7 @@ Total airtime from field-on to ARQC: ~300–800 ms on a real terminal.`
 	funFacts: [
 		{
 			title: 'Charles Walton died the same year Google Wallet launched',
-			text: "[[pioneer:charles-walton|Charles Walton]], the {{ibm|IBM}} disk-drive engineer who founded **Proximity Devices in 1970** and holds the canonical {{rfid|RFID}} ancestor patent (US 4,384,288, 1983, *Portable Radio Frequency Emitting Identifier*) plus 50+ others, earned several million dollars in royalties before the bulk of his patents expired in the mid-1990s — just before the wave of {{rfid|RFID}} adoption from Walmart and the US Department of Defense. He died in Los Gatos on **6 November 2011**, three months after {{google|Google}} launched **{{google|Google}} Wallet 1.0** on the Nexus S 4G in May 2011. Two pioneers of the same field, separated by 60 years, in the same calendar year."
+			text: '[[pioneer:charles-walton|Charles Walton]], the {{ibm|IBM}} disk-drive engineer who founded **Proximity Devices in 1970** and holds the canonical {{rfid|RFID}} ancestor patent (US 4,384,288, 1983, *Portable Radio Frequency Emitting Identifier*) plus 50+ others, earned several million dollars in royalties before the bulk of his patents expired in the mid-1990s — just before the wave of {{rfid|RFID}} adoption from Walmart and the US Department of Defense. He died in Los Gatos on **6 November 2011**, three months after {{google|Google}} launched **{{google|Google}} Wallet 1.0** on the Nexus S 4G in May 2011. Two pioneers of the same field, separated by 60 years, in the same calendar year.'
 		},
 		{
 			title: 'FeliCa beat the NFC Forum to commercial deployment by seven years',
@@ -419,7 +424,7 @@ Total airtime from field-on to ARQC: ~300–800 ms on a real terminal.`
 		},
 		{
 			title: 'The "switch off NFC to save battery" myth',
-			text: "{{imap-idle|Idle}} NFC controllers draw on the order of **single-digit microamps** in their lowest poll states — orders of magnitude less than the display, baseband, or {{ap-access-point|AP}}. Disabling NFC has no measurable battery effect on any modern phone. The option survives in {{os|OS}} settings only as a *security/privacy* toggle, not a power one. If you have ever turned NFC off to make your phone last longer, you have done exactly nothing for your battery."
+			text: '{{imap-idle|Idle}} NFC controllers draw on the order of **single-digit microamps** in their lowest poll states — orders of magnitude less than the display, baseband, or {{ap-access-point|AP}}. Disabling NFC has no measurable battery effect on any modern phone. The option survives in {{os|OS}} settings only as a *security/privacy* toggle, not a power one. If you have ever turned NFC off to make your phone last longer, you have done exactly nothing for your battery.'
 		}
 	],
 

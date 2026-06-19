@@ -12,36 +12,36 @@ In dev mode (`npm run dev`), a `window.__dev` object is exposed for agent and te
 
 **Available methods:**
 
-| Method | Description |
-|---|---|
-| `__dev.go(id, view?)` | Navigate to a protocol/category by ID. `view` is `'learn'` (default) or `'simulate'`. |
-| `__dev.step(n?)` | Click Step Forward `n` times (default 1). |
-| `__dev.play()` | Click the Play button to start the simulation. |
-| `__dev.scrollTo(text)` | Scroll to a heading containing `text` (e.g., `'Encapsulation'`). |
-| `__dev.ls()` | List all node IDs and types. |
-| `__dev.appState` | Direct access to the AppState instance (viewport, layoutMode, selectedNode, theme, etc.). |
-| `__dev.nodes` | Static array of GraphNode objects (for ID/metadata lookup, not live positions). |
-| `__dev.journey(id)` | Start a journey by ID. |
-| `__dev.journeyNext()` | Advance to the next journey step. |
-| `__dev.journeyPrev()` | Go back to the previous journey step. |
-| `__dev.journeyExit()` | Exit the current journey. |
+| Method                 | Description                                                                               |
+| ---------------------- | ----------------------------------------------------------------------------------------- |
+| `__dev.go(id, view?)`  | Navigate to a protocol/category by ID. `view` is `'learn'` (default) or `'simulate'`.     |
+| `__dev.step(n?)`       | Click Step Forward `n` times (default 1).                                                 |
+| `__dev.play()`         | Click the Play button to start the simulation.                                            |
+| `__dev.scrollTo(text)` | Scroll to a heading containing `text` (e.g., `'Encapsulation'`).                          |
+| `__dev.ls()`           | List all node IDs and types.                                                              |
+| `__dev.appState`       | Direct access to the AppState instance (viewport, layoutMode, selectedNode, theme, etc.). |
+| `__dev.nodes`          | Static array of GraphNode objects (for ID/metadata lookup, not live positions).           |
+| `__dev.journey(id)`    | Start a journey by ID.                                                                    |
+| `__dev.journeyNext()`  | Advance to the next journey step.                                                         |
+| `__dev.journeyPrev()`  | Go back to the previous journey step.                                                     |
+| `__dev.journeyExit()`  | Exit the current journey.                                                                 |
 
 **Changing layout mode:**
 
 ```js
-window.__dev.appState.layoutMode = 'radial';   // 'force', 'radial', or 'timeline'
+window.__dev.appState.layoutMode = 'radial'; // 'force', 'radial', or 'timeline'
 ```
 
 **Typical agent workflow for verifying a simulation:**
 
 ```js
 // 1. Wait for page load, then navigate
-new Promise(r => setTimeout(r, 2000)).then(() => {
-  window.__dev.go('tls', 'simulate');   // open TLS in simulate tab
+new Promise((r) => setTimeout(r, 2000)).then(() => {
+	window.__dev.go('tls', 'simulate'); // open TLS in simulate tab
 });
 
 // 2. Step through and inspect
-window.__dev.step(3);                   // advance 3 steps
+window.__dev.step(3); // advance 3 steps
 
 // 3. Scroll to see encapsulation cards
 window.__dev.scrollTo('Encapsulation');

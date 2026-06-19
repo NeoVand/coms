@@ -75,7 +75,7 @@ export const utilitiesStory: CategoryStory = {
 					year: 1988,
 					title: 'IMAP Created — RFC 1064',
 					description:
-						"Mark Crispin at Stanford invents the Internet Message Access Protocol. Unlike POP, mail stays on the server — a radical idea that enables multi-device access.",
+						'Mark Crispin at Stanford invents the Internet Message Access Protocol. Unlike POP, mail stays on the server — a radical idea that enables multi-device access.',
 					protocolId: 'imap'
 				}
 			]
@@ -207,7 +207,7 @@ export const utilitiesStory: CategoryStory = {
 			src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/69/Netscape_Navigator_2_Screenshot.png/500px-Netscape_Navigator_2_Screenshot.png',
 			alt: 'A screenshot of Netscape Navigator 2, the browser that introduced SSL encryption to the web',
 			caption:
-				"Netscape Navigator — the browser that introduced {{ssl|SSL}} and the padlock icon, making encrypted web communication possible. This {{ui|UI}} convention persists in every browser today.",
+				'Netscape Navigator — the browser that introduced {{ssl|SSL}} and the padlock icon, making encrypted web communication possible. This {{ui|UI}} convention persists in every browser today.',
 			credit: 'Screenshot: Indolering / CC0, via Wikimedia Commons'
 		},
 		{

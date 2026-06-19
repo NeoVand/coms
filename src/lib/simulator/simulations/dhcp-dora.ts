@@ -65,7 +65,7 @@ export const dhcpDora: SimulationConfig = {
 			id: 'request',
 			label: 'REQUEST',
 			description:
-				'The device broadcasts its acceptance of a specific server\'s offer. This broadcast ensures that all DHCP servers on the network know which offer was chosen, so declined servers can return their proposed addresses to their pools.',
+				"The device broadcasts its acceptance of a specific server's offer. This broadcast ensures that all DHCP servers on the network know which offer was chosen, so declined servers can return their proposed addresses to their pools.",
 			fromActor: 'client',
 			toActor: 'server',
 			duration: 1000,

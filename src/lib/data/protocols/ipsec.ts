@@ -9,7 +9,7 @@ export const ipsec: Protocol = {
 	year: 1995,
 	rfc: 'RFC 4301 / 7296',
 	oneLiner:
-		'The {{ietf|IETF}}\'s Layer-3 cryptographic envelope — every site-to-site {{vpn|VPN}}, every {{3gpp|3GPP}} mobile-core backhaul, every {{ikev2|IKEv2}} client tunnel on macOS / iOS / Windows / {{android|Android}} runs IPsec.',
+		"The {{ietf|IETF}}'s Layer-3 cryptographic envelope — every site-to-site {{vpn|VPN}}, every {{3gpp|3GPP}} mobile-core backhaul, every {{ikev2|IKEv2}} client tunnel on macOS / iOS / Windows / {{android|Android}} runs IPsec.",
 	overview: `[[ipsec|IPsec]] is the {{ietf|IETF}}'s **network-layer** security architecture. Where [[tls|TLS]] wraps a single [[tcp|TCP]] stream and [[ssh|SSH]] wraps a single remote session, [[ipsec|IPsec]] {{encryption|encrypts}} entire [[ip|IP]] {{packet|packets}} — host-to-host, gateway-to-gateway, or both — and is the only mainstream cryptographic protocol that lives *inside* the network stack rather than above it. **{{ah-authentication-header|AH}}** ([[rfc:4302|RFC 4302]]) authenticates the [[ip|IP]] {{header|header}} and {{payload|payload}}; **{{esp|ESP}}** ([[rfc:4303|RFC 4303]], the part everyone actually deploys) encrypts and authenticates payloads using {{aead|AEAD ciphers}} like {{aes-gcm|AES-GCM}} and {{chacha20-poly1305|ChaCha20-Poly1305}}. **{{ike|IKEv2}}** ([[rfc:7296|RFC 7296]], the modern key-management protocol, edited across decades by [[pioneer:charlie-kaufman|Charlie Kaufman]] and [[pioneer:tero-kivinen|Tero Kivinen]]) negotiates the {{cipher-suite|cipher suite}} and establishes the {{security-association|Security Associations}} the data plane uses.
 
 The architecture began in 1995 with [[pioneer:randall-atkinson|Randall Atkinson]] at the U.S. Naval Research Lab ({{rfc-doc|RFC}} 1825/1826/1827); [[pioneer:phil-karn|Phil Karn]] influenced the design from Qualcomm and was, in parallel, the plaintiff in *Karn v. U.S. State Department* — the export-control case that helped establish "code is speech." [[ipsec|IPsec]] has been re-architected twice ([[rfc:4301|RFC 4301]], 2005) and survived a 2003 architectural critique from Ferguson and Schneier (whose paper concluded it was, despite its complexity, "the best [[ip|IP]] security protocol available at the moment"). It is the **only** widely-deployed {{vpn|VPN}} that natively carries [[bgp|BGP]] / [[ospf|OSPF]] / {{multicast|multicast}} on tunnel interfaces — the reason {{3gpp|3GPP}} picked it for {{lte|LTE}} S1/X2 and 5G N2/N3 backhaul, and the reason every carrier on Earth runs it whether they want to or not.
@@ -29,7 +29,7 @@ As of May 2026, [[ipsec|IPsec]] is also the first mainstream {{vpn|VPN}} with a 
 		{
 			title: 'ESP — encrypt and authenticate every packet',
 			description:
-				"Once the {{child-sa|Child SA}} is up, every outbound [[ip|IP]] {{packet|packet}} matching the Security Policy Database (SPD) is wrapped in an **{{esp|ESP}} {{header|header}}** (32-bit {{spi|SPI}} + 32-bit {{sequence-number|sequence number}}), {{aead|AEAD-encrypted}} with the negotiated key, and forwarded. In **tunnel mode** (the default for gateways) the original [[ip|IP]] packet is {{encapsulation|encapsulated}} inside a new outer [[ip|IP]] header. In **transport mode** (host-to-host) the [[ip|IP]] header is preserved and only the {{payload|payload}} is encrypted."
+				'Once the {{child-sa|Child SA}} is up, every outbound [[ip|IP]] {{packet|packet}} matching the Security Policy Database (SPD) is wrapped in an **{{esp|ESP}} {{header|header}}** (32-bit {{spi|SPI}} + 32-bit {{sequence-number|sequence number}}), {{aead|AEAD-encrypted}} with the negotiated key, and forwarded. In **tunnel mode** (the default for gateways) the original [[ip|IP]] packet is {{encapsulation|encapsulated}} inside a new outer [[ip|IP]] header. In **transport mode** (host-to-host) the [[ip|IP]] header is preserved and only the {{payload|payload}} is encrypted.'
 		},
 		{
 			title: 'Anti-replay window',
@@ -44,7 +44,7 @@ As of May 2026, [[ipsec|IPsec]] is also the first mainstream {{vpn|VPN}} with a 
 		{
 			title: 'NAT-T, MOBIKE, MOBIKE-X — survive the real internet',
 			description:
-				'Once outside the lab, {{nat|NAT}} and mobility appear. **{{nat|NAT}}-T** (UDP/4500) wraps {{esp|ESP}} in [[udp|UDP]] so home routers don\'t corrupt the packet. **MOBIKE** ([[rfc:4555|RFC 4555]]) lets a roadwarrior survive Wi-Fi-to-{{lte|LTE}} handoff. **{{rfc-doc|RFC}} 8229 ({{ike|IKE}}/{{esp|ESP}} over [[tcp|TCP]])** is the last-resort fallback for hostile networks (hotel Wi-Fi, captive portals) that drop [[udp|UDP]].'
+				"Once outside the lab, {{nat|NAT}} and mobility appear. **{{nat|NAT}}-T** (UDP/4500) wraps {{esp|ESP}} in [[udp|UDP]] so home routers don't corrupt the packet. **MOBIKE** ([[rfc:4555|RFC 4555]]) lets a roadwarrior survive Wi-Fi-to-{{lte|LTE}} handoff. **{{rfc-doc|RFC}} 8229 ({{ike|IKE}}/{{esp|ESP}} over [[tcp|TCP]])** is the last-resort fallback for hostile networks (hotel Wi-Fi, captive portals) that drop [[udp|UDP]]."
 		}
 	],
 	useCases: [
@@ -89,7 +89,8 @@ swanctl --initiate --child office-net
 swanctl --list-sas
 ip -s xfrm state                          # kernel data-plane counters
 ip -s xfrm policy                         # SPD entries`,
-		caption: 'A site-to-site [[ipsec|IPsec]] tunnel in strongSwan with **{{ml-kem|ML-KEM}}-768 hybrid post-quantum** key {{exchange|exchange}} — production-deployable today on {{linux|Linux}} 6.x.',
+		caption:
+			'A site-to-site [[ipsec|IPsec]] tunnel in strongSwan with **{{ml-kem|ML-KEM}}-768 hybrid post-quantum** key {{exchange|exchange}} — production-deployable today on {{linux|Linux}} 6.x.',
 		alternatives: [
 			{
 				language: 'python',
@@ -233,7 +234,7 @@ Payloads:
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a8/Ipsec-ah.svg/500px-Ipsec-ah.svg.png',
 		alt: 'IPsec Authentication Header (AH) format diagram showing the fields that authenticate every IP packet',
 		caption:
-			'IPsec\'s **Authentication Header ({{ah-authentication-header|AH}})** — the simpler half of the architecture. Authenticates the [[ip|IP]] header *and* {{payload|payload}}, but encrypts nothing. Almost no production deployment uses {{ah-authentication-header|AH}} alone in 2026; **{{esp|ESP}}** ([[rfc:4303|RFC 4303]]) — which encrypts *and* authenticates — has won the architecture debate.',
+			"IPsec's **Authentication Header ({{ah-authentication-header|AH}})** — the simpler half of the architecture. Authenticates the [[ip|IP]] header *and* {{payload|payload}}, but encrypts nothing. Almost no production deployment uses {{ah-authentication-header|AH}} alone in 2026; **{{esp|ESP}}** ([[rfc:4303|RFC 4303]]) — which encrypts *and* authenticates — has won the architecture debate.",
 		credit: 'Image: Wikimedia Commons / CC BY-SA'
 	},
 
@@ -323,7 +324,7 @@ Payloads:
 		},
 		{
 			title: 'WireGuard is ~4,000 lines; the IPsec stack is six digits',
-			text: '[[pioneer:jason-donenfeld|Jason Donenfeld]]\'s 2017 {{ndss-conf|NDSS}} WireGuard paper counted 116,730 LoC across OpenVPN + {{linux|Linux}} {{xfrm|XFRM}} + strongSwan + SoftEther. The comparison is biased — {{xfrm|XFRM}} does more — but the order of magnitude is correct. WireGuard\'s minimalism is a direct response to [[ipsec|IPsec]]\'s architectural sprawl; [[ipsec|IPsec]]\'s sprawl is a direct response to thirty years of interop requirements no clean-slate design has yet had to face.'
+			text: "[[pioneer:jason-donenfeld|Jason Donenfeld]]'s 2017 {{ndss-conf|NDSS}} WireGuard paper counted 116,730 LoC across OpenVPN + {{linux|Linux}} {{xfrm|XFRM}} + strongSwan + SoftEther. The comparison is biased — {{xfrm|XFRM}} does more — but the order of magnitude is correct. WireGuard's minimalism is a direct response to [[ipsec|IPsec]]'s architectural sprawl; [[ipsec|IPsec]]'s sprawl is a direct response to thirty years of interop requirements no clean-slate design has yet had to face."
 		}
 	],
 
@@ -339,7 +340,7 @@ Payloads:
 			},
 			{
 				title: 'Roadwarriors die on Wi-Fi → LTE handoff without MOBIKE',
-				text: 'A roadwarrior session that comes up on hotel Wi-Fi will tear down the moment the laptop switches to {{lte|LTE}} — the {{ike-sa|IKE SA}} is bound to the source `ip:port` and reconnects from scratch. **Cure:** enable **MOBIKE** ([[rfc:4555|RFC 4555]]) on both ends (`mobike=yes` in strongSwan). The session migrates seamlessly to the new {{ip-address|address}} without re-authenticating. Built into {{apple|Apple}}\'s native client; opt-in on strongSwan/Libreswan.'
+				text: "A roadwarrior session that comes up on hotel Wi-Fi will tear down the moment the laptop switches to {{lte|LTE}} — the {{ike-sa|IKE SA}} is bound to the source `ip:port` and reconnects from scratch. **Cure:** enable **MOBIKE** ([[rfc:4555|RFC 4555]]) on both ends (`mobike=yes` in strongSwan). The session migrates seamlessly to the new {{ip-address|address}} without re-authenticating. Built into {{apple|Apple}}'s native client; opt-in on strongSwan/Libreswan."
 			}
 		]
 	}

@@ -14,24 +14,21 @@ export function createBGPLayer(
 				bits: 128,
 				value: overrides?.marker ?? '0xFF…FF (all ones)',
 				editable: false,
-				description:
-					'Sync marker — 16 bytes of all 1s for authentication and synchronization'
+				description: 'Sync marker — 16 bytes of all 1s for authentication and synchronization'
 			},
 			{
 				name: 'Length',
 				bits: 16,
 				value: overrides?.length ?? 29,
 				editable: false,
-				description:
-					'Total message length in bytes (19–4096). Minimum 19 = header only (KEEPALIVE)'
+				description: 'Total message length in bytes (19–4096). Minimum 19 = header only (KEEPALIVE)'
 			},
 			{
 				name: 'Type',
 				bits: 8,
 				value: overrides?.type ?? 'OPEN (1)',
 				editable: false,
-				description:
-					'Message type — OPEN (1), UPDATE (2), NOTIFICATION (3), KEEPALIVE (4)',
+				description: 'Message type — OPEN (1), UPDATE (2), NOTIFICATION (3), KEEPALIVE (4)',
 				color: '#DC2626'
 			},
 			{
@@ -39,8 +36,7 @@ export function createBGPLayer(
 				bits: 16,
 				value: overrides?.asNumber ?? 'AS 65001',
 				editable: false,
-				description:
-					'Autonomous System number — identifies the routing domain'
+				description: 'Autonomous System number — identifies the routing domain'
 			},
 			{
 				name: 'Hold Time',
@@ -55,8 +51,7 @@ export function createBGPLayer(
 				bits: 0,
 				value: overrides?.payload ?? '',
 				editable: false,
-				description:
-					'Type-specific data — NLRI prefixes, path attributes, error codes'
+				description: 'Type-specific data — NLRI prefixes, path attributes, error codes'
 			}
 		]
 	};

@@ -10,9 +10,28 @@ function createSDPLayer(type: string, fields: string, media: string): ProtocolLa
 		osiLayer: 7,
 		color: '#A855F7',
 		headerFields: [
-			{ name: 'Type', bits: 0, value: type, editable: false, description: 'SDP role — Offer (initial proposal) or Answer (accepted subset)' },
-			{ name: 'Session Fields', bits: 0, value: fields, editable: false, description: 'Session-level fields — v= (version), o= (origin), s= (session name), t= (timing)' },
-			{ name: 'Media', bits: 0, value: media, editable: false, description: 'Media descriptions — m= lines with port, protocol, and format list' },
+			{
+				name: 'Type',
+				bits: 0,
+				value: type,
+				editable: false,
+				description: 'SDP role — Offer (initial proposal) or Answer (accepted subset)'
+			},
+			{
+				name: 'Session Fields',
+				bits: 0,
+				value: fields,
+				editable: false,
+				description:
+					'Session-level fields — v= (version), o= (origin), s= (session name), t= (timing)'
+			},
+			{
+				name: 'Media',
+				bits: 0,
+				value: media,
+				editable: false,
+				description: 'Media descriptions — m= lines with port, protocol, and format list'
+			}
 		]
 	};
 }
@@ -24,8 +43,20 @@ function signalingLayer(action: string): ProtocolLayer {
 		osiLayer: 7,
 		color: '#6366F1',
 		headerFields: [
-			{ name: 'Action', bits: 0, value: action, editable: false, description: 'Signaling action — carried over WebSocket, HTTP, or SIP' },
-			{ name: 'Content-Type', bits: 0, value: 'application/sdp', editable: false, description: 'The payload is an SDP description' }
+			{
+				name: 'Action',
+				bits: 0,
+				value: action,
+				editable: false,
+				description: 'Signaling action — carried over WebSocket, HTTP, or SIP'
+			},
+			{
+				name: 'Content-Type',
+				bits: 0,
+				value: 'application/sdp',
+				editable: false,
+				description: 'The payload is an SDP description'
+			}
 		]
 	};
 }

@@ -222,7 +222,8 @@ for (const p of pioneers) {
 		type: 'pioneer',
 		label: p.name,
 		description: p.title ?? p.org ?? '',
-		searchText: `${p.name} ${p.title ?? ''} ${p.org ?? ''} ${stripAtoms(p.contribution)} ${protoNames}`.toLowerCase(),
+		searchText:
+			`${p.name} ${p.title ?? ''} ${p.org ?? ''} ${stripAtoms(p.contribution)} ${protoNames}`.toLowerCase(),
 		protocolIds: p.protocols ?? [],
 		nav: { kind: 'pioneer', pioneerId: p.id }
 	});
@@ -253,7 +254,8 @@ for (const o of outages) {
 		type: 'outage',
 		label: o.title,
 		description: cleanOneLiner,
-		searchText: `outage incident ${o.title} ${cleanOneLiner} ${o.date} ${stripAtoms(o.setup)} ${stripAtoms(o.mistake)} ${stripAtoms(o.lesson)}`.toLowerCase(),
+		searchText:
+			`outage incident ${o.title} ${cleanOneLiner} ${o.date} ${stripAtoms(o.setup)} ${stripAtoms(o.mistake)} ${stripAtoms(o.lesson)}`.toLowerCase(),
 		protocolIds: o.affectedProtocols,
 		nav: { kind: 'outage', outageId: o.id }
 	});
@@ -266,7 +268,8 @@ for (const f of frontierEntries) {
 		type: 'frontier',
 		label: f.title,
 		description: cleanOneLiner,
-		searchText: `frontier ${f.title} ${cleanOneLiner} ${stripAtoms(f.description)} ${f.topic} ${f.status}`.toLowerCase(),
+		searchText:
+			`frontier ${f.title} ${cleanOneLiner} ${stripAtoms(f.description)} ${f.topic} ${f.status}`.toLowerCase(),
 		protocolIds: f.protocols,
 		nav: { kind: 'frontier', frontierId: f.id }
 	});

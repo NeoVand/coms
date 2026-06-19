@@ -30,32 +30,28 @@ export function createNTPLayer(
 				bits: 8,
 				value: overrides?.poll ?? 6,
 				editable: false,
-				description:
-					'Poll interval as log2 seconds — 6 means poll every 64 seconds'
+				description: 'Poll interval as log2 seconds — 6 means poll every 64 seconds'
 			},
 			{
 				name: 'Precision',
 				bits: 8,
 				value: overrides?.precision ?? '-20',
 				editable: false,
-				description:
-					'Clock precision as log2 seconds — -20 is approximately 1 microsecond'
+				description: 'Clock precision as log2 seconds — -20 is approximately 1 microsecond'
 			},
 			{
 				name: 'Reference ID',
 				bits: 32,
 				value: overrides?.refId ?? '',
 				editable: false,
-				description:
-					'Identifies the time source — "GPS", "ATOM", or IP address of upstream server'
+				description: 'Identifies the time source — "GPS", "ATOM", or IP address of upstream server'
 			},
 			{
 				name: 'Timestamps',
 				bits: 0,
 				value: overrides?.timestamps ?? '',
 				editable: false,
-				description:
-					'Four 64-bit timestamps: Reference, Origin (T1), Receive (T2), Transmit (T3)'
+				description: 'Four 64-bit timestamps: Reference, Origin (T1), Receive (T2), Transmit (T3)'
 			}
 		]
 	};

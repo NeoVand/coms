@@ -14,7 +14,8 @@ export function createMDNSLayer(
 				bits: 16,
 				value: overrides?.txid ?? '0x0000',
 				editable: false,
-				description: 'mDNS uses 0x0000 — multicast doesn\'t need transaction IDs (matching is by question)'
+				description:
+					"mDNS uses 0x0000 — multicast doesn't need transaction IDs (matching is by question)"
 			},
 			{
 				name: 'Flags',

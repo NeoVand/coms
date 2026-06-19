@@ -34,5 +34,7 @@
 	<!-- Registry not yet populated for this id — render as styled text so the
 	     reading flow isn't broken and authors can link in later without
 	     touching prose. -->
-	<span class="inline italic" style="color: {displayColor}; opacity: 0.85;" title={tooltip}>{label}</span>
+	<span class="inline italic" style="color: {displayColor}; opacity: 0.85;" title={tooltip}
+		>{label}</span
+	>
 {/if}

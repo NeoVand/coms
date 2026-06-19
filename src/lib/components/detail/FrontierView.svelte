@@ -63,10 +63,7 @@
 				{STATUS_LABEL[entry.status] ?? entry.status}
 				<span class="opacity-70">· {entry.date}</span>
 			</div>
-			<h1
-				class="mt-2 text-xl leading-tight font-bold tracking-tight"
-				style="color: {ACCENT};"
-			>
+			<h1 class="mt-2 text-xl leading-tight font-bold tracking-tight" style="color: {ACCENT};">
 				{entry.title}
 			</h1>
 			<p class="mt-2 text-sm leading-relaxed text-t-primary italic">

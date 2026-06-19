@@ -232,11 +232,12 @@ for (const r of reports.filter((x) => x.touched > 0).sort((a, b) => b.touched - 
 console.log('\nSkipped (sample):');
 const skippedByReason = new Map<string, number>();
 for (const r of reports)
-	for (const h of r.skipped)
-		skippedByReason.set(h.skip!, (skippedByReason.get(h.skip!) ?? 0) + 1);
+	for (const h of r.skipped) skippedByReason.set(h.skip!, (skippedByReason.get(h.skip!) ?? 0) + 1);
 for (const [reason, count] of skippedByReason) console.log(`  ${reason}: ${count}`);
 const sampleUnwrappedField = reports
-	.flatMap((r) => r.skipped.filter((h) => h.skip === 'unwrappedField').map((h) => ({ ...h, file: r.file })))
+	.flatMap((r) =>
+		r.skipped.filter((h) => h.skip === 'unwrappedField').map((h) => ({ ...h, file: r.file }))
+	)
 	.slice(0, 8);
 for (const h of sampleUnwrappedField) {
 	console.log(`    ${h.file}:${h.line}  field=${h.field}  ${h.match}`);

@@ -3,7 +3,7 @@ import type { SubcategoryStory } from './types';
 export const namingStory: SubcategoryStory = {
 	subcategoryId: 'naming',
 	tagline:
-		"The distributed database that lets humans find machines — and the single most consequential cache in computing",
+		'The distributed database that lets humans find machines — and the single most consequential cache in computing',
 	sections: [
 		{
 			type: 'narrative',
@@ -21,7 +21,7 @@ export const namingStory: SubcategoryStory = {
 					title: 'Inventor of DNS',
 					org: 'USC ISI',
 					contribution:
-						"Designed and implemented [[dns|DNS]] in 1983 ([[rfc:1034|RFC 1034]], [[rfc:1035|RFC 1035]]). The hierarchical zone-delegation model, the recursive vs iterative split, the resource-record types, the on-the-wire packet format — all Mockapetris. The first DNS server was JEEVES, written in TOPS-20 assembler. BIND, the dominant DNS server for the next 35 years, was a clean-room re-implementation by Berkeley grad students using the spec. Mockapetris also chaired the IETF (1994–1996).",
+						'Designed and implemented [[dns|DNS]] in 1983 ([[rfc:1034|RFC 1034]], [[rfc:1035|RFC 1035]]). The hierarchical zone-delegation model, the recursive vs iterative split, the resource-record types, the on-the-wire packet format — all Mockapetris. The first DNS server was JEEVES, written in TOPS-20 assembler. BIND, the dominant DNS server for the next 35 years, was a clean-room re-implementation by Berkeley grad students using the spec. Mockapetris also chaired the IETF (1994–1996).',
 					imagePath:
 						'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Paul_Mockapetris.jpg/330px-Paul_Mockapetris.jpg'
 				},
@@ -32,7 +32,7 @@ export const namingStory: SubcategoryStory = {
 					title: 'IANA & Root Zone Steward',
 					org: 'USC ISI',
 					contribution:
-						"Managed the [[dns|DNS]] root zone and the top-level domain assignments for over a decade as IANA, often single-handedly. The famous \"Postel test\" of January 1998 — Postel asked eight of the twelve root servers to temporarily take their root zone from his own server rather than the one operated by Network Solutions, to demonstrate that root authority should be technical, not political. The US government was not amused; ICANN was formed later that year to replace Postel's role with a multi-stakeholder body.",
+						'Managed the [[dns|DNS]] root zone and the top-level domain assignments for over a decade as IANA, often single-handedly. The famous "Postel test" of January 1998 — Postel asked eight of the twelve root servers to temporarily take their root zone from his own server rather than the one operated by Network Solutions, to demonstrate that root authority should be technical, not political. The US government was not amused; ICANN was formed later that year to replace Postel\'s role with a multi-stakeholder body.',
 					imagePath:
 						'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Jon_Postel_sitting_in_office_%28cropped%29.jpg/330px-Jon_Postel_sitting_in_office_%28cropped%29.jpg'
 				},
@@ -54,19 +54,19 @@ export const namingStory: SubcategoryStory = {
 					year: 1973,
 					title: 'HOSTS.TXT Begins',
 					description:
-						"Elizabeth Feinler at SRI maintains a single text file mapping ARPANET hosts to addresses. Distribution: FTP overnight."
+						'Elizabeth Feinler at SRI maintains a single text file mapping ARPANET hosts to addresses. Distribution: FTP overnight.'
 				},
 				{
 					year: 1983,
 					title: 'DNS Standardized (RFCs 1034, 1035)',
 					description:
-						"[[pioneer:paul-mockapetris|Mockapetris]] publishes the design that will run the Internet. Hierarchical namespace, distributed authority, caching."
+						'[[pioneer:paul-mockapetris|Mockapetris]] publishes the design that will run the Internet. Hierarchical namespace, distributed authority, caching.'
 				},
 				{
 					year: 1984,
 					title: 'BIND 1.0 Released',
 					description:
-						"Berkeley Internet Name Domain — a clean-room reimplementation by Doug Terry, Mark Painter, David Riggle, and Songnian Zhou. Becomes the dominant DNS server for 30+ years."
+						'Berkeley Internet Name Domain — a clean-room reimplementation by Doug Terry, Mark Painter, David Riggle, and Songnian Zhou. Becomes the dominant DNS server for 30+ years.'
 				},
 				{
 					year: 1998,
@@ -78,7 +78,7 @@ export const namingStory: SubcategoryStory = {
 					year: 2008,
 					title: 'Kaminsky DNS Cache Poisoning',
 					description:
-						"Dan Kaminsky discovers that the 16-bit DNS transaction ID is too small to prevent off-path poisoning. Coordinated patch deploys randomized source ports to add ~16 more bits of entropy. The fix is wire-compatible; recursive resolvers everywhere update within months."
+						'Dan Kaminsky discovers that the 16-bit DNS transaction ID is too small to prevent off-path poisoning. Coordinated patch deploys randomized source ports to add ~16 more bits of entropy. The fix is wire-compatible; recursive resolvers everywhere update within months.'
 				},
 				{
 					year: 2010,
@@ -96,7 +96,7 @@ export const namingStory: SubcategoryStory = {
 					year: 2018,
 					title: 'DNS over HTTPS (DoH) Standardized (RFC 8484)',
 					description:
-						"Encapsulating DNS queries in HTTPS to the resolver. Mozilla and Google enable it by default in their browsers, drawing fire from ISPs and governments that relied on DNS visibility for filtering, analytics, and law enforcement."
+						'Encapsulating DNS queries in HTTPS to the resolver. Mozilla and Google enable it by default in their browsers, drawing fire from ISPs and governments that relied on DNS visibility for filtering, analytics, and law enforcement.'
 				},
 				{
 					year: 2022,
@@ -128,15 +128,30 @@ export const namingStory: SubcategoryStory = {
 				},
 				{
 					label: 'DNS over TLS (DoT)',
-					values: ['[[tcp|TCP]] + [[tls|TLS]]', '853', '[[tls|TLS]] 1.2+', 'OS-level resolvers (Android Private DNS)']
+					values: [
+						'[[tcp|TCP]] + [[tls|TLS]]',
+						'853',
+						'[[tls|TLS]] 1.2+',
+						'OS-level resolvers (Android Private DNS)'
+					]
 				},
 				{
 					label: 'DNS over HTTPS (DoH)',
-					values: ['[[http2|HTTP/2]] + [[tls|TLS]]', '443', '[[tls|TLS]] 1.2+', 'Browser-level (Chrome, Firefox); hides DNS from local network']
+					values: [
+						'[[http2|HTTP/2]] + [[tls|TLS]]',
+						'443',
+						'[[tls|TLS]] 1.2+',
+						'Browser-level (Chrome, Firefox); hides DNS from local network'
+					]
 				},
 				{
 					label: 'DNS over QUIC (DoQ)',
-					values: ['[[quic|QUIC]] (UDP)', '853', 'Mandatory [[tls|TLS]] 1.3', 'Lower latency than DoH; emerging adoption']
+					values: [
+						'[[quic|QUIC]] (UDP)',
+						'853',
+						'Mandatory [[tls|TLS]] 1.3',
+						'Lower latency than DoH; emerging adoption'
+					]
 				}
 			],
 			note: "All four are wire-compatible at the *DNS payload* level. The transport changed; the message format didn't. That's the depth of Mockapetris's original design."
@@ -165,7 +180,7 @@ export const namingStory: SubcategoryStory = {
 			caption:
 				"The first query for a name walks the tree — root → TLD → authoritative. Every subsequent query within the TTL window is served from the resolver's cache. Caching is what makes DNS *fast*. Cache poisoning is what makes DNS *dangerous*.",
 			steps: {
-				0: '**The query begins.** Your laptop wants to load `www.example.com`. The OS asks the configured DNS resolver — usually your ISP\'s, or 8.8.8.8, or 1.1.1.1.',
+				0: "**The query begins.** Your laptop wants to load `www.example.com`. The OS asks the configured DNS resolver — usually your ISP's, or 8.8.8.8, or 1.1.1.1.",
 				1: 'Client sends the query to its **recursive resolver**. (The client itself is a "stub resolver" — it does no work beyond asking once.)',
 				2: '**Cache miss.** The recursive resolver checks its cache. If it had answered this name in the last TTL window, it would serve from cache and be done. First-time queries — and rare names — recurse.',
 				3: 'Resolver asks a **root server**. There are 13 root server addresses (a-m.root-servers.net), heavily anycast-replicated worldwide. The resolver knows them from a built-in hints file.',
@@ -191,7 +206,7 @@ export const namingStory: SubcategoryStory = {
 		},
 		{
 			type: 'narrative',
-			title: 'What\'s Next',
+			title: "What's Next",
 			text: `Active work in 2025:\n\n- **{{dnssec|DNSSEC}} validation in stub resolvers** — pushed by Apple in iOS/macOS and increasingly enabled by default. The end-to-end chain finally completes when the *client*, not just the recursive resolver, validates signatures.\n- **Encrypted Client Hello (ECH)** uses DNS to publish keys that hide SNI from passive network observers. Now default in Chrome and Firefox; the last metadata leak in TLS is closing.\n- **Oblivious DNS over HTTPS (ODoH)** separates *who is asking* from *what they're asking*. A relay knows the client but not the query; a target knows the query but not the client. Apple's iCloud Private Relay uses a similar architecture.\n- **The political fight over DoH.** Several governments (UK, Russia, China, parts of EU) have moved to restrict or ban encrypted DNS. The protocol is decided; the question of who can run a recursive resolver, and whether ISPs can mandate their own, is not.\n\nThe protocol Mockapetris designed in 1983 is barely changed. Everything new is happening around its edges.`
 		}
 	]

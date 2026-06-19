@@ -15,28 +15,32 @@ export function createUWBPHYLayer(
 				bits: 0,
 				value: overrides?.channel ?? 'Ch 9 — 7987.2 MHz, 499.2 MHz BW',
 				editable: false,
-				description: 'Channel 5 (6489.6 MHz) is universal; Channel 9 (7987.2 MHz) is preferred outside Japan'
+				description:
+					'Channel 5 (6489.6 MHz) is universal; Channel 9 (7987.2 MHz) is preferred outside Japan'
 			},
 			{
 				name: 'Mode',
 				bits: 0,
 				value: overrides?.mode ?? 'BPRF mean PRF = 64 MHz, 6.81 Mbps data rate',
 				editable: false,
-				description: 'BPRF (base ~64 MHz) for tag-side power; HPRF (124.8/249.6 MHz) for anchor-side processing gain'
+				description:
+					'BPRF (base ~64 MHz) for tag-side power; HPRF (124.8/249.6 MHz) for anchor-side processing gain'
 			},
 			{
 				name: 'SHR (Preamble + SFD)',
 				bits: 0,
 				value: overrides?.shr ?? '64 sync symbols + 8-symbol SFD',
 				editable: false,
-				description: 'Synchronisation Header: receiver acquires symbol timing and detects "frame here". First-path-arrival timestamp is taken on the SFD.'
+				description:
+					'Synchronisation Header: receiver acquires symbol timing and detects "frame here". First-path-arrival timestamp is taken on the SFD.'
 			},
 			{
 				name: 'PHR',
 				bits: 19,
 				value: overrides?.phr ?? 'len=12, RFRAME=1, rate=01 (6.81 Mbps)',
 				editable: false,
-				description: 'PHY Header: 7-bit frame length, 1-bit ranging-frame flag (RFRAME), 2-bit data rate, 6-bit SECDED parity'
+				description:
+					'PHY Header: 7-bit frame length, 1-bit ranging-frame flag (RFRAME), 2-bit data rate, 6-bit SECDED parity'
 			},
 			{
 				name: 'PSDU (data field)',
@@ -86,7 +90,8 @@ export function createFiRaLayer(
 				bits: 16,
 				value: overrides?.round ?? 0x002a,
 				editable: false,
-				description: 'Index of the ranging round within the session — increments per Poll/Response/Final triplet'
+				description:
+					'Index of the ranging round within the session — increments per Poll/Response/Final triplet'
 			},
 			{
 				name: 'Frame Type',
@@ -108,7 +113,8 @@ export function createFiRaLayer(
 				bits: 16,
 				value: overrides?.peer ?? 'Init=0x4321 → Resp=0x1234',
 				editable: false,
-				description: '16-bit short addresses of the initiator and responder for this ranging exchange'
+				description:
+					'16-bit short addresses of the initiator and responder for this ranging exchange'
 			}
 		]
 	};

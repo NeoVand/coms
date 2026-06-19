@@ -1,6 +1,8 @@
 import type { ProtocolLayer } from '../types';
 
-export function createIPv4Layer(overrides?: Partial<Record<string, string | number>>): ProtocolLayer {
+export function createIPv4Layer(
+	overrides?: Partial<Record<string, string | number>>
+): ProtocolLayer {
 	return {
 		name: 'IPv4 Packet',
 		abbreviation: 'IP',
@@ -38,7 +40,7 @@ export function createIPv4Layer(overrides?: Partial<Record<string, string | numb
 			{
 				name: 'ID',
 				bits: 16,
-				value: overrides?.id ?? 0x1A2B,
+				value: overrides?.id ?? 0x1a2b,
 				editable: false,
 				description: 'Identification — used for reassembling fragmented packets'
 			},
@@ -47,7 +49,7 @@ export function createIPv4Layer(overrides?: Partial<Record<string, string | numb
 				bits: 3,
 				value: '010',
 				editable: false,
-				description: 'Control flags — bit 1 (DF: Don\'t Fragment) is set'
+				description: "Control flags — bit 1 (DF: Don't Fragment) is set"
 			},
 			{
 				name: 'TTL',

@@ -43,7 +43,7 @@ export const httpVersionsStory: SubcategoryStory = {
 					title: 'Designer of QUIC',
 					org: 'Google',
 					contribution:
-						'Designed the original {{quic|QUIC}} at Google starting in 2012 — a fundamentally new transport over [[udp|UDP]] that solved [[http2|HTTP/2]]\'s transport-layer {{head-of-line-blocking|head-of-line blocking}} by giving each stream its own loss-recovery context. The {{ietf|IETF}} took over standardization in 2016; [[http3|HTTP/3]] became RFC 9114 in June 2022. Roskind\'s key insight: encryption belongs *inside* the transport, not above it.',
+						"Designed the original {{quic|QUIC}} at Google starting in 2012 — a fundamentally new transport over [[udp|UDP]] that solved [[http2|HTTP/2]]'s transport-layer {{head-of-line-blocking|head-of-line blocking}} by giving each stream its own loss-recovery context. The {{ietf|IETF}} took over standardization in 2016; [[http3|HTTP/3]] became RFC 9114 in June 2022. Roskind's key insight: encryption belongs *inside* the transport, not above it.",
 					imagePath:
 						'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Jim_Roskind_2016.jpg/330px-Jim_Roskind_2016.jpg'
 				}
@@ -74,7 +74,7 @@ export const httpVersionsStory: SubcategoryStory = {
 					year: 2009,
 					title: 'SPDY at Google',
 					description:
-						'[[pioneer:mike-belshe|Mike Belshe]] and Roberto Peon ship {{spdy|SPDY}} in Chrome. Binary frames, multiplexed streams over one connection, header compression, server push. The web didn\'t need a new protocol — it needed [[http1|HTTP/1.1]] without its bottlenecks.'
+						"[[pioneer:mike-belshe|Mike Belshe]] and Roberto Peon ship {{spdy|SPDY}} in Chrome. Binary frames, multiplexed streams over one connection, header compression, server push. The web didn't need a new protocol — it needed [[http1|HTTP/1.1]] without its bottlenecks."
 				},
 				{
 					year: 2012,
@@ -92,7 +92,7 @@ export const httpVersionsStory: SubcategoryStory = {
 					year: 2015,
 					title: 'HTTP/2 Published (RFC 7540)',
 					description:
-						'Binary framing, multiplexing, {{hpack|HPACK}} header compression, server push (rarely used in practice). Solves [[http1|HTTP/1.1]]\'s application-layer {{head-of-line-blocking|HoL blocking}}. Doesn\'t solve TCP\'s.'
+						"Binary framing, multiplexing, {{hpack|HPACK}} header compression, server push (rarely used in practice). Solves [[http1|HTTP/1.1]]'s application-layer {{head-of-line-blocking|HoL blocking}}. Doesn't solve TCP's."
 				},
 				{
 					year: 2016,
@@ -159,7 +159,7 @@ export const httpVersionsStory: SubcategoryStory = {
 				11: 'Server returns **interleaved frames** from all three streams. The page can start rendering as soon as the HTML frames arrive — no head-of-line blocking *at the application layer*. But all three streams share one TCP connection, and a single dropped TCP packet stalls all of them.',
 				12: '**[[http3|HTTP/3]] — multiplexing without TCP HoL.** Each stream is owned by [[quic|QUIC]] (over UDP), with its own loss-recovery context. Stream 0 stalling does not affect stream 4 or 8.',
 				13: 'Client opens **stream 0** for the HTML over QUIC.',
-				14: 'Client opens **stream 4** for the CSS — if a UDP packet carrying stream 4 is lost, QUIC retransmits only that stream\'s data.',
+				14: "Client opens **stream 4** for the CSS — if a UDP packet carrying stream 4 is lost, QUIC retransmits only that stream's data.",
 				15: 'Client opens **stream 8** for the JS — same independence.',
 				16: '**Streams arrive in any order**, and packet loss on one does not stall the others. The HoL ghost that haunted HTTP for 25 years is finally exorcised — at the cost of moving reliable transport into user space.'
 			}
@@ -176,7 +176,7 @@ export const httpVersionsStory: SubcategoryStory = {
 		},
 		{
 			type: 'narrative',
-			title: 'What\'s Next',
+			title: "What's Next",
 			text: `[[http3|HTTP/3]] is shipping but not finished. Active work in 2025:\n\n- **{{webtransport|WebTransport}}**: bidirectional streams over QUIC, exposed to browsers — a possible replacement for {{websockets|WebSockets}} where you want UDP-like semantics with TLS.\n- **{{masque|MASQUE}}**: tunnel arbitrary protocols inside QUIC, used by iCloud Private Relay and similar privacy products.\n- **HTTP/2 over QUIC**: not actually a thing, but it's a useful reminder that the framing layer (HTTP) and the transport (TCP/QUIC) are now genuinely separable.\n- **Multipath QUIC**: the same {{mptcp|MPTCP}} idea — use multiple network paths in parallel — but for QUIC, which is much easier to evolve than TCP.\n\nThe deeper trend: HTTP is now the universal application protocol, and the interesting evolution is happening at the *transport* layer beneath it. After 35 years, the protocol that started as \`GET /index.html\` runs more of the world's traffic than any other single protocol — and the next chapter is being written by the people who decided TCP wasn't good enough anymore.`
 		}
 	]

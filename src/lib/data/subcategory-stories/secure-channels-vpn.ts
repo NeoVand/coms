@@ -3,7 +3,7 @@ import type { SubcategoryStory } from './types';
 export const secureChannelsVpnStory: SubcategoryStory = {
 	subcategoryId: 'secure-channels-vpn',
 	tagline:
-		"Encrypting traffic at different layers, for different threat models — transport, app, network, and the minimalist successor",
+		'Encrypting traffic at different layers, for different threat models — transport, app, network, and the minimalist successor',
 	sections: [
 		{
 			type: 'narrative',
@@ -30,7 +30,7 @@ export const secureChannelsVpnStory: SubcategoryStory = {
 					title: 'IPsec / IKE Implementer',
 					org: 'SafeNet / Independent',
 					contribution:
-						"Maintained the reference implementation of [[ipsec|IPsec]] / IKE used by half the industry (Racoon, isakmpd). Authored or co-authored ~30 IPsec-related RFCs, including significant parts of IKEv2. Kivinen\\'s sustained engineering work is one of the reasons IPsec went from \"unimplementable in practice\" to \"the default enterprise VPN for 25 years.\""
+						'Maintained the reference implementation of [[ipsec|IPsec]] / IKE used by half the industry (Racoon, isakmpd). Authored or co-authored ~30 IPsec-related RFCs, including significant parts of IKEv2. Kivinen\\\'s sustained engineering work is one of the reasons IPsec went from "unimplementable in practice" to "the default enterprise VPN for 25 years."'
 				},
 				{
 					id: 'jason-donenfeld',
@@ -58,13 +58,13 @@ export const secureChannelsVpnStory: SubcategoryStory = {
 					year: 1995,
 					title: 'SSL 2.0 (Netscape)',
 					description:
-						"Netscape ships SSL 2.0 in Navigator. Cryptographically weak (multiple flaws); replaced within a year by SSL 3.0."
+						'Netscape ships SSL 2.0 in Navigator. Cryptographically weak (multiple flaws); replaced within a year by SSL 3.0.'
 				},
 				{
 					year: 1995,
 					title: 'SSH 1.0 (Ylönen)',
 					description:
-						'[[ssh|SSH]] replaces Telnet for remote login. Within a year it\'s standard on every Unix.'
+						"[[ssh|SSH]] replaces Telnet for remote login. Within a year it's standard on every Unix."
 				},
 				{
 					year: 1995,
@@ -82,7 +82,7 @@ export const secureChannelsVpnStory: SubcategoryStory = {
 					year: 2005,
 					title: 'IKEv2 / IPsec Stabilizes',
 					description:
-						"After a decade of IKEv1 (Internet Key Exchange v1) frustration, IKEv2 ships ([[ipsec|RFC 4306]], later 5996). Most modern IPsec deployments use IKEv2."
+						'After a decade of IKEv1 (Internet Key Exchange v1) frustration, IKEv2 ships ([[ipsec|RFC 4306]], later 5996). Most modern IPsec deployments use IKEv2.'
 				},
 				{
 					year: 2008,
@@ -100,7 +100,7 @@ export const secureChannelsVpnStory: SubcategoryStory = {
 					year: 2016,
 					title: 'WireGuard First Release',
 					description:
-						"[[pioneer:jason-donenfeld|Donenfeld]] publishes WireGuard 0.1. Initial reception in the cryptography community is enthusiastic — \"finally, a VPN protocol you can read in an afternoon.\""
+						'[[pioneer:jason-donenfeld|Donenfeld]] publishes WireGuard 0.1. Initial reception in the cryptography community is enthusiastic — "finally, a VPN protocol you can read in an afternoon."'
 				},
 				{
 					year: 2018,
@@ -112,19 +112,19 @@ export const secureChannelsVpnStory: SubcategoryStory = {
 					year: 2020,
 					title: 'WireGuard Mainlined in Linux 5.6',
 					description:
-						"Linus Torvalds merges WireGuard into the Linux kernel after years of \"please can we have this.\" Within months it ships in major distros and is the default of new VPN services (Mullvad, Tailscale, NordVPN's NordLynx)."
+						'Linus Torvalds merges WireGuard into the Linux kernel after years of "please can we have this." Within months it ships in major distros and is the default of new VPN services (Mullvad, Tailscale, NordVPN\'s NordLynx).'
 				},
 				{
 					year: 2021,
 					title: 'Tailscale Mainstream Adoption',
 					description:
-						"Tailscale — a WireGuard-based zero-config mesh VPN with NAT punch-through and coordination server — explodes in adoption. Demonstrates that \"WireGuard plus a control plane\" is the future of \"how do I connect my laptop to my home server.\""
+						'Tailscale — a WireGuard-based zero-config mesh VPN with NAT punch-through and coordination server — explodes in adoption. Demonstrates that "WireGuard plus a control plane" is the future of "how do I connect my laptop to my home server."'
 				},
 				{
 					year: 2024,
 					title: 'Post-Quantum TLS Rolls Out',
 					description:
-						"Chrome, Cloudflare, Apple roll out hybrid post-quantum key exchange (X25519+Kyber/MLKEM) in TLS 1.3 connections by default. The first widely-deployed PQC in production."
+						'Chrome, Cloudflare, Apple roll out hybrid post-quantum key exchange (X25519+Kyber/MLKEM) in TLS 1.3 connections by default. The first widely-deployed PQC in production.'
 				}
 			]
 		},
@@ -140,7 +140,7 @@ export const secureChannelsVpnStory: SubcategoryStory = {
 						'HTTPS, IMAPS, SMTPS, any TCP service',
 						'1-RTT (TLS 1.3); 2-RTT (older)',
 						'X.509 certificate hierarchy',
-						"Record protocol with handshake / app data / alert layers"
+						'Record protocol with handshake / app data / alert layers'
 					]
 				},
 				{
@@ -150,7 +150,7 @@ export const secureChannelsVpnStory: SubcategoryStory = {
 						'Remote shell, tunneling, file transfer',
 						'Custom — diffie-hellman + key auth',
 						'Server host keys + user keys (no PKI)',
-						"Binary packet protocol over TCP"
+						'Binary packet protocol over TCP'
 					]
 				},
 				{
@@ -158,9 +158,9 @@ export const secureChannelsVpnStory: SubcategoryStory = {
 					values: [
 						'Network (inside IP)',
 						'Site-to-site VPN, IPv6 mandate',
-						"IKEv2 — typically 4 messages",
-						"Pre-shared keys, X.509, or EAP",
-						"ESP (encrypted payload) and AH (auth header)"
+						'IKEv2 — typically 4 messages',
+						'Pre-shared keys, X.509, or EAP',
+						'ESP (encrypted payload) and AH (auth header)'
 					]
 				},
 				{
@@ -169,12 +169,12 @@ export const secureChannelsVpnStory: SubcategoryStory = {
 						'Network (UDP-based virtual interface)',
 						'Modern VPN — point-to-point and mesh',
 						'1-RTT — Noise IK pattern',
-						"Public keys exchanged out of band (simple)",
-						"UDP datagrams — no TCP fallback, no algorithm negotiation"
+						'Public keys exchanged out of band (simple)',
+						'UDP datagrams — no TCP fallback, no algorithm negotiation'
 					]
 				}
 			],
-			note: "These don\\'t compete the way most protocol families do. Different layers, different use cases. The replacement question is mostly *IPsec → WireGuard* (where the answer is \"yes, almost always for new deployments\")."
+			note: 'These don\\\'t compete the way most protocol families do. Different layers, different use cases. The replacement question is mostly *IPsec → WireGuard* (where the answer is "yes, almost always for new deployments").'
 		},
 		{
 			type: 'animated-sequence',
@@ -199,12 +199,12 @@ export const secureChannelsVpnStory: SubcategoryStory = {
 			steps: {
 				0: '**The win.** TLS 1.2 needed 2 full round trips (4 messages) before any app data could flow — TCP added 1 more. TLS 1.3 cuts that to 1 RTT for the handshake, and 0 RTT on session resumption. The savings are enormous on high-latency mobile links.',
 				1: 'Client opens with **ClientHello**: supported TLS versions, cipher suites it accepts, *and* a `key_share` — a Diffie-Hellman public key. This bold "send key material in the first message" choice is what enables 1-RTT.',
-				2: 'Server **picks a cipher suite** from the client\'s offered list and immediately derives handshake encryption keys using its own ephemeral DH private key + the client\'s `key_share`. No back-and-forth negotiation.',
+				2: "Server **picks a cipher suite** from the client's offered list and immediately derives handshake encryption keys using its own ephemeral DH private key + the client's `key_share`. No back-and-forth negotiation.",
 				3: 'Server sends **ServerHello** with its `key_share` (so the client can derive the same handshake keys) plus EncryptedExtensions (additional negotiation, now encrypted).',
 				4: 'Server sends **Certificate** — encrypted with the handshake key. Notable: the cert itself is encrypted, defeating passive observers from learning *which* certificate (and thus which hostname) is in play.',
 				5: 'Server sends **CertificateVerify** — a signature over the handshake transcript proving the server owns the private key for the cert.',
 				6: 'Server sends **Finished** — a MAC over the entire transcript so far, proving both sides agreed on the same handshake.',
-				7: '**Client verifies.** It checks the certificate chain against its trust store and validates the CertificateVerify signature. If anything\'s wrong, the connection aborts here.',
+				7: "**Client verifies.** It checks the certificate chain against its trust store and validates the CertificateVerify signature. If anything's wrong, the connection aborts here.",
 				8: 'Client sends its own **Finished** — its MAC over the transcript, proving it saw the same handshake messages.',
 				9: 'Client sends **application data** encrypted under freshly-derived application keys. The first useful request rides in the same RTT as the Finished — net: 1 round trip from "connect" to "request sent."',
 				10: 'Server responds with **application data** under the same keys. The connection is now established and encrypted; everything from here is just data.',
@@ -223,7 +223,7 @@ export const secureChannelsVpnStory: SubcategoryStory = {
 		},
 		{
 			type: 'narrative',
-			title: 'What\'s Next',
+			title: "What's Next",
 			text: `Active work in 2025:\n\n- **Post-quantum TLS** is rolling out. Chrome, Cloudflare, Apple have already deployed hybrid X25519+ML-KEM (Kyber) by default. NIST PQC standards finalized in 2024; the migration phase is now.\n- **Encrypted Client Hello (ECH)** hides the SNI (which hostname the client is asking for) from passive observers. Default-on in Chrome and Firefox in 2024. The last unencrypted metadata in a TLS connection is gone.\n- **WireGuard in everything** — every major commercial VPN now offers WireGuard. Cloudflare WARP, Tailscale, Mullvad, NordVPN, Surfshark. The transition from OpenVPN/IPsec is essentially complete for consumer VPNs.\n- **SSH certificates** are slowly displacing \`authorized_keys\` files in enterprise environments. Short-lived certificates issued by a CA (HashiCorp Vault, smallstep CA, Teleport) provide centralized control and automatic expiry.\n- **MASQUE** (proxy traffic inside QUIC) is the next generation of "VPN" — used by iCloud Private Relay and Cloudflare's Privacy Gateway. Not a replacement for site-to-site IPsec, but a replacement for the "encrypted DNS + proxy" pattern that consumer VPNs deliver.\n- **Memory-safe TLS implementations** (rustls, BoringSSL's improvements, OpenSSL 3.x rewrites) continue replacing C-based stacks where the language gives crypto code more guarantees against the Heartbleed-class bugs.`
 		}
 	]

@@ -5,7 +5,11 @@
 	import { parseRichText } from '$lib/utils/text-parser';
 	import RichText from '$lib/components/detail/inline/RichText.svelte';
 
-	let { proto, cat, color = cat?.color ?? '#fff' }: { proto: Protocol; cat: Category | undefined; color?: string } = $props();
+	let {
+		proto,
+		cat,
+		color = cat?.color ?? '#fff'
+	}: { proto: Protocol; cat: Category | undefined; color?: string } = $props();
 
 	const nameSegments = $derived(getHighlightedName(proto.id, proto.name));
 </script>
@@ -25,7 +29,10 @@
 				{/if}
 			</div>
 			<p class="mt-0.5 text-xs text-t-secondary">
-				{#each nameSegments as seg, i (i)}{#if seg.highlight}<span class="font-bold" style="color: {color}">{seg.text}</span>{:else}{seg.text}{/if}{/each}
+				{#each nameSegments as seg, i (i)}{#if seg.highlight}<span
+							class="font-bold"
+							style="color: {color}">{seg.text}</span
+						>{:else}{seg.text}{/if}{/each}
 			</p>
 		</div>
 	</div>
@@ -135,7 +142,7 @@
 	{/if}
 
 	<p
-		class="mt-3 rounded-lg border py-2 px-3 text-sm leading-relaxed text-t-primary"
+		class="mt-3 rounded-lg border px-3 py-2 text-sm leading-relaxed text-t-primary"
 		style="border-color: {color}30; background-color: {color}08"
 	>
 		<RichText segments={parseRichText(proto.oneLiner)} {color} />

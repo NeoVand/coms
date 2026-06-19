@@ -45,10 +45,7 @@
 			<tbody>
 				{#each rows as row, i (i)}
 					<tr class:border-t={i > 0} class="border-s-border align-top">
-						<th
-							class="whitespace-nowrap px-3 py-2 text-left font-semibold"
-							style="color: {color}"
-						>
+						<th class="px-3 py-2 text-left font-semibold whitespace-nowrap" style="color: {color}">
 							<RichText segments={parseRichText(row.label)} {color} />
 						</th>
 						{#each row.values as val, k (k)}

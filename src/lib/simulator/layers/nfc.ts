@@ -13,7 +13,8 @@ export function createNFCALayer(
 			{
 				name: 'Carrier',
 				bits: 0,
-				value: '13.56 MHz, 100% ASK modified-Miller (reader→card) / OOK Manchester on 847.5 kHz subcarrier (card→reader)',
+				value:
+					'13.56 MHz, 100% ASK modified-Miller (reader→card) / OOK Manchester on 847.5 kHz subcarrier (card→reader)',
 				editable: false,
 				description: 'NFC-A physical layer — the same since ISO 14443-3 was published in 2000'
 			},
@@ -30,21 +31,24 @@ export function createNFCALayer(
 				bits: 0,
 				value: overrides?.direction ?? 'PCD → PICC',
 				editable: false,
-				description: 'PCD (Proximity Coupling Device, the reader) → PICC (Proximity Integrated Circuit Card, the tag)'
+				description:
+					'PCD (Proximity Coupling Device, the reader) → PICC (Proximity Integrated Circuit Card, the tag)'
 			},
 			{
 				name: 'Payload',
 				bits: 0,
 				value: overrides?.payload ?? '0x26',
 				editable: false,
-				description: 'Frame-specific payload — REQA=0x26, WUPA=0x52, SEL=0x93/0x95/0x97, HLTA=0x50 0x00, etc.'
+				description:
+					'Frame-specific payload — REQA=0x26, WUPA=0x52, SEL=0x93/0x95/0x97, HLTA=0x50 0x00, etc.'
 			},
 			{
 				name: 'CRC_A',
 				bits: 16,
 				value: overrides?.crc ?? '(none — short frame)',
 				editable: false,
-				description: 'CRC_A polynomial 0x8408, appended to standard and full frames; absent on short frames'
+				description:
+					'CRC_A polynomial 0x8408, appended to standard and full frames; absent on short frames'
 			}
 		]
 	};
@@ -96,7 +100,7 @@ export function createNDEFLayer(
 				value: overrides?.payload ?? '0x03 example.com/info',
 				editable: false,
 				description:
-					"For a URI record: first byte is the prefix code (0x01=http://www., 0x02=https://www., 0x03=http://, 0x04=https://, 0x05=tel:, 0x06=mailto:); remainder is the URI body"
+					'For a URI record: first byte is the prefix code (0x01=http://www., 0x02=https://www., 0x03=http://, 0x04=https://, 0x05=tel:, 0x06=mailto:); remainder is the URI body'
 			}
 		]
 	};
@@ -130,9 +134,12 @@ export function createAPDULayer(
 			{
 				name: 'Data',
 				bits: 0,
-				value: overrides?.data ?? "32 50 41 59 2E 53 59 53 2E 44 44 46 30 31  (PPSE AID '2PAY.SYS.DDF01')",
+				value:
+					overrides?.data ??
+					"32 50 41 59 2E 53 59 53 2E 44 44 46 30 31  (PPSE AID '2PAY.SYS.DDF01')",
 				editable: false,
-				description: 'Command body — for SELECT, the AID being selected; for GENERATE AC, the CDOL1 data'
+				description:
+					'Command body — for SELECT, the AID being selected; for GENERATE AC, the CDOL1 data'
 			},
 			{
 				name: 'Le',

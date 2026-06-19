@@ -18,7 +18,7 @@ export const ipRouting: SimulationConfig = {
 			id: 'construct',
 			label: 'Construct IP Packet',
 			description:
-				'The source host constructs an IP packet with TTL=64 (the standard initial value on Linux). The destination IP 93.184.216.34 is not on the local 192.168.1.0/24 subnet, so the host knows it must send the packet to its default gateway. The Ethernet destination MAC is set to the router\'s MAC — not the final destination\'s MAC.',
+				"The source host constructs an IP packet with TTL=64 (the standard initial value on Linux). The destination IP 93.184.216.34 is not on the local 192.168.1.0/24 subnet, so the host knows it must send the packet to its default gateway. The Ethernet destination MAC is set to the router's MAC — not the final destination's MAC.",
 			fromActor: 'source',
 			toActor: 'source',
 			duration: 800,
@@ -40,7 +40,7 @@ export const ipRouting: SimulationConfig = {
 			id: 'send-to-gateway',
 			label: 'Send to Default Gateway',
 			description:
-				'The packet is placed on the wire toward the default gateway (the router). The Ethernet frame is addressed to the router\'s MAC CC:DD:EE:FF:00:11, but the IP destination remains 93.184.216.34. This is the key insight: Layer 2 addressing is hop-by-hop, while Layer 3 addressing is end-to-end.',
+				"The packet is placed on the wire toward the default gateway (the router). The Ethernet frame is addressed to the router's MAC CC:DD:EE:FF:00:11, but the IP destination remains 93.184.216.34. This is the key insight: Layer 2 addressing is hop-by-hop, while Layer 3 addressing is end-to-end.",
 			fromActor: 'source',
 			toActor: 'router',
 			duration: 600,
@@ -84,7 +84,7 @@ export const ipRouting: SimulationConfig = {
 			id: 'router-forwards',
 			label: 'Router Forwards (new MACs)',
 			description:
-				'The router re-encapsulates the IP packet in a brand-new Ethernet frame for the next link. Notice: the source and destination IPs are completely unchanged, but the Ethernet MACs are entirely different — the router\'s outbound interface MAC is now the source, and the next hop\'s MAC is the destination. This MAC rewriting happens at every hop.',
+				"The router re-encapsulates the IP packet in a brand-new Ethernet frame for the next link. Notice: the source and destination IPs are completely unchanged, but the Ethernet MACs are entirely different — the router's outbound interface MAC is now the source, and the next hop's MAC is the destination. This MAC rewriting happens at every hop.",
 			fromActor: 'router',
 			toActor: 'dest',
 			duration: 600,
@@ -150,7 +150,7 @@ export const ipRouting: SimulationConfig = {
 			id: 'return-route',
 			label: 'Return Route (TTL 63)',
 			description:
-				'The router decrements TTL from 64 to 63 and re-encapsulates with new Ethernet MACs for the source\'s local network. The source\'s MAC is now the Ethernet destination, and the router\'s LAN-side MAC is the source. The IP addresses remain 93.184.216.34 → 192.168.1.100, unchanged across the entire return path.',
+				"The router decrements TTL from 64 to 63 and re-encapsulates with new Ethernet MACs for the source's local network. The source's MAC is now the Ethernet destination, and the router's LAN-side MAC is the source. The IP addresses remain 93.184.216.34 → 192.168.1.100, unchanged across the entire return path.",
 			fromActor: 'router',
 			toActor: 'source',
 			duration: 600,

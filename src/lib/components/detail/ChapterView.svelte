@@ -110,7 +110,8 @@
 			style="color: {ACCENT};"
 			onclick={() => navigateToBookPart(partId)}
 		>
-			{partLabel(partId)}{#if part} — {part.title}{/if}
+			{partLabel(partId)}{#if part}
+				— {part.title}{/if}
 		</button>
 		{#if currentIndex >= 0}
 			<span>·</span>
@@ -151,11 +152,7 @@
 									title={storySection.title}
 								/>
 							{:else if storySection.type === 'callout'}
-								<StoryCallout
-									title={storySection.title}
-									text={storySection.text}
-									color={ACCENT}
-								/>
+								<StoryCallout title={storySection.title} text={storySection.text} color={ACCENT} />
 							{:else if storySection.type === 'diagram'}
 								<StoryDiagram
 									definition={storySection.definition}
@@ -186,17 +183,9 @@
 				{:else if slot.kind === 'prose'}
 					{#each slot.sections as storySection, j (`prose-${i}-${j}`)}
 						{#if storySection.type === 'narrative'}
-							<StoryNarrative
-								text={storySection.text}
-								color={ACCENT}
-								title={storySection.title}
-							/>
+							<StoryNarrative text={storySection.text} color={ACCENT} title={storySection.title} />
 						{:else if storySection.type === 'callout'}
-							<StoryCallout
-								title={storySection.title}
-								text={storySection.text}
-								color={ACCENT}
-							/>
+							<StoryCallout title={storySection.title} text={storySection.text} color={ACCENT} />
 						{:else if storySection.type === 'diagram'}
 							<StoryDiagram
 								definition={storySection.definition}
@@ -216,18 +205,11 @@
 						{:else if storySection.type === 'timeline'}
 							<StoryTimeline entries={storySection.entries} color={ACCENT} />
 						{:else if storySection.type === 'pioneers'}
-							<PioneerGrid
-								people={storySection.people}
-								color={ACCENT}
-								title={storySection.title}
-							/>
+							<PioneerGrid people={storySection.people} color={ACCENT} title={storySection.title} />
 						{/if}
 					{/each}
 				{:else if slot.kind === 'pull-quote'}
-					<aside
-						class="my-2 border-l-2 pl-4"
-						style="border-color: {ACCENT};"
-					>
+					<aside class="my-2 border-l-2 pl-4" style="border-color: {ACCENT};">
 						<blockquote
 							class="text-base leading-relaxed font-medium text-t-primary italic"
 							style="color: {ACCENT};"
@@ -258,13 +240,9 @@
 							<div class="min-w-0 flex-1">
 								<div class="flex items-baseline gap-2">
 									<div class="text-sm font-semibold text-t-primary">{proto.name}</div>
-									<div class="text-[10px] tracking-wider text-t-muted uppercase">
-										open protocol
-									</div>
+									<div class="text-[10px] tracking-wider text-t-muted uppercase">open protocol</div>
 								</div>
-								<div
-									class="mt-0.5 line-clamp-2 text-[12px] leading-relaxed text-t-secondary"
-								>
+								<div class="mt-0.5 line-clamp-2 text-[12px] leading-relaxed text-t-secondary">
 									<RichText segments={parseRichText(proto.oneLiner)} color={ACCENT} />
 								</div>
 							</div>
@@ -289,7 +267,10 @@
 						>
 							<PlayCircle size={28} style="color: {pc};" />
 							<div class="min-w-0 flex-1">
-								<div class="text-[10px] font-semibold tracking-wider uppercase" style="color: {pc};">
+								<div
+									class="text-[10px] font-semibold tracking-wider uppercase"
+									style="color: {pc};"
+								>
 									Try the simulation
 								</div>
 								<div class="text-sm font-semibold text-t-primary">
@@ -316,7 +297,10 @@
 							<AlertTriangle size={20} class="mt-0.5 shrink-0" style="color: #fb923c;" />
 							<div class="min-w-0 flex-1">
 								<div class="flex items-baseline gap-2">
-									<div class="text-[10px] font-semibold tracking-wider uppercase" style="color: #fb923c;">
+									<div
+										class="text-[10px] font-semibold tracking-wider uppercase"
+										style="color: #fb923c;"
+									>
 										Famous outage · {outage.date ?? ''}
 									</div>
 								</div>
@@ -380,7 +364,10 @@
 						>
 							<Compass size={20} class="mt-0.5 shrink-0" style="color: #a78bfa;" />
 							<div class="min-w-0 flex-1">
-								<div class="text-[10px] font-semibold tracking-wider uppercase" style="color: #a78bfa;">
+								<div
+									class="text-[10px] font-semibold tracking-wider uppercase"
+									style="color: #a78bfa;"
+								>
 									Frontier · {fe.status}
 								</div>
 								<div class="text-sm font-semibold text-t-primary">{fe.title}</div>
@@ -403,13 +390,16 @@
 						>
 							<FileText size={20} class="mt-0.5 shrink-0" style="color: {ACCENT};" />
 							<div class="min-w-0 flex-1">
-								<div class="text-[10px] font-semibold tracking-wider uppercase" style="color: {ACCENT};">
+								<div
+									class="text-[10px] font-semibold tracking-wider uppercase"
+									style="color: {ACCENT};"
+								>
 									RFC {rfc.number} · {rfc.year}
 								</div>
 								<div class="text-sm font-semibold text-t-primary">{rfc.title}</div>
 								<div class="mt-0.5 text-[11px] tracking-wide text-t-muted">
 									{rfc.status}{#if rfc.authors}
-										 · {rfc.authors}{/if}
+										· {rfc.authors}{/if}
 								</div>
 							</div>
 							<ArrowRight
@@ -428,7 +418,10 @@
 							class="rounded-xl border p-3.5"
 							style="border-color: {ACCENT}66; background-color: {ACCENT}08;"
 						>
-							<div class="mb-2 flex items-center gap-1.5 text-[10px] font-semibold tracking-wider uppercase" style="color: {ACCENT};">
+							<div
+								class="mb-2 flex items-center gap-1.5 text-[10px] font-semibold tracking-wider uppercase"
+								style="color: {ACCENT};"
+							>
 								<ArrowLeftRight size={11} />
 								Compare
 							</div>

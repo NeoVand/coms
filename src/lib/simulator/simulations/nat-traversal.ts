@@ -56,7 +56,7 @@ export const natTraversalIce: SimulationConfig = {
 			id: 'stun-bind-resp',
 			label: 'STUN Binding Success',
 			description:
-				'STUN replies with what it saw — Alice\'s public ip:port encoded in XOR-MAPPED-ADDRESS (XORed against the magic cookie so middleboxes can\'t rewrite it). That\'s Alice\'s **server-reflexive candidate**.',
+				"STUN replies with what it saw — Alice's public ip:port encoded in XOR-MAPPED-ADDRESS (XORed against the magic cookie so middleboxes can't rewrite it). That's Alice's **server-reflexive candidate**.",
 			fromActor: 'server',
 			toActor: 'alice',
 			duration: 1200,
@@ -91,7 +91,8 @@ export const natTraversalIce: SimulationConfig = {
 				createSTUNLayer({
 					type: 'Allocate Request',
 					length: 96,
-					attribute: 'REQUESTED-TRANSPORT=17 (UDP), LIFETIME=600, USERNAME, REALM, NONCE, MESSAGE-INTEGRITY-256'
+					attribute:
+						'REQUESTED-TRANSPORT=17 (UDP), LIFETIME=600, USERNAME, REALM, NONCE, MESSAGE-INTEGRITY-256'
 				})
 			]
 		},
@@ -122,7 +123,7 @@ export const natTraversalIce: SimulationConfig = {
 			id: 'ice-check-alice-bob',
 			label: 'ICE Connectivity Check (A → B)',
 			description:
-				'Alice sends a STUN Binding Request directly to Bob\'s reflexive candidate, using short-term ICE credentials (the ufrag/pwd exchanged via SDP). PRIORITY carries the candidate priority; ICE-CONTROLLING carries a 64-bit tiebreaker.',
+				"Alice sends a STUN Binding Request directly to Bob's reflexive candidate, using short-term ICE credentials (the ufrag/pwd exchanged via SDP). PRIORITY carries the candidate priority; ICE-CONTROLLING carries a 64-bit tiebreaker.",
 			fromActor: 'alice',
 			toActor: 'bob',
 			duration: 1400,
@@ -134,7 +135,8 @@ export const natTraversalIce: SimulationConfig = {
 				createSTUNLayer({
 					type: 'Binding Request',
 					length: 32,
-					attribute: 'USERNAME (bob:alice), PRIORITY, ICE-CONTROLLING, MESSAGE-INTEGRITY, FINGERPRINT'
+					attribute:
+						'USERNAME (bob:alice), PRIORITY, ICE-CONTROLLING, MESSAGE-INTEGRITY, FINGERPRINT'
 				})
 			]
 		},

@@ -1,6 +1,8 @@
 import type { ProtocolLayer } from '../types';
 
-export function createTLSRecordLayer(overrides?: Partial<Record<string, string | number>>): ProtocolLayer {
+export function createTLSRecordLayer(
+	overrides?: Partial<Record<string, string | number>>
+): ProtocolLayer {
 	return {
 		name: 'TLS Record',
 		abbreviation: 'TLS',
@@ -12,7 +14,8 @@ export function createTLSRecordLayer(overrides?: Partial<Record<string, string |
 				bits: 8,
 				value: overrides?.contentType ?? 'Handshake (22)',
 				editable: false,
-				description: 'Record type — Handshake (22), Application Data (23), Alert (21), Change Cipher Spec (20)'
+				description:
+					'Record type — Handshake (22), Application Data (23), Alert (21), Change Cipher Spec (20)'
 			},
 			{
 				name: 'Version',
@@ -47,7 +50,8 @@ export function createTLSRecordLayer(overrides?: Partial<Record<string, string |
 				bits: 0,
 				value: overrides?.extensions ?? 'SNI, key_share, supported_versions',
 				editable: false,
-				description: 'TLS extensions — Server Name Indication, key shares, supported protocol versions'
+				description:
+					'TLS extensions — Server Name Indication, key shares, supported protocol versions'
 			}
 		]
 	};

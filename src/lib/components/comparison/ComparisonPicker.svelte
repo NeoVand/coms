@@ -16,14 +16,16 @@
 	const pairs = $derived(getPairsForProtocol(protocolId));
 
 	const allPairs = $derived(
-		[...pairs.vs, ...pairs.relationships].map((pair) => {
-			const otherId = getOtherProtocol(pair, protocolId);
-			const proto = getProtocolById(otherId);
-			const cat = proto ? getCategoryById(proto.categoryId) : null;
-			return { pair, proto, cat };
-		}).filter((e) => e.proto)
-		// Deduplicate by proto ID — prefer VS pairs (listed first) over relationship duplicates
-		.filter((e, i, arr) => arr.findIndex((x) => x.proto!.id === e.proto!.id) === i)
+		[...pairs.vs, ...pairs.relationships]
+			.map((pair) => {
+				const otherId = getOtherProtocol(pair, protocolId);
+				const proto = getProtocolById(otherId);
+				const cat = proto ? getCategoryById(proto.categoryId) : null;
+				return { pair, proto, cat };
+			})
+			.filter((e) => e.proto)
+			// Deduplicate by proto ID — prefer VS pairs (listed first) over relationship duplicates
+			.filter((e, i, arr) => arr.findIndex((x) => x.proto!.id === e.proto!.id) === i)
 	);
 </script>
 
@@ -35,14 +37,28 @@
 				onclick={() => (appState.compareTargetId = proto.id)}
 			>
 				<div class="flex items-baseline gap-2">
-					<span class="text-sm font-medium" style="color: {themedDomColor(cat?.color ?? '#FFFFFF', appState.theme)}">{proto.abbreviation}</span>
+					<span
+						class="text-sm font-medium"
+						style="color: {themedDomColor(cat?.color ?? '#FFFFFF', appState.theme)}"
+						>{proto.abbreviation}</span
+					>
 					<span class="text-[10px] text-t-muted">{proto.year}</span>
-					<span class="rounded-full px-1.5 py-0.5 text-[9px] font-medium" style="background-color: {pair.type === 'vs' ? color + '15' : 'rgb(255 255 255 / 0.04)'}; color: {pair.type === 'vs' ? color : 'rgb(148 163 184)'}">
+					<span
+						class="rounded-full px-1.5 py-0.5 text-[9px] font-medium"
+						style="background-color: {pair.type === 'vs'
+							? color + '15'
+							: 'rgb(255 255 255 / 0.04)'}; color: {pair.type === 'vs'
+							? color
+							: 'rgb(148 163 184)'}"
+					>
 						{pair.type === 'vs' ? 'vs' : 'works with'}
 					</span>
 				</div>
 				<p class="text-xs leading-relaxed text-t-secondary">
-					<LinkedText text={pair.summary} color={themedDomColor(cat?.color ?? color, appState.theme)} />
+					<LinkedText
+						text={pair.summary}
+						color={themedDomColor(cat?.color ?? color, appState.theme)}
+					/>
 				</p>
 			</button>
 		{/if}

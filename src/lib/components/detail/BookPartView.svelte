@@ -76,10 +76,7 @@
 			>
 				Part {part.label ?? ''}
 			</div>
-			<h1
-				class="mt-2 text-2xl leading-tight font-bold tracking-tight"
-				style="color: {accent};"
-			>
+			<h1 class="mt-2 text-2xl leading-tight font-bold tracking-tight" style="color: {accent};">
 				{part.title}
 			</h1>
 			{#if part.description}
@@ -99,9 +96,7 @@
 						style="border-color: {accent}30;"
 						onclick={() => navigateToBookChapter(part.id, chapter.id)}
 					>
-						<span
-							class="shrink-0 font-mono text-[10px] tabular-nums"
-							style="color: {accent};"
+						<span class="shrink-0 font-mono text-[10px] tabular-nums" style="color: {accent};"
 							>{(i + 1).toString().padStart(2, '0')}</span
 						>
 						<div class="min-w-0 flex-1">
@@ -122,7 +117,7 @@
 					<div
 						class="flex items-baseline gap-3 rounded-lg border border-dashed border-s-border/60 px-3 py-2.5"
 					>
-						<span class="shrink-0 font-mono text-[10px] tabular-nums text-t-muted/60"
+						<span class="shrink-0 font-mono text-[10px] text-t-muted/60 tabular-nums"
 							>{(i + 1).toString().padStart(2, '0')}</span
 						>
 						<div class="min-w-0 flex-1 opacity-70">
@@ -135,8 +130,7 @@
 						</div>
 						<span
 							class="shrink-0 rounded px-1.5 py-0.5 text-[9px] font-medium tracking-wider text-t-muted/70 uppercase"
-							style="background-color: rgba(148, 163, 184, 0.1);"
-							>Coming soon</span
+							style="background-color: rgba(148, 163, 184, 0.1);">Coming soon</span
 						>
 					</div>
 				{/if}

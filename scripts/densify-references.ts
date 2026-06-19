@@ -75,7 +75,6 @@ function buildAliases(): RefAlias[] {
 		});
 	}
 
-
 	// Longest first so multi-token pioneer names win over single tokens
 	// they share (none today, but safe for future entries).
 	out.sort((a, b) => b.pattern.length - a.pattern.length);
@@ -192,8 +191,7 @@ function densifyString(src: string, stats: Map<string, WrapStat>): string {
 		let lastIdx = 0;
 		let m: RegExpExecArray | null;
 		while ((m = tokenRe.exec(work)) !== null) {
-			if (m.index > lastIdx)
-				out.push(applyAlias(work.slice(lastIdx, m.index), alias, stat));
+			if (m.index > lastIdx) out.push(applyAlias(work.slice(lastIdx, m.index), alias, stat));
 			out.push(m[0]);
 			lastIdx = m.index + m[0].length;
 		}
@@ -215,11 +213,7 @@ function enclosingPropertyName(node: ts.Node): string | undefined {
 			n = n.parent;
 			continue;
 		}
-		if (
-			ts.isParenthesizedExpression(n) ||
-			ts.isAsExpression(n) ||
-			ts.isSatisfiesExpression(n)
-		) {
+		if (ts.isParenthesizedExpression(n) || ts.isAsExpression(n) || ts.isSatisfiesExpression(n)) {
 			n = n.parent;
 			continue;
 		}
@@ -344,7 +338,9 @@ function main() {
 				.sort((a, b) => b.count - a.count)
 				.slice(0, 8);
 			for (const s of top) {
-				console.log(`  ${s.id.padEnd(28)} ${String(s.count).padStart(4)}   e.g. ${s.samples[0] ?? ''}`);
+				console.log(
+					`  ${s.id.padEnd(28)} ${String(s.count).padStart(4)}   e.g. ${s.samples[0] ?? ''}`
+				);
 			}
 			if (apply) {
 				writeFileSync(f, result.updated, 'utf8');
@@ -353,7 +349,9 @@ function main() {
 	}
 
 	console.log('\n──────────────────────────────────────────');
-	console.log(`Total wraps: ${grandTotal} across ${fileSummaries.filter((f) => f.total > 0).length} files`);
+	console.log(
+		`Total wraps: ${grandTotal} across ${fileSummaries.filter((f) => f.total > 0).length} files`
+	);
 	const sorted = [...grandStats.entries()].filter(([, n]) => n > 0).sort((a, b) => b[1] - a[1]);
 	for (const [id, n] of sorted.slice(0, 25)) {
 		console.log(`  ${id.padEnd(28)} ${String(n).padStart(4)}`);

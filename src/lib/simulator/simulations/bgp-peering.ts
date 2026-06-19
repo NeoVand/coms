@@ -63,7 +63,7 @@ export const bgpPeering: SimulationConfig = {
 			id: 'keepalive-a',
 			label: 'KEEPALIVE',
 			description:
-				'Router A confirms the session parameters by sending a KEEPALIVE. This is the smallest possible BGP message — just the 19-byte header with no payload. The KEEPALIVE serves double duty: it confirms the OPEN exchange and starts the hold timer. If either peer doesn\'t hear from the other within the hold time, the session is torn down.',
+				"Router A confirms the session parameters by sending a KEEPALIVE. This is the smallest possible BGP message — just the 19-byte header with no payload. The KEEPALIVE serves double duty: it confirms the OPEN exchange and starts the hold timer. If either peer doesn't hear from the other within the hold time, the session is torn down.",
 			fromActor: 'routerA',
 			toActor: 'routerB',
 			duration: 800,
@@ -129,7 +129,7 @@ export const bgpPeering: SimulationConfig = {
 			id: 'update-announce-b',
 			label: 'UPDATE (announce)',
 			description:
-				'Router B announces its own networks in return. The AS_PATH now shows AS 65002, and the NEXT_HOP points to Router B\'s address. When Router A receives this, it knows that to reach 172.16.0.0/12, it should send traffic to 10.0.0.2. This is how the internet\'s routing table is built — one UPDATE at a time.',
+				"Router B announces its own networks in return. The AS_PATH now shows AS 65002, and the NEXT_HOP points to Router B's address. When Router A receives this, it knows that to reach 172.16.0.0/12, it should send traffic to 10.0.0.2. This is how the internet's routing table is built — one UPDATE at a time.",
 			fromActor: 'routerB',
 			toActor: 'routerA',
 			duration: 1000,
@@ -173,7 +173,7 @@ export const bgpPeering: SimulationConfig = {
 			id: 'keepalive-periodic',
 			label: 'KEEPALIVE',
 			description:
-				'BGP peers send periodic KEEPALIVEs (typically every 30 seconds) to prove they\'re still alive. If no message is received within the hold time (90 seconds), the peer is declared dead and all its routes are withdrawn. This is why BGP misconfiguration can cause massive internet outages — if a major ISP\'s session drops, thousands of routes disappear.',
+				"BGP peers send periodic KEEPALIVEs (typically every 30 seconds) to prove they're still alive. If no message is received within the hold time (90 seconds), the peer is declared dead and all its routes are withdrawn. This is why BGP misconfiguration can cause massive internet outages — if a major ISP's session drops, thousands of routes disappear.",
 			fromActor: 'routerA',
 			toActor: 'routerB',
 			duration: 800,

@@ -3,7 +3,7 @@ import type { SubcategoryStory } from './types';
 export const enterpriseBrokersStory: SubcategoryStory = {
 	subcategoryId: 'enterprise-brokers',
 	tagline:
-		"Decoupling producers from consumers at scale — queues, immutable logs, and the wire formats that talk to them",
+		'Decoupling producers from consumers at scale — queues, immutable logs, and the wire formats that talk to them',
 	sections: [
 		{
 			type: 'narrative',
@@ -15,7 +15,7 @@ export const enterpriseBrokersStory: SubcategoryStory = {
 			title: 'The Broker Architects',
 			people: [
 				{
-					name: 'John A. O\'Hara',
+					name: "John A. O'Hara",
 					years: '–',
 					title: 'AMQP Originator',
 					org: 'JPMorgan Chase',
@@ -28,7 +28,7 @@ export const enterpriseBrokersStory: SubcategoryStory = {
 					title: 'Co-creator of Kafka',
 					org: 'LinkedIn / Confluent',
 					contribution:
-						"Co-created [[kafka|Apache Kafka]] at LinkedIn in 2011 with Neha Narkhede and Jun Rao. LinkedIn had outgrown ActiveMQ and Splunk for event ingestion; Kafka was their bet on a *log-as-primitive* approach instead of a queue-as-primitive. The 2013 paper \"The Log: What every software engineer should know about real-time data\\'s unifying abstraction\" is required reading. Kreps later co-founded Confluent (2014), now the dominant commercial Kafka company."
+						'Co-created [[kafka|Apache Kafka]] at LinkedIn in 2011 with Neha Narkhede and Jun Rao. LinkedIn had outgrown ActiveMQ and Splunk for event ingestion; Kafka was their bet on a *log-as-primitive* approach instead of a queue-as-primitive. The 2013 paper "The Log: What every software engineer should know about real-time data\\\'s unifying abstraction" is required reading. Kreps later co-founded Confluent (2014), now the dominant commercial Kafka company.'
 				},
 				{
 					name: 'Brian McCallister',
@@ -47,13 +47,13 @@ export const enterpriseBrokersStory: SubcategoryStory = {
 					year: 1992,
 					title: 'IBM MQSeries Ships',
 					description:
-						"The first commercially significant message broker. Defines the queue model that AMQP later standardizes. Runs banks and airlines for the next 30 years; still alive as IBM MQ."
+						'The first commercially significant message broker. Defines the queue model that AMQP later standardizes. Runs banks and airlines for the next 30 years; still alive as IBM MQ.'
 				},
 				{
 					year: 2001,
 					title: 'JMS 1.0 (Java Message Service)',
 					description:
-						"Sun ships JMS — a Java API for messaging, not a wire protocol. Every Java app can talk to any broker that implements JMS. Powerful but Java-only."
+						'Sun ships JMS — a Java API for messaging, not a wire protocol. Every Java app can talk to any broker that implements JMS. Powerful but Java-only.'
 				},
 				{
 					year: 2003,
@@ -65,7 +65,7 @@ export const enterpriseBrokersStory: SubcategoryStory = {
 					year: 2005,
 					title: 'STOMP Designed',
 					description:
-						"Brian McCallister and Hiram Chirino design [[stomp|STOMP]] — Simple Text-Oriented Messaging Protocol. Five frame types, human-readable, no specific broker required."
+						'Brian McCallister and Hiram Chirino design [[stomp|STOMP]] — Simple Text-Oriented Messaging Protocol. Five frame types, human-readable, no specific broker required.'
 				},
 				{
 					year: 2007,
@@ -83,13 +83,13 @@ export const enterpriseBrokersStory: SubcategoryStory = {
 					year: 2011,
 					title: 'Kafka Open-Sourced at Apache',
 					description:
-						"LinkedIn donates [[kafka|Kafka]] to the Apache Software Foundation. The log model — partitioned, replicated, consumer-group-based — is a different conception of messaging than queues."
+						'LinkedIn donates [[kafka|Kafka]] to the Apache Software Foundation. The log model — partitioned, replicated, consumer-group-based — is a different conception of messaging than queues.'
 				},
 				{
 					year: 2011,
 					title: 'AMQP 1.0',
 					description:
-						"AMQP 1.0 finalized — wire-format-only, dropped the exchange/queue model from 0-9-1. RabbitMQ supports it via a plugin but keeps 0-9-1 as the default. The split between 0-9-1 and 1.0 has fragmented the AMQP ecosystem ever since."
+						'AMQP 1.0 finalized — wire-format-only, dropped the exchange/queue model from 0-9-1. RabbitMQ supports it via a plugin but keeps 0-9-1 as the default. The split between 0-9-1 and 1.0 has fragmented the AMQP ecosystem ever since.'
 				},
 				{
 					year: 2014,
@@ -101,13 +101,13 @@ export const enterpriseBrokersStory: SubcategoryStory = {
 					year: 2017,
 					title: 'Kafka Streams + ksqlDB',
 					description:
-						"Kafka grows beyond pure transport into stream processing. Kafka Streams (a Java library) and ksqlDB (a SQL-ish layer) let you do joins, aggregations, and windowing directly against the log."
+						'Kafka grows beyond pure transport into stream processing. Kafka Streams (a Java library) and ksqlDB (a SQL-ish layer) let you do joins, aggregations, and windowing directly against the log.'
 				},
 				{
 					year: 2021,
 					title: 'Kafka Removes ZooKeeper Dependency',
 					description:
-						"KIP-500 — Kafka raft-based metadata (KRaft) — eliminates the long-standing ZooKeeper dependency. Operationally simpler; a smaller blast radius when something goes wrong."
+						'KIP-500 — Kafka raft-based metadata (KRaft) — eliminates the long-standing ZooKeeper dependency. Operationally simpler; a smaller blast radius when something goes wrong.'
 				},
 				{
 					year: 2024,
@@ -129,7 +129,7 @@ export const enterpriseBrokersStory: SubcategoryStory = {
 						'Until ack from consumer',
 						'Competing consumers drain a queue',
 						'Binary frames over TCP',
-						"Work distribution, RPC patterns, request/response over queues"
+						'Work distribution, RPC patterns, request/response over queues'
 					]
 				},
 				{
@@ -139,7 +139,7 @@ export const enterpriseBrokersStory: SubcategoryStory = {
 						'Configurable retention (hours to forever)',
 						'Consumer groups read at their own offset',
 						'Custom binary over TCP (Kafka protocol)',
-						"Event sourcing, stream processing, replay, audit logs"
+						'Event sourcing, stream processing, replay, audit logs'
 					]
 				},
 				{
@@ -149,11 +149,11 @@ export const enterpriseBrokersStory: SubcategoryStory = {
 						"Broker's problem",
 						'Whatever the broker supports',
 						'Text frames over TCP or WebSocket',
-						"Browser ↔ broker; scripts and tools without language-specific libs"
+						'Browser ↔ broker; scripts and tools without language-specific libs'
 					]
 				}
 			],
-			note: "If you find yourself trying to make Kafka behave like a queue (or AMQP behave like a log), you almost certainly picked the wrong tool. The mental models are genuinely different."
+			note: 'If you find yourself trying to make Kafka behave like a queue (or AMQP behave like a log), you almost certainly picked the wrong tool. The mental models are genuinely different.'
 		},
 		{
 			type: 'animated-sequence',
@@ -187,7 +187,7 @@ export const enterpriseBrokersStory: SubcategoryStory = {
     K-->>C2: C
     Note over K: messages remain — both groups read independently`,
 			caption:
-				"In [[amqp|AMQP]], a message belongs to whoever consumes it first; the queue empties. In [[kafka|Kafka]], the messages stay; each consumer group has its own read offset. This is why \"replay the last hour of events\" is trivial with Kafka and nearly impossible with AMQP.",
+				'In [[amqp|AMQP]], a message belongs to whoever consumes it first; the queue empties. In [[kafka|Kafka]], the messages stay; each consumer group has its own read offset. This is why "replay the last hour of events" is trivial with Kafka and nearly impossible with AMQP.',
 			steps: {
 				0: '**AMQP — competing consumers.** The queue is the source of truth. Multiple workers pull from the same queue; each message goes to exactly one of them.',
 				1: 'Producer publishes **msg A** to the queue.',
@@ -223,7 +223,7 @@ export const enterpriseBrokersStory: SubcategoryStory = {
 		},
 		{
 			type: 'narrative',
-			title: 'What\'s Next',
+			title: "What's Next",
 			text: `Active work in 2025:\n\n- **Tiered storage in Kafka** — cold data offloaded to S3/GCS while hot data stays on local disk. Cuts broker storage costs by ~10×. KIP-405 shipped; AWS MSK and Confluent Cloud offer it.\n- **Iceberg + Kafka convergence** — Confluent's Tableflow and Redpanda's direct Iceberg writes make every Kafka topic queryable as an Iceberg table. The log-as-database vision is finally operationally trivial.\n- **WarpStream and "stateless brokers"** — broker designs that store every partition directly in S3 instead of replicating on local disk. Trade a bit of latency for dramatically lower operational complexity and cost. Acquired by Confluent in 2024.\n- **RabbitMQ 4.0** ships proper quorum queues by default and finally removes mirrored queues. The eternal RabbitMQ operational pain point is being addressed.\n- **NATS** continues quietly winning niches where Kafka is overkill but AMQP is too heavy — embedded systems, edge networks, in-cluster service eventing.\n- **The unsexy truth**: most teams should pick a managed broker (Confluent Cloud, AWS MSK, RabbitMQ Cloud, Upstash Kafka, etc.) and never operate one themselves. Running a broker is operationally distinct from using one.`
 		}
 	]

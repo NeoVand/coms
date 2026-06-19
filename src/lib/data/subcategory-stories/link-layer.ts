@@ -3,7 +3,7 @@ import type { SubcategoryStory } from './types';
 export const linkLayerStory: SubcategoryStory = {
 	subcategoryId: 'link-layer',
 	tagline:
-		"How bits cross a single physical segment — frames, MAC addresses, and the L2/L3 bridge that holds them together",
+		'How bits cross a single physical segment — frames, MAC addresses, and the L2/L3 bridge that holds them together',
 	sections: [
 		{
 			type: 'narrative',
@@ -50,7 +50,7 @@ export const linkLayerStory: SubcategoryStory = {
 					year: 1973,
 					title: 'Ethernet at Xerox PARC',
 					description:
-						"[[pioneer:bob-metcalfe|Metcalfe]] and [[pioneer:david-boggs|Boggs]] design Ethernet for connecting Alto workstations. Initial design memo dated May 22, 1973. Runs at 2.94 Mbps on a single coaxial cable."
+						'[[pioneer:bob-metcalfe|Metcalfe]] and [[pioneer:david-boggs|Boggs]] design Ethernet for connecting Alto workstations. Initial design memo dated May 22, 1973. Runs at 2.94 Mbps on a single coaxial cable.'
 				},
 				{
 					year: 1980,
@@ -62,7 +62,7 @@ export const linkLayerStory: SubcategoryStory = {
 					year: 1982,
 					title: 'ARP RFC 826',
 					description:
-						"[[arp|ARP]] standardized. The protocol that bridges IP addressing and Ethernet MAC addressing — sit-at-Layer-2.5 forever."
+						'[[arp|ARP]] standardized. The protocol that bridges IP addressing and Ethernet MAC addressing — sit-at-Layer-2.5 forever.'
 				},
 				{
 					year: 1983,
@@ -74,49 +74,49 @@ export const linkLayerStory: SubcategoryStory = {
 					year: 1985,
 					title: 'Spanning Tree Protocol',
 					description:
-						"[[pioneer:radia-perlman|Perlman]]'s STP lets multiple bridges interconnect without creating loops. The protocol's correctness is famously elegant; her poem \"Algorhyme\" describes it: \"I think that I shall never see / a graph more lovely than a tree.\""
+						'[[pioneer:radia-perlman|Perlman]]\'s STP lets multiple bridges interconnect without creating loops. The protocol\'s correctness is famously elegant; her poem "Algorhyme" describes it: "I think that I shall never see / a graph more lovely than a tree."'
 				},
 				{
 					year: 1990,
 					title: '10BASE-T — Twisted Pair Ethernet',
 					description:
-						"Star-topology Ethernet over twisted-pair cables and hubs. Eliminates the failure mode of \"one cable break takes down the whole segment.\" Begins Ethernet's dominance over Token Ring."
+						'Star-topology Ethernet over twisted-pair cables and hubs. Eliminates the failure mode of "one cable break takes down the whole segment." Begins Ethernet\'s dominance over Token Ring.'
 				},
 				{
 					year: 1995,
 					title: 'Fast Ethernet — 100 Mbps',
 					description:
-						"100BASE-TX — 100 Mbps over Cat 5 twisted pair. The version that makes Ethernet boringly fast for the next decade. Full-duplex via switches eliminates collisions."
+						'100BASE-TX — 100 Mbps over Cat 5 twisted pair. The version that makes Ethernet boringly fast for the next decade. Full-duplex via switches eliminates collisions.'
 				},
 				{
 					year: 1998,
 					title: 'Gigabit Ethernet — 1 Gbps',
 					description:
-						"1000BASE-T. The era when Ethernet stopped being \"the office LAN\" and started being the data-center backbone."
+						'1000BASE-T. The era when Ethernet stopped being "the office LAN" and started being the data-center backbone.'
 				},
 				{
 					year: 2003,
 					title: 'Power over Ethernet (802.3af)',
 					description:
-						"PoE lets Ethernet cables carry power as well as data. Powers VoIP phones, IP cameras, wireless APs without separate power adapters. 802.3at (PoE+, 2009) and 802.3bt (PoE++, 2018) keep raising the power ceiling."
+						'PoE lets Ethernet cables carry power as well as data. Powers VoIP phones, IP cameras, wireless APs without separate power adapters. 802.3at (PoE+, 2009) and 802.3bt (PoE++, 2018) keep raising the power ceiling.'
 				},
 				{
 					year: 2010,
 					title: '40G and 100G Ethernet (802.3ba)',
 					description:
-						"Ethernet hits data-center scale. 40 Gbps and 100 Gbps over fiber. Subsequent generations: 200/400G (802.3bs, 2017), 800G (802.3df, 2024)."
+						'Ethernet hits data-center scale. 40 Gbps and 100 Gbps over fiber. Subsequent generations: 200/400G (802.3bs, 2017), 800G (802.3df, 2024).'
 				},
 				{
 					year: 2018,
 					title: 'Multi-Gigabit Ethernet (NBASE-T)',
 					description:
-						"2.5GBASE-T and 5GBASE-T over existing Cat 5e/6 cables. Designed for Wi-Fi 6/6E APs that need >1 Gbps backhaul without recabling the building."
+						'2.5GBASE-T and 5GBASE-T over existing Cat 5e/6 cables. Designed for Wi-Fi 6/6E APs that need >1 Gbps backhaul without recabling the building.'
 				},
 				{
 					year: 2024,
 					title: 'Ethernet Everywhere',
 					description:
-						"Ethernet variants now span 100 Mbps (still in some IoT) to 800 Gbps (data center spines), automotive (10BASE-T1S, single-pair), and TSN (Time-Sensitive Networking) for industrial real-time. The frame format has barely changed since 1980."
+						'Ethernet variants now span 100 Mbps (still in some IoT) to 800 Gbps (data center spines), automotive (10BASE-T1S, single-pair), and TSN (Time-Sensitive Networking) for industrial real-time. The frame format has barely changed since 1980.'
 				}
 			]
 		},
@@ -129,9 +129,9 @@ export const linkLayerStory: SubcategoryStory = {
 					label: '[[ethernet|Ethernet]]',
 					values: [
 						'Layer 2 (data link)',
-						"48-bit MAC addresses (2⁴⁸ ≈ 281 trillion)",
-						"One physical segment (or VLAN)",
-						"Switches learn MACs from source addresses of received frames"
+						'48-bit MAC addresses (2⁴⁸ ≈ 281 trillion)',
+						'One physical segment (or VLAN)',
+						'Switches learn MACs from source addresses of received frames'
 					]
 				},
 				{
@@ -140,11 +140,11 @@ export const linkLayerStory: SubcategoryStory = {
 						'Layer 2.5 (between L2 and L3)',
 						'Maps IPv4 addresses → MAC addresses',
 						'One physical segment (or VLAN)',
-						"Broadcast \"who has X?\" → unicast reply; cache the binding"
+						'Broadcast "who has X?" → unicast reply; cache the binding'
 					]
 				}
 			],
-			note: "ARP is IPv4-only. IPv6 replaces it with Neighbor Discovery (ND), which uses ICMPv6 — same job, different protocol family. The need for the layer-bridging function never went away."
+			note: 'ARP is IPv4-only. IPv6 replaces it with Neighbor Discovery (ND), which uses ICMPv6 — same job, different protocol family. The need for the layer-bridging function never went away.'
 		},
 		{
 			type: 'animated-sequence',
@@ -169,7 +169,7 @@ export const linkLayerStory: SubcategoryStory = {
     Note over A,B: Subsequent packets bypass ARP — cache hit
     Note over A: cache entry expires after 2-20 minutes, ARP re-runs`,
 			caption:
-				"This is the classic Ethernet+ARP exchange. The first message to a new IP triggers an ARP request (broadcast across the segment); subsequent messages use the cached MAC. The switch learns MAC-to-port mappings from source addresses, so once both hosts have sent something, the switch forwards directly without flooding.",
+				'This is the classic Ethernet+ARP exchange. The first message to a new IP triggers an ARP request (broadcast across the segment); subsequent messages use the cached MAC. The switch learns MAC-to-port mappings from source addresses, so once both hosts have sent something, the switch forwards directly without flooding.',
 			steps: {
 				0: '**The problem.** Host A wants to send to IP `10.0.0.7`. The IP layer knows where to send (the destination IP); the Ethernet layer needs a *MAC address* to put in the frame header. ARP bridges these two layers.',
 				1: '**ARP cache miss.** A checks its local ARP cache first. Nothing there for 10.0.0.7 — this is the first time A has talked to B.',
@@ -177,13 +177,13 @@ export const linkLayerStory: SubcategoryStory = {
 				3: 'The switch **floods** the broadcast to every port except the one it came in on. This is what "broadcast domain" means.',
 				4: 'The broadcast reaches B (and every other host on the segment, but they ignore it).',
 				5: 'B recognizes its own IP in the request. The other hosts silently drop the frame.',
-				6: 'B sends an **ARP REPLY** *unicast* back to A. The reply carries B\'s MAC address (`bb:bb`). Only A needs to hear this.',
-				7: 'The switch **learns** that MAC `bb:bb` is reachable through B\'s port. This is the source-MAC learning that makes switches more efficient than hubs.',
-				8: 'The switch forwards the reply to A — *only* to A\'s port, because the switch knows where A is too.',
+				6: "B sends an **ARP REPLY** *unicast* back to A. The reply carries B's MAC address (`bb:bb`). Only A needs to hear this.",
+				7: "The switch **learns** that MAC `bb:bb` is reachable through B's port. This is the source-MAC learning that makes switches more efficient than hubs.",
+				8: "The switch forwards the reply to A — *only* to A's port, because the switch knows where A is too.",
 				9: 'A **caches** the mapping `10.0.0.7 → bb:bb`. Future packets to 10.0.0.7 skip the ARP step entirely.',
-				10: '**Now A can send the real packet.** ARP was just to learn B\'s MAC; the actual data transfer begins here.',
+				10: "**Now A can send the real packet.** ARP was just to learn B's MAC; the actual data transfer begins here.",
 				11: 'A sends an **Ethernet frame** with destination MAC `bb:bb` and the IP packet as the payload.',
-				12: 'The switch already knows where `bb:bb` lives. It **forwards to B\'s port only** — no flooding.',
+				12: "The switch already knows where `bb:bb` lives. It **forwards to B's port only** — no flooding.",
 				13: '**Subsequent packets bypass ARP entirely.** Both sides have cached MACs; the switch has learned port assignments. A 10-Gbps file transfer is just billions of frames following this same path.',
 				14: '**Cache entries expire** after 2–20 minutes (varies by OS). When they expire, ARP runs again — which is why a long-idle connection sometimes has a tiny stutter on its first packet after a pause.'
 			}
@@ -200,7 +200,7 @@ export const linkLayerStory: SubcategoryStory = {
 		},
 		{
 			type: 'narrative',
-			title: 'What\'s Next',
+			title: "What's Next",
 			text: `Active work in 2025:\n\n- **800 Gbps Ethernet** (802.3df, 2024) ships in hyperscaler data centers. 1.6 Tbps is the next target.\n- **Single-pair Ethernet (10BASE-T1S, 100BASE-T1, 1000BASE-T1)** for automotive and industrial. One pair of wires instead of four; multi-drop topology. Replacing CAN bus in cars over the next decade.\n- **TSN — Time-Sensitive Networking** brings deterministic latency to Ethernet for industrial control and audio/video. Time-aware shaping, frame preemption, IEEE 802.1AS time sync. The "Ethernet for real-time" story finally credible.\n- **MACsec (802.1AE)** for link-layer encryption. Encrypts frames between switches, separately from IPsec/TLS at higher layers. Standard for hyperscaler east-west traffic.\n- **IPv6 + ND replacing IPv4 + ARP** continues slowly. IPv6 Neighbor Discovery (ND) does ARP's job over ICMPv6, with additional features for stateless address autoconfiguration. The transition is ~30% complete by traffic volume, ~5% by deployed device count.\n- **The truth about Ethernet**: the frame format from 1980 is still the frame format. The bandwidth has grown 80,000× (10 Mbps → 800 Gbps). The collision-detection medium-access protocol is gone. The protocol that runs the planet is the protocol that's changed everywhere except where its name is.`
 		}
 	]

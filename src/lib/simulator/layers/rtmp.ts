@@ -14,16 +14,14 @@ export function createRTMPLayer(
 				bits: 2,
 				value: overrides?.chunkType ?? 'Type 0 (full)',
 				editable: false,
-				description:
-					'Chunk header format — Type 0 (12 bytes, full), Type 1-3 (compressed headers)'
+				description: 'Chunk header format — Type 0 (12 bytes, full), Type 1-3 (compressed headers)'
 			},
 			{
 				name: 'Chunk Stream ID',
 				bits: 6,
 				value: overrides?.chunkStreamId ?? 3,
 				editable: false,
-				description:
-					'Multiplexing channel — 2=protocol control, 3+=application messages'
+				description: 'Multiplexing channel — 2=protocol control, 3+=application messages'
 			},
 			{
 				name: 'Message Type',
@@ -38,8 +36,7 @@ export function createRTMPLayer(
 				bits: 32,
 				value: overrides?.streamId ?? 0,
 				editable: false,
-				description:
-					'Message stream ID — 0 for control, 1+ for published streams'
+				description: 'Message stream ID — 0 for control, 1+ for published streams'
 			},
 			{
 				name: 'Timestamp',
@@ -54,8 +51,7 @@ export function createRTMPLayer(
 				bits: 0,
 				value: overrides?.payload ?? '',
 				editable: false,
-				description:
-					'AMF-encoded command, audio/video data, or metadata'
+				description: 'AMF-encoded command, audio/video data, or metadata'
 			}
 		]
 	};

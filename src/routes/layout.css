@@ -16,7 +16,13 @@
 	--theme-scrollbar: rgba(255, 255, 255, 0.12);
 	--theme-scrollbar-thumb: rgba(255, 255, 255, 0.1);
 	--theme-scrollbar-thumb-hover: rgba(255, 255, 255, 0.2);
-	--theme-panel-desktop: linear-gradient(to right, rgb(9 14 26 / 0.6), rgb(9 14 26 / 0.88) 25%, rgb(7 10 20 / 0.98) 70%, rgb(5 8 16 / 1));
+	--theme-panel-desktop: linear-gradient(
+		to right,
+		rgb(9 14 26 / 0.6),
+		rgb(9 14 26 / 0.88) 25%,
+		rgb(7 10 20 / 0.98) 70%,
+		rgb(5 8 16 / 1)
+	);
 	--theme-panel-mobile: rgb(5 8 16 / 0.98);
 	--theme-tooltip-bg: rgba(15, 23, 42, 0.92);
 	--theme-shadow-color: rgba(0, 0, 0, 0.3);
@@ -37,7 +43,13 @@
 	--theme-scrollbar: rgba(0, 0, 0, 0.08);
 	--theme-scrollbar-thumb: rgba(0, 0, 0, 0.12);
 	--theme-scrollbar-thumb-hover: rgba(0, 0, 0, 0.2);
-	--theme-panel-desktop: linear-gradient(to right, rgb(219 234 254 / 0.55), rgb(232 238 246 / 0.92) 25%, rgb(241 245 249 / 0.98) 70%, rgb(248 250 252 / 1));
+	--theme-panel-desktop: linear-gradient(
+		to right,
+		rgb(219 234 254 / 0.55),
+		rgb(232 238 246 / 0.92) 25%,
+		rgb(241 245 249 / 0.98) 70%,
+		rgb(248 250 252 / 1)
+	);
 	--theme-panel-mobile: rgb(241 245 249 / 0.98);
 	--theme-tooltip-bg: rgba(248, 250, 252, 0.95);
 	--theme-shadow-color: rgba(0, 0, 0, 0.08);

@@ -8,7 +8,7 @@ export const mdnsDiscovery: SimulationConfig = {
 	protocolId: 'mdns-dns-sd',
 	title: 'mDNS / DNS-SD — Probe, Announce, Discover, Goodbye',
 	description:
-		"Watch a new printer claim `office-printer.local`, announce its IPP service, get discovered by a laptop browsing for `_ipp._tcp`, and send a clean goodbye on shutdown. The full Bonjour lifecycle on one link.",
+		'Watch a new printer claim `office-printer.local`, announce its IPP service, get discovered by a laptop browsing for `_ipp._tcp`, and send a clean goodbye on shutdown. The full Bonjour lifecycle on one link.',
 	tier: 'server',
 	actors: [
 		{ id: 'printer', label: 'Printer (responder)', icon: 'device', position: 'left' },
@@ -142,7 +142,7 @@ export const mdnsDiscovery: SimulationConfig = {
 			id: 'sd-response',
 			label: 'PTR Response (unicast)',
 			description:
-				"Printer responds — unicast this time (because the querier set the unicast-response bit). Just the PTR pointing to its service instance. The laptop will follow up with SRV+TXT+A queries to complete the resolution.",
+				'Printer responds — unicast this time (because the querier set the unicast-response bit). Just the PTR pointing to its service instance. The laptop will follow up with SRV+TXT+A queries to complete the resolution.',
 			fromActor: 'printer',
 			toActor: 'laptop',
 			duration: 1200,

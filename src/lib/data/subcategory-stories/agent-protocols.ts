@@ -3,7 +3,7 @@ import type { SubcategoryStory } from './types';
 export const agentProtocolsStory: SubcategoryStory = {
 	subcategoryId: 'agent-protocols',
 	tagline:
-		"Protocols emerging in real time for AI agents — designed in public, in months instead of years",
+		'Protocols emerging in real time for AI agents — designed in public, in months instead of years',
 	sections: [
 		{
 			type: 'narrative',
@@ -20,7 +20,7 @@ export const agentProtocolsStory: SubcategoryStory = {
 					title: 'MCP Lead Designer',
 					org: 'Anthropic',
 					contribution:
-						"Led the [[mcp|MCP]] design and initial implementation at Anthropic, drawing on the Language Server Protocol (LSP) as a structural model — LSP standardized editor-to-language-server communication a decade ago, and MCP applies the same client-server-via-[[json-rpc|JSON-RPC]] pattern to AI tools. The November 2024 launch shipped reference servers (filesystem, GitHub, Slack, Postgres) alongside the spec, which mattered: people could *use* MCP the day it was announced."
+						'Led the [[mcp|MCP]] design and initial implementation at Anthropic, drawing on the Language Server Protocol (LSP) as a structural model — LSP standardized editor-to-language-server communication a decade ago, and MCP applies the same client-server-via-[[json-rpc|JSON-RPC]] pattern to AI tools. The November 2024 launch shipped reference servers (filesystem, GitHub, Slack, Postgres) alongside the spec, which mattered: people could *use* MCP the day it was announced.'
 				},
 				{
 					name: 'Justin Hill',
@@ -65,7 +65,7 @@ export const agentProtocolsStory: SubcategoryStory = {
 					year: 2025,
 					title: 'MCP Adoption Explodes (Q1)',
 					description:
-						"Within months, MCP servers exist for GitHub, Slack, Linear, Notion, Postgres, Sentry, Figma, Stripe, Datadog, and ~hundreds more. Claude Desktop and Cursor ship MCP support. The protocol is shipping in production before the spec hits 1.0."
+						'Within months, MCP servers exist for GitHub, Slack, Linear, Notion, Postgres, Sentry, Figma, Stripe, Datadog, and ~hundreds more. Claude Desktop and Cursor ship MCP support. The protocol is shipping in production before the spec hits 1.0.'
 				},
 				{
 					year: 2025,
@@ -77,19 +77,19 @@ export const agentProtocolsStory: SubcategoryStory = {
 					year: 2025,
 					title: 'OpenAI Adopts MCP (March)',
 					description:
-						'OpenAI announces MCP support in the Agents SDK and ChatGPT desktop. Even Anthropic\'s competitor ships the Anthropic-designed protocol — a sign of how strong the network effect already is.'
+						"OpenAI announces MCP support in the Agents SDK and ChatGPT desktop. Even Anthropic's competitor ships the Anthropic-designed protocol — a sign of how strong the network effect already is."
 				},
 				{
 					year: 2025,
 					title: 'MCP Spec Becomes 2025-06-18 / SEP Process',
 					description:
-						"The protocol moves from rapid-iteration to a Specification Enhancement Proposal (SEP) process — explicit versioning, formal change control, multi-vendor governance discussions. Growing-up begins."
+						'The protocol moves from rapid-iteration to a Specification Enhancement Proposal (SEP) process — explicit versioning, formal change control, multi-vendor governance discussions. Growing-up begins.'
 				},
 				{
 					year: 2025,
 					title: 'A2A v0.2 (June)',
 					description:
-						"A2A 0.2 adds richer streaming via [[sse|SSE]], improved task state model (submitted → working → completed/canceled/failed), and standardized agent cards for capability discovery. The first iteration that companies are running across vendor boundaries in production."
+						'A2A 0.2 adds richer streaming via [[sse|SSE]], improved task state model (submitted → working → completed/canceled/failed), and standardized agent cards for capability discovery. The first iteration that companies are running across vendor boundaries in production.'
 				}
 			]
 		},
@@ -105,7 +105,7 @@ export const agentProtocolsStory: SubcategoryStory = {
 						'[[json-rpc|JSON-RPC]] over stdio or HTTP+SSE',
 						'Resources, tools, prompts',
 						'Static config or registry; each client lists servers',
-						"~1 year old (Nov 2024); ecosystem of hundreds of servers"
+						'~1 year old (Nov 2024); ecosystem of hundreds of servers'
 					]
 				},
 				{
@@ -115,7 +115,7 @@ export const agentProtocolsStory: SubcategoryStory = {
 						'HTTP + SSE for streaming, JSON-RPC for messages',
 						'Tasks, messages, agent cards',
 						'Agent cards advertise capabilities (similar to OpenAPI)',
-						"~6 months old (Apr 2025); rapid early adoption"
+						'~6 months old (Apr 2025); rapid early adoption'
 					]
 				}
 			],
@@ -153,11 +153,11 @@ export const agentProtocolsStory: SubcategoryStory = {
 				5: 'Server returns a **list of available tools** with their JSON Schema input definitions. The host now knows exactly what the model can ask for.',
 				6: 'Host passes the **user message + tool catalog** to the model in a single LLM call. The model sees the available tools as if they were its own functions.',
 				7: 'Model decides to call **list_files**. This is a structured "tool_use" output — not free text — including the argument values.',
-				8: 'Host translates the model\'s decision into **tools/call** on the MCP server. The model itself never sees the server.',
+				8: "Host translates the model's decision into **tools/call** on the MCP server. The model itself never sees the server.",
 				9: 'Server executes the tool (reads the filesystem) and returns the **result** as text or structured content.',
 				10: 'Host feeds the **tool_result** back to the model as if completing the function call.',
 				11: 'Model produces a **natural-language response** describing the result. ("Your Documents folder has report.pdf, notes.md, ...")',
-				12: 'Host delivers the **assistant message** to the user. From the user\'s perspective, it was one conversation.'
+				12: "Host delivers the **assistant message** to the user. From the user's perspective, it was one conversation."
 			}
 		},
 		{
@@ -172,7 +172,7 @@ export const agentProtocolsStory: SubcategoryStory = {
 		},
 		{
 			type: 'narrative',
-			title: 'What\'s Next',
+			title: "What's Next",
 			text: `Active work in 2025:\n\n- **MCP authorization** — the November 2024 spec was light on auth. The 2025-06 spec introduces standardized OAuth 2.1 flows for HTTP-transported MCP servers. Expect this to be a major focus through 2026.\n- **MCP for non-text resources** — current MCP is text-centric. Audio, images, structured binary, and streaming media are early targets. The protocol's extensibility (resources can be any MIME type) is the right shape; tooling has to catch up.\n- **A2A registries** — early A2A is mostly statically configured. A registry — a "DNS for agents" — is the obvious next step but raises hard governance questions about who runs it.\n- **Cross-protocol bridges** — agents that speak A2A to other agents and MCP to their own tools. The composition is the point; the bridges are non-trivial.\n- **Standards-body uptake** — both protocols are currently single-vendor. Anthropic and Google have both signaled openness to formal standards-body governance (W3C, IETF). Whether that happens, and when, will shape whether agent protocols become *the* interoperability layer or just *an* interoperability layer.\n\nThis is the first new protocol family in this app where the next chapter is genuinely unwritten. Check back in a year.`
 		}
 	]

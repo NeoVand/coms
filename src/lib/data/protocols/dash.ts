@@ -68,7 +68,8 @@ for period in mpd.periods:
             # Download segments via HTTP GET
             # for seg_url in rep.base_urls:
             #     data = requests.get(seg_url.base_url_value).content`,
-		caption: 'dash.js plays {{mpeg-org|MPEG}}-[[dash|DASH]] content with automatic adaptive bitrate',
+		caption:
+			'dash.js plays {{mpeg-org|MPEG}}-[[dash|DASH]] content with automatic adaptive bitrate',
 		alternatives: [
 			{
 				language: 'javascript',

@@ -48,7 +48,7 @@ The fix was to install patched {{imp|IMP}} software that rejected sequence numbe
 						},
 						{
 							type: 'callout',
-							title: 'Postel\'s Law had limits',
+							title: "Postel's Law had limits",
 							text: '**Be conservative in what you send, be liberal in what you accept.** A beautiful guideline — until "liberal" means accepting a malformed message and propagating it network-wide. The 1980 collapse forced the field to admit Postel\'s Law has an important exception: be **strict** in what you accept from anything that isn\'t under your operational control. The modern interpretation: be liberal with **format**, strict with **semantics**.'
 						}
 					]
@@ -89,7 +89,7 @@ The fix was to install patched {{imp|IMP}} software that rejected sequence numbe
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: 'Most-specific wins, by definition. {{autonomous-system|AS}} 7007 didn\'t hijack anything on purpose — it simply announced everything as a /24, and the entire internet routed through a single underpowered Florida router.',
+					text: "Most-specific wins, by definition. {{autonomous-system|AS}} 7007 didn't hijack anything on purpose — it simply announced everything as a /24, and the entire internet routed through a single underpowered Florida router.",
 					attribution: 'Author'
 				},
 				{
@@ -171,7 +171,7 @@ Mitnick used this to land a forged connection from a host listed in Shimomura's 
 						{
 							type: 'callout',
 							title: 'rsh / rlogin trust was the multiplier',
-							text: '[[tcp|TCP]] sequence prediction by itself is not catastrophic — it just lets you forge a connection. The reason this attack worked is that Berkeley Unix\'s `.rhosts` mechanism trusted **the source {{ip-address|IP address}}** of an incoming connection as authentication. Forge the source [[ip|IP]], get the trust. [[ssh|SSH]] (which Tatu Ylönen wrote in 1995, partly in response to incidents like this one) replaced `.rhosts` with cryptographic identity — even a perfectly forged [[tcp|TCP]] connection cannot impersonate someone without their {{private-key|private key}}.'
+							text: "[[tcp|TCP]] sequence prediction by itself is not catastrophic — it just lets you forge a connection. The reason this attack worked is that Berkeley Unix's `.rhosts` mechanism trusted **the source {{ip-address|IP address}}** of an incoming connection as authentication. Forge the source [[ip|IP]], get the trust. [[ssh|SSH]] (which Tatu Ylönen wrote in 1995, partly in response to incidents like this one) replaced `.rhosts` with cryptographic identity — even a perfectly forged [[tcp|TCP]] connection cannot impersonate someone without their {{private-key|private key}}."
 						},
 						{
 							type: 'narrative',
@@ -263,7 +263,7 @@ This is the structural reason [[bgp|BGP]] needs cryptography to fix it, not just
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Arpanet_logical_map%2C_march_1977.png/500px-Arpanet_logical_map%2C_march_1977.png',
 							alt: 'ARPANET logical map, March 1977 — sites in the US plus a node at London.',
 							caption:
-								'The {{arpanet|ARPANET}} in March 1977 — a network small enough that one Pakistan-Telecom-class misconfiguration would have been caught manually within minutes. By 2008 the global [[bgp|BGP]] {{routing-table|routing table}} had grown to ~250,000 prefixes, and Pakistan Telecom\'s null-route on a single /24 of YouTube space silently became the world\'s outage in **three minutes flat**. Scale changes what counts as a recoverable error.',
+								"The {{arpanet|ARPANET}} in March 1977 — a network small enough that one Pakistan-Telecom-class misconfiguration would have been caught manually within minutes. By 2008 the global [[bgp|BGP]] {{routing-table|routing table}} had grown to ~250,000 prefixes, and Pakistan Telecom's null-route on a single /24 of YouTube space silently became the world's outage in **three minutes flat**. Scale changes what counts as a recoverable error.",
 							credit: 'Image: DARPA / public domain, via Wikimedia Commons'
 						}
 					]
@@ -275,7 +275,8 @@ This is the structural reason [[bgp|BGP]] needs cryptography to fix it, not just
 		{
 			id: 'china-telecom-2010',
 			title: 'China Telecom 2010',
-			synopsis: '15% of the internet routed through a single {{autonomous-system|AS}} for 18 minutes.',
+			synopsis:
+				'15% of the internet routed through a single {{autonomous-system|AS}} for 18 minutes.',
 			slots: [
 				{
 					kind: 'prose',
@@ -397,7 +398,8 @@ Looney found it by writing a fuzzer that combined {{sack|SACK}} with [[tcp|TCP]]
 							alt: 'Tux — the Linux mascot, a chubby cartoon penguin.',
 							caption:
 								'**Tux**, the {{linux|Linux}} mascot, drawn by Larry Ewing in 1996. Behind that cheerful penguin sits a [[tcp|TCP]] stack on every internet-facing {{linux|Linux}} server on Earth — and from 2009 to 2019 every one of them was a single crafted [[tcp|TCP]] packet away from `kernel panic`. The fix shipped 17 June 2019; the lesson — **code stability is not code correctness** — has reshaped {{linux|Linux}} kernel networking testing since.',
-							credit: 'Image: Larry Ewing / lewing@isc.tamu.edu, public domain, via Wikimedia Commons'
+							credit:
+								'Image: Larry Ewing / lewing@isc.tamu.edu, public domain, via Wikimedia Commons'
 						}
 					]
 				}
@@ -459,7 +461,7 @@ So we live with the architectural fragility and add operational guards. Every mo
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/ARPANET_first_router.jpg/500px-ARPANET_first_router.jpg',
 							alt: 'A BBN Interface Message Processor — the original ARPANET router, ancestor of every BGP-speaking device on the modern internet.',
 							caption:
-								'A {{bbn|BBN}} {{imp|Interface Message Processor}} — the original {{arpanet|ARPANET}} router. Every modern [[bgp|BGP]]-speaking router carries the same architectural DNA: a control plane that builds the {{routing-table|forwarding table}} from messages it receives over the *same wires* it eventually forwards user data over. CenturyLink\'s 2020 Flowspec self-block is the canonical example of how that elegant unification can blow up when a single rule disables its own delivery mechanism.',
+								"A {{bbn|BBN}} {{imp|Interface Message Processor}} — the original {{arpanet|ARPANET}} router. Every modern [[bgp|BGP]]-speaking router carries the same architectural DNA: a control plane that builds the {{routing-table|forwarding table}} from messages it receives over the *same wires* it eventually forwards user data over. CenturyLink's 2020 Flowspec self-block is the canonical example of how that elegant unification can blow up when a single rule disables its own delivery mechanism.",
 							credit: 'Photo: Steve Jurvetson, CC BY 2.0, via Wikimedia Commons'
 						}
 					]
@@ -545,7 +547,8 @@ The first [[bgp|BGP]] fix went in around 21:00 {{utc-time|UTC}}. Recovery took u
 		{
 			id: 'rogers-2022',
 			title: 'Rogers 2022 — A Country Disconnected',
-			synopsis: 'Fifteen hours, half of Canada offline — one [[bgp|BGP]]/{{ospf-hello|OSPF}} redistribution mistake.',
+			synopsis:
+				'Fifteen hours, half of Canada offline — one [[bgp|BGP]]/{{ospf-hello|OSPF}} redistribution mistake.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -580,7 +583,7 @@ Recovery required Rogers engineers to log in to individual core routers (over ou
 						{
 							type: 'callout',
 							title: 'The deeper structural lesson',
-							text: 'When a single private company\'s outage takes down national emergency services, the company is no longer just a private business — it is **critical national infrastructure**. The {{crtc|CRTC}}\'s post-incident investigation forced Rogers to enter mandatory **reciprocal-roaming agreements** with Bell and Telus, so that future single-carrier outages would not strand emergency calls. Other countries (Australia, the UK, Germany) used the Rogers incident as a reference point for similar regulatory action.'
+							text: "When a single private company's outage takes down national emergency services, the company is no longer just a private business — it is **critical national infrastructure**. The {{crtc|CRTC}}'s post-incident investigation forced Rogers to enter mandatory **reciprocal-roaming agreements** with Bell and Telus, so that future single-carrier outages would not strand emergency calls. Other countries (Australia, the UK, Germany) used the Rogers incident as a reference point for similar regulatory action."
 						}
 					]
 				},
@@ -650,7 +653,7 @@ The {{fcc|FCC}} opened a formal investigation under the 2018 911 Reliability Rul
 						{
 							type: 'callout',
 							title: 'Same shape as Rogers 2022',
-							text: 'The shape of the AT&T failure mirrors [[outage:rogers-2022|Rogers 2022]] uncomfortably: a planned change, deployed simultaneously across the production fleet, with insufficient progressive-rollout controls. The lesson the industry should have internalised after Rogers — **never push a config change to the entire fleet at once** — had not propagated. AT&T\'s post-incident report committed to canary deployment for all core network changes within the year.'
+							text: "The shape of the AT&T failure mirrors [[outage:rogers-2022|Rogers 2022]] uncomfortably: a planned change, deployed simultaneously across the production fleet, with insufficient progressive-rollout controls. The lesson the industry should have internalised after Rogers — **never push a config change to the entire fleet at once** — had not propagated. AT&T's post-incident report committed to canary deployment for all core network changes within the year."
 						}
 					]
 				},

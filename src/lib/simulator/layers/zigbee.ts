@@ -15,7 +15,8 @@ export function create802154Layer(
 				bits: 16,
 				value: overrides?.frameControl ?? '0x8841 (Data, AckReq=1, PAN-ID Compression)',
 				editable: false,
-				description: 'Frame type (Data/Ack/Cmd), security on/off, AckReq, frame version, addressing modes'
+				description:
+					'Frame type (Data/Ack/Cmd), security on/off, AckReq, frame version, addressing modes'
 			},
 			{
 				name: 'Seq Num',
@@ -86,7 +87,8 @@ export function createZigbeeNWKLayer(
 				bits: 16,
 				value: overrides?.dstAddr ?? '0x1234',
 				editable: false,
-				description: 'NWK 16-bit short address — every node has a locally unique 16-bit address assigned at join'
+				description:
+					'NWK 16-bit short address — every node has a locally unique 16-bit address assigned at join'
 			},
 			{
 				name: 'Src Addr',
@@ -114,7 +116,8 @@ export function createZigbeeNWKLayer(
 				bits: 0,
 				value: overrides?.security ?? 'AES-CCM* (frame counter 0x000ABCDE, MIC=4 bytes)',
 				editable: false,
-				description: 'AES-128-CCM* encryption + integrity using the network key; 4/8/16-byte MIC appended'
+				description:
+					'AES-128-CCM* encryption + integrity using the network key; 4/8/16-byte MIC appended'
 			},
 			{
 				name: 'Payload (APS frame)',
@@ -142,14 +145,16 @@ export function createZigbeeAPSLayer(
 				bits: 8,
 				value: overrides?.frameControl ?? '0x40 (Data, Unicast, no Ack)',
 				editable: false,
-				description: 'Type (Data / Cmd / Ack), Delivery Mode (Unicast / Indirect / Broadcast / Group), Security, AckReq, Extended Hdr'
+				description:
+					'Type (Data / Cmd / Ack), Delivery Mode (Unicast / Indirect / Broadcast / Group), Security, AckReq, Extended Hdr'
 			},
 			{
 				name: 'Dst Endpoint',
 				bits: 8,
 				value: overrides?.dstEp ?? 11,
 				editable: false,
-				description: 'Endpoint within the destination device (1–240). Endpoint 11 is the standard Hue bulb endpoint.'
+				description:
+					'Endpoint within the destination device (1–240). Endpoint 11 is the standard Hue bulb endpoint.'
 			},
 			{
 				name: 'Cluster ID',

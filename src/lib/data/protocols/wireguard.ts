@@ -90,7 +90,8 @@ sudo wg show
 #     latest handshake: 23 seconds ago
 #     transfer: 142.3 KiB received, 89.7 KiB sent
 #     persistent keepalive: every 25 seconds`,
-		caption: 'A complete [[wireguard|WireGuard]] tunnel in 12 lines of config. Same on {{linux|Linux}}, {{bsd|BSD}}, macOS, {{android|Android}}, Windows. The simplicity is the feature.',
+		caption:
+			'A complete [[wireguard|WireGuard]] tunnel in 12 lines of config. Same on {{linux|Linux}}, {{bsd|BSD}}, macOS, {{android|Android}}, Windows. The simplicity is the feature.',
 		alternatives: [
 			{
 				language: 'python',
@@ -311,15 +312,15 @@ Around 4% data inflation for typical 1400-byte inner packets.`
 	funFacts: [
 		{
 			title: 'The "4,000 lines of code" number is in the whitepaper itself',
-			text: "From the [[pioneer:jason-donenfeld|Donenfeld]] {{ndss-conf|NDSS}} 2017 paper: *\"WireGuard can be simply implemented for {{linux|Linux}} in less than 4,000 lines of code, making it easily audited and verified.\"* For comparison, OpenVPN's core (not counting OpenSSL) is north of 100,000 lines, and the equivalent {{linux|Linux}} [[ipsec|IPsec]] stack ({{xfrm|XFRM}} + strongSwan + libraries) is in the six digits. The order-of-magnitude has not changed in the 9 years since."
+			text: 'From the [[pioneer:jason-donenfeld|Donenfeld]] {{ndss-conf|NDSS}} 2017 paper: *"WireGuard can be simply implemented for {{linux|Linux}} in less than 4,000 lines of code, making it easily audited and verified."* For comparison, OpenVPN\'s core (not counting OpenSSL) is north of 100,000 lines, and the equivalent {{linux|Linux}} [[ipsec|IPsec]] stack ({{xfrm|XFRM}} + strongSwan + libraries) is in the six digits. The order-of-magnitude has not changed in the 9 years since.'
 		},
 		{
 			title: 'Linus said it was "a work of art"',
-			text: 'On 2 August 2018, in a postscript to a {{linux|Linux}} 4.18 networking pull-request, Linus Torvalds wrote: *"I see that Jason actually made the pull request to have wireguard included in the kernel. Can I just once again state my love for it and hope it gets merged soon? Maybe the code isn\'t perfect, but I\'ve skimmed it, and compared to the horrors that are OpenVPN and [[ipsec|IPsec]], it\'s a work of art."* It took another 19 months for the merge to land ({{linux|Linux}} 5.6, March 2020) but the endorsement set the trajectory.'
+			text: "On 2 August 2018, in a postscript to a {{linux|Linux}} 4.18 networking pull-request, Linus Torvalds wrote: *\"I see that Jason actually made the pull request to have wireguard included in the kernel. Can I just once again state my love for it and hope it gets merged soon? Maybe the code isn't perfect, but I've skimmed it, and compared to the horrors that are OpenVPN and [[ipsec|IPsec]], it's a work of art.\"* It took another 19 months for the merge to land ({{linux|Linux}} 5.6, March 2020) but the endorsement set the trajectory."
 		},
 		{
 			title: 'No IETF RFC — by design',
-			text: '[[pioneer:jason-donenfeld|Donenfeld]] on the *Security Cryptography Whatever* podcast (Dec 2021): *"I have a very low opinion of internet standards, cryptography and internet standards… WireGuard is one of the first times in my career I\'ve seen something get this much adoption without having to get through the filter of the {{ietf|IETF}}. I worry that publishing an {{rfc-doc|RFC}} might send the wrong message where — oh, it sends the right bits on the wire, it\'s done — that\'s not good enough."* {{rfc-doc|RFC}} 8922 (2020) mentions WireGuard for the Transport Services document but is not normative.'
+			text: "[[pioneer:jason-donenfeld|Donenfeld]] on the *Security Cryptography Whatever* podcast (Dec 2021): *\"I have a very low opinion of internet standards, cryptography and internet standards… WireGuard is one of the first times in my career I've seen something get this much adoption without having to get through the filter of the {{ietf|IETF}}. I worry that publishing an {{rfc-doc|RFC}} might send the wrong message where — oh, it sends the right bits on the wire, it's done — that's not good enough.\"* {{rfc-doc|RFC}} 8922 (2020) mentions WireGuard for the Transport Services document but is not normative."
 		},
 		{
 			title: 'The logo is a snake from Delphi',
@@ -332,7 +333,7 @@ Around 4% data inflation for typical 1400-byte inner packets.`
 			{
 				title: 'AllowedIPs is your routing table AND your ACL',
 				text: 'A single `AllowedIPs` field on each {{peer|peer}} does two jobs: outbound it picks which {{peer|peer}} to send packets through for a given destination prefix, and inbound it filters which inner source IPs the {{peer|peer}} is allowed to send. Forgetting this is the most common config bug. **Cure:** when a {{peer|peer}} is supposed to be a "remote {{subnet|subnet}}", put the {{subnet|subnet}} in `AllowedIPs`. When a {{peer|peer}} is supposed to be a "single roadwarrior", put just its `/32`. When a {{peer|peer}} is "default route everything", use `0.0.0.0/0, ::/0` — and add `PostUp` rules for masquerading.'
-		},
+			},
 			{
 				title: 'No dynamic IPs out of the box',
 				text: 'Vanilla WireGuard refuses to do [[dns|DNS]] lookups on `Endpoint =` (the kernel module is keep-it-simple, no [[dns|DNS]]). The plumbing for "the {{peer|peer}}\'s endpoint changed because their {{isp|ISP}} rebooted them" is **not in the kernel**. `wg-quick(8)` resolves hostnames at interface-up time only. **Cure:** for road-warriors, the {{peer|peer}} connects *out* to a fixed endpoint and uses `PersistentKeepalive` to hold the {{nat|NAT}} binding. For dynamic-{{ip-address|IP}} servers, run `reresolve-dns.timer` (Donenfeld\'s own systemd timer) to re-resolve `Endpoint =` periodically.'

@@ -68,8 +68,7 @@
 			.catch((err) => {
 				console.error(`Mermaid render error [${protocolId}]:`, err);
 				// eslint-disable-next-line svelte/no-dom-manipulating
-				containerEl.innerHTML =
-					'<p class="text-xs text-t-muted py-4">Diagram unavailable</p>';
+				containerEl.innerHTML = '<p class="text-xs text-t-muted py-4">Diagram unavailable</p>';
 			});
 	});
 </script>
@@ -86,7 +85,7 @@
 		</div>
 	</div>
 	{#if definition?.caption && !hideCaption}
-		<p class="mt-3 text-center text-[11px] italic text-t-muted">{definition.caption}</p>
+		<p class="mt-3 text-center text-[11px] text-t-muted italic">{definition.caption}</p>
 	{/if}
 </div>
 

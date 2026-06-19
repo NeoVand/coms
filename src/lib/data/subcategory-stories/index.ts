@@ -54,9 +54,7 @@ const stories: SubcategoryStory[] = [
 	panProximityStory
 ];
 
-const storyMap = new Map<string, SubcategoryStory>(
-	stories.map((s) => [s.subcategoryId, s])
-);
+const storyMap = new Map<string, SubcategoryStory>(stories.map((s) => [s.subcategoryId, s]));
 
 export function getSubcategoryStory(subcategoryId: string): SubcategoryStory | undefined {
 	return storyMap.get(subcategoryId);

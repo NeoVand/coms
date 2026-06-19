@@ -38,7 +38,8 @@ function createSDPLayer(type: 'Offer' | 'Answer') {
 				bits: 0,
 				value: 'sha-256 AB:CD:...',
 				editable: false,
-				description: 'DTLS certificate fingerprint — verified during DTLS handshake for authentication'
+				description:
+					'DTLS certificate fingerprint — verified during DTLS handshake for authentication'
 			}
 		]
 	};
@@ -170,7 +171,7 @@ export const webrtcPeer: SimulationConfig = {
 			id: 'sdp-answer-relay',
 			label: 'SDP Answer (relay)',
 			description:
-				'Signaling server relays the answer to Peer A. Both peers now know each other\'s capabilities. Next, ICE connectivity checks will find the best direct path between them.',
+				"Signaling server relays the answer to Peer A. Both peers now know each other's capabilities. Next, ICE connectivity checks will find the best direct path between them.",
 			fromActor: 'signal',
 			toActor: 'peerA',
 			duration: 600,
@@ -186,7 +187,7 @@ export const webrtcPeer: SimulationConfig = {
 			id: 'ice-stun',
 			label: 'ICE / STUN',
 			description:
-				'Peers exchange STUN Binding Requests directly to test connectivity. ICE tries multiple candidate paths (host, server-reflexive, relay) and picks the best one. STUN reveals each peer\'s public IP.',
+				"Peers exchange STUN Binding Requests directly to test connectivity. ICE tries multiple candidate paths (host, server-reflexive, relay) and picks the best one. STUN reveals each peer's public IP.",
 			fromActor: 'peerA',
 			toActor: 'peerB',
 			duration: 1000,

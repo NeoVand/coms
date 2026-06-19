@@ -150,7 +150,10 @@
 				</div>
 				{#if hoveredInfo.nameSegments}
 					<p class="mt-0.5 text-[11px] text-t-secondary">
-						{#each hoveredInfo.nameSegments as seg, k (k)}{#if seg.highlight}<span class="font-bold" style="color: {tc(hoveredInfo.color)}">{seg.text}</span>{:else}{seg.text}{/if}{/each}
+						{#each hoveredInfo.nameSegments as seg, k (k)}{#if seg.highlight}<span
+									class="font-bold"
+									style="color: {tc(hoveredInfo.color)}">{seg.text}</span
+								>{:else}{seg.text}{/if}{/each}
 					</p>
 				{/if}
 				<p class="mt-1 text-xs leading-relaxed text-t-primary">{hoveredInfo.description}</p>

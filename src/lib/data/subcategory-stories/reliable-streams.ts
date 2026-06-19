@@ -66,13 +66,13 @@ export const reliableStreamsStory: SubcategoryStory = {
 					year: 1981,
 					title: 'TCP RFC 793 Published',
 					description:
-						"The reference TCP spec. Three-way handshake, sliding window, retransmission, flow control. Congestion control is *not* yet present — that omission will nearly destroy the Internet five years later."
+						'The reference TCP spec. Three-way handshake, sliding window, retransmission, flow control. Congestion control is *not* yet present — that omission will nearly destroy the Internet five years later.'
 				},
 				{
 					year: 1986,
 					title: 'Congestion Collapse',
 					description:
-						"The path between LBL and UC Berkeley — 400 yards apart — collapses to 40 bps from a nominal 32 kbps. The cause: TCP retransmits compounding network overload until the network drowns in retries."
+						'The path between LBL and UC Berkeley — 400 yards apart — collapses to 40 bps from a nominal 32 kbps. The cause: TCP retransmits compounding network overload until the network drowns in retries.'
 				},
 				{
 					year: 1988,
@@ -84,7 +84,7 @@ export const reliableStreamsStory: SubcategoryStory = {
 					year: 1999,
 					title: 'TCP Reno → NewReno → SACK',
 					description:
-						'A decade of incremental tuning. {{sack|Selective Acknowledgments}} (RFC 2018) let receivers tell senders *which* packets were lost, fixing the original ACK\'s ambiguity.'
+						"A decade of incremental tuning. {{sack|Selective Acknowledgments}} (RFC 2018) let receivers tell senders *which* packets were lost, fixing the original ACK's ambiguity."
 				},
 				{
 					year: 2000,
@@ -102,7 +102,7 @@ export const reliableStreamsStory: SubcategoryStory = {
 					year: 2013,
 					title: 'MPTCP RFC 6824',
 					description:
-						"[[mptcp|MPTCP]] bonds multiple TCP subflows into a single logical stream. Wire-compatible with middleboxes because each subflow *is* a normal TCP connection."
+						'[[mptcp|MPTCP]] bonds multiple TCP subflows into a single logical stream. Wire-compatible with middleboxes because each subflow *is* a normal TCP connection.'
 				},
 				{
 					year: 2016,
@@ -151,7 +151,7 @@ export const reliableStreamsStory: SubcategoryStory = {
 					]
 				}
 			],
-			note: '[[sctp|SCTP]] is technically the most capable, but its lack of NAT/firewall traversal kept it off the public Internet. [[mptcp|MPTCP]] is the pragmatic answer: take TCP\'s deployability and bolt the missing features on top.'
+			note: "[[sctp|SCTP]] is technically the most capable, but its lack of NAT/firewall traversal kept it off the public Internet. [[mptcp|MPTCP]] is the pragmatic answer: take TCP's deployability and bolt the missing features on top."
 		},
 		{
 			type: 'animated-sequence',
@@ -211,7 +211,7 @@ export const reliableStreamsStory: SubcategoryStory = {
 		},
 		{
 			type: 'narrative',
-			title: 'What\'s Next',
+			title: "What's Next",
 			text: `Active work in 2025:\n\n- **{{bbr|BBRv3}}** continues to roll out beyond Google's properties. Fairness with CUBIC under shared bottlenecks remains a live research area.\n- **Multipath TCP for 5G** (ATSSS — Access Traffic Steering, Switching, and Splitting) lets carriers bond cellular + Wi-Fi for handset traffic. Standardized in 3GPP Release 16.\n- **L4S** (Low Latency, Low Loss, Scalable throughput) adds an ECN-based signal so endpoints can react to congestion *before* loss. Requires both router and endpoint changes; deployment is slow.\n- **The slow death of TCP for new things.** Most green-field protocols (HTTP/3, WebTransport, Media-over-QUIC) skip TCP entirely. The Reliable Streams family isn't shrinking yet — but its growth has stopped.`
 		}
 	]

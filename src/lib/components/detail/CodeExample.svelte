@@ -26,9 +26,8 @@
 	let activeTab = $state(0);
 
 	const tabs = $derived.by(() => {
-		const list: { language: string; code: string; sections?: { title: string; code: string }[] }[] = [
-			{ language: example.language, code: example.code }
-		];
+		const list: { language: string; code: string; sections?: { title: string; code: string }[] }[] =
+			[{ language: example.language, code: example.code }];
 		if (example.alternatives) {
 			for (const alt of example.alternatives) {
 				list.push(alt);
@@ -125,15 +124,19 @@
 		class="code-block overflow-hidden rounded-xl border bg-[var(--theme-code-bg)]"
 		style="border-color: {color}25;"
 	>
-		<div class="flex items-center justify-between border-b px-3 py-2" style="border-color: {color}20;">
+		<div
+			class="flex items-center justify-between border-b px-3 py-2"
+			style="border-color: {color}20;"
+		>
 			{#if tabs.length > 1}
 				<div class="flex gap-1">
 					{#each tabs as tab, i (tab.language)}
 						<button
-							class="rounded-md px-2.5 py-1 text-[10px] font-medium tracking-wider uppercase transition-colors {activeTab !== i ? 'text-t-muted hover:bg-s-glass-hover hover:text-t-primary' : ''}"
-							style={activeTab === i
-								? `background-color: ${color}18; color: ${color}`
-								: ''}
+							class="rounded-md px-2.5 py-1 text-[10px] font-medium tracking-wider uppercase transition-colors {activeTab !==
+							i
+								? 'text-t-muted hover:bg-s-glass-hover hover:text-t-primary'
+								: ''}"
+							style={activeTab === i ? `background-color: ${color}18; color: ${color}` : ''}
 							onclick={() => (activeTab = i)}
 						>
 							{displayLang(tab.language)}
@@ -182,7 +185,10 @@
 						>
 							{section.title}
 						</div>
-						<pre class="custom-scrollbar overflow-x-auto px-3 py-2 text-[11px] leading-5 text-t-primary"><code class="hljs">{@html section.html}</code></pre>
+						<pre
+							class="custom-scrollbar overflow-x-auto px-3 py-2 text-[11px] leading-5 text-t-primary"><code
+								class="hljs">{@html section.html}</code
+							></pre>
 					</div>
 					{#if i < highlightedSections.length - 1}
 						<div style="border-bottom: 1px solid {color}12;"></div>

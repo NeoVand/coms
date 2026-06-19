@@ -18,8 +18,7 @@
 	<div class="text-xs font-semibold" style="color: {color}">{title}</div>
 	<div class="mt-1.5 space-y-2 text-xs leading-relaxed text-t-secondary">
 		{#snippet seg(s: TextSegment)}
-			{#if s.type === 'text'}{s.value}{:else if s.type === 'italic'}<em class="italic"
-					>{s.value}</em
+			{#if s.type === 'text'}{s.value}{:else if s.type === 'italic'}<em class="italic">{s.value}</em
 				>{:else if s.type === 'code'}<code
 					class="rounded bg-s-glass px-1 py-px font-mono text-[0.92em] text-t-primary"
 					>{s.value}</code
@@ -69,8 +68,7 @@
 		{#each paragraphs as segments, i (i)}
 			<p>
 				{#each segments as s, j (j)}
-					{#if s.type === 'bold'}<strong class="font-semibold text-t-primary"
-							>{s.value}</strong
+					{#if s.type === 'bold'}<strong class="font-semibold text-t-primary">{s.value}</strong
 						>{:else if s.type === 'bold-group'}<strong class="font-semibold text-t-primary"
 							>{#each s.segments as inner, k (k)}{@render seg(inner)}{/each}</strong
 						>{:else}{@render seg(s)}{/if}

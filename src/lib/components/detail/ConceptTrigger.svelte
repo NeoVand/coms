@@ -47,12 +47,26 @@
 
 <button
 	bind:this={triggerEl}
-	class="concept-trigger inline cursor-help border-b-[1.5px] border-dotted text-t-primary transition-all {bold ? 'font-semibold' : ''}"
+	class="concept-trigger inline cursor-help border-b-[1.5px] border-dotted text-t-primary transition-all {bold
+		? 'font-semibold'
+		: ''}"
 	style="border-bottom-color: {isLight ? '#0284c7' : 'rgba(56, 189, 248, 0.7)'};"
-	onmouseenter={(e) => { applyHoverStyle(e.currentTarget); showTooltip(); }}
-	onmouseleave={(e) => { clearHoverStyle(e.currentTarget); scheduleHide(); }}
-	onfocus={(e) => { applyHoverStyle(e.currentTarget); showTooltip(); }}
-	onblur={(e) => { clearHoverStyle(e.currentTarget); scheduleHide(); }}
+	onmouseenter={(e) => {
+		applyHoverStyle(e.currentTarget);
+		showTooltip();
+	}}
+	onmouseleave={(e) => {
+		clearHoverStyle(e.currentTarget);
+		scheduleHide();
+	}}
+	onfocus={(e) => {
+		applyHoverStyle(e.currentTarget);
+		showTooltip();
+	}}
+	onblur={(e) => {
+		clearHoverStyle(e.currentTarget);
+		scheduleHide();
+	}}
 	onclick={handleClick}
 >
 	{label}

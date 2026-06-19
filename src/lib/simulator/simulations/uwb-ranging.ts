@@ -5,7 +5,7 @@ export const uwbRanging: SimulationConfig = {
 	protocolId: 'uwb',
 	title: 'UWB Ranging — BLE bootstrap → DS-TWR → distance',
 	description:
-		"The five beats every consumer UWB session walks: BLE advertise → BLE GATT pairing + STS_KEY transport → UWB Poll → UWB Response → UWB Final → distance. Same flow under AirTag Precision Finding, BMW Digital Key, Aqara U400 hands-free unlock, and (from Feb 2026) Aliro 1.0 for everyone else.",
+		'The five beats every consumer UWB session walks: BLE advertise → BLE GATT pairing + STS_KEY transport → UWB Poll → UWB Response → UWB Final → distance. Same flow under AirTag Precision Finding, BMW Digital Key, Aqara U400 hands-free unlock, and (from Feb 2026) Aliro 1.0 for everyone else.',
 	tier: 'client',
 	actors: [
 		{ id: 'phone', label: 'iPhone (Initiator)', icon: 'device', position: 'left' },
@@ -17,10 +17,7 @@ export const uwbRanging: SimulationConfig = {
 			label: 'UWB channel',
 			type: 'select',
 			defaultValue: 'Channel 9 (7987.2 MHz)',
-			options: [
-				'Channel 5 (6489.6 MHz, universal)',
-				'Channel 9 (7987.2 MHz, restricted in Japan)'
-			]
+			options: ['Channel 5 (6489.6 MHz, universal)', 'Channel 9 (7987.2 MHz, restricted in Japan)']
 		},
 		{
 			id: 'mode',
@@ -165,7 +162,7 @@ export const uwbRanging: SimulationConfig = {
 			id: 'compute-tof',
 			label: 'Compute ToF — DS-TWR cross-product cancels clock drift',
 			description:
-				"The anchor (or phone, in some implementations) plugs all six timestamps into the cross-product:\n\n`ToF = (T_round1 · T_round2 − T_reply1 · T_reply2) / (T_round1 + T_round2 + T_reply1 + T_reply2)`\n\nwhere `T_round1 = t4−t1`, `T_reply1 = t3−t2`, `T_round2 = t6−t3`, `T_reply2 = t5−t4`. The cross-product cancels relative clock drift to first order — DS-TWR is insensitive to 20 ppm crystal offsets, where SS-TWR would yield ~1.2 m of bias under the same conditions. Multiply ToF by `c ≈ 0.299792458 m/ns` to get distance.",
+				'The anchor (or phone, in some implementations) plugs all six timestamps into the cross-product:\n\n`ToF = (T_round1 · T_round2 − T_reply1 · T_reply2) / (T_round1 + T_round2 + T_reply1 + T_reply2)`\n\nwhere `T_round1 = t4−t1`, `T_reply1 = t3−t2`, `T_round2 = t6−t3`, `T_reply2 = t5−t4`. The cross-product cancels relative clock drift to first order — DS-TWR is insensitive to 20 ppm crystal offsets, where SS-TWR would yield ~1.2 m of bias under the same conditions. Multiply ToF by `c ≈ 0.299792458 m/ns` to get distance.',
 			fromActor: 'anchor',
 			toActor: 'phone',
 			duration: 800,

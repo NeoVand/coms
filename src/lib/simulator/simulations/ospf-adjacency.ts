@@ -7,7 +7,7 @@ export const ospfAdjacency: SimulationConfig = {
 	protocolId: 'ospf',
 	title: 'OSPF Adjacency — Cold Boot to Full',
 	description:
-		"Watch two routers walk the eight-state OSPF adjacency machine, synchronise their link-state databases, and converge. The protocol runs directly on IP (protocol 89) using link-local multicast 224.0.0.5 — no TCP, no UDP.",
+		'Watch two routers walk the eight-state OSPF adjacency machine, synchronise their link-state databases, and converge. The protocol runs directly on IP (protocol 89) using link-local multicast 224.0.0.5 — no TCP, no UDP.',
 	tier: 'server',
 	actors: [
 		{ id: 'r1', label: 'Router R1', icon: 'router', position: 'left' },
@@ -154,7 +154,7 @@ export const ospfAdjacency: SimulationConfig = {
 			id: 'lsack',
 			label: 'LSAck (Full)',
 			description:
-				"R1 acknowledges every LSA. OSPF implements reliable delivery on top of raw IP — no TCP underneath. Both routers are now Full: identical LSDB, ready to run Dijkstra.",
+				'R1 acknowledges every LSA. OSPF implements reliable delivery on top of raw IP — no TCP underneath. Both routers are now Full: identical LSDB, ready to run Dijkstra.',
 			fromActor: 'r1',
 			toActor: 'r2',
 			duration: 1000,
@@ -190,23 +190,26 @@ export const ospfAdjacency: SimulationConfig = {
 						{
 							name: 'Algorithm',
 							bits: 0,
-							value: "Dijkstra (E.W. Dijkstra, 1956)",
+							value: 'Dijkstra (E.W. Dijkstra, 1956)',
 							editable: false,
-							description: 'The shortest-path-first algorithm — every link-state router runs it locally on its own LSDB'
+							description:
+								'The shortest-path-first algorithm — every link-state router runs it locally on its own LSDB'
 						},
 						{
 							name: 'Throttle',
 							bits: 0,
 							value: 'RFC 8405: 50 / 200 / 5000 ms',
 							editable: false,
-							description: 'SPF back-off: INITIAL, SHORT_WAIT, LONG_WAIT — prevents thrashing on rapid topology churn'
+							description:
+								'SPF back-off: INITIAL, SHORT_WAIT, LONG_WAIT — prevents thrashing on rapid topology churn'
 						},
 						{
 							name: 'Result',
 							bits: 0,
 							value: 'Shortest-path tree from R1 installed into FIB',
 							editable: false,
-							description: 'The forwarding information base — what hardware actually uses to forward packets'
+							description:
+								'The forwarding information base — what hardware actually uses to forward packets'
 						}
 					]
 				}

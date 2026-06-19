@@ -65,7 +65,7 @@ export const sipCall: SimulationConfig = {
 			id: 'ringing',
 			label: '180 Ringing',
 			description:
-				'The callee\'s phone is ringing. The 180 Ringing response is forwarded back through the proxy chain. The caller can now play a ringback tone. This provisional response can optionally include early media (ringback from the callee\'s network) via SDP.',
+				"The callee's phone is ringing. The 180 Ringing response is forwarded back through the proxy chain. The caller can now play a ringback tone. This provisional response can optionally include early media (ringback from the callee's network) via SDP.",
 			fromActor: 'server',
 			toActor: 'caller',
 			duration: 800,

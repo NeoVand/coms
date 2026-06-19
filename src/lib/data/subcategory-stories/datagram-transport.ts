@@ -32,7 +32,7 @@ export const datagramTransportStory: SubcategoryStory = {
 					title: 'Designer of QUIC',
 					org: 'Google',
 					contribution:
-						'Started [[quic|QUIC]] at Google in 2012 to fix [[tcp|TCP]]\'s deployment problems: kernel ossification, [[head-of-line-blocking|HoL blocking]], and the slow rollout of TLS 1.3. Roskind\'s key bet was that the transport layer could be *re-implemented in user space* — ship updates with the browser, escape the kernel\'s deployment cycle. By 2017, Google reported ~7% of all Internet traffic was already QUIC. The {{ietf|IETF}} chartered the QUIC WG in 2016; [[rfc:9000|RFC 9000]] published in 2021.',
+						"Started [[quic|QUIC]] at Google in 2012 to fix [[tcp|TCP]]'s deployment problems: kernel ossification, [[head-of-line-blocking|HoL blocking]], and the slow rollout of TLS 1.3. Roskind's key bet was that the transport layer could be *re-implemented in user space* — ship updates with the browser, escape the kernel's deployment cycle. By 2017, Google reported ~7% of all Internet traffic was already QUIC. The {{ietf|IETF}} chartered the QUIC WG in 2016; [[rfc:9000|RFC 9000]] published in 2021.",
 					imagePath:
 						'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c7/Jim_Roskind_2016.jpg/330px-Jim_Roskind_2016.jpg'
 				},
@@ -54,7 +54,7 @@ export const datagramTransportStory: SubcategoryStory = {
 					year: 1980,
 					title: 'UDP Standardized (RFC 768)',
 					description:
-						'[[pioneer:jon-postel|Postel]]\'s 3-page spec defines the simplest possible transport: 8-byte header, no state, no guarantees.'
+						"[[pioneer:jon-postel|Postel]]'s 3-page spec defines the simplest possible transport: 8-byte header, no state, no guarantees."
 				},
 				{
 					year: 1983,
@@ -72,7 +72,7 @@ export const datagramTransportStory: SubcategoryStory = {
 					year: 2008,
 					title: 'NAT Traversal via UDP Hole Punching',
 					description:
-						'{{ice|ICE}} (RFC 5245) and {{stun|STUN}}/{{turn|TURN}} establish that peer-to-peer connectivity requires UDP. [[webrtc|WebRTC]], P2P games, and (later) BitTorrent all rely on UDP\'s lighter NAT footprint.'
+						"{{ice|ICE}} (RFC 5245) and {{stun|STUN}}/{{turn|TURN}} establish that peer-to-peer connectivity requires UDP. [[webrtc|WebRTC]], P2P games, and (later) BitTorrent all rely on UDP's lighter NAT footprint."
 				},
 				{
 					year: 2012,
@@ -102,7 +102,7 @@ export const datagramTransportStory: SubcategoryStory = {
 					year: 2024,
 					title: 'MASQUE Published',
 					description:
-						'Tunneling arbitrary traffic inside QUIC — used by iCloud Private Relay, Apple Private Cloud Compute, and Cloudflare\'s Privacy Gateway.'
+						"Tunneling arbitrary traffic inside QUIC — used by iCloud Private Relay, Apple Private Cloud Compute, and Cloudflare's Privacy Gateway."
 				}
 			]
 		},
@@ -115,7 +115,7 @@ export const datagramTransportStory: SubcategoryStory = {
 					label: '[[udp|UDP]]',
 					values: [
 						'None — fire and forget',
-						'None (application\'s problem — e.g. DTLS)',
+						"None (application's problem — e.g. DTLS)",
 						'None — opaque datagrams',
 						"Application's problem",
 						'[[dns|DNS]], [[ntp|NTP]], [[rtp|RTP]], multicast, games'
@@ -154,13 +154,13 @@ export const datagramTransportStory: SubcategoryStory = {
     C->>S: 0-RTT application data using cached keys
     S-->>C: 1-RTT response`,
 			caption:
-				"[[udp|UDP]] makes the application do everything. [[quic|QUIC]] bundles handshake + encryption + transport into a single round trip, and zero round trips on resumption. The cost: every QUIC implementation re-implements reliable transport in user space.",
+				'[[udp|UDP]] makes the application do everything. [[quic|QUIC]] bundles handshake + encryption + transport into a single round trip, and zero round trips on resumption. The cost: every QUIC implementation re-implements reliable transport in user space.',
 			steps: {
-				0: '**[[udp|UDP]] — zero handshake.** No connection setup at all. The first datagram carries the application\'s actual payload. If the network drops it, the application learns about it (or doesn\'t) on its own schedule.',
+				0: "**[[udp|UDP]] — zero handshake.** No connection setup at all. The first datagram carries the application's actual payload. If the network drops it, the application learns about it (or doesn't) on its own schedule.",
 				1: 'Client sends a **UDP datagram**. 8-byte header, payload, done.',
 				2: '**No ACK is expected.** The kernel washes its hands of the packet the moment it leaves the NIC.',
 				3: '**No retransmit happens at the transport layer.** If anything needs to retry, the application has to do it.',
-				4: 'Server replies if it wants to. That reply, too, is fire-and-forget — either it arrives or it doesn\'t.',
+				4: "Server replies if it wants to. That reply, too, is fire-and-forget — either it arrives or it doesn't.",
 				5: '**[[quic|QUIC]] 1-RTT.** Unlike UDP, QUIC builds a real, encrypted, multiplexed transport on top — but it does the entire handshake in ONE round trip. Compare to TLS-over-TCP, which needs 3 (TCP SYN/SYN-ACK/ACK plus TLS handshake).',
 				6: 'Client sends **Initial: ClientHello + QUIC params**. The first packet carries the TLS 1.3 ClientHello *and* QUIC transport parameters. Some of the packet is even encrypted (anti-injection), though the keys come from a public derivation.',
 				7: 'Server responds with **Initial: ServerHello + Handshake**. Now both sides have ephemeral keys and can encrypt the handshake fully. This is the same packet that contains the server certificate.',
@@ -183,7 +183,7 @@ export const datagramTransportStory: SubcategoryStory = {
 		},
 		{
 			type: 'narrative',
-			title: 'What\'s Next',
+			title: "What's Next",
 			text: `Active work in 2025:\n\n- **Multipath QUIC** — bonding multiple network paths into one QUIC connection, like [[mptcp|MPTCP]] but easier because QUIC isn't bound to TCP's wire format. Draft in WG, deployment underway at Apple and Cloudflare.\n- **MASQUE** — running arbitrary protocols (TCP, UDP, IP) inside QUIC for tunneling. Powers iCloud Private Relay and similar privacy infrastructure.\n- **WebTransport** — exposes QUIC streams to browsers, a likely successor to {{websockets|WebSockets}} for low-latency bidirectional traffic.\n- **Media-over-QUIC** — a new family of standards for live and on-demand media that bypasses RTP/RTMP/HLS entirely.\n- **QUIC offload silicon** — first-generation NIC support landing in 2024–2026, closing the CPU-cost gap with TCP.\n\nUDP itself isn't evolving — that's the point. It is the stable substrate. The action is one layer up.`
 		}
 	]

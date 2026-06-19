@@ -30,7 +30,8 @@ export function createBLELinkLayer(
 				bits: 16,
 				value: overrides?.llHeader ?? 'PDU=ADV_IND, len=22',
 				editable: false,
-				description: 'PDU type + RFU + TxAdd + RxAdd + length on advertising; LLID/NESN/SN/MD on data'
+				description:
+					'PDU type + RFU + TxAdd + RxAdd + length on advertising; LLID/NESN/SN/MD on data'
 			},
 			{
 				name: 'PDU Body',
@@ -108,7 +109,8 @@ export function createATTLayer(
 				bits: 16,
 				value: overrides?.handle ?? '0x002A',
 				editable: false,
-				description: 'Attribute handle — the address of a characteristic or descriptor in the GATT database'
+				description:
+					'Attribute handle — the address of a characteristic or descriptor in the GATT database'
 			},
 			{
 				name: 'Value',

@@ -57,7 +57,8 @@ sock.sendto(b"Ping!", ('localhost', 8888))
 # Receive — might never arrive
 data, addr = sock.recvfrom(1024)
 print(f"Got {data} from {addr}")`,
-		caption: '[[udp|UDP]] is {{connectionless|connectionless}} — just bind, send, and hope for the best',
+		caption:
+			'[[udp|UDP]] is {{connectionless|connectionless}} — just bind, send, and hope for the best',
 		alternatives: [
 			{
 				language: 'javascript',
@@ -142,7 +143,21 @@ ss -un  # or: netstat -un`
 		throughput: 'No congestion control — can send as fast as the network allows (or can handle)',
 		overhead: '8-byte header only — the minimum possible for transport'
 	},
-	connections: ['tcp', 'ip', 'ipv6', 'dns', 'quic', 'webrtc', 'dhcp', 'ntp', 'rtp', 'coap', 'sip', 'ipsec', 'nat-traversal'],
+	connections: [
+		'tcp',
+		'ip',
+		'ipv6',
+		'dns',
+		'quic',
+		'webrtc',
+		'dhcp',
+		'ntp',
+		'rtp',
+		'coap',
+		'sip',
+		'ipsec',
+		'nat-traversal'
+	],
 	links: {
 		wikipedia: 'https://en.wikipedia.org/wiki/User_Datagram_Protocol',
 		rfc: 'https://datatracker.ietf.org/doc/html/rfc768'
@@ -181,7 +196,7 @@ ss -un  # or: netstat -un`
 			org: 'NTP pool',
 			scale: '~25 billion queries/day',
 			description:
-				'pool.ntp.org and friends serve tens of billions of [[udp|UDP]] [[ntp|NTP]] queries per day, keeping the world\'s clocks within a few milliseconds.'
+				"pool.ntp.org and friends serve tens of billions of [[udp|UDP]] [[ntp|NTP]] queries per day, keeping the world's clocks within a few milliseconds."
 		},
 		{
 			org: 'WebRTC media',
@@ -200,11 +215,11 @@ ss -un  # or: netstat -un`
 	funFacts: [
 		{
 			title: 'RFC 768 is three pages long',
-			text: '[[udp|UDP]]\'s entire spec — header format, length field, {{checksum|checksum}}, and a paragraph of prose — fits in three pages. [[pioneer:jon-postel|Jon Postel]] wrote it in August 1980. It has not been updated since. There has been nothing to {{bgp-update|update}}.'
+			text: "[[udp|UDP]]'s entire spec — header format, length field, {{checksum|checksum}}, and a paragraph of prose — fits in three pages. [[pioneer:jon-postel|Jon Postel]] wrote it in August 1980. It has not been updated since. There has been nothing to {{bgp-update|update}}."
 		},
 		{
 			title: 'UDP gives you ports — that is most of L4',
-			text: 'The only thing [[udp|UDP]] adds above raw [[ip|IP]] is the source/destination port pair. That is the entire reason multiple applications can share a host\'s network adapter. Everything else (reliability, ordering, congestion) is left to the application above.'
+			text: "The only thing [[udp|UDP]] adds above raw [[ip|IP]] is the source/destination port pair. That is the entire reason multiple applications can share a host's network adapter. Everything else (reliability, ordering, congestion) is left to the application above."
 		},
 		{
 			title: 'UDP is what middleboxes already pass',

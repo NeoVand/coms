@@ -39,9 +39,7 @@
 </script>
 
 <section>
-	<h3 class="mb-3 text-xs font-semibold tracking-wider text-t-muted uppercase">
-		Simulation Steps
-	</h3>
+	<h3 class="mb-3 text-xs font-semibold tracking-wider text-t-muted uppercase">Simulation Steps</h3>
 	<div class="relative space-y-0">
 		{#each config.steps as step, i (step.id)}
 			{@const stepState = stepStates[i]}
@@ -73,7 +71,13 @@
 					aria-label="Go to step {i + 1}: {step.label}"
 				>
 					{#if isPast}
-						<svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="3">
+						<svg
+							class="h-3 w-3"
+							fill="none"
+							stroke="currentColor"
+							viewBox="0 0 24 24"
+							stroke-width="3"
+						>
 							<path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
 						</svg>
 					{:else}
@@ -97,12 +101,7 @@
 
 						<div class="mt-3 space-y-3">
 							<div in:fly={{ y: 8, duration: 300, delay: 60 }}>
-								<ActorStage
-									actors={config.actors}
-									currentStep={step}
-									{color}
-									compact={true}
-								/>
+								<ActorStage actors={config.actors} currentStep={step} {color} compact={true} />
 							</div>
 
 							{#if step.layers && step.layers.length > 0}

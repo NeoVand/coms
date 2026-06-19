@@ -20,7 +20,8 @@ export const storyOfTheInternet: BookPart = {
 		{
 			id: 'before-the-internet',
 			title: 'Before the Internet',
-			synopsis: '{{xerox-parc|Xerox PARC}}, {{arpanet|ARPANET}}, {{ncp|NCP}} — the three streams that flowed into [[tcp|TCP]]/[[ip|IP]].',
+			synopsis:
+				'{{xerox-parc|Xerox PARC}}, {{arpanet|ARPANET}}, {{ncp|NCP}} — the three streams that flowed into [[tcp|TCP]]/[[ip|IP]].',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -41,7 +42,7 @@ The third tradition was packet radio. ARPA's Packet Radio Network (PRNET, 1973) 
 						},
 						{
 							type: 'callout',
-							title: "Why three? Because the problem was three problems.",
+							title: 'Why three? Because the problem was three problems.',
 							text: 'Local fabric ([[ethernet|Ethernet]]), wide-area research backbone ({{arpanet|ARPANET}}), and unreliable wireless (PRNET/SATNET) each forced different design pressures. The architecture that won — [[tcp|TCP]]/[[ip|IP]] — is the one that took none of them as canonical and instead specified the **gluing** layer.'
 						}
 					]
@@ -62,7 +63,7 @@ The third tradition was packet radio. ARPA's Packet Radio Network (PRNET, 1973) 
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3d/Interface_Message_Processor_%28%22IMP%22%29_%282586235502%29.jpg/500px-Interface_Message_Processor_%28%22IMP%22%29_%282586235502%29.jpg',
 							alt: 'A BBN-built Interface Message Processor (IMP) on display at the Computer History Museum.',
 							caption:
-								'An original {{bbn|BBN}} {{imp|Interface Message Processor}} ({{imp|IMP}}) — the rugged minicomputer that served as {{arpanet|ARPANET}}\'s first router. The protocol that ran between IMPs is what [[tcp|TCP]]/[[ip|IP]] would later replace.',
+								"An original {{bbn|BBN}} {{imp|Interface Message Processor}} ({{imp|IMP}}) — the rugged minicomputer that served as {{arpanet|ARPANET}}'s first router. The protocol that ran between IMPs is what [[tcp|TCP]]/[[ip|IP]] would later replace.",
 							credit: 'Photo: Erik Pitti, CC BY 2.0, via Wikimedia Commons'
 						}
 					]
@@ -75,7 +76,8 @@ The third tradition was packet radio. ARPA's Packet Radio Network (PRNET, 1973) 
 		{
 			id: 'the-1981-burst',
 			title: 'The 1981–83 Standardisation Burst',
-			synopsis: '[[rfc:791|RFC 791]]/792/793, the {{arpanet|ARPANET}} {{flag-day-1983|flag day}}, and {{ieee-802-15-4|IEEE}} 802.3 ratified — three years that locked in the stack.',
+			synopsis:
+				'[[rfc:791|RFC 791]]/792/793, the {{arpanet|ARPANET}} {{flag-day-1983|flag day}}, and {{ieee-802-15-4|IEEE}} 802.3 ratified — three years that locked in the stack.',
 			slots: [
 				{
 					kind: 'prose',
@@ -123,7 +125,8 @@ This is the deepest principle of the era: **separate what changes together from 
 		{
 			id: 'the-1986-collapse',
 			title: 'The 1986 Congestion Collapse',
-			synopsis: '32 kbps to 40 bps in 400 yards — and [[pioneer:van-jacobson|Van Jacobson]]\'s six-algorithm fix.',
+			synopsis:
+				"32 kbps to 40 bps in 400 yards — and [[pioneer:van-jacobson|Van Jacobson]]'s six-algorithm fix.",
 			slots: [
 				{
 					kind: 'prose',
@@ -222,7 +225,7 @@ By 1995, {{osi-model|OSI}} was effectively dead in production networks. CLNP sur
 					sections: [
 						{
 							type: 'narrative',
-							title: 'A Manager\'s Side Project',
+							title: "A Manager's Side Project",
 							text: `In March 1989, **[[pioneer:tim-berners-lee|Tim Berners-Lee]]** circulated a memo at {{cern|CERN}} titled **"Information Management: A Proposal."** His manager, Mike Sendall, scribbled "vague but exciting" on the cover. The proposal described a system where documents on different machines could link to each other through hypertext, retrieved by a uniform addressing scheme.
 
 By Christmas 1990, on a NeXT workstation in his office, Berners-Lee had built the first **web server** (info.cern.ch), the first **web browser** (also a WYSIWYG editor), and the first three protocols he needed: {{http-method|HTTP}} for transport, {{html|HTML}} for markup, and URLs for addressing. The whole system rode on top of [[tcp|TCP]] — that was the entire architectural assumption. It did not have to invent transport, ordering, {{retransmission|retransmission}}, or addressing. The internet had already solved those.
@@ -253,14 +256,15 @@ The architectural lesson the web carried forward: an application that succeeds a
 				{
 					kind: 'pull-quote',
 					text: 'Vague but exciting.',
-					attribution: 'Mike Sendall, on the cover of Berners-Lee\'s 1989 memo'
+					attribution: "Mike Sendall, on the cover of Berners-Lee's 1989 memo"
 				}
 			]
 		},
 		{
 			id: 'mobile-and-bufferbloat',
 			title: 'The Mobile and Bufferbloat Decade',
-			synopsis: '3G, 4G, the iPhone, and why your home internet is {{bufferbloat|laggy under load}}.',
+			synopsis:
+				'3G, 4G, the iPhone, and why your home internet is {{bufferbloat|laggy under load}}.',
 			slots: [
 				{
 					kind: 'prose',
@@ -276,8 +280,9 @@ The fix took fifteen years. **{{aqm|Active queue management}}** (CoDel, fq_codel
 						},
 						{
 							type: 'callout',
-							title: 'Bufferbloat is the canonical example of well-meaning engineering creating a network-wide pathology.',
-							text: 'Adding more buffer seemed obviously good — bursts wouldn\'t cause loss. But [[tcp|TCP]]\'s congestion-control loop **needed** loss as its signal. The fix was to push buffers back down and add explicit signalling ({{ecn|ECN}}) instead.'
+							title:
+								'Bufferbloat is the canonical example of well-meaning engineering creating a network-wide pathology.',
+							text: "Adding more buffer seemed obviously good — bursts wouldn't cause loss. But [[tcp|TCP]]'s congestion-control loop **needed** loss as its signal. The fix was to push buffers back down and add explicit signalling ({{ecn|ECN}}) instead."
 						},
 						{
 							type: 'image',
@@ -326,7 +331,7 @@ This is the structural lesson of the late-2010s protocol-design era: **{{encrypt
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/29/Google_Data_Center%2C_The_Dalles.jpg/500px-Google_Data_Center%2C_The_Dalles.jpg',
 							alt: 'Google data center in The Dalles, Oregon — where the gQUIC traffic was first deployed.',
 							caption:
-								'{{google|Google}}\'s data center in **The Dalles, Oregon**. By 2014, every connection to *chrome.com* / *youtube.com* from a Chrome client was speaking experimental gQUIC over [[udp|UDP]] to one of these buildings. The fleet of users plus the fleet of servers is what gave {{google|Google}} the leverage to design a new transport — and the leverage to *iterate* on it monthly instead of waiting decades for kernel rollouts.',
+								"{{google|Google}}'s data center in **The Dalles, Oregon**. By 2014, every connection to *chrome.com* / *youtube.com* from a Chrome client was speaking experimental gQUIC over [[udp|UDP]] to one of these buildings. The fleet of users plus the fleet of servers is what gave {{google|Google}} the leverage to design a new transport — and the leverage to *iterate* on it monthly instead of waiting decades for kernel rollouts.",
 							credit: 'Photo: Tony Webster, CC BY 2.0, via Wikimedia Commons'
 						}
 					]

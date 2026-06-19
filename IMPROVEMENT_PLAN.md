@@ -17,6 +17,7 @@ need (a) a green `check`/`lint`, (b) a test runner, and (c) recorded reference
 metrics. Phases 1–2 deliver this.
 
 ### Reference metrics to capture first (no code change)
+
 - **Bundle baseline:** record `du -sh build/_app/immutable` and the per-chunk
   sizes (`du -k build/_app/immutable/chunks/*.js | sort -rn | head`). Current:
   total ~4.2 MB, largest chunk `CGRapOf_.js` = **1.2 MB** (contains protocol
@@ -31,10 +32,11 @@ metrics. Phases 1–2 deliver this.
 ## Phase 1 — Green the type/lint/format baseline 🔴
 
 **Why first:** a 589-file prettier reformat creates an enormous diff. Doing it
-*before* any logic change keeps real changes reviewable. Each step here is
+_before_ any logic change keeps real changes reviewable. Each step here is
 mechanical and independently verifiable.
 
 ### 1a. Fix the 3 TypeScript errors (logic, not formatting)
+
 - `SequencePlayer.svelte:149` — `definition` possibly undefined → add a guard or
   non-null assertion after confirming the invariant.
 - `SequencePlayer.svelte:208` — `getBBox` not on `SVGElement` → narrow to
@@ -50,6 +52,7 @@ mechanical and independently verifiable.
 - **Commit:** `fix(types): resolve 3 svelte-check errors`
 
 ### 1b. Fix non-formatting ESLint errors (the ~67 that aren't escapes)
+
 - `@typescript-eslint/no-unused-vars` (~28): remove dead vars/imports
   (`windowHeight`, `FOUNDATION_TEASERS`, `navigateToBookChapter`,
   `foundationSections`, `totalParts`, …). **Verify each is truly dead** — grep
@@ -68,9 +71,10 @@ mechanical and independently verifiable.
 - **Commit:** `fix(lint): clear unused-vars, navigation, and reactivity errors`
 
 ### 1c. The 537 `no-useless-escape` errors — surgical, NOT regex
+
 - ⚠️ **Do not** run a global `s/\\'/'/g`. The errors are a mix: `\'` inside
   template literals is unnecessary, but some flagged `` \` `` are inside
-  single/double-quoted strings while *other* backticks inside template literals
+  single/double-quoted strings while _other_ backticks inside template literals
   are genuinely required. A blind regex will corrupt template literals.
 - **Approach:** write a one-off codemod (`scripts/fix-useless-escapes.ts`) that
   consumes ESLint's JSON output (`eslint --format json`), which gives exact
@@ -92,6 +96,7 @@ mechanical and independently verifiable.
 - **Commit:** `fix(content): remove unnecessary string escapes (codemod)`
 
 ### 1d. Prettier the repo
+
 - `npm run format` (writes 589 files).
 - **How it's tested:** `npm run build` output bytes for JS chunks should be
   **byte-identical** to the pre-format build (formatting must not change emitted
@@ -100,6 +105,7 @@ mechanical and independently verifiable.
   "formatting only")
 
 ### 1e. Wire the gates into CI
+
 - Add to `.github/workflows/deploy.yml` (and ideally a separate `ci.yml` that
   runs on PRs): `npm run check`, `npm run lint`, `npm run test`.
 - Add a lightweight pre-commit guard (lint-staged + a `prepare` hook, or a simple
@@ -117,6 +123,7 @@ No unit runner exists today and there is exactly one trivial e2e test. Every
 later phase depends on this. Build it before touching engine/data/components.
 
 ### 2a. Add Vitest for pure logic
+
 - Install `vitest` + `@vitest/ui`; add `"test:unit": "vitest run"` and fold into
   `"test"`. Configure via `vite.config.ts` (SvelteKit + Vitest share it).
 - **Target the pure, high-value functions** (no DOM needed):
@@ -136,6 +143,7 @@ later phase depends on this. Build it before touching engine/data/components.
 - **Commit:** `test: add vitest + unit tests for engine/util/parser logic`
 
 ### 2b. Expand Playwright e2e for critical user paths
+
 - Use the `window.__dev` helper (documented in CLAUDE.md) to drive deterministic
   navigation. Add specs:
   1. **Graph loads** → canvas present, node count matches data, no console errors.
@@ -157,6 +165,7 @@ later phase depends on this. Build it before touching engine/data/components.
 - **Commit:** `test: e2e coverage for graph, detail, sim, search, journey, mobile`
 
 ### 2c. Delete demo scaffolding
+
 - Remove `src/routes/demo/**` (the `/demo` and `/demo/playwright` fixtures) once
   the real e2e suite replaces the placeholder spec.
 - **How it's tested:** build + e2e still green; grep confirms nothing links to
@@ -171,6 +180,7 @@ The data is consistent today, but nothing prevents a typo'd ID across 75
 protocol files + journeys + comparisons + RFCs + book slots.
 
 ### 3a. Cross-reference validator
+
 - `scripts/validate-cross-references.ts`: load every registry and assert all
   referential IDs resolve:
   - `protocol.connections[]`, `relatedProtocols` → protocol IDs
@@ -190,6 +200,7 @@ protocol files + journeys + comparisons + RFCs + book slots.
 - **Commit:** `feat(scripts): build-time cross-reference validator + wire to build`
 
 ### 3b. (Optional, after 3a is green) Branded ID types
+
 - In `types.ts`, introduce `ProtocolId`/`CategoryId` brands to document intent
   and catch literal typos at review time. Low urgency; do only if it doesn't
   cause churn. Skip if it fights the existing data-authoring ergonomics — the
@@ -204,6 +215,7 @@ Now that tests + bundle baselines exist, optimize with proof. Re-measure chunk
 sizes after each step and assert the target shrank without breaking e2e.
 
 ### 4a. Stop importing the full registry into the root layout
+
 - `+layout.svelte:6` imports `allProtocols` only to show a count. Replace with a
   tiny derived constant (e.g. export `PROTOCOL_COUNT` from a 1-line module, or
   compute at build via the validator). This is the single biggest lever — it
@@ -214,6 +226,7 @@ sizes after each step and assert the target shrank without breaking e2e.
 - **Commit:** `perf(bundle): drop full-registry import from root layout`
 
 ### 4b. Dynamic-import heavy page-specific data
+
 - Move into route-loader `import()`s so they split out of the entry bundle:
   `journeys.ts` (116 KB), `diagram-definitions.ts` (140 KB), `rfcs.ts` (120 KB),
   `book/parts/*` (580 KB), `concepts.ts` where feasible.
@@ -225,6 +238,7 @@ sizes after each step and assert the target shrank without breaking e2e.
 - **Commit:** `perf(bundle): lazy-load journeys/rfcs/book/diagrams per route`
 
 ### 4c. Dynamic-import highlight.js
+
 - `CodeExample.svelte` statically imports hljs core + 8 language packs (~150 KB).
   Switch to `await import()` on mount (mirroring the pattern MermaidDiagram
   already uses). Register only the languages actually present in the data.
@@ -233,6 +247,7 @@ sizes after each step and assert the target shrank without breaking e2e.
 - **Commit:** `perf(bundle): dynamic-import highlight.js + only used languages`
 
 ### 4d. manualChunks for the fused vendor chunk
+
 - The 1.2 MB chunk fuses d3 + mermaid + hljs + content. After 4a–4c, add Vite
   `build.rollupOptions.output.manualChunks` to separate vendor (`d3-force`,
   `d3-quadtree`) from content so the graph engine and prose cache independently.
@@ -248,6 +263,7 @@ Pure refactors — the Phase 2 visual/e2e suite is the regression guard. Refacto
 one group at a time, screenshot-diff after each.
 
 ### 5a. `GenericLink` for the 6 inline link components
+
 - `detail/inline/{Chapter,Frontier,Glossary,Outage,Pioneer,Protocol}Link.svelte`
   share one shape (fetch entity by id → derive color/tooltip → render `<a>` or
   fallback `<span>`). Extract `GenericLink.svelte` taking `fetch`/`getHref`/
@@ -258,6 +274,7 @@ one group at a time, screenshot-diff after each.
 - **Commit:** `refactor(inline): unify 6 link components into GenericLink`
 
 ### 5b. `ModalShell` for the 3 modals
+
 - `DiagramModal`, `StoryDiagramModal`, `StoryImageModal` share backdrop / header /
   close / escape-key / backdrop-click. Extract `ModalShell.svelte` with content
   slot; fold the focus-trap work from Phase 6 into it (one place to get a11y
@@ -267,6 +284,7 @@ one group at a time, screenshot-diff after each.
 - **Commit:** `refactor(modals): extract ModalShell`
 
 ### 5c. Centralize Mermaid init
+
 - Three components duplicate the mermaid `initialize({...})` config. Move to
   `utils/mermaid-helpers.ts` (`initMermaid()` returning the configured instance).
 - **How it's tested:** e2e renders a mermaid diagram in each of the three call
@@ -278,6 +296,7 @@ one group at a time, screenshot-diff after each.
 ## Phase 6 — Accessibility 🟠
 
 ### 6a. Focus trap + restore in modals
+
 - Implement in the new `ModalShell` (5b): on open, move focus into the dialog and
   trap Tab; on close, restore focus to the trigger. Add visible focus styling to
   `AccessibleGraph` tree items.
@@ -286,6 +305,7 @@ one group at a time, screenshot-diff after each.
 - **Commit:** `a11y: focus trap/restore in modals + visible tree focus`
 
 ### 6b. Respect `prefers-reduced-motion` in DetailPanel
+
 - The slide-in animations (`slideInRight`/`slideInUp`) ignore reduced-motion.
   Add `@media (prefers-reduced-motion: reduce) { animation: none }`. (The graph
   bloom already checks `prefersReducedMotion.current` — match that behavior.)
@@ -304,23 +324,27 @@ before/after evidence (FPS via `requestAnimationFrame` timing, or render-call
 counts behind a dev flag).
 
 ### 7a. `syncPositions` match by id, not index
+
 - `simulation.ts` aligns sim/graph nodes by array index. Switch to id-keyed
   matching to prevent silent desync. **Add the regression unit test first**
   (2a), then change the code so the test proves the fix.
 - **Commit:** `fix(engine): match sim positions by id`
 
 ### 7b. Memoize per-frame map rebuilds
+
 - `canvas-renderer.ts` rebuilds `NODE_MAP`/connected-id sets every frame. Cache
   keyed on `(nodes.length, selectedNode?.id, journey?.id)`; rebuild only on change.
 - **Commit:** `perf(render): memoize node/connection maps`
 
 ### 7c. Evict settled hover/dim animations; pool gradients
+
 - Delete animation-map entries when a node settles (`hoverT===0 && target===0`).
   Reuse a small gradient pool instead of `createLinearGradient` per shooting-star
   per frame.
 - **Commit:** `perf(render): evict settled anims, pool gradients`
 
 ### 7d. Frame-rate-independent viewport lerp
+
 - `app-state.svelte.ts:404` uses a fixed `t=0.09` assuming 60 fps (settles 2×
   fast on 120 Hz). Pass `dt` and use `1 - 0.9^(dt/16.67)`.
 - **How it's tested:** unit-test the easing function for equal settle-time across
@@ -336,6 +360,7 @@ counts behind a dev flag).
 ## Phase 8 — Hygiene & SEO 🟢
 
 ### 8a. Sitemap + JSON-LD
+
 - Generate `sitemap.xml` at build (endpoint or prerender script) covering `/`,
   all `/p/[id]`, `/rfcs`, `/pioneers`, `/outages`, `/book/*`, `/journey/*`. Add
   `EducationalResource` JSON-LD in `+layout.svelte`.
@@ -344,15 +369,17 @@ counts behind a dev flag).
 - **Commit:** `feat(seo): sitemap.xml + JSON-LD`
 
 ### 8b. Compress og-image
+
 - `static/og-image.png` is 1.8 MB. Re-encode to <200 KB (it's a social card,
-  1200×630). 
+  1200×630).
 - **How it's tested:** visual check it still looks right; size assertion.
 - **Commit:** `chore: compress og-image`
 
 ### 8c. Repo cleanup + docs
+
 - Remove `outreach-emails.md` from git (looks like a local artifact); add
   `research/` to `.gitignore` if it's scratch. Add `scripts/README.md`
-  documenting the content-pipeline tools (wrap-bare-*, densify-*, audit-*,
+  documenting the content-pipeline tools (wrap-bare-_, densify-_, audit-\*,
   validate-cross-references) and the content-authoring workflow.
 - **How it's tested:** `git status` clean; links in README resolve.
 - **Commit:** `docs: document scripts + clean repo artifacts`
@@ -370,6 +397,7 @@ counts behind a dev flag).
    depends on a later one.
 
 ## Definition of done (per task)
+
 - `npm run check` → 0 errors
 - `npm run lint` → 0 errors
 - `npm run test` (unit + e2e) → green

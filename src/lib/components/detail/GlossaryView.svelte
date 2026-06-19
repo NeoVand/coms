@@ -223,11 +223,7 @@
 										{:else if seg.type === 'bold'}
 											<strong class="font-semibold text-t-primary">{seg.value}</strong>
 										{:else if seg.type === 'protocol-link' || seg.type === 'bold-protocol-link'}
-											<ProtocolLink
-												protocolId={seg.protocolId}
-												label={seg.label}
-												color="#38bdf8"
-											/>
+											<ProtocolLink protocolId={seg.protocolId} label={seg.label} color="#38bdf8" />
 										{:else if seg.type === 'concept' || seg.type === 'bold-concept'}
 											<span class="font-medium text-t-primary">{seg.label}</span>
 										{/if}

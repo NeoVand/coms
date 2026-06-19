@@ -182,7 +182,8 @@ export const realtimeAvStory: CategoryStory = {
 				{
 					year: 2021,
 					title: 'WebRTC 1.0 \u2014 W3C Recommendation',
-					description: 'After a decade of development, [[webrtc|WebRTC]] reaches official standard status.',
+					description:
+						'After a decade of development, [[webrtc|WebRTC]] reaches official standard status.',
 					protocolId: 'webrtc'
 				}
 			]

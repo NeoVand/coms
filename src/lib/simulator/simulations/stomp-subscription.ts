@@ -28,7 +28,7 @@ export const stompSubscription: SimulationConfig = {
 			id: 'connect',
 			label: 'CONNECT',
 			description:
-				'The client sends a CONNECT frame with login credentials and protocol version. STOMP frames are human-readable text: a command line, headers as key:value pairs, a blank line, an optional body, and a null character terminator. This simplicity is STOMP\'s main advantage.',
+				"The client sends a CONNECT frame with login credentials and protocol version. STOMP frames are human-readable text: a command line, headers as key:value pairs, a blank line, an optional body, and a null character terminator. This simplicity is STOMP's main advantage.",
 			fromActor: 'client',
 			toActor: 'broker',
 			duration: 800,

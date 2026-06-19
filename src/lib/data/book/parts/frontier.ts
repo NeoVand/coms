@@ -19,7 +19,8 @@ export const frontier: BookPart = {
 		{
 			id: 'post-quantum',
 			title: 'Post-Quantum TLS',
-			synopsis: '{{pq-ciphersuite|X25519MLKEM768}} default in iOS 26 and Chrome — the first deployed post-quantum [[tls|TLS]] {{handshake|handshake}} on the public web.',
+			synopsis:
+				'{{pq-ciphersuite|X25519MLKEM768}} default in iOS 26 and Chrome — the first deployed post-quantum [[tls|TLS]] {{handshake|handshake}} on the public web.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -48,7 +49,7 @@ Browser deployment moved fast. **Chrome 124 (April 2024)** made X25519Kyber768 d
 						{
 							type: 'callout',
 							title: 'Apple iOS 26 cliff: <2% to 25% in 90 days',
-							text: '**{{apple|Apple}} iOS 26 / iPadOS 26 / macOS Tahoe 26 / visionOS 26 (September 2025)** turned {{pq-ciphersuite|X25519MLKEM768}} on by default for all [[tls|TLS]] 1.3 in Network.framework. Within **four days** the iOS post-quantum traffic share went from <2% to 11%. By December 2025 it was >25%. {{apple|Apple}}\'s scale plus the default-on shipping pattern is the fastest deployment of a new [[tls|TLS]] feature in the protocol\'s history.'
+							text: "**{{apple|Apple}} iOS 26 / iPadOS 26 / macOS Tahoe 26 / visionOS 26 (September 2025)** turned {{pq-ciphersuite|X25519MLKEM768}} on by default for all [[tls|TLS]] 1.3 in Network.framework. Within **four days** the iOS post-quantum traffic share went from <2% to 11%. By December 2025 it was >25%. {{apple|Apple}}'s scale plus the default-on shipping pattern is the fastest deployment of a new [[tls|TLS]] feature in the protocol's history."
 						},
 						{
 							type: 'narrative',
@@ -88,7 +89,8 @@ The **47-day-cert cliff**: {{certificate-authority|CA}}/Browser Forum **Ballot S
 		{
 			id: 'l4s-everywhere',
 			title: 'L4S Everywhere',
-			synopsis: '{{l4s|L4S}}: sub-millisecond queuing {{latency|latency}} for cooperating flows — Comcast launched in production January 2025.',
+			synopsis:
+				'{{l4s|L4S}}: sub-millisecond queuing {{latency|latency}} for cooperating flows — Comcast launched in production January 2025.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -137,7 +139,7 @@ The unresolved political fight is **{{l4s|L4S}}-vs-classic fairness**: Scalable 
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Cable_Modem.JPG/500px-Cable_Modem.JPG',
 							alt: 'A DOCSIS cable modem — the kind of last-mile device that ships L4S-capable AQM in 2024-2025.',
 							caption:
-								'A consumer **cable modem** — the bit of hardware Comcast turned into the world\'s first production **{{l4s|L4S}}** deployment in **January 2025** across six US metros (Atlanta, Chicago, Colorado Springs, Philadelphia, Rockville MD, San Francisco). {{docsis|DOCSIS}} 4.0 modems ship {{l4s|L4S}}-capable Dual-Queue {{aqm|AQM}}; {{apple|Apple}} iOS 17 / macOS Sonoma added {{l4s|L4S}} support in 2023. Sub-millisecond queuing delay at full link utilisation, finally, after 15 years of {{bufferbloat|bufferbloat}}.',
+								"A consumer **cable modem** — the bit of hardware Comcast turned into the world's first production **{{l4s|L4S}}** deployment in **January 2025** across six US metros (Atlanta, Chicago, Colorado Springs, Philadelphia, Rockville MD, San Francisco). {{docsis|DOCSIS}} 4.0 modems ship {{l4s|L4S}}-capable Dual-Queue {{aqm|AQM}}; {{apple|Apple}} iOS 17 / macOS Sonoma added {{l4s|L4S}} support in 2023. Sub-millisecond queuing delay at full link utilisation, finally, after 15 years of {{bufferbloat|bufferbloat}}.",
 							credit: 'Photo: Wikimedia Commons / CC BY-SA'
 						}
 					]
@@ -152,7 +154,8 @@ The unresolved political fight is **{{l4s|L4S}}-vs-classic fairness**: Scalable 
 		{
 			id: 'ipv6-mostly',
 			title: 'IPv6-Mostly',
-			synopsis: 'On 28 March 2026, {{google|Google}}\'s [[ipv6|IPv6]] dashboard recorded 50.1% for the first time — and [[ip|IPv4]] crossed under.',
+			synopsis:
+				"On 28 March 2026, {{google|Google}}'s [[ipv6|IPv6]] dashboard recorded 50.1% for the first time — and [[ip|IPv4]] crossed under.",
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -204,7 +207,7 @@ The "everyone gets this wrong" detail: [[ipv6|IPv6]]'s mandatory-to-implement [[
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d2/Internet_map_1024.jpg/500px-Internet_map_1024.jpg',
 							alt: 'A 2005 visualisation of the global internet topology with each line a BGP peering relationship.',
 							caption:
-								'A snapshot of the global internet, each line a [[bgp|BGP]] {{peering|peering}} relationship. The 28-year migration of this graph to [[ipv6|IPv6]] addressing finally crossed **50.1%** of {{google|Google}}\'s measured user base on **28 March 2026**. The driver was not advocacy; it was *economics* — {{aws|AWS}}\'s **$0.005/{{ip-address|IP}}/hour charge from 1 February 2024** did more for v6 deployment in a year than two decades of standards work.',
+								"A snapshot of the global internet, each line a [[bgp|BGP]] {{peering|peering}} relationship. The 28-year migration of this graph to [[ipv6|IPv6]] addressing finally crossed **50.1%** of {{google|Google}}'s measured user base on **28 March 2026**. The driver was not advocacy; it was *economics* — {{aws|AWS}}'s **$0.005/{{ip-address|IP}}/hour charge from 1 February 2024** did more for v6 deployment in a year than two decades of standards work.",
 							credit: 'Image: The Opte Project / Wikimedia Commons, CC BY 2.5'
 						}
 					]
@@ -218,7 +221,8 @@ The "everyone gets this wrong" detail: [[ipv6|IPv6]]'s mandatory-to-implement [[
 		{
 			id: 'rpki-aspa',
 			title: 'RPKI + ASPA',
-			synopsis: '{{rpki|Cryptographic BGP}}, finally arriving — 50% of [[ip|IPv4]] covered May 2024.',
+			synopsis:
+				'{{rpki|Cryptographic BGP}}, finally arriving — 50% of [[ip|IPv4]] covered May 2024.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -259,7 +263,7 @@ The "everyone gets this wrong" detail: [[ipv6|IPv6]]'s mandatory-to-implement [[
 						},
 						{
 							type: 'narrative',
-							title: 'When RPKI Backfires, And When It Doesn\'t',
+							title: "When RPKI Backfires, And When It Doesn't",
 							text: `**Orange España, 3 January 2024**: a threat actor "Snow" used infostealer-harvested credentials to log in to Orange Spain's {{ripe-ncc|RIPE NCC}} account and edited ROAs to make legitimate prefixes {{rpki|RPKI}}-invalid — the first major outage caused by **{{rpki|RPKI}} being too strict against an attacker-modified {{roa|ROA}} set**. Lesson: enforce 2FA on RIR portals. The vulnerability is not in {{rpki|RPKI}}; it is in the human-facing authentication surface around {{rpki|RPKI}}.
 
 **{{cloudflare|Cloudflare}} 1.1.1.1 hijack (27 June 2024)**: Brazilian {{isp|ISP}} Eletronet (AS267613) announced **1.1.1.1/32**. {{cloudflare|Cloudflare}} had a valid /24 {{roa|ROA}}, but ROAs cover up to maxLength /24, so a /32 announcement is not {{rpki|RPKI}}-invalid. Tier-1 {{peer|PEER}} 1 (AS1031) accepted and propagated. **300 networks in 70 countries lost 1.1.1.1.** The lesson: maxLength matters; sloppy {{roa|ROA}} configuration creates loopholes {{aspa|ASPA}} cannot close.
@@ -287,7 +291,8 @@ The regulatory layer is moving too. **The {{fcc|FCC}} issued a Notice of Propose
 		{
 			id: 'ultra-ethernet',
 			title: 'Ultra Ethernet',
-			synopsis: 'Replacing RoCEv2 in {{ai|AI}} training fabrics — [[ethernet|Ultra Ethernet]] Specification 1.0 published 11 June 2025.',
+			synopsis:
+				'Replacing RoCEv2 in {{ai|AI}} training fabrics — [[ethernet|Ultra Ethernet]] Specification 1.0 published 11 June 2025.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -351,7 +356,8 @@ The commercial scale: **[[ethernet|Ethernet]] switching market exceeded $30B in 
 		{
 			id: 'wifi-7-and-8',
 			title: 'Wi-Fi 7 and 8',
-			synopsis: '[[wifi|Wi-Fi]] 7\'s 320 MHz, then [[wifi|Wi-Fi]] 8\'s 25% better {{tail-latency|tail latency}} target — and the politics of 6 GHz.',
+			synopsis:
+				"[[wifi|Wi-Fi]] 7's 320 MHz, then [[wifi|Wi-Fi]] 8's 25% better {{tail-latency|tail latency}} target — and the politics of 6 GHz.",
 			slots: [
 				{
 					kind: 'pull-quote',

@@ -64,7 +64,8 @@ print(f"Connected by {addr}")
 data = conn.recv(1024)  # Reliable, ordered delivery
 conn.sendall(b"Hello back!")
 conn.close()  # FIN sequence`,
-		caption: 'A minimal [[tcp|TCP]] server — the 3-way {{handshake|handshake}} happens automatically inside accept()',
+		caption:
+			'A minimal [[tcp|TCP]] server — the 3-way {{handshake|handshake}} happens automatically inside accept()',
 		alternatives: [
 			{
 				language: 'javascript',
@@ -200,7 +201,10 @@ Client → Server  [ACK]
 			title: 'Comcast launches L4S in production',
 			description:
 				'Sub-millisecond queuing {{latency|latency}} for cooperating flows in six US metros, with {{apple|Apple}}, {{nvidia|NVIDIA}} GeForce NOW, {{meta|Meta}}, and Valve as launch partners. The first large-scale deployment of the {{l4s|L4S}} architecture ([[rfc:9330|RFC 9330]]/9331/9332) on a production access network.',
-			source: { url: 'https://www.rcrwireless.com/20250129/uncategorized/comcast-l4s', label: 'RCR Wireless' }
+			source: {
+				url: 'https://www.rcrwireless.com/20250129/uncategorized/comcast-l4s',
+				label: 'RCR Wireless'
+			}
 		},
 		{
 			date: '2025-06',
@@ -232,13 +236,13 @@ Client → Server  [ACK]
 			org: 'Google',
 			scale: 'BBR for google.com / YouTube',
 			description:
-				'BBRv1 deployed in 2016, {{bbrv3|BBRv3}} has rolled out as the default since 2024. Replaces {{cubic|CUBIC}} for outbound traffic from {{google|Google}}\'s edge.'
+				"BBRv1 deployed in 2016, {{bbrv3|BBRv3}} has rolled out as the default since 2024. Replaces {{cubic|CUBIC}} for outbound traffic from {{google|Google}}'s edge."
 		},
 		{
 			org: 'Meta',
 			scale: '>50% of traffic still TCP',
 			description:
-				'Despite >75% of {{meta|Meta}}\'s internet-facing traffic moving to [[quic|QUIC]], [[tcp|TCP]] remains the default for service-to-service inside the datacenter and for backwards-compatible client paths.'
+				"Despite >75% of {{meta|Meta}}'s internet-facing traffic moving to [[quic|QUIC]], [[tcp|TCP]] remains the default for service-to-service inside the datacenter and for backwards-compatible client paths."
 		},
 		{
 			org: 'Apple',
@@ -251,11 +255,11 @@ Client → Server  [ACK]
 	funFacts: [
 		{
 			title: 'RFC 793 was the spec for 41 years',
-			text: 'From September 1981 until [[rfc:9293|RFC 9293]] (August 2022), [[pioneer:jon-postel|Jon Postel]]\'s [[rfc:9293|RFC 793]] was the canonical [[tcp|TCP]] specification — almost certainly the longest unmodified {{ietf|IETF}} spec ever. [[rfc:9293|RFC 9293]] finally consolidated 13 errata documents into a single readable document, edited by Wesley Eddy.'
+			text: "From September 1981 until [[rfc:9293|RFC 9293]] (August 2022), [[pioneer:jon-postel|Jon Postel]]'s [[rfc:9293|RFC 793]] was the canonical [[tcp|TCP]] specification — almost certainly the longest unmodified {{ietf|IETF}} spec ever. [[rfc:9293|RFC 9293]] finally consolidated 13 errata documents into a single readable document, edited by Wesley Eddy."
 		},
 		{
-			title: 'TCP\'s sequence numbers used to be guessable',
-			text: 'Early [[tcp|TCP]] picked the initial {{sequence-number|sequence number}} from a counter incremented at a fixed rate per second. Kevin Mitnick used this in 1994 to forge a connection to Tsutomu Shimomura\'s host. Modern stacks use a cryptographically-random {{isn|ISN}} per [[rfc:9293|RFC 9293]] §3.4.1.'
+			title: "TCP's sequence numbers used to be guessable",
+			text: "Early [[tcp|TCP]] picked the initial {{sequence-number|sequence number}} from a counter incremented at a fixed rate per second. Kevin Mitnick used this in 1994 to forge a connection to Tsutomu Shimomura's host. Modern stacks use a cryptographically-random {{isn|ISN}} per [[rfc:9293|RFC 9293]] §3.4.1."
 		},
 		{
 			title: 'The window field is only 16 bits',
@@ -271,7 +275,7 @@ Client → Server  [ACK]
 		pitfalls: [
 			{
 				title: 'Nagle + Delayed ACK = 200ms latency',
-				text: 'Nagle\'s algorithm coalesces small writes; {{delayed-ack|delayed ACK}} batches acknowledgements. When both are on (the default), interactive applications writing in small chunks can stall for up to 200 ms waiting for an {{ack|ACK}}. Cure: setsockopt(TCP_NODELAY, 1) for low-{{latency|latency}} apps.'
+				text: "Nagle's algorithm coalesces small writes; {{delayed-ack|delayed ACK}} batches acknowledgements. When both are on (the default), interactive applications writing in small chunks can stall for up to 200 ms waiting for an {{ack|ACK}}. Cure: setsockopt(TCP_NODELAY, 1) for low-{{latency|latency}} apps."
 			},
 			{
 				title: 'Ephemeral port exhaustion',

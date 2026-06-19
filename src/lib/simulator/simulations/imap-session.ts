@@ -116,7 +116,7 @@ export const imapSession: SimulationConfig = {
 			id: 'select-response',
 			label: 'A002 OK',
 			description:
-				'The server returns the complete mailbox state: 47 messages exist, 2 are recent (new since last check), and the available flags for messages. The UIDVALIDITY value ensures the client\'s cached UIDs are still valid — if it changes, the client must re-sync everything.',
+				"The server returns the complete mailbox state: 47 messages exist, 2 are recent (new since last check), and the available flags for messages. The UIDVALIDITY value ensures the client's cached UIDs are still valid — if it changes, the client must re-sync everything.",
 			fromActor: 'server',
 			toActor: 'client',
 			duration: 1000,
@@ -138,7 +138,7 @@ export const imapSession: SimulationConfig = {
 			id: 'fetch',
 			label: 'A003 FETCH',
 			description:
-				'The client requests the newest message\'s envelope (sender, subject, date) and body text. IMAP can fetch specific parts of messages — just headers, just the text body, or individual MIME attachments — without downloading the entire message. This is one of IMAP\'s key advantages over POP3.',
+				"The client requests the newest message's envelope (sender, subject, date) and body text. IMAP can fetch specific parts of messages — just headers, just the text body, or individual MIME attachments — without downloading the entire message. This is one of IMAP's key advantages over POP3.",
 			fromActor: 'client',
 			toActor: 'server',
 			duration: 800,

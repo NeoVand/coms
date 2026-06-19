@@ -7,3 +7,13 @@ bun.lockb
 
 # Miscellaneous
 /static/
+
+# Prose / content working docs — authored as freeform Markdown, not code.
+# Prettier's markdown reformatting is non-idempotent on this long-form content
+# and adds no value here, so keep them out of the format/check gate.
+/research/
+/podcast-blueprints/
+/deep-research-prompts.txt
+/outreach-emails.md
+/build/
+/.svelte-kit/

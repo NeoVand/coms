@@ -1,6 +1,8 @@
 import type { ProtocolLayer } from '../types';
 
-export function createTCPLayer(overrides?: Partial<Record<string, string | number>>): ProtocolLayer {
+export function createTCPLayer(
+	overrides?: Partial<Record<string, string | number>>
+): ProtocolLayer {
 	return {
 		name: 'TCP Segment',
 		abbreviation: 'TCP',
@@ -76,7 +78,8 @@ export function createTCPLayer(overrides?: Partial<Record<string, string | numbe
 				bits: 16,
 				value: 0,
 				editable: false,
-				description: 'Urgent pointer — offset to the end of urgent data (only valid when URG flag is set)'
+				description:
+					'Urgent pointer — offset to the end of urgent data (only valid when URG flag is set)'
 			}
 		]
 	};

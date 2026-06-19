@@ -9,7 +9,7 @@ export const cellularRegistration: SimulationConfig = {
 	protocolId: 'cellular',
 	title: '5G Initial Registration + First PDU Session',
 	description:
-		"Watch a phone power on and walk the 8 beats every 5G-SA UE walks every time it leaves airplane mode: RRC Setup → Registration Request → 5G-AKA → Security Mode → Registration Accept → PDU Session Establishment → UPF programming → user plane up. Every NGAP and GTP-U hop is wrapped in IPsec ESP per 3GPP TS 33.501.",
+		'Watch a phone power on and walk the 8 beats every 5G-SA UE walks every time it leaves airplane mode: RRC Setup → Registration Request → 5G-AKA → Security Mode → Registration Accept → PDU Session Establishment → UPF programming → user plane up. Every NGAP and GTP-U hop is wrapped in IPsec ESP per 3GPP TS 33.501.',
 	tier: 'client',
 	actors: [
 		{ id: 'ue', label: 'UE (phone)', icon: 'device', position: 'left' },
@@ -44,7 +44,7 @@ export const cellularRegistration: SimulationConfig = {
 			id: 'rrc-setup',
 			label: 'RRC Setup (random access)',
 			description:
-				"UE selects a cell from SSB measurements and runs random access: PRACH preamble (Msg1) → Random Access Response with timing advance + temporary C-RNTI (Msg2) → RRCSetupRequest (Msg3) → RRCSetup (Msg4). At this point the UE has SRB1 (signalling radio bearer) but no security context.",
+				'UE selects a cell from SSB measurements and runs random access: PRACH preamble (Msg1) → Random Access Response with timing advance + temporary C-RNTI (Msg2) → RRCSetupRequest (Msg3) → RRCSetup (Msg4). At this point the UE has SRB1 (signalling radio bearer) but no security context.',
 			fromActor: 'ue',
 			toActor: 'gnb',
 			duration: 1300,
@@ -62,14 +62,16 @@ export const cellularRegistration: SimulationConfig = {
 							bits: 0,
 							value: 'mo-Signalling',
 							editable: false,
-							description: 'Why the UE wants a connection — signalling, data, voice, emergency, etc.'
+							description:
+								'Why the UE wants a connection — signalling, data, voice, emergency, etc.'
 						},
 						{
 							name: 'C-RNTI',
 							bits: 16,
 							value: '0x4A2F',
 							editable: false,
-							description: 'Cell Radio Network Temporary Identifier — the UE\'s short-lived ID in this cell'
+							description:
+								"Cell Radio Network Temporary Identifier — the UE's short-lived ID in this cell"
 						},
 						{
 							name: 'SRB1',
@@ -86,7 +88,7 @@ export const cellularRegistration: SimulationConfig = {
 			id: 'reg-req',
 			label: 'Registration Request (NAS)',
 			description:
-				'UE sends a Registration Request over SRB1. The gNB doesn\'t look at the NAS payload — it just forwards it to the AMF inside an NGAP Initial UE Message on SCTP/38412 (wrapped in IPsec ESP). The Request carries the **SUCI** (public-key-encrypted SUPI), requested NSSAI, and UE security capabilities.',
+				"UE sends a Registration Request over SRB1. The gNB doesn't look at the NAS payload — it just forwards it to the AMF inside an NGAP Initial UE Message on SCTP/38412 (wrapped in IPsec ESP). The Request carries the **SUCI** (public-key-encrypted SUPI), requested NSSAI, and UE security capabilities.",
 			fromActor: 'gnb',
 			toActor: 'core',
 			duration: 1400,
@@ -112,7 +114,7 @@ export const cellularRegistration: SimulationConfig = {
 			id: 'aka',
 			label: '5G-AKA Authentication',
 			description:
-				'AMF asks AUSF → AUSF asks UDM → UDM\'s SIDF decrypts SUCI to SUPI, generates an authentication vector. RAND/AUTN traverse all the way down to the UE. The USIM checks AUTN.MAC against f1(K, SQN, RAND), computes RES* via KDF(CK ‖ IK). AUSF compares RES* to HRES*. Mutual authentication.',
+				"AMF asks AUSF → AUSF asks UDM → UDM's SIDF decrypts SUCI to SUPI, generates an authentication vector. RAND/AUTN traverse all the way down to the UE. The USIM checks AUTN.MAC against f1(K, SQN, RAND), computes RES* via KDF(CK ‖ IK). AUSF compares RES* to HRES*. Mutual authentication.",
 			fromActor: 'core',
 			toActor: 'ue',
 			duration: 1500,
@@ -136,7 +138,7 @@ export const cellularRegistration: SimulationConfig = {
 			id: 'security-mode',
 			label: 'NAS Security Mode Command',
 			description:
-				"AMF picks ciphering (128-NEA2 = AES-CTR) and integrity (128-NIA2 = AES-CMAC). Sends Security Mode Command integrity-protected with the freshly-derived K_NASint. UE responds with Security Mode Complete ciphered+integrity-protected. From this point every NAS message is wrapped in `(Security Header, MAC, sequence)`.",
+				'AMF picks ciphering (128-NEA2 = AES-CTR) and integrity (128-NIA2 = AES-CMAC). Sends Security Mode Command integrity-protected with the freshly-derived K_NASint. UE responds with Security Mode Complete ciphered+integrity-protected. From this point every NAS message is wrapped in `(Security Header, MAC, sequence)`.',
 			fromActor: 'core',
 			toActor: 'ue',
 			duration: 1300,
@@ -232,7 +234,7 @@ export const cellularRegistration: SimulationConfig = {
 			id: 'user-plane',
 			label: 'First user-plane packet (GTP-U on N3)',
 			description:
-				"The N3 tunnel is up. First user-plane packet flows. UE sends an HTTPS request to 2606:4700:4700::1111 (Cloudflare DNS). The packet travels: UE → gNB (radio) → gNB wraps in GTP-U + IPsec ESP → N3 to UPF → UPF unwraps → public internet. The encapsulation is *the* lesson of cellular protocol design.",
+				'The N3 tunnel is up. First user-plane packet flows. UE sends an HTTPS request to 2606:4700:4700::1111 (Cloudflare DNS). The packet travels: UE → gNB (radio) → gNB wraps in GTP-U + IPsec ESP → N3 to UPF → UPF unwraps → public internet. The encapsulation is *the* lesson of cellular protocol design.',
 			fromActor: 'gnb',
 			toActor: 'core',
 			duration: 1500,

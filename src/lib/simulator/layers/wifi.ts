@@ -14,8 +14,7 @@ export function createWiFiLayer(
 				bits: 16,
 				value: overrides?.frameControl ?? '0x0841',
 				editable: false,
-				description:
-					'Frame type and control bits — Data (0x08), To DS, Protected Frame',
+				description: 'Frame type and control bits — Data (0x08), To DS, Protected Frame',
 				color: '#F472B6'
 			},
 			{
@@ -31,8 +30,7 @@ export function createWiFiLayer(
 				bits: 48,
 				value: overrides?.addr1 ?? 'AA:BB:CC:DD:EE:FF',
 				editable: true,
-				description:
-					'Receiver Address — the immediate next recipient (usually the access point)'
+				description: 'Receiver Address — the immediate next recipient (usually the access point)'
 			},
 			{
 				name: 'Addr 2 (TA)',
@@ -46,24 +44,21 @@ export function createWiFiLayer(
 				bits: 48,
 				value: overrides?.addr3 ?? 'CC:DD:EE:FF:00:11',
 				editable: true,
-				description:
-					'Destination Address — the final destination on the network'
+				description: 'Destination Address — the final destination on the network'
 			},
 			{
 				name: 'Seq Control',
 				bits: 16,
 				value: overrides?.seqControl ?? '0x0010',
 				editable: false,
-				description:
-					'Fragment and sequence number for reassembly and duplicate detection'
+				description: 'Fragment and sequence number for reassembly and duplicate detection'
 			},
 			{
 				name: 'Payload',
 				bits: 0,
 				value: overrides?.payload ?? '...',
 				editable: false,
-				description:
-					'Encrypted data payload (up to 2304 bytes with WPA2/3 encryption)'
+				description: 'Encrypted data payload (up to 2304 bytes with WPA2/3 encryption)'
 			},
 			{
 				name: 'FCS',

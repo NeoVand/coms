@@ -2,8 +2,7 @@ import type { SubcategoryStory } from './types';
 
 export const panProximityStory: SubcategoryStory = {
 	subcategoryId: 'pan-proximity',
-	tagline:
-		"Short-range wireless — four protocols for four different versions of \"close\"",
+	tagline: 'Short-range wireless — four protocols for four different versions of "close"',
 	sections: [
 		{
 			type: 'narrative',
@@ -21,7 +20,7 @@ export const panProximityStory: SubcategoryStory = {
 					title: '"Father of Bluetooth"',
 					org: 'Ericsson',
 					contribution:
-						"Designed [[bluetooth|Bluetooth]] at Ericsson in 1994. The original use case was eliminating the cable between a phone and a headset; the architecture (small piconets, frequency hopping for interference resilience, master/slave roles) scaled to almost any short-range use case. The protocol was named for the 10th-century Danish king Harald Bluetooth, who united Scandinavian tribes — the metaphor was uniting incompatible mobile-device standards. Haartsen and his Ericsson team partnered with IBM, Intel, Nokia, and Toshiba to form the Bluetooth SIG in 1998."
+						'Designed [[bluetooth|Bluetooth]] at Ericsson in 1994. The original use case was eliminating the cable between a phone and a headset; the architecture (small piconets, frequency hopping for interference resilience, master/slave roles) scaled to almost any short-range use case. The protocol was named for the 10th-century Danish king Harald Bluetooth, who united Scandinavian tribes — the metaphor was uniting incompatible mobile-device standards. Haartsen and his Ericsson team partnered with IBM, Intel, Nokia, and Toshiba to form the Bluetooth SIG in 1998.'
 				},
 				{
 					id: 'charles-walton',
@@ -59,37 +58,37 @@ export const panProximityStory: SubcategoryStory = {
 					year: 1973,
 					title: 'RFID First Patent',
 					description:
-						"[[pioneer:charles-walton|Walton]] patents the first portable RFID system — passive tags read by nearby readers. The basis for NFC three decades later."
+						'[[pioneer:charles-walton|Walton]] patents the first portable RFID system — passive tags read by nearby readers. The basis for NFC three decades later.'
 				},
 				{
 					year: 1994,
 					title: 'Bluetooth Conceived at Ericsson',
 					description:
-						"[[pioneer:jaap-haartsen|Haartsen]] starts [[bluetooth|Bluetooth]] at Ericsson as a cable-replacement technology for phones and accessories."
+						'[[pioneer:jaap-haartsen|Haartsen]] starts [[bluetooth|Bluetooth]] at Ericsson as a cable-replacement technology for phones and accessories.'
 				},
 				{
 					year: 1998,
 					title: 'Bluetooth SIG Founded',
 					description:
-						"Ericsson, IBM, Intel, Nokia, Toshiba form the Bluetooth Special Interest Group. Bluetooth 1.0 ships in 1999."
+						'Ericsson, IBM, Intel, Nokia, Toshiba form the Bluetooth Special Interest Group. Bluetooth 1.0 ships in 1999.'
 				},
 				{
 					year: 2002,
 					title: 'FCC Approves Commercial UWB',
 					description:
-						"Federal Communications Commission opens unlicensed [[uwb|ultra-wideband]] operation in the 3.1–10.6 GHz range. Time Domain, Freescale, Intel all start commercial UWB development."
+						'Federal Communications Commission opens unlicensed [[uwb|ultra-wideband]] operation in the 3.1–10.6 GHz range. Time Domain, Freescale, Intel all start commercial UWB development.'
 				},
 				{
 					year: 2002,
 					title: 'NFC Forum Founded',
 					description:
-						"Nokia, Philips, and Sony form the NFC Forum to standardize what would become contactless payment, transit, and proximity-pairing on phones."
+						'Nokia, Philips, and Sony form the NFC Forum to standardize what would become contactless payment, transit, and proximity-pairing on phones.'
 				},
 				{
 					year: 2003,
 					title: 'Zigbee Alliance Formed',
 					description:
-						"[[zigbee|Zigbee]] launches as a low-power mesh networking standard for sensors and actuators. ZigBee 1.0 ships in 2004."
+						'[[zigbee|Zigbee]] launches as a low-power mesh networking standard for sensors and actuators. ZigBee 1.0 ships in 2004.'
 				},
 				{
 					year: 2006,
@@ -101,25 +100,25 @@ export const panProximityStory: SubcategoryStory = {
 					year: 2010,
 					title: 'Bluetooth 4.0 — BLE',
 					description:
-						"Bluetooth Low Energy (BLE) ships — a fundamental redesign for sub-milliwatt power, suitable for coin-cell batteries lasting years. The breakthrough that makes \"the IoT\" practical for sensor-class devices."
+						'Bluetooth Low Energy (BLE) ships — a fundamental redesign for sub-milliwatt power, suitable for coin-cell batteries lasting years. The breakthrough that makes "the IoT" practical for sensor-class devices.'
 				},
 				{
 					year: 2014,
 					title: 'Apple Pay Launches',
 					description:
-						"Apple Pay uses NFC for in-store contactless payment. Drives mainstream consumer awareness of NFC; within two years, every major Android phone has matching support."
+						'Apple Pay uses NFC for in-store contactless payment. Drives mainstream consumer awareness of NFC; within two years, every major Android phone has matching support.'
 				},
 				{
 					year: 2015,
 					title: 'Bluetooth Mesh',
 					description:
-						"Bluetooth SIG adds mesh networking, competing directly with Zigbee for smart-home and industrial use cases."
+						'Bluetooth SIG adds mesh networking, competing directly with Zigbee for smart-home and industrial use cases.'
 				},
 				{
 					year: 2019,
 					title: 'Apple iPhone 11 — U1 Chip / UWB',
 					description:
-						"Apple ships UWB in iPhone 11 with the U1 chip. The first mainstream consumer device with precision-ranging UWB. AirDrop becomes direction-aware; AirTags ship in 2021 using UWB for precise finding."
+						'Apple ships UWB in iPhone 11 with the U1 chip. The first mainstream consumer device with precision-ranging UWB. AirDrop becomes direction-aware; AirTags ship in 2021 using UWB for precise finding.'
 				},
 				{
 					year: 2020,
@@ -137,7 +136,7 @@ export const panProximityStory: SubcategoryStory = {
 					year: 2024,
 					title: 'Bluetooth 6.0 — Channel Sounding',
 					description:
-						"Bluetooth gains UWB-like precision ranging via Channel Sounding. The boundary between BT and UWB blurs for proximity use cases."
+						'Bluetooth gains UWB-like precision ranging via Channel Sounding. The boundary between BT and UWB blurs for proximity use cases.'
 				}
 			]
 		},
@@ -151,9 +150,9 @@ export const panProximityStory: SubcategoryStory = {
 					values: [
 						'~10 m (Class 2); ~100 m (Class 1)',
 						'~2 Mbps (BLE 5) to ~50 Mbps (BR/EDR)',
-						"BLE: μW–mW; classic: tens of mW",
-						"Star (piconet, master + ≤7 slaves); now mesh too",
-						"Headphones, keyboards, fitness trackers, beacons"
+						'BLE: μW–mW; classic: tens of mW',
+						'Star (piconet, master + ≤7 slaves); now mesh too',
+						'Headphones, keyboards, fitness trackers, beacons'
 					]
 				},
 				{
@@ -162,8 +161,8 @@ export const panProximityStory: SubcategoryStory = {
 						'~4 cm',
 						'~424 Kbps',
 						"Passive tag: zero (powered by reader's field)",
-						"Reader + passive tag, or peer-to-peer",
-						"Contactless payment, transit, key cards, tap-to-share"
+						'Reader + passive tag, or peer-to-peer',
+						'Contactless payment, transit, key cards, tap-to-share'
 					]
 				},
 				{
@@ -171,9 +170,9 @@ export const panProximityStory: SubcategoryStory = {
 					values: [
 						'~50 m line of sight',
 						'~110 Mbps (rarely used at full rate)',
-						"Tens of mW per measurement, idle off",
-						"Anchor + tag, or peer-to-peer",
-						"Precise indoor/asset location, AirTag-class finding, secure car key"
+						'Tens of mW per measurement, idle off',
+						'Anchor + tag, or peer-to-peer',
+						'Precise indoor/asset location, AirTag-class finding, secure car key'
 					]
 				},
 				{
@@ -181,9 +180,9 @@ export const panProximityStory: SubcategoryStory = {
 					values: [
 						'~10–30 m per hop, building-scale via mesh',
 						'~250 Kbps',
-						"μW–mW (designed for coin-cell years)",
-						"Mesh — every router-class node forwards for others",
-						"Smart-home (bulbs, sensors, switches), industrial automation"
+						'μW–mW (designed for coin-cell years)',
+						'Mesh — every router-class node forwards for others',
+						'Smart-home (bulbs, sensors, switches), industrial automation'
 					]
 				}
 			],
@@ -215,10 +214,10 @@ export const panProximityStory: SubcategoryStory = {
 				"[[bluetooth|BLE]]'s advertising-then-connect dance is what lets sensor-class devices run on coin cells for years. The peripheral broadcasts a small ADV packet at long intervals; the central scans and connects on demand. Once connected, both sides wake briefly per connection interval and sleep otherwise. Average current is microamps.",
 			steps: {
 				0: '**Phase 1 — Advertising.** A BLE peripheral (smartwatch, sensor, beacon) advertises its presence by broadcasting on three known channels. The central (your phone) scans those channels passively.',
-				1: 'Peripheral wakes every 100ms–1s and **broadcasts an ADV_IND packet** on channels 37, 38, and 39 (BLE\'s three advertising channels). When sleeping, it draws microamps.',
+				1: "Peripheral wakes every 100ms–1s and **broadcasts an ADV_IND packet** on channels 37, 38, and 39 (BLE's three advertising channels). When sleeping, it draws microamps.",
 				2: '**Central scans** the same three channels. Most of the time central is also off; it wakes to scan briefly. Both sides spend almost no time on.',
-				3: 'Central catches an ADV_IND. The packet carries a UUID identifying the device or service, the peripheral\'s name, and its signal strength (RSSI).',
-				4: 'Central may optionally send a **SCAN_REQ** to ask for more advertising data the peripheral didn\'t fit in the initial ADV.',
+				3: "Central catches an ADV_IND. The packet carries a UUID identifying the device or service, the peripheral's name, and its signal strength (RSSI).",
+				4: "Central may optionally send a **SCAN_REQ** to ask for more advertising data the peripheral didn't fit in the initial ADV.",
 				5: 'Peripheral replies with **SCAN_RSP** carrying additional metadata.',
 				6: '**Phase 2 — Connection request.** Central decides to connect.',
 				7: 'Central sends **CONNECT_REQ** with connection parameters: how often the two will exchange data (interval), how many intervals the peripheral can skip if it has nothing to say (latency), how long without contact before the connection is declared dead (supervision timeout).',
@@ -244,7 +243,7 @@ export const panProximityStory: SubcategoryStory = {
 		},
 		{
 			type: 'narrative',
-			title: 'What\'s Next',
+			title: "What's Next",
 			text: `Active work in 2025:\n\n- **Bluetooth LE Audio + Auracast** broadcasts audio to many earbud-equipped listeners at once. Use cases: airport announcements, gym TVs, audio assistive listening in theaters. Slowly rolling out as new hardware ships.\n- **Bluetooth 6.0 Channel Sounding** brings precision ranging to BT, blurring the line with [[uwb|UWB]]. Expect "find my" features that work without a dedicated UWB chip in future devices.\n- **UWB everywhere** — UWB chips are spreading from flagship phones to mid-tier, from cars to smart-home hubs. The next 3–5 years will normalize centimeter-accurate ranging as a phone primitive.\n- **Matter / Thread continued growth** — most new smart-home devices ship Matter-over-Thread. Zigbee's install base is huge but the new growth is Matter. Many bridges (Hue, SmartThings, Aqara) translate between Zigbee and Matter.\n- **NFC for digital identity** — driver's licenses, passports, and government IDs are increasingly carried as NFC-readable credentials on phones. Apple Wallet IDs in US states; the EU's eIDAS 2.0 framework expects NFC-based national ID by 2026.\n- **The interesting frontier**: precision proximity. Knowing not just "the user is nearby" but "the user is sitting in the driver's seat" or "the user is approaching the front door from outside" is the next-generation interaction primitive. UWB plus BT plus mature multipath handling is what enables it.`
 		}
 	]

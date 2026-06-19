@@ -48,8 +48,7 @@ export const httpRequest: SimulationConfig = {
 		{
 			id: 'tcp-synack',
 			label: 'TCP SYN-ACK',
-			description:
-				'Server responds with SYN-ACK, agreeing to establish the connection.',
+			description: 'Server responds with SYN-ACK, agreeing to establish the connection.',
 			fromActor: 'server',
 			toActor: 'browser',
 			duration: 800,
@@ -95,12 +94,48 @@ export const httpRequest: SimulationConfig = {
 					osiLayer: 7,
 					color: '#00D4FF',
 					headerFields: [
-						{ name: 'Method', bits: 0, value: 'GET', editable: false, description: 'HTTP method — what action to perform' },
-						{ name: 'Path', bits: 0, value: '/index.html', editable: false, description: 'Resource path on the server' },
-						{ name: 'Version', bits: 0, value: 'HTTP/1.1', editable: false, description: 'Protocol version' },
-						{ name: 'Host', bits: 0, value: 'example.com', editable: false, description: 'Host header — which server to contact' },
-						{ name: 'Accept', bits: 0, value: 'text/html', editable: false, description: 'What content types the browser accepts' },
-						{ name: 'Connection', bits: 0, value: 'keep-alive', editable: false, description: 'Keep the TCP connection open for more requests' }
+						{
+							name: 'Method',
+							bits: 0,
+							value: 'GET',
+							editable: false,
+							description: 'HTTP method — what action to perform'
+						},
+						{
+							name: 'Path',
+							bits: 0,
+							value: '/index.html',
+							editable: false,
+							description: 'Resource path on the server'
+						},
+						{
+							name: 'Version',
+							bits: 0,
+							value: 'HTTP/1.1',
+							editable: false,
+							description: 'Protocol version'
+						},
+						{
+							name: 'Host',
+							bits: 0,
+							value: 'example.com',
+							editable: false,
+							description: 'Host header — which server to contact'
+						},
+						{
+							name: 'Accept',
+							bits: 0,
+							value: 'text/html',
+							editable: false,
+							description: 'What content types the browser accepts'
+						},
+						{
+							name: 'Connection',
+							bits: 0,
+							value: 'keep-alive',
+							editable: false,
+							description: 'Keep the TCP connection open for more requests'
+						}
 					]
 				}
 			]
@@ -116,7 +151,12 @@ export const httpRequest: SimulationConfig = {
 			highlight: ['Status', 'Content-Type'],
 			layers: [
 				createEthernetLayer({ srcMac: 'AA:BB:CC:DD:EE:FF', dstMac: '00:1A:2B:3C:4D:5E' }),
-				createIPv4Layer({ srcIp: '93.184.216.34', dstIp: '192.168.1.100', protocol: 6, totalLength: 1420 }),
+				createIPv4Layer({
+					srcIp: '93.184.216.34',
+					dstIp: '192.168.1.100',
+					protocol: 6,
+					totalLength: 1420
+				}),
 				createTCPLayer({ srcPort: 80, dstPort: 52000, seq: 301, ack: 321, flags: 'PSH,ACK' }),
 				{
 					name: 'HTTP Response',
@@ -124,11 +164,42 @@ export const httpRequest: SimulationConfig = {
 					osiLayer: 7,
 					color: '#00D4FF',
 					headerFields: [
-						{ name: 'Version', bits: 0, value: 'HTTP/1.1', editable: false, description: 'Protocol version' },
-						{ name: 'Status', bits: 0, value: '200 OK', editable: false, description: 'Success — the resource was found and returned', color: '#22c55e' },
-						{ name: 'Content-Type', bits: 0, value: 'text/html', editable: false, description: 'MIME type of the response body' },
-						{ name: 'Content-Length', bits: 0, value: '1256', editable: false, description: 'Size of the response body in bytes' },
-						{ name: 'Body', bits: 0, value: '<html>...</html>', editable: false, description: 'The HTML content of the page' }
+						{
+							name: 'Version',
+							bits: 0,
+							value: 'HTTP/1.1',
+							editable: false,
+							description: 'Protocol version'
+						},
+						{
+							name: 'Status',
+							bits: 0,
+							value: '200 OK',
+							editable: false,
+							description: 'Success — the resource was found and returned',
+							color: '#22c55e'
+						},
+						{
+							name: 'Content-Type',
+							bits: 0,
+							value: 'text/html',
+							editable: false,
+							description: 'MIME type of the response body'
+						},
+						{
+							name: 'Content-Length',
+							bits: 0,
+							value: '1256',
+							editable: false,
+							description: 'Size of the response body in bytes'
+						},
+						{
+							name: 'Body',
+							bits: 0,
+							value: '<html>...</html>',
+							editable: false,
+							description: 'The HTML content of the page'
+						}
 					]
 				}
 			]

@@ -67,7 +67,8 @@ ans = srp1(dhcp_discover, timeout=5, verbose=0)
 if ans:
     offered_ip = ans[BOOTP].yiaddr
     print(f"Offered IP: {offered_ip}")`,
-		caption: 'Scapy lets you construct and send raw [[dhcp|DHCP]] packets — see the {{dora|DORA}} process in action',
+		caption:
+			'Scapy lets you construct and send raw [[dhcp|DHCP]] packets — see the {{dora|DORA}} process in action',
 		alternatives: [
 			{
 				language: 'javascript',

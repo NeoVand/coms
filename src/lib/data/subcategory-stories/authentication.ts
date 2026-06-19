@@ -2,8 +2,7 @@ import type { SubcategoryStory } from './types';
 
 export const authenticationStory: SubcategoryStory = {
 	subcategoryId: 'authentication',
-	tagline:
-		"Proving who you are — tickets vs tokens, centralized realms vs federated delegation",
+	tagline: 'Proving who you are — tickets vs tokens, centralized realms vs federated delegation',
 	sections: [
 		{
 			type: 'narrative',
@@ -30,7 +29,7 @@ export const authenticationStory: SubcategoryStory = {
 					title: 'MIT Kerberos Lead',
 					org: 'MIT',
 					contribution:
-						'Long-time maintainer of the MIT Kerberos reference implementation — the codebase that powers Active Directory, Hadoop, NFSv4 secure mode, and many enterprise SSO deployments. Hudson\'s sustained engineering on the protocol\'s reference implementation has kept Kerberos secure and interoperable for two decades after the original designers moved on.'
+						"Long-time maintainer of the MIT Kerberos reference implementation — the codebase that powers Active Directory, Hadoop, NFSv4 secure mode, and many enterprise SSO deployments. Hudson's sustained engineering on the protocol's reference implementation has kept Kerberos secure and interoperable for two decades after the original designers moved on."
 				},
 				{
 					name: 'Eran Hammer',
@@ -38,7 +37,7 @@ export const authenticationStory: SubcategoryStory = {
 					title: 'OAuth 1.0 Editor / OAuth 2.0 Critic',
 					org: 'Independent',
 					contribution:
-						"Edited the OAuth 1.0 specification ([[rfc:5849|RFC 5849]], 2010) and was the lead author through OAuth 2.0 drafts. Famously resigned from the OAuth 2.0 spec in July 2012 with a blog post (\"OAuth 2.0 and the Road to Hell\") arguing that the new spec was a developer-experience disaster: too many extension points, too many ways to do the same thing, no required signing, no built-in interop. The post is still cited as both \"why OAuth 2 is hard\" and \"why simple specs win.\""
+						'Edited the OAuth 1.0 specification ([[rfc:5849|RFC 5849]], 2010) and was the lead author through OAuth 2.0 drafts. Famously resigned from the OAuth 2.0 spec in July 2012 with a blog post ("OAuth 2.0 and the Road to Hell") arguing that the new spec was a developer-experience disaster: too many extension points, too many ways to do the same thing, no required signing, no built-in interop. The post is still cited as both "why OAuth 2 is hard" and "why simple specs win."'
 				},
 				{
 					name: 'Dick Hardt',
@@ -46,7 +45,7 @@ export const authenticationStory: SubcategoryStory = {
 					title: 'OAuth 2.0 Editor',
 					org: 'Sxip / Microsoft',
 					contribution:
-						"Took over from Hammer and shepherded [[oauth2|OAuth 2.0]] to publication ([[rfc:6749|RFC 6749]], 2012). Defended the framework-not-protocol approach: OAuth 2.0 is intentionally a toolkit because the use cases (server-to-server, browser app, mobile app, IoT) genuinely need different flows. The PKCE extension ([[rfc:7636|RFC 7636]], 2015) and OAuth 2.1 (consolidating best practices) are both responses to the worst of the 2012-era flexibility."
+						'Took over from Hammer and shepherded [[oauth2|OAuth 2.0]] to publication ([[rfc:6749|RFC 6749]], 2012). Defended the framework-not-protocol approach: OAuth 2.0 is intentionally a toolkit because the use cases (server-to-server, browser app, mobile app, IoT) genuinely need different flows. The PKCE extension ([[rfc:7636|RFC 7636]], 2015) and OAuth 2.1 (consolidating best practices) are both responses to the worst of the 2012-era flexibility.'
 				}
 			]
 		},
@@ -57,13 +56,13 @@ export const authenticationStory: SubcategoryStory = {
 					year: 1978,
 					title: 'Needham-Schroeder Protocol',
 					description:
-						"The academic foundation for ticket-based authentication. Subsequently shown to have a replay attack (1981) that the Lowe fix (1995) addressed. Kerberos is a Needham-Schroeder descendant with timestamps to prevent the attack."
+						'The academic foundation for ticket-based authentication. Subsequently shown to have a replay attack (1981) that the Lowe fix (1995) addressed. Kerberos is a Needham-Schroeder descendant with timestamps to prevent the attack.'
 				},
 				{
 					year: 1988,
 					title: 'Kerberos V4 at MIT',
 					description:
-						"[[kerberos|Kerberos]] ships as part of MIT Project Athena. KDC, TGS, ticket-granting tickets, time-synchronized authentication. The model that defines authentication for the next 35 years."
+						'[[kerberos|Kerberos]] ships as part of MIT Project Athena. KDC, TGS, ticket-granting tickets, time-synchronized authentication. The model that defines authentication for the next 35 years.'
 				},
 				{
 					year: 1993,
@@ -93,7 +92,7 @@ export const authenticationStory: SubcategoryStory = {
 					year: 2012,
 					title: 'OAuth 2.0 (RFC 6749)',
 					description:
-						"[[oauth2|OAuth 2.0]] published. Framework rather than protocol — multiple grant types (authorization code, implicit, client credentials, password). Hammer publicly resigns as editor citing complexity and developer-experience concerns."
+						'[[oauth2|OAuth 2.0]] published. Framework rather than protocol — multiple grant types (authorization code, implicit, client credentials, password). Hammer publicly resigns as editor citing complexity and developer-experience concerns.'
 				},
 				{
 					year: 2014,
@@ -105,7 +104,7 @@ export const authenticationStory: SubcategoryStory = {
 					year: 2015,
 					title: 'PKCE (RFC 7636)',
 					description:
-						"PKCE — Proof Key for Code Exchange — extends OAuth 2.0 to protect public clients (mobile apps, SPAs) from authorization-code interception. Becomes the recommended pattern for all OAuth flows."
+						'PKCE — Proof Key for Code Exchange — extends OAuth 2.0 to protect public clients (mobile apps, SPAs) from authorization-code interception. Becomes the recommended pattern for all OAuth flows.'
 				},
 				{
 					year: 2019,
@@ -123,14 +122,20 @@ export const authenticationStory: SubcategoryStory = {
 					year: 2025,
 					title: 'OAuth 2.1 Stabilizes',
 					description:
-						"OAuth 2.1 consolidates a decade of best-current-practice into one spec. Removes implicit and password grants. PKCE required for authorization-code flow. The standardization of \"how to do OAuth 2 safely\" instead of \"OAuth 2 plus six other RFCs.\""
+						'OAuth 2.1 consolidates a decade of best-current-practice into one spec. Removes implicit and password grants. PKCE required for authorization-code flow. The standardization of "how to do OAuth 2 safely" instead of "OAuth 2 plus six other RFCs."'
 				}
 			]
 		},
 		{
 			type: 'comparison',
 			title: 'Kerberos vs OAuth 2.0',
-			axes: ['Problem solved', 'Architecture', 'Credential', 'Time semantics', 'Where it dominates'],
+			axes: [
+				'Problem solved',
+				'Architecture',
+				'Credential',
+				'Time semantics',
+				'Where it dominates'
+			],
 			rows: [
 				{
 					label: '[[kerberos|Kerberos]]',
@@ -139,7 +144,7 @@ export const authenticationStory: SubcategoryStory = {
 						'Three-party: client, KDC, service',
 						'Time-stamped tickets, short-lived',
 						'Tightly synchronized (clock skew > 5 min = ticket invalid)',
-						"Active Directory, Hadoop, NFS Kerberos mode, enterprise SSO inside corporate networks"
+						'Active Directory, Hadoop, NFS Kerberos mode, enterprise SSO inside corporate networks'
 					]
 				},
 				{
@@ -149,7 +154,7 @@ export const authenticationStory: SubcategoryStory = {
 						'Three-party: user, authorization server, resource server',
 						'Bearer tokens (anyone with the token has the access)',
 						'Loose — tokens have an expiry, but no clock-sync requirement',
-						"Public-facing APIs, third-party app authorization, OIDC for federated login"
+						'Public-facing APIs, third-party app authorization, OIDC for federated login'
 					]
 				}
 			],
@@ -178,21 +183,21 @@ export const authenticationStory: SubcategoryStory = {
     S-->>U: AP_REP — mutual-auth response
     Note over U,S: User and service share session key, further messages encrypted`,
 			caption:
-				"The Kerberos flow has the classic \"three-headed dog\" structure: AS (initial authentication), TGS (service ticket distribution), and the actual service. The user's password never leaves the user's machine. The KDC holds keys for *everyone* (users and services), which is also why a KDC compromise is catastrophic.",
+				'The Kerberos flow has the classic "three-headed dog" structure: AS (initial authentication), TGS (service ticket distribution), and the actual service. The user\'s password never leaves the user\'s machine. The KDC holds keys for *everyone* (users and services), which is also why a KDC compromise is catastrophic.',
 			steps: {
 				0: '**Step 1 — Get a TGT.** Before the user can talk to *any* service, they need a Ticket Granting Ticket from the AS. This happens once per login session.',
 				1: 'User sends an **AS_REQ** identifying themselves. Importantly: this message does **not** contain the password.',
-				2: '**AS looks up alice in its database**, retrieves her long-term key (derived from her password), and prepares a TGT encrypted under the TGS\'s own key (so only the TGS can read it later).',
-				3: '**AS_REP** comes back with the TGT *plus* a session key, all encrypted under alice\'s password-derived key.',
+				2: "**AS looks up alice in its database**, retrieves her long-term key (derived from her password), and prepares a TGT encrypted under the TGS's own key (so only the TGS can read it later).",
+				3: "**AS_REP** comes back with the TGT *plus* a session key, all encrypted under alice's password-derived key.",
 				4: '**User decrypts with the password.** If the password was correct, the decryption succeeds and the user now holds a TGT plus session key. If the password was wrong, the bytes are garbage and the user knows immediately. The password never crossed the wire.',
 				5: '**Step 2 — Get a service ticket.** Now the user wants to talk to a specific service (say a file server). They go back to the KDC, but this time present their TGT.',
-				6: 'User sends **TGS_REQ**: the TGT, a fresh authenticator (timestamp + checksum encrypted under the TGT\'s session key), and the name of the target service.',
-				7: '**TGS validates the TGT** (it can, because TGT is encrypted under TGS\'s own key) and the authenticator (proving the request is fresh). It then mints a service ticket encrypted under the fileserver\'s key.',
+				6: "User sends **TGS_REQ**: the TGT, a fresh authenticator (timestamp + checksum encrypted under the TGT's session key), and the name of the target service.",
+				7: "**TGS validates the TGT** (it can, because TGT is encrypted under TGS's own key) and the authenticator (proving the request is fresh). It then mints a service ticket encrypted under the fileserver's key.",
 				8: '**TGS_REP** delivers the service ticket plus a new session key for the user↔fileserver conversation.',
-				9: '**Step 3 — Use the service ticket.** The user now has everything needed to authenticate to the fileserver without the KDC\'s further involvement.',
+				9: "**Step 3 — Use the service ticket.** The user now has everything needed to authenticate to the fileserver without the KDC's further involvement.",
 				10: 'User sends **AP_REQ** to the service: the service ticket plus a fresh authenticator. The service can decrypt the ticket (it has its own key) and validate the authenticator with the session key inside.',
 				11: '**Service validates the timestamp.** Authenticator timestamps must be within ~5 minutes — this is why Kerberos is allergic to clock skew.',
-				12: 'Service replies with **AP_REP**, encrypting a value derived from the user\'s authenticator to prove mutual authentication (the user knows they\'re talking to the real fileserver, not an impostor).',
+				12: "Service replies with **AP_REP**, encrypting a value derived from the user's authenticator to prove mutual authentication (the user knows they're talking to the real fileserver, not an impostor).",
 				13: 'From this point, **user and service share a session key** and can talk securely (or at least authenticated) for the lifetime of the service ticket — typically 8 to 24 hours.'
 			}
 		},
@@ -208,7 +213,7 @@ export const authenticationStory: SubcategoryStory = {
 		},
 		{
 			type: 'narrative',
-			title: 'What\'s Next',
+			title: "What's Next",
 			text: `Active work in 2025:\n\n- **Passkeys and WebAuthn** are slowly displacing password-based authentication. Cross-device synced passkeys (Apple, Google, Microsoft, 1Password, Bitwarden) make WebAuthn UX usable by non-technical users. The "death of the password" has been promised for 20 years; it's finally happening for consumer logins.\n- **OAuth 2.1** consolidates best practices into one spec. Many libraries and providers already implement the 2.1 conservative subset.\n- **DPoP** (Demonstrating Proof-of-Possession, [[rfc:9449|RFC 9449]]) binds OAuth tokens to a client-held key. Mitigates the bearer-token leak problem. Adoption is uneven but growing.\n- **Sender-constrained access tokens** in general — TLS-bound, certificate-bound, or DPoP-bound — are the long-term answer to "bearer tokens are too easy to steal."\n- **Workload Identity Federation** lets cloud workloads (GCP, AWS, Azure VMs / containers) authenticate to *other* clouds without long-lived API keys. The OAuth pattern applied to machine-to-machine auth.\n- **The Kerberos slow decline** continues. Cloud-native deployments don't use it; new enterprise systems default to OIDC. Active Directory remains, but the action is in Entra ID and similar cloud SSO products that *speak* AD-compatible protocols at the edge while running OAuth+OIDC underneath.\n- **MCP and OAuth 2.0 convergence** — Anthropic's Model Context Protocol picked OAuth 2.1 + DCR (Dynamic Client Registration) as the auth model for remote MCP servers. The new agent ecosystem is being built on OAuth from day one.`
 		}
 	]

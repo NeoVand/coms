@@ -215,7 +215,7 @@ curl -sH 'accept: application/dns-json' \\
 			org: 'Google 8.8.8.8',
 			scale: '~14 trillion queries/day',
 			description:
-				'The original public resolver, {{anycast|anycast}} across {{google|Google}}\'s edge network. Backbone of much of the modern internet\'s name resolution.'
+				"The original public resolver, {{anycast|anycast}} across {{google|Google}}'s edge network. Backbone of much of the modern internet's name resolution."
 		},
 		{
 			org: 'Root server system',
@@ -252,7 +252,7 @@ curl -sH 'accept: application/dns-json' \\
 			},
 			{
 				title: 'Negative caching can hurt',
-				text: 'Resolvers cache NXDOMAIN responses based on the SOA minimum field. If you typo a domain name and a resolver caches the failure for an hour, your fix won\'t take effect until the cache expires. Cure: monitor for unexpected NXDOMAIN; test resolution from multiple resolvers.'
+				text: "Resolvers cache NXDOMAIN responses based on the SOA minimum field. If you typo a domain name and a resolver caches the failure for an hour, your fix won't take effect until the cache expires. Cure: monitor for unexpected NXDOMAIN; test resolution from multiple resolvers."
 			}
 		]
 	}

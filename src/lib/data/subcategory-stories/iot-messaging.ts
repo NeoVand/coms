@@ -3,7 +3,7 @@ import type { SubcategoryStory } from './types';
 export const iotMessagingStory: SubcategoryStory = {
 	subcategoryId: 'iot-messaging',
 	tagline:
-		"Talking to billions of constrained devices over flaky links — when every byte and every milliwatt matters",
+		'Talking to billions of constrained devices over flaky links — when every byte and every milliwatt matters',
 	sections: [
 		{
 			type: 'narrative',
@@ -20,7 +20,7 @@ export const iotMessagingStory: SubcategoryStory = {
 					title: 'Co-inventor of MQTT',
 					org: 'IBM',
 					contribution:
-						"Co-invented [[mqtt|MQTT]] at IBM in 1999 with Arlen Nipper. The original use case was telemetry from oil pipelines monitored by VSAT (satellite) — a connection that was expensive, low-bandwidth, and routinely flaky. MQTT\\'s minimalism (2-byte header, no acks required at QoS 0) and its broker-mediated pub/sub model were direct responses to those constraints. Stanford-Clark also pioneered residential applications — \"MQTT in the home\" demos in the mid-2000s — that previewed the smart-home era."
+						'Co-invented [[mqtt|MQTT]] at IBM in 1999 with Arlen Nipper. The original use case was telemetry from oil pipelines monitored by VSAT (satellite) — a connection that was expensive, low-bandwidth, and routinely flaky. MQTT\\\'s minimalism (2-byte header, no acks required at QoS 0) and its broker-mediated pub/sub model were direct responses to those constraints. Stanford-Clark also pioneered residential applications — "MQTT in the home" demos in the mid-2000s — that previewed the smart-home era.'
 				},
 				{
 					name: 'Arlen Nipper',
@@ -47,7 +47,7 @@ export const iotMessagingStory: SubcategoryStory = {
 					year: 1999,
 					title: 'MQTT Born at IBM',
 					description:
-						"[[pioneer:andy-stanford-clark|Stanford-Clark]] and [[pioneer:arlen-nipper|Nipper]] design [[mqtt|MQTT]] for monitoring oil pipelines via satellite links. Constraints: expensive bandwidth, frequent disconnects, tiny embedded controllers."
+						'[[pioneer:andy-stanford-clark|Stanford-Clark]] and [[pioneer:arlen-nipper|Nipper]] design [[mqtt|MQTT]] for monitoring oil pipelines via satellite links. Constraints: expensive bandwidth, frequent disconnects, tiny embedded controllers.'
 				},
 				{
 					year: 2011,
@@ -77,7 +77,7 @@ export const iotMessagingStory: SubcategoryStory = {
 					year: 2016,
 					title: 'AWS IoT Core Launches',
 					description:
-						"AWS picks MQTT as the primary protocol for AWS IoT Core. Azure, Google Cloud IoT (now deprecated), Alibaba Cloud IoT all follow with MQTT-first stacks."
+						'AWS picks MQTT as the primary protocol for AWS IoT Core. Azure, Google Cloud IoT (now deprecated), Alibaba Cloud IoT all follow with MQTT-first stacks.'
 				},
 				{
 					year: 2018,
@@ -89,7 +89,7 @@ export const iotMessagingStory: SubcategoryStory = {
 					year: 2019,
 					title: 'MQTT 5 Published',
 					description:
-						"MQTT 5 adds shared subscriptions, message expiry, request/response patterns, properties (extensible metadata), reason codes. Most production deployments are still on 3.1.1 because of broker-side feature gating, but 5 is the path forward."
+						'MQTT 5 adds shared subscriptions, message expiry, request/response patterns, properties (extensible metadata), reason codes. Most production deployments are still on 3.1.1 because of broker-side feature gating, but 5 is the path forward.'
 				},
 				{
 					year: 2022,
@@ -117,7 +117,7 @@ export const iotMessagingStory: SubcategoryStory = {
 						'[[tcp|TCP]] (with [[tls|TLS]]) — sometimes WebSocket',
 						'Topic strings the publisher and subscriber agree on',
 						'QoS 0 (at-most-once) / 1 (at-least-once) / 2 (exactly-once)',
-						"Cloud-connected fleet telemetry, mobile push, smart-home cloud"
+						'Cloud-connected fleet telemetry, mobile push, smart-home cloud'
 					]
 				},
 				{
@@ -127,7 +127,7 @@ export const iotMessagingStory: SubcategoryStory = {
 						'[[udp|UDP]] (with DTLS) — sometimes TCP',
 						'Resource URIs + multicast discovery',
 						'Confirmable / non-confirmable messages',
-						"Constrained-radio meshes (Thread, 6LoWPAN), Matter, local control"
+						'Constrained-radio meshes (Thread, 6LoWPAN), Matter, local control'
 					]
 				}
 			],
@@ -161,7 +161,7 @@ export const iotMessagingStory: SubcategoryStory = {
     B->>S: PUBREL
     S-->>B: PUBCOMP`,
 			caption:
-				"[[mqtt|MQTT]] gives you three reliability tiers at the protocol level. Most production traffic is QoS 1 — the sweet spot of \"the broker will retry until acked\" without the 4-message overhead of QoS 2. QoS 2 is rare in practice because most apps prefer idempotent message handlers over exactly-once delivery semantics.",
+				'[[mqtt|MQTT]] gives you three reliability tiers at the protocol level. Most production traffic is QoS 1 — the sweet spot of "the broker will retry until acked" without the 4-message overhead of QoS 2. QoS 2 is rare in practice because most apps prefer idempotent message handlers over exactly-once delivery semantics.',
 			steps: {
 				0: '**QoS 0 — fire and forget.** No acknowledgments, no retransmits. Cheapest, lightest, and zero guarantees. Used for telemetry where losing a sample is fine.',
 				1: 'Publisher sends a **PUBLISH** to the broker. No message ID is used (because there will be no ack to correlate).',
@@ -169,7 +169,7 @@ export const iotMessagingStory: SubcategoryStory = {
 				3: 'No acks anywhere. If the wireless link dropped the packet, the message is gone — the publisher will never know.',
 				4: '**QoS 1 — at least once.** Adds acknowledgments. The publisher retries until the broker acks; the broker retries until each subscriber acks. The trade: a message may be *delivered more than once* if an ack is lost and the sender retries after the original arrived.',
 				5: 'Publisher sends **PUBLISH with message id 42**. Starts a retransmit timer.',
-				6: 'Broker stores the message durably (per the publisher\'s settings) and replies with **PUBACK 42**. Publisher can now discard its in-flight copy.',
+				6: "Broker stores the message durably (per the publisher's settings) and replies with **PUBACK 42**. Publisher can now discard its in-flight copy.",
 				7: 'Broker delivers **PUBLISH 42** to the subscriber.',
 				8: 'Subscriber acks with **PUBACK 42**. Broker is done.',
 				9: '**Possible duplicate.** If the PUBACK from broker to publisher is lost, the publisher retries — the broker may publish the message twice. This is why QoS 1 demands idempotent message handling.',
@@ -197,7 +197,7 @@ export const iotMessagingStory: SubcategoryStory = {
 		},
 		{
 			type: 'narrative',
-			title: 'What\'s Next',
+			title: "What's Next",
 			text: `Active work in 2025:\n\n- **MQTT over [[quic|QUIC]]** moves through IETF drafts. Better than MQTT-over-TCP on lossy mobile links — no transport-layer HoL blocking, faster reconnect after network change. EMQX, HiveMQ, NanoMQ have early implementations.\n- **Sparkplug B** continues spreading in industrial OT (factory floors, energy grids) — a layer on top of MQTT that defines device discovery, state, and command/control schemas. Bridges IT-style MQTT to OT-style protocols (Modbus, OPC UA).\n- **Matter / Thread adoption** drives more CoAP into consumer homes. Apple Home, Google Home, Amazon Alexa, SmartThings all support Matter now; CoAP is the wire protocol behind the curtains.\n- **MQTT-SN** (MQTT for Sensor Networks) — a UDP version of MQTT for the lowest-end devices — sees renewed interest as NB-IoT and LTE-M cellular IoT roll out.\n- **The convergence question**: should IoT consolidate on one protocol (probably MQTT) or maintain the broker-vs-peer-to-peer split? Practical answer for 2025 is probably both, indefinitely.`
 		}
 	]

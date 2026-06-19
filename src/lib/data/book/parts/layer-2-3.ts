@@ -20,7 +20,8 @@ export const layer23: BookPart = {
 		{
 			id: 'ethernet',
 			title: 'Ethernet',
-			synopsis: 'From {{xerox-parc|PARC}} coaxial cable to [[ethernet|800 GbE]] in {{ai|AI}} training fabrics.',
+			synopsis:
+				'From {{xerox-parc|PARC}} coaxial cable to [[ethernet|800 GbE]] in {{ai|AI}} training fabrics.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -87,7 +88,8 @@ The **[[frontier:ultra-ethernet-1-0|Ultra Ethernet Consortium]] Specification 1.
 		{
 			id: 'wifi',
 			title: 'Wi-Fi',
-			synopsis: '{{csma-ca|CSMA/CA}} on the airwaves; from {{fcc|FCC}} Docket 81-413 to [[wifi|Wi-Fi]] 8.',
+			synopsis:
+				'{{csma-ca|CSMA/CA}} on the airwaves; from {{fcc|FCC}} Docket 81-413 to [[wifi|Wi-Fi]] 8.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -153,7 +155,8 @@ The breach that changed everything: **TJX (disclosed 17 January 2007)** — atta
 		{
 			id: 'arp-and-ndp',
 			title: 'ARP and NDP',
-			synopsis: 'How a {{packet|packet}} finds the next physical hop — [[arp|STD 37]] has not been obsoleted in 44 years.',
+			synopsis:
+				'How a {{packet|packet}} finds the next physical hop — [[arp|STD 37]] has not been obsoleted in 44 years.',
 			slots: [
 				{
 					kind: 'prose',
@@ -203,7 +206,7 @@ Two {{ndp|NDP}} CVEs deserve naming.
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/90/Ethernet_Switch_%28Front_View%29.jpg/500px-Ethernet_Switch_%28Front_View%29.jpg',
 							alt: 'A rack-mounted Ethernet switch with rows of RJ-45 ports.',
 							caption:
-								'An [[ethernet|Ethernet]] switch — the physical thing that builds and maintains a {{mac-address|MAC}}-address-to-port table for every device plugged in. Every entry in that table is a successful [[arp|ARP]] request: *who has 192.0.2.5? I do, at ab:cd:ef:01:02:03.* The switch caches; the host caches; the entire seam between the [[ip|IP]] layer\'s 32-bit addresses and the [[ethernet|Ethernet]] layer\'s 48-bit ones lives in those two caches.',
+								"An [[ethernet|Ethernet]] switch — the physical thing that builds and maintains a {{mac-address|MAC}}-address-to-port table for every device plugged in. Every entry in that table is a successful [[arp|ARP]] request: *who has 192.0.2.5? I do, at ab:cd:ef:01:02:03.* The switch caches; the host caches; the entire seam between the [[ip|IP]] layer's 32-bit addresses and the [[ethernet|Ethernet]] layer's 48-bit ones lives in those two caches.",
 							credit: 'Photo: Wikimedia Commons / CC BY-SA'
 						}
 					]
@@ -343,7 +346,7 @@ The 2024 {{ietf|IETF}} backlog tells the story of where [[ipv6|IPv6]] work is ha
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/70/Ipv6_address_leading_zeros.svg/500px-Ipv6_address_leading_zeros.svg.png',
 							alt: 'IPv6 address structure showing the eight 16-bit groups and the double-colon zero-compression rule.',
 							caption:
-								'An [[ipv6|IPv6]] address — **128 bits**, written as eight colon-separated 16-bit groups, with one run of zeros collapsed to `::`. The field grew from [[ip|IPv4]]\'s 32 bits to enough that every grain of sand on Earth could have its own {{subnet|subnet}}. On 28 March 2026 {{google|Google}}\'s [[ipv6|IPv6]] dashboard crossed **50.1%** for the first time — 28 years after [[rfc:2460|RFC 2460]] was published.',
+								"An [[ipv6|IPv6]] address — **128 bits**, written as eight colon-separated 16-bit groups, with one run of zeros collapsed to `::`. The field grew from [[ip|IPv4]]'s 32 bits to enough that every grain of sand on Earth could have its own {{subnet|subnet}}. On 28 March 2026 {{google|Google}}'s [[ipv6|IPv6]] dashboard crossed **50.1%** for the first time — 28 years after [[rfc:2460|RFC 2460]] was published.",
 							credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 						}
 					]
@@ -371,7 +374,7 @@ The 2024 {{ietf|IETF}} backlog tells the story of where [[ipv6|IPv6]] work is ha
 					sections: [
 						{
 							type: 'narrative',
-							title: 'Mike Muuss\'s One-Night Tool',
+							title: "Mike Muuss's One-Night Tool",
 							text: `[[icmp|ICMP]] ([[rfc:792|RFC 792]], September 1981) is the protocol that lets the network tell you something is wrong without opening a connection. When a router drops your packet because the **{{ttl|TTL}}** hit zero, it sends an [[icmp|ICMP]] **{{time-exceeded|Time Exceeded}}** back to you — the mechanism that **{{traceroute|traceroute}}** exploits to map every hop along a path. When a destination is unreachable, you get **Destination Unreachable**. When a router has too small an {{mtu|MTU}} for your packet and the **Don't Fragment** bit is set, it sends **{{fragmentation|Fragmentation}} Needed**, which is what **{{path-mtu-discovery|Path MTU Discovery}}** depends on.
 
 The most famous [[icmp|ICMP]] message is **{{echo-request|Echo Request}} / {{echo-reply|Echo Reply}}** — what **{{ping|ping}}** sends. **Mike Muuss** wrote {{ping|ping}} at BRL Aberdeen **in December 1983 in a single night** after hearing Dave Mills describe Fuzzball {{latency|latency}}-timing experiments. He had to write the kernel raw-[[icmp|ICMP]] socket support too because it didn't exist. *"Had everything working well before sunrise."*
@@ -428,7 +431,7 @@ The most famous [[icmp|ICMP]] message is **{{echo-request|Echo Request}} / {{ech
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: '[[bgp|BGP]] doesn\'t have a real authentication story for 30+ years. The 16-byte all-ones Marker field at the start of every [[bgp|BGP]] message was originally a placeholder for an authentication digest — now vestigial.',
+					text: "[[bgp|BGP]] doesn't have a real authentication story for 30+ years. The 16-byte all-ones Marker field at the start of every [[bgp|BGP]] message was originally a placeholder for an authentication digest — now vestigial.",
 					attribution: 'Author'
 				},
 				{
@@ -483,9 +486,9 @@ That sketch became [[rfc:4271|BGP-1]] ([[rfc:1105|RFC 1105]], June 1989), then [
 						{
 							type: 'image',
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/bf/Arpanet_logical_map%2C_march_1977.png/500px-Arpanet_logical_map%2C_march_1977.png',
-							alt: 'ARPANET logical map, March 1977 — predecessor topology to today\'s BGP-routed internet.',
+							alt: "ARPANET logical map, March 1977 — predecessor topology to today's BGP-routed internet.",
 							caption:
-								'The {{arpanet|ARPANET}} logical map, March 1977 — every node fits on a single sheet of paper. Today\'s [[bgp|BGP]] global {{routing-table|routing table}} has crossed **a million prefixes**, advertised by ~46,800 {{autonomous-system|ASes}}. [[pioneer:yakov-rekhter|Yakov Rekhter]] and Kirk Lougheed sketched the *Two-Napkin Protocol* in 1989 — three handwritten sheets that became the protocol every {{transit|transit}} provider on Earth still speaks.',
+								"The {{arpanet|ARPANET}} logical map, March 1977 — every node fits on a single sheet of paper. Today's [[bgp|BGP]] global {{routing-table|routing table}} has crossed **a million prefixes**, advertised by ~46,800 {{autonomous-system|ASes}}. [[pioneer:yakov-rekhter|Yakov Rekhter]] and Kirk Lougheed sketched the *Two-Napkin Protocol* in 1989 — three handwritten sheets that became the protocol every {{transit|transit}} provider on Earth still speaks.",
 							credit: 'Image: DARPA / public domain, via Wikimedia Commons'
 						}
 					]
@@ -504,7 +507,8 @@ That sketch became [[rfc:4271|BGP-1]] ([[rfc:1105|RFC 1105]], June 1989), then [
 		{
 			id: 'dns',
 			title: 'DNS',
-			synopsis: "[[dns|The naming layer]] every other protocol depends on — designed by [[pioneer:paul-mockapetris|Paul Mockapetris]] in 1983.",
+			synopsis:
+				'[[dns|The naming layer]] every other protocol depends on — designed by [[pioneer:paul-mockapetris|Paul Mockapetris]] in 1983.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -526,7 +530,7 @@ The first six TLDs were **\`.edu, .gov, .com, .mil, .org, .net\`**, with **\`.in
 						{
 							type: 'callout',
 							title: '.onion is a special-use carve-out',
-							text: '**{{iana|IANA}} reserved `.onion` as a Special-Use Domain Name ([[rfc:7686|RFC 7686]], 2015) — MUST NOT be looked up in public [[dns|DNS]].** A rare carve-out outside {{icann|ICANN}}\'s namespace, granted because the Tor protocol uses .onion as an internal addressing scheme rather than a public naming hierarchy. The reservation prevents accidental [[dns|DNS]] leakage of Tor traffic.'
+							text: "**{{iana|IANA}} reserved `.onion` as a Special-Use Domain Name ([[rfc:7686|RFC 7686]], 2015) — MUST NOT be looked up in public [[dns|DNS]].** A rare carve-out outside {{icann|ICANN}}'s namespace, granted because the Tor protocol uses .onion as an internal addressing scheme rather than a public naming hierarchy. The reservation prevents accidental [[dns|DNS]] leakage of Tor traffic."
 						},
 						{
 							type: 'narrative',

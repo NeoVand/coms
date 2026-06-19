@@ -1,5 +1,11 @@
 import type { GraphNode, GraphEdge, Viewport } from '$lib/data/types';
-import { hexToRgba, themedColor, themedDomColor, shiftHsl, type ThemeColors } from '$lib/utils/colors';
+import {
+	hexToRgba,
+	themedColor,
+	themedDomColor,
+	shiftHsl,
+	type ThemeColors
+} from '$lib/utils/colors';
 import { getProtocolById } from '$lib/data/index';
 import { categoryMap, categories } from '$lib/data/categories';
 import { subcategoryMap } from '$lib/data/subcategories';
@@ -71,7 +77,14 @@ function updateJourneyIds(journey: Journey | null | undefined): void {
 	}
 }
 
-function isNodeDimmed(node: GraphNode, selectedNode: GraphNode | null, compareTargetId?: string | null, activeJourney?: Journey | null, searchHighlightIds?: Set<string> | null, hoveredNode?: GraphNode | null): boolean {
+function isNodeDimmed(
+	node: GraphNode,
+	selectedNode: GraphNode | null,
+	compareTargetId?: string | null,
+	activeJourney?: Journey | null,
+	searchHighlightIds?: Set<string> | null,
+	hoveredNode?: GraphNode | null
+): boolean {
 	// Hover overrides every dimming mode — when the user hovers an inline
 	// protocol link in prose, the target node must light up regardless of
 	// the current selection / journey / comparison context.
@@ -135,8 +148,24 @@ function isNodeDimmed(node: GraphNode, selectedNode: GraphNode | null, compareTa
 let currentTheme: ThemeColors;
 
 export function render(ctx: CanvasRenderingContext2D, options: RenderOptions): void {
-	const { width, height, viewport, nodes, edges, hoveredNode, selectedNode, compareTargetId, activeJourney, activeJourneyStepIndex, searchHighlightIds, time, dpr, layoutMode, theme, birthScales } =
-		options;
+	const {
+		width,
+		height,
+		viewport,
+		nodes,
+		edges,
+		hoveredNode,
+		selectedNode,
+		compareTargetId,
+		activeJourney,
+		activeJourneyStepIndex,
+		searchHighlightIds,
+		time,
+		dpr,
+		layoutMode,
+		theme,
+		birthScales
+	} = options;
 
 	const getBirth = (id: string): number => birthScales?.get(id) ?? 1;
 
@@ -213,7 +242,16 @@ export function render(ctx: CanvasRenderingContext2D, options: RenderOptions): v
 
 	// Update dim animations (smooth fade in/out)
 	for (const node of nodes) {
-		const targetDim = isNodeDimmed(node, selectedNode, compareTargetId, activeJourney, searchHighlightIds, hoveredNode) ? 1 : 0;
+		const targetDim = isNodeDimmed(
+			node,
+			selectedNode,
+			compareTargetId,
+			activeJourney,
+			searchHighlightIds,
+			hoveredNode
+		)
+			? 1
+			: 0;
 		const current = dimAnim.get(node.id) ?? 0;
 		const speed = targetDim > current ? DIM_EASE_IN : DIM_EASE_OUT;
 		const next = current + (targetDim - current) * speed;
@@ -244,7 +282,19 @@ export function render(ctx: CanvasRenderingContext2D, options: RenderOptions): v
 		const isConnected = connectedIds.has(node.id);
 		const birthT = getBirth(node.id);
 		if (birthT <= 0.001) continue;
-		drawNode(ctx, node, hoverT, isSelected, dimT, isConnected, time, viewport.scale, theme, layoutMode, birthT);
+		drawNode(
+			ctx,
+			node,
+			hoverT,
+			isSelected,
+			dimT,
+			isConnected,
+			time,
+			viewport.scale,
+			theme,
+			layoutMode,
+			birthT
+		);
 	}
 
 	ctx.restore();
@@ -292,8 +342,11 @@ function drawRelatedEdges(
 		ctx.moveTo(liveNode.x, liveNode.y);
 		ctx.quadraticCurveTo(cpx, cpy, targetNode.x, targetNode.y);
 		const isLight = !tc.showStars;
-		ctx.strokeStyle = hexToRgba(nodeColor, compareTargetId ? (isLight ? 0.6 : 0.4) : (isLight ? 0.5 : 0.25));
-		ctx.lineWidth = compareTargetId ? 1.5 : (isLight ? 1.4 : 1.0);
+		ctx.strokeStyle = hexToRgba(
+			nodeColor,
+			compareTargetId ? (isLight ? 0.6 : 0.4) : isLight ? 0.5 : 0.25
+		);
+		ctx.lineWidth = compareTargetId ? 1.5 : isLight ? 1.4 : 1.0;
 		ctx.stroke();
 	}
 
@@ -382,9 +435,8 @@ function drawJourneyPath(
 		ctx.font = `600 ${9 * pulseScale}px Inter, system-ui, sans-serif`;
 		ctx.textAlign = 'center';
 		ctx.textBaseline = 'middle';
-		ctx.fillStyle = isCurrent || isVisited
-			? (tc.showStars ? '#000000' : '#FFFFFF')
-			: hexToRgba(jColor, 0.8);
+		ctx.fillStyle =
+			isCurrent || isVisited ? (tc.showStars ? '#000000' : '#FFFFFF') : hexToRgba(jColor, 0.8);
 		ctx.fillText(String(i + 1), badgeX, badgeY + 0.5);
 	}
 
@@ -494,7 +546,6 @@ function drawTimelineUnderlay(ctx: CanvasRenderingContext2D, theme: ThemeColors)
 	ctx.setLineDash([]);
 	ctx.restore();
 }
-
 
 // Seeded star field — generated once, reused every frame
 let starCache: { x: number; y: number; r: number; a: number }[] | null = null;
@@ -754,8 +805,7 @@ function drawNode(
 		const glowScale = 1 + 0.3 * eased; // glow grows out with hover
 		const glowRadius = r * 2.2 * glowScale;
 		const glow = ctx.createRadialGradient(x, y, r * 0.5, x, y, glowRadius);
-		const baseGlowAlpha =
-			isSelected ? 0.35 : isConnected ? 0.2 : type === 'hub' ? 0.08 : 0.1;
+		const baseGlowAlpha = isSelected ? 0.35 : isConnected ? 0.2 : type === 'hub' ? 0.08 : 0.1;
 		const glowAlpha = (baseGlowAlpha + 0.25 * eased) * glowVisibility;
 		glow.addColorStop(0, hexToRgba(color, glowAlpha));
 		glow.addColorStop(1, hexToRgba(color, 0));
@@ -782,7 +832,7 @@ function drawNode(
 		// Extract the rgb and replace alpha with (1 - dimT)
 		const match = baseBg.match(/rgba?\(([^)]+)\)/);
 		if (match) {
-			const parts = match[1].split(',').map(s => s.trim());
+			const parts = match[1].split(',').map((s) => s.trim());
 			ctx.fillStyle = `rgba(${parts[0]}, ${parts[1]}, ${parts[2]}, ${1 - dimT})`;
 		} else {
 			ctx.fillStyle = baseBg;
@@ -798,7 +848,7 @@ function drawNode(
 			gradient.addColorStop(0, hexToRgba(theme.hub, alpha));
 			const endMatch = theme.hubGradientEnd.match(/rgba?\(([^)]+)\)/);
 			if (endMatch) {
-				const parts = endMatch[1].split(',').map(s => s.trim());
+				const parts = endMatch[1].split(',').map((s) => s.trim());
 				gradient.addColorStop(1, `rgba(${parts[0]}, ${parts[1]}, ${parts[2]}, ${alpha * 0.8})`);
 			} else {
 				gradient.addColorStop(1, hexToRgba(theme.hub, alpha * 0.8));
@@ -825,7 +875,10 @@ function drawNode(
 		const highlight = ctx.createRadialGradient(x - r * 0.25, y - r * 0.3, 0, x, y, r);
 		const hlAlpha = 1 - dimT;
 		const hubHighlight = theme.showStars ? 0.4 : 0.15; // subtler in light mode
-		highlight.addColorStop(0, `rgba(255, 255, 255, ${(type === 'hub' ? hubHighlight : theme.innerHighlightAlpha) * hlAlpha})`);
+		highlight.addColorStop(
+			0,
+			`rgba(255, 255, 255, ${(type === 'hub' ? hubHighlight : theme.innerHighlightAlpha) * hlAlpha})`
+		);
 		highlight.addColorStop(0.5, 'rgba(255, 255, 255, 0)');
 		highlight.addColorStop(1, 'rgba(255, 255, 255, 0)');
 		ctx.beginPath();
@@ -860,8 +913,10 @@ function drawNode(
 
 	// Label — show for non-dimmed nodes and connected nodes
 	if (dimT < 0.95 || isConnected) {
-		const fontSize = type === 'hub' ? 11 : type === 'category' ? 10 : type === 'subcategory' ? 9.5 : 9;
-		const showLabel = scale > 0.5 || type === 'hub' || type === 'category' || type === 'subcategory';
+		const fontSize =
+			type === 'hub' ? 11 : type === 'category' ? 10 : type === 'subcategory' ? 9.5 : 9;
+		const showLabel =
+			scale > 0.5 || type === 'hub' || type === 'category' || type === 'subcategory';
 		const showAbbrev = scale <= 0.5 && scale > 0.3 && type === 'protocol';
 
 		if (showLabel || showAbbrev || isConnected) {
@@ -880,12 +935,9 @@ function drawNode(
 			ctx.font = `${type === 'hub' ? '600' : '500'} ${fontSize}px Inter, system-ui, sans-serif`;
 
 			// In light mode, use muted DOM colors for labels so they're readable on the light bg
-		const labelColor = type === 'hub'
-			? theme.hub
-			: theme.showStars
-				? color
-				: themedDomColor(node.color, 'light');
-		ctx.fillStyle = hexToRgba(labelColor, type === 'hub' ? labelAlpha : labelAlpha * 0.9);
+			const labelColor =
+				type === 'hub' ? theme.hub : theme.showStars ? color : themedDomColor(node.color, 'light');
+			ctx.fillStyle = hexToRgba(labelColor, type === 'hub' ? labelAlpha : labelAlpha * 0.9);
 
 			// Text shadow
 			ctx.shadowColor = theme.labelShadowColor;
@@ -978,11 +1030,17 @@ function drawAsyncIotIcon(ctx: CanvasRenderingContext2D): void {
 }
 
 function drawRealtimeAvIcon(ctx: CanvasRenderingContext2D): void {
-	ctx.stroke(new Path2D('M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z'));
+	ctx.stroke(
+		new Path2D('M5 5a2 2 0 0 1 3.008-1.728l11.997 6.998a2 2 0 0 1 .003 3.458l-12 7A2 2 0 0 1 5 19z')
+	);
 }
 
 function drawUtilitiesIcon(ctx: CanvasRenderingContext2D): void {
-	ctx.stroke(new Path2D('M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z'));
+	ctx.stroke(
+		new Path2D(
+			'M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z'
+		)
+	);
 	ctx.stroke(new Path2D('M9 12l2 2 4-4'));
 }
 

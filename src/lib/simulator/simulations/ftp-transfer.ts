@@ -94,7 +94,7 @@ export const ftpTransfer: SimulationConfig = {
 			id: 'pass',
 			label: 'PASS',
 			description:
-				'The client sends the password. On success, the server responds with 230 (User logged in). FTP\'s plain-text credentials are a well-known security weakness, which is why modern file transfer uses SFTP or FTPS with TLS encryption.',
+				"The client sends the password. On success, the server responds with 230 (User logged in). FTP's plain-text credentials are a well-known security weakness, which is why modern file transfer uses SFTP or FTPS with TLS encryption.",
 			fromActor: 'client',
 			toActor: 'server',
 			duration: 800,

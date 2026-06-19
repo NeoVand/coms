@@ -43,8 +43,7 @@ export function createFTPLayer(
 				bits: 0,
 				value: overrides?.channel ?? 'Control (21)',
 				editable: false,
-				description:
-					'Which connection carries this data — Control (port 21) or Data (port 20)'
+				description: 'Which connection carries this data — Control (port 21) or Data (port 20)'
 			}
 		]
 	};

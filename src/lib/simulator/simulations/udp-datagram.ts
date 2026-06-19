@@ -27,7 +27,7 @@ export const udpDatagram: SimulationConfig = {
 			id: 'dgram-1',
 			label: 'Datagram #1',
 			description:
-				'UDP sends the first datagram immediately — no connection setup needed. Notice the minimal 8-byte header compared to TCP\'s 20 bytes.',
+				"UDP sends the first datagram immediately — no connection setup needed. Notice the minimal 8-byte header compared to TCP's 20 bytes.",
 			fromActor: 'sender',
 			toActor: 'receiver',
 			duration: 800,
@@ -42,7 +42,13 @@ export const udpDatagram: SimulationConfig = {
 					osiLayer: 7,
 					color: '#00D4FF',
 					headerFields: [
-						{ name: 'Payload', bits: 0, value: 'Packet #1: Hello!', editable: false, description: 'Application payload — sent without waiting for acknowledgment' }
+						{
+							name: 'Payload',
+							bits: 0,
+							value: 'Packet #1: Hello!',
+							editable: false,
+							description: 'Application payload — sent without waiting for acknowledgment'
+						}
 					]
 				}
 			]
@@ -51,7 +57,7 @@ export const udpDatagram: SimulationConfig = {
 			id: 'dgram-2',
 			label: 'Datagram #2',
 			description:
-				'The second datagram is sent right away — UDP doesn\'t wait for the first one to be acknowledged. Each datagram is independent.',
+				"The second datagram is sent right away — UDP doesn't wait for the first one to be acknowledged. Each datagram is independent.",
 			fromActor: 'sender',
 			toActor: 'receiver',
 			duration: 800,
@@ -66,7 +72,13 @@ export const udpDatagram: SimulationConfig = {
 					osiLayer: 7,
 					color: '#00D4FF',
 					headerFields: [
-						{ name: 'Payload', bits: 0, value: 'Packet #2: World!', editable: false, description: 'Another independent datagram' }
+						{
+							name: 'Payload',
+							bits: 0,
+							value: 'Packet #2: World!',
+							editable: false,
+							description: 'Another independent datagram'
+						}
 					]
 				}
 			]
@@ -90,7 +102,14 @@ export const udpDatagram: SimulationConfig = {
 					osiLayer: 7,
 					color: '#ef4444',
 					headerFields: [
-						{ name: 'Payload', bits: 0, value: 'Packet #3: Lost!', editable: false, description: 'This datagram never arrives — lost in the network', color: '#ef4444' }
+						{
+							name: 'Payload',
+							bits: 0,
+							value: 'Packet #3: Lost!',
+							editable: false,
+							description: 'This datagram never arrives — lost in the network',
+							color: '#ef4444'
+						}
 					]
 				}
 			]
@@ -99,7 +118,7 @@ export const udpDatagram: SimulationConfig = {
 			id: 'dgram-4',
 			label: 'Datagram #4',
 			description:
-				'The sender keeps going, unaware that datagram #3 was lost. This is the trade-off: UDP is fast because it doesn\'t wait, but unreliable.',
+				"The sender keeps going, unaware that datagram #3 was lost. This is the trade-off: UDP is fast because it doesn't wait, but unreliable.",
 			fromActor: 'sender',
 			toActor: 'receiver',
 			duration: 800,
@@ -113,7 +132,13 @@ export const udpDatagram: SimulationConfig = {
 					osiLayer: 7,
 					color: '#00D4FF',
 					headerFields: [
-						{ name: 'Payload', bits: 0, value: 'Packet #4: Still here', editable: false, description: 'The sender continues without knowing about the loss' }
+						{
+							name: 'Payload',
+							bits: 0,
+							value: 'Packet #4: Still here',
+							editable: false,
+							description: 'The sender continues without knowing about the loss'
+						}
 					]
 				}
 			]
@@ -122,7 +147,7 @@ export const udpDatagram: SimulationConfig = {
 			id: 'dgram-5',
 			label: 'Datagram #5',
 			description:
-				'Final datagram sent. The receiver got packets 1, 2, 4, and 5 — but not 3. If ordering matters, the application must handle that itself (UDP doesn\'t).',
+				"Final datagram sent. The receiver got packets 1, 2, 4, and 5 — but not 3. If ordering matters, the application must handle that itself (UDP doesn't).",
 			fromActor: 'sender',
 			toActor: 'receiver',
 			duration: 800,
@@ -136,7 +161,13 @@ export const udpDatagram: SimulationConfig = {
 					osiLayer: 7,
 					color: '#00D4FF',
 					headerFields: [
-						{ name: 'Payload', bits: 0, value: 'Packet #5: Done', editable: false, description: 'Last datagram — receiver reconstructs what it can' }
+						{
+							name: 'Payload',
+							bits: 0,
+							value: 'Packet #5: Done',
+							editable: false,
+							description: 'Last datagram — receiver reconstructs what it can'
+						}
 					]
 				}
 			]

@@ -33,8 +33,7 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 	// destroy so the user lands back where they started.
 	const savedPath = window.location.pathname + window.location.search;
 	const baseHome = `${base}/`;
-	const isAtHome =
-		window.location.pathname === baseHome || window.location.pathname === base;
+	const isAtHome = window.location.pathname === baseHome || window.location.pathname === base;
 	if (!isAtHome) {
 		await goto(baseHome, { replaceState: false, keepFocus: true });
 	}

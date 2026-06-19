@@ -86,7 +86,7 @@ export const ipsecTunnel: SimulationConfig = {
 			id: 'ike-intermediate',
 			label: 'IKE_INTERMEDIATE',
 			description:
-				"RFC 9242. PQ public keys are too large for a single UDP-fragmentable IKE_SA_INIT. IKE_INTERMEDIATE runs *inside* the IKE SA (encrypted), before identity is revealed, and can carry chained KEMs per RFC 9370 — here adding FrodoKEM as a second-line PQ backup.",
+				'RFC 9242. PQ public keys are too large for a single UDP-fragmentable IKE_SA_INIT. IKE_INTERMEDIATE runs *inside* the IKE SA (encrypted), before identity is revealed, and can carry chained KEMs per RFC 9370 — here adding FrodoKEM as a second-line PQ backup.',
 			fromActor: 'hq',
 			toActor: 'branch',
 			duration: 1300,
@@ -107,7 +107,7 @@ export const ipsecTunnel: SimulationConfig = {
 			id: 'ike-auth',
 			label: 'IKE_AUTH (req)',
 			description:
-				"HQ proves identity (`IDi`) with its certificate and signs the IKE_SA_INIT messages (`AUTH`). The first **Child SA** — a one-direction ESP key — is negotiated in the same exchange via `SAi2`, `TSi`, `TSr`. After this round trip, ESP traffic can flow.",
+				'HQ proves identity (`IDi`) with its certificate and signs the IKE_SA_INIT messages (`AUTH`). The first **Child SA** — a one-direction ESP key — is negotiated in the same exchange via `SAi2`, `TSi`, `TSr`. After this round trip, ESP traffic can flow.',
 			fromActor: 'hq',
 			toActor: 'branch',
 			duration: 1400,
@@ -128,7 +128,7 @@ export const ipsecTunnel: SimulationConfig = {
 			id: 'esp-traffic-1',
 			label: 'ESP (HQ → Branch)',
 			description:
-				"Child SA up. An inner [[ip|IP]] packet (10.0.0.5 → 10.1.0.42, payload `GET /index.html`) is encrypted with AES-GCM-256 and wrapped in ESP with SPI=0xC0FFEE01. Outer header is the public-internet IP pair. Receiver looks up SA by SPI, validates the 128-bit auth tag, decrypts, and forwards the inner packet.",
+				'Child SA up. An inner [[ip|IP]] packet (10.0.0.5 → 10.1.0.42, payload `GET /index.html`) is encrypted with AES-GCM-256 and wrapped in ESP with SPI=0xC0FFEE01. Outer header is the public-internet IP pair. Receiver looks up SA by SPI, validates the 128-bit auth tag, decrypts, and forwards the inner packet.',
 			fromActor: 'hq',
 			toActor: 'branch',
 			duration: 1400,

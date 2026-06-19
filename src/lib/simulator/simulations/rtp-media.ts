@@ -11,10 +11,34 @@ function createRTCPLayer(reportType: string, ssrc: string, payload: string): Pro
 		osiLayer: 7,
 		color: '#BE185D',
 		headerFields: [
-			{ name: 'Version', bits: 2, value: 2, editable: false, description: 'RTCP version — always 2' },
-			{ name: 'Report Type', bits: 8, value: reportType, editable: false, description: 'RTCP packet type — SR (200), RR (201), SDES (202), BYE (203)' },
-			{ name: 'SSRC', bits: 32, value: ssrc, editable: false, description: 'SSRC of the report sender' },
-			{ name: 'Report Data', bits: 0, value: payload, editable: false, description: 'Statistics — NTP timestamp, packet count, jitter, loss fraction' }
+			{
+				name: 'Version',
+				bits: 2,
+				value: 2,
+				editable: false,
+				description: 'RTCP version — always 2'
+			},
+			{
+				name: 'Report Type',
+				bits: 8,
+				value: reportType,
+				editable: false,
+				description: 'RTCP packet type — SR (200), RR (201), SDES (202), BYE (203)'
+			},
+			{
+				name: 'SSRC',
+				bits: 32,
+				value: ssrc,
+				editable: false,
+				description: 'SSRC of the report sender'
+			},
+			{
+				name: 'Report Data',
+				bits: 0,
+				value: payload,
+				editable: false,
+				description: 'Statistics — NTP timestamp, packet count, jitter, loss fraction'
+			}
 		]
 	};
 }
@@ -89,7 +113,11 @@ export const rtpMedia: SimulationConfig = {
 				createEthernetLayer(),
 				createIPv4Layer({ protocol: 17 }),
 				createUDPLayer({ srcPort: 5005, dstPort: 5005 }),
-				createRTCPLayer('SR (200)', '0x12345678', 'NTP: 2026-03-13 14:30:00, Packets: 1500, Bytes: 240000')
+				createRTCPLayer(
+					'SR (200)',
+					'0x12345678',
+					'NTP: 2026-03-13 14:30:00, Packets: 1500, Bytes: 240000'
+				)
 			]
 		},
 		{
@@ -105,7 +133,11 @@ export const rtpMedia: SimulationConfig = {
 				createEthernetLayer({ srcMac: 'AA:BB:CC:DD:EE:FF', dstMac: '00:1A:2B:3C:4D:5E' }),
 				createIPv4Layer({ srcIp: '93.184.216.34', dstIp: '192.168.1.100', protocol: 17 }),
 				createUDPLayer({ srcPort: 5005, dstPort: 5005 }),
-				createRTCPLayer('RR (201)', '0x87654321', 'Loss: 0.5%, Jitter: 12ms, Last SR: 14:30:00, Delay: 45ms')
+				createRTCPLayer(
+					'RR (201)',
+					'0x87654321',
+					'Loss: 0.5%, Jitter: 12ms, Last SR: 14:30:00, Delay: 45ms'
+				)
 			]
 		}
 	]

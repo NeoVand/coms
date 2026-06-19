@@ -22,8 +22,7 @@ export function createDHCPLayer(
 				bits: 32,
 				value: overrides?.xid ?? '0x3903F326',
 				editable: false,
-				description:
-					'Transaction ID — random value chosen by client to match requests with replies'
+				description: 'Transaction ID — random value chosen by client to match requests with replies'
 			},
 			{
 				name: 'Client MAC',
@@ -44,8 +43,7 @@ export function createDHCPLayer(
 				bits: 8,
 				value: overrides?.messageType ?? 'DISCOVER',
 				editable: false,
-				description:
-					'DHCP option 53 — DISCOVER, OFFER, REQUEST, ACK, NAK, RELEASE',
+				description: 'DHCP option 53 — DISCOVER, OFFER, REQUEST, ACK, NAK, RELEASE',
 				color: '#06B6D4'
 			},
 			{
@@ -53,8 +51,7 @@ export function createDHCPLayer(
 				bits: 0,
 				value: overrides?.options ?? '',
 				editable: false,
-				description:
-					'DHCP options — subnet mask, router, DNS servers, lease time'
+				description: 'DHCP options — subnet mask, router, DNS servers, lease time'
 			}
 		]
 	};

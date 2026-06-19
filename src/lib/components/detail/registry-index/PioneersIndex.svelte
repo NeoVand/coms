@@ -9,9 +9,7 @@
 
 	/** Sort pioneers by birth-year so the chronology of the field
 	 *  becomes the natural reading order. */
-	const sorted = $derived(
-		[...pioneers].sort((a, b) => parseInt(a.years) - parseInt(b.years))
-	);
+	const sorted = $derived([...pioneers].sort((a, b) => parseInt(a.years) - parseInt(b.years)));
 </script>
 
 <div class="flex flex-col gap-6">
@@ -27,9 +25,8 @@
 			The architects of the field
 		</h1>
 		<p class="mt-2 text-sm leading-relaxed text-t-secondary">
-			{pioneers.length} people whose work shows up across the protocols in this lab —
-			from Bob Metcalfe's 1973 Ethernet sketch to Eric Rescorla's TLS 1.3 redesign half a
-			century later.
+			{pioneers.length} people whose work shows up across the protocols in this lab — from Bob Metcalfe's
+			1973 Ethernet sketch to Eric Rescorla's TLS 1.3 redesign half a century later.
 		</p>
 	</header>
 

@@ -3,7 +3,7 @@ import type { SubcategoryStory } from './types';
 export const realtimeWebStory: SubcategoryStory = {
 	subcategoryId: 'realtime-web',
 	tagline:
-		"Breaking out of request/response — server push and full-duplex on a protocol that was never meant for either",
+		'Breaking out of request/response — server push and full-duplex on a protocol that was never meant for either',
 	sections: [
 		{
 			type: 'narrative',
@@ -29,7 +29,7 @@ export const realtimeWebStory: SubcategoryStory = {
 					title: 'Coined "Comet"',
 					org: 'Lightstreamer / Independent',
 					contribution:
-						"Coined {{comet|\"Comet\"}} in 2006 as the umbrella term for long-polling and streaming techniques people were using to fake server push over plain HTTP. The name stuck through the late-2000s era and is the reason \"the Comet pattern\" is still recognizable shorthand for HTTP-push hacks."
+						'Coined {{comet|"Comet"}} in 2006 as the umbrella term for long-polling and streaming techniques people were using to fake server push over plain HTTP. The name stuck through the late-2000s era and is the reason "the Comet pattern" is still recognizable shorthand for HTTP-push hacks.'
 				},
 				{
 					name: 'Bert Belder',
@@ -37,7 +37,7 @@ export const realtimeWebStory: SubcategoryStory = {
 					title: 'WebSocket Implementer / Node.js Core',
 					org: 'StrongLoop / npm',
 					contribution:
-						"Co-authored the `ws` library — the dominant Node.js [[websockets|WebSocket]] implementation — which made server-side WebSocket trivially deployable from JavaScript. Node + ws + Socket.IO turned \"real-time web\" from a Tomcat/Comet engineering project into a weekend hack. The ergonomics shift mattered as much as the protocol."
+						'Co-authored the `ws` library — the dominant Node.js [[websockets|WebSocket]] implementation — which made server-side WebSocket trivially deployable from JavaScript. Node + ws + Socket.IO turned "real-time web" from a Tomcat/Comet engineering project into a weekend hack. The ergonomics shift mattered as much as the protocol.'
 				}
 			]
 		},
@@ -48,13 +48,13 @@ export const realtimeWebStory: SubcategoryStory = {
 					year: 2000,
 					title: 'XMLHttpRequest Ships',
 					description:
-						"Microsoft ships XMLHttpRequest in IE5 (1999); other browsers follow. The first real way to do background HTTP from JavaScript. The first practical polling implementations follow within a year."
+						'Microsoft ships XMLHttpRequest in IE5 (1999); other browsers follow. The first real way to do background HTTP from JavaScript. The first practical polling implementations follow within a year.'
 				},
 				{
 					year: 2004,
 					title: 'Gmail Launches with AJAX',
 					description:
-						"Gmail makes AJAX mainstream. The pattern: poll for new mail every few minutes. Latency is fine for mail; users tolerate it. Realtime apps are still hard."
+						'Gmail makes AJAX mainstream. The pattern: poll for new mail every few minutes. Latency is fine for mail; users tolerate it. Realtime apps are still hard.'
 				},
 				{
 					year: 2006,
@@ -66,7 +66,7 @@ export const realtimeWebStory: SubcategoryStory = {
 					year: 2009,
 					title: 'SSE Standardized (W3C HTML5)',
 					description:
-						"[[sse|Server-Sent Events]] ships with an EventSource API. Reconnection, Last-Event-ID, named event types. Server-to-client only — which is the entire point."
+						'[[sse|Server-Sent Events]] ships with an EventSource API. Reconnection, Last-Event-ID, named event types. Server-to-client only — which is the entire point.'
 				},
 				{
 					year: 2011,
@@ -84,13 +84,13 @@ export const realtimeWebStory: SubcategoryStory = {
 					year: 2015,
 					title: 'WebSocket Adoption Mainstreams',
 					description:
-						"Slack, Discord, Trello, Figma, Google Docs all run on WebSockets. Production scaling lessons — sticky load balancing, server-side connection pooling, presence systems — become widely documented."
+						'Slack, Discord, Trello, Figma, Google Docs all run on WebSockets. Production scaling lessons — sticky load balancing, server-side connection pooling, presence systems — become widely documented.'
 				},
 				{
 					year: 2018,
 					title: 'SSE Returns for LLMs',
 					description:
-						"OpenAI ships streaming completions over [[sse|SSE]] for ChatGPT-like UX. The token-by-token effect requires server-push but not client-push — SSE is the natural fit. Anthropic, Google, Mistral all follow the same pattern."
+						'OpenAI ships streaming completions over [[sse|SSE]] for ChatGPT-like UX. The token-by-token effect requires server-push but not client-push — SSE is the natural fit. Anthropic, Google, Mistral all follow the same pattern.'
 				},
 				{
 					year: 2021,
@@ -102,13 +102,13 @@ export const realtimeWebStory: SubcategoryStory = {
 					year: 2023,
 					title: 'WebTransport in Chrome',
 					description:
-						"WebTransport — QUIC streams exposed to browsers — ships in Chrome. Possible WebSocket successor: lower latency, multiple independent streams, unreliable datagrams when wanted. Slow uptake outside Google products so far."
+						'WebTransport — QUIC streams exposed to browsers — ships in Chrome. Possible WebSocket successor: lower latency, multiple independent streams, unreliable datagrams when wanted. Slow uptake outside Google products so far.'
 				},
 				{
 					year: 2024,
 					title: 'SSE Everywhere',
 					description:
-						"Every major LLM provider streams via SSE. Server-driven UI frameworks (React Server Components, HTMX) lean heavily on SSE. The boring older protocol gets a second act."
+						'Every major LLM provider streams via SSE. Server-driven UI frameworks (React Server Components, HTMX) lean heavily on SSE. The boring older protocol gets a second act.'
 				}
 			]
 		},
@@ -122,9 +122,9 @@ export const realtimeWebStory: SubcategoryStory = {
 					values: [
 						'Server → client only',
 						'Plain HTTP (works over [[http1|h1]], [[http2|h2]], [[http3|h3]])',
-						"Text — `data:` lines separated by blank lines",
+						'Text — `data:` lines separated by blank lines',
 						'Built-in — auto-reconnects with Last-Event-ID',
-						"LLM streaming, notifications, server-driven UI updates"
+						'LLM streaming, notifications, server-driven UI updates'
 					]
 				},
 				{
@@ -133,12 +133,12 @@ export const realtimeWebStory: SubcategoryStory = {
 						'Full-duplex',
 						'HTTP upgrade then custom framing over TCP',
 						'Binary frames with opcode + masking',
-						'Application\'s problem',
-						"Chat, collaborative editing, multiplayer games, anything client-push-heavy"
+						"Application's problem",
+						'Chat, collaborative editing, multiplayer games, anything client-push-heavy'
 					]
 				}
 			],
-			note: "If your traffic is one-way (server → client), [[sse|SSE]] is simpler, plays nice with HTTP infrastructure, and has cleaner failure semantics. If the client also needs to push frequently, [[websockets|WebSockets]]."
+			note: 'If your traffic is one-way (server → client), [[sse|SSE]] is simpler, plays nice with HTTP infrastructure, and has cleaner failure semantics. If the client also needs to push frequently, [[websockets|WebSockets]].'
 		},
 		{
 			type: 'animated-sequence',
@@ -169,7 +169,7 @@ export const realtimeWebStory: SubcategoryStory = {
     C->>S: frame chat
     S-->>C: frame ack`,
 			caption:
-				"Each step reduces latency or improves resource use over the last. [[websockets|WebSocket]] is the only one where both sides can send asynchronously; the others are still server-driven.",
+				'Each step reduces latency or improves resource use over the last. [[websockets|WebSocket]] is the only one where both sides can send asynchronously; the others are still server-driven.',
 			steps: {
 				0: '**Polling — the original hack.** Before SSE or WebSockets, the only way to get server-pushed data was to ask the server, over and over, for new data. Most requests came back empty.',
 				1: 'Client asks **GET /messages**.',
@@ -207,7 +207,7 @@ export const realtimeWebStory: SubcategoryStory = {
 		},
 		{
 			type: 'narrative',
-			title: 'What\'s Next',
+			title: "What's Next",
 			text: `Active work in 2025:\n\n- **WebTransport** is the proposed successor to [[websockets|WebSocket]] — built on [[quic|QUIC]], with native stream multiplexing, unreliable datagrams when wanted, and no proxy-Upgrade nonsense. Shipping in Chrome; slow elsewhere.\n- **HTTP/3 over QUIC** changes [[sse|SSE]]'s scaling story — one QUIC connection can carry many SSE streams without TCP head-of-line blocking. Cloudflare and Fastly are quietly making this the default.\n- **Server-driven UI** frameworks (HTMX, Phoenix LiveView, Inertia.js, React Server Components) lean on SSE for their UI updates — the boring older protocol is having a second moment because the new use case fits it perfectly.\n- **LLM streaming** is now the dominant new use case for [[sse|SSE]]. Every chat-like AI product ships an SSE endpoint; the token-by-token effect is canonical.\n- **The death of polling** is overstated. Mobile push notifications, periodic background sync, and "check every N seconds" are still the right answer for many product surfaces. Realtime is expensive; not everything needs it.`
 		}
 	]

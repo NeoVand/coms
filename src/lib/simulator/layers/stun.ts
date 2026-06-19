@@ -1,6 +1,8 @@
 import type { ProtocolLayer } from '../types';
 
-export function createSTUNLayer(overrides?: Partial<Record<string, string | number>>): ProtocolLayer {
+export function createSTUNLayer(
+	overrides?: Partial<Record<string, string | number>>
+): ProtocolLayer {
 	return {
 		name: 'STUN Message',
 		abbreviation: 'STUN',
@@ -40,7 +42,8 @@ export function createSTUNLayer(overrides?: Partial<Record<string, string | numb
 				bits: 0,
 				value: overrides?.attribute ?? 'XOR-MAPPED-ADDRESS',
 				editable: false,
-				description: 'STUN attribute — XOR-MAPPED-ADDRESS reveals the public IP:port as seen by the STUN server'
+				description:
+					'STUN attribute — XOR-MAPPED-ADDRESS reveals the public IP:port as seen by the STUN server'
 			}
 		]
 	};

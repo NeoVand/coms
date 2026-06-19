@@ -1,6 +1,8 @@
 import type { ProtocolLayer } from '../types';
 
-export function createIPv6Layer(overrides?: Partial<Record<string, string | number>>): ProtocolLayer {
+export function createIPv6Layer(
+	overrides?: Partial<Record<string, string | number>>
+): ProtocolLayer {
 	return {
 		name: 'IPv6 Packet',
 		abbreviation: 'IPv6',
@@ -47,7 +49,8 @@ export function createIPv6Layer(overrides?: Partial<Record<string, string | numb
 				bits: 8,
 				value: overrides?.hopLimit ?? 64,
 				editable: true,
-				description: 'Hop Limit — decremented at each router, packet discarded at 0 (replaces IPv4 TTL)'
+				description:
+					'Hop Limit — decremented at each router, packet discarded at 0 (replaces IPv4 TTL)'
 			},
 			{
 				name: 'Src IP',

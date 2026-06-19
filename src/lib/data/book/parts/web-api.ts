@@ -57,7 +57,7 @@ That readability is the entire reason every developer can debug an HTTP problem 
 						{
 							type: 'callout',
 							title: 'The 6-connection cap is why HTTP/2 exists',
-							text: 'By 2009, web pages were averaging 90 requests across 15 origins. With 6 connections per origin, every page paid the cost of [[tcp|TCP]] setup repeatedly, and connections were {{imap-idle|idle}} most of the time. {{google|Google}}\'s {{spdy|SPDY}} experiment proposed {{multiplexing|multiplexing}} many requests over a single connection, with {{binary-framing|binary framing}}. {{spdy|SPDY}} became the seed of [[http2|HTTP/2]].'
+							text: "By 2009, web pages were averaging 90 requests across 15 origins. With 6 connections per origin, every page paid the cost of [[tcp|TCP]] setup repeatedly, and connections were {{imap-idle|idle}} most of the time. {{google|Google}}'s {{spdy|SPDY}} experiment proposed {{multiplexing|multiplexing}} many requests over a single connection, with {{binary-framing|binary framing}}. {{spdy|SPDY}} became the seed of [[http2|HTTP/2]]."
 						},
 						{
 							type: 'narrative',
@@ -75,7 +75,7 @@ That readability is the entire reason every developer can debug an HTTP problem 
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/HTTP_persistent_connection.svg/500px-HTTP_persistent_connection.svg.png',
 							alt: 'HTTP persistent connection diagram — multiple request/response pairs reusing the same TCP connection.',
 							caption:
-								'**[[http1|HTTP/1.1]] persistent connections** — request, response, request, response, all on the *same* [[tcp|TCP]] socket. The default in [[http1|HTTP/1.1]] (1997), and a quiet revolution after [[http1|HTTP/1.0]]\'s one-connection-per-request model. The reason a 1990s page-load of 90 small assets did not have to pay 90 {{syn-cookies|SYN}}/{{syn-ack|SYN-ACK}}/{{ack|ACK}} handshakes.',
+								"**[[http1|HTTP/1.1]] persistent connections** — request, response, request, response, all on the *same* [[tcp|TCP]] socket. The default in [[http1|HTTP/1.1]] (1997), and a quiet revolution after [[http1|HTTP/1.0]]'s one-connection-per-request model. The reason a 1990s page-load of 90 small assets did not have to pay 90 {{syn-cookies|SYN}}/{{syn-ack|SYN-ACK}}/{{ack|ACK}} handshakes.",
 							credit: 'Image: Wikimedia Commons / CC BY-SA 3.0'
 						}
 					]
@@ -91,7 +91,8 @@ That readability is the entire reason every developer can debug an HTTP problem 
 		{
 			id: 'http2',
 			title: 'HTTP/2',
-			synopsis: '{{binary-framing|Binary framing}}, streams, {{hpack|HPACK}} — and the security saga that has not stopped.',
+			synopsis:
+				'{{binary-framing|Binary framing}}, streams, {{hpack|HPACK}} — and the security saga that has not stopped.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -140,7 +141,7 @@ The pattern: each {{cve|CVE}} breaks an assumption that earlier mitigations had 
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/HTTP_pipelining2.svg/500px-HTTP_pipelining2.svg.png',
 							alt: 'HTTP/1.1 pipelining vs HTTP/2 multiplexing diagram, showing how multiple streams share one connection.',
 							caption:
-								'[[http1|HTTP/1.1]] {{pipelining|pipelining}} vs [[http2|HTTP/2]] {{multiplexing|multiplexing}}. The 6-connection cap on [[http1|HTTP/1.1]] meant browsers paid the cost of [[tcp|TCP]] setup repeatedly; [[http2|HTTP/2]]\'s many-streams-on-one-connection model dropped page loads 30-40% in real-world measurements. The trade-off: a single {{retransmission|TCP retransmit}} now stalls *all* streams — which is the {{head-of-line-blocking|head-of-line blocking}} problem [[http3|HTTP/3]] finally fixed.',
+								"[[http1|HTTP/1.1]] {{pipelining|pipelining}} vs [[http2|HTTP/2]] {{multiplexing|multiplexing}}. The 6-connection cap on [[http1|HTTP/1.1]] meant browsers paid the cost of [[tcp|TCP]] setup repeatedly; [[http2|HTTP/2]]'s many-streams-on-one-connection model dropped page loads 30-40% in real-world measurements. The trade-off: a single {{retransmission|TCP retransmit}} now stalls *all* streams — which is the {{head-of-line-blocking|head-of-line blocking}} problem [[http3|HTTP/3]] finally fixed.",
 							credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 						}
 					]
@@ -213,7 +214,7 @@ The fix in flight is **in-kernel [[quic|QUIC]]**. Xin Long posted the first ~9,0
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/73/Full_TLS_1.3_Handshake.svg/500px-Full_TLS_1.3_Handshake.svg.png',
 							alt: 'TLS 1.3 full handshake diagram showing ClientHello, ServerHello, certificate, finished messages in one round-trip.',
 							caption:
-								'The **[[tls|TLS]] 1.3** {{handshake|handshake}} — one round-trip ([[rfc:8446|RFC 8446]], 2018), down from two in [[tls|TLS]] 1.2. [[http3|HTTP/3]]\'s headline win is *folding this entire {{handshake|handshake}} into the [[quic|QUIC]] transport {{handshake|handshake}}*, achieving **{{one-rtt|1-RTT}}** connection setup for new sessions and **{{zero-rtt|0-RTT}}** for resumption — a flat 1-2 round-trips eliminated from every page load on mobile, where {{latency|latency}}, not {{bandwidth|bandwidth}}, is the bottleneck.',
+								"The **[[tls|TLS]] 1.3** {{handshake|handshake}} — one round-trip ([[rfc:8446|RFC 8446]], 2018), down from two in [[tls|TLS]] 1.2. [[http3|HTTP/3]]'s headline win is *folding this entire {{handshake|handshake}} into the [[quic|QUIC]] transport {{handshake|handshake}}*, achieving **{{one-rtt|1-RTT}}** connection setup for new sessions and **{{zero-rtt|0-RTT}}** for resumption — a flat 1-2 round-trips eliminated from every page load on mobile, where {{latency|latency}}, not {{bandwidth|bandwidth}}, is the bottleneck.",
 							credit: 'Image: Wikimedia Commons / CC0'
 						}
 					]
@@ -231,7 +232,8 @@ The fix in flight is **in-kernel [[quic|QUIC]]**. Xin Long posted the first ~9,0
 		{
 			id: 'rest-and-graphql',
 			title: 'REST and GraphQL',
-			synopsis: '[[rest|REST]] and [[graphql|GraphQL]] — two ways to model an {{api|API}}, and a 25-year argument over which one Fielding actually meant.',
+			synopsis:
+				'[[rest|REST]] and [[graphql|GraphQL]] — two ways to model an {{api|API}}, and a 25-year argument over which one Fielding actually meant.',
 			slots: [
 				{
 					kind: 'prose',
@@ -295,7 +297,8 @@ The choice between [[rest|REST]] and [[graphql|GraphQL]] is not strictly either/
 		{
 			id: 'grpc',
 			title: 'gRPC',
-			synopsis: '[[grpc|Typed RPC]] over [[http2|HTTP/2]] — the microservices default for the controlled-both-sides case.',
+			synopsis:
+				'[[grpc|Typed RPC]] over [[http2|HTTP/2]] — the microservices default for the controlled-both-sides case.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -340,7 +343,7 @@ Active 2024-2026 work in the [[grpc|gRPC]] working group includes: native [[http
 							src: 'https://upload.wikimedia.org/wikipedia/commons/1/18/RPC_overview.png',
 							alt: 'RPC overview diagram — client stub, network, server stub, marshalling and unmarshalling parameters.',
 							caption:
-								'The **{{rpc|RPC}}** model that [[grpc|gRPC]] inherits from a 40-year lineage of Sun {{rpc|RPC}} / DCE / CORBA / Thrift. The client *stub* serialises arguments, sends them over the network, and pretends to the caller that nothing happened. [[grpc|gRPC]]\'s contribution is **{{protocol-buffers|Protocol Buffers}}** (compact binary schema) + **[[http2|HTTP/2]] streams** as the transport. The model dominates service-to-service traffic inside every large engineering org since ~2019.',
+								"The **{{rpc|RPC}}** model that [[grpc|gRPC]] inherits from a 40-year lineage of Sun {{rpc|RPC}} / DCE / CORBA / Thrift. The client *stub* serialises arguments, sends them over the network, and pretends to the caller that nothing happened. [[grpc|gRPC]]'s contribution is **{{protocol-buffers|Protocol Buffers}}** (compact binary schema) + **[[http2|HTTP/2]] streams** as the transport. The model dominates service-to-service traffic inside every large engineering org since ~2019.",
 							credit: 'Image: Wikimedia Commons / CC BY-SA'
 						}
 					]
@@ -354,7 +357,8 @@ Active 2024-2026 work in the [[grpc|gRPC]] working group includes: native [[http
 		{
 			id: 'websockets-and-sse',
 			title: 'WebSockets and SSE',
-			synopsis: '[[websockets|WebSockets]] and [[sse|SSE]] — {{server-push|server push}} two ways, and the [[sse|SSE]] renaissance via {{llm|LLM}} streaming.',
+			synopsis:
+				'[[websockets|WebSockets]] and [[sse|SSE]] — {{server-push|server push}} two ways, and the [[sse|SSE]] renaissance via {{llm|LLM}} streaming.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -424,7 +428,8 @@ The choice between [[websockets|WebSocket]], [[sse|SSE]], and {{webtransport|Web
 		{
 			id: 'mcp-and-a2a',
 			title: 'MCP and A2A',
-			synopsis: 'The protocol layer for {{ai|AI}} agents — built deliberately boring on top of [[json-rpc|JSON-RPC]], {{http-method|HTTP}}, and [[sse|SSE]].',
+			synopsis:
+				'The protocol layer for {{ai|AI}} agents — built deliberately boring on top of [[json-rpc|JSON-RPC]], {{http-method|HTTP}}, and [[sse|SSE]].',
 			slots: [
 				{
 					kind: 'pull-quote',

@@ -2,11 +2,7 @@
 	import type { Pioneer } from '$lib/data/category-stories/types';
 	import PioneerCard from './PioneerCard.svelte';
 
-	let {
-		people,
-		color,
-		title
-	}: { people: Pioneer[]; color: string; title?: string } = $props();
+	let { people, color, title }: { people: Pioneer[]; color: string; title?: string } = $props();
 </script>
 
 <section>

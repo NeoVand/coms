@@ -29,17 +29,17 @@ All three protocols share the same 20-byte {{stun|STUN}} header, transaction IDs
 		{
 			title: 'TURN: allocate a relay (fallback)',
 			description:
-				"If direct paths might fail, the agent also `Allocate`s a port on a {{turn|TURN}} server using long-term credentials. The {{turn|TURN}} server returns `{{xor-relayed-address|XOR-RELAYED-ADDRESS}}` — a public `ip:port` the {{peer|peer}} can hit. The default allocation lifetime is 600 seconds; clients refresh at ~450 s."
+				'If direct paths might fail, the agent also `Allocate`s a port on a {{turn|TURN}} server using long-term credentials. The {{turn|TURN}} server returns `{{xor-relayed-address|XOR-RELAYED-ADDRESS}}` — a public `ip:port` the {{peer|peer}} can hit. The default allocation lifetime is 600 seconds; clients refresh at ~450 s.'
 		},
 		{
 			title: 'Trickle and pair',
 			description:
-				'Candidates are signalled to the other {{peer|peer}} as they arrive ([[rfc:8838|RFC 8838]] Trickle {{ice|ICE}}) over the application\'s signalling channel ([[websockets|WebSocket]], [[sip|SIP]], etc.). Each side pairs every local candidate with every remote candidate and assigns a priority — host (126) > {{peer|peer}}-reflexive (110) > server-reflexive (100) > relay (0).'
+				"Candidates are signalled to the other {{peer|peer}} as they arrive ([[rfc:8838|RFC 8838]] Trickle {{ice|ICE}}) over the application's signalling channel ([[websockets|WebSocket]], [[sip|SIP]], etc.). Each side pairs every local candidate with every remote candidate and assigns a priority — host (126) > {{peer|peer}}-reflexive (110) > server-reflexive (100) > relay (0)."
 		},
 		{
 			title: 'Connectivity checks',
 			description:
-				"Both agents send {{stun|STUN}} Binding Requests across every pair using short-term {{ice|ICE}} credentials (`ufrag`/`pwd` from the [[sdp|SDP]]). The first pair to round-trip successfully becomes a *valid pair*; the controlling agent then nominates one with `{{use-candidate|USE-CANDIDATE}}`."
+				'Both agents send {{stun|STUN}} Binding Requests across every pair using short-term {{ice|ICE}} credentials (`ufrag`/`pwd` from the [[sdp|SDP]]). The first pair to round-trip successfully becomes a *valid pair*; the controlling agent then nominates one with `{{use-candidate|USE-CANDIDATE}}`.'
 		},
 		{
 			title: 'Keep the path alive',
@@ -78,7 +78,7 @@ const offer = await pc.createOffer();
 await pc.setLocalDescription(offer);
 signal({ sdp: offer });`,
 		caption:
-			"A browser {{ice|ICE}} agent: {{stun|STUN}} + {{turn|TURN}} URLs go in, candidates trickle out. The {{nat|NAT traversal}} is invisible — but every event firing here corresponds to a {{stun|STUN}} message on the wire.",
+			'A browser {{ice|ICE}} agent: {{stun|STUN}} + {{turn|TURN}} URLs go in, candidates trickle out. The {{nat|NAT traversal}} is invisible — but every event firing here corresponds to a {{stun|STUN}} message on the wire.',
 		alternatives: [
 			{
 				language: 'python',
@@ -215,7 +215,7 @@ Attributes:
 			date: '2024-09',
 			title: 'Cloudflare Realtime TURN GA',
 			description:
-				'{{cloudflare|Cloudflare}} opened its {{anycast|anycast}} {{turn|TURN}} service (`{{turn|turn}}.{{cloudflare|cloudflare}}.com`) at 335+ locations with $0.05/GB egress and 1 TB free per month — the first major price drop in managed [[nat-traversal|NAT traversal]] in years. Free entirely when paired with {{cloudflare|Cloudflare}}\'s {{sfu|SFU}}.',
+				"{{cloudflare|Cloudflare}} opened its {{anycast|anycast}} {{turn|TURN}} service (`{{turn|turn}}.{{cloudflare|cloudflare}}.com`) at 335+ locations with $0.05/GB egress and 1 TB free per month — the first major price drop in managed [[nat-traversal|NAT traversal]] in years. Free entirely when paired with {{cloudflare|Cloudflare}}'s {{sfu|SFU}}.",
 			source: {
 				url: 'https://developers.cloudflare.com/realtime/turn/',
 				label: 'Cloudflare Realtime TURN docs'
@@ -270,7 +270,7 @@ Attributes:
 			org: 'Tailscale',
 			scale: '>90% direct-path success via STUN hole-punching',
 			description:
-				'Tailscale\'s WireGuard overlay uses {{stun|STUN}}-style probes to find a direct path between peers; their proprietary **DERP** relays absorb the rest as a {{turn|TURN}}-analogue. Public engineering posts in 2024–25 detailed multi-part improvements to [[udp|UDP]] hole-punching.'
+				"Tailscale's WireGuard overlay uses {{stun|STUN}}-style probes to find a direct path between peers; their proprietary **DERP** relays absorb the rest as a {{turn|TURN}}-analogue. Public engineering posts in 2024–25 detailed multi-part improvements to [[udp|UDP]] hole-punching."
 		},
 		{
 			org: 'coturn',
@@ -283,7 +283,7 @@ Attributes:
 	funFacts: [
 		{
 			title: 'The magic cookie spells "STUN"',
-			text: '{{stun|STUN}}\'s `0x2112A442` is the {{ietf|IETF}}\'s nod to the {{ip-address|IP}} version field, but the **FINGERPRINT** attribute {{checksum|checksum}} is XORed with `0x5354554E` — the {{ascii|ASCII}} bytes for `{{stun|STUN}}`. The protocol literally signs its own name on every packet.'
+			text: "{{stun|STUN}}'s `0x2112A442` is the {{ietf|IETF}}'s nod to the {{ip-address|IP}} version field, but the **FINGERPRINT** attribute {{checksum|checksum}} is XORed with `0x5354554E` — the {{ascii|ASCII}} bytes for `{{stun|STUN}}`. The protocol literally signs its own name on every packet."
 		},
 		{
 			title: 'STUN changed what its own acronym means',

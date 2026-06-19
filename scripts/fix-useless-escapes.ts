@@ -80,5 +80,7 @@ for (const file of report) {
 	filesChanged++;
 }
 
-console.log(`Removed ${removed} unnecessary escapes across ${filesChanged} files (${skipped} skipped).`);
+console.log(
+	`Removed ${removed} unnecessary escapes across ${filesChanged} files (${skipped} skipped).`
+);
 if (skipped > 0) process.exit(2);

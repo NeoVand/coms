@@ -8,7 +8,8 @@ export const webrtc: Protocol = {
 	port: undefined,
 	year: 2011,
 	rfc: 'RFC 8825',
-	oneLiner: '{{peer-to-peer|Peer-to-peer}} audio, video, and data — directly between browsers, no plugins needed.',
+	oneLiner:
+		'{{peer-to-peer|Peer-to-peer}} audio, video, and data — directly between browsers, no plugins needed.',
 	overview: `[[webrtc|WebRTC]] is the technology that makes browser-based video calls possible. Before [[webrtc|WebRTC]], real-time communication required plugins (Flash, Java applets) or native apps. Now, two browsers can establish a direct, encrypted, {{peer-to-peer|peer-to-peer}} connection for audio, video, and arbitrary data.
 
 The key insight is "{{peer-to-peer|peer-to-peer}}" — once the connection is established, data flows directly between users without passing through a server. This reduces {{latency|latency}} and server costs. However, establishing that connection requires a {{signaling|signaling server}} (to {{exchange|exchange}} connection offers) and the [[nat-traversal|STUN / TURN / ICE]] stack to navigate {{nat|NATs}} and {{firewall|firewalls}}. **{{stun|STUN}}** discovers the {{peer|peer}}'s {{public-ip-address|public IP address}}; **{{turn|TURN}}** relays media through a server when a direct connection fails (about 10–15% of cases); **{{ice|ICE}}** coordinates both to find the best working path. See the [[nat-traversal|NAT-traversal]] page for the full wire format and history.

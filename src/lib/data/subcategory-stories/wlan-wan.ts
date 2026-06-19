@@ -3,7 +3,7 @@ import type { SubcategoryStory } from './types';
 export const wlanWanStory: SubcategoryStory = {
 	subcategoryId: 'wlan-wan',
 	tagline:
-		"General-purpose wireless at two scales — unlicensed Wi-Fi for hundreds of meters, licensed cellular for hundreds of kilometers",
+		'General-purpose wireless at two scales — unlicensed Wi-Fi for hundreds of meters, licensed cellular for hundreds of kilometers',
 	sections: [
 		{
 			type: 'narrative',
@@ -30,7 +30,7 @@ export const wlanWanStory: SubcategoryStory = {
 					title: 'Inventor of the Viterbi Algorithm / Co-founder of Qualcomm',
 					org: 'UCSD / Qualcomm',
 					contribution:
-						"Invented the Viterbi algorithm (1967) — the optimal decoder for convolutional codes that underpins essentially every wireless modem since. Co-founded Qualcomm (1985), which bet on CDMA for cellular against the entrenched TDMA standard (GSM). CDMA won the US 2G/3G battle; the underlying spread-spectrum mathematics also drove modern OFDMA and 5G NR. The Viterbi School of Engineering at USC is named for him."
+						'Invented the Viterbi algorithm (1967) — the optimal decoder for convolutional codes that underpins essentially every wireless modem since. Co-founded Qualcomm (1985), which bet on CDMA for cellular against the entrenched TDMA standard (GSM). CDMA won the US 2G/3G battle; the underlying spread-spectrum mathematics also drove modern OFDMA and 5G NR. The Viterbi School of Engineering at USC is named for him.'
 				},
 				{
 					name: 'Vic Hayes',
@@ -38,7 +38,7 @@ export const wlanWanStory: SubcategoryStory = {
 					title: '"Father of Wi-Fi"',
 					org: 'NCR / Lucent / IEEE 802.11',
 					contribution:
-						'Chaired the IEEE 802.11 working group from its founding in 1990 through 2000 — the decade when Wi-Fi went from a proposal to a global standard. Hayes\' particular contribution was shepherding the consensus between vendors with incompatible early designs (NCR\'s WaveLAN, others\') into a single standard that everyone could implement. Without that coordination, Wi-Fi would have fragmented like the early cellular world did.'
+						"Chaired the IEEE 802.11 working group from its founding in 1990 through 2000 — the decade when Wi-Fi went from a proposal to a global standard. Hayes' particular contribution was shepherding the consensus between vendors with incompatible early designs (NCR's WaveLAN, others') into a single standard that everyone could implement. Without that coordination, Wi-Fi would have fragmented like the early cellular world did."
 				},
 				{
 					id: 'erik-dahlman',
@@ -64,25 +64,25 @@ export const wlanWanStory: SubcategoryStory = {
 					year: 1983,
 					title: 'First Commercial Cellular (1G AMPS)',
 					description:
-						"Ameritech launches Advanced Mobile Phone System in Chicago. Analog voice; FM modulation; massive cell towers."
+						'Ameritech launches Advanced Mobile Phone System in Chicago. Analog voice; FM modulation; massive cell towers.'
 				},
 				{
 					year: 1991,
 					title: '2G GSM Launches',
 					description:
-						"Digital cellular ships in Finland. GSM standardized in Europe; CDMA-based IS-95 in the US. The split between TDMA-based GSM and CDMA-based US carriers defines a decade of incompatibility."
+						'Digital cellular ships in Finland. GSM standardized in Europe; CDMA-based IS-95 in the US. The split between TDMA-based GSM and CDMA-based US carriers defines a decade of incompatibility.'
 				},
 				{
 					year: 1997,
 					title: 'IEEE 802.11 Published',
 					description:
-						"The original [[wifi|Wi-Fi]] standard — 1 Mbps and 2 Mbps in 2.4 GHz. Initially marketed as \"WaveLAN.\" The Wi-Fi Alliance forms a couple years later to brand the certified-interop version."
+						'The original [[wifi|Wi-Fi]] standard — 1 Mbps and 2 Mbps in 2.4 GHz. Initially marketed as "WaveLAN." The Wi-Fi Alliance forms a couple years later to brand the certified-interop version.'
 				},
 				{
 					year: 1999,
 					title: '802.11b — Wi-Fi Takes Off',
 					description:
-						"11 Mbps in 2.4 GHz. Apple ships AirPort base stations and AirPort cards (rebadged Lucent WaveLAN). [[wifi|Wi-Fi]] starts appearing in laptops by default. Cafés and airports become the first public Wi-Fi locations."
+						'11 Mbps in 2.4 GHz. Apple ships AirPort base stations and AirPort cards (rebadged Lucent WaveLAN). [[wifi|Wi-Fi]] starts appearing in laptops by default. Cafés and airports become the first public Wi-Fi locations.'
 				},
 				{
 					year: 2001,
@@ -94,7 +94,7 @@ export const wlanWanStory: SubcategoryStory = {
 					year: 2003,
 					title: '802.11g — 54 Mbps',
 					description:
-						"54 Mbps in 2.4 GHz. The version that mainstreams Wi-Fi in homes and offices. WPA replaces the badly-broken WEP for encryption."
+						'54 Mbps in 2.4 GHz. The version that mainstreams Wi-Fi in homes and offices. WPA replaces the badly-broken WEP for encryption.'
 				},
 				{
 					year: 2009,
@@ -106,37 +106,37 @@ export const wlanWanStory: SubcategoryStory = {
 					year: 2009,
 					title: '4G LTE Launches',
 					description:
-						"TeliaSonera deploys the first commercial LTE network in Stockholm and Oslo. Verizon launches LTE in the US in 2010. Smartphones and high-bandwidth mobile internet take off."
+						'TeliaSonera deploys the first commercial LTE network in Stockholm and Oslo. Verizon launches LTE in the US in 2010. Smartphones and high-bandwidth mobile internet take off.'
 				},
 				{
 					year: 2013,
 					title: '802.11ac / Wi-Fi 5 — Gigabit',
 					description:
-						"Gigabit speeds in 5 GHz. The version that finally made \"wireless = fast\" universal in consumer perception."
+						'Gigabit speeds in 5 GHz. The version that finally made "wireless = fast" universal in consumer perception.'
 				},
 				{
 					year: 2019,
 					title: '5G NR Launches',
 					description:
-						"Commercial 5G launches in South Korea, the US, and China. Two flavors: sub-6 GHz (longer range, similar to LTE+) and mmWave (very fast, very short range)."
+						'Commercial 5G launches in South Korea, the US, and China. Two flavors: sub-6 GHz (longer range, similar to LTE+) and mmWave (very fast, very short range).'
 				},
 				{
 					year: 2019,
 					title: '802.11ax / Wi-Fi 6 — OFDMA',
 					description:
-						"OFDMA borrowed from LTE arrives in Wi-Fi. Better performance with many simultaneous devices, which matters far more in real-world deployments than peak speed."
+						'OFDMA borrowed from LTE arrives in Wi-Fi. Better performance with many simultaneous devices, which matters far more in real-world deployments than peak speed.'
 				},
 				{
 					year: 2020,
 					title: 'Wi-Fi 6E — 6 GHz Spectrum',
 					description:
-						"Regulators (FCC, Ofcom, EU) open the 6 GHz band for unlicensed use. 1200 MHz of new spectrum; effectively triples Wi-Fi capacity. Wi-Fi 6E devices ship in 2021."
+						'Regulators (FCC, Ofcom, EU) open the 6 GHz band for unlicensed use. 1200 MHz of new spectrum; effectively triples Wi-Fi capacity. Wi-Fi 6E devices ship in 2021.'
 				},
 				{
 					year: 2024,
 					title: '802.11be / Wi-Fi 7',
 					description:
-						"320 MHz channel width in 6 GHz, 4096-QAM, multi-link operation (use 2.4 and 5 and 6 GHz simultaneously). Theoretical peak ~46 Gbps."
+						'320 MHz channel width in 6 GHz, 4096-QAM, multi-link operation (use 2.4 and 5 and 6 GHz simultaneously). Theoretical peak ~46 Gbps.'
 				}
 			]
 		},
@@ -151,8 +151,8 @@ export const wlanWanStory: SubcategoryStory = {
 						'Unlicensed (2.4 / 5 / 6 GHz)',
 						'Tens to hundreds of meters per AP',
 						'CapEx only (buy the AP); no per-user fees',
-						"Stationary or walking — handover between APs is OS-handled and lossy",
-						"Indoor — homes, offices, public hotspots, IoT inside buildings"
+						'Stationary or walking — handover between APs is OS-handled and lossy',
+						'Indoor — homes, offices, public hotspots, IoT inside buildings'
 					]
 				},
 				{
@@ -160,9 +160,9 @@ export const wlanWanStory: SubcategoryStory = {
 					values: [
 						'Licensed (various bands per region, billions paid at auction)',
 						'Kilometers per tower; mmWave only meters',
-						'OpEx (per-month SIM); CapEx is the carrier\'s problem',
-						"Designed for fast handover at vehicle speeds — works on bullet trains",
-						"Outdoor and mobile — phones, vehicles, fixed-wireless backhaul"
+						"OpEx (per-month SIM); CapEx is the carrier's problem",
+						'Designed for fast handover at vehicle speeds — works on bullet trains',
+						'Outdoor and mobile — phones, vehicles, fixed-wireless backhaul'
 					]
 				}
 			],
@@ -207,7 +207,7 @@ export const wlanWanStory: SubcategoryStory = {
 				8: '**Association Response: Success.** The AP allocates state for this client and tells it the association ID it will use.',
 				9: '**Phase 3 — The 4-Way Handshake.** Both sides already know the **Pairwise Master Key** (derived from the Wi-Fi password for WPA2-PSK, from the RADIUS exchange for WPA2-Enterprise). What they need now are *fresh* session keys.',
 				10: '**Message 1.** The AP picks a random {{nonce|nonce}} (ANonce) and sends it. No encryption yet — but the nonce alone is harmless.',
-				11: '**The client derives the Pairwise Transient Key** by combining the PMK, its own SNonce, the AP\'s ANonce, and both MAC addresses. The PTK is the actual encryption + integrity key for this session.',
+				11: "**The client derives the Pairwise Transient Key** by combining the PMK, its own SNonce, the AP's ANonce, and both MAC addresses. The PTK is the actual encryption + integrity key for this session.",
 				12: '**Message 2.** The client sends its SNonce so the AP can derive the same PTK, plus a Message Integrity Code computed with the new key — proving the client really has the right password.',
 				13: '**The AP derives the PTK** with the now-known SNonce and verifies the MIC. A wrong password fails here; this is what makes the password "leak-free" — it never travels over the air.',
 				14: '**Message 3.** The AP confirms key installation and ships the **Group Temporal Key** (used for broadcast/multicast frames), encrypted with the new PTK.',
@@ -219,7 +219,7 @@ export const wlanWanStory: SubcategoryStory = {
 		},
 		{
 			type: 'callout',
-			title: 'Why Cellular and Wi-Fi Don\'t Merge',
+			title: "Why Cellular and Wi-Fi Don't Merge",
 			text: `For thirty years, people have predicted that Wi-Fi and cellular would converge into a single wireless standard. They haven't. The reasons are economic, not technical.\n\n**Spectrum economics are completely different.** Carriers spent ~$700 billion globally on spectrum licenses over 20 years. They built tower networks on top of that investment. They have to charge for access to recoup it. Wi-Fi spectrum is free. The two pricing models are incompatible: there is no good way to monetize spectrum that is *also* free for anyone to use.\n\n**Coverage area economics differ.** Wi-Fi makes sense indoors (where signals don't travel far and adding APs is cheap). Cellular makes sense outdoors and at vehicle speeds (where tower-scale infrastructure is the only way). Trying to use Wi-Fi outdoors hits propagation limits; trying to use cellular indoors hits coverage gaps and signal absorption.\n\n**Regulatory frameworks differ.** Cellular spectrum is per-operator; Wi-Fi spectrum is shared. The "carrier" model assumes a single accountable operator per spectrum band; the "unlicensed" model assumes everyone competes politely. Bringing them together would either monopolize the unlicensed spectrum or fragment the licensed.\n\n**Practical convergence happens at the application layer.** Your iPhone seamlessly switches between Wi-Fi and 5G based on signal quality; Wi-Fi Calling uses Wi-Fi for cellular calls; Passpoint lets your SIM identity authenticate you to Wi-Fi networks. The user experience is unified; the underlying spectrum and economics are not.\n\nThe most interesting recent convergence is **private 5G** — companies (factories, ports, stadiums) buy small slices of cellular-style spectrum (CBRS in the US) and run their own 5G networks. Same air interface as commercial cellular; same convenience as Wi-Fi; sits in between. It's growing fast but is still a small fraction of either market.`
 		},
 		{
@@ -229,7 +229,7 @@ export const wlanWanStory: SubcategoryStory = {
 		},
 		{
 			type: 'narrative',
-			title: 'What\'s Next',
+			title: "What's Next",
 			text: `Active work in 2025:\n\n- **Wi-Fi 7** (802.11be) is shipping in flagship devices. Multi-Link Operation lets a device use 2.4 + 5 + 6 GHz simultaneously, dramatically improving roaming and throughput. Reality lags the spec; few APs and clients support all features yet.\n- **6G research** has begun. ITU-R is targeting 2030 for commercial launch. Frequencies will include sub-terahertz; expect 100+ Gbps peak speeds but very short range.\n- **CBRS / private 5G** continues growing for industrial use cases. Factories, ports, mines, stadiums deploying their own 5G is now mainstream rather than experimental.\n- **OpenRAN** — disaggregating cellular base-station hardware from software — slowly moving from political will to commercial deployment. Dish Network in the US is the largest OpenRAN deployment; Rakuten in Japan was first.\n- **Satellite + cellular convergence** — Apple's Emergency SOS, Starlink Direct-to-Cell, AST SpaceMobile all let standard cell phones talk to satellites for SMS and (soon) data in areas with no tower coverage. The boundary between WAN cellular and LEO satellite is dissolving.\n- **Spectrum management automation** — Wi-Fi 6E and 7 in 6 GHz require AFC (Automated Frequency Coordination) to avoid interfering with existing fixed-service users. AFC databases shipped in 2024; standard-power 6 GHz Wi-Fi is finally deployable.\n- **The boring truth**: Wi-Fi and cellular will keep getting faster, eat each other's lunch at the edges, and never merge into one technology. The dual-stack will persist.`
 		}
 	]

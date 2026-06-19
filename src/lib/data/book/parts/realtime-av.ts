@@ -74,7 +74,7 @@ Active 2025-2026 work in the {{ietf|IETF}} AVTCORE WG: **{{rfc-doc|RFC}} 9628 (2
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/6d/Polycom_VSX_7000_with_2_video_conferencing_screens.JPG/500px-Polycom_VSX_7000_with_2_video_conferencing_screens.JPG',
 							alt: 'A Polycom VSX 7000 video-conferencing system with two screens.',
 							caption:
-								'A **Polycom VSX 7000** video-conferencing system — the early-2000s enterprise hardware whose audio and video both rode [[rtp|RTP]] under the hood. From the 1992 MBone audio-cast that produced [[rtp|RTP]]\'s wire format to today\'s ~2.5M-concurrent Discord voice fleet, the same {{sequence-number|Sequence Number}} + Timestamp + {{payload|Payload}} Type fields have carried voice and video across every generation of conferencing hardware.',
+								"A **Polycom VSX 7000** video-conferencing system — the early-2000s enterprise hardware whose audio and video both rode [[rtp|RTP]] under the hood. From the 1992 MBone audio-cast that produced [[rtp|RTP]]'s wire format to today's ~2.5M-concurrent Discord voice fleet, the same {{sequence-number|Sequence Number}} + Timestamp + {{payload|Payload}} Type fields have carried voice and video across every generation of conferencing hardware.",
 							credit: 'Photo: Wikimedia Commons / CC BY-SA'
 						}
 					]
@@ -90,7 +90,8 @@ Active 2025-2026 work in the {{ietf|IETF}} AVTCORE WG: **{{rfc-doc|RFC}} 9628 (2
 		{
 			id: 'webrtc',
 			title: 'WebRTC',
-			synopsis: '{{peer-to-peer|Peer-to-peer}} in the browser, {{ice|ICE}}/{{stun|STUN}}/{{turn|TURN}}, {{dtls|DTLS}}, {{srtp|SRTP}} — and the only way for a browser to send a [[udp|UDP]] packet.',
+			synopsis:
+				'{{peer-to-peer|Peer-to-peer}} in the browser, {{ice|ICE}}/{{stun|STUN}}/{{turn|TURN}}, {{dtls|DTLS}}, {{srtp|SRTP}} — and the only way for a browser to send a [[udp|UDP]] packet.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -146,7 +147,7 @@ Plan B [[sdp|SDP]] is fully gone now: deprecation-warned in Chrome M89 (Feb 2021
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/Video_Conference_Using_Laptop.jpg/500px-Video_Conference_Using_Laptop.jpg',
 							alt: 'A laptop with a video conferencing application showing multiple participants.',
 							caption:
-								'A laptop video call — what the [[webrtc|WebRTC]] stack actually produces in the user\'s seat. Underneath: a {{ble|BLE}}-discovered camera, {{ice-candidate|ICE candidate}} gathering, a {{dtls|DTLS}}-keyed {{srtp|SRTP}} flow over [[udp|UDP]], NetEQ in the audio path, libwebrtc compiled into the browser. **1.21 million lines of code** in libwebrtc — three times the size of the Space Shuttle\'s onboard software, and it boots in under a second.',
+								"A laptop video call — what the [[webrtc|WebRTC]] stack actually produces in the user's seat. Underneath: a {{ble|BLE}}-discovered camera, {{ice-candidate|ICE candidate}} gathering, a {{dtls|DTLS}}-keyed {{srtp|SRTP}} flow over [[udp|UDP]], NetEQ in the audio path, libwebrtc compiled into the browser. **1.21 million lines of code** in libwebrtc — three times the size of the Space Shuttle's onboard software, and it boots in under a second.",
 							credit: 'Photo: Wikimedia Commons / CC BY-SA'
 						}
 					]
@@ -160,7 +161,8 @@ Plan B [[sdp|SDP]] is fully gone now: deprecation-warned in Chrome M89 (Feb 2021
 		{
 			id: 'sip-and-sdp',
 			title: 'SIP and SDP',
-			synopsis: '[[pioneer:henning-schulzrinne|Henning Schulzrinne]] wrote three protocols ([[sip|SIP]], [[sdp|SDP]], [[rtp|RTP]]) that carry the world\'s phone calls.',
+			synopsis:
+				"[[pioneer:henning-schulzrinne|Henning Schulzrinne]] wrote three protocols ([[sip|SIP]], [[sdp|SDP]], [[rtp|RTP]]) that carry the world's phone calls.",
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -189,7 +191,7 @@ Twenty-eight years in, the protocol-version line is still \`v=0\`. The [[sdp|SDP
 						{
 							type: 'callout',
 							title: 'The 911 outages keep happening',
-							text: 'The **AT&T 22 February 2024 outage** disconnected 125 million devices and blocked ~25,000 911 calls — caused by a single misconfigured network element during expansion, surfacing as {{ims|IMS}}/[[sip|SIP]] registration failures. The **CenturyLink December 2018 911 outage** lost 911 service for 7.4 million Washington residents for 49 hours; 24,000 calls failed; Washington {{utc-time|UTC}} fined them $7.2 M. **{{volte|VoLTE}}/{{vonr|VoNR}} is the world\'s largest [[sip|SIP]] deployment** — {{gsma|GSMA}} reports 310+ {{volte|VoLTE}} operators in 140+ countries and 45+ commercial {{vonr|VoNR}} networks by 2025 — and the failure modes ripple straight into emergency services.'
+							text: "The **AT&T 22 February 2024 outage** disconnected 125 million devices and blocked ~25,000 911 calls — caused by a single misconfigured network element during expansion, surfacing as {{ims|IMS}}/[[sip|SIP]] registration failures. The **CenturyLink December 2018 911 outage** lost 911 service for 7.4 million Washington residents for 49 hours; 24,000 calls failed; Washington {{utc-time|UTC}} fined them $7.2 M. **{{volte|VoLTE}}/{{vonr|VoNR}} is the world's largest [[sip|SIP]] deployment** — {{gsma|GSMA}} reports 310+ {{volte|VoLTE}} operators in 140+ countries and 45+ commercial {{vonr|VoNR}} networks by 2025 — and the failure modes ripple straight into emergency services."
 						},
 						{
 							type: 'narrative',
@@ -231,11 +233,12 @@ The cryptography is slowly tightening: **{{rfc-doc|RFC}} 8760 (March 2020)** fin
 		{
 			id: 'hls-and-dash',
 			title: 'HLS and DASH',
-			synopsis: '[[hls|HLS]] and [[dash|DASH]] — adaptive bitrate over plain {{http-method|HTTP}}, and the {{m3u|M3U}} playlist Winamp left behind.',
+			synopsis:
+				'[[hls|HLS]] and [[dash|DASH]] — adaptive bitrate over plain {{http-method|HTTP}}, and the {{m3u|M3U}} playlist Winamp left behind.',
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: 'The world\'s most-deployed video protocol still starts every playlist with `#EXTM3U` — the format Fraunhofer created in 1995 for WinPlay3 and Nullsoft popularised in Winamp on 21 April 1997.',
+					text: "The world's most-deployed video protocol still starts every playlist with `#EXTM3U` — the format Fraunhofer created in 1995 for WinPlay3 and Nullsoft popularised in Winamp on 21 April 1997.",
 					attribution: 'Author'
 				},
 				{
@@ -253,7 +256,7 @@ The trick was breaking the stream into **2-10 second segments**, each a regular 
 						{
 							type: 'callout',
 							title: 'M3U is a Winamp inheritance',
-							text: '[[hls|HLS]]\'s playlist format is **{{m3u|M3U}}**, which was created in 1995 by Fraunhofer IIS for **WinPlay3** and popularised by **Nullsoft\'s Winamp on 21 April 1997**. The world\'s most-deployed video protocol — the one carrying every live sports event, every Netflix stream, every {{apple|Apple}} TV {{broadcast|broadcast}} — still starts every playlist with `#EXTM3U`. The internet runs on inheritance.'
+							text: "[[hls|HLS]]'s playlist format is **{{m3u|M3U}}**, which was created in 1995 by Fraunhofer IIS for **WinPlay3** and popularised by **Nullsoft's Winamp on 21 April 1997**. The world's most-deployed video protocol — the one carrying every live sports event, every Netflix stream, every {{apple|Apple}} TV {{broadcast|broadcast}} — still starts every playlist with `#EXTM3U`. The internet runs on inheritance."
 						},
 						{
 							type: 'narrative',
@@ -291,7 +294,7 @@ The post-Flash reality: **Adobe Flash Player retired on 31 December 2020**, kill
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Zpracovani_videa_HTTP_Live_Streaming.png/500px-Zpracovani_videa_HTTP_Live_Streaming.png',
 							alt: 'HLS architecture diagram — encoder produces multi-bitrate segments, CDN serves them, player adapts bitrate.',
 							caption:
-								'**[[hls|HLS]]** architecture: an encoder produces parallel multi-bitrate ladders of small .ts (or now .mp4 / CMAF) segments; a {{cdn|CDN}} serves them over plain {{http-method|HTTP}}; the client adapts bitrate between segments. Shipped 17 June 2009 with iPhone {{os|OS}} 3.0 / iPhone 3GS — {{apple|Apple}}\'s play to dodge Flash and survive the 2008 3G {{firewall|firewall}} reality by reusing {{http-method|HTTP}}/443.',
+								"**[[hls|HLS]]** architecture: an encoder produces parallel multi-bitrate ladders of small .ts (or now .mp4 / CMAF) segments; a {{cdn|CDN}} serves them over plain {{http-method|HTTP}}; the client adapts bitrate between segments. Shipped 17 June 2009 with iPhone {{os|OS}} 3.0 / iPhone 3GS — {{apple|Apple}}'s play to dodge Flash and survive the 2008 3G {{firewall|firewall}} reality by reusing {{http-method|HTTP}}/443.",
 							credit: 'Image: Wikimedia Commons / CC BY-SA'
 						}
 					]
@@ -306,7 +309,8 @@ The post-Flash reality: **Adobe Flash Player retired on 31 December 2020**, kill
 		{
 			id: 'moq-transport',
 			title: 'MoQ Transport',
-			synopsis: 'Sub-second live streaming over [[quic|QUIC]] — the first {{ietf|IETF}} media transport that intentionally is not [[rtp|RTP]].',
+			synopsis:
+				'Sub-second live streaming over [[quic|QUIC]] — the first {{ietf|IETF}} media transport that intentionally is not [[rtp|RTP]].',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -363,7 +367,7 @@ The conservative alternative: **[[rtp|RTP]]-over-[[quic|QUIC]] (RoQ)**. \`draft-
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/AT%26T_Picturephone_%2812721549765%29.jpg/500px-AT%26T_Picturephone_%2812721549765%29.jpg',
 							alt: 'The 1964 AT&T Picturephone — an early commercial video-call device.',
 							caption:
-								'The **AT&T Picturephone**, demonstrated at the 1964 World\'s Fair — the first commercial live video over a telecommunications network. Sixty years and four wholesale rewrites later (analog → ISDN → [[rtp|RTP]]/H.323 → [[webrtc|WebRTC]]), **MoQ over [[quic|QUIC]]** is the latest answer to the question the Picturephone asked: *how do you carry one-to-many live video at scale, in real time, over a network you do not own?* The current draft is `draft-{{ietf|ietf}}-moq-transport-17`; {{cloudflare|Cloudflare}} deployed MoQ relays across 330+ cities through 2025.',
+								"The **AT&T Picturephone**, demonstrated at the 1964 World's Fair — the first commercial live video over a telecommunications network. Sixty years and four wholesale rewrites later (analog → ISDN → [[rtp|RTP]]/H.323 → [[webrtc|WebRTC]]), **MoQ over [[quic|QUIC]]** is the latest answer to the question the Picturephone asked: *how do you carry one-to-many live video at scale, in real time, over a network you do not own?* The current draft is `draft-{{ietf|ietf}}-moq-transport-17`; {{cloudflare|Cloudflare}} deployed MoQ relays across 330+ cities through 2025.",
 							credit: 'Photo: AT&T Archives / Wikimedia Commons, public domain'
 						}
 					]

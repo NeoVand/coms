@@ -14,24 +14,21 @@ export function createOAuth2Layer(
 				bits: 0,
 				value: overrides?.grantType ?? 'authorization_code',
 				editable: false,
-				description:
-					'OAuth flow type — authorization_code, client_credentials, refresh_token'
+				description: 'OAuth flow type — authorization_code, client_credentials, refresh_token'
 			},
 			{
 				name: 'Client ID',
 				bits: 0,
 				value: overrides?.clientId ?? 'my-app-id',
 				editable: false,
-				description:
-					'Identifies the application requesting access'
+				description: 'Identifies the application requesting access'
 			},
 			{
 				name: 'Scope',
 				bits: 0,
 				value: overrides?.scope ?? 'read:user email',
 				editable: false,
-				description:
-					'Requested permissions — limits what the token can access',
+				description: 'Requested permissions — limits what the token can access',
 				color: '#2DD4BF'
 			},
 			{
@@ -39,24 +36,21 @@ export function createOAuth2Layer(
 				bits: 0,
 				value: overrides?.state ?? 'xYz123_csrf',
 				editable: false,
-				description:
-					'CSRF protection — random value verified on callback'
+				description: 'CSRF protection — random value verified on callback'
 			},
 			{
 				name: 'Code Challenge',
 				bits: 0,
 				value: overrides?.codeChallenge ?? 'SHA256(verifier)',
 				editable: false,
-				description:
-					'PKCE — proves the token requester is the same as the auth initiator'
+				description: 'PKCE — proves the token requester is the same as the auth initiator'
 			},
 			{
 				name: 'Token',
 				bits: 0,
 				value: overrides?.token ?? '',
 				editable: false,
-				description:
-					'Access token (JWT or opaque) — presented in Authorization: Bearer header'
+				description: 'Access token (JWT or opaque) — presented in Authorization: Bearer header'
 			}
 		]
 	};

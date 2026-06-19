@@ -203,7 +203,10 @@ openssl req -x509 -newkey rsa:2048 -nodes \\
 			title: 'NIST finalises ML-KEM, ML-DSA, SLH-DSA',
 			description:
 				'{{fips|FIPS}} 203, 204, 205 published — the {{post-quantum|post-quantum cryptography}} primitives that [[tls|TLS]] would depend on. {{ml-kem|ML-KEM}}-768 (formerly Kyber-768) becomes the foundation for hybrid key {{exchange|exchange}}.',
-			source: { url: 'https://csrc.nist.gov/publications/detail/fips/203/final', label: 'NIST FIPS 203' }
+			source: {
+				url: 'https://csrc.nist.gov/publications/detail/fips/203/final',
+				label: 'NIST FIPS 203'
+			}
 		},
 		{
 			date: '2024-Q2',
@@ -246,7 +249,7 @@ openssl req -x509 -newkey rsa:2048 -nodes \\
 				'Hybrid post-quantum key agreement enabled by default. Falls back gracefully when servers do not support it.'
 		},
 		{
-			org: 'Let\'s Encrypt',
+			org: "Let's Encrypt",
 			scale: '~470M certificates active',
 			description:
 				'The dominant {{certificate-authority|CA}} for the web. All certificates issued via ACME. ~3M certificates renewed daily.'
@@ -256,7 +259,7 @@ openssl req -x509 -newkey rsa:2048 -nodes \\
 	funFacts: [
 		{
 			title: 'SSL 1.0 was never released',
-			text: 'Netscape\'s [[pioneer:taher-elgamal|Taher Elgamal]] designed {{ssl|SSL}} 1.0 in 1994 — but a flaw was found before public release that let an attacker recover the session key. {{ssl|SSL}} 2.0 (1995) shipped instead. {{ssl|SSL}} 3.0 (1996) was rewritten from scratch by Paul Kocher and survived for over a decade.'
+			text: "Netscape's [[pioneer:taher-elgamal|Taher Elgamal]] designed {{ssl|SSL}} 1.0 in 1994 — but a flaw was found before public release that let an attacker recover the session key. {{ssl|SSL}} 2.0 (1995) shipped instead. {{ssl|SSL}} 3.0 (1996) was rewritten from scratch by Paul Kocher and survived for over a decade."
 		},
 		{
 			title: 'TLS 1.3 cut every weak cipher',
@@ -280,7 +283,7 @@ openssl req -x509 -newkey rsa:2048 -nodes \\
 			},
 			{
 				title: 'Mixed content breaks the padlock',
-				text: 'A page loaded over HTTPS that includes a single script over {{http-method|HTTP}} triggers the browser\'s mixed-content blocker. The page either fails to load assets or shows a warning. Cure: use protocol-relative URLs or strict HTTPS-only resources.'
+				text: "A page loaded over HTTPS that includes a single script over {{http-method|HTTP}} triggers the browser's mixed-content blocker. The page either fails to load assets or shows a warning. Cure: use protocol-relative URLs or strict HTTPS-only resources."
 			}
 		]
 	}

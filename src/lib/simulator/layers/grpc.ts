@@ -1,6 +1,8 @@
 import type { ProtocolLayer } from '../types';
 
-export function createGRPCLayer(overrides?: Partial<Record<string, string | number>>): ProtocolLayer {
+export function createGRPCLayer(
+	overrides?: Partial<Record<string, string | number>>
+): ProtocolLayer {
 	return {
 		name: 'gRPC Message',
 		abbreviation: 'gRPC',

@@ -13,11 +13,23 @@ const vsPairs: ProtocolPair[] = [
 		summary:
 			'[[tcp|TCP]] guarantees every byte arrives in order at the cost of {{latency|latency}}; [[udp|UDP]] prioritizes speed by skipping reliability guarantees entirely.',
 		keyDifferences: [
-			{ aspect: 'Connection model', left: '{{connection-oriented|Connection-oriented}} (3-way handshake)', right: '{{connectionless|Connectionless}} (fire-and-forget)' },
-			{ aspect: 'Reliability', left: 'Guaranteed delivery with retransmission', right: 'Best-effort, no retransmission' },
+			{
+				aspect: 'Connection model',
+				left: '{{connection-oriented|Connection-oriented}} (3-way handshake)',
+				right: '{{connectionless|Connectionless}} (fire-and-forget)'
+			},
+			{
+				aspect: 'Reliability',
+				left: 'Guaranteed delivery with retransmission',
+				right: 'Best-effort, no retransmission'
+			},
 			{ aspect: 'Ordering', left: 'Strict in-order delivery', right: 'No ordering guarantees' },
 			{ aspect: 'Header size', left: '20-60 bytes', right: '8 bytes' },
-			{ aspect: 'Overhead', left: 'Higher (ACKs, {{flow-control|flow control}}, congestion)', right: 'Minimal (just send and hope)' }
+			{
+				aspect: 'Overhead',
+				left: 'Higher (ACKs, {{flow-control|flow control}}, congestion)',
+				right: 'Minimal (just send and hope)'
+			}
 		],
 		useLeftWhen: [
 			'You need guaranteed delivery (file transfer, web pages, email)',
@@ -38,11 +50,31 @@ const vsPairs: ProtocolPair[] = [
 		summary:
 			'Standard [[tcp|TCP]] uses a single network path; [[mptcp|MPTCP]] spreads traffic across multiple paths (e.g. [[wifi|Wi-Fi]] + cellular) for better throughput and seamless {{failover|failover}}.',
 		keyDifferences: [
-			{ aspect: 'Connection model', left: 'Multiple subflows across interfaces', right: 'Single path, single interface' },
-			{ aspect: 'Redundancy', left: 'Seamless failover between paths', right: 'Connection drops if path fails' },
-			{ aspect: 'Throughput', left: 'Aggregate bandwidth of all paths', right: 'Limited to single path bandwidth' },
-			{ aspect: 'Complexity', left: 'Complex path management and scheduling', right: 'Simple, well-understood behavior' },
-			{ aspect: 'Ecosystem', left: 'Growing support (Apple, Linux 5.6+)', right: 'Universal support everywhere' }
+			{
+				aspect: 'Connection model',
+				left: 'Multiple subflows across interfaces',
+				right: 'Single path, single interface'
+			},
+			{
+				aspect: 'Redundancy',
+				left: 'Seamless failover between paths',
+				right: 'Connection drops if path fails'
+			},
+			{
+				aspect: 'Throughput',
+				left: 'Aggregate bandwidth of all paths',
+				right: 'Limited to single path bandwidth'
+			},
+			{
+				aspect: 'Complexity',
+				left: 'Complex path management and scheduling',
+				right: 'Simple, well-understood behavior'
+			},
+			{
+				aspect: 'Ecosystem',
+				left: 'Growing support (Apple, Linux 5.6+)',
+				right: 'Universal support everywhere'
+			}
 		],
 		useLeftWhen: [
 			'Devices have multiple network interfaces (mobile with [[wifi|Wi-Fi]] + cellular)',
@@ -63,11 +95,31 @@ const vsPairs: ProtocolPair[] = [
 		summary:
 			'[[tcp|TCP]] delivers a single ordered byte stream; [[sctp|SCTP]] delivers multiple independent message streams over one association with built-in {{multi-homing|multi-homing}}.',
 		keyDifferences: [
-			{ aspect: 'Data format', left: 'Message-oriented (preserves boundaries)', right: 'Byte-stream (no message boundaries)' },
-			{ aspect: 'Multiplexing', left: 'Multiple independent streams', right: 'Single stream ({{head-of-line-blocking|head-of-line blocking}})' },
-			{ aspect: 'Redundancy', left: 'Built-in multi-homing (multiple IPs)', right: 'Single [[ip|IP]] per connection' },
-			{ aspect: 'Connection model', left: '4-way handshake with cookie (DoS-resistant)', right: '3-way handshake' },
-			{ aspect: 'Ecosystem', left: 'Limited (telecom, [[webrtc|WebRTC]] data channels)', right: 'Universal support' }
+			{
+				aspect: 'Data format',
+				left: 'Message-oriented (preserves boundaries)',
+				right: 'Byte-stream (no message boundaries)'
+			},
+			{
+				aspect: 'Multiplexing',
+				left: 'Multiple independent streams',
+				right: 'Single stream ({{head-of-line-blocking|head-of-line blocking}})'
+			},
+			{
+				aspect: 'Redundancy',
+				left: 'Built-in multi-homing (multiple IPs)',
+				right: 'Single [[ip|IP]] per connection'
+			},
+			{
+				aspect: 'Connection model',
+				left: '4-way handshake with cookie (DoS-resistant)',
+				right: '3-way handshake'
+			},
+			{
+				aspect: 'Ecosystem',
+				left: 'Limited (telecom, [[webrtc|WebRTC]] data channels)',
+				right: 'Universal support'
+			}
 		],
 		useLeftWhen: [
 			'You need multiple independent streams without {{head-of-line-blocking|head-of-line blocking}}',
@@ -88,11 +140,31 @@ const vsPairs: ProtocolPair[] = [
 		summary:
 			'Raw [[udp|UDP]] is a minimal, unreliable datagram service; [[quic|QUIC]] builds reliability, {{multiplexing|multiplexing}}, and {{encryption|encryption}} on top of [[udp|UDP]] to replace [[tcp|TCP]]+[[tls|TLS]].',
 		keyDifferences: [
-			{ aspect: 'Reliability', left: 'Reliable delivery with retransmission', right: 'Best-effort, no guarantees' },
-			{ aspect: 'Encryption', left: 'Built-in [[tls|TLS]] 1.3 (always encrypted)', right: 'None (plaintext datagrams)' },
-			{ aspect: 'Multiplexing', left: 'Multiple independent streams', right: 'Single datagram, no streams' },
-			{ aspect: 'Connection model', left: '{{zero-rtt|0-RTT}}/{{one-rtt|1-RTT}} handshake', right: 'No connection setup' },
-			{ aspect: 'Complexity', left: 'Full transport protocol (congestion, {{flow-control|flow control}})', right: 'Minimal 8-byte header' }
+			{
+				aspect: 'Reliability',
+				left: 'Reliable delivery with retransmission',
+				right: 'Best-effort, no guarantees'
+			},
+			{
+				aspect: 'Encryption',
+				left: 'Built-in [[tls|TLS]] 1.3 (always encrypted)',
+				right: 'None (plaintext datagrams)'
+			},
+			{
+				aspect: 'Multiplexing',
+				left: 'Multiple independent streams',
+				right: 'Single datagram, no streams'
+			},
+			{
+				aspect: 'Connection model',
+				left: '{{zero-rtt|0-RTT}}/{{one-rtt|1-RTT}} handshake',
+				right: 'No connection setup'
+			},
+			{
+				aspect: 'Complexity',
+				left: 'Full transport protocol (congestion, {{flow-control|flow control}})',
+				right: 'Minimal 8-byte header'
+			}
 		],
 		useLeftWhen: [
 			'You need reliable delivery but want to avoid [[tcp|TCP]] {{head-of-line-blocking|head-of-line blocking}}',
@@ -104,7 +176,7 @@ const vsPairs: ProtocolPair[] = [
 			'Your protocol handles its own reliability ([[dns|DNS]], [[ntp|NTP]], custom game protocols)',
 			'Absolute minimum overhead per packet is critical',
 			'You are sending single-shot messages that do not need stream semantics',
-			'Simplicity and universality outweigh [[quic|QUIC]]\'s features'
+			"Simplicity and universality outweigh [[quic|QUIC]]'s features"
 		]
 	},
 
@@ -116,11 +188,31 @@ const vsPairs: ProtocolPair[] = [
 		summary:
 			'[[http1|[[http1|HTTP/1]].1]] sends requests sequentially over separate connections; [[http2|HTTP/2]] multiplexes many requests over a single connection with header compression and {{server-push|server push}}.',
 		keyDifferences: [
-			{ aspect: 'Multiplexing', left: 'One request per connection at a time', right: 'Many concurrent streams on one connection' },
-			{ aspect: 'Data format', left: 'Text-based headers', right: '{{binary-framing|Binary framing}} with {{hpack|HPACK}} compression' },
-			{ aspect: 'Header size', left: 'Repetitive, uncompressed headers', right: 'Compressed via {{hpack|HPACK}} (up to 90% smaller)' },
-			{ aspect: 'Direction', left: 'Client-initiated only', right: '{{server-push|Server push}} (proactive resource delivery)' },
-			{ aspect: 'Connection model', left: 'Multiple [[tcp|TCP]] connections (6 per domain)', right: 'Single [[tcp|TCP]] connection per origin' }
+			{
+				aspect: 'Multiplexing',
+				left: 'One request per connection at a time',
+				right: 'Many concurrent streams on one connection'
+			},
+			{
+				aspect: 'Data format',
+				left: 'Text-based headers',
+				right: '{{binary-framing|Binary framing}} with {{hpack|HPACK}} compression'
+			},
+			{
+				aspect: 'Header size',
+				left: 'Repetitive, uncompressed headers',
+				right: 'Compressed via {{hpack|HPACK}} (up to 90% smaller)'
+			},
+			{
+				aspect: 'Direction',
+				left: 'Client-initiated only',
+				right: '{{server-push|Server push}} (proactive resource delivery)'
+			},
+			{
+				aspect: 'Connection model',
+				left: 'Multiple [[tcp|TCP]] connections (6 per domain)',
+				right: 'Single [[tcp|TCP]] connection per origin'
+			}
 		],
 		useLeftWhen: [
 			'You are supporting very old clients or constrained devices that lack [[http2|HTTP/2]]',
@@ -141,11 +233,31 @@ const vsPairs: ProtocolPair[] = [
 		summary:
 			'[[http2|HTTP/2]] runs over [[tcp|TCP]] and suffers from [[tcp|TCP]]-level {{head-of-line-blocking|head-of-line blocking}}; [[http3|HTTP/3]] runs over [[quic|QUIC]] ([[udp|UDP]]-based) eliminating this and adding faster connection setup.',
 		keyDifferences: [
-			{ aspect: 'Transport', left: '[[tcp|TCP]] + [[tls|TLS]] 1.2/1.3 (separate layers)', right: '[[quic|QUIC]] ([[udp|UDP]]-based, [[tls|TLS]] 1.3 built-in)' },
-			{ aspect: 'Multiplexing', left: 'Streams share [[tcp|TCP]] ({{head-of-line-blocking|head-of-line blocking}})', right: 'Streams independent (no cross-stream blocking)' },
-			{ aspect: 'Connection model', left: '{{one-rtt|1-RTT}} [[tcp|TCP]] + {{one-rtt|1-RTT}} [[tls|TLS]] = 2+ {{rtt|RTT}}', right: '{{one-rtt|1-RTT}} or {{zero-rtt|0-RTT}} (combined transport+crypto)' },
-			{ aspect: 'Header size', left: '{{hpack|HPACK}} compression', right: 'QPACK compression (designed for [[quic|QUIC]])' },
-			{ aspect: 'Ecosystem', left: 'Mature, universal support', right: 'Growing rapidly, most modern browsers support it' }
+			{
+				aspect: 'Transport',
+				left: '[[tcp|TCP]] + [[tls|TLS]] 1.2/1.3 (separate layers)',
+				right: '[[quic|QUIC]] ([[udp|UDP]]-based, [[tls|TLS]] 1.3 built-in)'
+			},
+			{
+				aspect: 'Multiplexing',
+				left: 'Streams share [[tcp|TCP]] ({{head-of-line-blocking|head-of-line blocking}})',
+				right: 'Streams independent (no cross-stream blocking)'
+			},
+			{
+				aspect: 'Connection model',
+				left: '{{one-rtt|1-RTT}} [[tcp|TCP]] + {{one-rtt|1-RTT}} [[tls|TLS]] = 2+ {{rtt|RTT}}',
+				right: '{{one-rtt|1-RTT}} or {{zero-rtt|0-RTT}} (combined transport+crypto)'
+			},
+			{
+				aspect: 'Header size',
+				left: '{{hpack|HPACK}} compression',
+				right: 'QPACK compression (designed for [[quic|QUIC]])'
+			},
+			{
+				aspect: 'Ecosystem',
+				left: 'Mature, universal support',
+				right: 'Growing rapidly, most modern browsers support it'
+			}
 		],
 		useLeftWhen: [
 			'Maximum compatibility with existing infrastructure is required',
@@ -166,11 +278,31 @@ const vsPairs: ProtocolPair[] = [
 		summary:
 			'[[rest|REST]] uses human-readable {{json|JSON}} over {{http-method|HTTP}} for broad compatibility; [[grpc|gRPC]] uses binary Protobuf over [[http2|HTTP/2]] for high-performance, strongly-typed service communication.',
 		keyDifferences: [
-			{ aspect: 'Data format', left: 'Binary ({{protocol-buffers|Protocol Buffers}})', right: 'Text ({{json|JSON}}, {{xml|XML}})' },
-			{ aspect: 'Transport', left: '[[http2|HTTP/2]] only (multiplexed streams)', right: 'Any HTTP version' },
-			{ aspect: 'Direction', left: 'Bidirectional streaming natively', right: '{{request-response|Request-response}} only (streaming via workarounds)' },
-			{ aspect: 'Browser support', left: 'Requires grpc-web proxy', right: 'Native in all browsers' },
-			{ aspect: 'Complexity', left: 'Schema-first (.proto files, codegen)', right: 'Schema-optional, ad-hoc design common' }
+			{
+				aspect: 'Data format',
+				left: 'Binary ({{protocol-buffers|Protocol Buffers}})',
+				right: 'Text ({{json|JSON}}, {{xml|XML}})'
+			},
+			{
+				aspect: 'Transport',
+				left: '[[http2|HTTP/2]] only (multiplexed streams)',
+				right: 'Any HTTP version'
+			},
+			{
+				aspect: 'Direction',
+				left: 'Bidirectional streaming natively',
+				right: '{{request-response|Request-response}} only (streaming via workarounds)'
+			},
+			{
+				aspect: 'Browser support',
+				left: 'Requires grpc-web proxy',
+				right: 'Native in all browsers'
+			},
+			{
+				aspect: 'Complexity',
+				left: 'Schema-first (.proto files, codegen)',
+				right: 'Schema-optional, ad-hoc design common'
+			}
 		],
 		useLeftWhen: [
 			'Services communicate internally (microservice-to-microservice)',
@@ -191,11 +323,31 @@ const vsPairs: ProtocolPair[] = [
 		summary:
 			'[[rest|REST]] exposes fixed endpoints that return predetermined data shapes; [[graphql|GraphQL]] exposes a single endpoint where clients query exactly the fields they need.',
 		keyDifferences: [
-			{ aspect: 'Data format', left: 'Client-specified query shapes', right: 'Server-defined resource shapes' },
-			{ aspect: 'Caching', left: 'Complex (query-level, requires tooling)', right: 'Simple (HTTP caching per URL)' },
-			{ aspect: 'Overhead', left: 'No over-fetching, but query parsing cost', right: 'Often over-fetches or under-fetches data' },
-			{ aspect: 'Direction', left: 'Queries + mutations + subscriptions', right: 'CRUD mapped to HTTP methods' },
-			{ aspect: 'Complexity', left: 'Schema required, resolver architecture', right: 'Simpler, convention-based' }
+			{
+				aspect: 'Data format',
+				left: 'Client-specified query shapes',
+				right: 'Server-defined resource shapes'
+			},
+			{
+				aspect: 'Caching',
+				left: 'Complex (query-level, requires tooling)',
+				right: 'Simple (HTTP caching per URL)'
+			},
+			{
+				aspect: 'Overhead',
+				left: 'No over-fetching, but query parsing cost',
+				right: 'Often over-fetches or under-fetches data'
+			},
+			{
+				aspect: 'Direction',
+				left: 'Queries + mutations + subscriptions',
+				right: 'CRUD mapped to HTTP methods'
+			},
+			{
+				aspect: 'Complexity',
+				left: 'Schema required, resolver architecture',
+				right: 'Simpler, convention-based'
+			}
 		],
 		useLeftWhen: [
 			'Clients need different slices of data (mobile vs desktop vs watch)',
@@ -216,10 +368,26 @@ const vsPairs: ProtocolPair[] = [
 		summary:
 			'[[websockets|WebSocket]] provides {{full-duplex|full-duplex}} bidirectional communication; [[sse|SSE]] provides server-to-client streaming over plain {{http-method|HTTP}} with automatic reconnection.',
 		keyDifferences: [
-			{ aspect: 'Direction', left: 'Server-to-client only', right: '{{full-duplex|Full-duplex}} bidirectional' },
-			{ aspect: 'Transport', left: 'Standard HTTP (works with proxies, CDNs)', right: 'Upgraded connection (custom framing)' },
-			{ aspect: 'Complexity', left: 'Simple (EventSource API, text-based)', right: 'More complex (handshake, binary frames)' },
-			{ aspect: 'Reliability', left: 'Built-in auto-reconnection and last-event-ID', right: 'Manual reconnection logic needed' },
+			{
+				aspect: 'Direction',
+				left: 'Server-to-client only',
+				right: '{{full-duplex|Full-duplex}} bidirectional'
+			},
+			{
+				aspect: 'Transport',
+				left: 'Standard HTTP (works with proxies, CDNs)',
+				right: 'Upgraded connection (custom framing)'
+			},
+			{
+				aspect: 'Complexity',
+				left: 'Simple (EventSource API, text-based)',
+				right: 'More complex (handshake, binary frames)'
+			},
+			{
+				aspect: 'Reliability',
+				left: 'Built-in auto-reconnection and last-event-ID',
+				right: 'Manual reconnection logic needed'
+			},
 			{ aspect: 'Data format', left: 'Text only (UTF-8)', right: 'Text and binary frames' }
 		],
 		useLeftWhen: [
@@ -241,11 +409,31 @@ const vsPairs: ProtocolPair[] = [
 		summary:
 			'[[graphql|GraphQL]] lets clients flexibly query for exactly the data they need over {{http-method|HTTP}}; [[grpc|gRPC]] provides high-performance, schema-strict {{rpc|RPC}} with bidirectional streaming.',
 		keyDifferences: [
-			{ aspect: 'Data format', left: '{{json|JSON}} response, query language', right: 'Binary {{protocol-buffers|Protocol Buffers}}' },
-			{ aspect: 'Direction', left: '{{request-response|Request-response}} + subscriptions', right: 'Unary, server/client/bidirectional streaming' },
-			{ aspect: 'Browser support', left: 'Native (standard HTTP POST)', right: 'Requires grpc-web proxy' },
-			{ aspect: 'Complexity', left: 'Schema + resolvers, flexible queries', right: 'Schema + codegen, strict contracts' },
-			{ aspect: 'Overhead', left: '{{json|JSON}} text (human-readable)', right: 'Binary (compact, ~5-10x smaller)' }
+			{
+				aspect: 'Data format',
+				left: '{{json|JSON}} response, query language',
+				right: 'Binary {{protocol-buffers|Protocol Buffers}}'
+			},
+			{
+				aspect: 'Direction',
+				left: '{{request-response|Request-response}} + subscriptions',
+				right: 'Unary, server/client/bidirectional streaming'
+			},
+			{
+				aspect: 'Browser support',
+				left: 'Native (standard HTTP POST)',
+				right: 'Requires grpc-web proxy'
+			},
+			{
+				aspect: 'Complexity',
+				left: 'Schema + resolvers, flexible queries',
+				right: 'Schema + codegen, strict contracts'
+			},
+			{
+				aspect: 'Overhead',
+				left: '{{json|JSON}} text (human-readable)',
+				right: 'Binary (compact, ~5-10x smaller)'
+			}
 		],
 		useLeftWhen: [
 			'Clients need flexible, ad-hoc queries over complex data graphs',
@@ -266,11 +454,31 @@ const vsPairs: ProtocolPair[] = [
 		summary:
 			'[[http1|[[http1|HTTP/1]].1]] is the text-based, universally supported baseline; [[http3|HTTP/3]] is the latest evolution running over [[quic|QUIC]] with {{multiplexing|multiplexing}}, {{zero-rtt|0-RTT}}, and built-in {{encryption|encryption}}.',
 		keyDifferences: [
-			{ aspect: 'Transport', left: '[[tcp|TCP]] (1+ {{rtt|RTT}} handshake)', right: '[[quic|QUIC]] over [[udp|UDP]] ({{zero-rtt|0-RTT}} possible)' },
-			{ aspect: 'Multiplexing', left: 'No multiplexing (one request per connection)', right: 'Full stream multiplexing (no {{head-of-line-blocking|head-of-line blocking}})' },
-			{ aspect: 'Header size', left: 'Uncompressed text headers', right: 'QPACK compressed binary headers' },
-			{ aspect: 'Encryption', left: 'Optional (HTTP or HTTPS)', right: 'Always encrypted ([[tls|TLS]] 1.3 built into [[quic|QUIC]])' },
-			{ aspect: 'Ecosystem', left: 'Universal — every device and proxy supports it', right: 'Modern browsers and CDNs; some firewalls block [[udp|UDP]]' }
+			{
+				aspect: 'Transport',
+				left: '[[tcp|TCP]] (1+ {{rtt|RTT}} handshake)',
+				right: '[[quic|QUIC]] over [[udp|UDP]] ({{zero-rtt|0-RTT}} possible)'
+			},
+			{
+				aspect: 'Multiplexing',
+				left: 'No multiplexing (one request per connection)',
+				right: 'Full stream multiplexing (no {{head-of-line-blocking|head-of-line blocking}})'
+			},
+			{
+				aspect: 'Header size',
+				left: 'Uncompressed text headers',
+				right: 'QPACK compressed binary headers'
+			},
+			{
+				aspect: 'Encryption',
+				left: 'Optional (HTTP or HTTPS)',
+				right: 'Always encrypted ([[tls|TLS]] 1.3 built into [[quic|QUIC]])'
+			},
+			{
+				aspect: 'Ecosystem',
+				left: 'Universal — every device and proxy supports it',
+				right: 'Modern browsers and CDNs; some firewalls block [[udp|UDP]]'
+			}
 		],
 		useLeftWhen: [
 			'Maximum backward compatibility is the top priority',
@@ -291,11 +499,31 @@ const vsPairs: ProtocolPair[] = [
 		summary:
 			'[[http2|HTTP/2]] provides multiplexed {{request-response|request-response}} with {{server-push|server push}} over a single connection; [[websockets|WebSocket]] provides a persistent, {{full-duplex|full-duplex}} message channel.',
 		keyDifferences: [
-			{ aspect: 'Direction', left: '{{request-response|Request-response}} + {{server-push|server push}}', right: '{{full-duplex|Full-duplex}} persistent channel' },
-			{ aspect: 'Data format', left: 'HTTP semantics (headers, status codes)', right: 'Raw frames (text or binary)' },
-			{ aspect: 'Multiplexing', left: 'Many concurrent request/response streams', right: 'Single bidirectional channel' },
-			{ aspect: 'Caching', left: 'Standard HTTP caching works', right: 'No HTTP caching (custom protocol)' },
-			{ aspect: 'Complexity', left: 'Standard HTTP (works with existing tooling)', right: 'Requires upgrade handshake, custom framing' }
+			{
+				aspect: 'Direction',
+				left: '{{request-response|Request-response}} + {{server-push|server push}}',
+				right: '{{full-duplex|Full-duplex}} persistent channel'
+			},
+			{
+				aspect: 'Data format',
+				left: 'HTTP semantics (headers, status codes)',
+				right: 'Raw frames (text or binary)'
+			},
+			{
+				aspect: 'Multiplexing',
+				left: 'Many concurrent request/response streams',
+				right: 'Single bidirectional channel'
+			},
+			{
+				aspect: 'Caching',
+				left: 'Standard HTTP caching works',
+				right: 'No HTTP caching (custom protocol)'
+			},
+			{
+				aspect: 'Complexity',
+				left: 'Standard HTTP (works with existing tooling)',
+				right: 'Requires upgrade handshake, custom framing'
+			}
 		],
 		useLeftWhen: [
 			'Your communication follows {{request-response|request-response}} patterns (APIs, page loads)',
@@ -316,11 +544,27 @@ const vsPairs: ProtocolPair[] = [
 		summary:
 			'[[rest|REST]] follows a {{stateless|stateless}} {{request-response|request-response}} model ideal for {{crud|CRUD}} operations; [[websockets|WebSocket]] maintains a persistent connection for real-time bidirectional communication.',
 		keyDifferences: [
-			{ aspect: 'Statefulness', left: '{{stateless|Stateless}} (each request is independent)', right: '{{stateful|Stateful}} (persistent connection)' },
-			{ aspect: 'Direction', left: 'Client-initiated requests only', right: '{{full-duplex|Full-duplex}} (either side can send anytime)' },
+			{
+				aspect: 'Statefulness',
+				left: '{{stateless|Stateless}} (each request is independent)',
+				right: '{{stateful|Stateful}} (persistent connection)'
+			},
+			{
+				aspect: 'Direction',
+				left: 'Client-initiated requests only',
+				right: '{{full-duplex|Full-duplex}} (either side can send anytime)'
+			},
 			{ aspect: 'Caching', left: 'Built-in HTTP caching', right: 'No caching (real-time stream)' },
-			{ aspect: 'Overhead', left: 'Full HTTP headers per request', right: 'Minimal framing after handshake (2-14 bytes)' },
-			{ aspect: 'Complexity', left: 'Simple, well-understood conventions', right: 'Requires connection management and reconnection logic' }
+			{
+				aspect: 'Overhead',
+				left: 'Full HTTP headers per request',
+				right: 'Minimal framing after handshake (2-14 bytes)'
+			},
+			{
+				aspect: 'Complexity',
+				left: 'Simple, well-understood conventions',
+				right: 'Requires connection management and reconnection logic'
+			}
 		],
 		useLeftWhen: [
 			'Your operations are CRUD-style (create, read, update, delete)',
@@ -341,9 +585,21 @@ const vsPairs: ProtocolPair[] = [
 		summary:
 			'[[graphql|GraphQL]] lets clients query exactly the data they need via flexible queries; [[sse|SSE]] provides a simple server-push stream for real-time updates over {{http-method|HTTP}}.',
 		keyDifferences: [
-			{ aspect: 'Direction', left: '{{request-response|Request-response}} + subscriptions', right: 'Server-to-client push only' },
-			{ aspect: 'Data format', left: 'Client-defined query shapes ({{json|JSON}})', right: 'Server-defined event stream (text)' },
-			{ aspect: 'Complexity', left: 'Schema, resolvers, query parsing', right: 'Simple EventSource API' },
+			{
+				aspect: 'Direction',
+				left: '{{request-response|Request-response}} + subscriptions',
+				right: 'Server-to-client push only'
+			},
+			{
+				aspect: 'Data format',
+				left: 'Client-defined query shapes ({{json|JSON}})',
+				right: 'Server-defined event stream (text)'
+			},
+			{
+				aspect: 'Complexity',
+				left: 'Schema, resolvers, query parsing',
+				right: 'Simple EventSource API'
+			},
 			{ aspect: 'Caching', left: 'Complex (query-level)', right: 'HTTP-level caching possible' },
 			{ aspect: 'Browser support', left: 'Requires fetch/library', right: 'Native EventSource API' }
 		],
@@ -366,11 +622,31 @@ const vsPairs: ProtocolPair[] = [
 		summary:
 			'[[rest|REST]] is an architectural style defining how to structure APIs; [[http2|HTTP/2]] is a transport protocol that improves how {{http-method|HTTP}} requests are delivered — they operate at different levels and are not direct alternatives. They are complementary: [[rest|REST]] APIs can (and commonly do) run over [[http2|HTTP/2]], gaining {{multiplexing|multiplexing}}, header compression, and {{server-push|server push}} without any changes to {{api|API}} design.',
 		keyDifferences: [
-			{ aspect: 'Multiplexing', left: 'Multiple concurrent streams natively', right: 'One request per connection (uses multiple connections)' },
-			{ aspect: 'Direction', left: '{{server-push|Server push}} for proactive delivery', right: 'Client-initiated requests only' },
-			{ aspect: 'Header size', left: '{{hpack|HPACK}} compressed (binary)', right: 'Full text headers repeated per request' },
-			{ aspect: 'Data format', left: '{{binary-framing|Binary framing}} layer', right: 'Text-based HTTP semantics' },
-			{ aspect: 'Complexity', left: 'Requires [[tls|TLS]] in practice, binary debugging', right: 'Simple, human-readable, curl-friendly' }
+			{
+				aspect: 'Multiplexing',
+				left: 'Multiple concurrent streams natively',
+				right: 'One request per connection (uses multiple connections)'
+			},
+			{
+				aspect: 'Direction',
+				left: '{{server-push|Server push}} for proactive delivery',
+				right: 'Client-initiated requests only'
+			},
+			{
+				aspect: 'Header size',
+				left: '{{hpack|HPACK}} compressed (binary)',
+				right: 'Full text headers repeated per request'
+			},
+			{
+				aspect: 'Data format',
+				left: '{{binary-framing|Binary framing}} layer',
+				right: 'Text-based HTTP semantics'
+			},
+			{
+				aspect: 'Complexity',
+				left: 'Requires [[tls|TLS]] in practice, binary debugging',
+				right: 'Simple, human-readable, curl-friendly'
+			}
 		],
 		useLeftWhen: [
 			'Many resources are loaded concurrently (web pages with dozens of assets)',
@@ -394,11 +670,31 @@ const vsPairs: ProtocolPair[] = [
 		summary:
 			'[[mqtt|MQTT]] is ultra-lightweight pub/sub designed for constrained IoT devices; [[amqp|AMQP]] is a feature-rich {{broker|message broker}} protocol for enterprise messaging with routing, transactions, and delivery guarantees.',
 		keyDifferences: [
-			{ aspect: 'Overhead', left: 'Feature-rich (higher overhead)', right: 'Minimal (2-byte header possible)' },
-			{ aspect: 'Data format', left: 'Binary with rich semantics', right: 'Binary with simple topic-based pub/sub' },
-			{ aspect: 'Reliability', left: 'Transactions, dead-lettering, acknowledgments', right: 'QoS 0/1/2 (fire-forget to exactly-once)' },
-			{ aspect: 'Complexity', left: 'Exchanges, queues, bindings, routing keys', right: 'Simple topic hierarchy with wildcards' },
-			{ aspect: 'Ecosystem', left: 'RabbitMQ, enterprise integration', right: 'Mosquitto, AWS IoT, Azure IoT Hub' }
+			{
+				aspect: 'Overhead',
+				left: 'Feature-rich (higher overhead)',
+				right: 'Minimal (2-byte header possible)'
+			},
+			{
+				aspect: 'Data format',
+				left: 'Binary with rich semantics',
+				right: 'Binary with simple topic-based pub/sub'
+			},
+			{
+				aspect: 'Reliability',
+				left: 'Transactions, dead-lettering, acknowledgments',
+				right: 'QoS 0/1/2 (fire-forget to exactly-once)'
+			},
+			{
+				aspect: 'Complexity',
+				left: 'Exchanges, queues, bindings, routing keys',
+				right: 'Simple topic hierarchy with wildcards'
+			},
+			{
+				aspect: 'Ecosystem',
+				left: 'RabbitMQ, enterprise integration',
+				right: 'Mosquitto, AWS IoT, Azure IoT Hub'
+			}
 		],
 		useLeftWhen: [
 			'You need complex routing (topic, direct, fanout, headers exchange)',
@@ -419,11 +715,31 @@ const vsPairs: ProtocolPair[] = [
 		summary:
 			'[[amqp|AMQP]] is a binary, feature-complete {{broker|message broker}} protocol; [[stomp|STOMP]] is a text-based, deliberately simple messaging protocol designed for easy client implementation.',
 		keyDifferences: [
-			{ aspect: 'Data format', left: 'Binary with rich type system', right: 'Text-based (like HTTP, human-readable)' },
-			{ aspect: 'Complexity', left: 'Exchanges, queues, bindings, routing', right: 'Simple SEND/SUBSCRIBE/UNSUBSCRIBE' },
-			{ aspect: 'Reliability', left: 'Transactions, publisher confirms, dead-lettering', right: 'Basic acknowledgments only' },
-			{ aspect: 'Browser support', left: 'Requires [[amqp|AMQP]] client library', right: 'Easy over [[websockets|WebSocket]] (text protocol)' },
-			{ aspect: 'Ecosystem', left: 'RabbitMQ, Qpid, Azure Service Bus', right: 'ActiveMQ, RabbitMQ ([[stomp|STOMP]] plugin)' }
+			{
+				aspect: 'Data format',
+				left: 'Binary with rich type system',
+				right: 'Text-based (like HTTP, human-readable)'
+			},
+			{
+				aspect: 'Complexity',
+				left: 'Exchanges, queues, bindings, routing',
+				right: 'Simple SEND/SUBSCRIBE/UNSUBSCRIBE'
+			},
+			{
+				aspect: 'Reliability',
+				left: 'Transactions, publisher confirms, dead-lettering',
+				right: 'Basic acknowledgments only'
+			},
+			{
+				aspect: 'Browser support',
+				left: 'Requires [[amqp|AMQP]] client library',
+				right: 'Easy over [[websockets|WebSocket]] (text protocol)'
+			},
+			{
+				aspect: 'Ecosystem',
+				left: 'RabbitMQ, Qpid, Azure Service Bus',
+				right: 'ActiveMQ, RabbitMQ ([[stomp|STOMP]] plugin)'
+			}
 		],
 		useLeftWhen: [
 			'You need advanced routing, transactions, and delivery guarantees',
@@ -444,11 +760,27 @@ const vsPairs: ProtocolPair[] = [
 		summary:
 			'[[mqtt|MQTT]] is a pub/sub protocol connecting many devices through a central broker; [[coap|CoAP]] is a {{request-response|request-response}} protocol for direct device-to-device communication modeled after {{http-method|HTTP}}.',
 		keyDifferences: [
-			{ aspect: 'Connection model', left: '{{request-response|Request-response}} (like HTTP)', right: 'Publish-subscribe via broker' },
-			{ aspect: 'Transport', left: '[[udp|UDP]] (connectionless)', right: '[[tcp|TCP]] (persistent connection to broker)' },
-			{ aspect: 'Direction', left: 'Client-server (device to device)', right: 'Many-to-many via central broker' },
+			{
+				aspect: 'Connection model',
+				left: '{{request-response|Request-response}} (like HTTP)',
+				right: 'Publish-subscribe via broker'
+			},
+			{
+				aspect: 'Transport',
+				left: '[[udp|UDP]] (connectionless)',
+				right: '[[tcp|TCP]] (persistent connection to broker)'
+			},
+			{
+				aspect: 'Direction',
+				left: 'Client-server (device to device)',
+				right: 'Many-to-many via central broker'
+			},
 			{ aspect: 'Overhead', left: '4-byte header, compact binary', right: '2-byte minimum header' },
-			{ aspect: 'Complexity', left: '[[rest|REST]]-like (GET, PUT, POST, DELETE)', right: 'Pub/sub (CONNECT, PUBLISH, SUBSCRIBE)' }
+			{
+				aspect: 'Complexity',
+				left: '[[rest|REST]]-like (GET, PUT, POST, DELETE)',
+				right: 'Pub/sub (CONNECT, PUBLISH, SUBSCRIBE)'
+			}
 		],
 		useLeftWhen: [
 			'Devices communicate directly without a central broker',
@@ -469,11 +801,31 @@ const vsPairs: ProtocolPair[] = [
 		summary:
 			'[[stomp|STOMP]] is a minimal text-based messaging protocol for queue/{{topic|topic}} messaging; [[xmpp|XMPP]] is a rich {{xml|XML}}-based protocol for presence-aware, federated real-time communication.',
 		keyDifferences: [
-			{ aspect: 'Data format', left: 'Simple text frames (like HTTP)', right: '{{xml|XML}} stanzas (verbose but extensible)' },
-			{ aspect: 'Complexity', left: 'Minimal (SEND, SUBSCRIBE, {{ack|ACK}})', right: 'Rich (presence, roster, multi-user chat, extensions)' },
-			{ aspect: 'Direction', left: 'Queue/topic messaging via broker', right: '{{peer-to-peer|Peer-to-peer}} with optional server federation' },
-			{ aspect: 'Ecosystem', left: 'ActiveMQ, RabbitMQ [[stomp|STOMP]] plugin', right: 'ejabberd, Prosody, Openfire' },
-			{ aspect: 'Standardization', left: 'Simple spec, few extensions', right: 'Hundreds of XEPs (extension protocols)' }
+			{
+				aspect: 'Data format',
+				left: 'Simple text frames (like HTTP)',
+				right: '{{xml|XML}} stanzas (verbose but extensible)'
+			},
+			{
+				aspect: 'Complexity',
+				left: 'Minimal (SEND, SUBSCRIBE, {{ack|ACK}})',
+				right: 'Rich (presence, roster, multi-user chat, extensions)'
+			},
+			{
+				aspect: 'Direction',
+				left: 'Queue/topic messaging via broker',
+				right: '{{peer-to-peer|Peer-to-peer}} with optional server federation'
+			},
+			{
+				aspect: 'Ecosystem',
+				left: 'ActiveMQ, RabbitMQ [[stomp|STOMP]] plugin',
+				right: 'ejabberd, Prosody, Openfire'
+			},
+			{
+				aspect: 'Standardization',
+				left: 'Simple spec, few extensions',
+				right: 'Hundreds of XEPs (extension protocols)'
+			}
 		],
 		useLeftWhen: [
 			'You need simple, lightweight queue or topic messaging',
@@ -494,11 +846,31 @@ const vsPairs: ProtocolPair[] = [
 		summary:
 			'[[amqp|AMQP]] brokers (like RabbitMQ) route individual messages with rich delivery semantics; [[kafka|Kafka]] is a distributed log that persists ordered event streams for replay and high-throughput processing.',
 		keyDifferences: [
-			{ aspect: 'Data format', left: '{{broker|Message broker}} (consume = delete)', right: 'Append-only log (consume = read offset)' },
-			{ aspect: 'Ordering', left: 'Per-queue ordering', right: 'Per-partition ordering (scalable)' },
-			{ aspect: 'Reliability', left: 'Per-message acknowledgments', right: '{{offset|Offset}}-based consumer tracking' },
-			{ aspect: 'Complexity', left: 'Rich routing (exchanges, bindings)', right: 'Simple topic/partition model' },
-			{ aspect: 'Throughput', left: 'Lower (routing overhead per message)', right: 'Very high (sequential I/O, batching)' }
+			{
+				aspect: 'Data format',
+				left: '{{broker|Message broker}} (consume = delete)',
+				right: 'Append-only log (consume = read offset)'
+			},
+			{
+				aspect: 'Ordering',
+				left: 'Per-queue ordering',
+				right: 'Per-partition ordering (scalable)'
+			},
+			{
+				aspect: 'Reliability',
+				left: 'Per-message acknowledgments',
+				right: '{{offset|Offset}}-based consumer tracking'
+			},
+			{
+				aspect: 'Complexity',
+				left: 'Rich routing (exchanges, bindings)',
+				right: 'Simple topic/partition model'
+			},
+			{
+				aspect: 'Throughput',
+				left: 'Lower (routing overhead per message)',
+				right: 'Very high (sequential I/O, batching)'
+			}
 		],
 		useLeftWhen: [
 			'You need complex message routing (fanout, topic, header-based)',
@@ -520,13 +892,29 @@ const vsPairs: ProtocolPair[] = [
 		ids: ['dash', 'hls'],
 		type: 'vs',
 		summary:
-			'[[hls|HLS]] is {{apple|Apple}}\'s {{http-method|HTTP}}-based adaptive streaming protocol with near-universal player support; [[dash|DASH]] is the open, {{codec|codec}}-agnostic {{mpeg-org|MPEG}} standard for adaptive streaming.',
+			"[[hls|HLS]] is {{apple|Apple}}'s {{http-method|HTTP}}-based adaptive streaming protocol with near-universal player support; [[dash|DASH]] is the open, {{codec|codec}}-agnostic {{mpeg-org|MPEG}} standard for adaptive streaming.",
 		keyDifferences: [
-			{ aspect: 'Standardization', left: 'Open MPEG standard (ISO/IEC 23009)', right: 'Apple proprietary (widely adopted)' },
+			{
+				aspect: 'Standardization',
+				left: 'Open MPEG standard (ISO/IEC 23009)',
+				right: 'Apple proprietary (widely adopted)'
+			},
 			{ aspect: 'Data format', left: 'MPD manifest ({{xml|XML}})', right: 'M3U8 playlist (text)' },
-			{ aspect: 'Complexity', left: 'Codec-agnostic, more flexible', right: 'Simpler, opinionated defaults' },
-			{ aspect: 'Browser support', left: 'Requires MSE/JavaScript player', right: 'Native in Safari/iOS, MSE elsewhere' },
-			{ aspect: 'Ecosystem', left: 'YouTube, Netflix, Disney+', right: 'Apple TV+, Twitch, most live streams' }
+			{
+				aspect: 'Complexity',
+				left: 'Codec-agnostic, more flexible',
+				right: 'Simpler, opinionated defaults'
+			},
+			{
+				aspect: 'Browser support',
+				left: 'Requires MSE/JavaScript player',
+				right: 'Native in Safari/iOS, MSE elsewhere'
+			},
+			{
+				aspect: 'Ecosystem',
+				left: 'YouTube, Netflix, Disney+',
+				right: 'Apple TV+, Twitch, most live streams'
+			}
 		],
 		useLeftWhen: [
 			'You need codec flexibility (AV1, VP9) beyond H.264/H.265',
@@ -547,11 +935,31 @@ const vsPairs: ProtocolPair[] = [
 		summary:
 			'[[rtp|RTP]] delivers real-time audio/video over [[udp|UDP]] for interactive communication; [[rtmp|RTMP]] delivers live streams over [[tcp|TCP]] for broadcasting to media servers.',
 		keyDifferences: [
-			{ aspect: 'Transport', left: '[[udp|UDP]] (low latency, tolerates loss)', right: '[[tcp|TCP]] (reliable, higher latency)' },
-			{ aspect: 'Direction', left: '{{peer-to-peer|Peer-to-peer}} or multicast', right: 'Client-to-server (ingest)' },
-			{ aspect: 'Overhead', left: 'Minimal [[rtp|RTP]] header (12 bytes)', right: 'Chunked message format with handshake' },
-			{ aspect: 'Complexity', left: 'Paired with {{rtcp|RTCP}} for feedback', right: 'Self-contained streaming protocol' },
-			{ aspect: 'Ecosystem', left: '[[webrtc|WebRTC]], VoIP, video conferencing', right: 'OBS, Twitch ingest, Facebook Live' }
+			{
+				aspect: 'Transport',
+				left: '[[udp|UDP]] (low latency, tolerates loss)',
+				right: '[[tcp|TCP]] (reliable, higher latency)'
+			},
+			{
+				aspect: 'Direction',
+				left: '{{peer-to-peer|Peer-to-peer}} or multicast',
+				right: 'Client-to-server (ingest)'
+			},
+			{
+				aspect: 'Overhead',
+				left: 'Minimal [[rtp|RTP]] header (12 bytes)',
+				right: 'Chunked message format with handshake'
+			},
+			{
+				aspect: 'Complexity',
+				left: 'Paired with {{rtcp|RTCP}} for feedback',
+				right: 'Self-contained streaming protocol'
+			},
+			{
+				aspect: 'Ecosystem',
+				left: '[[webrtc|WebRTC]], VoIP, video conferencing',
+				right: 'OBS, Twitch ingest, Facebook Live'
+			}
 		],
 		useLeftWhen: [
 			'You are building interactive audio/video (calls, conferences)',
@@ -572,11 +980,31 @@ const vsPairs: ProtocolPair[] = [
 		summary:
 			'[[sip|SIP]] is the traditional telephony {{signaling|signaling}} protocol for {{voip|VoIP}} and video calls; [[webrtc|WebRTC]] provides browser-native {{peer-to-peer|peer-to-peer}} real-time communication without plugins.',
 		keyDifferences: [
-			{ aspect: 'Browser support', left: 'Requires [[sip|SIP]] client/softphone', right: 'Native in all modern browsers' },
-			{ aspect: 'Connection model', left: 'Client-server via [[sip|SIP]] proxy/registrar', right: '{{peer-to-peer|Peer-to-peer}} with STUN/TURN fallback' },
-			{ aspect: 'Complexity', left: 'Mature telecom stack ([[sip|SIP]]/[[sdp|SDP]]/[[rtp|RTP]])', right: 'Integrated (ICE, {{dtls|DTLS}}-{{srtp|SRTP}}, [[sctp|SCTP]])' },
-			{ aspect: 'Ecosystem', left: 'Asterisk, FreeSWITCH, telecom carriers', right: 'Browsers, Twilio, Daily, Jitsi' },
-			{ aspect: 'Standardization', left: '{{ietf|IETF}} [[rfc:3261|RFC 3261]] (telecom-oriented)', right: '{{w3c|W3C}} + {{ietf|IETF}} (web-oriented)' }
+			{
+				aspect: 'Browser support',
+				left: 'Requires [[sip|SIP]] client/softphone',
+				right: 'Native in all modern browsers'
+			},
+			{
+				aspect: 'Connection model',
+				left: 'Client-server via [[sip|SIP]] proxy/registrar',
+				right: '{{peer-to-peer|Peer-to-peer}} with STUN/TURN fallback'
+			},
+			{
+				aspect: 'Complexity',
+				left: 'Mature telecom stack ([[sip|SIP]]/[[sdp|SDP]]/[[rtp|RTP]])',
+				right: 'Integrated (ICE, {{dtls|DTLS}}-{{srtp|SRTP}}, [[sctp|SCTP]])'
+			},
+			{
+				aspect: 'Ecosystem',
+				left: 'Asterisk, FreeSWITCH, telecom carriers',
+				right: 'Browsers, Twilio, Daily, Jitsi'
+			},
+			{
+				aspect: 'Standardization',
+				left: '{{ietf|IETF}} [[rfc:3261|RFC 3261]] (telecom-oriented)',
+				right: '{{w3c|W3C}} + {{ietf|IETF}} (web-oriented)'
+			}
 		],
 		useLeftWhen: [
 			'You are integrating with existing telephony infrastructure (PBX, PSTN)',
@@ -597,11 +1025,31 @@ const vsPairs: ProtocolPair[] = [
 		summary:
 			'[[rtmp|RTMP]] is used for live stream ingest from encoders to servers; [[hls|HLS]] is used for delivery from servers to viewers via {{http-method|HTTP}}-based adaptive streaming.',
 		keyDifferences: [
-			{ aspect: 'Transport', left: 'HTTP (segment-based delivery)', right: '[[tcp|TCP]] (persistent chunked stream)' },
-			{ aspect: 'Direction', left: 'Server-to-viewer (playback)', right: 'Encoder-to-server (ingest/publish)' },
-			{ aspect: 'Overhead', left: 'Segment-based (~2-6s chunks)', right: 'Low-latency continuous stream' },
-			{ aspect: 'Browser support', left: 'Native in Safari, MSE elsewhere', right: 'No browser support (Flash deprecated)' },
-			{ aspect: 'Ecosystem', left: 'Viewers: all devices and CDNs', right: 'Ingest: OBS, Wirecast, FFmpeg' }
+			{
+				aspect: 'Transport',
+				left: 'HTTP (segment-based delivery)',
+				right: '[[tcp|TCP]] (persistent chunked stream)'
+			},
+			{
+				aspect: 'Direction',
+				left: 'Server-to-viewer (playback)',
+				right: 'Encoder-to-server (ingest/publish)'
+			},
+			{
+				aspect: 'Overhead',
+				left: 'Segment-based (~2-6s chunks)',
+				right: 'Low-latency continuous stream'
+			},
+			{
+				aspect: 'Browser support',
+				left: 'Native in Safari, MSE elsewhere',
+				right: 'No browser support (Flash deprecated)'
+			},
+			{
+				aspect: 'Ecosystem',
+				left: 'Viewers: all devices and CDNs',
+				right: 'Ingest: OBS, Wirecast, FFmpeg'
+			}
 		],
 		useLeftWhen: [
 			'You are delivering video to end viewers (playback side)',
@@ -622,11 +1070,31 @@ const vsPairs: ProtocolPair[] = [
 		summary:
 			'[[rtmp|RTMP]] is a persistent [[tcp|TCP]]-based protocol for live stream ingest; [[dash|DASH]] is an {{http-method|HTTP}}-based adaptive streaming protocol for scalable video delivery to viewers.',
 		keyDifferences: [
-			{ aspect: 'Transport', left: 'HTTP (segment downloads)', right: '[[tcp|TCP]] (persistent connection)' },
-			{ aspect: 'Direction', left: 'Server-to-viewer (delivery)', right: 'Encoder-to-server (ingest)' },
-			{ aspect: 'Standardization', left: 'Open MPEG standard', right: 'Originally Adobe (now open)' },
-			{ aspect: 'Complexity', left: 'Adaptive bitrate with MPD manifests', right: 'Simple publish/play model' },
-			{ aspect: 'Browser support', left: 'Via MSE/JavaScript player', right: 'No browser support (Flash deprecated)' }
+			{
+				aspect: 'Transport',
+				left: 'HTTP (segment downloads)',
+				right: '[[tcp|TCP]] (persistent connection)'
+			},
+			{
+				aspect: 'Direction',
+				left: 'Server-to-viewer (delivery)',
+				right: 'Encoder-to-server (ingest)'
+			},
+			{
+				aspect: 'Standardization',
+				left: 'Open MPEG standard',
+				right: 'Originally Adobe (now open)'
+			},
+			{
+				aspect: 'Complexity',
+				left: 'Adaptive bitrate with MPD manifests',
+				right: 'Simple publish/play model'
+			},
+			{
+				aspect: 'Browser support',
+				left: 'Via MSE/JavaScript player',
+				right: 'No browser support (Flash deprecated)'
+			}
 		],
 		useLeftWhen: [
 			'You are building the viewer-facing delivery pipeline',
@@ -650,11 +1118,31 @@ const vsPairs: ProtocolPair[] = [
 		summary:
 			'[[tls|TLS]] secures arbitrary application protocols transparently (HTTPS, SMTPS); [[ssh|SSH]] provides an encrypted channel specifically for remote shell access, file transfer, and {{port-forwarding|port forwarding}}.',
 		keyDifferences: [
-			{ aspect: 'Connection model', left: 'Interactive shell + channels (multiplex)', right: 'Transparent wrapper around any protocol' },
-			{ aspect: 'Complexity', left: 'Built-in auth, shell, file transfer, tunneling', right: 'Pure encryption/auth layer (no application features)' },
-			{ aspect: 'Data format', left: 'Channel-based (shell, SCP, SFTP, port forward)', right: 'Stream encryption (application handles framing)' },
-			{ aspect: 'Ecosystem', left: 'OpenSSH, PuTTY, remote administration', right: 'Web browsers, email servers, API gateways' },
-			{ aspect: 'Browser support', left: 'No browser support (terminal clients)', right: 'Native in all browsers (HTTPS)' }
+			{
+				aspect: 'Connection model',
+				left: 'Interactive shell + channels (multiplex)',
+				right: 'Transparent wrapper around any protocol'
+			},
+			{
+				aspect: 'Complexity',
+				left: 'Built-in auth, shell, file transfer, tunneling',
+				right: 'Pure encryption/auth layer (no application features)'
+			},
+			{
+				aspect: 'Data format',
+				left: 'Channel-based (shell, SCP, SFTP, port forward)',
+				right: 'Stream encryption (application handles framing)'
+			},
+			{
+				aspect: 'Ecosystem',
+				left: 'OpenSSH, PuTTY, remote administration',
+				right: 'Web browsers, email servers, API gateways'
+			},
+			{
+				aspect: 'Browser support',
+				left: 'No browser support (terminal clients)',
+				right: 'Native in all browsers (HTTPS)'
+			}
 		],
 		useLeftWhen: [
 			'You need remote shell access or command execution on servers',
@@ -666,7 +1154,7 @@ const vsPairs: ProtocolPair[] = [
 			'You are securing a web protocol (HTTP, [[smtp|SMTP]], [[ftp|FTP]], [[mqtt|MQTT]])',
 			'Browser clients must connect securely without special software',
 			'Your application needs transparent encryption without changing its protocol',
-			'Certificate-based trust via public CAs (Let\'s Encrypt) is preferred'
+			"Certificate-based trust via public CAs (Let's Encrypt) is preferred"
 		]
 	},
 
@@ -696,7 +1184,8 @@ const vsPairs: ProtocolPair[] = [
 			{
 				aspect: 'Command format',
 				left: 'Tagged commands (A001 {{imap-select|SELECT}} INBOX) — enables {{pipelining|pipelining}}',
-				right: 'Sequential commands ({{ehlo|EHLO}} → {{smtp-mail-from|MAIL FROM}} → {{smtp-data|DATA}})'
+				right:
+					'Sequential commands ({{ehlo|EHLO}} → {{smtp-mail-from|MAIL FROM}} → {{smtp-data|DATA}})'
 			},
 			{
 				aspect: 'Default port',
@@ -726,11 +1215,31 @@ const vsPairs: ProtocolPair[] = [
 		summary:
 			'[[ethernet|Ethernet]] uses cables for reliable, high-speed {{lan|LAN}} connectivity; [[wifi|Wi-Fi]] uses radio waves for wireless flexibility at the cost of shared {{airtime|airtime}} and lower throughput.',
 		keyDifferences: [
-			{ aspect: 'Medium', left: 'Copper/fiber cables (dedicated per link)', right: 'Radio waves (shared airtime)' },
-			{ aspect: 'Access control', left: 'Full duplex on switched links (no collisions)', right: 'CSMA/{{certificate-authority|CA}} — collision avoidance on shared medium' },
-			{ aspect: 'Speed (typical)', left: '1-100 Gbps', right: '100 Mbps–9.6 Gbps ([[wifi|Wi-Fi]] 6E/7)' },
-			{ aspect: 'Security', left: 'Physical access required (inherently private)', right: '{{encryption|Encryption}} mandatory (WPA2/WPA3)' },
-			{ aspect: 'Addressing', left: '2 MAC addresses per frame (src, dst)', right: '3-4 MAC addresses per frame (RA, TA, DA, SA)' }
+			{
+				aspect: 'Medium',
+				left: 'Copper/fiber cables (dedicated per link)',
+				right: 'Radio waves (shared airtime)'
+			},
+			{
+				aspect: 'Access control',
+				left: 'Full duplex on switched links (no collisions)',
+				right: 'CSMA/{{certificate-authority|CA}} — collision avoidance on shared medium'
+			},
+			{
+				aspect: 'Speed (typical)',
+				left: '1-100 Gbps',
+				right: '100 Mbps–9.6 Gbps ([[wifi|Wi-Fi]] 6E/7)'
+			},
+			{
+				aspect: 'Security',
+				left: 'Physical access required (inherently private)',
+				right: '{{encryption|Encryption}} mandatory (WPA2/WPA3)'
+			},
+			{
+				aspect: 'Addressing',
+				left: '2 MAC addresses per frame (src, dst)',
+				right: '3-4 MAC addresses per frame (RA, TA, DA, SA)'
+			}
 		],
 		useLeftWhen: [
 			'Maximum speed and minimum latency are required (data centers, server rooms)',
@@ -752,11 +1261,31 @@ const vsPairs: ProtocolPair[] = [
 		summary:
 			'[[ip|IPv4]] uses 32-bit addresses (4.3 billion) and has served since 1981; [[ipv6|IPv6]] uses 128-bit addresses (340 undecillion) with a simplified header and no {{nat|NAT}} needed.',
 		keyDifferences: [
-			{ aspect: 'Address size', left: '32-bit (192.168.1.1) — 4.3 billion addresses', right: '128-bit (2001:db8::1) — 340 undecillion addresses' },
-			{ aspect: 'Header', left: 'Variable 20-60 bytes, header checksum, options', right: 'Fixed 40 bytes, no checksum, extension header chain' },
-			{ aspect: 'Fragmentation', left: 'Routers and hosts can fragment', right: 'Only source host fragments ({{path-mtu-discovery|Path MTU Discovery}})' },
-			{ aspect: 'Address resolution', left: '[[arp|ARP]] broadcasts (FF:FF:FF:FF:FF:FF)', right: '{{ndp|NDP}} solicited-node multicast (far more efficient)' },
-			{ aspect: 'Auto-configuration', left: 'Requires [[dhcp|DHCP]] server', right: '{{slaac|SLAAC}} — hosts self-configure from router prefix' }
+			{
+				aspect: 'Address size',
+				left: '32-bit (192.168.1.1) — 4.3 billion addresses',
+				right: '128-bit (2001:db8::1) — 340 undecillion addresses'
+			},
+			{
+				aspect: 'Header',
+				left: 'Variable 20-60 bytes, header checksum, options',
+				right: 'Fixed 40 bytes, no checksum, extension header chain'
+			},
+			{
+				aspect: 'Fragmentation',
+				left: 'Routers and hosts can fragment',
+				right: 'Only source host fragments ({{path-mtu-discovery|Path MTU Discovery}})'
+			},
+			{
+				aspect: 'Address resolution',
+				left: '[[arp|ARP]] broadcasts (FF:FF:FF:FF:FF:FF)',
+				right: '{{ndp|NDP}} solicited-node multicast (far more efficient)'
+			},
+			{
+				aspect: 'Auto-configuration',
+				left: 'Requires [[dhcp|DHCP]] server',
+				right: '{{slaac|SLAAC}} — hosts self-configure from router prefix'
+			}
 		],
 		useLeftWhen: [
 			'You are operating in legacy environments where [[ipv6|IPv6]] is not yet supported',
@@ -780,11 +1309,31 @@ const vsPairs: ProtocolPair[] = [
 		summary:
 			'[[soap|SOAP]] provides formal {{xml|XML}} contracts and enterprise features (transactions, security); [[rest|REST]] favors simplicity with {{json|JSON}} over {{http-method|HTTP}} and standard methods.',
 		keyDifferences: [
-			{ aspect: 'Data format', left: '{{xml|XML}} only (strict schema)', right: '{{json|JSON}}, {{xml|XML}}, or any format (flexible)' },
-			{ aspect: 'Contract', left: 'WSDL — formal, machine-readable service definition', right: 'OpenAPI/Swagger — optional, documentation-oriented' },
-			{ aspect: 'Transport', left: 'HTTP POST only (protocol-agnostic in theory)', right: 'Full HTTP semantics (GET, POST, PUT, DELETE)' },
-			{ aspect: 'Error handling', left: '[[soap|SOAP]] Fault — structured {{xml|XML}} error envelopes', right: 'HTTP status codes (404, 500, etc.)' },
-			{ aspect: 'Ecosystem', left: 'WS-Security, WS-ReliableMessaging, WS-AtomicTransaction', right: 'Lightweight — use [[tls|TLS]], retries, saga pattern separately' }
+			{
+				aspect: 'Data format',
+				left: '{{xml|XML}} only (strict schema)',
+				right: '{{json|JSON}}, {{xml|XML}}, or any format (flexible)'
+			},
+			{
+				aspect: 'Contract',
+				left: 'WSDL — formal, machine-readable service definition',
+				right: 'OpenAPI/Swagger — optional, documentation-oriented'
+			},
+			{
+				aspect: 'Transport',
+				left: 'HTTP POST only (protocol-agnostic in theory)',
+				right: 'Full HTTP semantics (GET, POST, PUT, DELETE)'
+			},
+			{
+				aspect: 'Error handling',
+				left: '[[soap|SOAP]] Fault — structured {{xml|XML}} error envelopes',
+				right: 'HTTP status codes (404, 500, etc.)'
+			},
+			{
+				aspect: 'Ecosystem',
+				left: 'WS-Security, WS-ReliableMessaging, WS-AtomicTransaction',
+				right: 'Lightweight — use [[tls|TLS]], retries, saga pattern separately'
+			}
 		],
 		useLeftWhen: [
 			'You need formal service contracts with strict schema validation (banking, insurance)',
@@ -805,11 +1354,31 @@ const vsPairs: ProtocolPair[] = [
 		summary:
 			'Both use strict contracts and code generation, but [[soap|SOAP]] wraps calls in verbose {{xml|XML}} envelopes while [[grpc|gRPC]] uses compact binary Protobuf over [[http2|HTTP/2]].',
 		keyDifferences: [
-			{ aspect: 'Serialization', left: '{{xml|XML}} (text-based, verbose)', right: '{{protocol-buffers|Protocol Buffers}} (binary, compact)' },
-			{ aspect: 'Contract', left: 'WSDL ({{xml|XML}} Schema)', right: '.proto files ({{protocol-buffers|Protocol Buffers}} IDL)' },
-			{ aspect: 'Transport', left: '[[http1|HTTP/1.1]] POST', right: '[[http2|HTTP/2]] with multiplexing and streaming' },
-			{ aspect: 'Streaming', left: 'Not supported natively', right: 'Bidirectional streaming built-in' },
-			{ aspect: 'Ecosystem', left: 'Mature enterprise (Java, .NET)', right: 'Modern polyglot (Go, Rust, Python, Java, JS)' }
+			{
+				aspect: 'Serialization',
+				left: '{{xml|XML}} (text-based, verbose)',
+				right: '{{protocol-buffers|Protocol Buffers}} (binary, compact)'
+			},
+			{
+				aspect: 'Contract',
+				left: 'WSDL ({{xml|XML}} Schema)',
+				right: '.proto files ({{protocol-buffers|Protocol Buffers}} IDL)'
+			},
+			{
+				aspect: 'Transport',
+				left: '[[http1|HTTP/1.1]] POST',
+				right: '[[http2|HTTP/2]] with multiplexing and streaming'
+			},
+			{
+				aspect: 'Streaming',
+				left: 'Not supported natively',
+				right: 'Bidirectional streaming built-in'
+			},
+			{
+				aspect: 'Ecosystem',
+				left: 'Mature enterprise (Java, .NET)',
+				right: 'Modern polyglot (Go, Rust, Python, Java, JS)'
+			}
 		],
 		useLeftWhen: [
 			'You are in a regulated industry requiring WSDL-based formal contracts',
@@ -830,11 +1399,31 @@ const vsPairs: ProtocolPair[] = [
 		summary:
 			'[[soap|SOAP]] defines rigid operations via {{wsdl|WSDL}}; [[graphql|GraphQL]] lets clients specify exactly the data they need in a single flexible query.',
 		keyDifferences: [
-			{ aspect: 'Query model', left: 'Fixed operations defined in WSDL', right: 'Client specifies exact fields and relationships' },
-			{ aspect: 'Data format', left: '{{xml|XML}} envelopes with {{xml|XML}} Schema', right: '{{json|JSON}} responses with typed schema' },
-			{ aspect: 'Over/under-fetching', left: 'Returns entire operation result (over-fetching)', right: 'Returns exactly requested fields (precise)' },
-			{ aspect: 'Versioning', left: 'WSDL versioning (breaking changes)', right: 'Schema evolution (additive, non-breaking)' },
-			{ aspect: 'Introspection', left: 'WSDL document download', right: 'Built-in schema introspection queries' }
+			{
+				aspect: 'Query model',
+				left: 'Fixed operations defined in WSDL',
+				right: 'Client specifies exact fields and relationships'
+			},
+			{
+				aspect: 'Data format',
+				left: '{{xml|XML}} envelopes with {{xml|XML}} Schema',
+				right: '{{json|JSON}} responses with typed schema'
+			},
+			{
+				aspect: 'Over/under-fetching',
+				left: 'Returns entire operation result (over-fetching)',
+				right: 'Returns exactly requested fields (precise)'
+			},
+			{
+				aspect: 'Versioning',
+				left: 'WSDL versioning (breaking changes)',
+				right: 'Schema evolution (additive, non-breaking)'
+			},
+			{
+				aspect: 'Introspection',
+				left: 'WSDL document download',
+				right: 'Built-in schema introspection queries'
+			}
 		],
 		useLeftWhen: [
 			'You need formal, validated contracts for enterprise integration',
@@ -858,11 +1447,31 @@ const vsPairs: ProtocolPair[] = [
 		summary:
 			'[[oauth2|OAuth 2.0]] handles authorization (who can access what); [[tls|TLS]] handles {{encryption|encryption}} (protecting data in {{transit|transit}}). Different problems, complementary solutions — [[oauth2|OAuth]] requires [[tls|TLS]].',
 		keyDifferences: [
-			{ aspect: 'Problem solved', left: 'Authorization — delegated access to resources', right: '{{encryption|Encryption}} — confidentiality and integrity of data in transit' },
-			{ aspect: 'OSI layer', left: 'Application layer (HTTP redirects, tokens)', right: 'Session/transport layer (encrypts byte streams)' },
-			{ aspect: 'Scope', left: 'Per-resource access control (scopes, tokens)', right: 'Per-connection encryption (entire data stream)' },
-			{ aspect: 'User involvement', left: 'User consents to grant access', right: 'Transparent to the user (lock icon in browser)' },
-			{ aspect: 'Dependency', left: 'Requires [[tls|TLS]] for security (tokens in cleartext = disaster)', right: 'Independent — works without [[oauth2|OAuth]]' }
+			{
+				aspect: 'Problem solved',
+				left: 'Authorization — delegated access to resources',
+				right: '{{encryption|Encryption}} — confidentiality and integrity of data in transit'
+			},
+			{
+				aspect: 'OSI layer',
+				left: 'Application layer (HTTP redirects, tokens)',
+				right: 'Session/transport layer (encrypts byte streams)'
+			},
+			{
+				aspect: 'Scope',
+				left: 'Per-resource access control (scopes, tokens)',
+				right: 'Per-connection encryption (entire data stream)'
+			},
+			{
+				aspect: 'User involvement',
+				left: 'User consents to grant access',
+				right: 'Transparent to the user (lock icon in browser)'
+			},
+			{
+				aspect: 'Dependency',
+				left: 'Requires [[tls|TLS]] for security (tokens in cleartext = disaster)',
+				right: 'Independent — works without [[oauth2|OAuth]]'
+			}
 		],
 		useLeftWhen: [
 			'Third-party apps need access to user resources without passwords',
@@ -886,11 +1495,31 @@ const vsPairs: ProtocolPair[] = [
 		summary:
 			'[[rest|REST]] maps operations to {{http-method|HTTP}} verbs and multiple resource URLs; [[json-rpc|JSON-RPC]] sends method names to a single endpoint. [[rest|REST]] is resource-oriented, [[json-rpc|JSON-RPC]] is action-oriented.',
 		keyDifferences: [
-			{ aspect: 'Data format', left: 'Method name + params in {{json|JSON}} body', right: 'HTTP verbs + resource URLs' },
-			{ aspect: 'Caching', left: 'Not cacheable (all POSTs)', right: 'HTTP-level caching (GET is cacheable)' },
-			{ aspect: 'Complexity', left: 'Minimal spec, single endpoint', right: 'Convention-heavy, multiple endpoints' },
-			{ aspect: 'Ecosystem', left: 'Growing (blockchain, AI agents)', right: 'Dominant (most public APIs)' },
-			{ aspect: 'Overhead', left: 'Batch requests reduce round trips', right: 'One HTTP request per operation' }
+			{
+				aspect: 'Data format',
+				left: 'Method name + params in {{json|JSON}} body',
+				right: 'HTTP verbs + resource URLs'
+			},
+			{
+				aspect: 'Caching',
+				left: 'Not cacheable (all POSTs)',
+				right: 'HTTP-level caching (GET is cacheable)'
+			},
+			{
+				aspect: 'Complexity',
+				left: 'Minimal spec, single endpoint',
+				right: 'Convention-heavy, multiple endpoints'
+			},
+			{
+				aspect: 'Ecosystem',
+				left: 'Growing (blockchain, AI agents)',
+				right: 'Dominant (most public APIs)'
+			},
+			{
+				aspect: 'Overhead',
+				left: 'Batch requests reduce round trips',
+				right: 'One HTTP request per operation'
+			}
 		],
 		useLeftWhen: [
 			'Your API is action-oriented rather than resource-oriented (execute, calculate, query)',
@@ -911,11 +1540,31 @@ const vsPairs: ProtocolPair[] = [
 		summary:
 			'[[grpc|gRPC]] uses binary {{protocol-buffers|Protocol Buffers}} and [[http2|HTTP/2]] for maximum performance with code generation; [[json-rpc|JSON-RPC]] uses human-readable {{json|JSON}} over any transport for maximum simplicity.',
 		keyDifferences: [
-			{ aspect: 'Data format', left: 'Binary ({{protocol-buffers|Protocol Buffers}})', right: 'Text ({{json|JSON}})' },
-			{ aspect: 'Transport', left: '[[http2|HTTP/2]] only', right: 'Any (HTTP, [[websockets|WebSocket]], stdio, [[tcp|TCP]])' },
-			{ aspect: 'Direction', left: 'Unary + bidirectional streaming', right: '{{request-response|Request-response}} + notifications' },
-			{ aspect: 'Complexity', left: '.proto files + code generation', right: 'No schema, no build step' },
-			{ aspect: 'Ecosystem', left: 'Mature (Google-backed, 11 languages)', right: 'Lightweight (blockchain, AI, editors)' }
+			{
+				aspect: 'Data format',
+				left: 'Binary ({{protocol-buffers|Protocol Buffers}})',
+				right: 'Text ({{json|JSON}})'
+			},
+			{
+				aspect: 'Transport',
+				left: '[[http2|HTTP/2]] only',
+				right: 'Any (HTTP, [[websockets|WebSocket]], stdio, [[tcp|TCP]])'
+			},
+			{
+				aspect: 'Direction',
+				left: 'Unary + bidirectional streaming',
+				right: '{{request-response|Request-response}} + notifications'
+			},
+			{
+				aspect: 'Complexity',
+				left: '.proto files + code generation',
+				right: 'No schema, no build step'
+			},
+			{
+				aspect: 'Ecosystem',
+				left: 'Mature (Google-backed, 11 languages)',
+				right: 'Lightweight (blockchain, AI, editors)'
+			}
 		],
 		useLeftWhen: [
 			'You need maximum throughput between internal microservices',
@@ -936,11 +1585,31 @@ const vsPairs: ProtocolPair[] = [
 		summary:
 			'[[graphql|GraphQL]] lets clients {{imap-select|select}} exactly which fields they need via a query language; [[json-rpc|JSON-RPC]] calls methods by name and returns whatever the method returns — no field selection.',
 		keyDifferences: [
-			{ aspect: 'Data format', left: 'Query language with field selection', right: 'Method name + params, fixed response' },
-			{ aspect: 'Complexity', left: 'Schema, resolvers, query parsing', right: 'No schema, direct method dispatch' },
-			{ aspect: 'Overhead', left: 'Query parsing + validation per request', right: 'Minimal — {{json|JSON}} parse + method lookup' },
-			{ aspect: 'Direction', left: '{{request-response|Request-response}} + subscriptions', right: '{{request-response|Request-response}} + notifications' },
-			{ aspect: 'Ecosystem', left: 'Web frontends, mobile apps', right: 'Infrastructure, blockchain, AI agents' }
+			{
+				aspect: 'Data format',
+				left: 'Query language with field selection',
+				right: 'Method name + params, fixed response'
+			},
+			{
+				aspect: 'Complexity',
+				left: 'Schema, resolvers, query parsing',
+				right: 'No schema, direct method dispatch'
+			},
+			{
+				aspect: 'Overhead',
+				left: 'Query parsing + validation per request',
+				right: 'Minimal — {{json|JSON}} parse + method lookup'
+			},
+			{
+				aspect: 'Direction',
+				left: '{{request-response|Request-response}} + subscriptions',
+				right: '{{request-response|Request-response}} + notifications'
+			},
+			{
+				aspect: 'Ecosystem',
+				left: 'Web frontends, mobile apps',
+				right: 'Infrastructure, blockchain, AI agents'
+			}
 		],
 		useLeftWhen: [
 			'Clients have varied data needs and over-fetching is a problem',
@@ -961,11 +1630,31 @@ const vsPairs: ProtocolPair[] = [
 		summary:
 			'[[soap|SOAP]] wraps {{rpc|RPC}} calls in verbose {{xml|XML}} envelopes with formal {{wsdl|WSDL}} contracts and {{ws-star|WS-*}} extensions; [[json-rpc|JSON-RPC]] does the same thing in a few lines of {{json|JSON}} with no ceremony.',
 		keyDifferences: [
-			{ aspect: 'Data format', left: '{{json|JSON}} (lightweight text)', right: '{{xml|XML}} (verbose, structured envelopes)' },
-			{ aspect: 'Complexity', left: 'One-page spec, no schema required', right: 'WSDL, XSD, WS-* extensions' },
-			{ aspect: 'Overhead', left: '~60 bytes for a simple call', right: '500+ bytes for the same call in {{xml|XML}}' },
-			{ aspect: 'Standardization', left: 'Community spec (jsonrpc.org)', right: '{{w3c|W3C}} standard with enterprise extensions' },
-			{ aspect: 'Ecosystem', left: 'Modern infrastructure and AI', right: 'Enterprise banking, healthcare, government' }
+			{
+				aspect: 'Data format',
+				left: '{{json|JSON}} (lightweight text)',
+				right: '{{xml|XML}} (verbose, structured envelopes)'
+			},
+			{
+				aspect: 'Complexity',
+				left: 'One-page spec, no schema required',
+				right: 'WSDL, XSD, WS-* extensions'
+			},
+			{
+				aspect: 'Overhead',
+				left: '~60 bytes for a simple call',
+				right: '500+ bytes for the same call in {{xml|XML}}'
+			},
+			{
+				aspect: 'Standardization',
+				left: 'Community spec (jsonrpc.org)',
+				right: '{{w3c|W3C}} standard with enterprise extensions'
+			},
+			{
+				aspect: 'Ecosystem',
+				left: 'Modern infrastructure and AI',
+				right: 'Enterprise banking, healthcare, government'
+			}
 		],
 		useLeftWhen: [
 			'You want RPC without the overhead of {{xml|XML}} and WSDL',
@@ -989,11 +1678,31 @@ const vsPairs: ProtocolPair[] = [
 		summary:
 			'[[mcp|MCP]] connects an {{ai|AI}} agent to tools and data sources; [[a2a|A2A]] connects {{ai|AI}} agents to each other for multi-agent collaboration. They are complementary, not competing.',
 		keyDifferences: [
-			{ aspect: 'Purpose', left: 'Agent-to-agent collaboration', right: 'Agent-to-tool integration' },
-			{ aspect: 'Discovery', left: 'Agent Cards at /.well-known/agent.json', right: 'Capabilities handshake (initialize)' },
-			{ aspect: 'Transparency', left: 'Opaque (skills only, no internals)', right: 'Transparent (tool schemas, resource URIs)' },
-			{ aspect: 'Unit of work', left: 'Task with lifecycle (stateful)', right: 'Tool call (stateless {{request-response|request-response}})' },
-			{ aspect: 'Transport', left: 'HTTP, [[sse|SSE]], webhooks, [[grpc|gRPC]]', right: 'stdio, Streamable HTTP' }
+			{
+				aspect: 'Purpose',
+				left: 'Agent-to-agent collaboration',
+				right: 'Agent-to-tool integration'
+			},
+			{
+				aspect: 'Discovery',
+				left: 'Agent Cards at /.well-known/agent.json',
+				right: 'Capabilities handshake (initialize)'
+			},
+			{
+				aspect: 'Transparency',
+				left: 'Opaque (skills only, no internals)',
+				right: 'Transparent (tool schemas, resource URIs)'
+			},
+			{
+				aspect: 'Unit of work',
+				left: 'Task with lifecycle (stateful)',
+				right: 'Tool call (stateless {{request-response|request-response}})'
+			},
+			{
+				aspect: 'Transport',
+				left: 'HTTP, [[sse|SSE]], webhooks, [[grpc|gRPC]]',
+				right: 'stdio, Streamable HTTP'
+			}
 		],
 		useLeftWhen: [
 			'You need multiple AI agents to collaborate on complex tasks',
@@ -1014,11 +1723,31 @@ const vsPairs: ProtocolPair[] = [
 		summary:
 			'[[rest|REST]] is a general-purpose {{api|API}} style for any client; [[a2a|A2A]] is specifically designed for {{ai|AI}} agent communication with discovery, task lifecycle, and streaming built in.',
 		keyDifferences: [
-			{ aspect: 'Purpose', left: 'AI agent-to-agent collaboration', right: 'General-purpose API access' },
-			{ aspect: 'Discovery', left: 'Agent Cards with skills and auth', right: 'OpenAPI/Swagger documentation' },
-			{ aspect: 'Statefulness', left: '{{stateful|Stateful}} tasks with lifecycle', right: '{{stateless|Stateless}} {{request-response|request-response}}' },
-			{ aspect: 'Direction', left: 'Bidirectional ([[sse|SSE]], webhooks)', right: 'Client-initiated only' },
-			{ aspect: 'Data format', left: '[[json-rpc|JSON-RPC]] methods + Parts/Artifacts', right: 'HTTP verbs + resource URLs' }
+			{
+				aspect: 'Purpose',
+				left: 'AI agent-to-agent collaboration',
+				right: 'General-purpose API access'
+			},
+			{
+				aspect: 'Discovery',
+				left: 'Agent Cards with skills and auth',
+				right: 'OpenAPI/Swagger documentation'
+			},
+			{
+				aspect: 'Statefulness',
+				left: '{{stateful|Stateful}} tasks with lifecycle',
+				right: '{{stateless|Stateless}} {{request-response|request-response}}'
+			},
+			{
+				aspect: 'Direction',
+				left: 'Bidirectional ([[sse|SSE]], webhooks)',
+				right: 'Client-initiated only'
+			},
+			{
+				aspect: 'Data format',
+				left: '[[json-rpc|JSON-RPC]] methods + Parts/Artifacts',
+				right: 'HTTP verbs + resource URLs'
+			}
 		],
 		useLeftWhen: [
 			'You are building multi-agent AI systems that need to delegate and coordinate',
@@ -1039,11 +1768,27 @@ const vsPairs: ProtocolPair[] = [
 		summary:
 			'[[rest|REST]] exposes resources via {{http-method|HTTP}} for any client; [[mcp|MCP]] exposes tools, resources, and prompts specifically for {{ai|AI}} applications with {{llm|LLM}}-native semantics like {{sampling|sampling}} and tool schemas.',
 		keyDifferences: [
-			{ aspect: 'Purpose', left: 'AI-native tool and data access', right: 'General-purpose API access' },
-			{ aspect: 'Discovery', left: 'Dynamic capability negotiation', right: 'Static OpenAPI documentation' },
-			{ aspect: 'Data format', left: '[[json-rpc|JSON-RPC]] methods (tools/call)', right: 'HTTP verbs + resource URLs' },
+			{
+				aspect: 'Purpose',
+				left: 'AI-native tool and data access',
+				right: 'General-purpose API access'
+			},
+			{
+				aspect: 'Discovery',
+				left: 'Dynamic capability negotiation',
+				right: 'Static OpenAPI documentation'
+			},
+			{
+				aspect: 'Data format',
+				left: '[[json-rpc|JSON-RPC]] methods (tools/call)',
+				right: 'HTTP verbs + resource URLs'
+			},
 			{ aspect: 'Transport', left: 'stdio + Streamable HTTP', right: 'HTTP only' },
-			{ aspect: 'Ecosystem', left: 'AI apps (Claude, ChatGPT, Cursor)', right: 'Universal (any HTTP client)' }
+			{
+				aspect: 'Ecosystem',
+				left: 'AI apps (Claude, ChatGPT, Cursor)',
+				right: 'Universal (any HTTP client)'
+			}
 		],
 		useLeftWhen: [
 			'You are building tools for AI applications to consume (not human developers)',
@@ -1064,11 +1809,31 @@ const vsPairs: ProtocolPair[] = [
 		summary:
 			'[[grpc|gRPC]] is a general-purpose {{rpc|RPC}} framework for microservices; [[a2a|A2A]] is specifically designed for {{ai|AI}} agent communication with agent discovery, task lifecycle, and opaque collaboration.',
 		keyDifferences: [
-			{ aspect: 'Purpose', left: 'AI agent collaboration', right: 'General-purpose microservice RPC' },
-			{ aspect: 'Discovery', left: 'Agent Cards with skills', right: 'Protobuf service reflection' },
-			{ aspect: 'Data format', left: '[[json-rpc|JSON-RPC]] 2.0 (text)', right: '{{protocol-buffers|Protocol Buffers}} (binary)' },
-			{ aspect: 'Statefulness', left: '{{stateful|Stateful}} tasks with lifecycle', right: '{{stateless|Stateless}} unary or streaming calls' },
-			{ aspect: 'Ecosystem', left: 'AI agents (Google, Salesforce, SAP)', right: 'Microservices (Kubernetes, {{service-mesh|service mesh}})' }
+			{
+				aspect: 'Purpose',
+				left: 'AI agent collaboration',
+				right: 'General-purpose microservice RPC'
+			},
+			{
+				aspect: 'Discovery',
+				left: 'Agent Cards with skills',
+				right: 'Protobuf service reflection'
+			},
+			{
+				aspect: 'Data format',
+				left: '[[json-rpc|JSON-RPC]] 2.0 (text)',
+				right: '{{protocol-buffers|Protocol Buffers}} (binary)'
+			},
+			{
+				aspect: 'Statefulness',
+				left: '{{stateful|Stateful}} tasks with lifecycle',
+				right: '{{stateless|Stateless}} unary or streaming calls'
+			},
+			{
+				aspect: 'Ecosystem',
+				left: 'AI agents (Google, Salesforce, SAP)',
+				right: 'Microservices (Kubernetes, {{service-mesh|service mesh}})'
+			}
 		],
 		useLeftWhen: [
 			'You are orchestrating opaque AI agents that need to discover and delegate tasks',
@@ -1100,7 +1865,8 @@ const relationshipPairs: ProtocolPair[] = [
 		howTheyWork:
 			'[[tcp|TCP]] first establishes a reliable connection via its 3-way {{handshake|handshake}}. Then [[tls|TLS]] performs its own {{handshake|handshake}} on top of that [[tcp|TCP]] connection, negotiating cipher suites and exchanging keys. Once both handshakes complete, all application data flows through [[tls|TLS]] {{encryption|encryption}} over the [[tcp|TCP]] stream.',
 		leftRole: '[[tcp|TCP]] provides reliable, ordered byte-stream delivery between endpoints.',
-		rightRole: '[[tls|TLS]] provides confidentiality, integrity, and authentication for the data [[tcp|TCP]] carries.'
+		rightRole:
+			'[[tls|TLS]] provides confidentiality, integrity, and authentication for the data [[tcp|TCP]] carries.'
 	},
 	{
 		ids: ['amqp', 'tcp'],
@@ -1108,9 +1874,11 @@ const relationshipPairs: ProtocolPair[] = [
 		summary:
 			'[[amqp|AMQP]] runs over [[tcp|TCP]], relying on its reliable byte stream to guarantee that messages, acknowledgments, and routing commands between clients and brokers are never lost or reordered.',
 		howTheyWork:
-			'An [[amqp|AMQP]] client opens a [[tcp|TCP]] connection to the broker (typically port 5672) and performs the [[amqp|AMQP]] protocol {{handshake|handshake}} to negotiate capabilities. [[amqp|AMQP]] then multiplexes multiple logical channels over this single [[tcp|TCP]] connection, using [[tcp|TCP]]\'s reliability to ensure every published message, acknowledgment, and broker command arrives intact and in order.',
-		leftRole: '[[amqp|AMQP]] provides message routing, queuing, acknowledgment, and delivery guarantee semantics.',
-		rightRole: '[[tcp|TCP]] provides the reliable, ordered byte-stream transport that [[amqp|AMQP]] frames are carried over.'
+			"An [[amqp|AMQP]] client opens a [[tcp|TCP]] connection to the broker (typically port 5672) and performs the [[amqp|AMQP]] protocol {{handshake|handshake}} to negotiate capabilities. [[amqp|AMQP]] then multiplexes multiple logical channels over this single [[tcp|TCP]] connection, using [[tcp|TCP]]'s reliability to ensure every published message, acknowledgment, and broker command arrives intact and in order.",
+		leftRole:
+			'[[amqp|AMQP]] provides message routing, queuing, acknowledgment, and delivery guarantee semantics.',
+		rightRole:
+			'[[tcp|TCP]] provides the reliable, ordered byte-stream transport that [[amqp|AMQP]] frames are carried over.'
 	},
 	{
 		ids: ['dns', 'tcp'],
@@ -1119,8 +1887,10 @@ const relationshipPairs: ProtocolPair[] = [
 			'[[dns|DNS]] falls back to [[tcp|TCP]] when responses exceed the 512-byte [[udp|UDP]] limit or when zone transfers require reliable delivery of complete [[dns|DNS]] records.',
 		howTheyWork:
 			'When a [[dns|DNS]] response is too large for a single [[udp|UDP]] datagram (common with {{dnssec|DNSSEC}} or many records), the server signals truncation and the client retries over [[tcp|TCP]] port 53. Zone transfers (AXFR/IXFR) between authoritative servers always use [[tcp|TCP]] to ensure the complete zone dataset is delivered reliably without loss or reordering.',
-		leftRole: '[[dns|DNS]] defines the query/response protocol for name resolution and zone transfer operations.',
-		rightRole: '[[tcp|TCP]] provides reliable delivery for large [[dns|DNS]] responses and complete zone transfers that exceed [[udp|UDP]]\'s practical limits.'
+		leftRole:
+			'[[dns|DNS]] defines the query/response protocol for name resolution and zone transfer operations.',
+		rightRole:
+			"[[tcp|TCP]] provides reliable delivery for large [[dns|DNS]] responses and complete zone transfers that exceed [[udp|UDP]]'s practical limits."
 	},
 	{
 		ids: ['ftp', 'tcp'],
@@ -1128,19 +1898,23 @@ const relationshipPairs: ProtocolPair[] = [
 		summary:
 			'[[ftp|FTP]] uses [[tcp|TCP]] for both its control channel (commands and responses) and its separate data channel (file transfers), relying on reliable delivery to ensure files arrive intact.',
 		howTheyWork:
-			'[[ftp|FTP]] establishes a [[tcp|TCP]] control connection on port 21 for exchanging commands (LIST, RETR, STOR) and status replies. For each file transfer, a separate [[tcp|TCP]] data connection is opened — either from server to client (active mode) or client to server (passive mode). [[tcp|TCP]]\'s reliability guarantees that transferred files are complete and uncorrupted.',
-		leftRole: '[[ftp|FTP]] provides the command protocol for file listing, upload, download, and directory navigation.',
-		rightRole: '[[tcp|TCP]] provides reliable, ordered delivery for both the [[ftp|FTP]] control channel and file data transfers.'
+			"[[ftp|FTP]] establishes a [[tcp|TCP]] control connection on port 21 for exchanging commands (LIST, RETR, STOR) and status replies. For each file transfer, a separate [[tcp|TCP]] data connection is opened — either from server to client (active mode) or client to server (passive mode). [[tcp|TCP]]'s reliability guarantees that transferred files are complete and uncorrupted.",
+		leftRole:
+			'[[ftp|FTP]] provides the command protocol for file listing, upload, download, and directory navigation.',
+		rightRole:
+			'[[tcp|TCP]] provides reliable, ordered delivery for both the [[ftp|FTP]] control channel and file data transfers.'
 	},
 	{
 		ids: ['http1', 'tcp'],
 		type: 'relationship',
 		summary:
-			'[[http1|[[http1|HTTP/1]].1]] sends requests and responses as plaintext over [[tcp|TCP]] connections, relying on [[tcp|TCP]]\'s reliable delivery to ensure every header and body byte arrives in order.',
+			"[[http1|[[http1|HTTP/1]].1]] sends requests and responses as plaintext over [[tcp|TCP]] connections, relying on [[tcp|TCP]]'s reliable delivery to ensure every header and body byte arrives in order.",
 		howTheyWork:
-			'The client opens a [[tcp|TCP]] connection (typically port 80 or 443 with [[tls|TLS]]) and sends an {{http-method|HTTP}} request as a text stream. The server responds over the same connection, which can be reused for subsequent requests via {{keep-alive|keep-alive}}. Each {{request-response|request-response}} pair is serialized on the connection, meaning [[http1|[[http1|HTTP/1]].1]] inherits [[tcp|TCP]]\'s {{head-of-line-blocking|head-of-line blocking}}.',
-		leftRole: '[[http1|[[http1|HTTP/1]].1]] provides the {{request-response|request-response}} semantics, headers, methods, and status codes for web communication.',
-		rightRole: '[[tcp|TCP]] provides the reliable, ordered byte stream that [[http1|[[http1|HTTP/1]].1]] messages are transmitted over.'
+			"The client opens a [[tcp|TCP]] connection (typically port 80 or 443 with [[tls|TLS]]) and sends an {{http-method|HTTP}} request as a text stream. The server responds over the same connection, which can be reused for subsequent requests via {{keep-alive|keep-alive}}. Each {{request-response|request-response}} pair is serialized on the connection, meaning [[http1|[[http1|HTTP/1]].1]] inherits [[tcp|TCP]]'s {{head-of-line-blocking|head-of-line blocking}}.",
+		leftRole:
+			'[[http1|[[http1|HTTP/1]].1]] provides the {{request-response|request-response}} semantics, headers, methods, and status codes for web communication.',
+		rightRole:
+			'[[tcp|TCP]] provides the reliable, ordered byte stream that [[http1|[[http1|HTTP/1]].1]] messages are transmitted over.'
 	},
 	{
 		ids: ['http2', 'tcp'],
@@ -1149,8 +1923,10 @@ const relationshipPairs: ProtocolPair[] = [
 			'[[http2|HTTP/2]] multiplexes many {{request-response|request-response}} streams over a single [[tcp|TCP]] connection, gaining efficiency but inheriting [[tcp|TCP]]-level {{head-of-line-blocking|head-of-line blocking}} when packets are lost.',
 		howTheyWork:
 			'[[http2|HTTP/2]] opens one [[tcp|TCP]] connection per origin and sends all requests as interleaved binary frames across independent logical streams. [[tcp|TCP]] sees this as a single byte stream and guarantees ordered delivery. If any [[tcp|TCP]] segment is lost, all [[http2|HTTP/2]] streams stall until {{retransmission|retransmission}} completes — this [[tcp|TCP]]-level {{head-of-line-blocking|head-of-line blocking}} is what [[http3|HTTP/3]] ([[quic|QUIC]]) was designed to solve.',
-		leftRole: '[[http2|HTTP/2]] provides {{binary-framing|binary framing}}, multiplexed streams, header compression, and {{server-push|server push}}.',
-		rightRole: '[[tcp|TCP]] provides the single reliable byte stream over which all [[http2|HTTP/2]] frames are delivered.'
+		leftRole:
+			'[[http2|HTTP/2]] provides {{binary-framing|binary framing}}, multiplexed streams, header compression, and {{server-push|server push}}.',
+		rightRole:
+			'[[tcp|TCP]] provides the single reliable byte stream over which all [[http2|HTTP/2]] frames are delivered.'
 	},
 	{
 		ids: ['kafka', 'tcp'],
@@ -1158,19 +1934,23 @@ const relationshipPairs: ProtocolPair[] = [
 		summary:
 			'[[kafka|Kafka]] uses persistent [[tcp|TCP]] connections between producers, consumers, and brokers to reliably stream high-throughput event data with ordering guarantees.',
 		howTheyWork:
-			'[[kafka|Kafka]] clients open long-lived [[tcp|TCP]] connections to brokers (default port 9092) and use [[kafka|Kafka]]\'s binary protocol to produce and consume messages in batches. [[tcp|TCP]]\'s reliable delivery ensures that large batches of events, {{offset|offset}} commits, and metadata requests are never lost or reordered. Clients maintain connections to multiple brokers for {{partition|partition}}-aware routing.',
-		leftRole: '[[kafka|Kafka]] provides distributed log storage, partitioned {{topic|topic}} streaming, and {{consumer-group|consumer group}} coordination.',
-		rightRole: '[[tcp|TCP]] provides the reliable, persistent connections needed for high-throughput event delivery between [[kafka|Kafka]] clients and brokers.'
+			"[[kafka|Kafka]] clients open long-lived [[tcp|TCP]] connections to brokers (default port 9092) and use [[kafka|Kafka]]'s binary protocol to produce and consume messages in batches. [[tcp|TCP]]'s reliable delivery ensures that large batches of events, {{offset|offset}} commits, and metadata requests are never lost or reordered. Clients maintain connections to multiple brokers for {{partition|partition}}-aware routing.",
+		leftRole:
+			'[[kafka|Kafka]] provides distributed log storage, partitioned {{topic|topic}} streaming, and {{consumer-group|consumer group}} coordination.',
+		rightRole:
+			'[[tcp|TCP]] provides the reliable, persistent connections needed for high-throughput event delivery between [[kafka|Kafka]] clients and brokers.'
 	},
 	{
 		ids: ['mqtt', 'tcp'],
 		type: 'relationship',
 		summary:
-			'[[mqtt|MQTT]] uses [[tcp|TCP]] as its default transport, relying on [[tcp|TCP]]\'s reliable delivery to carry lightweight pub/sub messages between IoT devices and brokers.',
+			"[[mqtt|MQTT]] uses [[tcp|TCP]] as its default transport, relying on [[tcp|TCP]]'s reliable delivery to carry lightweight pub/sub messages between IoT devices and brokers.",
 		howTheyWork:
-			'An [[mqtt|MQTT]] client opens a [[tcp|TCP]] connection to the broker (typically port 1883, or 8883 with [[tls|TLS]]) and sends a {{mqtt-connect|CONNECT}} packet to establish the session. [[tcp|TCP]]\'s reliability ensures that {{mqtt-publish|PUBLISH}}, {{mqtt-subscribe|SUBSCRIBE}}, and acknowledgment packets arrive intact, which [[mqtt|MQTT]] layers its own QoS levels on top of. The persistent [[tcp|TCP]] connection also enables the broker to push messages to clients at any time.',
-		leftRole: '[[mqtt|MQTT]] provides lightweight {{mqtt-publish|publish}}-{{mqtt-subscribe|subscribe}} messaging with QoS levels, retained messages, and last-will semantics.',
-		rightRole: '[[tcp|TCP]] provides the reliable, persistent connection that [[mqtt|MQTT]] uses to deliver messages between clients and the broker.'
+			"An [[mqtt|MQTT]] client opens a [[tcp|TCP]] connection to the broker (typically port 1883, or 8883 with [[tls|TLS]]) and sends a {{mqtt-connect|CONNECT}} packet to establish the session. [[tcp|TCP]]'s reliability ensures that {{mqtt-publish|PUBLISH}}, {{mqtt-subscribe|SUBSCRIBE}}, and acknowledgment packets arrive intact, which [[mqtt|MQTT]] layers its own QoS levels on top of. The persistent [[tcp|TCP]] connection also enables the broker to push messages to clients at any time.",
+		leftRole:
+			'[[mqtt|MQTT]] provides lightweight {{mqtt-publish|publish}}-{{mqtt-subscribe|subscribe}} messaging with QoS levels, retained messages, and last-will semantics.',
+		rightRole:
+			'[[tcp|TCP]] provides the reliable, persistent connection that [[mqtt|MQTT]] uses to deliver messages between clients and the broker.'
 	},
 	{
 		ids: ['rtmp', 'tcp'],
@@ -1178,9 +1958,11 @@ const relationshipPairs: ProtocolPair[] = [
 		summary:
 			'[[rtmp|RTMP]] runs over persistent [[tcp|TCP]] connections to reliably deliver live audio, video, and data streams from encoders to media servers.',
 		howTheyWork:
-			'[[rtmp|RTMP]] establishes a [[tcp|TCP]] connection (default port 1935) and performs its own {{handshake|handshake}} to negotiate the session. It then multiplexes audio, video, and command messages as interleaved chunks over this single [[tcp|TCP]] connection. [[tcp|TCP]]\'s reliable delivery ensures no media chunks are lost, which is critical since [[rtmp|RTMP]]\'s chunk-based protocol cannot recover from gaps.',
-		leftRole: '[[rtmp|RTMP]] provides the media chunking, {{multiplexing|multiplexing}}, and stream control protocol for live streaming.',
-		rightRole: '[[tcp|TCP]] provides the reliable, persistent connection that ensures every media chunk is delivered in order.'
+			"[[rtmp|RTMP]] establishes a [[tcp|TCP]] connection (default port 1935) and performs its own {{handshake|handshake}} to negotiate the session. It then multiplexes audio, video, and command messages as interleaved chunks over this single [[tcp|TCP]] connection. [[tcp|TCP]]'s reliable delivery ensures no media chunks are lost, which is critical since [[rtmp|RTMP]]'s chunk-based protocol cannot recover from gaps.",
+		leftRole:
+			'[[rtmp|RTMP]] provides the media chunking, {{multiplexing|multiplexing}}, and stream control protocol for live streaming.',
+		rightRole:
+			'[[tcp|TCP]] provides the reliable, persistent connection that ensures every media chunk is delivered in order.'
 	},
 	{
 		ids: ['sip', 'tcp'],
@@ -1189,8 +1971,10 @@ const relationshipPairs: ProtocolPair[] = [
 			'[[sip|SIP]] can use [[tcp|TCP]] for {{signaling|signaling}} when messages are too large for [[udp|UDP]] datagrams or when reliable delivery of call setup and teardown is required.',
 		howTheyWork:
 			'[[sip|SIP]] operates over [[tcp|TCP]] (port 5060, or 5061 with [[tls|TLS]]) when message sizes exceed the {{mtu|MTU}} or when the deployment requires guaranteed delivery of {{sip-invite|INVITE}}, BYE, and REGISTER transactions. [[tcp|TCP]] ensures that large [[sip|SIP]] messages with [[sdp|SDP]] bodies, authentication headers, or multiple Via hops are delivered complete and in order.',
-		leftRole: '[[sip|SIP]] provides the {{signaling|signaling}} protocol for initiating, modifying, and terminating multimedia sessions.',
-		rightRole: '[[tcp|TCP]] provides reliable delivery for [[sip|SIP]] messages that are too large for [[udp|UDP]] or require guaranteed transport.'
+		leftRole:
+			'[[sip|SIP]] provides the {{signaling|signaling}} protocol for initiating, modifying, and terminating multimedia sessions.',
+		rightRole:
+			'[[tcp|TCP]] provides reliable delivery for [[sip|SIP]] messages that are too large for [[udp|UDP]] or require guaranteed transport.'
 	},
 	{
 		ids: ['smtp', 'tcp'],
@@ -1198,9 +1982,11 @@ const relationshipPairs: ProtocolPair[] = [
 		summary:
 			'[[smtp|SMTP]] uses [[tcp|TCP]] to reliably deliver email messages and commands between mail clients and servers, ensuring no message data is lost in {{transit|transit}}.',
 		howTheyWork:
-			'An [[smtp|SMTP]] client opens a [[tcp|TCP]] connection to the mail server on port 25 (or 587 for submission) and exchanges text commands ({{ehlo|EHLO}}, {{smtp-mail-from|MAIL FROM}}, {{smtp-rcpt-to|RCPT TO}}, {{smtp-data|DATA}}) in a synchronous dialogue. [[tcp|TCP]]\'s reliable delivery guarantees that every command, response code, and email body byte arrives in order, which is essential since [[smtp|SMTP]] has no mechanism to recover from lost data at the application layer.',
-		leftRole: '[[smtp|SMTP]] provides the command protocol for routing and delivering email messages between servers.',
-		rightRole: '[[tcp|TCP]] provides the reliable, ordered connection that [[smtp|SMTP]]\'s synchronous command-response dialogue requires.'
+			"An [[smtp|SMTP]] client opens a [[tcp|TCP]] connection to the mail server on port 25 (or 587 for submission) and exchanges text commands ({{ehlo|EHLO}}, {{smtp-mail-from|MAIL FROM}}, {{smtp-rcpt-to|RCPT TO}}, {{smtp-data|DATA}}) in a synchronous dialogue. [[tcp|TCP]]'s reliable delivery guarantees that every command, response code, and email body byte arrives in order, which is essential since [[smtp|SMTP]] has no mechanism to recover from lost data at the application layer.",
+		leftRole:
+			'[[smtp|SMTP]] provides the command protocol for routing and delivering email messages between servers.',
+		rightRole:
+			"[[tcp|TCP]] provides the reliable, ordered connection that [[smtp|SMTP]]'s synchronous command-response dialogue requires."
 	},
 	{
 		ids: ['ssh', 'tcp'],
@@ -1208,19 +1994,23 @@ const relationshipPairs: ProtocolPair[] = [
 		summary:
 			'[[ssh|SSH]] runs over [[tcp|TCP]] to provide encrypted remote shell access, file transfer, and {{port-forwarding|port forwarding}} over a reliable transport.',
 		howTheyWork:
-			'[[ssh|SSH]] opens a [[tcp|TCP]] connection (default port 22) and immediately begins its own key {{exchange|exchange}} and authentication {{handshake|handshake}}. Once the encrypted tunnel is established, [[ssh|SSH]] multiplexes multiple channels (shell sessions, port forwards, file transfers) over the single [[tcp|TCP]] connection. [[tcp|TCP]]\'s reliability is essential because [[ssh|SSH]]\'s encrypted stream cannot tolerate missing or reordered bytes.',
-		leftRole: '[[ssh|SSH]] provides encrypted channels for remote shell access, file transfer, and {{port-forwarding|port forwarding}}.',
-		rightRole: '[[tcp|TCP]] provides the reliable, ordered byte stream that [[ssh|SSH]]\'s encrypted tunnel requires to function correctly.'
+			"[[ssh|SSH]] opens a [[tcp|TCP]] connection (default port 22) and immediately begins its own key {{exchange|exchange}} and authentication {{handshake|handshake}}. Once the encrypted tunnel is established, [[ssh|SSH]] multiplexes multiple channels (shell sessions, port forwards, file transfers) over the single [[tcp|TCP]] connection. [[tcp|TCP]]'s reliability is essential because [[ssh|SSH]]'s encrypted stream cannot tolerate missing or reordered bytes.",
+		leftRole:
+			'[[ssh|SSH]] provides encrypted channels for remote shell access, file transfer, and {{port-forwarding|port forwarding}}.',
+		rightRole:
+			"[[tcp|TCP]] provides the reliable, ordered byte stream that [[ssh|SSH]]'s encrypted tunnel requires to function correctly."
 	},
 	{
 		ids: ['stomp', 'tcp'],
 		type: 'relationship',
 		summary:
-			'[[stomp|STOMP]] sends its text-based messaging frames over [[tcp|TCP]] connections, relying on [[tcp|TCP]]\'s reliability to ensure message commands and acknowledgments are delivered intact.',
+			"[[stomp|STOMP]] sends its text-based messaging frames over [[tcp|TCP]] connections, relying on [[tcp|TCP]]'s reliability to ensure message commands and acknowledgments are delivered intact.",
 		howTheyWork:
 			'A [[stomp|STOMP]] client opens a [[tcp|TCP]] connection to the broker and sends a {{mqtt-connect|CONNECT}} frame to initiate the session. All subsequent SEND, {{mqtt-subscribe|SUBSCRIBE}}, and {{ack|ACK}} frames are transmitted as text over this [[tcp|TCP]] connection. [[tcp|TCP]] guarantees that these frames arrive complete and in order, which [[stomp|STOMP]] depends on since its simple text framing has no built-in {{retransmission|retransmission}} or reordering logic.',
-		leftRole: '[[stomp|STOMP]] provides a simple, text-based messaging protocol with SEND, {{mqtt-subscribe|SUBSCRIBE}}, and {{ack|ACK}} commands.',
-		rightRole: '[[tcp|TCP]] provides the reliable transport that ensures [[stomp|STOMP]]\'s text frames are delivered without loss or reordering.'
+		leftRole:
+			'[[stomp|STOMP]] provides a simple, text-based messaging protocol with SEND, {{mqtt-subscribe|SUBSCRIBE}}, and {{ack|ACK}} commands.',
+		rightRole:
+			"[[tcp|TCP]] provides the reliable transport that ensures [[stomp|STOMP]]'s text frames are delivered without loss or reordering."
 	},
 	{
 		ids: ['tcp', 'websockets'],
@@ -1228,9 +2018,11 @@ const relationshipPairs: ProtocolPair[] = [
 		summary:
 			'[[websockets|WebSocket]] runs over [[tcp|TCP]], using an {{http-method|HTTP}} upgrade {{handshake|handshake}} to establish a persistent, {{full-duplex|full-duplex}} message channel over a reliable transport.',
 		howTheyWork:
-			'The client sends an [[http1|[[http1|HTTP/1]].1]] Upgrade request over an existing [[tcp|TCP]] connection, and the server responds with 101 Switching Protocols. From that point, the [[tcp|TCP]] connection carries [[websockets|WebSocket]] frames instead of {{http-method|HTTP}}. [[tcp|TCP]]\'s reliable, ordered delivery ensures that [[websockets|WebSocket]] messages — which can be fragmented across multiple frames — are reassembled correctly on both sides.',
-		leftRole: '[[tcp|TCP]] provides the reliable, persistent connection that [[websockets|WebSocket]] frames are transmitted over.',
-		rightRole: '[[websockets|WebSocket]] provides {{full-duplex|full-duplex}}, message-oriented communication with lightweight framing over the [[tcp|TCP]] connection.'
+			"The client sends an [[http1|[[http1|HTTP/1]].1]] Upgrade request over an existing [[tcp|TCP]] connection, and the server responds with 101 Switching Protocols. From that point, the [[tcp|TCP]] connection carries [[websockets|WebSocket]] frames instead of {{http-method|HTTP}}. [[tcp|TCP]]'s reliable, ordered delivery ensures that [[websockets|WebSocket]] messages — which can be fragmented across multiple frames — are reassembled correctly on both sides.",
+		leftRole:
+			'[[tcp|TCP]] provides the reliable, persistent connection that [[websockets|WebSocket]] frames are transmitted over.',
+		rightRole:
+			'[[websockets|WebSocket]] provides {{full-duplex|full-duplex}}, message-oriented communication with lightweight framing over the [[tcp|TCP]] connection.'
 	},
 	{
 		ids: ['tcp', 'xmpp'],
@@ -1238,9 +2030,11 @@ const relationshipPairs: ProtocolPair[] = [
 		summary:
 			'[[xmpp|XMPP]] maintains long-lived [[tcp|TCP]] connections to stream {{xml|XML}} stanzas between clients and servers, relying on [[tcp|TCP]] for reliable delivery of presence, messages, and IQ queries.',
 		howTheyWork:
-			'An [[xmpp|XMPP]] client opens a persistent [[tcp|TCP]] connection (default port 5222, with {{starttls|STARTTLS}} upgrade) and begins an {{xml|XML}} stream. All communication — presence updates, chat messages, and IQ stanzas — flows as {{xml|XML}} fragments over this single [[tcp|TCP]] connection. [[tcp|TCP]]\'s reliability ensures that {{xml|XML}} stanzas are never lost or reordered, which is critical since [[xmpp|XMPP]]\'s {{xml|XML}} parser requires a well-formed, sequential byte stream.',
-		leftRole: '[[tcp|TCP]] provides the persistent, reliable connection that carries [[xmpp|XMPP]]\'s continuous {{xml|XML}} stream.',
-		rightRole: '[[xmpp|XMPP]] provides real-time messaging, presence, and extensible communication semantics via {{xml|XML}} stanzas over the [[tcp|TCP]] stream.'
+			"An [[xmpp|XMPP]] client opens a persistent [[tcp|TCP]] connection (default port 5222, with {{starttls|STARTTLS}} upgrade) and begins an {{xml|XML}} stream. All communication — presence updates, chat messages, and IQ stanzas — flows as {{xml|XML}} fragments over this single [[tcp|TCP]] connection. [[tcp|TCP]]'s reliability ensures that {{xml|XML}} stanzas are never lost or reordered, which is critical since [[xmpp|XMPP]]'s {{xml|XML}} parser requires a well-formed, sequential byte stream.",
+		leftRole:
+			"[[tcp|TCP]] provides the persistent, reliable connection that carries [[xmpp|XMPP]]'s continuous {{xml|XML}} stream.",
+		rightRole:
+			'[[xmpp|XMPP]] provides real-time messaging, presence, and extensible communication semantics via {{xml|XML}} stanzas over the [[tcp|TCP]] stream.'
 	},
 
 	// ── UDP as transport ─────────────────────────────────────────
@@ -1252,18 +2046,22 @@ const relationshipPairs: ProtocolPair[] = [
 			'[[dns|DNS]] uses [[udp|UDP]] as its primary transport for fast, single-packet query-response lookups, keeping name resolution lightweight and low-{{latency|latency}}.',
 		howTheyWork:
 			'A [[dns|DNS]] client sends a query as a single [[udp|UDP]] datagram (typically under 512 bytes) to a resolver on port 53. The resolver responds with another [[udp|UDP]] datagram containing the answer. No connection setup is needed, making lookups fast. For responses exceeding 512 bytes or requiring reliability, [[dns|DNS]] falls back to [[tcp|TCP]].',
-		leftRole: '[[dns|DNS]] defines the query/response format for translating domain names to [[ip|IP]] addresses.',
-		rightRole: '[[udp|UDP]] provides the fast, {{connectionless|connectionless}} transport that makes single-packet [[dns|DNS]] lookups efficient.'
+		leftRole:
+			'[[dns|DNS]] defines the query/response format for translating domain names to [[ip|IP]] addresses.',
+		rightRole:
+			'[[udp|UDP]] provides the fast, {{connectionless|connectionless}} transport that makes single-packet [[dns|DNS]] lookups efficient.'
 	},
 	{
 		ids: ['coap', 'udp'],
 		type: 'relationship',
 		summary:
-			'[[coap|CoAP]] runs over [[udp|UDP]] to provide a lightweight [[rest|REST]]-like {{request-response|request-response}} model for constrained IoT devices that cannot afford [[tcp|TCP]]\'s overhead.',
+			"[[coap|CoAP]] runs over [[udp|UDP]] to provide a lightweight [[rest|REST]]-like {{request-response|request-response}} model for constrained IoT devices that cannot afford [[tcp|TCP]]'s overhead.",
 		howTheyWork:
-			'[[coap|CoAP]] sends compact binary messages as [[udp|UDP]] datagrams, using a 4-byte fixed header and message IDs for optional reliability via confirmable messages. The client sends a [[coap|CoAP]] request (GET, PUT, POST, DELETE) in a single [[udp|UDP]] packet to the server, which replies with a response in another datagram. [[coap|CoAP]] adds its own simple {{retransmission|retransmission}} over [[udp|UDP]] rather than requiring [[tcp|TCP]]\'s full connection management.',
-		leftRole: '[[coap|CoAP]] provides RESTful resource semantics (methods, URIs, {{content-negotiation|content negotiation}}) optimized for constrained networks.',
-		rightRole: '[[udp|UDP]] provides the minimal, {{connectionless|connectionless}} transport that keeps [[coap|CoAP]] lightweight enough for battery-powered sensors.'
+			"[[coap|CoAP]] sends compact binary messages as [[udp|UDP]] datagrams, using a 4-byte fixed header and message IDs for optional reliability via confirmable messages. The client sends a [[coap|CoAP]] request (GET, PUT, POST, DELETE) in a single [[udp|UDP]] packet to the server, which replies with a response in another datagram. [[coap|CoAP]] adds its own simple {{retransmission|retransmission}} over [[udp|UDP]] rather than requiring [[tcp|TCP]]'s full connection management.",
+		leftRole:
+			'[[coap|CoAP]] provides RESTful resource semantics (methods, URIs, {{content-negotiation|content negotiation}}) optimized for constrained networks.',
+		rightRole:
+			'[[udp|UDP]] provides the minimal, {{connectionless|connectionless}} transport that keeps [[coap|CoAP]] lightweight enough for battery-powered sensors.'
 	},
 	{
 		ids: ['dhcp', 'udp'],
@@ -1271,29 +2069,35 @@ const relationshipPairs: ProtocolPair[] = [
 		summary:
 			'[[dhcp|DHCP]] uses [[udp|UDP]] for automatic [[ip|IP]] address assignment, since clients cannot establish [[tcp|TCP]] connections before they have an [[ip|IP]] address.',
 		howTheyWork:
-			'A [[dhcp|DHCP]] client broadcasts a DISCOVER message from port 68 as a [[udp|UDP]] datagram because it has no [[ip|IP]] address yet and cannot perform [[tcp|TCP]]\'s {{handshake|handshake}}. The [[dhcp|DHCP]] server listens on port 67 and responds with an OFFER, also via [[udp|UDP]] {{broadcast|broadcast}} or {{unicast|unicast}}. This bootstrap problem makes [[udp|UDP]] the only viable transport — [[tcp|TCP]] requires an established [[ip|IP]] address on both sides before communication can begin.',
-		leftRole: '[[dhcp|DHCP]] provides the protocol logic for discovering servers, requesting leases, and assigning [[ip|IP]] configuration.',
-		rightRole: '[[udp|UDP]] provides the {{connectionless|connectionless}} transport necessary for communication before a client has an [[ip|IP]] address.'
+			"A [[dhcp|DHCP]] client broadcasts a DISCOVER message from port 68 as a [[udp|UDP]] datagram because it has no [[ip|IP]] address yet and cannot perform [[tcp|TCP]]'s {{handshake|handshake}}. The [[dhcp|DHCP]] server listens on port 67 and responds with an OFFER, also via [[udp|UDP]] {{broadcast|broadcast}} or {{unicast|unicast}}. This bootstrap problem makes [[udp|UDP]] the only viable transport — [[tcp|TCP]] requires an established [[ip|IP]] address on both sides before communication can begin.",
+		leftRole:
+			'[[dhcp|DHCP]] provides the protocol logic for discovering servers, requesting leases, and assigning [[ip|IP]] configuration.',
+		rightRole:
+			'[[udp|UDP]] provides the {{connectionless|connectionless}} transport necessary for communication before a client has an [[ip|IP]] address.'
 	},
 	{
 		ids: ['http3', 'udp'],
 		type: 'relationship',
 		summary:
-			'[[http3|HTTP/3]] runs over [[quic|QUIC]], which itself runs over [[udp|UDP]], giving [[http3|HTTP/3]] multiplexed streams without [[tcp|TCP]]\'s {{head-of-line-blocking|head-of-line blocking}} while remaining deployable on existing networks.',
+			"[[http3|HTTP/3]] runs over [[quic|QUIC]], which itself runs over [[udp|UDP]], giving [[http3|HTTP/3]] multiplexed streams without [[tcp|TCP]]'s {{head-of-line-blocking|head-of-line blocking}} while remaining deployable on existing networks.",
 		howTheyWork:
-			'[[udp|UDP]] carries [[quic|QUIC]] packets, which in turn carry [[http3|HTTP/3]] frames. [[quic|QUIC]] builds reliable, encrypted, multiplexed streams on top of [[udp|UDP]] datagrams, and [[http3|HTTP/3]] maps its {{request-response|request-response}} semantics onto those [[quic|QUIC]] streams. [[udp|UDP]]\'s universal {{nat|NAT}} and {{firewall|firewall}} traversal makes [[quic|QUIC]] deployable without changes to network infrastructure.',
-		leftRole: '[[http3|HTTP/3]] provides the application-layer {{request-response|request-response}} semantics, header compression ({{qpack|QPACK}}), and {{server-push|server push}}.',
-		rightRole: '[[udp|UDP]] provides the underlying datagram delivery that allows [[quic|QUIC]] and [[http3|HTTP/3]] to bypass [[tcp|TCP]]\'s {{head-of-line-blocking|head-of-line blocking}}.'
+			"[[udp|UDP]] carries [[quic|QUIC]] packets, which in turn carry [[http3|HTTP/3]] frames. [[quic|QUIC]] builds reliable, encrypted, multiplexed streams on top of [[udp|UDP]] datagrams, and [[http3|HTTP/3]] maps its {{request-response|request-response}} semantics onto those [[quic|QUIC]] streams. [[udp|UDP]]'s universal {{nat|NAT}} and {{firewall|firewall}} traversal makes [[quic|QUIC]] deployable without changes to network infrastructure.",
+		leftRole:
+			'[[http3|HTTP/3]] provides the application-layer {{request-response|request-response}} semantics, header compression ({{qpack|QPACK}}), and {{server-push|server push}}.',
+		rightRole:
+			"[[udp|UDP]] provides the underlying datagram delivery that allows [[quic|QUIC]] and [[http3|HTTP/3]] to bypass [[tcp|TCP]]'s {{head-of-line-blocking|head-of-line blocking}}."
 	},
 	{
 		ids: ['ntp', 'udp'],
 		type: 'relationship',
 		summary:
-			'[[ntp|NTP]] uses [[udp|UDP]] for clock synchronization because accurate timekeeping requires minimal, predictable {{latency|latency}} that [[tcp|TCP]]\'s {{handshake|handshake}} and retransmissions would distort.',
+			"[[ntp|NTP]] uses [[udp|UDP]] for clock synchronization because accurate timekeeping requires minimal, predictable {{latency|latency}} that [[tcp|TCP]]'s {{handshake|handshake}} and retransmissions would distort.",
 		howTheyWork:
-			'An [[ntp|NTP]] client sends a small [[udp|UDP]] datagram (48 bytes) to a time server on port 123, recording its send timestamp. The server stamps the packet with its receive and transmit times, then replies via [[udp|UDP]]. The client uses all four timestamps to calculate network delay and clock {{offset|offset}}. [[tcp|TCP]]\'s variable {{latency|latency}} from connection setup and {{retransmission|retransmission}} would corrupt these precise timing measurements.',
-		leftRole: '[[ntp|NTP]] provides the timestamping protocol and algorithms for calculating clock {{offset|offset}} and drift.',
-		rightRole: '[[udp|UDP]] provides the lightweight, fixed-overhead transport that preserves the timing accuracy [[ntp|NTP]] requires.'
+			"An [[ntp|NTP]] client sends a small [[udp|UDP]] datagram (48 bytes) to a time server on port 123, recording its send timestamp. The server stamps the packet with its receive and transmit times, then replies via [[udp|UDP]]. The client uses all four timestamps to calculate network delay and clock {{offset|offset}}. [[tcp|TCP]]'s variable {{latency|latency}} from connection setup and {{retransmission|retransmission}} would corrupt these precise timing measurements.",
+		leftRole:
+			'[[ntp|NTP]] provides the timestamping protocol and algorithms for calculating clock {{offset|offset}} and drift.',
+		rightRole:
+			'[[udp|UDP]] provides the lightweight, fixed-overhead transport that preserves the timing accuracy [[ntp|NTP]] requires.'
 	},
 	{
 		ids: ['rtp', 'udp'],
@@ -1301,9 +2105,11 @@ const relationshipPairs: ProtocolPair[] = [
 		summary:
 			'[[rtp|RTP]] carries real-time audio and video over [[udp|UDP]], accepting occasional packet loss in {{exchange|exchange}} for the low {{latency|latency}} that interactive media demands.',
 		howTheyWork:
-			'[[rtp|RTP]] adds a 12-byte header to each media packet with sequence numbers, timestamps, and {{payload|payload}} type identifiers, then sends them as [[udp|UDP]] datagrams. The receiver uses sequence numbers to detect loss and reorder packets, and timestamps to synchronize playback. [[udp|UDP]]\'s lack of {{retransmission|retransmission}} is a feature here — retransmitting a dropped video frame would arrive too late to be useful.',
-		leftRole: '[[rtp|RTP]] provides media framing, sequencing, timestamping, and {{payload|payload}} identification for audio/video streams.',
-		rightRole: '[[udp|UDP]] provides the low-{{latency|latency}}, no-{{retransmission|retransmission}} transport that real-time media playback requires.'
+			"[[rtp|RTP]] adds a 12-byte header to each media packet with sequence numbers, timestamps, and {{payload|payload}} type identifiers, then sends them as [[udp|UDP]] datagrams. The receiver uses sequence numbers to detect loss and reorder packets, and timestamps to synchronize playback. [[udp|UDP]]'s lack of {{retransmission|retransmission}} is a feature here — retransmitting a dropped video frame would arrive too late to be useful.",
+		leftRole:
+			'[[rtp|RTP]] provides media framing, sequencing, timestamping, and {{payload|payload}} identification for audio/video streams.',
+		rightRole:
+			'[[udp|UDP]] provides the low-{{latency|latency}}, no-{{retransmission|retransmission}} transport that real-time media playback requires.'
 	},
 	{
 		ids: ['sctp', 'udp'],
@@ -1312,18 +2118,22 @@ const relationshipPairs: ProtocolPair[] = [
 			'[[sctp|SCTP]] can be encapsulated inside [[udp|UDP]] datagrams to traverse NATs and firewalls that would otherwise block native [[sctp|SCTP]] packets.',
 		howTheyWork:
 			'Since most {{nat|NAT}} devices and firewalls only understand [[tcp|TCP]] and [[udp|UDP]], [[sctp|SCTP]] packets are wrapped inside [[udp|UDP]] datagrams ([[rfc:6951|RFC 6951]]) to pass through unmodified network infrastructure. The [[udp|UDP]] header provides the {{nat|NAT}}-traversal capability while [[sctp|SCTP]] inside provides multi-streaming, message boundaries, and {{multi-homing|multi-homing}}. This {{encapsulation|encapsulation}} is how [[webrtc|WebRTC]] data channels deliver [[sctp|SCTP]] over the public internet.',
-		leftRole: '[[sctp|SCTP]] provides multi-stream, message-oriented reliable delivery with built-in {{multi-homing|multi-homing}}.',
-		rightRole: '[[udp|UDP]] provides the {{nat|NAT}}-traversable envelope that lets [[sctp|SCTP]] packets cross firewalls and middleboxes on the public internet.'
+		leftRole:
+			'[[sctp|SCTP]] provides multi-stream, message-oriented reliable delivery with built-in {{multi-homing|multi-homing}}.',
+		rightRole:
+			'[[udp|UDP]] provides the {{nat|NAT}}-traversable envelope that lets [[sctp|SCTP]] packets cross firewalls and middleboxes on the public internet.'
 	},
 	{
 		ids: ['sip', 'udp'],
 		type: 'relationship',
 		summary:
-			'[[sip|SIP]] commonly uses [[udp|UDP]] for {{voip|VoIP}} call {{signaling|signaling}} because its short, independent messages benefit from [[udp|UDP]]\'s low overhead and fast delivery.',
+			"[[sip|SIP]] commonly uses [[udp|UDP]] for {{voip|VoIP}} call {{signaling|signaling}} because its short, independent messages benefit from [[udp|UDP]]'s low overhead and fast delivery.",
 		howTheyWork:
-			'[[sip|SIP]] sends {{signaling|signaling}} messages ({{sip-invite|INVITE}}, {{ack|ACK}}, BYE) as [[udp|UDP]] datagrams, typically on port 5060. Each [[sip|SIP]] message is self-contained and fits within a single datagram, making [[tcp|TCP]]\'s connection overhead unnecessary for most call setups. [[sip|SIP]] includes its own application-layer {{retransmission|retransmission}} timers for reliability, re-sending requests if no response arrives within the timeout period.',
-		leftRole: '[[sip|SIP]] provides the {{signaling|signaling}} protocol for initiating, modifying, and terminating multimedia sessions.',
-		rightRole: '[[udp|UDP]] provides the fast, {{connectionless|connectionless}} transport that keeps call setup {{latency|latency}} low for {{voip|VoIP}} {{signaling|signaling}}.'
+			"[[sip|SIP]] sends {{signaling|signaling}} messages ({{sip-invite|INVITE}}, {{ack|ACK}}, BYE) as [[udp|UDP]] datagrams, typically on port 5060. Each [[sip|SIP]] message is self-contained and fits within a single datagram, making [[tcp|TCP]]'s connection overhead unnecessary for most call setups. [[sip|SIP]] includes its own application-layer {{retransmission|retransmission}} timers for reliability, re-sending requests if no response arrives within the timeout period.",
+		leftRole:
+			'[[sip|SIP]] provides the {{signaling|signaling}} protocol for initiating, modifying, and terminating multimedia sessions.',
+		rightRole:
+			'[[udp|UDP]] provides the fast, {{connectionless|connectionless}} transport that keeps call setup {{latency|latency}} low for {{voip|VoIP}} {{signaling|signaling}}.'
 	},
 	{
 		ids: ['udp', 'webrtc'],
@@ -1331,9 +2141,11 @@ const relationshipPairs: ProtocolPair[] = [
 		summary:
 			'[[webrtc|WebRTC]] uses [[udp|UDP]] as its primary transport for {{peer-to-peer|peer-to-peer}} audio, video, and data channels, prioritizing low {{latency|latency}} over guaranteed delivery.',
 		howTheyWork:
-			'[[webrtc|WebRTC]]\'s media stack sends {{srtp|SRTP}}-encrypted audio/video packets as [[udp|UDP]] datagrams between peers, using {{ice|ICE}} for {{nat|NAT}} traversal via {{stun|STUN}}/{{turn|TURN}}. Data channels use [[sctp|SCTP]] encapsulated in {{dtls|DTLS}} over [[udp|UDP]]. The entire [[webrtc|WebRTC]] transport is built on [[udp|UDP]] because interactive communication requires packets to arrive quickly or not at all — [[tcp|TCP]]\'s {{retransmission|retransmission}} would add unacceptable delay.',
-		leftRole: '[[udp|UDP]] provides the low-{{latency|latency}} datagram transport that all [[webrtc|WebRTC]] media and data channels are built upon.',
-		rightRole: '[[webrtc|WebRTC]] provides the {{peer-to-peer|peer-to-peer}} media framework, {{encryption|encryption}} ({{dtls|DTLS}}/{{srtp|SRTP}}), {{nat|NAT}} traversal ({{ice|ICE}}), and data channels on top.'
+			"[[webrtc|WebRTC]]'s media stack sends {{srtp|SRTP}}-encrypted audio/video packets as [[udp|UDP]] datagrams between peers, using {{ice|ICE}} for {{nat|NAT}} traversal via {{stun|STUN}}/{{turn|TURN}}. Data channels use [[sctp|SCTP]] encapsulated in {{dtls|DTLS}} over [[udp|UDP]]. The entire [[webrtc|WebRTC]] transport is built on [[udp|UDP]] because interactive communication requires packets to arrive quickly or not at all — [[tcp|TCP]]'s {{retransmission|retransmission}} would add unacceptable delay.",
+		leftRole:
+			'[[udp|UDP]] provides the low-{{latency|latency}} datagram transport that all [[webrtc|WebRTC]] media and data channels are built upon.',
+		rightRole:
+			'[[webrtc|WebRTC]] provides the {{peer-to-peer|peer-to-peer}} media framework, {{encryption|encryption}} ({{dtls|DTLS}}/{{srtp|SRTP}}), {{nat|NAT}} traversal ({{ice|ICE}}), and data channels on top.'
 	},
 
 	// ── TLS encryption ───────────────────────────────────────────
@@ -1345,8 +2157,10 @@ const relationshipPairs: ProtocolPair[] = [
 			'[[tls|TLS]] wraps [[amqp|AMQP]] connections to create AMQPS, encrypting all {{broker|message broker}} communication between clients and servers.',
 		howTheyWork:
 			'An [[amqp|AMQP]] client connects to port 5671 (AMQPS) and performs a [[tls|TLS]] {{handshake|handshake}} before any [[amqp|AMQP]] protocol negotiation begins. Once [[tls|TLS]] is established, the standard [[amqp|AMQP]] {{handshake|handshake}} and all subsequent message publishing, consuming, and acknowledgments flow through the encrypted channel. Without [[tls|TLS]], credentials and message payloads travel in plaintext on the default port 5672.',
-		leftRole: '[[amqp|AMQP]] provides the {{broker|message broker}} semantics — exchanges, queues, bindings, and delivery guarantees.',
-		rightRole: '[[tls|TLS]] provides confidentiality, integrity, and authentication for all [[amqp|AMQP]] traffic.'
+		leftRole:
+			'[[amqp|AMQP]] provides the {{broker|message broker}} semantics — exchanges, queues, bindings, and delivery guarantees.',
+		rightRole:
+			'[[tls|TLS]] provides confidentiality, integrity, and authentication for all [[amqp|AMQP]] traffic.'
 	},
 	{
 		ids: ['dash', 'tls'],
@@ -1355,8 +2169,10 @@ const relationshipPairs: ProtocolPair[] = [
 			'[[dash|DASH]] delivers adaptive streaming segments over HTTPS, relying on [[tls|TLS]] to protect video content and {{drm|DRM}} license exchanges in {{transit|transit}}.',
 		howTheyWork:
 			'A [[dash|DASH]] player fetches the {{mpd|MPD}} {{manifest|manifest}} and all media segments via HTTPS requests, each secured by [[tls|TLS]]. The [[tls|TLS]] layer encrypts segment downloads and prevents tampering, which is especially critical when {{drm|DRM}} license acquisition URLs are embedded in the {{manifest|manifest}}.',
-		leftRole: '[[dash|DASH]] defines the {{adaptive-bitrate|adaptive bitrate streaming}} logic, {{manifest|manifest}} format, and segment request pattern.',
-		rightRole: '[[tls|TLS]] provides confidentiality and integrity for {{manifest|manifest}} and segment downloads over HTTPS.'
+		leftRole:
+			'[[dash|DASH]] defines the {{adaptive-bitrate|adaptive bitrate streaming}} logic, {{manifest|manifest}} format, and segment request pattern.',
+		rightRole:
+			'[[tls|TLS]] provides confidentiality and integrity for {{manifest|manifest}} and segment downloads over HTTPS.'
 	},
 	{
 		ids: ['dns', 'tls'],
@@ -1365,8 +2181,10 @@ const relationshipPairs: ProtocolPair[] = [
 			'[[dns|DNS]] over [[tls|TLS]] (DoT) encrypts [[dns|DNS]] queries by wrapping them in a [[tls|TLS]] connection on port 853, preventing eavesdropping and manipulation of name resolution.',
 		howTheyWork:
 			'A [[dns|DNS]] client establishes a [[tls|TLS]] connection to a resolver on port 853 ([[rfc:7858|RFC 7858]]) before sending any [[dns|DNS]] queries. Each query and response travels through the encrypted [[tls|TLS]] channel, preventing network observers from seeing which domains are being resolved. Without DoT, standard [[dns|DNS]] queries on port 53 are sent in plaintext and are trivially observable or spoofable.',
-		leftRole: '[[dns|DNS]] provides the query/response protocol for translating domain names to [[ip|IP]] addresses.',
-		rightRole: '[[tls|TLS]] provides confidentiality and integrity, preventing eavesdropping and tampering of [[dns|DNS]] lookups.'
+		leftRole:
+			'[[dns|DNS]] provides the query/response protocol for translating domain names to [[ip|IP]] addresses.',
+		rightRole:
+			'[[tls|TLS]] provides confidentiality and integrity, preventing eavesdropping and tampering of [[dns|DNS]] lookups.'
 	},
 	{
 		ids: ['ftp', 'tls'],
@@ -1375,8 +2193,10 @@ const relationshipPairs: ProtocolPair[] = [
 			'{{ftps|FTPS}} adds [[tls|TLS]] {{encryption|encryption}} to [[ftp|FTP]], securing both the control channel (commands and credentials) and data channel (file transfers).',
 		howTheyWork:
 			'In explicit {{ftps|FTPS}}, the client connects to port 21 and issues an {{smtp-auth|AUTH}} [[tls|TLS]] command to upgrade the control connection to [[tls|TLS]] before sending credentials. In implicit {{ftps|FTPS}}, the client connects directly to port 990 where [[tls|TLS]] is required from the start. Both modes can also encrypt the data channel, ensuring file contents are protected in {{transit|transit}}.',
-		leftRole: '[[ftp|FTP]] provides the file transfer commands, directory listing, and data channel negotiation.',
-		rightRole: '[[tls|TLS]] provides confidentiality, integrity, and authentication for [[ftp|FTP]] control and data channels.'
+		leftRole:
+			'[[ftp|FTP]] provides the file transfer commands, directory listing, and data channel negotiation.',
+		rightRole:
+			'[[tls|TLS]] provides confidentiality, integrity, and authentication for [[ftp|FTP]] control and data channels.'
 	},
 	{
 		ids: ['grpc', 'tls'],
@@ -1385,8 +2205,10 @@ const relationshipPairs: ProtocolPair[] = [
 			'[[grpc|gRPC]] strongly recommends [[tls|TLS]] for all connections, and most deployments require it to authenticate services and encrypt Protobuf payloads in {{transit|transit}}.',
 		howTheyWork:
 			'[[grpc|gRPC]] runs over [[http2|HTTP/2]], which in practice requires [[tls|TLS]]. The [[tls|TLS]] {{handshake|handshake}} authenticates the server (and optionally the client via mutual [[tls|TLS]]) before any {{rpc|RPC}} calls are made. [[grpc|gRPC]] channel credentials are configured with [[tls|TLS]] certificates, and the framework rejects insecure connections by default in production configurations.',
-		leftRole: '[[grpc|gRPC]] provides the {{rpc|RPC}} framework, Protobuf {{serialization|serialization}}, and service definition layer.',
-		rightRole: '[[tls|TLS]] provides confidentiality, integrity, and mutual authentication for [[grpc|gRPC]] channels.'
+		leftRole:
+			'[[grpc|gRPC]] provides the {{rpc|RPC}} framework, Protobuf {{serialization|serialization}}, and service definition layer.',
+		rightRole:
+			'[[tls|TLS]] provides confidentiality, integrity, and mutual authentication for [[grpc|gRPC]] channels.'
 	},
 	{
 		ids: ['hls', 'tls'],
@@ -1395,8 +2217,10 @@ const relationshipPairs: ProtocolPair[] = [
 			'[[hls|HLS]] delivers adaptive streaming playlists and media segments over HTTPS, relying on [[tls|TLS]] to protect content and {{encryption|encryption}} keys in {{transit|transit}}.',
 		howTheyWork:
 			'An [[hls|HLS]] player fetches M3U8 playlists and .ts/.fmp4 segments via HTTPS, with [[tls|TLS]] encrypting every request. This is critical because [[hls|HLS]] playlists often reference {{aes-128|AES-128}} key URIs for content protection — without [[tls|TLS]], these decryption keys could be intercepted. {{apple|Apple}} requires HTTPS for all [[hls|HLS]] content in App Transport Security.',
-		leftRole: '[[hls|HLS]] defines the playlist format, segment structure, and adaptive bitrate switching logic.',
-		rightRole: '[[tls|TLS]] provides confidentiality and integrity for playlist, segment, and {{encryption|encryption}} key downloads.'
+		leftRole:
+			'[[hls|HLS]] defines the playlist format, segment structure, and adaptive bitrate switching logic.',
+		rightRole:
+			'[[tls|TLS]] provides confidentiality and integrity for playlist, segment, and {{encryption|encryption}} key downloads.'
 	},
 	{
 		ids: ['http1', 'tls'],
@@ -1405,8 +2229,10 @@ const relationshipPairs: ProtocolPair[] = [
 			'[[tls|TLS]] encrypts [[http1|[[http1|HTTP/1]].1]] connections to create HTTPS, the foundational secure web protocol serving the majority of internet traffic on port 443.',
 		howTheyWork:
 			'A client connects to port 443 and completes a [[tls|TLS]] {{handshake|handshake}}, authenticating the server via its {{certificate|certificate}} and negotiating {{encryption|encryption}} keys. Once the [[tls|TLS]] channel is established, standard [[http1|[[http1|HTTP/1]].1]] requests and responses flow through it with full {{encryption|encryption}}. Without [[tls|TLS]], [[http1|[[http1|HTTP/1]].1]] on port 80 transmits headers, cookies, and body content in plaintext.',
-		leftRole: '[[http1|[[http1|HTTP/1]].1]] provides the {{request-response|request-response}} semantics, methods, headers, and {{content-negotiation|content negotiation}}.',
-		rightRole: '[[tls|TLS]] provides confidentiality, integrity, and server authentication for all {{http-method|HTTP}} traffic.'
+		leftRole:
+			'[[http1|[[http1|HTTP/1]].1]] provides the {{request-response|request-response}} semantics, methods, headers, and {{content-negotiation|content negotiation}}.',
+		rightRole:
+			'[[tls|TLS]] provides confidentiality, integrity, and server authentication for all {{http-method|HTTP}} traffic.'
 	},
 	{
 		ids: ['http2', 'tls'],
@@ -1415,8 +2241,10 @@ const relationshipPairs: ProtocolPair[] = [
 			'[[http2|HTTP/2]] effectively requires [[tls|TLS]] in practice, using the {{alpn|ALPN}} extension during the [[tls|TLS]] {{handshake|handshake}} to negotiate the h2 protocol without an extra round trip.',
 		howTheyWork:
 			'Although [[http2|HTTP/2]] technically allows cleartext (h2c), all major browsers only support [[http2|HTTP/2]] over [[tls|TLS]]. During the [[tls|TLS]] {{handshake|handshake}}, the client advertises "h2" via {{alpn|ALPN}} ({{alpn|Application-Layer Protocol Negotiation}}), and the server selects it. This eliminates the need for an {{http-method|HTTP}} Upgrade dance and ensures the multiplexed binary connection is always encrypted.',
-		leftRole: '[[http2|HTTP/2]] provides multiplexed streams, header compression, and {{server-push|server push}} over a single connection.',
-		rightRole: '[[tls|TLS]] provides {{encryption|encryption}} and enables h2 protocol negotiation via the {{alpn|ALPN}} extension.'
+		leftRole:
+			'[[http2|HTTP/2]] provides multiplexed streams, header compression, and {{server-push|server push}} over a single connection.',
+		rightRole:
+			'[[tls|TLS]] provides {{encryption|encryption}} and enables h2 protocol negotiation via the {{alpn|ALPN}} extension.'
 	},
 	{
 		ids: ['http3', 'tls'],
@@ -1425,8 +2253,10 @@ const relationshipPairs: ProtocolPair[] = [
 			'[[http3|HTTP/3]] integrates [[tls|TLS]] 1.3 directly into the [[quic|QUIC]] transport layer, making {{encryption|encryption}} mandatory and reducing connection setup to a single round trip.',
 		howTheyWork:
 			'Unlike [[http1|[[http1|HTTP/1]].1]] and [[http2|HTTP/2]] where [[tls|TLS]] is a separate layer on top of [[tcp|TCP]], [[quic|QUIC]] embeds the [[tls|TLS]] 1.3 {{handshake|handshake}} into its own transport {{handshake|handshake}}. Cryptographic key negotiation happens simultaneously with connection establishment, achieving {{one-rtt|1-RTT}} setup (or {{zero-rtt|0-RTT}} for resumed connections). Every [[quic|QUIC]] packet is authenticated and encrypted — there is no unencrypted [[http3|HTTP/3]].',
-		leftRole: '[[http3|HTTP/3]] provides multiplexed {{request-response|request-response}} streams over [[quic|QUIC]] without {{head-of-line-blocking|head-of-line blocking}}.',
-		rightRole: '[[tls|TLS]] 1.3 provides the cryptographic {{handshake|handshake}} and {{encryption|encryption}} integrated directly into [[quic|QUIC]].'
+		leftRole:
+			'[[http3|HTTP/3]] provides multiplexed {{request-response|request-response}} streams over [[quic|QUIC]] without {{head-of-line-blocking|head-of-line blocking}}.',
+		rightRole:
+			'[[tls|TLS]] 1.3 provides the cryptographic {{handshake|handshake}} and {{encryption|encryption}} integrated directly into [[quic|QUIC]].'
 	},
 	{
 		ids: ['kafka', 'tls'],
@@ -1435,8 +2265,10 @@ const relationshipPairs: ProtocolPair[] = [
 			'[[kafka|Kafka]] supports [[tls|TLS]] to encrypt all communication between producers, consumers, and brokers, as well as inter-broker replication traffic.',
 		howTheyWork:
 			'[[kafka|Kafka]] listeners can be configured with {{ssl|SSL}}/[[tls|TLS]] security, requiring clients to perform a [[tls|TLS]] {{handshake|handshake}} when connecting to brokers. [[tls|TLS]] encrypts produce requests, {{imap-fetch|fetch}} responses, and metadata exchanges. Combined with {{sasl|SASL}} authentication, [[tls|TLS]] also enables mutual authentication between clients and brokers and secures inter-broker replication across data centers.',
-		leftRole: '[[kafka|Kafka]] provides the distributed log, {{topic|topic}} partitioning, consumer groups, and replication.',
-		rightRole: '[[tls|TLS]] provides confidentiality, integrity, and optional mutual authentication for [[kafka|Kafka]] connections.'
+		leftRole:
+			'[[kafka|Kafka]] provides the distributed log, {{topic|topic}} partitioning, consumer groups, and replication.',
+		rightRole:
+			'[[tls|TLS]] provides confidentiality, integrity, and optional mutual authentication for [[kafka|Kafka]] connections.'
 	},
 	{
 		ids: ['mptcp', 'tls'],
@@ -1445,8 +2277,10 @@ const relationshipPairs: ProtocolPair[] = [
 			'[[tls|TLS]] encrypts [[mptcp|MPTCP]] connections just as it does standard [[tcp|TCP]], securing data flowing across multiple network paths simultaneously.',
 		howTheyWork:
 			'[[mptcp|MPTCP]] establishes multiple [[tcp|TCP]] subflows across different network interfaces (e.g., [[wifi|Wi-Fi]] and cellular). [[tls|TLS]] operates on the [[mptcp|MPTCP]] connection as a whole, performing its {{handshake|handshake}} once over the initial {{subflow|subflow}}. The encrypted [[tls|TLS]] session then transparently spans all subflows, so data remains protected regardless of which network path carries it.',
-		leftRole: '[[mptcp|MPTCP]] provides multi-path transport, aggregating {{bandwidth|bandwidth}} and enabling seamless {{failover|failover}}.',
-		rightRole: '[[tls|TLS]] provides confidentiality, integrity, and authentication across all [[mptcp|MPTCP]] subflows.'
+		leftRole:
+			'[[mptcp|MPTCP]] provides multi-path transport, aggregating {{bandwidth|bandwidth}} and enabling seamless {{failover|failover}}.',
+		rightRole:
+			'[[tls|TLS]] provides confidentiality, integrity, and authentication across all [[mptcp|MPTCP]] subflows.'
 	},
 	{
 		ids: ['mqtt', 'tls'],
@@ -1455,8 +2289,10 @@ const relationshipPairs: ProtocolPair[] = [
 			'[[tls|TLS]] wraps [[mqtt|MQTT]] connections to create MQTTS, encrypting all pub/sub messaging between IoT devices and the broker on port 8883.',
 		howTheyWork:
 			'An [[mqtt|MQTT]] client connects to the broker on port 8883 (MQTTS) and completes a [[tls|TLS]] {{handshake|handshake}} before sending the [[mqtt|MQTT]] {{mqtt-connect|CONNECT}} packet. All subsequent {{mqtt-publish|PUBLISH}}, {{mqtt-subscribe|SUBSCRIBE}}, and acknowledgment packets are encrypted. This is critical for IoT deployments where sensor data and device credentials traverse untrusted networks.',
-		leftRole: '[[mqtt|MQTT]] provides lightweight pub/sub messaging with {{topic|topic}} hierarchies and QoS levels.',
-		rightRole: '[[tls|TLS]] provides confidentiality, integrity, and authentication for all [[mqtt|MQTT]] broker communication.'
+		leftRole:
+			'[[mqtt|MQTT]] provides lightweight pub/sub messaging with {{topic|topic}} hierarchies and QoS levels.',
+		rightRole:
+			'[[tls|TLS]] provides confidentiality, integrity, and authentication for all [[mqtt|MQTT]] broker communication.'
 	},
 	{
 		ids: ['quic', 'tls'],
@@ -1465,8 +2301,10 @@ const relationshipPairs: ProtocolPair[] = [
 			'[[quic|QUIC]] deeply integrates [[tls|TLS]] 1.3 into its transport {{handshake|handshake}}, making {{encryption|encryption}} inseparable from connection establishment rather than an optional add-on layer.',
 		howTheyWork:
 			'[[quic|QUIC]] embeds the [[tls|TLS]] 1.3 {{handshake|handshake}} within its own transport {{handshake|handshake}} messages, combining cryptographic negotiation with connection setup in a single round trip. [[tls|TLS]] provides the key {{exchange|exchange}} and cipher negotiation, while [[quic|QUIC]] uses the derived keys to encrypt every packet including most header fields. Unlike [[tcp|TCP]]+[[tls|TLS]], there is no unencrypted [[quic|QUIC]] — the protocols are fused by design.',
-		leftRole: '[[quic|QUIC]] provides multiplexed streams, {{congestion-control|congestion control}}, and {{connection-migration|connection migration}} over [[udp|UDP]].',
-		rightRole: '[[tls|TLS]] 1.3 provides the cryptographic {{handshake|handshake}}, key derivation, and {{cipher-suite|cipher suite}} negotiation within [[quic|QUIC]].'
+		leftRole:
+			'[[quic|QUIC]] provides multiplexed streams, {{congestion-control|congestion control}}, and {{connection-migration|connection migration}} over [[udp|UDP]].',
+		rightRole:
+			'[[tls|TLS]] 1.3 provides the cryptographic {{handshake|handshake}}, key derivation, and {{cipher-suite|cipher suite}} negotiation within [[quic|QUIC]].'
 	},
 	{
 		ids: ['rtmp', 'tls'],
@@ -1475,8 +2313,10 @@ const relationshipPairs: ProtocolPair[] = [
 			'[[tls|TLS]] wraps [[rtmp|RTMP]] connections to create RTMPS, encrypting live stream ingest traffic between encoders and media servers on port 443.',
 		howTheyWork:
 			'An encoder (e.g., OBS) connects to the media server on port 443 and performs a [[tls|TLS]] {{handshake|handshake}} before beginning the [[rtmp|RTMP]] {{handshake|handshake}}. All subsequent [[rtmp|RTMP]] chunks — including the stream key, audio, and video data — flow through the encrypted channel. RTMPS is now required by major platforms like Facebook Live and YouTube Live for stream ingest.',
-		leftRole: '[[rtmp|RTMP]] provides the live streaming protocol for publishing audio/video chunks to media servers.',
-		rightRole: '[[tls|TLS]] provides confidentiality and integrity, protecting stream keys and media content in {{transit|transit}}.'
+		leftRole:
+			'[[rtmp|RTMP]] provides the live streaming protocol for publishing audio/video chunks to media servers.',
+		rightRole:
+			'[[tls|TLS]] provides confidentiality and integrity, protecting stream keys and media content in {{transit|transit}}.'
 	},
 	{
 		ids: ['sip', 'tls'],
@@ -1485,8 +2325,10 @@ const relationshipPairs: ProtocolPair[] = [
 			'[[tls|TLS]] secures [[sip|SIP]] {{signaling|signaling}} to create SIPS, encrypting call setup, authentication, and routing between {{voip|VoIP}} endpoints and proxies.',
 		howTheyWork:
 			'A [[sip|SIP]] client connects to a proxy or registrar over [[tls|TLS]] (typically port 5061), encrypting all {{signaling|signaling}} messages including REGISTER, {{sip-invite|INVITE}}, and BYE requests. The SIPS {{uri|URI}} scheme (sips:) mandates [[tls|TLS]] hop-by-hop across the {{signaling|signaling}} path. Without [[tls|TLS]], [[sip|SIP]] headers expose caller identity, credentials, and call routing in plaintext.',
-		leftRole: '[[sip|SIP]] provides the {{signaling|signaling}} protocol for establishing, modifying, and terminating voice/video sessions.',
-		rightRole: '[[tls|TLS]] provides confidentiality and integrity for [[sip|SIP]] {{signaling|signaling}}, protecting credentials and call metadata.'
+		leftRole:
+			'[[sip|SIP]] provides the {{signaling|signaling}} protocol for establishing, modifying, and terminating voice/video sessions.',
+		rightRole:
+			'[[tls|TLS]] provides confidentiality and integrity for [[sip|SIP]] {{signaling|signaling}}, protecting credentials and call metadata.'
 	},
 	{
 		ids: ['smtp', 'tls'],
@@ -1495,8 +2337,10 @@ const relationshipPairs: ProtocolPair[] = [
 			'[[tls|TLS]] secures [[smtp|SMTP]] email delivery via {{starttls|STARTTLS}} (opportunistic upgrade on port 587) or SMTPS (implicit [[tls|TLS]] on port 465), encrypting messages between mail servers.',
 		howTheyWork:
 			'An [[smtp|SMTP]] client connects to a mail server and issues the {{starttls|STARTTLS}} command to upgrade the plaintext connection to [[tls|TLS]] before sending credentials or message content. Alternatively, implicit [[tls|TLS]] on port 465 establishes {{encryption|encryption}} immediately. {{mta|MTA}}-{{sts|STS}} and DANE policies can enforce [[tls|TLS]] to prevent downgrade attacks between mail servers.',
-		leftRole: '[[smtp|SMTP]] provides the email delivery protocol for routing messages between mail transfer agents.',
-		rightRole: '[[tls|TLS]] provides confidentiality and integrity for email content and authentication credentials in {{transit|transit}}.'
+		leftRole:
+			'[[smtp|SMTP]] provides the email delivery protocol for routing messages between mail transfer agents.',
+		rightRole:
+			'[[tls|TLS]] provides confidentiality and integrity for email content and authentication credentials in {{transit|transit}}.'
 	},
 	{
 		ids: ['tls', 'websockets'],
@@ -1505,8 +2349,10 @@ const relationshipPairs: ProtocolPair[] = [
 			'[[tls|TLS]] secures [[websockets|WebSocket]] connections to create WSS (wss://), encrypting the {{full-duplex|full-duplex}} message channel between browsers and servers.',
 		howTheyWork:
 			'A client connects to port 443, completes a [[tls|TLS]] {{handshake|handshake}}, and then performs the [[websockets|WebSocket]] {{http-method|HTTP}} Upgrade over the encrypted connection. Once upgraded, all [[websockets|WebSocket]] frames — both text and binary — flow through the [[tls|TLS]] channel. WSS is effectively required in production because most browsers block mixed content and many proxies interfere with unencrypted [[websockets|WebSocket]] connections.',
-		leftRole: '[[tls|TLS]] provides confidentiality, integrity, and authentication for the [[websockets|WebSocket]] connection.',
-		rightRole: '[[websockets|WebSocket]] provides persistent, {{full-duplex|full-duplex}}, message-oriented communication over the secure channel.'
+		leftRole:
+			'[[tls|TLS]] provides confidentiality, integrity, and authentication for the [[websockets|WebSocket]] connection.',
+		rightRole:
+			'[[websockets|WebSocket]] provides persistent, {{full-duplex|full-duplex}}, message-oriented communication over the secure channel.'
 	},
 	{
 		ids: ['tls', 'webrtc'],
@@ -1515,8 +2361,10 @@ const relationshipPairs: ProtocolPair[] = [
 			'[[webrtc|WebRTC]] uses {{dtls|DTLS}} (Datagram [[tls|TLS]]) to perform key {{exchange|exchange}} over [[udp|UDP]], establishing the {{encryption|encryption}} keys used by {{srtp|SRTP}} to protect real-time media streams.',
 		howTheyWork:
 			'After {{ice|ICE}} connectivity checks establish a [[udp|UDP]] path between peers, a {{dtls|DTLS}} {{handshake|handshake}} occurs over that path to authenticate both endpoints and derive shared {{encryption|encryption}} keys. These keys are then used by {{srtp|SRTP}} to encrypt audio/video media and by [[sctp|SCTP]] (tunneled over {{dtls|DTLS}}) to encrypt data channel messages. Without {{dtls|DTLS}}, [[webrtc|WebRTC]] peers could not establish trust or derive {{encryption|encryption}} keys over {{connectionless|connectionless}} [[udp|UDP]].',
-		leftRole: '[[tls|TLS]] (as {{dtls|DTLS}}) provides the key {{exchange|exchange}}, peer authentication, and key derivation over [[udp|UDP]].',
-		rightRole: '[[webrtc|WebRTC]] uses {{dtls|DTLS}}-derived keys for {{srtp|SRTP}} media {{encryption|encryption}} and [[sctp|SCTP]] data channel security.'
+		leftRole:
+			'[[tls|TLS]] (as {{dtls|DTLS}}) provides the key {{exchange|exchange}}, peer authentication, and key derivation over [[udp|UDP]].',
+		rightRole:
+			'[[webrtc|WebRTC]] uses {{dtls|DTLS}}-derived keys for {{srtp|SRTP}} media {{encryption|encryption}} and [[sctp|SCTP]] data channel security.'
 	},
 	{
 		ids: ['tls', 'xmpp'],
@@ -1525,8 +2373,10 @@ const relationshipPairs: ProtocolPair[] = [
 			'[[xmpp|XMPP]] uses {{starttls|STARTTLS}} to upgrade client-to-server and server-to-server connections to [[tls|TLS]], encrypting all messaging, presence, and roster data.',
 		howTheyWork:
 			'After opening an {{xml|XML}} stream, an [[xmpp|XMPP]] client or server sends a {{starttls|STARTTLS}} request to upgrade the connection. Once the [[tls|TLS]] {{handshake|handshake}} completes, a new {{xml|XML}} stream is opened over the encrypted channel. Modern [[xmpp|XMPP]] deployments mandate [[tls|TLS]], and XEP-0368 defines direct [[tls|TLS]] connections on port 5223 as an alternative to the {{starttls|STARTTLS}} upgrade mechanism.',
-		leftRole: '[[tls|TLS]] provides confidentiality, integrity, and authentication for all [[xmpp|XMPP]] communication.',
-		rightRole: '[[xmpp|XMPP]] provides the messaging, presence, and roster protocol operating over the encrypted channel.'
+		leftRole:
+			'[[tls|TLS]] provides confidentiality, integrity, and authentication for all [[xmpp|XMPP]] communication.',
+		rightRole:
+			'[[xmpp|XMPP]] provides the messaging, presence, and roster protocol operating over the encrypted channel.'
 	},
 
 	// ── HTTP as transport ────────────────────────────────────────
@@ -1537,9 +2387,11 @@ const relationshipPairs: ProtocolPair[] = [
 		summary:
 			'[[grpc|gRPC]] uses [[http2|HTTP/2]] as its transport layer, leveraging its multiplexed streams and {{binary-framing|binary framing}} to deliver high-performance remote procedure calls.',
 		howTheyWork:
-			'[[grpc|gRPC]] maps each {{rpc|RPC}} call to an [[http2|HTTP/2]] stream, using [[http2|HTTP/2]] headers for metadata (method, status, {{content-type|content-type}}) and {{smtp-data|DATA}} frames for serialized Protocol Buffer payloads. [[http2|HTTP/2]]\'s {{multiplexing|multiplexing}} allows many concurrent RPCs over a single [[tcp|TCP]] connection without {{head-of-line-blocking|head-of-line blocking}} at the {{http-method|HTTP}} level.',
-		leftRole: '[[http2|HTTP/2]] provides multiplexed {{binary-framing|binary framing}}, {{flow-control|flow control}}, and header compression as the transport.',
-		rightRole: '[[grpc|gRPC]] provides the {{rpc|RPC}} semantics, Protobuf {{serialization|serialization}}, and service definition framework on top.'
+			"[[grpc|gRPC]] maps each {{rpc|RPC}} call to an [[http2|HTTP/2]] stream, using [[http2|HTTP/2]] headers for metadata (method, status, {{content-type|content-type}}) and {{smtp-data|DATA}} frames for serialized Protocol Buffer payloads. [[http2|HTTP/2]]'s {{multiplexing|multiplexing}} allows many concurrent RPCs over a single [[tcp|TCP]] connection without {{head-of-line-blocking|head-of-line blocking}} at the {{http-method|HTTP}} level.",
+		leftRole:
+			'[[http2|HTTP/2]] provides multiplexed {{binary-framing|binary framing}}, {{flow-control|flow control}}, and header compression as the transport.',
+		rightRole:
+			'[[grpc|gRPC]] provides the {{rpc|RPC}} semantics, Protobuf {{serialization|serialization}}, and service definition framework on top.'
 	},
 	{
 		ids: ['dash', 'http1'],
@@ -1548,8 +2400,10 @@ const relationshipPairs: ProtocolPair[] = [
 			'[[dash|DASH]] delivers adaptive video by requesting media segments over [[http1|[[http1|HTTP/1]].1]], using standard web infrastructure for scalable streaming delivery.',
 		howTheyWork:
 			'The [[dash|DASH]] client fetches an {{mpd|MPD}} {{manifest|manifest}} over [[http1|[[http1|HTTP/1]].1]], then requests individual media segments as standard {{http-method|HTTP}} GET requests. Each segment is a separate [[http1|[[http1|HTTP/1]].1]] {{request-response|request-response}} cycle, which means multiple [[tcp|TCP]] connections are used in parallel to {{imap-fetch|fetch}} video and audio segments at the appropriate bitrate.',
-		leftRole: '[[dash|DASH]] defines the {{manifest|manifest}} format, segment addressing, and adaptive bitrate switching logic.',
-		rightRole: '[[http1|[[http1|HTTP/1]].1]] provides the {{request-response|request-response}} transport for fetching manifests and media segments.'
+		leftRole:
+			'[[dash|DASH]] defines the {{manifest|manifest}} format, segment addressing, and adaptive bitrate switching logic.',
+		rightRole:
+			'[[http1|[[http1|HTTP/1]].1]] provides the {{request-response|request-response}} transport for fetching manifests and media segments.'
 	},
 	{
 		ids: ['dash', 'http2'],
@@ -1557,9 +2411,11 @@ const relationshipPairs: ProtocolPair[] = [
 		summary:
 			'[[dash|DASH]] delivers adaptive video over [[http2|HTTP/2]], benefiting from multiplexed streams to {{imap-fetch|fetch}} manifests and media segments more efficiently on a single connection.',
 		howTheyWork:
-			'The [[dash|DASH]] client fetches the {{mpd|MPD}} {{manifest|manifest}} and subsequent media segments as [[http2|HTTP/2]] requests multiplexed over a single [[tcp|TCP]] connection. [[http2|HTTP/2]]\'s stream {{multiplexing|multiplexing}} eliminates the need for multiple parallel connections, and header compression reduces the overhead of repeated segment requests to the same origin.',
-		leftRole: '[[dash|DASH]] defines the {{manifest|manifest}} format, segment addressing, and adaptive bitrate switching logic.',
-		rightRole: '[[http2|HTTP/2]] provides multiplexed, header-compressed transport for efficient parallel segment delivery.'
+			"The [[dash|DASH]] client fetches the {{mpd|MPD}} {{manifest|manifest}} and subsequent media segments as [[http2|HTTP/2]] requests multiplexed over a single [[tcp|TCP]] connection. [[http2|HTTP/2]]'s stream {{multiplexing|multiplexing}} eliminates the need for multiple parallel connections, and header compression reduces the overhead of repeated segment requests to the same origin.",
+		leftRole:
+			'[[dash|DASH]] defines the {{manifest|manifest}} format, segment addressing, and adaptive bitrate switching logic.',
+		rightRole:
+			'[[http2|HTTP/2]] provides multiplexed, header-compressed transport for efficient parallel segment delivery.'
 	},
 	{
 		ids: ['graphql', 'http1'],
@@ -1568,8 +2424,10 @@ const relationshipPairs: ProtocolPair[] = [
 			'[[graphql|GraphQL]] sends queries and mutations as [[http1|[[http1|HTTP/1]].1]] POST requests to a single endpoint, using standard {{http-method|HTTP}} as its most common transport.',
 		howTheyWork:
 			'The client sends a [[graphql|GraphQL]] query as a {{json|JSON}} {{payload|payload}} in an [[http1|[[http1|HTTP/1]].1]] POST request to a single endpoint (typically /graphql). The server parses the query, resolves the requested fields, and returns a {{json|JSON}} response. Each query-response cycle is an independent [[http1|[[http1|HTTP/1]].1]] request, making it compatible with existing {{http-method|HTTP}} infrastructure.',
-		leftRole: '[[graphql|GraphQL]] defines the query language, schema, and resolver execution model.',
-		rightRole: '[[http1|[[http1|HTTP/1]].1]] provides the {{request-response|request-response}} transport for sending queries and receiving results.'
+		leftRole:
+			'[[graphql|GraphQL]] defines the query language, schema, and resolver execution model.',
+		rightRole:
+			'[[http1|[[http1|HTTP/1]].1]] provides the {{request-response|request-response}} transport for sending queries and receiving results.'
 	},
 	{
 		ids: ['graphql', 'http2'],
@@ -1578,8 +2436,10 @@ const relationshipPairs: ProtocolPair[] = [
 			'[[graphql|GraphQL]] queries are sent over [[http2|HTTP/2]], benefiting from multiplexed streams when clients issue multiple queries or when responses are large with compressed headers.',
 		howTheyWork:
 			'[[graphql|GraphQL]] queries are sent as [[http2|HTTP/2]] POST requests to a single endpoint, just as with [[http1|[[http1|HTTP/1]].1]], but [[http2|HTTP/2]] multiplexes concurrent queries over a single connection. This is especially beneficial when a client fires multiple [[graphql|GraphQL]] queries in parallel, as they share one connection with compressed headers instead of requiring separate [[tcp|TCP]] connections.',
-		leftRole: '[[graphql|GraphQL]] defines the query language, schema, and resolver execution model.',
-		rightRole: '[[http2|HTTP/2]] provides multiplexed, header-compressed transport for concurrent query delivery.'
+		leftRole:
+			'[[graphql|GraphQL]] defines the query language, schema, and resolver execution model.',
+		rightRole:
+			'[[http2|HTTP/2]] provides multiplexed, header-compressed transport for concurrent query delivery.'
 	},
 	{
 		ids: ['graphql', 'websockets'],
@@ -1588,8 +2448,10 @@ const relationshipPairs: ProtocolPair[] = [
 			'[[graphql|GraphQL]] subscriptions use [[websockets|WebSocket]] as a persistent transport to push real-time data updates from the server to subscribed clients.',
 		howTheyWork:
 			'The client establishes a [[websockets|WebSocket]] connection to the [[graphql|GraphQL]] server and sends subscription queries using a sub-protocol like graphql-ws. The server keeps the connection open and pushes data whenever the subscribed fields change. This complements the {{http-method|HTTP}}-based query/mutation model by adding server-initiated real-time updates.',
-		leftRole: '[[graphql|GraphQL]] defines the subscription query syntax and the data pushed when subscribed fields change.',
-		rightRole: '[[websockets|WebSocket]] provides the persistent, bidirectional channel needed for real-time subscription delivery.'
+		leftRole:
+			'[[graphql|GraphQL]] defines the subscription query syntax and the data pushed when subscribed fields change.',
+		rightRole:
+			'[[websockets|WebSocket]] provides the persistent, bidirectional channel needed for real-time subscription delivery.'
 	},
 	{
 		ids: ['hls', 'http1'],
@@ -1598,8 +2460,10 @@ const relationshipPairs: ProtocolPair[] = [
 			'[[hls|HLS]] delivers adaptive video by serving M3U8 playlists and media segments as standard [[http1|[[http1|HTTP/1]].1]] file downloads, leveraging existing web infrastructure and CDNs.',
 		howTheyWork:
 			'The [[hls|HLS]] client fetches an M3U8 playlist over [[http1|[[http1|HTTP/1]].1]] to discover available bitrates and segment URLs. It then requests individual media segments as standard {{http-method|HTTP}} GET requests. Each segment is a self-contained file served like any static asset, making [[hls|HLS]] fully compatible with {{http-method|HTTP}} caches, CDNs, and standard web servers.',
-		leftRole: '[[hls|HLS]] defines the playlist format, segment structure, and adaptive bitrate selection algorithm.',
-		rightRole: '[[http1|[[http1|HTTP/1]].1]] provides the file-serving transport for delivering playlist and segment files.'
+		leftRole:
+			'[[hls|HLS]] defines the playlist format, segment structure, and adaptive bitrate selection algorithm.',
+		rightRole:
+			'[[http1|[[http1|HTTP/1]].1]] provides the file-serving transport for delivering playlist and segment files.'
 	},
 	{
 		ids: ['hls', 'http2'],
@@ -1608,8 +2472,10 @@ const relationshipPairs: ProtocolPair[] = [
 			'[[hls|HLS]] delivers adaptive video over [[http2|HTTP/2]], where multiplexed streams allow playlist refreshes and segment fetches to share a single connection efficiently.',
 		howTheyWork:
 			'The [[hls|HLS]] client fetches M3U8 playlists and media segments over [[http2|HTTP/2]], {{multiplexing|multiplexing}} requests on a single connection instead of opening multiple parallel [[tcp|TCP]] connections. For live streams, this is especially beneficial since frequent playlist refreshes and segment requests can interleave without {{head-of-line-blocking|head-of-line blocking}} at the {{http-method|HTTP}} layer.',
-		leftRole: '[[hls|HLS]] defines the playlist format, segment structure, and adaptive bitrate selection algorithm.',
-		rightRole: '[[http2|HTTP/2]] provides multiplexed transport for efficient parallel delivery of playlists and segments.'
+		leftRole:
+			'[[hls|HLS]] defines the playlist format, segment structure, and adaptive bitrate selection algorithm.',
+		rightRole:
+			'[[http2|HTTP/2]] provides multiplexed transport for efficient parallel delivery of playlists and segments.'
 	},
 	{
 		ids: ['http1', 'rest'],
@@ -1618,8 +2484,10 @@ const relationshipPairs: ProtocolPair[] = [
 			'[[rest|REST]] APIs are most commonly served over [[http1|[[http1|HTTP/1]].1]], using its methods (GET, POST, PUT, DELETE), status codes, and headers to implement resource-oriented APIs.',
 		howTheyWork:
 			'[[rest|REST]] maps {{crud|CRUD}} operations to [[http1|[[http1|HTTP/1]].1]] methods: GET for reading, POST for creating, PUT/PATCH for updating, and DELETE for removing resources. [[http1|[[http1|HTTP/1]].1]] status codes communicate outcomes, headers handle {{content-negotiation|content negotiation}} and caching, and URLs identify resources. [[http1|[[http1|HTTP/1]].1]] provides all the semantics [[rest|REST]] relies on as an architectural style.',
-		leftRole: '[[http1|[[http1|HTTP/1]].1]] provides the methods, status codes, headers, and {{url|URL}} structure that [[rest|REST]] builds upon.',
-		rightRole: '[[rest|REST]] defines the architectural conventions for mapping resource operations onto {{http-method|HTTP}} semantics.'
+		leftRole:
+			'[[http1|[[http1|HTTP/1]].1]] provides the methods, status codes, headers, and {{url|URL}} structure that [[rest|REST]] builds upon.',
+		rightRole:
+			'[[rest|REST]] defines the architectural conventions for mapping resource operations onto {{http-method|HTTP}} semantics.'
 	},
 	{
 		ids: ['http1', 'websockets'],
@@ -1628,8 +2496,10 @@ const relationshipPairs: ProtocolPair[] = [
 			'[[websockets|WebSocket]] connections begin with an [[http1|[[http1|HTTP/1]].1]] Upgrade {{handshake|handshake}}, then switch to a persistent, bidirectional {{binary-framing|binary framing}} protocol.',
 		howTheyWork:
 			'The client sends an [[http1|[[http1|HTTP/1]].1]] GET request with Upgrade: websocket and Connection: Upgrade headers, plus a Sec-[[websockets|WebSocket]]-Key. If the server accepts, it responds with 101 Switching Protocols and the connection transitions from {{http-method|HTTP}} to [[websockets|WebSocket]] framing. After the upgrade, the [[tcp|TCP]] connection carries [[websockets|WebSocket]] frames instead of {{http-method|HTTP}} messages.',
-		leftRole: '[[http1|[[http1|HTTP/1]].1]] provides the initial {{handshake|handshake}} and Upgrade mechanism to establish the connection.',
-		rightRole: '[[websockets|WebSocket]] provides the persistent, {{full-duplex|full-duplex}} message framing protocol after the upgrade completes.'
+		leftRole:
+			'[[http1|[[http1|HTTP/1]].1]] provides the initial {{handshake|handshake}} and Upgrade mechanism to establish the connection.',
+		rightRole:
+			'[[websockets|WebSocket]] provides the persistent, {{full-duplex|full-duplex}} message framing protocol after the upgrade completes.'
 	},
 	{
 		ids: ['http2', 'sse'],
@@ -1638,8 +2508,10 @@ const relationshipPairs: ProtocolPair[] = [
 			'[[sse|SSE]] streams server-pushed events over [[http2|HTTP/2]], where {{multiplexing|multiplexing}} allows multiple [[sse|SSE]] streams to share a single connection without blocking other requests.',
 		howTheyWork:
 			'The client opens an [[sse|SSE]] connection by sending a GET request with Accept: text/event-stream. Over [[http2|HTTP/2]], this [[sse|SSE]] stream becomes one of many multiplexed streams on a single connection, so other {{api|API}} requests proceed in parallel without being blocked. This eliminates the browser connection limit problem that restricts [[sse|SSE]] to six concurrent streams per origin on [[http1|[[http1|HTTP/1]].1]].',
-		leftRole: '[[http2|HTTP/2]] provides multiplexed streams that let [[sse|SSE]] connections coexist with other requests on one connection.',
-		rightRole: '[[sse|SSE]] provides the text/event-stream format and {{eventsource|EventSource API}} for server-to-client push.'
+		leftRole:
+			'[[http2|HTTP/2]] provides multiplexed streams that let [[sse|SSE]] connections coexist with other requests on one connection.',
+		rightRole:
+			'[[sse|SSE]] provides the text/event-stream format and {{eventsource|EventSource API}} for server-to-client push.'
 	},
 	{
 		ids: ['http3', 'rest'],
@@ -1648,8 +2520,10 @@ const relationshipPairs: ProtocolPair[] = [
 			'[[rest|REST]] APIs can be served over [[http3|HTTP/3]], gaining faster connection setup, independent stream {{multiplexing|multiplexing}}, and built-in {{encryption|encryption}} from the [[quic|QUIC]] transport.',
 		howTheyWork:
 			'[[rest|REST]] semantics (methods, status codes, headers, URLs) work identically over [[http3|HTTP/3]] as they do over [[http1|[[http1|HTTP/1]].1]] or [[http2|HTTP/2]] — only the transport changes. [[http3|HTTP/3]] runs over [[quic|QUIC]], providing {{zero-rtt|0-RTT}} connection establishment, stream-level independence (no {{head-of-line-blocking|head-of-line blocking}}), and mandatory [[tls|TLS]] 1.3. [[rest|REST]] APIs benefit automatically without any changes to {{api|API}} design.',
-		leftRole: '[[http3|HTTP/3]] provides the [[quic|QUIC]]-based transport with {{zero-rtt|0-RTT}} setup and independent stream {{multiplexing|multiplexing}}.',
-		rightRole: '[[rest|REST]] defines the resource-oriented {{api|API}} architecture that rides on [[http3|HTTP/3]] semantics.'
+		leftRole:
+			'[[http3|HTTP/3]] provides the [[quic|QUIC]]-based transport with {{zero-rtt|0-RTT}} setup and independent stream {{multiplexing|multiplexing}}.',
+		rightRole:
+			'[[rest|REST]] defines the resource-oriented {{api|API}} architecture that rides on [[http3|HTTP/3]] semantics.'
 	},
 
 	// ── WebSocket as transport ───────────────────────────────────
@@ -1661,8 +2535,10 @@ const relationshipPairs: ProtocolPair[] = [
 			'[[amqp|AMQP]] can be tunneled over [[websockets|WebSocket]] to allow browser-based clients to {{mqtt-connect|connect}} to message brokers without direct [[tcp|TCP]] access.',
 		howTheyWork:
 			'The browser establishes a [[websockets|WebSocket]] connection to the {{broker|message broker}} (or a gateway), then speaks the [[amqp|AMQP]] protocol over that [[websockets|WebSocket]] channel. The [[websockets|WebSocket]] connection wraps [[amqp|AMQP]] frames so they can traverse {{http-method|HTTP}} proxies and firewalls that would otherwise block raw [[tcp|TCP]] [[amqp|AMQP]] connections on port 5672.',
-		leftRole: '[[amqp|AMQP]] provides the messaging semantics — exchanges, queues, bindings, and delivery guarantees.',
-		rightRole: '[[websockets|WebSocket]] provides the browser-compatible transport tunnel that carries [[amqp|AMQP]] frames over {{http-method|HTTP}}.'
+		leftRole:
+			'[[amqp|AMQP]] provides the messaging semantics — exchanges, queues, bindings, and delivery guarantees.',
+		rightRole:
+			'[[websockets|WebSocket]] provides the browser-compatible transport tunnel that carries [[amqp|AMQP]] frames over {{http-method|HTTP}}.'
 	},
 	{
 		ids: ['mqtt', 'websockets'],
@@ -1671,18 +2547,22 @@ const relationshipPairs: ProtocolPair[] = [
 			'[[mqtt|MQTT]] over [[websockets|WebSocket]] enables browser-based IoT dashboards and web apps to {{mqtt-subscribe|subscribe}} to [[mqtt|MQTT]] topics directly from the browser.',
 		howTheyWork:
 			'The browser opens a [[websockets|WebSocket]] connection to the [[mqtt|MQTT]] broker (typically on port 8083/8084). [[mqtt|MQTT]] packets are sent as [[websockets|WebSocket]] binary frames, allowing the browser to {{mqtt-publish|publish}}, {{mqtt-subscribe|subscribe}}, and receive messages using standard [[mqtt|MQTT]] semantics. This avoids the need for a custom [[rest|REST]] bridge between the browser and the [[mqtt|MQTT]] broker.',
-		leftRole: '[[mqtt|MQTT]] provides the lightweight pub/sub messaging protocol with {{topic|topic}} hierarchy and QoS levels.',
-		rightRole: '[[websockets|WebSocket]] provides the browser-accessible transport that carries [[mqtt|MQTT]] packets over {{http-method|HTTP}}.'
+		leftRole:
+			'[[mqtt|MQTT]] provides the lightweight pub/sub messaging protocol with {{topic|topic}} hierarchy and QoS levels.',
+		rightRole:
+			'[[websockets|WebSocket]] provides the browser-accessible transport that carries [[mqtt|MQTT]] packets over {{http-method|HTTP}}.'
 	},
 	{
 		ids: ['stomp', 'websockets'],
 		type: 'relationship',
 		summary:
-			'[[stomp|STOMP]] over [[websockets|WebSocket]] allows browser clients to {{mqtt-connect|connect}} to message brokers using [[stomp|STOMP]]\'s simple text-based messaging commands.',
+			"[[stomp|STOMP]] over [[websockets|WebSocket]] allows browser clients to {{mqtt-connect|connect}} to message brokers using [[stomp|STOMP]]'s simple text-based messaging commands.",
 		howTheyWork:
-			'The browser establishes a [[websockets|WebSocket]] connection to the {{broker|message broker}} (e.g., RabbitMQ with [[stomp|STOMP]] plugin, or Spring\'s [[stomp|STOMP]] broker). [[stomp|STOMP]] text frames ({{mqtt-connect|CONNECT}}, SEND, {{mqtt-subscribe|SUBSCRIBE}}, MESSAGE) are sent as [[websockets|WebSocket]] text messages. [[stomp|STOMP]]\'s {{http-method|HTTP}}-like text format makes it especially natural to carry over [[websockets|WebSocket]], requiring minimal client-side code.',
-		leftRole: '[[stomp|STOMP]] provides the text-based messaging commands for sending, subscribing, and acknowledging messages.',
-		rightRole: '[[websockets|WebSocket]] provides the browser-compatible bidirectional channel that carries [[stomp|STOMP]] frames.'
+			"The browser establishes a [[websockets|WebSocket]] connection to the {{broker|message broker}} (e.g., RabbitMQ with [[stomp|STOMP]] plugin, or Spring's [[stomp|STOMP]] broker). [[stomp|STOMP]] text frames ({{mqtt-connect|CONNECT}}, SEND, {{mqtt-subscribe|SUBSCRIBE}}, MESSAGE) are sent as [[websockets|WebSocket]] text messages. [[stomp|STOMP]]'s {{http-method|HTTP}}-like text format makes it especially natural to carry over [[websockets|WebSocket]], requiring minimal client-side code.",
+		leftRole:
+			'[[stomp|STOMP]] provides the text-based messaging commands for sending, subscribing, and acknowledging messages.',
+		rightRole:
+			'[[websockets|WebSocket]] provides the browser-compatible bidirectional channel that carries [[stomp|STOMP]] frames.'
 	},
 	{
 		ids: ['websockets', 'xmpp'],
@@ -1691,8 +2571,10 @@ const relationshipPairs: ProtocolPair[] = [
 			'[[xmpp|XMPP]] over [[websockets|WebSocket]] enables browser-based chat clients to participate in the [[xmpp|XMPP]] network without long-polling hacks like BOSH.',
 		howTheyWork:
 			'The browser opens a [[websockets|WebSocket]] connection to the [[xmpp|XMPP]] server using the [[xmpp|XMPP]] sub-protocol ([[rfc:7395|RFC 7395]]). [[xmpp|XMPP]] stanzas (message, presence, iq) are sent as [[websockets|WebSocket]] text frames, providing the same real-time {{xml|XML}} stream as a native [[tcp|TCP]] [[xmpp|XMPP]] connection. This replaces the older BOSH (Bidirectional-streams Over Synchronous {{http-method|HTTP}}) approach with a cleaner, lower-{{latency|latency}} transport.',
-		leftRole: '[[websockets|WebSocket]] provides the persistent, low-{{latency|latency}} bidirectional transport between browser and [[xmpp|XMPP]] server.',
-		rightRole: '[[xmpp|XMPP]] provides the messaging semantics — presence, roster, stanzas, and {{federation|federation}}.'
+		leftRole:
+			'[[websockets|WebSocket]] provides the persistent, low-{{latency|latency}} bidirectional transport between browser and [[xmpp|XMPP]] server.',
+		rightRole:
+			'[[xmpp|XMPP]] provides the messaging semantics — presence, roster, stanzas, and {{federation|federation}}.'
 	},
 
 	// ── Real-time A/V ────────────────────────────────────────────
@@ -1704,8 +2586,10 @@ const relationshipPairs: ProtocolPair[] = [
 			'[[sdp|SDP]] describes the parameters of an [[rtp|RTP]] session — codecs, {{payload|payload}} types, ports, and addresses — so both endpoints agree on how to send and receive media.',
 		howTheyWork:
 			'Before [[rtp|RTP]] media can flow, endpoints {{exchange|exchange}} [[sdp|SDP]] descriptions (via [[sip|SIP]], [[webrtc|WebRTC]] {{signaling|signaling}}, or other means) that specify the [[ip|IP]] addresses, port numbers, codecs, and {{payload|payload}} type mappings for each media stream. [[rtp|RTP]] then uses these negotiated parameters to deliver audio and video packets between the endpoints.',
-		leftRole: '[[rtp|RTP]] carries the actual audio and video media packets using parameters negotiated by [[sdp|SDP]].',
-		rightRole: '[[sdp|SDP]] describes the session parameters (codecs, ports, addresses) that configure the [[rtp|RTP]] streams.'
+		leftRole:
+			'[[rtp|RTP]] carries the actual audio and video media packets using parameters negotiated by [[sdp|SDP]].',
+		rightRole:
+			'[[sdp|SDP]] describes the session parameters (codecs, ports, addresses) that configure the [[rtp|RTP]] streams.'
 	},
 	{
 		ids: ['rtp', 'sip'],
@@ -1714,8 +2598,10 @@ const relationshipPairs: ProtocolPair[] = [
 			'[[sip|SIP]] establishes and manages call sessions (ringing, answering, hanging up), while [[rtp|RTP]] carries the actual audio and video media during the call.',
 		howTheyWork:
 			'[[sip|SIP]] handles call {{signaling|signaling}} — {{sip-invite|INVITE}} to initiate, 200 OK to accept, BYE to terminate — and carries [[sdp|SDP]] in its message bodies to negotiate media parameters. Once the [[sip|SIP]] {{signaling|signaling}} establishes a session, [[rtp|RTP]] streams flow directly between the media endpoints on the ports and codecs specified by [[sdp|SDP]]. [[sip|SIP]] manages the call lifecycle; [[rtp|RTP]] handles the media.',
-		leftRole: '[[rtp|RTP]] carries the real-time audio and video streams between endpoints during the call.',
-		rightRole: '[[sip|SIP]] provides the {{signaling|signaling}} to establish, modify, and tear down the call session.'
+		leftRole:
+			'[[rtp|RTP]] carries the real-time audio and video streams between endpoints during the call.',
+		rightRole:
+			'[[sip|SIP]] provides the {{signaling|signaling}} to establish, modify, and tear down the call session.'
 	},
 	{
 		ids: ['rtp', 'webrtc'],
@@ -1724,8 +2610,10 @@ const relationshipPairs: ProtocolPair[] = [
 			'[[webrtc|WebRTC]] uses {{srtp|SRTP}} (Secure [[rtp|RTP]]) as its media transport, encrypting all audio and video packets with {{dtls|DTLS}}-derived keys for secure {{peer-to-peer|peer-to-peer}} communication.',
 		howTheyWork:
 			'[[webrtc|WebRTC]] establishes a peer connection using {{ice|ICE}} for {{nat|NAT}} traversal and {{dtls|DTLS}} for key {{exchange|exchange}}. Once the secure channel is established, audio and video are transmitted as {{srtp|SRTP}} packets — [[rtp|RTP]] with {{aes|AES}} {{encryption|encryption}}. [[webrtc|WebRTC]] mandates {{srtp|SRTP}} (not plain [[rtp|RTP]]) to ensure all media is encrypted end-to-end by default.',
-		leftRole: '[[rtp|RTP]] (as {{srtp|SRTP}}) carries the encrypted audio and video packets between [[webrtc|WebRTC]] peers.',
-		rightRole: '[[webrtc|WebRTC]] provides the peer connection framework, {{ice|ICE}} negotiation, and {{dtls|DTLS}} key {{exchange|exchange}} around {{srtp|SRTP}}.'
+		leftRole:
+			'[[rtp|RTP]] (as {{srtp|SRTP}}) carries the encrypted audio and video packets between [[webrtc|WebRTC]] peers.',
+		rightRole:
+			'[[webrtc|WebRTC]] provides the peer connection framework, {{ice|ICE}} negotiation, and {{dtls|DTLS}} key {{exchange|exchange}} around {{srtp|SRTP}}.'
 	},
 	{
 		ids: ['sctp', 'webrtc'],
@@ -1733,9 +2621,11 @@ const relationshipPairs: ProtocolPair[] = [
 		summary:
 			'[[webrtc|WebRTC]] data channels use [[sctp|SCTP]] tunneled over {{dtls|DTLS}} to provide reliable, ordered, and configurable message delivery between peers.',
 		howTheyWork:
-			'[[webrtc|WebRTC]] establishes a {{dtls|DTLS}} connection over the {{ice|ICE}}-negotiated path, then runs [[sctp|SCTP]] on top of that {{dtls|DTLS}} tunnel. Each data channel maps to an [[sctp|SCTP]] stream, and [[sctp|SCTP]]\'s multi-stream support allows independent channels without {{head-of-line-blocking|head-of-line blocking}}. Channels can be configured as reliable/ordered or unreliable/unordered per-channel.',
-		leftRole: '[[sctp|SCTP]] provides the multi-stream, message-oriented transport with configurable reliability for each data channel.',
-		rightRole: '[[webrtc|WebRTC]] provides the peer connection, {{dtls|DTLS}} {{encryption|encryption}}, and {{ice|ICE}} traversal that [[sctp|SCTP]] runs over.'
+			"[[webrtc|WebRTC]] establishes a {{dtls|DTLS}} connection over the {{ice|ICE}}-negotiated path, then runs [[sctp|SCTP]] on top of that {{dtls|DTLS}} tunnel. Each data channel maps to an [[sctp|SCTP]] stream, and [[sctp|SCTP]]'s multi-stream support allows independent channels without {{head-of-line-blocking|head-of-line blocking}}. Channels can be configured as reliable/ordered or unreliable/unordered per-channel.",
+		leftRole:
+			'[[sctp|SCTP]] provides the multi-stream, message-oriented transport with configurable reliability for each data channel.',
+		rightRole:
+			'[[webrtc|WebRTC]] provides the peer connection, {{dtls|DTLS}} {{encryption|encryption}}, and {{ice|ICE}} traversal that [[sctp|SCTP]] runs over.'
 	},
 	{
 		ids: ['sdp', 'sip'],
@@ -1744,8 +2634,10 @@ const relationshipPairs: ProtocolPair[] = [
 			'[[sip|SIP]] carries [[sdp|SDP]] payloads in its {{sip-invite|INVITE}} and response messages to negotiate the media parameters (codecs, ports, addresses) for a call session.',
 		howTheyWork:
 			'When a [[sip|SIP]] client sends an {{sip-invite|INVITE}}, it includes an [[sdp|SDP]] offer in the message body describing its supported codecs, [[ip|IP]] address, and port. The callee responds with a [[sip|SIP]] 200 OK containing an [[sdp|SDP]] answer with its own media capabilities. This offer/answer {{exchange|exchange}} within [[sip|SIP]] messages establishes the agreed-upon parameters for the subsequent [[rtp|RTP]] media streams.',
-		leftRole: '[[sdp|SDP]] provides the session description format that specifies codecs, ports, and media parameters.',
-		rightRole: '[[sip|SIP]] provides the {{signaling|signaling}} protocol that carries [[sdp|SDP]] offers and answers in its messages.'
+		leftRole:
+			'[[sdp|SDP]] provides the session description format that specifies codecs, ports, and media parameters.',
+		rightRole:
+			'[[sip|SIP]] provides the {{signaling|signaling}} protocol that carries [[sdp|SDP]] offers and answers in its messages.'
 	},
 	{
 		ids: ['sdp', 'webrtc'],
@@ -1754,8 +2646,10 @@ const relationshipPairs: ProtocolPair[] = [
 			'[[webrtc|WebRTC]] uses [[sdp|SDP]] in its offer/answer model to negotiate media capabilities, {{ice|ICE}} candidates, and {{dtls|DTLS}} fingerprints between peers.',
 		howTheyWork:
 			'When a [[webrtc|WebRTC]] peer connection is created, the browser generates an [[sdp|SDP]] offer describing supported codecs, {{ice|ICE}} candidates, {{dtls|DTLS}} fingerprints, and media directions. This [[sdp|SDP]] is sent to the remote peer via an application-defined {{signaling|signaling}} channel. The remote peer generates an [[sdp|SDP]] answer, and both sides apply the negotiated parameters to configure their media and data channels.',
-		leftRole: '[[sdp|SDP]] describes the session parameters — codecs, {{ice|ICE}} candidates, and {{dtls|DTLS}} fingerprints — for [[webrtc|WebRTC]] negotiation.',
-		rightRole: '[[webrtc|WebRTC]] provides the peer connection {{api|API}} that generates, exchanges, and applies [[sdp|SDP]] descriptions.'
+		leftRole:
+			'[[sdp|SDP]] describes the session parameters — codecs, {{ice|ICE}} candidates, and {{dtls|DTLS}} fingerprints — for [[webrtc|WebRTC]] negotiation.',
+		rightRole:
+			'[[webrtc|WebRTC]] provides the peer connection {{api|API}} that generates, exchanges, and applies [[sdp|SDP]] descriptions.'
 	},
 
 	// ── Utility / Other ──────────────────────────────────────────
@@ -1767,8 +2661,10 @@ const relationshipPairs: ProtocolPair[] = [
 			'[[dhcp|DHCP]] provides [[dns|DNS]] server addresses to clients as part of network configuration, telling devices where to send their [[dns|DNS]] queries.',
 		howTheyWork:
 			'When a device joins a network, [[dhcp|DHCP]] assigns it an [[ip|IP]] address along with other configuration including the [[dns|DNS]] server addresses (option 6 in DHCPv4). The client then uses these [[dns|DNS]] server addresses for all subsequent name resolution. Without [[dhcp|DHCP]] providing this information, clients would need manually configured [[dns|DNS]] servers.',
-		leftRole: '[[dhcp|DHCP]] provides network configuration including the [[dns|DNS]] server addresses clients should use.',
-		rightRole: '[[dns|DNS]] provides name resolution services at the server addresses distributed by [[dhcp|DHCP]].'
+		leftRole:
+			'[[dhcp|DHCP]] provides network configuration including the [[dns|DNS]] server addresses clients should use.',
+		rightRole:
+			'[[dns|DNS]] provides name resolution services at the server addresses distributed by [[dhcp|DHCP]].'
 	},
 	{
 		ids: ['dns', 'smtp'],
@@ -1777,8 +2673,10 @@ const relationshipPairs: ProtocolPair[] = [
 			'[[smtp|SMTP]] relies on [[dns|DNS]] {{mx-record|MX}} (Mail Exchanger) records to determine which mail server should receive email for a given domain.',
 		howTheyWork:
 			'When an [[smtp|SMTP]] server needs to deliver mail to user@example.com, it queries [[dns|DNS]] for the {{mx-record|MX}} records of example.com. [[dns|DNS]] returns one or more mail server hostnames with priority values. The [[smtp|SMTP]] server then resolves those hostnames to [[ip|IP]] addresses (A/{{aaaa-record|AAAA}} records) and connects to the highest-priority server to deliver the message.',
-		leftRole: '[[dns|DNS]] provides the {{mx-record|MX record}} lookups that map email domains to their mail server hostnames.',
-		rightRole: '[[smtp|SMTP]] uses {{mx-record|MX}} records from [[dns|DNS]] to route and deliver email to the correct destination mail server.'
+		leftRole:
+			'[[dns|DNS]] provides the {{mx-record|MX record}} lookups that map email domains to their mail server hostnames.',
+		rightRole:
+			'[[smtp|SMTP]] uses {{mx-record|MX}} records from [[dns|DNS]] to route and deliver email to the correct destination mail server.'
 	},
 	{
 		ids: ['ftp', 'ssh'],
@@ -1787,18 +2685,22 @@ const relationshipPairs: ProtocolPair[] = [
 			'{{sftp|SFTP}} ([[ssh|SSH]] File Transfer Protocol) runs entirely within an [[ssh|SSH]] channel, providing encrypted file transfer with strong authentication as a secure replacement for [[ftp|FTP]].',
 		howTheyWork:
 			'{{sftp|SFTP}} is a subsystem of [[ssh|SSH]], not a variant of [[ftp|FTP]] — it uses a completely different binary protocol. The client establishes an [[ssh|SSH]] connection with key-based or password authentication, then opens an {{sftp|SFTP}} subsystem channel. All file operations (list, upload, download, rename, delete) are sent as binary {{sftp|SFTP}} packets within the encrypted [[ssh|SSH]] tunnel on a single port (22).',
-		leftRole: '[[ftp|FTP]]-style file operations (list, get, put, delete) are provided by the {{sftp|SFTP}} subsystem within [[ssh|SSH]].',
-		rightRole: '[[ssh|SSH]] provides the encrypted tunnel, authentication, and channel {{multiplexing|multiplexing}} that {{sftp|SFTP}} runs inside.'
+		leftRole:
+			'[[ftp|FTP]]-style file operations (list, get, put, delete) are provided by the {{sftp|SFTP}} subsystem within [[ssh|SSH]].',
+		rightRole:
+			'[[ssh|SSH]] provides the encrypted tunnel, authentication, and channel {{multiplexing|multiplexing}} that {{sftp|SFTP}} runs inside.'
 	},
 	{
 		ids: ['http3', 'quic'],
 		type: 'relationship',
 		summary:
-			'[[http3|HTTP/3]] is the first major protocol built specifically for [[quic|QUIC]], mapping {{http-method|HTTP}} semantics onto [[quic|QUIC]]\'s multiplexed, encrypted streams for head-of-line-blocking-free web delivery.',
+			"[[http3|HTTP/3]] is the first major protocol built specifically for [[quic|QUIC]], mapping {{http-method|HTTP}} semantics onto [[quic|QUIC]]'s multiplexed, encrypted streams for head-of-line-blocking-free web delivery.",
 		howTheyWork:
 			'[[http3|HTTP/3]] maps each {{request-response|request-response}} {{exchange|exchange}} to an independent [[quic|QUIC]] stream. [[quic|QUIC]] provides reliable, ordered delivery per-stream with [[tls|TLS]] 1.3 {{encryption|encryption}}, {{connection-migration|connection migration}}, and {{zero-rtt|0-RTT}} resumption. Unlike [[http2|HTTP/2]] over [[tcp|TCP]], losing a packet on one stream does not block others — each [[quic|QUIC]] stream is independently reliable.',
-		leftRole: '[[http3|HTTP/3]] provides the {{http-method|HTTP}} semantics (methods, headers, status codes) and {{qpack|QPACK}} header compression.',
-		rightRole: '[[quic|QUIC]] provides the multiplexed, encrypted transport with per-stream reliability and fast connection setup.'
+		leftRole:
+			'[[http3|HTTP/3]] provides the {{http-method|HTTP}} semantics (methods, headers, status codes) and {{qpack|QPACK}} header compression.',
+		rightRole:
+			'[[quic|QUIC]] provides the multiplexed, encrypted transport with per-stream reliability and fast connection setup.'
 	},
 	{
 		ids: ['quic', 'tcp'],
@@ -1806,9 +2708,11 @@ const relationshipPairs: ProtocolPair[] = [
 		summary:
 			'[[quic|QUIC]] is designed as a modern replacement for the [[tcp|TCP]]+[[tls|TLS]] stack, providing reliable, multiplexed, encrypted transport over [[udp|UDP]] with faster connection setup.',
 		howTheyWork:
-			'[[quic|QUIC]] implements the reliability, ordering, and {{congestion-control|congestion control}} features of [[tcp|TCP]] but runs over [[udp|UDP]] datagrams to avoid kernel-level [[tcp|TCP]] limitations and middlebox interference. It integrates [[tls|TLS]] 1.3 directly into its {{handshake|handshake}} (achieving {{one-rtt|1-RTT}} or {{zero-rtt|0-RTT}} setup) and provides independent stream {{multiplexing|multiplexing}} that eliminates [[tcp|TCP]]\'s {{head-of-line-blocking|head-of-line blocking}} problem.',
-		leftRole: '[[quic|QUIC]] provides the modern multiplexed, encrypted transport that aims to supersede [[tcp|TCP]]+[[tls|TLS]].',
-		rightRole: '[[tcp|TCP]] provides the traditional reliable transport that [[quic|QUIC]] was designed to replace and improve upon.'
+			"[[quic|QUIC]] implements the reliability, ordering, and {{congestion-control|congestion control}} features of [[tcp|TCP]] but runs over [[udp|UDP]] datagrams to avoid kernel-level [[tcp|TCP]] limitations and middlebox interference. It integrates [[tls|TLS]] 1.3 directly into its {{handshake|handshake}} (achieving {{one-rtt|1-RTT}} or {{zero-rtt|0-RTT}} setup) and provides independent stream {{multiplexing|multiplexing}} that eliminates [[tcp|TCP]]'s {{head-of-line-blocking|head-of-line blocking}} problem.",
+		leftRole:
+			'[[quic|QUIC]] provides the modern multiplexed, encrypted transport that aims to supersede [[tcp|TCP]]+[[tls|TLS]].',
+		rightRole:
+			'[[tcp|TCP]] provides the traditional reliable transport that [[quic|QUIC]] was designed to replace and improve upon.'
 	},
 	{
 		ids: ['rest', 'sse'],
@@ -1816,9 +2720,11 @@ const relationshipPairs: ProtocolPair[] = [
 		summary:
 			'[[sse|SSE]] is commonly used within [[rest|REST]] APIs to add a server-push capability, streaming real-time updates to clients over a standard {{http-method|HTTP}} connection.',
 		howTheyWork:
-			'A [[rest|REST]] {{api|API}} exposes an [[sse|SSE]] endpoint (e.g., GET /events) that returns a text/event-stream response. The client connects using the {{eventsource|EventSource API}} and receives server-pushed events as they occur, while continuing to use regular [[rest|REST]] endpoints for queries and mutations. [[sse|SSE]] complements [[rest|REST]]\'s {{request-response|request-response}} model by adding unidirectional real-time updates.',
-		leftRole: '[[rest|REST]] provides the {{request-response|request-response}} {{api|API}} structure that [[sse|SSE]] endpoints are integrated into.',
-		rightRole: '[[sse|SSE]] provides the server-push streaming mechanism that extends [[rest|REST]] with real-time event delivery.'
+			"A [[rest|REST]] {{api|API}} exposes an [[sse|SSE]] endpoint (e.g., GET /events) that returns a text/event-stream response. The client connects using the {{eventsource|EventSource API}} and receives server-pushed events as they occur, while continuing to use regular [[rest|REST]] endpoints for queries and mutations. [[sse|SSE]] complements [[rest|REST]]'s {{request-response|request-response}} model by adding unidirectional real-time updates.",
+		leftRole:
+			'[[rest|REST]] provides the {{request-response|request-response}} {{api|API}} structure that [[sse|SSE]] endpoints are integrated into.',
+		rightRole:
+			'[[sse|SSE]] provides the server-push streaming mechanism that extends [[rest|REST]] with real-time event delivery.'
 	},
 
 	// ── BGP relationships ───────────────────────────────────────
@@ -1827,9 +2733,9 @@ const relationshipPairs: ProtocolPair[] = [
 		ids: ['bgp', 'tcp'],
 		type: 'relationship',
 		summary:
-			'[[bgp|BGP]] runs over [[tcp|TCP]] port 179, relying on [[tcp|TCP]]\'s reliable delivery to guarantee that routing updates are never lost, duplicated, or reordered between autonomous systems.',
+			"[[bgp|BGP]] runs over [[tcp|TCP]] port 179, relying on [[tcp|TCP]]'s reliable delivery to guarantee that routing updates are never lost, duplicated, or reordered between autonomous systems.",
 		howTheyWork:
-			'[[bgp|BGP]] peers establish a [[tcp|TCP]] connection on port 179 before exchanging OPEN messages. All subsequent {{bgp-update|UPDATE}}, {{bgp-keepalive|KEEPALIVE}}, and {{notification|NOTIFICATION}} messages flow over this persistent [[tcp|TCP]] connection. [[tcp|TCP]]\'s reliability is critical because a lost route announcement could create routing loops or black holes in the internet.',
+			"[[bgp|BGP]] peers establish a [[tcp|TCP]] connection on port 179 before exchanging OPEN messages. All subsequent {{bgp-update|UPDATE}}, {{bgp-keepalive|KEEPALIVE}}, and {{notification|NOTIFICATION}} messages flow over this persistent [[tcp|TCP]] connection. [[tcp|TCP]]'s reliability is critical because a lost route announcement could create routing loops or black holes in the internet.",
 		leftRole:
 			'[[bgp|BGP]] provides the routing logic — path selection, {{autonomous-system|AS}} path attributes, and network reachability advertisements between autonomous systems.',
 		rightRole:
@@ -1839,7 +2745,7 @@ const relationshipPairs: ProtocolPair[] = [
 		ids: ['bgp', 'dns'],
 		type: 'relationship',
 		summary:
-			'[[bgp|BGP]] determines how [[ip|IP]] packets are routed between networks, while [[dns|DNS]] translates domain names to the [[ip|IP]] addresses that [[bgp|BGP]] routes. Together they form the internet\'s addressing and reachability system.',
+			"[[bgp|BGP]] determines how [[ip|IP]] packets are routed between networks, while [[dns|DNS]] translates domain names to the [[ip|IP]] addresses that [[bgp|BGP]] routes. Together they form the internet's addressing and reachability system.",
 		howTheyWork:
 			'[[dns|DNS]] resolves domain names to [[ip|IP]] addresses, and [[bgp|BGP]] determines how to reach those [[ip|IP]] addresses across {{autonomous-system|autonomous system}} boundaries. When a [[dns|DNS]] query returns an [[ip|IP]], the packets follow [[bgp|BGP]]-established routes to reach it. [[dns|DNS]] {{anycast|anycast}} relies on [[bgp|BGP]] to advertise the same [[ip|IP]] prefix from multiple geographic locations.',
 		leftRole:
@@ -1868,7 +2774,7 @@ const relationshipPairs: ProtocolPair[] = [
 		summary:
 			'[[icmp|ICMP]] reports network-level errors for [[tcp|TCP]] connections — when a [[tcp|TCP]] segment cannot be delivered, an [[icmp|ICMP]] Destination Unreachable message tells the sender why.',
 		howTheyWork:
-			'When a [[tcp|TCP]] {{syn-cookies|SYN}} reaches a host with no listening service, the host sends back [[icmp|ICMP]] Port Unreachable (Type 3, Code 3). When a router can\'t forward a [[tcp|TCP]] packet, it sends [[icmp|ICMP]] Network Unreachable. [[tcp|TCP]] {{path-mtu-discovery|Path MTU Discovery}} relies on [[icmp|ICMP]] Packet Too Big messages to determine the {{mss|maximum segment size}} without {{fragmentation|fragmentation}}.',
+			"When a [[tcp|TCP]] {{syn-cookies|SYN}} reaches a host with no listening service, the host sends back [[icmp|ICMP]] Port Unreachable (Type 3, Code 3). When a router can't forward a [[tcp|TCP]] packet, it sends [[icmp|ICMP]] Network Unreachable. [[tcp|TCP]] {{path-mtu-discovery|Path MTU Discovery}} relies on [[icmp|ICMP]] Packet Too Big messages to determine the {{mss|maximum segment size}} without {{fragmentation|fragmentation}}.",
 		leftRole:
 			'[[icmp|ICMP]] provides error reporting and diagnostics — notifying [[tcp|TCP]] of unreachable destinations, {{ttl|TTL}} expiry, and {{mtu|MTU}} constraints.',
 		rightRole:
@@ -1883,11 +2789,11 @@ const relationshipPairs: ProtocolPair[] = [
 		summary:
 			'[[imap|IMAP]] uses [[tcp|TCP]] for reliable delivery of email commands, message data, and mailbox state synchronization between clients and servers.',
 		howTheyWork:
-			'An [[imap|IMAP]] client opens a [[tcp|TCP]] connection to the mail server on port 993 (with [[tls|TLS]]) or 143 (plaintext). The tagged command-response protocol requires [[tcp|TCP]]\'s reliable, ordered delivery to ensure command tags match responses correctly. [[imap|IMAP]]\'s {{imap-idle|IDLE}} mode keeps the [[tcp|TCP]] connection open for real-time server-push notifications.',
+			"An [[imap|IMAP]] client opens a [[tcp|TCP]] connection to the mail server on port 993 (with [[tls|TLS]]) or 143 (plaintext). The tagged command-response protocol requires [[tcp|TCP]]'s reliable, ordered delivery to ensure command tags match responses correctly. [[imap|IMAP]]'s {{imap-idle|IDLE}} mode keeps the [[tcp|TCP]] connection open for real-time server-push notifications.",
 		leftRole:
 			'[[imap|IMAP]] provides the email retrieval protocol — mailbox selection, message fetching, searching, and flag management.',
 		rightRole:
-			'[[tcp|TCP]] provides the reliable, persistent connection that [[imap|IMAP]]\'s {{stateful|stateful}}, tagged command-response dialogue requires.'
+			"[[tcp|TCP]] provides the reliable, persistent connection that [[imap|IMAP]]'s {{stateful|stateful}}, tagged command-response dialogue requires."
 	},
 	{
 		ids: ['imap', 'tls'],
@@ -1910,7 +2816,7 @@ const relationshipPairs: ProtocolPair[] = [
 		summary:
 			'[[arp|ARP]] resolves [[ip|IP]] addresses to {{mac-address|MAC}} addresses so that [[ethernet|Ethernet]] frames can be addressed correctly on the local network.',
 		howTheyWork:
-			'When a host needs to send an [[ip|IP]] packet to a local destination, it first checks its [[arp|ARP]] cache for the destination\'s {{mac-address|MAC address}}. On a cache miss, it broadcasts an [[arp|ARP]] Request (EtherType 0x0806) to all devices on the [[ethernet|Ethernet]] segment. The target host replies with its {{mac-address|MAC address}}, which is cached for future [[ethernet|Ethernet]] frame construction.',
+			"When a host needs to send an [[ip|IP]] packet to a local destination, it first checks its [[arp|ARP]] cache for the destination's {{mac-address|MAC address}}. On a cache miss, it broadcasts an [[arp|ARP]] Request (EtherType 0x0806) to all devices on the [[ethernet|Ethernet]] segment. The target host replies with its {{mac-address|MAC address}}, which is cached for future [[ethernet|Ethernet]] frame construction.",
 		leftRole:
 			'[[arp|ARP]] provides the [[ip|IP]]-to-{{mac-address|MAC}} resolution mechanism that makes [[ethernet|Ethernet]] delivery possible for [[ip|IP]] traffic.',
 		rightRole:
@@ -1924,7 +2830,7 @@ const relationshipPairs: ProtocolPair[] = [
 		howTheyWork:
 			'[[ip|IP]] provides logical addressing for routing packets across networks, but the last hop to the destination requires a physical {{mac-address|MAC address}}. [[arp|ARP]] translates the destination [[ip|IP]] address to the corresponding {{mac-address|MAC address}} on the local segment. Without [[arp|ARP]], [[ip|IP]] packets could be routed to the correct network but never delivered to the correct host.',
 		leftRole:
-			'[[arp|ARP]] resolves [[ip|IP]]\'s logical addresses to the hardware addresses needed for local delivery.',
+			"[[arp|ARP]] resolves [[ip|IP]]'s logical addresses to the hardware addresses needed for local delivery.",
 		rightRole:
 			'[[ip|IP]] provides the logical addressing that [[arp|ARP]] resolves — every [[arp|ARP]] request asks "who has this [[ip|IP]] address?"'
 	},
@@ -1932,13 +2838,13 @@ const relationshipPairs: ProtocolPair[] = [
 		ids: ['ip', 'ethernet'],
 		type: 'relationship',
 		summary:
-			'[[ip|IP]] packets are encapsulated inside [[ethernet|Ethernet]] frames for delivery on local networks — [[ethernet|Ethernet]] is [[ip|IP]]\'s Layer 2 carrier on wired LANs.',
+			"[[ip|IP]] packets are encapsulated inside [[ethernet|Ethernet]] frames for delivery on local networks — [[ethernet|Ethernet]] is [[ip|IP]]'s Layer 2 carrier on wired LANs.",
 		howTheyWork:
-			'When an [[ip|IP]] packet needs to traverse a local [[ethernet|Ethernet]] segment, it is placed inside an [[ethernet|Ethernet]] frame (EtherType 0x0800 for [[ip|IPv4]]). The [[ethernet|Ethernet]] frame\'s destination {{mac-address|MAC}} is either the final host (if local) or the {{default-gateway|default gateway}} router. At each router hop, the [[ip|IP]] header stays the same but the [[ethernet|Ethernet]] frame is stripped and rebuilt with new {{mac-address|MAC}} addresses.',
+			"When an [[ip|IP]] packet needs to traverse a local [[ethernet|Ethernet]] segment, it is placed inside an [[ethernet|Ethernet]] frame (EtherType 0x0800 for [[ip|IPv4]]). The [[ethernet|Ethernet]] frame's destination {{mac-address|MAC}} is either the final host (if local) or the {{default-gateway|default gateway}} router. At each router hop, the [[ip|IP]] header stays the same but the [[ethernet|Ethernet]] frame is stripped and rebuilt with new {{mac-address|MAC}} addresses.",
 		leftRole:
 			'[[ip|IP]] provides logical addressing, routing decisions, and {{ttl|TTL}} management for end-to-end packet delivery.',
 		rightRole:
-			'[[ethernet|Ethernet]] provides the physical framing and {{mac-address|MAC}}-based delivery for each hop of the [[ip|IP]] packet\'s journey.'
+			"[[ethernet|Ethernet]] provides the physical framing and {{mac-address|MAC}}-based delivery for each hop of the [[ip|IP]] packet's journey."
 	},
 	{
 		ids: ['ip', 'wifi'],
@@ -1956,13 +2862,13 @@ const relationshipPairs: ProtocolPair[] = [
 		ids: ['ip', 'tcp'],
 		type: 'relationship',
 		summary:
-			'[[tcp|TCP]] provides reliable, ordered streams on top of [[ip|IP]]\'s best-effort packet delivery — together they form [[tcp|TCP]]/[[ip|IP]], the foundation of the internet.',
+			"[[tcp|TCP]] provides reliable, ordered streams on top of [[ip|IP]]'s best-effort packet delivery — together they form [[tcp|TCP]]/[[ip|IP]], the foundation of the internet.",
 		howTheyWork:
 			'[[ip|IP]] handles addressing and routing packets between {{hosts-bare|hosts}}, but provides no guarantees about delivery, ordering, or duplication. [[tcp|TCP]] adds reliability on top: sequence numbers track byte order, acknowledgments confirm delivery, and {{retransmission|retransmission}} recovers lost packets. Every [[tcp|TCP]] segment is encapsulated in an [[ip|IP]] packet (protocol number 6).',
 		leftRole:
 			'[[ip|IP]] provides the addressing and hop-by-hop routing that delivers packets across networks.',
 		rightRole:
-			'[[tcp|TCP]] provides reliable, ordered, {{connection-oriented|connection-oriented}} byte streams over [[ip|IP]]\'s unreliable datagram service.'
+			"[[tcp|TCP]] provides reliable, ordered, {{connection-oriented|connection-oriented}} byte streams over [[ip|IP]]'s unreliable datagram service."
 	},
 	{
 		ids: ['ip', 'udp'],
@@ -1980,13 +2886,13 @@ const relationshipPairs: ProtocolPair[] = [
 		ids: ['ip', 'icmp'],
 		type: 'relationship',
 		summary:
-			'[[icmp|ICMP]] is [[ip|IP]]\'s diagnostic companion — it reports routing errors, measures reachability, and discovers path {{mtu|MTU}}, all encapsulated directly in [[ip|IP]] packets.',
+			"[[icmp|ICMP]] is [[ip|IP]]'s diagnostic companion — it reports routing errors, measures reachability, and discovers path {{mtu|MTU}}, all encapsulated directly in [[ip|IP]] packets.",
 		howTheyWork:
-			'[[icmp|ICMP]] messages are encapsulated in [[ip|IP]] packets with protocol number 1 (not [[tcp|TCP]] or [[udp|UDP]]). When a router can\'t deliver an [[ip|IP]] packet ({{ttl|TTL}} expired, destination unreachable, {{fragmentation|fragmentation}} needed), it sends an [[icmp|ICMP]] message back to the sender. Ping ({{echo-request|Echo Request}}/Reply) and {{traceroute|traceroute}} ({{ttl|TTL}}-based hop discovery) are the most common [[icmp|ICMP]] operations.',
+			"[[icmp|ICMP]] messages are encapsulated in [[ip|IP]] packets with protocol number 1 (not [[tcp|TCP]] or [[udp|UDP]]). When a router can't deliver an [[ip|IP]] packet ({{ttl|TTL}} expired, destination unreachable, {{fragmentation|fragmentation}} needed), it sends an [[icmp|ICMP]] message back to the sender. Ping ({{echo-request|Echo Request}}/Reply) and {{traceroute|traceroute}} ({{ttl|TTL}}-based hop discovery) are the most common [[icmp|ICMP]] operations.",
 		leftRole:
 			'[[ip|IP]] provides the packet delivery that [[icmp|ICMP]] both rides on and diagnoses problems within.',
 		rightRole:
-			'[[icmp|ICMP]] provides error reporting and diagnostics for [[ip|IP]]\'s routing infrastructure.'
+			"[[icmp|ICMP]] provides error reporting and diagnostics for [[ip|IP]]'s routing infrastructure."
 	},
 
 	// ── JSON-RPC relationships ──────────────────────────────────
@@ -1998,8 +2904,10 @@ const relationshipPairs: ProtocolPair[] = [
 			'[[json-rpc|JSON-RPC]] commonly rides over [[http1|HTTP]] POST — the {{http-method|HTTP}} layer handles transport while [[json-rpc|JSON-RPC]] defines the structured method-call semantics inside the body.',
 		howTheyWork:
 			'The client sends a [[json-rpc|JSON-RPC]] request as the body of an [[http1|HTTP]] POST to a single endpoint (e.g., /rpc). The {{content-type|Content-Type}} is application/json. The server processes the [[json-rpc|JSON-RPC]] call and returns the result in the {{http-method|HTTP}} response body. Unlike [[rest|REST]], the {{http-method|HTTP method}} is always POST and the {{url|URL}} is always the same — all routing happens via the method field inside the {{json|JSON}}.',
-		leftRole: '[[http1|HTTP]] provides the {{request-response|request-response}} transport, connection management, and [[tls|TLS]] {{encryption|encryption}} for [[json-rpc|JSON-RPC]] calls.',
-		rightRole: '[[json-rpc|JSON-RPC]] provides the method dispatch, parameter passing, error handling, and batch semantics inside the {{http-method|HTTP}} body.'
+		leftRole:
+			'[[http1|HTTP]] provides the {{request-response|request-response}} transport, connection management, and [[tls|TLS]] {{encryption|encryption}} for [[json-rpc|JSON-RPC]] calls.',
+		rightRole:
+			'[[json-rpc|JSON-RPC]] provides the method dispatch, parameter passing, error handling, and batch semantics inside the {{http-method|HTTP}} body.'
 	},
 	{
 		ids: ['json-rpc', 'websockets'],
@@ -2008,18 +2916,22 @@ const relationshipPairs: ProtocolPair[] = [
 			'[[json-rpc|JSON-RPC]] over [[websockets|WebSockets]] enables bidirectional {{rpc|RPC}} — both client and server can initiate method calls and send notifications over the persistent connection.',
 		howTheyWork:
 			'After the [[websockets|WebSocket]] {{handshake|handshake}} upgrades the {{http-method|HTTP}} connection, both sides can send [[json-rpc|JSON-RPC]] messages at any time. The client sends requests; the server responds. But the server can also send notifications (no id) or even its own requests to the client — something impossible over plain {{http-method|HTTP}}. This is how {{lsp|Language Server Protocol}} (LSP) sends diagnostics and how [[mcp|MCP]] servers push progress updates.',
-		leftRole: '[[json-rpc|JSON-RPC]] provides the structured call semantics — method names, parameters, results, errors, and notifications.',
-		rightRole: '[[websockets|WebSockets]] provides the persistent, {{full-duplex|full-duplex}} transport that enables server-initiated [[json-rpc|JSON-RPC]] messages.'
+		leftRole:
+			'[[json-rpc|JSON-RPC]] provides the structured call semantics — method names, parameters, results, errors, and notifications.',
+		rightRole:
+			'[[websockets|WebSockets]] provides the persistent, {{full-duplex|full-duplex}} transport that enables server-initiated [[json-rpc|JSON-RPC]] messages.'
 	},
 	{
 		ids: ['json-rpc', 'sse'],
 		type: 'relationship',
 		summary:
-			'[[json-rpc|JSON-RPC]] can use [[sse|SSE]] for streaming server responses — the client sends requests via {{http-method|HTTP}} POST and receives streamed results as server-sent events, as used by [[mcp|MCP]]\'s Streamable {{http-method|HTTP}} transport.',
+			"[[json-rpc|JSON-RPC]] can use [[sse|SSE]] for streaming server responses — the client sends requests via {{http-method|HTTP}} POST and receives streamed results as server-sent events, as used by [[mcp|MCP]]'s Streamable {{http-method|HTTP}} transport.",
 		howTheyWork:
-			'In [[mcp|MCP]]\'s Streamable {{http-method|HTTP}} transport, a client sends a [[json-rpc|JSON-RPC]] request as an {{http-method|HTTP}} POST. The server can respond with a normal {{json|JSON}} response or upgrade to an [[sse|SSE]] stream ({{content-type|Content-Type}}: text/event-stream), sending incremental results and notifications as events. This gives [[json-rpc|JSON-RPC]] streaming capabilities without requiring a full [[websockets|WebSocket]] connection.',
-		leftRole: '[[json-rpc|JSON-RPC]] provides the method-call structure and request/response correlation via the id field.',
-		rightRole: '[[sse|SSE]] provides the server-push streaming mechanism for delivering incremental [[json-rpc|JSON-RPC]] results and notifications.'
+			"In [[mcp|MCP]]'s Streamable {{http-method|HTTP}} transport, a client sends a [[json-rpc|JSON-RPC]] request as an {{http-method|HTTP}} POST. The server can respond with a normal {{json|JSON}} response or upgrade to an [[sse|SSE]] stream ({{content-type|Content-Type}}: text/event-stream), sending incremental results and notifications as events. This gives [[json-rpc|JSON-RPC]] streaming capabilities without requiring a full [[websockets|WebSocket]] connection.",
+		leftRole:
+			'[[json-rpc|JSON-RPC]] provides the method-call structure and request/response correlation via the id field.',
+		rightRole:
+			'[[sse|SSE]] provides the server-push streaming mechanism for delivering incremental [[json-rpc|JSON-RPC]] results and notifications.'
 	},
 
 	// ── MCP relationships ──────────────────────────────────────
@@ -2030,29 +2942,35 @@ const relationshipPairs: ProtocolPair[] = [
 		summary:
 			'[[mcp|MCP]] uses [[json-rpc|JSON-RPC]] 2.0 as its wire format — every [[mcp|MCP]] message (initialize, tools/call, notifications) is a [[json-rpc|JSON-RPC]] request, response, or {{notification|notification}}.',
 		howTheyWork:
-			'[[mcp|MCP]] defines the method names (initialize, tools/list, tools/call, resources/read) and their parameter schemas, while [[json-rpc|JSON-RPC]] provides the framing — the id field for {{request-response|request-response}} correlation, the error object format, and the {{notification|notification}} pattern (no id = no response). [[mcp|MCP]]\'s three-step {{handshake|handshake}} is three [[json-rpc|JSON-RPC]] messages: a request, a response, and a {{notification|notification}}.',
-		leftRole: '[[json-rpc|JSON-RPC]] provides the wire format — request/response correlation, error codes, notifications, and transport-agnostic framing.',
-		rightRole: '[[mcp|MCP]] defines the semantic methods (tools, resources, prompts, {{sampling|sampling}}) and their parameter schemas on top of [[json-rpc|JSON-RPC]].'
+			"[[mcp|MCP]] defines the method names (initialize, tools/list, tools/call, resources/read) and their parameter schemas, while [[json-rpc|JSON-RPC]] provides the framing — the id field for {{request-response|request-response}} correlation, the error object format, and the {{notification|notification}} pattern (no id = no response). [[mcp|MCP]]'s three-step {{handshake|handshake}} is three [[json-rpc|JSON-RPC]] messages: a request, a response, and a {{notification|notification}}.",
+		leftRole:
+			'[[json-rpc|JSON-RPC]] provides the wire format — request/response correlation, error codes, notifications, and transport-agnostic framing.',
+		rightRole:
+			'[[mcp|MCP]] defines the semantic methods (tools, resources, prompts, {{sampling|sampling}}) and their parameter schemas on top of [[json-rpc|JSON-RPC]].'
 	},
 	{
 		ids: ['http1', 'mcp'],
 		type: 'relationship',
 		summary:
-			'[[mcp|MCP]]\'s Streamable {{http-method|HTTP}} transport uses [[http1|HTTP]] POST for sending [[json-rpc|JSON-RPC]] messages, with optional [[sse|SSE]] upgrade for streaming responses.',
+			"[[mcp|MCP]]'s Streamable {{http-method|HTTP}} transport uses [[http1|HTTP]] POST for sending [[json-rpc|JSON-RPC]] messages, with optional [[sse|SSE]] upgrade for streaming responses.",
 		howTheyWork:
 			'In Streamable {{http-method|HTTP}} mode, the [[mcp|MCP]] client sends [[json-rpc|JSON-RPC]] requests as [[http1|HTTP]] POST bodies to a single endpoint (e.g., /mcp). The server can respond with a plain {{json|JSON}} response or upgrade to an [[sse|SSE]] stream for incremental results. The server assigns a session {{id-identifier|ID}} via the Mcp-Session-Id header for {{stateful|stateful}} session management.',
-		leftRole: '[[http1|HTTP]] provides the {{request-response|request-response}} transport and connection management for remote [[mcp|MCP]] servers.',
-		rightRole: '[[mcp|MCP]] defines the [[json-rpc|JSON-RPC]] methods and session semantics carried inside {{http-method|HTTP}} requests.'
+		leftRole:
+			'[[http1|HTTP]] provides the {{request-response|request-response}} transport and connection management for remote [[mcp|MCP]] servers.',
+		rightRole:
+			'[[mcp|MCP]] defines the [[json-rpc|JSON-RPC]] methods and session semantics carried inside {{http-method|HTTP}} requests.'
 	},
 	{
 		ids: ['mcp', 'sse'],
 		type: 'relationship',
 		summary:
-			'[[mcp|MCP]]\'s Streamable {{http-method|HTTP}} transport uses [[sse|SSE]] to stream incremental tool results and server notifications back to the client.',
+			"[[mcp|MCP]]'s Streamable {{http-method|HTTP}} transport uses [[sse|SSE]] to stream incremental tool results and server notifications back to the client.",
 		howTheyWork:
-			'When an [[mcp|MCP]] server needs to stream results (e.g., a long-running tool or progress updates), it responds to the client\'s {{http-method|HTTP}} POST with {{content-type|Content-Type}}: text/event-stream instead of application/json. The server then sends [[json-rpc|JSON-RPC]] responses and notifications as [[sse|SSE]] events. This gives [[mcp|MCP]] streaming capabilities without requiring a persistent [[websockets|WebSocket]] connection.',
-		leftRole: '[[mcp|MCP]] defines the [[json-rpc|JSON-RPC]] messages (progress notifications, partial results) that are streamed as events.',
-		rightRole: '[[sse|SSE]] provides the {{http-method|HTTP}}-based streaming mechanism that delivers incremental [[mcp|MCP]] results to the client.'
+			"When an [[mcp|MCP]] server needs to stream results (e.g., a long-running tool or progress updates), it responds to the client's {{http-method|HTTP}} POST with {{content-type|Content-Type}}: text/event-stream instead of application/json. The server then sends [[json-rpc|JSON-RPC]] responses and notifications as [[sse|SSE]] events. This gives [[mcp|MCP]] streaming capabilities without requiring a persistent [[websockets|WebSocket]] connection.",
+		leftRole:
+			'[[mcp|MCP]] defines the [[json-rpc|JSON-RPC]] messages (progress notifications, partial results) that are streamed as events.',
+		rightRole:
+			'[[sse|SSE]] provides the {{http-method|HTTP}}-based streaming mechanism that delivers incremental [[mcp|MCP]] results to the client.'
 	},
 
 	// ── A2A relationships ──────────────────────────────────────
@@ -2063,9 +2981,11 @@ const relationshipPairs: ProtocolPair[] = [
 		summary:
 			'[[a2a|A2A]] uses [[json-rpc|JSON-RPC]] 2.0 as its wire format — agent messages (message/send, message/stream) are [[json-rpc|JSON-RPC]] requests, and task results are [[json-rpc|JSON-RPC]] responses.',
 		howTheyWork:
-			'[[a2a|A2A]] defines the method names (message/send, message/stream) and their parameter schemas, while [[json-rpc|JSON-RPC]] provides the wire framing. The [[a2a|A2A]] client sends a [[json-rpc|JSON-RPC]] request with a user message, and the server responds with a Task object containing status and artifacts. [[json-rpc|JSON-RPC]]\'s id field correlates multi-turn conversations.',
-		leftRole: '[[a2a|A2A]] defines the agent communication semantics — messages, tasks, parts, artifacts, and the task lifecycle state machine.',
-		rightRole: '[[json-rpc|JSON-RPC]] provides the request/response framing, error handling, and {{notification|notification}} support for [[a2a|A2A]] messages.'
+			"[[a2a|A2A]] defines the method names (message/send, message/stream) and their parameter schemas, while [[json-rpc|JSON-RPC]] provides the wire framing. The [[a2a|A2A]] client sends a [[json-rpc|JSON-RPC]] request with a user message, and the server responds with a Task object containing status and artifacts. [[json-rpc|JSON-RPC]]'s id field correlates multi-turn conversations.",
+		leftRole:
+			'[[a2a|A2A]] defines the agent communication semantics — messages, tasks, parts, artifacts, and the task lifecycle state machine.',
+		rightRole:
+			'[[json-rpc|JSON-RPC]] provides the request/response framing, error handling, and {{notification|notification}} support for [[a2a|A2A]] messages.'
 	},
 	{
 		ids: ['a2a', 'http1'],
@@ -2074,8 +2994,10 @@ const relationshipPairs: ProtocolPair[] = [
 			'[[a2a|A2A]] runs entirely over [[http1|HTTP]] — agent discovery (GET /.well-known/agent.json), task communication (POST), and push notifications (webhooks) all use standard {{http-method|HTTP}}.',
 		howTheyWork:
 			'Agent Cards are served as static {{json|JSON}} at the well-known {{http-method|HTTP}} {{url|URL}}. Task messages are sent as [[json-rpc|JSON-RPC]] payloads in {{http-method|HTTP}} POST requests. For streaming, the server responds with {{content-type|Content-Type}}: text/event-stream ([[sse|SSE]]). Push notifications use {{http-method|HTTP}} POST to a client-provided webhook {{url|URL}}. All communication is standard {{http-method|HTTP}} that works through proxies, load balancers, and CDNs.',
-		leftRole: '[[a2a|A2A]] defines the agent discovery, task management, and collaboration semantics layered on {{http-method|HTTP}}.',
-		rightRole: '[[http1|HTTP]] provides the universal transport — GET for discovery, POST for messages, [[sse|SSE]] for streaming, webhooks for push.'
+		leftRole:
+			'[[a2a|A2A]] defines the agent discovery, task management, and collaboration semantics layered on {{http-method|HTTP}}.',
+		rightRole:
+			'[[http1|HTTP]] provides the universal transport — GET for discovery, POST for messages, [[sse|SSE]] for streaming, webhooks for push.'
 	},
 	{
 		ids: ['a2a', 'sse'],
@@ -2084,8 +3006,10 @@ const relationshipPairs: ProtocolPair[] = [
 			'[[a2a|A2A]] uses [[sse|SSE]] to stream task status updates and artifact delivery in real-time via the message/stream method.',
 		howTheyWork:
 			'When a client calls message/stream instead of message/send, the [[a2a|A2A]] server responds with a text/event-stream. As the agent works, it pushes TaskStatusUpdateEvent (state changes like "working" → "completed") and TaskArtifactUpdateEvent (incremental results) as [[sse|SSE]] events. This allows clients to show real-time progress without polling.',
-		leftRole: '[[a2a|A2A]] defines the event types (TaskStatusUpdate, TaskArtifactUpdate) that are streamed to the client.',
-		rightRole: '[[sse|SSE]] provides the {{http-method|HTTP}}-based streaming transport for delivering real-time [[a2a|A2A]] task updates.'
+		leftRole:
+			'[[a2a|A2A]] defines the event types (TaskStatusUpdate, TaskArtifactUpdate) that are streamed to the client.',
+		rightRole:
+			'[[sse|SSE]] provides the {{http-method|HTTP}}-based streaming transport for delivering real-time [[a2a|A2A]] task updates.'
 	},
 	{
 		ids: ['a2a', 'mcp'],
@@ -2094,8 +3018,10 @@ const relationshipPairs: ProtocolPair[] = [
 			'[[mcp|MCP]] equips individual agents with tool access; [[a2a|A2A]] enables those equipped agents to collaborate. Together they form the two-protocol foundation of agentic {{ai|AI}}.',
 		howTheyWork:
 			'In a multi-agent system, [[a2a|A2A]] handles high-level coordination — Agent A uses message/send to delegate a sub-task to Agent B. Agent B then uses [[mcp|MCP]] internally to call database tools, read file resources, or invoke APIs to fulfill the task. Agent B returns results to Agent A via [[a2a|A2A]] artifacts. [[mcp|MCP]] is vertical (agent-to-tools), [[a2a|A2A]] is horizontal (agent-to-agent).',
-		leftRole: '[[a2a|A2A]] provides the inter-agent communication layer — discovery, delegation, task lifecycle, and result delivery.',
-		rightRole: '[[mcp|MCP]] provides the tool integration layer — each agent uses [[mcp|MCP]] to access the tools and data it needs to fulfill tasks.'
+		leftRole:
+			'[[a2a|A2A]] provides the inter-agent communication layer — discovery, delegation, task lifecycle, and result delivery.',
+		rightRole:
+			'[[mcp|MCP]] provides the tool integration layer — each agent uses [[mcp|MCP]] to access the tools and data it needs to fulfill tasks.'
 	},
 
 	// ── SOAP relationships ──────────────────────────────────────
@@ -2158,7 +3084,7 @@ const relationshipPairs: ProtocolPair[] = [
 		ids: ['dns', 'ip'],
 		type: 'relationship',
 		summary:
-			'[[dns|DNS]] is the phone book for [[ip|IP]]\'s address space — it translates human-readable names into the 32-bit or 128-bit addresses that [[ip|IP]] needs to route packets.',
+			"[[dns|DNS]] is the phone book for [[ip|IP]]'s address space — it translates human-readable names into the 32-bit or 128-bit addresses that [[ip|IP]] needs to route packets.",
 		howTheyWork:
 			'When an application needs to {{mqtt-connect|connect}} to a hostname, it queries [[dns|DNS]], which returns one or more [[ip|IP]] addresses. The operating system then uses [[ip|IP]] to construct packets with the resolved destination address. Without [[dns|DNS]], users would need to memorize numerical addresses; without [[ip|IP]], the resolved addresses would have nowhere to route to.',
 		leftRole:
@@ -2184,7 +3110,7 @@ const relationshipPairs: ProtocolPair[] = [
 		summary:
 			'Production [[soap|SOAP]] services run over HTTPS, with [[tls|TLS]] encrypting the {{xml|XML}} envelopes in {{transit|transit}}. [[soap|SOAP]] also has its own WS-Security layer for message-level {{encryption|encryption}} and signing.',
 		howTheyWork:
-			'[[tls|TLS]] provides transport-level {{encryption|encryption}} for [[soap|SOAP]] messages sent over HTTPS — protecting the entire {{http-method|HTTP}} request including the {{xml|XML}} envelope. For end-to-end security through intermediaries, [[soap|SOAP]]\'s WS-Security standard adds message-level {{encryption|encryption}} and digital signatures within the [[soap|SOAP]] Header, allowing parts of the message to remain encrypted even when [[tls|TLS]] terminates at a load balancer.',
+			"[[tls|TLS]] provides transport-level {{encryption|encryption}} for [[soap|SOAP]] messages sent over HTTPS — protecting the entire {{http-method|HTTP}} request including the {{xml|XML}} envelope. For end-to-end security through intermediaries, [[soap|SOAP]]'s WS-Security standard adds message-level {{encryption|encryption}} and digital signatures within the [[soap|SOAP]] Header, allowing parts of the message to remain encrypted even when [[tls|TLS]] terminates at a load balancer.",
 		leftRole:
 			'[[soap|SOAP]] defines the {{xml|XML}} message format and can add message-level security via WS-Security headers for end-to-end protection.',
 		rightRole:
@@ -2235,7 +3161,7 @@ const relationshipPairs: ProtocolPair[] = [
 		summary:
 			'[[tcp|TCP]] runs identically over [[ipv6|IPv6]] as over [[ip|IPv4]] — the same reliable byte-stream delivery, but [[ipv6|IPv6]] mandates that [[tcp|TCP]] perform {{checksum|checksum}} computation ([[ipv6|IPv6]] has no header {{checksum|checksum}}).',
 		howTheyWork:
-			'[[tcp|TCP]] segments are encapsulated in [[ipv6|IPv6]] packets with Next Header value 6. The key difference from [[ip|IPv4]]: since [[ipv6|IPv6]] has no header {{checksum|checksum}}, the [[tcp|TCP]] {{checksum|checksum}} is mandatory (not optional). [[tcp|TCP]]\'s pseudo-header for {{checksum|checksum}} computation uses 128-bit addresses instead of 32-bit ones. Otherwise the connection setup, {{flow-control|flow control}}, and congestion algorithms are identical.',
+			"[[tcp|TCP]] segments are encapsulated in [[ipv6|IPv6]] packets with Next Header value 6. The key difference from [[ip|IPv4]]: since [[ipv6|IPv6]] has no header {{checksum|checksum}}, the [[tcp|TCP]] {{checksum|checksum}} is mandatory (not optional). [[tcp|TCP]]'s pseudo-header for {{checksum|checksum}} computation uses 128-bit addresses instead of 32-bit ones. Otherwise the connection setup, {{flow-control|flow control}}, and congestion algorithms are identical.",
 		leftRole:
 			'[[ipv6|IPv6]] provides 128-bit addressing and routing, carrying [[tcp|TCP]] segments in its {{payload|payload}} with Next Header=6.',
 		rightRole:
@@ -2247,7 +3173,7 @@ const relationshipPairs: ProtocolPair[] = [
 		summary:
 			'[[udp|UDP]] datagrams ride over [[ipv6|IPv6]] just as over [[ip|IPv4]], but with one key difference: the [[udp|UDP]] {{checksum|checksum}} is mandatory in [[ipv6|IPv6]] (it was optional in [[ip|IPv4]]).',
 		howTheyWork:
-			'[[udp|UDP]] datagrams are carried in [[ipv6|IPv6]] packets with Next Header value 17. Because [[ipv6|IPv6]] eliminated the [[ip|IP]]-layer header {{checksum|checksum}}, [[udp|UDP]]\'s {{checksum|checksum}} became mandatory to ensure minimum integrity coverage. The {{checksum|checksum}} pseudo-header uses the full 128-bit source and destination addresses. Applications like [[dns|DNS]], [[dhcp|DHCPv6]], and real-time media use [[udp|UDP]] over [[ipv6|IPv6]].',
+			"[[udp|UDP]] datagrams are carried in [[ipv6|IPv6]] packets with Next Header value 17. Because [[ipv6|IPv6]] eliminated the [[ip|IP]]-layer header {{checksum|checksum}}, [[udp|UDP]]'s {{checksum|checksum}} became mandatory to ensure minimum integrity coverage. The {{checksum|checksum}} pseudo-header uses the full 128-bit source and destination addresses. Applications like [[dns|DNS]], [[dhcp|DHCPv6]], and real-time media use [[udp|UDP]] over [[ipv6|IPv6]].",
 		leftRole:
 			'[[ipv6|IPv6]] routes [[udp|UDP]] datagrams across networks using 128-bit addresses and Next Header=17.',
 		rightRole:
@@ -2312,7 +3238,8 @@ const allPairs: ProtocolPair[] = [...vsPairs, ...relationshipPairs];
 /** Map for O(1) lookup by canonical key "idA:idB" (alphabetically sorted). */
 const pairMap = new Map<string, ProtocolPair>();
 for (const pair of allPairs) {
-	const key = pair.ids[0] < pair.ids[1] ? `${pair.ids[0]}:${pair.ids[1]}` : `${pair.ids[1]}:${pair.ids[0]}`;
+	const key =
+		pair.ids[0] < pair.ids[1] ? `${pair.ids[0]}:${pair.ids[1]}` : `${pair.ids[1]}:${pair.ids[0]}`;
 	pairMap.set(key, pair);
 }
 
@@ -2323,7 +3250,10 @@ export function getPair(idA: string, idB: string): ProtocolPair | null {
 }
 
 /** Get all pairs involving a given protocol, separated by type. */
-export function getPairsForProtocol(id: string): { vs: ProtocolPair[]; relationships: ProtocolPair[] } {
+export function getPairsForProtocol(id: string): {
+	vs: ProtocolPair[];
+	relationships: ProtocolPair[];
+} {
 	const vs: ProtocolPair[] = [];
 	const relationships: ProtocolPair[] = [];
 	for (const pair of allPairs) {

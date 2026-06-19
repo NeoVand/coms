@@ -2,7 +2,8 @@ import type { CategoryStory } from './types';
 
 export const networkFoundationsStory: CategoryStory = {
 	categoryId: 'network-foundations',
-	tagline: 'From {{xerox-parc|Xerox PARC}} to every connected device — how frames, addresses, and routes make the internet possible',
+	tagline:
+		'From {{xerox-parc|Xerox PARC}} to every connected device — how frames, addresses, and routes make the internet possible',
 	sections: [
 		{
 			type: 'narrative',
@@ -206,7 +207,7 @@ That sketch became [[ethernet|Ethernet]], and it solved the first problem of net
 					year: 2026,
 					title: 'IPv6 Crosses 50% on Google',
 					description:
-						'On 28 March 2026, [[ipv6|IPv6]] carried 50.1% of {{google|Google}}\'s traffic for the first time — 28 years after [[rfc:2460|RFC 2460]]. {{cloudflare|Cloudflare}} and {{apnic|APNIC}} measure 40-43% from their vantage points, so the milestone is real but uneven.',
+						"On 28 March 2026, [[ipv6|IPv6]] carried 50.1% of {{google|Google}}'s traffic for the first time — 28 years after [[rfc:2460|RFC 2460]]. {{cloudflare|Cloudflare}} and {{apnic|APNIC}} measure 40-43% from their vantage points, so the milestone is real but uneven.",
 					protocolId: 'ipv6'
 				}
 			]

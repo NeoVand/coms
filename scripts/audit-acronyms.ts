@@ -141,11 +141,21 @@ const BLOCKLIST = new Set([
 	'OK',
 	'CIA',
 	'FBI',
-	'NSA', // organisations covered elsewhere if needed
+	'NSA' // organisations covered elsewhere if needed
 ]);
 
 // HTTP verbs — handled in their own way, not concepts.
-const HTTP_VERBS = new Set(['GET', 'PUT', 'POST', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS', 'CONNECT', 'TRACE']);
+const HTTP_VERBS = new Set([
+	'GET',
+	'PUT',
+	'POST',
+	'DELETE',
+	'PATCH',
+	'HEAD',
+	'OPTIONS',
+	'CONNECT',
+	'TRACE'
+]);
 
 function walk(dir: string, out: string[] = []): string[] {
 	for (const n of readdirSync(dir)) {
@@ -226,7 +236,8 @@ function stripMarkup(src: string): string {
 }
 
 function lineColOf(src: string, idx: number): { line: number; col: number } {
-	let line = 1, col = 1;
+	let line = 1,
+		col = 1;
 	for (let i = 0; i < idx; i++) {
 		if (src.charCodeAt(i) === 10) {
 			line++;
@@ -278,7 +289,8 @@ for (const c of concepts) {
 // uppercase letters, optionally with embedded digits / slashes / dots /
 // hyphens, that AREN'T sentence-initial common words. Lookarounds
 // prevent matching inside larger camelCase or word tokens.
-const ACRONYM_RE = /(?<![A-Za-z0-9_])([A-Z][A-Z0-9](?:[A-Z0-9./-]*[A-Z0-9])?)(?:s|s')?(?![A-Za-z0-9_])/g;
+const ACRONYM_RE =
+	/(?<![A-Za-z0-9_])([A-Z][A-Z0-9](?:[A-Z0-9./-]*[A-Z0-9])?)(?:s|s')?(?![A-Za-z0-9_])/g;
 
 // Plural-friendly variant: also catch "RTTs", "ACKs", etc.
 // The capturing group is the acronym, the suffix is optional.
@@ -445,5 +457,7 @@ console.log('  protocol (needs link):', knownProtocol.length);
 console.log('  http-verb:', httpVerbs.length);
 console.log('\nTop unknowns:');
 for (const u of unknownAcronyms.slice(0, 40)) {
-	console.log(`  ${u.stem.padEnd(10)} ${u.totalCount.toString().padStart(4)}  ${u.sampleContext.slice(0, 80)}`);
+	console.log(
+		`  ${u.stem.padEnd(10)} ${u.totalCount.toString().padStart(4)}  ${u.sampleContext.slice(0, 80)}`
+	);
 }

@@ -32,7 +32,11 @@
 		Bluetooth
 	} from 'lucide-svelte';
 
-	let { icon, size = 24, animate = false }: { icon: string; size?: number; animate?: boolean } = $props();
+	let {
+		icon,
+		size = 24,
+		animate = false
+	}: { icon: string; size?: number; animate?: boolean } = $props();
 
 	const iconMap: Record<string, typeof ArrowLeftRight> = {
 		// Categories
@@ -100,10 +104,18 @@
 		animation: icon-pulse 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 	}
 	@keyframes icon-pulse {
-		0% { transform: scale(1) rotate(0deg); }
-		30% { transform: scale(1.15) rotate(-5deg); }
-		60% { transform: scale(1.1) rotate(3deg); }
-		100% { transform: scale(1) rotate(0deg); }
+		0% {
+			transform: scale(1) rotate(0deg);
+		}
+		30% {
+			transform: scale(1.15) rotate(-5deg);
+		}
+		60% {
+			transform: scale(1.1) rotate(3deg);
+		}
+		100% {
+			transform: scale(1) rotate(0deg);
+		}
 	}
 	@media (prefers-reduced-motion: reduce) {
 		.icon-animate.animate,

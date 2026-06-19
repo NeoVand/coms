@@ -35,13 +35,24 @@
 	 * this protocolId.
 	 */
 	const chapters = $derived.by(() => {
-		const out: { partId: string; partTitle: string; partLabel: string; chapterId: string; chapterTitle: string; synopsis?: string }[] = [];
+		const out: {
+			partId: string;
+			partTitle: string;
+			partLabel: string;
+			chapterId: string;
+			chapterTitle: string;
+			synopsis?: string;
+		}[] = [];
 		for (const { part, chapter } of listChapters()) {
 			let mentions = false;
 			for (const slot of chapter.slots) {
 				if (slot.kind === 'protocol' && slot.id === protocolId) mentions = true;
 				if (slot.kind === 'simulation' && slot.protocolId === protocolId) mentions = true;
-				if (slot.kind === 'comparison' && (slot.pairIds[0] === protocolId || slot.pairIds[1] === protocolId)) mentions = true;
+				if (
+					slot.kind === 'comparison' &&
+					(slot.pairIds[0] === protocolId || slot.pairIds[1] === protocolId)
+				)
+					mentions = true;
 			}
 			if (mentions) {
 				out.push({
@@ -156,9 +167,8 @@
 							class="flex items-baseline gap-3 rounded-lg border border-s-border bg-s-glass px-3 py-1.5 text-left transition-all hover:bg-s-glass-hover"
 							onclick={() => navigateToRfc(r.number)}
 						>
-							<code
-								class="shrink-0 rounded font-mono text-[11px] font-bold"
-								style="color: {color};">RFC {r.number}</code
+							<code class="shrink-0 rounded font-mono text-[11px] font-bold" style="color: {color};"
+								>RFC {r.number}</code
 							>
 							<span class="flex-1 text-xs text-t-primary">{r.title}</span>
 							<span class="shrink-0 text-[10px] text-t-muted tabular-nums">{r.year}</span>

@@ -24,7 +24,7 @@ Stuart Cheshire and Marc Krochmal at {{apple|Apple}} shipped this as **Rendezvou
 		{
 			title: 'Announce — two responses with cache-flush',
 			description:
-				"On winning the probe, the host sends two Response messages 1 second apart, each with the **cache-flush** bit set on its A/{{aaaa-record|AAAA}}/{{srv-record|SRV}}/{{txt-record|TXT}} records. Every receiver replaces any stale entries for that name with the new ones. The host is now *live* on the link."
+				'On winning the probe, the host sends two Response messages 1 second apart, each with the **cache-flush** bit set on its A/{{aaaa-record|AAAA}}/{{srv-record|SRV}}/{{txt-record|TXT}} records. Every receiver replaces any stale entries for that name with the new ones. The host is now *live* on the link.'
 		},
 		{
 			title: 'Respond — multicast queries, 20–120 ms random delay',
@@ -83,7 +83,8 @@ try:
     input("Press Enter to stop browsing...\\n")
 finally:
     zc.close()`,
-		caption: 'A [[mdns-dns-sd|DNS-SD]] browser in 25 lines of Python. Same code finds Chromecasts (`_googlecast._tcp.`), printers (`_ipp._tcp.`), or {{matter|Matter}} devices (`_matter._tcp.`).',
+		caption:
+			'A [[mdns-dns-sd|DNS-SD]] browser in 25 lines of Python. Same code finds Chromecasts (`_googlecast._tcp.`), printers (`_ipp._tcp.`), or {{matter|Matter}} devices (`_matter._tcp.`).',
 		alternatives: [
 			{
 				language: 'javascript',
@@ -280,7 +281,7 @@ Each RR's CLASS field:
 			org: 'Google Chromecast + Cast ecosystem',
 			scale: '100+ million Cast devices (Google, 2018)',
 			description:
-				"Every Chromecast, Cast-enabled TV, and Cast-enabled speaker announces `_googlecast._tcp.local` via [[mdns-dns-sd|mDNS]]. {{google|Google}} last published an installed-base figure (\"100 million\") at I/O 2018; the actual number today is presumably much higher."
+				'Every Chromecast, Cast-enabled TV, and Cast-enabled speaker announces `_googlecast._tcp.local` via [[mdns-dns-sd|mDNS]]. {{google|Google}} last published an installed-base figure ("100 million") at I/O 2018; the actual number today is presumably much higher.'
 		},
 		{
 			org: 'Matter ecosystem (CSA)',
@@ -293,11 +294,11 @@ Each RR's CLASS field:
 	funFacts: [
 		{
 			title: 'The name was almost "OpenTalk"',
-			text: 'AppleInsider\'s exclusive of 18 February 2005 revealed {{apple|Apple}} had filed for the *OpenTalk* trademark before settling on **Bonjour**. Internal {{apple|Apple}} logic: *"naturally, when Rendezvous-enabled computers and devices come within range of each other, they say \'hello\' — hence the name \'Bonjour.\'"* The rebrand was forced by a trademark dispute with Tibco, which had held *TIBCO Rendezvous* for its enterprise messaging product since 1994.'
+			text: "AppleInsider's exclusive of 18 February 2005 revealed {{apple|Apple}} had filed for the *OpenTalk* trademark before settling on **Bonjour**. Internal {{apple|Apple}} logic: *\"naturally, when Rendezvous-enabled computers and devices come within range of each other, they say 'hello' — hence the name 'Bonjour.'\"* The rebrand was forced by a trademark dispute with Tibco, which had held *TIBCO Rendezvous* for its enterprise messaging product since 1994."
 		},
 		{
 			title: '`.local` is an act of IETF jurisdiction over ICANN',
-			text: '{{rfc-doc|RFC}} 6761 (February 2013) uses {{iana|IANA}}\'s Special-Use Domain Names registry to *take a {{tld|TLD}} off the table* permanently. There is no legal way for {{icann|ICANN}} to delegate `.local` to a registry — this is one of the cleanest examples of the {{ietf|IETF}} asserting authority over names {{icann|ICANN}} normally controls. The legitimisation of a de-facto practice that had been running on every Mac for 11 years.'
+			text: "{{rfc-doc|RFC}} 6761 (February 2013) uses {{iana|IANA}}'s Special-Use Domain Names registry to *take a {{tld|TLD}} off the table* permanently. There is no legal way for {{icann|ICANN}} to delegate `.local` to a registry — this is one of the cleanest examples of the {{ietf|IETF}} asserting authority over names {{icann|ICANN}} normally controls. The legitimisation of a de-facto practice that had been running on every Mac for 11 years."
 		},
 		{
 			title: 'Stuart Cheshire also wrote a tank game',
@@ -305,15 +306,15 @@ Each RR's CLASS field:
 		},
 		{
 			title: 'The Avahi name is a lemur',
-			text: 'Trent Lloyd suggested *Avahi* (genus *Avahi*, woolly lemur, endemic to Madagascar) when the project was founded in 2004, following freedesktop.org\'s pattern of whimsical animal codenames. The Avahi project logo is a stylised lemur. Sometimes mis-translated from Latin — *Avahi laniger* is the proper binomial; *avahi* is the Malagasy root.'
+			text: "Trent Lloyd suggested *Avahi* (genus *Avahi*, woolly lemur, endemic to Madagascar) when the project was founded in 2004, following freedesktop.org's pattern of whimsical animal codenames. The Avahi project logo is a stylised lemur. Sometimes mis-translated from Latin — *Avahi laniger* is the proper binomial; *avahi* is the Malagasy root."
 		}
 	],
 
 	practicalWisdom: {
 		pitfalls: [
 			{
-				title: 'IGMP/MLD snooping is mDNS\'s #1 enemy on enterprise Wi-Fi',
-				text: 'Access points forward {{multicast|multicast}} at the lowest basic rate (often 6 Mbps); managed switches with IGMP snooping enabled drop frames whose listeners haven\'t joined the group; per-{{ssid|SSID}}/per-{{vlan|VLAN}} isolation breaks the link-local scope assumption. **Cure:** deploy an [[mdns-dns-sd|mDNS]] gateway ({{cisco|Cisco}} WLC `mdns-sd` profile, Aruba AirGroup, Aerohive Bonjour Gateway). Whitelist exactly `224.0.0.251` and `FF02::FB`; rate-limit UDP/5353 to ~50 pps per client; never enable {{multicast|multicast}}-to-{{unicast|unicast}} conversion blindly.'
+				title: "IGMP/MLD snooping is mDNS's #1 enemy on enterprise Wi-Fi",
+				text: "Access points forward {{multicast|multicast}} at the lowest basic rate (often 6 Mbps); managed switches with IGMP snooping enabled drop frames whose listeners haven't joined the group; per-{{ssid|SSID}}/per-{{vlan|VLAN}} isolation breaks the link-local scope assumption. **Cure:** deploy an [[mdns-dns-sd|mDNS]] gateway ({{cisco|Cisco}} WLC `mdns-sd` profile, Aruba AirGroup, Aerohive Bonjour Gateway). Whitelist exactly `224.0.0.251` and `FF02::FB`; rate-limit UDP/5353 to ~50 pps per client; never enable {{multicast|multicast}}-to-{{unicast|unicast}} conversion blindly."
 			},
 			{
 				title: 'mDNS responders exposed to the WAN are a DDoS reflector',

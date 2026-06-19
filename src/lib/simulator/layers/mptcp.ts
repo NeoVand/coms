@@ -14,8 +14,7 @@ export function createMPTCPLayer(
 				bits: 4,
 				value: overrides?.subtype ?? 'MP_CAPABLE (0)',
 				editable: false,
-				description:
-					'MPTCP option subtype — MP_CAPABLE, MP_JOIN, DSS, ADD_ADDR, REMOVE_ADDR'
+				description: 'MPTCP option subtype — MP_CAPABLE, MP_JOIN, DSS, ADD_ADDR, REMOVE_ADDR'
 			},
 			{
 				name: 'Version',
@@ -29,24 +28,21 @@ export function createMPTCPLayer(
 				bits: 8,
 				value: overrides?.flags ?? 'H=1',
 				editable: false,
-				description:
-					'Option flags — H (HMAC-SHA256), A (checksum), B (backup path), etc.'
+				description: 'Option flags — H (HMAC-SHA256), A (checksum), B (backup path), etc.'
 			},
 			{
 				name: 'Sender Key',
 				bits: 0,
 				value: overrides?.senderKey ?? '',
 				editable: false,
-				description:
-					'Sender\'s key — used to derive tokens and authenticate subflow joins'
+				description: "Sender's key — used to derive tokens and authenticate subflow joins"
 			},
 			{
 				name: 'Subflow',
 				bits: 0,
 				value: overrides?.subflow ?? 'Primary',
 				editable: false,
-				description:
-					'Which TCP subflow this belongs to — Primary (Wi-Fi) or Secondary (Cellular)'
+				description: 'Which TCP subflow this belongs to — Primary (Wi-Fi) or Secondary (Cellular)'
 			},
 			{
 				name: 'Payload',

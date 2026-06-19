@@ -19,7 +19,7 @@ export const ospf: Protocol = {
 		{
 			title: 'Hello — discover neighbours',
 			description:
-				'Each [[ospf|OSPF]]-enabled interface multicasts Hello {{packet|packets}} to `224.0.0.5` ([[ipv6|IPv6]]: `FF02::5`) every HelloInterval (default 10 s on point-to-point, 30 s on NBMA). Hellos carry the router\'s {{id-identifier|ID}}, options, and the list of neighbours it currently sees on this link — bidirectional visibility is established as soon as a Hello lists *you* in its neighbours field.'
+				"Each [[ospf|OSPF]]-enabled interface multicasts Hello {{packet|packets}} to `224.0.0.5` ([[ipv6|IPv6]]: `FF02::5`) every HelloInterval (default 10 s on point-to-point, 30 s on NBMA). Hellos carry the router's {{id-identifier|ID}}, options, and the list of neighbours it currently sees on this link — bidirectional visibility is established as soon as a Hello lists *you* in its neighbours field."
 		},
 		{
 			title: 'Adjacency state machine',
@@ -29,7 +29,7 @@ export const ospf: Protocol = {
 		{
 			title: 'Synchronise the LSDB',
 			description:
-				'Routers {{exchange|exchange}} **Database Description ({{dbd|DBD}})** packets carrying {{lsa|LSA}} *headers* (sequence/age/length), then send **Link State Request ({{lsr|LSR}})** packets asking for the LSAs they don\'t have, and receive them in **Link State {{bgp-update|Update}} ({{lsu|LSU}})** packets. **{{lsack|LSAck}}** packets explicitly acknowledge receipt — [[ospf|OSPF]] has {{retransmission|reliable delivery}} without [[tcp|TCP]].'
+				"Routers {{exchange|exchange}} **Database Description ({{dbd|DBD}})** packets carrying {{lsa|LSA}} *headers* (sequence/age/length), then send **Link State Request ({{lsr|LSR}})** packets asking for the LSAs they don't have, and receive them in **Link State {{bgp-update|Update}} ({{lsu|LSU}})** packets. **{{lsack|LSAck}}** packets explicitly acknowledge receipt — [[ospf|OSPF]] has {{retransmission|reliable delivery}} without [[tcp|TCP]]."
 		},
 		{
 			title: 'Flood, throttle, age',
@@ -81,7 +81,8 @@ vtysh -c 'show ip ospf neighbor'
 vtysh -c 'show ip ospf database'
 vtysh -c 'show ip ospf interface eth0'
 vtysh -c 'show ip route ospf'`,
-		caption: 'A minimal [[ospf|OSPF]] speaker on {{frr|FRR}} — three commands set up Area 0, {{md5|MD5}} authentication, and sub-second {{bfd|BFD}}-style failure detection.',
+		caption:
+			'A minimal [[ospf|OSPF]] speaker on {{frr|FRR}} — three commands set up Area 0, {{md5|MD5}} authentication, and sub-second {{bfd|BFD}}-style failure detection.',
 		alternatives: [
 			{
 				language: 'python',
@@ -230,7 +231,10 @@ Total time on a tuned network: < 100 ms.`
 			title: 'Junos OS Evolved 24.2R1 ships HMAC-SHA-2 keychains + Flex-Algo on hardware',
 			description:
 				'Juniper\'s {{junos|Junos}} {{os|OS}} Evolved 24.2R1 (Aug 2024) added [[ospf|OSPFv2]] {{hmac|HMAC}}-{{sha2|SHA-2}} keychain authentication, Flex-Algo FAD with {{srlg|SRLG}}-exclude, and link-delay normalisation on ACX/PTX hardware — bringing Flex-Algo from "shipped in {{ios-xr|IOS-XR}}" to "shipped at multi-vendor parity."',
-			source: { url: 'https://supportportal.juniper.net/s/article/Junos-OS-Evolved-24-2R1-Release-Notes', label: 'Junos OS Evolved 24.2R1' }
+			source: {
+				url: 'https://supportportal.juniper.net/s/article/Junos-OS-Evolved-24-2R1-Release-Notes',
+				label: 'Junos OS Evolved 24.2R1'
+			}
 		},
 		{
 			date: '2025-10',
@@ -258,7 +262,7 @@ Total time on a tuned network: < 100 ms.`
 			org: 'FRRouting',
 			scale: 'The dominant open-source IGP implementation',
 			description:
-				"Forked from Quagga in 2017 and now stewarded by the {{linux|Linux}} Foundation. Ships [[ospf|OSPFv2]] and [[ospf|OSPFv3]] daemons (`ospfd`, `ospf6d`) used everywhere from Vyatta/VyOS edge routers to enterprise SD-{{wan|WAN}} appliances. Public {{cve|CVE}} traffic (e.g. {{cve|CVE}}-2025-61103) tracks its prevalence."
+				'Forked from Quagga in 2017 and now stewarded by the {{linux|Linux}} Foundation. Ships [[ospf|OSPFv2]] and [[ospf|OSPFv3]] daemons (`ospfd`, `ospf6d`) used everywhere from Vyatta/VyOS edge routers to enterprise SD-{{wan|WAN}} appliances. Public {{cve|CVE}} traffic (e.g. {{cve|CVE}}-2025-61103) tracks its prevalence.'
 		},
 		{
 			org: 'Cisco IOS-XR / Juniper Junos',
@@ -291,7 +295,7 @@ Total time on a tuned network: < 100 ms.`
 		pitfalls: [
 			{
 				title: 'Mismatched HelloInterval / DeadInterval = no adjacency',
-				text: 'Two routers will sit in `Init` forever if their Hello or Dead intervals differ by even one second. There is no negotiation. **Cure:** standardise per-interface in your template; use `show ip ospf interface eth0` to dump both sides\' actual values before opening tickets. The state machine\'s most common stuck-state.'
+				text: "Two routers will sit in `Init` forever if their Hello or Dead intervals differ by even one second. There is no negotiation. **Cure:** standardise per-interface in your template; use `show ip ospf interface eth0` to dump both sides' actual values before opening tickets. The state machine's most common stuck-state."
 			},
 			{
 				title: 'Default 40-second DeadInterval is a 1990s artefact',

@@ -82,7 +82,7 @@
 	{/if}
 
 	<!-- Step indicator -->
-	<span class="shrink-0 text-[10px] tabular-nums text-t-muted">
+	<span class="shrink-0 text-[10px] text-t-muted tabular-nums">
 		{#if state.currentStep >= 0}
 			{state.currentStep + 1}/{state.totalSteps}
 		{:else if state.status === 'complete'}

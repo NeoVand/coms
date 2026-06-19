@@ -14,24 +14,21 @@ export function createSTOMPLayer(
 				bits: 0,
 				value: overrides?.command ?? 'CONNECT',
 				editable: false,
-				description:
-					'STOMP command — CONNECT, CONNECTED, SEND, SUBSCRIBE, MESSAGE, ACK, DISCONNECT'
+				description: 'STOMP command — CONNECT, CONNECTED, SEND, SUBSCRIBE, MESSAGE, ACK, DISCONNECT'
 			},
 			{
 				name: 'Destination',
 				bits: 0,
 				value: overrides?.destination ?? '',
 				editable: false,
-				description:
-					'Message destination — queue or topic path (e.g. /queue/orders, /topic/prices)'
+				description: 'Message destination — queue or topic path (e.g. /queue/orders, /topic/prices)'
 			},
 			{
 				name: 'Content-Type',
 				bits: 0,
 				value: overrides?.contentType ?? '',
 				editable: false,
-				description:
-					'MIME type of the body — application/json, text/plain, etc.'
+				description: 'MIME type of the body — application/json, text/plain, etc.'
 			},
 			{
 				name: 'Receipt',
@@ -54,8 +51,7 @@ export function createSTOMPLayer(
 				bits: 0,
 				value: overrides?.body ?? '',
 				editable: false,
-				description:
-					'Frame body — the message payload, terminated by a null character (\\0)'
+				description: 'Frame body — the message payload, terminated by a null character (\\0)'
 			}
 		]
 	};

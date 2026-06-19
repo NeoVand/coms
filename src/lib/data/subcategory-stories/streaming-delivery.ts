@@ -3,7 +3,7 @@ import type { SubcategoryStory } from './types';
 export const streamingDeliveryStory: SubcategoryStory = {
 	subcategoryId: 'streaming-delivery',
 	tagline:
-		"Delivering video at Internet scale — from Flash push to adaptive HTTP, and the protocol that refused to die",
+		'Delivering video at Internet scale — from Flash push to adaptive HTTP, and the protocol that refused to die',
 	sections: [
 		{
 			type: 'narrative',
@@ -28,7 +28,7 @@ export const streamingDeliveryStory: SubcategoryStory = {
 					title: 'DASH Chair',
 					org: 'MPEG / Microsoft',
 					contribution:
-						"Chaired the MPEG working group that standardized [[dash|MPEG-DASH]] (ISO/IEC 23009-1) in 2012. Where [[hls|HLS]] was a single-vendor spec, DASH was the standards-body answer — designed to be codec-agnostic, container-agnostic, and royalty-free. Sodagar and the DASH-IF (DASH Industry Forum) drove interop testing across hundreds of player and encoder implementations."
+						'Chaired the MPEG working group that standardized [[dash|MPEG-DASH]] (ISO/IEC 23009-1) in 2012. Where [[hls|HLS]] was a single-vendor spec, DASH was the standards-body answer — designed to be codec-agnostic, container-agnostic, and royalty-free. Sodagar and the DASH-IF (DASH Industry Forum) drove interop testing across hundreds of player and encoder implementations.'
 				},
 				{
 					name: 'Will Law',
@@ -36,7 +36,7 @@ export const streamingDeliveryStory: SubcategoryStory = {
 					title: 'CMAF / Low-Latency Streaming Architect',
 					org: 'Akamai',
 					contribution:
-						"Co-led the Common Media Application Format (CMAF, 2016) effort to unify the segment formats used by HLS and DASH — for years both used MPEG-2 Transport Streams for HLS and fragmented MP4 for DASH, requiring CDNs to cache two copies of the same content. Law also helped shape Low-Latency HLS (LL-HLS) and the Akamai Low-Latency CMAF pattern, which together pushed end-to-end live streaming latency from 30+ seconds down to 2–4 seconds."
+						'Co-led the Common Media Application Format (CMAF, 2016) effort to unify the segment formats used by HLS and DASH — for years both used MPEG-2 Transport Streams for HLS and fragmented MP4 for DASH, requiring CDNs to cache two copies of the same content. Law also helped shape Low-Latency HLS (LL-HLS) and the Akamai Low-Latency CMAF pattern, which together pushed end-to-end live streaming latency from 30+ seconds down to 2–4 seconds.'
 				}
 			]
 		},
@@ -47,19 +47,19 @@ export const streamingDeliveryStory: SubcategoryStory = {
 					year: 1995,
 					title: 'RealAudio Ships',
 					description:
-						"RealNetworks ships RealAudio with the first widely-deployed Internet streaming protocol. Proprietary, complex, hugely successful for music streaming in the late 1990s."
+						'RealNetworks ships RealAudio with the first widely-deployed Internet streaming protocol. Proprietary, complex, hugely successful for music streaming in the late 1990s.'
 				},
 				{
 					year: 2002,
-					title: 'Adobe Buys Macromedia\'s Flash',
+					title: "Adobe Buys Macromedia's Flash",
 					description:
-						"Adobe inherits Flash Media Server and the RTMP protocol. Flash becomes the default video stack on the web for the next decade."
+						'Adobe inherits Flash Media Server and the RTMP protocol. Flash becomes the default video stack on the web for the next decade.'
 				},
 				{
 					year: 2005,
 					title: 'YouTube Launches on Flash',
 					description:
-						"YouTube ships using Adobe Flash + [[rtmp|RTMP]]/HTTP progressive download. Becomes the largest video site on the Internet."
+						'YouTube ships using Adobe Flash + [[rtmp|RTMP]]/HTTP progressive download. Becomes the largest video site on the Internet.'
 				},
 				{
 					year: 2007,
@@ -71,7 +71,7 @@ export const streamingDeliveryStory: SubcategoryStory = {
 					year: 2009,
 					title: 'HLS Spec Drafts at IETF',
 					description:
-						"Apple publishes the first [[hls|HLS]] internet-drafts. The original spec is short: an .m3u8 manifest pointing to .ts segment files served from any HTTP origin."
+						'Apple publishes the first [[hls|HLS]] internet-drafts. The original spec is short: an .m3u8 manifest pointing to .ts segment files served from any HTTP origin.'
 				},
 				{
 					year: 2010,
@@ -83,13 +83,13 @@ export const streamingDeliveryStory: SubcategoryStory = {
 					year: 2012,
 					title: 'MPEG-DASH Standardized',
 					description:
-						'ISO/IEC 23009-1 publishes [[dash|MPEG-DASH]]. Codec-agnostic, royalty-free, designed by committee — the standards-body answer to Apple\'s vendor-controlled HLS.'
+						"ISO/IEC 23009-1 publishes [[dash|MPEG-DASH]]. Codec-agnostic, royalty-free, designed by committee — the standards-body answer to Apple's vendor-controlled HLS."
 				},
 				{
 					year: 2015,
 					title: 'YouTube Defaults to DASH',
 					description:
-						"YouTube migrates its primary player from Flash + RTMP to HTML5 + DASH. Netflix, Hulu, BBC iPlayer follow with DASH (or HLS) shortly after."
+						'YouTube migrates its primary player from Flash + RTMP to HTML5 + DASH. Netflix, Hulu, BBC iPlayer follow with DASH (or HLS) shortly after.'
 				},
 				{
 					year: 2016,
@@ -101,19 +101,19 @@ export const streamingDeliveryStory: SubcategoryStory = {
 					year: 2017,
 					title: 'Flash Officially Discontinued',
 					description:
-						"Adobe announces Flash end-of-life by 2020. The last consumer browser version is removed from Chrome in late 2020."
+						'Adobe announces Flash end-of-life by 2020. The last consumer browser version is removed from Chrome in late 2020.'
 				},
 				{
 					year: 2019,
 					title: 'Low-Latency HLS (LL-HLS) and CMAF-LL',
 					description:
-						"Apple publishes Low-Latency HLS; CMAF Low-Latency follows. Achieve 2–4 second end-to-end live latency, competitive with the WebRTC alternatives — without giving up the CDN cacheability that makes streaming economical."
+						'Apple publishes Low-Latency HLS; CMAF Low-Latency follows. Achieve 2–4 second end-to-end live latency, competitive with the WebRTC alternatives — without giving up the CDN cacheability that makes streaming economical.'
 				},
 				{
 					year: 2023,
 					title: 'Media over QUIC (MoQ) Working Group',
 					description:
-						"IETF charters the MoQ WG to define the post-HLS/DASH future: streaming directly over [[quic|QUIC]] without segment files. Twitch and Meta are the largest sponsors."
+						'IETF charters the MoQ WG to define the post-HLS/DASH future: streaming directly over [[quic|QUIC]] without segment files. Twitch and Meta are the largest sponsors.'
 				}
 			]
 		},
@@ -127,9 +127,9 @@ export const streamingDeliveryStory: SubcategoryStory = {
 					values: [
 						'Push (server pushes to player); also push (ingest)',
 						'TCP (long-lived)',
-						"FLV container, AAC/H.264",
+						'FLV container, AAC/H.264',
 						'1–5 seconds (low for the era)',
-						"Live ingest from streamer → service (Twitch, YouTube Live, Facebook Live)"
+						'Live ingest from streamer → service (Twitch, YouTube Live, Facebook Live)'
 					]
 				},
 				{
@@ -137,9 +137,9 @@ export const streamingDeliveryStory: SubcategoryStory = {
 					values: [
 						'Pull (client fetches segments)',
 						'HTTP — fits behind any CDN',
-						".m3u8 manifest + .ts or fMP4 segments",
+						'.m3u8 manifest + .ts or fMP4 segments',
 						'Standard: 15–30s; LL-HLS: 2–4s',
-						"All Apple platforms; default for mobile and Smart TVs; CDN-cached delivery"
+						'All Apple platforms; default for mobile and Smart TVs; CDN-cached delivery'
 					]
 				},
 				{
@@ -147,13 +147,13 @@ export const streamingDeliveryStory: SubcategoryStory = {
 					values: [
 						'Pull (client fetches segments)',
 						'HTTP — fits behind any CDN',
-						".mpd manifest + fMP4 (or webm) segments",
+						'.mpd manifest + fMP4 (or webm) segments',
 						'Standard: 6–30s; CMAF-LL: 2–4s',
-						"YouTube, Netflix, most non-Apple platforms; codec-agnostic so it survives codec churn"
+						'YouTube, Netflix, most non-Apple platforms; codec-agnostic so it survives codec churn'
 					]
 				}
 			],
-			note: "Modern live streams typically use [[rtmp|RTMP]] for ingest and [[hls|HLS]] or [[dash|DASH]] for delivery. The CMAF unification means a single set of fMP4 segments can serve both HLS and DASH players."
+			note: 'Modern live streams typically use [[rtmp|RTMP]] for ingest and [[hls|HLS]] or [[dash|DASH]] for delivery. The CMAF unification means a single set of fMP4 segments can serve both HLS and DASH players.'
 		},
 		{
 			type: 'animated-sequence',
@@ -182,11 +182,11 @@ export const streamingDeliveryStory: SubcategoryStory = {
     CDN-->>P: segment, back to high quality
     Note over CDN: All segments cached at CDN edge — most requests never hit origin`,
 			caption:
-				"The adaptive bitrate ladder is the magic of HTTP-based streaming. Each segment is a separate HTTP request, the player picks the bitrate per segment, and the CDN caches every variant. A 4K stream with 5 bitrates costs 5× the storage but ~1× the origin bandwidth — almost all traffic is served from cache.",
+				'The adaptive bitrate ladder is the magic of HTTP-based streaming. Each segment is a separate HTTP request, the player picks the bitrate per segment, and the CDN caches every variant. A 4K stream with 5 bitrates costs 5× the storage but ~1× the origin bandwidth — almost all traffic is served from cache.',
 			steps: {
 				0: '**The setup.** The player will fetch many small segments (typically 2–10 seconds each) over HTTP from a CDN. Before it can do anything, it needs the *manifest* — the list of available bitrates and segment URLs.',
 				1: 'Player requests the **manifest** (.m3u8 for HLS, .mpd for DASH).',
-				2: '**CDN cache miss** — it doesn\'t have the manifest yet, so it fetches from origin.',
+				2: "**CDN cache miss** — it doesn't have the manifest yet, so it fetches from origin.",
 				3: 'Origin returns the manifest listing five bitrates: **240p, 480p, 720p, 1080p, 4K**.',
 				4: 'CDN forwards the manifest to the player and caches it. Future viewers get the manifest from cache.',
 				5: '**The player chooses a starting bitrate** — typically conservative (low) — and starts measuring how fast segments are arriving to inform its quality decisions.',
@@ -216,7 +216,7 @@ export const streamingDeliveryStory: SubcategoryStory = {
 		},
 		{
 			type: 'narrative',
-			title: 'What\'s Next',
+			title: "What's Next",
 			text: `Active work in 2025:\n\n- **Media over QUIC (MoQ)** — IETF working group developing the post-HLS/DASH future. Direct streaming over QUIC streams instead of segment files. Sub-second latency potential, but the segment-based + CDN-cacheable model is hard to beat economically.\n- **WHIP / WHEP for WebRTC ingest** — WebRTC HTTP Ingestion Protocol (WHIP, RFC 9725) and Egress Protocol (WHEP) are the WebRTC-based path to replace RTMP ingest. Twitch, OBS, YouTube all have partial support.\n- **AV1 rollout** — YouTube and Netflix are pushing AV1 hard. ~30% bandwidth savings vs H.264 at equivalent quality. Hardware decode support is catching up (Apple A17, Snapdragon 8 Gen 3, Intel Arc).\n- **Low-latency CMAF and LL-HLS** are converging in practice — Apple's LL-HLS uses CMAF segments, the format wars are over.\n- **Live commerce and live auctions** are the new "must be <2 seconds" use cases driving low-latency investment. WebRTC is winning the under-1-second tier; LL-HLS/CMAF-LL the 2–4 second tier; standard HLS/DASH the 15–30 second tier (which is fine for most actual viewing).\n- **The boring truth**: 95% of streaming in 2025 is still standard HLS or DASH segments served from a CDN. The architectural breakthroughs (RTMP, segment-based adaptive, CMAF) are mostly already in production. The frontier is the long tail — latency, codec efficiency, ingest modernization.`
 		}
 	]

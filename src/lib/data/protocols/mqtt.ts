@@ -59,7 +59,8 @@ client.on_message = on_message
 # client.publish("home/kitchen/temperature", "22.5")
 
 client.loop_forever()`,
-		caption: '{{mqtt-subscribe|Subscribe}} to temperature readings from any room — the broker handles routing',
+		caption:
+			'{{mqtt-subscribe|Subscribe}} to temperature readings from any room — the broker handles routing',
 		alternatives: [
 			{
 				language: 'javascript',

@@ -21,7 +21,7 @@ export const networkServicesStory: SubcategoryStory = {
 					title: 'DHCP Implementer / Stewart',
 					org: 'Internet Software Consortium / Apple / Independent',
 					contribution:
-						"Implemented and maintained ISC DHCP — the reference open-source DHCP server and client for two decades — and authored major DHCP-related RFCs including IPv6 DHCP, dynamic DNS updates, and the modern DHCPv4 reliability extensions. ISC DHCP shipped in essentially every Linux distribution, BSD, and embedded router for years; Lemon\\'s sustained engineering is one of the reasons \"plug it in and it works\" is a universal expectation."
+						'Implemented and maintained ISC DHCP — the reference open-source DHCP server and client for two decades — and authored major DHCP-related RFCs including IPv6 DHCP, dynamic DNS updates, and the modern DHCPv4 reliability extensions. ISC DHCP shipped in essentially every Linux distribution, BSD, and embedded router for years; Lemon\\\'s sustained engineering is one of the reasons "plug it in and it works" is a universal expectation.'
 				},
 				{
 					id: 'david-mills',
@@ -48,7 +48,7 @@ export const networkServicesStory: SubcategoryStory = {
 					title: 'NAT Traversal Researcher',
 					org: 'MIT / Yale / EPFL',
 					contribution:
-						"Co-authored the seminal 2005 USENIX paper \"Peer-to-Peer Communication Across Network Address Translators\" with Pyda Srisuresh and Dan Kegel. The paper laid out the taxonomy of NAT behaviors (full cone, restricted cone, port-restricted cone, symmetric) and the hole-punching techniques that became {{stun|STUN}} / {{turn|TURN}} / {{ice|ICE}}. Without this work, modern peer-to-peer (WebRTC, BitTorrent peer discovery, IPFS, blockchain peer networks) would be vastly more expensive or impossible."
+						'Co-authored the seminal 2005 USENIX paper "Peer-to-Peer Communication Across Network Address Translators" with Pyda Srisuresh and Dan Kegel. The paper laid out the taxonomy of NAT behaviors (full cone, restricted cone, port-restricted cone, symmetric) and the hole-punching techniques that became {{stun|STUN}} / {{turn|TURN}} / {{ice|ICE}}. Without this work, modern peer-to-peer (WebRTC, BitTorrent peer discovery, IPFS, blockchain peer networks) would be vastly more expensive or impossible.'
 				}
 			]
 		},
@@ -59,7 +59,7 @@ export const networkServicesStory: SubcategoryStory = {
 					year: 1981,
 					title: 'NTP First Version (RFC 778)',
 					description:
-						"[[pioneer:david-mills|Mills]] publishes the first NTP version. Time synchronization on the early Internet was previously ad-hoc; NTP would standardize it for 40+ years."
+						'[[pioneer:david-mills|Mills]] publishes the first NTP version. Time synchronization on the early Internet was previously ad-hoc; NTP would standardize it for 40+ years.'
 				},
 				{
 					year: 1985,
@@ -71,7 +71,7 @@ export const networkServicesStory: SubcategoryStory = {
 					year: 1993,
 					title: 'DHCP RFC 1531',
 					description:
-						"[[dhcp|DHCP]] extends BOOTP with dynamic address pools and leases. Every workstation can get an address without a configured mapping."
+						'[[dhcp|DHCP]] extends BOOTP with dynamic address pools and leases. Every workstation can get an address without a configured mapping.'
 				},
 				{
 					year: 1997,
@@ -95,25 +95,25 @@ export const networkServicesStory: SubcategoryStory = {
 					year: 2005,
 					title: 'STUN RFC 3489',
 					description:
-						"Session Traversal Utilities for NAT — the first IETF protocol that lets a client behind a NAT learn its public-facing address."
+						'Session Traversal Utilities for NAT — the first IETF protocol that lets a client behind a NAT learn its public-facing address.'
 				},
 				{
 					year: 2008,
 					title: 'STUN RFC 5389',
 					description:
-						"STUN revised. The original protocol's name is changed (\"Simple\" → \"Session\") to reflect its role beyond pure address discovery."
+						'STUN revised. The original protocol\'s name is changed ("Simple" → "Session") to reflect its role beyond pure address discovery.'
 				},
 				{
 					year: 2010,
 					title: 'ICE RFC 5245',
 					description:
-						"Interactive Connectivity Establishment — the framework that gathers all possible network candidates and probes connectivity to find the best path between two NAT-bound peers. The foundation of WebRTC NAT traversal."
+						'Interactive Connectivity Establishment — the framework that gathers all possible network candidates and probes connectivity to find the best path between two NAT-bound peers. The foundation of WebRTC NAT traversal.'
 				},
 				{
 					year: 2010,
 					title: 'NTP RFC 5905',
 					description:
-						"The current NTP specification (NTPv4). Adds extension fields, improved security."
+						'The current NTP specification (NTPv4). Adds extension fields, improved security.'
 				},
 				{
 					year: 2013,
@@ -125,19 +125,19 @@ export const networkServicesStory: SubcategoryStory = {
 					year: 2017,
 					title: 'NTS — Network Time Security (RFC 8915 draft)',
 					description:
-						"NTP gets a modern security story. Authenticated NTP messages without the per-association key configuration NTP authentication had previously required. RFC 8915 publishes in 2020."
+						'NTP gets a modern security story. Authenticated NTP messages without the per-association key configuration NTP authentication had previously required. RFC 8915 publishes in 2020.'
 				},
 				{
 					year: 2020,
 					title: 'NTS RFC 8915',
 					description:
-						"Network Time Security ships. The first widely-deployable, scalable authenticated NTP. Cloudflare runs time.cloudflare.com with NTS; Netnod, Hetzner, and others follow."
+						'Network Time Security ships. The first widely-deployable, scalable authenticated NTP. Cloudflare runs time.cloudflare.com with NTS; Netnod, Hetzner, and others follow.'
 				},
 				{
 					year: 2024,
 					title: 'IPv6-only Networks Grow',
 					description:
-						"Apple, T-Mobile, Verizon, and major datacenters run IPv6-only networks with NAT64/DNS64 for legacy IPv4 traffic. NAT traversal still matters because IPv6 firewalls block inbound — but the address-exhaustion driver for NAT is fading."
+						'Apple, T-Mobile, Verizon, and major datacenters run IPv6-only networks with NAT64/DNS64 for legacy IPv4 traffic. NAT traversal still matters because IPv6 firewalls block inbound — but the address-exhaustion driver for NAT is fading.'
 				}
 			]
 		},
@@ -151,8 +151,8 @@ export const networkServicesStory: SubcategoryStory = {
 					values: [
 						'Assigns IP, mask, gateway, DNS',
 						'When you join the network (and lease renewals)',
-						"\"No network connection\" — you have no IP",
-						"DHCPv6 (for IPv6 stateful); SLAAC for stateless IPv6"
+						'"No network connection" — you have no IP',
+						'DHCPv6 (for IPv6 stateful); SLAAC for stateless IPv6'
 					]
 				},
 				{
@@ -160,8 +160,8 @@ export const networkServicesStory: SubcategoryStory = {
 					values: [
 						'Syncs system clock to UTC',
 						'Continuously (background)',
-						"Time wrong → cert errors, auth failures, log analysis chaos",
-						"NTS (authenticated NTP); chrony as the reference daemon"
+						'Time wrong → cert errors, auth failures, log analysis chaos',
+						'NTS (authenticated NTP); chrony as the reference daemon'
 					]
 				},
 				{
@@ -169,8 +169,8 @@ export const networkServicesStory: SubcategoryStory = {
 					values: [
 						'Local-network name resolution + service discovery',
 						'When you ask for a `.local` name or browse for a service type',
-						"\"Printer doesn't show up\" — service discovery silently fails",
-						"Used by AirPlay, Chromecast, AirPrint, Matter device commissioning"
+						'"Printer doesn\'t show up" — service discovery silently fails',
+						'Used by AirPlay, Chromecast, AirPrint, Matter device commissioning'
 					]
 				},
 				{
@@ -178,12 +178,12 @@ export const networkServicesStory: SubcategoryStory = {
 					values: [
 						'Establishes peer-to-peer through NATs',
 						'When two peers want a direct connection',
-						"Video call goes through a relay (slow), or fails entirely",
-						"WebRTC, peer-to-peer gaming, BitTorrent, IPFS"
+						'Video call goes through a relay (slow), or fails entirely',
+						'WebRTC, peer-to-peer gaming, BitTorrent, IPFS'
 					]
 				}
 			],
-			note: "These four are independent — your laptop runs DHCP at boot, NTP continuously, mDNS on demand, and ICE only when an app needs peer-to-peer. They're grouped here because they're what makes \"the network just works.\""
+			note: 'These four are independent — your laptop runs DHCP at boot, NTP continuously, mDNS on demand, and ICE only when an app needs peer-to-peer. They\'re grouped here because they\'re what makes "the network just works."'
 		},
 		{
 			type: 'animated-sequence',
@@ -207,7 +207,7 @@ export const networkServicesStory: SubcategoryStory = {
 			caption:
 				"DHCP's 4-step DORA (Discover, Offer, Request, Acknowledge) is one of the most-executed protocol exchanges on the Internet. Every laptop on every café Wi-Fi runs it within seconds of joining. The broadcast-based design — needed because the client has no IP yet — is why DHCP is a link-local protocol; it doesn't cross routers without a relay.",
 			steps: {
-				0: '**The setup.** A new device joins a network. It has no IP address, doesn\'t know the gateway, has no DNS server. Everything below has to bootstrap from nothing.',
+				0: "**The setup.** A new device joins a network. It has no IP address, doesn't know the gateway, has no DNS server. Everything below has to bootstrap from nothing.",
 				1: '**D — Discover.** Client broadcasts a DHCPDISCOVER with source 0.0.0.0 (no IP) and destination 255.255.255.255 (everyone on this segment). The MAC source is the real NIC MAC, so servers can reply.',
 				2: '**Server sees the broadcast.** Any DHCP server on the segment picks it up. The server checks its address pool and finds a free IP to offer.',
 				3: '**O — Offer.** Server broadcasts a DHCPOFFER (also broadcast because the client has no IP to unicast to yet) offering 192.168.1.42, subnet mask, default gateway, DNS resolver, and lease duration.',
@@ -216,7 +216,7 @@ export const networkServicesStory: SubcategoryStory = {
 				6: '**A — Ack.** The chosen server confirms with DHCPACK. The lease is now committed. Default lease is 24 hours in most home routers, longer in enterprise.',
 				7: '**Configure the interface.** Client sets its IP, subnet mask, default gateway, and DNS resolver from the ACK. The client is now properly on the network.',
 				8: '**Bootstrap services.** With IP + gateway + DNS, the client can now start NTP (to fix the clock), resolve hostnames, and do whatever the user actually wanted to do.',
-				9: '**Lease renewal.** At T/2 elapsed (half the lease), the client tries to renew with the *same* server. This is unicast — no need to broadcast since the client knows the server\'s address.',
+				9: "**Lease renewal.** At T/2 elapsed (half the lease), the client tries to renew with the *same* server. This is unicast — no need to broadcast since the client knows the server's address.",
 				10: 'Client sends a **unicast DHCPREQUEST** to renew.',
 				11: 'Server confirms with **DHCPACK**, extending the lease. If the server fails to respond, the client falls back to broadcasting at T*7/8 to find any DHCP server. The address space is reclaimed cleanly when leases expire.'
 			}
@@ -233,7 +233,7 @@ export const networkServicesStory: SubcategoryStory = {
 		},
 		{
 			type: 'narrative',
-			title: 'What\'s Next',
+			title: "What's Next",
 			text: `Active work in 2025:\n\n- **NTS** (Network Time Security) is rolling out at major time providers (Cloudflare, Netnod). The first credible authenticated NTP in production. NTP's 40-year security gap is finally closing.\n- **DHCP options for IoT** — DHCPv6 keeps getting options for device-management URLs, manufacturer hints, and Matter commissioning. Even DHCP — designed in 1993 — keeps growing.\n- **Matter / Thread commissioning** uses mDNS extensively for device discovery on the home network. The Matter spec mandates DNS-SD service browsing for smart-home device pairing — extending Bonjour into every consumer-IoT product.\n- **IPv6-only networks** + NAT64 + DNS64 are growing in mobile carriers and datacenter networks. The "every device has a routable address" promise is finally semi-real; NAT traversal still matters because firewalls still block inbound, but the variety of NAT pathologies is reducing.\n- **Tailscale-style mesh VPNs** (Tailscale, Headscale, Netbird, NetMaker) are essentially "NAT traversal as a service" — they bundle STUN/TURN/ICE, key management, and routing into one product. The protocols underneath are the same ICE family; the developer experience is finally good.\n- **TLS-protected DHCP** (DHCP over TLS) remains a niche request. DHCP's plaintext design is increasingly out of step with the rest of the network stack, but the broadcast-based first-message design is hard to encrypt.\n- **The truth about these protocols**: they don't need to change much. The job is invisible, the protocols mostly work, the operational pain is in the configuration and tooling around them rather than in the protocols themselves.`
 		}
 	]

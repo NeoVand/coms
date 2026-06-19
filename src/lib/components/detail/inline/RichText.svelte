@@ -71,7 +71,10 @@
 			color={c}
 		/>{:else if seg.type === 'bold-concept'}<strong class="font-semibold"
 			><GlossaryLink conceptId={seg.conceptId} label={seg.label} color={c} /></strong
-		>{:else if seg.type === 'rfc-ref'}<RfcRef number={seg.number} label={seg.label} color={c}
+		>{:else if seg.type === 'rfc-ref'}<RfcRef
+			number={seg.number}
+			label={seg.label}
+			color={c}
 		/>{:else if seg.type === 'pioneer-link'}<PioneerLink
 			pioneerId={seg.pioneerId}
 			label={seg.label}

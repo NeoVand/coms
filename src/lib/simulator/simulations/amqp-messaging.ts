@@ -157,7 +157,8 @@ export const amqpMessaging: SimulationConfig = {
 					channel: 1,
 					method: 'Basic.Deliver',
 					payloadSize: 86,
-					properties: 'Consumer-Tag: ctag-1, Delivery-Tag: 1, Exchange: orders, Routing-Key: order.created',
+					properties:
+						'Consumer-Tag: ctag-1, Delivery-Tag: 1, Exchange: orders, Routing-Key: order.created',
 					payload: '{"event": "order.created", "orderId": "ORD-1234", "total": 59.99}'
 				})
 			]

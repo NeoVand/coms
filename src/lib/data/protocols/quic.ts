@@ -66,7 +66,8 @@ async def main():
         print(f"Response: {response}")
 
 asyncio.run(main())`,
-		caption: '[[quic|QUIC]] combines transport + {{encryption|encryption}} in one step, enabling faster connections',
+		caption:
+			'[[quic|QUIC]] combines transport + {{encryption|encryption}} in one step, enabling faster connections',
 		alternatives: [
 			{
 				language: 'javascript',
@@ -185,7 +186,7 @@ sudo tcpdump -i any udp port 443`
 			date: '2024-09',
 			title: 'Multipath QUIC reaches stable IETF draft',
 			description:
-				'draft-{{ietf|ietf}}-quic-{{multipath|multipath}} progressed to stable; {{multipath|multipath}} [[quic|QUIC]] inherits [[mptcp|MPTCP]]\'s algorithmic ideas inside a transport that actually traverses middleboxes. {{apple|Apple}}, {{google|Google}}, and several mobile carriers are running interop events.',
+				"draft-{{ietf|ietf}}-quic-{{multipath|multipath}} progressed to stable; {{multipath|multipath}} [[quic|QUIC]] inherits [[mptcp|MPTCP]]'s algorithmic ideas inside a transport that actually traverses middleboxes. {{apple|Apple}}, {{google|Google}}, and several mobile carriers are running interop events.",
 			source: {
 				url: 'https://datatracker.ietf.org/doc/draft-ietf-quic-multipath/',
 				label: 'IETF Datatracker'
@@ -210,13 +211,13 @@ sudo tcpdump -i any udp port 443`
 			org: 'Meta',
 			scale: '>75% of web/mobile bytes',
 			description:
-				'Facebook, Instagram, WhatsApp serve majority of traffic via [[quic|QUIC]]. mvfst ({{meta|Meta}}\'s [[quic|QUIC]] implementation) is open-source.'
+				"Facebook, Instagram, WhatsApp serve majority of traffic via [[quic|QUIC]]. mvfst ({{meta|Meta}}'s [[quic|QUIC]] implementation) is open-source."
 		},
 		{
 			org: 'Cloudflare',
 			scale: 'All HTTPS traffic',
 			description:
-				'quiche library powers [[quic|QUIC]] at {{cloudflare|Cloudflare}}\'s edge for every HTTPS site behind their {{cdn|CDN}}. Connection-coalescing and {{zero-rtt|0-RTT}} enabled by default.'
+				"quiche library powers [[quic|QUIC]] at {{cloudflare|Cloudflare}}'s edge for every HTTPS site behind their {{cdn|CDN}}. Connection-coalescing and {{zero-rtt|0-RTT}} enabled by default."
 		},
 		{
 			org: 'Apple',
@@ -249,7 +250,7 @@ sudo tcpdump -i any udp port 443`
 			},
 			{
 				title: 'Connection migration breaks middleboxes',
-				text: 'Some {{stateful|stateful}} middleboxes ({{nat|NAT}} routers, transparent proxies) drop a connection when its source [[ip|IP]] suddenly changes — they assume it\'s a new flow. [[quic|QUIC]]\'s Path Validation fixes this when both endpoints support it; the path-probing {{handshake|handshake}} is [[rfc:9000|RFC 9000]] §8.'
+				text: "Some {{stateful|stateful}} middleboxes ({{nat|NAT}} routers, transparent proxies) drop a connection when its source [[ip|IP]] suddenly changes — they assume it's a new flow. [[quic|QUIC]]'s Path Validation fixes this when both endpoints support it; the path-probing {{handshake|handshake}} is [[rfc:9000|RFC 9000]] §8."
 			},
 			{
 				title: 'Higher CPU than kernel TCP',
