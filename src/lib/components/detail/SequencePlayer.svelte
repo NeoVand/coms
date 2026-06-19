@@ -141,7 +141,7 @@
 
 	function bindStepsToDom() {
 		const svg = containerEl.querySelector('svg');
-		if (!svg) {
+		if (!svg || !definition) {
 			bound = [];
 			return;
 		}
@@ -157,9 +157,9 @@
 		const noteTexts = [...svg.querySelectorAll<SVGTextElement>('text.noteText')].sort(
 			(a, b) => yOf(a) - yOf(b)
 		);
-		const msgLines = [...svg.querySelectorAll<SVGElement>('.messageLine0, .messageLine1')].sort(
-			(a, b) => yOf(a) - yOf(b)
-		);
+		const msgLines = [
+			...svg.querySelectorAll<SVGGraphicsElement>('.messageLine0, .messageLine1')
+		].sort((a, b) => yOf(a) - yOf(b));
 		const msgTexts = [...svg.querySelectorAll<SVGTextElement>('text.messageText')].sort(
 			(a, b) => yOf(a) - yOf(b)
 		);
@@ -198,7 +198,7 @@
 		bound = next;
 	}
 
-	function yOf(el: SVGElement): number {
+	function yOf(el: SVGGraphicsElement): number {
 		const yAttr = el.getAttribute('y') ?? el.getAttribute('y1') ?? el.getAttribute('y2');
 		if (yAttr !== null) {
 			const n = parseFloat(yAttr);

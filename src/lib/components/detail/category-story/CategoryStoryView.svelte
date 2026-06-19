@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { CategoryStory } from '$lib/data/category-stories/types';
+	import type { StoryContent } from '$lib/data/category-stories/types';
 	import type { Category } from '$lib/data/types';
 	import StoryNarrative from './StoryNarrative.svelte';
 	import StoryTimeline from './StoryTimeline.svelte';
@@ -10,7 +10,7 @@
 	import StoryComparison from './StoryComparison.svelte';
 	import StoryAnimatedSequence from './StoryAnimatedSequence.svelte';
 
-	let { story, cat, color = cat.color }: { story: CategoryStory; cat: Category; color?: string } = $props();
+	let { story, cat, color = cat.color }: { story: StoryContent; cat: Category; color?: string } = $props();
 </script>
 
 <div class="flex flex-col gap-5">

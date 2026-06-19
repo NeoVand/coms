@@ -20,7 +20,7 @@
 	} = $props();
 
 	const appState = getAppState();
-	let containerEl: HTMLDivElement;
+	let containerEl = $state<HTMLDivElement>();
 	let mermaidApi: typeof import('mermaid').default | null = $state(null);
 	let renderCounter = 0;
 
@@ -44,6 +44,7 @@
 	$effect(() => {
 		if (!open || !mermaidApi || !definition || !containerEl) return;
 
+		const el = containerEl;
 		const theme = appState.theme;
 		const fullDef = buildThemedDefinition(definition, color, true, theme);
 		const id = `mmd-story-modal-${++renderCounter}`;
@@ -51,12 +52,11 @@
 		mermaidApi
 			.render(id, fullDef)
 			.then(({ svg }) => {
-				containerEl.innerHTML = svg;
+				el.innerHTML = svg;
 			})
 			.catch((err) => {
 				console.error('Story diagram modal render error:', err);
-				containerEl.innerHTML =
-					'<p class="text-xs text-t-muted py-4 text-center">Diagram unavailable</p>';
+				el.innerHTML = '<p class="text-xs text-t-muted py-4 text-center">Diagram unavailable</p>';
 			});
 	});
 

@@ -15,10 +15,14 @@
 	let { protocolId, color }: Props = $props();
 
 	const simState = new SimulatorState();
-	const config = getSimulation(protocolId);
+	const config = $derived(getSimulation(protocolId));
 
-	// Load once at mount — parent uses {#key protocolId} to remount on change
-	if (config) simState.load(config);
+	// Reload whenever the resolved simulation changes. The parent also wraps
+	// this in {#key protocolId} to fully remount, so in practice this runs once
+	// per protocol — but deriving keeps it correct if that guard is ever removed.
+	$effect(() => {
+		if (config) simState.load(config);
+	});
 </script>
 
 {#if config}
