@@ -215,6 +215,35 @@ export function parseParagraphs(raw: string): TextSegment[][] {
 }
 
 /**
+ * Resolve a bracketed ref to the label text it should display when no explicit
+ * `|label` was given — mirrors {@link buildBracketSegment} so stripped text
+ * matches rendered text. A bare `[[tcp]]` becomes "TCP", not an empty string.
+ */
+function bracketFallbackLabel(rawId: string): string {
+	const colonIdx = rawId.indexOf(':');
+	const prefix = colonIdx === -1 ? 'protocol' : rawId.slice(0, colonIdx);
+	const id = colonIdx === -1 ? rawId : rawId.slice(colonIdx + 1);
+	switch (prefix) {
+		case 'protocol':
+			return getProtocolById(id)?.abbreviation ?? id.toUpperCase();
+		case 'rfc':
+			return `RFC ${id}`;
+		case 'outage':
+			return getOutageById(id)?.title ?? id;
+		case 'pioneer':
+			return getPioneerById(id)?.name ?? id;
+		case 'glossary':
+			return getConceptById(id)?.term ?? id;
+		case 'frontier':
+			return getFrontierById(id)?.title ?? id;
+		case 'chapter':
+			return id.includes('/') ? id.slice(id.indexOf('/') + 1) : id;
+		default:
+			return rawId;
+	}
+}
+
+/**
  * Strip rich-text atoms ([[…]] / {{…}} / **…**) down to their label
  * text. For surfaces that render strings as raw DOM text (screen-reader
  * aria-labels, search-result descriptions, NodeTooltip body) or where
@@ -227,8 +256,17 @@ export function stripRichTextMarkup(raw: string): string {
 	// outer brackets when an author nests a wrap inside another bracketed
 	// construct — e.g. Mermaid's `NODE[[[id|Label]]]`. A legitimate id is
 	// always a slug, so disallowing `[`/`{` inside it is strictly correct.
+	//
+	// A bare ref with no `|label` resolves to its display label (protocol
+	// abbreviation, concept term, …) rather than vanishing — otherwise a bare
+	// `[[tcp]]` in a stripped field (tooltip / aria-label) would silently drop
+	// the word.
 	return raw
-		.replace(/\[\[[^\][|]+(?:\|([^\]]+))?\]\]/g, (_m, label) => label ?? '')
-		.replace(/\{\{[^}{|]+(?:\|([^}]+))?\}\}/g, (_m, label) => label ?? '')
+		.replace(/\[\[([^\][|]+)(?:\|([^\]]+))?\]\]/g, (_m, id, label) =>
+			label != null ? label : bracketFallbackLabel(id)
+		)
+		.replace(/\{\{([^}{|]+)(?:\|([^}]+))?\}\}/g, (_m, id, label) =>
+			label != null ? label : (getConceptById(id)?.term ?? id)
+		)
 		.replace(/\*\*([^*]+)\*\*/g, '$1');
 }

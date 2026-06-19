@@ -104,4 +104,17 @@ describe('stripRichTextMarkup', () => {
 	it('is idempotent on already-plain text', () => {
 		expect(stripRichTextMarkup('nothing to strip')).toBe('nothing to strip');
 	});
+
+	it('resolves a bare [[id]] to its label instead of dropping it', () => {
+		// Regression: previously a label-less ref stripped to '' and the word
+		// vanished from tooltips / aria-labels.
+		expect(stripRichTextMarkup('runs on [[tcp]] today')).toBe('runs on TCP today');
+		expect(stripRichTextMarkup('see [[rfc:9293]]')).toBe('see RFC 9293');
+	});
+
+	it('resolves a bare {{concept}} to its term', () => {
+		const out = stripRichTextMarkup('the {{handshake}} step');
+		expect(out).not.toContain('{{');
+		expect(out.toLowerCase()).toContain('handshake');
+	});
 });
