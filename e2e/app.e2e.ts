@@ -53,6 +53,15 @@ test.describe('protocol detail', () => {
 		await expect(page.getByRole('button', { name: /Play|Step/i }).first()).toBeVisible();
 	});
 
+	test('code examples highlight after the lazy highlight.js loads', async ({ page }) => {
+		// http1 ships a code example; highlight.js is dynamically imported on mount.
+		await page.goto('/p/http1');
+		const code = page.locator('[data-tour="code-example"] code.hljs').first();
+		await expect(code).toBeVisible();
+		// Once hljs resolves it wraps tokens in <span class="hljs-…">.
+		await expect(code.locator('span[class^="hljs-"]').first()).toBeVisible();
+	});
+
 	test('404s on an unknown protocol id', async ({ page }) => {
 		const res = await page.goto('/p/definitely-not-a-protocol');
 		// adapter-static serves the SvelteKit error page; status may be 200 for the

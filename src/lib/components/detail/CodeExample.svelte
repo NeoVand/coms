@@ -1,25 +1,44 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import type { CodeExample as CodeExampleType } from '$lib/data/types';
 	import RichText from '$lib/components/detail/inline/RichText.svelte';
 	import { parseRichText } from '$lib/utils/text-parser';
-	import hljs from 'highlight.js/lib/core';
-	import python from 'highlight.js/lib/languages/python';
-	import javascript from 'highlight.js/lib/languages/javascript';
-	import typescript from 'highlight.js/lib/languages/typescript';
-	import bash from 'highlight.js/lib/languages/bash';
-	import http from 'highlight.js/lib/languages/http';
-	import protobuf from 'highlight.js/lib/languages/protobuf';
-	import xml from 'highlight.js/lib/languages/xml';
-	import json from 'highlight.js/lib/languages/json';
 
-	hljs.registerLanguage('python', python);
-	hljs.registerLanguage('javascript', javascript);
-	hljs.registerLanguage('typescript', typescript);
-	hljs.registerLanguage('bash', bash);
-	hljs.registerLanguage('http', http);
-	hljs.registerLanguage('protobuf', protobuf);
-	hljs.registerLanguage('xml', xml);
-	hljs.registerLanguage('json', json);
+	// highlight.js (core + 8 grammars) is ~150 KB. Load it lazily on mount so it
+	// only enters the bundle when a code example actually renders. Until it
+	// resolves, code shows as escaped plain text; `highlightedCode` re-derives
+	// once `hljs` is set.
+	type Hljs = typeof import('highlight.js/lib/core').default;
+	let hljs = $state<Hljs | null>(null);
+
+	onMount(async () => {
+		const [core, python, javascript, typescript, bash, http, protobuf, xml, json] =
+			await Promise.all([
+				import('highlight.js/lib/core'),
+				import('highlight.js/lib/languages/python'),
+				import('highlight.js/lib/languages/javascript'),
+				import('highlight.js/lib/languages/typescript'),
+				import('highlight.js/lib/languages/bash'),
+				import('highlight.js/lib/languages/http'),
+				import('highlight.js/lib/languages/protobuf'),
+				import('highlight.js/lib/languages/xml'),
+				import('highlight.js/lib/languages/json')
+			]);
+		const h = core.default;
+		h.registerLanguage('python', python.default);
+		h.registerLanguage('javascript', javascript.default);
+		h.registerLanguage('typescript', typescript.default);
+		h.registerLanguage('bash', bash.default);
+		h.registerLanguage('http', http.default);
+		h.registerLanguage('protobuf', protobuf.default);
+		h.registerLanguage('xml', xml.default);
+		h.registerLanguage('json', json.default);
+		hljs = h;
+	});
+
+	function escapeHtml(code: string): string {
+		return code.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+	}
 
 	let { example, color = '#FFFFFF' }: { example: CodeExampleType; color?: string } = $props();
 	let copied = $state(false);
@@ -56,6 +75,8 @@
 	}
 
 	function highlightCode(code: string, language: string): string {
+		// Until hljs finishes loading, render escaped plain text.
+		if (!hljs) return escapeHtml(code);
 		const hljsLang = resolveHljsLang(language);
 		try {
 			if (hljs.getLanguage(hljsLang)) {
@@ -63,7 +84,7 @@
 			}
 			return hljs.highlightAuto(code).value;
 		} catch {
-			return code.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+			return escapeHtml(code);
 		}
 	}
 
