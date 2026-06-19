@@ -8,7 +8,8 @@ export const http2: Protocol = {
 	port: 443,
 	year: 2015,
 	rfc: 'RFC 9113',
-	oneLiner: 'Multiplexed, binary {{http-method|HTTP}} — many requests flying over one connection simultaneously.',
+	oneLiner:
+		'Multiplexed, binary {{http-method|HTTP}} — many requests flying over one connection simultaneously.',
 	overview: `[[http2|HTTP/2]] was designed to fix [[http1|HTTP/1.1]]'s biggest pain points without changing the semantics developers know and love. You still use GET, POST, headers, and {{status-code|status codes}} — but under the hood, everything is different. The protocol is {{binary-framing|binary (not text)}}, {{multiplexing|multiplexed}} (many requests share one connection), and supports {{header|header}} compression ({{hpack|HPACK}}) and {{server-push|server push}} (now deprecated — Chrome removed support in Chrome 106; 103 {{early-hints|Early Hints}} is the recommended replacement).
 
 {{multiplexing|Multiplexing}} is the killer feature: instead of waiting for each response before sending the next request, [[http2|HTTP/2]] interleaves multiple {{request-response|request-response}} pairs as "{{stream|streams}}" on a single [[tcp|TCP]] connection. This eliminates the need for multiple connections and dramatically improves page load times for resource-heavy sites.
@@ -58,7 +59,8 @@ print(f"Status: {response.status_code}")
 print(f"Body: {response.text}")
 
 client.close()`,
-		caption: '[[http2|HTTP/2]] multiplexes requests over a single connection with {{binary-framing|binary framing}}',
+		caption:
+			'[[http2|HTTP/2]] multiplexes requests over a single connection with {{binary-framing|binary framing}}',
 		alternatives: [
 			{
 				language: 'javascript',

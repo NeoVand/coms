@@ -66,10 +66,15 @@
 			<div class="overflow-hidden rounded-lg border border-s-border">
 				{#each diffs as diff, i (diff.aspect)}
 					<div class="flex text-xs {i % 2 === 0 ? 'bg-s-glass' : 'bg-transparent'}">
-						<div class="w-[30%] shrink-0 border-r border-s-border px-3 py-2 font-medium text-t-secondary">
+						<div
+							class="w-[30%] shrink-0 border-r border-s-border px-3 py-2 font-medium text-t-secondary"
+						>
 							{diff.aspect}
 						</div>
-						<div class="w-[35%] border-r border-s-border px-3 py-2 text-t-primary" style="border-left-color: {leftColor}30">
+						<div
+							class="w-[35%] border-r border-s-border px-3 py-2 text-t-primary"
+							style="border-left-color: {leftColor}30"
+						>
 							<LinkedText text={diff.left} {color} />
 						</div>
 						<div class="w-[35%] px-3 py-2 text-t-primary">
@@ -89,26 +94,26 @@
 
 	<!-- Performance Comparison -->
 	<section>
-		<h3 class="mb-2 text-xs font-semibold tracking-wider text-t-muted uppercase">
-			Performance
-		</h3>
+		<h3 class="mb-2 text-xs font-semibold tracking-wider text-t-muted uppercase">Performance</h3>
 		<div class="space-y-2">
-			{#each [
-				{ label: 'Latency', left: leftProto.performance.latency, right: rightProto.performance.latency },
-				{ label: 'Throughput', left: leftProto.performance.throughput, right: rightProto.performance.throughput },
-				{ label: 'Overhead', left: leftProto.performance.overhead, right: rightProto.performance.overhead }
-			] as stat (stat.label)}
+			{#each [{ label: 'Latency', left: leftProto.performance.latency, right: rightProto.performance.latency }, { label: 'Throughput', left: leftProto.performance.throughput, right: rightProto.performance.throughput }, { label: 'Overhead', left: leftProto.performance.overhead, right: rightProto.performance.overhead }] as stat (stat.label)}
 				<div class="rounded-lg border border-s-border bg-s-glass p-3">
-					<div class="mb-1.5 text-center text-[10px] font-semibold tracking-wider text-t-muted uppercase">
+					<div
+						class="mb-1.5 text-center text-[10px] font-semibold tracking-wider text-t-muted uppercase"
+					>
 						{stat.label}
 					</div>
 					<div class="flex gap-3">
 						<div class="flex-1 rounded border border-s-border bg-s-glass px-2.5 py-1.5">
-							<div class="mb-0.5 text-[10px] font-medium" style="color: {leftColor}">{leftProto.abbreviation}</div>
+							<div class="mb-0.5 text-[10px] font-medium" style="color: {leftColor}">
+								{leftProto.abbreviation}
+							</div>
 							<div class="text-[11px] leading-relaxed text-t-secondary">{stat.left}</div>
 						</div>
 						<div class="flex-1 rounded border border-s-border bg-s-glass px-2.5 py-1.5">
-							<div class="mb-0.5 text-[10px] font-medium" style="color: {rightColor}">{rightProto.abbreviation}</div>
+							<div class="mb-0.5 text-[10px] font-medium" style="color: {rightColor}">
+								{rightProto.abbreviation}
+							</div>
 							<div class="text-[11px] leading-relaxed text-t-secondary">{stat.right}</div>
 						</div>
 					</div>
@@ -120,31 +125,41 @@
 	<!-- When to Use -->
 	{#if useLeftWhen && useRightWhen}
 		<section>
-			<h3 class="mb-2 text-xs font-semibold tracking-wider text-t-muted uppercase">
-				When to Use
-			</h3>
+			<h3 class="mb-2 text-xs font-semibold tracking-wider text-t-muted uppercase">When to Use</h3>
 			<div class="space-y-3">
-				<div class="rounded-lg border px-3 py-2.5" style="border-color: {leftColor}20; background-color: {leftColor}08">
+				<div
+					class="rounded-lg border px-3 py-2.5"
+					style="border-color: {leftColor}20; background-color: {leftColor}08"
+				>
 					<div class="mb-1.5 text-xs font-medium" style="color: {leftColor}">
 						Use {leftProto.abbreviation} when:
 					</div>
 					<ul class="space-y-1">
 						{#each useLeftWhen as bullet, i (i)}
 							<li class="flex items-start gap-2 text-xs leading-relaxed text-t-primary">
-								<span class="mt-1.5 h-1 w-1 shrink-0 rounded-full" style="background-color: {leftColor}"></span>
+								<span
+									class="mt-1.5 h-1 w-1 shrink-0 rounded-full"
+									style="background-color: {leftColor}"
+								></span>
 								<LinkedText text={bullet} {color} />
 							</li>
 						{/each}
 					</ul>
 				</div>
-				<div class="rounded-lg border px-3 py-2.5" style="border-color: {rightColor}20; background-color: {rightColor}08">
+				<div
+					class="rounded-lg border px-3 py-2.5"
+					style="border-color: {rightColor}20; background-color: {rightColor}08"
+				>
 					<div class="mb-1.5 text-xs font-medium" style="color: {rightColor}">
 						Use {rightProto.abbreviation} when:
 					</div>
 					<ul class="space-y-1">
 						{#each useRightWhen as bullet, i (i)}
 							<li class="flex items-start gap-2 text-xs leading-relaxed text-t-primary">
-								<span class="mt-1.5 h-1 w-1 shrink-0 rounded-full" style="background-color: {rightColor}"></span>
+								<span
+									class="mt-1.5 h-1 w-1 shrink-0 rounded-full"
+									style="background-color: {rightColor}"
+								></span>
 								<LinkedText text={bullet} {color} />
 							</li>
 						{/each}
@@ -153,5 +168,4 @@
 			</div>
 		</section>
 	{/if}
-
 </div>

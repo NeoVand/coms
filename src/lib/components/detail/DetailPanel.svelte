@@ -13,10 +13,8 @@
 		navigateToProtocol,
 		navigateToCategory,
 		navigateToHub,
-		navigateToBookChapter,
 		navigateToBookPart
 	} from '$lib/utils/navigation';
-	import { foundationSections } from '$lib/data/concept-foundations';
 	import { bookParts, listChapters } from '$lib/data/book/chapters';
 	import GlossaryView from './GlossaryView.svelte';
 	import ChapterView from './ChapterView.svelte';
@@ -47,11 +45,6 @@
 	import { Users, FileText, AlertTriangle, Compass as CompassIcon } from 'lucide-svelte';
 
 	/**
-	 * Hand-written teasers for the Foundation chapter cards on the Home
-	 * tab. Each gives the reader a one-line reason to click in. Order
-	 * matches `foundationSections` so we can zip them together.
-	 */
-	/**
 	 * Per-part accent colors — must mirror BookTocView and ChapterView so a
 	 * part has the same hue everywhere it appears in the UI.
 	 */
@@ -70,22 +63,8 @@
 		'how-to-learn-more': '#94a3b8'
 	};
 
-	const totalParts = bookParts.length;
 	const totalChapters = listChapters().length;
 
-	const FOUNDATION_TEASERS: Record<string, string> = {
-		'what-is-a-protocol':
-			'What a protocol is, and why every machine on the planet agrees to follow them.',
-		'layer-model':
-			'Seven layers, the standards war that decided their fate, and where the layers blur.',
-		addressing: 'How a packet finds your laptop — hostnames, IPs, MACs, and ports.',
-		packets: 'Encapsulation in pictures — frames inside packets inside segments.',
-		'ports-sockets': 'How one machine runs a hundred services without confusing them.',
-		'reliability-speed': 'The defining tradeoff: TCP vs UDP, and why QUIC tries to have both.',
-		'client-server-p2p': 'Two communication patterns and what each makes easy or hard.',
-		'encryption-basics': "What HTTPS actually protects — and what it doesn't.",
-		'ai-protocols': 'MCP and A2A — the new layer of protocols designed for AI agents.'
-	};
 	import ProtocolHeader from './ProtocolHeader.svelte';
 	import ProtocolDiagram from './ProtocolDiagram.svelte';
 	import HowItWorksSteps from './HowItWorksSteps.svelte';
@@ -269,7 +248,7 @@
 
 	<!-- Content layer -->
 	<div
-		class="custom-scrollbar relative flex w-full min-h-0 flex-1 flex-col overflow-y-auto"
+		class="custom-scrollbar relative flex min-h-0 w-full flex-1 flex-col overflow-y-auto"
 		bind:this={scrollerEl}
 	>
 		{#if appState.activeJourney}
@@ -280,10 +259,7 @@
 
 		{#if appState.activeBookChapter && appState.activeBookPart}
 			<div class="p-6">
-				<ChapterView
-					partId={appState.activeBookPart}
-					chapterId={appState.activeBookChapter}
-				/>
+				<ChapterView partId={appState.activeBookPart} chapterId={appState.activeBookChapter} />
 			</div>
 		{:else if appState.activePioneer}
 			<div class="p-6">
@@ -349,7 +325,9 @@
 							<h3 class="text-xs font-semibold tracking-wider text-t-muted uppercase">
 								The book — thirteen parts
 							</h3>
-							<span class="text-[10px] text-t-muted">{totalChapters} chapters · jump in anywhere</span>
+							<span class="text-[10px] text-t-muted"
+								>{totalChapters} chapters · jump in anywhere</span
+							>
 						</div>
 						<div data-tour="book-toc" class="space-y-1.5">
 							{#each bookParts as part (part.id)}
@@ -368,7 +346,7 @@
 									<div class="min-w-0 flex-1">
 										<div class="flex items-baseline justify-between gap-2">
 											<div class="text-sm font-semibold text-t-primary">{part.title}</div>
-											<span class="shrink-0 font-mono text-[10px] tabular-nums text-t-muted"
+											<span class="shrink-0 font-mono text-[10px] text-t-muted tabular-nums"
 												>{part.chapters.length} ch</span
 											>
 										</div>
@@ -409,7 +387,9 @@
 								</span>
 								<div class="min-w-0">
 									<div class="text-sm font-medium text-t-primary">Pioneers</div>
-									<div class="text-[10px] text-t-muted">{pioneers.length} architects of the field</div>
+									<div class="text-[10px] text-t-muted">
+										{pioneers.length} architects of the field
+									</div>
 								</div>
 							</button>
 							<button
@@ -454,7 +434,9 @@
 								</span>
 								<div class="min-w-0">
 									<div class="text-sm font-medium text-t-primary">The Frontier</div>
-									<div class="text-[10px] text-t-muted">{frontierEntries.length} developments, 2024-2026</div>
+									<div class="text-[10px] text-t-muted">
+										{frontierEntries.length} developments, 2024-2026
+									</div>
 								</div>
 							</button>
 						</div>
@@ -488,10 +470,7 @@
 											<span class="ml-1 text-[10px] text-t-muted">{count} protocols</span>
 										</div>
 										<div class="mt-0.5 text-xs text-t-secondary">
-											<RichText
-												segments={parseRichText(cat.description)}
-												color={dc(cat.color)}
-											/>
+											<RichText segments={parseRichText(cat.description)} color={dc(cat.color)} />
 										</div>
 									</div>
 								</button>
@@ -675,8 +654,8 @@
 										<span class="text-[10px] text-t-muted">{proto.year}</span>
 									</div>
 									<div class="text-xs text-t-secondary">
-											<RichText segments={parseRichText(proto.oneLiner)} {color} />
-										</div>
+										<RichText segments={parseRichText(proto.oneLiner)} {color} />
+									</div>
 								</button>
 							{/each}
 						</div>
@@ -692,7 +671,7 @@
 				</div>
 			{:else if appState.categoryViewMode === 'journeys'}
 				<div class="p-6">
-					<JourneyListView scope={cat.id} {color} />
+					<JourneyListView scope={cat.id} />
 				</div>
 			{/if}
 		{:else if selectedData?.type === 'subcategory' && selectedData.subcategory}
@@ -746,7 +725,9 @@
 								onclick={() => navigateToProtocol(proto.id)}
 							>
 								<div class="flex items-baseline gap-2">
-									<span class="text-sm font-medium" style="color: {color}">{proto.abbreviation}</span>
+									<span class="text-sm font-medium" style="color: {color}"
+										>{proto.abbreviation}</span
+									>
 									<span class="text-[10px] text-t-muted">{proto.year}</span>
 								</div>
 								<div class="text-xs text-t-secondary">

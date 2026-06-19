@@ -186,7 +186,6 @@
 				</div>
 			</section>
 		{/if}
-
 	</article>
 {:else}
 	<div class="rounded-xl border border-s-border bg-s-glass p-6 text-center">
@@ -195,7 +194,8 @@
 			href="https://datatracker.ietf.org/doc/html/rfc{number}"
 			target="_blank"
 			rel="noopener noreferrer"
-			class="mt-2 inline-block text-xs text-sky-400 hover:underline">Open on datatracker.ietf.org →</a
+			class="mt-2 inline-block text-xs text-sky-400 hover:underline"
+			>Open on datatracker.ietf.org →</a
 		>
 	</div>
 {/if}

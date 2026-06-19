@@ -1,6 +1,8 @@
 import type { ProtocolLayer } from '../types';
 
-export function createEthernetLayer(overrides?: Partial<Record<string, string | number>>): ProtocolLayer {
+export function createEthernetLayer(
+	overrides?: Partial<Record<string, string | number>>
+): ProtocolLayer {
 	return {
 		name: 'Ethernet Frame',
 		abbreviation: 'ETH',

@@ -11,11 +11,41 @@ function sseRequestLayer(): ProtocolLayer {
 		osiLayer: 7,
 		color: '#00D4FF',
 		headerFields: [
-			{ name: 'Method', bits: 0, value: 'GET', editable: false, description: 'SSE uses a standard GET request — no upgrade or special handshake needed' },
-			{ name: 'Path', bits: 0, value: '/events', editable: false, description: 'Event stream endpoint — the server will hold this connection open' },
-			{ name: 'Accept', bits: 0, value: 'text/event-stream', editable: false, description: 'Tells the server the client wants an SSE stream, not a regular response' },
-			{ name: 'Cache-Control', bits: 0, value: 'no-cache', editable: false, description: 'Prevents caching — events should always be received fresh from the server' },
-			{ name: 'Connection', bits: 0, value: 'keep-alive', editable: false, description: 'The connection stays open for the stream duration' }
+			{
+				name: 'Method',
+				bits: 0,
+				value: 'GET',
+				editable: false,
+				description: 'SSE uses a standard GET request — no upgrade or special handshake needed'
+			},
+			{
+				name: 'Path',
+				bits: 0,
+				value: '/events',
+				editable: false,
+				description: 'Event stream endpoint — the server will hold this connection open'
+			},
+			{
+				name: 'Accept',
+				bits: 0,
+				value: 'text/event-stream',
+				editable: false,
+				description: 'Tells the server the client wants an SSE stream, not a regular response'
+			},
+			{
+				name: 'Cache-Control',
+				bits: 0,
+				value: 'no-cache',
+				editable: false,
+				description: 'Prevents caching — events should always be received fresh from the server'
+			},
+			{
+				name: 'Connection',
+				bits: 0,
+				value: 'keep-alive',
+				editable: false,
+				description: 'The connection stays open for the stream duration'
+			}
 		]
 	};
 }
@@ -27,25 +57,85 @@ function sseResponseLayer(): ProtocolLayer {
 		osiLayer: 7,
 		color: '#00D4FF',
 		headerFields: [
-			{ name: 'Status', bits: 0, value: '200 OK', editable: false, description: 'Stream opened successfully — data will follow incrementally', color: '#22c55e' },
-			{ name: 'Content-Type', bits: 0, value: 'text/event-stream', editable: false, description: 'SSE MIME type — tells the browser to use EventSource API' },
-			{ name: 'Cache-Control', bits: 0, value: 'no-cache', editable: false, description: 'No caching for live event streams' },
-			{ name: 'Connection', bits: 0, value: 'keep-alive', editable: false, description: 'Connection remains open — no Content-Length since the stream is infinite' }
+			{
+				name: 'Status',
+				bits: 0,
+				value: '200 OK',
+				editable: false,
+				description: 'Stream opened successfully — data will follow incrementally',
+				color: '#22c55e'
+			},
+			{
+				name: 'Content-Type',
+				bits: 0,
+				value: 'text/event-stream',
+				editable: false,
+				description: 'SSE MIME type — tells the browser to use EventSource API'
+			},
+			{
+				name: 'Cache-Control',
+				bits: 0,
+				value: 'no-cache',
+				editable: false,
+				description: 'No caching for live event streams'
+			},
+			{
+				name: 'Connection',
+				bits: 0,
+				value: 'keep-alive',
+				editable: false,
+				description: 'Connection remains open — no Content-Length since the stream is infinite'
+			}
 		]
 	};
 }
 
-function sseEventLayer(eventType: string, eventId: string, data: string, retry: string): ProtocolLayer {
+function sseEventLayer(
+	eventType: string,
+	eventId: string,
+	data: string,
+	retry: string
+): ProtocolLayer {
 	return {
 		name: 'SSE Event',
 		abbreviation: 'SSE',
 		osiLayer: 7,
 		color: '#EF4444',
 		headerFields: [
-			{ name: 'Event Type', bits: 0, value: eventType, editable: false, description: 'Named event type — clients listen for specific types with addEventListener()' },
-			{ name: 'Event ID', bits: 0, value: eventId, editable: false, description: 'Unique event identifier — sent as Last-Event-ID on reconnect for resumption' },
-			{ name: 'Data', bits: 0, value: data, editable: false, description: 'Event payload — UTF-8 text, typically JSON. Multiple data: lines are joined with newlines' },
-			...(retry ? [{ name: 'Retry', bits: 0, value: retry, editable: false, description: 'Reconnection interval in milliseconds — browser waits this long before reconnecting' }] : [])
+			{
+				name: 'Event Type',
+				bits: 0,
+				value: eventType,
+				editable: false,
+				description: 'Named event type — clients listen for specific types with addEventListener()'
+			},
+			{
+				name: 'Event ID',
+				bits: 0,
+				value: eventId,
+				editable: false,
+				description: 'Unique event identifier — sent as Last-Event-ID on reconnect for resumption'
+			},
+			{
+				name: 'Data',
+				bits: 0,
+				value: data,
+				editable: false,
+				description:
+					'Event payload — UTF-8 text, typically JSON. Multiple data: lines are joined with newlines'
+			},
+			...(retry
+				? [
+						{
+							name: 'Retry',
+							bits: 0,
+							value: retry,
+							editable: false,
+							description:
+								'Reconnection interval in milliseconds — browser waits this long before reconnecting'
+						}
+					]
+				: [])
 		]
 	};
 }
@@ -83,7 +173,10 @@ export const sseStream: SimulationConfig = {
 				createEthernetLayer(),
 				createIPv4Layer({ protocol: 6 }),
 				createTCPLayer({ srcPort: 52500, dstPort: 443, flags: 'PSH,ACK' }),
-				createTLSRecordLayer({ contentType: 'Application Data (23)', handshakeType: 'N/A (encrypted)' }),
+				createTLSRecordLayer({
+					contentType: 'Application Data (23)',
+					handshakeType: 'N/A (encrypted)'
+				}),
 				sseRequestLayer()
 			]
 		},
@@ -100,7 +193,10 @@ export const sseStream: SimulationConfig = {
 				createEthernetLayer({ srcMac: 'AA:BB:CC:DD:EE:FF', dstMac: '00:1A:2B:3C:4D:5E' }),
 				createIPv4Layer({ srcIp: '93.184.216.34', dstIp: '192.168.1.100', protocol: 6 }),
 				createTCPLayer({ srcPort: 443, dstPort: 52500, flags: 'PSH,ACK' }),
-				createTLSRecordLayer({ contentType: 'Application Data (23)', handshakeType: 'N/A (encrypted)' }),
+				createTLSRecordLayer({
+					contentType: 'Application Data (23)',
+					handshakeType: 'N/A (encrypted)'
+				}),
 				sseResponseLayer()
 			]
 		},
@@ -149,7 +245,12 @@ export const sseStream: SimulationConfig = {
 				createEthernetLayer({ srcMac: 'AA:BB:CC:DD:EE:FF', dstMac: '00:1A:2B:3C:4D:5E' }),
 				createIPv4Layer({ srcIp: '93.184.216.34', dstIp: '192.168.1.100', protocol: 6 }),
 				createTCPLayer({ srcPort: 443, dstPort: 52500, flags: 'PSH,ACK' }),
-				sseEventLayer('notification', 'evt-003', '{"alert": "System maintenance in 10 minutes"}', '5000')
+				sseEventLayer(
+					'notification',
+					'evt-003',
+					'{"alert": "System maintenance in 10 minutes"}',
+					'5000'
+				)
 			]
 		},
 		{

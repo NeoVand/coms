@@ -1,14 +1,27 @@
 <script lang="ts">
 	import { onMount, untrack } from 'svelte';
 	import { prefersReducedMotion } from 'svelte/motion';
-	import { buildGraphNodes, buildGraphEdges, buildMeshEdges, getProtocolById, allProtocols, categories, subcategories } from '$lib/data/index';
+	import {
+		buildGraphNodes,
+		buildGraphEdges,
+		buildMeshEdges,
+		getProtocolById,
+		allProtocols,
+		categories,
+		subcategories
+	} from '$lib/data/index';
 	import type { GraphNode } from '$lib/data/types';
 
 	import { createSimulation, warmUpSimulation, syncPositions } from '$lib/engine/simulation';
 	import { render, findNodeAtPosition } from '$lib/engine/canvas-renderer';
 	import { RenderLoop } from '$lib/engine/render-loop.svelte';
 	import { getAppState } from '$lib/state/context';
-	import { computeRadialPositions, computeTimelinePositions, computeMeshPositions, TIMELINE_PARAMS } from '$lib/engine/layouts';
+	import {
+		computeRadialPositions,
+		computeTimelinePositions,
+		computeMeshPositions,
+		TIMELINE_PARAMS
+	} from '$lib/engine/layouts';
 	import type { LayoutMode } from '$lib/engine/layouts';
 	import { getThemeColors } from '$lib/utils/colors';
 	import { navigateToNode, navigateToHub } from '$lib/utils/navigation';
@@ -90,7 +103,7 @@
 			h ^= id.charCodeAt(i);
 			h = Math.imul(h, 0x01000193);
 		}
-		return ((h >>> 0) % 1000) / 1000 * BLOOM_JITTER_MAX_MS;
+		return (((h >>> 0) % 1000) / 1000) * BLOOM_JITTER_MAX_MS;
 	}
 
 	function computeChronologicalDelays(): Map<string, number> {
@@ -160,7 +173,7 @@
 			h ^= id.charCodeAt(i);
 			h = Math.imul(h, 0x01000193);
 		}
-		return ((h >>> 0) % 1000) / 1000 * SPRING_STAGGER_MAX_MS;
+		return (((h >>> 0) % 1000) / 1000) * SPRING_STAGGER_MAX_MS;
 	}
 
 	/**
@@ -251,14 +264,14 @@
 	function isPanelOccupied(): boolean {
 		return Boolean(
 			appState.selectedNode ||
-				appState.activeBookChapter ||
-				appState.activeBookPart ||
-				appState.activeBookPartToc ||
-				appState.activePioneer ||
-				appState.activeRfc ||
-				appState.activeOutage ||
-				appState.activeFrontier ||
-				appState.activeRegistryIndex
+			appState.activeBookChapter ||
+			appState.activeBookPart ||
+			appState.activeBookPartToc ||
+			appState.activePioneer ||
+			appState.activeRfc ||
+			appState.activeOutage ||
+			appState.activeFrontier ||
+			appState.activeRegistryIndex
 		);
 	}
 
@@ -297,13 +310,13 @@
 	$effect(() => {
 		const open = Boolean(
 			appState.activeBookChapter ||
-				appState.activeBookPart ||
-				appState.activeBookPartToc ||
-				appState.activePioneer ||
-				appState.activeRfc ||
-				appState.activeOutage ||
-				appState.activeFrontier ||
-				appState.activeRegistryIndex
+			appState.activeBookPart ||
+			appState.activeBookPartToc ||
+			appState.activePioneer ||
+			appState.activeRfc ||
+			appState.activeOutage ||
+			appState.activeFrontier ||
+			appState.activeRegistryIndex
 		);
 		const selected = appState.selectedNode;
 
@@ -426,12 +439,7 @@
 						const t = forceTargets.get(n.id);
 						return t ? { ...n, x: t.x, y: t.y } : n;
 					});
-					appState.focusOnSubgraph(
-						targetNodes,
-						width,
-						height,
-						isPanelOccupied() ? undefined : 0
-					);
+					appState.focusOnSubgraph(targetNodes, width, height, isPanelOccupied() ? undefined : 0);
 				} else {
 					layoutTargets = null;
 					springStates.clear();
@@ -461,12 +469,7 @@
 					mode === 'mesh'
 						? targetNodes.filter((n) => n.type === 'protocol' || n.type === 'subcategory')
 						: targetNodes;
-				appState.focusOnSubgraph(
-					focusNodes,
-					width,
-					height,
-					isPanelOccupied() ? undefined : 0
-				);
+				appState.focusOnSubgraph(focusNodes, width, height, isPanelOccupied() ? undefined : 0);
 			});
 		}
 		prevLayout = mode;
@@ -598,10 +601,7 @@
 				);
 				if (dist < 10) {
 					// Tap — select node or reset to default
-					const world = screenToWorld(
-						e.changedTouches[0].clientX,
-						e.changedTouches[0].clientY
-					);
+					const world = screenToWorld(e.changedTouches[0].clientX, e.changedTouches[0].clientY);
 					const node = findNodeAtPosition(hitNodes(), world.x, world.y, appState.viewport.scale);
 					if (node) {
 						navigateToNode(node);
@@ -739,11 +739,11 @@
 					if (!bloomSpawned.has(node.id)) {
 						bloomSpawned.add(node.id);
 						const parentId =
-	node.type === 'category'
-		? 'hub'
-		: node.type === 'subcategory'
-			? node.categoryId
-			: (node.subcategoryId ?? node.categoryId);
+							node.type === 'category'
+								? 'hub'
+								: node.type === 'subcategory'
+									? node.categoryId
+									: (node.subcategoryId ?? node.categoryId);
 						const parent = parentId ? nodes.find((n) => n.id === parentId) : undefined;
 						const px = parent?.x ?? 0;
 						const py = parent?.y ?? 0;
@@ -758,10 +758,8 @@
 
 					// Critically-damped spring → smooth glide to target.
 					for (let s = 0; s < SUBSTEPS; s++) {
-						const ax =
-							BLOOM_SPRING_STIFFNESS * (target.x - node.x) - BLOOM_SPRING_DAMPING * vel.vx;
-						const ay =
-							BLOOM_SPRING_STIFFNESS * (target.y - node.y) - BLOOM_SPRING_DAMPING * vel.vy;
+						const ax = BLOOM_SPRING_STIFFNESS * (target.x - node.x) - BLOOM_SPRING_DAMPING * vel.vx;
+						const ay = BLOOM_SPRING_STIFFNESS * (target.y - node.y) - BLOOM_SPRING_DAMPING * vel.vy;
 						vel.vx += ax * subDt;
 						vel.vy += ay * subDt;
 						node.x += vel.vx * subDt;

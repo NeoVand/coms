@@ -1,9 +1,13 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { diagramDefinitions } from '$lib/data/diagram-definitions';
-	import { buildThemedDefinition, styleCrossArrows } from '$lib/utils/mermaid-helpers';
+	import { buildThemedDefinition, styleCrossArrows, loadMermaid } from '$lib/utils/mermaid-helpers';
 	import { getAppState } from '$lib/state/context';
-	import { parseSequenceSteps, type SequenceStep, type VisibleStep } from '$lib/utils/sequence-parser';
+	import {
+		parseSequenceSteps,
+		type SequenceStep,
+		type VisibleStep
+	} from '$lib/utils/sequence-parser';
 	import DiagramCaption from './DiagramCaption.svelte';
 
 	export interface InlineSequence {
@@ -50,16 +54,10 @@
 	const total = $derived(bound.length);
 	const definition = $derived(inline ?? (protocolId ? diagramDefinitions[protocolId] : undefined));
 	const overallCaption = $derived(definition?.caption ?? '');
-	const currentStep = $derived(cursor >= 0 && cursor < bound.length ? bound[cursor] : null);
 	const diagramKey = $derived(protocolId ?? 'inline');
 
 	onMount(async () => {
-		const mod = await import('mermaid');
-		mod.default.initialize({
-			startOnLoad: false,
-			theme: 'dark',
-			securityLevel: 'loose',
-			fontFamily: 'ui-sans-serif, system-ui, -apple-system, sans-serif',
+		mermaidApi = await loadMermaid({
 			sequence: {
 				actorMargin: 50,
 				messageMargin: 28,
@@ -75,7 +73,6 @@
 				noteMargin: 8
 			}
 		});
-		mermaidApi = mod.default;
 	});
 
 	$effect(() => {
@@ -94,6 +91,9 @@
 		mermaidApi
 			.render(id, fullDef)
 			.then(({ svg }) => {
+				// Mermaid emits an SVG string; inject it into our empty bind:this
+				// container, which Svelte does not otherwise render into.
+				// eslint-disable-next-line svelte/no-dom-manipulating
 				containerEl.innerHTML = svg;
 				styleCrossArrows(containerEl);
 				bindStepsToDom();
@@ -104,6 +104,7 @@
 			})
 			.catch((err) => {
 				console.error(`SequencePlayer render error [${diagramKey}]:`, err);
+				// eslint-disable-next-line svelte/no-dom-manipulating
 				containerEl.innerHTML =
 					'<p class="text-xs text-t-muted py-4 text-center">Diagram unavailable</p>';
 				bound = [];
@@ -117,12 +118,7 @@
 		intersectionObserver = new IntersectionObserver(
 			(entries) => {
 				for (const entry of entries) {
-					if (
-						entry.isIntersecting &&
-						entry.intersectionRatio >= 0.25 &&
-						!autoStarted &&
-						!playing
-					) {
+					if (entry.isIntersecting && entry.intersectionRatio >= 0.25 && !autoStarted && !playing) {
 						autoStarted = true;
 						setTimeout(() => {
 							if (!playing) play();
@@ -141,7 +137,7 @@
 
 	function bindStepsToDom() {
 		const svg = containerEl.querySelector('svg');
-		if (!svg) {
+		if (!svg || !definition) {
 			bound = [];
 			return;
 		}
@@ -157,9 +153,9 @@
 		const noteTexts = [...svg.querySelectorAll<SVGTextElement>('text.noteText')].sort(
 			(a, b) => yOf(a) - yOf(b)
 		);
-		const msgLines = [...svg.querySelectorAll<SVGElement>('.messageLine0, .messageLine1')].sort(
-			(a, b) => yOf(a) - yOf(b)
-		);
+		const msgLines = [
+			...svg.querySelectorAll<SVGGraphicsElement>('.messageLine0, .messageLine1')
+		].sort((a, b) => yOf(a) - yOf(b));
 		const msgTexts = [...svg.querySelectorAll<SVGTextElement>('text.messageText')].sort(
 			(a, b) => yOf(a) - yOf(b)
 		);
@@ -198,7 +194,7 @@
 		bound = next;
 	}
 
-	function yOf(el: SVGElement): number {
+	function yOf(el: SVGGraphicsElement): number {
 		const yAttr = el.getAttribute('y') ?? el.getAttribute('y1') ?? el.getAttribute('y2');
 		if (yAttr !== null) {
 			const n = parseFloat(yAttr);
@@ -338,9 +334,20 @@
 	});
 </script>
 
-<div class="sequence-player flex flex-col" class:expanded class:gap-4={expanded} class:gap-3={!expanded}>
+<div
+	class="sequence-player flex flex-col"
+	class:expanded
+	class:gap-4={expanded}
+	class:gap-3={!expanded}
+>
 	<!-- Player controls + caption — sits above the diagram, not sticky. -->
-	<div class="player-bar flex flex-col rounded-xl border border-s-border bg-s-glass" class:gap-3={expanded} class:gap-2={!expanded} class:p-4={expanded} class:p-3={!expanded}>
+	<div
+		class="player-bar flex flex-col rounded-xl border border-s-border bg-s-glass"
+		class:gap-3={expanded}
+		class:gap-2={!expanded}
+		class:p-4={expanded}
+		class:p-3={!expanded}
+	>
 		<div class="flex items-center" class:gap-3={expanded} class:gap-2={!expanded}>
 			<button
 				class="player-btn"
@@ -349,20 +356,41 @@
 				aria-label="Previous step"
 				title="Previous"
 			>
-				<svg viewBox="0 0 24 24" class="player-icon" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+				<svg
+					viewBox="0 0 24 24"
+					class="player-icon"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2.2"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				>
 					<polyline points="15 18 9 12 15 6"></polyline>
 				</svg>
 			</button>
 
 			{#if playing}
-				<button class="player-btn player-btn-primary" onclick={pause} aria-label="Pause" title="Pause" style="--c: {color};">
+				<button
+					class="player-btn player-btn-primary"
+					onclick={pause}
+					aria-label="Pause"
+					title="Pause"
+					style="--c: {color};"
+				>
 					<svg viewBox="0 0 24 24" class="player-icon" fill="currentColor">
 						<rect x="6" y="5" width="4" height="14" rx="1"></rect>
 						<rect x="14" y="5" width="4" height="14" rx="1"></rect>
 					</svg>
 				</button>
 			{:else}
-				<button class="player-btn player-btn-primary" onclick={play} aria-label="Play" title="Play" disabled={total === 0} style="--c: {color};">
+				<button
+					class="player-btn player-btn-primary"
+					onclick={play}
+					aria-label="Play"
+					title="Play"
+					disabled={total === 0}
+					style="--c: {color};"
+				>
 					<svg viewBox="0 0 24 24" class="player-icon" fill="currentColor">
 						<polygon points="6 4 20 12 6 20 6 4"></polygon>
 					</svg>
@@ -376,19 +404,41 @@
 				aria-label="Next step"
 				title="Next"
 			>
-				<svg viewBox="0 0 24 24" class="player-icon" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+				<svg
+					viewBox="0 0 24 24"
+					class="player-icon"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2.2"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				>
 					<polyline points="9 18 15 12 9 6"></polyline>
 				</svg>
 			</button>
 
-			<button class="player-btn" onclick={restart} aria-label="Restart" title="Restart from beginning" disabled={total === 0}>
-				<svg viewBox="0 0 24 24" class="player-icon" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+			<button
+				class="player-btn"
+				onclick={restart}
+				aria-label="Restart"
+				title="Restart from beginning"
+				disabled={total === 0}
+			>
+				<svg
+					viewBox="0 0 24 24"
+					class="player-icon"
+					fill="none"
+					stroke="currentColor"
+					stroke-width="2.2"
+					stroke-linecap="round"
+					stroke-linejoin="round"
+				>
 					<polyline points="1 4 1 10 7 10"></polyline>
 					<path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"></path>
 				</svg>
 			</button>
 
-			<div class="counter ml-1 tabular-nums text-t-muted">
+			<div class="counter ml-1 text-t-muted tabular-nums">
 				{cursor + 1} / {total || '—'}
 			</div>
 

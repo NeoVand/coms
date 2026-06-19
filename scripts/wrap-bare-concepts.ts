@@ -1,4 +1,3 @@
-/* eslint-disable */
 /**
  * wrap-bare-concepts.ts — Auto-wrap bare technical-term mentions
  * (RTT, handshake, retransmission, sliding window, …) into
@@ -73,15 +72,7 @@ const PARSED_FIELDS = new Set([
 	'body',
 	'content'
 ]);
-const SKIP_FIELDS = new Set([
-	'alt',
-	'name',
-	'title',
-	'org',
-	'label',
-	'attribution',
-	'authors'
-]);
+const SKIP_FIELDS = new Set(['alt', 'name', 'title', 'org', 'label', 'attribution', 'authors']);
 
 // Concept terms that ARE technical concepts but whose surface form is a
 // generic English word or an extremely common technical word. Wrapping
@@ -282,11 +273,7 @@ for (const file of walk(DATA_DIR)) {
 		const acronymMatch = fullSurface.match(/^([A-Z][A-Z0-9/-]{1,})\s+\S/);
 		if (acronymMatch) {
 			const acr = acronymMatch[1];
-			if (
-				acr.length >= 2 &&
-				!LOW_PRIORITY.has(acr.toLowerCase()) &&
-				!surfaces.includes(acr)
-			)
+			if (acr.length >= 2 && !LOW_PRIORITY.has(acr.toLowerCase()) && !surfaces.includes(acr))
 				surfaces.push(acr);
 		}
 		// Also if the term itself is a bare 2-3 char acronym, surface it
@@ -320,7 +307,7 @@ for (const file of walk(DATA_DIR)) {
 	// of "Three-Way Handshake"), keep the longer surface — the more
 	// specific concept wins. Without this, sequential right-to-left
 	// replacement corrupts the wrap by inserting markup mid-token.
-	allHits.sort((a, b) => (b.len - a.len) || (a.off - b.off));
+	allHits.sort((a, b) => b.len - a.len || a.off - b.off);
 	const claimed: Array<[number, number]> = []; // [start, end) ranges already claimed
 	const nonOverlap: Hit[] = [];
 	for (const h of allHits) {

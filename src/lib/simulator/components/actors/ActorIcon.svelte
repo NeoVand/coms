@@ -10,7 +10,16 @@
 	let { icon, color = '#94a3b8', size = 32 }: Props = $props();
 </script>
 
-<svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+<svg
+	width={size}
+	height={size}
+	viewBox="0 0 24 24"
+	fill="none"
+	stroke={color}
+	stroke-width="1.5"
+	stroke-linecap="round"
+	stroke-linejoin="round"
+>
 	{#if icon === 'client' || icon === 'browser'}
 		<!-- Laptop -->
 		<path d="M4 16V6a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v10" />

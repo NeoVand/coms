@@ -58,8 +58,7 @@ function httpRequestLayer(
 							bits: 0,
 							value: extra.soapAction,
 							editable: false,
-							description:
-								'HTTP header identifying the SOAP operation — required by SOAP 1.1'
+							description: 'HTTP header identifying the SOAP operation — required by SOAP 1.1'
 						}
 					]
 				: [])
@@ -252,11 +251,7 @@ export const soapRequest: SimulationConfig = {
 					protocol: 6
 				}),
 				createTCPLayer({ srcPort: 80, dstPort: 51400, flags: 'PSH,ACK' }),
-				httpResponseLayer(
-					'500 Internal Server Error',
-					'text/xml; charset=utf-8',
-					'#ef4444'
-				),
+				httpResponseLayer('500 Internal Server Error', 'text/xml; charset=utf-8', '#ef4444'),
 				createSOAPLayer({
 					body: 'Fault(code: "Client", string: "Invalid user ID")',
 					header: 'faultactor: http://example.com/UserService'

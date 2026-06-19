@@ -177,7 +177,10 @@ Edited by Wesley Eddy in August 2022, this RFC consolidated **41 years of errata
 			{ ref: '§3.1', description: '[[tcp|TCP]] header format' },
 			{ ref: '§3.4', description: 'Sequence numbers' },
 			{ ref: '§3.5', description: '{{three-way-handshake|Three-way handshake}}' },
-			{ ref: '§3.8', description: '{{sliding-window|Sliding window}} {{flow-control|flow control}}' }
+			{
+				ref: '§3.8',
+				description: '{{sliding-window|Sliding window}} {{flow-control|flow control}}'
+			}
 		]
 	},
 	{
@@ -218,7 +221,10 @@ The math originated in [[pioneer:van-jacobson|Van Jacobson]] and Karels's 1988 S
 
 Originally published as RFC 1323 in 1992 by [[pioneer:van-jacobson|Van Jacobson]] et al.; refined and republished here. Both options are negotiated in the SYN — they're either there from the start or never.`,
 		notableSections: [
-			{ ref: '{{window-scale|Window Scale}}', description: 'Lets the 16-bit receive window represent up to 2³⁰ bytes' },
+			{
+				ref: '{{window-scale|Window Scale}}',
+				description: 'Lets the 16-bit receive window represent up to 2³⁰ bytes'
+			},
 			{ ref: 'Timestamps + PAWS', description: 'Protection Against Wrapped Sequence numbers' }
 		]
 	},
@@ -383,7 +389,7 @@ Internally cleaner than 1.0–1.2; externally indistinguishable on the wire from
 		notableSections: [
 			{ ref: '§5', description: 'Record Protocol' },
 			{ ref: '§7.1', description: 'Key schedule (HKDF-Extract / HKDF-Expand-Label)' },
-			{ ref: '§D.4', description: "Middlebox-compatibility hacks (\"looks like [[tls|TLS]] 1.2\")" }
+			{ ref: '§D.4', description: 'Middlebox-compatibility hacks ("looks like [[tls|TLS]] 1.2")' }
 		]
 	},
 	{
@@ -885,7 +891,8 @@ Co-authored by Paul Hoffman and Patrick McManus (then Mozilla). DoH is now ubiqu
 	},
 	{
 		number: '9460',
-		title: 'Service Binding and Parameter Specification via the DNS (SVCB and HTTPS Resource Records)',
+		title:
+			'Service Binding and Parameter Specification via the DNS (SVCB and HTTPS Resource Records)',
 		year: 2023,
 		authors: 'B. Schwartz, M. Bishop, E. Nygren',
 		status: 'proposed-standard',
@@ -961,7 +968,8 @@ If your mail client is configured to send via your provider, it's almost certain
 	},
 	{
 		number: '8314',
-		title: 'Cleartext Considered Obsolete: Use of Transport Layer Security (TLS) for Email Submission and Access',
+		title:
+			'Cleartext Considered Obsolete: Use of Transport Layer Security (TLS) for Email Submission and Access',
 		year: 2018,
 		authors: 'K. Moore, C. Newman',
 		status: 'proposed-standard',
@@ -1528,9 +1536,7 @@ Edited across decades by [[pioneer:charlie-kaufman|Charlie Kaufman]] (Microsoft)
 		abstract: `The first deployable **post-quantum** extension to [[ipsec|IPsec]]. Adds a **Post-quantum Preshared Key (PPK)** to the IKEv2 key derivation so that even if classical Diffie-Hellman is broken later by a quantum adversary, recorded traffic remains unrecoverable (the "harvest-now-decrypt-later" defence).
 
 Compatible with the IKEv2 state machine; only the KDF inputs change. Co-authored by Cisco (Scott Fluhrer, David McGrew), AWS (Panos Kampanakis), and ELVIS-PLUS (Valery Smyslov) — illustrating that [[ipsec|IPsec]] is always a multi-vendor, multi-government project. Superseded for new deployments by [[rfc:9242|RFC 9242]] + [[rfc:9370|RFC 9370]] + the draft-ietf-ipsecme-ikev2-mlkem draft, but still the only PQ option for legacy stacks that can't be upgraded.`,
-		notableSections: [
-			{ ref: '§3', description: 'PPK_IDENTITY notify and KDF mixing' }
-		]
+		notableSections: [{ ref: '§3', description: 'PPK_IDENTITY notify and KDF mixing' }]
 	},
 	{
 		number: '9242',
@@ -1541,9 +1547,7 @@ Compatible with the IKEv2 state machine; only the KDF inputs change. Co-authored
 		url: 'https://www.rfc-editor.org/rfc/rfc9242',
 		protocols: ['ipsec'],
 		abstract: `Adds a new **IKE_INTERMEDIATE** exchange between IKE_SA_INIT and IKE_AUTH so that large post-quantum public keys (ML-KEM-768 is 1,184 bytes; ML-KEM-1024 is 1,568 bytes) can be transferred *after* the IKE SA is protected but *before* the identity is revealed. Without this, the IKE_SA_INIT message would exceed common UDP MTU limits and force fragmentation that NATs and firewalls regularly mangle.`,
-		notableSections: [
-			{ ref: '§3', description: 'IKE_INTERMEDIATE message format and rules' }
-		]
+		notableSections: [{ ref: '§3', description: 'IKE_INTERMEDIATE message format and rules' }]
 	},
 	{
 		number: '9370',
@@ -1592,7 +1596,10 @@ Compatible with the IKEv2 state machine; only the KDF inputs change. Co-authored
 
 Independent of the transport. Works equally well over multicast DNS on the link or over unicast DNS for wide-area discovery (the latter now formalised by SRP, RFC 9665, 2025). The wire-protocol substrate for every AirPlay receiver, AirPrint printer, Chromecast, Sonos speaker, and Matter device on the planet.`,
 		notableSections: [
-			{ ref: '§4', description: 'Service Instance Names (the `Instance._service._proto.domain` pattern)' },
+			{
+				ref: '§4',
+				description: 'Service Instance Names (the `Instance._service._proto.domain` pattern)'
+			},
 			{ ref: '§7', description: 'Service Names registered with IANA' },
 			{ ref: '§6', description: 'Data syntax for DNS-SD TXT records' }
 		]
@@ -1628,7 +1635,7 @@ The protocol foundation for Discord's **DAVE** end-to-end-encrypted voice (deplo
 	// ── Congestion control ────────────────────────────────────────────
 	{
 		number: '6582',
-		title: 'The NewReno Modification to TCP\'s Fast Recovery Algorithm',
+		title: "The NewReno Modification to TCP's Fast Recovery Algorithm",
 		year: 2012,
 		authors: 'T. Henderson, S. Floyd, A. Gurtov, Y. Nishida',
 		status: 'proposed-standard',

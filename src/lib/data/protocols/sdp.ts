@@ -74,7 +74,8 @@ async def main():
     await pc.setRemoteDescription(answer)
 
 asyncio.run(main())`,
-		caption: '[[webrtc|WebRTC]] [[sdp|SDP]] offer/answer — [[sdp|SDP]] is generated automatically from your media tracks',
+		caption:
+			'[[webrtc|WebRTC]] [[sdp|SDP]] offer/answer — [[sdp|SDP]] is generated automatically from your media tracks',
 		alternatives: [
 			{
 				language: 'javascript',

@@ -23,32 +23,28 @@ export function createICMPLayer(
 				bits: 8,
 				value: overrides?.code ?? 0,
 				editable: false,
-				description:
-					'Subtype code — for Type 3: 0=Net, 1=Host, 3=Port unreachable'
+				description: 'Subtype code — for Type 3: 0=Net, 1=Host, 3=Port unreachable'
 			},
 			{
 				name: 'Checksum',
 				bits: 16,
 				value: overrides?.checksum ?? '0x4D2A',
 				editable: false,
-				description:
-					'Error-checking value covering the entire ICMP message'
+				description: 'Error-checking value covering the entire ICMP message'
 			},
 			{
 				name: 'Identifier',
 				bits: 16,
 				value: overrides?.identifier ?? '0x1234',
 				editable: false,
-				description:
-					'Identifies the ping session — matches requests to replies'
+				description: 'Identifies the ping session — matches requests to replies'
 			},
 			{
 				name: 'Sequence',
 				bits: 16,
 				value: overrides?.sequence ?? 1,
 				editable: false,
-				description:
-					'Sequence number — increments with each ping in a session'
+				description: 'Sequence number — increments with each ping in a session'
 			},
 			{
 				name: 'Data',

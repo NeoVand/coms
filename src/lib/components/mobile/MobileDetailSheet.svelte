@@ -71,7 +71,10 @@
 					{/if}
 				</div>
 				<p class="text-xs text-t-secondary">
-					{#each getHighlightedName(proto.id, proto.name) as seg}{#if seg.highlight}<span class="font-bold" style="color: {color}">{seg.text}</span>{:else}{seg.text}{/if}{/each}
+					{#each getHighlightedName(proto.id, proto.name) as seg, i (i)}{#if seg.highlight}<span
+								class="font-bold"
+								style="color: {color}">{seg.text}</span
+							>{:else}{seg.text}{/if}{/each}
 				</p>
 				<p
 					class="mt-2 rounded-lg border-l-2 py-2 pl-3 text-sm text-t-primary"
@@ -81,7 +84,7 @@
 				</p>
 			</div>
 
-			<SimulatorTabs color={color} />
+			<SimulatorTabs {color} />
 
 			{#if appState.detailViewMode === 'learn'}
 				<!-- Overview -->
@@ -91,9 +94,9 @@
 					{/each}
 				</div>
 
-				<ProtocolDiagram protocolId={proto.id} color={color} />
+				<ProtocolDiagram protocolId={proto.id} {color} />
 
-				<HowItWorksSteps steps={proto.howItWorks} color={color} />
+				<HowItWorksSteps steps={proto.howItWorks} {color} />
 
 				<!-- Use cases -->
 				<section>
@@ -103,9 +106,7 @@
 					<ul class="space-y-1">
 						{#each proto.useCases as useCase, i (i)}
 							<li class="flex items-start gap-2 text-xs text-t-primary">
-								<span
-									class="mt-1.5 h-1 w-1 shrink-0 rounded-full"
-									style="background-color: {color}"
+								<span class="mt-1.5 h-1 w-1 shrink-0 rounded-full" style="background-color: {color}"
 								></span>
 								{useCase}
 							</li>
@@ -117,10 +118,10 @@
 					<CodeExample example={proto.codeExample} />
 				{/if}
 
-				<PerformanceStats performance={proto.performance} color={color} />
+				<PerformanceStats performance={proto.performance} {color} />
 			{:else if appState.detailViewMode === 'simulate'}
 				{#key proto.id}
-					<SimulatorView protocolId={proto.id} color={color} />
+					<SimulatorView protocolId={proto.id} {color} />
 				{/key}
 			{:else if appState.detailViewMode === 'compare'}
 				{#if appState.compareTargetId}
@@ -128,13 +129,13 @@
 					{@const pair = getPair(proto.id, appState.compareTargetId)}
 					{#if targetProto}
 						{#if pair?.type === 'relationship'}
-							<RelationshipCard {pair} leftProto={proto} rightProto={targetProto} color={color} />
+							<RelationshipCard {pair} leftProto={proto} rightProto={targetProto} {color} />
 						{:else}
-							<ComparisonCard {pair} leftProto={proto} rightProto={targetProto} color={color} />
+							<ComparisonCard {pair} leftProto={proto} rightProto={targetProto} {color} />
 						{/if}
 					{/if}
 				{:else}
-					<ComparisonPicker protocolId={proto.id} color={color} />
+					<ComparisonPicker protocolId={proto.id} {color} />
 				{/if}
 			{/if}
 		</div>

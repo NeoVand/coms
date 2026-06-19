@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { buildThemedDefinition } from '$lib/utils/mermaid-helpers';
+	import { buildThemedDefinition, loadMermaid } from '$lib/utils/mermaid-helpers';
 	import { getAppState } from '$lib/state/context';
 
 	let {
@@ -20,30 +20,20 @@
 	} = $props();
 
 	const appState = getAppState();
-	let containerEl: HTMLDivElement;
+	let containerEl = $state<HTMLDivElement>();
 	let mermaidApi: typeof import('mermaid').default | null = $state(null);
 	let renderCounter = 0;
 
 	onMount(async () => {
-		const mod = await import('mermaid');
-		mod.default.initialize({
-			startOnLoad: false,
-			theme: 'dark',
-			securityLevel: 'loose',
-			fontFamily: 'ui-sans-serif, system-ui, -apple-system, sans-serif',
-			flowchart: {
-				htmlLabels: true,
-				curve: 'basis',
-				useMaxWidth: true,
-				padding: 16
-			}
+		mermaidApi = await loadMermaid({
+			flowchart: { htmlLabels: true, curve: 'basis', useMaxWidth: true, padding: 16 }
 		});
-		mermaidApi = mod.default;
 	});
 
 	$effect(() => {
 		if (!open || !mermaidApi || !definition || !containerEl) return;
 
+		const el = containerEl;
 		const theme = appState.theme;
 		const fullDef = buildThemedDefinition(definition, color, true, theme);
 		const id = `mmd-story-modal-${++renderCounter}`;
@@ -51,12 +41,11 @@
 		mermaidApi
 			.render(id, fullDef)
 			.then(({ svg }) => {
-				containerEl.innerHTML = svg;
+				el.innerHTML = svg;
 			})
 			.catch((err) => {
 				console.error('Story diagram modal render error:', err);
-				containerEl.innerHTML =
-					'<p class="text-xs text-t-muted py-4 text-center">Diagram unavailable</p>';
+				el.innerHTML = '<p class="text-xs text-t-muted py-4 text-center">Diagram unavailable</p>';
 			});
 	});
 
@@ -88,7 +77,9 @@
 		onclick={handleBackdropClick}
 	>
 		<!-- Backdrop -->
-		<div class="pointer-events-none absolute inset-0 bg-[var(--theme-overlay)] backdrop-blur-md"></div>
+		<div
+			class="pointer-events-none absolute inset-0 bg-[var(--theme-overlay)] backdrop-blur-md"
+		></div>
 
 		<!-- Modal card -->
 		<div
@@ -119,9 +110,7 @@
 			</div>
 
 			<!-- Diagram content: align top so tall diagrams stay scrollable from the top -->
-			<div
-				class="custom-scrollbar flex flex-1 flex-col items-stretch overflow-y-auto px-8 py-6"
-			>
+			<div class="custom-scrollbar flex flex-1 flex-col items-stretch overflow-y-auto px-8 py-6">
 				<div class="diagram-container w-full flex-shrink-0" bind:this={containerEl}>
 					<div class="flex h-24 items-center justify-center">
 						<span class="text-xs text-t-muted">Loading diagram...</span>

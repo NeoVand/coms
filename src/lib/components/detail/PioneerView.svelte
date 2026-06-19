@@ -1,10 +1,5 @@
 <script lang="ts">
-	import {
-		getPioneerById,
-		getProtocolById,
-		getCategoryById,
-		categories
-	} from '$lib/data/index';
+	import { getPioneerById, getProtocolById, getCategoryById, categories } from '$lib/data/index';
 	import { ExternalLink, Award, Quote } from 'lucide-svelte';
 	import { parseRichText } from '$lib/utils/text-parser';
 	import RichText from '$lib/components/detail/inline/RichText.svelte';
@@ -90,11 +85,7 @@
 							{:else if seg.type === 'bold'}
 								<strong class="font-semibold text-t-primary">{seg.value}</strong>
 							{:else if seg.type === 'protocol-link' || seg.type === 'bold-protocol-link'}
-								<ProtocolLink
-									protocolId={seg.protocolId}
-									label={seg.label}
-									color={accent}
-								/>
+								<ProtocolLink protocolId={seg.protocolId} label={seg.label} color={accent} />
 							{:else if seg.type === 'concept' || seg.type === 'bold-concept'}
 								<span class="font-medium text-t-primary">{seg.label}</span>
 							{/if}
@@ -184,9 +175,7 @@
 		<!-- Category links -->
 		{#if pioneer.categories && pioneer.categories.length > 0}
 			<section>
-				<h3 class="mb-2 text-[10px] font-semibold tracking-wider text-t-muted uppercase">
-					Areas
-				</h3>
+				<h3 class="mb-2 text-[10px] font-semibold tracking-wider text-t-muted uppercase">Areas</h3>
 				<div class="flex flex-wrap gap-2">
 					{#each pioneer.categories as catId (catId)}
 						{@const cat = getCategoryById(catId)}

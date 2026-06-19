@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { diagramDefinitions } from '$lib/data/diagram-definitions';
-	import { buildThemedDefinition, styleCrossArrows } from '$lib/utils/mermaid-helpers';
+	import { buildThemedDefinition, styleCrossArrows, loadMermaid } from '$lib/utils/mermaid-helpers';
 	import { getAppState } from '$lib/state/context';
 
 	let {
@@ -17,12 +17,7 @@
 	let renderCounter = 0;
 
 	onMount(async () => {
-		const mod = await import('mermaid');
-		mod.default.initialize({
-			startOnLoad: false,
-			theme: 'dark',
-			securityLevel: 'loose',
-			fontFamily: 'ui-sans-serif, system-ui, -apple-system, sans-serif',
+		mermaidApi = await loadMermaid({
 			sequence: {
 				actorMargin: 50,
 				messageMargin: 25,
@@ -44,7 +39,6 @@
 				padding: 12
 			}
 		});
-		mermaidApi = mod.default;
 	});
 
 	const definition = $derived(diagramDefinitions[protocolId]);
@@ -59,13 +53,16 @@
 		mermaidApi
 			.render(id, fullDef)
 			.then(({ svg }) => {
+				// Mermaid emits an SVG string; inject it into our empty bind:this
+				// container, which Svelte does not otherwise render into.
+				// eslint-disable-next-line svelte/no-dom-manipulating
 				containerEl.innerHTML = svg;
 				styleCrossArrows(containerEl);
 			})
 			.catch((err) => {
 				console.error(`Mermaid render error [${protocolId}]:`, err);
-				containerEl.innerHTML =
-					'<p class="text-xs text-t-muted py-4">Diagram unavailable</p>';
+				// eslint-disable-next-line svelte/no-dom-manipulating
+				containerEl.innerHTML = '<p class="text-xs text-t-muted py-4">Diagram unavailable</p>';
 			});
 	});
 </script>
@@ -82,7 +79,7 @@
 		</div>
 	</div>
 	{#if definition?.caption && !hideCaption}
-		<p class="mt-3 text-center text-[11px] italic text-t-muted">{definition.caption}</p>
+		<p class="mt-3 text-center text-[11px] text-t-muted italic">{definition.caption}</p>
 	{/if}
 </div>
 

@@ -57,7 +57,8 @@ with smtplib.SMTP("smtp.example.com", 587) as server:
     server.starttls()
     server.login("sender@example.com", "password")
     server.send_message(msg)`,
-		caption: '[[smtp|SMTP]] delivers email hop by hop — {{starttls|STARTTLS}} encrypts the connection.',
+		caption:
+			'[[smtp|SMTP]] delivers email hop by hop — {{starttls|STARTTLS}} encrypts the connection.',
 		alternatives: [
 			{
 				language: 'javascript',

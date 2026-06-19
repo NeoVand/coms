@@ -52,8 +52,7 @@ function httpRequestLayer(
 							bits: 0,
 							value: extra.auth,
 							editable: false,
-							description:
-								'Authorization header — carries the Bearer access token',
+							description: 'Authorization header — carries the Bearer access token',
 							color: '#2DD4BF'
 						}
 					]
@@ -128,7 +127,7 @@ export const oauth2Flow: SimulationConfig = {
 	protocolId: 'oauth2',
 	title: 'OAuth 2.0 Authorization Code + PKCE',
 	description:
-		'See how OAuth 2.0 delegates authorization through a three-party redirect flow. The app never sees the user\'s password — instead it receives a scoped access token after the user consents at the authorization server.',
+		"See how OAuth 2.0 delegates authorization through a three-party redirect flow. The app never sees the user's password — instead it receives a scoped access token after the user consents at the authorization server.",
 	tier: 'client',
 	actors: [
 		{ id: 'app', label: 'Your App', icon: 'browser', position: 'left' },
@@ -149,7 +148,7 @@ export const oauth2Flow: SimulationConfig = {
 			id: 'pkce-redirect',
 			label: 'Authorization Request',
 			description:
-				'App generates a random code_verifier and its SHA-256 hash (code_challenge) for PKCE. Then it redirects the user\'s browser to the authorization server with client_id, scope, state, and the code_challenge.',
+				"App generates a random code_verifier and its SHA-256 hash (code_challenge) for PKCE. Then it redirects the user's browser to the authorization server with client_id, scope, state, and the code_challenge.",
 			fromActor: 'app',
 			toActor: 'auth',
 			duration: 800,
@@ -182,7 +181,7 @@ export const oauth2Flow: SimulationConfig = {
 			id: 'user-consent',
 			label: 'User Consent',
 			description:
-				'Auth server presents a consent screen showing what the app is requesting. The user authenticates (if not already logged in) and approves the requested scopes. The app never sees the user\'s credentials.',
+				"Auth server presents a consent screen showing what the app is requesting. The user authenticates (if not already logged in) and approves the requested scopes. The app never sees the user's credentials.",
 			fromActor: 'auth',
 			toActor: 'app',
 			duration: 1200,
@@ -215,7 +214,7 @@ export const oauth2Flow: SimulationConfig = {
 			id: 'auth-code',
 			label: 'Authorization Code',
 			description:
-				'After consent, the auth server redirects the browser back to the app\'s callback URL with a short-lived authorization code and the original state parameter for CSRF verification.',
+				"After consent, the auth server redirects the browser back to the app's callback URL with a short-lived authorization code and the original state parameter for CSRF verification.",
 			fromActor: 'auth',
 			toActor: 'app',
 			duration: 800,
@@ -368,11 +367,7 @@ export const oauth2Flow: SimulationConfig = {
 					cipherSuite: 'AES-256-GCM',
 					length: 384
 				}),
-				httpResponseLayer(
-					'200 OK',
-					'#22c55e',
-					'{id:42, name:"Alice", email:"alice@example.com"}'
-				)
+				httpResponseLayer('200 OK', '#22c55e', '{id:42, name:"Alice", email:"alice@example.com"}')
 			]
 		}
 	]

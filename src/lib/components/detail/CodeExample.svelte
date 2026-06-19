@@ -1,34 +1,52 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
 	import type { CodeExample as CodeExampleType } from '$lib/data/types';
 	import RichText from '$lib/components/detail/inline/RichText.svelte';
 	import { parseRichText } from '$lib/utils/text-parser';
-	import hljs from 'highlight.js/lib/core';
-	import python from 'highlight.js/lib/languages/python';
-	import javascript from 'highlight.js/lib/languages/javascript';
-	import typescript from 'highlight.js/lib/languages/typescript';
-	import bash from 'highlight.js/lib/languages/bash';
-	import http from 'highlight.js/lib/languages/http';
-	import protobuf from 'highlight.js/lib/languages/protobuf';
-	import xml from 'highlight.js/lib/languages/xml';
-	import json from 'highlight.js/lib/languages/json';
 
-	hljs.registerLanguage('python', python);
-	hljs.registerLanguage('javascript', javascript);
-	hljs.registerLanguage('typescript', typescript);
-	hljs.registerLanguage('bash', bash);
-	hljs.registerLanguage('http', http);
-	hljs.registerLanguage('protobuf', protobuf);
-	hljs.registerLanguage('xml', xml);
-	hljs.registerLanguage('json', json);
+	// highlight.js (core + 8 grammars) is ~150 KB. Load it lazily on mount so it
+	// only enters the bundle when a code example actually renders. Until it
+	// resolves, code shows as escaped plain text; `highlightedCode` re-derives
+	// once `hljs` is set.
+	type Hljs = typeof import('highlight.js/lib/core').default;
+	let hljs = $state<Hljs | null>(null);
+
+	onMount(async () => {
+		const [core, python, javascript, typescript, bash, http, protobuf, xml, json] =
+			await Promise.all([
+				import('highlight.js/lib/core'),
+				import('highlight.js/lib/languages/python'),
+				import('highlight.js/lib/languages/javascript'),
+				import('highlight.js/lib/languages/typescript'),
+				import('highlight.js/lib/languages/bash'),
+				import('highlight.js/lib/languages/http'),
+				import('highlight.js/lib/languages/protobuf'),
+				import('highlight.js/lib/languages/xml'),
+				import('highlight.js/lib/languages/json')
+			]);
+		const h = core.default;
+		h.registerLanguage('python', python.default);
+		h.registerLanguage('javascript', javascript.default);
+		h.registerLanguage('typescript', typescript.default);
+		h.registerLanguage('bash', bash.default);
+		h.registerLanguage('http', http.default);
+		h.registerLanguage('protobuf', protobuf.default);
+		h.registerLanguage('xml', xml.default);
+		h.registerLanguage('json', json.default);
+		hljs = h;
+	});
+
+	function escapeHtml(code: string): string {
+		return code.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+	}
 
 	let { example, color = '#FFFFFF' }: { example: CodeExampleType; color?: string } = $props();
 	let copied = $state(false);
 	let activeTab = $state(0);
 
 	const tabs = $derived.by(() => {
-		const list: { language: string; code: string; sections?: { title: string; code: string }[] }[] = [
-			{ language: example.language, code: example.code }
-		];
+		const list: { language: string; code: string; sections?: { title: string; code: string }[] }[] =
+			[{ language: example.language, code: example.code }];
 		if (example.alternatives) {
 			for (const alt of example.alternatives) {
 				list.push(alt);
@@ -57,6 +75,8 @@
 	}
 
 	function highlightCode(code: string, language: string): string {
+		// Until hljs finishes loading, render escaped plain text.
+		if (!hljs) return escapeHtml(code);
 		const hljsLang = resolveHljsLang(language);
 		try {
 			if (hljs.getLanguage(hljsLang)) {
@@ -64,7 +84,7 @@
 			}
 			return hljs.highlightAuto(code).value;
 		} catch {
-			return code.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+			return escapeHtml(code);
 		}
 	}
 
@@ -111,21 +131,33 @@
 	}
 </script>
 
+<!--
+  This component renders highlight.js output. The highlighted HTML is produced
+  at runtime from code samples that ship in the protocol data files (trusted,
+  build-time content — never user input), so {@html} is safe here. Disabled
+  file-wide because the {@html} sits inside <pre> blocks where an inline
+  disable comment would inject stray whitespace into the rendered code.
+-->
+<!-- eslint-disable svelte/no-at-html-tags -->
 <section data-tour="code-example">
 	<h3 class="mb-2 text-xs font-semibold tracking-wider text-t-muted uppercase">Code Example</h3>
 	<div
 		class="code-block overflow-hidden rounded-xl border bg-[var(--theme-code-bg)]"
 		style="border-color: {color}25;"
 	>
-		<div class="flex items-center justify-between border-b px-3 py-2" style="border-color: {color}20;">
+		<div
+			class="flex items-center justify-between border-b px-3 py-2"
+			style="border-color: {color}20;"
+		>
 			{#if tabs.length > 1}
 				<div class="flex gap-1">
 					{#each tabs as tab, i (tab.language)}
 						<button
-							class="rounded-md px-2.5 py-1 text-[10px] font-medium tracking-wider uppercase transition-colors {activeTab !== i ? 'text-t-muted hover:bg-s-glass-hover hover:text-t-primary' : ''}"
-							style={activeTab === i
-								? `background-color: ${color}18; color: ${color}`
-								: ''}
+							class="rounded-md px-2.5 py-1 text-[10px] font-medium tracking-wider uppercase transition-colors {activeTab !==
+							i
+								? 'text-t-muted hover:bg-s-glass-hover hover:text-t-primary'
+								: ''}"
+							style={activeTab === i ? `background-color: ${color}18; color: ${color}` : ''}
 							onclick={() => (activeTab = i)}
 						>
 							{displayLang(tab.language)}
@@ -174,7 +206,10 @@
 						>
 							{section.title}
 						</div>
-						<pre class="custom-scrollbar overflow-x-auto px-3 py-2 text-[11px] leading-5 text-t-primary"><code class="hljs">{@html section.html}</code></pre>
+						<pre
+							class="custom-scrollbar overflow-x-auto px-3 py-2 text-[11px] leading-5 text-t-primary"><code
+								class="hljs">{@html section.html}</code
+							></pre>
 					</div>
 					{#if i < highlightedSections.length - 1}
 						<div style="border-bottom: 1px solid {color}12;"></div>

@@ -14,24 +14,21 @@ export function createSOAPLayer(
 				bits: 0,
 				value: overrides?.envelope ?? 'soap:Envelope xmlns:soap="..."',
 				editable: false,
-				description:
-					'Root XML element wrapping the entire SOAP message'
+				description: 'Root XML element wrapping the entire SOAP message'
 			},
 			{
 				name: 'Header',
 				bits: 0,
 				value: overrides?.header ?? '',
 				editable: false,
-				description:
-					'Optional SOAP Header — authentication, routing, transaction context'
+				description: 'Optional SOAP Header — authentication, routing, transaction context'
 			},
 			{
 				name: 'Body',
 				bits: 0,
 				value: overrides?.body ?? 'GetUser(id: 42)',
 				editable: false,
-				description:
-					'Required SOAP Body — contains the operation and parameters',
+				description: 'Required SOAP Body — contains the operation and parameters',
 				color: '#00D4FF'
 			},
 			{
@@ -39,16 +36,14 @@ export function createSOAPLayer(
 				bits: 0,
 				value: overrides?.namespace ?? 'http://example.com/users',
 				editable: false,
-				description:
-					'XML namespace identifying the service schema and operations'
+				description: 'XML namespace identifying the service schema and operations'
 			},
 			{
 				name: 'SOAPAction',
 				bits: 0,
 				value: overrides?.soapAction ?? 'http://example.com/GetUser',
 				editable: false,
-				description:
-					'HTTP header identifying the intended SOAP operation'
+				description: 'HTTP header identifying the intended SOAP operation'
 			}
 		]
 	};

@@ -8,7 +8,7 @@ export const kafkaEvents: SimulationConfig = {
 	protocolId: 'kafka',
 	title: 'Kafka — Event Streaming',
 	description:
-		'Follow a producer connecting to a Kafka broker, discovering topic metadata, and publishing an event. Kafka\'s binary wire protocol uses API keys and versioning for backward-compatible evolution.',
+		"Follow a producer connecting to a Kafka broker, discovering topic metadata, and publishing an event. Kafka's binary wire protocol uses API keys and versioning for backward-compatible evolution.",
 	tier: 'client',
 	actors: [
 		{ id: 'producer', label: 'Producer', icon: 'client', position: 'left' },
@@ -124,7 +124,7 @@ export const kafkaEvents: SimulationConfig = {
 			id: 'produce-ack',
 			label: 'Produce ACK',
 			description:
-				'The broker acknowledges the produce request after all in-sync replicas have written the records. The response includes the base offset — the position in the partition\'s append-only log where the records were written. Consumers use offsets to track their read position.',
+				"The broker acknowledges the produce request after all in-sync replicas have written the records. The response includes the base offset — the position in the partition's append-only log where the records were written. Consumers use offsets to track their read position.",
 			fromActor: 'broker',
 			toActor: 'producer',
 			duration: 800,

@@ -36,7 +36,7 @@ Together — Wi-Fi for local broadband, Bluetooth for personal-area, Cellular fo
 					title: 'Viterbi algorithm; Qualcomm co-founder',
 					org: 'Qualcomm',
 					contribution:
-						'Invented the **Viterbi algorithm** in 1967 — used in every cellular phone, every disk-drive read channel, every {{gps|GPS}} receiver, and every speech recognizer. *On advice of a lawyer, Viterbi did not patent the algorithm.* Co-founded Qualcomm in 1985; led the company through the {{cdma|CDMA}}-vs-{{tdma|TDMA}} wars that culminated in {{cdma|CDMA}}\'s mathematical foundation becoming {{wcdma|WCDMA}} inside {{umts|UMTS}}. **{{ieee-802-15-4|IEEE}} Medal of Honor 2010**.'
+						"Invented the **Viterbi algorithm** in 1967 — used in every cellular phone, every disk-drive read channel, every {{gps|GPS}} receiver, and every speech recognizer. *On advice of a lawyer, Viterbi did not patent the algorithm.* Co-founded Qualcomm in 1985; led the company through the {{cdma|CDMA}}-vs-{{tdma|TDMA}} wars that culminated in {{cdma|CDMA}}'s mathematical foundation becoming {{wcdma|WCDMA}} inside {{umts|UMTS}}. **{{ieee-802-15-4|IEEE}} Medal of Honor 2010**."
 				},
 				{
 					name: 'Vic Hayes',
@@ -52,7 +52,7 @@ Together — Wi-Fi for local broadband, Bluetooth for personal-area, Cellular fo
 					title: 'Inventor of Bluetooth',
 					org: 'Ericsson Mobile (Lund) / Plantronics',
 					contribution:
-						"Dutch engineer who designed the [[bluetooth|Bluetooth]] radio at Ericsson Lund in 1994–97. Tasked with replacing the RS-232 cable to a mobile-phone headset; his frequency-hopping {{piconet|piconet}} design became the foundation of every [[bluetooth|Bluetooth]] chip ever made. European Inventor Award Lifetime Achievement finalist (2015)."
+						'Dutch engineer who designed the [[bluetooth|Bluetooth]] radio at Ericsson Lund in 1994–97. Tasked with replacing the RS-232 cable to a mobile-phone headset; his frequency-hopping {{piconet|piconet}} design became the foundation of every [[bluetooth|Bluetooth]] chip ever made. European Inventor Award Lifetime Achievement finalist (2015).'
 				},
 				{
 					name: 'Sven Mattisson',
@@ -60,7 +60,7 @@ Together — Wi-Fi for local broadband, Bluetooth for personal-area, Cellular fo
 					title: 'Co-inventor of Bluetooth',
 					org: 'Ericsson Research / Sony Mobile',
 					contribution:
-						'Swedish engineer who owned the analog RF and CMOS implementation work that paired with Jaap Haartsen\'s digital baseband. The IC-level decisions that made [[bluetooth|Bluetooth]] manufacturable at consumer price points.'
+						"Swedish engineer who owned the analog RF and CMOS implementation work that paired with Jaap Haartsen's digital baseband. The IC-level decisions that made [[bluetooth|Bluetooth]] manufacturable at consumer price points."
 				},
 				{
 					name: 'Jim Kardach',
@@ -85,7 +85,7 @@ Together — Wi-Fi for local broadband, Bluetooth for personal-area, Cellular fo
 					year: 1973,
 					title: 'First handheld cellular call — Motorola DynaTAC',
 					description:
-						"Marty Cooper of Motorola dials Joel Engel at AT&T Bell Labs from Sixth Avenue, Manhattan: *\"Joel, this is Marty. I'm calling you from a cell phone, a real handheld portable cell phone.\"* The DynaTAC weighs 2.5 lb and gets 35 minutes of talk after 10 hours of charging.",
+						'Marty Cooper of Motorola dials Joel Engel at AT&T Bell Labs from Sixth Avenue, Manhattan: *"Joel, this is Marty. I\'m calling you from a cell phone, a real handheld portable cell phone."* The DynaTAC weighs 2.5 lb and gets 35 minutes of talk after 10 hours of charging.',
 					protocolId: 'cellular'
 				},
 				{
@@ -127,7 +127,7 @@ Together — Wi-Fi for local broadband, Bluetooth for personal-area, Cellular fo
 					year: 2010,
 					title: 'Bluetooth 4.0 / BLE',
 					description:
-						'[[bluetooth|Bluetooth]] Core 4.0 (December 2009 → 2010 products) adds **Bluetooth Low Energy** (originally Nokia\'s *Wibree*). Different radio, different framing ({{l2cap|L2CAP}}/{{att-mtu|ATT}}/{{gatt|GATT}}) — wearables, beacons, AirTag-class trackers all sit on top of this layer.',
+						"[[bluetooth|Bluetooth]] Core 4.0 (December 2009 → 2010 products) adds **Bluetooth Low Energy** (originally Nokia's *Wibree*). Different radio, different framing ({{l2cap|L2CAP}}/{{att-mtu|ATT}}/{{gatt|GATT}}) — wearables, beacons, AirTag-class trackers all sit on top of this layer.",
 					protocolId: 'bluetooth'
 				},
 				{
@@ -148,7 +148,7 @@ Together — Wi-Fi for local broadband, Bluetooth for personal-area, Cellular fo
 					year: 2018,
 					title: '5G NR Release 15 freeze',
 					description:
-						"{{3gpp|3GPP}} Release 15 — the **first {{5g-nr|5G NR}} specification** — is frozen on 14 June 2018. Service-based {{5g-core|5G Core}}, flexible numerology, {{mmwave|mmWave}} (FR2) support, network slicing. First commercial 5G networks light up in 2019; first 5G-Standalone (no {{lte|LTE}} anchor) deployments arrive in 2020–2021.",
+						'{{3gpp|3GPP}} Release 15 — the **first {{5g-nr|5G NR}} specification** — is frozen on 14 June 2018. Service-based {{5g-core|5G Core}}, flexible numerology, {{mmwave|mmWave}} (FR2) support, network slicing. First commercial 5G networks light up in 2019; first 5G-Standalone (no {{lte|LTE}} anchor) deployments arrive in 2020–2021.',
 					protocolId: 'cellular'
 				},
 				{
@@ -176,7 +176,7 @@ Together — Wi-Fi for local broadband, Bluetooth for personal-area, Cellular fo
 					year: 2025,
 					title: 'T-Mobile + SpaceX Direct-to-Cell launches commercially',
 					description:
-						"The first commercial **satellite-to-cell** service. Standard band n25/n26 phones {{mqtt-connect|connect}} to low-Earth-orbit {{starlink|Starlink}} satellites for {{sms|SMS}} and emergency. {{apple|Apple}}\'s Globalstar partnership and AT&T's AST SpaceMobile follow similar patterns. Reshapes \"coverage\" as a concept: \"no signal\" no longer means *no signal*.",
+						'The first commercial **satellite-to-cell** service. Standard band n25/n26 phones {{mqtt-connect|connect}} to low-Earth-orbit {{starlink|Starlink}} satellites for {{sms|SMS}} and emergency. {{apple|Apple}}\'s Globalstar partnership and AT&T\'s AST SpaceMobile follow similar patterns. Reshapes "coverage" as a concept: "no signal" no longer means *no signal*.',
 					protocolId: 'cellular'
 				}
 			]

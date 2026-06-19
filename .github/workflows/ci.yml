@@ -1,0 +1,37 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches-ignore: [main] # main is covered by deploy.yml
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  quality:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      # Formatting + lint (prettier --check . && eslint .)
+      - run: npm run lint
+
+      # Type + Svelte diagnostics
+      - run: npm run check
+
+      # Content integrity: every cross-referenced id must resolve
+      - run: npm run validate
+
+      # Unit tests (vitest) + e2e (playwright builds + previews internally)
+      - run: npm run test:unit
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e

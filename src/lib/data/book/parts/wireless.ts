@@ -45,7 +45,7 @@ Wired networking is a problem with a known solution. Wireless networking is thre
 						},
 						{
 							type: 'narrative',
-							title: "CSMA/CA — the bedrock trick",
+							title: 'CSMA/CA — the bedrock trick',
 							text: `Wired [[ethernet|Ethernet]] uses **{{csma-cd|CSMA/CD}}** (Collision *Detection*): a station listens while it transmits, and the moment another station's signal collides with its own on the wire, both back off and retry. That trick is **impossible on radio**. Your own transmitter saturates your own receiver — a wireless {{nic|NIC}} literally cannot hear another station while it is sending. Every wireless {{mac-address|MAC}} therefore uses **{{csma-ca|CSMA/CA}}** — listen *before* you talk, plus a randomised back-off if the channel was busy, plus a mandatory {{ack|ACK}} after every {{unicast|unicast}} frame so the sender knows whether it got through.
 
 [[wifi|Wi-Fi]] calls it DCF (Distributed Coordination Function). Before each frame, a station senses the channel for a DIFS interval (28–34 µs), picks a random slot from a contention window (initial CW = 15, doubled on collision up to 1023), and transmits if still {{imap-idle|idle}}. Every successful frame is ACKed after a SIFS gap (~10 µs); no {{ack|ACK}} in time is presumed to mean collision and the sender retries from a larger window. The ratio of *protocol overhead* to *{{payload|payload}} bytes* on a busy [[wifi|802.11]] channel routinely exceeds 50% — which is why a Wi-Fi 6 {{access-point|access point}}'s nominal 9.6 Gbit/s shows up as 1–2 Gbit/s of real throughput in a crowded room.
@@ -55,7 +55,7 @@ Wired networking is a problem with a known solution. Wireless networking is thre
 						{
 							type: 'callout',
 							title: 'The hidden-terminal problem in one sentence',
-							text: 'On a wired bus, every station hears every other station. On a radio, station A and station C may both hear {{access-point|AP}} B but **not each other** — so they both think the channel is clear, both transmit at once, and both collide at B. The **{{hidden-terminal|RTS/CTS}}** option exists because of this; so does [[bluetooth|BLE]]\'s master-clocked frequency hopping; so does every [[cellular|cellular]] {{ran|RAN}}\'s centralised uplink scheduler. The same physics ripples through every wireless protocol design.'
+							text: "On a wired bus, every station hears every other station. On a radio, station A and station C may both hear {{access-point|AP}} B but **not each other** — so they both think the channel is clear, both transmit at once, and both collide at B. The **{{hidden-terminal|RTS/CTS}}** option exists because of this; so does [[bluetooth|BLE]]'s master-clocked frequency hopping; so does every [[cellular|cellular]] {{ran|RAN}}'s centralised uplink scheduler. The same physics ripples through every wireless protocol design."
 						},
 						{
 							type: 'narrative',
@@ -109,7 +109,7 @@ They coexist by a series of small accommodations. **Modern combo chips** ({{appl
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: 'Wi-Fi 6\'s nominal 9.6 Gbit/s shows up as 1–2 Gbit/s of real throughput in a crowded room, because more than half of the {{airtime|airtime}} is spent on DIFS gaps, {{ack|ACK}} frames, beacons, and back-off. The headline number is a physics fact; the delivered number is an {{airtime|airtime}} budget.',
+					text: "Wi-Fi 6's nominal 9.6 Gbit/s shows up as 1–2 Gbit/s of real throughput in a crowded room, because more than half of the {{airtime|airtime}} is spent on DIFS gaps, {{ack|ACK}} frames, beacons, and back-off. The headline number is a physics fact; the delivered number is an {{airtime|airtime}} budget.",
 					attribution: 'Author'
 				},
 				{
@@ -126,7 +126,7 @@ If you read Part III's Wi-Fi chapter first, this one is the second pass. If you 
 						},
 						{
 							type: 'narrative',
-							title: "The CSMA/CA loop in real time",
+							title: 'The CSMA/CA loop in real time',
 							text: `Every [[wifi|802.11]] transmission begins with a station deciding the channel is {{imap-idle|idle}}. The procedure (DCF — Distributed Coordination Function) is mechanical: sense the channel for a **DIFS** interval of 28–34 µs, pick a random slot from a contention window starting at CW = 15, count it down (each slot = 9 or 20 µs depending on {{phy|PHY}}), and transmit if the channel is still idle when the counter hits zero. If two stations pick the same slot, they collide; both double their CW (up to 1023) and try again.
 
 Every {{unicast|unicast}} frame must be {{ack|ACKed}} after a **SIFS** gap of ~10 µs. No {{ack|ACK}} means assumed collision and retransmit from a larger CW. {{ack|ACK}} frames are themselves unprotected by CSMA — they fire SIFS-fast precisely so no other station has time to seize the channel between data and {{ack|ACK}}.
@@ -136,7 +136,7 @@ The visible cost is **{{airtime|airtime}} overhead**. Add up DIFS + SIFS + {{ack
 						{
 							type: 'callout',
 							title: 'RTS/CTS is the hidden-terminal escape hatch',
-							text: 'When two stations cannot hear each other but both hear the {{access-point|AP}}, they need the {{hidden-terminal|hidden-terminal}} fix: send a tiny **Request To Send**, wait for the {{ap-access-point|AP}}\'s **Clear To Send** which every other station within range will also hear, then transmit during the announced duration. {{rts-cts|RTS/CTS}} is *optional* and trades {{latency|latency}} for {{airtime|airtime}} certainty — it adds two extra frames to every transmission, so it is on by default only for frames larger than a configurable threshold (often 2,346 bytes — i.e., never in practice). Networks that {{turn|turn}} it on aggressively tend to be airport halls and convention centres where dozens of clients are routinely behind a column from each other.'
+							text: "When two stations cannot hear each other but both hear the {{access-point|AP}}, they need the {{hidden-terminal|hidden-terminal}} fix: send a tiny **Request To Send**, wait for the {{ap-access-point|AP}}'s **Clear To Send** which every other station within range will also hear, then transmit during the announced duration. {{rts-cts|RTS/CTS}} is *optional* and trades {{latency|latency}} for {{airtime|airtime}} certainty — it adds two extra frames to every transmission, so it is on by default only for frames larger than a configurable threshold (often 2,346 bytes — i.e., never in practice). Networks that {{turn|turn}} it on aggressively tend to be airport halls and convention centres where dozens of clients are routinely behind a column from each other."
 						},
 						{
 							type: 'narrative',
@@ -161,7 +161,7 @@ The real headline feature of [[wifi|Wi-Fi]] 8 / 802.11bn is more honest about th
 						{
 							type: 'callout',
 							title: 'Power management is the hidden battery story',
-							text: '802.11ax introduced **{{target-wake-time|Target Wake Time}}** — a client and {{access-point|AP}} pre-negotiate exact wake-up windows, so the client\'s radio stays deeply asleep between scheduled appointments. Originally aimed at low-power IoT (years on a coin cell), it is now what extends smartphone battery life on busy networks. **{{bss-coloring|BSS Coloring}}** added a 6-bit color field so a station can tell its own {{ap-access-point|AP}}\'s transmissions from a neighbour\'s on the same channel, and apply a relaxed clear-channel threshold — recovering {{airtime|airtime}} that classic carrier sense would have forfeited. Both features are why Wi-Fi 6/7 outperforms Wi-Fi 5 in *exactly the apartment buildings and shopping centres* where Wi-Fi 5 used to grind to a halt.'
+							text: "802.11ax introduced **{{target-wake-time|Target Wake Time}}** — a client and {{access-point|AP}} pre-negotiate exact wake-up windows, so the client's radio stays deeply asleep between scheduled appointments. Originally aimed at low-power IoT (years on a coin cell), it is now what extends smartphone battery life on busy networks. **{{bss-coloring|BSS Coloring}}** added a 6-bit color field so a station can tell its own {{ap-access-point|AP}}'s transmissions from a neighbour's on the same channel, and apply a relaxed clear-channel threshold — recovering {{airtime|airtime}} that classic carrier sense would have forfeited. Both features are why Wi-Fi 6/7 outperforms Wi-Fi 5 in *exactly the apartment buildings and shopping centres* where Wi-Fi 5 used to grind to a halt."
 						},
 						{
 							type: 'narrative',
@@ -261,7 +261,7 @@ The pattern is simple: BLE has the **right discovery + power profile** to be the
 						},
 						{
 							type: 'narrative',
-							title: "LE Audio, Auracast, and the hearing-loop replacement story",
+							title: 'LE Audio, Auracast, and the hearing-loop replacement story',
 							text: `**{{le-audio|LE Audio}}** is the 2020+ rebuild of Bluetooth audio, defined across Core 5.2+ and a stack of profiles (BAP, PBP, TMAP, HAP). It runs over **Isochronous Channels** — Connected Isochronous Streams (CIS) for {{unicast|unicast}} earbuds and hearing aids, {{broadcast|Broadcast}} Isochronous Streams ({{bis-broadcast|BIS}}) for one-to-many. The mandatory {{codec|codec}} is **{{lc3|LC3}}** ({{sig|SIG}} + Fraunhofer IIS + Ericsson, January 2020), roughly 2× more battery-efficient than the 1990s SBC {{codec|codec}} at equivalent quality.
 
 The cultural moment is **{{auracast|Auracast}}** — the {{sig|SIG}}'s brand for **{{broadcast|Broadcast}} Isochronous Streams** ({{bis-broadcast|BIS}}) over {{le-audio|LE Audio}} + {{lc3|LC3}}, one transmitter to unlimited listeners. Public venues replace analog hearing-loops with an {{auracast|Auracast}} {{broadcast|broadcast}}; nearby listeners scan, pick a stream, and tune in. **Frankfurt Airport became the first airport in the world to {{broadcast|broadcast}} all gate announcements over {{auracast|Auracast}} on 28 January 2026**. Cinemas, theatres, gyms, lecture halls, and houses of worship are deploying similar setups through 2026 and 2027.
@@ -296,7 +296,7 @@ The 2022 attack is the canonical case study for why every credential standard si
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Bluetooth.svg/250px-Bluetooth.svg.png',
 							alt: 'The Bluetooth logo — a bind-rune combining Hagall and Bjarkan, the initials of Harald Blåtand.',
 							caption:
-								'The **[[bluetooth|Bluetooth]]** logo: a bind-rune combining **Hagall** (ᚼ = H) and **Bjarkan** (ᛒ = B) — *Harald Blåtand*\'s initials in Younger Futhark. [[pioneer:jim-kardach|Jim Kardach]] of {{intel|Intel}} proposed the name on a Toronto pub crawl in 1997 after the 10th-century Danish king who united Denmark and Norway. It was supposed to be a placeholder.',
+								"The **[[bluetooth|Bluetooth]]** logo: a bind-rune combining **Hagall** (ᚼ = H) and **Bjarkan** (ᛒ = B) — *Harald Blåtand*'s initials in Younger Futhark. [[pioneer:jim-kardach|Jim Kardach]] of {{intel|Intel}} proposed the name on a Toronto pub crawl in 1997 after the 10th-century Danish king who united Denmark and Norway. It was supposed to be a placeholder.",
 							credit: 'Image: Bluetooth SIG trademark, via Wikimedia Commons'
 						}
 					]
@@ -345,7 +345,7 @@ Read that sentence again. **The control plane of every 5G carrier on Earth is no
 						{
 							type: 'callout',
 							title: 'The largest enterprise IPsec deployment on Earth',
-							text: 'Every interface between the [[cellular|cellular]] {{ran|radio access network}} and the core (N2/N3 in 5G, S1 in {{lte|LTE}}) is wrapped in [[ipsec|IPsec ESP]] per {{3gpp|3GPP}} {{ts-3gpp|TS}} 33.501. With ~9 billion subscribers and tens of millions of base stations worldwide, the [[cellular|cellular]] backhaul is the single largest production [[ipsec|IPsec]] deployment that exists. [[pioneer:andreas-steffen|Andreas Steffen]]\'s strongSwan, {{cisco|Cisco}} IOS, and Juniper {{junos|Junos}} run more [[ipsec|IPsec]] tunnels inside one [[cellular|cellular]] operator than the entire enterprise {{vpn|VPN}} market combined.'
+							text: "Every interface between the [[cellular|cellular]] {{ran|radio access network}} and the core (N2/N3 in 5G, S1 in {{lte|LTE}}) is wrapped in [[ipsec|IPsec ESP]] per {{3gpp|3GPP}} {{ts-3gpp|TS}} 33.501. With ~9 billion subscribers and tens of millions of base stations worldwide, the [[cellular|cellular]] backhaul is the single largest production [[ipsec|IPsec]] deployment that exists. [[pioneer:andreas-steffen|Andreas Steffen]]'s strongSwan, {{cisco|Cisco}} IOS, and Juniper {{junos|Junos}} run more [[ipsec|IPsec]] tunnels inside one [[cellular|cellular]] operator than the entire enterprise {{vpn|VPN}} market combined."
 						},
 						{
 							type: 'narrative',
@@ -409,7 +409,7 @@ The shape rhymes with the rest of this Part. Every wireless protocol's cryptogra
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Cellular_network_standards_and_generation_timeline.svg/500px-Cellular_network_standards_and_generation_timeline.svg.png',
 							alt: 'Timeline of cellular network standards from 1G through 5G, by generation.',
 							caption:
-								'**Fifty years of [[cellular|cellular]]** — from 1G analog AMPS / TACS / NMT in the early 1980s through 2G {{gsm|GSM}} / IS-95, 3G {{wcdma|WCDMA}} / CDMA2000, 4G {{lte|LTE}}, and {{5g-nr|5G NR}}. Each generation redrew both the air interface and the core network on roughly a decade\'s cadence, while the {{3gpp|3GPP}} Release calendar kept ticking every ~18 months. **6G** is in pre-standardisation now; first commercial deployments expected around 2030.',
+								"**Fifty years of [[cellular|cellular]]** — from 1G analog AMPS / TACS / NMT in the early 1980s through 2G {{gsm|GSM}} / IS-95, 3G {{wcdma|WCDMA}} / CDMA2000, 4G {{lte|LTE}}, and {{5g-nr|5G NR}}. Each generation redrew both the air interface and the core network on roughly a decade's cadence, while the {{3gpp|3GPP}} Release calendar kept ticking every ~18 months. **6G** is in pre-standardisation now; first commercial deployments expected around 2030.",
 							credit: 'Image: Wikimedia Commons / CC BY-SA 4.0'
 						}
 					]
@@ -473,7 +473,7 @@ Seven APDUs, ~300 ms, and the latte is paid for.`
 						},
 						{
 							type: 'narrative',
-							title: "Tokenisation — why your real card number never leaves the bank",
+							title: 'Tokenisation — why your real card number never leaves the bank',
 							text: `{{apple|Apple}}'s 9 September 2014 launch was not just "we added an [[nfc|NFC]] chip to the iPhone." It was a *tokenisation revolution* baked into the architecture. The cardholder's real **Funding {{pan-id|PAN}} (FPAN)** never reaches the device. The bank issues a **Device {{pan-id|PAN}} ({{dpan|DPAN}})** instead, provisioned via the Token Service Provider (Visa Token Service or Mastercard Digital Enablement Service) into the {{ese|embedded Secure Element}} or the {{hce|HCE}} keystore.
 
 Every tap generates a per-transaction {{emv-cryptogram|cryptogram}} bound to the {{dpan|DPAN}}, the **{{atc|ATC}}** (Application Transaction Counter), and the **Unpredictable Number** from the terminal. A stolen {{dpan|DPAN}} is worthless without the keys in the {{se-secure-element|SE}}; a stolen cryptogram is worthless because the {{atc|ATC}} has already moved on. This is the reason **{{apple|Apple}} Pay fraud rates in 2026 are broadly in line with card-not-present rates** — much better than physical-card-present fraud at unattended terminals — despite the initial 2015 *"yellow path"* enrolment disaster where social-engineered phone agents over-approved fraudulent provisioning.
@@ -616,7 +616,7 @@ The unlock dance: {{ble|BLE}} advertising from the car → {{ble|BLE}} pairing +
 						},
 						{
 							type: 'narrative',
-							title: "Regional masks, Japan, and the global-product problem",
+							title: 'Regional masks, Japan, and the global-product problem',
 							text: `{{fcc|FCC}} Part 15.519 caps average power-spectral-density at **−41.3 dBm/MHz** across 3.1–10.6 GHz. {{etsi|ETSI}} EN 302 065 in Europe is similar but with stricter Detect-and-Avoid requirements in some sub-bands. **Japan** applies a different mask with restrictions in 7.25–7.75 GHz that overlap Channel 9 — {{apple|Apple}}'s iPhone reduces or disables [[uwb|UWB]] features (Precision Finding, Find People) in Japan and a handful of other countries.
 
 The practical effect for a global consumer product: **(a)** geo-fence [[uwb|UWB]] features based on locale, **(b)** default to **Channel 5** in Japan and a handful of other restricted jurisdictions, **(c)** support a *no-UWB* mode entirely for countries where [[uwb|UWB]] is not permitted (a few small markets). This is one of the underappreciated reasons [[uwb|UWB]] consumer adoption is slower than {{ble|BLE}} or [[wifi|Wi-Fi]] — *the regulatory map is fragmented*, and every iPhone software release ships a different list of countries where Precision Finding works.
@@ -628,7 +628,7 @@ The contrast with [[nfc|NFC]] is instructive: [[nfc|NFC]] operates in the global
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2d/Apple_AirTag.svg/330px-Apple_AirTag.svg.png',
 							alt: 'An Apple AirTag — a small round white tracker with the Apple logo.',
 							caption:
-								'The **{{apple|Apple}} AirTag**, $29, shipped 30 April 2021. Inside: a battery, a {{ble|BLE}} radio, a speaker, and the **{{apple|Apple}} {{u1-chip|U1}} chip** — the [[uwb|UWB]] silicon that gave consumer [[uwb|UWB]] its first mass-market product. Precision Finding\'s arrow-and-distance display swept the world\'s awareness of [[uwb|UWB]] into one purchase. ABI projects [[uwb|UWB]] phone penetration rising from 27% in 2025 to 52% by 2030 — the same adoption curve [[nfc|NFC]] followed a decade earlier.',
+								"The **{{apple|Apple}} AirTag**, $29, shipped 30 April 2021. Inside: a battery, a {{ble|BLE}} radio, a speaker, and the **{{apple|Apple}} {{u1-chip|U1}} chip** — the [[uwb|UWB]] silicon that gave consumer [[uwb|UWB]] its first mass-market product. Precision Finding's arrow-and-distance display swept the world's awareness of [[uwb|UWB]] into one purchase. ABI projects [[uwb|UWB]] phone penetration rising from 27% in 2025 to 52% by 2030 — the same adoption curve [[nfc|NFC]] followed a decade earlier.",
 							credit: 'Image: Apple Inc. trademark / Wikimedia Commons'
 						}
 					]
@@ -651,7 +651,7 @@ The contrast with [[nfc|NFC]] is instructive: [[nfc|NFC]] operates in the global
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: "Philips Hue's 2012 {{apple|Apple}} Store launch never said \"Zigbee\" out loud. The press release mentioned ZigBee LightLink exactly once; the in-store materials, packaging, and iOS app strenuously avoided the term. The customer was sold *web-enabled* lighting. The canonical example of a successful protocol whose user-visible brand is the product, not the standard.",
+					text: 'Philips Hue\'s 2012 {{apple|Apple}} Store launch never said "Zigbee" out loud. The press release mentioned ZigBee LightLink exactly once; the in-store materials, packaging, and iOS app strenuously avoided the term. The customer was sold *web-enabled* lighting. The canonical example of a successful protocol whose user-visible brand is the product, not the standard.',
 					attribution: 'Author'
 				},
 				{
@@ -701,7 +701,7 @@ In 2026, **new device design has bifurcated**. Lighting and sensors are increasi
 						{
 							type: 'callout',
 							title: "Matter's commitment, in three sentences",
-							text: 'The {{sig-bluetooth-acronym|CSA}} launched **{{matter|Matter}} 1.0 on 4 October 2022** as an {{ip-address|IP}}-native smart-home standard, running over [[wifi|Wi-Fi]], [[ethernet|Ethernet]], and {{thread|Thread}}. {{matter|Matter}} does **not** run over [[zigbee|Zigbee]] on the wire — but it reuses Zigbee\'s {{zcl|ZCL}} data model directly, which lets a *{{matter|Matter}} Bridge for non-{{matter|Matter}} devices* (Hue Bridge, Aqara Hub M3) translate {{matter|Matter}} operations to Zigbee one-to-one. Now at **v1.5 (20 November 2025)**, with camera streaming via RTSP, removing the last category that previously required Zigbee bridging.'
+							text: "The {{sig-bluetooth-acronym|CSA}} launched **{{matter|Matter}} 1.0 on 4 October 2022** as an {{ip-address|IP}}-native smart-home standard, running over [[wifi|Wi-Fi]], [[ethernet|Ethernet]], and {{thread|Thread}}. {{matter|Matter}} does **not** run over [[zigbee|Zigbee]] on the wire — but it reuses Zigbee's {{zcl|ZCL}} data model directly, which lets a *{{matter|Matter}} Bridge for non-{{matter|Matter}} devices* (Hue Bridge, Aqara Hub M3) translate {{matter|Matter}} operations to Zigbee one-to-one. Now at **v1.5 (20 November 2025)**, with camera streaming via RTSP, removing the last category that previously required Zigbee bridging."
 						},
 						{
 							type: 'narrative',
@@ -753,7 +753,7 @@ For the home-automation hobbyist, the **{{matter|Matter}} bridge** is the right 
 			id: 'security-across-the-wireless-family',
 			title: 'Security across the wireless family',
 			synopsis:
-				'One arc covering {{krack|KRACK}}, {{knob-attack|KNOB}}/{{bias-attack|BIAS}}/{{bluffs-attack|BLUFFS}}, FragAttacks, {{mifare|MIFARE}} Crypto1, the 2022 Tesla [[bluetooth|BLE]] relay, the Ghost Peak [[uwb|UWB]] {{sts|STS}} attack, and the {{ss7|SS7}} / {{diameter|Diameter}} trust holdover — every wireless protocol\'s negotiation logic, broken on stage at least once.',
+				"One arc covering {{krack|KRACK}}, {{knob-attack|KNOB}}/{{bias-attack|BIAS}}/{{bluffs-attack|BLUFFS}}, FragAttacks, {{mifare|MIFARE}} Crypto1, the 2022 Tesla [[bluetooth|BLE]] relay, the Ghost Peak [[uwb|UWB]] {{sts|STS}} attack, and the {{ss7|SS7}} / {{diameter|Diameter}} trust holdover — every wireless protocol's negotiation logic, broken on stage at least once.",
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -874,7 +874,7 @@ Every chapter in this Part has security stories. This chapter ties them together
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: '{{spectrum|Spectrum}} policy moves on a four-year clock; the technology runs ten years faster. Every wireless protocol\'s deployment is gated by a regulator nobody on the engineering team has met.',
+					text: "{{spectrum|Spectrum}} policy moves on a four-year clock; the technology runs ten years faster. Every wireless protocol's deployment is gated by a regulator nobody on the engineering team has met.",
 					attribution: 'Author'
 				},
 				{
@@ -903,7 +903,7 @@ The lower 6 GHz band (5.925–6.425 GHz) is **Low-Power Indoor (LPI)** — licen
 						{
 							type: 'callout',
 							title: 'CBRS and the three-tier sharing experiment',
-							text: 'The US **{{cbrs|Citizens Broadband Radio Service}}** band — 3.55–3.7 GHz — is the US regulator\'s **experiment in dynamic {{spectrum|spectrum}} sharing**. Three tiers coexist: **Incumbent** (US Navy radars get absolute priority), **Priority Access Licensees** (PALs, auctioned in 2020 for ~$4.5B), and **General Authorized Access** (anyone with a certified device). A cloud service called the **{{spectrum|Spectrum}} Access System** arbitrates in real time — telling each device which channels and power levels it may use right now based on Navy radar activity. Powers Private 4G {{lte|LTE}} / 5G deployments at ports (Port of Long Beach), mines, hospitals, manufacturing plants, and stadiums. The largest production use of *database-arbitrated coexistence* anywhere on Earth. Europe has experimented with similar concepts (PMSE in the UK, {{lsa|LSA}} in some EU pilots) but has not deployed at {{cbrs|CBRS}} scale.'
+							text: "The US **{{cbrs|Citizens Broadband Radio Service}}** band — 3.55–3.7 GHz — is the US regulator's **experiment in dynamic {{spectrum|spectrum}} sharing**. Three tiers coexist: **Incumbent** (US Navy radars get absolute priority), **Priority Access Licensees** (PALs, auctioned in 2020 for ~$4.5B), and **General Authorized Access** (anyone with a certified device). A cloud service called the **{{spectrum|Spectrum}} Access System** arbitrates in real time — telling each device which channels and power levels it may use right now based on Navy radar activity. Powers Private 4G {{lte|LTE}} / 5G deployments at ports (Port of Long Beach), mines, hospitals, manufacturing plants, and stadiums. The largest production use of *database-arbitrated coexistence* anywhere on Earth. Europe has experimented with similar concepts (PMSE in the UK, {{lsa|LSA}} in some EU pilots) but has not deployed at {{cbrs|CBRS}} scale."
 						},
 						{
 							type: 'narrative',
@@ -961,7 +961,7 @@ Whether [[cellular|cellular]] {{ambient-iot|Ambient IoT}} actually displaces the
 						{
 							type: 'callout',
 							title: 'The four-year clock and the two-year clock',
-							text: 'Two clocks set the pace of wireless. The first is the **{{wrc|World Radiocommunication Conference}}**, every 3–4 years, where the world\'s {{spectrum|spectrum}} allocations are renegotiated by treaty. **{{wrc|WRC-27}}** is the next major event — terahertz bands for 6G, harmonisation of {{direct-to-cell|Direct-to-Cell}} bands, the 6 GHz EU upper-band decision. The second is the **{{3gpp|3GPP}} Release cycle**, every ~18 months — Release 19 in flight, Release 20 (6G study items) kicking off. Together they decide what wireless protocols you can build, where, when. The {{ietf|IETF}} model — *rough consensus and running code, two-week sprints* — does not apply at this layer. {{spectrum|Spectrum}} and cellular standards run on geological time, and that is the constraint every wireless engineer eventually meets.'
+							text: "Two clocks set the pace of wireless. The first is the **{{wrc|World Radiocommunication Conference}}**, every 3–4 years, where the world's {{spectrum|spectrum}} allocations are renegotiated by treaty. **{{wrc|WRC-27}}** is the next major event — terahertz bands for 6G, harmonisation of {{direct-to-cell|Direct-to-Cell}} bands, the 6 GHz EU upper-band decision. The second is the **{{3gpp|3GPP}} Release cycle**, every ~18 months — Release 19 in flight, Release 20 (6G study items) kicking off. Together they decide what wireless protocols you can build, where, when. The {{ietf|IETF}} model — *rough consensus and running code, two-week sprints* — does not apply at this layer. {{spectrum|Spectrum}} and cellular standards run on geological time, and that is the constraint every wireless engineer eventually meets."
 						},
 						{
 							type: 'narrative',

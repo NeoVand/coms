@@ -1,6 +1,8 @@
 import type { ProtocolLayer } from '../types';
 
-export function createUDPLayer(overrides?: Partial<Record<string, string | number>>): ProtocolLayer {
+export function createUDPLayer(
+	overrides?: Partial<Record<string, string | number>>
+): ProtocolLayer {
 	return {
 		name: 'UDP Datagram',
 		abbreviation: 'UDP',
@@ -12,7 +14,7 @@ export function createUDPLayer(overrides?: Partial<Record<string, string | numbe
 				bits: 16,
 				value: overrides?.srcPort ?? 49152,
 				editable: true,
-				description: 'Source port — sender\'s port number'
+				description: "Source port — sender's port number"
 			},
 			{
 				name: 'Dst Port',

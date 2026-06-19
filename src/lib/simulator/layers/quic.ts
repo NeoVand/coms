@@ -1,6 +1,8 @@
 import type { ProtocolLayer } from '../types';
 
-export function createQUICLayer(overrides?: Partial<Record<string, string | number>>): ProtocolLayer {
+export function createQUICLayer(
+	overrides?: Partial<Record<string, string | number>>
+): ProtocolLayer {
 	return {
 		name: 'QUIC Packet',
 		abbreviation: 'QUIC',

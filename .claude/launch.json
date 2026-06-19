@@ -1,17 +1,17 @@
 {
-  "version": "0.0.1",
-  "configurations": [
-    {
-      "name": "dev",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev", "--", "--port", "5181", "--strictPort"],
-      "port": 5181
-    },
-    {
-      "name": "preview",
-      "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "preview"],
-      "port": 4173
-    }
-  ]
+	"version": "0.0.1",
+	"configurations": [
+		{
+			"name": "dev",
+			"runtimeExecutable": "npm",
+			"runtimeArgs": ["run", "dev", "--", "--port", "5181", "--strictPort"],
+			"port": 5181
+		},
+		{
+			"name": "preview",
+			"runtimeExecutable": "npm",
+			"runtimeArgs": ["run", "preview"],
+			"port": 4173
+		}
+	]
 }

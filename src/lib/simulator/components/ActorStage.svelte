@@ -7,7 +7,6 @@
 	interface Props {
 		actors: SimulationActor[];
 		currentStep: SimulationStep | null;
-		stepIndex: number;
 		color: string;
 		compact?: boolean;
 	}
@@ -20,9 +19,7 @@
 	const fromIdx = $derived(
 		currentStep ? actors.findIndex((a) => a.id === currentStep.fromActor) : -1
 	);
-	const toIdx = $derived(
-		currentStep ? actors.findIndex((a) => a.id === currentStep.toActor) : -1
-	);
+	const toIdx = $derived(currentStep ? actors.findIndex((a) => a.id === currentStep.toActor) : -1);
 
 	function isActiveActor(idx: number): boolean {
 		return idx === fromIdx || idx === toIdx;
@@ -74,11 +71,7 @@
 		{#each actors as actor, idx (actor.id)}
 			{@const active = isActiveActor(idx)}
 			<div class="actor" class:active>
-				<span
-					class="actor-label"
-					class:text-t-primary={active}
-					class:text-t-muted={!active}
-				>
+				<span class="actor-label" class:text-t-primary={active} class:text-t-muted={!active}>
 					{actor.label}
 				</span>
 				<div
@@ -223,7 +216,9 @@
 		border-radius: 50%;
 		border: 1px solid var(--theme-glass-border);
 		background: var(--theme-tooltip-bg);
-		transition: border-color 0.25s ease, box-shadow 0.25s ease;
+		transition:
+			border-color 0.25s ease,
+			box-shadow 0.25s ease;
 		flex-shrink: 0;
 	}
 	.actor-stage.compact .actor-icon-wrap {

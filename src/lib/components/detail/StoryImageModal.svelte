@@ -50,7 +50,9 @@
 		onclick={handleBackdropClick}
 	>
 		<!-- Backdrop -->
-		<div class="pointer-events-none absolute inset-0 bg-[var(--theme-overlay)] backdrop-blur-md"></div>
+		<div
+			class="pointer-events-none absolute inset-0 bg-[var(--theme-overlay)] backdrop-blur-md"
+		></div>
 
 		<!-- Modal card -->
 		<div

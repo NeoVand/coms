@@ -25,9 +25,8 @@
 			What broke and what we learned
 		</h1>
 		<p class="mt-2 text-sm leading-relaxed text-t-secondary">
-			{outages.length} incidents told as stories — setup, mistake, cascade, consequence,
-			lesson. The post-mortems engineers point to when they argue for redundancy, filtering,
-			or a less risky deployment.
+			{outages.length} incidents told as stories — setup, mistake, cascade, consequence, lesson. The post-mortems
+			engineers point to when they argue for redundancy, filtering, or a less risky deployment.
 		</p>
 	</header>
 
@@ -38,9 +37,7 @@
 				onclick={() => navigateToOutage(o.id)}
 			>
 				<div class="flex items-baseline justify-between gap-2">
-					<span class="text-sm font-medium text-t-primary" style="color: {ACCENT};"
-						>{o.title}</span
-					>
+					<span class="text-sm font-medium text-t-primary" style="color: {ACCENT};">{o.title}</span>
 					<span class="shrink-0 text-[10px] text-t-muted tabular-nums">{o.date}</span>
 				</div>
 				<p class="text-xs leading-relaxed text-t-secondary italic">

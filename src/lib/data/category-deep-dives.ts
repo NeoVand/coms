@@ -246,7 +246,8 @@ Transport is pluggable: **{{stdio|stdio}}** for local processes (the server is a
 			{
 				type: 'diagram',
 				title: 'MCP Session Lifecycle',
-				caption: 'The full [[mcp|MCP]] session from initialization through tool invocation. The three-step {{handshake|handshake}} establishes capabilities before any tool or resource access.',
+				caption:
+					'The full [[mcp|MCP]] session from initialization through tool invocation. The three-step {{handshake|handshake}} establishes capabilities before any tool or resource access.',
 				definition: `graph TD
   I["initialize request<br/>(client capabilities, version)"] --> IR["initialize response<br/>(server capabilities, tools, resources)"]
   IR --> N["initialized {{notification|notification}}<br/>({{handshake|handshake}} complete)"]
@@ -529,7 +530,7 @@ The numbers below are typical 2026 production values; spec maxima are higher, re
 			},
 			{
 				type: 'narrative',
-				title: 'CSMA/CA — collision avoidance in a medium you can\'t monitor',
+				title: "CSMA/CA — collision avoidance in a medium you can't monitor",
 				text: `Wired [[ethernet|Ethernet]] uses **{{csma-cd|CSMA/CD}}** (Collision Detection): a station listens while it transmits and aborts the moment another station's signal collides with its own. That trick is impossible on radio — your own transmitter saturates your own receiver, so a wireless {{nic|NIC}} literally cannot hear another station while it is sending. Every wireless {{mac-address|MAC}} therefore uses **{{csma-ca|CSMA/CA}}** (Collision *Avoidance*): listen-before-talk, plus a randomised back-off if the channel was busy.
 
 [[wifi|Wi-Fi]]'s flavour is DCF (Distributed Coordination Function). Before each {{frame|frame}}, the station senses the channel for a DIFS interval (28–34 µs), then picks a random slot from a contention window (initial CW=15, doubled on collision up to 1023), then transmits if still {{imap-idle|idle}}. Every successful frame is {{ack|ACKed}} after a SIFS gap (~10 µs); no {{ack|ACK}} in time = the sender assumes collision and {{retransmission|retransmits}} from a larger CW. {{rts-cts|RTS/CTS}} is the optional defence against hidden terminals: the sender first asks "may I?" with a tiny RTS, the receiver responds with CTS, and every station that heard either falls silent for the negotiated duration.
@@ -541,7 +542,7 @@ The cost of {{csma-ca|CSMA/CA}} is **{{airtime|airtime}} overhead**. At Wi-Fi 6'
 			{
 				type: 'callout',
 				title: 'The hidden-terminal problem in one sentence',
-				text: 'On a wired bus, every station hears every other; on a radio, station A and station C may both hear {{ap-access-point|AP}} B but not each other — so they both think the channel is clear and both transmit at once, colliding at B. {{rts-cts|RTS/CTS}} exists because of this. The same physics motivates {{ble|BLE}}\'s frequency-hopping master clock, Zigbee\'s coordinator-led scheduling, and every cellular {{ran|RAN}}\'s centralised uplink scheduler.'
+				text: "On a wired bus, every station hears every other; on a radio, station A and station C may both hear {{ap-access-point|AP}} B but not each other — so they both think the channel is clear and both transmit at once, colliding at B. {{rts-cts|RTS/CTS}} exists because of this. The same physics motivates {{ble|BLE}}'s frequency-hopping master clock, Zigbee's coordinator-led scheduling, and every cellular {{ran|RAN}}'s centralised uplink scheduler."
 			},
 			{
 				type: 'narrative',

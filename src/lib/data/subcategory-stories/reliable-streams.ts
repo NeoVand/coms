@@ -3,12 +3,12 @@ import type { SubcategoryStory } from './types';
 export const reliableStreamsStory: SubcategoryStory = {
 	subcategoryId: 'reliable-streams',
 	tagline:
-		'Turning best-effort {{ip|IP}} into ordered, reliable streams — and the fifty-year fight against {{congestion-collapse|congestion collapse}}',
+		'Turning best-effort [[ip|IP]] into ordered, reliable streams — and the fifty-year fight against {{congestion-collapse|congestion collapse}}',
 	sections: [
 		{
 			type: 'narrative',
 			title: 'The Reliability Contract',
-			text: `{{ip|IP}} promises almost nothing. Packets can be lost, reordered, duplicated, corrupted, or just dropped on the floor. That is by design — keeping the network layer dumb is what lets the Internet scale. But almost no application can use the network in that raw form. They want a *byte stream*: write bytes here, read identical bytes there, in order.\n\n**[[tcp|TCP]]** (1981) is the original reliable-stream contract. It bolted onto [[ip|IP]] everything a stream needs — sequence numbers, acknowledgments, retransmission, flow control, and (after 1986) {{congestion-control|congestion control}}. For 40+ years, almost every Internet conversation that wasn't streaming media or DNS rode on TCP.\n\n**[[sctp|SCTP]]** (2000) is the protocol you wish TCP had been: multiple independent streams in one association (no {{head-of-line-blocking|HoL blocking}}), multi-homing for free failover, message-oriented instead of byte-oriented. It is technically superior to TCP for almost every workload — and almost nobody uses it, because middleboxes don't speak it. The story of SCTP is the story of how the Internet's *deployed* base shapes what protocols can succeed, regardless of merit.\n\n**[[mptcp|MPTCP]]** (2013) is the workaround for SCTP's loss. Keep the TCP wire format that middleboxes accept, but bond multiple TCP subflows across multiple paths into one logical stream. Apple ships it for Siri. Korean carriers use it to bond LTE+Wi-Fi. The protocol is a careful exercise in *backwards-compatible innovation*.\n\nAll three share one quiet inheritance: they all use {{congestion-control|congestion control}} algorithms derived from a single 1988 paper.`
+			text: `[[ip|IP]] promises almost nothing. Packets can be lost, reordered, duplicated, corrupted, or just dropped on the floor. That is by design — keeping the network layer dumb is what lets the Internet scale. But almost no application can use the network in that raw form. They want a *byte stream*: write bytes here, read identical bytes there, in order.\n\n**[[tcp|TCP]]** (1981) is the original reliable-stream contract. It bolted onto [[ip|IP]] everything a stream needs — sequence numbers, acknowledgments, retransmission, flow control, and (after 1986) {{congestion-control|congestion control}}. For 40+ years, almost every Internet conversation that wasn't streaming media or DNS rode on TCP.\n\n**[[sctp|SCTP]]** (2000) is the protocol you wish TCP had been: multiple independent streams in one association (no {{head-of-line-blocking|HoL blocking}}), multi-homing for free failover, message-oriented instead of byte-oriented. It is technically superior to TCP for almost every workload — and almost nobody uses it, because middleboxes don't speak it. The story of SCTP is the story of how the Internet's *deployed* base shapes what protocols can succeed, regardless of merit.\n\n**[[mptcp|MPTCP]]** (2013) is the workaround for SCTP's loss. Keep the TCP wire format that middleboxes accept, but bond multiple TCP subflows across multiple paths into one logical stream. Apple ships it for Siri. Korean carriers use it to bond LTE+Wi-Fi. The protocol is a careful exercise in *backwards-compatible innovation*.\n\nAll three share one quiet inheritance: they all use {{congestion-control|congestion control}} algorithms derived from a single 1988 paper.`
 		},
 		{
 			type: 'pioneers',
@@ -66,13 +66,13 @@ export const reliableStreamsStory: SubcategoryStory = {
 					year: 1981,
 					title: 'TCP RFC 793 Published',
 					description:
-						"The reference TCP spec. Three-way handshake, sliding window, retransmission, flow control. Congestion control is *not* yet present — that omission will nearly destroy the Internet five years later."
+						'The reference TCP spec. Three-way handshake, sliding window, retransmission, flow control. Congestion control is *not* yet present — that omission will nearly destroy the Internet five years later.'
 				},
 				{
 					year: 1986,
 					title: 'Congestion Collapse',
 					description:
-						"The path between LBL and UC Berkeley — 400 yards apart — collapses to 40 bps from a nominal 32 kbps. The cause: TCP retransmits compounding network overload until the network drowns in retries."
+						'The path between LBL and UC Berkeley — 400 yards apart — collapses to 40 bps from a nominal 32 kbps. The cause: TCP retransmits compounding network overload until the network drowns in retries.'
 				},
 				{
 					year: 1988,
@@ -84,7 +84,7 @@ export const reliableStreamsStory: SubcategoryStory = {
 					year: 1999,
 					title: 'TCP Reno → NewReno → SACK',
 					description:
-						'A decade of incremental tuning. {{sack|Selective Acknowledgments}} (RFC 2018) let receivers tell senders *which* packets were lost, fixing the original ACK\'s ambiguity.'
+						"A decade of incremental tuning. {{sack|Selective Acknowledgments}} (RFC 2018) let receivers tell senders *which* packets were lost, fixing the original ACK's ambiguity."
 				},
 				{
 					year: 2000,
@@ -102,7 +102,7 @@ export const reliableStreamsStory: SubcategoryStory = {
 					year: 2013,
 					title: 'MPTCP RFC 6824',
 					description:
-						"[[mptcp|MPTCP]] bonds multiple TCP subflows into a single logical stream. Wire-compatible with middleboxes because each subflow *is* a normal TCP connection."
+						'[[mptcp|MPTCP]] bonds multiple TCP subflows into a single logical stream. Wire-compatible with middleboxes because each subflow *is* a normal TCP connection.'
 				},
 				{
 					year: 2016,
@@ -151,7 +151,7 @@ export const reliableStreamsStory: SubcategoryStory = {
 					]
 				}
 			],
-			note: '[[sctp|SCTP]] is technically the most capable, but its lack of NAT/firewall traversal kept it off the public Internet. [[mptcp|MPTCP]] is the pragmatic answer: take TCP\'s deployability and bolt the missing features on top.'
+			note: "[[sctp|SCTP]] is technically the most capable, but its lack of NAT/firewall traversal kept it off the public Internet. [[mptcp|MPTCP]] is the pragmatic answer: take TCP's deployability and bolt the missing features on top."
 		},
 		{
 			type: 'animated-sequence',
@@ -207,11 +207,11 @@ export const reliableStreamsStory: SubcategoryStory = {
 		{
 			type: 'narrative',
 			title: 'The Failure Mode That Defines the Family',
-			text: `Every reliable-stream protocol has the same nightmare: **head-of-line blocking**.\n\nIn [[tcp|TCP]], one lost packet stalls *every subsequent byte* until that packet is retransmitted and ACKed. If you're sending a 50 KB HTTP response and packet #3 is lost, the receiver buffers packets 4–35 but won't deliver them to the application until packet #3 arrives. Three round-trips of latency added.\n\n[[sctp|SCTP]] partially solved this with multiple streams: a loss on stream A doesn't stall stream B. But SCTP wasn't deployable.\n\n[[mptcp|MPTCP]] partially solved it differently: multiple subflows over different paths means *path-level* loss doesn't stall *application-level* delivery if you can re-issue on another path. But coordinating reorder across subflows is hard.\n\n[[quic|QUIC]] solved it completely by moving streams *into* the transport — but QUIC sits in [[datagram-transport|Datagram Transport]], not here, because it gave up TCP's wire format to do it.\n\nIn this family, the head-of-line ghost is permanent rent.`
+			text: `Every reliable-stream protocol has the same nightmare: **head-of-line blocking**.\n\nIn [[tcp|TCP]], one lost packet stalls *every subsequent byte* until that packet is retransmitted and ACKed. If you're sending a 50 KB HTTP response and packet #3 is lost, the receiver buffers packets 4–35 but won't deliver them to the application until packet #3 arrives. Three round-trips of latency added.\n\n[[sctp|SCTP]] partially solved this with multiple streams: a loss on stream A doesn't stall stream B. But SCTP wasn't deployable.\n\n[[mptcp|MPTCP]] partially solved it differently: multiple subflows over different paths means *path-level* loss doesn't stall *application-level* delivery if you can re-issue on another path. But coordinating reorder across subflows is hard.\n\n[[quic|QUIC]] solved it completely by moving streams *into* the transport — but QUIC sits in datagram transport, not here, because it gave up TCP's wire format to do it.\n\nIn this family, the head-of-line ghost is permanent rent.`
 		},
 		{
 			type: 'narrative',
-			title: 'What\'s Next',
+			title: "What's Next",
 			text: `Active work in 2025:\n\n- **{{bbr|BBRv3}}** continues to roll out beyond Google's properties. Fairness with CUBIC under shared bottlenecks remains a live research area.\n- **Multipath TCP for 5G** (ATSSS — Access Traffic Steering, Switching, and Splitting) lets carriers bond cellular + Wi-Fi for handset traffic. Standardized in 3GPP Release 16.\n- **L4S** (Low Latency, Low Loss, Scalable throughput) adds an ECN-based signal so endpoints can react to congestion *before* loss. Requires both router and endpoint changes; deployment is slow.\n- **The slow death of TCP for new things.** Most green-field protocols (HTTP/3, WebTransport, Media-over-QUIC) skip TCP entirely. The Reliable Streams family isn't shrinking yet — but its growth has stopped.`
 		}
 	]

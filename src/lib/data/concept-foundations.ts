@@ -29,7 +29,8 @@ The deeper trick is that protocols are **public**. They are described in plain t
   A -->|"3. {{ack|ACK}}"| B
   A -->|"4. Request"| B
   B -->|"5. Response"| A`,
-				caption: '[[tcp|TCP]] requires a {{three-way-handshake|three-way handshake}} before any data can flow. The order matters — both sides have to confirm the connection in writing before either can speak its mind.'
+				caption:
+					'[[tcp|TCP]] requires a {{three-way-handshake|three-way handshake}} before any data can flow. The order matters — both sides have to confirm the connection in writing before either can speak its mind.'
 			},
 			{
 				type: 'image',
@@ -74,7 +75,7 @@ The {{ietf|IETF}}'s job is not to invent these protocols. It is to **document th
 						title: 'Co-author of TCP/IP',
 						org: 'Stanford → DARPA → Google',
 						contribution:
-							"With [[pioneer:bob-kahn|Bob Kahn]], the 1974 paper that coined the word \"internet\" and described a single protocol they would later split into [[tcp|TCP]] + [[ip|IP]]. Stewards of the protocol's growth across the next four decades.",
+							'With [[pioneer:bob-kahn|Bob Kahn]], the 1974 paper that coined the word "internet" and described a single protocol they would later split into [[tcp|TCP]] + [[ip|IP]]. Stewards of the protocol\'s growth across the next four decades.',
 						imagePath:
 							'https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Dr_Vint_Cerf_ForMemRS_%28cropped%29.jpg/330px-Dr_Vint_Cerf_ForMemRS_%28cropped%29.jpg'
 					},
@@ -188,7 +189,7 @@ The win was never about elegance — {{osi-model|OSI}}'s seven layers are arguab
 			{
 				type: 'callout',
 				title: 'Rough Consensus and Running Code',
-				text: 'David Clark\'s 1992 {{ietf|IETF}} quote is the closest thing the internet community has to a national anthem. It says: standards are documents about behavior we have already shipped, not theories we hope someone will adopt. It is the reason new protocols appear as Internet Drafts with reference implementations, not as {{iso|ISO}} documents. And it is why — even in 2026 — every protocol in this lab traces back to a draft someone could install and run.'
+				text: "David Clark's 1992 {{ietf|IETF}} quote is the closest thing the internet community has to a national anthem. It says: standards are documents about behavior we have already shipped, not theories we hope someone will adopt. It is the reason new protocols appear as Internet Drafts with reference implementations, not as {{iso|ISO}} documents. And it is why — even in 2026 — every protocol in this lab traces back to a draft someone could install and run."
 			},
 			{
 				type: 'narrative',
@@ -240,7 +241,8 @@ Together: [[dns|DNS]] resolves the hostname → [[ip|IP]] routes the packet to t
   [[dns|DNS]] -->|"[[dns|DNS]] resolves"| {{ip-address|IP}}
   {{ip-address|IP}} -->|"[[arp|ARP]] / {{ndp|NDP}} resolves"| {{mac-address|MAC}}
   {{mac-address|MAC}} -->|"{{os|OS}} demuxes"| Port`,
-				caption: 'Each address layer answers a different question. [[dns|DNS]]: who. [[ip|IP]]: where. {{mac-address|MAC}}: which port on this switch. Port: which program.'
+				caption:
+					'Each address layer answers a different question. [[dns|DNS]]: who. [[ip|IP]]: where. {{mac-address|MAC}}: which port on this switch. Port: which program.'
 			},
 			{
 				type: 'narrative',
@@ -288,7 +290,7 @@ This division of labour — [[ip|IP]] for end-to-end identity, MAC for hop-to-ho
 			{
 				type: 'callout',
 				title: 'Why an IP looks like four numbers',
-				text: '[[ip|IPv4]] addresses are 32 bits, conventionally written as four decimal numbers separated by dots: \`192.0.2.5\` is just \`11000000.00000010.00000000.00000101\` in dotted-decimal. The notation is for humans. The router only sees the bits. When you write a {{cidr|CIDR}} prefix like \`192.0.2.0/24\`, the \`/24\` says "the first 24 bits are the network; the last 8 are the host" — a {{routing-table|routing table}} lookup compares those leading bits against its prefix entries to pick the next {{hop|hop}}.'
+				text: '[[ip|IPv4]] addresses are 32 bits, conventionally written as four decimal numbers separated by dots: `192.0.2.5` is just `11000000.00000010.00000000.00000101` in dotted-decimal. The notation is for humans. The router only sees the bits. When you write a {{cidr|CIDR}} prefix like `192.0.2.0/24`, the `/24` says "the first 24 bits are the network; the last 8 are the host" — a {{routing-table|routing table}} lookup compares those leading bits against its prefix entries to pick the next {{hop|hop}}.'
 			}
 		]
 	},
@@ -316,7 +318,8 @@ A {{packet|packet}} is a **self-contained unit** with a **header** (control info
   D -->|"[[tcp|TCP]] wraps"| S
   S -->|"{{ip-address|IP}} wraps"| P
   P -->|"[[ethernet|Ethernet]] wraps"| F`,
-				caption: 'Each layer adds its own header around the {{payload|payload}} from above. At the destination, headers are stripped in reverse order, and the original {{http-method|HTTP}} request is delivered to the application.'
+				caption:
+					'Each layer adds its own header around the {{payload|payload}} from above. At the destination, headers are stripped in reverse order, and the original {{http-method|HTTP}} request is delivered to the application.'
 			},
 			{
 				type: 'image',
@@ -391,7 +394,8 @@ Three conventional ranges. **Well-known ports** (0–1023) are reserved for stan
   {{os|OS}} -->|":443"| S["HTTPS Server"]
   {{os|OS}} -->|":22"| [[ssh|SSH]]["[[ssh|SSH]] Daemon"]
   OS -->|":5432"| DB["Database"]`,
-				caption: 'The {{os|OS}} uses the destination port to deliver each packet to the right process. Multiple services share one [[ip|IP]] address; the port disambiguates.'
+				caption:
+					'The {{os|OS}} uses the destination port to deliver each packet to the right process. Multiple services share one [[ip|IP]] address; the port disambiguates.'
 			},
 			{
 				type: 'image',
@@ -435,7 +439,7 @@ This is also why [[quic|QUIC]] runs over [[udp|UDP]] port 443 ([[http3|HTTP/3]])
 			{
 				type: 'callout',
 				title: 'How a load balancer works at the port level',
-				text: 'A load balancer like nginx or HAProxy binds to port 443, accepts the inbound [[tcp|TCP]]/[[tls|TLS]] connection, then opens a **separate** outbound connection to one of N backend servers. From the client\'s perspective there is one connection; from the backends\' perspective there are many. The two connections are stitched together in user space. This is why the source [[ip|IP]] at the backend is the load balancer\'s, not the original client\'s, unless you explicitly forward it via the **PROXY protocol** or an {{header|HTTP header}} like \`X-Forwarded-For\`.'
+				text: "A load balancer like nginx or HAProxy binds to port 443, accepts the inbound [[tcp|TCP]]/[[tls|TLS]] connection, then opens a **separate** outbound connection to one of N backend servers. From the client's perspective there is one connection; from the backends' perspective there are many. The two connections are stitched together in user space. This is why the source [[ip|IP]] at the backend is the load balancer's, not the original client's, unless you explicitly forward it via the **PROXY protocol** or an {{header|HTTP header}} like `X-Forwarded-For`."
 			}
 		]
 	},
@@ -460,7 +464,8 @@ This tradeoff drives the entire protocol ecosystem. Web pages need reliability �
 				definition: `graph LR
   [[udp|UDP]]["<b>[[udp|UDP]]</b><br/>No guarantees<br/>8-byte header"] ---|"+ {{encryption|encryption}} + {{multiplexing|multiplexing}}"| [[quic|QUIC]]["<b>[[quic|QUIC]]</b><br/>Per-stream reliability<br/>0/{{one-rtt|1-RTT}} {{handshake|handshake}}"]
   [[quic|QUIC]] ---|"+ ordered byte stream"| [[tcp|TCP]]["<b>[[tcp|TCP]]</b><br/>Full reliability<br/>{{one-rtt|1-RTT}} {{handshake|handshake}}"]`,
-				caption: 'Protocols sit on a {{spectrum|spectrum}} from raw speed ([[udp|UDP]]) to guaranteed delivery ([[tcp|TCP]]). [[quic|QUIC]] sits in between by giving each multiplexed stream its own reliability — so a lost packet only blocks one stream.'
+				caption:
+					'Protocols sit on a {{spectrum|spectrum}} from raw speed ([[udp|UDP]]) to guaranteed delivery ([[tcp|TCP]]). [[quic|QUIC]] sits in between by giving each multiplexed stream its own reliability — so a lost packet only blocks one stream.'
 			},
 			{
 				type: 'narrative',
@@ -499,7 +504,8 @@ The principle they articulated — **conservation of packets** — has held up f
   RC -->|"new {{ack|ACK}}"| CA
   CA -->|"loss detected"| FR
   CA -->|"timeout"| S0`,
-				caption: 'The four-phase loop every [[tcp|TCP]] {{congestion-control|congestion controller}} has used since 1988. Modern algorithms ({{cubic|CUBIC}}, {{bbr|BBR}}) replace the linear growth in {{congestion-avoidance|Congestion Avoidance}} with their own curves, but the overall shape is unchanged.'
+				caption:
+					'The four-phase loop every [[tcp|TCP]] {{congestion-control|congestion controller}} has used since 1988. Modern algorithms ({{cubic|CUBIC}}, {{bbr|BBR}}) replace the linear growth in {{congestion-avoidance|Congestion Avoidance}} with their own curves, but the overall shape is unchanged.'
 			},
 			{
 				type: 'narrative',
@@ -546,7 +552,8 @@ BBRv1 hit ~4% mean throughput improvement on YouTube globally, more than 14% in 
   C2021 --> C2023a["<b>2023</b><br/>{{bbrv3|BBRv3}} default<br/>for {{google|google}}.com / YouTube"]
   C2021 --> C2023b["<b>Jan 2023</b><br/>{{l4s|L4S}}<br/>[[rfc:9330|RFC 9330]]/9331/9332"]
   C2023b --> C2025["<b>Jan 2025</b><br/>Comcast {{l4s|L4S}}<br/>in production"]`,
-				caption: 'Every [[tcp|TCP]] congestion controller is a chapter in the story Jacobson started. Modern transports — {{cubic|CUBIC}}, {{bbr|BBR}}, {{l4s|L4S}}, RACK-TLP — are each refinements of the same conservation-of-packets principle, adapted to different network realities.'
+				caption:
+					'Every [[tcp|TCP]] congestion controller is a chapter in the story Jacobson started. Modern transports — {{cubic|CUBIC}}, {{bbr|BBR}}, {{l4s|L4S}}, RACK-TLP — are each refinements of the same conservation-of-packets principle, adapted to different network realities.'
 			},
 			{
 				type: 'narrative',
@@ -592,7 +599,8 @@ Second, **trust is concentrated**. The server can be hardened, audited, monitore
     P3 <--> P1
   end
   CS ~~~ P2P`,
-				caption: 'Client-server centralises control through one authority. {{peer-to-peer|P2P}} connects nodes directly — more resilient but harder to coordinate.'
+				caption:
+					'Client-server centralises control through one authority. {{peer-to-peer|P2P}} connects nodes directly — more resilient but harder to coordinate.'
 			},
 			{
 				type: 'image',
@@ -668,9 +676,9 @@ The combination is what makes the modern web tractable. You use slow asymmetric 
 			{
 				type: 'image',
 				src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/fb/Asymmetric_Cryptography.svg/500px-Asymmetric_Cryptography.svg.png',
-				alt: 'Public-key cryptography: sender encrypts with the recipient\'s public key; recipient decrypts with their matching private key.',
+				alt: "Public-key cryptography: sender encrypts with the recipient's public key; recipient decrypts with their matching private key.",
 				caption:
-					'{{public-key|Public-key}} cryptography. Anyone can {{encryption|encrypt}} a message using the recipient\'s {{public-key|public key}} (which is shared openly). Only the recipient — the holder of the matching {{private-key|private key}} — can decrypt it. This solves the key-distribution problem that defeated symmetric ciphers for centuries.',
+					"{{public-key|Public-key}} cryptography. Anyone can {{encryption|encrypt}} a message using the recipient's {{public-key|public key}} (which is shared openly). Only the recipient — the holder of the matching {{private-key|private key}} — can decrypt it. This solves the key-distribution problem that defeated symmetric ciphers for centuries.",
 				credit: 'Diagram: Wikimedia Commons / public domain'
 			},
 			{
@@ -685,7 +693,8 @@ The combination is what makes the modern web tractable. You use slow asymmetric 
     C2["Client"] <-->|"{{aes|AES}} / ChaCha20 encrypted"| S2["Server"]
   end
   {{handshake|Handshake}} -->|"shared secret"| Data`,
-				caption: '[[tls|TLS]] uses slow {{asymmetric-encryption|asymmetric crypto}} to safely {{exchange|exchange}} a session key, then switches to fast {{symmetric-encryption|symmetric encryption}} for all data. The {{handshake|handshake}} is a few hundred bytes; the data can be gigabytes.'
+				caption:
+					'[[tls|TLS]] uses slow {{asymmetric-encryption|asymmetric crypto}} to safely {{exchange|exchange}} a session key, then switches to fast {{symmetric-encryption|symmetric encryption}} for all data. The {{handshake|handshake}} is a few hundred bytes; the data can be gigabytes.'
 			},
 			{
 				type: 'image',
@@ -751,7 +760,8 @@ In April 2025, {{google|Google}} published **Agent-to-Agent Protocol** — [[a2a
     {{stdio|STDIO}}["{{stdio|stdio}} (local)"]
   end
   Wire -.-> Transport`,
-				caption: '{{ai|AI}} protocols sit at the application layer, using [[json-rpc|JSON-RPC]] 2.0 as their wire format and {{http-method|HTTP}} (or {{stdio|stdio}}) as their transport. [[mcp|MCP]] connects agents to tools; [[a2a|A2A]] connects agents to each other.'
+				caption:
+					'{{ai|AI}} protocols sit at the application layer, using [[json-rpc|JSON-RPC]] 2.0 as their wire format and {{http-method|HTTP}} (or {{stdio|stdio}}) as their transport. [[mcp|MCP]] connects agents to tools; [[a2a|A2A]] connects agents to each other.'
 			},
 			{
 				type: 'narrative',

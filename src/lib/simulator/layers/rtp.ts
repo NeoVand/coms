@@ -14,8 +14,7 @@ export function createRTPLayer(
 				bits: 8,
 				value: overrides?.flags ?? '0x80',
 				editable: false,
-				description:
-					'Version (2), Padding (1), Extension (1), CSRC Count (4) — V=2 is current'
+				description: 'Version (2), Padding (1), Extension (1), CSRC Count (4) — V=2 is current'
 			},
 			{
 				name: 'M/PT',
@@ -30,8 +29,7 @@ export function createRTPLayer(
 				bits: 16,
 				value: overrides?.seq ?? 1,
 				editable: false,
-				description:
-					'Sequence number — increments per packet, used to detect loss and reorder'
+				description: 'Sequence number — increments per packet, used to detect loss and reorder'
 			},
 			{
 				name: 'Timestamp',
@@ -54,8 +52,7 @@ export function createRTPLayer(
 				bits: 0,
 				value: overrides?.payload ?? '',
 				editable: false,
-				description:
-					'Encoded media data — audio samples (Opus, G.711) or video frames (H.264, VP8)'
+				description: 'Encoded media data — audio samples (Opus, G.711) or video frames (H.264, VP8)'
 			}
 		]
 	};

@@ -172,7 +172,7 @@ for await (const elem of parser) {
 			date: '2026',
 			title: 'RPKI/ROV crosses 50% of advertised IP space',
 			description:
-				'{{nist|NIST}} {{rov|Route Origin Validation}} Monitor and {{cloudflare|Cloudflare}}\'s isbgpsafeyet.com show over 50% of advertised [[ip|IPv4]] space now covered by signed Route Origin Authorisations. Most tier-1 transits enforce {{rov|ROV}} on incoming announcements.'
+				"{{nist|NIST}} {{rov|Route Origin Validation}} Monitor and {{cloudflare|Cloudflare}}'s isbgpsafeyet.com show over 50% of advertised [[ip|IPv4]] space now covered by signed Route Origin Authorisations. Most tier-1 transits enforce {{rov|ROV}} on incoming announcements."
 		},
 		{
 			date: '2024-2025',

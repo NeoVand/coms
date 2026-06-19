@@ -19,7 +19,7 @@ The current spec is **Zigbee PRO 2023 (R23)**, document 05-3474-23, ratified 15 
 		{
 			title: 'IEEE 802.15.4 PHY — 2.4 GHz O-QPSK at 250 kbit/s + sub-GHz',
 			description:
-				"All Zigbee variants ride {{ieee-802-15-4|IEEE 802.15.4-2020}}. The dominant {{phy|PHY}} is **2.4 GHz O-QPSK** with 16 channels (11–26), 5 MHz spacing, 250 kbit/s data rate. Sub-GHz PHYs at 868 MHz (Europe, 20 kbit/s {{bpsk|BPSK}}) and 902–928 MHz (NA, 40 kbit/s {{bpsk|BPSK}}) give better wall penetration and less [[wifi|Wi-Fi]] co-channel interference at lower bit rates; R23 adds FSK PHYs in those same bands. {{frame|Frames}} are bounded at **127 octets PSDU** with a **16-bit {{checksum|FCS}}**. The {{mac-address|MAC}} uses unslotted CSMA-CA in most deployments (FFDs as routers, RFDs as end-devices), with optional beacon-mode for low-power sensor networks."
+				'All Zigbee variants ride {{ieee-802-15-4|IEEE 802.15.4-2020}}. The dominant {{phy|PHY}} is **2.4 GHz O-QPSK** with 16 channels (11–26), 5 MHz spacing, 250 kbit/s data rate. Sub-GHz PHYs at 868 MHz (Europe, 20 kbit/s {{bpsk|BPSK}}) and 902–928 MHz (NA, 40 kbit/s {{bpsk|BPSK}}) give better wall penetration and less [[wifi|Wi-Fi]] co-channel interference at lower bit rates; R23 adds FSK PHYs in those same bands. {{frame|Frames}} are bounded at **127 octets PSDU** with a **16-bit {{checksum|FCS}}**. The {{mac-address|MAC}} uses unslotted CSMA-CA in most deployments (FFDs as routers, RFDs as end-devices), with optional beacon-mode for low-power sensor networks.'
 		},
 		{
 			title: 'NWK layer — mesh routing with AODV',
@@ -29,7 +29,7 @@ The current spec is **Zigbee PRO 2023 (R23)**, document 05-3474-23, ratified 15 
 		{
 			title: 'APS layer — Application Support Sublayer with endpoints and clusters',
 			description:
-				"The {{aps-layer|APS}} layer {{multiplexing|multiplexes}} application traffic onto **endpoints** (1–240, like sub-addresses on a device — endpoint 11 might be a bulb, endpoint 1 a switch). Frames carry a **ProfileID** (Home Automation = 0x0104, Smart Energy = 0x0109), a **ClusterID** (OnOff = 0x0006, Level Control = 0x0008, Color Control = 0x0300, OTA Upgrade = 0x0019), and an **APSCounter** for {{replay-attack|replay protection}}. {{aps-layer|APS}}-level {{aes-128|AES-128}}-{{ccm-mode|CCM}}* {{encryption|encryption}} is layered on top of {{zigbee-nwk|NWK}} {{encryption|encryption}} when sensitive (e.g. {{trust-center|Trust Center}} Transport Key commands). The {{aps-layer|APS}} layer also handles binding tables — persistent destination-routing for groupcast lights and similar."
+				'The {{aps-layer|APS}} layer {{multiplexing|multiplexes}} application traffic onto **endpoints** (1–240, like sub-addresses on a device — endpoint 11 might be a bulb, endpoint 1 a switch). Frames carry a **ProfileID** (Home Automation = 0x0104, Smart Energy = 0x0109), a **ClusterID** (OnOff = 0x0006, Level Control = 0x0008, Color Control = 0x0300, OTA Upgrade = 0x0019), and an **APSCounter** for {{replay-attack|replay protection}}. {{aps-layer|APS}}-level {{aes-128|AES-128}}-{{ccm-mode|CCM}}* {{encryption|encryption}} is layered on top of {{zigbee-nwk|NWK}} {{encryption|encryption}} when sensitive (e.g. {{trust-center|Trust Center}} Transport Key commands). The {{aps-layer|APS}} layer also handles binding tables — persistent destination-routing for groupcast lights and similar.'
 		},
 		{
 			title: 'ZCL — the Zigbee Cluster Library data model',
@@ -245,7 +245,7 @@ That entire on-the-wire dump fits in roughly 40 bytes — a single Hue bulb comm
 	},
 	image: {
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/1/1e/Zigbee_logo.svg/330px-Zigbee_logo.svg.png',
-		alt: 'The Zigbee logo — a stylised honey-bee evoking the waggle dance, the Alliance\'s metaphor for mesh routing.',
+		alt: "The Zigbee logo — a stylised honey-bee evoking the waggle dance, the Alliance's metaphor for mesh routing.",
 		caption:
 			'The Zigbee name comes from the **honey-bee waggle dance** — the figure-eight a foraging bee performs to communicate the direction and distance of food. The Alliance picked the metaphor for the mesh: thousands of small, low-power messengers cooperatively routing information to where it is needed.',
 		credit: 'Image: Wikimedia Commons / Connectivity Standards Alliance trademark'
@@ -256,7 +256,7 @@ That entire on-the-wire dump fits in roughly 40 bytes — a single Hue bulb comm
 			date: '2023-03',
 			title: 'Zigbee PRO 2023 (R23) ratified',
 			description:
-				"Document 05-3474-23, ratified **15 March 2023** by the {{sig-bluetooth-acronym|CSA}}. Headline additions: **{{dynamic-link-key|Dynamic Link Key}}** negotiation using SPEKE over {{curve25519|Curve25519}} with {{aes|AES}}-MMO-128 (kills the *ZigBeeAlliance09* default-key sniff-at-join attack), **{{trust-center|Trust Center}} Swap-Out** (a failed Coordinator can be replaced without re-joining every device), **Device Interview** (TC policy gate before granting full access), **Works With All Hubs** phase 1, sub-GHz support for Europe (863–870 MHz) and North America (902–928 MHz), and absorbs **Zigbee Direct**. Silicon Labs, Texas Instruments, and ubisys are the named *golden units*. Backward-compatible with Zigbee 3.0 certification.",
+				'Document 05-3474-23, ratified **15 March 2023** by the {{sig-bluetooth-acronym|CSA}}. Headline additions: **{{dynamic-link-key|Dynamic Link Key}}** negotiation using SPEKE over {{curve25519|Curve25519}} with {{aes|AES}}-MMO-128 (kills the *ZigBeeAlliance09* default-key sniff-at-join attack), **{{trust-center|Trust Center}} Swap-Out** (a failed Coordinator can be replaced without re-joining every device), **Device Interview** (TC policy gate before granting full access), **Works With All Hubs** phase 1, sub-GHz support for Europe (863–870 MHz) and North America (902–928 MHz), and absorbs **Zigbee Direct**. Silicon Labs, Texas Instruments, and ubisys are the named *golden units*. Backward-compatible with Zigbee 3.0 certification.',
 			source: {
 				url: 'https://csa-iot.org/newsroom/zigbee-pro-2023-released/',
 				label: 'CSA: Zigbee PRO 2023 release announcement'
@@ -266,7 +266,7 @@ That entire on-the-wire dump fits in roughly 40 bytes — a single Hue bulb comm
 			date: '2023-09',
 			title: 'Philips Hue Bridge ships Matter firmware — 30M+ bulbs become Matter accessories',
 			description:
-				"Public rollout **19/20 September 2023** of {{matter|Matter}} firmware for the second-generation square Hue Bridge after a Q1 2023 target slipped. The {{bgp-update|update}} exposes existing Hue Zigbee bulbs to {{apple|Apple}} Home, {{google|Google}} Home, Amazon Alexa, and SmartThings over {{ip-address|IP}}, while preserving the Zigbee mesh underneath. This single {{bgp-update|update}} made the Hue Bridge by far the largest {{matter|Matter}} Bridge installation in the world. Signify has continued to ship Bridge and Bridge Pro firmware updates through 2024–26.",
+				'Public rollout **19/20 September 2023** of {{matter|Matter}} firmware for the second-generation square Hue Bridge after a Q1 2023 target slipped. The {{bgp-update|update}} exposes existing Hue Zigbee bulbs to {{apple|Apple}} Home, {{google|Google}} Home, Amazon Alexa, and SmartThings over {{ip-address|IP}}, while preserving the Zigbee mesh underneath. This single {{bgp-update|update}} made the Hue Bridge by far the largest {{matter|Matter}} Bridge installation in the world. Signify has continued to ship Bridge and Bridge Pro firmware updates through 2024–26.',
 			source: {
 				url: 'https://www.hueblog.com/2023/09/19/the-day-has-come-philips-hue-bridge-now-supports-matter/',
 				label: 'Hueblog: Hue Bridge Matter release'
@@ -276,7 +276,7 @@ That entire on-the-wire dump fits in roughly 40 bytes — a single Hue bulb comm
 			date: '2024-05',
 			title: 'Aqara Hub M3 ships globally — Zigbee + Thread + Matter in one box',
 			description:
-				"Announced at {{ces-show|CES}} on **8 January 2024**; shipped **8 May 2024**. Triple-protocol — **Zigbee 3.0 + {{thread|Thread}} {{border-router|border router}} + {{matter|Matter}} controller + {{matter|Matter}} Bridge** — with dual-band [[wifi|Wi-Fi]], Power-over-Ethernet, {{usb|USB}}-C, IR blaster, **8 GB encrypted local storage**, and *no microphone or camera* (deliberate privacy stance). Up to 127 Zigbee + 127 {{thread|Thread}} devices. Aqara published a multi-hub-{{failover|failover}} architecture (up to 10 M3s mirroring automations) in mid-2024 — the canonical 2024–25 form factor for a privacy-forward smart-home bridge.",
+				'Announced at {{ces-show|CES}} on **8 January 2024**; shipped **8 May 2024**. Triple-protocol — **Zigbee 3.0 + {{thread|Thread}} {{border-router|border router}} + {{matter|Matter}} controller + {{matter|Matter}} Bridge** — with dual-band [[wifi|Wi-Fi]], Power-over-Ethernet, {{usb|USB}}-C, IR blaster, **8 GB encrypted local storage**, and *no microphone or camera* (deliberate privacy stance). Up to 127 Zigbee + 127 {{thread|Thread}} devices. Aqara published a multi-hub-{{failover|failover}} architecture (up to 10 M3s mirroring automations) in mid-2024 — the canonical 2024–25 form factor for a privacy-forward smart-home bridge.',
 			source: {
 				url: 'https://www.aqara.com/en/news/aqara-hub-m3-globally',
 				label: 'Aqara: Hub M3 global launch'
@@ -296,7 +296,7 @@ That entire on-the-wire dump fits in roughly 40 bytes — a single Hue bulb comm
 			date: '2025-08',
 			title: 'Matter 1.4.2 — Wi-Fi-only commissioning (BLE optional)',
 			description:
-				"Released **11 August 2025**. {{matter|Matter}} 1.4.2 adds **Wi-Fi-only commissioning** — devices can be set up without a Bluetooth Low Energy radio, reducing BOM cost for cheaper {{matter|Matter}}-bridged accessories. Also adds **Quieter Reporting** (battery-saving data-model change) and admin verification. For the Zigbee story, this means a {{matter|Matter}} Bridge for Zigbee no longer needs {{ble|BLE}} silicon — accelerating low-cost bridges from secondary brands.",
+				'Released **11 August 2025**. {{matter|Matter}} 1.4.2 adds **Wi-Fi-only commissioning** — devices can be set up without a Bluetooth Low Energy radio, reducing BOM cost for cheaper {{matter|Matter}}-bridged accessories. Also adds **Quieter Reporting** (battery-saving data-model change) and admin verification. For the Zigbee story, this means a {{matter|Matter}} Bridge for Zigbee no longer needs {{ble|BLE}} silicon — accelerating low-cost bridges from secondary brands.',
 			source: {
 				url: 'https://csa-iot.org/newsroom/matter-1-4-2-released/',
 				label: 'CSA: Matter 1.4.2 release'
@@ -306,7 +306,7 @@ That entire on-the-wire dump fits in roughly 40 bytes — a single Hue bulb comm
 			date: '2025-11',
 			title: 'Matter 1.5 — camera streaming closes the last Zigbee gap',
 			description:
-				"Released **20 November 2025**. {{matter|Matter}} 1.5 adds **camera streaming** via an RTSP side-channel — the long-awaited piece for {{matter|Matter}} to fully displace Zigbee in new home-security deployments. For Zigbee, this is the moment new device categories (cameras, video doorbells) no longer have a reason to go through a Zigbee bridge — they can go directly on [[wifi|Wi-Fi]] or {{thread|Thread}} with {{matter|Matter}} from day one.",
+				'Released **20 November 2025**. {{matter|Matter}} 1.5 adds **camera streaming** via an RTSP side-channel — the long-awaited piece for {{matter|Matter}} to fully displace Zigbee in new home-security deployments. For Zigbee, this is the moment new device categories (cameras, video doorbells) no longer have a reason to go through a Zigbee bridge — they can go directly on [[wifi|Wi-Fi]] or {{thread|Thread}} with {{matter|Matter}} from day one.',
 			source: {
 				url: 'https://matteralpha.com/matter-timeline',
 				label: 'MatterAlpha: Matter timeline'
@@ -319,7 +319,7 @@ That entire on-the-wire dump fits in roughly 40 bytes — a single Hue bulb comm
 			org: 'Signify (Philips Hue)',
 			scale: '~30M+ bulbs lifetime; largest Matter Bridge installation in the world',
 			description:
-				"Launched **30 October 2012** exclusively at {{apple|Apple}} Stores for $199/starter kit. The Philips press release mentioned *ZigBee LightLink* exactly once, in the technical body; the in-store materials and iOS app deliberately avoided the term. The Hue inventor George Yianni built the first prototype as a {{ui|UI}} experiment on an iPhone. Hue migrated to Zigbee 3.0 via a Q1 2018 Bridge firmware {{bgp-update|update}}; the second-generation square Bridge gained {{matter|Matter}} support on 19 September 2023, turning the entire installed base into {{matter|Matter}} accessories overnight. The Hue Bridge is the canonical answer to *how does my smart-home ecosystem talk to Zigbee?*"
+				'Launched **30 October 2012** exclusively at {{apple|Apple}} Stores for $199/starter kit. The Philips press release mentioned *ZigBee LightLink* exactly once, in the technical body; the in-store materials and iOS app deliberately avoided the term. The Hue inventor George Yianni built the first prototype as a {{ui|UI}} experiment on an iPhone. Hue migrated to Zigbee 3.0 via a Q1 2018 Bridge firmware {{bgp-update|update}}; the second-generation square Bridge gained {{matter|Matter}} support on 19 September 2023, turning the entire installed base into {{matter|Matter}} accessories overnight. The Hue Bridge is the canonical answer to *how does my smart-home ecosystem talk to Zigbee?*'
 		},
 		{
 			org: 'IKEA Trådfri',
@@ -331,19 +331,19 @@ That entire on-the-wire dump fits in roughly 40 bytes — a single Hue bulb comm
 			org: 'Aqara / Lumi United (Hub M3)',
 			scale: '127 Zigbee + 127 Thread devices per hub; 100+ device models; multi-hub failover',
 			description:
-				"Shenzhen-based, originally an {{apple|Apple}} HomeKit ecosystem partner. The **Aqara Hub M3** (announced {{ces-show|CES}} 8 January 2024, shipping 8 May 2024) is the textbook modern multi-protocol bridge: Zigbee 3.0 + {{thread|Thread}} {{border-router|border router}} + {{matter|Matter}} controller and bridge, dual-band [[wifi|Wi-Fi]] (2.4/5 GHz, {{wpa3|WPA3}}), PoE, {{usb|USB}}-C, 8 GB encrypted local storage, **no microphone or camera**. The M3 supersedes older Aqara hubs and runs automations locally — an Edge-Hub model that does not depend on the Aqara cloud."
+				'Shenzhen-based, originally an {{apple|Apple}} HomeKit ecosystem partner. The **Aqara Hub M3** (announced {{ces-show|CES}} 8 January 2024, shipping 8 May 2024) is the textbook modern multi-protocol bridge: Zigbee 3.0 + {{thread|Thread}} {{border-router|border router}} + {{matter|Matter}} controller and bridge, dual-band [[wifi|Wi-Fi]] (2.4/5 GHz, {{wpa3|WPA3}}), PoE, {{usb|USB}}-C, 8 GB encrypted local storage, **no microphone or camera**. The M3 supersedes older Aqara hubs and runs automations locally — an Edge-Hub model that does not depend on the Aqara cloud.'
 		},
 		{
 			org: 'Samsung SmartThings',
 			scale: 'Tens of millions of hubs across Hub v1–v3 and Station',
 			description:
-				"SmartThings shipped the original Hub in 2013; Samsung acquired the company in August 2014. Carries Zigbee + Z-Wave from day one; later generations added {{thread|Thread}} and {{matter|Matter}}. SmartThings is the most common single {{zigbee-coordinator|Zigbee Coordinator}} outside of Hue. Samsung sits on the {{sig-bluetooth-acronym|CSA}} board."
+				'SmartThings shipped the original Hub in 2013; Samsung acquired the company in August 2014. Carries Zigbee + Z-Wave from day one; later generations added {{thread|Thread}} and {{matter|Matter}}. SmartThings is the most common single {{zigbee-coordinator|Zigbee Coordinator}} outside of Hue. Samsung sits on the {{sig-bluetooth-acronym|CSA}} board.'
 		},
 		{
 			org: 'Amazon Echo Plus / Echo 4th gen / Echo Hub',
 			scale: 'Tens of millions of units 2017+',
 			description:
-				"Amazon shipped a built-in {{zigbee-coordinator|Zigbee Coordinator}} inside the Echo Plus in 2017 — the first time a mass-market smart speaker pretended to be a Zigbee hub. Echo (4th gen) and Echo Show 10 also carry a Zigbee radio; the Echo Hub (2024) is positioned as a smart-home control panel with Zigbee inside. Amazon Sidewalk overlaps mostly at sub-GHz (900 MHz) rather than competing with Zigbee directly."
+				'Amazon shipped a built-in {{zigbee-coordinator|Zigbee Coordinator}} inside the Echo Plus in 2017 — the first time a mass-market smart speaker pretended to be a Zigbee hub. Echo (4th gen) and Echo Show 10 also carry a Zigbee radio; the Echo Hub (2024) is positioned as a smart-home control panel with Zigbee inside. Amazon Sidewalk overlaps mostly at sub-GHz (900 MHz) rather than competing with Zigbee directly.'
 		},
 		{
 			org: 'Acuity Brands nLight AIR + Atrius',
@@ -355,14 +355,14 @@ That entire on-the-wire dump fits in roughly 40 bytes — a single Hue bulb comm
 			org: 'VusionGroup electronic shelf labels',
 			scale: '350M ESLs shipped in 2023 alone; Walmart US 4,600-store rollout from 2024',
 			description:
-				"The under-reported Zigbee deployment that dwarfs every consumer brand by unit volume. VusionGroup (formerly SES-imagotag) runs a Zigbee-family radio in its EdgeSense / VusionCloud platform. The 23 December 2024 Walmart contract extension after a successful 500-store pilot will roll out across **all 4,600 US Walmart stores**. Carrefour, Lidl, Edeka, Tesco, and the UK Co-operative are parallel customers — cumulative Zigbee-family ESL deployments are well into the billion-device lifetime range."
+				'The under-reported Zigbee deployment that dwarfs every consumer brand by unit volume. VusionGroup (formerly SES-imagotag) runs a Zigbee-family radio in its EdgeSense / VusionCloud platform. The 23 December 2024 Walmart contract extension after a successful 500-store pilot will roll out across **all 4,600 US Walmart stores**. Carrefour, Lidl, Edeka, Tesco, and the UK Co-operative are parallel customers — cumulative Zigbee-family ESL deployments are well into the billion-device lifetime range.'
 		}
 	],
 
 	funFacts: [
 		{
 			title: 'The name comes from the honey-bee waggle dance',
-			text: "Foraging bees returning to the hive perform a figure-eight dance whose orientation and duration communicate the direction and distance of food — an organic mesh routing protocol, in effect. The Alliance picked the name and the bee logo for exactly this metaphor: thousands of small, low-power messengers cooperatively routing information to where it is needed."
+			text: 'Foraging bees returning to the hive perform a figure-eight dance whose orientation and duration communicate the direction and distance of food — an organic mesh routing protocol, in effect. The Alliance picked the name and the bee logo for exactly this metaphor: thousands of small, low-power messengers cooperatively routing information to where it is needed.'
 		},
 		{
 			title: 'Philips Hue\'s 2012 Apple Store launch never said "Zigbee" out loud',
@@ -374,15 +374,15 @@ That entire on-the-wire dump fits in roughly 40 bytes — a single Hue bulb comm
 		},
 		{
 			title: 'zigbee2mqtt supports 5,390 devices from 568 vendors',
-			text: "A single GPL-licensed Node.js project — maintained primarily by Koen Kanters — keeps a more complete decoder database of Zigbee Cluster Library quirks than any single commercial hub vendor. zigbee2mqtt is the de-facto interoperability spec for the FOSS smart-home community. The most common {{zigbee-coordinator|Zigbee Coordinator}} in 2026 is a $20 Sonoff ZBDongle-E plugged into a Raspberry Pi running Home Assistant."
+			text: 'A single GPL-licensed Node.js project — maintained primarily by Koen Kanters — keeps a more complete decoder database of Zigbee Cluster Library quirks than any single commercial hub vendor. zigbee2mqtt is the de-facto interoperability spec for the FOSS smart-home community. The most common {{zigbee-coordinator|Zigbee Coordinator}} in 2026 is a $20 Sonoff ZBDongle-E plugged into a Raspberry Pi running Home Assistant.'
 		},
 		{
-			title: 'Walmart\'s shelf labels will outnumber every Hue bulb ever sold',
-			text: "When the 4,600-store Walmart US expansion completes, the total number of Zigbee-family devices on Walmart shelves alone will be roughly an order of magnitude larger than the total installed base of Philips Hue bulbs ever sold. The next time someone asks *is Zigbee dead?*, the right answer is: it is invisible because it is behind every price tag in your supermarket."
+			title: "Walmart's shelf labels will outnumber every Hue bulb ever sold",
+			text: 'When the 4,600-store Walmart US expansion completes, the total number of Zigbee-family devices on Walmart shelves alone will be roughly an order of magnitude larger than the total installed base of Philips Hue bulbs ever sold. The next time someone asks *is Zigbee dead?*, the right answer is: it is invisible because it is behind every price tag in your supermarket.'
 		},
 		{
 			title: 'Bob Heile was a founding member of IEEE 802.11 *and* the Zigbee Alliance',
-			text: "Robert F. Heile (1945–2020) chaired the Zigbee Alliance from its founding in 2002 through 2013, was a founding member of {{ieee-802-15-4|IEEE}} [[wifi|802.11]] (Wi-Fi) in 1990, chaired {{ieee-802-15-4|IEEE}} 802.15 for two decades, and later directed standards at the Wi-SUN Alliance. Almost every low-power 802.15.4-based protocol you can name — Zigbee, {{thread|Thread}}, WirelessHART, Wi-SUN — traces directly back through Bob. He died of prostate cancer on 24 September 2020; his {{ieee-802-15-4|IEEE}} 802.15 chair role was passed days before his death."
+			text: 'Robert F. Heile (1945–2020) chaired the Zigbee Alliance from its founding in 2002 through 2013, was a founding member of {{ieee-802-15-4|IEEE}} [[wifi|802.11]] (Wi-Fi) in 1990, chaired {{ieee-802-15-4|IEEE}} 802.15 for two decades, and later directed standards at the Wi-SUN Alliance. Almost every low-power 802.15.4-based protocol you can name — Zigbee, {{thread|Thread}}, WirelessHART, Wi-SUN — traces directly back through Bob. He died of prostate cancer on 24 September 2020; his {{ieee-802-15-4|IEEE}} 802.15 chair role was passed days before his death.'
 		}
 	],
 
@@ -398,7 +398,7 @@ That entire on-the-wire dump fits in roughly 40 bytes — a single Hue bulb comm
 			},
 			{
 				title: 'Router density and child-table limits',
-				text: "Mains-powered Zigbee devices act as routers and adopt sleepy end-devices as children. The child-table size on a typical CC2652 / EFR32 firmware is **32**; the Sonoff ZBDongle-E reliably hits trouble around 50 directly-associated devices because of memory. The fix is *more routers, not a beefier coordinator* — every smart plug, ceiling switch, and powered bulb is a free router. Aim for at least one router per 8–10 metres in every direction from the Coordinator, and one router per sleepy-end-device cluster (a bedroom full of battery sensors should have a mains-powered plug or bulb acting as their parent)."
+				text: 'Mains-powered Zigbee devices act as routers and adopt sleepy end-devices as children. The child-table size on a typical CC2652 / EFR32 firmware is **32**; the Sonoff ZBDongle-E reliably hits trouble around 50 directly-associated devices because of memory. The fix is *more routers, not a beefier coordinator* — every smart plug, ceiling switch, and powered bulb is a free router. Aim for at least one router per 8–10 metres in every direction from the Coordinator, and one router per sleepy-end-device cluster (a bedroom full of battery sensors should have a mains-powered plug or bulb acting as their parent).'
 			},
 			{
 				title: 'Install codes vs. default key — pick a stance at deployment time',

@@ -47,8 +47,7 @@ const FOUNDATION_SYNOPSIS: Record<string, string> = {
 		'Two communication patterns — {{client-server|client/server}} and {{peer-to-peer|peer-to-peer}} — and what each makes easy or hard.',
 	'encryption-basics':
 		"What HTTPS actually protects — and what it doesn't. [[tls|TLS]] at the boundary.",
-	'ai-protocols':
-		'[[mcp|MCP]] and [[a2a|A2A]] — the new layer of protocols designed for AI agents.'
+	'ai-protocols': '[[mcp|MCP]] and [[a2a|A2A]] — the new layer of protocols designed for AI agents.'
 };
 
 const partI: BookPart = {
@@ -64,16 +63,6 @@ const partI: BookPart = {
 		slots: [{ kind: 'concept-section', id: s.id }]
 	}))
 };
-
-/**
- * Parts II–XII — outline only for now. Empty `slots` arrays mark
- * each chapter as "coming soon"; the TOC renderer treats them
- * differently from clickable chapters. Filling them in is the next
- * sustained content workstream.
- */
-function stubChapters(items: { id: string; title: string; synopsis: string }[]): Chapter[] {
-	return items.map((c) => ({ id: c.id, title: c.title, synopsis: c.synopsis, slots: [] }));
-}
 
 export const bookParts: BookPart[] = [
 	partI,

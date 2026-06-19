@@ -38,7 +38,7 @@ export const wifiAssociation: SimulationConfig = {
 			id: 'auth',
 			label: 'Authentication',
 			description:
-				'The laptop sends an Authentication frame to the AP using WPA3\'s Simultaneous Authentication of Equals (SAE). Unlike WPA2\'s simple open-system authentication, SAE performs a zero-knowledge proof — neither side reveals the password, yet both can verify the other knows it. This prevents offline dictionary attacks.',
+				"The laptop sends an Authentication frame to the AP using WPA3's Simultaneous Authentication of Equals (SAE). Unlike WPA2's simple open-system authentication, SAE performs a zero-knowledge proof — neither side reveals the password, yet both can verify the other knows it. This prevents offline dictionary attacks.",
 			fromActor: 'laptop',
 			toActor: 'ap',
 			duration: 800,
@@ -57,7 +57,7 @@ export const wifiAssociation: SimulationConfig = {
 			id: 'assoc-request',
 			label: 'Association Request',
 			description:
-				'After successful authentication, the laptop sends an Association Request to join the BSS (Basic Service Set). This frame advertises the laptop\'s capabilities: supported PHY rates, power management mode, and QoS support. The AP uses this to decide whether the station is compatible and which rates to use.',
+				"After successful authentication, the laptop sends an Association Request to join the BSS (Basic Service Set). This frame advertises the laptop's capabilities: supported PHY rates, power management mode, and QoS support. The AP uses this to decide whether the station is compatible and which rates to use.",
 			fromActor: 'laptop',
 			toActor: 'ap',
 			duration: 800,
@@ -136,7 +136,7 @@ export const wifiAssociation: SimulationConfig = {
 			id: 'bridge-to-ethernet',
 			label: 'Bridge to Ethernet',
 			description:
-				'The AP decrypts the Wi-Fi frame and re-encapsulates the IP packet into a standard Ethernet frame for the wired LAN. The AP\'s MAC becomes the Ethernet source, and the LAN server\'s MAC becomes the destination. This bridging is transparent — the server sees a normal Ethernet frame and has no idea the traffic originated from a wireless client.',
+				"The AP decrypts the Wi-Fi frame and re-encapsulates the IP packet into a standard Ethernet frame for the wired LAN. The AP's MAC becomes the Ethernet source, and the LAN server's MAC becomes the destination. This bridging is transparent — the server sees a normal Ethernet frame and has no idea the traffic originated from a wireless client.",
 			fromActor: 'ap',
 			toActor: 'server',
 			duration: 600,

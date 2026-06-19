@@ -8,7 +8,7 @@ export const wireguardHandshake: SimulationConfig = {
 	protocolId: 'wireguard',
 	title: 'WireGuard — Noise_IKpsk2 Handshake and Transport',
 	description:
-		"Watch two WireGuard peers — Alice and Bob — complete a one-round-trip Noise_IKpsk2 handshake and start exchanging encrypted IP packets. Then watch the 120-second rekey, the design that gives WireGuard per-handshake forward secrecy.",
+		'Watch two WireGuard peers — Alice and Bob — complete a one-round-trip Noise_IKpsk2 handshake and start exchanging encrypted IP packets. Then watch the 120-second rekey, the design that gives WireGuard per-handshake forward secrecy.',
 	tier: 'client',
 	actors: [
 		{ id: 'alice', label: 'Peer A (Alice)', icon: 'client', position: 'left' },
@@ -48,7 +48,8 @@ export const wireguardHandshake: SimulationConfig = {
 					type: '1 (Handshake Init)',
 					senderIndex: '0xABCD1234',
 					receiverIndex: '0x00000000',
-					payload: 'ephemeral_pub (32 B) + enc_static (32+16 B) + enc_TAI64N (12+16 B) + MAC1 (16 B) + MAC2 (16 B)'
+					payload:
+						'ephemeral_pub (32 B) + enc_static (32+16 B) + enc_TAI64N (12+16 B) + MAC1 (16 B) + MAC2 (16 B)'
 				})
 			]
 		},
@@ -99,7 +100,7 @@ export const wireguardHandshake: SimulationConfig = {
 			id: 'transport-data-2',
 			label: 'Transport Data (B → A)',
 			description:
-				"Reverse direction uses a *different* key (WireGuard keys are unidirectional — separate `T_send` and `T_recv` derived from the same chaining key) and a *separate* counter. Each direction has its own anti-replay window.",
+				'Reverse direction uses a *different* key (WireGuard keys are unidirectional — separate `T_send` and `T_recv` derived from the same chaining key) and a *separate* counter. Each direction has its own anti-replay window.',
 			fromActor: 'bob',
 			toActor: 'alice',
 			duration: 1300,
@@ -142,7 +143,7 @@ export const wireguardHandshake: SimulationConfig = {
 			id: 'rekey',
 			label: 'Rekey at REKEY_AFTER_TIME (120 s)',
 			description:
-				"At 120 seconds, Alice (whoever sent the first handshake) initiates a fresh handshake. A new pair of ephemeral keys; the chaining key is freshly derived; the old session keys are wiped. **Per-handshake forward secrecy** across sessions, **per-message forward secrecy** within a session.",
+				'At 120 seconds, Alice (whoever sent the first handshake) initiates a fresh handshake. A new pair of ephemeral keys; the chaining key is freshly derived; the old session keys are wiped. **Per-handshake forward secrecy** across sessions, **per-message forward secrecy** within a session.',
 			fromActor: 'alice',
 			toActor: 'bob',
 			duration: 1400,

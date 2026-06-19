@@ -67,7 +67,7 @@ export const ethernetFrame: SimulationConfig = {
 			id: 'arp-reply',
 			label: 'ARP Reply (unicast)',
 			description:
-				'Host B recognizes its own IP (192.168.1.50) in the ARP Request and sends a unicast ARP Reply directly to Host A\'s MAC. The reply contains Host B\'s MAC address AA:BB:CC:DD:EE:FF, which is the information Host A was looking for. This is unicast — only the requesting host receives it.',
+				"Host B recognizes its own IP (192.168.1.50) in the ARP Request and sends a unicast ARP Reply directly to Host A's MAC. The reply contains Host B's MAC address AA:BB:CC:DD:EE:FF, which is the information Host A was looking for. This is unicast — only the requesting host receives it.",
 			fromActor: 'host-b',
 			toActor: 'host-a',
 			duration: 800,
@@ -91,7 +91,7 @@ export const ethernetFrame: SimulationConfig = {
 			id: 'data-frame',
 			label: 'Data Frame (Host A → Switch)',
 			description:
-				'Now that Host A knows Host B\'s MAC, it constructs a proper Ethernet frame with the correct destination MAC AA:BB:CC:DD:EE:FF. The EtherType reverts to 0x0800 (IPv4) since this is a regular data packet. The IP payload is encapsulated inside the Ethernet frame — this is Layer 2 encapsulation of a Layer 3 packet.',
+				"Now that Host A knows Host B's MAC, it constructs a proper Ethernet frame with the correct destination MAC AA:BB:CC:DD:EE:FF. The EtherType reverts to 0x0800 (IPv4) since this is a regular data packet. The IP payload is encapsulated inside the Ethernet frame — this is Layer 2 encapsulation of a Layer 3 packet.",
 			fromActor: 'host-a',
 			toActor: 'switch',
 			duration: 600,
@@ -111,7 +111,7 @@ export const ethernetFrame: SimulationConfig = {
 			id: 'switch-forward',
 			label: 'Switch Forwards to Host B',
 			description:
-				'The switch looks up destination MAC AA:BB:CC:DD:EE:FF in its forwarding table and finds a match — it learned this MAC when Host B sent the ARP Reply. Instead of flooding, the switch forwards the frame only to Host B\'s port. This is the efficiency of a switch over a hub: unicast traffic stays on the relevant port.',
+				"The switch looks up destination MAC AA:BB:CC:DD:EE:FF in its forwarding table and finds a match — it learned this MAC when Host B sent the ARP Reply. Instead of flooding, the switch forwards the frame only to Host B's port. This is the efficiency of a switch over a hub: unicast traffic stays on the relevant port.",
 			fromActor: 'switch',
 			toActor: 'host-b',
 			duration: 600,
@@ -131,7 +131,7 @@ export const ethernetFrame: SimulationConfig = {
 			id: 'response-frame',
 			label: 'Response Frame (Host B → Switch)',
 			description:
-				'Host B processes the received data and sends a response back. The Ethernet frame has swapped source and destination MACs — Host B\'s MAC is now the source, Host A\'s MAC is the destination. The switch already has both MACs in its forwarding table, so this frame will be switched efficiently.',
+				"Host B processes the received data and sends a response back. The Ethernet frame has swapped source and destination MACs — Host B's MAC is now the source, Host A's MAC is the destination. The switch already has both MACs in its forwarding table, so this frame will be switched efficiently.",
 			fromActor: 'host-b',
 			toActor: 'switch',
 			duration: 600,
@@ -151,7 +151,7 @@ export const ethernetFrame: SimulationConfig = {
 			id: 'response-forward',
 			label: 'Switch Forwards to Host A',
 			description:
-				'The switch forwards the response directly to Host A\'s port using its learned MAC table entry. Both directions are now fully learned — no more flooding is needed for traffic between these two hosts. The forwarding table entries will age out after a timeout (typically 300 seconds) if no traffic is seen.',
+				"The switch forwards the response directly to Host A's port using its learned MAC table entry. Both directions are now fully learned — no more flooding is needed for traffic between these two hosts. The forwarding table entries will age out after a timeout (typically 300 seconds) if no traffic is seen.",
 			fromActor: 'switch',
 			toActor: 'host-a',
 			duration: 600,

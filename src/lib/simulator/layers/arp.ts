@@ -64,8 +64,7 @@ export function createARPLayer(
 				bits: 48,
 				value: overrides?.targetMac ?? '00:00:00:00:00:00',
 				editable: false,
-				description:
-					'MAC address of the target — all zeros in requests (unknown)'
+				description: 'MAC address of the target — all zeros in requests (unknown)'
 			},
 			{
 				name: 'Target IP',

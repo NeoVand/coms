@@ -2,9 +2,7 @@
 	import { buildGraphNodes } from '$lib/data/index';
 	import type { GraphNode } from '$lib/data/types';
 
-	const nodeMap: Map<string, GraphNode> = new Map(
-		buildGraphNodes().map((n) => [n.id, n])
-	);
+	const nodeMap: Map<string, GraphNode> = new Map(buildGraphNodes().map((n) => [n.id, n]));
 </script>
 
 <script lang="ts">
@@ -60,7 +58,10 @@
 	bind:this={btn}
 	class="inline transition-colors hover:underline {bold ? 'font-semibold' : 'font-medium'}"
 	style="color: {displayColor}"
-	onclick={(e) => { e.stopPropagation(); navigateToProtocol(protocolId); }}
+	onclick={(e) => {
+		e.stopPropagation();
+		navigateToProtocol(protocolId);
+	}}
 	onmouseenter={show}
 	onmouseleave={hide}
 	onfocus={show}

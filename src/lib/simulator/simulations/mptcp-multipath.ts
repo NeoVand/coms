@@ -42,7 +42,7 @@ export const mptcpMultipath: SimulationConfig = {
 			id: 'synack-capable',
 			label: 'SYN-ACK + MP_CAPABLE',
 			description:
-				'The server responds with SYN-ACK and its own MP_CAPABLE option containing the server\'s key. Both keys are now exchanged — the client and server can derive tokens from each other\'s keys to authenticate additional subflows later. The primary subflow is established.',
+				"The server responds with SYN-ACK and its own MP_CAPABLE option containing the server's key. Both keys are now exchanged — the client and server can derive tokens from each other's keys to authenticate additional subflows later. The primary subflow is established.",
 			fromActor: 'server',
 			toActor: 'client',
 			duration: 800,
@@ -88,7 +88,7 @@ export const mptcpMultipath: SimulationConfig = {
 			id: 'join',
 			label: 'SYN + MP_JOIN',
 			description:
-				'The phone adds a second subflow over cellular. MP_JOIN uses a token derived from the server\'s key to identify which MPTCP connection to join. The server verifies the HMAC to ensure this is a legitimate subflow and not an attack. Data can now be split across both Wi-Fi and cellular paths.',
+				"The phone adds a second subflow over cellular. MP_JOIN uses a token derived from the server's key to identify which MPTCP connection to join. The server verifies the HMAC to ensure this is a legitimate subflow and not an attack. Data can now be split across both Wi-Fi and cellular paths.",
 			fromActor: 'client',
 			toActor: 'server',
 			duration: 1000,

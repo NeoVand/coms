@@ -22,14 +22,16 @@ export function createKerberosLayer(
 				bits: 8,
 				value: 5,
 				editable: false,
-				description: 'Kerberos protocol version — 5 is current; V4 was deprecated in MIT krb5 1.18 (2020)'
+				description:
+					'Kerberos protocol version — 5 is current; V4 was deprecated in MIT krb5 1.18 (2020)'
 			},
 			{
 				name: 'Message Type',
 				bits: 8,
 				value: overrides?.msgType ?? 10,
 				editable: false,
-				description: 'Matches the application tag — 10=AS-REQ, 11=AS-REP, 12=TGS-REQ, 13=TGS-REP, 14=AP-REQ, 15=AP-REP'
+				description:
+					'Matches the application tag — 10=AS-REQ, 11=AS-REP, 12=TGS-REQ, 13=TGS-REP, 14=AP-REQ, 15=AP-REP'
 			},
 			{
 				name: 'Principal Name (cname / sname)',

@@ -7,7 +7,7 @@ export const sctpAssociation: SimulationConfig = {
 	protocolId: 'sctp',
 	title: 'SCTP — Multi-Stream Association',
 	description:
-		'Watch SCTP\'s four-way handshake that establishes a multi-stream association. Unlike TCP\'s three-way handshake, SCTP uses a cookie mechanism to prevent SYN flood attacks. SCTP also supports multi-homing — a single association can span multiple IP addresses for failover.',
+		"Watch SCTP's four-way handshake that establishes a multi-stream association. Unlike TCP's three-way handshake, SCTP uses a cookie mechanism to prevent SYN flood attacks. SCTP also supports multi-homing — a single association can span multiple IP addresses for failover.",
 	tier: 'client',
 	actors: [
 		{ id: 'client', label: 'Client', icon: 'client', position: 'left' },
@@ -40,7 +40,7 @@ export const sctpAssociation: SimulationConfig = {
 			id: 'init-ack',
 			label: 'INIT-ACK',
 			description:
-				'The server responds with INIT-ACK containing its own parameters and a State Cookie. The cookie is a signed bundle of both sides\' parameters — crucially, the server still allocates no state. This cookie-based design makes SCTP immune to SYN flood denial-of-service attacks.',
+				"The server responds with INIT-ACK containing its own parameters and a State Cookie. The cookie is a signed bundle of both sides' parameters — crucially, the server still allocates no state. This cookie-based design makes SCTP immune to SYN flood denial-of-service attacks.",
 			fromActor: 'server',
 			toActor: 'client',
 			duration: 800,

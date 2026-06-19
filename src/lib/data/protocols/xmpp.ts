@@ -72,7 +72,8 @@ class ChatBot(slixmpp.ClientXMPP):
 bot = ChatBot("alice@example.com", "secret")
 bot.connect()
 bot.process()`,
-		caption: '[[xmpp|XMPP]] client — {{mqtt-connect|connect}}, announce presence, and send messages as {{xml|XML}} stanzas',
+		caption:
+			'[[xmpp|XMPP]] client — {{mqtt-connect|connect}}, announce presence, and send messages as {{xml|XML}} stanzas',
 		alternatives: [
 			{
 				language: 'javascript',

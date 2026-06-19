@@ -51,7 +51,7 @@ export const mqttPubSub: SimulationConfig = {
 			id: 'connack',
 			label: 'CONNACK',
 			description:
-				'The broker validates the client\'s credentials and session state, then responds with CONNACK. A return code of 0 means the connection is accepted. The broker can also signal whether a previous session exists for this client ID.',
+				"The broker validates the client's credentials and session state, then responds with CONNACK. A return code of 0 means the connection is accepted. The broker can also signal whether a previous session exists for this client ID.",
 			fromActor: 'broker',
 			toActor: 'device',
 			duration: 800,

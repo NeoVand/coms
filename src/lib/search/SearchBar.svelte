@@ -19,8 +19,6 @@
 		type SearchResultType
 	} from './search-index';
 	import { getAppState } from '$lib/state/context';
-	import { buildGraphNodes } from '$lib/data/index';
-	import { journeys } from '$lib/data/journeys';
 	import { themedDomColor } from '$lib/utils/colors';
 	import {
 		navigateToProtocol,
@@ -35,7 +33,6 @@
 	} from '$lib/utils/navigation';
 
 	const appState = getAppState();
-	const allNodes = buildGraphNodes();
 
 	/** Theme-aware color for search result items */
 	function dc(c: string | undefined): string {

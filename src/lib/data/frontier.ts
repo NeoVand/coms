@@ -65,14 +65,20 @@ export const frontierEntries: FrontierEntry[] = [
 
 The economics that finally tipped it: {{aws|AWS}} started charging $0.005/hour per public [[ip|IPv4]] address in February 2024, making [[ipv6|IPv6]]-only architectures financially compelling at scale. Combined with {{four-six-four-xlat|464XLAT}} being a first-class citizen in modern {{android|Android}}, iOS 9+, macOS 13+, and Windows 11, [[ipv6|IPv6]]-only access networks now Just Work for [[ip|IPv4]] applications too.`,
 		metrics: [
-			{ label: "Google peak", value: '50.1%', date: '2026-03-28' },
+			{ label: 'Google peak', value: '50.1%', date: '2026-03-28' },
 			{ label: 'Cloudflare HTTP', value: '40%', date: '2026-04' },
 			{ label: 'APNIC capable', value: '43.13%', date: '2026-04' },
 			{ label: 'US mobile avg', value: '~87%' }
 		],
 		sources: [
-			{ url: 'https://www.google.com/intl/en/ipv6/statistics.html', label: 'Google IPv6 statistics' },
-			{ url: 'https://blog.apnic.net/2026/04/28/google-hits-50-ipv6/', label: 'APNIC — Google hits 50% IPv6' }
+			{
+				url: 'https://www.google.com/intl/en/ipv6/statistics.html',
+				label: 'Google IPv6 statistics'
+			},
+			{
+				url: 'https://blog.apnic.net/2026/04/28/google-hits-50-ipv6/',
+				label: 'APNIC — Google hits 50% IPv6'
+			}
 		]
 	},
 	{
@@ -115,7 +121,10 @@ The economics that finally tipped it: {{aws|AWS}} started charging $0.005/hour p
 		],
 		sources: [
 			{ url: 'https://github.com/google/bbr', label: 'google/bbr GitHub repo' },
-			{ url: 'https://datatracker.ietf.org/doc/draft-ietf-ccwg-bbr/', label: 'IETF — draft-ietf-ccwg-bbr' }
+			{
+				url: 'https://datatracker.ietf.org/doc/draft-ietf-ccwg-bbr/',
+				label: 'IETF — draft-ietf-ccwg-bbr'
+			}
 		]
 	},
 	{
@@ -131,7 +140,10 @@ The economics that finally tipped it: {{aws|AWS}} started charging $0.005/hour p
 
 The mechanism: cooperating senders mark packets {{ecn|ECN}}-Capable; routers running the DualQ Coupled {{aqm|AQM}} mark instead of dropping when congestion is incipient; senders react to marks like minor losses without backing off as hard. The result is {{bufferbloat|bufferbloat}} avoided in real time: {{latency|latency}}-sensitive apps (cloud gaming, video calls) get the headroom they need without starving classic [[tcp|TCP]]. {{apple|Apple}} shipped {{l4s|L4S}} support in iOS 17, iPadOS 17, macOS Sonoma and tvOS 17 in 2023, on by default for [[quic|QUIC]] in newer releases.`,
 		sources: [
-			{ url: 'https://www.rcrwireless.com/20250129/uncategorized/comcast-l4s', label: 'RCR Wireless — Comcast L4S launch' },
+			{
+				url: 'https://www.rcrwireless.com/20250129/uncategorized/comcast-l4s',
+				label: 'RCR Wireless — Comcast L4S launch'
+			},
 			{ url: 'https://www.nokia.com/bell-labs/research/l4s/', label: 'Nokia Bell Labs — L4S' }
 		]
 	},
@@ -148,8 +160,14 @@ The mechanism: cooperating senders mark packets {{ecn|ECN}}-Capable; routers run
 
 {{cloudflare|Cloudflare}} deploys {{ech|ECH}} for ~70% of websites it fronts; Chrome and Firefox both support it. The architecture: the server publishes an ECHConfig in [[dns|DNS]] (HTTPS RR); the client encrypts the inner {{client-hello|ClientHello}} to that key and wraps it in an outer {{client-hello|ClientHello}} that uses a generic "{{cloudflare|cloudflare}}-ech.com" {{sni|SNI}}. From the network's perspective, every fronted site looks the same.`,
 		sources: [
-			{ url: 'https://www.feistyduck.com/newsletter/issue_127_encrypted_client_hello_approved_for_publication.html', label: 'Feisty Duck — ECH approved for publication' },
-			{ url: 'https://www.cisecurity.org/insights/blog/security-control-changes-due-to-tls-encrypted-clienthello', label: 'CISecurity — security control changes due to ECH' }
+			{
+				url: 'https://www.feistyduck.com/newsletter/issue_127_encrypted_client_hello_approved_for_publication.html',
+				label: 'Feisty Duck — ECH approved for publication'
+			},
+			{
+				url: 'https://www.cisecurity.org/insights/blog/security-control-changes-due-to-tls-encrypted-clienthello',
+				label: 'CISecurity — security control changes due to ECH'
+			}
 		]
 	},
 	{
@@ -169,7 +187,10 @@ The mechanism: cooperating senders mark packets {{ecn|ECN}}-Capable; routers run
 			{ label: 'Traffic bound for RPKI-secured destinations', value: '~75%', date: '2024' }
 		],
 		sources: [
-			{ url: 'https://manrs.org/2024/05/rpki-rov-deployment-reaches-major-milestone/', label: 'MANRS — RPKI ROV milestone' },
+			{
+				url: 'https://manrs.org/2024/05/rpki-rov-deployment-reaches-major-milestone/',
+				label: 'MANRS — RPKI ROV milestone'
+			},
 			{ url: 'https://blog.cloudflare.com/rpki-updates-data/', label: 'Cloudflare — RPKI Updates' }
 		]
 	},
@@ -208,7 +229,10 @@ The [[wifi|Wi-Fi]] Alliance opened certification on 8 January 2024. As of late A
 {{ai|AI}} training fabrics are the demand engine. "Lossless [[ethernet|Ethernet]]" with RoCEv2 — [[ethernet|Ethernet]] plus PFC + DCQCN for losslessness — is replacing InfiniBand in many large {{gpu|GPU}} clusters because the operational tooling, vendor diversity, and per-port economics are all better. The Ultra [[ethernet|Ethernet]] Consortium's {{uec|UEC}} 1.0 spec (June 2025) is the next step: a new transport for {{ai|AI}}/HPC scale-out built on plain [[ethernet|Ethernet]]+[[ip|IP]] that explicitly competes with InfiniBand and RoCEv2.`,
 		sources: [
 			{ url: 'https://www.ieee802.org/3/dj/index.html', label: 'IEEE P802.3dj task force' },
-			{ url: 'https://en.wikipedia.org/wiki/Terabit_Ethernet', label: 'Wikipedia — Terabit Ethernet' }
+			{
+				url: 'https://en.wikipedia.org/wiki/Terabit_Ethernet',
+				label: 'Wikipedia — Terabit Ethernet'
+			}
 		]
 	},
 	{
@@ -225,7 +249,10 @@ The [[wifi|Wi-Fi]] Alliance opened certification on 8 January 2024. As of late A
 AMD's Pensando Pollara 400 is the first shipping {{nic|NIC}}. The likely RoCEv2 successor for the next generation of {{gpu|GPU}} clusters — at the scale of 100K+ accelerators training a single model, the assumptions baked into RoCEv2 (single-path, lossless via PFC, no out-of-order) become liabilities.`,
 		sources: [
 			{ url: 'https://ultraethernet.org/', label: 'Ultra Ethernet Consortium' },
-			{ url: 'https://arxiv.org/html/2508.08906v1', label: 'Hoefler et al. — Ultra Ethernet design principles' }
+			{
+				url: 'https://arxiv.org/html/2508.08906v1',
+				label: 'Hoefler et al. — Ultra Ethernet design principles'
+			}
 		]
 	},
 	{
@@ -241,7 +268,10 @@ AMD's Pensando Pollara 400 is the first shipping {{nic|NIC}}. The likely RoCEv2 
 
 Use cases: aggregating [[wifi|Wi-Fi]] and cellular {{bandwidth|bandwidth}} on a phone ({{apple|Apple}} already does this with [[mptcp|MPTCP]] for Siri), seamless network handover when the user changes interfaces, reaching a multi-homed server through whichever path is fastest. The {{3gpp|3GPP}} ATSSS standard for 5G already specifies [[mptcp|MPTCP]] and MPQUIC for traffic steering between cellular and [[wifi|Wi-Fi]].`,
 		sources: [
-			{ url: 'https://datatracker.ietf.org/doc/html/draft-ietf-quic-multipath', label: 'IETF — draft-ietf-quic-multipath' }
+			{
+				url: 'https://datatracker.ietf.org/doc/html/draft-ietf-quic-multipath',
+				label: 'IETF — draft-ietf-quic-multipath'
+			}
 		]
 	},
 	{
@@ -257,7 +287,10 @@ Use cases: aggregating [[wifi|Wi-Fi]] and cellular {{bandwidth|bandwidth}} on a 
 
 The architecture: publishers send named objects to MoQ relays; subscribers {{imap-fetch|fetch}} named objects from the nearest relay, with hop-by-hop [[quic|QUIC]]. Object naming + [[quic|QUIC]] stream {{multiplexing|multiplexing}} mean a relay can drop objects under congestion (preserve key frames over delta frames) without the publisher coordinating. [[webrtc|WebRTC]]'s lunch may finally be eaten for one-to-many use cases.`,
 		sources: [
-			{ url: 'https://datatracker.ietf.org/doc/draft-ietf-moq-transport/', label: 'IETF — draft-ietf-moq-transport' },
+			{
+				url: 'https://datatracker.ietf.org/doc/draft-ietf-moq-transport/',
+				label: 'IETF — draft-ietf-moq-transport'
+			},
 			{ url: 'https://blog.cloudflare.com/moq/', label: 'Cloudflare — MoQ' }
 		]
 	},
@@ -274,15 +307,21 @@ The architecture: publishers send named objects to MoQ relays; subscribers {{ima
 
 Streamable {{http-method|HTTP}} is one HTTP endpoint that can return either a single [[json-rpc|JSON-RPC]] response or upgrade to [[sse|SSE]] for streaming. Single channel, simpler proxy story, easier to deploy on serverless. Combined with the 2025-03-26 spec adding [[oauth2|OAuth]] 2.1 with {{pkce|PKCE}} and dynamic client registration plus Resource Indicators ({{rfc-doc|RFC}} 8707) for token scoping, [[mcp|MCP]] is now a real internet protocol — not just a local {{stdio|stdio}} convention.`,
 		sources: [
-			{ url: 'https://modelcontextprotocol.io/specification/2025-11-25/basic/transports', label: 'MCP spec — transports' },
-			{ url: 'https://stackoverflow.blog/2026/01/21/is-that-allowed-authentication-and-authorization-in-model-context-protocol/', label: 'Stack Overflow blog — MCP auth' }
+			{
+				url: 'https://modelcontextprotocol.io/specification/2025-11-25/basic/transports',
+				label: 'MCP spec — transports'
+			},
+			{
+				url: 'https://stackoverflow.blog/2026/01/21/is-that-allowed-authentication-and-authorization-in-model-context-protocol/',
+				label: 'Stack Overflow blog — MCP auth'
+			}
 		]
 	},
 	{
 		id: 'a2a-linux-foundation',
 		title: 'A2A Donated to the Linux Foundation',
 		oneLiner:
-			'{{google|Google}}\'s Agent2Agent protocol joins [[mcp|MCP]] under open governance — the second {{ai|AI}}-agent protocol to find a foundation home.',
+			"{{google|Google}}'s Agent2Agent protocol joins [[mcp|MCP]] under open governance — the second {{ai|AI}}-agent protocol to find a foundation home.",
 		topic: 'ai-agents',
 		status: 'shipped',
 		date: '2025-06',
@@ -291,7 +330,10 @@ Streamable {{http-method|HTTP}} is one HTTP endpoint that can return either a si
 
 In December 2025 {{anthropic|Anthropic}} donated [[mcp|MCP]] to the Agentic {{ai|AI}} Foundation (AAIF), a {{linux|Linux}} Foundation directed fund co-founded by {{anthropic|Anthropic}}, Block, and OpenAI. [[mcp|MCP]] and [[a2a|A2A]] are now under the same umbrella. Mid-2026 industry analyses report [[mcp|MCP]] at ~78% enterprise adoption vs [[a2a|A2A]] at ~23% — the boundary between "agent" and "tool" remains fuzzy and the multi-agent collaboration use cases are still emerging.`,
 		sources: [
-			{ url: 'https://www.linuxfoundation.org/press/linux-foundation-launches-the-agent2agent-protocol-project-to-enable-secure-intelligent-communication-between-ai-agents', label: 'Linux Foundation — A2A project' },
+			{
+				url: 'https://www.linuxfoundation.org/press/linux-foundation-launches-the-agent2agent-protocol-project-to-enable-secure-intelligent-communication-between-ai-agents',
+				label: 'Linux Foundation — A2A project'
+			},
 			{ url: 'https://en.wikipedia.org/wiki/Model_Context_Protocol', label: 'Wikipedia — MCP' }
 		]
 	}

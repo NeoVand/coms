@@ -1,4 +1,3 @@
-/* eslint-disable */
 /**
  * audit-terms.ts — Densification audit.
  *
@@ -133,10 +132,7 @@ function lineColOf(src: string, idx: number): { line: number; col: number } {
 function snippet(src: string, idx: number, len: number): string {
 	const start = Math.max(0, idx - 30);
 	const end = Math.min(src.length, idx + len + 30);
-	return src
-		.slice(start, end)
-		.replace(/\s+/g, ' ')
-		.trim();
+	return src.slice(start, end).replace(/\s+/g, ' ').trim();
 }
 
 function findFirstUnwrapped(
@@ -196,7 +192,12 @@ function scanFile(absPath: string): FileReport {
 		.filter(([num]) => !rfcSet.has(num))
 		.map(([num, { idx }]) => {
 			const lc = lineColOf(src, idx);
-			return { number: num, line: lc.line, col: lc.col, context: snippet(src, idx, 4 + num.length) };
+			return {
+				number: num,
+				line: lc.line,
+				col: lc.col,
+				context: snippet(src, idx, 4 + num.length)
+			};
 		})
 		.sort((a, b) => Number(a.number) - Number(b.number));
 
@@ -223,9 +224,7 @@ function scanFile(absPath: string): FileReport {
 		const hit = findFirstUnwrapped(stripped, src, re);
 		if (!hit) continue;
 		const lc = lineColOf(src, hit.idx);
-		const priority: 'high' | 'low' = LOW_PRIORITY_TERMS.has(c.term.toLowerCase())
-			? 'low'
-			: 'high';
+		const priority: 'high' | 'low' = LOW_PRIORITY_TERMS.has(c.term.toLowerCase()) ? 'low' : 'high';
 		unwrappedConcepts.push({
 			term: c.term,
 			displayLabel: hit.matched,
@@ -258,7 +257,8 @@ const allMissingPioneers = new Map<string, number>();
 const allMissingConcepts = new Map<string, number>();
 
 for (const r of reports) {
-	for (const h of r.missingRfcs) allMissingRfcs.set(h.number, (allMissingRfcs.get(h.number) ?? 0) + 1);
+	for (const h of r.missingRfcs)
+		allMissingRfcs.set(h.number, (allMissingRfcs.get(h.number) ?? 0) + 1);
 	for (const h of r.unwrappedPioneers)
 		allMissingPioneers.set(h.term, (allMissingPioneers.get(h.term) ?? 0) + 1);
 	for (const h of r.unwrappedConcepts)
@@ -317,8 +317,7 @@ md += `Editorial rule: wrap on first appearance per section, not every time. \`l
 
 const sortedConcepts = [...allMissingConcepts.entries()].sort((a, b) => b[1] - a[1]);
 md += `| Term | Files |\n|---|---:|\n`;
-for (const [term, count] of sortedConcepts.slice(0, 60))
-	md += `| ${term} | ${count} |\n`;
+for (const [term, count] of sortedConcepts.slice(0, 60)) md += `| ${term} | ${count} |\n`;
 if (sortedConcepts.length > 60) md += `| _…${sortedConcepts.length - 60} more_ | |\n`;
 md += '\n';
 
@@ -343,4 +342,5 @@ console.log(`  Missing RFCs:        ${allMissingRfcs.size}`);
 console.log(`  Unwrapped pioneers:  ${allMissingPioneers.size} / ${pioneers.length}`);
 console.log(`  Unwrapped concepts:  ${allMissingConcepts.size} / ${concepts.length}`);
 console.log('  Top missing RFCs (by file count):');
-for (const [num, count] of sortedMissingRfcs.slice(0, 10)) console.log(`    RFC ${num}  (${count} files)`);
+for (const [num, count] of sortedMissingRfcs.slice(0, 10))
+	console.log(`    RFC ${num}  (${count} files)`);

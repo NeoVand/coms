@@ -10,13 +10,59 @@ function httpRequestLayer(method: string, path: string, body?: string) {
 		osiLayer: 7,
 		color: '#00D4FF',
 		headerFields: [
-			{ name: 'Method', bits: 0, value: method, editable: false, description: `HTTP method — ${method} retrieves or modifies a resource` },
-			{ name: 'Path', bits: 0, value: path, editable: false, description: 'REST resource path — follows /resource/{id} convention' },
-			{ name: 'Version', bits: 0, value: 'HTTP/1.1', editable: false, description: 'Protocol version' },
-			{ name: 'Host', bits: 0, value: 'api.example.com', editable: false, description: 'API server hostname' },
-			{ name: 'Content-Type', bits: 0, value: 'application/json', editable: false, description: 'MIME type — REST APIs typically use JSON' },
-			...(body ? [{ name: 'Body', bits: 0, value: body, editable: false, description: 'JSON request body — the resource representation' }] : []),
-			{ name: 'Accept', bits: 0, value: 'application/json', editable: false, description: 'Client tells the server it expects JSON responses' }
+			{
+				name: 'Method',
+				bits: 0,
+				value: method,
+				editable: false,
+				description: `HTTP method — ${method} retrieves or modifies a resource`
+			},
+			{
+				name: 'Path',
+				bits: 0,
+				value: path,
+				editable: false,
+				description: 'REST resource path — follows /resource/{id} convention'
+			},
+			{
+				name: 'Version',
+				bits: 0,
+				value: 'HTTP/1.1',
+				editable: false,
+				description: 'Protocol version'
+			},
+			{
+				name: 'Host',
+				bits: 0,
+				value: 'api.example.com',
+				editable: false,
+				description: 'API server hostname'
+			},
+			{
+				name: 'Content-Type',
+				bits: 0,
+				value: 'application/json',
+				editable: false,
+				description: 'MIME type — REST APIs typically use JSON'
+			},
+			...(body
+				? [
+						{
+							name: 'Body',
+							bits: 0,
+							value: body,
+							editable: false,
+							description: 'JSON request body — the resource representation'
+						}
+					]
+				: []),
+			{
+				name: 'Accept',
+				bits: 0,
+				value: 'application/json',
+				editable: false,
+				description: 'Client tells the server it expects JSON responses'
+			}
 		]
 	};
 }
@@ -28,10 +74,35 @@ function httpResponseLayer(status: string, body: string, statusColor: string) {
 		osiLayer: 7,
 		color: '#00D4FF',
 		headerFields: [
-			{ name: 'Version', bits: 0, value: 'HTTP/1.1', editable: false, description: 'Protocol version' },
-			{ name: 'Status', bits: 0, value: status, editable: false, description: `HTTP status code — ${status}`, color: statusColor },
-			{ name: 'Content-Type', bits: 0, value: 'application/json', editable: false, description: 'Response body is JSON-encoded' },
-			{ name: 'Body', bits: 0, value: body, editable: false, description: 'JSON response body — the resource representation' }
+			{
+				name: 'Version',
+				bits: 0,
+				value: 'HTTP/1.1',
+				editable: false,
+				description: 'Protocol version'
+			},
+			{
+				name: 'Status',
+				bits: 0,
+				value: status,
+				editable: false,
+				description: `HTTP status code — ${status}`,
+				color: statusColor
+			},
+			{
+				name: 'Content-Type',
+				bits: 0,
+				value: 'application/json',
+				editable: false,
+				description: 'Response body is JSON-encoded'
+			},
+			{
+				name: 'Body',
+				bits: 0,
+				value: body,
+				editable: false,
+				description: 'JSON response body — the resource representation'
+			}
 		]
 	};
 }

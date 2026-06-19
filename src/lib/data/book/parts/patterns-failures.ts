@@ -77,7 +77,7 @@ Modern protocols inherit the same idea. [[quic|QUIC]] has per-stream and per-con
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/71/TCP_Three-Way_Handshake.svg/500px-TCP_Three-Way_Handshake.svg.png',
 							alt: 'TCP three-way handshake — SYN, SYN-ACK, ACK between client and server.',
 							caption:
-								'The canonical **{{handshake|handshake}}**: [[tcp|TCP]]\'s **{{syn-cookies|SYN}} → {{syn-ack|SYN-ACK}} → {{ack|ACK}}** dance from [[rfc:9293|RFC 793]] in 1981. Every other {{handshake|handshake}} in this book — [[tls|TLS]] {{client-hello|ClientHello}}/{{server-hello|ServerHello}}/Finished, [[ssh|SSH]] KEX, [[mqtt|MQTT]] {{mqtt-connect|CONNECT}}/CONNACK, [[sctp|SCTP]]\'s four-way {{cookie|Cookie}} {{exchange|exchange}} — is a variation on this shape. Recognise the pattern once; recognise it in every other protocol you ever read.',
+								"The canonical **{{handshake|handshake}}**: [[tcp|TCP]]'s **{{syn-cookies|SYN}} → {{syn-ack|SYN-ACK}} → {{ack|ACK}}** dance from [[rfc:9293|RFC 793]] in 1981. Every other {{handshake|handshake}} in this book — [[tls|TLS]] {{client-hello|ClientHello}}/{{server-hello|ServerHello}}/Finished, [[ssh|SSH]] KEX, [[mqtt|MQTT]] {{mqtt-connect|CONNECT}}/CONNACK, [[sctp|SCTP]]'s four-way {{cookie|Cookie}} {{exchange|exchange}} — is a variation on this shape. Recognise the pattern once; recognise it in every other protocol you ever read.",
 							credit: 'Image: Wikimedia Commons / public domain'
 						}
 					]
@@ -221,7 +221,7 @@ The arc: react to loss → react to delay → model the network → use explicit
 						{
 							type: 'callout',
 							title: 'The unsolved problem: heterogeneous fairness',
-							text: 'Every congestion-control algorithm is fair to itself. Mix {{bbr|BBR}} with {{cubic|CUBIC}} on a shared bottleneck and {{bbr|BBR}} takes the lion\'s share. Mix {{l4s|L4S}} with classic flows in the wrong queue and {{l4s|L4S}} starves. Each new algorithm has had to fight not just for performance but for **coexistence** with the deployed base — a constraint that consumes most of the engineering effort. {{bbrv3|BBRv3}} spent two years on coexistence work before it was production-ready.'
+							text: "Every congestion-control algorithm is fair to itself. Mix {{bbr|BBR}} with {{cubic|CUBIC}} on a shared bottleneck and {{bbr|BBR}} takes the lion's share. Mix {{l4s|L4S}} with classic flows in the wrong queue and {{l4s|L4S}} starves. Each new algorithm has had to fight not just for performance but for **coexistence** with the deployed base — a constraint that consumes most of the engineering effort. {{bbrv3|BBRv3}} spent two years on coexistence work before it was production-ready."
 						},
 						{
 							type: 'image',

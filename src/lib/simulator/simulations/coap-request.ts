@@ -100,7 +100,7 @@ export const coapRequest: SimulationConfig = {
 			id: 'ack-changed',
 			label: 'ACK 2.04 Changed',
 			description:
-				'The server confirms the resource was updated successfully. Code 2.04 Changed is the CoAP equivalent of HTTP 204 No Content. The empty payload is typical for update confirmations — the client already knows what it sent. CoAP\'s simplicity makes it ideal for battery-powered sensors.',
+				"The server confirms the resource was updated successfully. Code 2.04 Changed is the CoAP equivalent of HTTP 204 No Content. The empty payload is typical for update confirmations — the client already knows what it sent. CoAP's simplicity makes it ideal for battery-powered sensors.",
 			fromActor: 'server',
 			toActor: 'sensor',
 			duration: 600,

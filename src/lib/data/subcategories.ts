@@ -16,8 +16,7 @@ export const subcategories: Subcategory[] = [
 		name: 'Internet Layer',
 		categoryId: 'network-foundations',
 		protocolIds: ['ip', 'ipv6', 'icmp'],
-		description:
-			'Best-effort packet delivery across networks — the narrow waist of the hourglass.',
+		description: 'Best-effort packet delivery across networks — the narrow waist of the hourglass.',
 		icon: 'internet-layer'
 	},
 	{
@@ -54,8 +53,7 @@ export const subcategories: Subcategory[] = [
 		name: 'Datagram Transport',
 		categoryId: 'transport',
 		protocolIds: ['udp', 'quic'],
-		description:
-			'When you go raw — or build something better in user space — on top of datagrams.',
+		description: 'When you go raw — or build something better in user space — on top of datagrams.',
 		icon: 'datagram-transport'
 	},
 
@@ -83,8 +81,7 @@ export const subcategories: Subcategory[] = [
 		name: 'RPC Styles',
 		categoryId: 'web-api',
 		protocolIds: ['soap', 'json-rpc', 'grpc'],
-		description:
-			'Calling a remote function like a local one — the RPC dream and its iterations.',
+		description: 'Calling a remote function like a local one — the RPC dream and its iterations.',
 		icon: 'rpc-styles'
 	},
 	{
@@ -92,8 +89,7 @@ export const subcategories: Subcategory[] = [
 		name: 'Realtime Web',
 		categoryId: 'web-api',
 		protocolIds: ['sse', 'websockets'],
-		description:
-			'Breaking out of request/response — server push and full-duplex on the web.',
+		description: 'Breaking out of request/response — server push and full-duplex on the web.',
 		icon: 'realtime-web'
 	},
 	{

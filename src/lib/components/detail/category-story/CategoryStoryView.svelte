@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { CategoryStory } from '$lib/data/category-stories/types';
+	import type { StoryContent } from '$lib/data/category-stories/types';
 	import type { Category } from '$lib/data/types';
 	import StoryNarrative from './StoryNarrative.svelte';
 	import StoryTimeline from './StoryTimeline.svelte';
@@ -10,24 +10,28 @@
 	import StoryComparison from './StoryComparison.svelte';
 	import StoryAnimatedSequence from './StoryAnimatedSequence.svelte';
 
-	let { story, cat, color = cat.color }: { story: CategoryStory; cat: Category; color?: string } = $props();
+	let {
+		story,
+		cat,
+		color = cat.color
+	}: { story: StoryContent; cat: Category; color?: string } = $props();
 </script>
 
 <div class="flex flex-col gap-5">
 	{#each story.sections as section, i (i)}
 		{#if section.type === 'narrative'}
-			<StoryNarrative text={section.text} color={color} title={section.title} />
+			<StoryNarrative text={section.text} {color} title={section.title} />
 		{:else if section.type === 'timeline'}
-			<StoryTimeline entries={section.entries} color={color} />
+			<StoryTimeline entries={section.entries} {color} />
 		{:else if section.type === 'pioneers'}
-			<PioneerGrid people={section.people} color={color} title={section.title} />
+			<PioneerGrid people={section.people} {color} title={section.title} />
 		{:else if section.type === 'callout'}
-			<StoryCallout title={section.title} text={section.text} color={color} />
+			<StoryCallout title={section.title} text={section.text} {color} />
 		{:else if section.type === 'diagram'}
 			<StoryDiagram
 				definition={section.definition}
 				caption={section.caption}
-				color={color}
+				{color}
 				title={section.title}
 			/>
 		{:else if section.type === 'image'}
@@ -36,7 +40,7 @@
 				alt={section.alt}
 				caption={section.caption}
 				credit={section.credit}
-				color={color}
+				{color}
 				title={section.title}
 			/>
 		{:else if section.type === 'comparison'}
@@ -45,7 +49,7 @@
 				axes={section.axes}
 				rows={section.rows}
 				note={section.note}
-				color={color}
+				{color}
 			/>
 		{:else if section.type === 'animated-sequence'}
 			<StoryAnimatedSequence
@@ -53,7 +57,7 @@
 				definition={section.definition}
 				caption={section.caption}
 				steps={section.steps}
-				color={color}
+				{color}
 			/>
 		{/if}
 	{/each}

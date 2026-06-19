@@ -76,7 +76,8 @@ sock.send(b'GET / HTTP/1.1\\r\\n'
           b'Host: example.com\\r\\n\\r\\n')
 response = sock.recv(4096)
 print(response.decode()[:200])`,
-		caption: '[[ipv6|IPv6]] sockets use AF_INET6 and 4-tuple addresses (host, port, flowinfo, scope_id)',
+		caption:
+			'[[ipv6|IPv6]] sockets use AF_INET6 and 4-tuple addresses (host, port, flowinfo, scope_id)',
 		alternatives: [
 			{
 				language: 'cli',

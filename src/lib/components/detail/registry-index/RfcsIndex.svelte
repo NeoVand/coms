@@ -31,8 +31,8 @@
 			The documents
 		</h1>
 		<p class="mt-2 text-sm leading-relaxed text-t-secondary">
-			{rfcs.length} RFCs the chapters and protocol pages cite by name. Newest first; click
-			any to read the spec inline with notable section pointers.
+			{rfcs.length} RFCs the chapters and protocol pages cite by name. Newest first; click any to read
+			the spec inline with notable section pointers.
 		</p>
 	</header>
 

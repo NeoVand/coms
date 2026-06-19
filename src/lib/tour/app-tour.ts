@@ -33,8 +33,7 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 	// destroy so the user lands back where they started.
 	const savedPath = window.location.pathname + window.location.search;
 	const baseHome = `${base}/`;
-	const isAtHome =
-		window.location.pathname === baseHome || window.location.pathname === base;
+	const isAtHome = window.location.pathname === baseHome || window.location.pathname === base;
 	if (!isAtHome) {
 		await goto(baseHome, { replaceState: false, keepFocus: true });
 	}
@@ -68,9 +67,7 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 
 	const PANEL_ANIM_MS = 380;
 
-	let tourDriver: ReturnType<typeof driver>;
-
-	tourDriver = driver({
+	const tourDriver = driver({
 		showProgress: true,
 		animate: true,
 		overlayColor: '#0f172a',
@@ -428,8 +425,8 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 	appState.activeTour = { destroy: () => tourDriver.destroy() };
 
 	// Expose for dev testing (tree-shaken in prod via __dev check)
-	if (typeof window !== 'undefined' && (window as any).__dev) {
-		(window as any).__tourDriver = tourDriver;
+	if (typeof window !== 'undefined' && window.__dev) {
+		window.__tourDriver = tourDriver;
 	}
 
 	tourDriver.drive();

@@ -10,10 +10,34 @@ function mcpRequestLayer(method: string, params: string, id: string | number) {
 		osiLayer: 7,
 		color: '#00D4FF',
 		headerFields: [
-			{ name: 'Version', bits: 0, value: '"2.0"', editable: false, description: 'JSON-RPC protocol version — MCP uses JSON-RPC 2.0 as its wire format' },
-			{ name: 'Method', bits: 0, value: method, editable: false, description: 'MCP method to invoke on the server' },
-			{ name: 'Params', bits: 0, value: params, editable: false, description: 'Method parameters as a JSON object' },
-			{ name: 'ID', bits: 0, value: String(id), editable: false, description: 'Request identifier — server echoes this back to correlate the response' }
+			{
+				name: 'Version',
+				bits: 0,
+				value: '"2.0"',
+				editable: false,
+				description: 'JSON-RPC protocol version — MCP uses JSON-RPC 2.0 as its wire format'
+			},
+			{
+				name: 'Method',
+				bits: 0,
+				value: method,
+				editable: false,
+				description: 'MCP method to invoke on the server'
+			},
+			{
+				name: 'Params',
+				bits: 0,
+				value: params,
+				editable: false,
+				description: 'Method parameters as a JSON object'
+			},
+			{
+				name: 'ID',
+				bits: 0,
+				value: String(id),
+				editable: false,
+				description: 'Request identifier — server echoes this back to correlate the response'
+			}
 		]
 	};
 }
@@ -25,9 +49,28 @@ function mcpResponseLayer(result: string, id: string | number, color: string) {
 		osiLayer: 7,
 		color: '#00D4FF',
 		headerFields: [
-			{ name: 'Version', bits: 0, value: '"2.0"', editable: false, description: 'JSON-RPC protocol version' },
-			{ name: 'Result', bits: 0, value: result, editable: false, description: 'Response payload — contains the requested data or confirmation', color },
-			{ name: 'ID', bits: 0, value: String(id), editable: false, description: 'Matches the request ID — confirms which call this responds to' }
+			{
+				name: 'Version',
+				bits: 0,
+				value: '"2.0"',
+				editable: false,
+				description: 'JSON-RPC protocol version'
+			},
+			{
+				name: 'Result',
+				bits: 0,
+				value: result,
+				editable: false,
+				description: 'Response payload — contains the requested data or confirmation',
+				color
+			},
+			{
+				name: 'ID',
+				bits: 0,
+				value: String(id),
+				editable: false,
+				description: 'Matches the request ID — confirms which call this responds to'
+			}
 		]
 	};
 }
@@ -39,10 +82,36 @@ function mcpNotificationLayer(method: string, params: string) {
 		osiLayer: 7,
 		color: '#00D4FF',
 		headerFields: [
-			{ name: 'Version', bits: 0, value: '"2.0"', editable: false, description: 'JSON-RPC protocol version' },
-			{ name: 'Method', bits: 0, value: method, editable: false, description: 'Notification method — server acknowledges but MUST NOT reply' },
-			{ name: 'Params', bits: 0, value: params, editable: false, description: 'Notification parameters' },
-			{ name: 'ID', bits: 0, value: '(absent)', editable: false, description: 'No ID field — this is a notification, not a request. The server MUST NOT reply.', color: '#a855f7' }
+			{
+				name: 'Version',
+				bits: 0,
+				value: '"2.0"',
+				editable: false,
+				description: 'JSON-RPC protocol version'
+			},
+			{
+				name: 'Method',
+				bits: 0,
+				value: method,
+				editable: false,
+				description: 'Notification method — server acknowledges but MUST NOT reply'
+			},
+			{
+				name: 'Params',
+				bits: 0,
+				value: params,
+				editable: false,
+				description: 'Notification parameters'
+			},
+			{
+				name: 'ID',
+				bits: 0,
+				value: '(absent)',
+				editable: false,
+				description:
+					'No ID field — this is a notification, not a request. The server MUST NOT reply.',
+				color: '#a855f7'
+			}
 		]
 	};
 }
@@ -54,9 +123,21 @@ function httpTransportLayer(method: string, path: string) {
 		osiLayer: 7,
 		color: '#4B5563',
 		headerFields: [
-			{ name: 'Method', bits: 0, value: method, editable: false, description: 'HTTP method — MCP uses POST for JSON-RPC messages over Streamable HTTP' },
+			{
+				name: 'Method',
+				bits: 0,
+				value: method,
+				editable: false,
+				description: 'HTTP method — MCP uses POST for JSON-RPC messages over Streamable HTTP'
+			},
 			{ name: 'Path', bits: 0, value: path, editable: false, description: 'MCP endpoint path' },
-			{ name: 'Content-Type', bits: 0, value: 'application/json', editable: false, description: 'JSON-RPC payload is always JSON' }
+			{
+				name: 'Content-Type',
+				bits: 0,
+				value: 'application/json',
+				editable: false,
+				description: 'JSON-RPC payload is always JSON'
+			}
 		]
 	};
 }
@@ -95,7 +176,11 @@ export const mcpSession: SimulationConfig = {
 				createIPv4Layer({ protocol: 6 }),
 				createTCPLayer({ srcPort: 54200, dstPort: 443, flags: 'PSH,ACK' }),
 				httpTransportLayer('POST', '/mcp'),
-				mcpRequestLayer('initialize', '{"protocolVersion":"2025-03-26","capabilities":{"roots":{"listChanged":true}},"clientInfo":{"name":"MyAIApp","version":"1.0"}}', 1)
+				mcpRequestLayer(
+					'initialize',
+					'{"protocolVersion":"2025-03-26","capabilities":{"roots":{"listChanged":true}},"clientInfo":{"name":"MyAIApp","version":"1.0"}}',
+					1
+				)
 			]
 		},
 		{
@@ -111,7 +196,11 @@ export const mcpSession: SimulationConfig = {
 				createEthernetLayer({ srcMac: 'AA:BB:CC:DD:EE:FF', dstMac: '00:1A:2B:3C:4D:5E' }),
 				createIPv4Layer({ srcIp: '93.184.216.34', dstIp: '192.168.1.100', protocol: 6 }),
 				createTCPLayer({ srcPort: 443, dstPort: 54200, flags: 'PSH,ACK' }),
-				mcpResponseLayer('{"protocolVersion":"2025-03-26","capabilities":{"tools":{"listChanged":true}},"serverInfo":{"name":"WeatherServer","version":"2.0"}}', 1, '#22c55e')
+				mcpResponseLayer(
+					'{"protocolVersion":"2025-03-26","capabilities":{"tools":{"listChanged":true}},"serverInfo":{"name":"WeatherServer","version":"2.0"}}',
+					1,
+					'#22c55e'
+				)
 			]
 		},
 		{
@@ -161,7 +250,11 @@ export const mcpSession: SimulationConfig = {
 				createEthernetLayer({ srcMac: 'AA:BB:CC:DD:EE:FF', dstMac: '00:1A:2B:3C:4D:5E' }),
 				createIPv4Layer({ srcIp: '93.184.216.34', dstIp: '192.168.1.100', protocol: 6 }),
 				createTCPLayer({ srcPort: 443, dstPort: 54200, flags: 'PSH,ACK' }),
-				mcpResponseLayer('{"tools":[{"name":"weather","description":"Get current weather","inputSchema":{"type":"object","properties":{"city":{"type":"string"}},"required":["city"]}}]}', 2, '#22c55e')
+				mcpResponseLayer(
+					'{"tools":[{"name":"weather","description":"Get current weather","inputSchema":{"type":"object","properties":{"city":{"type":"string"}},"required":["city"]}}]}',
+					2,
+					'#22c55e'
+				)
 			]
 		},
 		{
@@ -194,7 +287,11 @@ export const mcpSession: SimulationConfig = {
 				createEthernetLayer({ srcMac: 'AA:BB:CC:DD:EE:FF', dstMac: '00:1A:2B:3C:4D:5E' }),
 				createIPv4Layer({ srcIp: '93.184.216.34', dstIp: '192.168.1.100', protocol: 6 }),
 				createTCPLayer({ srcPort: 443, dstPort: 54200, flags: 'PSH,ACK' }),
-				mcpResponseLayer('{"content":[{"type":"text","text":"San Francisco: 62\u00b0F, partly cloudy, wind 12mph W"}],"isError":false}', 3, '#22c55e')
+				mcpResponseLayer(
+					'{"content":[{"type":"text","text":"San Francisco: 62\u00b0F, partly cloudy, wind 12mph W"}],"isError":false}',
+					3,
+					'#22c55e'
+				)
 			]
 		}
 	]

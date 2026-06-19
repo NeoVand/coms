@@ -50,7 +50,7 @@ export const tcpHandshake: SimulationConfig = {
 			id: 'syn-ack',
 			label: 'SYN-ACK',
 			description:
-				'Server acknowledges the client\'s SYN and sends its own SYN. The ACK number equals the client\'s sequence + 1, confirming receipt.',
+				"Server acknowledges the client's SYN and sends its own SYN. The ACK number equals the client's sequence + 1, confirming receipt.",
 			fromActor: 'server',
 			toActor: 'client',
 			duration: 1200,
@@ -78,7 +78,7 @@ export const tcpHandshake: SimulationConfig = {
 			id: 'ack',
 			label: 'ACK',
 			description:
-				'Client completes the handshake by acknowledging the server\'s SYN. The connection is now ESTABLISHED — both sides agree on sequence numbers.',
+				"Client completes the handshake by acknowledging the server's SYN. The connection is now ESTABLISHED — both sides agree on sequence numbers.",
 			fromActor: 'client',
 			toActor: 'server',
 			duration: 1000,

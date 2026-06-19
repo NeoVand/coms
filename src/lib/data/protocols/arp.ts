@@ -8,7 +8,8 @@ export const arp: Protocol = {
 	port: undefined,
 	year: 1982,
 	rfc: 'RFC 826',
-	oneLiner: 'Translates [[ip|IP]] addresses to {{mac-address|MAC}} addresses — the bridge between Layer 3 and Layer 2.',
+	oneLiner:
+		'Translates [[ip|IP]] addresses to {{mac-address|MAC}} addresses — the bridge between Layer 3 and Layer 2.',
 	overview: `[[arp|ARP]] is the glue between [[ip|IP]] addresses and [[ethernet|Ethernet]] {{mac-address|MAC addresses}}. When your computer wants to send a {{packet|packet}} to 192.168.1.1, it knows the [[ip|IP]] but not the {{mac-address|MAC address}} of the destination. [[arp|ARP]] {{broadcast|broadcasts}} a question to the entire local network: "Who has 192.168.1.1? Tell me your {{mac-address|MAC address}}." The owner responds with a {{unicast|unicast}} reply containing its {{mac-address|MAC}}, and the sender caches this mapping for future use.
 
 Under the hood, [[arp|ARP]] uses EtherType 0x0806 and operates directly on [[ethernet|Ethernet]] — it has no [[ip|IP]] header. The request is {{broadcast|broadcast}} to \`FF:FF:FF:FF:FF:FF\`, so every device on the segment receives it, but only the target replies. That reply is {{unicast|unicast}} directly back to the requester. The resulting [[ip|IP]]-to-{{mac-address|MAC}} mapping is stored in the [[arp|ARP]] cache (also called the [[arp|ARP]] table) with a {{ttl|time-to-live}} — typically 15-45 seconds on modern systems (randomized per [[rfc:4861|RFC 4861]]) — after which the entry expires and must be re-resolved.
@@ -23,7 +24,7 @@ Under the hood, [[arp|ARP]] uses EtherType 0x0806 and operates directly on [[eth
 		{
 			title: 'Broadcast ARP request',
 			description:
-				'If no cache entry exists, the sender crafts an [[arp|ARP]] request with its own [[ip|IP]]/{{mac-address|MAC}} as the source and the target [[ip|IP]] with an empty {{mac-address|MAC}} (\`00:00:00:00:00:00\`). This is sent as an [[ethernet|Ethernet]] {{broadcast|broadcast}} (\`FF:FF:FF:FF:FF:FF\`), reaching every device on the local segment.'
+				'If no cache entry exists, the sender crafts an [[arp|ARP]] request with its own [[ip|IP]]/{{mac-address|MAC}} as the source and the target [[ip|IP]] with an empty {{mac-address|MAC}} (`00:00:00:00:00:00`). This is sent as an [[ethernet|Ethernet]] {{broadcast|broadcast}} (`FF:FF:FF:FF:FF:FF`), reaching every device on the local segment.'
 		},
 		{
 			title: 'Unicast ARP reply',

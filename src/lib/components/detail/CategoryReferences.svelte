@@ -132,9 +132,8 @@
 							class="flex items-baseline gap-3 rounded-lg border border-s-border bg-s-glass px-3 py-1.5 text-left transition-all hover:bg-s-glass-hover"
 							onclick={() => navigateToRfc(r.number)}
 						>
-							<code
-								class="shrink-0 rounded font-mono text-[11px] font-bold"
-								style="color: {color};">RFC {r.number}</code
+							<code class="shrink-0 rounded font-mono text-[11px] font-bold" style="color: {color};"
+								>RFC {r.number}</code
 							>
 							<span class="flex-1 text-xs text-t-primary">{r.title}</span>
 							<span class="shrink-0 text-[10px] text-t-muted tabular-nums">{r.year}</span>

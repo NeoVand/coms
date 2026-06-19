@@ -43,12 +43,49 @@ export const websocketConnection: SimulationConfig = {
 					osiLayer: 7,
 					color: '#00D4FF',
 					headerFields: [
-						{ name: 'Method', bits: 0, value: 'GET', editable: false, description: 'WebSocket upgrade always starts with GET' },
-						{ name: 'Path', bits: 0, value: '/ws/chat', editable: false, description: 'WebSocket endpoint path' },
-						{ name: 'Upgrade', bits: 0, value: 'websocket', editable: false, description: 'Requests protocol switch to WebSocket' },
-						{ name: 'Connection', bits: 0, value: 'Upgrade', editable: false, description: 'Signals this is a connection upgrade, not a normal request' },
-						{ name: 'Sec-WebSocket-Key', bits: 0, value: 'dGhlIHNhbXBsZ...', editable: false, description: 'Base64-encoded random key — server hashes it to prove it supports WebSocket' },
-						{ name: 'Sec-WebSocket-Version', bits: 0, value: '13', editable: false, description: 'WebSocket protocol version (13 is the only current version)' }
+						{
+							name: 'Method',
+							bits: 0,
+							value: 'GET',
+							editable: false,
+							description: 'WebSocket upgrade always starts with GET'
+						},
+						{
+							name: 'Path',
+							bits: 0,
+							value: '/ws/chat',
+							editable: false,
+							description: 'WebSocket endpoint path'
+						},
+						{
+							name: 'Upgrade',
+							bits: 0,
+							value: 'websocket',
+							editable: false,
+							description: 'Requests protocol switch to WebSocket'
+						},
+						{
+							name: 'Connection',
+							bits: 0,
+							value: 'Upgrade',
+							editable: false,
+							description: 'Signals this is a connection upgrade, not a normal request'
+						},
+						{
+							name: 'Sec-WebSocket-Key',
+							bits: 0,
+							value: 'dGhlIHNhbXBsZ...',
+							editable: false,
+							description:
+								'Base64-encoded random key — server hashes it to prove it supports WebSocket'
+						},
+						{
+							name: 'Sec-WebSocket-Version',
+							bits: 0,
+							value: '13',
+							editable: false,
+							description: 'WebSocket protocol version (13 is the only current version)'
+						}
 					]
 				}
 			]
@@ -72,10 +109,36 @@ export const websocketConnection: SimulationConfig = {
 					osiLayer: 7,
 					color: '#00D4FF',
 					headerFields: [
-						{ name: 'Status', bits: 0, value: '101 Switching Protocols', editable: false, description: 'Server agrees to switch from HTTP to WebSocket', color: '#22c55e' },
-						{ name: 'Upgrade', bits: 0, value: 'websocket', editable: false, description: 'Confirms the protocol switch' },
-						{ name: 'Connection', bits: 0, value: 'Upgrade', editable: false, description: 'Connection is now upgraded' },
-						{ name: 'Sec-WebSocket-Accept', bits: 0, value: 's3pPLMBiTxaQ9k...', editable: false, description: 'SHA-1 hash of the client key + magic GUID — proves server supports WebSocket' }
+						{
+							name: 'Status',
+							bits: 0,
+							value: '101 Switching Protocols',
+							editable: false,
+							description: 'Server agrees to switch from HTTP to WebSocket',
+							color: '#22c55e'
+						},
+						{
+							name: 'Upgrade',
+							bits: 0,
+							value: 'websocket',
+							editable: false,
+							description: 'Confirms the protocol switch'
+						},
+						{
+							name: 'Connection',
+							bits: 0,
+							value: 'Upgrade',
+							editable: false,
+							description: 'Connection is now upgraded'
+						},
+						{
+							name: 'Sec-WebSocket-Accept',
+							bits: 0,
+							value: 's3pPLMBiTxaQ9k...',
+							editable: false,
+							description:
+								'SHA-1 hash of the client key + magic GUID — proves server supports WebSocket'
+						}
 					]
 				}
 			]
@@ -109,7 +172,12 @@ export const websocketConnection: SimulationConfig = {
 				createEthernetLayer({ srcMac: 'AA:BB:CC:DD:EE:FF', dstMac: '00:1A:2B:3C:4D:5E' }),
 				createIPv4Layer({ srcIp: '93.184.216.34', dstIp: '192.168.1.100', protocol: 6 }),
 				createTCPLayer({ srcPort: 443, dstPort: 52200, flags: 'PSH,ACK' }),
-				createWebSocketFrameLayer({ opcode: 'Text (0x1)', mask: 0, maskingKey: 'N/A', payload: 'Message received!' })
+				createWebSocketFrameLayer({
+					opcode: 'Text (0x1)',
+					mask: 0,
+					maskingKey: 'N/A',
+					payload: 'Message received!'
+				})
 			]
 		},
 		{
@@ -125,7 +193,13 @@ export const websocketConnection: SimulationConfig = {
 				createEthernetLayer({ srcMac: 'AA:BB:CC:DD:EE:FF', dstMac: '00:1A:2B:3C:4D:5E' }),
 				createIPv4Layer({ srcIp: '93.184.216.34', dstIp: '192.168.1.100', protocol: 6 }),
 				createTCPLayer({ srcPort: 443, dstPort: 52200, flags: 'PSH,ACK' }),
-				createWebSocketFrameLayer({ opcode: 'Ping (0x9)', mask: 0, payloadLength: 0, maskingKey: 'N/A', payload: '' })
+				createWebSocketFrameLayer({
+					opcode: 'Ping (0x9)',
+					mask: 0,
+					payloadLength: 0,
+					maskingKey: 'N/A',
+					payload: ''
+				})
 			]
 		},
 		{
@@ -141,7 +215,12 @@ export const websocketConnection: SimulationConfig = {
 				createEthernetLayer(),
 				createIPv4Layer({ protocol: 6 }),
 				createTCPLayer({ srcPort: 52200, dstPort: 443, flags: 'PSH,ACK' }),
-				createWebSocketFrameLayer({ opcode: 'Close (0x8)', payloadLength: 2, payload: '1000 (Normal)', maskingKey: '0x55AA33CC' })
+				createWebSocketFrameLayer({
+					opcode: 'Close (0x8)',
+					payloadLength: 2,
+					payload: '1000 (Normal)',
+					maskingKey: '0x55AA33CC'
+				})
 			]
 		}
 	]

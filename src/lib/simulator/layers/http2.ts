@@ -1,6 +1,8 @@
 import type { ProtocolLayer } from '../types';
 
-export function createHTTP2FrameLayer(overrides?: Partial<Record<string, string | number>>): ProtocolLayer {
+export function createHTTP2FrameLayer(
+	overrides?: Partial<Record<string, string | number>>
+): ProtocolLayer {
 	return {
 		name: 'HTTP/2 Frame',
 		abbreviation: 'H2',
@@ -33,7 +35,8 @@ export function createHTTP2FrameLayer(overrides?: Partial<Record<string, string 
 				bits: 31,
 				value: overrides?.streamId ?? 1,
 				editable: false,
-				description: 'Stream identifier — odd for client-initiated, even for server push, 0 for connection'
+				description:
+					'Stream identifier — odd for client-initiated, even for server push, 0 for connection'
 			},
 			{
 				name: 'Payload',

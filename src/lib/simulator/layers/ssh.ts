@@ -1,6 +1,8 @@
 import type { ProtocolLayer } from '../types';
 
-export function createSSHLayer(overrides?: Partial<Record<string, string | number>>): ProtocolLayer {
+export function createSSHLayer(
+	overrides?: Partial<Record<string, string | number>>
+): ProtocolLayer {
 	return {
 		name: 'SSH Packet',
 		abbreviation: 'SSH',
@@ -26,7 +28,8 @@ export function createSSHLayer(overrides?: Partial<Record<string, string | numbe
 				bits: 8,
 				value: overrides?.messageType ?? 'KEXINIT (20)',
 				editable: false,
-				description: 'SSH message type — KEXINIT, KEXDH_INIT, NEWKEYS, SERVICE_REQUEST, USERAUTH_REQUEST, etc.'
+				description:
+					'SSH message type — KEXINIT, KEXDH_INIT, NEWKEYS, SERVICE_REQUEST, USERAUTH_REQUEST, etc.'
 			},
 			{
 				name: 'Algorithm',
@@ -40,7 +43,8 @@ export function createSSHLayer(overrides?: Partial<Record<string, string | numbe
 				bits: 0,
 				value: overrides?.payload ?? 'Key exchange data',
 				editable: false,
-				description: 'Message-specific payload — key exchange parameters, auth credentials, or encrypted data'
+				description:
+					'Message-specific payload — key exchange parameters, auth credentials, or encrypted data'
 			}
 		]
 	};

@@ -21,7 +21,7 @@ export const routingStory: SubcategoryStory = {
 					title: 'Inventor of Shortest-Path Algorithm',
 					org: 'Eindhoven / UT Austin',
 					contribution:
-						"In 1956 Dijkstra invented his shortest-path algorithm in about 20 minutes \"to demonstrate the capabilities of the ARMAC computer.\" Published in 1959 (\"A Note on Two Problems in Connexion with Graphs\"). [[ospf|OSPF]] runs Dijkstra's algorithm on the link-state database every time the topology changes — every Internet router that uses OSPF runs Dijkstra's 1956 algorithm thousands of times a day.",
+						'In 1956 Dijkstra invented his shortest-path algorithm in about 20 minutes "to demonstrate the capabilities of the ARMAC computer." Published in 1959 ("A Note on Two Problems in Connexion with Graphs"). [[ospf|OSPF]] runs Dijkstra\'s algorithm on the link-state database every time the topology changes — every Internet router that uses OSPF runs Dijkstra\'s 1956 algorithm thousands of times a day.',
 					imagePath:
 						'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Edsger_Wybe_Dijkstra.jpg/330px-Edsger_Wybe_Dijkstra.jpg'
 				},
@@ -41,7 +41,7 @@ export const routingStory: SubcategoryStory = {
 					title: 'Author of OSPF',
 					org: 'Proteon / Cascade / Sycamore',
 					contribution:
-						"Designed [[ospf|OSPF]] in 1989 as a replacement for RIP (the distance-vector protocol that took multi-minute convergence times in the 1980s Internet). Moy wrote OSPFv1 (RFC 1131, 1989), OSPFv2 (RFC 1247, 1991, then [[rfc:2328|RFC 2328]], 1998 — still the current spec), and the canonical book \"OSPF: Anatomy of an Internet Routing Protocol.\" OSPF's link-state design — flood the topology, run Dijkstra locally — is now standard for IGPs across vendors."
+						'Designed [[ospf|OSPF]] in 1989 as a replacement for RIP (the distance-vector protocol that took multi-minute convergence times in the 1980s Internet). Moy wrote OSPFv1 (RFC 1131, 1989), OSPFv2 (RFC 1247, 1991, then [[rfc:2328|RFC 2328]], 1998 — still the current spec), and the canonical book "OSPF: Anatomy of an Internet Routing Protocol." OSPF\'s link-state design — flood the topology, run Dijkstra locally — is now standard for IGPs across vendors.'
 				}
 			]
 		},
@@ -52,13 +52,13 @@ export const routingStory: SubcategoryStory = {
 					year: 1956,
 					title: 'Dijkstra Invents Shortest-Path',
 					description:
-						"[[pioneer:edsger-dijkstra|Dijkstra]] sketches his algorithm in a Dutch café. It will become the engine of every link-state IGP three decades later."
+						'[[pioneer:edsger-dijkstra|Dijkstra]] sketches his algorithm in a Dutch café. It will become the engine of every link-state IGP three decades later.'
 				},
 				{
 					year: 1982,
 					title: 'EGP RFC 827',
 					description:
-						"The first inter-AS protocol — strictly tree-shaped, assumed the Internet had a single backbone core (the ARPANET). It worked only because the early Internet was small and centralized."
+						'The first inter-AS protocol — strictly tree-shaped, assumed the Internet had a single backbone core (the ARPANET). It worked only because the early Internet was small and centralized.'
 				},
 				{
 					year: 1989,
@@ -76,13 +76,13 @@ export const routingStory: SubcategoryStory = {
 					year: 1995,
 					title: 'BGP-4 (RFC 1771)',
 					description:
-						"BGP-4 adds {{cidr|CIDR}} support — variable-length prefixes instead of class A/B/C boundaries. CIDR is the only thing that staved off [[ipv4|IPv4]] address exhaustion through the 1990s."
+						'BGP-4 adds {{cidr|CIDR}} support — variable-length prefixes instead of class A/B/C boundaries. CIDR is the only thing that staved off [[ip|IPv4]] address exhaustion through the 1990s.'
 				},
 				{
 					year: 1998,
 					title: 'OSPFv2 Final (RFC 2328)',
 					description:
-						"The OSPF spec that almost every router on Earth still implements unchanged. Multi-area hierarchy, MD5 authentication, type-of-service routing (rarely used)."
+						'The OSPF spec that almost every router on Earth still implements unchanged. Multi-area hierarchy, MD5 authentication, type-of-service routing (rarely used).'
 				},
 				{
 					year: 1999,
@@ -100,7 +100,7 @@ export const routingStory: SubcategoryStory = {
 					year: 2008,
 					title: 'YouTube Disappears for Two Hours',
 					description:
-						'Pakistan Telecom announces a more-specific BGP route to YouTube\'s prefix, intending to block YouTube locally. The announcement leaks to upstream PCCW Global and propagates globally. YouTube is unreachable for ~2 hours.'
+						"Pakistan Telecom announces a more-specific BGP route to YouTube's prefix, intending to block YouTube locally. The announcement leaks to upstream PCCW Global and propagates globally. YouTube is unreachable for ~2 hours."
 				},
 				{
 					year: 2021,
@@ -112,7 +112,7 @@ export const routingStory: SubcategoryStory = {
 					year: 2024,
 					title: 'RPKI Coverage Crosses 50%',
 					description:
-						'Resource Public Key Infrastructure — cryptographically signed assertions of who owns which prefix — finally covers more than half of routed IPv4 space. The first credible defense against BGP hijacks since BGP\'s invention.'
+						"Resource Public Key Infrastructure — cryptographically signed assertions of who owns which prefix — finally covers more than half of routed IPv4 space. The first credible defense against BGP hijacks since BGP's invention."
 				}
 			]
 		},
@@ -124,7 +124,7 @@ export const routingStory: SubcategoryStory = {
 				{
 					label: '[[ospf|OSPF]]',
 					values: [
-						'Within one {{as|AS}} (intra-domain)',
+						'Within one {{autonomous-system|AS}} (intra-domain)',
 						'Link-state — every router knows full topology, runs [[pioneer:edsger-dijkstra|Dijkstra]] locally',
 						'Path cost (bandwidth-derived integer)',
 						'Full trust — all routers in the same administrative domain',
@@ -134,7 +134,7 @@ export const routingStory: SubcategoryStory = {
 				{
 					label: '[[bgp|BGP]]',
 					values: [
-						'Between {{as|ASes}} (inter-domain)',
+						'Between {{autonomous-system|ASes}} (inter-domain)',
 						'Path-vector — exchange path lists, no shared topology',
 						'Local policy (LOCAL_PREF, AS_PATH length, MED, ...)',
 						'Zero trust — peers are competitors, customers, or random ISPs',
@@ -164,7 +164,7 @@ export const routingStory: SubcategoryStory = {
     A->>A: Install route 192.0.2.0/24 via C
     Note over A,C: AS 64500 announces nothing back — customer does not transit for providers`,
 			caption:
-				"BGP isn't about shortest path — it's about *policy*. The rule of thumb: prefer customer routes (you get paid), then peers (free), then transit (you pay). \"Hot potato routing\" — get the packet out your network as fast as possible — is policy expressed as IGP cost in step 5.",
+				'BGP isn\'t about shortest path — it\'s about *policy*. The rule of thumb: prefer customer routes (you get paid), then peers (free), then transit (you pay). "Hot potato routing" — get the packet out your network as fast as possible — is policy expressed as IGP cost in step 5.',
 			steps: {
 				0: '**The setup.** AS 64500 (a small content provider) has two ways to reach AS 13335 (Cloudflare): through its paid transit provider B, or through a free direct peering with C. Which path wins?',
 				1: '**Transit provider sends an UPDATE.** B says "I can reach 192.0.2.0/24 — the AS_PATH is [65001, 13335]." (Each AS prepends itself when forwarding.)',
@@ -175,15 +175,15 @@ export const routingStory: SubcategoryStory = {
 				6: 'Step 3: **lowest MED** (Multi-Exit Discriminator). Hint set by the *neighbor* to influence which entry point you use. Usually ignored across ASes for trust reasons. Still tied.',
 				7: 'Step 4: **eBGP preferred over iBGP.** External BGP (between ASes) is preferred over internal BGP (within your AS). Both candidates are eBGP — still tied.',
 				8: 'Step 5: **lowest IGP cost to the next-hop wins.** The direct peer C is one hop away inside our network; the transit provider B is several hops further. C wins.',
-				9: '**Selected via AS 65002.** The direct peer wins because it\'s closer in our internal topology AND because crossing it is free (peering is settlement-free; transit is paid).',
+				9: "**Selected via AS 65002.** The direct peer wins because it's closer in our internal topology AND because crossing it is free (peering is settlement-free; transit is paid).",
 				10: 'Router **installs the route** in the forwarding table: traffic destined to 192.0.2.0/24 goes out the peering link to C.',
-				11: '**Announcement back.** AS 64500 (a customer) doesn\'t re-announce this route to its providers — customers don\'t transit for their providers. This single-line policy rule is what makes the global routing table converge.'
+				11: "**Announcement back.** AS 64500 (a customer) doesn't re-announce this route to its providers — customers don't transit for their providers. This single-line policy rule is what makes the global routing table converge."
 			}
 		},
 		{
 			type: 'callout',
 			title: 'BGP Runs on Trust That Nobody Should Have',
-			text: `For 30 years, [[bgp|BGP]] had no authentication. If you peered with another network, you trusted what they announced. If they announced Google's prefix from their own AS, your router believed them, and your packets to Google went to their network instead.\n\nThis isn't theoretical. [[outage:pakistan-youtube-2008|Pakistan Telecom took YouTube offline globally in 2008]] by announcing a more-specific route to its own prefix — an attempt to censor YouTube *locally* that leaked worldwide. China Telecom rerouted 15% of global Internet traffic through China for 18 minutes in April 2010. Russia rerouted Mastercard and Visa traffic in 2017. These weren\'t exploits — they were just BGP working as designed.\n\nThe partial fix arriving now is **{{rpki|RPKI}}** — Resource Public Key Infrastructure. Address owners cryptographically sign assertions: "AS 13335 is allowed to originate 1.1.1.0/24." Routers validate incoming announcements against these signatures. By 2024, RPKI coverage finally crossed 50% of routed IPv4. The next step — **BGPsec**, which would sign the entire AS_PATH, not just the origin — has been "shipping next year" since 2017. Path-level validation is hard.`
+			text: `For 30 years, [[bgp|BGP]] had no authentication. If you peered with another network, you trusted what they announced. If they announced Google's prefix from their own AS, your router believed them, and your packets to Google went to their network instead.\n\nThis isn't theoretical. [[outage:pakistan-youtube-2008|Pakistan Telecom took YouTube offline globally in 2008]] by announcing a more-specific route to its own prefix — an attempt to censor YouTube *locally* that leaked worldwide. China Telecom rerouted 15% of global Internet traffic through China for 18 minutes in April 2010. Russia rerouted Mastercard and Visa traffic in 2017. These weren't exploits — they were just BGP working as designed.\n\nThe partial fix arriving now is **{{rpki|RPKI}}** — Resource Public Key Infrastructure. Address owners cryptographically sign assertions: "AS 13335 is allowed to originate 1.1.1.0/24." Routers validate incoming announcements against these signatures. By 2024, RPKI coverage finally crossed 50% of routed IPv4. The next step — **BGPsec**, which would sign the entire AS_PATH, not just the origin — has been "shipping next year" since 2017. Path-level validation is hard.`
 		},
 		{
 			type: 'narrative',
@@ -192,7 +192,7 @@ export const routingStory: SubcategoryStory = {
 		},
 		{
 			type: 'narrative',
-			title: 'What\'s Next',
+			title: "What's Next",
 			text: `Active work in 2025:\n\n- **{{rpki|RPKI}} coverage** continues to grow toward universal — the goal is a tipping point where invalid announcements are dropped by enough networks that hijacks become unprofitable. AT&T, Telia, NTT, Comcast all now drop RPKI-invalid routes.\n- **BGPsec** — full AS_PATH signing — remains stuck in the "almost deployable" zone. Hardware capable of signing each hop at line rate is finally available, but ecosystem adoption is slow.\n- **Segment Routing (SRv6)** is replacing MPLS-TE in some ISP backbones. Encodes the explicit path in the [[ipv6|IPv6]] header itself; doesn't replace [[bgp|BGP]] but changes what an IGP needs to compute.\n- **The deprecation of public looking glasses** — many ISPs are turning off the public "show me your BGP table" tools that BGP researchers relied on for decades, citing security. The visible Internet is becoming less visible.\n\nRouting protocols themselves change slowly. The change is happening in *what runs on top of them* — verification, policy automation, observability.`
 		}
 	]

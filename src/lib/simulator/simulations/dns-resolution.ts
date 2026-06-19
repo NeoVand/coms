@@ -14,13 +14,43 @@ function dnsQueryLayers(srcIp: string, dstIp: string) {
 			osiLayer: 7,
 			color: '#2DD4BF',
 			headerFields: [
-				{ name: 'ID', bits: 16, value: '0xA1B2', editable: false, description: 'Transaction ID — matches queries to responses' },
+				{
+					name: 'ID',
+					bits: 16,
+					value: '0xA1B2',
+					editable: false,
+					description: 'Transaction ID — matches queries to responses'
+				},
 				{ name: 'QR', bits: 1, value: 0, editable: false, description: '0 = Query, 1 = Response' },
 				{ name: 'Opcode', bits: 4, value: 0, editable: false, description: '0 = Standard query' },
-				{ name: 'RD', bits: 1, value: 1, editable: false, description: 'Recursion Desired — ask the resolver to recurse on our behalf' },
-				{ name: 'QDCount', bits: 16, value: 1, editable: false, description: 'Number of questions — we are asking about one domain' },
-				{ name: 'QNAME', bits: 0, value: 'example.com', editable: false, description: 'The domain name we want to resolve' },
-				{ name: 'QTYPE', bits: 16, value: 'A', editable: false, description: 'Query type A — requesting an IPv4 address' }
+				{
+					name: 'RD',
+					bits: 1,
+					value: 1,
+					editable: false,
+					description: 'Recursion Desired — ask the resolver to recurse on our behalf'
+				},
+				{
+					name: 'QDCount',
+					bits: 16,
+					value: 1,
+					editable: false,
+					description: 'Number of questions — we are asking about one domain'
+				},
+				{
+					name: 'QNAME',
+					bits: 0,
+					value: 'example.com',
+					editable: false,
+					description: 'The domain name we want to resolve'
+				},
+				{
+					name: 'QTYPE',
+					bits: 16,
+					value: 'A',
+					editable: false,
+					description: 'Query type A — requesting an IPv4 address'
+				}
 			]
 		}
 	];
@@ -37,14 +67,57 @@ function dnsResponseLayers(srcIp: string, dstIp: string, answer: string) {
 			osiLayer: 7,
 			color: '#2DD4BF',
 			headerFields: [
-				{ name: 'ID', bits: 16, value: '0xA1B2', editable: false, description: 'Same transaction ID — matches our query' },
+				{
+					name: 'ID',
+					bits: 16,
+					value: '0xA1B2',
+					editable: false,
+					description: 'Same transaction ID — matches our query'
+				},
 				{ name: 'QR', bits: 1, value: 1, editable: false, description: '1 = Response' },
-				{ name: 'AA', bits: 1, value: 1, editable: false, description: 'Authoritative Answer — this server owns the domain' },
-				{ name: 'ANCount', bits: 16, value: 1, editable: false, description: 'Number of answer records' },
-				{ name: 'NAME', bits: 0, value: 'example.com', editable: false, description: 'The domain name we asked about' },
-				{ name: 'TYPE', bits: 16, value: 'A', editable: false, description: 'Answer type — A record (IPv4 address)' },
-				{ name: 'TTL', bits: 32, value: 3600, editable: false, description: 'Time to live — cache this answer for 3600 seconds (1 hour)' },
-				{ name: 'RDATA', bits: 32, value: answer, editable: false, description: 'The resolved IPv4 address', color: '#2DD4BF' }
+				{
+					name: 'AA',
+					bits: 1,
+					value: 1,
+					editable: false,
+					description: 'Authoritative Answer — this server owns the domain'
+				},
+				{
+					name: 'ANCount',
+					bits: 16,
+					value: 1,
+					editable: false,
+					description: 'Number of answer records'
+				},
+				{
+					name: 'NAME',
+					bits: 0,
+					value: 'example.com',
+					editable: false,
+					description: 'The domain name we asked about'
+				},
+				{
+					name: 'TYPE',
+					bits: 16,
+					value: 'A',
+					editable: false,
+					description: 'Answer type — A record (IPv4 address)'
+				},
+				{
+					name: 'TTL',
+					bits: 32,
+					value: 3600,
+					editable: false,
+					description: 'Time to live — cache this answer for 3600 seconds (1 hour)'
+				},
+				{
+					name: 'RDATA',
+					bits: 32,
+					value: answer,
+					editable: false,
+					description: 'The resolved IPv4 address',
+					color: '#2DD4BF'
+				}
 			]
 		}
 	];
@@ -97,7 +170,7 @@ export const dnsResolution: SimulationConfig = {
 			id: 'root-referral',
 			label: 'Root Referral',
 			description:
-				'The root nameserver doesn\'t know example.com, but it knows who handles all .com domains. It responds with a referral to the .com TLD nameserver.',
+				"The root nameserver doesn't know example.com, but it knows who handles all .com domains. It responds with a referral to the .com TLD nameserver.",
 			fromActor: 'nameserver',
 			toActor: 'resolver',
 			duration: 1000,

@@ -20,7 +20,8 @@ export const transport: BookPart = {
 		{
 			id: 'tcp',
 			title: 'TCP',
-			synopsis: '[[tcp|Reliable byte streams]], four decades of {{congestion-control|congestion control}}.',
+			synopsis:
+				'[[tcp|Reliable byte streams]], four decades of {{congestion-control|congestion control}}.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -51,7 +52,7 @@ Forty-five years after [[rfc:9293|RFC 793]] (September 1981), [[tcp|TCP]] is sti
 						{
 							type: 'callout',
 							title: 'Three pre-existing security incidents from the 1990s',
-							text: '**[[tcp|TCP]] sequence-prediction (Mitnick 1994)** exploited predictable initial {{sequence-number|sequence numbers}} from {{bsd|BSD}}\'s linear {{isn|ISN}} counter. [[rfc:1948|RFC 1948]] (1996) replaced it with a cryptographically-hashed function of the four-tuple. **{{syn-cookies|SYN}} floods (mid-1990s)** exhausted server connection tables before {{syn-cookies|SYN cookies}} (Bernstein, [[rfc:4987|RFC 4987]]) made them {{stateless|stateless}}. **Smurf attacks (1997)** abused [[ip|IP]] {{broadcast|broadcast}} to amplify {{tcp-rst|TCP RST}} floods. Modern stacks defeat all three; the design lessons are baked into [[rfc:9293|RFC 9293]]\'s security considerations.'
+							text: "**[[tcp|TCP]] sequence-prediction (Mitnick 1994)** exploited predictable initial {{sequence-number|sequence numbers}} from {{bsd|BSD}}'s linear {{isn|ISN}} counter. [[rfc:1948|RFC 1948]] (1996) replaced it with a cryptographically-hashed function of the four-tuple. **{{syn-cookies|SYN}} floods (mid-1990s)** exhausted server connection tables before {{syn-cookies|SYN cookies}} (Bernstein, [[rfc:4987|RFC 4987]]) made them {{stateless|stateless}}. **Smurf attacks (1997)** abused [[ip|IP]] {{broadcast|broadcast}} to amplify {{tcp-rst|TCP RST}} floods. Modern stacks defeat all three; the design lessons are baked into [[rfc:9293|RFC 9293]]'s security considerations."
 						},
 						{
 							type: 'narrative',
@@ -97,7 +98,8 @@ The vulnerability surface keeps producing CVEs. **{{cve|CVE}}-2019-11477 ({{sack
 		{
 			id: 'udp',
 			title: 'UDP',
-			synopsis: '[[udp|Three pages of RFC]], no guarantees, ubiquitous — and the substrate beneath [[quic|QUIC]].',
+			synopsis:
+				'[[udp|Three pages of RFC]], no guarantees, ubiquitous — and the substrate beneath [[quic|QUIC]].',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -199,7 +201,7 @@ The deeper lesson [[sctp|SCTP]] teaches is the lesson [[quic|QUIC]] applied: **i
 						{
 							type: 'callout',
 							title: 'WebRTC Data Channels are SCTP under the hood',
-							text: 'There is one place [[sctp|SCTP]] runs successfully on the open internet: **[[webrtc|WebRTC]] Data Channels**. [[rfc:8831|RFC 8831]] defines the data channel as **[[sctp|SCTP]] over {{dtls|DTLS}} over [[udp|UDP]]** — the [[sctp|SCTP]]-over-something-else trick [[quic|QUIC]] would later generalise. The browser implementations (libwebrtc, Firefox\'s networking stack) carry an [[sctp|SCTP]] stack in user space. [[webrtc|WebRTC]] is the largest production [[sctp|SCTP]] deployment by message count, even though almost nobody knows it.'
+							text: "There is one place [[sctp|SCTP]] runs successfully on the open internet: **[[webrtc|WebRTC]] Data Channels**. [[rfc:8831|RFC 8831]] defines the data channel as **[[sctp|SCTP]] over {{dtls|DTLS}} over [[udp|UDP]]** — the [[sctp|SCTP]]-over-something-else trick [[quic|QUIC]] would later generalise. The browser implementations (libwebrtc, Firefox's networking stack) carry an [[sctp|SCTP]] stack in user space. [[webrtc|WebRTC]] is the largest production [[sctp|SCTP]] deployment by message count, even though almost nobody knows it."
 						},
 						{
 							type: 'narrative',
@@ -328,7 +330,7 @@ The {{ietf|IETF}} [[quic|QUIC]] Working Group, formed in 2016, took {{google|Goo
 						},
 						{
 							type: 'narrative',
-							title: 'What\'s On the Frontier',
+							title: "What's On the Frontier",
 							text: `The next ten years of transport innovation are all riding on [[quic|QUIC]].
 
 **[[frontier:multipath-quic|Multipath QUIC]]** (\`draft-ietf-quic-multipath\`) entered IESG Last Call in December 2025. Inherits [[mptcp|MPTCP]]'s algorithmic ideas inside a transport that actually traverses middleboxes.
@@ -348,7 +350,7 @@ By 2026, **{{meta|Meta}} reports >75% of internet-facing traffic on [[quic|QUIC]
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/20/Google_Corkboard_Server_Rack.jpg/500px-Google_Corkboard_Server_Rack.jpg',
 							alt: 'Early Google "corkboard" server rack — bare motherboards mounted on cork backing, displayed at the Computer History Museum.',
 							caption:
-								'An early **{{google|Google}} corkboard server** — the company that designed [[quic|QUIC]] in 2012 because it could no longer ship [[tcp|TCP]] improvements through kernel rollouts fast enough for its fleet. [[pioneer:jim-roskind|Jim Roskind]]\'s answer was to put a brand-new transport in *user space* on top of [[udp|UDP]], where it could iterate monthly and middleboxes would forward it unchanged.',
+								"An early **{{google|Google}} corkboard server** — the company that designed [[quic|QUIC]] in 2012 because it could no longer ship [[tcp|TCP]] improvements through kernel rollouts fast enough for its fleet. [[pioneer:jim-roskind|Jim Roskind]]'s answer was to put a brand-new transport in *user space* on top of [[udp|UDP]], where it could iterate monthly and middleboxes would forward it unchanged.",
 							credit: 'Photo: Wikimedia Commons / CC BY-SA'
 						}
 					]

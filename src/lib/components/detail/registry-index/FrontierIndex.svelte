@@ -52,9 +52,9 @@
 			What's actively shipping
 		</h1>
 		<p class="mt-2 text-sm leading-relaxed text-t-secondary">
-			{frontierEntries.length} developments that have shipped, are rolling out, or are
-			standardising right now. The 2024-2026 frontier of the protocol stack — anything older
-			lives in the chapters, anything younger lives in IETF drafts.
+			{frontierEntries.length} developments that have shipped, are rolling out, or are standardising right
+			now. The 2024-2026 frontier of the protocol stack — anything older lives in the chapters, anything
+			younger lives in IETF drafts.
 		</p>
 	</header>
 

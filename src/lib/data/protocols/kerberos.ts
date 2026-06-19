@@ -21,17 +21,17 @@ The famous architectural decision: Kerberos requires **time synchronisation** ac
 		{
 			title: 'AS-REQ → AS-REP — get a Ticket Granting Ticket',
 			description:
-				'Client sends an **AS-REQ** to the {{kerberos-kdc|KDC}}\'s Authentication Service with its principal name (`alice@EXAMPLE.COM`). {{kerberos-kdc|KDC}} looks up Alice\'s long-term key in its database, generates a fresh session key, and returns an **{{kerberos-as-rep-acr|AS-REP}}** containing: (a) a **Ticket Granting Ticket ({{kerberos-tgt|TGT}})** {{encryption|encrypted}} under the **{{kerberos-krbtgt|krbtgt}}** principal\'s key (so only the {{kerberos-kdc|KDC}} can later decrypt it), and (b) the session key encrypted under Alice\'s long-term key (so only Alice can decrypt it). Alice never sends her password.'
+				"Client sends an **AS-REQ** to the {{kerberos-kdc|KDC}}'s Authentication Service with its principal name (`alice@EXAMPLE.COM`). {{kerberos-kdc|KDC}} looks up Alice's long-term key in its database, generates a fresh session key, and returns an **{{kerberos-as-rep-acr|AS-REP}}** containing: (a) a **Ticket Granting Ticket ({{kerberos-tgt|TGT}})** {{encryption|encrypted}} under the **{{kerberos-krbtgt|krbtgt}}** principal's key (so only the {{kerberos-kdc|KDC}} can later decrypt it), and (b) the session key encrypted under Alice's long-term key (so only Alice can decrypt it). Alice never sends her password."
 		},
 		{
 			title: 'Pre-authentication (the modern default)',
 			description:
-				"Modern KDCs reject an unauthenticated AS-REQ. The client must include a **{{kerberos-pa-enc-timestamp|PA-ENC-TIMESTAMP}}** — a fresh timestamp encrypted under its long-term key — so the {{kerberos-kdc|KDC}} can verify the client actually knows the password before issuing a {{kerberos-tgt|TGT}}. (The old behaviour of returning the {{kerberos-as-rep-acr|AS-REP}} without pre-auth is what enables **{{kerberos-as-rep-acr|AS-REP}} roasting** — an attacker harvests the {{encryption|encrypted}} blob and brute-forces it offline.)"
+				'Modern KDCs reject an unauthenticated AS-REQ. The client must include a **{{kerberos-pa-enc-timestamp|PA-ENC-TIMESTAMP}}** — a fresh timestamp encrypted under its long-term key — so the {{kerberos-kdc|KDC}} can verify the client actually knows the password before issuing a {{kerberos-tgt|TGT}}. (The old behaviour of returning the {{kerberos-as-rep-acr|AS-REP}} without pre-auth is what enables **{{kerberos-as-rep-acr|AS-REP}} roasting** — an attacker harvests the {{encryption|encrypted}} blob and brute-forces it offline.)'
 		},
 		{
 			title: 'TGS-REQ → TGS-REP — get a service ticket',
 			description:
-				'When Alice wants to access \`HTTP/web1.example.com\`, she sends a **TGS-REQ** to the {{kerberos-kdc|KDC}}\'s {{kerberos-tgs|Ticket Granting Service}}, presenting her {{kerberos-tgt|TGT}} plus a fresh authenticator (an {{anti-replay|anti-replay}} timestamp encrypted under the {{kerberos-tgt|TGT}} session key). {{kerberos-kdc|KDC}} decrypts the {{kerberos-tgt|TGT}} (it knows {{kerberos-krbtgt|krbtgt}}\'s key), validates the authenticator, mints a new session key for Alice↔web1, and returns a **TGS-REP** with a **service ticket** encrypted under web1\'s long-term key.'
+				"When Alice wants to access `HTTP/web1.example.com`, she sends a **TGS-REQ** to the {{kerberos-kdc|KDC}}'s {{kerberos-tgs|Ticket Granting Service}}, presenting her {{kerberos-tgt|TGT}} plus a fresh authenticator (an {{anti-replay|anti-replay}} timestamp encrypted under the {{kerberos-tgt|TGT}} session key). {{kerberos-kdc|KDC}} decrypts the {{kerberos-tgt|TGT}} (it knows {{kerberos-krbtgt|krbtgt}}'s key), validates the authenticator, mints a new session key for Alice↔web1, and returns a **TGS-REP** with a **service ticket** encrypted under web1's long-term key."
 		},
 		{
 			title: 'AP-REQ — present the service ticket',
@@ -41,21 +41,21 @@ The famous architectural decision: Kerberos requires **time synchronisation** ac
 		{
 			title: 'Cross-realm referrals',
 			description:
-				"When Alice in EXAMPLE.COM wants to access a service in PARTNER.COM, her {{kerberos-kdc|KDC}} issues a **referral {{kerberos-tgt|TGT}}** for the {{kerberos-krbtgt|krbtgt}}/PARTNER.COM principal (encrypted under a cross-realm shared key). Alice presents that to the PARTNER.COM {{kerberos-kdc|KDC}}, gets a service ticket. The trust topology is a graph of shared keys between {{kerberos-krbtgt|krbtgt}} principals — the same mechanism Active Directory uses to scale to forests."
+				'When Alice in EXAMPLE.COM wants to access a service in PARTNER.COM, her {{kerberos-kdc|KDC}} issues a **referral {{kerberos-tgt|TGT}}** for the {{kerberos-krbtgt|krbtgt}}/PARTNER.COM principal (encrypted under a cross-realm shared key). Alice presents that to the PARTNER.COM {{kerberos-kdc|KDC}}, gets a service ticket. The trust topology is a graph of shared keys between {{kerberos-krbtgt|krbtgt}} principals — the same mechanism Active Directory uses to scale to forests.'
 		},
 		{
 			title: 'GSS-API and SPNEGO — the application bindings',
 			description:
-				'Applications rarely speak Kerberos directly. They speak **GSS-{{api|API}}** (Generic Security Service {{api|API}}, [[rfc:2743|RFC 2743]]), which abstracts authentication mechanisms behind \`gss_init_sec_context\` / \`gss_accept_sec_context\`. **SPNEGO** ([[rfc:4178|RFC 4178]]) is the protocol negotiation layer that lets [[http1|HTTP]] (`Authorization: Negotiate <base64>`), SMB, LDAP, and other applications transparently use Kerberos when available and fall back to [[oauth2|OAuth]] / {{ntlm|NTLM}} otherwise. Every "Windows Integrated Authentication" prompt in Internet Explorer / Edge / Chrome is SPNEGO over {{http-method|HTTP}} wrapping a {{kerberos-ap-req|Kerberos AP-REQ}}.'
+				'Applications rarely speak Kerberos directly. They speak **GSS-{{api|API}}** (Generic Security Service {{api|API}}, [[rfc:2743|RFC 2743]]), which abstracts authentication mechanisms behind `gss_init_sec_context` / `gss_accept_sec_context`. **SPNEGO** ([[rfc:4178|RFC 4178]]) is the protocol negotiation layer that lets [[http1|HTTP]] (`Authorization: Negotiate <base64>`), SMB, LDAP, and other applications transparently use Kerberos when available and fall back to [[oauth2|OAuth]] / {{ntlm|NTLM}} otherwise. Every "Windows Integrated Authentication" prompt in Internet Explorer / Edge / Chrome is SPNEGO over {{http-method|HTTP}} wrapping a {{kerberos-ap-req|Kerberos AP-REQ}}.'
 		}
 	],
 	useCases: [
 		'**Active Directory** — every Microsoft AD domain on Earth, primary authentication since Windows 2000',
 		'**Hadoop / Spark / Kafka** in enterprise — sec=krb5 is the only way to authenticate jobs at scale',
 		'**NFSv4** with `sec=krb5` / `sec=krb5i` / `sec=krb5p` — the only path to integrity + confidentiality on NFS',
-		'**FreeIPA** — Red Hat\'s integrated identity solution (Kerberos + LDAP + DNS + CA)',
+		"**FreeIPA** — Red Hat's integrated identity solution (Kerberos + LDAP + DNS + CA)",
 		'**MIT Athena** — still operational at MIT in 2026, four decades after the protocol was designed there',
-		'**SSH with GSSAPIAuthentication** — passwordless SSH within a Kerberos realm via the user\'s TGT'
+		"**SSH with GSSAPIAuthentication** — passwordless SSH within a Kerberos realm via the user's TGT"
 	],
 	codeExample: {
 		language: 'cli',
@@ -99,7 +99,8 @@ slot  KVNO Principal                           Encryption type
 ----  ---- ------------------------------------ ------------------
    1     2 HTTP/web1.example.com@EXAMPLE.COM    aes256-cts-hmac-sha384-192
    2     2 HTTP/web1.example.com@EXAMPLE.COM    aes128-cts-hmac-sha256-128`,
-		caption: 'A full [[kerberos|Kerberos]] {{login-auth|login}} + service-ticket flow on {{mit|MIT}} krb5 — the toolchain that has powered {{mit|MIT}} Athena since 1988.',
+		caption:
+			'A full [[kerberos|Kerberos]] {{login-auth|login}} + service-ticket flow on {{mit|MIT}} krb5 — the toolchain that has powered {{mit|MIT}} Athena since 1988.',
 		alternatives: [
 			{
 				language: 'python',
@@ -275,7 +276,7 @@ server.listen(443);`
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/25/Cerberus-Blake.jpeg/500px-Cerberus-Blake.jpeg',
 		alt: 'William Blake painting of Cerberus, the three-headed dog of Greek mythology that the Kerberos protocol is named after',
 		caption:
-			"William Blake\'s **Cerberus** (c.1825). The three-headed dog from Greek mythology that guards the gates of Hades is the namesake of the protocol designed at {{mit|MIT}} Project Athena in 1983 — three heads for *client*, *server*, and *Key Distribution Center*. The protocol\'s motto could be the same as Cerberus's: nothing in, nothing out, without showing me a ticket.",
+			"William Blake's **Cerberus** (c.1825). The three-headed dog from Greek mythology that guards the gates of Hades is the namesake of the protocol designed at {{mit|MIT}} Project Athena in 1983 — three heads for *client*, *server*, and *Key Distribution Center*. The protocol's motto could be the same as Cerberus's: nothing in, nothing out, without showing me a ticket.",
 		credit: 'Image: Wikimedia Commons / Public Domain (William Blake, c.1825)'
 	},
 
@@ -285,14 +286,20 @@ server.listen(443);`
 			title: 'MIT krb5 1.21.3 — CVE-2024-37370 / CVE-2024-37371',
 			description:
 				'Critical GSS message-token handling bugs in the {{mit|MIT}} codebase. {{cve|CVE}}-2024-37370 was an out-of-bounds write in `gss_unwrap` triggerable by a malformed token; {{cve|CVE}}-2024-37371 was a related integrity-bypass. Patched in 1.21.3, picked up downstream by every {{linux|Linux}} distro within days.',
-			source: { url: 'https://nvd.nist.gov/vuln/detail/CVE-2024-37370', label: 'NVD CVE-2024-37370' }
+			source: {
+				url: 'https://nvd.nist.gov/vuln/detail/CVE-2024-37370',
+				label: 'NVD CVE-2024-37370'
+			}
 		},
 		{
 			date: '2025-08',
 			title: 'MIT krb5 1.22 — PKINIT ECDH, IAKerb, Unix-domain transport',
 			description:
 				'5 August 2025 release. Headline features: **PKINIT {{ecdh|ECDH}}/EC certs** (smart-card auth on {{curve25519|Curve25519}} / P-384), **paChecksum2** support (longer FAST-armored {{checksum|checksum}} to retire {{sha1|SHA-1}}), **IAKerb** for realm discovery without [[dns|DNS]], and the first **Unix-domain socket transport** for in-host {{kerberos-kdc|KDC}} traffic. Initial release was withdrawn on 17 August for a critical vuln; re-issued as 1.22.2.',
-			source: { url: 'https://web.mit.edu/kerberos/krb5-1.22/', label: 'MIT krb5 1.22 release notes' }
+			source: {
+				url: 'https://web.mit.edu/kerberos/krb5-1.22/',
+				label: 'MIT krb5 1.22 release notes'
+			}
 		},
 		{
 			date: '2025-09',
@@ -308,7 +315,7 @@ server.listen(443);`
 			date: '2026-04',
 			title: 'Windows Server 2025 / Win11 24H2 — IAKerb + Local KDC GA',
 			description:
-				'Phase 2 of {{microsoft|Microsoft}}\'s {{ntlm|NTLM}} phase-out. **IAKerb** (Initial and Pass-Through Authentication using Kerberos) lets clients authenticate through a proxy when they cannot reach a {{kerberos-kdc|KDC}} directly. **Local {{kerberos-kdc|KDC}}** for workgroup machines (no domain join needed). Together they cover the residual use cases {{ntlm|NTLM}} was holding onto.',
+				"Phase 2 of {{microsoft|Microsoft}}'s {{ntlm|NTLM}} phase-out. **IAKerb** (Initial and Pass-Through Authentication using Kerberos) lets clients authenticate through a proxy when they cannot reach a {{kerberos-kdc|KDC}} directly. **Local {{kerberos-kdc|KDC}}** for workgroup machines (no domain join needed). Together they cover the residual use cases {{ntlm|NTLM}} was holding onto.",
 			source: {
 				url: 'https://techcommunity.microsoft.com/t5/windows-it-pro-blog/the-evolution-of-windows-authentication/ba-p/3926341',
 				label: 'Microsoft Windows IT Pro blog'
@@ -331,7 +338,7 @@ server.listen(443);`
 			org: 'Microsoft Active Directory',
 			scale: 'Every AD domain on Earth (>500M Windows endpoints, every Fortune 1000)',
 			description:
-				'Kerberos has been {{ad-active-directory|AD}}\'s primary authentication since Windows 2000. Every domain-joined Windows machine, every {{ad-active-directory|AD}}-integrated {{exchange|Exchange}} / Outlook, every SharePoint, every {{sql|SQL}} Server with Windows Authentication runs Kerberos under the hood. The single largest [[kerberos|Kerberos]] deployment ever.'
+				"Kerberos has been {{ad-active-directory|AD}}'s primary authentication since Windows 2000. Every domain-joined Windows machine, every {{ad-active-directory|AD}}-integrated {{exchange|Exchange}} / Outlook, every SharePoint, every {{sql|SQL}} Server with Windows Authentication runs Kerberos under the hood. The single largest [[kerberos|Kerberos]] deployment ever."
 		},
 		{
 			org: 'MIT Kerberos (krb5)',
@@ -341,7 +348,7 @@ server.listen(443);`
 		},
 		{
 			org: 'Heimdal',
-			scale: 'Apple\'s macOS, Samba, FreeBSD',
+			scale: "Apple's macOS, Samba, FreeBSD",
 			description:
 				'{{bsd|BSD}}-licensed alternative to {{mit|MIT}} Kerberos, originated at SU/KTH in Sweden. {{apple|Apple}} shipped Heimdal in every macOS from 10.5 (2007) onward; Samba 4 uses it for {{ad-active-directory|AD}} compatibility. Love Hörnquist Åstrand has been the long-running maintainer.'
 		},
@@ -349,14 +356,14 @@ server.listen(443);`
 			org: 'Hadoop / Spark / Kafka',
 			scale: 'Every Cloudera CDH / Hortonworks HDP / Confluent Platform install',
 			description:
-				"`hadoop.security.authentication = kerberos` is the only path to authenticated jobs at scale in a Hadoop cluster. The 2015–2025 enterprise-Hadoop era ran on krb5 keytabs distributed via Ambari/Cloudera Manager. Spark, Hive, Impala, HBase, ZooKeeper all bind to the same {{kerberos-kdc|KDC}}."
+				'`hadoop.security.authentication = kerberos` is the only path to authenticated jobs at scale in a Hadoop cluster. The 2015–2025 enterprise-Hadoop era ran on krb5 keytabs distributed via Ambari/Cloudera Manager. Spark, Hive, Impala, HBase, ZooKeeper all bind to the same {{kerberos-kdc|KDC}}.'
 		}
 	],
 
 	funFacts: [
 		{
 			title: 'Named after the three-headed dog that guards Hades',
-			text: '**Cerberus** in Greek mythology had three heads — one for *past*, *present*, and *future*, or for *birth*, *youth*, and *old age*, depending on the source. The {{mit|MIT}} team picked the name to evoke three principals — **client**, **server**, **{{kerberos-kdc|KDC}}** — with the dog\'s job: nothing crosses without a ticket. Pronounced *KER-ber-os* in English; *KEHR-ber-os* in modern Greek.'
+			text: "**Cerberus** in Greek mythology had three heads — one for *past*, *present*, and *future*, or for *birth*, *youth*, and *old age*, depending on the source. The {{mit|MIT}} team picked the name to evoke three principals — **client**, **server**, **{{kerberos-kdc|KDC}}** — with the dog's job: nothing crosses without a ticket. Pronounced *KER-ber-os* in English; *KEHR-ber-os* in modern Greek."
 		},
 		{
 			title: 'V4 was held back by US export controls',
@@ -364,11 +371,11 @@ server.listen(443);`
 		},
 		{
 			title: '"AS-REP roasting" is when you forget pre-auth',
-			text: 'A principal with `DONT_REQUIRE_PREAUTH` flag set can be queried by *anyone* with a network path to the {{kerberos-kdc|KDC}} — no password required. The {{kerberos-kdc|KDC}} returns an {{kerberos-as-rep-acr|AS-REP}} encrypted under the principal\'s long-term key, which the attacker can then brute-force offline. **{{kerberos-as-rep-acr|AS-REP}} roasting** (Tim Medin, 2014) is the standard penetration-test move against {{ad-active-directory|AD}} environments where service-account pre-auth was accidentally disabled. Sister technique: **Kerberoasting** (also Tim Medin, 2014) requests TGS-REPs for service principals and brute-forces those.'
+			text: "A principal with `DONT_REQUIRE_PREAUTH` flag set can be queried by *anyone* with a network path to the {{kerberos-kdc|KDC}} — no password required. The {{kerberos-kdc|KDC}} returns an {{kerberos-as-rep-acr|AS-REP}} encrypted under the principal's long-term key, which the attacker can then brute-force offline. **{{kerberos-as-rep-acr|AS-REP}} roasting** (Tim Medin, 2014) is the standard penetration-test move against {{ad-active-directory|AD}} environments where service-account pre-auth was accidentally disabled. Sister technique: **Kerberoasting** (also Tim Medin, 2014) requests TGS-REPs for service principals and brute-forces those."
 		},
 		{
 			title: 'Clock skew is the silent killer',
-			text: 'Default `clockskew` in `krb5.conf` is **±5 minutes**. If a client\'s clock drifts more than that, every authentication fails with `KRB_AP_ERR_SKEW`. Every enterprise Kerberos outage of the 2010s eventually traced back to [[ntp|NTP]] — broken [[ntp|NTP]] servers, firewalls blocking UDP/123, virtualised {{hosts-bare|hosts}} with drift. The protocol\'s most operationally fragile dependency isn\'t crypto; it\'s time.'
+			text: "Default `clockskew` in `krb5.conf` is **±5 minutes**. If a client's clock drifts more than that, every authentication fails with `KRB_AP_ERR_SKEW`. Every enterprise Kerberos outage of the 2010s eventually traced back to [[ntp|NTP]] — broken [[ntp|NTP]] servers, firewalls blocking UDP/123, virtualised {{hosts-bare|hosts}} with drift. The protocol's most operationally fragile dependency isn't crypto; it's time."
 		}
 	],
 
@@ -384,7 +391,7 @@ server.listen(443);`
 			},
 			{
 				title: 'Weak encryption types still lurk in old keytabs',
-				text: "Every keytab includes a list of {{encryption|encryption}} types the principal supports. Old {{ad-active-directory|AD}} environments have **{{rc4|RC4}} (NEA1)** still enabled — the {{encryption|encryption}} type **Kerberoasting** specifically targets, because {{rc4|RC4}} keys are derived from NT hash and brute-force in hours. **Cure:** set `default_tkt_enctypes = aes256-cts-{{hmac|hmac}}-sha384-192 aes128-cts-{{hmac|hmac}}-sha256-128` in `krb5.conf`; remove {{rc4|RC4}} from the supported list with `Set-ADUser -KerberosEncryptionType AES128,AES256`; audit with {{wireshark|Wireshark}} filter `kerberos.etype == 23` to find any remaining {{rc4|RC4}} traffic."
+				text: 'Every keytab includes a list of {{encryption|encryption}} types the principal supports. Old {{ad-active-directory|AD}} environments have **{{rc4|RC4}} (NEA1)** still enabled — the {{encryption|encryption}} type **Kerberoasting** specifically targets, because {{rc4|RC4}} keys are derived from NT hash and brute-force in hours. **Cure:** set `default_tkt_enctypes = aes256-cts-{{hmac|hmac}}-sha384-192 aes128-cts-{{hmac|hmac}}-sha256-128` in `krb5.conf`; remove {{rc4|RC4}} from the supported list with `Set-ADUser -KerberosEncryptionType AES128,AES256`; audit with {{wireshark|Wireshark}} filter `kerberos.etype == 23` to find any remaining {{rc4|RC4}} traffic.'
 			}
 		]
 	}

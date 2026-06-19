@@ -12,13 +12,15 @@ export const utilitiesSecurity: BookPart = {
 	id: 'utilities-security',
 	title: 'Utilities & Security',
 	label: 'IX',
-	description: 'The invisible plumbing — [[tls|TLS]], [[ssh|SSH]], [[ntp|NTP]], the email stack, and authentication.',
+	description:
+		'The invisible plumbing — [[tls|TLS]], [[ssh|SSH]], [[ntp|NTP]], the email stack, and authentication.',
 	chapters: [
 		// ────────────────────────────────────────────────────────────
 		{
 			id: 'tls',
 			title: 'TLS',
-			synopsis: '[[tls|From SSL 1.0]] (never released) to post-quantum hybrid by default in iOS 26.',
+			synopsis:
+				'[[tls|From SSL 1.0]] (never released) to post-quantum hybrid by default in iOS 26.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -40,7 +42,7 @@ In 1999 the {{ietf|IETF}} took ownership and renamed it [[tls|TLS]] 1.0 ([[rfc:2
 						{
 							type: 'callout',
 							title: 'TLS 1.3 has middlebox-compatibility hacks built in',
-							text: 'The "everyone gets it wrong" wire fact: **[[tls|TLS]] 1.3 {{client-hello|ClientHello}}.legacy_version = 0x0303** ([[tls|TLS]] 1.2); the real version goes in the \`supported_versions\` extension. **legacy_session_id is non-empty** (faking {{session-resumption|session resumption}}). Both sides send a no-op **ChangeCipherSpec record** after their first flight. All of this is because middleboxes broke when they saw real [[tls|TLS]] 1.3 wire format. The protocol is technically clean; the wire encoding is a deliberate camouflage.'
+							text: 'The "everyone gets it wrong" wire fact: **[[tls|TLS]] 1.3 {{client-hello|ClientHello}}.legacy_version = 0x0303** ([[tls|TLS]] 1.2); the real version goes in the `supported_versions` extension. **legacy_session_id is non-empty** (faking {{session-resumption|session resumption}}). Both sides send a no-op **ChangeCipherSpec record** after their first flight. All of this is because middleboxes broke when they saw real [[tls|TLS]] 1.3 wire format. The protocol is technically clean; the wire encoding is a deliberate camouflage.'
 						},
 						{
 							type: 'narrative',
@@ -73,7 +75,7 @@ Two more historical incidents to name: **goto fail ({{cve|CVE}}-2014-1266)** —
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Digital_certificates_chain_of_trust.png/500px-Digital_certificates_chain_of_trust.png',
 							alt: 'Digital certificate chain of trust diagram — root CA, intermediate CA, end-entity certificate.',
 							caption:
-								'A **[[tls|TLS]] {{certificate-chain|certificate chain}} of trust**: a root {{certificate-authority|CA}} signs an intermediate CA, which signs the end-entity {{certificate|certificate}} your browser actually sees. Every HTTPS connection ends at a chain like this; DigiNotar\'s August 2011 compromise (531 fraudulent certs for 344 domains) is what forced **{{certificate-transparency|Certificate Transparency}}** into existence as a structural fix. The current frontier is 47-day cert lifetimes, mandatory by 15 March 2029.',
+								"A **[[tls|TLS]] {{certificate-chain|certificate chain}} of trust**: a root {{certificate-authority|CA}} signs an intermediate CA, which signs the end-entity {{certificate|certificate}} your browser actually sees. Every HTTPS connection ends at a chain like this; DigiNotar's August 2011 compromise (531 fraudulent certs for 344 domains) is what forced **{{certificate-transparency|Certificate Transparency}}** into existence as a structural fix. The current frontier is 47-day cert lifetimes, mandatory by 15 March 2029.",
 							credit: 'Image: Wikimedia Commons / CC BY-SA'
 						}
 					]
@@ -92,7 +94,8 @@ Two more historical incidents to name: **goto fail ({{cve|CVE}}-2014-1266)** —
 		{
 			id: 'ssh',
 			title: 'SSH',
-			synopsis: '[[ssh|Encrypted shells]], port forwards, and {{scp-copy|SCP}} — written by Tatu Ylönen in Helsinki, July 1995.',
+			synopsis:
+				'[[ssh|Encrypted shells]], port forwards, and {{scp-copy|SCP}} — written by Tatu Ylönen in Helsinki, July 1995.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -160,7 +163,8 @@ The protocol uses **public-key cryptography** for host and user authentication, 
 		{
 			id: 'ntp',
 			title: 'NTP',
-			synopsis: '[[ntp|Why your timestamp is correct]] to within milliseconds — and the era rollover on 7 February 2036.',
+			synopsis:
+				'[[ntp|Why your timestamp is correct]] to within milliseconds — and the era rollover on 7 February 2036.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -184,7 +188,7 @@ A client samples the {{rtt|round-trip time}} to a server (call it δ) and the ap
 						{
 							type: 'callout',
 							title: 'Era rollover: 7 February 2036 at 06:28:16 UTC',
-							text: '[[ntp|NTP]]\'s 64-bit timestamp uses the **[[ntp|NTP]] prime epoch, 1900-01-01 00:00:00 {{utc-time|UTC}}** — older than {{arpanet|ARPANET}}, older than UNIX, older than every other timestamp standard in computing. Span = 2³² s = **136.19 years per era**. **Era rollover is 7 February 2036 at 06:28:16 {{utc-time|UTC}}.** The protocol handles eras correctly via 64-bit math; many client implementations assume 32-bit and will need fixes before 2036. The Y2036 work has been quietly underway since 2020.'
+							text: "[[ntp|NTP]]'s 64-bit timestamp uses the **[[ntp|NTP]] prime epoch, 1900-01-01 00:00:00 {{utc-time|UTC}}** — older than {{arpanet|ARPANET}}, older than UNIX, older than every other timestamp standard in computing. Span = 2³² s = **136.19 years per era**. **Era rollover is 7 February 2036 at 06:28:16 {{utc-time|UTC}}.** The protocol handles eras correctly via 64-bit math; many client implementations assume 32-bit and will need fixes before 2036. The Y2036 work has been quietly underway since 2020."
 						},
 						{
 							type: 'narrative',
@@ -217,7 +221,7 @@ A client samples the {{rtt|round-trip time}} to a server (call it δ) and the ap
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Nist-f1.jpg/500px-Nist-f1.jpg',
 							alt: 'NIST-F1 caesium fountain atomic clock — the US primary frequency standard.',
 							caption:
-								'**{{nist|NIST}}-F1**, the caesium fountain atomic clock that has served as the US primary frequency standard since 1999. Accurate to about one second in 100 million years. [[pioneer:david-mills|David Mills]]\'s **[[ntp|NTP]]** (1985 — Mills died 17 January 2024) is the protocol that flows this kind of accuracy out to every laptop, phone, and server on the internet, with Marzullo\'s 1984 consensus algorithm picking a sane median from a flock of stratum-1 sources.',
+								"**{{nist|NIST}}-F1**, the caesium fountain atomic clock that has served as the US primary frequency standard since 1999. Accurate to about one second in 100 million years. [[pioneer:david-mills|David Mills]]'s **[[ntp|NTP]]** (1985 — Mills died 17 January 2024) is the protocol that flows this kind of accuracy out to every laptop, phone, and server on the internet, with Marzullo's 1984 consensus algorithm picking a sane median from a flock of stratum-1 sources.",
 							credit: 'Photo: NIST / public domain, via Wikimedia Commons'
 						}
 					]
@@ -231,7 +235,8 @@ A client samples the {{rtt|round-trip time}} to a server (call it δ) and the ap
 		{
 			id: 'oauth-and-jwt',
 			title: 'OAuth 2.1 and JWT',
-			synopsis: '[[oauth2|How modern apps delegate access]] — and the most famous resignation in protocol history.',
+			synopsis:
+				'[[oauth2|How modern apps delegate access]] — and the most famous resignation in protocol history.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -253,7 +258,7 @@ Before [[oauth2|OAuth]], an app that wanted access to your {{google|Google}} cal
 						{
 							type: 'callout',
 							title: 'The Road to Hell resignation',
-							text: '**The "Road to Hell" resignation (26 July 2012)**: Eran Hammer published *"[[oauth2|OAuth]] 2.0 and the Road to Hell"* — most famous resignation in modern protocol history. His core line: *"WS-\* bad"* — shorthand among {{ietf|IETF}} veterans for any standard sunk by enterprise committee design. The "everyone gets it wrong" framework fact: **[[oauth2|OAuth]] 2.0 is technically a framework, not a protocol.** [[rfc:6749|RFC 6749]]\'s abstract itself warns *"this specification is likely to produce a wide range of non-interoperable implementations"* — language Hammer fought to insert.'
+							text: '**The "Road to Hell" resignation (26 July 2012)**: Eran Hammer published *"[[oauth2|OAuth]] 2.0 and the Road to Hell"* — most famous resignation in modern protocol history. His core line: *"WS-* bad"* — shorthand among {{ietf|IETF}} veterans for any standard sunk by enterprise committee design. The "everyone gets it wrong" framework fact: **[[oauth2|OAuth]] 2.0 is technically a framework, not a protocol.** [[rfc:6749|RFC 6749]]\'s abstract itself warns *"this specification is likely to produce a wide range of non-interoperable implementations"* — language Hammer fought to insert.'
 						},
 						{
 							type: 'narrative',
@@ -308,7 +313,8 @@ Before [[oauth2|OAuth]], an app that wanted access to your {{google|Google}} cal
 		{
 			id: 'email-stack',
 			title: 'The Email Stack',
-			synopsis: '[[smtp|SMTP]] + [[imap|IMAP]], the protocol family that refused to die — and the new bulk-sender enforcement.',
+			synopsis:
+				'[[smtp|SMTP]] + [[imap|IMAP]], the protocol family that refused to die — and the new bulk-sender enforcement.',
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -367,7 +373,7 @@ His "Ten Commandments of How to Write an [[imap|IMAP]] client" still circulates;
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/Email.svg/500px-Email.svg.png',
 							alt: 'Email envelope icon — stylised mail handler.',
 							caption:
-								'**Email** — the longest-running application of the internet. Ray Tomlinson at {{bbn|BBN}} picked the **@** sign in 1971 modifying SNDMSG. [[pioneer:jon-postel|Jon Postel]] published [[rfc:5321|RFC 821]] on port 25 in August 1982. Forty-four years later [[smtp|SMTP]] still relays your mail, [[imap|IMAP]] still serves your folders, and **{{dmarc|DMARC}} enforcement** at {{google|Google}} + Yahoo (from 1 February 2024) finally killed the easy spoofed-From address. The protocol is older than {{arpanet|ARPANET}}\'s {{flag-day-1983|flag day}}; the standards work is not done.',
+								"**Email** — the longest-running application of the internet. Ray Tomlinson at {{bbn|BBN}} picked the **@** sign in 1971 modifying SNDMSG. [[pioneer:jon-postel|Jon Postel]] published [[rfc:5321|RFC 821]] on port 25 in August 1982. Forty-four years later [[smtp|SMTP]] still relays your mail, [[imap|IMAP]] still serves your folders, and **{{dmarc|DMARC}} enforcement** at {{google|Google}} + Yahoo (from 1 February 2024) finally killed the easy spoofed-From address. The protocol is older than {{arpanet|ARPANET}}'s {{flag-day-1983|flag day}}; the standards work is not done.",
 							credit: 'Image: Wikimedia Commons / public domain'
 						}
 					]

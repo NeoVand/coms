@@ -64,7 +64,8 @@ response = requests.post(
 
 data = response.json()["data"]
 print(data["user"]["name"], data["user"]["posts"])`,
-		caption: 'One [[graphql|GraphQL]] query replaces multiple [[rest|REST]] calls — ask for exactly the data you need',
+		caption:
+			'One [[graphql|GraphQL]] query replaces multiple [[rest|REST]] calls — ask for exactly the data you need',
 		alternatives: [
 			{
 				language: 'javascript',

@@ -4,7 +4,7 @@
 
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { buildThemedDefinition } from '$lib/utils/mermaid-helpers';
+	import { buildThemedDefinition, loadMermaid } from '$lib/utils/mermaid-helpers';
 	import { getAppState } from '$lib/state/context';
 	import RichText from '$lib/components/detail/inline/RichText.svelte';
 	import { parseRichText } from '$lib/utils/text-parser';
@@ -28,20 +28,9 @@
 	let localCounter = 0;
 
 	onMount(async () => {
-		const mod = await import('mermaid');
-		mod.default.initialize({
-			startOnLoad: false,
-			theme: 'dark',
-			securityLevel: 'loose',
-			fontFamily: 'ui-sans-serif, system-ui, -apple-system, sans-serif',
-			flowchart: {
-				htmlLabels: true,
-				curve: 'basis',
-				useMaxWidth: true,
-				padding: 12
-			}
+		mermaidApi = await loadMermaid({
+			flowchart: { htmlLabels: true, curve: 'basis', useMaxWidth: true, padding: 12 }
 		});
-		mermaidApi = mod.default;
 	});
 
 	$effect(() => {
@@ -54,10 +43,14 @@
 		mermaidApi
 			.render(id, fullDef)
 			.then(({ svg }) => {
+				// Mermaid emits an SVG string; inject it into our empty bind:this
+				// container, which Svelte does not otherwise render into.
+				// eslint-disable-next-line svelte/no-dom-manipulating
 				containerEl.innerHTML = svg;
 			})
 			.catch((err) => {
 				console.error('Story diagram render error:', err);
+				// eslint-disable-next-line svelte/no-dom-manipulating
 				containerEl.innerHTML =
 					'<p class="text-xs text-t-muted py-4 text-center">Diagram unavailable</p>';
 			});

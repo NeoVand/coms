@@ -10,14 +10,12 @@ import {
 	type SimulationLinkDatum
 } from 'd3-force';
 import type { GraphNode } from '$lib/data/types';
-import { allProtocols, categories, subcategories } from '$lib/data/index';
+import { allProtocols, categories } from '$lib/data/index';
 
 export type LayoutMode = 'force' | 'radial' | 'timeline' | 'mesh';
 
 // ─── Radial ────────────────────────────────────────────────────────────────
-export function computeRadialPositions(
-	nodes: GraphNode[]
-): Map<string, { x: number; y: number }> {
+export function computeRadialPositions(nodes: GraphNode[]): Map<string, { x: number; y: number }> {
 	const pos = new Map<string, { x: number; y: number }>();
 
 	const hub = nodes.find((n) => n.type === 'hub');
@@ -85,9 +83,7 @@ export function computeRadialPositions(
 
 		// Fallback for protocols without a subcategory: spread them across
 		// the category sector at the protocol radius (preserves old behavior).
-		const orphans = protoNodes.filter(
-			(p) => p.categoryId === cat.id && !p.subcategoryId
-		);
+		const orphans = protoNodes.filter((p) => p.categoryId === cat.id && !p.subcategoryId);
 		orphans.forEach((proto, j) => {
 			const t = (j + 0.5) / orphans.length;
 			const protoAngle = catAngle - catSectorSpan / 2 + t * catSectorSpan;
@@ -192,11 +188,9 @@ interface MeshNode extends SimulationNodeDatum {
 	type: 'protocol' | 'subcategory';
 	categoryId: string;
 }
-interface MeshLink extends SimulationLinkDatum<MeshNode> {}
+type MeshLink = SimulationLinkDatum<MeshNode>;
 
-export function computeMeshPositions(
-	nodes: GraphNode[]
-): Map<string, { x: number; y: number }> {
+export function computeMeshPositions(nodes: GraphNode[]): Map<string, { x: number; y: number }> {
 	const pos = new Map<string, { x: number; y: number }>();
 	const protoNodes = nodes.filter((n) => n.type === 'protocol');
 	const subNodes = nodes.filter((n) => n.type === 'subcategory');

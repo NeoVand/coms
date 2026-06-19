@@ -45,8 +45,15 @@ export type StorySection =
 	| { type: 'image'; src: string; alt: string; caption?: string; credit?: string; title?: string }
 	| { type: 'comparison'; title?: string; axes: string[]; rows: ComparisonRow[]; note?: string };
 
-export interface CategoryStory {
-	categoryId: string;
+/** The shared shape of any story body — a tagline plus ordered sections.
+ *  Both {@link CategoryStory} and `SubcategoryStory` extend this; components
+ *  that only render the body (e.g. CategoryStoryView) should accept this
+ *  rather than a specific parent type. */
+export interface StoryContent {
 	tagline: string;
 	sections: StorySection[];
+}
+
+export interface CategoryStory extends StoryContent {
+	categoryId: string;
 }

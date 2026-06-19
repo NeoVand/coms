@@ -62,7 +62,8 @@ sock.sendall(b'GET / HTTP/1.1\\r\\nHost: example.com\\r\\n\\r\\n')
 response = sock.recv(4096)
 print(response.decode())
 sock.close()`,
-		caption: '[[mptcp|MPTCP]] in Python — same {{api|API}} as [[tcp|TCP]], but the kernel routes data over multiple paths',
+		caption:
+			'[[mptcp|MPTCP]] in Python — same {{api|API}} as [[tcp|TCP]], but the kernel routes data over multiple paths',
 		alternatives: [
 			{
 				language: 'javascript',

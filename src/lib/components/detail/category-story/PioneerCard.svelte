@@ -19,9 +19,7 @@
 	/** Resolve the pioneer-registry id either from the inline `id` field
 	 *  or by matching `name` against the registry. When neither resolves,
 	 *  the card stays static (no dead-button affordance). */
-	const targetId = $derived(
-		pioneer.id ?? pioneerRegistry.find((p) => p.name === pioneer.name)?.id
-	);
+	const targetId = $derived(pioneer.id ?? pioneerRegistry.find((p) => p.name === pioneer.name)?.id);
 
 	let imgFailed = $state(false);
 </script>

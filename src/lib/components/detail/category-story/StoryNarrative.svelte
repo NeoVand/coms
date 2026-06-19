@@ -15,14 +15,15 @@
 
 	const appState = getAppState();
 
-	type Block =
-		| { kind: 'p'; segments: TextSegment[] }
-		| { kind: 'ul'; items: TextSegment[][] };
+	type Block = { kind: 'p'; segments: TextSegment[] } | { kind: 'ul'; items: TextSegment[][] };
 
 	/** Split into paragraphs, detecting blocks of `- ` / `* ` lines as lists. */
 	function parseBlocks(raw: string): Block[] {
 		return raw.split('\n\n').map((p): Block => {
-			const lines = p.split('\n').map((l) => l.trim()).filter(Boolean);
+			const lines = p
+				.split('\n')
+				.map((l) => l.trim())
+				.filter(Boolean);
 			if (lines.length > 0 && lines.every((l) => /^[-*]\s+/.test(l))) {
 				return {
 					kind: 'ul',
@@ -52,10 +53,10 @@
 	{/if}
 	<div class="space-y-3 text-sm leading-relaxed text-t-primary">
 		{#snippet seg(s: TextSegment)}
-			{#if s.type === 'text'}{s.value}{:else if s.type === 'italic'}<em class="italic"
-					>{s.value}</em
+			{#if s.type === 'text'}{s.value}{:else if s.type === 'italic'}<em class="italic">{s.value}</em
 				>{:else if s.type === 'code'}<code
-					class="rounded bg-s-glass px-1 py-px font-mono text-[0.92em] text-t-primary">{s.value}</code
+					class="rounded bg-s-glass px-1 py-px font-mono text-[0.92em] text-t-primary"
+					>{s.value}</code
 				>{:else if s.type === 'protocol-link'}<ProtocolLink
 					protocolId={s.protocolId}
 					label={s.label}
@@ -72,7 +73,10 @@
 					conceptId={s.conceptId}
 					label={s.label}
 					bold
-				/>{:else if s.type === 'rfc-ref'}<RfcRef number={s.number} label={s.label} {color}
+				/>{:else if s.type === 'rfc-ref'}<RfcRef
+					number={s.number}
+					label={s.label}
+					{color}
 				/>{:else if s.type === 'outage-link'}<OutageLink
 					outageId={s.outageId}
 					label={s.label}

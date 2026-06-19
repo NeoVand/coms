@@ -68,7 +68,8 @@ for period in mpd.periods:
             # Download segments via HTTP GET
             # for seg_url in rep.base_urls:
             #     data = requests.get(seg_url.base_url_value).content`,
-		caption: 'dash.js plays {{mpeg-org|MPEG}}-[[dash|DASH]] content with automatic adaptive bitrate',
+		caption:
+			'dash.js plays {{mpeg-org|MPEG}}-[[dash|DASH]] content with automatic adaptive bitrate',
 		alternatives: [
 			{
 				language: 'javascript',
@@ -131,14 +132,14 @@ ffmpeg -i https://cdn.example.com/manifest.mpd \\
     <AdaptationSet mimeType="video/mp4" segmentAlignment="true">
       <Representation id="720p" bandwidth="2400000"
                       width="1280" height="720" codecs="avc1.4d401f">
-        <SegmentTemplate media="seg_\$Number\$.m4s"
+        <SegmentTemplate media="seg_$Number$.m4s"
                          initialization="init.m4s"
                          duration="6000" timescale="1000"
                          startNumber="1"/>
       </Representation>
       <Representation id="480p" bandwidth="1200000"
                       width="854" height="480" codecs="avc1.4d401e">
-        <SegmentTemplate media="seg_\$Number\$.m4s"
+        <SegmentTemplate media="seg_$Number$.m4s"
                          initialization="init.m4s"
                          duration="6000" timescale="1000"/>
       </Representation>

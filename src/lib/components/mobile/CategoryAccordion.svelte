@@ -46,7 +46,7 @@
 	{#if expanded}
 		<div class="space-y-2 border-t border-s-border p-3">
 			{#each protocols as proto (proto.id)}
-				<ProtocolCard {proto} color={color} />
+				<ProtocolCard {proto} {color} />
 			{/each}
 		</div>
 	{/if}

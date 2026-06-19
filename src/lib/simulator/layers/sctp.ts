@@ -28,16 +28,14 @@ export function createSCTPLayer(
 				bits: 32,
 				value: overrides?.vTag ?? '0x00000000',
 				editable: false,
-				description:
-					'Verification Tag — prevents blind attacks, must match the association\'s tag'
+				description: "Verification Tag — prevents blind attacks, must match the association's tag"
 			},
 			{
 				name: 'Chunk Type',
 				bits: 8,
 				value: overrides?.chunkType ?? 'INIT (1)',
 				editable: false,
-				description:
-					'Chunk type — INIT, INIT-ACK, COOKIE-ECHO, COOKIE-ACK, DATA, SACK, HEARTBEAT',
+				description: 'Chunk type — INIT, INIT-ACK, COOKIE-ECHO, COOKIE-ACK, DATA, SACK, HEARTBEAT',
 				color: '#7C3AED'
 			},
 			{
@@ -52,8 +50,7 @@ export function createSCTPLayer(
 				bits: 0,
 				value: overrides?.payload ?? '',
 				editable: false,
-				description:
-					'Chunk data — initiation parameters, cookie, or application data'
+				description: 'Chunk data — initiation parameters, cookie, or application data'
 			}
 		]
 	};

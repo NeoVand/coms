@@ -46,14 +46,18 @@
 		onclick={handleBackdropClick}
 	>
 		<!-- Backdrop -->
-		<div class="pointer-events-none absolute inset-0 bg-[var(--theme-overlay)] backdrop-blur-md"></div>
+		<div
+			class="pointer-events-none absolute inset-0 bg-[var(--theme-overlay)] backdrop-blur-md"
+		></div>
 
 		<!-- Modal card -->
 		<div
-			class="modal-card relative z-10 flex max-h-[96vh] sm:max-h-[92vh] w-full max-w-6xl flex-col overflow-hidden rounded-2xl border border-s-border bg-bg-deep shadow-2xl"
+			class="modal-card relative z-10 flex max-h-[96vh] w-full max-w-6xl flex-col overflow-hidden rounded-2xl border border-s-border bg-bg-deep shadow-2xl sm:max-h-[92vh]"
 		>
 			<!-- Header -->
-			<div class="flex shrink-0 items-center justify-between border-b border-s-border px-4 py-3 sm:px-6 sm:py-4">
+			<div
+				class="flex shrink-0 items-center justify-between border-b border-s-border px-4 py-3 sm:px-6 sm:py-4"
+			>
 				<div class="flex items-center gap-2 sm:gap-3">
 					<div class="h-2 w-2 rounded-full" style="background-color: {color}"></div>
 					<h3 class="text-sm font-semibold text-t-primary sm:text-base">
@@ -67,7 +71,12 @@
 					aria-label="Close"
 				>
 					<svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-						<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+						<path
+							stroke-linecap="round"
+							stroke-linejoin="round"
+							stroke-width="2"
+							d="M6 18L18 6M6 6l12 12"
+						/>
 					</svg>
 				</button>
 			</div>

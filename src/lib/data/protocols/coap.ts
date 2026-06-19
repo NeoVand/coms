@@ -8,7 +8,8 @@ export const coap: Protocol = {
 	port: 5683,
 	year: 2014,
 	rfc: 'RFC 7252',
-	oneLiner: '{{http-method|HTTP}} for tiny devices — [[rest|REST]] semantics over [[udp|UDP]] for constrained IoT.',
+	oneLiner:
+		'{{http-method|HTTP}} for tiny devices — [[rest|REST]] semantics over [[udp|UDP]] for constrained IoT.',
 	overview: `[[coap|CoAP]] brings the familiar [[rest|REST]] model (GET, POST, PUT, DELETE) to the world of constrained IoT devices — think microcontrollers with 10KB of {{ram|RAM}} on lossy, low-power wireless networks. It runs over [[udp|UDP]] instead of [[tcp|TCP]], uses a compact binary format, and adds built-in support for resource observation ({{mqtt-subscribe|subscribe}} to changes).
 
 The design mirrors [[http1|HTTP]] closely enough that translating between [[coap|CoAP]] and [[http1|HTTP]] is straightforward, enabling IoT devices to integrate with web infrastructure through simple {{gateway|proxies}}. But unlike [[http1|HTTP]], [[coap|CoAP]] supports {{multicast|multicast}} (discover all devices on a network), observation (a GET with an {{coap-observe|Observe}} option that lets clients receive push notifications when a resource changes), and block-wise transfer (for large payloads on constrained links).

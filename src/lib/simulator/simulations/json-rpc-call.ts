@@ -10,10 +10,34 @@ function jsonRpcRequestLayer(method: string, params: string, id: string | number
 		osiLayer: 7,
 		color: '#00D4FF',
 		headerFields: [
-			{ name: 'Version', bits: 0, value: '"2.0"', editable: false, description: 'JSON-RPC protocol version — always "2.0"' },
-			{ name: 'Method', bits: 0, value: method, editable: false, description: 'Name of the method to invoke on the server' },
-			{ name: 'Params', bits: 0, value: params, editable: false, description: 'Method arguments — can be by-position (array) or by-name (object)' },
-			{ name: 'ID', bits: 0, value: String(id), editable: false, description: 'Request identifier — server echoes this back to correlate the response' }
+			{
+				name: 'Version',
+				bits: 0,
+				value: '"2.0"',
+				editable: false,
+				description: 'JSON-RPC protocol version — always "2.0"'
+			},
+			{
+				name: 'Method',
+				bits: 0,
+				value: method,
+				editable: false,
+				description: 'Name of the method to invoke on the server'
+			},
+			{
+				name: 'Params',
+				bits: 0,
+				value: params,
+				editable: false,
+				description: 'Method arguments — can be by-position (array) or by-name (object)'
+			},
+			{
+				name: 'ID',
+				bits: 0,
+				value: String(id),
+				editable: false,
+				description: 'Request identifier — server echoes this back to correlate the response'
+			}
 		]
 	};
 }
@@ -25,9 +49,28 @@ function jsonRpcResponseLayer(result: string, id: string | number, color: string
 		osiLayer: 7,
 		color: '#00D4FF',
 		headerFields: [
-			{ name: 'Version', bits: 0, value: '"2.0"', editable: false, description: 'JSON-RPC protocol version' },
-			{ name: 'Result', bits: 0, value: result, editable: false, description: 'Method return value — present on success, absent on error', color },
-			{ name: 'ID', bits: 0, value: String(id), editable: false, description: 'Matches the request ID — confirms which call this responds to' }
+			{
+				name: 'Version',
+				bits: 0,
+				value: '"2.0"',
+				editable: false,
+				description: 'JSON-RPC protocol version'
+			},
+			{
+				name: 'Result',
+				bits: 0,
+				value: result,
+				editable: false,
+				description: 'Method return value — present on success, absent on error',
+				color
+			},
+			{
+				name: 'ID',
+				bits: 0,
+				value: String(id),
+				editable: false,
+				description: 'Matches the request ID — confirms which call this responds to'
+			}
 		]
 	};
 }
@@ -39,10 +82,36 @@ function jsonRpcErrorLayer(code: number, message: string, id: string | number) {
 		osiLayer: 7,
 		color: '#00D4FF',
 		headerFields: [
-			{ name: 'Version', bits: 0, value: '"2.0"', editable: false, description: 'JSON-RPC protocol version' },
-			{ name: 'Error Code', bits: 0, value: String(code), editable: false, description: 'Standard error code — negative numbers are reserved by the spec', color: '#ef4444' },
-			{ name: 'Error Message', bits: 0, value: message, editable: false, description: 'Human-readable error description', color: '#ef4444' },
-			{ name: 'ID', bits: 0, value: String(id), editable: false, description: 'Matches the request ID — even errors are correlated' }
+			{
+				name: 'Version',
+				bits: 0,
+				value: '"2.0"',
+				editable: false,
+				description: 'JSON-RPC protocol version'
+			},
+			{
+				name: 'Error Code',
+				bits: 0,
+				value: String(code),
+				editable: false,
+				description: 'Standard error code — negative numbers are reserved by the spec',
+				color: '#ef4444'
+			},
+			{
+				name: 'Error Message',
+				bits: 0,
+				value: message,
+				editable: false,
+				description: 'Human-readable error description',
+				color: '#ef4444'
+			},
+			{
+				name: 'ID',
+				bits: 0,
+				value: String(id),
+				editable: false,
+				description: 'Matches the request ID — even errors are correlated'
+			}
 		]
 	};
 }
@@ -54,10 +123,36 @@ function jsonRpcNotificationLayer(method: string, params: string) {
 		osiLayer: 7,
 		color: '#00D4FF',
 		headerFields: [
-			{ name: 'Version', bits: 0, value: '"2.0"', editable: false, description: 'JSON-RPC protocol version' },
-			{ name: 'Method', bits: 0, value: method, editable: false, description: 'Notification method name — server will not reply' },
-			{ name: 'Params', bits: 0, value: params, editable: false, description: 'Notification parameters' },
-			{ name: 'ID', bits: 0, value: '(absent)', editable: false, description: 'No ID field — this is a notification, not a request. The server MUST NOT reply.', color: '#a855f7' }
+			{
+				name: 'Version',
+				bits: 0,
+				value: '"2.0"',
+				editable: false,
+				description: 'JSON-RPC protocol version'
+			},
+			{
+				name: 'Method',
+				bits: 0,
+				value: method,
+				editable: false,
+				description: 'Notification method name — server will not reply'
+			},
+			{
+				name: 'Params',
+				bits: 0,
+				value: params,
+				editable: false,
+				description: 'Notification parameters'
+			},
+			{
+				name: 'ID',
+				bits: 0,
+				value: '(absent)',
+				editable: false,
+				description:
+					'No ID field — this is a notification, not a request. The server MUST NOT reply.',
+				color: '#a855f7'
+			}
 		]
 	};
 }
@@ -69,9 +164,28 @@ function httpRequestWrapper() {
 		osiLayer: 7,
 		color: '#4B5563',
 		headerFields: [
-			{ name: 'Method', bits: 0, value: 'POST', editable: false, description: 'JSON-RPC always uses HTTP POST — the method is inside the JSON, not in the URL' },
-			{ name: 'Path', bits: 0, value: '/rpc', editable: false, description: 'Single endpoint — all methods go to the same URL' },
-			{ name: 'Content-Type', bits: 0, value: 'application/json', editable: false, description: 'JSON-RPC payload is always JSON' }
+			{
+				name: 'Method',
+				bits: 0,
+				value: 'POST',
+				editable: false,
+				description:
+					'JSON-RPC always uses HTTP POST — the method is inside the JSON, not in the URL'
+			},
+			{
+				name: 'Path',
+				bits: 0,
+				value: '/rpc',
+				editable: false,
+				description: 'Single endpoint — all methods go to the same URL'
+			},
+			{
+				name: 'Content-Type',
+				bits: 0,
+				value: 'application/json',
+				editable: false,
+				description: 'JSON-RPC payload is always JSON'
+			}
 		]
 	};
 }
@@ -183,7 +297,7 @@ export const jsonRpcCall: SimulationConfig = {
 			id: 'batch-request',
 			label: 'Batch Request',
 			description:
-				'Client sends an array of JSON-RPC calls in a single HTTP request. This is one of JSON-RPC\'s killer features — multiple independent calls in one round trip. The array can mix requests and notifications.',
+				"Client sends an array of JSON-RPC calls in a single HTTP request. This is one of JSON-RPC's killer features — multiple independent calls in one round trip. The array can mix requests and notifications.",
 			fromActor: 'client',
 			toActor: 'server',
 			duration: 1000,
@@ -199,9 +313,27 @@ export const jsonRpcCall: SimulationConfig = {
 					osiLayer: 7,
 					color: '#00D4FF',
 					headerFields: [
-						{ name: 'Call 1', bits: 0, value: '{"method":"add","params":[1,2],"id":"a"}', editable: false, description: 'First call in the batch — will get a response' },
-						{ name: 'Call 2', bits: 0, value: '{"method":"log","params":["hi"]}', editable: false, description: 'Notification in the batch — no response expected' },
-						{ name: 'Call 3', bits: 0, value: '{"method":"multiply","params":[3,4],"id":"b"}', editable: false, description: 'Third call — will get a response' }
+						{
+							name: 'Call 1',
+							bits: 0,
+							value: '{"method":"add","params":[1,2],"id":"a"}',
+							editable: false,
+							description: 'First call in the batch — will get a response'
+						},
+						{
+							name: 'Call 2',
+							bits: 0,
+							value: '{"method":"log","params":["hi"]}',
+							editable: false,
+							description: 'Notification in the batch — no response expected'
+						},
+						{
+							name: 'Call 3',
+							bits: 0,
+							value: '{"method":"multiply","params":[3,4],"id":"b"}',
+							editable: false,
+							description: 'Third call — will get a response'
+						}
 					]
 				}
 			]
@@ -225,9 +357,30 @@ export const jsonRpcCall: SimulationConfig = {
 					osiLayer: 7,
 					color: '#00D4FF',
 					headerFields: [
-						{ name: 'Result 1', bits: 0, value: '{"result":3,"id":"a"}', editable: false, description: 'Response for add(1,2) = 3', color: '#22c55e' },
-						{ name: 'Result 2', bits: 0, value: '{"result":12,"id":"b"}', editable: false, description: 'Response for multiply(3,4) = 12', color: '#22c55e' },
-						{ name: 'Note', bits: 0, value: 'No entry for notification', editable: false, description: 'The log notification had no id, so no response was generated', color: '#a855f7' }
+						{
+							name: 'Result 1',
+							bits: 0,
+							value: '{"result":3,"id":"a"}',
+							editable: false,
+							description: 'Response for add(1,2) = 3',
+							color: '#22c55e'
+						},
+						{
+							name: 'Result 2',
+							bits: 0,
+							value: '{"result":12,"id":"b"}',
+							editable: false,
+							description: 'Response for multiply(3,4) = 12',
+							color: '#22c55e'
+						},
+						{
+							name: 'Note',
+							bits: 0,
+							value: 'No entry for notification',
+							editable: false,
+							description: 'The log notification had no id, so no response was generated',
+							color: '#a855f7'
+						}
 					]
 				}
 			]

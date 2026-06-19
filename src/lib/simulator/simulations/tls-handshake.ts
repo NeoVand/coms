@@ -82,7 +82,7 @@ export const tlsHandshake: SimulationConfig = {
 				createTLSRecordLayer({
 					handshakeType: 'Certificate + Verify',
 					cipherSuite: 'TLS_AES_256_GCM_SHA384',
-					extensions: 'CN=example.com, Issuer=Let\'s Encrypt',
+					extensions: "CN=example.com, Issuer=Let's Encrypt",
 					length: 2048
 				})
 			]

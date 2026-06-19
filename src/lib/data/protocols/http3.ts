@@ -8,7 +8,8 @@ export const http3: Protocol = {
 	port: 443,
 	year: 2022,
 	rfc: 'RFC 9114',
-	oneLiner: '{{http-method|HTTP}} over [[quic|QUIC]] — faster connections, no {{head-of-line-blocking|head-of-line blocking}}, built-in {{encryption|encryption}}.',
+	oneLiner:
+		'{{http-method|HTTP}} over [[quic|QUIC]] — faster connections, no {{head-of-line-blocking|head-of-line blocking}}, built-in {{encryption|encryption}}.',
 	overview: `[[http3|HTTP/3]] is the latest evolution of {{http-method|HTTP}}, replacing [[tcp|TCP]] with [[quic|QUIC]] as its transport layer. This seemingly simple swap has profound implications: connections establish faster (1 {{rtt|RTT}} vs 2-3), lost {{packet|packets}} don't block unrelated streams, and connections survive network changes ([[wifi|Wi-Fi]] to cellular).
 
 The {{api|API}} for developers is identical — same methods, headers, and status codes. The difference is entirely at the transport level. [[http3|HTTP/3]] uses [[quic|QUIC]]'s independent {{stream|streams}} to solve the {{head-of-line-blocking|head-of-line blocking}} that plagued [[http2|HTTP/2]] over [[tcp|TCP]]. Each {{http-method|HTTP}} request maps to a [[quic|QUIC]] stream; if one packet is lost, only that stream waits for {{retransmission|retransmission}}.
@@ -55,7 +56,8 @@ curl -sI https://cloudflare-quic.com \\
 
 # Force HTTP/3 only (fail if not supported)
 curl --http3-only https://cloudflare-quic.com`,
-		caption: '[[http3|HTTP/3]] uses [[quic|QUIC]] transport — clients discover it via the Alt-Svc header',
+		caption:
+			'[[http3|HTTP/3]] uses [[quic|QUIC]] transport — clients discover it via the Alt-Svc header',
 		alternatives: [
 			{
 				language: 'javascript',
@@ -168,7 +170,7 @@ asyncio.run(fetch_h3())`
 			org: 'Google',
 			scale: 'google.com / YouTube',
 			description:
-				'Default for chrome.com, youtube.com, and most {{google|Google}} web properties. {{google|Google}}\'s investment is what drove [[quic|QUIC]] + [[http3|HTTP/3]] standardisation.'
+				"Default for chrome.com, youtube.com, and most {{google|Google}} web properties. {{google|Google}}'s investment is what drove [[quic|QUIC]] + [[http3|HTTP/3]] standardisation."
 		},
 		{
 			org: 'Meta',
@@ -197,7 +199,7 @@ asyncio.run(fetch_h3())`
 		pitfalls: [
 			{
 				title: 'Alt-Svc bootstrap requires a TCP+TLS round-trip',
-				text: 'A new client doesn\'t know to try [[http3|HTTP/3]] until it sees an Alt-Svc header in an [[http1|HTTP/1.1]] or [[http2|HTTP/2]] response — meaning the very first connection still pays the [[tcp|TCP]]+[[tls|TLS]] round-trip cost. The HTTPS [[dns|DNS]] record (HTTPS RR, [[rfc:9460|RFC 9460]]) closes this gap by advertising [[http3|HTTP/3]] support directly in [[dns|DNS]], but adoption is partial.'
+				text: "A new client doesn't know to try [[http3|HTTP/3]] until it sees an Alt-Svc header in an [[http1|HTTP/1.1]] or [[http2|HTTP/2]] response — meaning the very first connection still pays the [[tcp|TCP]]+[[tls|TLS]] round-trip cost. The HTTPS [[dns|DNS]] record (HTTPS RR, [[rfc:9460|RFC 9460]]) closes this gap by advertising [[http3|HTTP/3]] support directly in [[dns|DNS]], but adoption is partial."
 			},
 			{
 				title: 'CDN coverage is much better than origin coverage',

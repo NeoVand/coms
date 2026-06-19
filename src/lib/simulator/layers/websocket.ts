@@ -1,6 +1,8 @@
 import type { ProtocolLayer } from '../types';
 
-export function createWebSocketFrameLayer(overrides?: Partial<Record<string, string | number>>): ProtocolLayer {
+export function createWebSocketFrameLayer(
+	overrides?: Partial<Record<string, string | number>>
+): ProtocolLayer {
 	return {
 		name: 'WebSocket Frame',
 		abbreviation: 'WS',

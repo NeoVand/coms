@@ -14,8 +14,7 @@ export function createXMPPLayer(
 				bits: 0,
 				value: overrides?.stanzaType ?? '<stream:stream>',
 				editable: false,
-				description:
-					'XML element type — <stream:stream>, <message>, <presence>, <iq>, <auth>'
+				description: 'XML element type — <stream:stream>, <message>, <presence>, <iq>, <auth>'
 			},
 			{
 				name: 'From',
@@ -30,8 +29,7 @@ export function createXMPPLayer(
 				bits: 0,
 				value: overrides?.to ?? '',
 				editable: false,
-				description:
-					'Recipient JID — the destination user, room, or service'
+				description: 'Recipient JID — the destination user, room, or service'
 			},
 			{
 				name: 'ID',

@@ -18,7 +18,8 @@ export const howToLearnMore: BookPart = {
 		{
 			id: 'rfcs-to-read',
 			title: 'RFCs Worth Reading',
-			synopsis: 'A guided tour with section pointers — the documents that pay back the time investment.',
+			synopsis:
+				'A guided tour with section pointers — the documents that pay back the time investment.',
 			slots: [
 				{
 					kind: 'prose',
@@ -102,7 +103,8 @@ For specialised areas: **Olivier Bonaventure, "Computer Networking: Principles, 
 		{
 			id: 'courses',
 			title: 'Courses',
-			synopsis: 'Stanford {{cs144-course|CS144}} (build a [[tcp|TCP]] stack), {{mit|MIT}} 6.829, Berkeley CS168.',
+			synopsis:
+				'Stanford {{cs144-course|CS144}} (build a [[tcp|TCP]] stack), {{mit|MIT}} 6.829, Berkeley CS168.',
 			slots: [
 				{
 					kind: 'prose',
@@ -137,7 +139,8 @@ For a self-paced path: read **{{rfc-doc|RFC}} 1180** (28 pages), then take **{{c
 		{
 			id: 'blogs',
 			title: 'Blogs',
-			synopsis: '{{cloudflare|Cloudflare}}, {{meta|Meta}} Engineering, {{apnic|APNIC}} Labs, ipSpace.net.',
+			synopsis:
+				'{{cloudflare|Cloudflare}}, {{meta|Meta}} Engineering, {{apnic|APNIC}} Labs, ipSpace.net.',
 			slots: [
 				{
 					kind: 'prose',

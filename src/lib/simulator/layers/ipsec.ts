@@ -14,14 +14,16 @@ export function createIKEv2Layer(
 				bits: 64,
 				value: overrides?.initSpi ?? '0x1122334455667788',
 				editable: false,
-				description: '64-bit Initiator Security Parameters Index — identifies the IKE SA on the initiator'
+				description:
+					'64-bit Initiator Security Parameters Index — identifies the IKE SA on the initiator'
 			},
 			{
 				name: 'Responder SPI',
 				bits: 64,
 				value: overrides?.respSpi ?? '0x0000000000000000',
 				editable: false,
-				description: '64-bit Responder SPI — zero until the responder picks one in the first IKE_SA_INIT response'
+				description:
+					'64-bit Responder SPI — zero until the responder picks one in the first IKE_SA_INIT response'
 			},
 			{
 				name: 'Next Payload',
@@ -57,7 +59,8 @@ export function createIKEv2Layer(
 				bits: 32,
 				value: overrides?.messageId ?? 0,
 				editable: false,
-				description: 'Counter that prevents replay; starts at 0 for IKE_SA_INIT and increments per request'
+				description:
+					'Counter that prevents replay; starts at 0 for IKE_SA_INIT and increments per request'
 			},
 			{
 				name: 'Payloads',
@@ -84,14 +87,16 @@ export function createESPLayer(
 				bits: 32,
 				value: overrides?.spi ?? '0xC0FFEE01',
 				editable: false,
-				description: 'Security Parameters Index — receiver looks up the SA (key, cipher) by this value'
+				description:
+					'Security Parameters Index — receiver looks up the SA (key, cipher) by this value'
 			},
 			{
 				name: 'Sequence Number',
 				bits: 32,
 				value: overrides?.seq ?? 1,
 				editable: false,
-				description: 'Anti-replay counter — receiver maintains a sliding window (default 32, prod tune ≥1024)'
+				description:
+					'Anti-replay counter — receiver maintains a sliding window (default 32, prod tune ≥1024)'
 			},
 			{
 				name: 'IV / Nonce',
@@ -105,7 +110,8 @@ export function createESPLayer(
 				bits: 0,
 				value: overrides?.payload ?? '<encrypted inner IP packet + ESP trailer>',
 				editable: false,
-				description: 'In tunnel mode: the entire inner IP packet plus an ESP trailer (padding + next-header byte)'
+				description:
+					'In tunnel mode: the entire inner IP packet plus an ESP trailer (padding + next-header byte)'
 			},
 			{
 				name: 'ICV (Auth Tag)',

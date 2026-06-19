@@ -212,7 +212,7 @@ CRC: x^24 + x^10 + x^9 + x^6 + x^4 + x^3 + x + 1, seeded by Access Address.`
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Bluetooth.svg/250px-Bluetooth.svg.png',
 		alt: 'The Bluetooth logo — a bind-rune combining Hagall (ᚼ) and Bjarkan (ᛒ), the initials of Harald Bluetooth in Younger Futhark',
 		caption:
-			"The Bluetooth logo is a bind-rune combining **Hagall** (ᚼ) and **Bjarkan** (ᛒ) — the initials of *Harald Blåtand*, the 10th-century Danish king who united Denmark and Norway. Jim Kardach at {{intel|Intel}} proposed the name as a placeholder during a 1997 {{sig|SIG}} meeting; it was never supposed to ship.",
+			'The Bluetooth logo is a bind-rune combining **Hagall** (ᚼ) and **Bjarkan** (ᛒ) — the initials of *Harald Blåtand*, the 10th-century Danish king who united Denmark and Norway. Jim Kardach at {{intel|Intel}} proposed the name as a placeholder during a 1997 {{sig|SIG}} meeting; it was never supposed to ship.',
 		credit: 'Image: Wikimedia Commons / Public Domain (Bluetooth SIG trademark)'
 	},
 
@@ -311,7 +311,7 @@ CRC: x^24 + x^10 + x^9 + x^6 + x^4 + x^3 + x + 1, seeded by Access Address.`
 		},
 		{
 			title: 'BR/EDR and BLE share a logo but not a single bit',
-			text: "Despite the unified branding, **Bluetooth Classic and {{ble|BLE}} share no bits over the air**. Different modulation (GFSK + DPSK for Classic, GFSK only for {{ble|BLE}} 1M), different channel plan (79 × 1 MHz vs 40 × 2 MHz), different hopping (1,600/s vs once-per-connection-event), different framing, different security. A dual-mode chip runs both stacks side by side. The {{sig|SIG}} estimates more than half of all shipping radios are dual-mode in 2024."
+			text: 'Despite the unified branding, **Bluetooth Classic and {{ble|BLE}} share no bits over the air**. Different modulation (GFSK + DPSK for Classic, GFSK only for {{ble|BLE}} 1M), different channel plan (79 × 1 MHz vs 40 × 2 MHz), different hopping (1,600/s vs once-per-connection-event), different framing, different security. A dual-mode chip runs both stacks side by side. The {{sig|SIG}} estimates more than half of all shipping radios are dual-mode in 2024.'
 		}
 	],
 
@@ -319,7 +319,7 @@ CRC: x^24 + x^10 + x^9 + x^6 + x^4 + x^3 + x + 1, seeded by Access Address.`
 		pitfalls: [
 			{
 				title: 'The default ATT MTU is 23 bytes',
-				text: "Every {{ble|BLE}} connection starts with {{att-mtu|ATT MTU}} = 23, which means only **20 bytes of {{payload|payload}} per Notify** after the 3-byte {{att-mtu|ATT}} header. If you ship that default, your sensor stream is throughput-bound on overhead. **Cure:** request an {{mtu|MTU}} {{exchange|exchange}} (`ATT_Exchange_MTU_Request`) to 247 (one LL {{pdu-session|PDU}} with Data Length Extension) or 517 (the {{ble|BLE}} maximum) as the first {{att-mtu|ATT}} operation after pairing. Most platforms now do this automatically — but verify with an nRF Sniffer capture."
+				text: 'Every {{ble|BLE}} connection starts with {{att-mtu|ATT MTU}} = 23, which means only **20 bytes of {{payload|payload}} per Notify** after the 3-byte {{att-mtu|ATT}} header. If you ship that default, your sensor stream is throughput-bound on overhead. **Cure:** request an {{mtu|MTU}} {{exchange|exchange}} (`ATT_Exchange_MTU_Request`) to 247 (one LL {{pdu-session|PDU}} with Data Length Extension) or 517 (the {{ble|BLE}} maximum) as the first {{att-mtu|ATT}} operation after pairing. Most platforms now do this automatically — but verify with an nRF Sniffer capture.'
 			},
 			{
 				title: 'Connection interval × Slave latency × Supervision timeout',
@@ -327,7 +327,7 @@ CRC: x^24 + x^10 + x^9 + x^6 + x^4 + x^3 + x + 1, seeded by Access Address.`
 			},
 			{
 				title: 'Wi-Fi coexistence on 2.4 GHz',
-				text: "{{ble|BLE}} channels 37/38/39 (advertising) sit at 2402, 2426, and 2480 MHz — carefully chosen to **avoid** [[wifi|Wi-Fi]] channels 1/6/11 (2412/2437/2462 MHz). But the 37 data channels (0–36) overlap. Modern combo chips do time-division arbitration internally; on a discrete radio, a saturated [[wifi|Wi-Fi]] {{ap-access-point|AP}} can starve {{ble|BLE}} for tens of seconds. **Cure:** if running mission-critical {{ble|BLE}} next to enterprise Wi-Fi, fix the Wi-Fi APs to use 5/6 GHz where possible, or use **{{le-audio|LE}} Coded S=8** which trades 8× more {{airtime|airtime}} for 8× better link budget — surviving interference where {{le-audio|LE}} 1M won\'t."
+				text: "{{ble|BLE}} channels 37/38/39 (advertising) sit at 2402, 2426, and 2480 MHz — carefully chosen to **avoid** [[wifi|Wi-Fi]] channels 1/6/11 (2412/2437/2462 MHz). But the 37 data channels (0–36) overlap. Modern combo chips do time-division arbitration internally; on a discrete radio, a saturated [[wifi|Wi-Fi]] {{ap-access-point|AP}} can starve {{ble|BLE}} for tens of seconds. **Cure:** if running mission-critical {{ble|BLE}} next to enterprise Wi-Fi, fix the Wi-Fi APs to use 5/6 GHz where possible, or use **{{le-audio|LE}} Coded S=8** which trades 8× more {{airtime|airtime}} for 8× better link budget — surviving interference where {{le-audio|LE}} 1M won't."
 			}
 		]
 	}

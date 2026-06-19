@@ -21,8 +21,7 @@ export function createSMTPLayer(
 				bits: 0,
 				value: overrides?.parameter ?? 'client.example.com',
 				editable: false,
-				description:
-					'Command parameter — hostname for EHLO, address for MAIL FROM/RCPT TO'
+				description: 'Command parameter — hostname for EHLO, address for MAIL FROM/RCPT TO'
 			},
 			{
 				name: 'Response Code',

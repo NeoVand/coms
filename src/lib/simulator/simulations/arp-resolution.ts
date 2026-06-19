@@ -58,7 +58,7 @@ export const arpResolution: SimulationConfig = {
 			id: 'arp-reply',
 			label: 'ARP Reply (unicast)',
 			description:
-				'Host B recognizes its own IP in the Target IP field and responds with a unicast ARP Reply. The reply fills in the missing piece: Sender MAC AA:BB:CC:DD:EE:FF. Notice this is unicast (directly to Host A\'s MAC), not broadcast — only Host A receives the reply. Host B also caches Host A\'s IP-to-MAC mapping from the request, since it will likely need it soon.',
+				"Host B recognizes its own IP in the Target IP field and responds with a unicast ARP Reply. The reply fills in the missing piece: Sender MAC AA:BB:CC:DD:EE:FF. Notice this is unicast (directly to Host A's MAC), not broadcast — only Host A receives the reply. Host B also caches Host A's IP-to-MAC mapping from the request, since it will likely need it soon.",
 			fromActor: 'host-b',
 			toActor: 'host-a',
 			duration: 800,
@@ -126,7 +126,7 @@ export const arpResolution: SimulationConfig = {
 			id: 'response',
 			label: 'Response (cache hit)',
 			description:
-				'Host B sends a response back to Host A. This time, no ARP is needed — Host B already cached Host A\'s MAC address when it processed the original ARP Request. This is a cache hit: the Ethernet frame is constructed immediately with the known destination MAC. Bidirectional communication now flows without any ARP overhead.',
+				"Host B sends a response back to Host A. This time, no ARP is needed — Host B already cached Host A's MAC address when it processed the original ARP Request. This is a cache hit: the Ethernet frame is constructed immediately with the known destination MAC. Bidirectional communication now flows without any ARP overhead.",
 			fromActor: 'host-b',
 			toActor: 'host-a',
 			duration: 600,

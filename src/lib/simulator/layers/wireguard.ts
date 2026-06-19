@@ -30,14 +30,16 @@ export function createWireGuardLayer(
 				bits: 32,
 				value: overrides?.senderIndex ?? '0xABCD1234',
 				editable: false,
-				description: 'Random 32-bit identifier the receiver echoes back; lets peers track parallel handshakes'
+				description:
+					'Random 32-bit identifier the receiver echoes back; lets peers track parallel handshakes'
 			},
 			{
 				name: 'Receiver Index',
 				bits: 32,
 				value: overrides?.receiverIndex ?? '0x00000000',
 				editable: false,
-				description: 'Echoed back in Handshake Response and Transport Data; zero in the initial handshake'
+				description:
+					'Echoed back in Handshake Response and Transport Data; zero in the initial handshake'
 			},
 			{
 				name: 'Payload',

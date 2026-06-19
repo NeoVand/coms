@@ -8,7 +8,8 @@ export const hls: Protocol = {
 	port: 443,
 	year: 2009,
 	rfc: 'RFC 8216',
-	oneLiner: "{{apple|Apple}}'s adaptive streaming protocol — video delivered as small {{http-method|HTTP}} file downloads.",
+	oneLiner:
+		"{{apple|Apple}}'s adaptive streaming protocol — video delivered as small {{http-method|HTTP}} file downloads.",
 	overview: `[[hls|HLS]] takes a clever approach to streaming: instead of a continuous real-time stream, it chops video into small files (typically 2-10 second segments) and serves them as ordinary [[http1|HTTP]] downloads. A {{manifest|manifest}} file (.m3u8) lists the available segments and quality levels.
 
 This design is brilliant for several reasons: it works through any {{firewall|firewall}} (it's just [[http1|HTTP]]), it scales trivially with {{cdn|CDNs}} (segments are cacheable files), and it enables {{adaptive-bitrate|adaptive bitrate}} — the player switches between quality levels based on {{bandwidth|bandwidth}}, providing smooth playback even on unstable connections. Increasingly, [[hls|HLS]] and [[dash|DASH]] are converging on CMAF (Common Media Application Format), which defines a unified segment format ({{fragmented-mp4|fragmented MP4}}) so content providers can encode once and serve both [[hls|HLS]] and [[dash|DASH]] from the same segments.
@@ -62,7 +63,8 @@ media = m3u8.load(playlist.playlists[0].uri)
 for segment in media.segments:
     print(f"Segment: {segment.uri} ({segment.duration}s)")
     # data = requests.get(segment.uri).content`,
-		caption: 'ffmpeg creates [[hls|HLS]] segments and playlists — CDNs serve these as ordinary {{http-method|HTTP}} files',
+		caption:
+			'ffmpeg creates [[hls|HLS]] segments and playlists — CDNs serve these as ordinary {{http-method|HTTP}} files',
 		alternatives: [
 			{
 				language: 'javascript',

@@ -8,7 +8,8 @@ export const websockets: Protocol = {
 	port: 80,
 	year: 2011,
 	rfc: 'RFC 6455',
-	oneLiner: '{{full-duplex|Full-duplex}}, persistent connection — server and client talk freely in real time.',
+	oneLiner:
+		'{{full-duplex|Full-duplex}}, persistent connection — server and client talk freely in real time.',
 	overview: `[[websockets|WebSockets]] solve a fundamental limitation of [[http1|HTTP]]: the server can't initiate communication. In [[http1|HTTP]], the client always asks and the server always responds. [[websockets|WebSockets]] upgrade an [[http1|HTTP]] connection into a persistent, {{full-duplex|full-duplex}} channel where either side can send messages at any time.
 
 This is perfect for real-time applications: chat, live sports scores, collaborative editing, multiplayer games, financial tickers. Instead of the client repeatedly polling "any updates?" (wasteful), the server simply pushes data when it's available. Unlike [[http1|HTTP]]'s {{request-response|request-response}} model, [[websockets|WebSockets]] maintain a {{stateful|stateful}} connection where both sides can track context across messages without re-establishing identity on every {{exchange|exchange}}.
@@ -57,7 +58,8 @@ async def chat():
             await ws.send('{"type": "msg", "text": "Hello!"}')
 
 asyncio.run(chat())`,
-		caption: '[[websockets|WebSocket]] {{api|API}} is dead simple — {{mqtt-connect|connect}}, send, receive. Both sides can initiate.',
+		caption:
+			'[[websockets|WebSocket]] {{api|API}} is dead simple — {{mqtt-connect|connect}}, send, receive. Both sides can initiate.',
 		alternatives: [
 			{
 				language: 'javascript',

@@ -21,7 +21,7 @@ The frontier in 2026 is **5G-Advanced** (Release 18, frozen June 2024; Release 1
 		{
 			title: 'PHY — OFDMA with five numerologies',
 			description:
-				"{{5g-nr|5G NR}} carries data on **Orthogonal Frequency-Division Multiple Access** subcarriers spaced at 15, 30, 60, 120, or 240 kHz ({{3gpp|3GPP}} {{ts-3gpp|TS}} 38.211). The choice is the *numerology* — smaller spacing = longer symbols = more robust at low frequencies; larger spacing = shorter symbols = required at {{mmwave|mmWave}}. One framework, two very different deployment regimes (FR1 sub-6 GHz, FR2 {{mmwave|mmWave}} 24–52 GHz)."
+				'{{5g-nr|5G NR}} carries data on **Orthogonal Frequency-Division Multiple Access** subcarriers spaced at 15, 30, 60, 120, or 240 kHz ({{3gpp|3GPP}} {{ts-3gpp|TS}} 38.211). The choice is the *numerology* — smaller spacing = longer symbols = more robust at low frequencies; larger spacing = shorter symbols = required at {{mmwave|mmWave}}. One framework, two very different deployment regimes (FR1 sub-6 GHz, FR2 {{mmwave|mmWave}} 24–52 GHz).'
 		},
 		{
 			title: 'MAC — Hybrid ARQ',
@@ -36,7 +36,7 @@ The frontier in 2026 is **5G-Advanced** (Release 18, frozen June 2024; Release 1
 		{
 			title: 'RRC — connection state machine',
 			description:
-				'The Radio Resource Control state machine ({{ts-3gpp|TS}} 38.331) has three states in 5G: \`RRC_IDLE\` ({{ue|UE}} sleeps, only listens to {{notification|paging}}), \`RRC_INACTIVE\` (5G-only; {{ue|UE}} keeps security context for fast resume), \`RRC_CONNECTED\` (full bearer, scheduled). State transitions cost battery — careful {{rrc|RRC}} tuning is the difference between 6-hour and 24-hour battery life on an IoT module.'
+				'The Radio Resource Control state machine ({{ts-3gpp|TS}} 38.331) has three states in 5G: `RRC_IDLE` ({{ue|UE}} sleeps, only listens to {{notification|paging}}), `RRC_INACTIVE` (5G-only; {{ue|UE}} keeps security context for fast resume), `RRC_CONNECTED` (full bearer, scheduled). State transitions cost battery — careful {{rrc|RRC}} tuning is the difference between 6-hour and 24-hour battery life on an IoT module.'
 		},
 		{
 			title: 'NAS — authentication, mobility, session management',
@@ -46,7 +46,7 @@ The frontier in 2026 is **5G-Advanced** (Release 18, frozen June 2024; Release 1
 		{
 			title: '5GC service-based architecture',
 			description:
-				"The {{5g-core|5G Core}} is a {{service-mesh|microservice fabric}}. {{amf|AMF}}, {{smf|SMF}}, {{upf|UPF}}, {{ausf|AUSF}}, {{udm|UDM}}, PCF, NRF, NEF, NSSF, AF — each is a **network function** with an [[http2|HTTP/2]]+{{json|JSON}} {{api|API}} protected by [[tls|TLS]]. Service-based interfaces are named Nausf, Nudm, Namf, Nsmf, Npcf, Nnrf, Nnef, Nnssf, Naf. The control plane of every 5G carrier on Earth is now an [[http2|HTTP/2]] microservice fabric — and every backhaul {{hop|hop}} is wrapped in [[ipsec|IPsec ESP]]."
+				'The {{5g-core|5G Core}} is a {{service-mesh|microservice fabric}}. {{amf|AMF}}, {{smf|SMF}}, {{upf|UPF}}, {{ausf|AUSF}}, {{udm|UDM}}, PCF, NRF, NEF, NSSF, AF — each is a **network function** with an [[http2|HTTP/2]]+{{json|JSON}} {{api|API}} protected by [[tls|TLS]]. Service-based interfaces are named Nausf, Nudm, Namf, Nsmf, Npcf, Nnrf, Nnef, Nnssf, Naf. The control plane of every 5G carrier on Earth is now an [[http2|HTTP/2]] microservice fabric — and every backhaul {{hop|hop}} is wrapped in [[ipsec|IPsec ESP]].'
 		},
 		{
 			title: 'GTP-U on N3 — the user-plane tunnel',
@@ -110,7 +110,8 @@ sudo tshark -i lo -f 'sctp port 38412' -V
 # Decode NAS Registration Request, NAS Authentication, Security Mode,
 # Registration Accept, PDU Session Establishment Request, all in
 # real time. Wireshark NGAP/NAS-5GS dissectors handle the whole thing.`,
-		caption: 'A locally-runnable 5G testbed in three commands — srsRAN gNB + Open5GS 5GC + {{wireshark|Wireshark}}. Used by every cellular-protocol researcher in 2026.',
+		caption:
+			'A locally-runnable 5G testbed in three commands — srsRAN gNB + Open5GS 5GC + {{wireshark|Wireshark}}. Used by every cellular-protocol researcher in 2026.',
 		alternatives: [
 			{
 				language: 'python',
@@ -267,7 +268,24 @@ Inner packet:
 		overhead:
 			'Air-interface MAC + RLC + PDCP overhead is ~5–15% depending on numerology. On the backhaul, GTP-U adds 8 bytes plus the IPsec ESP wrapping (36–60 bytes) — every cellular packet pays an IPsec round on every N3 hop. ROHC header compression brings the 40-byte IPv6+TCP header down to 1–4 bytes on a steady flow'
 	},
-	connections: ['ip', 'ipv6', 'tcp', 'udp', 'quic', 'ipsec', 'http2', 'http3', 'tls', 'dns', 'sip', 'rtp', 'webrtc', 'wifi', 'bluetooth', 'nfc'],
+	connections: [
+		'ip',
+		'ipv6',
+		'tcp',
+		'udp',
+		'quic',
+		'ipsec',
+		'http2',
+		'http3',
+		'tls',
+		'dns',
+		'sip',
+		'rtp',
+		'webrtc',
+		'wifi',
+		'bluetooth',
+		'nfc'
+	],
 	links: {
 		wikipedia: 'https://en.wikipedia.org/wiki/5G_NR',
 		official: 'https://www.3gpp.org/'
@@ -276,7 +294,7 @@ Inner packet:
 		src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Cellular_network_standards_and_generation_timeline.svg/500px-Cellular_network_standards_and_generation_timeline.svg.png',
 		alt: 'Cellular network standards generation timeline — 1G through 5G with milestones',
 		caption:
-			"The cellular generation timeline — the {{3gpp|3GPP}} release cadence that took us from 1G analog AMPS (1979) → {{gsm|GSM}} 2G (1991) → {{umts|UMTS}}/{{wcdma|WCDMA}} 3G (2001) → **[[cellular|LTE 4G]] Release 8 (December 2008)** → **[[cellular|5G NR]] Release 15 (June 2018)** → 5G-Advanced Release 18 (June 2024) → 6G study items now. Every generation roughly doubled spectral efficiency and added a fundamentally new use case.",
+			'The cellular generation timeline — the {{3gpp|3GPP}} release cadence that took us from 1G analog AMPS (1979) → {{gsm|GSM}} 2G (1991) → {{umts|UMTS}}/{{wcdma|WCDMA}} 3G (2001) → **[[cellular|LTE 4G]] Release 8 (December 2008)** → **[[cellular|5G NR]] Release 15 (June 2018)** → 5G-Advanced Release 18 (June 2024) → 6G study items now. Every generation roughly doubled spectral efficiency and added a fundamentally new use case.',
 		credit: 'Image: Wikimedia Commons / CC BY-SA'
 	},
 
@@ -338,7 +356,7 @@ Inner packet:
 			org: '3GPP / every mobile carrier on Earth',
 			scale: '~9 billion subscriptions (GSMA, 2024)',
 			description:
-				"The largest wireless protocol family by user count. Specified collectively by {{3gpp|3GPP}} — a partnership of {{etsi|ETSI}} (Europe), ARIB + TTC (Japan), ATIS (North America), CCSA (China), TSDSI (India), TTA (Korea). Every cellular phone on Earth runs {{3gpp|3GPP}} protocols at the radio layer."
+				'The largest wireless protocol family by user count. Specified collectively by {{3gpp|3GPP}} — a partnership of {{etsi|ETSI}} (Europe), ARIB + TTC (Japan), ATIS (North America), CCSA (China), TSDSI (India), TTA (Korea). Every cellular phone on Earth runs {{3gpp|3GPP}} protocols at the radio layer.'
 		},
 		{
 			org: 'Reliance Jio',
@@ -356,25 +374,25 @@ Inner packet:
 			org: 'DISH Wireless / EchoStar',
 			scale: '5G-SA on public cloud (AWS Wavelength)',
 			description:
-				"The first commercial 5G-{{security-association|SA}} network running on **public-cloud infrastructure** ({{aws|AWS}} Wavelength + {{aws|AWS}} Local Zones). Proves the cloud-native {{5g-core|5G core}} architecture works in production. Rakuten Symphony (Japan) and Open5GS-based deployments worldwide follow the same pattern."
+				'The first commercial 5G-{{security-association|SA}} network running on **public-cloud infrastructure** ({{aws|AWS}} Wavelength + {{aws|AWS}} Local Zones). Proves the cloud-native {{5g-core|5G core}} architecture works in production. Rakuten Symphony (Japan) and Open5GS-based deployments worldwide follow the same pattern.'
 		}
 	],
 
 	funFacts: [
 		{
-			title: "The first cellular call was a troll",
-			text: "**3 April 1973, Sixth Avenue, Manhattan.** Marty Cooper of Motorola dialed Joel Engel at AT&T Bell Labs — his direct rival in the cellular-system fight — and said: *\"Joel, this is Marty. I'm calling you from a cell phone, a real handheld portable cell phone.\"* Engel, by Cooper's account, claims not to remember the call."
+			title: 'The first cellular call was a troll',
+			text: '**3 April 1973, Sixth Avenue, Manhattan.** Marty Cooper of Motorola dialed Joel Engel at AT&T Bell Labs — his direct rival in the cellular-system fight — and said: *"Joel, this is Marty. I\'m calling you from a cell phone, a real handheld portable cell phone."* Engel, by Cooper\'s account, claims not to remember the call.'
 		},
 		{
-			title: "Viterbi did not patent his most famous algorithm",
-			text: "*\"On advice of a lawyer, Viterbi did not patent the algorithm.\"* The **Viterbi algorithm** — convolutional code decoding (1967) — is used in every cellular phone, every disk-drive read channel, every {{gps|GPS}} receiver, and every speech recognizer. It made nothing for Andrew Viterbi directly; it made Qualcomm everything."
+			title: 'Viterbi did not patent his most famous algorithm',
+			text: '*"On advice of a lawyer, Viterbi did not patent the algorithm."* The **Viterbi algorithm** — convolutional code decoding (1967) — is used in every cellular phone, every disk-drive read channel, every {{gps|GPS}} receiver, and every speech recognizer. It made nothing for Andrew Viterbi directly; it made Qualcomm everything.'
 		},
 		{
 			title: 'MCC tells you where your SIM was issued',
-			text: 'The Mobile Country Code at the start of your IMSI is the protocol\'s private numbering plan: 234/235 = UK, 310–316 = USA, 460 = China, 405 = India, 440–441 = Japan, 262 = Germany, 222 = Italy, 208 = France. Your roaming bill itemises calls by MCC/MNC pair.'
+			text: "The Mobile Country Code at the start of your IMSI is the protocol's private numbering plan: 234/235 = UK, 310–316 = USA, 460 = China, 405 = India, 440–441 = Japan, 262 = Germany, 222 = Italy, 208 = France. Your roaming bill itemises calls by MCC/MNC pair."
 		},
 		{
-			title: "The CDMA-vs-GSM wars were existential",
+			title: 'The CDMA-vs-GSM wars were existential',
 			text: 'In January 1989 the US CTIA voted for {{tdma|TDMA}}; later that year Irwin Jacobs presented {{cdma|CDMA}} and *"no one found a hole in the technical presentation,"* but the political fight took a decade. Hong Kong (1995), then Korea, then the US were the first to ship cdmaOne. {{cdma|CDMA}}\'s mathematical foundation eventually became the basis of {{wcdma|WCDMA}} in {{umts|UMTS}} — the {{gsm|GSM}} camp ended up adopting it.'
 		}
 	],
@@ -383,15 +401,15 @@ Inner packet:
 		pitfalls: [
 			{
 				title: 'IPv6-only carriers + IPv4-literal apps',
-				text: "On modern carriers (T-Mobile USA, Reliance Jio, parts of Verizon and DT), the {{ue|UE}} receives **only an [[ipv6|IPv6]] prefix**. Legacy [[ip|IPv4]] destinations are reached via **{{four-six-four-xlat|464XLAT}}** ([[rfc:6877|RFC 6877]]) — {{clat-acr|CLAT}} on the {{ue|UE}}, PLAT/{{nat64|NAT64}} at the operator. **Pitfall:** apps with hardcoded [[ip|IPv4]] literals (`socket.{{mqtt-connect|connect}}(\"8.8.8.8\")`) silently fail. **Cure:** always resolve via [[dns|DNS]], always prefer [[ipv6|IPv6]] (`getaddrinfo`, `AF_UNSPEC`); use `IPv4v6` {{pdu-session|PDU session}} type, never `[[ip|IPv4]] only`."
+				text: 'On modern carriers (T-Mobile USA, Reliance Jio, parts of Verizon and DT), the {{ue|UE}} receives **only an [[ipv6|IPv6]] prefix**. Legacy [[ip|IPv4]] destinations are reached via **{{four-six-four-xlat|464XLAT}}** ([[rfc:6877|RFC 6877]]) — {{clat-acr|CLAT}} on the {{ue|UE}}, PLAT/{{nat64|NAT64}} at the operator. **Pitfall:** apps with hardcoded [[ip|IPv4]] literals (`socket.{{mqtt-connect|connect}}("8.8.8.8")`) silently fail. **Cure:** always resolve via [[dns|DNS]], always prefer [[ipv6|IPv6]] (`getaddrinfo`, `AF_UNSPEC`); use `IPv4v6` {{pdu-session|PDU session}} type, never `[[ip|IPv4]] only`.'
 			},
 			{
 				title: 'PMTUD black holes on the GTP tunnel',
-				text: "Many cellular networks drop ICMPv4 Type 3 Code 4 (Frag Needed) messages on the SGi/N6 side. The {{mtu|MTU}} on a {{gtp-u|GTP-U}} tunnel is 1500 − 8 ([[udp|UDP]]) − 20/40 ({{ip-address|IP}}) − 8 ({{gtp-u|GTP-U}}) − overhead = typically 1430–1452 inner bytes. **Cure:** [[tcp|TCP]] {{mss|MSS}} clamping at the {{pgw|PGW}}/{{upf|UPF}} saves [[tcp|TCP]]; [[quic|QUIC]] and other UDP-based protocols must implement {{plpmtud|PLPMTUD}} ({{rfc-doc|RFC}} 8899)."
+				text: 'Many cellular networks drop ICMPv4 Type 3 Code 4 (Frag Needed) messages on the SGi/N6 side. The {{mtu|MTU}} on a {{gtp-u|GTP-U}} tunnel is 1500 − 8 ([[udp|UDP]]) − 20/40 ({{ip-address|IP}}) − 8 ({{gtp-u|GTP-U}}) − overhead = typically 1430–1452 inner bytes. **Cure:** [[tcp|TCP]] {{mss|MSS}} clamping at the {{pgw|PGW}}/{{upf|UPF}} saves [[tcp|TCP]]; [[quic|QUIC]] and other UDP-based protocols must implement {{plpmtud|PLPMTUD}} ({{rfc-doc|RFC}} 8899).'
 			},
 			{
 				title: 'IPsec is mandatory on every backhaul hop',
-				text: "{{3gpp|3GPP}} {{ts-3gpp|TS}} 33.401 ({{lte|LTE}}) and {{ts-3gpp|TS}} 33.501 (5G) **mandate** [[ipsec|IPsec]] on every S1, X2, N2, N3, Xn, F1, and E1 interface. Forgetting this in a private-5G deployment is the single most common compliance-audit failure. **Cure:** terminate every gNB-to-core hop in [[ipsec|IPsec]] {{esp|ESP}} with {{ikev2|IKEv2}}; do not run plain {{gtp-u|GTP-U}} on any link that leaves the secure perimeter."
+				text: '{{3gpp|3GPP}} {{ts-3gpp|TS}} 33.401 ({{lte|LTE}}) and {{ts-3gpp|TS}} 33.501 (5G) **mandate** [[ipsec|IPsec]] on every S1, X2, N2, N3, Xn, F1, and E1 interface. Forgetting this in a private-5G deployment is the single most common compliance-audit failure. **Cure:** terminate every gNB-to-core hop in [[ipsec|IPsec]] {{esp|ESP}} with {{ikev2|IKEv2}}; do not run plain {{gtp-u|GTP-U}} on any link that leaves the secure perimeter.'
 			}
 		]
 	}

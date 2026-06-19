@@ -8,7 +8,7 @@ export const kerberosAuth: SimulationConfig = {
 	protocolId: 'kerberos',
 	title: 'Kerberos Authentication — TGT → Service Ticket → AP-REQ',
 	description:
-		"Watch Alice log into a Kerberos realm, acquire a Ticket Granting Ticket, fetch a service ticket for a web server, and authenticate to that server — all without sending her password on the wire. Same flow that runs in every Active Directory domain and every Hadoop cluster on Earth.",
+		'Watch Alice log into a Kerberos realm, acquire a Ticket Granting Ticket, fetch a service ticket for a web server, and authenticate to that server — all without sending her password on the wire. Same flow that runs in every Active Directory domain and every Hadoop cluster on Earth.',
 	tier: 'client',
 	actors: [
 		{ id: 'client', label: 'Client (Alice)', icon: 'client', position: 'left' },
@@ -60,8 +60,7 @@ export const kerberosAuth: SimulationConfig = {
 					appTag: '[APPLICATION 10] AS-REQ',
 					msgType: 10,
 					cname: 'alice@EXAMPLE.COM',
-					body:
-						'kdc-options: forwardable, renewable; sname: krbtgt/EXAMPLE.COM; padata: PA-ENC-TIMESTAMP (enc with K_alice); nonce: 0xA1B2C3D4; etype: { AES-256, AES-128 }'
+					body: 'kdc-options: forwardable, renewable; sname: krbtgt/EXAMPLE.COM; padata: PA-ENC-TIMESTAMP (enc with K_alice); nonce: 0xA1B2C3D4; etype: { AES-256, AES-128 }'
 				})
 			]
 		},
@@ -69,7 +68,7 @@ export const kerberosAuth: SimulationConfig = {
 			id: 'as-rep',
 			label: 'AS-REP — TGT delivered',
 			description:
-				'KDC looks up Alice\'s long-term key, generates a fresh session key, returns the AS-REP with **two encrypted blobs**: (a) the **TGT** encrypted under the krbtgt principal\'s key — only the KDC can later decrypt it, (b) the session key encrypted under Alice\'s long-term key — only Alice can decrypt it. Alice never sees her own password fly over the wire.',
+				"KDC looks up Alice's long-term key, generates a fresh session key, returns the AS-REP with **two encrypted blobs**: (a) the **TGT** encrypted under the krbtgt principal's key — only the KDC can later decrypt it, (b) the session key encrypted under Alice's long-term key — only Alice can decrypt it. Alice never sees her own password fly over the wire.",
 			fromActor: 'kdc',
 			toActor: 'client',
 			duration: 1300,
@@ -82,8 +81,7 @@ export const kerberosAuth: SimulationConfig = {
 					appTag: '[APPLICATION 11] AS-REP',
 					msgType: 11,
 					cname: 'alice@EXAMPLE.COM',
-					body:
-						'ticket: TGT enc[krbtgt key] { K_session, flags, times }; enc-part: enc[K_alice] { K_session, nonce echoed, sname=krbtgt }'
+					body: 'ticket: TGT enc[krbtgt key] { K_session, flags, times }; enc-part: enc[K_alice] { K_session, nonce echoed, sname=krbtgt }'
 				})
 			]
 		},
@@ -91,7 +89,7 @@ export const kerberosAuth: SimulationConfig = {
 			id: 'tgs-req',
 			label: 'TGS-REQ — request a service ticket',
 			description:
-				'Alice now wants to access HTTP/web1.example.com. She sends a TGS-REQ to the KDC\'s Ticket Granting Service, presenting her TGT (proves who she is) plus a fresh **authenticator** encrypted under the TGT\'s session key (proves she just got it). No password again.',
+				"Alice now wants to access HTTP/web1.example.com. She sends a TGS-REQ to the KDC's Ticket Granting Service, presenting her TGT (proves who she is) plus a fresh **authenticator** encrypted under the TGT's session key (proves she just got it). No password again.",
 			fromActor: 'client',
 			toActor: 'kdc',
 			duration: 1300,
@@ -104,8 +102,7 @@ export const kerberosAuth: SimulationConfig = {
 					appTag: '[APPLICATION 12] TGS-REQ',
 					msgType: 12,
 					cname: 'alice@EXAMPLE.COM',
-					body:
-						'sname: HTTP/web1.example.com; padata: PA-TGS-REQ (AP-REQ with TGT + authenticator); nonce: 0xE5F60718; etype: { AES-256 }'
+					body: 'sname: HTTP/web1.example.com; padata: PA-TGS-REQ (AP-REQ with TGT + authenticator); nonce: 0xE5F60718; etype: { AES-256 }'
 				})
 			]
 		},
@@ -126,8 +123,7 @@ export const kerberosAuth: SimulationConfig = {
 					appTag: '[APPLICATION 13] TGS-REP',
 					msgType: 13,
 					cname: 'alice@EXAMPLE.COM',
-					body:
-						'ticket: ServiceTicket enc[web1 keytab] { K_svc, flags, times }; enc-part: enc[K_TGT_session] { K_svc, sname=HTTP/web1, times }'
+					body: 'ticket: ServiceTicket enc[web1 keytab] { K_svc, flags, times }; enc-part: enc[K_TGT_session] { K_svc, sname=HTTP/web1, times }'
 				})
 			]
 		},
@@ -169,8 +165,7 @@ export const kerberosAuth: SimulationConfig = {
 					appTag: '[APPLICATION 14] AP-REQ',
 					msgType: 14,
 					cname: 'alice@EXAMPLE.COM',
-					body:
-						'ticket: ServiceTicket enc[web1 keytab] { K_svc }; authenticator: enc[K_svc] { ctime, cusec, seq-number, subkey? }'
+					body: 'ticket: ServiceTicket enc[web1 keytab] { K_svc }; authenticator: enc[K_svc] { ctime, cusec, seq-number, subkey? }'
 				})
 			]
 		},
@@ -247,7 +242,8 @@ export const kerberosAuth: SimulationConfig = {
 							bits: 0,
 							value: 'enc[K_svc] { user payload, seq-number }',
 							editable: false,
-							description: 'For protocols that want Kerberos confidentiality (rare — most use TLS for that)'
+							description:
+								'For protocols that want Kerberos confidentiality (rare — most use TLS for that)'
 						}
 					]
 				}

@@ -11,9 +11,27 @@ function hlsRequestLayer(path: string, accept: string): ProtocolLayer {
 		osiLayer: 7,
 		color: '#00D4FF',
 		headerFields: [
-			{ name: 'Method', bits: 0, value: 'GET', editable: false, description: 'HLS uses standard HTTP GET — works through any CDN and proxy' },
-			{ name: 'Path', bits: 0, value: path, editable: false, description: 'Resource path — playlist manifest or media segment' },
-			{ name: 'Accept', bits: 0, value: accept, editable: false, description: 'Expected content type for the response' }
+			{
+				name: 'Method',
+				bits: 0,
+				value: 'GET',
+				editable: false,
+				description: 'HLS uses standard HTTP GET — works through any CDN and proxy'
+			},
+			{
+				name: 'Path',
+				bits: 0,
+				value: path,
+				editable: false,
+				description: 'Resource path — playlist manifest or media segment'
+			},
+			{
+				name: 'Accept',
+				bits: 0,
+				value: accept,
+				editable: false,
+				description: 'Expected content type for the response'
+			}
 		]
 	};
 }
@@ -25,8 +43,21 @@ function hlsResponseLayer(contentType: string, body: string): ProtocolLayer {
 		osiLayer: 7,
 		color: '#3B82F6',
 		headerFields: [
-			{ name: 'Content-Type', bits: 0, value: contentType, editable: false, description: 'MIME type — application/vnd.apple.mpegurl for playlists, video/MP2T for segments' },
-			{ name: 'Content', bits: 0, value: body, editable: false, description: 'Playlist directives or media segment data' }
+			{
+				name: 'Content-Type',
+				bits: 0,
+				value: contentType,
+				editable: false,
+				description:
+					'MIME type — application/vnd.apple.mpegurl for playlists, video/MP2T for segments'
+			},
+			{
+				name: 'Content',
+				bits: 0,
+				value: body,
+				editable: false,
+				description: 'Playlist directives or media segment data'
+			}
 		]
 	};
 }
@@ -55,7 +86,10 @@ export const hlsStreaming: SimulationConfig = {
 				createEthernetLayer(),
 				createIPv4Layer({ protocol: 6 }),
 				createTCPLayer({ srcPort: 53100, dstPort: 443, flags: 'PSH,ACK' }),
-				createTLSRecordLayer({ contentType: 'Application Data (23)', handshakeType: 'N/A (encrypted)' }),
+				createTLSRecordLayer({
+					contentType: 'Application Data (23)',
+					handshakeType: 'N/A (encrypted)'
+				}),
 				hlsRequestLayer('/live/stream.m3u8', 'application/vnd.apple.mpegurl')
 			]
 		},
@@ -72,8 +106,14 @@ export const hlsStreaming: SimulationConfig = {
 				createEthernetLayer({ srcMac: 'AA:BB:CC:DD:EE:FF', dstMac: '00:1A:2B:3C:4D:5E' }),
 				createIPv4Layer({ srcIp: '93.184.216.34', dstIp: '192.168.1.100', protocol: 6 }),
 				createTCPLayer({ srcPort: 443, dstPort: 53100, flags: 'PSH,ACK' }),
-				createTLSRecordLayer({ contentType: 'Application Data (23)', handshakeType: 'N/A (encrypted)' }),
-				hlsResponseLayer('application/vnd.apple.mpegurl', '#EXTM3U, #EXT-X-TARGETDURATION:6, #EXTINF:6.0, seg001.ts, seg002.ts, seg003.ts')
+				createTLSRecordLayer({
+					contentType: 'Application Data (23)',
+					handshakeType: 'N/A (encrypted)'
+				}),
+				hlsResponseLayer(
+					'application/vnd.apple.mpegurl',
+					'#EXTM3U, #EXT-X-TARGETDURATION:6, #EXTINF:6.0, seg001.ts, seg002.ts, seg003.ts'
+				)
 			]
 		},
 		{
@@ -89,7 +129,10 @@ export const hlsStreaming: SimulationConfig = {
 				createEthernetLayer(),
 				createIPv4Layer({ protocol: 6 }),
 				createTCPLayer({ srcPort: 53100, dstPort: 443, flags: 'PSH,ACK' }),
-				createTLSRecordLayer({ contentType: 'Application Data (23)', handshakeType: 'N/A (encrypted)' }),
+				createTLSRecordLayer({
+					contentType: 'Application Data (23)',
+					handshakeType: 'N/A (encrypted)'
+				}),
 				hlsRequestLayer('/live/720p/seg001.ts', 'video/MP2T'),
 				hlsResponseLayer('video/MP2T', 'MPEG-TS segment — 6.0s, 720p, H.264+AAC, 1.2 MB')
 			]
@@ -107,7 +150,10 @@ export const hlsStreaming: SimulationConfig = {
 				createEthernetLayer(),
 				createIPv4Layer({ protocol: 6 }),
 				createTCPLayer({ srcPort: 53100, dstPort: 443, flags: 'PSH,ACK' }),
-				createTLSRecordLayer({ contentType: 'Application Data (23)', handshakeType: 'N/A (encrypted)' }),
+				createTLSRecordLayer({
+					contentType: 'Application Data (23)',
+					handshakeType: 'N/A (encrypted)'
+				}),
 				hlsRequestLayer('/live/720p/seg002.ts', 'video/MP2T'),
 				hlsResponseLayer('video/MP2T', 'MPEG-TS segment — 6.0s, 720p, H.264+AAC, 1.1 MB')
 			]

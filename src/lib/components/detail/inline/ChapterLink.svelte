@@ -33,5 +33,7 @@
 		onclick={(e) => e.stopPropagation()}>{label}</a
 	>
 {:else}
-	<span class="inline italic" style="color: {displayColor}; opacity: 0.85;" title={tooltip}>{label}</span>
+	<span class="inline italic" style="color: {displayColor}; opacity: 0.85;" title={tooltip}
+		>{label}</span
+	>
 {/if}

@@ -16,7 +16,6 @@
 	let tooltipX = $state(0);
 	let tooltipY = $state(0);
 	let windowWidth = $state(typeof window !== 'undefined' ? window.innerWidth : 1920);
-	let windowHeight = $state(typeof window !== 'undefined' ? window.innerHeight : 1080);
 
 	$effect(() => {
 		if (!appState.hoveredNode) return;
@@ -28,7 +27,6 @@
 
 		function onResize() {
 			windowWidth = window.innerWidth;
-			windowHeight = window.innerHeight;
 		}
 
 		// Cursor-following only matters when there's no anchor element.
@@ -152,7 +150,10 @@
 				</div>
 				{#if hoveredInfo.nameSegments}
 					<p class="mt-0.5 text-[11px] text-t-secondary">
-						{#each hoveredInfo.nameSegments as seg, k (k)}{#if seg.highlight}<span class="font-bold" style="color: {tc(hoveredInfo.color)}">{seg.text}</span>{:else}{seg.text}{/if}{/each}
+						{#each hoveredInfo.nameSegments as seg, k (k)}{#if seg.highlight}<span
+									class="font-bold"
+									style="color: {tc(hoveredInfo.color)}">{seg.text}</span
+								>{:else}{seg.text}{/if}{/each}
 					</p>
 				{/if}
 				<p class="mt-1 text-xs leading-relaxed text-t-primary">{hoveredInfo.description}</p>

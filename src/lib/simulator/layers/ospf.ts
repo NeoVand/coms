@@ -1,6 +1,8 @@
 import type { ProtocolLayer } from '../types';
 
-export function createOSPFLayer(overrides?: Partial<Record<string, string | number>>): ProtocolLayer {
+export function createOSPFLayer(
+	overrides?: Partial<Record<string, string | number>>
+): ProtocolLayer {
 	return {
 		name: 'OSPFv2 Packet',
 		abbreviation: 'OSPF',

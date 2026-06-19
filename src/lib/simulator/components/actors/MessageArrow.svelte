@@ -36,7 +36,8 @@
 
 	<!-- Arrowhead -->
 	<polygon
-		points="{toX},{y} {toX - direction * arrowSize},{y - 3.5} {toX - direction * arrowSize},{y + 3.5}"
+		points="{toX},{y} {toX - direction * arrowSize},{y - 3.5} {toX - direction * arrowSize},{y +
+			3.5}"
 		fill={lineColor}
 	/>
 

@@ -10,9 +10,21 @@ function httpRequestLayer(method: string, path: string, contentType: string) {
 		osiLayer: 7,
 		color: '#4B5563',
 		headerFields: [
-			{ name: 'Method', bits: 0, value: method, editable: false, description: `HTTP ${method} — A2A uses standard HTTP as its transport` },
+			{
+				name: 'Method',
+				bits: 0,
+				value: method,
+				editable: false,
+				description: `HTTP ${method} — A2A uses standard HTTP as its transport`
+			},
 			{ name: 'Path', bits: 0, value: path, editable: false, description: 'A2A endpoint path' },
-			{ name: 'Content-Type', bits: 0, value: contentType, editable: false, description: 'Request content type' }
+			{
+				name: 'Content-Type',
+				bits: 0,
+				value: contentType,
+				editable: false,
+				description: 'Request content type'
+			}
 		]
 	};
 }
@@ -24,10 +36,34 @@ function a2aRequestLayer(method: string, params: string, id: string | number) {
 		osiLayer: 7,
 		color: '#00D4FF',
 		headerFields: [
-			{ name: 'Version', bits: 0, value: '"2.0"', editable: false, description: 'JSON-RPC protocol version — A2A uses JSON-RPC 2.0 as its wire format' },
-			{ name: 'Method', bits: 0, value: method, editable: false, description: 'A2A method to invoke on the remote agent' },
-			{ name: 'Params', bits: 0, value: params, editable: false, description: 'Method parameters as a JSON object' },
-			{ name: 'ID', bits: 0, value: String(id), editable: false, description: 'Request identifier — remote agent echoes this back to correlate the response' }
+			{
+				name: 'Version',
+				bits: 0,
+				value: '"2.0"',
+				editable: false,
+				description: 'JSON-RPC protocol version — A2A uses JSON-RPC 2.0 as its wire format'
+			},
+			{
+				name: 'Method',
+				bits: 0,
+				value: method,
+				editable: false,
+				description: 'A2A method to invoke on the remote agent'
+			},
+			{
+				name: 'Params',
+				bits: 0,
+				value: params,
+				editable: false,
+				description: 'Method parameters as a JSON object'
+			},
+			{
+				name: 'ID',
+				bits: 0,
+				value: String(id),
+				editable: false,
+				description: 'Request identifier — remote agent echoes this back to correlate the response'
+			}
 		]
 	};
 }
@@ -39,9 +75,28 @@ function a2aResponseLayer(result: string, id: string | number, color: string) {
 		osiLayer: 7,
 		color: '#00D4FF',
 		headerFields: [
-			{ name: 'Version', bits: 0, value: '"2.0"', editable: false, description: 'JSON-RPC protocol version' },
-			{ name: 'Result', bits: 0, value: result, editable: false, description: 'Response payload from the remote agent', color },
-			{ name: 'ID', bits: 0, value: String(id), editable: false, description: 'Matches the request ID — confirms which call this responds to' }
+			{
+				name: 'Version',
+				bits: 0,
+				value: '"2.0"',
+				editable: false,
+				description: 'JSON-RPC protocol version'
+			},
+			{
+				name: 'Result',
+				bits: 0,
+				value: result,
+				editable: false,
+				description: 'Response payload from the remote agent',
+				color
+			},
+			{
+				name: 'ID',
+				bits: 0,
+				value: String(id),
+				editable: false,
+				description: 'Matches the request ID — confirms which call this responds to'
+			}
 		]
 	};
 }
@@ -50,7 +105,7 @@ export const a2aTask: SimulationConfig = {
 	protocolId: 'a2a',
 	title: 'A2A — Agent Discovery & Task Lifecycle',
 	description:
-		'Watch an agent discover another agent and delegate a task. The client fetches the remote agent\'s card, sends a message, and receives streaming task updates — all using the Agent-to-Agent protocol.',
+		"Watch an agent discover another agent and delegate a task. The client fetches the remote agent's card, sends a message, and receives streaming task updates — all using the Agent-to-Agent protocol.",
 	tier: 'client',
 	actors: [
 		{ id: 'client', label: 'Client Agent', icon: 'browser', position: 'left' },
@@ -70,7 +125,7 @@ export const a2aTask: SimulationConfig = {
 			id: 'agent-card-request',
 			label: 'Agent Card Request',
 			description:
-				'Client agent sends an HTTP GET to the well-known agent card endpoint. This is how agents discover each other — the card describes the remote agent\'s identity, skills, and capabilities.',
+				"Client agent sends an HTTP GET to the well-known agent card endpoint. This is how agents discover each other — the card describes the remote agent's identity, skills, and capabilities.",
 			fromActor: 'client',
 			toActor: 'remote',
 			duration: 800,
@@ -85,9 +140,28 @@ export const a2aTask: SimulationConfig = {
 					osiLayer: 7,
 					color: '#4B5563',
 					headerFields: [
-						{ name: 'Method', bits: 0, value: 'GET', editable: false, description: 'HTTP GET — retrieving the agent\'s public card' },
-						{ name: 'Path', bits: 0, value: '/.well-known/agent.json', editable: false, description: 'Well-known URI for agent discovery — standardized path so clients know where to look' },
-						{ name: 'Accept', bits: 0, value: 'application/json', editable: false, description: 'Client expects a JSON agent card' }
+						{
+							name: 'Method',
+							bits: 0,
+							value: 'GET',
+							editable: false,
+							description: "HTTP GET — retrieving the agent's public card"
+						},
+						{
+							name: 'Path',
+							bits: 0,
+							value: '/.well-known/agent.json',
+							editable: false,
+							description:
+								'Well-known URI for agent discovery — standardized path so clients know where to look'
+						},
+						{
+							name: 'Accept',
+							bits: 0,
+							value: 'application/json',
+							editable: false,
+							description: 'Client expects a JSON agent card'
+						}
 					]
 				}
 			]
@@ -111,8 +185,21 @@ export const a2aTask: SimulationConfig = {
 					osiLayer: 7,
 					color: '#4B5563',
 					headerFields: [
-						{ name: 'Status', bits: 0, value: '200 OK', editable: false, description: 'Agent card found and returned', color: '#22c55e' },
-						{ name: 'Content-Type', bits: 0, value: 'application/json', editable: false, description: 'Agent card is JSON' }
+						{
+							name: 'Status',
+							bits: 0,
+							value: '200 OK',
+							editable: false,
+							description: 'Agent card found and returned',
+							color: '#22c55e'
+						},
+						{
+							name: 'Content-Type',
+							bits: 0,
+							value: 'application/json',
+							editable: false,
+							description: 'Agent card is JSON'
+						}
 					]
 				},
 				{
@@ -121,11 +208,41 @@ export const a2aTask: SimulationConfig = {
 					osiLayer: 7,
 					color: '#00D4FF',
 					headerFields: [
-						{ name: 'Name', bits: 0, value: '"TravelAgent"', editable: false, description: 'Human-readable agent name' },
-						{ name: 'Description', bits: 0, value: '"Books flights, hotels, and travel plans"', editable: false, description: 'What this agent can do' },
-						{ name: 'URL', bits: 0, value: '"https://travel.example.com/a2a"', editable: false, description: 'Endpoint for sending messages to this agent' },
-						{ name: 'Skills', bits: 0, value: '[{"id":"flight-search","name":"Flight Search"}]', editable: false, description: 'List of skills — each with an ID, name, and description' },
-						{ name: 'Version', bits: 0, value: '"0.2.1"', editable: false, description: 'A2A protocol version supported by this agent' }
+						{
+							name: 'Name',
+							bits: 0,
+							value: '"TravelAgent"',
+							editable: false,
+							description: 'Human-readable agent name'
+						},
+						{
+							name: 'Description',
+							bits: 0,
+							value: '"Books flights, hotels, and travel plans"',
+							editable: false,
+							description: 'What this agent can do'
+						},
+						{
+							name: 'URL',
+							bits: 0,
+							value: '"https://travel.example.com/a2a"',
+							editable: false,
+							description: 'Endpoint for sending messages to this agent'
+						},
+						{
+							name: 'Skills',
+							bits: 0,
+							value: '[{"id":"flight-search","name":"Flight Search"}]',
+							editable: false,
+							description: 'List of skills — each with an ID, name, and description'
+						},
+						{
+							name: 'Version',
+							bits: 0,
+							value: '"0.2.1"',
+							editable: false,
+							description: 'A2A protocol version supported by this agent'
+						}
 					]
 				}
 			]
@@ -144,7 +261,11 @@ export const a2aTask: SimulationConfig = {
 				createIPv4Layer({ protocol: 6 }),
 				createTCPLayer({ srcPort: 55100, dstPort: 443, flags: 'PSH,ACK' }),
 				httpRequestLayer('POST', '/a2a', 'application/json'),
-				a2aRequestLayer('message/send', '{"message":{"role":"user","parts":[{"kind":"text","text":"Find flights NYC to London"}]}}', 1)
+				a2aRequestLayer(
+					'message/send',
+					'{"message":{"role":"user","parts":[{"kind":"text","text":"Find flights NYC to London"}]}}',
+					1
+				)
 			]
 		},
 		{
@@ -160,7 +281,11 @@ export const a2aTask: SimulationConfig = {
 				createEthernetLayer({ srcMac: 'AA:BB:CC:DD:EE:FF', dstMac: '00:1A:2B:3C:4D:5E' }),
 				createIPv4Layer({ srcIp: '93.184.216.34', dstIp: '192.168.1.100', protocol: 6 }),
 				createTCPLayer({ srcPort: 443, dstPort: 55100, flags: 'PSH,ACK' }),
-				a2aResponseLayer('{"id":"task-001","status":{"state":"working","message":{"role":"agent","parts":[{"kind":"text","text":"Searching flights..."}]}}}', 1, '#eab308')
+				a2aResponseLayer(
+					'{"id":"task-001","status":{"state":"working","message":{"role":"agent","parts":[{"kind":"text","text":"Searching flights..."}]}}}',
+					1,
+					'#eab308'
+				)
 			]
 		},
 		{
@@ -176,7 +301,11 @@ export const a2aTask: SimulationConfig = {
 				createEthernetLayer({ srcMac: 'AA:BB:CC:DD:EE:FF', dstMac: '00:1A:2B:3C:4D:5E' }),
 				createIPv4Layer({ srcIp: '93.184.216.34', dstIp: '192.168.1.100', protocol: 6 }),
 				createTCPLayer({ srcPort: 443, dstPort: 55100, flags: 'PSH,ACK' }),
-				a2aResponseLayer('{"id":"task-001","status":{"state":"completed"},"artifacts":[{"name":"flights","parts":[{"kind":"text","text":"BA115 JFK→LHR 7pm $450"}]}]}', 1, '#22c55e')
+				a2aResponseLayer(
+					'{"id":"task-001","status":{"state":"completed"},"artifacts":[{"name":"flights","parts":[{"kind":"text","text":"BA115 JFK→LHR 7pm $450"}]}]}',
+					1,
+					'#22c55e'
+				)
 			]
 		},
 		{
@@ -193,7 +322,11 @@ export const a2aTask: SimulationConfig = {
 				createIPv4Layer({ protocol: 6 }),
 				createTCPLayer({ srcPort: 55100, dstPort: 443, flags: 'PSH,ACK' }),
 				httpRequestLayer('POST', '/a2a', 'application/json'),
-				a2aRequestLayer('message/stream', '{"message":{"role":"user","parts":[{"kind":"text","text":"Find flights NYC to London"}]}}', 2)
+				a2aRequestLayer(
+					'message/stream',
+					'{"message":{"role":"user","parts":[{"kind":"text","text":"Find flights NYC to London"}]}}',
+					2
+				)
 			]
 		},
 		{
@@ -215,7 +348,14 @@ export const a2aTask: SimulationConfig = {
 					osiLayer: 7,
 					color: '#4B5563',
 					headerFields: [
-						{ name: 'Content-Type', bits: 0, value: 'text/event-stream', editable: false, description: 'Server-sent events — the server pushes updates over a long-lived HTTP connection' }
+						{
+							name: 'Content-Type',
+							bits: 0,
+							value: 'text/event-stream',
+							editable: false,
+							description:
+								'Server-sent events — the server pushes updates over a long-lived HTTP connection'
+						}
 					]
 				},
 				{
@@ -224,9 +364,28 @@ export const a2aTask: SimulationConfig = {
 					osiLayer: 7,
 					color: '#00D4FF',
 					headerFields: [
-						{ name: 'Event 1', bits: 0, value: '{"status":{"state":"working","message":"Searching..."}}', editable: false, description: 'First SSE event — task is now working' },
-						{ name: 'Event 2', bits: 0, value: '{"artifact":{"name":"flights","parts":[...],"append":true}}', editable: false, description: 'Artifact event — partial results streamed incrementally' },
-						{ name: 'Event 3', bits: 0, value: '{"status":{"state":"completed"},"final":true}', editable: false, description: 'Final event — task complete, stream closes', color: '#22c55e' }
+						{
+							name: 'Event 1',
+							bits: 0,
+							value: '{"status":{"state":"working","message":"Searching..."}}',
+							editable: false,
+							description: 'First SSE event — task is now working'
+						},
+						{
+							name: 'Event 2',
+							bits: 0,
+							value: '{"artifact":{"name":"flights","parts":[...],"append":true}}',
+							editable: false,
+							description: 'Artifact event — partial results streamed incrementally'
+						},
+						{
+							name: 'Event 3',
+							bits: 0,
+							value: '{"status":{"state":"completed"},"final":true}',
+							editable: false,
+							description: 'Final event — task complete, stream closes',
+							color: '#22c55e'
+						}
 					]
 				}
 			]

@@ -75,7 +75,7 @@ export const outages: Outage[] = [
 		duration: '~6 hours',
 		scale: 'Global — 3 billion users; Facebook, Instagram, WhatsApp, Oculus all dark',
 		oneLiner:
-			'A routine maintenance command on {{meta|Meta}}\'s global backbone took down its [[dns|DNS]], then its websites, then its employees\' badge readers — all because the safety mechanism worked exactly as designed.',
+			"A routine maintenance command on {{meta|Meta}}'s global backbone took down its [[dns|DNS]], then its websites, then its employees' badge readers — all because the safety mechanism worked exactly as designed.",
 		category: 'configuration',
 		affectedProtocols: ['bgp', 'dns', 'tcp'],
 		cast: [
@@ -84,7 +84,7 @@ export const outages: Outage[] = [
 			{ name: 'ThousandEyes', role: 'External monitor' }
 		],
 		setup:
-			"{{meta|Meta}} runs tens of thousands of miles of fibre between its data centres — a global private backbone. Its [[dns|DNS]] servers live in smaller \"edge\" facilities, programmed with a defensive safety: if a [[dns|DNS]] server cannot reach the data centres (and therefore cannot answer authoritatively), it withdraws its own [[bgp|BGP]] advertisements so nobody routes queries to it. The reasoning was sound: a [[dns|DNS]] server that can't answer shouldn't be reached.",
+			'{{meta|Meta}} runs tens of thousands of miles of fibre between its data centres — a global private backbone. Its [[dns|DNS]] servers live in smaller "edge" facilities, programmed with a defensive safety: if a [[dns|DNS]] server cannot reach the data centres (and therefore cannot answer authoritatively), it withdraws its own [[bgp|BGP]] advertisements so nobody routes queries to it. The reasoning was sound: a [[dns|DNS]] server that can\'t answer shouldn\'t be reached.',
 		mistake:
 			"During routine maintenance an engineer issued a command intended to assess the availability of global backbone capacity. {{meta|Meta}}'s audit tooling — designed to catch destructive commands — had a bug, and didn't stop it. The command took down the entire backbone.",
 		cascade: [
@@ -118,9 +118,9 @@ export const outages: Outage[] = [
 			},
 			{
 				time: '~16:00 UTC',
-				title: "Internal tools disappear too",
+				title: 'Internal tools disappear too',
 				description:
-					"{{meta|Meta}} engineers cannot get into the network to fix it because their internal tools depend on the same [[dns|DNS]], and their physical badge readers depend on the same network. Engineers are reportedly dispatched to data centres with bolt cutters."
+					'{{meta|Meta}} engineers cannot get into the network to fix it because their internal tools depend on the same [[dns|DNS]], and their physical badge readers depend on the same network. Engineers are reportedly dispatched to data centres with bolt cutters.'
 			},
 			{
 				time: '21:00 UTC',
@@ -131,11 +131,11 @@ export const outages: Outage[] = [
 			}
 		],
 		consequence:
-			"Estimated revenue impact crosses $60M. Mark Zuckerberg's net worth drops by more than $6B in a day. In developing countries where Facebook's \"Free Basics\" program is the de-facto internet, communication, business, and humanitarian work pause for seven hours.",
+			'Estimated revenue impact crosses $60M. Mark Zuckerberg\'s net worth drops by more than $6B in a day. In developing countries where Facebook\'s "Free Basics" program is the de-facto internet, communication, business, and humanitarian work pause for seven hours.',
 		resolution:
 			"{{meta|Meta}}'s post-mortem the next day acknowledges configuration tooling and audit-bypass as the root cause; the [[bgp|BGP]] withdrawal was the *symptom* of the larger backbone failure, not its cause.",
 		lesson:
-			"Three layers — [[bgp|BGP]], [[dns|DNS]], and physical access — fail in cascade because each one trusts the layer below it. Never have a single dependency chain run through your own product. The defensive safety ([[dns|DNS]] withdraws on failure) is sound; the issue is that *every* product, including badge readers and audit tools, depended on the same [[dns|DNS]].",
+			'Three layers — [[bgp|BGP]], [[dns|DNS]], and physical access — fail in cascade because each one trusts the layer below it. Never have a single dependency chain run through your own product. The defensive safety ([[dns|DNS]] withdraws on failure) is sound; the issue is that *every* product, including badge readers and audit tools, depended on the same [[dns|DNS]].',
 		sources: [
 			{
 				url: 'https://blog.cloudflare.com/october-2021-facebook-outage/',
@@ -162,7 +162,7 @@ export const outages: Outage[] = [
 		category: 'configuration',
 		affectedProtocols: ['bgp'],
 		setup:
-			"In 1997 [[bgp|BGP]]-4 had been the inter-domain routing protocol for eight years. It assumes neighbours announce only what they own. There were almost no upstream filters: if a customer announced something, the upstream took it.",
+			'In 1997 [[bgp|BGP]]-4 had been the inter-domain routing protocol for eight years. It assumes neighbours announce only what they own. There were almost no upstream filters: if a customer announced something, the upstream took it.',
 		mistake:
 			"MAI Network Services ({{autonomous-system|AS}} 7007) had a Bay Networks router whose forwarding table got dumped into [[bgp|BGP]] as if every entry were a route the {{autonomous-system|AS}} originated. The router didn't just announce its own prefixes — it announced /24 fragments of the entire global {{routing-table|routing table}}, claiming MAI was the origin {{autonomous-system|AS}} for everything.",
 		cascade: [
@@ -182,17 +182,17 @@ export const outages: Outage[] = [
 					"Sprint's network couldn't handle the redirected traffic. Routers crashed. Sprint went largely dark."
 			},
 			{
-				title: 'Withdrawals don\'t help',
+				title: "Withdrawals don't help",
 				description:
 					'Even after MAI withdrew the routes, the propagation took hours to drain — the bad routes had been cached widely.'
 			}
 		],
 		consequence:
-			"Multi-hour partial outage of the public internet. Sprint customers especially affected. The first time the [[bgp|BGP]] community truly understood that a single misconfigured router anywhere on earth could take down the entire internet.",
+			'Multi-hour partial outage of the public internet. Sprint customers especially affected. The first time the [[bgp|BGP]] community truly understood that a single misconfigured router anywhere on earth could take down the entire internet.',
 		resolution:
 			"Vince Bono's apology email to NANOG that day is preserved in the archives — a remarkably calm and detailed admission that became a model for incident communication.",
 		lesson:
-			"[[bgp|BGP]] trusts every neighbour by default. Without prefix filters at every {{peering|peering}} point, a single broken router can become the apparent origin of the entire internet. Prompted the slow rollout of route filters across {{transit|transit}} providers, but the protocol-level fix ({{rpki|RPKI}} {{rov|ROV}}) took another 25 years to reach 50% deployment.",
+			'[[bgp|BGP]] trusts every neighbour by default. Without prefix filters at every {{peering|peering}} point, a single broken router can become the apparent origin of the entire internet. Prompted the slow rollout of route filters across {{transit|transit}} providers, but the protocol-level fix ({{rpki|RPKI}} {{rov|ROV}}) took another 25 years to reach 50% deployment.',
 		sources: [
 			{
 				url: 'https://en.wikipedia.org/wiki/AS_7007_incident',
@@ -200,7 +200,7 @@ export const outages: Outage[] = [
 			},
 			{
 				url: 'https://archive.nanog.org/mailinglist/mailarchives/old_archive/1997-04/msg00444.html',
-				label: "Bono — \"7007 Explanation and Apology\" (NANOG, April 1997)"
+				label: 'Bono — "7007 Explanation and Apology" (NANOG, April 1997)'
 			}
 		]
 	},
@@ -211,7 +211,7 @@ export const outages: Outage[] = [
 		duration: '~2 hours',
 		scale: 'Global — YouTube unreachable from most of the internet',
 		oneLiner:
-			'Pakistan tried to block YouTube domestically. Its upstream provider didn\'t filter, and the block leaked to the whole internet.',
+			"Pakistan tried to block YouTube domestically. Its upstream provider didn't filter, and the block leaked to the whole internet.",
 		category: 'configuration',
 		affectedProtocols: ['bgp'],
 		setup:
@@ -228,19 +228,19 @@ export const outages: Outage[] = [
 			{
 				title: 'YouTube goes dark',
 				description:
-					"Traffic for the affected prefix headed to Pakistan, where it was null-routed. YouTube was unreachable for most of the internet for ~2 hours.",
+					'Traffic for the affected prefix headed to Pakistan, where it was null-routed. YouTube was unreachable for most of the internet for ~2 hours.',
 				protocols: ['bgp', 'tcp']
 			},
 			{
 				title: 'YouTube counters with /25',
 				description:
-					"YouTube announced an even more specific /25 to outcompete the hijack on the longest-prefix-match rule. The announcement spread; service started to recover.",
+					'YouTube announced an even more specific /25 to outcompete the hijack on the longest-prefix-match rule. The announcement spread; service started to recover.',
 				protocols: ['bgp']
 			},
 			{
 				title: 'PCCW blackholes',
 				description:
-					"PCCW eventually blackholed traffic to {{autonomous-system|AS}} 17557 to stop propagating the hijack."
+					'PCCW eventually blackholed traffic to {{autonomous-system|AS}} 17557 to stop propagating the hijack.'
 			}
 		],
 		consequence:
@@ -308,7 +308,7 @@ export const outages: Outage[] = [
 		resolution:
 			'No technical resolution beyond the withdrawal itself. The structural fix — {{rpki|RPKI}} Route Origin Authorisations and {{rov|ROV}} enforcement at {{peering|peering}} points — was already specified but a decade away from broad deployment.',
 		lesson:
-			"Plain [[bgp|BGP]] advertises trust. A single {{autonomous-system|AS}} can globally redirect an arbitrary slice of internet traffic in minutes, with no protocol-level barrier to detection. China Telecom 2010 became one of the most-cited examples in the slow industry case for [[frontier:rpki-rov-50-percent|RPKI/ROV]], which finally crossed 50% of advertised {{ip-address|IP}} space in 2024 — fourteen years later.",
+			'Plain [[bgp|BGP]] advertises trust. A single {{autonomous-system|AS}} can globally redirect an arbitrary slice of internet traffic in minutes, with no protocol-level barrier to detection. China Telecom 2010 became one of the most-cited examples in the slow industry case for [[frontier:rpki-rov-50-percent|RPKI/ROV]], which finally crossed 50% of advertised {{ip-address|IP}} space in 2024 — fourteen years later.',
 		sources: [
 			{
 				url: 'https://www.uscc.gov/sites/default/files/annual_reports/2010-Report-to-Congress.pdf',
@@ -337,7 +337,10 @@ export const outages: Outage[] = [
 		affectedProtocols: ['tcp'],
 		cast: [
 			{ name: 'Van Jacobson (LBL)', role: "Co-author of the SIGCOMM '88 fix" },
-			{ name: 'Mike Karels (UC Berkeley CSRG)', role: 'Co-author; shipped the fixes in 4.3BSD-Tahoe' }
+			{
+				name: 'Mike Karels (UC Berkeley CSRG)',
+				role: 'Co-author; shipped the fixes in 4.3BSD-Tahoe'
+			}
 		],
 		setup:
 			'In 1986 the early internet ran [[tcp|TCP]] without any {{congestion-control|congestion-control}} feedback loop. The original {{bsd|BSD}} [[tcp|TCP]] retransmitted aggressively when {{ack|ACKs}} were late: a missing {{ack|ACK}} at time *t* meant "the packet is probably gone, send again." Across the link from Lawrence Berkeley Lab to UC Berkeley — a path of three {{imp|IMP}} hops, less than 400 yards of physical distance — that policy worked fine until traffic levels rose.',
@@ -365,7 +368,7 @@ export const outages: Outage[] = [
 		consequence:
 			'The first proof that a protocol designed for a small, lightly-loaded research network could fail catastrophically under production load. NSFNET regional links became unusable for hours at a time through October 1986. The internet engineering community accepted that an end-to-end {{congestion-control|congestion-control}} loop was not optional.',
 		resolution:
-			"[[pioneer:van-jacobson|Van Jacobson]] and Mike Karels at Berkeley spent six months instrumenting the wire and reading the {{bsd|BSD}} source. Their 1988 {{sigcomm-conf|SIGCOMM}} paper — *{{congestion-avoidance|Congestion Avoidance}} and Control* — introduced six algorithms in one document: **{{slow-start|slow start}}**, **{{aimd|AIMD}} {{congestion-avoidance|congestion avoidance}}**, **fast retransmit**, **fast recovery**, **{{exponential-backoff|exponential RTO backoff}}**, and a refined **{{rtt|RTT}} estimator**. The fixes shipped in 4.3BSD-Tahoe and propagated to every [[tcp|TCP]] stack on earth.",
+			'[[pioneer:van-jacobson|Van Jacobson]] and Mike Karels at Berkeley spent six months instrumenting the wire and reading the {{bsd|BSD}} source. Their 1988 {{sigcomm-conf|SIGCOMM}} paper — *{{congestion-avoidance|Congestion Avoidance}} and Control* — introduced six algorithms in one document: **{{slow-start|slow start}}**, **{{aimd|AIMD}} {{congestion-avoidance|congestion avoidance}}**, **fast retransmit**, **fast recovery**, **{{exponential-backoff|exponential RTO backoff}}**, and a refined **{{rtt|RTT}} estimator**. The fixes shipped in 4.3BSD-Tahoe and propagated to every [[tcp|TCP]] stack on earth.',
 		lesson:
 			"Conservation of packets — put one packet into the network only when an {{ack|ACK}} confirms a previous one has left it — is the load-bearing principle that has held for forty years. Every later {{congestion-control|congestion-control}} algorithm (Reno, NewReno, Vegas, [[rfc:9438|CUBIC]], Compound, {{bbr|BBR}} v1/v2/v3, Prague over [[frontier:l4s-comcast-launch|L4S]]) is a refinement of Jacobson's six.",
 		sources: [
@@ -414,24 +417,24 @@ export const outages: Outage[] = [
 			{
 				title: 'Sessions re-establish',
 				description:
-					"Each [[bgp|BGP]] session times out, retries, and re-establishes. As soon as it does, it re-receives the same Flowspec rule. The cycle restarts.",
+					'Each [[bgp|BGP]] session times out, retries, and re-establishes. As soon as it does, it re-receives the same Flowspec rule. The cycle restarts.',
 				protocols: ['bgp']
 			},
 			{
 				title: 'Tier-1 collapse',
 				description:
-					"The continuous churn means routes never converge. Customers across the Level 3 footprint experience massive packet loss. {{cloudflare|Cloudflare}} measures a 3.5% drop in *global* internet traffic."
+					'The continuous churn means routes never converge. Customers across the Level 3 footprint experience massive packet loss. {{cloudflare|Cloudflare}} measures a 3.5% drop in *global* internet traffic.'
 			},
 			{
 				title: 'Manual de-peering needed',
 				description:
-					"Level 3 has to ask other tier-1s to de-{{peer|peer}} with them temporarily to drain the [[bgp|BGP]]-{{bgp-update|update}} queue and let the bad rule be removed."
+					'Level 3 has to ask other tier-1s to de-{{peer|peer}} with them temporarily to drain the [[bgp|BGP]]-{{bgp-update|update}} queue and let the bad rule be removed.'
 			}
 		],
 		consequence:
 			"~5 hours of severe disruption across one of the world's largest backbones. {{cloudflare|Cloudflare}} publicly reported a 3.5% drop in global internet traffic. Many SaaS providers, video calls, and games hit by the cascading failures.",
 		resolution:
-			"Level 3 manually de-peered with other tier-1s to break the [[bgp|BGP]]-{{bgp-update|update}} loop, removed the bad Flowspec rule, then re-peered.",
+			'Level 3 manually de-peered with other tier-1s to break the [[bgp|BGP]]-{{bgp-update|update}} loop, removed the bad Flowspec rule, then re-peered.',
 		lesson:
 			"Don't deploy a feature whose failure mode disables the channel that controls it. [[bgp|BGP]] Flowspec is powerful — and Flowspec rules that touch [[bgp|BGP]] itself can lock you out of your own network. The same lesson applies to any in-band control protocol.",
 		sources: [
@@ -450,16 +453,17 @@ export const outages: Outage[] = [
 		title: 'Rogers — A Country Disconnected',
 		date: '2022-07-08',
 		duration: '~15 hours',
-		scale: '12+ million Canadians lost wireless, wireline, internet, and Interac debit-card service',
+		scale:
+			'12+ million Canadians lost wireless, wireline, internet, and Interac debit-card service',
 		oneLiner:
-			"A maintenance change to [[bgp|BGP]] route policy in the [[ip|IP]] core inadvertently allowed a full [[bgp|BGP]] table redistribution into [[ospf|OSPF]] — overwhelming the core router CPUs and crashing the entire network.",
+			'A maintenance change to [[bgp|BGP]] route policy in the [[ip|IP]] core inadvertently allowed a full [[bgp|BGP]] table redistribution into [[ospf|OSPF]] — overwhelming the core router CPUs and crashing the entire network.',
 		category: 'configuration',
 		affectedProtocols: ['bgp'],
 		cast: [{ name: 'Rogers Communications (AS 812)', role: 'Operator' }],
 		setup:
 			"Rogers ran one of Canada's three national telecom networks — wireless, wireline, internet, and the Interac point-of-sale debit card system that runs Canadian retail. The [[ip|IP]] core used [[bgp|BGP]] for inter-{{autonomous-system|AS}} routing and [[ospf|OSPF]] for intra-{{autonomous-system|AS}} routing — the standard separation.",
 		mistake:
-			"A maintenance change to [[bgp|BGP]] route policy in the [[ip|IP]] core was meant to apply to a small set of routes. A missing filter let the entire [[bgp|BGP]] table — nearly a million prefixes — redistribute into [[ospf|OSPF]], the intra-{{autonomous-system|AS}} routing protocol.",
+			'A maintenance change to [[bgp|BGP]] route policy in the [[ip|IP]] core was meant to apply to a small set of routes. A missing filter let the entire [[bgp|BGP]] table — nearly a million prefixes — redistribute into [[ospf|OSPF]], the intra-{{autonomous-system|AS}} routing protocol.',
 		cascade: [
 			{
 				title: 'BGP-into-OSPF flood',
@@ -486,9 +490,9 @@ export const outages: Outage[] = [
 		consequence:
 			"12+ million customers without service for a full business day. Hospitals, 911 operations, point-of-sale systems, government services impacted. {{crtc|CRTC}}'s 2024 executive summary identified missing route filters and lab-testing skipped due to an algorithm down-grading risk from 'High' to 'Low' after earlier phases succeeded.",
 		resolution:
-			"Manual rollback of the offending policy change, with engineers physically present at core sites.",
+			'Manual rollback of the offending policy change, with engineers physically present at core sites.',
 		lesson:
-			"A single national telecom outage can take down payment systems, hospitals, and emergency services. Canada subsequently mandated mutual emergency-roaming agreements between carriers, on the principle that a single {{autonomous-system|AS}} failing should not disconnect a country.",
+			'A single national telecom outage can take down payment systems, hospitals, and emergency services. Canada subsequently mandated mutual emergency-roaming agreements between carriers, on the principle that a single {{autonomous-system|AS}} failing should not disconnect a country.',
 		sources: [
 			{
 				url: 'https://blog.cloudflare.com/cloudflares-view-of-the-rogers-communications-outage-in-canada/',
@@ -518,7 +522,7 @@ export const outages: Outage[] = [
 		setup:
 			"AT&T Mobility is one of the three large US national wireless carriers. The mobility network has elaborate self-protection mechanisms — when the system detects something seriously wrong, it can enter a defensive 'protect mode' that disconnects subscribers to limit damage.",
 		mistake:
-			"At 02:42 CT, a network change with an equipment configuration error tripped the protect-mode threshold. The network defended itself by disconnecting every wireless device.",
+			'At 02:42 CT, a network change with an equipment configuration error tripped the protect-mode threshold. The network defended itself by disconnecting every wireless device.',
 		cascade: [
 			{
 				time: '02:42 CT',
@@ -529,7 +533,7 @@ export const outages: Outage[] = [
 				time: '02:43 CT',
 				title: 'Protect mode',
 				description:
-					'The error trips the network\'s self-protection threshold. The mobility core enters \'protect mode\' and starts disconnecting devices.'
+					"The error trips the network's self-protection threshold. The mobility core enters 'protect mode' and starts disconnecting devices."
 			},
 			{
 				title: 'Nationwide outage',
@@ -542,11 +546,11 @@ export const outages: Outage[] = [
 			}
 		],
 		consequence:
-			"125M+ devices affected. 92M+ blocked voice calls. 25K+ failed 911 calls. The {{fcc|FCC}} report reads like every [[bgp|BGP]] outage post-mortem: insufficient {{peer|peer}} review, missing controls, unscanned changes.",
+			'125M+ devices affected. 92M+ blocked voice calls. 25K+ failed 911 calls. The {{fcc|FCC}} report reads like every [[bgp|BGP]] outage post-mortem: insufficient {{peer|peer}} review, missing controls, unscanned changes.',
 		resolution:
 			'Configuration rollback and gradual reconnection of subscribers to avoid signalling overload.',
 		lesson:
-			"\"Self-protection mechanisms that disconnect users\" is a category that needs careful design. The threshold for protect mode should not be reachable by an operator's mistake — and if it is, recovery should not require 12 hours.",
+			'"Self-protection mechanisms that disconnect users" is a category that needs careful design. The threshold for protect mode should not be reachable by an operator\'s mistake — and if it is, recovery should not require 12 hours.',
 		sources: [
 			{
 				url: 'https://docs.fcc.gov/public/attachments/DOC-404154A1.pdf',
@@ -573,9 +577,9 @@ export const outages: Outage[] = [
 			{ name: 'Linux Kernel TCP maintainers', role: 'Vendors' }
 		],
 		setup:
-			"[[tcp|TCP]] {{sack|Selective Acknowledgment}} ({{sack|SACK}}, [[rfc:2018|RFC 2018]]) lets the receiver tell the sender exactly which non-contiguous byte ranges have arrived. The {{linux|Linux}} kernel tracks these as a queue of skb (socket buffer) ranges. The data structure includes a 16-bit gso_segs counter for the segments-in-flight on a single sk_buff.",
+			'[[tcp|TCP]] {{sack|Selective Acknowledgment}} ({{sack|SACK}}, [[rfc:2018|RFC 2018]]) lets the receiver tell the sender exactly which non-contiguous byte ranges have arrived. The {{linux|Linux}} kernel tracks these as a queue of skb (socket buffer) ranges. The data structure includes a 16-bit gso_segs counter for the segments-in-flight on a single sk_buff.',
 		mistake:
-			"With a small enough {{mss|MSS}} — easily set by a remote {{peer|peer}} — a single sk_buff could be split into more than 65,535 GSO segments. The 16-bit counter overflowed. The kernel hit an integer overflow in tcp_skb_cb, triggering a panic.",
+			'With a small enough {{mss|MSS}} — easily set by a remote {{peer|peer}} — a single sk_buff could be split into more than 65,535 GSO segments. The 16-bit counter overflowed. The kernel hit an integer overflow in tcp_skb_cb, triggering a panic.',
 		cascade: [
 			{
 				title: 'Patch crafted',
@@ -594,7 +598,7 @@ export const outages: Outage[] = [
 			}
 		],
 		consequence:
-			"Most {{linux|Linux}} servers on the public internet were vulnerable. CVSS 7.5 (high). Operators scrambled to patch; many disabled {{sack|SACK}} as an interim mitigation, accepting performance degradation to avoid the crash.",
+			'Most {{linux|Linux}} servers on the public internet were vulnerable. CVSS 7.5 (high). Operators scrambled to patch; many disabled {{sack|SACK}} as an interim mitigation, accepting performance degradation to avoid the crash.',
 		resolution:
 			'Mainline kernel patch shipped within days. Mitigations: disable {{sack|SACK}} (`net.ipv4.tcp_sack=0`) or enforce a minimum {{mss|MSS}} via the new `net.ipv4.tcp_min_snd_mss` sysctl.',
 		lesson:
@@ -602,7 +606,7 @@ export const outages: Outage[] = [
 		sources: [
 			{
 				url: 'https://github.com/Netflix/security-bulletins/blob/master/advisories/third-party/2019-001.md',
-				label: "Netflix Security Bulletin — TCP SACK PANIC"
+				label: 'Netflix Security Bulletin — TCP SACK PANIC'
 			},
 			{
 				url: 'https://access.redhat.com/security/vulnerabilities/tcpsack',

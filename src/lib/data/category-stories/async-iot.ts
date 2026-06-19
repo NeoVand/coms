@@ -122,7 +122,7 @@ export const asyncIotStory: CategoryStory = {
 					title: 'Messaging Visionary',
 					org: 'iMatix',
 					contribution:
-						'Built the first open-source [[amqp|AMQP]] broker (OpenAMQ) at iMatix and later created ZeroMQ, a brokerless messaging library. A passionate open-source advocate, though he grew critical of [[amqp|AMQP]]\'s complexity and eventually left the workgroup.',
+						"Built the first open-source [[amqp|AMQP]] broker (OpenAMQ) at iMatix and later created ZeroMQ, a brokerless messaging library. A passionate open-source advocate, though he grew critical of [[amqp|AMQP]]'s complexity and eventually left the workgroup.",
 					imagePath:
 						'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d9/Pieter_Hintjens_at_EuroPython2014_%28cropped%29.jpg/330px-Pieter_Hintjens_at_EuroPython2014_%28cropped%29.jpg'
 				},

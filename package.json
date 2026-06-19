@@ -5,15 +5,18 @@
 	"type": "module",
 	"scripts": {
 		"dev": "vite dev",
-		"build": "vite build",
+		"validate": "tsx scripts/validate-cross-references.ts",
+		"build": "npm run validate && vite build",
 		"preview": "vite preview",
 		"prepare": "svelte-kit sync || echo ''",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"lint": "prettier --check . && eslint .",
 		"format": "prettier --write .",
+		"test:unit": "vitest run",
+		"test:unit:watch": "vitest",
 		"test:e2e": "playwright test",
-		"test": "npm run test:e2e"
+		"test": "npm run test:unit && npm run test:e2e"
 	},
 	"devDependencies": {
 		"@eslint/compat": "^2.0.2",
@@ -27,6 +30,7 @@
 		"@types/d3-force": "^3.0.10",
 		"@types/d3-quadtree": "^3.0.6",
 		"@types/node": "^24",
+		"@vitest/coverage-v8": "^4.1.9",
 		"eslint": "^9.39.2",
 		"eslint-config-prettier": "^10.1.8",
 		"eslint-plugin-svelte": "^3.14.0",
@@ -37,9 +41,11 @@
 		"svelte": "^5.51.0",
 		"svelte-check": "^4.4.2",
 		"tailwindcss": "^4.1.18",
+		"tsx": "^4.22.4",
 		"typescript": "^5.9.3",
 		"typescript-eslint": "^8.54.0",
-		"vite": "^7.3.1"
+		"vite": "^7.3.1",
+		"vitest": "^4.1.9"
 	},
 	"dependencies": {
 		"@jis3r/icons": "^2.7.0",

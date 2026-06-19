@@ -160,7 +160,7 @@ export const smtpDelivery: SimulationConfig = {
 			id: 'queued',
 			label: '250 Queued',
 			description:
-				'The server accepts the message for delivery and returns a queue ID. The 250 code means the server has taken responsibility for delivering this email. The message will now be relayed to the recipient\'s mail server by looking up MX records in DNS.',
+				"The server accepts the message for delivery and returns a queue ID. The 250 code means the server has taken responsibility for delivering this email. The message will now be relayed to the recipient's mail server by looking up MX records in DNS.",
 			fromActor: 'server',
 			toActor: 'client',
 			duration: 800,

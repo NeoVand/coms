@@ -8,7 +8,7 @@
 	import { parseRichText } from '$lib/utils/text-parser';
 	import RichText from '$lib/components/detail/inline/RichText.svelte';
 
-	let { scope, color = '#FFFFFF' }: { scope: string; color?: string } = $props();
+	let { scope }: { scope: string } = $props();
 
 	const appState = getAppState();
 

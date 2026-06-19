@@ -5,7 +5,7 @@ export const zigbeeJoin: SimulationConfig = {
 	protocolId: 'zigbee',
 	title: 'Zigbee Device Join — Coordinator → new bulb → first OnOff command',
 	description:
-		"Watch a new Zigbee 3.0 bulb join a Trust Center–centralised network with an install code: beacon scan → Association → Transport-Key → Toggle. Same flow under every Philips Hue join, IKEA Trådfri pairing, and Aqara device commissioning in 2026.",
+		'Watch a new Zigbee 3.0 bulb join a Trust Center–centralised network with an install code: beacon scan → Association → Transport-Key → Toggle. Same flow under every Philips Hue join, IKEA Trådfri pairing, and Aqara device commissioning in 2026.',
 	tier: 'client',
 	actors: [
 		{ id: 'bulb', label: 'New Bulb (Joiner)', icon: 'device', position: 'left' },
@@ -18,14 +18,23 @@ export const zigbeeJoin: SimulationConfig = {
 			label: 'Zigbee channel',
 			type: 'select',
 			defaultValue: '25 (2475 MHz)',
-			options: ['15 (2425 MHz, avoids Wi-Fi 6)', '20 (2450 MHz)', '25 (2475 MHz)', '26 (2480 MHz, regulatory limit)']
+			options: [
+				'15 (2425 MHz, avoids Wi-Fi 6)',
+				'20 (2450 MHz)',
+				'25 (2475 MHz)',
+				'26 (2480 MHz, regulatory limit)'
+			]
 		},
 		{
 			id: 'auth',
 			label: 'Pre-configured link key',
 			type: 'select',
 			defaultValue: 'Install code (secure)',
-			options: ['Install code (secure)', 'ZigBeeAlliance09 default (legacy)', 'R23 Dynamic Link Key (SPEKE/Curve25519)']
+			options: [
+				'Install code (secure)',
+				'ZigBeeAlliance09 default (legacy)',
+				'R23 Dynamic Link Key (SPEKE/Curve25519)'
+			]
 		},
 		{
 			id: 'panId',
@@ -92,7 +101,8 @@ export const zigbeeJoin: SimulationConfig = {
 					dstPan: '0x1A62',
 					dstAddr: '0x0000 (Coordinator)',
 					srcAddr: 'EUI-64 of the joiner',
-					payload: 'MAC Cmd 0x01 — Association Request. Capability=0x8E (FFD, mains-powered, security-capable, allocate-short)'
+					payload:
+						'MAC Cmd 0x01 — Association Request. Capability=0x8E (FFD, mains-powered, security-capable, allocate-short)'
 				})
 			]
 		},
@@ -112,7 +122,8 @@ export const zigbeeJoin: SimulationConfig = {
 					dstPan: '0x1A62',
 					dstAddr: 'EUI-64 of joiner',
 					srcAddr: '0x0000 (Coordinator EUI-64)',
-					payload: 'MAC Cmd 0x02 — Association Response. Allocated short=0x3F4E. Status=0x00 (success)'
+					payload:
+						'MAC Cmd 0x02 — Association Response. Allocated short=0x3F4E. Status=0x00 (success)'
 				})
 			]
 		},
@@ -127,13 +138,15 @@ export const zigbeeJoin: SimulationConfig = {
 			highlight: ['Frame Control', 'Aux Sec Hdr / MIC', 'Payload (APS frame)'],
 			layers: [
 				createZigbeeNWKLayer({
-					frameControl: '0x0048 (Data, ProtoVer=2, NWK Security off — APS-level only on Transport-Key)',
+					frameControl:
+						'0x0048 (Data, ProtoVer=2, NWK Security off — APS-level only on Transport-Key)',
 					dstAddr: '0x3F4E',
 					srcAddr: '0x0000',
 					radius: 1,
 					seq: 0x10,
 					security: '(none at NWK; APS encrypts under pre-conf link key)',
-					payload: 'APS Cmd 0x05 — Transport-Key (Network Key). Encrypted under install-code-derived link key.'
+					payload:
+						'APS Cmd 0x05 — Transport-Key (Network Key). Encrypted under install-code-derived link key.'
 				})
 			]
 		},
@@ -141,7 +154,7 @@ export const zigbeeJoin: SimulationConfig = {
 			id: 'device-announce',
 			label: 'Device Announce — bulb broadcasts its arrival',
 			description:
-				"The joiner now has both a short address and the network key. It NWK-broadcasts a **Device Announce** ZDO message (cluster 0x0013) — *I am 0x3F4E, EUI-64 = …, capability = …* — so every router knows to add it to their routing tables and binding tables. From here the device is on the mesh.",
+				'The joiner now has both a short address and the network key. It NWK-broadcasts a **Device Announce** ZDO message (cluster 0x0013) — *I am 0x3F4E, EUI-64 = …, capability = …* — so every router knows to add it to their routing tables and binding tables. From here the device is on the mesh.',
 			fromActor: 'bulb',
 			toActor: 'router',
 			duration: 900,
@@ -162,7 +175,7 @@ export const zigbeeJoin: SimulationConfig = {
 			id: 'onoff-toggle',
 			label: 'First command — ZCL OnOff.Toggle = 0x02',
 			description:
-				"A switch (or the Hue app via the bridge) sends a ZCL OnOff Toggle command to the new bulb. APS frame: Cluster 0x0006 (OnOff), Profile 0x0104 (Home Automation), Cmd 0x02 (Toggle). The ZCL FrameCtrl byte 0x11 says *cluster-specific, client→server, disable default response*. The whole on-the-wire payload is roughly 40 bytes including all the headers.",
+				'A switch (or the Hue app via the bridge) sends a ZCL OnOff Toggle command to the new bulb. APS frame: Cluster 0x0006 (OnOff), Profile 0x0104 (Home Automation), Cmd 0x02 (Toggle). The ZCL FrameCtrl byte 0x11 says *cluster-specific, client→server, disable default response*. The whole on-the-wire payload is roughly 40 bytes including all the headers.',
 			fromActor: 'coord',
 			toActor: 'bulb',
 			duration: 1000,

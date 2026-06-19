@@ -8,7 +8,8 @@ export const icmp: Protocol = {
 	port: undefined,
 	year: 1981,
 	rfc: 'RFC 792',
-	oneLiner: 'The diagnostic protocol behind {{ping|ping}} and {{traceroute|traceroute}} — how the network reports errors.',
+	oneLiner:
+		'The diagnostic protocol behind {{ping|ping}} and {{traceroute|traceroute}} — how the network reports errors.',
 	overview: `[[icmp|ICMP]] is the internet's error-reporting and diagnostic protocol. When you type \`ping google.com\`, [[icmp|ICMP]] {{echo-request|Echo Request}} and Reply messages measure whether the target is reachable and how long the {{rtt|round trip}} takes. When you run \`traceroute\`, [[icmp|ICMP]] {{time-exceeded|Time Exceeded}} messages reveal each {{hop|hop}} along the path. [[icmp|ICMP]] is arguably the most universally used protocol in network troubleshooting.
 
 Unlike [[tcp|TCP]] or [[udp|UDP]], [[icmp|ICMP]] doesn't use {{port|ports}}. It's {{encapsulation|encapsulated}} directly in [[ip|IP]] {{packet|packets}} with protocol number 1 — sitting at the network layer, not the transport layer. This means [[icmp|ICMP]] can report problems that [[tcp|TCP]] and [[udp|UDP]] can't even see: unreachable networks, expired {{ttl|TTLs}}, {{fragmentation|fragmentation}} issues, and routing redirects.
@@ -90,7 +91,8 @@ def ping(host):
     reply = sock.recv(1024)
     rtt = (time.time() - start) * 1000
     print(f"Reply from {host}: time={rtt:.1f}ms")`,
-		caption: '[[icmp|ICMP]] requires raw sockets — it operates at the network layer, below [[tcp|TCP]]/[[udp|UDP]]',
+		caption:
+			'[[icmp|ICMP]] requires raw sockets — it operates at the network layer, below [[tcp|TCP]]/[[udp|UDP]]',
 		alternatives: [
 			{
 				language: 'cli',

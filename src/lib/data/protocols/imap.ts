@@ -67,7 +67,8 @@ with imaplib.IMAP4_SSL('imap.example.com') as mail:
         print(data[0][1])
 
     mail.logout()`,
-		caption: '[[imap|IMAP]] lets you search and {{imap-fetch|fetch}} email on the server — no need to download everything',
+		caption:
+			'[[imap|IMAP]] lets you search and {{imap-fetch|fetch}} email on the server — no need to download everything',
 		alternatives: [
 			{
 				language: 'javascript',
