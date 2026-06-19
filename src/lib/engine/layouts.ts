@@ -10,7 +10,7 @@ import {
 	type SimulationLinkDatum
 } from 'd3-force';
 import type { GraphNode } from '$lib/data/types';
-import { allProtocols, categories, subcategories } from '$lib/data/index';
+import { allProtocols, categories } from '$lib/data/index';
 
 export type LayoutMode = 'force' | 'radial' | 'timeline' | 'mesh';
 
@@ -192,7 +192,7 @@ interface MeshNode extends SimulationNodeDatum {
 	type: 'protocol' | 'subcategory';
 	categoryId: string;
 }
-interface MeshLink extends SimulationLinkDatum<MeshNode> {}
+type MeshLink = SimulationLinkDatum<MeshNode>;
 
 export function computeMeshPositions(
 	nodes: GraphNode[]

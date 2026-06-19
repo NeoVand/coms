@@ -1,4 +1,3 @@
-/* eslint-disable */
 /**
  * audit-terms.ts — Densification audit.
  *

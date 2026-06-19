@@ -65,15 +65,6 @@ const partI: BookPart = {
 	}))
 };
 
-/**
- * Parts II–XII — outline only for now. Empty `slots` arrays mark
- * each chapter as "coming soon"; the TOC renderer treats them
- * differently from clickable chapters. Filling them in is the next
- * sustained content workstream.
- */
-function stubChapters(items: { id: string; title: string; synopsis: string }[]): Chapter[] {
-	return items.map((c) => ({ id: c.id, title: c.title, synopsis: c.synopsis, slots: [] }));
-}
 
 export const bookParts: BookPart[] = [
 	partI,

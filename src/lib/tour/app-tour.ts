@@ -68,9 +68,7 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 
 	const PANEL_ANIM_MS = 380;
 
-	let tourDriver: ReturnType<typeof driver>;
-
-	tourDriver = driver({
+	const tourDriver = driver({
 		showProgress: true,
 		animate: true,
 		overlayColor: '#0f172a',
@@ -428,8 +426,8 @@ export async function startTour(appState: AppState, allNodes: GraphNode[]): Prom
 	appState.activeTour = { destroy: () => tourDriver.destroy() };
 
 	// Expose for dev testing (tree-shaken in prod via __dev check)
-	if (typeof window !== 'undefined' && (window as any).__dev) {
-		(window as any).__tourDriver = tourDriver;
+	if (typeof window !== 'undefined' && window.__dev) {
+		window.__tourDriver = tourDriver;
 	}
 
 	tourDriver.drive();

@@ -4,7 +4,7 @@ import { createIPv4Layer } from '../layers/ipv4';
 import { createEthernetLayer } from '../layers/ethernet';
 import { createTLSRecordLayer } from '../layers/tls';
 
-function gqlRequestLayer(operation: string, name: string, variables: string, selectionSet: string): ProtocolLayer {
+function gqlRequestLayer(): ProtocolLayer {
 	return {
 		name: 'HTTP Request',
 		abbreviation: 'HTTP',
@@ -81,7 +81,7 @@ export const graphqlOperation: SimulationConfig = {
 				createIPv4Layer({ protocol: 6 }),
 				createTCPLayer({ srcPort: 52400, dstPort: 443, flags: 'PSH,ACK' }),
 				createTLSRecordLayer({ contentType: 'Application Data (23)', handshakeType: 'N/A (encrypted)' }),
-				gqlRequestLayer('query', 'GetUser', '{ "id": "42" }', '{ user { name email } }'),
+				gqlRequestLayer(),
 				gqlLayer('query', 'GetUser', '{ "id": "42" }', '{ user(id: $id) { name email posts { title } } }', '')
 			]
 		},
@@ -117,7 +117,7 @@ export const graphqlOperation: SimulationConfig = {
 				createIPv4Layer({ protocol: 6 }),
 				createTCPLayer({ srcPort: 52400, dstPort: 443, flags: 'PSH,ACK' }),
 				createTLSRecordLayer({ contentType: 'Application Data (23)', handshakeType: 'N/A (encrypted)' }),
-				gqlRequestLayer('mutation', 'CreatePost', '{ "title": "New Post" }', '{ createPost { id title } }'),
+				gqlRequestLayer(),
 				gqlLayer('mutation', 'CreatePost', '{ "title": "New Post", "authorId": "42" }', '{ createPost(input: $input) { id title author { name } } }', '')
 			]
 		},

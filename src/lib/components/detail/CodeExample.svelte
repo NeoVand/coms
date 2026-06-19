@@ -111,6 +111,14 @@
 	}
 </script>
 
+<!--
+  This component renders highlight.js output. The highlighted HTML is produced
+  at runtime from code samples that ship in the protocol data files (trusted,
+  build-time content — never user input), so {@html} is safe here. Disabled
+  file-wide because the {@html} sits inside <pre> blocks where an inline
+  disable comment would inject stray whitespace into the rendered code.
+-->
+<!-- eslint-disable svelte/no-at-html-tags -->
 <section data-tour="code-example">
 	<h3 class="mb-2 text-xs font-semibold tracking-wider text-t-muted uppercase">Code Example</h3>
 	<div

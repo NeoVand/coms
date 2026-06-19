@@ -1,4 +1,3 @@
-/* eslint-disable */
 /**
  * wrap-bare-concepts.ts — Auto-wrap bare technical-term mentions
  * (RTT, handshake, retransmission, sliding window, …) into

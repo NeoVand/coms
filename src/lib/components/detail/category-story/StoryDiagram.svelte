@@ -54,10 +54,14 @@
 		mermaidApi
 			.render(id, fullDef)
 			.then(({ svg }) => {
+				// Mermaid emits an SVG string; inject it into our empty bind:this
+				// container, which Svelte does not otherwise render into.
+				// eslint-disable-next-line svelte/no-dom-manipulating
 				containerEl.innerHTML = svg;
 			})
 			.catch((err) => {
 				console.error('Story diagram render error:', err);
+				// eslint-disable-next-line svelte/no-dom-manipulating
 				containerEl.innerHTML =
 					'<p class="text-xs text-t-muted py-4 text-center">Diagram unavailable</p>';
 			});

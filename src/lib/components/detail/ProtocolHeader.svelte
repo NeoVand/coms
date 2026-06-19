@@ -25,7 +25,7 @@
 				{/if}
 			</div>
 			<p class="mt-0.5 text-xs text-t-secondary">
-				{#each nameSegments as seg}{#if seg.highlight}<span class="font-bold" style="color: {color}">{seg.text}</span>{:else}{seg.text}{/if}{/each}
+				{#each nameSegments as seg, i (i)}{#if seg.highlight}<span class="font-bold" style="color: {color}">{seg.text}</span>{:else}{seg.text}{/if}{/each}
 			</p>
 		</div>
 	</div>

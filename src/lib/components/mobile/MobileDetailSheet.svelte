@@ -71,7 +71,7 @@
 					{/if}
 				</div>
 				<p class="text-xs text-t-secondary">
-					{#each getHighlightedName(proto.id, proto.name) as seg}{#if seg.highlight}<span class="font-bold" style="color: {color}">{seg.text}</span>{:else}{seg.text}{/if}{/each}
+					{#each getHighlightedName(proto.id, proto.name) as seg, i (i)}{#if seg.highlight}<span class="font-bold" style="color: {color}">{seg.text}</span>{:else}{seg.text}{/if}{/each}
 				</p>
 				<p
 					class="mt-2 rounded-lg border-l-2 py-2 pl-3 text-sm text-t-primary"

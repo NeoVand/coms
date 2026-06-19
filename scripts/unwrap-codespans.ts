@@ -1,4 +1,3 @@
-/* eslint-disable */
 /**
  * unwrap-codespans.ts — Strip {{...}} and [[...]] wraps that ended up
  * inside markdown inline-code spans (\`...\` in template literals).

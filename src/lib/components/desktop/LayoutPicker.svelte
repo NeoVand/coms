@@ -89,6 +89,8 @@
 				>
 					<!-- Icon — shared with the guided tour via $lib/utils/layout-icons -->
 					<span class="layout-glyph flex h-4 w-4 shrink-0 items-center justify-center opacity-70">
+						<!-- Trusted static SVG markup from $lib/utils/layout-icons -->
+						<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 						{@html LAYOUT_ICON_SVG[layout.id]}
 					</span>
 					<span class="w-16 font-medium tracking-wide">{layout.label}</span>
@@ -110,6 +112,8 @@
 		aria-expanded={open}
 	>
 		<span class="layout-glyph flex h-3.5 w-3.5 shrink-0 items-center justify-center opacity-70">
+			<!-- Trusted static SVG markup from $lib/utils/layout-icons -->
+			<!-- eslint-disable-next-line svelte/no-at-html-tags -->
 			{@html LAYOUT_ICON_SVG[appState.layoutMode]}
 		</span>
 		<span>{layouts.find((l) => l.id === appState.layoutMode)?.label ?? 'Layout'}</span>

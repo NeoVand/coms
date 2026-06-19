@@ -50,7 +50,6 @@
 	const total = $derived(bound.length);
 	const definition = $derived(inline ?? (protocolId ? diagramDefinitions[protocolId] : undefined));
 	const overallCaption = $derived(definition?.caption ?? '');
-	const currentStep = $derived(cursor >= 0 && cursor < bound.length ? bound[cursor] : null);
 	const diagramKey = $derived(protocolId ?? 'inline');
 
 	onMount(async () => {
@@ -94,6 +93,9 @@
 		mermaidApi
 			.render(id, fullDef)
 			.then(({ svg }) => {
+				// Mermaid emits an SVG string; inject it into our empty bind:this
+				// container, which Svelte does not otherwise render into.
+				// eslint-disable-next-line svelte/no-dom-manipulating
 				containerEl.innerHTML = svg;
 				styleCrossArrows(containerEl);
 				bindStepsToDom();
@@ -104,6 +106,7 @@
 			})
 			.catch((err) => {
 				console.error(`SequencePlayer render error [${diagramKey}]:`, err);
+				// eslint-disable-next-line svelte/no-dom-manipulating
 				containerEl.innerHTML =
 					'<p class="text-xs text-t-muted py-4 text-center">Diagram unavailable</p>';
 				bound = [];

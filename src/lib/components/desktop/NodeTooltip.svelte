@@ -16,7 +16,6 @@
 	let tooltipX = $state(0);
 	let tooltipY = $state(0);
 	let windowWidth = $state(typeof window !== 'undefined' ? window.innerWidth : 1920);
-	let windowHeight = $state(typeof window !== 'undefined' ? window.innerHeight : 1080);
 
 	$effect(() => {
 		if (!appState.hoveredNode) return;
@@ -28,7 +27,6 @@
 
 		function onResize() {
 			windowWidth = window.innerWidth;
-			windowHeight = window.innerHeight;
 		}
 
 		// Cursor-following only matters when there's no anchor element.

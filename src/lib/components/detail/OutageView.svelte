@@ -1,10 +1,7 @@
 <script lang="ts">
 	import { getOutageById, getProtocolById, getCategoryById } from '$lib/data/index';
 	import { parseRichText } from '$lib/utils/text-parser';
-	import {
-		navigateToProtocol,
-		navigateToOutage as navigateToOutageUrl
-	} from '$lib/utils/navigation';
+	import { navigateToProtocol } from '$lib/utils/navigation';
 	import { ExternalLink, AlertTriangle, Clock, Users, Lightbulb } from 'lucide-svelte';
 	import { themedDomColor } from '$lib/utils/colors';
 	import { getAppState } from '$lib/state/context';

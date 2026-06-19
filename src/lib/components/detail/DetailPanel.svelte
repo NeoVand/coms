@@ -13,10 +13,8 @@
 		navigateToProtocol,
 		navigateToCategory,
 		navigateToHub,
-		navigateToBookChapter,
 		navigateToBookPart
 	} from '$lib/utils/navigation';
-	import { foundationSections } from '$lib/data/concept-foundations';
 	import { bookParts, listChapters } from '$lib/data/book/chapters';
 	import GlossaryView from './GlossaryView.svelte';
 	import ChapterView from './ChapterView.svelte';
@@ -47,11 +45,6 @@
 	import { Users, FileText, AlertTriangle, Compass as CompassIcon } from 'lucide-svelte';
 
 	/**
-	 * Hand-written teasers for the Foundation chapter cards on the Home
-	 * tab. Each gives the reader a one-line reason to click in. Order
-	 * matches `foundationSections` so we can zip them together.
-	 */
-	/**
 	 * Per-part accent colors — must mirror BookTocView and ChapterView so a
 	 * part has the same hue everywhere it appears in the UI.
 	 */
@@ -70,22 +63,8 @@
 		'how-to-learn-more': '#94a3b8'
 	};
 
-	const totalParts = bookParts.length;
 	const totalChapters = listChapters().length;
 
-	const FOUNDATION_TEASERS: Record<string, string> = {
-		'what-is-a-protocol':
-			'What a protocol is, and why every machine on the planet agrees to follow them.',
-		'layer-model':
-			'Seven layers, the standards war that decided their fate, and where the layers blur.',
-		addressing: 'How a packet finds your laptop — hostnames, IPs, MACs, and ports.',
-		packets: 'Encapsulation in pictures — frames inside packets inside segments.',
-		'ports-sockets': 'How one machine runs a hundred services without confusing them.',
-		'reliability-speed': 'The defining tradeoff: TCP vs UDP, and why QUIC tries to have both.',
-		'client-server-p2p': 'Two communication patterns and what each makes easy or hard.',
-		'encryption-basics': "What HTTPS actually protects — and what it doesn't.",
-		'ai-protocols': 'MCP and A2A — the new layer of protocols designed for AI agents.'
-	};
 	import ProtocolHeader from './ProtocolHeader.svelte';
 	import ProtocolDiagram from './ProtocolDiagram.svelte';
 	import HowItWorksSteps from './HowItWorksSteps.svelte';
@@ -692,7 +671,7 @@
 				</div>
 			{:else if appState.categoryViewMode === 'journeys'}
 				<div class="p-6">
-					<JourneyListView scope={cat.id} {color} />
+					<JourneyListView scope={cat.id} />
 				</div>
 			{/if}
 		{:else if selectedData?.type === 'subcategory' && selectedData.subcategory}

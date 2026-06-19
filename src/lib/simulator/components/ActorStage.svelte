@@ -7,7 +7,6 @@
 	interface Props {
 		actors: SimulationActor[];
 		currentStep: SimulationStep | null;
-		stepIndex: number;
 		color: string;
 		compact?: boolean;
 	}

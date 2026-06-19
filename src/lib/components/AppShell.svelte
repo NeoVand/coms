@@ -43,7 +43,7 @@
 		// the same code path users hit when they click a node.
 		if (dev) {
 			const allNodes = buildGraphNodes();
-			(window as any).__dev = {
+			window.__dev = {
 				appState,
 				nodes: allNodes,
 				/** Navigate to a protocol or category by ID, optionally open simulate tab */

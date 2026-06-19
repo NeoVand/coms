@@ -100,7 +100,6 @@
 								<ActorStage
 									actors={config.actors}
 									currentStep={step}
-									stepIndex={i}
 									{color}
 									compact={true}
 								/>
