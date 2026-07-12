@@ -9,7 +9,7 @@ export const cellularRegistration: SimulationConfig = {
 	protocolId: 'cellular',
 	title: '5G Initial Registration + First PDU Session',
 	description:
-		'Watch a phone power on and walk the 8 beats every 5G-SA UE walks every time it leaves airplane mode: RRC Setup → Registration Request → 5G-AKA → Security Mode → Registration Accept → PDU Session Establishment → UPF programming → user plane up. Every NGAP and GTP-U hop is wrapped in IPsec ESP per 3GPP TS 33.501.',
+		'Watch a phone power on and walk the 8 beats every 5G-SA UE walks every time it leaves airplane mode: RRC Setup → Registration Request → 5G-AKA → Security Mode → Registration Accept → PDU Session Establishment → UPF programming → user plane up. NGAP and GTP-U hops crossing untrusted transport are wrapped in IPsec ESP per 3GPP TS 33.501.',
 	tier: 'client',
 	actors: [
 		{ id: 'ue', label: 'UE (phone)', icon: 'device', position: 'left' },
@@ -114,7 +114,7 @@ export const cellularRegistration: SimulationConfig = {
 			id: 'aka',
 			label: '5G-AKA Authentication',
 			description:
-				"AMF asks AUSF → AUSF asks UDM → UDM's SIDF decrypts SUCI to SUPI, generates an authentication vector. RAND/AUTN traverse all the way down to the UE. The USIM checks AUTN.MAC against f1(K, SQN, RAND), computes RES* via KDF(CK ‖ IK). AUSF compares RES* to HRES*. Mutual authentication.",
+				"AMF asks AUSF → AUSF asks UDM → UDM's SIDF decrypts SUCI to SUPI, generates an authentication vector. RAND/AUTN traverse all the way down to the UE. The USIM checks AUTN.MAC against f1(K, SQN, RAND) and returns RES/CK/IK; the phone derives RES* = KDF(CK ‖ IK, SN-name, RAND, RES). The AMF/SEAF checks HRES* vs HXRES*, then the AUSF checks RES* vs XRES*. Mutual authentication.",
 			fromActor: 'core',
 			toActor: 'ue',
 			duration: 1500,
@@ -130,7 +130,7 @@ export const cellularRegistration: SimulationConfig = {
 				createNASLayer({
 					secHdr: '0 (plain — AKA runs before security)',
 					msgType: '0x56 (Authentication Request)',
-					payload: 'RAND (16 B) + AUTN (16 B = SQN⊕AK ‖ AMF ‖ MAC) + ngKSI=7'
+					payload: 'RAND (16 B) + AUTN (16 B = SQN⊕AK ‖ AMF ‖ MAC) + ngKSI=0'
 				})
 			]
 		},
@@ -196,11 +196,12 @@ export const cellularRegistration: SimulationConfig = {
 				createIPv4Layer({ srcIp: '10.10.10.1', dstIp: '10.10.20.1', protocol: 50 }),
 				createESPLayer({ spi: '0xC0FFEE01', seq: 2, payload: 'encrypted NGAP + NAS' }),
 				createNGAPLayer({
-					procCode: '4 (Uplink NAS Transport)',
+					procCode: '46 (Uplink NAS Transport)',
 					nasPdu: 'NAS PDU Session Establishment Request bytes'
 				}),
 				createNASLayer({
 					secHdr: '2 (integrity + ciphered)',
+					epd: '0x2E (5GSM)',
 					msgType: '0xC1 (PDU Session Establishment Request)',
 					payload: 'PDU Session ID=1, DNN=internet, PDU Type=IPv4v6, S-NSSAI sst=1 sd=010203'
 				})
@@ -225,6 +226,7 @@ export const cellularRegistration: SimulationConfig = {
 				}),
 				createNASLayer({
 					secHdr: '2 (integrity + ciphered)',
+					epd: '0x2E (5GSM)',
 					msgType: '0xC2 (PDU Session Establishment Accept)',
 					payload: 'IPv6 prefix: 2001:db8:1234::/64, DNS: 2606:4700:4700::1111, QoS Flow QFI=9'
 				})

@@ -21,7 +21,7 @@ export function createNASLayer(
 			{
 				name: 'Procedure Discriminator',
 				bits: 4,
-				value: '0x7E (5GMM)',
+				value: overrides?.epd ?? '0x7E (5GMM)',
 				editable: false,
 				description: '0x7E = 5G Mobility Management, 0x2E = 5G Session Management'
 			},
@@ -60,7 +60,7 @@ export function createNGAPLayer(
 				value: overrides?.procCode ?? '15 (Initial UE Message)',
 				editable: false,
 				description:
-					'15 = Initial UE Message, 4 = Downlink NAS Transport, 29 = Initial Context Setup, 0 = PDU Session Resource Setup'
+					'15 = Initial UE Message, 4 = Downlink NAS Transport, 46 = Uplink NAS Transport, 14 = Initial Context Setup, 29 = PDU Session Resource Setup'
 			},
 			{
 				name: 'AMF-UE-NGAP-ID',
