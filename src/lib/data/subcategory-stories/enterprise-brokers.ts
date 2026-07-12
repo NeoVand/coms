@@ -50,7 +50,7 @@ export const enterpriseBrokersStory: SubcategoryStory = {
 						'The first commercially significant message broker. Defines the queue model that AMQP later standardizes. Runs banks and airlines for the next 30 years; still alive as IBM MQ.'
 				},
 				{
-					year: 2001,
+					year: 1998,
 					title: 'JMS 1.0 (Java Message Service)',
 					description:
 						'Sun ships JMS — a Java API for messaging, not a wire protocol. Every Java app can talk to any broker that implements JMS. Powerful but Java-only.'
@@ -110,7 +110,7 @@ export const enterpriseBrokersStory: SubcategoryStory = {
 						'KIP-500 — Kafka raft-based metadata (KRaft) — eliminates the long-standing ZooKeeper dependency. Operationally simpler; a smaller blast radius when something goes wrong.'
 				},
 				{
-					year: 2024,
+					year: 2025,
 					title: 'Kafka 4.0 — ZooKeeper Gone for Good',
 					description:
 						"KRaft becomes the only mode in Kafka 4.0. ZooKeeper, after 13 years as Kafka's coordination backbone, is removed."

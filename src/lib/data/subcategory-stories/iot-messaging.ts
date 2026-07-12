@@ -80,7 +80,7 @@ export const iotMessagingStory: SubcategoryStory = {
 						'AWS picks MQTT as the primary protocol for AWS IoT Core. Azure, Google Cloud IoT (now deprecated), Alibaba Cloud IoT all follow with MQTT-first stacks.'
 				},
 				{
-					year: 2018,
+					year: 2015,
 					title: 'CoAP Observe (RFC 7641)',
 					description:
 						'CoAP gets a standardized observe mechanism — a client subscribes to a resource and receives updates when it changes. Closes one of the main feature gaps with MQTT.'
@@ -93,9 +93,9 @@ export const iotMessagingStory: SubcategoryStory = {
 				},
 				{
 					year: 2022,
-					title: 'Matter Launches with CoAP',
+					title: 'Matter Launches (Thread uses CoAP)',
 					description:
-						"Matter (Apple/Google/Amazon's unified smart-home protocol) uses CoAP-over-Thread for its commissioning and device communication. The largest consumer-facing deployment of CoAP to date."
+						"Matter itself runs its own reliable messaging (MRP) over UDP; it's Thread — one of Matter's transports — whose commissioning uses CoAP. So CoAP rides underneath much of the Matter ecosystem without Matter being 'a CoAP protocol'."
 				},
 				{
 					year: 2024,
@@ -188,7 +188,7 @@ export const iotMessagingStory: SubcategoryStory = {
 		{
 			type: 'callout',
 			title: 'Why Facebook Messenger Runs MQTT',
-			text: `In 2013 Facebook revealed that [[mqtt|MQTT]] was the transport for chat messages in their mobile Messenger app. This raised eyebrows — MQTT was designed for oil pipelines, why is the world's largest chat product using it?\n\nThe reasons are exactly the reasons MQTT was designed for industrial telemetry:\n\n- **Tiny header.** A standard MQTT message has a 2-byte fixed header. On a flaky cellular link, every byte matters for battery and bandwidth.\n- **Persistent session.** A connected mobile client maintains one long-lived TCP/TLS connection to the broker. Server can push instantly; client doesn't have to poll.\n- **Last-will-and-testament.** When a client unexpectedly disconnects, the broker publishes a pre-registered "I just went offline" message to subscribers. This is exactly how Messenger detects "user went offline" without polling.\n- **Wildcard subscriptions.** Subscribe to \`user/123/+\` to get every message type for one user; one subscription scales to many message types.\n- **Battery friendly.** Compared to HTTP polling, MQTT's persistent connection costs much less radio time on mobile.\n\nFacebook's WhatsApp also runs MQTT for the same reasons. The lesson: a protocol designed for *the most constrained possible client* generalizes well to *any constrained client*. Phones turned out to be constrained clients.`
+			text: `Facebook adopted [[mqtt|MQTT]] as the transport for chat messages in its mobile Messenger app around 2011. This raised eyebrows — MQTT was designed for oil pipelines, why is the world's largest chat product using it?\n\nThe reasons are exactly the reasons MQTT was designed for industrial telemetry:\n\n- **Tiny header.** A standard MQTT message has a 2-byte fixed header. On a flaky cellular link, every byte matters for battery and bandwidth.\n- **Persistent session.** A connected mobile client maintains one long-lived TCP/TLS connection to the broker. Server can push instantly; client doesn't have to poll.\n- **Last-will-and-testament.** When a client unexpectedly disconnects, the broker publishes a pre-registered "I just went offline" message to subscribers. This is exactly how Messenger detects "user went offline" without polling.\n- **Wildcard subscriptions.** Subscribe to \`user/123/+\` to get every message type for one user; one subscription scales to many message types.\n- **Battery friendly.** Compared to HTTP polling, MQTT's persistent connection costs much less radio time on mobile.\n\nInstagram's mobile app runs MQTT for the same reasons (WhatsApp, by contrast, uses an XMPP-derived protocol, not MQTT). The lesson: a protocol designed for *the most constrained possible client* generalizes well to *any constrained client*. Phones turned out to be constrained clients.`
 		},
 		{
 			type: 'narrative',

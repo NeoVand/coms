@@ -8,7 +8,7 @@ export const realtimeWebStory: SubcategoryStory = {
 		{
 			type: 'narrative',
 			title: 'The Web Was Not Built for This',
-			text: `[[http1|HTTP]] is a strict request/response protocol. Client speaks, server replies, connection idles or closes. For loading documents, this is fine. For a chat app, a stock ticker, or a multiplayer game, this is hostile.\n\nFor a decade, web developers fought the model. The first hack was **polling** — ask the server "anything new?" every few seconds. It worked, badly: latency was the polling interval, and most requests returned "no." Then came **long-polling** — open a request, leave it open until the server has something to say, then close and immediately reopen. Better latency, terrible server resource usage. This style got a name in 2006: **{{comet|Comet}}**.\n\nBy 2008 it was clear the workarounds had to end. Two protocols emerged, with complementary philosophies:\n\n- **[[sse|SSE]]** (Server-Sent Events, 2009) embraces HTTP. A simple text format over a long-lived response stream: \`data: hello\\n\\n\` lines, server-to-client only. Browsers reconnect automatically. Works through HTTP/2 multiplexing.\n- **[[websockets|WebSockets]]** (2011) breaks HTTP. After an [[http1|HTTP]] handshake the connection is *upgraded* to a binary framing protocol, full-duplex, both sides can send any time. The framing is custom (not HTTP).\n\nBoth shipped in browsers. Both are still everywhere. SSE for newsfeeds, LLM streaming, server-driven UI updates. WebSockets for chat, collaborative editing, games, anything where the client also pushes constantly. They didn't kill each other; they kept the parts of HTTP they each needed.`
+			text: `[[http1|HTTP]] is a strict request/response protocol. Client speaks, server replies, connection idles or closes. For loading documents, this is fine. For a chat app, a stock ticker, or a multiplayer game, this is hostile.\n\nFor a decade, web developers fought the model. The first hack was **polling** — ask the server "anything new?" every few seconds. It worked, badly: latency was the polling interval, and most requests returned "no." Then came **long-polling** — open a request, leave it open until the server has something to say, then close and immediately reopen. Better latency, terrible server resource usage. This style got a name in 2006, coined by Alex Russell: **{{comet|Comet}}**.\n\nBy 2008 it was clear the workarounds had to end. Two protocols emerged, with complementary philosophies:\n\n- **[[sse|SSE]]** (Server-Sent Events, 2009) embraces HTTP. A simple text format over a long-lived response stream: \`data: hello\\n\\n\` lines, server-to-client only. Browsers reconnect automatically. Works through HTTP/2 multiplexing.\n- **[[websockets|WebSockets]]** (2011) breaks HTTP. After an [[http1|HTTP]] handshake the connection is *upgraded* to a binary framing protocol, full-duplex, both sides can send any time. The framing is custom (not HTTP).\n\nBoth shipped in browsers. Both are still everywhere. SSE for newsfeeds, LLM streaming, server-driven UI updates. WebSockets for chat, collaborative editing, games, anything where the client also pushes constantly. They didn't kill each other; they kept the parts of HTTP they each needed.`
 		},
 		{
 			type: 'pioneers',
@@ -24,20 +24,20 @@ export const realtimeWebStory: SubcategoryStory = {
 						"Edited the HTML5 specification at WHATWG for over a decade, including the [[websockets|WebSocket]] protocol and API. The WebSocket framing (binary frames, masking, opcode bytes) is largely Hickson's design. He also wrote the original [[sse|EventSource]] (SSE) API, which is the smaller, simpler cousin in the same HTML5 era."
 				},
 				{
-					name: 'Michael Carter',
+					name: 'Alex Russell',
 					years: '–',
 					title: 'Coined "Comet"',
 					org: 'Lightstreamer / Independent',
 					contribution:
-						'Coined {{comet|"Comet"}} in 2006 as the umbrella term for long-polling and streaming techniques people were using to fake server push over plain HTTP. The name stuck through the late-2000s era and is the reason "the Comet pattern" is still recognizable shorthand for HTTP-push hacks.'
+						'Coined {{comet|"Comet"}} in 2006 as the umbrella term for long-polling and streaming techniques people were using to fake server push over plain HTTP (Michael Carter was an early popularizer of the pattern). The name stuck through the late-2000s era and is the reason "the Comet pattern" is still recognizable shorthand for HTTP-push hacks.'
 				},
 				{
-					name: 'Bert Belder',
+					name: 'Einar Otto Stangvik',
 					years: '–',
 					title: 'WebSocket Implementer / Node.js Core',
 					org: 'StrongLoop / npm',
 					contribution:
-						'Co-authored the `ws` library — the dominant Node.js [[websockets|WebSocket]] implementation — which made server-side WebSocket trivially deployable from JavaScript. Node + ws + Socket.IO turned "real-time web" from a Tomcat/Comet engineering project into a weekend hack. The ergonomics shift mattered as much as the protocol.'
+						'Authored the `ws` library — the dominant Node.js [[websockets|WebSocket]] implementation — which made server-side WebSocket trivially deployable from JavaScript. Node + ws + Socket.IO turned "real-time web" from a Tomcat/Comet engineering project into a weekend hack. The ergonomics shift mattered as much as the protocol.'
 				}
 			]
 		},
@@ -60,7 +60,7 @@ export const realtimeWebStory: SubcategoryStory = {
 					year: 2006,
 					title: 'Comet Named',
 					description:
-						'Michael Carter coins "Comet" for the family of HTTP-push hacks. Implementations include Bayeux protocol (Dojo/CometD), Lightstreamer, BOSH (XMPP-over-HTTP).'
+						'Alex Russell coins "Comet" for the family of HTTP-push hacks. Implementations include Bayeux protocol (Dojo/CometD), Lightstreamer, BOSH (XMPP-over-HTTP).'
 				},
 				{
 					year: 2009,
@@ -75,7 +75,7 @@ export const realtimeWebStory: SubcategoryStory = {
 						"After a tortuous 4-year design — including reverting an earlier 'hybi' protocol that broke certain proxies — [[websockets|WebSocket]] becomes RFC 6455. Binary framing, masking from client (to defeat proxy cache poisoning), full-duplex over a TCP connection."
 				},
 				{
-					year: 2012,
+					year: 2014,
 					title: 'Socket.IO 1.0',
 					description:
 						"Socket.IO's auto-fallback (WebSocket → long-polling → polling) becomes the standard real-time stack for Node.js apps. Reduces the realtime barrier to a few lines."
@@ -87,13 +87,13 @@ export const realtimeWebStory: SubcategoryStory = {
 						'Slack, Discord, Trello, Figma, Google Docs all run on WebSockets. Production scaling lessons — sticky load balancing, server-side connection pooling, presence systems — become widely documented.'
 				},
 				{
-					year: 2018,
+					year: 2022,
 					title: 'SSE Returns for LLMs',
 					description:
 						'OpenAI ships streaming completions over [[sse|SSE]] for ChatGPT-like UX. The token-by-token effect requires server-push but not client-push — SSE is the natural fit. Anthropic, Google, Mistral all follow the same pattern.'
 				},
 				{
-					year: 2021,
+					year: 2018,
 					title: 'WebSocket over HTTP/2 (RFC 8441)',
 					description:
 						"RFC 8441 maps the WebSocket handshake over HTTP/2's CONNECT method, so WebSockets stop needing their own TCP connection. Browser adoption stays partial — Chrome shipped it, Firefox followed."
