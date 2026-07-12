@@ -45,7 +45,8 @@ export function createBLELinkLayer(
 				bits: 24,
 				value: '0x4FAB12',
 				editable: false,
-				description: 'CRC-24, seeded by the Access Address; covers the LL header and payload'
+				description:
+					'CRC-24; init value is 0x555555 for advertising PDUs and the CRCInit from CONNECT_IND on data channels — never the Access Address. Covers the LL header and payload'
 			}
 		]
 	};

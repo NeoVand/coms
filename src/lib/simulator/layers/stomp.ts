@@ -47,11 +47,20 @@ export function createSTOMPLayer(
 					'Subscription ID — matches MESSAGE frames back to the SUBSCRIBE that created them'
 			},
 			{
+				name: 'Headers',
+				bits: 0,
+				value: overrides?.headers ?? '',
+				editable: false,
+				description:
+					'Other frame headers as key:value lines (accept-version, host, login, ack, heart-beat…)'
+			},
+			{
 				name: 'Body',
 				bits: 0,
 				value: overrides?.body ?? '',
 				editable: false,
-				description: 'Frame body — the message payload, terminated by a null character (\\0)'
+				description:
+					'Frame body — only SEND, MESSAGE, and ERROR frames may carry one; terminated by a null character (\\0)'
 			}
 		]
 	};

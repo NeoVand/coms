@@ -32,7 +32,7 @@ export const stompSubscription: SimulationConfig = {
 			fromActor: 'client',
 			toActor: 'broker',
 			duration: 800,
-			highlight: ['Command', 'Body'],
+			highlight: ['Command', 'Headers'],
 			layers: [
 				createEthernetLayer(),
 				createIPv4Layer({ protocol: 6 }),
@@ -43,7 +43,8 @@ export const stompSubscription: SimulationConfig = {
 					contentType: '',
 					receipt: '',
 					subscription: '',
-					body: 'accept-version:1.2, host:broker.example.com, login:guest'
+					headers: 'accept-version:1.2, host:broker.example.com, login:guest',
+					body: ''
 				})
 			]
 		},
@@ -55,7 +56,7 @@ export const stompSubscription: SimulationConfig = {
 			fromActor: 'broker',
 			toActor: 'client',
 			duration: 600,
-			highlight: ['Command', 'Body'],
+			highlight: ['Command', 'Headers'],
 			layers: [
 				createEthernetLayer({ srcMac: 'AA:BB:CC:DD:EE:FF', dstMac: '00:1A:2B:3C:4D:5E' }),
 				createIPv4Layer({ srcIp: '93.184.216.34', dstIp: '192.168.1.100', protocol: 6 }),
@@ -66,7 +67,8 @@ export const stompSubscription: SimulationConfig = {
 					contentType: '',
 					receipt: '',
 					subscription: '',
-					body: 'version:1.2, server:RabbitMQ/3.12, session:session-42, heart-beat:10000,10000'
+					headers: 'version:1.2, server:RabbitMQ/3.12, session:session-42, heart-beat:10000,10000',
+					body: ''
 				})
 			]
 		},
@@ -89,7 +91,8 @@ export const stompSubscription: SimulationConfig = {
 					contentType: '',
 					receipt: '',
 					subscription: 'sub-0',
-					body: 'ack:client-individual'
+					headers: 'ack:client-individual',
+					body: ''
 				})
 			]
 		},

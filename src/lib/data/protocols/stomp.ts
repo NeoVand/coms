@@ -6,7 +6,7 @@ export const stomp: Protocol = {
 	abbreviation: 'STOMP',
 	categoryId: 'async-iot',
 	port: 61613,
-	year: 2003,
+	year: 2005,
 	rfc: undefined,
 	oneLiner:
 		'A dead-simple text protocol for message brokers — the {{http-method|HTTP}} of messaging.',
@@ -100,9 +100,9 @@ telnet localhost 61613
 echo -e "CONNECT\\naccept-version:1.2\\n\\n\\x00" \\
   | socat - TCP:localhost:61613
 
-# ActiveMQ/RabbitMQ admin CLI
-activemq-admin send --destination queue://tasks \\
-  --body '{"task": "process-order", "id": 42}'`
+# ActiveMQ Classic producer CLI
+activemq producer --destination queue://tasks \\
+  --message '{"task": "process-order", "id": 42}'`
 			},
 			{
 				language: 'wire',

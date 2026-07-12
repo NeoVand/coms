@@ -161,7 +161,7 @@ Preamble:  0xAA on LE 1M (alternating bits to recover the clock)
 Access Address:  0x8E89BED6 for ADV_*; random per-connection otherwise
 LL Header.LLID: data, start frag, continuation frag, control PDU
 LL Header.NESN/SN: 1-bit sequence/ack — full ARQ in 2 bits.
-CRC: x^24 + x^10 + x^9 + x^6 + x^4 + x^3 + x + 1, seeded by Access Address.`
+CRC: x^24 + x^10 + x^9 + x^6 + x^4 + x^3 + x + 1; init 0x555555 for ADV_*, CRCInit (from CONNECT_IND) on data channels.`
 					},
 					{
 						title: 'BLE Advertisement (ADV_IND on ch 37)',

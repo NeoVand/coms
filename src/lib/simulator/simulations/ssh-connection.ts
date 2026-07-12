@@ -88,10 +88,31 @@ export const sshConnection: SimulationConfig = {
 			]
 		},
 		{
-			id: 'kex-reply',
-			label: 'DH Reply + NEWKEYS',
+			id: 'kex-ecdh-init',
+			label: 'KEX_ECDH_INIT',
 			description:
-				'Server sends its Diffie-Hellman public value and host key. Both sides now compute the shared secret independently. NEWKEYS signals the switch to encrypted communication.',
+				'Client sends SSH_MSG_KEX_ECDH_INIT carrying its ephemeral Curve25519 public value. Diffie-Hellman needs both sides — this is the client half the reply answers.',
+			fromActor: 'client',
+			toActor: 'server',
+			duration: 800,
+			highlight: ['Message Type', 'Algorithm'],
+			layers: [
+				createEthernetLayer(),
+				createIPv4Layer({ protocol: 6 }),
+				createTCPLayer({ srcPort: 52400, dstPort: 22, flags: 'PSH,ACK' }),
+				createSSHLayer({
+					messageType: 'KEX_ECDH_INIT (30)',
+					algorithm: 'curve25519-sha256',
+					payload: "Client's ephemeral public key Q_C",
+					packetLength: 48
+				})
+			]
+		},
+		{
+			id: 'kex-reply',
+			label: 'KEX_ECDH_REPLY + NEWKEYS',
+			description:
+				'Server replies with its host key, its own ephemeral DH public value, and a signature over the exchange hash. The CLIENT verifies the host-key fingerprint against its known_hosts file right here (this is the moment behind the "authenticity of host can\'t be established" prompt). Both sides now derive the same shared secret, and NEWKEYS switches to encrypted traffic.',
 			fromActor: 'server',
 			toActor: 'client',
 			duration: 1000,
@@ -101,10 +122,31 @@ export const sshConnection: SimulationConfig = {
 				createIPv4Layer({ srcIp: '93.184.216.34', dstIp: '192.168.1.100', protocol: 6 }),
 				createTCPLayer({ srcPort: 22, dstPort: 52400, flags: 'PSH,ACK' }),
 				createSSHLayer({
-					messageType: 'KEX_REPLY (31) + NEWKEYS (21)',
+					messageType: 'KEX_ECDH_REPLY (31) + NEWKEYS (21)',
 					algorithm: 'curve25519-sha256',
-					payload: 'Host key + DH public value + signature',
+					payload: 'Host key + server DH public value Q_S + signature',
 					packetLength: 1024
+				})
+			]
+		},
+		{
+			id: 'client-newkeys',
+			label: 'NEWKEYS (client)',
+			description:
+				'The client sends its own NEWKEYS to confirm it too is switching to the freshly derived keys. From this point every packet in both directions is encrypted and MACed.',
+			fromActor: 'client',
+			toActor: 'server',
+			duration: 500,
+			highlight: ['Message Type'],
+			layers: [
+				createEthernetLayer(),
+				createIPv4Layer({ protocol: 6 }),
+				createTCPLayer({ srcPort: 52400, dstPort: 22, flags: 'PSH,ACK' }),
+				createSSHLayer({
+					messageType: 'NEWKEYS (21)',
+					algorithm: 'curve25519-sha256',
+					payload: 'switch to encrypted transport',
+					packetLength: 16
 				})
 			]
 		},
@@ -112,7 +154,7 @@ export const sshConnection: SimulationConfig = {
 			id: 'service-request',
 			label: 'Service Request',
 			description:
-				'Client requests the ssh-userauth service. Everything from here is encrypted with the negotiated keys. The server must verify the host key fingerprint matches a known value.',
+				'Client requests the ssh-userauth service. Everything from here is encrypted with the negotiated keys. (Host-key verification already happened on the client side when the KEX reply arrived.)',
 			fromActor: 'client',
 			toActor: 'server',
 			duration: 600,

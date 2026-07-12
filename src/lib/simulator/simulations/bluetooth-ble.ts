@@ -96,7 +96,7 @@ export const bluetoothBleGatt: SimulationConfig = {
 			id: 'pairing',
 			label: 'SMP Pairing (LE Secure Connections)',
 			description:
-				'On L2CAP CID 0x0006, the Security Manager Protocol runs the LE Secure Connections pairing. ECDH on Curve P-256 derives a Long-Term Key. The user confirms a 6-digit numeric value on both screens (Numeric Comparison) — defeating relay attacks that bit the old Just Works pairing.',
+				'On L2CAP CID 0x0006, the Security Manager Protocol runs the LE Secure Connections pairing. ECDH on Curve P-256 derives a Long-Term Key. The user confirms a 6-digit numeric value on both screens (Numeric Comparison) — providing the MITM protection that Just Works lacks. (Relay attacks forward legitimate traffic and defeat any pairing method; only distance bounding via Channel Sounding / UWB stops them.)',
 			fromActor: 'central',
 			toActor: 'peripheral',
 			duration: 1400,

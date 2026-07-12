@@ -173,7 +173,8 @@ Client → Server:
 		]
 	},
 	performance: {
-		latency: '1-2 RTTs for connection + key exchange + authentication',
+		latency:
+			'~4-6 RTTs before the session is usable (TCP handshake + version banners + KEXINIT + ECDH + NEWKEYS + service request + userauth) — one reason ControlMaster/connection multiplexing exists',
 		throughput: 'Hardware AES encryption; limited mainly by the network and remote system speed',
 		overhead:
 			'Per-packet: ~28+ bytes (4 length + 1 padding length + padding + MAC). MAC size varies: HMAC-SHA1 = 20 bytes, HMAC-SHA2-256 = 32 bytes. AEAD ciphers (AES-GCM, ChaCha20-Poly1305) use a 16-byte authentication tag instead.'
