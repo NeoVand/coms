@@ -181,14 +181,14 @@ ss -un  # or: netstat -un`
 			date: '2025',
 			title: 'Linux io_uring + UDP zero-copy',
 			description:
-				'io_uring zero-copy send/receive paths land for [[udp|UDP]] in {{linux|Linux}} 6.13, dramatically improving [[quic|QUIC]] performance on high-throughput servers.'
+				'io_uring zero-copy receive (zcrx) merged in {{linux|Linux}} 6.15 (2025, TCP first); zero-copy send (SEND_ZC) has covered [[udp|UDP]] since 6.0/6.1 — together dramatically improving [[quic|QUIC]] performance on high-throughput servers.'
 		}
 	],
 
 	realWorldDeployments: [
 		{
 			org: 'DNS root + recursive resolvers',
-			scale: '~14 trillion queries/day (Google 8.8.8.8 alone)',
+			scale: 'over a trillion queries/day (Google 8.8.8.8 alone)',
 			description:
 				'Every [[dns|DNS]] query/response is one [[udp|UDP]] datagram each way. The {{recursive-resolver|recursive resolver}} fleet is the largest [[udp|UDP]] application by query count.'
 		},
@@ -231,7 +231,7 @@ ss -un  # or: netstat -un`
 		pitfalls: [
 			{
 				title: 'No congestion control by default',
-				text: '[[udp|UDP]] applications must implement {{congestion-control|congestion control}} themselves, or risk being a bad citizen. Sending [[udp|UDP]] at line rate without backoff is what brought the internet down in 1986. Use a transport library ([[quic|QUIC]], [[rtp|RTP]] with feedback) rather than rolling your own.'
+				text: "[[udp|UDP]] applications must implement {{congestion-control|congestion control}} themselves, or risk being a bad citizen. Sending [[udp|UDP]] at line rate without backoff makes you a bad neighbour — the 1986 congestion collapse (which cut Berkeley↔LBL to 40 bps) was caused by [[tcp|TCP]] retransmission storms and motivated Van Jacobson's congestion control; UDP hands you the same responsibility with none of the safety net. Use a transport library ([[quic|QUIC]], [[rtp|RTP]] with feedback) rather than rolling your own."
 			},
 			{
 				title: 'Fragmentation = unreliable delivery',

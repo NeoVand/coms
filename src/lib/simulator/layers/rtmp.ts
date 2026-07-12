@@ -40,11 +40,19 @@ export function createRTMPLayer(
 			},
 			{
 				name: 'Timestamp',
-				bits: 32,
+				bits: 24,
 				value: overrides?.timestamp ?? 0,
 				editable: false,
 				description:
-					'Message timestamp in milliseconds — used for synchronization and playback timing'
+					'Message timestamp/delta in ms — 3 bytes in the chunk header; 0xFFFFFF escapes to a separate 32-bit Extended Timestamp field'
+			},
+			{
+				name: 'Message Length',
+				bits: 24,
+				value: overrides?.messageLength ?? 0,
+				editable: false,
+				description:
+					'Total length of the message payload in bytes (3-byte field in the chunk header)'
 			},
 			{
 				name: 'Payload',

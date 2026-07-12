@@ -19,11 +19,11 @@ export const mptcpMultipath: SimulationConfig = {
 			id: 'syn-capable',
 			label: 'SYN + MP_CAPABLE',
 			description:
-				'The phone initiates a TCP connection with the MP_CAPABLE option in the SYN. This tells the server "I support MPTCP." The option includes the sender\'s key — a 64-bit value used to derive tokens that authenticate future subflow joins. If the server does not support MPTCP, it falls back to regular TCP.',
+				'The phone initiates a TCP connection with the MP_CAPABLE option in the SYN. This tells the server "I support MPTCP." In MPTCP v1 (RFC 8684) this SYN advertises capability only — no key yet. If the server does not support MPTCP, it falls back to regular TCP.',
 			fromActor: 'client',
 			toActor: 'server',
 			duration: 800,
-			highlight: ['Subtype', 'Sender Key'],
+			highlight: ['Subtype', 'Flags'],
 			layers: [
 				createEthernetLayer(),
 				createIPv4Layer({ protocol: 6 }),
@@ -32,9 +32,9 @@ export const mptcpMultipath: SimulationConfig = {
 					subtype: 'MP_CAPABLE (0)',
 					version: 1,
 					flags: 'H=1 (HMAC-SHA256)',
-					senderKey: '0xA1B2C3D4E5F60718',
+					senderKey: '(none — v1 SYN carries no key)',
 					subflow: 'Primary (Wi-Fi)',
-					payload: 'Checksum required: yes'
+					payload: 'Length: 4 bytes'
 				})
 			]
 		},
@@ -88,7 +88,7 @@ export const mptcpMultipath: SimulationConfig = {
 			id: 'join',
 			label: 'SYN + MP_JOIN',
 			description:
-				"The phone adds a second subflow over cellular. MP_JOIN uses a token derived from the server's key to identify which MPTCP connection to join. The server verifies the HMAC to ensure this is a legitimate subflow and not an attack. Data can now be split across both Wi-Fi and cellular paths.",
+				"The phone adds a second subflow over cellular. The MP_JOIN in this SYN carries a token derived from the server's key (identifying which connection to join) plus a random nonce — but no HMAC yet. The HMAC handshake completes over the SYN/ACK and third ACK, where the server verifies the client's HMAC before data is split across Wi-Fi and cellular.",
 			fromActor: 'client',
 			toActor: 'server',
 			duration: 1000,
@@ -103,7 +103,8 @@ export const mptcpMultipath: SimulationConfig = {
 					flags: 'B=0 (not backup)',
 					senderKey: '',
 					subflow: 'Secondary (Cellular)',
-					payload: 'Token: 0xDEADBEEF, Nonce: 0x12345678, HMAC: [auth]'
+					payload:
+						'Token: 0xDEADBEEF, Address ID: 1, Nonce: 0x12345678 (HMAC follows in SYN/ACK + 3rd ACK)'
 				})
 			]
 		}

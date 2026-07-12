@@ -85,7 +85,7 @@ print(data["user"]["name"], data["user"]["posts"])`,
 const response = await fetch('https://api.example.com/graphql', {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
-  body: {{json|JSON}}.stringify({
+  body: JSON.stringify({
     query,
     variables: { id: '42' }
   })
@@ -145,6 +145,6 @@ curl -X POST https://api.example.com/graphql \\
 		alt: 'Facebook headquarters in Menlo Park, California, where GraphQL was created',
 		caption:
 			"Facebook's headquarters in Menlo Park — where [[graphql|GraphQL]] was created in 2012 to power the News Feed on mobile. The query language solved the {{over-fetching|over-fetching}} problem that [[rest|REST]] APIs couldn't.",
-		credit: 'Photo: Marcin Wichary / CC BY 2.0, via Wikimedia Commons'
+		credit: 'Photo: LPS.1, CC0 1.0 (public domain), via Wikimedia Commons'
 	}
 };

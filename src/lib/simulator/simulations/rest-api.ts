@@ -2,6 +2,10 @@ import type { SimulationConfig } from '../types';
 import { createTCPLayer } from '../layers/tcp';
 import { createIPv4Layer } from '../layers/ipv4';
 import { createEthernetLayer } from '../layers/ethernet';
+import { createTLSRecordLayer } from '../layers/tls';
+
+const tlsAppData = () =>
+	createTLSRecordLayer({ contentType: 'Application Data (23)', handshakeType: 'N/A (encrypted)' });
 
 function httpRequestLayer(method: string, path: string, body?: string) {
 	return {
@@ -140,6 +144,7 @@ export const restApi: SimulationConfig = {
 				createEthernetLayer(),
 				createIPv4Layer({ protocol: 6 }),
 				createTCPLayer({ srcPort: 52100, dstPort: 443, flags: 'PSH,ACK' }),
+				tlsAppData(),
 				httpRequestLayer('GET', '/users')
 			]
 		},
@@ -156,6 +161,7 @@ export const restApi: SimulationConfig = {
 				createEthernetLayer({ srcMac: 'AA:BB:CC:DD:EE:FF', dstMac: '00:1A:2B:3C:4D:5E' }),
 				createIPv4Layer({ srcIp: '93.184.216.34', dstIp: '192.168.1.100', protocol: 6 }),
 				createTCPLayer({ srcPort: 443, dstPort: 52100, flags: 'PSH,ACK' }),
+				tlsAppData(),
 				httpResponseLayer('200 OK', '[{id:1, name:"Alice"}, ...]', '#22c55e')
 			]
 		},
@@ -172,6 +178,7 @@ export const restApi: SimulationConfig = {
 				createEthernetLayer(),
 				createIPv4Layer({ protocol: 6 }),
 				createTCPLayer({ srcPort: 52100, dstPort: 443, flags: 'PSH,ACK' }),
+				tlsAppData(),
 				httpRequestLayer('POST', '/users', '{"name":"Bob","email":"bob@example.com"}')
 			]
 		},
@@ -188,6 +195,7 @@ export const restApi: SimulationConfig = {
 				createEthernetLayer({ srcMac: 'AA:BB:CC:DD:EE:FF', dstMac: '00:1A:2B:3C:4D:5E' }),
 				createIPv4Layer({ srcIp: '93.184.216.34', dstIp: '192.168.1.100', protocol: 6 }),
 				createTCPLayer({ srcPort: 443, dstPort: 52100, flags: 'PSH,ACK' }),
+				tlsAppData(),
 				httpResponseLayer('201 Created', '{id:2, name:"Bob"}', '#22c55e')
 			]
 		},
@@ -204,6 +212,7 @@ export const restApi: SimulationConfig = {
 				createEthernetLayer(),
 				createIPv4Layer({ protocol: 6 }),
 				createTCPLayer({ srcPort: 52100, dstPort: 443, flags: 'PSH,ACK' }),
+				tlsAppData(),
 				httpRequestLayer('GET', '/users/2')
 			]
 		},
@@ -220,6 +229,7 @@ export const restApi: SimulationConfig = {
 				createEthernetLayer({ srcMac: 'AA:BB:CC:DD:EE:FF', dstMac: '00:1A:2B:3C:4D:5E' }),
 				createIPv4Layer({ srcIp: '93.184.216.34', dstIp: '192.168.1.100', protocol: 6 }),
 				createTCPLayer({ srcPort: 443, dstPort: 52100, flags: 'PSH,ACK' }),
+				tlsAppData(),
 				httpResponseLayer('200 OK', '{id:2, name:"Bob", email:"bob@..."}', '#22c55e')
 			]
 		}

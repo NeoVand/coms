@@ -210,9 +210,9 @@ openssl req -x509 -newkey rsa:2048 -nodes \\
 		},
 		{
 			date: '2024-Q2',
-			title: 'X25519MLKEM768 default in Chrome 124',
+			title: 'Hybrid PQ key agreement default in Chrome 124',
 			description:
-				'Chrome enables hybrid post-quantum key agreement by default for all [[tls|TLS]] 1.3 connections. {{cloudflare|Cloudflare}} and major CDNs follow within months.',
+				'Chrome 124 (April 2024) enables the draft **X25519Kyber768** hybrid by default for all [[tls|TLS]] 1.3 connections; it migrated to the standardized **X25519MLKEM768** in Chrome 131 (November 2024). {{cloudflare|Cloudflare}} and major CDNs follow within months.',
 			source: { url: 'https://chromestatus.com/feature/5572538108870656', label: 'Chrome Status' }
 		},
 		{

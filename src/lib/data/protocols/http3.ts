@@ -87,7 +87,7 @@ from aioquic.h3.connection import H3Connection
 from aioquic.quic.configuration import QuicConfiguration
 
 async def fetch_h3():
-    config = QuicConfiguration(is_client=True)
+    config = QuicConfiguration(is_client=True, alpn_protocols=["h3"])
     config.verify_mode = False  # for testing only
 
     async with connect("cloudflare-quic.com", 443,
@@ -99,7 +99,8 @@ async def fetch_h3():
             (b":path", b"/"),
             (b":scheme", b"https"),
             (b":authority", b"cloudflare-quic.com"),
-        ])
+        ], end_stream=True)
+        quic.transmit()  # actually put the packets on the wire
 
 asyncio.run(fetch_h3())`
 			},
@@ -109,11 +110,11 @@ asyncio.run(fetch_h3())`
 				sections: [
 					{
 						title: 'SETTINGS Frame',
-						code: `QUIC Stream: 0x00 (Control)\nFrame: SETTINGS (type=0x04)\n  QPACK_MAX_TABLE_CAPACITY: 4096\n  MAX_FIELD_SECTION_SIZE: 8192`
+						code: `QUIC Stream: 2 (client unidirectional — first byte 0x00 marks it the Control stream)\nFrame: SETTINGS (type=0x04)\n  QPACK_MAX_TABLE_CAPACITY: 4096\n  MAX_FIELD_SECTION_SIZE: 8192`
 					},
 					{
 						title: 'Request Stream',
-						code: `QUIC Stream: 0x04 (Bidirectional)\nFrame: HEADERS (type=0x01)\n  :method = GET\n  :path = /api/users/42\n  :scheme = https\n  :authority = api.example.com\n  accept = application/json\n\nFrame: DATA (type=0x00)\n  (empty body — GET request)\n\n--- Server Response ---\nFrame: HEADERS (type=0x01)\n  :status = 200\n  content-type = application/json\n\nFrame: DATA (type=0x00)\n  {"id": 42, "name": "Alice Chen"}`
+						code: `QUIC Stream: 0 (first client bidirectional — carries the request)\nFrame: HEADERS (type=0x01)\n  :method = GET\n  :path = /api/users/42\n  :scheme = https\n  :authority = api.example.com\n  accept = application/json\n\nFrame: DATA (type=0x00)\n  (empty body — GET request)\n\n--- Server Response ---\nFrame: HEADERS (type=0x01)\n  :status = 200\n  content-type = application/json\n\nFrame: DATA (type=0x00)\n  {"id": 42, "name": "Alice Chen"}`
 					}
 				]
 			}
@@ -127,7 +128,7 @@ asyncio.run(fetch_h3())`
 	},
 	connections: ['http2', 'quic', 'tls', 'udp', 'rest'],
 	links: {
-		wikipedia: 'https://en.wikipedia.org/wiki/[[http3|HTTP/3]]',
+		wikipedia: 'https://en.wikipedia.org/wiki/HTTP/3',
 		rfc: 'https://datatracker.ietf.org/doc/html/rfc9114'
 	},
 	image: {
@@ -146,16 +147,16 @@ asyncio.run(fetch_h3())`
 				'W3Techs measurements show [[http3|HTTP/3]] adoption past 35% of the top 10M websites — every {{cdn|CDN}}-fronted site, plus a growing share of origin-served sites with nginx 1.25+ or Caddy.'
 		},
 		{
-			date: '2024-Q4',
-			title: 'nginx 1.25 ships HTTP/3 stable',
+			date: '2023-05',
+			title: 'nginx 1.25 ships experimental HTTP/3',
 			description:
-				'After years of [[quic|QUIC]] plug-in modules, mainline nginx finally ships [[http3|HTTP/3]] as a stable feature. Cloud-init images and Docker base images followed within months.'
+				'After years of [[quic|QUIC]] plug-in modules, mainline nginx 1.25.0 ships an [[http3|HTTP/3]] module — still flagged experimental, and carried into the 1.26 stable branch (April 2024) with the same caveat.'
 		},
 		{
-			date: '2024',
+			date: '2022-01',
 			title: 'WebTransport API ships in Chrome',
 			description:
-				'{{webtransport|WebTransport}} (the JavaScript {{api|API}} on top of [[http3|HTTP/3]] datagrams and streams) reached Chrome stable. Replaces [[websockets|WebSockets]] for low-{{latency|latency}} client-server use cases.'
+				'{{webtransport|WebTransport}} (the JavaScript {{api|API}} on top of [[http3|HTTP/3]] datagrams and streams) reached Chrome stable in Chrome 97. A [[websockets|WebSockets]] alternative for low-{{latency|latency}} client-server use cases.'
 		}
 	],
 
@@ -174,7 +175,7 @@ asyncio.run(fetch_h3())`
 		},
 		{
 			org: 'Meta',
-			scale: '>75% of internet traffic on QUIC',
+			scale: ">75% of Meta's traffic on QUIC",
 			description:
 				'Facebook, Instagram, WhatsApp move majority bytes via [[http3|HTTP/3]]. mvfst (their [[quic|QUIC]] stack) is open-source.'
 		}
@@ -207,7 +208,7 @@ asyncio.run(fetch_h3())`
 			},
 			{
 				title: 'Some debugging tools have limited QUIC support',
-				text: '{{wireshark|Wireshark}} dissects [[http3|HTTP/3]] (since 4.0), but only when you have the [[quic|QUIC]] session secrets. curl supports [[http3|HTTP/3]] with --http3 (in builds compiled with quiche or msh3). If you rely on tcpdump to debug [[http2|HTTP/2]], expect more friction with [[http3|HTTP/3]].'
+				text: '{{wireshark|Wireshark}} dissects [[http3|HTTP/3]] (since 4.0), but only when you have the [[quic|QUIC]] session secrets. curl supports [[http3|HTTP/3]] with --http3 (in builds compiled with ngtcp2 — the default — or quiche). If you rely on tcpdump to debug [[http2|HTTP/2]], expect more friction with [[http3|HTTP/3]].'
 			}
 		]
 	}

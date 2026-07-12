@@ -136,14 +136,14 @@ export const wifiAssociation: SimulationConfig = {
 			id: 'bridge-to-ethernet',
 			label: 'Bridge to Ethernet',
 			description:
-				"The AP decrypts the Wi-Fi frame and re-encapsulates the IP packet into a standard Ethernet frame for the wired LAN. The AP's MAC becomes the Ethernet source, and the LAN server's MAC becomes the destination. This bridging is transparent — the server sees a normal Ethernet frame and has no idea the traffic originated from a wireless client.",
+				"The AP decrypts the Wi-Fi frame and re-encapsulates the payload into a standard Ethernet frame for the wired LAN. As a transparent Layer-2 bridge it preserves the client's MAC as the Ethernet source (802.11 Addr2/SA carries it) and uses the server's MAC as the destination — the server sees a normal Ethernet frame from the client and has no idea the traffic originated wirelessly.",
 			fromActor: 'ap',
 			toActor: 'server',
 			duration: 600,
 			highlight: ['Src MAC', 'Dst MAC'],
 			layers: [
 				createEthernetLayer({
-					srcMac: 'AA:BB:CC:DD:EE:FF',
+					srcMac: '00:1A:2B:3C:4D:5E',
 					dstMac: 'CC:DD:EE:FF:00:11'
 				}),
 				createIPv4Layer({

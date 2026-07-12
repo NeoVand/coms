@@ -39,7 +39,7 @@ Stuart Cheshire and Marc Krochmal at {{apple|Apple}} shipped this as **Rendezvou
 		{
 			title: 'Defend — re-probe on conflict',
 			description:
-				'If a live host sees a Response from another host claiming the same name (e.g., after a network merge), it sends one defence Response. If the conflict persists for 10 seconds, it re-probes for a new name. This is how name collisions across previously-disjoint networks heal automatically.'
+				"A host *defends* its name by immediately answering another host's probe queries for it. But if it sees a conflicting *Response* asserting the same name (e.g., after a network merge), RFC 6762 §9 requires it to reset to the probing state at once; a lexicographic tiebreak on the record data decides the winner, and the loser re-probes for a new name. (A separate rule rate-limits a host to 15 conflicts in 10 seconds.) This is how name collisions across previously-disjoint networks heal automatically."
 		},
 		{
 			title: 'Goodbye — TTL=0 on exit',
@@ -89,7 +89,8 @@ finally:
 			{
 				language: 'javascript',
 				code: `// bonjour-service — the canonical Node mDNS library.
-const bonjour = require('bonjour-service')();
+const { Bonjour } = require('bonjour-service');
+const bonjour = new Bonjour();
 
 // Publish a service
 const svc = bonjour.publish({
@@ -174,10 +175,11 @@ Answers:
   TXT     Office Printer.[...]   TXT    rp=ipp/print pdl=application/pdf
   A       office-printer.local   A      192.168.1.42
 
-Each RR's CLASS field:
-  0x0001 = IN
-  + high bit set = CACHE-FLUSH ("supersede whatever you had cached for this name")
-  → RRCLASS on the wire = 0x8001`
+RR CLASS on the wire:
+  PTR (a SHARED record) → 0x0001 = IN, cache-flush bit MUST be 0
+  SRV / TXT / A (UNIQUE records) → 0x8001 = IN + cache-flush bit
+  (setting cache-flush on the shared PTR would wrongly evict other
+   printers' PTRs — RFC 6762 §10.2 forbids it)`
 					},
 					{
 						title: 'DNS-SD service-type enumeration',
@@ -202,7 +204,7 @@ Each RR's CLASS field:
 		throughput:
 			'Per-packet ~80–250 bytes for typical announce/resolve. Steady-state bandwidth is dominated by the announce interval (re-announce every 4500 s for service records, 120 s for A/AAAA) — effectively negligible per device',
 		overhead:
-			'12-byte DNS header + variable QNAME (with compression). Worst-case amplification factor ~10× (Rossow NDSS 2014) makes mDNS a reflection-DDoS vector if responders are exposed to the WAN'
+			'12-byte DNS header + variable QNAME (with compression). Worst-case amplification factor up to ~10× (documented via CERT/CC VU#550620, 2015) makes mDNS a reflection-DDoS vector if responders are exposed to the WAN'
 	},
 	connections: ['dns', 'dhcp', 'udp', 'ip', 'ipv6', 'bluetooth', 'wifi'],
 	links: {
@@ -318,7 +320,7 @@ Each RR's CLASS field:
 			},
 			{
 				title: 'mDNS responders exposed to the WAN are a DDoS reflector',
-				text: 'Many home routers shipped with [[mdns-dns-sd|mDNS]] responders that answered queries on their {{wan|WAN}} interface — a misconfiguration violating [[rfc:6762|RFC 6762]]\'s "link-local only" intent. **Christian Rossow\'s "Amplification Hell" ({{ndss-conf|NDSS}} 2014)** measured BAF up to ~10× for mDNS. **CERT/CC VU#550620 (March 2015)** and **Akamai (December 2016)** documented in-the-wild abuse. **Cure:** {{firewall|firewall}} UDP/5353 at the {{wan|WAN}} edge; ensure your responder refuses non-link-local {{unicast|unicast}} queries; deploy BCP 38 ingress filtering.'
+				text: 'Many home routers shipped with [[mdns-dns-sd|mDNS]] responders that answered queries on their {{wan|WAN}} interface — a misconfiguration violating [[rfc:6762|RFC 6762]]\'s "link-local only" intent. **CERT/CC VU#550620 (March 2015)** documented mDNS responders answering off-link unicast queries, and **Akamai (December 2016)** measured in-the-wild abuse with amplification up to ~975% (~10×). (Rossow\'s "Amplification Hell", NDSS 2014, surveyed 14 other protocols but not mDNS.) **Cure:** {{firewall|firewall}} UDP/5353 at the {{wan|WAN}} edge; ensure your responder refuses non-link-local {{unicast|unicast}} queries; deploy BCP 38 ingress filtering.'
 			},
 			{
 				title: 'Stadium / large-venue mDNS storms',

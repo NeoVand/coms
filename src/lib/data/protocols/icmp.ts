@@ -62,7 +62,7 @@ import time
 def checksum(data):
     s = 0
     for i in range(0, len(data), 2):
-        w = data[i] + (data[i+1] << 8)
+        w = (data[i] << 8) + data[i+1]
         s = s + w
     s = (s >> 16) + (s & 0xffff)
     s = s + (s >> 16)

@@ -71,11 +71,11 @@ const user = await fetch('/api/users/42').then(r => r.json());
 const newUser = await fetch('/api/users', {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
-  body: {{json|JSON}}.stringify({ name: 'Alice', role: 'admin' })
+  body: JSON.stringify({ name: 'Alice', role: 'admin' })
 }).then(r => r.json());
 
 // DELETE — remove a resource
-await {{imap-fetch|fetch}}('/api/users/42', { method: 'DELETE' });`
+await fetch('/api/users/42', { method: 'DELETE' });`
 			},
 			{
 				language: 'cli',
@@ -131,7 +131,7 @@ curl -X DELETE https://api.example.com/users/42`
 		'oauth2'
 	],
 	links: {
-		wikipedia: 'https://en.wikipedia.org/wiki/[[rest|REST]]',
+		wikipedia: 'https://en.wikipedia.org/wiki/REST',
 		official: 'https://ics.uci.edu/~fielding/pubs/dissertation/rest_arch_style.htm'
 	},
 	image: {

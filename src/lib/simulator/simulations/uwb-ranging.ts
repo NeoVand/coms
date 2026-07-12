@@ -17,7 +17,10 @@ export const uwbRanging: SimulationConfig = {
 			label: 'UWB channel',
 			type: 'select',
 			defaultValue: 'Channel 9 (7987.2 MHz)',
-			options: ['Channel 5 (6489.6 MHz, universal)', 'Channel 9 (7987.2 MHz, restricted in Japan)']
+			options: [
+				'Channel 9 (7987.2 MHz, worldwide incl. Japan)',
+				'Channel 5 (6489.6 MHz, not permitted in Japan)'
+			]
 		},
 		{
 			id: 'mode',
@@ -39,12 +42,12 @@ export const uwbRanging: SimulationConfig = {
 			id: 'ble-adv',
 			label: 'BLE advertising — anchor broadcasts service UUID',
 			description:
-				"Every consumer UWB session opens over BLE. The anchor (car, lock, AirTag) broadcasts an `ADV_NONCONN_IND` on advertising channels 37/38/39 carrying the application's service UUID (Apple Find My, CCC Digital Key, Aliro). The phone scans those channels; UWB is not yet powered.",
+				"Every consumer UWB session opens over BLE. The anchor (car, lock, AirTag) broadcasts a connectable `ADV_IND` on advertising channels 37/38/39 carrying the application's service UUID (Apple Find My, CCC Digital Key, Aliro). The phone scans those channels; UWB is not yet powered.",
 			fromActor: 'anchor',
 			toActor: 'phone',
 			duration: 800,
 			highlight: ['Channel', 'Mode'],
-			data: 'BLE ADV_NONCONN_IND: AppleFindMy service data, ephemeral pubkey',
+			data: 'BLE ADV_IND: AppleFindMy service data, ephemeral pubkey',
 			layers: [
 				createUWBPHYLayer({
 					channel: '(BLE 2.402 GHz — UWB radio off)',
@@ -89,9 +92,9 @@ export const uwbRanging: SimulationConfig = {
 			layers: [
 				createUWBPHYLayer({
 					channel: 'Ch 9 — 7987.2 MHz, 499.2 MHz BW',
-					mode: 'BPRF 64 MHz, 6.81 Mbps',
+					mode: 'BPRF 62.4 MHz, 6.81 Mbps',
 					shr: '64 sync symbols + 8-symbol SFD',
-					phr: 'len=12, RFRAME=1, rate=01 (6.81 Mbps)',
+					phr: 'len=12, RFRAME=1, rate=10 (6.81 Mbps)',
 					psdu: 'Ranging seq=0, peer addr=0x1234',
 					sts: '32 chips × AES-128-CTR(STS_KEY, nonce || 0)'
 				}),
@@ -116,9 +119,9 @@ export const uwbRanging: SimulationConfig = {
 			layers: [
 				createUWBPHYLayer({
 					channel: 'Ch 9 — 7987.2 MHz, 499.2 MHz BW',
-					mode: 'BPRF 64 MHz, 6.81 Mbps',
+					mode: 'BPRF 62.4 MHz, 6.81 Mbps',
 					shr: '64 sync symbols + 8-symbol SFD',
-					phr: 'len=24, RFRAME=1, rate=01',
+					phr: 'len=24, RFRAME=1, rate=10',
 					psdu: 'Ranging seq=1; t2=0x..56789A, t3=0x..56ABCD',
 					sts: '32 chips × AES-128-CTR(STS_KEY, nonce || 1)'
 				}),
@@ -143,9 +146,9 @@ export const uwbRanging: SimulationConfig = {
 			layers: [
 				createUWBPHYLayer({
 					channel: 'Ch 9 — 7987.2 MHz, 499.2 MHz BW',
-					mode: 'BPRF 64 MHz, 6.81 Mbps',
+					mode: 'BPRF 62.4 MHz, 6.81 Mbps',
 					shr: '64 sync symbols + 8-symbol SFD',
-					phr: 'len=32, RFRAME=1, rate=01',
+					phr: 'len=32, RFRAME=1, rate=10',
 					psdu: 'Ranging seq=2; t1, t4, t5 (carried in payload)',
 					sts: '32 chips × AES-128-CTR(STS_KEY, nonce || 2)'
 				}),

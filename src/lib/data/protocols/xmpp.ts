@@ -202,7 +202,7 @@ Server → Contacts (broadcast):
 	},
 	connections: ['tcp', 'tls', 'websockets'],
 	links: {
-		wikipedia: 'https://en.wikipedia.org/wiki/[[xmpp|XMPP]]',
+		wikipedia: 'https://en.wikipedia.org/wiki/XMPP',
 		rfc: 'https://datatracker.ietf.org/doc/html/rfc6120',
 		official: 'https://xmpp.org/'
 	},

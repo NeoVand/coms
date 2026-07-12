@@ -160,10 +160,10 @@ export const ftpTransfer: SimulationConfig = {
 			id: 'retr',
 			label: 'RETR',
 			description:
-				'The client requests to download report.pdf. The server responds with 150 indicating it is opening a data connection. The file content flows over the separate data channel (PASV-assigned port), keeping the control channel free for status updates.',
+				"The client requests to download report.pdf. This RETR command travels on the CONTROL connection (port 21) — only the file bytes use the data channel. This channel separation is FTP's defining design.",
 			fromActor: 'client',
 			toActor: 'server',
-			duration: 1200,
+			duration: 900,
 			highlight: ['Command', 'Argument', 'Channel'],
 			layers: [
 				createEthernetLayer(),
@@ -172,8 +172,52 @@ export const ftpTransfer: SimulationConfig = {
 				createFTPLayer({
 					command: 'RETR',
 					argument: 'report.pdf',
+					replyCode: '',
+					replyText: '',
+					channel: 'Control (21)'
+				})
+			]
+		},
+		{
+			id: 'retr-150',
+			label: '150 Opening data connection',
+			description:
+				'The server replies 150 on the control channel, announcing it is about to send the file over the PASV-assigned data connection. The control channel stays free for further status.',
+			fromActor: 'server',
+			toActor: 'client',
+			duration: 600,
+			highlight: ['Reply Code', 'Reply Text', 'Channel'],
+			layers: [
+				createEthernetLayer({ srcMac: 'AA:BB:CC:DD:EE:FF', dstMac: '00:1A:2B:3C:4D:5E' }),
+				createIPv4Layer({ srcIp: '93.184.216.34', dstIp: '192.168.1.100', protocol: 6 }),
+				createTCPLayer({ srcPort: 21, dstPort: 49400, flags: 'PSH,ACK' }),
+				createFTPLayer({
+					command: '',
+					argument: '',
 					replyCode: '150',
-					replyText: 'Opening BINARY mode data connection',
+					replyText: 'Opening BINARY mode data connection for report.pdf',
+					channel: 'Control (21)'
+				})
+			]
+		},
+		{
+			id: 'file-data',
+			label: 'File bytes (data channel)',
+			description:
+				'The file content streams over the separate PASV data connection (the server-assigned high port from the 227 reply), entirely distinct from the control channel. When the transfer ends the server sends 226 on the control channel.',
+			fromActor: 'server',
+			toActor: 'client',
+			duration: 1200,
+			highlight: ['Channel'],
+			layers: [
+				createEthernetLayer({ srcMac: 'AA:BB:CC:DD:EE:FF', dstMac: '00:1A:2B:3C:4D:5E' }),
+				createIPv4Layer({ srcIp: '93.184.216.34', dstIp: '192.168.1.100', protocol: 6 }),
+				createTCPLayer({ srcPort: 50100, dstPort: 50200, flags: 'PSH,ACK' }),
+				createFTPLayer({
+					command: '',
+					argument: '',
+					replyCode: '',
+					replyText: 'report.pdf contents (binary octets)…',
 					channel: 'Data (PASV)'
 				})
 			]

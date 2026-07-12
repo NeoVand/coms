@@ -135,14 +135,14 @@ export const smtpDelivery: SimulationConfig = {
 			]
 		},
 		{
-			id: 'data',
+			id: 'data-command',
 			label: 'DATA',
 			description:
-				'The client begins the message body. The server responds with 354, indicating it is ready to receive. The message includes headers (From, To, Subject) and the body text, terminated by a line containing only a period.',
+				'The client sends the bare DATA command and then must WAIT — SMTP DATA is two-phase (RFC 5321 §3.3). It cannot send the message content until the server grants permission with a 354 reply.',
 			fromActor: 'client',
 			toActor: 'server',
-			duration: 1200,
-			highlight: ['Command', 'Body'],
+			duration: 700,
+			highlight: ['Command'],
 			layers: [
 				createEthernetLayer(),
 				createIPv4Layer({ protocol: 6 }),
@@ -152,7 +152,51 @@ export const smtpDelivery: SimulationConfig = {
 					parameter: '',
 					responseCode: '',
 					responseText: '',
-					body: 'Subject: Hello!\\nFrom: alice@example.com\\nTo: user@example.com\\n\\nHi, this is a test email.'
+					body: ''
+				})
+			]
+		},
+		{
+			id: 'data-354',
+			label: '354 Start mail input',
+			description:
+				'The server replies 354, telling the client to go ahead and stream the message, ending with a line containing only a single period (<CRLF>.<CRLF>). A server that receives content before it has sent 354 rejects it.',
+			fromActor: 'server',
+			toActor: 'client',
+			duration: 600,
+			highlight: ['Response Code', 'Response Text'],
+			layers: [
+				createEthernetLayer({ srcMac: 'AA:BB:CC:DD:EE:FF', dstMac: '00:1A:2B:3C:4D:5E' }),
+				createIPv4Layer({ srcIp: '93.184.216.34', dstIp: '192.168.1.100', protocol: 6 }),
+				createTCPLayer({ srcPort: 587, dstPort: 49300, flags: 'PSH,ACK' }),
+				createSMTPLayer({
+					command: '',
+					parameter: '',
+					responseCode: '354',
+					responseText: 'Start mail input; end with <CRLF>.<CRLF>',
+					body: ''
+				})
+			]
+		},
+		{
+			id: 'data-body',
+			label: 'Message body',
+			description:
+				'Now permitted, the client streams the message — headers (From, To, Subject), a blank line, then the body — terminated by a line containing only a period.',
+			fromActor: 'client',
+			toActor: 'server',
+			duration: 1000,
+			highlight: ['Body'],
+			layers: [
+				createEthernetLayer(),
+				createIPv4Layer({ protocol: 6 }),
+				createTCPLayer({ srcPort: 49300, dstPort: 587, flags: 'PSH,ACK' }),
+				createSMTPLayer({
+					command: '',
+					parameter: '',
+					responseCode: '',
+					responseText: '',
+					body: 'Subject: Hello!\\nFrom: alice@example.com\\nTo: user@example.com\\n\\nHi, this is a test email.\\n.'
 				})
 			]
 		},

@@ -42,7 +42,7 @@ export const tcpHandshake: SimulationConfig = {
 			highlight: ['Flags', 'Seq #'],
 			layers: [
 				createEthernetLayer(),
-				createIPv4Layer({ protocol: 6 }),
+				createIPv4Layer({ protocol: 6, totalLength: 40 }),
 				createTCPLayer({ srcPort: 49152, dstPort: 80, seq: 1000, ack: 0, flags: 'SYN' })
 			]
 		},
@@ -63,7 +63,8 @@ export const tcpHandshake: SimulationConfig = {
 				createIPv4Layer({
 					srcIp: '93.184.216.34',
 					dstIp: '192.168.1.100',
-					protocol: 6
+					protocol: 6,
+					totalLength: 40
 				}),
 				createTCPLayer({
 					srcPort: 80,
@@ -85,7 +86,7 @@ export const tcpHandshake: SimulationConfig = {
 			highlight: ['Flags', 'Ack #'],
 			layers: [
 				createEthernetLayer(),
-				createIPv4Layer({ protocol: 6 }),
+				createIPv4Layer({ protocol: 6, totalLength: 40 }),
 				createTCPLayer({
 					srcPort: 49152,
 					dstPort: 80,
@@ -107,7 +108,7 @@ export const tcpHandshake: SimulationConfig = {
 			data: 'Hello, server!',
 			layers: [
 				createEthernetLayer(),
-				createIPv4Layer({ protocol: 6, totalLength: 74 }),
+				createIPv4Layer({ protocol: 6, totalLength: 54 }),
 				createTCPLayer({
 					srcPort: 49152,
 					dstPort: 80,
@@ -149,7 +150,8 @@ export const tcpHandshake: SimulationConfig = {
 				createIPv4Layer({
 					srcIp: '93.184.216.34',
 					dstIp: '192.168.1.100',
-					protocol: 6
+					protocol: 6,
+					totalLength: 40
 				}),
 				createTCPLayer({
 					srcPort: 80,
@@ -171,7 +173,7 @@ export const tcpHandshake: SimulationConfig = {
 			highlight: ['Flags'],
 			layers: [
 				createEthernetLayer(),
-				createIPv4Layer({ protocol: 6 }),
+				createIPv4Layer({ protocol: 6, totalLength: 40 }),
 				createTCPLayer({
 					srcPort: 49152,
 					dstPort: 80,
@@ -198,7 +200,8 @@ export const tcpHandshake: SimulationConfig = {
 				createIPv4Layer({
 					srcIp: '93.184.216.34',
 					dstIp: '192.168.1.100',
-					protocol: 6
+					protocol: 6,
+					totalLength: 40
 				}),
 				createTCPLayer({
 					srcPort: 80,
@@ -220,7 +223,7 @@ export const tcpHandshake: SimulationConfig = {
 			highlight: ['Flags', 'Ack #'],
 			layers: [
 				createEthernetLayer(),
-				createIPv4Layer({ protocol: 6 }),
+				createIPv4Layer({ protocol: 6, totalLength: 40 }),
 				createTCPLayer({
 					srcPort: 49152,
 					dstPort: 80,

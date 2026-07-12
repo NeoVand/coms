@@ -4,6 +4,7 @@ import { createIPv4Layer } from '../layers/ipv4';
 import { createEthernetLayer } from '../layers/ethernet';
 import { createUDPLayer } from '../layers/udp';
 import { createSTUNLayer } from '../layers/stun';
+import { createDTLSLayer } from '../layers/dtls';
 
 function createSDPLayer(type: 'Offer' | 'Answer') {
 	return {
@@ -207,19 +208,19 @@ export const webrtcPeer: SimulationConfig = {
 			id: 'dtls-handshake',
 			label: 'DTLS Handshake',
 			description:
-				'After ICE succeeds, peers perform a DTLS handshake directly over UDP. This establishes encryption keys for SRTP media. The certificate fingerprint is verified against the one in the SDP.',
+				'After ICE succeeds, peers run a DTLS handshake on the very same UDP port — DTLS, STUN, and SRTP are told apart by their first byte (RFC 7983), not nested inside each other. DTLS establishes the keys for SRTP media, and each side verifies the peer certificate fingerprint against the one in the SDP.',
 			fromActor: 'peerB',
 			toActor: 'peerA',
 			duration: 800,
-			highlight: ['Type', 'Attribute'],
+			highlight: ['Content Type', 'Handshake Type', 'Body'],
 			layers: [
 				createEthernetLayer({ srcMac: '11:22:33:44:55:66', dstMac: '00:1A:2B:3C:4D:5E' }),
 				createIPv4Layer({ srcIp: '10.0.0.50', dstIp: '192.168.1.100', protocol: 17 }),
 				createUDPLayer({ srcPort: 48901, dstPort: 52801 }),
-				createSTUNLayer({
-					type: 'DTLS ClientHello',
-					length: 256,
-					attribute: 'DTLS 1.2, cipher: TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256'
+				createDTLSLayer({
+					contentType: 'Handshake (22)',
+					handshakeType: 'ClientHello (1)',
+					body: 'cipher: TLS_ECDHE_ECDSA_WITH_AES_128_GCM_SHA256, use_srtp: SRTP_AES128_CM_HMAC_SHA1_80'
 				})
 			]
 		},

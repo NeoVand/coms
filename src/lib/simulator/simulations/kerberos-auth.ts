@@ -38,7 +38,7 @@ export const kerberosAuth: SimulationConfig = {
 			options: [
 				'aes256-cts-hmac-sha384-192',
 				'aes128-cts-hmac-sha256-128',
-				'rc4-hmac (legacy, NEA1)'
+				'rc4-hmac (etype 23, arcfour-hmac)'
 			]
 		}
 	],
@@ -173,7 +173,7 @@ export const kerberosAuth: SimulationConfig = {
 			id: 'ap-rep',
 			label: 'AP-REP — mutual authentication',
 			description:
-				"web1 decrypts the ticket using its **keytab** key (no round trip to the KDC!), extracts K_svc, decrypts the authenticator. If ctime is within ±5 min and seq-number is fresh, Alice is authenticated. If she set `mutual-required` in ap-options, web1 returns an **AP-REP** with its own encrypted timestamp — proving to Alice she's talking to the real web1 (the one with the right keytab), not an impostor.",
+				"web1 decrypts the ticket using its **keytab** key (no round trip to the KDC!), extracts K_svc, decrypts the authenticator. If ctime is within ±5 min and the authenticator isn't already in web1's **replay cache**, Alice is authenticated. If she set `mutual-required` in ap-options, web1 returns an **AP-REP** echoing *her* authenticator's ctime/cusec encrypted under K_svc — only the real web1 (the one with the right keytab) could read and echo it, proving it's not an impostor.",
 			fromActor: 'service',
 			toActor: 'client',
 			duration: 1200,
@@ -206,8 +206,8 @@ export const kerberosAuth: SimulationConfig = {
 				createKerberosLayer({
 					appTag: '[APPLICATION 15] AP-REP',
 					msgType: 15,
-					cname: 'HTTP/web1.example.com',
-					body: 'enc-part: enc[K_svc] { ctime, cusec, subkey?, seq-number echoed }'
+					cname: '(none — AP-REP is { pvno, msg-type, enc-part } only)',
+					body: "enc-part: enc[K_svc] { ctime, cusec (echoed from Alice's authenticator), subkey?, seq-number }"
 				})
 			]
 		},

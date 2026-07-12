@@ -125,7 +125,7 @@ Client → Server  [ACK]
 					{
 						title: 'Data Segment',
 						code: `TCP Segment:
-  Src Port: 52431 → Dst Port: 443
+  Src Port: 52431 → Dst Port: 80
   Seq: 1, Ack: 1, Len: 347
   Flags: 0x018 (PSH, ACK)
   Window: 65535
@@ -156,7 +156,7 @@ Client → Server  [ACK]
 	},
 	performance: {
 		latency:
-			'1 RTT for TCP handshake (additional RTTs come from TLS, not TCP itself), then ~0.5 RTT per data exchange',
+			'1 RTT for TCP handshake (additional RTTs come from TLS, not TCP itself), then 1 RTT per request-response exchange (one-way data arrives in ~0.5 RTT)',
 		throughput: 'Limited by congestion window; typically reaches line speed on stable connections',
 		overhead:
 			'20-byte header minimum + options; 32 bytes with timestamps (20-byte header + 12-byte timestamp option)'
@@ -236,7 +236,7 @@ Client → Server  [ACK]
 			org: 'Google',
 			scale: 'BBR for google.com / YouTube',
 			description:
-				"BBRv1 deployed in 2016, {{bbrv3|BBRv3}} has rolled out as the default since 2024. Replaces {{cubic|CUBIC}} for outbound traffic from {{google|Google}}'s edge."
+				"BBRv1 deployed in 2016; {{bbrv3|BBRv3}}, introduced at IETF 117 (July 2023), rolled out across google.com and YouTube through 2023–2024. Replaces {{cubic|CUBIC}} for outbound traffic from {{google|Google}}'s edge."
 		},
 		{
 			org: 'Meta',
@@ -248,14 +248,14 @@ Client → Server  [ACK]
 			org: 'Apple',
 			scale: 'iOS / macOS default',
 			description:
-				'NewReno + {{cubic|CUBIC}} by default since iOS 5; {{ecn|ECN}} with {{l4s|L4S}} support enabled by default on iOS 17+ and macOS Sonoma+.'
+				'NewReno early on, {{cubic|CUBIC}} by default since ~2014 (iOS 8 / OS X Yosemite); {{ecn|ECN}} on by default since iOS 11, with {{l4s|L4S}} support added in iOS 17+ and macOS Sonoma+.'
 		}
 	],
 
 	funFacts: [
 		{
 			title: 'RFC 793 was the spec for 41 years',
-			text: "From September 1981 until [[rfc:9293|RFC 9293]] (August 2022), [[pioneer:jon-postel|Jon Postel]]'s [[rfc:9293|RFC 793]] was the canonical [[tcp|TCP]] specification — almost certainly the longest unmodified {{ietf|IETF}} spec ever. [[rfc:9293|RFC 9293]] finally consolidated 13 errata documents into a single readable document, edited by Wesley Eddy."
+			text: "From September 1981 until [[rfc:9293|RFC 9293]] (August 2022), [[pioneer:jon-postel|Jon Postel]]'s [[rfc:9293|RFC 793]] was the canonical [[tcp|TCP]] specification — among the longest-lived core specs in networking, alongside [[udp|UDP]]'s RFC 768 (1980) and IP/ICMP's RFC 791/792 (also 1981), which likewise stayed canonical for decades. [[rfc:9293|RFC 9293]] finally folded six updating RFCs and years of accepted errata into a single readable document, edited by Wesley Eddy."
 		},
 		{
 			title: "TCP's sequence numbers used to be guessable",
@@ -263,7 +263,7 @@ Client → Server  [ACK]
 		},
 		{
 			title: 'The window field is only 16 bits',
-			text: 'The [[tcp|TCP]] receive-window field is 16 bits — max 65,535 bytes. On a 100 ms transcontinental path that caps throughput at ~5 Mbit/s. The {{window-scale|Window Scale}} option ([[rfc:7323|RFC 7323]], 1992) shifts the window left by up to 14 bits, allowing windows up to 1 GB. Without it, modern long-fat-pipe networking would be impossible.'
+			text: 'The [[tcp|TCP]] receive-window field is 16 bits — max 65,535 bytes. On a 100 ms transcontinental path that caps throughput at ~5 Mbit/s. The {{window-scale|Window Scale}} option (RFC 1323, 1992; superseded by [[rfc:7323|RFC 7323]]) shifts the window left by up to 14 bits, allowing windows up to 1 GB. Without it, modern long-fat-pipe networking would be impossible.'
 		},
 		{
 			title: 'TIME_WAIT exists because of stragglers',

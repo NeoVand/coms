@@ -16,15 +16,15 @@ export function createUWBPHYLayer(
 				value: overrides?.channel ?? 'Ch 9 — 7987.2 MHz, 499.2 MHz BW',
 				editable: false,
 				description:
-					'Channel 5 (6489.6 MHz) is universal; Channel 9 (7987.2 MHz) is preferred outside Japan'
+					'Channel 9 (7987.2 MHz) is the FiRa-mandatory worldwide channel (incl. Japan); Channel 5 (6489.6 MHz) is not permitted in Japan and overlaps Wi-Fi 6E'
 			},
 			{
 				name: 'Mode',
 				bits: 0,
-				value: overrides?.mode ?? 'BPRF mean PRF = 64 MHz, 6.81 Mbps data rate',
+				value: overrides?.mode ?? 'BPRF mean PRF = 62.4 MHz, 6.81 Mbps data rate',
 				editable: false,
 				description:
-					'BPRF (base ~64 MHz) for tag-side power; HPRF (124.8/249.6 MHz) for anchor-side processing gain'
+					'BPRF (mean PRF 62.4 MHz) for tag-side power; HPRF (124.8/249.6 MHz) for anchor-side processing gain'
 			},
 			{
 				name: 'SHR (Preamble + SFD)',
@@ -37,7 +37,7 @@ export function createUWBPHYLayer(
 			{
 				name: 'PHR',
 				bits: 19,
-				value: overrides?.phr ?? 'len=12, RFRAME=1, rate=01 (6.81 Mbps)',
+				value: overrides?.phr ?? 'len=12, RFRAME=1, rate=10 (6.81 Mbps)',
 				editable: false,
 				description:
 					'PHY Header: 7-bit frame length, 1-bit ranging-frame flag (RFRAME), 2-bit data rate, 6-bit SECDED parity'
@@ -62,7 +62,8 @@ export function createUWBPHYLayer(
 				bits: 16,
 				value: '0x1234',
 				editable: false,
-				description: '16-bit CRC over PSDU + STS'
+				description:
+					'16-bit CRC-16 — the last two octets of the MAC frame inside the PSDU; it does not cover the STS'
 			}
 		]
 	};

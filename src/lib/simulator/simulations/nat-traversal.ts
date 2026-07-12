@@ -187,7 +187,7 @@ export const natTraversalIce: SimulationConfig = {
 			id: 'media',
 			label: 'Media + Consent Freshness',
 			description:
-				'Media now flows directly between Alice and Bob — typically DTLS-SRTP for WebRTC. Every ~15 seconds, a STUN Binding Indication keeps the NAT binding alive (RFC 7675 consent freshness). Silence for ~30 s triggers ICE restart.',
+				'Media now flows directly between Alice and Bob — typically DTLS-SRTP for WebRTC. RFC 7675 consent freshness sends a STUN Binding Request every ~5 s (each answered by a Binding Response); if consent goes unanswered for ~30 s the agent stops sending. Separate RFC 8445 keepalive Binding Indications (~15 s, no reply) keep idle NAT bindings warm.',
 			fromActor: 'alice',
 			toActor: 'bob',
 			duration: 1400,
@@ -213,9 +213,10 @@ export const natTraversalIce: SimulationConfig = {
 						{
 							name: 'Keepalive cadence',
 							bits: 0,
-							value: '~15 s',
+							value: '~5 s',
 							editable: false,
-							description: 'Consent-freshness STUN Binding Indication ([[rfc:7675|RFC 7675]])'
+							description:
+								'Consent check — STUN Binding Request/Response ([[rfc:7675|RFC 7675]]); RFC 8445 keepalive Indications run separately every ~15 s'
 						},
 						{
 							name: 'TURN refresh',

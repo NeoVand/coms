@@ -12,9 +12,9 @@ export const ipsec: Protocol = {
 		"The {{ietf|IETF}}'s Layer-3 cryptographic envelope — every site-to-site {{vpn|VPN}}, every {{3gpp|3GPP}} mobile-core backhaul, every {{ikev2|IKEv2}} client tunnel on macOS / iOS / Windows / {{android|Android}} runs IPsec.",
 	overview: `[[ipsec|IPsec]] is the {{ietf|IETF}}'s **network-layer** security architecture. Where [[tls|TLS]] wraps a single [[tcp|TCP]] stream and [[ssh|SSH]] wraps a single remote session, [[ipsec|IPsec]] {{encryption|encrypts}} entire [[ip|IP]] {{packet|packets}} — host-to-host, gateway-to-gateway, or both — and is the only mainstream cryptographic protocol that lives *inside* the network stack rather than above it. **{{ah-authentication-header|AH}}** ([[rfc:4302|RFC 4302]]) authenticates the [[ip|IP]] {{header|header}} and {{payload|payload}}; **{{esp|ESP}}** ([[rfc:4303|RFC 4303]], the part everyone actually deploys) encrypts and authenticates payloads using {{aead|AEAD ciphers}} like {{aes-gcm|AES-GCM}} and {{chacha20-poly1305|ChaCha20-Poly1305}}. **{{ike|IKEv2}}** ([[rfc:7296|RFC 7296]], the modern key-management protocol, edited across decades by [[pioneer:charlie-kaufman|Charlie Kaufman]] and [[pioneer:tero-kivinen|Tero Kivinen]]) negotiates the {{cipher-suite|cipher suite}} and establishes the {{security-association|Security Associations}} the data plane uses.
 
-The architecture began in 1995 with [[pioneer:randall-atkinson|Randall Atkinson]] at the U.S. Naval Research Lab ({{rfc-doc|RFC}} 1825/1826/1827); [[pioneer:phil-karn|Phil Karn]] influenced the design from Qualcomm and was, in parallel, the plaintiff in *Karn v. U.S. State Department* — the export-control case that helped establish "code is speech." [[ipsec|IPsec]] has been re-architected twice ([[rfc:4301|RFC 4301]], 2005) and survived a 2003 architectural critique from Ferguson and Schneier (whose paper concluded it was, despite its complexity, "the best [[ip|IP]] security protocol available at the moment"). It is the **only** widely-deployed {{vpn|VPN}} that natively carries [[bgp|BGP]] / [[ospf|OSPF]] / {{multicast|multicast}} on tunnel interfaces — the reason {{3gpp|3GPP}} picked it for {{lte|LTE}} S1/X2 and 5G N2/N3 backhaul, and the reason every carrier on Earth runs it whether they want to or not.
+The architecture began in 1995 with [[pioneer:randall-atkinson|Randall Atkinson]] at the U.S. Naval Research Lab ({{rfc-doc|RFC}} 1825/1826/1827); [[pioneer:phil-karn|Phil Karn]] influenced the design from Qualcomm and was, in parallel, the plaintiff in *Karn v. U.S. State Department* — the export-control case that helped establish "code is speech." [[ipsec|IPsec]] has been re-architected twice ([[rfc:4301|RFC 4301]], 2005) and survived a 2003 architectural critique from Ferguson and Schneier (whose paper concluded it was, despite its complexity, "the best [[ip|IP]] security protocol available at the moment"). Route-based [[ipsec|IPsec]] (VTI/{{xfrm|XFRM}} interfaces) natively carries [[bgp|BGP]] / [[ospf|OSPF]] on tunnel interfaces ({{multicast|multicast}} typically still needs GRE-over-IPsec) — the reason {{3gpp|3GPP}} picked it for {{lte|LTE}} S1/X2 and 5G N2/N3 backhaul, and the reason every carrier on Earth runs it whether they want to or not.
 
-As of May 2026, [[ipsec|IPsec]] is also the first mainstream {{vpn|VPN}} with a real, deployable **post-quantum** story: [[rfc:8784|RFC 8784]] mixes a post-quantum pre-shared key into {{ikev2|IKEv2}}; [[rfc:9242|RFC 9242]] adds the {{ipsec-ike-intermediate|IKE_INTERMEDIATE}} {{exchange|exchange}} so large {{pq|PQ}} public keys can be transferred before authentication; [[rfc:9370|RFC 9370]] allows multiple chained key exchanges per {{security-association|SA}} negotiation. strongSwan 6.0 (December 2024) ships native {{ml-kem|ML-KEM}}. The much-loved [[wifi|WireGuard]] caught up to IPsec on simplicity but is still behind on {{pq|PQ}}, on {{eap|EAP}}, on carrier certifications ({{fips|FIPS}}, Common Criteria, BSI SINA), and on the ability to carry a full routing protocol — which is why [[ipsec|IPsec]] still owns the enterprise/carrier market.`,
+As of May 2026, [[ipsec|IPsec]] is also the first mainstream {{vpn|VPN}} with a real, deployable **post-quantum** story: [[rfc:8784|RFC 8784]] mixes a post-quantum pre-shared key into {{ikev2|IKEv2}}; [[rfc:9242|RFC 9242]] adds the {{ipsec-ike-intermediate|IKE_INTERMEDIATE}} {{exchange|exchange}} so large {{pq|PQ}} public keys can be transferred before authentication; [[rfc:9370|RFC 9370]] allows multiple chained key exchanges per {{security-association|SA}} negotiation. strongSwan 6.0 (December 2024) ships native {{ml-kem|ML-KEM}}. The much-loved [[wireguard|WireGuard]] caught up to IPsec on simplicity but is still behind on {{pq|PQ}}, on {{eap|EAP}}, on carrier certifications ({{fips|FIPS}}, Common Criteria, BSI SINA), and on the ability to carry a full routing protocol — which is why [[ipsec|IPsec]] still owns the enterprise/carrier market.`,
 	howItWorks: [
 		{
 			title: 'IKE_SA_INIT — negotiate crypto, exchange DH/ECDH/ML-KEM, detect NAT',
@@ -24,7 +24,7 @@ As of May 2026, [[ipsec|IPsec]] is also the first mainstream {{vpn|VPN}} with a 
 		{
 			title: 'IKE_AUTH — prove identity, authorize the Child SA',
 			description:
-				'Each {{peer|peer}} presents its identity ({{certificate|certificate}}, raw {{public-key|public key}}, {{psk|PSK}}, or {{eap|EAP}} method) and signs the {{ipsec-ike-sa-init|IKE_SA_INIT}} messages with it. Traffic Selectors negotiate *which* {{ip-address|IP address ranges}} flow over the {{tunnel|tunnel}}. The first **{{child-sa|Child SA}}** (a one-direction {{esp|ESP}} key) is set up in the same {{exchange|exchange}}.'
+				'Each {{peer|peer}} presents its identity ({{certificate|certificate}}, raw {{public-key|public key}}, {{psk|PSK}}, or {{eap|EAP}} method) and signs the {{ipsec-ike-sa-init|IKE_SA_INIT}} messages with it. Traffic Selectors negotiate *which* {{ip-address|IP address ranges}} flow over the {{tunnel|tunnel}}. The first **{{child-sa|Child SA}}** (a *pair* of one-direction {{esp|ESP}} SAs) is set up in the same {{exchange|exchange}}.'
 		},
 		{
 			title: 'ESP — encrypt and authenticate every packet',
@@ -34,21 +34,21 @@ As of May 2026, [[ipsec|IPsec]] is also the first mainstream {{vpn|VPN}} with a 
 		{
 			title: 'Anti-replay window',
 			description:
-				'The 32-bit {{esp|ESP}} {{sequence-number|sequence number}} prevents {{replay-attack|replay}}. Receivers maintain a sliding **{{anti-replay|anti-replay window}}** ([[rfc:4303|RFC 4303]] §3.4.3 default = 32 entries; production at 10 Gbps+ needs 1024+). Window misconfiguration is the single most common reason a tuned site-to-site tunnel drops legitimate packets — [[rfc:4303|RFC 4303]] §A.2 specifically warns about it.'
+				'The 32-bit {{esp|ESP}} {{sequence-number|sequence number}} prevents {{replay-attack|replay}}. Receivers maintain a sliding **{{anti-replay|anti-replay window}}** ([[rfc:4303|RFC 4303]] §3.4.3: minimum 32, default 64; production at 10 Gbps+ needs 1024+). Window misconfiguration is the single most common reason a tuned site-to-site tunnel drops legitimate packets — [[rfc:4303|RFC 4303]] §A.2 specifically warns about it.'
 		},
 		{
 			title: 'Rekey before the SA expires',
 			description:
-				'Each {{child-sa|Child SA}} has a time-and-byte lifetime (default ~8 hours / ~100 GB). Before either limit is hit, peers run **{{ipsec-create-child-sa|CREATE_CHILD_SA}}** to derive a fresh key from the {{ike-sa|IKE SA}} — usually invisible. The {{ike-sa|IKE SA}} itself rekeys with **IKE_SA_REKEY**; every 24 hours is a common production policy.'
+				'Each {{child-sa|Child SA}} has a time-and-byte lifetime (default ~8 hours / ~100 GB). Before either limit is hit, peers run **{{ipsec-create-child-sa|CREATE_CHILD_SA}}** to derive a fresh key from the {{ike-sa|IKE SA}} — usually invisible. The {{ike-sa|IKE SA}} itself is rekeyed with a {{ipsec-create-child-sa|CREATE_CHILD_SA}} exchange carrying a new IKE SA proposal ([[rfc:7296|RFC 7296]] §1.3.2); every 24 hours is a common production policy.'
 		},
 		{
 			title: 'NAT-T, MOBIKE, MOBIKE-X — survive the real internet',
 			description:
-				"Once outside the lab, {{nat|NAT}} and mobility appear. **{{nat|NAT}}-T** (UDP/4500) wraps {{esp|ESP}} in [[udp|UDP]] so home routers don't corrupt the packet. **MOBIKE** ([[rfc:4555|RFC 4555]]) lets a roadwarrior survive Wi-Fi-to-{{lte|LTE}} handoff. **{{rfc-doc|RFC}} 8229 ({{ike|IKE}}/{{esp|ESP}} over [[tcp|TCP]])** is the last-resort fallback for hostile networks (hotel Wi-Fi, captive portals) that drop [[udp|UDP]]."
+				"Once outside the lab, {{nat|NAT}} and mobility appear. **{{nat|NAT}}-T** (UDP/4500) wraps {{esp|ESP}} in [[udp|UDP]] so home routers don't corrupt the packet. **MOBIKE** ([[rfc:4555|RFC 4555]]) lets a roadwarrior survive Wi-Fi-to-{{lte|LTE}} handoff. **{{rfc-doc|RFC}} 9329 ({{ike|IKE}}/{{esp|ESP}} over [[tcp|TCP]], obsoleting RFC 8229)** is the last-resort fallback for hostile networks (hotel Wi-Fi, captive portals) that drop [[udp|UDP]]."
 		}
 	],
 	useCases: [
-		'3GPP LTE S1/X2 and 5G N2/N3/Xn/F1/E1 mobile-core backhaul (RFC mandated)',
+		'3GPP LTE S1/X2 and 5G N2/N3/Xn/F1/E1 mobile-core backhaul (mandated by 3GPP TS 33.401/33.501)',
 		'Enterprise site-to-site VPN between firewalls (Cisco ASA, Juniper SRX, Fortinet, OPNsense, pfSense)',
 		'Roadwarrior remote access — Apple iOS/macOS native IKEv2, Microsoft Always-On VPN, strongSwan / NetworkManager',
 		'AWS Site-to-Site VPN, Azure VPN Gateway, GCP Cloud VPN — every public cloud SKU',
@@ -62,7 +62,7 @@ As of May 2026, [[ipsec|IPsec]] is also the first mainstream {{vpn|VPN}} with a 
 connections {
     hq-branch {
         version = 2                       # IKEv2 only
-        proposals = aes256gcm16-prfsha384-ecp384-mlkem768
+        proposals = aes256gcm16-prfsha384-ecp384-ke1_mlkem768
         local_addrs  = 198.51.100.1
         remote_addrs = 203.0.113.5
 
@@ -173,8 +173,9 @@ require('fs').writeFileSync('vpn.mobileconfig', profile);`
   Length:          312 bytes
 
 Payloads:
-  SA Proposal #1, ENCR=AES-GCM-256, PRF=HMAC-SHA-2-512, DH=ecp384, KE-group=ML-KEM-768
-  KE (Key Exchange): group=ML-KEM-768, data=<1184-byte public key>
+  SA Proposal #1, ENCR=AES-GCM-256, PRF=HMAC-SHA-2-512, KE=ecp384, ADDKE1=ML-KEM-768
+  KE (Key Exchange): group=ecp384, data=<96-byte public key>
+  (the 1184-byte ML-KEM-768 key follows in IKE_INTERMEDIATE, RFC 9370)
   Nonce: <32 random bytes>
   Notify(NAT_DETECTION_SOURCE_IP):     SHA-1(SPI_i || SPI_r || src_ip || src_port)
   Notify(NAT_DETECTION_DESTINATION_IP): SHA-1(SPI_i || SPI_r || dst_ip || dst_port)`
@@ -206,7 +207,7 @@ Payloads:
   KE (optional — for PFS)
   TSi, TSr (Traffic Selectors)
   Notify(REKEY_SA): SPI of the SA being rekeyed
-  Notify(ESP_TFC_PADDING_NOT_SUPPORTED): explicit padding mode (RFC 8019)
+  Notify(ESP_TFC_PADDING_NOT_SUPPORTED): sender will not accept TFC padding (RFC 7296)
 
 → Both sides derive new KEYMAT from the new nonces + (optional) fresh DH/ML-KEM
   result, install the new ESP SAs, and start using them. Old SAs are deleted
@@ -274,7 +275,7 @@ Payloads:
 			}
 		},
 		{
-			date: '2023-08',
+			date: '2023-01',
 			title: 'RFC 9347 — IP-TFS (Traffic Flow Security)',
 			description:
 				'Defines fixed-size aggregated packets inside [[ipsec|ESP]] tunnels to defeat traffic-analysis attacks that infer activity from packet sizes. The architectural answer to "your {{vpn|VPN}} hides what you say but not *how much* you say." Now shipped in Libreswan.',
@@ -305,14 +306,14 @@ Payloads:
 			org: 'Operating-system native clients',
 			scale: 'Every modern OS ships an IKEv2 client',
 			description:
-				'{{apple|Apple}} iOS / macOS: native {{ikev2|IKEv2}} since iOS 9 / {{os|OS}} X 10.11 (configured via `.mobileconfig`). {{microsoft|Microsoft}} Always-On {{vpn|VPN}}: {{ikev2|IKEv2}} + {{eap|EAP}}-{{tls-handshake|TLS}} profile baseline. {{android|Android}}: native {{ikev2|IKEv2}}/IPsec {{psk|PSK}} + {{eap|EAP}} since {{android|Android}} 12. {{linux|Linux}}: NetworkManager + strongSwan. OpenBSD: clean-room `iked` since OpenBSD 4.8 (2010), by Reyk Floeter.'
+				'{{apple|Apple}} iOS / macOS: native {{ikev2|IKEv2}} since iOS 9 / {{os|OS}} X 10.11 (configured via `.mobileconfig`). {{microsoft|Microsoft}} Always-On {{vpn|VPN}}: {{ikev2|IKEv2}} + {{eap|EAP}}-{{tls-handshake|TLS}} profile baseline. {{android|Android}}: native {{ikev2|IKEv2}}/IPsec {{psk|PSK}} + {{eap|EAP}} since {{android|Android}} 11 (Ikev2VpnProfile API). {{linux|Linux}}: NetworkManager + strongSwan. OpenBSD: clean-room `iked` since OpenBSD 4.8 (2010), by Reyk Floeter.'
 		}
 	],
 
 	funFacts: [
 		{
 			title: 'Phil Karn sued the US State Department over an IPsec book',
-			text: 'In 1995 [[pioneer:phil-karn|Phil Karn]] tried to export Bruce Schneier\'s *Applied Cryptography*. The State Department classified the **printed book** as First Amendment-protected speech, but the **floppy disk** containing the same code as a regulated munition under ITAR. *Karn v. U.S. State Department* became one of the founding "code is speech" cases. Karn would shortly thereafter contribute to {{rfc-doc|RFC}} 1827 ({{esp|ESP}}).'
+			text: 'In 1995 [[pioneer:phil-karn|Phil Karn]] tried to export Bruce Schneier\'s *Applied Cryptography*. The State Department classified the **printed book** as First Amendment-protected speech, but the **floppy disk** containing the same code as a regulated munition under ITAR. *Karn v. U.S. State Department* became one of the founding "code is speech" cases. Karn went on to co-author {{rfc-doc|RFC}} 1829 (The {{esp|ESP}} DES-CBC Transform).'
 		},
 		{
 			title: 'Ferguson & Schneier\'s "I told you so" paper actually endorsed IPsec',
@@ -320,11 +321,11 @@ Payloads:
 		},
 		{
 			title: 'The NSA exploit and the working group meet in the same building',
-			text: 'The Shadow Brokers leak (August 2016) revealed BENIGNCERTAIN — an NSA exploit that extracted {{cisco|Cisco}} PIX {{vpn|VPN}} private keys from IKEv1 ({{cve|CVE}}-2016-6415). The [[ipsec|IPSECME]] working group routinely seats {{cisco|Cisco}}, {{microsoft|Microsoft}}, {{aws|AWS}}, and NSA Cybersecurity Directorate engineers at the same table. [[rfc:8784|RFC 8784]] ({{pq|PQ}}-PPK) is co-authored by {{cisco|Cisco}}, {{aws|AWS}}, and ELVIS-PLUS engineers — [[ipsec|IPsec]] has always been multi-government.'
+			text: 'The Shadow Brokers leak (August 2016) revealed BENIGNCERTAIN — an NSA exploit that extracted {{cisco|Cisco}} PIX {{vpn|VPN}} private keys from IKEv1 ({{cve|CVE}}-2016-6415). The [[ipsec|IPSECME]] working group routinely seats {{cisco|Cisco}}, {{microsoft|Microsoft}}, {{aws|AWS}}, and NSA Cybersecurity Directorate engineers at the same table. [[rfc:8784|RFC 8784]] ({{pq|PQ}}-PPK) is co-authored by {{cisco|Cisco}} and ELVIS-PLUS engineers — [[ipsec|IPsec]] has always been multi-government.'
 		},
 		{
 			title: 'WireGuard is ~4,000 lines; the IPsec stack is six digits',
-			text: "[[pioneer:jason-donenfeld|Jason Donenfeld]]'s 2017 {{ndss-conf|NDSS}} WireGuard paper counted 116,730 LoC across OpenVPN + {{linux|Linux}} {{xfrm|XFRM}} + strongSwan + SoftEther. The comparison is biased — {{xfrm|XFRM}} does more — but the order of magnitude is correct. WireGuard's minimalism is a direct response to [[ipsec|IPsec]]'s architectural sprawl; [[ipsec|IPsec]]'s sprawl is a direct response to thirty years of interop requirements no clean-slate design has yet had to face."
+			text: "[[pioneer:jason-donenfeld|Jason Donenfeld]]'s 2017 {{ndss-conf|NDSS}} WireGuard talk counted 116,730 LoC for OpenVPN — excluding the OpenSSL it links against — and roughly 420,000 for {{linux|Linux}} {{xfrm|XFRM}} + strongSwan, against WireGuard's ~4,000. The comparison is biased — {{xfrm|XFRM}} does more — but the order of magnitude is correct. WireGuard's minimalism is a direct response to [[ipsec|IPsec]]'s architectural sprawl; [[ipsec|IPsec]]'s sprawl is a direct response to thirty years of interop requirements no clean-slate design has yet had to face."
 		}
 	],
 
@@ -332,7 +333,7 @@ Payloads:
 		pitfalls: [
 			{
 				title: 'Anti-replay window is 32 by default — drop legitimate packets at 10 Gbps',
-				text: '[[rfc:4303|RFC 4303]] §3.4.3 sets the {{anti-replay|anti-replay window}} default to **32 entries**. On a 10 Gbps+ ECMP-parallel tunnel ({{linux|Linux}} {{xfrm|XFRM}} default), packets routinely arrive out of order beyond that window and get dropped. **Cure:** `ip xfrm state ... replay-window 1024` on every {{linux|Linux}} gateway carrying >1 Gbps. The single most-common reason a "tuned" site-to-site tunnel mysteriously loses 0.01% of packets.'
+				text: '[[rfc:4303|RFC 4303]] §3.4.3 requires a minimum {{anti-replay|anti-replay window}} of 32 and defaults to **64 entries**. On a 10 Gbps+ ECMP-parallel tunnel ({{linux|Linux}} {{xfrm|XFRM}} default), packets routinely arrive out of order beyond that window and get dropped. **Cure:** `ip xfrm state ... replay-window 1024` on every {{linux|Linux}} gateway carrying >1 Gbps. The single most-common reason a "tuned" site-to-site tunnel mysteriously loses 0.01% of packets.'
 			},
 			{
 				title: 'PMTU black holes drop large packets silently',
@@ -340,7 +341,7 @@ Payloads:
 			},
 			{
 				title: 'Roadwarriors die on Wi-Fi → LTE handoff without MOBIKE',
-				text: "A roadwarrior session that comes up on hotel Wi-Fi will tear down the moment the laptop switches to {{lte|LTE}} — the {{ike-sa|IKE SA}} is bound to the source `ip:port` and reconnects from scratch. **Cure:** enable **MOBIKE** ([[rfc:4555|RFC 4555]]) on both ends (`mobike=yes` in strongSwan). The session migrates seamlessly to the new {{ip-address|address}} without re-authenticating. Built into {{apple|Apple}}'s native client; opt-in on strongSwan/Libreswan."
+				text: "A roadwarrior session that comes up on hotel Wi-Fi will tear down the moment the laptop switches to {{lte|LTE}} — the {{ike-sa|IKE SA}} is bound to the source `ip:port` and reconnects from scratch. **Cure:** enable **MOBIKE** ([[rfc:4555|RFC 4555]]) on both ends (`mobike=yes` in strongSwan). The session migrates seamlessly to the new {{ip-address|address}} without re-authenticating. Built into {{apple|Apple}}'s native client and on by default in strongSwan; opt-in on Libreswan."
 			}
 		]
 	}

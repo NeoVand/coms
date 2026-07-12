@@ -37,13 +37,6 @@ export function createSOAPLayer(
 				value: overrides?.namespace ?? 'http://example.com/users',
 				editable: false,
 				description: 'XML namespace identifying the service schema and operations'
-			},
-			{
-				name: 'SOAPAction',
-				bits: 0,
-				value: overrides?.soapAction ?? 'http://example.com/GetUser',
-				editable: false,
-				description: 'HTTP header identifying the intended SOAP operation'
 			}
 		]
 	};

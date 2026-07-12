@@ -80,7 +80,7 @@ export function createZigbeeNWKLayer(
 				value: overrides?.frameControl ?? '0x0208 (Data, ProtoVer=2, NWK Security on)',
 				editable: false,
 				description:
-					'Type (Data / NWK Command), Protocol Version (0010 = PRO, 0011 = R22+), DiscRoute, Multicast, Security, Source-Route present, IEEE addresses present, End-Device Initiator'
+					'Type (Data / NWK Command), Protocol Version (0010 = Zigbee PRO through R23, 0011 = Green Power), DiscRoute, Multicast, Security, Source-Route present, IEEE addresses present, End-Device Initiator'
 			},
 			{
 				name: 'Dst Addr',

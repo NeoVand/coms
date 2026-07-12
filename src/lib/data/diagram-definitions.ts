@@ -597,7 +597,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     R->>R: Deliver to bob's connected client
     Note over C,R: Federated messaging — like email routing`,
 		caption:
-			'**[[xmpp|XMPP]]** = Extensible Messaging and Presence Protocol. Originally **Jabber** (1999). An open {{xmpp-stream|XML stream}} over [[tcp|TCP]] with **federated** routing — different domains relay to each other like email. Hardened over the decades into the substrate of {{google|Google}} Talk, the original WhatsApp, and the {{matter|Matter}}-adjacent OMA-LwM2M IoT stack. Encrypted via {{starttls|STARTTLS}}; modern {{encryption|end-to-end}} uses {{omemo|OMEMO}} ([[rfc:6120|RFC 6120]]).',
+			'**[[xmpp|XMPP]]** = Extensible Messaging and Presence Protocol. Originally **Jabber** (1999). An open {{xmpp-stream|XML stream}} over [[tcp|TCP]] with **federated** routing — different domains relay to each other like email. Hardened over the decades into the substrate of {{google|Google}} Talk, the original WhatsApp, and Nintendo Switch push notifications (its IoT profile lives in XEP-0323/0347). Core protocol is [[rfc:6120|RFC 6120]]; encrypted via {{starttls|STARTTLS}}, with modern {{encryption|end-to-end}} via {{omemo|OMEMO}} (XEP-0384).',
 		steps: {
 			0: "Client opens a [[tcp|TCP]] {{socket|socket}} and sends `<stream:stream>` — an {{xml|XML}} element that won't be closed until the session ends. The whole conversation is one continuous {{xmpp-stream|XML stream}}.",
 			1: "Server replies with **`<stream:features>`** advertising what's available — [[tls|TLS]], {{sasl|SASL}} mechanisms, optional extensions.",

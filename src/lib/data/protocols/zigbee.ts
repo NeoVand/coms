@@ -53,7 +53,7 @@ The current spec is **Zigbee PRO 2023 (R23)**, document 05-3474-23, ratified 15 
 		}
 	],
 	useCases: [
-		'Smart lighting — Philips Hue (~30M bulbs lifetime), IKEA Trådfri, GE C by GE, Sengled',
+		'Smart lighting — Philips Hue (~30M bulbs lifetime), IKEA Trådfri, GE Link, Sengled, Innr',
 		'Whole-home sensor networks — Aqara, Xiaomi, SmartThings, Hubitat (motion, door, leak, temperature)',
 		'Commercial building lighting controls — Acuity nLight AIR / Atrius, Eaton, Hubbell, Lutron Vive',
 		'Electronic shelf labels at planetary scale — VusionGroup at Walmart (4,600 US stores), Carrefour, Tesco',
@@ -149,8 +149,8 @@ mosquitto_pub -h localhost -t 'zigbee2mqtt/bridge/request/backup' -m '{}'
 #   zbee_nwk                          all NWK frames
 #   zbee_aps                          all APS frames
 #   zbee_zcl                          all ZCL frames
-#   zbee_zcl.cluster == 0x0006        OnOff cluster
-#   zbee_zcl.cluster == 0x0019        OTA Upgrade
+#   zbee_aps.cluster == 0x0006        OnOff cluster (cluster ID is in the APS header)
+#   zbee_aps.cluster == 0x0019        OTA Upgrade
 #   zbee_aps.cmd.id == 0x05           APS Transport-Key (the critical join-time msg)
 #   wpan.frame_type == 0x00           802.15.4 beacons (PAN discovery)
 # Pre-configured Keys (Edit → Preferences → Protocols → Zigbee):
@@ -193,7 +193,7 @@ PAN ID Compression bit suppresses the second PAN ID when both endpoints share a 
 
 NWK Frame Control (LSB first):
   bits 0–1   Frame Type        00=Data, 01=NWK Command (Route Req/Reply, Leave, Rejoin Req, …)
-  bits 2–5   Protocol Version  0010 = Zigbee PRO; 0011 = R22+
+  bits 2–5   Protocol Version  0001 = Zigbee 2004; 0010 = Zigbee PRO (through R23); 0011 = Green Power
   bits 6–7   Discover Route    00=suppress, 01=enable on-demand AODV
   bit  8     Multicast Flag
   bit  9     Security          (1 = NWK-layer AES-128-CCM* enabled)
@@ -306,7 +306,7 @@ That entire on-the-wire dump fits in roughly 40 bytes — a single Hue bulb comm
 			date: '2025-11',
 			title: 'Matter 1.5 — camera streaming closes the last Zigbee gap',
 			description:
-				'Released **20 November 2025**. {{matter|Matter}} 1.5 adds **camera streaming** via an RTSP side-channel — the long-awaited piece for {{matter|Matter}} to fully displace Zigbee in new home-security deployments. For Zigbee, this is the moment new device categories (cameras, video doorbells) no longer have a reason to go through a Zigbee bridge — they can go directly on [[wifi|Wi-Fi]] or {{thread|Thread}} with {{matter|Matter}} from day one.',
+				'Released **20 November 2025**. {{matter|Matter}} 1.5 adds **camera streaming** over WebRTC (with STUN/TURN for remote viewing) — the long-awaited piece for {{matter|Matter}} to fully displace Zigbee in new home-security deployments. For Zigbee, this is the moment new device categories (cameras, video doorbells) no longer have a reason to go through a Zigbee bridge — they can go directly on [[wifi|Wi-Fi]] or {{thread|Thread}} with {{matter|Matter}} from day one.',
 			source: {
 				url: 'https://matteralpha.com/matter-timeline',
 				label: 'MatterAlpha: Matter timeline'

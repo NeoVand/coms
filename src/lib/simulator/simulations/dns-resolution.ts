@@ -3,7 +3,7 @@ import { createUDPLayer } from '../layers/udp';
 import { createIPv4Layer } from '../layers/ipv4';
 import { createEthernetLayer } from '../layers/ethernet';
 
-function dnsQueryLayers(srcIp: string, dstIp: string) {
+function dnsQueryLayers(srcIp: string, dstIp: string, rd: 0 | 1 = 1) {
 	return [
 		createEthernetLayer(),
 		createIPv4Layer({ srcIp, dstIp, protocol: 17 }),
@@ -26,9 +26,12 @@ function dnsQueryLayers(srcIp: string, dstIp: string) {
 				{
 					name: 'RD',
 					bits: 1,
-					value: 1,
+					value: rd,
 					editable: false,
-					description: 'Recursion Desired — ask the resolver to recurse on our behalf'
+					description:
+						rd === 1
+							? 'Recursion Desired — ask the resolver to recurse on our behalf'
+							: 'RD = 0 — iterative query from the resolver; root/TLD servers refuse recursion anyway'
 				},
 				{
 					name: 'QDCount',
@@ -56,7 +59,7 @@ function dnsQueryLayers(srcIp: string, dstIp: string) {
 	];
 }
 
-function dnsResponseLayers(srcIp: string, dstIp: string, answer: string) {
+function dnsResponseLayers(srcIp: string, dstIp: string, answer: string, aa: 0 | 1 = 1) {
 	return [
 		createEthernetLayer({ srcMac: 'AA:BB:CC:DD:EE:FF', dstMac: '00:1A:2B:3C:4D:5E' }),
 		createIPv4Layer({ srcIp, dstIp, protocol: 17 }),
@@ -78,9 +81,20 @@ function dnsResponseLayers(srcIp: string, dstIp: string, answer: string) {
 				{
 					name: 'AA',
 					bits: 1,
-					value: 1,
+					value: aa,
 					editable: false,
-					description: 'Authoritative Answer — this server owns the domain'
+					description:
+						aa === 1
+							? 'Authoritative Answer — this server owns the domain'
+							: 'AA = 0 — a recursive resolver relays answers; it is not authoritative for the domain'
+				},
+				{
+					name: 'RA',
+					bits: 1,
+					value: aa === 1 ? 0 : 1,
+					editable: false,
+					description:
+						'Recursion Available — resolvers advertise it; authoritative servers typically do not'
 				},
 				{
 					name: 'ANCount',
@@ -117,6 +131,68 @@ function dnsResponseLayers(srcIp: string, dstIp: string, answer: string) {
 					editable: false,
 					description: 'The resolved IPv4 address',
 					color: '#2DD4BF'
+				}
+			]
+		}
+	];
+}
+
+function dnsReferralLayers(srcIp: string, dstIp: string, authority: string, glue: string) {
+	return [
+		createEthernetLayer({ srcMac: 'AA:BB:CC:DD:EE:FF', dstMac: '00:1A:2B:3C:4D:5E' }),
+		createIPv4Layer({ srcIp, dstIp, protocol: 17 }),
+		createUDPLayer({ srcPort: 53, dstPort: 53412 }),
+		{
+			name: 'DNS Referral',
+			abbreviation: 'DNS',
+			osiLayer: 7,
+			color: '#2DD4BF',
+			headerFields: [
+				{
+					name: 'ID',
+					bits: 16,
+					value: '0xA1B2',
+					editable: false,
+					description: 'Same transaction ID — matches our query'
+				},
+				{ name: 'QR', bits: 1, value: 1, editable: false, description: '1 = Response' },
+				{
+					name: 'AA',
+					bits: 1,
+					value: 0,
+					editable: false,
+					description:
+						'AA = 0 — this server is not authoritative for the queried name; it only delegates'
+				},
+				{
+					name: 'ANCount',
+					bits: 16,
+					value: 0,
+					editable: false,
+					description: 'Answer section is EMPTY — a referral delegates instead of answering'
+				},
+				{
+					name: 'NSCount',
+					bits: 16,
+					value: 1,
+					editable: false,
+					description: 'The Authority section carries the NS record(s) naming the delegated servers'
+				},
+				{
+					name: 'Authority',
+					bits: 0,
+					value: authority,
+					editable: false,
+					description: 'NS record in the Authority section — who to ask next',
+					color: '#2DD4BF'
+				},
+				{
+					name: 'Additional',
+					bits: 0,
+					value: glue,
+					editable: false,
+					description:
+						'Glue A record — the IP of the delegated server, so the resolver can reach it'
 				}
 			]
 		}
@@ -164,7 +240,7 @@ export const dnsResolution: SimulationConfig = {
 			toActor: 'nameserver',
 			duration: 1200,
 			highlight: ['QNAME'],
-			layers: dnsQueryLayers('8.8.8.8', '198.41.0.4')
+			layers: dnsQueryLayers('8.8.8.8', '198.41.0.4', 0)
 		},
 		{
 			id: 'root-referral',
@@ -174,8 +250,13 @@ export const dnsResolution: SimulationConfig = {
 			fromActor: 'nameserver',
 			toActor: 'resolver',
 			duration: 1000,
-			highlight: ['RDATA'],
-			layers: dnsResponseLayers('198.41.0.4', '8.8.8.8', 'NS: a.gtld-servers.net')
+			highlight: ['AA', 'Authority', 'Additional'],
+			layers: dnsReferralLayers(
+				'198.41.0.4',
+				'8.8.8.8',
+				'com. NS a.gtld-servers.net',
+				'a.gtld-servers.net A 192.5.6.30'
+			)
 		},
 		{
 			id: 'query-tld',
@@ -186,7 +267,7 @@ export const dnsResolution: SimulationConfig = {
 			toActor: 'nameserver',
 			duration: 1200,
 			highlight: ['QNAME'],
-			layers: dnsQueryLayers('8.8.8.8', '192.5.6.30')
+			layers: dnsQueryLayers('8.8.8.8', '192.5.6.30', 0)
 		},
 		{
 			id: 'tld-referral',
@@ -196,8 +277,13 @@ export const dnsResolution: SimulationConfig = {
 			fromActor: 'nameserver',
 			toActor: 'resolver',
 			duration: 1000,
-			highlight: ['RDATA'],
-			layers: dnsResponseLayers('192.5.6.30', '8.8.8.8', 'NS: ns1.example.com')
+			highlight: ['AA', 'Authority', 'Additional'],
+			layers: dnsReferralLayers(
+				'192.5.6.30',
+				'8.8.8.8',
+				'example.com. NS ns1.example.com',
+				'ns1.example.com A 199.43.135.53'
+			)
 		},
 		{
 			id: 'query-auth',
@@ -208,13 +294,13 @@ export const dnsResolution: SimulationConfig = {
 			toActor: 'nameserver',
 			duration: 1200,
 			highlight: ['QNAME', 'QTYPE'],
-			layers: dnsQueryLayers('8.8.8.8', '199.43.135.53')
+			layers: dnsQueryLayers('8.8.8.8', '199.43.135.53', 0)
 		},
 		{
 			id: 'auth-answer',
 			label: 'Answer!',
 			description:
-				'The authoritative nameserver has the definitive answer: example.com is at 93.184.216.34. This is the final, authoritative response.',
+				'The authoritative nameserver has the definitive answer: example.com is at 93.184.216.34 (its long-time textbook address — the real site moved in 2024). This is the final, authoritative response: AA = 1.',
 			fromActor: 'nameserver',
 			toActor: 'resolver',
 			duration: 1200,
@@ -230,7 +316,7 @@ export const dnsResolution: SimulationConfig = {
 			toActor: 'client',
 			duration: 1000,
 			highlight: ['RDATA', 'TTL'],
-			layers: dnsResponseLayers('8.8.8.8', '192.168.1.100', '93.184.216.34')
+			layers: dnsResponseLayers('8.8.8.8', '192.168.1.100', '93.184.216.34', 0)
 		}
 	]
 };

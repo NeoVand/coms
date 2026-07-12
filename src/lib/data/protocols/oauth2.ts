@@ -55,6 +55,7 @@ The enterprise predecessor is **[[kerberos|Kerberos]]** — ticket-based mutual 
 		language: 'python',
 		code: `from authlib.integrations.requests_client import OAuth2Session
 from authlib.oauth2.rfc7636 import create_s256_code_challenge
+from authlib.common.security import generate_token
 
 # Configure the OAuth 2.0 client
 client = OAuth2Session(
@@ -65,7 +66,7 @@ client = OAuth2Session(
 )
 
 # Step 1: Generate authorization URL with PKCE
-code_verifier = client.create_s256_code_verifier()
+code_verifier = generate_token(48)
 code_challenge = create_s256_code_challenge(code_verifier)
 uri, state = client.create_authorization_url(
     'https://github.com/login/oauth/authorize',
@@ -79,7 +80,8 @@ print(f"Visit: {uri}")
 # exchange the authorization code for tokens
 token = client.fetch_token(
     'https://github.com/login/oauth/access_token',
-    authorization_response=callback_url
+    authorization_response=callback_url,
+    code_verifier=code_verifier  # authlib does not persist it for you
 )
 print(f"Access token: {token['access_token'][:20]}...")
 print(f"Expires in: {token['expires_in']}s")
@@ -124,8 +126,8 @@ const params = oauth.validateAuthResponse(
   metadata, client, new URL(window.location.href)
 );
 const tokenResponse = await oauth.authorizationCodeGrantRequest(
-  metadata, client, params, 'http://localhost:3000/cb',
-  code_verifier
+  metadata, client, oauth.None(), params,
+  'http://localhost:3000/cb', code_verifier
 );
 const tokens = await oauth.processAuthorizationCodeResponse(
   metadata, client, tokenResponse
