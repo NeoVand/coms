@@ -57,7 +57,7 @@ export const ntpSync: SimulationConfig = {
 					poll: 6,
 					precision: '-24',
 					refId: 'GPS',
-					timestamps: 'T1=14:30:00.123456, T2=.123478, T3=.123502, Offset=+22us'
+					timestamps: 'T1=.123456, T2=.123523, T3=.123533, T4=.123556 → delay=90us, offset=+22us'
 				})
 			]
 		}

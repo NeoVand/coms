@@ -111,8 +111,8 @@ turnutils_uclient -u user -w pass turn.example.com`
 					{
 						title: 'ICE Candidate (SDP)',
 						code: `a=candidate:842163049 1 udp 1677729535
-  192.168.1.100 52042 typ srflx
-  raddr 10.0.0.1 rport 52042
+  203.0.113.5 62000 typ srflx
+  raddr 192.168.1.100 rport 52042
   generation 0
   ufrag EsAw
   network-cost 50
@@ -122,9 +122,9 @@ Candidate breakdown:
   Component: RTP (1)
   Transport: UDP
   Priority: 1677729535
-  Address: 192.168.1.100:52042
+  Address: 203.0.113.5:62000  (STUN-discovered public IP:port)
   Type: Server Reflexive (srflx)
-  Related: 10.0.0.1:52042`
+  Related: 192.168.1.100:52042  (private base behind the NAT)`
 					},
 					{
 						title: 'STUN Binding Request',

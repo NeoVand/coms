@@ -138,12 +138,13 @@ sudo ntpdate pool.ntp.org`
   Reference ID: "GPS\\0"
 
   Reference Timestamp:  2024-03-13 14:29:55.000000
-  Origin Timestamp:     2024-03-13 14:30:00.123456
-  Receive Timestamp:    2024-03-13 14:30:00.123478
-  Transmit Timestamp:   2024-03-13 14:30:00.123502
+  Origin Timestamp (T1):   2024-03-13 14:30:00.123456
+  Receive Timestamp (T2):  2024-03-13 14:30:00.123523
+  Transmit Timestamp (T3): 2024-03-13 14:30:00.123533
 
-  Round-trip delay: 0.000044s
-  Clock offset: +0.000022s`
+  Client receives at T4 = 14:30:00.123556
+  Round-trip delay = (T4-T1) - (T3-T2) = 100us - 10us = 0.000090s
+  Clock offset = ((T2-T1) + (T3-T4)) / 2 = (67us + -23us)/2 = +0.000022s`
 					}
 				]
 			}

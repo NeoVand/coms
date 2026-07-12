@@ -83,7 +83,7 @@ const call = async (method, params) => {
   const res = await fetch('http://localhost:4000/rpc', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: {{json|JSON}}.stringify({
+    body: JSON.stringify({
       jsonrpc: '2.0', method, params, id: Date.now()
     })
   });
@@ -164,7 +164,7 @@ curl -s -X POST http://localhost:4000/rpc \\
 	},
 	connections: ['a2a', 'http1', 'mcp', 'websockets', 'rest', 'grpc', 'graphql', 'soap', 'sse'],
 	links: {
-		wikipedia: 'https://en.wikipedia.org/wiki/[[json-rpc|JSON-RPC]]',
+		wikipedia: 'https://en.wikipedia.org/wiki/JSON-RPC',
 		official: 'https://www.jsonrpc.org/specification'
 	},
 	image: {

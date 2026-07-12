@@ -157,7 +157,7 @@ export const httpRequest: SimulationConfig = {
 					protocol: 6,
 					totalLength: 1420
 				}),
-				createTCPLayer({ srcPort: 80, dstPort: 52000, seq: 301, ack: 321, flags: 'PSH,ACK' }),
+				createTCPLayer({ srcPort: 80, dstPort: 52000, seq: 301, ack: 281, flags: 'PSH,ACK' }),
 				{
 					name: 'HTTP Response',
 					abbreviation: 'HTTP',
