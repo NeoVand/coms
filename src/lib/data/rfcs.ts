@@ -31,6 +31,9 @@ export interface Rfc {
 	status?: RfcStatus;
 	obsoletes?: string[];
 	obsoletedBy?: string[];
+	/** RFCs this one amends without replacing (and vice-versa). */
+	updates?: string[];
+	updatedBy?: string[];
 	url: string;
 	/**
 	 * 1–3 paragraphs of plain-English explanation: what the RFC defines,
@@ -54,12 +57,12 @@ export const rfcs: Rfc[] = [
 		year: 1981,
 		authors: 'Jon Postel (ed.)',
 		status: 'internet-standard',
-		obsoletedBy: ['9293'],
+		updatedBy: ['1349', '2474', '6864'],
 		url: 'https://www.rfc-editor.org/rfc/rfc791',
 		protocols: ['ip'],
 		abstract: `The defining specification of [[ip|IPv4]] — the connectionless, best-effort packet protocol that interconnects every network on the internet. Defines the 32-bit address space, the 20-byte minimum header (source/destination, {{ttl|TTL}}, protocol, header checksum, fragmentation fields), and the rules for routers to decrement {{ttl|TTL}}, fragment when needed, and drop packets that can't be delivered.
 
-Edited by [[pioneer:jon-postel|Jon Postel]] at ISI in September 1981 alongside [[rfc:792|RFC 792]] ([[icmp|ICMP]]) and [[rfc:9293|RFC 793]] ([[tcp|TCP]]). Stayed the canonical [[ip|IPv4]] spec for 41 years until [[rfc:9293|RFC 9293]] consolidated [[tcp|TCP]] errata in 2022; [[ip|IPv4]] itself is still defined here.`
+Edited by [[pioneer:jon-postel|Jon Postel]] at ISI in September 1981 alongside [[rfc:792|RFC 792]] ([[icmp|ICMP]]) and [[rfc:9293|RFC 793]] ([[tcp|TCP]]). Still the canonical [[ip|IPv4]] spec (Internet Standard STD 5), never obsoleted — only updated by RFCs 1349, 2474, and 6864; [[ip|IPv4]] itself is still defined here.`
 	},
 	{
 		number: '792',
@@ -95,7 +98,7 @@ David Plummer wrote it at MIT-AI in November 1982. **STD 37 has not been obsolet
 		protocols: ['ip'],
 		abstract: `Reserves three [[ip|IPv4]] address ranges — \`10.0.0.0/8\`, \`172.16.0.0/12\`, and \`192.168.0.0/16\` — for use within private networks that don't need globally routable addresses. Routers on the public internet MUST NOT forward packets with these source or destination addresses; that's what makes them safe to reuse inside every home and office on earth.
 
-Combined with [[rfc:3022|NAT]], private addressing extended [[ip|IPv4]]'s lifespan by roughly two decades past the point at which the original 4.3-billion-address space would otherwise have run out. The same allocation also reserves \`169.254.0.0/16\` for link-local autoconfiguration. [[ipv6|IPv6]] obsoletes the *need* for this scheme but the addresses are still ubiquitous.`
+Combined with [[rfc:3022|NAT]], private addressing extended [[ip|IPv4]]'s lifespan by roughly two decades past the point at which the original 4.3-billion-address space would otherwise have run out. (The separate \`169.254.0.0/16\` link-local block is defined by RFC 3927, not this RFC.) [[ipv6|IPv6]] obsoletes the *need* for this scheme but the addresses are still ubiquitous.`
 	},
 	{
 		number: '4271',
@@ -159,7 +162,7 @@ The original EUI-64 form embedded the MAC into the [[ipv6|IPv6]] address — a p
 		protocols: ['udp'],
 		abstract: `[[pioneer:jon-postel|Jon Postel]]'s three-page specification of [[udp|UDP]] — the minimal {{connectionless|connectionless}} transport. An 8-byte header (source port, destination port, length, {{checksum|checksum}}) on top of [[ip|IP]], no setup, no acknowledgements, no {{flow-control|flow control}}, no {{retransmission|retransmission}}. The application owns reliability if it needs any.
 
-Published August 1980, two months before the first version of [[tcp|TCP]]. **It has not been updated since.** Three pages were enough; everything [[udp|UDP]] doesn't do is the point. [[udp|UDP]] is what makes [[dns|DNS]], [[ntp|NTP]], [[quic|QUIC]], [[webrtc|WebRTC]], and almost every real-time protocol possible.`
+Published August 1980. **It has not been updated since** — three pages that outlasted everything.  ([[tcp|TCP]] is actually older: RFC 675 dates to 1974.) Three pages were enough; everything [[udp|UDP]] doesn't do is the point. [[udp|UDP]] is what makes [[dns|DNS]], [[ntp|NTP]], [[quic|QUIC]], [[webrtc|WebRTC]], and almost every real-time protocol possible.`
 	},
 	{
 		number: '9293',
@@ -290,7 +293,7 @@ Defines connection setup (single-{{rtt|RTT}} {{handshake|handshake}}, {{zero-rtt
 		protocols: ['tcp', 'quic'],
 		abstract: `Describes the *{{l4s|L4S}}* architecture — a new internet service that aims for **sub-millisecond queuing latency** for participating senders by replacing loss-based congestion signalling with an explicit, fine-grained {{ecn|ECN}} mark (ECT(1)). Senders that opt in (Prague over [[tcp|TCP]], BBRv3, {{l4s|L4S}}-aware [[quic|QUIC]]) react instantly and gently; the {{aqm|AQM}} in the network gives them a separate queue. Cooperating flows get datacentre-scale latency on the open internet without starving anyone.
 
-The architectural document; the algorithmic specs are RFC 9331 (DualPI2 {{aqm|AQM}}) and RFC 9332 ({{ecn|ECN}} protocol). First production deployment was Comcast's January 2025 launch in six US metros with Apple, NVIDIA GeForce NOW, and Valve as partners.`
+The architectural document; the algorithmic specs are RFC 9331 (the {{ecn|ECN}} protocol for {{l4s|L4S}}) and RFC 9332 (the DualQ Coupled {{aqm|AQM}}, i.e. DualPI2). First production deployment was Comcast's January 2025 launch in six US metros with Apple, NVIDIA GeForce NOW, and Valve as partners.`
 	},
 
 	// ── Web / API ─────────────────────────────────────────────────────
@@ -402,7 +405,7 @@ Internally cleaner than 1.0–1.2; externally indistinguishable on the wire from
 		protocols: ['ntp'],
 		abstract: `[[pioneer:david-mills|David L. Mills]]'s definitive specification of [[ntp|NTPv4]] — the protocol that synchronises every clock on the public internet to within milliseconds despite arbitrary network jitter. Defines the on-wire packet format, the *clock filter* algorithm, *Marzullo's algorithm* for selecting trustworthy peers from a candidate set, and the *clock discipline* loop that nudges the local oscillator without causing the kind of step-changes that would break [[tls|TLS]] certificate validation, Kerberos tickets, or distributed log timestamps.
 
-Mills refined [[ntp|NTP]] across four decades (RFC 958/1119/1305/5905). Without his careful stewardship there would not be a working internet — every cryptographic protocol assumes monotonic, roughly-correct time. The 2024 successor work (NTS, [[rfc:8915|RFC 8915]]) adds the authentication [[ntp|NTP]] itself never had.`
+Mills refined [[ntp|NTP]] across four decades (RFC 958/1119/1305/5905). Without his careful stewardship there would not be a working internet — every cryptographic protocol assumes monotonic, roughly-correct time. The 2020 successor work (NTS, [[rfc:8915|RFC 8915]]) adds the authentication [[ntp|NTP]] itself never had.`
 	},
 	{
 		number: '1122',
@@ -542,7 +545,7 @@ Where [[mptcp|MPTCP]] works (Apple OS services, Korea Telecom GIGA Path, some sp
 		year: 2000,
 		authors: 'R. Stewart et al.',
 		status: 'historic',
-		obsoletedBy: ['9260'],
+		obsoletedBy: ['4960'],
 		url: 'https://www.rfc-editor.org/rfc/rfc2960',
 		protocols: ['sctp'],
 		abstract: `The original specification of [[sctp|SCTP]] — a transport protocol with [[tcp|TCP]]-like reliability plus two superpowers: **multiple independent {{stream|streams}}** in one association (no [[tcp|TCP]] {{head-of-line-blocking|head-of-line blocking}}) and **multi-homing** for [[ip|IP]]-level failover when a path fails. Originally designed by Randall Stewart and others to carry telephony {{signaling|SS7 signaling}} over [[ip|IP]] networks.
@@ -608,10 +611,11 @@ Obsoleted by [[rfc:8200|RFC 8200]] (2017), which raised the spec to *Internet St
 		authors: 'E. Jankiewicz, J. Loughney, T. Narten',
 		status: 'informational',
 		url: 'https://www.rfc-editor.org/rfc/rfc6434',
+		obsoletedBy: ['8504'],
 		protocols: ['ipv6'],
 		abstract: `The "host requirements" companion document for [[ipv6|IPv6]] — the [[ipv6|IPv6]] equivalent of [[rfc:1122|RFC 1122]], pulling together every MUST/SHOULD a compliant [[ipv6|IPv6]] node has to honour. Notable for **demoting IPsec from mandatory-to-implement to optional**, which became one of the most-cited corrections to the persistent myth that "[[ipv6|IPv6]] has built-in encryption." It does not — [[tls|TLS]] is still where transport-layer encryption happens.
 
-Updated by RFC 8504 (2019) for further clarifications.`
+Obsoleted by RFC 8504 (2019), the successor IPv6 Node Requirements document.`
 	},
 	{
 		number: '6864',
@@ -704,10 +708,10 @@ One of a small handful of non-technical RFCs in the registry. Reading it is the 
 		year: 1989,
 		authors: 'K. Lougheed, Y. Rekhter',
 		status: 'historic',
-		obsoletedBy: ['4271'],
+		obsoletedBy: ['1163'],
 		url: 'https://www.rfc-editor.org/rfc/rfc1105',
 		protocols: ['bgp'],
-		abstract: `The original [[bgp|BGP]] specification — Kirk Lougheed (Cisco) and [[pioneer:yakov-rekhter|Yakov Rekhter]] (IBM) sketched it on **three napkins** at lunch during the 12th {{ietf|IETF}} meeting in Austin, January 1989; published as RFC 1105 six months later. Replaced *EGP*, which had been showing its age as the inter-domain routing protocol for the early internet.
+		abstract: `The original [[bgp|BGP]] specification — Kirk Lougheed (Cisco) and [[pioneer:yakov-rekhter|Yakov Rekhter]] (IBM) sketched it on **two napkins** at lunch during the 12th {{ietf|IETF}} meeting in Austin, January 1989 (the "Two-Napkin Protocol"); published as RFC 1105 six months later. It was itself obsoleted by RFC 1163 (BGP-2) a year later, on the road to today's [[rfc:4271|RFC 4271]]. Replaced *EGP*, which had been showing its age as the inter-domain routing protocol for the early internet.
 
 The wire format and decision algorithm have evolved through [[bgp|BGP]]-2 (RFC 1163), [[bgp|BGP]]-3 (RFC 1267), and [[bgp|BGP]]-4 ([[rfc:4271|RFC 4271]]) — but the core idea (path-vector announcements with arbitrary local policy) is unchanged 36 years later.`
 	},
@@ -745,7 +749,7 @@ Free, deployable today, no crypto required. Often paired with [[rfc:5925|TCP-AO]
 		protocols: ['bgp'],
 		abstract: `*[[bgp|BGP]] Flowspec* — extends [[bgp|BGP]] to distribute packet-filter / traffic-engineering rules (match fields like source/destination prefix, port, protocol; action like drop, rate-limit, redirect). The original use case was anti-DDoS: when a network operator detects an attack, they distribute Flowspec rules across the network in seconds to drop the attack traffic at the edge.
 
-Famously implicated in the **2020 CenturyLink/Level 3 outage** — a malformed Flowspec rule cascaded into a six-hour global routing meltdown. Updated by [[rfc:8955|RFC 8955]] (2020) which fixes some of the underspecified validation behaviour exposed by that incident.`
+Famously implicated in the **2020 CenturyLink/Level 3 outage** — a malformed Flowspec rule cascaded into a six-hour global routing meltdown. Obsoleted by [[rfc:8955|RFC 8955]] (2020), which fixes the underspecified validation behaviour exposed by that incident (RFC 5575 was separately updated by RFC 7674).`
 	},
 	{
 		number: '8205',
@@ -950,7 +954,7 @@ Obsoleted by RFC 2822 (2001) and RFC 5322 (2008). Every modern email message for
 		obsoletes: ['821', '2821'],
 		url: 'https://www.rfc-editor.org/rfc/rfc5321',
 		protocols: ['smtp'],
-		abstract: `John Klensin's 2008 revision of [[smtp|SMTP]] — the spec every modern mail server is written against. Adds the *Extended [[smtp|SMTP]]* mechanism (EHLO with capability negotiation), specifies STARTTLS as the standard upgrade path, and codifies the practical [[smtp|SMTP]] behaviour two decades of deployment had developed.
+		abstract: `John Klensin's 2008 revision of [[smtp|SMTP]] — the spec every modern mail server is written against. Consolidates the *Extended [[smtp|SMTP]]* mechanism (EHLO with capability negotiation, originally RFC 1869) and codifies the practical [[smtp|SMTP]] behaviour two decades of deployment had developed; the STARTTLS upgrade is specified separately in RFC 3207.
 
 The wire vocabulary is unchanged from [[rfc:821|RFC 821]] (1982) — what's new is everything around the edges (extensions, modern reply codes, internationalised email handling, message-size declarations). Pair with [[rfc:5322|RFC 5322]] (message format) for the complete current email picture.`
 	},
@@ -1084,15 +1088,15 @@ This subtlety is the source of countless misconfigurations in the [[sip|SIP]] wo
 	},
 	{
 		number: '9849',
-		title: 'TLS Encrypted Client Hello (ECH) — registration entries',
-		year: 2025,
-		authors: '{{ietf|IETF}} ([[tls|TLS]] WG)',
-		status: 'draft',
+		title: 'TLS Encrypted Client Hello',
+		year: 2026,
+		authors: 'E. Rescorla, K. Oku, N. Sullivan, C. Wood',
+		status: 'proposed-standard',
 		url: 'https://www.rfc-editor.org/rfc/rfc9849',
 		protocols: ['tls'],
-		abstract: `Companion registration document for the {{ech|TLS Encrypted Client Hello}} mechanism — encrypts the {{sni|SNI}} ({{sni|Server Name Indication}}) hostname in the [[tls|TLS]] ClientHello so an on-path observer can no longer learn which site you're connecting to from the handshake. Closes a long-standing [[tls|TLS]] metadata leak; the only previous workaround was wildcard certificates plus aggressive name padding, neither great.
+		abstract: `The core specification of {{ech|TLS Encrypted Client Hello}} — encrypts the {{sni|SNI}} ({{sni|Server Name Indication}}) hostname in the [[tls|TLS]] ClientHello so an on-path observer can no longer learn which site you're connecting to from the handshake. Closes a long-standing [[tls|TLS]] metadata leak; the only previous workaround was wildcard certificates plus aggressive name padding, neither great.
 
-{{ech|ECH}} key material is published via the {{dns-resolution|DNS}} HTTPS RR ([[rfc:9460|RFC 9460]]). Cloudflare turned {{ech|ECH}} on by default in 2023; Firefox 119 enabled {{ech|ECH}} by default. As a *draft*-status entry the underlying {{ech|ECH}} spec is still settling; this is the {{iana|IANA}}-registration-list piece.`
+{{ech|ECH}} key material is published via the {{dns-resolution|DNS}} HTTPS RR ([[rfc:9460|RFC 9460]]). Cloudflare turned {{ech|ECH}} on by default in 2023; Firefox 119 enabled {{ech|ECH}} by default. This RFC (Proposed Standard, 2026) is the {{ech|ECH}} standard itself.`
 	},
 
 	// DHCP
@@ -1102,12 +1106,12 @@ This subtlety is the source of countless misconfigurations in the [[sip|SIP]] wo
 		year: 1993,
 		authors: 'R. Droms',
 		status: 'historic',
-		obsoletedBy: ['2131'],
+		obsoletedBy: ['1541'],
 		url: 'https://www.rfc-editor.org/rfc/rfc1531',
 		protocols: ['dhcp'],
 		abstract: `Ralph Droms's 1993 original specification of [[dhcp|DHCP]] — the protocol that automates the assignment of [[ip|IP]] addresses, gateways, [[dns|DNS]] servers, and dozens of other configuration options to clients on a network. Replaced the earlier static-mapped *BOOTP* by adding leases, dynamic allocation, and a much richer option set.
 
-Obsoleted by [[rfc:2131|RFC 2131]] in 1997, which fixed errata and added relay-agent semantics. The DISCOVER → OFFER → REQUEST → {{ack|ACK}} four-step dance is unchanged.`
+Obsoleted first by RFC 1541 (1993) and then by [[rfc:2131|RFC 2131]] (1997), which fixed errata and added relay-agent semantics. The DISCOVER → OFFER → REQUEST → {{ack|ACK}} four-step dance is unchanged.`
 	},
 	{
 		number: '2131',
@@ -1115,10 +1119,10 @@ Obsoleted by [[rfc:2131|RFC 2131]] in 1997, which fixed errata and added relay-a
 		year: 1997,
 		authors: 'R. Droms',
 		status: 'standards-track',
-		obsoletes: ['1531'],
+		obsoletes: ['1541'],
 		url: 'https://www.rfc-editor.org/rfc/rfc2131',
 		protocols: ['dhcp'],
-		abstract: `The current [[dhcp|DHCPv4]] specification — Ralph Droms's 1997 revision of [[rfc:1531|RFC 1531]]. Defines the DISCOVER → OFFER → REQUEST → {{ack|ACK}} message exchange, the lease-renewal lifecycle, the relay-agent architecture, and the format of the variable-length options field that everything from \`DNS Servers\` to \`Domain Name\` to {{nat64|PREF64}}-via-RA-Option to *[[ipv6|IPv6]]-Only Preferred* ([[rfc:8925|RFC 8925]]) rides on top of.
+		abstract: `The current [[dhcp|DHCPv4]] specification — Ralph Droms's 1997 revision (obsoleting RFC 1541, itself the successor to [[rfc:1531|RFC 1531]]). Defines the DISCOVER → OFFER → REQUEST → {{ack|ACK}} message exchange, the lease-renewal lifecycle, the relay-agent architecture, and the format of the variable-length options field that everything from \`DNS Servers\` to \`Domain Name\` to {{nat64|PREF64}}-via-RA-Option to *[[ipv6|IPv6]]-Only Preferred* ([[rfc:8925|RFC 8925]]) rides on top of.
 
 DHCPv6 (RFC 8415) is a distinct protocol with a different message flow but the same job. Almost every router and OS implements both today.`
 	},
@@ -1498,7 +1502,7 @@ Almost no production deployment uses AH alone in 2026; **[[rfc:4303|ESP]]** with
 		protocols: ['ipsec'],
 		abstract: `The **Encapsulating Security Payload (ESP)** — the part of [[ipsec|IPsec]] everyone actually deploys. Encrypts and authenticates [[ip|IP]] payloads (and, in tunnel mode, the full original packet) with AEAD ciphers like **AES-GCM** ([[rfc:4106|RFC 4106]]) or **ChaCha20-Poly1305** ([[rfc:7634|RFC 7634]]). 8-byte ESP header (SPI + 32-bit sequence number), 8-byte AEAD nonce, encrypted payload, 16-byte authentication tag.
 
-The 32-bit sequence number drives **anti-replay** protection (§3.4.3): receivers maintain a sliding window of recently-seen sequences (default 32 entries — a documented foot-gun on 10 Gbps+ links). [[rfc:4304|RFC 4304]] / RFC 4309 extend this to 64-bit (ESN) for very high-rate flows.`,
+The 32-bit sequence number drives **anti-replay** protection (§3.4.3): receivers maintain a sliding window of recently-seen sequences (default 32 entries — a documented foot-gun on 10 Gbps+ links). The 64-bit Extended Sequence Number (ESN) for very high-rate flows is defined in this RFC's Appendix A, with [[rfc:4304|RFC 4304]] handling its IKEv1 negotiation.`,
 		notableSections: [
 			{ ref: '§2', description: 'ESP packet format (SPI, seq, IV, ciphertext, ICV)' },
 			{ ref: '§3.3', description: 'Outbound processing — encryption + integrity in one AEAD pass' },
@@ -1652,8 +1656,9 @@ The protocol foundation for Discord's **DAVE** end-to-end-encrypted voice (deplo
 		year: 2018,
 		authors: 'Y. Collet, M. Kucherawy',
 		status: 'informational',
+		obsoletedBy: ['8878'],
 		url: 'https://www.rfc-editor.org/rfc/rfc8478',
-		abstract: `Documents **{{zstd|Zstandard}}** (zstd) as an IETF-registered compression format — a lossless algorithm developed by Yann Collet at {{meta|Meta}} that trades a small throughput cost vs. zlib for substantially better ratios. Now the default compressor for several [[kafka|Kafka]] producers, container image registries (OCI 1.0+), Linux kernel modules, and the Brotli-style \`Content-Encoding: zstd\` HTTP option.`
+		abstract: `Documents **{{zstd|Zstandard}}** (zstd) as an IETF-registered compression format — a lossless algorithm developed by Yann Collet at {{meta|Meta}} that trades a small throughput cost vs. zlib for substantially better ratios. Now the default compressor for several [[kafka|Kafka]] producers, container image registries (OCI 1.0+), Linux kernel modules, and the \`Content-Encoding: zstd\` HTTP option. Obsoleted by RFC 8878 (2021), the current Zstandard reference.`
 	},
 
 	// ── Authentication & PQ (referenced in pioneer/concept abstracts) ─
