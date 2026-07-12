@@ -221,9 +221,9 @@ sudo tcpdump -i any udp port 443`
 		},
 		{
 			org: 'Apple',
-			scale: 'iOS 18+ / macOS 15+',
+			scale: 'iOS 15+ / macOS 12+',
 			description:
-				'Network.framework offers native [[quic|QUIC]]; Safari 18 enables [[http3|HTTP/3]] by default. CloudKit and iCloud sync use [[quic|QUIC]] for low-{{latency|latency}} mobile updates.'
+				'Network.framework has offered native [[quic|QUIC]] since iOS 15 / macOS 12 (WWDC 2021); Safari enabled [[http3|HTTP/3]] by default in Safari 16 (2022). CloudKit and iCloud sync use [[quic|QUIC]] for low-{{latency|latency}} mobile updates.'
 		}
 	],
 
@@ -234,11 +234,11 @@ sudo tcpdump -i any udp port 443`
 		},
 		{
 			title: 'Connection IDs let your phone roam',
-			text: 'A [[quic|QUIC]] connection is identified by a **64-bit Connection {{id-identifier|ID}}**, not by the (src [[ip|IP]], src port, dst [[ip|IP]], dst port) four-tuple [[tcp|TCP]] uses. When your phone moves between [[wifi|Wi-Fi]] and cellular, the underlying [[ip|IP]] changes — but the [[quic|QUIC]] connection survives. The receiver matches the new packet by Connection {{id-identifier|ID}}. This is why [[http3|HTTP/3]] video calls do not stutter on handoff.'
+			text: "A [[quic|QUIC]] connection is identified by a **variable-length Connection {{id-identifier|ID}}** (0–20 bytes in [[rfc:9000|RFC 9000]]; the fixed 64-bit CID was Google's pre-standard gQUIC), not by the (src [[ip|IP]], src port, dst [[ip|IP]], dst port) four-tuple [[tcp|TCP]] uses. When your phone moves between [[wifi|Wi-Fi]] and cellular, the underlying [[ip|IP]] changes — but the [[quic|QUIC]] connection survives. The receiver matches the new packet by Connection {{id-identifier|ID}}. This is why [[http3|HTTP/3]] video calls do not stutter on handoff."
 		},
 		{
 			title: 'QUIC encrypts almost the entire packet',
-			text: '[[tcp|TCP]] segment headers are visible to anyone on the path — sequence numbers, {{ack|ACK}} numbers, window sizes. [[quic|QUIC]] encrypts almost everything except the Connection {{id-identifier|ID}}, packet number, and a few framing bits. This blocks decades of network-side observation tools (and is why some operators still resist [[quic|QUIC]]).'
+			text: '[[tcp|TCP]] segment headers are visible to anyone on the path — sequence numbers, {{ack|ACK}} numbers, window sizes. [[quic|QUIC]] leaves only the Connection {{id-identifier|ID}}, the version (long header), and a few first-byte bits in the clear; even the packet number is masked by header protection ([[rfc:9001|RFC 9001]] §5.4). This blocks decades of network-side observation tools (and is why some operators still resist [[quic|QUIC]]).'
 		}
 	],
 

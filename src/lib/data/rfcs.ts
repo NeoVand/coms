@@ -334,7 +334,7 @@ Together with [[rfc:9110|RFC 9110]] this obsoletes the venerable [[rfc:2616|RFC 
 		protocols: ['http2'],
 		abstract: `The current spec for [[http2|HTTP/2]] — the binary, multiplexed framing layer that runs the same [[rfc:9110|HTTP semantics]] over a single [[tcp|TCP]] connection with many concurrent {{stream|streams}}. Each request/response pair is a stream; {{binary-framing|binary frames}} (HEADERS, DATA, SETTINGS, …) are interleaved on the wire, and {{hpack|HPACK}} compresses the headers.
 
-Obsoletes the original [[rfc:7540|RFC 7540]] (2015), partly to incorporate the response to the *Rapid Reset* CVE-2023-44487 DDoS attack (October 2023) — RFC 9113 mandates server-side limits on concurrent stream creation/cancellation. Despite [[http3|HTTP/3]]'s growth, [[http2|HTTP/2]] still serves the majority of HTTPS bytes.`
+Obsoletes the original [[rfc:7540|RFC 7540]] (2015), mainly for editorial cleanup: it deprecated the original stream-priority scheme and removed the plaintext h2c Upgrade mechanism (it also obsoletes RFC 8740). The later *Rapid Reset* attack (CVE-2023-44487, October 2023) was mitigated by vendor patches and guidance, not by this 2022 document. Despite [[http3|HTTP/3]]'s growth, [[http2|HTTP/2]] still serves the majority of HTTPS bytes.`
 	},
 	{
 		number: '9114',
@@ -823,7 +823,7 @@ Eventually obsoleted by the **6-RFC split** (7230–7235, 2014), which separated
 		protocols: ['http2'],
 		abstract: `The original [[http2|HTTP/2]] specification — direct descendant of Google's *SPDY* experiment ([[pioneer:mike-belshe|Mike Belshe]] and Roberto Peon, 2009). Replaces [[http1|HTTP/1.1]]'s text-based one-request-per-connection model with a {{binary-framing|binary frame}} format and stream {{multiplexing|multiplexing}} over a single [[tcp|TCP]] connection. {{hpack|HPACK}} compresses repeated headers.
 
-Obsoleted by [[rfc:9113|RFC 9113]] in 2022, partly because of the *Rapid Reset* CVE-2023-44487 DDoS attack which forced new server-side limits on stream creation/cancellation rates. The wire format is essentially unchanged.`
+Obsoleted by [[rfc:9113|RFC 9113]] in 2022 for editorial reasons — the deprecated priority scheme and the h2c Upgrade mechanism — not because of the later *Rapid Reset* attack (CVE-2023-44487, October 2023), which postdates it. The wire format is essentially unchanged.`
 	},
 
 	// DNS family

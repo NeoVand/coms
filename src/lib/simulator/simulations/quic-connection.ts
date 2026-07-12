@@ -64,26 +64,50 @@ export const quicConnection: SimulationConfig = {
 			]
 		},
 		{
-			id: 'complete',
-			label: 'Handshake Complete',
+			id: 'client-finished',
+			label: 'Client Finished',
 			description:
-				'The client sends its Handshake Finished and immediately switches to 1-RTT (short header) packets. The connection is now fully established with forward-secret encryption. Connection IDs allow seamless migration between networks — if the client changes Wi-Fi or switches to cellular, the connection survives.',
+				'The client sends its TLS Finished in a CRYPTO frame inside a long-header Handshake packet (handshake keys), and may coalesce its first 1-RTT application data behind it. The client never sends HANDSHAKE_DONE — that frame is server-only.',
 			fromActor: 'client',
 			toActor: 'server',
 			duration: 800,
-			highlight: ['Header Form', 'Packet Number'],
+			highlight: ['Type', 'Payload'],
 			layers: [
 				createEthernetLayer(),
 				createIPv4Layer({ protocol: 17 }),
 				createUDPLayer({ srcPort: 49600, dstPort: 443 }),
 				createQUICLayer({
+					headerForm: 'Long (1)',
+					type: 'Handshake',
+					version: 'QUICv1',
+					dcid: '0xF9A0B1C2',
+					scid: '0xC2B1A0F9',
+					packetNumber: 1,
+					payload: 'CRYPTO[Finished]  (+ coalesced 1-RTT app data)'
+				})
+			]
+		},
+		{
+			id: 'handshake-done',
+			label: 'HANDSHAKE_DONE',
+			description:
+				'The server confirms the handshake with a HANDSHAKE_DONE frame (server-only, RFC 9000 §19.20) in a short-header 1-RTT packet, plus a NEW_CONNECTION_ID for migration. The connection is now fully established with forward-secret encryption; Connection IDs let it survive a Wi-Fi-to-cellular handoff.',
+			fromActor: 'server',
+			toActor: 'client',
+			duration: 700,
+			highlight: ['Header Form', 'Payload'],
+			layers: [
+				createEthernetLayer({ srcMac: 'AA:BB:CC:DD:EE:FF', dstMac: '00:1A:2B:3C:4D:5E' }),
+				createIPv4Layer({ srcIp: '93.184.216.34', dstIp: '192.168.1.100', protocol: 17 }),
+				createUDPLayer({ srcPort: 443, dstPort: 49600 }),
+				createQUICLayer({
 					headerForm: 'Short (0)',
 					type: '1-RTT',
 					version: 'N/A (short)',
-					dcid: '0xF9A0B1C2',
+					dcid: '0xC2B1A0F9',
 					scid: 'N/A (short)',
-					packetNumber: 1,
-					payload: 'CRYPTO[Finished], HANDSHAKE_DONE, NEW_CONNECTION_ID'
+					packetNumber: 0,
+					payload: 'HANDSHAKE_DONE, NEW_CONNECTION_ID'
 				})
 			]
 		},

@@ -130,10 +130,10 @@ export const http2Multiplexing: SimulationConfig = {
 			]
 		},
 		{
-			id: 'data-stream1',
-			label: 'DATA (Stream 1)',
+			id: 'response-stream1',
+			label: 'HEADERS + DATA (Stream 1)',
 			description:
-				'Server responds on stream 1 with a DATA frame containing the HTML. The stream ID lets both sides know which request this response belongs to, even though they share one connection.',
+				'Server responds on stream 1. Every HTTP/2 response MUST begin with a HEADERS frame carrying the :status pseudo-header, then one or more DATA frames with the body. The stream ID ties both frames to the original request.',
 			fromActor: 'server',
 			toActor: 'client',
 			duration: 800,
@@ -147,6 +147,13 @@ export const http2Multiplexing: SimulationConfig = {
 					handshakeType: 'N/A (encrypted)'
 				}),
 				createHTTP2FrameLayer({
+					type: 'HEADERS (0x1)',
+					flags: 'END_HEADERS',
+					streamId: 1,
+					payload: ':status: 200, content-type: text/html',
+					length: 32
+				}),
+				createHTTP2FrameLayer({
 					type: 'DATA (0x0)',
 					flags: 'END_STREAM',
 					streamId: 1,
@@ -156,10 +163,10 @@ export const http2Multiplexing: SimulationConfig = {
 			]
 		},
 		{
-			id: 'data-stream3',
-			label: 'DATA (Stream 3)',
+			id: 'response-stream3',
+			label: 'HEADERS + DATA (Stream 3)',
 			description:
-				'Server responds on stream 3 with the CSS. Both responses arrived on one connection with no head-of-line blocking at the HTTP layer. This is the core advantage of HTTP/2 over HTTP/1.1.',
+				'Server responds on stream 3 with the CSS — again HEADERS (:status: 200) then DATA. Both responses interleaved on one connection with no head-of-line blocking at the HTTP layer. This is the core advantage of HTTP/2 over HTTP/1.1.',
 			fromActor: 'server',
 			toActor: 'client',
 			duration: 800,
@@ -171,6 +178,13 @@ export const http2Multiplexing: SimulationConfig = {
 				createTLSRecordLayer({
 					contentType: 'Application Data (23)',
 					handshakeType: 'N/A (encrypted)'
+				}),
+				createHTTP2FrameLayer({
+					type: 'HEADERS (0x1)',
+					flags: 'END_HEADERS',
+					streamId: 3,
+					payload: ':status: 200, content-type: text/css',
+					length: 30
 				}),
 				createHTTP2FrameLayer({
 					type: 'DATA (0x0)',
