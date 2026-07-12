@@ -7446,8 +7446,8 @@ export const concepts: Concept[] = [
 		id: 'nba-mms',
 		term: 'NBA-MMS',
 		definition:
-			'Narrowband-Assisted Multi-Millisecond Sounding — the [[bluetooth|Bluetooth]] 6.0 (early 2026) {{channel-sounding|Channel Sounding}} extension that improves ranging accuracy at distance by interleaving a narrowband tone with the wideband sounding pulse.',
-		wikiUrl: 'https://www.bluetooth.com/specifications/specs/',
+			'Narrowband-Assisted Multi-Millisecond ranging — the headline mechanism of IEEE 802.15.4ab, the next-generation [[uwb|UWB]] amendment: a narrowband control link (BLE-like in spirit) synchronizes, wakes, and schedules the wideband UWB ranging bursts, dramatically improving link budget and power. Not to be confused with [[bluetooth|Bluetooth]] 6.0 {{channel-sounding|Channel Sounding}}, a separate 2.4 GHz ranging technique.',
+		wikiUrl: 'https://standards.ieee.org/ieee/802.15.4ab/10717/',
 		category: 'protocol-mechanics'
 	},
 	{

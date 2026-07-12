@@ -46,10 +46,11 @@ export function createQUICLayer(
 			},
 			{
 				name: 'Packet Number',
-				bits: 32,
+				bits: 0,
 				value: overrides?.packetNumber ?? 0,
 				editable: false,
-				description: 'Packet number — monotonically increasing, used for loss detection'
+				description:
+					'Packet number — monotonically increasing, used for loss detection; encoded in 1–4 bytes (8–32 bits), length signaled in the first header byte'
 			},
 			{
 				name: 'Payload',

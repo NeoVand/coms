@@ -3,7 +3,7 @@ import { createIPv4Layer } from '../layers/ipv4';
 import { createEthernetLayer } from '../layers/ethernet';
 import { createUDPLayer } from '../layers/udp';
 import { createQUICLayer } from '../layers/quic';
-import { createHTTP2FrameLayer } from '../layers/http2';
+import { createHTTP3FrameLayer } from '../layers/http3';
 
 export const http3Quic: SimulationConfig = {
 	protocolId: 'http3',
@@ -74,26 +74,50 @@ export const http3Quic: SimulationConfig = {
 			]
 		},
 		{
-			id: 'quic-1rtt',
-			label: 'QUIC 1-RTT',
+			id: 'quic-finished',
+			label: 'Client Finished',
 			description:
-				'Client completes the handshake and switches to short-header 1-RTT packets. The connection ID is now enough to route packets — no more long header needed. Encryption is fully active.',
+				'Client answers with its TLS Finished in a CRYPTO frame — still inside a long-header Handshake packet, because Handshake-level data uses handshake keys. Only after this can both sides move to short-header 1-RTT packets.',
 			fromActor: 'client',
 			toActor: 'server',
 			duration: 600,
-			highlight: ['Header Form', 'Payload'],
+			highlight: ['Type', 'Payload'],
 			layers: [
 				createEthernetLayer(),
 				createIPv4Layer({ protocol: 17 }),
 				createUDPLayer({ srcPort: 52700, dstPort: 443 }),
 				createQUICLayer({
+					headerForm: 'Long (1)',
+					type: 'Handshake',
+					version: 'QUICv1',
+					dcid: '0xA1B2C3D4',
+					scid: '0xE5F60718',
+					packetNumber: 1,
+					payload: 'CRYPTO: TLS Finished'
+				})
+			]
+		},
+		{
+			id: 'handshake-done',
+			label: 'HANDSHAKE_DONE',
+			description:
+				'Server confirms the handshake with a HANDSHAKE_DONE frame — a frame only the server may send (RFC 9000 §19.20) — in its first short-header 1-RTT packet. From here on, the connection ID alone routes packets; no more long headers.',
+			fromActor: 'server',
+			toActor: 'client',
+			duration: 600,
+			highlight: ['Header Form', 'Payload'],
+			layers: [
+				createEthernetLayer({ srcMac: 'AA:BB:CC:DD:EE:FF', dstMac: '00:1A:2B:3C:4D:5E' }),
+				createIPv4Layer({ srcIp: '93.184.216.34', dstIp: '192.168.1.100', protocol: 17 }),
+				createUDPLayer({ srcPort: 443, dstPort: 52700 }),
+				createQUICLayer({
 					headerForm: 'Short (0)',
 					type: '1-RTT',
 					version: 'N/A (short header)',
-					dcid: '0xA1B2C3D4',
+					dcid: '0xE5F60718',
 					scid: 'N/A (short header)',
-					packetNumber: 1,
-					payload: 'CRYPTO: TLS Finished + HANDSHAKE_DONE'
+					packetNumber: 0,
+					payload: 'HANDSHAKE_DONE + NEW_CONNECTION_ID'
 				})
 			]
 		},
@@ -105,7 +129,7 @@ export const http3Quic: SimulationConfig = {
 			fromActor: 'client',
 			toActor: 'server',
 			duration: 800,
-			highlight: ['Payload', 'Stream ID'],
+			highlight: ['Payload', 'Type'],
 			layers: [
 				createEthernetLayer(),
 				createIPv4Layer({ protocol: 17 }),
@@ -117,13 +141,11 @@ export const http3Quic: SimulationConfig = {
 					dcid: '0xA1B2C3D4',
 					scid: 'N/A (short header)',
 					packetNumber: 2,
-					payload: 'STREAM frame (stream 0)'
+					payload: 'STREAM frame (stream 0, FIN on last frame)'
 				}),
-				createHTTP2FrameLayer({
-					type: 'HEADERS',
-					flags: 'END_HEADERS',
-					streamId: 0,
-					payload: ':method: GET, :path: /index.html (QPACK)',
+				createHTTP3FrameLayer({
+					type: 'HEADERS (0x01)',
+					payload: ':method: GET, :path: /index.html (QPACK-compressed)',
 					length: 64
 				})
 			]
@@ -148,12 +170,10 @@ export const http3Quic: SimulationConfig = {
 					dcid: '0xE5F60718',
 					scid: 'N/A (short header)',
 					packetNumber: 1,
-					payload: 'STREAM frame (stream 0)'
+					payload: 'STREAM frame (stream 0, FIN on last frame)'
 				}),
-				createHTTP2FrameLayer({
-					type: 'DATA (0x0)',
-					flags: 'END_STREAM',
-					streamId: 0,
+				createHTTP3FrameLayer({
+					type: 'DATA (0x00)',
 					payload: '<html>...</html> (response body)',
 					length: 4096
 				})

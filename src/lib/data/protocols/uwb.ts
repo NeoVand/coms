@@ -10,16 +10,16 @@ export const uwb: Protocol = {
 	rfc: 'IEEE 802.15.4z-2020 (HRP UWB) / FiRa MAC',
 	oneLiner:
 		'Sub-nanosecond impulse-radio at 6–9 GHz that measures {{tof-ranging|time-of-flight}} to 10–30 cm — AirTag Precision Finding, BMW Digital Key, and {{aliro|Aliro}} hands-free unlock all ride this.',
-	overview: `**[[uwb|UWB]] is not a data radio — it is a clock.** Modern UWB transmits sub-nanosecond Gaussian-monocycle impulses across ≥500 MHz of {{spectrum|spectrum}} so that two devices can measure the **{{tof-ranging|time-of-flight of a radio pulse}}** and convert it to distance with 10–30 cm accuracy. [[bluetooth|Bluetooth]] {{rssi|RSSI}} and [[wifi|Wi-Fi]] {{rtt|RTT}} cannot match that — and the whole point in 2026 is the *security* of the measurement, not just the precision. The physical layer is **{{ieee-802-15-4|IEEE 802.15.4z-2020}}** (ratified 31 August 2020); the {{spectrum|spectrum}} is unlicensed under {{fcc|FCC}} Part 15 Subpart F at **−41.3 dBm/MHz** across 3.1–10.6 GHz, the legacy of the {{fcc|FCC}}'s First Report and Order on Valentine's Day 2002. The two channels everyone actually uses are **Channel 5** (6489.6 MHz) and **Channel 9** (7987.2 MHz), each 499.2 MHz wide.
+	overview: `**[[uwb|UWB]] is not a data radio — it is a clock.** Modern UWB transmits sub-nanosecond Gaussian-monocycle impulses across ≥500 MHz of {{spectrum|spectrum}} so that two devices can measure the **{{tof-ranging|time-of-flight of a radio pulse}}** and convert it to distance with 10–30 cm accuracy. [[bluetooth|Bluetooth]] {{rssi|RSSI}} and [[wifi|Wi-Fi]] {{rtt|RTT}} cannot match that — and the whole point in 2026 is the *security* of the measurement, not just the precision. The physical layer is **{{ieee-802-15-4|IEEE 802.15.4z-2020}}** (approved 4 June 2020, published 25 August 2020); the {{spectrum|spectrum}} is unlicensed under {{fcc|FCC}} Part 15 Subpart F at **−41.3 dBm/MHz** across 3.1–10.6 GHz, the legacy of the {{fcc|FCC}}'s First Report and Order on Valentine's Day 2002. The two channels everyone actually uses are **Channel 5** (6489.6 MHz) and **Channel 9** (7987.2 MHz), each 499.2 MHz wide.
 
-The consumer story begins on **10 September 2019** when {{apple|Apple}} shipped the **{{u1-chip|U1}} chip** in the iPhone 11. It went mass-market on **30 April 2021** with the $29 **AirTag**, whose Precision Finding feature swept the world's awareness of UWB into one product. Samsung followed with the **Galaxy SmartTag+** in April 2021. **{{ccc-digital-key|CCC Digital Key 3.0}}** (July 2021) made UWB the fine-ranging leg of phone-as-a-key for vehicles — BMW iX shipped first; Mercedes EQS, Hyundai/Kia, and VW {{id-identifier|ID}}.7 followed. On **26 February 2026** the {{sig-bluetooth-acronym|CSA}} published **{{aliro|Aliro 1.0}}** — the "{{matter|Matter}} for door locks" — with [[nfc|NFC]] tap + {{ble|BLE}} proximity + {{ble|BLE}}/UWB ranged as its three transports. UWB silicon has consolidated to five suppliers: {{apple|Apple}} captive ({{u1-chip|U1}} 16 nm, **{{u2-chip|U2}}** 7 nm in iPhone 15+), **{{qorvo|Qorvo}}** (ex-Decawave DW1000/DW3000), **{{nxp|NXP}}** Trimension SR040/SR150/SR250, Samsung captive (Exynos {{mqtt-connect|Connect}} U100), and a long tail of STMicroelectronics, Microchip, Spark Microsystems, and **3db Access** (Infineon acquired 2024). ABI projects UWB phone penetration rising from **27 % in 2025 to 52 % by 2030**.
+The consumer story begins on **10 September 2019** when {{apple|Apple}} shipped the **{{u1-chip|U1}} chip** in the iPhone 11. It went mass-market on **30 April 2021** with the $29 **AirTag**, whose Precision Finding feature swept the world's awareness of UWB into one product. Samsung followed with the **Galaxy SmartTag+** in April 2021. **{{ccc-digital-key|CCC Digital Key 3.0}}** (July 2021) made UWB the fine-ranging leg of phone-as-a-key for vehicles — BMW iX shipped first; Mercedes EQS, Hyundai/Kia, and VW {{id-identifier|ID}}.7 followed. On **26 February 2026** the {{sig-bluetooth-acronym|CSA}} published **{{aliro|Aliro 1.0}}** — the "{{matter|Matter}} for door locks" — with [[nfc|NFC]] tap + {{ble|BLE}} proximity + {{ble|BLE}}/UWB ranged as its three transports. UWB silicon has consolidated to five suppliers: {{apple|Apple}} captive ({{u1-chip|U1}} 16 nm, **{{u2-chip|U2}}** 7 nm in iPhone 15+), **{{qorvo|Qorvo}}** (ex-Decawave DW1000/DW3000), **{{nxp|NXP}}** Trimension SR040/SR150/SR250, Samsung captive (Exynos Connect U100), and a long tail of STMicroelectronics, Microchip, Spark Microsystems, and **3db Access** (acquired by Infineon, October 2023). ABI projects UWB phone penetration rising from **27 % in 2025 to 52 % by 2030**.
 
 The reason UWB matters more than its raw precision is that it can **prove proximity even when an attacker tries to lie about it**. The **2022 NCC Group Tesla Model 3 {{ble|BLE}} relay** (CVSS 6.8) — Sultan Qasim Khan unlocking and driving away a parked Tesla from 25 m using $50 of dev boards — showed why {{rssi|RSSI}}-based proximity is fundamentally broken: a {{replay-attack|relay}} can shorten apparent distance with low-{{latency|latency}} forwarding. {{tof-ranging|Time-of-flight}} cannot be shortened by a relay; the speed of light is the hard upper bound. The cryptographic primitive that makes 802.15.4z secure is the **{{sts|Scrambled Timestamp Sequence (STS)}}** — an {{aes-128|AES-128}}-CTR-generated pulse pattern injected into the ranging frame as a distance commitment. Pre-{{sts|STS}} UWB (802.15.4a, 2007) was vulnerable to early-detect/late-commit pulse-replay; even {{sts|STS}} was shown attackable at ~4 % success in **Ghost Peak** (Leu et al., {{usenix-conf|USENIX}} Security 2022), which motivated **{{ieee-802-15-4|IEEE}} 802.15.4ab** (Draft D03 September 2025, ratification expected early 2026) with **{{nba-mms|NBA-MMS}}** narrowband-assisted multi-millisecond ranging and a redesigned {{sts|STS}} receiver.`,
 	howItWorks: [
 		{
 			title: 'Impulse-radio physical layer — Gaussian monocycles, not a carrier',
 			description:
-				'Instead of modulating a continuous carrier, **IR-UWB** transmits sub-nanosecond Gaussian-monocycle (or doublet) pulses spaced across the available {{spectrum|spectrum}}. A symbol is built from a burst of pulses at one of two time-slot positions (BPM) with chosen polarity ({{bpsk|BPSK}}) — *Burst-Position Modulation + Binary Phase-Shift Keying*. The mean pulse-repetition frequency is **{{bprf|BPRF}} ≈ 64 MHz** in the default 802.15.4z mode or **HPRF 124.8 / 249.6 MHz** in higher-power modes. Data rates: 850 kbps, 6.81 Mbps, or 27 Mbps — most ranging deployments use **6.81 Mbps** because shorter {{frame|frame}} air-time reduces clock-drift error. The 499.2 MHz channel {{bandwidth|bandwidth}} and the ≥0.2 fractional-{{bandwidth|bandwidth}} requirement is what makes a UWB transmitter *legally UWB* under {{fcc|FCC}} Part 15.519.'
+				'Instead of modulating a continuous carrier, **IR-UWB** transmits sub-nanosecond Gaussian-monocycle (or doublet) pulses spaced across the available {{spectrum|spectrum}}. A symbol is built from a burst of pulses at one of two time-slot positions (BPM) with chosen polarity ({{bpsk|BPSK}}) — *Burst-Position Modulation + Binary Phase-Shift Keying*. The mean pulse-repetition frequency is **{{bprf|BPRF}} 62.4 MHz** in the default 802.15.4z mode or **HPRF 124.8 / 249.6 MHz** in higher-power modes. Data rates: 850 kbps, 6.81 Mbps, or 27 Mbps — most ranging deployments use **6.81 Mbps** because shorter {{frame|frame}} air-time reduces clock-drift error. A transmitter is *legally UWB* under {{fcc|FCC}} §15.503 when its −10 dB {{bandwidth|bandwidth}} is ≥500 MHz **or** its fractional {{bandwidth|bandwidth}} is ≥0.20 — Channel 5/9 devices qualify via the 499.2 MHz absolute bandwidth (§15.519 sets the handheld emission limits).'
 		},
 		{
 			title: 'The four ranging paradigms — TWR, DS-TWR, TDoA, AoA',
@@ -49,7 +49,7 @@ The reason UWB matters more than its raw precision is that it can **prove proxim
 		{
 			title: 'Regional masks — design for the strictest you must support',
 			description:
-				"{{fcc|FCC}} Part 15.519 caps average PSD at **−41.3 dBm/MHz** across 3.1–10.6 GHz. {{etsi|ETSI}} EN 302 065 in Europe is similar with stricter Detect-and-Avoid requirements in some sub-bands. **Japan** applies a different mask with restrictions in **7.25–7.75 GHz**, overlapping Channel 9 — {{apple|Apple}}'s iPhone reduces or disables UWB features (Precision Finding, Find People) in Japan and a handful of other countries. Per-country radio law in Korea and individual jurisdictions further constrains commercial UWB. For a global product, design to: **(a)** geo-fence UWB features based on locale; **(b)** default to **Channel 5** in Japan; **(c)** support a *no-UWB* mode for countries where UWB is not permitted at all (consult {{apple|Apple}} Support's UWB-availability list for the current jurisdictional state)."
+				"{{fcc|FCC}} Part 15.519 caps average PSD at **−41.3 dBm/MHz** across 3.1–10.6 GHz. {{etsi|ETSI}} EN 302 065 in Europe is similar with stricter Detect-and-Avoid requirements in some sub-bands. **Japan** permits unmitigated UWB only in **7.25–10.25 GHz** — Channel 9 fits entirely inside that band, while Channel 5 does not (a key reason FiRa made Channel 9 the mandatory worldwide channel). {{apple|Apple}}'s iPhone still reduces or disables some UWB features (Precision Finding, Find People) in a handful of countries for local radio-law reasons. Per-country radio law in Korea and individual jurisdictions further constrains commercial UWB. For a global product, design to: **(a)** geo-fence UWB features based on locale; **(b)** default to **Channel 9** in Japan (Channel 5 is not permitted there); **(c)** support a *no-UWB* mode for countries where UWB is not permitted at all (consult {{apple|Apple}} Support's UWB-availability list for the current jurisdictional state)."
 		}
 	],
 	useCases: [
@@ -59,10 +59,10 @@ The reason UWB matters more than its raw precision is that it can **prove proxim
 		'Indoor RTLS — hospital asset tracking (Sonitor), warehouse forklifts (Zebra), manufacturing (Apex Locate)',
 		'V2P / in-cabin child-presence detection — emerging under Euro NCAP rules from 2025',
 		'Wireless-charging-pad alignment — Tesla FCC ET 25-101 waiver for ground-pad UWB alignment to inductive coils',
-		'AR / VR controller tracking — Spark Microsystems and Apple Vision Pro accessory ecosystem'
+		'AR / VR controller tracking — Spark Microsystems-style low-latency proprietary UWB links'
 	],
 	codeExample: {
-		language: 'javascript',
+		language: 'swift',
 		code: `// Apple Nearby Interaction (iOS 14+) — the framework that abstracts UWB ranging.
 // This is roughly what AirTag Precision Finding, BMW Digital Key, and Aqara U400
 // all build on top of. The actual ranging happens in U1/U2 silicon; the framework
@@ -102,7 +102,7 @@ class RangingSession: NSObject, NISessionDelegate {
   }
 }`,
 		caption:
-			"{{apple|Apple}}'s {{nearby-interaction|Nearby Interaction}} framework is the public {{api|API}} every iOS UWB app uses. The {{u1-chip|U1}}/{{u2-chip|U2}} silicon handles {{ds-twr|DS-TWR}} + PDoA; the framework returns distance in metres and a 3D direction vector at ~10 Hz. AirTag Precision Finding, BMW Digital Key, and the AR experiences in {{apple|Apple}} Vision Pro accessories all sit on top of this. The same NIDiscoveryToken-over-{{ble|BLE}} pattern is what {{aliro|Aliro}} 1.0 generalises across {{android|Android}} and Samsung wallets.",
+			"{{apple|Apple}}'s {{nearby-interaction|Nearby Interaction}} framework is the public {{api|API}} every iOS UWB app uses. The {{u1-chip|U1}}/{{u2-chip|U2}} silicon handles {{ds-twr|DS-TWR}} + PDoA; the framework returns distance in metres and a 3D direction vector at ~10 Hz. AirTag Precision Finding and BMW Digital Key sit on top of this. The same NIDiscoveryToken-over-{{ble|BLE}} pattern is what {{aliro|Aliro}} 1.0 generalises across {{android|Android}} and Samsung wallets.",
 		alternatives: [
 			{
 				language: 'python',
@@ -112,10 +112,10 @@ class RangingSession: NSObject, NISessionDelegate {
 
 # DS-TWR initiator pseudo-flow (real code lives in C; this is the algorithm):
 def ds_twr_initiator(dw3000, responder_id, sts_key):
-    # 1. Configure STS for secure ranging (4z packet config 1, BPRF mode)
+    # 1. Configure STS for secure ranging (4z packet config 2, BPRF mode)
     dw3000.set_sts_key(sts_key)
     dw3000.set_sts_iv(generate_nonce_96())
-    dw3000.set_packet_config(1)                        # PHR | data | STS | FCS
+    dw3000.set_packet_config(2)                        # SHR | PHR | PSDU(+FCS) | STS
 
     # 2. Send Poll, timestamp at TX
     poll_frame = build_ranging_frame(seq=0, dest=responder_id)
@@ -154,13 +154,14 @@ minicom -D /dev/ttyACM0 -b 115200
 # Wireshark dissector recognises 802.15.4z frames; the relevant filters:
 #   wpan                              all 802.15.4
 #   wpan.frame_type == 0x01           data frames (ranging frames are data with RFRAME flag)
-#   wpan.fcf.ranging_capable          ranging-capable indication in FCF
-#   wpan.security_enabled             frames with auxiliary security header
+#   wpan.security                     frames with auxiliary security header
+# (RFRAME lives in the PHY header — invisible to the wpan MAC dissector)
 
 # FiRa UCI (UWB Command Interface) is the standard host-to-UWB-subsystem protocol.
-# UCI traffic over the AP's HCI USB transport can be captured with:
-hcidump -X -i hciX                    # raw HCI (BLE bootstrap)
-nrfutil sniff --device /dev/ttyUSBn   # 802.15.4 sniffer mode (4z-capable on nRF52840)
+# It runs over the UWB chip's own SPI/UART transport — log it at the UWB HAL
+# (Android: uwb_uci logs). Capturing UWB frames over the air needs UWB silicon
+# (e.g. DW3000 diagnostic/CIR dumps); a 2.4 GHz 802.15.4 sniffer cannot hear HRP UWB.
+hcidump -X -i hciX                    # BLE bootstrap side only
 
 # Apple's sysdiagnose grabs UWB controller logs:
 sudo /usr/bin/sysdiagnose -A SysDiagnose -d  # macOS host paired with an iPhone
@@ -171,19 +172,20 @@ sudo /usr/bin/sysdiagnose -A SysDiagnose -d  # macOS host paired with an iPhone
 				code: '',
 				sections: [
 					{
-						title: 'HRP-ERDEV UWB frame — packet configuration 1 (data + STS)',
-						code: `+----------+------------+-----+--------------+--------------+----------+
-|  SHR     | preamble + | PHR |    PSDU      |     STS      |   FCS    |
-|          | SFD        |     |  (data field)|              |          |
-+----------+------------+-----+--------------+--------------+----------+
-  64–4096    8 symbols   19b      variable     32–4×512       16b CRC-16
-  symbols                                      chips/segment
+						title: 'HRP-ERDEV UWB frame — packet configuration 2 (data + STS)',
+						code: `+----------+------------+-----+--------------------+--------------+
+|  SHR     | preamble + | PHR |       PSDU         |     STS      |
+|          | SFD        |     | (MAC frame + FCS)  |              |
++----------+------------+-----+--------------------+--------------+
+  64–4096    8 symbols   19b   variable, ends in     32–4×512
+  symbols                      16b CRC-16 FCS        chips/segment
+                               (FCS covers the MAC frame only — not the STS)
 
 PHR (PHY Header, 19 bits HRP):
-  bits 0–6   Frame Length (PSDU length in bytes, MSB first)
-  bit  7     Ranging frame indicator (RFRAME) — this frame is for ranging
-  bits 8–9   Data Rate                (00 = 850 kbps, 01 = 6.81 Mbps, 10 = 27 Mbps)
-  bits 10–12 Spreading factor / reserved
+  bits 0–1   Data Rate  (00 = 110 kbps, 01 = 850 kbps, 10 = 6.81 Mbps, 11 = 27.24 Mbps)
+  bits 2–8   Frame Length (PSDU length in bytes)
+  bit  9     Ranging frame indicator (RFRAME) — this frame is for ranging
+  bits 10–12 EXT + preamble-duration bits (P1 P0)
   bits 13–18 SECDED parity over the previous 13 bits
 
 STS segment:
@@ -193,8 +195,8 @@ STS segment:
 
 Packet configurations:
   PC=0   No STS (legacy 4a-compatible; insecure for ranging)
-  PC=1   STS after PHR + PSDU
-  PC=2   STS between SHR and PHR  (no clear-text PHR-prefix to early-replay against)
+  PC=1   STS between SHR and PHR  (no clear-text PHR-prefix to early-replay against)
+  PC=2   STS after the PSDU (data field) — the layout drawn above
   PC=3   STS only — pure ranging frame, no data payload`
 					},
 					{
@@ -236,7 +238,7 @@ of bias under the same conditions.`
 					{
 						title: 'AirTag Precision Finding ranging round (illustrative)',
 						code: `─── 1. BLE Advertising on ch 37 (AirTag → iPhone) ────────────────────────────
-ADV_NONCONN_IND from AirTag:
+ADV_IND (connectable) from AirTag:
   PHY:        LE 1M (2402 MHz)
   AdvData:    Apple Find My service data + ephemeral public key
   Repeat:     every 2 s (Find My beacon cadence)
@@ -250,8 +252,8 @@ Both sides know STS_KEY = K_session before any UWB activity.
 Poll       RFRAME, seq=0, STS segment (32 chips, AES-CTR keystream)
 Response   RFRAME, seq=1, STS segment, payload carries t2, t3
 Final      RFRAME, seq=2, STS segment, payload carries t1, t4, t5
-           → AirTag computes ToF + cross-product → distance d_meters
-           → AirTag also derives AoA via PDoA between iPhone's two U2 antennas
+           → iPhone computes ToF + cross-product → distance d_meters
+           → iPhone derives AoA via PDoA across its own U2 antenna pair
 
 ─── 4. Result back over BLE ──────────────────────────────────────────────────
 GATT notify on Apple Find My characteristic:
@@ -322,7 +324,7 @@ Continuous Precision Finding refreshes at ~10 Hz on Apple silicon.`
 			date: '2025-09',
 			title: 'IEEE 802.15.4ab Draft D03 — narrowband-assisted UWB',
 			description:
-				"The next-generation UWB amendment progressed to **Draft D03 in September 2025** (D02 March 2025), with ratification expected **early 2026** per ABI Research and STMicroelectronics. Headline additions: **{{nba-mms|NBA-MMS}}** (Narrow-Band-Assist Multi-Millisecond Sensing) — a narrowband control channel synchronises, wakes, and schedules UWB ranging, dramatically improving link budget and power; new **radar/sensing modes** for in-cabin child-presence detection (driven by EU Euro NCAP rules from 2025); LRP+{{hrp-uwb|HRP}} dual-mode hardware support; tighter integrity options around {{sts|STS}}. STMicroelectronics' **ST64UWB** (announced Q1 2026, 18 nm FD-SOI) is the first commercial 4ab silicon, with ~3 dB link-budget gain over bulk-CMOS designs.",
+				"The next-generation UWB amendment progressed to **Draft D03 in September 2025** (D02 March 2025), with ratification expected **early 2026** per ABI Research and STMicroelectronics. Headline additions: **{{nba-mms|NBA-MMS}}** (Narrowband-Assisted Multi-Millisecond UWB ranging) — a narrowband control channel synchronises, wakes, and schedules UWB ranging, dramatically improving link budget and power; new **radar/sensing modes** for in-cabin child-presence detection (driven by EU Euro NCAP rules from 2025); LRP+{{hrp-uwb|HRP}} dual-mode hardware support; tighter integrity options around {{sts|STS}}. STMicroelectronics' **ST64UWB** (announced Q1 2026, 18 nm FD-SOI) is the first commercial 4ab silicon, with ~3 dB link-budget gain over bulk-CMOS designs.",
 			source: {
 				url: 'https://ieeexplore.ieee.org/document/11179932/',
 				label: 'IEEE P802.15.4ab Draft D03'
@@ -382,7 +384,7 @@ Continuous Precision Finding refreshes at ~10 Hz on Apple silicon.`
 			org: 'Samsung Galaxy SmartTag+ + Galaxy S21+ family',
 			scale: 'First non-Apple UWB tracker; UWB on every Galaxy flagship from S21 Ultra onward',
 			description:
-				"**Samsung Galaxy SmartTag+** shipped **April 2021** — the first non-{{apple|Apple}} UWB tracker. Works with Galaxy S21+ / S21 Ultra / Note 20 Ultra / S22/S23/S24 (UWB-equipped models) for AR-based directional finding via SmartThings Find. Samsung's **Exynos {{mqtt-connect|Connect}} U100** in-house UWB silicon also shipped in the Note 20 Ultra (August 2020) before the SmartTag+ release — Samsung was technically *first to a phone* with UWB silicon, just a year after {{apple|Apple}}'s {{u1-chip|U1}}."
+				"**Samsung Galaxy SmartTag+** shipped **April 2021** — the first non-{{apple|Apple}} UWB tracker. Works with Galaxy S21+ / S21 Ultra / Note 20 Ultra / S22/S23/S24 (UWB-equipped models) for AR-based directional finding via SmartThings Find. The Note 20 Ultra (August 2020) was the first UWB Android phone — using {{nxp|NXP}}'s SR100T Trimension chip, a year after {{apple|Apple}}'s {{u1-chip|U1}}; Samsung's own in-house **Exynos Connect U100** silicon wasn't announced until March 2023."
 		},
 		{
 			org: 'Industrial / hospital RTLS — Sonitor, Zebra, Apex Locate',
@@ -434,8 +436,8 @@ Continuous Precision Finding refreshes at ~10 Hz on Apple silicon.`
 	practicalWisdom: {
 		pitfalls: [
 			{
-				title: 'Channel choice — start with Channel 5, plan for Channel 9',
-				text: 'UWB has 16 {{hrp-uwb|HRP}} channels but only **two see real-world use**: Channel 5 (6489.6 MHz) and Channel 9 (7987.2 MHz), each 499.2 MHz wide. Older silicon ({{qorvo|Qorvo}} DW1000) supports only Channel 5; everything from DW3000 / {{nxp|NXP}} SR150 / {{apple|Apple}} {{u1-chip|U1}} onwards supports both. Japanese regulations restrict 7.25–7.75 GHz, which **clips Channel 9 in Japan**. For interoperability fallback, support Channel 5 — it works everywhere. For isolation from 6 GHz Wi-Fi 6E (which is squeezing the 5.925–7.125 GHz band increasingly hard), **prefer Channel 9 where regulation allows and fall back to Channel 5 in Japan and a few other jurisdictions**. {{ccc-digital-key|CCC Digital Key}} 3.0 mandates both. Verify against {{etsi|ETSI}} EN 302 065 (EU) and Japanese radio law before launch.'
+				title: 'Channel choice — Channel 9 is the worldwide default',
+				text: 'UWB has 16 {{hrp-uwb|HRP}} channels but only **two see real-world use**: Channel 5 (6489.6 MHz) and Channel 9 (7987.2 MHz), each 499.2 MHz wide. Older silicon ({{qorvo|Qorvo}} DW1000) supports only Channel 5; everything from DW3000 / {{nxp|NXP}} SR150 / {{apple|Apple}} {{u1-chip|U1}} onwards supports both. Japan permits unmitigated UWB only in **7.25–10.25 GHz**, which **rules out Channel 5 there** — Channel 9 is the channel that works essentially worldwide, and it also sits clear of 6 GHz Wi-Fi 6E (which is squeezing the 5.925–7.125 GHz band right on top of Channel 5). **Prefer Channel 9 as the default; keep Channel 5 for legacy DW1000 interop where regulation allows.** {{ccc-digital-key|CCC Digital Key}} 3.0 and FiRa mandate Channel 9 (Channel 5 optional). Verify against {{etsi|ETSI}} EN 302 065 (EU) and Japanese radio law before launch.'
 			},
 			{
 				title: 'STS / cipher suite — turn it on, and watch the receiver',
@@ -455,7 +457,7 @@ Continuous Precision Finding refreshes at ~10 Hz on Apple silicon.`
 			},
 			{
 				title: 'Power consumption — UWB ranging is not cheap',
-				text: "A single {{ds-twr|DS-TWR}} ranging round on a {{qorvo|Qorvo}} DW3000 or {{nxp|NXP}} SR150 draws on the order of **milliamps for ~1–3 ms**, vs. {{ble|BLE}} scan/advertise at hundreds of microamps. A 1 Hz ranging cadence adds ~3 mA average on a tag — material on a coin-cell-powered AirTag-class device. **(a)** Range on demand only — gate UWB ranging on a {{ble|BLE}} proximity event, not continuously. **(b)** Use {{bprf|BPRF}} (~64 MHz mean PRF) for tag-side rather than HPRF. **(c)** Use 4ab {{nba-mms|NBA-MMS}} as it becomes available — the narrowband-assist {{signaling|signaling}} lets you wake the UWB radio only for scheduled millisecond slots. **(d)** Profile end-to-end power before launch; UWB ranging's contribution to product battery life is real and easy to underestimate."
+				text: "A single {{ds-twr|DS-TWR}} ranging round on a {{qorvo|Qorvo}} DW3000 or {{nxp|NXP}} SR150 draws on the order of **milliamps for ~1–3 ms**, vs. {{ble|BLE}} scan/advertise at hundreds of microamps. At a 1 Hz cadence that averages out to only ~0.1–0.3 mA — but Precision-Finding-style ~10 Hz ranging with RX listen windows reaches several mA, material on a coin-cell-powered AirTag-class device. **(a)** Range on demand only — gate UWB ranging on a {{ble|BLE}} proximity event, not continuously. **(b)** Use {{bprf|BPRF}} (62.4 MHz mean PRF) for tag-side rather than HPRF. **(c)** Use 4ab {{nba-mms|NBA-MMS}} as it becomes available — the narrowband-assist {{signaling|signaling}} lets you wake the UWB radio only for scheduled millisecond slots. **(d)** Profile end-to-end power before launch; UWB ranging's contribution to product battery life is real and easy to underestimate."
 			}
 		]
 	}

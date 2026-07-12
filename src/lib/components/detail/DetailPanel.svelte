@@ -609,7 +609,9 @@
 					<div>
 						<h2 class="text-lg font-bold" style="color: {color}">{cat.name}</h2>
 						{#if story}
-							<p class="mt-0.5 text-xs text-t-secondary">{story.tagline}</p>
+							<p class="mt-0.5 text-xs text-t-secondary">
+								<RichText segments={parseRichText(story.tagline)} {color} />
+							</p>
 						{/if}
 					</div>
 				</div>
