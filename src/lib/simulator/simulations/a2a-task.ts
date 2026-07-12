@@ -2,6 +2,10 @@ import type { SimulationConfig } from '../types';
 import { createTCPLayer } from '../layers/tcp';
 import { createIPv4Layer } from '../layers/ipv4';
 import { createEthernetLayer } from '../layers/ethernet';
+import { createTLSRecordLayer } from '../layers/tls';
+
+const tlsAppData = () =>
+	createTLSRecordLayer({ contentType: 'Application Data (23)', handshakeType: 'N/A (encrypted)' });
 
 function httpRequestLayer(method: string, path: string, contentType: string) {
 	return {
@@ -134,6 +138,7 @@ export const a2aTask: SimulationConfig = {
 				createEthernetLayer(),
 				createIPv4Layer({ protocol: 6 }),
 				createTCPLayer({ srcPort: 55100, dstPort: 443, flags: 'PSH,ACK' }),
+				tlsAppData(),
 				{
 					name: 'HTTP Request',
 					abbreviation: 'HTTP',
@@ -150,7 +155,7 @@ export const a2aTask: SimulationConfig = {
 						{
 							name: 'Path',
 							bits: 0,
-							value: '/.well-known/agent.json',
+							value: '/.well-known/agent-card.json',
 							editable: false,
 							description:
 								'Well-known URI for agent discovery — standardized path so clients know where to look'
@@ -179,6 +184,7 @@ export const a2aTask: SimulationConfig = {
 				createEthernetLayer({ srcMac: 'AA:BB:CC:DD:EE:FF', dstMac: '00:1A:2B:3C:4D:5E' }),
 				createIPv4Layer({ srcIp: '93.184.216.34', dstIp: '192.168.1.100', protocol: 6 }),
 				createTCPLayer({ srcPort: 443, dstPort: 55100, flags: 'PSH,ACK' }),
+				tlsAppData(),
 				{
 					name: 'HTTP Response',
 					abbreviation: 'HTTP',
@@ -237,11 +243,12 @@ export const a2aTask: SimulationConfig = {
 							description: 'List of skills — each with an ID, name, and description'
 						},
 						{
-							name: 'Version',
+							name: 'Protocol Version',
 							bits: 0,
-							value: '"0.2.1"',
+							value: '"1.0"',
 							editable: false,
-							description: 'A2A protocol version supported by this agent'
+							description:
+								"A2A protocol version this agent speaks — the card's separate version field tracks the agent's own release"
 						}
 					]
 				}
@@ -260,6 +267,7 @@ export const a2aTask: SimulationConfig = {
 				createEthernetLayer(),
 				createIPv4Layer({ protocol: 6 }),
 				createTCPLayer({ srcPort: 55100, dstPort: 443, flags: 'PSH,ACK' }),
+				tlsAppData(),
 				httpRequestLayer('POST', '/a2a', 'application/json'),
 				a2aRequestLayer(
 					'message/send',
@@ -272,7 +280,7 @@ export const a2aTask: SimulationConfig = {
 			id: 'task-working',
 			label: 'Task Working',
 			description:
-				'Remote agent acknowledges the task and reports it is actively working on it. The task status changes to "working" with a progress message. The client knows the request was accepted and processing has begun.',
+				'Remote agent returns the single JSON-RPC response to request 1: the new task in the "working" state with a progress message. This response closes the message/send call — any further updates must come from polling or streaming.',
 			fromActor: 'remote',
 			toActor: 'client',
 			duration: 600,
@@ -281,6 +289,7 @@ export const a2aTask: SimulationConfig = {
 				createEthernetLayer({ srcMac: 'AA:BB:CC:DD:EE:FF', dstMac: '00:1A:2B:3C:4D:5E' }),
 				createIPv4Layer({ srcIp: '93.184.216.34', dstIp: '192.168.1.100', protocol: 6 }),
 				createTCPLayer({ srcPort: 443, dstPort: 55100, flags: 'PSH,ACK' }),
+				tlsAppData(),
 				a2aResponseLayer(
 					'{"id":"task-001","status":{"state":"working","message":{"role":"agent","parts":[{"kind":"text","text":"Searching flights..."}]}}}',
 					1,
@@ -289,10 +298,28 @@ export const a2aTask: SimulationConfig = {
 			]
 		},
 		{
+			id: 'tasks-get',
+			label: 'Poll Task Status',
+			description:
+				'JSON-RPC gives one response per request — the "working" reply closed request 1. To learn how the task is going, the client polls with "tasks/get" under a new request ID (or uses "message/stream" for push updates, shown later).',
+			fromActor: 'client',
+			toActor: 'remote',
+			duration: 600,
+			highlight: ['Method', 'Params', 'ID'],
+			layers: [
+				createEthernetLayer(),
+				createIPv4Layer({ protocol: 6 }),
+				createTCPLayer({ srcPort: 55100, dstPort: 443, flags: 'PSH,ACK' }),
+				tlsAppData(),
+				httpRequestLayer('POST', '/a2a', 'application/json'),
+				a2aRequestLayer('tasks/get', '{"id":"task-001"}', 2)
+			]
+		},
+		{
 			id: 'task-completed',
 			label: 'Task Completed',
 			description:
-				'Remote agent completes the task and returns the result with artifacts. Artifacts contain the actual output — structured data like flight options. The task status changes to "completed" indicating no more updates.',
+				'Answering the poll, the remote agent returns the completed task with artifacts. Artifacts contain the actual output — structured data like flight options. The task status changes to "completed" indicating no more updates.',
 			fromActor: 'remote',
 			toActor: 'client',
 			duration: 800,
@@ -301,9 +328,10 @@ export const a2aTask: SimulationConfig = {
 				createEthernetLayer({ srcMac: 'AA:BB:CC:DD:EE:FF', dstMac: '00:1A:2B:3C:4D:5E' }),
 				createIPv4Layer({ srcIp: '93.184.216.34', dstIp: '192.168.1.100', protocol: 6 }),
 				createTCPLayer({ srcPort: 443, dstPort: 55100, flags: 'PSH,ACK' }),
+				tlsAppData(),
 				a2aResponseLayer(
 					'{"id":"task-001","status":{"state":"completed"},"artifacts":[{"name":"flights","parts":[{"kind":"text","text":"BA115 JFK→LHR 7pm $450"}]}]}',
-					1,
+					2,
 					'#22c55e'
 				)
 			]
@@ -321,11 +349,12 @@ export const a2aTask: SimulationConfig = {
 				createEthernetLayer(),
 				createIPv4Layer({ protocol: 6 }),
 				createTCPLayer({ srcPort: 55100, dstPort: 443, flags: 'PSH,ACK' }),
+				tlsAppData(),
 				httpRequestLayer('POST', '/a2a', 'application/json'),
 				a2aRequestLayer(
 					'message/stream',
 					'{"message":{"role":"user","parts":[{"kind":"text","text":"Find flights NYC to London"}]}}',
-					2
+					3
 				)
 			]
 		},
@@ -342,6 +371,7 @@ export const a2aTask: SimulationConfig = {
 				createEthernetLayer({ srcMac: 'AA:BB:CC:DD:EE:FF', dstMac: '00:1A:2B:3C:4D:5E' }),
 				createIPv4Layer({ srcIp: '93.184.216.34', dstIp: '192.168.1.100', protocol: 6 }),
 				createTCPLayer({ srcPort: 443, dstPort: 55100, flags: 'PSH,ACK' }),
+				tlsAppData(),
 				{
 					name: 'SSE Stream',
 					abbreviation: 'SSE',
@@ -367,7 +397,8 @@ export const a2aTask: SimulationConfig = {
 						{
 							name: 'Event 1',
 							bits: 0,
-							value: '{"status":{"state":"working","message":"Searching..."}}',
+							value:
+								'{"status":{"state":"working","message":{"role":"agent","parts":[{"kind":"text","text":"Searching..."}]}}}',
 							editable: false,
 							description: 'First SSE event — task is now working'
 						},

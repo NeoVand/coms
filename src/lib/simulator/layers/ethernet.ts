@@ -12,9 +12,10 @@ export function createEthernetLayer(
 			{
 				name: 'Dst MAC',
 				bits: 48,
-				value: overrides?.dstMac ?? 'FF:FF:FF:FF:FF:FF',
+				value: overrides?.dstMac ?? 'A4:91:B1:47:C2:01',
 				editable: true,
-				description: 'Destination MAC address — identifies the receiving network interface'
+				description:
+					"Destination MAC address — the next hop at Layer 2 (here the default gateway's NIC); frames are re-addressed at every router hop"
 			},
 			{
 				name: 'Src MAC',
