@@ -235,7 +235,7 @@ The "everyone gets this wrong" detail: [[ipv6|IPv6]]'s mandatory-to-implement [[
 						{
 							type: 'narrative',
 							title: 'The Decade-Long Slow Win',
-							text: `[[bgp|BGP]] without origin authentication is the architectural reason every [[bgp|BGP]] hijack of the last 25 years was possible: [[outage:as-7007-1997|AS 7007]], [[outage:pakistan-youtube-2008|Pakistan/YouTube]], [[outage:china-telecom-2010|China Telecom 2010]], and the 2022 KlaySwap/Amazon Route 53 hijack all worked because no router could verify whether an {{autonomous-system|AS}} was entitled to announce a prefix. (Facebook's 2021 outage, by contrast, was a self-inflicted route *withdrawal* — not a hijack.)
+							text: `[[bgp|BGP]] without origin authentication is the architectural reason every [[bgp|BGP]] hijack of the last 25 years was possible: [[outage:as-7007-1997|AS 7007]], [[outage:pakistan-youtube-2008|Pakistan/YouTube]], [[outage:china-telecom-2010|China Telecom 2010]], the 2018 Amazon Route 53 / MyEtherWallet hijack, and the 2022 KlaySwap hijack all worked because no router could verify whether an {{autonomous-system|AS}} was entitled to announce a prefix. (Facebook's 2021 outage, by contrast, was a self-inflicted route *withdrawal* — not a hijack.)
 
 **{{rpki|RPKI}}** (Resource {{public-key|Public Key}} Infrastructure) lets prefix-holders {{mqtt-publish|publish}} cryptographically signed Route Origin Authorisations declaring "{{autonomous-system|AS}} X is authorised to originate prefix Y." **{{rov|ROV}}** ({{rov|Route Origin Validation}}) is the [[bgp|BGP]] router check that drops or de-preferences advertisements that fail {{rpki|RPKI}} validation.
 

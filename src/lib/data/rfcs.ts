@@ -162,7 +162,7 @@ The original EUI-64 form embedded the MAC into the [[ipv6|IPv6]] address — a p
 		protocols: ['udp'],
 		abstract: `[[pioneer:jon-postel|Jon Postel]]'s three-page specification of [[udp|UDP]] — the minimal {{connectionless|connectionless}} transport. An 8-byte header (source port, destination port, length, {{checksum|checksum}}) on top of [[ip|IP]], no setup, no acknowledgements, no {{flow-control|flow control}}, no {{retransmission|retransmission}}. The application owns reliability if it needs any.
 
-Published August 1980. **It has not been updated since** — three pages that outlasted everything.  ([[tcp|TCP]] is actually older: RFC 675 dates to 1974.) Three pages were enough; everything [[udp|UDP]] doesn't do is the point. [[udp|UDP]] is what makes [[dns|DNS]], [[ntp|NTP]], [[quic|QUIC]], [[webrtc|WebRTC]], and almost every real-time protocol possible.`
+Published August 1980. For 45 years it stood untouched, until RFC 9868 (Transport Options for UDP, 2025) finally added a UDP options framework. ([[tcp|TCP]] is actually older: RFC 675 dates to 1974.) Three pages were enough; everything [[udp|UDP]] doesn't do is the point. [[udp|UDP]] is what makes [[dns|DNS]], [[ntp|NTP]], [[quic|QUIC]], [[webrtc|WebRTC]], and almost every real-time protocol possible.`
 	},
 	{
 		number: '9293',
