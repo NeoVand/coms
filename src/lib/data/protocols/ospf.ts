@@ -34,7 +34,7 @@ export const ospf: Protocol = {
 		{
 			title: 'Flood, throttle, age',
 			description:
-				'Every {{lsa|LSA}} carries a 16-bit {{sequence-number|sequence number}}, 16-bit age, and 16-bit {{checksum|checksum}}. New LSAs flood through the area in seconds; routers refresh their own LSAs every 30 minutes (`LSRefreshTime`) and age them out at `MaxAge = 3600 s`. {{rfc-doc|RFC}} 8405 {{spf|SPF}} back-off (INITIAL/SHORT_WAIT/LONG_WAIT) throttles {{spf|SPF}} runs when topology churns.'
+				'Every {{lsa|LSA}} carries a 32-bit {{sequence-number|sequence number}} (signed, starting at 0x80000001), a 16-bit age, and a 16-bit {{checksum|checksum}}. New LSAs flood through the area in seconds; routers refresh their own LSAs every 30 minutes (`LSRefreshTime`) and age them out at `MaxAge = 3600 s`. {{rfc-doc|RFC}} 8405 {{spf|SPF}} back-off (INITIAL/SHORT_WAIT/LONG_WAIT) throttles {{spf|SPF}} runs when topology churns.'
 		},
 		{
 			title: 'Run Dijkstra',
@@ -216,7 +216,7 @@ Total time on a tuned network: < 100 ms.`
 			date: '2023-12',
 			title: 'RFC 9513 — OSPFv3 extensions for SRv6',
 			description:
-				'Adds SRv6 Capabilities {{tlv|TLV}}, SRv6 Locator advertisement, and SRv6 End SID encoding to [[ospf|OSPFv3]]. Edited by Peter Psenak ({{cisco|Cisco}}), the most prolific author of modern [[ospf|OSPF]] extensions.',
+				'Adds SRv6 Capabilities {{tlv|TLV}}, SRv6 Locator advertisement, and SRv6 End SID encoding to [[ospf|OSPFv3]]. Edited by Ketan Talaulikar, with Peter Psenak ({{cisco|Cisco}}) — one of the most prolific authors of modern [[ospf|OSPF]] extensions — among the co-authors.',
 			source: { url: 'https://www.rfc-editor.org/rfc/rfc9513', label: 'RFC 9513' }
 		},
 		{
@@ -250,7 +250,7 @@ Total time on a tuned network: < 100 ms.`
 			org: 'Microsoft Azure',
 			scale: 'Inter-region routing fabric',
 			description:
-				"{{azure|Azure}}'s network fabric uses [[ospf|OSPF]] for internal route distribution between routers in the same region; [[bgp|BGP]] handles inter-region. Public ipspace.net analyses (Ivan Pepelnjak) document the design pattern."
+				"Large enterprise and campus cores are OSPF's heartland — universities, hospitals, and government WANs run multi-area OSPF for internal reachability, typically redistributing into [[bgp|BGP]] only at the edge. (Hyperscale {{dc-domain-controller|DC}} fabrics, by contrast, mostly run eBGP everywhere per {{rfc-doc|RFC}} 7938.)"
 		},
 		{
 			org: 'Cumulus Networks / NVIDIA SONiC',
@@ -303,7 +303,7 @@ Total time on a tuned network: < 100 ms.`
 			},
 			{
 				title: 'LSA flooding storms in spine-leaf fabrics',
-				text: "A single Type-1 {{lsa|LSA}} from one leaf in a 1024-spine fabric multicasts to every other leaf — and [[ospf|OSPF]]'s default flooding is N-to-N. In an {{ai|AI}} training cluster this melts the control plane. **Cure:** {{rfc-doc|RFC}} 9667 Dynamic Flooding lets the area elect a flooding subgraph; {{frr|FRR}} and {{ios-xr|IOS-XR}} both implement it. Or skip [[ospf|OSPF]] entirely and use eBGP everywhere ({{rfc-doc|RFC}} 7938) as {{microsoft|Microsoft}}, {{meta|Meta}}, and {{google|Google}}'s {{dc-domain-controller|DC}} fabrics do."
+				text: "A single Type-1 {{lsa|LSA}} from one leaf in a 1024-spine fabric multicasts to every other leaf — and [[ospf|OSPF]]'s default flooding is N-to-N. In an {{ai|AI}} training cluster this melts the control plane. **Cure:** {{rfc-doc|RFC}} 9667 Dynamic Flooding (Experimental) lets the area elect a flooding subgraph, though shipping OSPF implementations remain scarce. Or skip [[ospf|OSPF]] entirely and use eBGP everywhere ({{rfc-doc|RFC}} 7938) as {{microsoft|Microsoft}}, {{meta|Meta}}, and {{google|Google}}'s {{dc-domain-controller|DC}} fabrics do."
 			}
 		]
 	}

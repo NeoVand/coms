@@ -94,7 +94,7 @@ export const ospfAdjacency: SimulationConfig = {
 			id: 'dbd-exchange',
 			label: 'DBD (Exchange)',
 			description:
-				'Exchange — subsequent DBDs carry **LSA headers** (sequence/age/checksum), not full LSAs. Each side now knows what the other has and what it needs.',
+				'Exchange — subsequent DBDs carry **LSA headers** (32-bit sequence, 16-bit age, 16-bit checksum), not full LSAs. Each side now knows what the other has and what it needs.',
 			fromActor: 'r1',
 			toActor: 'r2',
 			duration: 1200,
@@ -106,7 +106,7 @@ export const ospfAdjacency: SimulationConfig = {
 					type: 'DBD (2)',
 					length: 64,
 					routerId: '1.1.1.1',
-					body: 'I=0, M=0, MS=0, Seq=0x1A2C + 2 LSA hdrs (Router-LSA, Network-LSA)'
+					body: 'I=0, M=0, MS=0, Seq=0x1A2B (slave echoes the master DD seq) + 2 LSA hdrs (Router-LSA, Network-LSA)'
 				})
 			]
 		},
@@ -134,7 +134,7 @@ export const ospfAdjacency: SimulationConfig = {
 			id: 'lsu',
 			label: 'LSU',
 			description:
-				"R2 ships the full LSAs in a Link State Update. Each LSA carries a 16-bit sequence number, age, checksum, and the payload (this router's links, costs, IDs).",
+				"R2 ships the full LSAs in a Link State Update. Each LSA carries a 32-bit sequence number (starting 0x80000001), a 16-bit age, a 16-bit checksum, and the payload (this router's links, costs, IDs).",
 			fromActor: 'r2',
 			toActor: 'r1',
 			duration: 1300,

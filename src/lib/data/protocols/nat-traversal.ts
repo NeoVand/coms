@@ -44,7 +44,7 @@ All three protocols share the same 20-byte {{stun|STUN}} header, transaction IDs
 		{
 			title: 'Keep the path alive',
 			description:
-				'Consent freshness ([[rfc:7675|RFC 7675]]) fires a Binding Indication every ~15 seconds on the selected pair — if no response in ~30 s, the agent tears down and triggers an {{ice|ICE}} restart. {{turn|TURN}} allocations refresh every ~450 s to stay below the 600 s timeout.'
+				'Consent freshness ([[rfc:7675|RFC 7675]]) sends a STUN Binding **Request** every ~5 s (randomized) on the selected pair; if no matching response arrives within 30 s, consent is lost and the agent must stop transmitting. Separately, [[rfc:8445|RFC 8445]] keepalive Binding **Indications** (~15 s, no response expected) keep idle {{nat|NAT}} bindings warm. {{turn|TURN}} allocations refresh every ~450 s to stay below the 600 s timeout.'
 		}
 	],
 	useCases: [
@@ -98,12 +98,11 @@ async def main():
     pc = RTCPeerConnection(configuration=cfg)
     pc.addTransceiver('audio', direction='sendrecv')
 
-    @pc.on('icecandidate')
-    def on_ic(c):
-        if c: print('candidate:', c.candidate)
-
+    # aiortc does NOT support trickle ICE — there is no 'icecandidate'
+    # event. Gathering runs to completion inside setLocalDescription,
+    # so read the finished candidates out of the local SDP.
     await pc.setLocalDescription(await pc.createOffer())
-    print(pc.localDescription.sdp)
+    print(pc.localDescription.sdp)  # a=candidate lines already included
 
 asyncio.run(main())`
 			},
@@ -155,8 +154,8 @@ Wire bytes:
 
 Attribute XOR-MAPPED-ADDRESS (type 0x0020, length 8):
   Family:    IPv4 (0x01)
-  X-Port:    0xD84E  (port XORed with high 16 bits of cookie)
-  X-Address: 0x550DA46E  (XORed with the full 32-bit cookie)
+  X-Port:    0xF99A  (port XORed with high 16 bits of cookie)
+  X-Address: 0xE721C045  (XORed with the full 32-bit cookie)
 
   Decoded: 198.51.100.7 : 55432`
 					},
@@ -232,7 +231,7 @@ Attributes:
 			}
 		},
 		{
-			date: '2024-12',
+			date: '2025-02',
 			title: 'coturn 4.9.0 closes the IPv4-mapped-IPv6 bypass',
 			description:
 				'The fix for [[nat-traversal|TURN]] {{loopback|loopback}} escape ({{cve|CVE}}-2020-26262) had checked `127.x.x.x` and `::1` but not `::ffff:127.0.0.1`. 4.9.0 hardens `ioa_addr_is_loopback` and friends.',
@@ -276,7 +275,7 @@ Attributes:
 			org: 'coturn',
 			scale: '~14k GitHub stars; the de-facto open-source TURN binary',
 			description:
-				'Maintained by Pavel Mihály Mészáros ("misi") after Oleg Moskalenko\'s original `rfc5766-{{turn|turn}}-server`. Runs Jitsi Meet, Nextcloud Talk, Matrix Synapse, and uncountable in-house deployments.'
+				'Originally by Oleg Moskalenko (`rfc5766-{{turn|turn}}-server`), long maintained by Mihály Mészáros ("misi") and now led by Pavel (eakraly) and Gustavo García. Runs Jitsi Meet, Nextcloud Talk, Matrix Synapse, and uncountable in-house deployments.'
 		}
 	],
 
@@ -311,7 +310,7 @@ Attributes:
 			},
 			{
 				title: 'Forgetting consent freshness causes mystery hangups',
-				text: '[[rfc:7675|RFC 7675]] requires the agent to send a Binding Indication every ~15 s; if no response in ~30 s the connection is declared dead. A common bug: {{nat|NAT}} bindings on aggressive home routers time out faster than the {{bgp-keepalive|keepalive}} cadence. Cure: tune the consent interval down, or fall back to relayed mode.'
+				text: '[[rfc:7675|RFC 7675]] consent checks are STUN Binding **Requests** every ~5 s; if none is answered within 30 s, consent is lost and the agent must stop sending. A common bug: {{nat|NAT}} bindings on aggressive home routers time out faster than the ~15 s [[rfc:8445|RFC 8445]] keepalive cadence. Cure: shorten the keepalive interval, or fall back to relayed mode.'
 			}
 		]
 	}
