@@ -86,7 +86,7 @@ export const httpVersionsStory: SubcategoryStory = {
 					year: 2013,
 					title: 'QUIC at Google',
 					description:
-						'[[pioneer:jim-roskind|Jim Roskind]] starts [[quic|QUIC]] — a UDP-based transport that bundles encryption, congestion control, and stream multiplexing into one. By 2017, ~7% of all Google traffic already runs on QUIC.'
+						"[[pioneer:jim-roskind|Jim Roskind]] starts [[quic|QUIC]] — a UDP-based transport that bundles encryption, congestion control, and stream multiplexing into one. By 2017, QUIC already carried ~7% of all Internet traffic (about 35% of Google's own egress)."
 				},
 				{
 					year: 2015,

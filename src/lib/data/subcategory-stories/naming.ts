@@ -8,7 +8,7 @@ export const namingStory: SubcategoryStory = {
 		{
 			type: 'narrative',
 			title: 'Before DNS, There Was a File',
-			text: `Until 1983, the Internet had no [[dns|DNS]]. Every host on the ARPANET kept a copy of one text file — \`HOSTS.TXT\` — that mapped names to addresses. To add yourself to the Internet, you emailed Elizabeth "Jake" Feinler at SRI; she edited the master file by hand. Every host downloaded the new copy by [[ftp|FTP]] from SRI-NIC, usually overnight.\n\nThis worked for hundreds of hosts. It broke at thousands. By 1982 the file had grown to nearly a megabyte; the network's traffic from \`HOSTS.TXT\` distribution was rivaling its useful traffic. Every name change required centralized human approval. Every name was global — there could be only one \`MIT\`.\n\n[[pioneer:paul-mockapetris|Paul Mockapetris]] at USC ISI was given the problem. His answer in [[rfc:1034|RFC 1034]] and [[rfc:1035|RFC 1035]] (November 1983) is one of the most successful designs in distributed systems: a **hierarchical namespace** delegated to whoever owned each subtree, a **distributed database** where no single server held everything, and a **caching protocol** that let the system scale by *forgetting* most queries within seconds.\n\nForty-two years later, every connection on the Internet still starts with a DNS query. The protocol has changed remarkably little. What has changed is everything *around* it — privacy, censorship, attack surface, and the question of who, exactly, gets to control the root.`
+			text: `Until 1983, the Internet had no [[dns|DNS]]. Every host on the ARPANET kept a copy of one text file — \`HOSTS.TXT\` — that mapped names to addresses. To add yourself to the Internet, you emailed Elizabeth "Jake" Feinler at SRI; she edited the master file by hand. Every host downloaded the new copy by [[ftp|FTP]] from SRI-NIC, usually overnight.\n\nThis worked for hundreds of hosts. It broke at thousands. By 1982 the file had grown to nearly a megabyte; the network's traffic from \`HOSTS.TXT\` distribution was rivaling its useful traffic. Every name change required centralized human approval. Every name was global — there could be only one \`MIT\`.\n\n[[pioneer:paul-mockapetris|Paul Mockapetris]] at USC ISI was given the problem. His first design shipped as RFC 882/883 (November 1983); the refined, still-current specs [[rfc:1034|RFC 1034]] and [[rfc:1035|RFC 1035]] followed in November 1987 — one of the most successful designs in distributed systems: a **hierarchical namespace** delegated to whoever owned each subtree, a **distributed database** where no single server held everything, and a **caching protocol** that let the system scale by *forgetting* most queries within seconds.\n\nForty-two years later, every connection on the Internet still starts with a DNS query. The protocol has changed remarkably little. What has changed is everything *around* it — privacy, censorship, attack surface, and the question of who, exactly, gets to control the root.`
 		},
 		{
 			type: 'pioneers',
@@ -21,7 +21,7 @@ export const namingStory: SubcategoryStory = {
 					title: 'Inventor of DNS',
 					org: 'USC ISI',
 					contribution:
-						'Designed and implemented [[dns|DNS]] in 1983 ([[rfc:1034|RFC 1034]], [[rfc:1035|RFC 1035]]). The hierarchical zone-delegation model, the recursive vs iterative split, the resource-record types, the on-the-wire packet format — all Mockapetris. The first DNS server was JEEVES, written in TOPS-20 assembler. BIND, the dominant DNS server for the next 35 years, was a clean-room re-implementation by Berkeley grad students using the spec. Mockapetris also chaired the IETF (1994–1996).',
+						'Designed and implemented [[dns|DNS]] — first as RFC 882/883 (1983), then the current [[rfc:1034|RFC 1034]]/[[rfc:1035|RFC 1035]] (1987). The hierarchical zone-delegation model, the recursive vs iterative split, the resource-record types, the on-the-wire packet format — all Mockapetris. The first DNS server was JEEVES, written in TOPS-20 assembler. BIND, the dominant DNS server for the next 35 years, was a clean-room re-implementation by Berkeley grad students using the spec. Mockapetris also chaired the IETF (1994–1996).',
 					imagePath:
 						'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Paul_Mockapetris.jpg/330px-Paul_Mockapetris.jpg'
 				},
@@ -58,7 +58,7 @@ export const namingStory: SubcategoryStory = {
 				},
 				{
 					year: 1983,
-					title: 'DNS Standardized (RFCs 1034, 1035)',
+					title: 'DNS Specified (RFC 882/883; RFC 1034/1035 in 1987)',
 					description:
 						'[[pioneer:paul-mockapetris|Mockapetris]] publishes the design that will run the Internet. Hierarchical namespace, distributed authority, caching.'
 				},

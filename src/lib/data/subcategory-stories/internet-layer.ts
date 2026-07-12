@@ -122,7 +122,7 @@ export const internetLayerStory: SubcategoryStory = {
 					year: 2024,
 					title: 'IPv4 Address Trading',
 					description:
-						'IPv4 /24 blocks trade for $40-50 each on the secondary market. AWS, Cloudflare, Microsoft are major buyers. The last vestiges of IPv4 allocation become a commodity market.'
+						'IPv4 addresses trade for roughly $40-50 each on the secondary market (a /24 block runs $10k+). AWS, Cloudflare, Microsoft are major buyers. The last vestiges of IPv4 allocation become a commodity market.'
 				}
 			]
 		},
@@ -134,7 +134,7 @@ export const internetLayerStory: SubcategoryStory = {
 				{
 					label: '[[ip|IPv4]]',
 					values: [
-						'20 bytes minimum (40 with options)',
+						'20 bytes minimum, up to 60 bytes with options',
 						'32 bits',
 						'4.3 billion addresses (long exhausted; [[nat-traversal|NAT]] stretches it)',
 						'Wide deployment, mature tooling, simple operation',
