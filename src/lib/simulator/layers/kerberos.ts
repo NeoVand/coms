@@ -23,7 +23,7 @@ export function createKerberosLayer(
 				value: 5,
 				editable: false,
 				description:
-					'Kerberos protocol version — 5 is current; V4 was deprecated in MIT krb5 1.18 (2020)'
+					'Kerberos protocol version — 5 is current; krb4 support was removed from MIT krb5 around 1.8 (2010)'
 			},
 			{
 				name: 'Message Type',
