@@ -937,41 +937,41 @@ const vsPairs: ProtocolPair[] = [
 		keyDifferences: [
 			{
 				aspect: 'Transport',
-				left: '[[udp|UDP]] (low latency, tolerates loss)',
-				right: '[[tcp|TCP]] (reliable, higher latency)'
+				left: '[[tcp|TCP]] (reliable, higher latency)',
+				right: '[[udp|UDP]] (low latency, tolerates loss)'
 			},
 			{
 				aspect: 'Direction',
-				left: '{{peer-to-peer|Peer-to-peer}} or multicast',
-				right: 'Client-to-server (ingest)'
+				left: 'Client-to-server (ingest)',
+				right: '{{peer-to-peer|Peer-to-peer}} or multicast'
 			},
 			{
 				aspect: 'Overhead',
-				left: 'Minimal [[rtp|RTP]] header (12 bytes)',
-				right: 'Chunked message format with handshake'
+				left: 'Chunked message format with handshake',
+				right: 'Minimal [[rtp|RTP]] header (12 bytes)'
 			},
 			{
 				aspect: 'Complexity',
-				left: 'Paired with {{rtcp|RTCP}} for feedback',
-				right: 'Self-contained streaming protocol'
+				left: 'Self-contained streaming protocol',
+				right: 'Paired with {{rtcp|RTCP}} for feedback'
 			},
 			{
 				aspect: 'Ecosystem',
-				left: '[[webrtc|WebRTC]], VoIP, video conferencing',
-				right: 'OBS, Twitch ingest, Facebook Live'
+				left: 'OBS, Twitch ingest, Facebook Live',
+				right: '[[webrtc|WebRTC]], VoIP, video conferencing'
 			}
 		],
 		useLeftWhen: [
-			'You are building interactive audio/video (calls, conferences)',
-			'Sub-second latency is essential and packet loss is tolerable',
-			'{{peer-to-peer|Peer-to-peer}} or multicast delivery is required',
-			'Your system uses [[webrtc|WebRTC]] or [[sip|SIP]] for media transport'
-		],
-		useRightWhen: [
 			'You are ingesting live streams to a media server (OBS to Twitch)',
 			'Reliable delivery matters more than absolute lowest latency',
 			'Your workflow is one-to-many broadcasting, not interactive calls',
 			'You need a proven protocol for live stream publishing'
+		],
+		useRightWhen: [
+			'You are building interactive audio/video (calls, conferences)',
+			'Sub-second latency is essential and packet loss is tolerable',
+			'{{peer-to-peer|Peer-to-peer}} or multicast delivery is required',
+			'Your system uses [[webrtc|WebRTC]] or [[sip|SIP]] for media transport'
 		]
 	},
 	{
@@ -1685,7 +1685,7 @@ const vsPairs: ProtocolPair[] = [
 			},
 			{
 				aspect: 'Discovery',
-				left: 'Agent Cards at /.well-known/agent.json',
+				left: 'Agent Cards at /.well-known/agent-card.json',
 				right: 'Capabilities handshake (initialize)'
 			},
 			{
@@ -2774,7 +2774,7 @@ const relationshipPairs: ProtocolPair[] = [
 		summary:
 			'[[icmp|ICMP]] reports network-level errors for [[tcp|TCP]] connections — when a [[tcp|TCP]] segment cannot be delivered, an [[icmp|ICMP]] Destination Unreachable message tells the sender why.',
 		howTheyWork:
-			"When a [[tcp|TCP]] {{syn-cookies|SYN}} reaches a host with no listening service, the host sends back [[icmp|ICMP]] Port Unreachable (Type 3, Code 3). When a router can't forward a [[tcp|TCP]] packet, it sends [[icmp|ICMP]] Network Unreachable. [[tcp|TCP]] {{path-mtu-discovery|Path MTU Discovery}} relies on [[icmp|ICMP]] Packet Too Big messages to determine the {{mss|maximum segment size}} without {{fragmentation|fragmentation}}.",
+			"When a [[tcp|TCP]] {{syn-cookies|SYN}} reaches a host with no listening service, [[tcp|TCP]] itself replies with a RST segment (ICMP Port Unreachable, Type 3 Code 3, is [[udp|UDP]]'s closed-port response, not [[tcp|TCP]]'s). When a router can't forward a [[tcp|TCP]] packet, it sends [[icmp|ICMP]] Network Unreachable. [[tcp|TCP]] {{path-mtu-discovery|Path MTU Discovery}} relies on [[icmp|ICMP]] Packet Too Big messages to determine the {{mss|maximum segment size}} without {{fragmentation|fragmentation}}.",
 		leftRole:
 			'[[icmp|ICMP]] provides error reporting and diagnostics — notifying [[tcp|TCP]] of unreachable destinations, {{ttl|TTL}} expiry, and {{mtu|MTU}} constraints.',
 		rightRole:
@@ -2991,7 +2991,7 @@ const relationshipPairs: ProtocolPair[] = [
 		ids: ['a2a', 'http1'],
 		type: 'relationship',
 		summary:
-			'[[a2a|A2A]] runs entirely over [[http1|HTTP]] — agent discovery (GET /.well-known/agent.json), task communication (POST), and push notifications (webhooks) all use standard {{http-method|HTTP}}.',
+			'[[a2a|A2A]] runs entirely over [[http1|HTTP]] — agent discovery (GET /.well-known/agent-card.json), task communication (POST), and push notifications (webhooks) all use standard {{http-method|HTTP}}.',
 		howTheyWork:
 			'Agent Cards are served as static {{json|JSON}} at the well-known {{http-method|HTTP}} {{url|URL}}. Task messages are sent as [[json-rpc|JSON-RPC]] payloads in {{http-method|HTTP}} POST requests. For streaming, the server responds with {{content-type|Content-Type}}: text/event-stream ([[sse|SSE]]). Push notifications use {{http-method|HTTP}} POST to a client-provided webhook {{url|URL}}. All communication is standard {{http-method|HTTP}} that works through proxies, load balancers, and CDNs.',
 		leftRole:
@@ -3159,9 +3159,9 @@ const relationshipPairs: ProtocolPair[] = [
 		ids: ['ipv6', 'tcp'],
 		type: 'relationship',
 		summary:
-			'[[tcp|TCP]] runs identically over [[ipv6|IPv6]] as over [[ip|IPv4]] — the same reliable byte-stream delivery, but [[ipv6|IPv6]] mandates that [[tcp|TCP]] perform {{checksum|checksum}} computation ([[ipv6|IPv6]] has no header {{checksum|checksum}}).',
+			"[[tcp|TCP]] runs identically over [[ipv6|IPv6]] as over [[ip|IPv4]] — the same reliable byte-stream delivery; the only wire difference is that [[tcp|TCP]]'s {{checksum|checksum}} pseudo-header uses 128-bit addresses (the [[tcp|TCP]] checksum was already mandatory over [[ip|IPv4]]).",
 		howTheyWork:
-			"[[tcp|TCP]] segments are encapsulated in [[ipv6|IPv6]] packets with Next Header value 6. The key difference from [[ip|IPv4]]: since [[ipv6|IPv6]] has no header {{checksum|checksum}}, the [[tcp|TCP]] {{checksum|checksum}} is mandatory (not optional). [[tcp|TCP]]'s pseudo-header for {{checksum|checksum}} computation uses 128-bit addresses instead of 32-bit ones. Otherwise the connection setup, {{flow-control|flow control}}, and congestion algorithms are identical.",
+			"[[tcp|TCP]] segments are encapsulated in [[ipv6|IPv6]] packets with Next Header value 6. The key difference from [[ip|IPv4]]: [[tcp|TCP]]'s pseudo-header for {{checksum|checksum}} computation uses 128-bit addresses instead of 32-bit ones. (The [[tcp|TCP]] checksum has always been mandatory, in both [[ip|IPv4]] and [[ipv6|IPv6]] — only [[udp|UDP]]'s checksum changed from optional to mandatory.) Otherwise the connection setup, {{flow-control|flow control}}, and congestion algorithms are identical.",
 		leftRole:
 			'[[ipv6|IPv6]] provides 128-bit addressing and routing, carrying [[tcp|TCP]] segments in its {{payload|payload}} with Next Header=6.',
 		rightRole:
