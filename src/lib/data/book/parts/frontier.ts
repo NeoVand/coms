@@ -33,7 +33,7 @@ export const frontier: BookPart = {
 						{
 							type: 'narrative',
 							title: 'Harvest Now, Decrypt Later',
-							text: `A working quantum computer of useful size — perhaps 4096 logical qubits — could break the elliptic-curve key agreement that secures essentially all modern [[tls|TLS]]. Estimates of when such a machine arrives range from "ten years" to "never." But the threat is not future: an adversary recording your encrypted traffic **today** can store it indefinitely and decrypt it whenever a working quantum computer arrives. **Harvest now, decrypt later** (HNDL/SNDL) is the threat model that drives this entire chapter.
+							text: `A working quantum computer of useful size — roughly 2,300 logical qubits for 256-bit ECC (the ~4,100-qubit figure often cited is for RSA-2048) — could break the elliptic-curve key agreement that secures essentially all modern [[tls|TLS]]. Estimates of when such a machine arrives range from "ten years" to "never." But the threat is not future: an adversary recording your encrypted traffic **today** can store it indefinitely and decrypt it whenever a working quantum computer arrives. **Harvest now, decrypt later** (HNDL/SNDL) is the threat model that drives this entire chapter.
 
 For data that needs to stay secret for decades — state secrets, medical records, long-lived contracts, identity documents — the threat is real now. Governments and large enterprises started planning the migration in the late 2010s; the standards finally landed in 2024.`
 						},
@@ -42,7 +42,7 @@ For data that needs to stay secret for decades — state secrets, medical record
 							title: 'NIST FIPS 203 and the Codepoint Disruption',
 							text: `**{{nist|NIST}} published {{fips|FIPS}} 203 ({{ml-kem|ML-KEM}}) on 13 August 2024** — Kyber's final-form rename. The rename was not cosmetic: it forced a new [[tls|TLS]] codepoint **0x11EC for {{pq-ciphersuite|X25519MLKEM768}}**, and the old **codepoint 0x6399 (Kyber768) was invalidated**. Every browser/server/load balancer had to re-deploy because the wire format changed.
 
-The deployment trick is **hybrid**: combine the existing {{x25519|X25519}} key {{exchange|exchange}} with {{ml-kem|ML-KEM}}-768 in such a way that an attacker has to break **both**. {{ml-kem|ML-KEM}}-768 hybrid combines 192-bit classical security with {{nist|NIST}} Cat-3 {{pq|PQ}} — eliminating the HNDL window without sacrificing classical security if {{ml-kem|ML-KEM}} turns out to have an unexpected weakness.
+The deployment trick is **hybrid**: combine the existing {{x25519|X25519}} key {{exchange|exchange}} with {{ml-kem|ML-KEM}}-768 in such a way that an attacker has to break **both**. the {{x25519|X25519}}+{{ml-kem|ML-KEM}}-768 hybrid combines ~128-bit classical security (X25519) with {{nist|NIST}} Cat-3 {{pq|PQ}} (~AES-192-equivalent) — eliminating the HNDL window without sacrificing classical security if {{ml-kem|ML-KEM}} turns out to have an unexpected weakness.
 
 Browser deployment moved fast. **Chrome 124 (April 2024)** made X25519Kyber768 default; **Chrome 131 (November 2024)** switched to the renamed {{pq-ciphersuite|X25519MLKEM768}}. Firefox 132, Edge 131, OpenJDK (JEP 527), and **OpenSSL 3.5 LTS (8 April 2025)** followed. OpenSSL 3.5's default keyshare is now \`X25519MLKEM768 + X25519\`.`
 						},
@@ -65,7 +65,7 @@ The cost: **{{ml-kem|ML-KEM}} ciphertext is 1088 bytes, {{public-key|public key}
 							title: 'What Comes After Key Agreement',
 							text: `Pure-{{pq|PQ}} signatures are not yet feasible for the web: an ML-DSA-44 cert is ~5 KB and ML-DSA-65 ~9 KB. **{{cloudflare|Cloudflare}}'s Merkle Tree Certificates** (PLANTS WG) experiment is the most-discussed path; expect 2027-2028 before pure-{{pq|PQ}} [[tls|TLS]] auth is realistic at scale.
 
-**{{ech|Encrypted Client Hello}}** was published as **[[frontier:ech-rfc-9849|RFC 9849]] in 2025** after 25 drafts. {{cloudflare|Cloudflare}} deploys {{ech|ECH}} for ~70% of websites it fronts. **Russia is already partly blocking {{ech|ECH}}** via \`ClientHelloOuter\` {{sni|SNI}} inspection (PETS FOCI 2025) — censorship resistance and metadata privacy are the same problem.
+**{{ech|Encrypted Client Hello}}** was published as **[[frontier:ech-rfc-9849|RFC 9849]] in March 2026** after years of drafts. {{cloudflare|Cloudflare}} deploys {{ech|ECH}} for ~70% of websites it fronts. **Russia is already partly blocking {{ech|ECH}}** via \`ClientHelloOuter\` {{sni|SNI}} inspection (PETS FOCI 2025) — censorship resistance and metadata privacy are the same problem.
 
 The **47-day-cert cliff**: {{certificate-authority|CA}}/Browser Forum **Ballot SC-081v3** (passed 11 April 2025, {{apple|Apple}}-sponsored, 29-yes / 0-no) phases [[tls|TLS]] cert validity from 398 days to **200 on 15 March 2026**, **100 on 15 March 2027**, **47 on 15 March 2029**, with DCV reuse falling to 10 days. Manual renewal is no longer an option — the entire web is moving to ACME-style automation. The deployment story for cryptography in the next five years is automation as much as algorithms.`
 						},
@@ -235,7 +235,7 @@ The "everyone gets this wrong" detail: [[ipv6|IPv6]]'s mandatory-to-implement [[
 						{
 							type: 'narrative',
 							title: 'The Decade-Long Slow Win',
-							text: `[[bgp|BGP]] without origin authentication is the architectural reason every [[bgp|BGP]] hijack of the last 25 years was possible: [[outage:as-7007-1997|AS 7007]], [[outage:pakistan-youtube-2008|Pakistan/YouTube]], [[outage:china-telecom-2010|China Telecom 2010]], [[outage:facebook-2021|Facebook 2021]] all worked because no router could verify whether an {{autonomous-system|AS}} was entitled to announce a prefix.
+							text: `[[bgp|BGP]] without origin authentication is the architectural reason every [[bgp|BGP]] hijack of the last 25 years was possible: [[outage:as-7007-1997|AS 7007]], [[outage:pakistan-youtube-2008|Pakistan/YouTube]], [[outage:china-telecom-2010|China Telecom 2010]], and the 2022 KlaySwap/Amazon Route 53 hijack all worked because no router could verify whether an {{autonomous-system|AS}} was entitled to announce a prefix. (Facebook's 2021 outage, by contrast, was a self-inflicted route *withdrawal* — not a hijack.)
 
 **{{rpki|RPKI}}** (Resource {{public-key|Public Key}} Infrastructure) lets prefix-holders {{mqtt-publish|publish}} cryptographically signed Route Origin Authorisations declaring "{{autonomous-system|AS}} X is authorised to originate prefix Y." **{{rov|ROV}}** ({{rov|Route Origin Validation}}) is the [[bgp|BGP]] router check that drops or de-preferences advertisements that fail {{rpki|RPKI}} validation.
 
@@ -266,7 +266,7 @@ The "everyone gets this wrong" detail: [[ipv6|IPv6]]'s mandatory-to-implement [[
 							title: "When RPKI Backfires, And When It Doesn't",
 							text: `**Orange España, 3 January 2024**: a threat actor "Snow" used infostealer-harvested credentials to log in to Orange Spain's {{ripe-ncc|RIPE NCC}} account and edited ROAs to make legitimate prefixes {{rpki|RPKI}}-invalid — the first major outage caused by **{{rpki|RPKI}} being too strict against an attacker-modified {{roa|ROA}} set**. Lesson: enforce 2FA on RIR portals. The vulnerability is not in {{rpki|RPKI}}; it is in the human-facing authentication surface around {{rpki|RPKI}}.
 
-**{{cloudflare|Cloudflare}} 1.1.1.1 hijack (27 June 2024)**: Brazilian {{isp|ISP}} Eletronet (AS267613) announced **1.1.1.1/32**. {{cloudflare|Cloudflare}} had a valid /24 {{roa|ROA}}, but ROAs cover up to maxLength /24, so a /32 announcement is not {{rpki|RPKI}}-invalid. Tier-1 {{peer|PEER}} 1 (AS1031) accepted and propagated. **300 networks in 70 countries lost 1.1.1.1.** The lesson: maxLength matters; sloppy {{roa|ROA}} configuration creates loopholes {{aspa|ASPA}} cannot close.
+**{{cloudflare|Cloudflare}} 1.1.1.1 hijack (27 June 2024)**: Brazilian {{isp|ISP}} Eletronet (AS267613) announced **1.1.1.1/32**. {{cloudflare|Cloudflare}}'s {{roa|ROA}} set maxLength /24, so the more-specific /32 announcement **was {{rpki|RPKI}}-invalid** — yet Tier-1 {{peer|PEER}} 1 (AS1031) accepted and propagated it anyway. **300 networks in 70 countries lost 1.1.1.1.** The lesson: RPKI only helps if networks actually enforce Route Origin Validation (ROV) and drop invalid routes — most still don't.
 
 The regulatory layer is moving too. **The {{fcc|FCC}} issued a Notice of Proposed Rulemaking on [[bgp|BGP]] Routing Security in June 2024** — the first US federal proposal to compel the nine largest {{bias-attack|BIAS}} providers (AT&T, Comcast, Verizon, T-Mobile, etc.) to file [[bgp|BGP]] Routing Security Risk Management Plans and quarterly {{rpki|RPKI}} reports. As of March 2024, only **~22% of US-originated routes had ROAs**.
 
@@ -323,14 +323,14 @@ The **Ultra [[ethernet|Ethernet]] Consortium** was founded **19 July 2023** unde
 						{
 							type: 'callout',
 							title: 'Switch silicon is moving fast',
-							text: '**{{broadcom|Broadcom}} Tomahawk 6 (102.4 Tbps single-chip)** shipped June 2025; **Tomahawk 6-Davisson with co-packaged optics** shipped October 2025 — a single chip can drive 64×1.6T, 128×800G, 256×400G, or 512×200G ports. **{{nvidia|NVIDIA}} {{spectrum|Spectrum}}-X**, announced Computex 2024 and deployed by xAI Colossus, {{microsoft|Microsoft}}, and CoreWeave, reportedly delivers **~95% effective throughput vs ~60% on best-effort [[ethernet|Ethernet]]** for {{ai|AI}} workloads. **{{spectrum|Spectrum}}-X1600 (102.4 Tbps)** is expected 2H 2026.'
+							text: '**{{broadcom|Broadcom}} Tomahawk 6 (102.4 Tbps single-chip)** shipped June 2025; **Tomahawk 6-Davisson with co-packaged optics** shipped October 2025 — a single chip can drive 64×1.6T, 128×800G, 256×400G, or 512×200G ports. **{{nvidia|NVIDIA}} {{spectrum|Spectrum}}-X**, announced Computex 2023 and deployed by xAI Colossus, {{microsoft|Microsoft}}, and CoreWeave, reportedly delivers **~95% effective throughput vs ~60% on best-effort [[ethernet|Ethernet]]** for {{ai|AI}} workloads. **{{spectrum|Spectrum}}-X1600 (102.4 Tbps)** is expected 2H 2026.'
 						},
 						{
 							type: 'narrative',
 							title: 'IEEE 802.3 — The Underlying Speed Bumps',
 							text: `**{{ieee-802-15-4|IEEE}} 802.3df-2024 (800 GbE)** was approved 16 February 2024 and published March 2024. **{{ieee-802-15-4|IEEE}} P802.3dj (1.6 TbE at 200 Gb/s/lane PAM-4)** passed its 3rd Working Group recirculation ballot **16 December 2025 with 87% approval** — expected ratified 2026.
 
-The Jensen Huang argument: scaling 1M GPUs with traditional pluggable optics would consume **~180 MW** of power for the optics alone. That is why {{nvidia|NVIDIA}} pivoted to **co-packaged optics** in Quantum-X Photonics and {{spectrum|Spectrum}}-X Photonics — the optics moves into the switch package itself, eliminating the per-port pluggable transceiver and its power overhead.
+The Jensen Huang argument: scaling 1M GPUs with traditional pluggable optics would consume **~180 MW** of power for the optics alone. That is why {{nvidia|NVIDIA}} pivoted to **co-packaged optics** in Quantum-X Photonics and {{spectrum|Spectrum}}-X Photonics (unveiled at GTC in March 2025) — the optics moves into the switch package itself, eliminating the per-port pluggable transceiver and its power overhead.
 
 **{{google|Google}} Jupiter** ({{sigcomm-conf|SIGCOMM}} 2022 "Jupiter Evolving") moved from a Clos with electrical spine to a **direct-{{mqtt-connect|connect}} mesh of aggregation blocks via MEMS Optical Circuit Switches with SDN** — yielding **5× speed/capacity, 30% lower CapEx, 41% lower power**, supporting >13 Pb/s of bisection {{bandwidth|bandwidth}} as of 2024.
 

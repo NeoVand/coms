@@ -33,9 +33,9 @@ export const famousOutages: BookPart = {
 						{
 							type: 'narrative',
 							title: 'Three Bits, A Whole Network Down',
-							text: `On 27 October 1980, {{arpanet|ARPANET}} — the entire research internet of the time, a few hundred host machines connected through {{bbn|BBN}}'s IMPs (Interface Message Processors) — went dark for a full day. The cause was three bits in a periodic status {{bgp-update|update}}.
+							text: `On 27 October 1980, {{arpanet|ARPANET}} — the entire research internet of the time, a few hundred host machines connected through {{bbn|BBN}}'s IMPs (Interface Message Processors) — went dark for several hours (about four). The cause was three bits in a periodic status {{bgp-update|update}}.
 
-The IMPs ran a distance-vector routing protocol. Every few seconds, each {{imp|IMP}} told its neighbours "I am alive, here are my reachable destinations and the cost of each." A faulty {{imp|IMP}} at Harvard sent a status {{bgp-update|update}} where one of its sequence numbers had three bits flipped — turning a single message into something that looked like **three different valid versions of the same announcement**, each claiming to be the most recent.
+The IMPs ran a link-state (SPF) routing protocol, deployed in 1979. Every few seconds, each {{imp|IMP}} flooded a status {{bgp-update|update}} across the whole network describing its own links and their per-line delay. A faulty {{imp|IMP}} (IMP 29) began dropping bits, corrupting another node's update so that one message's sequence numbers had three bits flipped — turning a single message into something that looked like **three different valid versions of the same announcement**, each claiming to be the most recent.
 
 Receiving IMPs applied their tie-breaking rule (pick the most recent) — but each one picked a different version, then propagated its choice. The network entered a state where every {{imp|IMP}} believed a different version of the topology was canonical. Routes flapped. Loops formed. Throughput collapsed.`
 						},
@@ -73,7 +73,7 @@ The fix was to install patched {{imp|IMP}} software that rejected sequence numbe
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3a/ARPA_Network%2C_Logical_Map%2C_September_1973.jpg/500px-ARPA_Network%2C_Logical_Map%2C_September_1973.jpg',
 							alt: 'ARPANET logical map, September 1973 — a few dozen sites linked by IMPs across the United States.',
 							caption:
-								'The {{arpanet|ARPANET}} logical map, September 1973. Seven years later, this same network — by then a few hundred host machines — went dark for a full day when three bits flipped in a single periodic status {{bgp-update|update}} at one Harvard {{imp|IMP}}. Every [[bgp|BGP]] {{bgp-keepalive|keepalive}}, every [[ospf|OSPF]] {{lsa|LSA}}, every {{cloudflare|Cloudflare}} incident report is in some sense a descendant of [[rfc:789|RFC 789]], the post-mortem Eric Rosen at {{bbn|BBN}} wrote after this network spent six hours diagnosing itself.',
+								'The {{arpanet|ARPANET}} logical map, September 1973. Seven years later, this same network — by then a few hundred host machines — went dark for several hours when three bits flipped in a single periodic status {{bgp-update|update}} at one malfunctioning {{imp|IMP}}. Every [[bgp|BGP]] {{bgp-keepalive|keepalive}}, every [[ospf|OSPF]] {{lsa|LSA}}, every {{cloudflare|Cloudflare}} incident report is in some sense a descendant of [[rfc:789|RFC 789]], the post-mortem Eric Rosen at {{bbn|BBN}} wrote after this network spent six hours diagnosing itself.',
 							credit: 'Image: DARPA / public domain, via Wikimedia Commons'
 						}
 					]
@@ -89,7 +89,7 @@ The fix was to install patched {{imp|IMP}} software that rejected sequence numbe
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: "Most-specific wins, by definition. {{autonomous-system|AS}} 7007 didn't hijack anything on purpose — it simply announced everything as a /24, and the entire internet routed through a single underpowered Florida router.",
+					text: "Most-specific wins, by definition. {{autonomous-system|AS}} 7007 didn't hijack anything on purpose — it simply announced everything as a /24, and the entire internet routed through a single underpowered router.",
 					attribution: 'Author'
 				},
 				{
@@ -97,8 +97,8 @@ The fix was to install patched {{imp|IMP}} software that rejected sequence numbe
 					sections: [
 						{
 							type: 'narrative',
-							title: 'The Florida Router That Ate the Internet',
-							text: `On 25 April 1997, an MAI Network Services router in Florida ({{autonomous-system|AS}} 7007) received the global [[bgp|BGP]] {{routing-table|routing table}} from its upstream — about 50,000 prefixes at the time — and, due to a misconfiguration in a packet inspection appliance, **redistributed every entry as a /24 originating from itself**.
+							title: 'The Router That Ate the Internet',
+							text: `On 25 April 1997, an MAI Network Services router (the McLean, Virginia ISP; {{autonomous-system|AS}} 7007) received the global [[bgp|BGP]] {{routing-table|routing table}} from its upstream — about 50,000 prefixes at the time — and, due to a misconfiguration in a packet inspection appliance, **redistributed every entry as a /24 originating from itself**.
 
 [[bgp|BGP]]'s tie-breaking rule is "most-specific prefix wins." A /24 is more specific than a /16 or a /8. So when {{autonomous-system|AS}} 7007 announced "I am the next hop for 8.8.8.0/24" — and 8.8.10.0/24, and 8.8.11.0/24, and tens of thousands more — every [[bgp|BGP]] router on the planet preferred those new, more-specific routes over the legitimate aggregated announcements.`
 						},
@@ -155,7 +155,7 @@ What broke the deadlock was a series of high-profile incidents (2018 Amazon Rout
 						{
 							type: 'narrative',
 							title: 'When TCP Trusted Its Own Sequence Numbers',
-							text: `On Christmas Day 1994, Kevin Mitnick attacked Tsutomu Shimomura's home computer at the San Diego Supercomputer Center using a **[[tcp|TCP]] sequence-prediction attack**. Early [[tcp|TCP]] implementations chose initial sequence numbers (ISNs) from a counter that incremented by 128,000 every second, plus 64,000 every connection. That formula, published in [[rfc:9293|RFC 793]] (1981), was deliberately predictable — Postel and Cerf wanted ISNs to be reproducible during debugging.
+							text: `On Christmas Day 1994, Kevin Mitnick attacked Tsutomu Shimomura's home computer at the San Diego Supercomputer Center using a **[[tcp|TCP]] sequence-prediction attack**. Early [[tcp|TCP]] implementations chose initial sequence numbers (ISNs) from a counter that incremented by 128,000 every second, plus 64,000 every connection — the 4.2BSD implementation (not [[rfc:9293|RFC 793]] itself, which specified a 32-bit clock ticking roughly every 4µs). That BSD counter was deliberately predictable — Postel and Cerf wanted ISNs to be reproducible during debugging.
 
 The flaw: if you knew the rough current value, you could **forge** an entire connection that the victim would believe was legitimate. The attack went:
 
@@ -178,7 +178,7 @@ Mitnick used this to land a forged connection from a host listed in Shimomura's 
 							title: 'The Manhunt',
 							text: `Shimomura, a security researcher, took the intrusion personally. He spent two months tracing the attack back to Mitnick — using passive monitoring of compromised {{hosts-bare|hosts}}, traffic analysis to triangulate Mitnick's dial-up POPs, and ultimately direction-finding equipment to locate his physical address in Raleigh, North Carolina. Mitnick was arrested on 15 February 1995. The story became Shimomura's 1996 book *Takedown* and a Hollywood movie.
 
-The technical legacy outlived the celebrity. **[[rfc:1948|RFC 1948]]** (Steve Bellovin, 1996) replaced the predictable {{isn|ISN}} formula with a hashed function of the connection four-tuple plus a per-boot secret. **{{rfc-doc|RFC}} 6528** (Larry Joncheray + Fernando Gont, 2012) tightened it further. Modern stacks use cryptographically-random ISNs per [[rfc:9293|RFC 9293]] §3.4.1; predicting them is computationally infeasible.`
+The technical legacy outlived the celebrity. **[[rfc:1948|RFC 1948]]** (Steve Bellovin, 1996) replaced the predictable {{isn|ISN}} formula with a hashed function of the connection four-tuple plus a per-boot secret. **{{rfc-doc|RFC}} 6528** (Fernando Gont + Steven Bellovin, 2012) tightened it further. Modern stacks use cryptographically-random ISNs per [[rfc:9293|RFC 9293]] §3.4.1; predicting them is computationally infeasible.`
 						},
 						{
 							type: 'image',
@@ -297,7 +297,7 @@ The U.S.-China Economic and Security Review Commission's 2010 annual report flag
 
 China Telecom's official response described it as a routine misconfiguration during a software upgrade. Several technical analyses (notably from Renesys / Dyn) concluded the announcement pattern was **consistent with both** an accidental redistribution of internal routes to external peers (the {{autonomous-system|AS}} 7007 mechanism) **and** a deliberate route hijack disguised as a misconfiguration.
 
-The technical fact is unambiguous: 15% of the global internet's traffic had a brief, unauthorised observer in the path. Whether or not the observer was deliberate, the architectural lesson is the same — **[[bgp|BGP]] gives any {{autonomous-system|AS}} the power to do this, accidentally or on purpose, in seconds**.`
+The often-cited "15%" figure is ~37,000 prefixes — about 15% of the routing *table*, not 15% of traffic (the actual traffic diverted was far smaller, and network engineers disputed the higher claim). Still, some traffic had a brief, unauthorised observer in the path. Whether or not the observer was deliberate, the architectural lesson is the same — **[[bgp|BGP]] gives any {{autonomous-system|AS}} the power to do this, accidentally or on purpose, in seconds**.`
 						},
 						{
 							type: 'callout',
@@ -367,7 +367,7 @@ The bug had been present in production code since 2009. It survived because:
 3. Most performance benchmarks did not exercise the path.
 4. {{sack|SACK}} was considered "battle-tested" — engineers focused new attention on newer code paths instead.
 
-Looney found it by writing a fuzzer that combined {{sack|SACK}} with [[tcp|TCP]]'s other options in unusual sequences. The same fuzzer found three additional related bugs ({{cve|CVE}}-2019-11478, 11479, 11479) that were patched in the same coordinated disclosure.`
+Looney found it by writing a fuzzer that combined {{sack|SACK}} with [[tcp|TCP]]'s other options in unusual sequences. The same fuzzer found related bugs ({{cve|CVE}}-2019-11478 and 11479 on {{linux|Linux}}, plus FreeBSD's CVE-2019-5599) that were patched in the same coordinated disclosure.`
 						},
 						{
 							type: 'callout',
@@ -488,7 +488,7 @@ So we live with the architectural fragility and add operational guards. Every mo
 							title: 'A Routine Maintenance Command, Then Six Hours',
 							text: `On 4 October 2021 at 15:39 {{utc-time|UTC}}, a Facebook engineer ran a routine maintenance command on the backbone connecting Facebook's data centres. The command was supposed to assess capacity by temporarily withdrawing a single backbone link's [[bgp|BGP]] advertisements, then restoring them.
 
-The command had a bug. It withdrew **all** of Facebook's [[bgp|BGP]] route advertisements globally — not just for the one link it was supposed to assess. Within minutes, every facebook.com, instagram.com, and whatsapp.com lookup returned NXDOMAIN. **3.5 billion users disconnected.**
+The command had a bug. It withdrew **all** of Facebook's [[bgp|BGP]] route advertisements globally — not just for the one link it was supposed to assess. Within minutes, Facebook's own DNS servers withdrew their routes and went unreachable, so every facebook.com, instagram.com, and whatsapp.com lookup timed out (SERVFAIL) — not a definitive NXDOMAIN, just no reachable authority. **3.5 billion users disconnected.**
 
 That was the easy part of the cascade.`
 						},
@@ -578,7 +578,7 @@ The trigger was a misconfiguration during a planned maintenance {{bgp-update|upd
 
 **Emergency services**: 911 calls failed in many areas. Some provinces issued public advisories telling residents to use neighbours' phones, alternate networks, or visit fire stations directly.
 
-Recovery required Rogers engineers to log in to individual core routers (over out-of-band management, which thankfully was separate) and manually roll back the change. By 21:00 EDT, partial service was restored. Full service took until 14 July — six days of intermittent issues for some customers.`
+Recovery required Rogers engineers to log in to individual core routers (over out-of-band management, which thankfully was separate) and manually roll back the change. By 21:00 EDT, partial service was restored, and most service returned within about a day (by 9 July); residual issues persisted a few more days (to roughly 11 July).`
 						},
 						{
 							type: 'callout',
@@ -594,14 +594,11 @@ Recovery required Rogers engineers to log in to individual core routers (over ou
 						{
 							type: 'narrative',
 							title: 'The Regulatory Aftermath',
-							text: `The {{crtc|CRTC}} (Canadian Radio-television and Telecommunications Commission) issued a formal decision on 22 March 2023 requiring all major Canadian carriers to:
+							text: `The regulatory response came in two parts. First, in September 2022, ISED (Innovation, Science and Economic Development Canada) brokered a **memorandum of understanding** among Canada's major carriers committing them to **reciprocal emergency roaming**, mutual assistance, and communication protocols during outages — so that a phone unable to reach its own carrier can still complete 911 calls through a competing carrier's tower.
 
-1. Implement **reciprocal roaming for emergency calls** within six months — so that a phone unable to reach its own carrier can still complete 911 calls through any competing carrier's tower.
-2. Submit **detailed network architecture and dependency reports** annually, including every system that depends on the carrier's network for life-safety functions.
-3. Maintain **out-of-band management** independent of the production network for all core routing infrastructure.
-4. Conduct **annual outage simulations** with the federal government, including coordinated emergency-services {{failover|failover}}.
+Then, in early 2023, the **{{crtc|CRTC}}** (Canadian Radio-television and Telecommunications Commission) introduced an **interim requirement that carriers notify the Commission of major service outages** and report on their causes — the first step toward formal, utility-grade outage-reporting obligations.
 
-These requirements are unusual in their specificity for a private telecommunications regulator. They reflect the structural change the Rogers outage forced: the recognition that some private companies have grown into roles that historically belonged to public utilities, with the same operational obligations.`
+Together these reflect the structural change the Rogers outage forced: the recognition that some private companies have grown into roles that historically belonged to public utilities, with the same operational obligations.`
 						},
 						{
 							type: 'image',
@@ -648,7 +645,7 @@ Several states issued public advisories during the outage telling AT&T customers
 - Use landlines if accessible
 - Walk or drive to the nearest fire station, police station, or hospital
 
-The {{fcc|FCC}} opened a formal investigation under the 2018 911 Reliability Rules. AT&T offered all affected customers a $5 service credit (about $625 million in aggregate) and reached a $13 million settlement with the {{fcc|FCC}} in November 2024 — the largest single-incident penalty for a U.S. wireless outage.`
+The {{fcc|FCC}} opened a formal investigation under the 2018 911 Reliability Rules. AT&T offered affected accounts a $5 service credit (business and prepaid excluded). The Feb 2024 outage itself drew no FCC penalty — the $13M AT&T settlement often cited alongside it (Sept 2024) was actually for an unrelated January 2023 vendor data breach.`
 						},
 						{
 							type: 'callout',
@@ -675,7 +672,7 @@ Post-AT&T-2024, the industry consensus is that **most changes can be canaried** 
 							src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/31/AT%26T_logo_2016.svg/500px-AT%26T_logo_2016.svg.png',
 							alt: 'The AT&T globe logo.',
 							caption:
-								'**AT&T** — the carrier behind 22 February 2024 outage: a single misconfigured network upgrade pushed simultaneously across the production wireless core left **125 million devices** without service and **25,000 emergency 911 calls** unconnected. AT&T paid $625M in customer credits and $13M in {{fcc|FCC}} settlement — the largest single-incident penalty for a US wireless outage. The structural lesson — *never push a config change to the entire fleet at once* — was the same one [[outage:rogers-2022|Rogers 2022]] had taught two years earlier.',
+								'**AT&T** — the carrier behind 22 February 2024 outage: a single misconfigured network upgrade pushed simultaneously across the production wireless core left **125 million devices** without service and **25,000 emergency 911 calls** unconnected. AT&T offered affected accounts a $5 service credit; the outage itself drew no FCC penalty (the $13M AT&T settlement of Sept 2024 was for a separate 2023 data breach). The structural lesson — *never push a config change to the entire fleet at once* — was the same one [[outage:rogers-2022|Rogers 2022]] had taught two years earlier.',
 							credit: 'Logo: AT&T Inc. / Wikimedia Commons (trademark)'
 						}
 					]
