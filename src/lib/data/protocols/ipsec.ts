@@ -325,7 +325,7 @@ Payloads:
 		},
 		{
 			title: 'WireGuard is ~4,000 lines; the IPsec stack is six digits',
-			text: "[[pioneer:jason-donenfeld|Jason Donenfeld]]'s 2017 {{ndss-conf|NDSS}} WireGuard paper counted 116,730 LoC for OpenVPN (with OpenSSL) and roughly 420,000 for {{linux|Linux}} {{xfrm|XFRM}} + strongSwan — against WireGuard's ~4,000. The comparison is biased — {{xfrm|XFRM}} does more — but the order of magnitude is correct. WireGuard's minimalism is a direct response to [[ipsec|IPsec]]'s architectural sprawl; [[ipsec|IPsec]]'s sprawl is a direct response to thirty years of interop requirements no clean-slate design has yet had to face."
+			text: "[[pioneer:jason-donenfeld|Jason Donenfeld]]'s 2017 {{ndss-conf|NDSS}} WireGuard talk counted 116,730 LoC for OpenVPN — excluding the OpenSSL it links against — and roughly 420,000 for {{linux|Linux}} {{xfrm|XFRM}} + strongSwan, against WireGuard's ~4,000. The comparison is biased — {{xfrm|XFRM}} does more — but the order of magnitude is correct. WireGuard's minimalism is a direct response to [[ipsec|IPsec]]'s architectural sprawl; [[ipsec|IPsec]]'s sprawl is a direct response to thirty years of interop requirements no clean-slate design has yet had to face."
 		}
 	],
 

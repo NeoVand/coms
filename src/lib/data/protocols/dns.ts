@@ -185,7 +185,7 @@ curl -sH 'accept: application/dns-json' \\
 	recentChanges: [
 		{
 			date: '2025',
-			title: 'DNS-over-HTTPS adoption past 30%',
+			title: 'Encrypted DNS (DoH + DoT) reaches ~10–15%',
 			description:
 				'At the big public resolvers ({{cloudflare|Cloudflare}}, {{google|Google}} Public [[dns|DNS]], Quad9), encrypted transports (DoH [[rfc:8484|RFC 8484]] + DoT) have grown to roughly 10–15% of queries, driven by browser and OS defaults — most global DNS still travels plain UDP via ISP resolvers.'
 		},

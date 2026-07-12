@@ -236,7 +236,7 @@ Client → Server  [ACK]
 			org: 'Google',
 			scale: 'BBR for google.com / YouTube',
 			description:
-				"BBRv1 deployed in 2016, {{bbrv3|BBRv3}} the default for google.com since 2023 (YouTube completed the rollout by 2024). Replaces {{cubic|CUBIC}} for outbound traffic from {{google|Google}}'s edge."
+				"BBRv1 deployed in 2016; {{bbrv3|BBRv3}}, introduced at IETF 117 (July 2023), rolled out across google.com and YouTube through 2023–2024. Replaces {{cubic|CUBIC}} for outbound traffic from {{google|Google}}'s edge."
 		},
 		{
 			org: 'Meta',
@@ -255,7 +255,7 @@ Client → Server  [ACK]
 	funFacts: [
 		{
 			title: 'RFC 793 was the spec for 41 years',
-			text: "From September 1981 until [[rfc:9293|RFC 9293]] (August 2022), [[pioneer:jon-postel|Jon Postel]]'s [[rfc:9293|RFC 793]] was the canonical [[tcp|TCP]] specification — one of the longest-lived core specs in networking (only [[udp|UDP]]'s RFC 768 has gone longer untouched). [[rfc:9293|RFC 9293]] finally folded six updating RFCs and years of accepted errata into a single readable document, edited by Wesley Eddy."
+			text: "From September 1981 until [[rfc:9293|RFC 9293]] (August 2022), [[pioneer:jon-postel|Jon Postel]]'s [[rfc:9293|RFC 793]] was the canonical [[tcp|TCP]] specification — among the longest-lived core specs in networking, alongside [[udp|UDP]]'s RFC 768 (1980) and IP/ICMP's RFC 791/792 (also 1981), which likewise stayed canonical for decades. [[rfc:9293|RFC 9293]] finally folded six updating RFCs and years of accepted errata into a single readable document, edited by Wesley Eddy."
 		},
 		{
 			title: "TCP's sequence numbers used to be guessable",

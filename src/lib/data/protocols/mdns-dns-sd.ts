@@ -204,7 +204,7 @@ RR CLASS on the wire:
 		throughput:
 			'Per-packet ~80–250 bytes for typical announce/resolve. Steady-state bandwidth is dominated by the announce interval (re-announce every 4500 s for service records, 120 s for A/AAAA) — effectively negligible per device',
 		overhead:
-			'12-byte DNS header + variable QNAME (with compression). Worst-case amplification factor ~2–10× (CERT/CC VU#550620, 2015) makes mDNS a reflection-DDoS vector if responders are exposed to the WAN'
+			'12-byte DNS header + variable QNAME (with compression). Worst-case amplification factor up to ~10× (documented via CERT/CC VU#550620, 2015) makes mDNS a reflection-DDoS vector if responders are exposed to the WAN'
 	},
 	connections: ['dns', 'dhcp', 'udp', 'ip', 'ipv6', 'bluetooth', 'wifi'],
 	links: {
@@ -320,7 +320,7 @@ RR CLASS on the wire:
 			},
 			{
 				title: 'mDNS responders exposed to the WAN are a DDoS reflector',
-				text: 'Many home routers shipped with [[mdns-dns-sd|mDNS]] responders that answered queries on their {{wan|WAN}} interface — a misconfiguration violating [[rfc:6762|RFC 6762]]\'s "link-local only" intent. **CERT/CC VU#550620 (March 2015)** measured a BAF up to ~2–10× for mDNS and **Akamai (December 2016)** documented in-the-wild abuse (Rossow\'s "Amplification Hell", NDSS 2014, surveyed other protocols but not mDNS). **Cure:** {{firewall|firewall}} UDP/5353 at the {{wan|WAN}} edge; ensure your responder refuses non-link-local {{unicast|unicast}} queries; deploy BCP 38 ingress filtering.'
+				text: 'Many home routers shipped with [[mdns-dns-sd|mDNS]] responders that answered queries on their {{wan|WAN}} interface — a misconfiguration violating [[rfc:6762|RFC 6762]]\'s "link-local only" intent. **CERT/CC VU#550620 (March 2015)** documented mDNS responders answering off-link unicast queries, and **Akamai (December 2016)** measured in-the-wild abuse with amplification up to ~975% (~10×). (Rossow\'s "Amplification Hell", NDSS 2014, surveyed 14 other protocols but not mDNS.) **Cure:** {{firewall|firewall}} UDP/5353 at the {{wan|WAN}} edge; ensure your responder refuses non-link-local {{unicast|unicast}} queries; deploy BCP 38 ingress filtering.'
 			},
 			{
 				title: 'Stadium / large-venue mDNS storms',

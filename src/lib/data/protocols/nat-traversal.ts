@@ -231,8 +231,8 @@ Attributes:
 			}
 		},
 		{
-			date: '2025-02',
-			title: 'coturn 4.9.0 closes the IPv4-mapped-IPv6 bypass',
+			date: '2026-02',
+			title: 'coturn 4.9.0 closes the IPv4-mapped-IPv6 bypass (CVE-2026-27624)',
 			description:
 				'The fix for [[nat-traversal|TURN]] {{loopback|loopback}} escape ({{cve|CVE}}-2020-26262) had checked `127.x.x.x` and `::1` but not `::ffff:127.0.0.1`. 4.9.0 hardens `ioa_addr_is_loopback` and friends.',
 			source: {
