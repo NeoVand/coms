@@ -50,7 +50,7 @@ export const streamingDeliveryStory: SubcategoryStory = {
 						'RealNetworks ships RealAudio with the first widely-deployed Internet streaming protocol. Proprietary, complex, hugely successful for music streaming in the late 1990s.'
 				},
 				{
-					year: 2002,
+					year: 2005,
 					title: "Adobe Buys Macromedia's Flash",
 					description:
 						'Adobe inherits Flash Media Server and the RTMP protocol. Flash becomes the default video stack on the web for the next decade.'

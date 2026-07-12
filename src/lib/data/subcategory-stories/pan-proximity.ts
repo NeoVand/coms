@@ -7,7 +7,7 @@ export const panProximityStory: SubcategoryStory = {
 		{
 			type: 'narrative',
 			title: 'Different Definitions of "Nearby"',
-			text: `Within ten meters of any office desk in 2025 there are probably a dozen wireless protocols in active use. Not Wi-Fi — different protocols, each optimized for a different mix of *range*, *power*, *bandwidth*, and *topology*. They're the Personal Area Network (PAN) and proximity family.\n\n- **[[bluetooth|Bluetooth]]** (1998–) covers ~10 meters at moderate power, gigabit-class speeds on the latest standards. Originated as a cable replacement (named after a 10th-century Viking king who united warring tribes — the metaphor was uniting incompatible serial standards). Now the universal wireless for headphones, keyboards, fitness trackers, beacons, IoT.\n- **[[nfc|NFC]]** (2002–) covers ~4 *centimeters*. Almost-touching range, deliberately. Powers contactless payments (Apple Pay, Google Pay), transit cards, key fobs, tap-to-share, ID verification. The short range is the security feature.\n- **[[uwb|Ultra-Wideband]]** (UWB, mid-2000s commercial; revived 2019–) covers ~50 meters with *centimeter-accurate ranging*. Spread across a wide frequency band so it can be used alongside other protocols without interference. Apple AirTags, Samsung SmartTag+, BMW digital car keys, indoor positioning.\n- **[[zigbee|Zigbee]]** (2003–) covers tens of meters per hop, but builds **multi-hop mesh networks** so a single mesh can cover an entire building. Low power, low data rate, designed for battery-operated sensors and actuators. Powers smart-home devices (Philips Hue bulbs, IKEA Tradfri, Aqara sensors) and industrial automation.\n\nThese aren't alternatives. They're different points in a four-dimensional design space (range × bandwidth × power × topology). Your phone has hardware for all four. Your smart home runs three of them simultaneously. The fragmentation is a feature — no single protocol could serve all the use cases optimally.`
+			text: `Within ten meters of any office desk in 2025 there are probably a dozen wireless protocols in active use. Not Wi-Fi — different protocols, each optimized for a different mix of *range*, *power*, *bandwidth*, and *topology*. They're the Personal Area Network (PAN) and proximity family.\n\n- **[[bluetooth|Bluetooth]]** (1998–) covers ~10 meters at moderate power, up to ~3 Mbps on Classic BR/EDR and ~2 Mbps on the latest BLE. Originated as a cable replacement (named after a 10th-century Viking king who united warring tribes — the metaphor was uniting incompatible serial standards). Now the universal wireless for headphones, keyboards, fitness trackers, beacons, IoT.\n- **[[nfc|NFC]]** (2002–) covers ~4 *centimeters*. Almost-touching range, deliberately. Powers contactless payments (Apple Pay, Google Pay), transit cards, key fobs, tap-to-share, ID verification. The short range is the security feature.\n- **[[uwb|Ultra-Wideband]]** (UWB, mid-2000s commercial; revived 2019–) covers ~50 meters with *centimeter-accurate ranging*. Spread across a wide frequency band so it can be used alongside other protocols without interference. Apple AirTags, Samsung SmartTag+, BMW digital car keys, indoor positioning.\n- **[[zigbee|Zigbee]]** (2003–) covers tens of meters per hop, but builds **multi-hop mesh networks** so a single mesh can cover an entire building. Low power, low data rate, designed for battery-operated sensors and actuators. Powers smart-home devices (Philips Hue bulbs, IKEA Tradfri, Aqara sensors) and industrial automation.\n\nThese aren't alternatives. They're different points in a four-dimensional design space (range × bandwidth × power × topology). Your phone has hardware for all four. Your smart home runs three of them simultaneously. The fragmentation is a feature — no single protocol could serve all the use cases optimally.`
 		},
 		{
 			type: 'pioneers',
@@ -79,19 +79,19 @@ export const panProximityStory: SubcategoryStory = {
 						'Federal Communications Commission opens unlicensed [[uwb|ultra-wideband]] operation in the 3.1–10.6 GHz range. Time Domain, Freescale, Intel all start commercial UWB development.'
 				},
 				{
-					year: 2002,
+					year: 2004,
 					title: 'NFC Forum Founded',
 					description:
 						'Nokia, Philips, and Sony form the NFC Forum to standardize what would become contactless payment, transit, and proximity-pairing on phones.'
 				},
 				{
-					year: 2003,
+					year: 2002,
 					title: 'Zigbee Alliance Formed',
 					description:
 						'[[zigbee|Zigbee]] launches as a low-power mesh networking standard for sensors and actuators. ZigBee 1.0 ships in 2004.'
 				},
 				{
-					year: 2006,
+					year: 2004,
 					title: 'NFC RFID Standards (ISO/IEC 18092)',
 					description:
 						"NFC standardized at ISO. Supports passive tags (like Walton's RFID), reader/writer mode, and peer-to-peer mode."
@@ -109,7 +109,7 @@ export const panProximityStory: SubcategoryStory = {
 						'Apple Pay uses NFC for in-store contactless payment. Drives mainstream consumer awareness of NFC; within two years, every major Android phone has matching support.'
 				},
 				{
-					year: 2015,
+					year: 2017,
 					title: 'Bluetooth Mesh',
 					description:
 						'Bluetooth SIG adds mesh networking, competing directly with Zigbee for smart-home and industrial use cases.'
@@ -149,7 +149,7 @@ export const panProximityStory: SubcategoryStory = {
 					label: '[[bluetooth|Bluetooth]]',
 					values: [
 						'~10 m (Class 2); ~100 m (Class 1)',
-						'~2 Mbps (BLE 5) to ~50 Mbps (BR/EDR)',
+						'~2 Mbps (BLE) / ~3 Mbps (Classic BR/EDR)',
 						'BLE: μW–mW; classic: tens of mW',
 						'Star (piconet, master + ≤7 slaves); now mesh too',
 						'Headphones, keyboards, fitness trackers, beacons'

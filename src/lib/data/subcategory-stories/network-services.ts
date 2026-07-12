@@ -92,7 +92,7 @@ export const networkServicesStory: SubcategoryStory = {
 						"The seminal NAT-traversal paper. Defines hole-punching for [[udp|UDP]] and [[tcp|TCP]] through symmetric NATs. The foundation for WebRTC's ICE/STUN/TURN."
 				},
 				{
-					year: 2005,
+					year: 2003,
 					title: 'STUN RFC 3489',
 					description:
 						'Session Traversal Utilities for NAT — the first IETF protocol that lets a client behind a NAT learn its public-facing address.'

@@ -77,7 +77,7 @@ export const conferencingCallsStory: SubcategoryStory = {
 						'Skype ships using a fully proprietary peer-to-peer protocol — *not* SIP. The first widely-deployed consumer Internet calling, with its own ideas about NAT traversal and codecs. The lesson: a closed protocol with a great UX can crush an open one for years.'
 				},
 				{
-					year: 2005,
+					year: 2003,
 					title: 'STUN RFC 3489',
 					description:
 						'[[nat-traversal|STUN]] — Session Traversal Utilities for NAT — lets a peer discover its public-facing IP address through a NAT. The first piece of NAT-traversal infrastructure for media protocols.'
