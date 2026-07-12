@@ -778,7 +778,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     E->>S: Audio + Video interleaved
     Note over E,S: Server transcodes → HLS/DASH for viewers`,
 		caption:
-			'**[[rtmp|RTMP]]** = Real-Time Messaging Protocol (Adobe, 1996). Originally Flash; now the de-facto **{{live-stream-ingest|live-stream ingest}}** protocol — your encoder (OBS, Wirecast) pushes a long-lived [[tcp|TCP]] connection to the {{cdn|CDN}} edge, which transcodes the {{codec|codec}} into [[hls|HLS]] / [[dash|DASH]] {{manifest|manifests}} for viewers. Encrypted variant **RTMPS** runs over [[tls|TLS]].',
+			'**[[rtmp|RTMP]]** = Real-Time Messaging Protocol (Macromedia, 2002; later Adobe). Originally Flash; now the de-facto **{{live-stream-ingest|live-stream ingest}}** protocol — your encoder (OBS, Wirecast) pushes a long-lived [[tcp|TCP]] connection to the {{cdn|CDN}} edge, which transcodes the {{codec|codec}} into [[hls|HLS]] / [[dash|DASH]] {{manifest|manifests}} for viewers. Encrypted variant **RTMPS** runs over [[tls|TLS]].',
 		steps: {
 			1: 'Three-stage {{handshake|handshake}}: {{rtmp-c0-c1-c2|C0}} = {{protocol|protocol}} version byte, {{rtmp-c0-c1-c2|C1}} = 1536 random bytes + timestamp.',
 			2: 'Server replies with its own version ({{rtmp-s0-s1-s2|S0}}), random bytes ({{rtmp-s0-s1-s2|S1}}), and an echo of {{rtmp-c0-c1-c2|C1}} ({{rtmp-s0-s1-s2|S2}}) — proves both sides can talk.',
@@ -1082,7 +1082,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
     A->>B: UPDATE (withdraw 192.168.100.0/24)
     Note over A,B: Route removed from B's table`,
 		caption:
-			'**[[bgp|BGP]]** = Border Gateway Protocol ([[pioneer:yakov-rekhter|Yakov Rekhter]] et al., 1989). The protocol that holds the internet together — routers in different **{{autonomous-system|Autonomous Systems}}** (ISPs, big companies) tell each other which {{ip-address|IP}} ranges they can reach. Path-vector design: every advertisement carries the {{as-path|AS_PATH}} for loop detection and policy. Crypto-secured by {{rpki|RPKI}} since 2008 ([[rfc:4271|RFC 4271]]).',
+			'**[[bgp|BGP]]** = Border Gateway Protocol ([[pioneer:yakov-rekhter|Yakov Rekhter]] et al., 1989). The protocol that holds the internet together — routers in different **{{autonomous-system|Autonomous Systems}}** (ISPs, big companies) tell each other which {{ip-address|IP}} ranges they can reach. Path-vector design: every advertisement carries the {{as-path|AS_PATH}} for loop detection and policy. Origin-secured by {{rpki|RPKI}} since ~2012 ([[rfc:6480|RFC 6480]]); [[rfc:4271|RFC 4271]] defines BGP-4 itself.',
 		steps: {
 			0: "Runs over [[tcp|TCP]] port 179 between two router neighbors that have been manually configured to {{peering|peer}} with each other. There's no auto-discovery on the public internet.",
 			1: "{{autonomous-system|AS = Autonomous System}}: one organization's network, identified by a number ({{asn|ASN}}). {{bgp-open|OPEN}} carries this AS number plus a {{hold-timer|hold timer}} — how long to wait without a {{bgp-keepalive|keepalive}} before declaring the peer dead.",
@@ -1322,7 +1322,7 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
 		caption:
 			'**[[oauth2|OAuth]] 2.0** = delegated authorization. Lets your app act on behalf of a user **without ever seeing their password**. Authorization Code flow with **{{pkce|PKCE}}** is the modern recommendation for any client ([[rfc:6749|RFC 6749]] + [[rfc:7636|RFC 7636]]).',
 		steps: {
-			0: '**{{pkce|PKCE}}** = Proof Key for Code Exchange. Your app picks a random `code_verifier` and sends its {{cryptographic-hash|SHA256}} hash (`code_challenge`). Locks the {{oauth-auth-code|auth code}} to *your* app — required since 2022.',
+			0: '**{{pkce|PKCE}}** = Proof Key for Code Exchange. Your app picks a random `code_verifier` and sends its {{cryptographic-hash|SHA256}} hash (`code_challenge`). Locks the {{oauth-auth-code|auth code}} to *your* app — required by OAuth 2.1 / the OAuth Security BCP (RFC 9700) and recommended for all clients.',
 			1: 'Browser redirects to the auth server with: {{oauth-client-id|client id}}, requested {{oauth-scope|scopes}}, code_challenge, and a **{{oauth-state|`state`}}** value ({{csrf|CSRF}} token). User sees the login + {{oauth-consent|consent}} screen.',
 			3: 'After {{oauth-consent|consent}}, auth server redirects back with a one-time **{{oauth-auth-code|`code`}}** (lasts ~30 seconds) and echoes back your {{oauth-state|`state`}}.',
 			4: '**Always verify {{oauth-state|`state`}} matches** what you sent — otherwise an attacker could trick the user into logging in to *their* account ({{csrf|CSRF}} attack).',
@@ -1400,8 +1400,8 @@ export const diagramDefinitions: Record<string, DiagramDefinition> = {
 		steps: {
 			0: 'Random Access — {{ue|UE}} chose a cell from {{ssb|SSB}} measurements, sent a {{prach|PRACH}} preamble (Msg1). {{gnb|Base station}} replied with a Random Access Response (Msg2) carrying timing advance and a temporary identifier ({{c-rnti|C-RNTI}}).',
 			2: '{{ue|UE}} sends RRCSetupRequest with an establishment cause. {{gnb|Base station}} responds with RRCSetup. UE now has SRB1 (signalling radio bearer) but no security yet — {{rrc|RRC}} signalling is established but unprotected.',
-			4: "Registration Request carries the {{suci|SUCI}} — the [[ip|IP]] address of every cell phone's long-term identity ({{supi|SUPI}}), encrypted with the home network's public key (ECIES Profile A on Curve25519 — never sent in clear).",
-			6: "{{5g-aka|5G-AKA}} — {{amf|AMF}} asks {{ausf|AUSF}}, AUSF asks {{udm|UDM}}. The UDM's SIDF decrypts {{suci|SUCI}} → {{supi|SUPI}}, generates an authentication vector. RAND/AUTN traverse all the way down to the {{ue|UE}}. The {{sim-usim|USIM}} checks AUTN.MAC against `f1(K, SQN, RAND)`, computes RES* via `KDF(CK || IK)`. AUSF compares RES* to HRES*. Mutual authentication achieved.",
+			4: "Registration Request carries the {{suci|SUCI}} — the concealed form of every cell phone's permanent subscriber identity ({{supi|SUPI}}, the IMSI-equivalent), encrypted with the home network's public key (ECIES Profile A on Curve25519 — never sent in clear).",
+			6: "{{5g-aka|5G-AKA}} — {{amf|AMF}} asks {{ausf|AUSF}}, AUSF asks {{udm|UDM}}. The UDM's SIDF decrypts {{suci|SUCI}} → {{supi|SUPI}}, generates an authentication vector. RAND/AUTN traverse all the way down to the {{ue|UE}}. The {{sim-usim|USIM}} checks AUTN.MAC against `f1(K, SQN, RAND)` and returns RES; the phone derives RES*. The SEAF compares HRES* to HXRES*, then the AUSF compares RES* to XRES*. Mutual authentication achieved.",
 			8: '{{nas|NAS}} Security Mode — {{amf|AMF}} picks ciphering (typically 128-NEA2 = AES-CTR) and integrity (128-NIA2 = AES-CMAC). From here every NAS message is integrity-protected and ciphered with K_NASint / K_NASenc.',
 			10: 'Registration Accept carries the assigned {{guti|5G-GUTI}} (the temporary identity the {{ue|UE}} will use until next rekey) and the allowed {{nssai|NSSAI}} (network slices).',
 			12: '{{ue|UE}} requests a {{pdu-session|PDU Session}} — what the rest of the world would call "give me an [[ip|IP]] address." {{dnn|DNN}} ("internet"), session type (IPv4v6), requested {{nssai|S-NSSAI}}.',

@@ -92,7 +92,7 @@ The economics that finally tipped it: {{aws|AWS}} started charging $0.005/hour p
 		protocols: ['tls', 'quic'],
 		description: `Chrome 116 (Aug 2023) shipped X25519Kyber768 behind a flag; Chrome 124 (Apr 2024) made it default. {{nist|NIST}} published {{fips|FIPS}} 203 ({{ml-kem|ML-KEM}}, formerly Kyber) on 13 August 2024, forcing a new [[tls|TLS]] codepoint 0x11EC for {{pq-ciphersuite|X25519MLKEM768}}; Chrome 131 (Nov 2024) switched to it. Firefox 132, Edge 131, and OpenJDK (JEP 527) followed.
 
-{{apple|Apple}} iOS 26 / macOS Tahoe 26 (September 2025) turned {{pq-ciphersuite|X25519MLKEM768}} on by default for all [[tls|TLS]] 1.3 in {{apple|Apple}}'s Network.framework — within four days iOS {{pq|PQ}} traffic share went from <2% to 11%, and to >25% by December 2025. By end of 2025, ~52% of all [[tls|TLS]] 1.3 requests to {{cloudflare|Cloudflare}} carried {{pq|PQ}} key agreement. The lattice-based {{kem|KEM}} is twice the size of {{x25519|X25519}} alone, so the {{handshake|handshake}} costs a few extra [[tcp|TCP]] packets — measurable but not user-visible.`,
+{{apple|Apple}} iOS 26 / macOS Tahoe 26 (September 2025) turned {{pq-ciphersuite|X25519MLKEM768}} on by default for all [[tls|TLS]] 1.3 in {{apple|Apple}}'s Network.framework — within four days iOS {{pq|PQ}} traffic share went from <2% to 11%, and to >25% by December 2025. By end of 2025, ~52% of all [[tls|TLS]] 1.3 requests to {{cloudflare|Cloudflare}} carried {{pq|PQ}} key agreement. The lattice-based {{kem|KEM}} adds roughly 1 KB to the ClientHello versus {{x25519|X25519}} alone — about one extra [[tcp|TCP]] packet — measurable but not user-visible.`,
 		metrics: [
 			{ label: 'Cloudflare TLS 1.3 with PQ', value: '~52%', date: '2025-12' },
 			{ label: 'iOS PQ share (4 days post-launch)', value: '11%', date: '2025-09' },
@@ -154,9 +154,9 @@ The mechanism: cooperating senders mark packets {{ecn|ECN}}-Capable; routers run
 			'[[tls|TLS]] 1.3 {{client-hello|ClientHello}} — including the {{sni|SNI}} — is finally encrypted; {{cloudflare|Cloudflare}} deploys {{ech|ECH}} for ~70% of fronted sites.',
 		topic: 'security',
 		status: 'shipped',
-		date: '2025',
+		date: '2026-03',
 		protocols: ['tls'],
-		description: `{{ech|ECH}} ({{ech|Encrypted Client Hello}}) hides the {{sni|SNI}} and other {{client-hello|ClientHello}} fields that previously let middleboxes and ISPs see which site you were visiting. Specified through 25 {{ietf|IETF}} drafts and finally published as [[rfc:9849|RFC 9849]] in 2025.
+		description: `{{ech|ECH}} ({{ech|Encrypted Client Hello}}) hides the {{sni|SNI}} and other {{client-hello|ClientHello}} fields that previously let middleboxes and ISPs see which site you were visiting. Specified through 25 {{ietf|IETF}} drafts and finally published as [[rfc:9849|RFC 9849]] in March 2026.
 
 {{cloudflare|Cloudflare}} deploys {{ech|ECH}} for ~70% of websites it fronts; Chrome and Firefox both support it. The architecture: the server publishes an ECHConfig in [[dns|DNS]] (HTTPS RR); the client encrypts the inner {{client-hello|ClientHello}} to that key and wraps it in an outer {{client-hello|ClientHello}} that uses a generic "{{cloudflare|cloudflare}}-ech.com" {{sni|SNI}}. From the network's perspective, every fronted site looks the same.`,
 		sources: [

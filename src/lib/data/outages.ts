@@ -162,7 +162,7 @@ export const outages: Outage[] = [
 		category: 'configuration',
 		affectedProtocols: ['bgp'],
 		setup:
-			'In 1997 [[bgp|BGP]]-4 had been the inter-domain routing protocol for eight years. It assumes neighbours announce only what they own. There were almost no upstream filters: if a customer announced something, the upstream took it.',
+			'In 1997 [[bgp|BGP]] had been the inter-domain routing protocol for about eight years (BGP-4 itself since 1994). It assumes neighbours announce only what they own. There were almost no upstream filters: if a customer announced something, the upstream took it.',
 		mistake:
 			"MAI Network Services ({{autonomous-system|AS}} 7007) had a Bay Networks router whose forwarding table got dumped into [[bgp|BGP]] as if every entry were a route the {{autonomous-system|AS}} originated. The router didn't just announce its own prefixes — it announced /24 fragments of the entire global {{routing-table|routing table}}, claiming MAI was the origin {{autonomous-system|AS}} for everything.",
 		cascade: [
@@ -332,7 +332,7 @@ export const outages: Outage[] = [
 		scale:
 			'NSFNET — three-IMP-hop path between Lawrence Berkeley Lab and UC Berkeley dropped from 32 kbps to 40 bps (1000× degradation)',
 		oneLiner:
-			'The first time the internet broke under its own weight — and the six algorithms [[pioneer:van-jacobson|Van Jacobson]] published in 1988 to keep it from happening again.',
+			'The first time the internet broke under its own weight — and the congestion-control algorithms [[pioneer:van-jacobson|Van Jacobson]] published in 1988 to keep it from happening again.',
 		category: 'protocol-design',
 		affectedProtocols: ['tcp'],
 		cast: [
@@ -368,7 +368,7 @@ export const outages: Outage[] = [
 		consequence:
 			'The first proof that a protocol designed for a small, lightly-loaded research network could fail catastrophically under production load. NSFNET regional links became unusable for hours at a time through October 1986. The internet engineering community accepted that an end-to-end {{congestion-control|congestion-control}} loop was not optional.',
 		resolution:
-			'[[pioneer:van-jacobson|Van Jacobson]] and Mike Karels at Berkeley spent six months instrumenting the wire and reading the {{bsd|BSD}} source. Their 1988 {{sigcomm-conf|SIGCOMM}} paper — *{{congestion-avoidance|Congestion Avoidance}} and Control* — introduced six algorithms in one document: **{{slow-start|slow start}}**, **{{aimd|AIMD}} {{congestion-avoidance|congestion avoidance}}**, **fast retransmit**, **fast recovery**, **{{exponential-backoff|exponential RTO backoff}}**, and a refined **{{rtt|RTT}} estimator**. The fixes shipped in 4.3BSD-Tahoe and propagated to every [[tcp|TCP]] stack on earth.',
+			'[[pioneer:van-jacobson|Van Jacobson]] and Mike Karels at Berkeley spent six months instrumenting the wire and reading the {{bsd|BSD}} source. Their 1988 {{sigcomm-conf|SIGCOMM}} paper — *{{congestion-avoidance|Congestion Avoidance}} and Control* — introduced a cluster of algorithms — **{{slow-start|slow start}}**, **{{aimd|AIMD}} {{congestion-avoidance|congestion avoidance}}**, **fast retransmit**, **{{exponential-backoff|exponential RTO backoff}}**, and a refined **{{rtt|RTT}} estimator**. These shipped in 4.3BSD-Tahoe and propagated to every [[tcp|TCP]] stack on earth; **fast recovery** was the defining addition two years later in TCP Reno (1990).',
 		lesson:
 			"Conservation of packets — put one packet into the network only when an {{ack|ACK}} confirms a previous one has left it — is the load-bearing principle that has held for forty years. Every later {{congestion-control|congestion-control}} algorithm (Reno, NewReno, Vegas, [[rfc:9438|CUBIC]], Compound, {{bbr|BBR}} v1/v2/v3, Prague over [[frontier:l4s-comcast-launch|L4S]]) is a refinement of Jacobson's six.",
 		sources: [

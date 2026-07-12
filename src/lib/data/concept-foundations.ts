@@ -49,7 +49,7 @@ The deeper trick is that protocols are **public**. They are described in plain t
 
 **Sequence.** What order are messages exchanged in? [[tcp|TCP]]'s {{three-way-handshake|three-way handshake}} is a sequence — {{syn-cookies|SYN}} before {{syn-cookies|SYN}}-{{ack|ACK}} before {{ack|ACK}}, and a server that receives an {{ack|ACK}} without a preceding {{syn-cookies|SYN}} simply drops it. [[tls|TLS]] has a similar choreography ({{client-hello|ClientHello}} → {{server-hello|ServerHello}} → {{certificate|Certificate}} → KeyExchange → Finished). The sequence defines what is meaningful at any point in the conversation.
 
-**Failure handling.** What happens when a message is lost, corrupted, duplicated, or arrives out of order? [[tcp|TCP]] retransmits after a timeout. {{http-method|HTTP}} returns a 5xx status. [[tls|TLS]] aborts the connection on a bad {{mac-address|MAC}}. The failure handling is what separates a working protocol from one that hangs the first time the network hiccups — and historically it is where most of the engineering work has gone.`
+**Failure handling.** What happens when a message is lost, corrupted, duplicated, or arrives out of order? [[tcp|TCP]] retransmits after a timeout. {{http-method|HTTP}} returns a 5xx status. [[tls|TLS]] aborts the connection on a bad {{message-authentication-code|MAC}} (message authentication code). The failure handling is what separates a working protocol from one that hangs the first time the network hiccups — and historically it is where most of the engineering work has gone.`
 			},
 			{
 				type: 'callout',
@@ -267,7 +267,7 @@ This division of labour — [[ip|IP]] for end-to-end identity, MAC for hop-to-ho
 				src: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/94/MAC-48_Address.svg/500px-MAC-48_Address.svg.png',
 				alt: 'Bit-field structure of a 48-bit MAC address — 24-bit OUI + 24-bit NIC, with multicast and locally-administered flag bits.',
 				caption:
-					'A 48-bit {{mac-address|MAC address}} is structured: the first 24 bits are the {{oui|OUI}} (Organisationally Unique Identifier — {{apple|Apple}} = ac:de:48, {{cisco|Cisco}} = 00:1b:54, etc.), the last 24 bits are assigned by the manufacturer per device. Two flag bits in the first octet mark {{multicast|multicast}} and locally-administered addresses.',
+					'A 48-bit {{mac-address|MAC address}} is structured: the first 24 bits are the {{oui|OUI}} (Organisationally Unique Identifier — {{apple|Apple}} = 00:03:93, {{cisco|Cisco}} = 00:1b:54, etc.), the last 24 bits are assigned by the manufacturer per device. Two flag bits in the first octet mark {{multicast|multicast}} and locally-administered addresses.',
 				credit: 'Diagram: Wikimedia Commons / CC BY-SA 2.5'
 			},
 			{
@@ -362,7 +362,7 @@ The same data is all of these things at once, of course. Right now, on this page
 			{
 				type: 'narrative',
 				title: 'The Conservation of Bytes',
-				text: `Headers cost something. A 1500-byte [[ethernet|Ethernet]] frame might carry only 1448 bytes of useful [[tcp|TCP]] {{payload|payload}} (40 bytes of [[tcp|TCP]] options, 20 of [[ip|IP]], plus the 14-byte [[ethernet|Ethernet]] header and 4-byte {{crc|CRC}}). On a satellite link priced per byte, those overheads are real money — which is why [[mqtt|MQTT]] designed a 2-byte minimum header and [[coap|CoAP]] designed a 4-byte one for IoT.
+				text: `Headers cost something. A 1500-byte [[ethernet|Ethernet]] payload might carry only 1448 bytes of useful [[tcp|TCP]] {{payload|payload}} (20 bytes of [[ip|IP]] header + 20 of [[tcp|TCP]] header + 12 of [[tcp|TCP]] timestamp options), with the 14-byte [[ethernet|Ethernet]] header and 4-byte {{crc|CRC}} on top. On a satellite link priced per byte, those overheads are real money — which is why [[mqtt|MQTT]] designed a 2-byte minimum header and [[coap|CoAP]] designed a 4-byte one for IoT.
 
 Headers also cost time. Every byte added to a packet is a byte that has to be sent, propagated, received, and parsed. For [[quic|QUIC]] and [[http3|HTTP/3]] running over [[tls|TLS 1.3]], the per-packet header is around 25-30 bytes — small enough to fit roughly 50 packets in a single {{mtu|MTU}}, large enough to encode a connection {{id-identifier|ID}}, packet number, and authenticated {{encryption|encryption}} tag.
 
@@ -474,7 +474,7 @@ This tradeoff drives the entire protocol ecosystem. Web pages need reliability �
 
 The cause was [[tcp|TCP]] itself. Early {{bsd|BSD}} [[tcp|TCP]] retransmitted aggressively when it saw loss. When the network was actually congested, every {{retransmission|retransmission}} generated more loss, which generated more retransmissions. The network was eating itself.
 
-[[pioneer:van-jacobson|Van Jacobson]] and Mike Karels at Berkeley spent the next eighteen months on the fix. Their 1988 {{sigcomm-conf|SIGCOMM}} paper, **"{{congestion-avoidance|Congestion Avoidance}} and Control,"** gave the world {{slow-start|slow start}}, {{aimd|AIMD}} {{congestion-avoidance|congestion avoidance}}, fast retransmit, fast recovery, and Karn's algorithm for {{rtt|round-trip-time}} estimation under {{retransmission|retransmission}} ambiguity. Six algorithms in one paper. The fixes shipped in 4.3BSD-Tahoe and saved the internet.
+[[pioneer:van-jacobson|Van Jacobson]] and Mike Karels at Berkeley spent the next eighteen months on the fix. Their 1988 {{sigcomm-conf|SIGCOMM}} paper, **"{{congestion-avoidance|Congestion Avoidance}} and Control,"** gave the world {{slow-start|slow start}}, {{aimd|AIMD}} {{congestion-avoidance|congestion avoidance}}, and fast retransmit, and adopted Karn & Partridge's algorithm (1987) for {{rtt|round-trip-time}} estimation under {{retransmission|retransmission}} ambiguity. These shipped in 4.3BSD-Tahoe and saved the internet — fast recovery arrived two years later in TCP Reno (1990).
 
 The principle they articulated — **conservation of packets** — has held up for forty years. A sender should put one packet into the network only when an {{ack|ACK}} confirms a previous packet has left it. Everything since is variations on that theme.`
 			},
@@ -669,7 +669,7 @@ What it does **not** mean is anything about the server you connected to. The pad
 
 **{{symmetric-encryption|Symmetric encryption}}** uses **one key** for both encrypting and decrypting. {{aes|AES}}-256 and {{chacha20-poly1305|ChaCha20-Poly1305}} are the modern standards. Both are extraordinarily fast — a current x86 {{cpu|CPU}} with {{aes|AES}}-NI hardware acceleration encrypts at over 10 Gbps per core. The catch is **key distribution**: both endpoints have to know the same secret key without an attacker learning it. If two parties have never met, they cannot just send the key over the network — anyone watching would steal it.
 
-**{{asymmetric-encryption|Asymmetric encryption}}** uses **two keys** that are mathematically paired: a {{public-key|public key}} you give out freely, and a {{private-key|private key}} you keep on your server. Anything encrypted with the {{public-key|public key}} can only be decrypted with the {{private-key|private key}}, and vice versa. {{rsa|RSA}}-2048, {{x25519|X25519}} (elliptic curve), and (post-quantum) {{ml-kem|ML-KEM}}-768 are the modern examples. The strength of asymmetric crypto is that **two strangers can establish trust** — I send you my {{public-key|public key}} over an open channel; you encrypt your secret with it; only I can read what you sent. The cost: {{asymmetric-encryption|asymmetric encryption}} is roughly **1000× slower** than symmetric for the same security level.
+**{{asymmetric-encryption|Asymmetric encryption}}** uses **two keys** that are mathematically paired: a {{public-key|public key}} you give out freely, and a {{private-key|private key}} you keep on your server. Anything encrypted with the {{public-key|public key}} can only be decrypted with the {{private-key|private key}}. {{rsa|RSA}}-2048 can encrypt small payloads directly; {{x25519|X25519}} and (post-quantum) {{ml-kem|ML-KEM}}-768 instead *establish/encapsulate* a shared key rather than encrypting arbitrary data. The strength of asymmetric crypto is that **two strangers can establish trust** — I send you my {{public-key|public key}} over an open channel; you encrypt your secret with it; only I can read what you sent. The cost: {{asymmetric-encryption|asymmetric encryption}} is roughly **1000× slower** than symmetric for the same security level.
 
 The combination is what makes the modern web tractable. You use slow asymmetric crypto **once** at the start of the connection to safely agree on a fast symmetric key, then use the symmetric key for all the bulk data. The slow operation is amortised across the whole conversation.`
 			},
@@ -727,7 +727,7 @@ When the system breaks (and it has, repeatedly: DigiNotar 2011, Symantec 2017, m
 
 An adversary recording your encrypted traffic **today** can store it indefinitely and decrypt it whenever a working quantum computer arrives — a strategy known as **harvest now, decrypt later**. For data that needs to stay secret for decades (state secrets, medical records, long-lived contracts), the threat is real now.
 
-The fix is rolling out fast. {{nist|NIST}} finalised post-quantum standards in August 2024 ({{ml-kem|ML-KEM}}, ML-DSA, SLH-DSA). The deployed solution is **hybrid** — combine the existing {{x25519|X25519}} with the new {{ml-kem|ML-KEM}}-768 such that an attacker has to break **both** to recover the key. The named cipher [[frontier:pq-tls-x25519mlkem768|X25519MLKEM768]] is now the default in Chrome 124+, {{cloudflare|Cloudflare}}'s [[tls|TLS]] termination, and iOS 26. By the end of 2026, most [[tls|TLS]] handshakes on the internet will be post-quantum-secure. The deployment lesson: the cryptography community shipped useful primitives years before the hardware threat materialised, and the deployment ecosystem rolled them out in months.`
+The fix is rolling out fast. {{nist|NIST}} finalised post-quantum standards in August 2024 ({{ml-kem|ML-KEM}}, ML-DSA, SLH-DSA). The deployed solution is **hybrid** — combine the existing {{x25519|X25519}} with the new {{ml-kem|ML-KEM}}-768 such that an attacker has to break **both** to recover the key. The named cipher [[frontier:pq-tls-x25519mlkem768|X25519MLKEM768]] has been the default since Chrome 131 (Chrome 124 shipped the earlier draft X25519Kyber768), {{cloudflare|Cloudflare}}'s [[tls|TLS]] termination, and iOS 26. By the end of 2026, most [[tls|TLS]] handshakes on the internet will be post-quantum-secure. The deployment lesson: the cryptography community shipped useful primitives years before the hardware threat materialised, and the deployment ecosystem rolled them out in months.`
 			}
 		]
 	},
@@ -742,7 +742,7 @@ The fix is rolling out fast. {{nist|NIST}} finalised post-quantum standards in A
 
 In November 2024, {{anthropic|Anthropic}} published the **Model Context Protocol** — [[mcp|MCP]]. The premise was simple: {{ai|AI}} coding assistants and chat agents needed a standard way to talk to tools (file systems, databases, APIs, internal systems) without each pair re-inventing the integration. With N {{ai|AI}} {{hosts-bare|hosts}} and M tools, the industry was building N×M bespoke connectors. [[mcp|MCP]] collapsed it to N+M.
 
-In April 2025, {{google|Google}} published **Agent-to-Agent Protocol** — [[a2a|A2A]] — for collaboration **between** agents: capability discovery, task delegation, asynchronous event streams. Six months later both protocols moved into the [[frontier:a2a-linux-foundation|Linux Foundation]] alongside open governance. As of 2026, [[mcp|MCP]] servers number in the thousands, [[a2a|A2A]] is supported by every major agent framework, and both protocols are recognisably the new layer that earlier decades never had.`
+In April 2025, {{google|Google}} published **Agent-to-Agent Protocol** — [[a2a|A2A]] — for collaboration **between** agents: capability discovery, task delegation, asynchronous event streams. A2A moved to the [[frontier:a2a-linux-foundation|Linux Foundation]] in June 2025, and MCP followed (into the Agentic AI/Linux Foundation) in December 2025 — both under open governance. As of 2026, [[mcp|MCP]] servers number in the thousands, [[a2a|A2A]] is supported by every major agent framework, and both protocols are recognisably the new layer that earlier decades never had.`
 			},
 			{
 				type: 'diagram',

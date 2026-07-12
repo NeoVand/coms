@@ -118,7 +118,7 @@ export const realtimeAvStory: CategoryStory = {
 					title: 'SIP Ecosystem Architect',
 					org: 'dynamicsoft / Cisco / Five9',
 					contribution:
-						'Designed critical [[sip|SIP]] infrastructure: {{stun|STUN}}, {{turn|TURN}}, and {{ice|ICE}} for {{nat|NAT}} traversal, plus {{srtp|SRTP}} for encrypting media streams.'
+						'Designed critical [[sip|SIP]] infrastructure: {{stun|STUN}}, {{turn|TURN}}, and {{ice|ICE}} for {{nat|NAT}} traversal. ({{srtp|SRTP}} itself came from a separate Cisco/Ericsson team.)'
 				}
 			]
 		},
