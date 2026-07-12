@@ -40,7 +40,7 @@ export const ipsecTunnel: SimulationConfig = {
 			id: 'ike-sa-init-req',
 			label: 'IKE_SA_INIT (req)',
 			description:
-				"HQ initiates. The first IKEv2 exchange is unencrypted — keys don't exist yet. The initiator proposes a cipher suite, sends its Diffie-Hellman / ML-KEM public key, a 32-byte Nonce, and NAT_DETECTION hashes that fingerprint the source IP:port for the responder to compare.",
+				"HQ initiates. The first IKEv2 exchange is unencrypted — keys don't exist yet. The initiator proposes a cipher suite, sends its (classical) Diffie-Hellman public key — the large ML-KEM key follows in IKE_INTERMEDIATE — plus a 32-byte Nonce, and NAT_DETECTION hashes that fingerprint the source IP:port for the responder to compare.",
 			fromActor: 'hq',
 			toActor: 'branch',
 			duration: 1400,
@@ -55,7 +55,8 @@ export const ipsecTunnel: SimulationConfig = {
 					exchangeType: 'IKE_SA_INIT (34)',
 					flags: '0x08 (Initiator)',
 					messageId: 0,
-					payloads: 'SA (AES-GCM-256 + ML-KEM-768) + KE (1184B) + Nonce + NAT_DETECTION_*'
+					payloads:
+						'SA (AES-GCM-256 + ECDH P-384 + ML-KEM-768) + KE (ecp384, 96 B) + Nonce + NAT_DETECTION_*'
 				})
 			]
 		},
@@ -86,7 +87,7 @@ export const ipsecTunnel: SimulationConfig = {
 			id: 'ike-intermediate',
 			label: 'IKE_INTERMEDIATE',
 			description:
-				'RFC 9242. PQ public keys are too large for a single UDP-fragmentable IKE_SA_INIT. IKE_INTERMEDIATE runs *inside* the IKE SA (encrypted), before identity is revealed, and can carry chained KEMs per RFC 9370 — here adding FrodoKEM as a second-line PQ backup.',
+				'RFC 9242. IKE fragmentation (RFC 7383) only works on encrypted exchanges, so the multi-kilobyte PQ public keys ride IKE_INTERMEDIATE — which runs *inside* the IKE SA (encrypted), before identity is revealed. RFC 9370 chains the additional key exchanges negotiated in IKE_SA_INIT; here the ML-KEM-768 keys are exchanged now and mixed into the keys both sides derive.',
 			fromActor: 'hq',
 			toActor: 'branch',
 			duration: 1300,
@@ -94,12 +95,12 @@ export const ipsecTunnel: SimulationConfig = {
 			layers: [
 				createEthernetLayer(),
 				createIPv4Layer({ srcIp: '198.51.100.1', dstIp: '203.0.113.5', protocol: 17 }),
-				createUDPLayer({ srcPort: 4500, dstPort: 4500 }),
+				createUDPLayer({ srcPort: 500, dstPort: 500 }),
 				createIKEv2Layer({
 					exchangeType: 'IKE_INTERMEDIATE (43)',
 					flags: '0x08 + Encrypted',
 					messageId: 1,
-					payloads: 'SK { KE_ADDITIONAL (FrodoKEM-640) }'
+					payloads: 'SK { KE (ML-KEM-768, 1184 B) }'
 				})
 			]
 		},
@@ -107,7 +108,7 @@ export const ipsecTunnel: SimulationConfig = {
 			id: 'ike-auth',
 			label: 'IKE_AUTH (req)',
 			description:
-				'HQ proves identity (`IDi`) with its certificate and signs the IKE_SA_INIT messages (`AUTH`). The first **Child SA** — a one-direction ESP key — is negotiated in the same exchange via `SAi2`, `TSi`, `TSr`. After this round trip, ESP traffic can flow.',
+				'HQ proves identity (`IDi`) with its certificate and signs the IKE_SA_INIT messages (`AUTH`). The first **Child SA** — a *pair* of one-direction ESP SAs, one per direction — is negotiated in the same exchange via `SAi2`, `TSi`, `TSr`. ESP can flow only after the response completes the pair.',
 			fromActor: 'hq',
 			toActor: 'branch',
 			duration: 1400,
@@ -115,12 +116,33 @@ export const ipsecTunnel: SimulationConfig = {
 			layers: [
 				createEthernetLayer(),
 				createIPv4Layer({ srcIp: '198.51.100.1', dstIp: '203.0.113.5', protocol: 17 }),
-				createUDPLayer({ srcPort: 4500, dstPort: 4500 }),
+				createUDPLayer({ srcPort: 500, dstPort: 500 }),
 				createIKEv2Layer({
 					exchangeType: 'IKE_AUTH (35)',
 					flags: '0x08 + Encrypted',
 					messageId: 2,
 					payloads: 'SK { IDi + CERT + AUTH + SAi2 + TSi + TSr + CP(req) }'
+				})
+			]
+		},
+		{
+			id: 'ike-auth-resp',
+			label: 'IKE_AUTH (resp)',
+			description:
+				'Branch proves *its* identity: `IDr`, its certificate, and an `AUTH` signature over its own IKE_SA_INIT message, plus the chosen Child SA proposal (`SAr2`) and narrowed traffic selectors. IKEv2 is strict request/response — only this response authenticates the responder and completes the Child SA pair. Now the tunnel is up.',
+			fromActor: 'branch',
+			toActor: 'hq',
+			duration: 1400,
+			highlight: ['Exchange Type', 'Flags', 'Payloads'],
+			layers: [
+				createEthernetLayer({ srcMac: '11:22:33:44:55:66' }),
+				createIPv4Layer({ srcIp: '203.0.113.5', dstIp: '198.51.100.1', protocol: 17 }),
+				createUDPLayer({ srcPort: 500, dstPort: 500 }),
+				createIKEv2Layer({
+					exchangeType: 'IKE_AUTH (35)',
+					flags: '0x20 + Encrypted',
+					messageId: 2,
+					payloads: 'SK { IDr + CERT + AUTH + SAr2 + TSi + TSr }'
 				})
 			]
 		},
@@ -170,7 +192,7 @@ export const ipsecTunnel: SimulationConfig = {
 			id: 'create-child-sa',
 			label: 'CREATE_CHILD_SA (rekey)',
 			description:
-				'~8 hours later, before the Child SA hits its time/byte lifetime, HQ initiates **CREATE_CHILD_SA** with the `REKEY_SA` notify. New keys are derived (optionally with fresh DH/ML-KEM for **Perfect Forward Secrecy**); the old SA is deleted after a brief grace period. Users see nothing.',
+				'~8 hours later, before the Child SA hits its time/byte lifetime, HQ initiates **CREATE_CHILD_SA** with the `REKEY_SA` notify. Branch answers with its own SA + Nonce (+ KE) response; new keys are derived (optionally with fresh DH/ML-KEM for **Perfect Forward Secrecy**) and the old SA is deleted after a brief grace period. Users see nothing.',
 			fromActor: 'hq',
 			toActor: 'branch',
 			duration: 1300,
@@ -178,7 +200,7 @@ export const ipsecTunnel: SimulationConfig = {
 			layers: [
 				createEthernetLayer(),
 				createIPv4Layer({ srcIp: '198.51.100.1', dstIp: '203.0.113.5', protocol: 17 }),
-				createUDPLayer({ srcPort: 4500, dstPort: 4500 }),
+				createUDPLayer({ srcPort: 500, dstPort: 500 }),
 				createIKEv2Layer({
 					exchangeType: 'CREATE_CHILD_SA (36)',
 					flags: '0x08 + Encrypted',
@@ -191,7 +213,7 @@ export const ipsecTunnel: SimulationConfig = {
 			id: 'informational-dpd',
 			label: 'INFORMATIONAL (DPD)',
 			description:
-				'Dead-Peer-Detection keepalive — an empty INFORMATIONAL exchange. If the responder does not reply within MaxRetransmit, the peer is declared dead, the SA is torn down, and (if `dpd_action=restart`) a fresh IKE_SA_INIT is initiated to re-establish the tunnel.',
+				'Dead-Peer-Detection keepalive — an empty INFORMATIONAL request that Branch answers with an equally empty response (like every IKEv2 exchange, it is a strict request/response pair). If the responder does not reply within MaxRetransmit, the peer is declared dead, the SA is torn down, and (if `dpd_action=restart`) a fresh IKE_SA_INIT is initiated to re-establish the tunnel.',
 			fromActor: 'hq',
 			toActor: 'branch',
 			duration: 1100,
@@ -199,7 +221,7 @@ export const ipsecTunnel: SimulationConfig = {
 			layers: [
 				createEthernetLayer(),
 				createIPv4Layer({ srcIp: '198.51.100.1', dstIp: '203.0.113.5', protocol: 17 }),
-				createUDPLayer({ srcPort: 4500, dstPort: 4500 }),
+				createUDPLayer({ srcPort: 500, dstPort: 500 }),
 				createIKEv2Layer({
 					exchangeType: 'INFORMATIONAL (37)',
 					flags: '0x08 + Encrypted',

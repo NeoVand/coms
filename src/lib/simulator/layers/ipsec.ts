@@ -63,6 +63,14 @@ export function createIKEv2Layer(
 					'Counter that prevents replay; starts at 0 for IKE_SA_INIT and increments per request'
 			},
 			{
+				name: 'Length',
+				bits: 32,
+				value: overrides?.length ?? 312,
+				editable: false,
+				description:
+					'Total length of the IKE message (header + payloads) in bytes — the 28-byte header ends here'
+			},
+			{
 				name: 'Payloads',
 				bits: 0,
 				value: overrides?.payloads ?? 'SA + KE + Nonce',
@@ -96,7 +104,7 @@ export function createESPLayer(
 				value: overrides?.seq ?? 1,
 				editable: false,
 				description:
-					'Anti-replay counter — receiver maintains a sliding window (default 32, prod tune ≥1024)'
+					'Anti-replay counter — receiver maintains a sliding window (min 32, default 64 per RFC 4303; prod tune ≥1024)'
 			},
 			{
 				name: 'IV / Nonce',
