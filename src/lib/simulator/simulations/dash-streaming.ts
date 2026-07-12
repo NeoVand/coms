@@ -66,14 +66,14 @@ export const dashStreaming: SimulationConfig = {
 	],
 	steps: [
 		{
-			id: 'mpd',
+			id: 'mpd-request',
 			label: 'GET MPD',
 			description:
-				"The player fetches the Media Presentation Description (MPD), an XML document that describes the entire stream structure. It lists Periods (timeline), Adaptation Sets (media types), and Representations (quality levels). The MPD is DASH's equivalent of HLS's master playlist.",
+				"The player requests the Media Presentation Description (MPD) — an XML document describing the whole stream: Periods (timeline), Adaptation Sets (media types), and Representations (quality levels). The MPD is DASH's equivalent of HLS's master playlist.",
 			fromActor: 'player',
 			toActor: 'cdn',
-			duration: 800,
-			highlight: ['Path', 'Content'],
+			duration: 700,
+			highlight: ['Path'],
 			layers: [
 				createEthernetLayer(),
 				createIPv4Layer({ protocol: 6 }),
@@ -82,7 +82,26 @@ export const dashStreaming: SimulationConfig = {
 					contentType: 'Application Data (23)',
 					handshakeType: 'N/A (encrypted)'
 				}),
-				dashRequestLayer('/content/manifest.mpd'),
+				dashRequestLayer('/content/manifest.mpd')
+			]
+		},
+		{
+			id: 'mpd-response',
+			label: 'MPD (manifest)',
+			description:
+				'The CDN returns the manifest. The player parses it to learn which representations exist and where their segments live.',
+			fromActor: 'cdn',
+			toActor: 'player',
+			duration: 800,
+			highlight: ['Content-Type', 'Content'],
+			layers: [
+				createEthernetLayer({ srcMac: 'AA:BB:CC:DD:EE:FF', dstMac: '00:1A:2B:3C:4D:5E' }),
+				createIPv4Layer({ srcIp: '93.184.216.34', dstIp: '192.168.1.100', protocol: 6 }),
+				createTCPLayer({ srcPort: 443, dstPort: 53400, flags: 'PSH,ACK' }),
+				createTLSRecordLayer({
+					contentType: 'Application Data (23)',
+					handshakeType: 'N/A (encrypted)'
+				}),
 				dashPayloadLayer(
 					'application/dash+xml',
 					'<MPD> Period → AdaptationSet(video) → Rep 1080p@5Mbps, 720p@2.5Mbps, 480p@1Mbps'
@@ -110,14 +129,14 @@ export const dashStreaming: SimulationConfig = {
 			]
 		},
 		{
-			id: 'segment-1080',
-			label: 'Segment (1080p)',
+			id: 'segment-1080-request',
+			label: 'GET Segment (1080p)',
 			description:
-				'The player downloads a media segment at 1080p. DASH uses fragmented MP4 (fMP4/CMAF) which is more efficient than MPEG-TS. Each segment is a self-contained moof+mdat box pair. The player measures download speed to decide if it can sustain this quality level.',
+				'The player requests a 1080p media segment. DASH uses fragmented MP4 (fMP4/CMAF); each segment is a self-contained moof+mdat box pair.',
 			fromActor: 'player',
 			toActor: 'cdn',
-			duration: 1000,
-			highlight: ['Path', 'Content'],
+			duration: 700,
+			highlight: ['Path'],
 			layers: [
 				createEthernetLayer(),
 				createIPv4Layer({ protocol: 6 }),
@@ -126,19 +145,38 @@ export const dashStreaming: SimulationConfig = {
 					contentType: 'Application Data (23)',
 					handshakeType: 'N/A (encrypted)'
 				}),
-				dashRequestLayer('/content/video/1080p/seg-1.m4s'),
+				dashRequestLayer('/content/video/1080p/seg-1.m4s')
+			]
+		},
+		{
+			id: 'segment-1080-response',
+			label: 'Segment bytes (1080p)',
+			description:
+				'The CDN streams the segment back. The player measures the download speed to decide whether it can sustain this quality level.',
+			fromActor: 'cdn',
+			toActor: 'player',
+			duration: 1000,
+			highlight: ['Content-Type', 'Content'],
+			layers: [
+				createEthernetLayer({ srcMac: 'AA:BB:CC:DD:EE:FF', dstMac: '00:1A:2B:3C:4D:5E' }),
+				createIPv4Layer({ srcIp: '93.184.216.34', dstIp: '192.168.1.100', protocol: 6 }),
+				createTCPLayer({ srcPort: 443, dstPort: 53400, flags: 'PSH,ACK' }),
+				createTLSRecordLayer({
+					contentType: 'Application Data (23)',
+					handshakeType: 'N/A (encrypted)'
+				}),
 				dashPayloadLayer('video/mp4', 'fMP4 segment — 4.0s, 1080p, H.264, 2.5 MB')
 			]
 		},
 		{
-			id: 'segment-720',
-			label: 'Segment (720p)',
+			id: 'segment-720-request',
+			label: 'GET Segment (720p)',
 			description:
-				'Bandwidth dropped, so the player adaptively switches to 720p on the next segment. This is the core of ABR (Adaptive Bitrate) — the player continuously estimates available bandwidth and selects the best representation. The switch is seamless because each segment starts with a keyframe.',
+				'Bandwidth dropped, so the player adaptively requests the next segment at 720p instead. This is the core of ABR (Adaptive Bitrate): the player continuously estimates available bandwidth and picks the best representation.',
 			fromActor: 'player',
 			toActor: 'cdn',
-			duration: 1000,
-			highlight: ['Path', 'Content'],
+			duration: 700,
+			highlight: ['Path'],
 			layers: [
 				createEthernetLayer(),
 				createIPv4Layer({ protocol: 6 }),
@@ -147,7 +185,26 @@ export const dashStreaming: SimulationConfig = {
 					contentType: 'Application Data (23)',
 					handshakeType: 'N/A (encrypted)'
 				}),
-				dashRequestLayer('/content/video/720p/seg-2.m4s'),
+				dashRequestLayer('/content/video/720p/seg-2.m4s')
+			]
+		},
+		{
+			id: 'segment-720-response',
+			label: 'Segment bytes (720p)',
+			description:
+				'The CDN returns the lower-bitrate segment. The switch is seamless because each segment starts with a keyframe.',
+			fromActor: 'cdn',
+			toActor: 'player',
+			duration: 1000,
+			highlight: ['Content-Type', 'Content'],
+			layers: [
+				createEthernetLayer({ srcMac: 'AA:BB:CC:DD:EE:FF', dstMac: '00:1A:2B:3C:4D:5E' }),
+				createIPv4Layer({ srcIp: '93.184.216.34', dstIp: '192.168.1.100', protocol: 6 }),
+				createTCPLayer({ srcPort: 443, dstPort: 53400, flags: 'PSH,ACK' }),
+				createTLSRecordLayer({
+					contentType: 'Application Data (23)',
+					handshakeType: 'N/A (encrypted)'
+				}),
 				dashPayloadLayer('video/mp4', 'fMP4 segment — 4.0s, 720p, H.264, 1.2 MB (ABR switch)')
 			]
 		}

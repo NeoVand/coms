@@ -74,14 +74,14 @@ export const hlsStreaming: SimulationConfig = {
 	],
 	steps: [
 		{
-			id: 'master-playlist',
-			label: 'Master Playlist',
+			id: 'master-request',
+			label: 'GET Master Playlist',
 			description:
-				'The player fetches the master playlist (.m3u8) which lists all available quality variants. Each variant has a bandwidth and resolution, letting the player choose the best quality for the current network conditions. This is the entry point for all HLS streams.',
+				'The player requests the master playlist (.m3u8) — the entry point that lists all available quality variants. This is a plain HTTP GET.',
 			fromActor: 'player',
 			toActor: 'cdn',
-			duration: 800,
-			highlight: ['Path', 'Content'],
+			duration: 700,
+			highlight: ['Path'],
 			layers: [
 				createEthernetLayer(),
 				createIPv4Layer({ protocol: 6 }),
@@ -90,14 +90,57 @@ export const hlsStreaming: SimulationConfig = {
 					contentType: 'Application Data (23)',
 					handshakeType: 'N/A (encrypted)'
 				}),
-				hlsRequestLayer('/live/stream.m3u8', 'application/vnd.apple.mpegurl')
+				hlsRequestLayer('/live/master.m3u8', 'application/vnd.apple.mpegurl')
 			]
 		},
 		{
-			id: 'media-playlist',
-			label: 'Media Playlist',
+			id: 'master-response',
+			label: 'Master Playlist (variants)',
 			description:
-				'The player selects a quality variant and fetches its media playlist. This lists the actual .ts segment URLs with durations. For live streams, this playlist is polled periodically as new segments are added. The #EXT-X-TARGETDURATION sets the segment length (typically 6 seconds).',
+				"The CDN returns the master playlist: a list of variants via #EXT-X-STREAM-INF, each with a BANDWIDTH and RESOLUTION pointing at that variant's own media playlist. The player picks one to match current network conditions.",
+			fromActor: 'cdn',
+			toActor: 'player',
+			duration: 800,
+			highlight: ['Content-Type', 'Content'],
+			layers: [
+				createEthernetLayer({ srcMac: 'AA:BB:CC:DD:EE:FF', dstMac: '00:1A:2B:3C:4D:5E' }),
+				createIPv4Layer({ srcIp: '93.184.216.34', dstIp: '192.168.1.100', protocol: 6 }),
+				createTCPLayer({ srcPort: 443, dstPort: 53100, flags: 'PSH,ACK' }),
+				createTLSRecordLayer({
+					contentType: 'Application Data (23)',
+					handshakeType: 'N/A (encrypted)'
+				}),
+				hlsResponseLayer(
+					'application/vnd.apple.mpegurl',
+					'#EXTM3U, #EXT-X-STREAM-INF:BANDWIDTH=5000000,RESOLUTION=1920x1080 → 1080p.m3u8, #EXT-X-STREAM-INF:BANDWIDTH=2500000,RESOLUTION=1280x720 → 720p.m3u8'
+				)
+			]
+		},
+		{
+			id: 'media-request',
+			label: 'GET Media Playlist',
+			description:
+				"Having chosen the 720p variant, the player fetches THAT variant's media playlist by its URL from the master.",
+			fromActor: 'player',
+			toActor: 'cdn',
+			duration: 700,
+			highlight: ['Path'],
+			layers: [
+				createEthernetLayer(),
+				createIPv4Layer({ protocol: 6 }),
+				createTCPLayer({ srcPort: 53100, dstPort: 443, flags: 'PSH,ACK' }),
+				createTLSRecordLayer({
+					contentType: 'Application Data (23)',
+					handshakeType: 'N/A (encrypted)'
+				}),
+				hlsRequestLayer('/live/720p.m3u8', 'application/vnd.apple.mpegurl')
+			]
+		},
+		{
+			id: 'media-response',
+			label: 'Media Playlist (segments)',
+			description:
+				'The CDN returns the media playlist for that variant: the actual .ts segment URLs with their durations. For live streams the player re-polls this playlist as new segments are appended. #EXT-X-TARGETDURATION sets the segment length (typically 6 seconds).',
 			fromActor: 'cdn',
 			toActor: 'player',
 			duration: 800,

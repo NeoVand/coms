@@ -14,7 +14,7 @@ export const kafka: Protocol = {
 
 Unlike traditional message queues where messages are pushed to consumers and deleted after delivery, [[kafka|Kafka]] uses an append-only log model: producers append records to {{topic|topic}} {{partition|partitions}}, and consumers read at their own pace using offsets. Multiple consumers can independently read the same data, and messages persist for a configurable retention period. Because consumers control their own read rate, {{backpressure|backpressure}} is handled naturally — slow consumers simply fall behind in the log without affecting producers or other consumer groups.
 
-The protocol handles producer requests, {{imap-fetch|fetch}} requests, metadata discovery, {{offset|offset}} management, and {{consumer-group|consumer group}} coordination. Its efficiency comes from batching, zero-copy transfers, and sequential disk I/O. [[kafka|Kafka]] clusters routinely handle millions of messages per second with sub-10ms {{latency|latency}}.`,
+The protocol handles producer requests, fetch requests, metadata discovery, {{offset|offset}} management, and {{consumer-group|consumer group}} coordination. Its efficiency comes from batching, zero-copy transfers, and sequential disk I/O. [[kafka|Kafka]] clusters routinely handle millions of messages per second with sub-10ms {{latency|latency}}.`,
 	howItWorks: [
 		{
 			title: 'Connect and discover topology',
@@ -29,7 +29,7 @@ The protocol handles producer requests, {{imap-fetch|fetch}} requests, metadata 
 		{
 			title: 'Consume with offsets',
 			description:
-				'Consumer sends {{imap-fetch|Fetch}} requests specifying {{topic|topic}}, {{partition|partition}}, and {{offset|offset}}. The broker returns records from that {{offset|offset}} forward. The consumer tracks its own position.'
+				'Consumer sends Fetch requests specifying {{topic|topic}}, {{partition|partition}}, and {{offset|offset}}. The broker returns records from that {{offset|offset}} forward. The consumer tracks its own position.'
 		},
 		{
 			title: 'Consumer groups coordinate',

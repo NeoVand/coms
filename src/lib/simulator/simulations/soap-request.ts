@@ -176,8 +176,7 @@ export const soapRequest: SimulationConfig = {
 				}),
 				createSOAPLayer({
 					body: 'GetUser(id: 42)',
-					namespace: 'http://example.com/users',
-					soapAction: 'http://example.com/GetUser'
+					namespace: 'http://example.com/users'
 				})
 			]
 		},
