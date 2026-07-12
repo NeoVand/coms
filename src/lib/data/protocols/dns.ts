@@ -64,7 +64,7 @@ txt_records = dns.resolver.resolve('example.com', 'TXT')
 for txt in txt_records:
     print(f"TXT: {txt.to_text()}")`,
 		caption:
-			'The dig command shows exactly how [[dns|DNS]] resolves a name — from root servers down to the answer',
+			'Querying A, MX, and TXT records programmatically — the CLI tab shows dig walking the same hierarchy by hand',
 		alternatives: [
 			{
 				language: 'javascript',
@@ -165,7 +165,7 @@ curl -sH 'accept: application/dns-json' \\
 	},
 	performance: {
 		latency:
-			'Cached: <1ms. Uncached: 10-100ms (multiple recursive queries). DNS-over-HTTPS adds ~50ms.',
+			'Cached: <1ms. Uncached: 10-100ms (multiple recursive queries). DNS-over-HTTPS pays TCP+TLS setup on the first query; on a kept-alive connection it is comparable to UDP.',
 		throughput: 'Not applicable — DNS is query/response, not streaming',
 		overhead: '12-byte header + question + answer. Typical query: 40-60 bytes. UDP-based.'
 	},
@@ -187,19 +187,19 @@ curl -sH 'accept: application/dns-json' \\
 			date: '2025',
 			title: 'DNS-over-HTTPS adoption past 30%',
 			description:
-				'{{cloudflare|Cloudflare}}, {{google|Google}} Public [[dns|DNS]], and Quad9 collectively report over 30% of global [[dns|DNS]] queries now arriving via DoH ([[rfc:8484|RFC 8484]]). Browser-level DoH (Firefox, Chrome) drives most of the growth.'
+				'At the big public resolvers ({{cloudflare|Cloudflare}}, {{google|Google}} Public [[dns|DNS]], Quad9), encrypted transports (DoH [[rfc:8484|RFC 8484]] + DoT) have grown to roughly 10–15% of queries, driven by browser and OS defaults — most global DNS still travels plain UDP via ISP resolvers.'
 		},
 		{
 			date: '2024',
-			title: 'DNSSEC validation reaches 38%',
+			title: 'DNSSEC validation reaches ~30%',
 			description:
-				'{{apnic|APNIC}} measurements show 38% of users are behind a validating resolver — a steady climb from 12% a decade ago. The .gov and .mil zones are 100% {{dnssec|DNSSEC}}-signed; .com is at ~5% of leaf domains.'
+				'{{apnic|APNIC}} measurements show roughly 30% of users are behind a validating resolver — a steady climb from 12% a decade ago. The .gov and .mil zones are 100% {{dnssec|DNSSEC}}-signed; .com is at ~5% of leaf domains.'
 		},
 		{
-			date: '2024-10',
+			date: '2024-02',
 			title: 'KeyTrap (CVE-2023-50387) prompts cross-vendor patches',
 			description:
-				'A {{dnssec|DNSSEC}} implementation flaw in BIND, Unbound, PowerDNS, Knot, and others let a single crafted query exhaust {{cpu|CPU}} on validating resolvers. Coordinated cross-vendor patches shipped within a week.',
+				'A {{dnssec|DNSSEC}} implementation flaw in BIND, Unbound, PowerDNS, Knot, and others let a single crafted query exhaust {{cpu|CPU}} on validating resolvers. Patches from every major vendor shipped at the coordinated disclosure (13 February 2024).',
 			source: { url: 'https://nvd.nist.gov/vuln/detail/CVE-2023-50387', label: 'NIST NVD' }
 		}
 	],
@@ -213,13 +213,13 @@ curl -sH 'accept: application/dns-json' \\
 		},
 		{
 			org: 'Google 8.8.8.8',
-			scale: '~14 trillion queries/day',
+			scale: 'over a trillion queries/day',
 			description:
 				"The original public resolver, {{anycast|anycast}} across {{google|Google}}'s edge network. Backbone of much of the modern internet's name resolution."
 		},
 		{
 			org: 'Root server system',
-			scale: '13 root server letters, ~1500 anycast instances',
+			scale: '13 root server letters, ~2000 anycast instances',
 			description:
 				'The 13 logical root servers (a.root-servers.net to m.root-servers.net) are operated by 12 organisations and replicated across thousands of physical machines via {{anycast|anycast}}. Loss of any one is invisible.'
 		}
@@ -228,7 +228,7 @@ curl -sH 'accept: application/dns-json' \\
 	funFacts: [
 		{
 			title: 'DNS replaced a hand-edited text file',
-			text: 'Until 1983, every host on the {{arpanet|ARPANET}} maintained a flat {{hosts-bare|HOSTS}}.{{txt-record|TXT}} file with all the address mappings, distributed by [[ftp|FTP]]. As the network grew past a few hundred hosts, the manual {{bgp-update|update}} process became absurd. [[pioneer:paul-mockapetris|Paul Mockapetris]] designed [[dns|DNS]] to replace it.'
+			text: 'Until 1983, every host on the {{arpanet|ARPANET}} maintained a flat HOSTS.TXT file with all the address mappings, distributed by [[ftp|FTP]]. As the network grew past a few hundred hosts, the manual update process became absurd. [[pioneer:paul-mockapetris|Paul Mockapetris]] designed [[dns|DNS]] to replace it.'
 		},
 		{
 			title: 'Caching does almost all the work',
@@ -236,7 +236,7 @@ curl -sH 'accept: application/dns-json' \\
 		},
 		{
 			title: 'There are only 13 root server letters',
-			text: 'Why 13? In 1991, when the root system was designed, a single [[udp|UDP]] packet could only fit so many name+[[ip|IP]] records — and 13 was the maximum that fit in a 512-byte response. Today the limit is moot (EDNS allows larger responses), but the 13-letter convention has stuck for 35 years.'
+			text: 'Why 13? When the root servers were renumbered under root-servers.net in 1995, a single [[udp|UDP]] packet could only fit so many name+[[ip|IP]] records — and 13 was the maximum that fit in a 512-byte response (the 13th server arrived in 1997). Today the limit is moot (EDNS allows larger responses), but the 13-letter convention has stuck for three decades.'
 		}
 	],
 
@@ -244,7 +244,7 @@ curl -sH 'accept: application/dns-json' \\
 		pitfalls: [
 			{
 				title: 'TTL of 0 does not mean "never cache"',
-				text: 'Some resolvers ignore {{ttl|TTL}}=0 and use a minimum-cache-time (often 60 seconds). Other resolvers cache {{ttl|TTL}}=0 forever. If you need fast cache invalidation, use a moderate {{ttl|TTL}} (60-300 seconds) and rotate explicitly, not {{ttl|TTL}}=0.'
+				text: 'Some resolvers ignore {{ttl|TTL}}=0 and use a minimum-cache-time (often 60 seconds). Others honor it as use-once/no-cache per RFC 1035 — behavior is simply inconsistent. If you need fast cache invalidation, use a moderate {{ttl|TTL}} (60-300 seconds) and rotate explicitly, not {{ttl|TTL}}=0.'
 			},
 			{
 				title: 'CNAME at the apex breaks email',
