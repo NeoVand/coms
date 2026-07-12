@@ -82,7 +82,7 @@ export const wireguardHandshake: SimulationConfig = {
 			fromActor: 'alice',
 			toActor: 'bob',
 			duration: 1300,
-			highlight: ['Type', 'Receiver Index', 'Payload'],
+			highlight: ['Type', 'Receiver Index', 'Counter'],
 			data: 'Inner: 10.0.0.5 → 10.0.0.10 (GET /index.html)',
 			layers: [
 				createEthernetLayer(),
@@ -90,7 +90,7 @@ export const wireguardHandshake: SimulationConfig = {
 				createUDPLayer({ srcPort: 51820, dstPort: 51820 }),
 				createWireGuardLayer({
 					type: '4 (Transport Data)',
-					senderIndex: 'counter=1',
+					counter: 1,
 					receiverIndex: '0xDEAD5678',
 					payload: 'ChaCha20-Poly1305(inner_ip_packet) + 16-byte tag'
 				})
@@ -104,7 +104,7 @@ export const wireguardHandshake: SimulationConfig = {
 			fromActor: 'bob',
 			toActor: 'alice',
 			duration: 1300,
-			highlight: ['Type', 'Receiver Index', 'Payload'],
+			highlight: ['Type', 'Receiver Index', 'Counter'],
 			data: 'Inner: 10.0.0.10 → 10.0.0.5 (HTTP/1.1 200 OK)',
 			layers: [
 				createEthernetLayer({ srcMac: '11:22:33:44:55:66' }),
@@ -112,7 +112,7 @@ export const wireguardHandshake: SimulationConfig = {
 				createUDPLayer({ srcPort: 51820, dstPort: 51820 }),
 				createWireGuardLayer({
 					type: '4 (Transport Data)',
-					senderIndex: 'counter=1',
+					counter: 1,
 					receiverIndex: '0xABCD1234',
 					payload: 'ChaCha20-Poly1305(inner_ip_packet) + 16-byte tag'
 				})
@@ -133,7 +133,7 @@ export const wireguardHandshake: SimulationConfig = {
 				createUDPLayer({ srcPort: 51820, dstPort: 51820 }),
 				createWireGuardLayer({
 					type: '4 (Transport Data, keepalive)',
-					senderIndex: 'counter=N',
+					counter: 42,
 					receiverIndex: '0xDEAD5678',
 					payload: 'Empty payload + 16-byte Poly1305 tag (zero-length keepalive)'
 				})

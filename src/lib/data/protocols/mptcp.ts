@@ -18,7 +18,7 @@ The protocol works by establishing "subflows" — each {{subflow|subflow}} is a 
 		{
 			title: 'Initial handshake with MP_CAPABLE',
 			description:
-				'The first {{subflow|subflow}} is established like a normal [[tcp|TCP]] {{handshake|handshake}}, but {{syn-cookies|SYN}} packets carry the {{mp-capable|MP_CAPABLE}} option. Both sides {{exchange|exchange}} keys that identify this [[mptcp|MPTCP]] connection.'
+				"The first {{subflow|subflow}} is established like a normal [[tcp|TCP]] {{handshake|handshake}}, but the packets carry the {{mp-capable|MP_CAPABLE}} option. In MPTCP v1 (RFC 8684) the client's {{syn-cookies|SYN}} advertises capability only; the server sends its key in the SYN/ACK, and both keys are confirmed in the third ACK — the keys identify this [[mptcp|MPTCP]] connection."
 		},
 		{
 			title: 'Additional subflows via MP_JOIN',
@@ -77,13 +77,14 @@ sock.close()`,
 // C:  socket(AF_INET, SOCK_STREAM, 262 /* IPPROTO_MPTCP */)
 // Python: socket.socket(AF_INET, SOCK_STREAM, 262)
 //
-// Or force MPTCP for all TCP on Linux via sysctl:
-//   sysctl net.mptcp.enabled=1
+// Or run a legacy TCP app over MPTCP on Linux without code changes:
+//   sysctl net.mptcp.enabled=1          # (already the default on 5.6+)
 //   ip mptcp endpoint add <addr> dev <iface> subflow
+//   mptcpize run node app.js            # LD_PRELOAD shim swaps IPPROTO_TCP -> IPPROTO_MPTCP
 //
-// Then any TCP connection (including Node.js) may be
-// upgraded to MPTCP by the kernel's path manager,
-// but the application cannot control subflows.
+// Plain TCP sockets are never silently auto-upgraded; the app must
+// open IPPROTO_MPTCP sockets (as above) or be wrapped by mptcpize
+// (or the eBPF 'mptcpify' program on kernel 6.6+).
 
 const net = require('node:net');
 const socket = net.createConnection({
@@ -120,13 +121,13 @@ ip mptcp monitor`
 				sections: [
 					{
 						title: 'MP_CAPABLE Handshake',
-						code: `TCP SYN + MP_CAPABLE:
+						code: `TCP SYN + MP_CAPABLE  (RFC 8684, v1):
   Src: 10.0.0.1:45200 → Dst: 93.184.216.34:443
   Flags: [SYN]
   Options:
-    MP_CAPABLE (Kind=30, Length=12)
+    MP_CAPABLE (Kind=30, Length=4)
       Version: 1
-      Sender Key: 0xABCDEF0123456789
+      Flags: H (HMAC-SHA256)        ← no key yet in v1's SYN
 
 TCP SYN-ACK + MP_CAPABLE:
   Src: 93.184.216.34:443 → Dst: 10.0.0.1:45200
@@ -134,7 +135,14 @@ TCP SYN-ACK + MP_CAPABLE:
   Options:
     MP_CAPABLE (Kind=30, Length=12)
       Version: 1
-      Sender Key: 0x9876543210FEDCBA`
+      Server Key: 0x9876543210FEDCBA
+
+TCP ACK + MP_CAPABLE  (third ACK carries both keys):
+  Flags: [ACK]
+  Options:
+    MP_CAPABLE (Kind=30, Length=20)
+      Client Key: 0xABCDEF0123456789
+      Server Key: 0x9876543210FEDCBA`
 					},
 					{
 						title: 'Subflow Join (MP_JOIN)',
@@ -143,16 +151,22 @@ TCP SYN-ACK + MP_CAPABLE:
   Flags: [SYN]
   Options:
     MP_JOIN (Kind=30, Length=12)
-      Receiver Token: 0x1A2B3C4D
-      Sender HMAC: 0xE5F6...
-      Sender Nonce: 0x00000001
+      Receiver Token: 0x1A2B3C4D        ← identifies the existing MPTCP connection
+      Address ID: 1
+      Sender Nonce: 0x3D2C1B0A          ← no HMAC in the SYN
 
 TCP SYN-ACK + MP_JOIN:
   Flags: [SYN, ACK]
   Options:
     MP_JOIN (Kind=30, Length=16)
-      Sender HMAC: 0xA7B8...
-      Sender Nonce: 0x00000002`
+      Sender HMAC (truncated, 64-bit): 0xA7B8C9DA...
+      Sender Nonce: 0x00000002
+
+TCP ACK + MP_JOIN (third ACK):
+  Flags: [ACK]
+  Options:
+    MP_JOIN (Kind=30, Length=24)
+      Sender HMAC (full, 160-bit): 0xE5F6...`
 					}
 				]
 			}
