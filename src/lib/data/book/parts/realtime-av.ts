@@ -24,7 +24,7 @@ export const realtimeAv: BookPart = {
 			slots: [
 				{
 					kind: 'pull-quote',
-					text: 'Every [[rtp|RTP]] packet on Earth has a version field of "2" because version 0 was Steve Casner\'s 1992 vat audio tool wire format. Thirty-four years later, the historical fingerprint is still on every voice call.',
+					text: 'Every [[rtp|RTP]] packet on Earth has a version field of "2" because version 0 was the wire format of vat, the 1992 audio tool by Van Jacobson and Steve McCanne. Thirty-four years later, the historical fingerprint is still on every voice call.',
 					attribution: 'Author'
 				},
 				{
@@ -51,7 +51,7 @@ The companion **{{rtcp|RTCP}}** ([[rtp|RTP]] Control Protocol) flows alongside, 
 						{
 							type: 'callout',
 							title: 'SFrame finally standardized in August 2024',
-							text: '**[[rfc:9605|RFC 9605]] (August 2024)** finally standardized **SFrame** — end-to-end frame-level {{encryption|encryption}} that travels through SFUs without decryption. [[pioneer:justin-uberti|Justin Uberti]] and Emad Omara "scribbled the original idea on a whiteboard in 2018." Discord\'s **DAVE protocol** (deployed 1 March 2026) layers MLS keys + SFrame on top of [[rtp|RTP]]/{{srtp|SRTP}} for E2EE voice across **2.5 million concurrent users**.'
+							text: '**[[rfc:9605|RFC 9605]] (August 2024)** finally standardized **SFrame** — end-to-end frame-level {{encryption|encryption}} that travels through SFUs without decryption. [[pioneer:justin-uberti|Justin Uberti]] and Emad Omara "scribbled the original idea on a whiteboard in 2018." Discord\'s **DAVE protocol** (rollout began September 2024) layers MLS keys + SFrame on top of [[rtp|RTP]]/{{srtp|SRTP}} for E2EE voice across **2.5 million concurrent users**.'
 						},
 						{
 							type: 'narrative',
@@ -162,7 +162,7 @@ Plan B [[sdp|SDP]] is fully gone now: deprecation-warned in Chrome M89 (Feb 2021
 			id: 'sip-and-sdp',
 			title: 'SIP and SDP',
 			synopsis:
-				"[[pioneer:henning-schulzrinne|Henning Schulzrinne]] wrote three protocols ([[sip|SIP]], [[sdp|SDP]], [[rtp|RTP]]) that carry the world's phone calls.",
+				"[[pioneer:henning-schulzrinne|Henning Schulzrinne]] co-authored the two protocols ([[sip|SIP]] and [[rtp|RTP]]) that carry the world's phone calls ([[sdp|SDP]] came from Mark Handley and Van Jacobson).",
 			slots: [
 				{
 					kind: 'pull-quote',
@@ -177,7 +177,7 @@ Plan B [[sdp|SDP]] is fully gone now: deprecation-warned in Chrome M89 (Feb 2021
 							title: 'The Phone Call as an HTTP Conversation',
 							text: `When you place a {{voip|VoIP}} call, two protocols work in tandem before any audio flows. **[[sip|SIP]]** (Session Initiation Protocol) is the signalling layer — text-based, request/response shaped like [[http1|HTTP]], with verbs like {{sip-invite|INVITE}}, {{ack|ACK}}, BYE, REGISTER. [[sip|SIP]] locates the callee (through registration servers and proxies that resolve \`sip:alice@example.com\`), negotiates capability, and sets up or tears down the session.
 
-Both [[sip|SIP]] and [[sdp|SDP]] — and [[rtp|RTP]] above them — were authored by **[[pioneer:henning-schulzrinne|Henning Schulzrinne]]**, a Columbia University professor who has authored more than 70 RFCs, served as {{fcc|FCC}} CTO three times, and was inducted into the Internet Hall of Fame in 2013.
+[[sip|SIP]] and [[rtp|RTP]] were co-authored by **[[pioneer:henning-schulzrinne|Henning Schulzrinne]]** ([[sdp|SDP]] itself came from Mark Handley and Van Jacobson), a Columbia University professor who has authored more than 70 RFCs, served as {{fcc|FCC}} CTO three times, and was inducted into the Internet Hall of Fame in 2013.
 
 **[[sip|SIP]]'s first standard [[rfc:2543|RFC 2543]] (March 1999)** was completely rewritten as **[[rfc:3261|RFC 3261]] in June 2002** by Rosenberg, Schulzrinne, Camarillo, Johnston, Peterson, Sparks, Handley, Schooler — still the canonical text 24 years later.`
 						},
@@ -191,7 +191,7 @@ Twenty-eight years in, the protocol-version line is still \`v=0\`. The [[sdp|SDP
 						{
 							type: 'callout',
 							title: 'The 911 outages keep happening',
-							text: "The **AT&T 22 February 2024 outage** disconnected 125 million devices and blocked ~25,000 911 calls — caused by a single misconfigured network element during expansion, surfacing as {{ims|IMS}}/[[sip|SIP]] registration failures. The **CenturyLink December 2018 911 outage** lost 911 service for 7.4 million Washington residents for 49 hours; 24,000 calls failed; Washington {{utc-time|UTC}} fined them $7.2 M. **{{volte|VoLTE}}/{{vonr|VoNR}} is the world's largest [[sip|SIP]] deployment** — {{gsma|GSMA}} reports 310+ {{volte|VoLTE}} operators in 140+ countries and 45+ commercial {{vonr|VoNR}} networks by 2025 — and the failure modes ripple straight into emergency services."
+							text: "The **AT&T 22 February 2024 outage** disconnected 125 million devices and blocked ~25,000 911 calls — caused by a single misconfigured network element during expansion, surfacing as {{ims|IMS}}/[[sip|SIP]] registration failures. The **CenturyLink December 2018 911 outage** lost 911 service for 7.4 million Washington residents for 49 hours; 24,000 calls failed; the Washington {{utc-time|UTC}} fined them $1.315 M in 2023 (a $7.2 M figure was only the staff's initial recommendation). **{{volte|VoLTE}}/{{vonr|VoNR}} is the world's largest [[sip|SIP]] deployment** — {{gsma|GSMA}} reports 310+ {{volte|VoLTE}} operators in 140+ countries and 45+ commercial {{vonr|VoNR}} networks by 2025 — and the failure modes ripple straight into emergency services."
 						},
 						{
 							type: 'narrative',
