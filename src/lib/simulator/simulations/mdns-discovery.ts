@@ -98,12 +98,12 @@ export const mdnsDiscovery: SimulationConfig = {
 			id: 'announce',
 			label: 'Announce (cache-flush set)',
 			description:
-				'Printer announces its identity with a multicast Response. PTR maps `_ipp._tcp.local` → its instance name; SRV gives the host:port; TXT carries protocol metadata (resource path, supported PDLs); A maps the hostname to the IP. Every record has the **cache-flush** bit (high bit of RRCLASS) set — receivers replace any stale entries.',
+				"Printer announces its identity with a multicast Response. PTR maps `_ipp._tcp.local` → its instance name; SRV gives the host:port; TXT carries protocol metadata (resource path, supported PDLs); A maps the hostname to the IP. The unique SRV/TXT/A records set the **cache-flush** bit (high bit of RRCLASS) so receivers replace stale entries; the shared PTR browse record does not (RFC 6762 §10.2 — it would otherwise evict other printers' PTRs).",
 			fromActor: 'printer',
 			toActor: 'laptop',
 			duration: 1300,
 			highlight: ['Flags', 'ANCOUNT', 'Question / Answer'],
-			data: 'PTR + SRV + TXT + A — all with cache-flush bit',
+			data: 'PTR (shared, no cache-flush) + SRV/TXT/A (unique, cache-flush)',
 			layers: [
 				createEthernetLayer({ dstMac: '01:00:5E:00:00:FB' }),
 				createIPv4Layer({ srcIp: '192.168.1.42', dstIp: '224.0.0.251', protocol: 17, ttl: 255 }),
@@ -113,7 +113,7 @@ export const mdnsDiscovery: SimulationConfig = {
 					flags: '0x8400 (Response, AA=1)',
 					qdcount: 0,
 					ancount: 4,
-					body: 'PTR + SRV (port=631) + TXT (rp=ipp/print) + A (192.168.1.42), cache-flush bit on each'
+					body: 'PTR (class IN 0x0001) + SRV (port=631) + TXT (rp=ipp/print) + A (192.168.1.42), cache-flush (0x8001) on SRV/TXT/A only'
 				})
 			]
 		},
@@ -202,7 +202,7 @@ export const mdnsDiscovery: SimulationConfig = {
 					flags: '0x8400 (Response, AA=1)',
 					qdcount: 0,
 					ancount: 4,
-					body: 'PTR + SRV + TXT + A all with TTL=0 (cache-flush)'
+					body: 'PTR + SRV + TXT + A all with TTL=0 (goodbye)'
 				})
 			]
 		}

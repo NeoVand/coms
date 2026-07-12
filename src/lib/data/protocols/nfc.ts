@@ -12,7 +12,7 @@ export const nfc: Protocol = {
 		'13.56 MHz inductively-coupled short-range (≤10 cm) protocol family for payments, {{transit|transit}}, identity, access, and tap-to-pair commissioning.',
 	overview: `[[nfc|NFC]] is the umbrella name for a tightly defined family of contactless protocols operating in the 13.56 MHz {{ism-band|ISM}} band over {{inductive-coupling|inductive coupling}} at typically ≤10 cm — extended to a 20 mm operating volume in **NFC Forum Release 15** (June 2025). It encompasses {{iso-iec|ISO/IEC}} 14443 Type A/B (proximity), {{iso-iec|ISO/IEC}} 15693 (vicinity, ~1 m), and JIS X 6319-4 FeliCa (Type F — the parallel Asian {{transit|transit}} standard), unified by {{iso-iec|ISO/IEC}} 18092 (NFCIP-1, 2003/2013) and {{iso-iec|ISO/IEC}} 21481 (NFCIP-2, 2012). The **NFC Forum** (founded 2004 by Sony, Philips, and Nokia) adds the application layer: {{ndef|NDEF}} data format, Tag Types T2T–T5T (T1T retired 2021), {{llcp|LLCP}}/{{snep|SNEP}} {{peer-to-peer|peer-to-peer}} (deprecated in practice), Connection Handover to [[bluetooth|Bluetooth]]/[[wifi|Wi-Fi]], NCI for host-controller interface, and NFC Wireless Charging (WLC, up to 1 W).
 
-[[nfc|NFC]] supports **four operating modes**: *Reader/Writer* (phone reads a passive tag), *Card Emulation* (phone presents itself as a card via {{ese|Secure Element}} on {{apple|Apple}} Pay or via {{hce|Host Card Emulation}} on {{android|Android}} 4.4+ / iOS 17.4+ EEA), *{{peer-to-peer|Peer-to-Peer}}* (largely deprecated), and *Wireless Charging* (added 2020). On top of NFC's transport sit several full vertical stacks: {{iso7816|ISO/IEC 7816}}-4 {{apdu|APDUs}} and **EMVCo Contactless** Books C-1 through C-7 + Book E (cards and payments); **{{icao|ICAO}} Doc 9303 Part 11** BAC/PACE (e-passports); {{ccc-digital-key|CCC Digital Key}} (vehicles); {{aliro|Aliro 1.0}} (access control, finalised Feb 2026); NFC Forum WLC (wireless charging); and {{matter|Matter}} 1.3+ NFC commissioning.
+[[nfc|NFC]] supports **four operating modes**: *Reader/Writer* (phone reads a passive tag), *Card Emulation* (phone presents itself as a card via {{ese|Secure Element}} on {{apple|Apple}} Pay or via {{hce|Host Card Emulation}} on {{android|Android}} 4.4+ / iOS 17.4+ EEA), *{{peer-to-peer|Peer-to-Peer}}* (largely deprecated), and *Wireless Charging* (added 2020). On top of NFC's transport sit several full vertical stacks: {{iso7816|ISO/IEC 7816}}-4 {{apdu|APDUs}} and **EMVCo Contactless** Books C-1 through C-7 + Book E (cards and payments); **{{icao|ICAO}} Doc 9303 Part 11** BAC/PACE (e-passports); {{ccc-digital-key|CCC Digital Key}} (vehicles); {{aliro|Aliro 1.0}} (access control, finalised Feb 2026); NFC Forum WLC (wireless charging); and {{matter|Matter}} 1.5 NFC commissioning.
 
 The hinge of the modern story is **9 September 2014**, when Tim Cook announced {{apple|Apple}} Pay at Flint Center, Cupertino — three pillars: NFC, {{ese|embedded Secure Element}}, and Touch {{id-identifier|ID}}, all built atop EMVCo Payment Tokenisation so the real {{pan-id|PAN}} never leaves the card issuer. The protocol that runs the British contactless economy was published in 2000; the protocol your phone uses to pay your barista was published as {{iso18092|ISO/IEC 18092}} in December 2003 — three years before the iPhone existed. NFC is rare among software stacks in that **the wire format has not changed in 20 years** — every iteration has been at the certification, security, and application-layer level. [[wifi|Wi-Fi]] is the protocol you stream from; [[bluetooth|Bluetooth]] is the protocol you carry with you; [[nfc|NFC]] is the protocol you tap with.`,
 	howItWorks: [
@@ -39,12 +39,12 @@ The hinge of the modern story is **9 September 2014**, when Tim Cook announced {
 		{
 			title: 'NDEF: the data format for everything that is not a payment',
 			description:
-				'NFC Forum **{{ndef|NDEF}}** (NFC Data {{exchange|Exchange}} Format) is the binary record container that lives in tags and rides over {{llcp|LLCP}}/{{snep|SNEP}}. Each record begins with a 1-byte header — bits MB/ME (Message Begin/End), CF (Chunk Flag), SR (Short Record — 1-byte length vs 4), IL ({{id-identifier|ID}} Length present), and a 3-bit TNF (Type Name Format: 0=Empty, 1=Well-Known like `U` for {{uri|URI}} or `T` for Text, 2={{mime|MIME}} media, 3=Absolute {{uri|URI}}, 4=External, 5=Unknown). The {{uri|URI}} Well-Known record uses a single-byte prefix shorthand — 0x03 for `https://` saves 8 bytes per record on tags as small as 48 bytes. {{ndef|NDEF}} was formally adopted as an IEC standard in **March 2026** alongside NFC-WLC.'
+				'NFC Forum **{{ndef|NDEF}}** (NFC Data {{exchange|Exchange}} Format) is the binary record container that lives in tags and rides over {{llcp|LLCP}}/{{snep|SNEP}}. Each record begins with a 1-byte header — bits MB/ME (Message Begin/End), CF (Chunk Flag), SR (Short Record — 1-byte length vs 4), IL ({{id-identifier|ID}} Length present), and a 3-bit TNF (Type Name Format: 0=Empty, 1=Well-Known like `U` for {{uri|URI}} or `T` for Text, 2={{mime|MIME}} media, 3=Absolute {{uri|URI}}, 4=External, 5=Unknown). The {{uri|URI}} Well-Known record uses a single-byte prefix shorthand — 0x04 for `https://` (0x03 is `http://`) saves 8 bytes per record on tags as small as 48 bytes. {{ndef|NDEF}} was formally adopted as an IEC standard in **March 2026** alongside NFC-WLC.'
 		},
 		{
 			title: 'Three transports, one tap: Connection Handover to Bluetooth / Wi-Fi / Matter',
 			description:
-				'For higher-throughput sessions NFC is almost always a *bootstrap*. The **Connection Handover** spec (v1.5) defines {{ndef|NDEF}} records of TNF=0x02 with {{mime|MIME}} `application/vnd.bluetooth.le.oob` carrying the [[bluetooth|Bluetooth]] {{mac-address|MAC address}}, name, and Security Manager {{oob|OOB}} key — a single tap replaces a discovery/pairing dialog. The parallel Wi-Fi handover record carries {{ssid|SSID}}/key/security mode — used for tap-to-join on printers and some smart-plug commissioning. **{{matter|Matter}} 1.3+** adds NFC as one of the three permitted commissioning paths alongside QR and {{ble|BLE}}. **{{ccc-digital-key|CCC Digital Key}} 3.0/4.0** uses NFC to bootstrap a credential into a phone, then {{ble|BLE}} for proximity and [[uwb|UWB]] for centimetre-accurate ranging. {{aliro|Aliro}} 1.0 likewise spans NFC tap-to-access + {{ble|BLE}} proximity + {{ble|BLE}}/UWB ranged — three transports, one credential.'
+				'For higher-throughput sessions NFC is almost always a *bootstrap*. The **Connection Handover** spec (v1.5) defines {{ndef|NDEF}} records of TNF=0x02 with {{mime|MIME}} `application/vnd.bluetooth.le.oob` carrying the [[bluetooth|Bluetooth]] {{mac-address|MAC address}}, name, and Security Manager {{oob|OOB}} key — a single tap replaces a discovery/pairing dialog. The parallel Wi-Fi handover record carries {{ssid|SSID}}/key/security mode — used for tap-to-join on printers and some smart-plug commissioning. **{{matter|Matter}} 1.5** (November 2025) adds NFC as a commissioning *transport* alongside QR and {{ble|BLE}} (the NFC-tag onboarding payload has existed since Matter 1.0). **{{ccc-digital-key|CCC Digital Key}} 3.0/4.0** uses NFC to bootstrap a credential into a phone, then {{ble|BLE}} for proximity and [[uwb|UWB]] for centimetre-accurate ranging. {{aliro|Aliro}} 1.0 likewise spans NFC tap-to-access + {{ble|BLE}} proximity + {{ble|BLE}}/UWB ranged — three transports, one credential.'
 		},
 		{
 			title: 'Tokenisation: why your real card number never leaves the bank',
@@ -133,8 +133,8 @@ adb shell dumpsys nfc                     # controller state, AID routing table
 adb logcat -s NfcAdapter NfcService NfcDispatcher
 
 # Wireshark filters (NFCGate PCAPNG captures)
-nfc.llcp                                  # LLCP frames
-nfc.ndef                                  # decoded NDEF records
+iso14443                                  # ISO 14443 (NFC-A/B) frames
+felica                                     # FeliCa (NFC-F) frames
 nfc                                       # any NFC dissector match`
 			},
 			{
@@ -148,11 +148,11 @@ nfc                                       # any NFC dissector match`
 | 7 bits   |       0x26 = REQA   (0x52 = WUPA)
 +----------+
 
-PICC: ATQA  (2 bytes)
+PICC: ATQA  (2 bytes; first byte is LS)
  byte 1                  byte 2
  b8 b7 b6 b5 b4 b3 b2 b1 | b16 b15 b14 b13 b12 b11 b10 b9
- [proprietary    ][RFU ][bit-frame anti-collision (5 bits)]
-                                   [UID size: 00=4B, 01=7B, 10=10B] [RFU]
+ [UID sz][RFU][ bit-frame anti-collision (b1–b5) ] | [ RFU ][proprietary]
+  b8 b7 = UID size (00=4B, 01=7B, 10=10B)
 
 PCD: ANTICOLLISION / SELECT
 +-----+-----+----------------------+-----+
@@ -192,11 +192,11 @@ Bytes ...  ID                  (ID LENGTH bytes, present iff IL=1)
 Bytes ...  PAYLOAD             (PAYLOAD LENGTH bytes)
 
 Example — a URI record pointing at https://example.com/info:
-  D1 01 0F 55 03 65 78 61 6D 70 6C 65 2E 63 6F 6D 2F 69 6E 66 6F
+  D1 01 0F 55 04 65 78 61 6D 70 6C 65 2E 63 6F 6D 2F 69 6E 66 6F
   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
    |  |  |  |  |
    |  |  |  |  +-- URI body bytes (0x65 = 'e' ...)
-   |  |  |  +-- URI prefix code: 0x03 = "https://"
+   |  |  |  +-- URI prefix code: 0x04 = "https://"
    |  |  +-- payload length = 15 bytes
    |  +-- type length = 1 byte
    +-- header byte: MB=1, ME=1, SR=1, TNF=1 (Well-Known); type byte is 'U'`
@@ -271,7 +271,7 @@ Total airtime from field-on to ARQC: ~300–800 ms on a real terminal.`
 		latency:
 			'50–200 ms typical for tap-and-go contactless EMV; ~300–800 ms full EMV CDA online (REQA through ARQC return); ~100 ms for a Type 2 NDEF read on a transit poster',
 		throughput:
-			'NFC-A/B: 106 / 212 / 424 / 848 kbit/s. NFC-F (FeliCa): 212 / 424 kbit/s. NFC-V (15693): typically 1.65 / 26.48 kbit/s; up to 6.78 Mbit/s in ISO 15693-3 high-speed amendments',
+			'NFC-A/B: 106 / 212 / 424 / 848 kbit/s. NFC-F (FeliCa): 212 / 424 kbit/s. NFC-V (15693): typically 1.65 / 26.48 kbit/s; up to ~26.48 kbit/s (ISO 15693; NFC-A/B reach 6.78 Mbit/s VHBR under ISO 14443)',
 		overhead:
 			'16-bit CRC_A per ISO 14443-3 frame; ISO 14443-4 I-blocks add 2–3 bytes PCB+CID; ISO 7816-4 APDU header is 4–7 bytes. NDEF status byte 1 + variable type/id/payload-length fields'
 	},
@@ -293,7 +293,7 @@ Total airtime from field-on to ARQC: ~300–800 ms on a real terminal.`
 			date: '2024-03',
 			title: 'iOS 17.4 opens NFC HCE to EEA wallets (DMA)',
 			description:
-				'On 25 January 2024 {{apple|Apple}} announced — and in March 2024 iOS 17.4 shipped — the **NFC & Secure Element Platform** entitlement for the European Economic Area. For the first time on iPhone, third-party wallets can do {{hce|Host Card Emulation}} contactless payments without going through {{apple|Apple}} Pay. PayPal Germany was the first to ship; the entitlement covers {{hce|HCE}} access, side-button shortcut, Face/Touch {{id-identifier|ID}}, and Field-Detect. Available **only inside the EEA** (27 EU states + Iceland, Liechtenstein, Norway) and **only on iPhone** — not {{apple|Apple}} Watch, not iPad.',
+				'On 25 January 2024 {{apple|Apple}} announced — and in March 2024 iOS 17.4 shipped — the **NFC & Secure Element Platform** entitlement for the European Economic Area. For the first time on iPhone, third-party wallets can do {{hce|Host Card Emulation}} contactless payments without going through {{apple|Apple}} Pay. Vipps MobilePay (Norway) shipped the first third-party NFC wallet on iPhone on 9 December 2024, with PayPal Germany following in 2025; the entitlement covers {{hce|HCE}} access, side-button shortcut, Face/Touch {{id-identifier|ID}}, and Field-Detect. Available **only inside the EEA** (27 EU states + Iceland, Liechtenstein, Norway) and **only on iPhone** — not {{apple|Apple}} Watch, not iPad.',
 			source: {
 				url: 'https://www.apple.com/newsroom/2024/01/apple-announces-changes-to-ios-safari-and-the-app-store-in-the-european-union/',
 				label: 'Apple newsroom, 25 Jan 2024'

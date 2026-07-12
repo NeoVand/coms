@@ -75,7 +75,7 @@ export const nfcTap: SimulationConfig = {
 			id: 'atqa',
 			label: 'ATQA — phone declares its anti-collision capability',
 			description:
-				"The phone's NFC controller replies with `ATQA = 0x04 0x00` — declaring a 4-byte UID and standard bit-frame anti-collision support. The 5 anti-collision bits in byte 1 encode which collision-resolution scheme the card will use; the 2 'UID size' bits in byte 2 say 00=4B, 01=7B, 10=10B (cascaded).",
+				"The phone's NFC controller replies with `ATQA = 0x04 0x00` — declaring a 4-byte UID and standard bit-frame anti-collision support. Byte 1 (the LS byte) holds both the 5 bit-frame anti-collision bits and the 2 'UID size' bits (00=4B, 01=7B, 10=10B, cascaded); byte 2 carries the proprietary coding and RFU bits.",
 			fromActor: 'phone',
 			toActor: 'terminal',
 			duration: 700,
@@ -337,7 +337,7 @@ export const nfcTagRead: SimulationConfig = {
 					frame: 'Full frame, CRC_A',
 					direction: 'PCD ↔ PICC',
 					payload:
-						'READ 0x30 0x04..., 0x30 0x08, ...: 03 19 D1 01 15 55 03 t r a n s i t . e x a m p l e . c o m / q r',
+						'READ 0x30 0x04..., 0x30 0x08, ...: 03 19 D1 01 15 55 04 t r a n s i t . e x a m p l e . c o m / q r',
 					crc: 'CRC_A'
 				})
 			]
@@ -346,7 +346,7 @@ export const nfcTagRead: SimulationConfig = {
 			id: 'parse-ndef',
 			label: 'NDEF parse — decode the URI record',
 			description:
-				"The NDEF message contains one record: MB=ME=SR=1, IL=0, TNF=1 (Well-Known), TYPE='U' (URI). Payload starts with 0x03 (the `https://` prefix shorthand) followed by `transit.example.com/qr`. Total record overhead: 4 bytes for a 21-byte URI.",
+				"The NDEF message contains one record: MB=ME=SR=1, IL=0, TNF=1 (Well-Known), TYPE='U' (URI). Payload starts with 0x04 (the `https://` prefix shorthand; 0x03 would be `http://`) followed by `transit.example.com/qr`. Total record overhead: 4 bytes for a 21-byte URI.",
 			fromActor: 'tag',
 			toActor: 'phone',
 			duration: 800,
@@ -357,7 +357,7 @@ export const nfcTagRead: SimulationConfig = {
 					typeLen: 1,
 					payloadLen: 21,
 					type: "'U' (URI Record)",
-					payload: '0x03 transit.example.com/qr  →  https://transit.example.com/qr'
+					payload: '0x04 transit.example.com/qr  →  https://transit.example.com/qr'
 				})
 			]
 		},

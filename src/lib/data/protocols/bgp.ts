@@ -94,19 +94,21 @@ debug ip bgp updates`
 			},
 			{
 				language: 'javascript',
-				code: `// Parse BGP MRT dump data with bgpkit
-import { BgpkitParser } from 'bgpkit-parser';
+				code: `// Parse BGP MRT dump data with @bgpkit/parser (WASM)
+import { parseMrtRecords } from '@bgpkit/parser';
 
-const parser = new BgpkitParser(
-  'rib.20240101.0000.bz2'
-);
+const bytes = new Uint8Array(await (await fetch(
+  'https://data.ris.ripe.net/rrc00/latest-bview.gz'
+)).arrayBuffer());
 
-for await (const elem of parser) {
-  console.log(
-    elem.prefix,
-    'via AS path:', elem.as_path,
-    'from peer:', elem.peer_asn
-  );
+for (const record of parseMrtRecords(bytes)) {
+  for (const elem of record.elems) {
+    console.log(
+      elem.prefix,
+      'via AS path:', elem.as_path,
+      'from peer:', elem.peer_asn
+    );
+  }
 }`
 			},
 			{
@@ -212,8 +214,8 @@ for await (const elem of parser) {
 
 	funFacts: [
 		{
-			title: 'BGP was sketched on three napkins',
-			text: 'In January 1989, [[pioneer:yakov-rekhter|Yakov Rekhter]] and Kirk Lougheed met at lunch during an {{ietf|IETF}} meeting in Austin. The previous routing protocol (EGP) was unmanageable. They sketched a replacement on three napkins. That sketch became [[bgp|BGP]]-1 ([[rfc:1105|RFC 1105]]) six months later.'
+			title: 'BGP was sketched on two napkins',
+			text: 'In January 1989, [[pioneer:yakov-rekhter|Yakov Rekhter]] and Kirk Lougheed met at lunch during an {{ietf|IETF}} meeting in Austin. The previous routing protocol (EGP) was unmanageable. They sketched a replacement on two napkins (later written up on three hand-drawn sheets of paper) — the famous "Two-Napkin Protocol." That sketch became [[bgp|BGP]]-1 ([[rfc:1105|RFC 1105]]) six months later.'
 		},
 		{
 			title: 'BGP has no built-in authentication',
