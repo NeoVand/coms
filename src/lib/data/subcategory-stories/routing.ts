@@ -64,7 +64,7 @@ export const routingStory: SubcategoryStory = {
 					year: 1989,
 					title: 'BGP-1 (RFC 1105)',
 					description:
-						"Three engineers at IBM and Cisco — [[pioneer:yakov-rekhter|Rekhter]], Kirk Lougheed, and Len Bosack — sketched BGP on three napkins. The Internet was growing past the single-backbone assumption, and EGP couldn't handle mesh topology."
+						"Three engineers at IBM and Cisco — [[pioneer:yakov-rekhter|Rekhter]], Kirk Lougheed, and Len Bosack — sketched BGP on two napkins (later written up on three sheets of paper). The Internet was growing past the single-backbone assumption, and EGP couldn't handle mesh topology."
 				},
 				{
 					year: 1989,
@@ -183,7 +183,7 @@ export const routingStory: SubcategoryStory = {
 		{
 			type: 'callout',
 			title: 'BGP Runs on Trust That Nobody Should Have',
-			text: `For 30 years, [[bgp|BGP]] had no authentication. If you peered with another network, you trusted what they announced. If they announced Google's prefix from their own AS, your router believed them, and your packets to Google went to their network instead.\n\nThis isn't theoretical. [[outage:pakistan-youtube-2008|Pakistan Telecom took YouTube offline globally in 2008]] by announcing a more-specific route to its own prefix — an attempt to censor YouTube *locally* that leaked worldwide. China Telecom rerouted 15% of global Internet traffic through China for 18 minutes in April 2010. Russia rerouted Mastercard and Visa traffic in 2017. These weren't exploits — they were just BGP working as designed.\n\nThe partial fix arriving now is **{{rpki|RPKI}}** — Resource Public Key Infrastructure. Address owners cryptographically sign assertions: "AS 13335 is allowed to originate 1.1.1.0/24." Routers validate incoming announcements against these signatures. By 2024, RPKI coverage finally crossed 50% of routed IPv4. The next step — **BGPsec**, which would sign the entire AS_PATH, not just the origin — has been "shipping next year" since 2017. Path-level validation is hard.`
+			text: `For 30 years, [[bgp|BGP]] had no authentication. If you peered with another network, you trusted what they announced. If they announced Google's prefix from their own AS, your router believed them, and your packets to Google went to their network instead.\n\nThis isn't theoretical. [[outage:pakistan-youtube-2008|Pakistan Telecom took YouTube offline globally in 2008]] by announcing a more-specific route to its own prefix — an attempt to censor YouTube *locally* that leaked worldwide. China Telecom briefly announced ~15% of the internet's *prefixes* (~37,000 routes) for 18 minutes in April 2010 — the diverted traffic was far smaller than the widely-repeated "15% of traffic" claim. Russia rerouted Mastercard and Visa traffic in 2017. These weren't exploits — they were just BGP working as designed.\n\nThe partial fix arriving now is **{{rpki|RPKI}}** — Resource Public Key Infrastructure. Address owners cryptographically sign assertions: "AS 13335 is allowed to originate 1.1.1.0/24." Routers validate incoming announcements against these signatures. By 2024, RPKI coverage finally crossed 50% of routed IPv4. The next step — **BGPsec**, which would sign the entire AS_PATH, not just the origin — has been "shipping next year" since 2017. Path-level validation is hard.`
 		},
 		{
 			type: 'narrative',

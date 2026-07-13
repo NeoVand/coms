@@ -208,7 +208,7 @@ A client samples the {{rtt|round-trip time}} to a server (call it δ) and the ap
 
 **ntpd-rs** (Tweede golf / Trifecta Tech Foundation, Pendulum project) — **memory-safe Rust [[ntp|NTP]] daemon**; reached 1.0.0 (October 2023); deployed at **Let's Encrypt**; packaged in Debian/Ubuntu/Fedora. The Rust rewrite of [[ntp|NTP]] is one of several "memory-safe daemon" efforts following Heartbleed and similar.
 
-**{{rfc-doc|RFC}} 9523 — Khronos (February 2024)**: secure outlier-rejection watchdog (Rozen-Schiff, Dolev, Mizrahi, Schapira) — provably resists up to **~1/3 compromised servers**.
+**{{rfc-doc|RFC}} 9523 — Khronos (February 2024)**: secure outlier-rejection watchdog (Rozen-Schiff, Dolev, Mizrahi, Schapira) — provably tolerates up to **~2/3 compromised servers** (it needs only more than 1/3 honest), beating the classical 1/3 Byzantine bound.
 
 **Frontier — NTPv5**: \`draft-ietf-ntp-ntpv5-08\` (March 2026, Lichvar/Mizrahi). **Removes modes 1, 2, 5, 6, 7** — only client/server remain. Adds explicit 16-bit era number, **extending unambiguous range to ~35,000 years**. The first ground-up [[ntp|NTP]] redesign since 1992.
 

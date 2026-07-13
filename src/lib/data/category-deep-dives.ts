@@ -537,7 +537,7 @@ The numbers below are typical 2026 production values; spec maxima are higher, re
 
 [[zigbee|Zigbee]] and {{thread|Thread}} use a similar unslotted CSMA-CA on {{ieee-802-15-4|IEEE 802.15.4}}. [[bluetooth|Bluetooth]] sidesteps the whole problem by **frequency hopping** — 1,600 hops/sec on {{br-edr|BR/EDR}} — so collisions on a single channel are statistically rare. [[cellular|Cellular]] doesn't contend at all on the downlink: the base station schedules every slot.
 
-The cost of {{csma-ca|CSMA/CA}} is **{{airtime|airtime}} overhead**. At Wi-Fi 6's nominal 9.6 Gbit/s, real throughput on a busy {{ap-access-point|AP}} is closer to 1–2 Gbit/s because half the {{airtime|airtime}} is DIFS, SIFS, ACKs, beacons, and CW back-off. The {{wifi-8|Wi-Fi 8}} work on **{{mlo|MLO}} (Multi-Link Operation)** lets one device use 2.4 + 5 + 6 GHz radios simultaneously precisely to dodge contention on any one band.`
+The cost of {{csma-ca|CSMA/CA}} is **{{airtime|airtime}} overhead**. At Wi-Fi 6's nominal 9.6 Gbit/s, real throughput on a busy {{ap-access-point|AP}} is closer to 1–2 Gbit/s because half the {{airtime|airtime}} is DIFS, SIFS, ACKs, beacons, and CW back-off. **{{mlo|MLO}} (Multi-Link Operation)**, introduced in Wi-Fi 7 (802.11be), lets one device use 2.4 + 5 + 6 GHz radios simultaneously precisely to dodge contention on any one band.`
 			},
 			{
 				type: 'callout',
@@ -588,7 +588,7 @@ The architectural rule: the radio with the **best discovery + power profile** do
 
 **{{mifare|MIFARE}} Crypto1 — 24C3, December 2007** ([[pioneer:karsten-nohl|Karsten Nohl]], [[pioneer:henryk-plotz|Henryk Plötz]], "Starbug"). Philips's proprietary 48-bit stream cipher, "secure" by virtue of being secret, dismantled by decapping a chip and photographing ~10 000 gates with an optical microscope. The first canonical "security-by-obscurity does not scale" lesson in deployed wireless silicon. Dutch OV-chipkaart kept shipping affected cards until **2024**.
 
-**{{krack|KRACK}} — {{usenix-conf|USENIX}} Security 2017** (Mathy Vanhoef, Frank Piessens). The {{wpa2|WPA2}} four-way {{handshake|handshake}} permitted {{nonce|nonce}} reuse on key reinstall, defeating CCMP integrity. Universal — every {{wpa2|WPA2}} client on Earth needed firmware updates. The [[wifi|802.11]] working group's response was {{wpa3|WPA3}} ({{sae|SAE}} {{handshake|handshake}}, immune by construction).
+**{{krack|KRACK}} — ACM CCS 2017** (Mathy Vanhoef, Frank Piessens). The {{wpa2|WPA2}} four-way {{handshake|handshake}} permitted {{nonce|nonce}} reuse on key reinstall, defeating CCMP integrity. Universal — every {{wpa2|WPA2}} client on Earth needed firmware updates. The [[wifi|802.11]] working group's response was {{wpa3|WPA3}} ({{sae|SAE}} {{handshake|handshake}}, immune by construction).
 
 **{{knob-attack|KNOB / BIAS / BLUFFS}} — 2019 / 2020 / 2023** (Daniele Antonioli et al., {{cve|CVE}}-2019-9506 / {{cve|CVE}}-2020-10135 / {{cve|CVE}}-2023-24023). The same author broke [[bluetooth|Bluetooth]] {{br-edr|BR/EDR}} session security three times in five years — key-negotiation forcing 1-byte entropy, impersonation across bonding, and forward-secrecy breakage on cross-session key derivation. Every {{br-edr|BR/EDR}} device shipped before mid-2024 affected.
 

@@ -72,7 +72,7 @@ export const datagramTransportStory: SubcategoryStory = {
 					year: 2008,
 					title: 'NAT Traversal via UDP Hole Punching',
 					description:
-						"{{ice|ICE}} (RFC 5245) and {{stun|STUN}}/{{turn|TURN}} establish that peer-to-peer connectivity requires UDP. [[webrtc|WebRTC]], P2P games, and (later) BitTorrent all rely on UDP's lighter NAT footprint."
+						"{{ice|ICE}} (RFC 5245, 2010) and {{stun|STUN}} (RFC 5389, 2008)/{{turn|TURN}} establish that peer-to-peer connectivity requires UDP. [[webrtc|WebRTC]], P2P games, and (later) BitTorrent all rely on UDP's lighter NAT footprint."
 				},
 				{
 					year: 2012,

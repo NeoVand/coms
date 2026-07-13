@@ -29,7 +29,7 @@ export const resourceQueryApisStory: SubcategoryStory = {
 					name: 'Lee Byron',
 					years: '–',
 					title: 'Co-creator of GraphQL',
-					org: 'Facebook / Robinhood / The Graph Foundation',
+					org: 'Facebook / GraphQL Foundation',
 					contribution:
 						'Designed [[graphql|GraphQL]] at Facebook in 2012 with Nick Schrock and Dan Schafer to solve the mobile-fetch problem. Open-sourced in 2015 at React Conf. Later moved to Robinhood to apply GraphQL to financial-services APIs; now stewards the language as part of the GraphQL Foundation. The original internal name was "SuperGraph" — "GraphQL" came later because the wire format was a *query language*, not just a graph API.'
 				},

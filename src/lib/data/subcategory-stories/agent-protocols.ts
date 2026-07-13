@@ -23,7 +23,7 @@ export const agentProtocolsStory: SubcategoryStory = {
 						'Led the [[mcp|MCP]] design and initial implementation at Anthropic, drawing on the Language Server Protocol (LSP) as a structural model — LSP standardized editor-to-language-server communication a decade ago, and MCP applies the same client-server-via-[[json-rpc|JSON-RPC]] pattern to AI tools. The November 2024 launch shipped reference servers (filesystem, GitHub, Slack, Postgres) alongside the spec, which mattered: people could *use* MCP the day it was announced.'
 				},
 				{
-					name: 'Justin Hill',
+					name: 'Justin Spahr-Summers',
 					years: '–',
 					title: 'MCP Protocol Co-Author',
 					org: 'Anthropic',

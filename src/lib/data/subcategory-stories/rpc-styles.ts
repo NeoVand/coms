@@ -36,7 +36,7 @@ export const rpcStylesStory: SubcategoryStory = {
 					title: 'gRPC Tech Lead',
 					org: 'Google',
 					contribution:
-						"Led the [[grpc|gRPC]] project at Google starting in 2015. gRPC began as an internal Google framework called Stubby that had run Google's microservices since the mid-2000s. The 2015 open-source version was a rewrite using [[http2|HTTP/2]] and Protocol Buffers — both designed inside Google for similar reasons. gRPC is now the default RPC framework across the cloud-native ecosystem; the CNCF graduated it in 2017."
+						"Led the [[grpc|gRPC]] project at Google starting in 2015. gRPC began as an internal Google framework called Stubby that had run Google's microservices since the mid-2000s. The 2015 open-source version was a rewrite using [[http2|HTTP/2]] and Protocol Buffers — both designed inside Google for similar reasons. gRPC is now the default RPC framework across the cloud-native ecosystem; it joined the CNCF (incubating) in 2017."
 				}
 			]
 		},
@@ -93,9 +93,9 @@ export const rpcStylesStory: SubcategoryStory = {
 				},
 				{
 					year: 2017,
-					title: 'gRPC CNCF Graduation',
+					title: 'gRPC Joins the CNCF',
 					description:
-						"gRPC graduates from the CNCF, signaling production-grade across the cloud-native ecosystem. By 2020 it's the default for service-to-service RPC at most cloud-native companies."
+						"gRPC joins the CNCF as an incubating project, signaling production-grade adoption across the cloud-native ecosystem. By 2020 it's the default for service-to-service RPC at most cloud-native companies."
 				},
 				{
 					year: 2021,
@@ -205,7 +205,7 @@ export const rpcStylesStory: SubcategoryStory = {
 		{
 			type: 'narrative',
 			title: "What's Next",
-			text: `Active work in 2025:\n\n- **Connect protocol** (Buf, 2024) — a [[grpc|gRPC]]-compatible protocol that also speaks plain HTTP/JSON, eliminating the browser-proxy problem. Same .proto files generate clients for both transports.\n- **Cap'n Proto + Tonic + Twirp** — lighter alternatives to full gRPC, each with niche followings. Twirp keeps protobuf but drops streaming and HTTP/2 for simpler operations.\n- **OpenAPI codegen catching up** — Stainless, Speakeasy, Fern generate typed clients from OpenAPI specs that rival the gRPC developer experience. The line between "typed REST" and "JSON-over-HTTP RPC" is dissolving.\n- **Schema-on-the-wire** experiments (Cap'n Proto, Apache Avro for streaming) keep niche traction in data pipelines and storage formats.\n- **The unsexy truth**: [[grpc|gRPC]] won internal microservice RPC. [[json-rpc|JSON-RPC]] won blockchain and editor protocols. [[soap|SOAP]] is in maintenance. New API design in 2025 picks gRPC if everything is yours and behind your edge; picks typed REST/OpenAPI if anything is public.`
+			text: `Active work in 2025:\n\n- **Connect protocol** (Buf, 2022) — a [[grpc|gRPC]]-compatible protocol that also speaks plain HTTP/JSON, eliminating the browser-proxy problem. Same .proto files generate clients for both transports.\n- **Cap'n Proto + Tonic + Twirp** — lighter alternatives to full gRPC, each with niche followings. Twirp keeps protobuf but drops streaming and HTTP/2 for simpler operations.\n- **OpenAPI codegen catching up** — Stainless, Speakeasy, Fern generate typed clients from OpenAPI specs that rival the gRPC developer experience. The line between "typed REST" and "JSON-over-HTTP RPC" is dissolving.\n- **Schema-on-the-wire** experiments (Cap'n Proto, Apache Avro for streaming) keep niche traction in data pipelines and storage formats.\n- **The unsexy truth**: [[grpc|gRPC]] won internal microservice RPC. [[json-rpc|JSON-RPC]] won blockchain and editor protocols. [[soap|SOAP]] is in maintenance. New API design in 2025 picks gRPC if everything is yours and behind your edge; picks typed REST/OpenAPI if anything is public.`
 		}
 	]
 };

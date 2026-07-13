@@ -103,10 +103,7 @@ Argued (with David Reed) for splitting the original monolithic [[tcp|TCP]] into 
 			'https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Jon_Postel_sitting_in_office_%28cropped%29.jpg/330px-Jon_Postel_sitting_in_office_%28cropped%29.jpg',
 		protocols: ['tcp', 'udp', 'ip', 'icmp', 'dns', 'smtp'],
 		categories: ['transport', 'network-foundations', 'utilities'],
-		awards: [
-			{ name: 'Internet Hall of Fame', year: 2012 },
-			{ name: 'IEEE Internet Award', year: 1999 }
-		],
+		awards: [{ name: 'Internet Hall of Fame', year: 2012 }],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Jon_Postel'
 		},
@@ -252,12 +249,12 @@ Co-founded the Apache HTTP Server Project and chaired the Apache Software Founda
 		years: 'c. 1950–',
 		title: 'Co-creator of BGP',
 		org: 'IBM / Cisco / Juniper Networks',
-		contribution: `Co-created the Border Gateway Protocol with Kirk Lougheed at the 12th {{ietf|IETF}} meeting in Austin, Texas in January 1989 — sketched on three sheets of paper at lunch (the famous "two-napkin protocol"). Published as RFC 1105 in June 1989; the current standard is RFC 4271 (2006), still authored by Rekhter et al.
+		contribution: `Co-created the Border Gateway Protocol with Kirk Lougheed at the 12th {{ietf|IETF}} meeting in Austin, Texas in January 1989 — sketched on two napkins at lunch — later written up on three sheets of paper (the famous "two-napkin protocol"). Published as RFC 1105 in June 1989; the current standard is RFC 4271 (2006), still authored by Rekhter et al.
 
-[[bgp|BGP]] runs every transit and peering relationship on the public internet today, carrying ~975K [[ip|IPv4]] and ~225K [[ipv6|IPv6]] prefixes globally as of January 2026. Rekhter has shaped or co-authored most of the [[bgp|BGP]] extensions in use, including [[bgp|BGP]]-MPLS VPNs (RFC 4364) and many EVPN drafts. The internet runs on a protocol he sketched on three napkins.`,
+[[bgp|BGP]] runs every transit and peering relationship on the public internet today, carrying ~975K [[ip|IPv4]] and ~225K [[ipv6|IPv6]] prefixes globally as of January 2026. Rekhter has shaped or co-authored most of the [[bgp|BGP]] extensions in use, including [[bgp|BGP]]-MPLS VPNs (RFC 4364) and many EVPN drafts. The internet runs on a protocol he sketched on two napkins.`,
 		protocols: ['bgp'],
 		categories: ['network-foundations'],
-		awards: [{ name: 'IEEE Internet Award', year: 2014 }],
+		awards: [{ name: 'IEEE Internet Award', year: 2025 }],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Yakov_Rekhter'
 		}
@@ -286,15 +283,12 @@ Primary architect of [[ipv6|IPv6]] with Bob Hinden — RFC 1883 (1995), RFC 2460
 		org: 'Lawrence Berkeley Lab / Cisco / PARC / Google',
 		contribution: `Saved the internet from congestion collapse. After the October 1986 collapse — when throughput between Lawrence Berkeley Lab and UC Berkeley dropped from 32 kbps to 40 bps — Jacobson and Mike Karels published "{{congestion-avoidance|Congestion Avoidance}} and Control" (SIGCOMM '88), introducing {{slow-start|slow start}}, {{aimd|AIMD}} {{congestion-avoidance|congestion avoidance}}, fast retransmit, and exponential RTO backoff. Six algorithms in one paper; arguably the highest-leverage networking paper ever written. Their fixes shipped in 4.3BSD-Tahoe and saved the internet.
 
-Also wrote traceroute, tcpdump's BPF (Berkeley Packet Filter), and co-authored RFC 1144 (Compressing [[tcp|TCP]]/[[ip|IP]] Headers for Low-Speed Serial Links). Co-author of the 2016 {{bbr|BBR}} paper at Google — {{congestion-control|congestion control}} for a second internet generation, replacing {{cubic|CUBIC}} for google.com and YouTube traffic.`,
+Also wrote traceroute, tcpdump's BPF (Berkeley Packet Filter), and wrote RFC 1144 (Compressing [[tcp|TCP]]/[[ip|IP]] Headers for Low-Speed Serial Links). Co-author of the 2016 {{bbr|BBR}} paper at Google — {{congestion-control|congestion control}} for a second internet generation, replacing {{cubic|CUBIC}} for google.com and YouTube traffic.`,
 		imagePath:
 			'https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Van_Jacobson.jpg/330px-Van_Jacobson.jpg',
 		protocols: ['tcp'],
 		categories: ['transport'],
-		awards: [
-			{ name: 'IEEE Internet Award', year: 2003 },
-			{ name: 'ACM SIGCOMM Award', year: 2001 }
-		],
+		awards: [{ name: 'ACM SIGCOMM Award', year: 2001 }],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Van_Jacobson'
 		}
@@ -382,7 +376,7 @@ Distilled the {{ietf|IETF}}'s working culture into the sentence that decided the
 			'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b2/David_D_Clark_in_office_%28cropped%29.jpg/330px-David_D_Clark_in_office_%28cropped%29.jpg',
 		protocols: ['tcp', 'ip'],
 		categories: ['transport', 'network-foundations'],
-		awards: [{ name: 'IEEE Internet Award', year: 1990 }],
+		awards: [{ name: 'IEEE Internet Award', year: 2026 }],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/David_D._Clark'
 		},
@@ -404,7 +398,7 @@ Distilled the {{ietf|IETF}}'s working culture into the sentence that decided the
 		org: 'Netscape / Salesforce / Axway',
 		contribution: `Designed SSL (Secure Sockets Layer) at Netscape in 1994-1996 — the protocol that made encrypted commerce on the open web possible and seeded what later became [[tls|TLS]]. SSL 3.0 (1996) was the version that POODLE eventually killed; the {{ietf|IETF}} took it over as [[tls|TLS]] 1.0 in RFC 2246 (January 1999) after a Microsoft/Netscape standards horsetrade.
 
-Also invented the Elgamal encryption algorithm (1985), one of the earliest practical public-key schemes, which underpins {{diffie-hellman|Diffie-Hellman key exchange}} and DSA signatures. Often called the "Father of SSL."`,
+Also invented the Elgamal encryption algorithm (1985), one of the earliest practical public-key schemes, which is built on the {{diffie-hellman|Diffie-Hellman}} problem and later underpinned DSA signatures. Often called the "Father of SSL."`,
 		imagePath:
 			'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Taher_Elgamal_it-sa_2010.jpg/330px-Taher_Elgamal_it-sa_2010.jpg',
 		protocols: ['tls'],
@@ -433,7 +427,7 @@ A Columbia University professor since 1996, Schulzrinne has authored more than 7
 		awards: [
 			{ name: 'Internet Hall of Fame', year: 2013 },
 			{ name: 'IEEE Internet Award', year: 2016 },
-			{ name: 'ACM SIGCOMM Award', year: 2020 }
+			{ name: 'ACM SIGCOMM Award', year: 2022 }
 		],
 		links: {
 			wikipedia: 'https://en.wikipedia.org/wiki/Henning_Schulzrinne',
@@ -761,7 +755,7 @@ Before Noise: co-designed Signal's **X3DH** key-agreement protocol and the **Axo
 		org: 'USC Information Sciences Institute (Senior Research Scientist)',
 		contribution: `One of the principal architects of **[[kerberos|Kerberos]] V5** ([[rfc:4120|RFC 4120]]). PhD from the University of Washington (1992) on naming and security in distributed systems. Joined MIT Project Athena in the late 1980s during the Kerberos design phase; co-authored the canonical 1994 paper *"Kerberos: An Authentication Service for Computer Networks"* (IEEE Communications Magazine) with Theodore Ts'o — the article that taught a generation of engineers how the protocol actually works.
 
-Has been at **USC Information Sciences Institute** for three decades, where he led the GOST (Gigabit Operating System Technologies) project and continues to publish on distributed-systems security. Co-author of textbook *Network Security: Private Communication in a Public World* with [[pioneer:charlie-kaufman|Charlie Kaufman]] and Radia Perlman — the book that connects [[kerberos|Kerberos]], [[ipsec|IPsec]], [[tls|TLS]], and PKI into a coherent pedagogy.`,
+Has been at **USC Information Sciences Institute** for three decades, where he led the GOST (Gigabit Operating System Technologies) project and continues to publish on distributed-systems security. A foundational figure in [[kerberos|Kerberos]] and distributed-authentication research, connecting [[kerberos|Kerberos]], [[ipsec|IPsec]], [[tls|TLS]], and PKI into a coherent pedagogy across his papers and courses.`,
 		protocols: ['kerberos'],
 		categories: ['utilities'],
 		links: {
@@ -791,7 +785,7 @@ Steward of MIT krb5 releases through the entire 1.18 → 1.22 era (2020–2025),
 		org: 'Motorola (1954–1983); Dyna LLC',
 		contribution: `Motorola engineer who led the **DynaTAC** team and placed the **first public handheld cellular call** on 3 April 1973, from Sixth Avenue in Manhattan to Joel Engel at AT&T Bell Labs — his direct rival. *"Joel, this is Marty. I'm calling you from a cell phone, a real handheld portable cell phone."* The DynaTAC weighed 2.5 lb and gave 35 minutes of talk after 10 hours of charging. As Cooper later put it: *"The battery lifetime wasn't really a problem because you couldn't hold that phone up for that long!"*
 
-Patent "radio telephone system" filed 17 October 1973. **2013 Charles Stark Draper Prize**; **2015 IEEE Masaru Ibuka Consumer Electronics Award**. Considered the *father of the handheld cell phone*. Now 96 and still active in spectrum-policy advocacy.`,
+Patent "radio telephone system" filed 17 October 1973. **2013 Charles Stark Draper Prize**; **2015 IEEE Masaru Ibuka Consumer Electronics Award**. Considered the *father of the handheld cell phone*. Now 97 and still active in spectrum-policy advocacy.`,
 		imagePath:
 			'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4a/Martin_Cooper%2C_Two_Antennas%2C_October_2010.jpg/330px-Martin_Cooper%2C_Two_Antennas%2C_October_2010.jpg',
 		protocols: ['cellular'],

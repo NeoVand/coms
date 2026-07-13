@@ -77,7 +77,7 @@ export const howToLearnMore: BookPart = {
 							title: 'Five Books, In Recommended Reading Order',
 							text: `**Andrew Tanenbaum, "Computer Networks" (6th ed., 2021).** The textbook most networking courses use. Bottom-up — physical layer first, application layer last. Strong on history and intuition; weaker on operational practice.
 
-**W. Richard Stevens, "[[tcp|TCP]]/[[ip|IP]] Illustrated, Volume 1" (Fall, Wright, 2nd ed., 2011).** The book to read after a textbook to actually understand what is on the wire. Each chapter pairs a protocol description with a packet trace from real network capture. Volume 2 (the {{bsd|BSD}} source) is a deep-dive for systems engineers.
+**Kevin R. Fall & W. Richard Stevens, "[[tcp|TCP]]/[[ip|IP]] Illustrated, Volume 1" (2nd ed., 2011).** The book to read after a textbook to actually understand what is on the wire. Each chapter pairs a protocol description with a packet trace from real network capture. Volume 2 (the {{bsd|BSD}} source) is a deep-dive for systems engineers.
 
 **Kurose & Ross, "Computer Networking: A Top-Down Approach" (8th ed., 2021).** The other major textbook. Top-down — application protocols first. More accessible than Tanenbaum for non-CS readers. The companion problem sets and lab assignments are excellent.
 
@@ -85,7 +85,7 @@ export const howToLearnMore: BookPart = {
 
 **Ilya Grigorik, "High Performance Browser Networking" (O'Reilly, 2013).** The book on what actually matters for web performance. [[tcp|TCP]], [[tls|TLS]], [[http1|HTTP/1.1]], [[http2|HTTP/2]] (no [[http3|HTTP/3]] — it predates the spec), [[webrtc|WebRTC]], browser networking APIs. The single most useful book for full-stack web developers who want to debug {{latency|latency}}.
 
-For specialised areas: **Olivier Bonaventure, "Computer Networking: Principles, Protocols and Practice"** (free online) — a lighter alternative to Tanenbaum. **[[pioneer:radia-perlman|Radia Perlman]], "Interconnections" (2nd ed., 2000)** — the routing/switching deep-dive by the inventor of spanning tree. **Marc Greis, "{{rfc-doc|RFC}} 1180: A [[tcp|TCP]]/[[ip|IP]] Tutorial" (1991)** — 28 pages, free, 35 years old, still the cleanest introduction to the basics.`
+For specialised areas: **Olivier Bonaventure, "Computer Networking: Principles, Protocols and Practice"** (free online) — a lighter alternative to Tanenbaum. **[[pioneer:radia-perlman|Radia Perlman]], "Interconnections" (2nd ed., 2000)** — the routing/switching deep-dive by the inventor of spanning tree. **Socolofsky & Kale, "{{rfc-doc|RFC}} 1180: A [[tcp|TCP]]/[[ip|IP]] Tutorial" (1991)** — 28 pages, free, 35 years old, still the cleanest introduction to the basics.`
 						},
 						{
 							type: 'image',

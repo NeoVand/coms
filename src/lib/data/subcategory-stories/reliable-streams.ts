@@ -38,12 +38,12 @@ export const reliableStreamsStory: SubcategoryStory = {
 				},
 				{
 					id: 'randall-atkinson',
-					name: 'Randall Atkinson',
+					name: 'Randall Stewart',
 					years: '–',
 					title: 'SCTP Co-author',
 					org: 'IETF SIGTRAN WG',
 					contribution:
-						"Helped shepherd [[sctp|SCTP]] (RFC 4960, 2007 update of the 2000 spec) out of the SIGTRAN working group, where it was designed to carry telephone signaling (SS7) over IP. Its message-oriented framing, multi-streaming, and multi-homing came directly from telecom's need for reliable, redundant control planes. The same features that made it perfect for SS7 made it 'the protocol the web should have used' — but by 2000, TCP was too entrenched."
+						"Co-designed [[sctp|SCTP]] (with Qiaobing Xie; RFC 2960 in 2000, revised as RFC 4960 in 2007) in the SIGTRAN working group, where it was designed to carry telephone signaling (SS7) over IP. Its message-oriented framing, multi-streaming, and multi-homing came directly from telecom's need for reliable, redundant control planes. The same features that made it perfect for SS7 made it 'the protocol the web should have used' — but by 2000, TCP was too entrenched."
 				}
 			]
 		},
