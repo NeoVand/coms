@@ -50,6 +50,11 @@ export interface SimulationStep {
 	layers?: ProtocolLayer[];
 	highlight?: string[];
 	duration: number;
+	/**
+	 * Marks a step captured from a REAL network exchange (live mode) rather than
+	 * the scripted demo, so the UI can label its field values as observed.
+	 */
+	source?: 'live';
 }
 
 /** Full configuration for a protocol simulation */

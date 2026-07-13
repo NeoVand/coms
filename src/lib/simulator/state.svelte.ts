@@ -1,4 +1,6 @@
-import type { SimulationStatus, SimulationConfig } from './types';
+import type { SimulationStatus, SimulationConfig, SimulationStep } from './types';
+
+export type SimulatorMode = 'scripted' | 'live';
 
 export class SimulatorState {
 	status: SimulationStatus = $state('idle');
@@ -7,10 +9,25 @@ export class SimulatorState {
 	config: SimulationConfig | null = $state(null);
 	userValues: Record<string, string> = $state({});
 
+	/**
+	 * 'scripted' plays the authored demo steps; 'live' replaces them with steps
+	 * appended from a real network exchange. The whole render pipeline (timeline,
+	 * inspector, actor stage) reads `steps`, so it works identically in both.
+	 */
+	mode: SimulatorMode = $state('scripted');
+	liveSteps: SimulationStep[] = $state([]);
+	/** Human-readable failure from a live run (network error, no records, …). */
+	liveError: string | null = $state(null);
+
 	private _timer: ReturnType<typeof setTimeout> | null = null;
 
+	/** The active step source — authored steps when scripted, captured when live. */
+	get steps(): SimulationStep[] {
+		return this.mode === 'live' ? this.liveSteps : (this.config?.steps ?? []);
+	}
+
 	get totalSteps(): number {
-		return this.config?.steps.length ?? 0;
+		return this.steps.length;
 	}
 
 	get isFirstStep(): boolean {
@@ -22,8 +39,8 @@ export class SimulatorState {
 	}
 
 	get currentStepData() {
-		if (!this.config || this.currentStep < 0) return null;
-		return this.config.steps[this.currentStep] ?? null;
+		if (this.currentStep < 0) return null;
+		return this.steps[this.currentStep] ?? null;
 	}
 
 	load(config: SimulationConfig) {
@@ -31,6 +48,9 @@ export class SimulatorState {
 		this.config = config;
 		this.currentStep = -1;
 		this.status = 'idle';
+		this.mode = 'scripted';
+		this.liveSteps = [];
+		this.liveError = null;
 		this.userValues = {};
 		if (config.userInputs) {
 			for (const input of config.userInputs) {
@@ -38,6 +58,23 @@ export class SimulatorState {
 			}
 		}
 	}
+
+	/** Switch between the scripted demo and live capture; clears any capture. */
+	setMode = (mode: SimulatorMode) => {
+		if (mode === this.mode) return;
+		this.stop();
+		this.mode = mode;
+		this.liveSteps = [];
+		this.liveError = null;
+		this.currentStep = -1;
+		this.status = 'idle';
+	};
+
+	/** Append a step captured from a real exchange and follow it (live mode). */
+	appendStep = (step: SimulationStep) => {
+		this.liveSteps = [...this.liveSteps, { ...step, source: 'live' }];
+		this.currentStep = this.liveSteps.length - 1;
+	};
 
 	play = () => {
 		if (!this.config) return;
@@ -109,8 +146,9 @@ export class SimulatorState {
 	};
 
 	private _scheduleNext = () => {
-		if (this.status !== 'running' || !this.config) return;
-		const stepData = this.currentStep >= 0 ? this.config.steps[this.currentStep] : null;
+		// Live mode is event-driven — real events call appendStep(); no auto-timer.
+		if (this.status !== 'running' || !this.config || this.mode === 'live') return;
+		const stepData = this.currentStep >= 0 ? this.steps[this.currentStep] : null;
 		const delay = (stepData?.duration ?? 800) / this.speed;
 
 		this._timer = setTimeout(() => {
