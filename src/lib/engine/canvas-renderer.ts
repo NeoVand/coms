@@ -1506,16 +1506,28 @@ function drawSubcategoryIcon(
 	ctx.restore();
 }
 
+// Draw order used by the renderer (later = painted on top). Hit-testing must
+// walk this topmost-first so a click lands on the node the user actually sees.
+const HIT_ORDER: Record<GraphNode['type'], number> = {
+	protocol: 0,
+	subcategory: 1,
+	category: 2,
+	hub: 3
+};
+
 export function findNodeAtPosition(
 	nodes: GraphNode[],
 	worldX: number,
 	worldY: number,
 	scale: number
 ): GraphNode | null {
-	// Search in reverse so visually-on-top nodes (hub, categories) are found first
-	for (let i = nodes.length - 1; i >= 0; i--) {
-		const node = nodes[i];
-		const hitRadius = (node.radius + 8) / Math.max(scale, 0.5);
+	// Test topmost-first (hub → category → subcategory → protocol) regardless of
+	// the input array order, matching how nodes are painted.
+	const ordered = [...nodes].sort((a, b) => HIT_ORDER[b.type] - HIT_ORDER[a.type]);
+	for (const node of ordered) {
+		// worldX/worldY are already in world space and nodes are drawn at world
+		// radius `node.radius`; add a constant ~8px *screen*-space slop (÷ scale).
+		const hitRadius = node.radius + 8 / Math.max(scale, 0.5);
 		const dx = worldX - node.x;
 		const dy = worldY - node.y;
 		if (dx * dx + dy * dy <= hitRadius * hitRadius) {

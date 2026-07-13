@@ -114,7 +114,7 @@
 
 {#if compact}
 	<div class="flex flex-wrap items-center gap-1">
-		{#each layers as layer (layer.abbreviation)}
+		{#each layers as layer, li (li)}
 			<span
 				class="inline-flex items-center gap-1 rounded-md px-1.5 py-0.5 text-[9px] font-bold tracking-wider uppercase"
 				style="background-color: {lc(layer.color)}15; color: {lc(
@@ -131,7 +131,7 @@
 		<h4 class="text-xs font-semibold tracking-wider text-t-muted uppercase">Encapsulation</h4>
 
 		<div class="relative rounded-lg border border-s-border bg-s-glass p-3">
-			{#each displayLayers as layer, li (layer.abbreviation)}
+			{#each displayLayers as layer, li (li)}
 				<!-- Encapsulation connector between layers -->
 				{#if li > 0}
 					<div class="flex items-center gap-2 py-2.5">

@@ -25,7 +25,9 @@ export class RenderLoop {
 		const dt = Math.min(time - this.lastTime, 50); // Cap dt at 50ms to prevent spiral
 		this.lastTime = time;
 		this.callback?.(time, dt);
-		this.animationId = requestAnimationFrame(this.tick);
+		// Re-check: the callback may have called stop(), in which case we must not
+		// schedule another frame (it would overwrite the just-cancelled id).
+		if (this.running) this.animationId = requestAnimationFrame(this.tick);
 	};
 
 	destroy(): void {
