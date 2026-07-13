@@ -1,6 +1,30 @@
 <script lang="ts">
 	import type { WebRTCSession } from '../live/webrtc.svelte';
-	import { Radio, Copy, Check, LoaderCircle, ArrowLeft, Send } from 'lucide-svelte';
+	import { encodeQrSvg } from '../live/qr';
+	import QrScanner from './QrScanner.svelte';
+	import {
+		Radio,
+		Copy,
+		Check,
+		LoaderCircle,
+		ArrowLeft,
+		Send,
+		QrCode,
+		ScanLine,
+		Video,
+		VideoOff,
+		Mic,
+		MicOff,
+		PhoneOff
+	} from 'lucide-svelte';
+
+	// Attachment factory: bind a MediaStream to a <video> (srcObject has no HTML
+	// attribute). Re-runs whenever the passed stream changes.
+	function bindStream(stream: MediaStream | null) {
+		return (node: HTMLVideoElement) => {
+			node.srcObject = stream;
+		};
+	}
 
 	interface Props {
 		session: WebRTCSession;
@@ -13,8 +37,26 @@
 	let inviteCode = $state(''); // joiner pastes the initiator's invite here
 	let draft = $state(''); // outgoing chat message
 	let copied = $state(false);
+	let showQr = $state(false); // reveal the QR of the local code
+	let qrSvg = $state('');
+	let scanFor = $state<null | 'invite' | 'reply'>(null); // camera scanner target
 
 	const phase = $derived(session.phase);
+
+	// Render the local code to a QR whenever it (or the toggle) changes.
+	$effect(() => {
+		const code = session.localCode;
+		if (showQr && code) {
+			let stale = false;
+			encodeQrSvg(code).then((svg) => {
+				if (!stale) qrSvg = svg;
+			});
+			return () => {
+				stale = true;
+			};
+		}
+		qrSvg = '';
+	});
 
 	async function copyLocal() {
 		try {
@@ -39,6 +81,17 @@
 			sendDraft();
 		}
 	}
+
+	function onScanned(code: string) {
+		if (scanFor === 'invite') {
+			inviteCode = code;
+			session.acceptInvite(code);
+		} else if (scanFor === 'reply') {
+			replyCode = code;
+			session.applyReply(code);
+		}
+		scanFor = null;
+	}
 </script>
 
 {#snippet codeBlock(codeLabel: string, hint: string)}
@@ -47,14 +100,33 @@
 			<span class="text-[10px] font-semibold tracking-wider text-t-muted uppercase"
 				>{codeLabel}</span
 			>
-			<button
-				class="flex items-center gap-1 rounded px-1.5 py-0.5 text-[10px] font-medium transition-colors hover:bg-s-glass-hover"
-				style="color: {color}"
-				onclick={copyLocal}
-			>
-				{#if copied}<Check size={11} /> Copied{:else}<Copy size={11} /> Copy{/if}
-			</button>
+			<div class="flex items-center gap-1">
+				<button
+					class="flex items-center gap-1 rounded px-1.5 py-0.5 text-[10px] font-medium transition-colors hover:bg-s-glass-hover"
+					class:opacity-60={!showQr}
+					style="color: {color}"
+					aria-pressed={showQr}
+					onclick={() => (showQr = !showQr)}
+				>
+					<QrCode size={11} /> QR
+				</button>
+				<button
+					class="flex items-center gap-1 rounded px-1.5 py-0.5 text-[10px] font-medium transition-colors hover:bg-s-glass-hover"
+					style="color: {color}"
+					onclick={copyLocal}
+				>
+					{#if copied}<Check size={11} /> Copied{:else}<Copy size={11} /> Copy{/if}
+				</button>
+			</div>
 		</div>
+		{#if showQr}
+			<div class="flex justify-center rounded-lg bg-white p-2">
+				<div class="w-full max-w-[220px]">
+					<!-- eslint-disable-next-line svelte/no-at-html-tags -->
+					{@html qrSvg}
+				</div>
+			</div>
+		{/if}
 		<textarea
 			class="h-16 w-full resize-none rounded-md border border-s-border bg-s-glass px-2 py-1.5 font-mono text-[10px] leading-snug text-t-secondary outline-none"
 			readonly
@@ -62,6 +134,46 @@
 			value={session.localCode}
 		></textarea>
 		<p class="text-[11px] leading-relaxed text-t-muted">{hint}</p>
+	</div>
+{/snippet}
+
+{#snippet pasteField(
+	label: string,
+	target: 'invite' | 'reply',
+	bindGet: () => string,
+	bindSet: (v: string) => void,
+	action: () => void,
+	actionLabel: string
+)}
+	<div class="flex flex-col gap-1.5">
+		<div class="flex items-center justify-between">
+			<span class="text-[10px] font-semibold tracking-wider text-t-muted uppercase">{label}</span>
+			<button
+				class="flex items-center gap-1 rounded px-1.5 py-0.5 text-[10px] font-medium transition-colors hover:bg-s-glass-hover"
+				style="color: {color}"
+				onclick={() => (scanFor = target)}
+			>
+				<ScanLine size={11} /> Scan QR
+			</button>
+		</div>
+		{#if scanFor === target}
+			<QrScanner onResult={onScanned} onCancel={() => (scanFor = null)} {color} />
+		{:else}
+			<textarea
+				class="h-14 w-full resize-none rounded-md border border-s-border bg-s-glass px-2 py-1.5 font-mono text-[10px] leading-snug text-t-primary outline-none focus:border-s-glass-hover"
+				placeholder="Paste the {target === 'invite' ? 'invite' : 'reply'} code, or Scan QR…"
+				value={bindGet()}
+				oninput={(e) => bindSet((e.currentTarget as HTMLTextAreaElement).value)}
+			></textarea>
+			<button
+				class="flex h-7 w-fit items-center gap-1.5 rounded-md px-2.5 text-xs font-semibold transition-all hover:brightness-110 disabled:opacity-40"
+				style="background-color: {color}1a; color: {color}"
+				disabled={!bindGet().trim()}
+				onclick={action}
+			>
+				{actionLabel}
+			</button>
+		{/if}
 	</div>
 {/snippet}
 
@@ -95,49 +207,29 @@
 	{:else if phase === 'invite-ready'}
 		{@render codeBlock(
 			'Your invite',
-			'Send this to the other device (paste it into AirDrop, Messages, a shared note — anything). When they send a reply code back, paste it below.'
+			'Show the QR to the other device, or send this code (AirDrop, Messages, a shared note). When they reply, scan or paste it below.'
 		)}
-		<div class="flex flex-col gap-1.5">
-			<span class="text-[10px] font-semibold tracking-wider text-t-muted uppercase"
-				>Their reply</span
-			>
-			<textarea
-				class="h-14 w-full resize-none rounded-md border border-s-border bg-s-glass px-2 py-1.5 font-mono text-[10px] leading-snug text-t-primary outline-none focus:border-s-glass-hover"
-				placeholder="Paste the reply code from the other device…"
-				bind:value={replyCode}
-			></textarea>
-			<button
-				class="flex h-7 w-fit items-center gap-1.5 rounded-md px-2.5 text-xs font-semibold transition-all hover:brightness-110 disabled:opacity-40"
-				style="background-color: {color}1a; color: {color}"
-				disabled={!replyCode.trim()}
-				onclick={() => session.applyReply(replyCode)}
-			>
-				Connect
-			</button>
-		</div>
+		{@render pasteField(
+			'Their reply',
+			'reply',
+			() => replyCode,
+			(v) => (replyCode = v),
+			() => session.applyReply(replyCode),
+			'Connect'
+		)}
 	{:else if phase === 'join-paste'}
-		<div class="flex flex-col gap-1.5">
-			<span class="text-[10px] font-semibold tracking-wider text-t-muted uppercase"
-				>Paste the invite</span
-			>
-			<textarea
-				class="h-16 w-full resize-none rounded-md border border-s-border bg-s-glass px-2 py-1.5 font-mono text-[10px] leading-snug text-t-primary outline-none focus:border-s-glass-hover"
-				placeholder="Paste the invite code from the other device…"
-				bind:value={inviteCode}
-			></textarea>
-			<button
-				class="flex h-7 w-fit items-center gap-1.5 rounded-md px-2.5 text-xs font-semibold transition-all hover:brightness-110 disabled:opacity-40"
-				style="background-color: {color}1a; color: {color}"
-				disabled={!inviteCode.trim()}
-				onclick={() => session.acceptInvite(inviteCode)}
-			>
-				Generate reply
-			</button>
-		</div>
+		{@render pasteField(
+			'Paste or scan the invite',
+			'invite',
+			() => inviteCode,
+			(v) => (inviteCode = v),
+			() => session.acceptInvite(inviteCode),
+			'Generate reply'
+		)}
 	{:else if phase === 'answer-ready'}
 		{@render codeBlock(
 			'Your reply',
-			'Send this back to the device that invited you. The moment they paste it, you connect — no button needed here.'
+			'Show the QR to the device that invited you, or send this code back. The moment they have it, you connect — no button needed here.'
 		)}
 		<div class="flex items-center gap-2 text-[11px] text-t-muted">
 			<LoaderCircle size={12} class="animate-spin" style="color: {color}" />
@@ -173,6 +265,88 @@
 			<p class="-mt-1 font-mono text-[10px] text-t-muted">
 				{session.pair.remoteAddr}:{session.pair.remotePort} · {session.pair.remoteType}
 			</p>
+		{/if}
+
+		<!-- Call -->
+		{#if session.inCall}
+			<div class="relative overflow-hidden rounded-lg border border-s-border bg-black">
+				{#if session.remoteStream}
+					<video
+						{@attach bindStream(session.remoteStream)}
+						autoplay
+						playsinline
+						class="aspect-video w-full bg-black object-cover"
+					></video>
+				{:else}
+					<div class="flex aspect-video w-full items-center justify-center">
+						<span class="text-[11px] text-t-muted">Waiting for their camera…</span>
+					</div>
+				{/if}
+				{#if session.localStream && session.sendingVideo}
+					<video
+						{@attach bindStream(session.localStream)}
+						autoplay
+						playsinline
+						muted
+						class="absolute right-2 bottom-2 h-16 w-24 -scale-x-100 rounded-md border border-white/20 bg-black object-cover shadow-lg"
+					></video>
+				{/if}
+			</div>
+			<!-- Call controls -->
+			<div class="flex items-center gap-1.5">
+				{#if session.localStream}
+					<button
+						class="flex h-8 w-8 items-center justify-center rounded-md border border-s-border transition-colors hover:bg-s-glass-hover"
+						style={session.micOn ? `color: ${color}` : 'color: var(--theme-text-muted)'}
+						onclick={() => session.toggleMic()}
+						aria-label={session.micOn ? 'Mute microphone' : 'Unmute microphone'}
+					>
+						{#if session.micOn}<Mic size={15} />{:else}<MicOff size={15} />{/if}
+					</button>
+					{#if session.sendingVideo}
+						<button
+							class="flex h-8 w-8 items-center justify-center rounded-md border border-s-border transition-colors hover:bg-s-glass-hover"
+							style={session.camOn ? `color: ${color}` : 'color: var(--theme-text-muted)'}
+							onclick={() => session.toggleCam()}
+							aria-label={session.camOn ? 'Turn camera off' : 'Turn camera on'}
+						>
+							{#if session.camOn}<Video size={15} />{:else}<VideoOff size={15} />{/if}
+						</button>
+					{/if}
+					<button
+						class="flex h-8 items-center gap-1.5 rounded-md bg-red-500/15 px-2.5 text-xs font-semibold text-red-400 transition-colors hover:bg-red-500/25"
+						onclick={() => session.hangUp()}
+					>
+						<PhoneOff size={14} /> Hang up
+					</button>
+				{:else}
+					<span class="text-[11px] text-t-muted">Incoming media —</span>
+					<button
+						class="flex h-8 items-center gap-1.5 rounded-md px-2.5 text-xs font-semibold transition-all hover:brightness-110"
+						style="background-color: {color}1a; color: {color}"
+						onclick={() => session.startCall(true)}
+					>
+						<Video size={14} /> Turn on my camera
+					</button>
+				{/if}
+			</div>
+		{:else}
+			<!-- Start a call -->
+			<div class="flex items-center gap-2">
+				<button
+					class="flex h-8 items-center gap-1.5 rounded-lg px-3 text-xs font-semibold transition-all hover:brightness-110"
+					style="background-color: {color}1a; color: {color}"
+					onclick={() => session.startCall(true)}
+				>
+					<Video size={14} /> Video call
+				</button>
+				<button
+					class="flex h-8 items-center gap-1.5 rounded-lg px-3 text-xs font-medium text-t-secondary transition-colors hover:bg-s-glass-hover hover:text-t-primary"
+					onclick={() => session.startCall(false)}
+				>
+					<Mic size={14} /> Audio only
+				</button>
+			</div>
 		{/if}
 
 		<!-- Transcript -->

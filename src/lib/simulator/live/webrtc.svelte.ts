@@ -68,11 +68,27 @@ export class WebRTCSession {
 	/** The resolved direct path (real peer IP:port), once connected. */
 	pair = $state<SelectedPair | null>(null);
 
+	/** Local camera/mic stream while publishing media (null = not in a call). */
+	localStream = $state<MediaStream | null>(null);
+	/** The remote peer's media stream once their tracks arrive. */
+	remoteStream = $state<MediaStream | null>(null);
+	/** True while audio/video is flowing either direction. */
+	inCall = $state(false);
+	micOn = $state(true);
+	camOn = $state(true);
+	/** Whether the local user is publishing a video track (vs audio-only). */
+	sendingVideo = $state(false);
+
 	private pc: RTCPeerConnection | null = null;
 	private dc: RTCDataChannel | null = null;
 	private append: WebRTCSessionContext['append'];
 	private clearTimeline: WebRTCSessionContext['clear'];
 	private seq = 0;
+	// Perfect-negotiation state for renegotiating media over the data channel.
+	private polite = false;
+	private makingOffer = false;
+	private ignoreOffer = false;
+	private mediaStepEmitted = false;
 
 	constructor(ctx: WebRTCSessionContext) {
 		this.append = ctx.append;
@@ -185,9 +201,73 @@ export class WebRTCSession {
 	send(text: string) {
 		const body = text.trim();
 		if (!body || this.dc?.readyState !== 'open') return;
-		this.dc.send(body);
+		this.dcSend({ k: 'm', x: body });
 		this.messages = [...this.messages, { id: `m${this.seq++}`, dir: 'out', text: body }];
 		this.emitMessageStep(body, 'out');
+	}
+
+	// ---- Audio / video call ------------------------------------------------
+
+	/**
+	 * Start (or add to) a call by publishing the local mic — and camera, if
+	 * `video` — on the SAME peer connection. Adding tracks triggers
+	 * renegotiation, which we carry over the already-open data channel, so no
+	 * new codes are exchanged.
+	 */
+	async startCall(video: boolean) {
+		const pc = this.pc;
+		if (!pc || this.phase !== 'connected' || this.localStream) return;
+		this.error = null;
+		let stream: MediaStream;
+		try {
+			stream = await navigator.mediaDevices.getUserMedia({ audio: true, video });
+		} catch (err) {
+			const name = (err as Error).name;
+			this.error =
+				name === 'NotAllowedError'
+					? 'Camera/microphone access was blocked. Allow it and try again.'
+					: name === 'NotFoundError'
+						? 'No camera or microphone was found on this device.'
+						: 'Could not start the call.';
+			return;
+		}
+		this.localStream = stream;
+		this.micOn = true;
+		this.camOn = video;
+		this.sendingVideo = video;
+		this.inCall = true;
+		stream.getTracks().forEach((t) => pc.addTrack(t, stream)); // → onnegotiationneeded
+		this.emitMediaAddedStep(video);
+	}
+
+	toggleMic() {
+		const s = this.localStream;
+		if (!s) return;
+		this.micOn = !this.micOn;
+		s.getAudioTracks().forEach((t) => (t.enabled = this.micOn));
+	}
+
+	toggleCam() {
+		const s = this.localStream;
+		if (!s || !this.sendingVideo) return;
+		this.camOn = !this.camOn;
+		s.getVideoTracks().forEach((t) => (t.enabled = this.camOn));
+	}
+
+	/** Stop publishing local media (the data channel + chat stay open). */
+	hangUp() {
+		const pc = this.pc;
+		this.localStream?.getTracks().forEach((t) => t.stop());
+		if (pc) {
+			pc.getSenders().forEach((s) => {
+				if (s.track) pc.removeTrack(s); // → renegotiation removes the tracks
+			});
+		}
+		this.localStream = null;
+		this.sendingVideo = false;
+		const remoteLive = !!this.remoteStream?.getTracks().some((t) => t.readyState === 'live');
+		this.inCall = remoteLive;
+		this.emitCallEndedStep();
 	}
 
 	/** Close the connection and reset everything. */
@@ -218,18 +298,97 @@ export class WebRTCSession {
 		dc.onclose = () => {
 			if (this.phase === 'connected') this.phase = 'closed';
 		};
-		dc.onmessage = (e) => {
-			const text = typeof e.data === 'string' ? e.data : '[binary]';
+		dc.onmessage = (e) => void this.onDcMessage(e.data);
+	}
+
+	/** Send a control/chat envelope over the data channel (JSON). */
+	private dcSend(obj: unknown) {
+		if (this.dc?.readyState === 'open') this.dc.send(JSON.stringify(obj));
+	}
+
+	/** Demultiplex the data channel: chat text, or media-renegotiation signaling. */
+	private async onDcMessage(data: unknown) {
+		if (typeof data !== 'string') return;
+		let msg: { k?: string; x?: unknown; d?: RTCSessionDescriptionInit; c?: RTCIceCandidateInit };
+		try {
+			msg = JSON.parse(data);
+		} catch {
+			msg = { k: 'm', x: data }; // tolerate a raw-string peer
+		}
+		if (msg.k === 'm') {
+			const text = String(msg.x ?? '');
 			this.messages = [...this.messages, { id: `m${this.seq++}`, dir: 'in', text }];
 			this.emitMessageStep(text, 'in');
-		};
+		} else if (msg.k === 'sdp' && msg.d) {
+			await this.onRemoteDescription(msg.d);
+		} else if (msg.k === 'ice' && msg.c) {
+			try {
+				await this.pc?.addIceCandidate(msg.c);
+			} catch (err) {
+				if (!this.ignoreOffer) console.warn('addIceCandidate', err);
+			}
+		}
+	}
+
+	/** Perfect-negotiation handling of a renegotiation offer/answer over the DC. */
+	private async onRemoteDescription(desc: RTCSessionDescriptionInit) {
+		const pc = this.pc;
+		if (!pc) return;
+		const collision = desc.type === 'offer' && (this.makingOffer || pc.signalingState !== 'stable');
+		this.ignoreOffer = !this.polite && collision;
+		if (this.ignoreOffer) return;
+		await pc.setRemoteDescription(desc);
+		if (desc.type === 'offer') {
+			await pc.setLocalDescription();
+			this.dcSend({ k: 'sdp', d: pc.localDescription });
+		}
 	}
 
 	private async onConnected() {
 		if (this.phase === 'connected') return;
 		this.phase = 'connected';
-		this.pair = this.pc ? await selectedPair(this.pc) : null;
+		// The joiner is the "polite" peer: on a glare it yields instead of clashing.
+		this.polite = this.role === 'joiner';
+		const pc = this.pc;
+		if (pc) {
+			// Enable renegotiation now that the data channel can carry it. (These
+			// are set post-connect so they don't interfere with the initial,
+			// manually-signaled offer/answer.)
+			pc.onnegotiationneeded = async () => {
+				try {
+					this.makingOffer = true;
+					await pc.setLocalDescription();
+					this.dcSend({ k: 'sdp', d: pc.localDescription });
+				} catch (err) {
+					console.warn('negotiationneeded', err);
+				} finally {
+					this.makingOffer = false;
+				}
+			};
+			pc.onicecandidate = ({ candidate }) => {
+				if (candidate) this.dcSend({ k: 'ice', c: candidate });
+			};
+			pc.ontrack = (e) => this.onRemoteTrack(e);
+		}
+		this.pair = pc ? await selectedPair(pc) : null;
 		this.emitConnectedStep();
+	}
+
+	private onRemoteTrack(e: RTCTrackEvent) {
+		this.remoteStream = e.streams[0] ?? new MediaStream([e.track]);
+		this.inCall = true;
+		// When the far side hangs up, its tracks end — drop the remote video then.
+		e.track.onended = () => {
+			const live = this.remoteStream?.getTracks().some((t) => t.readyState === 'live');
+			if (!live) {
+				this.remoteStream = null;
+				this.inCall = !!this.localStream;
+			}
+		};
+		if (!this.mediaStepEmitted) {
+			this.mediaStepEmitted = true;
+			this.emitMediaStep();
+		}
 	}
 
 	/** Resolve when ICE gathering finishes, or after a short cap (LAN is instant). */
@@ -260,6 +419,11 @@ export class WebRTCSession {
 
 	reset() {
 		try {
+			this.localStream?.getTracks().forEach((t) => t.stop());
+		} catch {
+			/* already stopped */
+		}
+		try {
 			this.dc?.close();
 		} catch {
 			/* already closed */
@@ -279,6 +443,16 @@ export class WebRTCSession {
 		this.messages = [];
 		this.pair = null;
 		this.seq = 0;
+		this.localStream = null;
+		this.remoteStream = null;
+		this.inCall = false;
+		this.micOn = true;
+		this.camOn = true;
+		this.sendingVideo = false;
+		this.polite = false;
+		this.makingOffer = false;
+		this.ignoreOffer = false;
+		this.mediaStepEmitted = false;
 	}
 
 	// ---- Step emission -----------------------------------------------------
@@ -417,6 +591,106 @@ export class WebRTCSession {
 			highlight: ['Payload'],
 			layers
 		});
+	}
+
+	private emitMediaAddedStep(video: boolean) {
+		this.append({
+			id: `media-add-${this.seq++}`,
+			label: video ? 'Camera & mic added' : 'Microphone added',
+			description: `You turned on your ${
+				video ? 'camera and microphone' : 'microphone'
+			}. The browsers renegotiated the session over the already‑open data channel — no new codes to exchange — and added the media tracks to the same peer connection.`,
+			fromActor: this.me,
+			toActor: this.them,
+			duration: 500,
+			layers: []
+		});
+	}
+
+	private emitMediaStep() {
+		const p = this.pair;
+		const { audio, video } = this.negotiatedCodecs();
+		const codecs = [audio, video].filter(Boolean).join(', ') || 'the negotiated codecs';
+		const hasVideo = !!video;
+		const mediaLayer: ProtocolLayer = {
+			name: 'SRTP Media',
+			abbreviation: 'SRTP',
+			osiLayer: 7,
+			color: '#F59E0B',
+			headerFields: [
+				{
+					name: 'Media',
+					bits: 0,
+					value: hasVideo ? 'audio + video' : 'audio',
+					editable: false,
+					description: 'What the two browsers negotiated to send over this call'
+				},
+				{
+					name: 'Codecs',
+					bits: 0,
+					value: codecs,
+					editable: false,
+					description: 'Real codecs both sides agreed on, read from the negotiated SDP',
+					color: '#F59E0B'
+				},
+				{
+					name: 'Encryption',
+					bits: 0,
+					value: 'AES (DTLS‑SRTP)',
+					editable: false,
+					description:
+						'SRTP keys were derived from the DTLS handshake — media is encrypted end‑to‑end'
+				},
+				{
+					name: 'Payload',
+					bits: 0,
+					value: 'live encrypted media frames',
+					editable: false,
+					description: 'Actual audio/video, flowing directly device‑to‑device in real time'
+				}
+			]
+		};
+		this.append({
+			id: `media-flow-${this.seq++}`,
+			label: 'Media flowing (SRTP)',
+			description: `A real ${
+				hasVideo ? 'audio + video' : 'audio'
+			} call is now flowing directly between the two devices as SRTP (${codecs}). It's peer‑to‑peer over your Wi‑Fi — the media never touches a server.`,
+			fromActor: this.them,
+			toActor: this.me,
+			duration: 700,
+			highlight: ['Codecs'],
+			layers: [
+				createUDPLayer({ srcPort: p?.remotePort ?? 0, dstPort: p?.localPort ?? 0, length: 0 }),
+				mediaLayer
+			]
+		});
+	}
+
+	private emitCallEndedStep() {
+		this.append({
+			id: `call-end-${this.seq++}`,
+			label: 'Call ended',
+			description:
+				'You stopped sending audio/video. The data channel stays open, so you can keep chatting or start another call.',
+			fromActor: this.me,
+			toActor: this.them,
+			duration: 400,
+			layers: []
+		});
+	}
+
+	/** Read the agreed audio/video codec names from the negotiated remote SDP. */
+	private negotiatedCodecs(): { audio?: string; video?: string } {
+		const sdp = this.pc?.remoteDescription?.sdp ?? '';
+		const names = sdp
+			.split(/\r?\n/)
+			.filter((l) => l.startsWith('a=rtpmap:'))
+			.map((l) => l.split(' ')[1] ?? '');
+		return {
+			audio: names.find((c) => /opus|PCMU|PCMA|G722/i.test(c)),
+			video: names.find((c) => /VP8|VP9|H264|AV1/i.test(c))
+		};
 	}
 }
 
