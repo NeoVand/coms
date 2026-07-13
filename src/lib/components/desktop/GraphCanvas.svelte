@@ -211,11 +211,17 @@
 		};
 	}
 
-	/** Nodes visible to the user — hub/category are hidden in mesh mode. */
+	/** Nodes visible to the user — mesh hides hub/category, timeline hides subcategories. */
 	function hitNodes(): GraphNode[] {
-		return appState.layoutMode === 'mesh'
-			? nodes.filter((n) => n.type === 'protocol' || n.type === 'subcategory')
-			: nodes;
+		if (appState.layoutMode === 'mesh') {
+			return nodes.filter((n) => n.type === 'protocol' || n.type === 'subcategory');
+		}
+		if (appState.layoutMode === 'timeline') {
+			// Subcategories are parked on top of their category and not drawn here,
+			// so they'd steal clicks meant for the visible category node.
+			return nodes.filter((n) => n.type !== 'subcategory');
+		}
+		return nodes;
 	}
 
 	/** Collect the non-dimmed nodes for a given selection (mirrors isNodeDimmed in canvas-renderer). */
@@ -421,6 +427,19 @@
 	// React to layout mode changes — animate nodes to new positions
 	$effect(() => {
 		const mode = appState.layoutMode;
+
+		// The render loop prioritizes the intro bloom over layout transitions, so a
+		// layout switch made *during* the bloom would be silently ignored for
+		// seconds. Cancel the bloom here so the switch takes effect immediately.
+		if (bloomActive && prevLayout !== null) {
+			bloomActive = false;
+			bloomStart = null;
+			bloomNodeTargets = null;
+			birthScales.clear();
+			bloomSpawned.clear();
+			bloomVelocities.clear();
+		}
+
 		if (mode === 'force') {
 			if (prevLayout !== null && prevLayout !== 'force') {
 				// Switching back to force — compute settled positions and lerp there
@@ -442,8 +461,14 @@
 					});
 					appState.focusOnSubgraph(targetNodes, width, height, isPanelOccupied() ? undefined : 0);
 				} else {
+					// Reduced motion: warm up and snap straight to the settled force
+					// layout — a spring transition would need springStates, which stays
+					// empty here, so the nodes would otherwise never move (a11y bug).
+					warmUpSimulation(simulation);
+					syncPositions(simulation, nodes);
 					layoutTargets = null;
 					springStates.clear();
+					appState.focusOnSubgraph(nodes, width, height, isPanelOccupied() ? undefined : 0, true);
 				}
 			}
 		} else {
@@ -472,7 +497,12 @@
 						? targetNodes.filter((n) => n.type === 'protocol' || n.type === 'subcategory')
 						: targetNodes;
 
-				if (landDirectly) {
+				// Snap straight to the target layout when landing on first render, OR
+				// under reduced motion — otherwise the spring transition needs
+				// springStates (populated by captureLayoutSource), which is skipped for
+				// reduced motion, leaving every node stuck in place while the camera
+				// pans to where they should be.
+				if (landDirectly || prefersReducedMotion.current) {
 					for (const n of nodes) {
 						const t = positions.get(n.id);
 						if (t) {
@@ -484,11 +514,10 @@
 					}
 					layoutTargets = null;
 					springStates.clear();
-					appState.focusOnSubgraph(focusNodes, width, height, undefined, true);
+					const panelW = landDirectly ? undefined : isPanelOccupied() ? undefined : 0;
+					appState.focusOnSubgraph(focusNodes, width, height, panelW, true);
 				} else {
-					if (!prefersReducedMotion.current) {
-						captureLayoutSource();
-					}
+					captureLayoutSource();
 					layoutTargets = positions;
 					appState.focusOnSubgraph(focusNodes, width, height, isPanelOccupied() ? undefined : 0);
 				}
@@ -643,7 +672,9 @@
 
 	onMount(() => {
 		const ctx = canvas.getContext('2d')!;
-		const dpr = window.devicePixelRatio || 1;
+		// Re-read on every resize so browser zoom / dragging between monitors of
+		// different DPI re-rasterizes at the correct backing resolution (not stale).
+		let dpr = window.devicePixelRatio || 1;
 
 		// Expose the live nodes (post-simulation positions) so anything
 		// outside the canvas (e.g. inline ProtocolLink hover pans) can
@@ -693,6 +724,7 @@
 
 		const resizeObserver = new ResizeObserver((entries) => {
 			const entry = entries[0];
+			dpr = window.devicePixelRatio || 1;
 			width = entry.contentRect.width;
 			height = entry.contentRect.height;
 			canvas.width = width * dpr;
@@ -722,6 +754,33 @@
 			}
 		});
 		resizeObserver.observe(canvas.parentElement!);
+
+		// A monitor-to-monitor DPI change doesn't resize the element, so watch
+		// devicePixelRatio directly and re-rasterize the backing store when it flips.
+		let dprMedia = window.matchMedia(`(resolution: ${dpr}dppx)`);
+		const onDprChange = () => {
+			dpr = window.devicePixelRatio || 1;
+			if (width > 0 && height > 0) {
+				canvas.width = width * dpr;
+				canvas.height = height * dpr;
+			}
+			dprMedia.removeEventListener('change', onDprChange);
+			dprMedia = window.matchMedia(`(resolution: ${dpr}dppx)`);
+			dprMedia.addEventListener('change', onDprChange);
+		};
+		dprMedia.addEventListener('change', onDprChange);
+
+		// Finish/continue a pan even when the button is released or the cursor
+		// moves outside the canvas (over the panel, header, or off-window),
+		// otherwise `isPanning` would stick and re-grab on the next entry.
+		const onWindowMouseUp = (e: MouseEvent) => {
+			if (isPanning && e.target !== canvas) handleMouseUp(e);
+		};
+		const onWindowMouseMove = (e: MouseEvent) => {
+			if (isPanning && e.target !== canvas) handleMouseMove(e);
+		};
+		window.addEventListener('mouseup', onWindowMouseUp);
+		window.addEventListener('mousemove', onWindowMouseMove);
 
 		renderLoop.start((time, dt) => {
 			if (width === 0 || height === 0) return;
@@ -896,6 +955,9 @@
 			renderLoop.destroy();
 			simulation.stop();
 			resizeObserver.disconnect();
+			dprMedia.removeEventListener('change', onDprChange);
+			window.removeEventListener('mouseup', onWindowMouseUp);
+			window.removeEventListener('mousemove', onWindowMouseMove);
 			canvas.removeEventListener('touchstart', handleTouchStart);
 			canvas.removeEventListener('touchmove', handleTouchMove);
 			canvas.removeEventListener('touchend', handleTouchEnd);

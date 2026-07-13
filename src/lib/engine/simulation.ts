@@ -220,6 +220,11 @@ export function createSimulation(
 		.alphaDecay(0.02)
 		.velocityDecay(0.3);
 
+	// d3-force auto-starts an internal timer on construction; stop it so the sim
+	// doesn't self-tick (needless work, and a surprise side effect) before the
+	// caller's explicit warm-up / alpha reset.
+	simulation.stop();
+
 	return simulation;
 }
 
