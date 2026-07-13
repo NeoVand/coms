@@ -18,7 +18,7 @@
 	let stepElements: HTMLElement[] = [];
 
 	const stepStates = $derived(
-		config.steps.map((_, i) => {
+		sim.steps.map((_, i) => {
 			if (sim.currentStep < 0) return 'future' as const;
 			if (i < sim.currentStep) return 'past' as const;
 			if (i === sim.currentStep) return 'current' as const;
@@ -41,7 +41,7 @@
 <section>
 	<h3 class="mb-3 text-xs font-semibold tracking-wider text-t-muted uppercase">Simulation Steps</h3>
 	<div class="relative space-y-0">
-		{#each config.steps as step, i (step.id)}
+		{#each sim.steps as step, i (step.id)}
 			{@const stepState = stepStates[i]}
 			{@const isCurrent = stepState === 'current'}
 			{@const isPast = stepState === 'past'}
@@ -49,7 +49,7 @@
 
 			<div class="relative flex gap-3 pb-4" bind:this={stepElements[i]}>
 				<!-- Vertical connector line -->
-				{#if i < config.steps.length - 1}
+				{#if i < sim.steps.length - 1}
 					<div
 						class="absolute top-[24px] left-[11px] w-[2px] transition-colors duration-300"
 						style="
@@ -91,6 +91,13 @@
 						<!-- Non-clickable header for current step (already expanded) -->
 						<div class="flex items-baseline gap-2">
 							<h4 class="text-sm font-medium text-t-primary">{step.label}</h4>
+							{#if step.source === 'live'}
+								<span
+									class="rounded-full px-1.5 py-px text-[9px] font-bold tracking-wider uppercase"
+									style="color: {color}; background-color: {color}18;"
+									title="Captured from a real network exchange">live</span
+								>
+							{/if}
 							<span class="text-[10px] text-t-muted">
 								{getActorLabel(step.fromActor)} → {getActorLabel(step.toActor)}
 							</span>

@@ -1,13 +1,18 @@
 <script lang="ts">
 	import type { SimulatorState } from '../state.svelte';
-	import { RotateCcw, Play } from 'lucide-svelte';
+	import { RotateCcw, Play, Radio, LoaderCircle } from 'lucide-svelte';
 
 	interface Props {
 		state: SimulatorState;
 		color: string;
+		/** Live mode only: perform the real exchange (replaces the play timer). */
+		onRun?: () => void;
 	}
 
-	let { state, color }: Props = $props();
+	let { state, color, onRun }: Props = $props();
+
+	const isLive = $derived(state.mode === 'live');
+	const isRunning = $derived(state.status === 'running');
 </script>
 
 <div class="flex items-center gap-3">
@@ -23,22 +28,40 @@
 			<RotateCcw size={14} />
 		</button>
 
-		<!-- Play / Pause -->
-		<button
-			class="flex h-8 w-8 items-center justify-center rounded-lg transition-all hover:bg-s-glass-hover"
-			style="color: {color}"
-			onclick={() => (state.status === 'running' ? state.pause() : state.play())}
-			aria-label={state.status === 'running' ? 'Pause' : 'Play'}
-		>
-			{#if state.status === 'running'}
-				<svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
-					<rect x="6" y="4" width="4" height="16" rx="1" />
-					<rect x="14" y="4" width="4" height="16" rx="1" />
-				</svg>
-			{:else}
-				<Play size={18} />
-			{/if}
-		</button>
+		{#if isLive}
+			<!-- Live: a single "Run" that performs the real exchange -->
+			<button
+				class="flex h-8 items-center justify-center gap-1.5 rounded-lg px-2.5 text-xs font-semibold transition-all hover:bg-s-glass-hover disabled:opacity-50"
+				style="color: {color}"
+				onclick={() => onRun?.()}
+				disabled={isRunning}
+				aria-label="Run live exchange"
+			>
+				{#if isRunning}
+					<LoaderCircle size={15} class="animate-spin" />
+				{:else}
+					<Radio size={15} />
+				{/if}
+				<span>{isRunning ? 'Running' : 'Run'}</span>
+			</button>
+		{:else}
+			<!-- Play / Pause -->
+			<button
+				class="flex h-8 w-8 items-center justify-center rounded-lg transition-all hover:bg-s-glass-hover"
+				style="color: {color}"
+				onclick={() => (isRunning ? state.pause() : state.play())}
+				aria-label={isRunning ? 'Pause' : 'Play'}
+			>
+				{#if isRunning}
+					<svg class="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+						<rect x="6" y="4" width="4" height="16" rx="1" />
+						<rect x="14" y="4" width="4" height="16" rx="1" />
+					</svg>
+				{:else}
+					<Play size={18} />
+				{/if}
+			</button>
+		{/if}
 
 		<!-- Step forward -->
 		<button

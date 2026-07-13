@@ -1,7 +1,8 @@
 <script lang="ts">
-	import { untrack } from 'svelte';
+	import { untrack, onDestroy } from 'svelte';
 	import { SimulatorState } from '../state.svelte';
 	import { getSimulation } from '../simulations/index';
+	import { hasLiveDriver, liveDriverFor } from '../live/index';
 	import StepTimeline from './StepTimeline.svelte';
 	import PlaybackControls from './PlaybackControls.svelte';
 	import SimulationInputs from './SimulationInputs.svelte';
@@ -24,15 +25,80 @@
 	// unsafe mutation).
 	const config = untrack(() => getSimulation(protocolId));
 	if (config) simState.load(config);
+
+	// Only protocols the browser can genuinely exercise get a live toggle.
+	// protocolId is read once (the parent remounts this view on protocol change).
+	const canGoLive = untrack(() => hasLiveDriver(protocolId));
+	const liveNote = untrack(() => liveDriverFor(protocolId)?.note);
+
+	let runController: AbortController | null = null;
+
+	function setMode(mode: 'scripted' | 'live') {
+		runController?.abort();
+		runController = null;
+		simState.setMode(mode);
+	}
+
+	async function runLive() {
+		const driver = liveDriverFor(protocolId);
+		if (!driver) return;
+		runController?.abort();
+		runController = new AbortController();
+		simState.liveSteps = [];
+		simState.liveError = null;
+		simState.currentStep = -1;
+		simState.status = 'running';
+		try {
+			await driver.run({
+				userValues: simState.userValues,
+				append: simState.appendStep,
+				signal: runController.signal
+			});
+			simState.status = simState.totalSteps > 0 ? 'complete' : 'idle';
+		} catch (err) {
+			simState.liveError = (err as Error).message;
+			simState.status = 'idle';
+		}
+	}
+
+	onDestroy(() => runController?.abort());
 </script>
 
 {#if config}
 	<div class="flex flex-col gap-4" data-tour="simulator-view">
-		<!-- Title -->
+		<!-- Title + Demo/Live toggle -->
 		<div>
-			<h3 class="text-sm font-semibold text-t-primary">{config.title}</h3>
+			<div class="flex items-start justify-between gap-3">
+				<h3 class="text-sm font-semibold text-t-primary">{config.title}</h3>
+				{#if canGoLive}
+					<div
+						class="flex shrink-0 items-center rounded-md border border-s-border p-0.5 text-[10px] font-semibold"
+						role="tablist"
+						aria-label="Simulation mode"
+					>
+						{#each [['scripted', 'Demo'], ['live', 'Live']] as [mode, label] (mode)}
+							{@const active = simState.mode === mode}
+							<button
+								role="tab"
+								aria-selected={active}
+								class="rounded px-2 py-0.5 transition-colors"
+								style={active
+									? `background-color: ${color}22; color: ${color};`
+									: 'color: var(--theme-text-muted);'}
+								onclick={() => setMode(mode as 'scripted' | 'live')}
+							>
+								{label}
+							</button>
+						{/each}
+					</div>
+				{/if}
+			</div>
 			<p class="mt-0.5 text-xs text-t-secondary">
-				<RichText segments={parseRichText(config.description)} {color} />
+				{#if simState.mode === 'live' && liveNote}
+					{liveNote}
+				{:else}
+					<RichText segments={parseRichText(config.description)} {color} />
+				{/if}
 			</p>
 		</div>
 
@@ -42,7 +108,22 @@
 		{/if}
 
 		<!-- Playback controls -->
-		<PlaybackControls state={simState} {color} />
+		<PlaybackControls state={simState} {color} onRun={runLive} />
+
+		<!-- Live error -->
+		{#if simState.mode === 'live' && simState.liveError}
+			<p class="rounded-md bg-red-500/10 px-3 py-2 text-xs text-red-400">
+				{simState.liveError}
+			</p>
+		{/if}
+
+		<!-- Empty live state: prompt to run -->
+		{#if simState.mode === 'live' && simState.totalSteps === 0 && !simState.liveError && simState.status !== 'running'}
+			<p class="text-xs text-t-muted">
+				Press <span class="font-semibold" style="color: {color}">Run</span> to perform a real query and
+				watch the actual exchange appear below.
+			</p>
+		{/if}
 
 		<!-- Step timeline -->
 		<StepTimeline {config} sim={simState} {color} />
