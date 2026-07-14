@@ -76,6 +76,13 @@ export class SimulatorState {
 		this.currentStep = this.liveSteps.length - 1;
 	};
 
+	/** Drop all captured steps (a fresh live session is starting). */
+	clearLive = () => {
+		this.liveSteps = [];
+		this.currentStep = -1;
+		this.status = 'idle';
+	};
+
 	play = () => {
 		if (!this.config) return;
 		if (this.status === 'complete') {

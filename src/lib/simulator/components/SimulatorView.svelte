@@ -2,10 +2,17 @@
 	import { untrack, onDestroy } from 'svelte';
 	import { SimulatorState } from '../state.svelte';
 	import { getSimulation } from '../simulations/index';
-	import { hasLiveDriver, liveDriverFor } from '../live/index';
+	import {
+		hasLiveDriver,
+		liveDriverFor,
+		liveKind,
+		liveNoteFor,
+		WebRTCSession
+	} from '../live/index';
 	import StepTimeline from './StepTimeline.svelte';
 	import PlaybackControls from './PlaybackControls.svelte';
 	import SimulationInputs from './SimulationInputs.svelte';
+	import WebRTCLive from './WebRTCLive.svelte';
 	import { parseRichText } from '$lib/utils/text-parser';
 	import RichText from '$lib/components/detail/inline/RichText.svelte';
 
@@ -29,14 +36,25 @@
 	// Only protocols the browser can genuinely exercise get a live toggle.
 	// protocolId is read once (the parent remounts this view on protocol change).
 	const canGoLive = untrack(() => hasLiveDriver(protocolId));
-	const liveNote = untrack(() => liveDriverFor(protocolId)?.note);
+	const kind = untrack(() => liveKind(protocolId));
+	const liveNote = untrack(() => liveNoteFor(protocolId));
 
 	let runController: AbortController | null = null;
+	// The stateful WebRTC session lives only while in live mode for a session
+	// protocol; each Demo⇄Live switch tears the connection down cleanly.
+	let webrtc: WebRTCSession | null = $state(null);
 
 	function setMode(mode: 'scripted' | 'live') {
 		runController?.abort();
 		runController = null;
 		simState.setMode(mode);
+		if (kind === 'session') {
+			webrtc?.reset();
+			webrtc =
+				mode === 'live'
+					? new WebRTCSession({ append: simState.appendStep, clear: simState.clearLive })
+					: null;
+		}
 	}
 
 	async function runLive() {
@@ -61,7 +79,12 @@
 		}
 	}
 
-	onDestroy(() => runController?.abort());
+	onDestroy(() => {
+		runController?.abort();
+		webrtc?.reset();
+	});
+
+	const liveSession = $derived(simState.mode === 'live' && kind === 'session');
 </script>
 
 {#if config}
@@ -102,27 +125,32 @@
 			</p>
 		</div>
 
-		<!-- User inputs -->
-		{#if config.userInputs}
+		<!-- User inputs (hidden in a live WebRTC session — its own panel drives it) -->
+		{#if config.userInputs && !liveSession}
 			<SimulationInputs inputs={config.userInputs} state={simState} {color} />
 		{/if}
 
-		<!-- Playback controls -->
-		<PlaybackControls state={simState} {color} onRun={runLive} />
+		{#if liveSession && webrtc}
+			<!-- Interactive two-device session (WebRTC data channel) -->
+			<WebRTCLive session={webrtc} {color} />
+		{:else}
+			<!-- Playback controls (scripted demo, or one-shot live request like DNS) -->
+			<PlaybackControls state={simState} {color} onRun={runLive} />
 
-		<!-- Live error -->
-		{#if simState.mode === 'live' && simState.liveError}
-			<p class="rounded-md bg-red-500/10 px-3 py-2 text-xs text-red-400">
-				{simState.liveError}
-			</p>
-		{/if}
+			<!-- Live error -->
+			{#if simState.mode === 'live' && simState.liveError}
+				<p class="rounded-md bg-red-500/10 px-3 py-2 text-xs text-red-400">
+					{simState.liveError}
+				</p>
+			{/if}
 
-		<!-- Empty live state: prompt to run -->
-		{#if simState.mode === 'live' && simState.totalSteps === 0 && !simState.liveError && simState.status !== 'running'}
-			<p class="text-xs text-t-muted">
-				Press <span class="font-semibold" style="color: {color}">Run</span> to perform a real query and
-				watch the actual exchange appear below.
-			</p>
+			<!-- Empty live state: prompt to run -->
+			{#if simState.mode === 'live' && simState.totalSteps === 0 && !simState.liveError && simState.status !== 'running'}
+				<p class="text-xs text-t-muted">
+					Press <span class="font-semibold" style="color: {color}">Run</span> to perform a real query
+					and watch the actual exchange appear below.
+				</p>
+			{/if}
 		{/if}
 
 		<!-- Step timeline -->
