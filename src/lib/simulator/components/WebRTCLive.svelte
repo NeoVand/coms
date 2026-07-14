@@ -15,7 +15,8 @@
 		VideoOff,
 		Mic,
 		MicOff,
-		PhoneOff
+		PhoneOff,
+		RotateCcw
 	} from 'lucide-svelte';
 
 	// Attachment factory: bind a MediaStream to a <video> (srcObject has no HTML
@@ -403,12 +404,24 @@
 				{phase === 'failed' ? 'The connection could not be established.' : 'Chat ended.'}
 			</p>
 		{/if}
-		<button
-			class="flex h-7 w-fit items-center gap-1.5 rounded-md px-2.5 text-xs font-medium text-t-secondary transition-colors hover:bg-s-glass-hover hover:text-t-primary"
-			onclick={() => session.reset()}
-		>
-			<ArrowLeft size={13} /> Start over
-		</button>
+		<div class="flex items-center gap-2">
+			{#if phase === 'failed' && session.role === 'joiner'}
+				<!-- Regenerate a fresh reply from the same invite — no re-pasting. -->
+				<button
+					class="flex h-7 items-center gap-1.5 rounded-md px-2.5 text-xs font-semibold transition-all hover:brightness-110"
+					style="background-color: {color}1a; color: {color}"
+					onclick={() => session.retryJoin()}
+				>
+					<RotateCcw size={13} /> Try again
+				</button>
+			{/if}
+			<button
+				class="flex h-7 w-fit items-center gap-1.5 rounded-md px-2.5 text-xs font-medium text-t-secondary transition-colors hover:bg-s-glass-hover hover:text-t-primary"
+				onclick={() => session.reset()}
+			>
+				<ArrowLeft size={13} /> Start over
+			</button>
+		</div>
 	{/if}
 
 	<!-- Error line (shown under any paste step) -->

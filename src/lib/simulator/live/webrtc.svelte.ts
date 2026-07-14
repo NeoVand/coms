@@ -89,6 +89,8 @@ export class WebRTCSession {
 	private clearTimeline: WebRTCSessionContext['clear'];
 	private seq = 0;
 	private connectTimer: ReturnType<typeof setTimeout> | null = null;
+	/** The invite code the joiner accepted, so a stalled join can be retried. */
+	private joinInvite = '';
 	// Perfect-negotiation state for renegotiating media over the data channel.
 	private polite = false;
 	private makingOffer = false;
@@ -152,6 +154,10 @@ export class WebRTCSession {
 			await this.pc.setRemoteDescription({ type: 'answer', sdp });
 			this.emitSdpStep('Reply received', 'signal', this.me, sdp, 'answer', false);
 			this.phase = 'connecting';
+			// Both peers now hold each other's SDP, so a healthy LAN connects within
+			// a second or two. Start the watchdog HERE (initiator only — the joiner
+			// can't observe this moment) so even a candidate-less answer can't hang.
+			this.armConnectTimeout();
 		} catch (err) {
 			this.fail(err);
 		}
@@ -179,6 +185,7 @@ export class WebRTCSession {
 				(err as Error).message || 'That invite code could not be read. Paste the whole thing.';
 			return;
 		}
+		this.joinInvite = code; // remembered so a stalled join can be retried
 		this.phase = 'joining';
 		this.clearTimeline();
 		try {
@@ -198,6 +205,22 @@ export class WebRTCSession {
 		} catch (err) {
 			this.fail(err);
 		}
+	}
+
+	/**
+	 * Joiner: rebuild a fresh connection + reply from the same invite after a
+	 * stalled attempt. Regenerating (rather than reusing the dead one) gives a
+	 * clean ICE agent; the user just re-shares the new code.
+	 */
+	async retryJoin() {
+		const invite = this.joinInvite;
+		if (!invite) {
+			this.reset();
+			return;
+		}
+		this.reset();
+		this.role = 'joiner';
+		await this.acceptInvite(invite);
 	}
 
 	// ---- Chat --------------------------------------------------------------
@@ -305,7 +328,6 @@ export class WebRTCSession {
 		};
 		pc.oniceconnectionstatechange = () => {
 			this.iceState = pc.iceConnectionState;
-			if (pc.iceConnectionState === 'checking') this.armConnectTimeout();
 			if (pc.iceConnectionState === 'connected' || pc.iceConnectionState === 'completed')
 				this.clearConnectTimeout();
 			if (pc.iceConnectionState === 'failed') this.failConnection();
@@ -318,12 +340,24 @@ export class WebRTCSession {
 	private failConnection() {
 		this.clearConnectTimeout();
 		if (this.phase === 'connected') return; // media renegotiation can blip; ignore
-		this.error =
-			"Couldn't open a direct path between the two devices. This almost always means the network is blocking device‑to‑device traffic — common on guest, office, or public Wi‑Fi with “client/AP isolation”. Try a home network, and make sure both devices are on the same Wi‑Fi (not one on cellular). A static site can't relay around this without a server.";
+		// A joiner that fails while still holding its reply has two possible
+		// causes it genuinely can't tell apart: the reply reached the other device
+		// too slowly (the browser gave up the ICE checks), or the network blocks
+		// the direct path. Name both honestly rather than guess.
+		const joinerWaiting = this.role === 'joiner' && this.phase === 'answer-ready';
+		this.error = joinerWaiting
+			? 'The connection didn’t complete. Either the reply took too long to reach the other device, or the network is blocking the direct path. Tap "Try again" for a fresh code and exchange it quickly — scanning the QR is fastest. If it still fails, use a home network (guest/office Wi‑Fi often blocks device‑to‑device).'
+			: "Couldn't open a direct path between the two devices. This usually means the network is blocking device‑to‑device traffic — common on guest, office, or public Wi‑Fi with “client/AP isolation”. Try a home network, and make sure both devices are on the same Wi‑Fi (not one on cellular). A static site can't relay around this without a server.";
 		this.phase = 'failed';
 	}
 
-	/** If ICE checks don't succeed within a window, surface the failure reason. */
+	/**
+	 * Initiator-side watchdog, started from applyReply() once both peers hold
+	 * each other's SDP. A healthy LAN connects within a second or two from there;
+	 * if it hasn't after this window, the path is genuinely blocked — surface the
+	 * reason rather than spin forever. (The joiner can't observe this moment, so
+	 * it has no wall-clock timer and relies on the browser's native 'failed'.)
+	 */
 	private armConnectTimeout() {
 		this.clearConnectTimeout();
 		this.connectTimer = setTimeout(() => {
@@ -343,6 +377,12 @@ export class WebRTCSession {
 		dc.onopen = () => void this.onConnected();
 		dc.onclose = () => {
 			if (this.phase === 'connected') this.phase = 'closed';
+		};
+		dc.onerror = () => {
+			// A channel-level error before we're up means the data channel won't
+			// open even though the transport may have connected — surface it rather
+			// than hang on the spinner.
+			if (this.phase !== 'connected') this.failConnection();
 		};
 		dc.onmessage = (e) => void this.onDcMessage(e.data);
 	}
@@ -504,6 +544,7 @@ export class WebRTCSession {
 		this.role = null;
 		this.phase = 'idle';
 		this.localCode = '';
+		this.joinInvite = '';
 		this.error = null;
 		this.connState = 'new';
 		this.iceState = 'new';
