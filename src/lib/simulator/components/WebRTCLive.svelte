@@ -134,6 +134,9 @@
 			value={session.localCode}
 		></textarea>
 		<p class="text-[11px] leading-relaxed text-t-muted">{hint}</p>
+		{#if session.diag}
+			<p class="font-mono text-[10px] text-t-muted">ICE candidates gathered: {session.diag}</p>
+		{/if}
 	</div>
 {/snippet}
 
@@ -238,7 +241,12 @@
 	{:else if phase === 'connecting'}
 		<div class="flex items-center gap-2 py-1 text-xs text-t-secondary">
 			<LoaderCircle size={14} class="animate-spin" style="color: {color}" />
-			Connecting… running ICE checks and the DTLS handshake.
+			<span>
+				Connecting… running ICE checks and the DTLS handshake.
+				{#if session.iceState && session.iceState !== 'new'}
+					<span class="font-mono text-[10px] text-t-muted">({session.iceState})</span>
+				{/if}
+			</span>
 		</div>
 	{:else if phase === 'connected'}
 		<!-- Status line -->
@@ -386,9 +394,15 @@
 			</button>
 		</div>
 	{:else if phase === 'failed' || phase === 'closed'}
-		<p class="text-xs text-t-secondary">
-			{phase === 'failed' ? 'The connection could not be established.' : 'Chat ended.'}
-		</p>
+		{#if phase === 'failed' && session.error}
+			<p class="rounded-md bg-red-500/10 px-2 py-1.5 text-[11px] leading-relaxed text-red-400">
+				{session.error}
+			</p>
+		{:else}
+			<p class="text-xs text-t-secondary">
+				{phase === 'failed' ? 'The connection could not be established.' : 'Chat ended.'}
+			</p>
+		{/if}
 		<button
 			class="flex h-7 w-fit items-center gap-1.5 rounded-md px-2.5 text-xs font-medium text-t-secondary transition-colors hover:bg-s-glass-hover hover:text-t-primary"
 			onclick={() => session.reset()}

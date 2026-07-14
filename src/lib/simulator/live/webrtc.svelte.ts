@@ -64,6 +64,10 @@ export class WebRTCSession {
 	error = $state<string | null>(null);
 	/** Raw RTCPeerConnection.connectionState, surfaced for the status line. */
 	connState = $state<RTCPeerConnectionState>('new');
+	/** Raw ICE connection state — shown while connecting so a stall is legible. */
+	iceState = $state<RTCIceConnectionState>('new');
+	/** Short human summary of what ICE gathered (e.g. "host + srflx"). */
+	diag = $state('');
 	messages = $state<ChatMessage[]>([]);
 	/** The resolved direct path (real peer IP:port), once connected. */
 	pair = $state<SelectedPair | null>(null);
@@ -84,6 +88,7 @@ export class WebRTCSession {
 	private append: WebRTCSessionContext['append'];
 	private clearTimeline: WebRTCSessionContext['clear'];
 	private seq = 0;
+	private connectTimer: ReturnType<typeof setTimeout> | null = null;
 	// Perfect-negotiation state for renegotiating media over the data channel.
 	private polite = false;
 	private makingOffer = false;
@@ -279,17 +284,58 @@ export class WebRTCSession {
 	// ---- Internals ---------------------------------------------------------
 
 	private newConnection(): RTCPeerConnection {
-		// Public STUN so peers on different networks can still find a path; on the
-		// same Wi-Fi the direct host candidates win and no relay is needed.
+		// Public STUN so peers can discover their reflexive addresses; on the same
+		// Wi-Fi the direct host candidates win and no relay is needed. (No TURN — a
+		// relay would require a server, and this stays fully static.)
 		const pc = new RTCPeerConnection({
-			iceServers: [{ urls: 'stun:stun.l.google.com:19302' }]
+			iceServers: [
+				{
+					urls: [
+						'stun:stun.l.google.com:19302',
+						'stun:stun1.l.google.com:19302',
+						'stun:global.stun.twilio.com:3478'
+					]
+				}
+			]
 		});
 		pc.onconnectionstatechange = () => {
 			this.connState = pc.connectionState;
-			if (pc.connectionState === 'failed') this.phase = 'failed';
+			if (pc.connectionState === 'connected') this.clearConnectTimeout();
+			if (pc.connectionState === 'failed') this.failConnection();
+		};
+		pc.oniceconnectionstatechange = () => {
+			this.iceState = pc.iceConnectionState;
+			if (pc.iceConnectionState === 'checking') this.armConnectTimeout();
+			if (pc.iceConnectionState === 'connected' || pc.iceConnectionState === 'completed')
+				this.clearConnectTimeout();
+			if (pc.iceConnectionState === 'failed') this.failConnection();
 		};
 		this.pc = pc;
 		return pc;
+	}
+
+	/** ICE reached a terminal failure — report a specific, actionable reason. */
+	private failConnection() {
+		this.clearConnectTimeout();
+		if (this.phase === 'connected') return; // media renegotiation can blip; ignore
+		this.error =
+			"Couldn't open a direct path between the two devices. This almost always means the network is blocking device‑to‑device traffic — common on guest, office, or public Wi‑Fi with “client/AP isolation”. Try a home network, and make sure both devices are on the same Wi‑Fi (not one on cellular). A static site can't relay around this without a server.";
+		this.phase = 'failed';
+	}
+
+	/** If ICE checks don't succeed within a window, surface the failure reason. */
+	private armConnectTimeout() {
+		this.clearConnectTimeout();
+		this.connectTimer = setTimeout(() => {
+			if (this.phase !== 'connected') this.failConnection();
+		}, 20000);
+	}
+
+	private clearConnectTimeout() {
+		if (this.connectTimer !== null) {
+			clearTimeout(this.connectTimer);
+			this.connectTimer = null;
+		}
 	}
 
 	private bindChannel(dc: RTCDataChannel) {
@@ -391,24 +437,43 @@ export class WebRTCSession {
 		}
 	}
 
-	/** Resolve when ICE gathering finishes, or after a short cap (LAN is instant). */
+	/**
+	 * Resolve when ICE gathering finishes so the code carries every candidate —
+	 * crucially the srflx (STUN) one, which is the fallback when host/mDNS
+	 * candidates can't reach each other. We wait for 'complete' (with a safety
+	 * cap) rather than a short timer, but finish early once we have both a host
+	 * and a reflexive candidate so a healthy LAN stays snappy.
+	 */
 	private gatherComplete(pc: RTCPeerConnection): Promise<void> {
-		if (pc.iceGatheringState === 'complete') return Promise.resolve();
+		if (pc.iceGatheringState === 'complete') {
+			this.diag = summariseCandidates(pc.localDescription?.sdp ?? '');
+			return Promise.resolve();
+		}
 		return new Promise((resolve) => {
 			let done = false;
 			const finish = () => {
 				if (done) return;
 				done = true;
 				pc.removeEventListener('icegatheringstatechange', check);
+				pc.removeEventListener('icecandidate', onCand);
+				this.diag = summariseCandidates(pc.localDescription?.sdp ?? '');
 				resolve();
+			};
+			const types = new Set<string>();
+			const onCand = (e: RTCPeerConnectionIceEvent) => {
+				const t = e.candidate ? /typ (\w+)/.exec(e.candidate.candidate)?.[1] : null;
+				if (t) types.add(t);
+				// Enough for a real path: a direct address and a reflexive fallback.
+				if (types.has('host') && types.has('srflx')) finish();
 			};
 			const check = () => {
 				if (pc.iceGatheringState === 'complete') finish();
 			};
 			pc.addEventListener('icegatheringstatechange', check);
-			// Cap the wait: STUN/relay candidates may never arrive on some networks,
-			// but the host candidates we need for a same‑Wi‑Fi path gather at once.
-			setTimeout(finish, 2500);
+			pc.addEventListener('icecandidate', onCand);
+			// Safety cap: on networks where STUN is blocked, gathering may stall —
+			// ship whatever host candidates we have rather than hang.
+			setTimeout(finish, 7000);
 		});
 	}
 
@@ -418,6 +483,7 @@ export class WebRTCSession {
 	}
 
 	reset() {
+		this.clearConnectTimeout();
 		try {
 			this.localStream?.getTracks().forEach((t) => t.stop());
 		} catch {
@@ -440,6 +506,8 @@ export class WebRTCSession {
 		this.localCode = '';
 		this.error = null;
 		this.connState = 'new';
+		this.iceState = 'new';
+		this.diag = '';
 		this.messages = [];
 		this.pair = null;
 		this.seq = 0;
@@ -692,6 +760,18 @@ export class WebRTCSession {
 			video: names.find((c) => /VP8|VP9|H264|AV1/i.test(c))
 		};
 	}
+}
+
+/** Short summary of the candidate types in an SDP, e.g. "host + srflx". */
+function summariseCandidates(sdp: string): string {
+	const types = new Set<string>();
+	for (const line of sdp.split(/\r?\n/)) {
+		const t = /typ (\w+)/.exec(line)?.[1];
+		if (line.includes('candidate:') && t) types.add(t);
+	}
+	if (types.size === 0) return 'no candidates';
+	const order = ['host', 'srflx', 'prflx', 'relay'];
+	return [...types].sort((a, b) => order.indexOf(a) - order.indexOf(b)).join(' + ');
 }
 
 /** getStats() rows are loosely typed across browsers — read the fields we need. */
