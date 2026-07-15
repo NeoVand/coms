@@ -15,7 +15,8 @@
 		VideoOff,
 		Mic,
 		MicOff,
-		PhoneOff
+		PhoneOff,
+		RotateCcw
 	} from 'lucide-svelte';
 
 	// Attachment factory: bind a MediaStream to a <video> (srcObject has no HTML
@@ -134,6 +135,9 @@
 			value={session.localCode}
 		></textarea>
 		<p class="text-[11px] leading-relaxed text-t-muted">{hint}</p>
+		{#if session.diag}
+			<p class="font-mono text-[10px] text-t-muted">ICE candidates gathered: {session.diag}</p>
+		{/if}
 	</div>
 {/snippet}
 
@@ -238,7 +242,12 @@
 	{:else if phase === 'connecting'}
 		<div class="flex items-center gap-2 py-1 text-xs text-t-secondary">
 			<LoaderCircle size={14} class="animate-spin" style="color: {color}" />
-			Connecting… running ICE checks and the DTLS handshake.
+			<span>
+				Connecting… running ICE checks and the DTLS handshake.
+				{#if session.iceState && session.iceState !== 'new'}
+					<span class="font-mono text-[10px] text-t-muted">({session.iceState})</span>
+				{/if}
+			</span>
 		</div>
 	{:else if phase === 'connected'}
 		<!-- Status line -->
@@ -386,15 +395,33 @@
 			</button>
 		</div>
 	{:else if phase === 'failed' || phase === 'closed'}
-		<p class="text-xs text-t-secondary">
-			{phase === 'failed' ? 'The connection could not be established.' : 'Chat ended.'}
-		</p>
-		<button
-			class="flex h-7 w-fit items-center gap-1.5 rounded-md px-2.5 text-xs font-medium text-t-secondary transition-colors hover:bg-s-glass-hover hover:text-t-primary"
-			onclick={() => session.reset()}
-		>
-			<ArrowLeft size={13} /> Start over
-		</button>
+		{#if phase === 'failed' && session.error}
+			<p class="rounded-md bg-red-500/10 px-2 py-1.5 text-[11px] leading-relaxed text-red-400">
+				{session.error}
+			</p>
+		{:else}
+			<p class="text-xs text-t-secondary">
+				{phase === 'failed' ? 'The connection could not be established.' : 'Chat ended.'}
+			</p>
+		{/if}
+		<div class="flex items-center gap-2">
+			{#if phase === 'failed' && session.role === 'joiner'}
+				<!-- Regenerate a fresh reply from the same invite — no re-pasting. -->
+				<button
+					class="flex h-7 items-center gap-1.5 rounded-md px-2.5 text-xs font-semibold transition-all hover:brightness-110"
+					style="background-color: {color}1a; color: {color}"
+					onclick={() => session.retryJoin()}
+				>
+					<RotateCcw size={13} /> Try again
+				</button>
+			{/if}
+			<button
+				class="flex h-7 w-fit items-center gap-1.5 rounded-md px-2.5 text-xs font-medium text-t-secondary transition-colors hover:bg-s-glass-hover hover:text-t-primary"
+				onclick={() => session.reset()}
+			>
+				<ArrowLeft size={13} /> Start over
+			</button>
+		</div>
 	{/if}
 
 	<!-- Error line (shown under any paste step) -->

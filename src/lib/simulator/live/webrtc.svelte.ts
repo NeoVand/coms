@@ -64,6 +64,10 @@ export class WebRTCSession {
 	error = $state<string | null>(null);
 	/** Raw RTCPeerConnection.connectionState, surfaced for the status line. */
 	connState = $state<RTCPeerConnectionState>('new');
+	/** Raw ICE connection state — shown while connecting so a stall is legible. */
+	iceState = $state<RTCIceConnectionState>('new');
+	/** Short human summary of what ICE gathered (e.g. "host + srflx"). */
+	diag = $state('');
 	messages = $state<ChatMessage[]>([]);
 	/** The resolved direct path (real peer IP:port), once connected. */
 	pair = $state<SelectedPair | null>(null);
@@ -84,6 +88,9 @@ export class WebRTCSession {
 	private append: WebRTCSessionContext['append'];
 	private clearTimeline: WebRTCSessionContext['clear'];
 	private seq = 0;
+	private connectTimer: ReturnType<typeof setTimeout> | null = null;
+	/** The invite code the joiner accepted, so a stalled join can be retried. */
+	private joinInvite = '';
 	// Perfect-negotiation state for renegotiating media over the data channel.
 	private polite = false;
 	private makingOffer = false;
@@ -147,6 +154,10 @@ export class WebRTCSession {
 			await this.pc.setRemoteDescription({ type: 'answer', sdp });
 			this.emitSdpStep('Reply received', 'signal', this.me, sdp, 'answer', false);
 			this.phase = 'connecting';
+			// Both peers now hold each other's SDP, so a healthy LAN connects within
+			// a second or two. Start the watchdog HERE (initiator only — the joiner
+			// can't observe this moment) so even a candidate-less answer can't hang.
+			this.armConnectTimeout();
 		} catch (err) {
 			this.fail(err);
 		}
@@ -174,6 +185,7 @@ export class WebRTCSession {
 				(err as Error).message || 'That invite code could not be read. Paste the whole thing.';
 			return;
 		}
+		this.joinInvite = code; // remembered so a stalled join can be retried
 		this.phase = 'joining';
 		this.clearTimeline();
 		try {
@@ -193,6 +205,22 @@ export class WebRTCSession {
 		} catch (err) {
 			this.fail(err);
 		}
+	}
+
+	/**
+	 * Joiner: rebuild a fresh connection + reply from the same invite after a
+	 * stalled attempt. Regenerating (rather than reusing the dead one) gives a
+	 * clean ICE agent; the user just re-shares the new code.
+	 */
+	async retryJoin() {
+		const invite = this.joinInvite;
+		if (!invite) {
+			this.reset();
+			return;
+		}
+		this.reset();
+		this.role = 'joiner';
+		await this.acceptInvite(invite);
 	}
 
 	// ---- Chat --------------------------------------------------------------
@@ -279,17 +307,69 @@ export class WebRTCSession {
 	// ---- Internals ---------------------------------------------------------
 
 	private newConnection(): RTCPeerConnection {
-		// Public STUN so peers on different networks can still find a path; on the
-		// same Wi-Fi the direct host candidates win and no relay is needed.
+		// Public STUN so peers can discover their reflexive addresses; on the same
+		// Wi-Fi the direct host candidates win and no relay is needed. (No TURN — a
+		// relay would require a server, and this stays fully static.)
 		const pc = new RTCPeerConnection({
-			iceServers: [{ urls: 'stun:stun.l.google.com:19302' }]
+			iceServers: [
+				{
+					urls: [
+						'stun:stun.l.google.com:19302',
+						'stun:stun1.l.google.com:19302',
+						'stun:global.stun.twilio.com:3478'
+					]
+				}
+			]
 		});
 		pc.onconnectionstatechange = () => {
 			this.connState = pc.connectionState;
-			if (pc.connectionState === 'failed') this.phase = 'failed';
+			if (pc.connectionState === 'connected') this.clearConnectTimeout();
+			if (pc.connectionState === 'failed') this.failConnection();
+		};
+		pc.oniceconnectionstatechange = () => {
+			this.iceState = pc.iceConnectionState;
+			if (pc.iceConnectionState === 'connected' || pc.iceConnectionState === 'completed')
+				this.clearConnectTimeout();
+			if (pc.iceConnectionState === 'failed') this.failConnection();
 		};
 		this.pc = pc;
 		return pc;
+	}
+
+	/** ICE reached a terminal failure — report a specific, actionable reason. */
+	private failConnection() {
+		this.clearConnectTimeout();
+		if (this.phase === 'connected') return; // media renegotiation can blip; ignore
+		// A joiner that fails while still holding its reply has two possible
+		// causes it genuinely can't tell apart: the reply reached the other device
+		// too slowly (the browser gave up the ICE checks), or the network blocks
+		// the direct path. Name both honestly rather than guess.
+		const joinerWaiting = this.role === 'joiner' && this.phase === 'answer-ready';
+		this.error = joinerWaiting
+			? 'The connection didn’t complete. Either the reply took too long to reach the other device, or the network is blocking the direct path. Tap "Try again" for a fresh code and exchange it quickly — scanning the QR is fastest. If it still fails, use a home network (guest/office Wi‑Fi often blocks device‑to‑device).'
+			: "Couldn't open a direct path between the two devices. This usually means the network is blocking device‑to‑device traffic — common on guest, office, or public Wi‑Fi with “client/AP isolation”. Try a home network, and make sure both devices are on the same Wi‑Fi (not one on cellular). A static site can't relay around this without a server.";
+		this.phase = 'failed';
+	}
+
+	/**
+	 * Initiator-side watchdog, started from applyReply() once both peers hold
+	 * each other's SDP. A healthy LAN connects within a second or two from there;
+	 * if it hasn't after this window, the path is genuinely blocked — surface the
+	 * reason rather than spin forever. (The joiner can't observe this moment, so
+	 * it has no wall-clock timer and relies on the browser's native 'failed'.)
+	 */
+	private armConnectTimeout() {
+		this.clearConnectTimeout();
+		this.connectTimer = setTimeout(() => {
+			if (this.phase !== 'connected') this.failConnection();
+		}, 20000);
+	}
+
+	private clearConnectTimeout() {
+		if (this.connectTimer !== null) {
+			clearTimeout(this.connectTimer);
+			this.connectTimer = null;
+		}
 	}
 
 	private bindChannel(dc: RTCDataChannel) {
@@ -297,6 +377,12 @@ export class WebRTCSession {
 		dc.onopen = () => void this.onConnected();
 		dc.onclose = () => {
 			if (this.phase === 'connected') this.phase = 'closed';
+		};
+		dc.onerror = () => {
+			// A channel-level error before we're up means the data channel won't
+			// open even though the transport may have connected — surface it rather
+			// than hang on the spinner.
+			if (this.phase !== 'connected') this.failConnection();
 		};
 		dc.onmessage = (e) => void this.onDcMessage(e.data);
 	}
@@ -391,24 +477,43 @@ export class WebRTCSession {
 		}
 	}
 
-	/** Resolve when ICE gathering finishes, or after a short cap (LAN is instant). */
+	/**
+	 * Resolve when ICE gathering finishes so the code carries every candidate —
+	 * crucially the srflx (STUN) one, which is the fallback when host/mDNS
+	 * candidates can't reach each other. We wait for 'complete' (with a safety
+	 * cap) rather than a short timer, but finish early once we have both a host
+	 * and a reflexive candidate so a healthy LAN stays snappy.
+	 */
 	private gatherComplete(pc: RTCPeerConnection): Promise<void> {
-		if (pc.iceGatheringState === 'complete') return Promise.resolve();
+		if (pc.iceGatheringState === 'complete') {
+			this.diag = summariseCandidates(pc.localDescription?.sdp ?? '');
+			return Promise.resolve();
+		}
 		return new Promise((resolve) => {
 			let done = false;
 			const finish = () => {
 				if (done) return;
 				done = true;
 				pc.removeEventListener('icegatheringstatechange', check);
+				pc.removeEventListener('icecandidate', onCand);
+				this.diag = summariseCandidates(pc.localDescription?.sdp ?? '');
 				resolve();
+			};
+			const types = new Set<string>();
+			const onCand = (e: RTCPeerConnectionIceEvent) => {
+				const t = e.candidate ? /typ (\w+)/.exec(e.candidate.candidate)?.[1] : null;
+				if (t) types.add(t);
+				// Enough for a real path: a direct address and a reflexive fallback.
+				if (types.has('host') && types.has('srflx')) finish();
 			};
 			const check = () => {
 				if (pc.iceGatheringState === 'complete') finish();
 			};
 			pc.addEventListener('icegatheringstatechange', check);
-			// Cap the wait: STUN/relay candidates may never arrive on some networks,
-			// but the host candidates we need for a same‑Wi‑Fi path gather at once.
-			setTimeout(finish, 2500);
+			pc.addEventListener('icecandidate', onCand);
+			// Safety cap: on networks where STUN is blocked, gathering may stall —
+			// ship whatever host candidates we have rather than hang.
+			setTimeout(finish, 7000);
 		});
 	}
 
@@ -418,6 +523,7 @@ export class WebRTCSession {
 	}
 
 	reset() {
+		this.clearConnectTimeout();
 		try {
 			this.localStream?.getTracks().forEach((t) => t.stop());
 		} catch {
@@ -438,8 +544,11 @@ export class WebRTCSession {
 		this.role = null;
 		this.phase = 'idle';
 		this.localCode = '';
+		this.joinInvite = '';
 		this.error = null;
 		this.connState = 'new';
+		this.iceState = 'new';
+		this.diag = '';
 		this.messages = [];
 		this.pair = null;
 		this.seq = 0;
@@ -692,6 +801,18 @@ export class WebRTCSession {
 			video: names.find((c) => /VP8|VP9|H264|AV1/i.test(c))
 		};
 	}
+}
+
+/** Short summary of the candidate types in an SDP, e.g. "host + srflx". */
+function summariseCandidates(sdp: string): string {
+	const types = new Set<string>();
+	for (const line of sdp.split(/\r?\n/)) {
+		const t = /typ (\w+)/.exec(line)?.[1];
+		if (line.includes('candidate:') && t) types.add(t);
+	}
+	if (types.size === 0) return 'no candidates';
+	const order = ['host', 'srflx', 'prflx', 'relay'];
+	return [...types].sort((a, b) => order.indexOf(a) - order.indexOf(b)).join(' + ');
 }
 
 /** getStats() rows are loosely typed across browsers — read the fields we need. */
